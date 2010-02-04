@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.reportitem.ui;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSourceAdapter;
@@ -60,7 +59,7 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter
 	{
 		if ( item != null )
 		{
-			event.data = ExpressionUtil.createJSRowExpression( ( (ColumnBindingInfo) item.getData( ) ).getName( ) );
+			event.data = ( (ColumnBindingInfo) item.getData( ) ).getName( );
 		}
 	}
 
@@ -111,7 +110,7 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter
 			// Reset column color
 			String strColumnName = ( (ColumnBindingInfo) item.getData( ) ).getName( );
 			item.setBackground( ColorPalette.getInstance( )
-					.getColor( ExpressionUtil.createJSRowExpression( strColumnName ) ) );
+					.getColor( strColumnName ) );
 		}
 	}
 }

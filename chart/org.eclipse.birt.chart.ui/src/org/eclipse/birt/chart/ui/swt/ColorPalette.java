@@ -12,8 +12,11 @@
 package org.eclipse.birt.chart.ui.swt;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
@@ -30,7 +33,7 @@ public final class ColorPalette
 	private List colorLib = new ArrayList( );
 	private List colorAvailable = new ArrayList( );
 	private Color currentColor;
-	private HashMap hmColorUsed = new HashMap( );
+	private HashMap<String, Color> hmColorUsed = new HashMap<String, Color>( );
 
 	private ColorPalette( )
 	{
@@ -194,6 +197,33 @@ public final class ColorPalette
 		colorAvailable.addAll( colorLib );
 		currentColor = null;
 		hmColorUsed.clear( );
+	}
+
+	public void updateKeys(Collection<String> keys)
+	{
+		Set<String> newKeys = new HashSet<String>( );
+		for (String key:keys)
+		{
+			newKeys.add( key.toUpperCase( ) );
+		}
+		
+		Set<String> oldKeys = hmColorUsed.keySet( );
+
+		Set<String> keysToRemove = new HashSet<String>( oldKeys );
+		keysToRemove.removeAll( newKeys );
+
+		for ( String key : keysToRemove )
+		{
+			retrieveColor( key );
+		}
+		
+		Set<String> keysToAdd = newKeys;
+		keysToAdd.removeAll( oldKeys );
+
+		for ( String key : keysToAdd )
+		{
+			putColor( key );
+		}
 	}
 
 }

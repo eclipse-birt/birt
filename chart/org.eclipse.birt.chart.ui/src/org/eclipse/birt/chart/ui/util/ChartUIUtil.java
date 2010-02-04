@@ -76,6 +76,7 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -1916,6 +1917,240 @@ public class ChartUIUtil
 	public static IChartType getChartType( String name )
 	{
 		return htTypes.get( name );
+	}
+
+	public static abstract class ComboProxy
+	{
+
+		public abstract void setText( String string );
+
+		public abstract String getText( );
+
+		public abstract void removeAll( );
+
+		public abstract void setItem( int index, String string );
+
+		public abstract void setItems( String[] items );
+
+		public abstract String[] getItems( );
+
+		public abstract void add( String string );
+
+		public abstract void setData( String key, Object value );
+
+		public abstract Object getData( String key );
+
+		public abstract int getSelectionIndex( );
+
+		public static ComboProxy getInstance( Control control )
+		{
+			if ( control != null && !control.isDisposed( ) )
+			{
+				if ( control instanceof Combo )
+				{
+					return new ProxyOfCombo( (Combo) control );
+				}
+				else if ( control instanceof CCombo )
+				{
+					return new ProxyOfCCombo( (CCombo) control );
+				}
+			}
+
+			return null;
+		}
+
+		public boolean contains( String text )
+		{
+			for ( String item : getItems( ) )
+			{
+				if ( item.equals( text ) )
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		static class ProxyOfCombo extends ComboProxy
+		{
+
+			private final Combo combo;
+
+			public ProxyOfCombo( Combo combo )
+			{
+				this.combo = combo;
+			}
+
+			@Override
+			public void add( String string )
+			{
+				combo.add( string );
+			}
+
+			@Override
+			public String[] getItems( )
+			{
+				return combo.getItems( );
+			}
+
+			@Override
+			public void removeAll( )
+			{
+				combo.removeAll( );
+			}
+
+			@Override
+			public void setItem( int index, String string )
+			{
+				combo.setItem( index, string );
+			}
+
+			@Override
+			public void setItems( String[] items )
+			{
+				combo.setItems( items );
+			}
+
+			@Override
+			public void setText( String string )
+			{
+				combo.setText( string );
+			}
+
+			@Override
+			public String getText( )
+			{
+				return combo.getText( );
+			}
+
+			@Override
+			public Object getData( String key )
+			{
+				return combo.getData( key );
+			}
+
+			@Override
+			public void setData( String key, Object value )
+			{
+				combo.setData( key, value );
+			}
+
+			@Override
+			public int getSelectionIndex( )
+			{
+				return combo.getSelectionIndex( );
+			}
+
+		}
+
+		static class ProxyOfCCombo extends ComboProxy
+		{
+
+			private final CCombo ccombo;
+
+			public ProxyOfCCombo( CCombo ccombo )
+			{
+				this.ccombo = ccombo;
+			}
+
+			@Override
+			public void add( String string )
+			{
+				ccombo.add( string );
+			}
+
+			@Override
+			public String[] getItems( )
+			{
+				return ccombo.getItems( );
+			}
+
+			@Override
+			public void removeAll( )
+			{
+				ccombo.removeAll( );
+			}
+
+			@Override
+			public void setItem( int index, String string )
+			{
+				ccombo.setItem( index, string );
+			}
+
+			@Override
+			public void setItems( String[] items )
+			{
+				ccombo.setItems( items );
+			}
+
+			@Override
+			public void setText( String string )
+			{
+				ccombo.setText( string );
+			}
+
+			@Override
+			public String getText( )
+			{
+				return ccombo.getText( );
+			}
+
+			@Override
+			public Object getData( String key )
+			{
+				return ccombo.getData( key );
+			}
+
+			@Override
+			public void setData( String key, Object value )
+			{
+				ccombo.setData( key, value );
+			}
+
+			@Override
+			public int getSelectionIndex( )
+			{
+				return ccombo.getSelectionIndex( );
+			}
+
+		}
+	}
+
+	public static class EAttributeAccessor<T>
+	{
+
+		private final EObject eObj;
+		private final EAttribute eAttr;
+
+		public EAttributeAccessor( EObject eObj, EAttribute eAttr )
+		{
+			this.eObj = eObj;
+			this.eAttr = eAttr;
+		}
+
+		@SuppressWarnings("unchecked")
+		public T load( )
+		{
+			return (T) eObj.eGet( eAttr );
+		}
+
+		public void save( T value )
+		{
+			save( value, false );
+		}
+
+		public void save( T value, boolean bIgnoreNotification )
+		{
+			if ( bIgnoreNotification )
+			{
+				ChartAdapter.beginIgnoreNotifications( );
+			}
+			eObj.eSet( eAttr, value );
+			if ( bIgnoreNotification )
+			{
+				ChartAdapter.endIgnoreNotifications( );
+			}
+		}
 	}
 
 }

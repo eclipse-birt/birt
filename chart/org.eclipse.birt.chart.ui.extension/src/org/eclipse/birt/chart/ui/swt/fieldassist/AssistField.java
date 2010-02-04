@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.fieldassist;
 
+import org.eclipse.birt.chart.ui.swt.interfaces.IAssistField;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
@@ -27,7 +28,7 @@ import org.eclipse.swt.widgets.Menu;
  * @since 2.3
  */
 
-public abstract class AssistField
+public abstract class AssistField implements IAssistField
 {
 
 	protected Menu quickFixMenu;

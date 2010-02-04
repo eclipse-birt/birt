@@ -424,6 +424,31 @@ public class ChartExpressionUtil
 				.replaceAll( "\\r", "" );//$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	/**
+	 * Creates a JS binding expression with the given name.
+	 * 
+	 * @param bindingName
+	 * @param isCube
+	 * @return The binding expression.
+	 */
+	public static String createBindingExpression( String bindingName,
+			boolean isCube )
+	{
+		StringBuilder sb = new StringBuilder( );
+		if ( isCube )
+		{
+			sb.append( ExpressionUtil.DATA_INDICATOR );
+		}
+		else
+		{
+			sb.append( ExpressionUtil.ROW_INDICATOR );
+		}
+		sb.append( "[\"" ); //$NON-NLS-1$
+		sb.append( bindingName );
+		sb.append( "\"]" ); //$NON-NLS-1$
+		return sb.toString( );
+	}
+
 	public static class ExpressionCodec
 	{
 
@@ -570,6 +595,118 @@ public class ChartExpressionUtil
 			return getFullBindingName( );
 		}
 
+		/**
+		 * Makes the codec's instance to represent a binding expression with the
+		 * given binding name.
+		 * 
+		 * @param bindingName
+		 * @param isCube
+		 * @param type
+		 */
+		public void setBindingName( String bindingName, boolean isCube,
+				String type )
+		{
+			sType = type;
+			setBindingName( bindingName, isCube );
+		}
+
+		/**
+		 * Makes the codec's instance to represent a binding expression with the
+		 * given binding name.
+		 * 
+		 * @param bindingName
+		 * @param isCube
+		 */
+		public void setBindingName( String bindingName, boolean isCube )
+		{
+			sExpr = createBindingExpression( bindingName, isCube );
+		}
+
+		/**
+		 * 
+		 * @param hasOperation
+		 * @return
+		 */
+		public boolean isBinding( boolean hasOperation )
+		{
+			if ( isRowBinding( hasOperation ) )
+			{
+				return true;
+			}
+			return isCubeBinding( hasOperation );
+		}
+
+		/**
+		 * 
+		 * @param expr
+		 * @param hasOperation
+		 * @return
+		 */
+		public boolean isBinding( String expr, boolean hasOperation )
+		{
+			decode( expr );
+			return isBinding( hasOperation );
+		}
+
+		/**
+		 * Returns a collection of all binding names contained by the
+		 * expression.
+		 * 
+		 * @return A collection of all binding names contained by the
+		 *         expression.
+		 */
+		public Collection<String> getBindingNames( )
+		{
+			Set<String> set = new HashSet<String>( );
+			set.addAll( getRowBindingNameSet( ) );
+			set.addAll( getCubeBindingNameList( ) );
+			return set;
+		}
+
+		/**
+		 * Returns a collection of all binding names contained by the
+		 * expression.
+		 * 
+		 * @param expr
+		 * @return A collection of all binding names contained by the
+		 *         expression.
+		 */
+		public Collection<String> getBindingNames( String expr )
+		{
+			decode( expr );
+			return getBindingNames( );
+		}
+
+		/**
+		 * If the whole expression is a single binding name, returns the name,
+		 * returns null otherwise.
+		 * 
+		 * @return If the whole expression is a single binding name, returns the
+		 *         name, returns null otherwise.
+		 */
+		public String getBindingName( )
+		{
+			String name = getRowBindingName( false );
+			if ( name != null )
+			{
+				return name;
+			}
+			return getCubeBindingName( false );
+		}
+
+		/**
+		 * If the whole expression is a single binding name, returns the name,
+		 * returns null otherwise.
+		 * 
+		 * @param expr
+		 * @return If the whole expression is a single binding name, returns the
+		 *         name, returns null otherwise.
+		 */
+		public String getBindingName( String expr )
+		{
+			decode( expr );
+			return getBindingName( );
+		}
 	}
 
 }

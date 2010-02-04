@@ -10,7 +10,6 @@
 package org.eclipse.birt.chart.ui.swt;
 
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetAdapter;
@@ -80,29 +79,34 @@ public class DataTextDropListener extends DropTargetAdapter
 	 */
 	public void drop( DropTargetEvent event )
 	{
-		String expression = (String) event.data;
-		// If it's last element, remove color binding
-		if ( !expression.equals( ChartUIUtil.getText( txtDataDefn ) )
-				&& DataDefinitionTextManager.getInstance( )
-						.getNumberOfSameDataDefinition( ChartUIUtil.getText( txtDataDefn ) ) == 1 )
-		{
-			ColorPalette.getInstance( ).retrieveColor( ChartUIUtil.getText( txtDataDefn ) );
-		}
-
-		// Check if dragged expression can be put on target series. For sharing
-		// binding case, Y optional only allow grouped binding.
-		if ( !DataDefinitionTextManager.getInstance( )
-				.isValidExpression( txtDataDefn, expression ) )
-		{
-			return;
-		}
-
-		btnBuilder.setExpression( expression );
-
-		DataDefinitionTextManager.getInstance( ).updateQuery( txtDataDefn );
-
-		// Refresh all data definition text
-		DataDefinitionTextManager.getInstance( ).refreshAll( );
+		String bindingName = (String) event.data;
+		btnBuilder.setBindingName( bindingName, true );
+		// String expression = (String) event.data;
+		// // If it's last element, remove color binding
+		// if ( !expression.equals( ChartUIUtil.getText( txtDataDefn ) )
+		// && DataDefinitionTextManager.getInstance( )
+		// .getNumberOfSameDataDefinition( ChartUIUtil.getText( txtDataDefn ) )
+		// == 1 )
+		// {
+		// ColorPalette.getInstance( ).retrieveColor( ChartUIUtil.getText(
+		// txtDataDefn ) );
+		// }
+		//
+		// // Check if dragged expression can be put on target series. For
+		// sharing
+		// // binding case, Y optional only allow grouped binding.
+		// if ( !DataDefinitionTextManager.getInstance( )
+		// .isValidExpression( txtDataDefn, expression ) )
+		// {
+		// return;
+		// }
+		//
+		// btnBuilder.setExpression( expression );
+		//
+		// DataDefinitionTextManager.getInstance( ).updateQuery( txtDataDefn );
+		//
+		// // Refresh all data definition text
+		// DataDefinitionTextManager.getInstance( ).refreshAll( );
 	}
 
 }

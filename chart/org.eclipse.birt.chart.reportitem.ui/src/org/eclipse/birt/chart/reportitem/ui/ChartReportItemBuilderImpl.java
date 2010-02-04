@@ -50,11 +50,6 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionHelper;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
@@ -63,7 +58,6 @@ import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -75,7 +69,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -748,121 +741,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		return ChartExpressionProvider.CATEGORY_BASE;
 	}
 
-	/**
-	 * ChartExpressionHelper
-	 */
-	private static class ChartExpressionHelper extends ExpressionHelper
-	{
-		@Override
-		public void notifyExpressionChangeEvent( String oldExpression,
-				String newExpression )
-		{
-			if ( listener != null )
-			{
-				Event event = new Event( );
-				event.widget = button.getControl( );
-				event.data = new String[]{
-						oldExpression, newExpression
-				};
-				event.detail = SWT.Modify;
-				listener.handleEvent( event );
-			}
-		}
-
-		@Override
-		public String getExpression( )
-		{
-			if ( control.isDisposed( ) )
-			{
-				return ""; //$NON-NLS-1$
-			}
-			return ChartUIUtil.getText( control );
-		}
-
-		@Override
-		public void setExpression( String expression )
-		{
-			if ( control.isDisposed( ) )
-			{
-				return;
-			}
-			ChartUIUtil.setText( control, DEUtil.resolveNull( expression ) );
-		}
-
-	}
-
-	protected static class ChartExpressionButton implements IExpressionButton
-	{
-
-		private final ExpressionCodec codec = ChartModelHelper.instance( )
-				.createExpressionCodec( );
-
-		protected final ExpressionButton eb;
-
-		protected final IExpressionHelper eHelper;
-
-		public ChartExpressionButton( Composite parent, Control control,
-				ExtendedItemHandle eih, IExpressionProvider ep,
-				Listener listener )
-		{
-			this.eHelper = new ChartExpressionHelper( );
-			eb = ExpressionButtonUtil.createExpressionButton( parent,
-					control,
-					ep,
-					eih,
-					listener,
-					false,
-					SWT.PUSH,
-					(ChartExpressionHelper) eHelper );
-			ExpressionButtonUtil.initExpressionButtonControl( control,
-					(Expression) null );
-		}
-
-		public ChartExpressionButton( ExpressionButton eb )
-		{
-			this.eb = eb;
-			this.eHelper = eb.getExpressionHelper( );
-		}
-
-		public String getExpression( )
-		{
-			codec.setExpression( eHelper.getExpression( ) );
-			codec.setType( eHelper.getExpressionType( ) );
-			return codec.encode( );
-		}
-	
-		public void setExpression( String expr )
-		{
-			if ( expr != null && expr.length( ) > 0 )
-			{
-				codec.decode( expr );
-				eHelper.setExpression( codec.getExpression( ) );
-				eHelper.setExpressionType( codec.getType( ) );
-			}
-			else
-			{
-				eHelper.setExpression( expr );
-			}
-			eb.refresh( );
-		}
-
-		public String getDisplayExpression( )
-		{
-			return eHelper.getExpression( );
-		}
-
-		public boolean isEnabled( )
-		{
-			return eb.isEnabled( );
-		}
-
-		public void setEnabled( boolean bEnabled )
-		{
-			eb.setEnabled( bEnabled );
-		}
-
-	}
-
 	public Object invoke( Command command, Object... inData )
 			throws ChartException
 	{
@@ -870,23 +748,27 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		switch ( command )
 		{
 			case EXPRESS_BUTTON_CREATE :
-				if ( inData.length == 5 )
+				if ( inData.length > 3 )
 				{
 					Composite parent = (Composite) inData[0];
 					Control control = (Control) inData[1];
 					ExtendedItemHandle eih = (ExtendedItemHandle) inData[2];
 					int iCode = (Integer) inData[3];
-					Listener listener = (Listener) inData[4];
 
 					IExpressionProvider ep = new ChartExpressionProvider( eih,
 							wizardContext,
 							getExpressionBuilderStyle( iCode ) );
 
-					ChartExpressionButton ceb = new ChartExpressionButton( parent,
+					IExpressionButton ceb = ChartExpressionButtonUtil.createExpressionButton( parent,
 							control,
 							eih,
-							ep,
-							listener );
+							ep );
+
+					if ( inData.length > 4 )
+					{
+						Listener listener = (Listener) inData[4];
+						ceb.addListener( listener );
+					}
 
 					outData = ceb;
 				}

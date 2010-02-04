@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
@@ -44,7 +43,7 @@ public class CustomPreviewTableDragListener extends DragSourceAdapter
 	 */
 	public void dragSetData( DragSourceEvent event )
 	{
-		event.data = ExpressionUtil.createJSRowExpression( strHeader );
+		event.data = strHeader;
 	}
 
 	/*
@@ -68,7 +67,7 @@ public class CustomPreviewTableDragListener extends DragSourceAdapter
 			{
 				customTable.setColumnColor( i,
 						ColorPalette.getInstance( )
-								.getColor( ExpressionUtil.createJSRowExpression( customTable.getColumnHeading( i ) ) ) );
+						.getColor( customTable.getColumnHeading( i ) ) );
 			}
 		}
 	}

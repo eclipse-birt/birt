@@ -198,7 +198,7 @@ public class ChartCubeUtil extends ChartItemUtil
 	 * @return Levels list, each element is String
 	 * @since 2.3
 	 */
-	public static List<String> getAllLevelsBindingExpression(
+	public static List<String> getAllLevelsBindingName(
 			CrosstabReportItemHandle xtab )
 	{
 		List<String> levels = new ArrayList<String>( );
@@ -209,7 +209,7 @@ public class ChartCubeUtil extends ChartItemUtil
 		if ( content instanceof DataItemHandle )
 		{
 			DataItemHandle dataItemHandle = (DataItemHandle) content;
-			levels.add( ExpressionUtil.createJSDataExpression( dataItemHandle.getResultSetColumn( ) ) );
+			levels.add( dataItemHandle.getResultSetColumn( ) );
 		}
 
 		// Add row levels
@@ -218,12 +218,12 @@ public class ChartCubeUtil extends ChartItemUtil
 		if ( content instanceof DataItemHandle )
 		{
 			DataItemHandle dataItemHandle = (DataItemHandle) content;
-			levels.add( ExpressionUtil.createJSDataExpression( dataItemHandle.getResultSetColumn( ) ) );
+			levels.add( dataItemHandle.getResultSetColumn( ) );
 		}
 		return levels;
 	}
 
-	public static List<String> getAllLevelsBindingExpression(
+	public static List<String> getAllLevelsBindingName(
 			Iterator<ComputedColumnHandle> columnBindings )
 	{
 		List<String> bindings = new ArrayList<String>( );
@@ -232,13 +232,13 @@ public class ChartCubeUtil extends ChartItemUtil
 			ComputedColumnHandle cc = columnBindings.next( );
 			if ( ChartExpressionUtil.isDimensionExpresion( cc.getExpression( ) ) )
 			{
-				bindings.add( ExpressionUtil.createJSDataExpression( cc.getName( ) ) );
+				bindings.add( cc.getName( ) );
 			}
 		}
 		return bindings;
 	}
 
-	public static List<String> getAllMeasuresBindingExpression(
+	public static List<String> getAllMeasuresBindingName(
 			Iterator<ComputedColumnHandle> columnBindings )
 	{
 		List<String> bindings = new ArrayList<String>( );
@@ -247,13 +247,13 @@ public class ChartCubeUtil extends ChartItemUtil
 			ComputedColumnHandle cc = columnBindings.next( );
 			if ( ChartExpressionUtil.isMeasureExpresion( getAggregationExpression( cc ) ) )
 			{
-				bindings.add( ExpressionUtil.createJSDataExpression( cc.getName( ) ) );
+				bindings.add( cc.getName( ) );
 			}
 			else if ( IBuildInAggregation.TOTAL_COUNT_FUNC.equals( cc.getAggregateFunction( ) )
 					|| IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC.equals( cc.getAggregateFunction( ) ) )
 			{
 				// Add count aggregation to measure list
-				bindings.add( ExpressionUtil.createJSDataExpression( cc.getName( ) ) );
+				bindings.add( cc.getName( ) );
 			}
 		}
 		return bindings;

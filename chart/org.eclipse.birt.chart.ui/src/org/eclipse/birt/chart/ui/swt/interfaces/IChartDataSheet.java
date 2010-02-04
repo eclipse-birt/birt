@@ -39,6 +39,9 @@ public interface IChartDataSheet
 	/** The field indicates the component color of query should be updated. */
 	int DETAIL_UPDATE_COLOR = 3;
 
+	/** The field indicates the component color and text should be updated. */
+	int DETAIL_UPDATE_COLOR_AND_TEXT = 4;
+
 	/**
 	 * Sets chart model.
 	 * 

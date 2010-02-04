@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.api.ChartEngine;
@@ -115,6 +115,7 @@ import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -141,6 +142,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
 
@@ -178,6 +180,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private ChartDummyEngineTask engineTask = null;
 	private Object dataSetReference = null;
 	
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
+
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle ) throws ChartException
 	{
 		super( );
@@ -1293,28 +1298,31 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// still will get wrong result for valid expression, but it will avoid
 		// error check in many situations.
 		// The ChartReportItemUtil.checkStringInExpression will be refactored.
-		
+
 		boolean complexScripts = false;
-		for ( int i = 0 ; i < expression.length( ); i++ )
+		for ( int i = 0; i < expression.length( ); i++ )
 		{
-			if ( expression.charAt( i ) == '\n' && i != ( expression.length( ) - 1 ) )
+			if ( expression.charAt( i ) == '\n'
+					&& i != ( expression.length( ) - 1 ) )
 			{
 				complexScripts = true;
 				break;
 			}
 		}
-		
+
 		// Checks if expression contains string
-		if ( !complexScripts && ChartExpressionUtil.checkStringInExpression( expression ) )
+		if ( !complexScripts
+				&& ChartExpressionUtil.checkStringInExpression( expression ) )
 		{
 			return new Object[]{
 					true, DataType.TEXT_LITERAL
 			};
 		}
-		
+
+		exprCodec.decode( expression );
+
 		// simple means one binding expression without js function
-		if ( !ChartExpressionUtil.isRowBinding( expression, false )
-				&& !ChartExpressionUtil.isCubeBinding( expression, false ) )
+		if ( !exprCodec.isBinding( false ) )
 		{
 			return new Object[]{
 					false, null
@@ -1323,7 +1331,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		Object[] returnObj = new Object[2];
 		returnObj[0] = Boolean.FALSE;
-		String columnName = getQueryStringForProcessing( expression );
+		String columnName = exprCodec.getBindingName( );
 
 		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
 		while ( iterator.hasNext( ) )
@@ -2335,26 +2343,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// Add expressions into predefined query for the content assist
 			// function when user set category/value series/Y optional
 			// expressions on UI.
-			Map<String, ColumnBindingInfo> commons = new LinkedHashMap<String, ColumnBindingInfo>( );
-			for ( int i = 0; i < headers.length; i++ )
-			{
-				commons.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
-						headers[i] );
-			}
-			Object[][] expressions = new Object[commons.size( )][2];
-			int index = 0;
-			for ( Iterator<Map.Entry<String, ColumnBindingInfo>> iter = commons.entrySet( )
-					.iterator( ); iter.hasNext( ); )
-			{
-				Entry<String, ColumnBindingInfo> entry = iter.next( );
-				expressions[index][0] = entry.getKey( );
-				expressions[index][1] = entry.getValue( );
-				index++;
-			}
-			
-			context.addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY, expressions );
-			context.addPredefinedQuery( ChartUIConstants.QUERY_VALUE, expressions );
-			context.addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL, expressions );
+			context.addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+					headers );
+			context.addPredefinedQuery( ChartUIConstants.QUERY_VALUE, headers );
+			context.addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+					headers );
 		}
 	}
 
@@ -2416,46 +2409,41 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		private Object[] getPredefinedExpressionsForSharing(
 				ColumnBindingInfo[] headers )
 		{
-			Map<String, ColumnBindingInfo> commons = new LinkedHashMap<String, ColumnBindingInfo> ( );
-			Map<String, ColumnBindingInfo>  aggs = new LinkedHashMap<String, ColumnBindingInfo> ( );
-			Map<String, ColumnBindingInfo>  groups = new LinkedHashMap<String, ColumnBindingInfo> ( );
-			Map<String, ColumnBindingInfo>  groupsWithAgg = new LinkedHashMap<String, ColumnBindingInfo> ( );
-			Map<String, ColumnBindingInfo> groupsWithoutAgg;
-
+			List<ColumnBindingInfo> commons = new LinkedList<ColumnBindingInfo>( );
+			List<ColumnBindingInfo> aggs = new LinkedList<ColumnBindingInfo>( );
+			List<ColumnBindingInfo> groups = new LinkedList<ColumnBindingInfo>( );
 			for ( int i = 0; i < headers.length; i++ )
 			{
 				int type = headers[i].getColumnType( );
 				switch ( type )
 				{
 					case ColumnBindingInfo.COMMON_COLUMN :
-						commons.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
-								headers[i] );
+						commons.add( headers[i] );
 						break;
 					case ColumnBindingInfo.AGGREGATE_COLUMN :
-						aggs.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
-								headers[i] );
+						aggs.add( headers[i] );
 						break;
 					case ColumnBindingInfo.GROUP_COLUMN :
-						groups.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
-								headers[i] );
+						groups.add( headers[i] );
 						break;
 				}
 			}
 
-			groupsWithoutAgg = new LinkedHashMap<String, ColumnBindingInfo> ( groups );
-			for ( Iterator<Entry <String, ColumnBindingInfo> > iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
+			List<ColumnBindingInfo> groupsWithAgg = new LinkedList<ColumnBindingInfo>( );
+			List<ColumnBindingInfo> groupsWithoutAgg = new LinkedList<ColumnBindingInfo>( groups );
+
+			for ( Iterator<ColumnBindingInfo> iter = groupsWithoutAgg.iterator( ); iter.hasNext( ); )
 			{
-				Entry<String, ColumnBindingInfo>  entry = iter.next( );
-				String groupName = entry.getValue( ).getName( );
-				ColumnBindingInfo[] aggsValues = aggs.values( ).toArray( new ColumnBindingInfo[]{} );
+				ColumnBindingInfo cbiGroup = iter.next( );
+				String groupName = cbiGroup.getName( );
 
 				// Remove some groups defined aggregate.
-				for ( int j = 0; j < aggs.size( ); j++ )
+				for ( ColumnBindingInfo cbiAggr : aggs )
 				{
-					if ( groupName.equals( ( (ComputedColumnHandle) aggsValues[j].getObjectHandle( ) ).getAggregateOn( ) ) )
+					if ( groupName.equals( ( (ComputedColumnHandle) cbiAggr.getObjectHandle( ) ).getAggregateOn( ) ) )
 					{
 						iter.remove( );
-						groupsWithAgg.put( entry.getKey( ), entry.getValue( ) );
+						groupsWithAgg.add( cbiGroup );
 						break;
 					}
 				}
@@ -2469,31 +2457,27 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// definition in table.
 			// 2. Category series allow to use all grouping definitions and
 			// binding.
-			Object[][] categorys = new Object[0][];
-			Object[][] optionals = new Object[0][];
+			ColumnBindingInfo[] categorys = new ColumnBindingInfo[groups.size( )
+					+ commons.size( )];
 		
-			categorys = new Object[groups.size( ) + commons.size( )][2];
 			int index = 0;
-			for ( Entry<String, ColumnBindingInfo> entry : groups.entrySet( ) )
+			for ( ColumnBindingInfo cbi : groups )
 			{
-				categorys[index][0] = entry.getKey( );
-				categorys[index][1] = entry.getValue( );
-				index++;
+				categorys[index++] = cbi;
 			}
-			for ( Entry<String, ColumnBindingInfo> entry : commons.entrySet( ) )
+			for ( ColumnBindingInfo cbi : commons )
 			{
-				categorys[index][0] = entry.getKey( );
-				categorys[index][1] = entry.getValue( );
-				index++;
+				categorys[index++] = cbi;
 			}
 
 			// Prepare Y optional items.
 			// (2009/10/27) Rules of inherit colum group: for inheriting column
 			// groups case, the Y optional grouping should allow to use all the
 			// outer groups than current group handle level(include self group).
+			ColumnBindingInfo[] optionals = null;
 			if ( isInheritColumnsGroups( ) && groups.size( ) > 0 )
 			{
-				Map<String, ColumnBindingInfo> g = new LinkedHashMap<String, ColumnBindingInfo>(2);
+				List<ColumnBindingInfo> g = new LinkedList<ColumnBindingInfo>( );
 				DesignElementHandle reh =  itemHandle;
 				while( reh != null )
 				{
@@ -2501,10 +2485,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					{
 						reh = reh.getContainer( );
 						
-						for ( Entry<String, ColumnBindingInfo> e : groups.entrySet( ) )
+						for ( ColumnBindingInfo cbi : groups )
 						{
-							g.put( e.getKey( ), e.getValue( ) );
-							if ( reh.getName( ).equals( e.getValue( ).getName( ) ) )
+							g.add( cbi );
+							if ( reh.getName( ).equals( cbi.getName( ) ) )
 							{
 								break;
 							}
@@ -2532,8 +2516,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							}
 							else if ( ((ListingHandle)deh).getHeader( ).findPosn( reh.getContainer( ) ) >= 0 )
 							{
-								String key = groups.keySet( ).toArray( new String[]{} )[0];
-								g.put( key, groups.get( key ) );
+								g.add( groups.get( 0 ) );
 							}
 						}
 						break;
@@ -2548,42 +2531,34 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					reh = reh.getContainer( );
 				}
 				
-				optionals = new Object[g.size( )][2];
+				optionals = new ColumnBindingInfo[g.size( )];
 				int i = 0;
-				for ( Entry<String, ColumnBindingInfo> e : g.entrySet( ) )
+				for ( ColumnBindingInfo cbi : g )
 				{
-					optionals[i][0] = e.getKey( );
-					optionals[i++][1] = e.getValue( );
+					optionals[i++] = cbi;
 				}
 			}
 			else
 			{
 				int size = ( groups.size( ) > 0 ) ? 1 : 0;
-				optionals = new Object[size][2];
+				optionals = new ColumnBindingInfo[size];
 				if ( groups.size( ) > 0 )
 				{
-					Entry<String, ColumnBindingInfo> entry = groups.entrySet( )
-							.iterator( )
-							.next( );;
-					optionals[0][0] = entry.getKey( );
-					optionals[0][1] = entry.getValue( );
+					optionals[0] = groups.get( 0 );
 				}
 			}
 			
 			// Prepare value items.
-			Object[][] values = new Object[aggs.size( ) + commons.size( )][2];
+			ColumnBindingInfo[] values = new ColumnBindingInfo[aggs.size( )
+					+ commons.size( )];
 			index = 0;
-			for ( Entry<String, ColumnBindingInfo> entry : aggs.entrySet( ) )
+			for ( ColumnBindingInfo cbi : aggs )
 			{
-				values[index][0] = entry.getKey( );
-				values[index][1] = entry.getValue( );
-				index++;
+				values[index++] = cbi;
 			}
-			for ( Entry<String, ColumnBindingInfo> entry : commons.entrySet( ) )
+			for ( ColumnBindingInfo cbi : commons )
 			{
-				values[index][0] = entry.getKey( );
-				values[index][1] = entry.getValue( );
-				index++;
+				values[index++] = cbi;
 			}
 
 			return new Object[]{
@@ -2765,8 +2740,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				GroupHandle gh = groupList.get( i );
 				String groupName = gh.getName( );
-				String groupKeyExpr = gh.getKeyExpr( );
-				String tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.GroupExpression" ) + groupKeyExpr; //$NON-NLS-1$
+				Expression expr = (Expression) gh.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP )
+						.getValue( );
+				exprCodec.setExpression( expr.getStringExpression( ) );
+				exprCodec.setType( expr.getType( ) );
+				String groupKeyExpr = exprCodec.encode( );
+				String tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.GroupExpression" ) + exprCodec.getExpression( ); //$NON-NLS-1$
 				columnHeaders[index++] = new ColumnBindingInfo( groupName,
 						groupKeyExpr, // Use expression for group.
 						ColumnBindingInfo.GROUP_COLUMN,
@@ -3054,6 +3033,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		
 			queryDefn.setDataSetName( reportItemHandle.getDataSet( )
 					.getQualifiedName( ) );
+			IModelAdapter modelAdapter = session.getModelAdaptor( );
+
 			for ( int i = 0; i < headers.length; i++ )
 			{
 				ColumnBindingInfo chi = headers[i];
@@ -3062,8 +3043,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				{
 					case ColumnBindingInfo.COMMON_COLUMN :
 					case ColumnBindingInfo.AGGREGATE_COLUMN :
-						IBinding binding = session.getModelAdaptor( )
-								.adaptBinding( (ComputedColumnHandle) chi.getObjectHandle( ) );
+						IBinding binding = modelAdapter.adaptBinding( (ComputedColumnHandle) chi.getObjectHandle( ) );
 						queryDefn.addBinding( binding );
 
 						columns.add( binding.getBindingName( ) );
@@ -3075,15 +3055,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 						break;
 					case ColumnBindingInfo.GROUP_COLUMN :
-						GroupDefinition gd = session.getModelAdaptor( )
-								.adaptGroup( (GroupHandle) chi.getObjectHandle( ) );
+						GroupDefinition gd = modelAdapter.adaptGroup( (GroupHandle) chi.getObjectHandle( ) );
 						queryDefn.addGroup( gd );
 
 						String name = StructureFactory.newComputedColumn( reportItemHandle,
 								gd.getName( ) )
 								.getName( );
 						binding = new Binding( name );
-						binding.setExpression( new ScriptExpression( gd.getKeyExpression( ) ) );
+						binding.setExpression( modelAdapter.adaptExpression( ChartReportItemUtil.getExpression( (GroupHandle) chi.getObjectHandle( ) ) ) );
 						queryDefn.addBinding( binding );
 
 						columns.add( name );
@@ -3099,7 +3078,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( reportItemHandle instanceof ListingHandle )
 			{
 				queryDefn.getSorts( )
-						.addAll( ChartBaseQueryHelper.createSorts( ( (ListingHandle) reportItemHandle ).sortsIterator( ) ) );
+						.addAll( ChartBaseQueryHelper.createSorts( ( (ListingHandle) reportItemHandle ).sortsIterator( ),
+								modelAdapter ) );
 			}
 
 			return columns;

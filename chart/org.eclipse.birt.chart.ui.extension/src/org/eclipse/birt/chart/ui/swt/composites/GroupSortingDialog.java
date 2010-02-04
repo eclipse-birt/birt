@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
@@ -76,7 +77,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 	protected Combo cmbSortExpr;
 
-	private IExpressionButton btnSortExprBuilder;
+	protected IExpressionButton btnSortExprBuilder;
 
 	/** The field indicates if the aggregation composite should be enabled. */
 	protected boolean fEnableAggregation = true;
@@ -196,7 +197,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	protected void updateSortKey( )
 	{
 		String sExpr = btnSortExprBuilder.getExpression( );
-		registerSortKey( sExpr );
+		btnSortExprBuilder.setExpression( sExpr );
 		getSeriesDefinitionForProcessing( ).getSortKey( ).setDefinition( sExpr );
 	}
 
@@ -248,17 +249,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 							cmbSortExpr,
 							wizardContext.getExtendedItem( ),
 							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-							new Listener( ) {
-
-								public void handleEvent( Event event )
-								{
-									if ( event.data instanceof String[] )
-									{
-										handleBuilderAction( (String[]) event.data );
-									}
-
-								}
-							} );
+							null );
 
 			Query query = getSeriesDefinitionForProcessing( ).getSortKey( );
 			if ( query != null )
@@ -334,53 +325,63 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 	}
 
+	private Object[] getPredefinedQuery( Set<String> exprSet )
+	{
+		if ( !onlyCategoryExprAsCategorySortKey( ) )
+		{
+			Object[] queries = wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_VALUE );
+			Object[] predefinedQuery = new Object[queries.length
+					+ exprSet.size( )];
+			int i = 0;
+			for ( Object obj : queries )
+			{
+				predefinedQuery[i++] = obj;
+			}
+			for ( String expr : exprSet )
+			{
+				predefinedQuery[i++] = expr;
+			}
+			return predefinedQuery;
+		}
+		else
+		{
+			return exprSet.toArray( new String[exprSet.size( )] );
+		}
+	}
+
 	protected void populateSortKeyList( )
 	{
 		initSortKey( );
-		Set<String> exprSet = new LinkedHashSet<String>( );
-		String sortExpr = null;
+		updateSortKeySelectionState( );
 
 		if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
 		{
 			getSeriesDefinitionForProcessing( ).unsetSorting( );
-			exprSet.add( "" ); //$NON-NLS-1$
+			cmbSortExpr.removeAll( );
 		}
 		else
 		{
-			exprSet = getSortKeySet( );
+			Set<String> exprSet = getSortKeySet( );
 
-			sortExpr = this.getSeriesDefinitionForProcessing( )
+			String sortExpr = this.getSeriesDefinitionForProcessing( )
 					.getSortKey( )
 					.getDefinition( );
+
+			btnSortExprBuilder.setPredefinedQuery( getPredefinedQuery( exprSet ) );
+			btnSortExprBuilder.setExpression( sortExpr );
+
+			if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
+			{
+				exprSet.add( sortExpr );
+				btnSortExprBuilder.setExpression( sortExpr );
+			}
+			else if ( !exprSet.isEmpty( ) )
+			{
+				cmbSortExpr.select( 0 );
+			}
+
+
 		}
-
-		updateSortKeySelectionState( );
-
-		if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
-		{
-			exprSet.add( sortExpr );
-		}
-
-		cmbSortExpr.removeAll( );
-
-		for ( String expr : exprSet )
-		{
-			exprCodec.decode( expr );
-			cmbSortExpr.add( exprCodec.getExpression( ) );
-			cmbSortExpr.setData( exprCodec.getExpression( ), expr );
-		}
-
-		if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
-		{
-			registerSortKey( sortExpr );
-		}
-		else
-		{
-			cmbSortExpr.select( 0 );
-			sortExpr = (String) cmbSortExpr.getData( cmbSortExpr.getText( ) );
-		}
-
-		btnSortExprBuilder.setExpression( sortExpr );
 
 		setSortKeyInModel( );
 	}
@@ -411,41 +412,6 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 				populateSortKeyList( );
 			}
-		}
-		else if ( event.widget == cmbSortExpr )
-		{
-			if ( event.type == SWT.Selection )
-			{
-				selectSortKey( );
-			}
-		}
-
-	}
-
-	protected void selectSortKey( )
-	{
-		btnSortExprBuilder.setExpression( (String) cmbSortExpr.getData( cmbSortExpr.getText( ) ) );
-	}
-
-	private void registerSortKey( String sExpr )
-	{
-		exprCodec.decode( sExpr );
-		String exprText = exprCodec.getExpression( );
-
-		String items[] = cmbSortExpr.getItems( );
-		boolean contains = false;
-		for ( int i = 0; i < items.length; i++ )
-		{
-			if ( items[i].equals( exprText ) )
-			{
-				contains = true;
-				break;
-			}
-		}
-		if ( !contains )
-		{
-			cmbSortExpr.add( exprText );
-			cmbSortExpr.setData( exprText, sExpr );
 		}
 	}
 

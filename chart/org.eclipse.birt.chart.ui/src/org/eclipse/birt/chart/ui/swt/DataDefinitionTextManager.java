@@ -12,10 +12,13 @@
 package org.eclipse.birt.chart.ui.swt;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -24,11 +27,13 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.TextDataElement;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;
 
 /**
@@ -40,6 +45,8 @@ public class DataDefinitionTextManager
 
 	private static DataDefinitionTextManager instance;
 	private HashMap<Control, IQueryExpressionManager> textCollection = null;
+	private final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
 
 	private DataDefinitionTextManager( )
 	{
@@ -80,14 +87,59 @@ public class DataDefinitionTextManager
 		textCollection.clear( );
 	}
 
+	private Collection<String> getAllUsedBindingNames( )
+	{
+		Set<String> set = new HashSet<String>( );
+		for ( IQueryExpressionManager iqem : textCollection.values( ) )
+		{
+			IExpressionButton eb = iqem.getExpressionButton( );
+			if ( eb != null )
+			{
+				String name = exprCodec.getBindingName( eb.getExpression( ) );
+				if ( name != null )
+				{
+					set.add( name );
+				}
+			}
+		}
+		return set;
+	}
+
 	public void refreshAll( )
 	{
+		// remove disposed control
 		checkAll( );
-		for ( Iterator<Control> iterator = textCollection.keySet( ).iterator( ); iterator.hasNext( ); )
+
+		Set<String> usedColorKeys = new HashSet<String>( );
+		ColorPalette colorPalette = ColorPalette.getInstance( );
+
+		// update all text
+		for ( Map.Entry<Control, IQueryExpressionManager> entry : textCollection.entrySet( ) )
 		{
-			Control text = iterator.next( );
-			updateText( text );
+			Control text = entry.getKey( );
+			IQueryExpressionManager iqem = entry.getValue( );
+			String expr = iqem.getQuery( ).getDefinition( );
+			iqem.updateText( expr );
+
+			if ( !iqem.getExpressionButton( ).isCube( ) )
+			{
+				String name = exprCodec.getBindingName( iqem.getExpressionButton( )
+						.getExpression( ) );
+				if ( name != null )
+				{
+					colorPalette.putColor( name );
+					usedColorKeys.add( name );
+					text.setBackground( colorPalette.getColor( name ) );
+				}
+				else
+				{
+					text.setBackground( null );
+				}
+			}
 		}
+
+		// re-organize colors
+		ColorPalette.getInstance( ).updateKeys( getAllUsedBindingNames( ) );
 	}
 
 	/**
@@ -141,42 +193,6 @@ public class DataDefinitionTextManager
 		return null;
 	}
 
-	public void updateText( Control text )
-	{
-		if ( textCollection.containsKey( text ) )
-		{
-			IQueryExpressionManager queryManager = textCollection.get( text );
-			String displayExpr = queryManager.getDisplayExpression( );
-			if ( displayExpr != null )
-			{
-				queryManager.updateText( displayExpr );
-			}
-			Color color = ColorPalette.getInstance( )
-					.getColor( ChartUIUtil.getText( text ) );
-			text.setBackground( color );
-		}
-	}
-
-	public void updateText( Query query )
-	{
-		if ( query == null )
-		{
-			return;
-		}
-		Control text = findText( query );
-		if ( text != null )
-		{
-			IQueryExpressionManager queryManager = textCollection.get( text );
-			// Buzilla #229211. Query definition in model may be different from
-			// display expression that is used as the unique id here.
-			String displayExpr = queryManager.getDisplayExpression( );
-			queryManager.updateText( displayExpr );
-			
-			// Bind color to this data definition
-			updateControlBackground( text, displayExpr );
-		}
-	}
-
 	/**
 	 * Update query data by specified expression, if current is sharing-binding
 	 * case, the expression will be converted and set to query, else directly
@@ -214,7 +230,8 @@ public class DataDefinitionTextManager
 			// Bind color to this data definition
 			if ( control != null )
 			{
-				updateControlBackground( control, ChartUIUtil.getText( control ) );
+				updateControlBackground( control, queryManager.getQuery( )
+						.getDefinition( ) );
 			}
 		}
 	}
@@ -228,9 +245,10 @@ public class DataDefinitionTextManager
 	 */
 	private void updateControlBackground( Control control, String expression )
 	{
-		ColorPalette.getInstance( ).putColor( expression );
+		String bindingName = exprCodec.getBindingName( expression );
+		ColorPalette.getInstance( ).putColor( bindingName );
 		control.setBackground( ColorPalette.getInstance( )
-				.getColor( expression ) );
+				.getColor( bindingName ) );
 	}
 	
 	/**
@@ -353,5 +371,26 @@ public class DataDefinitionTextManager
 		{
 			queryExprM.setTooltipForInputControl( );
 		}
+	}
+
+	/**
+	 * Returns the ExpressionButton connected with the given query.
+	 * 
+	 * @param query
+	 * @return The ExpressionButton connected with the given query.
+	 */
+	public IExpressionButton findExpressionButton( Query query )
+	{
+		Iterator<Map.Entry<Control, IQueryExpressionManager>> iterator = textCollection.entrySet( )
+				.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry<Control, IQueryExpressionManager> entry = iterator.next( );
+			if ( entry.getValue( ).getQuery( ) == query )
+			{
+				return entry.getValue( ).getExpressionButton( );
+			}
+		}
+		return null;
 	}
 }

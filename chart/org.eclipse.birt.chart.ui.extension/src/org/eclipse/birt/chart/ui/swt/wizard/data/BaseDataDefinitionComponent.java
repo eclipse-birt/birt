@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -27,7 +29,6 @@ import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DataTextDropListener;
@@ -37,10 +38,9 @@ import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.swt.composites.BaseGroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.fieldassist.CComboAssistField;
-import org.eclipse.birt.chart.ui.swt.fieldassist.CTextContentAdapter;
 import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
-import org.eclipse.birt.chart.ui.swt.fieldassist.IContentChangeListener;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField;
+import org.eclipse.birt.chart.ui.swt.interfaces.IAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
@@ -51,12 +51,8 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IColumnBinding;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -64,21 +60,13 @@ import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -86,9 +74,6 @@ import org.eclipse.swt.widgets.Text;
 
 public class BaseDataDefinitionComponent extends DefaultSelectDataComponent implements
 		SelectionListener,
-		ModifyListener,
-		FocusListener,
-		KeyListener,
 		IQueryExpressionManager
 {
 
@@ -112,8 +97,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	private String tooltipWhenBlank = Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
 
-	protected boolean isQueryModified;
-
 	private final String queryType;
 
 	private int style = BUTTON_NONE;
@@ -131,6 +114,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
 			.createExpressionCodec( );
+
+	private final SharedBindingHelper sbHelper = new SharedBindingHelper( );
 
 	/**
 	 * 
@@ -218,6 +203,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		boolean isSharingChart = context.getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_CHART_QUERY );
 		
 		final Object[] predefinedQuery = context.getPredefinedQuery( queryType );
+		sbHelper.reset( predefinedQuery );
 		
 		// If current is the sharing query case and predefined queries are not null,
 		// the input field should be a combo component.
@@ -228,6 +214,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						|| provider.checkState( IDataServiceProvider.HAS_CUBE ) || provider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) );
 		needComboField &= !isSharingChart;
 		boolean hasContentAssist = ( !isSharingChart && predefinedQuery != null && predefinedQuery.length > 0 );
+		IAssistField assistField = null;
 		if ( needComboField )
 		{
 			// Create a composite to decorate combo field for the content assist function.
@@ -251,21 +238,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			// Initialize content assist.
 			if ( hasContentAssist )
 			{
-				String[] items = getContentItems( predefinedQuery );
-				if ( items != null )
-				{
-					new CComboAssistField( cmbDefinition, null, items );
-				}
-			}
-			
-			if ( predefinedQuery.length > 0 )
-			{
-				populateExprComboItems( predefinedQuery );
-			}
-			else if ( getQuery( ).getDefinition( ) == null
-					|| getQuery( ).getDefinition( ).equals( "" ) ) //$NON-NLS-1$
-			{
-				cmbDefinition.setEnabled( false );
+				assistField = new CComboAssistField( cmbDefinition, null, null );
 			}
 
 			cmbDefinition.addListener( SWT.Selection, new Listener( ) {
@@ -281,9 +254,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					{
 						return;
 					}
-
-					btnBuilder.setExpression( text );
-					updateQuery( text );
 
 					// Set category/Y optional expression by value series
 					// expression if it is crosstab sharing.
@@ -320,7 +290,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				}
 			} );
 
-			initComboExprText( );
 		}
 		else
 		{
@@ -346,20 +315,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			// Initialize content assist.
 			if ( hasContentAssist )
 			{
-				
-				String[] items = getContentItems( predefinedQuery );
-				if ( items != null )
-				{
-					TextAssistField taf = new TextAssistField( txtDefinition, null, items );
-					((CTextContentAdapter)taf.getContentAdapter( )).addContentChangeListener( new IContentChangeListener(){
-
-						public void contentChanged( Control control,
-								Object newValue, Object oldValue )
-						{
-							isQueryModified = true;
-							saveQuery( );
-						}} );
-				}
+				assistField = new TextAssistField( txtDefinition, null, null );
 			}
 		}
 
@@ -375,21 +331,31 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 								public void handleEvent( Event event )
 								{
-									if ( event.data instanceof String[] )
-									{
-										handleBuilderAction( (String[]) event.data );
-									}
-
+									onModifyExpression( );
 								}
 							} );
-			if ( query != null )
-			{
-				btnBuilder.setExpression( query.getDefinition( ) );
-			}
 		}
 		catch ( ChartException e )
 		{
 			WizardBase.displayException( e );
+		}
+
+		if ( needComboField )
+		{
+			if ( predefinedQuery.length == 0
+					&& ( getQuery( ).getDefinition( ) == null || getQuery( ).getDefinition( )
+							.equals( "" ) ) ) //$NON-NLS-1$
+			{
+				cmbDefinition.setEnabled( false );
+			}
+		}
+
+		btnBuilder.setPredefinedQuery( predefinedQuery );
+		btnBuilder.setAssitField( assistField );
+
+		if ( query != null )
+		{
+			btnBuilder.setExpression( query.getDefinition( ) );
 		}
 
 		// Listener for handling dropping of custom table header
@@ -417,9 +383,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			btnGroup.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Label.EditGroupSorting" ) ); //$NON-NLS-1$
 		}
 
-		// Updates color setting
-		setColor( );
-
 		// In shared binding, only support predefined query
 		boolean isCubeNoMultiDimensions = ( provider.checkState( IDataServiceProvider.HAS_CUBE ) || provider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
 				&& !provider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS );
@@ -445,7 +408,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				}
 			}
 
-			btnBuilder.setEnabled( false );
 			if ( btnGroup != null )
 			{
 				btnGroup.setEnabled( false );
@@ -466,35 +428,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( lblDesc );
 		}
 		
-		// Initialize listeners.
-		if ( cmbDefinition != null )
-		{
-			cmbDefinition.addModifyListener( this );
-			cmbDefinition.addFocusListener( this );
-			cmbDefinition.addKeyListener( this );
-		}
-		else if ( txtDefinition != null )
-		{
-			txtDefinition.addModifyListener( this );
-			txtDefinition.addFocusListener( this );
-			txtDefinition.addKeyListener( this );
-		}
 		return cmpTop;
-	}
-
-	/**
-	 * Initialize combo text and data.
-	 */
-	private void initComboExprText( )
-	{
-		if ( isTableSharedBinding( ) )
-		{
-			initComboExprTextForSharedBinding( );
-		}
-		else
-		{
-			ChartUIUtil.setText( cmbDefinition, query.getDefinition( ) );
-		}
 	}
 
 	/**
@@ -507,82 +441,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		return cmbDefinition != null
 				&& !cmbDefinition.isDisposed( )
-				&& cmbDefinition.getData( ) != null
 				&& ( context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.SHARE_QUERY ) || context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) );
-	}
-
-	/**
-	 * Initialize combo text and data for shared binding.
-	 */
-	private void initComboExprTextForSharedBinding( )
-	{
-		setUITextForSharedBinding( cmbDefinition, query.getDefinition( ) );
-	}
-
-	/**
-	 * Returns available items in predefined query.
-	 * 
-	 * @param predefinedQuery
-	 * @return
-	 */
-	private String[] getContentItems( Object[] predefinedQuery )
-	{
-		if ( predefinedQuery[0] instanceof Object[] )
-		{
-			String[] items = new String[predefinedQuery.length];
-			for ( int i = 0; i < items.length; i++ )
-			{
-				items[i] = (String) ( (Object[]) predefinedQuery[i] )[0];
-			}
-			
-			return items;
-			
-		}
-		else if ( predefinedQuery[0] instanceof String )
-		{
-			String[] items = new String[predefinedQuery.length];
-			for ( int i = 0; i < items.length; i++ )
-			{
-				items[i] = (String) predefinedQuery[i];
-			}
-			return items;
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Populate expression items for combo.
-	 * 
-	 * @param predefinedQuery
-	 */
-	private void populateExprComboItems( Object[] predefinedQuery )
-	{
-
-		if ( predefinedQuery[0] instanceof Object[] )
-		{
-			String[] items = new String[predefinedQuery.length];
-			Object[] data = new Object[predefinedQuery.length];
-			for ( int i = 0; i < items.length; i++ )
-			{
-				items[i] = (String) ( (Object[]) predefinedQuery[i] )[0];
-				data[i] = ( (Object[]) predefinedQuery[i] )[1];
-			}
-
-			cmbDefinition.setItems( items );
-			cmbDefinition.setData( data );
-		}
-		else if ( predefinedQuery[0] instanceof String )
-		{
-			String[] items = new String[predefinedQuery.length];
-			for ( int i = 0; i < items.length; i++ )
-			{
-				items[i] = (String) predefinedQuery[i];
-			}
-			cmbDefinition.setItems( items );
-		}
 	}
 
 	public void selectArea( boolean selected, Object data )
@@ -593,28 +454,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			seriesdefinition = (SeriesDefinition) array[0];
 			query = (Query) array[1];
 			updateText( query.getDefinition( ) );
-			// setUIText( getInputControl( ), query.getDefinition( ) );
 			DataDefinitionTextManager.getInstance( )
 					.addDataDefinitionText( getInputControl( ), this );
 			if ( fAggEditorComposite != null )
 			{
 				fAggEditorComposite.setAggregation( query, seriesdefinition );
-			}
-		}
-		setColor( );
-	}
-
-	private void setColor( )
-	{
-		if ( query != null )
-		{
-			Color cColor = ColorPalette.getInstance( )
-					.getColor( getDisplayExpression( ) );
-			if ( getInputControl( ) != null )
-			{
-				ChartUIUtil.setBackgroundColor( getInputControl( ),
-						true,
-						cColor );
 			}
 		}
 	}
@@ -677,17 +521,17 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 	}
 
-	/**
-	 * Handle builder dialog action.
-	 */
-	protected void handleBuilderAction( String[] data )
+	protected void onModifyExpression( )
 	{
-		if ( data.length != 2 )
-		{
-			return;
-		}
 		String newExpr = btnBuilder.getExpression( );
 		updateQuery( newExpr );
+		setTooltipForInputControl( );
+
+		final Event e = new Event( );
+		e.widget = getInputControl( );
+		e.type = IChartDataSheet.EVENT_QUERY;
+		e.detail = IChartDataSheet.DETAIL_UPDATE_COLOR_AND_TEXT;
+		context.getDataSheet( ).notifyListeners( e );
 	}
 
 	/**
@@ -714,20 +558,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
-	 */
-	public void modifyText( ModifyEvent e )
-	{
-		if ( e.getSource( ).equals( getInputControl( ) ) )
-		{
-			isQueryModified = true;
-			// Reset tooltip
-			setTooltipForInputControl( );
-		}
-	}
 
 	/**
 	 * Set tooltip for input control.
@@ -737,7 +567,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		Control control = getInputControl( );
 		if ( control != null && !control.isDisposed( ) )
 		{
-			getInputControl( ).setToolTipText( getTooltipForDataText( getExpression( control ) ) );
+			getInputControl( ).setToolTipText( getTooltipForDataText( ChartUIUtil.getText( control ) ) );
 		}
 	}
 
@@ -749,50 +579,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	public void setDescription( String description )
 	{
 		this.description = description;
-	}
-
-	public void focusGained( FocusEvent e )
-	{
-		// Auto-generated method stub
-
-	}
-
-	public void focusLost( FocusEvent e )
-	{
-		// Null event is fired by Drop Listener manually
-		if ( e == null || e.widget.equals( getInputControl( ) ) )
-		{
-			if ( !ChartUIUtil.getText( getInputControl( ) )
-					.equals( query.getDefinition( ) ) )
-			{
-				saveQuery( );
-			}
-		}
-	}
-
-	protected void saveQuery( )
-	{
-		if ( isQueryModified )
-		{
-			// Refresh color from ColorPalette
-			setColor( );
-			updateQuery( ChartUIUtil.getText( getInputControl( ) ) );
-			
-			if ( !getInputControl( ).isDisposed( ) )
-			{
-				getInputControl( ).getParent( ).layout( );
-			}
-			
-			Event e = new Event( );
-			e.text = query.getDefinition( ) == null ? "" //$NON-NLS-1$
-					: query.getDefinition( );
-			e.data = e.text;
-			e.widget = getInputControl( );
-			e.type = 0;
-			fireEvent( e );
-			
-			isQueryModified = false;
-		}
 	}
 
 	private String getTooltipForDataText( String queryText )
@@ -885,20 +671,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		return queryText;
 	}
 
-	public void keyPressed( KeyEvent e )
-	{
-		if ( e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR )
-		{
-			saveQuery( );
-		}
-	}
-
-	public void keyReleased( KeyEvent e )
-	{
-		// Auto-generated method stub
-
-	}
-
 	public void setTooltipWhenBlank( String tootipWhenBlank )
 	{
 		this.tooltipWhenBlank = tootipWhenBlank;
@@ -942,29 +714,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		return null;
 	}
 
-	private String getExpression( Control control )
-	{
-		return getActualExpression( control );
-	}
-
-	/**
-	 * @param control
-	 * @param expression
-	 */
-	private void setUITextForSharedBinding( CCombo control, String expression )
-	{
-		Object[] data = (Object[]) control.getData( );
-		if ( data == null || data.length == 0 )
-		{
-			ChartUIUtil.setText( control, expression );
-		}
-		else
-		{
-			String expr = getDisplayExpressionForSharedBinding( control, expression );
-			ChartUIUtil.setText( control, expr );
-		}
-	}
-
 	/**
 	 * Update query by specified expression.
 	 * <p>
@@ -994,41 +743,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			}
 		}
 
-		if ( !isTableSharedBinding( ) )
+		if ( isTableSharedBinding( ) )
 		{
-			setQueryExpression( expression, false );
-			return;
-		}
-
-		updateQueryForSharedBinding( expression );
-		
-		// Binding color to input control by expression and refresh color of
-		// preview table.
-		String regex = "\\Qrow[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
-		if ( expression.matches( regex ) )
-		{
-			DataDefinitionTextManager.getInstance( ).updateText( query );
-
-			final Event e = new Event( );
-			e.data = BaseDataDefinitionComponent.this;
-			e.widget = getInputControl( );
-			e.type = IChartDataSheet.EVENT_QUERY;
-			e.detail = IChartDataSheet.DETAIL_UPDATE_COLOR;
-			
-			// Use async thread to update UI to prevent control disposed
-			Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-				public void run( )
-				{
-					context.getDataSheet( ).notifyListeners( e );
-				}
-			} );			
+			updateQueryForSharedBinding( expression );
 		}
 		else
 		{
-			DataDefinitionTextManager.getInstance( )
-					.findText( query )
-					.setBackground( null );
+			setQueryExpression( expression );
 		}
 	}
 
@@ -1039,95 +760,48 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 */
 	private void updateQueryForSharedBinding( String expression )
 	{
-		Object[] data = (Object[]) cmbDefinition.getData( );
-		if ( data != null && data.length > 0 )
+		if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType )
+				|| ChartUIConstants.QUERY_OPTIONAL.equals( queryType ) )
 		{
-			String expr = expression;
-			if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType )
-					|| ChartUIConstants.QUERY_OPTIONAL.equals( queryType ) )
+			String grpName = sbHelper.findGroupName( expression );
+			boolean isGroupExpr = grpName != null;
+
+			if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
 			{
-				boolean isGroupExpr = false;
-				for ( int i = 0; i < data.length; i++ )
-				{
-					ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
-					int type = chi.getColumnType( );
-
-					if ( type == ColumnBindingInfo.GROUP_COLUMN )
-					{
-						String groupRegex = ChartUtil.createRegularRowExpression( chi.getName( ),
-								false );
-						String regex = ChartUtil.createRegularRowExpression( chi.getName( ),
-								true );
-						if ( expression.matches( regex ) )
-						{
-							isGroupExpr = true;
-							expr = expression.replaceAll( groupRegex,
-									chi.getExpression( ) );
-							break;
-						}
-					}
-				}
-				setQueryExpression( expr, true );
-				if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
-				{
-					if ( isGroupExpr )
-					{
-						seriesdefinition.getGrouping( ).setEnabled( true );
-					}
-					else
-					{
-						seriesdefinition.getGrouping( ).setEnabled( false );
-					}
-				}
-
+				ChartAdapter.beginIgnoreNotifications( );
+				seriesdefinition.getGrouping( ).setEnabled( isGroupExpr );
+				query.setDefinition( null );
+				ChartAdapter.endIgnoreNotifications( );
 			}
-			else if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
+
+			if ( isGroupExpr )
 			{
-				boolean isAggregationExpr = false;
-				ColumnBindingInfo chi = null;
-				for ( int i = 0; i < data.length; i++ )
-				{
-					chi = (ColumnBindingInfo) data[i];
-					int type = chi.getColumnType( );
-
-					if ( type == ColumnBindingInfo.AGGREGATE_COLUMN )
-					{
-						String aggRegex = ChartUtil.createRegularRowExpression( chi.getName( ),
-								false );
-						String regex = ChartUtil.createRegularRowExpression( chi.getName( ),
-								true );
-						if ( expression.matches( regex ) )
-						{
-							isAggregationExpr = true;
-							expr = expression.replaceAll( aggRegex,
-									chi.getExpression( ) );
-							break;
-						}
-					}
-				}
-				setQueryExpression( expr, true  );
-				if ( isAggregationExpr )
-				{
-					query.getGrouping( ).setEnabled( true );
-					query.getGrouping( )
-							.setAggregateExpression( chi.getChartAggExpression( ) );
-				}
-				else
-				{
-					query.getGrouping( ).setEnabled( false );
-					query.getGrouping( ).setAggregateExpression( null );
-				}
+				expression = sbHelper.translateToBindingName( expression,
+						grpName );
 			}
-			
-
 		}
-		else
+		else if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
 		{
-			setQueryExpression( expression, true );
+			String aggrName = sbHelper.findAggrName( expression );
+			boolean isAggregationExpr = aggrName != null;
+			String chartAggr = isAggregationExpr ? sbHelper.getChartAggr( aggrName )
+					: null;
+			ChartAdapter.beginIgnoreNotifications( );
+			query.getGrouping( ).setEnabled( isAggregationExpr );
+			query.getGrouping( ).setAggregateExpression( chartAggr );
+			ChartAdapter.endIgnoreNotifications( );
+
+			if ( isAggregationExpr )
+			{
+				expression = sbHelper.translateToBindingName( expression,
+						aggrName );
+			}
 		}
+
+		setQueryExpression( expression );
 	}
 
-	private void setQueryExpression( String expression, boolean isSharing )
+	private void setQueryExpression( String expression )
 	{
 		if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
 		{
@@ -1213,15 +887,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 		if ( query != null )
 		{
-			if ( isSharing )
-			{
-				query.setDefinition( expression );	
-			}
-			else
-			{
-				query.setDefinition( btnBuilder.getExpression( ) );
-			}
-			
+			query.setDefinition( expression );
 		}
 		else
 		{
@@ -1235,108 +901,26 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.IQueryExpressionManager#getQuery()
-	 */
 	public Query getQuery( )
 	{
 		if ( query == null )
 		{
-			query = QueryImpl.create( getExpression( getInputControl( ) ) );
+			query = DataFactory.eINSTANCE.createQuery( );
 			query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
-			// Since the data query must be non-null, it's created in
-			// ChartUIUtil.getDataQuery(), assume current null is a grouping
-			// query
+			ChartAdapter.beginIgnoreNotifications( );
 			seriesdefinition.setQuery( query );
+			ChartAdapter.endIgnoreNotifications( );
 		}
 
 		return query;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.IQueryExpressionManager#getDisplayExpression()
-	 */
 	public String getDisplayExpression( )
 	{
-		if ( cmbDefinition != null && isTableSharedBinding( ) )
-		{
-			return getDisplayExpressionForSharedBinding( cmbDefinition, query.getDefinition( ) );
-		}
-		else
-		{
-			String expr = query.getDefinition( );
+			String expr = btnBuilder.getExpression( );
 			return ( expr == null ) ? "" : expr; //$NON-NLS-1$
-		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private String getDisplayExpressionForSharedBinding( CCombo combo, String expression )
-	{
-		String expr = expression;
-		Object[] data = (Object[]) combo.getData( );
-		for ( int i = 0; data != null && i < data.length; i++ )
-		{
-			ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
-			if ( chi.getExpression( ) == null )
-			{
-				continue;
-			}
-			
-			String columnExpr = null;
-			try
-			{
-				List<IColumnBinding> bindings = ExpressionUtil.extractColumnExpressions( chi.getExpression( ) );
-				if ( bindings.isEmpty( ) )
-				{
-					continue;
-				}
-				columnExpr = bindings.get( 0 ).getResultSetColumnName( );
-			}
-			catch ( BirtException e )
-			{
-				continue;
-			}
-			
-			String columnRegex = ChartUtil.createRegularRowExpression( columnExpr,
-					false );
-			String regex = ChartUtil.createRegularRowExpression( columnExpr,
-					true );
-
-			if ( expression != null && expression.matches( regex ) )
-			{
-				if ( queryType == ChartUIConstants.QUERY_CATEGORY )
-				{
-					boolean sdGrouped = seriesdefinition.getGrouping( )
-							.isEnabled( );
-					boolean groupedBinding = ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN );
-					if ( sdGrouped && groupedBinding )
-					{
-						expr = expression.replaceAll( columnRegex,
-								ExpressionUtil.createJSRowExpression( chi.getName( ) ) );
-						break;
-					}
-				}
-				else if ( queryType == ChartUIConstants.QUERY_OPTIONAL )
-				{
-					expr = expression.replaceAll( columnRegex,
-							ExpressionUtil.createJSRowExpression( chi.getName( ) ) );
-					break;
-				}
-			}
-		}
-
-		return ( expr == null ) ? "" : expr; //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.IQueryExpressionManager#isValidExpression(java.lang.String)
-	 */
 	public boolean isValidExpression( String expression )
 	{
 		if ( context.getDataServiceProvider( )
@@ -1355,77 +939,202 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		return true;
 	}
 	
-	/**
-	 * The method is used to get actual expression from input control.For shared
-	 * binding case, the expression is stored in data field of combo widget.
-	 * 
-	 * @param control
-	 * @return
-	 * @since 2.3
-	 */
-	private String getActualExpression( Control control )
+	private boolean isGroupEnabled( )
 	{
-		if ( control instanceof Text )
-		{
-			return ( (Text) control ).getText( );
-		}
-		if ( control instanceof CCombo )
-		{
-			Object[] data = (Object[]) control.getData( );
-			if ( data != null
-					&& data.length > 0
-					&& data[0] instanceof ColumnBindingInfo )
-			{
-				String txt = ChartUIUtil.getText( control );
-				String[] items = ( (CCombo) control ).getItems( );
-				int index = 0;
-				for ( ; items != null
-						&& items.length > 0
-						&& index < items.length; index++ )
-				{
-					if ( items[index].equals( txt ) )
-					{
-						break;
-					}
-				}
-				if ( items != null && index >= 0 && index < items.length )
-				{
-					return ( (ColumnBindingInfo) data[index] ).getExpression( );
-				}
-			}
-			return ChartUIUtil.getText( control );
-		}
-		return ""; //$NON-NLS-1$
+		return seriesdefinition != null
+				&& seriesdefinition.getGrouping( ) != null
+				&& seriesdefinition.getGrouping( ).isEnabled( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.IQueryExpressionManager#updateText(java.lang.String)
-	 */
+	private boolean isAggregateEnabled( )
+	{
+		return query != null
+				&& query.getGrouping( ) != null
+				&& query.getGrouping( ).isEnabled( )
+				&& query.getGrouping( ).getAggregateExpression( ) != null;
+	}
+
 	public void updateText( String expression )
+	{
+		if ( isTableSharedBinding( ) )
+		{
+			if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType )
+					&& isGroupEnabled( )
+					|| ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
+					|| ChartUIConstants.QUERY_VALUE.equals( queryType )
+					&& isAggregateEnabled( ) )
+			{
+				expression = sbHelper.translateFromBindingName( expression );
+			}
+		}
+
+		if ( btnBuilder != null )
+		{
+			btnBuilder.setExpression( expression );
+		}
+	}
+
+	public String getExpressionType( )
 	{
 		if ( btnBuilder != null )
 		{
-			// Disable 'modify' listener to avoid updating model.
-			if ( cmbDefinition != null )
+			return btnBuilder.getExpressionType( );
+		}
+		return null;
+	}
+
+	public IExpressionButton getExpressionButton( )
+	{
+		return btnBuilder;
+	}
+
+	private static class SharedBindingHelper
+	{
+
+		private final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+
+		/*
+		 * map from group/aggr name to binding name
+		 */
+		private final Map<String, String> mapBindingName = new HashMap<String, String>( );
+
+		/*
+		 * map from group/aggr name to column binding info
+		 */
+		private final Map<String, ColumnBindingInfo> mapBinding = new HashMap<String, ColumnBindingInfo>( );
+
+		/**
+		 * To reset the instance with predefinedQuery.
+		 * 
+		 * @param predefinedQuery
+		 */
+		public void reset( Object[] predefinedQuery )
+		{
+			mapBindingName.clear( );
+			mapBinding.clear( );
+
+			if ( predefinedQuery != null )
 			{
-				cmbDefinition.removeModifyListener( this );
-			}
-			else if ( txtDefinition != null )
-			{
-				txtDefinition.removeModifyListener( this );
-			}
-			
-			btnBuilder.setExpression( expression );
-			
-			// Enable 'modify' listener again.
-			if ( cmbDefinition != null )
-			{
-				cmbDefinition.addModifyListener( this );
-			}
-			else if ( txtDefinition != null )
-			{
-				txtDefinition.addModifyListener( this );
+				for ( Object obj : predefinedQuery )
+				{
+					if ( obj instanceof ColumnBindingInfo )
+					{
+						ColumnBindingInfo cbi = (ColumnBindingInfo) obj;
+
+						switch ( cbi.getColumnType( ) )
+						{
+							case ColumnBindingInfo.GROUP_COLUMN :
+							case ColumnBindingInfo.AGGREGATE_COLUMN :
+								String bindingName = exprCodec.getBindingName( cbi.getExpression( ) );
+								mapBindingName.put( cbi.getName( ), bindingName );
+								mapBinding.put( cbi.getName( ), cbi );
+								break;
+						}
+					}
+				}
 			}
 		}
+
+		/**
+		 * Finds the group name contained by the given expression
+		 * 
+		 * @param expr
+		 *            the given expression
+		 * @return the group name if found,null otherwise.
+		 */
+		public String findGroupName( String expr )
+		{
+			return findName( expr, ColumnBindingInfo.GROUP_COLUMN );
+		}
+
+		/**
+		 * Finds the aggregation name contained by the given expression
+		 * 
+		 * @param expr
+		 *            the given expression
+		 * @return the aggregation name if found,null otherwise.
+		 */
+		public String findAggrName( String expr )
+		{
+			return findName( expr, ColumnBindingInfo.AGGREGATE_COLUMN );
+		}
+
+		private String findName( String expr, int columnType )
+		{
+			if ( expr != null && expr.length( ) > 0 )
+			{
+				for ( Map.Entry<String, ColumnBindingInfo> entry : mapBinding.entrySet( ) )
+				{
+					if ( entry.getValue( ).getColumnType( ) == columnType )
+					{
+						String name = entry.getKey( );
+						if ( expr.contains( name ) )
+						{
+							return name;
+						}
+					}
+				}
+			}
+			return null;
+		}
+
+		/**
+		 * 
+		 * @param aggrName
+		 * @return
+		 */
+		public String getChartAggr( String aggrName )
+		{
+			ColumnBindingInfo cbi = mapBinding.get( aggrName );
+			if ( cbi != null )
+			{
+				return cbi.getChartAggExpression( );
+			}
+			return null;
+		}
+
+		/**
+		 * 
+		 * @param expr
+		 * @return
+		 */
+		public String translateToBindingName( String expr, String name )
+		{
+			if ( expr != null && expr.length( ) > 0 )
+			{
+				String bindingName = mapBindingName.get( name );
+
+				if ( bindingName != null )
+				{
+					expr = expr.replaceAll( name, bindingName );
+				}
+			}
+
+			return expr;
+		}
+
+		/**
+		 * 
+		 * @param expr
+		 * @return
+		 */
+		public String translateFromBindingName( String expr )
+		{
+			if ( expr != null && expr.length( ) > 0 )
+			{
+				for ( Map.Entry<String, String> entry : mapBindingName.entrySet( ) )
+				{
+					if ( expr.contains( entry.getValue( ) ) )
+					{
+						return expr.replaceAll( entry.getValue( ),
+								entry.getKey( ) );
+					}
+				}
+			}
+
+			return expr;
+		}
+
 	}
 }

@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
@@ -49,6 +50,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -61,6 +63,7 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -197,9 +200,16 @@ public class ChartReportItemUtil extends ChartItemUtil
 			{
 				return false;
 			}
+
+			ExpressionCodec exprCodec = ChartModelHelper.instance( )
+					.createExpressionCodec( );
+
 			for ( GroupHandle gh : groupList )
 			{
-				if ( expression.equals( gh.getKeyExpr( ) ) )
+				Expression keyExpr = getExpression( gh );
+				exprCodec.setExpression( keyExpr.getStringExpression( ) );
+				exprCodec.setType( keyExpr.getType( ) );
+				if ( expression.contains( exprCodec.getBindingName( ) ) )
 				{
 					return true;
 				}
@@ -652,6 +662,20 @@ public class ChartReportItemUtil extends ChartItemUtil
 		return modelAdapter.adaptExpression( new Expression( exprCodec.getExpression( ),
 				exprCodec.getType( ) ),
 				bCube ? ExpressionLocation.CUBE : ExpressionLocation.TABLE );
+	}
+
+	public static Expression getExpression( DesignElementHandle handle )
+	{
+		if ( handle != null )
+		{
+			ExpressionHandle eh = handle.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP );
+			if ( eh != null && eh.getValue( ) != null )
+			{
+				return (Expression) eh.getValue( );
+			}
+		}
+
+		return null;
 	}
 
 }

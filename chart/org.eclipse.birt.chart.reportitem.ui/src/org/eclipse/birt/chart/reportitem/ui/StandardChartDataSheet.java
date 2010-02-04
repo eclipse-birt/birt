@@ -19,13 +19,10 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.DialChart;
-import org.eclipse.birt.chart.model.attribute.DataType;
-import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.SeriesGrouping;
-import org.eclipse.birt.chart.model.data.impl.DataFactoryImpl;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
@@ -48,6 +45,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -56,6 +54,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -178,6 +177,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private TableViewer tableViewerColumns;
 	private Label columnListDescription;
 	private Label dataPreviewDescription;
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider, int iSupportedDataItems )
@@ -1230,14 +1231,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	public void handleEvent( Event event )
 	{
-		if ( event.data instanceof ISelectDataComponent )
+		// When user select expression in drop&down list of live preview
+		// area, the event will be handled to update related column color.
+		if ( event.type == IChartDataSheet.EVENT_QUERY )
 		{
-			// When user select expression in drop&down list of live preview
-			// area, the event will be handled to update related column color.
-			if ( event.type == IChartDataSheet.EVENT_QUERY
-					&& event.detail == IChartDataSheet.DETAIL_UPDATE_COLOR )
+			if ( event.detail == IChartDataSheet.DETAIL_UPDATE_COLOR_AND_TEXT )
 			{
-				refreshTableColor( );
+				updateColorAndText( );
+			}
+			else if ( event.detail == IChartDataSheet.DETAIL_UPDATE_COLOR
+					&& event.data instanceof ISelectDataComponent )
+			{
+					refreshTableColor( );
 			}
 			return;
 		}
@@ -1784,9 +1789,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			for ( int i = 0; i < tablePreview.getColumnNumber( ); i++ )
 			{
-				tablePreview.setColumnColor( i,
-						ColorPalette.getInstance( )
-								.getColor( ExpressionUtil.createJSRowExpression( tablePreview.getColumnHeading( i ) ) ) );
+				tablePreview.setColumnColor( i, ColorPalette.getInstance( )
+						.getColor( tablePreview.getColumnHeading( i ) ) );
 			}
 		}
 		else
@@ -1803,8 +1807,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		for ( TableItem item : tableViewerColumns.getTable( ).getItems( ) )
 		{
 			ColumnBindingInfo cbi = (ColumnBindingInfo) item.getData( );
-			Color c = ColorPalette.getInstance( )
-					.getColor( ExpressionUtil.createJSRowExpression( cbi.getName( ) ) );
+			Color c = ColorPalette.getInstance( ).getColor( cbi.getName( ) );
 			if ( c == null )
 			{
 				c = Display.getDefault( )
@@ -1859,197 +1862,96 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		// DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
 		query.setDefinition( getActualExpression( expr ) );
 
-		DataDefinitionTextManager.getInstance( ).updateText( query );
-		// Reset table column color
-		refreshTableColor( );
 		// Refresh all data definition text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
+
+		// Reset table column color
+		refreshTableColor( );
 	}
 
 	/**
-	 * @param queryType
-	 * @param query
-	 * @param expr
-	 * @param seriesDefinition
-	 * @since 2.5
+	 * To refresh all color and text
 	 */
-	protected void manageColorAndQuery( String queryType, Query query, String expr,
- SeriesDefinition seriesDefinition )
+	protected void updateColorAndText( )
 	{
-		// If it's not used any more, remove color binding
-		if ( dataProvider.getNumberOfSameDataDefinition( query.getDefinition( ) ) == 1 )
-		{
-			ColorPalette.getInstance( ).retrieveColor( query.getDefinition( ) );
-		}
-
-		// Update query, if it is sharing binding case, the specified expression
-		// will be converted and set to query, else directly set specified
-		// expression to query.
-		updateQuery( queryType, query, expr, seriesDefinition );
-
-		// 236018--add the logic of register color with display expression
-		// as it does in the input text refreshing, since the text may not be
-		// shown at current.
-		ColorPalette.getInstance( ).putColor( expr );
-		
-		DataDefinitionTextManager.getInstance( ).updateText( query );
-		// Reset table column color
-		refreshTableColor( );
 		// Refresh all data definition text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
+
+		// Reset table column color
+		refreshTableColor( );
 	}
 
-	private void updateQuery( String queryType, Query query, String expr,
-			SeriesDefinition seriesDefinition )
-	{
-		String actualExpr = expr;
-
-		if ( dataProvider.checkState( IDataServiceProvider.SHARE_QUERY )
-				|| dataProvider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) )
-		{
-			boolean isGroupOrAggr = false;
-			// Convert to actual expression.
-			Object obj = getCurrentColumnHeadObject( );
-			if ( obj instanceof ColumnBindingInfo )
-			{
-				ColumnBindingInfo cbi = (ColumnBindingInfo) obj;
-				int type = cbi.getColumnType( );
-				if ( type == ColumnBindingInfo.GROUP_COLUMN
-						|| type == ColumnBindingInfo.AGGREGATE_COLUMN )
-				{
-					actualExpr = cbi.getExpression( );
-					isGroupOrAggr = true;
-				}
-			}
-
-			// Update group state.
-			if ( seriesDefinition != null
-					&& ( queryType.equals( ChartUIConstants.QUERY_CATEGORY ) || queryType.equals( ChartUIConstants.QUERY_VALUE ) ) )
-			{
-				seriesDefinition.getGrouping( ).setEnabled( isGroupOrAggr );
-			}
-		}
-
-		if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
-		{
-			if ( !dataProvider.checkState( IDataServiceProvider.SHARE_QUERY )
-					&& dataProvider.checkState( IDataServiceProvider.HAS_DATA_SET ) )
-			{
-				if ( dataProvider.getDataType( actualExpr ) == DataType.DATE_TIME_LITERAL )
-				{
-					ChartAdapter.beginIgnoreNotifications( );
-					if ( query.getGrouping( ) == null )
-					{
-						query.setGrouping( DataFactoryImpl.init( )
-								.createSeriesGrouping( ) );
-					}
-					SeriesGrouping group = query.getGrouping( );
-					group.setEnabled( true );
-					group.setAggregateExpression( "First" ); //$NON-NLS-1$
-					ChartAdapter.endIgnoreNotifications( );
-				}
-			}
-
-		}
-		else if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
-		{
-			DataType type = context.getDataServiceProvider( )
-					.getDataType( expr );
-			ChartAdapter.beginIgnoreNotifications( );
-			if ( seriesDefinition.getGrouping( ) == null )
-			{
-				seriesDefinition.setGrouping( DataFactoryImpl.init( )
-						.createSeriesGrouping( ) );
-			}
-			seriesDefinition.getGrouping( ).setGroupType( type );
-			if ( type == DataType.DATE_TIME_LITERAL )
-			{
-				seriesDefinition.getGrouping( )
-						.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
-			}
-			ChartAdapter.endIgnoreNotifications( );
-		}
-		else if ( ChartUIConstants.QUERY_OPTIONAL.equals( queryType ) )
-		{
-			if ( seriesDefinition.getSortKey( ) != null
-					&& seriesDefinition.getSortKey( ).getDefinition( ) != null
-					&& seriesDefinition.getSortKey( )
-							.getDefinition( )
-							.equals( query.getDefinition( ) ) )
-			{
-				ChartAdapter.beginIgnoreNotifications( );
-				seriesDefinition.getSortKey( ).setDefinition( expr );
-				ChartAdapter.endIgnoreNotifications( );
-			}
-			DataType type = context.getDataServiceProvider( )
-					.getDataType( expr );
-			ChartAdapter.beginIgnoreNotifications( );
-			if ( query.getGrouping( ) == null )
-			{
-				query.setGrouping( DataFactoryImpl.init( )
-						.createSeriesGrouping( ) );
-			}
-			query.getGrouping( ).setGroupType( type );
-			if ( type == DataType.DATE_TIME_LITERAL )
-			{
-				query.getGrouping( )
-						.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
-			}
-			ChartAdapter.endIgnoreNotifications( );
-		}
-
-		query.setDefinition( actualExpr );
-	}
-
-	class CategoryXAxisAction extends Action
+	private class CategoryXAxisAction extends Action
 	{
 
-		Query query;
-		String expr;
-		private SeriesDefinition seriesDefintion;
+		private final IExpressionButton eb;
+		private final String bindingName;
 
-		CategoryXAxisAction( String expr )
+		CategoryXAxisAction( String bindingName )
 		{
 			super( getBaseSeriesTitle( getChartModel( ) ) );
-			seriesDefintion = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
+			SeriesDefinition seriesDefintion = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
 					.get( 0 );
-			this.query = seriesDefintion.getDesignTimeSeries( )
+			Query query = seriesDefintion.getDesignTimeSeries( )
 					.getDataDefinition( )
 					.get( 0 );
-			this.expr = expr;
+			this.bindingName = bindingName;
 
-			setEnabled( DataDefinitionTextManager.getInstance( )
+			this.eb = DataDefinitionTextManager.getInstance( )
+					.findExpressionButton( query );
+
+			if ( eb != null )
+			{
+				exprCodec.setType( eb.getExpressionType( ) );
+				exprCodec.setBindingName( bindingName, eb.isCube( ) );
+			}
+
+			setEnabled( eb != null
+					&& DataDefinitionTextManager.getInstance( )
 					.isAcceptableExpression( query,
-							expr,
+									exprCodec.getExpression( ),
 							dataProvider.isSharedBinding( )
 									|| dataProvider.isInheritColumnsGroups( ) ) );
 		}
 
 		public void run( )
 		{
-			manageColorAndQuery( ChartUIConstants.QUERY_CATEGORY,
-					query,
-					expr,
-					seriesDefintion );
+			if ( eb != null )
+			{
+				eb.setBindingName( bindingName, true );
+			}
 		}
 	}
 
-	class GroupYSeriesAction extends Action
+	private class GroupYSeriesAction extends Action
 	{
 
-		Query query;
-		String expr;
-		private SeriesDefinition seriesDefinition;
+		private final IExpressionButton eb;
+		private final String bindingName;
+		private final String expr;
 
-		GroupYSeriesAction( Query query, String expr,
+		GroupYSeriesAction( Query query, String bindingName,
 				SeriesDefinition seriesDefinition )
 		{
 			super( getGroupSeriesTitle( getChartModel( ) ) );
-			this.seriesDefinition = seriesDefinition;
-			this.query = query;
-			this.expr = expr;
 
-			setEnabled( DataDefinitionTextManager.getInstance( )
+			this.bindingName = bindingName;
+			this.eb = DataDefinitionTextManager.getInstance( )
+					.findExpressionButton( query );
+
+			if ( eb != null )
+			{
+				exprCodec.setType( eb.getExpressionType( ) );
+				exprCodec.setBindingName( bindingName, eb.isCube( ) );
+				this.expr = exprCodec.getExpression( );
+			}
+			else
+			{
+				this.expr = null;
+			}
+
+			setEnabled( eb != null
+					&& DataDefinitionTextManager.getInstance( )
 					.isAcceptableExpression( query,
 							expr,
 							dataProvider.isSharedBinding( )
@@ -2063,27 +1965,29 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			ChartUIUtil.setAllGroupingQueryExceptFirst( getChartModel( ), expr );
 			ChartAdapter.endIgnoreNotifications( );
 
-			manageColorAndQuery( ChartUIConstants.QUERY_OPTIONAL,
-					query,
-					expr,
-					seriesDefinition );
+			if ( eb != null )
+			{
+				eb.setBindingName( bindingName, true );
+			}
 		}
 	}
 
-	class ValueYSeriesAction extends Action
+	private class ValueYSeriesAction extends Action
 	{
 
-		Query query;
-		String expr;
+		private final IExpressionButton eb;
+		private final String bindingName;
 
-		ValueYSeriesAction( Query query, String expr )
+		ValueYSeriesAction( Query query, String bindingName )
 		{
 			super( getOrthogonalSeriesTitle( getChartModel( ) ) );
-			this.query = query;
-			this.expr = expr;
+
+			this.bindingName = bindingName;
+			this.eb = DataDefinitionTextManager.getInstance( )
+					.findExpressionButton( query );
 
 			// Grouping expressions can't be set on value series.
-			boolean enabled = true;
+			boolean enabled = eb != null;
 			if ( dataProvider.isSharedBinding( )
 					|| dataProvider.isInheritColumnsGroups( ) )
 			{
@@ -2100,10 +2004,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		public void run( )
 		{
-			manageColorAndQuery( ChartUIConstants.QUERY_VALUE,
-					query,
-					expr,
-					null );
+			if ( eb != null )
+			{
+				eb.setBindingName( bindingName, true );
+			}
 		}
 	}
 
@@ -2186,8 +2090,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					// Menu for columns table.
 					addMenu( manager,
 							new HeaderShowAction( ((ColumnBindingInfo)data).getName( ) ) );
-					String expr = ExpressionUtil.createJSRowExpression( ((ColumnBindingInfo)data).getName( ) );
-					List<Object> actions = getActionsForTableHead( expr );
+					// String expr = ExpressionUtil.createJSRowExpression(
+					// ((ColumnBindingInfo)data).getName( ) );
+					List<Object> actions = getActionsForTableHead( ( (ColumnBindingInfo) data ).getName( ) );
 					for ( Object act : actions )
 					{
 						addMenu( manager, act );
@@ -2483,7 +2388,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 			if ( binding != null )
 			{
-				expr = ExpressionUtil.createJSDataExpression( binding.getName( ) );
+				expr = binding.getName( );
 			}
 		}
 		return expr;
@@ -2694,7 +2599,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 				if ( dataProvider.isPartChart( ) )
 				{
-					List<String> levels = ChartCubeUtil.getAllLevelsBindingExpression( xtab );
+					List<String> levels = ChartCubeUtil.getAllLevelsBindingName( xtab );
 					String[] exprs = levels.toArray( new String[levels.size( )] );
 					if ( exprs.length == 2 && dataProvider.isInXTabAggrCell( ) )
 					{
@@ -2718,7 +2623,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				else
 				{
 					Iterator<ComputedColumnHandle> columnBindings = ChartCubeUtil.getAllColumnBindingsIterator( itemHandle );
-					List<String> levels = ChartCubeUtil.getAllLevelsBindingExpression( columnBindings );
+					List<String> levels = ChartCubeUtil.getAllLevelsBindingName( columnBindings );
 					String[] exprs = levels.toArray( new String[levels.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 							exprs );
@@ -2726,7 +2631,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							exprs );
 
 					columnBindings = ChartCubeUtil.getAllColumnBindingsIterator( itemHandle );
-					List<String> measures = ChartCubeUtil.getAllMeasuresBindingExpression( columnBindings );
+					List<String> measures = ChartCubeUtil.getAllMeasuresBindingName( columnBindings );
 					exprs = measures.toArray( new String[measures.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
 							exprs );
@@ -2792,7 +2697,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				else
 				{
 					Iterator<ComputedColumnHandle> columnBindings = ChartCubeUtil.getAllColumnBindingsIterator( itemHandle );
-					List<String> levels = ChartCubeUtil.getAllLevelsBindingExpression( columnBindings );
+					List<String> levels = ChartCubeUtil.getAllLevelsBindingName( columnBindings );
 					String[] exprs = levels.toArray( new String[levels.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 							exprs );
@@ -2800,7 +2705,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							exprs );
 
 					columnBindings = ChartCubeUtil.getAllColumnBindingsIterator( itemHandle );
-					List<String> measures = ChartCubeUtil.getAllMeasuresBindingExpression( columnBindings );
+					List<String> measures = ChartCubeUtil.getAllMeasuresBindingName( columnBindings );
 					exprs = measures.toArray( new String[measures.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
 							exprs );

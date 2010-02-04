@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.events.ModifyEvent;
 
 
 /**
@@ -165,28 +164,6 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 		}
 	}
 	
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent#saveQuery()
-	 */
-	protected void saveQuery()
-	{
-		super.saveQuery( );
-		updateBaseSeriesSortKey();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent#modifyText(org.eclipse.swt.events.ModifyEvent)
-	 */
-	public void modifyText( ModifyEvent e )
-	{
-		super.modifyText( e );
-		if ( isQueryModified && e.getSource( ) == txtDefinition )
-		{
-			updateBaseSeriesSortKey( );
-		}
-	}
-	
 	/**
 	 * If Y grouping is set, the SortKey of base series only allow base series expression.
 	 */
@@ -231,36 +208,15 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent
-	 * #updateQuery(java.lang.String)
-	 */
 	@Override
 	public void updateQuery( String expression )
 	{
 		super.updateQuery( expression );
+
+		updateBaseSeriesSortKey( );
 		
 		ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
 				expression );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent
-	 * #handleBuilderAction()
-	 */
-	@Override
-	protected void handleBuilderAction( String[] data )
-	{
-		super.handleBuilderAction( data );
-
-		ChartUIUtil.setAllGroupingQueryExceptFirst( context.getModel( ),
-				query.getDefinition( ) );
 	}
 
 }

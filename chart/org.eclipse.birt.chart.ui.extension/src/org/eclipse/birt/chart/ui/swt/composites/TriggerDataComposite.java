@@ -35,10 +35,12 @@ import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil.EAttributeAccessor;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -482,6 +484,47 @@ public class TriggerDataComposite extends Composite implements
 				public String getDisplayExpression( )
 				{
 					return getExpression( );
+				}
+
+				public void addListener( Listener listener )
+				{
+					// not implemented
+				}
+
+				public void setAccessor( EAttributeAccessor<String> accessor )
+				{
+					// not implemented
+				}
+
+				public String getExpressionType( )
+				{
+					return null;
+				}
+
+				public boolean isCube( )
+				{
+					return false;
+				}
+
+				public void setBindingName( String bindingName,
+						boolean bNotifyEvents )
+				{
+					// not implemented
+				}
+
+				public void setExpression( String expr, boolean bNotifyEvents )
+				{
+					// not implemented
+				}
+
+				public void setAssitField( IAssistField assistField )
+				{
+					// not implemented
+				}
+
+				public void setPredefinedQuery( Object[] predefinedQuery )
+				{
+					// not implemented
 				}
 			};
 		}

@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt;
 
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 
 
 /**
@@ -61,4 +62,11 @@ public interface IQueryExpressionManager
 	 * @since 2.5
 	 */
 	public void setTooltipForInputControl( );
+
+	/**
+	 * Returns the ExpressionButton.
+	 * 
+	 * @return The ExpressionButton.
+	 */
+	public IExpressionButton getExpressionButton( );
 }
