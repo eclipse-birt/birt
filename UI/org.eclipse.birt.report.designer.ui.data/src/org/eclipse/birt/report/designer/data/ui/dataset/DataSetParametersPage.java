@@ -448,36 +448,34 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			if ( items[i].getData( ) instanceof OdaDataSetParameterHandle )
 			{
 				OdaDataSetParameterHandle handle = (OdaDataSetParameterHandle) items[i].getData( );
-				if ( handle.getParamName( ) != null
-						&& !doesLinkedReportParamExist( handle ) )
+				ScalarParameterHandle reportParam = ParameterPageUtil.getScalarParameter( handle.getParamName( ),
+						true );
+				if ( reportParam != null )
+				{
+					if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( reportParam.getParamType( ) ) )
+					{
+						getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam",
+								new Object[]{
+										handle.getParamName( ),
+										handle.getName( )
+								} ),
+								IMessageProvider.ERROR );
+					}
+				}
+				else
 				{
 					getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.LinkedReportParamNotFound",
 							new Object[]{
-									handle.getParamName( ), handle.getName( )
+								handle.getParamName( )
 							} ),
 							IMessageProvider.ERROR );
-					viewer.getViewer( ).refresh( );
-					break;
 				}
+				viewer.getViewer( ).refresh( );
+
 			}
 		}
 	}
 
-	private boolean doesLinkedReportParamExist( OdaDataSetParameterHandle handle )
-	{
-		String reportParamNames[] = ParameterPageUtil.getLinkedReportParameterNames( handle );
-		boolean exists = false;
-		for ( int i = 0; i < reportParamNames.length; i++ )
-		{
-			if ( reportParamNames[i].equalsIgnoreCase( handle.getParamName( ) ) )
-			{
-				exists = true;
-				break;
-			}
-		}
-		return exists;
-	}
-	
 	private void refreshMessage( )
 	{
 		getContainer( ).setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
