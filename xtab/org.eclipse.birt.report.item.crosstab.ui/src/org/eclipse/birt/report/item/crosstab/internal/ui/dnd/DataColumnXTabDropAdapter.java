@@ -20,13 +20,13 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.SimpleCubeBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
-import org.eclipse.birt.report.designer.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
@@ -35,10 +35,12 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
@@ -225,7 +227,11 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 				newCube.setDefaultMeasureGroup( measureGroup );
 			TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 					.newTabularMeasure( columnHandle.getColumnName( ) );
-			measure.setMeasureExpression( DEUtil.getExpression( columnHandle ) );
+			Expression expression = new Expression( ExpressionUtility.getExpression( columnHandle,
+					ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
+					UIUtil.getDefaultScriptType( ) );
+			measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
+					expression );
 			measure.setDataType( columnHandle.getDataType( ) );
 			measureGroup.add( IMeasureGroupModel.MEASURES_PROP, measure );
 		}
@@ -252,9 +258,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 						.getCommandStack( );
 				stack.startTrans( "Create Group" ); //$NON-NLS-1$
 				GroupDialog dialog = new GroupDialog( true );
-				dialog.setInput( newCube,
-						hierarchy,
-						columnHandle.getColumnName( ) );
+				dialog.setInput( newCube, hierarchy, columnHandle );
 				if ( dialog.open( ) == Window.CANCEL )
 				{
 					stack.rollback( );

@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -159,7 +160,7 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		else if ( element instanceof ResultSetColumnHandle )
 		{
-			return ( (ResultSetColumnHandle) element ).getColumnName( );
+			return OlapUtil.getDataFieldDisplayName( (ResultSetColumnHandle) element );
 		}
 		else if ( element instanceof DimensionHandle )
 		{

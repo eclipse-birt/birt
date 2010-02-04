@@ -224,9 +224,19 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			dynamicDataTypeCombo.setItems( getDataTypeDisplayNames( ) );
 			dynamicDataTypeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) );
 
-			fieldCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
+			fieldCombo.setItems( OlapUtil.getDataFieldDisplayNames( dataset ) );
 			if ( input.getColumnName( ) != null )
-				fieldCombo.setText( input.getColumnName( ) );
+			{
+				try
+				{
+					fieldCombo.setText( OlapUtil.getDataFieldDisplayName( OlapUtil.getDataField( dataset,
+							input.getColumnName( ) ) ) );
+				}
+				catch ( Exception e )
+				{
+					fieldCombo.select( 0 );
+				}
+			}
 			else
 				fieldCombo.select( 0 );
 
@@ -316,7 +326,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				if ( fieldCombo.getText( ) != null )
 				{
-					input.setColumnName( fieldCombo.getText( ) );
+					input.setColumnName( OlapUtil.getDataFieldNames( dataset )[fieldCombo.getSelectionIndex( )] );
 				}
 				if ( displayKeyCombo.getText( ).trim( ).length( ) > 0
 						&& !displayKeyCombo.getText( )
