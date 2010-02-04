@@ -34,17 +34,9 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
-import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
-import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
-import org.eclipse.birt.report.model.elements.strategy.ExtendedItemPropSearchStrategy;
-import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
-import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.util.PropertyHandleHelper;
 
 /**
  * A handle for working with a top-level property of an element.
@@ -285,7 +277,7 @@ public class PropertyHandle extends SimpleValueHandle
 		if ( isReadOnly )
 			return true;
 
-		return isReadOnlyInContext( );
+		return PropertyHandleHelper.getInstance( ).isReadOnlyInContext( this );
 	}
 
 	/*
@@ -319,7 +311,7 @@ public class PropertyHandle extends SimpleValueHandle
 		if ( !isVisible )
 			return false;
 
-		return isVisibleInContext( );
+		return PropertyHandleHelper.getInstance( ).isVisibleInContext( this );
 	}
 
 	/*
@@ -369,115 +361,11 @@ public class PropertyHandle extends SimpleValueHandle
 	}
 
 	/**
-	 * Returns whether the property value is visible in the report context.
-	 * 
-	 * @return <code>true</code> if the value is visible. Otherwise
-	 *         <code>false</code>.
-	 */
-	private boolean isVisibleInContext( )
-	{
-		boolean isVisible = true;
-		DesignElementHandle element = getElementHandle( );
-		String propName = propDefn.getName( );
-		if ( element instanceof RowHandle
-				&& ITableRowModel.REPEATABLE_PROP.equals( propName ) )
-		{
-			isVisible = rowRepeatableVisibleInContext( element );
-		}
-		return isVisible;
-	}
-
-	/**
 	 * Returns whether the property value is read-only in the report context.
 	 * 
 	 * @return <code>true</code> if the value is read-only. Otherwise
 	 *         <code>false</code>.
 	 */
-
-	private boolean isReadOnlyInContext( )
-	{
-		DesignElementHandle element = getElementHandle( );
-		String propName = propDefn.getName( );
-		if ( element instanceof MasterPageHandle )
-		{
-			MasterPage masterPage = (MasterPage) element.getElement( );
-			if ( !masterPage.isCustomType( getModule( ) ) )
-			{
-
-				if ( IMasterPageModel.HEIGHT_PROP.equals( propName )
-						|| IMasterPageModel.WIDTH_PROP.equals( propName ) )
-					return true;
-			}
-		}
-		else if ( element instanceof GroupHandle )
-		{
-			DesignElementHandle tmpContainer = element.getContainer( );
-			if ( tmpContainer == null )
-				return false;
-
-			return ( GroupPropSearchStrategy.getDataBindingPropties( )
-					.contains( propName ) && ( (ListingElement) tmpContainer
-					.getElement( ) ).isDataBindingReferring( getModule( ) ) );
-		}
-		else if ( element instanceof ReportItemHandle )
-		{
-			boolean containsProp = ReportItemPropSearchStrategy
-					.isDataBindingProperty( element.getElement( ), propName );
-
-			boolean retValue = containsProp
-					&& ( (ReportItem) element.getElement( ) )
-							.isDataBindingReferring( getModule( ) );
-
-			if ( retValue )
-				return true;
-
-			if ( !containsProp )
-				containsProp = ExtendedItemPropSearchStrategy
-						.isHostViewProperty( element.getElement( ), propName );
-
-			if ( element instanceof ExtendedItemHandle )
-				return ( containsProp && ( element.getContainer( ) instanceof MultiViewsHandle ) );
-		}
-		else if ( element instanceof RowHandle
-				&& ITableRowModel.REPEATABLE_PROP.equals( propName ) )
-		{
-			return !rowRepeatableVisibleInContext( element );
-		}
-
-		return false;
-	}
-
-	/**
-	 * Returns whether the repeatable of the row is visible in the report
-	 * context.
-	 * 
-	 * @param handle
-	 *            the design element handle.
-	 * @return <code>true</code> if the value is visible. Otherwise
-	 *         <code>false</code>.
-	 */
-	private boolean rowRepeatableVisibleInContext( DesignElementHandle handle )
-	{
-		assert handle instanceof RowHandle;
-		boolean isVisible = false;
-		DesignElementHandle container = handle.getContainer( );
-		if ( container instanceof TableHandle )
-		{
-			int containerSlotID = handle.getContainerSlotHandle( ).slotID;
-			if ( IListingElementModel.HEADER_SLOT == containerSlotID
-					|| IListingElementModel.FOOTER_SLOT == containerSlotID )
-			{
-				isVisible = true;
-			}
-
-		}
-		else if ( container instanceof TableGroupHandle )
-		{
-			isVisible = true;
-		}
-
-		return isVisible;
-	}
 
 	/**
 	 * Adds a report item to the property with the given element handle. The
