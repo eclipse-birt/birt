@@ -87,6 +87,8 @@ import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.PaintEvent;
@@ -667,6 +669,15 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 						event.segments = UIUtil.getExpressionBidiSegments( event.lineText );
 					}
 				} );
+
+		sourceViewer.getTextWidget( ).addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				resetOkButtonStatus( true );
+			}
+		} );
+
 		updateToolItems( );
 	}
 
@@ -1397,4 +1408,29 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		return super.close( );
 	}
 
+	private boolean isEditModel = false;
+
+	public void setEditModal( boolean isEditModel )
+	{
+		this.isEditModel = isEditModel;
+	}
+
+	public boolean isEditModal( )
+	{
+		return isEditModel;
+	}
+
+	protected void resetOkButtonStatus( Boolean enabled )
+	{
+		Button okButton = getButton( OK );
+		if ( okButton != null && okButton.isEnabled( ) != enabled )
+			okButton.setEnabled( enabled );
+	}
+
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		if ( isEditModal( ) )
+			resetOkButtonStatus( false );
+	}
 }

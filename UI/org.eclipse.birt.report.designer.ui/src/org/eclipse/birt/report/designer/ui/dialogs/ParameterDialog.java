@@ -2050,7 +2050,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		staticTableArea = new TableArea( tableAreaComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER, tableAreaModifier );
-		staticTableArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		GridData data = new GridData( GridData.FILL_BOTH );
+		data.heightHint = 100;
+		staticTableArea.setLayoutData( data );
 
 		Table table = staticTableArea.getTable( );
 		table.setLinesVisible( true );

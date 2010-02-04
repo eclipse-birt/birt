@@ -284,6 +284,7 @@ public class ImageBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				switchTo( URI_TYPE );
+				modifyDialogContent( );
 			}
 		} );
 
@@ -294,6 +295,7 @@ public class ImageBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				switchTo( FILE_TYPE );
+				modifyDialogContent( );
 			}
 		} );
 
@@ -304,6 +306,7 @@ public class ImageBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				switchTo( EMBEDDED_TYPE );
+				modifyDialogContent( );
 			}
 		} );
 
@@ -314,6 +317,7 @@ public class ImageBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				switchTo( BLOB_TYPE );
+				modifyDialogContent( );
 			}
 		} );
 	}
@@ -398,6 +402,7 @@ public class ImageBuilder extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
+				modifyDialogContent( );
 				updateButtons( );
 			}
 		} );
@@ -416,10 +421,10 @@ public class ImageBuilder extends BaseDialog
 
 	private void previewTextEditor( )
 	{
-		preview( getPreviewString() );
+		preview( getPreviewString( ) );
 	}
-	
-	private String getPreviewString()
+
+	private String getPreviewString( )
 	{
 		String str = uriEditor.getText( ).trim( );
 		String type = (String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE );
@@ -427,7 +432,7 @@ public class ImageBuilder extends BaseDialog
 		{
 			str = DEUtil.removeQuote( str );
 		}
-		
+
 		return str;
 	}
 
@@ -444,6 +449,7 @@ public class ImageBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent event )
 			{
 				preview( );
+				modifyDialogContent( );
 				updateButtons( );
 			}
 		} );
@@ -477,17 +483,18 @@ public class ImageBuilder extends BaseDialog
 
 	private void buildInputAreaButton( int type )
 	{
-		Listener listener  = new Listener(){
-			
+		Listener listener = new Listener( ) {
+
 			public void handleEvent( Event event )
 			{
-				if(event.data instanceof String[]){
-					preview( DEUtil.removeQuote( ((String[])event.data )[1] ));
+				if ( event.data instanceof String[] )
+				{
+					preview( DEUtil.removeQuote( ( (String[]) event.data )[1] ) );
 				}
 			}
-			
+
 		};
-		
+
 		if ( type == URI_TYPE )
 		{
 			ExpressionButtonUtil.createExpressionButton( inputArea,
@@ -519,7 +526,7 @@ public class ImageBuilder extends BaseDialog
 					inputImage,
 					listener,
 					true,
-					SWT.PUSH);
+					SWT.PUSH );
 		}
 		else if ( type == EMBEDDED_TYPE )
 		{
@@ -625,7 +632,8 @@ public class ImageBuilder extends BaseDialog
 		if ( dialog.open( ) == Window.OK )
 		{
 			uriEditor.setText( dialog.getPath( ) );
-			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT );
+			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
+					ExpressionType.CONSTANT );
 			( (ExpressionButton) uriEditor.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).refresh( );
 			uriEditor.setFocus( );
 			preview( dialog.getPath( ) );
@@ -702,11 +710,13 @@ public class ImageBuilder extends BaseDialog
 			{
 				case FILE_TYPE :
 					inputImage.setFile( new Expression( uriEditor.getText( )
-							.trim( ), (String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
+							.trim( ),
+							(String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
 					break;
 				case URI_TYPE :
 					inputImage.setURL( new Expression( uriEditor.getText( )
-							.trim( ), (String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
+							.trim( ),
+							(String) uriEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
 					break;
 				case EMBEDDED_TYPE :
 					inputImage.setImageName( embeddedImageList.getSelection( )[0] );
@@ -714,25 +724,26 @@ public class ImageBuilder extends BaseDialog
 				case BLOB_TYPE :
 					inputImage.setValueExpression( uriEditor.getText( ).trim( ) );
 			}
-			
+
 			// bug 236564
 			Image image = previewCanvas.getSourceImage( );
-			if (image != null)
+			if ( image != null )
 			{
-				
-				if (DEUtil.isFixLayout( getModuleHandle( ) ))
+
+				if ( DEUtil.isFixLayout( getModuleHandle( ) ) )
 				{
 					String defaultUnit = getModuleHandle( ).getDefaultUnits( );
 					InputStream in = null;
-					if (selectedType == EMBEDDED_TYPE)
+					if ( selectedType == EMBEDDED_TYPE )
 					{
 						EmbeddedImage embeddedImage = getModuleHandle( ).findImage( embeddedImageList.getSelection( )[0] );
-						in = new ByteArrayInputStream( embeddedImage.getData( getModuleHandle( ).getModule( )) ) ;
+						in = new ByteArrayInputStream( embeddedImage.getData( getModuleHandle( ).getModule( ) ) );
 					}
-					else if (selectedType == URI_TYPE)
+					else if ( selectedType == URI_TYPE )
 					{
-						URL url = ImageManager.getInstance( ).createURIURL( getPreviewString( ) );
-						if (url != null)
+						URL url = ImageManager.getInstance( )
+								.createURIURL( getPreviewString( ) );
+						if ( url != null )
 						{
 							try
 							{
@@ -740,22 +751,24 @@ public class ImageBuilder extends BaseDialog
 							}
 							catch ( IOException e )
 							{
-								//do nothing;
+								// do nothing;
 							}
 						}
 					}
-					else if (selectedType == FILE_TYPE)
+					else if ( selectedType == FILE_TYPE )
 					{
 						URL url;
 						try
 						{
-							url = ImageManager.getInstance( ).generateURL( getModuleHandle( ),  getPreviewString( ) );
+							url = ImageManager.getInstance( )
+									.generateURL( getModuleHandle( ),
+											getPreviewString( ) );
 						}
 						catch ( MalformedURLException e1 )
 						{
 							url = null;
 						}
-						if (url != null)
+						if ( url != null )
 						{
 							try
 							{
@@ -763,38 +776,41 @@ public class ImageBuilder extends BaseDialog
 							}
 							catch ( IOException e )
 							{
-								//do nothing;
+								// do nothing;
 							}
 						}
 					}
-					
+
 					int dpi = UIUtil.getImageResolution( in )[0];
-					if ( dpi == 0)
+					if ( dpi == 0 )
 					{
-						if (getModuleHandle( ) instanceof ReportDesignHandle)
+						if ( getModuleHandle( ) instanceof ReportDesignHandle )
 						{
-							dpi = ((ReportDesignHandle)getModuleHandle( )).getImageDPI( );
+							dpi = ( (ReportDesignHandle) getModuleHandle( ) ).getImageDPI( );
 						}
 					}
-					if (dpi == 0)
+					if ( dpi == 0 )
 					{
-						dpi=UIUtil.getScreenResolution( )[0];
+						dpi = UIUtil.getScreenResolution( )[0];
 					}
-					
+
 					int width = image.getBounds( ).width;
-					double inch =  ( (double) width ) / dpi ;
-					
-					DimensionValue value = DimensionUtil.convertTo( inch, DesignChoiceConstants.UNITS_IN, defaultUnit );
+					double inch = ( (double) width ) / dpi;
+
+					DimensionValue value = DimensionUtil.convertTo( inch,
+							DesignChoiceConstants.UNITS_IN,
+							defaultUnit );
 					inputImage.getWidth( ).setValue( value );
-					
+
 					int height = image.getBounds( ).height;
-					inch =  ( (double) height ) / dpi ;
-					value = DimensionUtil.convertTo( inch, DesignChoiceConstants.UNITS_IN, defaultUnit );
+					inch = ( (double) height ) / dpi;
+					value = DimensionUtil.convertTo( inch,
+							DesignChoiceConstants.UNITS_IN,
+							defaultUnit );
 					inputImage.getHeight( ).setValue( value );
-					
-	
-	//				setResult( inputImage );
-					if (in != null)
+
+					// setResult( inputImage );
+					if ( in != null )
 					{
 						try
 						{
@@ -802,7 +818,7 @@ public class ImageBuilder extends BaseDialog
 						}
 						catch ( IOException e )
 						{
-							//do nothing
+							// do nothing
 						}
 					}
 				}
@@ -820,7 +836,7 @@ public class ImageBuilder extends BaseDialog
 		{
 			ExceptionHandler.handle( e );
 		}
-		
+
 		super.okPressed( );
 	}
 
@@ -839,6 +855,8 @@ public class ImageBuilder extends BaseDialog
 			setOkButtonText( DLG_INSERT_BUTTON_MSG );
 		}
 	}
+
+	private boolean hasInitDialog = false;
 
 	protected boolean initDialog( )
 	{
@@ -865,6 +883,9 @@ public class ImageBuilder extends BaseDialog
 			switchTo( URI_TYPE );
 			initURIEditor( );
 		}
+
+		hasInitDialog = true;
+
 		return true;
 	}
 
@@ -913,13 +934,14 @@ public class ImageBuilder extends BaseDialog
 		}
 		if ( uriPropertyHandle != null && uriPropertyHandle.isLocal( ) )
 		{
-			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
-					uri == null || uri.getType( ) == null ? ExpressionType.CONSTANT
-							: (String) uri.getType( ) );
+			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE, uri == null
+					|| uri.getType( ) == null ? ExpressionType.CONSTANT
+					: (String) uri.getType( ) );
 		}
 		else
 		{
-			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE, ExpressionType.CONSTANT );
+			uriEditor.setData( ExpressionButtonUtil.EXPR_TYPE,
+					ExpressionType.CONSTANT );
 		}
 		ExpressionButton button = (ExpressionButton) uriEditor.getData( ExpressionButtonUtil.EXPR_BUTTON );
 		if ( button != null )
@@ -971,6 +993,11 @@ public class ImageBuilder extends BaseDialog
 			case FILE_TYPE :
 				complete = !StringUtil.isBlank( uriEditor.getText( ) );
 				break;
+		}
+		if ( complete )
+		{
+			if ( !hasModified && isEditModal( ) )
+				complete = false;
 		}
 		getOkButton( ).setEnabled( complete );
 	}
@@ -1035,4 +1062,40 @@ public class ImageBuilder extends BaseDialog
 		return false;
 	}
 
+	private boolean isEditModel = false;
+
+	public void setEditModal( boolean isEditModel )
+	{
+		this.isEditModel = isEditModel;
+	}
+
+	public boolean isEditModal( )
+	{
+		return isEditModel;
+	}
+
+	protected void resetOkButtonStatus( boolean enabled )
+	{
+		Button okButton = getButton( OK );
+		if ( okButton != null && okButton.isEnabled( ) != enabled )
+			okButton.setEnabled( enabled );
+	}
+
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		if ( isEditModal( ) )
+			resetOkButtonStatus( false );
+	}
+
+	private boolean hasModified = false;
+
+	private void modifyDialogContent( )
+	{
+		if ( hasInitDialog && isEditModal( ) && hasModified == false )
+		{
+			hasModified = true;
+			updateButtons( );
+		}
+	}
 }

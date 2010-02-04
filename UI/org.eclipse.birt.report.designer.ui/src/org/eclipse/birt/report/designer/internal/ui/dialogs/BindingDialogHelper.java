@@ -141,6 +141,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private Object container;
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
 	public void createContent( Composite parent )
 	{
 
@@ -156,7 +157,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		gd.widthHint = 200;
-		
+
 		if ( isRef )
 		{
 			cmbName = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -166,6 +167,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 				public void widgetSelected( SelectionEvent e )
 				{
+					modifyDialogContent( );
+
 					String bindingName = cmbName.getItem( cmbName.getSelectionIndex( ) );
 
 					for ( Iterator iterator = getBindingHolder( ).getDataBindingReference( )
@@ -191,6 +194,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 				public void modifyText( ModifyEvent e )
 				{
+					modifyDialogContent( );
 					validate( );
 				}
 
@@ -235,12 +239,23 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				txtDisplayNameID.setText( EMPTY_STRING );
 				txtDisplayName.setText( EMPTY_STRING );
+
+				modifyDialogContent( );
+
 				updateRemoveBtnState( );
 			}
 		} );
 
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
+		txtDisplayName.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				modifyDialogContent( );
+			}
+
+		} );
 		txtDisplayName.setLayoutData( gd );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
@@ -257,6 +272,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent arg0 )
 			{
+				modifyDialogContent( );
+
 				validate( );
 			}
 		} );
@@ -290,9 +307,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			String[] result = (String[]) dlg.getDetailResult( );
 			txtDisplayNameID.setText( result[0] );
 			txtDisplayName.setText( result[1] );
+
+			modifyDialogContent( );
+
 			updateRemoveBtnState( );
 		}
 	}
+
+	private boolean hasInitDialog = false;
 
 	public void initDialog( )
 	{
@@ -437,6 +459,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 
 		validate( );
+
+		hasInitDialog = true;
 	}
 
 	private void initExpressionButton( ExpressionHandle expressionHandle,
@@ -809,6 +833,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				modifyDialogContent( );
 				handleFunctionSelectEvent( );
 				validate( );
 			}
@@ -867,6 +892,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				modifyDialogContent( );
 				cmbGroup.setEnabled( false );
 			}
 		} );
@@ -883,12 +909,21 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				modifyDialogContent( );
 				cmbGroup.setEnabled( true );
 			}
 		} );
 		cmbGroup = new Combo( aggOnComposite, SWT.BORDER | SWT.READ_ONLY );
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbGroup.setVisibleItemCount( 30 );
+		cmbFunction.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				modifyDialogContent( );
+			}
+		} );
+
 		if ( isRef )
 		{
 			txtDisplayName.setEnabled( false );
@@ -917,6 +952,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void modifyText( ModifyEvent e )
 			{
+				modifyDialogContent( );
 				validate( );
 			}
 
@@ -949,7 +985,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			else
 			{
-				dialog.setCanFinish( true );
+				dialogCanFinish( );
 			}
 			return;
 		}
@@ -1041,7 +1077,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				// TODO show error message in message panel
 			}
 		}
-		dialog.setCanFinish( true );
+		dialogCanFinish( );
+	}
+
+	private void dialogCanFinish( )
+	{
+		if ( !hasModified && isEditModal( ) )
+			dialog.setCanFinish( false );
+		else
+			dialog.setCanFinish( true );
 	}
 
 	/**
@@ -1093,6 +1137,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 							public void modifyText( ModifyEvent e )
 							{
+								modifyDialogContent( );;
 								validate( );
 								paramsValueMap.put( param.getName( ),
 										new String[]{
@@ -1129,6 +1174,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 							public void modifyText( ModifyEvent e )
 							{
+								modifyDialogContent( );
 								validate( );
 								paramsValueMap.put( param.getName( ),
 										new String[]{
@@ -1181,6 +1227,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void handleEvent( Event event )
 			{
+				modifyDialogContent( );
 				validate( );
 			}
 
@@ -1370,7 +1417,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
-			if ( strs!=null && strEquals( expressionHandle.getStringExpression( ), strs[0] )
+			if ( strs != null
+					&& strEquals( expressionHandle.getStringExpression( ),
+							strs[0] )
 					&& strEquals( expressionHandle.getType( ), strs[1] ) )
 				return true;
 		}
@@ -1684,8 +1733,31 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void updateRemoveBtnState( )
 	{
-		btnRemoveDisplayNameID.setEnabled( txtDisplayNameID.getText( ).equals( EMPTY_STRING ) ? false
-				: true );
+		btnRemoveDisplayNameID.setEnabled( txtDisplayNameID.getText( )
+				.equals( EMPTY_STRING ) ? false : true );
 	}
+
+	private boolean isEditModal = false;
+
+	public void setEditModal( boolean isEditModal )
+	{
+		this.isEditModal = isEditModal;
+	}
+
+	public boolean isEditModal( )
+	{
+		return isEditModal;
+	}
+
+	private void modifyDialogContent( )
+	{
+		if ( hasInitDialog && isEditModal( ) && hasModified == false )
+		{
+			hasModified = true;
+			validate( );
+		}
+	}
+
+	private boolean hasModified = false;
 
 }

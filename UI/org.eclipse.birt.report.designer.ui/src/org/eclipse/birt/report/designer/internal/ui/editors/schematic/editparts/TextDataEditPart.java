@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
@@ -47,6 +48,8 @@ public class TextDataEditPart extends LabelEditPart
 
 		dialog.setExpressionProvier( new ExpressionProvider( handle ) );
 
+		dialog.setEditModal( true );
+
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			try
@@ -65,7 +68,9 @@ public class TextDataEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#getText()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .LabelEditPart#getText()
 	 */
 	protected String getText( )
 	{
@@ -90,7 +95,9 @@ public class TextDataEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#hasText()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .LabelEditPart#hasText()
 	 */
 	protected boolean hasText( )
 	{
@@ -115,7 +122,9 @@ public class TextDataEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#refreshFigure()
 	 */
 	public void refreshFigure( )
 	{

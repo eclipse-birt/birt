@@ -26,7 +26,8 @@ import org.eclipse.jface.dialogs.Dialog;
  * Text edit part class
  */
 public class TextEditPart extends LabelEditPart
-{	
+{
+
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "TextEditPart.Figure.Dafault" ); //$NON-NLS-1$
 
 	private static final String TEXT_TRANS_MSG = Messages.getString( "TextEditPart.trans.editText" ); //$NON-NLS-1$
@@ -50,9 +51,13 @@ public class TextEditPart extends LabelEditPart
 				.getCommandStack( );
 		stack.startTrans( TEXT_TRANS_MSG );
 
+		String title = TextEditor.DLG_TITLE_EDIT;
+
 		TextEditor dialog = new TextEditor( UIUtil.getDefaultShell( ),
-				TextEditor.DLG_TITLE_EDIT,
+				title,
 				( (TextItemHandle) getModel( ) ) );
+
+		dialog.setEditModal( true );
 
 		if ( dialog.open( ) == Dialog.OK )
 		{
@@ -79,7 +84,9 @@ public class TextEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .ReportElementEditPart#refreshFigure()
 	 */
 	public void refreshFigure( )
 	{
@@ -91,7 +98,9 @@ public class TextEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#getText()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .LabelEditPart#getText()
 	 */
 	protected String getText( )
 	{
@@ -115,7 +124,9 @@ public class TextEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#hasText()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * .LabelEditPart#hasText()
 	 */
 	protected boolean hasText( )
 	{

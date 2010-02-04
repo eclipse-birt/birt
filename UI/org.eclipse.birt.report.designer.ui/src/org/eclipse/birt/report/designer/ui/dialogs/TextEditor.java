@@ -58,11 +58,14 @@ import org.eclipse.swt.dnd.RTFTransfer;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -437,6 +440,8 @@ public class TextEditor extends BaseDialog
 
 				textEditor.setFocus( );
 				applyOrientation( );
+
+				resetOkButtonStatus( true );
 			}
 		} );
 		// create common tags on the right of the text type choicer.
@@ -620,6 +625,14 @@ public class TextEditor extends BaseDialog
 						&& ( ( e.keyCode == 'y' ) || ( e.keyCode == 'Y' ) );
 			}
 
+		} );
+
+		textEditor.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				resetOkButtonStatus( true );
+			}
 		} );
 
 		textViewer.configure( new SourceViewerConfiguration( ) );
@@ -1307,7 +1320,8 @@ public class TextEditor extends BaseDialog
 				if ( !tag.getAttributes( ).isEmpty( ) )
 				{
 					String text = " "; //$NON-NLS-1$
-					for ( Iterator<String> iter = tag.getAttributes( ).iterator( ); iter.hasNext( ); )
+					for ( Iterator<String> iter = tag.getAttributes( )
+							.iterator( ); iter.hasNext( ); )
 					{
 						text = text + iter.next( ) + "=\"\" "; //$NON-NLS-1$
 					}
@@ -1415,40 +1429,40 @@ public class TextEditor extends BaseDialog
 		return super.close( );
 	}
 
-//	private int[] getBidiLineSegments( String lineText )
-//	{
-//		int[] seg = null;
-//		if ( lineText != null
-//				&& lineText.length( ) > 0
-//				&& !new Bidi( lineText, Bidi.DIRECTION_LEFT_TO_RIGHT ).isLeftToRight( ) )
-//		{
-//			List list = new ArrayList( );
-//
-//			// Punctuations will be regarded as delimiter so that different
-//			// splits could be rendered separately.
-//			Object[] splits = lineText.split( "\\p{Punct}" ); //$NON-NLS-1$
-//
-//			// !=, <> etc. leading to "" will be filtered to meet the rule that
-//			// segments must not have duplicates.
-//			for ( int i = 0; i < splits.length; i++ )
-//			{
-//				if ( !splits[i].equals( "" ) ) //$NON-NLS-1$
-//					list.add( splits[i] );
-//			}
-//			splits = list.toArray( );
-//
-//			// first segment must be 0
-//			// last segment does not necessarily equal to line length
-//			seg = new int[splits.length + 1];
-//			for ( int i = 0; i < splits.length; i++ )
-//			{
-//				seg[i + 1] = lineText.indexOf( (String) splits[i], seg[i] )
-//						+ ( (String) splits[i] ).length( );
-//			}
-//		}
-//
-//		return seg;
-//	}
+	// private int[] getBidiLineSegments( String lineText )
+	// {
+	// int[] seg = null;
+	// if ( lineText != null
+	// && lineText.length( ) > 0
+	// && !new Bidi( lineText, Bidi.DIRECTION_LEFT_TO_RIGHT ).isLeftToRight( ) )
+	// {
+	// List list = new ArrayList( );
+	//
+	// // Punctuations will be regarded as delimiter so that different
+	// // splits could be rendered separately.
+	//			Object[] splits = lineText.split( "\\p{Punct}" ); //$NON-NLS-1$
+	//
+	// // !=, <> etc. leading to "" will be filtered to meet the rule that
+	// // segments must not have duplicates.
+	// for ( int i = 0; i < splits.length; i++ )
+	// {
+	//				if ( !splits[i].equals( "" ) ) //$NON-NLS-1$
+	// list.add( splits[i] );
+	// }
+	// splits = list.toArray( );
+	//
+	// // first segment must be 0
+	// // last segment does not necessarily equal to line length
+	// seg = new int[splits.length + 1];
+	// for ( int i = 0; i < splits.length; i++ )
+	// {
+	// seg[i + 1] = lineText.indexOf( (String) splits[i], seg[i] )
+	// + ( (String) splits[i] ).length( );
+	// }
+	// }
+	//
+	// return seg;
+	// }
 
 	/**
 	 * Updates SWT style based on the orientation of the
@@ -1497,4 +1511,31 @@ public class TextEditor extends BaseDialog
 	{
 		return true;
 	}
+
+	protected void resetOkButtonStatus( Boolean enabled )
+	{
+		Button okButton = getButton( OK );
+		if ( okButton != null && okButton.isEnabled( ) != enabled )
+			okButton.setEnabled( enabled );
+	}
+
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		if ( isEditModal( ) )
+			resetOkButtonStatus( false );
+	}
+	
+	private boolean isEditModel = false;
+
+	public void setEditModal( boolean isEditModel )
+	{
+		this.isEditModel = isEditModel;
+	}
+
+	public boolean isEditModal( )
+	{
+		return isEditModel;
+	}
+
 }

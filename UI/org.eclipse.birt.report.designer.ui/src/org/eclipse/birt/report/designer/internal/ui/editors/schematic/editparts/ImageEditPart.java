@@ -214,6 +214,7 @@ public class ImageEditPart extends ReportElementEditPart implements IResourceEdi
 				.getDisplay( )
 				.getActiveShell( ), ImageBuilder.DLG_TITLE_EDIT, dataSetList );
 		dialog.setInput( getModel( ) );
+		dialog.setEditModal( true );
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
 		stack.startTrans( IMG_TRANS_MSG );

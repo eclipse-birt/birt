@@ -30,7 +30,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * DataColumnBindingDialog
@@ -127,6 +126,8 @@ public class DataColumnBindingDialog extends BaseDialog
 			dialogHelper = new BindingDialogHelper( );
 		}
 
+		dialogHelper.setEditModal( isEditModal( ) );
+
 		if ( !bindSelf )
 			dialogHelper.setBindingHolder( DEUtil.getBindingHolder( bindingObject ) );
 		else
@@ -178,21 +179,24 @@ public class DataColumnBindingDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		
+
 		Composite composite = (Composite) super.createDialogArea( parent );
-		ScrolledComposite sc = new ScrolledComposite(composite, SWT.V_SCROLL);
+		ScrolledComposite sc = new ScrolledComposite( composite, SWT.V_SCROLL );
 		sc.setAlwaysShowScrollBars( false );
 		sc.setExpandHorizontal( true );
-		sc.setLayoutData( new GridData(GridData.FILL_BOTH) );
-		
-		Composite content = new Composite(sc, SWT.NONE);
-		sc.setContent( content );
-		content.setLayout( new GridLayout() );
+		sc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-//		sc.setBackground( Display.getCurrent( ).getSystemColor( SWT.COLOR_BLACK ) );
-//		content.setBackground( Display.getCurrent( ).getSystemColor( SWT.COLOR_BLUE ) );
-//		composite.setBackground( Display.getCurrent( ).getSystemColor( SWT.COLOR_RED ) );
-		
+		Composite content = new Composite( sc, SWT.NONE );
+		sc.setContent( content );
+		content.setLayout( new GridLayout( ) );
+
+		// sc.setBackground( Display.getCurrent( ).getSystemColor(
+		// SWT.COLOR_BLACK ) );
+		// content.setBackground( Display.getCurrent( ).getSystemColor(
+		// SWT.COLOR_BLUE ) );
+		// composite.setBackground( Display.getCurrent( ).getSystemColor(
+		// SWT.COLOR_RED ) );
+
 		dialogHelper.setExpressionProvider( expressionProvider );
 		dialogHelper.createContent( content );
 		UIUtil.bindHelp( content, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
@@ -347,5 +351,17 @@ public class DataColumnBindingDialog extends BaseDialog
 	{
 		if ( getOkButton( ) != null )
 			getOkButton( ).setEnabled( canFinish );
+	}
+
+	private boolean isEditModal = false;
+
+	public void setEditModal( boolean isEditModal )
+	{
+		this.isEditModal = isEditModal;
+	}
+
+	public boolean isEditModal( )
+	{
+		return isEditModal;
 	}
 }

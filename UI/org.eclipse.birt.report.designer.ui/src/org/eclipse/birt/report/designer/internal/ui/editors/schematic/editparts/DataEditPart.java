@@ -84,6 +84,9 @@ public class DataEditPart extends LabelEditPart
 				.getCommandStack( )
 				.startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( handle.getResultSetColumn( ) == null );
+
+		dialog.setEditModal( true );
+
 		if ( handle.getResultSetColumn( ) != null )
 		{
 			// DataItemBindingAggregateOnProvider provider;
