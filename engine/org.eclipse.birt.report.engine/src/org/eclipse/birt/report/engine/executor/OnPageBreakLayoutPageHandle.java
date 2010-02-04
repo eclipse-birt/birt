@@ -101,7 +101,8 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 			ReportItemDesign design = getGenerateDesign( content );
 			if ( design != null )
 			{
-				if ( design.getOnPageBreak( ) != null )
+				if ( design.getOnPageBreak( ) != null
+						|| design.getClass( ) != null )
 				{
 					if ( !contents.contains( content ) )
 					{
