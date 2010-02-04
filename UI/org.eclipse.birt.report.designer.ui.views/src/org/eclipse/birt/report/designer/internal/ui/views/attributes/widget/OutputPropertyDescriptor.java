@@ -364,9 +364,9 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 		for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
 		{
 			( (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setSelection( false );
-			( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setExpression( new Expression( "true", ExpressionType.JAVASCRIPT ) );//$NON-NLS-1$
+			( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setExpression( new Expression( "true", UIUtil.getDefaultScriptType( ) ) );//$NON-NLS-1$
 		}
-		allExpression.setExpression( new Expression( "true", ExpressionType.JAVASCRIPT ) );//$NON-NLS-1$
+		allExpression.setExpression( new Expression( "true", UIUtil.getDefaultScriptType( ) ) );//$NON-NLS-1$
 	}
 
 	/*
@@ -501,7 +501,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 			for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
 			{
 				( (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setSelection( false );
-				( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setExpression( new Expression( "true", ExpressionType.JAVASCRIPT ) ); //$NON-NLS-1$
+				( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setExpression( new Expression( "true", UIUtil.getDefaultScriptType( ) ) ); //$NON-NLS-1$
 			}
 
 			Iterator visibilities = outputDescriptorProvider.getVisibilityRulesIterator( );
