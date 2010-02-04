@@ -8,15 +8,24 @@
  ******************************************************************************/
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 
 public class ExternalUIUtil
@@ -82,5 +91,30 @@ public class ExternalUIUtil
 	public static boolean needUtilityPages( DataSetHandle ds )
 	{
 		return true;
+	}
+
+	public static Expression getParamValueExpression( DataSetHandle dataSet,
+			OdaDataSetParameterHandle paramDefn ) throws BirtException
+	{
+		String linkedReportParam = ( (OdaDataSetParameterHandle) paramDefn ).getParamName( );
+		if ( linkedReportParam != null )
+		{
+			ParameterHandle ph = dataSet.getModuleHandle( )
+					.findParameter( linkedReportParam );
+			if ( ph instanceof ScalarParameterHandle )
+			{
+				if ( ( (ScalarParameterHandle) ph ).getParamType( )
+						.equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE ) )
+				{
+					throw new BirtException( Messages.getFormattedString( "dataset.editor.error.invalidLinkedParameter",
+							new String[]{
+								linkedReportParam
+							} ),
+							null );
+				}
+			}
+		}
+		return new Expression( DataUtil.getParamValue( dataSet, paramDefn ),
+				ExpressionType.JAVASCRIPT );
 	}
 }

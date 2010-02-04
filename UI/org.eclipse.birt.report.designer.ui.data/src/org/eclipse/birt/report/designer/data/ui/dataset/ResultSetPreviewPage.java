@@ -31,7 +31,6 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExecutorHelper;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
-import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -48,6 +47,8 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -307,48 +308,8 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 
 			int maxRow = getMaxRowPreference( );
 			query.setMaxRows( maxRow );
-			PropertyHandle handle = ( (DataSetEditor) getContainer( ) ).getHandle( )
-					.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
-
-			if ( handle != null )
-			{
-				Iterator paramIter = handle.iterator( );
-				while ( paramIter.hasNext( ) )
-				{
-					String value = null;
-					DataSetParameterHandle paramDefn = (DataSetParameterHandle) paramIter.next( );
-					if ( paramDefn.isInput( ) )
-					{
-						if ( paramDefn instanceof OdaDataSetParameterHandle
-								&& ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) != null )
-						{
-							String linkedReportParam = ( (OdaDataSetParameterHandle) paramDefn ).getParamName( );
-							if ( linkedReportParam != null )
-							{
-								ParameterHandle ph = ( (DataSetEditor) getContainer( ) ).getHandle( ).getModuleHandle( ).findParameter( linkedReportParam );
-								if ( ph instanceof ScalarParameterHandle )
-								{
-									if (((ScalarParameterHandle)ph).getParamType( ).equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE ))
-									{
-										throw new BirtException(Messages.getFormattedString( "dataset.editor.error.invalidLinkedParameter",
-												new String[]{linkedReportParam} ),
-												null);
-									}
-								}
-							}
-							// get the value from report parameter
-							value = DataUtil.getParamValue( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-									(OdaDataSetParameterHandle) paramDefn );
-						}
-						if ( value != null )
-						{
-							InputParameterBinding binding = new InputParameterBinding( paramDefn.getName( ),
-									new ScriptExpression( value ) );
-							query.addInputParamBinding( binding );
-						}
-					}
-				}
-			}
+			registerParameterBinding( query,
+					( (DataSetEditor) getContainer( ) ).getHandle( ), session );
 
 			columnBindingNames = new String[columnCount];
 			ScriptExpression[] expressions = new ScriptExpression[columnCount];
@@ -384,7 +345,48 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 			return null;
 		}
 	}
+
+	private void registerParameterBinding( QueryDefinition query, DataSetHandle dsHandle, DataRequestSession session )
+			throws BirtException, DesignFileException
+	{
+		PropertyHandle handle = ExternalUIUtil.getQulifiedDataSetHandle( dsHandle )
+				.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
+
+		if ( handle != null )
+		{
+			Iterator paramIter = handle.iterator( );
+			while ( paramIter.hasNext( ) )
+			{
+				Expression value = null;
+				DataSetParameterHandle paramDefn = (DataSetParameterHandle) paramIter.next( );
+				if ( paramDefn.isInput( ) )
+				{
+					if ( paramDefn instanceof OdaDataSetParameterHandle
+							&& ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) != null )
+					{
+						// get the value from report parameter
+						value = this.getParameterValueExpression( dsHandle,
+								(OdaDataSetParameterHandle) paramDefn );
+					}
+					if ( value != null )
+					{
+						InputParameterBinding binding = new InputParameterBinding( paramDefn.getName( ),
+								session.getModelAdaptor( )
+										.adaptExpression( value ) );
+						query.addInputParamBinding( binding );
+					}
+				}
+			}
+		}
+	}
 	
+	private Expression getParameterValueExpression( DataSetHandle dsHandle,
+			OdaDataSetParameterHandle paramDefn ) throws BirtException
+	{
+		Expression value = ExternalUIUtil.getParamValueExpression( dsHandle, paramDefn );
+		return value;
+	}
+		
 	private int getMaxRowPreference( )
 	{
 		int maxRow;
