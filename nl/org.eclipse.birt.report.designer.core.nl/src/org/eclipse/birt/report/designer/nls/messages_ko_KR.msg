@@ -674,6 +674,7 @@ DataSetParametersPage.Prompt.new=<여기에 새 매개 변수 입력>
 DataSetParametersPage.default.None=해당 없음
 DataSetParametersPage.reportParam.None=없음
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=현재 데이터 집합 매개 변수 "{1}"의 연결된 보고서 매개 변수 "{0}"이(가) 없습니다.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Data set parameter "{0}" should not link to a multi-value type report parameter.
 DataSetParameterPage.cell.linkToSalarParameter=보고서 매개 변수에 연결됨(&L)
 DataSetParameterPage.title.ParameterInputDialog=매개 변수
 DataSetParameterPage.toolTipText.New=새 매개 변수
@@ -4411,9 +4412,11 @@ PathResourceEntry.RootDisplayName=공유 리소스
 #ResourceFilter properties
 ResourceFilter.DisplayName.CVS=CVS 리소스
 ResourceFilter.DisplayName.Dot=.* 리소스
+ResourceFilter.DisplayName.Data=*.data resources
 ResourceFilter.DisplayName.EmptyFolder=비어 있는 폴더
 ResourceFilter.Description.CVS=\"CVS\"로 시작하는 이름을 가진 리소스를 숨깁니다.
 ResourceFilter.Description.Dot='.'로 시작하는 이름을 가진 리소스를 숨깁니다.
+ResourceFilter.Description.Data=Hides all data files
 ResourceFilter.Description.EmptyFolder=비어 있는 폴더를 숨깁니다.
 
 ###########################################################

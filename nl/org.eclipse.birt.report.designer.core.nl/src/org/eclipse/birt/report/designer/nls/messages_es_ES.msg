@@ -674,6 +674,7 @@ DataSetParametersPage.Prompt.new=<Nuevo parámetro aquí...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Ninguno
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=El parámetro del informe vinculado "{0}" del parámetro del conjunto de datos "{1}" ya no existe.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Data set parameter "{0}" should not link to a multi-value type report parameter.
 DataSetParameterPage.cell.linkToSalarParameter=&Vinculado a parámetro de informe
 DataSetParameterPage.title.ParameterInputDialog=Parámetro
 DataSetParameterPage.toolTipText.New=Nuevo parámetro
@@ -4411,9 +4412,11 @@ PathResourceEntry.RootDisplayName=Recursos compartidos
 #ResourceFilter properties
 ResourceFilter.DisplayName.CVS=Recursos CVS
 ResourceFilter.DisplayName.Dot=.* recursos
+ResourceFilter.DisplayName.Data=*.data resources
 ResourceFilter.DisplayName.EmptyFolder=Vaciar carpetas
 ResourceFilter.Description.CVS=Oculta recursos con nombres que comienzan por \"CVS\"
 ResourceFilter.Description.Dot=Oculta recursos con nombres que comienzan por "."
+ResourceFilter.Description.Data=Hides all data files
 ResourceFilter.Description.EmptyFolder=Oculta carpetas vacías
 
 ###########################################################
