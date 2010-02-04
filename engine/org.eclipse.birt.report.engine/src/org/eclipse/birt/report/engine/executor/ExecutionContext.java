@@ -182,7 +182,7 @@ public class ExecutionContext
 	/**
 	 * app context
 	 */
-	private Map appContext;
+	private Map appContext = new HashMap( );
 
 	/**
 	 * report context used to evaluate the java-based script.
@@ -1461,7 +1461,11 @@ public class ExecutionContext
 
 	public void setAppContext( Map appContext )
 	{
-		this.appContext = appContext;
+		this.appContext.clear( );
+		if ( appContext != null )
+		{
+			this.appContext.putAll( appContext );
+		}
 	}
 
 	public IReportContext getReportContext( )
