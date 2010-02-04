@@ -49,7 +49,6 @@ public class ExpressionButton
 			if ( widget instanceof MenuItem )
 			{
 				String exprType = (String) widget.getData( );
-				setExpressionType( exprType );
 				provider.handleSelectionEvent( exprType );
 				refresh( );
 			}
@@ -146,6 +145,8 @@ public class ExpressionButton
 
 		if ( builder.open( ) == Window.OK )
 		{
+			setExpressionType( expressionType );
+
 			if ( helper != null )
 			{
 				Object result = builder.getExpression( );
