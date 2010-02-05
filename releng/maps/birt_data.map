@@ -1,20 +1,20 @@
 !**************** BIRT DATA ********************
-plugin@org.eclipse.birt.data=v20100204,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
-plugin@org.eclipse.birt.data.aggregation=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.aggregation
-plugin@org.eclipse.birt.report.data.adapter=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
-plugin@org.eclipse.birt.report.data.oda.jdbc=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
-plugin@org.eclipse.birt.report.data.oda.jdbc.ui=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
-plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile
-plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui
-plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb
-plugin@org.eclipse.birt.report.data.oda.sampledb=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
-plugin@org.eclipse.birt.report.data.oda.sampledb.ui=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
-plugin@org.eclipse.birt.report.data.oda.xml=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
-plugin@org.eclipse.birt.report.data.oda.xml.ui=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
-plugin@org.eclipse.birt.core.script.function=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.script.function
-plugin@org.eclipse.birt.report.data.bidi.utils=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.bidi.utils
-plugin@org.eclipse.birt.report.data.bidi.utils.ui=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.bidi.utils.ui
+plugin@org.eclipse.birt.data=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
+plugin@org.eclipse.birt.data.aggregation=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.aggregation
+plugin@org.eclipse.birt.report.data.adapter=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
+plugin@org.eclipse.birt.report.data.oda.jdbc=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
+plugin@org.eclipse.birt.report.data.oda.jdbc.ui=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
+plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile
+plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui
+plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb
+plugin@org.eclipse.birt.report.data.oda.sampledb=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
+plugin@org.eclipse.birt.report.data.oda.sampledb.ui=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
+plugin@org.eclipse.birt.report.data.oda.xml=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
+plugin@org.eclipse.birt.report.data.oda.xml.ui=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
+plugin@org.eclipse.birt.core.script.function=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.script.function
+plugin@org.eclipse.birt.report.data.bidi.utils=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.bidi.utils
+plugin@org.eclipse.birt.report.data.bidi.utils.ui=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.bidi.utils.ui
 
 !**************** data test  *******************
-plugin@org.eclipse.birt.data.tests=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
-plugin@org.eclipse.birt.report.data.oda.jdbc.tests=v20100121,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
+plugin@org.eclipse.birt.data.tests=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
+plugin@org.eclipse.birt.report.data.oda.jdbc.tests=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
