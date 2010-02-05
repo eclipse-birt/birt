@@ -707,6 +707,47 @@ public class ChartExpressionUtil
 			decode( expr );
 			return getBindingName( );
 		}
+
+		/**
+		 * Check if specified expression is a dimension expression.
+		 * 
+		 */
+		public boolean isDimensionExpresion( )
+		{
+			return ChartExpressionUtil.isDimensionExpresion( sExpr );
+		}
+
+		/**
+		 * Check if specified expression is a dimension expression.
+		 * 
+		 * @param expr
+		 */
+		public boolean isDimensionExpresion( String expr )
+		{
+			decode( expr );
+			return isDimensionExpresion( );
+		}
+
+		/**
+		 * Check if specified expression is a measure expression.
+		 * 
+		 */
+		public boolean isMeasureExpresion( )
+		{
+			return ChartExpressionUtil.isMeasureExpresion( sExpr );
+		}
+
+		/**
+		 * Check if specified expression is a measure expression.
+		 * 
+		 * @param expr
+		 */
+		public boolean isMeasureExpresion( String expr )
+		{
+			decode( expr );
+			return isMeasureExpresion( );
+		}
+
 	}
 
 }

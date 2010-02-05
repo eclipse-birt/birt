@@ -50,7 +50,6 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -206,9 +205,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 
 			for ( GroupHandle gh : groupList )
 			{
-				Expression keyExpr = getExpression( gh );
-				exprCodec.setExpression( keyExpr.getStringExpression( ) );
-				exprCodec.setType( keyExpr.getType( ) );
+				loadExpression( exprCodec, gh );
 				if ( expression.contains( exprCodec.getBindingName( ) ) )
 				{
 					return true;
@@ -664,18 +661,62 @@ public class ChartReportItemUtil extends ChartItemUtil
 				bCube ? ExpressionLocation.CUBE : ExpressionLocation.TABLE );
 	}
 
-	public static Expression getExpression( DesignElementHandle handle )
+	private static void loadExpressionFromHandle( ExpressionCodec exprCodec,
+			ExpressionHandle eh )
 	{
-		if ( handle != null )
+		if ( eh != null && eh.getValue( ) != null )
 		{
-			ExpressionHandle eh = handle.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP );
-			if ( eh != null && eh.getValue( ) != null )
-			{
-				return (Expression) eh.getValue( );
-			}
+			Expression expression = (Expression) eh.getValue( );
+			exprCodec.setExpression( expression.getStringExpression( ) );
+			exprCodec.setType( expression.getType( ) );
 		}
+		else
+		{
+			exprCodec.setExpression( null );
+		}
+	}
 
+	/**
+	 * Loads the expression from a ComputedColumnHandle into the
+	 * ExpressionCodec.
+	 * 
+	 * @param exprCodec
+	 * @param handle
+	 */
+	public static void loadExpression( ExpressionCodec exprCodec,
+			ComputedColumnHandle cch )
+	{
+		if ( exprCodec != null )
+		{
+			ExpressionHandle eh = cch.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+			loadExpressionFromHandle( exprCodec, eh );
+		}
+	}
+
+	public static Expression getExpression( GroupHandle gh )
+	{
+		ExpressionHandle eh = gh.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP );
+		if ( eh != null && eh.getValue( ) != null )
+		{
+			return (Expression) eh.getValue( );
+		}
 		return null;
+	}
+
+	/**
+	 * Loads the expression from a ComputedColumnHandle into the
+	 * ExpressionCodec.
+	 * 
+	 * @param exprCodec
+	 * @param handle
+	 */
+	public static void loadExpression( ExpressionCodec exprCodec, GroupHandle gh )
+	{
+		if ( exprCodec != null )
+		{
+			ExpressionHandle eh = gh.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP );
+			loadExpressionFromHandle( exprCodec, eh );
+		}
 	}
 
 }

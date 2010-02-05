@@ -43,6 +43,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -526,7 +527,8 @@ public class ChartCubeQueryHelper
 			// Add binding query expression here
 			registeredBindings.put( binding.getBindingName( ), binding );
 			// Add raw query expression here
-			registeredQueries.put( binding.getBindingName( ), expression );
+			registeredQueries.put( binding.getBindingName( ),
+					( (IScriptExpression) binding.getExpression( ) ).getText( ) );
 
 			// Do not add every binding to cube query, since it may be not used.
 			// The binding will be added only if it's used in chart.

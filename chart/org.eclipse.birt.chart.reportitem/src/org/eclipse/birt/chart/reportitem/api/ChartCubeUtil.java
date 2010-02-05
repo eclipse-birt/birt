@@ -25,6 +25,8 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -1413,20 +1415,20 @@ public class ChartCubeUtil extends ChartItemUtil
 	public static boolean checkColumnbindingForCube(
 			Iterator<ComputedColumnHandle> columnBindings )
 	{
-		String expression;
 		boolean containDimension = false;
 		boolean containMeasure = false;
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle cc = columnBindings.next( );
-			expression = cc.getExpression( );
-			if ( !containDimension
-					&& ChartExpressionUtil.isDimensionExpresion( expression ) )
+			ChartReportItemUtil.loadExpression( exprCodec, cc );
+
+			if ( !containDimension && exprCodec.isDimensionExpresion( ) )
 			{
 				containDimension = true;
 			}
-			if ( !containMeasure
-					&& ChartExpressionUtil.isMeasureExpresion( expression ) )
+			if ( !containMeasure && exprCodec.isMeasureExpresion( ) )
 			{
 				containMeasure = true;
 			}

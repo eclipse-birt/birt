@@ -3078,7 +3078,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( reportItemHandle instanceof ListingHandle )
 			{
 				queryDefn.getSorts( )
-						.addAll( ChartBaseQueryHelper.createSorts( ( (ListingHandle) reportItemHandle ).sortsIterator( ) ));
+						.addAll( ChartBaseQueryHelper.createSorts( ( (ListingHandle) reportItemHandle ).sortsIterator( ),
+								modelAdapter ) );
 			}
 
 			return columns;
