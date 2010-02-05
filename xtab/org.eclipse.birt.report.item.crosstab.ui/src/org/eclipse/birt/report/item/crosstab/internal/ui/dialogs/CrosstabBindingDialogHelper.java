@@ -75,7 +75,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
@@ -154,7 +153,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void modifyText( ModifyEvent e )
 			{
-				modifyDialogContent( );
 				validate( );
 			}
 
@@ -175,15 +173,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 
 		txtDisplayNameID = new Text( composite, SWT.BORDER | SWT.READ_ONLY );
-		txtDisplayNameID.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				modifyDialogContent( );
-				validate( );
-			}
-
-		} );
 		txtDisplayNameID.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		btnDisplayNameID = new Button( composite, SWT.NONE );
@@ -216,36 +205,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		txtDisplayName.setLayoutData( gd );
-		txtDisplayName.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				modifyDialogContent( );
-				validate( );
-			}
-
-		} );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		cmbType.setLayoutData( gd );
 		cmbType.setVisibleItemCount( 30 );
-
-		cmbType.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent arg0 )
-			{
-				validate( );
-			}
-
-			public void widgetSelected( SelectionEvent arg0 )
-			{
-				modifyDialogContent( );
-
-				validate( );
-			}
-		} );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		if ( isAggregate( ) )
@@ -278,8 +243,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			updateRemoveBtnState( );
 		}
 	}
-
-	private boolean hasInitDialog = false;
 
 	public void initDialog( )
 	{
@@ -322,8 +285,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 
 		validate( );
-
-		hasInitDialog = true;
 	}
 
 	private void initAggOn( )
@@ -873,14 +834,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			public void widgetSelected( SelectionEvent e )
 			{
 				handleFunctionSelectEvent( );
-				modifyDialogContent( );
 				validate( );
 			}
 		} );
 
 		paramsComposite = new Composite( composite, SWT.NONE );
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-		gridData.horizontalSpan = 3;
+		gridData.horizontalSpan = 4;
 		gridData.exclude = true;
 		paramsComposite.setLayoutData( gridData );
 		GridLayout layout = new GridLayout( );
@@ -888,20 +848,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.numColumns = 4;
 		paramsComposite.setLayout( layout );
-		new Label( composite, SWT.NONE );
 
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 2;
 		txtFilter.setLayoutData( gridData );
-		txtFilter.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				modifyDialogContent( );
-			}
-		} );
 
 		createExpressionButton( composite, txtFilter );
 
@@ -916,13 +868,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		gridData.horizontalSpan = 3;
 		cmbAggOn.setLayoutData( gridData );
 		cmbAggOn.setVisibleItemCount( 30 );
-		cmbAggOn.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				modifyDialogContent( );
-			}
-		} );
 	}
 
 	private void createCommonSection( Composite composite )
@@ -937,7 +882,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void modifyText( ModifyEvent e )
 			{
-				modifyDialogContent( );
 				validate( );
 			}
 
@@ -984,7 +928,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 								SWT.BORDER );
 						cmbDataField.setLayoutData( GridDataFactory.fillDefaults( )
 								.grab( true, false )
-								.span( 2, 1 )
+								.span( 3, 1 )
 								.create( ) );
 						cmbDataField.setVisibleItemCount( 30 );
 						initDataFields( cmbDataField, param );
@@ -993,7 +937,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 							public void modifyText( ModifyEvent e )
 							{
-								modifyDialogContent( );
 								validate( );
 								paramsValueMap.put( param.getName( ),
 										cmbDataField.getText( ) );
@@ -1011,7 +954,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 							public void modifyText( ModifyEvent e )
 							{
-								modifyDialogContent( );
 								validate( );
 								paramsValueMap.put( param.getName( ),
 										txtParam.getText( ) );
@@ -1019,6 +961,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						} );
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 						gridData.horizontalIndent = 0;
+						gridData.horizontalSpan = 2;
 						txtParam.setLayoutData( gridData );
 						createExpressionButton( paramsComposite, txtParam );
 						paramsMap.put( param.getName( ), txtParam );
@@ -1070,26 +1013,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				control,
 				expressionProvider,
 				this.bindingHolder );
-	}
-
-	private String getArgumentDisplayNameByName( String functionName,
-			String argument )
-	{
-		try
-		{
-			IAggrFunction function = DataUtil.getAggregationManager( )
-					.getAggregation( functionName );
-			for ( IParameterDefn param : function.getParameterDefn( ) )
-			{
-				if ( param.getName( ).equals( argument ) )
-					return param.getDisplayName( );
-			}
-		}
-		catch ( BirtException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		return null;
 	}
 
 	public void validate( )
@@ -1181,7 +1104,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 
-			dialogCanFinish( );
+			dialog.setCanFinish( true );
 			this.messageLine.setText( "" ); //$NON-NLS-1$
 			this.messageLine.setImage( null );
 
@@ -1223,17 +1146,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					// TODO show error message in message panel
 				}
 			}
-			dialogCanFinish( );
+			dialog.setCanFinish( true );
 		}
 		updateRemoveBtnState( );
-	}
-
-	private void dialogCanFinish( )
-	{
-		if ( !hasModified && isEditModal( ) )
-			dialog.setCanFinish( false );
-		else
-			dialog.setCanFinish( true );
 	}
 
 	public boolean differs( ComputedColumnHandle binding )
@@ -1509,30 +1424,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void updateRemoveBtnState( )
 	{
-		btnRemoveDisplayNameID.setEnabled( txtDisplayNameID.getText( )
-				.equals( EMPTY_STRING ) ? false : true );
+		btnRemoveDisplayNameID.setEnabled( txtDisplayNameID.getText( ).equals( EMPTY_STRING ) ? false
+				: true );
 	}
-
-	private boolean isEditModal = false;
-
-	public void setEditModal( boolean isEditModal )
-	{
-		this.isEditModal = isEditModal;
-	}
-
-	public boolean isEditModal( )
-	{
-		return isEditModal;
-	}
-
-	private void modifyDialogContent( )
-	{
-		if ( hasInitDialog && isEditModal( ) && hasModified == false )
-		{
-			hasModified = true;
-			validate( );
-		}
-	}
-
-	private boolean hasModified = false;
 }
