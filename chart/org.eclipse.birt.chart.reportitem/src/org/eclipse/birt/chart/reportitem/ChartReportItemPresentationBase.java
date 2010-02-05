@@ -189,7 +189,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		synchronized ( item )
 		{
 			// Must copy model here to generate runtime data later
-			cm = cm.copyInstance( );
+			if ( cm != null )
+			{
+				cm = cm.copyInstance( );
+			}
 		}
 		
 		// #269935
