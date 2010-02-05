@@ -13,10 +13,9 @@ package org.eclipse.birt.report.designer.internal.ui.script;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.internal.ui.expressions.AbstractExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * JSExpressionConverter
@@ -85,23 +84,15 @@ public class JSExpressionConverter extends AbstractExpressionConverter
 	@Override
 	public String getConstantExpression( String value, String dataType )
 	{
-		if ( dataType == null || value == null )
-			return null;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType )
-				|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
-				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
+		try
 		{
-			return value;
+			return ExpressionUtil.generateConstantExpr( value,
+					DataAdapterUtil.adaptModelDataType( dataType ) );
 		}
-		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ) )
+		catch ( BirtException e )
 		{
-			return "new java.math.BigDecimal(\"" + value + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
+			ExceptionHandler.handle( e );
 		}
-		else
-		{
-			return "\"" //$NON-NLS-1$
-					+ JavascriptEvalUtil.transformToJsConstants( value )
-					+ "\""; //$NON-NLS-1$
-		}
+		return null;
 	}
 }
