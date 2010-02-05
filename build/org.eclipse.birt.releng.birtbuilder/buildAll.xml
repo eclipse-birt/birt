@@ -492,10 +492,24 @@
 	
 	<target name="prepareSrc" if="HQ.BIRT.skip">
 		
+  		<antcall target="logger">
+			<param name="message" value="Start to sync BIRT source folder"/>
+		</antcall>
+  		
+		<delete failonerror="false">
+			<fileset dir="${buildDirectory}/source">
+				<include name="*/**"/>
+			</fileset>
+		</delete>
+		
         <cvs command="export -d source" cvsRoot="${mapCvsRoot}" dest="${buildDirectory}" 
 		package="source" tag="${mapVersionTag}" taskname="CVS - source"/>
 
-		<copy todir="${buildDirectory}/plugins">
+  		<antcall target="logger">
+			<param name="message" value="Finish to sync BIRT source folder"/>
+		</antcall>
+				
+		<copy todir="${buildDirectory}/plugins" overwrite="true">
 			<fileset dir="${buildDirectory}/source">
 				<include name="**" />
 				<exclude name="nl/**" />
@@ -511,6 +525,10 @@
 				<exclude name="tutorials/**" />
 			</fileset>
 		</copy>
+		
+  		<antcall target="logger">
+			<param name="message" value="Copyied all source plugins to buildDirectory/plugins/"/>
+		</antcall>
 		
 	</target>
 		
