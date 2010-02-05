@@ -38,7 +38,6 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -512,9 +511,8 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			groupDefn.setSortDirection( parseSortDirection( direction ) );
 		}
 
-		groupDefn.getSorts( ).addAll( createSorts( handle ) );
+		groupDefn.getSorts( ).addAll( createSorts( handle, modelAdapter ) );
 		groupDefn.getFilters( ).addAll( createFilters( modelAdapter,handle ) );
-
 		query.getGroups( ).add( groupDefn );
 
 		return groupDefn;
@@ -597,39 +595,21 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	}
 
 	/**
-	 * create one sort condition
-	 * 
-	 * @param handle
-	 *            the SortKeyHandle
-	 * @return the sort object
-	 */
-	private static ISortDefinition createSort( SortKeyHandle handle )
-	{
-		SortDefinition sort = new SortDefinition( );
-		sort.setExpression( handle.getKey( ) );
-		sort.setSortDirection( handle.getDirection( )
-				.equals( DesignChoiceConstants.SORT_DIRECTION_ASC ) ? 0 : 1 );
-		return sort;
-
-	}
-
-	/**
 	 * create all sort conditions given a sort key handle iterator
 	 * 
 	 * @param iter
 	 *            the iterator
 	 * @return sort array
 	 */
-	public static List<ISortDefinition> createSorts( Iterator<SortKeyHandle> iter )
+	public static List<ISortDefinition> createSorts(
+			Iterator<SortKeyHandle> iter, IModelAdapter modelAdapter )
 	{
 		List<ISortDefinition> sorts = new ArrayList<ISortDefinition>( );
 		if ( iter != null )
 		{
-
 			while ( iter.hasNext( ) )
 			{
-				SortKeyHandle handle = iter.next( );
-				sorts.add( createSort( handle ) );
+				sorts.add( modelAdapter.adaptSort( iter.next( ) ) );
 			}
 		}
 		return sorts;
@@ -642,8 +622,9 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 *            the GroupHandle
 	 * @return the sort array
 	 */
-	private static List<ISortDefinition> createSorts( GroupHandle group )
+	private static List<ISortDefinition> createSorts( GroupHandle group,
+			IModelAdapter modelAdapter )
 	{
-		return createSorts( group.sortsIterator( ) );
+		return createSorts( group.sortsIterator( ), modelAdapter );
 	}
 }

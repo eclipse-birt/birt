@@ -236,7 +236,8 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 		if ( handle instanceof ListingHandle )
 		{
 			query.getSorts( )
-					.addAll( createSorts( ( (ListingHandle) handle ).sortsIterator( ) ) );
+					.addAll( createSorts( ( (ListingHandle) handle ).sortsIterator( ),
+							modelAdapter ) );
 		}
 	}
 }
