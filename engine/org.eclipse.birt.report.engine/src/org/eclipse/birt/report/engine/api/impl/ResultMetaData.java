@@ -63,9 +63,9 @@ public class ResultMetaData implements IResultMetaData
 			try
 			{
 				metaEntries.add( new MetaDataEntry( dteMeta
-						.getColumnName( index ),
-						dteMeta.getColumnLabel( index ), dteMeta
-								.getColumnType( index ) ) );
+						.getColumnName( index+1 ),
+						dteMeta.getColumnLabel( index+1 ), dteMeta
+								.getColumnType( index+1 ) ) );
 			}
 			catch ( BirtException ex )
 			{
