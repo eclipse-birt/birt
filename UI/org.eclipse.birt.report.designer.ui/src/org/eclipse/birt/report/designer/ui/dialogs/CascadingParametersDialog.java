@@ -2503,7 +2503,8 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else
 		{
-			if ( formatCategroy == null )
+			if ( formatCategroy == null
+					|| choiceSet.findChoice( formatCategroy ) == null )
 				return;
 			displayFormat = choiceSet.findChoice( formatCategroy )
 					.getDisplayName( );
