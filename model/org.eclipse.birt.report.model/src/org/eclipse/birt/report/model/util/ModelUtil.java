@@ -259,8 +259,8 @@ public class ModelUtil extends ModelUtilBase
 			// Style property and extends property will be removed.
 			// The properties inherited from style or parent will be
 			// flatten to new element.
-
-			if ( needSkipProperty( propName ) )
+						
+			if ( needSkipProperty( destination, propName ) )
 				continue;
 
 			ElementPropertyDefn propDefn = destination.getElement( )
