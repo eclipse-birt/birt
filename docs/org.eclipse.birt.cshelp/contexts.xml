@@ -876,7 +876,7 @@ Select the dimension levels to display or hide. You can skip levels. For example
 </context>
 
 <context id="CrossTabAggregationDialog_ID" title="Totals">
-<!--  SEQUENCE: From the context menu of a group icon in cross tab, choose Totals. linked updated khahn 20090613 -->
+<!--  SEQUENCE: From the context menu of a group icon in cross tab, choose Totals. updated khahn 20090613 No relevant link TRyan 20100128-->
 <description>
 To hide or display sums, deselect or select subtotals and grand totals in the cross tab. To show sums as text or as a chart, click a row. From the drop-down menu, make a selection. To specify the position of the sum relative to other members in a group, click the sum. From the drop-down menu, select Before or After.  
 </description>
@@ -891,14 +891,15 @@ Select the group levels to include in the cube.
 </context>
 
 <context id="CubeBuilderDateLevelDialog_ID" title="Edit Date Level">
-<!--  no relevant link  Diana 20090612 -->
+<!--  Link updated TRyan 20100128 -->
 <description>
 Edit the properties of the date group.
 </description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.8.html#399281" label="Grouping by date" />
 </context>
 
 <context id="CubeBuilderFilterListDialog_ID" title="Filter">
-<!--  SEQUENCE: drag cube to layout editor. In Data Set Selection, choose Filter. Diana 20090612 -->
+<!--  SEQUENCE: drag cube to layout editor. In Data Set Selection, choose Filter. Diana 20090612 No relevant link TRyan 20100128 -->
 <description>
 Create, edit, or delete a filter that limits the data rows that the cube uses.
 </description>

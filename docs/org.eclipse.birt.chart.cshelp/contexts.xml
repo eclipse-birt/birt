@@ -97,7 +97,7 @@ If a data set does not provide parameters, you can restrict the values that the 
 </description>
 
 <!-- link updated JAHT 20090614 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/viewing.19.3.html" label="How to create a hyperlink that links two sections in a report"/>
+<!-- Link not in doc TRyan 20100128 topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/viewing.19.3.html" label="How to create a hyperlink that links two sections in a report"/>
 </context>
 
 <context id="ExpressionBuilder_ID" title="Expression Builder - Specify Data Definition">
@@ -107,8 +107,8 @@ If a data set does not provide parameters, you can restrict the values that the 
 Create expressions using a combination of constants, controls, functions, literal values, names of fields, and operators that evaluate to a single value.
 </description>
 
-<!-- link updated JAHT 20090614 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ScriptingReference.25.1.html" label="Scripting Reference"/>
+<!-- link updated TRyan 20100128 -->
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ScriptingReference.24.1.html" label="Scripting Reference"/>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/expressions.html" label="Writing Expressions"/>
 </context>
 
@@ -346,7 +346,7 @@ Interactivity is a response to a user action, such as clicking or moving the mou
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/viewing.19.3.html" label="How to create a hyperlink that links two sections in a report"/>
+<!-- Link not in doc TRyan 20100128 topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/viewing.19.3.html" label="How to create a hyperlink that links two sections in a report"/>
 </context>
 
 <context id="LegendLayout_ID" title="Legend Layout">
