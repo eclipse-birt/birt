@@ -86,7 +86,8 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 
 	// This is a temporary property for data set property binding
 	private final String QUERYTEXT = "queryText"; //$NON-NLS-1$
-	private final String PASSWORD = "odaPassword"; //$NON-NLS-1$
+	private final String ODAPASSWORD = "odaPassword"; //$NON-NLS-1$
+	private final String PASSWORD = "Password"; //$NON-NLS-1$
 	private static Logger logger = Logger.getLogger( PropertyBindingPage.class.getName( ) );
 	
 	private ReportElementHandle handle;
@@ -127,7 +128,8 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 						| SWT.V_SCROLL | SWT.H_SCROLL );
 				data.heightHint = 100;
 			}
-			else if ( ( (String) bindingName.get( i ) ).equals( PASSWORD ) )
+			else if ( ODAPASSWORD.equals( (String) bindingName.get( i ) )
+					|| PASSWORD.equals( (String) bindingName.get( i ) ) )
 			{
 				propertyText = new Text( composite, SWT.BORDER );
 				if ( ds instanceof DesignElementHandle )
@@ -190,7 +192,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				true,
 				SWT.PUSH );
 
-		if ( PASSWORD.equals( propName ) )
+		if ( ODAPASSWORD.equals( propName ) || PASSWORD.equals( propName ) )
 		{
 			exprButton.setExpressionButtonProvider( new ExprButtonProvider( true,
 					property ) );
