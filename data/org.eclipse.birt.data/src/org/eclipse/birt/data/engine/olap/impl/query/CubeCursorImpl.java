@@ -363,15 +363,22 @@ public class CubeCursorImpl implements ICubeCursor
 					}
 
 					if ( dimLevel != null )
-					{
+					{ 
 						DimensionCursor dimCursor = this.dimensionCursorMap.get( dimLevel );
 						if ( dimCursor != null )
 						{
-							if ( dimLevel.getAttrName( ) != null )
-								result = dimCursor.getObject( OlapExpressionUtil.getAttributeColumnName( dimLevel.getLevelName( ),
-										dimLevel.getAttrName( ) ) );
-							else
-								result = dimCursor.getObject( dimLevel.getLevelName( ) );
+							try
+							{
+								if ( dimLevel.getAttrName( ) != null )
+									result = dimCursor.getObject( OlapExpressionUtil.getAttributeColumnName( dimLevel.getLevelName( ),
+											dimLevel.getAttrName( ) ) );
+								else
+									result = dimCursor.getObject( dimLevel.getLevelName( ) );
+							}
+							catch ( Exception e )
+							{
+								result = null;
+							}
 						}
 						else
 							result = ScriptEvalUtil.evalExpr( expr,
