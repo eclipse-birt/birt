@@ -83,11 +83,12 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 						&& bindingExpr.length( ) > 0
 						&& DataSessionContext.MODE_UPDATE != dtCotnext.getMode( ) )
 				{
-					propValue = JavascriptEvalUtil.evaluateScript( null,
+					Object value = JavascriptEvalUtil.evaluateScript( null,
 							bindingScope,
 							bindingExpr,
 							ScriptExpression.defaultID,
-							0 ).toString( );
+							0 );
+					propValue = ( value == null ? null : value.toString( ) );
 				}
 				else
 				{
