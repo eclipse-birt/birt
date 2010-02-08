@@ -522,6 +522,7 @@
 				<exclude name="org.eclipse.birt.releng/**" />
 				<exclude name="org.eclipse.birt.releng.util/**" />
 				<exclude name="org.eclipse.birt.releng.birtbuilder/**" />
+				<exclude name="org.apache.commons.codec/**"/>
 				<exclude name="tutorials/**" />
 			</fileset>
 		</copy>
