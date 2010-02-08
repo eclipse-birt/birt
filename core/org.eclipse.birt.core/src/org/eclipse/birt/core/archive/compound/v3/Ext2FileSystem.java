@@ -204,26 +204,20 @@ public class Ext2FileSystem
 				nodeTable.write( );
 				freeTable.write( );
 				nodeTable.write( NodeTable.INODE_FREE_TABLE );
+				cacheManager.clear( );
 				writeHeader( );
 			}
 		}
 		finally
 		{
-			try
+			if ( rf != null )
 			{
-				cacheManager.clear( );
+				rf.close( );
+				rf = null;
 			}
-			finally
+			if ( removeOnExit )
 			{
-				if ( rf != null )
-				{
-					rf.close( );
-					rf = null;
-				}
-				if ( removeOnExit )
-				{
-					new File( fileName ).delete( );
-				}
+				new File( fileName ).delete( );
 			}
 		}
 	}
