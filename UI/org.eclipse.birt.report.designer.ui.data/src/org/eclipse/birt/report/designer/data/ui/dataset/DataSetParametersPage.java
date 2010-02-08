@@ -448,6 +448,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			if ( items[i].getData( ) instanceof OdaDataSetParameterHandle )
 			{
 				OdaDataSetParameterHandle handle = (OdaDataSetParameterHandle) items[i].getData( );
+				if ( handle.getParamName( ) == null )
+				{
+					continue;
+				}
 				ScalarParameterHandle reportParam = ParameterPageUtil.getScalarParameter( handle.getParamName( ),
 						true );
 				if ( reportParam != null )
