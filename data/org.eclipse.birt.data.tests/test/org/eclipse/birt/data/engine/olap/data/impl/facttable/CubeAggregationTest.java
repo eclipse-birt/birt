@@ -21,7 +21,6 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
@@ -387,7 +386,8 @@ public class CubeAggregationTest extends BaseTestCase
 	
 	private IDiskArray getAggregationResultRow( ) throws DataException, IOException
 	{
-		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
+		int LIST_BUFFER_SIZE = 4000;
+		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), LIST_BUFFER_SIZE );
 		Object[][] fieldValues = new Object[][]{
 				{"AnHui",	"HeFei",		"li",	new Integer(1),	new Double( 110 ),	new Double( 90 )},
 				{"AnHui",	"HeFei",		"wang",	new Integer(1),	new Double( 120 ),	new Double( 130 )},

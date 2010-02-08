@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 import java.io.IOException;
 
-import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionKey;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRow;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
@@ -47,7 +46,8 @@ public class FactTableRowTest extends TestCase
 	public void testSaveAndLoad() throws IOException
 	{
 		final int rowLen = 100000;
-		DiskSortedStack result = new DiskSortedStack( Constants.FACT_TABLE_BUFFER_SIZE,
+		final int FACT_TABLE_BUFFER_SIZE = 40000;
+		DiskSortedStack result = new DiskSortedStack( FACT_TABLE_BUFFER_SIZE,
 				true,
 				false,
 				FactTableRow.getCreator( ) );
@@ -65,7 +65,8 @@ public class FactTableRowTest extends TestCase
 	public void testSaveAndLoad2() throws IOException
 	{
 		final int rowLen = 100000;
-		DiskSortedStack result = new DiskSortedStack( Constants.FACT_TABLE_BUFFER_SIZE,
+		final int FACT_TABLE_BUFFER_SIZE = 40000;
+		DiskSortedStack result = new DiskSortedStack( FACT_TABLE_BUFFER_SIZE,
 				true,
 				false,
 				FactTableRow.getCreator( ) );

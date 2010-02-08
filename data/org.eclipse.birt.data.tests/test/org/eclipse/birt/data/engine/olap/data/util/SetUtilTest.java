@@ -13,13 +13,9 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 
-import org.eclipse.birt.data.engine.olap.data.impl.Constants;
-import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
-import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
-import org.eclipse.birt.data.engine.olap.data.util.PrimitiveDiskSortedStack;
-import org.eclipse.birt.data.engine.olap.data.util.SetUtil;
-
 import junit.framework.TestCase;
+
+import org.eclipse.birt.data.engine.cache.Constants;
 
 
 /**
@@ -48,8 +44,9 @@ public class SetUtilTest extends TestCase
 
 	public void testintersect1( ) throws IOException
 	{
+		int LIST_BUFFER_SIZE = 4000;
 		PrimitiveDiskSortedStack[] stacks = new PrimitiveDiskSortedStack[4];
-		stacks[0] = new PrimitiveDiskSortedStack( Constants.LIST_BUFFER_SIZE, true, true );
+		stacks[0] = new PrimitiveDiskSortedStack( LIST_BUFFER_SIZE, true, true );
 		stacks[0].push( new Integer(10) );
 		stacks[0].push( new Integer(11) );
 		stacks[0].push( new Integer(12) );
@@ -57,7 +54,7 @@ public class SetUtilTest extends TestCase
 		stacks[0].push( new Integer(14) );
 		stacks[0].push( new Integer(15) );
 		stacks[0].push( new Integer(16) );
-		stacks[1] = new PrimitiveDiskSortedStack( Constants.LIST_BUFFER_SIZE, true, true );
+		stacks[1] = new PrimitiveDiskSortedStack( LIST_BUFFER_SIZE, true, true );
 		stacks[1].push( new Integer(1) );
 		stacks[1].push( new Integer(2) );
 		stacks[1].push( new Integer(3) );
@@ -65,7 +62,7 @@ public class SetUtilTest extends TestCase
 		stacks[1].push( new Integer(14) );
 		stacks[1].push( new Integer(15) );
 		stacks[1].push( new Integer(13) );
-		stacks[2] = new PrimitiveDiskSortedStack( Constants.LIST_BUFFER_SIZE, true, true );
+		stacks[2] = new PrimitiveDiskSortedStack( LIST_BUFFER_SIZE, true, true );
 		stacks[2].push( new Integer(1) );
 		stacks[2].push( new Integer(2) );
 		stacks[2].push( new Integer(3) );
@@ -73,7 +70,7 @@ public class SetUtilTest extends TestCase
 		stacks[2].push( new Integer(12) );
 		stacks[2].push( new Integer(15) );
 		stacks[2].push( new Integer(11) );
-		stacks[3] = new PrimitiveDiskSortedStack( Constants.LIST_BUFFER_SIZE, true, true );
+		stacks[3] = new PrimitiveDiskSortedStack( LIST_BUFFER_SIZE, true, true );
 		stacks[3].push( new Integer(1) );
 		stacks[3].push( new Integer(2) );
 		stacks[3].push( new Integer(3) );
