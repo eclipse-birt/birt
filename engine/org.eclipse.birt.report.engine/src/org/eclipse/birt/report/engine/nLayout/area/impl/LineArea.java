@@ -512,7 +512,7 @@ public class LineArea extends InlineStackingArea
 		boxStyle = BoxStyle.DEFAULT;
 		localProperties = LocalProperties.DEFAULT;
 		maxAvaWidth = parent.getCurrentMaxContentWidth( );
-
+		width = maxAvaWidth;
 		// Derive the baseLevel from the parent content direction.
 		if ( parent.content != null )
 		{
