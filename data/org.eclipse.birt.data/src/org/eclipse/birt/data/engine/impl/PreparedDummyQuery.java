@@ -359,10 +359,13 @@ public class PreparedDummyQuery implements IPreparedQuery
 		public IResultIterator getResultIterator( ) throws BirtException
 		{
 			if ( resultIterator == null )
+			{
+				this.exprManager.validateColumnBinding( );
 				resultIterator = new ResultIterator( this,
 						exprManager,
 						queryScope,
 						parentScope );
+			}
 			
 			return resultIterator;
 		}
