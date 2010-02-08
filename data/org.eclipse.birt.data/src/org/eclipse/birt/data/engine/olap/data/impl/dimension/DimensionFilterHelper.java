@@ -14,9 +14,9 @@ package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
-import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.util.BaseDiskSortedStack;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IndexKey;

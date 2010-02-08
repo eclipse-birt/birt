@@ -62,6 +62,7 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.CubeCreationQueryDefinition;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
+import org.eclipse.birt.data.engine.impl.MemoryUsageSetting;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
@@ -659,7 +660,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 			CubeMaterializer cubeMaterializer = null;
 			if ( appContext == null )
 				appContext = sessionContext.getAppContext( );
-
+			
+			String memoryUsage =  (String)( appContext.get( DataEngine.MEMORY_USAGE ) );
+			MemoryUsageSetting.setMemoryUsage( memoryUsage );
+			
 			if ( mode == DataEngineContext.DIRECT_PRESENTATION )
 			{
 				int size = 0;

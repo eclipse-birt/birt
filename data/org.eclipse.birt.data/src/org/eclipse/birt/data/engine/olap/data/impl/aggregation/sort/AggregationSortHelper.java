@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
@@ -92,7 +93,8 @@ public class AggregationSortHelper
 	{
 		int bufferSize = 4096;
 		String useMemoryOnly = System.getProperty( "data.engine.usememoryonly" );
-		if( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) )
+		if( Constants.isAggressiveMemoryUsage( ) || 
+				( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) ) )
 		{
 			bufferSize = base.length( );
 		}

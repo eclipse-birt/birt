@@ -86,6 +86,26 @@ abstract public class DataEngine
 	public static String MEMORY_DATA_SET_CACHE = "org.eclipse.birt.data.cache.memory";
 	
 	/**
+	 * Indicates data engine memory usage hint level
+	 */
+	public static String MEMORY_USAGE = "org.eclipse.birt.data.memoryusage";
+	
+	/**
+	 *  This level is corresponding to 100% memory based
+	 */
+	public static String MEMORY_USAGE_AGGRESSIVE = "org.eclipse.birt.data.memoryusage.Aggressive";
+	
+	/**
+	 * This level is corresponding to partly disk based
+	 */
+	public static String MEMORY_USAGE_NORMAL = "org.eclipse.birt.data.memoryusage.normal";
+	
+	/**
+	 * This level is corresponding to mainly disk based 
+	 */
+	public static String MEMORY_USAGE_CONSERVATIVE = "org.eclipse.birt.data.memoryusage.conservative";
+	
+	/**
 	 * data set incremental cache file URL.
 	 */
 	public static String INCREMENTAL_CACHE_CONFIG = "org.eclipse.birt.data.cache.incremental.config";

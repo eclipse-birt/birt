@@ -41,7 +41,7 @@ public class BasicCachedList implements List
 {
 	protected static final int NULL_VALUE = Integer.MAX_VALUE;
 	protected static final int OBJECT_VALUE = 1;
-	protected static int CACHESIZE = 4000;
+	protected int cacheSize = 4000;
 	private static Logger logger = Logger.getLogger( BasicCachedList.class.getName( ) );
 	private static int UNIQUE_ID;
 
@@ -56,15 +56,6 @@ public class BasicCachedList implements List
 	private String tempDir; //should end with File.Seperator
 	protected ClassLoader loader;
 	
-	static
-	{
-		String useMemoryOnly = System.getProperty( "data.engine.usememoryonly" );
-		if( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) )
-		{
-			CACHESIZE = 2000000;
-		}
-		UNIQUE_ID = 0;
-	}
 	
 	/**
 	 * 
@@ -72,6 +63,7 @@ public class BasicCachedList implements List
 	 */
 	public BasicCachedList( String tempDir, ClassLoader loader)
 	{
+		this.cacheSize = Constants.LIST_BUFFER_SIZE;
 		this.tempDir = tempDir;
 		this.currentCacheNo = 0;
 		this.size = 0;
@@ -120,7 +112,7 @@ public class BasicCachedList implements List
 	 */
 	public boolean add( Object o )
 	{
-		if ( this.currentCache.size( ) >= CACHESIZE )
+		if ( this.currentCache.size( ) >= cacheSize )
 		{
 			try
 			{
@@ -224,7 +216,7 @@ public class BasicCachedList implements List
 	public Object get( int index )
 	{
 		RangeCheck( index );
-		if ( index / CACHESIZE != this.currentCacheNo )
+		if ( index / cacheSize != this.currentCacheNo )
 		{
 			try
 			{
@@ -235,7 +227,7 @@ public class BasicCachedList implements List
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			this.currentCacheNo = index / CACHESIZE;
+			this.currentCacheNo = index / cacheSize;
 			try
 			{
 				loadFromDisk( );
@@ -246,7 +238,7 @@ public class BasicCachedList implements List
 				e.printStackTrace();
 			}
 		}
-		return this.currentCache.get( index - this.currentCacheNo * CACHESIZE );
+		return this.currentCache.get( index - this.currentCacheNo * cacheSize );
 
 	}
 
@@ -517,7 +509,7 @@ public class BasicCachedList implements List
 	{
 		RangeCheck( index );
 		Object oldValue = get( index );
-		this.currentCache.set( index - this.currentCacheNo * CACHESIZE, element );
+		this.currentCache.set( index - this.currentCacheNo * cacheSize, element );
 		return oldValue;
 	}
 

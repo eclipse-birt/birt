@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -31,7 +32,6 @@ import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectCache;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
-import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionKey;
@@ -706,7 +706,8 @@ class DimensionDivider
 			IDiskArray members = getSortedDimensionKeys( member );
 			
 			String useMemoryOnly = System.getProperty( "data.engine.usememoryonly" );
-			if( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) )
+			if( Constants.isAggressiveMemoryUsage( ) ||
+					( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) ) )
 			{
 				this.memberArray = new DimensionKey[members.size( )];
 			}

@@ -351,7 +351,23 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedCubeQuery prepare( ISubCubeQueryDefinition querySpec,
 			Map appContext ) throws BirtException
 	{
+		
+		setMemoryUsage(appContext);
+		
 		return new PreparedSubCubeQuery( querySpec, appContext, this.session );
+	}
+
+	/**
+	 * 
+	 * @param appContext
+	 */
+	private void setMemoryUsage(Map appContext) {
+		String memoryUsage = null;
+		if( appContext != null )
+		{
+			memoryUsage = (String)( appContext.get( DataEngine.MEMORY_USAGE ) );
+		}
+		MemoryUsageSetting.setMemoryUsage( memoryUsage );
 	}
 
 	/*
@@ -384,6 +400,8 @@ public class DataEngineImpl extends DataEngine
 			logger.fine( "Start to prepare query: "
 					+ LogUtil.toString( querySpec ) );
 
+		setMemoryUsage(appContext);
+		
 		IPreparedQuery result = PreparedQueryUtil.newInstance( this,
 				querySpec,
 				appContext );
@@ -641,6 +659,9 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		
+		setMemoryUsage(appContext);
+		
 		ICubeQueryDefinition preparedQuery = new PreparedCubeQueryDefinition( query );
 		adaptCubeQueryDefinition( preparedQuery );
 		return QueryPrepareUtil.prepareQuery( this.cubeDataSourceMap,

@@ -13,7 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 
-import org.eclipse.birt.data.engine.olap.data.impl.Constants;
+import org.eclipse.birt.data.engine.cache.Constants;
 
 /**
  * A utility class which provide several set functions.
