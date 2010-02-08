@@ -144,7 +144,9 @@ public class ChartExpressionButtonUtil
 		{
 			this.bindingName = bindingName;
 			this.isCube = isCube;
-			exprCodec.setBindingName( bindingName, isCube );
+			exprCodec.setBindingName( bindingName,
+					isCube,
+					UIUtil.getDefaultScriptType( ) );
 		}
 
 		public void setExpressionType( String type )

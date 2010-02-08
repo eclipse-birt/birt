@@ -87,7 +87,9 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -932,7 +934,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
 						resultSetColumn.getColumnName( ) );
 				column.setDataType( resultSetColumn.getDataType( ) );
-				column.setExpression( DEUtil.getExpression( resultSetColumn ) );
+				ExpressionUtility.setBindingColumnExpression( resultSetColumn,
+						column );
 				columnList.add( column );
 			}
 			return columnList;
@@ -945,13 +948,22 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( cubeHandle != null )
 		{
 			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
+
+			String exprType = UIUtil.getDefaultScriptType( );
+			IExpressionConverter exprConverter = ExpressionUtility.getExpressionConverter( exprType );
 			// Add levels
 			for ( LevelHandle levelHandle : ChartCubeUtil.getAllLevels( cubeHandle ) )
 			{
 				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
 						ChartCubeUtil.createLevelBindingName( levelHandle ) );
 				column.setDataType( levelHandle.getDataType( ) );
-				column.setExpression( ChartCubeUtil.createDimensionExpression( levelHandle ) );
+				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+						new Expression( exprConverter.getDimensionExpression( levelHandle.getContainer( )
+								.getContainer( )
+								.getName( ),
+								levelHandle.getName( ),
+								null ),
+								exprType ) );
 				columnList.add( column );
 			}
 			// Add measures
@@ -960,7 +972,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
 						ChartCubeUtil.createMeasureBindingName( measureHandle ) );
 				column.setDataType( measureHandle.getDataType( ) );
-				column.setExpression( ExpressionUtil.createJSMeasureExpression( measureHandle.getName( ) ) );
+				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+						new Expression( exprConverter.getMeasureExpression( measureHandle.getName( ) ),
+								exprType ) );
 				column.setAggregateFunction( measureHandle.getFunction( ) );
 				columnList.add( column );
 			}

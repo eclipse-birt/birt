@@ -612,15 +612,13 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 					Series seOrthogonal = orthoSD.getDesignTimeSeries( );
 					for ( Query qOrthogonalSeries : seOrthogonal.getDataDefinition( ) )
 					{
-						if ( qOrthogonalSeries == null ) // NPE
-						// PROTECTION
+						if ( qOrthogonalSeries == null
+								|| qOrthogonalSeries.getDefinition( ) == null
+								|| qOrthogonalSeries.getDefinition( ).length( ) == 0 )
 						{
 							continue;
 						}
-						if ( qOrthogonalSeries.getDefinition( ) != null )
-						{
-							exprList.add( qOrthogonalSeries.getDefinition( ) );
-						}
+						exprList.add( qOrthogonalSeries.getDefinition( ) );
 					}
 				}
 			}
@@ -638,14 +636,13 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 					for ( Query qSeries : orthSeries.getDataDefinition( ) )
 					{
-						if ( qSeries == null ) // NPE PROTECTION
+						if ( qSeries == null
+								|| qSeries.getDefinition( ) == null
+								|| qSeries.getDefinition( ).length( ) == 0 )
 						{
 							continue;
 						}
-						if ( qSeries.getDefinition( ) != null )
-						{
-							exprList.add( qSeries.getDefinition( ) );
-						}
+						exprList.add( qSeries.getDefinition( ) );
 					}
 				}
 			}
