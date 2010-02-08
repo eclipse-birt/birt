@@ -78,7 +78,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		IPreferencePageContainer
 {
 
-	private ItemModelManager itemModelManager = new ItemModelManager( );
+	protected ItemModelManager itemModelManager;
 	private DataSetDesignSession m_designSession = null;
 
 	protected boolean includeInputParameterPage = false;
@@ -102,7 +102,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	protected static final String OUTPUTCOLUMN_PAGE = "org.eclipse.birt.datasource.editor.dataset.outputcolumnpage"; //$NON-NLS-1$
 	protected static final String JOINT_DATA_SET_PAGE = "org.eclipse.birt.datasource.editor.dataset.jointDataSetPage"; //$NON-NLS-1$
 
-	private static final String DATA_SOURCE_SELECTION_PAGE = "org.eclipse.birt.datasource.editor.dataset.datasourceselectionpage"; //$NON-NLS-1$
+	protected static final String DATA_SOURCE_SELECTION_PAGE = "org.eclipse.birt.datasource.editor.dataset.datasourceselectionpage"; //$NON-NLS-1$
 
 	private static Logger logger = Logger.getLogger( DataSetEditor.class.getName( ) );
 	
@@ -137,7 +137,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		super( parentShell, ds );
 
 		ExternalUIUtil.validateDataSetHandle( ds );
-
+		initModelManager( );
+		
 		this.needToFocusOnOutput = needToFocusOnOutput;
 		// get the data source and dataset type from handle
 		String dataSourceType, dataSetType;
@@ -188,6 +189,11 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 
 		// start model manager to process the edit transaction
 		itemModelManager.start( ds );
+	}
+
+	protected void initModelManager( )
+	{
+		itemModelManager = new ItemModelManager( );
 	}
 
 	/**
@@ -932,15 +938,15 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	/**
 	 * Helper class which is a itemModel manager.
 	 */
-	private static class ItemModelManager implements Listener
+	protected static class ItemModelManager implements Listener
 	{
 
-		private DataSetHandle ds = null;
-		private boolean itemModelChanged = true;
-		private boolean linkedParameterChanged = true;
-		private DataSetViewData[] savedItemModel = null;
-		private String savedQueryText = null;
-		private ClassLoader oldContextLoader = null;
+		protected DataSetHandle ds = null;
+		protected boolean itemModelChanged = true;
+		protected boolean linkedParameterChanged = true;
+		protected DataSetViewData[] savedItemModel = null;
+		protected String savedQueryText = null;
+		protected ClassLoader oldContextLoader = null;
 
 		/**
 		 * Start action
@@ -970,7 +976,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		 * 
 		 * @param dataSet
 		 */
-		private void setContextLoader( DataSetHandle dataSet )
+		protected void setContextLoader( DataSetHandle dataSet )
 		{
 			// set context class loader
 			oldContextLoader = Thread.currentThread( ).getContextClassLoader( );
@@ -1016,7 +1022,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			}
 			//Restore old context loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
-			ds.removeListener( this );
+			if ( ds != null )
+				ds.removeListener( this );
 		}
 
 		/*
@@ -1085,7 +1092,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 
 	}
 
-	private static Set<String> getInternalPageNames( )
+	protected static Set<String> getInternalPageNames( )
 	{
 		Set<String> result = new HashSet<String>( );
 

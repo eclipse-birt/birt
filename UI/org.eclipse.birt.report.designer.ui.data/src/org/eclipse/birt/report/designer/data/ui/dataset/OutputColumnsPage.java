@@ -94,13 +94,13 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	};
 
 	protected static String[] dialogLabels = new String[]{
-		Messages.getString( "dataset.editor.inputDialog.name" ),//$NON-NLS-1$
-		Messages.getString( "dataset.editor.inputDialog.type" ),//$NON-NLS-1$
-		Messages.getString( "dataset.editor.inputDialog.alias" ), //$NON-NLS-1$
-		Messages.getString( "dataset.editor.inputDialog.displayName" ), //$NON-NLS-1$
-		Messages.getString( "dataset.editor.inputDialog.displayNameKey" ) //$NON-NLS-1$
-};
-
+			Messages.getString( "dataset.editor.inputDialog.name" ),//$NON-NLS-1$
+			Messages.getString( "dataset.editor.inputDialog.type" ),//$NON-NLS-1$
+			Messages.getString( "dataset.editor.inputDialog.alias" ), //$NON-NLS-1$
+			Messages.getString( "dataset.editor.inputDialog.displayName" ), //$NON-NLS-1$
+			Messages.getString( "dataset.editor.inputDialog.displayNameKey" ) //$NON-NLS-1$
+	};
+	
 	protected static String[] cellProperties = new String[]{
 			"name", "dataTypeDisplayName", "alias", "realDisplayName", "displayNameKey"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
@@ -218,7 +218,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		viewer.getViewer( ).getTable( ).select( 0 );
 	}
 
-	private void setPageProperties( )
+	protected void setPageProperties( )
 	{
 		viewer.getNewButton( )
 				.setEnabled( viewer.getViewer( ).getInput( ) != null

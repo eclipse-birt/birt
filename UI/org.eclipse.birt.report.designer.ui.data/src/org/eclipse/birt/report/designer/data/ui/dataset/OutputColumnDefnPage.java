@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -1047,6 +1048,26 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				columnHint.setProperty( ColumnHint.HELP_TEXT_MEMBER, helpText );
 		}
 
+		public Object getACLExpression( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.getACLExpression( );
+			else
+				return columnHint.getExpressionProperty( ColumnHint.ACL_EXPRESSION_MEMBER );
+
+		}
+
+		public void setACLExpression( Expression expr )
+				throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setExpressionProperty( ColumnHint.ACL_EXPRESSION_MEMBER,
+						expr );
+			else
+				columnHint.setExpressionProperty( ColumnHint.ACL_EXPRESSION_MEMBER,
+						expr );
+		}
+		
 		public void setProperty( Object property, Object value )
 		{
 			if ( property.equals( NAME ) )

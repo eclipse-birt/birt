@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 import java.sql.Types;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 
@@ -48,6 +49,8 @@ public class DataSetViewData
 	private transient String displayNameKey = null;
 
 	private transient String analysis = null;
+	
+	private transient ExpressionHandle aclExpr = null;
 
 	/**
 	 * @return the dataType.
@@ -304,5 +307,15 @@ public class DataSetViewData
 	public String getAnalysis( )
 	{
 		return analysis;
+	}
+
+	public void setACLExpression( ExpressionHandle accessExpr )
+	{
+		this.aclExpr = accessExpr;
+	}
+
+	public ExpressionHandle getACLExpression( )
+	{
+		return aclExpr;
 	}
 }

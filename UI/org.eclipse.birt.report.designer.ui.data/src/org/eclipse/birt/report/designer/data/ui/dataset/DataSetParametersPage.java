@@ -109,7 +109,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	private static String DEFAULT_MESSAGE = Messages.getString( "dataset.editor.parameters" ); //$NON-NLS-1$
 	private static String NONE_DEFAULT_VALUE = Messages.getString( "DataSetParametersPage.default.None" );//$NON-NLS-1$
 	private static String UNLINKED_REPORT_PARAM = Messages.getString( "DataSetParametersPage.reportParam.None" );//$NON-NLS-1$
-	private static final char RENAME_SEPARATOR = '_'; //$NON-NLS-1$
+	private static final char RENAME_SEPARATOR = '_';
 	private static final String PARAM_PREFIX = "param" + RENAME_SEPARATOR; //$NON-NLS-1$
 
 	/**

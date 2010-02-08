@@ -217,7 +217,10 @@ public final class DataSetProvider
 			ColumnHintHandle hint = findColumnHint( dataSetHandle,
 					items[i].getName( ) );
 			if ( hint != null )
+			{
 				items[i].setAnalysis( hint.getAnalysis( ) );
+				items[i].setACLExpression( hint.getACLExpression( ) );
+			}
 		}
 		updateModel( dataSetHandle, items );
 		return items;
@@ -249,7 +252,10 @@ public final class DataSetProvider
 			ColumnHintHandle hint = findColumnHint( dataSetHandle,
 					items[i].getName( ) );
 			if ( hint != null )
+			{
 				items[i].setAnalysis( hint.getAnalysis( ) );
+				items[i].setACLExpression( hint.getACLExpression( ) );
+			}
 		}
 		return items;
 	}
@@ -754,6 +760,7 @@ public final class DataSetProvider
 						columns[n].setAlias( hint.getAlias( ) );
 						columns[n].setHelpText( hint.getHelpText( ) );
 						columns[n].setAnalysis( hint.getAnalysis( ) );
+						columns[n].setACLExpression( hint.getACLExpression( ) );
 						break;
 					}
 				}

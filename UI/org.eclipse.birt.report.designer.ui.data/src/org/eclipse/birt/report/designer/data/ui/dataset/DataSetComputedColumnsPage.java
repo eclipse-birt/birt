@@ -746,7 +746,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		while ( iter.hasNext( ) )
 		{
 			ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
-			if ( computedColumn.getName( ).equals( hint.getAlias( ) ) )
+			if ( !computedColumn.getName( ).equals( hint.getColumnName( ) )
+					&& computedColumn.getName( ).equals( hint.getAlias( ) ) )
 			{
 				getContainer( ).setMessage( Messages.getFormattedString( "dataset.editor.error.computedColumnNameAlreadyUsed", new Object[]{computedColumn.getName( )} ), IMessageProvider.ERROR ); //$NON-NLS-1$
 				return false;

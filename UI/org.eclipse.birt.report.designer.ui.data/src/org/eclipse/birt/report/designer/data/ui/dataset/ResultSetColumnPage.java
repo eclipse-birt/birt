@@ -506,10 +506,7 @@ public class ResultSetColumnPage extends Composite
 							model.columnName );
 					columnHintHandle = (ColumnHintHandle) columnHintPropertyHandle.addItem( columnHint );
 				}
-				columnHintHandle.setAnalysis( model.analysis );
-				columnHintHandle.setAlias( model.alias );
-				columnHintHandle.setDisplayName( model.displayName );
-				columnHintHandle.setHelpText( model.helpText );
+				updateColumnHintProperties( model, columnHintHandle );
 			}
 
 		}
@@ -517,6 +514,15 @@ public class ResultSetColumnPage extends Composite
 		{
 			ExceptionHandler.handle( e );
 		}
+	}
+
+	protected void updateColumnHintProperties( ResultSetColumnModel model,
+			ColumnHintHandle columnHintHandle ) throws SemanticException
+	{
+		columnHintHandle.setAnalysis( model.analysis );
+		columnHintHandle.setAlias( model.alias );
+		columnHintHandle.setDisplayName( model.displayName );
+		columnHintHandle.setHelpText( model.helpText );
 	}
 
 	public boolean isEmpty( )
@@ -651,7 +657,7 @@ public class ResultSetColumnPage extends Composite
 		
 		private String columnName, alias, displayName;
 		private int dataType;
-		private String EMPTY_STRING = "";
+		private String EMPTY_STRING = ""; //$NON-NLS-1$
 
 		public ColumnInputDialog( Shell shell, String title, ResultSetColumnModel columnModel )
 		{
