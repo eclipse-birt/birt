@@ -65,17 +65,12 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -84,7 +79,6 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
-import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
@@ -110,8 +104,6 @@ import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -119,7 +111,6 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -142,6 +133,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
@@ -166,7 +158,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private final ShareBindingQueryHelper fShareBindingQueryHelper = new ShareBindingQueryHelper( );
 
 	static final String OPTION_NONE = Messages.getString( "ReportDataServiceProvider.Option.None" ); //$NON-NLS-1$
-
+	
+	ChartReportItemUIFactory uiFactory = ChartReportItemUIFactory.instance( );
+	
+	DteAdapter dteAdapter = uiFactory.createDteAdapter( );
+	
+	protected Object sessionLock = new Object();
 	/**
 	 * This flag indicates whether the error is found when fetching data. This
 	 * is to help reduce invalid query.
@@ -183,7 +180,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
 			.createExpressionCodec( );
 
-	public ReportDataServiceProvider( ExtendedItemHandle itemHandle ) throws ChartException
+	public ReportDataServiceProvider( ExtendedItemHandle itemHandle )
 	{
 		super( );
 		this.itemHandle = itemHandle;
@@ -367,7 +364,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 	}
 
-	public final String[] getPreviewHeader( ) throws ChartException
+	@SuppressWarnings("static-access")
+	public final String[] getPreviewHeader( )
 	{
 		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
 		List<String> list = new ArrayList<String>( );
@@ -387,13 +385,37 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public final List<Object[]> getPreviewData( ) throws ChartException
 	{
-		if ( isSharedBinding( ) || isInheritColumnsGroups( ) )
+		synchronized ( sessionLock )
 		{
-			return fShareBindingQueryHelper.getPreviewRowData( getPreviewHeadersInfo( ),
-					-1,
-					true );
+			if ( engineTask != null )
+			{
+				try
+				{
+					engineTask.run( );
+				}
+				catch ( EngineException e )
+				{
+					throw new ChartException( ChartReportItemUIActivator.ID,
+							ChartException.DATA_BINDING,
+							e );
+				}
+			}
+
+			List<Object[]> values = null;
+			if ( isSharedBinding( ) || isInheritColumnsGroups( ) )
+			{
+				values = fShareBindingQueryHelper.getPreviewRowData( getPreviewHeadersInfo( ),
+						-1,
+						true );
+			}
+			else
+			{
+				values = getPreviewRowData( getPreviewHeader( false ), -1, true );
+			}
+			
+			dataSetReference = ChartItemUtil.getBindingDataSet( itemHandle );
+			return values;
 		}
-		return getPreviewRowData( getPreviewHeader( false ), -1, true );
 	}
 
 	private void removeIndirectRefOfAggregates(
@@ -419,6 +441,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @throws BirtException
 	 */
+	@SuppressWarnings("unchecked")
 	private boolean isCommonBinding( ComputedColumnHandle cch,
 			Map<String, ComputedColumnHandle> bindingMap ) throws BirtException
 	{
@@ -449,6 +472,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
+	@SuppressWarnings("static-access")
 	public final ColumnBindingInfo[] getPreviewHeadersInfo( )
 			throws ChartException
 	{
@@ -581,43 +605,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				itemHandle.getModuleHandle( ) );
 		Thread.currentThread( ).setContextClassLoader( newContextLoader );
 
-		ReportEngine engine = null;
-		DummyEngineTask engineTask = null;
-		DataRequestSession session = null;
 		try
 		{
-			int maxRow = getMaxRow( );
-			if ( isReportDesignHandle( ) )
-			{
-				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
-				engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
-						itemHandle.getModuleHandle( ) );
-				session = prepareDataRequestSession( engineTask, maxRow, false );
-				engineTask.run( );
-			}
-			else
-			{
-				session = prepareDataRequestSession( maxRow, false );
-			}
-
 			QueryDefinition queryDefn = new QueryDefinition( );
-			queryDefn.setMaxRows( maxRow );
+			queryDefn.setMaxRows( getMaxRow( ) );
 			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
 			
-			handleGroup( queryDefn, itemHandle, session.getModelAdaptor( ) );
+			setQueryDefinitionWithDataSet( itemHandle, queryDefn );
 			
-			// Iterate parameter bindings to check if its expression is a
-			// explicit
-			// value, otherwise use default value of parameter as its
-			// expression.
-			resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
-
-			Iterator<FilterConditionHandle> filtersIterator = getFiltersIterator( );
-			IQueryResults actualResultSet = session.executeQuery( queryDefn,
-					null,
-					filtersIterator,
-					ChartReportItemUtil.getColumnDataBindings( itemHandle, true ) );
+			IQueryResults actualResultSet = executeDataSetQuery( queryDefn );
 			if ( actualResultSet != null )
 			{
 				String[] expressions = bindingNames;
@@ -660,19 +656,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
-
-			if ( engine == null && session != null )
-			{
-				session.shutdown( );
-			}
-			if ( engineTask != null )
-			{
-				engineTask.close( );
-			}
-			if ( engine != null )
-			{
-				engine.destroy( );
-			}
 		}
 		return dataList;
 	}
@@ -690,6 +673,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @param reportItemHandle
 	 *            the item handle contains groups.
 	 */
+	@SuppressWarnings({
+			"static-access", "unchecked"
+	})
 	private void handleGroup( QueryDefinition queryDefn,
 			ExtendedItemHandle reportItemHandle, IModelAdapter modelAdapter )
 	{
@@ -885,6 +871,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	private void clearBindings( ) throws SemanticException
 	{
 		clearProperty( itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP ) );
@@ -954,7 +941,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	private List<ComputedColumn> generateComputedColumns( CubeHandle cubeHandle )
-			throws SemanticException
 	{
 		if ( cubeHandle != null )
 		{
@@ -1006,7 +992,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	/**
 	 * The method is designed for overriding purpose. Subclasses can do some
 	 * additional processing on the QueryDefinition here (e.g. add sorts or
-	 * filters), before that it is going to be excuted.
+	 * filters), before that it is going to be executed.
 	 * 
 	 * @param queryDefn
 	 */
@@ -1167,6 +1153,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 *             instead.
 	 * 
 	 */
+	@SuppressWarnings("dep-ann")
 	public final Object[] getDataForColumns( String[] sExpressions,
 			int iMaxRecords, boolean byRow ) throws ChartException
 	{
@@ -1181,6 +1168,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				.getInt( ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
 	}
 
+	@SuppressWarnings("static-access")
 	public boolean isLivePreviewEnabled( )
 	{
 		return !isErrorFound
@@ -1284,6 +1272,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 *         type; if its value is <code>false</code> then means that data
 	 *         type is not found.
 	 */
+	@SuppressWarnings({
+			"static-access", "deprecation"
+	})
 	private Object[] findDataType( String expression,
 			ReportItemHandle itemHandle )
 	{
@@ -1438,38 +1429,25 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	/**
-	 * Returns APP context of query session.
+	 * Sets row limit to specified dte's session.
 	 * 
-	 * @param maxRow
-	 * @param isCudeMode
-	 * @return
+	 * @param session
+	 * @param rowLimit
+	 * @param isCubeMode
 	 */
-	private Map<String, Integer> getAppContext(  int maxRow, boolean isCudeMode )
+	private void setRowLimit(  DataRequestSession session, int rowLimit, boolean isCubeMode )
 	{
-		Map<String, Integer> appContext = new HashMap<String, Integer>( );
 		// Bugzilla #210225.
 		// If filter is set on report item handle of chart, here should not use
 		// data cache mode and get all valid data firstly, then set row limit on
 		// query(QueryDefinition.setMaxRows) to get required rows.
-		PropertyHandle filterProperty = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+		PropertyHandle filterProperty = itemHandle.getPropertyHandle( IExtendedItemModel.FILTER_PROP );
 		if ( filterProperty == null
 				|| filterProperty.getListValue( ) == null
 				|| filterProperty.getListValue( ).size( ) == 0 )
 		{
-			if ( !isCudeMode )
-			{
-				appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
-						Integer.valueOf( maxRow ) );
-			}
-			else
-			{
-				appContext.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
-						Integer.valueOf( maxRow ) );
-				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
-						Integer.valueOf( maxRow ) );
-			}
+			dteAdapter.setRowLimit( session, rowLimit, isCubeMode );
 		}
-		return appContext;
 	}
 	
 	/**
@@ -1498,92 +1476,97 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			List<String> columnExpression, int rowCount, boolean isStringType )
 			throws ChartException
 	{
-		if ( engineTask != null )
+		synchronized ( sessionLock )
 		{
+			if ( engineTask != null )
+			{
+				try
+				{
+					engineTask.run( );
+				}
+				catch ( EngineException e )
+				{
+					throw new ChartException( ChartReportItemUIActivator.ID,
+							ChartException.DATA_BINDING,
+							e );
+				}
+			}
+
+			// Set thread context class loader so Rhino can find POJOs in
+			// workspace
+			// projects
+			ClassLoader oldContextLoader = Thread.currentThread( )
+					.getContextClassLoader( );
+			ClassLoader parentLoader = oldContextLoader;
+			if ( parentLoader == null )
+				parentLoader = this.getClass( ).getClassLoader( );
+			ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader( parentLoader,
+					itemHandle.getModuleHandle( ) );
+			Thread.currentThread( ).setContextClassLoader( newContextLoader );
+
+			IDataRowExpressionEvaluator evaluator = null;
+
 			try
 			{
-				engineTask.run( );
+				CubeHandle cube = ChartCubeUtil.getBindingCube( itemHandle );
+				if ( cube != null )
+				{
+					// Create evaluator for data cube, even if in multiple view
+					evaluator = createCubeEvaluator( cube, cm );
+					dataSetReference = cube;
+				}
+				else
+				{
+					// Create evaluator for data set
+					if ( isSharedBinding( )
+							&& !ChartReportItemUtil.isOldChartUsingInternalGroup( itemHandle,
+									cm )
+							|| isInheritColumnsGroups( ) )
+					{
+						if ( isSharingChart( true ) )
+						{
+							evaluator = createBaseEvaluator( (ExtendedItemHandle) itemHandle.getDataBindingReference( ),
+									cm,
+									columnExpression );
+						}
+						else
+						{
+							evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
+									columnExpression );
+						}
+					}
+					else
+					{
+						evaluator = createBaseEvaluator( itemHandle,
+								cm,
+								columnExpression );
+
+					}
+
+					dataSetReference = ChartItemUtil.getBindingDataSet( itemHandle );
+				}
+				return evaluator;
 			}
-			catch ( EngineException e )
+			catch ( BirtException e )
+			{
+
+				throw new ChartException( ChartReportItemUIActivator.ID,
+						ChartException.DATA_BINDING,
+						e );
+			}
+			catch ( RuntimeException e )
 			{
 				throw new ChartException( ChartReportItemUIActivator.ID,
 						ChartException.DATA_BINDING,
 						e );
 			}
-		}
-
-		// Set thread context class loader so Rhino can find POJOs in workspace
-		// projects
-		ClassLoader oldContextLoader = Thread.currentThread( )
-				.getContextClassLoader( );
-		ClassLoader parentLoader = oldContextLoader;
-		if ( parentLoader == null )
-			parentLoader = this.getClass( ).getClassLoader( );
-		ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader( parentLoader,
-				itemHandle.getModuleHandle( ) );
-		Thread.currentThread( ).setContextClassLoader( newContextLoader );
-		
-		IDataRowExpressionEvaluator evaluator = null;
-
-		try
-		{
-			CubeHandle cube = ChartCubeUtil.getBindingCube( itemHandle );
-			if ( cube != null )
+			finally
 			{
-				// Create evaluator for data cube, even if in multiple view
-				evaluator = createCubeEvaluator( cube, cm );
-				dataSetReference = cube;
-			}
-			else
-			{
-				// Create evaluator for data set
-				if ( isSharedBinding( )
-						&& !ChartReportItemUtil.isOldChartUsingInternalGroup( itemHandle,
-								cm )
-						|| isInheritColumnsGroups( ) )
-				{
-					if ( isSharingChart( true ) )
-					{
-						evaluator = createBaseEvaluator( (ExtendedItemHandle) itemHandle.getDataBindingReference( ),
-								cm,
-								columnExpression );
-					}
-					else
-					{
-						evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
-								columnExpression );
-					}
-				}
-				else
-				{
-					evaluator = createBaseEvaluator( itemHandle,
-							cm,
-							columnExpression );
-					
-				}
-				
-				dataSetReference = ChartItemUtil.getBindingDataSet( itemHandle );
-			}
-			return evaluator;
-		}
-		catch ( BirtException e )
-		{
-			
-			throw new ChartException( ChartReportItemUIActivator.ID,
-					ChartException.DATA_BINDING,
-					e );
-		}
-		catch ( RuntimeException e )
-		{
-			throw new ChartException( ChartReportItemUIActivator.ID,
-					ChartException.DATA_BINDING,
-					e );
-		}
-		finally
-		{
-			// Restore old thread context class loader
-			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
+				// Restore old thread context class loader
+				Thread.currentThread( )
+						.setContextClassLoader( oldContextLoader );
 
+			}
 		}
 	}
 
@@ -1596,6 +1579,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @throws ChartException
 	 */
+	@SuppressWarnings("static-access")
 	private IDataRowExpressionEvaluator createBaseEvaluator(
 			ExtendedItemHandle handle, Chart cm, List<String> columnExpression )
 			throws ChartException
@@ -1604,50 +1588,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		BaseQueryHelper cbqh = new BaseQueryHelper( handle, cm );
 		QueryDefinition queryDefn = (QueryDefinition) cbqh.createBaseQuery( columnExpression );
 
-		// Iterate parameter bindings to check if its expression is a
-		// explicit
-		// value, otherwise use default value of parameter as its
-		// expression.
-		resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
-		
-		handleGroup( queryDefn, handle, session.getModelAdaptor( ) );
-		
-		processQueryDefinition( queryDefn );
-		
 		try
 		{
-			// Add bindings and filters from report handle.
-			Iterator<?> bindingIt = ChartReportItemUtil.getColumnDataBindings( handle, true );
-			while ( bindingIt != null && bindingIt.hasNext( ) )
-			{
-				Object computedBinding = bindingIt.next( );
-				IBinding binding = session.getModelAdaptor( ).adaptBinding( (ComputedColumnHandle) computedBinding );
-				if ( binding == null || queryDefn.getBindings( ).containsKey( binding.getBindingName( ) ) )
-				{
-					continue;
-				}
-
-				queryDefn.addBinding( binding );
-			}
-			Iterator<FilterConditionHandle> filtersIterator = getFiltersIterator( );
-			if ( filtersIterator != null )
-			{
-				while ( filtersIterator.hasNext( ) )
-				{
-					IFilterDefinition filter = session.getModelAdaptor( )
-							.adaptFilter( filtersIterator.next( ) );
-					queryDefn.addFilter( filter );
-				}
-			}
+			setQueryDefinitionWithDataSet( handle, queryDefn );
 			
-			DataSetHandle dataSetHandle = ChartItemUtil.getBindingDataSet( itemHandle );
-			if ( needDefineDataSet( dataSetHandle) )
-			{
-				defineDataSet( dataSetHandle, session, true, false );
-			}
+			processQueryDefinition( queryDefn );
 			
-			IPreparedQuery pq = session.prepare( queryDefn, getAppContext(getMaxRow(), false) );
-			actualResultSet = (IQueryResults) session.execute( pq, null, new ScriptContext( ) );
+			actualResultSet = executeDataSetQuery( queryDefn );
 
 			if ( actualResultSet != null )
 			{
@@ -1672,6 +1619,71 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param queryDefn
+	 * @return
+	 * @throws AdapterException
+	 * @throws BirtException
+	 */
+	private IQueryResults executeDataSetQuery( QueryDefinition queryDefn )
+			throws AdapterException, BirtException
+	{
+		IQueryResults actualResultSet;
+		DataSetHandle dataSetHandle = ChartItemUtil.getBindingDataSet( itemHandle );
+		if ( needDefineDataSet( dataSetHandle) )
+		{
+			dteAdapter.defineDataSet( dataSetHandle, session, true, false );
+		}
+		
+		dteAdapter.populateApplicationContext( dataSetHandle, session );
+		setRowLimit( session, getMaxRow(), false );
+		actualResultSet = dteAdapter.executeQuery( session, queryDefn );
+		return actualResultSet;
+	}
+
+	/**
+	 * @param handle
+	 * @param queryDefn
+	 * @throws AdapterException
+	 * @throws DataException
+	 */
+	@SuppressWarnings("static-access")
+	private void setQueryDefinitionWithDataSet( ExtendedItemHandle handle,
+			QueryDefinition queryDefn ) throws AdapterException, DataException
+	{
+		// Iterate parameter bindings to check if its expression is a
+		// explicit
+		// value, otherwise use default value of parameter as its
+		// expression.
+		resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
+		
+		// Add bindings and filters from report handle.
+		Iterator<?> bindingIt = ChartReportItemUtil.getColumnDataBindings( handle, true );
+		while ( bindingIt != null && bindingIt.hasNext( ) )
+		{
+			Object computedBinding = bindingIt.next( );
+			IBinding binding = session.getModelAdaptor( ).adaptBinding( (ComputedColumnHandle) computedBinding );
+			if ( binding == null || queryDefn.getBindings( ).containsKey( binding.getBindingName( ) ) )
+			{
+				continue;
+			}
+
+			queryDefn.addBinding( binding );
+		}
+		Iterator<FilterConditionHandle> filtersIterator = getFiltersIterator( );
+		if ( filtersIterator != null )
+		{
+			while ( filtersIterator.hasNext( ) )
+			{
+				IFilterDefinition filter = session.getModelAdaptor( )
+						.adaptFilter( filtersIterator.next( ) );
+				queryDefn.addFilter( filter );
+			}
+		}
+		
+		handleGroup( queryDefn, handle, session.getModelAdaptor( ) );
 	}
 
 	/**
@@ -1790,7 +1802,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// Get filters on container.
 			ReportItemHandle bindingHolder = ChartReportItemUtil.getBindingHolder( itemHandle );
 			ph = bindingHolder == null ? null
-					: bindingHolder.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+					: bindingHolder.getPropertyHandle( IExtendedItemModel.FILTER_PROP );
 			if ( ph != null )
 			{
 				Iterator<FilterConditionHandle> filterIterator = ph.iterator( );
@@ -1838,91 +1850,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 	
 	/**
-	 * @param dataSetName
-	 * @throws AdapterException
-	 * @throws BirtException
-	 */
-	private void defineDataSet( DataSetHandle handle,
-			DataRequestSession session, boolean keepDataSetFilter,
-			boolean disAllowAggregation ) throws AdapterException,
-			BirtException
-	{
-
-		if ( handle == null )
-		{
-			return;
-			// throw new AdapterException(
-			// ResourceConstants.DATASETHANDLE_NULL_ERROR );
-		}
-
-		DataSourceHandle dataSourceHandle = handle.getDataSource( );
-		if ( dataSourceHandle != null )
-		{
-			IBaseDataSourceDesign dsourceDesign = session.getModelAdaptor( )
-					.adaptDataSource( dataSourceHandle );
-			session.defineDataSource( dsourceDesign );
-		}
-		if ( handle instanceof JointDataSetHandle )
-		{
-			Iterator iter = ( (JointDataSetHandle) handle ).dataSetsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				DataSetHandle dsHandle = (DataSetHandle) iter.next( );
-				if ( dsHandle != null )
-				{
-					defineDataSet( dsHandle, session, true, false );
-				}
-			}
-
-		}
-		if ( handle instanceof DerivedDataSetHandle )
-		{
-			List inputDataSet = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
-			for ( int i = 0; i < inputDataSet.size( ); i++ )
-			{
-				defineDataSet( (DataSetHandle) inputDataSet.get( i ),
-						session,
-						keepDataSetFilter,
-						disAllowAggregation );
-			}
-		}
-
-		BaseDataSetDesign baseDS = session.getModelAdaptor( )
-				.adaptDataSet( handle );
-		
-		if (baseDS == null )
-		{
-			return;
-		}
-		
-		if ( !keepDataSetFilter )
-		{
-			if ( baseDS.getFilters( ) != null )
-				baseDS.getFilters( ).clear( );
-		}
-
-		if ( disAllowAggregation )
-		{
-			List computedColumns = baseDS.getComputedColumns( );
-			if ( computedColumns != null && computedColumns.size( ) != 0 )
-			{
-				for ( int i = 0; i < computedColumns.size( ); i++ )
-				{
-					IComputedColumn computedColumn = (IComputedColumn) computedColumns.get( i );
-					if ( computedColumn.getAggregateFunction( ) != null )
-					{
-						computedColumns.set( i,
-								new org.eclipse.birt.data.engine.api.querydefn.ComputedColumn( computedColumn.getName( ),
-										"null" ) );
-					}
-				}
-			}
-		}
-
-		session.defineDataSet( baseDS );
-	}
-	
-	/**
 	 * Creates the evaluator for Cube Live preview.
 	 * 
 	 * @param cube
@@ -1930,6 +1857,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @throws BirtException
 	 */
+	@SuppressWarnings("static-access")
 	private IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
 			final Chart cm )
 			throws BirtException
@@ -1966,22 +1894,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			session.defineCube( cube );
 		}
 		
+		dteAdapter.populateApplicationContext( cube, session );
 		// Always cube query returned
-		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd , getAppContext(getMaxRow(), true) );
-
+		setRowLimit( session, getMaxRow( ), true );
+		ICubeQueryResults cqr = dteAdapter.executeQuery( session,
+				(ICubeQueryDefinition) qd );
 		// Sharing case
 		if ( referredHandle != null && !isChartCubeReference )
 		{
-			return new SharedCubeResultSetEvaluator( (ICubeQueryResults) session.execute( ipcq,
-					null,
-					new ScriptContext( ) ),
-					qd,
-					cm );
+			return new SharedCubeResultSetEvaluator( cqr, qd, cm );
 		}
 
-		return new BIRTCubeResultSetEvaluator( (ICubeQueryResults) session.execute( ipcq,
-				null,
-				new ScriptContext( ) ) );
+		return new BIRTCubeResultSetEvaluator( cqr );
 	}
 
 	/**
@@ -1991,7 +1915,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws BirtException
 	 */
 	private DataRequestSession prepareDataRequestSession(
-			EngineTask engineTask, int maxRow, boolean isCudeMode )
+			EngineTask aEngineTask, int maxRow, boolean isCudeMode )
 			throws BirtException
 	{
 
@@ -2003,7 +1927,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// If filter is set on report item handle of chart, here should not use
 		// data cache mode and get all valid data firstly, then set row limit on
 		// query(QueryDefinition.setMaxRows) to get required rows.
-		PropertyHandle filterProperty = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+		PropertyHandle filterProperty = itemHandle.getPropertyHandle( IExtendedItemModel.FILTER_PROP );
 		if ( filterProperty == null
 				|| filterProperty.getListValue( ) == null
 				|| filterProperty.getListValue( ).size( ) == 0 )
@@ -2021,12 +1945,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
 						Integer.valueOf( maxRow ) );
 			}
-			engineTask.setAppContext( appContext );
+			aEngineTask.setAppContext( appContext );
 		}
 
-		DataRequestSession session = engineTask.getDataSession( );
+		DataRequestSession aSession = aEngineTask.getDataSession( );
 		
-		return session;
+		return aSession;
 	}
 
 	/**
@@ -2045,7 +1969,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// If filter is set on report item handle of chart, here should not use
 		// data cache mode and get all valid data firstly, then set row limit on
 		// query(QueryDefinition.setMaxRows) to get required rows.
-		PropertyHandle filterProperty = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+		PropertyHandle filterProperty = itemHandle.getPropertyHandle( IExtendedItemModel.FILTER_PROP );
 		if ( filterProperty == null
 				|| filterProperty.getListValue( ) == null
 				|| filterProperty.getListValue( ).size( ) == 0 )
@@ -2066,8 +1990,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			dsc.setAppContext( appContext );
 		}
 
-		DataRequestSession session = DataRequestSession.newSession( dsc );
-		return session;
+		DataRequestSession aSession = DataRequestSession.newSession( dsc );
+		return aSession;
 	}
 
 	/**
@@ -2152,6 +2076,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws DataException
 		 * @throws DataException
 		 */
+		@SuppressWarnings("static-access")
 		protected void addValueSeriesAggregateBindingForGrouping(
 				BaseQueryDefinition query,
 				EList<SeriesDefinition> seriesDefinitions,
@@ -2380,7 +2305,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	class ShareBindingQueryHelper
 	{
 
-		protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+		protected final ExpressionCodec sbqhExprCodec = ChartModelHelper.instance( )
 				.createExpressionCodec( );
 
 		/**
@@ -2577,6 +2502,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws DataException
 		 * @throws ChartException
 		 */
+		@SuppressWarnings("static-access")
 		private IDataRowExpressionEvaluator createShareBindingEvaluator(
 				Chart cm, List<String> columnExpression )
 				throws BirtException,
@@ -2622,14 +2548,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 			
-			DataSetHandle dataSetHandle = ChartItemUtil.getBindingDataSet( itemHandle );
-			if ( needDefineDataSet( dataSetHandle ) )
-			{
-				defineDataSet( dataSetHandle, session, true, false );
-			}
-			
-			IPreparedQuery pq = session.prepare( queryDefn, getAppContext( getMaxRow(), false ) );
-			actualResultSet = (IQueryResults) session.execute( pq, null, new ScriptContext( ) ); 
+			actualResultSet = executeSharedQuery( queryDefn ); 
 
 			if ( actualResultSet != null )
 			{
@@ -2668,6 +2587,28 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		/**
+		 * @param queryDefn
+		 * @return
+		 * @throws AdapterException
+		 * @throws BirtException
+		 */
+		private IQueryResults executeSharedQuery( QueryDefinition queryDefn )
+				throws AdapterException, BirtException
+		{
+			IQueryResults actualResultSet;
+			DataSetHandle dataSetHandle = ChartItemUtil.getBindingDataSet( itemHandle );
+			if ( needDefineDataSet( dataSetHandle ) )
+			{
+				dteAdapter.defineDataSet( dataSetHandle, session, true, false );
+			}
+			
+			dteAdapter.populateApplicationContext( dataSetHandle, session );
+			setRowLimit( session, getMaxRow(), false );
+			actualResultSet = dteAdapter.executeQuery( session, queryDefn );
+			return actualResultSet;
+		}
+
+		/**
 		 * Add custom expressions of chart to query.
 		 * 
 		 * @param queryDefn
@@ -2699,12 +2640,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				if ( expr.length( ) > 0 &&
 						!bindingExprsMap.containsKey( expr ) )
 				{
-					exprCodec.decode( expr );
+					sbqhExprCodec.decode( expr );
 					String name = StructureFactory.newComputedColumn( itemHandle,
-							ChartUtil.escapeSpecialCharacters( exprCodec.getExpression( ) ) )
+							ChartUtil.escapeSpecialCharacters( sbqhExprCodec.getExpression( ) ) )
 							.getName( );
 					queryDefn.addBinding( new Binding( name,
-							ChartReportItemUtil.adaptExpression( exprCodec,
+							ChartReportItemUtil.adaptExpression( sbqhExprCodec,
 									session.getModelAdaptor( ),
 									false ) ) );
 
@@ -2719,6 +2660,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws ChartException
 		 * @since BIRT 2.3
 		 */
+		@SuppressWarnings("static-access")
 		private final ColumnBindingInfo[] getPreviewHeadersInfo(
 				List<ComputedColumnHandle> columnList ) throws ChartException
 		{
@@ -2859,26 +2801,26 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * Returns correct shared table handle when chart is sharing table's
 		 * query.
 		 * 
-		 * @param itemHandle
+		 * @param aItemHandle
 		 * @return
 		 */
 		private ListingHandle getSharedListingHandle(
-				ReportItemHandle itemHandle )
+				ReportItemHandle aItemHandle )
 		{
-			if ( itemHandle instanceof ListingHandle )
+			if ( aItemHandle instanceof ListingHandle )
 			{
-				return (ListingHandle) itemHandle;
+				return (ListingHandle) aItemHandle;
 			}
 
-			ReportItemHandle handle = itemHandle.getDataBindingReference( );
+			ReportItemHandle handle = aItemHandle.getDataBindingReference( );
 			if ( handle != null )
 			{
 				return getSharedListingHandle( handle );
 			}
 
-			if ( itemHandle.getContainer( ) instanceof MultiViewsHandle )
+			if ( aItemHandle.getContainer( ) instanceof MultiViewsHandle )
 			{
-				return getSharedListingHandle( (ReportItemHandle) itemHandle.getContainer( )
+				return getSharedListingHandle( (ReportItemHandle) aItemHandle.getContainer( )
 						.getContainer( ) );
 			}
 
@@ -2912,31 +2854,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					itemHandle.getModuleHandle( ) );
 			Thread.currentThread( ).setContextClassLoader( newContextLoader );
 
-			ReportEngine engine = null;
-			DummyEngineTask engineTask = null;
-			DataRequestSession session = null;
 			try
 			{
-				int maxRow = getMaxRow( );
-				if ( isReportDesignHandle( ) )
-				{
-					engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
-					engineTask = new DummyEngineTask( engine,
-							new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
-							itemHandle.getModuleHandle( ) );
-					session = prepareDataRequestSession( engineTask,
-							maxRow,
-							false );
-					engineTask.run( );
-				}
-				else
-				{
-					session = prepareDataRequestSession( maxRow, false );
-				}
-
 				// Create query definition.
 				QueryDefinition queryDefn = new QueryDefinition( );
-				queryDefn.setMaxRows( maxRow );
+				queryDefn.setMaxRows( getMaxRow( ) );
 
 				// Binding columns, aggregates, filters and sorts.
 				List<String> columns = generateShareBindingsWithTable( headers,
@@ -2944,10 +2866,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						session,
 						new HashMap<String, String>( ) );
 
-				IQueryResults actualResultSet = session.executeQuery( queryDefn,
-						null,
-						getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
-						null );
+				// Add filters from report handle.
+				Iterator<?> filtersIterator = getPropertyIterator( itemHandle.getPropertyHandle( IExtendedItemModel.FILTER_PROP ) );
+				if ( filtersIterator != null )
+				{
+					while ( filtersIterator.hasNext( ) )
+					{
+						IFilterDefinition filter = session.getModelAdaptor( )
+								.adaptFilter( (FilterConditionHandle) filtersIterator.next( ) );
+						queryDefn.addFilter( filter );
+					}
+				}
+
+				IQueryResults actualResultSet = executeSharedQuery( queryDefn );
 
 				if ( actualResultSet != null )
 				{
@@ -2991,19 +2922,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				// Restore old thread context class loader
 				Thread.currentThread( )
 						.setContextClassLoader( oldContextLoader );
-				
-				if ( engine == null && session != null )
-				{
-					session.shutdown( );
-				}
-				if ( engineTask != null )
-				{
-					engineTask.close( );
-				}
-				if ( engine != null )
-				{
-					engine.destroy( );
-				}
 			}
 			return dataList;
 		}
@@ -3013,7 +2931,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * 
 		 * @param headers
 		 * @param queryDefn
-		 * @param session
+		 * @param aSession
 		 * @param bindingExprsMap
 		 * @return
 		 * @throws AdapterException
@@ -3021,7 +2939,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 */
 		private List<String> generateShareBindingsWithTable(
 				ColumnBindingInfo[] headers, QueryDefinition queryDefn,
-				DataRequestSession session, Map<String, String> bindingExprsMap )
+				DataRequestSession aSession, Map<String, String> bindingExprsMap )
 				throws AdapterException, DataException
 		{
 			List<String> columns = new ArrayList<String>( );
@@ -3033,7 +2951,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		
 			queryDefn.setDataSetName( reportItemHandle.getDataSet( )
 					.getQualifiedName( ) );
-			IModelAdapter modelAdapter = session.getModelAdaptor( );
+			IModelAdapter modelAdapter = aSession.getModelAdaptor( );
 
 			for ( int i = 0; i < headers.length; i++ )
 			{
@@ -3092,6 +3010,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(java.lang.String,
 	 *      java.lang.Object)
 	 */
+	@SuppressWarnings("static-access")
 	public boolean update( String type, Object value )
 	{
 		boolean isUpdated = false;
@@ -3258,6 +3177,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return property != null && property.isSet( );
 	}
 	
+	@SuppressWarnings("static-access")
 	boolean isInheritColumnsOnly( )
 	{
 		return itemHandle.getDataSet( ) == null
@@ -3265,6 +3185,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				&& context.isInheritColumnsOnly( );
 	}
 
+	@SuppressWarnings("static-access")
 	boolean isInheritColumnsGroups( )
 	{
 		return itemHandle.getDataSet( ) == null
@@ -3450,6 +3371,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 *            a chart item.
 	 * @return
 	 */
+	@SuppressWarnings("static-access")
 	boolean isSharingChart( boolean isRecursive )
 	{
 		boolean isShare = isSharedBinding( );
@@ -3469,6 +3391,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @param target
 	 * @since 2.5.1
 	 */
+	@SuppressWarnings("static-access")
 	protected void copySeriesDefinition( Object target )
 	{
 		Chart targetCM = context.getModel( );
