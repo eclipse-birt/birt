@@ -3238,6 +3238,7 @@ Element.TabularCube.autoKey=Automatischer Primärschlüssel
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=Hierarchien
+Element.TabularDimension.internalDimensionRef=Internal dimension reference
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=Datensatz
@@ -3347,6 +3348,7 @@ Element.DataMart.slot.dataSources=Datenquellen
 Element.DataMart.slot.dataSets=Datensätze
 Element.DataMart.slot.cubes=Quader
 Element.DataMart.slot.parameters=Parameter
+Element.DataMart.slot.dimensions=Shared Dimensions
 Element.DataMart.enableACL=ACL aktivieren
 Element.DataMart.ACLExpression=Ausdruck 'ACL'
 

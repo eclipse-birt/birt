@@ -3238,6 +3238,7 @@ Element.TabularCube.autoKey=자동 기본 키
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=계층
+Element.TabularDimension.internalDimensionRef=Internal dimension reference
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=데이터 집합
@@ -3347,6 +3348,7 @@ Element.DataMart.slot.dataSources=데이터 원본
 Element.DataMart.slot.dataSets=데이터 집합
 Element.DataMart.slot.cubes=큐브
 Element.DataMart.slot.parameters=매개 변수
+Element.DataMart.slot.dimensions=Shared Dimensions
 Element.DataMart.enableACL=ACL 사용
 Element.DataMart.ACLExpression=ACL 식
 

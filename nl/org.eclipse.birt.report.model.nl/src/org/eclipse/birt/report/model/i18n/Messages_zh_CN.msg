@@ -3238,6 +3238,7 @@ Element.TabularCube.autoKey=自动主键
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=层次结构
+Element.TabularDimension.internalDimensionRef=Internal dimension reference
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=数据集
@@ -3347,6 +3348,7 @@ Element.DataMart.slot.dataSources=数据源
 Element.DataMart.slot.dataSets=数据集
 Element.DataMart.slot.cubes=多维数据集
 Element.DataMart.slot.parameters=参数
+Element.DataMart.slot.dimensions=Shared Dimensions
 Element.DataMart.enableACL=启用 ACL
 Element.DataMart.ACLExpression=ACL 表达式
 
