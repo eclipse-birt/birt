@@ -100,6 +100,8 @@ public class OlapExpressionUtil
 		String[] result = expr.split( "\\Q\"][\"\\E" );
 		result[0] = result[0].replaceAll( "\\Q[\"\\E", "" );
 		result[1] = result[1].replaceAll( "\\Q\"]\\E", "" );
+		if ( result.length > 2 )
+			result[2] = result[2].replaceAll( "\\Q\"]\\E", "" );
 		return result;
 	}
 	

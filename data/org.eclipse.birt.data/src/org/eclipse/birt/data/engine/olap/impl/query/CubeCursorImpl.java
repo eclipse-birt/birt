@@ -366,7 +366,13 @@ public class CubeCursorImpl implements ICubeCursor
 					{
 						DimensionCursor dimCursor = this.dimensionCursorMap.get( dimLevel );
 						if ( dimCursor != null )
-							result = dimCursor.getObject( dimLevel.getLevelName( ) );
+						{
+							if ( dimLevel.getAttrName( ) != null )
+								result = dimCursor.getObject( OlapExpressionUtil.getAttributeColumnName( dimLevel.getLevelName( ),
+										dimLevel.getAttrName( ) ) );
+							else
+								result = dimCursor.getObject( dimLevel.getLevelName( ) );
+						}
 						else
 							result = ScriptEvalUtil.evalExpr( expr,
 									cx.newContext( scope ),
