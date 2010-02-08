@@ -3576,7 +3576,7 @@
   	</Property>	  
     <Property displayNameID="Element.OdaCube.nativeName" name="nativeName" since="2.2" type="string"/>
   </Element>	
-  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Dimension" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Dimension" name="Dimension" nameSpace="cube" since="2.2" xmlName="dimension">
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Dimension" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Dimension" name="Dimension" nameSpace="dimension" since="2.2" xmlName="dimension">
   	<Property displayNameID="Element.Dimension.isTimeType" name="isTimeType" runtimeSettable="false" since="2.2" type="boolean">
   	  <Default>false</Default>
   	</Property>
@@ -3586,7 +3586,8 @@
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularDimension" extends="Dimension" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularDimension" name="TabularDimension" since="2.2" xmlName="tabular-dimension">
     <Property displayNameID="Element.TabularDimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
   	  <Type name="TabularHierarchy"/>
-  	</Property>	  
+  	</Property>
+  	<Property detailType="Dimension" displayNameID="Element.TabularDimension.internalDimensionRef" name="internalDimensionRef" runtimeSettable="false" since="2.5" type="elementRef" />	  
   </Element>  
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaDimension" extends="Dimension" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaDimension" name="OdaDimension" since="2.2" xmlName="oda-dimension">
     <Property displayNameID="Element.OdaDimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">

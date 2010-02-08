@@ -66,6 +66,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -157,9 +158,14 @@ public abstract class Module extends DesignElement
 	public static final int VARIABLE_ELEMENT_NAME_SPACE = 9;
 
 	/**
+	 * Identifier for the dimension element name space.
+	 */
+	public static final int DIMENSION_NAME_SPACE = 10;
+
+	/**
 	 * Number of defined name spaces.
 	 */
-	public static final int NAME_SPACE_COUNT = 10;
+	public static final int NAME_SPACE_COUNT = 11;
 
 	/**
 	 * The session that owns this module.
@@ -341,6 +347,7 @@ public abstract class Module extends DesignElement
 
 	/**
 	 * Finds a cube element by name in this module and the included modules.
+	 * Dimensions have their own namespaces. DO NOT call this method.
 	 * 
 	 * @param name
 	 *            the element name
@@ -350,6 +357,19 @@ public abstract class Module extends DesignElement
 	public final DesignElement findOLAPElement( String name )
 	{
 		return resolveNativeElement( name, CUBE_NAME_SPACE );
+	}
+
+	/**
+	 * Finds a OLAP dimension element by name in this module.
+	 * 
+	 * @param name
+	 *            the element name
+	 * @return the cube element, if found, otherwise null
+	 */
+
+	public final Dimension findDimension( String name )
+	{
+		return (Dimension) resolveNativeElement( name, DIMENSION_NAME_SPACE );
 	}
 
 	/**

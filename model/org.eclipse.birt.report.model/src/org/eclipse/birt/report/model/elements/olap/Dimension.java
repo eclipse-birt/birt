@@ -30,8 +30,8 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 /**
  * This class represents a Dimension element. Dimension contains a list of
  * hierarchy elements and a foreign key. Use the
- * {@link org.eclipse.birt.report.model.api.olap.DimensionHandle}class to
- * change the properties.
+ * {@link org.eclipse.birt.report.model.api.olap.DimensionHandle}class to change
+ * the properties.
  * 
  */
 
@@ -79,7 +79,9 @@ public abstract class Dimension extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 	public void apply( ElementVisitor visitor )
 	{
@@ -108,9 +110,19 @@ public abstract class Dimension extends ReferenceableElement
 				DEFAULT_HIERARCHY_PROP );
 		// if hierarchy is not set or resolved, or the hierarchy does not reside
 		// in this dimension, then return null
-		if ( hierarchy == null || hierarchy.getContainer( ) != this )
+		if ( hierarchy == null || !isValidHierarchy( hierarchy, module ) )
 			return null;
 		return hierarchy;
+	}
+
+	/**
+	 * @param hierarchy
+	 * @return
+	 */
+
+	protected boolean isValidHierarchy( DesignElement hierarchy, Module module )
+	{
+		return ( hierarchy.getContainer( ) == this );
 	}
 
 	/**
@@ -131,7 +143,8 @@ public abstract class Dimension extends ReferenceableElement
 	 */
 	public void setDefaultHierarchy( int index )
 	{
-		List hierarchies = getListProperty( getRoot( ), HIERARCHIES_PROP );
+		List hierarchies = (List) getLocalProperty( getRoot( ),
+				HIERARCHIES_PROP );
 		if ( hierarchies == null || hierarchies.isEmpty( ) )
 			return;
 		if ( index >= 0 && index < hierarchies.size( ) )
@@ -142,7 +155,9 @@ public abstract class Dimension extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#doClone(org.eclipse.birt.report.model.elements.strategy.CopyPolicy)
+	 * @see
+	 * org.eclipse.birt.report.model.core.ReferenceableElement#doClone(org.eclipse
+	 * .birt.report.model.elements.strategy.CopyPolicy)
 	 */
 	public Object doClone( CopyPolicy policy )
 			throws CloneNotSupportedException
@@ -199,7 +214,9 @@ public abstract class Dimension extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#getNameHelper()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContainer#getNameHelper
+	 * ()
 	 */
 	public INameHelper getNameHelper( )
 	{
@@ -209,7 +226,9 @@ public abstract class Dimension extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public void makeUniqueName( DesignElement element )
 	{
@@ -219,7 +238,9 @@ public abstract class Dimension extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#rename(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContainer#rename(org
+	 * .eclipse.birt.report.model.core.DesignElement)
 	 */
 	public void rename( DesignElement element )
 	{

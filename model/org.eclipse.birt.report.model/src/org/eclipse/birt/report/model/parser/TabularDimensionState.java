@@ -49,6 +49,19 @@ public class TabularDimensionState extends ReportElementState
 		super( handler, theContainer, prop );
 	}
 
+	/**
+	 * Constructs the data source state with the design parser handler, the
+	 * container element and the container slot of the data source.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 */
+
+	public TabularDimensionState( ModuleParserHandler handler, int slot )
+	{
+		super( handler, handler.getModule( ), slot);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

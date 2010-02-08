@@ -62,7 +62,7 @@ public abstract class CubeHandle extends ReportElementHandle
 	 */
 	public DimensionHandle getDimension( String dimensionName )
 	{
-		DesignElement dimension = module.findOLAPElement( dimensionName );
+		DesignElement dimension = module.findDimension( dimensionName );
 		if ( dimension instanceof Dimension
 				&& dimension.isContentOf( getElement( ) ) )
 			return (DimensionHandle) dimension.getHandle( module );

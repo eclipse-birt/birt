@@ -57,7 +57,7 @@ public class NameHelperTest extends BaseTestCase
 		assertNotNull( cube );
 
 		Dimension dimension = (Dimension) nameHelper.getNameSpace(
-				Module.CUBE_NAME_SPACE ).getElement( "testDimension" ); //$NON-NLS-1$
+				Module.DIMENSION_NAME_SPACE ).getElement( "testDimension" ); //$NON-NLS-1$
 		assertNotNull( dimension );
 
 		// find element with unique name in general name scope, such as level
@@ -81,8 +81,7 @@ public class NameHelperTest extends BaseTestCase
 		openDesign( FILE_NAME );
 
 		// generate a unique name for level if it has not
-		Dimension dimension = (Dimension) design
-				.findOLAPElement( "testDimension" ); //$NON-NLS-1$
+		Dimension dimension = design.findDimension( "testDimension" ); //$NON-NLS-1$
 		Level level = new TabularLevel( null );
 		dimension.makeUniqueName( level );
 		assertNotNull( level.getName( ) );
@@ -134,8 +133,7 @@ public class NameHelperTest extends BaseTestCase
 		assertEquals( refValue, design.getNameHelper( ).resolve(
 				refValue.getName( ),
 				(PropertyDefn) testExtended.getPropertyDefn( propName ), null ) );
-		Dimension dimension = (Dimension) design
-				.findOLAPElement( "testDimension" ); //$NON-NLS-1$
+		Dimension dimension = design.findDimension( "testDimension" ); //$NON-NLS-1$
 		assertEquals( refValue, dimension.getNameHelper( ).resolve(
 				refValue.getName( ),
 				(PropertyDefn) testExtended.getPropertyDefn( propName ), null ) );

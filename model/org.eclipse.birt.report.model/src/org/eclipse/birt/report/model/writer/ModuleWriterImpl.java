@@ -158,6 +158,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularLevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
@@ -2813,7 +2814,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			}
 			writer.endElement( );
 		}
-		
+
 	}
 
 	/**
@@ -3931,8 +3932,21 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	public void visitTabularDimension( TabularDimension obj )
 	{
 		writer.startElement( DesignSchemaConstants.TABULAR_DIMENSION_TAG );
-		super.visitTabularDimension( obj );
 
+		// if the shared dimension is enabled, should not write out hierarchies
+		// and levels.
+
+		if ( obj.getProperty( getModule( ),
+				ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP ) == null )
+		{
+			super.visitTabularDimension( obj );
+		}
+		else
+		{
+			super.visitDimension( obj );
+			property( obj,
+					ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP );
+		}
 		writer.endElement( );
 	}
 

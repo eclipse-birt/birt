@@ -32,6 +32,7 @@ class NameSpaceFactoryImpl
 	static final String THEME_NS_NAME = "theme"; //$NON-NLS-1$
 	static final String TEMPLATE_PARAMETER_DEFINITION_NS_NAME = "templateParameterDefinition"; //$NON-NLS-1$
 	static final String CUBE_NS_NAME = "cube"; //$NON-NLS-1$
+	static final String DIMENSION_NS_NAME = "dimension"; //$NON-NLS-1$
 	static final String VARIABLE_ELEMENT_NAME = "variableElement"; //$NON-NLS-1$
 
 	// namespace in dimension

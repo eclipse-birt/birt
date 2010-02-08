@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.util.XMLParserHandler;
  * 
  */
 
-class SlotState extends AbstractParseState
+public class SlotState extends AbstractParseState
 {
 
 	/**
@@ -52,7 +52,8 @@ class SlotState extends AbstractParseState
 	 *            the container slot number
 	 */
 
-	SlotState( ModuleParserHandler handler, DesignElement container, int slot )
+	protected SlotState( ModuleParserHandler handler, DesignElement container,
+			int slot )
 	{
 		this.handler = handler;
 		this.container = container;
