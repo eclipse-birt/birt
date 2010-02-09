@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 /**
  * Provides methods for style property values on the column. Currently, only
  * TableItem and GridItem have columns.
- *  
+ * 
  */
 
 public final class ColumnHelper
@@ -31,33 +31,48 @@ public final class ColumnHelper
 	 *            the report design
 	 * @param columnSlot
 	 *            the slot contains columns
-	 * @param columnNum
-	 *            the column number to search
+	 * @param columnIndex
+	 *            the 1-based column index
 	 * 
-	 * @return the index of a column.
+	 * @return the column at the specified position in the slot, or null if not
+	 *         found.
 	 */
 
 	public static TableColumn findColumn( Module module,
-			ContainerSlot columnSlot, int columnNum )
+			ContainerSlot columnSlot, int columnIndex )
 	{
-		assert columnNum > 0;
+		assert columnIndex > 0;
 
 		for ( int i = 0, index = 0; i < columnSlot.getCount( ); i++ )
 		{
 			TableColumn column = (TableColumn) ( columnSlot.getContent( i ) );
-			int repeat = column
-					.getIntProperty( module, ITableColumnModel.REPEAT_PROP );
 
-			// in default, repeat is one.
+			index += getColumnRepeat( module, column );
 
-			repeat = ( repeat == 0 ) ? 1 : repeat;
-
-			index += repeat;
-
-			if ( index >= columnNum )
+			if ( index >= columnIndex )
 				return column;
 		}
 
 		return null;
+	}
+	
+	/**
+	 * Gets the repeat times of the column.
+	 * 
+	 * @param module
+	 *            the module.
+	 * @param column
+	 *            the column.
+	 * @return the column length.
+	 */
+	private static int getColumnRepeat( Module module, TableColumn column )
+	{
+		int repeat = column.getIntProperty( module,
+				ITableColumnModel.REPEAT_PROP );
+
+		// in default, repeat is one.
+
+		repeat = ( repeat <= 0 ) ? 1 : repeat;
+		return repeat;
 	}
 }

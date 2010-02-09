@@ -321,7 +321,34 @@ public class SemanticError extends SemanticException
 
 	public static final String DESIGN_EXCEPTION_INCONSISTENT_DATA_GROUP = MessageConstants.SEMANTIC_ERROR_EXCEPTION_INCONSISTENT_DATA_GROUP;
 
-	
+	/**
+	 * Tries to compute table's width with no column defined.
+	 */
+	public static final String DESIGN_EXCEPTION_TABLE_NO_COLUMN_FOUND = MessageConstants.SEMANTIC_ERROR_TABLE_NO_COLUMN_FOUND;
+
+	/**
+	 * Tries to compute table's width which has columns with no width defined.
+	 */
+	public static final String DESIGN_EXCEPTION_TABLE_COLUMN_WITH_NO_WIDTH = MessageConstants.SEMANTIC_ERROR_TABLE_COLUMN_WITH_NO_WIDTH;
+
+	/**
+	 * Tries to compute table's width which contains multiple columns in both
+	 * absolute unit and relative unit other than percentage.
+	 */
+	public static final String DESIGN_EXCEPTION_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = MessageConstants.SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE;
+
+	/**
+	 * Tries to compute table's width which contains multiple columns in
+	 * different relative unit.
+	 */
+	public static final String DESIGN_EXCEPTION_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = MessageConstants.SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT;
+
+	/**
+	 * Tries to compute table's width which the sum of columns's width is
+	 * greater than or equal to 100%.
+	 */
+	public static final String DESIGN_EXCEPTION_TABLE_COLUMN_ILLEGAL_PERCENTAGE = MessageConstants.SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE;
+
 	/**
 	 * The constant for the semantic error.
 	 */

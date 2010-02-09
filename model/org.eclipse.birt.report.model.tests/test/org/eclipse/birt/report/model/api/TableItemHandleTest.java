@@ -58,6 +58,12 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>Results match with the expected.</td>
  * </tr>
  * 
+ * <tr>
+ * <td>{@link #testTableWidthCalculation()}</td>
+ * <td>Calculates multiple tables' width</td>
+ * <td>Results match with the expected.</td>
+ * </tr>
+ * 
  * </table>
  * 
  * @see TableItem
@@ -66,9 +72,11 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class TableItemHandleTest extends BaseTestCase
 {
 
-	private String fileName = "TableItemHandleTest.xml"; //$NON-NLS-1$
+	private static final String fileName = "TableItemHandleTest.xml"; //$NON-NLS-1$
 
-	private String fileCopyName = "TableItemHandleTest_1.xml";//$NON-NLS-1$
+	private static final String fileCopyName = "TableItemHandleTest_1.xml";//$NON-NLS-1$
+
+	private static final String tableWidthTestFileName = "TableItemHandleTest_2.xml";//$NON-NLS-1$
 
 	/*
 	 * @see TestCase#setUp()
@@ -616,4 +624,97 @@ public class TableItemHandleTest extends BaseTestCase
 		}
 	}
 
+	/**
+	 * Tests for table width calculation.
+	 */
+	public void testTableWidthCalculation( ) throws Exception
+	{
+		openDesign( tableWidthTestFileName );
+
+		checkWidthCalculation( "testTable1", "2in" ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkWidthCalculation( "testTable2", "2in" ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkWidthCalculation( "testTable3", "4cm" ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkWidthCalculation( "testTable4", "6px" ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkWidthCalculation( "testTable5" ); //$NON-NLS-1$
+		checkWidthCalculation( "testTable6", "4in" ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkCalculationException(
+				"testTable7", //$NON-NLS-1$
+				SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT );
+		checkCalculationException(
+				"testTable8", //$NON-NLS-1$
+				SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE );
+		checkCalculationException(
+				"testTable9", //$NON-NLS-1$
+				SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_ILLEGAL_PERCENTAGE );
+		checkCalculationException(
+				"testTable10", //$NON-NLS-1$
+				SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_WITH_NO_WIDTH );
+		checkCalculationException(
+				"testTable11", //$NON-NLS-1$
+				SemanticError.DESIGN_EXCEPTION_TABLE_NO_COLUMN_FOUND );	
+	}
+
+	/**
+	 * Checks the width of the table with given name before and after
+	 * calculated. Expects no change after calculated.
+	 * 
+	 * @param tableName
+	 *            the table name
+	 */
+	private void checkWidthCalculation( String tableName )
+			throws SemanticException
+	{
+		checkWidthCalculation( tableName, null );
+	}
+
+	/**
+	 * Checks the width of the table with given name before and after
+	 * calculated.
+	 * 
+	 * @param tableName
+	 *            the table name
+	 * @param expectedWidth
+	 *            the expected width after calculated.
+	 */
+	private void checkWidthCalculation( String tableName, String expectedWidth )
+			throws SemanticException
+	{
+		TableHandle table = (TableHandle) designHandle.findElement( tableName );
+		assertTrue( table.getWidth( ).getValue( ) instanceof DimensionValue );
+		DimensionValue oldWidth = (DimensionValue) table.getWidth( ).getValue( );
+		table.setWidthToFitColumns( );
+		if ( expectedWidth == null )
+		{
+			expectedWidth = oldWidth.toString( );
+		}
+		assertEquals( expectedWidth, table.getWidth( ).getValue( ).toString( ) );
+	}
+
+	/**
+	 * Checks the width of the table with given name before and after
+	 * calculated.
+	 * 
+	 * @param tableName
+	 *            the table name
+	 * @param isChanged
+	 *            the flag indicates if the table's width is expected to be
+	 *            changed after calculated.
+	 * @param expectedWidth
+	 *            the expected width after calculated
+	 */
+	private void checkCalculationException( String tableName,
+			String expectedErrorCode )
+	{
+		TableHandle table = (TableHandle) designHandle.findElement( tableName );
+		try
+		{
+			table.setWidthToFitColumns( );
+			fail( expectedErrorCode + " expected!" ); //$NON-NLS-1$
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals( expectedErrorCode, e.getErrorCode( ) );
+			System.out.println( e.getLocalizedMessage( ) );
+		}
+	}
 }

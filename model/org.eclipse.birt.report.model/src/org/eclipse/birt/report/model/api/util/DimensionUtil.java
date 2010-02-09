@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 public class DimensionUtil
 {
 
-	private final static String ILLEGAL_UNIT = "must be one of the absolute units(CM, IN, MM, PT)."; //$NON-NLS-1$
+	private final static String ILLEGAL_UNIT = "must be one of the absolute units(CM, IN, MM, PT, PC)."; //$NON-NLS-1$
 
 	/**
 	 * Conversion factor from inches to cm.
@@ -220,8 +220,7 @@ public class DimensionUtil
 
 	/**
 	 * Return if the given unit is an absolute unit or not. The following units
-	 * defined in <code>DesignChoiceConstants</code> are considered as
-	 * absolute:
+	 * defined in <code>DesignChoiceConstants</code> are considered as absolute:
 	 * <ul>
 	 * <li>UNITS_IN
 	 * <li>UNITS_CM
@@ -249,8 +248,7 @@ public class DimensionUtil
 
 	/**
 	 * Return if the given unit is a relative unit or not. The following units
-	 * defined in <code>DesignChoiceConstants</code> are considered as
-	 * relative:
+	 * defined in <code>DesignChoiceConstants</code> are considered as relative:
 	 * <ul>
 	 * <li>UNITS_EM
 	 * <li>UNITS_EX
@@ -340,8 +338,8 @@ public class DimensionUtil
 	 * of the absolute units(CM, IN, MM, PT, PC). The input dimension value must
 	 * be one of the following types:
 	 * <ul>
-	 * <li><code>String</code>. It must be a legal dimension value, such as
-	 * '10 em', '+3.5pt', '10%'.
+	 * <li><code>String</code>. It must be a legal dimension value, such as '10
+	 * em', '+3.5pt', '10%'.
 	 * <li><code>DimensionValue</code>
 	 * <li><code>DimensionHandle</code>
 	 * </ul>
@@ -376,9 +374,9 @@ public class DimensionUtil
 	 * IN, MM, PT, PC). The input dimension value must be one of the following
 	 * types:
 	 * <ul>
-	 * <li><code>String</code>. It must be a legal dimension value, measure
-	 * part and units part such as '10 em', '+3.5pt', '10%' or only measure
-	 * part, such as 10.12, 45, +4.
+	 * <li><code>String</code>. It must be a legal dimension value, measure part
+	 * and units part such as '10 em', '+3.5pt', '10%' or only measure part,
+	 * such as 10.12, 45, +4.
 	 * <li><code>DimensionValue</code>
 	 * <li><code>DimensionHandle</code>
 	 * </ul>
@@ -486,5 +484,44 @@ public class DimensionUtil
 			convertedValue = convertTo( measure, fromUnits, targetUnits );
 		return convertedValue.getMeasure( );
 
+	}
+
+	/**
+	 * Merges two dimension values. If these two dimension values are not in the
+	 * same unit, only dimension values in absolute units can be merged. The
+	 * unit of the merged result will be according to the first dimension value.
+	 * If one of them is null, the other value will be returned.
+	 * 
+	 * @param dimension1
+	 *            the first dimension value to merge
+	 * @param dimension2
+	 *            the second dimension value to merge
+	 * @return the merged dimension value, or null if these two dimension value
+	 *         cannot be merged or both of them are null.
+	 */
+	public static DimensionValue mergeDimension( DimensionValue dimension1,
+			DimensionValue dimension2 )
+	{
+		if ( dimension1 == null || dimension2 == null )
+		{
+			if ( dimension1 == null )
+			{
+				return dimension2;
+			}
+			return dimension1;
+		}
+		String unit = dimension1.getUnits( );
+		if ( unit.equalsIgnoreCase( dimension2.getUnits( ) ) )
+		{
+			return new DimensionValue( dimension1.getMeasure( )
+					+ dimension2.getMeasure( ), unit );
+		}
+		else if ( isAbsoluteUnit( unit )
+				&& isAbsoluteUnit( dimension2.getUnits( ) ) )
+		{
+			return mergeDimension( dimension1, convertTo( dimension2, null,
+					unit ) );
+		}
+		return null;
 	}
 }
