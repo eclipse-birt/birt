@@ -35,7 +35,7 @@ public class ColumnHandleTest extends BaseTestCase
 		for ( Iterator iter = table.getColumns( ).iterator( ); iter
 				.hasNext( ); )
 		{			
-			ColumnHandle column = iter.next( );
+			ColumnHandle column = (ColumnHandle)  iter.next( );
 			column.convertWidthToAbsoluteValue( );
 			assertEquals( "1in", column.getWidth( ).getValue( ).toString( ) );
 		}
@@ -46,7 +46,7 @@ public class ColumnHandleTest extends BaseTestCase
 		for ( Iterator iter = table.getColumns( ).iterator( ); iter
 				.hasNext( ); )
 		{
-			ColumnHandle column = iter.next( );
+			ColumnHandle column =  (ColumnHandle) iter.next( );
 			column.convertWidthToAbsoluteValue( );
 			assertEquals( "1in", column.getWidth( ).getValue( ).toString( ) );
 		}
