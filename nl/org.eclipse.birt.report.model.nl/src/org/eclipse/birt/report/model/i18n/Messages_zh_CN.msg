@@ -698,6 +698,10 @@ Choices.overflow.hidden=隐藏
 Choices.overflow.scroll=滚动
 Choices.overflow.auto=自动
 
+#88 HTMLGadgetContentType
+Choices.HTMLGadgetContentType.html=html
+Choices.HTMLGadgetContentType.url=url
+
 ###########################################################
 # Classes
 
@@ -2339,10 +2343,10 @@ Element.MultiViews=多个视图
 Element.VariableElement=变量
 Element.DataGroup=数据组
 Element.DerivedDataSet=衍生数据集
-Element.DataMart=Data Mart
-Element.DataMartDataSource=Data Mart 数据源
-Element.DataMartDataSet=Data Mart 数据集
-Element.DataMartCube=Data Mart 多维数据集
+Element.DataMart=Data Object
+Element.DataMartDataSource=Data Object Data Source
+Element.DataMartDataSet=Data Object Data Set
+Element.DataMartCube=Data Object Cube
 
 ###########################################################
 # Element property names

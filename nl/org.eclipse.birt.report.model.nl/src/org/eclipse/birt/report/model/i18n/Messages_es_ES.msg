@@ -698,6 +698,10 @@ Choices.overflow.hidden=Oculto
 Choices.overflow.scroll=Desplazar
 Choices.overflow.auto=Automático
 
+#88 HTMLGadgetContentType
+Choices.HTMLGadgetContentType.html=html
+Choices.HTMLGadgetContentType.url=url
+
 ###########################################################
 # Classes
 
@@ -2339,10 +2343,10 @@ Element.MultiViews=Vistas múltiples
 Element.VariableElement=Variable
 Element.DataGroup=Grupo de datos
 Element.DerivedDataSet=Conjunto de datos derivados
-Element.DataMart=Data Mart
-Element.DataMartDataSource=Fuente de datos de Data Mart
-Element.DataMartDataSet=Conjunto de datos de Data Mart
-Element.DataMartCube=Cubo de Data Mart
+Element.DataMart=Data Object
+Element.DataMartDataSource=Data Object Data Source
+Element.DataMartDataSet=Data Object Data Set
+Element.DataMartCube=Data Object Cube
 
 ###########################################################
 # Element property names
