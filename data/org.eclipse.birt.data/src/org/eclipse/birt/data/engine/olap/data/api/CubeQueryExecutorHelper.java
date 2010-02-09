@@ -399,6 +399,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			AggrMeasureFilterHelper filter = new AggrMeasureFilterHelper( cube,
 					resultSet );
 			cubePosFilters = filter.getCubePosFilters( aggrMeasureFilters );
+			if( cubePosFilters == null )
+			{
+				for ( int i = 0; i < resultSet.length; i++ )
+				{// clear all aggregation result sets to be empty
+					resultSet[i].clear( );
+				}
+				return;
+			}
 			recalculate = true;
 		}
 		
