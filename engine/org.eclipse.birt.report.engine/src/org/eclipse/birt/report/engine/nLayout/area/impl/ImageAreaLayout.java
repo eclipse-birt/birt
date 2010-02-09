@@ -629,7 +629,7 @@ public class ImageAreaLayout implements ILayout
 			{
 				area.setData( content.getData( ) );
 			}
-			
+
 			if ( content instanceof ObjectContent )
 			{
 				ObjectContent object = (ObjectContent) content;
@@ -673,6 +673,10 @@ public class ImageAreaLayout implements ILayout
 		private void processChartLegend( IImageContent imageContent,
 				IImageArea imageArea )
 		{
+			if ( null == intrinsic )
+			{
+				return;
+			}
 			Object imageMapObject = imageContent.getImageMap( );
 			boolean hasImageMap = ( imageMapObject != null )
 					&& ( imageMapObject instanceof String )
@@ -708,14 +712,14 @@ public class ImageAreaLayout implements ILayout
 				{
 					if ( attributes.size( ) > 0 )
 					{
-						int[] vertices = getVertices( attributes.get( "coords" ) );
-						if( vertices == null )
+						int[] area = getArea( attributes.get( "coords" ) );
+						if ( area == null )
 						{
 							return;
 						}
 						String url = attributes.get( "href" );
 						String targetWindow = attributes.get( "target" );
-						createImageMap( vertices, imageArea, url, targetWindow );
+						createImageMap( area, imageArea, url, targetWindow );
 					}
 				}
 				catch ( NumberFormatException e )
@@ -724,33 +728,8 @@ public class ImageAreaLayout implements ILayout
 				}
 			}
 		}
-		
-		
-		/**
-		 * Parse the image map position from a string which is of format "X1, Y1,
-		 * X2, Y2, ... Xn, Yn".
-		 * 
-		 * @param string
-		 *            the position string.
-		 * @return a array which contains the sequence of x, y coordinates.
-		 * 
-		 */
-		private int[] getVertices( String string )
-		{
-			String[] rawDatas = string.split( "," );
-			if ( rawDatas.length % 2 == 0 )
-			{
-				int[] area = new int[rawDatas.length];
-				for ( int i = 0; i < rawDatas.length; i++ )
-				{
-					area[i] = Integer.parseInt( rawDatas[i] );
-				}
-				return area;
-			}
-			return null;
-		}
 
-		private void createImageMap( int[] vertices, IImageArea imageArea,
+		private void createImageMap( int[] area, IImageArea imageArea,
 				String url, String targetWindow )
 		{
 			if ( url == null )
@@ -768,97 +747,106 @@ public class ImageAreaLayout implements ILayout
 			{
 				link.setHyperlink( url, targetWindow );
 			}
-			createImageMapContainer( vertices, link, imageArea );
+			area = getAbsoluteArea( area, imageArea );
+			createImageMapContainer( area[0], area[1], area[2], area[3], link );
 		}
 
 		/**
-		 * Creates an image map container, which is an empty container with an hyper
-		 * link.
+		 * Creates an image map container, which is an empty container with an
+		 * hyper link.
 		 * 
-		 * @param vertices
-		 *            the sequence of the peak point coordinate.
+		 * @param x
+		 *            x coordinate of lower left corner of the container.
+		 * @param y
+		 *            y coordinate of lower left corner of the container.
+		 * @param width
+		 *            width of the container.
+		 * @param height
+		 *            height of the container.
 		 * @param link
 		 *            destination of the hyperlink.
-		 * @param imageArea
-		 *            the image area.
 		 */
-		private void createImageMapContainer( int[] vertices, IHyperlinkAction link,
-				IImageArea imageArea )
+		private void createImageMapContainer( int x, int y, int width,
+				int height, IHyperlinkAction link )
 		{
-			vertices = getAbsoluteVertices( vertices, imageArea );
-			if ( "pdf".equalsIgnoreCase( context.getFormat( ) ) )
-			{
-				imageArea.addImageMap( vertices, link );
-			}
-			else
-			{
-				BlockContainerArea area = new BlockContainerArea( );
-				area.setAction( link );
-				area.setPosition( vertices[0], vertices[1] );
-				area.setWidth( vertices[4] - vertices[0] );
-				area.setHeight( vertices[5] - vertices[1] );
-				root.addChild( area );
-			}
+			// ReportContent reportContent = (ReportContent)
+			// image.getReportContent( );
+			// IContainerContent mapContent =
+			// reportContent.createContainerContent(
+			// );
+			// mapContent.setHyperlinkAction( link );
+			BlockContainerArea area = new BlockContainerArea( );
+			area.setAction( link );
+			area.setPosition( x, y );
+			area.setWidth( width );
+			area.setHeight( height );
+			root.addChild( area );
 		}
-		
+
 		/**
-		 * Calculates the absolute positions of image map when given the position of
-		 * image. The image map position is relative to the left up corner of the
-		 * image.
+		 * Calculates the absolute positions of image map when given the
+		 * position of image. The image map position is relative to the left up
+		 * corner of the image.
 		 * 
-		 * The argument and returned value are both 4 length integer area, the four
-		 * value of which are x, y of up left corner, width and height respectively.
+		 * The argument and returned value are both 4 length integer area, the
+		 * four value of which are x, y of up left corner, width and height
+		 * respectively.
 		 * 
-		 * @param vertex
-		 *            the vertex coordinates.
+		 * @param area
+		 *            rectangle area of a image map.
 		 * @param imageArea
 		 *            image area of the image in which the image map is.
 		 * @return absolute position of the image map.
 		 */
-		private int[] getAbsoluteVertices( int[] vertex, IImageArea imageArea )
+		private int[] getAbsoluteArea( int[] area, IImageArea imageArea )
 		{
-			int[] result = null;			
-			float ratioX =1.0f;
-			float ratioY =1.0f;
-			if ( intrinsic != null )
+			assert ( intrinsic != null );
+			for ( int i = 0; i < 4; )
 			{
-				int imageHeight = imageArea.getHeight( );
-				int imageWidth = imageArea.getWidth( );
-				int intrinsicWidth = intrinsic.getWidth( );
-				int intrinsicHeight = intrinsic.getHeight( );
-				ratioX = (float) imageWidth / (float) intrinsicWidth;
-				ratioY = (float) imageHeight / (float) intrinsicHeight;
+				area[i] = getTranslatedLengthX( area[i] );
+				i++;
+				area[i] = getTranslatedLengthY( area[i] );
+				i++;
 			}
+			int[] result = new int[4];
 			int imageX = imageArea.getX( );
 			int imageY = imageArea.getY( );
-			
-			if ( "pdf".equalsIgnoreCase( context.getFormat( ) ) )
-			{
-				result = new int[vertex.length];
-				for ( int i = 0; i < vertex.length; )
-				{
-					result[i] = imageX + (int) ( getTranslatedLengthX(vertex[i]) * ratioX );
-					i++;
-					result[i] = imageY + (int) ( getTranslatedLengthY(vertex[i]) * ratioY );
-					i++;
-				}
-			}
-			else
-			{
-				for ( int i = 0; i < 4; )
-				{
-					vertex[i] = getTranslatedLengthX( vertex[i] );
-					i++;
-					vertex[i] = getTranslatedLengthY( vertex[i] );
-					i++;
-				}
-				result = new int[4];	
-				result[0] = imageX + (int) ( vertex[0] * ratioX );
-				result[1] = imageY + (int) ( vertex[1] * ratioY );
-				result[2] = (int) ( vertex[2] * ratioX );
-				result[3] = (int) ( vertex[3] * ratioY );
-			}
+			int imageHeight = imageArea.getHeight( );
+			int imageWidth = imageArea.getWidth( );
+			int intrinsicWidth = intrinsic.getWidth( );
+			int intrinsicHeight = intrinsic.getHeight( );
+			float ratio = (float) imageWidth / (float) intrinsicWidth;
+			result[0] = imageX + (int) ( area[0] * ratio );
+			result[2] = (int) ( area[2] * ratio );
+			ratio = (float) imageHeight / (float) intrinsicHeight;
+			result[1] = imageY + (int) ( area[1] * ratio );
+			result[3] = (int) ( area[3] * ratio );
 			return result;
+		}
+
+		/**
+		 * Parse the image map position from a string which is of format "x1,
+		 * y1, x2, y2".
+		 * 
+		 * @param string
+		 *            the position string.
+		 * @return a array which contains the x, y coordinate of left up corner,
+		 *         width and height in sequence.
+		 * 
+		 */
+		private int[] getArea( String string )
+		{
+			String[] rawDatas = string.split( "," );
+			if ( rawDatas.length == 8 )
+			{
+				int[] area = new int[4];
+				area[0] = Integer.parseInt( rawDatas[0] );
+				area[1] = Integer.parseInt( rawDatas[1] );
+				area[2] = Integer.parseInt( rawDatas[4] ) - area[0];
+				area[3] = Integer.parseInt( rawDatas[5] ) - area[1];
+				return area;
+			}
+			return null;
 		}
 
 		private int getTranslatedLengthX( int length )
