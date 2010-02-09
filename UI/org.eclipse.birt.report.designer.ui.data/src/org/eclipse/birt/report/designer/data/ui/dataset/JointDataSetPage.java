@@ -1292,17 +1292,20 @@ public class JointDataSetPage extends WizardPage
 						&& leftColumnList.getInput( ) instanceof DataSetViewData[] )
 				{
 					DataSetViewData[] dataSetItems = (DataSetViewData[]) leftColumnList.getInput( );
-					String rowExpr;
-					for ( int i = 0; i < dataSetItems.length; i++ )
+					if ( dataSetItems.length > 0 )
 					{
-						rowExpr = ExpressionUtil.createJSDataSetRowExpression( dataSetItems[i].getName( ) );
-						if ( rowExpr.equals( expression ) )
+						String rowExpr;
+						for ( int i = 0; i < dataSetItems.length; i++ )
 						{
-							selectionIndex = i;
-							break;
+							rowExpr = ExpressionUtil.createJSDataSetRowExpression( dataSetItems[i].getName( ) );
+							if ( rowExpr.equals( expression ) )
+							{
+								selectionIndex = i;
+								break;
+							}
 						}
+						leftColumnList.setSelection( new StructuredSelection( dataSetItems[selectionIndex] ) );
 					}
-					leftColumnList.setSelection( new StructuredSelection( dataSetItems[selectionIndex] ) );
 				}
 			}
 			else
@@ -1321,17 +1324,20 @@ public class JointDataSetPage extends WizardPage
 						&& rightColumnList.getInput( ) instanceof DataSetViewData[] )
 				{
 					DataSetViewData[] dataSetItems = (DataSetViewData[]) rightColumnList.getInput( );
-					String rowExpr;
-					for ( int i = 0; i < dataSetItems.length; i++ )
+					if ( dataSetItems.length > 0 )
 					{
-						rowExpr = ExpressionUtil.createJSDataSetRowExpression( dataSetItems[i].getName( ) );
-						if ( rowExpr.equals( expression ) )
+						String rowExpr;
+						for ( int i = 0; i < dataSetItems.length; i++ )
 						{
-							selectionIndex = i;
-							break;
+							rowExpr = ExpressionUtil.createJSDataSetRowExpression( dataSetItems[i].getName( ) );
+							if ( rowExpr.equals( expression ) )
+							{
+								selectionIndex = i;
+								break;
+							}
 						}
+						rightColumnList.setSelection( new StructuredSelection( dataSetItems[selectionIndex] ) );
 					}
-					rightColumnList.setSelection( new StructuredSelection( dataSetItems[selectionIndex] ) );
 				}
 			}
 			else
