@@ -551,7 +551,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				String groupType = DEUtil.getGroupControlType( bindingObject );
 				List groupList = DEUtil.getGroups( bindingObject );
 				ExpressionUtility.setBindingColumnExpression( param,
-						bindingColumn);
+						bindingColumn, true);
 
 				if ( bindingObject instanceof ReportItemHandle )
 				{

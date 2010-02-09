@@ -521,7 +521,7 @@ public class ColumnBindingDialog extends BaseDialog
 						param.getName( ) );
 				bindingColumn.setDataType( param.getDataType( ) );
 				ExpressionUtility.setBindingColumnExpression( param,
-						bindingColumn);
+						bindingColumn, true);
 
 				try
 				{
