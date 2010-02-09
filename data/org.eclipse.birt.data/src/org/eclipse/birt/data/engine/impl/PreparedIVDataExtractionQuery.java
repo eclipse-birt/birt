@@ -76,7 +76,7 @@ public class PreparedIVDataExtractionQuery extends PreparedIVQuerySourceQuery
 				{
 					this.queryResults = PreparedQueryUtil.newInstance( engine,
 							(IQueryDefinition) queryDefn.getSourceQuery( ),
-							null ).execute( null );
+							this.appContext ).execute( null );
 				}
 
 				if ( queryResults != null
