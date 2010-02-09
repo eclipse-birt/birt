@@ -182,7 +182,16 @@ public class ModelDteApiAdapter
 	public IBaseDataSourceDesign createDataSourceDesign(
 			DataSourceHandle dataSource ) throws BirtException
 	{
-		return this.dteSession.getModelAdaptor( ).adaptDataSource( dataSource );
+		BaseDataSourceDesign datasourceDesign = this.dteSession.getModelAdaptor( )
+				.adaptDataSource( dataSource );
+		IBaseDataSourceEventHandler eventHandler = null;
+		if ( dataSource instanceof OdaDataSourceHandle )
+			eventHandler = new DataSourceScriptExecutor( dataSource, context );
+		else if ( dataSource instanceof ScriptDataSourceHandle )
+			eventHandler = new ScriptDataSourceScriptExecutor( (ScriptDataSourceHandle) dataSource,
+					context );
+		datasourceDesign.setEventHandler( eventHandler );
+		return datasourceDesign;
 	}
 
 	/**
