@@ -637,6 +637,10 @@
   	<Choice displayNameID="Choices.overflow.scroll" name="scroll"/>
   	<Choice displayNameID="Choices.overflow.auto" name="auto"/>
   </ChoiceType>
+  <ChoiceType name="HTMLGadgetContentType">
+  	<Choice displayNameID="Choices.HTMLGadgetContentType.html" name="html"/>
+  	<Choice displayNameID="Choices.HTMLGadgetContentType.url" name="url"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>

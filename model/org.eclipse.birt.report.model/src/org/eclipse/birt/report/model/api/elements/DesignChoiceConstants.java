@@ -972,7 +972,7 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_DATA_VERSION = "dataVersion"; //$NON-NLS-1$
 	public static final String DATA_VERSION_TRANSIENT = "transient"; //$NON-NLS-1$
 	public static final String DATA_VERSION_LATEST = "latest"; //$NON-NLS-1$
-	
+
 	/**
 	 * Choice constants for dataSelector type.
 	 */
@@ -984,14 +984,14 @@ public interface DesignChoiceConstants
 	public static final String DATA_SELECTOR_TYPE_RADIO_BUTTON = "radioButton";//$NON-NLS-1$
 	public static final String DATA_SELECTOR_TYPE_TEXT_BOX = "textBox";//$NON-NLS-1$
 	public static final String DATA_SELECTOR_TYPE_CALENDAR = "calendar";//$NON-NLS-1$
-	
+
 	/**
 	 * Choice constants for thumb type.
 	 */
 	public static final String CHOICE_THUMB_TYPE = "thumbType"; //$NON-NLS-1$
 	public static final String THUMB_TYPE_SINGLE = "single"; //$NON-NLS-1$
 	public static final String THUMB_TYPE_DUAL = "dual";//$NON-NLS-1$
-	
+
 	/**
 	 * Choice constants for access type.
 	 */
@@ -1008,4 +1008,8 @@ public interface DesignChoiceConstants
 	public static final String OVERFLOW_HIDDEN = "hidden"; //$NON-NLS-1$
 	public static final String OVERFLOW_SCROLL = "scroll"; //$NON-NLS-1$
 	public static final String OVERFLOW_AUTO = "auto"; //$NON-NLS-1$
+
+	public static final String CHOICE_HTML_GADGET_CONTENT_TYPE = "HTMLGadgetContentType"; //$NON-NLS-1$
+	public static final String HTML_GADGET_CONTENT_TYPE_HTML = "html"; //$NON-NLS-1$
+	public static final String HTML_GADGET_CONTENT_TYPE_URL = "url"; //$NON-NLS-1$
 };
