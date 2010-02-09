@@ -16,5 +16,5 @@ plugin@org.eclipse.birt.report.data.bidi.utils=v20100205,:ext:xgu@dev.eclipse.or
 plugin@org.eclipse.birt.report.data.bidi.utils.ui=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.bidi.utils.ui
 
 !**************** data test  *******************
-plugin@org.eclipse.birt.data.tests=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
+plugin@org.eclipse.birt.data.tests=v20100209,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
 plugin@org.eclipse.birt.report.data.oda.jdbc.tests=v20100205,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
