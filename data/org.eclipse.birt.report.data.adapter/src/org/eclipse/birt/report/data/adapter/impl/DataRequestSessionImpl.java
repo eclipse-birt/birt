@@ -126,6 +126,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
 	private Map cubeHandleMap;
+	
+	//Used to avoid creating same dimension repeatedly when a dimension is shared by multiple cubes
+	private Map<String, IDimension> createdDimensions;
 
 
 	/**
@@ -146,6 +149,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
+		createdDimensions = new HashMap<String, IDimension>( );
 		if( sessionContext!= null )
 		{
 			this.setModuleHandleToAppContext();
@@ -1119,12 +1123,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 		List result = new ArrayList( );
 		for ( int i = 0; i < dimHandles.size( ); i++ )
 		{
-			result.add( populateDimension( cubeMaterializer,
-					(DimensionHandle) dimHandles.get( i ),
-					cubeHandle,
-					appContext,
-					queryMap,
-					metaMap, sl ) );
+			DimensionHandle dh = (DimensionHandle) dimHandles.get( i );
+			IDimension dim = createdDimensions.get( dh.getName( ) );
+			if ( dim == null )
+			{
+				dim = populateDimension( cubeMaterializer,
+						dh,
+						cubeHandle,
+						appContext,
+						queryMap,
+						metaMap, sl );
+				createdDimensions.put( dh.getName( ), dim );
+			}
+			result.add( dim);
 		}
 		
 		IDimension[] dimArray = new IDimension[dimHandles.size( )];
