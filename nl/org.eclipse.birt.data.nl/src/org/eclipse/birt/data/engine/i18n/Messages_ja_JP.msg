@@ -66,6 +66,7 @@ data.engine.InvalidFieldName=フィールド名が無効です : {0}
 data.engine.DupColumnName=列名が重複しています : {0}
 data.engine.DupAlias=列名またはエイリアスが重複しています : {0}
 data.engine.InvalidFieldIndex=フィールドのインデックスが無効です : {0}
+data.engine.fail.prepareExecution=Failed to prepare the query execution for the data set: {0}
 
 data.engine.MatchError=パターンの構文を確認してください。文字列とパターンを照合中にエラーが発生しました : {0}
 

@@ -66,6 +66,7 @@ data.engine.InvalidFieldName=Nombre de campo no válido: {0}.
 data.engine.DupColumnName=Nombre de columna duplicado: {0}.
 data.engine.DupAlias=Nombre o alias de columna duplicado: {0}.
 data.engine.InvalidFieldIndex=Índice de campo no válido: {0}.
+data.engine.fail.prepareExecution=Failed to prepare the query execution for the data set: {0}
 
 data.engine.MatchError=Compruebe la sintaxis del patrón. Error al hacer coincidir el string con el patrón: {0}.
 

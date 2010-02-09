@@ -66,6 +66,7 @@ data.engine.InvalidFieldName=无效的字段名称: {0}。
 data.engine.DupColumnName=重复的列名称: {0}。
 data.engine.DupAlias=重复的列名称或别名: {0}。
 data.engine.InvalidFieldIndex=无效的字段索引: {0}。
+data.engine.fail.prepareExecution=Failed to prepare the query execution for the data set: {0}
 
 data.engine.MatchError=检查模式语法。将字符串与模式匹配时出错: {0}。
 

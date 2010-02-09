@@ -66,6 +66,7 @@ data.engine.InvalidFieldName=Ungültiger Feldname: {0}.
 data.engine.DupColumnName=Doppelter Spaltenname: {0}.
 data.engine.DupAlias=Doppelter Spaltenname oder -alias: {0}.
 data.engine.InvalidFieldIndex=Ungültiger Feldindex: {0}.
+data.engine.fail.prepareExecution=Failed to prepare the query execution for the data set: {0}
 
 data.engine.MatchError=Überprüfen Sie die Syntax des Musters. Fehler beim Abgleichen der Zeichenfolge mit dem Muster: {0}.
 
