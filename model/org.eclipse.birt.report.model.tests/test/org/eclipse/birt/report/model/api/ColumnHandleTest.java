@@ -32,7 +32,7 @@ public class ColumnHandleTest extends BaseTestCase
 		// No change expected since all widths are absolute.
 		TableHandle table = (TableHandle) designHandle
 				.findElement( "testTable1" );
-		for ( Iterator<ColumnHandle> iter = table.getColumns( ).iterator( ); iter
+		for ( Iterator iter = table.getColumns( ).iterator( ); iter
 				.hasNext( ); )
 		{			
 			ColumnHandle column = iter.next( );
@@ -43,7 +43,7 @@ public class ColumnHandleTest extends BaseTestCase
 		// Expects the width of the second column converts to absolute value.
 		table = (TableHandle) designHandle.findElement( "testTable2" );
 		table.setWidthToFitColumns( ); // Fix the table width
-		for ( Iterator<ColumnHandle> iter = table.getColumns( ).iterator( ); iter
+		for ( Iterator iter = table.getColumns( ).iterator( ); iter
 				.hasNext( ); )
 		{
 			ColumnHandle column = iter.next( );
