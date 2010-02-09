@@ -334,7 +334,16 @@ public abstract class QueryExecutor implements IQueryExecutor
 			odiQuery.setRowFetchLimit( dataSet.getDesign( ).getRowFetchLimit( ) );
 		}
 		populateOdiQuery( );
-		prepareOdiQuery( );
+		try
+		{
+			prepareOdiQuery( );
+		}
+		catch ( DataException e )
+		{
+			throw new DataException( ResourceConstants.FAIL_PREPARE_EXECUTION,
+					e,
+					dataSet.getName( ) );
+		}
 		isPrepared = true;
 	}
 	

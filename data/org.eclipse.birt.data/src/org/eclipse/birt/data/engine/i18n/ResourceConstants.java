@@ -65,6 +65,7 @@ public class ResourceConstants
 	public final static String DUPLICATE_COLUMN_NAME = "data.engine.DupColumnName";
 	public final static String DUPLICATE_ALIAS_NAME = "data.engine.DupAlias";
 	public final static String INVALID_FIELD_INDEX = "data.engine.InvalidFieldIndex";
+	public final static String FAIL_PREPARE_EXECUTION = "data.engine.fail.prepareExecution";
 	
 	public final static String MATCH_ERROR = "data.engine.MatchError";
 	
