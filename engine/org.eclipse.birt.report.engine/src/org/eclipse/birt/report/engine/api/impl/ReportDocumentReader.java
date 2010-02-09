@@ -17,9 +17,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +31,8 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IBookmarkInfo;
+import org.eclipse.birt.report.engine.api.IReportDocumentHelper;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -57,8 +61,12 @@ import org.eclipse.birt.report.engine.toc.ITOCReader;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TOCReader;
 import org.eclipse.birt.report.engine.toc.TOCView;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -73,7 +81,8 @@ import com.ibm.icu.util.ULocale;
 public class ReportDocumentReader
 		implements
 			IReportletDocument,
-			ReportDocumentConstants
+			ReportDocumentConstants,
+			IReportDocumentHelper
 {
 
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
@@ -1037,6 +1046,60 @@ public class ReportDocumentReader
 			}
 		}
 		return null;
+	}
+
+	public List<IBookmarkInfo> getBookmarkInfos( Locale locale )
+			throws EngineException
+	{
+		ArrayList<IBookmarkInfo> results = new ArrayList<IBookmarkInfo>( );
+		if ( indexReader != null )
+		{
+			try
+			{
+				List<BookmarkContent> bookmarks = indexReader
+						.getBookmarkContents( );
+				if ( bookmarks == null )
+				{
+					return null;
+				}
+				ReportDesignHandle report = this.getReportDesign( );
+
+				for ( BookmarkContent bookmark : bookmarks )
+				{
+					long designId = bookmark.getElementId( );
+					DesignElementHandle handle = report
+							.getElementByID( designId );
+					if ( handle == null )
+						continue;
+					String elementType = handle.getName( );
+					String displayName = null;
+					if ( handle instanceof ReportItemHandle )
+					{
+						displayName = ( (ReportItemHandle) handle )
+								.getBookmarkDisplayName( );
+					}
+					if ( locale != null )
+					{
+						if ( handle instanceof ReportElementHandle )
+						{
+							ReportElementHandle elementHandle = (ReportElementHandle) handle;
+							displayName = ModuleUtil.getExternalizedValue(
+									elementHandle, bookmark.getBookmark( ),
+									displayName, ULocale.forLocale( locale ) );
+
+						}
+					}
+					results.add( new BookmarkInfo( bookmark.getBookmark( ),
+							displayName, elementType ) );
+				}
+			}
+			catch ( IOException ex )
+			{
+				throw new EngineException( "exception when fetching bookmarks",
+						ex );
+			}
+		}
+		return results;
 	}
 
 	/**
