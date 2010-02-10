@@ -115,7 +115,10 @@ public class TogglesSection extends Section
 			if ( toggles[i] != null && !toggles[i].getControl( ).isDisposed( ) )
 				toggles[i].load( );
 		}
-		composite.layout( );
+		if (!composite.isDisposed( ))
+		{
+			composite.layout( );
+		}
 	}
 
 	public void reset( )
