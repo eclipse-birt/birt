@@ -45,6 +45,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -401,9 +402,21 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 				if ( arg.getValue( ) != null )
 				{
 					Control control = paramsMap.get( arg.getName( ) );
-					ExpressionButtonUtil.initExpressionButtonControl( control,
-							arg,
-							AggregationArgument.VALUE_MEMBER );
+					if ( ExpressionButtonUtil.getExpressionButton( control ) != null )
+					{
+						ExpressionButtonUtil.initExpressionButtonControl( control,
+								arg,
+								AggregationArgument.VALUE_MEMBER );
+					}
+					else
+					{
+						ExpressionHandle expr = arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+						if ( expr != null
+								&& expr.getStringExpression( ) != null )
+						{
+							( (Combo) control ).setText( expr.getStringExpression( ) );
+						}
+					}
 				}
 			}
 		}
