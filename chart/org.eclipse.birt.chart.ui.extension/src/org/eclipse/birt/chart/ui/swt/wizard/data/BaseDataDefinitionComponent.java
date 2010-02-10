@@ -586,7 +586,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		if ( isTableSharedBinding( ) )
 		{
 			int index = cmbDefinition.getSelectionIndex( );
-			if ( index >= 0 )
+			if ( index >= 0 && cmbDefinition.getData( ) != null )
 			{
 				ColumnBindingInfo cbi = (ColumnBindingInfo) ( (Object[]) cmbDefinition.getData( ) )[index];
 				if ( cbi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN
