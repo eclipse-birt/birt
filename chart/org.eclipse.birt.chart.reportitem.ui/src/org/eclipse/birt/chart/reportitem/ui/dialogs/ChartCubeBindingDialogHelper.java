@@ -45,6 +45,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -984,13 +985,27 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 			for ( Iterator<String> iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
 			{
-				String arg = iterator.next( );
-				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( arg );
-				Expression expression = ExpressionButtonUtil.getExpression( paramsMap.get( arg ) );
-				argHandle.setExpressionProperty( AggregationArgument.VALUE_MEMBER,
-						expression );
-				binding.addArgument( argHandle );
+				String arg = (String) iterator.next( );
+				String value = getControlValue( paramsMap.get( arg ) );
+				if ( value != null )
+				{
+					AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
+					argHandle.setName( arg );
+					if ( ExpressionButtonUtil.getExpressionButton( paramsMap.get( arg ) ) != null )
+					{
+						ExpressionButtonUtil.saveExpressionButtonControl( paramsMap.get( arg ),
+								argHandle,
+								AggregationArgument.VALUE_MEMBER );
+					}
+					else
+					{
+						Expression expression = new Expression( value,
+								ExpressionType.JAVASCRIPT );
+						argHandle.setExpressionProperty( AggregationArgument.VALUE_MEMBER,
+								expression );
+					}
+					binding.addArgument( argHandle );
+				}
 			}
 		}
 		else
@@ -1006,9 +1021,20 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			binding.setDisplayName( txtDisplayName.getText( ) );
 			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
-			ExpressionButtonUtil.saveExpressionButtonControl( txtExpression,
-					binding,
-					ComputedColumn.EXPRESSION_MEMBER );
+	
+			if ( ExpressionButtonUtil.getExpressionButton( txtExpression ) != null )
+			{
+				ExpressionButtonUtil.saveExpressionButtonControl( txtExpression,
+						binding,
+						ComputedColumn.EXPRESSION_MEMBER );
+			}
+			else
+			{
+				Expression expression = new Expression( getControlValue( txtExpression ),
+						ExpressionType.JAVASCRIPT );
+				binding.setExpressionProperty( AggregationArgument.VALUE_MEMBER,
+						expression );
+			}
 		}
 		return binding;
 	}
