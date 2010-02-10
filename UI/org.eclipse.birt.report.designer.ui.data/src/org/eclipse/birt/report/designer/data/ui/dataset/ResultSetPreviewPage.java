@@ -352,8 +352,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 	private void registerParameterBinding( QueryDefinition query, DataSetHandle dsHandle, DataRequestSession session )
 			throws BirtException, DesignFileException
 	{
-		PropertyHandle handle = ExternalUIUtil.getQulifiedDataSetHandle( dsHandle )
-				.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
+		PropertyHandle handle = dsHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
 
 		if ( handle != null )
 		{

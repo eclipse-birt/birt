@@ -11,7 +11,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.data;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
 
 /**
  * DataService
@@ -55,5 +62,34 @@ public class DataService
 		{
 			provider.createDataSet( );
 		}
+	}
+	
+	public List getSelectValueList( Expression expression,
+			DataSetHandle dataSetHandle, boolean useDataSetFilter )
+			throws BirtException
+	{
+		if ( provider != null )
+		{
+			return provider.getSelectValueList( expression,
+					dataSetHandle,
+					useDataSetFilter );
+		}
+		return Collections.EMPTY_LIST;
+	}
+
+	public List getSelectValueFromBinding( Expression expression,
+			DataSetHandle dataSetHandle, Iterator binding,
+			Iterator groupIterator, boolean useDataSetFilter )
+			throws BirtException
+	{
+		if ( provider != null )
+		{
+			return provider.getSelectValueFromBinding( expression,
+					dataSetHandle,
+					binding,
+					groupIterator,
+					useDataSetFilter );
+		}
+		return Collections.EMPTY_LIST;
 	}
 }

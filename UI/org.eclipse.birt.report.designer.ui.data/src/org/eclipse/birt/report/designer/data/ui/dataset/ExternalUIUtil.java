@@ -58,10 +58,12 @@ public class ExternalUIUtil
 			}
 		}
 	}
-	
-	public static void populateApplicationContext( DataSetHandle handle, DataRequestSession session ) throws BirtException
-	{}
-	
+
+	public static void populateApplicationContext( DataSetHandle handle,
+			DataRequestSession session ) throws BirtException
+	{
+	}
+
 	public static boolean containsDataSource( DataSetHandle ds  )
 	{
 		if ( ds instanceof JointDataSetHandle )
@@ -84,11 +86,6 @@ public class ExternalUIUtil
 	public static IPropertyPage[] getCommonPages( DataSetHandle ds )
 	{
 		return new IPropertyPage[0];
-	}
-
-	public static DataSetHandle getQulifiedDataSetHandle( DataSetHandle ds )
-	{
-		return ds;
 	}
 
 	public static boolean needUtilityPages( DataSetHandle ds )

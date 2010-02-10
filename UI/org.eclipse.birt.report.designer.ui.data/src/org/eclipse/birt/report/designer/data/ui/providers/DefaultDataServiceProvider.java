@@ -11,15 +11,20 @@
 
 package org.eclipse.birt.report.designer.data.ui.providers;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.internal.ui.data.IDataServiceProvider;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
 
 /**
  * DefaultDataServiceProvider
  */
 public class DefaultDataServiceProvider implements IDataServiceProvider
 {
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -30,6 +35,27 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 	public void createDataSet( )
 	{
 		new NewDataSetAction( ).run( );
+	}
+
+	public List getSelectValueList( Expression expression,
+			DataSetHandle dataSetHandle, boolean useDataSetFilter )
+			throws BirtException
+	{
+		return DistinctValueSelector.getSelectValueList( expression,
+				dataSetHandle,
+				useDataSetFilter );
+	}
+
+	public List getSelectValueFromBinding( Expression expression,
+			DataSetHandle dataSetHandle, Iterator binding,
+			Iterator groupIterator, boolean useDataSetFilter )
+			throws BirtException
+	{
+		return DistinctValueSelector.getSelectValueFromBinding( expression,
+				dataSetHandle,
+				binding,
+				groupIterator,
+				useDataSetFilter );
 	}
 
 }
