@@ -219,24 +219,35 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		        throw new DataException( ResourceConstants.MISSING_DATASOURCE_EXT_ID,
 		        		extDS.getName( ) );
 
-		    ValidationContext validationContext = null;
-			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( )&& !appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
+			ValidationContext validationContext = null;
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
-				validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
-				if ( validationContext != null )
+				int memorySize = 0;
+				if ( appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
 				{
-					Properties connProperties = new Properties( );
-					// merge public and private driver properties into a single
-					// Map
-					Map driverProps = copyProperties( ( (OdaDataSourceRuntime) dataSource ).getPublicProperties( ),
-							( (OdaDataSourceRuntime) dataSource ).getPrivateProperties( ) );
+					memorySize = Integer.valueOf( appContext.get( DataEngine.MEMORY_DATA_SET_CACHE )
+							.toString( ) )
+							.intValue( );
+				}
+				if ( memorySize <= 0 )
+				{
+					validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
+					if ( validationContext != null )
+					{
+						Properties connProperties = new Properties( );
+						// merge public and private driver properties into a
+						// single
+						// Map
+						Map driverProps = copyProperties( ( (OdaDataSourceRuntime) dataSource ).getPublicProperties( ),
+								( (OdaDataSourceRuntime) dataSource ).getPrivateProperties( ) );
 
-					if ( driverProps != null )
-						connProperties.putAll( driverProps );
+						if ( driverProps != null )
+							connProperties.putAll( driverProps );
 
-					QuerySpecHelper.setValidationConnectionContext( validationContext,
-							connProperties,
-							appContext );
+						QuerySpecHelper.setValidationConnectionContext( validationContext,
+								connProperties,
+								appContext );
+					}
 				}
 			}
 		    
@@ -284,21 +295,31 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
 			
-			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) && !appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
-				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
-
-				if ( validationContext != null )
+				int memorySize = 0;
+				if ( appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
 				{
-					validationContext.setQueryText( ( (IOdaDataSetDesign) dataSetDesign ).getQueryText( ) );
+					memorySize = Integer.valueOf( appContext.get( DataEngine.MEMORY_DATA_SET_CACHE )
+							.toString( ) )
+							.intValue( );
+				}
+				if ( memorySize <= 0 )
+				{
+					ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
 
-					querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
-							validationContext,
-							(IOdaDataSetDesign) dataSetDesign,
-							queryDefn,
-							dataEngine.getSession( ),
-							appContext,
-							contextVisitor );
+					if ( validationContext != null )
+					{
+						validationContext.setQueryText( ( (IOdaDataSetDesign) dataSetDesign ).getQueryText( ) );
+
+						querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
+								validationContext,
+								(IOdaDataSetDesign) dataSetDesign,
+								queryDefn,
+								dataEngine.getSession( ),
+								appContext,
+								contextVisitor );
+					}					
 				}
 			}
 			
