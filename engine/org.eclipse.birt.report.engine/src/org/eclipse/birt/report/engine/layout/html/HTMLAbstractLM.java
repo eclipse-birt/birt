@@ -471,6 +471,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 					}
 				}
 				execute( childContent, childExecutor );
+				childExecutor.close( );
 				if ( childContent != null )
 				{
 					if ( !executor.hasNextChild( ) )
@@ -482,7 +483,6 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 						childContent.setLastChild( false );
 					}
 				}
-				childExecutor.close( );
 			}
 		}
 	}
