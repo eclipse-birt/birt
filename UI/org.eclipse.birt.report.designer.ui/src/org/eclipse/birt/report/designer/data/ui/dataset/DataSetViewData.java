@@ -50,6 +50,20 @@ public class DataSetViewData
 
 	private transient String analysis = null;
 	
+	private transient String format = null;
+	
+	private transient int displayLength = 0;
+	
+	private transient String heading = null;
+	
+	private transient String horizontalAlign = null;
+	
+	private transient String textFormat = null;
+	
+	private transient String description = null;
+	
+	private transient boolean wordWrap = false;
+	
 	private transient ExpressionHandle aclExpr = null;
 
 	/**
@@ -317,5 +331,75 @@ public class DataSetViewData
 	public ExpressionHandle getACLExpression( )
 	{
 		return aclExpr;
+	}
+
+	public void setFormat( String format )
+	{
+		this.format = format;
+	}
+
+	public String getFormat( )
+	{
+		return format;
+	}
+
+	public void setDisplayLength( int displayLength )
+	{
+		this.displayLength = displayLength;
+	}
+
+	public int getDisplayLength( )
+	{
+		return displayLength;
+	}
+
+	public void setHeading( String heading )
+	{
+		this.heading = heading;
+	}
+
+	public String getHeading( )
+	{
+		return heading;
+	}
+
+	public void setHorizontalAlign( String horizontalAlign )
+	{
+		this.horizontalAlign = horizontalAlign;
+	}
+
+	public String getHorizontalAlign( )
+	{
+		return horizontalAlign;
+	}
+
+	public void setTextFormat( String textFormat )
+	{
+		this.textFormat = textFormat;
+	}
+
+	public String getTextFormat( )
+	{
+		return textFormat;
+	}
+
+	public void setDescription( String description )
+	{
+		this.description = description;
+	}
+
+	public String getDescription( )
+	{
+		return description;
+	}
+
+	public void setWordWrap( boolean wordWrap )
+	{
+		this.wordWrap = wordWrap;
+	}
+
+	public boolean isWordWrap( )
+	{
+		return wordWrap;
 	}
 }

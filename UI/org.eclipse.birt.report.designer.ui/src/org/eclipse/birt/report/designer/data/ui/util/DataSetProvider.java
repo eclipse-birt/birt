@@ -220,6 +220,13 @@ public final class DataSetProvider
 			{
 				items[i].setAnalysis( hint.getAnalysis( ) );
 				items[i].setACLExpression( hint.getACLExpression( ) );
+				items[i].setFormat( hint.getFormat( ) );
+				items[i].setDisplayLength( hint.getDisplayLength( ) );
+				items[i].setHeading( hint.getHeading( ) );
+				items[i].setHelpText( hint.getHelpText( ) );
+				items[i].setHorizontalAlign( hint.getHorizontalAlign( ) );
+				items[i].setTextFormat( hint.getTextFormat( ) );
+				items[i].setDescription( hint.getDescription( ) );
 			}
 		}
 		updateModel( dataSetHandle, items );
@@ -255,6 +262,13 @@ public final class DataSetProvider
 			{
 				items[i].setAnalysis( hint.getAnalysis( ) );
 				items[i].setACLExpression( hint.getACLExpression( ) );
+				items[i].setFormat( hint.getFormat( ) );
+				items[i].setDisplayLength( hint.getDisplayLength( ) );
+				items[i].setHeading( hint.getHeading( ) );
+				items[i].setHelpText( hint.getHelpText( ) );
+				items[i].setHorizontalAlign( hint.getHorizontalAlign( ) );
+				items[i].setTextFormat( hint.getTextFormat( ) );
+				items[i].setDescription( hint.getDescription( ) );
 			}
 		}
 		return items;
@@ -519,6 +533,21 @@ public final class DataSetProvider
 			columns[n].setDataSetColumnName( uniqueColumnName );
 			uniqueColumnNameSet.add( uniqueColumnName );
 
+			ColumnHintHandle hint = findColumnHint( dataSet,
+					columns[n].getName( ) );
+			if ( hint != null )
+			{
+				columns[n].setAnalysis( hint.getAnalysis( ) );
+				columns[n].setACLExpression( hint.getACLExpression( ) );
+				columns[n].setFormat( hint.getFormat( ) );
+				columns[n].setDisplayLength( hint.getDisplayLength( ) );
+				columns[n].setHeading( hint.getHeading( ) );
+				columns[n].setHelpText( hint.getHelpText( ) );
+				columns[n].setHorizontalAlign( hint.getHorizontalAlign( ) );
+				columns[n].setTextFormat( hint.getTextFormat( ) );
+				columns[n].setDescription( hint.getDescription( ) );
+			}
+			
 			// Update the column in Model if necessary
 			if ( !uniqueColumnName.equals( columnName ) )
 				updateModelColumn( dataSet, columns[n] );
