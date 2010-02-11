@@ -13,6 +13,7 @@ CubeGroupContent.Group.Edit.Message=Nom du groupe :
 CubeGroupContent.Measure.Edit.Title=Modifier un champ de récapitulation
 cube.level.new=Nouveau niveau de cube
 cube.level.edit=Modifier un niveau
+CubeLabelProvider.SharedDimensions=Shared Dimensions
 CubeLevelNodeProvider.menu.text=Modifi&er
 cube.measure.new=Nouvelle mesure de cube
 cube.measure.edit=Modifier la mesure de cube
@@ -34,6 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=La mesure ne prend pas en ch
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Avertissement
 ###########################################################
 #Cube Builder Dialog properties
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=Error Shared Dimension Link
 CubeBuilder.Title=Générateur de cube de tableau croisé
 DatasePage.EmptyName.ErrorMessage=Le nom du cube est requis.
 DatasetPage.Title=Jeu de données
@@ -179,3 +182,4 @@ FilterListDialog.Menu.ModifyProperty=Modifier la propriété
 FilterListDialog.Button.AddWithDialog=&Ajouter...
 FilterListDialog.Button.EditWithDialog=Modifi&er...
 FilterListDialog.Button.Delete=Supp&rimer
+VirtualField.SharedDimensions=Shared Dimesnions

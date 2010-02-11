@@ -13,6 +13,7 @@ CubeGroupContent.Group.Edit.Message=그룹 이름:
 CubeGroupContent.Measure.Edit.Title=요약 필드 편집
 cube.level.new=새 큐브 수준
 cube.level.edit=수준 편집
+CubeLabelProvider.SharedDimensions=Shared Dimensions
 CubeLevelNodeProvider.menu.text=편집(&E)
 cube.measure.new=새 큐브 측정값
 cube.measure.edit=큐브 측정값 편집
@@ -34,6 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=측정 시 데이터 형식 "Any"는 
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=경고
 ###########################################################
 #Cube Builder Dialog properties
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=Error Shared Dimension Link
 CubeBuilder.Title=크로스 탭 큐브 빌더
 DatasePage.EmptyName.ErrorMessage=큐브의 이름이 필요합니다.
 DatasetPage.Title=데이터 집합
@@ -179,3 +182,4 @@ FilterListDialog.Menu.ModifyProperty=속성 수정
 FilterListDialog.Button.AddWithDialog=추가(&A)...
 FilterListDialog.Button.EditWithDialog=편집(&E)...
 FilterListDialog.Button.Delete=제거(&R)
+VirtualField.SharedDimensions=Shared Dimesnions

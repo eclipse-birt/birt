@@ -13,6 +13,7 @@ CubeGroupContent.Group.Edit.Message=Gruppenname:
 CubeGroupContent.Measure.Edit.Title=Zusammenfassungsfeld bearbeiten
 cube.level.new=Neue Quaderebene
 cube.level.edit=Ebene bearbeiten
+CubeLabelProvider.SharedDimensions=Shared Dimensions
 CubeLevelNodeProvider.menu.text=&Bearbeiten
 cube.measure.new=Neue Quadereinheit
 cube.measure.edit=Quadereinheit bearbeiten
@@ -34,6 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=Maßeinheit unterstützt nicht
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Warnung
 ###########################################################
 #Cube Builder Dialog properties
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=Error Shared Dimension Link
 CubeBuilder.Title=Kreuztabellen-Cube Builder
 DatasePage.EmptyName.ErrorMessage=Der Name des Quaders ist erforderlich.
 DatasetPage.Title=Datensatz
@@ -179,3 +182,4 @@ FilterListDialog.Menu.ModifyProperty=Eigenschaft modifizieren
 FilterListDialog.Button.AddWithDialog=&Hinzufügen...
 FilterListDialog.Button.EditWithDialog=&Bearbeiten...
 FilterListDialog.Button.Delete=&Entfernen
+VirtualField.SharedDimensions=Shared Dimesnions

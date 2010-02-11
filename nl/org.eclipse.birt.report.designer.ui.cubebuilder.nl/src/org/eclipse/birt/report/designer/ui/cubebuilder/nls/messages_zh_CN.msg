@@ -13,6 +13,7 @@ CubeGroupContent.Group.Edit.Message=组名称:
 CubeGroupContent.Measure.Edit.Title=编辑摘要字段
 cube.level.new=新建多维数据集级别
 cube.level.edit=编辑级别
+CubeLabelProvider.SharedDimensions=Shared Dimensions
 CubeLevelNodeProvider.menu.text=编辑(&E)
 cube.measure.new=新建多维数据集度量
 cube.measure.edit=编辑多维数据集度量
@@ -34,6 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=度量不支持数据类型“任意”，
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 ###########################################################
 #Cube Builder Dialog properties
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=Error Shared Dimension Link
 CubeBuilder.Title=交叉表多维数据集生成器
 DatasePage.EmptyName.ErrorMessage=需要提供多维数据集的名称。
 DatasetPage.Title=数据集
@@ -179,3 +182,4 @@ FilterListDialog.Menu.ModifyProperty=修改属性
 FilterListDialog.Button.AddWithDialog=添加(&A)...
 FilterListDialog.Button.EditWithDialog=编辑(&E)...
 FilterListDialog.Button.Delete=删除(&R)
+VirtualField.SharedDimensions=Shared Dimesnions
