@@ -279,6 +279,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 									.equals( "" ) ) ) //$NON-NLS-1$
 					{
 						cmbDefinition.setEnabled( false );
+						btnBuilder.setEnabled( false );
 					}
 				}
 			} );
@@ -340,6 +341,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 							.equals( "" ) ) ) //$NON-NLS-1$
 			{
 				cmbDefinition.setEnabled( false );
+				btnBuilder.setEnabled( false );
 			}
 		}
 
@@ -398,6 +400,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 						|| getQuery( ).getDefinition( ).trim( ).length( ) == 0 )
 				{
 					txtDefinition.setEnabled( false );
+					btnBuilder.setEnabled( false );
 				}
 			}
 

@@ -643,7 +643,10 @@ public class ChartExpressionButtonUtil
 						if ( cp.getSelectionIndex( ) >= 0 )
 						{
 							IExpressionDescriptor desc = (IExpressionDescriptor) cp.getData( cp.getText( ) );
-							setExpressionType( desc.getExpressionType( ) );
+							if ( desc != null )
+							{
+								setExpressionType( desc.getExpressionType( ) );
+							}
 							button.refresh( );
 						}
 					}

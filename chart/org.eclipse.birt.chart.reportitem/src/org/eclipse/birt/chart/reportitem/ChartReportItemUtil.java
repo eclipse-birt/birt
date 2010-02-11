@@ -664,7 +664,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 				bCube ? ExpressionLocation.CUBE : ExpressionLocation.TABLE );
 	}
 
-	private static void loadExpressionFromHandle( ExpressionCodec exprCodec,
+	private static boolean loadExpressionFromHandle( ExpressionCodec exprCodec,
 			ExpressionHandle eh )
 	{
 		if ( eh != null && eh.getValue( ) != null )
@@ -672,10 +672,12 @@ public class ChartReportItemUtil extends ChartItemUtil
 			Expression expression = (Expression) eh.getValue( );
 			exprCodec.setExpression( expression.getStringExpression( ) );
 			exprCodec.setType( expression.getType( ) );
+			return true;
 		}
 		else
 		{
 			exprCodec.setExpression( null );
+			return false;
 		}
 	}
 
@@ -720,15 +722,17 @@ public class ChartReportItemUtil extends ChartItemUtil
 	 * 
 	 * @param exprCodec
 	 * @param handle
+	 * @return True if succeeds.
 	 */
-	public static void loadExpression( ExpressionCodec exprCodec,
+	public static boolean loadExpression( ExpressionCodec exprCodec,
 			ComputedColumnHandle cch )
 	{
 		if ( exprCodec != null )
 		{
 			ExpressionHandle eh = getAggregationExpression( cch );
-			loadExpressionFromHandle( exprCodec, eh );
+			return loadExpressionFromHandle( exprCodec, eh );
 		}
+		return false;
 	}
 
 	public static Expression getExpression( GroupHandle gh )
