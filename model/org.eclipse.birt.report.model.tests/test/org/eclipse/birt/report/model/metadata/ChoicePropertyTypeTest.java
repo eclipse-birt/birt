@@ -32,7 +32,7 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 		super.setUp( );
 
 		ChoiceSet choiceSet = new ChoiceSet(
-				DesignChoiceConstants.CHOICE_FONT_FAMILY ); 
+				DesignChoiceConstants.CHOICE_FONT_FAMILY );
 		Choice[] choice = new Choice[3];
 		choice[0] = new Choice( "sans-serif", "Choices.fontFamily.sans-serif" ); //$NON-NLS-1$//$NON-NLS-2$
 		choice[1] = new Choice( "cursive", "Choices.fontFamily.cursive" ); //$NON-NLS-1$//$NON-NLS-2$
@@ -47,7 +47,9 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
+	 * ()
 	 */
 	public void testGetTypeCode( )
 	{
@@ -57,7 +59,8 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
 	public void testGetName( )
 	{
@@ -67,18 +70,21 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
+	 * ()
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
 		assertEquals(
-				"sans-serif", type.validateValue( design, propDefn, "sans-serif" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				"sans-serif", type.validateValue( design, null, propDefn, "sans-serif" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		try
 		{
-			type.validateValue( design, propDefn, "none-exsit-choice-name" ); //$NON-NLS-1$
+			type.validateValue( design, null, propDefn,
+					"none-exsit-choice-name" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -92,37 +98,44 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateInputString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testValidateInputString()
 	 */
 	public void testValidateInputString( ) throws PropertyValueException
 	{
 		assertEquals(
-				"sans-serif", type.validateInputString( design, propDefn, "sans-serif" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals( null, type.validateInputString( design, propDefn, " " ) ); //$NON-NLS-1$
-		assertEquals( null, type.validateInputString( design, propDefn, "" ) ); //$NON-NLS-1$
+				"sans-serif", type.validateInputString( design, null, propDefn, "sans-serif" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( null, type.validateInputString( design, null, propDefn,
+				" " ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateInputString( design, null, propDefn,
+				"" ) ); //$NON-NLS-1$
 
 		ThreadResources.setLocale( TEST_LOCALE );
 		assertEquals(
-				"cursive", type.validateInputString( design, propDefn, "\u8fde\u4f53" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				"cursive", type.validateInputString( design, null, propDefn, "\u8fde\u4f53" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
+	 * ()
 	 */
 	public void testValidateXml( ) throws PropertyValueException
 	{
 		assertEquals(
-				"sans-serif", type.validateXml( design, propDefn, "sans-serif" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals( null, type.validateXml( design, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, propDefn, "" ) ); //$NON-NLS-1$
+				"sans-serif", type.validateXml( design, null, propDefn, "sans-serif" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
+		assertEquals( null, type.validateXml( design, null, propDefn, "" ) ); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * ()
 	 */
 	public void testToDouble( )
 	{
@@ -133,7 +146,9 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
+	 * ()
 	 */
 	public void testToInteger( )
 	{
@@ -144,7 +159,8 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 	public void testToXml( )
 	{
@@ -155,7 +171,9 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * ()
 	 */
 	public void testToString( )
 	{
@@ -166,7 +184,8 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDisplayString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testToDisplayString()
 	 */
 	public void testToDisplayString( )
 	{
@@ -184,7 +203,9 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
 	 */
 	public void testToNumber( )
 	{
@@ -195,7 +216,9 @@ public class ChoicePropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
+	 * ()
 	 */
 	public void testToBoolean( )
 	{

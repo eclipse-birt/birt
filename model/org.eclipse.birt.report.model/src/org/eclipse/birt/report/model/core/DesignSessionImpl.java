@@ -1074,7 +1074,7 @@ public class DesignSessionImpl
 		else
 		{
 			Object actualValue = ( (ElementPropertyDefn) propDefn )
-					.validateValue( null, value );
+					.validateValue( null, null, value );
 
 			defaultValues.put( propName, actualValue );
 		}

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
@@ -69,11 +70,11 @@ public class ListPropertyType extends PropertyType
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
 	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
-
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 		{
@@ -89,7 +90,7 @@ public class ListPropertyType extends PropertyType
 				Object item = items.get( i );
 
 				Object toValidate = defn.doValidateValueWithExpression( module,
-						defn.getSubType( ), item );
+						element, defn.getSubType( ), item );
 
 				validatedItems.add( toValidate );
 			}
@@ -100,7 +101,7 @@ public class ListPropertyType extends PropertyType
 		List<Object> listValue = new ArrayList<Object>( );
 
 		Object validatedValue = defn.doValidateValueWithExpression( module,
-				defn.getSubType( ), value );
+				element, defn.getSubType( ), value );
 		listValue.add( validatedValue );
 		return listValue;
 	}

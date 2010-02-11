@@ -57,12 +57,12 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 	public void testValidateValue( ) throws PropertyValueException
 	{
 		propDefn.setTrimOption( TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertNull( type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$ 
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertNull( type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$ 
 		assertEquals(
-				"abc", type.validateValue( design, propDefn, "abc" ).toString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				"abc", type.validateValue( design, null, propDefn, "abc" ).toString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals(
-				"    abc ", type.validateValue( design, propDefn, "    abc " ).toString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				"    abc ", type.validateValue( design, null, propDefn, "    abc " ).toString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/*

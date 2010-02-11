@@ -88,7 +88,7 @@ public abstract class DesignParseState extends AbstractParseState
 		Object propValue = null;
 		try
 		{
-			propValue = prop.validateXml( handler.getModule( ), value );
+			propValue = prop.validateXml( handler.getModule( ), element, value );
 		}
 		catch ( PropertyValueException ex )
 		{

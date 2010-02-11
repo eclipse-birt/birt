@@ -78,7 +78,7 @@ public class StyleCommand extends AbstractElementCommand
 
 		try
 		{
-			retValue = propDefn.validateValue( module, name );
+			retValue = propDefn.validateValue( module, element, name );
 		}
 		catch ( PropertyValueException e )
 		{

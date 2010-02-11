@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
@@ -125,8 +126,8 @@ public class DimensionPropertyType extends PropertyType
 	 * @return object is of type <code>DimensionValue</code> or null.
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 		{
@@ -134,7 +135,7 @@ public class DimensionPropertyType extends PropertyType
 		}
 
 		if ( value instanceof String )
-			return validateInputString( module, defn, (String) value );
+			return validateInputString( module, element, defn, (String) value );
 		if ( value instanceof DimensionValue )
 		{
 			if ( !StringUtil.isBlank( ( (DimensionValue) value ).getUnits( ) ) )
@@ -218,8 +219,8 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateXml( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
@@ -258,8 +259,8 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 */
 
-	public Object validateInputString( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateInputString( Module module, DesignElement element,
+			PropertyDefn defn, String value ) throws PropertyValueException
 	{
 		ULocale locale = module == null ? ThreadResources.getLocale( ) : module
 				.getLocale( );

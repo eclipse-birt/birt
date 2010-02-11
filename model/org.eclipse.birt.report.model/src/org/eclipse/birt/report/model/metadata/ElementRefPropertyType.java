@@ -104,8 +104,8 @@ public class ElementRefPropertyType extends PropertyType
 	 *             one defined in the <code>defn</code>.
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -113,13 +113,14 @@ public class ElementRefPropertyType extends PropertyType
 		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
 		if ( value instanceof String )
 		{
-			return validateStringValue( module, targetDefn, defn,
+			return validateStringValue( module, element, targetDefn, defn,
 					(String) value );
 		}
 		if ( value instanceof DesignElement )
 		{
 			DesignElement target = (DesignElement) value;
-			return validateElementValue( module, targetDefn, defn, target );
+			return validateElementValue( module, element, targetDefn, defn,
+					target );
 		}
 
 		// Invalid property value.
@@ -146,16 +147,16 @@ public class ElementRefPropertyType extends PropertyType
 	 */
 
 	private ElementRefValue validateStringValue( Module module,
-			ElementDefn targetDefn, PropertyDefn propDefn, String name )
-			throws PropertyValueException
+			DesignElement element, ElementDefn targetDefn,
+			PropertyDefn propDefn, String name ) throws PropertyValueException
 	{
 		name = StringUtil.trimString( name );
 		if ( name == null )
 			return null;
 
 		// special case for theme property since it can be directly referred.
-		ElementRefValue refValue = module.getNameHelper( ).resolve( name,
-				propDefn, targetDefn );
+		ElementRefValue refValue = module.getNameHelper( ).resolve( element,
+				name, propDefn, targetDefn );
 
 		assert refValue != null;
 
@@ -194,7 +195,8 @@ public class ElementRefPropertyType extends PropertyType
 	 */
 
 	private ElementRefValue validateElementValue( Module module,
-			ElementDefn targetDefn, PropertyDefn propDefn, DesignElement target )
+			DesignElement element, ElementDefn targetDefn,
+			PropertyDefn propDefn, DesignElement target )
 			throws PropertyValueException
 	{
 		// if this element has no name, it is invalid
@@ -204,8 +206,8 @@ public class ElementRefPropertyType extends PropertyType
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					IPropertyType.ELEMENT_REF_TYPE );
 		}
-		ElementRefValue refValue = module.getNameHelper( ).resolve( target,
-				propDefn, null );
+		ElementRefValue refValue = module.getNameHelper( ).resolve( element,
+				target, propDefn, null );
 
 		// Check type.
 
@@ -259,7 +261,8 @@ public class ElementRefPropertyType extends PropertyType
 	 *            the element reference
 	 */
 
-	public void resolve( Module module, PropertyDefn defn, ElementRefValue ref )
+	public void resolve( Module module, DesignElement element,
+			PropertyDefn defn, ElementRefValue ref )
 	{
 		if ( ref.isResolved( ) )
 			return;
@@ -273,7 +276,7 @@ public class ElementRefPropertyType extends PropertyType
 		// special case for theme property since it can be direcly referred.
 
 		DesignElement target = null;
-		target = module.resolveElement( name, defn, null );
+		target = module.resolveElement( element, name, defn, null );
 
 		if ( target != null )
 			ref.resolve( target );

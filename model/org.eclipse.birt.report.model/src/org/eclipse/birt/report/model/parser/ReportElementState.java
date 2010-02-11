@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -51,9 +49,11 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ElementStructureUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
+import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -83,8 +83,6 @@ public abstract class ReportElementState extends DesignParseState
 	 * type.
 	 */
 	protected String containmentPropName = null;
-
-	protected Map<Long, OverriddenRefValue> overriddenRefValues = null;
 
 	/**
 	 * Constructs the report element state with the design parser handler, the
@@ -378,7 +376,7 @@ public abstract class ReportElementState extends DesignParseState
 			try
 			{
 				name = (String) propDefn.validateValue( this.handler
-						.getModule( ), name );
+						.getModule( ), element, name );
 			}
 			catch ( PropertyValueException e )
 			{
@@ -470,8 +468,9 @@ public abstract class ReportElementState extends DesignParseState
 		if ( StringUtil.isBlank( extendsName ) )
 			return;
 
-		DesignElement parent = module.resolveElement( extendsName, element
-				.getPropertyDefn( IDesignElementModel.EXTENDS_PROP ), defn );
+		DesignElement parent = module.resolveElement( element, extendsName,
+				element.getPropertyDefn( IDesignElementModel.EXTENDS_PROP ),
+				defn );
 
 		if ( parent == null )
 		{
@@ -641,7 +640,7 @@ public abstract class ReportElementState extends DesignParseState
 	 *            the element contains virtual elements inside.
 	 */
 
-	protected void addTheVirualElements2Map( DesignElement element )
+	private void addTheVirualElements2Map( DesignElement element )
 	{
 		Iterator contentIter = new ContentIterator( handler.module, element );
 		Module module = handler.getModule( );
@@ -769,14 +768,21 @@ public abstract class ReportElementState extends DesignParseState
 		if ( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG
 				.equalsIgnoreCase( tagName ) )
 		{
-			if ( ( ( defn.getSlotCount( ) > 0 || getElement( ).getContents( )
-					.size( ) > 0 ) && defn.canExtend( ) )
-					|| ( !defn.canExtend( ) && getElement( )
-							.canContainVirtualElements( ) ) )
+			if ( ( defn.getSlotCount( ) > 0 || defn.getContents( ).size( ) > 0 )
+					&& defn.canExtend( ) )
 			{
 				return new OverriddenValuesState(
-						(ModuleParserHandler) getHandler( ), getElement( ),
-						this );
+						(ModuleParserHandler) getHandler( ), getElement( ) );
+			}
+			else if ( getElement( ).canDynamicExtends( ) )
+			{
+				// fire a semantic warning to non-allowed overridden values
+				getHandler( )
+						.getErrorHandler( )
+						.semanticWarning(
+								new XMLParserException(
+										XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG ) );
+				return new AnyElementState( getHandler( ) );
 			}
 		}
 		return super.startElement( tagName );
@@ -798,84 +804,5 @@ public abstract class ReportElementState extends DesignParseState
 		// multiple threads.
 
 		getElement( ).getHandle( handler.module );
-	}
-
-	/**
-	 * @param baseID
-	 * @param tmpValue
-	 */
-
-	protected void insertOverriddenRefValue( long baseID,
-			OverriddenRefValue tmpValue )
-	{
-		if ( overriddenRefValues == null )
-			overriddenRefValues = new HashMap<Long, OverriddenRefValue>( );
-
-		overriddenRefValues.put( Long.valueOf( baseID ), tmpValue );
-	}
-
-	/**
-	 * Inserts a name/value pair for the element with the given id.
-	 * 
-	 * @param id
-	 * @param propName
-	 * @param value
-	 */
-	protected void insertOverridenPropertyValue( long id, String propName,
-			String value )
-	{
-		if ( overriddenRefValues == null )
-			overriddenRefValues = new HashMap<Long, OverriddenRefValue>( );
-
-		OverriddenRefValue refValue = overriddenRefValues.get( Long
-				.valueOf( id ) );
-		if ( refValue == null )
-		{
-			refValue = new OverriddenRefValue( 0, null );
-		}
-		refValue.insertPropertyValue( propName, value );
-	}
-
-	/**
-	 * The data structure to store the id/ name pair.
-	 */
-
-	protected static class OverriddenRefValue
-	{
-
-		private long id;
-		private String name;
-		Map<String, String> propValues = null;
-
-		OverriddenRefValue( long id, String name )
-		{
-			this.name = name;
-			this.id = id;
-		}
-
-		public String getName( )
-		{
-			return name;
-		}
-
-		public long getID( )
-		{
-			return id;
-		}
-		
-		public Map<String, String> getPropertyValues()
-		{
-			return propValues;
-		}
-
-		protected void insertPropertyValue( String propName, String value )
-		{
-			if ( propValues == null )
-			{
-				propValues = new HashMap<String, String>( );
-			}
-
-			propValues.put( propName, value );
-		}
 	}
 }

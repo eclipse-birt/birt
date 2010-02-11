@@ -579,7 +579,7 @@ public abstract class PropertyDefn
 		{
 			try
 			{
-				validateXml( null, defaultValue.toString( ) );
+				validateXml( null, null, defaultValue.toString( ) );
 			}
 			catch ( PropertyValueException e )
 			{
@@ -849,8 +849,8 @@ public abstract class PropertyDefn
 	 *             if the value is not valid
 	 */
 
-	public Object validateValue( Module module, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			Object value ) throws PropertyValueException
 	{
 
 		Object retValue = null;
@@ -869,7 +869,7 @@ public abstract class PropertyDefn
 				return retValue;
 		}
 
-		retValue = doValidateValueWithExpression( module, type, value );
+		retValue = doValidateValueWithExpression( module, element, type, value );
 
 		// Per-property validations using a specific validator.
 
@@ -897,12 +897,13 @@ public abstract class PropertyDefn
 	 */
 
 	protected Object doValidateValueWithExpression( Module module,
-			PropertyType tmpType, Object value ) throws PropertyValueException
+			DesignElement element, PropertyType tmpType, Object value )
+			throws PropertyValueException
 	{
 		Object[] tmpValues = getCompatibleTypeAndValue( tmpType, value );
 
 		Object retValue = ( (PropertyType) tmpValues[0] ).validateValue(
-				module, this, tmpValues[1] );
+				module, element, this, tmpValues[1] );
 
 		return pushBackExpressionValues( value, retValue );
 	}
@@ -922,8 +923,8 @@ public abstract class PropertyDefn
 	 *             if the value is not valid
 	 */
 
-	public Object validateXml( Module module, Object value )
-			throws PropertyValueException
+	public Object validateXml( Module module, DesignElement element,
+			Object value ) throws PropertyValueException
 	{
 		Object retValue = null;
 
@@ -939,7 +940,7 @@ public abstract class PropertyDefn
 
 		// Property type validation
 
-		retValue = doValidateXMLWithExpression( module, value );
+		retValue = doValidateXMLWithExpression( module, element, value );
 
 		// Per-property validations using a specific validator.
 
@@ -966,13 +967,13 @@ public abstract class PropertyDefn
 	 * @throws PropertyValueException
 	 */
 
-	private Object doValidateXMLWithExpression( Module module, Object value )
-			throws PropertyValueException
+	private Object doValidateXMLWithExpression( Module module,
+			DesignElement element, Object value ) throws PropertyValueException
 	{
 		Object[] tmpValues = getCompatibleTypeAndValue( type, value );
 
 		Object retValue = ( (PropertyType) tmpValues[0] ).validateXml( module,
-				this, tmpValues[1] );
+				element, this, tmpValues[1] );
 
 		return pushBackExpressionValues( value, retValue );
 	}

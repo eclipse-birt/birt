@@ -247,7 +247,7 @@ public class ExtendedItemPropSearchStrategy
 					// do some validation for the value
 					try
 					{
-						selectorValue = prop.validateValue( module,
+						selectorValue = prop.validateValue( module, null,
 								selectorValue );
 						if ( selectorValue != null )
 						{
@@ -291,7 +291,7 @@ public class ExtendedItemPropSearchStrategy
 			Object value = source.getProperty( prop.getName( ) );
 			try
 			{
-				value = prop.validateValue( module, value );
+				value = prop.validateValue( module, target, value );
 				target.setProperty( prop, value );
 			}
 			catch ( PropertyValueException e )

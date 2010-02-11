@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -46,18 +47,33 @@ public class DummyNameContext implements INameContext
 		return Collections.emptyList( );
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
+	 * .eclipse.birt.report.model.core.DesignElement, java.lang.String,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
+	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
-	public ElementRefValue resolve( String elementName, PropertyDefn propDefn )
+	public ElementRefValue resolve( DesignElement focus, String elementName,
+			PropertyDefn propDefn, ElementDefn elementDefn )
 	{
 		return null;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
+	 * .eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
+	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
-	public ElementRefValue resolve( DesignElement element, PropertyDefn propDefn )
+	public ElementRefValue resolve( DesignElement focus, DesignElement element,
+			PropertyDefn propDefn, ElementDefn elementDefn )
 	{
 		return null;
 	}

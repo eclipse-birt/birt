@@ -171,7 +171,7 @@ public class TemplateCommand extends AbstractElementCommand
 			return null;
 
 		DesignElement resolvedElement = module
-				.resolveElement( name, prop, null );
+				.resolveElement( element, name, prop, null );
 		return (TemplateParameterDefinition) resolvedElement;
 	}
 

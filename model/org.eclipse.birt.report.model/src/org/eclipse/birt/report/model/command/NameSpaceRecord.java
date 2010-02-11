@@ -121,8 +121,8 @@ public class NameSpaceRecord extends SimpleRecord
 			if ( element instanceof IReferencableElement )
 			{
 				IReferencableElement originalElement = (IReferencableElement) root
-						.resolveElement( element.getName( ), null, element
-								.getDefn( ) );
+						.resolveElement( null, element.getName( ), null,
+								element.getDefn( ) );
 				ns.insert( element );
 
 				// drop the element from the cached name manager

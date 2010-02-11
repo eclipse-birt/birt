@@ -327,8 +327,9 @@ public abstract class Module extends DesignElement
 
 	public final DesignElement findDataSource( String name )
 	{
-		return resolveElement( name, null, MetaDataDictionary.getInstance( )
-				.getElement( ReportDesignConstants.DATA_SOURCE_ELEMENT ) );
+		return resolveElement( null, name, null, MetaDataDictionary
+				.getInstance( ).getElement(
+						ReportDesignConstants.DATA_SOURCE_ELEMENT ) );
 	}
 
 	/**
@@ -341,8 +342,9 @@ public abstract class Module extends DesignElement
 
 	public final DesignElement findDataSet( String name )
 	{
-		return resolveElement( name, null, MetaDataDictionary.getInstance( )
-				.getElement( ReportDesignConstants.DATA_SET_ELEMENT ) );
+		return resolveElement( null, name, null, MetaDataDictionary
+				.getInstance( ).getElement(
+						ReportDesignConstants.DATA_SET_ELEMENT ) );
 	}
 
 	/**
@@ -382,7 +384,8 @@ public abstract class Module extends DesignElement
 	 */
 	public final DesignElement findLevel( String name )
 	{
-		return resolveElement( name, null, MetaDataDictionary.getInstance( )
+		return resolveElement( null, name, null, MetaDataDictionary
+				.getInstance( )
 				.getElement( ReportDesignConstants.LEVEL_ELEMENT ) );
 	}
 
@@ -672,6 +675,8 @@ public abstract class Module extends DesignElement
 		IElementDefn defn = module.getDefn( );
 
 		// slots
+		List<DesignElement> unhandledElements = new ArrayList<DesignElement>( );
+
 		Iterator<ISlotDefn> slots = ( (ElementDefn) defn ).slotsIterator( );
 		while ( slots.hasNext( ) )
 		{
@@ -685,6 +690,12 @@ public abstract class Module extends DesignElement
 			for ( int pos = 0; pos < slot.getCount( ); pos++ )
 			{
 				DesignElement innerElement = slot.getContent( pos );
+				if ( innerElement.canDynamicExtends( ) )
+				{
+					if ( !unhandledElements.contains( innerElement ) )
+						unhandledElements.add( innerElement );
+					continue;
+				}
 				buildNameSpaceAndIDMap( module, innerElement );
 			}
 		}
@@ -713,6 +724,12 @@ public abstract class Module extends DesignElement
 						.getProperty( module, (ElementPropertyDefn) propDefn );
 				buildNameSpaceAndIDMap( module, innerElement );
 			}
+		}
+
+		// handle unhandledelement list
+		for ( DesignElement element : unhandledElements )
+		{
+			buildNameSpaceAndIDMap( module, element );
 		}
 
 		return module;
@@ -749,9 +766,16 @@ public abstract class Module extends DesignElement
 
 		ElementDefn defn = (ElementDefn) element.getDefn( );
 
-		assert module.getElementByID( element.getID( ) ) == null;
+		assert module.getElementByID( element.getID( ) ) == null
+				|| element.isVirtualElement( );
 		assert element.getID( ) > NO_ID;
-		module.addElementID( element );
+		if ( module.getElementByID( element.getID( ) ) == null )
+			module.addElementID( element );
+		else
+		{
+			element.setID( module.getNextID( ) );
+			module.addElementID( element );
+		}
 
 		// The name should not be null if it is required. The parser state
 		// should have already caught this case.
@@ -1121,11 +1145,11 @@ public abstract class Module extends DesignElement
 	 * @see IModuleNameScope#resolve(String, PropertyDefn)
 	 */
 
-	public final DesignElement resolveElement( String elementName,
-			PropertyDefn propDefn, IElementDefn elementDefn )
+	public final DesignElement resolveElement( DesignElement element,
+			String elementName, PropertyDefn propDefn, IElementDefn elementDefn )
 	{
-		ElementRefValue refValue = nameHelper.resolve( elementName, propDefn,
-				elementDefn );
+		ElementRefValue refValue = nameHelper.resolve( element, elementName,
+				propDefn, elementDefn );
 		return refValue == null ? null : refValue.getElement( );
 	}
 
@@ -1146,11 +1170,12 @@ public abstract class Module extends DesignElement
 	 * @see IModuleNameScope#resolve(String, PropertyDefn)
 	 */
 
-	public final DesignElement resolveElement( DesignElement element,
-			PropertyDefn propDefn, IElementDefn elementDefn )
+	public final DesignElement resolveElement( DesignElement focus,
+			DesignElement element, PropertyDefn propDefn,
+			IElementDefn elementDefn )
 	{
-		ElementRefValue refValue = nameHelper.resolve( element, propDefn,
-				elementDefn );
+		ElementRefValue refValue = nameHelper.resolve( focus, element,
+				propDefn, elementDefn );
 		return refValue == null ? null : refValue.getElement( );
 	}
 
@@ -2330,7 +2355,7 @@ public abstract class Module extends DesignElement
 
 	public final Theme findTheme( String name )
 	{
-		return (Theme) resolveElement( name, null, MetaDataDictionary
+		return (Theme) resolveElement( null, name, null, MetaDataDictionary
 				.getInstance( ).getElement( ReportDesignConstants.THEME_ITEM ) );
 	}
 

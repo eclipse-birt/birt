@@ -76,13 +76,17 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 		int value = TextualPropertyType.TRIM_SPACE_VALUE
 				| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
 		propDefn.setTrimOption( value );
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
-		assertEquals( "abc", type.validateValue( design, propDefn, "abc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( "abc", type.validateValue( design, propDefn, "    abc " ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( "a bc", type.validateValue( design, propDefn, "a bc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( "ab9c", type.validateValue( design, propDefn, "ab9c" ) ); //$NON-NLS-1$ //$NON-NLS-2$	
-		assertEquals( "9abc", type.validateValue( design, propDefn, "9abc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( "abc", type.validateValue( design, null, propDefn, "abc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals(
+				"abc", type.validateValue( design, null, propDefn, "    abc " ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals(
+				"a bc", type.validateValue( design, null, propDefn, "a bc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals(
+				"ab9c", type.validateValue( design, null, propDefn, "ab9c" ) ); //$NON-NLS-1$ //$NON-NLS-2$	
+		assertEquals(
+				"9abc", type.validateValue( design, null, propDefn, "9abc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		try
 		{
@@ -91,7 +95,7 @@ public class NamePropertyTypeTest extends TextualPropertyTypeTestCase
 							ReportDesignConstants.DATA_SET_ELEMENT )
 					.getProperty( DesignElement.NAME_PROP );
 			assertEquals(
-					"ab.9c", type.validateValue( design, namePropDefn, "ab.9c" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+					"ab.9c", type.validateValue( design, null, namePropDefn, "ab.9c" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			fail( );
 		}
 		catch ( PropertyValueException e )

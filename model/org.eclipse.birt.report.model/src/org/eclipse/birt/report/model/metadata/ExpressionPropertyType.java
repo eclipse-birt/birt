@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
@@ -70,12 +71,12 @@ public class ExpressionPropertyType extends TextualPropertyType
 	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
-	 * .eclipse.birt.report.model.elements.ReportDesign,
+	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
-
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 			return null;

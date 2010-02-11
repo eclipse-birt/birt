@@ -1466,7 +1466,7 @@ public class DesignElementTest extends BaseTestCase
 	 * </ul>
 	 * 
 	 * @throws Exception
-	 */
+	 *//*
 	public void testValidatePropertyValue( ) throws Exception
 	{
 		try
@@ -1480,7 +1480,7 @@ public class DesignElementTest extends BaseTestCase
 		}
 
 		designElement.setProperty( DesignElement.DISPLAY_NAME_PROP, "report" );//$NON-NLS-1$
-	}
+	}*/
 
 	/**
 	 * Test getDisplayName( ).

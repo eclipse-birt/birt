@@ -107,8 +107,8 @@ class CompatiblePropToExprState extends CompatiblePropertyState
 
 		try
 		{
-			newValue = propDefn.getType( ).validateValue( module, propDefn,
-					newValue );
+			newValue = propDefn.getType( ).validateValue( module, element,
+					propDefn, newValue );
 		}
 		catch ( PropertyValueException e )
 		{

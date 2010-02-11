@@ -1541,8 +1541,8 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				return;
 			try
 			{
-				Object value = propertyDefn
-						.validateXml( null, text.toString( ) );
+				Object value = propertyDefn.validateXml( null, null, text
+						.toString( ) );
 				propertyDefn.setDefault( value );
 			}
 			catch ( PropertyValueException e )

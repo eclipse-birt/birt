@@ -19,13 +19,15 @@ import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
-import org.eclipse.birt.report.model.elements.olap.Measure;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Represents a cube.
@@ -63,10 +65,25 @@ public abstract class CubeHandle extends ReportElementHandle
 	 */
 	public DimensionHandle getDimension( String dimensionName )
 	{
-		DesignElement dimension = module.findDimension( dimensionName );
-		if ( dimension instanceof Dimension
-				&& dimension.isContentOf( getElement( ) ) )
-			return (DimensionHandle) dimension.getHandle( module );
+		if ( StringUtil.isBlank( dimensionName ) )
+			return null;
+		if ( !getElement( ).canDynamicExtends( ) )
+		{
+			DesignElement dimension = module.findDimension( dimensionName );
+			if ( dimension instanceof Dimension
+					&& dimension.isContentOf( getElement( ) ) )
+				return (DimensionHandle) dimension.getHandle( module );
+		}
+		else if ( getElement( ).getDynamicExtends( getModule( ) ) != null )
+		{
+			Cube cube = (Cube) getElement( );
+			DesignElement element = cube.findLocalElement( dimensionName,
+					MetaDataDictionary.getInstance( ).getElement(
+							ReportDesignConstants.DIMENSION_ELEMENT ) );
+			return (DimensionHandle) ( element == null ? null : element
+					.getHandle( module ) );
+		}
+
 		return null;
 	}
 
@@ -116,12 +133,12 @@ public abstract class CubeHandle extends ReportElementHandle
 			Cube parent, Module parentModule )
 	{
 		DesignElement dimension = parentModule.findDimension( dimensionName );
-		if (dimension == null)
+		if ( dimension == null )
 			return null;
-			
+
 		int index = dimension.getIndex( parentModule );
 		assert index != -1;
-		
+
 		List<DesignElement> dims = (List<DesignElement>) getElement( )
 				.getProperty( module, DIMENSIONS_PROP );
 
@@ -137,9 +154,25 @@ public abstract class CubeHandle extends ReportElementHandle
 	 */
 	public MeasureHandle getMeasure( String measureName )
 	{
-		DesignElement measure = module.findOLAPElement( measureName );
-		if ( measure instanceof Measure && measure.isContentOf( getElement( ) ) )
-			return (MeasureHandle) measure.getHandle( module );
+		if ( StringUtil.isBlank( measureName ) )
+			return null;
+		if ( !getElement( ).canDynamicExtends( ) )
+		{
+			DesignElement measure = module.findDimension( measureName );
+			if ( measure instanceof Dimension
+					&& measure.isContentOf( getElement( ) ) )
+				return (MeasureHandle) measure.getHandle( module );
+		}
+		else if ( getElement( ).getDynamicExtends( getModule( ) ) != null )
+		{
+			Cube cube = (Cube) getElement( );
+			DesignElement element = cube.findLocalElement( measureName,
+					MetaDataDictionary.getInstance( ).getElement(
+							ReportDesignConstants.MEASURE_ELEMENT ) );
+			return (MeasureHandle) ( element == null ? null : element
+					.getHandle( module ) );
+		}
+
 		return null;
 	}
 

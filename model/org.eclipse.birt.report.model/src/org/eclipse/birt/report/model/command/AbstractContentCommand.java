@@ -692,7 +692,7 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 		// recursively check the contents and add them
 
-		if ( content.isContainer( ) )
+		if ( content.getDefn( ).isContainer( ) )
 		{
 			Iterator<DesignElement> iter = new LevelContentIterator( module,
 					content, 1 );

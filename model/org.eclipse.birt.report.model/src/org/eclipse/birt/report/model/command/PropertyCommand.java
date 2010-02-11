@@ -831,7 +831,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		try
 		{
-			retValue = prop.validateValue( module, input );
+			retValue = prop.validateValue( module, element, input );
 		}
 		catch ( PropertyValueException ex )
 		{
@@ -994,7 +994,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( struct.getContext( ) != null )
 				value = struct.copy( );
 		}
-		value = memberDefn.validateValue( module, value );
+		value = memberDefn.validateValue( module, element, value );
 
 		// if set the value to the name of a structure, must ensure this
 		// would not create duplicates.
@@ -1238,8 +1238,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		String validatedValue = null;
 		try
 		{
-			validatedValue = (String) subType.validateValue( module, propDefn,
-					value );
+			validatedValue = (String) subType.validateValue( module, element,
+					propDefn, value );
 		}
 		catch ( PropertyValueException e )
 		{

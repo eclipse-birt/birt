@@ -220,8 +220,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 					.getStructDefn( ).getMember( PropertyMask.MASK_MEMBER );
 			StructPropertyDefn nameDefn = (StructPropertyDefn) maskProp
 					.getStructDefn( ).getMember( PropertyMask.NAME_MEMBER );
-			String value = maskDefn.validateValue( getModule( ), maskValue )
-					.toString( );
+			String value = maskDefn.validateValue( getModule( ), getElement( ),
+					maskValue ).toString( );
 
 			/*
 			 * If the property has no mask related to, adds a new mask item into

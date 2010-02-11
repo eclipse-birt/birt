@@ -158,7 +158,7 @@ public class NameCommand extends AbstractElementCommand
 
 			try
 			{
-				name = (String) propDefn.validateValue( module, name );
+				name = (String) propDefn.validateValue( module, element, name );
 			}
 			catch ( PropertyValueException e )
 			{

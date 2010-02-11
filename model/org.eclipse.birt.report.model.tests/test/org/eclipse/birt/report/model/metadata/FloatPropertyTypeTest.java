@@ -12,14 +12,15 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Test case for <code>FloatPropertyType</code>.
- *  
+ * 
  */
 public class FloatPropertyTypeTest extends PropertyTypeTestCase
 {
@@ -31,7 +32,9 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
+	 * ()
 	 */
 	public void testGetTypeCode( )
 	{
@@ -41,7 +44,8 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
 	public void testGetName( )
 	{
@@ -51,32 +55,34 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
+	 * ()
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
-		assertEquals( 12.34d, ( (Double) type.validateValue( design, propDefn,
-				new Double( 12.34d ) ) ).doubleValue( ), 2 );
-		assertEquals( 12.34d, ( (Double) type.validateValue( design, propDefn,
-				new Float( 12.34f ) ) ).doubleValue( ), 2 );
+		assertEquals( 12.34d, ( (Double) type.validateValue( design, null,
+				propDefn, new Double( 12.34d ) ) ).doubleValue( ), 2 );
+		assertEquals( 12.34d, ( (Double) type.validateValue( design, null,
+				propDefn, new Float( 12.34f ) ) ).doubleValue( ), 2 );
 
-		assertEquals( 12.34d, ( (Double) type.validateValue( design, propDefn,
-				new BigDecimal( 12.34 ) ) ).doubleValue( ), 2 );
-		assertEquals( 12, ( (Double) type.validateValue( design, propDefn,
-				new Integer( 12 ) ) ).intValue( ) );
-		assertEquals( 1, ( (Double) type.validateValue( design, propDefn,
+		assertEquals( 12.34d, ( (Double) type.validateValue( design, null,
+				propDefn, new BigDecimal( 12.34 ) ) ).doubleValue( ), 2 );
+		assertEquals( 12, ( (Double) type.validateValue( design, null,
+				propDefn, new Integer( 12 ) ) ).intValue( ) );
+		assertEquals( 1, ( (Double) type.validateValue( design, null, propDefn,
 				new Boolean( true ) ) ).intValue( ) );
-		assertEquals( 0, ( (Double) type.validateValue( design, propDefn,
+		assertEquals( 0, ( (Double) type.validateValue( design, null, propDefn,
 				new Boolean( false ) ) ).intValue( ) );
 
 		// String
 		ThreadResources.setLocale( ULocale.ENGLISH );
-		assertEquals( 1234.123d, ( (Double) type.validateValue( design,
+		assertEquals( 1234.123d, ( (Double) type.validateValue( design, null,
 				propDefn, "1,234.123" ) ).doubleValue( ), 3 ); //$NON-NLS-1$
-		assertEquals( 1234.123d, ( (Double) type.validateValue( design,
+		assertEquals( 1234.123d, ( (Double) type.validateValue( design, null,
 				propDefn, "1234.123" ) ).doubleValue( ), 3 ); //$NON-NLS-1$
 
 	}
@@ -84,40 +90,44 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateInputString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testValidateInputString()
 	 */
 	public void testValidateInputString( ) throws PropertyValueException
 	{
 
-		assertEquals( null, type.validateInputString( design, propDefn, null ) );
-		assertEquals( null, type.validateInputString( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateInputString( design, null, propDefn,
+				null ) );
+		assertEquals( null, type.validateInputString( design, null, propDefn,
+				"" ) ); //$NON-NLS-1$
 
 		// String
 		ThreadResources.setLocale( ULocale.ENGLISH );
 		assertEquals( 1234.123d, ( (Double) type.validateInputString( design,
-				propDefn, "1,234.123" ) ).doubleValue( ), 3 ); //$NON-NLS-1$
+				null, propDefn, "1,234.123" ) ).doubleValue( ), 3 ); //$NON-NLS-1$
 		assertEquals( 1234.123d, ( (Double) type.validateInputString( design,
-				propDefn, "1234.123" ) ).doubleValue( ), 3 ); //$NON-NLS-1$
+				null, propDefn, "1234.123" ) ).doubleValue( ), 3 ); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
+	 * ()
 	 */
 	public void testValidateXml( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateXml( design, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, propDefn, "" ) ); //$NON-NLS-1$
-		assertEquals( null, type.validateXml( design, propDefn, "  " ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
+		assertEquals( null, type.validateXml( design, null, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateXml( design, null, propDefn, "  " ) ); //$NON-NLS-1$
 
-		assertEquals(
-				12.34d,
-				( (Double) type.validateXml( null, null, "12.34" ) ).doubleValue( ), 2 ); //$NON-NLS-1$
+		assertEquals( 12.34d, ( (Double) type.validateXml( null, null, null,
+				"12.34" ) ).doubleValue( ), 2 ); //$NON-NLS-1$
 
 		try
 		{
-			type.validateXml( design, propDefn, "abc.abc" ); //$NON-NLS-1$
+			type.validateXml( design, null, propDefn, "abc.abc" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -128,7 +138,9 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * ()
 	 */
 	public void testToDouble( )
 	{
@@ -139,7 +151,9 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
+	 * ()
 	 */
 	public void testToInteger( )
 	{
@@ -150,7 +164,8 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 	public void testToXml( )
 	{
@@ -175,7 +190,9 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * ()
 	 */
 	public void testToString( )
 	{
@@ -192,7 +209,8 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDisplayString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testToDisplayString()
 	 */
 	public void testToDisplayString( )
 	{
@@ -206,7 +224,9 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
 	 */
 	public void testToNumber( )
 	{
@@ -218,7 +238,9 @@ public class FloatPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
+	 * ()
 	 */
 	public void testToBoolean( )
 	{

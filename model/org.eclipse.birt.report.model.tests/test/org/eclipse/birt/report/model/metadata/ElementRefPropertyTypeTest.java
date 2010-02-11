@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 
 /**
  * Test case for ElementRefPropertyType.
- *  
+ * 
  */
 
 public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
@@ -61,7 +61,9 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
+	 * ()
 	 */
 	public void testGetTypeCode( )
 	{
@@ -71,7 +73,8 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
 	public void testGetName( )
 	{
@@ -81,27 +84,29 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
+	 * ()
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
 		// "ds1" is resolved.
 		ElementRefValue refValue = (ElementRefValue) type.validateValue(
-				design, propDefn, "ds1" ); //$NON-NLS-1$
+				design, null, propDefn, "ds1" ); //$NON-NLS-1$
 		assertTrue( ds1 == refValue.getElement( ) );
 
 		// "ds2" is unresolved.
-		refValue = (ElementRefValue) type.validateValue( design, propDefn,
-				"ds2" ); //$NON-NLS-1$
+		refValue = (ElementRefValue) type.validateValue( design, null,
+				propDefn, "ds2" ); //$NON-NLS-1$
 		assertEquals( "ds2", refValue.getName( ) ); //$NON-NLS-1$
 
 		try
 		{
 			// wrong type in the same namespace.
-			type.validateValue( design, propDefn, "label1" ); //$NON-NLS-1$
+			type.validateValue( design, null, propDefn, "label1" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -111,13 +116,14 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 					e.getErrorCode( ) );
 		}
 
-		refValue = (ElementRefValue) type.validateValue( design, propDefn, ds1 );
+		refValue = (ElementRefValue) type.validateValue( design, null,
+				propDefn, ds1 );
 		assertTrue( ds1 == refValue.getElement( ) );
 
 		try
 		{
 			// wrong element type.
-			type.validateValue( design, propDefn, label1 ); 
+			type.validateValue( design, null, propDefn, label1 );
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -131,7 +137,7 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 		try
 		{
 			// wrong element type.
-			type.validateValue( design, propDefn, new Object( ) ); 
+			type.validateValue( design, null, propDefn, new Object( ) );
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -146,7 +152,8 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateInputString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testValidateInputString()
 	 */
 	public void testValidateInputString( ) throws PropertyValueException
 	{
@@ -156,7 +163,9 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
+	 * ()
 	 */
 	public void testValidateXml( ) throws PropertyValueException
 	{
@@ -166,7 +175,9 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * ()
 	 */
 	public void testToDouble( )
 	{
@@ -175,7 +186,9 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
+	 * ()
 	 */
 	public void testToInteger( )
 	{
@@ -184,7 +197,8 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 	public void testToXml( )
 	{
@@ -196,7 +210,9 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * ()
 	 */
 	public void testToString( )
 	{
@@ -208,7 +224,8 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDisplayString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testToDisplayString()
 	 */
 	public void testToDisplayString( )
 	{
@@ -224,7 +241,7 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	public void testResolve( )
 	{
 		ElementRefValue refValue = new ElementRefValue( null, "ds1" ); //$NON-NLS-1$
-		type.resolve( design, propDefn, refValue );
+		type.resolve( design, null, propDefn, refValue );
 
 		assertTrue( refValue.isResolved( ) );
 
@@ -233,7 +250,9 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
 	 */
 	public void testToNumber( )
 	{
@@ -242,7 +261,9 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
+	 * ()
 	 */
 	public void testToBoolean( )
 	{

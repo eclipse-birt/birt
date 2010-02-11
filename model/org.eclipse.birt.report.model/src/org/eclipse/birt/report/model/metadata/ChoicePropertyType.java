@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
@@ -65,8 +66,8 @@ public class ChoicePropertyType extends PropertyType
 	 *             or it is not a valid localized choice name.
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 		{
@@ -75,7 +76,7 @@ public class ChoicePropertyType extends PropertyType
 
 		if ( value instanceof String )
 		{
-			return validateInputString( module, defn, (String) value );
+			return validateInputString( module, element, defn, (String) value );
 		}
 
 		logger.log( Level.SEVERE, "Invalid choice value type:" + value ); //$NON-NLS-1$
@@ -96,12 +97,12 @@ public class ChoicePropertyType extends PropertyType
 	 *             if this value is not found in the predefined choice list.
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateXml( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
-		
+
 		tmpValue = StringUtil.trimString( tmpValue );
 		if ( tmpValue == null )
 		{
@@ -232,8 +233,8 @@ public class ChoicePropertyType extends PropertyType
 	 *             if the <code>name</code> is not valid.
 	 */
 
-	public Object validateInputString( Module module, PropertyDefn defn,
-			String name ) throws PropertyValueException
+	public Object validateInputString( Module module, DesignElement element,
+			PropertyDefn defn, String name ) throws PropertyValueException
 	{
 		name = StringUtil.trimString( name );
 		if ( name == null )

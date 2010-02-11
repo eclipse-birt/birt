@@ -183,9 +183,10 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( true, prop.canInherit( ) );
 		// if the extension model property definition type is xml, the string
 		// will be trimmed.
-		assertNull( prop.validateValue( design, "" ) ); //$NON-NLS-1$
-		assertNull( prop.validateValue( design, "  " ) ); //$NON-NLS-1$
-		assertEquals( "test", prop.validateValue( design, " test " ).toString( ) );//$NON-NLS-1$ //$NON-NLS-2$
+		assertNull( prop.validateValue( design, null, "" ) ); //$NON-NLS-1$
+		assertNull( prop.validateValue( design, null, "  " ) ); //$NON-NLS-1$
+		assertEquals(
+				"test", prop.validateValue( design, null, " test " ).toString( ) );//$NON-NLS-1$ //$NON-NLS-2$
 
 		prop = (ElementPropertyDefn) propList.get( 3 );
 		assertEquals( prop, extDefn.getProperty( "test5" ) ); //$NON-NLS-1$

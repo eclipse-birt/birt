@@ -131,11 +131,11 @@ public class NameHelperTest extends BaseTestCase
 				.getProperty( design, propName );
 		assertTrue( refValue.isResolved( ) );
 		assertEquals( refValue, design.getNameHelper( ).resolve(
-				refValue.getName( ),
+				testExtended.getElement( ), refValue.getName( ),
 				(PropertyDefn) testExtended.getPropertyDefn( propName ), null ) );
 		Dimension dimension = design.findDimension( "testDimension" ); //$NON-NLS-1$
 		assertEquals( refValue, dimension.getNameHelper( ).resolve(
-				refValue.getName( ),
+				testExtended.getElement( ), refValue.getName( ),
 				(PropertyDefn) testExtended.getPropertyDefn( propName ), null ) );
 	}
 

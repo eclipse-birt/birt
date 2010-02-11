@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -181,8 +182,8 @@ public abstract class PropertyType implements IPropertyType
 	 *             if the value is not valid
 	 */
 
-	abstract public Object validateValue( Module module, PropertyDefn defn,
-			Object value ) throws PropertyValueException;
+	abstract public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException;
 
 	/**
 	 * Validate a user input value for this property, the value is one that
@@ -202,10 +203,10 @@ public abstract class PropertyType implements IPropertyType
 	 * @return the validated value if the input value is valid.
 	 * @throws PropertyValueException
 	 */
-	public Object validateInputString( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateInputString( Module module, DesignElement element,
+			PropertyDefn defn, String value ) throws PropertyValueException
 	{
-		return validateValue( module, defn, value );
+		return validateValue( module, element, defn, value );
 	}
 
 	/**
@@ -229,10 +230,10 @@ public abstract class PropertyType implements IPropertyType
 	 *             if the value is not valid
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateXml( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
-		return validateValue( module, defn, value );
+		return validateValue( module, element, defn, value );
 	}
 
 	/**

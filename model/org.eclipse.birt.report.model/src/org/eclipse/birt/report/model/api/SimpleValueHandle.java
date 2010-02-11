@@ -290,7 +290,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 							.extractNamespace( stringValue ), StringUtil
 							.extractName( stringValue ) );
 					ElementRefPropertyType type = new ElementRefPropertyType( );
-					type.resolve( getModule( ), defn, value );
+					type.resolve( getModule( ), getElement( ), defn, value );
 					return values.indexOf( value );
 				}
 				return values.indexOf( o );
@@ -541,8 +541,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * 
 	 * @param item
 	 *            The new item to add.
-	 * @return a handle to the newly added structure��return null if the item
-	 *         is null.
+	 * @return a handle to the newly added structure��return null if the
+	 *         item is null.
 	 * @throws SemanticException
 	 *             If the property is not a list property, or if the the value
 	 *             of the item is incorrect.

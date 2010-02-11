@@ -259,6 +259,17 @@ public final class ContainerContext
 			}
 			containerInfo = containerInfo.container.getContainerInfo( );
 		}
+
+		DesignElement focusContainer = container;
+		while ( focusContainer != null )
+		{
+			// all the children in the element that has the dynamic extends will
+			// not be managed by name space
+			if ( focusContainer.getDynamicExtends( focusContainer.getRoot( ) ) != null )
+				return false;
+
+			focusContainer = focusContainer.getContainer( );
+		}
 		return true;
 	}
 

@@ -117,7 +117,7 @@ public class ExtendsCommand extends AbstractElementCommand
 			try
 			{
 				retValue = (ElementRefValue) propDefn.validateValue( module,
-						base );
+						element, base );
 			}
 			catch ( PropertyValueException e )
 			{
@@ -158,11 +158,11 @@ public class ExtendsCommand extends AbstractElementCommand
 						ExtendsForbiddenException.DESIGN_EXCEPTION_CANT_EXTEND );
 
 			if ( !newExtendsValue.isResolved( ) )
-				resolvedParent = root.resolveElement( ReferenceValueUtil
-						.needTheNamespacePrefix( newExtendsValue, module ),
-						propDefn, metaData );
+				resolvedParent = root.resolveElement( element,
+						ReferenceValueUtil.needTheNamespacePrefix(
+								newExtendsValue, module ), propDefn, metaData );
 			else
-				resolvedParent = root.resolveElement( newExtendsValue
+				resolvedParent = root.resolveElement( element, newExtendsValue
 						.getElement( ), propDefn, metaData );
 
 			DesignElement parent = newExtendsValue.getElement( );

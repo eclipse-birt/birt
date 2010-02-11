@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
  * Test case for ColorPropertyType.
- *  
+ * 
  */
 public class ColorPropertyTypeTest extends PropertyTypeTestCase
 {
@@ -65,64 +65,68 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
+	 * ()
 	 */
 	public void testValidateXml( ) throws PropertyValueException
 	{
 		String value = null;
-		assertEquals( null, type.validateXml( design, null, null ) );
-		assertEquals( null, type.validateXml( design, null, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateXml( design, null, null, null ) );
+		assertEquals( null, type.validateXml( design, null, null, "" ) ); //$NON-NLS-1$
 
 		value = "RGB(255,0,0)"; //$NON-NLS-1$
 		assertEquals(
-				Integer.decode( "#FF0000" ), type.validateXml( design, null, value ) ); //$NON-NLS-1$
+				Integer.decode( "#FF0000" ), type.validateXml( design, null, null, value ) ); //$NON-NLS-1$
 
 		value = "RGB(255%,0%,0%)"; //$NON-NLS-1$
 		assertEquals(
-				Integer.decode( "#FF0000" ), type.validateXml( design, null, value ) ); //$NON-NLS-1$
+				Integer.decode( "#FF0000" ), type.validateXml( design, null, null, value ) ); //$NON-NLS-1$
 
 		value = "RGB(65%,0%,0%)"; //$NON-NLS-1$
-		assertNotNull( type.validateXml( design, null, value ) ); 
+		assertNotNull( type.validateXml( design, null, null, value ) );
 
 		value = "RGB(65.01%,0%,0%)"; //$NON-NLS-1$
-		assertNotNull( type.validateXml( design, null, value ) ); 
+		assertNotNull( type.validateXml( design, null, null, value ) );
 
 		value = "RGB(  255 % , 0 % , 0 % )"; //$NON-NLS-1$
 		assertEquals(
-				Integer.decode( "#FF0000" ), type.validateXml( design, null, value ) ); //$NON-NLS-1$
+				Integer.decode( "#FF0000" ), type.validateXml( design, null, null, value ) ); //$NON-NLS-1$
 
 		value = "RGB(  255.01 % , 0.0 % , 0.0 % )"; //$NON-NLS-1$
 		assertEquals(
-				Integer.decode( "#FF0000" ), type.validateXml( design, null, value ) ); //$NON-NLS-1$
+				Integer.decode( "#FF0000" ), type.validateXml( design, null, null, value ) ); //$NON-NLS-1$
 
 		value = "RGB(450,350,0)"; //$NON-NLS-1$
 		assertEquals(
-				Integer.decode( "#FFFF00" ), type.validateXml( design, null, value ) ); //$NON-NLS-1$
+				Integer.decode( "#FFFF00" ), type.validateXml( design, null, null, value ) ); //$NON-NLS-1$
 
 		value = "red"; //$NON-NLS-1$
-		assertEquals( "red", type.validateXml( design, null, value ) ); //$NON-NLS-1$
+		assertEquals( "red", type.validateXml( design, null, null, value ) ); //$NON-NLS-1$
 
 		value = "123134"; //$NON-NLS-1$
 		assertEquals(
-				"123134", type.validateXml( design, null, value ).toString( ) ); //$NON-NLS-1$
+				"123134", type.validateXml( design, null, null, value ).toString( ) ); //$NON-NLS-1$
 
 		value = "1234567890"; //$NON-NLS-1$
 		assertEquals(
-				Integer.decode( "#FFFFFF" ).toString( ), type.validateXml( design, null, value ).toString( ) ); //$NON-NLS-1$
+				Integer.decode( "#FFFFFF" ).toString( ), type.validateXml( design, null, null, value ).toString( ) ); //$NON-NLS-1$
 
 		value = "#FF00FF"; //$NON-NLS-1$
 		assertEquals(
-				Integer.decode( "#FF00FF" ), type.validateXml( design, null, value ) ); //$NON-NLS-1$
+				Integer.decode( "#FF00FF" ), type.validateXml( design, null, null, value ) ); //$NON-NLS-1$
 
 		value = "#F0F"; //$NON-NLS-1$
 		assertEquals(
-				Integer.decode( "#FF00FF" ), type.validateXml( design, null, value ) ); //$NON-NLS-1$
+				Integer.decode( "#FF00FF" ), type.validateXml( design, null, null, value ) ); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
+	 * ()
 	 */
 	public void testGetTypeCode( )
 	{
@@ -132,7 +136,8 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
 	public void testGetName( )
 	{
@@ -142,73 +147,78 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
+	 * ()
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
 
 		// String
-		assertEquals( null, type.validateValue( design, propDefn, " " ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateValue( design, null, propDefn, " " ) ); //$NON-NLS-1$
 
 		assertEquals(
-				Integer.decode( "#FF00FF" ), type.validateValue( design, propDefn, "#F0F" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				Integer.decode( "#FF00FF" ), type.validateValue( design, null, propDefn, "#F0F" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
-				Integer.decode( "#FF00FF" ), type.validateValue( design, propDefn, "#FF00FF" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				Integer.decode( "#FF00FF" ), type.validateValue( design, null, propDefn, "#FF00FF" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
-				Integer.decode( "#FFFFFF" ), type.validateValue( design, propDefn, "#FFFFFFF" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				Integer.decode( "#FFFFFF" ), type.validateValue( design, null, propDefn, "#FFFFFFF" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
-				Integer.decode( "#FF00FF" ), type.validateValue( design, propDefn, "0xFF00FF" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals( new Integer( 1234567 ), type.validateValue( design,
+				Integer.decode( "#FF00FF" ), type.validateValue( design, null, propDefn, "0xFF00FF" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( new Integer( 1234567 ), type.validateValue( design, null,
 				propDefn, "1234567" ) ); //$NON-NLS-1$
 
-		assertEquals( "red", type.validateValue( design, propDefn, "red" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( "red", type.validateValue( design, null, propDefn, "red" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		assertEquals(
-				Integer.decode( "#FFFFFF" ), type.validateValue( design, propDefn, "rgb(100.0%,100.0%,100.0%)" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				Integer.decode( "#FFFFFF" ), type.validateValue( design, null, propDefn, "rgb(100.0%,100.0%,100.0%)" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
-				Integer.decode( "#FF00FF" ), type.validateValue( design, propDefn, "rgb(100.0%,0.0%,100.0%)" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				Integer.decode( "#FF00FF" ), type.validateValue( design, null, propDefn, "rgb(100.0%,0.0%,100.0%)" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
-				Integer.decode( "#FF00FF" ), type.validateValue( design, propDefn, "rgb(100.0%,0.0%,500.0%)" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				Integer.decode( "#FF00FF" ), type.validateValue( design, null, propDefn, "rgb(100.0%,0.0%,500.0%)" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		assertEquals(
-				Integer.decode( "#FFFFFF" ), type.validateValue( design, propDefn, "rgb(255,255,255)" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				Integer.decode( "#FFFFFF" ), type.validateValue( design, null, propDefn, "rgb(255,255,255)" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
-				Integer.decode( "#FF00FF" ), type.validateValue( design, propDefn, "rgb(255,0,255)" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				Integer.decode( "#FF00FF" ), type.validateValue( design, null, propDefn, "rgb(255,0,255)" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
-				Integer.decode( "#FFFFFF" ), type.validateValue( design, propDefn, "rgb(400,400,400)" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				Integer.decode( "#FFFFFF" ), type.validateValue( design, null, propDefn, "rgb(400,400,400)" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// Integer
 		Integer value = Integer.decode( "#FF00FF" ); //$NON-NLS-1$
-		assertEquals( value, type.validateValue( design, propDefn, value ) );
+		assertEquals( value, type.validateValue( design, null, propDefn, value ) );
 
 		try
 		{
-			type.validateValue( design, propDefn, Integer.decode( "#FFFFFFF" ) ); //$NON-NLS-1$
+			type.validateValue( design, null, propDefn, Integer
+					.decode( "#FFFFFFF" ) ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )
 		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-					.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateInputString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testValidateInputString()
 	 */
 	public void testValidateInputString( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateInputString( design, null, null ) );
-		assertEquals( null, type.validateInputString( design, null, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateInputString( design, null, null, null ) );
+		assertEquals( null, type.validateInputString( design, null, null, "" ) ); //$NON-NLS-1$
 
 		ThreadResources.setLocale( TEST_LOCALE );
 		assertEquals(
-				"red", type.validateInputString( design, propDefn, "\u7ea2\u8272" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				"red", type.validateInputString( design, null, propDefn, "\u7ea2\u8272" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
-				"myColor1", type.validateInputString( design, propDefn, "myColor1" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				"myColor1", type.validateInputString( design, null, propDefn, "myColor1" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// other points have been covered in validateValue.
 	}
@@ -241,7 +251,9 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * ()
 	 */
 	public void testToDouble( )
 	{
@@ -257,7 +269,9 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
+	 * ()
 	 */
 	public void testToInteger( )
 	{
@@ -273,7 +287,8 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 	public void testToXml( )
 	{
@@ -285,7 +300,9 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * ()
 	 */
 	public void testToString( )
 	{
@@ -301,7 +318,8 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDisplayString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testToDisplayString()
 	 */
 
 	public void testToDisplayString( ) throws PropertyValueException
@@ -328,7 +346,9 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
 	 */
 	public void testToNumber( )
 	{
@@ -337,7 +357,9 @@ public class ColorPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
+	 * ()
 	 */
 	public void testToBoolean( )
 	{

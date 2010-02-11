@@ -17,6 +17,7 @@ import java.text.ParseException;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
@@ -73,8 +74,8 @@ public class IntegerPropertyType extends PropertyType
 	 * @return object of type Integer or null if value is null..
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -89,7 +90,8 @@ public class IntegerPropertyType extends PropertyType
 			if ( StringUtil.trimString( (String) value ) == null )
 				return null;
 
-			return validateInputString( module, defn, ( (String) value ).trim( ) );
+			return validateInputString( module, element, defn,
+					( (String) value ).trim( ) );
 		}
 		if ( value instanceof BigDecimal )
 			return Integer.valueOf( ( (BigDecimal) value ).intValue( ) );
@@ -109,11 +111,12 @@ public class IntegerPropertyType extends PropertyType
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyType#validateInputString
 	 * (org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.String)
 	 */
 
-	public Object validateInputString( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateInputString( Module module, DesignElement element,
+			PropertyDefn defn, String value ) throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
 		if ( value == null )
@@ -146,11 +149,11 @@ public class IntegerPropertyType extends PropertyType
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse
 	 * .birt.report.model.core.Module,
-	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.String)
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
-
-	public Object validateXml( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateXml( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;

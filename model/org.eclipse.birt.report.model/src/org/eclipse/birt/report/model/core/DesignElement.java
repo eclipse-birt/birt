@@ -1579,7 +1579,7 @@ public abstract class DesignElement
 	 *             If the property is undefined.
 	 * @throws PropertyValueException
 	 *             If the value is incorrect.
-	 */
+	 *//*
 
 	public Object validatePropertyValue( Module module, String propName,
 			Object value ) throws PropertyNameException, PropertyValueException
@@ -1595,7 +1595,7 @@ public abstract class DesignElement
 
 		try
 		{
-			return prop.validateValue( module, value );
+			return prop.validateValue( module, this, value );
 		}
 		catch ( PropertyValueException e )
 		{
@@ -1605,7 +1605,7 @@ public abstract class DesignElement
 			e.setPropertyName( propName );
 			throw e;
 		}
-	}
+	}*/
 
 	/**
 	 * Returns the shared style referenced by this element. This method will try
@@ -3763,13 +3763,21 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Checks whether the element can have virtual elements.
+	 * Gets the dynamic extended element. By default it is null. Some inherited
+	 * class will override this method to define its behavior.
 	 * 
-	 * @return <code>true</code> if can. Otherwise <code>false</code>.
+	 * @param module
+	 *            the module that this element resides in
+	 * @return
 	 */
-
-	public boolean canContainVirtualElements( )
+	public DesignElement getDynamicExtends( Module module )
 	{
-		return getExtendsName( ) != null;
+		return null;
+	}
+
+	
+	public boolean canDynamicExtends( )
+	{
+		return false;
 	}
 }

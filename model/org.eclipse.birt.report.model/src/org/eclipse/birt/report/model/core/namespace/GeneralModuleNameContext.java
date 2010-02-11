@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -86,7 +87,7 @@ public class GeneralModuleNameContext extends AbstractModuleNameContext
 	 * @return the element reference value.
 	 */
 
-	private ElementRefValue resolve( String elementName, int level )
+	protected ElementRefValue resolve( String elementName, int level )
 	{
 		String namespace = StringUtil.extractNamespace( elementName );
 		String name = StringUtil.extractName( elementName );
@@ -200,12 +201,14 @@ public class GeneralModuleNameContext extends AbstractModuleNameContext
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.IModuleNameSpace#resolve
-	 * (org.eclipse.birt.report.model.core.DesignElement,
-	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
+	 * .eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
+	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
-
-	public ElementRefValue resolve( DesignElement element, PropertyDefn propDefn )
+	public ElementRefValue resolve( DesignElement focus, DesignElement element,
+			PropertyDefn propDefn, ElementDefn elementDefn )
 	{
 		if ( propDefn != null
 				&& ( IModuleModel.THEME_PROP.equalsIgnoreCase( propDefn
@@ -220,11 +223,13 @@ public class GeneralModuleNameContext extends AbstractModuleNameContext
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.IModuleNameSpace#resolveNative
-	 * (java.lang.String, org.eclipse.birt.report.model.metadata.PropertyDefn)
+	 * org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
+	 * .eclipse.birt.report.model.core.DesignElement, java.lang.String,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
+	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
-
-	public ElementRefValue resolve( String elementName, PropertyDefn propDefn )
+	public ElementRefValue resolve( DesignElement focus, String elementName,
+			PropertyDefn propDefn, ElementDefn elementDefn )
 	{
 		if ( propDefn != null
 				&& ( IModuleModel.THEME_PROP.equalsIgnoreCase( propDefn

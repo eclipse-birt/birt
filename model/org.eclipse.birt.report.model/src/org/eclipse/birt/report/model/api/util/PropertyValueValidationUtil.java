@@ -104,8 +104,9 @@ public class PropertyValueValidationUtil
 								.getModule( ), memberDefn ) );
 			else
 				item.setProperty( memberDefn, memberDefn.validateValue( element
-						.getModule( ), ( (Structure) item ).getLocalProperty(
-						element.getModule( ), memberDefn ) ) );
+						.getModule( ), element.getElement( ),
+						( (Structure) item ).getLocalProperty( element
+								.getModule( ), memberDefn ) ) );
 		}
 
 		if ( item instanceof Structure )
@@ -256,7 +257,7 @@ public class PropertyValueValidationUtil
 				break;
 			default :
 				retValue = propDefn.validateValue( element.getModule( ),
-						propValue );
+						element.getElement( ), propValue );
 
 				if ( retValue != null && propDefn.isEncryptable( ) )
 				{

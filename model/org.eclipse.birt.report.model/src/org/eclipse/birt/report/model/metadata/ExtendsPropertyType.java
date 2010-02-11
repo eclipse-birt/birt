@@ -55,7 +55,8 @@ public class ExtendsPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
 	public int getTypeCode( )
@@ -66,7 +67,8 @@ public class ExtendsPropertyType extends PropertyType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see
+	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
 	public String getName( )
@@ -84,8 +86,8 @@ public class ExtendsPropertyType extends PropertyType
 	 *         the target element.
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -124,15 +126,15 @@ public class ExtendsPropertyType extends PropertyType
 
 	/**
 	 * Returns the referenced element name if the input value is an
-	 * <code>ElementRefValue</code>, return <code>null</code> if the value
-	 * is null.
+	 * <code>ElementRefValue</code>, return <code>null</code> if the value is
+	 * null.
 	 */
 
 	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
-		
+
 		ElementRefValue refValue = (ElementRefValue) value;
 		return refValue.getQualifiedReference( );
 	}
@@ -154,7 +156,7 @@ public class ExtendsPropertyType extends PropertyType
 	private ElementRefValue validateElementValue( Module module,
 			PropertyDefn targetDefn, DesignElement target )
 			throws PropertyValueException
-	{	
+	{
 		// Element is unresolved.
 
 		return new ElementRefValue( null, target );

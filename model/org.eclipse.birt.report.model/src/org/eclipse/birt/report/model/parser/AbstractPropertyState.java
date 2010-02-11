@@ -246,7 +246,7 @@ public class AbstractPropertyState extends AbstractParseState
 		try
 		{
 			Object propValue = memberDefn.validateXml( handler.getModule( ),
-					valueToSet );
+					element, valueToSet );
 			struct.setProperty( memberDefn, propValue );
 		}
 		catch ( PropertyValueException ex )
@@ -360,7 +360,7 @@ public class AbstractPropertyState extends AbstractParseState
 		try
 		{
 			Object propValue = propDefn.validateXml( handler.getModule( ),
-					valueToSet );
+					element, valueToSet );
 			element.setProperty( propDefn, propValue );
 		}
 		catch ( PropertyValueException ex )

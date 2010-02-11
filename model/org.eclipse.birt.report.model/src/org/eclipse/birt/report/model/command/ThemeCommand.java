@@ -121,8 +121,7 @@ public class ThemeCommand extends AbstractElementCommand
 	 * 
 	 * @param name
 	 *            the theme name
-	 * @return the <code>ElementRefValue</code>. Can be resolved or
-	 *         unresolved.
+	 * @return the <code>ElementRefValue</code>. Can be resolved or unresolved.
 	 * @throws PropertyValueException
 	 *             if the value is not valid
 	 */
@@ -138,7 +137,7 @@ public class ThemeCommand extends AbstractElementCommand
 		if ( name == null && currentModule.getThemeName( ) == null )
 			return null;
 
-		return propDefn.validateValue( currentModule, name );
+		return propDefn.validateValue( currentModule, currentModule, name );
 	}
 
 	/**

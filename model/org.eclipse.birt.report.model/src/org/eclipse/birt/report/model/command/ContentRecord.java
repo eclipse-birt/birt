@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -257,6 +258,11 @@ public class ContentRecord extends SimpleRecord
 			// second, handle the content refers other element
 			adjustReferredClients( content );
 
+		}
+
+		if ( content instanceof Cube )
+		{
+			( (Cube) content ).updateLayout( module );
 		}
 	}
 

@@ -44,8 +44,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Test for property localization.
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -73,15 +72,14 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>ColorPropertyType.toDisplayString(... , ...,Integer.decode( "#FF0000" ) );
- * </td>
+ * <td>ColorPropertyType.toDisplayString(... , ...,Integer.decode( "#FF0000" )
+ * );</td>
  * <td>red</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>ColorPropertyType.toDisplayString(... , ...,Integer.decode( "#FEDCBA" );
- * </td>
+ * <td>ColorPropertyType.toDisplayString(... , ...,Integer.decode( "#FEDCBA" );</td>
  * <td>#FEDCBA</td>
  * </tr>
  * 
@@ -94,37 +92,34 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>NumberPropertyType.toDisplayString(... , ...,new BigDecimal( 123456.78d );
- * </td>
+ * <td>NumberPropertyType.toDisplayString(... , ...,new BigDecimal( 123456.78d
+ * );</td>
  * <td>123,456.78</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>propDefn.details = color ChoiseSet
- * ChoicePropertyType.toDisplayString(... , propDefn, "red" );</td>
+ * <td>propDefn.details = color ChoiseSet ChoicePropertyType.toDisplayString(...
+ * , propDefn, "red" );</td>
  * <td>red</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>propDefn.details = color ChoiseSet
- * ChoicePropertyType.toDisplayString(... , propDefn, Integer.decode( "#FF0000" ) );
- * </td>
+ * <td>propDefn.details = color ChoiseSet ChoicePropertyType.toDisplayString(...
+ * , propDefn, Integer.decode( "#FF0000" ) );</td>
  * <td>red</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>BooleanPropertyType.toDisplayString(... , ..., new Boolean( true ) );
- * </td>
+ * <td>BooleanPropertyType.toDisplayString(... , ..., new Boolean( true ) );</td>
  * <td>true</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>BooleanPropertyType.toDisplayString(... , ..., new Boolean( false ));
- * </td>
+ * <td>BooleanPropertyType.toDisplayString(... , ..., new Boolean( false ));</td>
  * <td>false</td>
  * <tr>
  * 
@@ -136,8 +131,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>BooleanPropertyType.toDisplayString(... , ..., new Double( 1.01 )) ;
- * </td>
+ * <td>BooleanPropertyType.toDisplayString(... , ..., new Double( 1.01 )) ;</td>
  * <td>true</td>
  * </tr>
  * 
@@ -149,8 +143,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>BooleanPropertyType.toDisplayString(... , ..., new BigDecimal( 1.01 ) );
- * </td>
+ * <td>BooleanPropertyType.toDisplayString(... , ..., new BigDecimal( 1.01 ) );</td>
  * <td>true</td>
  * </tr>
  * 
@@ -227,7 +220,7 @@ public class PropertyLocalizationTest extends BaseTestCase
 	 * 
 	 * @param fileName
 	 * @throws Exception
-	 *
+	 * 
 	 */
 	private void prepareCases( String fileName ) throws Exception
 	{
@@ -618,27 +611,27 @@ public class PropertyLocalizationTest extends BaseTestCase
 				PropertyType.COLOR_TYPE );
 
 		assertEquals( Integer.decode( "#FF0000" ), //$NON-NLS-1$
-				propertyType.validateInputString( design, null,
+				propertyType.validateInputString( design, null, null,
 						"RGB( 255, 0, 0 )" ) ); //$NON-NLS-1$
 
 		assertEquals( Integer.decode( "#FF00FF" ), //$NON-NLS-1$
-				propertyType.validateInputString( design, null,
+				propertyType.validateInputString( design, null, null,
 						"RGB( 400, 0, 300 )" ) ); //$NON-NLS-1$
 
 		assertEquals( Integer.decode( "#FF0000" ), //$NON-NLS-1$
-				propertyType.validateInputString( design, null,
+				propertyType.validateInputString( design, null, null,
 						"RGB( 255%, 0%, 0% )" ) ); //$NON-NLS-1$
 
 		assertEquals( Integer.decode( "#FF00FF" ), //$NON-NLS-1$
-				propertyType.validateInputString( design, null,
+				propertyType.validateInputString( design, null, null,
 						"RGB( 300%, 0%, 268% )" ) ); //$NON-NLS-1$
 
 		assertEquals(
-				"red", propertyType.validateInputString( design, null, "red" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				"red", propertyType.validateInputString( design, null, null, "red" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		try
 		{
-			propertyType.validateInputString( design, null,
+			propertyType.validateInputString( design, null, null,
 					"None-exist-color-name" ); //$NON-NLS-1$
 			fail( );
 		}
@@ -650,7 +643,7 @@ public class PropertyLocalizationTest extends BaseTestCase
 		propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
 				PropertyType.DATE_TIME_TYPE );
 		Date date = (Date) propertyType.validateInputString( design, null,
-				"04/29/81" ); //$NON-NLS-1$
+				null, "04/29/81" ); //$NON-NLS-1$
 		assertEquals( Calendar.APRIL, date.getMonth( ) );
 		assertEquals( 29, date.getDate( ) );
 		assertEquals( 81, date.getYear( ) );
@@ -676,10 +669,10 @@ public class PropertyLocalizationTest extends BaseTestCase
 				PropertyType.COLOR_TYPE ).getChoices( ) );
 
 		assertEquals( IColorConstants.RED, propertyType.validateInputString(
-				null, propDefn, "red" ) ); //$NON-NLS-1$
+				null, null, propDefn, "red" ) ); //$NON-NLS-1$
 		try
 		{
-			propertyType.validateInputString( design, propDefn,
+			propertyType.validateInputString( design, null, propDefn,
 					"None-exist-color-name" ); //$NON-NLS-1$
 			fail( );
 		}
@@ -689,14 +682,14 @@ public class PropertyLocalizationTest extends BaseTestCase
 		// fontWeights:
 		propDefn.setDetails( MetaDataDictionary.getInstance( ).getChoiceSet(
 				"fontWeight" ) ); //$NON-NLS-1$
-		assertEquals( "normal", propertyType.validateInputString( null, //$NON-NLS-1$
+		assertEquals( "normal", propertyType.validateInputString( null, null, //$NON-NLS-1$
 				propDefn, "normal" ) ); //$NON-NLS-1$
 
 		// 5. Boolean
 		propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
 				PropertyType.BOOLEAN_TYPE );
 		assertEquals( new Boolean( true ), propertyType.validateInputString(
-				null, null, "true" ) ); //$NON-NLS-1$
+				null, null, null, "true" ) ); //$NON-NLS-1$
 
 		// 6. Float
 		propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
@@ -725,7 +718,7 @@ public class PropertyLocalizationTest extends BaseTestCase
 				PropertyType.COLOR_TYPE );
 		// "\u7ea2\u8272" represents ascii for "red".
 		assertEquals(
-				"red", propertyType.validateInputString( null, null, "\u7ea2\u8272" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				"red", propertyType.validateInputString( null, null, null, "\u7ea2\u8272" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// 2. Choice
 		propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
@@ -738,21 +731,21 @@ public class PropertyLocalizationTest extends BaseTestCase
 				PropertyType.COLOR_TYPE ).getChoices( ) );
 		// Red
 		assertEquals( IColorConstants.RED, propertyType.validateInputString(
-				null, propDefn, "\u7ea2\u8272" ) ); //$NON-NLS-1$
+				null, null, propDefn, "\u7ea2\u8272" ) ); //$NON-NLS-1$
 
 		// fontWeights:
 		propDefn.setDetails( MetaDataDictionary.getInstance( ).getChoiceSet(
 				"fontWeight" ) ); //$NON-NLS-1$
-		assertEquals( "normal", propertyType.validateInputString( null, //$NON-NLS-1$
+		assertEquals( "normal", propertyType.validateInputString( null, null,//$NON-NLS-1$
 				propDefn, "\u6807\u51c6" ) ); //$NON-NLS-1$
 
 		// 3. Boolean
 		propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
 				PropertyType.BOOLEAN_TYPE );
 		assertEquals( new Boolean( true ), propertyType.validateInputString(
-				null, null, "\u771f" ) ); //$NON-NLS-1$
+				null, null, null, "\u771f" ) ); //$NON-NLS-1$
 		assertEquals( new Boolean( false ), propertyType.validateInputString(
-				null, null, "\u5047" ) ); //$NON-NLS-1$
+				null, null, null, "\u5047" ) ); //$NON-NLS-1$
 
 		// message.properties unrelated cases.
 
@@ -760,7 +753,7 @@ public class PropertyLocalizationTest extends BaseTestCase
 		// 4. DateTime
 		propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
 				PropertyType.DATE_TIME_TYPE );
-		Date date = (Date) propertyType.validateInputString( null, null,
+		Date date = (Date) propertyType.validateInputString( null, null, null,
 				"81-4-29" ); //$NON-NLS-1$
 		assertEquals( Calendar.APRIL, date.getMonth( ) );
 		assertEquals( 29, date.getDate( ) );

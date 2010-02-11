@@ -59,55 +59,55 @@ public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
 
 		// String
-		assertEquals( null, type.validateValue( design, propDefn, " " ) ); //$NON-NLS-1$
-		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
+		assertEquals( null, type.validateValue( design, null, propDefn, " " ) ); //$NON-NLS-1$
+		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
 				"true" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
 				"false" ) ); //$NON-NLS-1$
 
 		ThreadResources.setLocale( TEST_LOCALE );
-		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
 				"\u771f" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
 				"\u5047" ) ); //$NON-NLS-1$
 
 		// Boolean
-		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
 				Boolean.TRUE ) );
-		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
 				Boolean.FALSE ) );
 
 		// Integer
-		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
 				new Integer( 1 ) ) );
-		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
 				new Integer( 2 ) ) );
-		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
 				new Integer( 0 ) ) );
 
 		// Double
-		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
 				new Double( 1.0d ) ) );
-		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
 				new Double( 2.0d ) ) );
-		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
 				new Double( 0.0d ) ) );
 
 		// BigDecimal
-		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
 				new BigDecimal( 1.0d ) ) );
-		assertEquals( Boolean.TRUE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
 				new BigDecimal( 2.0d ) ) );
-		assertEquals( Boolean.FALSE, type.validateValue( design, propDefn,
+		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
 				new BigDecimal( 0.0d ) ) );
 
 		// Wrong type
 		try
 		{
-			type.validateValue( design, propDefn, new Object( ) );
+			type.validateValue( design, null, propDefn, new Object( ) );
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -125,24 +125,24 @@ public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testValidateInputString( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateInputString( design, propDefn, null ) );
+		assertEquals( null, type.validateInputString( design, null, propDefn, null ) );
 
-		assertEquals( null, type.validateInputString( design, propDefn, " " ) ); //$NON-NLS-1$
-		assertEquals( Boolean.TRUE, type.validateInputString( design, propDefn,
+		assertEquals( null, type.validateInputString( design, null, propDefn, " " ) ); //$NON-NLS-1$
+		assertEquals( Boolean.TRUE, type.validateInputString( design, null, propDefn,
 				"true" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateInputString( design,
+		assertEquals( Boolean.FALSE, type.validateInputString( design, null,
 				propDefn, "false" ) ); //$NON-NLS-1$
 
 		ThreadResources.setLocale( TEST_LOCALE );
-		assertEquals( Boolean.TRUE, type.validateInputString( design, propDefn,
+		assertEquals( Boolean.TRUE, type.validateInputString( design, null, propDefn,
 				"\u771f" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateInputString( design,
+		assertEquals( Boolean.FALSE, type.validateInputString( design, null,
 				propDefn, "\u5047" ) ); //$NON-NLS-1$
 
 		// Wrong type
 		try
 		{
-			type.validateInputString( design, propDefn, "wrong-type-value" ); //$NON-NLS-1$
+			type.validateInputString( design, null, propDefn, "wrong-type-value" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -160,15 +160,15 @@ public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testValidateXml( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateXml( design, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, propDefn, " " ) ); //$NON-NLS-1$
-		assertEquals( Boolean.TRUE, type.validateXml( design, propDefn, "true" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateXml( design, propDefn,
+		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
+		assertEquals( null, type.validateXml( design, null, propDefn, " " ) ); //$NON-NLS-1$
+		assertEquals( Boolean.TRUE, type.validateXml( design, null, propDefn, "true" ) ); //$NON-NLS-1$
+		assertEquals( Boolean.FALSE, type.validateXml( design, null, propDefn,
 				"false" ) ); //$NON-NLS-1$
 
 		try
 		{
-			type.validateXml( design, propDefn, "wrong-xml-value" ); //$NON-NLS-1$
+			type.validateXml( design, null, propDefn, "wrong-xml-value" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )

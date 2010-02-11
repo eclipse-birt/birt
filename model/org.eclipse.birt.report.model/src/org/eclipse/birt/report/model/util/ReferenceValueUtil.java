@@ -80,7 +80,7 @@ public class ReferenceValueUtil
 		ElementRefPropertyType refType = (ElementRefPropertyType) prop
 				.getType( );
 
-		refType.resolve( module, prop, ref );
+		refType.resolve( module, null, prop, ref );
 
 		if ( !ref.isResolved( ) )
 			return ref;
@@ -154,8 +154,8 @@ public class ReferenceValueUtil
 	 * Gets the correct element name for the specified module. If the
 	 * <code>module</code> is the root element of <code>element</code>, no
 	 * libray namespace is in the return string. If the root element of
-	 * <code>element</code> is not <code>module</code> and it is a library
-	 * with the namespace, the return value contains the namespace.
+	 * <code>element</code> is not <code>module</code> and it is a library with
+	 * the namespace, the return value contains the namespace.
 	 * 
 	 * <p>
 	 * This is used to allocate the referenced element/structure within the
@@ -243,8 +243,9 @@ public class ReferenceValueUtil
 		PropertyDefn propDefn = (PropertyDefn) metaData
 				.getProperty( IDesignElementModel.EXTENDS_PROP );
 		DesignElement resolvedParent = module
-				.resolveElement( ReferenceValueUtil.needTheNamespacePrefix(
-						extendsRef, module ), propDefn, metaData );
+				.resolveElement( element, ReferenceValueUtil
+						.needTheNamespacePrefix( extendsRef, module ),
+						propDefn, metaData );
 
 		try
 		{
@@ -305,7 +306,7 @@ public class ReferenceValueUtil
 		else
 			refType = (ElementRefPropertyType) prop.getSubType( );
 
-		refType.resolve( module, prop, ref );
+		refType.resolve( module, element, prop, ref );
 		if ( ref.isResolved( ) )
 			ref.getTargetElement( ).addClient( element, prop.getName( ) );
 

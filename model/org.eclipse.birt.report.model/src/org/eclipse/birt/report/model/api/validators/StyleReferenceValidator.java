@@ -88,10 +88,10 @@ public class StyleReferenceValidator extends AbstractElementValidator
 
 		if ( styleName != null && style == null )
 		{
-			DesignElement resolvedElement = module
-					.resolveElement( styleName, toValidate
+			DesignElement resolvedElement = module.resolveElement( toValidate,
+					styleName, toValidate
 							.getPropertyDefn( IStyledElementModel.STYLE_PROP ),
-							null );
+					null );
 
 			// IModuleNameSpace nameSpace = module.getModuleNameSpace(
 			// Module.STYLE_NAME_SPACE );

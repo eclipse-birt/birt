@@ -19,6 +19,7 @@ import java.text.ParseException;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
@@ -100,8 +101,8 @@ public class FloatPropertyType extends PropertyType
 	 *         <code>null</code> if value is null.
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -118,7 +119,7 @@ public class FloatPropertyType extends PropertyType
 					? BooleanPropertyType.INT_TRUE
 					: BooleanPropertyType.INT_FALSE );
 		if ( value instanceof String )
-			return validateInputString( module, defn, (String) value );
+			return validateInputString( module, element, defn, (String) value );
 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
@@ -136,8 +137,8 @@ public class FloatPropertyType extends PropertyType
 	 *         string.
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateXml( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
@@ -253,8 +254,8 @@ public class FloatPropertyType extends PropertyType
 	 *             if the input string is not valid for the current locale.
 	 */
 
-	public Object validateInputString( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateInputString( Module module, DesignElement element,
+			PropertyDefn defn, String value ) throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
 		if ( value == null )

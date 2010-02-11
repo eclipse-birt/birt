@@ -80,7 +80,9 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
+	 * ()
 	 */
 	public void testGetTypeCode( )
 	{
@@ -90,7 +92,8 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
 	public void testGetName( )
 	{
@@ -100,21 +103,23 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
+	 * ()
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
 		// String
 
 		DimensionValue value = (DimensionValue) type.validateValue( design,
-				propDefn, "1.0cm" ); //$NON-NLS-1$
+				null, propDefn, "1.0cm" ); //$NON-NLS-1$
 		assertEquals( "cm", value.getUnits( ) ); //$NON-NLS-1$
 		assertEquals( 1.0, value.getMeasure( ), 1 );
 
-		value = (DimensionValue) type.validateValue( design, propDefn,
+		value = (DimensionValue) type.validateValue( design, null, propDefn,
 				"1.0  pt" ); //$NON-NLS-1$
 		assertEquals( "pt", value.getUnits( ) ); //$NON-NLS-1$
 		assertEquals( 1.0, value.getMeasure( ), 1 );
@@ -123,7 +128,8 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 
 		DimensionValue input = new DimensionValue( 1.0d,
 				DesignChoiceConstants.UNITS_CM );
-		value = (DimensionValue) type.validateValue( design, propDefn, input );
+		value = (DimensionValue) type.validateValue( design, null, propDefn,
+				input );
 		assertTrue( input == value );
 
 	}
@@ -131,21 +137,22 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateInputString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testValidateInputString()
 	 */
 	public void testValidateInputString( ) throws PropertyValueException
 	{
 		DimensionValue value = (DimensionValue) type.validateInputString(
-				design, propDefn, "cm" ); //$NON-NLS-1$
+				design, null, propDefn, "cm" ); //$NON-NLS-1$
 		assertEquals( null, value );
 
-		value = (DimensionValue) type.validateInputString( design, propDefn,
-				" cm " ); //$NON-NLS-1$
+		value = (DimensionValue) type.validateInputString( design, null,
+				propDefn, " cm " ); //$NON-NLS-1$
 		assertEquals( null, value );
 
 		try
 		{
-			value = (DimensionValue) type.validateInputString( design,
+			value = (DimensionValue) type.validateInputString( design, null,
 					propDefn, "acm" ); //$NON-NLS-1$
 			fail( );
 		}
@@ -155,7 +162,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 
 		try
 		{
-			value = (DimensionValue) type.validateInputString( design,
+			value = (DimensionValue) type.validateInputString( design, null,
 					propDefn, "/cm" ); //$NON-NLS-1$
 			fail( );
 		}
@@ -167,14 +174,16 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
+	 * ()
 	 */
 	public void testValidateXml( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateXml( design, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
+		assertEquals( null, type.validateXml( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
-		DimensionValue value = (DimensionValue) type.validateXml( design,
+		DimensionValue value = (DimensionValue) type.validateXml( design, null,
 				propDefn, "1.0cm" ); //$NON-NLS-1$
 		assertEquals( "cm", value.getUnits( ) ); //$NON-NLS-1$
 		assertEquals( 1.0, value.getMeasure( ), 1 );
@@ -193,7 +202,9 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * ()
 	 */
 
 	public void testToDouble( ) throws PropertyValueException
@@ -212,7 +223,9 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
+	 * ()
 	 */
 	public void testToInteger( )
 	{
@@ -222,7 +235,8 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 	public void testToXml( )
 	{
@@ -236,7 +250,9 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * ()
 	 */
 	public void testToString( )
 	{
@@ -249,7 +265,8 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDisplayString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testToDisplayString()
 	 */
 	public void testToDisplayString( )
 	{
@@ -261,7 +278,9 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
 	 */
 
 	public void testToNumber( ) throws PropertyValueException
@@ -606,7 +625,9 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
+	 * ()
 	 */
 
 	public void testToBoolean( )

@@ -32,7 +32,9 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
+	 * ()
 	 */
 
 	public void testGetTypeCode( )
@@ -43,7 +45,8 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
 
 	public void testGetName( )
@@ -54,31 +57,33 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
+	 * ()
 	 */
 
 	public void testValidateValue( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
-		assertEquals( 100, ( (Integer) type.validateValue( design, propDefn,
-				new Integer( 100 ) ) ).intValue( ) );
-		assertEquals( 100, ( (Integer) type.validateValue( design, propDefn,
-				new Float( 100.01f ) ) ).intValue( ) );
-		assertEquals( 100, ( (Integer) type.validateValue( design, propDefn,
-				new Double( 100.01d ) ) ).intValue( ) );
-		assertEquals( 1001, ( (Integer) type.validateValue( design, propDefn,
-				new BigDecimal( 1001.01 ) ) ).intValue( ) );
-		assertEquals( 1, ( (Integer) type.validateValue( design, propDefn,
-				Boolean.TRUE ) ).intValue( ) );
-		assertEquals( 0, ( (Integer) type.validateValue( design, propDefn,
-				Boolean.FALSE ) ).intValue( ) );
-		assertEquals( 100, ( (Integer) type.validateValue( design, propDefn,
-				"100" ) ).intValue( ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( 100, ( (Integer) type.validateValue( design, null,
+				propDefn, new Integer( 100 ) ) ).intValue( ) );
+		assertEquals( 100, ( (Integer) type.validateValue( design, null,
+				propDefn, new Float( 100.01f ) ) ).intValue( ) );
+		assertEquals( 100, ( (Integer) type.validateValue( design, null,
+				propDefn, new Double( 100.01d ) ) ).intValue( ) );
+		assertEquals( 1001, ( (Integer) type.validateValue( design, null,
+				propDefn, new BigDecimal( 1001.01 ) ) ).intValue( ) );
+		assertEquals( 1, ( (Integer) type.validateValue( design, null,
+				propDefn, Boolean.TRUE ) ).intValue( ) );
+		assertEquals( 0, ( (Integer) type.validateValue( design, null,
+				propDefn, Boolean.FALSE ) ).intValue( ) );
+		assertEquals( 100, ( (Integer) type.validateValue( design, null,
+				propDefn, "100" ) ).intValue( ) ); //$NON-NLS-1$
 
 		try
 		{
-			type.validateValue( design, propDefn, "abcdef" ); //$NON-NLS-1$
+			type.validateValue( design, null, propDefn, "abcdef" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e1 )
@@ -89,31 +94,34 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateInputString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testValidateInputString()
 	 */
 
 	public void testValidateInputString( ) throws PropertyValueException
 	{
-		assertEquals( 100, ( (Integer) type.validateInputString( design,
+		assertEquals( 100, ( (Integer) type.validateInputString( design, null,
 				propDefn, "100" ) ).intValue( ) ); //$NON-NLS-1$
-		assertEquals( 1234, ( (Integer) type.validateInputString( design,
+		assertEquals( 1234, ( (Integer) type.validateInputString( design, null,
 				propDefn, "1,234" ) ).intValue( ) ); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
+	 * ()
 	 */
 
 	public void testValidateXml( ) throws PropertyValueException
 	{
-		assertEquals( 100, ( (Integer) type.validateXml( design, propDefn,
-				"100" ) ).intValue( ) ); //$NON-NLS-1$
+		assertEquals( 100, ( (Integer) type.validateXml( design, null,
+				propDefn, "100" ) ).intValue( ) ); //$NON-NLS-1$
 
 		try
 		{
-			type.validateXml( design, propDefn, "1,234" ); //$NON-NLS-1$
+			type.validateXml( design, null, propDefn, "1,234" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -127,7 +135,9 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * ()
 	 */
 
 	public void testToDouble( )
@@ -139,7 +149,9 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
+	 * ()
 	 */
 
 	public void testToInteger( )
@@ -151,7 +163,8 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 
 	public void testToXml( )
@@ -164,7 +177,9 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * ()
 	 */
 
 	public void testToString( )
@@ -177,7 +192,8 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDisplayString()
+	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testToDisplayString()
 	 */
 
 	public void testToDisplayString( )
@@ -191,7 +207,9 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
 	 */
 
 	public void testToNumber( )
@@ -201,7 +219,9 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
+	 * ()
 	 */
 	public void testToBoolean( )
 	{
@@ -215,12 +235,12 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testValidXml( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateXml( design, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
+		assertEquals( null, type.validateXml( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
 		Integer n = null;
 
-		n = (Integer) type.validateXml( null, null, "100" ); //$NON-NLS-1$
+		n = (Integer) type.validateXml( null, null, null, "100" ); //$NON-NLS-1$
 		assertTrue( 100 == n.intValue( ) );
 	}
 
@@ -231,12 +251,12 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testInvalidValue( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateXml( design, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
+		assertEquals( null, type.validateXml( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
 		try
 		{
-			type.validateValue( null, null, "abcdef" ); //$NON-NLS-1$
+			type.validateValue( null, null, null, "abcdef" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e1 )
@@ -251,12 +271,12 @@ public class IntegerPropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testInvalidXml( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateXml( design, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
+		assertEquals( null, type.validateXml( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
 		try
 		{
-			type.validateXml( null, null, "abcdef" ); //$NON-NLS-1$
+			type.validateXml( null, null, null, "abcdef" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )

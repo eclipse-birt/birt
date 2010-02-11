@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.StyleUtil;
@@ -43,17 +44,18 @@ public class StringPropertyType extends TextualPropertyType
 		super( DISPLAY_NAME_KEY );
 	}
 
-	/**
-	 * Validates a string property value. The value can be any object. If the
-	 * value is an integer, float, BigDecimal or other BIRT-supported property
-	 * value, it is converted to a string using the rules for the current
-	 * locale. Others are converted using the toString( ) method.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return a <code>String</code> object or null
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
+	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 			return null;

@@ -44,6 +44,10 @@ public class NameContextFactory
 		if ( nameSpaceID == Module.STYLE_NAME_SPACE )
 			return new StyleNameContext( module );
 
+		if ( nameSpaceID == Module.CUBE_NAME_SPACE
+				|| nameSpaceID == Module.DIMENSION_NAME_SPACE )
+			return new CubeNameContext( module, nameSpaceID );
+
 		return new GeneralModuleNameContext( module, nameSpaceID );
 	}
 

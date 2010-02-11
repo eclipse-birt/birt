@@ -503,7 +503,8 @@ public final class StyleSheetLoader
 			return cssProperties;
 
 		LinkedHashMap<String, Object> properties = new LinkedHashMap<String, Object>( );
-		Iterator<Entry<String, String>> iter = cssProperties.entrySet( ).iterator( );
+		Iterator<Entry<String, String>> iter = cssProperties.entrySet( )
+				.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Entry<String, String> entry = iter.next( );
@@ -703,7 +704,8 @@ public final class StyleSheetLoader
 							semanticWarning( exception );
 							errors.add( exception );
 						}
-						Object value = propDefn.validateXml( module, cssValue );
+						Object value = propDefn.validateXml( module, null,
+								cssValue );
 						properties.put( name, value );
 					}
 					catch ( PropertyValueException e )
@@ -869,8 +871,8 @@ public final class StyleSheetLoader
 	 *            the hash map to store the result property values
 	 * @return the error list during the parse
 	 */
-	private List<StyleSheetParserException> handleBackgroundValue( String cssName,
-			String backgroundProp, String backgroundValue,
+	private List<StyleSheetParserException> handleBackgroundValue(
+			String cssName, String backgroundProp, String backgroundValue,
 			LinkedHashMap<String, Object> properties )
 	{
 		if ( !StringUtil.isBlank( backgroundValue ) )
@@ -882,7 +884,8 @@ public final class StyleSheetLoader
 
 			try
 			{
-				Object value = propDefn.validateXml( module, backgroundValue );
+				Object value = propDefn.validateXml( module, null,
+						backgroundValue );
 				properties.put( backgroundProp, value );
 			}
 			catch ( PropertyValueException e )
@@ -934,7 +937,7 @@ public final class StyleSheetLoader
 
 	void addProperties( DesignElement style,
 			LinkedHashMap<String, ? extends Object> properties )
-	{		
+	{
 		Iterator iter = properties.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -958,7 +961,8 @@ public final class StyleSheetLoader
 	{
 		assert properties != null;
 		LinkedHashMap<String, String> ret = new LinkedHashMap<String, String>( );
-		Iterator<Entry<String, String>> iter = properties.entrySet( ).iterator( );
+		Iterator<Entry<String, String>> iter = properties.entrySet( )
+				.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Entry<String, String> entry = iter.next( );

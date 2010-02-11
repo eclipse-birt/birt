@@ -466,7 +466,8 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		{
 			DesignElement element = unhandleIDElements.get( i );
 
-			if ( !element.canContainVirtualElements( ) )
+			if ( element.getExtendsElement( ) == null
+					&& element.getDynamicExtends( module ) == null )
 			{
 				if ( element.getRoot( ) == module )
 				{

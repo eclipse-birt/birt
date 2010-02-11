@@ -141,8 +141,8 @@ public class SimplePropertyListState extends AbstractPropertyState
 		{
 
 			PropertyType type = propDefn.getType( );
-			Object propValue = type.validateXml( handler.module, propDefn,
-					valueToSet );
+			Object propValue = type.validateXml( handler.module, element,
+					propDefn, valueToSet );
 
 			valueList = (List) propValue;
 		}
@@ -212,7 +212,7 @@ public class SimplePropertyListState extends AbstractPropertyState
 				Object item = ( (List) valueToSet ).get( i );
 				PropertyType type = memberDefn.getSubType( );
 				Object propValue = type.validateXml( handler.getModule( ),
-						memberDefn, item );
+						element, memberDefn, item );
 				if ( propValue != null )
 					valueList.add( i, propValue );
 

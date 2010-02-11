@@ -61,16 +61,16 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 		int optionValue = TextualPropertyType.TRIM_SPACE_VALUE
 				| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
 		propDefn.setTrimOption( optionValue );
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
-		assertNull( type.validateValue( design, propDefn, "    " ) ); //$NON-NLS-1$
-		assertEquals( "abc", type.validateValue( design, propDefn, "abc" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
+		assertNull( type.validateValue( design, null, propDefn, "    " ) ); //$NON-NLS-1$
+		assertEquals( "abc", type.validateValue( design, null, propDefn, "abc" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
-				"123", type.validateValue( design, propDefn, new Integer( 123 ) ) ); //$NON-NLS-1$
+				"123", type.validateValue( design, null, propDefn, new Integer( 123 ) ) ); //$NON-NLS-1$
 		assertEquals(
-				"123.0", type.validateValue( design, propDefn, new Float( 123.0f ) ) ); //$NON-NLS-1$
+				"123.0", type.validateValue( design, null, propDefn, new Float( 123.0f ) ) ); //$NON-NLS-1$
 		assertEquals(
-				"123.0", type.validateValue( design, propDefn, new Double( 123.0d ) ) ); //$NON-NLS-1$
+				"123.0", type.validateValue( design, null, propDefn, new Double( 123.0d ) ) ); //$NON-NLS-1$
 
 	}
 
@@ -97,11 +97,11 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 		int optionValue = TextualPropertyType.TRIM_SPACE_VALUE
 				| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
 		propDefn.setTrimOption( optionValue );
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
-		assertNull( type.validateValue( design, propDefn, "    " ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
+		assertNull( type.validateValue( design, null, propDefn, "    " ) ); //$NON-NLS-1$
 		assertEquals(
-				"any-input", type.validateXml( design, propDefn, "any-input" ) ); //$NON-NLS-1$//$NON-NLS-2$
+				"any-input", type.validateXml( design, null, propDefn, "any-input" ) ); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/*

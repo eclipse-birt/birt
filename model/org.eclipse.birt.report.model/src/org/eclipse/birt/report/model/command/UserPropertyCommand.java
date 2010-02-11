@@ -375,7 +375,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 				{
 					try
 					{
-						value = prop.validateValue( module, value );
+						value = prop.validateValue( module, element, value );
 					}
 					catch ( PropertyValueException e )
 					{
@@ -395,7 +395,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 		{
 			try
 			{
-				prop.validateValue( getModule( ), defaultValue );
+				prop.validateValue( module, element, defaultValue );
 			}
 			catch ( PropertyValueException e )
 			{
@@ -445,7 +445,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		try
 		{
-			return prop.validateValue( module, value );
+			return prop.validateValue( module, element, value );
 		}
 		catch ( PropertyValueException ex )
 		{

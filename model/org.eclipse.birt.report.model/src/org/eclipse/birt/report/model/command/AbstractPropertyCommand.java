@@ -222,7 +222,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 					refValue.unresolved( refValue.getElement( ).getName( ) );
 				}
 
-				value = tmpMemberDefn.validateValue( module, refValue
+				value = tmpMemberDefn.validateValue( module, element, refValue
 						.getQualifiedReference( ) );
 
 				checkRecursiveElementReference( tmpMemberDefn,
@@ -237,7 +237,8 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 							(List<Object>) value );
 				}
 				else
-					value = tmpMemberDefn.validateValue( module, value );
+					value = tmpMemberDefn
+							.validateValue( module, element, value );
 			}
 
 			// do some special handle for binding value
@@ -540,7 +541,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 
 		PropertyType type = prop.getSubType( );
 		assert type != null;
-		Object result = type.validateValue( module, prop, value );
+		Object result = type.validateValue( module, element, prop, value );
 		// if ( result instanceof ElementRefValue
 		// && !( (ElementRefValue) result ).isResolved( ) )
 		// {

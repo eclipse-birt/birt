@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.elements.olap;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
@@ -117,5 +118,19 @@ public abstract class Cube extends ReferenceableElement implements ICubeModel
 	{
 		setProperty( Cube.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(
 				null, defaultMeasureGroup ) );
+	}
+
+	public DesignElement findLocalElement( String name, IElementDefn type )
+	{
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param module
+	 */
+	public void updateLayout( Module module )
+	{
+		// do nothing
 	}
 }

@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 
@@ -76,14 +77,17 @@ public class StructPropertyType extends PropertyType
 		return STRUCT_TYPE_NAME;
 	}
 
-	/**
-	 * Can not store objects of this list property type directly. Call to this
-	 * method will always throw an exception.
+	/*
+	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
+	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
-
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 
 		if ( value == null )
@@ -116,7 +120,7 @@ public class StructPropertyType extends PropertyType
 				{
 					Object propValue = ( (Structure) value ).getProperty(
 							module, memberDefn );
-					memberDefn.validateValue( module, propValue );
+					memberDefn.validateValue( module, element, propValue );
 				}
 			}
 
@@ -124,7 +128,9 @@ public class StructPropertyType extends PropertyType
 		}
 
 		// exception
-		logger.log( Level.SEVERE,
+		logger
+				.log(
+						Level.SEVERE,
 						"The value of this structure property: " + defn.getName( ) + " is not a valid type" ); //$NON-NLS-1$ //$NON-NLS-2$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,

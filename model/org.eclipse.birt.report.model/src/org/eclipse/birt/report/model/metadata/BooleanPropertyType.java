@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -100,14 +101,14 @@ public class BooleanPropertyType extends PropertyType
 	 * 
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
 
 		if ( value instanceof String )
-			return validateInputString( module, defn, (String) value );
+			return validateInputString( module, element, defn, (String) value );
 		if ( value instanceof Boolean )
 			return value;
 
@@ -136,8 +137,8 @@ public class BooleanPropertyType extends PropertyType
 	 *         parameter is null or a blank string.
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateXml( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
@@ -263,8 +264,8 @@ public class BooleanPropertyType extends PropertyType
 	 * 
 	 */
 
-	public Object validateInputString( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateInputString( Module module, DesignElement element,
+			PropertyDefn defn, String value ) throws PropertyValueException
 	{
 		if ( StringUtil.isBlank( value ) )
 			return null;

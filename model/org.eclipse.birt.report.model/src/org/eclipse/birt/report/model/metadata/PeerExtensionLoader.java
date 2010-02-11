@@ -380,7 +380,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 				try
 				{
-					propDefn.validateValue( null, value );
+					propDefn.validateValue( null, style, value );
 					style.setProperty( propName, value );
 
 					if ( !hasLocalValues )
@@ -593,7 +593,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			{
 				try
 				{
-					Object value = extPropDefn.validateXml( null, defaultValue );
+					Object value = extPropDefn.validateXml( null, null,
+							defaultValue );
 					extPropDefn.setDefault( value );
 				}
 				catch ( PropertyValueException e )
@@ -644,7 +645,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			{
 				try
 				{
-					Object validateValue = propDefn.validateXml( null, value );
+					Object validateValue = propDefn.validateXml( null, null,
+							value );
 					choice.setValue( validateValue );
 				}
 				catch ( PropertyValueException e )

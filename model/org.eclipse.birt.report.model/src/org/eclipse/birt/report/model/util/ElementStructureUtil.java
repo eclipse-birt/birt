@@ -290,11 +290,11 @@ public class ElementStructureUtil
 			throw new IllegalArgumentException( "Element can not be null." ); //$NON-NLS-1$
 
 		ElementDefn defn = (ElementDefn) source.getDefn( );
-		if ( target.getExtendsElement( ) != null && defn != target.getDefn( ) )
+		if ( defn != target.getDefn( ) )
 			throw new IllegalArgumentException(
 					"Two element are not the same type." ); //$NON-NLS-1$
 
-		if ( !source.isContainer( ) )
+		if ( !defn.isContainer( ) )
 			return true;
 
 		// Copies top level slots from cloned element to the target element.
@@ -364,7 +364,7 @@ public class ElementStructureUtil
 			DesignElement target, Module targetModule )
 	{
 		boolean retValue = duplicateStructure( source, target, targetModule );
-		
+
 		duplicateProperties( source, target );
 
 		ContentIterator iter1 = new ContentIterator( source.getRoot( ), source );
@@ -377,7 +377,7 @@ public class ElementStructureUtil
 
 			duplicateProperties( virtualParent, virtualChild );
 		}
-		
+
 		return retValue;
 	}
 
@@ -389,12 +389,9 @@ public class ElementStructureUtil
 	 * @param sourceInfor
 	 * @param targetInfor
 	 */
-	private static void duplicateStructure( ContainerContext sourceInfor,
+	public static void duplicateStructure( ContainerContext sourceInfor,
 			ContainerContext targetInfor, Module targetModule )
-	{
-		// ContainerSlot sourceSlot = source.getSlot( i );
-		// ContainerSlot targetSlot = target.getSlot( i );
-
+	{		
 		// clear the slot contents of the this element.
 		targetInfor.clearContents( );
 

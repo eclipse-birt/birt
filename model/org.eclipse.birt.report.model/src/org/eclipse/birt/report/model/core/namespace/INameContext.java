@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -67,7 +68,8 @@ public interface INameContext
 	 * @return the element reference value.
 	 */
 
-	public ElementRefValue resolve( String elementName, PropertyDefn propDefn );
+	public ElementRefValue resolve( DesignElement focus, String elementName,
+			PropertyDefn propDefn, ElementDefn elementDefn );
 
 	/**
 	 * Resolves the given element name to element reference value.
@@ -89,7 +91,8 @@ public interface INameContext
 	 * @return the element reference value.
 	 */
 
-	public ElementRefValue resolve( DesignElement element, PropertyDefn propDefn );
+	public ElementRefValue resolve( DesignElement focus, DesignElement element,
+			PropertyDefn propDefn, ElementDefn elementDefn  );
 
 	/**
 	 * Gets the namespace of this context.

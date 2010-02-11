@@ -598,7 +598,7 @@ public class ModuleUtil
 	private static List<IVersionInfo> checkVersion( InputStream streamData,
 			String filename ) throws DesignFileException
 	{
-		DesignSession session = new DesignSession( ThreadResources.getLocale() );
+		DesignSession session = new DesignSession( ThreadResources.getLocale( ) );
 		byte[] buf = new byte[512];
 		int len;
 
@@ -866,7 +866,8 @@ public class ModuleUtil
 		}
 		try
 		{
-			propType.validateValue( module.getModule( ), propDefn, nameValue );
+			propType.validateValue( module.getModule( ), elementHandle
+					.getElement( ), propDefn, nameValue );
 
 			DesignElement existedElement = new NameExecutor( elementHandle
 					.getElement( ) ).getNameSpace( elementHandle.module )

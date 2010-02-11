@@ -76,10 +76,11 @@ public class ElementPropertyType extends PropertyType
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
 	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
+	public Object validateValue( Module module, DesignElement element,
+			PropertyDefn defn, Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 		{

@@ -247,22 +247,22 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(java
-	 * .lang.String, org.eclipse.birt.report.model.metadata.PropertyDefn,
+	 * org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(org.
+	 * eclipse.birt.report.model.core.DesignElement, java.lang.String,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
-	public ElementRefValue resolve( String elementName, PropertyDefn propDefn,
-			IElementDefn elementDefn )
+	public ElementRefValue resolve( DesignElement focus, String elementName,
+			PropertyDefn propDefn, IElementDefn elementDefn )
 	{
 		assert isValidReferenceProperty( propDefn );
 
-		ElementDefn targetDefn = propDefn == null
-				? null
-				: (ElementDefn) propDefn.getTargetElementType( );
+		ElementDefn targetDefn = (ElementDefn) elementDefn;
+
 		if ( targetDefn == null )
 		{
-			assert elementDefn != null;
-			targetDefn = (ElementDefn) elementDefn;
+			targetDefn = propDefn == null ? null : (ElementDefn) propDefn
+					.getTargetElementType( );
 		}
 
 		ElementDefn nameContainerDefn = (ElementDefn) targetDefn
@@ -275,20 +275,21 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		if ( getElement( ).getDefn( ).isKindOf( nameContainerDefn ) )
 		{
 			int id = targetDefn.getNameSpaceID( );
-			return getNameContext( id ).resolve( elementName, propDefn );
+			return getNameContext( id ).resolve( focus, elementName, propDefn,
+					(ElementDefn) elementDefn );
 		}
 
 		// if the name container has no name, it must define a target property
 		// in report design to find the name host
 		if ( nameContainerDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
 		{
-			return resolveNameInNonameHost( elementName, propDefn, targetDefn,
-					nameContainerDefn );
+			return resolveNameInNonameHost( focus, elementName, propDefn,
+					targetDefn, nameContainerDefn );
 		}
 
 		// the current element is not a valid name container for the target, we
 		// will have to do the search by the root
-		return resolveName( elementName, propDefn, targetDefn );
+		return resolveName( focus, elementName, propDefn, targetDefn );
 	}
 
 	/*
@@ -297,10 +298,11 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * @see
 	 * org.eclipse.birt.report.model.core.namespace.INameHelper#resolve(org.
 	 * eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
-	public ElementRefValue resolve( DesignElement element,
+	public ElementRefValue resolve( DesignElement focus, DesignElement element,
 			PropertyDefn propDefn, IElementDefn elementDefn )
 	{
 		if ( element == null )
@@ -340,7 +342,8 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		if ( getElement( ).getDefn( ).isKindOf( nameContainerDefn ) )
 		{
 			int id = targetDefn.getNameSpaceID( );
-			return getNameContext( id ).resolve( element, propDefn );
+			return getNameContext( id ).resolve( focus, element, propDefn,
+					(ElementDefn) elementDefn );
 		}
 
 		// if the name container has no name, it must define a target property
@@ -352,7 +355,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 
 		// the current element is not a valid name container for the target, we
 		// will have to do the search by the root
-		return resolveElement( element, propDefn, targetDefn );
+		return resolveElement( focus, element, propDefn, targetDefn );
 	}
 
 	/*
@@ -424,18 +427,19 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * @param propDefn
 	 * @return the element reference value
 	 */
-	private ElementRefValue resolveElement( DesignElement element,
-			PropertyDefn propDefn, IElementDefn elementDefn )
+	private ElementRefValue resolveElement( DesignElement focus,
+			DesignElement element, PropertyDefn propDefn,
+			IElementDefn elementDefn )
 	{
 		assert element != null;
 		INameHelper nameHelper = new NameExecutor( element )
 				.getNameHelper( getElement( ).getRoot( ) );
-		return nameHelper == null ? null : nameHelper.resolve( element,
+		return nameHelper == null ? null : nameHelper.resolve( focus, element,
 				propDefn, elementDefn );
 	}
 
-	private ElementRefValue resolveNameInNonameHost( String elementName,
-			PropertyDefn propDefn, ElementDefn elementDefn,
+	private ElementRefValue resolveNameInNonameHost( DesignElement focus,
+			String elementName, PropertyDefn propDefn, ElementDefn elementDefn,
 			IElementDefn nameContainerDefn )
 	{
 		assert elementName != null;
@@ -454,7 +458,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 				{
 					assert value instanceof INameContainer;
 					return ( (INameContainer) value ).getNameHelper( ).resolve(
-							elementName, propDefn, elementDefn );
+							focus, elementName, propDefn, elementDefn );
 				}
 				else if ( value instanceof List )
 				{
@@ -464,7 +468,8 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 						Object item = valueList.get( 0 );
 						assert item instanceof INameContainer;
 						return ( (INameContainer) item ).getNameHelper( )
-								.resolve( elementName, propDefn, elementDefn );
+								.resolve( focus, elementName, propDefn,
+										elementDefn );
 					}
 				}
 			}
@@ -481,8 +486,8 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	 * @param propDefn
 	 * @return the element name.
 	 */
-	private ElementRefValue resolveName( String elementName,
-			PropertyDefn propDefn, ElementDefn elementDefn )
+	private ElementRefValue resolveName( DesignElement focus,
+			String elementName, PropertyDefn propDefn, ElementDefn elementDefn )
 	{
 		assert elementName != null;
 		assert elementDefn != null;
@@ -499,14 +504,16 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 				int id = rootInfor.elementDefn.getNameSpaceID( );
 				AbstractNameHelper nameHelper = (AbstractNameHelper) root
 						.getNameHelper( );
-				DesignElement parentTarget = nameHelper.getNameContext( id )
-						.findElement( rootInfor.elementName,
+				ElementRefValue refValue = nameHelper.getNameContext( id )
+						.resolve( focus, rootInfor.elementName, propDefn,
 								rootInfor.elementDefn );
-				if ( parentTarget != null )
+				if ( refValue != null && refValue.isResolved( ) )
 				{
+					DesignElement parentTarget = refValue.getElement( );
 					assert parentTarget instanceof INameContainer;
-					return ( (INameContainer) parentTarget ).getNameHelper( )
-							.resolve( elementName, propDefn, elementDefn );
+					return ( (INameContainer) parentTarget )
+							.getNameHelper( )
+							.resolve( focus, elementName, propDefn, elementDefn );
 				}
 			}
 		}

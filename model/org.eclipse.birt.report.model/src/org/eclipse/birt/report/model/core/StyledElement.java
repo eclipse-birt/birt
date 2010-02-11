@@ -101,8 +101,8 @@ public abstract class StyledElement extends DesignElement
 		if ( module == null )
 			return null;
 
-		DesignElement resolvedElement = module.resolveElement(
-				style.getName( ), getPropertyDefn( STYLE_PROP ), null );
+		DesignElement resolvedElement = module.resolveElement( this, style
+				.getName( ), getPropertyDefn( STYLE_PROP ), null );
 
 		StyleElement target = null;
 		if ( resolvedElement != null )

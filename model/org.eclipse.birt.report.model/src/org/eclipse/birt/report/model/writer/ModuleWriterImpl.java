@@ -3540,7 +3540,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	{
 		// if no extends do not write this part.
 
-		if ( !obj.canContainVirtualElements( ) )
+		if ( obj.getExtendsElement( ) == null )
 			return;
 
 		writer

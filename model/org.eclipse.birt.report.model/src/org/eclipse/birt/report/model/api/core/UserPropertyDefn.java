@@ -516,7 +516,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 				{
 					try
 					{
-						value = validateValue( module, value );
+						value = validateValue( module, element, value );
 					}
 					catch ( PropertyValueException e )
 					{

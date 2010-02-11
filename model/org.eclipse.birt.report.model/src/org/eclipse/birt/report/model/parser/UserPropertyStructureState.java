@@ -69,7 +69,9 @@ public class UserPropertyStructureState extends StructureState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -85,14 +87,16 @@ public class UserPropertyStructureState extends StructureState
 			return new TextPropertyState( handler, element, struct );
 		if ( ParserSchemaConstants.EXPRESSION_TAG == tagValue )
 			return new UserExpressionState( handler, element, propDefn, struct );
-		
+
 		return super.startElement( tagName );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.StructureState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.StructureState#parseAttrs(org.xml
+	 * .sax.Attributes)
 	 */
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
@@ -182,7 +186,9 @@ public class UserPropertyStructureState extends StructureState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -213,7 +219,9 @@ public class UserPropertyStructureState extends StructureState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
@@ -273,7 +281,9 @@ public class UserPropertyStructureState extends StructureState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )
@@ -319,7 +329,9 @@ public class UserPropertyStructureState extends StructureState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -348,7 +360,7 @@ public class UserPropertyStructureState extends StructureState
 					try
 					{
 						objValue = propDefn.validateValue(
-								handler.getModule( ), value );
+								handler.getModule( ), element, value );
 					}
 					catch ( PropertyValueException e )
 					{
@@ -389,7 +401,9 @@ public class UserPropertyStructureState extends StructureState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
+		 * org.xml.sax.Attributes)
 		 */
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -475,7 +489,8 @@ public class UserPropertyStructureState extends StructureState
 				try
 				{
 					Object defaultValue = ( (UserPropertyDefn) struct )
-							.validateValue( handler.getModule( ), value );
+							.validateValue( handler.getModule( ), element,
+									value );
 
 					( (UserPropertyDefn) struct ).setDefault( defaultValue );
 
@@ -504,7 +519,7 @@ public class UserPropertyStructureState extends StructureState
 			}
 		}
 	}
-	
+
 	static class UserExpressionState extends ExpressionState
 	{
 
@@ -513,7 +528,7 @@ public class UserPropertyStructureState extends StructureState
 		{
 			super( theHandler, element, propDefn, struct );
 		}
-		
+
 		protected void doEnd( Object value )
 		{
 			if ( UserPropertyDefn.DEFAULT_MEMBER.equals( name ) )
@@ -526,13 +541,13 @@ public class UserPropertyStructureState extends StructureState
 				else
 				{
 					handler
-						.getErrorHandler( )
-						.semanticError(
-							new UserPropertyException(
-									element,
-									( (UserPropertyDefn) struct )
-											.getName( ),
-									UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE ) );
+							.getErrorHandler( )
+							.semanticError(
+									new UserPropertyException(
+											element,
+											( (UserPropertyDefn) struct )
+													.getName( ),
+											UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE ) );
 				}
 				return;
 			}

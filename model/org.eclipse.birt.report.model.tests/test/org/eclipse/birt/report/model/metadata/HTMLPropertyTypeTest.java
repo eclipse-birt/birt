@@ -60,10 +60,11 @@ public class HTMLPropertyTypeTest extends TextualPropertyTypeTestCase
 		int optionValue = TextualPropertyType.TRIM_SPACE_VALUE
 				| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
 		propDefn.setTrimOption( optionValue );
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
-		assertEquals( "abc", type.validateValue( design, propDefn, "abc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( "abc", type.validateValue( design, propDefn, "    abc " ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( "abc", type.validateValue( design, null, propDefn, "abc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals(
+				"abc", type.validateValue( design, null, propDefn, "    abc " ) ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/*

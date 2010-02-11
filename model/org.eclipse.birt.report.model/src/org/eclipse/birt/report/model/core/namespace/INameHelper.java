@@ -158,8 +158,8 @@ public interface INameHelper
 	 * @return the element reference value.
 	 */
 
-	public ElementRefValue resolve( String elementName, PropertyDefn propDefn,
-			IElementDefn elementDefn );
+	public ElementRefValue resolve( DesignElement focus, String elementName,
+			PropertyDefn propDefn, IElementDefn elementDefn );
 
 	/**
 	 * Resolves the given element name to element reference value.
@@ -182,7 +182,7 @@ public interface INameHelper
 	 * @return the element reference value.
 	 */
 
-	public ElementRefValue resolve( DesignElement element,
+	public ElementRefValue resolve( DesignElement focus, DesignElement element,
 			PropertyDefn propDefn, IElementDefn elementDefn );
 
 	/**

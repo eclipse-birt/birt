@@ -75,19 +75,19 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testValidateValue( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateValue( design, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
 		ModuleOption options = new ModuleOption( );
 		design.setOptions( options );
 
 		// Date
 		Date date = calendar.getTime( );
-		assertTrue( date == type.validateValue( design, propDefn, date ) );
+		assertTrue( date == type.validateValue( design, null, propDefn, date ) );
 
 		// String
 		options.setLocale( ULocale.ENGLISH );
-		Date value = (Date) type.validateValue( design, propDefn, "08/25/2004" ); //$NON-NLS-1$
+		Date value = (Date) type.validateValue( design, null, propDefn, "08/25/2004" ); //$NON-NLS-1$
 
 		calendar.setTime( value );
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
@@ -95,14 +95,14 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );
 
 		options.setLocale( ULocale.CHINA );
-		value = (Date) type.validateValue( design, propDefn, "2004-08-25" ); //$NON-NLS-1$
+		value = (Date) type.validateValue( design, null, propDefn, "2004-08-25" ); //$NON-NLS-1$
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
 		assertEquals( 7, calendar.get( Calendar.MONTH ) );
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );
 
 		try
 		{
-			type.validateValue( design, propDefn, "wrong-datetime-value" ); //$NON-NLS-1$
+			type.validateValue( design, null, propDefn, "wrong-datetime-value" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -115,7 +115,7 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 		// Wrong java type
 		try
 		{
-			type.validateValue( design, propDefn, new Object( ) );
+			type.validateValue( design, null, propDefn, new Object( ) );
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -135,15 +135,15 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testValidateInputString( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateInputString( design, propDefn, null ) );
-		assertEquals( null, type.validateInputString( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateInputString( design, null, propDefn, null ) );
+		assertEquals( null, type.validateInputString( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
 		ModuleOption options = new ModuleOption( );
 		design.setOptions( options );
 
 		// String
 		options.setLocale( ULocale.ENGLISH );
-		Date value = (Date) type.validateInputString( design, propDefn,
+		Date value = (Date) type.validateInputString( design, null, propDefn,
 				"08/25/2004" ); //$NON-NLS-1$
 		calendar.setTime( value );
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
@@ -152,14 +152,14 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 
 		options.setLocale( ULocale.CHINA );
 		value = (Date) type
-				.validateInputString( design, propDefn, "2004-08-25" ); //$NON-NLS-1$
+				.validateInputString( design, null, propDefn, "2004-08-25" ); //$NON-NLS-1$
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
 		assertEquals( 7, calendar.get( Calendar.MONTH ) );
 		assertEquals( 25, calendar.get( Calendar.DAY_OF_MONTH ) );
 
 		try
 		{
-			type.validateInputString( design, propDefn, "wrong-datetime-value" ); //$NON-NLS-1$
+			type.validateInputString( design, null, propDefn, "wrong-datetime-value" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )
@@ -179,10 +179,10 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 	 */
 	public void testValidateXml( ) throws PropertyValueException
 	{
-		assertEquals( null, type.validateXml( design, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, propDefn, "" ) ); //$NON-NLS-1$
+		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
+		assertEquals( null, type.validateXml( design, null, propDefn, "" ) ); //$NON-NLS-1$
 
-		Date value = (Date) type.validateXml( design, propDefn,
+		Date value = (Date) type.validateXml( design, null, propDefn,
 				"2004-10-18 10:34:22" ); //$NON-NLS-1$
 		calendar.setTime( value );
 		assertEquals( 2004 - 1900, calendar.get( Calendar.YEAR ) - 1900 );
@@ -192,7 +192,7 @@ public class DateTimePropertyTypeTest extends PropertyTypeTestCase
 		// wrong value
 		try
 		{
-			type.validateXml( design, propDefn, "wrong-datetime-value" ); //$NON-NLS-1$
+			type.validateXml( design, null, propDefn, "wrong-datetime-value" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( PropertyValueException e )
