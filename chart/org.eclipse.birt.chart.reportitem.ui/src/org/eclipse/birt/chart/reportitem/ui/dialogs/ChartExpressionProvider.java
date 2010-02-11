@@ -109,8 +109,37 @@ public class ChartExpressionProvider extends ExpressionProvider
 				}
 			} );
 		}
+		
+		// Do not display category items, including DataSet item and Cube item.
+		addFilter( new ExpressionFilter( ) {
+
+			public boolean select( Object parentElement, Object element )
+			{
+				if ( !ExpressionFilter.CATEGORY.equals( parentElement ) )
+				{
+					return true;
+				}
+
+				if ( element instanceof String )
+				{
+					return !isDataSetOrCubeCategory( element );
+				}
+
+				return true;
+			}
+		});
 	}
 
+	private boolean isDataSetOrCubeCategory( Object element )
+	{
+		if ( ExpressionProvider.DATASETS.equals( element )
+				|| ExpressionProvider.CURRENT_CUBE.equals( element ) )
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	protected List<Object> getCategoryList( )
 	{
 		List<Object> list = super.getCategoryList( );

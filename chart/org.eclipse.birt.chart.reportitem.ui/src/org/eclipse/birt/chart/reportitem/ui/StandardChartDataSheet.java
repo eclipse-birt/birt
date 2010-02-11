@@ -1075,6 +1075,28 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						.equals( "Total" ) ); //$NON-NLS-1$
 			}
 		} );
+		ep.addFilter( new ExpressionFilter( ) {
+
+			public boolean select( Object parentElement, Object element )
+			{
+				if ( !ExpressionFilter.CATEGORY.equals( parentElement ) )
+				{
+					return true;
+				}
+
+				if ( element instanceof String )
+				{
+					if ( ExpressionProvider.DATASETS.equals( element )
+							|| ExpressionProvider.CURRENT_CUBE.equals( element ) )
+					{
+						return false;
+					}
+					return true;
+				}
+
+				return true;
+			}
+		});
 		page.setExpressionProvider( ep );
 
 		// Make all bindings under share binding case read-only.
