@@ -59,6 +59,8 @@ public class ChartExpressionButtonUtil
 		String getDisplayText( );
 
 		String getExpression( );
+
+		String getTooltip( );
 	}
 
 	static class ExpressionDescriptor implements IExpressionDescriptor
@@ -86,17 +88,23 @@ public class ChartExpressionButtonUtil
 		public static IExpressionDescriptor getInstance( Object expr,
 				boolean isCube )
 		{
-			if ( isCube )
+			if ( expr instanceof String[] )
+			{
+				return new ExpressionDescriptor( ( (String[]) expr )[0] );
+			}
+			else if ( isCube )
 			{
 				if ( expr instanceof String )
 				{
 					return new BindingExpressionDescriptor( (String) expr,
+							(String) expr,
 							isCube );
 				}
 			}
 			else if ( expr instanceof ColumnBindingInfo )
 			{
 				return new BindingExpressionDescriptor( ( (ColumnBindingInfo) expr ).getName( ),
+						( (ColumnBindingInfo) expr ).getTooltip( ),
 						isCube );
 			}
 			else if ( expr instanceof String )
@@ -131,6 +139,11 @@ public class ChartExpressionButtonUtil
 		{
 			return exprCodec.getType( );
 		}
+
+		public String getTooltip( )
+		{
+			return exprCodec.getExpression( );
+		}
 	}
 
 	private static class BindingExpressionDescriptor extends
@@ -138,11 +151,14 @@ public class ChartExpressionButtonUtil
 	{
 
 		private final String bindingName;
+		private final String tooltip;
 		private final boolean isCube;
 
-		public BindingExpressionDescriptor( String bindingName, boolean isCube )
+		public BindingExpressionDescriptor( String bindingName, String tooltip,
+				boolean isCube )
 		{
 			this.bindingName = bindingName;
+			this.tooltip = tooltip;
 			this.isCube = isCube;
 			exprCodec.setBindingName( bindingName,
 					isCube,
@@ -155,6 +171,12 @@ public class ChartExpressionButtonUtil
 			{
 				exprCodec.setBindingName( bindingName, isCube, type );
 			}
+		}
+
+		@Override
+		public String getTooltip( )
+		{
+			return tooltip;
 		}
 
 	}
@@ -233,8 +255,8 @@ public class ChartExpressionButtonUtil
 								&& event.keyCode == SWT.KEYPAD_CR )
 						{
 							onChange( );
-							break;
 						}
+						break;
 					case SWT.FocusOut :
 					case SWT.Selection :
 						onChange( );
@@ -594,6 +616,12 @@ public class ChartExpressionButtonUtil
 					IExpressionDescriptor desc = ExpressionDescriptor.getInstance( expression,
 							getExpressionType( ) );
 					addComboItem( cp, desc );
+				}
+
+				if ( cp.getData( expression ) instanceof IExpressionDescriptor )
+				{
+					IExpressionDescriptor desc = (IExpressionDescriptor) cp.getData( expression );
+					control.setToolTipText( desc.getTooltip( ) );
 				}
 			}
 			super.setExpression( expression );

@@ -53,6 +53,7 @@ import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -3048,39 +3049,38 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			// 2. Get value series bindings.
-			String bindingName = ChartExpressionUtil.getCubeBindingName( (String) value,
-					false );
+			String bindingName = exprCodec.getBindingName( (String) value );
 			ComputedColumnHandle computedBinding = bindingMap.get( bindingName );
 
 			// 3. Get all levels which value series binding aggregate on and set
 			// correct binding to category/ Y optional.
+			ChartAdapter.beginIgnoreNotifications( );
+			String exprType = UIUtil.getDefaultScriptType( );
 			List<String> aggOnList = computedBinding.getAggregateOnList( );
 			if ( aggOnList.size( ) > 0 )
 			{
 				String[] levelNames = CubeUtil.splitLevelName( aggOnList.get( 0 ) );
-				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
-						levelNames[1] );
-				List<String> names = ChartCubeUtil.getRelatedBindingNames( dimExpr,
+				List<String> names = ChartCubeUtil.findDimensionBindingNames( levelNames[0],
+						levelNames[1],
 						bindingMap.values( ) );
 				// Set category.
 				if ( names.size( ) > 0 )
 				{
-					SeriesDefinition sd = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
-							.get( 0 );
-					sd.getDesignTimeSeries( )
-							.getDataDefinition( )
+					Query query = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
 							.get( 0 )
-							.setDefinition( ExpressionUtil.createJSDataExpression( names.get( 0 ) ) );
-					isUpdated = true;
+							.getDesignTimeSeries( )
+							.getDataDefinition( )
+							.get( 0 );
+					exprCodec.setBindingName( names.get( 0 ), true, exprType );
+					query.setDefinition( exprCodec.encode( ) );
 				}
 			}
 
 			if ( aggOnList.size( ) > 1 )
 			{
 				String[] levelNames = CubeUtil.splitLevelName( aggOnList.get( 1 ) );
-				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
-						levelNames[1] );
-				List<String> names = ChartCubeUtil.getRelatedBindingNames( dimExpr,
+				List<String> names = ChartCubeUtil.findDimensionBindingNames( levelNames[0],
+						levelNames[1],
 						bindingMap.values( ) );
 				// Set Y optional.
 				int size = names.size( );
@@ -3089,9 +3089,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
 							.iterator( ); iter.hasNext( ); )
 					{
-						SeriesDefinition sd = iter.next( );
-						sd.getQuery( )
-								.setDefinition( ExpressionUtil.createJSDataExpression( names.get( 0 ) ) );
+						exprCodec.setBindingName( names.get( 0 ),
+								true,
+								exprType );
+						Query query = iter.next( ).getQuery( );
+						query.setDefinition( exprCodec.encode( ) );
 						isUpdated = true;
 					}
 				}
@@ -3113,6 +3115,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					}
 				}
 			}
+			ChartAdapter.endIgnoreNotifications( );
+
 		}
 		else if ( ChartUIConstants.QUERY_CATEGORY.equals( type ) && value instanceof String )
 		{

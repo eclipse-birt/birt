@@ -1555,7 +1555,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							break;
 					}
 					updatePredefinedQueries( );
-					autoSelect( true );
+					// autoSelect( true );
 				}
 				else if ( event.widget == btnShowDataPreviewA || event.widget == btnShowDataPreviewB )
 				{
@@ -2400,13 +2400,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			ComputedColumnHandle binding = null;
 			if ( treeItem.getData( ) instanceof LevelHandle )
 			{
-				binding = ChartCubeUtil.findBinding( itemHandle,
-						ChartCubeUtil.createDimensionExpression( (LevelHandle) treeItem.getData( ) ) );
+				LevelHandle level = (LevelHandle) treeItem.getData( );
+				String dimensionName = level.getContainer( )
+						.getContainer( )
+						.getName( );
+				binding = ChartCubeUtil.findLevelBinding( itemHandle,
+						dimensionName,
+						level.getName( ) );
 			}
 			else if ( treeItem.getData( ) instanceof MeasureHandle )
 			{
-				binding = ChartCubeUtil.findBinding( itemHandle,
-						ChartCubeUtil.createMeasureExpression( (MeasureHandle) treeItem.getData( ) ) );
+				binding = ChartCubeUtil.findMeasureBinding( itemHandle,
+						( (MeasureHandle) treeItem.getData( ) ).getName( ) );
 			}
 			if ( binding != null )
 			{
@@ -2538,11 +2543,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			ComputedColumnHandle cch = iter.next( );
 			String dataExpr = ExpressionUtil.createJSDataExpression( cch.getName( ) );
-			if ( ChartCubeUtil.isDimensionExpresion( cch.getExpression( ) ) )
+			ChartReportItemUtil.loadExpression( exprCodec, cch );
+			if ( exprCodec.isDimensionExpresion( ) )
 			{
-				dimensionExprs.add( dataExpr );
+				dimensionExprs.add( cch.getName( ) );
 			}
-			else if ( ChartCubeUtil.isMeasureExpresion( cch.getExpression( ) ) )
+			else if ( exprCodec.isMeasureExpresion( ) )
 			{
 				// Fixed issue ED 28.
 				// Underlying code was reverted to the earlier than
@@ -2556,7 +2562,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				// whose aggregate-ons is most into prepared
 				// expression query. It will keep correct value to
 				// shared crosstab or multi-view.
-				measureExprs.add( dataExpr );
+				measureExprs.add( cch.getName( ) );
 
 			}
 		}
