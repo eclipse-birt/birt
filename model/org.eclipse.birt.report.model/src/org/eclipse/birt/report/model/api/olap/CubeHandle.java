@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
@@ -158,8 +159,8 @@ public abstract class CubeHandle extends ReportElementHandle
 			return null;
 		if ( !getElement( ).canDynamicExtends( ) )
 		{
-			DesignElement measure = module.findDimension( measureName );
-			if ( measure instanceof Dimension
+			DesignElement measure = module.findOLAPElement( measureName );
+			if ( measure instanceof Measure
 					&& measure.isContentOf( getElement( ) ) )
 				return (MeasureHandle) measure.getHandle( module );
 		}
