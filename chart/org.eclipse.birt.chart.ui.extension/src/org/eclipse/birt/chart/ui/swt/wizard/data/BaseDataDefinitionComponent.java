@@ -247,7 +247,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				{
 					String oldQuery = query.getDefinition( ) == null ? "" : query.getDefinition( ); //$NON-NLS-1$
 					// Combo may be disposed, so cache the text first
-					String text = ChartUIUtil.getText( cmbDefinition );
+					String text = btnBuilder.getExpression( );
 
 					// Do nothing for the same query
 					if ( !isTableSharedBinding( ) && text.equals( oldQuery ) )
@@ -260,15 +260,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					if ( !oldQuery.equals( text )
 							&& queryType == ChartUIConstants.QUERY_VALUE )
 					{
-						if ( context.getDataServiceProvider( )
-								.update( ChartUIConstants.QUERY_VALUE, text ) )
-						{
-							Event e = new Event( );
-							e.data = BaseDataDefinitionComponent.this;
-							e.widget = cmbDefinition;
-							e.type = IChartDataSheet.EVENT_QUERY;
-							context.getDataSheet( ).notifyListeners( e );
-						}
+						context.getDataServiceProvider( )
+								.update( ChartUIConstants.QUERY_VALUE, text );
 					}
 
 					// Change direction once category query is changed in xtab
@@ -585,16 +578,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		if ( isTableSharedBinding( ) )
 		{
-			int index = cmbDefinition.getSelectionIndex( );
-			if ( index >= 0 && cmbDefinition.getData( ) != null )
-			{
-				ColumnBindingInfo cbi = (ColumnBindingInfo) ( (Object[]) cmbDefinition.getData( ) )[index];
-				if ( cbi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN
-						|| cbi.getColumnType( ) == ColumnBindingInfo.AGGREGATE_COLUMN )
-				{
-					return cbi.getTooltip( );
-				}
-			}
+			return cmbDefinition.getToolTipText( );
 		}
 		if ( queryText.trim( ).length( ) == 0 )
 		{

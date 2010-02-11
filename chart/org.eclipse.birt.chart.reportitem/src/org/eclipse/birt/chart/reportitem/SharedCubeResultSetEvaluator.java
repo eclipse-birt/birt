@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,11 +22,11 @@ import javax.olap.cursor.RowDataNavigation;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
@@ -161,21 +162,14 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 		{
 			return index;
 		}
-		List<IColumnBinding> bindings;
-		try
-		{
-			bindings = ExpressionUtil.extractColumnExpressions( expr,
-					ExpressionUtil.DATA_INDICATOR );
-		}
-		catch ( BirtException e )
-		{
-			return index;
-		}
 
-		for ( IColumnBinding bind : bindings )
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		Collection<String> bindingNames = exprCodec.getBindingNames( expr );
+
+		for ( String bindName : bindingNames )
 		{
-			String name = bind.getResultSetColumnName( );
-			int levelIndex = levelNames.indexOf( name );
+			int levelIndex = levelNames.indexOf( bindName );
 			if ( levelIndex > index )
 			{
 				index = levelIndex;

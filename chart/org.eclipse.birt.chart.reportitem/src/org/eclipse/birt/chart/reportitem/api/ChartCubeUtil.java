@@ -28,7 +28,6 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
@@ -228,11 +227,14 @@ public class ChartCubeUtil extends ChartItemUtil
 	public static List<String> getAllLevelsBindingName(
 			Iterator<ComputedColumnHandle> columnBindings )
 	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
 		List<String> bindings = new ArrayList<String>( );
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle cc = columnBindings.next( );
-			if ( ChartExpressionUtil.isDimensionExpresion( cc.getExpression( ) ) )
+			ChartReportItemUtil.loadExpression( exprCodec, cc );
+			if ( exprCodec.isDimensionExpresion( ) )
 			{
 				bindings.add( cc.getName( ) );
 			}
@@ -243,11 +245,14 @@ public class ChartCubeUtil extends ChartItemUtil
 	public static List<String> getAllMeasuresBindingName(
 			Iterator<ComputedColumnHandle> columnBindings )
 	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
 		List<String> bindings = new ArrayList<String>( );
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle cc = columnBindings.next( );
-			if ( ChartExpressionUtil.isMeasureExpresion( getAggregationExpression( cc ) ) )
+			ChartReportItemUtil.loadExpression( exprCodec, cc );
+			if ( exprCodec.isMeasureExpresion( ) )
 			{
 				bindings.add( cc.getName( ) );
 			}
@@ -498,6 +503,51 @@ public class ChartCubeUtil extends ChartItemUtil
 			}
 		}
 		return null;
+	}
+
+	public static ComputedColumnHandle findLevelBinding(
+			ReportItemHandle handle, String dimensionName, String levelName )
+	{
+		if ( dimensionName != null && levelName != null )
+		{
+			ExpressionCodec exprCodec = ChartModelHelper.instance( )
+					.createExpressionCodec( );
+			for ( Iterator<ComputedColumnHandle> bindings = getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
+			{
+				ComputedColumnHandle cch = bindings.next( );
+				ChartReportItemUtil.loadExpression( exprCodec, cch );
+				String[] levelNames = exprCodec.getLevelNames( );
+				if ( levelNames != null
+						&& dimensionName.equals( levelNames[0] )
+						&& levelName.equals( levelNames[1] ) )
+				{
+					return cch;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static ComputedColumnHandle findMeasureBinding(
+			ReportItemHandle handle, String measureName )
+	{
+		if ( measureName != null )
+		{
+			ExpressionCodec exprCodec = ChartModelHelper.instance( )
+					.createExpressionCodec( );
+			for ( Iterator<ComputedColumnHandle> bindings = getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
+			{
+				ComputedColumnHandle cch = bindings.next( );
+				ChartReportItemUtil.loadExpression( exprCodec, cch );
+				String name = exprCodec.getMeasureName( );
+				if ( name != null && measureName.equals( name ) )
+				{
+					return cch;
+				}
+			}
+		}
+		return null;
+
 	}
 
 	/**
@@ -780,6 +830,34 @@ public class ChartCubeUtil extends ChartItemUtil
 		{
 			ComputedColumnHandle cch = iter.next( );
 			if ( dimExpr.equals( cch.getExpression( ) ) )
+			{
+				bindingNames.add( cch.getName( ) );
+			}
+		}
+		return bindingNames;
+	}
+
+	/**
+	 * Returns bindings names whose dimension expressions equal with specified
+	 * expression.
+	 * 
+	 * @param dimExpr
+	 * @param values
+	 * @return binding name list
+	 */
+	public static List<String> findDimensionBindingNames( String dimName,
+			String levelName, Collection<ComputedColumnHandle> bindings )
+	{
+		List<String> bindingNames = new ArrayList<String>( 1 );
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		for ( ComputedColumnHandle cch : bindings )
+		{
+			ChartReportItemUtil.loadExpression( exprCodec, cch );
+			String[] levelNames = exprCodec.getLevelNames( );
+			if ( levelNames != null
+					&& levelNames[0].equals( dimName )
+					&& levelNames[1].equals( levelName ) )
 			{
 				bindingNames.add( cch.getName( ) );
 			}

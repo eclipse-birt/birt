@@ -748,6 +748,60 @@ public class ChartExpressionUtil
 			return isMeasureExpresion( );
 		}
 
+		/**
+		 * This method is used to get the level name that reference by a level
+		 * reference expression of following format:
+		 * dimension["dimensionName"]["levelName"].
+		 * 
+		 * String[0] dimensionName; String[1] levelName;
+		 * 
+		 * @return String[]
+		 */
+		public String[] getLevelNames( )
+		{
+			return ChartExpressionUtil.getLevelNameFromDimensionExpression( sExpr );
+		}
+
+		/**
+		 * This method is used to get the level name that reference by a level
+		 * reference expression of following format:
+		 * dimension["dimensionName"]["levelName"].
+		 * 
+		 * String[0] dimensionName; String[1] levelName;
+		 * 
+		 * @param expr
+		 * @return String[]
+		 */
+		public String[] getLevelNames( String expr )
+		{
+			decode( expr );
+			return getLevelNames( );
+		}
+
+		/**
+		 * This method is to get the measure name that referenced by a measure
+		 * reference expression.
+		 * 
+		 * @return measure name
+		 */
+		public String getMeasureName( )
+		{
+			return ChartExpressionUtil.getMeasureName( sExpr );
+		}
+
+		/**
+		 * This method is to get the measure name that referenced by a measure
+		 * reference expression.
+		 * 
+		 * @param expr
+		 * @return measure name
+		 */
+		public String getMeasureName( String expr )
+		{
+			decode( expr );
+			return getMeasureName( );
+		}
+
 	}
 
 }

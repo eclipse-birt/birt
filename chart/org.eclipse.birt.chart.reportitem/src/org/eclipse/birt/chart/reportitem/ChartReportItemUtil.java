@@ -36,6 +36,9 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -676,6 +679,41 @@ public class ChartReportItemUtil extends ChartItemUtil
 		}
 	}
 
+	private static ExpressionHandle getAggregationExpression(
+			ComputedColumnHandle bindingColumn )
+	{
+		if ( bindingColumn.getExpression( ) != null )
+		{
+			return bindingColumn.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+		}
+		String functionName = bindingColumn.getAggregateFunction( );
+		try
+		{
+			IAggrFunction function = AggregationManager.getInstance( )
+					.getAggregation( functionName );
+			for ( IParameterDefn param : function.getParameterDefn( ) )
+			{
+				if ( param.isDataField( ) )
+				{
+					for ( Iterator<AggregationArgumentHandle> iterator = bindingColumn.argumentsIterator( ); iterator.hasNext( ); )
+					{
+						AggregationArgumentHandle arg = iterator.next( );
+						if ( arg.getName( ).equals( param.getName( ) ) )
+						{
+							return arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+						}
+					}
+				}
+			}
+		}
+		catch ( BirtException e )
+		{
+			logger.log( e );
+		}
+		return null;
+
+	}
+
 	/**
 	 * Loads the expression from a ComputedColumnHandle into the
 	 * ExpressionCodec.
@@ -688,7 +726,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 	{
 		if ( exprCodec != null )
 		{
-			ExpressionHandle eh = cch.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+			ExpressionHandle eh = getAggregationExpression( cch );
 			loadExpressionFromHandle( exprCodec, eh );
 		}
 	}

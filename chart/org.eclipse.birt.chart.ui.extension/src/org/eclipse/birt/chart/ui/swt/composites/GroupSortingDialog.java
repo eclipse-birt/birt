@@ -339,7 +339,8 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			}
 			for ( String expr : exprSet )
 			{
-				predefinedQuery[i++] = expr;
+				predefinedQuery[i++] = new String[]{
+						expr, "expression"}; //$NON-NLS-1$
 			}
 			return predefinedQuery;
 		}
