@@ -258,7 +258,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 						.getCommandStack( );
 				stack.startTrans( "Create Group" ); //$NON-NLS-1$
 				GroupDialog dialog = new GroupDialog( true );
-				dialog.setInput( newCube, hierarchy, columnHandle );
+				dialog.setInput( hierarchy, columnHandle );
 				if ( dialog.open( ) == Window.CANCEL )
 				{
 					stack.rollback( );

@@ -1056,7 +1056,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 	private IDialogHelper createLevelSecurityPart( Composite parent )
 	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
 		{
@@ -1072,9 +1072,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 						levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
 								Messages.getString( "LevelPropertyDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
 						levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-								cube );
+								input );
 						levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-								new CubeExpressionProvider( cube ) );
+								new CubeExpressionProvider( input ) );
 						levelHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
 								input.getACLExpression( ) );
 						levelHelper.createContent( parent );
@@ -1096,7 +1096,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 	private IDialogHelper createMemberSecurityPart( Composite parent )
 	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
 		{
@@ -1112,9 +1112,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 						memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
 								Messages.getString( "LevelPropertyDialog.Member.Access.Control.List.Expression" ) ); //$NON-NLS-1$
 						memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-								cube );
+								input );
 						memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-								new CubeExpressionProvider( cube ) );
+								new CubeExpressionProvider( input ) );
 						memberHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
 								input.getMemberACLExpression( ) );
 						memberHelper.createContent( parent );
@@ -1136,7 +1136,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 	private IDialogHelper createHyperLinkPart( Composite parent )
 	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
 		{
@@ -1330,7 +1330,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	}
 
 	private TabularLevelHandle input;
-	private TabularCubeHandle cube;
 	private TableViewer dynamicViewer;
 	private Text nameText;
 
@@ -1546,10 +1545,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 	}
 
-	public void setInput( TabularCubeHandle cube, TabularLevelHandle level )
+	public void setInput( TabularLevelHandle level )
 	{
 		this.input = level;
-		this.cube = cube;
 	}
 
 	public static void setExcludeGridData( Control control, boolean exclude )

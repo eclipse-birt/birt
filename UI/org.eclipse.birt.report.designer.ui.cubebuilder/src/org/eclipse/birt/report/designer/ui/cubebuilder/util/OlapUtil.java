@@ -243,7 +243,7 @@ public class OlapUtil
 			TabularHierarchyHandle hierarchy )
 	{
 		DataSetHandle dataset = hierarchy.getDataSet( );
-		if ( dataset == null && hierarchy.getLevelCount( ) > 0 )
+		if ( dataset == null && hierarchy.getLevelCount( ) > 0 && hierarchy.getContainer( ).getContainer( ) instanceof TabularCubeHandle)
 		{
 			dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
 					.getContainer( ) ).getDataSet( );

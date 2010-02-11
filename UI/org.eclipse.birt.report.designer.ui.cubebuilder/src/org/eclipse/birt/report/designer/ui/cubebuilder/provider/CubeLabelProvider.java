@@ -92,6 +92,12 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			return IMG_OTHER_DATASETS;
 		}
+		if ( element instanceof VirtualField
+				&& ( (VirtualField) element ).getType( )
+						.equals( VirtualField.TYPE_SHARED_DIMENSIONS ) )
+		{
+			return IMG_DIMENSION_FOLDER;
+		}
 		else if ( element instanceof ResultSetColumnHandle )
 		{
 			return IMG_DATAFIELD;
@@ -157,6 +163,12 @@ public class CubeLabelProvider extends LabelProvider
 						.equals( VirtualField.TYPE_OTHER_DATASETS ) )
 		{
 			return Messages.getString( "Cube.Other.Datasets" ); //$NON-NLS-1$
+		}
+		if ( element instanceof VirtualField
+				&& ( (VirtualField) element ).getType( )
+						.equals( VirtualField.TYPE_SHARED_DIMENSIONS ) )
+		{
+			return Messages.getString("CubeLabelProvider.SharedDimensions"); //$NON-NLS-1$
 		}
 		else if ( element instanceof ResultSetColumnHandle )
 		{

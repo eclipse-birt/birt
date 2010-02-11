@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -142,6 +143,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		else
 		{
 			boolean flag = true;
+			HashMap conditionMap = new HashMap( );
 			for ( int i = 0; i < childList.size( ); i++ )
 			{
 				flag = true;
@@ -159,6 +161,9 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 										.iterator( )
 										.hasNext( ) )
 						{
+							int number = conditionMap.containsKey( conditionHierarchy ) ? ( (Integer) conditionMap.get( conditionHierarchy ) ).intValue( )
+									: 0;
+							conditionMap.put( conditionHierarchy, ++number );
 							flag = false;
 							break;
 						}
@@ -169,6 +174,8 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 			}
 			if ( flag )
 			{
+				conditionMap.clear( );
+
 				String[] buttons = new String[]{
 						IDialogConstants.YES_LABEL,
 						IDialogConstants.NO_LABEL,
@@ -194,7 +201,49 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 				}
 			}
 			else
-				return true;
+			{
+				Iterator iter = conditionMap.keySet( ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) iter.next( );
+					if ( hierarchy.getPrimaryKeys( ) == null
+							|| hierarchy.getPrimaryKeys( ).size( ) == 0 )
+						continue;
+					int number = ( (Integer) conditionMap.get( hierarchy ) ).intValue( );
+					if ( hierarchy.getPrimaryKeys( ).size( ) != number )
+					{
+						conditionMap.clear( );
+
+						String[] buttons = new String[]{
+								IDialogConstants.YES_LABEL,
+								IDialogConstants.NO_LABEL,
+								IDialogConstants.CANCEL_LABEL
+						};
+
+						MessageDialog d = new MessageDialog( getShell( ),
+								Messages.getString("CubeBuilder.SharedDimensionErrorLinkDialog.Title"), //$NON-NLS-1$
+								null,
+								Messages.getString("CubeBuilder.SharedDimensionErrorLinkDialog.Message"), //$NON-NLS-1$
+								MessageDialog.INFORMATION,
+								buttons,
+								0 );
+						int result = d.open( );
+						if ( result == 1 )
+							return true;
+						else if ( result == 2 )
+							return false;
+						else
+						{
+							this.showSelectionPage( getLinkGroupNode( ) );
+							return false;
+						}
+					}
+				}
+			}
+
+			conditionMap.clear( );
+
+			return true;
 		}
 	}
 

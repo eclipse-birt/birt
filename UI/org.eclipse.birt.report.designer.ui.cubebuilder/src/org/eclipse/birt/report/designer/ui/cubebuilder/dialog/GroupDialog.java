@@ -77,14 +77,12 @@ public class GroupDialog extends TitleAreaDialog
 
 	private ResultSetColumnHandle dataField;
 	private TabularHierarchyHandle hierarchy;
-	private TabularCubeHandle cube;
 	private IDialogHelper helper;
 	private List levelList = new ArrayList( );
 
-	public void setInput( TabularCubeHandle cube,
-			TabularHierarchyHandle hierarchy, ResultSetColumnHandle dataField )
+	public void setInput( TabularHierarchyHandle hierarchy,
+			ResultSetColumnHandle dataField )
 	{
-		this.cube = cube;
 		dimension = (DimensionHandle) hierarchy.getContainer( );
 		this.dataField = dataField;
 		this.hierarchy = hierarchy;
@@ -602,7 +600,7 @@ public class GroupDialog extends TitleAreaDialog
 
 	private void createSecurityPart( Composite parent )
 	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( dimension,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
 		{
@@ -618,9 +616,9 @@ public class GroupDialog extends TitleAreaDialog
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
 								Messages.getString( "GroupDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-								cube );
+								dimension );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-								new CubeExpressionProvider( cube ) );
+								new CubeExpressionProvider( dimension ) );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
 								dimension.getACLExpression( ) );
 						helper.createContent( parent );
@@ -691,21 +689,27 @@ public class GroupDialog extends TitleAreaDialog
 		checkOKButtonStatus( );
 	}
 
-	public void setInput( TabularCubeHandle cube,
-			TabularHierarchyHandle hierarchy )
+	public void setInput( TabularHierarchyHandle hierarchy )
 	{
 		if ( hierarchy.getLevelCount( ) == 0 )
-			setInput( cube, hierarchy, null );
+			setInput( hierarchy, null );
 		else
 		{
 			if ( !isDateType( hierarchy,
 					( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) ) )
-				setInput( cube, hierarchy, null );
+				setInput( hierarchy, null );
 			else
-				setInput( cube,
-						hierarchy,
-						OlapUtil.getDataField( hierarchy.getDataSet( ),
+			{
+				DataSetHandle dataset = hierarchy.getDataSet( );
+				if ( dataset == null )
+				{
+					dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
+							.getContainer( ) ).getDataSet( );
+				}
+				setInput( hierarchy,
+						OlapUtil.getDataField( dataset,
 								( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) ) );
+			}
 		}
 
 	}

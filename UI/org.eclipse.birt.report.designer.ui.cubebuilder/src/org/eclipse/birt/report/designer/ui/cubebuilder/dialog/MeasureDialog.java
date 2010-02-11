@@ -40,7 +40,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -71,7 +70,6 @@ public class MeasureDialog extends TitleAreaDialog
 	private Combo functionCombo;
 
 	private TabularMeasureHandle input;
-	private TabularCubeHandle cube;
 	private Text nameText;
 	private static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
 			.getElement( ReportDesignConstants.MEASURE_ELEMENT )
@@ -185,10 +183,9 @@ public class MeasureDialog extends TitleAreaDialog
 		}
 	}
 
-	public void setInput( TabularCubeHandle cube, TabularMeasureHandle input )
+	public void setInput( TabularMeasureHandle input )
 	{
 		this.input = input;
-		this.cube = cube;
 	}
 
 	/*
@@ -409,8 +406,8 @@ public class MeasureDialog extends TitleAreaDialog
 
 		ExpressionButtonUtil.createExpressionButton( group,
 				expressionText,
-				new CubeExpressionProvider( cube ),
-				cube );
+				new CubeExpressionProvider( input ),
+				input );
 
 		createSecurityPart( group );
 		createHyperLinkPart( group );
@@ -419,7 +416,7 @@ public class MeasureDialog extends TitleAreaDialog
 
 	private IDialogHelper createHyperLinkPart( Composite parent )
 	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
 		{
@@ -458,7 +455,7 @@ public class MeasureDialog extends TitleAreaDialog
 
 	private void createSecurityPart( Composite parent )
 	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
 		{
@@ -474,9 +471,9 @@ public class MeasureDialog extends TitleAreaDialog
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
 								Messages.getString( "MeasureDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-								cube );
+								input );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-								new CubeExpressionProvider( cube ) );
+								new CubeExpressionProvider( input ) );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
 								input.getACLExpression( ) );
 						helper.createContent( parent );

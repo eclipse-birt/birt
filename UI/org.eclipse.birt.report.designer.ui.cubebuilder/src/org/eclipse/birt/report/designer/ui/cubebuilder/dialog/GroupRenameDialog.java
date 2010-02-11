@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.SWT;
@@ -71,7 +70,6 @@ public class GroupRenameDialog extends BaseDialog
 
 	private IDialogHelper helper;
 
-	private TabularCubeHandle cube;
 	private DimensionHandle dimension;
 
 	public GroupRenameDialog( Shell parentShell, String dialogTitle,
@@ -98,9 +96,8 @@ public class GroupRenameDialog extends BaseDialog
 		}
 	}
 
-	public void setInput( TabularCubeHandle cube, DimensionHandle dimension )
+	public void setInput( DimensionHandle dimension )
 	{
-		this.cube = cube;
 		this.dimension = dimension;
 	}
 
@@ -189,7 +186,7 @@ public class GroupRenameDialog extends BaseDialog
 
 	private void createSecurityPart( Composite parent )
 	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( dimension,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
 		{
@@ -205,9 +202,9 @@ public class GroupRenameDialog extends BaseDialog
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
 								Messages.getString( "GroupRenameDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-								cube );
+								dimension );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-								new CubeExpressionProvider( cube ) );
+								new CubeExpressionProvider( dimension ) );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
 								dimension.getACLExpression( ) );
 						helper.createContent( parent );

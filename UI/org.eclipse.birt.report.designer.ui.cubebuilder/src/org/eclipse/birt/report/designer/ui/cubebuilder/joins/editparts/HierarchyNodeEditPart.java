@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.TableS
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TableNodeFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -101,18 +102,31 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 
 		if ( hierarchy.getDataSet( ) != null )
 		{
-			try
+			if ( hierarchy.getPrimaryKeys( ) != null
+					&& hierarchy.getPrimaryKeys( ).size( ) > 0 )
 			{
-				List columnList = DataUtil.getColumnList( hierarchy.getDataSet( ) );
-				for ( int i = 0; i < columnList.size( ); i++ )
+				for ( int i = 0; i < hierarchy.getPrimaryKeys( ).size( ); i++ )
 				{
-					ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
+					ResultSetColumnHandle resultSetColumn = OlapUtil.getDataField( hierarchy.getDataSet( ),
+							(String) hierarchy.getPrimaryKeys( ).get( i ) );
 					childList.add( resultSetColumn );
 				}
 			}
-			catch ( SemanticException e )
+			else
 			{
-				ExceptionHandler.handle( e );
+				try
+				{
+					List columnList = DataUtil.getColumnList( hierarchy.getDataSet( ) );
+					for ( int i = 0; i < columnList.size( ); i++ )
+					{
+						ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
+						childList.add( resultSetColumn );
+					}
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
 		}
 		return childList;

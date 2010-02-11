@@ -13,10 +13,15 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -28,6 +33,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 public class DataContentProvider implements ITreeContentProvider
 {
+
 	public Object[] getChildren( Object parentElement )
 	{
 		if ( parentElement instanceof Object[] )
@@ -40,19 +46,24 @@ public class DataContentProvider implements ITreeContentProvider
 		}
 		if ( parentElement instanceof TabularCubeHandle )
 		{
+			List list = new ArrayList( );
 			DataSetHandle primary = ( (TabularCubeHandle) parentElement ).getDataSet( );
+			list.add( primary );
+			Object adapter = ElementAdapterManager.getAdapter( ( (TabularCubeHandle) parentElement ).getModuleHandle( ),
+					List.class );
+			if ( adapter instanceof List && ( (List) adapter ).size( ) > 0 )
+			{
+				VirtualField sharedDimensions = new VirtualField( VirtualField.TYPE_SHARED_DIMENSIONS );
+				sharedDimensions.setModel( adapter );
+				list.add( sharedDimensions );
+			}
 			if ( OlapUtil.getAvailableDatasets( ).length > 1 )
 			{
 				VirtualField other = new VirtualField( VirtualField.TYPE_OTHER_DATASETS );
 				other.setModel( parentElement );
-				return new Object[]{
-						primary, other
-				};
+				list.add( other );
 			}
-			else
-				return new Object[]{
-					primary
-				};
+			return list.toArray( );
 		}
 		if ( parentElement instanceof VirtualField
 				&& ( (VirtualField) parentElement ).getType( )
@@ -63,23 +74,53 @@ public class DataContentProvider implements ITreeContentProvider
 			datasets.remove( ( (TabularCubeHandle) ( (VirtualField) parentElement ).getModel( ) ).getDataSet( ) );
 			return datasets.toArray( );
 		}
+		if ( parentElement instanceof VirtualField
+				&& ( (VirtualField) parentElement ).getType( )
+						.equals( VirtualField.TYPE_SHARED_DIMENSIONS ) )
+		{
+			return ( (List) ( (VirtualField) parentElement ).getModel( ) ).toArray( );
+		}
+		if ( parentElement instanceof DimensionHandle )
+		{
+			HierarchyHandle hierarchy = (HierarchyHandle) ( (DimensionHandle) parentElement ).getContent( DimensionHandle.HIERARCHIES_PROP,
+					0 );
+			if ( hierarchy.getLevelCount( ) > 0 )
+			{
+				return new Object[]{
+					hierarchy.getLevel( 0 )
+				};
+			}
+		}
+		if ( parentElement instanceof LevelHandle )
+		{
+			HierarchyHandle hierarchy = (HierarchyHandle) ( (LevelHandle) parentElement ).getContainer( );
+			int pos = ( (LevelHandle) parentElement ).getIndex( );
+			if ( hierarchy.getLevel( pos + 1 ) != null )
+				return new Object[]{
+					hierarchy.getLevel( pos + 1 )
+				};
+		}
 		return new Object[0];
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
+	 * )
 	 */
 	public Object getParent( Object element )
-	{			
+	{
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
+	 * Object)
 	 */
 	public boolean hasChildren( Object element )
 	{
@@ -101,13 +142,32 @@ public class DataContentProvider implements ITreeContentProvider
 						.equals( VirtualField.TYPE_OTHER_DATASETS )
 				&& OlapUtil.getAvailableDatasets( ).length > 1 )
 			return true;
+		if ( element instanceof VirtualField
+				&& ( (VirtualField) element ).getType( )
+						.equals( VirtualField.TYPE_SHARED_DIMENSIONS ) )
+			return true;
+		if ( element instanceof DimensionHandle )
+		{
+			HierarchyHandle hierarchy = (HierarchyHandle) ( (DimensionHandle) element ).getContent( DimensionHandle.HIERARCHIES_PROP,
+					0 );
+			if ( hierarchy.getLevelCount( ) > 0 )
+				return true;
+		}
+		if ( element instanceof LevelHandle )
+		{
+			HierarchyHandle hierarchy = (HierarchyHandle) ( (LevelHandle) element ).getContainer( );
+			int pos = ( (LevelHandle) element ).getIndex( );
+			return hierarchy.getLevel( pos + 1 ) != null;
+		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * .lang.Object)
 	 */
 	public Object[] getElements( Object inputElement )
 	{

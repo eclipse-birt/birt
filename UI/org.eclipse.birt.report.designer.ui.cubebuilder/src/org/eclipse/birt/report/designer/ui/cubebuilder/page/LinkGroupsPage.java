@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
@@ -138,7 +139,22 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 					StructuredSelection selection = (StructuredSelection) event.getSelection( );
 					if ( selection.getFirstElement( ) instanceof HierarchyNodeEditPart
 							|| selection.getFirstElement( ) instanceof DatasetNodeEditPart )
-						filterButton.setEnabled( true );
+					{
+						Object obj = selection.getFirstElement( );
+						if ( obj instanceof HierarchyNodeEditPart )
+						{
+							TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (HierarchyNodeEditPart) obj ).getModel( );
+							if ( hierarchy.getPrimaryKeys( ) != null
+									&& hierarchy.getPrimaryKeys( ).size( ) > 0 )
+							{
+								filterButton.setEnabled( false );
+							}
+							else
+								filterButton.setEnabled( true );
+						}
+						else
+							filterButton.setEnabled( true );
+					}
 					else
 						filterButton.setEnabled( false );
 				}

@@ -52,7 +52,6 @@ public class DateLevelDialog extends TitleAreaDialog
 	private Text nameText;
 	private Combo typeCombo;
 	private TabularLevelHandle input;
-	private TabularCubeHandle cube;
 	private IDialogHelper helper;
 
 	private static HashMap formatMap = new HashMap( );
@@ -189,7 +188,6 @@ public class DateLevelDialog extends TitleAreaDialog
 	public void setInput( TabularCubeHandle cube, TabularLevelHandle level )
 	{
 		this.input = level;
-		this.cube = cube;
 	}
 	// private Button noneIntervalButton;
 	// private Button intervalButton;
@@ -328,7 +326,7 @@ public class DateLevelDialog extends TitleAreaDialog
 
 		} );
 
-		new Label( content, SWT.NONE ).setText( Messages.getString("DateLevelDialog.KeyField") );  //$NON-NLS-1$
+		new Label( content, SWT.NONE ).setText( Messages.getString( "DateLevelDialog.KeyField" ) ); //$NON-NLS-1$
 		fieldText = new Text( content, SWT.BORDER | SWT.READ_ONLY );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
@@ -375,7 +373,7 @@ public class DateLevelDialog extends TitleAreaDialog
 
 	private IDialogHelper createHyperLinkPart( Composite parent )
 	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
 		{
@@ -414,7 +412,7 @@ public class DateLevelDialog extends TitleAreaDialog
 
 	private void createSecurityPart( Composite parent )
 	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( cube,
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
 		{
@@ -430,9 +428,9 @@ public class DateLevelDialog extends TitleAreaDialog
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
 								Messages.getString( "DateLevelDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
-								cube );
+								input );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-								new CubeExpressionProvider( cube ) );
+								new CubeExpressionProvider( input ) );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
 								input.getACLExpression( ) );
 						helper.createContent( parent );
