@@ -31,6 +31,8 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.ExpressionDescriptor;
+import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.IExpressionDescriptor;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
@@ -1593,17 +1595,24 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					.length( ) == 0 )
 					&& valueExprs != null && valueExprs.length == 1 )
 			{
-				String text = valueExprs[0].toString( );
-				query.setDefinition( text );
-				if ( dataProvider.update( ChartUIConstants.QUERY_VALUE, text ) )
+				boolean isCube = true;
+				IExpressionDescriptor desc = ExpressionDescriptor.getInstance( valueExprs[0],
+						isCube );
+				if ( desc != null && dataProvider != null )
 				{
-					Event e = new Event( );
-					e.type = IChartDataSheet.EVENT_QUERY;
-					this.notifyListeners( e );
-				}
-				if ( force )
-				{
-					fireEvent( tablePreview, EVENT_PREVIEW );
+					String expr = desc.getExpression( );
+					query.setDefinition( expr );
+					if ( dataProvider.update( ChartUIConstants.QUERY_VALUE,
+							expr ) )
+					{
+						Event e = new Event( );
+						e.type = IChartDataSheet.EVENT_QUERY;
+						this.notifyListeners( e );
+					}
+					if ( force )
+					{
+						fireEvent( tablePreview, EVENT_PREVIEW );
+					}
 				}
 			}
 		}

@@ -328,7 +328,10 @@ public class ChartExpressionButtonUtil
 
 		public void addListener( Listener listener )
 		{
-			listeners.add( listener );
+			if ( listener != null )
+			{
+				listeners.add( listener );
+			}
 		}
 
 		public String getExpression( )
