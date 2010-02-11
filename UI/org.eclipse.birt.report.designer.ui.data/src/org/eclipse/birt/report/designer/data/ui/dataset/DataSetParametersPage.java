@@ -97,20 +97,20 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			Listener
 {
 
-	private boolean modelChanged = true;
-	private PropertyHandle parameters;
-	private PropertyHandleTableViewer viewer;
-	private DataSetParameter originalStructure = null;
+	protected boolean modelChanged = true;
+	protected PropertyHandle parameters;
+	protected PropertyHandleTableViewer viewer;
+	protected DataSetParameter originalStructure = null;
 
-	private String parameterName;
+	protected String parameterName;
 
-	private boolean isOdaDataSetHandle, isJointOrDerivedDataSetHandle;
+	protected boolean isOdaDataSetHandle, isJointOrDerivedDataSetHandle;
 
-	private static String DEFAULT_MESSAGE = Messages.getString( "dataset.editor.parameters" ); //$NON-NLS-1$
-	private static String NONE_DEFAULT_VALUE = Messages.getString( "DataSetParametersPage.default.None" );//$NON-NLS-1$
-	private static String UNLINKED_REPORT_PARAM = Messages.getString( "DataSetParametersPage.reportParam.None" );//$NON-NLS-1$
-	private static final char RENAME_SEPARATOR = '_';
-	private static final String PARAM_PREFIX = "param" + RENAME_SEPARATOR; //$NON-NLS-1$
+	protected static String DEFAULT_MESSAGE = Messages.getString( "dataset.editor.parameters" ); //$NON-NLS-1$
+	protected static String NONE_DEFAULT_VALUE = Messages.getString( "DataSetParametersPage.default.None" );//$NON-NLS-1$
+	protected static String UNLINKED_REPORT_PARAM = Messages.getString( "DataSetParametersPage.reportParam.None" );//$NON-NLS-1$
+	protected static final char RENAME_SEPARATOR = '_';
+	protected static final String PARAM_PREFIX = "param" + RENAME_SEPARATOR; //$NON-NLS-1$
 
 	/**
 	 * constructor
@@ -136,13 +136,52 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	 * @param parent
 	 * @return
 	 */
-	private Control createParameterPageControl( Composite parent )
+	protected Control createParameterPageControl( Composite parent )
 	{
 		DataSetHandle dataSetHandle = (DataSetHandle) getContainer( ).getModel( );
 		isOdaDataSetHandle = ParameterPageUtil.isOdaDataSetHandle( dataSetHandle );
 		isJointOrDerivedDataSetHandle = ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle );
 	
 		viewer = new PropertyHandleTableViewer( parent, true, true, true,!isJointOrDerivedDataSetHandle );
+		createTableColumns( );
+
+		setContentProvider( );		
+		setLabelProvider( dataSetHandle );
+		
+		adjustParameterOnPosition( parameters );
+		if ( ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle ) )
+		{
+			viewer.getViewer( ).setInput( dataSetHandle );
+		}
+		else
+		{
+			viewer.getViewer( ).setInput( parameters );
+		}
+		setToolTips( );
+		if ( !isJointOrDerivedDataSetHandle )
+		{
+			addRefreshMenu( );
+			addListeners( );
+		}
+		dataSetHandle.addListener( this );
+		
+		return viewer.getControl( );
+	}
+
+	protected void setLabelProvider( DataSetHandle dataSetHandle )
+	{
+		viewer.getViewer( )
+				.setLabelProvider( new ParameterViewLableProvider( dataSetHandle ) );
+	}
+
+	protected void setContentProvider( )
+	{
+		viewer.getViewer( )
+				.setContentProvider( new ParameterViewContentProvider( ) );
+	}
+
+	protected void createTableColumns( )
+	{
 		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
 				SWT.LEFT );
 		column.setText( " " ); //$NON-NLS-1$
@@ -205,29 +244,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				column.setWidth( 180 );
 			}
 		}
-
-		viewer.getViewer( )
-				.setContentProvider( new ParameterViewContentProvider( ) );
-		viewer.getViewer( )
-				.setLabelProvider( new ParameterViewLableProvider( dataSetHandle ) );
-		adjustParameterOnPosition( parameters );
-		if ( ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle ) )
-		{
-			viewer.getViewer( ).setInput( dataSetHandle );
-		}
-		else
-		{
-			viewer.getViewer( ).setInput( parameters );
-		}
-		setToolTips( );
-		if ( !isJointOrDerivedDataSetHandle )
-		{
-			addRefreshMenu( );
-			addListeners( );
-		}
-		dataSetHandle.addListener( this );
-		
-		return viewer.getControl( );
 	}
 
 	/**
@@ -264,7 +280,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	 * 
 	 * @return
 	 */
-	private String[] getDirections( )
+	protected String[] getDirections( )
 	{
 		String[] directions;
 		boolean supportInput = ( (DataSetEditor) this.getContainer( ) ).supportsInParameters( );
@@ -427,7 +443,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		doEdit( handle );
 	}
 
-	private void doEdit( Object structureOrHandle )
+	protected void doEdit( Object structureOrHandle )
 	{
 		ParameterInputDialog dlg = new ParameterInputDialog( structureOrHandle,
 				isOdaDataSetHandle );
@@ -440,7 +456,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 	}
 	
-	private void refreshLinkedReportParamStatus( )
+	protected void refreshLinkedReportParamStatus( )
 	{
 		TableItem items[] = viewer.getViewer( ).getTable( ).getItems( );
 		for ( int i = 0; i < items.length; i++ )
@@ -470,7 +486,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				{
 					getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.LinkedReportParamNotFound",
 							new Object[]{
-								handle.getParamName( )
+									handle.getParamName( ), handle.getName( )
 							} ),
 							IMessageProvider.ERROR );
 				}
@@ -480,7 +496,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 	}
 
-	private void refreshMessage( )
+	protected void refreshMessage( )
 	{
 		getContainer( ).setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
 		if ( !doSaveEmptyParameter( parameters ) )
@@ -489,7 +505,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 	}
 	
-	private DataSetParameter getStructure( Object structureOrHandle )
+	protected DataSetParameter getStructure( Object structureOrHandle )
 	{
 		DataSetParameter structure = null;
 		if ( structureOrHandle instanceof DataSetParameter )
@@ -1164,7 +1180,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	 * The listener on scalar parameter
 	 * 
 	 */
-	private class ScalarParameterListener implements Listener
+	protected class ScalarParameterListener implements Listener
 	{
 
 		/**
@@ -1182,7 +1198,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			implements
 				IStructuredContentProvider
 	{
-		private final String separator = "::";
+		private final String separator = "::"; //$NON-NLS-1$
 
 		/*
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)

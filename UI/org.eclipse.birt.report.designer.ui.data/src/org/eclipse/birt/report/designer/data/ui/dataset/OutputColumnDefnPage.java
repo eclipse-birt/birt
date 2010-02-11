@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -35,6 +36,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -84,10 +86,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 {
 
 	private boolean modelChanged = true;
-	private PropertyHandle rsColumns;
-	private PropertyHandle columnHints;
-	private ColumnHandles columnHandles;
-	private Map rsColumnMap = new HashMap( );
+	protected PropertyHandle rsColumns;
+	protected PropertyHandle columnHints;
+	protected ColumnHandles columnHandles;
+	protected Map rsColumnMap = new HashMap( );
 	protected Map columnHintMap = new HashMap( );
 	
 	protected OutputColumnTableViewer viewer;
@@ -878,10 +880,26 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 
 		public ColumnHint getColumnHint( )
 		{
-			if (this.columnHintHandle!=null)
-				return (ColumnHint)this.columnHintHandle.getStructure();
+			if ( this.columnHintHandle != null )
+				return (ColumnHint) this.columnHintHandle.getStructure( );
 			else
 				return this.columnHint;
+		}
+		
+		public ActionHandle setAction( Action action ) throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				return this.columnHintHandle.setAction( action );
+
+			return null;
+		}
+
+		public ActionHandle getActionHandle( )
+		{
+			if ( this.columnHintHandle != null )
+				return this.columnHintHandle.getActionHandle( );
+
+			return null;
 		}
 
 		public String getColumnName( )
@@ -1034,6 +1052,201 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			else
 				return (String) columnHint.getProperty( null,
 						ColumnHint.HELP_TEXT_MEMBER );
+		}
+
+		/**
+		 * @param format
+		 *            The format to set.
+		 */
+		public void setFormat( String format )
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setFormat( format );
+			else
+				columnHint.setProperty( ColumnHint.FORMAT_MEMBER, format );
+		}
+
+		/**
+		 * @return Returns the format.
+		 */
+		public String getFormat( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.getFormat( );
+			else
+				return (String) columnHint.getProperty( null,
+						ColumnHint.FORMAT_MEMBER );
+		}
+
+		/**
+		 * @param display length
+		 *            The display length to set.
+		 */
+		public void setDisplayLength( int length )
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setDisplayLength( length );
+			else
+				columnHint.setProperty( ColumnHint.DISPLAY_LENGTH_MEMBER,
+						length );
+		}
+
+		/**
+		 * @return Returns the display length.
+		 */
+		public int getDisplayLength( )
+		{
+			if ( this.columnHintHandle != null )
+			{
+				return columnHintHandle.getDisplayLength( );
+			}
+			else
+			{
+				Object value = columnHint.getProperty( null,
+						ColumnHint.DISPLAY_LENGTH_MEMBER );
+				if ( value instanceof Integer )
+					return (Integer) value;
+				return 0;
+			}
+		}
+
+		/**
+		 * @param heading
+		 *            The heading to set.
+		 */
+		public void setHeading( String heading )
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setHeading( heading );
+			else
+				columnHint.setProperty( ColumnHint.HEADING_MEMBER, heading );
+		}
+
+		/**
+		 * @return Returns the heading.
+		 */
+		public String getHeading( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.getHeading( );
+			else
+				return (String) columnHint.getProperty( null,
+						ColumnHint.HEADING_MEMBER );
+		}
+
+		/**
+		 * @param horizontalAlign
+		 *            The horizontal alignment to set.
+		 * @throws SemanticException
+		 */
+		public void setHorizontalAlign( String horizontalAlign )
+				throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setHorizontalAlign( horizontalAlign );
+			else
+				columnHint.setProperty( ColumnHint.HORIZONTAL_ALIGN_MEMBER,
+						horizontalAlign );
+		}
+
+		/**
+		 * @return Returns the horizontal alignment.
+		 */
+		public String getHorizontalAlign( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.getHorizontalAlign( );
+			else
+				return (String) columnHint.getProperty( null,
+						ColumnHint.HORIZONTAL_ALIGN_MEMBER );
+		}
+
+		/**
+		 * @param textFormat
+		 *            The text format to set.
+		 * @throws SemanticException
+		 */
+		public void setTextFormat( String textFormat )
+				throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setTextFormat( textFormat );
+			else
+				columnHint.setProperty( ColumnHint.TEXT_FORMAT_MEMBER,
+						textFormat );
+		}
+
+		/**
+		 * @return Returns the text format.
+		 */
+		public String getTextFormat( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.getTextFormat( );
+			else
+				return (String) columnHint.getProperty( null,
+						ColumnHint.TEXT_FORMAT_MEMBER );
+		}
+
+		/**
+		 * @param description
+		 *            The description to set.
+		 * @throws SemanticException
+		 */
+		public void setDescription( String description )
+				throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setDescription( description );
+			else
+				columnHint.setProperty( ColumnHint.DESCRIPTION_MEMBER,
+						description );
+		}
+
+		/**
+		 * @return Returns the description.
+		 */
+		public String getDescription( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.getDescription( );
+			else
+				return (String) columnHint.getProperty( null,
+						ColumnHint.DESCRIPTION_MEMBER );
+		}
+
+		/**
+		 * @param wordWrap
+		 *            The boolean value of word wrap to set.
+		 * @throws SemanticException
+		 */
+		public void setWordWrap( boolean wordWrap ) throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setWordWrap( wordWrap );
+			else
+				columnHint.setProperty( ColumnHint.WORD_WRAP_MEMBER, wordWrap );
+		}
+
+		/**
+		 * @return Returns the boolean value of word wrap.
+		 */
+		public boolean isWordWrap( )
+		{
+			if ( this.columnHintHandle != null )
+			{
+				return columnHintHandle.wordWrap( );
+			}
+			else
+			{
+				Object value = columnHint.getProperty( null,
+						ColumnHint.WORD_WRAP_MEMBER );
+
+				if ( value instanceof Boolean )
+					return (Boolean) value;
+
+				return false;
+			}
 		}
 
 		/**
