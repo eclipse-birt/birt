@@ -674,7 +674,7 @@ DataSetParametersPage.Prompt.new=<Nuevo parámetro aquí...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Ninguno
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=El parámetro del informe vinculado "{0}" del parámetro del conjunto de datos "{1}" ya no existe.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Data set parameter "{0}" should not link to a multi-value type report parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=El parámetro del conjunto de datos "{0}" no debería enlazar con un parámetro de informe del tipo de valor múltiple.
 DataSetParameterPage.cell.linkToSalarParameter=&Vinculado a parámetro de informe
 DataSetParameterPage.title.ParameterInputDialog=Parámetro
 DataSetParameterPage.toolTipText.New=Nuevo parámetro
@@ -4412,11 +4412,11 @@ PathResourceEntry.RootDisplayName=Recursos compartidos
 #ResourceFilter properties
 ResourceFilter.DisplayName.CVS=Recursos CVS
 ResourceFilter.DisplayName.Dot=.* recursos
-ResourceFilter.DisplayName.Data=*.data resources
+ResourceFilter.DisplayName.Data=*.recursos de datos
 ResourceFilter.DisplayName.EmptyFolder=Vaciar carpetas
 ResourceFilter.Description.CVS=Oculta recursos con nombres que comienzan por \"CVS\"
 ResourceFilter.Description.Dot=Oculta recursos con nombres que comienzan por "."
-ResourceFilter.Description.Data=Hides all data files
+ResourceFilter.Description.Data=Oculta todos los archivos de datos
 ResourceFilter.Description.EmptyFolder=Oculta carpetas vacías
 
 ###########################################################

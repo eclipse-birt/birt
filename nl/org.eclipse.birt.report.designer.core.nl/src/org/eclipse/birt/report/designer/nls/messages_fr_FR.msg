@@ -674,7 +674,7 @@ DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Aucun
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=Le paramètre d'état lié "{0}" du paramètre du jeu de données "{1}" n'existe pas actuellement.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Data set parameter "{0}" should not link to a multi-value type report parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Le paramètre du jeu de données "{0}" ne doit pas être lié à un paramètre d'état de valeurs multiples.
 DataSetParameterPage.cell.linkToSalarParameter=&Lié au paramètre d'état
 DataSetParameterPage.title.ParameterInputDialog=Paramètre
 DataSetParameterPage.toolTipText.New=Nouveau paramètre
@@ -4412,11 +4412,11 @@ PathResourceEntry.RootDisplayName=Ressources partagées
 #ResourceFilter properties
 ResourceFilter.DisplayName.CVS=Ressources CVS
 ResourceFilter.DisplayName.Dot=Ressources .*
-ResourceFilter.DisplayName.Data=*.data resources
+ResourceFilter.DisplayName.Data=*.ressources de données
 ResourceFilter.DisplayName.EmptyFolder=Dossiers vides
 ResourceFilter.Description.CVS=Masque les ressources dont le nom commence par \"CVS\"
 ResourceFilter.Description.Dot=Masque les ressources dont le nom commence par un '.'
-ResourceFilter.Description.Data=Hides all data files
+ResourceFilter.Description.Data=Masquer tous les fichiers de données
 ResourceFilter.Description.EmptyFolder=Masque les dossiers vides
 
 ###########################################################

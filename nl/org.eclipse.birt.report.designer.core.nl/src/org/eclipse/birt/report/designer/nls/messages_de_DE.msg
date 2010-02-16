@@ -674,7 +674,7 @@ DataSetParametersPage.Prompt.new=<New param here...>
 DataSetParametersPage.default.None=n.a.
 DataSetParametersPage.reportParam.None=Ohne
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=Der verknüpfte Berichtparameter "{0}" des Datensatzparameters "{1}" ist nicht vorhanden.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Data set parameter "{0}" should not link to a multi-value type report parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Datensatzparameter '{0}' darf nicht mit einem Berichtparameter des Typs 'Mehrere Werte' verknüpft sein.
 DataSetParameterPage.cell.linkToSalarParameter=Mit Berichtparameter &verknüpft
 DataSetParameterPage.title.ParameterInputDialog=Parameter
 DataSetParameterPage.toolTipText.New=Neuer Parameter
@@ -4412,11 +4412,11 @@ PathResourceEntry.RootDisplayName=Gemeinsame Ressourcen
 #ResourceFilter properties
 ResourceFilter.DisplayName.CVS=CVS-Ressourcen
 ResourceFilter.DisplayName.Dot=.* Ressourcen
-ResourceFilter.DisplayName.Data=*.data resources
+ResourceFilter.DisplayName.Data=*.data-Ressourcen
 ResourceFilter.DisplayName.EmptyFolder=Leere Ordner
 ResourceFilter.Description.CVS=Blendet Ressourcen aus, deren Name mit \"CVS\" beginnt
 ResourceFilter.Description.Dot=Blendet Ressourcen aus, deren Name mit einem '.' beginnt
-ResourceFilter.Description.Data=Hides all data files
+ResourceFilter.Description.Data=Blendet alle Datendateien aus.
 ResourceFilter.Description.EmptyFolder=Blendet leere Ordner aus
 
 ###########################################################
