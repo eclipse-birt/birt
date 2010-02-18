@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2009 Actuate Corporation.
+# Copyright (c) 2008, 2010 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -18,7 +18,7 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc.dbprofile
 ###############################################################################
 #
 plugin.name=Controlador de tiempo de ejecución ODA de fuente de datos de conexión de base de datos JDBC
-data.source.name=Conexión de base de datos JDBC para compilador de consultas [Prototype]
+data.source.name=JDBC Database Connection for Query Builder
 data.set.name=Consulta de selección de SQL [Prototipo de compilador de consultas]
 connection.profile.name=Perfil de conexión de base de datos JDBC BIRT
 dataset.property.parameterMetaData=Metadatos de parámetros JDBC BIRT
