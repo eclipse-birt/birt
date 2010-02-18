@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008, 2009 Actuate Corporation.
+# Copyright (c) 2008, 2010 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -18,7 +18,7 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc.dbprofile
 ###############################################################################
 #
 plugin.name=JDBC 데이터베이스 연결 데이터 원본 ODA 런타임 드라이버
-data.source.name=쿼리 빌더[프로토타입]의 JDBC 데이터베이스 연결
+data.source.name=JDBC Database Connection for Query Builder
 data.set.name=SQL Select 쿼리[쿼리 빌더 프로토타입]
 connection.profile.name=BIRT JDBC 데이터베이스 연결 프로필
 dataset.property.parameterMetaData=BIRT JDBC 매개 변수 메타데이터
