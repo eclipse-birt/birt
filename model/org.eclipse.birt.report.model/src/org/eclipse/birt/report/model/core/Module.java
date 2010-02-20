@@ -326,6 +326,13 @@ public abstract class Module extends DesignElement
 	protected INameHelper nameHelper = null;
 
 	/**
+	 * Caches the bundles. The key is file name, the value is the list of
+	 * <code>CachedBundles</code>>.
+	 */
+
+	private CachedBundles cachedBundles = null;
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @param theSession
@@ -771,9 +778,9 @@ public abstract class Module extends DesignElement
 
 		if ( libraries != null )
 		{
+			module.libraries = new ArrayList( );
 			for ( int i = 0; i < libraries.size( ); i++ )
 			{
-				module.libraries = new ArrayList( );
 				Library lib = (Library) ( (Library) libraries.get( i ) )
 						.doClone( policy );
 				lib.setHost( module );
@@ -2768,5 +2775,28 @@ public abstract class Module extends DesignElement
 	public INameHelper getNameHelper( )
 	{
 		return this.nameHelper;
+	}
+	
+	/**
+	 * Caches the propertyResourceBundle list.
+	 * 
+	 * @param baseName
+	 *            the file name
+	 * @param bundleList
+	 *            the propertyResouceBundle list
+	 */
+
+	public CachedBundles getResourceBundle( )
+	{
+		if ( getOptions( ) == null
+				|| ( getOptions( ) != null && getOptions( ).useSemanticCheck( ) ) )
+		{
+			return null;
+		}
+
+		if ( cachedBundles == null )
+			cachedBundles = new CachedBundles( );
+
+		return cachedBundles;
 	}
 }

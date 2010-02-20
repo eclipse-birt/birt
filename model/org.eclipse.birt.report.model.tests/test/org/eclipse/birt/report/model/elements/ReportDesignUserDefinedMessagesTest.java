@@ -158,10 +158,10 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 		assertEquals( "en_US for D", designHandle.getMessage( "D" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// Only in en
-		assertNull( designHandle.getMessage( "C" ) ); //$NON-NLS-1$
+		assertEquals("en for C",  designHandle.getMessage( "C" ) ); //$NON-NLS-1$
 
 		// Only in default
-		assertNull( designHandle.getMessage( "B" ) ); //$NON-NLS-1$
+		assertEquals("default for B", designHandle.getMessage( "B" ) ); //$NON-NLS-1$
 
 		// not found
 		assertNull( designHandle.getMessage( "non-exsit-key" ) ); //$NON-NLS-1$
@@ -202,26 +202,28 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
-	public void testGetMessageKeys( ) throws DesignFileException
-	{
-		openDesign( "ReportDesignUserDefinedMessagesTest2.xml", ULocale.ENGLISH ); //$NON-NLS-1$      
-		designHandle.setIncludeResource( "message" ); //$NON-NLS-1$
-		ThreadResources.setLocale( ULocale.US );
-
-		List keys = design.getMessageKeys( );
-		assertEquals( 4, keys.size( ) );
-
-		assertTrue( keys.contains( "ResourceKey.ReportDesign.Title" ) ); //$NON-NLS-1$
-		assertTrue( keys.contains( "ResourceKey.ReportDesign.Description" ) ); //$NON-NLS-1$
-		assertTrue( keys.contains( "A" ) ); //$NON-NLS-1$
-		assertTrue( keys.contains( "D" ) ); //$NON-NLS-1$
-
-		designHandle.setIncludeResource( "none-exsit" ); //$NON-NLS-1$
-		keys = designHandle.getMessageKeys( );
-		assertEquals( 2, keys.size( ) );
-
-	}
-
+    public void testGetMessageKeys() throws DesignFileException
+    {
+        openDesign( "ReportDesignUserDefinedMessagesTest2.xml", ULocale.ENGLISH ); //$NON-NLS-1$      
+        designHandle.setIncludeResource( "message" ); //$NON-NLS-1$
+        ThreadResources.setLocale( ULocale.US );
+        
+        List keys = design.getMessageKeys();
+        assertEquals( 6, keys.size() );
+       
+        assertTrue( keys.contains( "ResourceKey.ReportDesign.Title" ) ); //$NON-NLS-1$
+        assertTrue( keys.contains( "ResourceKey.ReportDesign.Description" ) ); //$NON-NLS-1$
+        assertTrue( keys.contains( "A" ) ); //$NON-NLS-1$
+        assertTrue( keys.contains( "B" ) ); //$NON-NLS-1$
+        assertTrue( keys.contains( "C" ) ); //$NON-NLS-1$
+        assertTrue( keys.contains( "D" ) ); //$NON-NLS-1$
+        
+        designHandle.setIncludeResource( "none-exsit" ); //$NON-NLS-1$
+        keys = designHandle.getMessageKeys();
+        assertEquals( 2, keys.size() );
+        
+    }
+    
 	/**
 	 * test getTranslations(). 1. 6 translations is defined in design file, the
 	 * list returned contains 6 translations.

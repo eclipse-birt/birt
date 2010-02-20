@@ -11,16 +11,11 @@
 
 package org.eclipse.birt.report.model.core;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.PropertyResourceBundle;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -74,8 +69,8 @@ public class BundleHelper
 	 * @param baseName
 	 *            base name of the resource bundle. The name is a common base
 	 *            name
-	 * @return a correspondent helper instance. Return <code>null</code> if
-	 *         the <code>msgFolder</code> is null or not a directory.
+	 * @return a correspondent helper instance. Return <code>null</code> if the
+	 *         <code>msgFolder</code> is null or not a directory.
 	 * 
 	 */
 
@@ -99,15 +94,27 @@ public class BundleHelper
 
 	public Collection getMessageKeys( ULocale locale )
 	{
+		CachedBundles moduleBundle = module.getResourceBundle( );
+
+		// create a dummy resource bundle to keep codes same
+
+		if ( moduleBundle == null )
+			moduleBundle = new CachedBundles( );
+
 		Set keys = new LinkedHashSet( );
-		PropertyResourceBundle bundle = gatherMessageBundles( locale );
-		if ( bundle != null )
+		List bundleNames = getMessageFilenames( locale );
+		for ( int i = 0; i < bundleNames.size( ); i++ )
 		{
-			Enumeration enumeration = bundle.getKeys( );
-			while ( enumeration.hasMoreElements( ) )
+			String tmpName = (String) bundleNames.get( i );
+			if ( !moduleBundle.isCached( tmpName ) )
 			{
-				keys.add( enumeration.nextElement( ) );
+				// load and search again
+
+				moduleBundle.addCachedBundle( tmpName, findBundle( tmpName ) );
 			}
+
+			keys.addAll( moduleBundle.getMessageKeys( tmpName ) );
+
 		}
 		return keys;
 	}
@@ -121,59 +128,42 @@ public class BundleHelper
 	 *            Resource key of the user defined message.
 	 * @param locale
 	 *            locale of message, if the input <code>locale</code> is
-	 *            <code>null</code>, the locale for the current thread will
-	 *            be used instead.
+	 *            <code>null</code>, the locale for the current thread will be
+	 *            used instead.
 	 * @return the corresponding locale-dependent messages. Return
-	 *         <code>""</code> if resoueceKey is blank. Return
-	 *         <code>null</code> if the message is not found.
+	 *         <code>""</code> if resoueceKey is blank. Return <code>null</code>
+	 *         if the message is not found.
 	 * 
 	 */
 
 	public String getMessage( String resourceKey, ULocale locale )
 	{
-		PropertyResourceBundle bundle = gatherMessageBundles( locale );
-		if ( bundle != null )
-		{
-			String translation = (String) bundle.handleGetObject( resourceKey );
+		CachedBundles moduleBundle = module.getResourceBundle( );
 
-			if ( translation != null )
-				return translation;
-		}
-		return null;
-	}
+		// create a dummy resource bundle to keep codes same
 
-	/**
-	 * Return a message resource bundle list for the given locale. A message key
-	 * should be look into the files in the sequence order from the first to the
-	 * last. Content of the list is
-	 * <code>java.util.PropertyResourceBundle</code>
-	 * <p>
-	 * If the given locale is <code>null</code>, locale of the current thread
-	 * will be used.
-	 * 
-	 * @param locale
-	 *            locale to use when locating the bundles.
-	 * 
-	 * @return a message file list for the given locale.
-	 */
-
-	private PropertyResourceBundle gatherMessageBundles( ULocale locale )
-	{
+		if ( moduleBundle == null )
+			moduleBundle = new CachedBundles( );
 
 		List bundleNames = getMessageFilenames( locale );
 		for ( int i = 0; i < bundleNames.size( ); i++ )
 		{
-			String bundleName = (String) bundleNames.get( i );
-			PropertyResourceBundle bundle = populateBundle( bundleName );
-
-			if ( bundle != null )
+			String tmpName = (String) bundleNames.get( i );
+			if ( !moduleBundle.isCached( tmpName ) )
 			{
-				return bundle;
+				// load and search again
+
+				moduleBundle.addCachedBundle( tmpName, findBundle( tmpName ) );
 			}
+
+			String translation = moduleBundle.getMessage( tmpName, resourceKey );
+			if ( translation != null )
+				return translation;
 		}
 
 		return null;
 	}
+
 
 	/**
 	 * Return a message resource name list for the given locale. A message key
@@ -208,6 +198,9 @@ public class BundleHelper
 		final String country = locale.getCountry( );
 		final int countryLength = country.length( );
 
+		final String variant = locale.getVariant( );
+		final int variantLength = variant.length( );
+
 		if ( languageLength > 0 && countryLength > 0 )
 		{
 			// LANGUAGE_COUNTRY
@@ -217,6 +210,19 @@ public class BundleHelper
 			temp.append( language );
 			temp.append( "_" ); //$NON-NLS-1$
 			temp.append( country );
+
+			// LANGUAGE_COUNTRY_VARIANT
+
+			StringBuffer variantTmp = new StringBuffer( temp.toString( ) );
+			if ( variantLength > 0 )
+			{
+				variantTmp.append( "_" ); //$NON-NLS-1$
+				variantTmp.append( variant );
+
+				variantTmp.append( ".properties" ); //$NON-NLS-1$
+				bundleNames.add( variantTmp.toString( ) );
+			}
+
 			temp.append( ".properties" ); //$NON-NLS-1$
 
 			bundleNames.add( temp.toString( ) );
@@ -242,59 +248,10 @@ public class BundleHelper
 		return bundleNames;
 	}
 
-	/**
-	 * Populates a <code>ResourceBundle</code> for a input file.
-	 * 
-	 * @param file
-	 *            a file binds to a message file.
-	 * @return A <code>ResourceBundle</code> for a input file, return
-	 *         <code>null</code> if the file doesn't exist or any exception
-	 *         occurred during I/O reading.
-	 */
-
-	private PropertyResourceBundle populateBundle( String fileName )
+	private URL findBundle( String fileName )
 	{
 		assert fileName != null;
-
-		InputStream is = null;
-		try
-		{
-			URL inputURL = module.getSession( ).getResourceLocator( )
-					.findResource( module.getModuleHandle( ), fileName, 0 );
-			if ( inputURL == null )
-				return null;
-			is = inputURL.openStream( );
-			PropertyResourceBundle bundle = new PropertyResourceBundle( is );
-			is.close( );
-			is = null;
-			return bundle;
-		}
-		catch ( FileNotFoundException e )
-		{
-			// Already checked the existence.
-
-			assert false;
-		}
-		catch ( IOException e )
-		{
-			// just ignore.
-		}
-		finally
-		{
-			if ( is != null )
-			{
-				try
-				{
-					is.close( );
-				}
-				catch ( IOException e1 )
-				{
-					is = null;
-					// ignore.
-				}
-			}
-		}
-
-		return null;
+		
+		return module.findResource( fileName, 0 );
 	}
 }
