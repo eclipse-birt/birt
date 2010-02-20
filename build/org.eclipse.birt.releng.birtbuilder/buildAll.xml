@@ -74,7 +74,7 @@
 		
 		<property file="${buildDirectory}/label.properties" />
 		
-		<condition property="fetchTag" value="HEAD">
+		<condition property="fetchTag" value="BIRT_2_5_x_Branch">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>		
 		<condition property="forceContextQualifier" value="${buildId}">
@@ -703,7 +703,7 @@
 		<property name="NLtmpsite" value="${buildDirectory}/NLtmpsite"/>
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="BIRT_2_5_x_Branch" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>	
@@ -716,7 +716,7 @@
 		
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.rcp.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="BIRT_2_5_x_Branch" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
 		</ant>
@@ -729,7 +729,7 @@
 	
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="DTP_1_7_2_Post_Branch" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
@@ -743,7 +743,7 @@
 		
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.sybase.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="DTP_1_7_2_Post_Branch" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
