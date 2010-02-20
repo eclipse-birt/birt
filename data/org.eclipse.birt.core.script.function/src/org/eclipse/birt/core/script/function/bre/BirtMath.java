@@ -384,8 +384,19 @@ class BirtMath implements IScriptFunctionExecutor
 		if( Math.abs( n ) < Math.abs( significance ) )
 			return significance;
 		
-		double multiple = Math.ceil( n/significance );
-		return multiple*significance;
+		double multiple = Math.ceil( n / significance );
+		long multiIntValue = Math.round( multiple );
+		
+		int divisor = 1;
+		double temp = significance;
+		double MIN_VALUE = 1.0E-10;
+		for ( int i = 1; i < 30; i++ )
+		{
+			divisor = divisor * 10;
+			if ( Math.abs( Math.round( temp * divisor ) - temp * divisor ) <= MIN_VALUE )
+				break;
+		}
+		return multiIntValue * ( significance * divisor ) / divisor;
 	}
 	
 	private class Function_Mod extends Function_temp
