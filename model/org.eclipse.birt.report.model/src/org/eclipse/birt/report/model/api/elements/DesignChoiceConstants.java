@@ -1009,7 +1009,24 @@ public interface DesignChoiceConstants
 	public static final String OVERFLOW_SCROLL = "scroll"; //$NON-NLS-1$
 	public static final String OVERFLOW_AUTO = "auto"; //$NON-NLS-1$
 
+	/**
+	 * @deprecated Use <code>CHOICE_GADGET_CONTENT_TYPE</code> instead.
+	 */
 	public static final String CHOICE_HTML_GADGET_CONTENT_TYPE = "HTMLGadgetContentType"; //$NON-NLS-1$
+	/**
+	 * @deprecated Use <code>GADGET_CONTENT_TYPE_HTML</code> instead.
+	 */
 	public static final String HTML_GADGET_CONTENT_TYPE_HTML = "html"; //$NON-NLS-1$
+	/**
+	 * @deprecated Use <code>GADGET_CONTENT_TYPE_URL</code> instead.
+	 */
 	public static final String HTML_GADGET_CONTENT_TYPE_URL = "url"; //$NON-NLS-1$
+
+	public static final String CHOICE_GADGET_CONTENT_TYPE = "GadgetContentType"; //$NON-NLS-1$
+	public static final String GADGET_CONTENT_TYPE_HTML = "html"; //$NON-NLS-1$
+	public static final String GADGET_CONTENT_TYPE_URL = "url"; //$NON-NLS-1$
+	public static final String GADGET_CONTENT_TYPE_VIDEO = "video"; //$NON-NLS-1$
+	public static final String GADGET_CONTENT_TYPE_VIDEOURL = "videourl"; //$NON-NLS-1$
+	public static final String GADGET_CONTENT_TYPE_TEXT = "text"; //$NON-NLS-1$
+	public static final String GADGET_CONTENT_TYPE_IMAGE = "image"; //$NON-NLS-1$ 
 };
