@@ -269,7 +269,9 @@ public class ChartExpressionButtonUtil
 		{
 			if ( accessor != null )
 			{
-				accessor.save( getExpression( ) );
+				String expr = eHelper.getExpression( ).length( ) == 0 ? null
+						: getExpression( );
+				accessor.save( expr );
 			}
 		}
 
@@ -528,7 +530,7 @@ public class ChartExpressionButtonUtil
 			{
 				return ""; //$NON-NLS-1$
 			}
-			return ChartUIUtil.getText( control );
+			return ChartUIUtil.getText( control ).trim( );
 		}
 
 		@Override
