@@ -1424,7 +1424,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		StringBuffer styleBuffer = new StringBuffer( );
 		writer.openTag( HTMLTags.TAG_TABLE );
 		writer.attribute( "cellpadding", "0" );
-		styleBuffer.append( " border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
+		writer.attribute( "rule", "none" );
+		styleBuffer.append( "empty-cells: show;" ); //$NON-NLS-1$
 
 		if ( page != null && outputMasterPageContent )
 		{
