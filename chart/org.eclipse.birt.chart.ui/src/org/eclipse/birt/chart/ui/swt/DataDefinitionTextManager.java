@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.TextDataElement;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
@@ -47,6 +48,7 @@ public class DataDefinitionTextManager
 	private HashMap<Control, IQueryExpressionManager> textCollection = null;
 	private final ExpressionCodec exprCodec = ChartModelHelper.instance( )
 			.createExpressionCodec( );
+	private IChartWizardContext context;
 
 	private DataDefinitionTextManager( )
 	{
@@ -60,10 +62,17 @@ public class DataDefinitionTextManager
 		return instance;
 	}
 
+	public void setContext( IChartWizardContext context )
+	{
+		this.context = context;
+	}
+
 	public void addDataDefinitionText( Control text,
 			IQueryExpressionManager queryManager )
 	{
 		textCollection.put( text, queryManager );
+		// update control color when switching.
+		updateControlBackground( text, queryManager.getQuery( ).getDefinition( ) );
 		text.addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )
@@ -89,7 +98,8 @@ public class DataDefinitionTextManager
 
 	private Collection<String> getAllUsedBindingNames( )
 	{
-		Set<String> set = new HashSet<String>( );
+		Set<String> set = new HashSet<String>( 5);
+
 		for ( IQueryExpressionManager iqem : textCollection.values( ) )
 		{
 			IExpressionButton eb = iqem.getExpressionButton( );
@@ -102,6 +112,11 @@ public class DataDefinitionTextManager
 				}
 			}
 		}
+		if ( context != null )
+		{
+			set.addAll( ( (DefaultChartDataSheet) context.getDataSheet( ) ).getAllValueDefinitions( ) );
+		}
+
 		return set;
 	}
 

@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
@@ -145,6 +146,8 @@ public class TaskSelectData extends SimpleTask implements
 		doPreview( );
 		// Refresh all data definition text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
+		DataDefinitionTextManager.getInstance( )
+				.setContext( (IChartWizardContext) getContext( ) );
 		ChartUIUtil.checkGroupType( (ChartWizardContext) getContext( ),
 				getChartModel( ) );
 		ChartUIUtil.checkAggregateType( (ChartWizardContext) getContext( ) );
@@ -379,6 +382,7 @@ public class TaskSelectData extends SimpleTask implements
 
 		// Remove all registered data definition text
 		DataDefinitionTextManager.getInstance( ).removeAll( );
+		DataDefinitionTextManager.getInstance( ).setContext( null );
 	}
 
 	private ISelectDataCustomizeUI getCustomizeUI( )
