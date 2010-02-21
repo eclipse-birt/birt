@@ -275,6 +275,8 @@ class ResultSetsAdapter
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
 			newHint.setProperty( ColumnHint.DISPLAY_NAME_MEMBER, newValue );
+			newHint.setProperty( ColumnHint.DISPLAY_NAME_ID_MEMBER, dataUIHints
+					.getDisplayNameKey( ) );
 		}
 
 	}
@@ -303,6 +305,8 @@ class ResultSetsAdapter
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
 			newHint.setProperty( ColumnHint.HELP_TEXT_MEMBER, newValue );
+			newHint.setProperty( ColumnHint.HELP_TEXT_ID_MEMBER, outputAttrs
+					.getHelpTextKey( ) );
 		}
 
 		ValueFormatHints formatHints = outputAttrs.getFormattingHints( );
@@ -993,7 +997,15 @@ class ResultSetsAdapter
 		{
 			DataElementUIHints uiHints = designFactory
 					.createDataElementUIHints( );
-			uiHints.setDisplayName( displayName );
+
+			String displayNameKey = hint.getDisplayNameKey( );
+
+			if ( displayName != null || displayNameKey != null )
+			{
+				uiHints.setDisplayName( displayName );
+				uiHints.setDisplayNameKey( displayNameKey );
+			}
+
 			dataAttrs.setUiHints( uiHints );
 		}
 		else
@@ -1008,7 +1020,15 @@ class ResultSetsAdapter
 		if ( helpText != null || format != null )
 		{
 			outputAttrs = designFactory.createOutputElementAttributes( );
-			outputAttrs.setHelpText( helpText );
+
+			String helpTextKey = hint.getHelpTextKey( );
+
+			if ( helpText != null || helpTextKey != null )
+			{
+				outputAttrs.setHelpText( helpText );
+				outputAttrs.setHelpTextKey( helpTextKey );
+			}
+
 			if ( format != null )
 			{
 				ValueFormatHints formatHint = designFactory

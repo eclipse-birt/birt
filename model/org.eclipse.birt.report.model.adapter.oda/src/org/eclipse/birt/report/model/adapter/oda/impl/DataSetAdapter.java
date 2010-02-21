@@ -47,13 +47,26 @@ import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+/**
+ *
+ */
+
 class DataSetAdapter extends AbstractDataAdapter
 {
+
+	/**
+	 * 
+	 */
 
 	DataSetAdapter( )
 	{
 		super( );
 	}
+
+	/**
+	 * @param setHandle
+	 * @return
+	 */
 
 	DataSetDesign createDataSetDesign( OdaDataSetHandle setHandle )
 	{
@@ -71,8 +84,16 @@ class DataSetAdapter extends AbstractDataAdapter
 		// properties on ReportElement, like name, displayNames, etc.
 
 		setDesign.setName( setHandle.getName( ) );
-		setDesign.setDisplayName( setHandle.getDisplayName( ) );
 
+		String displayName = setHandle.getDisplayName( );
+		String displayNameKey = setHandle.getDisplayNameKey( );
+
+		if ( displayName != null || displayNameKey != null )
+		{
+			setDesign.setDisplayName( displayName );
+			setDesign.setDisplayNameKey( displayNameKey );
+		}
+		
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
 
@@ -160,6 +181,9 @@ class DataSetAdapter extends AbstractDataAdapter
 
 		new ResultSetsAdapter( setHandle, setDesign )
 				.updateOdaResultSetDefinition( );
+
+		updateODAMessageFile( setDesign.getDataSourceDesign( ), setHandle
+				.getModuleHandle( ) );
 	}
 
 	/**
@@ -181,6 +205,9 @@ class DataSetAdapter extends AbstractDataAdapter
 		else if ( OdaDataSetHandle.DISPLAY_NAME_PROP
 				.equalsIgnoreCase( propertyName ) )
 			setDesign.setDisplayName( setHandle.getDisplayName( ) );
+		else if ( OdaDataSetHandle.DISPLAY_NAME_ID_PROP
+				.equalsIgnoreCase( propertyName ) )
+			setDesign.setDisplayNameKey( setHandle.getDisplayNameKey( ) );
 
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
@@ -244,6 +271,9 @@ class DataSetAdapter extends AbstractDataAdapter
 		else if ( OdaDataSetHandle.FILTER_PROP.equalsIgnoreCase( propertyName ) )
 			new ResultSetCriteriaAdapter( setHandle, setDesign )
 					.updateODAResultSetCriteria( );
+
+		updateODAMessageFile( setDesign.getDataSourceDesign( ), setHandle
+				.getModuleHandle( ) );
 	}
 
 	public OdaDesignSession createOdaDesignSession(
@@ -362,9 +392,14 @@ class DataSetAdapter extends AbstractDataAdapter
 		value = setDesign.getDisplayName( );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.DISPLAY_NAME_PROP, value );
-		setHandle.getElement( )
-				.setProperty( OdaDataSetHandle.DISPLAY_NAME_PROP,
-						setDesign.getDisplayName( ) );
+		setHandle.getElement( ).setProperty(
+				OdaDataSetHandle.DISPLAY_NAME_PROP, value );
+
+		value = setDesign.getDisplayNameKey( );
+		PropertyValueValidationUtil.validateProperty( setHandle,
+				OdaDataSetHandle.DISPLAY_NAME_ID_PROP, value );
+		setHandle.getElement( ).setProperty(
+				OdaDataSetHandle.DISPLAY_NAME_ID_PROP, value );
 
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
@@ -466,6 +501,9 @@ class DataSetAdapter extends AbstractDataAdapter
 				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues );
 		setHandle.getElement( ).setProperty(
 				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues );
+
+		updateROMMessageFile( setDesign.getDataSourceDesign( ), setHandle
+				.getModuleHandle( ) );
 	}
 
 	/**
@@ -548,6 +586,7 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			setHandle.setName( setDesign.getName( ) );
 			setHandle.setDisplayName( setDesign.getDisplayName( ) );
+			setHandle.setDisplayNameKey( setDesign.getDisplayNameKey( ) );
 
 			// set public properties.
 
@@ -691,6 +730,7 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			setHandle.setName( setDesign.getName( ) );
 			setHandle.setDisplayName( setDesign.getDisplayName( ) );
+			setHandle.setDisplayNameKey( setDesign.getDisplayNameKey( ) );
 
 			// set public properties.
 
@@ -788,6 +828,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			updateDesignerValue( setDesign, setHandle, requestParameters,
 					dataParamAdapter.getUserDefinedParams( ), requestResultSets );
+
+			updateROMMessageFile( sourceDesign, setHandle.getModuleHandle( ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -987,8 +1029,12 @@ class DataSetAdapter extends AbstractDataAdapter
 				{
 					oldHint.setDisplayName( (String) hint.getProperty( null,
 							ColumnHint.DISPLAY_NAME_MEMBER ) );
+					oldHint.setDisplayNameKey( (String) hint.getProperty( null,
+							ColumnHint.DISPLAY_NAME_ID_MEMBER ) );
 					oldHint.setHelpText( (String) hint.getProperty( null,
 							ColumnHint.HELP_TEXT_MEMBER ) );
+					oldHint.setHelpTextKey( (String) hint.getProperty( null,
+							ColumnHint.HELP_TEXT_ID_MEMBER ) );
 					oldHint.setFormat( (String) hint.getProperty( null,
 							ColumnHint.FORMAT_MEMBER ) );
 				}

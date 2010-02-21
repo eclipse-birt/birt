@@ -90,7 +90,10 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 		DataElementUIHints uiHints = DesignFactory.eINSTANCE
 				.createDataElementUIHints( );
 		uiHints.setDescription( "updated param help text" ); //$NON-NLS-1$
+		uiHints.setDescriptionKey( "updatedHelpKey" ); //$NON-NLS-1$
 		uiHints.setDisplayName( "updated param prompt text" ); //$NON-NLS-1$
+		uiHints.setDisplayNameKey( "updatedPromptKey" ); //$NON-NLS-1$
+		
 		dataAttrs.setUiHints( uiHints );
 		paramDefn.setAttributes( dataAttrs );
 
@@ -350,11 +353,15 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 		DataElementUIHints uiHints = DesignFactory.eINSTANCE
 				.createDataElementUIHints( );
 		uiHints.setDisplayName( "display name for user name" ); //$NON-NLS-1$
+		uiHints.setDisplayNameKey( "displayNameForUserNameKey" ); //$NON-NLS-1$
+		
 		dataAttrs.setUiHints( uiHints );
 		// set help text and format
 		OutputElementAttributes outAttrs = DesignFactory.eINSTANCE
 				.createOutputElementAttributes( );
 		outAttrs.setHelpText( "help text for user name" ); //$NON-NLS-1$
+		outAttrs.setHelpTextKey( "helpTextForUserNameKey" ); //$NON-NLS-1$
+		
 		ValueFormatHints formatHints = DesignFactory.eINSTANCE
 				.createValueFormatHints( );
 		formatHints.setDisplayFormat( "##.#" ); //$NON-NLS-1$
@@ -379,10 +386,14 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 		// set display name
 		uiHints = DesignFactory.eINSTANCE.createDataElementUIHints( );
 		uiHints.setDisplayName( "display name for user id" ); //$NON-NLS-1$
+		uiHints.setDisplayNameKey( "displayNameForUserIDKey" ); //$NON-NLS-1$
+		
 		dataAttrs.setUiHints( uiHints );
 		// set help text and format
 		outAttrs = DesignFactory.eINSTANCE.createOutputElementAttributes( );
 		outAttrs.setHelpText( "help text for user id" ); //$NON-NLS-1$
+		outAttrs.setHelpTextKey( "helpTextForUserIDKey" ); //$NON-NLS-1$
+		
 		formatHints = DesignFactory.eINSTANCE.createValueFormatHints( );
 		formatHints.setDisplayFormat( "#.#" ); //$NON-NLS-1$
 		outAttrs.setFormattingHints( formatHints );
@@ -405,10 +416,15 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 		// set display name
 		uiHints = DesignFactory.eINSTANCE.createDataElementUIHints( );
 		uiHints.setDisplayName( "display name for credit" ); //$NON-NLS-1$
+		uiHints.setDisplayNameKey( "displayNameForCreditKey" ); //$NON-NLS-1$
+		
 		dataAttrs.setUiHints( uiHints );
 		// set help text and format
 		outAttrs = DesignFactory.eINSTANCE.createOutputElementAttributes( );
+		
 		outAttrs.setHelpText( "help text for credit" ); //$NON-NLS-1$
+		outAttrs.setHelpTextKey( "helpTextForCreditKey" ); //$NON-NLS-1$
+		
 		formatHints = DesignFactory.eINSTANCE.createValueFormatHints( );
 		formatHints.setDisplayFormat( "#.##" ); //$NON-NLS-1$
 		outAttrs.setFormattingHints( formatHints );

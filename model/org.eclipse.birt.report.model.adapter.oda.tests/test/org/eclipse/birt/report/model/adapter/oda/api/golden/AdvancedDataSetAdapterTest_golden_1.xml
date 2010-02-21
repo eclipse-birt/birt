@@ -39,16 +39,16 @@
                     <property name="alias">user name</property>
                     <property name="analysis">dimension</property>
                     <property name="format">##.#</property>
-                    <text-property name="displayName">display name for user name</text-property>
-                    <text-property name="helpText" key="message.column-hint.help">help text for user name</text-property>
+                    <text-property name="displayName" key="displayNameForUserNameKey">display name for user name</text-property>
+                    <text-property name="helpText" key="helpTextForUserNameKey">help text for user name</text-property>
                     <property name="onColumnLayout">true</property>
                 </structure>
                 <structure>
                     <property name="columnName">credit</property>
                     <property name="analysis">measure</property>
                     <property name="format">#.##</property>
-                    <text-property name="displayName">display name for credit</text-property>
-                    <text-property name="helpText">help text for credit</text-property>
+                    <text-property name="displayName" key="displayNameForCreditKey">display name for credit</text-property>
+                    <text-property name="helpText" key="helpTextForCreditKey">help text for credit</text-property>
                     <property name="onColumnLayout">true</property>
                 </structure>
                 <structure>

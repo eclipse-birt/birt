@@ -87,12 +87,12 @@
                 <structure>
                     <property name="value">option 1</property>
                     <property name="label">option 1 label</property>
-                    <property name="labelID">key 1 for label 1</property>
+                    <property name="labelID">key1forlabel1</property>
                 </structure>
                 <structure>
                     <property name="value">option 2</property>
                     <property name="label">option 2 label</property>
-                    <property name="labelID">key 2 for label 1</property>
+                    <property name="labelID">key2forlabel1</property>
                 </structure>
                 <structure>
                     <property name="value">option 3</property>

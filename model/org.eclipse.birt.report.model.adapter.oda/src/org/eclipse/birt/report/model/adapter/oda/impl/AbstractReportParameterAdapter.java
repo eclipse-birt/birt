@@ -327,7 +327,10 @@ abstract class AbstractReportParameterAdapter
 					: cachedDataUiHints.getDisplayName( );
 			if ( cachedDisplayName == null
 					|| !cachedDisplayName.equals( displayName ) )
+			{
 				reportParam.setPromptText( displayName );
+				reportParam.setPromptTextID( dataUiHints.getDisplayNameKey( ) );
+			}
 
 			String description = dataUiHints.getDescription( );
 			String cachedDescription = cachedDataUiHints == null
@@ -335,7 +338,10 @@ abstract class AbstractReportParameterAdapter
 					: cachedDataUiHints.getDescription( );
 			if ( cachedDescription == null
 					|| !cachedDescription.equals( description ) )
+			{
 				reportParam.setHelpText( description );
+				reportParam.setHelpTextKey( dataUiHints.getDescriptionKey( ) );
+			}
 		}
 
 	}
@@ -384,8 +390,12 @@ abstract class AbstractReportParameterAdapter
 			if ( cachedGroupPromptDisplayName == null
 					|| !cachedGroupPromptDisplayName
 							.equals( groupPromptDisplayName ) )
-				paramGroup.setDisplayName( paramUiHints
-						.getGroupPromptDisplayName( ) );
+			{
+				paramGroup.setDisplayName( groupPromptDisplayName );
+
+				paramGroup.setDisplayNameKey( paramUiHints
+						.getGroupPromptDisplayNameKey( ) );
+			}
 		}
 
 		updateInputElementAttrsToReportParam( inputParamAttrs
@@ -585,9 +595,25 @@ abstract class AbstractReportParameterAdapter
 						ALLOW_NULL_PROP_NAME ) ) );
 
 		DataElementUIHints uiHints = designFactory.createDataElementUIHints( );
-		uiHints.setDisplayName( paramHandle.getPromptText( ) );
-		uiHints.setDescription( paramHandle.getHelpText( ) );
 
+		String text = paramHandle.getPromptText( );
+		String textKey = paramHandle.getPromptTextID( );
+
+		if ( text != null || textKey != null )
+		{
+			uiHints.setDisplayName( text );
+			uiHints.setDisplayNameKey( textKey );
+		}
+
+		text = paramHandle.getHelpText( );
+		textKey = paramHandle.getHelpTextKey( );
+
+		if ( text != null || textKey != null )
+		{
+			uiHints.setDescription( text );
+			uiHints.setDescriptionKey( textKey );
+		}
+		
 		retDataAttrs.setUiHints( uiHints );
 
 		return retDataAttrs;
@@ -640,7 +666,15 @@ abstract class AbstractReportParameterAdapter
 			ScalarValueDefinition valueDefn = designFactory
 					.createScalarValueDefinition( );
 			valueDefn.setValue( choice.getValue( ) );
-			valueDefn.setDisplayName( choice.getLabel( ) );
+
+			String label = choice.getLabel( );
+			String labelKey = choice.getLabelKey( );
+
+			if ( label != null || labelKey != null )
+			{
+				valueDefn.setDisplayName( label );
+				valueDefn.setDisplayNameKey( labelKey );
+			}
 
 			staticChoices.getScalarValues( ).add( valueDefn );
 		}
@@ -687,8 +721,15 @@ abstract class AbstractReportParameterAdapter
 
 			InputParameterUIHints paramUiHints = designFactory
 					.createInputParameterUIHints( );
-			paramUiHints.setGroupPromptDisplayName( groupHandle
-					.getDisplayName( ) );
+
+			String text = groupHandle.getDisplayName( );
+			String textKey = groupHandle.getDisplayNameKey( );
+
+			if ( text != null || textKey != null )
+			{
+				paramUiHints.setGroupPromptDisplayName( text );
+				paramUiHints.setGroupPromptDisplayNameKey( textKey );
+			}
 
 			retInputParamAttrs.setUiHints( paramUiHints );
 		}

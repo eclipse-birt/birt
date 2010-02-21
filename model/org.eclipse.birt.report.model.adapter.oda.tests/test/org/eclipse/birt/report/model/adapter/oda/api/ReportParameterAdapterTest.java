@@ -267,8 +267,10 @@ public class ReportParameterAdapterTest extends BaseTestCase
 
 		DataElementUIHints dataUIHints = dataAttrs.getUiHints( );
 		dataUIHints.setDisplayName( "new prompt text for report param 1" ); //$NON-NLS-1$
+		dataUIHints.setDisplayNameKey( "newPromptTextKeyParam1" ); //$NON-NLS-1$
 		dataUIHints.setDescription( "new help text for report param 1" ); //$NON-NLS-1$
-
+		dataUIHints.setDescriptionKey( "newHelpTextKeyParam1" ); //$NON-NLS-1$
+		
 		InputParameterAttributes paramAttrs = param.getInputAttributes( );
 		InputElementAttributes elementAttrs = paramAttrs.getElementAttributes( );
 
@@ -283,6 +285,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		ScalarValueDefinition choice = DesignFactory.eINSTANCE
 				.createScalarValueDefinition( );
 		choice.setDisplayName( "new choice display name 1" ); //$NON-NLS-1$
+		choice.setDisplayNameKey( "newChoiceDisplayName1" ); //$NON-NLS-1$
 		choice.setValue( "new choice value 1" ); //$NON-NLS-1$
 
 		chocies.getScalarValues( ).add( choice );
