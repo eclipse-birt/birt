@@ -43,7 +43,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -72,7 +71,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -488,29 +486,18 @@ public class ChartCubeQueryHelper
 		for ( Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 		{
 			ComputedColumnHandle column = bindings.next( );
+
 			// Create new binding
 			IBinding binding = new Binding( column.getName( ) );
 			binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 			binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 					: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-			String expression = column.getExpression( );
-			if ( expression == null )
-			{
-				for ( Iterator<AggregationArgumentHandle> argItr = column.argumentsIterator( ); argItr.hasNext( ); )
-				{
-					AggregationArgumentHandle aah = argItr.next( );
-					expression = aah.getValue( );
-					if ( expression != null )
-					{
-						binding.addArgument( aah.getName( ),
-								ChartReportItemUtil.newExpression( modelAdapter,
-										aah ) );
-					}
-				}
-			}
+
+			ChartReportItemUtil.loadExpression( exprCodec, column );
 			// Even if expression is null, create the script expression
-			binding.setExpression( ChartReportItemUtil.newExpression( modelAdapter,
-					column ) );
+			binding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+					modelAdapter,
+					true ) );
 
 			List<String> lstAggOn = column.getAggregateOnList( );
 
@@ -518,7 +505,9 @@ public class ChartCubeQueryHelper
 			// it doesn't use sub query.
 			// If expression is null, such as count aggregation, always add all
 			// aggregate on levels
-			if ( expression == null || !bSingleChart && !lstAggOn.isEmpty( ) )
+			if ( column.getExpression( ) == null
+					|| !bSingleChart
+					&& !lstAggOn.isEmpty( ) )
 			{
 				// Add aggregate on in binding
 				addAggregateOn( binding, lstAggOn, cubeQuery, cube );
@@ -528,7 +517,7 @@ public class ChartCubeQueryHelper
 			registeredBindings.put( binding.getBindingName( ), binding );
 			// Add raw query expression here
 			registeredQueries.put( binding.getBindingName( ),
-					( (IScriptExpression) binding.getExpression( ) ).getText( ) );
+					exprCodec.encode( ) );
 
 			// Do not add every binding to cube query, since it may be not used.
 			// The binding will be added only if it's used in chart.
@@ -597,7 +586,11 @@ public class ChartCubeQueryHelper
 						+ targetBindingName );
 				aggBinding.setDataType( measureBinding.getDataType( ) );
 				aggBinding.setExpression( measureBinding.getExpression( ) );
-				aggBinding.addAggregateOn( registeredQueries.get( targetBindingName ) );
+				ILevelDefinition level = registeredLevels.get( targetBindingName );
+				aggBinding.addAggregateOn( ExpressionUtil.createJSDimensionExpression( level.getHierarchy( )
+						.getDimension( )
+						.getName( ),
+						level.getName( ) ) );
 				aggBinding.setAggrFunction( mDef.getAggrFunction( ) );
 				aggBinding.setExportable( false );
 				cubeQuery.addBinding( aggBinding );
@@ -632,14 +625,7 @@ public class ChartCubeQueryHelper
 			cubeQuery.addBinding( colBinding );
 		}
 
-		if ( ChartExpressionUtil.isCubeBinding( expr, true ) )
-		{
-			// Support nest data expression in binding
-			bindExpression( expr, cubeQuery, cube );
-			return;
-		}
-
-		String measure = ChartExpressionUtil.getMeasureName( expr );
+		String measure = exprCodec.getMeasureName( expr );
 		if ( measure != null )
 		{
 			if ( registeredMeasures.containsKey( bindingName ) )
@@ -658,7 +644,7 @@ public class ChartCubeQueryHelper
 			// AggregateOn has been added in binding when initializing
 			// column bindings
 		}
-		else if ( ChartExpressionUtil.isDimensionExpresion( expr ) )
+		else if ( exprCodec.isDimensionExpresion( ) )
 		{
 			if ( registeredLevels.containsKey( bindingName ) )
 			{
@@ -666,7 +652,7 @@ public class ChartCubeQueryHelper
 			}
 
 			// Add row/column edge
-			String[] levels = ChartExpressionUtil.getLevelNameFromDimensionExpression( expr );
+			String[] levels = exprCodec.getLevelNames( );
 			String dimensionName = levels[0];
 			final int edgeType = getEdgeType( dimensionName );
 			IEdgeDefinition edge = cubeQuery.getEdge( edgeType );
@@ -701,6 +687,13 @@ public class ChartCubeQueryHelper
 
 			registeredLevelHandles.put( levelHandle, levelDef );
 		}
+		else if ( exprCodec.isCubeBinding( true ) )
+		{
+			// Support nest data expression in binding
+			bindExpression( expr, cubeQuery, cube );
+			return;
+		}
+
 	}
 
 	/**
