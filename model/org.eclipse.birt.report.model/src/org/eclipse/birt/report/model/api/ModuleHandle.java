@@ -2145,6 +2145,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public final List<String> getIncludeResources( )
+	{
+		return getListProperty( INCLUDE_RESOURCE_PROP );
+	}
+
+	/**
 	 * Set the base name of the customer-defined resource bundle. The name is a
 	 * common base name, e.g: "myMessage" without the Language_Country suffix,
 	 * then the message file family can be "myMessage_en.properties",
@@ -2160,6 +2169,28 @@ public abstract class ModuleHandle extends DesignElementHandle
 		try
 		{
 			setProperty( INCLUDE_RESOURCE_PROP, baseName );
+		}
+		catch ( SemanticException e )
+		{
+			throw new IllegalOperationException( );
+		}
+	}
+
+	/**
+	 * Set the list of base name of the customer-defined resource bundles. The
+	 * name is a common base name, e.g: "myMessage" without the Language_Country
+	 * suffix, then the message file family can be "myMessage_en.properties",
+	 * "myMessage_zh_CN.properties" etc. The message file is stored in the same
+	 * folder as the design file.
+	 * 
+	 * @param baseNameList
+	 *            list of the base name
+	 */
+	public final void setIncludeResources( List<String> baseNameList )
+	{
+		try
+		{
+			setProperty( INCLUDE_RESOURCE_PROP, baseNameList );
 		}
 		catch ( SemanticException e )
 		{
