@@ -147,11 +147,24 @@ class ReportParamUpdater
 		if ( dataUiHints == null )
 			return;
 
-		String displayName = dataUiHints.getDisplayName( );
-		reportParam.setPromptText( displayName );
+		String text = dataUiHints.getDisplayName( );
+		String textKey = dataUiHints.getDisplayNameKey( );
 
-		String description = dataUiHints.getDescription( );
-		reportParam.setHelpText( description );
+		if ( text != null || textKey != null )
+		{
+			reportParam.setPromptText( text );
+			reportParam.setPromptTextID( textKey );
+		}
+
+		text = dataUiHints.getDescription( );
+		textKey = dataUiHints.getDescriptionKey( ) ;
+
+		if ( text != null || textKey != null )
+		{
+			reportParam.setHelpText( text );
+			reportParam.setHelpTextKey( textKey );
+		}
+		
 	}
 
 	/**
@@ -192,6 +205,8 @@ class ReportParamUpdater
 					.getGroupPromptDisplayName( );
 
 			paramGroup.setDisplayName( groupPromptDisplayName );
+			paramGroup.setDisplayNameKey( paramUiHints
+					.getGroupPromptDisplayNameKey( ) );
 		}
 	}
 

@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
-import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -292,7 +291,16 @@ public class AdapterUtil
 			SelectionChoice choice = StructureFactory.createSelectionChoice( );
 
 			choice.setValue( valueDefn.getValue( ) );
-			choice.setLabel( valueDefn.getDisplayName( ) );
+
+			String label = valueDefn.getDisplayName( );
+			String labelKey = valueDefn.getDisplayNameKey( );
+
+			if ( label != null || labelKey != null )
+			{
+				choice.setLabel( label );
+				choice.setLabelResourceKey( labelKey );
+			}
+
 			retList.add( choice );
 		}
 
@@ -418,7 +426,6 @@ public class AdapterUtil
 
 		return findColumnHint( setColumn.getColumnName( ), columnHints );
 	}
-	
 
 	/**
 	 * Returns the matched column hint with the given result set column.

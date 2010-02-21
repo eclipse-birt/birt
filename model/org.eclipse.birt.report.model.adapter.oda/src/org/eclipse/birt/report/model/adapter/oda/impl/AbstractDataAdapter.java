@@ -18,20 +18,30 @@ import java.util.List;
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.Properties;
 import org.eclipse.datatools.connectivity.oda.design.Property;
 import org.eclipse.emf.common.util.EList;
+
+/**
+ *
+ */
 
 abstract class AbstractDataAdapter
 {
 
 	protected final IODADesignFactory designFactory;
+
+	/**
+	 * 
+	 */
 
 	AbstractDataAdapter( )
 	{
@@ -148,6 +158,40 @@ abstract class AbstractDataAdapter
 
 			sourceHandle.getElement( ).setProperty( propName, propValue );
 		}
+	}
+
+	/**
+	 * @param dsDesign
+	 * @param root
+	 * @throws SemanticException
+	 */
+
+	protected void updateROMMessageFile( DataSourceDesign dsDesign,
+			ModuleHandle root ) throws SemanticException
+	{
+		if ( dsDesign == null || root == null )
+			return;
+
+		String resourceFile = root.getIncludeResource( );
+		if ( resourceFile != null )
+			return;
+
+		root.setIncludeResource( dsDesign.getResourceFile( ) );
+	}
+
+	/**
+	 * @param dsDesign
+	 * @param root
+	 */
+	
+	protected void updateODAMessageFile( DataSourceDesign dsDesign,
+			ModuleHandle root )
+	{
+		String resourceFile = root.getIncludeResource( );
+		if ( resourceFile == null )
+			return;
+
+		dsDesign.setResourceFile( resourceFile );
 	}
 
 }

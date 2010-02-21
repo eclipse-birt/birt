@@ -9,9 +9,9 @@
             <parameters>
                 <scalar-parameter name="Param 1" id="6">
                     <property name="hidden">true</property>
-                    <text-property name="helpText" key="help">updated param help text</text-property>
+                    <text-property name="helpText" key="updatedHelpKey">updated param help text</text-property>
                     <method name="validate"><![CDATA[the validation test]]></method>
-                    <text-property name="promptText">updated param prompt text</text-property>
+                    <text-property name="promptText" key="updatedPromptKey">updated param prompt text</text-property>
                     <property name="valueType">dynamic</property>
                     <property name="isRequired">true</property>
                     <property name="dataSetName">myDataSet2</property>

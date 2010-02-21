@@ -3,9 +3,9 @@
     <parameters>
         <scalar-parameter name="Param 1" id="5">
             <property name="hidden">true</property>
-            <text-property name="helpText" key="help">new help text for report param 1</text-property>
+            <text-property name="helpText" key="newHelpTextKeyParam1">new help text for report param 1</text-property>
             <method name="validate"><![CDATA[the validation test]]></method>
-            <text-property name="promptText">new prompt text for report param 1</text-property>
+            <text-property name="promptText" key="newPromptTextKeyParam1">new prompt text for report param 1</text-property>
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataSetName">myDataSet1</property>
@@ -19,6 +19,7 @@
                 <structure>
                     <property name="value">new choice value 1</property>
                     <property name="label">new choice display name 1</property>
+                    <property name="labelID">newChoiceDisplayName1</property>                    
                 </structure>
             </list-property>
             <property name="concealValue">false</property>

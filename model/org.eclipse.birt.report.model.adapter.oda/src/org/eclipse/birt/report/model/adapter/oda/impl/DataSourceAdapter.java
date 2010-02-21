@@ -25,10 +25,19 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public class DataSourceAdapter extends AbstractDataAdapter
 {
 
+	/**
+	 * 
+	 */
+
 	DataSourceAdapter( )
 	{
 		super( );
 	}
+
+	/**
+	 * @param sourceHandle
+	 * @return
+	 */
 
 	public DataSourceDesign createDataSourceDesign(
 			OdaDataSourceHandle sourceHandle )
@@ -41,14 +50,27 @@ public class DataSourceAdapter extends AbstractDataAdapter
 		return sourceDesign;
 	}
 
+	/**
+	 * @param sourceHandle
+	 * @param sourceDesign
+	 */
+
 	public void updateDataSourceDesign( OdaDataSourceHandle sourceHandle,
 			DataSourceDesign sourceDesign )
 	{
 		// properties on ReportElement, like name, displayNames, etc.
 
 		sourceDesign.setName( sourceHandle.getName( ) );
-		sourceDesign.setDisplayName( sourceHandle.getDisplayName( ) );
 
+		String displayName = sourceHandle.getDisplayName( );
+		String displayNameKey = sourceHandle.getDisplayNameKey( );
+
+		if ( displayName != null || displayNameKey != null )
+		{
+			sourceDesign.setDisplayName( displayName );
+			sourceDesign.setDisplayNameKey( displayNameKey );
+		}
+		
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
 
@@ -66,8 +88,9 @@ public class DataSourceAdapter extends AbstractDataAdapter
 		sourceDesign.setPublicProperties( newOdaPublicProperties( sourceHandle
 				.getExtensionPropertyDefinitionList( ), sourceHandle ) );
 
+		updateODAMessageFile( sourceDesign, sourceHandle.getModuleHandle( ) );
 	}
-	
+
 	public OdaDataSourceHandle createDataSourceHandle(
 			DataSourceDesign sourceDesign, ModuleHandle module )
 			throws SemanticException, IllegalStateException
@@ -88,7 +111,7 @@ public class DataSourceAdapter extends AbstractDataAdapter
 		adaptDataSourceDesign( sourceDesign, sourceHandle );
 		return sourceHandle;
 	}
-	
+
 	public void updateDataSourceHandle( DataSourceDesign sourceDesign,
 			OdaDataSourceHandle sourceHandle ) throws SemanticException
 	{
@@ -109,6 +132,7 @@ public class DataSourceAdapter extends AbstractDataAdapter
 
 			sourceHandle.setName( sourceDesign.getName( ) );
 			sourceHandle.setDisplayName( sourceDesign.getDisplayName( ) );
+			sourceHandle.setDisplayNameKey( sourceDesign.getDisplayNameKey( ) );
 
 			// set public properties.
 
@@ -140,6 +164,7 @@ public class DataSourceAdapter extends AbstractDataAdapter
 				}
 			}
 
+			updateROMMessageFile( sourceDesign, sourceHandle.getModuleHandle( ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -149,7 +174,7 @@ public class DataSourceAdapter extends AbstractDataAdapter
 
 		stack.commit( );
 	}
-	
+
 	public boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
 			DataSourceDesign design )
 	{
@@ -201,7 +226,7 @@ public class DataSourceAdapter extends AbstractDataAdapter
 		return new EcoreUtil.EqualityHelper( ).equals( designFromHandle,
 				tmpDesign );
 	}
-	
+
 	/**
 	 * Copies values of <code>sourceDesign</code> to <code>sourceHandle</code>.
 	 * Values in <code>sourceDesign</code> are validated before maps to values
@@ -238,6 +263,13 @@ public class DataSourceAdapter extends AbstractDataAdapter
 				OdaDataSourceHandle.DISPLAY_NAME_PROP,
 				sourceDesign.getDisplayName( ) );
 
+		value = sourceDesign.getDisplayNameKey( );
+		PropertyValueValidationUtil.validateProperty( sourceHandle,
+				OdaDataSourceHandle.DISPLAY_NAME_ID_PROP, value );
+		sourceHandle.getElement( ).setProperty(
+				OdaDataSourceHandle.DISPLAY_NAME_ID_PROP,
+				sourceDesign.getDisplayNameKey( ) );
+
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
 
@@ -259,6 +291,8 @@ public class DataSourceAdapter extends AbstractDataAdapter
 
 		// updateROMPropertyBindings( sourceDesign.getPublicProperties( ),
 		// sourceHandle );
+
+		updateROMMessageFile( sourceDesign, sourceHandle.getModuleHandle( ) );
 	}
 
 }
