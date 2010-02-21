@@ -2005,7 +2005,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 	private class ValueYSeriesAction extends Action
 	{
-
+		private final Query query;
 		private final IExpressionButton eb;
 		private final String bindingName;
 
@@ -2016,9 +2016,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			this.bindingName = bindingName;
 			this.eb = DataDefinitionTextManager.getInstance( )
 					.findExpressionButton( query );
-
+			this.query = query;
 			// Grouping expressions can't be set on value series.
-			boolean enabled = eb != null;
+			boolean enabled = true;
 			if ( dataProvider.isSharedBinding( )
 					|| dataProvider.isInheritColumnsGroups( ) )
 			{
@@ -2039,6 +2039,14 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				eb.setBindingName( bindingName, true );
 			}
+			else
+			{
+				exprCodec.setBindingName( bindingName, isCubeMode( ) );
+				query.setDefinition( exprCodec.encode( ) );
+				ColorPalette.getInstance( ).putColor( bindingName );
+				updateColorAndText( );
+			}
+
 		}
 	}
 
@@ -2134,7 +2142,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					// Menu for table
 					addMenu( manager,
 							new HeaderShowAction( tablePreview.getCurrentColumnHeading( ) ) );
-					String expr = ExpressionUtil.createJSRowExpression( tablePreview.getCurrentColumnHeading( ) );
+					String expr = tablePreview.getCurrentColumnHeading( );
 					List<Object> actions = getActionsForTableHead( expr );
 					for ( Object act : actions )
 					{
@@ -2800,5 +2808,23 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	public ISelectDataCustomizeUI createCustomizeUI( ITask task )
 	{
 		return new SelectDataDynamicArea( task );
+	}
+
+	public List<String> getAllValueDefinitions( )
+	{
+		List<String> dataDefinitions = new ArrayList<String>( 2 );
+		for ( SeriesDefinition sd : ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChartModel( ) ) )
+		{
+			for ( Query query : sd.getDesignTimeSeries( ).getDataDefinition( ) )
+			{
+				String name = exprCodec.getBindingName( query.getDefinition( ) );
+				if ( name != null )
+				{
+					dataDefinitions.add( name );
+				}
+			}
+		}
+
+		return dataDefinitions;
 	}
 }

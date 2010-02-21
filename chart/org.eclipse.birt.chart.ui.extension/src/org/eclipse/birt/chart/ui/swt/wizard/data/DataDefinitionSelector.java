@@ -686,7 +686,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		final Event e = new Event( );
 		e.data = DataDefinitionSelector.this;
 		e.type = IChartDataSheet.EVENT_QUERY;
-		e.detail = IChartDataSheet.DETAIL_UPDATE_COLOR;
+		e.detail = IChartDataSheet.DETAIL_UPDATE_COLOR_AND_TEXT;
 
 		// Use async thread to update UI to prevent control disposed
 		Display.getCurrent( ).asyncExec( new Runnable( ) {
