@@ -12,18 +12,16 @@
 package org.eclipse.birt.chart.ui.swt;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartWizardContext;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil.EAttributeAccessor;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -33,7 +31,7 @@ import org.eclipse.swt.widgets.Text;
  * 
  */
 
-public class ExprEditComposite extends Composite implements Listener
+public class ExprEditComposite extends Composite
 {
 
 	/**
@@ -41,43 +39,26 @@ public class ExprEditComposite extends Composite implements Listener
 	 */
 	public static final int TEXT_MODIFIED = 49;
 
-	private IChartWizardContext fContext;
+	private final IChartWizardContext fContext;
 	private Text text;
-	private Button btnExprDlg;
-	private final String sTitle;
-	private EObject eObj;
-	private EAttribute eAttr;
+	private IExpressionButton btnBuilder;
 
-	public ExprEditComposite( Composite parent, String sTitle,
-			IChartWizardContext fContext )
+	public ExprEditComposite( Composite parent, IChartWizardContext fContext )
 	{
 		super( parent, SWT.NONE );
-		this.sTitle = sTitle;
 		this.fContext = fContext;
 		placeComponents( );
-		initListeners( );
 	}
 
 	public void bindModel( EObject eObj, EAttribute eAttr )
 	{
-		this.eObj = eObj;
-		this.eAttr = eAttr;
-		load( );
-	}
-
-	private void load( )
-	{
-		if ( eObj != null && eAttr != null )
+		if ( btnBuilder != null && eObj != null && eAttr != null )
 		{
-			text.setText( (String) eObj.eGet( eAttr ) );
+			btnBuilder.setAccessor( new EAttributeAccessor<String>( eObj, eAttr ) );
 		}
-	}
-
-	private void save( )
-	{
-		if ( eObj != null && eAttr != null )
+		else
 		{
-			eObj.eSet( eAttr, text.getText( ) );
+			btnBuilder.setAccessor( null );
 		}
 	}
 
@@ -97,66 +78,27 @@ public class ExprEditComposite extends Composite implements Listener
 			text.setLayoutData( gd );
 		}
 
-		btnExprDlg = new Button( this, SWT.PUSH );
-		{
-			gd = new GridData( );
-			ChartUIUtil.setChartImageButtonSizeByPlatform( gd );
-			btnExprDlg.setLayoutData( gd );
-			btnExprDlg.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
-			btnExprDlg.setToolTipText( Messages.getString("ExprEditComposite.InvokeExpressionBuilder") ); //$NON-NLS-1$
-			btnExprDlg.setEnabled( fContext.getUIServiceProvider( )
-					.isInvokingSupported( ) );
-			btnExprDlg.setVisible( fContext.getUIServiceProvider( )
-					.isEclipseModeSupported( ) );
-		}
-	}
 
-	private void initListeners( )
-	{
-		text.addListener( SWT.Modify, this );
-		text.addListener( SWT.FocusOut, this );
-		text.addListener( SWT.KeyUp, this );
-		btnExprDlg.addListener( SWT.Selection, this );
-	}
-
-	public void handleEvent( Event event )
-	{
-		if ( event.widget == text )
+		try
 		{
-			if ( event.type == SWT.Modify )
-			{
-				save( );
-			}
-			else if ( event.type == SWT.FocusOut )
-			{
-				fireEvent( );
-			}
-			else if ( event.type == SWT.KeyUp )
-			{
-				if ( event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR )
-				{
-					fireEvent( );
-				}
-			}
-		}
-		else if ( event.widget == btnExprDlg )
-		{
-			try
-			{
-				String sExpr = fContext.getUIServiceProvider( )
-						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-								text.getText( ),
-								fContext.getExtendedItem( ),
-								sTitle );
-				text.setText( sExpr );
-				fireEvent( );
-			}
-			catch ( ChartException e )
-			{
-				WizardBase.displayException( e );
-			}
-		}
+			btnBuilder = (IExpressionButton) fContext.getUIServiceProvider( )
+					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
+							this,
+							text,
+							fContext.getExtendedItem( ),
+							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
+							new Listener( ) {
 
+								public void handleEvent( Event event )
+								{
+									fireEvent( );
+								}
+							} );
+		}
+		catch ( ChartException e )
+		{
+			WizardBase.displayException( e );
+		}
 	}
 
 	private void fireEvent( )
@@ -167,14 +109,14 @@ public class ExprEditComposite extends Composite implements Listener
 		this.notifyListeners( TEXT_MODIFIED, eventNew );
 	}
 
-	public String getText( )
+	public String getExpression( )
 	{
-		return text.getText( );
+		return btnBuilder.getExpression( );
 	}
 
-	public void setText( String sText )
+	public void setExpression( String expr )
 	{
-		text.setText( sText );
+		btnBuilder.setExpression( expr );
 	}
 
 }
