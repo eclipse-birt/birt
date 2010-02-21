@@ -19,6 +19,7 @@ import org.eclipse.birt.report.debug.internal.ui.script.util.ScriptDebugUtil;
 import org.eclipse.birt.report.designer.internal.ui.script.JSPartitionScanner;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.debug.ui.DebugUITools;
+import org.eclipse.jface.internal.text.html.HTMLTextPresenter;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DefaultInformationControl;
 import org.eclipse.jface.text.IDocument;
@@ -30,6 +31,7 @@ import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.ITextHoverExtension;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.TextUtilities;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.editors.text.EditorsUI;
 
@@ -51,6 +53,8 @@ public class ScriptDebugHover implements ITextHoverExtension, ITextHover
 			public IInformationControl createInformationControl( Shell parent )
 			{
 				return new DefaultInformationControl( parent,
+						SWT.NONE,
+						new HTMLTextPresenter( true ),
 						EditorsUI.getTooltipAffordanceString( ) );
 			}
 		};

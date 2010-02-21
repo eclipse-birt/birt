@@ -33,7 +33,6 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -292,9 +291,6 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 				}
 			}
 
-			// swap other view properties
-			swapViewProperties( );
-
 			// swap the measure direction
 			String oldDirction = crosstab.getMeasureDirection( );
 			String newDirection = MEASURE_DIRECTION_HORIZONTAL.equals( oldDirction ) ? MEASURE_DIRECTION_VERTICAL
@@ -309,67 +305,6 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 		}
 
 		stack.commit( );
-	}
-
-	private void swapViewProperties( ) throws SemanticException
-	{
-		String rowGrandTotalLocation = null, colGrandTotalLocation = null;
-		LevelHandle rowMirrorStartLevel = null, colMirrorStartLevel = null;
-		List rowMembers = null, colMembers = null;
-
-		CrosstabViewHandle rowView = crosstab.getCrosstabView( ROW_AXIS_TYPE );
-		if ( rowView != null )
-		{
-			rowMembers = rowView.getMembers( );
-			rowMirrorStartLevel = rowView.getMirroredStartingLevel( );
-			rowGrandTotalLocation = rowView.getGrandTotalLocation( );
-		}
-
-		CrosstabViewHandle colView = crosstab.getCrosstabView( COLUMN_AXIS_TYPE );
-		if ( colView != null )
-		{
-			colMembers = colView.getMembers( );
-			colMirrorStartLevel = colView.getMirroredStartingLevel( );
-			colGrandTotalLocation = colView.getGrandTotalLocation( );
-		}
-
-		if ( rowView != null )
-		{
-			transferViewProperties( rowView,
-					colGrandTotalLocation,
-					colMirrorStartLevel,
-					colMembers );
-		}
-
-		if ( colView != null )
-		{
-			transferViewProperties( colView,
-					rowGrandTotalLocation,
-					rowMirrorStartLevel,
-					rowMembers );
-		}
-	}
-
-	private void transferViewProperties( CrosstabViewHandle view,
-			String grandTotalLocation, LevelHandle mirrorStartLevel,
-			List members ) throws SemanticException
-	{
-		view.setGrandTotalLocation( grandTotalLocation );
-		view.setMirroredStartingLevel( mirrorStartLevel );
-
-		view.getModelHandle( )
-				.getPropertyHandle( ICrosstabViewConstants.MEMBERS_PROP )
-				.clearValue( );
-
-		if ( members != null )
-		{
-			for ( Object mv : members )
-			{
-				view.addMember( (MemberValueHandle) ( (MemberValueHandle) mv ).copy( )
-						.getHandle( view.getModuleHandle( ).getModule( ) ) );
-			}
-		}
-
 	}
 
 	private void swapAggregateOn( AggregationCellHandle aggCell )

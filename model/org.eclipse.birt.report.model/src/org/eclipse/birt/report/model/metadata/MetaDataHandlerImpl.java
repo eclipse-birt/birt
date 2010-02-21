@@ -692,16 +692,12 @@ class MetaDataHandlerImpl extends XMLParserHandler
 			{
 				elementDefn.nameConfig.nameSpaceID = Module.CUBE_NAME_SPACE;
 				elementDefn.nameConfig.holder = moduleDefn;
+
 			}
 			else if ( ns
 					.equalsIgnoreCase( NameSpaceFactory.TEMPLATE_PARAMETER_DEFINITION_NS_NAME ) )
 			{
 				elementDefn.nameConfig.nameSpaceID = Module.TEMPLATE_PARAMETER_NAME_SPACE;
-				elementDefn.nameConfig.holder = moduleDefn;
-			}
-			else if ( ns.equalsIgnoreCase( NameSpaceFactory.DIMENSION_NS_NAME ) )
-			{
-				elementDefn.nameConfig.nameSpaceID = Module.DIMENSION_NAME_SPACE;
 				elementDefn.nameConfig.holder = moduleDefn;
 			}
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.NO_NS_NAME ) )

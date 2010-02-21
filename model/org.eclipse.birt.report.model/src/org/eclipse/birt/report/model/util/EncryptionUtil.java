@@ -109,9 +109,6 @@ public class EncryptionUtil
 	public static Object encrypt( PropertyDefn propDefn, String encryptionID,
 			Object value )
 	{
-		if ( value == null )
-			return null;
-
 		if ( !( value instanceof String || value instanceof Expression )
 				|| ( !propDefn.isEncryptable( ) && !isPropertyBindingValueMember( propDefn ) ) )
 			return value;

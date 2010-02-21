@@ -1,6 +1,0 @@
-COUNTRY_1  CITY_1  AMOUNT_1  
-CHINA  Beijing  400  0
-CHINA  Shanghai  100  1
-US  Chicago  400  2
-US  Chicago  700  3
-US  New York  100  4

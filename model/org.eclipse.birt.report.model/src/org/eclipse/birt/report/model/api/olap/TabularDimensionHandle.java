@@ -11,11 +11,8 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
-import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 
 /**
  * Represents a dimension element in the cube element.
@@ -24,8 +21,6 @@ import org.eclipse.birt.report.model.elements.olap.TabularDimension;
  */
 
 public class TabularDimensionHandle extends DimensionHandle
-		implements
-			ITabularDimensionModel
 {
 
 	/**
@@ -43,43 +38,4 @@ public class TabularDimensionHandle extends DimensionHandle
 	{
 		super( module, element );
 	}
-
-	/**
-	 * Returns the dimension object that this dimension refers to.
-	 * 
-	 * @return the dimension object
-	 */
-
-	public DimensionHandle getSharedDimension( )
-	{
-		DesignElement refDim = ( (TabularDimension) getElement( ) )
-				.getSharedDimension( module );
-		if ( refDim == null )
-			return null;
-
-		return (DimensionHandle) refDim.getHandle( refDim.getRoot( ) );
-	}
-
-	/**
-	 * Sets the dimension object this dimension refers to.
-	 * 
-	 * @param handle
-	 *            the dimension object
-	 * 
-	 * @throws SemanticException
-	 *             if the property is locked, or the dimension object is invalid
-	 */
-
-	public void setSharedDimension( DimensionHandle handle )
-			throws SemanticException
-	{
-		if ( handle == null )
-			setStringProperty( INTERNAL_DIMENSION_RFF_TYPE_PROP, null );
-		else
-		{
-			setStringProperty( INTERNAL_DIMENSION_RFF_TYPE_PROP, handle
-					.getName( ) );
-		}
-	}
-
 }

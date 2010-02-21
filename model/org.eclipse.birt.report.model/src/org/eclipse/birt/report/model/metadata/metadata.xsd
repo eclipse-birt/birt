@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2008 rel. 2 sp1 (http://www.altova.com) by rick (EMBRACE) -->
+<!-- edited with XMLSpy v2007 sp1 (http://www.altova.com) by AAA (EMBRACE) -->
 <!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="ReportMetaData">
@@ -94,7 +94,7 @@
 			<xs:enumeration value="html"/>
 			<xs:enumeration value="uri"/>
 			<xs:enumeration value="dateTime"/>
-			<xs:enumeration value="locale"/>
+			<xs:enumeration value="locale" />
 			<xs:enumeration value="xml"/>
 			<xs:enumeration value="name"/>
 			<xs:enumeration value="extends"/>
@@ -292,11 +292,11 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:attribute name="validator" type="xs:string" use="optional"/>
 		<xs:attribute name="since" type="xs:string" use="optional" default="1.0"/>
 		<xs:attribute name="runtimeSettable" type="xs:boolean" use="optional" default="true"/>
+		<!-- the trim option value could be noTrim, trimSpace and trimEmptyToNull and trimSpace;trimEmptyToNull -->
 		<xs:attribute name="trimOption" type="xs:string" use="optional"/>
 		<xs:attribute name="context" type="ExprContextType" use="optional"/>
 		<xs:attribute name="returnType" type="xs:string" use="optional"/>
 		<xs:attribute name="allowExpression" type="xs:boolean" use="optional" default="false"/>
-		<!-- the trim option value could be noTrim, trimSpace and trimEmptyToNull and trimSpace;trimEmptyToNull -->
 		<!-- bidi_hcg start -->
 		<!-- bidi_hcg end -->
 	</xs:complexType>
@@ -373,7 +373,6 @@ The 'extends' attribute is optional, in this case, it means this report element 
 			<xs:enumeration value="cube"/>
 			<xs:enumeration value="(Dimension, level)"/>
 			<xs:enumeration value="(ReportDesign, variableElement)"/>
-			<xs:enumeration value="dimension"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="ChoiceType">
@@ -413,6 +412,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 						</xs:simpleType>
 					</xs:attribute>
 					<xs:attribute name="runtimeSettable" type="xs:boolean" use="optional" default="true"/>
+					<!-- the trim option value could be noTrim, trimSpace and trimEmptyToNull and trimSpace;trimEmptyToNull -->
 					<xs:attribute name="trimOption" type="xs:string" use="optional"/>
 					<xs:attribute name="valueRequired" type="xs:boolean" use="optional" default="false"/>
 					<xs:attribute name="context" use="optional">
@@ -429,7 +429,6 @@ The 'extends' attribute is optional, in this case, it means this report element 
 						</xs:annotation>
 					</xs:attribute>
 					<xs:attribute name="allowExpression" type="xs:boolean" use="optional" default="false"/>
-					<!-- the trim option value could be noTrim, trimSpace and trimEmptyToNull and trimSpace;trimEmptyToNull -->
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>

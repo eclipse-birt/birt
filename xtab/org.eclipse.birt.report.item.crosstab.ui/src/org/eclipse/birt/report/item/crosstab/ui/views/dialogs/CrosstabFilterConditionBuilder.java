@@ -1378,12 +1378,6 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 					public boolean select( Object parentElement, Object element )
 					{
-						if ( ExpressionFilter.CATEGORY.equals( parentElement )
-								&& ExpressionProvider.MEASURE.equals( element ) )
-						{
-							return false;
-						}
-						
 						if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) )
 								&& ( element instanceof PropertyHandle ) )
 						{

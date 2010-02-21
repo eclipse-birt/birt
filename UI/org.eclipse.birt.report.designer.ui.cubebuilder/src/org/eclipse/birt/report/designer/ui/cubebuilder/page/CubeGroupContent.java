@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
@@ -44,7 +43,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -566,7 +564,7 @@ public class CubeGroupContent extends Composite implements Listener
 						Rectangle bounds = item.getBounds( );
 						Object element = item.getData( );
 
-						Boolean isValidName = UIUtil.validateDimensionName( OlapUtil.getDataFieldDisplayName( dataField ) );
+						Boolean isValidName = UIUtil.validateDimensionName( dataField.getColumnName( ) );
 
 						if ( pt.y < bounds.y + bounds.height / 3 )
 						{
@@ -578,13 +576,9 @@ public class CubeGroupContent extends Composite implements Listener
 								try
 								{
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
-											.newTabularMeasure( OlapUtil.getDataFieldDisplayName( dataField ) );
+											.newTabularMeasure( dataField.getColumnName( ) );
 
-									Expression expression = new Expression( ExpressionUtility.getExpression( dataField,
-											ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
-											UIUtil.getDefaultScriptType( ) );
-									measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
-											expression );
+									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 
 									initMeasure( dataField, measure );
 									( (MeasureHandle) element ).getContainer( )
@@ -609,8 +603,8 @@ public class CubeGroupContent extends Composite implements Listener
 									stack.rollback( );
 									refresh( );
 									ExceptionUtil.handle( e );
+									return;
 								}
-								return;
 							}
 							else if ( element instanceof LevelHandle )
 							{
@@ -630,7 +624,7 @@ public class CubeGroupContent extends Composite implements Listener
 								{
 									TabularLevelHandle level = DesignElementFactory.getInstance( )
 											.newTabularLevel( dimension,
-													OlapUtil.getDataFieldDisplayName( dataField ) );
+													dataField.getColumnName( ) );
 									level.setColumnName( dataField.getColumnName( ) );
 									level.setDataType( dataField.getDataType( ) );
 									( (LevelHandle) element ).getContainer( )
@@ -656,11 +650,11 @@ public class CubeGroupContent extends Composite implements Listener
 									stack.rollback( );
 									refresh( );
 									ExceptionUtil.handle( e );
+									return;
 								}
-								return;
 							}
 						}
-
+						else
 						{
 							if ( element instanceof MeasureHandle )
 							{
@@ -672,12 +666,8 @@ public class CubeGroupContent extends Composite implements Listener
 								try
 								{
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
-											.newTabularMeasure( OlapUtil.getDataFieldDisplayName( dataField ) );
-									Expression expression = new Expression( ExpressionUtility.getExpression( dataField,
-											ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
-											UIUtil.getDefaultScriptType( ) );
-									measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
-											expression );
+											.newTabularMeasure( dataField.getColumnName( ) );
+									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 									initMeasure( dataField, measure );
 									( (MeasureHandle) element ).getContainer( )
 											.add( IMeasureGroupModel.MEASURES_PROP,
@@ -740,12 +730,8 @@ public class CubeGroupContent extends Composite implements Listener
 											measureGroup = (MeasureGroupHandle) ( (VirtualField) element ).getModel( );
 									}
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
-											.newTabularMeasure( OlapUtil.getDataFieldDisplayName( dataField ) );
-									Expression expression = new Expression( ExpressionUtility.getExpression( dataField,
-											ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
-											UIUtil.getDefaultScriptType( ) );
-									measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
-											expression );
+											.newTabularMeasure( dataField.getColumnName( ) );
+									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 									initMeasure( dataField, measure );
 									measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
@@ -801,7 +787,7 @@ public class CubeGroupContent extends Composite implements Listener
 									int index = ( (LevelHandle) element ).getIndex( );
 									TabularLevelHandle level = DesignElementFactory.getInstance( )
 											.newTabularLevel( dimension,
-													OlapUtil.getDataFieldDisplayName( dataField ) );
+													dataField.getColumnName( ) );
 									level.setColumnName( dataField.getColumnName( ) );
 									level.setDataType( dataField.getDataType( ) );
 									( (LevelHandle) element ).getContainer( )
@@ -900,7 +886,7 @@ public class CubeGroupContent extends Composite implements Listener
 										GroupDialog dialog = new GroupDialog( true );
 										dialog.setInput( input,
 												hierarchy,
-												dataField );
+												dataField.getColumnName( ) );
 										if ( dialog.open( ) != Window.OK )
 										{
 											stack.rollback( );
@@ -927,7 +913,7 @@ public class CubeGroupContent extends Composite implements Listener
 									{
 										TabularLevelHandle level = DesignElementFactory.getInstance( )
 												.newTabularLevel( dimension,
-														OlapUtil.getDataFieldDisplayName( dataField ) );
+														dataField.getColumnName( ) );
 										level.setColumnName( dataField.getColumnName( ) );
 										level.setDataType( dataField.getDataType( ) );
 										hierarchy.add( IHierarchyModel.LEVELS_PROP,
@@ -1696,7 +1682,7 @@ public class CubeGroupContent extends Composite implements Listener
 				continue;
 
 			ResultSetColumnHandle dataField = (ResultSetColumnHandle) temp;
-			Boolean isValidName = UIUtil.validateDimensionName( OlapUtil.getDataFieldDisplayName( dataField ) );
+			Boolean isValidName = UIUtil.validateDimensionName( dataField.getColumnName( ) );
 			DataSetHandle dataset = (DataSetHandle) dataField.getElementHandle( );
 			DataSetHandle primary = ( input ).getDataSet( );
 
@@ -1741,7 +1727,7 @@ public class CubeGroupContent extends Composite implements Listener
 					// }
 					TabularLevelHandle level = DesignElementFactory.getInstance( )
 							.newTabularLevel( dimension,
-									OlapUtil.getDataFieldDisplayName( dataField ) );
+									dataField.getColumnName( ) );
 					try
 					{
 						level.setColumnName( dataField.getColumnName( ) );
@@ -1871,7 +1857,9 @@ public class CubeGroupContent extends Composite implements Listener
 								&& hierarchy.getLevelCount( ) == 0 )
 						{
 							GroupDialog dialog = new GroupDialog( true );
-							dialog.setInput( input, hierarchy, dataField );
+							dialog.setInput( input,
+									hierarchy,
+									dataField.getColumnName( ) );
 							if ( dialog.open( ) == Window.CANCEL )
 							{
 								stack.rollback( );
@@ -1880,7 +1868,7 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								if ( !isValidName )
 								{
-									TabularLevelHandle level = (TabularLevelHandle) hierarchy.getLevel( OlapUtil.getDataFieldDisplayName( dataField ) );
+									TabularLevelHandle level = (TabularLevelHandle) hierarchy.getLevel( dataField.getColumnName( ) );
 									LevelPropertyDialog dialog2 = new LevelPropertyDialog( false );
 									dialog2.setInput( input, level );
 									if ( dialog2.open( ) == Window.CANCEL )
@@ -1898,7 +1886,7 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							TabularLevelHandle level = DesignElementFactory.getInstance( )
 									.newTabularLevel( dimension,
-											OlapUtil.getDataFieldDisplayName( dataField ) );
+											dataField.getColumnName( ) );
 							level.setColumnName( dataField.getColumnName( ) );
 							level.setDataType( dataField.getDataType( ) );
 							hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
@@ -1977,19 +1965,14 @@ public class CubeGroupContent extends Composite implements Listener
 								measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
 						}
 						TabularMeasureHandle measure = DesignElementFactory.getInstance( )
-								.newTabularMeasure( OlapUtil.getDataFieldDisplayName( dataField ) );
+								.newTabularMeasure( dataField.getColumnName( ) );
 						try
 						{
 							if ( dataset != null
 									&& primary != null
 									&& dataset == primary )
-							{
-								Expression expression = new Expression( ExpressionUtility.getExpression( dataField,
-										ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
-										UIUtil.getDefaultScriptType( ) );
-								measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
-										expression );
-							}
+								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
+
 							initMeasure( dataField, measure );
 							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 									measure );
@@ -2024,19 +2007,13 @@ public class CubeGroupContent extends Composite implements Listener
 								.getCommandStack( );
 						stack.startTrans( "" ); //$NON-NLS-1$
 						TabularMeasureHandle measure = DesignElementFactory.getInstance( )
-								.newTabularMeasure( OlapUtil.getDataFieldDisplayName( dataField ) );
+								.newTabularMeasure( dataField.getColumnName( ) );
 						try
 						{
 							if ( dataset != null
 									&& primary != null
 									&& dataset == primary )
-							{
-								Expression expression = new Expression( ExpressionUtility.getExpression( dataField,
-										ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
-										UIUtil.getDefaultScriptType( ) );
-								measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
-										expression );
-							}
+								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 							initMeasure( dataField, measure );
 							( (MeasureHandle) obj ).getContainer( )
 									.add( IMeasureGroupModel.MEASURES_PROP,
@@ -2158,7 +2135,7 @@ public class CubeGroupContent extends Composite implements Listener
 					null,
 					Messages.getFormattedString( "CubeGroupContent.MeasureDataTypeErrorDialog.Message", //$NON-NLS-1$
 							new Object[]{
-								OlapUtil.getDataFieldDisplayName( dataField )
+								dataField.getColumnName( )
 							} ),
 					MessageDialog.WARNING,
 					new String[]{

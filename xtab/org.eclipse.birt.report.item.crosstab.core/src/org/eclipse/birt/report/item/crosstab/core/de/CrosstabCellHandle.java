@@ -125,9 +125,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.ReportItem#getPredefinedStyles
-	 * ()
+	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getPredefinedStyles()
 	 */
 	public List getPredefinedStyles( )
 	{
@@ -152,27 +150,6 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 				styles.add( CROSSTAB_HEADER_SELECTOR );
 			}
 		}
-		else if ( container instanceof LevelViewHandle )
-		{
-			// if this cell lies in level view, then determine it is row level
-			// or column level
-			LevelViewHandle levelView = (LevelViewHandle) container;
-			int axisType = levelView.getAxisType( );
-			switch ( axisType )
-			{
-				case LevelViewHandle.ROW_AXIS_TYPE :
-					styles.add( CROSSTAB_ROW_HEADER_SELECTOR );
-					break;
-				case LevelViewHandle.COLUMN_AXIS_TYPE :
-					styles.add( CROSSTAB_COLUMN_HEADER_SELECTOR );
-					break;
-				default :
-					break;
-			}
-
-			styles.add( CROSSTAB_HEADER_SELECTOR );
-
-		}
 		else
 		{
 			// all other cells in x-tab is looked as "x-tab-header-cell"
@@ -184,9 +161,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.ReportItem#getProperty(java
-	 * .lang.String)
+	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getProperty(java.lang.String)
 	 */
 	public Object getProperty( String propName )
 	{
@@ -208,9 +183,8 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.ReportItem#setProperty(java
-	 * .lang.String, java.lang.Object)
+	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#setProperty(java.lang.String,
+	 *      java.lang.Object)
 	 */
 	public void setProperty( String propName, Object value )
 	{

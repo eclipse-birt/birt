@@ -1,5 +1,0 @@
-<structure name="action">
-    <property name="formatType">html</property>
-    <property name="linkType">bookmark-link</property>
-    <expression name="targetBookmark">www.rock.com.cn/haha/index.html/bookmarklink1</expression>
-</structure>

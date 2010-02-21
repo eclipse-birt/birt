@@ -1,5 +1,0 @@
-COUNTRY_11  CITY_11  
-CHINA  Beijing  0
-US  Chicago  1
-US  New York  2
-CHINA  Shanghai  3

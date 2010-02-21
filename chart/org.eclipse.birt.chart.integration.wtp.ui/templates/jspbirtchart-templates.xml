@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<templates>
-
-	<template name="%Templates.jsp_birt_chart_html.name" description="%Templates.jsp_birt_chart_html.desc" id="org.eclipse.jst.jsp.ui.templates.jsp_birt_chart_html" context="jsp_new" enabled="true">%Templates.jsp_birt_chart_html.content</template>
-
-	<template name="%Templates.jsp_birt_chart_tag.name" description="%Templates.jsp_birt_chart_tag.desc" id="org.eclipse.jst.jsp.ui.templates.jspbirttag" context="jsp_tag" enabled="true">%Templates.jsp_birt_chart_tag.content</template>
-
-</templates>

@@ -1,7 +1,0 @@
-
-		CN   CN   CN   JP   UN   UN   US   US   US   US   
-		A1   A2   A4   A4   A1   A3   A1   A2   A3   A4   
-P1   3.0,  null,  null,  null,  null,  null,  41.0,  36.0,  37.0,  38.0,  155.0&
-P2   20.0,  null,  null,  125.0,  46.0,  98.0,  null,  null,  null,  39.0,  328.0&
-P3   7.0,  16.0,  8.0,  121.0,  null,  null,  null,  66.0,  null,  40.0,  258.0&
-columnGrandTotal  5.0   16.0   8.0   61.5   46.0   49.0   41.0   25.5   37.0   39.0   24

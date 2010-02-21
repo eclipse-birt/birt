@@ -1,8 +1,0 @@
-COUNTRY_1  CITY_1  AMOUNT_1  
-CHINA  Beijing  400  0
-US  Chicago  400  1
-CHINA  Shanghai  100  2
-COUNTRY_1  CITY_1  AMOUNT_1  
-US  New York  100  0
-US  New York  100  1
-CHINA  Shanghai  100  2

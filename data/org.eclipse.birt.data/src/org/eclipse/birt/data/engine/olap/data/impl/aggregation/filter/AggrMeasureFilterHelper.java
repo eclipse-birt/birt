@@ -84,22 +84,6 @@ public class AggrMeasureFilterHelper
 		{
 			if ( hasDefinition( resultSet[i], aggregationNames ) )
 			{
-				if( resultSet[i].getAllLevels( ) == null || resultSet[i].getAllLevels( ).length == 0 )
-				{
-					AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet[i] );
-					for ( int j = 0; j < jsMeasureEvalFilterHelper.size( ); j++ )
-					{
-						if ( resultSet[i].getAggregationIndex( aggregationNames[j] ) >= 0 )
-						{
-							IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) jsMeasureEvalFilterHelper.get( j );
-							if ( !filterHelper.evaluateFilter( rowAccessor ) )
-							{
-								return null;
-							}
-						}
-					}
-					continue;
-				}
 				Map levelMap = populateLevelMap( resultSet[i] );
 				final int dimSize = levelMap.size( );
 				List[] levelListArray = new List[dimSize];

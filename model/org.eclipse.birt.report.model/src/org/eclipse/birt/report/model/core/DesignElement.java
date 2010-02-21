@@ -3770,6 +3770,6 @@ public abstract class DesignElement
 
 	public boolean canContainVirtualElements( )
 	{
-		return getExtendsName( ) != null;
+		return getExtendsElement( ) != null;
 	}
 }

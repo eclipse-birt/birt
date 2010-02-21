@@ -46,11 +46,25 @@
             </choice></property>
          <property
                canInherit="true"
-               displayNameID="Element.Summary"
-               hasOwnModel="false"
+               defaultValue="over then down"
+               displayNameID="Element.PageLayout"
                isEncryptable="false"
-               isList="false"
-               name="summary"
+               name="pageLayout"
+               type="choice">
+            <choice
+                  name="down then over"
+                  value="down then over">
+            </choice>
+            <choice
+                  name="over then down"
+                  value="over then down">
+            </choice>
+         </property>
+         <property
+               canInherit="true"
+               displayNameID="Element.EmptyCellValue"
+               isEncryptable="false"
+               name="emptyCellValue"
                type="string">
          </property>
          <property
@@ -83,16 +97,6 @@
                   name="CrosstabView">
             </elementType>
          </property>
-         <property
-               canInherit="true"
-               isEncryptable="false"
-               isList="false"
-               name="header"
-               type="element">
-            <elementType
-                  name="CrosstabCell">
-            </elementType>
-         </property>
          <propertyVisibility
                name="dataSet"
                visibility="hide">
@@ -123,9 +127,17 @@
          <style
                name="crosstab-detail">
          </style>
-         <style
-               name="crosstab-row-header">
-         </style>
+         <property
+               canInherit="true"
+               defaultValue="true"
+               displayNameID="Element.RepeatRowHeader"
+               hasOwnModel="true"
+               isEncryptable="false"
+               isList="false"
+               name="repeatRowHeader"
+               subType="string"
+               type="boolean">
+         </property>
          <property
                canInherit="true"
                defaultValue="true"
@@ -142,45 +154,21 @@
                visibility="hide">
          </propertyVisibility>
          <property
-               canInherit="true"
-               defaultValue="true"
-               displayNameID="Element.RepeatRowHeader"
-               hasOwnModel="true"
-               isEncryptable="false"
-               isList="false"
-               name="repeatRowHeader"
-               subType="string"
-               type="boolean">
-         </property>
-         <property
-               canInherit="true"
-               defaultValue="over then down"
-               displayNameID="Element.PageLayout"
-               isEncryptable="false"
-               name="pageLayout"
-               type="choice">
-            <choice
-                  name="down then over"
-                  value="down then over">
-            </choice>
-            <choice
-                  name="over then down"
-                  value="over then down">
-            </choice>
-         </property>
-         <property
-               canInherit="true"
-               displayNameID="Element.EmptyCellValue"
-               isEncryptable="false"
-               name="emptyCellValue"
-               type="string">
-         </property>
-         <property
                defaultValue="false"
                displayNameID="Element.HideMeasureHeader"
                isList="false"
                name="hideMeasureHeader"
                type="boolean">
+         </property>
+         <property
+               canInherit="true"
+               isEncryptable="false"
+               isList="false"
+               name="header"
+               type="element">
+            <elementType
+                  name="CrosstabCell">
+            </elementType>
          </property>
          <method
                context="startup"
@@ -202,25 +190,21 @@
          </method>
          <property
                canInherit="true"
+               displayNameID="Element.Summary"
+               hasOwnModel="false"
+               isEncryptable="false"
+               isList="false"
+               name="summary"
+               type="string">
+         </property>
+         <property
+               canInherit="true"
                isEncryptable="false"
                isList="true"
                name="filter"
                type="contentElement">
             <elementType
                   name="FilterConditionElement">
-            </elementType>
-         </property>
-         <style
-               name="crosstab-column-header">
-         </style>
-         <property
-               canInherit="true"
-               isEncryptable="false"
-               isList="false"
-               name="header"
-               type="element">
-            <elementType
-                  name="CrosstabCell">
             </elementType>
          </property>
          <!--method

@@ -22,7 +22,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -52,42 +51,6 @@ public class OlapUtil
 			{
 				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
 				columns[i] = resultSetColumn.getColumnName( );
-			}
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		return columns;
-	}
-
-	public static String getDataFieldDisplayName( ResultSetColumnHandle column )
-	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( ); iter.hasNext( ); )
-		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
-			{
-				return element.getDisplayName( );
-			}
-		}
-		return column.getColumnName( );
-	}
-
-	public static String[] getDataFieldDisplayNames( DataSetHandle dataset )
-	{
-		String[] columns = new String[0];
-		try
-		{
-			List columnList = DataUtil.getColumnList( dataset );
-			columns = new String[columnList.size( )];
-			for ( int i = 0; i < columnList.size( ); i++ )
-			{
-				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
-				columns[i] = getDataFieldDisplayName( resultSetColumn );
 			}
 		}
 		catch ( SemanticException e )

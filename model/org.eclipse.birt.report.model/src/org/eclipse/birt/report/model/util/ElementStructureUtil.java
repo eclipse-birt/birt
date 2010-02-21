@@ -346,45 +346,6 @@ public class ElementStructureUtil
 	 * Duplicates the structure from one element to another element. Local
 	 * properties will all be cleared.Please note that the containment
 	 * relationship is kept while property values are not copied.
-	 * <p>
-	 * The two element should be the same type.
-	 * 
-	 * @param source
-	 *            source element
-	 * @param target
-	 *            target element
-	 * @param targetModule
-	 *            module where the target element resides
-	 * @return <code>true</code> if the refresh action is successful.
-	 *         <code>false</code> othersize.
-	 * 
-	 */
-
-	public static boolean duplicateDimensionStructure( DesignElement source,
-			DesignElement target, Module targetModule )
-	{
-		boolean retValue = duplicateStructure( source, target, targetModule );
-		
-		duplicateProperties( source, target );
-
-		ContentIterator iter1 = new ContentIterator( source.getRoot( ), source );
-		ContentIterator iter2 = new ContentIterator( targetModule, target );
-
-		while ( iter1.hasNext( ) )
-		{
-			DesignElement virtualParent = iter1.next( );
-			DesignElement virtualChild = iter2.next( );
-
-			duplicateProperties( virtualParent, virtualChild );
-		}
-		
-		return retValue;
-	}
-
-	/**
-	 * Duplicates the structure from one element to another element. Local
-	 * properties will all be cleared.Please note that the containment
-	 * relationship is kept while property values are not copied.
 	 * 
 	 * @param sourceInfor
 	 * @param targetInfor

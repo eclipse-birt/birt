@@ -35,4 +35,4 @@ cube.error.createhierarchy=Une erreur s''est produite lors de la création de la 
 cube.error.createdimension=Une erreur s''est produite lors de la création de la dimension : {0}.
 cube.error.createmeasure=Une erreur s'est produite lors de la création de la mesure.
 cube.error.datasetmiss=Le cube ne peut pas être créé car le jeu de données correspondant est manquant.
-cube.jointColumnNotInLevels=The joint column "{0}" does not defined as key field of any level in dimension "{1}".
+cube.jointColumnNotInLevels=La colonne jointe "{0}" n'est pas définie en tant que champ clé pour aucun niveau dans la dimension "{1}".

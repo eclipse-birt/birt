@@ -1543,15 +1543,6 @@ public class InsertInLayoutUtil
 						if ( displayKey != null )
 							bindingColumn.setDisplayNameID( displayKey );
 						tableHandle.addColumnBinding( bindingColumn, false );
-						
-						ActionHandle actionHandle = UIUtil.getColumnAction( columns[j] );
-						if ( actionHandle != null )
-						{
-							List source = new ArrayList( );
-							source.add( actionHandle.getStructure( ) );
-							List newAction = ModelUtil.cloneStructList( source );
-							dataHandle.setAction( (Action) newAction.get( 0 ) );
-						}
 					}
 				}
 				catch ( Exception e )

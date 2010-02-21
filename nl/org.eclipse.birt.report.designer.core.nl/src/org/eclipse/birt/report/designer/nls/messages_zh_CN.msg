@@ -674,7 +674,7 @@ DataSetParametersPage.Prompt.new=<此处为新参数...>
 DataSetParametersPage.default.None=不适用
 DataSetParametersPage.reportParam.None=无
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=数据集参数“{1}”的链接报表参数“{0}”现在不存在。
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Data set parameter "{0}" should not link to a multi-value type report parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=数据集参数“{0}”不应链接到多值类型报表参数。
 DataSetParameterPage.cell.linkToSalarParameter=链接到报表参数(&L)
 DataSetParameterPage.title.ParameterInputDialog=参数
 DataSetParameterPage.toolTipText.New=新建参数
@@ -4412,11 +4412,11 @@ PathResourceEntry.RootDisplayName=共享资源
 #ResourceFilter properties
 ResourceFilter.DisplayName.CVS=CVS 资源
 ResourceFilter.DisplayName.Dot=.* 资源
-ResourceFilter.DisplayName.Data=*.data resources
+ResourceFilter.DisplayName.Data=*.数据资源
 ResourceFilter.DisplayName.EmptyFolder=空文件夹
 ResourceFilter.Description.CVS=隐藏其名称以 \"CVS\" 开头的资源
 ResourceFilter.Description.Dot=隐藏其名称以 '.' 开头的资源
-ResourceFilter.Description.Data=Hides all data files
+ResourceFilter.Description.Data=隐藏所有数据文件
 ResourceFilter.Description.EmptyFolder=隐藏空文件夹
 
 ###########################################################

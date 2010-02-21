@@ -674,7 +674,7 @@ DataSetParametersPage.Prompt.new=<ここに新しいパラメタを入力してください...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=なし
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=データセットパラメタ "{1}" のリンクされているレポートパラメタ "{0}" は存在しません。
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Data set parameter "{0}" should not link to a multi-value type report parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=データセットパラメタ "{0}" を複数の種類のレポートパラメタにリンクすることはできません。
 DataSetParameterPage.cell.linkToSalarParameter=リンク先のレポートパラメタ(&L)
 DataSetParameterPage.title.ParameterInputDialog=パラメタ
 DataSetParameterPage.toolTipText.New=パラメタの新規作成
@@ -4412,11 +4412,11 @@ PathResourceEntry.RootDisplayName=共有リソース
 #ResourceFilter properties
 ResourceFilter.DisplayName.CVS=CVS リソース
 ResourceFilter.DisplayName.Dot=.* リソース
-ResourceFilter.DisplayName.Data=*.data resources
+ResourceFilter.DisplayName.Data=*.data リソース
 ResourceFilter.DisplayName.EmptyFolder=空のフォルダ
 ResourceFilter.Description.CVS=名前が \"CVS\" から始まるリソースを非表示にする
 ResourceFilter.Description.Dot=名前が次の文字列から始まるリソースを非表示にする
-ResourceFilter.Description.Data=Hides all data files
+ResourceFilter.Description.Data=すべてのデータファイルを非表示にする
 ResourceFilter.Description.EmptyFolder=空のフォルダを非表示にする
 
 ###########################################################

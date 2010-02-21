@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.olap;
 
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -63,69 +62,11 @@ public abstract class CubeHandle extends ReportElementHandle
 	 */
 	public DimensionHandle getDimension( String dimensionName )
 	{
-		DesignElement dimension = module.findDimension( dimensionName );
+		DesignElement dimension = module.findOLAPElement( dimensionName );
 		if ( dimension instanceof Dimension
 				&& dimension.isContentOf( getElement( ) ) )
 			return (DimensionHandle) dimension.getHandle( module );
 		return null;
-	}
-
-	/**
-	 * Gets the dimension with the specified name within this cube. If dimension
-	 * defined with the given name doesn't exist, it returns the local
-	 * corresponding one mapped to the parent dimension that matches the given
-	 * name.
-	 * 
-	 * @param dimensionName
-	 *            name of the dimension to find
-	 * @return dimension within the cube if found, otherwise <code>null</code>
-	 */
-
-	public DimensionHandle getLocalDimension( String dimensionName )
-	{
-		DesignElement dimension = module.findDimension( dimensionName );
-		if ( dimension instanceof Dimension
-				&& dimension.isContentOf( getElement( ) ) )
-			return (DimensionHandle) dimension.getHandle( module );
-
-		// find the dimension according to the name in the parent cube.
-
-		CubeHandle parent = (CubeHandle) getExtends( );
-		if ( parent == null )
-			return null;
-
-		dimension = doGetLocalDimension( dimensionName, (Cube) parent.element,
-				parent.module );
-
-		if ( dimension == null )
-			return null;
-
-		return (DimensionHandle) dimension.getHandle( module );
-	}
-
-	/**
-	 * Returns the dimension defined on the given cube.
-	 * 
-	 * @param dimensionName
-	 * @param parent
-	 * @param parentModule
-	 * @return
-	 */
-
-	protected DesignElement doGetLocalDimension( String dimensionName,
-			Cube parent, Module parentModule )
-	{
-		DesignElement dimension = parentModule.findDimension( dimensionName );
-		if (dimension == null)
-			return null;
-			
-		int index = dimension.getIndex( parentModule );
-		assert index != -1;
-		
-		List<DesignElement> dims = (List<DesignElement>) getElement( )
-				.getProperty( module, DIMENSIONS_PROP );
-
-		return dims.get( index );
 	}
 
 	/**

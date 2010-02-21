@@ -129,8 +129,6 @@ public interface ICrosstabConstants
 	String CROSSTAB_CELL_SELECTOR = "crosstab-cell"; //$NON-NLS-1$
 	String CROSSTAB_HEADER_SELECTOR = "crosstab-header"; //$NON-NLS-1$
 	String CROSSTAB_DETAIL_SELECTOR = "crosstab-detail"; //$NON-NLS-1$
-	String CROSSTAB_COLUMN_HEADER_SELECTOR = "crosstab-column-header"; //$NON-NLS-1$
-	String CROSSTAB_ROW_HEADER_SELECTOR = "crosstab-row-header"; //$NON-NLS-1$
 
 	String DEFAULT_MEASURE_FUNCTION = DesignChoiceConstants.MEASURE_FUNCTION_SUM;
 }

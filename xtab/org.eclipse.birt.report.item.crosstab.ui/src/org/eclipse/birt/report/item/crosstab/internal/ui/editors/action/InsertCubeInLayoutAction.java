@@ -37,7 +37,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -47,7 +46,6 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -56,7 +54,6 @@ import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -280,6 +277,7 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 					map.put( DesignerConstants.KEY_NEWOBJECT, handle );
 					CreateCommand command = new CreateCommand( map );
 
+
 					Object parentModel = DNDUtil.unwrapToModel( targetPart.getModel( ) );
 
 					if ( parentModel instanceof DesignElementHandle )
@@ -375,14 +373,12 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 
 						stack.commit( );
 
-						// 251960, viewer had been refreshed since model commit,
-						// and the targetEditPart is changed,
-						// if we need to flush the viewer, we must re-retrieve
-						// it
-						// if ( targetPart instanceof EditPart )
-						// {
-						// ( (EditPart) targetPart ).getViewer( ).flush( );
-						// }
+						//251960, viewer had been refreshed since model commit, and the targetEditPart is changed, 
+						//if we need to flush the viewer, we must re-retrieve it
+//						if ( targetPart instanceof EditPart )
+//						{
+//							( (EditPart) targetPart ).getViewer( ).flush( );
+//						}
 
 						ReportRequest request = new ReportRequest( );
 						List selectionObjects = new ArrayList( );
@@ -448,15 +444,6 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 				CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
 				cellHandle.addContent( dataHandle );
-				
-				ActionHandle actionHandle = levelHandle.getActionHandle( );
-				if ( actionHandle != null )
-				{
-					List source = new ArrayList( );
-					source.add( actionHandle.getStructure( ) );
-					List newAction = ModelUtil.cloneStructList( source );
-					dataHandle.setAction( (Action) newAction.get( 0 ) );
-				}
 			}
 		}
 	}

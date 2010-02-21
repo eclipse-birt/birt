@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
-    <body>
-        <label name="label" id="8">
-            <text-property name="text" key="label.key">Default text.</text-property>
-        </label>
-    </body>
-</report>

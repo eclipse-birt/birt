@@ -67,7 +67,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.OdaLevel;
 import org.eclipse.birt.report.model.elements.olap.TabularLevel;
@@ -81,6 +80,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 import org.eclipse.birt.report.model.util.CompatiblePropertyChangeTables;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Sets the value of a property. Works with both system and user properties.
@@ -253,9 +253,10 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( value instanceof ElementRefValue
 				&& prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
+
 			checkRecursiveElementReference( prop, (ElementRefValue) value );
+
 			checkDataBindingReference( prop, (ElementRefValue) value );
-			checkSharedDimensionReference( prop, (ElementRefValue) value );
 		}
 
 		if ( element instanceof GroupElement
@@ -816,14 +817,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		if ( value instanceof DesignElementHandle )
 		{
-			/*
-			 * DesignElementHandle elementHandle = (DesignElementHandle) value;
-			 * Module root = elementHandle.getModule( );
-			 * 
-			 * input = ReferenceValueUtil.needTheNamespacePrefix( elementHandle
-			 * .getElement( ), root, module );
-			 */
-			input = ( (DesignElementHandle) value ).getElement( );
+			/*DesignElementHandle elementHandle = (DesignElementHandle) value;
+			Module root = elementHandle.getModule( );
+
+			input = ReferenceValueUtil.needTheNamespacePrefix( elementHandle
+					.getElement( ), root, module );*/
+			input = ((DesignElementHandle) value).getElement( );
 		}
 
 		Object retValue = null;
@@ -1085,36 +1084,6 @@ public class PropertyCommand extends AbstractPropertyCommand
 			throw new SemanticError( element, new String[]{element.getName( ),
 					refValue.getName( )},
 					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
-	}
-
-	/**
-	 * Checks the shared dimension reference. The dimension referred by cube
-	 * dimension must be shared dimension.
-	 * 
-	 * @param propDefn
-	 *            the property/member definition
-	 * @param the
-	 *            element reference value
-	 * @throws SemanticException
-	 */
-
-	private void checkSharedDimensionReference( PropertyDefn propDefn,
-			ElementRefValue refValue ) throws SemanticException
-	{
-		if ( !ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP
-				.equalsIgnoreCase( propDefn.getName( ) ) )
-			return;
-
-		if ( !refValue.isResolved( ) )
-			return;
-
-		DesignElement tmpElement = refValue.getElement( );
-		if ( !( tmpElement.getContainer( ) instanceof Module ) )
-		{
-			throw new SemanticError( element, new String[]{element.getName( ),
-					refValue.getName( )},
-					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
-		}
 	}
 
 	/**

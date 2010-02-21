@@ -645,7 +645,7 @@ public class DesignSessionImpl
 			// if the extension side provide predefined style instance, those
 			// style
 			// will be added into the new created design tree.
-			addExtensionDefaultStyles( design, false );
+			addExtensionDefaultStyles( design );
 		}
 
 		design.setValid( true );
@@ -710,14 +710,13 @@ public class DesignSessionImpl
 
 		// if the extension side provide predefined style instance, those style
 		// will be added into the new created design tree.
-		addExtensionDefaultStyles( design, false );
+		addExtensionDefaultStyles( design );
 
 		return design;
 	}
 
 	/**
-	 * Creates a new design based on a given template file name and input
-	 * stream.
+	 * Creates a new design based on a given template file name and input stream.
 	 * 
 	 * @param templateName
 	 *            The name of the template for the design.
@@ -736,7 +735,7 @@ public class DesignSessionImpl
 
 		// if the extension side provide predefined style instance, those style
 		// will be added into the new created design tree.
-		addExtensionDefaultStyles( design, false );
+		addExtensionDefaultStyles( design );
 
 		return design;
 	}
@@ -749,8 +748,7 @@ public class DesignSessionImpl
 	 * @return a list containing style elements
 	 */
 
-	private static List<Style> findToAddExtensionDefaultStyle(
-			ReportDesign design )
+	private List<Style> findToAddExtensionDefaultStyle( ReportDesign design )
 	{
 		List<Style> retList = new ArrayList<Style>( );
 
@@ -776,8 +774,7 @@ public class DesignSessionImpl
 	 * new created design tree.
 	 */
 
-	public static void addExtensionDefaultStyles( ReportDesign design,
-			boolean checkName )
+	private void addExtensionDefaultStyles( ReportDesign design )
 	{
 		List<Style> tmpStyles = findToAddExtensionDefaultStyle( design );
 
@@ -796,14 +793,12 @@ public class DesignSessionImpl
 				continue;
 			}
 
-			if ( !checkName || design.findStyle( tmpStyle.getName( ) ) == null )
-			{
-				design.add( tmpStyle, ReportDesign.STYLE_SLOT );
-				tmpStyle.setID( design.getNextID( ) );
-				design.addElementID( tmpStyle );
-				design.getNameHelper( ).getNameSpace(
-						ReportDesign.STYLE_NAME_SPACE ).insert( tmpStyle );
-			}
+			design.add( tmpStyle, ReportDesign.STYLE_SLOT );
+			tmpStyle.setID( design.getNextID( ) );
+			design.addElementID( tmpStyle );
+			design.getNameHelper( )
+					.getNameSpace( ReportDesign.STYLE_NAME_SPACE ).insert(
+							tmpStyle );
 		}
 
 	}

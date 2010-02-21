@@ -45,7 +45,6 @@ public class LibraryExplorerPlugin extends AbstractUIPlugin
 		super.start( context );
 		IPreferenceStore store = getPreferenceStore( );
 		initFilterMap( store, ResourceFilter.generateCVSFilter( ) );
-		initFilterMap( store, ResourceFilter.generateDataResourceFilter( ) );
 		initFilterMap( store, ResourceFilter.generateDotResourceFilter( ) );
 		initFilterMap( store, ResourceFilter.generateEmptyFolderFilter( ) );
 		//initFilterMap( store, ResourceFilter.generateNoResourceInFolderFilter( ) );
