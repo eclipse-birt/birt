@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.presentation.TableColumnHint;
+import org.eclipse.birt.report.engine.util.ContentUtil;
 import org.w3c.dom.css.CSSValue;
 
 public class TableBreakBuffer implements IPageBuffer
@@ -494,24 +495,7 @@ public class TableBreakBuffer implements IPageBuffer
 
 	protected boolean hasPageBreak( ITableContent table )
 	{
-		int count = table.getColumnCount( );
-		for ( int i = 0; i < count; i++ )
-		{
-			IColumn column = table.getColumn( i );
-			IStyle style = column.getStyle( );
-			CSSValue pageBreak = style
-					.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-			if ( i > 0 && IStyle.ALWAYS_VALUE == pageBreak )
-			{
-				return true;
-			}
-			pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
-			if ( i < count - 1 && IStyle.ALWAYS_VALUE == pageBreak )
-			{
-				return true;
-			}
-		}
-		return false;
+		return ContentUtil.hasHorzPageBreak( table );
 	}
 	
 	protected int getRepeatEnd( ITableContent table )

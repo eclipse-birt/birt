@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.util.ContentUtil;
 
 /**
  * 
@@ -38,6 +39,8 @@ public class TableContentWrapper extends AbstractContentWrapper
 	protected TableBandContentWrapper header;
 	private List columns;
 	
+	// to indicate whether there are horizontal page breaks in the table
+	private Boolean hasHorzPageBreak;
 	/**
 	 * constructor
 	 * 
@@ -171,7 +174,14 @@ public class TableContentWrapper extends AbstractContentWrapper
 	{
 		if ( getColumnCount( ) != tableContent.getColumnCount( ) )
 		{
-			return null;
+			if ( hasHorzPageBreak == null )
+			{
+				hasHorzPageBreak = Boolean.valueOf( ContentUtil.hasHorzPageBreak( tableContent ) );
+			}
+			if ( Boolean.TRUE == hasHorzPageBreak )
+			{
+				return null;
+			}
 		}
 		return tableContent.getWidth( );
 	}
