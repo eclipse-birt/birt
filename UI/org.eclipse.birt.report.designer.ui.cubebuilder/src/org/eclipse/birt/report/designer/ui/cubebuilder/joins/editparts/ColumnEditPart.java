@@ -81,7 +81,7 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 		layout.setMinorSpacing( 2 );
 		columnFigure.setLayoutManager( layout );
 		columnFigure.setOpaque( true );
-		String name = getColumn( ).getColumnName( );
+		String name = OlapUtil.getDataFieldDisplayName( getColumn( ) );
 		label = new Label( name );
 		columnFigure.add( label );
 		return columnFigure;
@@ -156,8 +156,10 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 							{
 								ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
 
-								if ( resultSetColumn != null && resultSetColumn.getColumnName( )!=null
-										&& resultSetColumn.getColumnName( ).equals( joinCondition.getHierarchyKey( ) ) )
+								if ( resultSetColumn != null
+										&& resultSetColumn.getColumnName( ) != null
+										&& resultSetColumn.getColumnName( )
+												.equals( joinCondition.getHierarchyKey( ) ) )
 								{
 									targetjoins.add( joinCondition );
 									break;

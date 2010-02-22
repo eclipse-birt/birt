@@ -90,7 +90,7 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 		layout.setMinorSpacing( 2 );
 		columnFigure.setLayoutManager( layout );
 		columnFigure.setOpaque( true );
-		String name = getColumn( ).getColumnName( );
+		String name = OlapUtil.getDataFieldDisplayName( getColumn( ) );
 		label = new Label( name );
 		columnFigure.add( label );
 		return columnFigure;
