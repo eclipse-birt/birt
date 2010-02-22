@@ -804,4 +804,32 @@ public class ChartExpressionUtil
 
 	}
 
+	public static class ExpressionSet extends HashSet<String>
+	{
+
+		/**
+		 * Comment for <code>serialVersionUID</code>
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public boolean add( String e )
+		{
+			if ( e == null )
+			{
+				return false;
+			}
+
+			e = e.trim( );
+
+			if ( e.length( ) == 0 )
+			{
+				return false;
+			}
+
+			return super.add( e );
+		}
+
+	}
+
 }
