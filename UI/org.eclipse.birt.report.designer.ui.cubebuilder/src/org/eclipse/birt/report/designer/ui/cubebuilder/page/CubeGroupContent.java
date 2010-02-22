@@ -1184,7 +1184,7 @@ public class CubeGroupContent extends Composite implements Listener
 		cubeLabelProvider = new CubeLabelProvider( );
 		dataFieldsViewer.setLabelProvider( cubeLabelProvider );
 		dataFieldsViewer.setContentProvider( dataContentProvider );
-		// dataFieldsViewer.setAutoExpandLevel( 3 );
+		dataFieldsViewer.setAutoExpandLevel( 3 );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		dataFieldsViewer.getTree( ).setLayoutData( gd );
 		( (GridData) dataFieldsViewer.getTree( ).getLayoutData( ) ).heightHint = 250;

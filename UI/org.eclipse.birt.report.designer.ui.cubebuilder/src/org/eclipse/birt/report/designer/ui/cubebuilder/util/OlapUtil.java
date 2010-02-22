@@ -71,7 +71,9 @@ public class OlapUtil
 			if ( element.getColumnName( ).equals( column.getColumnName( ) )
 					|| column.getColumnName( ).equals( element.getAlias( ) ) )
 			{
-				return element.getDisplayName( );
+				if ( element.getDisplayName( ) != null
+						&& element.getDisplayName( ).length( ) > 0 )
+					return element.getDisplayName( );
 			}
 		}
 		return column.getColumnName( );
@@ -243,7 +245,9 @@ public class OlapUtil
 			TabularHierarchyHandle hierarchy )
 	{
 		DataSetHandle dataset = hierarchy.getDataSet( );
-		if ( dataset == null && hierarchy.getLevelCount( ) > 0 && hierarchy.getContainer( ).getContainer( ) instanceof TabularCubeHandle)
+		if ( dataset == null
+				&& hierarchy.getLevelCount( ) > 0
+				&& hierarchy.getContainer( ).getContainer( ) instanceof TabularCubeHandle )
 		{
 			dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
 					.getContainer( ) ).getDataSet( );
