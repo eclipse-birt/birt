@@ -62,6 +62,7 @@ import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionSet;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -1527,7 +1528,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				if ( cube != null )
 				{
 					// Create evaluator for data cube, even if in multiple view
-					evaluator = createCubeEvaluator( cube, cm );
+					evaluator = createCubeEvaluator( cube, cm, columnExpression );
 					dataSetReference = cube;
 				}
 				else
@@ -1863,18 +1864,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		
 		return filterList.isEmpty( ) ? null : filterList.iterator( );
 	}
-	
+
 	/**
 	 * Creates the evaluator for Cube Live preview.
 	 * 
 	 * @param cube
 	 * @param cm
+	 * @param columnExpression
 	 * @return
 	 * @throws BirtException
 	 */
 	@SuppressWarnings("static-access")
 	private IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
-			final Chart cm )
+			final Chart cm, List<String> columnExpression )
 			throws BirtException
 	{
 		// Use the chart model in context, because this model will be updated
@@ -1896,12 +1898,34 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					true,
 					true,
 					true );
+
+			ICubeQueryDefinition queryDef = (ICubeQueryDefinition) qd;
+
+			if ( columnExpression != null )
+			{
+				ExpressionSet exprSet = new ExpressionSet( );
+				exprSet.addAll( columnExpression );
+				for ( String expr : exprSet )
+				{
+					exprCodec.decode( expr );
+					String bindingName = exprCodec.getExpression( );
+
+					// Create new binding
+					Binding colBinding = new Binding( bindingName );
+					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+					colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+							session.getModelAdaptor( ),
+							true ) );
+					queryDef.addBinding( colBinding );
+				}
+			}
 		}
 		else
 		{
 			qd = new ChartCubeQueryHelper( itemHandle,
 					cm,
-					session.getModelAdaptor( ) ).createCubeQuery( null );
+					session.getModelAdaptor( ) ).createCubeQuery( null,
+					columnExpression.toArray( new String[columnExpression.size( )] ) );
 		}
 
 		if ( needDefineCube( cube ) )

@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionSet;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -266,6 +267,8 @@ public class ChartCubeQueryHelper
 
 		List<SeriesDefinition> sdList = getAllSeriesDefinitions( cm );
 
+		ExpressionSet exprSet = new ExpressionSet( );
+
 		// Add measures and dimensions
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
@@ -277,22 +280,25 @@ public class ChartCubeQueryHelper
 				Query query = queryList.get( j );
 				// Add measures or dimensions for data definition, and update
 				// query expression
-				bindExpression( query.getDefinition( ), cubeQuery, cubeHandle );
+				exprSet.add( query.getDefinition( ) );
 			}
 
 			// Add measures or dimensions for optional grouping, and update
 			// query expression
-			bindExpression( sd.getQuery( ).getDefinition( ),
-					cubeQuery,
-					cubeHandle );
+			exprSet.add( sd.getQuery( ).getDefinition( ) );
 		}
 
-		if ( expressions != null && expressions.length > 0 )
+		if ( expressions != null )
 		{
 			for ( String expr : expressions )
 			{
-				bindExpression( expr, cubeQuery, cubeHandle );
+				exprSet.add( expr );
 			}
+		}
+
+		for ( String expr : exprSet )
+		{
+			bindExpression( expr, cubeQuery, cubeHandle );
 		}
 
 		// Add sorting
