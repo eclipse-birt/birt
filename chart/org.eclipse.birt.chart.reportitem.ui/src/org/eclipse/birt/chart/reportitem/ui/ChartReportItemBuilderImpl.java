@@ -352,6 +352,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			{
 				livePreviewThread.end( );
 			}
+			// clear all old exceptions
+			ChartWizard.clearExceptions( );
 //			
 //			if ( dataProvider != null )
 //			{

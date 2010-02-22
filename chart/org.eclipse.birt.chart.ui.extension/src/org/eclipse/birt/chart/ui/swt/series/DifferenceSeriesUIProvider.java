@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
@@ -29,6 +30,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.YOptionalDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -113,9 +115,12 @@ public class DifferenceSeriesUIProvider extends DefaultSeriesUIProvider
 			if ( dataType == DataType.TEXT_LITERAL
 					|| dataType == DataType.DATE_TIME_LITERAL )
 			{
+				final ExpressionCodec codec = ChartModelHelper.instance( )
+						.createExpressionCodec( );
+				codec.decode( query.getDefinition( ) );
 				throw new ChartException( ChartUIExtensionPlugin.ID,
 						ChartException.DATA_BINDING,
-						query.getDefinition( ) );
+						codec.getExpression( ) );
 			}
 		}
 	}
