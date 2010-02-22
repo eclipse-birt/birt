@@ -698,9 +698,13 @@ Choices.overflow.hidden=숨김
 Choices.overflow.scroll=스크롤
 Choices.overflow.auto=자동
 
-#88 HTMLGadgetContentType
-Choices.HTMLGadgetContentType.html=HTML
-Choices.HTMLGadgetContentType.url=url
+#88 GadgetContentType
+Choices.gadgetContentType.html=HTML
+Choices.gadgetContentType.url=URL
+Choices.gadgetContentType.video=Video
+Choices.gadgetContentType.videourl=Video URL
+Choices.gadgetContentType.text=텍스트
+Choices.gadgetContentType.image=Image  
 
 ###########################################################
 # Classes
@@ -2347,6 +2351,7 @@ Element.DataMart=Data Object
 Element.DataMartDataSource=Data Object Data Source
 Element.DataMartDataSet=Data Object Data Set
 Element.DataMartCube=Data Object Cube
+Element.TimeDimension=Time Dimension
 
 ###########################################################
 # Element property names
@@ -3371,6 +3376,11 @@ Element.DataMartDataSet.dataObject=데이터 개체
 Element.DataMartCube.dataSource=데이터 원본
 Element.DataMartCube.dataObject=데이터 개체
 
+#82 TimeDimension ( prefix Element.TimeDimension )
+Element.TimeDimension.startTimePoint=Start time point
+Element.TimeDimension.endTimePoint=End time point
+Element.TimeDimension.hierarchies=계층
+
 ###########################################################
 # Predefined style
 Style.Report=보고서
@@ -3639,6 +3649,7 @@ New.DataMartDataSet=새 Data Mart 데이터 집합
 New.DataMartCube=새 Data Mart 큐브
 New.TabElement=새 탭 요소
 New.GadgetItem=새 가젯 항목
+New.TimeDimension=NewTimeDimension
 
 ###########################################################
 #Default theme name.

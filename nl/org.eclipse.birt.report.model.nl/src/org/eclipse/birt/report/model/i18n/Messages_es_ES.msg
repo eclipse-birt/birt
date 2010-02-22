@@ -698,9 +698,13 @@ Choices.overflow.hidden=Oculto
 Choices.overflow.scroll=Desplazar
 Choices.overflow.auto=Automático
 
-#88 HTMLGadgetContentType
-Choices.HTMLGadgetContentType.html=html
-Choices.HTMLGadgetContentType.url=url
+#88 GadgetContentType
+Choices.gadgetContentType.html=HTML
+Choices.gadgetContentType.url=URL
+Choices.gadgetContentType.video=Video
+Choices.gadgetContentType.videourl=Video URL
+Choices.gadgetContentType.text=Texto
+Choices.gadgetContentType.image=Image  
 
 ###########################################################
 # Classes
@@ -2347,6 +2351,7 @@ Element.DataMart=Data Object
 Element.DataMartDataSource=Data Object Data Source
 Element.DataMartDataSet=Data Object Data Set
 Element.DataMartCube=Data Object Cube
+Element.TimeDimension=Time Dimension
 
 ###########################################################
 # Element property names
@@ -3371,6 +3376,11 @@ Element.DataMartDataSet.dataObject=Objeto de datos
 Element.DataMartCube.dataSource=Fuente de datos
 Element.DataMartCube.dataObject=Objeto de datos
 
+#82 TimeDimension ( prefix Element.TimeDimension )
+Element.TimeDimension.startTimePoint=Start time point
+Element.TimeDimension.endTimePoint=End time point
+Element.TimeDimension.hierarchies=Jerarquías
+
 ###########################################################
 # Predefined style
 Style.Report=Informe
@@ -3639,6 +3649,7 @@ New.DataMartDataSet=NewDataMartDataSet
 New.DataMartCube=NewDataMartCube
 New.TabElement=NewTabElement
 New.GadgetItem=NewGadgetItem
+New.TimeDimension=NewTimeDimension
 
 ###########################################################
 #Default theme name.

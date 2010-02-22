@@ -698,9 +698,13 @@ Choices.overflow.hidden=非表示
 Choices.overflow.scroll=スクロール
 Choices.overflow.auto=自動
 
-#88 HTMLGadgetContentType
-Choices.HTMLGadgetContentType.html=HTML
-Choices.HTMLGadgetContentType.url=url
+#88 GadgetContentType
+Choices.gadgetContentType.html=HTML
+Choices.gadgetContentType.url=URL
+Choices.gadgetContentType.video=Video
+Choices.gadgetContentType.videourl=Video URL
+Choices.gadgetContentType.text=テキスト
+Choices.gadgetContentType.image=Image  
 
 ###########################################################
 # Classes
@@ -2347,6 +2351,7 @@ Element.DataMart=Data Object
 Element.DataMartDataSource=Data Object Data Source
 Element.DataMartDataSet=Data Object Data Set
 Element.DataMartCube=Data Object Cube
+Element.TimeDimension=Time Dimension
 
 ###########################################################
 # Element property names
@@ -3371,6 +3376,11 @@ Element.DataMartDataSet.dataObject=データオブジェクト
 Element.DataMartCube.dataSource=データソース
 Element.DataMartCube.dataObject=データオブジェクト
 
+#82 TimeDimension ( prefix Element.TimeDimension )
+Element.TimeDimension.startTimePoint=Start time point
+Element.TimeDimension.endTimePoint=End time point
+Element.TimeDimension.hierarchies=階層
+
 ###########################################################
 # Predefined style
 Style.Report=レポート
@@ -3639,6 +3649,7 @@ New.DataMartDataSet=新規 DataMart データセット
 New.DataMartCube=新規 DataMart キューブ
 New.TabElement=新規タブ要素
 New.GadgetItem=新規ガジェットの項目
+New.TimeDimension=NewTimeDimension
 
 ###########################################################
 #Default theme name.

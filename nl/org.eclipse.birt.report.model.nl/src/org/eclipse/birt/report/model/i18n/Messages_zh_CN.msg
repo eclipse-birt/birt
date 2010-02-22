@@ -698,9 +698,13 @@ Choices.overflow.hidden=隐藏
 Choices.overflow.scroll=滚动
 Choices.overflow.auto=自动
 
-#88 HTMLGadgetContentType
-Choices.HTMLGadgetContentType.html=html
-Choices.HTMLGadgetContentType.url=url
+#88 GadgetContentType
+Choices.gadgetContentType.html=HTML
+Choices.gadgetContentType.url=URL
+Choices.gadgetContentType.video=Video
+Choices.gadgetContentType.videourl=Video URL
+Choices.gadgetContentType.text=文本
+Choices.gadgetContentType.image=Image  
 
 ###########################################################
 # Classes
@@ -2347,6 +2351,7 @@ Element.DataMart=Data Object
 Element.DataMartDataSource=Data Object Data Source
 Element.DataMartDataSet=Data Object Data Set
 Element.DataMartCube=Data Object Cube
+Element.TimeDimension=Time Dimension
 
 ###########################################################
 # Element property names
@@ -3371,6 +3376,11 @@ Element.DataMartDataSet.dataObject=数据对象
 Element.DataMartCube.dataSource=数据源
 Element.DataMartCube.dataObject=数据对象
 
+#82 TimeDimension ( prefix Element.TimeDimension )
+Element.TimeDimension.startTimePoint=Start time point
+Element.TimeDimension.endTimePoint=End time point
+Element.TimeDimension.hierarchies=层次结构
+
 ###########################################################
 # Predefined style
 Style.Report=报表
@@ -3639,6 +3649,7 @@ New.DataMartDataSet=新DataMart数据集
 New.DataMartCube=新DataMart多维数据集
 New.TabElement=新选项卡元素
 New.GadgetItem=新小工具项
+New.TimeDimension=NewTimeDimension
 
 ###########################################################
 #Default theme name.
