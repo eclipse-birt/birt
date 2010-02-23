@@ -2347,10 +2347,10 @@ Element.MultiViews=Mehrfachansichten
 Element.VariableElement=Variable
 Element.DataGroup=Datengruppe
 Element.DerivedDataSet=Abgeleiteter Datensatz
-Element.DataMart=Data Object
-Element.DataMartDataSource=Data Object Data Source
-Element.DataMartDataSet=Data Object Data Set
-Element.DataMartCube=Data Object Cube
+Element.DataMart=Datenobjekt
+Element.DataMartDataSource=Datenobjekt-Datenquelle
+Element.DataMartDataSet=Datenobjekt-Datensatz
+Element.DataMartCube=Datenobjektquader
 Element.TimeDimension=Time Dimension
 
 ###########################################################
@@ -3247,7 +3247,7 @@ Element.TabularCube.autoKey=Automatischer Primärschlüssel
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=Hierarchien
-Element.TabularDimension.internalDimensionRef=Internal dimension reference
+Element.TabularDimension.internalDimensionRef=Interne Dimensionsreferenz
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=Datensatz
@@ -3357,7 +3357,7 @@ Element.DataMart.slot.dataSources=Datenquellen
 Element.DataMart.slot.dataSets=Datensätze
 Element.DataMart.slot.cubes=Quader
 Element.DataMart.slot.parameters=Parameter
-Element.DataMart.slot.dimensions=Shared Dimensions
+Element.DataMart.slot.dimensions=Gemeinsame Dimensionen
 Element.DataMart.enableACL=ACL aktivieren
 Element.DataMart.ACLExpression=Ausdruck 'ACL'
 

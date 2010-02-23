@@ -2347,10 +2347,10 @@ Element.MultiViews=다중 보기
 Element.VariableElement=변수
 Element.DataGroup=데이터 그룹
 Element.DerivedDataSet=파생 데이터 집합
-Element.DataMart=Data Object
-Element.DataMartDataSource=Data Object Data Source
-Element.DataMartDataSet=Data Object Data Set
-Element.DataMartCube=Data Object Cube
+Element.DataMart=데이터 개체
+Element.DataMartDataSource=데이터 개체 데이터 원본
+Element.DataMartDataSet=데이터 개체 데이터 집합
+Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=Time Dimension
 
 ###########################################################
@@ -3247,7 +3247,7 @@ Element.TabularCube.autoKey=자동 기본 키
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=계층
-Element.TabularDimension.internalDimensionRef=Internal dimension reference
+Element.TabularDimension.internalDimensionRef=내부 차원 참조
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=데이터 집합
@@ -3357,7 +3357,7 @@ Element.DataMart.slot.dataSources=데이터 원본
 Element.DataMart.slot.dataSets=데이터 집합
 Element.DataMart.slot.cubes=큐브
 Element.DataMart.slot.parameters=매개 변수
-Element.DataMart.slot.dimensions=Shared Dimensions
+Element.DataMart.slot.dimensions=공유 차원
 Element.DataMart.enableACL=ACL 사용
 Element.DataMart.ACLExpression=ACL 식
 

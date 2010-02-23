@@ -13,7 +13,7 @@ CubeGroupContent.Group.Edit.Message=Nombre de grupo:
 CubeGroupContent.Measure.Edit.Title=Editar campo de resumen
 cube.level.new=Nuevo nivel de cubo
 cube.level.edit=Editar nivel
-CubeLabelProvider.SharedDimensions=Shared Dimensions
+CubeLabelProvider.SharedDimensions=Dimensiones compartidas
 CubeLevelNodeProvider.menu.text=&Editar
 cube.measure.new=Nueva medida de cubo
 cube.measure.edit=Editar medida de cubo
@@ -35,8 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=La medida no admite el tipo 
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Advertencia
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=Error Shared Dimension Link
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=Todas las claves primarias de las dimensiones compartidas deben estar vinculadas
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=Error de link de dimensión compartida
 CubeBuilder.Title=Compilador de cubos de tabla de referencias cruzadas
 DatasePage.EmptyName.ErrorMessage=Se requiere el nombre de cubo.
 DatasetPage.Title=Conjunto de datos
@@ -182,4 +182,4 @@ FilterListDialog.Menu.ModifyProperty=Modificar propiedad
 FilterListDialog.Button.AddWithDialog=&Añadir...
 FilterListDialog.Button.EditWithDialog=&Editar...
 FilterListDialog.Button.Delete=Quita&r
-VirtualField.SharedDimensions=Shared Dimesnions
+VirtualField.SharedDimensions=Dimensiones compartidas
