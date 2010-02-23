@@ -471,14 +471,13 @@ public class LineArea extends InlineStackingArea
 		align( endParagraph, context );
 		if ( isLastLine )
 		{
-			checkPageBreak( );
 			parent.add( this );
+			checkPageBreak( );
 			parent.update( this );
 			this.finished = true;
 		}
 		else
 		{
-			checkPageBreak( );
 			LineArea area = cloneArea( );
 			area.children = children;
 			area.context = context;
@@ -491,6 +490,7 @@ public class LineArea extends InlineStackingArea
 			}
 			children = new ArrayList( );
 			parent.add( area );
+			checkPageBreak( );
 			parent.update( area );
 			area.finished = true;
 			// setPosition(parent.currentIP + parent.getOffsetX( ),
@@ -525,78 +525,67 @@ public class LineArea extends InlineStackingArea
 	
 	public SplitResult split( int height, boolean force ) throws BirtException
 	{
-		assert(height<this.height);
+		assert ( height < this.height );
 		LineArea result = null;
 		Iterator iter = children.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			ContainerArea child  = (ContainerArea) iter.next( );
-			if ( iter.hasNext( ) )
+			ContainerArea child = (ContainerArea) iter.next( );
+
+			if ( child.getMinYPosition( ) <= height )
 			{
-				if ( child.getX( ) < height )
+				iter.remove( );
+				if ( result == null )
 				{
-					continue;
+					result = cloneArea( );
 				}
-				else
-				{
-					if ( child.getMinYPosition( ) <= height )
-					{
-						iter.remove( );
-						if ( result == null )
-						{
-							result = cloneArea( );
-						}
-						result.addChild( child );
-						child.setParent( result );
-					}
-					else
-					{
-						SplitResult splitChild = child.split( height - child.getY(), force );
-						ContainerArea splitChildArea = splitChild.getResult( );
-						if(splitChildArea!=null)
-						{
-							if ( result == null )
-							{
-								result = cloneArea( );
-							}
-							result.addChild( splitChildArea );
-							splitChildArea.setParent( result );
-						}
-					}
-				}
+				result.addChild( child );
+				child.setParent( result );
 			}
 			else
 			{
-				break;
+				SplitResult splitChild = child.split( height - child.getY( ),
+						force );
+				ContainerArea splitChildArea = splitChild.getResult( );
+				if ( splitChildArea != null )
+				{
+					if ( result == null )
+					{
+						result = cloneArea( );
+					}
+					result.addChild( splitChildArea );
+					splitChildArea.setParent( result );
+				}
 			}
+
 		}
 
-		if(result!=null)
+		if ( result != null )
 		{
 			int h = 0;
 			iter = result.getChildren( );
-			while(iter.hasNext( ))
+			while ( iter.hasNext( ) )
 			{
-				ContainerArea child  = (ContainerArea) iter.next( );
+				ContainerArea child = (ContainerArea) iter.next( );
 				h = Math.max( h, child.getAllocatedHeight( ) );
 			}
 			result.setHeight( h );
 		}
-		
-		if(children.size( )>0)
+
+		if ( children.size( ) > 0 )
 		{
 			int h = 0;
-			iter = getChildren();
-			while(iter.hasNext( ))
+			iter = getChildren( );
+			while ( iter.hasNext( ) )
 			{
-				ContainerArea child  = (ContainerArea) iter.next( );
+				ContainerArea child = (ContainerArea) iter.next( );
 				h = Math.max( h, child.getAllocatedHeight( ) );
 			}
 			setHeight( h );
 		}
-		if(result!=null)
+		if ( result != null )
 		{
-			return new SplitResult(result, SplitResult.SPLIT_SUCCEED_WITH_PART);
+			return new SplitResult( result, SplitResult.SPLIT_SUCCEED_WITH_PART );
 		}
 		else
 		{

@@ -32,9 +32,15 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			IContent content )
 	{
 		super( parent, context, content );
-		isInInlineStacking = ( parent != null
-				? parent.isInInlineStacking
-				: false );
+		if ( parent == null )
+		{
+			isInInlineStacking = false;
+		}
+		else
+		{
+			isInInlineStacking = parent.isInlineStacking
+					|| parent.isInInlineStacking;
+		}
 	}
 
 	public BlockContainerArea( )
