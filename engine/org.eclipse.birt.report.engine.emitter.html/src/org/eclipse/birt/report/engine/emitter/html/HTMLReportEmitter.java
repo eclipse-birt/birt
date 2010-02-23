@@ -697,7 +697,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				
 		writer.openTag( HTMLTags.TAG_META );
 		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
-		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=utf-8" ); //$NON-NLS-1$ 
+		writer.attribute( HTMLTags.ATTR_CONTENT, getContentType( ) ); //$NON-NLS-1$ 
 		
 		boolean needCloseTag = !OUTPUT_FORMAT_HTML.equals( getOutputFormat( ) );
 		if ( needCloseTag )
@@ -769,6 +769,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		outputClientScript( report );
+	}
+
+	/**
+	 * @return Get the content type of current format.
+	 */
+	protected String getContentType( )
+	{
+		return "text/html; charset=utf-8";
 	}
 
 	private void outputClientScript( IReportContent report )
