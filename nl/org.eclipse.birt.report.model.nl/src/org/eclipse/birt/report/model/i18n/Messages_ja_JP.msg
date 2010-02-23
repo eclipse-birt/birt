@@ -2347,10 +2347,10 @@ Element.MultiViews=マルチビュー
 Element.VariableElement=変数
 Element.DataGroup=データグループ
 Element.DerivedDataSet=派生データセット
-Element.DataMart=Data Object
-Element.DataMartDataSource=Data Object Data Source
-Element.DataMartDataSet=Data Object Data Set
-Element.DataMartCube=Data Object Cube
+Element.DataMart=データオブジェクト
+Element.DataMartDataSource=データオブジェクトのデータソース
+Element.DataMartDataSet=データオブジェクトのデータセット
+Element.DataMartCube=データオブジェクトキューブ
 Element.TimeDimension=Time Dimension
 
 ###########################################################
@@ -3247,7 +3247,7 @@ Element.TabularCube.autoKey=自動プライマリキー
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=階層
-Element.TabularDimension.internalDimensionRef=Internal dimension reference
+Element.TabularDimension.internalDimensionRef=内部ディメンジョンの参照
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=データセット
@@ -3357,7 +3357,7 @@ Element.DataMart.slot.dataSources=データソース
 Element.DataMart.slot.dataSets=データセット
 Element.DataMart.slot.cubes=キューブ
 Element.DataMart.slot.parameters=パラメタ
-Element.DataMart.slot.dimensions=Shared Dimensions
+Element.DataMart.slot.dimensions=共有ディメンジョン
 Element.DataMart.enableACL=ACL を有効にする
 Element.DataMart.ACLExpression=ACL 式
 

@@ -13,7 +13,7 @@ CubeGroupContent.Group.Edit.Message=ƒOƒ‹[ƒv–¼ :
 CubeGroupContent.Measure.Edit.Title=ƒTƒ}ƒŠƒtƒB[ƒ‹ƒh‚Ì•ÒW
 cube.level.new=ƒLƒ…[ƒu‚ÌƒŒƒxƒ‹‚ÌV‹Kì¬
 cube.level.edit=ƒŒƒxƒ‹‚Ì•ÒW
-CubeLabelProvider.SharedDimensions=Shared Dimensions
+CubeLabelProvider.SharedDimensions=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“
 CubeLevelNodeProvider.menu.text=•ÒW(&E)
 cube.measure.new=ƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚ÌV‹Kì¬
 cube.measure.edit=ƒLƒ…[ƒu‚ÌƒƒWƒƒ[‚Ì•ÒW
@@ -35,8 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=ƒƒWƒƒ[‚Å‚Í Any Œ^‚Ìƒf[ƒ^‚
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Œx
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=Error Shared Dimension Link
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“‚©‚ç‚Ì‚·‚×‚Ä‚Ìƒvƒ‰ƒCƒ}ƒŠƒL[‚ÍƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B@
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“ƒŠƒ“ƒN‚ÌƒGƒ‰[
 CubeBuilder.Title=ƒNƒƒXƒ^ƒuƒLƒ…[ƒuƒrƒ‹ƒ_
 DatasePage.EmptyName.ErrorMessage=ƒLƒ…[ƒu‚Ì–¼‘O‚ğw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 DatasetPage.Title=ƒf[ƒ^ƒZƒbƒg
@@ -182,4 +182,4 @@ FilterListDialog.Menu.ModifyProperty=ƒvƒƒpƒeƒB‚Ì•ÏX
 FilterListDialog.Button.AddWithDialog=’Ç‰Á(&A)...
 FilterListDialog.Button.EditWithDialog=•ÒW(&E)...
 FilterListDialog.Button.Delete=íœ(&R)
-VirtualField.SharedDimensions=Shared Dimesnions
+VirtualField.SharedDimensions=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“

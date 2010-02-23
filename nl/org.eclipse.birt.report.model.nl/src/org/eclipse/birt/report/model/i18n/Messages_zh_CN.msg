@@ -2347,10 +2347,10 @@ Element.MultiViews=多个视图
 Element.VariableElement=变量
 Element.DataGroup=数据组
 Element.DerivedDataSet=衍生数据集
-Element.DataMart=Data Object
-Element.DataMartDataSource=Data Object Data Source
-Element.DataMartDataSet=Data Object Data Set
-Element.DataMartCube=Data Object Cube
+Element.DataMart=数据对象
+Element.DataMartDataSource=数据对象数据源
+Element.DataMartDataSet=数据对象数据集
+Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=Time Dimension
 
 ###########################################################
@@ -3247,7 +3247,7 @@ Element.TabularCube.autoKey=自动主键
 
 #52. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=层次结构
-Element.TabularDimension.internalDimensionRef=Internal dimension reference
+Element.TabularDimension.internalDimensionRef=内部维引用
 
 #53. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=数据集
@@ -3357,7 +3357,7 @@ Element.DataMart.slot.dataSources=数据源
 Element.DataMart.slot.dataSets=数据集
 Element.DataMart.slot.cubes=多维数据集
 Element.DataMart.slot.parameters=参数
-Element.DataMart.slot.dimensions=Shared Dimensions
+Element.DataMart.slot.dimensions=共享维
 Element.DataMart.enableACL=启用 ACL
 Element.DataMart.ACLExpression=ACL 表达式
 
