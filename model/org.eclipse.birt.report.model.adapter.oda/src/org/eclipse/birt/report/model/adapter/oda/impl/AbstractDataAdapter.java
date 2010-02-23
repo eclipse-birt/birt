@@ -37,6 +37,12 @@ import org.eclipse.emf.common.util.EList;
 abstract class AbstractDataAdapter
 {
 
+	/**
+     * 
+     */
+
+	private static final String RESOURCE_FILE_SUFFIX = ".properties"; //$NON-NLS-1$
+
 	protected final IODADesignFactory designFactory;
 
 	/**
@@ -176,20 +182,35 @@ abstract class AbstractDataAdapter
 		if ( resourceFile != null )
 			return;
 
-		root.setIncludeResource( dsDesign.getResourceFile( ) );
+		resourceFile = dsDesign.getResourceFile( );
+		if ( resourceFile == null )
+			return;
+
+		if ( !resourceFile.endsWith( RESOURCE_FILE_SUFFIX ) )
+		{
+			throw new IllegalArgumentException(
+					"The DTP resource file must end with " //$NON-NLS-1$
+							+ RESOURCE_FILE_SUFFIX );
+		}
+
+		int index = resourceFile.indexOf( RESOURCE_FILE_SUFFIX );
+		resourceFile = resourceFile.substring( 0, index );
+		root.setIncludeResource( resourceFile );
 	}
 
 	/**
 	 * @param dsDesign
 	 * @param root
 	 */
-	
+
 	protected void updateODAMessageFile( DataSourceDesign dsDesign,
 			ModuleHandle root )
 	{
 		String resourceFile = root.getIncludeResource( );
 		if ( resourceFile == null )
 			return;
+
+		resourceFile = resourceFile + RESOURCE_FILE_SUFFIX;
 
 		dsDesign.setResourceFile( resourceFile );
 	}

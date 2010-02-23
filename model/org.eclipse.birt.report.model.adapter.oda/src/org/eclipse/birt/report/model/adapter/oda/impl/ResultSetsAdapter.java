@@ -1016,13 +1016,12 @@ class ResultSetsAdapter
 		OutputElementAttributes outputAttrs = null;
 
 		String helpText = hint.getHelpText( );
+		String helpTextKey = hint.getHelpTextKey( );		
 		String format = hint.getFormat( );
-		if ( helpText != null || format != null )
+		
+		if ( helpText != null || format != null || helpTextKey != null)
 		{
 			outputAttrs = designFactory.createOutputElementAttributes( );
-
-			String helpTextKey = hint.getHelpTextKey( );
-
 			if ( helpText != null || helpTextKey != null )
 			{
 				outputAttrs.setHelpText( helpText );
