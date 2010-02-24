@@ -1035,6 +1035,11 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 		GroupHandle groupHandle = (GroupHandle)group.getHandle( );
 		TableHandle tableHandle = (TableHandle) groupHandle.getContainer( );
+		if ( tableHandle.isSummaryTable( ) )
+		{
+			return;
+		}
+		
 		String keyExpression = groupHandle.getKeyExpr();
 		if ( keyExpression == null )
 		{
