@@ -223,16 +223,9 @@
 	<target name="verifyCompile">
 
 		<echo message="Checking for compile errors..." />
-		<echo message="Log file directory: ${postingDirectory}/${buildId}/compilelogs" />
 		<!--create html output for compile logs-->
 		<eclipse.convert input="${postingDirectory}/${buildId}/compilelogs/plugins" validation="true"/>
 
-		<!-- The shell scripts will gather compile error plugin list into monitor.properties -->
-		<!--
-		<exec executable="${eclipse.build.configs}/../../extras/verifyCompile.sh">
-			<arg value="${postingDirectory}/${buildId}/compilelogs"/>
-		</exec>
-		-->
 		<antcall target="verifyCompileUtil"/>
 		<antcall target="checkCompileError"/>
 		<antcall target="generateCompileSummary"/>
@@ -249,6 +242,9 @@
 			</fileset>
 		</path>
 		
+		<echo message="Log file location: ${postingDirectory}/${buildId}/compilelogs/plugins"/>
+		<echo message="Verify compile properties: ${eclipse.build.configs}/../../monitor.properties"/>
+		<echo message="Verify compile console output: ${eclipse.build.configs}/../../verifyCompile.log"/>
 		<!-- Using custom build tools to get failure/error summary of test result -->
 		<java classname="org.eclipse.birt.build.VerifyCompileUtils" output="${eclipse.build.configs}/../../verifyCompile.log">
 			<classpath refid="customjar.classpath" />
@@ -1143,15 +1139,39 @@
 		</ant>
 	</target>
 	
+	<!--
 	<target name="InformQA">
           <exec executable="${ant.dir}/ant" failifexecutionfails="false">
             <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -propertyfile ${eclipse.build.configs}/../../build.properties informqa"/>
           </exec>
-        </target>
-        
-        <target name="informqa">
+    </target>
+    -->    
+	<target name="getBuildMachine">
+		<condition property="fetchTag" value="HEAD">
+			<equals arg1="${buildType}" arg2="N" />
+		</condition>
+	</target>
+	
+	<target name="checkOS">
+		<property environment="env"/> 
+		
+        <condition property="hostname" value="${env.HOSTNAME}">
+                <equals arg1="${osgi.os}" arg2="linux" />
+        </condition>
+		
+        <condition property="hostname" value="${env.USERDOMAIN}">
+                <equals arg1="${osgi.os}" arg2="win32" />
+        </condition>
+       
+	</target>
+	
+    <target name="InformQA" depends="checkOS">
         <property file="${eclipse.build.configs}/../../config.properties" />
-        <mail mailport="${mail.port}" tolist="${QA.members}" from="${mail.from}" replyto="${replyto.address}" subject="${BranchVersion} Build Is Ready (BuildId: ${buildId})" >
+        <mail mailport="${mail.port}" 
+        	tolist="${QA.members}" 
+        	from="${mail.from}" 
+        	replyto="${replyto.address}" 
+        	subject="${BranchVersion} Build Is Ready on ${hostname}(BuildId: ${buildId})" >
                 <message>
 Hi All,
 
@@ -1159,9 +1179,9 @@ Today's build (BuildId: ${buildId}) is available.
 Build based on:
 ${build.environment}
                 	
-Please download : ${QA.test.dir}\BIRT2.6-download\${BranchVersion}\${buildId}\
+Please download : ${QA.test.dir}\BIRT2.5-download\${BranchVersion}\${buildId}\
 
-NL pack from ${QA.test.dir}\BIRT2.6-download\${BranchVersion}\${buildId}\
+NL pack from ${QA.test.dir}\BIRT2.5-download\${BranchVersion}\${buildId}\
 
 Internal Update Site URL: http://qa-build/UpdateSite/${package.version}
 
@@ -1172,10 +1192,10 @@ Have a nice day!
         </mail>
 		<!-- create download info file -->
 		<echo file="${eclipse.build.configs}/../../download.properties" append="false">
-			allInOne=\\${QA.test.dir}\\BIRT2.6-download\\${BranchVersion}\\${buildId}\\birt-report-designer-all-in-one-${package.version}.zip
-			runtime=\\${QA.test.dir}\\BIRT2.6-download\\${BranchVersion}\\${buildId}\\birt-runtime-${package.version}.zip
-			rcp=\\${QA.test.dir}\\BIRT2.6-download\\${BranchVersion}\\${buildId}\\birt-rcp-report-designer-${package.version}.zip
-			frameworkSDK=\\${QA.test.dir}\\BIRT2.6-download\\${BranchVersion}\\${buildId}\\birt-report-framework-sdk-${package.version}.zip
+			allInOne=\\${QA.test.dir}\\BIRT2.5-download\\${BranchVersion}\\${buildId}\\birt-report-designer-all-in-one-${package.version}.zip
+			runtime=\\${QA.test.dir}\\BIRT2.5-download\\${BranchVersion}\\${buildId}\\birt-runtime-${package.version}.zip
+			rcp=\\${QA.test.dir}\\BIRT2.5-download\\${BranchVersion}\\${buildId}\\birt-rcp-report-designer-${package.version}.zip
+			frameworkSDK=\\${QA.test.dir}\\BIRT2.5-download\\${BranchVersion}\\${buildId}\\birt-report-framework-sdk-${package.version}.zip
 		</echo>
 		<copy tofile="${postingDirectory}/download.properties" file="${eclipse.build.configs}/../../download.properties" overwrite="true" />
 	</target>
@@ -1274,8 +1294,8 @@ Have a nice day!
 		</condition>
 	</target>
 	
-	<target name="checkDTPVersion" depends="getDTPVersionProperty" unless="latest.dtp.version">
-		<mail mailport="${mail.port}" subject="WARNING: The installed DTP build is not the latest version" tolist="${build.engineer}">
+	<target name="checkDTPVersion" depends="getDTPVersionProperty,checkOS" unless="latest.dtp.version">
+		<mail mailport="${mail.port}" subject="WARNING: The installed DTP build is not the latest version (${hostname})" tolist="${build.engineer}">
 			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
@@ -1303,10 +1323,10 @@ Have a nice day!
        </exec>
     </target>
 		
-    <target name="checkcompileerror">
-                <property file="${eclipse.build.configs}/../../config.properties" />
+    <target name="checkcompileerror" depends="checkOS">
+    	<property file="${eclipse.build.configs}/../../config.properties" />
 		<property file="${eclipse.build.configs}/../../monitor.properties" />
-		<mail mailport="${mail.port}" subject="Compile errors found in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
+		<mail mailport="${mail.port}" subject="Compile errors found in Today's Build on ${hostname}(BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
                     <from address="${mail.from}"/>
                     <replyto address="${replyto.address}"/>
                     <message>

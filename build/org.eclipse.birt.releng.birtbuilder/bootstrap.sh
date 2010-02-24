@@ -9,12 +9,16 @@ xhost +$HOSTNAME
 DISPLAY=:0.0
 export DISPLAY
 
+CVSROOT=:ext:xgu@dev.eclipse.org:/cvsroot/birt
 CVS_RSH=ssh
 ulimit -c unlimited
-export CVS_RSH USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
+export CVSROOT CVS_RSH USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
+
+cvs update -r BIRT_2_5_x_Branch -C buildAll.xml eclipse extras
+chmod -R +x buildAll.xml eclipse extras
 
 if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/usr/local/apache-ant-1.7.0; fi
-if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/usr/local/j2sdk1.4.2_13; fi
+if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/usr/local/jdk1.5.0_02; fi
 export PATH=${PATH}:${ANT_HOME}/bin:/usr/local/bin
 
 proc=$$
@@ -58,13 +62,17 @@ buildLabel=""
 mapVersionTag=HEAD
 
 # directory in which to export builder projects
-builderDir=/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/
+builderDir=/home/adb/releng.250/org.eclipse.birt.releng.birtbuilder
+export builderDir
+
+#check disk space usage
+source /home/adb/releng.250/org.eclipse.birt.releng.birtbuilder/extras/DiskSpaceCheck.sh
 
 # buildtype determines whether map file tags are used as entered or are replaced with HEAD
 buildType=I
 
 # directory where to copy build
-postingDirectory=/home/adb/releng/BIRTOutput/BIRT2.3-download
+postingDirectory=/home/adb/releng/BIRTOutput/BIRT2.5-download/2.5.2
 
 # flag to indicate if test build
 testBuild=""
@@ -86,7 +94,7 @@ echo "======[buildtime]: $buildtime " >> adb.log
 echo "======[timestamp]: $timestamp " >> adb.log
 
 # process command line arguments
-usage="usage: $0 [-notify emailaddresses][-test][-buildDirectory directory][-buildId name][-buildLabel directory name][-tagMapFiles][-mapVersionTag tag][-builderTag tag][-bootclasspath path][-compareMaps][-skipPerf] [-skipTest][-updateSite site][-sign][-noUnitTest][-test] M|N|I|S|R"
+usage="usage: $0 [-notify emailaddresses][-test][-buildDirectory directory][-buildId name][-buildLabel directory name][-tagMapFiles][-mapVersionTag tag][-builderTag tag][-bootclasspath path][-compareMaps][-skipPerf] [-skipTest][-updateSite site][-sign][-noUnitTest][CheckNewJars][-test] M|N|I|S|R"
 
 if [ $# -lt 1 ]
 then
@@ -112,6 +120,7 @@ do
 		 		 -compareMaps) compareMaps="-DcompareMaps=true";;
 		 		 -updateSite) updateSite="-DupdateSite=$2";shift;;
 		 		 -sign) sign="-Dsign=true";;
+                                 -CheckNewJars) CheckNewJars="-DCheckNewJars=true";;
 		 		 -*)
 		 		 		 echo >&2 $usage
 		 		 		 exit 1;;
@@ -179,14 +188,15 @@ chmod -R 755 $builderDir
 #default value of the bootclasspath attribute used in ant javac calls.  
 bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/jre/lib/jsse.jar"
 bootclasspath_15="/usr/local/jdk1.5.0_02/jre/lib/rt.jar:/usr/local/jdk1.5.0_02/jre/lib/jsse.jar"
+bootclasspath_16="/usr/local/jdk1.6.0/jre/lib/rt.jar:/usr/local/jdk1.6.0/jre/lib/jsse.jar"
 jvm15_home="/usr/local/jdk1.5.0_02"
 
-cd /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder
+cd /home/adb/releng.250/org.eclipse.birt.releng.birtbuilder
 
 echo buildId=$buildId >> monitor.properties 
 echo timestamp=$timestamp >> monitor.properties 
 echo buildLabel=$buildLabel >> monitor.properties 
-echo currentDay=$builddate >> monitor.properties
+echo currentDay=$builddate >> monitor.properties 
 echo recipients=$recipients >> monitor.properties
 echo log=$postingDirectory/$buildLabel/index.php >> monitor.properties
 
@@ -196,7 +206,7 @@ antRunner="/usr/local/jdk1.5.0_02/bin/java -Xmx512m -jar ../org.eclipse.releng.b
 echo "==========[antRunner]: $antRunner" >> adb.log
 
 
-/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/replaceBuildInfo.sh $buildinfoDate $buildinfounivDate
+/home/adb/releng.250/org.eclipse.birt.releng.birtbuilder/replaceBuildInfo.sh $buildinfoDate $buildinfounivDate
 
 #clean drop directories
 #ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> adb.log
@@ -207,23 +217,24 @@ echo "==========[antRunner]: $antRunner" >> adb.log
 #buildId=v20080523-0630
 echo "tagMaps flag:" $tagMaps >> adb.log
 echo $compareMaps >> adb.log
+echo $sign >> adb.log
 
-cp /home/adb/releng.dtp/dtpURLmonitor.properties /home/adb/releng.230/src/
+cp /home/adb/releng.dtp.172/dtpURLmonitor.properties /home/adb/releng.250/src/
 
-
-buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps $unitTest\
+buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps $unitTest $CheckNewJars \
 -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory \
 -Dbootclasspath=$bootclasspath_15 -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps \
--DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign  \
--Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng.230/src \
--DbaseLocation=/home/adb/releng.230/baseLocation -DbaseLocation.emf=/home/adb/releng.230/baseLocation \
+-DJ2SE-1.5=$bootclasspath_15 -DJavaSE-1.6=$bootclasspath_16 -DlogExtension=.xml $javadoc $updateSite $sign  \
+-Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng.250/src \
+-DbaseLocation=/home/adb/releng.250/baseLocation -DbaseLocation.emf=/home/adb/releng.250/baseLocation \
 -DgroupConfiguration=true -DjavacVerbose=true \
--Dbasebuilder=/home/adb/releng.230/org.eclipse.releng.basebuilder -DpostPackage=BIRTOutput  \
--Dtest.dir=/home/adb/releng.230/unittest -Dp4.home=/home/adb/releng.230/P4 \
--Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/mapTag.properties \
--Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_3_0 \
--DmapVersionTag=BIRT_2_3_0_Branch -DBranchVersion=2.3.0" 
+-Dbasebuilder=/home/adb/releng.250/org.eclipse.releng.basebuilder -DpostPackage=BIRTOutput  \
+-Dtest.dir=/home/adb/releng.250/unittest -Dp4.home=/home/adb/releng.250/P4 \
+-Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng.250/org.eclipse.birt.releng.birtbuilder/mapTag.properties \
+-Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_5_2 \
+-DmapVersionTag=HEAD -DBranchVersion=2.5.2 -Dant.dir=$ANT_HOME/bin \
+-Dusername.sign=slee -Dpassword.sign="" -Dhostname.sign=build.eclipse.org -Dhome.dir=/home/data/users/slee -Dsign.dir=/home/data/httpd/download-staging.priv/birt"
 
 #skipPreBuild
 
@@ -242,6 +253,6 @@ $buildCommand >> adb.log
 
 #clean up
 #rm -rf $builderDir
-rm -rf /home/adb/releng.230/src/$buildId
-ant -f /home/adb/jakarta-tomcat-5.0.24/webapps/BuildCentral/generateDeployIndex.xml
+rm -rf /home/adb/releng.250/src/$buildId
+
 

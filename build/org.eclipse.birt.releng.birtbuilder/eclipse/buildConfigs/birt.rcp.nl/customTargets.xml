@@ -108,7 +108,10 @@
 	<!-- Steps to do before assembling -->
 	<!-- ===================================================================== -->
 	<target name="preAssemble">
-	
+		<replace dir="${buildDirectory}/plugins" value="${BranchVersion}.${buildId}" token="@BUILD@">
+			<include name="*.nl1/*.properties" />
+			<include name="*.nl/*.properties" />
+		</replace>
 	</target>
 
 	<!-- ===================================================================== -->
