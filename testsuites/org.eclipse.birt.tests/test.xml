@@ -1,6 +1,6 @@
 <project name="Automated Eclipse Testing" default=""  basedir="." >
 	
-	<property name="library-file" value="${eclipse-home}/plugins/org.eclipse.test_3.2.0/library.xml" />
+	<property name="library-file" value="${eclipse-home}/plugins/org.eclipse.test_3.3.0/library.xml" />
 	
 	<target name="runbirttests">
 		<ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
