@@ -79,7 +79,9 @@ public class CustomPreviewTable extends Composite implements
 	private static final int SPLITTER_WIDTH = 2;
 
 	// COLLECTION OF HEADING LABELS
-	private transient Vector fHeadings = null;
+	private transient Vector<ColumnBindingInfo> fHeadings = null;
+	// INDICATE WHEATHER DUMMY
+	private transient boolean isDummy = true;
 	// COLLECTION OF COLUMN WIDTHS AS INTEGERS
 	transient Vector<Integer> columnWidths = null;
 	// COLLECTION OF BUTTONS IN THE HEADER
@@ -170,7 +172,7 @@ public class CustomPreviewTable extends Composite implements
 	public CustomPreviewTable( Composite parent, int style )
 	{
 		super( parent, SWT.BORDER );
-		fHeadings = new Vector( );
+		fHeadings = new Vector<ColumnBindingInfo>( );
 		columnWidths = new Vector<Integer>( );
 		btnHeaders = new Vector<Button>( );
 		vListeners = new Vector<Listener>( );
@@ -211,22 +213,26 @@ public class CustomPreviewTable extends Composite implements
 			}
 		}
 		btnHeaders.clear( );
-		for ( int i = 0; i < fHeadings.size( ); i++ )
+		if ( isDummy )
 		{
-			if ( fHeadings.elementAt( i ) instanceof ColumnBindingInfo )
+			for ( int i = 0; i < columnWidths.size( ); i++ )
 			{
-				addHeaderButton( iHeaderAlignment,
-						(ColumnBindingInfo) fHeadings.elementAt( i ),
-						columnWidths.get( i ),
-						i );
-			}
-			else
-			{
-				addHeaderButton( iHeaderAlignment,
-						(String) fHeadings.elementAt( i ),
+				addHeaderButton( iHeaderAlignment, "", //$NON-NLS-1$
 						columnWidths.get( i ) );
 			}
 		}
+		else
+		{
+			for ( int i = 0; i < fHeadings.size( ); i++ )
+			{
+				addHeaderButton( iHeaderAlignment,
+						fHeadings.elementAt( i ),
+						columnWidths.get( i ),
+						i );
+
+			}
+		}
+
 		cmpHeaders.layout( );
 
 		// DISPOSE EXISTING cnvCells instance if any
@@ -373,17 +379,18 @@ public class CustomPreviewTable extends Composite implements
 		splitter.addMouseMoveListener( this );
 	}
 
-	public void addColumn( String sColumnHeading, Color clr, int iWidth )
-	{
-		columnWidths.add( Integer.valueOf( iWidth ) );
-		fHeadings.add( sColumnHeading );
-		addHeaderButton( iHeaderAlignment, sColumnHeading, iWidth );
-		cmpHeaders.layout( true );
-
-		cnvCells.addColumn( clr );
-		cnvCells.redraw( );
-		cnvCells.updateScrollbars( );
-	}
+	// not used
+	// public void addColumn( String sColumnHeading, Color clr, int iWidth )
+	// {
+	// columnWidths.add( Integer.valueOf( iWidth ) );
+	// fHeadings.add( sColumnHeading );
+	// addHeaderButton( iHeaderAlignment, sColumnHeading, iWidth );
+	// cmpHeaders.layout( true );
+	//
+	// cnvCells.addColumn( clr );
+	// cnvCells.redraw( );
+	// cnvCells.updateScrollbars( );
+	// }
 
 	private void addDragListenerToHeaderButton( Button button )
 	{
@@ -414,11 +421,15 @@ public class CustomPreviewTable extends Composite implements
 	public String getColumnHeading( int iIndex )
 			throws IllegalArgumentException
 	{
+		if ( isDummy )
+		{
+			return ""; //$NON-NLS-1$
+		}
 		if ( fHeadings == null || iIndex >= fHeadings.size( ) )
 		{
 			throw new IllegalArgumentException( Messages.getString( "CustomPreviewTable.Exception.InvalidColumnIndexNotDefined", String.valueOf( iIndex ) ) ); //$NON-NLS-1$
 		}
-		return (String) ( (ColumnBindingInfo) fHeadings.get( iIndex ) ).getName( );
+		return fHeadings.get( iIndex ).getName( );
 	}
 
 	/**
@@ -431,16 +442,16 @@ public class CustomPreviewTable extends Composite implements
 	 */
 	public String getCurrentColumnHeading( )
 	{
-		return ( iColumnIndex != -1 ) ? (String) ( (ColumnBindingInfo) fHeadings.get( iColumnIndex ) ).getName( )
+		return ( iColumnIndex != -1 ) ? fHeadings.get( iColumnIndex ).getName( )
 				: null;
 	}
 
 	/**
 	 * Returns head object of current column, if it is sharing query, the head
-	 * object should be instance of <code>ColumnBindingInfo</code>, else it
-	 * is String object.
+	 * object should be instance of <code>ColumnBindingInfo</code>, else it is
+	 * String object.
 	 * 
-	 * @return
+	 * @return column head object
 	 * 
 	 * @since 2.3
 	 */
@@ -504,14 +515,19 @@ public class CustomPreviewTable extends Composite implements
 		this.iHeaderAlignment = iAlignment;
 		for ( int i = 0; i < btnHeaders.size( ); i++ )
 		{
-			( (Button) btnHeaders.get( i ) ).setAlignment( iHeaderAlignment );
+			btnHeaders.get( i ).setAlignment( iHeaderAlignment );
 		}
 	}
 
 	public void createDummyTable( )
 	{
-		setColumns( new String[]{
-				"", "", ""}, new int[]{200, 200, 200} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		isDummy = true;
+		
+		for ( int i = 0; i < 3; i++ )
+		{
+			columnWidths.add( Integer.valueOf( 200 ) );
+		}
+		placeComponents( );
 		layout( true );
 		// bug#245498
 		WizardBase.removeException( );
@@ -556,26 +572,26 @@ public class CustomPreviewTable extends Composite implements
 		return iRE - iHiddenWidth;
 	}
 
-	public void setColumns( String[] headers )
-	{
-		clearContents( );
-		if ( headers.length == 0 )
-		{
-			createDummyTable( );
-			return;
-		}
-		int iW = cnvCells.getVisibleTableWidth( ) / headers.length;
-		if ( iW < TableCanvas.SCROLL_HORIZONTAL_STEP )
-		{
-			iW = TableCanvas.SCROLL_HORIZONTAL_STEP;
-		}
-		for ( int i = 0; i < headers.length; i++ )
-		{
-			fHeadings.add( headers[i] );
-			columnWidths.add( Integer.valueOf( iW ) );
-		}
-		placeComponents( );
-	}
+	// public void setColumns( String[] headers )
+	// {
+	// clearContents( );
+	// if ( headers.length == 0 )
+	// {
+	// createDummyTable( );
+	// return;
+	// }
+	// int iW = cnvCells.getVisibleTableWidth( ) / headers.length;
+	// if ( iW < TableCanvas.SCROLL_HORIZONTAL_STEP )
+	// {
+	// iW = TableCanvas.SCROLL_HORIZONTAL_STEP;
+	// }
+	// for ( int i = 0; i < headers.length; i++ )
+	// {
+	// fHeadings.add( headers[i] );
+	// columnWidths.add( Integer.valueOf( iW ) );
+	// }
+	// placeComponents( );
+	// }
 
 	public void setColumns( ColumnBindingInfo[] headers )
 	{
@@ -585,6 +601,7 @@ public class CustomPreviewTable extends Composite implements
 			createDummyTable( );
 			return;
 		}
+		isDummy = false;
 		int iW = cnvCells.getVisibleTableWidth( ) / headers.length;
 		if ( iW < TableCanvas.SCROLL_HORIZONTAL_STEP )
 		{
@@ -594,22 +611,6 @@ public class CustomPreviewTable extends Composite implements
 		{
 			fHeadings.add( headers[i] );
 			columnWidths.add( Integer.valueOf( iW ) );
-		}
-		placeComponents( );
-	}
-
-	public void setColumns( String[] headers, int[] widths )
-	{
-		clearContents( );
-		if ( headers.length == 0 )
-		{
-			createDummyTable( );
-			return;
-		}
-		for ( int i = 0; i < headers.length; i++ )
-		{
-			fHeadings.add( headers[i] );
-			columnWidths.add( Integer.valueOf( widths[i] ) );
 		}
 		placeComponents( );
 	}
@@ -844,7 +845,7 @@ public class CustomPreviewTable extends Composite implements
 			int max = 0;
 			for ( int i = 0; i < columnWidths.size( ); i++ )
 			{
-				max += ( (Integer) columnWidths.get( i ) ).intValue( );
+				max += columnWidths.get( i ).intValue( );
 			}
 			return max;
 		}
