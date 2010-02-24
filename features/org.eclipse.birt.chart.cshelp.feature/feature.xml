@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.chart.cshelp"
       label="%featureName"
-      version="2.5.2.qualifier"
+      version="2.6.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.chart.cshelp"
       image="eclipse_update_120.jpg">
@@ -20,8 +20,8 @@
    </license>
 
    <url>
-      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site/2.5"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.5"/>
+      <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site/2.6"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.6"/>
    </url>
 
    <requires>

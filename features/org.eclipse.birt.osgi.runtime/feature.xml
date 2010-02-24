@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.osgi.runtime"
       label="%featureName"
-      version="2.5.2.qualifier"
+      version="2.6.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -19,8 +19,8 @@
    </license>
 
    <url>
-      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.5"/>
-      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.5"/>
+      <update label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.6"/>
+      <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.6"/>
    </url>
 
    <requires>
