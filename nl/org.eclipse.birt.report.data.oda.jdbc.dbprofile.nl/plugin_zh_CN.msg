@@ -18,7 +18,7 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc.dbprofile
 ###############################################################################
 #
 plugin.name=JDBC 数据库连接数据源 ODA 运行时驱动程序
-data.source.name=JDBC Database Connection for Query Builder
+data.source.name=查询生成器的 JDBC 数据库连接
 data.set.name=SQL 选择查询 [查询生成器原型]
 connection.profile.name=BIRT JDBC 数据库连接配置文件
 dataset.property.parameterMetaData=BIRT JDBC 参数元数据
