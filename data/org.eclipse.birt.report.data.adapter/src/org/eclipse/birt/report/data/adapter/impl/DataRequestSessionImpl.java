@@ -175,7 +175,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			TransientDataMartUtil.prepareDataSet( sessionContext.getAppContext( ),
 					sessionContext.getDataEngineContext( ),
 					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
-					design );
+					design, this );
 		}
 		dataEngine.defineDataSet( design );
 	}

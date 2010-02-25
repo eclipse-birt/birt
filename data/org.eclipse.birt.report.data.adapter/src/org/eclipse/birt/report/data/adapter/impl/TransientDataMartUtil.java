@@ -18,14 +18,14 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 public class TransientDataMartUtil 
 {
-	
 	public static void prepareDataSet( Map appContext,
 			DataEngineContext oriContext, IBaseDataSourceDesign dsource,
-			IBaseDataSetDesign dset ) throws BirtException
+			IBaseDataSetDesign dset, DataRequestSession session ) throws BirtException
 	{}
 	
 	public static void prepareCube( Map appContext,
