@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
@@ -157,7 +158,7 @@ public class QueryResults implements IQueryResults, IQueryService
 
 				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
 				
-				if( queryService.getQueryDefn( ) instanceof IQueryDefinition )
+				if( queryService.getQueryDefn( ) instanceof IQueryDefinition && ! ((QueryDefinition)queryService.getQueryDefn()).isTempQuery())
 				{
 					iterator = QueryResultsUtil.processOdiResult( session,
 							this,
