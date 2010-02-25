@@ -112,6 +112,7 @@ do
 		 		 -compareMaps) compareMaps="-DcompareMaps=true";;
 		 		 -updateSite) updateSite="-DupdateSite=$2";shift;;
 		 		 -sign) sign="-Dsign=true";;
+		 		 -prepareSrc) prepareSrc="-Dprepare.src.flag=true";;
 		 		 -*)
 		 		 		 echo >&2 $usage
 		 		 		 exit 1;;
@@ -215,7 +216,7 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMap
 -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory \
 -Dbootclasspath=$bootclasspath_15 -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps \
--DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign  \
+-DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign $prepareSrc \
 -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng.230/src \
 -DbaseLocation=/home/adb/releng.230/baseLocation -DbaseLocation.emf=/home/adb/releng.230/baseLocation \
 -DgroupConfiguration=true -DjavacVerbose=true \
