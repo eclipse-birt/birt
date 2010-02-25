@@ -104,7 +104,9 @@
 		<condition property="skip.allinone.linux" value="true">
 			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
 		</condition>
-
+		<condition property="prepare.src.flag" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
 		
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
@@ -490,7 +492,7 @@
 		</ant>
 	</target>
 	
-	<target name="prepareSrc" if="HQ.BIRT.skip">
+	<target name="prepareSrc" if="prepare.src.flag">
 		
   		<antcall target="logger">
 			<param name="message" value="Start to sync BIRT source folder"/>
