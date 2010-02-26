@@ -471,7 +471,7 @@ public class PreparedQueryUtil
 		{
 			if ( queryDefn.isSummaryQuery( ) )
 			{
-				IResultClass rsMeta = rdLoad.loadExprDataResultSet( )
+				IResultClass rsMeta = rdLoad.loadExprDataResultSet( true )
 						.getResultClass( );
 				populateSummaryBinding( queryDefn, rsMeta );
 			}

@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.CacheProvider;
@@ -118,7 +119,9 @@ public class ExprResultSet implements IExprResultSet
 			
 			this.exprResultReader = new ExprDataReader1( this.rowExprsRAIs,
 					this.rowLenRAIs,
-					this.version, this.dataSetResultSet );
+					this.version,
+					( this.qd instanceof IQueryDefinition && ( (IQueryDefinition) qd ).isSummaryQuery( ) )
+							? null : this.dataSetResultSet );
 			this.rowCount = exprResultReader.getCount( );
 		}
 		else
@@ -135,7 +138,7 @@ public class ExprResultSet implements IExprResultSet
 			this.exprResultReader = new ExprDataReader2( tempDir,
 					rowExprsRAIs,
 					rowLenRAIs,
-					rowInfoRAIs, version, this.dataSetResultSet );
+					rowInfoRAIs, version, (this.qd instanceof IQueryDefinition && ( (IQueryDefinition) qd ).isSummaryQuery( ) )?null:this.dataSetResultSet );
 			this.rowCount = this.exprResultReader.getCount( );			
 		}
 	}

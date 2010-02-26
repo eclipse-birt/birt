@@ -74,7 +74,7 @@ import org.mozilla.javascript.Scriptable;
  */
 public class ResultIterator implements IResultIterator
 {
-	private RDSaveHelper 			rdSaveHelper;
+	protected RDSaveHelper 			rdSaveHelper;
 	private Scriptable 				scope;
 	
 	protected org.eclipse.birt.data.engine.odi.IResultIterator odiResult;
@@ -89,7 +89,7 @@ public class ResultIterator implements IResultIterator
 	protected RowIDUtil 				rowIDUtil;
 	
 	// used for evaluate binding column value
-	private Map 					boundColumnValueMap = new HashMap( );
+	protected Map 					boundColumnValueMap = new HashMap( );
 	private BindingColumnsEvalUtil 	bindingColumnsEvalUtil;
 	
 	private boolean isFirstNext = true;
@@ -1199,7 +1199,7 @@ public class ResultIterator implements IResultIterator
 		/**
 		 * @return
 		 */
-		private boolean needsSaveToDoc( )
+		public boolean needsSaveToDoc( )
 		{
 			if ( ((BaseQueryDefinition)this.queryDefn).isTempQuery( ))
 				return false;
