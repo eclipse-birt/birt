@@ -293,9 +293,9 @@ public class PageArea extends BlockContainerArea
 				resolutionX = 96;
 				resolutionY = 96;
 			}
-			float imageWidth = img.plainWidth( ) / resolutionX * 72
+			float imageWidth = img.getPlainWidth( ) / resolutionX * 72
 					* PDFConstants.LAYOUT_TO_PDF_RATIO;
-			float imageHeight = img.plainHeight( ) / resolutionY * 72
+			float imageHeight = img.getPlainHeight( ) / resolutionY * 72
 					* PDFConstants.LAYOUT_TO_PDF_RATIO;
 			int actualWidth = (int) imageWidth;
 			int actualHeight = (int) imageHeight;

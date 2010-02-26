@@ -244,8 +244,8 @@ class ConcreteImageLayout extends Layout
 				resolutionY = PropertyUtil.getImageDpi( content, image
 						.getDpiY( ), context.getDpi( ) );
 			}
-			return new Dimension( (int) ( image.plainWidth( ) * 1000
-					/ resolutionX * 72 ), (int) ( image.plainHeight( ) * 1000
+			return new Dimension( (int) ( image.getPlainWidth( ) * 1000
+					/ resolutionX * 72 ), (int) ( image.getPlainHeight( ) * 1000
 					/ resolutionY * 72 ) );
 		}
 		return null;

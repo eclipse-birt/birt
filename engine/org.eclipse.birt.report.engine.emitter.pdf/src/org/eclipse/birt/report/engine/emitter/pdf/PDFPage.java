@@ -79,20 +79,13 @@ public class PDFPage extends AbstractPage
 		this.writer = writer;
 		this.pageDevice = pageDevice;
 		this.containerHeight = this.pageHeight;
-		try
-		{
-			Rectangle pageSize = new Rectangle( this.pageWidth, this.pageHeight );
-			document.setPageSize( pageSize );
-			if ( !document.isOpen( ) )
-				document.open( );
-			else
-				document.newPage( );
-			this.contentByte = writer.getDirectContent( );
-		}
-		catch ( DocumentException de )
-		{
-			logger.log( Level.SEVERE, de.getMessage( ), de );
-		}
+		Rectangle pageSize = new Rectangle( this.pageWidth, this.pageHeight );
+		document.setPageSize( pageSize );
+		if ( !document.isOpen( ) )
+			document.open( );
+		else
+			document.newPage( );
+		this.contentByte = writer.getDirectContent( );
 	}
 
 	protected void clip( float startX, float startY, float width, float height )
@@ -177,8 +170,8 @@ public class PDFPage extends AbstractPage
 					resolutionX = 96;
 					resolutionY = 96;
 				}
-				imageWidth = img.plainWidth( ) / resolutionX * 72;
-				imageHeight = img.plainHeight( ) / resolutionY * 72;
+				imageWidth = img.getPlainWidth( ) / resolutionX * 72;
+				imageHeight = img.getPlainHeight( ) / resolutionY * 72;
 			}
 
 			if ( BackgroundImageInfo.NO_REPEAT == repeat ) //$NON-NLS-1$

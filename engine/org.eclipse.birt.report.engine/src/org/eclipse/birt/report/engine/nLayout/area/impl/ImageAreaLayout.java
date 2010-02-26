@@ -295,8 +295,8 @@ public class ImageAreaLayout implements ILayout
 		{
 			if ( image != null )
 			{
-				return new Dimension( (int) ( image.plainWidth( ) * 1000
-						/ resolutionX * 72 ), (int) ( image.plainHeight( )
+				return new Dimension( (int) ( image.getPlainWidth( ) * 1000
+						/ resolutionX * 72 ), (int) ( image.getPlainHeight( )
 						* 1000 / resolutionY * 72 ) );
 			}
 			return null;
@@ -616,7 +616,7 @@ public class ImageAreaLayout implements ILayout
 					// this SVG has been converted into JPEG.
 					area.setMIMEType( "image/jpeg" );
 					area.setExtension( ".jpg" );
-					area.setData( imageObject.rawData( ) );
+					area.setData( imageObject.getRawData( ) );
 				}
 				else
 				{

@@ -184,8 +184,8 @@ public class PDFImageLM extends PDFLeafItemLM
 			{
 				resolution = contentResolution;
 			}
-			return new Dimension( (int) ( image.plainWidth( ) * 1000
-					/ resolution * 72 ), (int) ( image.plainHeight( ) * 1000
+			return new Dimension( (int) ( image.getPlainWidth( ) * 1000
+					/ resolution * 72 ), (int) ( image.getPlainHeight( ) * 1000
 					/ resolution * 72 ) );
 		}
 		return null;
