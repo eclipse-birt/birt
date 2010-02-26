@@ -311,8 +311,9 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 					if ( validationContext != null )
 					{
 						validationContext.setQueryText( ( (IOdaDataSetDesign) dataSetDesign ).getQueryText( ) );
-						IOdaDataSetDesign clonedDataSet = OptimizationRollbackHelper.cloneDataSetDesign( (IOdaDataSetDesign) dataSetDesign );
-						IQueryDefinition clonedQuery = OptimizationRollbackHelper.cloneQueryDefinition( queryDefn ); 
+						OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(
+								queryDefn, (IOdaDataSetDesign) dataSetDesign );
+						rollbackHelper.collectOriginalInfo( );
 						querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
 								validationContext,
 								(IOdaDataSetDesign) dataSetDesign,
@@ -323,8 +324,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 						if ( querySpec == null )
 						{
 							//roll back changes made in <code>dataSetDesign</code> and <code>queryDefn</code>
-							dataSetDesign = clonedDataSet;
-							queryDefn = clonedQuery;
+						    rollbackHelper.rollback( );
 						}
 					}					
 				}
