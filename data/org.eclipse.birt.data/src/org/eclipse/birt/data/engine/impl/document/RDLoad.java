@@ -126,7 +126,7 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	public IExprDataResultSet loadExprDataResultSet( ) throws DataException
+	public IExprDataResultSet loadExprDataResultSet( boolean isSummary ) throws DataException
 	{
 		if ( version == VersionManager.VERSION_2_0 )
 			throw new DataException( ResourceConstants.WRONG_VERSION );
@@ -142,7 +142,7 @@ public class RDLoad
 					StreamManager.BASE_SCOPE ),
 					exprMetas,
 					version,
-					version < VersionManager.VERSION_2_2_1_3?null:this.loadDataSetData( ));
+					(isSummary || version < VersionManager.VERSION_2_2_1_3)?null:this.loadDataSetData( ));
 		else
 			exprDataResultSet = new ExprDataResultSet2( tempDir,
 					streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
