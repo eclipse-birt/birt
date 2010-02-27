@@ -1052,6 +1052,8 @@ public class ReportDocumentReader
 			throws EngineException
 	{
 		ArrayList<IBookmarkInfo> results = new ArrayList<IBookmarkInfo>( );
+		
+		loadCoreStreamLazily( );
 		if ( indexReader != null )
 		{
 			try
