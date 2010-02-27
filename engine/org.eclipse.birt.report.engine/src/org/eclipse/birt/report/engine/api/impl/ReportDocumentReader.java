@@ -1051,6 +1051,11 @@ public class ReportDocumentReader
 	public List<IBookmarkInfo> getBookmarkInfos( Locale locale )
 			throws EngineException
 	{
+		if ( !isComplete( ) )
+		{
+			return null;
+		}
+		
 		ArrayList<IBookmarkInfo> results = new ArrayList<IBookmarkInfo>( );
 		
 		loadCoreStreamLazily( );
