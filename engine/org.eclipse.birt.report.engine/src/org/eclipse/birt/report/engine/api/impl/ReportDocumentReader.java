@@ -1055,7 +1055,6 @@ public class ReportDocumentReader
 		{
 			return null;
 		}
-		
 		ArrayList<IBookmarkInfo> results = new ArrayList<IBookmarkInfo>( );
 		
 		loadCoreStreamLazily( );
@@ -1078,7 +1077,7 @@ public class ReportDocumentReader
 							.getElementByID( designId );
 					if ( handle == null )
 						continue;
-					String elementType = handle.getName( );
+					String elementType = handle.getDefn( ).getName( );
 					String displayName = null;
 					if ( handle instanceof ReportItemHandle )
 					{
