@@ -20,7 +20,7 @@ feature@org.eclipse.birt.example=v20100224,:ext:xgu@dev.eclipse.org:/cvsroot/bir
 feature@org.eclipse.birt.chart.runtime=v20100224,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.runtime.feature
 plugin@org.eclipse.birt.chart.runtime=v20091020,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
-feature@org.eclipse.birt.chart=v20100224,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
+feature@org.eclipse.birt.chart=v20100301,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20091020,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
 feature@org.eclipse.birt.report.designer=v20100224,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.feature
