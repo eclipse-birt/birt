@@ -529,6 +529,9 @@
 			</fileset>
 		</copy>
 		
+		<!-- copy BIRT NL plugins -->
+        <ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="prepareSrc" />
+		
   		<antcall target="logger">
 			<param name="message" value="Copyied all source plugins to buildDirectory/plugins/"/>
 		</antcall>
