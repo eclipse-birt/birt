@@ -129,7 +129,7 @@ public class AggregationAccessor extends Accessor
 		
 		Iterator iterator = relationMap.values( ).iterator( );
 		int relationMaxLevelSize = 0;
-		
+		maxRelationship = new Relationship( new ArrayList( ), new ArrayList( ), new ArrayList( ));
 		while( iterator.hasNext( ) )
 		{
 			Relationship relation = (Relationship)iterator.next( );
@@ -154,7 +154,11 @@ public class AggregationAccessor extends Accessor
 		{
 			pageEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getPageEdgeView( ) ).getEdgeCursor( );
 		}
-		DimLevel[] measureLevels = maxAggregationResultSet.getAllLevels( );
+		DimLevel[] measureLevels = new DimLevel[0];
+		if ( maxAggregationResultSet != null )
+		{
+			measureLevels = maxAggregationResultSet.getAllLevels( );
+		}
 		
 		rowLevelIndexs = new int[maxRelationship.getLevelListOnRow( ).size( )];
 		for ( int i = 0; i < rowLevelIndexs.length; i++ )

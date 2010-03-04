@@ -2782,6 +2782,36 @@ public class CubeFeaturesTest extends BaseTestCase
 		engine.shutdown( );
 
 	}
+	
+	/**
+	 * Test cube query without edges.
+	 * In this case, only grand total bindings are allowed
+	 * 
+	 * @throws Exception
+	 */
+	public void testQueryWithoutEdge( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding = new Binding( "grandTotal" );
+		binding.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		cqd.addBinding( binding );
+
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		Object o = cursor.getObject( "grandTotal" );
+		assertEquals( "2146.0", o.toString( ));
+		cursor.close( );
+		
+		engine.shutdown( );
+
+	}
 
 	/**
 	 * Test grand total

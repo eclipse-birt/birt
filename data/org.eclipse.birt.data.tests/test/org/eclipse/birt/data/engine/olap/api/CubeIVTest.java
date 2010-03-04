@@ -190,6 +190,72 @@ public class CubeIVTest extends BaseTestCase
 	}
 	
 	/**
+	 * Test cube query without edges.
+	 * In this case, only grand total bindings are allowed
+	 * 
+	 * @throws Exception
+	 */
+	public void testQueryWithoutEdge( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		
+		cqd.createMeasure( "measure1" );
+		
+		IBinding binding = new Binding( "grandTotal" );
+		binding.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		cqd.addBinding( binding );
+		
+		cqd.setCacheQueryResults( true );
+		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+				null,
+				null,
+				writter );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
+		this.createCube( writter, engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		Object o = cursor.getObject( "grandTotal" );
+		assertEquals( "2146.0", o.toString( ) );
+		cursor.close( );
+		
+		
+		//Load from cache.
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		o = cursor.getObject( "grandTotal" );
+		assertEquals( "2146.0", o.toString( ) );
+		cursor.close( );
+		
+		writter.finish( );
+		engine.shutdown( );
+		
+		
+		//Load from RD
+		FileArchiveReader reader = new FileArchiveReader( documentPath + "testTemp" );
+		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+				null,
+				reader,
+				null ) );
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		o = cursor.getObject( "grandTotal" );
+		assertEquals( "2146.0", o.toString( ) );
+		cursor.close( );
+		
+		engine.shutdown( );
+	}
+	
+	/**
 	 * Test adding nest aggregations cube operation	
 	 * @throws Exception
 	 */
