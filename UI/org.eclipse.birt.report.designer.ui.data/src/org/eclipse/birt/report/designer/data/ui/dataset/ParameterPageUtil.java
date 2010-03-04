@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
  * @author Administrator
  *
  */
-final class ParameterPageUtil
+public final class ParameterPageUtil
 {
 
 	static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
@@ -124,7 +124,7 @@ final class ParameterPageUtil
 		}
 	}
 
-	static String getTypeDisplayName( String typeName )
+	public static String getTypeDisplayName( String typeName )
 	{
 		for ( int i = 0; i < dataTypes.length; i++ )
 		{
@@ -134,7 +134,7 @@ final class ParameterPageUtil
 		return typeName;
 	}
 
-	static String getTypeName( String typeDisplayName )
+	public static String getTypeName( String typeDisplayName )
 	{
 		String name = dataTypes[0].getName( );
 		for ( int i = 0; i < dataTypes.length; i++ )
