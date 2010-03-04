@@ -3039,6 +3039,7 @@ PreviewAction.Text=미리 보기
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=보고서 매개 변수 표시
+PreviewEditor.parameter.hint=Refresh Report
 PreviewEditor.parameter.note=참고:
 PreviewEditor.parameter.info=현재 최대 데이터 행 수는 {0}(으)로 제한됩니다.
 PreviewEditor.parameter.change=미리 보기 기본 설정을 변경하려면 클릭
@@ -3135,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=지정한 폴더가 없습니다.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=리소스 폴더에 라이브러리 배치(&B)...
+PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4226,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    선행 공백이 유지된 문자열
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=라이브러리 게시
-PublishLibraryDialog.TitleArea=라이브러리 게시
-PublishLibraryDialog.Message=리소스 폴더에 라이브러리를 배치합니다.
+PublishLibraryDialog.ShellText=Share Library
+PublishLibraryDialog.TitleArea=Share Library
+PublishLibraryDialog.Message=Copy library to shared resource folder.
 PublishLibraryDialog.Label.SourceFileName=원본 파일(&S):
 PublishLibraryDialog.Label.FileName=파일 이름(&N):
 PublishLibraryDialog.Label.Folder=폴더(&F):

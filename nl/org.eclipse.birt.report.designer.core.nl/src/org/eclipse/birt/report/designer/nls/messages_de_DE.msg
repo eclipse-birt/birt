@@ -3039,6 +3039,7 @@ PreviewAction.Text=Vorschau
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=Berichtparameter anzeigen
+PreviewEditor.parameter.hint=Refresh Report
 PreviewEditor.parameter.note=Hinweis:
 PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit {0}.
 PreviewEditor.parameter.change=Zum Ändern der Vorschaueinstellungen klicken.
@@ -3135,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=Der angegebene Ordner ist nicht vo
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Bi&bliothek in Ressourcenordner aufnehmen...
+PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4226,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    Zeichenfolge mit führendem Lee
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=Bibliothek veröffentlichen
-PublishLibraryDialog.TitleArea=Bibliothek veröffentlichen
-PublishLibraryDialog.Message=Bibliothek in Ressourcenordner aufnehmen.
+PublishLibraryDialog.ShellText=Share Library
+PublishLibraryDialog.TitleArea=Share Library
+PublishLibraryDialog.Message=Copy library to shared resource folder.
 PublishLibraryDialog.Label.SourceFileName=&Quelldatei:
 PublishLibraryDialog.Label.FileName=Datei&name:
 PublishLibraryDialog.Label.Folder=&Ordner:
