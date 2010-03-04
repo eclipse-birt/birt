@@ -29,7 +29,9 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -58,15 +60,16 @@ class QueryExecutionHelper
 	
 	//The major data set handle this QueryExecutionHelper deal with.
 	private DataSetHandle major;
+	private DataRequestSession session;
 	/**
 	 * @param dataEngine
 	 * @param modelAdaptor
 	 * @param moduleHandle
 	 */
 	QueryExecutionHelper( DataEngine dataEngine, IModelAdapter modelAdaptor,
-			DataSessionContext sessionContext )
+			DataSessionContext sessionContext, DataRequestSession session )
 	{
-		this( dataEngine, modelAdaptor, sessionContext, true );
+		this( dataEngine, modelAdaptor, sessionContext, true, session );
 	}
 	
 	/**
@@ -76,12 +79,13 @@ class QueryExecutionHelper
 	 * @param useResultHints
 	 */
 	QueryExecutionHelper( DataEngine dataEngine, IModelAdapter modelAdaptor,
-			DataSessionContext sessionContext, boolean useResultHints )
+			DataSessionContext sessionContext, boolean useResultHints, DataRequestSession session )
 	{
 		this.dataEngine = dataEngine;
 		this.modelAdaptor = modelAdaptor;
 		this.sessionContext = sessionContext;
 		this.useResultHints = useResultHints;
+		this.session = session;
 	}
 
 	/**
@@ -364,6 +368,14 @@ class QueryExecutionHelper
 			}
 		}
 		
+		if ( handle.getDataSourceName( ) != null )
+		{
+			TransientDataMartUtil.prepareDataSet( sessionContext.getAppContext( ),
+					sessionContext.getDataEngineContext( ),
+					( (DataEngineImpl) dataEngine ).getDataSourceDesign( baseDS.getDataSourceName( ) ),
+					baseDS,
+					session );
+		}
 		dataEngine.defineDataSet( baseDS );
 	}
 

@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -66,6 +67,7 @@ public class DataSetMetaDataHelper
 	private DataEngine dataEngine;
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
+	private DataRequestSession session;
 
 	/**
 	 * 
@@ -74,11 +76,12 @@ public class DataSetMetaDataHelper
 	 * @param moduleHandle
 	 */
 	DataSetMetaDataHelper( DataEngine dataEngine, IModelAdapter modelAdaptor,
-			DataSessionContext sessionContext )
+			DataSessionContext sessionContext, DataRequestSession session )
 	{
 		this.dataEngine = dataEngine;
 		this.modelAdaptor = modelAdaptor;
 		this.sessionContext = sessionContext;
+		this.session = session;
 	}
 
 	/**
@@ -158,14 +161,16 @@ public class DataSetMetaDataHelper
 		IResultMetaData metaData = new QueryExecutionHelper( dataEngine,
 				modelAdaptor,
 				sessionContext,
-				false ).executeQuery( query ).getResultMetaData( );
+				false,
+				this.session ).executeQuery( query ).getResultMetaData( );
 		addResultSetColumn( dataSetHandle, metaData );
 		if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
 		{
 			metaData = new QueryExecutionHelper( dataEngine,
 					modelAdaptor,
 					sessionContext,
-					true ).executeQuery( query ).getResultMetaData( );
+					true,
+					this.session ).executeQuery( query ).getResultMetaData( );
 		}
 		return metaData;
 	}

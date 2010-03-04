@@ -200,8 +200,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return new DataSetMetaDataHelper( this.dataEngine,
 				this.modelAdaptor,
-				this.sessionContext ).getDataSetMetaData( dataSetHandle,
-				useCache );
+				this.sessionContext,
+				this ).getDataSetMetaData( dataSetHandle, useCache );
 	}
 
 	/*
@@ -357,7 +357,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return new DataSetMetaDataHelper( this.dataEngine,
 				this.modelAdaptor,
-				this.sessionContext ).refreshMetaData( dataSetHandle );
+				this.sessionContext,
+				this ).refreshMetaData( dataSetHandle );
 	}
 
 	/*
@@ -370,7 +371,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return new DataSetMetaDataHelper( this.dataEngine,
 				this.modelAdaptor,
-				this.sessionContext ).refreshMetaData( dataSetHandle, holdEvent );
+				this.sessionContext,
+				this ).refreshMetaData( dataSetHandle, holdEvent );
 	}
 
 	/*
@@ -383,10 +385,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return new QueryExecutionHelper( this.dataEngine,
 				this.modelAdaptor,
-				this.sessionContext ).executeQuery( queryDefn,
+				this.sessionContext,
+				this ).executeQuery( queryDefn,
 				paramBindingIt,
 				filterIt,
-				bindingIt, this.sessionContext.getTopScope() );
+				bindingIt,
+				this.sessionContext.getTopScope( ) );
 	}
 
 	/*
@@ -504,7 +508,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		QueryExecutionHelper execHelper = new QueryExecutionHelper( this.dataEngine,
 				this.modelAdaptor,
-				this.sessionContext );
+				this.sessionContext,
+				this );
 		IQueryResults results = execHelper.executeQuery( query,
 				inputParamBindings,
 				null,
