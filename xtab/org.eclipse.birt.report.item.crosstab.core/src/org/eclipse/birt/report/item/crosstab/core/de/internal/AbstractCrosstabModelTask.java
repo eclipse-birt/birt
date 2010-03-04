@@ -1291,15 +1291,8 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				dataItem.setResultSetColumn( columnHandle.getName( ) );
 			}
 
-			// copy action to dataHandle
-			ActionHandle actionHandle = measureView.getCubeMeasure( ).getActionHandle( );
-			if ( actionHandle != null )
-			{
-				List source = new ArrayList( );
-				source.add( actionHandle.getStructure( ) );
-				List newAction = ModelUtil.cloneStructList( source );
-				dataItem.setAction( (Action) newAction.get( 0 ) );
-			}
+			CrosstabModelUtil.notifyValidate( ICrosstabModelListener.MEASURE_DETAIL,
+					detailCell );
 		}
 	}
 
