@@ -9,11 +9,14 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.engine.api;
+package org.eclipse.birt.report.model.api.util;
 
 public interface IBookmarkInfo
-		extends
-			org.eclipse.birt.report.model.api.util.IBookmarkInfo
 {
 
+	String getBookmark( );
+
+	String getDisplayName( );
+
+	String getElementType( );
 }
