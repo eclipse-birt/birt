@@ -43,6 +43,12 @@ public class JdbcMetaDataProvider
 	
 	private static JdbcMetaDataProvider instance = null;
 	
+	private Thread schemaPullThread = null;
+	private Thread monitorThread = null;
+	private ResultSet schemaResultSet = null;
+	private long timeOutTime;
+	private List<String> schemaNameList = new ArrayList<String>( );
+
 	private JdbcMetaDataProvider(String driverClass, String url, String userName, String password )
 	{
 		this.driverClass = driverClass;
@@ -494,10 +500,67 @@ public class JdbcMetaDataProvider
 		}
 	}
 	
+	public String[] getAllSchemaNames( long timeOutSeconds )
+	{
+		this.timeOutTime = timeOutSeconds;
+		schemaPullThread = new Thread( ) {
+
+			public void run( )
+			{
+				schemaResultSet = getAllSchemas( );
+				if ( schemaResultSet != null )
+				{
+					try
+					{
+						while ( schemaResultSet.next( ) )
+						{
+							schemaNameList.add( schemaResultSet.getString( "TABLE_SCHEM" ) );
+						}
+					}
+					catch ( SQLException e )
+					{
+						logger.log( Level.WARNING, e.getMessage( ), e );
+					}
+				}
+			}
+		};
+
+		monitorThread = new Thread( ) {
+
+			public void run( )
+			{
+				try
+				{
+					Thread.sleep( timeOutTime );
+				}
+				catch ( Exception ex )
+				{
+
+				}
+			}
+		};
+
+		monitorThread.start( );
+		schemaPullThread.start( );
+
+		if ( !( schemaPullThread.getState( ) == Thread.State.TERMINATED ) )
+		{
+			while ( true )
+			{
+				if ( schemaPullThread.getState( ) == Thread.State.TERMINATED )
+					break;
+				else if ( monitorThread.getState( ) == Thread.State.TERMINATED )
+					break;
+			}
+		}
+		return schemaNameList.toArray( new String[0] );
+	}
+	
 	public String[] getAllSchemaNames( )
 	{
-		ResultSet rs = this.getAllSchemas( );
+		ResultSet rs = getAllSchemas( );
 		List<String> names = new ArrayList<String>( );
+
 		if ( rs != null )
 		{
 			try
@@ -512,6 +575,8 @@ public class JdbcMetaDataProvider
 				logger.log( Level.WARNING, e.getMessage( ), e );
 			}
 		}
+
 		return names.toArray( new String[0] );
+
 	}
 }
