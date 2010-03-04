@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
@@ -102,8 +103,6 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			prePage.doSave( null );
 		}
 
-		enableParameterControl( hasParameters( ) );
-
 		boolean ret = refresh( );
 		if ( ret == false && isMissingParameter( ) )
 		{
@@ -130,11 +129,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 
 		boolean isDisplay = false;
-		
+
 		showProgress( );
 
-		// if miss parameter, pop up parameter dialog
-		if ( isMissingParameter( ) )
+		if ( hasParameters( ) )
 		{
 			if ( parameterDialog != null )
 			{
@@ -630,7 +628,19 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 		List parameters = model.getFlattenParameters( );
 
-		return parameters != null && parameters.size( ) > 0;
+		if ( parameters != null )
+		{
+			for ( Object p : parameters )
+			{
+				if ( p instanceof ParameterHandle
+						&& !( (ParameterHandle) p ).isHidden( ) )
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -648,7 +658,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 
 		boolean missingParameter = false;
-		
+
 		ModuleHandle model = getModel( );
 
 		Map<String, ?> params = this.getConfigVars( );
@@ -768,8 +778,12 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		super.finalize( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.IAdvanceReportEditorPage#isSensitivePartChange()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.IAdvanceReportEditorPage
+	 * #isSensitivePartChange()
 	 */
 	public boolean isSensitivePartChange( )
 	{
