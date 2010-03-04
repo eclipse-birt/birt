@@ -616,12 +616,14 @@ public class ChartExpressionButtonUtil
 					&& expression.length( ) > 0 )
 			{
 				ComboProxy cp = ComboProxy.getInstance( control );
-				if ( cp != null && !cp.contains( expression ) )
-				{
-					IExpressionDescriptor desc = ExpressionDescriptor.getInstance( expression,
-							getExpressionType( ) );
-					addComboItem( cp, desc );
-				}
+				
+				// if ( cp != null && !cp.contains( expression ) )
+				// {
+				// IExpressionDescriptor desc =
+				// ExpressionDescriptor.getInstance( expression,
+				// getExpressionType( ) );
+				// addComboItem( cp, desc );
+				// }
 
 				if ( cp.getData( expression ) instanceof IExpressionDescriptor )
 				{
