@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType;
+import org.eclipse.birt.chart.ui.swt.wizard.preview.ChartLivePreviewThread;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.framework.PlatformConfig;
@@ -72,7 +73,7 @@ public class ChartWizardLauncher implements ChartUIConstants
 		}
 		catch ( Exception e )
 		{
-			WizardBase.displayException( e );
+			// WizardBase.displayException( e );
 		}
 		finally
 		{
@@ -127,6 +128,10 @@ public class ChartWizardLauncher implements ChartUIConstants
 			}
 
 		} );
+
+		ChartLivePreviewThread livePreviewThread = new ChartLivePreviewThread( dataProvider );
+		livePreviewThread.start( );
+		context.setLivePreviewThread( livePreviewThread );
 
 		// Opens the wizard
 		ChartWizardContext contextResult = (ChartWizardContext) chartWizard.open( context );
