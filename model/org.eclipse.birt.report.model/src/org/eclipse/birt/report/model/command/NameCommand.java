@@ -33,6 +33,9 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
+import org.eclipse.birt.report.model.elements.strategy.TabularDimensionPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -87,6 +90,13 @@ public class NameCommand extends AbstractElementCommand
 		String oldName = element.getName( );
 		if ( ( name == null && oldName == null )
 				|| ( name != null && oldName != null && name.equals( oldName ) ) )
+			return;
+
+		// ignore change to the dimension that refers a shared dimension
+		Dimension sharedDimension = TabularDimensionPropSearchStrategy
+				.getSharedDimension( module, element );
+		if ( sharedDimension != null
+				&& !sharedDimension.getName( ).equals( name ) )
 			return;
 
 		checkName( name );
@@ -341,5 +351,55 @@ public class NameCommand extends AbstractElementCommand
 		}
 
 		return true;
+	}
+
+	public void checkDimension( ) throws SemanticException
+	{
+		if ( element instanceof TabularDimension )
+		{
+			Dimension sharedDimension = TabularDimensionPropSearchStrategy
+					.getSharedDimension( module, element );
+			if ( sharedDimension != null )
+			{
+				String name = (String) element.getLocalProperty( module,
+						IDesignElementModel.NAME_PROP );
+				String sharedName = sharedDimension.getName( );
+
+				if ( !sharedName.equals( name ) )
+				{
+					NameExecutor nameExecutor = new NameExecutor( element );
+					INameHelper nameHelper = nameExecutor
+							.getNameHelper( module );
+					assert nameHelper != null;
+					int ns = ( (ElementDefn) element.getDefn( ) )
+							.getNameSpaceID( );
+					DesignElement existedElement = nameHelper.getNameSpace( ns )
+							.getElement( name );
+					if ( existedElement == null )
+					{
+						// the name is not put in name space, then simply rename
+						// it to the name of the shared element
+						setName( sharedName );
+					}
+					else
+					{
+						if ( existedElement == element )
+						{
+							// remove it from the name space and then rename it
+							getActivityStack( ).execute(
+									new NameSpaceRecord( nameHelper, ns,
+											element, false ) );
+							setName( sharedName );
+						}
+						else
+						{
+							// do nothing and simply rename it to the name of
+							// the shared element
+							setName( sharedName );
+						}
+					}
+				}
+			}
+		}
 	}
 }

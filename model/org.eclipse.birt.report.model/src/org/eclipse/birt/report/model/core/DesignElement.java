@@ -56,6 +56,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
+import org.eclipse.birt.report.model.elements.strategy.TabularDimensionPropSearchStrategy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -1579,33 +1580,24 @@ public abstract class DesignElement
 	 *             If the property is undefined.
 	 * @throws PropertyValueException
 	 *             If the value is incorrect.
-	 *//*
-
-	public Object validatePropertyValue( Module module, String propName,
-			Object value ) throws PropertyNameException, PropertyValueException
-	{
-		// If we can't find the property, then the property name
-		// must be invalid.
-
-		ElementPropertyDefn prop = getPropertyDefn( propName );
-		if ( prop == null )
-			throw new PropertyNameException( this, propName );
-
-		// Validate the property value.
-
-		try
-		{
-			return prop.validateValue( module, this, value );
-		}
-		catch ( PropertyValueException e )
-		{
-			// Fill in the context information for the exception.
-
-			e.setElement( this );
-			e.setPropertyName( propName );
-			throw e;
-		}
-	}*/
+	 */
+	/*
+	 * 
+	 * public Object validatePropertyValue( Module module, String propName,
+	 * Object value ) throws PropertyNameException, PropertyValueException { //
+	 * If we can't find the property, then the property name // must be invalid.
+	 * 
+	 * ElementPropertyDefn prop = getPropertyDefn( propName ); if ( prop == null
+	 * ) throw new PropertyNameException( this, propName );
+	 * 
+	 * // Validate the property value.
+	 * 
+	 * try { return prop.validateValue( module, this, value ); } catch (
+	 * PropertyValueException e ) { // Fill in the context information for the
+	 * exception.
+	 * 
+	 * e.setElement( this ); e.setPropertyName( propName ); throw e; } }
+	 */
 
 	/**
 	 * Returns the shared style referenced by this element. This method will try
@@ -3128,6 +3120,11 @@ public abstract class DesignElement
 		if ( getContainerInfo( ) == null )
 			return false;
 
+		// if dimension refers a shared dimension, not managed by name space
+		if ( TabularDimensionPropSearchStrategy.getSharedDimension( getRoot( ),
+				this ) != null )
+			return false;
+
 		return getContainerInfo( ).isManagedByNameSpace( );
 	}
 
@@ -3775,7 +3772,6 @@ public abstract class DesignElement
 		return null;
 	}
 
-	
 	public boolean canDynamicExtends( )
 	{
 		return false;

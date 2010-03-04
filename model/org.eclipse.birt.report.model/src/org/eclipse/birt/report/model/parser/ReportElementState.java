@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -566,6 +567,14 @@ public abstract class ReportElementState extends DesignParseState
 							NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			return;
 
+		}
+
+		// not add tabular dimension into namespace until the 'internalRef'
+		// is parsed; handle the name in state end()
+		if ( content instanceof TabularDimension
+				&& !( container instanceof Module ) )
+		{
+			return;
 		}
 
 		int id = contentDefn.getNameSpaceID( );

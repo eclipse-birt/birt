@@ -213,16 +213,6 @@
          <style
                name="crosstab-column-header">
          </style>
-         <property
-               canInherit="true"
-               isEncryptable="false"
-               isList="false"
-               name="header"
-               type="element">
-            <elementType
-                  name="CrosstabCell">
-            </elementType>
-         </property>
          <!--method
                context="presentation"
                displayNameID="Method.onPageBreak"

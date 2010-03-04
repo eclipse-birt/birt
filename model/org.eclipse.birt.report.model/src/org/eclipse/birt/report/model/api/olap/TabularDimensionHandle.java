@@ -77,8 +77,7 @@ public class TabularDimensionHandle extends DimensionHandle
 			setStringProperty( INTERNAL_DIMENSION_RFF_TYPE_PROP, null );
 		else
 		{
-			setStringProperty( INTERNAL_DIMENSION_RFF_TYPE_PROP, handle
-					.getName( ) );
+			setProperty( INTERNAL_DIMENSION_RFF_TYPE_PROP, handle );
 		}
 	}
 

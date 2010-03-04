@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
@@ -70,10 +71,23 @@ public abstract class CubeHandle extends ReportElementHandle
 			return null;
 		if ( !getElement( ).canDynamicExtends( ) )
 		{
-			DesignElement dimension = module.findDimension( dimensionName );
-			if ( dimension instanceof Dimension
-					&& dimension.isContentOf( getElement( ) ) )
+			Dimension dimension = module.findDimension( dimensionName );
+			if ( dimension.isContentOf( getElement( ) ) )
 				return (DimensionHandle) dimension.getHandle( module );
+			else
+			{
+				// check the client to find the children of the cube
+				List<BackRef> clients = dimension.getClientList( );
+				if ( clients != null )
+				{
+					for ( BackRef ref : clients )
+					{
+						DesignElement client = ref.getElement( );
+						if (	client.isContentOf( getElement( ) ))
+							return (DimensionHandle) client.getHandle( module );
+					}
+				}
+			}
 		}
 		else if ( getElement( ).getDynamicExtends( getModule( ) ) != null )
 		{

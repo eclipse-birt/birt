@@ -12,10 +12,14 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
+import org.eclipse.birt.report.model.elements.strategy.TabularDimensionPropSearchStrategy;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses a Dimension element within a cube.
@@ -59,7 +63,7 @@ public class TabularDimensionState extends ReportElementState
 
 	public TabularDimensionState( ModuleParserHandler handler, int slot )
 	{
-		super( handler, handler.getModule( ), slot);
+		super( handler, handler.getModule( ), slot );
 	}
 
 	/*
@@ -76,7 +80,9 @@ public class TabularDimensionState extends ReportElementState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -84,4 +90,39 @@ public class TabularDimensionState extends ReportElementState
 		element = new TabularDimension( );
 		initElement( attrs, true );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.ReportElementState#end()
+	 */
+	public void end( ) throws SAXException
+	{
+
+		super.end( );
+
+		// if shared dimension is not null, then remove the element from name
+		// space
+		NameSpace ns = handler.module.getNameHelper( ).getNameSpace(
+				Module.DIMENSION_NAME_SPACE );
+		DesignElement foundElement = ns.getElement( element.getName( ) );
+
+		if ( element.isManagedByNameSpace( ) )
+		{
+			if ( container instanceof Module )
+				assert foundElement == element;
+			else
+			{
+				assert foundElement == null;
+				ns.insert( element );
+			}
+		}
+		else
+		{
+			assert foundElement == null
+					|| foundElement == TabularDimensionPropSearchStrategy
+							.getSharedDimension( handler.module, element );
+		}
+	}
+
 }
