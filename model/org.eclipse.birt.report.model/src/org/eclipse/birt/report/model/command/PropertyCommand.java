@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
@@ -70,6 +71,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.OdaLevel;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.olap.TabularLevel;
 import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
@@ -247,7 +249,10 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( struct.getContext( ) != null )
 				value = struct.copy( );
 		}
-
+		if ( prop.getName( ).equalsIgnoreCase(
+				ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP ) )
+			checkSharedDimensionReference( prop, value );
+		Object inputValue = value;
 		value = validateValue( prop, value );
 
 		if ( value instanceof ElementRefValue
@@ -255,7 +260,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		{
 			checkRecursiveElementReference( prop, (ElementRefValue) value );
 			checkDataBindingReference( prop, (ElementRefValue) value );
-			checkSharedDimensionReference( prop, (ElementRefValue) value );
+			if ( inputValue instanceof String )
+				checkSharedDimensionReference( prop, (ElementRefValue) value );
 		}
 
 		if ( element instanceof GroupElement
@@ -604,6 +610,24 @@ public class PropertyCommand extends AbstractPropertyCommand
 				handleBackgroundSize( stack, tmpPropName, value );
 
 		}
+
+		// if the dimension refers a shared dimension, then handle the name
+		if ( element instanceof TabularDimension
+				&& ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP
+						.equals( propName ) )
+		{
+			try
+			{
+				NameCommand command = new NameCommand( module, element );
+				command.checkDimension( );
+			}
+			catch ( SemanticException e )
+			{
+				stack.rollback( );
+				throw e;
+			}
+		}
+
 		stack.commit( );
 	}
 
@@ -1093,28 +1117,51 @@ public class PropertyCommand extends AbstractPropertyCommand
 	 * 
 	 * @param propDefn
 	 *            the property/member definition
-	 * @param the
+	 * @param value
 	 *            element reference value
 	 * @throws SemanticException
 	 */
 
 	private void checkSharedDimensionReference( PropertyDefn propDefn,
-			ElementRefValue refValue ) throws SemanticException
+			Object value ) throws SemanticException
 	{
 		if ( !ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP
 				.equalsIgnoreCase( propDefn.getName( ) ) )
 			return;
 
-		if ( !refValue.isResolved( ) )
-			return;
-
-		DesignElement tmpElement = refValue.getElement( );
-		if ( !( tmpElement.getContainer( ) instanceof Module ) )
+		if ( value instanceof DesignElementHandle )
 		{
-			throw new SemanticError( element, new String[]{element.getName( ),
-					refValue.getName( )},
-					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
+			DesignElementHandle handle = (DesignElementHandle) value;
+			if ( !( handle.getContainer( ) instanceof ModuleHandle ) )
+			{
+				throw new SemanticError( element, new String[]{
+						element.getName( ), handle.getName( )},
+						SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
+			}
 		}
+		else if ( value instanceof DesignElement )
+		{
+			DesignElement refElement = (DesignElement) value;
+			if ( !( refElement.getContainer( ) instanceof Module ) )
+			{
+				throw new SemanticError( element, new String[]{
+						element.getName( ), refElement.getName( )},
+						SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
+			}
+		}
+		else if ( value instanceof ElementRefValue )
+		{
+			ElementRefValue refValue = (ElementRefValue) value;
+			if ( refValue.isResolved( )
+					&& !( refValue.getElement( ).getContainer( ) instanceof Module ) )
+			{
+				throw new SemanticError( element, new String[]{
+						element.getName( ), refValue.getName( )},
+						SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
+			}
+
+		}
+
 	}
 
 	/**
