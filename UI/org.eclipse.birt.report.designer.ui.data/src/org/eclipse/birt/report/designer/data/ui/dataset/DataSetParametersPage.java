@@ -142,7 +142,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		isOdaDataSetHandle = ParameterPageUtil.isOdaDataSetHandle( dataSetHandle );
 		isJointOrDerivedDataSetHandle = ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle );
 	
-		viewer = new PropertyHandleTableViewer( parent, true, true, true,!isJointOrDerivedDataSetHandle );
+		viewer = new PropertyHandleTableViewer( parent,
+				!isJointOrDerivedDataSetHandle,
+				true,
+				true,
+				!isJointOrDerivedDataSetHandle );
 		createTableColumns( );
 
 		setContentProvider( );		
