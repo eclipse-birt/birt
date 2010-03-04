@@ -35,6 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=La mesure ne prend pas en ch
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Avertissement
 ###########################################################
 #Cube Builder Dialog properties
+CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, please check the "Auto primary key" button on the dataset selection page to complete the cube.
+CubeBuilder.AutoPrimaryKeyDialog.Title=Auto primary key problem
 CubeBuilder.SharedDimensionErrorLinkDialog.Message=Toutes les clés principales des dimensions partagées doivent être liées
 CubeBuilder.SharedDimensionErrorLinkDialog.Title=Erreur de liaison des dimensions partagées
 CubeBuilder.Title=Générateur de cube de tableau croisé
@@ -72,6 +74,7 @@ SimpleCubeBuilder.Title.Title=Générateur de cube de tableau croisé
 SimpleCubeBuilder.Title.Message=Organisez vos données du tableau croisé en précisant les hiérarchies de groupes et les champs de données de récapitulation. 
 SimpleCubeBuilder.Title=Générateur de cube de tableau croisé
 SimpleCubeBuilder.Label.Name=Nom :
+DatasetSelectionPage.Button.Auto.Primary.Key=Auto &primary key
 DatasetSelectionPage.Combo.NewDataSet0=<Nouveau jeu de données>
 GroupsPage.Button.Add=&Ajouter
 GroupsPage.Button.Edit=&Modifier
