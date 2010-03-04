@@ -46,7 +46,6 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 
 	private IFacttableRow facttableRow = null; 
 	
-	private int[] positions = null;
 
 	public DataSetFromOriginalCube( IFactTableRowIterator factTableRowIterator,
 			IDimensionResultIterator[] dimensionResultIterators,
@@ -56,8 +55,7 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 		this.factTableRowIterator = factTableRowIterator;
 		this.computedMeasureHelper = computedMeasureHelper;
 		this.facttableRow = new FacttableRowForComputedMeasure( );
-		this.positions = new int[dimensionResultIterators.length];
-		Arrays.fill( positions, 0 );
+
 	}
 
 	public MetaInfo getMetaInfo( )
@@ -284,33 +282,11 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 	private Member getLevelObject( int dimIndex, int levelIndex,
 			int dimensionPosition ) throws BirtException, IOException
 	{
-		while ( true )
-		{
-			dimensionResultIterators[dimIndex].seek( positions[dimIndex] );
-			int curDimPosition = dimensionResultIterators[dimIndex].getDimesionPosition( );
-			if ( curDimPosition > dimensionPosition )
-			{
-				positions[dimIndex]--;
-				if ( positions[dimIndex] < 0 )
-				{
-					positions[dimIndex] = 0;
-					return null;
-				}
-			}
-			else if ( curDimPosition < dimensionPosition )
-			{
-				positions[dimIndex]++;
-				if ( positions[dimIndex] >= dimensionResultIterators[dimIndex].length( ) )
-				{
-					positions[dimIndex]--;
-					return null;
-				}
-			}
-			else
-			{
-				return dimensionResultIterators[dimIndex].getLevelMember( levelIndex );
-			}
-		}
+		if( dimensionResultIterators[dimIndex].locate( dimensionPosition ) )
+			return dimensionResultIterators[dimIndex].getLevelMember( levelIndex );
+		else
+			return null;
+		
 	}
 	
 	public class FacttableRowForComputedMeasure implements IFacttableRow

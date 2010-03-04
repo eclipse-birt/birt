@@ -12,10 +12,12 @@
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionFilterDefn;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
@@ -39,6 +41,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	private int currentPosition;
 	private ILevel[] levels;
 	private static Logger logger = Logger.getLogger( DimensionResultIterator.class.getName( ) );
+	private int[] memoryDimensionPosition;
 	
 	public DimensionResultIterator( Dimension dimension,
 			IDiskArray dimensionPosition, StopSign stopSign )
@@ -67,6 +70,14 @@ public class DimensionResultIterator implements IDimensionResultIterator
 				dimensionPosition = dimension.findAll( );
 			}
 			dimensionRows = dimension.getDimensionRowByPositions( dimensionPosition, new StopSign( ) );
+			if( dimension.length( ) < Constants.MAX_DIMENSION_LENGTH )
+			{
+				memoryDimensionPosition = new int[dimensionPosition.size( )];
+				for( int i = 0; i < dimensionPosition.size( ); i++ )
+				{
+					memoryDimensionPosition[i] = (Integer)dimensionPosition.get( i );
+				}
+			}
 		}
 	}
 	
@@ -300,5 +311,55 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	{
 		initDimensionRows( );
 		return (DimensionRow)dimensionRows.get( currentPosition );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator#locate(int)
+	 */
+	public boolean locate( int dimPosition ) throws BirtException, IOException
+	{
+		int curDimPosition = getDimesionPosition( );
+		if ( curDimPosition == dimPosition )
+			return true;
+		
+		if( memoryDimensionPosition != null )
+		{
+			int pos = Arrays.binarySearch( memoryDimensionPosition, dimPosition );
+			if( pos < 0 )
+				return false;
+			else
+			{
+				seek( pos );
+				return true;
+			}
+		}
+		else
+		{
+			while ( true )
+			{
+				curDimPosition = getDimesionPosition( );
+				if ( curDimPosition > dimPosition )
+				{
+					if ( currentPosition - 1 < 0 )
+					{
+						return false;
+					}
+					seek( currentPosition - 1 );
+				}
+				else if ( curDimPosition < dimPosition )
+				{
+					if ( currentPosition + 1 >= length( ) )
+					{
+						return false;
+					}
+					seek( currentPosition + 1 );
+				}
+				else
+				{
+					return true;
+				}
+			}
+		}
 	}
 }
