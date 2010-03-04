@@ -245,15 +245,18 @@ public class Ext2FileSystem
 			throw new IOException( "file is opened as read only" );
 		}
 
-		ensureFileOpened( );
-		// flush all the cached data into disk
-		writeProperties( );
-		entryTable.write( );
-		nodeTable.write( );
-		freeTable.write( );
-		nodeTable.write( NodeTable.INODE_FREE_TABLE );
-		cacheManager.touchAllCaches( new Ext2FileSystemCacheListener( ) );
-		writeHeader( );
+		if ( !removeOnExit )
+		{
+			ensureFileOpened( );
+			// flush all the cached data into disk
+			writeProperties( );
+			entryTable.write( );
+			nodeTable.write( );
+			freeTable.write( );
+			nodeTable.write( NodeTable.INODE_FREE_TABLE );
+			cacheManager.touchAllCaches( new Ext2FileSystemCacheListener( ) );
+			writeHeader( );
+		}
 	}
 
 	public void refresh( ) throws IOException
