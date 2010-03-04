@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -804,7 +805,7 @@ public class ChartExpressionUtil
 
 	}
 
-	public static class ExpressionSet extends HashSet<String>
+	public static class ExpressionSet extends LinkedHashSet<String>
 	{
 
 		/**
