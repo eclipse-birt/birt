@@ -917,8 +917,16 @@ public abstract class AbstractEmitterImpl
 					int offset = ch.getOffset( );
 					int length = ch.getLength( );
 					fontFamily = getFontFamily( computedStyle, ch );
-					wordWriter.writeContent( type, txt.substring( offset,
-							offset + length ), computedStyle, inlineStyle,
+					String string = null;
+					if ( ch == Chunk.HARD_LINE_BREAK)
+					{
+						string = ch.getText();
+					}
+					else
+					{
+						string = txt.substring(offset, offset + length);
+					}
+					wordWriter.writeContent( type, string, computedStyle, inlineStyle,
 							fontFamily, hyper, inlineFlag, textFlag,
 							paragraphWidth );
 					textFlag = fontSplitter.hasMore( )
