@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIP
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ExtendedResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -42,6 +43,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceSynchron
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ExpressionType;
@@ -631,11 +633,20 @@ public class ReportPlugin extends AbstractUIPlugin
 		store.setDefault( DESCRIPTION_PREFERENCE, bufferPreference.toString( ) );
 
 		initFilterMap( store, ResourceFilter.generateCVSFilter( ) );
-		initFilterMap( store, ResourceFilter.generateDataResourceFilter( ) );
 		initFilterMap( store, ResourceFilter.generateDotResourceFilter( ) );
 		initFilterMap( store, ResourceFilter.generateEmptyFolderFilter( ) );
-		// initFilterMap( store,
-		// ResourceFilter.generateNoResourceInFolderFilter( ) );
+
+		Object[] filters = ElementAdapterManager.getAdapters( store,
+				ExtendedResourceFilter.class );
+
+		if ( filters != null )
+		{
+			for ( int i = 0; i < filters.length; i++ )
+			{
+				if ( filters[i] instanceof ExtendedResourceFilter )
+					initFilterMap( store, (ExtendedResourceFilter) filters[i] );
+			}
+		}
 	}
 
 	/**

@@ -7,11 +7,11 @@ public class ResourceFilter
 {
 
 	public static final String FILTER_CVS_RESOURCES = "cvs";//$NON-NLS-1$
-	public static final String FILTER_DATA_RESOURCES = "data";//$NON-NLS-1$
+
 	public static final String FILTER_DOT_RESOURCES = ".";//$NON-NLS-1$
 	public static final String FILTER_EMPTY_FOLDERS = "empty_folder";//$NON-NLS-1$
 	//public static final String FILTER_FOLDERS_WITHOUTRESOURCE = "folders_withoutresource";//$NON-NLS-1$
-	
+
 	private String type = ""; //$NON-NLS-1$
 	private String displayName = ""; //$NON-NLS-1$
 	private boolean isEnabled;
@@ -85,24 +85,14 @@ public class ResourceFilter
 				false,
 				Messages.getString( "ResourceFilter.Description.EmptyFolder" ) );//$NON-NLS-1$
 	}
-	
-	public static ResourceFilter generateDataResourceFilter( )
-	{
-		return new ResourceFilter( ResourceFilter.FILTER_DATA_RESOURCES,
-				Messages.getString( "ResourceFilter.DisplayName.Data" ),//$NON-NLS-1$
-				true,
-				Messages.getString( "ResourceFilter.Description.Data" ) );//$NON-NLS-1$
-	}
 
 	/*
-	public static ResourceFilter generateNoResourceInFolderFilter( )
-	{
-		return new ResourceFilter( ResourceFilter.FILTER_FOLDERS_WITHOUTRESOURCE,
-				"Folders without any needed resources",
-				false,
-				"Hides folders that they and their subfolders don't contain any needed resources" );
-	}
-	*/
+	 * public static ResourceFilter generateNoResourceInFolderFilter( ) { return
+	 * new ResourceFilter( ResourceFilter.FILTER_FOLDERS_WITHOUTRESOURCE,
+	 * "Folders without any needed resources", false,
+	 * "Hides folders that they and their subfolders don't contain any needed resources"
+	 * ); }
+	 */
 
 	public String getDescription( )
 	{
