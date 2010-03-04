@@ -107,7 +107,7 @@ public class DefaultChartDataSheet implements IChartDataSheet
 
 	public List<String> getAllValueDefinitions( )
 	{
-		return null;
+		return new ArrayList<String>( 2 );
 	}
 
 }

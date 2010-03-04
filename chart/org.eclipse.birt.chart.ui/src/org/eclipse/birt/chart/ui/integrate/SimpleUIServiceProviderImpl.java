@@ -20,12 +20,17 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
+import org.eclipse.birt.chart.ui.swt.interfaces.IAssistField;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil.EAttributeAccessor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -166,6 +171,84 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 	public Object invoke( Command command, Object... inData )
 			throws ChartException
 	{
-		return null;
+
+		Object outData = null;
+		switch ( command )
+		{
+			case EXPRESS_BUTTON_CREATE :
+				final Control control = (Control) inData[1];
+				IExpressionButton ceb = new IExpressionButton( ) {
+
+					public void setExpression( String expr )
+					{
+						ChartUIUtil.setText( control, expr );
+					}
+
+					public void setEnabled( boolean bEnabled )
+					{
+						control.setEnabled( bEnabled );
+					}
+
+					public boolean isEnabled( )
+					{
+						return control.isEnabled( );
+					}
+
+					public String getExpression( )
+					{
+						return ChartUIUtil.getText( control );
+					}
+
+					public String getDisplayExpression( )
+					{
+						return getExpression( );
+					}
+
+					public void addListener( Listener listener )
+					{
+						// not implemented
+					}
+
+					public void setAccessor( EAttributeAccessor<String> accessor )
+					{
+						// not implemented
+					}
+
+					public String getExpressionType( )
+					{
+						return null;
+					}
+
+					public boolean isCube( )
+					{
+						return false;
+					}
+
+					public void setBindingName( String bindingName,
+							boolean bNotifyEvents )
+					{
+						// not implemented
+					}
+
+					public void setExpression( String expr,
+							boolean bNotifyEvents )
+					{
+						// not implemented
+					}
+
+					public void setAssitField( IAssistField assistField )
+					{
+						// not implemented
+					}
+
+					public void setPredefinedQuery( Object[] predefinedQuery )
+					{
+						// not implemented
+					}
+				};
+				outData = ceb;
+				break;
+		}
+		return outData;
 	}
 }

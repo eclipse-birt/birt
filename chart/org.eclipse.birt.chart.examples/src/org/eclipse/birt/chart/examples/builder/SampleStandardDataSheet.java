@@ -14,7 +14,10 @@ package org.eclipse.birt.chart.examples.builder;
 import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
+import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -70,5 +73,10 @@ public class SampleStandardDataSheet extends DefaultChartDataSheet
 	private DefaultDataServiceProviderImpl getDataServiceProvider( )
 	{
 		return (DefaultDataServiceProviderImpl) dataProvider;
+	}
+
+	public ISelectDataCustomizeUI createCustomizeUI( ITask task )
+	{
+		return new SelectDataDynamicArea( task );
 	}
 }
