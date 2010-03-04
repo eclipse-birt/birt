@@ -188,9 +188,9 @@ public abstract class NotificationEvent
 	public static final int VIEWS_CONTENT_EVENT = 24;
 
 	/**
-	 * The event type of event that the data mart is reloaded.
+	 * The event type of event that the data design is reloaded.
 	 */
-	public static final int DATA_MART_RELOADED_EVENT = 25;
+	public static final int DATA_DESIGN_RELOADED_EVENT = 25;
 
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
