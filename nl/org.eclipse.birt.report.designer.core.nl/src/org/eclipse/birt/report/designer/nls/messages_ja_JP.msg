@@ -3039,6 +3039,7 @@ PreviewAction.Text=プレビュー
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=レポートパラメタの表示
+PreviewEditor.parameter.hint=Refresh Report
 PreviewEditor.parameter.note=注 :
 PreviewEditor.parameter.info=データ行は現在 {0} に制限されています。
 PreviewEditor.parameter.change=プレビューの環境設定を変更するにはここをクリック
@@ -3135,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=指定されたフォルダが存在しません。
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=ライブラリをリソースフォルダに保存(&B)...
+PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4226,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    先頭にスペースが入っている文字
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=ライブラリの公開
-PublishLibraryDialog.TitleArea=ライブラリの公開
-PublishLibraryDialog.Message=ライブラリをリソースフォルダに配置します。
+PublishLibraryDialog.ShellText=Share Library
+PublishLibraryDialog.TitleArea=Share Library
+PublishLibraryDialog.Message=Copy library to shared resource folder.
 PublishLibraryDialog.Label.SourceFileName=ソースファイル(&S) :
 PublishLibraryDialog.Label.FileName=ファイル名(&N) :
 PublishLibraryDialog.Label.Folder=フォルダ(&F) :

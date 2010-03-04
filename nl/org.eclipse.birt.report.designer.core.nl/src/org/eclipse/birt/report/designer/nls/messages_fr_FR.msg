@@ -3039,6 +3039,7 @@ PreviewAction.Text=Aperçu
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=Afficher les paramètres de l'état
+PreviewEditor.parameter.hint=Refresh Report
 PreviewEditor.parameter.note=Remarque :
 PreviewEditor.parameter.info=Le nombre de lignes de données maximum actuel est de {0}.
 PreviewEditor.parameter.change=Cliquer pour modifier les préférences d'aperçu
@@ -3135,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=Le dossier spécifié n'existe pas.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Placer la &bibliothèque dans le dossier de ressources...
+PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4226,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    chaîne contenant un interligna
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=Publier la bibliothèque
-PublishLibraryDialog.TitleArea=Publier la bibliothèque
-PublishLibraryDialog.Message=Placer la bibliothèque dans le dossier de ressources.
+PublishLibraryDialog.ShellText=Share Library
+PublishLibraryDialog.TitleArea=Share Library
+PublishLibraryDialog.Message=Copy library to shared resource folder.
 PublishLibraryDialog.Label.SourceFileName=&Fichier source :
 PublishLibraryDialog.Label.FileName=&Nom de fichier :
 PublishLibraryDialog.Label.Folder=&Dossier :

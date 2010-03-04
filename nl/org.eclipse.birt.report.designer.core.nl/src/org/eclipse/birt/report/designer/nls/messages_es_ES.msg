@@ -3039,6 +3039,7 @@ PreviewAction.Text=Vista previa
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=Mostrar parámetros de informe
+PreviewEditor.parameter.hint=Refresh Report
 PreviewEditor.parameter.note=Nota:
 PreviewEditor.parameter.info=El número máximo actual de filas de datos está limitado a {0}.
 PreviewEditor.parameter.change=Haga clic para cambiar las preferencias de vista previa
@@ -3135,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=La carpeta especificada no existe
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Coloca&r la librería en la carpeta de recursos...
+PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4226,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    string con espacio en blanco a
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=Publicar librería
-PublishLibraryDialog.TitleArea=Publicar librería
-PublishLibraryDialog.Message=Colocar la librería en la carpeta de recursos.
+PublishLibraryDialog.ShellText=Share Library
+PublishLibraryDialog.TitleArea=Share Library
+PublishLibraryDialog.Message=Copy library to shared resource folder.
 PublishLibraryDialog.Label.SourceFileName=&Archivo fuente:
 PublishLibraryDialog.Label.FileName=&Nombre de archivo:
 PublishLibraryDialog.Label.Folder=&Carpeta:
