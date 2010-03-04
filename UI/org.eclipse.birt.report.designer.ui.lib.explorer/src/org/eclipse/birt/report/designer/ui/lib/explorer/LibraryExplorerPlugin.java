@@ -12,8 +12,11 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 
 import java.util.LinkedHashMap;
 
+import org.eclipse.birt.core.preference.IPreferences;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ExtendedResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
-import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -43,12 +46,24 @@ public class LibraryExplorerPlugin extends AbstractUIPlugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
-		IPreferenceStore store = getPreferenceStore( );
+		IPreferences store = PreferenceFactory.getInstance( )
+				.getPreferences( this );
 		initFilterMap( store, ResourceFilter.generateCVSFilter( ) );
-		initFilterMap( store, ResourceFilter.generateDataResourceFilter( ) );
 		initFilterMap( store, ResourceFilter.generateDotResourceFilter( ) );
 		initFilterMap( store, ResourceFilter.generateEmptyFolderFilter( ) );
-		//initFilterMap( store, ResourceFilter.generateNoResourceInFolderFilter( ) );
+		// initFilterMap( store,
+		// ResourceFilter.generateNoResourceInFolderFilter( ) );
+		Object[] filters = ElementAdapterManager.getAdapters( store,
+				ExtendedResourceFilter.class );
+
+		if ( filters != null )
+		{
+			for ( int i = 0; i < filters.length; i++ )
+			{
+				if ( filters[i] instanceof ExtendedResourceFilter )
+					initFilterMap( store, (ExtendedResourceFilter) filters[i] );
+			}
+		}
 	}
 
 	/**
@@ -83,8 +98,7 @@ public class LibraryExplorerPlugin extends AbstractUIPlugin
 
 	private static LinkedHashMap filterMap = new LinkedHashMap( );
 
-	private static void initFilterMap( IPreferenceStore store,
-			ResourceFilter filter )
+	private static void initFilterMap( IPreferences store, ResourceFilter filter )
 	{
 		if ( store.contains( filter.getType( ) ) )
 			filter.setEnabled( store.getBoolean( filter.getType( ) ) );
