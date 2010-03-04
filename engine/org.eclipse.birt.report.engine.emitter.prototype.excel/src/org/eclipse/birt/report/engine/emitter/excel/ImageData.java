@@ -21,6 +21,7 @@ public class ImageData extends SheetData
 	private byte[] imageData;
 	private Image imageInfo;
 	private int width;
+	private int imageHeight;
 
 	public ImageData( IImageContent image, int styleId, int datatype,
 			Image imageInfo, XlsContainer currentContainer, int heightDpi,
@@ -32,6 +33,7 @@ public class ImageData extends SheetData
 		height = ExcelUtil.convertDimensionType( image.getHeight( ), imageInfo
 				.getHeight( )
 				* ExcelUtil.INCH_PT / heightDpi, heightDpi ) / 1000;
+		imageHeight = (int) height;
 		int imageWidth = (int) ExcelUtil.convertDimensionType(
 				image.getWidth( ), imageInfo.getWidth( ) * ExcelUtil.INCH_PT
 						/ widthDpi, widthDpi );
@@ -87,6 +89,16 @@ public class ImageData extends SheetData
 	public void setWidth( int width )
 	{
 		this.width = width;
+	}
+
+	public int getImageHeight( )
+	{
+		return imageHeight;
+	}
+
+	public int getImageWidth( )
+	{
+		return width / 1000;
 	}
 
 	@Override
