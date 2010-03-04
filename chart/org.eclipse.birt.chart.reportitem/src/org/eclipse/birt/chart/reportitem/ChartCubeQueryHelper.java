@@ -854,15 +854,28 @@ public class ChartCubeQueryHelper
 
 			ConditionalExpression filterCondExpr;
 
+			String filterQuery = filterCon.getExpr( );
+			if ( exprCodec.isCubeBinding( filterQuery, true ) )
+			{
+				String filterBindingName = exprCodec.getBindingName( filterQuery );
+				if ( !registeredLevels.containsKey( filterBindingName )
+						&& !registeredMeasures.containsKey( filterBindingName ) )
+				{
+					// If filter expression is not used as dimension or measure,
+					// should set dimension/measure expression as filter
+					// directly
+					filterQuery = registeredQueries.get( filterBindingName );
+				}
+			}
 			if ( ModuleUtil.isListFilterValue( filterCon ) )
 			{
-				filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+				filterCondExpr = new ConditionalExpression( filterQuery,
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
 						filterCon.getValue1ExpressionList( ).getListValue( ) );
 			}
 			else
 			{
-				filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+				filterCondExpr = new ConditionalExpression( filterQuery,
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
 						filterCon.getValue1( ),
 						filterCon.getValue2( ) );
@@ -881,17 +894,17 @@ public class ChartCubeQueryHelper
 						true ) );
 			}
 
-			if ( levelDefinition == null )
-			{
-				// If level definition is not found, the level may be not added
-				// into query
-				bindExpression( filterCondExpr.getExpression( ).getText( ),
-						cubeQuery,
-						cubeHandle );
-				levelDefinition = registeredLevels.get( ChartExpressionUtil.getCubeBindingName( filterCondExpr.getExpression( )
-						.getText( ),
-						true ) );
-			}
+//			if ( levelDefinition == null )
+//			{
+//				// If level definition is not found, the level may be not added
+//				// into query
+//				bindExpression( filterCondExpr.getExpression( ).getText( ),
+//						cubeQuery,
+//						cubeHandle );
+//				levelDefinition = registeredLevels.get( ChartExpressionUtil.getCubeBindingName( filterCondExpr.getExpression( )
+//						.getText( ),
+//						true ) );
+//			}
 
 			ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
 					levelDefinition,
