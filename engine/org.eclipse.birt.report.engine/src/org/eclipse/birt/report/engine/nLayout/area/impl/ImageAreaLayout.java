@@ -255,8 +255,12 @@ public class ImageAreaLayout implements ILayout
 
 		private Dimension intrinsic;
 
-		private static final String BOOKMARK_PREFIX = "javascript:catchBookmark('";
+		private static final String BOOKMARK_JAVASCRIPT_PREFIX = "javascript:catchBookmark('";
 
+		private static final String BOOKMARK_URL_PREFIX = "__bookmark=";
+		
+		private static final String BOOKMARK_ANCHOR_PREFIX = "#";
+		
 		private LayoutContext context;
 
 		private boolean fitToContainer = false;
@@ -738,9 +742,9 @@ public class ImageAreaLayout implements ILayout
 			}
 			url = url.replaceAll( "&amp;", "&" );
 			ActionContent link = new ActionContent( );
-			if ( isBookmark( url ) )
+			String bookmark = getBookmark( url );
+			if ( bookmark != null )
 			{
-				String bookmark = getBookmark( url );
 				link.setBookmark( bookmark );
 			}
 			else
@@ -860,18 +864,6 @@ public class ImageAreaLayout implements ILayout
 		}
 
 		/**
-		 * Check if a url is of an internal bookmark.
-		 * 
-		 * @param url
-		 *            the url string.
-		 * @return true if and only if the url is of an internal bookmark.
-		 */
-		private boolean isBookmark( String url )
-		{
-			return url.startsWith( BOOKMARK_PREFIX ) && url.endsWith( "')" );
-		}
-
-		/**
 		 * Parses out bookmark name from a url for interanl bookmark.
 		 * 
 		 * @param url
@@ -880,10 +872,31 @@ public class ImageAreaLayout implements ILayout
 		 */
 		private String getBookmark( String url )
 		{
-			int start = url.indexOf( BOOKMARK_PREFIX )
-					+ BOOKMARK_PREFIX.length( );
-			int end = url.length( ) - 2;
-			return url.substring( start, end );
+			int start = url.indexOf( BOOKMARK_URL_PREFIX );
+			int end = -1;
+			if ( start != -1 )
+			{
+				start += BOOKMARK_URL_PREFIX.length( );
+				end = url.indexOf( "&", start );
+				if ( end == -1 )
+				{
+					end = url.length( );
+				}
+				return url.substring( start, end );
+			}
+			else if ( url.startsWith( BOOKMARK_ANCHOR_PREFIX ) )
+			{
+				start = BOOKMARK_ANCHOR_PREFIX.length( );
+				end = url.length( );
+				return url.substring( start, end );
+			}
+			else if ( url.startsWith( BOOKMARK_JAVASCRIPT_PREFIX ) && url.endsWith( "')" ) )
+			{
+				start = BOOKMARK_JAVASCRIPT_PREFIX.length( );
+				end = url.length( ) - 2;
+				return url.substring( start, end );
+			}
+			return null;
 		}
 
 		protected void close( )
