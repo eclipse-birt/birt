@@ -31,7 +31,8 @@ import org.eclipse.birt.chart.util.ChartUtil;
 
 public class ChartVariableHelper
 {
-
+	private static final String OPERATORS= " +-*/!=<>&|()\"\'"; //$NON-NLS-1$
+	
 	/**
 	 * Parse specified script, using correct expression instead of chart
 	 * variables.
@@ -95,7 +96,7 @@ public class ChartVariableHelper
 		boolean isCPlusCommnets = false;
 		boolean isInQuotation = false;
 		StringBuffer sb = new StringBuffer( );
-		String operations = " +-*/!=<>&|()\"\'"; //$NON-NLS-1$
+
 		try
 		{
 			int line = -1;
@@ -213,10 +214,15 @@ public class ChartVariableHelper
 							break;
 
 						default :
+							// If current is not comments or common string and
+							// the last char is operator, current char is not
+							// operator, then add the previous chars to symbol list.
 							if ( !isComments
 									&& !isCPlusCommnets
 									&& !isInQuotation
-									&& operations.indexOf( c ) >= 0 )
+									&& sb.length( ) > 0 
+									&& isOperator( sb.charAt( sb.length( ) - 1 ) )
+									&& !isOperator( c ) )
 							{
 								sb = addToSymbolList( symbols, sb );
 							}
@@ -269,6 +275,11 @@ public class ChartVariableHelper
 		return returnSB.toString( );
 	}
 
+	private static boolean isOperator(char c )
+	{
+		return OPERATORS.indexOf( c ) >= 0;
+	}
+	
 	private static StringBuffer addToSymbolList( List<StringBuffer> symbols,
 			StringBuffer sb )
 	{

@@ -113,6 +113,14 @@ public class ChartVariableHelperTest extends TestCase
 			fParams[0] = v5Src;
 			result = m.invoke( fTestInstance, fParams );
 			assertEquals( v5Target, result );
+						
+			String v6Src = "/*This is C plus \nplus comments.*/\n" //$NON-NLS-1$
+					+ "(categoryData)+valueData + \":\" + valueSeriesName"; //$NON-NLS-1$
+			String v6Target = "/*This is C plus \nplus comments.*/\n" //$NON-NLS-1$
+					+ "(row[\"COUNTRY\"])+row[\"CREDILIMIT\"] + \":\" + \"Series 1\""; //$NON-NLS-1$
+			fParams[0] = v6Src;
+			result = m.invoke( fTestInstance, fParams );
+			assertEquals( v6Target, result );
 		}
 		catch ( IllegalArgumentException e )
 		{
