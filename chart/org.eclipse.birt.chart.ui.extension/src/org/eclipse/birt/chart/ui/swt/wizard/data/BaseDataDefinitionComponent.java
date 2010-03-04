@@ -923,6 +923,21 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			}
 			return true;
 		}
+		if ( cmbDefinition != null
+				&& context.getDataServiceProvider( )
+				.checkState( IDataServiceProvider.HAS_CUBE ) )
+		{
+			// argument is a binding name
+			String[] items = cmbDefinition.getItems( );
+			for ( String s : items )
+			{
+				if ( s.indexOf( expression ) > 0 )
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 		return true;
 	}
 	

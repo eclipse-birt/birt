@@ -12,8 +12,10 @@ package org.eclipse.birt.chart.ui.swt;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
@@ -46,8 +48,30 @@ public class DataTextDropListener extends DropTargetAdapter
 	 */
 	public void dragEnter( DropTargetEvent event )
 	{
-		// always indicate a copy
+		// indicate a copy
 		event.detail = DND.DROP_COPY;
+
+		// check if valid expression
+		// Get Data in a Java format
+		Object object = null;
+		Transfer[] transferAgents = ( (DropTarget) event.widget ).getTransfer( );
+		for ( int i = 0; i < transferAgents.length; i++ )
+		{
+			Transfer transfer = transferAgents[i];
+			if ( transfer != null && transfer instanceof SimpleTextTransfer)
+			{
+				object = SimpleTextTransfer.getInstance( )
+						.nativeToJava( event.currentDataType );
+				break;
+			}
+		}
+		if ( object != null
+				&& !DataDefinitionTextManager.getInstance( )
+						.isValidExpression( txtDataDefn, object.toString( ) ) )
+		{
+			event.detail = DND.DROP_NONE;
+		}
+
 	}
 
 	/*
