@@ -22,7 +22,6 @@ import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
-import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
@@ -107,9 +106,7 @@ public abstract class ReportPreviewEditor extends EditorPart
 		IReportProvider provider = getProvider( );
 		if ( provider != null )
 		{
-			provider.saveReport( (ModuleHandle) getModel( ),
-					getEditorInput( ),
-					monitor );
+			provider.saveReport( getModel( ), getEditorInput( ), monitor );
 			firePropertyChange( PROP_DIRTY );
 		}
 		return;
@@ -159,17 +156,15 @@ public abstract class ReportPreviewEditor extends EditorPart
 		buttonTray.setLayout( layout );
 
 		bParameter = new Button( buttonTray, SWT.PUSH );
-		bParameter.setToolTipText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
-		bParameter.setText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
+		bParameter.setToolTipText( Messages.getString( "PreviewEditor.parameter.hint" ) ); //$NON-NLS-1$
+		bParameter.setText( Messages.getString( "PreviewEditor.parameter.hint" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( );
 		bParameter.setLayoutData( gd );
 
 		final FormText note = new FormText( buttonTray, SWT.NONE );
 		note.setText( getDisplayInfoText( ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
-				.getString( WebViewer.PREVIEW_MAXROW ) ),
-				true,
-				true );
+				.getString( WebViewer.PREVIEW_MAXROW ) ), true, true );
 		note.setSize( SWT.DEFAULT - 10, SWT.DEFAULT );
 		gd = new GridData( );
 		gd.horizontalIndent = 20;
@@ -242,31 +237,11 @@ public abstract class ReportPreviewEditor extends EditorPart
 
 		if ( bParameter != null )
 		{
-			final IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
-
 			bParameter.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					if ( webapp != null && webapp.useCustomParamHandling( ) )
-					{
-						suggestShowParameterPage = true;
-
-						refresh( );
-
-						suggestShowParameterPage = false;
-					}
-					else
-					{
-						parameterDialog.open( );
-						// if parameter dialog closed successfully, then preview
-						// the
-						// current report
-						if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
-						{
-							refresh( );
-						}
-					}
+					refresh( );
 				}
 
 			} );
@@ -470,7 +445,7 @@ public abstract class ReportPreviewEditor extends EditorPart
 		{
 			return provider.queryReportModuleHandle( );
 		}
-		
+
 		return null;
 	}
 
