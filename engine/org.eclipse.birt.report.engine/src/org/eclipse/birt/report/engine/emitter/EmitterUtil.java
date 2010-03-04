@@ -566,7 +566,7 @@ public class EmitterUtil
 					}
 				}
 			}
-			else
+			else if ( tblColumns.length > 0 )
 			{
 				average = remainWidth / tblColumns.length;
 				for ( int i = 0; i < tblColumns.length; i++ )
