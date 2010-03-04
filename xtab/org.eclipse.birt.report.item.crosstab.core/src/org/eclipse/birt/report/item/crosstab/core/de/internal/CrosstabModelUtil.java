@@ -84,6 +84,24 @@ public class CrosstabModelUtil implements ICrosstabConstants
 	}
 
 	/**
+	 * Notifies any validation event for crosstab model.
+	 * 
+	 * @param type
+	 *            see <code>ICrosstabModelListener</code> for the type
+	 *            constants.
+	 * @param model
+	 *            the model object associated with this event.
+	 */
+	public static void notifyValidate( int type, Object model )
+	{
+		ICrosstabModelListener listener = modelListener.get( );
+		if ( listener != null )
+		{
+			listener.onValidate( type, model );
+		}
+	}
+
+	/**
 	 * 
 	 * @param elements
 	 * @return
