@@ -114,6 +114,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 	private int maxSchemaCount;
 	private int maxTableCountPerSchema;
+	private int timeOutLimit;
 	boolean prefetchSchema;
 
 	private FilterConfig fc;
@@ -146,6 +147,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		}
 		maxSchemaCount = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_SCHEMA );
 		maxTableCountPerSchema = preferences.getInt( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA );
+		timeOutLimit = preferences.getInt( DateSetPreferencePage.USER_TIMEOUT_LIMIT );
 		if ( maxSchemaCount <= 0 )
 		{
 			maxSchemaCount = Integer.MAX_VALUE;
@@ -153,6 +155,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( maxTableCountPerSchema <= 0 )
 		{
 			maxTableCountPerSchema = Integer.MAX_VALUE;
+		}
+		if ( timeOutLimit < 0 )
+		{
+			timeOutLimit = 0;
 		}
 	}
 	
@@ -170,6 +176,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( !preferences.contains( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA ) )
 		{
 			preferences.setValue( DateSetPreferencePage.USER_MAX_NUM_OF_TABLE_EACH_SCHEMA, String.valueOf( DateSetPreferencePage.DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA ) );
+		}
+		if ( !preferences.contains( DateSetPreferencePage.USER_TIMEOUT_LIMIT ) )
+		{
+			preferences.setValue( DateSetPreferencePage.USER_TIMEOUT_LIMIT,
+					String.valueOf( DateSetPreferencePage.DEFAULT_TIMEOUT_LIMIT ) );
 		}
 	}
 
@@ -466,8 +477,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 			if ( prefetchSchema )
 			{
+				
 				allSchemaNames = JdbcMetaDataProvider.getInstance( )
-						.getAllSchemaNames( );
+						.getAllSchemaNames( timeOutLimit * 1000 );
 
 				for ( String name : allSchemaNames )
 				{
