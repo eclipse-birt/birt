@@ -332,10 +332,13 @@ public class PropertyHandleTableViewer
 			{
 				try
 				{
-					PropertyHandle handle = (PropertyHandle) viewer.getInput( );
-					handle.clearValue( );
-					viewer.refresh( );
-					updateButtons( );
+					if ( viewer.getInput( ) instanceof PropertyHandle )
+					{
+						PropertyHandle handle = (PropertyHandle) viewer.getInput( );
+						handle.clearValue( );
+						viewer.refresh( );
+						updateButtons( );
+					}
 				}
 				catch ( SemanticException e1 )
 				{
@@ -382,8 +385,12 @@ public class PropertyHandleTableViewer
 				&& indices.length == 1 );
 		getRemoveButton( ).setEnabled( getRemoveButton( ).isVisible( )
 				&& indices.length > 0 );
-		getRemoveMenuItem( ).setEnabled( indices.length > 0 );
-		getRemoveAllMenuItem( ).setEnabled( viewer.getTable( ).getItemCount( ) > 0 );
+		if ( getRemoveMenuItem( ) != null )
+		{
+			getRemoveMenuItem( ).setEnabled( indices.length > 0 );
+			getRemoveAllMenuItem( ).setEnabled( viewer.getTable( )
+					.getItemCount( ) > 0 );
+		}
 	}
 
 	/**
