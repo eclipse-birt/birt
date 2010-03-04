@@ -36,16 +36,14 @@ public class ResourceEntryFilter implements Filter
 					return false;
 			}
 			else if ( filter.getType( )
-					.equals( ResourceFilter.FILTER_DATA_RESOURCES ) )
-			{
-				if ( entity.getName( ).toLowerCase( ).endsWith( ".data" ) )//$NON-NLS-1$
-					return false;
-			}
-			else if ( filter.getType( )
 					.equals( ResourceFilter.FILTER_EMPTY_FOLDERS ) )
 			{
 				if ( !entity.isFile( ) && !entity.hasChildren( ) )
 					return false;
+			}
+			else if ( filter instanceof ExtendedResourceFilter )
+			{
+				return ((ExtendedResourceFilter)filter).accept( entity );
 			}
 			// TODO: case 4, add a getAdapte method in the interface
 			// ResourceEntry, and then can get the File filter info.
