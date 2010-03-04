@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.2.v20091207-1500 Build &lt;2.5.2.v20091207-1500></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.5.2.v20100219-0202 Build &lt;2.5.2.v20100219-0202></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
     <list-property name="userProperties">
         <structure>
@@ -18,8 +18,8 @@
     <property name="Customer Cube.Data Set.x">235</property>
     <property name="Customer Cube.Data Set.y">105</property>
     <property name="units">in</property>
-    <method name="beforeFactory"><![CDATA[rwc1 = new java.lang.Integer(1); 
-    reportContext.setPersistentGlobalVariable("rwc", rwc1);]]></method>
+    <method name="beforeFactory"><![CDATA[rwc1 = new java.lang.Integer(1);
+reportContext.setPersistentGlobalVariable("rwc", rwc1);]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -926,10 +926,10 @@ CLASSICMODELS.ORDERS.STATUS = 'Shipped']]></xml-property>
                     </property>
                 </extended-item>
             </property>
-            <property name="repeatColumnHeader">false</property>
             <property name="header">
                 <extended-item extensionName="CrosstabCell" id="118"/>
             </property>
+            <property name="repeatColumnHeader">false</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">2px</property>
             <property name="borderTopColor">#000000</property>
