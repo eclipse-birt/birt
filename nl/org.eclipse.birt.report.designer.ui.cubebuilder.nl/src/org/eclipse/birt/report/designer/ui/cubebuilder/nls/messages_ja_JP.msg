@@ -35,6 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=ƒƒWƒƒ[‚Å‚Í Any Œ^‚Ìƒf[ƒ^‚
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Œx
 ###########################################################
 #Cube Builder Dialog properties
+CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, please check the "Auto primary key" button on the dataset selection page to complete the cube.
+CubeBuilder.AutoPrimaryKeyDialog.Title=Auto primary key problem
 CubeBuilder.SharedDimensionErrorLinkDialog.Message=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“‚©‚ç‚Ì‚·‚×‚Ä‚Ìƒvƒ‰ƒCƒ}ƒŠƒL[‚ÍƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B@
 CubeBuilder.SharedDimensionErrorLinkDialog.Title=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“ƒŠƒ“ƒN‚ÌƒGƒ‰[
 CubeBuilder.Title=ƒNƒƒXƒ^ƒuƒLƒ…[ƒuƒrƒ‹ƒ_
@@ -72,6 +74,7 @@ SimpleCubeBuilder.Title.Title=ƒNƒƒXƒ^ƒuƒLƒ…[ƒuƒrƒ‹ƒ_
 SimpleCubeBuilder.Title.Message=ƒOƒ‹[ƒv‰»‚ÌŠK‘w‚ÆƒTƒ}ƒŠƒf[ƒ^ƒtƒB[ƒ‹ƒh‚ğw’è‚µ‚ÄAƒNƒƒXƒ^ƒu‚Ìƒf[ƒ^‚ğ•Ò¬‚µ‚Ü‚·B 
 SimpleCubeBuilder.Title=ƒNƒƒXƒ^ƒuƒLƒ…[ƒuƒrƒ‹ƒ_
 SimpleCubeBuilder.Label.Name=–¼‘O :
+DatasetSelectionPage.Button.Auto.Primary.Key=Auto &primary key
 DatasetSelectionPage.Combo.NewDataSet0=<V‹Kƒf[ƒ^ƒZƒbƒg...>
 GroupsPage.Button.Add=’Ç‰Á(&A)
 GroupsPage.Button.Edit=•ÒW(&E)

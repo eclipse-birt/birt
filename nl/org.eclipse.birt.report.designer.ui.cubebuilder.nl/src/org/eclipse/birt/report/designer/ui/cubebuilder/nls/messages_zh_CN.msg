@@ -35,6 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=度量不支持数据类型“任意”，
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 ###########################################################
 #Cube Builder Dialog properties
+CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, please check the "Auto primary key" button on the dataset selection page to complete the cube.
+CubeBuilder.AutoPrimaryKeyDialog.Title=Auto primary key problem
 CubeBuilder.SharedDimensionErrorLinkDialog.Message=共享维中的所有主键均应链接
 CubeBuilder.SharedDimensionErrorLinkDialog.Title=错误共享维链接
 CubeBuilder.Title=交叉表多维数据集生成器
@@ -72,6 +74,7 @@ SimpleCubeBuilder.Title.Title=交叉表多维数据集生成器
 SimpleCubeBuilder.Title.Message=通过指定分组层次结构和摘要数据字段来为交叉表组织数据。 
 SimpleCubeBuilder.Title=交叉表多维数据集生成器
 SimpleCubeBuilder.Label.Name=名称:
+DatasetSelectionPage.Button.Auto.Primary.Key=Auto &primary key
 DatasetSelectionPage.Combo.NewDataSet0=<新建数据集...>
 GroupsPage.Button.Add=添加(&A)
 GroupsPage.Button.Edit=编辑(&E)

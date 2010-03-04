@@ -35,6 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=측정 시 데이터 형식 "Any"는 
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=경고
 ###########################################################
 #Cube Builder Dialog properties
+CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, please check the "Auto primary key" button on the dataset selection page to complete the cube.
+CubeBuilder.AutoPrimaryKeyDialog.Title=Auto primary key problem
 CubeBuilder.SharedDimensionErrorLinkDialog.Message=공유 차원의 모든 기본 키를 연결해야 합니다.
 CubeBuilder.SharedDimensionErrorLinkDialog.Title=공유 차원 링크 오류
 CubeBuilder.Title=크로스 탭 큐브 빌더
@@ -72,6 +74,7 @@ SimpleCubeBuilder.Title.Title=크로스 탭 큐브 빌더
 SimpleCubeBuilder.Title.Message=그룹화 계층 및 요약 데이터 필드를 지정하여 크로스 탭의 데이터를 구성하십시오. 
 SimpleCubeBuilder.Title=크로스 탭 큐브 빌더
 SimpleCubeBuilder.Label.Name=이름:
+DatasetSelectionPage.Button.Auto.Primary.Key=Auto &primary key
 DatasetSelectionPage.Combo.NewDataSet0=<새 데이터 집합...>
 GroupsPage.Button.Add=추가(&A)
 GroupsPage.Button.Edit=편집(&E)

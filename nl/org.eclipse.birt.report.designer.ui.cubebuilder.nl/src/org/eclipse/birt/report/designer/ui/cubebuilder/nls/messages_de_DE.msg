@@ -35,6 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=Maßeinheit unterstützt nicht
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Warnung
 ###########################################################
 #Cube Builder Dialog properties
+CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, please check the "Auto primary key" button on the dataset selection page to complete the cube.
+CubeBuilder.AutoPrimaryKeyDialog.Title=Auto primary key problem
 CubeBuilder.SharedDimensionErrorLinkDialog.Message=Alle Primärschlüssel aus gemeinsamen Dimensionen müssen miteinander verknüpft sein.
 CubeBuilder.SharedDimensionErrorLinkDialog.Title=Fehler bei der Verknüpfung einer gemeinsamen Dimension.
 CubeBuilder.Title=Kreuztabellen-Cube Builder
@@ -72,6 +74,7 @@ SimpleCubeBuilder.Title.Title=Kreuztabellen-Cube Builder
 SimpleCubeBuilder.Title.Message=Daten für die Kreuztabelle durch das Angeben von Gruppierungshierarchien und Zusammenfassungsdatenfeldern verwalten. 
 SimpleCubeBuilder.Title=Kreuztabellen-Cube Builder
 SimpleCubeBuilder.Label.Name=Name:
+DatasetSelectionPage.Button.Auto.Primary.Key=Auto &primary key
 DatasetSelectionPage.Combo.NewDataSet0=<Neuer Datensatz...>
 GroupsPage.Button.Add=&Hinzufügen
 GroupsPage.Button.Edit=&Bearbeiten
