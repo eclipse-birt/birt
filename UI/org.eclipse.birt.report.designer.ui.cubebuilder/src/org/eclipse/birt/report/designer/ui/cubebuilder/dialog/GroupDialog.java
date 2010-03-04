@@ -212,15 +212,18 @@ public class GroupDialog extends TitleAreaDialog
 
 		levelViewer.setInput( getDateTypeNames( getLevelTypesByDateType( ) ) );
 		levelViewer.expandAll( );
-		TreeItem topNode = levelViewer.getTree( ).getItem( 0 );
-		do
+		if ( levelViewer.getTree( ).getItemCount( ) > 0 )
 		{
+			TreeItem topNode = levelViewer.getTree( ).getItem( 0 );
+			do
+			{
+				if ( levelList.contains( topNode.getData( ) ) )
+					topNode.setChecked( true );
+				topNode = topNode.getItem( 0 );
+			} while ( topNode.getItemCount( ) > 0 );
 			if ( levelList.contains( topNode.getData( ) ) )
 				topNode.setChecked( true );
-			topNode = topNode.getItem( 0 );
-		} while ( topNode.getItemCount( ) > 0 );
-		if ( levelList.contains( topNode.getData( ) ) )
-			topNode.setChecked( true );
+		}
 		checkOKButtonStatus( );
 	}
 
@@ -288,9 +291,13 @@ public class GroupDialog extends TitleAreaDialog
 
 		public Object[] getElements( Object inputElement )
 		{
-			return new Object[]{
-				getDateTypeNames( getLevelTypesByDateType( ) ).get( 0 )
-			};
+			if ( getLevelTypesByDateType( ) != null
+					&& getLevelTypesByDateType( ).length > 0 )
+				return new Object[]{
+					getDateTypeNames( getLevelTypesByDateType( ) ).get( 0 )
+				};
+
+			return new Object[0];
 		}
 
 		public void inputChanged( Viewer viewer, Object oldInput,

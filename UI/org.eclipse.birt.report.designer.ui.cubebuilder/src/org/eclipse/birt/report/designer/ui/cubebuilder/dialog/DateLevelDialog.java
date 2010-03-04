@@ -14,6 +14,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.LinkToCubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -392,6 +393,8 @@ public class DateLevelDialog extends TitleAreaDialog
 								Messages.getString( "DateLevelDialog.Button.Text.Edit" ) ); //$NON-NLS-1$
 						hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_REPORT_ITEM_HANDLE,
 								input );
+						hyperLinkHelper.setProperty( BuilderConstants.HYPERLINK_REPORT_ITEM_PROVIDER,
+								new LinkToCubeExpressionProvider( input ) );
 						hyperLinkHelper.createContent( parent );
 						hyperLinkHelper.addListener( SWT.Modify,
 								new Listener( ) {

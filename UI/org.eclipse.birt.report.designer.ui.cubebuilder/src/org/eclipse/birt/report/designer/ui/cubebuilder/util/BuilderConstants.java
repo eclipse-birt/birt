@@ -44,5 +44,6 @@ public class BuilderConstants
 	public static final String HYPERLINK_HELPER_KEY = "HyperLink Helper"; //$NON-NLS-1$
 	public static final String HYPERLINK_LABEL = "HyperLink Label"; //$NON-NLS-1$
 	public static final String HYPERLINK_REPORT_ITEM_HANDLE = "HyperLink Report Item Handle"; //$NON-NLS-1$
+	public static final String HYPERLINK_REPORT_ITEM_PROVIDER = "HyperLink Report Item Expression Provider"; //$NON-NLS-1$
 	public static final String HYPERLINK_BUTTON_TEXT = "HyperLink Button Text"; //$NON-NLS-1$
 }

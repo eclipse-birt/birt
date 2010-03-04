@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -62,6 +63,7 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -192,7 +194,7 @@ public class ExpressionProvider implements
 	public static final String COLUMN_BINDINGS = Messages.getString( "ExpressionProvider.Category.ColumnBinding" ); //$NON-NLS-1$
 	public static final String CURRENT_CUBE = Messages.getString( "ExpressionProvider.Category.DataCubes" ); //$NON-NLS-1$
 	public static final String MEASURE = "Measure";
-	
+
 	// public static final String DATASETS = Messages.getString(
 	// "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 	public static final String PARAMETERS = Messages.getString( "ExpressionProvider.Category.Parameters" ); //$NON-NLS-1$
@@ -202,12 +204,9 @@ public class ExpressionProvider implements
 	public static final String NATIVE_OBJECTS = Messages.getString( "ExpressionProvider.Category.NativeObjects" );//$NON-NLS-1$
 	public static final String BIRT_OBJECTS = Messages.getString( "ExpressionProvider.Category.BirtObjects" );//$NON-NLS-1$
 
-	
 	protected static final String ALL = Messages.getString( "ExpressionProvider.Label.All" ); //$NON-NLS-1$
 
 	private static final String TOOLTIP_BINDING_PREFIX = Messages.getString( "ExpressionProvider.Tooltip.ColumnBinding" ); //$NON-NLS-1$
-
-	
 
 	protected DesignElementHandle elementHandle;
 
@@ -532,6 +531,11 @@ public class ExpressionProvider implements
 	protected List<Object> getChildrenList( Object parent )
 	{
 		ArrayList<Object> childrenList = new ArrayList<Object>( );
+
+		if ( parent instanceof IAdaptable )
+		{
+			parent = DNDUtil.unwrapToModel( parent );
+		}
 		if ( parent instanceof Object[] )
 		{
 			Object[] array = (Object[]) parent;
@@ -1366,6 +1370,10 @@ public class ExpressionProvider implements
 
 	public boolean hasChildren( Object element )
 	{
+		if ( element instanceof IAdaptable )
+		{
+			element = DNDUtil.unwrapToModel( element );
+		}
 		if ( element instanceof PropertyHandle
 				|| element instanceof TabularMeasureGroupHandle
 				|| element instanceof TabularDimensionHandle

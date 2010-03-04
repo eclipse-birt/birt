@@ -22,6 +22,8 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
+import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -29,6 +31,7 @@ import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -143,6 +146,85 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		else
 		{
 			boolean flag = true;
+			if ( !input.autoPrimaryKey( ) )
+			{
+				for ( int i = 0; i < childList.size( ); i++ )
+				{
+					flag = true;
+					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) childList.get( i );
+					Iterator iter = input.joinConditionsIterator( );
+					while ( iter.hasNext( ) )
+					{
+						DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
+						TabularHierarchyHandle conditionHierarchy = (TabularHierarchyHandle) condition.getHierarchy( );
+
+						boolean check = true;
+						if ( condition.getJoinConditions( ) != null
+								&& condition.getJoinConditions( )
+										.iterator( )
+										.hasNext( ) )
+						{
+							Iterator keyIter = condition.getJoinConditions( )
+									.iterator( );
+							check = false;
+							while ( keyIter.hasNext( ) )
+							{
+								DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) keyIter.next( );
+								if ( hierarchy.getLevelCount( ) > 0 )
+								{
+									for ( int j = 0; j < hierarchy.getLevelCount( ); j++ )
+									{
+										TabularLevelHandle level = (TabularLevelHandle) hierarchy.getLevel( j );
+										if ( joinCondition.getHierarchyKey( )
+												.equals( level.getColumnName( ) ) )
+										{
+											check = true;
+										}
+									}
+								}
+							}
+							if ( !check )
+							{
+								flag = false;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			if ( !flag )
+			{
+				String[] buttons = new String[]{
+						IDialogConstants.YES_LABEL,
+						IDialogConstants.NO_LABEL,
+						IDialogConstants.CANCEL_LABEL
+				};
+
+				MessageDialog d = new MessageDialog( getShell( ),
+						Messages.getString("CubeBuilder.AutoPrimaryKeyDialog.Title"), //$NON-NLS-1$
+						null,
+						Messages.getString("CubeBuilder.AutoPrimaryKeyDialog.Message"), //$NON-NLS-1$
+						MessageDialog.INFORMATION,
+						buttons,
+						0 );
+				int result = d.open( );
+				if ( result == 1 )
+				{
+					return true;
+				}
+				if ( result == 2 )
+				{
+					return false;
+				}
+				else
+				{
+					this.showSelectionPage( getDatasetNode( ) );
+					return false;
+				}
+			}
+
+			flag = true;
 			HashMap conditionMap = new HashMap( );
 			for ( int i = 0; i < childList.size( ); i++ )
 			{
@@ -221,9 +303,9 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 						};
 
 						MessageDialog d = new MessageDialog( getShell( ),
-								Messages.getString("CubeBuilder.SharedDimensionErrorLinkDialog.Title"), //$NON-NLS-1$
+								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Title" ), //$NON-NLS-1$
 								null,
-								Messages.getString("CubeBuilder.SharedDimensionErrorLinkDialog.Message"), //$NON-NLS-1$
+								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Message" ), //$NON-NLS-1$
 								MessageDialog.INFORMATION,
 								buttons,
 								0 );

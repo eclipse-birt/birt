@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -50,6 +51,7 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.Dialog;
@@ -190,6 +192,12 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 				return provider.getCategory( );
 			}
 			// does not show groups/measures in third column.
+
+			if ( inputElement instanceof IAdaptable )
+			{
+				inputElement = DNDUtil.unwrapToModel( inputElement );
+			}
+
 			if ( inputElement instanceof PropertyHandle
 					|| inputElement instanceof TabularMeasureGroupHandle
 					|| inputElement instanceof TabularDimensionHandle )

@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.FilterListDialog;
@@ -56,6 +57,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 	private Text nameText;
 	private CubeBuilder builder;
 	private Button filterButton;
+	private Button primaryKeyButton;
 
 	public DatasetSelectionPage( CubeBuilder builder, CubeHandle model )
 	{
@@ -126,12 +128,12 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				CommandStack stack = SessionHandleAdapter.getInstance( )
 						.getCommandStack( );
 				stack.startTrans( "" ); //$NON-NLS-1$
-				
+
 				FilterHandleProvider provider = (FilterHandleProvider) ElementAdapterManager.getAdapter( builder,
 						FilterHandleProvider.class );
 				if ( provider == null )
 					provider = new FilterHandleProvider( );
-				
+
 				FilterListDialog dialog = new FilterListDialog( provider );
 				dialog.setInput( input );
 				if ( dialog.open( ) == Window.OK )
@@ -145,6 +147,30 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		} );
 
 		filterButton.setEnabled( false );
+
+		new Label( container, SWT.NONE );
+
+		primaryKeyButton = new Button( container, SWT.CHECK );
+		primaryKeyButton.setText( Messages.getString("DatasetSelectionPage.Button.Auto.Primary.Key") ); //$NON-NLS-1$
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.horizontalSpan = 2;
+		primaryKeyButton.setLayoutData( data );
+		primaryKeyButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				try
+				{
+					( (TabularCubeHandle) input ).setAutoPrimaryKey( primaryKeyButton.getSelection( ) );
+				}
+				catch ( SemanticException e1 )
+				{
+					ExceptionHandler.handle( e1 );
+				}
+			}
+
+		} );
+
 		return container;
 	}
 
@@ -200,6 +226,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				filterButton.setEnabled( true );
 			}
 		}
+		primaryKeyButton.setSelection( ( (TabularCubeHandle) input ).autoPrimaryKey( ) );
 	}
 
 	private void load( )

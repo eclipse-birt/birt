@@ -800,7 +800,11 @@ public final class DNDUtil
 		}
 		if ( obj instanceof IAdaptable )
 		{
-			return ( (IAdaptable) obj ).getAdapter( DesignElementHandle.class );
+			Object object = ( (IAdaptable) obj ).getAdapter( DesignElementHandle.class );
+			if ( object == null )
+				object = ( (IAdaptable) obj ).getAdapter( PropertyHandle.class );
+			if ( object != null )
+				return object;
 		}
 		return obj;
 	}
@@ -1101,7 +1105,7 @@ public final class DNDUtil
 			{
 				DesignElementHandle childHandle = ( (IElementCopy) transferData ).getHandle( SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( ) );
-				
+
 				if ( targetObj instanceof SlotHandle )
 				{
 					SlotHandle targetHandle = (SlotHandle) targetObj;
@@ -1110,7 +1114,7 @@ public final class DNDUtil
 							targetHandle.getSlotID( ) ) ? CONTAIN_THIS
 							: CONTAIN_NO;
 				}
-				
+
 				if ( targetObj instanceof PropertyHandle )
 				{
 					PropertyHandle targetHandle = (PropertyHandle) targetObj;
@@ -1119,7 +1123,7 @@ public final class DNDUtil
 							targetHandle.getPropertyDefn( ).getName( ) ) ? CONTAIN_THIS
 							: CONTAIN_NO;
 				}
-				
+
 				return handleValidateTargetCanContainByContainer( targetObj,
 						childHandle,
 						validateContainer );
