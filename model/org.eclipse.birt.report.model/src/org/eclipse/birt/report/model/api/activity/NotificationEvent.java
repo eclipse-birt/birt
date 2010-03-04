@@ -187,6 +187,11 @@ public abstract class NotificationEvent
 
 	public static final int VIEWS_CONTENT_EVENT = 24;
 
+	/**
+	 * The event type of event that the data mart is reloaded.
+	 */
+	public static final int DATA_MART_RELOADED_EVENT = 25;
+
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
 
@@ -281,7 +286,10 @@ public abstract class NotificationEvent
 	 * @return the Delivery path. One of:
 	 * 
 	 *         <ul>
-	 *         <li>DIRECT</li> <li>DESCENDENT</li> <li>STYLE_CLIENT</li> <li>
+	 *         <li>DIRECT</li>
+	 *         <li>DESCENDENT</li>
+	 *         <li>STYLE_CLIENT</li>
+	 *         <li>
 	 *         CONTENTS</li>
 	 *         </ul>
 	 */
@@ -354,13 +362,24 @@ public abstract class NotificationEvent
 	/**
 	 * Returns the event type. The following event types are defined:
 	 * <ul>
-	 * <li>CONTENT_EVENT</li> <li>ELEMENT_DELETE_EVENT</li> <li>EXTENDS_EVENT
-	 * </li> <li>NAME_EVENT</li> <li>NAME_SPACE_EVENT</li> <li>PROPERTY_EVENT
-	 * </li> <li>STYLE_EVENT</li> <li>USER_PROP_EVENT</li> <li>CUSTOM_MSG_EVENT
-	 * </li> <li>EXTENSION_PROPERTY_DEFINITION_EVENT</li> <li>NOTIFICATION_EVENT
-	 * </li> <li>VALIDATION_EVENT</li> <li>LIBRARY_EVENT</li> <li>
-	 * ATTRIBUTE_EVENT</li> <li>DISPOSE_EVENT</li> <li>CONTENT_REPLACE_EVENT
-	 * </li> <li>TEMPLATE_TRANSFORM_EVENT</li>
+	 * <li>CONTENT_EVENT</li>
+	 * <li>ELEMENT_DELETE_EVENT</li>
+	 * <li>EXTENDS_EVENT</li>
+	 * <li>NAME_EVENT</li>
+	 * <li>NAME_SPACE_EVENT</li>
+	 * <li>PROPERTY_EVENT</li>
+	 * <li>STYLE_EVENT</li>
+	 * <li>USER_PROP_EVENT</li>
+	 * <li>CUSTOM_MSG_EVENT</li>
+	 * <li>EXTENSION_PROPERTY_DEFINITION_EVENT</li>
+	 * <li>NOTIFICATION_EVENT</li>
+	 * <li>VALIDATION_EVENT</li>
+	 * <li>LIBRARY_EVENT</li>
+	 * <li>
+	 * ATTRIBUTE_EVENT</li>
+	 * <li>DISPOSE_EVENT</li>
+	 * <li>CONTENT_REPLACE_EVENT</li>
+	 * <li>TEMPLATE_TRANSFORM_EVENT</li>
 	 * </ul>
 	 * 
 	 * @return the event type.
