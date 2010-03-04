@@ -342,7 +342,8 @@ public class HyperlinkBuilder extends BaseDialog
 			ParamBinding paramBinding = ( (ParamBinding) element );
 			if ( COLUMN_VALUE.equals( property ) )
 			{
-				paramBinding.setExpressionProperty( ParamBinding.EXPRESSION_MEMBER, (Expression)value );
+				paramBinding.setExpressionProperty( ParamBinding.EXPRESSION_MEMBER,
+						(Expression) value );
 			}
 			else if ( COLUMN_PARAMETER.equals( property ) )
 			{
@@ -1006,11 +1007,11 @@ public class HyperlinkBuilder extends BaseDialog
 				new String[0],
 				SWT.NONE );
 
-		
-		
-		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table, SWT.PUSH );
-		valueEditor.setExpressionInput( getExpressionProvider( ), inputHandle.getElementHandle( ) );
-		//valueEditor.setExpressionProvider( getExpressionProvider( ) );
+		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table,
+				SWT.PUSH );
+		valueEditor.setExpressionInput( getExpressionProvider( ),
+				inputHandle.getElementHandle( ) );
+		// valueEditor.setExpressionProvider( getExpressionProvider( ) );
 		paramBindingTable.setCellEditors( new CellEditor[]{
 				parameterChooser, null, null, valueEditor
 		} );
@@ -1052,7 +1053,7 @@ public class HyperlinkBuilder extends BaseDialog
 		ExpressionButtonUtil.createExpressionButton( parent,
 				text,
 				getExpressionProvider( ),
-				inputHandle,
+				inputHandle.getElementHandle( ),
 				true,
 				SWT.PUSH );
 	}
@@ -1074,7 +1075,17 @@ public class HyperlinkBuilder extends BaseDialog
 	 */
 	protected ExpressionProvider getExpressionProvider( )
 	{
-		return new ExpressionProvider( inputHandle.getElementHandle( ) );
+		if ( provider == null )
+			return new ExpressionProvider( inputHandle.getElementHandle( ) );
+		else
+			return provider;
+	}
+
+	private ExpressionProvider provider;
+
+	public void setExpressionProvider( ExpressionProvider provider )
+	{
+		this.provider = provider;
 	}
 
 	private Button createBrowerButton( Composite parent, final Text text,

@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
@@ -1476,6 +1477,20 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				else
 				{
 					provider = new ExpressionProvider( designHandle );
+					( (ExpressionProvider) provider ).addFilter( new ExpressionFilter( ) {
+
+						public boolean select( Object parentElement,
+								Object element )
+						{
+							if ( ExpressionFilter.CATEGORY.equals( parentElement )
+									&& ExpressionProvider.DATASETS.equals( element ) )
+							{
+								return false;
+							}
+							return true;
+						}
+
+					} );
 				}
 			}
 			else

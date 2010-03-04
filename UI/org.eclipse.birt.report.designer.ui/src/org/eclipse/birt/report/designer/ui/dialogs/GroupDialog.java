@@ -915,7 +915,7 @@ public class GroupDialog extends BaseDialog implements Listener
 			( (ExpressionButton) keyChooser.getData( ExpressionButtonUtil.EXPR_BUTTON ) ).setEnabled( true );
 
 		PropertyHandle property = inputGroup.getPropertyHandle( GroupElement.INTERVAL_RANGE_PROP );
-		String range = property == null ? null : property.getStringValue( );
+		String range = property == null ? null : property.getDisplayValue( );
 
 		intervalRange.setText( range == null ? "" : range ); //$NON-NLS-1$
 		checkReadOnlyControl( GroupElement.INTERVAL_RANGE_PROP, intervalRange );
