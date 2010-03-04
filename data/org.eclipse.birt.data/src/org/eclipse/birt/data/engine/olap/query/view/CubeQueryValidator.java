@@ -39,7 +39,8 @@ class CubeQueryValidator
 		if ( view.getColumnEdgeView( ) == null
 				&& view.getRowEdgeView( ) == null )
 		{
-			throw new DataException( ResourceConstants.NO_EDGEDEFN_FOUND );
+			//A cube query definition can have no edge if it only contains grand total bindings 
+			//throw new DataException( ResourceConstants.NO_EDGEDEFN_FOUND );
 		}
 		if ( view.getColumnEdgeView( ) != null )
 		{
