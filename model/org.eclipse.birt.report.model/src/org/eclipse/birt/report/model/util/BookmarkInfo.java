@@ -9,19 +9,36 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.engine.api.impl;
+package org.eclipse.birt.report.model.util;
 
-import org.eclipse.birt.report.engine.api.IBookmarkInfo;
+import org.eclipse.birt.report.model.api.util.IBookmarkInfo;
 
-public class BookmarkInfo
-		extends
-			org.eclipse.birt.report.model.util.BookmarkInfo
-		implements
-			IBookmarkInfo
+public class BookmarkInfo implements IBookmarkInfo
 {
+
+	private String displayName;
+	private String bookmark;
+	private String elementType;
 
 	public BookmarkInfo( String bookmark, String displayName, String elementType )
 	{
-		super( bookmark, displayName, elementType );
+		this.displayName = displayName;
+		this.bookmark = bookmark;
+		this.elementType = elementType;
+	}
+
+	public String getDisplayName( )
+	{
+		return displayName;
+	}
+
+	public String getBookmark( )
+	{
+		return bookmark;
+	}
+
+	public String getElementType( )
+	{
+		return elementType;
 	}
 }
