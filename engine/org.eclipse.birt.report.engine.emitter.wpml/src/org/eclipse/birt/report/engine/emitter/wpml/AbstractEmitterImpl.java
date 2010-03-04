@@ -622,8 +622,8 @@ public abstract class AbstractEmitterImpl
 	public void endListBand( IListBandContent listBand )
 	{
 		adjustInline( );
+		wordWriter.endTableCell( context.needEmptyP() );
 		context.endCell( );
-		wordWriter.endTableCell( true );
 		wordWriter.endTableRow( );
 	}
 
