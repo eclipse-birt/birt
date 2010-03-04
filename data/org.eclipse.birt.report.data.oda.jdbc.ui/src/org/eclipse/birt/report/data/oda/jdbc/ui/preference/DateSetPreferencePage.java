@@ -44,6 +44,7 @@ public class DateSetPreferencePage extends PreferencePage
 
 	private IntegerFieldEditor maxDisplaySchemaEditor;
 	private IntegerFieldEditor maxDisplayTableEditor;
+	private IntegerFieldEditor timeOutLimitEditor;
 	private Button schemasPrefetchConfigCheckbox;
 	
 	/** default value of max schema number*/
@@ -51,6 +52,9 @@ public class DateSetPreferencePage extends PreferencePage
 	
 	/** default value of max table number each schema*/
 	public static final int DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA = 100;
+	
+	/** default value of timeout limit */
+	public static final int DEFAULT_TIMEOUT_LIMIT = 60;
 	
 	private static final int MAX_MAX_ROW = Integer.MAX_VALUE;
 	
@@ -62,6 +66,7 @@ public class DateSetPreferencePage extends PreferencePage
 	public static final String SCHEMAS_PREFETCH_CONFIG = "shemas_prefetch_config";
 	public static final String USER_MAX_NUM_OF_SCHEMA = "user_max_num_of_schema";
 	public static final String USER_MAX_NUM_OF_TABLE_EACH_SCHEMA="user_max_num_of_table_each_schema";
+	public static final String USER_TIMEOUT_LIMIT = "user_timeout_limit";
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
@@ -128,6 +133,7 @@ public class DateSetPreferencePage extends PreferencePage
 		}
 		maxDisplaySchemaEditor.setStringValue( defaultMaxSchema );
 		
+		
 		//Set up the maximum number of tables in each schema
 		maxDisplayTableEditor = new IntegerFieldEditor( USER_MAX_NUM_OF_TABLE_EACH_SCHEMA, "", sqlDataSetGroup ); 
 		
@@ -159,6 +165,46 @@ public class DateSetPreferencePage extends PreferencePage
 		}
 		maxDisplayTableEditor.setStringValue( defaultMaxTable );
 		
+		
+		// Set up the timeout
+		timeOutLimitEditor = new IntegerFieldEditor( USER_MAX_NUM_OF_SCHEMA,
+				"",
+				sqlDataSetGroup );
+
+		lab = timeOutLimitEditor.getLabelControl( sqlDataSetGroup );
+		lab.setText( JdbcPlugin.getResourceString( "designer.preview.preference.resultset.timeOutLimit.description" ) );
+
+		timeOutLimitEditor.setPage( this );
+		timeOutLimitEditor.setTextLimit( Integer.toString( MAX_MAX_ROW )
+				.length( ) );
+
+		timeOutLimitEditor.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
+		timeOutLimitEditor.setValidRange( 0, MAX_MAX_ROW );
+
+		timeOutLimitEditor.setPropertyChangeListener( new IPropertyChangeListener( ) {
+
+			public void propertyChange( PropertyChangeEvent event )
+			{
+				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
+					setValid( timeOutLimitEditor.isValid( ) );
+			}
+		} );
+
+		timeOutLimitEditor.setErrorMessage( JdbcPlugin.getFormattedString( "designer.preview.preference.resultset.timeOutLimit.errormessage",
+				new Object[]{
+					new Integer( MAX_MAX_ROW )
+				} ) );
+
+		String defaultTimeOutLimit = JdbcPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( USER_TIMEOUT_LIMIT );
+		if ( defaultTimeOutLimit == null
+				|| defaultTimeOutLimit.trim( ).length( ) <= 0 )
+		{
+			defaultTimeOutLimit = String.valueOf( DEFAULT_TIMEOUT_LIMIT );
+		}
+		timeOutLimitEditor.setStringValue( defaultTimeOutLimit );
+				
 		Utility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_PREFERENCE_DATASET_JDBC );
 		
@@ -224,6 +270,10 @@ public class DateSetPreferencePage extends PreferencePage
 		JdbcPlugin.getDefault( )
 			.getPluginPreferences( )
 			.setValue( USER_MAX_NUM_OF_TABLE_EACH_SCHEMA, maxDisplayTableEditor.getStringValue( ) );
+		JdbcPlugin.getDefault( )
+				.getPluginPreferences( )
+				.setValue( USER_TIMEOUT_LIMIT,
+						timeOutLimitEditor.getStringValue( ) );
 		JdbcPlugin.getDefault( ).savePluginPreferences( );
 		
 		return true;
