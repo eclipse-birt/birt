@@ -44,10 +44,7 @@ public class JdbcMetaDataProvider
 	private static JdbcMetaDataProvider instance = null;
 	
 	private Thread schemaPullThread = null;
-	private Thread monitorThread = null;
 	private ResultSet schemaResultSet = null;
-	private long timeOutTime;
-	private List<String> schemaNameList = new ArrayList<String>( );
 
 	private JdbcMetaDataProvider(String driverClass, String url, String userName, String password )
 	{
@@ -502,9 +499,12 @@ public class JdbcMetaDataProvider
 	
 	public String[] getAllSchemaNames( long timeOutSeconds )
 	{
-		this.timeOutTime = timeOutSeconds;
+		final List<String> schemaNameList = new ArrayList<String>( );
+		
+		schemaPullThread = null;
+		schemaResultSet = null;
+		
 		schemaPullThread = new Thread( ) {
-
 			public void run( )
 			{
 				schemaResultSet = getAllSchemas( );
@@ -522,37 +522,31 @@ public class JdbcMetaDataProvider
 						logger.log( Level.WARNING, e.getMessage( ), e );
 					}
 				}
-			}
-		};
-
-		monitorThread = new Thread( ) {
-
-			public void run( )
-			{
-				try
+				synchronized ( schemaPullThread )
 				{
-					Thread.sleep( timeOutTime );
-				}
-				catch ( Exception ex )
-				{
-
+					try
+					{
+						schemaPullThread.notifyAll( );
+					}
+					catch ( Exception ex )
+					{
+					}
 				}
 			}
 		};
-
-		monitorThread.start( );
+		
 		schemaPullThread.start( );
-
-		if ( !( schemaPullThread.getState( ) == Thread.State.TERMINATED ) )
+		synchronized ( schemaPullThread )
 		{
-			while ( true )
+			try
 			{
-				if ( schemaPullThread.getState( ) == Thread.State.TERMINATED )
-					break;
-				else if ( monitorThread.getState( ) == Thread.State.TERMINATED )
-					break;
+				schemaPullThread.wait( timeOutSeconds );
+			}
+			catch ( Exception ex )
+			{
 			}
 		}
+
 		return schemaNameList.toArray( new String[0] );
 	}
 	
