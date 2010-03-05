@@ -41,6 +41,7 @@ import com.ibm.icu.util.ULocale;
 public class ExcelUtil
 {
 
+	public final static int maxCellTextLength = 32767;
 	private final static String scienticPattern = "0*.*0*E0*";
 	private static final double SECONDS_PER_DAY = 86400.0;
 	private static final double SECONDS_PER_MINUTE = 60.0;
@@ -1363,4 +1364,16 @@ public class ExcelUtil
 			return PAPER_ISOB4;
 		return PAPER_A4;
 	}
+
+	public static String truncateCellText( String txt )
+	{
+		if ( txt.length( ) > maxCellTextLength )
+		{
+			txt = txt.substring( 0, maxCellTextLength );
+			logger.log( Level.WARNING,
+					"The text length should not exceed 32767 characters!" );
+		}
+		return txt;
+	}
+
 }
