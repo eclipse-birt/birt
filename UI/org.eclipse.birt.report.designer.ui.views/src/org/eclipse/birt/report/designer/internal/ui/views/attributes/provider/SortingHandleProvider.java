@@ -18,7 +18,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.SortingModelProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -293,9 +292,7 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	{
 		if ( event instanceof PropertyEvent )
 		{
-			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-			if ( ListingHandle.SORT_PROP.equals( propertyName ) )
-				return true;
+			return true;
 		}
 		return false;
 	}
