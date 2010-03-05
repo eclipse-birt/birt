@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -106,5 +111,37 @@ public abstract class DimensionHandle extends ReportElementHandle
 	public ExpressionHandle getACLExpression( )
 	{
 		return getExpressionProperty( ACL_EXPRESSION_PROP );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<CubeHandle> getCubeClients( )
+	{
+		Iterator iter = clientsIterator( );
+		List<CubeHandle> cubes = new ArrayList<CubeHandle>( );
+
+		while ( iter.hasNext( ) )
+		{
+			DesignElementHandle client = (DesignElementHandle) iter.next( );
+			if ( client instanceof TabularDimensionHandle )
+			{
+				TabularDimensionHandle dimension = (TabularDimensionHandle) client;
+				DesignElementHandle container = dimension.getContainer( );
+
+				// if already added, do nothing
+				if ( cubes.contains( container ) )
+					continue;
+
+				if ( container instanceof CubeHandle )
+				{
+					CubeHandle cube = (CubeHandle) container;
+					cubes.add( cube );
+				}
+			}
+		}
+
+		return cubes;
 	}
 }

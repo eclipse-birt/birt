@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -3135,5 +3136,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 			handleList.add( element.getHandle( root ) );
 		}
 		return handleList;
+	}
+
+	/**
+	 * Gets all the shared dimensions defined or accessed by this module.
+	 * 
+	 * @return
+	 */
+	public List<DimensionHandle> getAllSharedDimensions( )
+	{
+		return Collections.emptyList( );
 	}
 }
