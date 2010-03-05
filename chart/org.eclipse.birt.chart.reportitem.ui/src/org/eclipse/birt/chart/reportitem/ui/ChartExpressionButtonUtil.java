@@ -50,7 +50,7 @@ import org.eclipse.swt.widgets.Listener;
 public class ChartExpressionButtonUtil
 {
 
-	static interface IExpressionDescriptor
+	public static interface IExpressionDescriptor
 	{
 		void setExpressionType( String type );
 
@@ -63,7 +63,7 @@ public class ChartExpressionButtonUtil
 		String getTooltip( );
 	}
 
-	static class ExpressionDescriptor implements IExpressionDescriptor
+	public static class ExpressionDescriptor implements IExpressionDescriptor
 	{
 
 		protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
@@ -92,14 +92,15 @@ public class ChartExpressionButtonUtil
 			{
 				return new ExpressionDescriptor( ( (String[]) expr )[0] );
 			}
-			else if ( isCube )
+			else if ( expr instanceof String )
 			{
-				if ( expr instanceof String )
+				if ( isCube )
 				{
 					return new BindingExpressionDescriptor( (String) expr,
 							(String) expr,
 							isCube );
 				}
+				return new ExpressionDescriptor( (String) expr );
 			}
 			else if ( expr instanceof ColumnBindingInfo )
 			{
@@ -107,10 +108,7 @@ public class ChartExpressionButtonUtil
 						( (ColumnBindingInfo) expr ).getTooltip( ),
 						isCube );
 			}
-			else if ( expr instanceof String )
-			{
-				return new ExpressionDescriptor( (String) expr );
-			}
+			
 			return null;
 		}
 

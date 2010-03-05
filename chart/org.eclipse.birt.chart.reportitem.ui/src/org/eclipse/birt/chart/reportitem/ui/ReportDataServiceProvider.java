@@ -165,7 +165,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	
 	ChartReportItemUIFactory uiFactory = ChartReportItemUIFactory.instance( );
 	
-	DteAdapter dteAdapter = uiFactory.createDteAdapter( );
+	protected DteAdapter dteAdapter = uiFactory.createDteAdapter( );
 	
 	protected Object sessionLock = new Object();
 	/**
@@ -1176,7 +1176,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return null;
 	}
 
-	private int getMaxRow( )
+	protected int getMaxRow( )
 	{
 		return PreferenceFactory.getInstance( )
 				.getPreferences( ChartReportItemUIActivator.getDefault( ),
@@ -1451,7 +1451,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @param rowLimit
 	 * @param isCubeMode
 	 */
-	private void setRowLimit(  DataRequestSession session, int rowLimit, boolean isCubeMode )
+	protected void setRowLimit(  DataRequestSession session, int rowLimit, boolean isCubeMode )
 	{
 		// Bugzilla #210225.
 		// If filter is set on report item handle of chart, here should not use
@@ -1472,7 +1472,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @param cube
 	 * @return
 	 */
-	private boolean needDefineCube( CubeHandle cube )
+	protected boolean needDefineCube( CubeHandle cube )
 	{
 		return dataSetReference != cube;
 	}
@@ -1875,7 +1875,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws BirtException
 	 */
 	@SuppressWarnings("static-access")
-	private IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
+	protected IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
 			final Chart cm, List<String> columnExpression )
 			throws BirtException
 	{
@@ -1884,7 +1884,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		IBaseCubeQueryDefinition qd = null;
 
 		ReportItemHandle referredHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
-		boolean isChartCubeReference = ChartItemUtil.isChartReportItemHandle( referredHandle );
+		boolean isChartCubeReference = isChartReportItemHandle( referredHandle );
 		if ( referredHandle != null && !isChartCubeReference )
 		{
 			// If it is 'sharing' case, include sharing crosstab and multiple
@@ -3128,7 +3128,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				// expression(value series expressions) doesn't contain level
 				// information, so here only update Y optional expression for
 				// sharing with crosstab case.
-				if ( !ChartItemUtil.isChartReportItemHandle( ChartItemUtil.getReportItemReference( itemHandle ) ) )
+				if ( !isChartReportItemHandle( ChartItemUtil.getReportItemReference( itemHandle ) ) )
 				{
 					for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
 							.iterator( ); iter.hasNext( ); )
@@ -3420,13 +3420,38 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( isRecursive )
 		{
 			return isShare
-					&& ChartItemUtil.isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) );
+					&& isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) );
 		}
 		else
 		{
 			return isShare
-					&& ChartItemUtil.isChartReportItemHandle( itemHandle.getDataBindingReference( ) );
+					&& isChartReportItemHandle( itemHandle.getDataBindingReference( ) );
 		}
+	}
+
+	/**
+	 * This method just calls a utility method to check if current handle hold
+	 * chart,and will be overridden for difference cases.
+	 * 
+	 * @param referredHandle
+	 * @return
+	 * @since 2.5.3
+	 */
+	public boolean isChartReportItemHandle( ReportItemHandle referredHandle )
+	{
+		return ChartReportItemUtil.isChartReportItemHandle( referredHandle );
+	}
+
+	/**
+	 * This method just calls a utility method to get reference handle,and will
+	 * be overridden for difference cases.
+	 * 
+	 * @return
+	 * @since 2.5.3
+	 */
+	public ExtendedItemHandle getChartReferenceItemHandle( )
+	{
+		return ChartReportItemUtil.getChartReferenceItemHandle( itemHandle );
 	}
 	
 	/**
@@ -3441,11 +3466,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			targetCM = (Chart) target;
 		}
-		ExtendedItemHandle refHandle = ChartItemUtil.getChartReferenceItemHandle( itemHandle );
+		ExtendedItemHandle refHandle = getChartReferenceItemHandle( );
 		if ( refHandle != null )
 		{
 			ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
-					targetCM );
+					(Chart) targetCM );
 		}
 	}
 	

@@ -1077,6 +1077,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						.equals( "Total" ) ); //$NON-NLS-1$
 			}
 		} );
+		
+		// Add this filer to disable the reference of DataSet category and Cube
+		// category.
 		ep.addFilter( new ExpressionFilter( ) {
 
 			public boolean select( Object parentElement, Object element )
@@ -2590,7 +2593,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		ReportItemHandle referenceHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
 		ReportDataServiceProvider rdsp = this.getDataServiceProvider( );
 		if ( referenceHandle instanceof ExtendedItemHandle
-				&& ChartItemUtil.isChartReportItemHandle( referenceHandle ) )
+				&& rdsp.isChartReportItemHandle( referenceHandle ) )
 		{
 			// If the final reference handle is cube with other
 			// chart, the valid category and Y optional expressions

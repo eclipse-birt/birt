@@ -48,6 +48,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
@@ -222,7 +223,7 @@ public class ChartCubeQueryHelper
 	{
 		bSingleChart = parent == null;
 
-		CubeHandle cubeHandle = handle.getCube( );
+		CubeHandle cubeHandle = getCubeHandle( );
 		ICubeQueryDefinition cubeQuery = null;
 		if ( cubeHandle == null )
 		{
@@ -325,6 +326,19 @@ public class ChartCubeQueryHelper
 		// Add aggregation list to measure bindings on demand
 		Collection<ILevelDefinition> levelsInOrder = getAllLevelsInHierarchyOrder( cubeHandle,
 				cubeQuery );
+		addAggregateOnToMeasures( levelsInOrder );
+
+		return cubeQuery;
+	}
+
+	protected CubeHandle getCubeHandle( )
+	{
+		return handle.getCube( );
+	}
+
+	protected void addAggregateOnToMeasures(
+			Collection<ILevelDefinition> levelsInOrder ) throws DataException
+	{
 		for ( Iterator<String> measureNames = registeredMeasures.keySet( )
 				.iterator( ); measureNames.hasNext( ); )
 		{
@@ -342,8 +356,6 @@ public class ChartCubeQueryHelper
 				}
 			}
 		}
-
-		return cubeQuery;
 	}
 
 	private ISubCubeQueryDefinition createSubCubeQuery( ) throws BirtException
@@ -612,7 +624,7 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	private void bindBinding( IBinding colBinding,
+	protected void bindBinding( IBinding colBinding,
 			ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
@@ -705,7 +717,7 @@ public class ChartCubeQueryHelper
 	/**
 	 * Adds measure or row/column edge according to query expression.
 	 */
-	private void bindExpression( String expression,
+	protected void bindExpression( String expression,
 			ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
