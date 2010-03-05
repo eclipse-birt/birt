@@ -25,6 +25,8 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -62,6 +64,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 
 	private String unitName;
 
+	private int unitIndex = 0;
 	/**
 	 * @param parent
 	 */
@@ -90,10 +93,8 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	protected Control createDialogArea(Composite parent) {
-		UIUtil
-				.bindHelp(parent,
-						IHelpContextIds.DIMENSION_BUILDER_DIALOG_DIALOG);
+	protected Control createDialogArea( Composite parent )
+	{
 		Composite composite = (Composite) super.createDialogArea(parent);
 
 		GridLayout gridLayout = new GridLayout();
@@ -103,6 +104,15 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 		createMeasureField(composite);
 
 		createUnitGroup(composite);
+
+		if ( getUnitName( ) == null )
+		{
+			setUnitName( units[0].getData( ).toString( ) );
+			units[0].setSelection( true );
+		}
+		measure.setFocus( );
+
+		UIUtil.bindHelp( parent, IHelpContextIds.DIMENSION_BUILDER_DIALOG_DIALOG );
 
 		return composite;
 	}
@@ -136,6 +146,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 				}
 				e.doit = doit;
 			}});
+
 	}
 
 	/**
@@ -150,7 +161,6 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 
 		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary()
 				.getChoiceSet(DesignChoiceConstants.CHOICE_UNITS);
-
 		units = new Button[unitNames.length];
 		for (int i = 0; i < units.length; i++) {
 			units[i] = new Button(composite, SWT.RADIO);
@@ -165,6 +175,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 
 			if (units[i].getData().equals(getUnitName())) {
 				units[i].setSelection(true);
+				unitIndex = i;
 			}
 
 			final int currentUnitData = i;
@@ -172,12 +183,24 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 
 				public void widgetSelected(SelectionEvent e) {
 					setUnitName(units[currentUnitData].getData().toString());
+					unitIndex = currentUnitData;
 				}
 
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 			});
 		}
+		unitLabel.addTraverseListener( new TraverseListener( ) {
+
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
+				{
+					e.detail = SWT.TRAVERSE_NONE;
+					units[unitIndex].setFocus( );
+				}
+			}
+		} );
 	}
 
 	/**
