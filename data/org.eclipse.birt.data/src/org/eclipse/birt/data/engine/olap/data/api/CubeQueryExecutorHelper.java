@@ -565,8 +565,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	private IDiskArray[] getFilterResult( ) throws DataException, IOException
 	{
-		try
-		{
 		IDimension[] dimensions = cube.getDimesions( );
 		IDiskArray[] dimPosition = new IDiskArray[dimensions.length];
 		for ( int i = 0; i < dimPosition.length; i++ )
@@ -579,22 +577,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			dimPosition[i] = filterHelper.getJSFilterResult( jsFilters, isBreakHierarchy );
 		}
 		return dimPosition;
-		}
-		catch( IOException ie )
-		{
-			ie.printStackTrace( );
-			throw ie;
-		}
-		catch( DataException de )
-		{
-			de.printStackTrace( );
-			throw de;
-		}
-		catch( Throwable te )
-		{
-			te.printStackTrace( );
-			return null;
-		}
 	}
 	
 	/**
