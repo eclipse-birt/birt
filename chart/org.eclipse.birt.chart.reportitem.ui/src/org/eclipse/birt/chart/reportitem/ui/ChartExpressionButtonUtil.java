@@ -250,7 +250,7 @@ public class ChartExpressionButtonUtil
 				{
 					case SWT.KeyDown :
 						if ( event.keyCode == SWT.CR
-								&& event.keyCode == SWT.KEYPAD_CR )
+								|| event.keyCode == SWT.KEYPAD_CR )
 						{
 							onChange( );
 						}
