@@ -13,6 +13,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -576,6 +578,35 @@ public class DataEngineImpl extends DataEngine
 		dataSetDesigns = null;
 		dataSources = null;
 		clearTempFile( );
+		
+		if ( this.getContext( ).getDocWriter( ) != null )
+		{
+			RAOutputStream outputStream;
+			try
+			{
+				if ( this.getContext( )
+						.getDocWriter( )
+						.exists( DataEngineContext.QUERY_STARTING_ID ) )
+				{
+					outputStream = this.getContext( )
+							.getDocWriter( )
+							.getOutputStream( DataEngineContext.QUERY_STARTING_ID );
+				}
+				else
+				{
+					outputStream = this.getContext( )
+							.getDocWriter( )
+							.createOutputStream( DataEngineContext.QUERY_STARTING_ID );
+				}
+				outputStream.writeInt( this.getSession( )
+						.getQueryResultIDUtil( )
+						.getCurrentQueryId( ) );
+				outputStream.close( );
+			}
+			catch ( IOException e )
+			{
+			}
+		}
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
 	

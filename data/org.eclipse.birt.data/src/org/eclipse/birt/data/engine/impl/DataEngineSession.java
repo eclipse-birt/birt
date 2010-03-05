@@ -20,6 +20,7 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
@@ -110,7 +111,28 @@ public class DataEngineSession
 		engine.addShutdownListener( new ReportDocumentShutdownListener( this ) );
 		
 		this.cancelManager.register( new StopSignCancellable( stopSign ) );
-		this.queryResultIDUtil = new QueryResultIDUtil();
+		
+		int currentQueryID = 0;
+		if ( engine.getContext( ).getDocReader( ) != null )
+		{
+			try
+			{
+				if ( engine.getContext( )
+						.getDocReader( )
+						.exists( DataEngineContext.QUERY_STARTING_ID ) )
+				{
+					RAInputStream stream = engine.getContext( )
+							.getDocReader( )
+							.getInputStream( DataEngineContext.QUERY_STARTING_ID );
+					currentQueryID = stream.readInt( );
+					stream.close( );
+				}
+			}
+			catch ( IOException e )
+			{
+			}
+		}
+		this.queryResultIDUtil = new QueryResultIDUtil( currentQueryID );
 		
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
