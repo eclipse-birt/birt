@@ -370,8 +370,10 @@ public abstract class AbstractEmitterImpl
 			wordWriter.insertHiddenParagraph( );
 		}
 
-		wordWriter.startTable( list.getComputedStyle( ), context
-				.getCurrentWidth( ) );
+		int width = WordUtil.convertTo( list.getWidth( ), context
+				.getCurrentWidth( ), reportDpi );
+		width = Math.min( width, context.getCurrentWidth( ) );
+		wordWriter.startTable( list.getComputedStyle( ), width );
 	}
 
 	public void startListBand( IListBandContent listBand )
