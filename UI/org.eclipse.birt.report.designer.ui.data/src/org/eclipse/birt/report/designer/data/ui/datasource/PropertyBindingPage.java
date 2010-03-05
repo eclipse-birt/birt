@@ -59,15 +59,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 
 	private IDesignElementModel ds;
 
-	/**
-	 * the binding propreties's name list
-	 */
-	private List bindingName = new ArrayList( );
-	
-	/**
-	 * the binding properties's display name list
-	 */
-	private List displayName = new ArrayList( );
+	private List propList = new ArrayList( );
 
 	/**
 	 * the binding properties's value list, this list contains all binding
@@ -86,8 +78,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 
 	// This is a temporary property for data set property binding
 	private final String QUERYTEXT = "queryText"; //$NON-NLS-1$
-	private final String ODAPASSWORD = "odaPassword"; //$NON-NLS-1$
-	private final String PASSWORD = "Password"; //$NON-NLS-1$
+
 	private static Logger logger = Logger.getLogger( PropertyBindingPage.class.getName( ) );
 	
 	private ReportElementHandle handle;
@@ -100,7 +91,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		// property binding initialize
 		initPropertyBinding( );
 
-		int size = bindingName.size( );
+		int size = propList.size( );
 
 		Composite composite = new Composite( parent, SWT.NONE );
 		composite.setLayout( new GridLayout( 3, false ) );
@@ -117,24 +108,37 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		for ( int i = 0; i < size; i++ )
 		{
 			nameLabel = new Label( composite, SWT.NONE );
-			nameLabel.setText( (String) displayName.get( i )
-					+ Messages.getString( "PropertyBindingPage.label.colon" ) ); //$NON-NLS-1$
+			String bindingName = ""; //$NON-NLS-1$
+			boolean isEncryptable = false;
+			if ( propList.get( i ) instanceof String[] )
+			{
+				bindingName = ( (String[]) propList.get( i ) )[0];
+				nameLabel.setText( ( (String[]) propList.get( i ) )[1]
+						+ Messages.getString( "PropertyBindingPage.label.colon" ) ); //$NON-NLS-1$
+			}
+			else if ( propList.get( i ) instanceof IPropertyDefn )
+			{
+				IPropertyDefn propDefn = (IPropertyDefn) propList.get( i );
+				bindingName = propDefn.getName( );
+				nameLabel.setText( propDefn.getDisplayName( )
+						+ Messages.getString( "PropertyBindingPage.label.colon" ) ); //$NON-NLS-1$
+				isEncryptable = propDefn.isEncryptable( );
+			}
 			nameLabelList.add( nameLabel );
 
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
-			if ( ( (String) bindingName.get( i ) ).equals( QUERYTEXT ) )
+			if ( QUERYTEXT.equals( bindingName ) )
 			{
 				propertyText = new Text( composite, SWT.BORDER
 						| SWT.V_SCROLL | SWT.H_SCROLL );
 				data.heightHint = 100;
 			}
-			else if ( ODAPASSWORD.equals( (String) bindingName.get( i ) )
-					|| PASSWORD.equals( (String) bindingName.get( i ) ) )
+			else if ( isEncryptable )
 			{
 				propertyText = new Text( composite, SWT.BORDER );
 				if ( ds instanceof DesignElementHandle )
 				{
-					Expression expr = ( (DesignElementHandle) ds ).getPropertyBindingExpression( (String) bindingName.get( i ) );
+					Expression expr = ( (DesignElementHandle) ds ).getPropertyBindingExpression( bindingName );
 					if ( expr != null
 							&& ExpressionType.CONSTANT.equals( expr.getType( ) ) )
 					{
@@ -154,27 +158,29 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 
 			if ( ds instanceof OdaDataSourceHandle )
 			{
-				handle = (OdaDataSourceHandle)ds;
-				OdaDataSourceHandle odsh = (OdaDataSourceHandle)ds;
-				Utility.setSystemHelp( composite, 
-						IHelpConstants.PREFIX + "Wizard_DataSourcePropertyBinding"
-						+ "("+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //'.' char will interrupt help system
-						+ "_ID");
+				handle = (OdaDataSourceHandle) ds;
+				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ds;
+				// '.' char will interrupt help system
+				Utility.setSystemHelp( composite, IHelpConstants.PREFIX
+						+ "Wizard_DataSourcePropertyBinding" + "(" //$NON-NLS-1$ //$NON-NLS-2$
+						+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //$NON-NLS-1$
+						+ "_ID" ); //$NON-NLS-1$
 
 			}
 			else if ( ds instanceof OdaDataSetHandle )
 			{
 				handle = (OdaDataSetHandle) ds;
 				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ( ( (OdaDataSetHandle) ds ).getDataSource( ) );
-
-				Utility.setSystemHelp( composite, 
-						IHelpConstants.PREFIX + "Wizard_DataSetPropertyBinding"
-						+ "("+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //'.' char will interrupt help system
-						+ "_ID");
+				// '.' char will interrupt help system
+				Utility.setSystemHelp( composite, IHelpConstants.PREFIX
+						+ "Wizard_DataSetPropertyBinding" + "(" //$NON-NLS-1$ //$NON-NLS-2$
+						+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //$NON-NLS-1$
+						+ "_ID" ); //$NON-NLS-1$
 			}
 			createExpressionButton( composite,
 					propertyText,
-					(String) bindingName.get( i ) );
+					bindingName,
+					isEncryptable );
 
 		}
 		if ( size <= 0 )
@@ -183,7 +189,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	}
 
 	private void createExpressionButton( Composite composite,
-			final Text property, String propName )
+			final Text property, String propName, boolean isEncryptable )
 	{
 		ExpressionButton exprButton = ExpressionButtonUtil.createExpressionButton( composite,
 				property,
@@ -192,7 +198,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				true,
 				SWT.PUSH );
 
-		if ( ODAPASSWORD.equals( propName ) || PASSWORD.equals( propName ) )
+		if ( isEncryptable )
 		{
 			exprButton.setExpressionButtonProvider( new ExprButtonProvider( true,
 					property ) );
@@ -227,8 +233,9 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				&& ( (DataSetHandle) ds ).getPropertyHandle( QUERYTEXT )
 						.isVisible( ) )
 		{
-			bindingName.add( QUERYTEXT );
-			displayName.add( Messages.getString( "PropertyBindingPage.dataset.queryText" ) ); //$NON-NLS-1$
+			propList.add( new String[]{
+					QUERYTEXT,
+					Messages.getString( "PropertyBindingPage.dataset.queryText" )} ); //$NON-NLS-1$
 			bindingValue.add( ( (DataSetHandle) ds ).getPropertyBinding( QUERYTEXT ) == null
 					? ""
 					: ( (DataSetHandle) ds ).getPropertyBinding( QUERYTEXT ) );
@@ -246,8 +253,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 					if ( elementDefn != null
 							&& !elementDefn.isPropertyVisible( name ) )
 						continue;
-					bindingName.add( name );
-					displayName.add( propertyDefn.getDisplayName( ) );
+					propList.add( propertyDefn );
 
 					if ( ds instanceof DataSetHandle )
 					{
@@ -297,7 +303,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 	 */
 	public boolean performOk( )
 	{
-		for ( int i = 0; i < bindingName.size( ); i++ )
+		for ( int i = 0; i < propList.size( ); i++ )
 		{
 			try
 			{
@@ -315,8 +321,16 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 				
 				if ( ds instanceof DesignElementHandle )
 				{
-					( (DesignElementHandle) ds ).setPropertyBinding( (String) bindingName.get( i ),
-							expr );
+					if ( propList.get( i ) instanceof String[] )
+					{
+						( (DesignElementHandle) ds ).setPropertyBinding( ( (String[]) propList.get( i ) )[0],
+								expr );
+					}
+					else if ( propList.get( i ) instanceof IPropertyDefn )
+					{
+						( (DesignElementHandle) ds ).setPropertyBinding( ( (IPropertyDefn) propList.get( i ) ).getName( ),
+								expr );
+					}
 				}
 			}
 			catch ( Exception e )
