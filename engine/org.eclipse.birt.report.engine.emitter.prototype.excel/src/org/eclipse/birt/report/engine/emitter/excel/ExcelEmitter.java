@@ -310,7 +310,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void endTable( ITableContent table )
 	{		
-		engine.endTable();
+		engine.endTable( table );
 	}	
 
 	public void startList( IListContent list )
@@ -342,7 +342,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	
 	public void endList( IListContent list )
 	{		
-		engine.endTable( );
+		engine.endTable( list );
 	}
 
 	public void startForeign( IForeignContent foreign ) throws BirtException
