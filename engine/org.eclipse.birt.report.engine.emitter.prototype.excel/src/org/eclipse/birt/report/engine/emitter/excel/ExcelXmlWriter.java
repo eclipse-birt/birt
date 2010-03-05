@@ -251,7 +251,7 @@ public class ExcelXmlWriter implements IExcelWriter
 			}
 		}
 
-		writer.text( txt );
+		writer.text( ExcelUtil.truncateCellText( txt ) );
 
 		writer.closeTag( "Data" );
 	}
