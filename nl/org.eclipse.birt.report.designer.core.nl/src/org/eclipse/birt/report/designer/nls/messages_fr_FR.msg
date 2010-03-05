@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=Insérer un élément d'agrégation
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=Mesure :
-DimensionBuilderDialog.LabelUnit=Unités :
+DimensionBuilderDialog.LabelMeasure=&Measure:
+DimensionBuilderDialog.LabelUnit=&Units:
 DimensionBuilderDialog.Title=Générateur de dimension
 
 ###########################################################

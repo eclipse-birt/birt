@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=집계 항목 삽입
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=측정:
-DimensionBuilderDialog.LabelUnit=단위:
+DimensionBuilderDialog.LabelMeasure=&Measure:
+DimensionBuilderDialog.LabelUnit=&Units:
 DimensionBuilderDialog.Title=차원 빌더
 
 ###########################################################

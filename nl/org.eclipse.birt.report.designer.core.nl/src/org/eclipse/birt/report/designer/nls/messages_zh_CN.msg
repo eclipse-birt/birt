@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=插入聚合项
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=度量:
-DimensionBuilderDialog.LabelUnit=单位:
+DimensionBuilderDialog.LabelMeasure=&Measure:
+DimensionBuilderDialog.LabelUnit=&Units:
 DimensionBuilderDialog.Title=维生成器
 
 ###########################################################

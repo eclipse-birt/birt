@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=Aggregatelement einfügen
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=Maßeinheit:
-DimensionBuilderDialog.LabelUnit=Einheiten:
+DimensionBuilderDialog.LabelMeasure=&Measure:
+DimensionBuilderDialog.LabelUnit=&Units:
 DimensionBuilderDialog.Title=Dimension Builder
 
 ###########################################################

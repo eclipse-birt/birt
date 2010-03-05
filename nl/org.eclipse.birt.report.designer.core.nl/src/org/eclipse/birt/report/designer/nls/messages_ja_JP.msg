@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=集計項目の挿入
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=メジャー :
-DimensionBuilderDialog.LabelUnit=単位 :
+DimensionBuilderDialog.LabelMeasure=&Measure:
+DimensionBuilderDialog.LabelUnit=&Units:
 DimensionBuilderDialog.Title=ディメンジョンビルダ
 
 ###########################################################
