@@ -245,7 +245,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		{
 			try
 			{
-				fExprMap = getChartExprDefinitions( (ExtendedItemHandle) handle );
+				fExprMap = getValidFilterExpressions( (ExtendedItemHandle) handle );
 				columnList = new ArrayList<String>( fExprMap.keySet( ) );
 				return;
 			}
@@ -258,7 +258,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		columnList = new ArrayList<String>( );
 	}
 
-	private String adaptExpr( ExpressionCodec exprCodec )
+	protected String adaptExpr( ExpressionCodec exprCodec )
 	{
 		Expression expr = new Expression( exprCodec.getExpression( ),
 				exprCodec.getType( ) );
@@ -267,7 +267,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				.getText( );
 	}
 
-	private Map<String, String> getChartExprDefinitions(
+	protected Map<String, String> getValidFilterExpressions(
 			ExtendedItemHandle handle ) throws ExtendedElementException
 	{
 		Map<String, String> exprMap = new LinkedHashMap<String, String>( );
@@ -754,7 +754,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
 							condition,
 							expression,
-							context.getExtendedItem( ),
+							designHandle,
 							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
 							new Listener( ) {
 

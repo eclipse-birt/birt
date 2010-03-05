@@ -12,8 +12,11 @@
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ui.ChartFilterFactory;
+import org.eclipse.birt.chart.reportitem.ui.ChartReportItemUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartCubeFilterConditionBuilder;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
@@ -22,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -29,6 +33,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.jface.dialogs.Dialog;
 
 
@@ -65,7 +70,9 @@ public class ChartCubeFilterHandleProvider extends
 		Object item = getContentInput( ).get( 0 );
 		if ( item instanceof DesignElementHandle )
 		{
-			ChartCubeFilterConditionBuilder dialog = new ChartCubeFilterConditionBuilder( UIUtil.getDefaultShell( ),
+			// Create proper chart filter factory which is responsible to create concrete filter handles.
+			ChartFilterFactory cff = getChartFilterFactory( item );
+			ChartCubeFilterConditionBuilder dialog = cff.createCubeFilterConditionBuilder( UIUtil.getDefaultShell( ),
 					FilterConditionBuilder.DLG_TITLE_NEW,
 					FilterConditionBuilder.DLG_MESSAGE_NEW );
 			dialog.setTipsForCube( Messages.getString( "ChartCubeFilterConditionBuilder.Information" ) ); //$NON-NLS-1$
@@ -88,6 +95,21 @@ public class ChartCubeFilterHandleProvider extends
 		}
 		return true;
 	}
+
+	private ChartFilterFactory getChartFilterFactory( Object item )
+			throws ExtendedElementException
+	{
+		ChartFilterFactory cff;
+		if ( item instanceof ExtendedItemHandle )
+		{
+			cff = ChartReportItemUIUtil.getChartFilterFactory( ( (ExtendedItemHandle) item ).getReportItem( ) );
+		}
+		else
+		{
+			cff = new ChartFilterFactory();
+		}
+		return cff;
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -107,8 +129,17 @@ public class ChartCubeFilterHandleProvider extends
 			{
 				return false;
 			}
-
-			ChartCubeFilterConditionBuilder dialog = new ChartCubeFilterConditionBuilder( UIUtil.getDefaultShell( ),
+			ChartFilterFactory cff;
+			try
+			{
+				cff = getChartFilterFactory( item );
+			}
+			catch ( ExtendedElementException e )
+			{
+				ChartWizard.displayException( e );
+				return false;
+			}
+			ChartCubeFilterConditionBuilder dialog = cff.createCubeFilterConditionBuilder(  UIUtil.getDefaultShell( ),
 					FilterConditionBuilder.DLG_TITLE_EDIT,
 					FilterConditionBuilder.DLG_MESSAGE_EDIT );
 			dialog.setDesignHandle( (DesignElementHandle) item, context );
