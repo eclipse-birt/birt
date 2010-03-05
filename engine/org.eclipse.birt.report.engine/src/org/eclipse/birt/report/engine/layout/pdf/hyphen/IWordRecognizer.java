@@ -21,5 +21,4 @@ public interface IWordRecognizer
 
     public boolean hasWord();
     
-    public int getLastWordEnd();
 }
