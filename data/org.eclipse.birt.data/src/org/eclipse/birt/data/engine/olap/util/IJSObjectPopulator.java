@@ -350,10 +350,16 @@ public interface IJSObjectPopulator
 					}
 					return null;
 				}
-				return ScriptEvalUtil.evalExpr( ( (IBinding) this.bindingMap.get( aggrName ) ).getExpression( ),
+
+				Object result = ScriptEvalUtil.evalExpr( ( (IBinding) this.bindingMap.get( aggrName ) ).getExpression( ),
 						cx.newContext( this.scope ),
 						ScriptExpression.defaultID,
 						0 );
+				if( result instanceof Scriptable )
+				{
+					return ((Scriptable)result).getDefaultValue( null );
+				}
+				return result;
 			}
 			catch ( DataException e )
 			{
