@@ -404,14 +404,7 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 			{
 				getDataSetColumns( contentInput.get( 0 ) );
 			}
-			if ( ListingHandle.FILTER_PROP.equals( propertyName ) )
-			{
-				return true;
-			}
-			if ( ReportItemHandle.PARAM_BINDINGS_PROP.equals( propertyName ) )
-			{
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}
