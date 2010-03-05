@@ -606,17 +606,20 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public String capitalize( String orientation )
 	{
-		if ( orientation.equalsIgnoreCase( "landscape" ) )
+		if ( orientation != null )
 		{
-			return "Landscape";
-		}
-		if(orientation.equalsIgnoreCase( "portrait" ))
-		{
-			return "Portrait";
+			if ( orientation.equalsIgnoreCase( "landscape" ) )
+			{
+				return "Landscape";
+			}
+			if ( orientation.equalsIgnoreCase( "portrait" ) )
+			{
+				return "Portrait";
+			}
 		}
 		return null;
 	}
-	
+
 	public String formatHeaderFooter( IContent headerFooter, boolean isHeader )
 	{
 		StringBuffer headfoot = new StringBuffer( );
