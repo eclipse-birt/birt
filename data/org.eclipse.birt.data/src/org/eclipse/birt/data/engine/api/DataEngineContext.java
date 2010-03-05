@@ -147,6 +147,8 @@ public class DataEngineContext
 	
 	public final static int CUBE_ROW_SECURITY_STREAM = 113;
 	
+	public final static String QUERY_STARTING_ID = "/dataEngine/queryStartingID";
+	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;

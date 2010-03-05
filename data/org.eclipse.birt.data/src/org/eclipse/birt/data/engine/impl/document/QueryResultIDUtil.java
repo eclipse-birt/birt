@@ -32,6 +32,11 @@ public class QueryResultIDUtil
 	{
 	}
 
+	public QueryResultIDUtil( int startingID )
+	{
+		this.currentId = startingID;
+	}
+
 	/**
 	 * @return
 	 */
@@ -126,6 +131,11 @@ public class QueryResultIDUtil
 	public static String buildSubQueryID( String subQueryName, int subQueryIndex )
 	{
 		return subQueryName + SUBQUERY_ID_SEPARATOR + subQueryIndex;
+	}
+	
+	public int getCurrentQueryId( )
+	{
+		return currentId;
 	}
 
 }
