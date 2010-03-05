@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Locale;
 
@@ -191,10 +192,17 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			// Must copy model here to generate runtime data later
 			if ( cm != null )
 			{
-				cm = cm.copyInstance( );
+				try
+				{
+					cm = cm.copyInstance( );
+				}
+				catch ( ConcurrentModificationException e )
+				{
+					// Once concurrent exception is thrown, try again.
+					cm = cm.copyInstance( );
+				}
 			}
 		}
-		
 		// #269935
 		// If it is sharing chart case, copy expressions settings from referred
 		// chart model into current.
