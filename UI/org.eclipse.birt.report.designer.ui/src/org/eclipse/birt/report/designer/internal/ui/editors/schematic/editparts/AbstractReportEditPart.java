@@ -97,7 +97,8 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 			}
 			
 			case NotificationEvent.CSS_RELOADED_EVENT:
-			case NotificationEvent.LIBRARY_RELOADED_EVENT :
+			case NotificationEvent.LIBRARY_RELOADED_EVENT:
+			case NotificationEvent.DATA_DESIGN_RELOADED_EVENT:
 			{
 				return new EditpartReportEventRunnable( focus, type, args ) {
 

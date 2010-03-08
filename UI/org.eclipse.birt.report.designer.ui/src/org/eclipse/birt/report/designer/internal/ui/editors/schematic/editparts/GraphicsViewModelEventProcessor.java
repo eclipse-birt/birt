@@ -48,19 +48,20 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 	protected boolean includeEventType( int type )
 	{
 		return type == NotificationEvent.CONTENT_EVENT
-				| type == NotificationEvent.PROPERTY_EVENT
-				| type == NotificationEvent.NAME_EVENT
-				| type == NotificationEvent.STYLE_EVENT
-				| type == NotificationEvent.EXTENSION_PROPERTY_DEFINITION_EVENT
-				| type == NotificationEvent.LIBRARY_EVENT
-				| type == NotificationEvent.THEME_EVENT
-				| type == NotificationEvent.CONTENT_REPLACE_EVENT
-				| type == NotificationEvent.TEMPLATE_TRANSFORM_EVENT
-				| type == NotificationEvent.ELEMENT_LOCALIZE_EVENT
-				| type == NotificationEvent.LIBRARY_RELOADED_EVENT
-				| type == NotificationEvent.CSS_EVENT
-				| type == NotificationEvent.VIEWS_CONTENT_EVENT
-				| type == NotificationEvent.CSS_RELOADED_EVENT;
+				|| type == NotificationEvent.PROPERTY_EVENT
+				|| type == NotificationEvent.NAME_EVENT
+				|| type == NotificationEvent.STYLE_EVENT
+				|| type == NotificationEvent.EXTENSION_PROPERTY_DEFINITION_EVENT
+				|| type == NotificationEvent.LIBRARY_EVENT
+				|| type == NotificationEvent.THEME_EVENT
+				|| type == NotificationEvent.CONTENT_REPLACE_EVENT
+				|| type == NotificationEvent.TEMPLATE_TRANSFORM_EVENT
+				|| type == NotificationEvent.ELEMENT_LOCALIZE_EVENT
+				|| type == NotificationEvent.LIBRARY_RELOADED_EVENT
+				|| type == NotificationEvent.DATA_DESIGN_RELOADED_EVENT
+				|| type == NotificationEvent.CSS_EVENT
+				|| type == NotificationEvent.VIEWS_CONTENT_EVENT
+				|| type == NotificationEvent.CSS_RELOADED_EVENT;
 	}
 	/**Process the content model event
 	 * ContentModelEventInfo
