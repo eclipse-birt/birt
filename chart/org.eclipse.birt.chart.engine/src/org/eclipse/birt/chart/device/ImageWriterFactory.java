@@ -49,4 +49,10 @@ public class ImageWriterFactory implements IImageWriterFactory
 		return null;
 	}
 
+	@Override
+	public ImageWriter createImageWriter( String formatName, String outputFormat )
+	{
+		return createByFormatName( formatName );
+	}
+
 }

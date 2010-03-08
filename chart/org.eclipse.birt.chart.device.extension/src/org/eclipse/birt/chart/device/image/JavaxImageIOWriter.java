@@ -104,6 +104,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	
 	private volatile boolean hasAddedMenuLib = false;
 	
+	private String outputFormat;
+	
 	/**
 	 * Returns the output format string for this writer.
 	 * 
@@ -701,7 +703,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 			// SEARCH FOR WRITER USING FORMAT
 			ImageWriter iw = ImageWriterFactory.instance( )
-					.createByFormatName( getFormat( ) );
+					.createImageWriter( getFormat( ), outputFormat );
 
 			// SEARCH FOR WRITER USING MIME TYPE
 			if ( iw == null )
@@ -806,6 +808,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		else if ( sProperty.equals( IDeviceRenderer.AREA_ALT_ENABLED ) )
 		{
 			_bAltEnabled = ( (Boolean) oValue ).booleanValue( );
+		}
+		else if (sProperty.equals( "output.format" )) //$NON-NLS-1$
+		{
+			outputFormat = (String)oValue;
 		}
 	}
 

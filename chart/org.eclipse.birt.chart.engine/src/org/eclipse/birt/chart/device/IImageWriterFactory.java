@@ -21,5 +21,7 @@ public interface IImageWriterFactory
 {
 
 	ImageWriter createByFormatName( String formatName );
+	
+	ImageWriter createImageWriter( String formatName, String outputFormat );
 
 }

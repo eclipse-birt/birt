@@ -1084,6 +1084,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 		idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, Integer.valueOf( dpi ) );
 		
+		idr.setProperty( "output.format", outputFormat ); //$NON-NLS-1$
+		
 		// Enable alt value in image map
 		if ( isAreaAltEnabled( ) )
 		{
