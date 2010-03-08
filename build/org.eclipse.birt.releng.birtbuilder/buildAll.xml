@@ -511,7 +511,7 @@
 			<param name="message" value="Finish to sync BIRT source folder"/>
 		</antcall>
 				
-		<copy todir="${buildDirectory}/plugins" overwrite="true">
+		<copy todir="${buildDirectory}/plugins" overwrite="true" failonerror="false">
 			<fileset dir="${buildDirectory}/source">
 				<include name="**" />
 				<exclude name="nl/**" />
@@ -525,6 +525,7 @@
 				<exclude name="org.eclipse.birt.releng.util/**" />
 				<exclude name="org.eclipse.birt.releng.birtbuilder/**" />
 				<exclude name="org.apache.commons.codec/**"/>
+				<exclude name="org.eclipse.birt.converters/**"/>
 				<exclude name="tutorials/**" />
 			</fileset>
 		</copy>
