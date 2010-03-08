@@ -702,7 +702,7 @@
 		</antcall>
 	</target>
 	
-	<target name="buildBirtNLFeature" if="skip.build.NL">
+	<target name="buildBirtNLFeature" unless="skip.build.NL">
   		<antcall target="logger">
 			<param name="message" value="BIRT nl feature build started"/>
 		</antcall>
