@@ -29,6 +29,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.ObjectSecurity;
@@ -292,15 +294,15 @@ public class ResultObjectUtil
 
 			Class fieldType = typeArray[j];
 			if ( fieldType.equals( Integer.class ) )
-				dos.writeInt( ( (Integer) fieldValue ).intValue( ) );
+				dos.writeInt( ( (Integer) convert( fieldValue, DataType.INTEGER_TYPE) ).intValue( ) );
 			else if ( fieldType.equals( Double.class ) )
-				dos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
+				dos.writeDouble( ( (Double) convert( fieldValue, DataType.DOUBLE_TYPE) ).doubleValue( ) );
 			else if ( fieldType.equals( BigDecimal.class ) )
-				dos.writeUTF( ( (BigDecimal) fieldValue ).toString( ) );
+				dos.writeUTF( ( (BigDecimal) convert( fieldValue, DataType.DECIMAL_TYPE) ).toString( ) );
 			else if ( Date.class.isAssignableFrom( fieldType ) )
-				dos.writeLong( ( (Date) fieldValue ).getTime( ) );
+				dos.writeLong( ( (Date) convert( fieldValue, DataType.DATE_TYPE )).getTime( ) );
 			else if ( fieldType.equals( Boolean.class ) )
-				dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
+				dos.writeBoolean( ( (Boolean) convert( fieldValue, DataType.BOOLEAN_TYPE) ).booleanValue( ) );
 			else if ( fieldType.equals( String.class ) )
 				IOUtil.writeString( dos, fieldValue.toString( ) );
 			else if ( fieldType.equals( IClob.class )
@@ -346,4 +348,15 @@ public class ResultObjectUtil
 		baos = null;
 	}
 	
+	private Object convert( Object o, int type ) throws DataException
+	{
+		try
+		{
+			return DataTypeUtil.convert( o, type );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+	}
 }
