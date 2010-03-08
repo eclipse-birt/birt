@@ -152,8 +152,16 @@ public class PlaceResources
 		}
 	}
 
-	public static void copyExcludedRptDesignes( Shell shell,
-			String projectPath, String fileName )
+	/**
+	 * 
+	 * @param shell
+	 * @param projectPath
+	 * @param fileName
+	 * @param copyJavaFile
+	 *            copy java file or not
+	 */
+	public static void copyExcludedRptDesignes( Shell shell, String projectPath, String fileName,
+			boolean copyJavaFile )
 	{
 		try
 		{
@@ -169,7 +177,7 @@ public class PlaceResources
 				URL reportURL = (URL) enumeration.nextElement( );
 				String filename = reportURL.getFile( );
 				String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
-				if ( !desFileName.toLowerCase( ).endsWith( ".rptdesign" ) ) //$NON-NLS-1$
+				if ( !desFileName.toLowerCase( ).endsWith( ".rptdesign" ) && copyJavaFile ) //$NON-NLS-1$
 				{
 					PlaceResources.copy( shell,
 							projectPath,

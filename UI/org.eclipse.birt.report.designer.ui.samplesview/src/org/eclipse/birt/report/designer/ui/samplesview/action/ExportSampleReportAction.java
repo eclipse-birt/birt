@@ -72,7 +72,8 @@ public class ExportSampleReportAction extends Action implements Listener
 
 		PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
 				saveDialog.getFilterPath( ),
-				filename );
+				filename,
+				true );
 
 		if ( ( (TreeItem) composite.getSelectedElement( ) ).getParentItem( )
 				.getText( )
