@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
 import org.eclipse.birt.report.model.elements.olap.TabularLevel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+import org.eclipse.birt.report.model.util.ReportDesignSerializer;
 
 import com.ibm.icu.util.ULocale;
 
@@ -513,10 +514,10 @@ public class ReportDesignHandleTest extends BaseTestCase
 		{
 			VariableElementHandle variable = iterator.next( );
 			String name = variable.getVariableName( );
-			assertEquals( name, "test" );
+			assertEquals( name, "test" ); //$NON-NLS-1$
 
 			String expression = variable.getValue( );
-			assertEquals( expression, "\"the test value\"" );
+			assertEquals( expression, "\"the test value\"" ); //$NON-NLS-1$
 
 		}
 
@@ -1449,6 +1450,40 @@ public class ReportDesignHandleTest extends BaseTestCase
 				.getSlot( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 		assertEquals( 0, slot.getCount( ) );
 
+	}
+
+	public void testGetFlattenElementName( ) throws Exception
+	{
+		openDesign( "ReportDesignHandleTest4.xml" ); //$NON-NLS-1$
+
+		ReportDesignSerializer visitor = new ReportDesignSerializer( );
+
+		design.apply( visitor );
+
+		ReportDesignHandle flattenDesign = (ReportDesignHandle) visitor
+				.getTarget( ).getModuleHandle( );
+
+		DataSetHandle derivedDataSet = flattenDesign.findDataSet( "union" ); //$NON-NLS-1$		
+		assertNotNull( derivedDataSet );
+
+		DesignElementHandle dataSet1 = flattenDesign.getFlattenElement(
+				derivedDataSet, "ds1" ); //$NON-NLS-1$
+		DesignElementHandle dataSet2 = flattenDesign.getFlattenElement(
+				derivedDataSet, "ds2" ); //$NON-NLS-1$
+		assertNotNull( dataSet1 );
+		assertNotNull( dataSet2 );
+		assertEquals( "ds11", dataSet1.getName( ) ); //$NON-NLS-1$ 
+		assertEquals( "ds21", dataSet2.getName( ) ); //$NON-NLS-1$
+		assertTrue( dataSet1 instanceof DataSetHandle );
+		assertTrue( dataSet2 instanceof DataSetHandle );
+		assertEquals( "Lib DataSet 1", ( (DataSetHandle) dataSet1 ) //$NON-NLS-1$
+				.getDisplayName( ) );
+		assertEquals( "Lib DataSet 2", ( (DataSetHandle) dataSet2 ) //$NON-NLS-1$
+				.getDisplayName( ) );
+
+		assertNull( flattenDesign.getFlattenElement( null, "ds1" ) ); //$NON-NLS-1$
+		assertNull( flattenDesign.getFlattenElement( derivedDataSet,
+				"NonExistedName" ) ); //$NON-NLS-1$
 	}
 
 }

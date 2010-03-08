@@ -1166,6 +1166,9 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	protected DesignElement localize( DesignElement element )
 	{
 		DesignElement newElement = createNewElement( element );
+		DesignElement extendsElement = element.getExtendsElement( );
+		if ( extendsElement != null )
+			targetDesign.cacheFlattenElement( extendsElement, newElement );
 		localizePropertyValues( element, newElement );
 		localizePropertyBindings( element, newElement );
 		return newElement;
@@ -2490,6 +2493,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			DesignElement targetElement )
 	{
 		externalElements.put( sourceElement, targetElement );
+		targetDesign.cacheFlattenElement( sourceElement, targetElement );
 	}
 
 	private void cacheMapping( IStructure sourceStruct, IStructure targetStruct )

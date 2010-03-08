@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21">
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">Library_6.xml</property>
+            <property name="namespace">lib</property>
+        </structure>
+    </list-property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="ds">
+            <text-property name="displayName">DataSource</text-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>        
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds1">
+        	<property name="dataSource">ds</property>
+        	<text-property name="displayName">DataSet 1</text-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds2">
+        	<property name="dataSource">ds</property>
+        	<text-property name="displayName">DataSet 2</text-property>
+        </oda-data-set>
+        <derived-data-set extensionID="org.eclipse.birt.data.union" name="union" extends="lib.union"/>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage"/>
+    </page-setup>
+</report>

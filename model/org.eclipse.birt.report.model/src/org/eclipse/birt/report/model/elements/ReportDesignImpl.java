@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.elements;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -50,6 +52,9 @@ abstract class ReportDesignImpl extends LayoutModule
 {
 
 	private ICssStyleSheetOperation operation = null;
+
+	private HashMap<DesignElement, String> sourceMap;
+	private HashMap<String, HashMap<String, DesignElement>> namespaceMap;
 
 	/**
 	 * Default constructor.
@@ -344,5 +349,66 @@ abstract class ReportDesignImpl extends LayoutModule
 	{
 		return (VariableElement) nameHelper.getNameSpace(
 				VARIABLE_ELEMENT_NAME_SPACE ).getElement( name );
+	}
+
+	/**
+	 * Caches the flatten element.
+	 * 
+	 * @param originalElement
+	 *            the original element
+	 * @param flattenElement
+	 *            the flatten element
+	 */
+	public void cacheFlattenElement( DesignElement originalElement,
+			DesignElement flattenElement )
+	{
+		if ( sourceMap == null )
+		{
+			sourceMap = new LinkedHashMap<DesignElement, String>( );
+			namespaceMap = new LinkedHashMap<String, HashMap<String, DesignElement>>( );
+		}
+		String namespace = originalElement.getRoot( ).getNamespace( );
+		sourceMap.put( flattenElement, namespace );
+
+		HashMap<String, DesignElement> nameMapping = namespaceMap
+				.get( namespace );
+		if ( nameMapping == null )
+		{
+			nameMapping = new LinkedHashMap<String, DesignElement>( );
+			namespaceMap.put( namespace, nameMapping );
+		}
+		nameMapping.put( originalElement.getName( ), flattenElement );
+	}
+
+	/**
+	 * Gets the flatten element by the original name.
+	 * 
+	 * @param element
+	 *            a flatten element once in the same namespace
+	 * @param originalName
+	 *            the original name of the element
+	 * 
+	 * @return the flatten element, or null if not found
+	 */
+	public DesignElement getFlattenElement( DesignElement element,
+			String originalName )
+	{
+		if ( element != null && sourceMap != null )
+		{
+			String namespace = sourceMap.get( element );
+			if ( namespace != null )
+			{
+				HashMap<String, DesignElement> nameMapping = namespaceMap
+						.get( namespace );
+				if ( nameMapping != null )
+				{
+					DesignElement flattenElement = nameMapping
+							.get( originalName );
+					if ( flattenElement != null )
+						return flattenElement;
+				}
+			}
+		}
+		return null;
 	}
 }
