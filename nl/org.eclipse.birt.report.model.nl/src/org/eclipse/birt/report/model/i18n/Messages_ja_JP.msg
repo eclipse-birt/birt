@@ -701,10 +701,10 @@ Choices.overflow.auto=自動
 #88 GadgetContentType
 Choices.gadgetContentType.html=HTML
 Choices.gadgetContentType.url=URL
-Choices.gadgetContentType.video=Video
-Choices.gadgetContentType.videourl=Video URL
+Choices.gadgetContentType.video=ビデオ
+Choices.gadgetContentType.videourl=ビデオの URL
 Choices.gadgetContentType.text=テキスト
-Choices.gadgetContentType.image=Image  
+Choices.gadgetContentType.image=イメージ  
 
 ###########################################################
 # Classes
@@ -2351,7 +2351,7 @@ Element.DataMart=データオブジェクト
 Element.DataMartDataSource=データオブジェクトのデータソース
 Element.DataMartDataSet=データオブジェクトのデータセット
 Element.DataMartCube=データオブジェクトキューブ
-Element.TimeDimension=Time Dimension
+Element.TimeDimension=時間のディメンジョン
 
 ###########################################################
 # Element property names
@@ -3377,8 +3377,8 @@ Element.DataMartCube.dataSource=データソース
 Element.DataMartCube.dataObject=データオブジェクト
 
 #82 TimeDimension ( prefix Element.TimeDimension )
-Element.TimeDimension.startTimePoint=Start time point
-Element.TimeDimension.endTimePoint=End time point
+Element.TimeDimension.startTimePoint=開始時刻ポイント
+Element.TimeDimension.endTimePoint=終了時刻ポイント
 Element.TimeDimension.hierarchies=階層
 
 ###########################################################

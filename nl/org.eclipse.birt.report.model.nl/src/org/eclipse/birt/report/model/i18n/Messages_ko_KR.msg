@@ -701,10 +701,10 @@ Choices.overflow.auto=자동
 #88 GadgetContentType
 Choices.gadgetContentType.html=HTML
 Choices.gadgetContentType.url=URL
-Choices.gadgetContentType.video=Video
-Choices.gadgetContentType.videourl=Video URL
+Choices.gadgetContentType.video=비디오
+Choices.gadgetContentType.videourl=비디오 URL
 Choices.gadgetContentType.text=텍스트
-Choices.gadgetContentType.image=Image  
+Choices.gadgetContentType.image=이미지  
 
 ###########################################################
 # Classes
@@ -2351,7 +2351,7 @@ Element.DataMart=데이터 개체
 Element.DataMartDataSource=데이터 개체 데이터 원본
 Element.DataMartDataSet=데이터 개체 데이터 집합
 Element.DataMartCube=데이터 개체 큐브
-Element.TimeDimension=Time Dimension
+Element.TimeDimension=시간 차원
 
 ###########################################################
 # Element property names
@@ -3377,8 +3377,8 @@ Element.DataMartCube.dataSource=데이터 원본
 Element.DataMartCube.dataObject=데이터 개체
 
 #82 TimeDimension ( prefix Element.TimeDimension )
-Element.TimeDimension.startTimePoint=Start time point
-Element.TimeDimension.endTimePoint=End time point
+Element.TimeDimension.startTimePoint=시작 시점
+Element.TimeDimension.endTimePoint=종료 시점
 Element.TimeDimension.hierarchies=계층
 
 ###########################################################

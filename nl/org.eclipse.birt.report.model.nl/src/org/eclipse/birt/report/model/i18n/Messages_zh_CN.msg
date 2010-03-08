@@ -701,10 +701,10 @@ Choices.overflow.auto=自动
 #88 GadgetContentType
 Choices.gadgetContentType.html=HTML
 Choices.gadgetContentType.url=URL
-Choices.gadgetContentType.video=Video
-Choices.gadgetContentType.videourl=Video URL
+Choices.gadgetContentType.video=视频
+Choices.gadgetContentType.videourl=视频 URL
 Choices.gadgetContentType.text=文本
-Choices.gadgetContentType.image=Image  
+Choices.gadgetContentType.image=图像  
 
 ###########################################################
 # Classes
@@ -2351,7 +2351,7 @@ Element.DataMart=数据对象
 Element.DataMartDataSource=数据对象数据源
 Element.DataMartDataSet=数据对象数据集
 Element.DataMartCube=数据对象多维数据集
-Element.TimeDimension=Time Dimension
+Element.TimeDimension=时间维
 
 ###########################################################
 # Element property names
@@ -3377,8 +3377,8 @@ Element.DataMartCube.dataSource=数据源
 Element.DataMartCube.dataObject=数据对象
 
 #82 TimeDimension ( prefix Element.TimeDimension )
-Element.TimeDimension.startTimePoint=Start time point
-Element.TimeDimension.endTimePoint=End time point
+Element.TimeDimension.startTimePoint=开始时间
+Element.TimeDimension.endTimePoint=结束时间
 Element.TimeDimension.hierarchies=层次结构
 
 ###########################################################

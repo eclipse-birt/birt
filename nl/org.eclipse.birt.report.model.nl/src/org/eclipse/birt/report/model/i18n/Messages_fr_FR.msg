@@ -701,8 +701,8 @@ Choices.overflow.auto=Auto
 #88 GadgetContentType
 Choices.gadgetContentType.html=HTML
 Choices.gadgetContentType.url=URL
-Choices.gadgetContentType.video=Video
-Choices.gadgetContentType.videourl=Video URL
+Choices.gadgetContentType.video=Vidéo
+Choices.gadgetContentType.videourl=URL de la vidéo
 Choices.gadgetContentType.text=Texte
 Choices.gadgetContentType.image=Image  
 
@@ -2351,7 +2351,7 @@ Element.DataMart=Objet de données
 Element.DataMartDataSource=Source de données de l'objet de données
 Element.DataMartDataSet=Jeu de données de l'objet de données
 Element.DataMartCube=Cube de l'objet de données
-Element.TimeDimension=Time Dimension
+Element.TimeDimension=Dimension de temps
 
 ###########################################################
 # Element property names
@@ -3377,8 +3377,8 @@ Element.DataMartCube.dataSource=Source de données
 Element.DataMartCube.dataObject=Objet de données :
 
 #82 TimeDimension ( prefix Element.TimeDimension )
-Element.TimeDimension.startTimePoint=Start time point
-Element.TimeDimension.endTimePoint=End time point
+Element.TimeDimension.startTimePoint=Limite pour l'heure de début
+Element.TimeDimension.endTimePoint=Limite pour l'heure de fin
 Element.TimeDimension.hierarchies=Hiérarchies
 
 ###########################################################
