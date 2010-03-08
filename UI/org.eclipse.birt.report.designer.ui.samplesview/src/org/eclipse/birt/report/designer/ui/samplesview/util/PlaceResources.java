@@ -176,7 +176,8 @@ public class PlaceResources
 				URL reportURL = (URL) enumeration.nextElement( );
 				String filename = reportURL.getFile( );
 				String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
-				if ( !desFileName.toLowerCase( ).endsWith( ".rptdesign" ) && copyJavaFile ) //$NON-NLS-1$
+				if ( !desFileName.toLowerCase( ).endsWith( ".rptdesign" ) //$NON-NLS-1$
+						&& ( !desFileName.toLowerCase( ).endsWith( ".java" ) || copyJavaFile ) ) //$NON-NLS-1$
 				{
 					PlaceResources.copy( shell,
 							projectPath,
