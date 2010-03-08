@@ -1435,4 +1435,29 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 	{
 		module.cacheValues( );
 	}
+
+	/**
+	 * Gets the flatten element by the original name.
+	 * 
+	 * @param elementHandle
+	 *            the handle of a flatten element once in the same namespace
+	 * @param originalName
+	 *            the original name of the element
+	 * 
+	 * @return the flatten element handle, or null if not found
+	 */
+	public DesignElementHandle getFlattenElement(
+			DesignElementHandle elementHandle, String originalName )
+	{
+		DesignElement flatternElement = null;
+		if ( elementHandle != null )
+			flatternElement = ( (ReportDesign) module ).getFlattenElement(
+					elementHandle.getElement( ), originalName );
+
+		if ( flatternElement != null )
+			return flatternElement.getHandle( module );
+
+		return null;
+	}
+
 }

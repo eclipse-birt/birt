@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21">
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="ds">        	
+            <text-property name="displayName">Lib DataSource</text-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds1">          
+            <property name="dataSource">ds</property>
+            <text-property name="displayName">Lib DataSet 1</text-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds2">           
+            <property name="dataSource">ds</property>
+            <text-property name="displayName">Lib DataSet 2</text-property>
+        </oda-data-set>
+        <derived-data-set extensionID="org.eclipse.birt.data.union" name="union">  
+        	<text-property name="displayName">Lib Union DataSet</text-property>          
+            <simple-property-list name="inputDataSets">
+                <value>ds1</value>
+                <value>ds2</value>
+            </simple-property-list>           
+             <xml-property name="queryText"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tns:DataSet name="ds1">
+<tns:Column name="OFFICECODE"/>
+<tns:Column name="CITY"/>
+</tns:DataSet>
+<tns:DataSet name="ds2">
+<tns:Column name="ORDERNUMBER"/>
+<tns:Column name="ORDERDATE"/>
+</tns:DataSet>
+</tns:Union>]]></xml-property>
+        </derived-data-set>
+    </data-sets>
+</library>
