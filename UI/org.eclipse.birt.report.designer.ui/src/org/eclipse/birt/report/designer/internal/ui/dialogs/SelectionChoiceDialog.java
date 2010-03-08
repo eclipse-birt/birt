@@ -16,17 +16,21 @@ import java.net.URL;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -35,9 +39,12 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
@@ -56,7 +63,9 @@ public class SelectionChoiceDialog extends BaseDialog
 				String value );
 	}
 
-	private Text labelEditor, valueEditor;
+	private Text labelEditor;
+
+	private Text valueEditor;
 
 	private SelectionChoice selectionChoice;
 
@@ -69,6 +78,12 @@ public class SelectionChoiceDialog extends BaseDialog
 	private Button removeBtn;
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+
+	public static final String SELECTON_CHOICE_HELPER_KEY = "Selection Choice Dialog Helper";//$NON-NLS-1$
+
+	public static final String VALUE = "Value"; //$NON-NLS-1$
+
+	private IDialogHelper helper;
 
 	public SelectionChoiceDialog( String title )
 	{
@@ -84,7 +99,6 @@ public class SelectionChoiceDialog extends BaseDialog
 	{
 		Assert.isNotNull( selectionChoice );
 		labelEditor.setText( UIUtil.convertToGUIString( selectionChoice.getLabel( ) ) );
-		valueEditor.setText( UIUtil.convertToGUIString( selectionChoice.getValue( ) ) );
 		resourceText.setText( UIUtil.convertToGUIString( selectionChoice.getLabelResourceKey( ) ) );
 		if ( validator != null )
 		{
@@ -144,11 +158,7 @@ public class SelectionChoiceDialog extends BaseDialog
 		labelEditor.setLayoutData( gd );
 
 		new Label( composite, SWT.NONE ).setText( labels[2] );
-		valueEditor = new Text( composite, SWT.BORDER );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
-		valueEditor.setLayoutData( gd );
-		valueEditor.setFocus( );
+		createValuePart( composite );
 
 		final Composite noteContainer = new Composite( composite, SWT.NONE );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
@@ -189,7 +199,12 @@ public class SelectionChoiceDialog extends BaseDialog
 
 			};
 			labelEditor.addModifyListener( listener );
-			valueEditor.addModifyListener( listener );
+			if ( getValueControl( ) instanceof Text )
+				( (Text) getValueControl( ) ).addModifyListener( listener );
+			if ( getValueControl( ) instanceof Combo )
+				( (Combo) getValueControl( ) ).addModifyListener( listener );
+			if ( getValueControl( ) instanceof CCombo )
+				( (CCombo) getValueControl( ) ).addModifyListener( listener );
 
 		}
 
@@ -202,8 +217,7 @@ public class SelectionChoiceDialog extends BaseDialog
 	{
 		selectionChoice.setLabel( UIUtil.convertToModelString( labelEditor.getText( ),
 				false ) );
-		selectionChoice.setValue( UIUtil.convertToModelString( valueEditor.getText( ),
-				false ) );
+		selectionChoice.setValue( getValueValue( ) );
 		selectionChoice.setLabelResourceKey( UIUtil.convertToModelString( resourceText.getText( ),
 				false ) );
 		setResult( selectionChoice );
@@ -212,10 +226,12 @@ public class SelectionChoiceDialog extends BaseDialog
 
 	private void updateStatus( )
 	{
+		if ( helper != null )
+			helper.update( false );
 		String erroeMessage = validator.validate( UIUtil.convertToModelString( resourceText.getText( ),
 				false ),
 				UIUtil.convertToModelString( labelEditor.getText( ), false ),
-				UIUtil.convertToModelString( valueEditor.getText( ), false ) );
+				getValueValue( ) );
 		if ( erroeMessage != null )
 		{
 			messageLine.setText( erroeMessage );
@@ -308,6 +324,79 @@ public class SelectionChoiceDialog extends BaseDialog
 
 	private void updateRemoveBtnState( )
 	{
-		removeBtn.setEnabled( resourceText.getText( ).equals( EMPTY_STRING ) ? false : true );
+		removeBtn.setEnabled( resourceText.getText( ).equals( EMPTY_STRING ) ? false
+				: true );
+	}
+
+	private void createValuePart( Composite parent )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( selectionChoice,
+				IDialogHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
+				if ( helperProvider != null && helper == null )
+				{
+					helper = helperProvider.createHelper( this,
+							SELECTON_CHOICE_HELPER_KEY );
+					if ( helper != null )
+					{
+						helper.setProperty( VALUE, selectionChoice.getValue( ) );
+						helper.createContent( parent );
+						helper.addListener( SWT.Modify, new Listener( ) {
+
+							public void handleEvent( Event event )
+							{
+								helper.update( false );
+							}
+						} );
+						helper.update( true );
+					}
+				}
+			}
+		}
+		if ( helper == null )
+		{
+			valueEditor = new Text( parent, SWT.BORDER );
+			valueEditor.setText( UIUtil.convertToGUIString( selectionChoice.getValue( ) ) );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 3;
+			valueEditor.setLayoutData( gd );
+			valueEditor.setFocus( );
+		}
+		else
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 3;
+			helper.getControl( ).setLayoutData( gd );
+			helper.getControl( ).setFocus( );
+		}
+	}
+
+	private Control getValueControl( )
+	{
+		if ( helper == null )
+		{
+			return valueEditor;
+		}
+		else
+		{
+
+			return helper.getControl( );
+		}
+	}
+
+	private String getValueValue( )
+	{
+		if ( helper == null )
+		{
+			return valueEditor.getText( );
+		}
+		else
+		{
+			return (String) helper.getProperty( VALUE );
+		}
 	}
 }
