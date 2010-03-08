@@ -88,7 +88,9 @@ public class RCPOpenSampleReportAction extends Action implements
 		}
 
 		PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
-				getDefaultLocation( ),( (ReportDesignHandle) selectedElement ).getFileName( ));
+				getDefaultLocation( ),
+				( (ReportDesignHandle) selectedElement ).getFileName( ),
+				true );
 		
 		ISafeRunnable op = new ISafeRunnable( ) {
 

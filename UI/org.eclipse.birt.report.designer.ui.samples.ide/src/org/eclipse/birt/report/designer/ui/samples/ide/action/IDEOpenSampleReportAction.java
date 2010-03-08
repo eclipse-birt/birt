@@ -112,18 +112,13 @@ public class IDEOpenSampleReportAction extends Action implements
 	{
 		TreeItem item = (TreeItem) composite.getSelectedElement( );
 		final Object selectedElement = item.getData( );
-		if ( selectedElement == null
-				|| !( selectedElement instanceof ReportDesignHandle ) )
-		{
+		if ( selectedElement == null || !( selectedElement instanceof ReportDesignHandle ) )
 			return;
-		}
 
 		/*
 		 * 1.Create a report project
 		 */
-		if ( item.getParentItem( )
-				.getText( )
-				.equals( DRILL_TO_DETAILS_CATEGORY ) )
+		if ( item.getParentItem( ).getText( ).equals( DRILL_TO_DETAILS_CATEGORY ) )
 		{
 			reportProject = createProject( DRILL_TO_DETAILS_CATEGORY, false );
 
@@ -135,40 +130,20 @@ public class IDEOpenSampleReportAction extends Action implements
 					reportProject.getLocation( ).toOSString( ),
 					item.getText( ) );
 		}
-		else
-			reportProject = createProject( item.getText( ).substring( 0,
-					item.getText( ).lastIndexOf( "." ) ), false ); //$NON-NLS-1$
-		/*
-		 * 2.Place the sample report into project folder
-		 */
-		if ( reportProject == null )
-		{
-			return;
-		}
-		if ( reportProject != null )
-		{
-			PlaceResources.copy( composite.getShell( ),
-					reportProject.getLocation( ).toOSString( ),
-					item.getText( ),
-					( (ReportDesignHandle) selectedElement ).getFileName( ) );
-		}
-
-		PlaceResources.copyExcludedRptDesignes( composite.getShell( ), reportProject.getLocation( )
-				.toOSString( ), ( (ReportDesignHandle) selectedElement ).getFileName( ) );
 
 		/*
-		 * Create a Eclipse Java project if selecting scripted data source
-		 * sample
+		 * Create an Eclipse Java project if selecting scripted data source
+		 * sample.
 		 */
-		if ( item.getParentItem( ).getText( ).equals( SCRIPTING_CATEGORY ) )
+		else if ( item.getParentItem( ).getText( ).equals( SCRIPTING_CATEGORY ) )
 		{
-			IProject javaProject = createProject( SCRIPTING_CATEGORY, true );
-			if ( javaProject != null )
+			reportProject = createProject( SCRIPTING_CATEGORY, true );
+			if ( reportProject != null )
 			{
-				createSourceAndOutputFolder( javaProject );
+				createSourceAndOutputFolder( reportProject );
 				try
 				{
-					setClasspath( javaProject );
+					setClasspath( reportProject );
 				}
 				catch ( JavaModelException e )
 				{
@@ -187,20 +162,39 @@ public class IDEOpenSampleReportAction extends Action implements
 				String filename = javaObjectURL.getFile( );
 				String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
 
-				PlaceResources.copy( composite.getShell( ),
-						javaProject.getFolder( "src" ) //$NON-NLS-1$
-								.getLocation( )
-								.toOSString( ),
-						desFileName,
-						javaObjectURL );
+				PlaceResources.copy( composite.getShell( ), reportProject.getFolder( "src" ) //$NON-NLS-1$
+						.getLocation( )
+						.toOSString( ), desFileName, javaObjectURL );
 			}
-			refreshReportProject( javaProject );
 		}
+		else
+			reportProject = createProject( item.getText( ).substring( 0,
+					item.getText( ).lastIndexOf( "." ) ), false ); //$NON-NLS-1$
+		/*
+		 * 2.Place the sample report into project folder
+		 */
+		if ( reportProject != null )
+		{
+			PlaceResources.copy( composite.getShell( ),
+					reportProject.getLocation( ).toOSString( ),
+					item.getText( ),
+					( (ReportDesignHandle) selectedElement ).getFileName( ) );
+
+			PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
+					reportProject.getLocation( ).toOSString( ),
+					( (ReportDesignHandle) selectedElement ).getFileName( ),
+					false );
+		}
+		else
+			return;
 
 		/*
 		 * 3.Refresh the report project
 		 */
-		refreshReportProject( reportProject );
+		if ( reportProject != null )
+		{
+			refreshReportProject( reportProject );
+		}
 
 		/*
 		 * Copy the plug-in zip if selecting extending BIRT sample
@@ -352,7 +346,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		if ( isJavaProject == true )
 		{
 			String[] natures = new String[]{
-				JavaCore.NATURE_ID
+					JavaCore.NATURE_ID, "org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
 			};
 			description.setNatureIds( natures );
 			addJavaBuildSpec( description );
@@ -360,7 +354,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		else
 		{
 			String[] natures = new String[]{
-				"org.eclipse.birt.report.designer.ui.reportprojectnature" //$NON-NLS-1$
+					"org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
 			};
 			description.setNatureIds( natures );
 		}
