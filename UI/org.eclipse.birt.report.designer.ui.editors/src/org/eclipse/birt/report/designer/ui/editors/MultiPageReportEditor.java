@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.IAdvanceReportEditorPage;
+import org.eclipse.birt.report.designer.internal.ui.editors.IRelatedFileChangeResolve;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.LibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
@@ -36,7 +37,6 @@ import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.LibrarySaveChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
@@ -44,6 +44,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlin
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
@@ -131,6 +132,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	private boolean needReset = false ;
 	private IWorkbenchPart fActivePart;
 	private boolean isClose = false;
+	private IRelatedFileChangeResolve resolve; 
 	
 	private IPreferences prefs;
 	IPreferenceChangeListener preferenceChangeListener = new IPreferenceChangeListener()
@@ -303,7 +305,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( synchronizer != null )
 		{
-			synchronizer.addListener(IReportResourceChangeEvent.LibraySaveChange|IReportResourceChangeEvent.ImageResourceChange, this );
+			synchronizer.addListener(IReportResourceChangeEvent.LibraySaveChange|IReportResourceChangeEvent.ImageResourceChange|IReportResourceChangeEvent.DataDesignSaveChange, this );
 		}
 		
 		PlatformUI.getWorkbench().addWindowListener(windowListener);
@@ -1019,13 +1021,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		{
 			confirmSave( );
 			final ModuleHandle oldHandle = getModel();
+			
 			if (needReset)
 			{
-				if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
-						Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString("MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage") ) ) //$NON-NLS-1$ //$NON-NLS-2$ 
+				if (resolve != null && resolve.reset(  ))
 				{
 					getProvider( ).getReportModuleHandle( getEditorInput( ), true );
-					//doSave( null );
 				}
 				else
 				{
@@ -1036,10 +1037,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			}
 			if (needReload)
 			{
-				if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
-						Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString("MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage") ) ) //$NON-NLS-1$ //$NON-NLS-2$ 
+				
+				if (resolve != null && resolve.reload( getModel() ))
 				{
-					UIUtil.reloadModuleHandleLibraries( getModel( ) );
+					//do nothing now
 				}
 				else
 				{
@@ -1383,7 +1384,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( synchronizer != null )
 		{
-			synchronizer.removeListener(IReportResourceChangeEvent.LibraySaveChange|IReportResourceChangeEvent.ImageResourceChange, this );
+			synchronizer.removeListener(IReportResourceChangeEvent.LibraySaveChange|IReportResourceChangeEvent.ImageResourceChange|IReportResourceChangeEvent.DataDesignSaveChange, this );
 		}
 		
 		PlatformUI.getWorkbench().removeWindowListener( windowListener);
@@ -1552,27 +1553,33 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void resourceChanged( IReportResourceChangeEvent event )
 	{
-		if ( ( event.getType( ) == IReportResourceChangeEvent.LibraySaveChange ) )
-		{
-			if ( event.getSource( ).equals( getModel( ) ) )
-			{
-				return;
-			}
-			LibrarySaveChangeEvent libEvent = (LibrarySaveChangeEvent) event;
-
-			if ( getModel( ).getFileName( ).equals( libEvent.getFileName( ) ) )
-			{
-				needReset = true;
-			}
-			else if ( ModuleUtil.isInclude( getModel( ), libEvent.getFileName( ) ) )
-			{
-				needReload = true;
-			}
-		}
-		else if ( ( event.getType( ) == IReportResourceChangeEvent.ImageResourceChange ) )
+		if ( ( event.getType( ) == IReportResourceChangeEvent.ImageResourceChange ) )
 		{
 			refreshGraphicalEditor( );
+			return;
+		}
+		if ( event.getSource( ).equals( getModel( ) ) )
+		{
+			return;
 		}
 		
+		Object[] resolves = ElementAdapterManager.getAdapters( getModel( ),
+				IRelatedFileChangeResolve.class );
+		if (resolves == null)
+		{
+			return ;
+		}
+		
+		for(int i=0;i<resolves.length; i++)
+		{
+			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve)resolves[i];
+			if (find.acceptType( event.getType( ) ))
+			{
+				resolve = find;
+				needReload = find.isReload( event, getModel( ) );
+				needReset = find.isReset( event, getModel() );
+				break;
+			}
+		}		
 	}
 }

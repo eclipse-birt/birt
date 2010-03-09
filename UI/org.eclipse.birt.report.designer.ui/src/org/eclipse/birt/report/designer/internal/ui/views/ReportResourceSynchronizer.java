@@ -37,6 +37,7 @@ public class ReportResourceSynchronizer implements IReportResourceSynchronizer
 		IReportResourceChangeEvent.NewResource,
 		IReportResourceChangeEvent.LibraySaveChange,
 		IReportResourceChangeEvent.ImageResourceChange,
+		IReportResourceChangeEvent.DataDesignSaveChange,
 		//IReportResourceChangeEvent.LibrayContentChange
 	};
 	private Map<Integer, List<IReportResourceChangeListener>> listeners = new HashMap<Integer, List<IReportResourceChangeListener>>();
