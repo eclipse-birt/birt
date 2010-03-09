@@ -46,11 +46,11 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -71,7 +71,7 @@ import org.eclipse.swt.widgets.Display;
 /**
  * 
  */
-public final class DesignerRepresentation extends Figure
+public final class DesignerRepresentation extends ReportElementFigure
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
@@ -111,11 +111,6 @@ public final class DesignerRepresentation extends Figure
 	private static final PaletteData PALETTE_DATA = new PaletteData( 0xFF0000,
 			0xFF00,
 			0xFF );
-
-	/**
-	 * 
-	 */
-	private static final int TRANSPARENT_COLOR = 0x123456;
 
 	/**
 	 * Prevent re-entrancy of the paint method
@@ -379,6 +374,8 @@ public final class DesignerRepresentation extends Figure
 		}
 		bPainting = true;
 
+		Color backgroundColor = Display.getDefault( )
+				.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
 		if ( bDirty )
 		{
 			bDirty = false;
@@ -406,11 +403,8 @@ public final class DesignerRepresentation extends Figure
 						dSize.height,
 						32,
 						PALETTE_DATA );
-				ida.transparentPixel = TRANSPARENT_COLOR;
-				/*
-				 * for (int i = 0; i < ida.width; i++) { for (int j = 0; j <
-				 * ida.height; j++) { ida.setPixel(i, j, TRANSPARENT_COLOR); } }
-				 */
+				ida.transparentPixel = ida.palette.getPixel( backgroundColor.getRGB( ) );
+
 				imgChart = new Image( d, ida );
 				gc = new GC( imgChart );
 			}
@@ -424,8 +418,7 @@ public final class DesignerRepresentation extends Figure
 			}
 
 			final Color clrPreviousBG = gc.getBackground( );
-			gc.setBackground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+			gc.setBackground( backgroundColor );
 			gc.fillRectangle( 0,
 					0,
 					imgChart.getImageData( ).width,

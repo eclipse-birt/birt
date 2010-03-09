@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.reportitem;
 
-import java.net.URL;
 import java.util.logging.Level;
 
 import org.eclipse.birt.chart.computation.GObjectFactory;
@@ -250,40 +249,6 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 						( rgbValue >> 8 ) & 0xff,
 						rgbValue & 0xff );
 				ss.setBackgroundColor( cd );
-			}
-
-			if ( style.getBackgroundImage( ) != null
-					&& style.getBackgroundImage( ).length( ) > 0 )
-			{
-				String urlString = style.getBackgroundImage( );
-				try
-				{
-					new URL( urlString );
-
-					ss.setBackgroundImage( goFactory.createImage( urlString ) );
-				}
-				catch ( Exception _ )
-				{
-					// try with "file" prefix
-					if ( urlString != null && urlString.startsWith( "/" ) ) //$NON-NLS-1$
-					{
-						urlString = "file://" + urlString; //$NON-NLS-1$
-					}
-					else
-					{
-						urlString = "file:" + urlString; //$NON-NLS-1$
-					}
-
-					try
-					{
-						new URL( urlString );
-						ss.setBackgroundImage( goFactory.createImage( urlString ) );
-					}
-					catch ( Exception __ )
-					{
-						logger.log( _ );
-					}
-				}
 			}
 
 			double pt = convertToPixel( style.getPaddingTop( ) );
@@ -586,7 +551,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	}
 
 	/**
-	 * Converts object 's units to pixel.
+	 * Converts object's units to pixel.
 	 * 
 	 * @param object
 	 * @return The pixel value.
@@ -612,7 +577,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	 * unit.
 	 * 
 	 * @param object
-	 *            The origine object, may be DimensionValue or DimensionHandle.
+	 *            The origin object, may be DimensionValue or DimensionHandle.
 	 * @param baseSize
 	 *            The given baseSize used to compute relative unit.
 	 * @return The inch value.
