@@ -778,27 +778,14 @@ public class ExcelUtil
 			{
 				format.applyPattern( DateFormatter.DATETIME_UNFORMATTED );
 			}
-			dateTime = format.getLocalizedFormatCode( );
-			
-			/* According to icu's change: 
-			 * The original code process 'y', 'yy', 'yyy' in the same way. and process
-             * patterns with 4 or more than 4 'y' characters in the same way.
-             * Now icu's code process 'y' and 'yyyy'in the same way.
-             * But excel displays differently with pattern 'y' and pattern 'yyyy'.
-             * So change 'y' to 'yyyy' for excel date pattern.
-             * This change started from Birt2.6.0.
-             */
-			if ( dateTime.indexOf( 'y' ) == dateTime.lastIndexOf( 'y' ) )
-			{
-				dateTime = dateTime.replace( "y", "yyyy" );
-			}
+			dateTime = updateFormat( format.getLocalizedFormatCode( ) );
 			
 		}
 		if ( dateTime.indexOf( "Date" ) != -1
 				|| dateTime.indexOf( "Time" ) != -1 )
 		{
 			DateFormatter dateFormatter = new DateFormatter( dateTime, locale );
-			dateTime = dateFormatter.getLocalizedFormatCode( );
+			dateTime = updateFormat( dateFormatter.getLocalizedFormatCode( ) );
 		}
 		StringBuffer buffer = new StringBuffer( );
 		boolean inQuto = false;
@@ -865,6 +852,23 @@ public class ExcelUtil
 			}
 		}
 		return buffer.toString( );
+	}
+
+	/*
+	 * According to icu's change: The original code process 'y', 'yy', 'yyy' in
+	 * the same way. and process patterns with 4 or more than 4 'y' characters
+	 * in the same way. Now icu's code process 'y' and 'yyyy'in the same way.
+	 * But excel displays differently with pattern 'y' and pattern 'yyyy'. So
+	 * change 'y' to 'yyyy' for excel date pattern. This change started from
+	 * Birt2.6.0.
+	 */
+	private static String updateFormat( String dateTime )
+	{
+		if ( dateTime.indexOf( 'y' ) == dateTime.lastIndexOf( 'y' ) )
+		{
+			dateTime = dateTime.replace( "y", "yyyy" );
+		}
+		return dateTime;
 	}
 
 	public static String formatNumberPattern(String givenValue)
