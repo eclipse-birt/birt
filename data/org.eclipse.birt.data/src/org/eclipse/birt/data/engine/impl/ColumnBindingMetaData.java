@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -84,7 +85,8 @@ public class ColumnBindingMetaData implements IResultMetaData
 	private boolean isTemp( String name )
 	{
 		return ( name.matches( "\\Q_{$TEMP_GROUP_\\E\\d*\\Q$}_\\E" )
-				|| name.matches( "\\Q_{$TEMP_SORT_\\E\\d*\\Q$}_\\E" ) || name.matches( "\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E" ) );
+				|| name.matches( "\\Q_{$TEMP_SORT_\\E\\d*\\Q$}_\\E" )
+				|| name.matches( "\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E" ) || ExprMetaUtil.POS_NAME.equals( name ) );
 	}
 
 	/*
