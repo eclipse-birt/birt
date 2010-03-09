@@ -705,9 +705,7 @@ class DimensionDivider
 		{
 			IDiskArray members = getSortedDimensionKeys( member );
 			
-			String useMemoryOnly = System.getProperty( "data.engine.usememoryonly" );
-			if( Constants.isAggressiveMemoryUsage( ) ||
-					( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) ) )
+			if( Constants.isAggressiveMemoryUsage( ) )
 			{
 				this.memberArray = new DimensionKey[members.size( )];
 			}
