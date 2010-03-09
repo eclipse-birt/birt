@@ -436,27 +436,29 @@ public class PageArea extends BlockContainerArea
 	protected void layoutHeader( )
 	{
 		IContent headerContent = pageContent.getPageHeader( );
-		DimensionType h = pageContent.getHeaderHeight( );
-		if ( h == null )
+		if ( headerContent != null )
 		{
-			h = new DimensionType( 0.5f, DimensionType.UNITS_IN );
-		}
-		headerContent.setHeight( h );
-		header.content = headerContent;
-		boolean autoPageBreak = context.isAutoPageBreak( );
-		context.setAutoPageBreak( false );
-		RegionLayoutEngine rle = new RegionLayoutEngine( header, context );
+			DimensionType h = pageContent.getHeaderHeight( );
+			if ( h == null )
+			{
+				h = new DimensionType( 0.5f, DimensionType.UNITS_IN );
+			}
+			headerContent.setHeight( h );
+			header.content = headerContent;
+			boolean autoPageBreak = context.isAutoPageBreak( );
+			context.setAutoPageBreak( false );
+			RegionLayoutEngine rle = new RegionLayoutEngine( header, context );
 
-		try
-		{
-			rle.layout( headerContent );
+			try
+			{
+				rle.layout( headerContent );
+			}
+			catch ( BirtException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
+			context.setAutoPageBreak( autoPageBreak );
 		}
-		catch ( BirtException e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-		}
-		context.setAutoPageBreak( autoPageBreak );
-
 	}
 
 	/**
@@ -466,25 +468,28 @@ public class PageArea extends BlockContainerArea
 	protected void layoutFooter( )
 	{
 		IContent footerContent = pageContent.getPageFooter( );
-		DimensionType h = pageContent.getFooterHeight( );
-		if ( h == null )
+		if ( footerContent != null )
 		{
-			h = new DimensionType( 0.5f, DimensionType.UNITS_IN );
+			DimensionType h = pageContent.getFooterHeight( );
+			if ( h == null )
+			{
+				h = new DimensionType( 0.5f, DimensionType.UNITS_IN );
+			}
+			footerContent.setHeight( h );
+			footer.content = footerContent;
+			boolean autoPageBreak = context.isAutoPageBreak( );
+			context.setAutoPageBreak( false );
+			RegionLayoutEngine rle = new RegionLayoutEngine( footer, context );
+			try
+			{
+				rle.layout( footerContent );
+			}
+			catch ( BirtException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
+			context.setAutoPageBreak( autoPageBreak );
 		}
-		footerContent.setHeight( h );
-		footer.content = footerContent;
-		boolean autoPageBreak = context.isAutoPageBreak( );
-		context.setAutoPageBreak( false );
-		RegionLayoutEngine rle = new RegionLayoutEngine( footer, context );
-		try
-		{
-			rle.layout( footerContent );
-		}
-		catch ( BirtException e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-		}
-		context.setAutoPageBreak( autoPageBreak );
 	}
 
 	public void floatingFooter( PageArea page )
