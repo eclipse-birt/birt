@@ -230,7 +230,7 @@ public final class AxesRenderHelper
 		t3dre = null;
 		l3dre = null;
 
-		bTickBetweenCategories = axModel.getScale( ).isTickBetweenCategories( );
+		bTickBetweenCategories = ax.isTickBwtweenCategories( );
 		bLabelWithinAxes = ax.getModelAxis( ).isLabelWithinAxes( );
 	}
 

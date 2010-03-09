@@ -229,7 +229,11 @@ public final class OneAxis
 
 	public final boolean isTickBwtweenCategories( )
 	{
-		return bTickBwteenCategories;
+		// The default value of TickBwtweenCategories is true, and it should
+		// only take effect for category scale. Which means
+		// TickBwtweenCategories can only be false when
+		// bCategoryScale is true.
+		return !bCategoryScale || bTickBwteenCategories;
 	}
 	
 	public final Chart getChartModel( )
