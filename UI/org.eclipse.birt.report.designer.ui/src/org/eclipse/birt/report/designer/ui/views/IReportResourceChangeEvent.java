@@ -20,6 +20,7 @@ public interface IReportResourceChangeEvent
 	public static int NewResource = 1;
 	public static int LibraySaveChange = 2;
 	public static int ImageResourceChange = 4;
+	public static int DataDesignSaveChange = 8;
 	//public static int LibrayContentChange = 4;
 	
 	Object getData( );

@@ -47,6 +47,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionButtonProvider;
+import org.eclipse.birt.report.designer.internal.ui.editors.IRelatedFileChangeResolve;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
@@ -64,7 +65,6 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointMana
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
-import org.eclipse.birt.report.designer.internal.ui.views.LibrarySaveChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -76,8 +76,6 @@ import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
-import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
-import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -2007,18 +2005,17 @@ public class UIUtil
 
 	public static void doFinishSave( ModuleHandle model )
 	{
-		if ( model instanceof LibraryHandle )
+		Object[] resolves = ElementAdapterManager.getAdapters( model,
+				IRelatedFileChangeResolve.class );
+		if (resolves == null)
 		{
-			IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
-					.getResourceSynchronizerService( );
-
-			if ( synchronizer != null )
-			{
-				synchronizer.notifyResourceChanged( new LibrarySaveChangeEvent( model,
-						null,
-						IReportResourceChangeEvent.LibraySaveChange,
-						model.getFileName( ) ) );
-			}
+			return ;
+		}
+		
+		for(int i=0;i<resolves.length; i++)
+		{
+			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve)resolves[i];
+			find.notifySaveFile( model );
 		}
 	}
 
