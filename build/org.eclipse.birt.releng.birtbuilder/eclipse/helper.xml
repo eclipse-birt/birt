@@ -1402,5 +1402,20 @@ Hi All,
                   </attachments>
             </mail>
         </target>
+	
+    <target name="InformNoSign" if="CompareSignPack">
+        <property file="${eclipse.build.configs}/../../config.properties" />
+        <mail mailport="${mail.port}" subject="No sign in today's ${BranchVersion} build (BuildId: ${buildId} )" tolist="${build.engineer}">
+              <from address="${mail.from}"/>
+              <replyto address="${replyto.address}"/>
+              <message>
+Hi All,
+
+${target.dir}/${target.name} hasn't been signed.
+
+
+              </message>
+        </mail>
+    </target>        	
 
 </project>

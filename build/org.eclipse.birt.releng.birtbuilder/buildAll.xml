@@ -900,6 +900,13 @@
    		<antcall target="logger">
 			<param name="message" value="Packaging starts"/>
 		</antcall>
+    	
+    	<condition property="CompareSignPack" value="true">
+    	    <filesmatch file1="${source.dir}/${source.name}"
+    	                file2="${target.dir}/${target.name}"/>
+    	</condition>
+    	
+    	<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformNoSign"/>
  
     </target>
 
