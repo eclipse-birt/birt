@@ -682,6 +682,7 @@ Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=TextBox
 Choices.selectorType.calendar=Calendar
+Choices.selectorType.currentSelection=Current Selection
 
 #85 thumbType
 Choices.thumbType.single=Single
@@ -705,6 +706,10 @@ Choices.gadgetContentType.video=Vídeo
 Choices.gadgetContentType.videourl=URL de vídeo
 Choices.gadgetContentType.text=Texto
 Choices.gadgetContentType.image=Imagen  
+
+#89 WindowStatus
+Choices.windowStatus.normal=Normal
+Choices.windowStatus.maximized=Maximized
 
 ###########################################################
 # Classes
