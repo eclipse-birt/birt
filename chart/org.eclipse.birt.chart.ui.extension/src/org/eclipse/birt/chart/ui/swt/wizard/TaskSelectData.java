@@ -120,7 +120,25 @@ public class TaskSelectData extends SimpleTask implements
 			dynamicArea = createDataComponentsUI( );
 			getCustomizeUI( ).init( );
 
-			foSashForm = new SashForm( topControl, SWT.VERTICAL );
+			ScrolledComposite sc = new ScrolledComposite( topControl,
+					SWT.H_SCROLL );
+			{
+				GridLayout layout = new GridLayout( );
+				sc.setLayout( layout );
+				GridData gridData = new GridData( GridData.FILL_BOTH );
+				sc.setLayoutData( gridData );
+				sc.setExpandHorizontal( true );
+				sc.setExpandVertical( true );
+
+			}
+
+			Composite cmp = new Composite( sc, SWT.None );
+			cmp.setLayout( new GridLayout( ) );
+			cmp.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			sc.setContent( cmp );
+			sc.setMinWidth( 800 );
+
+			foSashForm = new SashForm( cmp, SWT.VERTICAL );
 			{
 				GridLayout layout = new GridLayout( );
 				foSashForm.setLayout( layout );

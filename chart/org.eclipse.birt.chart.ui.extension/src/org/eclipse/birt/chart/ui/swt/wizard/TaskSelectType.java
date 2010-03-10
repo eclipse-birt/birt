@@ -304,7 +304,8 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void createTypeArea( )
 	{
-		ScrolledComposite sc = new ScrolledComposite( foSashForm, SWT.V_SCROLL );
+		ScrolledComposite sc = new ScrolledComposite( foSashForm, SWT.V_SCROLL
+				| SWT.H_SCROLL );
 		{
 			GridLayout layout = new GridLayout( );
 			sc.setLayout( layout );
