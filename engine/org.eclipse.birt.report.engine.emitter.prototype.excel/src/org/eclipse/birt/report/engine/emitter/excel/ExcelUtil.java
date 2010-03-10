@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter.excel;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +42,7 @@ import com.ibm.icu.util.ULocale;
 public class ExcelUtil
 {
 
+	private static final char EXCEL_DECIMAL_SEPARATOR = '.';
 	public final static int maxCellTextLength = 32767;
 	private final static String scienticPattern = "0*.*0*E0*";
 	private static final double SECONDS_PER_DAY = 86400.0;
@@ -211,7 +213,18 @@ public class ExcelUtil
 		Number number=(Number)data;
 		DecimalFormat numberFormat = new DecimalFormat( "0.##############" );
 		numberFormat.setMaximumFractionDigits( 15 );
+		updateExcelDecimalSeparator( numberFormat );
 		return numberFormat.format( number );
+	}
+
+	private static void updateExcelDecimalSeparator( DecimalFormat numberFormat )
+	{
+		DecimalFormatSymbols symbol = numberFormat.getDecimalFormatSymbols( );
+		if ( symbol.getDecimalSeparator( ) != EXCEL_DECIMAL_SEPARATOR )
+		{
+			symbol.setDecimalSeparator( EXCEL_DECIMAL_SEPARATOR );
+			numberFormat.setDecimalFormatSymbols( symbol );
+		}
 	}
 
 	public static String formatNumberAsScienceNotation( Number data )
@@ -246,6 +259,7 @@ public class ExcelUtil
 			}
 		}
 		DecimalFormat decimalFormat = new DecimalFormat("0.##############");
+		updateExcelDecimalSeparator( decimalFormat );
 		String number = decimalFormat.format( bigDecimal );
 		String sign = scale >= 0 ? "+" : "";
 		return prefix + number + "E" + sign + scale;
