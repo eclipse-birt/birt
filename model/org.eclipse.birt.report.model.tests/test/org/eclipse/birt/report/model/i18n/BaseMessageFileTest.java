@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  * 2. Checks if all the resource keys( value for the "displayNameID" attribute,
  * etc. ) needed by the rom file are contained in the message files.
- *  
+ * 
  */
 public abstract class BaseMessageFileTest extends BaseTestCase
 {
@@ -191,7 +191,7 @@ public abstract class BaseMessageFileTest extends BaseTestCase
 
 		String line = in.readLine( );
 		int lineIndex = 1;
-
+		StringBuffer errorMessage = new StringBuffer( );;
 		while ( line != null )
 		{
 			if ( StringUtil.isBlank( line ) || line.startsWith( "#" ) ) //$NON-NLS-1$
@@ -204,7 +204,8 @@ public abstract class BaseMessageFileTest extends BaseTestCase
 			String[] data = line.split( "=" ); //$NON-NLS-1$
 			if ( data.length != 2 )
 			{
-				System.out.println( "errors of i18n in line " + lineIndex ); //$NON-NLS-1$
+				errorMessage.append( "errors of i18n in line " + lineIndex ); //$NON-NLS-1$
+				errorMessage.append( '\n' );
 				line = in.readLine( );
 				lineIndex++;
 				continue;
@@ -212,7 +213,8 @@ public abstract class BaseMessageFileTest extends BaseTestCase
 
 			if ( collection.containsKey( data[0] ) )
 			{
-				System.out.println( "duplicate messages in line " + lineIndex ); //$NON-NLS-1$
+				errorMessage.append( "duplicate messages in line " + lineIndex ); //$NON-NLS-1$
+				errorMessage.append( '\n' );
 				success = false;
 			}
 			else
@@ -222,7 +224,7 @@ public abstract class BaseMessageFileTest extends BaseTestCase
 			lineIndex++;
 		}
 
-		assertTrue( success );
+		assertTrue( errorMessage.toString( ), success );
 	}
 
 	/**
@@ -242,7 +244,7 @@ public abstract class BaseMessageFileTest extends BaseTestCase
 	protected void checkResourceKeyMap( )
 	{
 		boolean success = true;
-
+		StringBuffer errorMessage = new StringBuffer( );
 		for ( Entry<String, String> entry : resourceKeyMap.entrySet( ) )
 		{
 			String resourceKey = entry.getKey( );
@@ -250,12 +252,13 @@ public abstract class BaseMessageFileTest extends BaseTestCase
 			if ( !props.containsKey( resourceKey ) )
 			{
 				String description = entry.getValue( );
-				System.out.println( resourceKey
+				errorMessage.append( resourceKey
 						+ " in " + description + " not exist in message file" ); //$NON-NLS-1$//$NON-NLS-2$
+				errorMessage.append( '\n' );
 				success = false;
 			}
 		}
-		assertTrue( success );
+		assertTrue( errorMessage.toString( ), success );
 	}
 
 }
