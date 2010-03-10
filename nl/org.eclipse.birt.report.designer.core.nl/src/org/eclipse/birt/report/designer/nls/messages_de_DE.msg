@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=Aggregatelement einfügen
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=Maßeinheit:
-DimensionBuilderDialog.LabelUnit=Einheiten:
+DimensionBuilderDialog.LabelMeasure=&Measure:
+DimensionBuilderDialog.LabelUnit=&Units:
 DimensionBuilderDialog.Title=Dimension Builder
 
 ###########################################################
@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=Sichtbarkeit
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=Auto
-LayoutConfigurationBlock.Default.Unit.Label=Standardeinheit:
+LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
 
 ###########################################################
 #LayoutEditor properties
@@ -4292,7 +4292,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=Die Quelldatei ist nicht
 PublishResourceAction.wizard.notvalidfolder=Der in der Einstellung definierte Ressourcenordner ist ungültig.
 PublishResourceDialog.Label.FileName=&Dateiname:
 PublishResourceDialog.Label.SourceFileName=&Quelldatei:
-PublishResourceDialog.Label.Folder=&Ordner:
+PublishResourceDialog.Label.Folder=Folder:
 PublishResourceDialog.Label.Browse=&Durchsuchen...
 PublishResourceDialog.Label.Browse2=Durchsu&chen...
 WizardResourceSettingPage.ErrorMessage=Wählen Sie einen Ordner aus.
@@ -4735,7 +4735,7 @@ VariableDialog.Error.NameDuplicate=Der Name \"{0}\" ist bereits vorhanden. Bitte
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=Standardsyntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
 
 ###########################################################
 #ExpressionEditor

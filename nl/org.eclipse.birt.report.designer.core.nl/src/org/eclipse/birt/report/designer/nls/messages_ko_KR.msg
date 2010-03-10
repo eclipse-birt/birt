@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=집계 항목 삽입
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=측정:
-DimensionBuilderDialog.LabelUnit=단위:
+DimensionBuilderDialog.LabelMeasure=&Measure:
+DimensionBuilderDialog.LabelUnit=&Units:
 DimensionBuilderDialog.Title=차원 빌더
 
 ###########################################################
@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=표시 유형
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=자동
-LayoutConfigurationBlock.Default.Unit.Label=기본 단위:
+LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
 
 ###########################################################
 #LayoutEditor properties
@@ -4292,7 +4292,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
 PublishResourceAction.wizard.notvalidfolder=기본 설정에 정의된 리소스 폴더가 올바르지 않습니다.
 PublishResourceDialog.Label.FileName=파일 이름(&N):
 PublishResourceDialog.Label.SourceFileName=원본 파일(&S):
-PublishResourceDialog.Label.Folder=폴더(&F):
+PublishResourceDialog.Label.Folder=Folder:
 PublishResourceDialog.Label.Browse=찾아보기(&B)...
 PublishResourceDialog.Label.Browse2=찾아보기(&W)...
 WizardResourceSettingPage.ErrorMessage=폴더를 선택하십시오.
@@ -4735,7 +4735,7 @@ VariableDialog.Error.NameDuplicate=이름 \"{0}\"이(가) 기존 이름과 중복됩니다. 다
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
 
 ###########################################################
 #ExpressionEditor

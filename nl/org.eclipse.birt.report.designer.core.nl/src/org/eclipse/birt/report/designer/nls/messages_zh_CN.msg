@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=插入聚合项
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=度量:
-DimensionBuilderDialog.LabelUnit=单位:
+DimensionBuilderDialog.LabelMeasure=&Measure:
+DimensionBuilderDialog.LabelUnit=&Units:
 DimensionBuilderDialog.Title=维生成器
 
 ###########################################################
@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=可见性
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=自动
-LayoutConfigurationBlock.Default.Unit.Label=默认单位:
+LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
 
 ###########################################################
 #LayoutEditor properties
@@ -4292,7 +4292,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=源文件不存在。
 PublishResourceAction.wizard.notvalidfolder=首选项中定义的资源文件夹无效。
 PublishResourceDialog.Label.FileName=文件名(&N):
 PublishResourceDialog.Label.SourceFileName=源文件(&S):
-PublishResourceDialog.Label.Folder=文件夹(&F):
+PublishResourceDialog.Label.Folder=Folder:
 PublishResourceDialog.Label.Browse=浏览(&B)...
 PublishResourceDialog.Label.Browse2=浏览(&W)...
 WizardResourceSettingPage.ErrorMessage=请选择文件夹
@@ -4735,7 +4735,7 @@ VariableDialog.Error.NameDuplicate=名称“{0}”与现有名称重复。请选择一个不同的名
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
 
 ###########################################################
 #ExpressionEditor

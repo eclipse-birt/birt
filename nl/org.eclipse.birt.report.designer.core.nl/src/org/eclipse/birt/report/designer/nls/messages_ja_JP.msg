@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=集計項目の挿入
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=メジャー :
-DimensionBuilderDialog.LabelUnit=単位 :
+DimensionBuilderDialog.LabelMeasure=&Measure:
+DimensionBuilderDialog.LabelUnit=&Units:
 DimensionBuilderDialog.Title=ディメンジョンビルダ
 
 ###########################################################
@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=可視性
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=自動
-LayoutConfigurationBlock.Default.Unit.Label=デフォルトの単位 :
+LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
 
 ###########################################################
 #LayoutEditor properties
@@ -4292,7 +4292,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=ソースファイルが存在しま
 PublishResourceAction.wizard.notvalidfolder=設定に無効なリソースフォルダが定義されています。
 PublishResourceDialog.Label.FileName=ファイル名(&N) :
 PublishResourceDialog.Label.SourceFileName=ソースファイル(&S) :
-PublishResourceDialog.Label.Folder=フォルダ(&F) :
+PublishResourceDialog.Label.Folder=Folder:
 PublishResourceDialog.Label.Browse=参照(&B)...
 PublishResourceDialog.Label.Browse2=参照(&W)...
 WizardResourceSettingPage.ErrorMessage=フォルダを選択してください。
@@ -4735,7 +4735,7 @@ VariableDialog.Error.NameDuplicate=この名前 \"{0}\" は、すでに使用されています。
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=デフォルトの構文 :
+ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
 
 ###########################################################
 #ExpressionEditor
