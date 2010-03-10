@@ -2687,7 +2687,7 @@ NewReportProjectWizard.windowTitle=新建报表项目
 
 NewReportWizard.choicePageTitle.report=报表
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
-NewReportWizard.displayName.NewReportFileNamePrefix=new_report
+NewReportWizard.displayName.NewReportFileNamePrefix=新报表
 NewReportWizard.error.NoProject=工作区中没有任何打开项目。请选择“文件”->“新建”->“项目”，以创建新项目或打开现有项目。
 NewReportWizard.pageDescription.createNewReport=创建新报表。
 NewReportWizard.pageDescription.selectReportTemplate=选择要创建的报表类型
