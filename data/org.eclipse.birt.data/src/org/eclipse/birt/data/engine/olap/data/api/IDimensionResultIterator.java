@@ -74,6 +74,12 @@ public interface IDimensionResultIterator
 	
 	/**
 	 * 
+	 * @param dimPosition
+	 * @return
+	 */
+	public boolean locate( int dimPosition ) throws BirtException, IOException;
+	/**
+	 * 
 	 * @return
 	 */
 	public int length( );
