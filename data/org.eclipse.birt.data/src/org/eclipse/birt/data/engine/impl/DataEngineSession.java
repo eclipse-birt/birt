@@ -11,10 +11,13 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -60,9 +63,12 @@ public class DataEngineSession
 	
 	private Timer currentTimer;
 	
+	private List<String> acls;
+	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
 	
 	private static Logger logger = Logger.getLogger( DataEngineSession.class.getName( ) );
+	
 	/**
 	 * Constructor.
 	 * @param engine
@@ -84,8 +90,6 @@ public class DataEngineSession
 		IDataScriptEngine scriptEngine = (IDataScriptEngine) engine.getContext( ).getScriptContext( ).getScriptEngine( IDataScriptEngine.ENGINE_NAME );
 		if ( this.scope == null )
 		{
-			
-			
 			this.scope = new ImporterTopLevel( scriptEngine.getJSContext( engine.getContext( ).getScriptContext( ) ));
 		}
 
@@ -105,12 +109,17 @@ public class DataEngineSession
 			{
 				classLoaderHolder.set( null );
 				houseKeepCancelManager( );
+				saveGeneralACL( );
 				
 			}} );
 		
 		engine.addShutdownListener( new ReportDocumentShutdownListener( this ) );
 		
 		this.cancelManager.register( new StopSignCancellable( stopSign ) );
+
+		this.queryResultIDUtil = new QueryResultIDUtil();
+		this.loadGeneralACL( );
+
 		
 		int currentQueryID = 0;
 		if ( engine.getContext( ).getDocReader( ) != null )
@@ -137,6 +146,73 @@ public class DataEngineSession
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
 	
+	/**
+	 * Read acl collections from doc archive.
+	 * 
+	 * @param reader
+	 * @return
+	 * @throws DataException
+	 */
+	private void loadGeneralACL( )
+			throws DataException
+	{
+		this.acls = new ArrayList<String>();
+		if( !engine.getContext( ).hasInStream( "DataEngine",
+						null,
+						DataEngineContext.ACL_COLLECTION_STREAM ))
+		{
+			return;
+		}
+		DataInputStream aclCollectionStream = new DataInputStream( engine.getContext( )
+				.getInputStream( "DataEngine",
+						null,
+						DataEngineContext.ACL_COLLECTION_STREAM ) );
+		
+		try
+		{
+			int count = IOUtil.readInt( aclCollectionStream );
+			for ( int i = 0; i < count; i++ )
+				acls.add( IOUtil.readString( aclCollectionStream ) );
+			aclCollectionStream.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+	}
+
+	/**
+	 * Write ACL collections to the doc archive.
+	 * 
+	 * @param writer
+	 * @param acls
+	 * @throws DataException
+	 */
+	private void saveGeneralACL( ) 
+	{
+		try
+		{
+			if( engine.getContext( ).getDocWriter( )== null || this.acls.isEmpty( ))
+				return;
+			
+			DataOutputStream aclCollectionStream = new DataOutputStream(engine.getContext( )
+					.getOutputStream( "DataEngine",
+							null,
+							DataEngineContext.ACL_COLLECTION_STREAM ));
+			
+			IOUtil.writeInt( aclCollectionStream, acls.size( ) );
+			for ( String acl : acls )
+			{
+				IOUtil.writeString( aclCollectionStream, acl );
+			}
+			aclCollectionStream.close( );
+		}
+		catch ( Exception e )
+		{
+			throw new RuntimeException( e.getLocalizedMessage( ), e );
+		}
+
+	}
 	private class StopSignCancellable implements ICancellable
 	{
 		private StopSign stopSign;
@@ -292,6 +368,11 @@ public class DataEngineSession
 			cancelManager = null;
 			this.currentTimer.cancel();
 		}
+	}
+	
+	public List<String> getACLs( )
+	{
+		return this.acls;
 	}
 
 	/**

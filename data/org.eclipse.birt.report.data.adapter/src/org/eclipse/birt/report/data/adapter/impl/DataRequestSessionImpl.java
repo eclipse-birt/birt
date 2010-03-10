@@ -2083,4 +2083,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return result;
 	}
 	
+	public DataEngine getDataEngine( )
+	{
+		return this.dataEngine;
+	}
 }
