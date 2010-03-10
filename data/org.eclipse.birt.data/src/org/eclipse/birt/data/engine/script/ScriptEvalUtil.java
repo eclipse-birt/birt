@@ -953,6 +953,11 @@ public class ScriptEvalUtil
 		{
 			try
 			{
+				for ( int i = 0; i < obArray.length; i++ )
+				{
+					if( obArray[i] instanceof Object[] )
+						return obArray;
+				}
 				if ( obj instanceof Number && !( obj instanceof BigDecimal ) )
 				{
 					for ( int i = 0; i < obArray.length; i++ )
