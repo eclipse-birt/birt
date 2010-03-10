@@ -1368,6 +1368,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					cmbDataItems.setEnabled( false );
 					cmbInherit.setEnabled( !isInheritingSummaryTable() && getDataServiceProvider( ).getInheritedDataSet( ) != null
 							&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
+					if ( cmbInherit.isEnabled( ) )
+					{
+						getContext( ).setInheritColumnsOnly( cmbInherit.getSelectionIndex( ) == 1 );
+					}
 					setEnabledForButtons( );
 					updateDragDataSource( );
 					updatePredefinedQueries( );
