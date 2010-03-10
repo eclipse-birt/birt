@@ -345,6 +345,42 @@ public class FillUtil
 	}
 
 	/**
+	 * Provides a distinct color as far as possible.
+	 * 
+	 * @param paletteColor
+	 * @param paletteSize
+	 * @param index
+	 * @return
+	 */
+	private static ColorDefinition tunePaletteColor(
+			ColorDefinition paletteColor, int paletteSize, int index )
+	{
+		ColorDefinition color = goFactory.copyOf( paletteColor );
+
+		int cycle = index / paletteSize;
+		int offset = ( cycle / 4 ) * 71;
+		int phrase = cycle % 3;
+
+		switch ( phrase )
+		{
+			case 0 :
+				color.setRed( ( color.getRed( ) + offset ) % 256 );
+				color.setGreen( ( color.getGreen( ) + offset ) % 256 );
+				break;
+			case 1 :
+				color.setRed( ( color.getRed( ) + offset ) % 256 );
+				color.setBlue( ( color.getBlue( ) + offset ) % 256 );
+				break;
+			case 2 :
+				color.setGreen( ( color.getGreen( ) + offset ) % 256 );
+				color.setBlue( ( color.getBlue( ) + offset ) % 256 );
+				break;
+		}
+
+		return color;
+	}
+
+	/**
 	 * Returns the fill from palette. If the index is less than the palette
 	 * colors size, simply return the fill. If else, first return brighter fill,
 	 * then darker fill. The color fetching logic is like this: In the first
@@ -366,8 +402,16 @@ public class FillUtil
 		Fill fill = elPalette.get( index % iPaletteSize );
 		if ( index < iPaletteSize )
 		{
-			return goFactory.copyOf( elPalette.get( index % iPaletteSize ) );
+			return goFactory.copyOf( fill );
 		}
+
+		if ( fill instanceof ColorDefinition )
+		{
+			return tunePaletteColor( (ColorDefinition) fill,
+					iPaletteSize,
+					index );
+		}
+
 		int d = index / iPaletteSize;
 		if ( d % 2 != 0 )
 		{
