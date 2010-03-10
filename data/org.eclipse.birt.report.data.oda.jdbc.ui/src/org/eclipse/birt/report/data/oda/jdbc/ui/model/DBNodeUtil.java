@@ -32,7 +32,8 @@ public class DBNodeUtil
 		root.setData( node );
 	}
 	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
-	public static void createTreeRoot( Tree tree, RootNode node, FilterConfig fc, String metadataBidiFormatStr )
+	public static void createTreeRoot( Tree tree, RootNode node, FilterConfig fc, String metadataBidiFormatStr,
+			long timeout )
 	{
 		tree.removeAll( );
 		TreeItem dummyItem = new TreeItem( tree, SWT.NONE );
@@ -40,7 +41,7 @@ public class DBNodeUtil
 		
 		if ( ! node.isChildrenPrepared( ) )
 		{
-			node.prepareChildren( fc );
+			node.prepareChildren( fc, timeout );
 		}
 		tree.removeAll( );
 		TreeItem root = new TreeItem( tree, SWT.NONE );

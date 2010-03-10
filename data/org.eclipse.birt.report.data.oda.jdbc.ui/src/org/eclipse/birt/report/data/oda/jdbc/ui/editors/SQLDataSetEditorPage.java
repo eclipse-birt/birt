@@ -472,7 +472,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 								DBNodeUtil.createTreeRoot( availableDbObjectsTree,
 										new RootNode( dataSetDesign.getDataSourceDesign( )
 												.getName( ) ),
-										fc, metadataBidiFormatStr);
+										fc, metadataBidiFormatStr,
+										SQLDataSetEditorPage.this.timeOutLimit * 1000);
 							}
 						} );
 			}
@@ -510,7 +511,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			DBNodeUtil.createTreeRoot( availableDbObjectsTree,
 					new RootNode( dataSetDesign.getDataSourceDesign( )
 							.getName( ), allSchemaNames ),
-					fc, metadataBidiFormatStr );
+					fc, metadataBidiFormatStr,
+					SQLDataSetEditorPage.this.timeOutLimit * 1000);
 		}
 		else
 		{
@@ -761,7 +763,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					{
 						item.removeAll( );
 						//bidi_hcg: pass value of metadataBidiFormatStr
-						parent.prepareChildren( fc );
+						parent.prepareChildren( fc, SQLDataSetEditorPage.this.timeOutLimit * 1000 );
 						if ( parent.getChildren( ) != null )
 						{
 							for ( IDBNode child : parent.getChildren( ) )

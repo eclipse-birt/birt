@@ -19,8 +19,42 @@ public abstract class ChildrenAllowedNode implements IDBNode
 		return children != null;
 	}
 	
-	public void prepareChildren( FilterConfig fc )
+	public void prepareChildren( FilterConfig fc, long timeout )
 	{
+		class TempThread extends Thread
+		{
+			private FilterConfig fc;
+			TempThread( FilterConfig fc )
+			{
+				this.fc = fc;
+			}
+			private IDBNode[] result = null;
+			@Override
+			public void run( )
+			{
+				result = refetchChildren( fc );
+			}
+			
+			public IDBNode[] getResult( )
+			{
+				return result;
+			}
+		}
+		TempThread tt = new TempThread( fc );
+		tt.start( );
+		try
+		{
+			tt.join( timeout );
+		}
+		catch ( InterruptedException e )
+		{
+
+		}
+		IDBNode[] children = tt.getResult( );
+		if ( children == null )
+		{
+			children = new IDBNode[0];
+		}
 		setChildren( refetchChildren( fc ) );
 	}
 
