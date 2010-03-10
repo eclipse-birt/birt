@@ -28,10 +28,10 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
@@ -46,9 +46,10 @@ public class CubeExpressionProvider extends ExpressionProvider
 		super( handle );
 		if ( handle instanceof TabularCubeHandle )
 			dataSetHandle = ( (TabularCubeHandle) handle ).getDataSet( );
-		if ( handle instanceof TabularDimensionHandle )
+		if ( handle instanceof DimensionHandle )
 		{
-			dataSetHandle = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) ( (TabularDimensionHandle) handle ).getDefaultHierarchy( ) );
+			if ( ( (DimensionHandle) handle ).getDefaultHierarchy( ) instanceof TabularHierarchyHandle )
+				dataSetHandle = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) ( (DimensionHandle) handle ).getDefaultHierarchy( ) );
 		}
 		else if ( handle instanceof TabularHierarchyHandle )
 		{
