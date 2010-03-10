@@ -624,6 +624,13 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	private boolean hasParameters( )
 	{
+		IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
+
+		if ( webapp != null && webapp.useCustomParamHandling( ) )
+		{
+			return false;
+		}
+
 		ModuleHandle model = getModel( );
 
 		List parameters = model.getFlattenParameters( );
