@@ -76,6 +76,8 @@ public abstract class CustomChooserComposite extends Composite
 
 	private Object[] items;
 
+	protected int itemHeight;
+
 	private Listener canvasListener = new Listener( ) {
 
 		public void handleEvent( Event event )
@@ -139,6 +141,7 @@ public abstract class CustomChooserComposite extends Composite
 	public CustomChooserComposite( Composite parent, int style )
 	{
 		super( parent, style );
+		itemHeight = 18;
 	}
 
 	protected CustomChooserComposite( Composite parent, int style,
@@ -168,7 +171,7 @@ public abstract class CustomChooserComposite extends Composite
 		glContentInner.numColumns = 2;
 		cmpContent.setLayout( glContentInner );
 
-		final int iSize = 17;
+		final int iSize = itemHeight;
 		// THE CANVAS
 		cnvSelection = createChoice( cmpContent, null );
 		GridData gdCNVSelection = new GridData( GridData.FILL_BOTH );
@@ -286,15 +289,13 @@ public abstract class CustomChooserComposite extends Composite
 		cmpDropDown.addListener( SWT.KeyDown, listenerCmpDropDown );
 		cmpDropDown.addListener( SWT.FocusOut, listenerCmpDropDown );
 
-		final int choiceHigh = 18;
-
 		popupCanvases = new ICustomChoice[this.items.length];
 
 		for ( int iC = 0; iC < items.length; iC++ )
 		{
 			ICustomChoice cnv = createChoice( cmpDropDown, items[iC] );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.heightHint = choiceHigh;
+			gd.heightHint = itemHeight;
 			cnv.setLayoutData( gd );
 			cnv.addListener( SWT.MouseDown, canvasListener );
 			cnv.addListener( SWT.MouseEnter, canvasListener );
@@ -307,7 +308,7 @@ public abstract class CustomChooserComposite extends Composite
 				popupSelection = cnv;
 			}
 		}
-		shell.setSize( shellWidth, choiceHigh * items.length );
+		shell.setSize( shellWidth, itemHeight * items.length );
 		shell.layout( );
 		shell.open( );
 	}

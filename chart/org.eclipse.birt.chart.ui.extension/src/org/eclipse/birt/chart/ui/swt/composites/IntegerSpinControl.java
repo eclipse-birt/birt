@@ -21,6 +21,7 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -88,6 +89,11 @@ public class IntegerSpinControl extends Composite
 	 */
 	private void init( )
 	{
+		if ( Display.getCurrent( ).getHighContrast( ) )
+		{
+			GC gc = new GC( this );
+			iSize = gc.getFontMetrics( ).getHeight( );
+		}
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
 		vListeners = new Vector( );

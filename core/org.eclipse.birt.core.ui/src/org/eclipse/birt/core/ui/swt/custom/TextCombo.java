@@ -17,6 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
@@ -65,6 +66,11 @@ public class TextCombo extends CustomChooserComposite
 	public TextCombo( Composite parent, int style )
 	{
 		super( parent, style );
+		if ( Display.getCurrent( ).getHighContrast( ) )
+		{
+			GC gc = new GC( this );
+			itemHeight = gc.getFontMetrics( ).getHeight( ) + 2;
+		}
 		addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )
@@ -119,5 +125,4 @@ public class TextCombo extends CustomChooserComposite
 	{
 		choiceMarkerMap.remove( text );
 	}
-
 }

@@ -263,6 +263,11 @@ public class FillChooserComposite extends Composite implements
 	 */
 	private void init( )
 	{
+		if ( Display.getCurrent( ).getHighContrast( ) )
+		{
+			GC gc = new GC( this );
+			iSize = gc.getFontMetrics( ).getHeight( ) + 2;
+		}
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
 		Display display = Display.getDefault( );
