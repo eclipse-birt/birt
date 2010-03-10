@@ -92,9 +92,7 @@ public class AggregationSortHelper
 			IAggregationResultSet base ) throws IOException
 	{
 		int bufferSize = 4096;
-		String useMemoryOnly = System.getProperty( "data.engine.usememoryonly" );
-		if( Constants.isAggressiveMemoryUsage( ) || 
-				( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) ) )
+		if( Constants.isAggressiveMemoryUsage( ) )
 		{
 			bufferSize = base.length( );
 		}

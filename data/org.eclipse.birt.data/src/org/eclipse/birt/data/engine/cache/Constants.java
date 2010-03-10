@@ -25,20 +25,7 @@ public class Constants
 	public static final int FACT_TABLE_BLOCK_SIZE = 2048;
 	public static final int MAX_FACT_TABLE_BLOCK_SIZE = 8192;
 	
-	private static boolean aggressiveMemoryUsage;
-	
-	static
-	{
-		aggressiveMemoryUsage = false;
-		String useMemoryOnly = System.getProperty( "data.engine.usememoryonly" );
-		if( useMemoryOnly != null && useMemoryOnly.equalsIgnoreCase( "true" ) )
-		{
-			LIST_BUFFER_SIZE = 2000000;
-			MAX_LIST_BUFFER_SIZE = 2000000;
-			FACT_TABLE_BUFFER_SIZE = 2000000;
-			aggressiveMemoryUsage = true;
-		}
-	}
+	private static boolean aggressiveMemoryUsage = false;
 	
 	public static boolean isAggressiveMemoryUsage( )
 	{
