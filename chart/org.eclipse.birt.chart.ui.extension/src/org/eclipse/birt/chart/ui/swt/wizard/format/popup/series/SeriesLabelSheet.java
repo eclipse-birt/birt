@@ -348,6 +348,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 		cmbPosition = new Combo( grpAttributes, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBPosition = new GridData( GridData.FILL_BOTH );
+		gdCMBPosition.verticalAlignment = SWT.CENTER;
 		cmbPosition.setLayoutData( gdCMBPosition );
 		cmbPosition.addSelectionListener( this );
 
@@ -381,6 +382,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				false,
 				false );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
+		gdFCCBackground.verticalAlignment = SWT.CENTER;
 		gdFCCBackground.heightHint = fccBackground.getPreferredSize( ).y;
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
@@ -397,6 +399,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				false,
 				false );
 		GridData gdFCCShadow = new GridData( GridData.FILL_BOTH );
+		gdFCCShadow.verticalAlignment = SWT.CENTER;
 		fccShadow.setLayoutData( gdFCCShadow );
 		fccShadow.addListener( this );
 
