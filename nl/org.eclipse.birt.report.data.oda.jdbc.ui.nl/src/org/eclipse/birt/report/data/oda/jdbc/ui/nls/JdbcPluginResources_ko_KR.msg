@@ -112,10 +112,11 @@ datasource.propertyPage.tooltip=JDBC 데이터 원본
 
 designer.preview.preference.resultset.previewpage.group.title=미리 보기 페이지
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=데이터베이스의 모든 스키마를 선인출합니다(&P). 
+designer.preview.preference.resultset.enableCodeAssist.description=&Enable SQL code assist.
 designer.preview.preference.resultset.showSystemPageCheckbox.description=SQL 편집기 페이지에 시스템 테이블을 표시합니다(&S).
 designer.preview.preference.resultset.maxNoOfSchema.description=표시할 최대 스키마 수(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=표시할 각 스키마의 최대 테이블 수(&T):
-designer.preview.preference.resultset.timeOutLimit.description=The time out limit (seconds):
+designer.preview.preference.resultset.timeOutLimit.description=The time &out limit (seconds):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=최대 스키마에 대해 0과 {0} 사이의 숫자를 입력하십시오.
 designer.preview.preference.resultset.maxNoOfTable.errormessage=각 스키마의 최대 테이블 수를 0에서 {0} 사이의 숫자로 입력하십시오.
 designer.preview.preference.resultset.timeOutLimit.errormessage=Please enter a number between 0 and {0} for seconds of time out limit time.
