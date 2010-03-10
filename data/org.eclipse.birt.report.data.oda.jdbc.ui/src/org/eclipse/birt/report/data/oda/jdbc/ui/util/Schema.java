@@ -21,7 +21,7 @@ import java.util.Iterator;
  * This object represents a schema in the data base It contains methods to
  * retrieve the tables from the data base
  * 
- * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
+ * @version $Revision: 1.5 $ $Date: 2010/03/10 07:02:38 $
  */
 
 public class Schema implements Serializable
@@ -34,14 +34,16 @@ public class Schema implements Serializable
 	private String name = null;
 	private ArrayList tables = null;
 	private ConnectionMetaData metaData = null;
+	private long timeout; //milliseconds;
 
 	/**
 	 *  
 	 */
-	Schema( ConnectionMetaData metaData )
+	Schema( ConnectionMetaData metaData, long timeout )
 	{
 		super( );
 		this.metaData = metaData;
+		this.timeout = timeout;
 	}
 
 	/**
@@ -69,7 +71,32 @@ public class Schema implements Serializable
 	{
 		if ( tables == null )
 		{
-			retrieveTables( );
+			Thread h = new Thread( )
+			{
+				@Override
+				public void run( )
+				{
+					try
+					{
+						retrieveTables( );
+					}
+					catch ( SQLException e )
+					{
+					}
+				}
+			};
+			h.start( );
+			try
+			{
+				h.join( timeout );
+			}
+			catch ( InterruptedException e )
+			{
+			}
+			if ( tables == null )
+			{
+				tables = new ArrayList( );
+			}
 		}
 		return tables;
 	}

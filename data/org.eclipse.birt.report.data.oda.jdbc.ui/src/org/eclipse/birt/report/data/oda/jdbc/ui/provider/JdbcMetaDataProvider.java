@@ -43,9 +43,6 @@ public class JdbcMetaDataProvider
 	
 	private static JdbcMetaDataProvider instance = null;
 	
-	private Thread schemaPullThread = null;
-	private ResultSet schemaResultSet = null;
-
 	private JdbcMetaDataProvider(String driverClass, String url, String userName, String password )
 	{
 		this.driverClass = driverClass;
@@ -497,24 +494,23 @@ public class JdbcMetaDataProvider
 		}
 	}
 	
-	public String[] getAllSchemaNames( long timeOutSeconds )
+	public String[] getAllSchemaNames( long milliSeconds )
 	{
-		final List<String> schemaNameList = new ArrayList<String>( );
-		
-		schemaPullThread = null;
-		schemaResultSet = null;
-		
-		schemaPullThread = new Thread( ) {
+		class TempThread extends Thread
+		{
+			private List<String> names = new ArrayList<String>( );
+			
+			@Override
 			public void run( )
 			{
-				schemaResultSet = getAllSchemas( );
-				if ( schemaResultSet != null )
+				ResultSet rs = JdbcMetaDataProvider.this.getAllSchemas( );
+				if ( rs != null )
 				{
 					try
 					{
-						while ( schemaResultSet.next( ) )
+						while ( rs.next( ) )
 						{
-							schemaNameList.add( schemaResultSet.getString( "TABLE_SCHEM" ) );
+							names.add( rs.getString( "TABLE_SCHEM" ) );
 						}
 					}
 					catch ( SQLException e )
@@ -522,55 +518,22 @@ public class JdbcMetaDataProvider
 						logger.log( Level.WARNING, e.getMessage( ), e );
 					}
 				}
-				synchronized ( schemaPullThread )
-				{
-					try
-					{
-						schemaPullThread.notifyAll( );
-					}
-					catch ( Exception ex )
-					{
-					}
-				}
 			}
-		};
-		
-		schemaPullThread.start( );
-		synchronized ( schemaPullThread )
-		{
-			try
+			
+			public String[] getResult( )
 			{
-				schemaPullThread.wait( timeOutSeconds );
-			}
-			catch ( Exception ex )
-			{
+				return names.toArray( new String[0] );
 			}
 		}
-
-		return schemaNameList.toArray( new String[0] );
-	}
-	
-	public String[] getAllSchemaNames( )
-	{
-		ResultSet rs = getAllSchemas( );
-		List<String> names = new ArrayList<String>( );
-
-		if ( rs != null )
+		TempThread tt = new TempThread( );
+		tt.start( );
+		try
 		{
-			try
-			{
-				while ( rs.next( ) )
-				{
-					names.add( rs.getString( "TABLE_SCHEM" ) );
-				}
-			}
-			catch ( SQLException e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
-			}
+			tt.join( milliSeconds );
 		}
-
-		return names.toArray( new String[0] );
-
+		catch ( InterruptedException e )
+		{
+		}
+		return tt.getResult( );
 	}
 }

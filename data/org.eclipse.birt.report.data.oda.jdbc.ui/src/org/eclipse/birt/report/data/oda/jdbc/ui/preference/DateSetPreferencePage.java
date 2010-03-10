@@ -46,6 +46,7 @@ public class DateSetPreferencePage extends PreferencePage
 	private IntegerFieldEditor maxDisplayTableEditor;
 	private IntegerFieldEditor timeOutLimitEditor;
 	private Button schemasPrefetchConfigCheckbox;
+	private Button enableCodeAssistCheckbox;
 	
 	/** default value of max schema number*/
 	public static final int DEFAULT_MAX_NUM_OF_SCHEMA = 20;
@@ -67,6 +68,7 @@ public class DateSetPreferencePage extends PreferencePage
 	public static final String USER_MAX_NUM_OF_SCHEMA = "user_max_num_of_schema";
 	public static final String USER_MAX_NUM_OF_TABLE_EACH_SCHEMA="user_max_num_of_table_each_schema";
 	public static final String USER_TIMEOUT_LIMIT = "user_timeout_limit";
+	public static final String ENABLE_CODE_ASSIST = "enable_code_assit";
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
@@ -97,10 +99,14 @@ public class DateSetPreferencePage extends PreferencePage
 		
 		schemasPrefetchConfigCheckbox = new Button( sqlDataSetGroup, SWT.CHECK );
 		schemasPrefetchConfigCheckbox.setLayoutData( data );
-		
 		schemasPrefetchConfigCheckbox.setText( JdbcPlugin.getResourceString( "designer.preview.preference.resultset.schemasPrefetchCheckbox.description" ) );
+		
+		enableCodeAssistCheckbox = new Button( sqlDataSetGroup, SWT.CHECK );
+		enableCodeAssistCheckbox.setLayoutData( data );
+		enableCodeAssistCheckbox.setText( JdbcPlugin.getResourceString( "designer.preview.preference.resultset.enableCodeAssist.description" ) );
 
 		initializeSchemaPrefetchConfig( );
+		initializeEnableCodeAssistConfig( );
 
 		//Set up the maximum number of schemas to be fetched in SQLDataSetPage.
 		maxDisplaySchemaEditor = new IntegerFieldEditor( USER_MAX_NUM_OF_SCHEMA, "", sqlDataSetGroup ); 
@@ -234,6 +240,30 @@ public class DateSetPreferencePage extends PreferencePage
 			schemasPrefetchConfigCheckbox.setSelection( true );
 		}
 	}
+	
+	/**
+	 * 
+	 *
+	 */
+	private void initializeEnableCodeAssistConfig( )
+	{
+		if ( JdbcPlugin.getDefault( )
+				.getPluginPreferences( ).contains( ENABLE_CODE_ASSIST ) )
+		{
+			String selection = JdbcPlugin.getDefault( )
+					.getPluginPreferences( )
+					.getString( ENABLE_CODE_ASSIST );
+			
+			enableCodeAssistCheckbox.setSelection( selection.equals( ENABLED )
+					? true : false );
+		}	
+		else
+		{
+			JdbcPlugin.getDefault( )
+			.getPluginPreferences( ).setValue( ENABLE_CODE_ASSIST, ENABLED );
+			enableCodeAssistCheckbox.setSelection( true );
+		}
+	}
 
 	/*
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
@@ -250,6 +280,8 @@ public class DateSetPreferencePage extends PreferencePage
 	{
 		maxDisplaySchemaEditor.setStringValue( String.valueOf( DEFAULT_MAX_NUM_OF_SCHEMA ));
 		maxDisplayTableEditor.setStringValue( String.valueOf( DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA));
+		enableCodeAssistCheckbox.setSelection( true );
+		timeOutLimitEditor.setStringValue( String.valueOf( DEFAULT_TIMEOUT_LIMIT ) );
 		super.performDefaults( );
 	}
 
@@ -263,6 +295,11 @@ public class DateSetPreferencePage extends PreferencePage
 				.setValue( SCHEMAS_PREFETCH_CONFIG,
 						schemasPrefetchConfigCheckbox.getSelection( )
 								? ENABLED : DISABLED );
+		JdbcPlugin.getDefault( )
+			.getPluginPreferences( )
+			.setValue( ENABLE_CODE_ASSIST,
+				enableCodeAssistCheckbox.getSelection( )
+						? ENABLED : DISABLED );
 		
 		JdbcPlugin.getDefault( )
 				.getPluginPreferences( )
