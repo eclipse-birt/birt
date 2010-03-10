@@ -140,7 +140,7 @@ public class Dimension implements IDimension
 			IDiskArray positionArray, StopSign stopSign ) throws IOException
 	{
 		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionRow.getCreator( ),
-				Math.min( Constants.MAX_LIST_BUFFER_SIZE, positionArray.size( ) ) );
+				Math.min( Constants.MAX_DIMENSION_LENGTH, positionArray.size( ) ) );
 
 		for ( int i = 0; i < positionArray.size( ); i++ )
 		{
