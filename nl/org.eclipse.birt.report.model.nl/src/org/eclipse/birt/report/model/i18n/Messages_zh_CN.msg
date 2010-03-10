@@ -682,6 +682,7 @@ Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=TextBox
 Choices.selectorType.calendar=Calendar
+Choices.selectorType.currentSelection=Current Selection
 
 #85 thumbType
 Choices.thumbType.single=Single
@@ -705,6 +706,10 @@ Choices.gadgetContentType.video=视频
 Choices.gadgetContentType.videourl=视频 URL
 Choices.gadgetContentType.text=文本
 Choices.gadgetContentType.image=图像  
+
+#89 WindowStatus
+Choices.windowStatus.normal=正常
+Choices.windowStatus.maximized=Maximized
 
 ###########################################################
 # Classes
