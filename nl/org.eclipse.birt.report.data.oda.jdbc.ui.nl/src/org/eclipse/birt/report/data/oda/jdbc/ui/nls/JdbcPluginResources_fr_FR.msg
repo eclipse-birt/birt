@@ -112,10 +112,11 @@ datasource.propertyPage.tooltip=Source de données JDBC
 
 designer.preview.preference.resultset.previewpage.group.title=Page de prévisualisation
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=Récu&pérer à l'avance tous les schémas à partir de la base de données. 
+designer.preview.preference.resultset.enableCodeAssist.description=&Enable SQL code assist.
 designer.preview.preference.resultset.showSystemPageCheckbox.description=Afficher les table&s dans la page de l'éditeur SQL.
 designer.preview.preference.resultset.maxNoOfSchema.description=Nombre maximum de &schémas à afficher :
 designer.preview.preference.resultset.maxNoOfTable.description=Nombre maximum de &tables de chaque schéma à afficher :
-designer.preview.preference.resultset.timeOutLimit.description=The time out limit (seconds):
+designer.preview.preference.resultset.timeOutLimit.description=The time &out limit (seconds):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Entrez un chiffre compris entre 0 et {0} pour le nombre maximum de schémas.
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Entrez un chiffre compris entre 0 et {0} pour le nombre maximum de tables de chaque schéma.
 designer.preview.preference.resultset.timeOutLimit.errormessage=Please enter a number between 0 and {0} for seconds of time out limit time.
