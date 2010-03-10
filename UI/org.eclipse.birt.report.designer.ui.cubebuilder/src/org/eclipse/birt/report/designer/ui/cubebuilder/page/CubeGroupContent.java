@@ -335,7 +335,8 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					try
 					{
-						handleDelEvent( );
+						if ( delBtn.isEnabled( ) )
+							handleDelEvent( );
 					}
 					catch ( Exception e1 )
 					{
@@ -500,9 +501,9 @@ public class CubeGroupContent extends Composite implements Listener
 							}
 						}
 					}
-					if ( obj instanceof TabularDimensionHandle )
+					if ( obj instanceof DimensionHandle )
 					{
-						TabularDimensionHandle dimension = (TabularDimensionHandle) obj;
+						DimensionHandle dimension = (DimensionHandle) obj;
 						if ( dimension.getContainer( ) instanceof TabularCubeHandle )
 						{
 							event.detail = DND.DROP_NONE;
@@ -1312,7 +1313,7 @@ public class CubeGroupContent extends Composite implements Listener
 					if ( obj instanceof DimensionHandle )
 					{
 						delBtn.setEnabled( true );
-						editBtn.setEnabled( true );
+						//editBtn.setEnabled( true );
 					}
 					removeButton.setEnabled( delBtn.isEnabled( ) );
 					addButton.setEnabled( addBtn.isEnabled( ) );
@@ -1335,7 +1336,7 @@ public class CubeGroupContent extends Composite implements Listener
 				else if ( obj instanceof LevelHandle )
 				{
 					DesignElementHandle hierarchy = ( (LevelHandle) obj ).getContainer( );
-					dimenTemp = (TabularDimensionHandle) hierarchy.getContainer( );
+					dimenTemp = (DimensionHandle) hierarchy.getContainer( );
 				}
 				else
 					addBtn.setEnabled( true );
@@ -2430,20 +2431,20 @@ public class CubeGroupContent extends Composite implements Listener
 
 	private boolean checkSharedDimension( Object element )
 	{
-		TabularDimensionHandle tempDimension = null;
+		DimensionHandle tempDimension = null;
 
 		if ( element instanceof LevelHandle )
 		{
-			tempDimension = (TabularDimensionHandle) ( (LevelHandle) element ).getContainer( )
+			tempDimension = (DimensionHandle) ( (LevelHandle) element ).getContainer( )
 					.getContainer( );
 		}
-		else if ( element instanceof TabularDimensionHandle )
+		else if ( element instanceof DimensionHandle )
 		{
-			tempDimension = (TabularDimensionHandle) element;
+			tempDimension = (DimensionHandle) element;
 		}
 
 		if ( tempDimension != null
-				&& ( !( tempDimension.getContainer( ) instanceof CubeHandle ) || tempDimension.getSharedDimension( ) != null ) )
+				&& ( !( tempDimension.getContainer( ) instanceof CubeHandle ) || ( tempDimension instanceof TabularDimensionHandle && ( (TabularDimensionHandle) tempDimension ).getSharedDimension( ) != null ) ) )
 		{
 			return true;
 		}
