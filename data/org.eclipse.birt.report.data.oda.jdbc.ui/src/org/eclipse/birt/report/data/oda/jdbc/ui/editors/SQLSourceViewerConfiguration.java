@@ -26,7 +26,7 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2007/02/01 10:58:58 $
+ * @version $Revision: 1.3 $ $Date: 2008/08/21 09:42:14 $
  */
 
 public class SQLSourceViewerConfiguration extends SourceViewerConfiguration
@@ -34,13 +34,17 @@ public class SQLSourceViewerConfiguration extends SourceViewerConfiguration
 	private static final TextAttribute quoteString = new TextAttribute( ColorManager.getColor(42, 0, 255) ) ;
 	private static final TextAttribute comment = new TextAttribute( ColorManager.getColor(63, 127, 95) ) ;
 	private DataSourceDesign dsd;
+	private long timeout;
+	private boolean enableCodeAssist;
 	/**
 	 *  
 	 */
-	public SQLSourceViewerConfiguration( DataSourceDesign dsd )
+	public SQLSourceViewerConfiguration( DataSourceDesign dsd, long timeout, boolean enableCodeAssist )
 	{
 		super( );
 		this.dsd = dsd;
+		this.timeout = timeout;
+		this.enableCodeAssist = enableCodeAssist;
 	}
 
 	/*
@@ -82,8 +86,12 @@ public class SQLSourceViewerConfiguration extends SourceViewerConfiguration
 
 	public IContentAssistant getContentAssistant( ISourceViewer sourceViewer )
 	{
+		if ( !enableCodeAssist )
+		{
+			return null;
+		}
 		ContentAssistant assistant = new ContentAssistant( );
-		JdbcSQLContentAssistProcessor contentAssist = new JdbcSQLContentAssistProcessor( );
+		JdbcSQLContentAssistProcessor contentAssist = new JdbcSQLContentAssistProcessor( timeout );
 		contentAssist.setDataSourceHandle( dsd );
 		assistant.setContentAssistProcessor( contentAssist,
 				IDocument.DEFAULT_CONTENT_TYPE );

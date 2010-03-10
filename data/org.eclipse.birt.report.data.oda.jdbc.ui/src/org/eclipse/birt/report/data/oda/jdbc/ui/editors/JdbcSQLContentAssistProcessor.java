@@ -38,7 +38,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.17 $ $Date: 2008/08/21 09:42:14 $
+ * @version $Revision: 1.18 $ $Date: 2009/07/07 06:50:16 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -48,13 +48,15 @@ public class JdbcSQLContentAssistProcessor implements
 
 	private transient ConnectionMetaData metaData = null;
 	private transient ICompletionProposal[] lastProposals = null;
+	private long timeout; //milliseconds
 
 	/**
 	 *  
 	 */
-	public JdbcSQLContentAssistProcessor( )
+	public JdbcSQLContentAssistProcessor( long milliseconds )
 	{
 		super( );
+		this.timeout = milliseconds;
 	}
     
     public void setDataSourceHandle( DataSourceDesign dataSourceHandle )
@@ -78,7 +80,7 @@ public class JdbcSQLContentAssistProcessor implements
 				.getValue( );
 		metaData = ConnectionMetaDataManager.getInstance( )
 				.getMetaData( driverClass, url, user, password, //$NON-NLS-1$
-						null );
+						null, timeout );
 
 	}
 

@@ -19,7 +19,7 @@ import java.util.Properties;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
+ * @version $Revision: 1.5 $ $Date: 2007/02/01 10:58:57 $
  */
 
 public class ConnectionMetaDataManager implements Serializable
@@ -49,7 +49,7 @@ public class ConnectionMetaDataManager implements Serializable
 
 	public ConnectionMetaData getMetaData( String classname, String url,
 			String username, String password, 
-			Properties properties )
+			Properties properties, long timeout )
 	{
 		//construct a new meta data instance
 		ConnectionMetaData metaData = new ConnectionMetaData( );
@@ -58,6 +58,7 @@ public class ConnectionMetaDataManager implements Serializable
 		metaData.setUsername( username );
 		metaData.setPassword( password );
 		metaData.setProperties( properties );
+		metaData.setTimeout( timeout );
 
 		//Iterate through the list and find out whether this meta data object
 		// exists

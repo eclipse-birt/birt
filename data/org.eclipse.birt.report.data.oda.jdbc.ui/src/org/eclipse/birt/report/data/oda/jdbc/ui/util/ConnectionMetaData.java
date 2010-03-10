@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * This is a utility class for maintaining the meta data information for a
  * particular JDBC connection.
  * 
- * @version $Revision: 1.8 $ $Date: 2007/07/20 07:59:38 $
+ * @version $Revision: 1.9 $ $Date: 2008/08/04 07:55:18 $
  */
 
 public class ConnectionMetaData implements Serializable
@@ -47,7 +47,7 @@ public class ConnectionMetaData implements Serializable
 	private transient Connection connection = null;
 	private transient DatabaseMetaData metadata = null;
 	private static Logger logger = Logger.getLogger( ConnectionMetaData.class.getName( ) );
-
+	private long timeout; //milliseconds
 	/**
 	 *  
 	 */
@@ -115,6 +115,12 @@ public class ConnectionMetaData implements Serializable
 		return url;
 	}
 
+	
+	public void setTimeout( long timeout )
+	{
+		this.timeout = timeout;
+	}
+
 	/**
 	 * @param url
 	 *            The url to set.
@@ -174,7 +180,32 @@ public class ConnectionMetaData implements Serializable
 	{
 		if ( schemas == null )
 		{
-			retrieveSchemas( );
+			Thread h = new Thread( )
+			{
+				@Override
+				public void run( )
+				{
+					try
+					{
+						retrieveSchemas( );
+					}
+					catch ( SQLException e )
+					{
+					}
+				}
+			};
+			h.start( );
+			try
+			{
+				h.join( timeout );
+			}
+			catch ( InterruptedException e )
+			{
+			}
+			if ( schemas == null )
+			{
+				schemas = new ArrayList( );
+			}
 		}
 		return schemas;
 	}
@@ -249,7 +280,7 @@ public class ConnectionMetaData implements Serializable
 				while ( resultSet.next( ) )
 				{
 					String schemaName = resultSet.getString( "TABLE_SCHEM" );//$NON-NLS-1$
-					schema = new Schema( this );
+					schema = new Schema( this, timeout );
 					schema.setName( schemaName );
 					schemas.add( schema );
 				}
@@ -258,7 +289,7 @@ public class ConnectionMetaData implements Serializable
 			{
 				//Add a default schema to the list with no name
 				//to indicate that this data base doesn't support schemas
-				schema = new Schema( this );
+				schema = new Schema( this, timeout );
 				schemas.add( schema );
 			}
 		}
