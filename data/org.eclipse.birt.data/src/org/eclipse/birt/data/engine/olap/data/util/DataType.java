@@ -143,6 +143,8 @@ public class DataType
 	 */
 	public static int getDataType( Class objClass )
 	{
+		if( objClass.equals( java.sql.Timestamp.class ) )
+			return typeCodes[4];
 		if( objClass.equals( byte[].class ))
 			return typeCodes[6];
 		for ( int i = 0; i < classes.length; i++ )
