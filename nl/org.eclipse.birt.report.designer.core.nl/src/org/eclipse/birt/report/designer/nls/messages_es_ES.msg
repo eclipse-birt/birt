@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=Visibilidad
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=Automático
-LayoutConfigurationBlock.Default.Unit.Label=Unidad predeterminada:
+LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
 
 ###########################################################
 #LayoutEditor properties
@@ -4292,7 +4292,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=El archivo fuente no exi
 PublishResourceAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como preferencia no es válida.
 PublishResourceDialog.Label.FileName=&Nombre de archivo:
 PublishResourceDialog.Label.SourceFileName=&Archivo fuente:
-PublishResourceDialog.Label.Folder=&Carpeta:
+PublishResourceDialog.Label.Folder=Folder:
 PublishResourceDialog.Label.Browse=&Examinar...
 PublishResourceDialog.Label.Browse2=E&xaminar...
 WizardResourceSettingPage.ErrorMessage=Seleccione una carpeta
@@ -4735,7 +4735,7 @@ VariableDialog.Error.NameDuplicate=El nombre \"{0}\" duplica un nombre existente
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=Sintaxis predeterminada:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
 
 ###########################################################
 #ExpressionEditor

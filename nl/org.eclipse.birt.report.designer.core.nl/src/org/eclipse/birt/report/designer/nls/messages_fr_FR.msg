@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=Visibilité
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=Auto
-LayoutConfigurationBlock.Default.Unit.Label=Unité par défaut :
+LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
 
 ###########################################################
 #LayoutEditor properties
@@ -4292,7 +4292,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=Le fichier source n'exis
 PublishResourceAction.wizard.notvalidfolder=Le dossier de ressources défini dans les préférences n'est pas valide.
 PublishResourceDialog.Label.FileName=&Nom de fichier :
 PublishResourceDialog.Label.SourceFileName=&Fichier source :
-PublishResourceDialog.Label.Folder=&Dossier :
+PublishResourceDialog.Label.Folder=Folder:
 PublishResourceDialog.Label.Browse=& Parcourir...
 PublishResourceDialog.Label.Browse2=Par&courir...
 WizardResourceSettingPage.ErrorMessage=Sélectionner un dossier
@@ -4735,7 +4735,7 @@ VariableDialog.Error.NameDuplicate=Le nom \"{0}"\ est le doublon d'un nom exista
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par défaut :
+ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
 
 ###########################################################
 #ExpressionEditor
