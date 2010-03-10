@@ -984,6 +984,7 @@ public interface DesignChoiceConstants
 	public static final String DATA_SELECTOR_TYPE_RADIO_BUTTON = "radioButton";//$NON-NLS-1$
 	public static final String DATA_SELECTOR_TYPE_TEXT_BOX = "textBox";//$NON-NLS-1$
 	public static final String DATA_SELECTOR_TYPE_CALENDAR = "calendar";//$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_CURRENT_SELECTION = "currentSelection";//$NON-NLS-1$
 
 	/**
 	 * Choice constants for thumb type.
@@ -1028,5 +1029,10 @@ public interface DesignChoiceConstants
 	public static final String GADGET_CONTENT_TYPE_VIDEO = "video"; //$NON-NLS-1$
 	public static final String GADGET_CONTENT_TYPE_VIDEOURL = "videourl"; //$NON-NLS-1$
 	public static final String GADGET_CONTENT_TYPE_TEXT = "text"; //$NON-NLS-1$
-	public static final String GADGET_CONTENT_TYPE_IMAGE = "image"; //$NON-NLS-1$ 
-};
+	public static final String GADGET_CONTENT_TYPE_IMAGE = "image"; //$NON-NLS-1$
+	
+	public static final String CHOICE_WINDOW_STATUS = "windowStatus"; //$NON-NLS-1$
+	public static final String WINDOW_STATUS_NORMAL = "normal"; //$NON-NLS-1$
+	public static final String WINDOW_STATUS_MAXIMIZED = "maximized"; //$NON-NLS-1$
+	
+}

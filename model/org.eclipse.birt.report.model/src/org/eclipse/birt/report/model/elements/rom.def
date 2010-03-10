@@ -621,6 +621,7 @@
   	<Choice displayNameID="Choices.selectorType.radioButton" name="radioButton"/>
   	<Choice displayNameID="Choices.selectorType.textBox" name="textBox"/>
   	<Choice displayNameID="Choices.selectorType.calendar" name="calendar"/>
+  	<Choice displayNameID="Choices.selectorType.currentSelection" name="currentSelection"/>
   </ChoiceType>
   <ChoiceType name="accessType">
   	<Choice displayNameID="Choices.accessType.transient" name="transient"/>
@@ -644,7 +645,11 @@
   	<Choice displayNameID="Choices.gadgetContentType.videourl" name="videourl"/>
   	<Choice displayNameID="Choices.gadgetContentType.text" name="text"/>
   	<Choice displayNameID="Choices.gadgetContentType.image" name="image"/>  	
-  </ChoiceType>  
+  </ChoiceType>
+    <ChoiceType name="WindowStatus">
+  	<Choice displayNameID="Choices.windowStatus.normal" name="normal"/>
+  	<Choice displayNameID="Choices.windowStatus.maximized" name="maximized"/>
+  </ChoiceType>   
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
