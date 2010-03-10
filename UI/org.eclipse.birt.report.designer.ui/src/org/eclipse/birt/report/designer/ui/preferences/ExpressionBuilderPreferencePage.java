@@ -47,8 +47,7 @@ public class ExpressionBuilderPreferencePage extends PropertyAndPreferencePage
 				getProject( ) );
 		super.createControl( parent );
 
-		UIUtil.bindHelp( getControl( ),
-				IHelpContextIds.PREFERENCE_BIRT_LAYOUT_ID );
+		UIUtil.bindHelp( getControl( ), IHelpContextIds.PREFERENCE_BIRT_EXPRESSION_SYNTAX_ID );
 	}
 
 	protected Control createPreferenceContent( Composite composite )
