@@ -15,7 +15,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction;
+import org.eclipse.birt.report.designer.data.ui.dataset.ExternalUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.data.IDataServiceProvider;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
@@ -56,6 +58,12 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 				binding,
 				groupIterator,
 				useDataSetFilter );
+	}
+
+	public void registerSession( DataSetHandle handle,
+			DataRequestSession session ) throws BirtException
+	{
+		ExternalUIUtil.populateApplicationContext( handle, session );
 	}
 
 }

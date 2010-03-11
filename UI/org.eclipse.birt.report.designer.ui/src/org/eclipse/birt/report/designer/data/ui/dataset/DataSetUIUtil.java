@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
@@ -67,6 +68,11 @@ public final class DataSetUIUtil
 	public static void updateColumnCacheAfterCleanRs(
 			DataSetHandle dataSetHandle ) throws SemanticException
 	{
+		if ( dataSetHandle.getCachedMetaDataHandle( ) != null
+				&& dataSetHandle.getCachedMetaDataHandle( ).getResultSet( ) != null )
+			dataSetHandle.getCachedMetaDataHandle( )
+					.getResultSet( )
+					.clearValue( );
 		if ( dataSetHandle instanceof OdaDataSetHandle )
 		{
 			if ( dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP )
@@ -110,6 +116,8 @@ public final class DataSetUIUtil
 				engineTask.setAppContext( appContext );
 				engineTask.run( );
 
+				DataService.getInstance( ).registerSession( dataSetHandle,
+						session );			
 				session.refreshMetaData( dataSetHandle, holdEvent );
 				engineTask.close( );
 				engine.destroy( );

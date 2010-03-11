@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 
@@ -36,5 +37,8 @@ public interface IDataServiceProvider
 	List getSelectValueFromBinding( Expression expression,
 			DataSetHandle dataSetHandle, Iterator binding,
 			Iterator groupIterator, boolean useDataSetFilter )
+			throws BirtException;
+
+	void registerSession( DataSetHandle handle, DataRequestSession session )
 			throws BirtException;
 }
