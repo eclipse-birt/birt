@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
@@ -939,7 +950,7 @@ class ElementFactoryImpl
 		// if the base element is in the module, just generate a child element
 
 		if ( baseElement.getRoot( ).getElement( ) == module )
-			return newElementFrom( name, baseElement );
+			return createElementFrom( name, baseElement );
 
 		// the base element is not in the module, check whether the root module
 		// of the base element is included
@@ -972,10 +983,9 @@ class ElementFactoryImpl
 						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 			}
 
-			DesignElementHandle newHandle = newElementFrom( name, base
+			DesignElementHandle newHandle = createElementFrom( name, base
 					.getHandle( lib ) );
-			DesignElement newElement = newHandle.getElement( );
-			newElement.checkExtends( base );
+
 			return newHandle;
 		}
 
@@ -998,7 +1008,7 @@ class ElementFactoryImpl
 	 *             if the "extends" relationship is illegal
 	 */
 
-	private DesignElementHandle newElementFrom( String name,
+	protected DesignElementHandle createElementFrom( String name,
 			DesignElementHandle baseElement ) throws ExtendsException
 	{
 		DesignElementHandle childElement = null;
@@ -1044,6 +1054,9 @@ class ElementFactoryImpl
 					childElement.getElement( ) );
 		}
 		module.rename( childElement.getElement( ) );
+
+		// check extends
+		childElement.getElement( ).checkExtends( baseElement.getElement( ) );
 
 		return childElement;
 	}
