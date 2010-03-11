@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=集計項目の挿入
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=&Measure:
-DimensionBuilderDialog.LabelUnit=&Units:
+DimensionBuilderDialog.LabelMeasure=メジャー(&M) :
+DimensionBuilderDialog.LabelUnit=単位(&U) :
 DimensionBuilderDialog.Title=ディメンジョンビルダ
 
 ###########################################################
@@ -3039,7 +3039,7 @@ PreviewAction.Text=プレビュー
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=レポートパラメタの表示
-PreviewEditor.parameter.hint=Refresh Report
+PreviewEditor.parameter.hint=レポートの更新
 PreviewEditor.parameter.note=注 :
 PreviewEditor.parameter.info=データ行は現在 {0} に制限されています。
 PreviewEditor.parameter.change=プレビューの環境設定を変更するにはここをクリック
@@ -3136,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=指定されたフォルダが存在しません。
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
+PublishLibraryToResourceFolderAction.Action.Text=共有リソースフォルダへのライブラリのコピー(&B)...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4227,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    先頭にスペースが入っている文字
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=Share Library
-PublishLibraryDialog.TitleArea=Share Library
-PublishLibraryDialog.Message=Copy library to shared resource folder.
+PublishLibraryDialog.ShellText=ライブラリの共有
+PublishLibraryDialog.TitleArea=ライブラリの共有
+PublishLibraryDialog.Message=共有リソースフォルダにライブラリをコピーします。
 PublishLibraryDialog.Label.SourceFileName=ソースファイル(&S) :
 PublishLibraryDialog.Label.FileName=ファイル名(&N) :
 PublishLibraryDialog.Label.Folder=フォルダ(&F) :

@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=Insertar elemento de agregación
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=&Measure:
-DimensionBuilderDialog.LabelUnit=&Units:
+DimensionBuilderDialog.LabelMeasure=&Medida:
+DimensionBuilderDialog.LabelUnit=&Unidades:
 DimensionBuilderDialog.Title=Compilador de dimensiones
 
 ###########################################################
@@ -3039,7 +3039,7 @@ PreviewAction.Text=Vista previa
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=Mostrar parámetros de informe
-PreviewEditor.parameter.hint=Refresh Report
+PreviewEditor.parameter.hint=Actualizar informe
 PreviewEditor.parameter.note=Nota:
 PreviewEditor.parameter.info=El número máximo actual de filas de datos está limitado a {0}.
 PreviewEditor.parameter.change=Haga clic para cambiar las preferencias de vista previa
@@ -3136,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=La carpeta especificada no existe
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
+PublishLibraryToResourceFolderAction.Action.Text=Copiar Li&brería para compartir carpeta de recursos...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4227,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    string con espacio en blanco a
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=Share Library
-PublishLibraryDialog.TitleArea=Share Library
-PublishLibraryDialog.Message=Copy library to shared resource folder.
+PublishLibraryDialog.ShellText=Compartir librería
+PublishLibraryDialog.TitleArea=Compartir librería
+PublishLibraryDialog.Message=Copiar librería para compartir carpeta de recursos.
 PublishLibraryDialog.Label.SourceFileName=&Archivo fuente:
 PublishLibraryDialog.Label.FileName=&Nombre de archivo:
 PublishLibraryDialog.Label.Folder=&Carpeta:
