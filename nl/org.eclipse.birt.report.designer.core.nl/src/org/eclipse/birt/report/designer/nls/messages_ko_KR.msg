@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=집계 항목 삽입
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=&Measure:
-DimensionBuilderDialog.LabelUnit=&Units:
+DimensionBuilderDialog.LabelMeasure=측정값(&M):
+DimensionBuilderDialog.LabelUnit=단위(&U):
 DimensionBuilderDialog.Title=차원 빌더
 
 ###########################################################
@@ -3039,7 +3039,7 @@ PreviewAction.Text=미리 보기
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=보고서 매개 변수 표시
-PreviewEditor.parameter.hint=Refresh Report
+PreviewEditor.parameter.hint=보고서 새로 고침
 PreviewEditor.parameter.note=참고:
 PreviewEditor.parameter.info=현재 최대 데이터 행 수는 {0}(으)로 제한됩니다.
 PreviewEditor.parameter.change=미리 보기 기본 설정을 변경하려면 클릭
@@ -3136,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=지정한 폴더가 없습니다.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
+PublishLibraryToResourceFolderAction.Action.Text=공유 리소스 폴더로 라이브러리 복사(&B)...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4227,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    선행 공백이 유지된 문자열
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=Share Library
-PublishLibraryDialog.TitleArea=Share Library
-PublishLibraryDialog.Message=Copy library to shared resource folder.
+PublishLibraryDialog.ShellText=라이브러리 공유
+PublishLibraryDialog.TitleArea=라이브러리 공유
+PublishLibraryDialog.Message=공유 리소스 폴더로 라이브러리를 복사합니다.
 PublishLibraryDialog.Label.SourceFileName=원본 파일(&S):
 PublishLibraryDialog.Label.FileName=파일 이름(&N):
 PublishLibraryDialog.Label.Folder=폴더(&F):

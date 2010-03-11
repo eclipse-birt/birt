@@ -35,8 +35,8 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=La medida no admite el tipo 
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Advertencia
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, please check the "Auto primary key" button on the dataset selection page to complete the cube.
-CubeBuilder.AutoPrimaryKeyDialog.Title=Auto primary key problem
+CubeBuilder.AutoPrimaryKeyDialog.Message=Hay algunas columnas utilizadas como claves de unión que no están definidas por niveles, consulte el botón "Clave primaria automática" en la página de selección de conjunto de datos para completar el cubo.
+CubeBuilder.AutoPrimaryKeyDialog.Title=Problema de clave primaria automática
 CubeBuilder.SharedDimensionErrorLinkDialog.Message=Todas las claves primarias de las dimensiones compartidas deben estar vinculadas
 CubeBuilder.SharedDimensionErrorLinkDialog.Title=Error de link de dimensión compartida
 CubeBuilder.Title=Compilador de cubos de tabla de referencias cruzadas
@@ -74,7 +74,7 @@ SimpleCubeBuilder.Title.Title=Compilador de cubos de tabla de referencias cruzad
 SimpleCubeBuilder.Title.Message=Organice sus datos para la tabla de referencias cruzadas especificando las jerarquías de agrupación y los campos de datos de resumen. 
 SimpleCubeBuilder.Title=Compilador de cubos de tabla de referencias cruzadas
 SimpleCubeBuilder.Label.Name=Nombre:
-DatasetSelectionPage.Button.Auto.Primary.Key=Auto &primary key
+DatasetSelectionPage.Button.Auto.Primary.Key=Clave &primaria automática
 DatasetSelectionPage.Combo.NewDataSet0=<Nuevo conjunto de datos...>
 GroupsPage.Button.Add=&Añadir
 GroupsPage.Button.Edit=&Editar

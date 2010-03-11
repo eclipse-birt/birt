@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=Aggregatelement einfügen
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=&Measure:
-DimensionBuilderDialog.LabelUnit=&Units:
+DimensionBuilderDialog.LabelMeasure=&Maßeinheit:
+DimensionBuilderDialog.LabelUnit=&Einheiten:
 DimensionBuilderDialog.Title=Dimension Builder
 
 ###########################################################
@@ -3039,7 +3039,7 @@ PreviewAction.Text=Vorschau
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=Berichtparameter anzeigen
-PreviewEditor.parameter.hint=Refresh Report
+PreviewEditor.parameter.hint=Aktualisierungsbericht
 PreviewEditor.parameter.note=Hinweis:
 PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit {0}.
 PreviewEditor.parameter.change=Zum Ändern der Vorschaueinstellungen klicken.
@@ -3136,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=Der angegebene Ordner ist nicht vo
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
+PublishLibraryToResourceFolderAction.Action.Text=&Bibliothek in Ordner für gemeinsame Ressourcen kopieren...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4227,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    Zeichenfolge mit führendem Lee
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=Share Library
-PublishLibraryDialog.TitleArea=Share Library
-PublishLibraryDialog.Message=Copy library to shared resource folder.
+PublishLibraryDialog.ShellText=Bibliothek gemeinsam nutzen
+PublishLibraryDialog.TitleArea=Bibliothek gemeinsam nutzen
+PublishLibraryDialog.Message=Bibliothek in Ordner für gemeinsame Ressourcen kopieren.
 PublishLibraryDialog.Label.SourceFileName=&Quelldatei:
 PublishLibraryDialog.Label.FileName=Datei&name:
 PublishLibraryDialog.Label.Folder=&Ordner:

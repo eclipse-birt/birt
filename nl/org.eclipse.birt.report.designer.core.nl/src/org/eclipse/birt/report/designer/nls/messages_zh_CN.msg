@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=插入聚合项
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=&Measure:
-DimensionBuilderDialog.LabelUnit=&Units:
+DimensionBuilderDialog.LabelMeasure=度量：
+DimensionBuilderDialog.LabelUnit=单位：
 DimensionBuilderDialog.Title=维生成器
 
 ###########################################################
@@ -3039,7 +3039,7 @@ PreviewAction.Text=预览
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=显示报表参数
-PreviewEditor.parameter.hint=Refresh Report
+PreviewEditor.parameter.hint=刷新报告
 PreviewEditor.parameter.note=注:
 PreviewEditor.parameter.info=当前数据行数的最大限制为 {0}。
 PreviewEditor.parameter.change=单击以更改预览首选项
@@ -3136,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=指定的文件夹不存在
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
+PublishLibraryToResourceFolderAction.Action.Text=将库复制到共享资源文件夹...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4227,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    具有前导空格的字符串
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=Share Library
-PublishLibraryDialog.TitleArea=Share Library
-PublishLibraryDialog.Message=Copy library to shared resource folder.
+PublishLibraryDialog.ShellText=共享库
+PublishLibraryDialog.TitleArea=共享库
+PublishLibraryDialog.Message=将库复制到共享资源文件夹。
 PublishLibraryDialog.Label.SourceFileName=源文件(&S):
 PublishLibraryDialog.Label.FileName=文件名(&N):
 PublishLibraryDialog.Label.Folder=文件夹(&F):

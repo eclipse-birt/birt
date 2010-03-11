@@ -993,8 +993,8 @@ DesignerPaletteFactory.quicktool.agg.toolTip=Insérer un élément d'agrégation
 ###########################################################
 #DimensionBuilderDialog properties
 
-DimensionBuilderDialog.LabelMeasure=&Measure:
-DimensionBuilderDialog.LabelUnit=&Units:
+DimensionBuilderDialog.LabelMeasure=&Mesurer :
+DimensionBuilderDialog.LabelUnit=&Unités :
 DimensionBuilderDialog.Title=Générateur de dimension
 
 ###########################################################
@@ -3039,7 +3039,7 @@ PreviewAction.Text=Aperçu
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=Afficher les paramètres de l'état
-PreviewEditor.parameter.hint=Refresh Report
+PreviewEditor.parameter.hint=Actualiser l'état
 PreviewEditor.parameter.note=Remarque :
 PreviewEditor.parameter.info=Le nombre de lignes de données maximum actuel est de {0}.
 PreviewEditor.parameter.change=Cliquer pour modifier les préférences d'aperçu
@@ -3136,7 +3136,7 @@ ExportToLibraryAction.wizard.page.foldererror=Le dossier spécifié n'existe pas.
 
 ###########################################################
 #PublishLibraryToResourceFolderAction
-PublishLibraryToResourceFolderAction.Action.Text=Copy Li&brary to Shared Resource Folder...
+PublishLibraryToResourceFolderAction.Action.Text=Copier la bi&bliothèque dans le dossier de ressources partagées...
 
 ###########################################################
 #PublishTemplateViewAction
@@ -4227,9 +4227,9 @@ FormatStringPage.Preview.PreserveWhiteSpaces=\    chaîne contenant un interligna
 
 ###########################################################
 #PublishLibraryDialog
-PublishLibraryDialog.ShellText=Share Library
-PublishLibraryDialog.TitleArea=Share Library
-PublishLibraryDialog.Message=Copy library to shared resource folder.
+PublishLibraryDialog.ShellText=Partager la bibliothèque
+PublishLibraryDialog.TitleArea=Partager la bibliothèque
+PublishLibraryDialog.Message=Copiez la bibliothèque dans le dossier de ressources partagées.
 PublishLibraryDialog.Label.SourceFileName=&Fichier source :
 PublishLibraryDialog.Label.FileName=&Nom de fichier :
 PublishLibraryDialog.Label.Folder=&Dossier :
