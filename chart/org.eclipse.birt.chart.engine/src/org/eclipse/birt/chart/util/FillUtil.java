@@ -358,7 +358,7 @@ public class FillUtil
 		ColorDefinition color = goFactory.copyOf( paletteColor );
 
 		int cycle = index / paletteSize;
-		int offset = ( cycle / 4 ) * 71;
+		int offset = ( cycle / 3 + 1 ) * 71;
 		int phrase = cycle % 3;
 
 		switch ( phrase )
