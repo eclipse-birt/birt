@@ -336,7 +336,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	{
 		grpAttributes = new Group( parent, SWT.NONE );
 		{
-			grpAttributes.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			grpAttributes.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			grpAttributes.setLayout( new GridLayout( 2, false ) );
 			grpAttributes.setText( Messages.getString( "SeriesLabelSheet.Label.Format" ) ); //$NON-NLS-1$
 		}
