@@ -78,8 +78,6 @@ public class ChartPageGenerator extends AbstractPageGenerator
 	 */
 	private void setFilterPage( CTabItem item )
 	{
-		
-
 		AbstractFilterHandleProvider providerDelegate = getFilterProviderDelegate( );
 		
 		filterPage = new FilterPage( FormPropertyDescriptor.FULL_FUNCTION,

@@ -1097,6 +1097,20 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				&& isContainerInheritable( handle )
 				&& !handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
 	}
+	
+	/**
+	 * Check if chart inherits columns only from container.
+	 * 
+	 * @param handle
+	 * @return
+     * @since 2.5.3
+	 */
+	public static boolean isChartInheritColumnsOnly( ReportItemHandle handle )
+	{
+		return handle.getDataSet( ) != null
+				&& isContainerInheritable( handle )
+				&& handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
+	}
 
 	/**
 	 * Checks if the item's container is inheritable. Usually only Table and

@@ -602,7 +602,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	{
 		final ExpressionProvider ep = new ChartExpressionProvider( (ExtendedItemHandle) context,
 				wizardContext,
-				getExpressionBuilderStyle( command ) );
+				ChartReportItemUIUtil.getExpressionBuilderStyle( command ) );
 		Shell shell = null;
 
 		switch ( command )
@@ -679,70 +679,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		return true;
 	}
 
-	/**
-	 * Returns the categories list in BIRT chart expression builder
-	 * 
-	 * @param builderCommand
-	 * @return category style
-	 */
-	private int getExpressionBuilderStyle( int builderCommand )
-	{
-		if ( builderCommand == COMMAND_EXPRESSION_DATA_BINDINGS )
-		{
-			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
-					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
-					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
-		}
-		else if ( builderCommand == COMMAND_EXPRESSION_CHART_DATAPOINTS )
-		{
-			return ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS;
-		}
-		else if ( builderCommand == COMMAND_EXPRESSION_SCRIPT_DATAPOINTS )
-		{
-			// Script doesn't support column binding expression.
-			return ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS
-					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
-					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
-		}
-		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_SIMPLE )
-		{
-			// Bugzilla#202386: Tooltips never support chart
-			// variables. Use COMMAND_EXPRESSION_TRIGGERS_SIMPLE for un-dp
-			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
-					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
-		}
-		else if ( builderCommand == COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS )
-		{
-			// Bugzilla#202386: Tooltips never support chart
-			// variables. Use COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS for dp
-			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
-					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
-					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT
-					| ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS;
-		}
-		else if ( builderCommand == COMMAND_HYPERLINK )
-		{
-			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
-					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
-		}
-		else if ( builderCommand == COMMAND_HYPERLINK_DATAPOINTS )
-		{
-			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
-					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
-					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
-					| ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS;
-		}
-		else if ( builderCommand == COMMAND_HYPERLINK_LEGEND )
-		{
-			// Add Legend item variables and remove column bindings
-			return ChartExpressionProvider.CATEGORY_WITH_LEGEND_ITEMS
-					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
-					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT
-					| ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES;
-		}
-		return ChartExpressionProvider.CATEGORY_BASE;
-	}
-
 	public Object invoke( Command command, Object... inData )
 			throws ChartException
 	{
@@ -759,7 +695,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 
 					IExpressionProvider ep = new ChartExpressionProvider( eih,
 							wizardContext,
-							getExpressionBuilderStyle( iCode ) );
+							ChartReportItemUIUtil.getExpressionBuilderStyle( iCode ) );
 
 					IExpressionButton ceb = ChartExpressionButtonUtil.createExpressionButton( parent,
 							control,
