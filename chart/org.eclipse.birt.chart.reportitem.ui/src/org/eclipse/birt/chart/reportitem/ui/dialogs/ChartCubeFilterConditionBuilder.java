@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -27,6 +26,8 @@ import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil;
+import org.eclipse.birt.chart.reportitem.ui.ChartReportItemUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeFilterExpressionProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
@@ -36,7 +37,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -126,7 +126,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	
 	protected transient String[] popupItems = null;
 	
-	private ChartWizardContext context = null;
+	protected ChartWizardContext context = null;
 
 	private static String[] actions = new String[]{
 			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
@@ -272,15 +272,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	{
 		Map<String, String> exprMap = new LinkedHashMap<String, String>( );
 		IReportItem item = handle.getReportItem( );
-		Chart cm;
-		if ( context == null )
-		{
-			cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
-		}
-		else
-		{
-			cm = context.getModel( );
-		}
+		Chart cm = getChartModel( item );
 		
 		Query query = null;
 		SeriesDefinition sd = ChartUIUtil.getBaseSeriesDefinitions( cm )
@@ -748,30 +740,28 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			}
 
 		} );
-		try
-		{
-			expButton = (IExpressionButton) context.getUIServiceProvider( )
-					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
-							condition,
-							expression,
-							designHandle,
-							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-							new Listener( ) {
 
-								public void handleEvent( Event event )
-								{
-									if ( event.data instanceof String[] )
-									{
-										updateButtons( );
-									}
-								}
-							} );
-		}
-		catch ( ChartException e )
-		{
-			WizardBase.displayException( e );
-		}
+		// Create expression button.
+		ExpressionProvider ep = new ChartExpressionProvider( designHandle,
+				context,
+				ChartReportItemUIUtil.getExpressionBuilderStyle( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS ) );
 
+		expButton = ChartExpressionButtonUtil.createExpressionButton( condition,
+				expression,
+				(ExtendedItemHandle) designHandle,
+				ep );
+
+		expButton.addListener( new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				if ( event.data instanceof String[] )
+				{
+					updateButtons( );
+				}
+			}
+		} );
+			
 		operator = new Combo( condition, SWT.READ_ONLY );
 		for ( int i = 0; i < OPERATOR.length; i++ )
 		{
@@ -1946,15 +1936,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 
 			IReportItem item = ( (ExtendedItemHandle) designHandle ).getReportItem( );
-			Chart cm = null;
-			if ( context != null && context.getModel( ) != null )
-			{
-				cm = context.getModel( );
-			}
-			else
-			{
-				cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
-			}
+			Chart cm = getChartModel( item );
 			ChartCubeQueryHelper ccqh = new ChartCubeQueryHelper( (ExtendedItemHandle) designHandle,
 					cm,
 					session.getModelAdaptor( ) );
@@ -1995,6 +1977,27 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		needRefreshList = false;
 		return selValueList;
+	}
+
+	/**
+	 * Gets chart model from UI context under chart builder case or from report
+	 * item under property editor case.
+	 * 
+	 * @param item
+	 * @return
+	 */
+	protected Chart getChartModel( IReportItem item )
+	{
+		Chart cm;
+		if ( context != null && context.getModel( ) != null )
+		{
+			cm = context.getModel( );
+		}
+		else
+		{
+			cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
+		}
+		return cm;
 	}
 
 	public int open( )

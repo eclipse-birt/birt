@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -240,6 +241,11 @@ public class ChartExpressionProvider extends ExpressionProvider
 	private boolean isInheritColumnsOnly( )
 	{
 		ReportItemHandle itemHandle = (ReportItemHandle) elementHandle;
+		if ( wizardContext == null )
+		{
+			return ChartItemUtil.isChartInheritColumnsOnly( itemHandle );
+		}
+		
 		return itemHandle.getDataSet( ) == null
 				&& ChartReportItemUtil.isContainerInheritable( itemHandle )
 				&& wizardContext != null

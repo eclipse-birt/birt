@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -45,7 +46,7 @@ public class ChartShareCubeFiltersHandleProvider
 				if ( handle instanceof ReportItemHandle
 						&& ( (ReportItemHandle) handle ).getDataBindingReference( ) != null )
 				{
-					elements.add( ( (ReportItemHandle) handle ).getDataBindingReference( ) );
+					elements.add( ChartReportItemUtil.getReportItemReference( (ReportItemHandle) handle ) );
 				}
 				else
 				{

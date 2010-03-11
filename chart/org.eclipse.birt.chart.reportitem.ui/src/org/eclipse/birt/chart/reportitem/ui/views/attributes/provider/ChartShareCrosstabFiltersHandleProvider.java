@@ -51,7 +51,7 @@ public class ChartShareCrosstabFiltersHandleProvider extends
 				else if ( handle instanceof ReportItemHandle &&
 						( (ReportItemHandle) handle ).getDataBindingReference( ) != null )
 				{
-					elements.add( ( (ReportItemHandle) handle ).getDataBindingReference( ) );
+					elements.add( ChartReportItemUtil.getReportItemReference( (ReportItemHandle) handle ) );
 				}
 				else
 				{

@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartCubeFilterConditionBuilder;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -35,5 +37,16 @@ public class ChartFilterFactory
 			String message )
 	{
 		return new ChartCubeFilterConditionBuilder( parentShell, title, message );
+	}
+	
+	/**
+	 * Check if specified element handle contains chart model.
+	 * 
+	 * @param handle
+	 * @return
+	 */
+	public boolean isChartHandle( DesignElementHandle handle )
+	{
+		return ChartItemUtil.isChartHandle( handle );
 	}
 }
