@@ -27,7 +27,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -82,6 +82,10 @@ public class SelectionChoiceDialog extends BaseDialog
 	public static final String SELECTON_CHOICE_HELPER_KEY = "Selection Choice Dialog Helper";//$NON-NLS-1$
 
 	public static final String VALUE = "Value"; //$NON-NLS-1$
+	
+	public static final String CAN_EMPTY = "Can Use Empty"; //$NON-NLS-1$
+	
+	private boolean canUseEmptyValue = false;
 
 	private IDialogHelper helper;
 
@@ -93,6 +97,12 @@ public class SelectionChoiceDialog extends BaseDialog
 	public SelectionChoiceDialog( Shell parentShell, String title )
 	{
 		super( parentShell, title );
+	}
+
+	public SelectionChoiceDialog( String title, boolean canUseEmptyValue )
+	{
+		this( title );
+		this.canUseEmptyValue = canUseEmptyValue;
 	}
 
 	protected boolean initDialog( )
@@ -344,6 +354,7 @@ public class SelectionChoiceDialog extends BaseDialog
 					if ( helper != null )
 					{
 						helper.setProperty( VALUE, selectionChoice.getValue( ) );
+						helper.setProperty( CAN_EMPTY, canUseEmptyValue );
 						helper.createContent( parent );
 						helper.addListener( SWT.Modify, new Listener( ) {
 
