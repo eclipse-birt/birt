@@ -685,7 +685,15 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 				resetOkButtonStatus( true );
 			}
 		} );
-
+		
+		sourceViewer.getTextWidget( ).addSelectionListener( new SelectionAdapter( ) {
+			
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateToolItems( );
+			}
+		});
+		
 		updateToolItems( );
 	}
 
