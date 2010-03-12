@@ -2644,7 +2644,7 @@ MultiPageEditorContributor.menuText.editorMenu=편집기 및 메뉴
 
 NewLibraryWizard.choicePageTitle.report=라이브러리
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
-NewLibraryWizard.displayName.NewReportFileNamePrefix=new_library
+NewLibraryWizard.displayName.NewReportFileNamePrefix=새 라이브러리
 NewLibraryWizard.error.NoProject=작업 영역에 열려 있는 프로젝트가 없습니다. 파일->새로 만들기->프로젝트를 선택하여 새 프로젝트를 만들거나 기존 프로젝트를 여십시오.
 NewLibraryWizard.pageDescription.createNewReport=새 라이브러리 생성
 NewLibraryWizard.taskName.openFileForEdit=편집할 파일을 여는 중...
@@ -2687,7 +2687,7 @@ NewReportProjectWizard.windowTitle=새 보고서 프로젝트
 
 NewReportWizard.choicePageTitle.report=보고서
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
-NewReportWizard.displayName.NewReportFileNamePrefix=new_report
+NewReportWizard.displayName.NewReportFileNamePrefix=새 보고서
 NewReportWizard.error.NoProject=작업 영역에 열려 있는 프로젝트가 없습니다. 파일->새로 만들기->프로젝트를 선택하여 새 프로젝트를 만들거나 기존 프로젝트를 여십시오.
 NewReportWizard.pageDescription.createNewReport=새 보고서 생성
 NewReportWizard.pageDescription.selectReportTemplate=만들려는 보고서의 유형을 선택하십시오.
@@ -2760,7 +2760,7 @@ NewSectionDialog.Title=요소 삽입
 ###########################################################
 #NewTemplateWizard properties
 
-NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
+NewTemplateWizard.displayName.NewReportFileNamePrefix=새 템플릿
 NewTemplateWizard.pageDescription.createNewTemplate=새 보고서 템플릿을 생성합니다.
 NewTemplateWizard.text.CreateReport=새 템플릿을 생성합니다.
 NewTemplateWizard.text.Creating=만드는 중

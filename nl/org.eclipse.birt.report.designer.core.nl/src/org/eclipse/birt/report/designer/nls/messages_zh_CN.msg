@@ -2644,7 +2644,7 @@ MultiPageEditorContributor.menuText.editorMenu=编辑器菜单(&M)
 
 NewLibraryWizard.choicePageTitle.report=库
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
-NewLibraryWizard.displayName.NewReportFileNamePrefix=new_library
+NewLibraryWizard.displayName.NewReportFileNamePrefix=新库
 NewLibraryWizard.error.NoProject=工作区中没有任何打开项目。请选择“文件”->“新建”->“项目”，创建新项目或打开现有项目。
 NewLibraryWizard.pageDescription.createNewReport=新建库。
 NewLibraryWizard.taskName.openFileForEdit=打开文件进行编辑...
@@ -2760,7 +2760,7 @@ NewSectionDialog.Title=插入元素
 ###########################################################
 #NewTemplateWizard properties
 
-NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
+NewTemplateWizard.displayName.NewReportFileNamePrefix=新模板
 NewTemplateWizard.pageDescription.createNewTemplate=创建新的报表模板。
 NewTemplateWizard.text.CreateReport=创建新模板。
 NewTemplateWizard.text.Creating=创建

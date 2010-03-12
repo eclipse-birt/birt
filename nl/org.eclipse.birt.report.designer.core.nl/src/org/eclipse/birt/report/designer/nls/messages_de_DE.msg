@@ -2644,7 +2644,7 @@ MultiPageEditorContributor.menuText.editorMenu=Editor&menü
 
 NewLibraryWizard.choicePageTitle.report=Bibliothek
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
-NewLibraryWizard.displayName.NewReportFileNamePrefix=new_library
+NewLibraryWizard.displayName.NewReportFileNamePrefix=NEUE_BIBLIOTHEK
 NewLibraryWizard.error.NoProject=Kein geöffnetes Projekt im Arbeitsbereich vorhanden. Erstellen Sie ein neues Projekt über "Datei -> Neu -> Projekt", oder öffnen Sie ein vorhandenes Projekt.
 NewLibraryWizard.pageDescription.createNewReport=Neue Bibliothek erstellen
 NewLibraryWizard.taskName.openFileForEdit=Datei zum Bearbeiten wird geöffnet...
@@ -2687,7 +2687,7 @@ NewReportProjectWizard.windowTitle=Neues Berichtprojekt
 
 NewReportWizard.choicePageTitle.report=Bericht
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
-NewReportWizard.displayName.NewReportFileNamePrefix=new_report
+NewReportWizard.displayName.NewReportFileNamePrefix=NEUER_BERICHT
 NewReportWizard.error.NoProject=Kein geöffnetes Projekt im Arbeitsbereich vorhanden. Erstellen Sie ein neues Projekt über "Datei -> Neu -> Projekt", oder öffnen Sie ein vorhandenes Projekt.
 NewReportWizard.pageDescription.createNewReport=Neuen Bericht erstellen
 NewReportWizard.pageDescription.selectReportTemplate=Wählen Sie den Berichtstyp aus, den Sie erstellen möchten.
