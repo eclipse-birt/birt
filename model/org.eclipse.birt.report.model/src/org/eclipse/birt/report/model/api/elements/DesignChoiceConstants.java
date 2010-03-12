@@ -984,7 +984,7 @@ public interface DesignChoiceConstants
 	public static final String DATA_SELECTOR_TYPE_RADIO_BUTTON = "radioButton";//$NON-NLS-1$
 	public static final String DATA_SELECTOR_TYPE_TEXT_BOX = "textBox";//$NON-NLS-1$
 	public static final String DATA_SELECTOR_TYPE_CALENDAR = "calendar";//$NON-NLS-1$
-	public static final String DATA_SELECTOR_TYPE_CURRENT_SELECTION = "currentSelection";//$NON-NLS-1$
+	public static final String DATA_SELECTOR_TYPE_CURRENT_SELECTIONS = "currentSelections";//$NON-NLS-1$
 
 	/**
 	 * Choice constants for thumb type.
