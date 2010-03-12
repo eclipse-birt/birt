@@ -1007,8 +1007,24 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 * @param propName
 	 *            the name of the list property
 	 */
-
+	
 	protected void writeSimplePropertyList( DesignElement obj, String propName )
+	{
+		writeSimplePropertyList( obj, propName, false );
+	}
+
+	/**
+	 * Writes the simple value list.
+	 * 
+	 * @param obj
+	 *            the design element
+	 * @param propName
+	 *            the name of the list property
+	 * @param isCdata 
+	 */
+
+	protected void writeSimplePropertyList( DesignElement obj, String propName,
+			boolean isCdata )
 	{
 		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
 				propName );
@@ -1043,9 +1059,18 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				writer.attribute( DesignSchemaConstants.TYPE_TAG, exprType );
 
 			if ( xmlValue != null )
-				writer.text( xmlValue );
-			else
-				writer.attribute( DesignSchemaConstants.IS_NULL_ATTRIB, true );
+            {
+                  if ( isCdata )
+                  {
+                        xmlValue = escapeCDATAChars( prop, xmlValue );
+                        writer.textCDATA( xmlValue );
+                  }
+                  else
+                        writer.text( xmlValue );
+            }
+            else
+                  writer.attribute( DesignSchemaConstants.IS_NULL_ATTRIB, true );
+
 			writer.endElement( );
 
 		}
