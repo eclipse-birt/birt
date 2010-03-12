@@ -2644,7 +2644,7 @@ MultiPageEditorContributor.menuText.editorMenu=&Menú del editor
 
 NewLibraryWizard.choicePageTitle.report=Librería
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
-NewLibraryWizard.displayName.NewReportFileNamePrefix=new_library
+NewLibraryWizard.displayName.NewReportFileNamePrefix=nueva_librería
 NewLibraryWizard.error.NoProject=No hay ningún proyecto abierto en esta área de trabajo. Seleccione Archivo->Nuevo->Proyecto para crear un nuevo proyecto o abrir un proyecto existente.
 NewLibraryWizard.pageDescription.createNewReport=Crear una nueva librería.
 NewLibraryWizard.taskName.openFileForEdit=Abriendo archivo para editar...
@@ -2687,7 +2687,7 @@ NewReportProjectWizard.windowTitle=Nuevo proyecto de informe
 
 NewReportWizard.choicePageTitle.report=Informe
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
-NewReportWizard.displayName.NewReportFileNamePrefix=new_report
+NewReportWizard.displayName.NewReportFileNamePrefix=nuevo_informe
 NewReportWizard.error.NoProject=No hay ningún proyecto abierto en esta área de trabajo. Seleccione Archivo->Nuevo->Proyecto para crear un nuevo proyecto o abrir un proyecto existente.
 NewReportWizard.pageDescription.createNewReport=Crear un nuevo informe.
 NewReportWizard.pageDescription.selectReportTemplate=Seleccione el tipo de informe que desea crear
@@ -2760,7 +2760,7 @@ NewSectionDialog.Title=Insertar elemento
 ###########################################################
 #NewTemplateWizard properties
 
-NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
+NewTemplateWizard.displayName.NewReportFileNamePrefix=nueva_plantilla
 NewTemplateWizard.pageDescription.createNewTemplate=Crear una nueva plantilla de informe.
 NewTemplateWizard.text.CreateReport=Crear una nueva plantilla.
 NewTemplateWizard.text.Creating=Creando

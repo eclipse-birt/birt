@@ -2644,7 +2644,7 @@ MultiPageEditorContributor.menuText.editorMenu=&Menu Editeur
 
 NewLibraryWizard.choicePageTitle.report=Bibliothèque
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
-NewLibraryWizard.displayName.NewReportFileNamePrefix=new_library
+NewLibraryWizard.displayName.NewReportFileNamePrefix=nouvelle_bibliothèque
 NewLibraryWizard.error.NoProject=Aucun projet n'est ouvert dans l'espace de travail. Choisissez Fichier->Nouveau->Projet pour créer un projet ou ouvrir un projet existant.
 NewLibraryWizard.pageDescription.createNewReport=Créez une nouvelle Bibliothèque.
 NewLibraryWizard.taskName.openFileForEdit=Ouverture du fichier à modifier...
@@ -2687,7 +2687,7 @@ NewReportProjectWizard.windowTitle=Nouveau projet d'état
 
 NewReportWizard.choicePageTitle.report=Etat
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
-NewReportWizard.displayName.NewReportFileNamePrefix=new_report
+NewReportWizard.displayName.NewReportFileNamePrefix=nouvel_état
 NewReportWizard.error.NoProject=Aucun projet n'est ouvert dans l'espace de travail. Choisissez Fichier->Nouveau->Projet pour créer un nouveau projet ou ouvrir un projet existant.
 NewReportWizard.pageDescription.createNewReport=Créez un nouvel Etat.
 NewReportWizard.pageDescription.selectReportTemplate=Choisissez le type d'état à créer.
@@ -2760,7 +2760,7 @@ NewSectionDialog.Title=Insérer un élément
 ###########################################################
 #NewTemplateWizard properties
 
-NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
+NewTemplateWizard.displayName.NewReportFileNamePrefix=nouveau_modèle
 NewTemplateWizard.pageDescription.createNewTemplate=Créez un nouveau modèle d'état.
 NewTemplateWizard.text.CreateReport=Créez un nouveau modèle.
 NewTemplateWizard.text.Creating=Création en cours
