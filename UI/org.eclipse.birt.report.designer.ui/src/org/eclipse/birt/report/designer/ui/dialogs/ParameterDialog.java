@@ -137,6 +137,10 @@ import com.ibm.icu.util.ULocale;
 public class ParameterDialog extends BaseTitleAreaDialog
 {
 
+	private static final String NULL_VALUE = Messages.getString("ParameterDialog.Value.Null"); //$NON-NLS-1$
+
+	private static final String EMPTY_VALUE = Messages.getString("ParameterDialog.Value.Empty"); //$NON-NLS-1$
+
 	private static final String CHOICE_NO_DEFAULT = Messages.getString( "ParameterDialog.Choice.NoDefault" ); //$NON-NLS-1$
 
 	private static final String CHOICE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Choice.DisplayText" ); //$NON-NLS-1$
@@ -407,15 +411,16 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			else if ( columnIndex == valueIndex )
 			{
 				text = choice.getValue( );
+				if ( text == null )
+					text = NULL_VALUE;
+				else if ( text.equals( "" ) ) //$NON-NLS-1$
+					text = EMPTY_VALUE;
 			}
 			else if ( columnIndex == valueIndex + 1 )
 			{
 				text = choice.getLabel( );
 				if ( text == null )
-				{
-					// text = format( choice.getValue( ) );
-					text = ""; //$NON-NLS-1$
-				}
+					return ""; //$NON-NLS-1$
 			}
 			else if ( columnIndex == valueIndex + 2 )
 			{
@@ -453,7 +458,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 			final SelectionChoice choice = (SelectionChoice) element;
 			boolean isDefault = isDefaultChoice( choice );
-			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString( "ParameterDialog.SelectionDialog.Edit" ) ); //$NON-NLS-1$
+			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString( "ParameterDialog.SelectionDialog.Edit" ), canBeNull( ), canUseEmptyValue( ) ); //$NON-NLS-1$
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
@@ -485,7 +490,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		public boolean newItem( )
 		{
 			SelectionChoice choice = StructureFactory.createSelectionChoice( );
-			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString( "ParameterDialog.SelectionDialog.New" ) ); //$NON-NLS-1$
+			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString( "ParameterDialog.SelectionDialog.New" ), canBeNull( ), canUseEmptyValue( ) ); //$NON-NLS-1$
 			dialog.setInput( choice );
 			dialog.setValidator( new SelectionChoiceDialog.ISelectionChoiceValidator( ) {
 
@@ -580,7 +585,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				if ( element instanceof Expression )
 				{
-					return ( (Expression) element ).getStringExpression( );
+					String value = ( (Expression) element ).getStringExpression( );
+					if ( value == null )
+						return NULL_VALUE;
+					else if ( value.equals( "" ) ) //$NON-NLS-1$
+						return EMPTY_VALUE;
 				}
 				return element.toString( );
 			}
@@ -4282,7 +4291,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private void initDefaultValueViewer( )
 	{
-		if ( defaultValueViewer != null && !defaultValueViewer.getTable( ).isDisposed( ))
+		if ( defaultValueViewer != null
+				&& !defaultValueViewer.getTable( ).isDisposed( ) )
 		{
 			if ( !isStatic( ) && ( enableAllowMultiValueVisible( ) ) )
 			{
@@ -4334,5 +4344,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			setFirstDefaultValue( value, type );
 			refreshDynamicValueTable( );
 		}
+	}
+
+	private boolean canUseEmptyValue( )
+	{
+		return canBeNull( )
+				&& DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( getSelectedDataType( ) );
 	}
 }
