@@ -101,7 +101,7 @@ public class ReportEngineTest extends EngineCase
 			assertEquals( 5, userProperties.get( "expression" ) );
 			assertEquals( "string", userProperties.get( "string" ) );
 
-			assertEquals( 5, scalarParameter
+			assertEquals( "5", scalarParameter
 					.getUserPropertyValue( "expression" ) );
 			assertEquals( "string", scalarParameter
 					.getUserPropertyValue( "string" ) );
