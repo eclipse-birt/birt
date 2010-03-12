@@ -1403,7 +1403,7 @@ Hi All,
             </mail>
         </target>
 	
-    <target name="InformNoSign" if="CompareSignPack">
+    <target name="InformNoSign" if="CompareSignPack2">
         <property file="${eclipse.build.configs}/../../config.properties" />
         <mail mailport="${mail.port}" subject="No sign in today's ${BranchVersion} build (BuildId: ${buildId} )" tolist="${build.engineer}">
               <from address="${mail.from}"/>

@@ -901,7 +901,7 @@
 			<param name="message" value="Packaging starts"/>
 		</antcall>
     	
-    	<condition property="CompareSignPack" value="true">
+    	<condition property="CompareSignPack2" value="true">
     	    <filesmatch file1="${source.dir}/${source.name}"
     	                file2="${target.dir}/${target.name}"/>
     	</condition>
