@@ -979,6 +979,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 
 			cmbDataType = ControlProvider.createCombo( parent, SWT.READ_ONLY );
 			cmbDataType.setLayoutData( ControlProvider.getGridDataWithHSpan( 2 ) );
+			cmbDataType.setVisibleItemCount( 30 );
 			populateDataTypeComboItems( );
 			cmbDataType.select( Utility.findIndex( cmbDataType.getItems( ),
 					getTypeDisplayName( (String) getProperty( getStructureOrHandle( ),
@@ -1027,6 +1028,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 
 			cmbAggregation = ControlProvider.createCombo( parent, SWT.READ_ONLY );
 			cmbAggregation.setLayoutData( ControlProvider.getGridDataWithHSpan( 2 ) );
+			cmbAggregation.setVisibleItemCount( 30 );
 			cmbAggregation.add( BLANK ); 
 			cmbAggregation.setData( BLANK, new Integer( 0 ) );
 			for ( int i = 0; i < functions.length; i++ )

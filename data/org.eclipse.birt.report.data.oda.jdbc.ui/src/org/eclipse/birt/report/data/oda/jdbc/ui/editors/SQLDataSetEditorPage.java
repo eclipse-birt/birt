@@ -426,6 +426,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		schemaCombo.setLayoutData( gd );
+		schemaCombo.setVisibleItemCount( 30 );
 
 		Label FilterLabel = new Label( selectTableGroup, SWT.LEFT );
 		FilterLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.filter" ) );

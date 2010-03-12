@@ -1714,6 +1714,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 			dataType = ControlProvider.createCombo( parent, SWT.READ_ONLY );
 			dataType.setLayoutData( ControlProvider.getGridDataWithHSpan( 2 ) );
+			dataType.setVisibleItemCount( 30 );
 			//is ref cursor??
 			if ( structureHandle.getNativeDataType( ) != null
 					&& structureHandle.getNativeDataType( ) == -10 )
