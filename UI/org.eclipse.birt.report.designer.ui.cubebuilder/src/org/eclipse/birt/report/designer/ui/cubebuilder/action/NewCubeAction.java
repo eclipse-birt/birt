@@ -127,9 +127,10 @@ public class NewCubeAction extends Action
 			ExceptionUtil.handle( e );
 		}
 
-		if ( !isFailed )
+		if ( !isFailed ){
 			stack.commit( );
-		
+			return;
+		}
 		List newCubes = getCubes( );
 		CubeHandle cube = findNewCube( existingCubes, newCubes );
 
