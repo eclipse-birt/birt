@@ -1183,18 +1183,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				TabularLevelHandle level = (TabularLevelHandle) levels.get( k );
 				columnNamesForLevels.add(  level.getColumnName( ) );
-				List levelKeys = new ArrayList( );
+				List levelAttrs = new ArrayList( );
 				Iterator it = level.attributesIterator( );
 				while ( it.hasNext( ) )
 				{
 					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
-					levelKeys.add( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
+					levelAttrs.add( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
 							levelAttr.getName( ) ) );
 				}
 				if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( ) )
 						&& level.getDisplayColumnName( ) != null )
 				{
-					levelKeys.add( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) );
+					levelAttrs.add( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) );
 				}
 				leafLevelKeyColumn.add(level.getName( ));
 
@@ -1202,7 +1202,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 						new String[]{
 							level.getName( )
 						},
-						this.toStringArray( levelKeys ) ));
+						this.toStringArray( levelAttrs ) ));
 			}
 			String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hierhandle );
 			if ( !cubeHandle.autoPrimaryKey( ) )
@@ -1221,7 +1221,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
 				{
-					if ( !Arrays.deepEquals( jointHierarchyKeys, levelInHier.get( levelInHier.size( ) - 1).getKeyColumns( )))
+					if ( !Arrays.deepEquals( jointHierarchyKeys, new String[]{
+							((TabularLevelHandle)levels.get( levels.size( ) - 1 )).getColumnName( )
+						}))
 					{
 						//need to append joint keys as leaf level
 						levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
