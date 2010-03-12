@@ -869,8 +869,10 @@ public class ChartCubeQueryHelper
 			String filterQuery = filterCon.getExpr( );
 			if ( exprCodec.isCubeBinding( filterQuery, true ) )
 			{
-				String filterBindingName = exprCodec.getBindingName( filterQuery );
-				if ( !registeredLevels.containsKey( filterBindingName )
+				String filterBindingName = exprCodec.getCubeBindingName( filterQuery,
+						true );
+				if ( filterBindingName != null
+						&& !registeredLevels.containsKey( filterBindingName )
 						&& !registeredMeasures.containsKey( filterBindingName ) )
 				{
 					// If filter expression is not used as dimension or measure,
