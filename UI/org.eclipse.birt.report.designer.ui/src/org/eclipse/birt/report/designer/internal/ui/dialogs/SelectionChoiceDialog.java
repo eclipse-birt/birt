@@ -82,10 +82,14 @@ public class SelectionChoiceDialog extends BaseDialog
 	public static final String SELECTON_CHOICE_HELPER_KEY = "Selection Choice Dialog Helper";//$NON-NLS-1$
 
 	public static final String VALUE = "Value"; //$NON-NLS-1$
-	
+
 	public static final String CAN_EMPTY = "Can Use Empty"; //$NON-NLS-1$
-	
+
+	public static final String CAN_NULL = "Can Use NULL"; //$NON-NLS-1$
+
 	private boolean canUseEmptyValue = false;
+
+	private boolean canUseNullValue = false;
 
 	private IDialogHelper helper;
 
@@ -99,10 +103,12 @@ public class SelectionChoiceDialog extends BaseDialog
 		super( parentShell, title );
 	}
 
-	public SelectionChoiceDialog( String title, boolean canUseEmptyValue )
+	public SelectionChoiceDialog( String title, boolean canUseNullValue,
+			boolean canUseEmptyValue )
 	{
 		this( title );
 		this.canUseEmptyValue = canUseEmptyValue;
+		this.canUseNullValue = canUseNullValue;
 	}
 
 	protected boolean initDialog( )
@@ -355,6 +361,7 @@ public class SelectionChoiceDialog extends BaseDialog
 					{
 						helper.setProperty( VALUE, selectionChoice.getValue( ) );
 						helper.setProperty( CAN_EMPTY, canUseEmptyValue );
+						helper.setProperty( CAN_NULL, canUseNullValue );
 						helper.createContent( parent );
 						helper.addListener( SWT.Modify, new Listener( ) {
 
