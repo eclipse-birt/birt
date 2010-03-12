@@ -621,7 +621,7 @@
   	<Choice displayNameID="Choices.selectorType.radioButton" name="radioButton"/>
   	<Choice displayNameID="Choices.selectorType.textBox" name="textBox"/>
   	<Choice displayNameID="Choices.selectorType.calendar" name="calendar"/>
-  	<Choice displayNameID="Choices.selectorType.currentSelection" name="currentSelection"/>
+  	<Choice displayNameID="Choices.selectorType.currentSelections" name="currentSelections"/>
   </ChoiceType>
   <ChoiceType name="accessType">
   	<Choice displayNameID="Choices.accessType.transient" name="transient"/>
