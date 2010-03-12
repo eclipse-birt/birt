@@ -2933,6 +2933,8 @@ ParameterDialog.checkBox.BlankValue=Valor en blanco
 ParameterDialog.checkBox.NullValue=Valor nulo
 ParameterDialog.emptyColumnValueExpression.title=La expresión de columna de valor no es válida
 ParameterDialog.emptyColumnValueExpression.message=La expresión de columna de valor no puede estar vacía
+ParameterDialog.Value.Empty=Empty Value
+ParameterDialog.Value.Null=Valor nulo
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

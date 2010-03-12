@@ -2933,6 +2933,8 @@ ParameterDialog.checkBox.BlankValue=Leerwert
 ParameterDialog.checkBox.NullValue=Null-Wert
 ParameterDialog.emptyColumnValueExpression.title=Ungültiger Wertspaltenausdruck.
 ParameterDialog.emptyColumnValueExpression.message=Wertspaltenausdruck darf nicht leer sein.
+ParameterDialog.Value.Empty=Empty Value
+ParameterDialog.Value.Null=Null-Wert
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

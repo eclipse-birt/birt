@@ -2933,6 +2933,8 @@ ParameterDialog.checkBox.BlankValue=空白値
 ParameterDialog.checkBox.NullValue=NULL 値
 ParameterDialog.emptyColumnValueExpression.title=値の列式が無効です。
 ParameterDialog.emptyColumnValueExpression.message=値の列式は空白にできません。
+ParameterDialog.Value.Empty=Empty Value
+ParameterDialog.Value.Null=NULL 値
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
