@@ -2933,6 +2933,8 @@ ParameterDialog.checkBox.BlankValue=빈 값
 ParameterDialog.checkBox.NullValue=널(Null) 값
 ParameterDialog.emptyColumnValueExpression.title=잘못된 값 열 식
 ParameterDialog.emptyColumnValueExpression.message=값 열 식은 비워 둘 수 없습니다!
+ParameterDialog.Value.Empty=Empty Value
+ParameterDialog.Value.Null=널(null) 값
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

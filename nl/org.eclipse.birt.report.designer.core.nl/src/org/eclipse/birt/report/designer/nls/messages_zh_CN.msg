@@ -2933,6 +2933,8 @@ ParameterDialog.checkBox.BlankValue=空白值
 ParameterDialog.checkBox.NullValue=空值
 ParameterDialog.emptyColumnValueExpression.title=无效的值列表达式
 ParameterDialog.emptyColumnValueExpression.message=值列表达式不能为空!
+ParameterDialog.Value.Empty=Empty Value
+ParameterDialog.Value.Null=空值
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
