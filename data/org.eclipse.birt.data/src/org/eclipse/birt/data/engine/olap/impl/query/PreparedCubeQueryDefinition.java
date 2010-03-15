@@ -46,6 +46,8 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 {
 	private ICubeQueryDefinition cqd;
 	
+	private String cubeName;
+	
 	private List<IBinding> realBindings = new ArrayList<IBinding>( );
 	
 	private Set<IBinding> bindingsForNestAggregation = new HashSet<IBinding>( );
@@ -56,6 +58,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 	{
 		assert cqd != null;
 		this.cqd = cqd;
+		this.cubeName = cqd.getName( );
 		for ( Object o : cqd.getBindings( ) )
 		{
 			IBinding binding = (IBinding)o;
@@ -245,13 +248,12 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 
 	public String getName( )
 	{
-		return cqd.getName( );
+		return this.cubeName;
 	}
 
 	public void setName( String name )
 	{
-		cqd.setName( name );
-
+		this.cubeName = name;
 	}
 
 }
