@@ -614,16 +614,13 @@ public class Ext2FileSystem
 		{
 			return;
 		}
-		if ( removeOnExit )
+		synchronized ( this )
 		{
-			synchronized ( this )
+			if ( rf == null )
 			{
-				if ( rf == null )
-				{
-					ensureParentFolderCreated( fileName );
-					rf = new RandomAccessFile( fileName, "rw" );
-					rf.setLength( 0 );
-				}
+				ensureParentFolderCreated( fileName );
+				rf = new RandomAccessFile( fileName, "rw" );
+				rf.setLength( 0 );
 			}
 		}
 	}

@@ -152,8 +152,8 @@ public class ArchiveFileV3 implements IArchiveFile
 
 	public void save( ) throws IOException
 	{
-		fs.flush( );
 		fs.setRemoveOnExit( false );
+		fs.flush( );
 	}
 
 	public void setCacheSize( int cacheSize )
