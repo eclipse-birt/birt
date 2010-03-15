@@ -141,7 +141,7 @@ public class AdapterUtil
 	/**
 	 * Returns ROM defined control type by given ODA defined prompt style.
 	 * 
-	 * @param promptStyle
+	 * @param style
 	 *            the ODA defined prompt style
 	 * @return the ROM defined control type
 	 */
@@ -201,6 +201,7 @@ public class AdapterUtil
 	 *            the ROM data set parameter
 	 * @param literalValue
 	 *            the value
+	 * @return 
 	 */
 
 	static String getROMDefaultValue( DataSetParameter setParam,
@@ -264,16 +265,17 @@ public class AdapterUtil
 	/**
 	 * Updates values in ScalarValueChoices to the given report parameter.
 	 * 
-	 * @param dataAttrs
+	 * @param staticChoices
 	 *            the latest scalar values
-	 * @param cachedDataAttrs
+	 * @param cachedChoices
 	 *            the cached scalar value
-	 * @param reportParam
+	 * @param paramHandle
 	 *            the report parameter
 	 * @throws SemanticException
 	 */
 
 	static void updateROMSelectionList( ScalarValueChoices staticChoices,
+			ScalarValueChoices cachedChoices,
 			AbstractScalarParameterHandle paramHandle )
 			throws SemanticException
 	{
@@ -283,13 +285,22 @@ public class AdapterUtil
 		List retList = new ArrayList( );
 
 		EList choiceList = staticChoices.getScalarValues( );
+		EList cachedChoiceList = null;
+
+		if ( cachedChoices != null )
+			cachedChoiceList = cachedChoices.getScalarValues( );
+
+		boolean useCached = false;
+		if ( cachedChoiceList != null
+				&& choiceList.size( ) == cachedChoiceList.size( ) )
+			useCached = true;
+
 		for ( int i = 0; i < choiceList.size( ); i++ )
 		{
 			ScalarValueDefinition valueDefn = (ScalarValueDefinition) choiceList
 					.get( i );
 
 			SelectionChoice choice = StructureFactory.createSelectionChoice( );
-
 			choice.setValue( valueDefn.getValue( ) );
 
 			String label = valueDefn.getDisplayName( );
@@ -299,6 +310,20 @@ public class AdapterUtil
 			{
 				choice.setLabel( label );
 				choice.setLabelResourceKey( labelKey );
+			}
+			else if ( useCached )
+			{
+				// use cached values
+
+				valueDefn = (ScalarValueDefinition) cachedChoiceList.get( i );
+				label = valueDefn.getDisplayName( );
+				labelKey = valueDefn.getDisplayNameKey( );
+
+				if ( label != null || labelKey != null )
+				{
+					choice.setLabel( label );
+					choice.setLabelResourceKey( labelKey );
+				}
 			}
 
 			retList.add( choice );
@@ -318,12 +343,13 @@ public class AdapterUtil
 	/**
 	 * Updates values in DynamicValuesQuery to the given report parameter.
 	 * 
-	 * @param dataAttrs
+	 * @param valueQuery
 	 *            the latest dynamic values
-	 * @param cachedDataAttrs
+	 * @param cachedValueQuery
 	 *            the cached dynamic values
 	 * @param reportParam
 	 *            the report parameter
+	 * @param setHandle 
 	 * @throws SemanticException
 	 */
 

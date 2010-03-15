@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
+import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
@@ -182,8 +183,8 @@ class DataSetParameterAdapter
 			odaParamDefn = (ParameterDefinition) EcoreUtil
 					.copy( lastOdaParamDefn );
 
-		odaParamDefn.setInOutMode( AdapterUtil.newParameterMode( paramHandle.isInput( ),
-				paramHandle.isOutput( ) ) );
+		odaParamDefn.setInOutMode( AdapterUtil.newParameterMode( paramHandle
+				.isInput( ), paramHandle.isOutput( ) ) );
 		odaParamDefn.setAttributes( newDataElementAttrs( paramHandle,
 				odaParamDefn.getAttributes( ) ) );
 
@@ -233,7 +234,45 @@ class DataSetParameterAdapter
 
 		dataAttrs.setName( paramDefn.getNativeName( ) );
 
+		// retrieve the related key information from cached data UI Hints in the
+		// DesignerValues.
+
+		DataElementUIHints tmpUIHints = newDataElementUIHints( paramDefn,
+				lastDataAttrs == null ? null : lastDataAttrs.getUiHints( ) );
+		dataAttrs.setUiHints( tmpUIHints );
 		return dataAttrs;
+	}
+
+	private DataElementUIHints newDataElementUIHints(
+			OdaDataSetParameterHandle paramDefn,
+			DataElementUIHints lastDataUIHints )
+	{
+		if ( lastDataUIHints == null )
+			return null;
+
+		DataElementUIHints dataUIHints = designFactory
+				.createDataElementUIHints( );
+
+		String text = lastDataUIHints.getDisplayName( );
+		String textKey = lastDataUIHints.getDisplayNameKey( );
+
+		if ( text != null || textKey != null )
+		{
+			dataUIHints.setDisplayName( text );
+			dataUIHints.setDisplayNameKey( textKey );
+		}
+
+		text = lastDataUIHints.getDescription( );
+		textKey = lastDataUIHints.getDescriptionKey( );
+
+		if ( text != null || textKey != null )
+		{
+			dataUIHints.setDescription( text );
+			dataUIHints.setDescriptionKey( textKey );
+		}
+
+		return dataUIHints;
+
 	}
 
 	/**
