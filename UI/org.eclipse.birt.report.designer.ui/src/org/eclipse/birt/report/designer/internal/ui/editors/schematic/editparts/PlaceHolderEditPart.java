@@ -264,9 +264,9 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 				( (TemplateReportItemHandle) getModel( ) )
 						.transformToReportItem( (ReportItemHandle) copiedHandle );
 				
-				ProviderFactory.createProvider( copiedHandle )
-				.performRequest( copiedHandle,
-						new Request( IRequestConstants.REQUST_REVERT_TO_REPORTITEM ) );
+//				ProviderFactory.createProvider( copiedHandle )
+//				.performRequest( copiedHandle,
+//						new Request( IRequestConstants.REQUST_REVERT_TO_REPORTITEM ) );
 			}
 			catch ( SemanticException e )
 			{
