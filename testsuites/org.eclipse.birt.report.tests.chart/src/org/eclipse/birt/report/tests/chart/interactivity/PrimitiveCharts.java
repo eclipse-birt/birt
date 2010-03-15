@@ -2693,7 +2693,7 @@ public final class PrimitiveCharts extends ChartTestCase
 //					.create( "file:///" + System.getProperty( "user.dir" )
 //							+ "/27.gif" ) );
 			( (Marker) ls.getMarkers( ).get( i ) ).setFill( ImageImpl
-					.create( getClassName( ).replace( '.', '/' ) + "/" + INPUT_FOLDER + "/" + "27.gif"  ) );
+					.create( "file:src/"+getClassName( ).replace( '.', '/' ) + "/" + INPUT_FOLDER + "/" + "27.gif"  ) );
 		}
 
 		ls.setDataSet( dsNumericValues1 );
