@@ -120,7 +120,7 @@ public class ArchiveFileTest extends TestCase
 
 	public void testFlush( ) throws IOException
 	{
-		ArchiveFile archive = new ArchiveFile( TRANSIENT_ARCHIVE_FILE, "rwt" );
+		ArchiveFile archive = new ArchiveFile( TRANSIENT_ARCHIVE_FILE, "rw" );
 		createArchive( archive );
 		archive.flush( );
 
