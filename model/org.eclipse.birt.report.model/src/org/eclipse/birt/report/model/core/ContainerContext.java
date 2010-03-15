@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -351,7 +352,11 @@ public final class ContainerContext
 		}
 
 		ElementPropertyDefn defn = container.getPropertyDefn( containerProp );
-		Object value = container.getLocalProperty( module, defn );
+		Object value = null;
+		if ( container instanceof Dimension )
+			value = container.getProperty( module, defn );
+		else
+			value = container.getLocalProperty( module, defn );
 		if ( defn == null || value == null )
 			return Collections.emptyList( );
 		if ( defn.isList( ) )
@@ -1045,11 +1050,9 @@ public final class ContainerContext
 			// kind of template element, return false
 
 			if ( defn != null
-					&& defn
-							.isKindOf( MetaDataDictionary
-									.getInstance( )
-									.getElement(
-											ReportDesignConstants.TEMPLATE_ELEMENT ) ) )
+					&& defn.isKindOf( MetaDataDictionary
+							.getInstance( )
+							.getElement( ReportDesignConstants.TEMPLATE_ELEMENT ) ) )
 			{
 				// components in the design/library cannot contain template
 				// elements.

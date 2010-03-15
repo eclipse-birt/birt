@@ -390,6 +390,15 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 		while ( iter.hasNext( ) )
 		{
 			DesignElement tmpContent = iter.next( );
+
+			// there is only one case that the level content iterator will
+			// return the element that is not content of the target: shared
+			// dimension, we do not localize the hierarchies, so the level
+			// content iterator can retrieve them however the children do not
+			// really lie in it
+			if ( !tmpContent.isContentOf( content ) )
+				continue;
+
 			AbstractContentCommand cmd = null;
 			if ( this instanceof ContentCommand )
 				cmd = new ContentCommand( module,
