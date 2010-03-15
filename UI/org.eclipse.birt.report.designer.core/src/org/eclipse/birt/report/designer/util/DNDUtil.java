@@ -1243,7 +1243,8 @@ public final class DNDUtil
 			// After discussing with Hongchang, fix bug 191202.
 			// When fixing 145964, Hongchang add this line of code
 			if ( ( childHandle.getModuleHandle( ) instanceof LibraryHandle )
-					&& ( !childHandle.getElement( ).getDefn( ).canExtend( ) )
+					&& ( !childHandle.getElement( ).getDefn( ).canExtend( ) &&
+							!(childHandle instanceof DataSetHandle) && !(childHandle instanceof CubeHandle))
 					&& childHandle.getModuleHandle( ) != targetHandle.getModule( )
 							.getModuleHandle( ) )
 			{
