@@ -717,7 +717,7 @@ abstract class AbstractReportParameterAdapter
 
 			if ( dataSetDesign != null )
 			{
-				DataSetDesign targetDataSetDesign = EcoreUtil
+				DataSetDesign targetDataSetDesign = (DataSetDesign) EcoreUtil
 						.copy( dataSetDesign );
 				if ( !setHandle.getName( ).equals( dataSetDesign.getName( ) ) )
 					targetDataSetDesign = new ModelOdaAdapter( )
@@ -828,8 +828,8 @@ abstract class AbstractReportParameterAdapter
 	 *            the parameter
 	 * @param obsoletePropName
 	 *            either "allowNull" or "allowBlank".
-	 * @param value 
-	 * @throws SemanticException 
+	 * @param value
+	 * @throws SemanticException
 	 */
 
 	protected void setReportParamIsRequired(

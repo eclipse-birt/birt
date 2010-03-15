@@ -152,7 +152,8 @@ class DataSetAdapter extends AbstractDataAdapter
 		DataSetParameters designDefinedParams = null;
 		if ( cachedParams != null )
 		{
-			designDefinedParams = EcoreUtil.copy( cachedParams );
+			designDefinedParams = (DataSetParameters) EcoreUtil
+					.copy( cachedParams );
 			setDesign.setParameters( designDefinedParams );
 
 			dataParamAdapter.updateDriverDefinedParameter( designDefinedParams );
