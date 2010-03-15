@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.chart.extension.render;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.withaxes.AxisSubUnit;
@@ -966,10 +969,21 @@ public class Line extends AxesRenderer
 			double tapeWidth, Fill paletteEntry, boolean usePaletteLineColor )
 			throws ChartException
 	{
+		DataPointHints[] dpha = srh.getDataPoints( );
+		boolean bStacked = getSeries( ).isStacked( ) || getAxis( ).isPercent( );
+		LineSeries ls = (LineSeries) getSeries( );
+		DataPointsSeeker dpSeeker = DataPointsSeeker.create( dpha, ls, bStacked );
+		List<Location> list = new LinkedList<Location>( );
+
+		while ( dpSeeker.next( ) )
+		{
+			list.add( loa[dpSeeker.getIndex( )] );
+		}
+		
 		final CurveRenderer cr = new CurveRenderer( ( (ChartWithAxes) getModel( ) ),
 				this,
 				lia,
-				loa,
+				list.toArray( new Location[list.size( )] ),
 				bShowAsTape,
 				tapeWidth,
 				true,
