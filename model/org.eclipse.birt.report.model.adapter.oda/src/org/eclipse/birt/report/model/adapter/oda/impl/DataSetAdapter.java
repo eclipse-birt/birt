@@ -78,6 +78,11 @@ class DataSetAdapter extends AbstractDataAdapter
 		return setDesign;
 	}
 
+	/**
+	 * @param setHandle
+	 * @param setDesign
+	 */
+
 	void updateDataSetDesign( OdaDataSetHandle setHandle,
 			DataSetDesign setDesign )
 	{
@@ -93,7 +98,7 @@ class DataSetAdapter extends AbstractDataAdapter
 			setDesign.setDisplayName( displayName );
 			setDesign.setDisplayNameKey( displayNameKey );
 		}
-		
+
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
 
@@ -147,8 +152,7 @@ class DataSetAdapter extends AbstractDataAdapter
 		DataSetParameters designDefinedParams = null;
 		if ( cachedParams != null )
 		{
-			designDefinedParams = (DataSetParameters) EcoreUtil
-					.copy( cachedParams );
+			designDefinedParams = EcoreUtil.copy( cachedParams );
 			setDesign.setParameters( designDefinedParams );
 
 			dataParamAdapter.updateDriverDefinedParameter( designDefinedParams );
@@ -250,7 +254,7 @@ class DataSetAdapter extends AbstractDataAdapter
 		{
 			DataSetParameters dsParams = new DataSetParameterAdapter(
 					setHandle, setDesign )
-					.newOdaDataSetParams( (DataSetParameters) null );
+					.newOdaDataSetParams( getCachedParameters( setHandle ) );
 
 			if ( dsParams != null )
 				setDesign.setParameters( dsParams );
@@ -275,6 +279,42 @@ class DataSetAdapter extends AbstractDataAdapter
 		updateODAMessageFile( setDesign.getDataSourceDesign( ), setHandle
 				.getModuleHandle( ) );
 	}
+
+	/**
+	 * @param setHandle
+	 * @return
+	 */
+
+	private DataSetParameters getCachedParameters( OdaDataSetHandle setHandle )
+	{
+		String strDesignValues = setHandle.getDesignerValues( );
+
+		DesignValues designerValues = null;
+
+		try
+		{
+			if ( strDesignValues != null )
+				designerValues = SerializerImpl.instance( ).read(
+						strDesignValues );
+		}
+		catch ( IOException e )
+		{
+		}
+
+		// the driver defined parameters are in the designer values
+
+		DataSetParameters cachedParams = null;
+		if ( designerValues != null )
+			cachedParams = designerValues.getDataSetParameters( );
+
+		return cachedParams;
+
+	}
+
+	/**
+	 * @param dataSetHandle
+	 * @return
+	 */
 
 	public OdaDesignSession createOdaDesignSession(
 			OdaDataSetHandle dataSetHandle )
@@ -341,6 +381,12 @@ class DataSetAdapter extends AbstractDataAdapter
 		updateDataSetHandle( setDesign, setHandle, isSourceChanged,
 				requestParameters, requestResultSets );
 	}
+
+	/**
+	 * @param dataSetHandle
+	 * @param completedSession
+	 * @throws SemanticException
+	 */
 
 	public void updateDataSetHandle( OdaDataSetHandle dataSetHandle,
 			OdaDesignSession completedSession ) throws SemanticException

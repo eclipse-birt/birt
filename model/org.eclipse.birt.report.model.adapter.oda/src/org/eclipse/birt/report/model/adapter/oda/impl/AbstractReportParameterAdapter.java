@@ -150,6 +150,7 @@ abstract class AbstractReportParameterAdapter
 	 * 
 	 * @param setParam
 	 *            the ROM data set parameter
+	 * @param value
 	 * @param literalValue
 	 *            the value
 	 * 
@@ -265,6 +266,7 @@ abstract class AbstractReportParameterAdapter
 	 * 
 	 * @param param
 	 *            the ROM data set parameter
+	 * @param odaParams
 	 * @param dataSetDesign
 	 *            the oda data set design
 	 * @return the matched ODA parameter defintion
@@ -325,13 +327,25 @@ abstract class AbstractReportParameterAdapter
 			String cachedDisplayName = cachedDataUiHints == null
 					? null
 					: cachedDataUiHints.getDisplayName( );
+
+			boolean isChanged = false;
+
 			if ( cachedDisplayName == null
 					|| !cachedDisplayName.equals( displayName ) )
 			{
+				isChanged = true;
 				reportParam.setPromptText( displayName );
 				reportParam.setPromptTextID( dataUiHints.getDisplayNameKey( ) );
 			}
+			if ( !isChanged && cachedDataUiHints != null
+					&& cachedDisplayName != null )
+			{
+				reportParam.setPromptText( cachedDisplayName );
+				reportParam.setPromptTextID( cachedDataUiHints
+						.getDisplayNameKey( ) );
+			}
 
+			isChanged = false;
 			String description = dataUiHints.getDescription( );
 			String cachedDescription = cachedDataUiHints == null
 					? null
@@ -339,8 +353,17 @@ abstract class AbstractReportParameterAdapter
 			if ( cachedDescription == null
 					|| !cachedDescription.equals( description ) )
 			{
+				isChanged = true;
 				reportParam.setHelpText( description );
 				reportParam.setHelpTextKey( dataUiHints.getDescriptionKey( ) );
+			}
+
+			if ( !isChanged && cachedDataUiHints != null
+					&& cachedDescription != null )
+			{
+				reportParam.setHelpText( cachedDescription );
+				reportParam.setHelpTextKey( cachedDataUiHints
+						.getDescriptionKey( ) );
 			}
 		}
 
@@ -408,9 +431,9 @@ abstract class AbstractReportParameterAdapter
 	/**
 	 * Updates values in InputElementAttributes to the given report parameter.
 	 * 
-	 * @param dataAttrs
+	 * @param elementAttrs
 	 *            the latest input element attributes
-	 * @param cachedDataAttrs
+	 * @param cachedElementAttrs
 	 *            the cached input element attributes
 	 * @param reportParam
 	 *            the report parameter
@@ -537,7 +560,8 @@ abstract class AbstractReportParameterAdapter
 		if ( latestChoiceStr != null && latestChoiceStr.equals( newChoiceStr ) )
 			return;
 
-		AdapterUtil.updateROMSelectionList( staticChoices, paramHandle );
+		AdapterUtil.updateROMSelectionList( staticChoices, cachedStaticChoices,
+				paramHandle );
 	}
 
 	/**
@@ -613,7 +637,7 @@ abstract class AbstractReportParameterAdapter
 			uiHints.setDescription( text );
 			uiHints.setDescriptionKey( textKey );
 		}
-		
+
 		retDataAttrs.setUiHints( uiHints );
 
 		return retDataAttrs;
@@ -623,6 +647,8 @@ abstract class AbstractReportParameterAdapter
 	/**
 	 * Creates a ODA InputParameterAttributes with the given ROM report
 	 * parameter.
+	 * 
+	 * @param inputParamAttrs
 	 * 
 	 * @param paramHandle
 	 *            the ROM report parameter.
@@ -691,7 +717,7 @@ abstract class AbstractReportParameterAdapter
 
 			if ( dataSetDesign != null )
 			{
-				DataSetDesign targetDataSetDesign = (DataSetDesign) EcoreUtil
+				DataSetDesign targetDataSetDesign = EcoreUtil
 						.copy( dataSetDesign );
 				if ( !setHandle.getName( ).equals( dataSetDesign.getName( ) ) )
 					targetDataSetDesign = new ModelOdaAdapter( )
@@ -739,6 +765,7 @@ abstract class AbstractReportParameterAdapter
 	}
 
 	/**
+	 * @param inputAttrs
 	 * @param inputParamAttrs
 	 * @param paramHandle
 	 */
@@ -784,11 +811,10 @@ abstract class AbstractReportParameterAdapter
 		if ( ALLOW_NULL_PROP_NAME.equalsIgnoreCase( propName )
 				|| ALLOW_BLANK_PROP_NAME.equalsIgnoreCase( propName ) )
 			return !param.isRequired( );
-		else
-		{
-			assert false;
-			return false;
-		}
+
+		assert false;
+		return false;
+
 	}
 
 	/**
@@ -802,6 +828,8 @@ abstract class AbstractReportParameterAdapter
 	 *            the parameter
 	 * @param obsoletePropName
 	 *            either "allowNull" or "allowBlank".
+	 * @param value 
+	 * @throws SemanticException 
 	 */
 
 	protected void setReportParamIsRequired(

@@ -22,6 +22,10 @@ import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 
+/**
+ *
+ */
+
 class ReportParamUpdater
 {
 
@@ -314,7 +318,7 @@ class ReportParamUpdater
 		if ( choices == null )
 			return;
 
-		AdapterUtil.updateROMSelectionList( choices, reportParam );
+		AdapterUtil.updateROMSelectionList( choices, null, reportParam );
 	}
 
 }
