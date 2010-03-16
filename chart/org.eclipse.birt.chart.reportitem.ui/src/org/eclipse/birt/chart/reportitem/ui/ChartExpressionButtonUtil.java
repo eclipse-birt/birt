@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem.ui;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -61,6 +62,10 @@ public class ChartExpressionButtonUtil
 		String getExpression( );
 
 		String getTooltip( );
+		
+		boolean isColumnBinding();
+		
+		String getBindingName();
 	}
 
 	public static class ExpressionDescriptor implements IExpressionDescriptor
@@ -142,6 +147,18 @@ public class ChartExpressionButtonUtil
 		{
 			return exprCodec.getExpression( );
 		}
+
+		@Override
+		public boolean isColumnBinding( )
+		{
+			return false;
+		}
+
+		@Override
+		public String getBindingName( )
+		{
+			return exprCodec.getBindingName( );
+		}
 	}
 
 	private static class BindingExpressionDescriptor extends
@@ -175,6 +192,18 @@ public class ChartExpressionButtonUtil
 		public String getTooltip( )
 		{
 			return tooltip;
+		}
+
+		@Override
+		public boolean isColumnBinding( )
+		{
+			return true;
+		}
+
+		@Override
+		public String getBindingName( )
+		{
+			return bindingName;
 		}
 
 	}
@@ -445,7 +474,39 @@ public class ChartExpressionButtonUtil
 				set.add( ExpressionDescriptor.getInstance( obj, isCube ) );
 			}
 
-			eHelper.setPredefinedQuerys( set );
+			eHelper.setPredefinedQuerys( filterDuplicate(set) );
+		}
+		
+		private Collection<IExpressionDescriptor> filterDuplicate(Collection<IExpressionDescriptor> exprDescs)
+		{
+			Set<IExpressionDescriptor> set = new HashSet<IExpressionDescriptor>( );
+			Set<String> bindingNames =  new HashSet<String>( );
+			List<IExpressionDescriptor> otherDescs = new LinkedList<IExpressionDescriptor>( );
+			
+			for (IExpressionDescriptor desc : exprDescs)
+			{
+				if (desc.isColumnBinding( ))
+				{
+					set.add( desc );
+					bindingNames.add( desc.getBindingName( ) );
+				}
+				else
+				{
+					otherDescs.add( desc );
+				}
+			}
+			
+			for (IExpressionDescriptor desc : otherDescs)
+			{
+				String bindingName  = desc.getBindingName( );
+				
+				if (!bindingNames.contains( bindingName ))
+				{
+					set.add( desc );
+				}
+			}
+			
+			return set;
 		}
 
 	}
