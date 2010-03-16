@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondit
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
@@ -610,5 +611,15 @@ public class StructureFactory
 	public static TimeInterval createTimeInterval( )
 	{
 		return new TimeInterval( );
+	}
+
+	/**
+	 * Creates a new format value structure.
+	 * 
+	 * @return the format value created.
+	 */
+	public static FormatValue newFormatValue( )
+	{
+		return new FormatValue( );
 	}
 }

@@ -1251,7 +1251,12 @@
     <Member displayNameID="Structure.ParameterFormatValue.category" isIntrinsic="true" name="category" since="2.1" type="string"/>
     <Member displayNameID="Structure.ParameterFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.1" type="string"/>
     <Member displayNameID="Structure.ParameterFormatValue.locale" isIntrinsic="true" name="locale" since="2.5" type="locale"/>		
-  </Structure> 
+  </Structure>
+    <Structure displayNameID="Structure.FormatValue" name="FormatValue" since="2.6">
+    <Member displayNameID="Structure.FormatValue.category" isIntrinsic="true" name="category" since="2.6" type="string"/>
+    <Member displayNameID="Structure.FormatValue.pattern" isIntrinsic="true" name="pattern" since="2.6" type="string"/>
+    <Member displayNameID="Structure.FormatValue.locale" isIntrinsic="true" name="locale" since="2.6" type="locale"/>		
+  </Structure>  
   <Structure displayNameID="Structure.MapRule" name="MapRule" since="1.0">
     <Member detailType="mapOperator" displayNameID="Structure.MapRule.operator" isIntrinsic="true" name="operator" since="1.0" type="choice">
       <Default>eq</Default>
@@ -3640,7 +3645,8 @@
   	<Property displayNameID="Element.Level.defaultValue" name="defaultValue" since="2.3" type="expression" />
   	<Property displayNameID="Element.Level.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
   	<Property displayNameID="Element.Level.MemberACLExpression" name="memberACLExpression" since="2.5.2" type="expression"/>
-  	<Property detailType="Action" displayNameID="Element.Level.action" isList="false" name="action" runtimeSettable="false" since="2.5" type="structure"/>	      	
+  	<Property detailType="Action" displayNameID="Element.Level.action" isList="false" name="action" runtimeSettable="false" since="2.5" type="structure"/>
+  	<Property detailType="FormatValue" displayNameID="Element.Level.format" isList="false" name="format" runtimeSettable="false" since="2.6" type="structure"/>	      	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularLevel" name="TabularLevel" since="2.2" xmlName="tabular-level">
   	<Property displayNameID="Element.TabularLevel.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />
@@ -3676,6 +3682,7 @@
 	</Property>
 	<Property displayNameID="Element.Measure.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
 	<Property detailType="Action" displayNameID="Element.Measure.action" isList="false" name="action" runtimeSettable="false" since="2.5" type="structure"/>
+	<Property detailType="FormatValue" displayNameID="Element.Measure.format" isList="false" name="format" runtimeSettable="false" since="2.6" type="structure"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularMeasure" extends="Measure" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularMeasure" name="TabularMeasure" since="2.2" xmlName="tabular-measure">
   </Element>    

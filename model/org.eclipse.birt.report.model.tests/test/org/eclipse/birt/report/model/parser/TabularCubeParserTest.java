@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -60,6 +62,7 @@ public class TabularCubeParserTest extends BaseTestCase
 	private final String FILE_NAME = "CubeParserTest.xml"; //$NON-NLS-1$
 	private final String FILE_NAME_EXTENDS = "CubeParserTest_3.xml"; //$NON-NLS-1$
 
+	private final String PARSE_TEST_FILE = "CubeParserTest_5.xml"; //$NON-NLS-1$
 	/**
 	 * 
 	 * @throws Exception
@@ -67,7 +70,7 @@ public class TabularCubeParserTest extends BaseTestCase
 
 	public void testParser( ) throws Exception
 	{
-		openDesign( FILE_NAME );
+		openDesign( PARSE_TEST_FILE );
 		assertNotNull( designHandle );
 
 		// cube
@@ -219,6 +222,12 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		ActionHandle action = level.getActionHandle( );
 		assertEquals( "http://localhost:8080/bluehero", action.getURI( ) ); //$NON-NLS-1$
+		
+		FormatValueHandle format = level.getFormat( );
+		assertNotNull(format);
+		assertEquals( "testLevelFormatCategory", format.getCategory( ) ); //$NON-NLS-1$
+		assertEquals( "testLevelFormatPattern", format.getPattern( ) ); //$NON-NLS-1$
+		assertEquals( TEST_LOCALE, format.getLocale( ) );
 
 		// measure group
 		propHandle = cube
@@ -253,6 +262,11 @@ public class TabularCubeParserTest extends BaseTestCase
 		action = measure.getActionHandle( );
 		assertEquals( "http://localhost:8080/bluehero", action.getURI( ) ); //$NON-NLS-1$
 
+		format = measure.getFormat( );
+		assertNotNull(format);
+		assertEquals( "testMeasureFormatCategory", format.getCategory( ) ); //$NON-NLS-1$
+		assertEquals( "testMeasureFormatPattern", format.getPattern( ) ); //$NON-NLS-1$
+		assertNull( format.getLocale( ) );
 	}
 
 	/**
@@ -364,6 +378,12 @@ public class TabularCubeParserTest extends BaseTestCase
 		Action action = StructureFactory.createAction( );
 		level.setAction( action );
 
+		FormatValue levelFormat = StructureFactory.newFormatValue();
+		levelFormat.setCategory( "testLevelFormatCategory" ); //$NON-NLS-1$
+		levelFormat.setPattern( "testLevelFormatPattern" ); //$NON-NLS-1$
+		levelFormat.setLocale( TEST_LOCALE );
+		level.setFormat( levelFormat );
+		
 		// measure group
 		cube.add( TabularCubeHandle.MEASURE_GROUPS_PROP, factory
 				.newTabularMeasureGroup( null ) );
@@ -389,6 +409,12 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		action = StructureFactory.createAction( );
 		measure.setAction( action );
+		
+		FormatValue measureFormat = StructureFactory.newFormatValue();
+		measureFormat.setCategory( "testMeasureFormatCategory" ); //$NON-NLS-1$
+		measureFormat.setPattern( "testMeasureFormatPattern" ); //$NON-NLS-1$
+		measureFormat.setLocale( TEST_LOCALE );
+		measure.setFormat( measureFormat );
 
 		save( );
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$
@@ -422,6 +448,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		designHandle.getSlot( IReportDesignModel.CUBE_SLOT ).add(
 				clonedCube.getHandle( design ) );
 
+		
 		// save
 
 		save( );

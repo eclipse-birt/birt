@@ -50,12 +50,18 @@ public interface IMeasureModel
 	 * measure. This expression is evaluated once during the generation of the
 	 * cube.
 	 */
-	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
+	static final String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 
 	/**
 	 * Name of the action property, which defines what action can be performed
 	 * when clicking the measure.
 	 */
 
-	public static final String ACTION_PROP = "action"; //$NON-NLS-1$
+	static final String ACTION_PROP = "action"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the format property, which saves the format of the measure.
+	 */
+	static final String FORMAT_PROP = "format"; //$NON-NLS-1$
+
 }

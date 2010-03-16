@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
+import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.SimpleValueHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Structure;
 
@@ -21,9 +24,13 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public abstract class FormatValue extends Structure
+public class FormatValue extends Structure
 {
 
+	/**
+	 * Name of the format value structure.
+	 */
+	public static final String FORMAT_VALUE_STRUCT = "FormatValue"; //$NON-NLS-1$
 	/**
 	 * Name of the config variable category member.
 	 */
@@ -179,6 +186,42 @@ public abstract class FormatValue extends Structure
 		if ( !StringUtil.isEmpty( category ) )
 			return category;
 		return ""; //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
+	 */
+	public String getStructName( )
+	{
+		return FORMAT_VALUE_STRUCT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * report.model.api.SimpleValueHandle, int)
+	 */
+	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
+	{
+		assert false;
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
+	 * .report.model.api.SimpleValueHandle)
+	 */
+	public StructureHandle getHandle( SimpleValueHandle valueHandle )
+	{
+		return new FormatValueHandle( valueHandle.getElementHandle( ),
+				getContext( ) );
 	}
 
 }

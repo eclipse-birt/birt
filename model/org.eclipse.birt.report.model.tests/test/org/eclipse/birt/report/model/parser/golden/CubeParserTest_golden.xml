@@ -78,6 +78,11 @@
                                         </structure>
                                     </list-property>
                                     <structure name="action"/>
+                                    <structure name="format">
+                                        <property name="category">testLevelFormatCategory</property>
+                                        <property name="pattern">testLevelFormatPattern</property>
+                                        <property name="locale">aa</property>
+                                    </structure>
                                     <property name="columnName">updated column1</property>
                                     <expression name="displayColumnName">displayColumnName</expression>
                                 </tabular-level>
@@ -110,6 +115,11 @@
                             <property name="dataType">boolean</property>
                             <expression name="ACLExpression" type="constant">new ACL expression</expression>
                             <structure name="action"/>
+                            <structure name="format">
+                                <property name="category">testMeasureFormatCategory</property>
+                                <property name="pattern">testMeasureFormatPattern</property>
+                                <property name="locale">aa</property>
+                            </structure>                            
                         </tabular-measure>
                         <tabular-measure name="NewTabularMeasure" id="18"/>
                     </property>
