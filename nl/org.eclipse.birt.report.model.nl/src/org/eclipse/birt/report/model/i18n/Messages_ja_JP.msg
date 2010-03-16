@@ -1887,6 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=スクリプトライブラリ
 Structure.IncludedCssStyleSheet=インクルードされている CSS スタイルシート
 Structure.DimensionJoinCondition=ディメンジョンのジョイン条件
+Structure.FormatValue =Format Value
 
 #0.MapRule
 Structure.MapRule.testExpr=テスト式
@@ -2268,6 +2269,11 @@ Structure.IncludedDataMart.namespace=ネームスペース
 Structure.TimeInterval=時間の間隔
 Structure.TimeInterval.measure=メジャー
 Structure.TimeInterval.unit=単位
+
+#39. FormatValue
+Structure.FormatValue.category=カテゴリ
+Structure.FormatValue.pattern=パターン
+Structure.FormatValue.locale=ロケール
 
 ###########################################################
 # Element names
@@ -3231,6 +3237,7 @@ Element.Level.defaultValue=デフォルト値
 Element.Level.ACLExpression=ACL 式
 Element.Level.MemberACLExpression=メンバの ACL 式
 Element.Level.action=アクション
+Element.Level.format=書式
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数
@@ -3239,6 +3246,7 @@ Element.Measure.measureExpression=メジャー式
 Element.Measure.dataType=データ型
 Element.Measure.ACLExpression=ACL 式
 Element.Measure.action=アクション
+Element.Measure.format=書式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=メジャー

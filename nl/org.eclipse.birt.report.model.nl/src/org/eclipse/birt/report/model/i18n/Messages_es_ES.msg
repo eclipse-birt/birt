@@ -1887,6 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Librería de scripts
 Structure.IncludedCssStyleSheet=Hoja de estilos CSS incluida
 Structure.DimensionJoinCondition=Condición de combinación de dimensión
+Structure.FormatValue =Format Value
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2268,6 +2269,11 @@ Structure.IncludedDataMart.namespace=Espacio de nombres
 Structure.TimeInterval=Intervalo de tiempo
 Structure.TimeInterval.measure=Medida
 Structure.TimeInterval.unit=Unidad
+
+#39. FormatValue
+Structure.FormatValue.category=Categoría
+Structure.FormatValue.pattern=Patrón
+Structure.FormatValue.locale=Configuración regional
 
 ###########################################################
 # Element names
@@ -3231,6 +3237,7 @@ Element.Level.defaultValue=Valor predeterminado
 Element.Level.ACLExpression=Expresión ACL
 Element.Level.MemberACLExpression=Expresión ACL de miembro
 Element.Level.action=Acción
+Element.Level.format=Formato
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Función
@@ -3239,6 +3246,7 @@ Element.Measure.measureExpression=Expresión de medida
 Element.Measure.dataType=Tipo de datos
 Element.Measure.ACLExpression=Expresión ACL
 Element.Measure.action=Acción
+Element.Measure.format=Formato
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Medidas

@@ -1887,6 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=脚本库
 Structure.IncludedCssStyleSheet=包括的 CSS 样式表
 Structure.DimensionJoinCondition=维联接条件
+Structure.FormatValue =Format Value
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2268,6 +2269,11 @@ Structure.IncludedDataMart.namespace=命名空间
 Structure.TimeInterval=时间间隔
 Structure.TimeInterval.measure=度量
 Structure.TimeInterval.unit=单位
+
+#39. FormatValue
+Structure.FormatValue.category=类别
+Structure.FormatValue.pattern=模式
+Structure.FormatValue.locale=区域设置
 
 ###########################################################
 # Element names
@@ -3231,6 +3237,7 @@ Element.Level.defaultValue=默认值
 Element.Level.ACLExpression=ACL 表达式
 Element.Level.MemberACLExpression=成员 ACL 表达式
 Element.Level.action=操作
+Element.Level.format=格式
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=函数
@@ -3239,6 +3246,7 @@ Element.Measure.measureExpression=度量表达式
 Element.Measure.dataType=数据类型
 Element.Measure.ACLExpression=ACL 表达式
 Element.Measure.action=操作
+Element.Measure.format=格式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=度量
