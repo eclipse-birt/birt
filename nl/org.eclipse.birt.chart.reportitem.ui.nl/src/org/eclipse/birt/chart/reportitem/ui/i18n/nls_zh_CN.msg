@@ -96,7 +96,6 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---多维数据集---
 BindingPage.Data.Label=数据:
 Error.ChartShouldIncludeAxes=图表应包括轴。
 
-ChartCubeFilterConditionBuilder.Information=请首先为值系列或类别系列选择值。
 ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=类别:  
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=值:  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 选项:  
