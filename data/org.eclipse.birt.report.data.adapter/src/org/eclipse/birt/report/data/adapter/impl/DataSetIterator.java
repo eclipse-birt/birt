@@ -56,9 +56,9 @@ public class DataSetIterator implements IDatasetIterator
 	private IResultIterator it;
 	private ResultMeta metadata;
 	private Calendar calendar;
-	
+	private SecurityListener securityListener;
 	private long nullTime;
-	
+	private String dimName;
 	
 	/**
 	 * 
@@ -111,6 +111,16 @@ public class DataSetIterator implements IDatasetIterator
 
 	}
 
+	public void initSecurityListenerAndDimension( String dimName, SecurityListener listener )
+	{
+		this.securityListener = listener;
+		this.dimName = dimName;
+	}
+	
+	public static String createLevelACLName( String levelName )
+	{
+		return "_$ACL$_" + levelName;
+	}
 	static int getDefaultStartValue( String timeType, String value ) throws AdapterException
 	{
 		if( value != null && Double.valueOf( value ).doubleValue( )!= 0 )
@@ -256,7 +266,11 @@ public class DataSetIterator implements IDatasetIterator
 		{
 			it.close( );
 		}
-		
+		else
+		{
+			if( this.securityListener!= null )
+				this.securityListener.process( dimName, this );
+		}
 		return hasNext;
 	}
 

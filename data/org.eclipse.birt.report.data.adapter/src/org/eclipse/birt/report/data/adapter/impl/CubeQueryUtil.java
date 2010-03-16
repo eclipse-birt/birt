@@ -562,7 +562,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 						this.sessionImpl );
 			Map levelValueMap = new HashMap( );
 
-			DataSetIterator it = createDataSetIterator( appContext, hierHandle );
+			DataSetIterator it = createDataSetIterator( appContext, hierHandle, String.valueOf( cubeHandle.getElement( ).getID( )) );
 			return new MemberValueIterator( it,
 					levelValueMap,
 					target.getLevelName( ), target.getAttrName( ) ,targetDataType);
@@ -651,7 +651,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					}
 				}
 			}
-			DataSetIterator it = createDataSetIterator( appContext, hierHandle );
+			DataSetIterator it = createDataSetIterator( appContext, hierHandle, String.valueOf( cubeHandle.getElement( ).getID( )) );
 			
 			return new MemberValueIterator( it,
 					levelValueMap,
@@ -717,7 +717,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					}
 				}
 			}
-			DataSetIterator it = createDataSetIterator( appContext, hierHandle );
+			DataSetIterator it = createDataSetIterator( appContext, hierHandle, String.valueOf( cubeHandle.getElement( ).getID( )) );
 			
 			return new MemberValueIterator( it, levelValueMap, target.getLevelName( ), target.getAttrName( ));
 		}
@@ -750,11 +750,11 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 * @throws BirtException
 	 */
 	private DataSetIterator createDataSetIterator( Map appContext,
-			TabularHierarchyHandle hierHandle ) throws AdapterException,
+			TabularHierarchyHandle hierHandle, String cubeName ) throws AdapterException,
 			BirtException
 	{
 		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>( );
-		IQueryDefinition defn = sessionImpl.createQuery( sessionImpl, hierHandle, metaList );
+		IQueryDefinition defn = sessionImpl.createQuery( sessionImpl, hierHandle, metaList, cubeName );
 		return new DataSetIterator( this.sessionImpl, defn, metaList, appContext );
 	}
 	/**
