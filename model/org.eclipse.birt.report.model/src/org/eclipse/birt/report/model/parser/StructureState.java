@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
@@ -560,6 +561,9 @@ public class StructureState extends AbstractPropertyState
 		structDict.put(
 				ParameterFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				ParameterFormatValue.class );
+		
+		structDict.put( FormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
+				FormatValue.class );
 
 		structDict.put( PropertyBinding.PROPERTY_BINDING_STRUCT.toLowerCase( ),
 				PropertyBinding.class );

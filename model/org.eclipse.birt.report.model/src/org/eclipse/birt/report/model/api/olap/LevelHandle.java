@@ -15,10 +15,12 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
@@ -442,5 +444,32 @@ public abstract class LevelHandle extends ReportElementHandle
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
 		return ModelUtil.setAction( this, ACTION_PROP, action );
+	}
+	
+	/**
+	 * Gets the format of the measure.
+	 * 
+	 * @return the format, or null if not set.
+	 */
+	public FormatValueHandle getFormat( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( FORMAT_PROP );
+		FormatValue format = (FormatValue) propHandle.getValue( );
+
+		if ( format == null )
+			return null;
+		return (FormatValueHandle) format.getHandle( propHandle );
+	}
+
+	/**
+	 * Sets the format of the measure.
+	 * 
+	 * @param format
+	 *            the format to set.
+	 * @throws SemanticException
+	 */
+	public void setFormat( FormatValue format ) throws SemanticException
+	{
+		setProperty( FORMAT_PROP, format );
 	}
 }

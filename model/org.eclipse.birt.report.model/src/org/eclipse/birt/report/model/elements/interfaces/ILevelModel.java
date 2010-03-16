@@ -100,5 +100,10 @@ public interface ILevelModel
 	 * when clicking the level.
 	 */
 
-	public static final String ACTION_PROP = "action"; //$NON-NLS-1$
+	String ACTION_PROP = "action"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the format property, which saves the format of the level.
+	 */
+	String FORMAT_PROP = "format"; //$NON-NLS-1$
 }
