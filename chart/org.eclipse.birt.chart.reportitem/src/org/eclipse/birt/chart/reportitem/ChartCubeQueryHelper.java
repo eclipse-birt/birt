@@ -878,7 +878,15 @@ public class ChartCubeQueryHelper
 					// If filter expression is not used as dimension or measure,
 					// should set dimension/measure expression as filter
 					// directly
-					filterQuery = registeredQueries.get( filterBindingName );
+					String newExpr = registeredQueries.get( filterBindingName );
+					if ( newExpr != null )
+					{
+						// Replace all data expressions with dimension/measure
+						// expressions in complex expression
+						exprCodec.setBindingName( filterBindingName, true );
+						filterQuery = filterQuery.replace( exprCodec.getExpression( ),
+								newExpr );
+					}
 				}
 			}
 			if ( ModuleUtil.isListFilterValue( filterCon ) )
