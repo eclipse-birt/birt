@@ -135,7 +135,7 @@ public class FatBlockList
 		if ( fatBlockId <= 0 )
 		{
 			fatBlockId = fatBlock.getBlockId( );
-			node.blockCount++;
+			node.setBlockCount( node.getBlockCount( ) + 1 );
 			node.setIndirectBlock( 0, fatBlockId );
 		}
 		fatBlock.setBlock( index, blockId );
@@ -159,7 +159,7 @@ public class FatBlockList
 		if ( fatBlockId <= 0 )
 		{
 			fatBlockId = fatBlock.getBlockId( );
-			node.blockCount++;
+			node.setBlockCount( node.getBlockCount( ) + 1 );
 			node.setIndirectBlock( 1, fatBlockId );
 		}
 		int index1 = ( index & 0xFFC00 ) >> 10;
@@ -168,7 +168,7 @@ public class FatBlockList
 		if ( fatBlockId1 <= 0 )
 		{
 			fatBlockId1 = fatBlock1.getBlockId( );
-			node.blockCount++;
+			node.setBlockCount( node.getBlockCount( ) + 1 );
 			fatBlock.setBlock( index1, fatBlockId1 );
 		}
 		int index2 = index & 0x3FF;
@@ -200,7 +200,7 @@ public class FatBlockList
 		if ( fatBlockId <= 0 )
 		{
 			fatBlockId = fatBlock.getBlockId( );
-			node.blockCount++;
+			node.setBlockCount( node.getBlockCount( ) + 1 );
 			node.setIndirectBlock( 2, fatBlockId );
 		}
 		int index1 = ( index & 0x3FF00000 ) >> 20;
@@ -209,7 +209,7 @@ public class FatBlockList
 		if ( fatBlockId1 <= 0 )
 		{
 			fatBlockId1 = fatBlock1.getBlockId( );
-			node.blockCount++;
+			node.setBlockCount( node.getBlockCount( ) + 1 );
 			fatBlock.setBlock( index1, fatBlockId1 );
 		}
 
@@ -219,7 +219,7 @@ public class FatBlockList
 		if ( fatBlockId2 <= 0 )
 		{
 			fatBlockId2 = fatBlock2.getBlockId( );
-			node.blockCount++;
+			node.setBlockCount( node.getBlockCount( ) + 1 );
 			fatBlock1.setBlock( index2, fatBlockId2 );
 		}
 		int index3 = index & 0x3FF;

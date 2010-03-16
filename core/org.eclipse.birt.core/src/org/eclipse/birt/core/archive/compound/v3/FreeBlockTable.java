@@ -25,18 +25,20 @@ class FreeBlockTable implements Ext2Constants
 	protected LinkedList<Ext2Node> freeNodes;
 	protected Ext2Node freeNode;
 	protected FreeBlockList freeBlockList;
+	protected boolean dirty;
 
 	FreeBlockTable( Ext2FileSystem fs )
 	{
 		this.fs = fs;
 		this.freeNodes = new LinkedList<Ext2Node>( );
+		this.dirty = true;
 	}
 
 	public void read( ) throws IOException
 	{
 		freeNodes.clear( );
 		byte[] buffer = new byte[Ext2Node.NODE_SIZE];
-		Ext2File file = new Ext2File( fs, NodeTable.INODE_FREE_TABLE );
+		Ext2File file = new Ext2File( fs, NodeTable.INODE_FREE_TABLE, false );
 		try
 		{
 			int totalNode = (int) ( file.length( ) / Ext2Node.NODE_SIZE );
@@ -53,16 +55,18 @@ class FreeBlockTable implements Ext2Constants
 		{
 			file.close( );
 		}
+		this.dirty = false;
 	}
 
-	public void write( ) throws IOException
+	protected void write( ) throws IOException
 	{
-		if ( freeBlockList == null && freeNodes.isEmpty( ) )
+		if ( !dirty )
 		{
 			return;
 		}
+		dirty = false;
 
-		Ext2File file = new Ext2File( fs, NodeTable.INODE_FREE_TABLE );
+		Ext2File file = new Ext2File( fs, NodeTable.INODE_FREE_TABLE, false );
 		try
 		{
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream(
@@ -81,6 +85,7 @@ class FreeBlockTable implements Ext2Constants
 				freeNode.write( out );
 				file.write( buffer.toByteArray( ), 0, Ext2Node.NODE_SIZE );
 			}
+			file.setLength( file.getPointer( ) );
 		}
 		finally
 		{
@@ -95,6 +100,7 @@ class FreeBlockTable implements Ext2Constants
 			int blockId = freeBlockList.removeLastBlock( );
 			if ( blockId > 0 )
 			{
+				dirty = true;
 				return blockId;
 			}
 			freeBlockList.clear( );
@@ -109,6 +115,7 @@ class FreeBlockTable implements Ext2Constants
 			int blockId = freeBlockList.removeLastBlock( );
 			if ( blockId > 0 )
 			{
+				dirty = true;
 				return blockId;
 			}
 			freeBlockList.clear( );
@@ -121,6 +128,7 @@ class FreeBlockTable implements Ext2Constants
 
 	public void addFreeBlocks( Ext2Node node )
 	{
+		dirty = true;
 		freeNodes.add( node );
 	}
 }

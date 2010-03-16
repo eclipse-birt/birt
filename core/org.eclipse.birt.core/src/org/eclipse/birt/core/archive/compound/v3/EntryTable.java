@@ -24,19 +24,20 @@ import java.util.HashMap;
 public class EntryTable
 {
 
-	Ext2FileSystem fs;
-	HashMap<String, Ext2Entry> entries;
+	private Ext2FileSystem fs;
+	private HashMap<String, Ext2Entry> entries;
+	private boolean dirty;
 
 	EntryTable( Ext2FileSystem fs )
 	{
 		this.fs = fs;
 		this.entries = new HashMap<String, Ext2Entry>( );
+		this.dirty = true;
 	}
 
 	void read( ) throws IOException
 	{
-		Ext2Node node = fs.getNode( NodeTable.INODE_ENTRY_TABLE );
-		Ext2File file = new Ext2File( fs, node );
+		Ext2File file = new Ext2File( fs, NodeTable.INODE_ENTRY_TABLE, false );
 		try
 		{
 			byte[] bytes = new byte[(int) file.length( )];
@@ -62,10 +63,16 @@ public class EntryTable
 		{
 			file.close( );
 		}
+		this.dirty = false;
 	}
 
 	void write( ) throws IOException
 	{
+		if ( !dirty )
+		{
+			return;
+		}
+		dirty = false;
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
 		DataOutputStream out = new DataOutputStream( buffer );
 		String[] names = entries.keySet( )
@@ -85,8 +92,7 @@ public class EntryTable
 			out.writeInt( entry.inode );
 		}
 
-		Ext2Node node = fs.getNode( NodeTable.INODE_ENTRY_TABLE );
-		Ext2File file = new Ext2File( fs, node );
+		Ext2File file = new Ext2File( fs, NodeTable.INODE_ENTRY_TABLE, false );
 		try
 		{
 			byte[] bytes = buffer.toByteArray( );
@@ -106,11 +112,17 @@ public class EntryTable
 
 	Ext2Entry removeEntry( String name )
 	{
-		return entries.remove( name );
+		Ext2Entry entry = entries.remove( name );
+		if ( entry != null )
+		{
+			dirty = true;
+		}
+		return entry;
 	}
 
 	void addEntry( Ext2Entry entry )
 	{
+		dirty = true;
 		entries.put( entry.name, entry );
 	}
 

@@ -51,8 +51,9 @@ public class Ext2FileSystem
 	 * properties saved in the file header
 	 */
 	private HashMap<String, String> properties = new HashMap<String, String>( );
+	private boolean propertyDirty = true;
 
-	private FileCacheManager cacheManager = new FileCacheManager( );
+	protected FileCacheManager cacheManager = new FileCacheManager( );
 	/**
 	 * nodes define the logical stream
 	 */
@@ -204,9 +205,10 @@ public class Ext2FileSystem
 				nodeTable.write( );
 				freeTable.write( );
 				nodeTable.write( NodeTable.INODE_FREE_TABLE );
-				cacheManager.clear( );
+				cacheManager.touchAllCaches( );
 				writeHeader( );
 			}
+			cacheManager.clear( );
 		}
 		finally
 		{
@@ -240,13 +242,13 @@ public class Ext2FileSystem
 
 	synchronized public void flush( ) throws IOException
 	{
-		if ( readOnly )
-		{
-			throw new IOException( "file is opened as read only" );
-		}
-
 		if ( !removeOnExit )
 		{
+			if ( readOnly )
+			{
+				throw new IOException( "file is opened as read only" );
+			}
+
 			ensureFileOpened( );
 			// flush all the cached data into disk
 			writeProperties( );
@@ -255,7 +257,6 @@ public class Ext2FileSystem
 			freeTable.write( );
 			nodeTable.write( NodeTable.INODE_FREE_TABLE );
 			cacheManager.touchAllCaches( new Ext2FileSystemCacheListener( ) );
-			writeHeader( );
 		}
 	}
 
@@ -267,6 +268,11 @@ public class Ext2FileSystem
 	public boolean isReadOnly( )
 	{
 		return readOnly;
+	}
+
+	public boolean isRemoveOnExit( )
+	{
+		return removeOnExit;
 	}
 
 	synchronized void registerOpenedFile( Ext2File file )
@@ -320,7 +326,7 @@ public class Ext2FileSystem
 		if ( entry != null )
 		{
 			Ext2Node node = nodeTable.getNode( entry.inode );
-			return new Ext2File( this, node );
+			return new Ext2File( this, entry, node );
 		}
 
 		if ( !readOnly )
@@ -376,6 +382,7 @@ public class Ext2FileSystem
 		{
 			properties.put( name, value );
 		}
+		propertyDirty = true;
 	}
 
 	static final int HEADER_SIZE = 1024;
@@ -415,8 +422,7 @@ public class Ext2FileSystem
 
 	private void readProperties( ) throws IOException
 	{
-		Ext2Node node = nodeTable.getNode( NodeTable.INODE_SYSTEM_HEAD );
-		Ext2File file = new Ext2File( this, node );
+		Ext2File file = new Ext2File( this, NodeTable.INODE_SYSTEM_HEAD, false );
 		try
 		{
 			byte[] bytes = new byte[(int) ( file.length( ) - HEADER_SIZE )];
@@ -439,6 +445,7 @@ public class Ext2FileSystem
 		{
 			file.close( );
 		}
+		propertyDirty = false;
 	}
 
 	private void writeHeader( ) throws IOException
@@ -454,8 +461,13 @@ public class Ext2FileSystem
 
 	private void writeProperties( ) throws IOException
 	{
-		Ext2Node node = nodeTable.getNode( NodeTable.INODE_SYSTEM_HEAD );
-		Ext2File file = new Ext2File( this, node );
+		if ( !propertyDirty )
+		{
+			return;
+		}
+		propertyDirty = false;
+
+		Ext2File file = new Ext2File( this, NodeTable.INODE_SYSTEM_HEAD, false );
 		try
 		{
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
@@ -478,7 +490,7 @@ public class Ext2FileSystem
 		}
 	}
 
-	private int allocFreeBlock( ) throws IOException
+	synchronized protected int allocFreeBlock( ) throws IOException
 	{
 		int blockId = freeTable.getFreeBlock( );
 		if ( blockId > 0 )
@@ -540,15 +552,23 @@ public class Ext2FileSystem
 		return block;
 	}
 
-	synchronized void readBlock( int blockId, byte[] buffer, int offset,
-			int size ) throws IOException
+	void readBlock( int blockId, byte[] buffer, int offset, int size )
+			throws IOException
+	{
+		readBlock( blockId, offset, buffer, offset, size );
+	}
+
+	synchronized void readBlock( int blockId, int blockOff, byte[] buffer,
+			int offset, int size ) throws IOException
 	{
 		assert buffer != null;
+		assert blockId >= 0;
 		assert offset >= 0;
+		assert blockOff >= 0;
 		assert offset + size <= buffer.length;
-		assert offset + size <= BLOCK_SIZE;
+		assert blockOff + size <= BLOCK_SIZE;
 
-		long position = ( (long) blockId ) << BLOCK_SIZE_BITS + offset;
+		long position = ( ( (long) blockId ) << BLOCK_SIZE_BITS ) + blockOff;
 		if ( position < length )
 		{
 			long remainSize = length - position;
@@ -559,18 +579,27 @@ public class Ext2FileSystem
 			}
 			rf.readFully( buffer, offset, size );
 		}
+		
 	}
 
-	synchronized void writeBlock( int blockId, byte[] buffer, int offset,
-			int size ) throws IOException
+	void writeBlock( int blockId, byte[] buffer, int offset, int size )
+			throws IOException
+	{
+		writeBlock( blockId, offset, buffer, offset, size );
+	}
+
+	synchronized void writeBlock( int blockId, int blockOff, byte[] buffer,
+			int offset, int size ) throws IOException
 	{
 		assert buffer != null;
+		assert blockId >= 0;
 		assert offset >= 0;
+		assert blockOff >= 0;
 		assert offset + size <= buffer.length;
-		assert offset + size <= BLOCK_SIZE;
+		assert blockOff + size <= BLOCK_SIZE;
 
 		ensureFileOpened( );
-		long position = ( (long) blockId ) << BLOCK_SIZE_BITS + offset;
+		long position = ( ( (long) blockId ) << BLOCK_SIZE_BITS ) + blockOff;
 		rf.seek( position );
 		rf.write( buffer, offset, size );
 		position += size;

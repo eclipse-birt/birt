@@ -27,10 +27,12 @@ public class NodeTable
 	static final int INODE_FREE_TABLE = 2;
 	static final int INODE_ENTRY_TABLE = 3;
 
-	Ext2FileSystem fs;
+	protected Ext2FileSystem fs;
 
-	ArrayList<Ext2Node> nodes = new ArrayList<Ext2Node>( 4 );
-	LinkedList<Ext2Node> freeNodes = new LinkedList<Ext2Node>( );
+	protected ArrayList<Ext2Node> nodes = new ArrayList<Ext2Node>( 4 );
+	protected LinkedList<Ext2Node> freeNodes = new LinkedList<Ext2Node>( );
+
+	protected boolean dirty;
 
 	NodeTable( Ext2FileSystem fs )
 	{
@@ -56,6 +58,8 @@ public class NodeTable
 		nodes.add( headNode );
 		nodes.add( freeNode );
 		nodes.add( entryNode );
+
+		this.dirty = true;
 	}
 
 	Ext2Node getNode( int id )
@@ -67,11 +71,11 @@ public class NodeTable
 	{
 		nodes.clear( );
 		byte[] buffer = new byte[Ext2Node.NODE_SIZE];
-		fs.readBlock( 1, buffer, 0, Ext2Node.NODE_SIZE );
-		Ext2Node node = new Ext2Node( 0 );
+		fs.readBlock( 1, 0, buffer, 0, Ext2Node.NODE_SIZE );
+		Ext2Node node = new Ext2Node( INODE_NODE_TABLE );
 		readNode( node, buffer );
 		nodes.add( node );
-		Ext2File file = new Ext2File( fs, node );
+		Ext2File file = new Ext2File( fs, INODE_NODE_TABLE, false );
 		try
 		{
 			int totalNode = (int) ( file.length( ) / Ext2Node.NODE_SIZE );
@@ -93,6 +97,7 @@ public class NodeTable
 		{
 			file.close( );
 		}
+		this.dirty = false;
 	}
 
 	private void readNode( Ext2Node node, byte[] bytes ) throws IOException
@@ -104,24 +109,52 @@ public class NodeTable
 
 	void write( ) throws IOException
 	{
-		Ext2File file = new Ext2File( fs, nodes.get( INODE_NODE_TABLE ) );
+		if ( !dirty )
+		{
+			for ( Ext2Node node : nodes )
+			{
+				if ( node.isDirty( ) )
+				{
+					dirty = true;
+					break;
+				}
+			}
+		}
+
+		if ( !dirty )
+		{
+			return;
+		}
+
+		dirty = false;
+		Ext2File file = new Ext2File( fs, INODE_NODE_TABLE, false );
 		try
 		{
+			file.setLength( nodes.size( ) * (long) Ext2Node.NODE_SIZE );
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream(
 					Ext2Node.NODE_SIZE );
 			DataOutputStream out = new DataOutputStream( buffer );
-			file.seek( Ext2Node.NODE_SIZE );
 			for ( int i = 1; i < nodes.size( ); i++ )
 			{
+				Ext2Node node = nodes.get( i );
+				if ( node.isDirty( ) )
+				{
+					buffer.reset( );
+					node.write( out );
+					node.setDirty( false );
+					file.seek( i * Ext2Node.NODE_SIZE );
+					file.write( buffer.toByteArray( ), 0, Ext2Node.NODE_SIZE );
+				}
+			}
+			Ext2Node node = nodes.get( 0 );
+			if ( node.isDirty( ) )
+			{
 				buffer.reset( );
-				nodes.get( i ).write( out );
+				node.write( out );
+				node.setDirty( false );
+				file.seek( 0 );
 				file.write( buffer.toByteArray( ), 0, Ext2Node.NODE_SIZE );
 			}
-			file.seek( 0 );
-			buffer.reset( );
-			nodes.get( 0 ).write( out );
-			file.write( buffer.toByteArray( ), 0, Ext2Node.NODE_SIZE );
-			file.setLength( nodes.size( ) * (long) Ext2Node.NODE_SIZE );
 		}
 		finally
 		{
@@ -132,19 +165,23 @@ public class NodeTable
 	void write( int iNode ) throws IOException
 	{
 		assert iNode < nodes.size( );
-		Ext2File file = new Ext2File( fs, nodes.get( INODE_NODE_TABLE ) );
-		try
+		Ext2Node node = nodes.get( iNode );
+		if ( node.isDirty( ) )
 		{
-			ByteArrayOutputStream buffer = new ByteArrayOutputStream(
-					Ext2Node.NODE_SIZE );
-			DataOutputStream out = new DataOutputStream( buffer );
-			file.seek( Ext2Node.NODE_SIZE * iNode );
-			nodes.get( iNode ).write( out );
-			file.write( buffer.toByteArray( ), 0, Ext2Node.NODE_SIZE );
-		}
-		finally
-		{
-			file.close( );
+			Ext2File file = new Ext2File( fs, INODE_NODE_TABLE, false );
+			try
+			{
+				ByteArrayOutputStream buffer = new ByteArrayOutputStream(
+						Ext2Node.NODE_SIZE );
+				DataOutputStream out = new DataOutputStream( buffer );
+				file.seek( Ext2Node.NODE_SIZE * iNode );
+				node.write( out );
+				file.write( buffer.toByteArray( ), 0, Ext2Node.NODE_SIZE );
+			}
+			finally
+			{
+				file.close( );
+			}
 		}
 	}
 

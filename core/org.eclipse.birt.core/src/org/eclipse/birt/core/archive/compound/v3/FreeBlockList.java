@@ -34,7 +34,8 @@ public class FreeBlockList extends FatBlockList
 				{
 					nextBlockId = blockId;
 				}
-				node.blockCount--;
+				int blockCount = node.getBlockCount( );
+				node.setBlockCount( blockCount-- );;
 				return nextBlockId;
 			}
 		}
@@ -45,7 +46,8 @@ public class FreeBlockList extends FatBlockList
 			if ( blockId > 0 )
 			{
 				node.setDirectBlock( i, 0 );
-				node.blockCount--;
+				int blockCount = node.getBlockCount( );
+				node.setBlockCount( blockCount-- );;
 				return blockId;
 			}
 		}

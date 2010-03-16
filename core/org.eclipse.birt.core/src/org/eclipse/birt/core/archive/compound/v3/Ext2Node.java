@@ -30,12 +30,13 @@ public class Ext2Node implements Ext2Constants
 	static final int DIRECT_BLOCK_COUNT = 9;
 	static final int INDIRECT_BLOCK_COUNT = 3;
 
-	protected int nodeId;
-	protected int status;
-	protected long length;
-	protected int blockCount;
-	protected int[] directBlocks = new int[DIRECT_BLOCK_COUNT];
-	protected int[] indirectBlocks = new int[INDIRECT_BLOCK_COUNT];
+	private boolean dirty;
+	private int nodeId;
+	private int status;
+	private long length;
+	private int blockCount;
+	private int[] directBlocks = new int[DIRECT_BLOCK_COUNT];
+	private int[] indirectBlocks = new int[INDIRECT_BLOCK_COUNT];
 
 	Ext2Node( )
 	{
@@ -53,6 +54,17 @@ public class Ext2Node implements Ext2Constants
 		{
 			indirectBlocks[i] = -1;
 		}
+		dirty = true;
+	}
+
+	boolean isDirty( )
+	{
+		return dirty;
+	}
+
+	void setDirty( boolean dirty )
+	{
+		this.dirty = dirty;
 	}
 
 	public void reset( )
@@ -68,6 +80,7 @@ public class Ext2Node implements Ext2Constants
 		{
 			indirectBlocks[i] = -1;
 		}
+		dirty = true;
 	}
 
 	public Ext2Node copyFreeNode( )
@@ -98,6 +111,7 @@ public class Ext2Node implements Ext2Constants
 	void setStatus( int status )
 	{
 		this.status = status;
+		this.dirty = true;
 	}
 
 	public long getLength( )
@@ -108,6 +122,7 @@ public class Ext2Node implements Ext2Constants
 	void setLength( long length )
 	{
 		this.length = length;
+		this.dirty = true;
 	}
 
 	int getBlockCount( )
@@ -118,6 +133,7 @@ public class Ext2Node implements Ext2Constants
 	void setBlockCount( int blockCount )
 	{
 		this.blockCount = blockCount;
+		this.dirty = true;
 	}
 
 	void read( DataInput in ) throws IOException
@@ -133,6 +149,7 @@ public class Ext2Node implements Ext2Constants
 		{
 			indirectBlocks[i] = in.readInt( );
 		}
+		dirty = false;
 	}
 
 	void write( DataOutput out ) throws IOException
@@ -160,6 +177,7 @@ public class Ext2Node implements Ext2Constants
 	{
 		assert index < DIRECT_BLOCK_COUNT;
 		directBlocks[index] = blockId;
+		this.dirty = true;
 	}
 
 	int getIndirectBlock( int index )

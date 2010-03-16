@@ -201,6 +201,12 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 			return cachedBlock;
 		}
 
+		if ( cachedBlock != null )
+		{
+			af.unloadBlock( cachedBlock );
+			cachedBlock = null;
+		}
+
 		cachedBlockId = blockId;
 		int fileBlockId = index.getBlock( blockId );
 		if ( fileBlockId != -1 )

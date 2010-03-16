@@ -609,14 +609,18 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	{
 		assertOpen( );
 		long pos = (long) blockId * BLOCK_SIZE + blockOff;
-		long fileLength = rf.length( );
-		if ( pos + len > fileLength )
-		{
-			len = (int) ( fileLength - pos );
-		}
+		int readSize = 0;
 		rf.seek( pos );
-		rf.readFully( b, off, len );
-		return len;
+		do
+		{
+			int size = rf.read( b, off + readSize, len - readSize );
+			if ( size < 0 )
+			{
+				break;
+			}
+			readSize += size;
+		} while ( readSize < len );
+		return readSize;
 	}
 
 	/**
