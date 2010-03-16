@@ -480,7 +480,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 					{
 						getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam",
 								new Object[]{
-										handle.getParamName( ),
 										handle.getName( )
 								} ),
 								IMessageProvider.ERROR );
