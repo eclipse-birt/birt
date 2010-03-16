@@ -201,6 +201,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 					// Once concurrent exception is thrown, try again.
 					cm = cm.copyInstance( );
 				}
+				catch ( NullPointerException e )
+				{
+					// Once NPE is thrown in concurrent case, try again.
+					cm = cm.copyInstance( );
+				}
 			}
 		}
 		// #269935
