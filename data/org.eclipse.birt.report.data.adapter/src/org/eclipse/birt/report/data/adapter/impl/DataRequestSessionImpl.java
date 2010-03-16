@@ -93,6 +93,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -984,7 +985,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 					columnForDeepestLevel = level.getColumnName( );
 				}
 				metaList = new ArrayList<ColumnMeta>();
-				query =  createQuery( this,  hier, metaList );
+				query = createQuery( this,
+						hier,
+						metaList,
+						String.valueOf( cubeHandle.getElement( ).getID( ) ) );
 				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
 				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0
 						&& !Arrays.deepEquals( jointHierarchyKeys, new String[]{ columnForDeepestLevel} ))
@@ -1239,6 +1243,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Object rowLimit = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
 			try
 			{
+				sl.process( dim );
+				DataSetIterator valueIt = new DataSetIterator( this,
+						queryMap.get( hierhandle ),
+						metaMap.get( hierhandle ),
+						appContext );
+				valueIt.initSecurityListenerAndDimension( dim.getName( ), sl );
 				if ( rowLimit != null
 						&& !( cubeHandle.getDataSet( )
 								.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ) )
@@ -1246,10 +1256,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
 					iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
 							hierhandle.getName( ),
-							new DataSetIterator( this,
-									queryMap.get( hierhandle ),
-									metaMap.get( hierhandle ),
-									appContext ),
+							valueIt,
 							levelInHier.toArray( new ILevelDefn[0] ),
 							dataEngine.getSession( ).getStopSign( ) ) );
 					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, rowLimit );
@@ -1257,11 +1264,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				else
 				{
 					iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
-							hierhandle.getName( ),
-							new DataSetIterator( this,
-									queryMap.get( hierhandle ),
-									metaMap.get( hierhandle ),
-									appContext ),
+							hierhandle.getName( ),valueIt,
 							levelInHier.toArray( new ILevelDefn[0] ),
 							dataEngine.getSession( ).getStopSign( ) ) );
 				}
@@ -1728,6 +1731,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 					}
 				}
 				
+				//Populate Security column
+				if( level.getMemberACLExpression( )!= null && level.getMemberACLExpression( ).getExpression( )!= null )
+				{
+					String aclExprName = DataSetIterator.createLevelACLName (level.getName( ));
+					IScriptExpression expr = modelAdaptor.adaptExpression( (Expression) level.getMemberACLExpression( ).getValue( ));
+					query.addBinding( new Binding( aclExprName, expr ) );
+					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta( aclExprName, null, DataSetIterator.ColumnMeta.UNKNOWN_TYPE );
+					metaList.add( meta );
+				}
+				
 				String levelName = DataSetIterator.createLevelName( dimName, level.getName( ));
 				query.addBinding( new Binding( levelName ,
 						new ScriptExpression( exprString, type )));
@@ -1852,6 +1865,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	
 		query.setUsesDetails( false );
 		
+		query.setName( String.valueOf( cubeHandle.getElement( ).getID( )) );
 		if( cubeHandle.getDataSet( ) == null )
 			throw new AdapterException(AdapterResourceHandle.getInstance( )
 					.getMessage( ResourceConstants.CUBE_MISS_DATASET_ERROR ));
@@ -1937,7 +1951,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		query.setUsesDetails( false );
 		query.setDataSetName( cubeHandle.getDataSet( ).getQualifiedName( ) );
 		query.setIsSummaryQuery( true );
-
+		query.setName( String.valueOf( cubeHandle.getElement( ).getID( )));
 		DataRequestSessionImpl.popualteFilter( this, cubeHandle.filtersIterator( ), query );
 		return query;
 	}
@@ -2002,7 +2016,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	QueryDefinition createQuery(
 			DataRequestSessionImpl session, TabularHierarchyHandle hierHandle,
-			List metaList ) throws BirtException
+			List metaList, String cubeName ) throws BirtException
 	{
 		assert metaList!= null;
 		QueryDefinition query = new CubeCreationQueryDefinition( );
@@ -2011,7 +2025,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		query.setUsesDetails( false );
 		
 		query.setDataSetName( DataRequestSessionImpl.getDataSet ( hierHandle ) );
-	
+		query.setName( cubeName );
 		
 		prepareLevels( query,
 				hierHandle, metaList, null );

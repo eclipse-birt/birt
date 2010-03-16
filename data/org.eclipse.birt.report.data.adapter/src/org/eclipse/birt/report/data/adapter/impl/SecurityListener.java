@@ -12,9 +12,8 @@
 package org.eclipse.birt.report.data.adapter.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 /**
@@ -33,7 +32,11 @@ public class SecurityListener
 	{
 	}
 
-	public void process( DimensionHandle dimHandle, IDatasetIterator iterator )
+	public void process( String dimName, DataSetIterator iterator ) throws BirtException
+	{
+		
+	}
+	public void process( DimensionHandle dimHandle )
 			throws BirtException
 	{
 
