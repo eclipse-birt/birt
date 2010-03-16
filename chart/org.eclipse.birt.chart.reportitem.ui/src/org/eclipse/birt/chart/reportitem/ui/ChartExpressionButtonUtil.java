@@ -30,8 +30,8 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil.EAttributeAccessor;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.Expression;
@@ -148,13 +148,11 @@ public class ChartExpressionButtonUtil
 			return exprCodec.getExpression( );
 		}
 
-		@Override
 		public boolean isColumnBinding( )
 		{
 			return false;
 		}
 
-		@Override
 		public String getBindingName( )
 		{
 			return exprCodec.getBindingName( );
