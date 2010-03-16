@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -165,7 +166,63 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 
 	protected void createTableViewer( Composite parent )
 	{
-		viewer = new PropertyHandleTableViewer( parent, true, true, true );
+		viewer = new PropertyHandleTableViewer( parent, true, true, true ) {
+
+			protected void doRemove( )
+			{
+				int index = viewer.getTable( ).getSelectionIndex( );
+				PropertyHandle handle = (PropertyHandle) viewer.getInput( );
+				int count = ( handle.getListValue( ) == null ) ? 0
+						: handle.getListValue( ).size( );
+
+				if ( index > -1 && index < count )
+				{
+					ComputedColumnHandle computedColumn = (ComputedColumnHandle) viewer.getTable( )
+							.getItems( )[index].getData( );
+					removeColumnHint( computedColumn.getName( ) );
+					try
+					{
+						handle.removeItem( index );
+					}
+					catch ( PropertyValueException e1 )
+					{
+						ExceptionHandler.handle( e1 );
+					}
+
+					viewer.refresh( );
+					viewer.getTable( ).setFocus( );
+					viewer.getTable( ).select( index );
+					updateButtons( );
+				}
+			}
+
+			private void removeColumnHint( String columnName )
+			{
+				if ( columnName == null )
+					return;
+
+				PropertyHandle propertyHandle = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
+				Iterator iter = propertyHandle.iterator( );
+
+				while ( iter.hasNext( ) )
+				{
+					ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
+					if ( columnName.equals( hint.getColumnName( ) ) )
+					{
+						try
+						{
+							propertyHandle.removeItem( hint );
+						}
+						catch ( PropertyValueException e )
+						{
+							ExceptionHandler.handle( e );
+						}
+					}
+				}
+			}
+
+		};
+
 		TableColumn column = new TableColumn( viewer.getViewer( ).getTable( ),
 				SWT.LEFT );
 		column.setText( cellLabels[COLUMN_NAME_INDEX] );
@@ -731,15 +788,6 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			getContainer( ).setMessage( Messages.getFormattedString( "dataset.editor.error.missingComputedColumnName", new Object[]{computedColumn.getName( )} ), IMessageProvider.ERROR ); //$NON-NLS-1$
 			return false;
 		}
-//		if ( computedColumn.getExpression( ) == null
-//				|| computedColumn.getExpression( ).trim( ).length( ) == 0 )
-//		{
-//			if ( isFunctionCount( computedColumn.getAggregateFunction( ) ) == false )
-//			{
-//				getContainer( ).setMessage( Messages.getFormattedString( "dataset.editor.error.missingComputedColumnExpression", new Object[]{computedColumn.getName( )} ), IMessageProvider.ERROR ); //$NON-NLS-1$
-//				return false;
-//			}
-//		}
 
 		Iterator iter = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( );
@@ -1640,7 +1688,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		{
 			DataSetViewData[] items = DataSetProvider.getCurrentInstance( )
 					.getColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-							false,
+							true,
 							true,
 							true );
 
