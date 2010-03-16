@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.data.ui.util;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -39,7 +37,9 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.impl.DefineDataSourceSetUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
@@ -199,6 +199,7 @@ public final class DataSetProvider
 			DataSetHandle dataSetHandle, DataRequestSession session )
 			throws BirtException
 	{
+		DataService.getInstance( ).registerSession( dataSetHandle, session );
 		IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
 				false );
 		if ( metaData == null )
@@ -473,6 +474,10 @@ public final class DataSetProvider
 						.adaptDataSource( dataSetHandle.getDataSource( ) ) );
 			}
 			
+		}
+		else
+		{
+			DefineDataSourceSetUtil.defineDataSourceAndDataSet( dataSetHandle, session );
 		}
 		session.defineDataSet( dataSetDesign );
 		IQueryResults resultSet = executeQuery( session, queryDefn );
