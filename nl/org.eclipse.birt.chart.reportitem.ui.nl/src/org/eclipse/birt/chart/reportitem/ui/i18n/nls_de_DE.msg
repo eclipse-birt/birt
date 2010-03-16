@@ -96,7 +96,6 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---Datenquader---
 BindingPage.Data.Label=Daten:
 Error.ChartShouldIncludeAxes=Diagramm muss Achsen einschließen
 
-ChartCubeFilterConditionBuilder.Information=Wählen Sie zuerst einen Wert für die Wert- oder Kategorie-Datenreihe aus.
 ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Kategorie:  
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Wert:  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y-Option:  

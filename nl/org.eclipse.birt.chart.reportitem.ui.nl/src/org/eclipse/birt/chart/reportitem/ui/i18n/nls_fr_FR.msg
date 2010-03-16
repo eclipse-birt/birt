@@ -96,7 +96,6 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubes de données---
 BindingPage.Data.Label=Données :
 Error.ChartShouldIncludeAxes=Le graphique doit inclure les axes.
 
-ChartCubeFilterConditionBuilder.Information=Veuillez tout d'abord sélectionner la valeur pour la série de valeurs ou la série de catégories.
 ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Catégorie :  
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Valeur :  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Série verticale facultative  
