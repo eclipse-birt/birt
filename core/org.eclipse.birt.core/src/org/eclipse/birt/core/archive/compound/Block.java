@@ -20,15 +20,13 @@ import org.eclipse.birt.core.archive.cache.Cacheable;
  * index block or stream data block.
  */
 
-public class Block implements ArchiveConstants, Cacheable
+public class Block extends Cacheable implements ArchiveConstants
 {
 
 	ArchiveFileV2 af;
 
 	/** The physical ID -- the NO of this block */
 	int id;
-
-	Integer cacheKey;
 
 	final int blockSize;
 
@@ -51,8 +49,8 @@ public class Block implements ArchiveConstants, Cacheable
 	 */
 	Block( ArchiveFileV2 af, int blockId, int size )
 	{
+		super( af.caches, Integer.valueOf( blockId ) );
 		this.af = af;
-		cacheKey = Integer.valueOf( blockId );
 		blockSize = size;
 		blockData = new byte[size];
 		id = blockId;
@@ -115,10 +113,5 @@ public class Block implements ArchiveConstants, Cacheable
 		}
 		System.arraycopy( blockData, src, b, off, size );
 		return size;
-	}
-
-	public Object getCacheKey( )
-	{
-		return cacheKey;
 	}
 }

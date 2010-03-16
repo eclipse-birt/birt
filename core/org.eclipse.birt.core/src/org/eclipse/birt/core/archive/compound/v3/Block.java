@@ -14,6 +14,7 @@ package org.eclipse.birt.core.archive.compound.v3;
 import java.io.IOException;
 
 import org.eclipse.birt.core.archive.cache.Cacheable;
+import org.eclipse.birt.core.archive.cache.FileCacheManager;
 
 /**
  * 
@@ -21,20 +22,20 @@ import org.eclipse.birt.core.archive.cache.Cacheable;
  * and read is synchronized.
  * 
  */
-abstract public class Block implements Cacheable
+abstract public class Block extends Cacheable
 {
 
-	Integer cacheKey;
 	int blockId;
+
+	public Block( FileCacheManager caches, int blockId )
+	{
+		super( caches, Integer.valueOf( blockId ) );
+		this.blockId = blockId;
+	}
 
 	public int getBlockId( )
 	{
 		return blockId;
-	}
-
-	public Object getCacheKey( )
-	{
-		return cacheKey;
 	}
 
 	abstract public void refresh( ) throws IOException;

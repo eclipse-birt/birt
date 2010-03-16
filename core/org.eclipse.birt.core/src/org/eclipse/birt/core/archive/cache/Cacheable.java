@@ -11,8 +11,55 @@
 
 package org.eclipse.birt.core.archive.cache;
 
-public interface Cacheable
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Cacheable
 {
 
-	Object getCacheKey( );
+	protected FileCacheManager manager;
+	protected Comparable cacheKey;
+	protected AtomicInteger referenceCount;
+	protected Cacheable prev;
+	protected Cacheable next;
+
+	public Cacheable( FileCacheManager manager, Comparable cacheKey )
+	{
+		this.manager = manager;
+		this.cacheKey = cacheKey;
+		this.referenceCount = new AtomicInteger( 0 );
+	}
+
+	Cacheable( )
+	{
+	}
+
+	public Comparable getCacheKey( )
+	{
+		return cacheKey;
+	}
+
+	public AtomicInteger getReferenceCount( )
+	{
+		return referenceCount;
+	}
+
+	public Cacheable getPrev( )
+	{
+		return prev;
+	}
+
+	public Cacheable getNext( )
+	{
+		return next;
+	}
+
+	public void setPrev( Cacheable prev )
+	{
+		this.prev = prev;
+	}
+
+	public void setNext( Cacheable next )
+	{
+		this.next = next;
+	}
 }

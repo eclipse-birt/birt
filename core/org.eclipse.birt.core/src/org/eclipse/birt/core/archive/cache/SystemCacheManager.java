@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.core.archive.cache;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -31,41 +28,21 @@ public class SystemCacheManager
 	protected static Logger logger = Logger.getLogger( SystemCacheManager.class
 			.getName( ) );
 
-	protected boolean enableSystemCache;
 	protected int maxCacheSize;
-	protected int systemCacheSize;
 	protected int usedCacheSize;
-
-	protected Map<FileCacheManager, Map<Object, CacheEntry>> cachedFiles;
-	protected CacheEntry firstEntry;
-	protected CacheEntry lastEntry;
+	protected CacheList caches;
+	protected boolean enableSystemCache;
 
 	public SystemCacheManager( )
 	{
-		this.maxCacheSize = 0;
-		this.usedCacheSize = 0;
-		this.systemCacheSize = 0;
-		this.cachedFiles = new HashMap<FileCacheManager, Map<Object, CacheEntry>>( );
-		this.firstEntry = new CacheEntry( );
-		this.lastEntry = new CacheEntry( );
-		this.firstEntry.next = this.lastEntry;
-		this.lastEntry.prev = this.firstEntry;
+		this( 0 );
 	}
 
-	public void clearCaches( FileCacheManager manager )
+	public SystemCacheManager( int maxCacheSize )
 	{
-		Map<Object, CacheEntry> caches = cachedFiles.remove( manager );
-		if ( caches != null )
-		{
-			Collection<CacheEntry> entries = caches.values( );
-			for ( CacheEntry entry : entries )
-			{
-				entry.prev.next = entry.next;
-				entry.next.prev = entry.prev;
-			}
-			systemCacheSize -= caches.size( );
-			caches.clear( );
-		}
+		this.maxCacheSize = maxCacheSize;
+		this.usedCacheSize = 0;
+		this.caches = new CacheList( );
 	}
 
 	public void setMaxCacheSize( int size )
@@ -73,7 +50,7 @@ public class SystemCacheManager
 		maxCacheSize = size;
 	}
 
-	public void increaseUsedCacheSize( int size )
+	void increaseUsedCacheSize( int size )
 	{
 		usedCacheSize += size;
 	}
@@ -83,117 +60,79 @@ public class SystemCacheManager
 		return usedCacheSize;
 	}
 
-	public void enableSystemCache( boolean enableSystemCache )
+	void removeCaches( FileCacheManager manager )
 	{
-		this.enableSystemCache = enableSystemCache;
-		if ( !enableSystemCache )
+		Cacheable cache = caches.first( );
+		while ( cache != null )
 		{
-			systemCacheSize = 0;
-			cachedFiles.clear( );
-			this.firstEntry.next = this.lastEntry;
-			this.lastEntry.prev = this.firstEntry;
+			Cacheable next = cache.getNext( );
+			if ( cache.manager == manager )
+			{
+				caches.remove( cache );
+				manager.caches.remove( cache.getCacheKey( ) );
+				usedCacheSize--;
+			}
+			cache = next;
 		}
 	}
 
-	public Cacheable getCache( FileCacheManager file, Object key )
+	void removeCache( Cacheable cache )
 	{
-		if ( !enableSystemCache )
+		caches.remove( cache );
+	}
+
+	void addCaches( Cacheable[] caches )
+	{
+		if ( maxCacheSize == 0 )
 		{
-			return null;
-		}
-		Map<Object, CacheEntry> caches = cachedFiles.get( file );
-		if ( caches != null )
-		{
-			CacheEntry entry = caches.remove( key );
-			if ( entry != null )
+			// remove the cache directly
+			for ( Cacheable cache : caches )
 			{
-				entry.prev.next = entry.next;
-				entry.next.prev = entry.prev;
-				systemCacheSize--;
-				return entry.value;
+				cache.getReferenceCount( ).set( -2 );
+				cache.manager.caches.remove( cache.getCacheKey( ) );
 			}
 		}
-		return null;
+		else
+		{
+			for ( Cacheable cache : caches )
+			{
+				cache.getReferenceCount( ).set( -1 );
+				this.caches.add( cache );
+			}
+			adjustSystemCaches( );
+		}
 	}
 
-	private void removeCaches( int size )
+	void addCache( Cacheable cache )
 	{
-		for ( int i = 0; i < size; i++ )
+		if ( maxCacheSize == 0 )
 		{
-			CacheEntry removedEntry = lastEntry.prev;
-			assert removedEntry != firstEntry;
-			removedEntry.prev.next = removedEntry.next;
-			removedEntry.next.prev = removedEntry.prev;
-			Map<Object, CacheEntry> caches = cachedFiles
-					.get( removedEntry.file );
-			assert caches != null;
-			caches.remove( removedEntry.value.getCacheKey( ) );
+			// remove the cache directly
+			cache.getReferenceCount( ).set( -2 );
+			cache.manager.caches.remove( cache.getCacheKey( ) );
 		}
-		systemCacheSize -= size;
+		else
+		{
+			cache.getReferenceCount( ).set( -1 );
+			caches.add( cache );
+			adjustSystemCaches( );
+		}
 	}
 
-	public void addCaches( FileCacheManager file, Cacheable[] caches )
+	private void adjustSystemCaches( )
 	{
-		if ( !enableSystemCache )
+		int releaseCacheSize = caches.size( ) - maxCacheSize;
+		if ( releaseCacheSize > 0 )
 		{
-			return;
-		}
-		// add to the free list
-		int cacheSize = caches.length;
-		int maxFreeCacheSize = maxCacheSize - usedCacheSize;
-		if ( cacheSize > maxFreeCacheSize )
-		{
-			cacheSize = maxFreeCacheSize;
-		}
-		int removeCacheSize = cacheSize + systemCacheSize - maxFreeCacheSize;
-		if ( removeCacheSize > 0 )
-		{
-			removeCaches( removeCacheSize );
-		}
-
-		Map<Object, CacheEntry> fileCaches = cachedFiles.get( file );
-		if ( fileCaches == null )
-		{
-			fileCaches = new HashMap<Object, CacheEntry>( );
-			cachedFiles.put( file, fileCaches );
-		}
-
-		int offset = caches.length - cacheSize;
-		for ( int i = 0; i < cacheSize; i++ )
-		{
-			Cacheable cache = caches[offset + i];
-			CacheEntry entry = new CacheEntry( file, cache );
-			fileCaches.put( cache.getCacheKey( ), entry );
-			entry.next = firstEntry.next;
-			firstEntry.next.prev = entry;
-			entry.prev = firstEntry;
-			firstEntry.next = entry;
-		}
-		// insert it into the first entry
-		systemCacheSize += cacheSize;
-	}
-
-	public void addCache( FileCacheManager catalog, Cacheable block )
-	{
-		addCaches( catalog, new Cacheable[]{block} );
-	}
-
-	private static class CacheEntry
-	{
-
-		FileCacheManager file;
-		Cacheable value;
-		CacheEntry prev;
-		CacheEntry next;
-
-		CacheEntry( )
-		{
-		}
-
-		CacheEntry( FileCacheManager catalog, Cacheable value )
-		{
-			this.file = catalog;
-			this.value = value;
+			for ( int i = 0; i < releaseCacheSize; i++ )
+			{
+				Cacheable removed = caches.remove( );
+				if ( removed.getReferenceCount( ).compareAndSet( -1, -2 ) )
+				{
+					removed.manager.caches.remove( removed.getCacheKey( ) );
+					usedCacheSize--;
+				}
+			}
 		}
 	}
 }

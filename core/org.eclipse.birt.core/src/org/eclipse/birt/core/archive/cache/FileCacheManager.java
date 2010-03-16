@@ -11,18 +11,34 @@
 
 package org.eclipse.birt.core.archive.cache;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class FileCacheManager
 {
 
-	private SystemCacheManager systemCache;
-	private HashMap<Object, CacheEntry> lockedBlocks;
-	private LinkedHashMap<Object, CacheEntry> freeBlocks;
-
+	/**
+	 * the system cache manager.
+	 */
+	protected SystemCacheManager systemCache;
+	/**
+	 * the cache used by this file.
+	 */
+	protected ConcurrentHashMap<Object, Cacheable> caches;
+	/**
+	 * the size of locked cache
+	 */
+	private int lockedCacheSize;
+	/**
+	 * the free caches
+	 */
+	protected CacheList freeCaches;
+	/**
+	 * the maximum cache should be used in locked and free list
+	 */
 	private int maxCacheSize;
+
 	private CacheListener listener;
 
 	public FileCacheManager( )
@@ -39,8 +55,9 @@ public class FileCacheManager
 	{
 		this.systemCache = systemCache;
 		this.maxCacheSize = maxCacheSize;
-		this.lockedBlocks = new HashMap<Object, CacheEntry>( );
-		this.freeBlocks = new LinkedHashMap<Object, CacheEntry>( );
+		this.lockedCacheSize = 0;
+		this.caches = new ConcurrentHashMap<Object, Cacheable>( 2 );
+		this.freeCaches = new CacheList( );
 	}
 
 	public void setCacheListener( CacheListener listener )
@@ -51,79 +68,62 @@ public class FileCacheManager
 	synchronized public void setMaxCacheSize( int maxCacheSize )
 	{
 		this.maxCacheSize = maxCacheSize;
-		releaseFreeCaches( );
+		adjustFreeCaches( );
 	}
 
 	public int getUsedCacheSize( )
 	{
-		return lockedBlocks.size( ) + freeBlocks.size( );
+		return lockedCacheSize + freeCaches.size( );
+	}
+
+	public int getTotalUsedCacheSize( )
+	{
+		return caches.size( );
 	}
 
 	synchronized public void setSystemCacheManager( SystemCacheManager manager )
 	{
-		if ( systemCache != manager )
+		if ( systemCache != null )
 		{
-			if ( systemCache != null )
-			{
-				synchronized ( systemCache )
-				{
-					systemCache.increaseUsedCacheSize( -lockedBlocks.size( )
-							- freeBlocks.size( ) );
-					systemCache.clearCaches( this );
-				}
-
-			}
-			if ( manager != null )
-			{
-				synchronized ( manager )
-				{
-					manager.increaseUsedCacheSize( lockedBlocks.size( )
-							+ freeBlocks.size( ) );
-				}
-			}
-			systemCache = manager;
+			throw new IllegalArgumentException(
+					"can't set the system cache manger twice" );
 		}
+		systemCache = manager;
 	}
 
-	protected void releaseFreeCaches( )
+	protected void adjustFreeCaches( )
 	{
-		if ( freeBlocks.isEmpty( ) )
+		// release the free cache
+		if ( freeCaches.size( ) <= 0 )
 		{
 			return;
 		}
-		// release the free cache
-		int releasedCacheSize = freeBlocks.size( ) + lockedBlocks.size( )
+		int releasedCacheSize = ( lockedCacheSize + freeCaches.size( ) )
 				- maxCacheSize;
-		if ( releasedCacheSize > 0 )
+		releasedCacheSize = releasedCacheSize > freeCaches.size( ) ? freeCaches
+				.size( ) : releasedCacheSize;
+		if ( releasedCacheSize <= 0 )
 		{
-			releasedCacheSize = Math
-					.min( releasedCacheSize, freeBlocks.size( ) );
-
-			Cacheable[] caches = new Cacheable[releasedCacheSize];
-			Iterator<CacheEntry> iter = freeBlocks.values( ).iterator( );
-			for ( int i = 0; i < releasedCacheSize; i++ )
-			{
-				if ( iter.hasNext( ) )
-				{
-					caches[i] = ( iter.next( ) ).cache;
-					iter.remove( );
-				}
-			}
-
+			return;
+		}
+		Cacheable[] removedCaches = new Cacheable[releasedCacheSize];
+		for ( int i = 0; i < releasedCacheSize; i++ )
+		{
+			Cacheable freeCache = freeCaches.remove( );
 			if ( listener != null )
 			{
-				for ( Cacheable cache : caches )
-				{
-					listener.onCacheRelease( cache );
-				}
+				listener.onCacheRelease( freeCache );
 			}
-
-			if ( systemCache != null )
+			removedCaches[i] = freeCache;
+		}
+		if ( systemCache != null )
+		{
+			synchronized ( systemCache )
 			{
-				synchronized ( systemCache )
+				systemCache.increaseUsedCacheSize( -releasedCacheSize );
+				for ( Cacheable cache : removedCaches )
 				{
-					systemCache.increaseUsedCacheSize( -releasedCacheSize );
-					systemCache.addCaches( this, caches );
+					systemCache.addCache( cache );
 				}
 			}
 		}
@@ -135,105 +135,160 @@ public class FileCacheManager
 		{
 			synchronized ( systemCache )
 			{
-				systemCache.increaseUsedCacheSize( -lockedBlocks.size( )
-						- freeBlocks.size( ) );
-				systemCache.clearCaches( this );
+				systemCache.removeCaches( this );
+				systemCache.increaseUsedCacheSize( -lockedCacheSize );
+				systemCache.increaseUsedCacheSize( -freeCaches.size( ) );
 			}
 		}
+		caches.clear( );
+		lockedCacheSize = 0;
+		freeCaches.clear( );
+	}
+
+	synchronized public void touchAllCaches( )
+	{
 		if ( listener != null )
 		{
-			for ( CacheEntry cacheEntry : lockedBlocks.values( ) )
-			{
-				listener.onCacheRelease( cacheEntry.cache );
-			}
-			for ( CacheEntry cacheEntry : freeBlocks.values( ) )
-			{
-				listener.onCacheRelease( cacheEntry.cache );
-
-			}
+			touchAllCaches( this.listener );
 		}
-		lockedBlocks.clear( );
-		freeBlocks.clear( );
 	}
 
 	synchronized public void touchAllCaches( CacheListener listener )
 	{
+//		System.out.println("--------------start flush------------");
 		assert listener != null;
-		for ( CacheEntry cacheEntry : lockedBlocks.values( ) )
-		{
-			listener.onCacheRelease( cacheEntry.cache );
-		}
-		for ( CacheEntry cacheEntry : freeBlocks.values( ) )
-		{
-			listener.onCacheRelease( cacheEntry.cache );
-		}
-	}
+		Cacheable[] entries = caches.values( ).toArray(
+				new Cacheable[caches.size( )] );
+		Arrays.sort( entries, new Comparator<Cacheable>( ) {
 
-	public void releaseCache( Cacheable cache )
-	{
-		Object cacheKey = cache.getCacheKey( );
-		CacheEntry cacheEntry = lockedBlocks.get( cacheKey );
-		if ( cacheEntry != null )
-		{
-			cacheEntry.lock--;
-			if ( cacheEntry.lock <= 0 )
+			public int compare( Cacheable cache0, Cacheable cache1 )
 			{
-				lockedBlocks.remove( cacheKey );
-				// we need free the blocks
-				if ( maxCacheSize > 0 )
+				if ( cache0 == null )
 				{
-					freeBlocks.put( cacheKey, cacheEntry );
-					releaseFreeCaches( );
+					if ( cache1 == null )
+					{
+						return 0;
+					}
+					return -1;
 				}
-				else if ( listener != null )
+				if ( cache1 == null )
 				{
-					listener.onCacheRelease( cache );
+					return -1;
 				}
+				Comparable k0 = cache0.getCacheKey( );
+				Comparable k1 = cache1.getCacheKey( );
+				return k0.compareTo( k1 );
+			}
+		} );
+		for ( Cacheable cache : entries )
+		{
+			if ( cache != null )
+			{
+				listener.onCacheRelease( cache );
 			}
 		}
+//		System.out.println("--------------end flush------------");
 	}
 
-	public Cacheable getCache( Object cacheKey )
+	/**
+	 * return the cache object to the system. The object should be added into
+	 * the system or it is got from the system.
+	 * 
+	 * @param cache
+	 *            the cache object.
+	 */
+	synchronized public void releaseCache( Cacheable cache )
 	{
-		CacheEntry cacheEntry = lockedBlocks.get( cacheKey );
-		if ( cacheEntry == null )
+		assert ( cache.getReferenceCount( ).get( ) > 0 );
+		int referenceCount = cache.getReferenceCount( ).decrementAndGet( );
+		if ( referenceCount > 0 )
 		{
-			cacheEntry = freeBlocks.remove( cacheKey );
-			if ( cacheEntry != null )
+			// there still some one locked the cache object, return directly
+			return;
+		}
+		// the lock count must be zero
+		assert ( referenceCount == 0 );
+		lockedCacheSize--;
+		if ( maxCacheSize > 0 )
+		{
+			// return it to the free list
+			freeCaches.add( cache );
+			adjustFreeCaches( );
+		}
+		else
+		{
+			if ( listener != null )
 			{
-				cacheEntry.lock = 0;
-				lockedBlocks.put( cacheKey, cacheEntry );
+				listener.onCacheRelease( cache );
 			}
-			else if ( systemCache == null )
+			// the dropped cache is released to the system cache directly
+			if ( systemCache == null )
 			{
-				return null;
+				caches.remove( cache.getCacheKey( ) );
 			}
 			else
 			{
 				synchronized ( systemCache )
 				{
-					Cacheable cache = systemCache.getCache( this, cacheKey );
-					if ( cache == null )
-					{
-						return null;
-					}
-					cacheEntry = new CacheEntry( cache );
-					lockedBlocks.put( cacheKey, cacheEntry );
-					systemCache.increaseUsedCacheSize( 1 );
-					releaseFreeCaches( );
+					// add it to the system free list
+					systemCache.addCache( cache );
 				}
 			}
 		}
-		cacheEntry.lock++;
-		return cacheEntry.cache;
 	}
 
-	public void addCache( Cacheable cache )
+	/**
+	 * get the cache from the cache system
+	 * 
+	 * @param cacheKey
+	 * 
+	 * @return the cached object
+	 */
+	synchronized public Cacheable getCache( Object cacheKey )
 	{
+		Cacheable cache = caches.get( cacheKey );
+		if ( cache == null )
+		{
+			return null;
+		}
+		int referenceCount = cache.getReferenceCount( ).incrementAndGet( );
+		if ( referenceCount > 1 )
+		{
+			return cache;
+		}
+		if ( referenceCount == 1 )
+		{
+			freeCaches.remove( cache );
+			lockedCacheSize++;
+			return cache;
+		}
+		if ( referenceCount == 0 )
+		{
+			// the cache exist in the system cache
+			assert ( systemCache != null );
+			synchronized ( systemCache )
+			{
+				systemCache.removeCache( cache );
+			}
+			lockedCacheSize++;
+			cache.getReferenceCount( ).set( 1 );
+			return cache;
+		}
+		return null;
+	}
+
+	/**
+	 * add a cache object into the cache system.
+	 * 
+	 * @param cache
+	 *            the cache object to be added.
+	 */
+	synchronized public void addCache( Cacheable cache )
+	{
+		cache.getReferenceCount( ).set( 1 );
 		Object cacheKey = cache.getCacheKey( );
-		CacheEntry cacheEntry = new CacheEntry( cache );
-		cacheEntry.lock++;
-		lockedBlocks.put( cacheKey, cacheEntry );
+		caches.put( cacheKey, cache );
+		lockedCacheSize++;
 		if ( systemCache != null )
 		{
 			synchronized ( systemCache )
@@ -241,18 +296,9 @@ public class FileCacheManager
 				systemCache.increaseUsedCacheSize( 1 );
 			}
 		}
-		releaseFreeCaches( );
-	}
-
-	private static class CacheEntry
-	{
-
-		int lock;
-		Cacheable cache;
-
-		CacheEntry( Cacheable cache )
+		if ( maxCacheSize > 0 )
 		{
-			this.cache = cache;
+			adjustFreeCaches( );
 		}
 	}
 }

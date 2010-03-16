@@ -53,30 +53,40 @@ public class Ext2File
 	 */
 	private FatBlockList blocks;
 
+	/**
+	 * if the data should be cache enabled
+	 */
+	private boolean enableCache;
+	/**
+	 * × the cached data block id
+	 */
 	private int cachedBlockId;
 	/**
 	 * data block
 	 */
 	private DataBlock cachedBlock;
 
-	Ext2File( Ext2FileSystem fs, int inode ) throws IOException
+	Ext2File( Ext2FileSystem fs, int inode, boolean enableCache )
+			throws IOException
 	{
-		this( fs, null, fs.getNode( inode ) );
-	}
-
-	Ext2File( Ext2FileSystem fs, Ext2Node node ) throws IOException
-	{
-		this( fs, null, node );
+		this( fs, null, fs.getNode( inode ), enableCache );
 	}
 
 	Ext2File( Ext2FileSystem fs, Ext2Entry entry, Ext2Node node )
 			throws IOException
+	{
+		this( fs, entry, node, true );
+	}
+
+	Ext2File( Ext2FileSystem fs, Ext2Entry entry, Ext2Node node,
+			boolean enableCache ) throws IOException
 	{
 		this.fs = fs;
 		this.entry = entry;
 		this.node = node;
 		this.blocks = new FatBlockList( fs, node );
 		this.fs.registerOpenedFile( this );
+		this.enableCache = enableCache;
 		this.cachedBlockId = -1;
 		this.cachedBlock = DataBlock.READ_ONLY_BLOCK;
 	}
@@ -143,7 +153,6 @@ public class Ext2File
 
 	public int read( byte[] buffer, int off, int size ) throws IOException
 	{
-
 		assert buffer != null;
 		assert off >= 0;
 		assert off + size <= buffer.length;
@@ -153,6 +162,69 @@ public class Ext2File
 			return 0;
 		}
 
+		if ( enableCache )
+		{
+			return read_with_cache( buffer, off, size );
+		}
+		return read_without_cache( buffer, off, size );
+	}
+
+	private int read_without_cache( byte[] buffer, int off, int size )
+			throws IOException
+	{
+		long length = node.getLength( );
+		if ( position + size > length )
+		{
+			size = (int) ( length - position );
+			if ( size <= 0 )
+			{
+				return -1;
+			}
+		}
+
+		int blockId = (int) ( position >> BLOCK_SIZE_BITS );
+		int blockOff = (int) ( position & BLOCK_OFFSET_MASK );
+
+		int blockSize = BLOCK_SIZE - blockOff;
+		int fileBlockId = getDataBlock( blockId );
+		if ( size <= blockSize )
+		{
+			fs.readBlock( fileBlockId, blockOff, buffer, off, size );
+		}
+		else
+		{
+			fs.readBlock( fileBlockId, blockOff, buffer, off, blockSize );
+			off += blockSize;
+			int remainSize = size - blockSize;
+			int wholeBlocks = remainSize >> BLOCK_SIZE_BITS;
+			for ( int i = 0; i < wholeBlocks; i++ )
+			{
+				blockId++;
+				fileBlockId = getDataBlock( blockId );
+				if ( fileBlockId != -1 )
+				{
+					fs.readBlock( fileBlockId, 0, buffer, off, BLOCK_SIZE );
+				}
+				off += BLOCK_SIZE;
+			}
+			remainSize = remainSize & BLOCK_OFFSET_MASK;
+			if ( remainSize > 0 )
+			{
+				blockId++;
+				fileBlockId = getDataBlock( blockId );
+				if ( fileBlockId != -1 )
+				{
+					fs.readBlock( fileBlockId, 0, buffer, off, remainSize );
+				}
+			}
+		}
+		position += size;
+		return size;
+	}
+
+	private int read_with_cache( byte[] buffer, int off, int size )
+			throws IOException
+	{
 		long length = node.getLength( );
 		if ( position + size > length )
 		{
@@ -212,6 +284,61 @@ public class Ext2File
 		{
 			return;
 		}
+
+		if ( enableCache )
+		{
+			write_with_cache( buffer, off, size );
+		}
+		else
+		{
+			write_without_cache( buffer, off, size );
+		}
+	}
+
+	private void write_without_cache( byte[] buffer, int off, int size )
+			throws IOException
+	{
+
+		int blockId = (int) ( position >> BLOCK_SIZE_BITS );
+		int blockOff = (int) ( position & BLOCK_OFFSET_MASK );
+
+		int blockSize = BLOCK_SIZE - blockOff;
+		int fileBlockId = getDataBlock( blockId );
+		if ( size <= blockSize )
+		{
+			fs.writeBlock( fileBlockId, blockOff, buffer, off, size );
+		}
+		else
+		{
+			fs.writeBlock( fileBlockId, blockOff, buffer, off, blockSize );
+			off += blockSize;
+			int remainSize = size - blockSize;
+			int wholeBlocks = remainSize >> BLOCK_SIZE_BITS;
+			for ( int i = 0; i < wholeBlocks; i++ )
+			{
+				blockId++;
+				fileBlockId = getDataBlock( blockId );
+				fs.writeBlock( fileBlockId, 0, buffer, off, BLOCK_SIZE );
+				off += BLOCK_SIZE;
+			}
+			remainSize = remainSize & BLOCK_OFFSET_MASK;
+			if ( remainSize > 0 )
+			{
+				blockId++;
+				fileBlockId = getDataBlock( blockId );
+				fs.writeBlock( fileBlockId, 0, buffer, off, remainSize );
+			}
+		}
+		position += size;
+		if ( position > node.getLength( ) )
+		{
+			node.setLength( position );
+		}
+	}
+
+	private void write_with_cache( byte[] buffer, int off, int size )
+			throws IOException
+	{
 
 		int blockId = (int) ( position >> BLOCK_SIZE_BITS );
 		int blockOff = (int) ( position & BLOCK_OFFSET_MASK );
@@ -274,8 +401,25 @@ public class Ext2File
 			return cachedBlock;
 		}
 		cachedBlock = fs.createDataBlock( );
-		node.blockCount++;
+		node.setBlockCount( node.getBlockCount( ) + 1 );
 		blocks.setFileBlock( blockId, cachedBlock.getBlockId( ) );
 		return cachedBlock;
+	}
+
+	private int getDataBlock( int blockId ) throws IOException
+	{
+		int fileBlockId = blocks.getFileBlock( blockId );
+		if ( fileBlockId != -1 )
+		{
+			return fileBlockId;
+		}
+		if ( fs.isReadOnly( ) )
+		{
+			return -1;
+		}
+		fileBlockId = fs.allocFreeBlock( );
+		node.setBlockCount( node.getBlockCount( ) + 1 );
+		blocks.setFileBlock( blockId, fileBlockId );
+		return fileBlockId;
 	}
 }

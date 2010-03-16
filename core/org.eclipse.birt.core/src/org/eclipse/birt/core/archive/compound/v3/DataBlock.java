@@ -17,7 +17,8 @@ public class DataBlock extends Ext2Block
 {
 
 	private byte[] buffer;
-	private boolean dirty;
+	private int dirtyStart;
+	private int dirtyEnd;
 
 	DataBlock( Ext2FileSystem fs )
 	{
@@ -28,7 +29,8 @@ public class DataBlock extends Ext2Block
 	{
 		super( fs, blockId );
 		this.buffer = new byte[BLOCK_SIZE];
-		this.dirty = false;
+		this.dirtyStart = -1;
+		this.dirtyEnd = -1;
 	}
 
 	public synchronized int write( int tgt, byte b[], int off, int len )
@@ -41,7 +43,22 @@ public class DataBlock extends Ext2Block
 		if ( len > 0 )
 		{
 			System.arraycopy( b, off, buffer, tgt, len );
-			dirty = true;
+			if ( dirtyStart == -1 )
+			{
+				dirtyStart = tgt;
+				dirtyEnd = tgt + len;
+			}
+			else
+			{
+				if ( dirtyStart > tgt )
+				{
+					dirtyStart = tgt;
+				}
+				if ( dirtyEnd < tgt + len )
+				{
+					dirtyEnd = tgt + len;
+				}
+			}
 		}
 		return len;
 	}
@@ -60,7 +77,7 @@ public class DataBlock extends Ext2Block
 	{
 		assert blockId != -1;
 		fs.readBlock( blockId, buffer, 0, BLOCK_SIZE );
-		dirty = false;
+		dirtyStart = dirtyEnd = -1;
 	}
 
 	public void flush( ) throws IOException
@@ -70,10 +87,10 @@ public class DataBlock extends Ext2Block
 			throw new IllegalStateException(
 					"Must assign the block id before flush" );
 		}
-		if ( dirty )
+		if ( dirtyStart != dirtyEnd )
 		{
-			fs.writeBlock( blockId, buffer, 0, BLOCK_SIZE );
-			dirty = false;
+			fs.writeBlock( blockId, buffer, dirtyStart, dirtyEnd - dirtyStart );
+			dirtyStart = dirtyEnd = -1;
 		}
 	}
 

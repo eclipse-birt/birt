@@ -27,7 +27,11 @@ import org.eclipse.birt.core.archive.compound.v3.Ext2FileSystem;
 public class ArchiveFile implements IArchiveFile
 {
 
-	public static final SystemCacheManager systemCacheManager = new SystemCacheManager( );
+	public static final boolean enableSystemCache = true;
+	public static final SystemCacheManager systemCacheManager = new SystemCacheManager(
+			1024 );
+	public static final boolean enableFileCache = true;
+	public static final int FILE_CACHE_SIZE = 1024;
 
 	static final long ARCHIVE_V2_TAG = ArchiveConstants.DOCUMENT_TAG;
 	static final long ARCHIVE_V3_TAG = Ext2FileSystem.EXT2_MAGIC_TAG;
