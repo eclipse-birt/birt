@@ -682,7 +682,7 @@ Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=TextBox
 Choices.selectorType.calendar=Calendar
-Choices.selectorType.currentSelection=Current Selection
+Choices.selectorType.currentSelections=Current Selections
 
 #85 thumbType
 Choices.thumbType.single=Single
@@ -1887,6 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Skriptbibliothek
 Structure.IncludedCssStyleSheet=Enthaltene CSS-Stilvorlage
 Structure.DimensionJoinCondition=Dimensionsknotenpunkt-Bedingung
+Structure.FormatValue =Format Value
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2268,6 +2269,11 @@ Structure.IncludedDataMart.namespace=Namespace
 Structure.TimeInterval=Zeitintervall
 Structure.TimeInterval.measure=Messgröße
 Structure.TimeInterval.unit=Einheit
+
+#39. FormatValue
+Structure.FormatValue.category=Kategorie
+Structure.FormatValue.pattern=Zusammengesetzter Ausdruck
+Structure.FormatValue.locale=Gebietsschema
 
 ###########################################################
 # Element names
@@ -3231,6 +3237,7 @@ Element.Level.defaultValue=Standardwert
 Element.Level.ACLExpression=Ausdruck 'ACL'
 Element.Level.MemberACLExpression=Mitgliedsausdruck 'ACL'
 Element.Level.action=Aktion
+Element.Level.format=Format
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Funktion
@@ -3239,6 +3246,7 @@ Element.Measure.measureExpression=Ausdruck für Maßeinheit
 Element.Measure.dataType=Datentyp
 Element.Measure.ACLExpression=Ausdruck 'ACL'
 Element.Measure.action=Aktion
+Element.Measure.format=Format
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Einheiten

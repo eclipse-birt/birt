@@ -682,7 +682,7 @@ Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=TextBox
 Choices.selectorType.calendar=Calendar
-Choices.selectorType.currentSelection=Current Selection
+Choices.selectorType.currentSelections=Current Selections
 
 #85 thumbType
 Choices.thumbType.single=Single
@@ -1887,6 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=스크립트 Lib
 Structure.IncludedCssStyleSheet=CSS 스타일시트 포함
 Structure.DimensionJoinCondition=차원 조인 조건
+Structure.FormatValue =Format Value
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2268,6 +2269,11 @@ Structure.IncludedDataMart.namespace=네임스페이스
 Structure.TimeInterval=시간 간격
 Structure.TimeInterval.measure=측정
 Structure.TimeInterval.unit=단위
+
+#39. FormatValue
+Structure.FormatValue.category=범주
+Structure.FormatValue.pattern=패턴
+Structure.FormatValue.locale=로케일
 
 ###########################################################
 # Element names
@@ -3231,6 +3237,7 @@ Element.Level.defaultValue=기본값
 Element.Level.ACLExpression=ACL 식
 Element.Level.MemberACLExpression=구성원 ACL 식
 Element.Level.action=작업
+Element.Level.format=서식
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
@@ -3239,6 +3246,7 @@ Element.Measure.measureExpression=측정값 식
 Element.Measure.dataType=데이터 형식
 Element.Measure.ACLExpression=ACL 식
 Element.Measure.action=작업
+Element.Measure.format=서식
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값
