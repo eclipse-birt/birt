@@ -74,7 +74,6 @@ public class ChartCubeFilterHandleProvider extends
 			ChartCubeFilterConditionBuilder dialog = cff.createCubeFilterConditionBuilder( UIUtil.getDefaultShell( ),
 					FilterConditionBuilder.DLG_TITLE_NEW,
 					FilterConditionBuilder.DLG_MESSAGE_NEW );
-			dialog.setTipsForCube( Messages.getString( "ChartCubeFilterConditionBuilder.Information" ) ); //$NON-NLS-1$
 			dialog.setDesignHandle( (DesignElementHandle) item, context );
 			dialog.setInput( null );
 			dialog.setBindingParams( getBindingParams( ) );
