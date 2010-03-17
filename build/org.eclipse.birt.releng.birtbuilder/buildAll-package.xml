@@ -34,38 +34,17 @@
     <property name="hostname.sign" value="" />
     <property name="home.dir" value="" />
     <property name="sign.dir" value="" />
-
+	
+	<!--
+	This scripts is used for BIRT repacking.
+	birt-all-${package.version}.zip need be to existing under ${buildDirectory} before start this target
+	-->
 	<target name="main" depends="init">
-		<antcall target="prepareSrc" />
-		<antcall target="buildBirtThirdPartyFeature"/>
-		<antcall target="buildBirtFeature"/>
-		<antcall target="buildBirtOSGI"/>
-		<antcall target="fetchBirtWtpFeature"/>
-		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
-		<antcall target="buildBirtTestFeature"/>
 		<antcall target="unpackUpdateJarsForPackaging"/>
 		<antcall target="buildBirtWebViewer"/>
 		<antcall target="BuildChartViewer"/>
-		<antcall target="CreateDistribute"/>
-		
-		<antcall target="buildBirtNLFeature"/>
-		<antcall target="iPortalSetup"/>
-		<antcall target="buildBirtWtpFeature"/>
-
-		<antcall target="verifyCompile"/>
-		<antcall target="CreateUpdateSite"/>
-		
-		<parallel failonany="true">
-			<sequential>
-		        <antcall target="runBirtTest"/>
-			</sequential>
-			<sequential>		
-				<antcall target="generateJavaCrossReference"/>
-				<antcall target="generateDocumentCheck"/>
-				<antcall target="generateJavaDoc"/>   
-			</sequential>
-		</parallel>	
+		<antcall target="CreateDistribute"/>	
 	</target>
 
 	<target name="init">
@@ -188,6 +167,7 @@
 		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime
 		 -->
 		
+
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
 			<property name="runtime.tmp" value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime" />
 		</ant>
@@ -775,10 +755,7 @@
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
 	
-	<target name="buildUpdateSite" if="updateSite">
-		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildUpdateJars" />
-	</target>
-	
+
 	<target name="unpackUpdateJarsForPackaging">
 
 		<property name="tmpsite" value="${buildDirectory}/tmpsite" />
@@ -786,51 +763,23 @@
 		<mkdir dir="${tmpsite}/new/eclipse/features" />
 		<mkdir dir="${tmpsite}/new/eclipse/plugins" />
 
-		<!-- BIRT framework $ OSGI package -->
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-q birt-report-framework-sdk-${package.version}.zip -d ${tmpsite}" />
-		</exec>
-	    <exec executable="unzip" dir="${buildDirectory}/${buildId}">
-	        <arg line="-o -q birt-osgi-${package.version}.zip -d ${tmpsite}" />
-	    </exec>
-		<!-- BIRT third party -->
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite}" />
-		</exec>
-
-		<!-- backup un-signed and packed version to  birt-all-${package.version}.bak.zip -->
-		<zip destfile="${buildDirectory}/birt-all-${package.version}.bak.zip">
-             <fileset dir="${tmpsite}" includes="eclipse/**"/>
-             <fileset dir="${eclipse.build.configs}/../../extras" includes="pack.properties"/>
-        </zip>
-
 		<!-- Sign packed features and plugins. 
 		Download signed features and plugins back to replace ${tmpsite}/eclipse.
 		Back signed features and plugins as update site jars 
 		-->
 		<antcall target="signBIRTJars"/>
-
+		
 		<!-- unpack features and plugins -->		
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
 
-		<!-- zip unpacked features and plugins to birt-all-${package.version}.zip -->
 		<exec executable="zip" dir="${tmpsite}/new">
 			<arg line="-q ${buildDirectory}/birt-all-${package.version}.zip -r eclipse" />
 		</exec>
-		
-		<copy todir="${postingDirectory}/${buildId}" failonerror="false">
-			<fileset dir="${buildDirectory}">
-				<include name="birt-all-${package.version}.bak.zip"/>
-			</fileset>
-		</copy>
-		
 		<copy todir="${buildDirectory}/${buildId}" >
 			<fileset dir="${tmpsite}/new">
 				<include name="eclipse/**"/>
 			</fileset>
-		</copy>
-		
-		
+		</copy>	
 	</target>
 
 	<target name="signWTPJars" if="sign">
@@ -907,7 +856,7 @@
 			<param name="message" value="Packaging starts"/>
 		</antcall>
     	
-    	<condition property="CompareSignPack2" value="true">
+    	<condition property="CompareSignPack" value="true">
     	    <filesmatch file1="${source.dir}/${source.name}"
     	                file2="${target.dir}/${target.name}"/>
     	</condition>
