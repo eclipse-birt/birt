@@ -40,6 +40,7 @@
 	birt-all-${package.version}.zip need be to existing under ${buildDirectory} before start this target
 	-->
 	<target name="main" depends="init">
+		<antcall target="buildDesignerIDE"/>
 		<antcall target="buildBirtRCPFeature"/>
 		<antcall target="unpackUpdateJarsForPackaging"/>
 		<antcall target="buildBirtWebViewer"/>
@@ -102,7 +103,19 @@
 		<!--unzip args-->
 		<property name="unzipArgs" value="-qq" />
 	</target>
-	
+	<target name="buildDesignerIDE">
+		<antcall target="logger">
+			<param name="message" value="BIRT designer.ui.ide plugin build started"/>
+		</antcall>
+		
+		<ant antfile="build.xml" dir="${basedir}">
+			<property name="component" value="${eclipse.build.configs}/birt.designer.ui.ide" />
+        </ant>
+		
+		<antcall target="logger">
+			<param name="message" value="BIRT designer.ui.ide plugin build finished"/>
+		</antcall>
+	</target>
 	<target name="buildBirtFeature">
 		<antcall target="logger">
 			<param name="message" value="BIRT sdk feature build started"/>
