@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage;
@@ -96,6 +97,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.text.DecimalFormatSymbols;
 
 /**
  * Group Properties Dialog
@@ -206,6 +209,11 @@ public class GroupDialog extends BaseDialog implements Listener
 	private Combo pagebreakInsideCombo;
 
 	private Group sortingGroup;
+
+	private char decimalSeperator = DecimalFormatSymbols.getInstance( SessionHandleAdapter.getInstance( )
+			.getSessionHandle( )
+			.getULocale( ) )
+			.getDecimalSeparator( );
 
 	/**
 	 * Constructor.
@@ -660,15 +668,24 @@ public class GroupDialog extends BaseDialog implements Listener
 
 				try
 				{
+					if ( decimalSeperator != '.' )
+					{
+						if ( newString.indexOf( '.' ) != -1 )
+						{
+							event.doit = false;
+							return;
+						}
+						newString = newString.replace( decimalSeperator, '.' );
+					}
 					double value = Double.parseDouble( newString );
-
 					if ( value >= 0 )
 					{
 						event.doit = true;
 					}
 				}
-				catch ( NumberFormatException e )
+				catch ( Exception e )
 				{
+					event.doit = false;
 					return;
 				}
 			}
