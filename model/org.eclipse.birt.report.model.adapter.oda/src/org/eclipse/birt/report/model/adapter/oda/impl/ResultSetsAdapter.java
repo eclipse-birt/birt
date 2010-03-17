@@ -45,6 +45,7 @@ import org.eclipse.datatools.connectivity.oda.design.OutputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
+import org.eclipse.datatools.connectivity.oda.design.TextWrapType;
 import org.eclipse.datatools.connectivity.oda.design.ValueFormatHints;
 import org.eclipse.emf.common.util.EList;
 
@@ -389,10 +390,19 @@ class ResultSetsAdapter
 				.getHorizontalAlignment( );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
-			newHint
-					.setProperty(
-							ColumnHint.HORIZONTAL_ALIGN_MEMBER,
-							convertToROMHorizontalAlignment( (HorizontalAlignment) newValue ) );
+			newHint.setProperty(
+					ColumnHint.HORIZONTAL_ALIGN_MEMBER,
+					convertToROMHorizontalAlignment( (HorizontalAlignment) newValue ) );
+		}
+
+		newValue = formatHints.getTextWrapType( );
+		oldValue = cachedFormatHints == null ? null : cachedFormatHints
+				.getTextWrapType( );
+
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint.setProperty( ColumnHint.WORD_WRAP_MEMBER,
+					convertToROMWordWrap( (TextWrapType) newValue ) );
 		}
 
 		// cannot handle text format since two objects in ODA and ROM are
@@ -441,6 +451,30 @@ class ResultSetsAdapter
 			return HorizontalAlignment.get( HorizontalAlignment.RIGHT );
 
 		return null;
+	}
+
+	private static Boolean convertToROMWordWrap( TextWrapType newValue )
+	{
+		if ( newValue == null )
+			return null;
+
+		switch ( newValue.getValue( ) )
+		{
+			case TextWrapType.WORD :
+				return Boolean.TRUE;
+			case TextWrapType.NONE :
+				return Boolean.FALSE;
+		}
+
+		return null;
+	}
+
+	private static TextWrapType convertToROMWordWrap( boolean newValue )
+	{
+		if ( newValue )
+			return TextWrapType.WORD_LITERAL;
+
+		return TextWrapType.NONE_LITERAL;
 	}
 
 	/**
@@ -1172,11 +1206,12 @@ class ResultSetsAdapter
 
 		String format = hint.getFormat( );
 		int displayLength = hint.getDisplayLength( );
-
+		boolean wordWrap = hint.wordWrap( );
 		String horizontalAlign = hint.getHorizontalAlign( );
 
 		if ( format != null || horizontalAlign != null
-				|| hint.getProperty( ColumnHint.DISPLAY_LENGTH_MEMBER ) != null )
+				|| hint.getProperty( ColumnHint.DISPLAY_LENGTH_MEMBER ) != null
+				|| hint.getProperty( ColumnHint.WORD_WRAP_MEMBER ) != null )
 		{
 			if ( outputAttrs == null )
 				outputAttrs = designFactory.createOutputElementAttributes( );
@@ -1188,6 +1223,8 @@ class ResultSetsAdapter
 			formatHint.setDisplaySize( displayLength );
 			formatHint
 					.setHorizontalAlignment( convertToOdaHorizontalAlignment( horizontalAlign ) );
+			formatHint.setTextWrapType( convertToROMWordWrap( wordWrap ) );
+
 			// cannot handle text format since two objects in ODA and ROM are
 			// different.
 
