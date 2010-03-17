@@ -767,7 +767,10 @@
 		Download signed features and plugins back to replace ${tmpsite}/eclipse.
 		Back signed features and plugins as update site jars 
 		-->
+		<!--
 		<antcall target="signBIRTJars"/>
+		-->
+		<unzip src="${buildDirectory}/birt-all-${package.version}.bak.zip" dest="${tmpsite}"/>
 		
 		<!-- unpack features and plugins -->		
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
