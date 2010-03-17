@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil;
@@ -333,16 +334,13 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				filter.setProperty( IFilterConditionElementModel.OPERATOR_PROP,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 				
-				String expr = expButton.getExpression( );
-				if(!ExpressionType.JAVASCRIPT.equals( expButton.getExpressionType( ) ))
-				{
-					String bindingName = exprCodec.getBindingName( expr );
-					exprCodec.setBindingName( bindingName,
-							true,
-							ExpressionType.JAVASCRIPT );
-					expr = exprCodec.getExpression( );
-				}
-				filter.setExpr(expr );
+
+				// filter.setExpr( expButton.getExpression( ) );
+				Expression expression = new Expression( expButton.getDisplayExpression( ),
+						expButton.getExpressionType( ) );
+				filter.setExpressionProperty( FilterCondition.EXPR_MEMBER,
+						expression );
+
 
 				if ( valueVisible == 3 )
 				{
@@ -405,7 +403,11 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 						inputHandle.setValue2( NULL_STRING );
 					}
 				}
-				inputHandle.setExpr( expression.getText( ) );
+				// inputHandle.setExpr( expButton.getExpression( ) );
+				Expression expression = new Expression( expButton.getDisplayExpression( ),
+						expButton.getExpressionType( ) );
+				inputHandle.setExpressionProperty( FilterCondition.EXPR_MEMBER,
+						expression );
 			}
 		}
 		catch ( Exception e )
@@ -1674,8 +1676,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	 */
 	protected void syncViewProperties( )
 	{
+		ChartReportItemUtil.loadExpression( exprCodec, inputHandle );
 
-		expression.setText( DEUtil.resolveNull( inputHandle.getExpr( ) ) );
+		expButton.setExpression( exprCodec.encode( ) );
 		operator.select( getIndexForOperatorValue( inputHandle.getOperator( ) ) );
 		valueVisible = determineValueVisible( inputHandle.getOperator( ) );
 
