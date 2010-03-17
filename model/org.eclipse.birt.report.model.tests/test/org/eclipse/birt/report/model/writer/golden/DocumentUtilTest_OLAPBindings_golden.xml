@@ -122,8 +122,8 @@
     </cubes>
     <body>
         <extended-item extensionName="TestingTable" name="NewExtension Table1" id="19">
-            <property name="level">Group2/CUSTOMERNUMBER</property>
             <property name="cube">Customer Cube1</property>
+            <property name="level">Group2/CUSTOMERNUMBER</property>            
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">COUNTRY</property>

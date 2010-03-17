@@ -52,7 +52,7 @@ public class CubeNameContext extends GeneralModuleNameContext
 	 */
 
 	public ElementRefValue resolve( DesignElement focus, DesignElement element,
-			PropertyDefn propDefn, ElementDefn elementDefn  )
+			PropertyDefn propDefn, ElementDefn elementDefn )
 	{
 		if ( element == null )
 			return null;
@@ -70,7 +70,8 @@ public class CubeNameContext extends GeneralModuleNameContext
 			{
 				Cube cube = findTarget( focus );
 				if ( cube == null || !cube.canDynamicExtends( ) )
-					return super.resolve( focus, element, propDefn, elementDefn );
+					return super
+							.resolve( focus, element, propDefn, elementDefn );
 
 				Cube referredCube = (Cube) cube.getDynamicExtends( cube
 						.getRoot( ) );
@@ -101,7 +102,7 @@ public class CubeNameContext extends GeneralModuleNameContext
 	 */
 
 	public ElementRefValue resolve( DesignElement focus, String elementName,
-			PropertyDefn propDefn, ElementDefn elementDefn  )
+			PropertyDefn propDefn, ElementDefn elementDefn )
 	{
 		if ( StringUtil.isBlank( elementName ) )
 			return null;
@@ -111,32 +112,30 @@ public class CubeNameContext extends GeneralModuleNameContext
 		{
 			if ( isCubeReferred( targetDefn ) )
 			{
-				return super.resolve( focus, elementName, propDefn, elementDefn );
+				return super
+						.resolve( focus, elementName, propDefn, elementDefn );
 			}
-			else
-			{
-				Cube cube = findTarget( focus );
-				if ( cube == null || !cube.canDynamicExtends( ) )
-					return super.resolve( focus, elementName, propDefn, elementDefn );
+			Cube cube = findTarget( focus );
+			if ( cube == null || !cube.canDynamicExtends( ) )
+				return super
+						.resolve( focus, elementName, propDefn, elementDefn );
 
-				Cube referredCube = (Cube) cube.getDynamicExtends( cube
-						.getRoot( ) );
-				if ( referredCube == null )
-					return new ElementRefValue( null, elementName );
+			Cube referredCube = (Cube) cube.getDynamicExtends( cube.getRoot( ) );
+			if ( referredCube == null )
+				return new ElementRefValue( null, elementName );
 
-				DesignElement retElement = cube.findLocalElement( elementName,
-						targetDefn );
-				if ( retElement != null )
-					return new ElementRefValue( null, retElement );
+			DesignElement retElement = cube.findLocalElement( elementName,
+					targetDefn );
+			if ( retElement != null )
+				return new ElementRefValue( null, retElement );
 
-				else
-					return new ElementRefValue( null, elementName );
-			}
+			// not resolved
+			return new ElementRefValue( null, elementName );
+
 		}
-		else
-		{
-			return super.resolve( focus, elementName, propDefn, elementDefn );
-		}
+
+		return super.resolve( focus, elementName, propDefn, elementDefn );
+
 	}
 
 	private boolean isCubeReferred( IElementDefn targetDefn )
@@ -175,8 +174,9 @@ public class CubeNameContext extends GeneralModuleNameContext
 
 		return null;
 	}
-	
-	private ElementDefn getTargetDefn( PropertyDefn propDefn, ElementDefn elementDefn )
+
+	private ElementDefn getTargetDefn( PropertyDefn propDefn,
+			ElementDefn elementDefn )
 	{
 		if ( elementDefn != null )
 			return elementDefn;

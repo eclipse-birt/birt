@@ -65,8 +65,8 @@
     </cubes>
     <body>
         <extended-item extensionName="TestingTable" name="NewExtension Table" id="19">
-            <property name="level">Group/CUSTOMERNUMBER</property>
             <property name="cube">Customer Cube</property>
+            <property name="level">Group/CUSTOMERNUMBER</property>            
         </extended-item>
     </body>
 </report>

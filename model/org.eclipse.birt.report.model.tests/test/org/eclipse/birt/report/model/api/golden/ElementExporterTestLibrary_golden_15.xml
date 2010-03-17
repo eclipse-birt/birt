@@ -25,6 +25,7 @@
     </themes>
     <components>
         <extended-item extensionName="TestingBox" name="NewTestingBox" id="8">
+            <property name="cube">NewTabularCube</property>
             <property name="header">
                 <extended-item extensionName="TestingMatrix" name="NewMeasure View1" id="9">
                     <property name="test2">51</property>
@@ -63,8 +64,7 @@
             </property>
             <property name="footer">
                 <grid name="footerGrid" id="19"/>
-            </property>
-            <property name="cube">NewTabularCube</property>
+            </property>            
         </extended-item>
     </components>
     <page-setup>
