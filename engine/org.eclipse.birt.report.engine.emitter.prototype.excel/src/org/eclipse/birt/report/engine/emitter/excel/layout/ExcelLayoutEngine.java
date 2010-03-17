@@ -107,6 +107,8 @@ public class ExcelLayoutEngine
 
 	protected int reportDpi;
 
+	protected Stack<Boolean> rowVisibilities = new Stack<Boolean>( );
+
 	public ExcelLayoutEngine( ExcelContext context,
 			ExcelEmitter emitter )
 	{
@@ -290,42 +292,65 @@ public class ExcelLayoutEngine
 		addContainer( cell );
 	}
 
+	private boolean isHidden( IContent content )
+	{
+		if ( content != null )
+		{
+			IStyle style = content.getStyle( );
+			if ( IStyle.NONE_VALUE.equals( style
+					.getProperty( IStyle.STYLE_DISPLAY ) ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void addCell( ICellContent cellcontent, int col, int colSpan,
 			int rowSpan, IStyle style )
 	{
-		XlsTable table = tables.peek( );
-		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, colSpan );
-		int diagonalNumber = cellcontent.getDiagonalNumber( );
-		StyleEntry cellStyleEntry = null;
-		if ( diagonalNumber != 0 )
+		if ( !isHidden( cellcontent ) )
 		{
-			String diagonalColor = cellcontent.getDiagonalColor( );
-			String diagonalStyle = cellcontent.getDiagonalStyle( );
-			int diagonalWidth = PropertyUtil.getDimensionValue( cellcontent,
-					cellcontent.getDiagonalWidth( ), cellSizeInfo.getWidth( ) );
-			cellStyleEntry = engine.createCellEntry( cellSizeInfo, style,
-														diagonalColor,
-														diagonalStyle,
-														diagonalWidth,
-														getParentStyle( ) );
+			rowVisibilities.pop( );
+			rowVisibilities.push( true );
+			XlsTable table = tables.peek( );
+			ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col,
+					colSpan );
+			int diagonalNumber = cellcontent.getDiagonalNumber( );
+			StyleEntry cellStyleEntry = null;
+			if ( diagonalNumber != 0 )
+			{
+				String diagonalColor = cellcontent.getDiagonalColor( );
+				String diagonalStyle = cellcontent.getDiagonalStyle( );
+				int diagonalWidth = PropertyUtil.getDimensionValue(
+						cellcontent, cellcontent.getDiagonalWidth( ),
+						cellSizeInfo.getWidth( ) );
+				cellStyleEntry = engine.createCellEntry( cellSizeInfo, style,
+						diagonalColor, diagonalStyle, diagonalWidth,
+						getParentStyle( ) );
+			}
+			else
+			{
+				cellStyleEntry = engine.createEntry( cellSizeInfo, style,
+						getParentStyle( ) );
+			}
+			XlsCell cell = new XlsCell( cellStyleEntry, cellSizeInfo,
+					getCurrentContainer( ), rowSpan );
+			addContainer( cell );
 		}
-		else
-		{
-			cellStyleEntry = engine.createEntry( cellSizeInfo, style,
-													getParentStyle( ) );
-		}
-		XlsCell cell = new XlsCell( cellStyleEntry, cellSizeInfo,
-				getCurrentContainer( ), rowSpan );
-		addContainer( cell );
 	}
 
-	public void endCell( )
+	public void endCell( ICellContent cell )
 	{
-		endNormalContainer( );
+		if ( !isHidden( cell ) )
+		{
+			endNormalContainer( );
+		}
 	}
 
 	public void addRow( IStyle style )
 	{
+		rowVisibilities.push( false );
 		XlsContainer parent = getCurrentContainer( );
 		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
 		XlsContainer container = createContainer( sizeInfo, style,
@@ -336,11 +361,14 @@ public class ExcelLayoutEngine
 
 	public void endRow( float rowHeight )
 	{
-		synchronize( rowHeight );
+		if ( rowVisibilities.pop( ) )
+		{
+			synchronize( rowHeight );
+		}
 		endContainer( );
 	}
 
-	private void synchronize( float height )
+	protected void synchronize( float height )
 	{
 		XlsContainer rowContainer = getCurrentContainer( );
 		ContainerSizeInfo rowSizeInfo = rowContainer.getSizeInfo( );
@@ -365,9 +393,9 @@ public class ExcelLayoutEngine
 			}
 		}
 		int startRowIndex = rowContainer.getRowIndex( );
-		if ( maxRowIndex == startRowIndex )
+		if ( maxRowIndex <= startRowIndex )
 		{
-			maxRowIndex++;
+			maxRowIndex = startRowIndex + 1;
 		}
 		rowContainer.setRowIndex( maxRowIndex );
 		float resize = height / ( maxRowIndex - startRowIndex );
@@ -418,7 +446,7 @@ public class ExcelLayoutEngine
 					}
 				}
 			}
-			else if ( upstair.getRowSpanInDesign( ) > 0
+			else if ( upstair != null && upstair.getRowSpanInDesign( ) > 0
 					&& !isInContainer( upstair, rowContainer ) )
 			{
 				upstair.decreasRowSpanInDesign( );
