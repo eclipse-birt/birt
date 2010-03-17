@@ -12,13 +12,13 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
@@ -48,8 +48,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * This dialog takes an expression and a data set and shows a list of unique
@@ -140,8 +138,8 @@ public class SelectValueDialog extends BaseDialog
 		tableViewer = new TableViewer( composite,
 				( isMultipleSelection( ) ? SWT.MULTI : SWT.SINGLE )
 						| SWT.V_SCROLL
-						| SWT.H_SCROLL 
-						| SWT.FULL_SELECTION);
+						| SWT.H_SCROLL
+						| SWT.FULL_SELECTION );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.heightHint = 250;
 		data.widthHint = 300;
@@ -281,6 +279,7 @@ public class SelectValueDialog extends BaseDialog
 	 * String value "\"abc\"" Date value "2000-10-10" to String value
 	 * "\"2000-10-10\""
 	 * 
+	 * @deprecated
 	 * @return expression value
 	 */
 	public String getSelectedExprValue( )
@@ -298,18 +297,18 @@ public class SelectValueDialog extends BaseDialog
 					|| modelValue instanceof Integer
 					|| modelValue instanceof Double )
 			{
-				exprValue = modelValue.toString( );
+				exprValue = getDataText( modelValue );
 			}
 			else if ( modelValue instanceof BigDecimal )
 			{
 				exprValue = "new java.math.BigDecimal(\"" //$NON-NLS-1$
-						+ modelValue.toString( )
+						+ getDataText( modelValue )
 						+ "\")"; //$NON-NLS-1$
 			}
 			else
 			{
 				exprValue = "\"" //$NON-NLS-1$
-						+ JavascriptEvalUtil.transformToJsConstants( modelValue.toString( ) )
+						+ JavascriptEvalUtil.transformToJsConstants( getDataText( modelValue ) )
 						+ "\""; //$NON-NLS-1$
 			}
 		}
@@ -323,6 +322,7 @@ public class SelectValueDialog extends BaseDialog
 	 * String value "\"abc\"" Date value "2000-10-10" to String value
 	 * "\"2000-10-10\""
 	 * 
+	 * @deprecated
 	 * @return expression value
 	 */
 	public String[] getSelectedExprValues( )
@@ -345,18 +345,18 @@ public class SelectValueDialog extends BaseDialog
 							|| modelValue instanceof Integer
 							|| modelValue instanceof Double )
 					{
-						exprValues[i] = modelValue.toString( );
+						exprValues[i] = getDataText( modelValue );
 					}
 					else if ( modelValue instanceof BigDecimal )
 					{
 						exprValues[i] = "new java.math.BigDecimal(\"" //$NON-NLS-1$
-								+ modelValue.toString( )
+								+ getDataText( modelValue )
 								+ "\")"; //$NON-NLS-1$
 					}
 					else
 					{
 						exprValues[i] = "\"" //$NON-NLS-1$
-								+ JavascriptEvalUtil.transformToJsConstants( modelValue.toString( ) )
+								+ JavascriptEvalUtil.transformToJsConstants( getDataText( modelValue ) )
 								+ "\""; //$NON-NLS-1$
 					}
 				}
@@ -384,7 +384,7 @@ public class SelectValueDialog extends BaseDialog
 			if ( modelValue != null )
 			{
 				dataType = DataSetUIUtil.toModelDataType( DataTypeUtil.toApiDataType( modelValue.getClass( ) ) );
-				String viewerValue = modelValue.toString( );
+				String viewerValue = getDataText( modelValue );
 				if ( convert != null )
 					exprValue = convert.getConstantExpression( viewerValue,
 							dataType );
@@ -415,7 +415,7 @@ public class SelectValueDialog extends BaseDialog
 				if ( modelValue != null )
 				{
 					dataType = DataSetUIUtil.toModelDataType( DataTypeUtil.toApiDataType( modelValue.getClass( ) ) );
-					String viewerValue = modelValue.toString( );
+					String viewerValue = getDataText( modelValue );
 					if ( convert != null )
 						exprValues[i] = convert.getConstantExpression( viewerValue,
 								dataType );
@@ -508,31 +508,12 @@ public class SelectValueDialog extends BaseDialog
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			DateFormatter formatter = new DateFormatter( ULocale.US );
-
 			if ( columnIndex == 0 )
 			{
 				if ( element != null )
-				{
-					if ( element instanceof java.sql.Date )
-					{
-						formatter.applyPattern( "yyyy-MM-dd" ); //$NON-NLS-1$
-						return formatter.format( (Date) element );
-					}
-					else if ( element instanceof java.sql.Time )
-					{
-						formatter.applyPattern( "HH:mm:ss.SSS" ); //$NON-NLS-1$
-						return formatter.format( (Date) element );
-					}
-					else if ( element instanceof Date )
-					{
-						formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" ); //$NON-NLS-1$
-						return formatter.format( (Date) element );
-					}
-					else
-						return element.toString( );
-				}
-				return nullValueDispaly;
+					return getDataText( element );
+				else
+					return nullValueDispaly;
 			}
 			return null;
 		}
@@ -541,5 +522,26 @@ public class SelectValueDialog extends BaseDialog
 		{
 			return null;
 		}
+	}
+
+	private String getDataText( Object element )
+	{
+		if ( element != null )
+		{
+			try
+			{
+				if ( element instanceof Timestamp )
+				{
+					return DataTypeUtil.toLocaleNeutralString( element );
+				}
+				else
+					return DataTypeUtil.toString( element );
+			}
+			catch ( BirtException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+		return null;
 	}
 }
