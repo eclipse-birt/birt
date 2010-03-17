@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -380,6 +381,11 @@ public final class PieRenderer
 		if ( dTotal == 0 )
 		{
 			dTotal = 1;
+		}
+
+		if ( ps.isClockwise( ) )
+		{
+			Collections.reverse( pieSliceList );
 		}
 
 		PieSlice slice = null;
@@ -1744,15 +1750,7 @@ public final class PieRenderer
 					Fill fPaletteEntry = null;
 					if ( bPaletteByCategory )
 					{
-						if ( bMinSliceApplied
-								&& pieSliceList.indexOf( slice ) == pieSliceList.size( ) - 1 )
-						{
-							fPaletteEntry = getPaletteColor( orginalSliceCount );
-						}
-						else
-						{
-							fPaletteEntry = getPaletteColor( slice.getCategoryIndex( ) );
-						}
+						fPaletteEntry = getPaletteColor( slice.getCategoryIndex( ) );
 					}
 					else
 					{
@@ -1811,15 +1809,7 @@ public final class PieRenderer
 				Fill fPaletteEntry = null;
 				if ( bPaletteByCategory )
 				{
-					if ( bMinSliceApplied
-							&& pieSliceList.indexOf( slice ) == pieSliceList.size( ) - 1 )
-					{
-						fPaletteEntry = getPaletteColor( orginalSliceCount );
-					}
-					else
-					{
-						fPaletteEntry = getPaletteColor( slice.getCategoryIndex( ) );
-					}
+					fPaletteEntry = getPaletteColor( slice.getCategoryIndex( ) );
 				}
 				else
 				{

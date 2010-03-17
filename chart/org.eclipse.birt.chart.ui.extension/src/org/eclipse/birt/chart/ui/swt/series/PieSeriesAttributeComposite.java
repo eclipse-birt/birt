@@ -83,6 +83,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private Slider sRatio;
 	private Slider sRotation;
+	private Button btnDirection;
 	
 	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
 	private final static String TOOLTIP_EXPLOSION_DISTANCE = Messages.getString( "PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion" ); //$NON-NLS-1$
@@ -265,6 +266,14 @@ public class PieSeriesAttributeComposite extends Composite implements
 			sRotation.addListener( SWT.Traverse, this );
 		}
 		
+		btnDirection = new Button( cmpRight, SWT.CHECK );
+		{
+			btnDirection.setText( Messages.getString("PieSeriesAttributeComposite.Button.Direction") ); //$NON-NLS-1$
+			btnDirection.setToolTipText( Messages.getString("PieSeriesAttributeComposite.Button.Direction.ToolTipText") ); //$NON-NLS-1$
+			btnDirection.addListener( SWT.Selection, this );
+			btnDirection.setSelection( series.isClockwise( ) );
+		}
+
 		Group grpSlice = new Group( cmpRight, SWT.NONE );
 		{
 			GridLayout gridLayout = new GridLayout( 3, false );
@@ -391,6 +400,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 		else if ( event.widget.equals( txtExplode ) )
 		{
 			series.setExplosionExpression( txtExplode.getText( ) );
+		}
+		else if ( event.widget == btnDirection )
+		{
+			series.setClockwise( btnDirection.getSelection( ) );
 		}
 	}
 

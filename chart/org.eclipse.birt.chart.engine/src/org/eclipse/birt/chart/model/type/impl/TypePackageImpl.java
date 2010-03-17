@@ -166,10 +166,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		// Obtain or create and register interdependencies
 		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackage.eINSTANCE );
 		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
 				: ComponentPackage.eINSTANCE );
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+				: DataPackage.eINSTANCE );
 		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
 		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
@@ -178,16 +178,16 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		// Create package meta-data objects
 		theTypePackage.createPackageContents( );
 		theAttributePackage.createPackageContents( );
-		theDataPackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
+		theDataPackage.createPackageContents( );
 		theLayoutPackage.createPackageContents( );
 		theModelPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theTypePackage.initializePackageContents( );
 		theAttributePackage.initializePackageContents( );
-		theDataPackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
+		theDataPackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
 		theModelPackage.initializePackageContents( );
 
@@ -627,6 +627,16 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPieSeries_Clockwise( )
+	{
+		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 10 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -768,6 +778,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		createEReference( pieSeriesEClass, PIE_SERIES__SLICE_OUTLINE );
 		createEAttribute( pieSeriesEClass, PIE_SERIES__RATIO );
 		createEAttribute( pieSeriesEClass, PIE_SERIES__ROTATION );
+		createEAttribute( pieSeriesEClass, PIE_SERIES__CLOCKWISE );
 
 		scatterSeriesEClass = createEClass( SCATTER_SERIES );
 
@@ -988,6 +999,9 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		initEAttribute( getPieSeries_Rotation( ),
 				theXMLTypePackage.getDouble( ),
 				"rotation", "0", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getPieSeries_Clockwise( ),
+				theXMLTypePackage.getBoolean( ),
+				"clockwise", "false", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( scatterSeriesEClass,
 				ScatterSeries.class,
@@ -1226,6 +1240,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		addAnnotation( getPieSeries_Rotation( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Rotation" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getPieSeries_Clockwise( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Clockwise" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( scatterSeriesEClass, source, new String[]{
 				"name", "ScatterSeries", //$NON-NLS-1$ //$NON-NLS-2$

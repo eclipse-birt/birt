@@ -45,72 +45,103 @@ with multiple series will draw multiple pies.</xsd:documentation>
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
 				<xsd:sequence>
-					<xsd:element name="Explosion" type="xsd:int" minOccurs="0">
+					<xsd:element name="Explosion" type="xsd:int"
+						minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Specifies the 'Explosion' value to be used while displaying the pie slices.
+								Specifies the 'Explosion' value to be
+								used while displaying the pie slices.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="ExplosionExpression" type="xsd:string" minOccurs="0">
+					<xsd:element name="ExplosionExpression"
+						type="xsd:string" minOccurs="0">
 						<xsd:annotation>
-							<xsd:documentation>Specifies an expression to determine if the explosion will be applied to each slice.</xsd:documentation>
+							<xsd:documentation>
+								Specifies an expression to determine if
+								the explosion will be applied to each
+								slice.
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="Title" type="component:Label">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Holds the properties for a series title.
+								Holds the properties for a series title.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="TitlePosition" type="attribute:Position" default="Above">
+					<xsd:element name="TitlePosition"
+						type="attribute:Position" default="Above">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Holds the position property for a series title.
+								Holds the position property for a series
+								title.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="LeaderLineAttributes" type="attribute:LineAttributes">
+					<xsd:element name="LeaderLineAttributes"
+						type="attribute:LineAttributes">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Holds the attributes for leader lines.
+								Holds the attributes for leader lines.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="LeaderLineStyle" type="attribute:LeaderLineStyle" default="Fixed_Length">
+					<xsd:element name="LeaderLineStyle"
+						type="attribute:LeaderLineStyle" default="Fixed_Length">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Specifies how the leader lines are to be shown.
+								Specifies how the leader lines are to be
+								shown.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="LeaderLineLength" type="attribute:Percentage">
+					<xsd:element name="LeaderLineLength"
+						type="attribute:Percentage">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Length for the leader lines. Used only if style is 'FIXED_LENGTH'.
+								Length for the leader lines. Used only
+								if style is 'FIXED_LENGTH'.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="SliceOutline" type="attribute:ColorDefinition" minOccurs="0">
+					<xsd:element name="SliceOutline"
+						type="attribute:ColorDefinition" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Defines the color to be used for the slice outline.
+								Defines the color to be used for the
+								slice outline.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Ratio" type="xsd:double" default="1">
-						<xsd:annotation>
-							<xsd:documentation>Defines the ratio(height/width) of the oval, 1 means it's a circle, 0 means stretch automatically.</xsd:documentation>
-						</xsd:annotation>
-					</xsd:element>
-					<xsd:element name="Rotation" type="xsd:double" default="0">
+					<xsd:element name="Ratio" type="xsd:double"
+						default="1">
 						<xsd:annotation>
 							<xsd:documentation>
-								Defines the rotation of the pie, 0 means start drawing the first slice from the east.
+								Defines the ratio(height/width) of the
+								oval, 1 means it's a circle, 0 means
+								stretch automatically.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="Rotation" type="xsd:double"
+						default="0">
+						<xsd:annotation>
+							<xsd:documentation>
+								Defines the rotation of the pie, 0 means
+								start drawing the first slice from the
+								east.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Clockwise" type="xsd:boolean" default="false">
+						<xsd:annotation>
+							<xsd:documentation>
+								Attribute "Clockwise" Specifies whether the pie slices are rendered in clockwise direction, 
+								by default they will be rendered in counter-clockwise direction.
+</xsd:documentation>
+						</xsd:annotation></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

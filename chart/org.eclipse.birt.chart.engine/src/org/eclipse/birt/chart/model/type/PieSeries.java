@@ -41,6 +41,7 @@ import org.eclipse.birt.chart.model.component.Series;
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice Outline</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation <em>Rotation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#isClockwise <em>Clockwise</em>}</li>
  * </ul>
  * </p>
  *
@@ -109,7 +110,11 @@ public interface PieSeries extends Series
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies an expression to determine if the explosion will be applied to each slice.
+	 * 
+	 * 								Specifies an expression to determine if
+	 * 								the explosion will be applied to each
+	 * 								slice.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Explosion Expression</em>' attribute.
 	 * @see #setExplosionExpression(String)
@@ -246,7 +251,8 @@ public interface PieSeries extends Series
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 							Specifies how the leader lines are to be shown.
+	 * 								Specifies how the leader lines are to be
+	 * 								shown.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Leader Line Style</em>' attribute.
@@ -376,7 +382,11 @@ public interface PieSeries extends Series
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Defines the ratio(height/width) of the oval, 1 means it's a circle, 0 means stretch automatically.
+	 * 
+	 * 								Defines the ratio(height/width) of the
+	 * 								oval, 1 means it's a circle, 0 means
+	 * 								stretch automatically.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Ratio</em>' attribute.
 	 * @see #isSetRatio()
@@ -431,7 +441,9 @@ public interface PieSeries extends Series
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 								Defines the rotation of the pie, 0 means start drawing the first slice from the east.
+	 * 								Defines the rotation of the pie, 0 means
+	 * 								start drawing the first slice from the
+	 * 								east.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Rotation</em>' attribute.
@@ -479,6 +491,63 @@ public interface PieSeries extends Series
 	 * @generated
 	 */
 	boolean isSetRotation( );
+
+	/**
+	 * Returns the value of the '<em><b>Clockwise</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 								Attribute "Clockwise" Specifies whether the pie slices are rendered in clockwise direction, 
+	 * 								by default they will be rendered in counter-clockwise direction.
+	 * 
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Clockwise</em>' attribute.
+	 * @see #isSetClockwise()
+	 * @see #unsetClockwise()
+	 * @see #setClockwise(boolean)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_Clockwise()
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='Clockwise'"
+	 * @generated
+	 */
+	boolean isClockwise( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#isClockwise <em>Clockwise</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Clockwise</em>' attribute.
+	 * @see #isSetClockwise()
+	 * @see #unsetClockwise()
+	 * @see #isClockwise()
+	 * @generated
+	 */
+	void setClockwise( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#isClockwise <em>Clockwise</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetClockwise()
+	 * @see #isClockwise()
+	 * @see #setClockwise(boolean)
+	 * @generated
+	 */
+	void unsetClockwise( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#isClockwise <em>Clockwise</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Clockwise</em>' attribute is set.
+	 * @see #unsetClockwise()
+	 * @see #isClockwise()
+	 * @see #setClockwise(boolean)
+	 * @generated
+	 */
+	boolean isSetClockwise( );
 
 	/**
 	 * @generated

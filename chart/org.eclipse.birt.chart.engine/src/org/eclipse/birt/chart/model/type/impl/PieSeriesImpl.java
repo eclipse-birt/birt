@@ -48,6 +48,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getSliceOutline <em>Slice Outline</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getRatio <em>Ratio</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getRotation <em>Rotation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#isClockwise <em>Clockwise</em>}</li>
  * </ul>
  * </p>
  *
@@ -270,6 +271,35 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @ordered
 	 */
 	protected boolean rotationESet;
+
+	/**
+	 * The default value of the '{@link #isClockwise() <em>Clockwise</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isClockwise()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean CLOCKWISE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isClockwise() <em>Clockwise</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isClockwise()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean clockwise = CLOCKWISE_EDEFAULT;
+
+	/**
+	 * This is true if the Clockwise attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean clockwiseESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -862,6 +892,66 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isClockwise( )
+	{
+		return clockwise;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setClockwise( boolean newClockwise )
+	{
+		boolean oldClockwise = clockwise;
+		clockwise = newClockwise;
+		boolean oldClockwiseESet = clockwiseESet;
+		clockwiseESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.PIE_SERIES__CLOCKWISE,
+					oldClockwise,
+					clockwise,
+					!oldClockwiseESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetClockwise( )
+	{
+		boolean oldClockwise = clockwise;
+		boolean oldClockwiseESet = clockwiseESet;
+		clockwise = CLOCKWISE_EDEFAULT;
+		clockwiseESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.PIE_SERIES__CLOCKWISE,
+					oldClockwise,
+					CLOCKWISE_EDEFAULT,
+					oldClockwiseESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetClockwise( )
+	{
+		return clockwiseESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -908,6 +998,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return getRatio( );
 			case TypePackage.PIE_SERIES__ROTATION :
 				return getRotation( );
+			case TypePackage.PIE_SERIES__CLOCKWISE :
+				return isClockwise( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -951,6 +1043,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return;
 			case TypePackage.PIE_SERIES__ROTATION :
 				setRotation( (Double) newValue );
+				return;
+			case TypePackage.PIE_SERIES__CLOCKWISE :
+				setClockwise( (Boolean) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -996,6 +1091,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__ROTATION :
 				unsetRotation( );
 				return;
+			case TypePackage.PIE_SERIES__CLOCKWISE :
+				unsetClockwise( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -1031,6 +1129,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return isSetRatio( );
 			case TypePackage.PIE_SERIES__ROTATION :
 				return isSetRotation( );
+			case TypePackage.PIE_SERIES__CLOCKWISE :
+				return isSetClockwise( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -1076,6 +1176,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		result.append( ", rotation: " ); //$NON-NLS-1$
 		if ( rotationESet )
 			result.append( rotation );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", clockwise: " ); //$NON-NLS-1$
+		if ( clockwiseESet )
+			result.append( clockwise );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
@@ -1192,6 +1297,10 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		rotation = src.getRotation( );
 
 		rotationESet = src.isSetRotation( );
+
+		clockwise = src.isClockwise( );
+
+		clockwiseESet = src.isSetClockwise( );
 
 	}
 
