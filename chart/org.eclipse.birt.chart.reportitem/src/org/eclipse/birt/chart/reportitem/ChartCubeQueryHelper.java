@@ -866,7 +866,8 @@ public class ChartCubeQueryHelper
 
 			ConditionalExpression filterCondExpr;
 
-			String filterQuery = filterCon.getExpr( );
+			ChartReportItemUtil.loadExpression( exprCodec, filterCon );
+			String filterQuery = exprCodec.encode( );
 			if ( exprCodec.isCubeBinding( filterQuery, true ) )
 			{
 				String filterBindingName = exprCodec.getCubeBindingName( filterQuery,
@@ -884,7 +885,7 @@ public class ChartCubeQueryHelper
 						// Replace all data expressions with dimension/measure
 						// expressions in complex expression
 						exprCodec.setBindingName( filterBindingName, true );
-						filterQuery = filterQuery.replace( exprCodec.getExpression( ),
+						filterQuery = filterQuery.replace( exprCodec.encode( ),
 								newExpr );
 					}
 				}
