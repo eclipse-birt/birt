@@ -1007,7 +1007,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 * @param propName
 	 *            the name of the list property
 	 */
-	
+
 	protected void writeSimplePropertyList( DesignElement obj, String propName )
 	{
 		writeSimplePropertyList( obj, propName, false );
@@ -1020,7 +1020,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 *            the design element
 	 * @param propName
 	 *            the name of the list property
-	 * @param isCdata 
+	 * @param isCdata
 	 */
 
 	protected void writeSimplePropertyList( DesignElement obj, String propName,
@@ -1035,8 +1035,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		if ( values == null || values.isEmpty( ) )
 			return;
 
-		writer
-				.conditionalStartElement( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG );
+		writer.conditionalStartElement( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG );
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
 
 		for ( int i = 0; i < values.size( ); i++ )
@@ -1059,17 +1058,17 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				writer.attribute( DesignSchemaConstants.TYPE_TAG, exprType );
 
 			if ( xmlValue != null )
-            {
-                  if ( isCdata )
-                  {
-                        xmlValue = escapeCDATAChars( prop, xmlValue );
-                        writer.textCDATA( xmlValue );
-                  }
-                  else
-                        writer.text( xmlValue );
-            }
-            else
-                  writer.attribute( DesignSchemaConstants.IS_NULL_ATTRIB, true );
+			{
+				if ( isCdata )
+				{
+					xmlValue = escapeCDATAChars( prop, xmlValue );
+					writer.textCDATA( xmlValue );
+				}
+				else
+					writer.text( xmlValue );
+			}
+			else
+				writer.attribute( DesignSchemaConstants.IS_NULL_ATTRIB, true );
 
 			writer.endElement( );
 
@@ -1098,8 +1097,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		if ( values == null || values.isEmpty( ) )
 			return;
 
-		writer
-				.conditionalStartElement( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG );
+		writer.conditionalStartElement( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG );
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
 
 		for ( int i = 0; i < values.size( ); i++ )
@@ -1908,6 +1906,17 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 			// write all other properties
 			List<IElementPropertyDefn> props = extDefn.getProperties( );
+
+			// ensure cube property is written out first: TED 22938
+			boolean isCubeWrite = false;
+			ElementPropertyDefn cubeProp = (ElementPropertyDefn) extDefn
+					.getProperty( IReportItemModel.CUBE_PROP );
+			if ( cubeProp != null )
+			{
+				writeProperty( obj, ModelUtil.getTagByPropertyType( cubeProp ),
+						cubeProp.getName( ), false );
+				isCubeWrite = true;
+			}
 			for ( int i = 0; i < props.size( ); i++ )
 			{
 				ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
@@ -1919,6 +1928,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 						|| IDesignElementModel.EXTENDS_PROP.equals( propName )
 						|| IExtendedItemModel.EXTENSION_VERSION_PROP
 								.equals( propName ) )
+					continue;
+
+				if ( isCubeWrite
+						&& IReportItemModel.CUBE_PROP.equals( propName ) )
 					continue;
 
 				// TODO: support extending those xml properties.
@@ -2423,8 +2436,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 	public void visitCascadingParameterGroup( CascadingParameterGroup obj )
 	{
-		writer
-				.startElement( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG );
+		writer.startElement( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG );
 
 		super.visitParameterGroup( obj );
 
@@ -2519,8 +2531,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 */
 	public void visitDynamicFilterParameter( DynamicFilterParameter obj )
 	{
-		writer
-				.startElement( DesignSchemaConstants.DYNAMIC_FILTER_PARAMETER_TAG );
+		writer.startElement( DesignSchemaConstants.DYNAMIC_FILTER_PARAMETER_TAG );
 		super.visitDynamicFilterParameter( obj );
 
 		property( obj, IDynamicFilterParameterModel.COLUMN_PROP );
@@ -2578,8 +2589,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	public void visitTemplateParameterDefinition(
 			TemplateParameterDefinition obj )
 	{
-		writer
-				.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
+		writer.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
 				IDesignElementModel.NAME_PROP );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
@@ -3568,16 +3578,14 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		if ( obj.getExtendsElement( ) == null )
 			return;
 
-		writer
-				.conditionalStartElement( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG );
+		writer.conditionalStartElement( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG );
 
 		Iterator<DesignElement> iter = new ContentIterator( getModule( ), obj );
 		while ( iter.hasNext( ) ) // for each virtual element in the child
 		{
 			DesignElement virtualElement = iter.next( );
 
-			writer
-					.conditionalStartElement( DesignSchemaConstants.REF_ENTRY_TAG );
+			writer.conditionalStartElement( DesignSchemaConstants.REF_ENTRY_TAG );
 
 			long baseId = virtualElement.getBaseId( );
 			writer.attribute( DesignSchemaConstants.BASE_ID_ATTRIB, Long

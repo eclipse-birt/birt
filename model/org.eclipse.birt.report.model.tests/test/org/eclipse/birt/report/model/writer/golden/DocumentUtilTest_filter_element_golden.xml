@@ -65,6 +65,7 @@
     </page-setup>
     <body>
         <extended-item extensionName="TestingTable" name="NewExtension Table" id="19">
+            <property name="cube">Customer Cube</property>
             <property name="level">GROUP/CUSTOMERNUMBER</property>
             <property name="filter">
                 <filter-condition-element>
@@ -74,8 +75,7 @@
                     	<value>params["NewParameter"]</value>
                     </simple-property-list>
                 </filter-condition-element>
-            </property>
-            <property name="cube">Customer Cube</property>
+            </property>            
         </extended-item>
     </body>
 </report>
