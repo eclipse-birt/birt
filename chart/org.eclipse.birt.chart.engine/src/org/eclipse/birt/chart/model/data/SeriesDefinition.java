@@ -42,6 +42,8 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey <em>Sort Key</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortLocale <em>Sort Locale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength <em>Sort Strength</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}</li>
  * </ul>
  * </p>
@@ -263,6 +265,85 @@ public interface SeriesDefinition extends IChartObject
 	 * @generated
 	 */
 	void setSortKey( Query value );
+
+	/**
+	 * Returns the value of the '<em><b>Sort Locale</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the locale on which the sorting will base, the value is the locale ID of <code xmlns="http://www.birt.eclipse.org/ChartModelData">com.ibm.icu.util.ULocale</code>.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Sort Locale</em>' attribute.
+	 * @see #setSortLocale(String)
+	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_SortLocale()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 *        extendedMetaData="kind='element' name='SortLocale'"
+	 * @generated
+	 */
+	String getSortLocale( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortLocale <em>Sort Locale</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Sort Locale</em>' attribute.
+	 * @see #getSortLocale()
+	 * @generated
+	 */
+	void setSortLocale( String value );
+
+	/**
+	 * Returns the value of the '<em><b>Sort Strength</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the strength of sorting, this attribute just uses the field values defined in <code xmlns="http://www.birt.eclipse.org/ChartModelData">com.ibm.icu.text.Collator</code>. The available values are ASCII=-1, PRIMARY=0, SECONDARY=1,TERTIARY=2,QUATERNARY=3,IDENTICAL=15.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Sort Strength</em>' attribute.
+	 * @see #isSetSortStrength()
+	 * @see #unsetSortStrength()
+	 * @see #setSortStrength(int)
+	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_SortStrength()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 *        extendedMetaData="kind='element' name='SortStrength'"
+	 * @generated
+	 */
+	int getSortStrength( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength <em>Sort Strength</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Sort Strength</em>' attribute.
+	 * @see #isSetSortStrength()
+	 * @see #unsetSortStrength()
+	 * @see #getSortStrength()
+	 * @generated
+	 */
+	void setSortStrength( int value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength <em>Sort Strength</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetSortStrength()
+	 * @see #getSortStrength()
+	 * @see #setSortStrength(int)
+	 * @generated
+	 */
+	void unsetSortStrength( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength <em>Sort Strength</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Sort Strength</em>' attribute is set.
+	 * @see #unsetSortStrength()
+	 * @see #getSortStrength()
+	 * @see #setSortStrength(int)
+	 * @generated
+	 */
+	boolean isSetSortStrength( );
 
 	/**
 	 * Returns the value of the '<em><b>ZOrder</b></em>' attribute.

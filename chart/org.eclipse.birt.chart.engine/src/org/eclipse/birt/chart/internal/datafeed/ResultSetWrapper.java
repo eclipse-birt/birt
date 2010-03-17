@@ -210,7 +210,7 @@ public final class ResultSetWrapper
 		private boolean ascending;
 		private Collator collator;
 
-		void sort( List aggregateData, SortOption so )
+		void sort( List aggregateData, SortOption so, Collator collator )
 		{
 			if ( so == null )
 			{
@@ -218,7 +218,7 @@ public final class ResultSetWrapper
 			}
 
 			this.ascending = so == SortOption.ASCENDING_LITERAL;
-			this.collator = Collator.getInstance( );
+			this.collator = collator;
 
 			Collections.sort( aggregateData, this );
 		}
@@ -249,7 +249,14 @@ public final class ResultSetWrapper
 			int ct;
 			if ( obj1 instanceof String )
 			{
-				ct = collator.compare( obj1.toString( ), obj2.toString( ) );
+				if ( collator == null )
+				{
+					ct = ((String)obj1).compareTo( (String) obj2 );
+				}
+				else
+				{
+					ct = collator.compare( obj1.toString( ), obj2.toString( ) );
+				}
 			}
 			else
 			{
@@ -379,7 +386,9 @@ public final class ResultSetWrapper
 		}
 		
 		// 3. Sort by aggregation value.
-		new YGroupingSorter( ).sort( sortGroupsList, sdValue.getSorting( ) );
+		
+		YGroupingSorter ygs = new YGroupingSorter( );
+		ygs.sort( sortGroupsList, sdValue.getSorting( ), createCollator( sdValue ) );
 
 		// 4. Reset row orders and group breaks.
 		List newResultSet = new ArrayList( );
@@ -503,7 +512,7 @@ public final class ResultSetWrapper
 		{
 			if ( !needBaseGrouping )
 			{
-				doBaseSorting( sdBase.getSorting( ) );
+				doBaseSorting( sdBase );
 				return;
 			}
 		}
@@ -537,10 +546,12 @@ public final class ResultSetWrapper
 			so = sdBase.getSorting( );
 		}
 
-		new GroupingSorter( ).sort( workingResultSet,
+		GroupingSorter gs = new GroupingSorter( );
+		gs.sort( workingResultSet,
 				iSortColumnIndex,
 				so,
-				iaGroupBreaks );
+				iaGroupBreaks,
+				createCollator( sdBase ));
 
 		// LOOKUP AGGREGATE FUNCTION
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
@@ -604,22 +615,24 @@ public final class ResultSetWrapper
 		}
 
 		// Sort final row data again by actual sort expression on base series.
-		doBaseSorting( sdBase.getSorting( ) );
+		doBaseSorting( sdBase );
 		
 		// re-initialize meta since Aggregation could change data
 		// type(text->count)
 		initializeMeta( );
 	}
 
-	private void doBaseSorting( SortOption so )
+	private void doBaseSorting( SeriesDefinition sd )
 	{
 		int iBaseSortColumnIndex = htLookup.getBaseSortExprIndex( ); 
 		if ( iBaseSortColumnIndex >= 0 )
 		{
-			new GroupingSorter( ).sort( workingResultSet,
+			GroupingSorter gs = new GroupingSorter( );
+			gs.sort( workingResultSet,
 					iBaseSortColumnIndex,
-					so,
-					iaGroupBreaks );
+					sd.getSorting( ),
+					iaGroupBreaks,
+					createCollator( sd ));
 		}
 	}
 
@@ -1997,17 +2010,17 @@ public final class ResultSetWrapper
 		private Collator collator;
 
 		void sort( List resultSet, int iSortIndex, SortOption so,
-				int[] groupBreaks )
+				int[] groupBreaks, Collator collator )
 		{
 			if ( so == null )
 			{
 				return;
 			}
-
+						
 			this.iSortIndex = iSortIndex;
 			this.ascending = so == SortOption.ASCENDING_LITERAL;
-			this.collator = Collator.getInstance( );
-
+			this.collator = collator;
+			
 			if ( groupBreaks == null || groupBreaks.length == 0 )
 			{
 				Collections.sort( resultSet, this );
@@ -2080,7 +2093,14 @@ public final class ResultSetWrapper
 			int ct;
 			if ( oC1 instanceof String )
 			{
-				ct = collator.compare( oC1.toString( ), oC2.toString( ) );
+				if ( collator == null )
+				{
+					ct = ((String)oC1).compareTo((String) oC2);
+				}
+				else
+				{
+					ct = collator.compare( oC1.toString( ), oC2.toString( ) );
+				}
 			}
 			else
 			{
@@ -2089,5 +2109,30 @@ public final class ResultSetWrapper
 
 			return ascending ? ct : -ct;
 		}
+	}
+	
+	private Collator createCollator(SeriesDefinition sd )
+	{
+		// If sort strength is ASCII(-1), then just use default compare of
+		// String class to do collator, so here just return null;
+		if ( sd.isSetSortStrength( ) && sd.getSortStrength( ) < 0 )
+		{
+			return null;
+		}
+		Collator c = null;
+		if ( sd.getSortLocale( ) != null )
+		{
+			c = Collator.getInstance( new ULocale( sd.getSortLocale( ) ) );
+		}
+		else {
+			c = Collator.getInstance( );	
+		}
+		
+		if ( sd.isSetSortStrength( ) )
+		{
+			c.setStrength( sd.getSortStrength( ) );
+		}
+		
+		return c;
 	}
 }

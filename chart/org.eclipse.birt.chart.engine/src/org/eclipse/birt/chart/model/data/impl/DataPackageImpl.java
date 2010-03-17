@@ -718,10 +718,32 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSeriesDefinition_ZOrder( )
+	public EAttribute getSeriesDefinition_SortLocale( )
 	{
 		return (EAttribute) seriesDefinitionEClass.getEStructuralFeatures( )
 				.get( 8 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSeriesDefinition_SortStrength( )
+	{
+		return (EAttribute) seriesDefinitionEClass.getEStructuralFeatures( )
+				.get( 9 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSeriesDefinition_ZOrder( )
+	{
+		return (EAttribute) seriesDefinitionEClass.getEStructuralFeatures( )
+				.get( 10 );
 	}
 
 	/**
@@ -967,6 +989,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		createEReference( seriesDefinitionEClass, SERIES_DEFINITION__GROUPING );
 		createEAttribute( seriesDefinitionEClass, SERIES_DEFINITION__SORTING );
 		createEReference( seriesDefinitionEClass, SERIES_DEFINITION__SORT_KEY );
+		createEAttribute( seriesDefinitionEClass,
+				SERIES_DEFINITION__SORT_LOCALE );
+		createEAttribute( seriesDefinitionEClass,
+				SERIES_DEFINITION__SORT_STRENGTH );
 		createEAttribute( seriesDefinitionEClass, SERIES_DEFINITION__ZORDER );
 
 		seriesGroupingEClass = createEClass( SERIES_GROUPING );
@@ -1207,6 +1233,12 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				this.getQuery( ),
 				null,
 				"sortKey", null, 1, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getSeriesDefinition_SortLocale( ),
+				theXMLTypePackage.getString( ),
+				"sortLocale", null, 1, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getSeriesDefinition_SortStrength( ),
+				theXMLTypePackage.getInt( ),
+				"sortStrength", null, 1, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeriesDefinition_ZOrder( ),
 				theXMLTypePackage.getInt( ),
 				"zOrder", "0", 0, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1479,6 +1511,16 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "SortKey" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( getSeriesDefinition_SortLocale( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "SortLocale" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getSeriesDefinition_SortStrength( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "SortStrength" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( getSeriesDefinition_ZOrder( ), source, new String[]{
 				"kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "ZOrder" //$NON-NLS-1$ //$NON-NLS-2$

@@ -32,9 +32,9 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
-import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -53,6 +53,8 @@ import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.emf.common.util.EList;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * The class defines basic functions for creating base query.
@@ -460,10 +462,22 @@ public abstract class AbstractChartBaseQueryGenerator
 
 		SortDefinition sd = new SortDefinition( );
 
+		if ( categorySD.getSortLocale( ) != null )
+		{
+			sd.setSortLocale( new ULocale( categorySD.getSortLocale( )) );
+		}
+		
 		// Chart need to set SortStrength to support sorting locale
 		// characters, it is compatibility with old logic of
 		// chart(version<2.3).
-		sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+		if ( !categorySD.isSetSortStrength( ) )
+		{
+			sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+		}
+		else
+		{
+			sd.setSortStrength( categorySD.getSortStrength( ) );
+		}
 
 		sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
 
@@ -648,11 +662,23 @@ public abstract class AbstractChartBaseQueryGenerator
 
 			// Create a new sort
 			SortDefinition sortDefinition = new SortDefinition( );
-
+			
+			if ( categorySD.getSortLocale( ) != null )
+			{
+				sortDefinition.setSortLocale( new ULocale( categorySD.getSortLocale( )) );
+			}
+			
 			// Chart need to set SortStrength to support sorting locale
 			// characters, it is compatibility with old logic of
 			// chart(version<2.3).
-			sortDefinition.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+			if ( !categorySD.isSetSortStrength( ) )
+			{
+				sortDefinition.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+			}
+			else
+			{
+				sortDefinition.setSortStrength( categorySD.getSortStrength( ) );
+			}
 
 			sortDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( orthSD.getSorting( ) ) );
 

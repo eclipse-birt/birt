@@ -35,9 +35,9 @@ import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
-import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionSet;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -89,6 +89,8 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.emf.common.util.EList;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Query helper for cube query definition
@@ -581,6 +583,15 @@ public class ChartCubeQueryHelper
 						null,
 						sd.getSorting( ) == SortOption.ASCENDING_LITERAL ? ISortDefinition.SORT_ASC
 								: ISortDefinition.SORT_DESC );
+				if ( sd.getSortLocale( ) != null )
+				{
+					sortDef.setSortLocale( new ULocale( sd.getSortLocale( ) ) );
+				}
+
+				if ( sd.isSetSortStrength( ) )
+				{
+					sortDef.setSortStrength( sd.getSortStrength( ) );
+				}
 				cubeQuery.addSort( sortDef );
 			}
 			else if ( registeredMeasures.containsKey( sortKeyBinding ) )
@@ -619,6 +630,16 @@ public class ChartCubeQueryHelper
 						null,
 						sd.getSorting( ) == SortOption.ASCENDING_LITERAL ? ISortDefinition.SORT_ASC
 								: ISortDefinition.SORT_DESC );
+				if ( sd.getSortLocale( ) != null )
+				{
+					sortDef.setSortLocale( new ULocale( sd.getSortLocale( ) ) );
+				}
+
+				if ( sd.isSetSortStrength( ) )
+				{
+					sortDef.setSortStrength( sd.getSortStrength( ) );
+				}
+				
 				cubeQuery.addSort( sortDef );
 			}
 		}

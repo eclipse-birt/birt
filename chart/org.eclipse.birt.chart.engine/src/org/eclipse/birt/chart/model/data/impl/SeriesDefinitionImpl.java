@@ -51,6 +51,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getGrouping <em>Grouping</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSorting <em>Sorting</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSortKey <em>Sort Key</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSortLocale <em>Sort Locale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSortStrength <em>Sort Strength</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getZOrder <em>ZOrder</em>}</li>
  * </ul>
  * </p>
@@ -151,6 +153,55 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @ordered
 	 */
 	protected Query sortKey;
+
+	/**
+	 * The default value of the '{@link #getSortLocale() <em>Sort Locale</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSortLocale()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SORT_LOCALE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSortLocale() <em>Sort Locale</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSortLocale()
+	 * @generated
+	 * @ordered
+	 */
+	protected String sortLocale = SORT_LOCALE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSortStrength() <em>Sort Strength</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSortStrength()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int SORT_STRENGTH_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getSortStrength() <em>Sort Strength</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSortStrength()
+	 * @generated
+	 * @ordered
+	 */
+	protected int sortStrength = SORT_STRENGTH_EDEFAULT;
+
+	/**
+	 * This is true if the Sort Strength attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean sortStrengthESet;
 
 	/**
 	 * The default value of the '{@link #getZOrder() <em>ZOrder</em>}' attribute.
@@ -624,6 +675,93 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getSortLocale( )
+	{
+		return sortLocale;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSortLocale( String newSortLocale )
+	{
+		String oldSortLocale = sortLocale;
+		sortLocale = newSortLocale;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					DataPackage.SERIES_DEFINITION__SORT_LOCALE,
+					oldSortLocale,
+					sortLocale ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getSortStrength( )
+	{
+		return sortStrength;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSortStrength( int newSortStrength )
+	{
+		int oldSortStrength = sortStrength;
+		sortStrength = newSortStrength;
+		boolean oldSortStrengthESet = sortStrengthESet;
+		sortStrengthESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					DataPackage.SERIES_DEFINITION__SORT_STRENGTH,
+					oldSortStrength,
+					sortStrength,
+					!oldSortStrengthESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetSortStrength( )
+	{
+		int oldSortStrength = sortStrength;
+		boolean oldSortStrengthESet = sortStrengthESet;
+		sortStrength = SORT_STRENGTH_EDEFAULT;
+		sortStrengthESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					DataPackage.SERIES_DEFINITION__SORT_STRENGTH,
+					oldSortStrength,
+					SORT_STRENGTH_EDEFAULT,
+					oldSortStrengthESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetSortStrength( )
+	{
+		return sortStrengthESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public int getZOrder( )
 	{
 		return zOrder;
@@ -736,6 +874,10 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				return getSorting( );
 			case DataPackage.SERIES_DEFINITION__SORT_KEY :
 				return getSortKey( );
+			case DataPackage.SERIES_DEFINITION__SORT_LOCALE :
+				return getSortLocale( );
+			case DataPackage.SERIES_DEFINITION__SORT_STRENGTH :
+				return getSortStrength( );
 			case DataPackage.SERIES_DEFINITION__ZORDER :
 				return getZOrder( );
 		}
@@ -779,6 +921,12 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			case DataPackage.SERIES_DEFINITION__SORT_KEY :
 				setSortKey( (Query) newValue );
 				return;
+			case DataPackage.SERIES_DEFINITION__SORT_LOCALE :
+				setSortLocale( (String) newValue );
+				return;
+			case DataPackage.SERIES_DEFINITION__SORT_STRENGTH :
+				setSortStrength( (Integer) newValue );
+				return;
 			case DataPackage.SERIES_DEFINITION__ZORDER :
 				setZOrder( (Integer) newValue );
 				return;
@@ -820,6 +968,12 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			case DataPackage.SERIES_DEFINITION__SORT_KEY :
 				setSortKey( (Query) null );
 				return;
+			case DataPackage.SERIES_DEFINITION__SORT_LOCALE :
+				setSortLocale( SORT_LOCALE_EDEFAULT );
+				return;
+			case DataPackage.SERIES_DEFINITION__SORT_STRENGTH :
+				unsetSortStrength( );
+				return;
 			case DataPackage.SERIES_DEFINITION__ZORDER :
 				unsetZOrder( );
 				return;
@@ -854,6 +1008,11 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				return isSetSorting( );
 			case DataPackage.SERIES_DEFINITION__SORT_KEY :
 				return sortKey != null;
+			case DataPackage.SERIES_DEFINITION__SORT_LOCALE :
+				return SORT_LOCALE_EDEFAULT == null ? sortLocale != null
+						: !SORT_LOCALE_EDEFAULT.equals( sortLocale );
+			case DataPackage.SERIES_DEFINITION__SORT_STRENGTH :
+				return isSetSortStrength( );
 			case DataPackage.SERIES_DEFINITION__ZORDER :
 				return isSetZOrder( );
 		}
@@ -874,6 +1033,13 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 		result.append( " (sorting: " ); //$NON-NLS-1$
 		if ( sortingESet )
 			result.append( sorting );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", sortLocale: " ); //$NON-NLS-1$
+		result.append( sortLocale );
+		result.append( ", sortStrength: " ); //$NON-NLS-1$
+		if ( sortStrengthESet )
+			result.append( sortStrength );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ", zOrder: " ); //$NON-NLS-1$
@@ -1009,6 +1175,12 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 		sorting = src.getSorting( );
 
 		sortingESet = src.isSetSorting( );
+
+		sortLocale = src.getSortLocale( );
+
+		sortStrength = src.getSortStrength( );
+
+		sortStrengthESet = src.isSetSortStrength( );
 
 		zOrder = src.getZOrder( );
 

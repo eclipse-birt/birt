@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.util;
 
+import java.text.Collator;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -145,6 +147,26 @@ public class ChartUIUtil
 		}
 	}
 
+	/** Initializes locales.*/
+	public final static TreeMap<String, ULocale> LOCALE_TABLE = new TreeMap<String, ULocale>( Collator.getInstance( ) );
+
+	static
+	{
+		// Initialize the locale mapping table
+		ULocale[] locales = ULocale.getAvailableLocales( );
+		if ( locales != null )
+		{
+			for ( int i = 0; i < locales.length; i++ )
+			{
+				ULocale locale = locales[i];
+				if ( locale != null )
+				{
+					LOCALE_TABLE.put( locale.getDisplayName( ), locale );
+				}
+			}
+		}
+	}
+	
 	public static IDisplayServer getDisplayServer( )
 	{
 		return swtDisplayServer;

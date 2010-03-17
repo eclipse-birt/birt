@@ -673,13 +673,31 @@ public interface DataPackage extends EPackage
 	int SERIES_DEFINITION__SORT_KEY = 7;
 
 	/**
+	 * The feature id for the '<em><b>Sort Locale</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERIES_DEFINITION__SORT_LOCALE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Sort Strength</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERIES_DEFINITION__SORT_STRENGTH = 9;
+
+	/**
 	 * The feature id for the '<em><b>ZOrder</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERIES_DEFINITION__ZORDER = 8;
+	int SERIES_DEFINITION__ZORDER = 10;
 
 	/**
 	 * The number of structural features of the '<em>Series Definition</em>' class.
@@ -687,7 +705,7 @@ public interface DataPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int SERIES_DEFINITION_FEATURE_COUNT = 9;
+	int SERIES_DEFINITION_FEATURE_COUNT = 11;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl <em>Series Grouping</em>}' class.
@@ -1311,6 +1329,28 @@ public interface DataPackage extends EPackage
 	EReference getSeriesDefinition_SortKey( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortLocale <em>Sort Locale</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Sort Locale</em>'.
+	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getSortLocale()
+	 * @see #getSeriesDefinition()
+	 * @generated
+	 */
+	EAttribute getSeriesDefinition_SortLocale( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength <em>Sort Strength</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Sort Strength</em>'.
+	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getSortStrength()
+	 * @see #getSeriesDefinition()
+	 * @generated
+	 */
+	EAttribute getSeriesDefinition_SortStrength( );
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getZOrder <em>ZOrder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1882,6 +1922,22 @@ public interface DataPackage extends EPackage
 		 * @generated
 		 */
 		EReference SERIES_DEFINITION__SORT_KEY = eINSTANCE.getSeriesDefinition_SortKey( );
+
+		/**
+		 * The meta object literal for the '<em><b>Sort Locale</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_DEFINITION__SORT_LOCALE = eINSTANCE.getSeriesDefinition_SortLocale( );
+
+		/**
+		 * The meta object literal for the '<em><b>Sort Strength</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_DEFINITION__SORT_STRENGTH = eINSTANCE.getSeriesDefinition_SortStrength( );
 
 		/**
 		 * The meta object literal for the '<em><b>ZOrder</b></em>' attribute feature.
