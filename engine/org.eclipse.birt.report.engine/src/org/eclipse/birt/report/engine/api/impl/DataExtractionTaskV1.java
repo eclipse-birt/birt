@@ -1276,6 +1276,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		newQuery.setColumnProjection( query.getColumnProjection( ) );
 		
 		newQuery.setName( query.getName( ) );
+		newQuery.setIsSummaryQuery( query.isSummaryQuery( ) );
 		
 		String queryID = (String)query2QueryIdMapping.get( query );
 		tmpQuery2QueryIdMapping.put( newQuery, queryID );
