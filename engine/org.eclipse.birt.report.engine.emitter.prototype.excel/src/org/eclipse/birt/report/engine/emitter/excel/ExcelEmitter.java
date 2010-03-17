@@ -305,7 +305,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void endCell( ICellContent cell )
 	{
-		engine.endCell( );
+		engine.endCell( cell );
 	}	
 
 	public void endTable( ITableContent table )
