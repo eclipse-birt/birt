@@ -37,7 +37,7 @@
 	
 	<!--
 	This scripts is used for BIRT repacking.
-	birt-all-${package.version}.zip need be to existing under ${buildDirectory} before start this target
+	birt-all-${package.version}.bak.zip need be to placed under ${buildDirectory} before start this target
 	-->
 	<target name="main" depends="init">
 		<antcall target="buildDesignerIDE"/>
