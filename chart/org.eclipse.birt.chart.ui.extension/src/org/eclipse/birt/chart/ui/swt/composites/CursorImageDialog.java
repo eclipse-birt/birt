@@ -137,6 +137,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 		btnUriBuilder.setLayoutData( gd );
 		btnUriBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
 		btnUriBuilder.addSelectionListener( this );
+		btnUriBuilder.setToolTipText( org.eclipse.birt.chart.ui.i18n.Messages.getString( "ExprEditComposite.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
 	}
 
 	private void createPreviewArea( Composite composite )

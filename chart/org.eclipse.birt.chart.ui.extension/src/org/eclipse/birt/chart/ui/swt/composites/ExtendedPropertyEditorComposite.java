@@ -206,6 +206,7 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 				TableItem tiProp = new TableItem( table, SWT.NONE );
 				tiProp.setBackground( getSelectionColor( ) );
 				tiProp.setText( sProperty );
+				table.select( table.getItemCount( ) - 1 );
 
 				updateModel( sProperty[0], sProperty[1] );
 				txtNewKey.setText( "" ); //$NON-NLS-1$
@@ -215,6 +216,7 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 		{
 			if ( table.getSelection( ).length != 0 )
 			{
+				int index = table.getSelectionIndex( );
 				String key = table.getSelection( )[0].getText( 0 );
 				ExtendedProperty property = propMap.get( key );
 				if ( property != null )
@@ -222,6 +224,7 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 					extendedProperties.remove( property );
 					propMap.remove( key );
 					table.remove( table.getSelectionIndex( ) );
+					table.select( index<table.getItemCount( ) ?index:table.getItemCount( )- 1 );
 				}
 				Control editor = editorValue.getEditor( );
 				if ( editor != null )
@@ -242,7 +245,6 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 			{
 				return;
 			}
-			btnRemove.setEnabled( !propDisabledMap.containsKey( item.getText( ) ) );
 
 			// The control that will be the editor must be a child of the Table
 			Text newEditor = new Text( table, SWT.NONE );
@@ -260,6 +262,7 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 			newEditor.setFocus( );
 			editorValue.setEditor( newEditor, item, 1 );
 		}
+		btnRemove.setEnabled( !propDisabledMap.containsKey( table.getSelection( )[0].getText( 0 ) ) );
 	}
 
 	private void updateModel( String key, String value )
