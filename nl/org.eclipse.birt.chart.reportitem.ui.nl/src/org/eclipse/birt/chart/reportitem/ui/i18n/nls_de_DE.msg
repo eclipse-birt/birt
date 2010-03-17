@@ -100,5 +100,5 @@ ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Kategorie:
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Wert:  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y-Option:  
 ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Wertliste mit angegebenem Ausdruck nicht verfügbar. 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Die den Ausdrücken zugeordneten Wertlisten können nur durch Ausdrücke im Format 'Daten["Name"]' abgerufen werden.
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"]/[name] can get its value list.
 

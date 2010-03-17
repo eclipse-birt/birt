@@ -100,5 +100,5 @@ ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=カテゴリ :
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=値 :  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 軸のオプション値 :  
 ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=この式では値リストを使用できません。 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=値の一覧を取得できるのは、data["name"] という形式の式だけです。
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"]/[name] can get its value list.
 

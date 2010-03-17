@@ -100,5 +100,5 @@ ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=범주:
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=값:  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 옵션:  
 ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=지정한 식으로 값 목록을 사용할 수 없습니다. 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=데이터["이름"] 형식의 식만 값 목록을 가져올 수 있습니다.
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"]/[name] can get its value list.
 

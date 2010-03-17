@@ -100,5 +100,5 @@ ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Catégorie :
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Valeur :  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Série verticale facultative  
 ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Liste de valeurs non disponible avec l'expression spécifiée. 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Seules les expressions dont le format est du type données["nom"] peuvent obtenir la liste de valeurs.
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"]/[name] can get its value list.
 
