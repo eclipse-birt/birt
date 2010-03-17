@@ -109,13 +109,13 @@
 		</antcall>
 		
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
-			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
+			<property name="builder" value="${eclipse.build.configs}/birt.designer.ui.ide" />
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
-			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
+			<property name="builder" value="${eclipse.build.configs}/birt.designer.ui.ide" />
 		</ant>
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="process">
-			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
+			<property name="builder" value="${eclipse.build.configs}/birt.designer.ui.ide" />
 		</ant>
 		
 		<antcall target="logger">
