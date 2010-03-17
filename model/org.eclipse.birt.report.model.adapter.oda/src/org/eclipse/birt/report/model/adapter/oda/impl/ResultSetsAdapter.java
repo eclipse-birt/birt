@@ -40,6 +40,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
+import org.eclipse.datatools.connectivity.oda.design.HorizontalAlignment;
 import org.eclipse.datatools.connectivity.oda.design.OutputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
@@ -180,7 +181,7 @@ class ResultSetsAdapter
 
 		updateColumnHintFromDataAttrs( columnDefn.getAttributes( ),
 				cachedDataAttrs, newHint );
-		updateColumnHintFromUsageHints( columnDefn.getUsageHints( ),
+		updateColumnHintFromUsageHints( outputAttrs,
 				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
 						.getUsageHints( ), newHint );
 		updateColumnHintFromAxisAttrs(
@@ -228,8 +229,7 @@ class ResultSetsAdapter
 			if ( !isValueSet )
 			{
 				ValueFormatHints formatHints = outputAttrs.getFormattingHints( );
-				if ( formatHints != null
-						&& formatHints.getDisplayFormat( ) != null )
+				if ( formatHints != null )
 					isValueSet = true;
 			}
 
@@ -275,8 +275,32 @@ class ResultSetsAdapter
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
 			newHint.setProperty( ColumnHint.DISPLAY_NAME_MEMBER, newValue );
-			newHint.setProperty( ColumnHint.DISPLAY_NAME_ID_MEMBER, dataUIHints
-					.getDisplayNameKey( ) );
+		}
+
+		oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
+				.getDisplayNameKey( );
+		newValue = dataUIHints.getDisplayNameKey( );
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint.setProperty( ColumnHint.DISPLAY_NAME_ID_MEMBER, newValue );
+		}
+
+		// description to description in data ui hints.
+
+		oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
+				.getDescription( );
+		newValue = dataUIHints.getDescription( );
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint.setProperty( ColumnHint.DESCRIPTION_MEMBER, newValue );
+		}
+
+		oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
+				.getDescriptionKey( );
+		newValue = dataUIHints.getDescriptionKey( );
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint.setProperty( ColumnHint.DESCRIPTION_ID_MEMBER, newValue );
 		}
 
 	}
@@ -299,15 +323,43 @@ class ResultSetsAdapter
 		if ( outputAttrs == null )
 			return;
 
+		// help text and key
+
 		Object oldValue = cachedOutputAttrs == null ? null : cachedOutputAttrs
 				.getHelpText( );
 		Object newValue = outputAttrs.getHelpText( );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
 			newHint.setProperty( ColumnHint.HELP_TEXT_MEMBER, newValue );
-			newHint.setProperty( ColumnHint.HELP_TEXT_ID_MEMBER, outputAttrs
-					.getHelpTextKey( ) );
 		}
+
+		oldValue = cachedOutputAttrs == null ? null : cachedOutputAttrs
+				.getHelpTextKey( );
+		newValue = outputAttrs.getHelpTextKey( );
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint.setProperty( ColumnHint.HELP_TEXT_ID_MEMBER, newValue );
+		}
+
+		// m_label maps to heading
+
+		oldValue = cachedOutputAttrs == null ? null : cachedOutputAttrs
+				.getLabel( );
+		newValue = outputAttrs.getLabel( );
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint.setProperty( ColumnHint.HEADING_MEMBER, newValue );
+		}
+
+		oldValue = cachedOutputAttrs == null ? null : cachedOutputAttrs
+				.getLabelKey( );
+		newValue = outputAttrs.getLabelKey( );
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint.setProperty( ColumnHint.HEADING_ID_MEMBER, newValue );
+		}
+
+		// for values in formatting.
 
 		ValueFormatHints formatHints = outputAttrs.getFormattingHints( );
 		if ( formatHints == null )
@@ -323,6 +375,72 @@ class ResultSetsAdapter
 		{
 			newHint.setProperty( ColumnHint.FORMAT_MEMBER, newValue );
 		}
+
+		newValue = formatHints.getDisplaySize( );
+		oldValue = cachedFormatHints == null ? null : cachedFormatHints
+				.getDisplaySize( );
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint.setProperty( ColumnHint.DISPLAY_LENGTH_MEMBER, newValue );
+		}
+
+		newValue = formatHints.getHorizontalAlignment( );
+		oldValue = cachedFormatHints == null ? null : cachedFormatHints
+				.getHorizontalAlignment( );
+		if ( oldValue == null || !oldValue.equals( newValue ) )
+		{
+			newHint
+					.setProperty(
+							ColumnHint.HORIZONTAL_ALIGN_MEMBER,
+							convertToROMHorizontalAlignment( (HorizontalAlignment) newValue ) );
+		}
+
+		// cannot handle text format since two objects in ODA and ROM are
+		// different.
+	}
+
+	private static String convertToROMHorizontalAlignment(
+			HorizontalAlignment tmpAlign )
+	{
+		if ( tmpAlign == null )
+			return null;
+
+		switch ( tmpAlign.getValue( ) )
+		{
+			case HorizontalAlignment.AUTOMATIC :
+				return DesignChoiceConstants.TEXT_ALIGN_JUSTIFY;
+			case HorizontalAlignment.CENTER :
+				return DesignChoiceConstants.TEXT_ALIGN_CENTER;
+			case HorizontalAlignment.LEFT :
+				return DesignChoiceConstants.TEXT_ALIGN_LEFT;
+			case HorizontalAlignment.RIGHT :
+				return DesignChoiceConstants.TEXT_ALIGN_RIGHT;
+		}
+
+		return null;
+	}
+
+	private static HorizontalAlignment convertToOdaHorizontalAlignment(
+			String tmpAlign )
+	{
+		if ( tmpAlign == null )
+			return null;
+
+		if ( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY
+				.equalsIgnoreCase( tmpAlign ) )
+			return HorizontalAlignment.get( HorizontalAlignment.AUTOMATIC );
+
+		if ( DesignChoiceConstants.TEXT_ALIGN_CENTER
+				.equalsIgnoreCase( tmpAlign ) )
+			return HorizontalAlignment.get( HorizontalAlignment.CENTER );
+
+		if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equalsIgnoreCase( tmpAlign ) )
+			return HorizontalAlignment.get( HorizontalAlignment.LEFT );
+
+		if ( DesignChoiceConstants.TEXT_ALIGN_RIGHT.equalsIgnoreCase( tmpAlign ) )
+			return HorizontalAlignment.get( HorizontalAlignment.RIGHT );
+
+		return null;
 	}
 
 	/**
@@ -990,36 +1108,42 @@ class ResultSetsAdapter
 	{
 		DataElementAttributes dataAttrs = columnDefn.getAttributes( );
 
+		DataElementUIHints uiHints = null;
 		// update display name
 
 		String displayName = hint.getDisplayName( );
-		if ( displayName != null )
+		String displayNameKey = hint.getDisplayNameKey( );
+
+		if ( displayName != null || displayNameKey != null )
 		{
-			DataElementUIHints uiHints = designFactory
-					.createDataElementUIHints( );
+			uiHints = designFactory.createDataElementUIHints( );
 
-			String displayNameKey = hint.getDisplayNameKey( );
-
-			if ( displayName != null || displayNameKey != null )
-			{
-				uiHints.setDisplayName( displayName );
-				uiHints.setDisplayNameKey( displayNameKey );
-			}
-
-			dataAttrs.setUiHints( uiHints );
+			uiHints.setDisplayName( displayName );
+			uiHints.setDisplayNameKey( displayNameKey );
 		}
-		else
-			dataAttrs.setUiHints( null );
+
+		// description maps to the description in data element UI hints.
+		String desc = hint.getDescription( );
+		String descKey = hint.getDescriptionKey( );
+		if ( desc != null || descKey != null )
+		{
+			if ( uiHints == null )
+				uiHints = designFactory.createDataElementUIHints( );
+
+			uiHints.setDescription( desc );
+			uiHints.setDescriptionKey( descKey );
+		}
+
+		dataAttrs.setUiHints( uiHints );
 
 		// update usage hints.
 
 		OutputElementAttributes outputAttrs = null;
 
 		String helpText = hint.getHelpText( );
-		String helpTextKey = hint.getHelpTextKey( );		
-		String format = hint.getFormat( );
-		
-		if ( helpText != null || format != null || helpTextKey != null)
+		String helpTextKey = hint.getHelpTextKey( );
+
+		if ( helpText != null || helpTextKey != null )
 		{
 			outputAttrs = designFactory.createOutputElementAttributes( );
 			if ( helpText != null || helpTextKey != null )
@@ -1027,15 +1151,49 @@ class ResultSetsAdapter
 				outputAttrs.setHelpText( helpText );
 				outputAttrs.setHelpTextKey( helpTextKey );
 			}
+		}
 
-			if ( format != null )
+		// heading maps to m_label
+
+		String heading = hint.getHeading( );
+		String headingKey = hint.getHeadingKey( );
+		if ( heading != null || headingKey != null )
+		{
+			if ( outputAttrs == null )
+				outputAttrs = designFactory.createOutputElementAttributes( );
+			if ( heading != null || headingKey != null )
 			{
-				ValueFormatHints formatHint = designFactory
-						.createValueFormatHints( );
-				formatHint.setDisplayFormat( format );
-				outputAttrs.setFormattingHints( formatHint );
+				outputAttrs.setLabel( heading );
+				outputAttrs.setLabelKey( headingKey );
 			}
 		}
+
+		// formatting related.
+
+		String format = hint.getFormat( );
+		int displayLength = hint.getDisplayLength( );
+
+		String horizontalAlign = hint.getHorizontalAlign( );
+
+		if ( format != null || horizontalAlign != null
+				|| hint.getProperty( ColumnHint.DISPLAY_LENGTH_MEMBER ) != null )
+		{
+			if ( outputAttrs == null )
+				outputAttrs = designFactory.createOutputElementAttributes( );
+
+			ValueFormatHints formatHint = designFactory
+					.createValueFormatHints( );
+
+			formatHint.setDisplayFormat( format );
+			formatHint.setDisplaySize( displayLength );
+			formatHint
+					.setHorizontalAlignment( convertToOdaHorizontalAlignment( horizontalAlign ) );
+			// cannot handle text format since two objects in ODA and ROM are
+			// different.
+
+			outputAttrs.setFormattingHints( formatHint );
+		}
+
 		columnDefn.setUsageHints( outputAttrs );
 
 		// update axis attributes
