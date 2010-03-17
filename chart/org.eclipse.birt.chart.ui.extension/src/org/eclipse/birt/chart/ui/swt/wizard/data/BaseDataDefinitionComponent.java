@@ -506,6 +506,17 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					.eAdapters( )
 					.addAll( seriesdefinition.eAdapters( ) );
 
+			seriesdefinition.setSortLocale( sdBackup.getSortLocale( ) );
+			
+			if ( sdBackup.isSetSortStrength( ) )
+			{
+				seriesdefinition.setSortStrength( sdBackup.getSortStrength( ) );
+			}
+			else
+			{
+				seriesdefinition.unsetSortStrength( );
+			}
+			
 			seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
 			seriesdefinition.getGrouping( )
 					.eAdapters( )

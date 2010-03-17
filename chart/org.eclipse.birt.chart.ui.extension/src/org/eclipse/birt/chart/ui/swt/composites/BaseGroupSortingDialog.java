@@ -60,7 +60,7 @@ public class BaseGroupSortingDialog extends GroupSortingDialog
 
 	protected void updateSortKeySelectionState( )
 	{
-		setSortKeySelectionState( !UNSORTED_OPTION.equals( cmbSorting.getText( ) )
+		setSortKeySelectionState( isSortEnabled()
 				&& !onlyCategoryExprAsCategorySortKey( ) );
 	}
 

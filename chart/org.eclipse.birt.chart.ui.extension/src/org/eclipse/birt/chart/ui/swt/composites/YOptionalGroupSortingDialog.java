@@ -67,10 +67,9 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog
 		super.createSortArea( parent );
 		if ( !isYGroupingEnabled() )
 		{
+			cmpSortArea.setEnabled( false );
 			lblSorting.setEnabled( false );
 			cmbSorting.setEnabled( false );
-			lblSortExpr.setEnabled( false );
-			cmbSortExpr.setEnabled( false );
 		}
 	}
 	

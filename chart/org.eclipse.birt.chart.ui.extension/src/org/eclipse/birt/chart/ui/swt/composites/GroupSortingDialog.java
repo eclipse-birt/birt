@@ -11,8 +11,13 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.chart.exception.ChartException;
@@ -37,8 +42,8 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -52,9 +57,13 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+
+import com.ibm.icu.text.Collator;
+import com.ibm.icu.util.ULocale;
 
 /**
  * The dialog is responsible to set grouping and sort condition.
@@ -65,10 +74,36 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 	protected static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
 
+	protected static final String AUTO = Messages.getString("GroupSortingDialog.Sort.Locale.Auto"); //$NON-NLS-1$
+	
+	/** The default sort strength items.*/
+	public static final Map<String, Integer> STRENGTH_MAP;
+
+	private static final int ASCII_SORT_STRENGTH = -1;
+	
+	static
+	{
+		STRENGTH_MAP = new HashMap<String, Integer>( );
+		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.ASCII") , //$NON-NLS-1$
+				Integer.valueOf( ASCII_SORT_STRENGTH ) );
+		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.PRIMARY"), //$NON-NLS-1$
+				Integer.valueOf( Collator.PRIMARY ) );
+		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.SECONDARY"), //$NON-NLS-1$
+				Integer.valueOf( Collator.SECONDARY ) );
+		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.TERTIARY"), //$NON-NLS-1$
+				Integer.valueOf( Collator.TERTIARY ) );
+		STRENGTH_MAP.put( Messages.getString("GroupSortingDialog.Sort.Strength.QUATENARY"), //$NON-NLS-1$
+				Integer.valueOf( Collator.QUATERNARY ) );
+		STRENGTH_MAP.put(Messages.getString("GroupSortingDialog.Sort.Strength.IDENTICAL"), //$NON-NLS-1$
+				Integer.valueOf( Collator.IDENTICAL ) );
+	}
+	
 	protected ChartWizardContext wizardContext;
 
 	private SeriesDefinition sd;
 
+	protected Group cmpSortArea;
+	
 	protected Label lblSorting;
 
 	protected Label lblSortExpr;
@@ -76,6 +111,14 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	protected Combo cmbSorting;
 
 	protected Combo cmbSortExpr;
+
+	protected Label lblSortLocale;
+
+	protected Combo cmbSortLocale;
+
+	protected Label lblSortStrength;
+	
+	protected Combo cmbSortStrength;
 
 	protected IExpressionButton btnSortExprBuilder;
 
@@ -208,8 +251,9 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	 */
 	public void createSortArea( Composite parent )
 	{
-		Composite cmpSortArea = new Composite( parent, SWT.NONE );
+		cmpSortArea = new Group( parent, SWT.NONE );
 		{
+			cmpSortArea.setText( Messages.getString("GroupSortingDialog.Composite.Group.Sorting") ); //$NON-NLS-1$
 			cmpSortArea.setLayout( new GridLayout( 3, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 2;
@@ -240,7 +284,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 				updateSortKey( );
 			}
 		} );
-
+		
 		try
 		{
 			btnSortExprBuilder = (IExpressionButton) wizardContext.getUIServiceProvider( )
@@ -262,6 +306,23 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			WizardBase.displayException( e );
 		}
 
+		lblSortLocale = new Label( cmpSortArea, SWT.NONE );
+		lblSortLocale.setText( Messages.getString("GroupSortingDialog.Composite.Label.SortLocale") ); //$NON-NLS-1$
+		cmbSortLocale = new Combo( cmpSortArea, SWT.READ_ONLY | SWT.BORDER );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		cmbSortLocale.setLayoutData( gd );
+		cmbSortLocale.setVisibleItemCount( 30 );
+		cmbSortLocale.addListener( SWT.Selection, this );
+
+		new Label( cmpSortArea, SWT.NONE );
+		lblSortStrength = new Label( cmpSortArea, SWT.NONE );
+		lblSortStrength.setText( Messages.getString("GroupSortingDialog.Composite.Label.SortStrength") ); //$NON-NLS-1$
+		cmbSortStrength = new Combo( cmpSortArea, SWT.READ_ONLY | SWT.BORDER );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		cmbSortStrength.setLayoutData( gd );
+		cmbSortStrength.setVisibleItemCount( 30 );
+		cmbSortStrength.addListener( SWT.Selection, this );
+		
 		if ( isInheritColumnsGroups( ) )
 		{
 			disableSorting( );
@@ -323,6 +384,67 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 		diableSortKeySelectionStateBySortDirection( );
 
+		// populate sort locale combo.
+		List<String> localeNames = new ArrayList<String>( );
+		localeNames.add( AUTO );
+		localeNames.addAll( ChartUIUtil.LOCALE_TABLE.keySet( ) );
+		cmbSortLocale.setItems( localeNames.toArray( new String[]{} ) );
+		if ( getSeriesDefinitionForProcessing( ).getSortLocale( ) == null )
+		{
+			cmbSortLocale.select( 0 );
+		}
+		else
+		{
+			String locale = null;
+			for ( Map.Entry<String, ULocale> entry : ChartUIUtil.LOCALE_TABLE.entrySet( ) )
+			{
+				if ( getSeriesDefinitionForProcessing( ).getSortLocale( )
+						.equals( entry.getValue( ).getName( ) ) )
+				{
+					locale = entry.getKey( );
+					break;
+				}
+			}
+			if ( locale != null )
+			{
+				int index = cmbSortLocale.indexOf( locale );
+				cmbSortLocale.select( index < 0 ? 0 : index );
+			}
+		}
+
+		// Populate sort strength combo.
+		List<String> strengthNames = new ArrayList<String>( STRENGTH_MAP.keySet( ) );
+		Collections.sort( strengthNames, new Comparator<String>( ) {
+
+			public int compare( String o1, String o2 )
+			{
+				return STRENGTH_MAP.get( o1 ) - STRENGTH_MAP.get( o2 );
+			}
+		} );
+		cmbSortStrength.setItems( strengthNames.toArray( new String[]{} ) );
+		if ( !getSeriesDefinitionForProcessing( ).isSetSortStrength( ) )
+		{
+			// If sort strength is not set, it should be the default value of
+			// <code>com.ibm.icu.text.Collator</code>.
+			cmbSortStrength.select( Collator.TERTIARY + 1);
+		}
+		else
+		{
+			String strength = null;
+			for ( Map.Entry<String, Integer> entry : STRENGTH_MAP.entrySet( ) )
+			{
+				if ( getSeriesDefinitionForProcessing( ).getSortStrength( ) == entry.getValue( )
+						.intValue( ) )
+				{
+					strength = entry.getKey( );
+				}
+			}
+			if ( strength != null )
+			{
+				int index = cmbSortStrength.indexOf( strength );
+				cmbSortStrength.select( index < 0 ? 0 : index );
+			}
+		}
 	}
 
 	private Object[] getPredefinedQuery( Set<String> exprSet )
@@ -353,8 +475,8 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	protected void populateSortKeyList( )
 	{
 		initSortKey( );
-		updateSortKeySelectionState( );
-
+		updateSortState();
+		
 		if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
 		{
 			getSeriesDefinitionForProcessing( ).unsetSorting( );
@@ -387,6 +509,22 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 		setSortKeyInModel( );
 	}
 
+	protected void updateSortState( )
+	{
+		updateSortKeySelectionState( );
+		
+		boolean sortEnabled = isSortEnabled( );
+		lblSortLocale.setEnabled( sortEnabled );
+		cmbSortLocale.setEnabled( sortEnabled );
+		lblSortStrength.setEnabled( sortEnabled );
+		cmbSortStrength.setEnabled( sortEnabled );
+	}
+
+	protected boolean isSortEnabled( )
+	{
+		return !UNSORTED_OPTION.equals( cmbSorting.getText( ) );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -394,10 +532,11 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	 */
 	public void handleEvent( Event event )
 	{
-		if ( event.widget == cmbSorting )
+		if ( event.type == SWT.Selection )
 		{
-			if ( event.type == SWT.Selection )
+			if ( event.widget == cmbSorting )
 			{
+
 				diableSortKeySelectionStateBySortDirection( );
 
 				if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
@@ -412,6 +551,30 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 				}
 
 				populateSortKeyList( );
+			}
+			else if ( event.widget == cmbSortLocale )
+			{
+				ULocale locale = ChartUIUtil.LOCALE_TABLE.get( cmbSortLocale.getText( ) );
+				if ( locale == null )
+				{
+					getSeriesDefinitionForProcessing().setSortLocale( null );
+				}
+				else
+				{
+					getSeriesDefinitionForProcessing().setSortLocale( locale.getName( ) );
+				}
+			}
+			else if ( event.widget == cmbSortStrength )
+			{
+				Integer sValue = STRENGTH_MAP.get( cmbSortStrength.getText( ) );
+				if ( sValue == null )
+				{
+					getSeriesDefinitionForProcessing().setSortStrength( this.ASCII_SORT_STRENGTH );
+				}
+				else
+				{
+					getSeriesDefinitionForProcessing().setSortStrength( sValue.intValue( ) );
+				}
 			}
 		}
 	}
@@ -431,7 +594,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			btnSortExprBuilder.setEnabled( enabled );
 		}
 	}
-
+	
 	protected void updateSortKeySelectionState( )
 	{
 		setSortKeySelectionState( !UNSORTED_OPTION.equals( cmbSorting.getText( ) ) );
@@ -500,6 +663,10 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 		cmbSorting.setEnabled( false );
 		lblSortExpr.setEnabled( false );
 		cmbSortExpr.setEnabled( false );
+		lblSortLocale.setEnabled( false );
+		cmbSortLocale.setEnabled( false );
+		lblSortStrength.setEnabled( false );
+		cmbSortStrength.setEnabled( false );
 		if ( btnSortExprBuilder != null )
 		{
 			btnSortExprBuilder.setEnabled( false );
