@@ -889,18 +889,27 @@ public class ChartCubeQueryHelper
 					}
 				}
 			}
+
 			if ( ModuleUtil.isListFilterValue( filterCon ) )
 			{
-				filterCondExpr = new ConditionalExpression( filterQuery,
+				filterCondExpr = new ConditionalExpression( ChartReportItemUtil.newExpression( modelAdapter,
+						exprCodec,
+						filterQuery ),
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
 						filterCon.getValue1ExpressionList( ).getListValue( ) );
 			}
 			else
 			{
-				filterCondExpr = new ConditionalExpression( filterQuery,
+				filterCondExpr = new ConditionalExpression( ChartReportItemUtil.newExpression( modelAdapter,
+						exprCodec,
+						filterQuery ),
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-						filterCon.getValue1( ),
-						filterCon.getValue2( ) );
+						ChartReportItemUtil.newExpression( modelAdapter,
+								exprCodec,
+								filterCon.getValue1( ) ),
+						ChartReportItemUtil.newExpression( modelAdapter,
+								exprCodec,
+								filterCon.getValue2( ) ) );
 			}
 
 			ILevelDefinition levelDefinition = null;
@@ -911,22 +920,10 @@ public class ChartCubeQueryHelper
 			}
 			else
 			{
-				levelDefinition = registeredLevels.get( ChartExpressionUtil.getCubeBindingName( filterCondExpr.getExpression( )
+				levelDefinition = registeredLevels.get( exprCodec.getCubeBindingName( filterCondExpr.getExpression( )
 						.getText( ),
 						true ) );
 			}
-
-//			if ( levelDefinition == null )
-//			{
-//				// If level definition is not found, the level may be not added
-//				// into query
-//				bindExpression( filterCondExpr.getExpression( ).getText( ),
-//						cubeQuery,
-//						cubeHandle );
-//				levelDefinition = registeredLevels.get( ChartExpressionUtil.getCubeBindingName( filterCondExpr.getExpression( )
-//						.getText( ),
-//						true ) );
-//			}
 
 			ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
 					levelDefinition,
