@@ -94,7 +94,7 @@ public class NewCubeAction extends Action
 		TabularCubeHandle newCube = DesignElementFactory.getInstance( )
 				.newTabularCube( Messages.getString( "NewCubeAction.DataCube" ) ); //$NON-NLS-1$
 
-		boolean isFailed = false;
+		boolean isFailed = true;
 		try
 		{
 			SessionHandleAdapter.getInstance( )
@@ -113,26 +113,25 @@ public class NewCubeAction extends Action
 
 			notifyResult( result == WizardDialog.OK );
 
-			if ( result != WizardDialog.OK )
+			if ( result == WizardDialog.OK )
 			{
-				stack.rollback( );
-				isFailed = true;
+				isFailed = false;
 			}
-
 		}
 		catch ( Exception e )
 		{
-			stack.rollback( );
-			isFailed = true;
 			ExceptionUtil.handle( e );
 		}
-
 		if ( !isFailed )
 		{
 			stack.commit( );
+		}
+		else
+		{
+			stack.rollback( );
 			return;
 		}
-		
+
 		List newCubes = getCubes( );
 		CubeHandle cube = findNewCube( existingCubes, newCubes );
 
