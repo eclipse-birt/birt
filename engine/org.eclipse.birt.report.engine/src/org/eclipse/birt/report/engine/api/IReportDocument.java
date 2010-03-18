@@ -92,6 +92,7 @@ public interface IReportDocument extends IDocument
 	 * 
 	 * @return parameter name/value pairs for generating the current report
 	 *         document.
+	 * @deprecated Invoke RenderTask.getParameterValues( ) instead.
 	 */
 	public abstract Map getParameterValues( );
 	
@@ -160,6 +161,16 @@ public interface IReportDocument extends IDocument
 	 * @param tocNodeId
 	 *            the id of the parent TOC node. Pass null as the root TOC node
 	 * @return A list of TOC nodes thata re direct child of the parent node
+	 * @deprecated Invoke following code instead:
+	 * <code><pre>
+	 *     IReportDocument document = ...
+	 *     RenderTask renderTask = engine.createRenderTask( document );
+	 *     ITOCTree tocTree = renderTask.getTOCTree( );
+	 *     ITOCTree tocView = new TOCView( tocTree.getRoot( ), document.getReportDesgin( ), ULocale.getDefault( ),
+	 *	                     TimeZone.getDefault( ), "viewer" );
+	 *     TOCNode node = tocView.findTOC(tocNodeId);
+	 *     List result = node.getChildren( );
+	 * </pre></code>
 	 */
 	public abstract List getChildren( String tocNodeId );
 
@@ -169,6 +180,15 @@ public interface IReportDocument extends IDocument
 	 * @param tocNodeId
 	 *            the id of the toc.
 	 * @return TOCNode with such an Id. NULL if not founded.
+	 * @deprecated Invoke following code instead:
+	 * <code><pre>
+	 *     IReportDocument document = ...
+	 *     RenderTask renderTask = engine.createRenderTask( document );
+	 *     ITOCTree tocTree = renderTask.getTOCTree( );
+	 *     ITOCTree tocView = new TOCView( tocTree.getRoot( ), document.getReportDesgin( ), ULocale.getDefault( ),
+	 *	                     TimeZone.getDefault( ), "viewer" );
+	 *     TOCNode result = tocView.findTOC(tocNodeId);
+	 * </pre></code>
 	 */
 	public abstract TOCNode findTOC( String tocNodeId );
 	
@@ -178,11 +198,21 @@ public interface IReportDocument extends IDocument
 	 * @param tocName
 	 *            the name of the toc.
 	 * @return List of all tocs with the specified name.
+	 * @deprecated Invoke following code instead:
+	 * <code><pre>
+	 *     IReportDocument document = ...
+	 *     RenderTask renderTask = engine.createRenderTask( document );
+	 *     ITOCTree tocTree = renderTask.getTOCTree( );
+	 *     ITOCTree tocView = new TOCView( tocTree.getRoot( ), document.getReportDesgin( ), ULocale.getDefault( ),
+	 *	                     TimeZone.getDefault( ), "viewer" );
+	 *     List result = tocView.findTOCByValue(tocName);
+	 * </pre></code>
 	 */
 	public abstract List findTOCByName( String tocName );
 	
 	/**
 	 * @return a map for all the global variables defined in JavaScript or Java
+	 * @deprecated
 	 */
 	public abstract Map getGlobalVariables( String option);
 	
@@ -200,19 +230,42 @@ public interface IReportDocument extends IDocument
 
 	/**
 	 * Get the TOC tree
-	 * @param format the format to generate the report
-	 * @param locale the locale information to generate the report
+	 * 
+	 * @param format
+	 *            the format to generate the report
+	 * @param locale
+	 *            the locale information to generate the report
+	 * @deprecated Invoke following code instead:
+	 * <code><pre>
+	 *     IReportDocument document = ...
+	 *     RenderTask renderTask = engine.createRenderTask( document );
+	 *     ITOCTree tocTree = renderTask.getTOCTree( );
+	 *     ITOCTree result = new TOCView( tocTree.getRoot( ), document.getReportDesgin( ), locale,
+	 *	                     TimeZone.getDefault( ), format );
+	 * </pre></code>
 	 */
 	ITOCTree getTOCTree( String format, ULocale locale );
 	
 	/**
 	 * Get the TOC tree
-	 * @param format the format to generate the report
-	 * @param locale the locale information to generate the report
-	 * @param timeZone the time zone information to generate the report
+	 * 
+	 * @param format
+	 *            the format to generate the report
+	 * @param locale
+	 *            the locale information to generate the report
+	 * @param timeZone
+	 *            the time zone information to generate the report
+	 * @deprecated Invoke following code instead:
+	 * <code><pre>
+	 *     IReportDocument document = ...
+	 *     RenderTask renderTask = engine.createRenderTask( document );
+	 *     ITOCTree tocTree = renderTask.getTOCTree( );
+	 *     ITOCTree result = new TOCView( tocTree.getRoot( ), document.getReportDesgin( ), locale,
+	 *	                     timeZone, format );
+	 * </pre></code>
 	 */
-	ITOCTree getTOCTree( String format, ULocale locale, TimeZone timeZone );
-	
+	ITOCTree getTOCTree(String format, ULocale locale, TimeZone timeZone);
+
 	/**
 	 * Return the instance id of report item with the specified bookmark
 	 * @param bookmark the bookmark of the report item

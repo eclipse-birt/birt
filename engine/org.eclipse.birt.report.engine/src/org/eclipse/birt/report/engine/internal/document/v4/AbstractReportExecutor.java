@@ -93,7 +93,8 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 			ReportDocumentReader docReader = (ReportDocumentReader) reportDoc;
 			try
 			{
-				ITreeNode tocTree = docReader.getTOCTree( );
+				ITreeNode tocTree = docReader.getTOCTree(context
+						.getApplicationClassLoader());
 				reportContent.setTOCTree( tocTree );
 			}
 			catch ( EngineException ex )

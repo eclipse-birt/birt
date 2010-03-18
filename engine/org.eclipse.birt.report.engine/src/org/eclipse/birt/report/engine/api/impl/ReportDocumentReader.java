@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -122,6 +123,8 @@ public class ReportDocumentReader
 	private boolean coreStreamLoaded = false;
 
 	private LinkedEntry<ReportDocumentReader> engineCacheEntry;
+	
+	private byte[] bodyData;
 	
 	public ReportDocumentReader( ReportEngine engine,
 			IDocArchiveReader archive, boolean sharedArchive )
@@ -412,13 +415,49 @@ public class ReportDocumentReader
 		}
 	}
 
+	protected ReportDocumentCoreInfo loadCoreStream( ClassLoader loader )
+	{
+		try{
+			Object lock = archive.lock( CORE_STREAM );
+			try
+			{
+				synchronized ( lock )
+				{
+					RAInputStream in = archive.getStream( CORE_STREAM );
+					try
+					{
+						DataInputStream di = new DataInputStream( in );
+	
+						// check the document version and core stream version
+						checkVersion( di );
+	
+						return loadCoreStream( di, loader );
+					}
+					finally
+					{
+						in.close( );
+					}
+				}
+			}
+			finally
+			{
+				archive.unlock( lock );
+			}
+		}
+		catch( IOException e )
+		{
+			logger.log( Level.SEVERE, "Failed to refresh", e ); //$NON-NLS-1$
+			return null;
+		}
+	}
+
 	private void loadCoreStream( DataInputStream di ) throws IOException
 	{
 		// load info into a document info object
 		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
 
 		loadCoreStreamHeader( di, documentInfo );
-		loadCoreStreamBody( di, documentInfo );
+		loadCoreStreamBody( di, documentInfo, null );
 
 		// save the document info into the object.
 		checkpoint = documentInfo.checkpoint;
@@ -452,34 +491,80 @@ public class ReportDocumentReader
 		}
 	}
 
-	private void loadCoreStreamBody( DataInputStream di,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
+	private void loadCoreStreamBodyToBuffer( DataInputStream stream ) throws IOException
 	{
-		if ( CORE_VERSION_UNKNOWN.equals( coreVersion ) )
+		byte[] datas = new byte[1024];
+		int length = -1;
+		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+		while( (length = stream.read(datas) ) > 0 )
 		{
-			loadCoreStreamBodyUnknown( di, documentInfo );
+			byteOut.write(datas, 0, length);
 		}
-		else if ( CORE_VERSION_0.equals( coreVersion )
-				|| CORE_VERSION_1.equals( coreVersion ) )
+		bodyData = byteOut.toByteArray();
+	}
+
+	private ReportDocumentCoreInfo loadCoreStream( DataInputStream di,
+			ClassLoader loader ) throws IOException
+	{
+		// load info into a document info object
+		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
+
+		loadCoreStreamHeader( di, documentInfo );
+		loadCoreStreamBody( di, documentInfo, loader );
+		
+		return documentInfo;
+	}
+
+	private void loadCoreStreamBody( DataInputStream di,
+			ReportDocumentCoreInfo documentInfo, ClassLoader loader )
+			throws IOException
+	{
+		loadCoreStreamBodyToBuffer(di);
+		readCoreStreamBodyFromBuffer(documentInfo, loader);
+	}
+
+	private void readCoreStreamBodyFromBuffer(
+			ReportDocumentCoreInfo documentInfo, ClassLoader loader)
+			throws IOException
+	{
+		DataInputStream bodyInput = null;
+		try
 		{
-			loadCoreStreamBodyV0( di, documentInfo );
+			bodyInput = new DataInputStream( new ByteArrayInputStream( bodyData ) );
+			if ( CORE_VERSION_UNKNOWN.equals( coreVersion ) )
+			{
+				loadCoreStreamBodyUnknown( bodyInput, documentInfo, loader );
+			}
+			else if ( CORE_VERSION_0.equals( coreVersion )
+					|| CORE_VERSION_1.equals( coreVersion ) )
+			{
+				loadCoreStreamBodyV0( bodyInput, documentInfo, loader );
+			}
+			else if ( CORE_VERSION_2.equals( coreVersion ) )
+			{
+				loadCoreStreamBodyV2( bodyInput, documentInfo, loader );
+			}
+			else
+			{
+				throw new IOException( "unsupported core stream version: "
+						+ coreVersion );
+			}
 		}
-		else if ( CORE_VERSION_2.equals( coreVersion ) )
+		finally
 		{
-			loadCoreStreamBodyV2( di, documentInfo );
-		}
-		else
-		{
-			throw new IOException( "unsupported core stream version: "
-					+ coreVersion );
+			if ( bodyInput != null )
+			{
+				bodyInput.close( );
+			}
 		}
 	}
 
-	protected void loadCoreStreamBodyUnknown( DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
+	protected void loadCoreStreamBodyUnknown(DataInputStream coreStream,
+			ReportDocumentCoreInfo documentInfo, ClassLoader classLoader)
+			throws IOException
 	{
 		// load the report parameters
-		ClassLoader loader = getClassLoader( );
+		ClassLoader loader = classLoader == null ? getClassLoader( ) : classLoader;
 		Map originalParameters = IOUtil.readMap( coreStream, loader );
 		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
 		// load the persistence object
@@ -492,10 +577,11 @@ public class ReportDocumentReader
 		}
 	}
 
-	protected void loadCoreStreamBodyV0( DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
+	protected void loadCoreStreamBodyV0(DataInputStream coreStream,
+			ReportDocumentCoreInfo documentInfo, ClassLoader classLoader)
+			throws IOException
 	{
-		ClassLoader loader = getClassLoader( );
+		ClassLoader loader = classLoader == null ? getClassLoader( ) : classLoader;
 		Map originalParameters = IOUtil.readMap( coreStream, loader );
 		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
 		// load the persistence object
@@ -505,7 +591,7 @@ public class ReportDocumentReader
 		{
 			HashMap<String, Long> bookmarks = readMap( coreStream );
 			documentInfo.tocReader = new TOCReader( coreStream,
-					getClassLoader( ) );
+					loader );
 			HashMap<String, Long> reportletsIndexById = readMap( coreStream );
 			HashMap<String, Long> reportletsIndexByBookmark = readMap( coreStream );
 			documentInfo.indexReader = new DocumentIndexReader(
@@ -514,10 +600,11 @@ public class ReportDocumentReader
 		}
 	}
 
-	protected void loadCoreStreamBodyV2( DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
+	protected void loadCoreStreamBodyV2(DataInputStream coreStream,
+			ReportDocumentCoreInfo documentInfo, ClassLoader classLoader)
+			throws IOException
 	{
-		ClassLoader loader = getClassLoader( );
+		ClassLoader loader = classLoader == null ? getClassLoader( ) : classLoader;
 		Map originalParameters = IOUtil.readMap( coreStream, loader );
 		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
 		// load the persistence object
@@ -905,6 +992,9 @@ public class ReportDocumentReader
 		return preparedRunnable.cloneRunnable( );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public Map getParameterValues( )
 	{
 		loadCoreStreamLazily( );
@@ -922,6 +1012,53 @@ public class ReportDocumentReader
 			}
 		}
 		return result;
+	}
+
+	public Map getParameterValues( ClassLoader loader )
+	{
+		ReportDocumentCoreInfo reportDocInfo = loadParametersAndVariables(loader);
+		if ( reportDocInfo == null )
+		{
+			return null;
+		}
+		HashMap parameters = reportDocInfo.parameters;
+		Map result = new HashMap( );
+		if ( parameters != null )
+		{
+			Iterator iterator = parameters.entrySet( ).iterator( );
+			while ( iterator.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iterator.next( );
+				String name = (String) entry.getKey( );
+				ParameterAttribute value = (ParameterAttribute) entry
+						.getValue( );
+				result.put( name, value.getValue( ) );
+			}
+		}
+		return result;
+	}
+
+	public ReportDocumentCoreInfo loadParametersAndVariables(ClassLoader loader)
+	{
+		ReportDocumentCoreInfo reportDocInfo = null;
+		if ( bodyData == null )
+		{
+			reportDocInfo = loadCoreStream( loader );
+		}
+		else
+		{
+			try
+			{
+				reportDocInfo = new ReportDocumentCoreInfo( );
+				readCoreStreamBodyFromBuffer( reportDocInfo, loader );
+			}
+			catch ( IOException ee )
+			{
+				logger.log( Level.SEVERE, ee.getLocalizedMessage( ), ee );
+				return null;
+			}
+		}
+		return reportDocInfo;
 	}
 
 	public Map getParameterDisplayTexts( )
@@ -1138,16 +1275,42 @@ public class ReportDocumentReader
 		return -1;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public ITOCTree getTOCTree( String format, ULocale locale )
 	{
 		return getTOCTree( format, locale, TimeZone.getDefault( ) );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public ITOCTree getTOCTree( String format, ULocale locale, TimeZone timeZone )
 	{
 		try
 		{
 			ITreeNode root = getTOCTree( );
+			if ( root != null )
+			{
+				ReportDesignHandle report = ( (ReportRunnable) getOnPreparedRunnable( ) )
+						.getReport( );
+				return new TOCView( root, report, locale, timeZone, format );
+			}
+		}
+		catch ( EngineException ex )
+		{
+			logger.log( Level.WARNING, ex.getMessage( ), ex );
+		}
+		return null;
+	}
+
+	public ITOCTree getTOCTree(String format, ULocale locale,
+			TimeZone timeZone, ClassLoader loader)
+	{
+		try
+		{
+			ITreeNode root = getTOCTree( loader );
 			if ( root != null )
 			{
 				ReportDesignHandle report = ( (ReportRunnable) getOnPreparedRunnable( ) )
@@ -1169,6 +1332,9 @@ public class ReportDocumentReader
 	 * org.eclipse.birt.report.engine.api.IReportDocument#findTOC(java.lang.
 	 * String)
 	 */
+	/**
+	 * @deprecated
+	 */
 	public TOCNode findTOC( String tocNodeId )
 	{
 		ITOCTree tree = getTOCTree( "viewer", ULocale.getDefault( ) );
@@ -1186,6 +1352,9 @@ public class ReportDocumentReader
 	 * org.eclipse.birt.report.engine.api.IReportDocument#findTOCByName(java
 	 * .lang.String)
 	 */
+	/**
+	 * @deprecated
+	 */
 	public List findTOCByName( String tocName )
 	{
 		ITOCTree tree = getTOCTree( "viewer", ULocale.getDefault( ) );
@@ -1202,6 +1371,9 @@ public class ReportDocumentReader
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IReportDocument#getChildren(java.lang
 	 * .String)
+	 */
+	/**
+	 * @deprecated
 	 */
 	public List getChildren( String tocNodeId )
 	{
@@ -1254,10 +1426,23 @@ public class ReportDocumentReader
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IReportDocument#getGlobalVariables()
 	 */
+	/**
+	 * @deprecated
+	 */
 	public Map getGlobalVariables( String option )
 	{
 		loadCoreStreamLazily( );
 		return globalVariables;
+	}
+
+	public Map getGlobalVariables( String option, ClassLoader loader )
+	{
+		ReportDocumentCoreInfo reportDocInfo = loadParametersAndVariables(loader);
+		if ( reportDocInfo != null )
+		{
+			return reportDocInfo.globalVariables;
+		}
+		return null;
 	}
 
 	public long getPageNumber( InstanceID iid )
@@ -1414,6 +1599,9 @@ public class ReportDocumentReader
 		return -1L;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public ClassLoader getClassLoader( )
 	{
 		if ( applicationClassLoader != null )
@@ -1637,6 +1825,9 @@ public class ReportDocumentReader
 		return extension;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	synchronized public ITreeNode getTOCTree( ) throws EngineException
 	{
 		if ( !isComplete( ) )
@@ -1658,6 +1849,19 @@ public class ReportDocumentReader
 		}
 	}
 
+	public ITreeNode getTOCTree( ClassLoader loader ) throws EngineException
+	{
+		try
+		{
+			TOCReader tocReader = new TOCReader( archive, loader );
+			return tocReader.readTree( );
+		}
+		catch ( IOException ex )
+		{
+			throw new EngineException( "failed to load toc tree", ex );
+		}
+	}
+	
 	public void setEngineCacheEntry( LinkedEntry<ReportDocumentReader> entry )
 	{
 		this.engineCacheEntry = entry;
