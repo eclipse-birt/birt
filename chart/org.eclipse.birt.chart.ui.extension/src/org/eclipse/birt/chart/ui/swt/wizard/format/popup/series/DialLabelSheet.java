@@ -129,7 +129,6 @@ public class DialLabelSheet extends AbstractPopupSheet
 		btnFormatSpecifier = new Button( cmpFormat, SWT.PUSH );
 		{
 			GridData gd = new GridData( );
-			ChartUIUtil.setChartImageButtonHeightByPlatform( gd );
 			btnFormatSpecifier.setLayoutData( gd );
 			btnFormatSpecifier.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
 			//			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$

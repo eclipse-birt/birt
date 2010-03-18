@@ -239,7 +239,6 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				false,
 				false );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
-		gdFCCBackground.heightHint = fccBackground.getPreferredSize( ).y;
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
 

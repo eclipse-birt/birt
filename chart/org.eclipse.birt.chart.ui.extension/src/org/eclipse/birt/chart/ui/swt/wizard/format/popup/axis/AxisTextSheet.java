@@ -112,7 +112,6 @@ public class AxisTextSheet extends AbstractPopupSheet
 		}
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING );
-		gdLACTitle.widthHint = 200;
 		lacTitle.setLayoutData( gdLACTitle );
 		lacTitle.addListener( this );
 

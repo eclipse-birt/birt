@@ -194,7 +194,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 		grpOutline = new Group( cmpLeft, SWT.NONE );
 		GridData gdGOutline = new GridData( GridData.FILL_HORIZONTAL );
-		gdGOutline.heightHint = 110;
 		grpOutline.setLayoutData( gdGOutline );
 		grpOutline.setText( Messages.getString( "LabelAttributesComposite.Lbl.Outline" ) ); //$NON-NLS-1$
 		grpOutline.setLayout( new FillLayout( ) );
@@ -220,7 +219,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				getContext( ).getUIServiceProvider( ) );
 		{
 			GridData gdICInsets = new GridData( GridData.FILL_HORIZONTAL );
-			gdICInsets.heightHint = icInsets.getPreferredSize( ).y;
 			gdICInsets.grabExcessVerticalSpace = false;
 			icInsets.setLayoutData( gdICInsets );
 			icInsets.addListener( this );
@@ -383,7 +381,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				false );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
 		gdFCCBackground.verticalAlignment = SWT.CENTER;
-		gdFCCBackground.heightHint = fccBackground.getPreferredSize( ).y;
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
 
@@ -444,7 +441,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		grpDataPoint = new Group( parent, SWT.NONE );
 		{
 			GridData gdCMPDataPoint = new GridData( GridData.FILL_BOTH );
-			gdCMPDataPoint.heightHint = 160;
 			grpDataPoint.setLayoutData( gdCMPDataPoint );
 			GridLayout glCMPDataPoint = new GridLayout( );
 			glCMPDataPoint.numColumns = 4;
@@ -461,6 +457,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				| SWT.V_SCROLL );
 		GridData gdLSTComponents = new GridData( GridData.FILL_BOTH );
 		gdLSTComponents.horizontalSpan = 4;
+		gdLSTComponents.heightHint = 100;
 		lstComponents.setLayoutData( gdLSTComponents );
 		lstComponents.addSelectionListener( this );
 

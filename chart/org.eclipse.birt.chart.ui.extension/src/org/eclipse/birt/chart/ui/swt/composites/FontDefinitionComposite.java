@@ -32,6 +32,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -108,6 +109,11 @@ public class FontDefinitionComposite extends Composite
 	 */
 	private void init( )
 	{
+		if ( Display.getCurrent( ).getHighContrast( ) )
+		{
+			GC gc = new GC( this );
+			iSize = gc.getFontMetrics( ).getHeight( ) + 2;
+		}
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
 		vListeners = new Vector<Listener>( );

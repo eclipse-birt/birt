@@ -99,7 +99,6 @@ public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 		}
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING );
-		gdLACTitle.widthHint = 200;
 		lacTitle.setLayoutData( gdLACTitle );
 		lacTitle.addListener( this );
 

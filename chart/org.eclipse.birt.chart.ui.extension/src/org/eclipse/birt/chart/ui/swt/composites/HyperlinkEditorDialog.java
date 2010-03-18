@@ -213,7 +213,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 
 		Label lblDefine = new Label( parent, SWT.WRAP );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 2;
 			gd.horizontalSpan = 3;
 			gd.widthHint = 200;
@@ -250,7 +250,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 		StyledText stParameters = new StyledText( fGrpParameters, SWT.WRAP
 				| SWT.READ_ONLY );
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 2;
 			gd.horizontalSpan = 3;
 			gd.widthHint = 200;

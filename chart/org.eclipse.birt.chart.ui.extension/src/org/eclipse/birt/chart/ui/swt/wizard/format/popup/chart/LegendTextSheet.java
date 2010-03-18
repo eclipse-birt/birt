@@ -136,8 +136,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		btnFormatSpecifier = new Button( cmpFormat, SWT.PUSH );
 		{
 			GridData gd = new GridData( );
-			// gd.widthHint = 20;
-			gd.heightHint = 20;
 			btnFormatSpecifier.setLayoutData( gd );
 			btnFormatSpecifier.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
 			//			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$

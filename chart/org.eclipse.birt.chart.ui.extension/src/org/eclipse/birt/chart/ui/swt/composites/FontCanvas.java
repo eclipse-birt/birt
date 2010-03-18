@@ -88,9 +88,7 @@ public class FontCanvas extends Canvas implements
 		this.setSize( parent.getClientArea( ).x, parent.getClientArea( ).x );
 		this.fdCurrent = fdSelected == null ? FontDefinitionImpl.createEmpty( )
 				: fdSelected;
-		this.cdCurrent = cdSelected == null ? ColorDefinitionImpl.create( 0,
-				0,
-				0 ) : cdSelected;
+		this.cdCurrent = cdSelected;
 		this.bUseColor = bUseColor;
 		this.bUseAlignment = bUseAlignment;
 		this.bUseSize = bUseSize;
@@ -195,7 +193,11 @@ public class FontCanvas extends Canvas implements
 				}
 				else
 				{
-					cdFore = ColorDefinitionImpl.BLACK( );
+					Color cFore = Display.getCurrent( )
+							.getSystemColor( SWT.COLOR_LIST_FOREGROUND );
+					cdFore = ColorDefinitionImpl.create( cFore.getRed( ),
+							cFore.getGreen( ),
+							cFore.getBlue( ) );
 				}
 			}
 			tx.setColor( cdFore );
@@ -251,7 +253,8 @@ public class FontCanvas extends Canvas implements
 			}
 			else
 			{
-				cFore = new Color( this.getDisplay( ), 0, 0, 0 );
+				cFore = Display.getCurrent( )
+						.getSystemColor( SWT.COLOR_LIST_FOREGROUND );
 			}
 		}
 		gc.setForeground( cFore );

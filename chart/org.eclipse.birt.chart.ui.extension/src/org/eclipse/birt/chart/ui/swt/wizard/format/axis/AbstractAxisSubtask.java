@@ -226,7 +226,6 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			btnFormatSpecifier = new Button( cmpBasic, SWT.PUSH );
 			{
 				GridData gdBTNFormatSpecifier = new GridData( );
-				ChartUIUtil.setChartImageButtonHeightByPlatform( gdBTNFormatSpecifier );
 				gdBTNFormatSpecifier.horizontalIndent = -3;
 				btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
 				//btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$

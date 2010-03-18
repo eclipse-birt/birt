@@ -453,7 +453,6 @@ public class LabelAttributesComposite extends Composite implements
 				false,
 				false );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
-		gdFCCBackground.heightHint = fccBackground.getPreferredSize( ).y;
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
 		fccBackground.setEnabled( bEnableUI );
@@ -480,7 +479,7 @@ public class LabelAttributesComposite extends Composite implements
 
 		grpOutline = new Group( grpAttributes, SWT.NONE );
 		GridData gdGOutline = new GridData( GridData.FILL_HORIZONTAL );
-		gdGOutline.heightHint = 110;
+		// gdGOutline.heightHint = 110;
 		grpOutline.setLayoutData( gdGOutline );
 		grpOutline.setText( Messages.getString( "LabelAttributesComposite.Lbl.Outline" ) ); //$NON-NLS-1$
 		grpOutline.setLayout( flOutline );
@@ -504,7 +503,6 @@ public class LabelAttributesComposite extends Composite implements
 					sUnits,
 					wizardContext.getUIServiceProvider( ) );
 			GridData gdICInsets = new GridData( GridData.FILL_HORIZONTAL );
-			gdICInsets.heightHint = icInsets.getPreferredSize( ).y;
 			gdICInsets.grabExcessVerticalSpace = false;
 			icInsets.addListener( this );
 			icInsets.setLayoutData( gdICInsets );
