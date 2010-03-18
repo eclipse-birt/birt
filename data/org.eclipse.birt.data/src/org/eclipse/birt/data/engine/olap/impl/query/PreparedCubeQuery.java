@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -26,6 +28,7 @@ import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -39,6 +42,7 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	private DataEngineSession session;
 	private DataEngineContext context;
 	private Map appContext;
+	private List<IJSFacttableFilterEvalHelper> internalFilters;
 	
 	/**
 	 * 
@@ -51,8 +55,14 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 		this.session = session;
 		this.context = context;
 		this.appContext = appContext;
+		this.internalFilters = new ArrayList<IJSFacttableFilterEvalHelper> ();
 		if ( !containsDrillFilter( defn ) )		
 			validateQuery( );
+	}
+	
+	public List<IJSFacttableFilterEvalHelper> getInternalFilters( )
+	{
+		return this.internalFilters;
 	}
 	
 	/*

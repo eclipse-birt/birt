@@ -57,6 +57,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	private IBaseQueryResults outResults;
 	protected ICubeCursor cubeCursor;
 	private String name;
+	private PreparedCubeQuery preparedQuery;
 	
 	/**
 	 * 
@@ -66,6 +67,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	public CubeQueryResults( IBaseQueryResults outResults, PreparedCubeQuery preparedQuery, DataEngineSession session, Scriptable scope, DataEngineContext context, Map appContext )
 	{
 		this.cubeQueryDefinition = (ICubeQueryDefinition)preparedQuery.getCubeQueryDefinition( );
+		this.preparedQuery = preparedQuery;
 		this.scope = scope;
 		this.context = context;
 		this.session = session;
@@ -89,6 +91,7 @@ public class CubeQueryResults implements ICubeQueryResults
 			CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, cubeQueryDefinition, this.session,
 					this.scope,
 					this.context );
+			executor.getFacttableBasedFilterHelpers( ).addAll( this.preparedQuery.getInternalFilters( ) );
 			BirtCubeView bcv = new BirtCubeView( executor, appContext );
 			IDocumentManager documentManager = getDocumentManager( executor );
 			ICube cube = loadCube( documentManager, executor );
