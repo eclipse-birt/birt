@@ -15,14 +15,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilterOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 
 public class RenderTaskTest extends EngineCase
 {
@@ -205,6 +206,27 @@ public class RenderTaskTest extends EngineCase
 		test( document, "html" );
 	}
 
+	public void testGetParametersAndVariables( ) throws EngineException
+	{
+		String file = "org/eclipse/birt/report/engine/api/parametersAndVariables.rptdocument";
+		removeFile(REPORT_DOCUMENT );
+		copyResource(file, REPORT_DOCUMENT);
+		ReportDocumentReader document = (ReportDocumentReader) engine
+				.openReportDocument(REPORT_DOCUMENT);
+		IRenderTask renderTask = engine.createRenderTask(document);
+		HashMap<String, String> expectedParamters = new HashMap<String, String>();
+		expectedParamters.put("param1", "value1");
+		expectedParamters.put("param2", "value2");
+		Map<String, String> parameters = renderTask.getParameterValues();
+		assertEquals( expectedParamters, parameters);
+		HashMap<String, String> expectedVariables = new HashMap<String, String>();
+		expectedVariables.put("var1", "value1");
+		expectedVariables.put("var2", "value2");
+		Map<String, String> globalVariables = document.getGlobalVariables(null, null);
+		assertEquals( expectedVariables, globalVariables);
+		renderTask.close();
+	}
+	
 	private void test( IReportDocument document, String format )
 			throws EngineException
 	{

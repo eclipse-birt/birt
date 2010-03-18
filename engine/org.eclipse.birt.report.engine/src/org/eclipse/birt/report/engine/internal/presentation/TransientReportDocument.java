@@ -220,7 +220,7 @@ public class TransientReportDocument implements IInternalReportDocument
 				.getDocumentExtension( name );
 	}
 
-	public ITreeNode getTOCTree( ) throws EngineException
+	public ITreeNode getTOCTree( ClassLoader loader ) throws EngineException
 	{
 		return null;
 	}

@@ -919,6 +919,14 @@ public abstract class EngineTask implements IEngineTask
 		}
 	}
 
+	protected void setParameters( Map<String, ParameterAttribute> parameters )
+	{
+		for ( Map.Entry<String, ParameterAttribute> entry : parameters.entrySet( ) )
+		{
+			inputValues.put( entry.getKey( ), entry.getValue( ) );
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2027,7 +2035,8 @@ public abstract class EngineTask implements IEngineTask
 			try
 			{
 				// load the parameter values from report document
-				Map values = document.getParameterValues( );
+				Map values = document.getParameterValues( executionContext
+						.getApplicationClassLoader( ) );
 				Map texts = document.getParameterDisplayTexts( );
 				setParameterValues( values );
 				setParameterDisplayTexts( texts );

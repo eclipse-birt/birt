@@ -116,7 +116,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			IInternalReportDocument docReader = (IInternalReportDocument) reportDoc;
 			try
 			{
-				ITreeNode tocTree = docReader.getTOCTree( );
+				ITreeNode tocTree = docReader.getTOCTree(context
+						.getApplicationClassLoader());
 				reportContent.setTOCTree( tocTree );
 			}
 			catch ( EngineException ex )

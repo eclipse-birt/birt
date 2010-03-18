@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -30,6 +31,7 @@ import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader.ReportDocumentCoreInfo;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
@@ -73,6 +75,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	private long outputPageCount;
 
 	private boolean designLoaded = false;
+	private boolean variablesLoaded = false;
 
 	/**
 	 * @param engine
@@ -106,7 +109,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		executionContext.setReportDocument( reportDocument );
 
 		assert ( reportDocument instanceof IInternalReportDocument );
-		IInternalReportDocument internalReportDoc = (IInternalReportDocument) reportDocument;
+		ReportDocumentReader internalReportDoc = (ReportDocumentReader) reportDocument;
 		if ( reportRunnable == null )
 		{
 			// load the report runnable from the document
@@ -127,15 +130,29 @@ public class RenderTask extends EngineTask implements IRenderTask
 			executionContext.setReport( reportIR );
 		}
 
-		ClassLoader documentLoader = internalReportDoc.getClassLoader( );
-		executionContext.setApplicationClassLoader( documentLoader );
-
-		// load the information from the report document
-		setParameterValues( reportDocument.getParameterValues( ) );
-		setParameterDisplayTexts( reportDocument.getParameterDisplayTexts( ) );
-		usingParameterValues( );
-		executionContext.registerGlobalBeans( reportDocument
-				.getGlobalVariables( null ) );
+	}
+	
+	/**
+	 * Loads parameters and global variables from report document. Since the
+	 * application context is not available and application class loader can't
+	 * be created when render task is initialized, loading parameters and global
+	 * variables from document must be deferred until application context is
+	 * available.
+	 */
+	protected void loadDocument()
+	{
+		if ( !variablesLoaded )
+		{
+			ReportDocumentReader documentReader = (ReportDocumentReader)reportDocument;
+			// load the information from the report document
+			ClassLoader classLoader = executionContext.getApplicationClassLoader();
+			ReportDocumentCoreInfo docInfo = documentReader
+					.loadParametersAndVariables(classLoader);
+			setParameters( docInfo.parameters );
+			usingParameterValues( );
+			executionContext.registerGlobalBeans(docInfo.globalVariables);
+			variablesLoaded = true;
+		}
 	}
 
 
@@ -190,6 +207,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			{
 				throw new EngineException( MessageConstants.RENDER_OPTION_ERROR ); //$NON-NLS-1$
 			}
+			loadDocument();
 			IReportRunnable runnable = executionContext.getRunnable( );
 			if ( runnable == null )
 			{
@@ -721,6 +739,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public ITOCTree getTOCTree( ) throws EngineException
 	{
+		loadDocument( );
 		IReportDocument document = executionContext.getReportDocument( );
 		String format = IRenderOption.OUTPUT_FORMAT_HTML;
 		if ( renderOptions != null )
@@ -739,7 +758,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		if ( document instanceof IInternalReportDocument )
 		{
 			ITreeNode tocTree = ( (IInternalReportDocument) document )
-					.getTOCTree( );
+					.getTOCTree( executionContext.getApplicationClassLoader( ) );
 			if ( tocTree != null )
 			{
 				LogicalPageSequence visiblePages = loadVisiblePages( );
@@ -769,6 +788,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 		return reportDocument.getPageCount( );
 	}
 	
+	public HashMap getParameterValues( )
+	{
+		loadDocument();
+		return (HashMap)executionContext.getParameterValues( );
+	}
+
+	public String getParameterDisplayText( String name )
+	{
+		loadDocument();
+		return executionContext.getParameterDisplayText(name);
+	}
+
 	private long getDocumentTotalPage( )
 	{
 		return reportDocument.getPageCount( );

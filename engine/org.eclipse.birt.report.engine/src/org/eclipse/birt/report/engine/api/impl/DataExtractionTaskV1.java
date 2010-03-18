@@ -64,6 +64,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.IResultSetItem;
 import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader.ReportDocumentCoreInfo;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteMetaInfoIOUtil;
@@ -193,8 +194,8 @@ public class DataExtractionTaskV1 extends EngineTask
 		super( engine, IEngineTask.TASK_DATAEXTRACTION );
 		IReportRunnable runnable = getOnPreparedRunnable( reader );
 		setReportRunnable( runnable );
-		IInternalReportDocument internalDoc = (IInternalReportDocument) reader;
-		Report reportIR = internalDoc.getReportIR( executionContext
+		ReportDocumentReader reportDocReaderImpl = (ReportDocumentReader) reportDocReader;
+		Report reportIR = reportDocReaderImpl.getReportIR( executionContext
 				.getReportDesign( ) );
 		executionContext.setReport( reportIR );
 		this.report = executionContext.getReport( );
@@ -205,11 +206,11 @@ public class DataExtractionTaskV1 extends EngineTask
 		executionContext.setPresentationMode( true );
 
 		// load the informationf rom the report document
-		setParameterValues( reportDocReader.getParameterValues( ) );
-		setParameterDisplayTexts( reportDocReader.getParameterDisplayTexts( ) );
-		usingParameterValues( );
-		executionContext.registerGlobalBeans( reportDocReader
-				.getGlobalVariables( null ) );
+		ClassLoader classLoader = executionContext.getApplicationClassLoader( );
+		ReportDocumentCoreInfo docInfo = reportDocReaderImpl
+				.loadParametersAndVariables(classLoader);
+		setParameters( docInfo.parameters );
+		executionContext.registerGlobalBeans( docInfo.globalVariables );
 
 	}
 

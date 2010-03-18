@@ -37,5 +37,5 @@ public interface IInternalReportDocument extends IReportDocument
 	IReportDocumentExtension getDocumentExtension( String extension )
 			throws EngineException;
 	
-	ITreeNode getTOCTree( ) throws EngineException;
+	ITreeNode getTOCTree( ClassLoader loader ) throws EngineException;
 }
