@@ -72,7 +72,8 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 				metaResultSet = ( (IAggregationResultSet) drillsRs.get( i ) );
 				levelCount = metaResultSet.getLevelCount( );
 			}
-			( (IAggregationResultSet) drillsRs.get( i ) ).seek( 0 );
+			if ( ( (IAggregationResultSet) drillsRs.get( i ) ).length( ) > 0 )
+				( (IAggregationResultSet) drillsRs.get( i ) ).seek( 0 );
 			statusForRs[i] = true;
 		}
 
@@ -126,7 +127,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 		for ( int i = 0; i < drillsRs.size( ); i++ )
 		{
 			IAggregationResultSet rs = (IAggregationResultSet) drillsRs.get( i );
-			if ( rs.getPosition( ) == rs.length( ) - 1 )
+			if ( rs.length( )== 0 || rs.getPosition( ) == rs.length( ) - 1 )
 			{
 				this.statusForRs[i] = false;
 			}
