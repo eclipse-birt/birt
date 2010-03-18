@@ -29,12 +29,16 @@
                     <text-property name="displayName">new display name for column 1</text-property>
                     <text-property name="helpText" key="message.column-hint.help">new help text for column 1</text-property>
                     <property name="onColumnLayout">false</property>
+                    <property name="displayLength">0</property>                    
                 </structure>
                 <structure>
                     <property name="columnName">date</property>
                     <property name="format">new format for column 2</property>
                     <text-property name="displayName">new display name for column 2</text-property>
                     <text-property name="helpText">new help text for column 2</text-property>
+                    <property name="displayLength">-1</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>                    
                 </structure>
             </list-property>
             <property name="dataSource">myDataSource1</property>
