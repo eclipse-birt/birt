@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -648,7 +648,9 @@ public class DataProcessor
 
 					odata[3] = Integer.valueOf( rsw.getGroupRowCount( k ) );
 					odata[4] = Integer.valueOf( k );
-					odata[5] = triggerExprs;
+					// Here just uses trigger expression/chart variable as the key.
+					odata[5] = getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
+							iae );
 
 					orthogonalDataList.add( odata );
 				}
@@ -879,7 +881,9 @@ public class DataProcessor
 
 						odata[3] = Integer.valueOf( rsw.getGroupRowCount( k ) );
 						odata[4] = Integer.valueOf( k );
-						odata[5] = triggerExprs;
+						// Here just uses trigger expression/chart variable as the key.
+						odata[5] = getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
+								iae );
 
 						orthogonalDataList.add( odata );
 					}
