@@ -112,11 +112,11 @@ datasource.propertyPage.tooltip=JDBC データソース
 
 designer.preview.preference.resultset.previewpage.group.title=プレビューページ
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=事前にすべてのスキーマをデータベースからフェッチする(&P) 
-designer.preview.preference.resultset.enableCodeAssist.description=&Enable SQL code assist.
+designer.preview.preference.resultset.enableCodeAssist.description=SQL コードアシストを有効にする(&E)
 designer.preview.preference.resultset.showSystemPageCheckbox.description=SQL エディタページにシステムテーブルを表示する(&S)
 designer.preview.preference.resultset.maxNoOfSchema.description=表示するスキーマの最大数(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=各スキーマに表示するテーブルの最大数(&T) :
-designer.preview.preference.resultset.timeOutLimit.description=タイムアウト制限時間 (秒) :
+designer.preview.preference.resultset.timeOutLimit.description=タイムアウト制限時間 (秒)(&O) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=最大スキーマ数には、0 から {0} までの数を入力してください。
 designer.preview.preference.resultset.maxNoOfTable.errormessage=各スキーマの最大テーブル数には、0 から {0} までの数を入力してください。
 designer.preview.preference.resultset.timeOutLimit.errormessage=タイムアウト制限時間 (秒) には 0 ～ {0} までの数値を入力してください。

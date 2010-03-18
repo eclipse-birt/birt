@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=可視性
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=自動
-LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
+LayoutConfigurationBlock.Default.Unit.Label=デフォルトの単位(&F) :
 
 ###########################################################
 #LayoutEditor properties
@@ -2933,8 +2933,8 @@ ParameterDialog.checkBox.BlankValue=空白値
 ParameterDialog.checkBox.NullValue=NULL 値
 ParameterDialog.emptyColumnValueExpression.title=値の列式が無効です。
 ParameterDialog.emptyColumnValueExpression.message=値の列式は空白にできません。
-ParameterDialog.Value.Empty=Empty Value
-ParameterDialog.Value.Null=NULL 値
+ParameterDialog.Value.Empty=空の値
+ParameterDialog.Value.Null=Null 値
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
@@ -4294,7 +4294,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=ソースファイルが存在しま
 PublishResourceAction.wizard.notvalidfolder=設定に無効なリソースフォルダが定義されています。
 PublishResourceDialog.Label.FileName=ファイル名(&N) :
 PublishResourceDialog.Label.SourceFileName=ソースファイル(&S) :
-PublishResourceDialog.Label.Folder=Folder:
+PublishResourceDialog.Label.Folder=フォルダ :
 PublishResourceDialog.Label.Browse=参照(&B)...
 PublishResourceDialog.Label.Browse2=参照(&W)...
 WizardResourceSettingPage.ErrorMessage=フォルダを選択してください。
@@ -4737,7 +4737,7 @@ VariableDialog.Error.NameDuplicate=この名前 \"{0}\" は、すでに使用されています。
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=デフォルトの構文(&F) :
 
 ###########################################################
 #ExpressionEditor

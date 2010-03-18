@@ -682,7 +682,7 @@ Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=TextBox
 Choices.selectorType.calendar=Calendar
-Choices.selectorType.currentSelections=Current Selections
+Choices.selectorType.currentSelections=現在の選択
 
 #85 thumbType
 Choices.thumbType.single=Single
@@ -709,7 +709,7 @@ Choices.gadgetContentType.image=イメージ
 
 #89 WindowStatus
 Choices.windowStatus.normal=標準
-Choices.windowStatus.maximized=Maximized
+Choices.windowStatus.maximized=最大化
 
 ###########################################################
 # Classes

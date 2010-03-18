@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=可见性
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=自动
-LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
+LayoutConfigurationBlock.Default.Unit.Label=默认单位(&F):
 
 ###########################################################
 #LayoutEditor properties
@@ -2933,7 +2933,7 @@ ParameterDialog.checkBox.BlankValue=空白值
 ParameterDialog.checkBox.NullValue=空值
 ParameterDialog.emptyColumnValueExpression.title=无效的值列表达式
 ParameterDialog.emptyColumnValueExpression.message=值列表达式不能为空!
-ParameterDialog.Value.Empty=Empty Value
+ParameterDialog.Value.Empty=空值
 ParameterDialog.Value.Null=空值
 
 ###########################################################
@@ -4294,7 +4294,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=源文件不存在。
 PublishResourceAction.wizard.notvalidfolder=首选项中定义的资源文件夹无效。
 PublishResourceDialog.Label.FileName=文件名(&N):
 PublishResourceDialog.Label.SourceFileName=源文件(&S):
-PublishResourceDialog.Label.Folder=Folder:
+PublishResourceDialog.Label.Folder=文件夹:
 PublishResourceDialog.Label.Browse=浏览(&B)...
 PublishResourceDialog.Label.Browse2=浏览(&W)...
 WizardResourceSettingPage.ErrorMessage=请选择文件夹
@@ -4737,7 +4737,7 @@ VariableDialog.Error.NameDuplicate=名称“{0}”与现有名称重复。请选择一个不同的名
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法(&F):
 
 ###########################################################
 #ExpressionEditor
