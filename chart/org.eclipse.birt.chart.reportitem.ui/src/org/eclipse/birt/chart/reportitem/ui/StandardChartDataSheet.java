@@ -1198,8 +1198,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			return;
 		}
 
-		cmbInherit.setEnabled( !isInheritingSummaryTable && getDataServiceProvider( ).getInheritedDataSet( ) != null
-				&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
+		cmbInherit.setEnabled( canInheriting( ) );
 		if ( !cmbInherit.isEnabled( ) )
 		{
 			if ( itemHandle.getContainer( ) instanceof MultiViewsHandle
@@ -1366,8 +1365,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					cmbDataItems.select( 0 );
 					currentData = null;
 					cmbDataItems.setEnabled( false );
-					cmbInherit.setEnabled( !isInheritingSummaryTable() && getDataServiceProvider( ).getInheritedDataSet( ) != null
-							&& ChartReportItemUtil.isContainerInheritable( itemHandle ) );
+					cmbInherit.setEnabled( canInheriting( ) );
 					if ( cmbInherit.isEnabled( ) )
 					{
 						getContext( ).setInheritColumnsOnly( cmbInherit.getSelectionIndex( ) == 1 );
@@ -1581,6 +1579,14 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						e1.getLocalizedMessage( ) );
 			}
 		}
+	}
+
+	private boolean canInheriting( )
+	{
+		return !isInheritingSummaryTable( )
+				&& getDataServiceProvider( ).getInheritedDataSet( ) != null
+				&& ChartReportItemUtil.isContainerInheritable( itemHandle )
+				&& !isContainerSharingQuery( );
 	}
 
 	private void autoSelect( boolean force )
@@ -2458,7 +2464,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		if ( isDataItemSupported( SELECT_NONE ) )
 		{
-			if ( DEUtil.getDataSetList( itemHandle.getContainer( ) )
+			if ( !this.isContainerSharingQuery( ) && DEUtil.getDataSetList( itemHandle.getContainer( ) )
 							.size( ) > 0 )
 			{
 				items.add( Messages.getString( "ReportDataServiceProvider.Option.Inherits", //$NON-NLS-1$
@@ -2833,5 +2839,28 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 
 		return dataDefinitions;
+	}
+	
+	private boolean isContainerSharingQuery() {
+		ReportItemHandle rih = this.getParentReportItemHandle( itemHandle.getContainer( ) );
+		if ( rih != null )
+		{
+			return ( rih.getDataBindingReference( ) != null );
+		}
+		return false;
+	}
+	
+	private ReportItemHandle getParentReportItemHandle( DesignElementHandle handle)
+	{
+		if ( handle == null )
+		{
+			return null;
+		}
+		else if (handle instanceof ReportItemHandle )
+		{
+			return (ReportItemHandle) handle;
+		}
+		
+		return getParentReportItemHandle( handle.getContainer( ) );
 	}
 }
