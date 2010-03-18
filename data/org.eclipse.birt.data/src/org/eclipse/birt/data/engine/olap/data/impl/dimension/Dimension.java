@@ -245,7 +245,7 @@ public class Dimension implements IDimension
 	 */
 	public IDiskArray findAll( ) throws IOException
 	{
-		IDiskArray result = new BufferedPrimitiveDiskArray( Math.min( Constants.MAX_LIST_BUFFER_SIZE, length ) );
+		IDiskArray result = new BufferedPrimitiveDiskArray( Math.min( Constants.MAX_DIMENSION_LENGTH, length ) );
 		int lastPos = length( ) - 1;
 		for ( int i = 0; i <= lastPos; i++ )
 		{
