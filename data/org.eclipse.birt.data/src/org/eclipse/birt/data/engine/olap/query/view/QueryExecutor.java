@@ -39,6 +39,8 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.CachedAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.SortedAggregationRowArray;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
@@ -219,8 +221,19 @@ public class QueryExecutor
 		}
 	}
 	
+	private IAggregationResultSet sortAggregationResultSet( IAggregationResultSet rs ) throws IOException
+	{
+		SortedAggregationRowArray sarr = new SortedAggregationRowArray( rs );
+		rs.close( );
+		return new AggregationResultSet( rs.getAggregationDefinition( ),
+				rs.getAllLevels( ),
+				sarr.getSortedRows( ),
+				rs.getKeyNames( ),
+				rs.getAttributeNames( ));
+	}
+	
 	private void incrementExecute( IAggregationResultSet[] baseResultSets, 
-			IncrementExecutionHint ieh ) throws DataException
+			IncrementExecutionHint ieh ) throws DataException, IOException
 	{
 		assert baseResultSets != null && ieh != null;
 		if ( ieh.getSorts( ).length > 0 )
@@ -229,8 +242,16 @@ public class QueryExecutor
 		}
 	}
 	
-	private void applyIncrementSorts( IAggregationResultSet[] baseResultSets ) throws DataException
+	private void applyIncrementSorts( IAggregationResultSet[] baseResultSets ) throws DataException, IOException
 	{
+		//Make sure all edge aggregation result sets are already sorted
+		for ( int i = 0; i < baseResultSets.length; i++ )
+		{
+			if ( baseResultSets[i].getAggregationCount( ) == 0 ) //edge aggregation result set 
+			{
+				baseResultSets[i] = sortAggregationResultSet( baseResultSets[i] );
+			}
+		}
 		cubeQueryExecutorHelper.applyAggrSort( baseResultSets );
 	}
 
