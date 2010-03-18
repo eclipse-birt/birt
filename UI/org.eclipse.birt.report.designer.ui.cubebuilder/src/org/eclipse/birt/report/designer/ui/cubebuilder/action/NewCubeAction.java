@@ -81,7 +81,7 @@ public class NewCubeAction extends Action
 		{
 			System.out.println( "New cube action >> Run ..." ); //$NON-NLS-1$
 		}
-		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null )
 		{
 			return;
 		}
@@ -89,12 +89,12 @@ public class NewCubeAction extends Action
 		List existingCubes = getCubes( );
 
 		CommandStack stack = getActionStack( );
-		stack.startPersistentTrans( Messages.getString("NewCubeAction.trans.cube.new") );  //$NON-NLS-1$
+		stack.startPersistentTrans( Messages.getString( "NewCubeAction.trans.cube.new" ) ); //$NON-NLS-1$
 
 		TabularCubeHandle newCube = DesignElementFactory.getInstance( )
-				.newTabularCube( Messages.getString("NewCubeAction.DataCube") ); //$NON-NLS-1$
+				.newTabularCube( Messages.getString( "NewCubeAction.DataCube" ) ); //$NON-NLS-1$
 
-		boolean isFailed = false;
+		boolean isFailed = true;
 		try
 		{
 			SessionHandleAdapter.getInstance( )
@@ -113,22 +113,23 @@ public class NewCubeAction extends Action
 
 			notifyResult( result == WizardDialog.OK );
 
-			if ( result != WizardDialog.OK )
+			if ( result == WizardDialog.OK )
 			{
-				stack.rollback( );
-				isFailed = true;
+				isFailed = false;
 			}
-
 		}
 		catch ( Exception e )
 		{
-			stack.rollback( );
-			isFailed = true;
 			ExceptionUtil.handle( e );
 		}
 
-		if ( !isFailed ){
+		if ( !isFailed )
+		{
 			stack.commit( );
+		}
+		else
+		{
+			stack.rollback( );
 			return;
 		}
 		List newCubes = getCubes( );
