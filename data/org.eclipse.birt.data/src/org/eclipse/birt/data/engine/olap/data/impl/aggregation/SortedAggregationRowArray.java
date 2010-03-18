@@ -41,6 +41,13 @@ public class SortedAggregationRowArray
 		}
 	}
 	
+	public SortedAggregationRowArray( IAggregationResultSet aggregationResultSet ) throws IOException
+	{
+		this.aggregationResultSet = aggregationResultSet;
+		sort ( aggregationResultSet.getAllLevels( ) );
+	}
+	
+	
 	/**
 	 * 
 	 * @param keyLevels
@@ -146,5 +153,11 @@ public class SortedAggregationRowArray
 		{
 			return aggregationResultSet.length( );
 		}
+	}
+
+	
+	public IDiskArray getSortedRows( )
+	{
+		return sortedRows;
 	}
 }
