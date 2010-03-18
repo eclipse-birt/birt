@@ -33,7 +33,7 @@
             <property name="controlType">check-box</property>
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="6">
-            <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
+            <text-property name="promptText">City</text-property>
             <property name="listLimit">100</property>
             <property name="valueType">dynamic</property>
             <property name="dataSetName">myDataSet2</property>
@@ -45,7 +45,7 @@
             <property name="autoSuggestThreshold">1</property>
         </scalar-parameter>
         <scalar-parameter name="Param 3" id="7">
-            <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
+            <text-property name="promptText">City</text-property>
             <property name="listLimit">100</property>
             <property name="valueType">dynamic</property>
             <property name="dataSetName">myDataSet2</property>

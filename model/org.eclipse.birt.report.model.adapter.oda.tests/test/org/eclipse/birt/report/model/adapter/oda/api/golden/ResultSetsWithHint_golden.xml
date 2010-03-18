@@ -16,9 +16,12 @@
           </design:attributes>
           <design:usageHints>
             <design:formattingHints>
+              <design:displaySize>0</design:displaySize>
               <design:displayFormat>##.###</design:displayFormat>
+              <design:horizontalAlignment>Automatic</design:horizontalAlignment>
+              <design:textWrapType>None</design:textWrapType>
             </design:formattingHints>
-            <design:helpText>Help me!</design:helpText>
+            <design:helpText>%message.column-hint.help Help me!</design:helpText>
           </design:usageHints>
           <design:multiDimensionAttributes>
             <design:axisType>DimensionAttribute</design:axisType>

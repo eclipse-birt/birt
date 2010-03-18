@@ -239,7 +239,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 			InputElementAttributes inputAttrs = paramDefn.getInputAttributes( )
 					.getElementAttributes( );
 			inputAttrs
-					.setUiPromptStyle( InputPromptControlStyle.SELECTABLE_LIST_WITH_TEXT_FIELD_LITERAL );
+					.setUiPromptStyle( InputPromptControlStyle.TEXT_FIELD_LITERAL );
 			inputAttrs.getUiHints( ).setAutoSuggestThreshold( 3 );
 
 		}
