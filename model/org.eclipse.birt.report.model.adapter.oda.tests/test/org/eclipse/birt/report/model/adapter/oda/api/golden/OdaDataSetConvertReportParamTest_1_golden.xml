@@ -27,7 +27,7 @@
             <property name="autoSuggestThreshold">111</property>
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="6">
-            <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
+            <text-property name="promptText">City</text-property>
             <property name="listLimit">100</property>
             <property name="valueType">dynamic</property>
             <property name="dataSetName">myDataSet2</property>
@@ -39,7 +39,7 @@
             <property name="autoSuggestThreshold">1</property>
         </scalar-parameter>
         <scalar-parameter name="Param 3" id="7">
-            <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
+            <text-property name="promptText">City</text-property>
             <property name="listLimit">100</property>
             <property name="valueType">dynamic</property>
             <property name="dataSetName">myDataSet2</property>
@@ -119,8 +119,8 @@
         <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
         <design:nullability>NotNullable</design:nullability>
         <design:uiHints>
-          <design:displayName>new prompt text for report param 1</design:displayName>
-          <design:description>new help text for report param 1</design:description>
+          <design:displayName>%newPromptTextKeyParam1 new prompt text for report param 1</design:displayName>
+          <design:description>%newHelpTextKeyParam1 new help text for report param 1</design:description>
         </design:uiHints>
       </design:attributes>
       <design:inputAttributes>
@@ -133,7 +133,7 @@
           <design:staticValueChoices>
             <design:scalarValues>
               <design:value>new choice value 1</design:value>
-              <design:displayName>new choice display name 1</design:displayName>
+              <design:displayName>%newChoiceDisplayName1 new choice display name 1</design:displayName>
             </design:scalarValues>
           </design:staticValueChoices>
           <design:dynamicValueChoices>

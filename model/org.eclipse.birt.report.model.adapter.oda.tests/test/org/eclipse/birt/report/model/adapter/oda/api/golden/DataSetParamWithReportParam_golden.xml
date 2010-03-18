@@ -11,7 +11,7 @@
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
           <design:displayName>param1 prompt text</design:displayName>
-          <design:description>scalar para help</design:description>
+          <design:description>%help scalar para help</design:description>
         </design:uiHints>
       </design:attributes>
       <design:inputAttributes>
@@ -24,11 +24,11 @@
           <design:staticValueChoices>
             <design:scalarValues>
               <design:value>option 1</design:value>
-              <design:displayName>option 1 label</design:displayName>
+              <design:displayName>%key1forlabel1 option 1 label</design:displayName>
             </design:scalarValues>
             <design:scalarValues>
               <design:value>option 2</design:value>
-              <design:displayName>option 2 label</design:displayName>
+              <design:displayName>%key2forlabel1 option 2 label</design:displayName>
             </design:scalarValues>
             <design:scalarValues>
               <design:value>option 3</design:value>
@@ -133,7 +133,7 @@
         <design:position>2</design:position>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
-          <design:displayName>City</design:displayName>
+          <design:displayName>%ResourceKey.Parameter.PromptText City</design:displayName>
         </design:uiHints>
       </design:attributes>
       <design:inputAttributes>
@@ -238,7 +238,7 @@
         <design:position>3</design:position>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
-          <design:displayName>City</design:displayName>
+          <design:displayName>%ResourceKey.Parameter.PromptText City</design:displayName>
         </design:uiHints>
       </design:attributes>
       <design:inputAttributes>
