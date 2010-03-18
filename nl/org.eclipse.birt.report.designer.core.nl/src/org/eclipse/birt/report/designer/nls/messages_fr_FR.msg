@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=Visibilité
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=Auto
-LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
+LayoutConfigurationBlock.Default.Unit.Label=Unité par déf&aut :
 
 ###########################################################
 #LayoutEditor properties
@@ -2933,7 +2933,7 @@ ParameterDialog.checkBox.BlankValue=Valeur vierge
 ParameterDialog.checkBox.NullValue=Valeur nulle
 ParameterDialog.emptyColumnValueExpression.title=Expression de colonne de valeur non valide
 ParameterDialog.emptyColumnValueExpression.message=L'expression de colonne de valeur doit être indiquée !
-ParameterDialog.Value.Empty=Empty Value
+ParameterDialog.Value.Empty=Valeur vide
 ParameterDialog.Value.Null=Valeur nulle
 
 ###########################################################
@@ -4294,7 +4294,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=Le fichier source n'exis
 PublishResourceAction.wizard.notvalidfolder=Le dossier de ressources défini dans les préférences n'est pas valide.
 PublishResourceDialog.Label.FileName=&Nom de fichier :
 PublishResourceDialog.Label.SourceFileName=&Fichier source :
-PublishResourceDialog.Label.Folder=Folder:
+PublishResourceDialog.Label.Folder=Dossier :
 PublishResourceDialog.Label.Browse=& Parcourir...
 PublishResourceDialog.Label.Browse2=Par&courir...
 WizardResourceSettingPage.ErrorMessage=Sélectionner un dossier
@@ -4737,7 +4737,7 @@ VariableDialog.Error.NameDuplicate=Le nom \"{0}"\ est le doublon d'un nom exista
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par déf&aut :
 
 ###########################################################
 #ExpressionEditor

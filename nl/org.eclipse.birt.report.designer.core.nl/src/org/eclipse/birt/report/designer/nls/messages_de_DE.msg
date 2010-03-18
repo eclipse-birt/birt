@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=Sichtbarkeit
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=Auto
-LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
+LayoutConfigurationBlock.Default.Unit.Label=&Standardeinheit:
 
 ###########################################################
 #LayoutEditor properties
@@ -2933,7 +2933,7 @@ ParameterDialog.checkBox.BlankValue=Leerwert
 ParameterDialog.checkBox.NullValue=Null-Wert
 ParameterDialog.emptyColumnValueExpression.title=Ungültiger Wertspaltenausdruck.
 ParameterDialog.emptyColumnValueExpression.message=Wertspaltenausdruck darf nicht leer sein.
-ParameterDialog.Value.Empty=Empty Value
+ParameterDialog.Value.Empty=Leerer Wert
 ParameterDialog.Value.Null=Null-Wert
 
 ###########################################################
@@ -4294,7 +4294,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=Die Quelldatei ist nicht
 PublishResourceAction.wizard.notvalidfolder=Der in der Einstellung definierte Ressourcenordner ist ungültig.
 PublishResourceDialog.Label.FileName=&Dateiname:
 PublishResourceDialog.Label.SourceFileName=&Quelldatei:
-PublishResourceDialog.Label.Folder=Folder:
+PublishResourceDialog.Label.Folder=Ordner:
 PublishResourceDialog.Label.Browse=&Durchsuchen...
 PublishResourceDialog.Label.Browse2=Durchsu&chen...
 WizardResourceSettingPage.ErrorMessage=Wählen Sie einen Ordner aus.
@@ -4737,7 +4737,7 @@ VariableDialog.Error.NameDuplicate=Der Name \"{0}\" ist bereits vorhanden. Bitte
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=&Standardsyntax:
 
 ###########################################################
 #ExpressionEditor

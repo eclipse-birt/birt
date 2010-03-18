@@ -112,11 +112,11 @@ datasource.propertyPage.tooltip=Fuente de datos JDBC
 
 designer.preview.preference.resultset.previewpage.group.title=Página de vista previa
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=Recu&peración anticipada de todos los esquemas de la base de datos. 
-designer.preview.preference.resultset.enableCodeAssist.description=&Enable SQL code assist.
+designer.preview.preference.resultset.enableCodeAssist.description=&Activar ayuda para código SQL.
 designer.preview.preference.resultset.showSystemPageCheckbox.description=&Mostrar tablas del sistema en la página del editor sql.
 designer.preview.preference.resultset.maxNoOfSchema.description=Número máximo de e&squemas que mostrar:
 designer.preview.preference.resultset.maxNoOfTable.description=Número máximo de &tablas de cada esquema que mostrar:
-designer.preview.preference.resultset.timeOutLimit.description=Límite de tiempo (segundos):
+designer.preview.preference.resultset.timeOutLimit.description=Límite de &tiempo (segundos):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Introduzca un número entre 0 y {0} para el número máximo de esquemas.
 designer.preview.preference.resultset.maxNoOfTable.errormessage=Introduzca un número entre 0 y {0} para el número máximo de tablas de cada esquema.
 designer.preview.preference.resultset.timeOutLimit.errormessage=Introduzca un número entre 0 y {0} para definir los segundos de límite de tiempo.

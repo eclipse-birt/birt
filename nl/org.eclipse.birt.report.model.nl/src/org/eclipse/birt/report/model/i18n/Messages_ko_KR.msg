@@ -682,7 +682,7 @@ Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=TextBox
 Choices.selectorType.calendar=Calendar
-Choices.selectorType.currentSelections=Current Selections
+Choices.selectorType.currentSelections=현재 선택한 항목
 
 #85 thumbType
 Choices.thumbType.single=Single
@@ -708,8 +708,8 @@ Choices.gadgetContentType.text=텍스트
 Choices.gadgetContentType.image=이미지  
 
 #89 WindowStatus
-Choices.windowStatus.normal=표준
-Choices.windowStatus.maximized=Maximized
+Choices.windowStatus.normal=기본
+Choices.windowStatus.maximized=최대화
 
 ###########################################################
 # Classes

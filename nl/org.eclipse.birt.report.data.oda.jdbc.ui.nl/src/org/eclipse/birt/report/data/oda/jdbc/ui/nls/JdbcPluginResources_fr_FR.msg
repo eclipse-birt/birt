@@ -112,7 +112,7 @@ datasource.propertyPage.tooltip=Source de données JDBC
 
 designer.preview.preference.resultset.previewpage.group.title=Page de prévisualisation
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=Récu&pérer à l'avance tous les schémas à partir de la base de données. 
-designer.preview.preference.resultset.enableCodeAssist.description=&Enable SQL code assist.
+designer.preview.preference.resultset.enableCodeAssist.description=&Activer l'assistant du code SQL.
 designer.preview.preference.resultset.showSystemPageCheckbox.description=Afficher les table&s dans la page de l'éditeur SQL.
 designer.preview.preference.resultset.maxNoOfSchema.description=Nombre maximum de &schémas à afficher :
 designer.preview.preference.resultset.maxNoOfTable.description=Nombre maximum de &tables de chaque schéma à afficher :

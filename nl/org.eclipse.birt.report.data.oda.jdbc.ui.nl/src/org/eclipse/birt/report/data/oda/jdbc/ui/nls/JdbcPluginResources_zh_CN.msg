@@ -112,11 +112,11 @@ datasource.propertyPage.tooltip=JDBC 数据源
 
 designer.preview.preference.resultset.previewpage.group.title=预览页面
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=从数据库中预取所有架构(&P)。 
-designer.preview.preference.resultset.enableCodeAssist.description=&Enable SQL code assist.
+designer.preview.preference.resultset.enableCodeAssist.description=启用 SQL 代码帮助(&E)。
 designer.preview.preference.resultset.showSystemPageCheckbox.description=在 sql 编辑器页中显示系统表(&S)。
 designer.preview.preference.resultset.maxNoOfSchema.description=要显示的最大架构数(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=每个架构中要显示的最大表数(&T):
-designer.preview.preference.resultset.timeOutLimit.description=超时限制（秒）：
+designer.preview.preference.resultset.timeOutLimit.description=超时限制（秒）(&O):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=请为最大架构数输入一个介于 0 和 {0} 之间的数。
 designer.preview.preference.resultset.maxNoOfTable.errormessage=请在每个架构中分别为最大表数输入一个介于 0 和 {0} 之间的数。
 designer.preview.preference.resultset.timeOutLimit.errormessage=请输入一个介于 0 至 {0} 之间的数字作为超时限制时间（秒）。

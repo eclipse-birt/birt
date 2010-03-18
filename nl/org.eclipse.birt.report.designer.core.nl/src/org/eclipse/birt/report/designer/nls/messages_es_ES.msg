@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=Visibilidad
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=Automático
-LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
+LayoutConfigurationBlock.Default.Unit.Label=Unidad &predeterminada:
 
 ###########################################################
 #LayoutEditor properties
@@ -2933,7 +2933,7 @@ ParameterDialog.checkBox.BlankValue=Valor en blanco
 ParameterDialog.checkBox.NullValue=Valor nulo
 ParameterDialog.emptyColumnValueExpression.title=La expresión de columna de valor no es válida
 ParameterDialog.emptyColumnValueExpression.message=La expresión de columna de valor no puede estar vacía
-ParameterDialog.Value.Empty=Empty Value
+ParameterDialog.Value.Empty=Valor vacío
 ParameterDialog.Value.Null=Valor nulo
 
 ###########################################################
@@ -4294,7 +4294,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=El archivo fuente no exi
 PublishResourceAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como preferencia no es válida.
 PublishResourceDialog.Label.FileName=&Nombre de archivo:
 PublishResourceDialog.Label.SourceFileName=&Archivo fuente:
-PublishResourceDialog.Label.Folder=Folder:
+PublishResourceDialog.Label.Folder=Carpeta:
 PublishResourceDialog.Label.Browse=&Examinar...
 PublishResourceDialog.Label.Browse2=E&xaminar...
 WizardResourceSettingPage.ErrorMessage=Seleccione una carpeta
@@ -4737,7 +4737,7 @@ VariableDialog.Error.NameDuplicate=El nombre \"{0}\" duplica un nombre existente
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=Sintaxis &predeterminada:
 
 ###########################################################
 #ExpressionEditor

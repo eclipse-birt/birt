@@ -2325,7 +2325,7 @@ LabelPageGenerator.List.Visibility=표시 유형
 ###########################################################
 #LayoutConfigurationBlock properties
 LayoutConfigurationBlock.Default.Unit.Auto=자동
-LayoutConfigurationBlock.Default.Unit.Label=De&fault Unit:
+LayoutConfigurationBlock.Default.Unit.Label=기본 단위(&F):
 
 ###########################################################
 #LayoutEditor properties
@@ -2933,8 +2933,8 @@ ParameterDialog.checkBox.BlankValue=빈 값
 ParameterDialog.checkBox.NullValue=널(Null) 값
 ParameterDialog.emptyColumnValueExpression.title=잘못된 값 열 식
 ParameterDialog.emptyColumnValueExpression.message=값 열 식은 비워 둘 수 없습니다!
-ParameterDialog.Value.Empty=Empty Value
-ParameterDialog.Value.Null=널(null) 값
+ParameterDialog.Value.Empty=빈 값
+ParameterDialog.Value.Null=널(Null) 값
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
@@ -4294,7 +4294,7 @@ PublishResourceAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
 PublishResourceAction.wizard.notvalidfolder=기본 설정에 정의된 리소스 폴더가 올바르지 않습니다.
 PublishResourceDialog.Label.FileName=파일 이름(&N):
 PublishResourceDialog.Label.SourceFileName=원본 파일(&S):
-PublishResourceDialog.Label.Folder=Folder:
+PublishResourceDialog.Label.Folder=폴더:
 PublishResourceDialog.Label.Browse=찾아보기(&B)...
 PublishResourceDialog.Label.Browse2=찾아보기(&W)...
 WizardResourceSettingPage.ErrorMessage=폴더를 선택하십시오.
@@ -4737,7 +4737,7 @@ VariableDialog.Error.NameDuplicate=이름 \"{0}\"이(가) 기존 이름과 중복됩니다. 다
 
 ###########################################################
 #ExpressionBuilderConfigurationBlock
-ExpressionBuilderConfigurationBlock.DefaultSyntax=De&fault Syntax:
+ExpressionBuilderConfigurationBlock.DefaultSyntax=기본 구문(&F):
 
 ###########################################################
 #ExpressionEditor
