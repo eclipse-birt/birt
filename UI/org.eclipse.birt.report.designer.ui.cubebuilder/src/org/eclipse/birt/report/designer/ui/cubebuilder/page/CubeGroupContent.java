@@ -591,17 +591,6 @@ public class CubeGroupContent extends Composite implements Listener
 							TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
 									.newTabularDimension( null );
 							input.add( CubeHandle.DIMENSIONS_PROP, dimension );
-
-							GroupRenameDialog inputDialog = createRenameDialog( dimension,
-									Messages.getString( "CubeGroupContent.Group.Add.Title" ), //$NON-NLS-1$
-									Messages.getString( "CubeGroupContent.Group.Add.Message" ) //$NON-NLS-1$
-							);
-							if ( inputDialog.open( ) != Window.OK )
-							{
-								stack.rollback( );
-								refresh( );
-								return;
-							}
 							dimension.setSharedDimension( (DimensionHandle) obj );
 							stack.commit( );
 						}
@@ -1313,7 +1302,7 @@ public class CubeGroupContent extends Composite implements Listener
 					if ( obj instanceof DimensionHandle )
 					{
 						delBtn.setEnabled( true );
-						//editBtn.setEnabled( true );
+						// editBtn.setEnabled( true );
 					}
 					removeButton.setEnabled( delBtn.isEnabled( ) );
 					addButton.setEnabled( addBtn.isEnabled( ) );
@@ -1671,7 +1660,13 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							if ( dataField instanceof DimensionHandle )
 							{
+								model.getElementHandle( )
+										.add( ICubeModel.DIMENSIONS_PROP,
+												dimension );
 								dimension.setSharedDimension( (DimensionHandle) dataField );
+								stack.commit( );
+								refresh( );
+								continue;
 							}
 							model.getElementHandle( )
 									.add( ICubeModel.DIMENSIONS_PROP, dimension );
