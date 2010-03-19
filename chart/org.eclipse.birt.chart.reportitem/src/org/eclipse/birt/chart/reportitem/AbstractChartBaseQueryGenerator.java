@@ -513,7 +513,6 @@ public abstract class AbstractChartBaseQueryGenerator
 								modelAdapter,
 								false ) );
 						binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-						binding.addAggregateOn( categoryGroupDefinition.getName( ) );
 						binding.setExportable( false );
 					}
 					catch ( DataException e )
@@ -536,13 +535,7 @@ public abstract class AbstractChartBaseQueryGenerator
 							// Set aggregation on.
 							try
 							{
-								query.addBinding( binding );
-								binding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
-										modelAdapter,
-										false ) );
-								binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 								binding.addAggregateOn( categoryGroupDefinition.getName( ) );
-								binding.setExportable( false );
 							}
 							catch ( DataException e )
 							{
