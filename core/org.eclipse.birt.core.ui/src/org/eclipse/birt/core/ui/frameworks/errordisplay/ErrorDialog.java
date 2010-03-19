@@ -40,8 +40,8 @@ public class ErrorDialog implements SelectionListener
 	public static final String OPTION_CANCEL = "CANCEL"; //$NON-NLS-1$
 	public static final int MAX_TRACE_DEPTH = 2;
 	public static final int DEFAULT_WIDTH = 450;
-	public static final int DEFAULT_HEIGHT = 220;
-	public static final int MAX_HEIGHT = 400;
+	public static final int DEFAULT_HEIGHT = 0;
+	public static final int MAX_HEIGHT = 200;
 
 	// UI COMPONENTS
 	private transient Display display = Display.getDefault( );
@@ -88,14 +88,13 @@ public class ErrorDialog implements SelectionListener
 					| SWT.RESIZE | SWT.APPLICATION_MODAL );
 		}
 		shell.setText( sTitle );
-		shell.setSize( DEFAULT_WIDTH, DEFAULT_HEIGHT );
-		shell.setLayout( new FillLayout( ) );
+		shell.setLayout( new GridLayout( ) );
+		placeComponents( );
 		// CENTER THE DIALOG ON SCREEN
 		// Make the dialog always display on primary monitor when display
 		// adapter supports multiple monitors.
 		UIHelper.centerOnScreen( shell );
 		
-		placeComponents( );
 		shell.setDefaultButton( btnOK );
 		shell.open( );
 		while ( !shell.isDisposed( ) )
@@ -153,7 +152,7 @@ public class ErrorDialog implements SelectionListener
 		mcSheetHeading = new MessageComposite( cmpContainer,
 				"", sMessage, "", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 		GridData gdMSGHeading = new GridData( GridData.FILL_HORIZONTAL );
-		gdMSGHeading.heightHint = 22;
+		gdMSGHeading.heightHint = 25;
 		gdMSGHeading.horizontalSpan = 3;
 		mcSheetHeading.setLayoutData( gdMSGHeading );
 		mcSheetHeading.setBackground( display.getSystemColor( SWT.COLOR_WHITE ) );
@@ -199,6 +198,7 @@ public class ErrorDialog implements SelectionListener
 		cmpDetails = new Composite( cmpContainer, SWT.NONE );
 		GridData gdCmpDetails = new GridData( GridData.FILL_BOTH );
 		gdCmpDetails.horizontalSpan = 2;
+		gdCmpDetails.heightHint = DEFAULT_HEIGHT;
 		cmpDetails.setLayoutData( gdCmpDetails );
 		cmpDetails.setLayout( slDetails );
 
@@ -293,7 +293,7 @@ public class ErrorDialog implements SelectionListener
 		}
 
 		slDetails.topControl = cmpDummy;
-		shell.setSize( shell.getSize( ).x, DEFAULT_HEIGHT );
+		shell.pack( );
 		shell.layout( );
 	}
 
@@ -403,13 +403,14 @@ public class ErrorDialog implements SelectionListener
 		if ( bVisible )
 		{
 			slDetails.topControl = grpDetails;
-			shell.setSize( shell.getSize( ).x, MAX_HEIGHT );
+			( (GridData) cmpDetails.getLayoutData( ) ).heightHint = MAX_HEIGHT;
 		}
 		else
 		{
 			slDetails.topControl = cmpDummy;
-			shell.setSize( shell.getSize( ).x, DEFAULT_HEIGHT );
+			( (GridData) cmpDetails.getLayoutData( ) ).heightHint = DEFAULT_HEIGHT;
 		}
+		shell.pack( );
 		shell.layout( );
 	}
 }
