@@ -625,6 +625,7 @@
                 <include name="*.zip"/>
                 <include name="*.txt"/>
                 <include name="*.gz"/>
+	        	<exclude name="birt-all-${package.version}.bak.zip"/>
             </fileset>
 	        <fileset dir="${buildDirectory}" >
                 <include name="directory.txt"/>
