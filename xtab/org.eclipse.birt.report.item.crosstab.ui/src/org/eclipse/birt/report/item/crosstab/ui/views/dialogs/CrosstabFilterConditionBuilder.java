@@ -24,21 +24,20 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionEditor;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
-import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularDimensionNodeProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularLevelNodeProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.TreeValueDialog;
-import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -46,7 +45,6 @@ import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
@@ -58,7 +56,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
-import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabFilterExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
@@ -72,7 +69,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -86,32 +82,27 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
-import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
-import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -123,14 +114,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -141,10 +129,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
  * CrosstabFilterConditionBuilder
@@ -152,13 +138,12 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 {
 
+	private static final String DECORATOR_STRING = Messages.getString( "CrosstabFilterConditionBuilder.Item.Decorator" ); //$NON-NLS-1$
 	protected Composite parentComposite = null;
-	protected Combo comboGroupLevel;
 	protected List groupLevelList;
 	protected List groupLevelNameList;
 	protected List measureList;
 	protected List measureNameList;
-	protected List cubeLevelList;
 	protected List cubeLevelNameList;
 	protected FilterConditionElementHandle filterConditionElement;
 	protected LevelViewHandle levelViewHandle;
@@ -169,8 +154,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	protected TableViewer dynamicViewer;
 	protected Button groupBtn, measureBtn;
 	protected Composite memberValueGroup;
-	protected Combo expressionCombo;
-	protected Label targetLabel;
+	protected CCombo expressionCCombo;
 
 	protected String[] columns = new String[]{
 			" ", //$NON-NLS-1$
@@ -181,7 +165,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	protected MemberValueHandle memberValueHandle;
 	protected List referencedLevelList;
 
-	protected final static String CHOICE_SELECT_VALUE = Messages.getString( "ExpressionValueCellEditor.selectValueAction" );
+	protected final static String CHOICE_SELECT_VALUE = Messages.getString( "ExpressionValueCellEditor.selectValueAction" ); //$NON-NLS-1$
 
 	public static final String DLG_MESSAGE_EDIT = org.eclipse.birt.report.designer.nls.Messages.getString( "FilterConditionBuilder.DialogMessage.Edit" ); //$NON-NLS-1$
 	public static final String DLG_MESSAGE_NEW = org.eclipse.birt.report.designer.nls.Messages.getString( "FilterConditionBuilder.DialogMessage.New" ); //$NON-NLS-1$
@@ -309,7 +293,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 	protected Button addBtn, editBtn, delBtn, delAllBtn;
 
-	protected Combo addExpressionValue;
+	protected CCombo addExpressionValue;
 
 	protected Label andLable;
 
@@ -322,11 +306,11 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 	protected Composite dummy1, dummy2;
 
-	protected Combo operator;
+	protected CCombo operator;
 
 	protected IExpressionProvider expressionProvider;
 
-	protected Combo expressionValue1, expressionValue2;
+	protected CCombo expressionValue1, expressionValue2;
 
 	protected Label label1, label2;
 
@@ -437,7 +421,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	}
 
 	protected List valueListConList = new ArrayList( );
-	protected static final String CHOICE_FILTER = Messages.getString( "ExpressionValueCellEditor.filterBy" );
+	protected static final String CHOICE_FILTER = Messages.getString( "ExpressionValueCellEditor.filterBy" ); //$NON-NLS-1$
 
 	// private Button cubeBtn;
 
@@ -718,7 +702,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		if ( operator.getItemCount( ) > 0
 				&& operator.getSelectionIndex( ) == -1 )
 		{
-			operator.select( getIndexForOperatorValue( "eq" ) );
+			operator.select( getIndexForOperatorValue( "eq" ) ); //$NON-NLS-1$
 			operatorChange( );
 		}
 
@@ -825,18 +809,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	{
 		getLevels( );
 		getMeasures( );
-		String groupLeveNames[] = (String[]) groupLevelNameList.toArray( new String[groupLevelNameList.size( )] );
-		comboGroupLevel.setItems( groupLeveNames );
-		List<String> cubeLevelNames = getCubeLevelNames( );
-		for ( int i = 0; i < cubeLevelNames.size( ); i++ )
-		{
-			if ( !isGroupLevel( cubeLevelNames.get( i ) ) )
-				comboGroupLevel.add( cubeLevelNames.get( i ) );
-		}
-
+		getCubeLevelNames( );
 		groupBtn.setSelection( true );
-		measureBtn.setSelection( false );
-		targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
+		targetSelectionChanged( false );
 
 	}
 
@@ -875,51 +850,73 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		parentControl.setLayoutData( gd );
 		parentControl.setLayout( new GridLayout( 4, false ) );
 
-		new Label( parentControl, SWT.NONE ).setText( Messages.getString( "CrosstabFilterConditionBuilder.Label.Target" ) ); //$NON-NLS-1$
-		groupBtn = new Button( parentControl, SWT.RADIO );
+		Composite groupContainer = new Composite( parentControl, SWT.NONE );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 4;
+		groupContainer.setLayoutData( gd );
+		groupContainer.setLayout( new GridLayout( 4, false ) );
+
+		Label label = new Label( groupContainer, SWT.NONE );
+		label.setText( Messages.getString( "CrosstabFilterConditionBuilder.Label.Target" ) ); //$NON-NLS-1$
+		gd = new GridData( );
+		gd.widthHint = label.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x < 60 ? 60
+				: label.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		label.setLayoutData( gd );
+
+		groupBtn = new Button( groupContainer, SWT.RADIO );
 		groupBtn.setText( Messages.getString( "CrosstabFilterConditionBuilder.Button.GroupLevel" ) ); //$NON-NLS-1$
 		groupBtn.setLayoutData( GridDataFactory.swtDefaults( )
-				.span( 3, 1 )
+				.span( 1, 1 )
 				.create( ) );
-		new Label( parentControl, SWT.NONE );
-		measureBtn = new Button( parentControl, SWT.RADIO );
+
+		groupGroupLevel = new CCombo( groupContainer, SWT.READ_ONLY
+				| SWT.BORDER );
+		groupGroupLevel.setLayoutData( GridDataFactory.swtDefaults( ).span( 2,
+				1 ).hint( 200, SWT.DEFAULT ).create( ) );
+		groupGroupLevel.setVisibleItemCount( 30 );
+		groupGroupLevel.addListener( SWT.Modify, groupLeveModify );
+
+		new Label( groupContainer, SWT.NONE );
+		measureBtn = new Button( groupContainer, SWT.RADIO );
 		measureBtn.setText( Messages.getString( "CrosstabFilterConditionBuilder.Button.Measure" ) ); //$NON-NLS-1$
 		measureBtn.setLayoutData( GridDataFactory.swtDefaults( )
+				.span( 1, 1 )
+				.create( ) );
+
+		measureGroupLevel = new CCombo( groupContainer, SWT.READ_ONLY
+				| SWT.BORDER );
+		measureGroupLevel.setLayoutData( GridDataFactory.swtDefaults( )
+				.span( 2, 1 )
+				.hint( 200, SWT.DEFAULT )
+				.create( ) );
+		measureGroupLevel.setVisibleItemCount( 30 );
+		measureGroupLevel.addListener( SWT.Modify, groupLeveModify );
+
+		new Label( groupContainer, SWT.NONE );
+		detailBtn = new Button( groupContainer, SWT.RADIO );
+		detailBtn.setText( Messages.getString( "CrosstabFilterConditionBuilder.Button.Detal" ) ); //$NON-NLS-1$
+		detailBtn.setLayoutData( GridDataFactory.swtDefaults( )
 				.span( 3, 1 )
 				.create( ) );
-		// new Label( parentControl, SWT.NONE );
-		// cubeBtn = new Button( parentControl, SWT.RADIO );
-		//		cubeBtn.setText( Messages.getString( "CrosstabFilterConditionBuilder.Button.Cube" ) ); //$NON-NLS-1$
-		// cubeBtn.setLayoutData( GridDataFactory.swtDefaults( )
-		// .span( 2, 1 )
-		// .create( ) );
 
 		groupBtn.addListener( SWT.Selection, targetSelectionListener );
 		measureBtn.addListener( SWT.Selection, targetSelectionListener );
+		detailBtn.addListener( SWT.Selection, targetSelectionListener );
 		// cubeBtn.addListener( SWT.Selection, targetSelectionListener );
 
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 4;
 		new Label( parentControl, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( gridData );
 
-		targetLabel = new Label( parentControl, SWT.NONE );
-		targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
-
-		comboGroupLevel = new Combo( parentControl, SWT.READ_ONLY );
-		comboGroupLevel.setLayoutData( GridDataFactory.swtDefaults( ).span( 3,
-				1 ).hint( 295, SWT.DEFAULT ).create( ) );
-		comboGroupLevel.setVisibleItemCount( 30 );
-		comboGroupLevel.addListener( SWT.Modify, comboGroupLeveModify );
-
 		Label lb = new Label( parentControl, SWT.NONE );
 		lb.setText( Messages.getString( "FilterConditionBuilder.text.Condition" ) ); //$NON-NLS-1$
 
-		expressionCombo = createExpressionCombo( parentControl );
-		expressionCombo.setLayoutData( GridDataFactory.swtDefaults( )
+		expressionCCombo = createExpressionCombo( parentControl );
+		expressionCCombo.setLayoutData( GridDataFactory.swtDefaults( )
 				.hint( 150, SWT.DEFAULT )
 				.create( ) );
 
-		operator = new Combo( parentControl, SWT.READ_ONLY );
+		operator = new CCombo( parentControl, SWT.READ_ONLY | SWT.BORDER );
 		operator.setVisibleItemCount( 30 );
 		for ( int i = 0; i < OPERATOR.length; i++ )
 		{
@@ -948,11 +945,112 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 	}
 
-	private Combo createExpressionCombo( Composite parent )
+	private CCombo createExpressionCombo( Composite parent )
 	{
-		final Combo expressionValue = new Combo( parent, SWT.BORDER );
+		final CCombo expressionValue = new CCombo( parent, SWT.BORDER );
 
-		expressionValue.add( CHOICE_FILTER );
+		expressionValue.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDown( MouseEvent e )
+			{
+				List bindingList = new ArrayList( );
+				LevelViewHandle level = null;
+				MeasureViewHandle measure = null;
+				if ( groupBtn.getSelection( ) )
+				{
+					if ( groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) > 0
+							&& groupLevelList != null )
+					{
+						if ( groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) - 1 < groupLevelList.size( ) )
+						{
+							level = (LevelViewHandle) groupLevelList.get( groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) - 1 );
+							if ( level != null )
+							{
+								bindingList = getReferableBindings( level );
+							}
+						}
+						else
+						{
+							bindingList = getReferableBindings( getDimensionStrExpression( groupGroupLevel.getText( ) ) );
+						}
+					}
+				}
+				else if ( measureBtn.getSelection( ) )
+				{
+					if ( measureGroupLevel.indexOf( measureGroupLevel.getText( ) ) > 0
+							&& measureList != null
+							&& measureList.size( ) > 0 )
+					{
+						measure = (MeasureViewHandle) measureList.get( measureGroupLevel.indexOf( measureGroupLevel.getText( ) ) - 1 );
+					}
+
+					if ( measure != null )
+					{
+						bindingList = getReferableBindings( measure );
+					}
+				}
+				else if ( detailBtn.getSelection( ) )
+				{
+					expressionValue.remove( 0,
+							expressionValue.getItemCount( ) - 1 );
+
+					List<String> cubeLevelNames = getCubeLevelNames( );
+					for ( int i = 0; i < cubeLevelNames.size( ); i++ )
+					{
+						expressionValue.add( cubeLevelNames.get( i ) );
+					}
+
+					if ( expressionValue.getItemCount( ) > 0 )
+					{
+						expressionValue.add( DECORATOR_STRING
+								+ new BindingGroup( IBindingMetaInfo.DIMENSION_TYPE ).getBindingGroupName( )
+								+ DECORATOR_STRING,
+								0 );
+					}
+					return;
+				}
+
+				BindingGroup bindingGroup[] = new BindingGroup[]{
+						new BindingGroup( IBindingMetaInfo.MEASURE_TYPE ),
+						new BindingGroup( IBindingMetaInfo.DIMENSION_TYPE ),
+						new BindingGroup( IBindingMetaInfo.GRAND_TOTAL_TYPE ),
+						new BindingGroup( IBindingMetaInfo.SUB_TOTAL_TYPE ),
+						new BindingGroup( IBindingMetaInfo.OTHER_TYPE )
+				};
+
+				for ( int i = 0; i < bindingList.size( ); i++ )
+				{
+					IBindingMetaInfo metaInfo = (IBindingMetaInfo) bindingList.get( i );
+					for ( int j = 0; j < bindingGroup.length; j++ )
+					{
+						if ( bindingGroup[j].type == metaInfo.getBindingType( ) )
+						{
+							bindingGroup[j].addBinding( metaInfo.getBindingName( ) );
+							break;
+						}
+					}
+				}
+
+				expressionValue.remove( 0, expressionValue.getItemCount( ) - 1 );
+				for ( int i = 0; i < bindingGroup.length; i++ )
+				{
+					BindingGroup group = bindingGroup[i];
+					if ( group.getBindings( ) != null
+							&& !group.getBindings( ).isEmpty( ) )
+					{
+						expressionValue.add( DECORATOR_STRING
+								+ group.getBindingGroupName( )
+								+ DECORATOR_STRING );
+						for ( int j = 0; j < group.getBindings( ).size( ); j++ )
+						{
+							expressionValue.add( (String) group.getBindings( )
+									.get( j ) );
+						}
+					}
+				}
+			}
+
+		} );
 
 		expressionValue.addVerifyListener( new VerifyListener( ) {
 
@@ -965,33 +1063,48 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 					return;
 				}
 
-				if ( selection.equals( CHOICE_FILTER ) )
+				if ( selection.startsWith( DECORATOR_STRING ) )
 				{
-					e.doit = false;
+					int index = expressionValue.indexOf( selection );
+					if ( index < expressionValue.getItemCount( ) - 1 )
+						selection = expressionValue.getItem( index + 1 );
+					else
+						selection = ""; //$NON-NLS-1$
 				}
-				else
+
+				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCCombo );
+				if ( converter != null )
 				{
-					e.doit = true;
+					String result = null;
+					if ( detailBtn.getSelection( ) )
+					{
+						String[] splits = selection.split( "/" ); //$NON-NLS-1$
+						String[] expression = new String[3];
+						if ( splits.length > 0 )
+							expression[0] = splits[0];
+						if ( splits.length > 1 )
+							expression[1] = splits[1];
+						if ( splits.length > 2 )
+							expression[2] = splits[2];
+						result = converter.getDimensionExpression( expression[0],
+								expression[1],
+								expression[2] );
+					}
+					else
+					{
+						result = converter.getCubeBindingExpression( selection );
+					}
+					if ( result != null )
+						expressionValue.setText( result );
+					else
+						expressionValue.setText( "" ); //$NON-NLS-1$
 				}
+				e.doit = false;
+				updateMemberValues( );
+				needRefreshList = true;
+				updateButtons( );
 			}
 		} );
-		expressionValue.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( expressionValue.getSelectionIndex( ) == -1 )
-					return;
-				String selection = expressionValue.getItem( expressionValue.getSelectionIndex( ) );
-				if ( selection.equals( CHOICE_FILTER ) )
-				{
-					String value = getFilterSelectionValue( expressionValue );
-					if ( value != null )
-						expressionValue.setText( value );
-				}
-			}
-		} );
-
-		expressionValue.addListener( SWT.Modify, expressionModify );
 
 		Listener listener = new Listener( ) {
 
@@ -1015,96 +1128,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		return expressionValue;
 	}
 
-	protected String getFilterSelectionValue( Combo expressionCombo )
+	private CCombo createExpressionValue( Composite parent )
 	{
-		String retValue = null;
-		// TODO Auto-generated method stub
-
-		List bindingList = new ArrayList( );
-		LevelViewHandle level = null;
-		MeasureViewHandle measure = null;
-		if ( groupBtn.getSelection( ) )
-		{
-			if ( comboGroupLevel.getSelectionIndex( ) != -1
-					&& groupLevelList != null )
-			{
-				if ( comboGroupLevel.getSelectionIndex( ) < groupLevelList.size( ) )
-				{
-					level = (LevelViewHandle) groupLevelList.get( comboGroupLevel.getSelectionIndex( ) );
-					if ( level == null )
-					{
-						return retValue;
-					}
-					bindingList = getReferableBindings( level );
-				}
-				else
-				{
-					bindingList = getReferableBindings( getDimensionStrExpression( comboGroupLevel.getText( ) ) );
-				}
-			}
-		}
-		else if ( measureBtn.getSelection( ) )
-		{
-			if ( comboGroupLevel.getSelectionIndex( ) != -1
-					&& measureList != null
-					&& measureList.size( ) > 0 )
-			{
-				measure = (MeasureViewHandle) measureList.get( comboGroupLevel.getSelectionIndex( ) );
-			}
-
-			if ( measure == null )
-			{
-				return retValue;
-			}
-			bindingList = getReferableBindings( measure );
-		}
-
-		BindingGroup bindingGroup[] = new BindingGroup[]{
-				new BindingGroup( IBindingMetaInfo.MEASURE_TYPE ),
-				new BindingGroup( IBindingMetaInfo.DIMENSION_TYPE ),
-				new BindingGroup( IBindingMetaInfo.GRAND_TOTAL_TYPE ),
-				new BindingGroup( IBindingMetaInfo.SUB_TOTAL_TYPE ),
-				new BindingGroup( IBindingMetaInfo.OTHER_TYPE )
-		};
-
-		for ( int i = 0; i < bindingList.size( ); i++ )
-		{
-			IBindingMetaInfo metaInfo = (IBindingMetaInfo) bindingList.get( i );
-			for ( int j = 0; j < bindingGroup.length; j++ )
-			{
-				if ( bindingGroup[j].type == metaInfo.getBindingType( ) )
-				{
-					bindingGroup[j].addBinding( metaInfo.getBindingName( ) );
-					break;
-				}
-			}
-		}
-
-		TreeValueDialog dialog = new TreeValueDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), treeLabelProvider, treeContentProvider );
-
-		dialog.setInput( bindingGroup );
-		dialog.setValidator( vialidator );
-		dialog.setTitle( Messages.getString( "FilterbyTree.Title" ) ); //$NON-NLS-1$
-		dialog.setMessage( Messages.getString( "FilterbyTree.Message" ) ); //$NON-NLS-1$
-		dialog.addListener( SWT.PaintItem, valueTreePaintListener );
-		if ( dialog.open( ) == IDialogConstants.OK_ID )
-		{
-			String string = (String) dialog.getResult( )[0];
-			IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCombo );
-			if ( converter != null )
-			{
-				retValue = converter.getCubeBindingExpression( string );
-			}
-		}
-
-		return retValue;
-	}
-
-	private Combo createExpressionValue( Composite parent )
-	{
-		final Combo expressionValue = new Combo( parent, SWT.BORDER );
+		final CCombo expressionValue = new CCombo( parent, SWT.BORDER );
 		expressionValue.add( CHOICE_SELECT_VALUE );
 		expressionValue.addVerifyListener( new VerifyListener( ) {
 
@@ -1155,7 +1181,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		return expressionValue;
 	}
 
-	protected String getSelectionValue( Combo combo )
+	protected String getSelectionValue( CCombo CCombo )
 	{
 		String retValue = null;
 		List selectValueList = getSelectedValueList( );
@@ -1176,7 +1202,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 			if ( dialog.open( ) == IDialogConstants.OK_ID )
 			{
-				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( combo );
+				IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( CCombo );
 				retValue = dialog.getSelectedExprValue( converter );
 			}
 		}
@@ -1184,9 +1210,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		return retValue;
 	}
 
-	private Combo createMultiExpressionValue( Composite parent )
+	private CCombo createMultiExpressionValue( Composite parent )
 	{
-		final Combo expressionValue = new Combo( parent, SWT.BORDER );
+		final CCombo expressionValue = new CCombo( parent, SWT.BORDER );
 		expressionValue.add( CHOICE_SELECT_VALUE );
 		expressionValue.addVerifyListener( new VerifyListener( ) {
 
@@ -1237,7 +1263,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	}
 
 	private void createMultiValueExpressionButton( Composite parent,
-			final Combo combo )
+			final CCombo CCombo )
 	{
 		Listener listener = new Listener( ) {
 
@@ -1247,7 +1273,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 				boolean change = false;
 
-				Expression expression = ExpressionButtonUtil.getExpression( combo );
+				Expression expression = ExpressionButtonUtil.getExpression( CCombo );
 				if ( valueList.indexOf( expression ) < 0 )
 				{
 					valueList.add( expression );
@@ -1258,20 +1284,20 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				{
 					tableViewer.refresh( );
 					updateButtons( );
-					combo.setFocus( );
+					CCombo.setFocus( );
 				}
 			}
 		};
 
 		ExpressionButtonUtil.createExpressionButton( parent,
-				combo,
-				new CrosstabFilterExpressionProvider( designHandle ),
+				CCombo,
+				getCrosstabExpressionProvider( ),
 				designHandle,
 				listener );
 
 	}
 
-	private void selectMultiValues( Combo combo )
+	private void selectMultiValues( CCombo CCombo )
 	{
 		String[] retValue = null;
 
@@ -1303,11 +1329,11 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 			if ( retValue.length == 1 )
 			{
-				combo.setText( DEUtil.resolveNull( retValue[0] ) );
+				CCombo.setText( DEUtil.resolveNull( retValue[0] ) );
 			}
 			else if ( retValue.length > 1 )
 			{
-				combo.setText( "" ); //$NON-NLS-1$
+				CCombo.setText( "" ); //$NON-NLS-1$
 			}
 
 			boolean change = false;
@@ -1316,7 +1342,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				if ( valueList.indexOf( DEUtil.resolveNull( retValue[i] ) ) < 0 )
 				{
 					valueList.add( new Expression( DEUtil.resolveNull( retValue[i] ),
-							ExpressionButtonUtil.getExpressionButton( combo )
+							ExpressionButtonUtil.getExpressionButton( CCombo )
 									.getExpressionHelper( )
 									.getExpressionType( ) ) );
 					change = true;
@@ -1326,13 +1352,13 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			{
 				tableViewer.refresh( );
 				updateButtons( );
-				combo.setFocus( );
+				CCombo.setFocus( );
 			}
 		}
 	}
 
 	private void createValueExpressionButton( Composite parent,
-			final Combo combo )
+			final CCombo CCombo )
 	{
 		Listener listener = new Listener( ) {
 
@@ -1346,60 +1372,16 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		ExpressionProvider provider = getCrosstabExpressionProvider( );
 
 		ExpressionButtonUtil.createExpressionButton( parent,
-				combo,
+				CCombo,
 				provider,
 				designHandle,
 				listener );
 	}
 
-	private ExpressionProvider getCrosstabExpressionProvider( )
+	private CrosstabFilterExpressionProvider getCrosstabExpressionProvider( )
 	{
-		ExpressionProvider provider = new CrosstabExpressionProvider( designHandle,
-				null ) {
-
-			protected List getChildrenList( Object parent )
-			{
-				if ( parent instanceof TabularDimensionHandle )
-				{
-					TabularDimensionHandle handle = (TabularDimensionHandle) parent;
-					return Arrays.asList( new TabularDimensionNodeProvider( ).getChildren( handle ) );
-				}
-				else if ( parent instanceof TabularLevelHandle )
-				{
-					TabularLevelHandle handle = (TabularLevelHandle) parent;
-					return Arrays.asList( new TabularLevelNodeProvider( ).getChildren( handle ) );
-				}
-				return super.getChildrenList( parent );
-			}
-
-			protected void addFilterToProvider( )
-			{
-				addFilter( new ExpressionFilter( ) {
-
-					public boolean select( Object parentElement, Object element )
-					{
-						if ( ExpressionFilter.CATEGORY.equals( parentElement )
-								&& ExpressionProvider.MEASURE.equals( element ) )
-						{
-							return false;
-						}
-						
-						if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) )
-								&& ( element instanceof PropertyHandle ) )
-						{
-							PropertyHandle handle = (PropertyHandle) element;
-							if ( handle.getPropertyDefn( )
-									.getName( )
-									.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-							{
-								return false;
-							}
-						}
-						return true;
-					}
-				} );
-			}
-		};
+		if ( provider == null )
+			provider = new CrosstabFilterExpressionProvider( designHandle );
 		return provider;
 	}
 
@@ -1412,77 +1394,93 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 	};
 
-	private boolean isGroupLevel( String levelName )
+	private void targetSelectionChanged( )
 	{
-		for ( Object level : groupLevelNameList )
-		{
-			if ( levelName.equals( level ) )
-				return true;
-		}
-		return false;
+		targetSelectionChanged( true );
 	}
 
-	private void targetSelectionChanged( )
+	private void targetSelectionChanged( boolean fireEvent )
 	{
 		if ( groupBtn.getSelection( ) )
 		{
 			memberValueGroup.setVisible( true );
-			targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
 			parentComposite.layout( true, true );
 			String groupLeveNames[] = (String[]) groupLevelNameList.toArray( new String[groupLevelNameList.size( )] );
-			comboGroupLevel.setEnabled( true );
-			comboGroupLevel.removeAll( );
-			comboGroupLevel.setItems( groupLeveNames );
-			List<String> cubeLevelNames = getCubeLevelNames( );
-			for ( int i = 0; i < cubeLevelNames.size( ); i++ )
+			groupGroupLevel.setEnabled( true );
+			measureGroupLevel.setEnabled( false );
+			measureGroupLevel.removeAll( );
+			groupGroupLevel.removeAll( );
+			groupGroupLevel.setItems( groupLeveNames );
+			groupGroupLevel.add( Messages.getString( "CrosstabFilterConditionBuilder.Item.SelectLevel" ), 0 ); //$NON-NLS-1$
+			groupGroupLevel.select( 0 );
+			expressionCCombo.removeAll( );
+			expressionCCombo.setEnabled( false );
+			ExpressionButtonUtil.getExpressionButton( expressionCCombo )
+					.setEnabled( false );
+			getCrosstabExpressionProvider( ).setDetail( false );
+			if ( fireEvent )
 			{
-				if ( !isGroupLevel( cubeLevelNames.get( i ) ) )
-					comboGroupLevel.add( cubeLevelNames.get( i ) );
+				filterTargetChanged( );
 			}
-
-			if ( comboGroupLevel.getItemCount( ) == 0 )
-			{
-				comboGroupLevel.add( DEUtil.resolveNull( null ) );
-			}
-			comboGroupLevel.select( 0 );
-
-			filterTargetChanged( );
-			updateMemberValues( );
 		}
 		else if ( measureBtn.getSelection( ) )
 		{
 			memberValueGroup.setVisible( false );
-			targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.Measure" ) ); //$NON-NLS-1$
 			parentComposite.layout( true, true );
 			String measureNames[] = (String[]) measureNameList.toArray( new String[measureNameList.size( )] );
-			comboGroupLevel.setEnabled( true );
-			comboGroupLevel.removeAll( );
-			comboGroupLevel.setItems( measureNames );
-
-			if ( comboGroupLevel.getItemCount( ) == 0 )
+			measureGroupLevel.setEnabled( true );
+			groupGroupLevel.setEnabled( false );
+			groupGroupLevel.removeAll( );
+			measureGroupLevel.removeAll( );
+			measureGroupLevel.setItems( measureNames );
+			measureGroupLevel.add( Messages.getString( "CrosstabFilterConditionBuilder.Item.SelectMeasure" ), 0 ); //$NON-NLS-1$
+			measureGroupLevel.select( 0 );
+			expressionCCombo.removeAll( );
+			expressionCCombo.setEnabled( false );
+			ExpressionButtonUtil.getExpressionButton( expressionCCombo )
+					.setEnabled( false );
+			getCrosstabExpressionProvider( ).setDetail( false );
+			if ( fireEvent )
 			{
-				comboGroupLevel.add( DEUtil.resolveNull( null ) );
+				filterTargetChanged( );
 			}
-			comboGroupLevel.select( 0 );
-
-			filterTargetChanged( );
 		}
+		else if ( detailBtn.getSelection( ) )
+		{
+			memberValueGroup.setVisible( false );
+			parentComposite.layout( true, true );
+			measureGroupLevel.setEnabled( false );
+			groupGroupLevel.setEnabled( false );
+			groupGroupLevel.removeAll( );
+			measureGroupLevel.removeAll( );
+			expressionCCombo.removeAll( );
+			expressionCCombo.setEnabled( false );
+			ExpressionButtonUtil.getExpressionButton( expressionCCombo )
+					.setEnabled( false );
+			getCrosstabExpressionProvider( ).setDetail( true );
+			if ( fireEvent )
+			{
+				filterTargetChanged( );
+			}
+		}
+		updateMemberValues( );
+		updateButtons( );
 	}
 
 	private String getDimensionStrExpression( String input )
 	{
-		String[] levels = input.split( "/" );
-		String expression = "dimension";
+		String[] levels = input.split( "/" ); //$NON-NLS-1$
+		String expression = "dimension"; //$NON-NLS-1$
 		for ( String l : levels )
 		{
-			expression += "[\"" + l + "\"]";
+			expression += "[\"" + l + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return expression;
 	}
 
 	protected ValueCombo.ISelection2 dimensionValueAction = new ValueCombo.ISelection2( ) {
 
-		public String doSelection( String comboValue, int selectedIndex,
+		public String doSelection( String CComboValue, int selectedIndex,
 				String selectedValue )
 		{
 			return getDimensionStrExpression( selectedValue );
@@ -1494,162 +1492,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		}
 	};
 
-	private Listener valueTreePaintListener = new Listener( ) {
-
-		public void handleEvent( Event event )
-		{
-			// TODO Auto-generated method stub
-			TreeItem item = (TreeItem) event.item;
-			Object data = item.getData( );
-			if ( ( data != null ) && ( data instanceof BindingGroup ) )
-			{
-				Font font = item.getFont( );
-				FontData[] fontData = font.getFontData( );
-				Font newFont = FontManager.getFont( fontData[0].getName( ),
-						fontData[0].getHeight( ),
-						fontData[0].getStyle( ) | SWT.BOLD );
-				item.setFont( newFont );
-			}
-
-		}
-	};
-
-	private ISelectionStatusValidator vialidator = new ISelectionStatusValidator( ) {
-
-		public IStatus validate( Object[] selection )
-		{
-			if ( selection.length == 1 && selection[0] instanceof String )
-			{
-				return new Status( IStatus.OK,
-						CrosstabPlugin.ID,
-						IStatus.OK,
-						"", //$NON-NLS-1$
-						null );
-			}
-
-			return new Status( IStatus.ERROR,
-					CrosstabPlugin.ID,
-					IStatus.ERROR,
-					"", //$NON-NLS-1$
-					null );
-		}
-	};
-
-	protected ILabelProvider treeLabelProvider = new ILabelProvider( ) {
-
-		public Image getImage( Object element )
-		{
-			return null;
-		}
-
-		public String getText( Object element )
-		{
-			if ( element == null )
-			{
-				return null;
-			}
-			if ( element instanceof BindingGroup )
-			{
-				return ( (BindingGroup) element ).getBindingGroupName( );
-			}
-			else
-			{
-				return element.toString( );
-			}
-		}
-
-		public void addListener( ILabelProviderListener listener )
-		{
-		}
-
-		public void dispose( )
-		{
-		}
-
-		public boolean isLabelProperty( Object element, String property )
-		{
-			return false;
-		}
-
-		public void removeListener( ILabelProviderListener listener )
-		{
-		}
-	};
-
-	protected ITreeContentProvider treeContentProvider = new ITreeContentProvider( ) {
-
-		public Object[] getChildren( Object parentElement )
-		{
-			if ( parentElement instanceof BindingGroup[] )
-			{
-				return (BindingGroup[]) parentElement;
-			}
-			else if ( parentElement instanceof BindingGroup )
-			{
-				return ( (BindingGroup) parentElement ).getBindings( )
-						.toArray( );
-			}
-			else if ( parentElement instanceof String )
-			{
-				parentElement.toString( );
-			}
-			return null;
-		}
-
-		public Object getParent( Object element )
-		{
-			return null;
-		}
-
-		public boolean hasChildren( Object element )
-		{
-			if ( element instanceof BindingGroup[] )
-			{
-				return true;
-			}
-			else if ( element instanceof BindingGroup )
-			{
-				if ( ( (BindingGroup) element ).getBindings( ).size( ) > 0 )
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-
-			}
-			if ( element instanceof String )
-			{
-				return false;
-			}
-			return false;
-		}
-
-		public Object[] getElements( Object inputElement )
-		{
-			if ( inputElement instanceof BindingGroup[] )
-			{
-				return (BindingGroup[]) inputElement;
-			}
-			else if ( inputElement instanceof BindingGroup )
-			{
-				return ( (BindingGroup) inputElement ).getBindings( ).toArray( );
-			}
-
-			return null;
-		}
-
-		public void dispose( )
-		{
-		}
-
-		public void inputChanged( Viewer viewer, Object oldInput,
-				Object newInput )
-		{
-		}
-	};
-	protected Listener comboGroupLeveModify = new Listener( ) {
+	protected Listener groupLeveModify = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{
@@ -1659,27 +1502,31 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 	protected void filterTargetChanged( )
 	{
-
-		updateMemberValues( );
-
+		needRefreshList = true;
 		String targetString = null;
 		if ( groupBtn.getSelection( ) )
 		{
 			// use select group level for filter condition
 			if ( groupLevelList != null
 					&& groupLevelList.size( ) > 0
-					&& comboGroupLevel.getSelectionIndex( ) > -1
-					&& comboGroupLevel.getSelectionIndex( ) < groupLevelList.size( ) )
+					&& groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) > 0
+					&& groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) <= groupLevelList.size( ) )
 			{
-				LevelViewHandle level = (LevelViewHandle) groupLevelList.get( comboGroupLevel.getSelectionIndex( ) );
+				expressionCCombo.setEnabled( true );
+				ExpressionButtonUtil.getExpressionButton( expressionCCombo )
+						.setEnabled( true );
+				LevelViewHandle level = (LevelViewHandle) groupLevelList.get( groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) - 1 );
 				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( level.getCubeLevel( ) );
 				targetString = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
 						level.getCubeLevel( ).getName( ) );
 			}
 			else
 			{
-				// expressionCombo.setText( getDimensionStrExpression(
-				// comboGroupLevel.getText( ) ) );
+				expressionCCombo.setEnabled( false );
+				ExpressionButtonUtil.getExpressionButton( expressionCCombo )
+						.setEnabled( false );
+				updateMemberValues( );
+				updateButtons( );
 				return;
 			}
 		}
@@ -1687,11 +1534,42 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			if ( measureList != null
 					&& measureList.size( ) > 0
-					&& comboGroupLevel.getSelectionIndex( ) > -1 )
+					&& measureGroupLevel.indexOf( measureGroupLevel.getText( ) ) > 0
+					&& measureGroupLevel.indexOf( measureGroupLevel.getText( ) ) <= measureList.size( ) )
 			{
-				MeasureViewHandle measure = (MeasureViewHandle) measureList.get( comboGroupLevel.getSelectionIndex( ) );
+				expressionCCombo.setEnabled( true );
+				ExpressionButtonUtil.getExpressionButton( expressionCCombo )
+						.setEnabled( true );
+				MeasureViewHandle measure = (MeasureViewHandle) measureList.get( measureGroupLevel.indexOf( measureGroupLevel.getText( ) ) - 1 );
 				targetString = measure.getCubeMeasure( ).getName( );
 			}
+			else
+			{
+				expressionCCombo.setEnabled( false );
+				ExpressionButtonUtil.getExpressionButton( expressionCCombo )
+						.setEnabled( false );
+				updateMemberValues( );
+				updateButtons( );
+				return;
+			}
+		}
+		else if ( detailBtn.getSelection( ) )
+		{
+			if ( cubeLevelNameList != null && cubeLevelNameList.size( ) > 0 )
+			{
+				expressionCCombo.setEnabled( true );
+				ExpressionButtonUtil.getExpressionButton( expressionCCombo )
+						.setEnabled( true );
+			}
+			else
+			{
+				expressionCCombo.setEnabled( false );
+				ExpressionButtonUtil.getExpressionButton( expressionCCombo )
+						.setEnabled( false );
+			}
+			updateMemberValues( );
+			updateButtons( );
+			return;
 		}
 
 		if ( targetString != null )
@@ -1729,8 +1607,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				if ( retList.size( ) > 0 )
 				{
 					IBindingMetaInfo meta = (IBindingMetaInfo) retList.get( 0 );
-					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCombo );
-					expressionCombo.setText( converter.getCubeBindingExpression( meta.getBindingName( ) ) );
+					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCCombo );
+					expressionCCombo.setText( converter.getCubeBindingExpression( meta.getBindingName( ) ) );
 				}
 			}
 			catch ( Exception ex )
@@ -1745,19 +1623,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				}
 			}
 		}
+		updateMemberValues( );
+		updateButtons( );
 	}
-
-	protected Listener expressionModify = new Listener( ) {
-
-		public void handleEvent( Event e )
-		{
-			assert e.widget instanceof Combo;
-
-			updateMemberValues( );
-			needRefreshList = true;
-			updateButtons( );
-		}
-	};
 
 	protected void createMemberValuesGroup( Composite content )
 	{
@@ -1812,7 +1680,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		};
 		if ( designHandle != null )
 		{
-			editor.setExpressionProvider( new CrosstabFilterExpressionProvider( designHandle ) );
+			editor.setExpressionProvider( getCrosstabExpressionProvider( ) );
 			editor.setReportElement( (ExtendedItemHandle) designHandle );
 		}
 
@@ -1978,21 +1846,11 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	protected void syncViewProperties( )
 	{
 
-		if ( filterConditionElement == null )
+		if ( filterConditionElement != null )
 		{
-			if ( comboGroupLevel.getItemCount( ) == 0 )
-			{
-				comboGroupLevel.add( DEUtil.resolveNull( null ) );
-			}
-			comboGroupLevel.select( 0 );
-			updateMemberValues( );
-		}
-		else
-		{
-
-			groupBtn.setSelection( levelViewHandle != null
-					|| crosstabHandle != null );
+			groupBtn.setSelection( levelViewHandle != null );
 			measureBtn.setSelection( measureViewHandle != null );
+			detailBtn.setSelection( crosstabHandle != null );
 			targetSelectionChanged( );
 
 			valueVisible = determineValueVisible( filterConditionElement.getOperator( ) );
@@ -2025,50 +1883,21 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			if ( levelViewHandle != null )
 			{
 				index = groupLevelList.indexOf( levelViewHandle );
+				if ( index >= 0 )
+				{
+					groupGroupLevel.select( index + 1 );
+				}
 			}
 			else if ( measureViewHandle != null )
 			{
 				index = measureList.indexOf( measureViewHandle );
-			}
-			else if ( crosstabHandle != null )
-			{
-				DataRequestSession session = null;
-				try
+				if ( index >= 0 )
 				{
-					session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-					IDimensionLevel[] levels = session.getCubeQueryUtil( )
-							.getReferencedDimensionLevel( DEUtil.resolveNull( filterConditionElement.getExpr( ) ) );
-					String levelFullName = levels[0].getDimensionName( )
-							+ "/"
-							+ levels[0].getLevelName( );
-					for ( int i = 0; i < this.comboGroupLevel.getItems( ).length; i++ )
-					{
-						if ( this.comboGroupLevel.getItem( i )
-								.equals( levelFullName ) )
-						{
-							index = i;
-							break;
-						}
-					}
-				}
-				catch ( Exception ex )
-				{
-					logger.log( Level.SEVERE, ex.getMessage( ), ex );
-				}
-				finally
-				{
-					if ( session != null )
-					{
-						session.shutdown( );
-					}
+					measureGroupLevel.select( index + 1 );
 				}
 			}
 
-			if ( index >= 0 )
-			{
-				comboGroupLevel.select( index );
-			}
-			ExpressionButtonUtil.initExpressionButtonControl( expressionCombo,
+			ExpressionButtonUtil.initExpressionButtonControl( expressionCCombo,
 					filterConditionElement,
 					FilterCondition.EXPR_MEMBER );
 			operator.select( getIndexForOperatorValue( filterConditionElement.getOperator( ) ) );
@@ -2127,7 +1956,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			}
 			else if ( valueVisible == 3 )
 			{
-				if ( expressionCombo.getText( ).length( ) == 0 )
+				if ( expressionCCombo.getText( ).length( ) == 0 )
 				{
 					setEnableValueListComposite( false );
 				}
@@ -2137,7 +1966,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				}
 			}
 		}
-
+		updateMemberValues( );
+		updateButtons( );
 	}
 
 	private void setEnableValueListComposite( boolean val )
@@ -2200,7 +2030,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		}
 		if ( cube == null
 				|| ( !( cube instanceof TabularCubeHandle ) )
-				|| expressionCombo.getText( ).length( ) == 0 )
+				|| expressionCCombo.getText( ).length( ) == 0 )
 		{
 			return new ArrayList( );
 		}
@@ -2212,19 +2042,22 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		try
 		{
 			String expression = null;
-			if ( ExpressionType.JAVASCRIPT.equals( ExpressionButtonUtil.getExpression( expressionCombo )
+			if ( ExpressionType.JAVASCRIPT.equals( ExpressionButtonUtil.getExpression( expressionCCombo )
 					.getType( ) ) )
 			{
-				expression = expressionCombo.getText( );
+				expression = expressionCCombo.getText( );
 			}
 			else
 			{
-				String bindingName = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCombo )
-						.getBinding( expressionCombo.getText( ) );
-				expression = ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT )
-						.getCubeBindingExpression( bindingName );
+				expression = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCCombo )
+						.convertExpression( expressionCCombo.getText( ),
+								ExpressionType.JAVASCRIPT,
+								IExpressionConverter.EXPRESSION_CLASS_CUBE );
 			}
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			DataService.getInstance( )
+					.registerSession( ( (TabularCubeHandle) cube ).getDataSet( ),
+							session );
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
 			iter = session.getCubeQueryUtil( )
 					.getMemberValueIterator( (TabularCubeHandle) cube,
@@ -2341,67 +2174,6 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		return groupLevelList;
 	}
 
-	private List getCubeLevelNames( )
-	{
-		if ( cubeLevelNameList != null )
-		{
-			return cubeLevelNameList;
-		}
-		cubeLevelNameList = new ArrayList( );
-		ExtendedItemHandle element = (ExtendedItemHandle) designHandle;
-		CubeHandle cube = null;
-		try
-		{
-			cube = ( (CrosstabReportItemHandle) element.getReportItem( ) ).getCube( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-		}
-		if ( cube == null )
-		{
-			return cubeLevelNameList;
-		}
-
-		Object[] dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP )
-				.toArray( );
-		TabularDimensionNodeProvider dimensionProvider = new TabularDimensionNodeProvider( );
-		TabularLevelNodeProvider levelProvider = new TabularLevelNodeProvider( );
-		for ( Object o : dimensions )
-		{
-			if ( o instanceof TabularDimensionHandle )
-			{
-				TabularDimensionHandle dimension = (TabularDimensionHandle) o;
-				Object[] levels = dimensionProvider.getChildren( o );
-				for ( Object l : levels )
-				{
-					if ( l instanceof LevelHandle )
-					{
-						LevelHandle level = (LevelHandle) l;
-						cubeLevelNameList.add( dimension.getName( )
-								+ "/"
-								+ level.getName( ) );
-						Object[] attrs = levelProvider.getChildren( l );
-						for ( Object a : attrs )
-						{
-							if ( a instanceof LevelAttributeHandle )
-							{
-								LevelAttributeHandle attr = (LevelAttributeHandle) a;
-								cubeLevelNameList.add( dimension.getName( )
-										+ "/"
-										+ level.getName( )
-										+ "/"
-										+ attr.getName( ) );
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return cubeLevelNameList;
-	}
-
 	private void getLevel( ExtendedItemHandle handle )
 	{
 		CrosstabViewHandle crossTabViewHandle = null;
@@ -2494,13 +2266,21 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	 */
 	protected boolean isConditionOK( )
 	{
-		if ( comboGroupLevel.getText( ) != null
-				&& comboGroupLevel.getText( ).length( ) == 0 )
+		if ( groupBtn.getSelection( )
+				&& groupGroupLevel.getText( ) != null
+				&& ( groupGroupLevel.getText( ).length( ) == 0 || groupGroupLevel.getSelectionIndex( ) == 0 ) )
 		{
 			return false;
 		}
 
-		if ( expressionCombo == null )
+		if ( measureBtn.getSelection( )
+				&& measureGroupLevel.getText( ) != null
+				&& ( measureGroupLevel.getText( ).length( ) == 0 || measureGroupLevel.getSelectionIndex( ) == 0 ) )
+		{
+			return false;
+		}
+
+		if ( expressionCCombo == null )
 		{
 			return false;
 		}
@@ -2518,13 +2298,14 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	 */
 	protected boolean isExpressionOK( )
 	{
-		if ( expressionCombo == null )
+		if ( expressionCCombo == null )
 		{
 			return false;
 		}
 
-		if ( expressionCombo.getText( ) == null
-				|| expressionCombo.getText( ).length( ) == 0 )
+		if ( !expressionCCombo.isEnabled( )
+				|| expressionCCombo.getText( ) == null
+				|| expressionCCombo.getText( ).length( ) == 0 )
 		{
 			return false;
 		}
@@ -2544,26 +2325,23 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		CrosstabReportItemHandle crosstab = null;
 		if ( groupBtn.getSelection( ) )
 		{
-			if ( isGroupLevel( comboGroupLevel.getText( ) ) )
-			{
-				level = (LevelViewHandle) groupLevelList.get( comboGroupLevel.getSelectionIndex( ) );
-			}
-			else
-			{
-				ExtendedItemHandle element = (ExtendedItemHandle) designHandle;
-				try
-				{
-					crosstab = (CrosstabReportItemHandle) element.getReportItem( );
-				}
-				catch ( ExtendedElementException e )
-				{
-					ExceptionUtil.handle( e );
-				}
-			}
+			level = (LevelViewHandle) groupLevelList.get( groupGroupLevel.getSelectionIndex( ) - 1 );
 		}
 		else if ( measureBtn.getSelection( ) )
 		{
-			measure = (MeasureViewHandle) measureList.get( comboGroupLevel.getSelectionIndex( ) );
+			measure = (MeasureViewHandle) measureList.get( measureGroupLevel.getSelectionIndex( ) - 1 );
+		}
+		else if ( detailBtn.getSelection( ) )
+		{
+			ExtendedItemHandle element = (ExtendedItemHandle) designHandle;
+			try
+			{
+				crosstab = (CrosstabReportItemHandle) element.getReportItem( );
+			}
+			catch ( ExtendedElementException e )
+			{
+				ExceptionUtil.handle( e );
+			}
 		}
 
 		try
@@ -2575,7 +2353,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				filter.setProperty( IFilterConditionElementModel.OPERATOR_PROP,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 
-				ExpressionButtonUtil.saveExpressionButtonControl( expressionCombo,
+				ExpressionButtonUtil.saveExpressionButtonControl( expressionCCombo,
 						filter,
 						FilterCondition.EXPR_MEMBER );
 
@@ -2676,7 +2454,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 							filterConditionElement.setValue2( NULL_STRING );
 						}
 					}
-					ExpressionButtonUtil.saveExpressionButtonControl( expressionCombo,
+					ExpressionButtonUtil.saveExpressionButtonControl( expressionCCombo,
 							filterConditionElement,
 							FilterCondition.EXPR_MEMBER );
 
@@ -2712,7 +2490,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 					filter.setProperty( IFilterConditionElementModel.OPERATOR_PROP,
 							DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 
-					ExpressionButtonUtil.saveExpressionButtonControl( expressionCombo,
+					ExpressionButtonUtil.saveExpressionButtonControl( expressionCCombo,
 							filter,
 							FilterCondition.EXPR_MEMBER );
 
@@ -2794,7 +2572,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		}
 		catch ( Exception e )
 		{
-			WidgetUtil.processError( getShell( ), e );
+			ExceptionHandler.handle( e );
 		}
 
 		setReturnCode( OK );
@@ -3007,29 +2785,29 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 	private void updateMemberValues( )
 	{
-		if ( measureBtn.getSelection( ) )
+		if ( groupBtn.getSelection( ) )
+		{
+			memberValueGroup.setVisible( true );
+		}
+		else
 		{
 			memberValueGroup.setVisible( false );
 			return;
 		}
-		else
-		{
-			memberValueGroup.setVisible( true );
-		}
 
-		if ( comboGroupLevel.getSelectionIndex( ) < 0
-				|| expressionCombo.getText( ).length( ) == 0 )
+		if ( groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) <= 0
+				|| expressionCCombo.getText( ).length( ) == 0 )
 		{
 			memberValueTable.setEnabled( false );
 			return;
 		}
 		LevelViewHandle level = null;
-		if ( comboGroupLevel.getSelectionIndex( ) != -1
+		if ( groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) > 0
 				&& groupLevelList != null
 				&& groupLevelList.size( ) > 0 )
 		{
-			if ( comboGroupLevel.getSelectionIndex( ) < groupLevelList.size( ) )
-				level = (LevelViewHandle) groupLevelList.get( comboGroupLevel.getSelectionIndex( ) );
+			if ( groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) - 1 < groupLevelList.size( ) )
+				level = (LevelViewHandle) groupLevelList.get( groupGroupLevel.indexOf( groupGroupLevel.getText( ) ) - 1 );
 		}
 		if ( level == null )
 		{
@@ -3048,15 +2826,15 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		}
 
 		String expression = null;
-		if ( ExpressionType.JAVASCRIPT.equals( ExpressionButtonUtil.getExpression( expressionCombo )
+		if ( ExpressionType.JAVASCRIPT.equals( ExpressionButtonUtil.getExpression( expressionCCombo )
 				.getType( ) ) )
 		{
-			expression = expressionCombo.getText( );
+			expression = expressionCCombo.getText( );
 		}
 		else
 		{
-			String bindingName = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCombo )
-					.getBinding( expressionCombo.getText( ) );
+			String bindingName = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCCombo )
+					.getBinding( expressionCCombo.getText( ) );
 			expression = ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT )
 					.getCubeBindingExpression( bindingName );
 		}
@@ -3118,7 +2896,6 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	{
 
 		int type;
-		String displayName;
 		List list = new ArrayList( );
 
 		BindingGroup( int type )
@@ -3183,6 +2960,10 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	}
 
 	private Composite valuesComposite;
+	private CCombo groupGroupLevel;
+	private CCombo measureGroupLevel;
+	private Button detailBtn;
+	private CrosstabFilterExpressionProvider provider;
 
 	protected void editTableValue( )
 	{
@@ -3195,7 +2976,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			ExpressionEditor editor = new ExpressionEditor( Messages.getString( "CrosstabFilterConditionBuilder.ExpressionEditor.Title" ) ); //$NON-NLS-1$
 			editor.setExpression( initValue );
 			editor.setInput( filterConditionElement,
-					new CrosstabFilterExpressionProvider( designHandle ),
+					getCrosstabExpressionProvider( ),
 					false );
 
 			if ( editor.open( ) == OK )
@@ -3240,9 +3021,17 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		if ( valueVisible != 3 )
 		{
 			if ( expressionValue1 != null )
+			{
 				expressionValue1.setEnabled( val );
+				ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+						.setEnabled( val );
+			}
 			if ( expressionValue2 != null )
+			{
 				expressionValue2.setEnabled( val );
+				ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+						.setEnabled( val );
+			}
 			if ( andLable != null )
 			{
 				andLable.setEnabled( val );
@@ -3344,4 +3133,79 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			delBtn.setEnabled( false );
 		}
 	}
+
+	private List getCubeLevelNames( )
+	{
+		if ( cubeLevelNameList != null )
+		{
+			return cubeLevelNameList;
+		}
+		cubeLevelNameList = new ArrayList( );
+		ExtendedItemHandle element = (ExtendedItemHandle) designHandle;
+		CubeHandle cube = null;
+		try
+		{
+			cube = ( (CrosstabReportItemHandle) element.getReportItem( ) ).getCube( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ), e );
+		}
+		if ( cube == null )
+		{
+			return cubeLevelNameList;
+		}
+
+		Object[] dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP )
+				.toArray( );
+		TabularDimensionNodeProvider dimensionProvider = new TabularDimensionNodeProvider( );
+		TabularLevelNodeProvider levelProvider = new TabularLevelNodeProvider( );
+		for ( Object o : dimensions )
+		{
+			if ( o instanceof TabularDimensionHandle )
+			{
+				TabularDimensionHandle dimension = (TabularDimensionHandle) o;
+				Object[] levels = dimensionProvider.getChildren( o );
+				for ( Object l : levels )
+				{
+					if ( l instanceof LevelHandle )
+					{
+						LevelHandle level = (LevelHandle) l;
+						String levelName = dimension.getName( ) + "/" //$NON-NLS-1$
+								+ level.getName( );
+						if ( !isGroupLevel( levelName ) )
+							cubeLevelNameList.add( levelName );
+						Object[] attrs = levelProvider.getChildren( l );
+						for ( Object a : attrs )
+						{
+							if ( a instanceof LevelAttributeHandle )
+							{
+								LevelAttributeHandle attr = (LevelAttributeHandle) a;
+
+								levelName = dimension.getName( ) + "/" //$NON-NLS-1$
+										+ level.getName( )
+										+ "/" //$NON-NLS-1$
+										+ attr.getName( );
+								if ( !isGroupLevel( levelName ) )
+									cubeLevelNameList.add( levelName );
+
+							}
+						}
+					}
+				}
+			}
+		}
+		return cubeLevelNameList;
+	}
+
+	private boolean isGroupLevel( String levelName )
+	{
+		for ( Object level : groupLevelNameList )
+		{
+			if ( levelName.equals( level ) )
+				return true;
+		}
+		return false;
+	}
+
 }

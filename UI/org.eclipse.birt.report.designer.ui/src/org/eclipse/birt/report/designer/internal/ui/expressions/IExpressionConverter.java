@@ -19,6 +19,9 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 public interface IExpressionConverter
 {
 
+	static final String EXPRESSION_CLASS_CUBE = "cube"; //$NON-NLS-1$
+	static final String EXPRESSION_CLASS_TABLE = "table"; //$NON-NLS-1$
+
 	/**
 	 * Returns the binding expression by given name.
 	 * 
@@ -90,4 +93,19 @@ public interface IExpressionConverter
 	 * @return
 	 */
 	String getConstantExpression( String value, String dataType );
+
+	/**
+	 * Convert the specific expression to the target script type expression.
+	 * 
+	 * @param expr
+	 *            the specific expression
+	 * @param scriptType
+	 *            the target script type
+	 * @param exprClass
+	 *            the expression class, dimension, binding, measure, etc.
+	 * @return an expression can run with the specific script type.
+	 * @throws UnsupportedOperationException
+	 */
+	String convertExpression( String expr, String scriptType, String exprClass )
+			throws UnsupportedOperationException;
 }
