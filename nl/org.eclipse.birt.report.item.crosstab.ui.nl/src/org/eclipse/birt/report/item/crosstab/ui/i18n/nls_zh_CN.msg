@@ -156,6 +156,8 @@ CategoryPageGenerator.TabItem.Attributes=属性
 
 ###########################################################
 #FilterConditionBuilder dialog properties
+FilterConditionBuilder.DialogMessage.Edit=
+FilterConditionBuilder.DialogMessage.New=
 FilterConditionBuilder.DialogTitle.New=新建筛选条件
 FilterConditionBuilder.DialogTitle.Edit=编辑筛选条件
 FilterConditionBuilder.choice.ValueOfThisDataItem=此数据项的值
@@ -172,6 +174,10 @@ FilterConditionBuilder.button.edit.tooltip=编辑值列表中的选定值
 FilterConditionBuilder.button.delete.tooltip=从列表中删除选定值
 FilterConditionBuilder.button.deleteall.tooltip=从列表中删除所有值
 FilterConditionBuilder.button.add.tooltip=将值添加到值列表
+CrosstabFilterConditionBuilder.Item.Decorator=--------
+CrosstabFilterConditionBuilder.Button.Detal=&Detail
+CrosstabFilterConditionBuilder.Item.SelectLevel=---Select Level---
+CrosstabFilterConditionBuilder.Item.SelectMeasure=---Select Measure---
 CrosstabFilterConditionBuilder.DialogMessage.New=选择要应用筛选的目标组级别或度量，然后设置筛选条件。
 CrosstabFilterConditionBuilder.DialogMessage.Edit=选择要应用筛选的目标组级别或度量，然后设置筛选条件。
 CrosstabFilterConditionBuilder.label.value=值
@@ -320,6 +326,7 @@ MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=值不能为空。
 
 LevelHandleDropAdapter.ActionText=添加维
+LevelPropertyDialog.MSG.CreateNew=
 
 
 ###########################################################

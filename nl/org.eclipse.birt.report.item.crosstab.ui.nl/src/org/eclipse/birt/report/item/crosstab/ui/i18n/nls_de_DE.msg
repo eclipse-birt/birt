@@ -156,6 +156,8 @@ CategoryPageGenerator.TabItem.Attributes=Eigenschaften
 
 ###########################################################
 #FilterConditionBuilder dialog properties
+FilterConditionBuilder.DialogMessage.Edit=
+FilterConditionBuilder.DialogMessage.New=
 FilterConditionBuilder.DialogTitle.New=Neue Filterbedingung
 FilterConditionBuilder.DialogTitle.Edit=Filterbedingung bearbeiten
 FilterConditionBuilder.choice.ValueOfThisDataItem=Wert dieses Datenelements
@@ -172,6 +174,10 @@ FilterConditionBuilder.button.edit.tooltip=Ausgewählten Wert in Werteliste bearb
 FilterConditionBuilder.button.delete.tooltip=Ausgewählten Wert aus Liste löschen
 FilterConditionBuilder.button.deleteall.tooltip=Alle Werte aus Liste löschen
 FilterConditionBuilder.button.add.tooltip=Wert zur Werteliste hinzufügen
+CrosstabFilterConditionBuilder.Item.Decorator=--------
+CrosstabFilterConditionBuilder.Button.Detal=&Detail
+CrosstabFilterConditionBuilder.Item.SelectLevel=---Select Level---
+CrosstabFilterConditionBuilder.Item.SelectMeasure=---Select Measure---
 CrosstabFilterConditionBuilder.DialogMessage.New=Wählen Sie die Zielgruppenebene oder Maßeinheit, auf die der Filter angewendet werden soll, und legen Sie dann die Filterbedingung fest.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=Wählen Sie die Zielgruppenebene oder Maßeinheit, auf die der Filter angewendet werden soll, und legen Sie dann die Filterbedingung fest.
 CrosstabFilterConditionBuilder.label.value=Wert
@@ -320,6 +326,7 @@ MapRuleBuilderDialog.MsgDlg.Title=Warnung
 MapRuleBuilderDialog.MsgDlg.Msg=Der Wert darf nicht leer sein.
 
 LevelHandleDropAdapter.ActionText=Dimension hinzufügen
+LevelPropertyDialog.MSG.CreateNew=
 
 
 ###########################################################
