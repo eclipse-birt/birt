@@ -1240,7 +1240,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 						    new String[0] ));
 				}
 			}
-			Object rowLimit = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
 			try
 			{
 				sl.process( dim );
@@ -1249,17 +1248,24 @@ public class DataRequestSessionImpl extends DataRequestSession
 						metaMap.get( hierhandle ),
 						appContext );
 				valueIt.initSecurityListenerAndDimension( dim.getName( ), sl );
-				if ( rowLimit != null
-						&& !( cubeHandle.getDataSet( )
+				if ( !( cubeHandle.getDataSet( )
 								.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ) )
 				{
-					appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
+					Object memCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
+					Object diskCache = appContext.remove( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
 					iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
 							hierhandle.getName( ),
 							valueIt,
 							levelInHier.toArray( new ILevelDefn[0] ),
 							dataEngine.getSession( ).getStopSign( ) ) );
-					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, rowLimit );
+					if ( memCache != null )
+					{
+						appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, memCache );
+					}
+					if ( diskCache != null )
+					{
+						appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, diskCache );
+					}
 				}
 				else
 				{
