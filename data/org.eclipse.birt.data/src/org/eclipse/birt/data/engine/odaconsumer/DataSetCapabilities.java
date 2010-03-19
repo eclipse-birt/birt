@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *
  ******************************************************************************
  */ 
@@ -24,24 +24,23 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 /**
  * Information about the data set capabilities.
  */
-public class DataSetCapabilities
+public class DataSetCapabilities extends ExceptionHandler
 {
 	private IDataSetMetaData m_dsMetaData;
 
-	// trace logging variables
+	// trace logging variable
 	private static String sm_className = DataSetCapabilities.class.getName();
-	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	DataSetCapabilities( IDataSetMetaData dsMetaData )
 	{
-		String methodName = "DataSetCapabilities";		
-		sm_logger.entering( sm_className, methodName, dsMetaData );
+	    super( sm_className );
+		final String methodName = "DataSetCapabilities";		 //$NON-NLS-1$
+		getLogger().entering( sm_className, methodName, dsMetaData );
 		
 		assert( dsMetaData != null );
 		m_dsMetaData = dsMetaData;
 
-		sm_logger.exiting( sm_className, methodName, this );
+		getLogger().exiting( sm_className, methodName, this );
 }
 	
 	/**
@@ -62,7 +61,7 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsMultipleOpenResults( ) throws DataException
 	{
-		String methodName = "supportsMultipleOpenResults";		
+		final String methodName = "supportsMultipleOpenResults";		 //$NON-NLS-1$
 
 		try
 		{
@@ -70,16 +69,14 @@ public class DataSetCapabilities
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Cannot determine support of multiple open results.", ex );
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_OPEN_RESULTS, ex );
+			throwException( ex, ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_OPEN_RESULTS, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
-					"Cannot determine support of multiple open results.  Default to false.", ex );
-			return false;
+			getLogger().logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of multiple open result sets.  Default to false.", ex ); //$NON-NLS-1$
 		}
+        return false;
 	}
 	
 	/**
@@ -90,23 +87,21 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsMultipleResultSets( ) throws DataException
 	{
-		String methodName = "supportsMultipleResultSets";		
+	    final String methodName = "supportsMultipleResultSets";		 //$NON-NLS-1$
 		try
 		{
 			return m_dsMetaData.supportsMultipleResultSets( );
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Cannot determine support of multiple results.", ex );
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_RESULT_SETS, ex );
+			throwException( ex, ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_RESULT_SETS, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
-					"Cannot determine support of multiple results.  Default to false.", ex );
-			return false;
+			getLogger().logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of multiple result sets.  Default to false.", ex ); //$NON-NLS-1$
 		}
+        return false;
 	}
 	
 	/**
@@ -117,23 +112,21 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsNamedResultSets( ) throws DataException
 	{
-		String methodName = "supportsNamedResultSets";		
+	    final String methodName = "supportsNamedResultSets";		 //$NON-NLS-1$
 		try
 		{
 			return m_dsMetaData.supportsNamedResultSets( );
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Cannot determine support of named results.", ex );
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_RESULT_SETS, ex );
+			throwException( ex, ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_RESULT_SETS, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
-					"Cannot determine support of named results.  Default to false.", ex );
-			return false;
+			getLogger().logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of named result sets.  Default to false.", ex ); //$NON-NLS-1$
 		}
+        return false;
 	}
 	
 	/**
@@ -144,23 +137,21 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsNamedParameters( ) throws DataException
 	{
-		String methodName = "supportsNamedParameters";		
+	    final String methodName = "supportsNamedParameters";		 //$NON-NLS-1$
 		try
 		{
 			return m_dsMetaData.supportsNamedParameters( );
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Cannot determine support of named parameters.", ex );
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_PARAMETERS, ex );
+			throwException( ex, ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_PARAMETERS, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
-					"Cannot determine support of named parameters. Default to false.", ex );
-			return false;
+			getLogger().logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of named parameters. Default to false.", ex ); //$NON-NLS-1$
 		}
+        return false;
 	}
 	
 	/**
@@ -171,23 +162,21 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsInParameters( ) throws DataException
 	{
-		String methodName = "supportsInParameters";		
+	    final String methodName = "supportsInParameters";		 //$NON-NLS-1$
 		try
 		{
 			return m_dsMetaData.supportsInParameters( );
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Cannot determine support of input parameters.", ex );
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_IN_PARAMETERS, ex );
+			throwException( ex, ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_IN_PARAMETERS, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
-					"Cannot determine support of input parameters. Default to false.", ex );
-			return false;
+			getLogger().logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of input parameters. Default to false.", ex ); //$NON-NLS-1$
 		}
+        return false;
 	}
 	
 	/**
@@ -198,22 +187,21 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsOutParameters( ) throws DataException
 	{
-		String methodName = "supportsOutParameters";		
+	    final String methodName = "supportsOutParameters";		 //$NON-NLS-1$
 		try
 		{
 			return m_dsMetaData.supportsOutParameters( );
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Cannot determine support of output parameters.", ex );
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_OUT_PARAMETERS, ex );
+			throwException( ex, ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_OUT_PARAMETERS, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
-					"Cannot determine support of output parameters. Default to false.", ex );
-			return false;
+			getLogger().logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of output parameters. Default to false.", ex ); //$NON-NLS-1$
 		}
+        return false;
 	}
+	
 }
