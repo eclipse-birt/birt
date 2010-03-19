@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
+import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -784,7 +785,8 @@ abstract class AbstractReportParameterAdapter
 			{
 				if ( newValues == null )
 					newValues = designFactory.createStaticValues( );
-				newValues.add( tmpValues.get( i ).getStringExpression( ) );
+				newValues.add( ParameterValueUtil.toODAValue( tmpValues.get( i )
+						.getStringExpression( ), paramHandle.getDataType( ) ) );
 			}
 		}
 		inputAttrs.setDefaultValues( newValues );

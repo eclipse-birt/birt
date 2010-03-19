@@ -244,7 +244,7 @@
       <design:inputAttributes>
         <design:elementAttributes>
           <design:defaultValues>
-            <design:values>&quot;default value param 3&quot;</design:values>
+            <design:values>default value param 3</design:values>
           </design:defaultValues>
           <design:optional>false</design:optional>
           <design:masksValue>false</design:masksValue>

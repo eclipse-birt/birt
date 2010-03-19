@@ -254,7 +254,9 @@ public class AdapterUtil
 				// only update when the value is not internal value.
 
 				if ( !DataSetParameterAdapter.BIRT_JS_EXPR.equals( tmpValue ) )
-					newValues.add( new Expression( tmpValue,
+					newValues.add( new Expression(
+							ParameterValueUtil.toROMValue( tmpValue,
+									reportParam.getDataType( ) ),
 							ExpressionType.CONSTANT ) );
 			}
 		}

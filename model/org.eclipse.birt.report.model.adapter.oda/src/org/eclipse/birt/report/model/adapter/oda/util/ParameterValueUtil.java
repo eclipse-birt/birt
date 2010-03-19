@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.adapter.oda.util;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+
 /**
  * Utility to handle the literal value specified in an oda.design so it can be
  * used as a JS expression in a ROM data set input parameter.
@@ -106,25 +108,34 @@ public class ParameterValueUtil
 
 	public static boolean isQuoted( String jsExprValue )
 	{
-		if ( jsExprValue == null || jsExprValue.length( ) == 0 )
+		return isQuoted( jsExprValue, DOUBLE_QUOTE_CHAR )
+				|| isQuoted( jsExprValue, QUOTE_CHAR );
+	}
+
+	/**
+	 * Checks whether the expression is the string constant. If it is the string
+	 * constant, it must be quoted with given quotation marks.
+	 * 
+	 * @param jsExprValue
+	 *            the js expression value
+	 * @param quotation
+	 *            the quote mark, may be QUOTE_CHAR or DOUBLE_QUOTE_CHAR
+	 * @return <code>true</code> if it is string constant.
+	 */
+
+	public static boolean isQuoted( String jsExprValue, char quotation )
+	{
+		if ( jsExprValue == null || jsExprValue.length( ) < 2 )
 			return false;
 
-		boolean isDoubleQuoted = jsExprValue
-				.startsWith( DOUBLE_QUOTE_DELIMITER );
-		boolean isSingleQuoted = jsExprValue.startsWith( QUOTE_DELIMITER );
+		boolean isQuoted = jsExprValue.startsWith( String.valueOf( quotation ) );
 
-		if ( !isDoubleQuoted && !isSingleQuoted )
-			return false;
-
-		if ( jsExprValue.length( ) == 1 )
+		if ( !isQuoted )
 			return false;
 
 		// has start quote, checks if it ends with quote delimiter
 
 		String newStr = jsExprValue.substring( 1 );
-		char quotation = QUOTE_CHAR;
-		if ( isDoubleQuoted )
-			quotation = DOUBLE_QUOTE_CHAR;
 
 		int start = searchQuotationMark( newStr, quotation );
 
@@ -167,5 +178,53 @@ public class ParameterValueUtil
 		}
 
 		return index + 1;
+	}
+
+	/**
+	 * Converts ODA parameter value to ROM value. If the parameter type is
+	 * string or date/time, the returned value will be surrounded with quotes,
+	 * or the original value will be returned.
+	 * 
+	 * @param originalValue
+	 *            the original parameter value
+	 * @param parameterType
+	 *            the type of the parameter
+	 * 
+	 * @return the ROM value
+	 */
+	public static String toROMValue( String originalValue, String parameterType )
+	{
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( parameterType )
+				|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( parameterType )
+				|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( parameterType )
+				|| DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( parameterType ) )
+		{			
+			return toJsExprValue( originalValue, DOUBLE_QUOTE_DELIMITER );
+		}
+		return originalValue;
+	}
+
+	/**
+	 * Converts ROM parameter value to ODA value. If the parameter type is
+	 * string or date/time, the surrounded quotes will be removed.
+	 * 
+	 * @param originalValue
+	 *            the original parameter value
+	 * @param parameterType
+	 *            the type of the parameter
+	 * 
+	 * @return the ODA value
+	 */
+	public static String toODAValue( String originalValue, String parameterType )
+	{
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( parameterType )
+				|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( parameterType )
+				|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( parameterType )
+				|| DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( parameterType ) )
+		{
+			if ( isQuoted( originalValue, DOUBLE_QUOTE_CHAR ) )
+				return originalValue.substring( 1, originalValue.length( ) - 1 );
+		}
+		return originalValue;
 	}
 }
