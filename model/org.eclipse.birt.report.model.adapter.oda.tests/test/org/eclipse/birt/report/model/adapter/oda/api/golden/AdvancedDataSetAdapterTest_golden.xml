@@ -19,7 +19,7 @@
                     <expression name="labelExpr">label column</expression>
                     <property name="dataType">string</property>
                     <simple-property-list name="defaultValue">
-                        <value type="constant">default param value</value>
+                        <value type="constant">"default param value"</value>
                     </simple-property-list>
                     <list-property name="selectionList">
                         <structure>
