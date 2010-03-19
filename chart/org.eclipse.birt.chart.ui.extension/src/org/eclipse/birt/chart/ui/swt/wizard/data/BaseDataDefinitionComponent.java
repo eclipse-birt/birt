@@ -51,6 +51,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -840,6 +841,23 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			{
 				seriesdefinition.getGrouping( )
 						.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
+			}
+						
+			// Update sort key according to special case.
+			if ( ChartUIUtil.hasLimitOnCategorySortKey( context ) && ChartUtil.hasSorting( seriesdefinition) )
+			{
+				// Category sort key uses category expression instead.
+				Query sortQuery = seriesdefinition.getSortKey( );
+				if ( sortQuery == null  )
+				{
+					sortQuery = QueryImpl.create( expression );
+					sortQuery.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
+					seriesdefinition.setSortKey( sortQuery );
+				}
+				else
+				{
+					sortQuery.setDefinition( expression );
+				}
 			}
 			ChartAdapter.endIgnoreNotifications( );
 		}
