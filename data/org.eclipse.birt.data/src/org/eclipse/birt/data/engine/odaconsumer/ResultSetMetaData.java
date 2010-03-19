@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,32 +26,29 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  * ResultSetMetaData contains the result set metadata retrieved during 
  * runtime.
  */
-public class ResultSetMetaData
+public class ResultSetMetaData extends ExceptionHandler
 {
-    private static final String EMPTY_STRING = ""; //$NON-NLS-1$
-
     private IResultSetMetaData m_metadata;
 	private String m_driverName;
 	private String m_dataSetType;
 
 	// trace logging variables
 	private static final String sm_className = ResultSetMetaData.class.getName();
-	private static final String sm_loggerName = ConnectionManager.sm_packageName;
-	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 
 	ResultSetMetaData( IResultSetMetaData metadata, String driverName,
 					   String dataSetType )
 	{
+	    super( sm_className );
 		final String methodName = "ResultSetMetaData"; //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-		    sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+		    getLogger().entering( sm_className, methodName, 
             		new Object[] { metadata, driverName, dataSetType } );
 
 		m_metadata = metadata;
 		m_driverName = driverName;
 		m_dataSetType = dataSetType;
 
-	    sm_logger.exiting( sm_className, methodName, this );
+	    getLogger().exiting( sm_className, methodName, this );
 	}
 	
 	/**
@@ -70,16 +67,13 @@ public class ResultSetMetaData
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get column count.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_COUNT, ex );
+			throwException( ex, ResourceConstants.CANNOT_GET_COLUMN_COUNT, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get column count.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_COUNT, ex );
+            throwException( ex, ResourceConstants.CANNOT_GET_COLUMN_COUNT, methodName );
 		}
+        return 0;
 	}
 	
 	/**
@@ -92,24 +86,21 @@ public class ResultSetMetaData
 	{
 	    final String methodName = "getColumnName"; //$NON-NLS-1$
 
-	    verifyHasRuntimeMetaData();
+	    verifyHasRuntimeMetaData( methodName );
 		try
 		{
 			return m_metadata.getColumnName( index );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get column name.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NAME, ex, 
-			                         new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_COLUMN_NAME, index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.WARNING, sm_className, methodName,
+		    getLogger().logp( Level.WARNING, sm_className, methodName,
     						"Cannot get column name.", ex ); //$NON-NLS-1$
-		    return EMPTY_STRING;
 		}
+        return EMPTY_STRING;
 	}
 	
 	/**
@@ -122,24 +113,21 @@ public class ResultSetMetaData
 	{
 	    final String methodName = "getColumnLabel"; //$NON-NLS-1$
 
-	    verifyHasRuntimeMetaData();
+	    verifyHasRuntimeMetaData( methodName );
 		try
 		{
 			return m_metadata.getColumnLabel( index );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-    						"Cannot get column label.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_LABEL, ex, 
-			                         new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_COLUMN_LABEL, index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.INFO, sm_className, methodName,
+		    getLogger().logp( Level.INFO, sm_className, methodName,
     						"Cannot get column label.", ex ); //$NON-NLS-1$
-		    return EMPTY_STRING;
 		}
+        return EMPTY_STRING;
 	}
 	
 	/**
@@ -163,10 +151,10 @@ public class ResultSetMetaData
                 Types.NULL :
  		        DataTypeUtil.toOdaType( nativeType, m_driverName, m_dataSetType );
 
-		if( sm_logger.isLoggable( Level.FINEST ) )
-		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
+		if( getLogger().isLoggable( Level.FINEST ) )
+		    getLogger().logp( Level.FINEST, sm_className, methodName, 
 		            		"Column at index {0} has ODA data type {1}.", //$NON-NLS-1$
-		            		new Object[] { new Integer( index ), new Integer( odaType ) } );
+		            		new Object[] { Integer.valueOf( index ), Integer.valueOf( odaType ) } );
 
 		return odaType;
 	}
@@ -181,49 +169,41 @@ public class ResultSetMetaData
 	{
 	    final String methodName = "getColumnNativeTypeName"; //$NON-NLS-1$
 
-	    verifyHasRuntimeMetaData();
+	    verifyHasRuntimeMetaData( methodName );
 		try
 		{
 			return m_metadata.getColumnTypeName( index );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-							"Cannot get column native type name.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NATIVE_TYPE_NAME, ex, 
-									 new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_COLUMN_NATIVE_TYPE_NAME, index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.WARNING, sm_className, methodName,
+		    getLogger().logp( Level.WARNING, sm_className, methodName,
 							"Cannot get column native type name.", ex ); //$NON-NLS-1$
-		    return EMPTY_STRING;
 		}
+        return EMPTY_STRING;
 	}
 
 	private int doGetNativeColumnType( int index ) throws DataException
 	{
 	    final String methodName = "doGetNativeColumnType"; //$NON-NLS-1$
 
-	    verifyHasRuntimeMetaData();
+	    verifyHasRuntimeMetaData( methodName );
 		try
 		{
 			return m_metadata.getColumnType( index );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-							"Cannot get column native type code.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_TYPE, ex, 
-			                         new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_COLUMN_TYPE, index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-							"Cannot get column native type code.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_TYPE, ex, 
-			                         new Object[] { new Integer( index ) } );			
+            throwException( ex, ResourceConstants.CANNOT_GET_COLUMN_TYPE, index, methodName );
 		}
+		return Types.NULL;
 	}
 	
 	Class getColumnTypeAsJavaClass( int index ) throws DataException
@@ -232,10 +212,10 @@ public class ResultSetMetaData
 		return DataTypeUtil.toTypeClass( odaType );
 	}
 	
-	private void verifyHasRuntimeMetaData() throws DataException
+	private void verifyHasRuntimeMetaData( String methodName ) throws DataException
 	{
 	    if( m_metadata == null )
-	        throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET_METADATA );
+	        throwError( ResourceConstants.CANNOT_GET_RESULTSET_METADATA, null, methodName );
 	}
     
     String getOdaDataSourceId()

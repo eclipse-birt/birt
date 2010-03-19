@@ -31,7 +31,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * A runtime connection of a specific data source extension.
  */
-public class Connection
+public class Connection extends ExceptionHandler
 {	
 	private String m_dataSourceId;
 	private IConnection m_connection;
@@ -39,22 +39,21 @@ public class Connection
 	
     // trace logging variables
 	private static String sm_className = Connection.class.getName();
-	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	Connection( IConnection connection, String dataSourceId ) 
 		throws OdaException
 	{
+	    super( sm_className );
 		final String methodName = "Connection";		 //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { connection, dataSourceId } );
 		
 		assert( connection != null && connection.isOpen( ) );
 		m_dataSourceId = dataSourceId;
 		m_connection = connection;
 		
-		sm_logger.exiting( sm_className, methodName, this );
+		getLogger().exiting( sm_className, methodName, this );
 	}
 
 	/**
@@ -66,24 +65,22 @@ public class Connection
 	public boolean isOpen() throws DataException
 	{
         final String methodName = "isOpen";       //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
                 
         try
         {
             boolean ret = m_connection.isOpen();
             
-            sm_logger.exiting( sm_className, methodName, Boolean.valueOf( ret ) ); 
+            getLogger().exiting( sm_className, methodName, Boolean.valueOf( ret ) ); 
             return ret;
         }
         catch( OdaException ex )
         {
-            throwDataException( ex, ResourceConstants.CANNOT_CHECK_CONN_ISOPEN, methodName, 
-                                "Unable to check isOpen." ); //$NON-NLS-1$
+            throwException( ex, ResourceConstants.CANNOT_CHECK_CONN_ISOPEN, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
-            throwDataException( ex, ResourceConstants.CANNOT_CHECK_CONN_ISOPEN, methodName, 
-                                "Unable to check isOpen." ); //$NON-NLS-1$
+            throwException( ex, ResourceConstants.CANNOT_CHECK_CONN_ISOPEN, methodName );
         }
         return false;
 	}
@@ -98,23 +95,22 @@ public class Connection
 	public int getMaxQueries() throws DataException
 	{
 		final String methodName = "getMaxQueries";		 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 				
 		try
 		{
 			int ret = m_connection.getMaxQueries();
 			
-			sm_logger.exiting( sm_className, methodName, ret );	
+			getLogger().exiting( sm_className, methodName, ret );	
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-			throwDataException( ex, ResourceConstants.CANNOT_GET_MAX_QUERIES, methodName, 
-			                    "Cannot get max queries." ); //$NON-NLS-1$
+			throwException( ex, ResourceConstants.CANNOT_GET_MAX_QUERIES, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
+			getLogger().logp( Level.INFO, sm_className, methodName, 
 							"Cannot get max queries.", ex ); //$NON-NLS-1$
 		}
         return 0;
@@ -130,7 +126,7 @@ public class Connection
 	public DataSetCapabilities getMetaData( String dataSetType ) throws DataException
 	{
 		final String methodName = "getMetaData";		 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, dataSetType );
+		getLogger().entering( sm_className, methodName, dataSetType );
 		
 		String cachedKey = ( dataSetType == null ) ?
 		        			getDataSourceId( ) : dataSetType;
@@ -146,20 +142,18 @@ public class Connection
 			}
 			catch( OdaException ex )
 			{
-	            throwDataException( ex, dataSetType, ResourceConstants.CANNOT_GET_DS_METADATA, 
-	                    methodName, "Cannot get data set metadata." ); //$NON-NLS-1$
+	            throwException( ex, ResourceConstants.CANNOT_GET_DS_METADATA, dataSetType, methodName );
 			}
 			catch( UnsupportedOperationException ex )
 			{
-                throwDataException( ex, dataSetType, ResourceConstants.CANNOT_GET_DS_METADATA, 
-                        methodName, "Cannot get data set metadata." ); //$NON-NLS-1$
+                throwException( ex, ResourceConstants.CANNOT_GET_DS_METADATA, dataSetType, methodName );
 			}
 		
 			capabilities = new DataSetCapabilities( dsMetaData );
 			getCachedDsMetaData().put( cachedKey, capabilities );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, capabilities );
+		getLogger().exiting( sm_className, methodName, capabilities );
 		
 		return capabilities;
 	}
@@ -190,22 +184,21 @@ public class Connection
      *          query text and query specification
      * @throws DataException    if data source error occurs
 	 */
-	@SuppressWarnings("restriction")
-    public PreparedStatement prepareStatement( String query, 
+	public PreparedStatement prepareStatement( String query, 
                                                String dataSetType,
                                                QuerySpecification querySpec )
         throws DataException
     {
 		final String methodName = "prepareStatement(String,String,QuerySpecification)";		 //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { query, dataSetType } );
 		
 		IQuery statement = prepareOdaQuery( query, dataSetType, querySpec );
 		PreparedStatement ret = ( new PreparedStatement( statement, dataSetType, this, 
 														 query ) );
 		
-		sm_logger.exiting( sm_className, methodName, ret );		
+		getLogger().exiting( sm_className, methodName, ret );		
 		return ret;
 	}
 	
@@ -218,7 +211,7 @@ public class Connection
 	public void setLocale( ULocale locale ) throws DataException
 	{
         final String methodName = "setLocale(ULocale)";       //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
         
         try
         {
@@ -226,17 +219,16 @@ public class Connection
         }
         catch( OdaException ex )
         {
-            throwDataException( ex, locale, ResourceConstants.CANNOT_SET_CONN_LOCALE, 
-                    methodName, "Unable to set locale: " + locale); //$NON-NLS-1$
+            throwException( ex, ResourceConstants.CANNOT_SET_CONN_LOCALE, locale, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
             // log warning and ignore exception
-            sm_logger.logp( Level.WARNING, sm_className, methodName, 
+            getLogger().logp( Level.WARNING, sm_className, methodName, 
                             "Unable to set locale: " + locale + ". Using default locale instead.", ex ); //$NON-NLS-1$ //$NON-NLS-2$
         }
         
-        sm_logger.exiting( sm_className, methodName );
+        getLogger().exiting( sm_className, methodName );
 	}
 	
 	/**
@@ -246,7 +238,7 @@ public class Connection
 	public void close( ) throws DataException
 	{
 		final String methodName = "close";		 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		try
 		{
@@ -254,16 +246,15 @@ public class Connection
 		}
 		catch( OdaException ex )
 		{
-            throwDataException( ex, ResourceConstants.CANNOT_CLOSE_CONNECTION, methodName, 
-                                "Cannot close connection." ); //$NON-NLS-1$
+            throwException( ex, ResourceConstants.CANNOT_CLOSE_CONNECTION, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+			getLogger().logp( Level.WARNING, sm_className, methodName, 
 							"Cannot close connection.", ex );    //$NON-NLS-1$
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	// cache the metadata since it's the same for the lifetime of this connection, 
@@ -281,13 +272,12 @@ public class Connection
 		return m_dataSourceId;
 	}
 	
-	@SuppressWarnings("restriction")
-    IQuery prepareOdaQuery( String query, String dataSetType, QuerySpecification querySpec ) 
+	IQuery prepareOdaQuery( String query, String dataSetType, QuerySpecification querySpec ) 
 		throws DataException
 	{
 		final String methodName = "prepareOdaQuery";		 //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, new Object[] { query, dataSetType, querySpec } );
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, new Object[] { query, dataSetType, querySpec } );
 		
 		try
 		{
@@ -299,29 +289,28 @@ public class Connection
 			
 			statement.prepare( query );
 			
-			sm_logger.exiting( sm_className, methodName, statement );
+			getLogger().exiting( sm_className, methodName, statement );
 			
 			return statement;
 		}
 		catch( OdaException ex )
 		{
-			throwDataException( ex, new Object[]{ query, dataSetType }, ResourceConstants.CANNOT_PREPARE_STATEMENT, 
-			        methodName, "Cannot prepare statement." ); //$NON-NLS-1$
+            throwException( ex, ResourceConstants.CANNOT_PREPARE_STATEMENT, new Object[]{ query, dataSetType }, 
+                    methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            throwDataException( ex, new Object[]{ query, dataSetType }, ResourceConstants.CANNOT_PREPARE_STATEMENT, 
-                    methodName, "Cannot prepare statement." ); //$NON-NLS-1$
+            throwException( ex, ResourceConstants.CANNOT_PREPARE_STATEMENT, new Object[]{ query, dataSetType }, 
+                    methodName );
 		}
 		return null;
 	}
 	
-	@SuppressWarnings("restriction")
-    private void setOdaQuerySpec( IQuery statement, QuerySpecification querySpec )
+	private void setOdaQuerySpec( IQuery statement, QuerySpecification querySpec )
 	    throws OdaException
 	{
         final String methodName = "setOdaQuerySpec";       //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName, querySpec );
+        getLogger().entering( sm_className, methodName, querySpec );
 
         try
         {
@@ -331,36 +320,12 @@ public class Connection
         catch( UnsupportedOperationException ex )
         {
             // log and ignore optional processing, so not to stop query preparation
-            sm_logger.logp( Level.FINE, sm_className, methodName, 
+            getLogger().logp( Level.FINE, sm_className, methodName, 
                     "Ignoring the UnsupportedOperationException thrown by ODA driver (" + getDataSourceId() + //$NON-NLS-1$
                     ") on IQuery#setSpecification.  This call is optional and does not affect query processing." ); //$NON-NLS-1$
         }	    
 
-        sm_logger.exiting( sm_className, methodName );
-    }
-
-    private void throwDataException( Throwable ex, String errorCode, final String methodName, String logMsg ) 
-        throws DataException
-    {
-        sm_logger.logp( Level.SEVERE, sm_className, methodName, logMsg, ex );
-    
-        throw new DataException( errorCode, ex );
-    }
-
-    private void throwDataException( Throwable ex, Object argv, String errorCode, final String methodName, String logMsg ) 
-        throws DataException
-    {
-        sm_logger.logp( Level.SEVERE, sm_className, methodName, logMsg, ex );
-    
-        throw new DataException( errorCode, ex, argv );
-    }
-
-    private void throwDataException( Throwable ex, Object argv[], String errorCode, final String methodName, String logMsg ) 
-        throws DataException
-    {
-        sm_logger.logp( Level.SEVERE, sm_className, methodName, logMsg, ex );
-    
-        throw new DataException( errorCode, ex, argv );
+        getLogger().exiting( sm_className, methodName );
     }
     	
 }

@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *
  ******************************************************************************
  */ 
@@ -42,7 +42,7 @@ class ProjectedColumns
 	
 	ProjectedColumns( ResultSetMetaData runtimeMetaData ) throws DataException
 	{
-        final String methodName = "ProjectedColumns";
+        final String methodName = "ProjectedColumns"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, runtimeMetaData );
 
 		assert( runtimeMetaData != null );
@@ -73,7 +73,7 @@ class ProjectedColumns
 	// it's not an error when that happens
 	void addHint( ColumnHint columnHint ) throws DataException
 	{
-		final String methodName = "addHint";
+		final String methodName = "addHint"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, columnHint );
 
 		assert( columnHint != null );
@@ -132,7 +132,7 @@ class ProjectedColumns
                                         ColumnHint columnHint, int driverIndex )
         throws DataException
 	{
-		final String methodName = "updateFieldDataTypeAndAlias";
+		final String methodName = "updateFieldDataTypeAndAlias"; //$NON-NLS-1$
 
         String columnHintAlias = columnHint.getAlias();
         if( columnHintAlias != null )
@@ -141,8 +141,8 @@ class ProjectedColumns
         fieldMetaData.setAlias( columnHintAlias );
         if( sm_logger.isLoggable( Level.FINER ) )
             sm_logger.logp( Level.FINER, sm_className, methodName, 
-                    "Updated result field[{0}] to alias: {1}.", 
-                    new Object[] { new Integer( driverIndex ), columnHintAlias } );
+                    "Updated result field[{0}] to alias: {1}.",  //$NON-NLS-1$
+                    new Object[] { Integer.valueOf( driverIndex ), columnHintAlias } );
 
         // accepts column hint's data type only if the driver
 		// cannot provide a runtime data type
@@ -158,8 +158,8 @@ class ProjectedColumns
 
 		if( sm_logger.isLoggable( Level.FINER ) )
 		    sm_logger.logp( Level.FINER, sm_className, methodName, 
-                    "Set result field[{0}] to data type: {1}.", 
-                    new Object[] { new Integer( driverIndex ), effectiveDataType } );
+                    "Set result field[{0}] to data type: {1}.",  //$NON-NLS-1$
+                    new Object[] { Integer.valueOf( driverIndex ), effectiveDataType } );
 	}
     
 	private ArrayList doGetColumnHints()
@@ -173,7 +173,7 @@ class ProjectedColumns
 	void addCustomColumn( String columnName, Class columnType )
 		throws DataException
 	{
-		final String methodName = "addCustomColumn";
+		final String methodName = "addCustomColumn"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, columnName );
 
 		assert( columnName != null && columnName.length() > 0 );
@@ -205,7 +205,7 @@ class ProjectedColumns
 
 	void setProjectedNames( String[] projectedColumns ) throws DataException
 	{
-		final String methodName = "setProjectedNames";
+		final String methodName = "setProjectedNames"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, projectedColumns );
 
 		// can project since declared custom columns don't need to be 
@@ -226,7 +226,7 @@ class ProjectedColumns
 	// returns an empty List if there are no projected columns.
 	List getColumnsMetadata()
 	{
-		final String methodName = "getColumnsMetadata";
+		final String methodName = "getColumnsMetadata"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName );
 		
 		// if the projected indices array is null, then that 
@@ -264,7 +264,7 @@ class ProjectedColumns
 	private void projectSelectedBaseColumns( String[] projectedColumns ) 
 		throws DataException
 	{
-		final String methodName = "projectSelectedBaseColumns";
+		final String methodName = "projectSelectedBaseColumns"; //$NON-NLS-1$
 
 		// only project non-custom columns
 		ArrayList projectedIndices = new ArrayList();
@@ -274,14 +274,14 @@ class ProjectedColumns
 			String projectedName = projectedColumns[i];
 			
 			// this should have been validated already
-			assert( projectedName != null || projectedName.length() == 0 );
+			assert( projectedName != null );
 			
 			int colIndex = findColumnIndex( projectedName );
 			
 			// only project non-custom columns
 			if( colIndex >= 0 && colIndex < m_baseColumnMetadataCount )
 			{
-				projectedIndices.add( new Integer( colIndex ) );
+				projectedIndices.add( Integer.valueOf( colIndex ) );
 				continue;
 			}
 			
@@ -295,9 +295,9 @@ class ProjectedColumns
 			// the base metadata
 			projectedIndices = null;
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"No match found for project column {0} ", projectedName );
+					"No match found for project column {0} ", projectedName ); //$NON-NLS-1$
 
-			throw new DataException( ResourceConstants.UNRECOGNIZED_PROJECTED_COLUMN_NAME,
+			throw ExceptionHandler.newException( ResourceConstants.UNRECOGNIZED_PROJECTED_COLUMN_NAME,
 			                         new Object[] { projectedName } );
 		}
 		
@@ -311,7 +311,7 @@ class ProjectedColumns
 	// that the name/alias didn't match the runtime metadata
 	private int findColumnIndex( String projectedName )
 	{
-		final String methodName = "findColumnIndex";
+		final String methodName = "findColumnIndex"; //$NON-NLS-1$
 
 		int foundIndex = -1;		
 		for( int colIndex = 0, n = m_columns.size(); colIndex < n; colIndex++ )
@@ -327,15 +327,15 @@ class ProjectedColumns
 
 		if( sm_logger.isLoggable( Level.FINEST ) )
 		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
-				"Found column {0} at index {1}.", 
-				new Object[] { projectedName, new Integer( foundIndex ) } );
+				"Found column {0} at index {1}.",  //$NON-NLS-1$
+				new Object[] { projectedName, Integer.valueOf( foundIndex ) } );
 		
 		return foundIndex;
 	}
 
 	private void projectAllBaseColumns()
 	{
-		final String methodName = "projectAllBaseColumns";
+		final String methodName = "projectAllBaseColumns"; //$NON-NLS-1$
 
 		// only project non-custom columns
 		m_projectedIndices = new int[ m_baseColumnMetadataCount ];
@@ -345,7 +345,7 @@ class ProjectedColumns
 
 		if( sm_logger.isLoggable( Level.FINEST ) )
 		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
-				"Projected all columns {0} .", m_projectedIndices );
+				"Projected all columns {0} .", m_projectedIndices ); //$NON-NLS-1$
 	}
 
 	// validates that the new name/alias from a column hint or a new custom 
@@ -354,7 +354,7 @@ class ProjectedColumns
 										 int driverIndex )
 		throws DataException
 	{
-		final String methodName = "validateNewNameOrAlias";
+		final String methodName = "validateNewNameOrAlias"; //$NON-NLS-1$
 
 		assert( newColumnNameOrAlias != null && 
 		        newColumnNameOrAlias.length() > 0 );
@@ -375,10 +375,10 @@ class ProjectedColumns
 				  column.getAlias().equals( newColumnNameOrAlias ) ) )
 			{
 			    sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-			            "column name or alias {0} is aready used by column {1}", 
+			            "column name or alias {0} is aready used by column {1}",  //$NON-NLS-1$
 						new Object[] { newColumnNameOrAlias, column } );
-				throw new DataException( ResourceConstants.COLUMN_NAME_OR_ALIAS_ALREADY_USED,
-				        				new Object[] { newColumnNameOrAlias, new Integer( i + 1 ) } );
+				throw ExceptionHandler.newException( ResourceConstants.COLUMN_NAME_OR_ALIAS_ALREADY_USED,
+				        				new Object[] { newColumnNameOrAlias, Integer.valueOf( i + 1 ) } );
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,7 +15,6 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -27,8 +26,6 @@ import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.services.IPropertyProvider;
 import org.eclipse.datatools.connectivity.oda.profile.Constants;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * ConnectionManager manages a set of data source connections.  Calling 
@@ -50,7 +47,7 @@ public class ConnectionManager
 	
     // trace logging variables
 	private static final String sm_className = ConnectionManager.class.getName();
-	static final String sm_packageName = "org.eclipse.birt.data.engine.odaconsumer";  //$NON-NLS-1$
+	static final String sm_packageName = ExceptionHandler.sm_packageName;
 	private static LogHelper sm_logger = null;
 	
 	protected ConnectionManager( )
@@ -174,16 +171,16 @@ public class ConnectionManager
 			getLogger().logp( Level.SEVERE, sm_className, methodName, 
 							"Unable to open connection.", ex ); //$NON-NLS-1$
 			
-			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
-			                         new Object[] { dataSourceElementId } );
+			throw ExceptionHandler.newException( ResourceConstants.CANNOT_OPEN_CONNECTION, 
+			                         new Object[] { dataSourceElementId }, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 			getLogger().logp( Level.SEVERE, sm_className, methodName, 
 							"Unable to open connection.", ex ); //$NON-NLS-1$
 			
-			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
-			                         new Object[] { dataSourceElementId } );
+            throw ExceptionHandler.newException( ResourceConstants.CANNOT_OPEN_CONNECTION, 
+                    new Object[] { dataSourceElementId }, ex );
 		}
 	}
 	

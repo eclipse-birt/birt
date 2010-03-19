@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -97,15 +97,15 @@ class Driver
 		{
 			sm_logger.logp( Level.SEVERE, sm_className, methodName,
 					"Cannot get ODA data source driver helper.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.INIT_ENTRY_CANNOT_BE_FOUND, ex, 
-                                     new Object[] { m_dataSourceDriverId } );
+			throw ExceptionHandler.newException( ResourceConstants.INIT_ENTRY_CANNOT_BE_FOUND, 
+                                     new Object[] { m_dataSourceDriverId }, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 			sm_logger.logp( Level.SEVERE, sm_className, methodName,
 					"Cannot get ODA data source driver factory.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.INIT_ENTRY_CANNOT_BE_FOUND, ex, 
-                                     new Object[] { m_dataSourceDriverId } );
+			throw ExceptionHandler.newException( ResourceConstants.INIT_ENTRY_CANNOT_BE_FOUND, 
+                                     new Object[] { m_dataSourceDriverId }, ex );
 		}
 	}
 
@@ -173,8 +173,8 @@ class Driver
 		sm_logger.logp( Level.SEVERE, sm_className, methodName,
 			"Cannot find or process the ODA data source extension configuration.", cause ); //$NON-NLS-1$
 		
-		throw new DataException( ResourceConstants.CANNOT_PROCESS_DRIVER_CONFIG, cause, 
-			new Object[] { dataSourceDriverId } );	
+		throw ExceptionHandler.newException( ResourceConstants.CANNOT_PROCESS_DRIVER_CONFIG, 
+		                                    new Object[] { dataSourceDriverId }, cause );	
 	}
 
 }
