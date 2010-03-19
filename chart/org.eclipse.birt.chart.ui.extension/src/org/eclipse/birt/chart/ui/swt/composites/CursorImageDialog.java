@@ -107,12 +107,18 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 		GridLayout gl = new GridLayout(  );
 		gl.numColumns = 2;
 		inputArea.setLayout( gl );
-
+		
 		title = new Label( inputArea, SWT.NONE );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		title.setLayoutData( gd );
 
+		Label l = new Label(inputArea, SWT.NONE );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		l.setLayoutData( gd );
+		l.setText( Messages.getString("ImageDialog.uri.tooltip") ); //$NON-NLS-1$
+		
 		txtUriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
 		txtUriEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		txtUriEditor.addModifyListener( new ModifyListener( ) {
@@ -224,7 +230,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 		}
 		catch ( Exception e )
 		{
-			;
+			// Here ignores exception if image is invalid.
 		}
 	}
 	
