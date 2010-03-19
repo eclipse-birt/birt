@@ -28,13 +28,19 @@ public class CrosstabFilterExpressionProvider extends
 		CrosstabExpressionProvider
 {
 
+	private boolean isDetail = false;
+
+	public void setDetail( boolean isDetail )
+	{
+		this.isDetail = isDetail;
+	}
+
 	/**
 	 * @param handle
 	 */
 	public CrosstabFilterExpressionProvider( DesignElementHandle handle )
 	{
 		super( handle, null );
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void addFilterToProvider( )
@@ -49,7 +55,7 @@ public class CrosstabFilterExpressionProvider extends
 				{
 					return false;
 				}
-				
+
 				if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) )
 						&& ( element instanceof PropertyHandle ) )
 				{
@@ -72,9 +78,14 @@ public class CrosstabFilterExpressionProvider extends
 						try
 						{
 							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-							if ( xtabHandle.getDimension( ( (TabularDimensionHandle) element ).getName( ) ) == null )
-								return false;
-							return true;
+							boolean result;
+							if ( xtabHandle.getDimension( ( (TabularDimensionHandle) element ).getName( ) ) != null )
+								result = true;
+							else
+								result = false;
+							if ( isDetail )
+								result = !result;
+							return result;
 						}
 						catch ( ExtendedElementException e )
 						{

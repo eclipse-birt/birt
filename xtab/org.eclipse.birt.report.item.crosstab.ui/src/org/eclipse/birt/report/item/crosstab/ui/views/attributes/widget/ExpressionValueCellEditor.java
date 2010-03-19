@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.DimensionLevel;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
@@ -60,7 +61,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.20 $ $Date: 2009/09/01 05:28:15 $
+ * @version $Revision: 1.21 $ $Date: 2009/11/19 02:04:53 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -153,7 +154,9 @@ public class ExpressionValueCellEditor extends CellEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.CellEditor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.viewers.CellEditor#createControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createControl( Composite parent )
 	{
@@ -191,7 +194,9 @@ public class ExpressionValueCellEditor extends CellEditor
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
+			 * @see
+			 * org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt
+			 * .events.FocusEvent)
 			 */
 			public void focusLost( FocusEvent e )
 			{
@@ -500,7 +505,7 @@ public class ExpressionValueCellEditor extends CellEditor
 		}
 
 		DimensionLevel levelDefn = (DimensionLevel) referencedLevelList.get( index );
-	
+
 		String levelName = levelDefn.getLevelName( );
 		String dimensionName = levelDefn.getDimensionName( );
 		targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionName,
@@ -519,7 +524,11 @@ public class ExpressionValueCellEditor extends CellEditor
 		try
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			iter = session.getCubeQueryUtil( ).getMemberValueIterator(tabularCube,
+			DataService.getInstance( )
+					.registerSession( ( (TabularCubeHandle) tabularCube ).getDataSet( ),
+							session );
+			iter = session.getCubeQueryUtil( )
+					.getMemberValueIterator( tabularCube,
 							targetLevel,
 							levelDens,
 							values );
@@ -554,7 +563,7 @@ public class ExpressionValueCellEditor extends CellEditor
 			}
 
 		}
-		if (session != null)
+		if ( session != null )
 		{
 			session.shutdown( );
 		}

@@ -95,4 +95,10 @@ public class JSExpressionConverter extends AbstractExpressionConverter
 		}
 		return null;
 	}
+
+	public String convertExpression( String expr, String scriptType,
+			String exprClass ) throws UnsupportedOperationException
+	{
+		throw new UnsupportedOperationException( );
+	}
 }
