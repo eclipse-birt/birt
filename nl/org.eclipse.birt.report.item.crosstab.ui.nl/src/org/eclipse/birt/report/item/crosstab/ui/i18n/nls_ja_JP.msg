@@ -156,6 +156,8 @@ CategoryPageGenerator.TabItem.Attributes=プロパティ
 
 ###########################################################
 #FilterConditionBuilder dialog properties
+FilterConditionBuilder.DialogMessage.Edit=
+FilterConditionBuilder.DialogMessage.New=
 FilterConditionBuilder.DialogTitle.New=フィルタ条件の新規作成
 FilterConditionBuilder.DialogTitle.Edit=フィルタ条件の編集
 FilterConditionBuilder.choice.ValueOfThisDataItem=このデータ項目の値
@@ -172,6 +174,10 @@ FilterConditionBuilder.button.edit.tooltip=値リストで選択した値を編集します。
 FilterConditionBuilder.button.delete.tooltip=リストから選択した値を削除します。
 FilterConditionBuilder.button.deleteall.tooltip=リストからすべての値を削除します。
 FilterConditionBuilder.button.add.tooltip=値リストに値を追加します。
+CrosstabFilterConditionBuilder.Item.Decorator=--------
+CrosstabFilterConditionBuilder.Button.Detal=&Detail
+CrosstabFilterConditionBuilder.Item.SelectLevel=---Select Level---
+CrosstabFilterConditionBuilder.Item.SelectMeasure=---Select Measure---
 CrosstabFilterConditionBuilder.DialogMessage.New=フィルタの適用対象のグループレベルまたはメジャーを選択してから、フィルタ条件を設定してください。
 CrosstabFilterConditionBuilder.DialogMessage.Edit=フィルタの適用対象のグループレベルまたはメジャーを選択してから、フィルタ条件を設定してください。
 CrosstabFilterConditionBuilder.label.value=値
@@ -320,6 +326,7 @@ MapRuleBuilderDialog.MsgDlg.Title=警告
 MapRuleBuilderDialog.MsgDlg.Msg=値は空にできません。
 
 LevelHandleDropAdapter.ActionText=ディメンジョンの追加
+LevelPropertyDialog.MSG.CreateNew=
 
 
 ###########################################################

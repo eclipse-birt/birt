@@ -156,6 +156,8 @@ CategoryPageGenerator.TabItem.Attributes=속성
 
 ###########################################################
 #FilterConditionBuilder dialog properties
+FilterConditionBuilder.DialogMessage.Edit=
+FilterConditionBuilder.DialogMessage.New=
 FilterConditionBuilder.DialogTitle.New=새 필터 조건
 FilterConditionBuilder.DialogTitle.Edit=필터 조건 편집
 FilterConditionBuilder.choice.ValueOfThisDataItem=이 데이터 항목 값
@@ -172,6 +174,10 @@ FilterConditionBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
 FilterConditionBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
 FilterConditionBuilder.button.deleteall.tooltip=목록에서 모든 값 삭제
 FilterConditionBuilder.button.add.tooltip=값 목록에 값 추가
+CrosstabFilterConditionBuilder.Item.Decorator=--------
+CrosstabFilterConditionBuilder.Button.Detal=&Detail
+CrosstabFilterConditionBuilder.Item.SelectLevel=---Select Level---
+CrosstabFilterConditionBuilder.Item.SelectMeasure=---Select Measure---
 CrosstabFilterConditionBuilder.DialogMessage.New=필터를 적용할 대상 그룹 수준 또는 측정값을 선택한 다음 필터 조건을 설정합니다.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=필터를 적용할 대상 그룹 수준 또는 측정값을 선택한 다음 필터 조건을 설정합니다.
 CrosstabFilterConditionBuilder.label.value=값
@@ -320,6 +326,7 @@ MapRuleBuilderDialog.MsgDlg.Title=경고
 MapRuleBuilderDialog.MsgDlg.Msg=값을 입력해야 합니다.
 
 LevelHandleDropAdapter.ActionText=차원 추가
+LevelPropertyDialog.MSG.CreateNew=
 
 
 ###########################################################
