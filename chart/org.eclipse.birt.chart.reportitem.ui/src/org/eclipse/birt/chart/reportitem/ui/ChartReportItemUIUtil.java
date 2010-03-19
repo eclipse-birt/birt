@@ -96,9 +96,7 @@ public class ChartReportItemUIUtil
 			// Bugzilla#202386: Tooltips never support chart
 			// variables. Use COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS for dp
 			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
-					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
-					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT
-					| ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS;
+					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS;
 		}
 		else if ( builderCommand == IUIServiceProvider.COMMAND_HYPERLINK )
 		{
