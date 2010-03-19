@@ -466,6 +466,10 @@
 		   </fileset>
 		</zip>
 		
+		<copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
+            <fileset file="${postingDirectory}/${buildId}/birt-updatesite-${package.version}.zip"/>
+	    </copy>
+		
 		<antcall target="renameBirtUpdatesitePackage"/>	
 		
 	</target>
