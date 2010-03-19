@@ -656,7 +656,7 @@ public abstract class DesignElement
 
 	public DesignElement( String theName )
 	{
-		name = theName;
+		name = StringUtil.trimString( theName );
 		cachedDefn = MetaDataDictionary.getInstance( ).getElement(
 				getElementName( ) );
 
