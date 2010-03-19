@@ -1243,37 +1243,28 @@ public class DataRequestSessionImpl extends DataRequestSession
 			try
 			{
 				sl.process( dim );
+				Object originalMemCache = null;
+				if ( !( cubeHandle.getDataSet( )
+								.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ))
+				{
+					//remove cache limit for dimension data set
+					originalMemCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
+				}
 				DataSetIterator valueIt = new DataSetIterator( this,
 						queryMap.get( hierhandle ),
 						metaMap.get( hierhandle ),
 						appContext );
 				valueIt.initSecurityListenerAndDimension( dim.getName( ), sl );
-				if ( !( cubeHandle.getDataSet( )
-								.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ) )
+				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
+						hierhandle.getName( ),
+						valueIt,
+						levelInHier.toArray( new ILevelDefn[0] ),
+						dataEngine.getSession( ).getStopSign( ) ) );
+				if ( originalMemCache != null )
 				{
-					Object memCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
-					Object diskCache = appContext.remove( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
-					iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
-							hierhandle.getName( ),
-							valueIt,
-							levelInHier.toArray( new ILevelDefn[0] ),
-							dataEngine.getSession( ).getStopSign( ) ) );
-					if ( memCache != null )
-					{
-						appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, memCache );
-					}
-					if ( diskCache != null )
-					{
-						appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, diskCache );
-					}
+					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, originalMemCache );
 				}
-				else
-				{
-					iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
-							hierhandle.getName( ),valueIt,
-							levelInHier.toArray( new ILevelDefn[0] ),
-							dataEngine.getSession( ).getStopSign( ) ) );
-				}
+				
 			}
 			catch ( Exception e )
 			{
