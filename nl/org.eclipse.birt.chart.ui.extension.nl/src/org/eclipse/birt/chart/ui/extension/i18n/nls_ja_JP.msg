@@ -930,12 +930,13 @@ DialLabelSheet.Label.Format=書式 :
 ImageDialog.label.SelectImageType=イメージの種類を選択 :
 ImageDialog.label.URLImage=URL イメージ(&U)
 ImageDialog.label.EmbeddedImage=埋め込んだイメージ(&M)
-ImageDialog.label.EnterURL=イメージの URI またはパスを入力してください (&E):
+ImageDialog.label.EnterURL=&Enter URI of the image:
 ImageDialog.label.EnterEmbed=埋め込むイメージのパスを入力してください (&E):
 ImageDialog.label.Browse=参照(&B)...
 ImageDialog.label.SelectFile=ファイルの選択
 ImageDialog.label.Preview=プレビュー(&P)
 ImageDialog.label.SelectImage=イメージの選択
+ImageDialog.uri.tooltip=(Examples: http://host/cursor.gif, uri/cursor.gif)
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=整数、小数または分数の値を入力してください。
 

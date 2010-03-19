@@ -930,12 +930,13 @@ DialLabelSheet.Label.Format=Formato:
 ImageDialog.label.SelectImageType=Seleccionar tipo de imagen:
 ImageDialog.label.URLImage=Imagen de &URL
 ImageDialog.label.EmbeddedImage=I&magen incrustada
-ImageDialog.label.EnterURL=&Introduzca el URI o la ruta de la imagen:
+ImageDialog.label.EnterURL=&Enter URI of the image:
 ImageDialog.label.EnterEmbed=&Introduzca la ruta de la imagen que va a incrustar:
 ImageDialog.label.Browse=&Examinar...
 ImageDialog.label.SelectFile=Seleccionar archivo
 ImageDialog.label.Preview=Vista &previa
 ImageDialog.label.SelectImage=Seleccionar imagen
+ImageDialog.uri.tooltip=(Examples: http://host/cursor.gif, uri/cursor.gif)
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=Introduzca un valor entero, decimal o de fracción
 

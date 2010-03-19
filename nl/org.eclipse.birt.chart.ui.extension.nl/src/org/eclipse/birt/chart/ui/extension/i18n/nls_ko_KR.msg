@@ -930,12 +930,13 @@ DialLabelSheet.Label.Format=형식:
 ImageDialog.label.SelectImageType=이미지 형식 선택:
 ImageDialog.label.URLImage=URL 이미지(&U)
 ImageDialog.label.EmbeddedImage=내장된 이미지(&M)
-ImageDialog.label.EnterURL=이미지의 URI 또는 경로 입력(&E):
+ImageDialog.label.EnterURL=&Enter URI of the image:
 ImageDialog.label.EnterEmbed=포함시킬 이미지의 경로 입력(&E):
 ImageDialog.label.Browse=찾아보기(&B)...
 ImageDialog.label.SelectFile=파일 선택
 ImageDialog.label.Preview=미리 보기(&P)
 ImageDialog.label.SelectImage=이미지 선택
+ImageDialog.uri.tooltip=(Examples: http://host/cursor.gif, uri/cursor.gif)
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=정수, 십진수 또는 분수 값을 입력합니다.
 

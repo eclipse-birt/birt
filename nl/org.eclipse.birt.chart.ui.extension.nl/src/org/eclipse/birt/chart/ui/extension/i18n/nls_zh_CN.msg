@@ -930,12 +930,13 @@ DialLabelSheet.Label.Format=格式:
 ImageDialog.label.SelectImageType=选择图像类型:
 ImageDialog.label.URLImage=URL 图像(&U)
 ImageDialog.label.EmbeddedImage=嵌入图像(&M)
-ImageDialog.label.EnterURL=输入图像的 URI 或路径(&E):
+ImageDialog.label.EnterURL=&Enter URI of the image:
 ImageDialog.label.EnterEmbed=输入要嵌入的图像的路径(&E):
 ImageDialog.label.Browse=浏览(&B)...
 ImageDialog.label.SelectFile=选择文件
 ImageDialog.label.Preview=预览(&P)
 ImageDialog.label.SelectImage=选择图像
+ImageDialog.uri.tooltip=(Examples: http://host/cursor.gif, uri/cursor.gif)
 
 TextEditorComposite.Tooltip.EnterDecimalOrFractionValue=输入整数、小数或分数值
 
