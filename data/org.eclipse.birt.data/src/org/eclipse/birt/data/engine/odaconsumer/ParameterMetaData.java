@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  * Metadata is obtained from ODA driver's runtime metadata, if available, and
  * supplemented with design hints.
  */
-public class ParameterMetaData
+public class ParameterMetaData extends ExceptionHandler
 {
 	private int m_position = -1;
 	private String m_name;                 // ROM data set parameter name
@@ -42,12 +42,8 @@ public class ParameterMetaData
 	private int m_precision = -1;
 	private Boolean m_isNullable;
 	
-	private static String EMPTY_STRING = ""; //$NON-NLS-1$
-	
 	// trace logging variables
 	private static String sm_className = ParameterMetaData.class.getName();
-	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
     /**
      * Instantiate a parameter metadata based on design-time metadata
@@ -56,8 +52,9 @@ public class ParameterMetaData
 	ParameterMetaData( ParameterHint paramHint,
                        String odaDataSourceId, String dataSetType ) 
 	{
+	    super( sm_className );
 		final String methodName = "ParameterMetaData( ParameterHint, String, String )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramHint );
+		getLogger().entering( sm_className, methodName, paramHint );
 
 		m_name = paramHint.getName();
 		m_nativeName = paramHint.getNativeName();
@@ -76,7 +73,7 @@ public class ParameterMetaData
 		m_defaultValue = paramHint.getDefaultInputValue();
 		m_isNullable = Boolean.valueOf( paramHint.isNullable() );
 
-		sm_logger.exiting( sm_className, methodName, this );
+		getLogger().exiting( sm_className, methodName, this );
 	}
 
     /**
@@ -88,10 +85,11 @@ public class ParameterMetaData
 	                   String odaDataSourceId, String dataSetType ) 
 		throws DataException
 	{
+        super( sm_className );
 	    final String methodName = "ParameterMetaData( IParameterMetaData, int, String, String )"; //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-		    sm_logger.entering( sm_className, methodName, 
-		        				new Object[] { parameterMetaData, new Integer( index ),
+		if( getLogger().isLoggingEnterExitLevel() )
+		    getLogger().entering( sm_className, methodName, 
+		        				new Object[] { parameterMetaData, Integer.valueOf( index ),
 		            							odaDataSourceId, dataSetType } );
 		m_position = index;
 		m_nativeName = getRuntimeParameterName( parameterMetaData, index );
@@ -136,7 +134,7 @@ public class ParameterMetaData
 			m_isOptional = Boolean.FALSE;
 		}
 
-		sm_logger.exiting( sm_className, methodName, this );
+		getLogger().exiting( sm_className, methodName, this );
 	}
 	
 	/**
@@ -149,7 +147,7 @@ public class ParameterMetaData
         throws DataException
 	{
 		final String methodName = "updateWith( ParameterHint, String, String )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramHint );
+		getLogger().entering( sm_className, methodName, paramHint );
 		
 		// Based on previous experience, runtime parameter metadata can often 
 		// be incorrect about the parameter's input and output modes.  Therefore, 
@@ -203,7 +201,7 @@ public class ParameterMetaData
 		
 		m_defaultValue = paramHint.getDefaultInputValue();
 		
-		sm_logger.exiting( sm_className, methodName, this );
+		getLogger().exiting( sm_className, methodName, this );
 	}
 	
     private String getRuntimeParameterName( IParameterMetaData parameterMetaData,
@@ -216,17 +214,14 @@ public class ParameterMetaData
         }
         catch( OdaException ex )
         {
-            sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-                    "Cannot get driver-defined parameter name.", ex ); //$NON-NLS-1$
-            throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_NAME, ex, 
-                 new Object[] { new Integer( index ) } );
+            throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_NAME, index, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
-            sm_logger.logp( Level.INFO, sm_className, methodName, 
+            getLogger().logp( Level.INFO, sm_className, methodName, 
                     "Unsupported driver-defined parameter name.", ex ); //$NON-NLS-1$
-            return null;
         }
+        return null;
     }
 
 	private int getRuntimeParameterType( IParameterMetaData parameterMetaData, 
@@ -239,19 +234,14 @@ public class ParameterMetaData
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get parameter type.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
-			                         new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_TYPE, index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 		    // minimum required parameter metadata is not available
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get parameter type.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
-			                         new Object[] { new Integer( index ) } );
+            throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_TYPE, index, methodName );
 		}
+		return Types.NULL;    // unknown
 	}
 	
 	private String getRuntimeParamTypeName( IParameterMetaData parameterMetaData,
@@ -264,17 +254,14 @@ public class ParameterMetaData
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get parameter type name.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE_NAME, ex, 
-			                         new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_TYPE_NAME, index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
+			getLogger().logp( Level.INFO, sm_className, methodName, 
 							"Cannot get parameter type name.", ex ); //$NON-NLS-1$
-			return EMPTY_STRING;
 		}
+        return EMPTY_STRING;
 	}
 	
 	private int getRuntimeParameterMode( IParameterMetaData parameterMetaData, 
@@ -287,17 +274,14 @@ public class ParameterMetaData
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get parameter mode.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_MODE, ex, 
-			                         new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_MODE, index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+			getLogger().logp( Level.WARNING, sm_className, methodName, 
 							"Cannot get parameter mode.", ex ); //$NON-NLS-1$
-			return IParameterMetaData.parameterModeUnknown;
 		}
+        return IParameterMetaData.parameterModeUnknown;
 	}
 
 	private int getRuntimeParameterScale( IParameterMetaData parameterMetaData,
@@ -310,17 +294,14 @@ public class ParameterMetaData
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get parameter scale.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_SCALE, ex, 
-			                         new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_SCALE, index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
+			getLogger().logp( Level.INFO, sm_className, methodName, 
 							"Cannot get parameter scale.", ex ); //$NON-NLS-1$
-		    return -1;
 		}
+        return -1;
 	}
 	
 	private int getRuntimeParameterPrecision( IParameterMetaData parameterMetaData, 
@@ -333,17 +314,14 @@ public class ParameterMetaData
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get parameter precision.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_PRECISION, ex, 
-			                         new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_PRECISION,  index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
+			getLogger().logp( Level.INFO, sm_className, methodName, 
 							"Cannot get parameter precision.", ex ); //$NON-NLS-1$
-			return -1;
 		}
+        return -1;
 	}
 	
 	private int getRuntimeIsNullable( IParameterMetaData parameterMetaData, 
@@ -356,17 +334,14 @@ public class ParameterMetaData
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get parameter nullability.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_ISNULLABLE, ex, 
-			                         new Object[] { new Integer( index ) } );
+			throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_ISNULLABLE, index, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
+			getLogger().logp( Level.INFO, sm_className, methodName, 
 							"Cannot get parameter nullability.", ex ); //$NON-NLS-1$
-			return IParameterMetaData.parameterNullableUnknown;
 		}
+        return IParameterMetaData.parameterNullableUnknown;
 	}
 	
 	/**

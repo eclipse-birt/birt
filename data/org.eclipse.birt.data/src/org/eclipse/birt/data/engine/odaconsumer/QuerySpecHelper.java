@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2009 Actuate Corporation.
+ * Copyright (c) 2009, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -41,7 +41,6 @@ import org.eclipse.datatools.connectivity.oda.spec.util.ValidatorUtil;
  * Internal helper class to locate the appropriate ODA QuerySpecification factory and 
  * to provide general utilities to edit and access the content of a query spec.
  */
-@SuppressWarnings("restriction")
 public class QuerySpecHelper
 {
     QuerySpecificationHelper m_specFactoryHelper;
@@ -108,7 +107,16 @@ public class QuerySpecHelper
         boolean hasNativeName = PreparedStatement.hasValue( paramHint.getNativeName() );
         boolean hasParamPos = ( paramHint.getPosition() > 0 );
         if ( ! paramHint.isInputMode() || !(hasNativeName || hasParamPos) )
-            throw new DataException( "ParameterHint.", new IllegalArgumentException(), paramHint ); //$NON-NLS-1$
+        {
+            String errorCode = paramHint.isInputMode() ?
+                    ResourceConstants.PARAMETER_NAME_CANNOT_BE_EMPTY_OR_NULL :
+                    ResourceConstants.CANNOT_FIND_IN_PARAMETER;
+            Object errMsgArg = paramHint.isInputMode() ? null : 
+                    ( hasNativeName ? 
+                            paramHint.getNativeName() : Integer.valueOf( paramHint.getPosition() ));
+            throw ExceptionHandler.newException( errorCode, errMsgArg,
+                    new IllegalArgumentException() );
+        }
         
         ParameterIdentifier paramIdentifier = null;
         if( hasNativeName )
@@ -162,7 +170,7 @@ public class QuerySpecHelper
         }
         catch( OdaException ex )
         {
-            throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex );
+            throw ExceptionHandler.newException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex );
         }
     }
     
@@ -193,7 +201,7 @@ public class QuerySpecHelper
         }
         catch( OdaException ex )
         {
-            throw new DataException( "", ex );  // TODO
+            throw ExceptionHandler.newException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex );
         }        
         return connProfile;
     }

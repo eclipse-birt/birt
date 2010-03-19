@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -55,7 +55,7 @@ import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
  * Blob and Clob data types are only supported in output data returned
  * in result columns and output parameters.
  */
-public class PreparedStatement
+public class PreparedStatement extends ExceptionHandler
 {
 	private String m_dataSetType;
 	private Connection m_connection;
@@ -98,15 +98,14 @@ public class PreparedStatement
 		
     // trace logging variables
 	private static String sm_className = PreparedStatement.class.getName();
-	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	PreparedStatement( IQuery statement, String dataSetType, 
 	                   Connection connection, String query )
 	{
+	    super( sm_className );
 		String methodName = "PreparedStatement";		 //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { statement, dataSetType, 
 											   connection, query } );
 		
@@ -116,7 +115,7 @@ public class PreparedStatement
 		m_connection = connection;
 		m_queryText = query;
 
-		sm_logger.exiting( sm_className, methodName, this );
+		getLogger().exiting( sm_className, methodName, this );
 	}
 	
 	/**
@@ -127,7 +126,7 @@ public class PreparedStatement
 	public String getEffectiveQueryText()
     {
         final String methodName = "getEffectiveQueryText"; //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
             
         String queryText = null;
         try
@@ -137,11 +136,11 @@ public class PreparedStatement
         catch( Exception ex )
         {
             // ignore exception; simply log warning and return null
-            sm_logger.logp( Level.WARNING, sm_className, methodName, 
+            getLogger().logp( Level.WARNING, sm_className, methodName, 
                             "Unable to get effective query text.", ex ); //$NON-NLS-1$
         }
         
-        sm_logger.exiting( sm_className, methodName, queryText );
+        getLogger().exiting( sm_className, methodName, queryText );
         return queryText;
     }
 	
@@ -153,7 +152,7 @@ public class PreparedStatement
     public QuerySpecification getQuerySpecification()
 	{
         final String methodName = "getQuerySpecification"; //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
             
         QuerySpecification querySpec = null;
         try
@@ -163,11 +162,11 @@ public class PreparedStatement
         catch( Exception ex )
         {
             // ignore exception; simply log warning and return null
-            sm_logger.logp( Level.WARNING, sm_className, methodName, 
+            getLogger().logp( Level.WARNING, sm_className, methodName, 
                             "Unable to get effective query specification.", ex ); //$NON-NLS-1$
         }
         
-        sm_logger.exiting( sm_className, methodName, querySpec );
+        getLogger().exiting( sm_className, methodName, querySpec );
         return querySpec;
 	}
 	
@@ -180,8 +179,8 @@ public class PreparedStatement
 	public void setProperty( String name, String value ) throws DataException
 	{
 		String methodName = "setProperty"; //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, new Object[] { name, value } );
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, new Object[] { name, value } );
 		
 		doSetProperty( name, value );
 		
@@ -190,14 +189,14 @@ public class PreparedStatement
 		// the ODA operation
 		getPropertiesList().add( new Property( name, value ) );
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 
 	private void doSetProperty( String name, String value ) throws DataException
 	{
 		String methodName = "doSetProperty"; //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, new Object[] { name, value } );
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, new Object[] { name, value } );
 		
 		try
 		{
@@ -205,18 +204,15 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot set statement property.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_SET_STATEMENT_PROPERTY, ex );
+			throwException( ex, ResourceConstants.CANNOT_SET_STATEMENT_PROPERTY, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+			getLogger().logp( Level.WARNING, sm_className, methodName, 
 							"Cannot set statement property.", ex );			 //$NON-NLS-1$
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	private ArrayList<Property> getPropertiesList()
@@ -238,18 +234,18 @@ public class PreparedStatement
 	public void setSortSpec( SortSpec sortBy ) throws DataException
 	{
 		String methodName = "setSortSpec";	 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, sortBy );
+		getLogger().entering( sm_className, methodName, sortBy );
 		
 		doSetSortSpec( sortBy );		
 		getSortSpecsList().add( sortBy );
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 
 	private void doSetSortSpec( SortSpec sortBy ) throws DataException
 	{
 		String methodName = "doSetSortSpec"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, sortBy );
+		getLogger().entering( sm_className, methodName, sortBy );
 		
 		try
 		{
@@ -257,19 +253,14 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot set sort spec.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_SET_SORT_SPEC, ex );
+            throwException( ex, ResourceConstants.CANNOT_SET_SORT_SPEC, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot set sort spec.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_SET_SORT_SPEC, ex );
+            throwException( ex, ResourceConstants.CANNOT_SET_SORT_SPEC, methodName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	private ArrayList<SortSpec> getSortSpecsList()
@@ -290,19 +281,19 @@ public class PreparedStatement
 	public void setMaxRows( int max ) throws DataException
 	{
 		String methodName = "setMaxRows"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, max );
+		getLogger().entering( sm_className, methodName, max );
 		
 		doSetMaxRows( max );
 		
 		m_maxRows = max;
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 
 	private void doSetMaxRows( int max ) throws DataException
 	{
 		String methodName = "doSetMaxRows"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, max );
+		getLogger().entering( sm_className, methodName, max );
 		
 		try
 		{
@@ -310,19 +301,16 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot set max rows.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_SET_MAX_ROWS, ex );
+            throwException( ex, ResourceConstants.CANNOT_SET_MAX_ROWS, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+			getLogger().logp( Level.WARNING, sm_className, methodName, 
 							"Cannot set max rows.", ex ); //$NON-NLS-1$
 			// non-critical operation, ignore and proceed
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	/**
@@ -334,7 +322,7 @@ public class PreparedStatement
 	public IResultClass getMetaData( ) throws DataException
 	{
 		String methodName = "getMetaData"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		IResultClass ret = null;
 		
@@ -345,14 +333,14 @@ public class PreparedStatement
 		else
 			ret = doGetMetaData();
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
 	private IResultClass doGetMetaData() throws DataException
 	{	
 		String methodName = "doGetMetaData"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 	
 		if( m_currentResultClass == null )
 		{
@@ -360,7 +348,7 @@ public class PreparedStatement
 			m_currentResultClass = doGetResultClass( projectedColumns );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, m_currentResultClass );
+		getLogger().exiting( sm_className, methodName, m_currentResultClass );
 		
 		return m_currentResultClass;
 	}
@@ -368,12 +356,12 @@ public class PreparedStatement
 	private ResultClass doGetResultClass( List projectedColumns ) throws DataException 
 	{
 		String methodName = "doGetResultClass"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, projectedColumns );
+		getLogger().entering( sm_className, methodName, projectedColumns );
 		
 		assert( projectedColumns != null );
 		ResultClass ret = new ResultClass( projectedColumns );
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		
 		return ret;
 	}
@@ -382,7 +370,7 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "getProjectedColumns"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		if( m_projectedColumns == null )
 		{
@@ -404,7 +392,7 @@ public class PreparedStatement
 			m_updateProjectedColumns = false;
 		}
 		
-		sm_logger.exiting( sm_className, methodName, m_projectedColumns );
+		getLogger().exiting( sm_className, methodName, m_projectedColumns );
 		
 		return m_projectedColumns;
 	}
@@ -412,36 +400,31 @@ public class PreparedStatement
 	private IResultSetMetaData getRuntimeMetaData() throws DataException
 	{
 		String methodName = "getRuntimeMetaData"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		try
 		{
 			IResultSetMetaData ret = m_statement.getMetaData();
 			
-			sm_logger.exiting( sm_className, methodName, ret );			
+			getLogger().exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get resultset metadata.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET_METADATA, ex );
+			throwException( ex, ResourceConstants.CANNOT_GET_RESULTSET_METADATA, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
-							"Cannot get resultset metadata.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET_METADATA, ex );
+            throwUnsupportedException( ResourceConstants.CANNOT_GET_RESULTSET_METADATA, methodName );
 		}
+        return null;
 	}
 	
 	private ProjectedColumns doGetProjectedColumns( IResultSetMetaData odaMetadata )
 		throws DataException
 	{
 		final String methodName = "doGetProjectedColumns( IResultSetMetaData )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, odaMetadata );
+		getLogger().entering( sm_className, methodName, odaMetadata );
 		
 		ResultSetMetaData metadata = 
 			new ResultSetMetaData( odaMetadata, 
@@ -449,7 +432,7 @@ public class PreparedStatement
 								   m_dataSetType );
 		ProjectedColumns ret = new ProjectedColumns( metadata );
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 
@@ -463,7 +446,7 @@ public class PreparedStatement
 	public IResultClass getMetaData( String resultSetName ) throws DataException
 	{
 		String methodName = "getMetaData"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, resultSetName );
+		getLogger().entering( sm_className, methodName, resultSetName );
 		
 		validateNamedResultsSupport();
 		
@@ -476,14 +459,14 @@ public class PreparedStatement
 		
 		ret = doGetMetaData( resultSetName );
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
 	private IResultClass doGetMetaData( String resultSetName ) throws DataException
 	{
 		String methodName = "doGetMetaData"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, resultSetName );
+		getLogger().entering( sm_className, methodName, resultSetName );
 		
 		IResultClass resultClass = 
 			(IResultClass) getNamedCurrentResultClasses().get( resultSetName );
@@ -496,7 +479,7 @@ public class PreparedStatement
 			getNamedCurrentResultClasses().put( resultSetName, resultClass );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, resultClass );
+		getLogger().exiting( sm_className, methodName, resultClass );
 		
 		return resultClass;
 	}
@@ -505,7 +488,7 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "getProjectedColumns"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, resultSetName );
+		getLogger().entering( sm_className, methodName, resultSetName );
 		
 		ProjectedColumns projectedColumns = (ProjectedColumns) getNamedProjectedColumns( ).get( resultSetName );
 		if( projectedColumns == null )
@@ -529,7 +512,7 @@ public class PreparedStatement
 			m_updateNamedProjectedColumns.remove( resultSetName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, projectedColumns );
+		getLogger().exiting( sm_className, methodName, projectedColumns );
 		
 		return projectedColumns;
 	}
@@ -538,32 +521,25 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "getRuntimeMetaData"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, resultSetName );
+		getLogger().entering( sm_className, methodName, resultSetName );
 		
 		try
 		{
 			IResultSetMetaData ret = getAdvancedStatement().getMetaDataOf( resultSetName );
 			
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get metadata for named resultset.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_METADATA_FOR_NAMED_RESULTSET, ex, 
-			                         resultSetName );
+            throwException( ex, ResourceConstants.CANNOT_GET_METADATA_FOR_NAMED_RESULTSET, resultSetName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
-							"Cannot get metadata for named resultset.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_METADATA_FOR_NAMED_RESULTSET, ex, 
-			                         resultSetName );
+            throwUnsupportedException( ResourceConstants.CANNOT_GET_METADATA_FOR_NAMED_RESULTSET, resultSetName, methodName );
 		}
+		return null;
 	}
 
 	/**
@@ -574,7 +550,7 @@ public class PreparedStatement
 	public boolean execute( ) throws DataException
 	{
 		String methodName = "execute"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		// when the statement is re-executed, then the previous result set(s)
 		// needs to be invalidated.
@@ -600,25 +576,20 @@ public class PreparedStatement
 			    ret = true;
 			}
 
-			if( sm_logger.isLoggingEnterExitLevel() )
-				sm_logger.exiting( sm_className, methodName, Boolean.valueOf( ret ) );
+			if( getLogger().isLoggingEnterExitLevel() )
+				getLogger().exiting( sm_className, methodName, Boolean.valueOf( ret ) );
 
 		    return ret;
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot execute statement.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_EXECUTE_STATEMENT, ex );
+			throwException( ex, ResourceConstants.CANNOT_EXECUTE_STATEMENT, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot execute statement.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_EXECUTE_STATEMENT, ex );
+            throwException( ex, ResourceConstants.CANNOT_EXECUTE_STATEMENT, methodName );
 		}
+		return false;
 	}
 	
 	// clear all cached references to the current result sets, 
@@ -643,7 +614,7 @@ public class PreparedStatement
 	public ResultSet getResultSet( ) throws DataException
 	{
 		String methodName = "getResultSet"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		IResultSet resultSet = null;
 		
@@ -659,17 +630,11 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName,
-							"Cannot get resultset.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET, ex );
+            throwException( ex, ResourceConstants.CANNOT_GET_RESULTSET, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName,
-							"Cannot get resultset.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET, ex );
+            throwException( ex, ResourceConstants.CANNOT_GET_RESULTSET, methodName );
 		}
 		
 		ResultSet rs = 
@@ -684,7 +649,7 @@ public class PreparedStatement
 		// to the existing result set
 		m_currentResultClass = null;
 		
-		sm_logger.exiting( sm_className, methodName, rs );
+		getLogger().exiting( sm_className, methodName, rs );
 		
 		return rs;
 	}
@@ -698,7 +663,7 @@ public class PreparedStatement
 	public ResultSet getResultSet( String resultSetName ) throws DataException
 	{
 		final String methodName = "getResultSet(String)"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, resultSetName );
+		getLogger().entering( sm_className, methodName, resultSetName );
 		
 		validateNamedResultsSupport();
 		
@@ -711,19 +676,11 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get named resultset.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_NAMED_RESULTSET, ex, 
-			                         resultSetName );
+            throwException( ex, ResourceConstants.CANNOT_GET_NAMED_RESULTSET, resultSetName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get named resultset.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_NAMED_RESULTSET, ex, 
-			                         resultSetName );
+            throwException( ex, ResourceConstants.CANNOT_GET_NAMED_RESULTSET, resultSetName, methodName );
 		}
 		
 		ResultSet rs = 
@@ -737,7 +694,7 @@ public class PreparedStatement
 		// subsequent changes won't apply to the existing result set
 		getNamedCurrentResultClasses().remove( resultSetName );
 		
-		sm_logger.exiting( sm_className, methodName, rs );
+		getLogger().exiting( sm_className, methodName, rs );
 		
 		return rs;
 	}
@@ -801,7 +758,7 @@ public class PreparedStatement
 	public int findOutParameter( String paramName ) throws DataException
 	{
 		String methodName = "findOutParameter"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		validateOutputParameterSupport( );
 		
@@ -809,26 +766,22 @@ public class PreparedStatement
 		{
 			int ret = getAdvancedStatement().findOutParameter( paramName );
 			
-			sm_logger.exiting( sm_className, methodName, ret );			
+			getLogger().exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot find output parameter by name.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_FIND_OUT_PARAMETER, ex, 
-			                         paramName );
+            throwException( ex, ResourceConstants.CANNOT_FIND_OUT_PARAMETER, paramName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
             // this is common, and may be ignored by caller
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
+			getLogger().logp( Level.INFO, sm_className, methodName, 
 							"Cannot find output parameter by name.", ex ); //$NON-NLS-1$
 			
-			throw new DataException( ResourceConstants.CANNOT_FIND_OUT_PARAMETER, ex, 
-			                         paramName );
+			throw newException( ResourceConstants.CANNOT_FIND_OUT_PARAMETER, paramName, ex );
 		}
+		return 0;
 	}
 	
 	/**
@@ -840,13 +793,13 @@ public class PreparedStatement
 	public int getParameterType( int paramIndex ) throws DataException
 	{
 		final String methodName = "getParameterType( int )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 
 	    ParameterMetaData paramMD = getParameterMetaData( paramIndex );
 		assert( paramMD != null );	// invalid paramIndex would have thrown exception
 		int ret = paramMD.getDataType();
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
@@ -865,14 +818,14 @@ public class PreparedStatement
 	private int getParameterType( ParameterName paramName, boolean retryByIndex ) throws DataException
 	{
 		final String methodName = "getParameterType( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 
 		ParameterMetaData paramMD = getParameterMetaData( paramName );
 		if( paramMD != null )
 		{
 	        int dataTypeCode = paramMD.getDataType();
 	        
-	        sm_logger.exiting( sm_className, methodName, dataTypeCode );
+	        getLogger().exiting( sm_className, methodName, dataTypeCode );
 	        return dataTypeCode;
 		}
 		
@@ -885,11 +838,7 @@ public class PreparedStatement
 		    int paramPos = getIndexFromParamHints( paramName.getRomName() );
 	        if( paramPos <= 0 )  // invalid position
 	        {
-	            sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-	                    "Unable to get parameter data type by name nor position." ); //$NON-NLS-1$
-	    
-	            throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE,
-	                                        paramName );
+	            throwError( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, paramName, methodName );
 	        }
 
 	        parameterType = getParameterType( paramPos );
@@ -900,7 +849,7 @@ public class PreparedStatement
             parameterType = getOdaTypeFromParamHints( paramName.getRomName(), 0 );
 		}
 
-        sm_logger.exiting( sm_className, methodName, parameterType );		
+        getLogger().exiting( sm_className, methodName, parameterType );		
 		return parameterType;
 	}
 
@@ -913,11 +862,11 @@ public class PreparedStatement
 	public Object getParameterValue( int paramIndex ) throws DataException
 	{
 		final String methodName = "getParameterValue( int )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 		
 		Object ret = getParameterValue( null /* n/a paramName */, paramIndex );
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
@@ -930,11 +879,11 @@ public class PreparedStatement
 	public Object getParameterValue( String paramName ) throws DataException
 	{
 		final String methodName = "getParameterValue( String )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		Object ret = getParameterValue( paramName, 0 /* n/a paramIndex */ );
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
@@ -946,7 +895,7 @@ public class PreparedStatement
 	public void cancel() throws DataException
 	{
         final String methodName = "cancel"; //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
 
         try
 		{
@@ -954,18 +903,14 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot cancel statement.", ex ); //$NON-NLS-1$			
-			throw new DataException( ResourceConstants.CANNOT_CANCEL_STATEMENT, ex );
+			throwException( ex, ResourceConstants.CANNOT_CANCEL_STATEMENT, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            sm_logger.logp( Level.WARNING, sm_className, methodName,
-                            "Cannot cancel statement.", ex ); //$NON-NLS-1$    
-            throw new DataException( ResourceConstants.CANNOT_CANCEL_STATEMENT, ex );
+            throwUnsupportedException( ResourceConstants.CANNOT_CANCEL_STATEMENT, methodName );
 		}
 
-        sm_logger.exiting( sm_className, methodName );
+        getLogger().exiting( sm_className, methodName );
 	}
 	
 	/**
@@ -975,7 +920,7 @@ public class PreparedStatement
 	public void close( ) throws DataException
 	{
 		final String methodName = "close"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
         flushResultSets();
 		resetCachedResultSets();
@@ -987,18 +932,15 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot close statement.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_CLOSE_STATEMENT, ex );
+            throwException( ex, ResourceConstants.CANNOT_CLOSE_STATEMENT, methodName  );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+			getLogger().logp( Level.WARNING, sm_className, methodName, 
 							"Cannot close statement.", ex ); //$NON-NLS-1$
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	private void flushResultSets()
@@ -1018,7 +960,7 @@ public class PreparedStatement
 	private void resetResultsAndMetaData()
 	{
 		final String methodName = "resetResultsAndMetaData"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		resetCurrentResultAndMetaData();
 		
@@ -1030,7 +972,7 @@ public class PreparedStatement
         if( m_seqResultSetHdlr != null )
             m_seqResultSetHdlr.resetResultSetsState();
 
-        sm_logger.exiting( sm_className, methodName );
+        getLogger().exiting( sm_className, methodName );
 	}
 
 	/**
@@ -1042,7 +984,7 @@ public class PreparedStatement
 	public void addColumnHint( ColumnHint columnHint ) throws DataException
 	{
 		String methodName = "addColumnHint"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, columnHint );
+		getLogger().entering( sm_className, methodName, columnHint );
 		
 		if( columnHint != null )
 		{
@@ -1052,7 +994,7 @@ public class PreparedStatement
 			getProjectedColumns().addHint( columnHint );
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	/**
@@ -1066,8 +1008,8 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "addColumnHint"; //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { resultSetName, columnHint } );
 		
 		validateNamedResultsSupport();
@@ -1080,7 +1022,7 @@ public class PreparedStatement
 			getProjectedColumns( resultSetName ).addHint( columnHint );
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 
 	/**
@@ -1114,7 +1056,7 @@ public class PreparedStatement
 	public void addParameterHint( ParameterHint paramHint ) throws DataException
 	{
 		String methodName = "addParameterHint";		 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramHint );
+		getLogger().entering( sm_className, methodName, paramHint );
 		
 		if( paramHint != null )
 		{
@@ -1125,14 +1067,14 @@ public class PreparedStatement
 			m_parameterMetaData = null;
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 
 	private void validateAndAddParameterHint( ParameterHint newParameterHint )
 		throws DataException
 	{
 		String methodName = "validateAndAddParameterHint";		 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, newParameterHint );
+		getLogger().entering( sm_className, methodName, newParameterHint );
 		
 		ArrayList parameterHintsList = getParameterHints();	
 		String newParamHintName = newParameterHint.getName();
@@ -1155,14 +1097,10 @@ public class PreparedStatement
 
 				// we don't want to allow different parameter hint name with the 
 				// same parameter hint position
-				sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-								"Different parameter name {0} for same position {1}.", //$NON-NLS-1$
-								new Object[] { existingParamHintName, 
-												new Integer( existingParamHintPosition ) } );
-				
-				throw new DataException( ResourceConstants.DIFFERENT_PARAM_NAME_FOR_SAME_POSITION, 
-										 new Object[] { existingParamHintName, 
-														new Integer( existingParamHintPosition ) } );
+                throwError( ResourceConstants.DIFFERENT_PARAM_NAME_FOR_SAME_POSITION, 
+                            new Object[] { existingParamHintName, 
+                                           Integer.valueOf( existingParamHintPosition ) },
+                            methodName );
 			}
 
 			// the name of the existing hint matches the new hint, 
@@ -1172,11 +1110,8 @@ public class PreparedStatement
 			if( existingParamHintIndex != newParamHintIndex && 
 				existingParamHintIndex > 0 && newParamHintIndex > 0 )
 			{
-				sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-								"Same parameter name {0} for different hints.", existingParamHintName ); //$NON-NLS-1$
-				
-				throw new DataException( ResourceConstants.SAME_PARAM_NAME_FOR_DIFFERENT_HINTS,
-										 existingParamHintName );
+				throwError( ResourceConstants.SAME_PARAM_NAME_FOR_DIFFERENT_HINTS, existingParamHintName, 
+							methodName );
 			}
 			
 			// no validation is done on their native names, even if both are defined, 
@@ -1186,11 +1121,11 @@ public class PreparedStatement
 			// referring to the same hint, just update the existing one with 
 			// the new info
 			existingParamHint.updateHint( newParameterHint );
-            sm_logger.logp( Level.FINE, sm_className, methodName, 
-                    "Updating parameter hint with attributes in another hint that has the same name ({0}).", 
-                    existingParamHintName ); //$NON-NLS-1$
+            getLogger().logp( Level.FINE, sm_className, methodName, 
+                    "Updating parameter hint with attributes in another hint that has the same name ({0}).",  //$NON-NLS-1$
+                    existingParamHintName );
 			
-			sm_logger.exiting( sm_className, methodName );			
+			getLogger().exiting( sm_className, methodName );			
 			return;
 		}
 		
@@ -1198,7 +1133,7 @@ public class PreparedStatement
 		// it to the list.
 		parameterHintsList.add( newParameterHint );
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	/**
@@ -1212,12 +1147,12 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "setColumnsProjection";		 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, projectedNames );
+		getLogger().entering( sm_className, methodName, projectedNames );
 		
 		resetCurrentResultAndMetaData();
 		getProjectedColumns().setProjectedNames( projectedNames );
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	/**
@@ -1233,15 +1168,15 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "setColumnsProjection"; //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { resultSetName, projectedNames } );
 		
 		validateNamedResultsSupport();
 		resetResultAndMetaData( resultSetName );
 		getProjectedColumns( resultSetName ).setProjectedNames( projectedNames );
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 
 	/**
@@ -1274,8 +1209,8 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "declareCustomColumn";		 //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { columnName, columnType } );
 		
 		assert columnName != null;
@@ -1287,7 +1222,7 @@ public class PreparedStatement
 		resetCurrentResultAndMetaData();
 		getProjectedColumns().addCustomColumn( columnName, columnType);
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	/**
@@ -1302,8 +1237,8 @@ public class PreparedStatement
 									 Class columnType ) throws DataException
 	{
 		String methodName = "declareCustomColumn";		 //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { resultSetName, columnName, columnType } );
 		
 		validateNamedResultsSupport();
@@ -1318,7 +1253,7 @@ public class PreparedStatement
 		getProjectedColumns( resultSetName ).addCustomColumn( columnName, 
 		                                                      columnType );
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 
 	/**
@@ -1346,23 +1281,23 @@ public class PreparedStatement
 	private void resetCurrentResultAndMetaData()
 	{
 		final String methodName = "resetCurrentResultAndMetaData"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		m_currentResultClass = null;
 		m_currentResultSet = null;
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	private void resetResultAndMetaData( String resultSetName )
 	{
 		final String methodName = "resetResultAndMetaData(String)"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, resultSetName );
+		getLogger().entering( sm_className, methodName, resultSetName );
 		
 		getNamedCurrentResultClasses().remove( resultSetName );
 		getNamedCurrentResultSets().remove( resultSetName );
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	private Hashtable getNamedProjectedColumns()
@@ -1416,7 +1351,7 @@ public class PreparedStatement
 	public boolean supportsNamedResults() throws DataException
 	{
 		final String methodName = "supportsNamedResults"; //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
 		        
         if( m_supportsNamedResults == null ) // unknown
         {
@@ -1425,7 +1360,7 @@ public class PreparedStatement
             m_supportsNamedResults = Boolean.valueOf( isSupported );
         }
         
-        sm_logger.exiting( sm_className, methodName, m_supportsNamedResults );
+        getLogger().exiting( sm_className, methodName, m_supportsNamedResults );
         
         return m_supportsNamedResults.booleanValue();
 	}
@@ -1441,7 +1376,7 @@ public class PreparedStatement
 	private boolean supportsInputParameter() throws DataException
 	{
 		final String methodName = "supportsInputParameter"; //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
 		
 		if( m_supportsInputParameters == null )	// unknown
 		{
@@ -1449,7 +1384,7 @@ public class PreparedStatement
 				Boolean.valueOf( m_connection.getMetaData( m_dataSetType ).supportsInParameters() );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, m_supportsInputParameters );
+		getLogger().exiting( sm_className, methodName, m_supportsInputParameters );
 		
 		return m_supportsInputParameters.booleanValue();
 	}
@@ -1466,7 +1401,7 @@ public class PreparedStatement
 	private boolean supportsOutputParameter() throws DataException
 	{
         final String methodName = "supportsOutputParameter"; //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
                 
         if( m_supportsOutputParameters == null ) // unknown
         {
@@ -1475,7 +1410,7 @@ public class PreparedStatement
             m_supportsOutputParameters = Boolean.valueOf( isSupported );
         }
         
-        sm_logger.exiting( sm_className, methodName, m_supportsOutputParameters );
+        getLogger().exiting( sm_className, methodName, m_supportsOutputParameters );
         
         return m_supportsOutputParameters.booleanValue();
 	}
@@ -1491,7 +1426,7 @@ public class PreparedStatement
 	public boolean supportsNamedParameter() throws DataException
 	{
         final String methodName = "supportsNamedParameter"; //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
                 
         if( m_supportsNamedParameters == null ) // unknown
         {
@@ -1500,7 +1435,7 @@ public class PreparedStatement
             m_supportsNamedParameters = Boolean.valueOf( isSupported );
         }
         
-        sm_logger.exiting( sm_className, methodName, m_supportsNamedParameters );
+        getLogger().exiting( sm_className, methodName, m_supportsNamedParameters );
         
         return m_supportsNamedParameters.booleanValue();
 	}
@@ -1516,7 +1451,7 @@ public class PreparedStatement
     public boolean supportsMultipleResultSets() throws DataException
     {
         final String methodName = "supportsMultipleResultSets";    //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName );
+        getLogger().entering( sm_className, methodName );
         
         if( m_supportsMultipleResultSets == null ) // unknown
         {
@@ -1525,7 +1460,7 @@ public class PreparedStatement
             m_supportsMultipleResultSets = Boolean.valueOf( isSupported );
         }
         
-        sm_logger.exiting( sm_className, methodName, m_supportsMultipleResultSets );
+        getLogger().exiting( sm_className, methodName, m_supportsMultipleResultSets );
         
         return m_supportsMultipleResultSets.booleanValue();
     }
@@ -1538,11 +1473,7 @@ public class PreparedStatement
 		// least an IAdvancedQuery
 		if( ! supportsNamedResults() )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
-							"Named resultsets are not supported." ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.NAMED_RESULTSETS_UNSUPPORTED, 
-									 new UnsupportedOperationException() );
+			throwUnsupportedException( ResourceConstants.NAMED_RESULTSETS_UNSUPPORTED, methodName );
 		}
 	}
 	
@@ -1562,16 +1493,16 @@ public class PreparedStatement
 	public Collection getParameterMetaData() throws DataException
 	{
 		String methodName = "getParameterMetaData";	 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		if( m_parameterMetaData == null )
 		{
 		    if( ! supportsInputParameter() &&
 		        ! supportsOutputParameter() )
 		    {
-				sm_logger.logp( Level.INFO, sm_className, methodName, 
+				getLogger().logp( Level.INFO, sm_className, methodName, 
 						"The ODA driver does not support any type of parameters (IDataSetMetaData); no metadata is available." ); //$NON-NLS-1$
-				sm_logger.exiting( sm_className, methodName, null );	
+				getLogger().exiting( sm_className, methodName, null );	
 				return null;
 		    }
 		    
@@ -1594,14 +1525,14 @@ public class PreparedStatement
 								  mergeParamHintsWithMetaData( odaParamMetaData );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, m_parameterMetaData );	
+		getLogger().exiting( sm_className, methodName, m_parameterMetaData );	
 		return m_parameterMetaData;
 	}
 	
 	private ParameterMetaData getParameterMetaData( int paramIndex ) throws DataException
 	{
 		final String methodName = "getParameterMetaData( int )";	 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 
 		Collection allParamsMetadata = null; 
 	    if ( paramIndex > 0 )	// index is 1-based
@@ -1614,27 +1545,28 @@ public class PreparedStatement
 	            ParameterMetaData aParamMetaData = (ParameterMetaData) paramMDIter.next();
 	            if ( aParamMetaData.getPosition() == paramIndex )
 	            {
-	        		sm_logger.exiting( sm_className, methodName, aParamMetaData );	
+	        		getLogger().exiting( sm_className, methodName, aParamMetaData );	
 	                return aParamMetaData;
 	            }
 	        }
 	    }
 	    
 	    // no parameters defined, or didn't find matching parameter index position
-		throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_METADATA, 
-								new Integer( paramIndex ) );
+		throwError( ResourceConstants.CANNOT_GET_PARAMETER_METADATA, Integer.valueOf( paramIndex ), 
+					methodName );
+		return null;
 	}
 	
     private ParameterMetaData getParameterMetaData( ParameterName paramName ) 
         throws DataException
     {
         final String methodName = "getParameterMetaData( ParameterName )";     //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName, paramName );
+        getLogger().entering( sm_className, methodName, paramName );
 
         ParameterMetaData aParamMetaData =
             findParameterMetaDataByName( getParameterMetaData(), paramName );
         
-        sm_logger.exiting( sm_className, methodName, aParamMetaData ); 
+        getLogger().exiting( sm_className, methodName, aParamMetaData ); 
         return aParamMetaData;
     }
     
@@ -1662,7 +1594,7 @@ public class PreparedStatement
 	private IParameterMetaData getOdaDriverParamMetaData() throws DataException
 	{
 		String methodName = "getOdaDriverParamMetaData";	 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 			    
 		IParameterMetaData odaParamMetaData = null;
 	    try
@@ -1671,25 +1603,23 @@ public class PreparedStatement
 	    }
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get driver's parameter metadata.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_METADATA, ex );
+			throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_METADATA, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+			getLogger().logp( Level.WARNING, sm_className, methodName, 
 							"The ODA driver is not capable of providing parameter metadata.", ex ); //$NON-NLS-1$
 			// ignore, and continue to return null metadata
 		}
 
-		sm_logger.exiting( sm_className, methodName, odaParamMetaData );
+		getLogger().exiting( sm_className, methodName, odaParamMetaData );
 		return odaParamMetaData;
 	}
 	
 	private Collection mergeParamHints() throws DataException
 	{
 		String methodName = "mergeParamHints";	 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		ArrayList parameterMetaData = null;
 		
@@ -1700,7 +1630,7 @@ public class PreparedStatement
 			addParameterHints( parameterMetaData, m_parameterHints );
 		}
 	
-		sm_logger.exiting( sm_className, methodName, parameterMetaData );
+		getLogger().exiting( sm_className, methodName, parameterMetaData );
 		
 		return parameterMetaData;
 	}
@@ -1708,8 +1638,8 @@ public class PreparedStatement
 	private void addParameterHints( List parameterMetaData, List parameterHints )
 	{
 		String methodName = "addParameterHints"; //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { parameterMetaData, parameterHints } );
 		
 		ListIterator iter = parameterHints.listIterator();
@@ -1722,14 +1652,14 @@ public class PreparedStatement
 			parameterMetaData.add( paramMd );						
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 	
 	private Collection mergeParamHintsWithMetaData( IParameterMetaData runtimeParamMetaData )
 		throws DataException
 	{
 		String methodName = "mergeParamHintsWithMetaData"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, runtimeParamMetaData );
+		getLogger().entering( sm_className, methodName, runtimeParamMetaData );
 		
 		assert( runtimeParamMetaData != null );
 		
@@ -1751,7 +1681,7 @@ public class PreparedStatement
 		if( m_parameterHints != null && m_parameterHints.size() > 0 )
 			updateWithParameterHints( paramMetaData, m_parameterHints );
 
-		sm_logger.exiting( sm_className, methodName, paramMetaData );
+		getLogger().exiting( sm_className, methodName, paramMetaData );
 		
 		return paramMetaData;
 	}
@@ -1760,29 +1690,24 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "doGetParameterCount";	 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, runtimeParamMetaData );
+		getLogger().entering( sm_className, methodName, runtimeParamMetaData );
 		
 		try
 		{
 			int ret = runtimeParamMetaData.getParameterCount();
 			
-			sm_logger.exiting( sm_className, methodName, ret );			
+			getLogger().exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot get parameter count.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_COUNT, ex );
+            throwException( ex, ResourceConstants.CANNOT_GET_PARAMETER_COUNT, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
-							"Cannot get parameter count.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_COUNT, ex );
+            throwUnsupportedException( ResourceConstants.CANNOT_GET_PARAMETER_COUNT, methodName );
 		}
+		return 0;
 	}
 	
     /**
@@ -1796,14 +1721,14 @@ public class PreparedStatement
 		throws DataException
 	{
 		final String methodName = "updateWithParameterHints"; //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { parametersMetaData, parameterHints } );
 		
 		if( parametersMetaData == null || parametersMetaData.isEmpty() ||
 		    parameterHints == null || parameterHints.isEmpty() )
 		{
-	        sm_logger.exiting( sm_className, methodName );
+	        getLogger().exiting( sm_className, methodName );
 		    return;   // nothing to update or update with
 		}
 		
@@ -1825,7 +1750,7 @@ public class PreparedStatement
                                 m_dataSetType );
 		}
 		
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 
 	private ParameterMetaData findParameterMetaData( List parametersMetaData, 
@@ -1916,8 +1841,8 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "getRuntimeParameterIndexFromName"; //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
 								new Object[] { paramName, Boolean.valueOf( forInput ) } );
 		
 		if( forInput )
@@ -1926,7 +1851,7 @@ public class PreparedStatement
 			{	
 				int ret = findInParameter( paramName );
 				
-				sm_logger.exiting( sm_className, methodName, ret );				
+				getLogger().exiting( sm_className, methodName, ret );				
 				return ret;
 			}
 			catch( DataException ex )
@@ -1934,11 +1859,11 @@ public class PreparedStatement
 				// findInParameter is not supported by underlying ODA driver
 				if( ex.getCause() instanceof UnsupportedOperationException )
 				{
-					sm_logger.exiting( sm_className, methodName, 0 );					
+					getLogger().exiting( sm_className, methodName, 0 );					
 					return 0;
 				}
 				
-				sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+				getLogger().logp( Level.SEVERE, sm_className, methodName, 
 								"Cannot get runtime parameter index.", ex ); //$NON-NLS-1$
 				
 				throw ex;
@@ -1950,7 +1875,7 @@ public class PreparedStatement
 		{
 			int ret = findOutParameter( paramName );
 			
-			sm_logger.exiting( sm_className, methodName, ret );			
+			getLogger().exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( DataException ex )
@@ -1958,11 +1883,11 @@ public class PreparedStatement
 			// findOutParameter is not supported
 			if( ex.getCause() instanceof UnsupportedOperationException )
 			{
-				sm_logger.exiting( sm_className, methodName, 0 );				
+				getLogger().exiting( sm_className, methodName, 0 );				
 				return 0;
 			}
 			
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+			getLogger().logp( Level.SEVERE, sm_className, methodName, 
 							"Cannot get runtime parameter index.", ex ); //$NON-NLS-1$
 			
 			throw ex;
@@ -1978,11 +1903,7 @@ public class PreparedStatement
 		// least an IAdvancedQuery
 		if( ! supportsOutputParameter() ) 
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName, 
-							"Output parameters are not supported." ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.OUTPUT_PARAMETERS_UNSUPPORTED, 
-									 new UnsupportedOperationException() );
+			throwUnsupportedException( ResourceConstants.OUTPUT_PARAMETERS_UNSUPPORTED, methodName );
 		}
 	}
 	
@@ -1990,9 +1911,9 @@ public class PreparedStatement
 		throws DataException
 	{
 		final String methodName = "getParameterValue( String, int )";	 //$NON-NLS-1$
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.entering( sm_className, methodName, 
-								new Object[] { paramName, new Integer( paramIndex ) } );
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().entering( sm_className, methodName, 
+								new Object[] { paramName, Integer.valueOf( paramIndex ) } );
 		
 		validateOutputParameterSupport( );
 
@@ -2018,7 +1939,7 @@ public class PreparedStatement
 						doGetInt( paramIndex ) :
 						getInt( paramNameObj );
 				if( ! wasNull() )
-					paramValue = new Integer( i );
+					paramValue = Integer.valueOf( i );
 				break;
 				
 			case Types.DOUBLE:
@@ -2089,7 +2010,7 @@ public class PreparedStatement
 		
 		Object ret = ( wasNull( ) ) ? null : paramValue;
 		
-		sm_logger.exiting( sm_className, methodName, ret );	
+		getLogger().exiting( sm_className, methodName, ret );	
 		return ret;
 	}
 	
@@ -2101,7 +2022,7 @@ public class PreparedStatement
 	private int getInt( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "getInt( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		int ret = 0;
 		
@@ -2116,14 +2037,14 @@ public class PreparedStatement
 			ret = doGetInt( paramName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, ret );	
+		getLogger().exiting( sm_className, methodName, ret );	
 		return ret;
 	}
 
 	private double getDouble( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "getDouble( ParameterName )";	 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		double ret = 0;
 		
@@ -2138,15 +2059,15 @@ public class PreparedStatement
 			ret = doGetDouble( paramName );
 		}
 		
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.exiting( sm_className, methodName, new Double( ret ) );	
+		if( getLogger().isLoggingEnterExitLevel() )
+			getLogger().exiting( sm_className, methodName, new Double( ret ) );	
 		return ret;
 	}
 	
 	private String getString( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "getString( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		String ret = null;
 		
@@ -2161,14 +2082,14 @@ public class PreparedStatement
 			ret = doGetString( paramName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
 	private BigDecimal getBigDecimal( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "getBigDecimal( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		BigDecimal ret = null;
 		
@@ -2183,14 +2104,14 @@ public class PreparedStatement
 			ret = doGetBigDecimal( paramName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 
 	private java.util.Date getDate( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "getDate( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		java.util.Date ret = null;
 		
@@ -2205,14 +2126,14 @@ public class PreparedStatement
 			ret = doGetDate( paramName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
 	private Time getTime( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "getTime( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		Time ret = null;
 		
@@ -2227,14 +2148,14 @@ public class PreparedStatement
 			ret = doGetTime( paramName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
 	private Timestamp getTimestamp( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "getTimestamp( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		Timestamp ret = null;
 		
@@ -2249,14 +2170,14 @@ public class PreparedStatement
 			ret = doGetTimestamp( paramName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
 	private IBlob getBlob( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "getBlob( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		IBlob ret = null;
 		
@@ -2271,14 +2192,14 @@ public class PreparedStatement
 			ret = doGetBlob( paramName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
 	private IClob getClob( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "getClob( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		IClob ret = null;
 		
@@ -2293,14 +2214,14 @@ public class PreparedStatement
 			ret = doGetClob( paramName );
 		}
 		
-		sm_logger.exiting( sm_className, methodName, ret );
+		getLogger().exiting( sm_className, methodName, ret );
 		return ret;
 	}
     
     private Boolean getBoolean( ParameterName paramName ) throws DataException
     {
         final String methodName = "getBoolean( ParameterName )"; //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName, paramName );
+        getLogger().entering( sm_className, methodName, paramName );
         
         Boolean ret = null;
         
@@ -2315,14 +2236,14 @@ public class PreparedStatement
             ret = doGetBoolean( paramName );
         }
         
-        sm_logger.exiting( sm_className, methodName, ret ); 
+        getLogger().exiting( sm_className, methodName, ret ); 
         return ret;
     }
     
     private Object getObject( ParameterName paramName ) throws DataException
     {
         final String methodName = "getObject( ParameterName )"; //$NON-NLS-1$
-        sm_logger.entering( sm_className, methodName, paramName );
+        getLogger().entering( sm_className, methodName, paramName );
         
         Object ret = null;
         
@@ -2337,7 +2258,7 @@ public class PreparedStatement
             ret = doGetObject( paramName );
         }
         
-        sm_logger.exiting( sm_className, methodName, ret );
+        getLogger().exiting( sm_className, methodName, ret );
         return ret;
     }
 	
@@ -2345,22 +2266,22 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetInt( int )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_INT_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
 			int ret = getAdvancedStatement().getInt( paramIndex );
 			
-			sm_logger.exiting( sm_className, methodName, ret );			
+			getLogger().exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
         return 0;
 	}
@@ -2369,24 +2290,24 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetInt( ParameterName )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_INT_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
         String effectiveParamName = paramName.getEffectiveName();
 		try
 		{
 			int ret = getAdvancedStatement().getInt( effectiveParamName );
 			
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
         return 0;
 	}
@@ -2395,24 +2316,24 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetDouble( int )";		 //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_DOUBLE_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
 			double ret = getAdvancedStatement().getDouble( paramIndex );
 			
-			if( sm_logger.isLoggingEnterExitLevel() )
-				sm_logger.exiting( sm_className, methodName, new Double( ret ) );
+			if( getLogger().isLoggingEnterExitLevel() )
+				getLogger().exiting( sm_className, methodName, new Double( ret ) );
 			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
         return 0;
 	}
@@ -2421,25 +2342,25 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetDouble( ParameterName )";		 //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_DOUBLE_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
         String effectiveParamName = paramName.getEffectiveName();
 		try
 		{
 			double ret = getAdvancedStatement().getDouble( effectiveParamName );
 			
-			if( sm_logger.isLoggingEnterExitLevel() )
-				sm_logger.exiting( sm_className, methodName, new Double( ret ) );
+			if( getLogger().isLoggingEnterExitLevel() )
+				getLogger().exiting( sm_className, methodName, new Double( ret ) );
 			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
         return 0;
 	}
@@ -2448,23 +2369,23 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetString( int )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_STRING_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
 			String ret = getAdvancedStatement().getString( paramIndex );
 			
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
         return null;
 	}
@@ -2473,24 +2394,24 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetString( ParameterName )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_STRING_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
         String effectiveParamName = paramName.getEffectiveName();
 		try
 		{
 			String ret = getAdvancedStatement().getString( effectiveParamName );
 			
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
         return null;
 	}
@@ -2499,22 +2420,22 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetBigDecimal( int )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
 			BigDecimal ret = getAdvancedStatement().getBigDecimal( paramIndex );
 			
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
         return null;
 	}
@@ -2523,7 +2444,7 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetBigDecimal( ParameterName )";  //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
         String effectiveParamName = paramName.getEffectiveName();
 		try
@@ -2531,16 +2452,16 @@ public class PreparedStatement
 			BigDecimal ret = 
 			    getAdvancedStatement().getBigDecimal( effectiveParamName );
 			
-			sm_logger.exiting( sm_className, methodName, ret );			
+			getLogger().exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
         return null;
 	}
@@ -2549,22 +2470,22 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetDate( int )";		 //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_DATE_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
 			java.util.Date ret = getAdvancedStatement().getDate( paramIndex );
 			
-			sm_logger.exiting( sm_className, methodName, ret );			
+			getLogger().exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
         return null;
 	}
@@ -2573,23 +2494,23 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetDate( ParameterName )";		 //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_DATE_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
         String effectiveParamName = paramName.getEffectiveName();
 		try
 		{
 			java.util.Date ret = getAdvancedStatement().getDate( effectiveParamName );
 			
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
         return null;
 	}
@@ -2598,22 +2519,22 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetTime( int )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_TIME_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
 			Time ret = getAdvancedStatement().getTime( paramIndex );
 			
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
         return null;
 	}
@@ -2622,23 +2543,23 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetTime( ParameterName )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_TIME_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
         String effectiveParamName = paramName.getEffectiveName();
 		try
 		{
 			Time ret = getAdvancedStatement().getTime( effectiveParamName );
 
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
         return null;
 	}
@@ -2647,22 +2568,22 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetTimestamp( int )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramIndex );
+		getLogger().entering( sm_className, methodName, paramIndex );
 
 		try
 		{
 		    Timestamp ret = getAdvancedStatement().getTimestamp( paramIndex );
 
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
         return null;
 	}
@@ -2671,23 +2592,23 @@ public class PreparedStatement
 	{
 		final String methodName = "doGetTimestamp( ParameterName )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_PARAMETER;
-		sm_logger.entering( sm_className, methodName, paramName );
+		getLogger().entering( sm_className, methodName, paramName );
 		
         String effectiveParamName = paramName.getEffectiveName();
 		try
 		{
 			Timestamp ret = getAdvancedStatement().getTimestamp( effectiveParamName );
 
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
         return null;
 	}
@@ -2695,24 +2616,23 @@ public class PreparedStatement
 	private IBlob doGetBlob( int paramIndex ) throws DataException
 	{
 		final String methodName = "doGetBlob( int )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramIndex );
+        final String errorCode = ResourceConstants.CANNOT_GET_BLOB_FROM_PARAMETER;
+		getLogger().entering( sm_className, methodName, paramIndex );
 
 		try
 		{
 		    IBlob ret = getAdvancedStatement().getBlob( paramIndex );
 
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-		    logAndThrowGetBlobParamException( methodName, 
-		            			new Integer( paramIndex ), ex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    logAndThrowGetBlobParamException( methodName, 
-        						new Integer( paramIndex ), ex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
         return null;
 	}
@@ -2720,55 +2640,48 @@ public class PreparedStatement
 	private IBlob doGetBlob( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "doGetBlob( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+        final String errorCode = ResourceConstants.CANNOT_GET_BLOB_FROM_PARAMETER;
+		getLogger().entering( sm_className, methodName, paramName );
 		
         String effectiveParamName = paramName.getEffectiveName();
 		try
 		{
 		    IBlob ret = getAdvancedStatement().getBlob( effectiveParamName );
 
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-		    logAndThrowGetBlobParamException( methodName, effectiveParamName, ex );
+	        throwException( ex, errorCode, effectiveParamName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    logAndThrowGetBlobParamException( methodName, effectiveParamName, ex );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
         return null;
-	}
-	
-	private void logAndThrowGetBlobParamException( String methodName, 
-	        Object parameterId, Exception ex ) throws DataException
-	{
-        final String errorCode = ResourceConstants.CANNOT_GET_BLOB_FROM_PARAMETER;
-        handleException( ex, errorCode, methodName, parameterId );
 	}
 	
 	private IClob doGetClob( int paramIndex ) throws DataException
 	{
 		final String methodName = "doGetClob( int )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramIndex );
+        final String errorCode = ResourceConstants.CANNOT_GET_CLOB_FROM_PARAMETER;
+		getLogger().entering( sm_className, methodName, paramIndex );
 
 		try
 		{
 		    IClob ret = getAdvancedStatement().getClob( paramIndex );
 
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-		    logAndThrowGetClobParamException( methodName, 
-		            			new Integer( paramIndex ), ex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    logAndThrowGetClobParamException( methodName, 
-        						new Integer( paramIndex ), ex );
+            throwException( ex, errorCode, paramIndex, methodName );
 		}
         return null;
 	}
@@ -2776,55 +2689,49 @@ public class PreparedStatement
 	private IClob doGetClob( ParameterName paramName ) throws DataException
 	{
 		final String methodName = "doGetClob( ParameterName )"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+        final String errorCode = ResourceConstants.CANNOT_GET_CLOB_FROM_PARAMETER;
+		getLogger().entering( sm_className, methodName, paramName );
 		
         String effectiveParamName = paramName.getEffectiveName();
 		try
 		{
 		    IClob ret = getAdvancedStatement().getClob( effectiveParamName );
 
-			sm_logger.exiting( sm_className, methodName, ret );
+			getLogger().exiting( sm_className, methodName, ret );
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-		    logAndThrowGetClobParamException( methodName, effectiveParamName, ex );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    logAndThrowGetClobParamException( methodName, effectiveParamName, ex );
+            throwException( ex, errorCode, effectiveParamName, methodName );
 		}
         return null;
-	}
-	
-	private void logAndThrowGetClobParamException( String methodName, 
-	        Object parameterId, Exception ex ) throws DataException
-	{
-        final String errorCode = ResourceConstants.CANNOT_GET_CLOB_FROM_PARAMETER;
-        handleException( ex, errorCode, methodName, parameterId );
 	}
     
     private Boolean doGetBoolean( int paramIndex ) throws DataException
     {
         final String methodName = "doGetBoolean( int )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_BOOLEAN_FROM_PARAMETER;
-        sm_logger.entering( sm_className, methodName, paramIndex );
+        getLogger().entering( sm_className, methodName, paramIndex );
         
         try
         {
             boolean ret = getAdvancedStatement().getBoolean( paramIndex );
             
             Boolean retObj = wasNull() ? null : new Boolean( ret );
-            sm_logger.exiting( sm_className, methodName, retObj );         
+            getLogger().exiting( sm_className, methodName, retObj );         
             return retObj;
         }
         catch( OdaException ex )
         {
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
         }
         return null;
     }
@@ -2833,7 +2740,7 @@ public class PreparedStatement
     {
         final String methodName = "doGetBoolean( ParameterName )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_BOOLEAN_FROM_PARAMETER;
-        sm_logger.entering( sm_className, methodName, paramName );
+        getLogger().entering( sm_className, methodName, paramName );
         
         String effectiveParamName = paramName.getEffectiveName();
         try
@@ -2841,16 +2748,16 @@ public class PreparedStatement
             boolean ret = getAdvancedStatement().getBoolean( effectiveParamName );
             
             Boolean retObj = wasNull() ? null : new Boolean( ret );
-            sm_logger.exiting( sm_className, methodName, retObj );            
+            getLogger().exiting( sm_className, methodName, retObj );            
             return retObj;
         }
         catch( OdaException ex )
         {
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
         }
         return null;
     }
@@ -2859,23 +2766,23 @@ public class PreparedStatement
     {
         final String methodName = "doGetObject( int )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_OBJECT_FROM_PARAMETER;
-        sm_logger.entering( sm_className, methodName, paramIndex );
+        getLogger().entering( sm_className, methodName, paramIndex );
         
         try
         {
             Object ret = getAdvancedStatement().getObject( paramIndex );
             
-            sm_logger.exiting( sm_className, methodName, ret );
+            getLogger().exiting( sm_className, methodName, ret );
             
             return ret;
         }
         catch( OdaException ex )
         {
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
-            handleException( ex, errorCode, methodName, paramIndex );
+            throwException( ex, errorCode, paramIndex, methodName );
         }
         return null;
     }
@@ -2884,24 +2791,24 @@ public class PreparedStatement
     {
         final String methodName = "doGetObject( ParameterName )"; //$NON-NLS-1$
         final String errorCode = ResourceConstants.CANNOT_GET_OBJECT_FROM_PARAMETER;
-        sm_logger.entering( sm_className, methodName, paramName );
+        getLogger().entering( sm_className, methodName, paramName );
         
         String effectiveParamName = paramName.getEffectiveName();
         try
         {
             Object ret = getAdvancedStatement().getObject( effectiveParamName );
             
-            sm_logger.exiting( sm_className, methodName, ret );
+            getLogger().exiting( sm_className, methodName, ret );
             
             return ret;
         }
         catch( OdaException ex )
         {
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
-            handleException( ex, errorCode, methodName, effectiveParamName );
+            throwException( ex, errorCode, effectiveParamName, methodName );
         }
         return null;
     }
@@ -2917,11 +2824,11 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, null );
+            throwException( ex, errorCode, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, null );
+            throwException( ex, errorCode, methodName );
 		}
         return false;
 	}
@@ -3003,7 +2910,7 @@ public class PreparedStatement
 	public void clearParameterValues() throws DataException
 	{
 		String methodName = "clearParameterValues"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		getLogger().entering( sm_className, methodName );
 		
 		try
 		{
@@ -3011,21 +2918,18 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName,
-							"Cannot clear input parameters.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_CLEAR_IN_PARAMETERS, ex );
+            throwException( ex, ResourceConstants.CANNOT_CLEAR_IN_PARAMETERS, methodName );
 		}
 		catch( AbstractMethodError err )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName,
+			getLogger().logp( Level.WARNING, sm_className, methodName,
 							"clearInParameters method undefined.", err ); //$NON-NLS-1$
 			
 			handleUnsupportedClearInParameters();
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			sm_logger.logp( Level.WARNING, sm_className, methodName,
+			getLogger().logp( Level.WARNING, sm_className, methodName,
 							"clearInParameters is not supported.", ex ); //$NON-NLS-1$
 			
 			handleUnsupportedClearInParameters();
@@ -3053,7 +2957,7 @@ public class PreparedStatement
 				m_updateNamedProjectedColumns.addAll( keys );
 		}
 
-		sm_logger.exiting( sm_className, methodName );
+		getLogger().exiting( sm_className, methodName );
 	}
 
 	// Provides a work-around for older ODA drivers or ODA drivers that 
@@ -3131,33 +3035,28 @@ public class PreparedStatement
 	 */
 	public int findInParameter( String paramName ) throws DataException
 	{
-		final String methodName = "findInParameter"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName, paramName );
+		final String methodName = "findInParameter(String)"; //$NON-NLS-1$
+		getLogger().entering( sm_className, methodName, paramName );
 		
 		try
 		{
 			int ret = getStatement( ).findInParameter( paramName );
 
-			sm_logger.exiting( sm_className, methodName, ret );			
+			getLogger().exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
 		{
-			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-							"Cannot find input parameter by name.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_FIND_IN_PARAMETER, ex, 
-			                         new Object[] { paramName } );
+			throwException( ex, ResourceConstants.CANNOT_FIND_IN_PARAMETER, paramName, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
             // this is common, and may be ignored by caller
-			sm_logger.logp( Level.INFO, sm_className, methodName, 
-							"Cannot find input parameter by name.", ex ); //$NON-NLS-1$
-			
-			throw new DataException( ResourceConstants.CANNOT_FIND_IN_PARAMETER, ex, 
-			                         new Object[] { paramName } );
+            getLogger().logp( Level.INFO, sm_className, methodName, 
+                            "Cannot find input parameter by name.", ex ); //$NON-NLS-1$
+			throw newException( ResourceConstants.CANNOT_FIND_IN_PARAMETER, paramName, ex );
 		}
+		return 0;
 	}
 
 	/**
@@ -3290,11 +3189,8 @@ public class PreparedStatement
 			return;
 		}
 
-/*		sm_logger.logp( Level.SEVERE, sm_className, methodName,
-						"Unsupported parameter value type." ); //$NON-NLS-1$
-		
-		throw new DataException( ResourceConstants.UNSUPPORTED_PARAMETER_VALUE_TYPE, 
-                                 new Object[] { paramValue.getClass() } );
+/*		throwError( ResourceConstants.UNSUPPORTED_PARAMETER_VALUE_TYPE, 
+                                 new Object[] { paramValue.getClass() }, methodName );
 */	}
 
 	// Retry setting the parameter value by using an alternate setter method 
@@ -3454,7 +3350,7 @@ public class PreparedStatement
             }
 			
 			default:
-				conversionError( paramName, paramIndex, paramValue, 
+				throwConversionError( paramName, paramIndex, paramValue, 
 				                 parameterType, null /* cause */ );
 				return;
 		}
@@ -3473,7 +3369,7 @@ public class PreparedStatement
 				// this could be due to loss of precision or the double is 
 				// outside the range of an integer
 				if( ! paramValue.equals( intValue ) )
-					conversionError( paramName, paramIndex, paramValue, 
+					throwConversionError( paramName, paramIndex, paramValue, 
 					                 parameterType, null /* cause */ );
 				
 				setInt( paramName, paramIndex, i );
@@ -3503,7 +3399,7 @@ public class PreparedStatement
             }
 			
 			default:
-				conversionError( paramName, paramIndex, paramValue, 
+				throwConversionError( paramName, paramIndex, paramValue, 
 				                 parameterType, null /* cause */ );
 				return;
 		}
@@ -3525,7 +3421,7 @@ public class PreparedStatement
 				}
 				catch( NumberFormatException ex )
 				{
-					conversionError( paramName, paramIndex, paramValue, 
+					throwConversionError( paramName, paramIndex, paramValue, 
 					                 parameterType, ex );
 					return;
 				}
@@ -3541,7 +3437,7 @@ public class PreparedStatement
 				}
 				catch( NumberFormatException ex )
 				{
-					conversionError( paramName, paramIndex, paramValue, 
+					throwConversionError( paramName, paramIndex, paramValue, 
 					                 parameterType, ex );
 					return;
 				}
@@ -3557,7 +3453,7 @@ public class PreparedStatement
 				}
 				catch( NumberFormatException ex )
 				{
-					conversionError( paramName, paramIndex, paramValue, 
+					throwConversionError( paramName, paramIndex, paramValue, 
 					                 parameterType, ex );
 					return;
 				}
@@ -3573,7 +3469,7 @@ public class PreparedStatement
 				}
 				catch( IllegalArgumentException ex )
 				{
-					conversionError( paramName, paramIndex, paramValue, 
+					throwConversionError( paramName, paramIndex, paramValue, 
 					                 parameterType, ex );
 					return;
 				}
@@ -3589,7 +3485,7 @@ public class PreparedStatement
 				}
 				catch( IllegalArgumentException ex )
 				{
-					conversionError( paramName, paramIndex, paramValue, 
+					throwConversionError( paramName, paramIndex, paramValue, 
 					                 parameterType, ex );
 					return;
 				}
@@ -3605,7 +3501,7 @@ public class PreparedStatement
 				}
 				catch( IllegalArgumentException ex )
 				{
-					conversionError( paramName, paramIndex, paramValue, 
+					throwConversionError( paramName, paramIndex, paramValue, 
 					                 parameterType, ex );
 					return;
 				}
@@ -3619,7 +3515,7 @@ public class PreparedStatement
             }
 			
 			default:
-				conversionError( paramName, paramIndex, paramValue, 
+				throwConversionError( paramName, paramIndex, paramValue, 
 				                 parameterType, null /* cause */ );
 				return;
 		}
@@ -3638,7 +3534,7 @@ public class PreparedStatement
 				// this could occur if there is a loss in precision or 
 				// if the BigDecimal value is outside the range of an integer
 				if( ! paramValue.equals( intValue ) )
-					conversionError( paramName, paramIndex, paramValue, 
+					throwConversionError( paramName, paramIndex, paramValue, 
 					                 parameterType, null /* cause */ );
 				
 				setInt( paramName, paramIndex, i );
@@ -3652,7 +3548,7 @@ public class PreparedStatement
 				// this could occur if there is a loss in precision or 
 				// if the BigDecimal value is outside the range of a double
 				if( ! paramValue.equals( doubleValue ) )
-					conversionError( paramName, paramIndex, paramValue, 
+					throwConversionError( paramName, paramIndex, paramValue, 
 					                 parameterType, null /* cause */ );
 				
 				setDouble( paramName, paramIndex, d );
@@ -3674,7 +3570,7 @@ public class PreparedStatement
             }
 			
 			default:
-				conversionError( paramName, paramIndex, paramValue, 
+				throwConversionError( paramName, paramIndex, paramValue, 
 				                 parameterType, null /* cause */ );
 				return;
 		}
@@ -3712,7 +3608,7 @@ public class PreparedStatement
 			}
 			
 			default:
-				conversionError( paramName, paramIndex, paramValue, 
+				throwConversionError( paramName, paramIndex, paramValue, 
 				                 parameterType, null /* cause */ );
 				return;
 		}
@@ -3746,7 +3642,7 @@ public class PreparedStatement
             }
 			
 			default:
-				conversionError( paramName, paramIndex, paramValue, 
+				throwConversionError( paramName, paramIndex, paramValue, 
 				                 parameterType, null /* cause */ );
 				return;
 		}
@@ -3782,7 +3678,7 @@ public class PreparedStatement
             }
 			
 			default:
-				conversionError( paramName, paramIndex, paramValue, 
+				throwConversionError( paramName, paramIndex, paramValue, 
 				                 parameterType, null /* cause */ );
 				return;
 		}
@@ -3824,7 +3720,7 @@ public class PreparedStatement
             }
             
             default:
-                conversionError( paramName, paramIndex, paramValue, 
+                throwConversionError( paramName, paramIndex, paramValue, 
                                  parameterType, null /* cause */ );
                 return;
         }
@@ -3877,7 +3773,7 @@ public class PreparedStatement
                 // cannot retry with a different ODA API setter to assign 
                 // a null input parameter value
                 
-                sm_logger.logp( Level.SEVERE, sm_className, "retrySetNullParamValue",  //$NON-NLS-1$
+                getLogger().logp( Level.SEVERE, sm_className, "retrySetNullParamValue",  //$NON-NLS-1$
                                 "Input parameter value is null; not able to retry, throws exception from underlying ODA driver." ); //$NON-NLS-1$
                 
                 // not able to retry, throw last exception thrown by 
@@ -3886,7 +3782,7 @@ public class PreparedStatement
         }
     }
 
-	private void conversionError( ParameterName paramName, int paramIndex, 
+	private void throwConversionError( ParameterName paramName, int paramIndex, 
 								  Object paramValue, int odaType, 
 								  Exception cause ) throws DataException
 	{
@@ -3894,23 +3790,15 @@ public class PreparedStatement
         
 		Object paramValueArg =  ( paramValue == null ) ? (Object) "" : paramValue; //$NON-NLS-1$
         Object paramClassArg =  ( paramValue == null ) ? (Object) "null" : paramValue.getClass(); //$NON-NLS-1$
-        final String errorCode = ResourceConstants.CANNOT_CONVERT_INDEXED_PARAMETER_VALUE;
-		DataException exception = null;
+
+        Object[] errMsgArgs = null;
 		if( paramName == null )
-			exception = new DataException( errorCode, 
-				                           new Object[] { paramValueArg, new Integer( paramIndex ), 
-                                                    paramClassArg, new Integer( odaType ) } );
+		    errMsgArgs = new Object[] { paramValueArg, Integer.valueOf( paramIndex ), 
+                                                    paramClassArg, Integer.valueOf( odaType ) };
 		else
-			exception = new DataException( errorCode, 
-                                           new Object[] { paramValueArg, paramName, 
-                                                    paramClassArg, new Integer( odaType ) } );
-		
-		if( cause != null )
-			exception.initCause( cause );
-		
-		sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-						"Data type conversion error.", exception );		 //$NON-NLS-1$
-		throw exception;
+		    errMsgArgs = new Object[] { paramValueArg, paramName, 
+                                                    paramClassArg, Integer.valueOf( odaType ) };		
+		throwException( cause, ResourceConstants.CANNOT_CONVERT_INDEXED_PARAMETER_VALUE, errMsgArgs, methodName );
 	}
 
     /**
@@ -3926,15 +3814,15 @@ public class PreparedStatement
         String logContextMsg = "Cannot set input parameter."; //$NON-NLS-1$
         if( lastException instanceof RuntimeException )
         {
-            sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+            getLogger().logp( Level.SEVERE, sm_className, methodName, 
                             logContextMsg, lastException );
             
             throw (RuntimeException) lastException;
         }
         else if( lastException instanceof DataException )
         {
-            sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-                            logContextMsg, lastException ); //$NON-NLS-1$
+            getLogger().logp( Level.SEVERE, sm_className, methodName, 
+                            logContextMsg, lastException );
             
             throw (DataException) lastException;
         }
@@ -3946,7 +3834,7 @@ public class PreparedStatement
                 new IllegalStateException( localizedMessage );
             ex.initCause( lastException );
             
-            sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+            getLogger().logp( Level.SEVERE, sm_className, methodName, 
                             logContextMsg, lastException );
             
             throw ex;
@@ -3974,8 +3862,8 @@ public class PreparedStatement
 		if( ! setIntUsingHints( paramName, i ) )
 		{
             final String errorCode = ResourceConstants.CANNOT_SET_INT_PARAMETER;
-            Object[] msgArgs = new Object[] { new Integer( i ), paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { Integer.valueOf( i ), paramName };                    
+            throwError( errorCode, msgArgs, methodName );
 		}
 	}
 	
@@ -4011,7 +3899,7 @@ public class PreparedStatement
 		{
             final String errorCode = ResourceConstants.CANNOT_SET_DOUBLE_PARAMETER;
             Object[] msgArgs = new Object[] { new Double( d ), paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            throwError( errorCode, msgArgs, methodName );
 		}
 	}
 	
@@ -4047,7 +3935,7 @@ public class PreparedStatement
 		{
             final String errorCode = ResourceConstants.CANNOT_SET_STRING_PARAMETER;
             Object[] msgArgs = new Object[] { stringValue, paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            throwError( errorCode, msgArgs, methodName );
 		}
 	}
 
@@ -4083,7 +3971,7 @@ public class PreparedStatement
 		{
             final String errorCode = ResourceConstants.CANNOT_SET_BIGDECIMAL_PARAMETER;
             Object[] msgArgs = new Object[] { decimal, paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            throwError( errorCode, msgArgs, methodName );
 		}
 	}	
 
@@ -4119,7 +4007,7 @@ public class PreparedStatement
 		{
             final String errorCode = ResourceConstants.CANNOT_SET_DATE_PARAMETER;
             Object[] msgArgs = new Object[] { date, paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            throwError( errorCode, msgArgs, methodName );
 		}
 	}
 
@@ -4155,7 +4043,7 @@ public class PreparedStatement
 		{
             final String errorCode = ResourceConstants.CANNOT_SET_TIME_PARAMETER;
             Object[] msgArgs = new Object[] { time, paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            throwError( errorCode, msgArgs, methodName );
 		}
 	}
 
@@ -4192,7 +4080,7 @@ public class PreparedStatement
 		{
             final String errorCode = ResourceConstants.CANNOT_SET_TIMESTAMP_PARAMETER;
             Object[] msgArgs = new Object[] { timestamp, paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            throwError( errorCode, msgArgs, methodName );
 		}
 	}
 
@@ -4229,7 +4117,7 @@ public class PreparedStatement
         {
             final String errorCode = ResourceConstants.CANNOT_SET_BOOLEAN_PARAMETER;
             Object[] msgArgs = new Object[] { new Boolean( val ), paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            throwError( errorCode, msgArgs, methodName );
         }
     }
     
@@ -4265,7 +4153,7 @@ public class PreparedStatement
         {
             final String errorCode = ResourceConstants.CANNOT_SET_OBJECT_PARAMETER;
             Object[] msgArgs = new Object[] { value, paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            throwError( errorCode, msgArgs, methodName );
         }
     }
 
@@ -4301,7 +4189,7 @@ public class PreparedStatement
         {
             final String errorCode = ResourceConstants.CANNOT_SET_NULL_PARAMETER;
             Object[] msgArgs = new Object[] { paramName };                    
-            handleError( errorCode, msgArgs, methodName );
+            throwError( errorCode, msgArgs, methodName );
         }
     }
     
@@ -4326,13 +4214,13 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-            Object[] msgArgs = new Object[] { new Integer( i ), new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { Integer.valueOf( i ), Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            Object[] msgArgs = new Object[] { new Integer( i ), new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { Integer.valueOf( i ), Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 	}
 	
@@ -4348,8 +4236,8 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-            Object[] msgArgs = new Object[] { new Integer( i ), effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { Integer.valueOf( i ), effectiveParamName };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
@@ -4357,8 +4245,8 @@ public class PreparedStatement
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if( ! setIntUsingHints( paramName, i ) )
 			{
-                Object[] msgArgs = new Object[] { new Integer( i ), effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                Object[] msgArgs = new Object[] { Integer.valueOf( i ), effectiveParamName };                    
+                throwException( ex, errorCode, msgArgs, methodName );
 			}
 		}
 	}
@@ -4374,13 +4262,13 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-            Object[] msgArgs = new Object[] { new Double( d ), new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { new Double( d ), Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            Object[] msgArgs = new Object[] { new Double( d ), new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { new Double( d ), Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 	}
 	
@@ -4398,7 +4286,7 @@ public class PreparedStatement
 		catch( OdaException ex )
 		{
             Object[] msgArgs = new Object[] { new Double( d ), effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
@@ -4407,7 +4295,7 @@ public class PreparedStatement
 			if( ! setDoubleUsingHints( paramName, d ) )
 			{
                 Object[] msgArgs = new Object[] { new Double( d ), effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                throwException( ex, errorCode, msgArgs, methodName );
 			}
 		}
 	}
@@ -4423,13 +4311,13 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-            Object[] msgArgs = new Object[] { stringValue, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { stringValue, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            Object[] msgArgs = new Object[] { stringValue, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { stringValue, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 	}
 	
@@ -4446,7 +4334,7 @@ public class PreparedStatement
 		catch( OdaException ex )
 		{
             Object[] msgArgs = new Object[] { stringValue, effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
@@ -4455,7 +4343,7 @@ public class PreparedStatement
 			if( ! setStringUsingHints( paramName, stringValue ) )
 			{
                 Object[] msgArgs = new Object[] { stringValue, effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                throwException( ex, errorCode, msgArgs, methodName );
 			}
 		}
 	}
@@ -4471,13 +4359,13 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-            Object[] msgArgs = new Object[] { decimal, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { decimal, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            Object[] msgArgs = new Object[] { decimal, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { decimal, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 	}
 	
@@ -4494,7 +4382,7 @@ public class PreparedStatement
 		catch( OdaException ex )
 		{
             Object[] msgArgs = new Object[] { decimal, effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
@@ -4503,7 +4391,7 @@ public class PreparedStatement
 			if( ! setBigDecimalUsingHints( paramName, decimal ) )
 			{
                 Object[] msgArgs = new Object[] { decimal, effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                throwException( ex, errorCode, msgArgs, methodName );
 			}
 		}
 	}
@@ -4519,13 +4407,13 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-            Object[] msgArgs = new Object[] { date, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { date, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            Object[] msgArgs = new Object[] { date, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { date, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 	}
 	
@@ -4542,7 +4430,7 @@ public class PreparedStatement
 		catch( OdaException ex )
 		{
             Object[] msgArgs = new Object[] { date, effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
@@ -4551,7 +4439,7 @@ public class PreparedStatement
 			if( ! setDateUsingHints( paramName, date ) )
 			{
                 Object[] msgArgs = new Object[] { date, effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                throwException( ex, errorCode, msgArgs, methodName );
 			}
 		}
 	}
@@ -4567,13 +4455,13 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-            Object[] msgArgs = new Object[] { time, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { time, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            Object[] msgArgs = new Object[] { time, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { time, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 	}
 	
@@ -4590,7 +4478,7 @@ public class PreparedStatement
 		catch( OdaException ex )
 		{
             Object[] msgArgs = new Object[] { time, effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
@@ -4599,7 +4487,7 @@ public class PreparedStatement
 			if( ! setTimeUsingHints( paramName, time ) )
 			{
                 Object[] msgArgs = new Object[] { time, effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                throwException( ex, errorCode, msgArgs, methodName );
 			}
 		}
 	}
@@ -4615,13 +4503,13 @@ public class PreparedStatement
 		}
 		catch( OdaException ex )
 		{
-            Object[] msgArgs = new Object[] { timestamp, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { timestamp, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            Object[] msgArgs = new Object[] { timestamp, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { timestamp, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 	}
 	
@@ -4638,7 +4526,7 @@ public class PreparedStatement
 		catch( OdaException ex )
 		{
             Object[] msgArgs = new Object[] { timestamp, effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            throwException( ex, errorCode, msgArgs, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
@@ -4647,7 +4535,7 @@ public class PreparedStatement
 			if( ! setTimestampUsingHints( paramName, timestamp ) )
 			{
                 Object[] msgArgs = new Object[] { timestamp, effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                throwException( ex, errorCode, msgArgs, methodName );
 			}
 		}
 	}
@@ -4663,13 +4551,13 @@ public class PreparedStatement
         }
         catch( OdaException ex )
         {
-            Object[] msgArgs = new Object[] { new Boolean( val ), new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { new Boolean( val ), Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
          }
         catch( UnsupportedOperationException ex )
         {
-            Object[] msgArgs = new Object[] { new Boolean( val ), new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { new Boolean( val ), Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
         }
     }
     
@@ -4686,7 +4574,7 @@ public class PreparedStatement
         catch( OdaException ex )
         {
             Object[] msgArgs = new Object[] { new Boolean( val ), effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            throwException( ex, errorCode, msgArgs, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
@@ -4695,7 +4583,7 @@ public class PreparedStatement
             if( ! setBooleanUsingHints( paramName, val ) )
             {
                 Object[] msgArgs = new Object[] { new Boolean( val ), effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                throwException( ex, errorCode, msgArgs, methodName );
             }
         }
     }
@@ -4711,13 +4599,13 @@ public class PreparedStatement
         }
         catch( OdaException ex )
         {
-            Object[] msgArgs = new Object[] { value, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { value, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
-            Object[] msgArgs = new Object[] { value, new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { value, Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
         }
     }
     
@@ -4734,7 +4622,7 @@ public class PreparedStatement
         catch( OdaException ex )
         {
             Object[] msgArgs = new Object[] { value, effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            throwException( ex, errorCode, msgArgs, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
@@ -4743,7 +4631,7 @@ public class PreparedStatement
             if( ! setObjectUsingHints( paramName, value ) )
             {
                 Object[] msgArgs = new Object[] { value, effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                throwException( ex, errorCode, msgArgs, methodName );
             }
         }
     }
@@ -4759,13 +4647,13 @@ public class PreparedStatement
         }
         catch( OdaException ex )
         {
-            Object[] msgArgs = new Object[] { new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
-            Object[] msgArgs = new Object[] { new Integer( paramIndex ) };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            Object[] msgArgs = new Object[] { Integer.valueOf( paramIndex ) };                    
+            throwException( ex, errorCode, msgArgs, methodName );
         }
     }
     
@@ -4782,7 +4670,7 @@ public class PreparedStatement
         catch( OdaException ex )
         {
             Object[] msgArgs = new Object[] { effectiveParamName };                    
-            handleException( ex, errorCode, msgArgs, methodName );
+            throwException( ex, errorCode, msgArgs, methodName );
         }
         catch( UnsupportedOperationException ex )
         {
@@ -4791,7 +4679,7 @@ public class PreparedStatement
             if( ! setNullUsingHints( paramName ) )
             {
                 Object[] msgArgs = new Object[] { effectiveParamName };                    
-                handleException( ex, errorCode, msgArgs, methodName );
+                throwException( ex, errorCode, msgArgs, methodName );
             }
         }
     }
@@ -4799,43 +4687,6 @@ public class PreparedStatement
     static boolean hasValue( String value )
     {
         return ( value != null && value.length() > 0 );
-    }
-    
-    private void handleError( final String errorCode, Object[] msgArgs,
-                                final String methodName ) throws DataException
-    {
-        DataException dataEx = new DataException( errorCode, msgArgs );
-        sm_logger.logp( Level.SEVERE, sm_className, methodName,
-                        dataEx.getLocalizedMessage(), msgArgs );
-        throw dataEx;
-    }
-
-    private void handleException( Throwable ex, String errorCode,
-                        final String methodName, int paramIndex ) throws DataException
-    {
-        Object methodArg = ( paramIndex > 0 ) ? 
-                            new Integer( paramIndex ) : null;
-        handleException( ex, errorCode, methodName, methodArg );
-    }
-    
-    private void handleException( Throwable ex, String errorCode,
-                        final String methodName, Object methodArg ) throws DataException
-    {
-        DataException dataEx = ( methodArg != null ) ?
-                new DataException( errorCode, ex, methodArg ) :
-                new DataException( errorCode, ex );
-        sm_logger.logp( Level.SEVERE, sm_className, methodName,
-                        dataEx.getLocalizedMessage(), ex );
-        throw dataEx;
-    }
-
-    private void handleException( Throwable ex, String errorCode, Object[] msgArgs,
-                        final String methodName ) throws DataException
-    {
-        DataException dataEx = new DataException( errorCode, ex, msgArgs );
-        sm_logger.logp( Level.SEVERE, sm_className, methodName,
-                        dataEx.getLocalizedMessage(), ex );
-        throw dataEx;
     }
 	
 	private static final class Property
@@ -4931,7 +4782,7 @@ public class PreparedStatement
                 return;     // exists
             
             // no native name available, log info
-            sm_logger.logp( Level.FINE, sm_className + ".ParameterName",  //$NON-NLS-1$
+            getLogger().logp( Level.FINE, sm_className + ".ParameterName",  //$NON-NLS-1$
                     "logNullNativeName()",  //$NON-NLS-1$
                     "No native name available for parameter " + getRomName() + "." ); //$NON-NLS-1$  //$NON-NLS-2$
         }
@@ -4939,7 +4790,7 @@ public class PreparedStatement
         public String toString()
         {
             DataException resourceMsgHandler =
-                new DataException( ResourceConstants.PARAMETER_NAMES_INFO,
+                newException( ResourceConstants.PARAMETER_NAMES_INFO,
                         new Object[] { m_romName, m_nativeName } );
             return resourceMsgHandler.getLocalizedMessage();
         }
@@ -4966,6 +4817,7 @@ public class PreparedStatement
         private Map<Integer,ProjectedColumns> m_seqProjectedColumns;
             // a set of resultSetNum whose ProjectedColumns in m_seqProjectedColumns need to merge with runtime metadata
         private HashSet<Integer> m_incompleteProjectedColumns;  
+        private ExceptionHandler m_exceptionHandler;
 	    
 	    private SequentialResultSetHandler( PreparedStatement stmt )
 	    {
@@ -4973,6 +4825,7 @@ public class PreparedStatement
 	        m_resultSets = new HashMap<Integer,ResultSet>();
 	        m_seqProjectedColumns = new HashMap<Integer,ProjectedColumns>();
 	        m_incompleteProjectedColumns = new HashSet<Integer>();
+            m_exceptionHandler = new ExceptionHandler( m_nestedClassName );
 	    }
         
         private void resetResultSetsState()
@@ -5035,7 +4888,7 @@ public class PreparedStatement
                 return;     // nothing to refresh, done
 
             final String methodName = "refreshResultSetMetaData(Integer)"; //$NON-NLS-1$
-            sm_logger.entering( m_nestedClassName, methodName, resultSetKey );
+            getLogger().entering( m_nestedClassName, methodName, resultSetKey );
             
             // create new result class with the latest projected columns and the original oda result set;
             // re-use original oda result set because an oda driver might not support getting it again
@@ -5046,7 +4899,7 @@ public class PreparedStatement
             // replace the cached copy
             cacheResultSet( resultSetKey, refreshedRS );
 
-            sm_logger.exiting( m_nestedClassName, methodName );
+            getLogger().exiting( m_nestedClassName, methodName );
         }
 
 	    /**
@@ -5055,8 +4908,8 @@ public class PreparedStatement
 	    ResultSet getResultSet( int resultSetNum ) throws DataException
 	    {
 	        final String methodName = "getResultSet(int)"; //$NON-NLS-1$
-            if( sm_logger.isLoggingEnterExitLevel() )
-                sm_logger.entering( m_nestedClassName, methodName, Integer.valueOf( resultSetNum ) );
+            if( getLogger().isLoggingEnterExitLevel() )
+                getLogger().entering( m_nestedClassName, methodName, Integer.valueOf( resultSetNum ) );
 
             Integer resultSetKey = Integer.valueOf( resultSetNum );
 
@@ -5076,8 +4929,8 @@ public class PreparedStatement
                 rs = getCachedResultSet( resultSetKey );
                 if( rs != null )
                 {
-                    sm_logger.logp( Level.FINEST, m_nestedClassName, methodName, "Found cached result set." ); //$NON-NLS-1$
-                    sm_logger.exiting( m_nestedClassName, methodName, rs );             
+                    getLogger().logp( Level.FINEST, m_nestedClassName, methodName, "Found cached result set." ); //$NON-NLS-1$
+                    getLogger().exiting( m_nestedClassName, methodName, rs );             
                     return rs;
                 }
 	        }
@@ -5107,7 +4960,7 @@ public class PreparedStatement
             // cache the retrieved result set for repeated call to the same index
             cacheResultSet( resultSetKey, rs );
 	        
-	        sm_logger.exiting( m_nestedClassName, methodName, rs );
+	        getLogger().exiting( m_nestedClassName, methodName, rs );
 	        
 	        return rs;
 	    }
@@ -5126,7 +4979,7 @@ public class PreparedStatement
 	    private ResultSet doGetResultSet( Integer resultSetKey ) throws DataException
         {
             final String methodName = "doGetResultSet(Integer)"; //$NON-NLS-1$
-            sm_logger.entering( m_nestedClassName, methodName );
+            getLogger().entering( m_nestedClassName, methodName );
             
             IResultSet resultSet = null;
             
@@ -5146,7 +4999,7 @@ public class PreparedStatement
             ResultSet rs = ( resultSet != null ) ?
                 new ResultSet( resultSet, doGetMetaData( resultSetKey, resultSet ) ) : null;
             
-            sm_logger.exiting( m_nestedClassName, methodName, rs );
+            getLogger().exiting( m_nestedClassName, methodName, rs );
             
             return rs;
         }
@@ -5168,11 +5021,11 @@ public class PreparedStatement
 	    boolean getMoreResults() throws DataException
 	    {
 	        final String methodName = "getMoreResults"; //$NON-NLS-1$
-	        sm_logger.entering( m_nestedClassName, methodName );
+	        getLogger().entering( m_nestedClassName, methodName );
 	        
             if( ! supportsMultipleResultSets() )
             {
-                sm_logger.exiting( m_nestedClassName, methodName, Boolean.FALSE );               
+                getLogger().exiting( m_nestedClassName, methodName, Boolean.FALSE );               
                 return false;
             }
 	        
@@ -5202,8 +5055,8 @@ public class PreparedStatement
                 closeAllResultSets();
 	        }
 	       
-            if( sm_logger.isLoggingEnterExitLevel() )
-                sm_logger.exiting( m_nestedClassName, methodName, Boolean.valueOf( hasMoreResults ) );
+            if( getLogger().isLoggingEnterExitLevel() )
+                getLogger().exiting( m_nestedClassName, methodName, Boolean.valueOf( hasMoreResults ) );
 	        
 	        return hasMoreResults;
 	    }
@@ -5216,8 +5069,8 @@ public class PreparedStatement
 	    {
 	        final String methodName = "setColumnsProjection(int, String[])"; //$NON-NLS-1$
             Integer resultSetKey = Integer.valueOf( resultSetNum );
-	        if( sm_logger.isLoggingEnterExitLevel() )
-	            sm_logger.entering( m_nestedClassName, methodName, 
+	        if( getLogger().isLoggingEnterExitLevel() )
+	            getLogger().entering( m_nestedClassName, methodName, 
 	                                new Object[] { resultSetKey, projectedNames } );
 	        
 	        validateMultipleResultsSupport();
@@ -5225,7 +5078,7 @@ public class PreparedStatement
 
 	        getProjectedColumns( resultSetKey, null ).setProjectedNames( projectedNames );
 	        
-            sm_logger.exiting( m_nestedClassName, methodName );
+            getLogger().exiting( m_nestedClassName, methodName );
 	    }
 	    
 	    /**
@@ -5236,8 +5089,8 @@ public class PreparedStatement
         {
 	        final String methodName = "declareCustomColumn(int, String, Class)"; //$NON-NLS-1$
             Integer resultSetKey = Integer.valueOf( resultSetNum );
-            if( sm_logger.isLoggingEnterExitLevel() )
-                sm_logger.entering( m_nestedClassName, methodName, 
+            if( getLogger().isLoggingEnterExitLevel() )
+                getLogger().entering( m_nestedClassName, methodName, 
                                     new Object[] { resultSetKey, columnName, columnType } );
 
             validateMultipleResultsSupport();
@@ -5256,7 +5109,7 @@ public class PreparedStatement
             // custom column is added, update the cached result set's metadata with the latest projected columns
             refreshResultSetMetaData( resultSetKey );
             
-            sm_logger.exiting( m_nestedClassName, methodName );
+            getLogger().exiting( m_nestedClassName, methodName );
         }
 	    
         /**
@@ -5267,8 +5120,8 @@ public class PreparedStatement
         {
             final String methodName = "addColumnHint(int, ColumnHint)"; //$NON-NLS-1$
             Integer resultSetKey = Integer.valueOf( resultSetNum );
-            if( sm_logger.isLoggingEnterExitLevel() )
-                sm_logger.entering( m_nestedClassName, methodName, 
+            if( getLogger().isLoggingEnterExitLevel() )
+                getLogger().entering( m_nestedClassName, methodName, 
                                     new Object[] { resultSetKey, columnHint } );
             
             validateMultipleResultsSupport();
@@ -5281,14 +5134,14 @@ public class PreparedStatement
                 getProjectedColumns( resultSetKey, null ).addHint( columnHint );
             }
             
-            sm_logger.exiting( m_nestedClassName, methodName );
+            getLogger().exiting( m_nestedClassName, methodName );
         }
 
 	    private ProjectedColumns getProjectedColumns( Integer resultSetNum, IResultSet odaResultSet )
             throws DataException
         {
             final String methodName = "getProjectedColumns(Integer,IResultSet)"; //$NON-NLS-1$
-            sm_logger.entering( m_nestedClassName, methodName, resultSetNum );
+            getLogger().entering( m_nestedClassName, methodName, resultSetNum );
             
             ProjectedColumns projectedColumns = 
                 (ProjectedColumns) m_seqProjectedColumns.get( resultSetNum );
@@ -5296,7 +5149,7 @@ public class PreparedStatement
             // has existing up-to-date ProjectedColumns
             if( projectedColumns != null && ! m_incompleteProjectedColumns.contains( resultSetNum ) )
             {               
-                sm_logger.exiting( m_nestedClassName, methodName, projectedColumns );               
+                getLogger().exiting( m_nestedClassName, methodName, projectedColumns );               
                 return projectedColumns;
             }
             
@@ -5309,7 +5162,7 @@ public class PreparedStatement
             // try use the statement's current result metadata, assuming it has same metadata as the index one
             if( ! hasOdaRuntimeMetadata )
             {
-                sm_logger.logp( Level.INFO, m_nestedClassName, methodName,
+                getLogger().logp( Level.INFO, m_nestedClassName, methodName,
                                 "Using the statement's current result set for result set " + resultSetNum ); //$NON-NLS-1$
                 odaRuntimeMetadata = m_stmt.getRuntimeMetaData();            
             }
@@ -5338,7 +5191,7 @@ public class PreparedStatement
             
             m_seqProjectedColumns.put( resultSetNum, projectedColumns );
 
-            sm_logger.exiting( m_nestedClassName, methodName, projectedColumns );
+            getLogger().exiting( m_nestedClassName, methodName, projectedColumns );
             
             return projectedColumns;
         }
@@ -5410,8 +5263,8 @@ public class PreparedStatement
 	    IResultClass getMetaData( int resultSetNum ) throws DataException
 	    {
 	        final String methodName = "getMetaData(int)"; //$NON-NLS-1$
-            if( sm_logger.isLoggingEnterExitLevel() )
-                sm_logger.entering( m_nestedClassName, methodName, Integer.valueOf( resultSetNum ) );
+            if( getLogger().isLoggingEnterExitLevel() )
+                getLogger().entering( m_nestedClassName, methodName, Integer.valueOf( resultSetNum ) );
 	        
 	        validateMultipleResultsSupport();
 	        
@@ -5423,20 +5276,20 @@ public class PreparedStatement
 	        if( resultset != null )
 	            resultClass = resultset.getMetaData();
 	        
-	        sm_logger.exiting( m_nestedClassName, methodName, resultClass );
+	        getLogger().exiting( m_nestedClassName, methodName, resultClass );
 	        return resultClass;
 	    }
 	    
 	    private IResultClass doGetMetaData( Integer resultSetKey, IResultSet resultSet ) throws DataException
 	    {
 	        final String methodName = "doGetMetaData(Integer,IResultSet)"; //$NON-NLS-1$
-	        sm_logger.entering( m_nestedClassName, methodName, resultSetKey );
+	        getLogger().entering( m_nestedClassName, methodName, resultSetKey );
 	        
             List projectedColumns = 
                 getProjectedColumns( resultSetKey, resultSet ).getColumnsMetadata();  
             IResultClass resultClass = doGetResultClass( projectedColumns );
 	        
-	        sm_logger.exiting( m_nestedClassName, methodName, resultClass );
+	        getLogger().exiting( m_nestedClassName, methodName, resultClass );
 	        
 	        return resultClass;
 	    }
@@ -5453,24 +5306,18 @@ public class PreparedStatement
         }
 
         private void throwInvalidArgException( final String methodName,
-                Integer resultSetKey ) throws DataException
+                Integer resultSetKey ) throws OdaDataException
         {
-            DataException dataEx = new DataException( ResourceConstants.INVALID_METHOD_ARGUMENT, 
-                                                    new Object[] { methodName, resultSetKey } );
-            sm_logger.logp( Level.SEVERE, m_nestedClassName, methodName, dataEx.getLocalizedMessage() );
-            throw dataEx;
+            m_exceptionHandler.throwError( ResourceConstants.INVALID_METHOD_ARGUMENT, 
+                                      new Object[] { methodName, resultSetKey }, 
+                                      methodName );
         }
         
         private void throwDataException( Throwable ex, String errorCode, final String methodName ) 
-            throws DataException
+            throws OdaDataException
         {
-            DataException dataEx = new DataException( errorCode, ex );
-            sm_logger.logp( Level.SEVERE, m_nestedClassName, methodName,
-                            dataEx.getLocalizedMessage(), ex );
-            throw dataEx;
+            m_exceptionHandler.throwException( ex, errorCode, methodName );
         }
-
 	}
-	
 
 }
