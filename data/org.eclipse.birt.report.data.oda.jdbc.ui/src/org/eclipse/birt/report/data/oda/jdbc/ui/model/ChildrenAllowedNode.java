@@ -55,7 +55,7 @@ public abstract class ChildrenAllowedNode implements IDBNode
 		{
 			children = new IDBNode[0];
 		}
-		setChildren( refetchChildren( fc ) );
+		setChildren( children );
 	}
 
 	protected abstract IDBNode[] refetchChildren( FilterConfig fc );
