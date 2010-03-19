@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -213,6 +214,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			cmpSortArea.setLayout( new GridLayout( 3, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 2;
+			gd.widthHint = 200;
 			cmpSortArea.setLayoutData( gd );
 		}
 		lblSorting = new Label( cmpSortArea, SWT.NONE );
@@ -472,17 +474,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	 */
 	protected boolean onlyCategoryExprAsCategorySortKey( )
 	{
-		int stateInfo = wizardContext.getDataServiceProvider( ).getState( );
-		boolean isCube = ( stateInfo & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE
-				&& ( stateInfo & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY;
-
-		if ( isYGroupingEnabled( ) && !isCube )
-
-		{
-			return true;
-		}
-
-		return false;
+		return ChartUIUtil.hasLimitOnCategorySortKey( wizardContext );
 	}
 
 	protected boolean isInheritColumnsGroups( )
@@ -514,32 +506,8 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	 */
 	protected boolean isYGroupingEnabled( )
 	{
-		SeriesDefinition baseSD = null;
-		SeriesDefinition orthSD = null;
-		Object[] orthAxisArray = null;
-		Chart cm = wizardContext.getModel( );
-		if ( cm instanceof ChartWithAxes )
-		{
-			ChartWithAxes cwa = (ChartWithAxes) cm;
-
-			orthAxisArray = cwa.getOrthogonalAxes( cwa.getBaseAxes( )[0], true );
-			orthSD = (SeriesDefinition) ( (Axis) orthAxisArray[0] ).getSeriesDefinitions( )
-					.get( 0 );
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
-			orthSD = (SeriesDefinition) baseSD.getSeriesDefinitions( ).get( 0 );
-		}
-
-		String yGroupExpr = null;
-		if ( orthSD != null && orthSD.getQuery( ) != null )
-		{
-			yGroupExpr = orthSD.getQuery( ).getDefinition( );
-		}
-
-		return yGroupExpr != null && !"".equals( yGroupExpr ); //$NON-NLS-1$
+		return ChartUtil.isSpecifiedYOptionalExpression( wizardContext.getModel( ) );
+		
 	}
 	
 	/**

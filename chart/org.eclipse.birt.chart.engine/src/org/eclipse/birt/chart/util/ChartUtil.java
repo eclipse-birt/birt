@@ -55,6 +55,7 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
+import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
@@ -1369,6 +1370,18 @@ public class ChartUtil
 	}
 
 	/**
+	 * Check if Y optional expression is specified.
+	 * 
+	 * @param cm
+	 * @return
+	 * @since 2.5.3
+	 */
+	public static boolean isSpecifiedYOptionalExpression( Chart cm )
+	{
+		return ( getYOptoinalExpressions( cm ).length > 0 );
+	}
+	
+	/**
 	 * Returns all category expressions of chart.
 	 * 
 	 * @param cm
@@ -1951,5 +1964,17 @@ public class ChartUtil
 			}
 		}
 		return fs;
+	}
+	
+	/**
+	 * Check if sorting is set on series definition.
+	 * 
+	 * @param seriesDefinition
+	 * @return
+	 * @since 2.5.3
+	 */
+	public static boolean hasSorting(SeriesDefinition seriesDefinition )
+	{
+		return ( SortOption.ASCENDING_LITERAL == seriesDefinition.getSorting( ) ) || ( SortOption.DESCENDING_LITERAL == seriesDefinition.getSorting( ) );
 	}
 }

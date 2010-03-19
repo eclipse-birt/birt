@@ -2153,4 +2153,28 @@ public class ChartUIUtil
 		}
 	}
 
+	/**
+	 * Check if it just allows category expression as category sort key. When Y
+	 * optional expressions is specified and not sharing/cube cases, the Y
+	 * optional will be top group and category expression will be the second use
+	 * category expression as the sort key.
+	 * 
+	 * @param wizardContext
+	 * @return
+	 * @since 2.5.3
+	 */
+	public static boolean hasLimitOnCategorySortKey( ChartWizardContext wizardContext )
+	{
+		int stateInfo = wizardContext.getDataServiceProvider( ).getState( );
+		boolean isCube = ( stateInfo & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE
+				&& ( stateInfo & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY;
+
+		if ( ChartUtil.isSpecifiedYOptionalExpression( wizardContext.getModel( ) ) && !isCube )
+
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
