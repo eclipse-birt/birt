@@ -16,9 +16,12 @@ package org.eclipse.birt.report.data.oda.sampledb.ui.profile;
 
 import java.util.Properties;
 
+import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
+import org.eclipse.birt.report.data.bidi.utils.core.BidiFormat;
 import org.eclipse.birt.report.data.oda.sampledb.SampleDBConstants;
 import org.eclipse.birt.report.data.oda.sampledb.SampleDBJDBCConnectionFactory;
 import org.eclipse.birt.report.data.oda.sampledb.ui.i18n.Messages;
+import org.eclipse.birt.report.data.oda.sampledb.ui.plugin.SampledbUIPlugin;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -46,6 +49,7 @@ public class SampleDbSelectionPageHelper
         Messages.getMessage(  "datasource.page.title" ); //$NON-NLS-1$
     
     private static final String EMPTY_STRING = "";
+	private static final String EXTERNAL_BIDI_FORMAT = "report.data.oda.bidi.jdbc.ui.externalbidiformat";
     
     SampleDbSelectionPageHelper( WizardPage page )
     {
@@ -100,9 +104,19 @@ public class SampleDbSelectionPageHelper
 		
 		// sampledb uses predined connection property values, and does not support
 		// external reference to a connection profile
-		props.setProperty( ConnectionProfileProperty.PROFILE_NAME_PROP_KEY, "" );
         props.setProperty( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY, "" );
-		
+     
+		BidiFormat externalDefaultBDiFormat = new BidiFormat( SampledbUIPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( EXTERNAL_BIDI_FORMAT ) );
+		if ( externalDefaultBDiFormat != null )
+		{
+			props.setProperty( BidiConstants.CONTENT_FORMAT_PROP_NAME,
+					externalDefaultBDiFormat.getBiDiFormatString( ) );
+			props.setProperty( BidiConstants.METADATA_FORMAT_PROP_NAME,
+					externalDefaultBDiFormat.getBiDiFormatString( ) );
+		}
+
 		return props;
     }
     
