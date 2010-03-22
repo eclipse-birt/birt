@@ -11,4 +11,45 @@
             id="org.eclipse.birt.chart.examples.view.examplesview"
             name="%ChartExamples"/>
       </extension>
+
+
+   <extension
+         point="org.eclipse.birt.chart.engine.modelrenderers">
+      <modelRenderer
+            renderer="org.eclipse.birt.chart.examples.radar.render.Radar"
+            series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.birt.chart.ui.types">
+      <chartType
+            classDefinition="org.eclipse.birt.chart.examples.radar.ui.type.RadarChart"
+            name="Radar Chart"/>            
+   </extension>   
+   
+   <extension
+         point="org.eclipse.birt.chart.ui.seriescomposites">
+      <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.examples.radar.ui.series.RadarSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
+   </extension>
+      <extension
+         point="org.eclipse.birt.chart.engine.datasetprocessors">
+      <datasetProcessor
+            processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl"
+            series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
+      </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="type"
+            class="org.eclipse.birt.chart.examples.radar.model.type.util.RadarTypeResourceFactoryImpl"/>
+   </extension>
+      
+    <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.birt.eclipse.org/RadarChartModelType"
+            class="org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage"
+            genModel="src/oro/eclipse/birt/chart/examples/radar/model/radar.genmodel"/>
+   </extension>          
 </plugin>
