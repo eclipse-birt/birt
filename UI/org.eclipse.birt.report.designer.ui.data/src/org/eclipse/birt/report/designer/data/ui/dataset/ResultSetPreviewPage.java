@@ -464,16 +464,20 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							DummyEngineTask engineTask = new DummyEngineTask( engine,
 									new ReportEngineHelper( engine ).openReportDesign( copiedReport ),
 									copiedReport );
-							DataRequestSession session = engineTask.getDataSession( );
-							session.getDataSessionContext( ).getAppContext( ).put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS, 
-									DTPUtil.getInstance( ).createResourceIdentifiers( ));
-
+							
 							Map appContext = new HashMap( );
 							appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
 									new Integer( ( (DataSetHandle) getContainer( ).getModel( ) ).getRowFetchLimit( ) ) );
 
 							engineTask.setAppContext( appContext );
 							engineTask.run( );
+							
+							DataRequestSession session = engineTask.getDataSession( );
+							session.getDataSessionContext( )
+									.getAppContext( )
+									.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+											DTPUtil.getInstance( )
+													.createResourceIdentifiers( ) );
 							
 							IQueryResults resultSet = executeProcess( session, engineTask.getExecutionContext( ) );
 							populateRecords( resultSet );
