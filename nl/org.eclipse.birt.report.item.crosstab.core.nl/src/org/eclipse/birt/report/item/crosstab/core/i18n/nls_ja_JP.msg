@@ -48,9 +48,12 @@ Method.onPageBreak=改ページ
 
 ###########################################################
 # Crosstab exception
-Error.CrosstabException.DUPLICATE_DIMENSION=重複するキューブのディメンジョン要素 {0} が、クロスタブ {1} のディメンジョンビューに適用されています。
-Error.CrosstabException.DUPLICATE_MEASURE=重複するキューブのメジャー要素 {0} が、クロスタブ {1} のメジャービューに適用されています。
-Error.CrosstabException.DUPLICATE_LEVEL=
+Error.CrosstabException.DUPLICATE_DIMENSION=Cube dimension element ''{0}'' cannot be applied to Crosstab with duplicate name.
+Error.CrosstabException.DUPLICATE_MEASURE=Cube measure element ''{0}'' cannot be applied to Crosstab with duplicate name.
+Error.CrosstabException.DUPLICATE_LEVEL=Cube level element ''{0}'' cannot be applied to Crosstab with duplicate name.
+Error.CrosstabException.DIMENSION_NOT_FOUND=No dimension view ''{0}'' found in Crosstab.
+Error.CrosstabException.MEASURE_NOT_FOUND=No measure view ''{0}'' found in Crosstab.
+Error.CrosstabException.LEVEL_NOT_FOUND=No level view ''{0}'' found in Crosstab.
 
 ###########################################################
 # Crosstab executor runtime error message
