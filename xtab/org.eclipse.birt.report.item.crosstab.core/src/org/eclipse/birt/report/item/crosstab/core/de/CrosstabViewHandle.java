@@ -20,6 +20,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabViewTask;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -188,10 +189,9 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 			logger.log( Level.SEVERE,
 					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION,
 					dimensionHandle.getQualifiedName( ) );
-			throw new CrosstabException( handle.getElement( ), new String[]{
-					dimensionHandle.getQualifiedName( ),
-					handle.getElement( ).getIdentifier( )
-			}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION );
+			throw new CrosstabException( handle.getElement( ),
+					Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION,
+							dimensionHandle.getQualifiedName( ) ) );
 		}
 		getViewsProperty( ).add( extendedItem, index );
 		return (DimensionViewHandle) CrosstabUtil.getReportItem( extendedItem );

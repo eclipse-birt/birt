@@ -519,10 +519,9 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
 					name );
 			throw new CrosstabException( crosstab.getModelHandle( )
-					.getElement( ), new String[]{
-					name,
-					crosstab.getModelHandle( ).getElement( ).getIdentifier( )
-			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+					.getElement( ),
+					Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
+							name ) );
 		}
 		moveDimension( dimensionView, targetAxisType, targetIndex );
 	}
@@ -786,10 +785,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 		{
 			crosstab.getLogger( ).log( Level.INFO,
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
-					new Object[]{
-							String.valueOf( srcAxisType ),
-							String.valueOf( srcIndex )
-					} );
+					String.valueOf( srcAxisType ) );
 			return;
 		}
 
@@ -824,10 +820,9 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION,
 					dimensionHandle.getQualifiedName( ) );
 			throw new CrosstabException( crosstab.getModelHandle( )
-					.getElement( ), new String[]{
-					dimensionHandle.getQualifiedName( ),
-					crosstab.getModelHandle( ).getElement( ).getIdentifier( )
-			}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION );
+					.getElement( ),
+					Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION,
+							dimensionHandle.getQualifiedName( ) ) );
 		}
 
 		DimensionViewHandle dimensionView = null;
@@ -878,10 +873,9 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
 					name );
 			throw new CrosstabException( crosstab.getModelHandle( )
-					.getElement( ), new String[]{
-					name,
-					crosstab.getModelHandle( ).getElement( ).getIdentifier( )
-			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+					.getElement( ),
+					Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
+							name ) );
 		}
 
 		removeDimension( dimensionView.getAxisType( ), dimensionView.getIndex( ) );
