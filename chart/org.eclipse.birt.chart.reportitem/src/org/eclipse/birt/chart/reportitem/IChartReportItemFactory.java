@@ -24,6 +24,8 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 /**
  * Factory class used to create instances.
@@ -46,4 +48,6 @@ public interface IChartReportItemFactory
 
 	IGroupedDataRowExpressionEvaluator createCubeEvaluator( Chart cm,
 			ICubeResultSet set );
+
+	TabularCubeHandle adaptCubeHandle( CubeHandle cubeHandle );
 }

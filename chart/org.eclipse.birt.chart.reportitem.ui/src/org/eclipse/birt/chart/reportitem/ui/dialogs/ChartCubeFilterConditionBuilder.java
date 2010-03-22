@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.IChartReportItemFactory;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil;
@@ -1823,6 +1824,10 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		{
 			cube = ( (ExtendedItemHandle) designHandle ).getCube( );
 		}
+		IChartReportItemFactory factory = ChartReportItemUtil.getAdapter( currentItem,
+				IChartReportItemFactory.class );
+		cube = factory.adaptCubeHandle( cube );
+
 		if ( cube == null
 				|| ( !( cube instanceof TabularCubeHandle ) )
 				|| expression.getText( ).length( ) == 0 )
