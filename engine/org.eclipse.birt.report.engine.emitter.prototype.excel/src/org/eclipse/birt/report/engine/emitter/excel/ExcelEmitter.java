@@ -389,7 +389,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		if ( map != null && map.getRuleCount( ) > 0
 				&& data.getLabelText( ) != null )
 		{
-			excelData = engine.addData( data.getLabelText( ).trim( ), style,
+			excelData = engine.addData( data.getText( ), style,
 					url, bookmark, height );
 		}
 		else
