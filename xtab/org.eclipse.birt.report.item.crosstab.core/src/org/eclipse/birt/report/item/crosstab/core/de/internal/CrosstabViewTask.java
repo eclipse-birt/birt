@@ -342,12 +342,9 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
 					name );
 			throw new CrosstabException( crosstabView.getModelHandle( )
-					.getElement( ), new String[]{
-					name,
-					crosstabView.getModelHandle( )
-							.getElement( )
-							.getIdentifier( )
-			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+					.getElement( ),
+					Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
+							name ) );
 		}
 
 		removeDimension( dimensionView, true );

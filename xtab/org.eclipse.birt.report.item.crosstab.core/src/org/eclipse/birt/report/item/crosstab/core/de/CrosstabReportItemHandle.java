@@ -732,10 +732,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 			logger.log( Level.SEVERE,
 					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_MEASURE,
 					measureHandle.getQualifiedName( ) );
-			throw new CrosstabException( handle.getElement( ), new String[]{
-					measureHandle.getQualifiedName( ),
-					handle.getElement( ).getIdentifier( )
-			}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_MEASURE );
+			throw new CrosstabException( handle.getElement( ),
+					Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_MEASURE,
+							measureHandle.getQualifiedName( ) ) );
 		}
 
 		CommandStack stack = getCommandStack( );
@@ -878,11 +877,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		if ( measureView == null )
 		{
 			logger.log( Level.SEVERE,
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
+					MessageConstants.CROSSTAB_EXCEPTION_MEASURE_NOT_FOUND,
 					name );
-			throw new CrosstabException( handle.getElement( ), new String[]{
-					name, handle.getElement( ).getIdentifier( )
-			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+			throw new CrosstabException( handle.getElement( ),
+					Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_MEASURE_NOT_FOUND,
+							name ) );
 		}
 
 		measureView.handle.drop( );
@@ -1071,11 +1070,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		if ( measureView == null )
 		{
 			logger.log( Level.SEVERE,
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
+					MessageConstants.CROSSTAB_EXCEPTION_MEASURE_NOT_FOUND,
 					name );
-			throw new CrosstabException( handle.getElement( ), new String[]{
-					name, handle.getElement( ).getIdentifier( )
-			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+			throw new CrosstabException( handle.getElement( ),
+					Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_MEASURE_NOT_FOUND,
+							name ) );
 		}
 
 		measureView.handle.moveTo( toIndex );
@@ -1096,10 +1095,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		{
 			logger.log( Level.INFO,
 					MessageConstants.CROSSTAB_EXCEPTION_MEASURE_NOT_FOUND,
-					new Object[]{
-							String.valueOf( fromIndex ),
-							handle.getElement( ).getIdentifier( )
-					} );
+					String.valueOf( fromIndex ) );
 			return;
 		}
 		measureView.handle.moveTo( toIndex );

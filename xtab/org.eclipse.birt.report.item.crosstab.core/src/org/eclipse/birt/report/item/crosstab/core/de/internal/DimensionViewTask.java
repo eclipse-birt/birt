@@ -96,12 +96,9 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 						MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL,
 						levelHandle.getQualifiedName( ) );
 				throw new CrosstabException( dimensionView.getModelHandle( )
-						.getElement( ), new String[]{
-						levelHandle.getQualifiedName( ),
-						dimensionView.getModelHandle( )
-								.getElement( )
-								.getIdentifier( )
-				}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL );
+						.getElement( ),
+						Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL,
+								levelHandle.getQualifiedName( ) ) );
 			}
 		}
 
