@@ -990,36 +990,34 @@ public class DataRequestSessionImpl extends DataRequestSession
 						metaList,
 						String.valueOf( cubeHandle.getElement( ).getID( ) ) );
 				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
-				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0
-						&& !Arrays.deepEquals( jointHierarchyKeys, new String[]{ columnForDeepestLevel} ))
+				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
 				{
-					for ( String key : jointHierarchyKeys )
+					if ( !Arrays.deepEquals( jointHierarchyKeys, new String[]{ columnForDeepestLevel} ) )
 					{
-						//add bindings for dummy level based on joint hierarchy keys
-						String exprString = ExpressionUtil.createJSDataSetRowExpression( key );
-						query.addBinding( new Binding( getDummyLevelNameForJointHierarchyKey( key ), new ScriptExpression(exprString) ) );
-						DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( getDummyLevelNameForJointHierarchyKey( key ),
-								null,
-								DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-						temp.setDataType( getColumnDataType( hier, key ) );
-						metaList.add( temp );
-					}
-					
-					
-					if ( cubeHandle.autoPrimaryKey( ) )
-					{
-						//need no groups in query definition for generating dimension table
-						//Instead we sort dimension table directly
-						for ( Object o : query.getGroups( ) )
+						for ( String key : jointHierarchyKeys )
 						{
-							IGroupDefinition gd = (IGroupDefinition)o;
-							SortDefinition sd = new SortDefinition( );
-							sd.setExpression( gd.getKeyExpression( ) );
-							query.getSorts( ).add( sd );
+							//add bindings for dummy level based on joint hierarchy keys
+							String exprString = ExpressionUtil.createJSDataSetRowExpression( key );
+							query.addBinding( new Binding( getDummyLevelNameForJointHierarchyKey( key ), new ScriptExpression(exprString) ) );
+							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( getDummyLevelNameForJointHierarchyKey( key ),
+									null,
+									DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
+							temp.setDataType( getColumnDataType( hier, key ) );
+							metaList.add( temp );
 						}
-						query.setUsesDetails( true );
-						query.getGroups( ).clear( );
 					}
+					
+					//need no groups in query definition for generating dimension table
+					//Instead we sort dimension table directly
+					for ( Object o : query.getGroups( ) )
+					{
+						IGroupDefinition gd = (IGroupDefinition)o;
+						SortDefinition sd = new SortDefinition( );
+						sd.setExpression( gd.getKeyExpression( ) );
+						query.getSorts( ).add( sd );
+					}
+					query.setUsesDetails( true );
+					query.getGroups( ).clear( );
 				}
 				queryDefns.add( query );
 				queryMap.put( hier, query );
@@ -1187,18 +1185,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				TabularLevelHandle level = (TabularLevelHandle) levels.get( k );
 				columnNamesForLevels.add(  level.getColumnName( ) );
-				List levelKeys = new ArrayList( );
+				List levelAttrs = new ArrayList( );
 				Iterator it = level.attributesIterator( );
 				while ( it.hasNext( ) )
 				{
 					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
-					levelKeys.add( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
+					levelAttrs.add( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
 							levelAttr.getName( ) ) );
 				}
 				if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( ) )
 						&& level.getDisplayColumnName( ) != null )
 				{
-					levelKeys.add( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) );
+					levelAttrs.add( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) );
 				}
 				leafLevelKeyColumn.add(level.getName( ));
 
@@ -1206,7 +1204,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 						new String[]{
 							level.getName( )
 						},
-						this.toStringArray( levelKeys ) ));
+						this.toStringArray( levelAttrs ) ));
 			}
 			String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hierhandle );
 			if ( !cubeHandle.autoPrimaryKey( ) )
@@ -1225,7 +1223,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
 				{
-					if ( !Arrays.deepEquals( jointHierarchyKeys, levelInHier.get( levelInHier.size( ) - 1).getKeyColumns( )))
+					if ( !Arrays.deepEquals( jointHierarchyKeys, new String[]{
+							((TabularLevelHandle)levels.get( levels.size( ) - 1 )).getColumnName( )
+						}))
 					{
 						//need to append joint keys as leaf level
 						levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
