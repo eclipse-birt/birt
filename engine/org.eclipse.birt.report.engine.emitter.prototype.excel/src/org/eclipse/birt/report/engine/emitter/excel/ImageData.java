@@ -35,7 +35,8 @@ public class ImageData extends SheetData
 				* ExcelUtil.INCH_PT / heightDpi, heightDpi ) / 1000;
 		imageHeight = (int) height;
 		int imageWidth = (int) ExcelUtil.convertDimensionType(
-				image.getWidth( ), imageInfo.getWidth( ) * ExcelUtil.INCH_PT
+				image.getWidth( ), imageInfo.getWidth( ) * 1000
+						* ExcelUtil.INCH_PT
 						/ widthDpi, widthDpi );
 		width = Math.min( currentContainer.getSizeInfo( ).getWidth( ),
 				imageWidth );
