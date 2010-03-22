@@ -811,6 +811,15 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	 */
 	private void refreshDataPreviewPane( )
 	{
+		// There is not any selected data, do not refresh tabe data view.
+		if ( !bIsInheritSelected
+				&& itemHandle.getDataSet( ) == null
+				&& itemHandle.getCube( ) == null
+				&& itemHandle.getDataBindingReference( ) == null )
+		{
+			return;
+		}
+		
 		if ( getContext().isShowingDataPreview( ) )
 		{
 			refreshTablePreview( );
@@ -1126,38 +1135,44 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private void initDataSelector( )
 	{
 		boolean isInheritingSummaryTable = isInheritingSummaryTable( );
-
+		boolean isContainerSharingQuery = isContainerSharingQuery( );
+		
 		// create Combo items
-			cmbInherit.setItems( new String[]{
-					Messages.getString( "StandardChartDataSheet.Combo.InheritColumnsGroups" ), //$NON-NLS-1$ 
-					Messages.getString( "StandardChartDataSheet.Combo.InheritColumnsOnly" ) //$NON-NLS-1$ 
-			} );
-
-			if ( isInheritingSummaryTable )
+		cmbInherit.setItems( new String[]{
+				Messages.getString( "StandardChartDataSheet.Combo.InheritColumnsGroups" ), //$NON-NLS-1$ 
+				Messages.getString( "StandardChartDataSheet.Combo.InheritColumnsOnly" ) //$NON-NLS-1$ 
+		} );
+		
+		if ( isContainerSharingQuery )
+		{
+			// Do not initialize inherit combo, it does not allow inheriting
+			// from container against this case.
+		}
+		else if ( isInheritingSummaryTable )
+		{
+			cmbInherit.select( 0 );
+			getContext( ).setInheritColumnsOnly( true );
+		}
+		else if ( dataProvider.isInheritColumnsSet( ) )
+		{
+			cmbInherit.select( dataProvider.isInheritColumnsOnly( ) ? 1 : 0 );
+		}
+		else
+		{
+			// Set default inheritance value
+			if ( ChartReportItemUtil.hasAggregation( getChartModel( ) ) )
 			{
-				cmbInherit.select( 0 );
+				// If aggregations found, set inherit columns only
+				cmbInherit.select( 1 );
 				getContext( ).setInheritColumnsOnly( true );
-			}
-			else if ( dataProvider.isInheritColumnsSet( ) )
-			{
-				cmbInherit.select( dataProvider.isInheritColumnsOnly( ) ? 1 : 0 );
 			}
 			else
 			{
-				// Set default inheritance value
-				if ( ChartReportItemUtil.hasAggregation( getChartModel( ) ) )
-				{
-					// If aggregations found, set inherit columns only
-					cmbInherit.select( 1 );
-					getContext( ).setInheritColumnsOnly( true );
-				}
-				else
-				{
-					// Default value is set as Inherit groups
-					cmbInherit.select( 0 );
-					getContext( ).setInheritColumnsOnly( false );
-				}
+				// Default value is set as Inherit groups
+				cmbInherit.select( 0 );
+				getContext( ).setInheritColumnsOnly( false );
 			}
+		}
 		cmbInherit.setEnabled( false );
 		
 		cmbDataItems.setItems( createDataComboItems( ) );
@@ -1198,6 +1213,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			return;
 		}
 
+		// Process other cases.
 		cmbInherit.setEnabled( canInheriting( ) );
 		if ( !cmbInherit.isEnabled( ) )
 		{
@@ -1207,23 +1223,30 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				// If sharing or multi view, set inherit column groups.
 				cmbInherit.select( 0 );
 			}
-			else
+			else if ( !isContainerSharingQuery )
 			{
 				// If container is grid or anything else, set inherit columns
 				// only.
 				cmbInherit.select( 1 );
 			}
 		}
-		btnInherit.setSelection( true );		
-		bIsInheritSelected = true;
+		
+		btnInherit.setEnabled( !isContainerSharingQuery );
+		btnInherit.setSelection( !isContainerSharingQuery );		
+		bIsInheritSelected = !isContainerSharingQuery;
 		if ( getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( false );
 			btnUseData.setEnabled( false );
 		}
+		else
+		{
+			btnUseData.setSelection( isContainerSharingQuery );
+		}
+
 		cmbDataItems.select( 0 );
 		currentData = null;
-		cmbDataItems.setEnabled( false );
+		cmbDataItems.setEnabled( isContainerSharingQuery );
 		// Initializes column bindings from container
 		getDataServiceProvider( ).setDataSet( null );
 	}
@@ -1417,10 +1440,26 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					{
 						case SELECT_NONE :
 							// Inherit data from container
-							btnInherit.setSelection( true );
-							btnUseData.setSelection( false );
-							btnInherit.notifyListeners( SWT.Selection,
-									new Event( ) );
+							if ( isContainerSharingQuery( ) )
+							{
+								btnInherit.setSelection( false );
+								btnUseData.setSelection( true );
+		
+								bIsInheritSelected = false;
+								getDataServiceProvider( ).setReportItemReference( null );
+								getDataServiceProvider( ).setDataCube( null );
+								getDataServiceProvider( ).setDataSet( null );
+								switchDataSet( null );
+
+							}
+							else
+							{
+								btnInherit.setSelection( true );
+								btnUseData.setSelection( false );
+								btnInherit.notifyListeners( SWT.Selection,
+										new Event( ) );
+							}
+
 							break;
 						case SELECT_NEXT :
 							selectedIndex++;
