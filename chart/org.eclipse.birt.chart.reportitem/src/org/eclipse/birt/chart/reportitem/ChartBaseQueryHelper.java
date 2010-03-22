@@ -27,25 +27,22 @@ import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
-import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -183,54 +180,15 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	protected void addColumnBinding( IBaseQueryDefinition transfer,
 			ComputedColumnHandle columnBinding ) throws ChartException
 	{
-		String name = columnBinding.getName( );
-		String expr = columnBinding.getExpression( );
-
-		String type = columnBinding.getDataType( );
-		int dbType = ModelDteApiAdapter.toDteDataType( type );
-		
-		// Here can't crate an empty expression, that's to say we can't create
-		// an instance of ScriptExpression with null value and set it into
-		// binding, because BIRT Data Engine doesn't check empty expr when it
-		// uses the binding to do data query and it will cause error query
-		// result.
-		IBaseExpression dbExpr = ChartReportItemUtil.newExpression( modelAdapter,
-				columnBinding );
-		IBinding binding = new Binding( name, dbExpr );
-
 		try
 		{
-			binding.setDataType( dbType );
-			if ( columnBinding.getAggregateOn( ) != null )
-			{
-				binding.addAggregateOn( columnBinding.getAggregateOn( ) );
-			}
-			if ( columnBinding.getAggregateFunction( ) != null )
-			{
-				binding.setAggrFunction( columnBinding.getAggregateFunction( ) );
-			}
-			String filter = columnBinding.getFilterExpression( );
-			if ( filter != null )
-			{
-				binding.setFilter( ChartReportItemUtil.newExpression( modelAdapter,
-						columnBinding ) );
-			}
-			Iterator arguments = columnBinding.argumentsIterator( );
-			if ( arguments != null )
-			{
-				while ( arguments.hasNext( ) )
-				{
-					AggregationArgumentHandle argumentHandle = (AggregationArgumentHandle) arguments.next( );
-					String argument = argumentHandle.getValue( );
-					if ( argument != null )
-					{
-						binding.addArgument( argumentHandle.getName( ),
-								ChartReportItemUtil.newExpression( modelAdapter,
-										argumentHandle ) );
-					}
-				}
-			}
-			transfer.addBinding( binding );
+			transfer.addBinding( this.modelAdapter.adaptBinding( columnBinding ) );
+		}
+		catch ( AdapterException ex )
+		{
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.DATA_BINDING,
+					ex );
 		}
 		catch ( DataException ex )
 		{
