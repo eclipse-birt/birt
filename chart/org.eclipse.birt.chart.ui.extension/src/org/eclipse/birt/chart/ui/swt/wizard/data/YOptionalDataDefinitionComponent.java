@@ -98,6 +98,17 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 				seriesdefinition.setSorting( sdBackup.getSorting( ) );
 			}
 			
+			seriesdefinition.setSortLocale( sdBackup.getSortLocale( ) );
+			
+			if ( sdBackup.isSetSortStrength( ) )
+			{
+				seriesdefinition.setSortStrength( sdBackup.getSortStrength( ) );
+			}
+			else
+			{
+				seriesdefinition.unsetSortStrength( );
+			}
+			
 			// Update the query sorting of other series.
 			ChartAdapter.beginIgnoreNotifications( );
 			List<?> sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
@@ -115,6 +126,17 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 					else
 					{
 						sdf.setSorting( sdBackup.getSorting( ) );
+					}
+					
+					sdf.setSortLocale( sdBackup.getSortLocale( ) );
+					
+					if ( sdBackup.isSetSortStrength( ) )
+					{
+						sdf.setSortStrength( sdBackup.getSortStrength( ) );
+					}
+					else
+					{
+						sdf.unsetSortStrength( );
 					}
 				}
 			}

@@ -132,9 +132,8 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 
 			public void focusLost( FocusEvent e )
 			{
-				preview( txtUriEditor.getText( ) );
+				preview( removeQuote( txtUriEditor.getText( ) ) );
 			}
-			
 		});
 
 		btnUriBuilder = new Button( inputArea, SWT.PUSH );
@@ -196,7 +195,8 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 		txtUriEditor.setFocus( );
 		// Listener will be called automatically
 		updateButtons( );
-		preview( txtUriEditor.getText( ) );
+		previewCanvas.pack( );
+		preview( removeQuote( txtUriEditor.getText( ) ) );
 	}
 
 	private void updateButtons( )
@@ -259,6 +259,5 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 				WizardBase.displayException( e1 );
 			}
 		}
-		
 	}
 }
