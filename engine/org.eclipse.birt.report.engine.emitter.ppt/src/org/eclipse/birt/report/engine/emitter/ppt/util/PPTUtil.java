@@ -30,8 +30,9 @@ public class PPTUtil
 	private static final Logger logger = Logger.getLogger( PPTUtil.class
 			.getName( ) );
 	
-	public static String getHyperlink( IArea area, IEmitterServices services,
-			IReportRunnable reportRunnable, IReportContext context )
+	public static HyperlinkDef getHyperlink( IArea area,
+			IEmitterServices services, IReportRunnable reportRunnable,
+			IReportContext context )
 	{
 		IHyperlinkAction hyperlinkAction = area.getAction( );
 		if ( hyperlinkAction != null )
@@ -41,6 +42,7 @@ public class PPTUtil
 				if ( hyperlinkAction.getType( ) != IHyperlinkAction.ACTION_BOOKMARK )
 				{
 					String link = hyperlinkAction.getHyperlink( );
+					String tooltip = hyperlinkAction.getTooltip( );
 					Object handler = services
 							.getOption( RenderOption.ACTION_HANDLER );
 					if ( handler != null
@@ -53,8 +55,7 @@ public class PPTUtil
 						Action action = new Action( systemId, hyperlinkAction );
 						link = actionHandler.getURL( action, context );
 					}
-
-					return link;
+					return new HyperlinkDef( link, tooltip );
 				}
 			}
 			catch ( Exception e )
@@ -63,5 +64,29 @@ public class PPTUtil
 			}
 		}
 		return null;
+	}
+
+	public static class HyperlinkDef
+	{
+
+		String link;
+		String tooltip;
+
+		public HyperlinkDef( String link, String tooltip )
+		{
+			this.link = link;
+			this.tooltip = tooltip;
+		}
+
+		public String getLink( )
+		{
+			return link;
+		}
+
+		public String getTooltip( )
+		{
+			return tooltip;
+		}
+
 	}
 }

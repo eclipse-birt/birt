@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.emitter.ppt.PPTWriter;
+import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
@@ -26,7 +27,7 @@ public class PPTPage extends AbstractPage
 
 	private PPTWriter writer;
 	private boolean isDisposed;
-	private String link;
+	private HyperlinkDef link;
 
 	public PPTPage( int pageWidth, int pageHeight, Color backgroundColor,
 			PPTWriter writer )
@@ -115,7 +116,7 @@ public class PPTPage extends AbstractPage
 				.getFontInfo( ), textStyle.getColor( ), textStyle.isRtl( ), link );
 	}
 
-	public void setLink(String link)
+	public void setLink( HyperlinkDef link )
 	{
 		this.link = link;
 	}

@@ -32,6 +32,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.net.QuotedPrintableCodec;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
@@ -296,7 +297,8 @@ public class PPTWriter
 	 *            the height of the content byte.
 	 */
 	public void drawText( String text, float textX, float textY, float width,
-			float height, FontInfo fontInfo, Color color, boolean rtl, String link )
+			float height, FontInfo fontInfo, Color color, boolean rtl,
+			HyperlinkDef link )
 	{
 
 		BaseFont baseFont = fontInfo.getBaseFont( );
@@ -332,9 +334,20 @@ public class PPTWriter
 		}
 		if ( link != null )
 		{
-			link = codeLink( link );
+			String hyperlink = link.getLink( );
+			String tooltip = link.getTooltip( );
+			if ( hyperlink != null )
+			{
+				hyperlink = codeLink( hyperlink );
+			}
+			if ( tooltip != null )
+			{
+				tooltip = codeLink( tooltip );
+			}
 			println( "<p:onmouseclick  hyperlinktype=3D\"url\" href=3D\""
 					+ link
+					+ "\" tips=3D\""
+					+ tooltip
 					+ "\"/><a href=3D\""
 					+ link
 					+ "/\" target=3D\"_parent\" onclick=3D\"window.event.cancelBubble=3Dtrue;\">" );
@@ -393,7 +406,8 @@ public class PPTWriter
 	}
 
 	public void drawImage( String imageId, byte[] imageData, String extension, float imageX,
-			float imageY, float height, float width, String helpText, String link )
+ float imageY, float height, float width,
+			String helpText, HyperlinkDef link )
 			throws Exception
 	{
 		ImageInfo imageInfo = getImageInfo( imageId, imageData, extension );
@@ -452,13 +466,23 @@ public class PPTWriter
 	 * @param y
 	 */
 	private void exportImageDefn( String imageName, String imageTitle,
-			double width, double height, double x, double y, String link )
+			double width, double height, double x, double y, HyperlinkDef link )
 	{
 		println( "<v:shape id=3D'" + ( shapeCount ) + "' type=3D'#_x0000_t75'" ); //$NON-NLS-1$ //$NON-NLS-2$
 		if ( link != null )
 		{
-			link = codeLink(link);
-			print("href=3D\"" + link + "\" target=3D\"_parent\"");
+			String hyperlink = link.getLink( );
+			String tooltip = link.getTooltip( );
+			if ( tooltip != null )
+			{
+				tooltip = codeLink( tooltip );
+				print( "title=3D\"" + tooltip + "\" " );
+			}
+			if ( hyperlink != null )
+			{
+				hyperlink = codeLink( hyperlink );
+				print( "href=3D\"" + link + "\" target=3D\"_parent\"" );
+			}
 		}
 		println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$

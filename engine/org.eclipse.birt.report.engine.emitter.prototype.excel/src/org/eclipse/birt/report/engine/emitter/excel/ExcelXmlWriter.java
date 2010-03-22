@@ -319,6 +319,10 @@ public class ExcelXmlWriter implements IExcelWriter
 				urlAddress = urlAddress.substring( 0, 254 );
 			}
 			writer.attribute( "ss:HRef", urlAddress );
+			if ( hyperLink.getToolTip( ) != null )
+			{
+				writer.attribute( "x:HRefScreenTip", hyperLink.getToolTip( ) );
+			}
 		}
 		if ( colspan > 0 )
 		{
@@ -364,10 +368,6 @@ public class ExcelXmlWriter implements IExcelWriter
 	{
 		startCell( column, colSpan, rowSpan, styleId, hyperLink, linkedBookmark );
 		writeText( type, value, style );
-		if(hyperLink != null && hyperLink.getToolTip( ) != null)
-		{
-			writeComments(hyperLink);
-		}
 		endCell( );
 	}
 
