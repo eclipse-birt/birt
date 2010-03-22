@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
 import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -360,7 +361,7 @@ class DataSetAdapter extends AbstractDataAdapter
 		if ( setDesign == null || setHandle == null )
 			return;
 
-		// serialize and get the designervalues
+		// serialize and get the designer values
 		DesignValues designerValues = null;
 		try
 		{
@@ -469,6 +470,15 @@ class DataSetAdapter extends AbstractDataAdapter
 		if ( sourceDesign != null )
 		{
 			String dataSourceName = sourceDesign.getName( );
+			ModuleHandle moduleHandle = setHandle.getModuleHandle( );
+			DataSourceHandle sourceHandle = moduleHandle
+					.findDataSource( dataSourceName );
+			if ( sourceHandle != null
+					&& sourceHandle instanceof OdaDataSourceHandle )
+			{
+				new DataSourceAdapter( ).updateDataSourceHandle( sourceDesign,
+						(OdaDataSourceHandle) sourceHandle );
+			}
 			setHandle.getElement( )
 					.setProperty(
 							OdaDataSetHandle.DATA_SOURCE_PROP,
