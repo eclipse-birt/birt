@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
@@ -31,6 +32,9 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputPromptControlStyle;
@@ -201,7 +205,7 @@ public class AdapterUtil
 	 *            the ROM data set parameter
 	 * @param literalValue
 	 *            the value
-	 * @return 
+	 * @return
 	 */
 
 	static String getROMDefaultValue( DataSetParameter setParam,
@@ -351,7 +355,7 @@ public class AdapterUtil
 	 *            the cached dynamic values
 	 * @param reportParam
 	 *            the report parameter
-	 * @param setHandle 
+	 * @param setHandle
 	 * @throws SemanticException
 	 */
 
@@ -395,7 +399,28 @@ public class AdapterUtil
 		cachedValue = cachedValueQuery == null ? null : cachedValueQuery
 				.getValueColumn( );
 		if ( cachedValue == null || !cachedValue.equals( value ) )
-			reportParam.setValueExpr( value );
+		{
+			Expression expr = null;
+			if ( value != null )
+			{
+				String valueExpr = value;
+				try
+				{
+					String columnName = ExpressionUtil.getColumnName( value );
+					if ( !StringUtil.isBlank( columnName ) )
+						valueExpr = columnName;
+				}
+				catch ( BirtException e )
+				{
+					// Do nothing
+				}
+				expr = new Expression( ExpressionUtil
+						.createDataSetRowExpression( valueExpr ),
+						IExpressionType.JAVASCRIPT );
+			}
+			reportParam.setProperty(
+					IAbstractScalarParameterModel.VALUE_EXPR_PROP, expr );
+		}
 
 		value = valueQuery.getDisplayNameColumn( );
 		cachedValue = cachedValueQuery == null ? null : cachedValueQuery

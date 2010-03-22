@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
@@ -732,6 +733,18 @@ abstract class AbstractReportParameterAdapter
 				valueQuery.setDataSetDesign( targetDataSetDesign );
 			}
 			valueQuery.setDisplayNameColumn( labelExpr );
+
+			try
+			{
+				String columnName = ExpressionUtil.getColumnName( valueExpr );
+				if ( !StringUtil.isBlank( columnName ) )
+					valueExpr = columnName;
+			}
+			catch ( BirtException e )
+			{
+				// Do nothing
+			}
+
 			valueQuery.setValueColumn( valueExpr );
 
 			boolean isEnabled = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
