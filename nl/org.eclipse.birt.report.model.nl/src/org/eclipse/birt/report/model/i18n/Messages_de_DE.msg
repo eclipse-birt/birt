@@ -682,7 +682,7 @@ Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=TextBox
 Choices.selectorType.calendar=Calendar
-Choices.selectorType.currentSelections=Aktuelle Auswahl
+Choices.selectorType.currentSelection=Aktuelle Auswahl
 
 #85 thumbType
 Choices.thumbType.single=Single

@@ -682,7 +682,7 @@ Choices.selectorType.checkBox=CheckBox
 Choices.selectorType.radioButton=RadioButton
 Choices.selectorType.textBox=TextBox
 Choices.selectorType.calendar=Calendar
-Choices.selectorType.currentSelections=현재 선택한 항목
+Choices.selectorType.currentSelection=현재 선택한 항목
 
 #85 thumbType
 Choices.thumbType.single=Single
