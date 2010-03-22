@@ -9,7 +9,7 @@
             <property name="valueType">static</property>
             <property name="isRequired">true</property>
             <property name="dataSetName">myDataSet1</property>
-            <expression name="valueExpr">new value column 1</expression>
+            <expression name="valueExpr" type="javascript">dataSetRow["new value column 1"]</expression>
             <expression name="labelExpr">new lable column 1</expression>
             <property name="dataType">decimal</property>            
             <simple-property-list name="defaultValue">
