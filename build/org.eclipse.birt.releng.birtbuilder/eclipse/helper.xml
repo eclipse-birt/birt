@@ -223,6 +223,7 @@
 	<target name="verifyCompile">
 
 		<echo message="Checking for compile errors..." />
+		<echo message="Log file directory: ${postingDirectory}/${buildId}/compilelogs" />
 		<!--create html output for compile logs-->
 		<eclipse.convert input="${postingDirectory}/${buildId}/compilelogs/plugins" validation="true"/>
 
@@ -1139,13 +1140,6 @@
 		</ant>
 	</target>
 	
-	<!--
-	<target name="InformQA">
-          <exec executable="${ant.dir}/ant" failifexecutionfails="false">
-            <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -propertyfile ${eclipse.build.configs}/../../build.properties informqa"/>
-          </exec>
-    </target>
-    -->    
 	<target name="getBuildMachine">
 		<condition property="fetchTag" value="HEAD">
 			<equals arg1="${buildType}" arg2="N" />
@@ -1422,5 +1416,20 @@ Hi All,
                   </attachments>
             </mail>
         </target>
+	
+    <target name="InformNoSign" if="CompareSignPack2">
+        <property file="${eclipse.build.configs}/../../config.properties" />
+        <mail mailport="${mail.port}" subject="No sign in today's ${BranchVersion} build (BuildId: ${buildId} )" tolist="${build.engineer}">
+              <from address="${mail.from}"/>
+              <replyto address="${replyto.address}"/>
+              <message>
+Hi All,
+
+${target.dir}/${target.name} hasn't been signed.
+
+
+              </message>
+        </mail>
+    </target>        	
 
 </project>

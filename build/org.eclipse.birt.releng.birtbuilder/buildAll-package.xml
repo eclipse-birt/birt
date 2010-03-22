@@ -34,38 +34,24 @@
     <property name="hostname.sign" value="" />
     <property name="home.dir" value="" />
     <property name="sign.dir" value="" />
-
+	
+	<!--
+	This script is used to run repackage for BIRT build.
+	Steps to repakcage BIRT:
+	1. prepare baseLocation and JEE(-Linux) package
+	2. unzip birt-source-${package.version}.zip into ${buildDirectory}/
+	3. copy birt-all-${package.version}.bak.zip into ${buildDirectory}/
+	4. start the build
+	-->
 	<target name="main" depends="init">
-		<antcall target="prepareSrc" />
-		<antcall target="buildBirtThirdPartyFeature"/>
-		<antcall target="buildBirtFeature"/>
-		<antcall target="buildBirtOSGI"/>
-		<antcall target="fetchBirtWtpFeature"/>
-		<antcall target="fetchRCP"/>
+		<antcall target="buildDesignerIDE"/>
 		<antcall target="buildBirtRCPFeature"/>
-		<antcall target="buildBirtTestFeature"/>
 		<antcall target="unpackUpdateJarsForPackaging"/>
 		<antcall target="buildBirtWebViewer"/>
 		<antcall target="BuildChartViewer"/>
 		<antcall target="CreateDistribute"/>
-		
-		<antcall target="buildBirtNLFeature"/>
-		<antcall target="iPortalSetup"/>
-		<antcall target="buildBirtWtpFeature"/>
-
-		<antcall target="verifyCompile"/>
-		<antcall target="CreateUpdateSite"/>
-		
-		<parallel failonany="true">
-			<sequential>
-		        <antcall target="runBirtTest"/>
-			</sequential>
-			<sequential>		
-				<antcall target="generateJavaCrossReference"/>
-				<antcall target="generateDocumentCheck"/>
-				<antcall target="generateJavaDoc"/>   
-			</sequential>
-		</parallel>	
+		<antcall target="renameBirtPackage"/>
+		<antcall target="sendNotification"/>
 	</target>
 
 	<target name="init">
@@ -74,7 +60,7 @@
 		
 		<property file="${buildDirectory}/label.properties" />
 		
-		<condition property="fetchTag" value="BIRT_2_5_x_Branch">
+		<condition property="fetchTag" value="HEAD">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>		
 		<condition property="forceContextQualifier" value="${buildId}">
@@ -123,7 +109,25 @@
 		<!--unzip args-->
 		<property name="unzipArgs" value="-qq" />
 	</target>
-	
+	<target name="buildDesignerIDE">
+		<antcall target="logger">
+			<param name="message" value="BIRT designer.ui.ide plugin build started"/>
+		</antcall>
+		
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+			<property name="builder" value="${eclipse.build.configs}/birt.designer.ui.ide" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="generate">
+			<property name="builder" value="${eclipse.build.configs}/birt.designer.ui.ide" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="process">
+			<property name="builder" value="${eclipse.build.configs}/birt.designer.ui.ide" />
+		</ant>
+		
+		<antcall target="logger">
+			<param name="message" value="BIRT designer.ui.ide plugin build finished"/>
+		</antcall>
+	</target>
 	<target name="buildBirtFeature">
 		<antcall target="logger">
 			<param name="message" value="BIRT sdk feature build started"/>
@@ -188,6 +192,7 @@
 		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime
 		 -->
 		
+
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
 			<property name="runtime.tmp" value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime" />
 		</ant>
@@ -245,51 +250,51 @@
 	
 	<target name="renameBirtPackage" unless="skip.rename.package">
 		<move file="${postingDirectory}/${buildId}/birt-charts-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-charts-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-charts-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-database-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-database-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-database-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-rcp-report-designer-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-rcp-report-designer-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-rcp-report-designer-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz"
-        tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz"/>
+        tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-report-framework-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-report-framework-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-report-framework-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-report-framework-sdk-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-report-framework-sdk-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-runtime-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-runtime-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-runtime-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-sample-plugins-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-sample-plugins-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-sample-plugins-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-source-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-source-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-source-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip" failonerror="false"/>
 		<antcall target="renameNLPackage"/>
 	</target>
 	
 	<target name="renameNLPackage" unless="skip.build.NL">
 		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-all-in-one-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-all-in-one-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-all-in-one-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1-birt-charts-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-charts-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-charts-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1-birt-report-designer-all-in-one-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-report-designer-all-in-one-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-report-designer-all-in-one-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1-birt-report-framework-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-report-framework-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-report-framework-${package.version}-${build.date}.zip" failonerror="false"/>
 		<move file="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}-${build.date}.zip"/>
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}-${build.date}.zip" failonerror="false"/>
 	</target>
 	
 	<target name="CreateUpdateSite" if="updateSite">
@@ -466,10 +471,6 @@
 		   </fileset>
 		</zip>
 		
-		<copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
-            <fileset file="${postingDirectory}/${buildId}/birt-updatesite-${package.version}.zip"/>
-	    </copy>
-		
 		<antcall target="renameBirtUpdatesitePackage"/>	
 		
 	</target>
@@ -625,7 +626,6 @@
                 <include name="*.zip"/>
                 <include name="*.txt"/>
                 <include name="*.gz"/>
-	        	<exclude name="birt-all-${package.version}.bak.zip"/>
             </fileset>
 	        <fileset dir="${buildDirectory}" >
                 <include name="directory.txt"/>
@@ -717,7 +717,7 @@
 		<property name="NLtmpsite" value="${buildDirectory}/NLtmpsite"/>
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.nl" />
-        	<property name="fetchTag" value="BIRT_2_5_x_Branch" />
+        	<property name="fetchTag" value="HEAD" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>	
@@ -730,7 +730,7 @@
 		
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.rcp.nl" />
-        	<property name="fetchTag" value="BIRT_2_5_x_Branch" />
+        	<property name="fetchTag" value="HEAD" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
 		</ant>
@@ -743,7 +743,7 @@
 	
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.nl" />
-        	<property name="fetchTag" value="DTP_1_7_2_Post_Branch" />
+        	<property name="fetchTag" value="HEAD" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
@@ -757,7 +757,7 @@
 		
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.sybase.nl" />
-        	<property name="fetchTag" value="DTP_1_7_2_Post_Branch" />
+        	<property name="fetchTag" value="HEAD" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
@@ -780,10 +780,7 @@
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
 	
-	<target name="buildUpdateSite" if="updateSite">
-		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildUpdateJars" />
-	</target>
-	
+
 	<target name="unpackUpdateJarsForPackaging">
 
 		<property name="tmpsite" value="${buildDirectory}/tmpsite" />
@@ -791,50 +788,32 @@
 		<mkdir dir="${tmpsite}/new/eclipse/features" />
 		<mkdir dir="${tmpsite}/new/eclipse/plugins" />
 
-		<!-- BIRT framework $ OSGI package -->
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-q birt-report-framework-sdk-${package.version}.zip -d ${tmpsite}" />
-		</exec>
-	    <exec executable="unzip" dir="${buildDirectory}/${buildId}">
-	        <arg line="-o -q birt-osgi-${package.version}.zip -d ${tmpsite}" />
-	    </exec>
-		<!-- BIRT third party -->
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite}" />
-		</exec>
-
-		<!-- backup un-signed and packed version to  birt-all-${package.version}.bak.zip -->
-		<zip destfile="${buildDirectory}/birt-all-${package.version}.bak.zip">
-             <fileset dir="${tmpsite}" includes="eclipse/**"/>
-             <fileset dir="${eclipse.build.configs}/../../extras" includes="pack.properties"/>
-        </zip>
-
 		<!-- Sign packed features and plugins. 
 		Download signed features and plugins back to replace ${tmpsite}/eclipse.
 		Back signed features and plugins as update site jars 
 		-->
+		<unzip src="${buildDirectory}/birt-all-${package.version}.bak.zip" dest="${tmpsite}"/>
+
 		<antcall target="signBIRTJars"/>
-
-		<!-- unpack features and plugins -->		
-		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
-
-		<!-- zip unpacked features and plugins to birt-all-${package.version}.zip -->
-		<exec executable="zip" dir="${tmpsite}/new">
-			<arg line="-q ${buildDirectory}/birt-all-${package.version}.zip -r eclipse" />
-		</exec>
 		
 		<copy todir="${postingDirectory}/${buildId}" failonerror="false">
 			<fileset dir="${buildDirectory}">
 				<include name="birt-all-${package.version}.bak.zip"/>
 			</fileset>
 		</copy>
+				
+		<!-- unpack features and plugins -->		
+		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
+
+		<exec executable="zip" dir="${tmpsite}/new">
+			<arg line="-q ${buildDirectory}/birt-all-${package.version}.zip -r eclipse" />
+		</exec>
 		
 		<copy todir="${buildDirectory}/${buildId}" >
 			<fileset dir="${tmpsite}/new">
 				<include name="eclipse/**"/>
 			</fileset>
-		</copy>
-		
+		</copy>	
 		
 	</target>
 
@@ -912,7 +891,7 @@
 			<param name="message" value="Packaging starts"/>
 		</antcall>
     	
-    	<condition property="CompareSignPack2" value="true">
+    	<condition property="CompareSignPack" value="true">
     	    <filesmatch file1="${source.dir}/${source.name}"
     	                file2="${target.dir}/${target.name}"/>
     	</condition>
