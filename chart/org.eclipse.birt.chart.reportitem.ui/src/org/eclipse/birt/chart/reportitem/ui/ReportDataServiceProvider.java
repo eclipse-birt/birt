@@ -1464,6 +1464,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			dteAdapter.setRowLimit( session, rowLimit, isCubeMode );
 		}
+		else
+		{
+			// Needs to clear previous settings if filter is set.
+			dteAdapter.setRowLimit( session, -1, isCubeMode );
+		}
 	}
 	
 	/**
