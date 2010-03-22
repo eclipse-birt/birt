@@ -82,7 +82,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 					context.addContainer( false );
 					hasPInside = false;
 				}
-				else
+				else if ( !inForeign )
 				{
 					context.addContainer( true );
 				}
