@@ -1050,6 +1050,7 @@ public class ReportDocumentReader
 			try
 			{
 				reportDocInfo = new ReportDocumentCoreInfo( );
+				reportDocInfo.checkpoint = CHECKPOINT_END;
 				readCoreStreamBodyFromBuffer( reportDocInfo, loader );
 			}
 			catch ( IOException ee )
@@ -1851,15 +1852,41 @@ public class ReportDocumentReader
 
 	public ITreeNode getTOCTree( ClassLoader loader ) throws EngineException
 	{
+		ReportDocumentCoreInfo documentInfo = loadParametersAndVariables( loader );
+		ITOCReader tocReader = null;
 		try
 		{
-			TOCReader tocReader = new TOCReader( archive, loader );
-			return tocReader.readTree( );
+			if ( documentInfo.tocReader != null )
+			{
+				tocReader = documentInfo.tocReader;
+			}
+			else
+			{
+				tocReader = new TOCReader( archive, loader );
+			}
+			if ( tocReader != null )
+			{
+				return tocReader.readTree( );
+			}
 		}
 		catch ( IOException ex )
 		{
 			throw new EngineException( "failed to load toc tree", ex );
 		}
+		finally
+		{
+			if ( tocReader != null )
+			{
+				try
+				{
+					tocReader.close( );
+				}
+				catch ( IOException ignored )
+				{
+				}
+			}
+		}
+		return null;
 	}
 	
 	public void setEngineCacheEntry( LinkedEntry<ReportDocumentReader> entry )
