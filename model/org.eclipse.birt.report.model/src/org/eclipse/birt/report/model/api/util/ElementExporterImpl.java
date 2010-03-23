@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -365,7 +366,7 @@ class ElementExporterImpl
 	 *            the design element
 	 * @throws SemanticException
 	 */
-	protected void dropDuplicatedElement( DesignElement element )
+	protected final void dropDuplicatedElement( DesignElement element )
 			throws SemanticException
 	{
 
@@ -375,19 +376,73 @@ class ElementExporterImpl
 
 		DesignElement duplicateElement = nameSpace.getElement( element
 				.getName( ) );
-		if ( duplicateElement != null )
+
+		if ( duplicateElement == null )
+			return;
+
+		DesignElement targetElement = getDropTarget( duplicateElement );
+		if ( targetElement == null )
+			return;
+
+		// check this element with duplicate name can be dropped or not
+		if ( !canDropInContext( targetElement ) )
 		{
-			// check this element with duplicate name can be dropped or not
-			if ( !canDropInContext( duplicateElement ) )
+			throw new SemanticException( element, new String[]{element
+					.getName( )},
+					SemanticException.DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL );
+		}
+
+		targetElement.getHandle( targetModuleHandle.getModule( ) ).drop( );
+
+	}
+
+	/**
+	 * Checks if the element can be dropped according to the element context.
+	 * 
+	 * @param element
+	 *            the design element.
+	 * @return <true> if the element locates in <code>Cube</code> or the element
+	 *         is an extended item and locates in <code>ExtendedItem</code>
+	 *         ,otherwise return false.
+	 */
+	static DesignElement getDropTarget( DesignElement element )
+	{
+		if ( element == null )
+			return null;
+
+		int nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		if ( !( nameSpaceID == Module.CUBE_NAME_SPACE
+				|| nameSpaceID == Module.DIMENSION_NAME_SPACE || nameSpaceID == Module.ELEMENT_NAME_SPACE ) )
+			return element;
+
+		DesignElement container = element.getContainer( );
+		while ( container != null )
+		{
+			/*
+			 * // checks element locates in cube if ( container instanceof Cube
+			 * ) return container;
+			 */
+			if ( container instanceof ExtendedItem )
 			{
-				throw new SemanticException( element, new String[]{element
-						.getName( )},
-						SemanticException.DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL );
+				// element locates in ExtendedItem, if the element is
+				// ElementItem type this element can not be dropped, otherwise
+				// it can
+				if ( element instanceof ExtendedItem )
+				{
+					ExtendedItem item = (ExtendedItem) container;
+					Object dataset = item.getProperty( item.getRoot( ),
+							IReportItemModel.DATA_SET_PROP );
+					Object cube = item.getProperty( item.getRoot( ),
+							IReportItemModel.CUBE_PROP );
+					if ( dataset != null || cube != null )
+						return item;
+				}
 			}
 
-			duplicateElement.getHandle( targetModuleHandle.getModule( ) )
-					.drop( );
+			container = container.getContainer( );
 		}
+
+		return element;
 	}
 
 	/**
