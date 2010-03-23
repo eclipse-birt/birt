@@ -198,9 +198,8 @@ public class ElementExportUtilImpl
 		CommandStack stack = targetLibraryHandle.getCommandStack( );
 		try
 		{
-			stack
-					.startTrans( CommandLabelFactory
-							.getCommandLabel( MessageConstants.EXPORT_ELEMENT_TO_LIBRARY ) );
+			stack.startTrans( CommandLabelFactory
+					.getCommandLabel( MessageConstants.EXPORT_ELEMENT_TO_LIBRARY ) );
 			exporter.exportElement( elementToExport, canOverride );
 			stack.commit( );
 		}
@@ -461,9 +460,8 @@ public class ElementExportUtilImpl
 		try
 		{
 
-			stack
-					.startTrans( CommandLabelFactory
-							.getCommandLabel( MessageConstants.EXPORT_ELEMENT_TO_LIBRARY ) );
+			stack.startTrans( CommandLabelFactory
+					.getCommandLabel( MessageConstants.EXPORT_ELEMENT_TO_LIBRARY ) );
 			exporter.exportDesign( designToExport, canOverride, genDefaultName );
 			stack.commit( );
 
@@ -647,9 +645,14 @@ public class ElementExportUtilImpl
 		if ( duplicateElement == null )
 			return true;
 
+		DesignElement targetElement = ElementExporterImpl
+				.getDropTarget( duplicateElement );
+		if ( targetElement == null )
+			return false;
+
 		if ( canOverride )
 		{
-			if ( ElementExporter.canDropInContext( duplicateElement ) )
+			if ( ElementExporterImpl.canDropInContext( targetElement ) )
 				return true;
 			return false;
 		}
