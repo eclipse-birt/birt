@@ -39,6 +39,20 @@ public class UserDataSetHints
 	public UserDataSetHints( EMap<String, DataSet> allSeriesDataSets )
 			throws ChartException
 	{
+		this( allSeriesDataSets, false );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param allSeriesDataSets
+	 * @param bReverse
+	 *            indicates if category is reversed
+	 * @throws ChartException
+	 */
+	public UserDataSetHints( EMap<String, DataSet> allSeriesDataSets,
+			boolean bReverse ) throws ChartException
+	{
 		List<String> keyList = new ArrayList<String>( );
 		List<DataSetIterator> dsiList = new ArrayList<DataSetIterator>( );
 
@@ -49,6 +63,7 @@ public class UserDataSetHints
 				String key = entry.getKey( );
 				DataSet ds = entry.getValue( );
 				DataSetIterator dsi = new DataSetIterator( ds );
+				dsi.reverse( bReverse );
 
 				keyList.add( key );
 				dsiList.add( dsi );

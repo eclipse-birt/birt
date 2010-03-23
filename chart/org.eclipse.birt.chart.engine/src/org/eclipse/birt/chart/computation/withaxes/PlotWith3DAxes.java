@@ -1287,7 +1287,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 			dsiDataBase.reset( );
 			dsiDataOrthogonal.reset( );
 
-			UserDataSetHints udsh = new UserDataSetHints( seOrthogonal.getDataSets( ) );
+			UserDataSetHints udsh = new UserDataSetHints( seOrthogonal.getDataSets( ),
+					getModel( ).isReverseCategory( ) );
 			udsh.reset( );
 
 			double total = 0;
