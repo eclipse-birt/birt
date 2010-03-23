@@ -402,6 +402,10 @@ public class ImageDialog extends TrayDialog
 		
 		previewButton.setEnabled( complete );
 		getButton( IDialogConstants.OK_ID ).setEnabled( complete );
+		if ( !complete )
+		{
+			previewCanvas.clear( );
+		}
 		browseButton.setVisible( embedded.getSelection( ) );
 	}
 

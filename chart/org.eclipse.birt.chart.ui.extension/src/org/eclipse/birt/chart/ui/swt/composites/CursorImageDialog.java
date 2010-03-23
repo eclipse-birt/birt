@@ -12,16 +12,12 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.net.URI;
+import java.net.URL;
 
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
@@ -53,7 +49,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 
 	private Text txtUriEditor;
 	
-	private Button btnUriBuilder;
+	private Button btnPreview;
 
 	private Cursor cursor;
 
@@ -136,13 +132,12 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 			}
 		});
 
-		btnUriBuilder = new Button( inputArea, SWT.PUSH );
+		btnPreview = new Button( inputArea, SWT.NONE );
 		gd = new GridData( );
-		ChartUIUtil.setChartImageButtonSizeByPlatform( gd );
-		btnUriBuilder.setLayoutData( gd );
-		btnUriBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
-		btnUriBuilder.addSelectionListener( this );
-		btnUriBuilder.setToolTipText( org.eclipse.birt.chart.ui.i18n.Messages.getString( "ExprEditComposite.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
+		btnPreview.setLayoutData( gd );
+		btnPreview.addSelectionListener( this );
+		btnPreview.setText( Messages.getString( "ImageDialog.label.Preview" ) ); //$NON-NLS-1$
+
 	}
 
 	private void createPreviewArea( Composite composite )
@@ -201,7 +196,29 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 
 	private void updateButtons( )
 	{
-		getButton( IDialogConstants.OK_ID ).setEnabled( true );
+		boolean complete = txtUriEditor.getText( ) != null
+				&& txtUriEditor.getText( ).trim( ).length( ) > 0;
+
+		if ( complete )
+		{
+			try
+			{
+				// handle double quotation
+				new URL( removeQuote( txtUriEditor.getText( ).trim( ) ) );
+			}
+			catch ( Exception e )
+			{
+				complete = false;
+			}
+		}
+		if ( !complete )
+		{
+			previewCanvas.clear( );
+		}
+
+		btnPreview.setEnabled( complete );
+		getButton( IDialogConstants.OK_ID ).setEnabled( complete );
+
 	}
 
 	/**
@@ -243,21 +260,9 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object source = e.getSource( );
-		if ( source == btnUriBuilder )
+		if ( source == btnPreview )
 		{
-			try
-			{
-				String sExpr = context.getUIServiceProvider( )
-						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-								txtUriEditor.getText( ),
-								context.getExtendedItem( ),
-								title.getText( ) );
-				txtUriEditor.setText( sExpr == null ? "" : sExpr ); //$NON-NLS-1$
-			}
-			catch ( ChartException e1 )
-			{
-				WizardBase.displayException( e1 );
-			}
+			preview( removeQuote( txtUriEditor.getText( ) ) );
 		}
 	}
 }
