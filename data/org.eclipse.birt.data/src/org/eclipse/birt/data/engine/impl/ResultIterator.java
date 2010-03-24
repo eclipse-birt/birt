@@ -90,6 +90,8 @@ public class ResultIterator implements IResultIterator
 	
 	// used for evaluate binding column value
 	protected Map 					boundColumnValueMap = new HashMap( );
+	protected Map 					lastBoundColumnValueMap = null;
+	
 	private BindingColumnsEvalUtil 	bindingColumnsEvalUtil;
 	
 	private boolean isFirstNext = true;
@@ -106,6 +108,8 @@ public class ResultIterator implements IResultIterator
 	private int rawIdStartingValue = 0;
 	
 	private IShutdownListener listener;
+	
+	private boolean distinctValue;
 	
 	/**
 	 * Constructor for report query (which produces a QueryResults)
@@ -157,13 +161,26 @@ public class ResultIterator implements IResultIterator
 		this.start( );
 		prepareBindingColumnsEvalUtil( );
 		prepareCurrentRow();
-
+		this.distinctValue = this.resultService.getQueryDefn( ).getDistinctValue( );
+		
 		// add shutdown listener when initial work has been done.
 		addEngineShutdownListener( );
 		
 		logger.exiting( ResultIterator.class.getName( ), "ResultIterator" );
 	}
 
+	private static Map copy( Map map )
+	{
+		Map newMap = new HashMap( );
+		Iterator keyIterator = map.keySet().iterator();
+		while( keyIterator.hasNext( ) )
+		{
+			Object key = keyIterator.next( );
+			newMap.put( key, map.get( key ) );
+		}
+		return newMap;
+	}
+	
 	/**
 	 * 
 	 */
@@ -413,6 +430,59 @@ public class ResultIterator implements IResultIterator
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#next()
 	 */
 	public boolean next( ) throws BirtException
+	{
+		if( this.distinctValue )
+		{
+			boolean hasNext = nextRow( );
+			while( hasNext )
+			{
+				if( this.lastBoundColumnValueMap == null )
+				{
+					this.lastBoundColumnValueMap = copy( this.boundColumnValueMap );
+					return true;
+				}
+				else
+				{
+					if( !equal(lastBoundColumnValueMap, boundColumnValueMap ) )
+					{
+						this.lastBoundColumnValueMap = copy( this.boundColumnValueMap );
+						return true;
+					}
+					nextRow( );
+				}
+			}
+			return false;
+		}
+		return nextRow( );
+	}
+	
+	private static boolean equal( Map map1, Map map2 )
+	{
+		Iterator keyIterator1 = map1.keySet().iterator();
+		while( keyIterator1.hasNext( ) )
+		{
+			Object key = keyIterator1.next( );
+			if( ( map2.get( key ) == null && map1.get( key ) != null ) )
+			{
+				return false;
+			}
+			if( ( map2.get( key ) != null && map1.get( key ) == null ) )
+			{
+				return false;
+			}
+			if( ( map2.get( key ) == null && map1.get( key ) == null ) )
+			{
+				continue;
+			}
+			if( !map2.get( key ).equals( map1.get( key ) )  )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean nextRow( ) throws BirtException
 	{
 		checkStarted( );
 		
