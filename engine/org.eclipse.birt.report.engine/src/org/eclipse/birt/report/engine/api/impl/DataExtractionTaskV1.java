@@ -210,6 +210,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		ReportDocumentCoreInfo docInfo = reportDocReaderImpl
 				.loadParametersAndVariables(classLoader);
 		setParameters( docInfo.parameters );
+		usingParameterValues( );
 		executionContext.registerGlobalBeans( docInfo.globalVariables );
 
 	}
