@@ -51,8 +51,10 @@ import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.URLSecurity;
@@ -92,6 +94,11 @@ public class PreparedQueryUtil
 	{
 		assert dataEngine != null;
 		assert queryDefn != null;
+		
+		if( queryDefn.getDistinctValue( ) )
+		{
+			addAllBindingAsSortKey( queryDefn );
+		}
 		
 		validateQuery(dataEngine, queryDefn);
 		FilterPrepareUtil.prepareFilters( queryDefn, dataEngine.getContext( ).getScriptContext( ) );
@@ -199,6 +206,42 @@ public class PreparedQueryUtil
 		}
 
 		return preparedQuery;
+	}
+	
+	private static void addAllBindingAsSortKey( IQueryDefinition queryDefn ) throws DataException
+	{
+		if( ! ( queryDefn instanceof BaseQueryDefinition ) )
+		{
+			return;
+		}
+		Set<String> sortedBinding = new HashSet<String>( );
+		List<ISortDefinition> sorts = queryDefn.getSorts( );
+		if ( sorts != null )
+		{
+			for ( ISortDefinition sd : sorts )
+			{
+				List<String> bindingNames = ExpressionCompilerUtil.extractColumnExpression( sd.getExpression( ), ExpressionUtil.ROW_INDICATOR );
+				if ( bindingNames != null )
+				{
+					for ( String bindingName : bindingNames )
+					{
+						sortedBinding.add( bindingName );
+					}
+				}
+			}
+		}
+		Iterator bindings = queryDefn.getBindings( ).values( ).iterator( );
+		BaseQueryDefinition queryDefinition = ( ( BaseQueryDefinition ) queryDefn );
+		while( bindings.hasNext( ) )
+		{
+			IBinding binding = (IBinding) bindings.next( );
+			if( !sortedBinding.contains( binding.getBindingName( ) ) )
+			{
+				SortDefinition sd = new SortDefinition( );
+				sd.setExpression( ExpressionUtil.createJSRowExpression( binding.getBindingName( ) ) );
+				queryDefinition.addSort( sd );
+			}
+		}
 	}
 	
 	/**
