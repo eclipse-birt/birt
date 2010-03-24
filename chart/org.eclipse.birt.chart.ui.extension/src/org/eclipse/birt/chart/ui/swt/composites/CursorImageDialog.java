@@ -150,6 +150,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 		previewArea.setLayout( new FillLayout( ) );
 
 		previewCanvas = new IconCanvas( previewArea );
+		previewCanvas.setSize( 250, 200 );
 	}
 
 	/*
@@ -190,7 +191,6 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 		txtUriEditor.setFocus( );
 		// Listener will be called automatically
 		updateButtons( );
-		previewCanvas.pack( );
 		preview( removeQuote( txtUriEditor.getText( ) ) );
 	}
 
