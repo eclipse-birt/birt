@@ -448,7 +448,7 @@ public class ResultIterator implements IResultIterator
 						this.lastBoundColumnValueMap = copy( this.boundColumnValueMap );
 						return true;
 					}
-					nextRow( );
+					hasNext = nextRow( );
 				}
 			}
 			return false;

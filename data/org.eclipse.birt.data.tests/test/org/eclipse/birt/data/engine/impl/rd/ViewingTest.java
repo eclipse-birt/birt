@@ -255,7 +255,7 @@ public class ViewingTest extends RDTestCase
 		
 		query.setSourceQuery( baseQuery );
 		
-		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1>350" );
+		ScriptExpression filterExpr = new ScriptExpression( "dataSetRow[\"AMOUNT_1\"]>350" );
 		query.addFilter( new FilterDefinition( filterExpr ) );
 		
 		SortDefinition sd = new SortDefinition( );
@@ -266,6 +266,42 @@ public class ViewingTest extends RDTestCase
 		this.closeArchiveReader( );
 
 		this.checkOutputFile( );
+	}
+	
+	public void testSourceQueryIV14( ) throws Exception
+	{
+		this.GEN_add_filter = true;
+		this.GEN_add_group = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+	
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "dataSetRow[\"AMOUNT_1\"]>350" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+//		SortDefinition sd = new SortDefinition( );
+//		sd.setExpression( "dataSetRow.SALE_NAME_1" );
+//		sd.setSortDirection( ISortDefinition.SORT_ASC );
+//		query.addSort( sd );
+		
+		Binding binding = new Binding( "CITY", new ScriptExpression( "dataSetRow.CITY_1" ));
+		query.addBinding( binding );
+		query.setDistinctValue( true );
+		
+		_preBasicIV4( query );
+		this.closeArchiveReader( );
+
+//		this.checkOutputFile( );
 	}
 	
 	public void testSourceQueryIV1withMaxRow( ) throws Exception
@@ -326,6 +362,11 @@ public class ViewingTest extends RDTestCase
 		sd.setExpression( "row.COUNTRY_1" );
 		sd.setSortDirection( ISortDefinition.SORT_ASC );
 		query.addSort( sd );
+//		sd = new SortDefinition( );
+//		sd.setExpression( "row.CITY_1" );
+//		sd.setSortDirection( ISortDefinition.SORT_ASC );
+//		query.addSort( sd );
+		
 		_preBasicIV3( query, new String[]{"COUNTRY_1", "CITY_1", "AMOUNT_1" } );
 		this.closeArchiveReader( );
 
@@ -1719,6 +1760,34 @@ public class ViewingTest extends RDTestCase
 		
 		IResultIterator ri = qr.getResultIterator( );
 		String[] rowExprName = {"COUNTRY_1", "CITY_1", "AMOUNT_1" };
+		ri.moveTo( 0 );
+		String abc = "";
+		for ( int i = 0; i < rowExprName.length; i++ )
+			abc += rowExprName[i] + "  ";
+		this.testPrintln( abc );
+		do
+		{
+			abc = "";
+			
+			for ( int i = 0; i < rowExprName.length; i++ )
+				abc += ri.getValue( rowExprName[i] ) + "  ";
+			abc += ri.getRowId( );
+			
+			this.testPrintln( abc );
+		} while ( ri.next( ) );
+
+		ri.close( );
+		myPreDataEngine.shutdown( );
+	}
+	
+	private void _preBasicIV4( QueryDefinition qd ) throws BirtException
+	{
+		HashMap appContext = new HashMap();
+		appContext.put( DataEngine.MEMORY_BUFFER_SIZE, 10 );
+		IQueryResults qr = myPreDataEngine.prepare( qd , appContext ).execute( null );
+		
+		IResultIterator ri = qr.getResultIterator( );
+		String[] rowExprName = {"CITY" };
 		ri.moveTo( 0 );
 		String abc = "";
 		for ( int i = 0; i < rowExprName.length; i++ )

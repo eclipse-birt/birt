@@ -414,7 +414,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 					resultClass = createResultClass( bindings, temporaryComputedColumns );
 				}
 				else
-					resultClass = createResultClass( getRefBinding( bindings ), temporaryComputedColumns );
+					resultClass = createResultClass( bindings, temporaryComputedColumns );
 			}
 			else
 				resultClass = createResultClass( bindings, temporaryComputedColumns );
@@ -422,52 +422,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 			return resultClass;
 		}
 		
-		/**
-		 * 
-		 * @return
-		 * @throws DataException 
-		 */
-		private IBinding[] getRefBinding( IBinding[] sourceBinding ) throws DataException
-		{
-			List refBinding = new ArrayList( );
-			IBinding[] queryBindings = (IBinding[]) ( queryDefn.getBindings( )
-					.values( ).toArray( new IBinding[0] ) );
-			for ( int i = 0; i < sourceBinding.length; i++ )
-			{
-				if ( isDirectColumnRef( sourceBinding[i].getBindingName( ), queryBindings ) )
-					refBinding.add( sourceBinding[i] );
-			}
-			return (IBinding[]) ( refBinding.toArray( new IBinding[0] ) );
-		}
-		
-		/**
-		 * 
-		 * @param columnName
-		 * @param bindings
-		 * @return
-		 * @throws DataException 
-		 */
-		private boolean isDirectColumnRef( String columnName, IBinding[] bindings ) throws DataException
-		{
-			for ( int i = 0; i < bindings.length; i++ )
-			{
-				if ( bindings[i].getExpression( ) instanceof ScriptExpression )
-				{
-					try
-					{
-						if( columnName.equals( 
-								ExpressionUtil.getColumnName( 
-										( (ScriptExpression) bindings[i].getExpression( ) ).getText( ) ) ) )
-								return true;
-					}
-					catch ( BirtException e )
-					{
-						throw DataException.wrap( e );
-					}
-				}
-			}
-			return false;
-		}
 
 		/**
 		 * 
