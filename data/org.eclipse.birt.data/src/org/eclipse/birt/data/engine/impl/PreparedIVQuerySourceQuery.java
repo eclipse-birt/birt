@@ -422,34 +422,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 			return resultClass;
 		}
 		
-		/**
-		 * 
-		 * @param columnName
-		 * @param bindings
-		 * @return
-		 * @throws DataException 
-		 */
-		private boolean isDirectColumnRef( String columnName, IBinding[] bindings ) throws DataException
-		{
-			for ( int i = 0; i < bindings.length; i++ )
-			{
-				if ( bindings[i].getExpression( ) instanceof ScriptExpression )
-				{
-					try
-					{
-						if( columnName.equals( 
-								ExpressionUtil.getColumnName( 
-										( (ScriptExpression) bindings[i].getExpression( ) ).getText( ) ) ) )
-								return true;
-					}
-					catch ( BirtException e )
-					{
-						throw DataException.wrap( e );
-					}
-				}
-			}
-			return false;
-		}
 
 		/**
 		 * 
