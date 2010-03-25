@@ -1,5 +1,5 @@
 !**************** chart test ********************
-plugin@org.eclipse.birt.chart.tests=v20091022,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.tests
+plugin@org.eclipse.birt.chart.tests=r25x_v20100325,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.tests
 
 !**************** engine test *******************
 fragment@org.eclipse.birt.core.testhelper=v20100107,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.testhelper
