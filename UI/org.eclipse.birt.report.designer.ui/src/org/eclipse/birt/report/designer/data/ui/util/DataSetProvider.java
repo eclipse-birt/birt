@@ -228,6 +228,7 @@ public final class DataSetProvider
 				items[i].setHorizontalAlign( hint.getHorizontalAlign( ) );
 				items[i].setTextFormat( hint.getTextFormat( ) );
 				items[i].setDescription( hint.getDescription( ) );
+				items[i].setWordWrap( hint.wordWrap( ) );
 			}
 		}
 		updateModel( dataSetHandle, items );
@@ -270,6 +271,7 @@ public final class DataSetProvider
 				items[i].setHorizontalAlign( hint.getHorizontalAlign( ) );
 				items[i].setTextFormat( hint.getTextFormat( ) );
 				items[i].setDescription( hint.getDescription( ) );
+				items[i].setWordWrap( hint.wordWrap( ) );
 			}
 		}
 		return items;
@@ -551,6 +553,7 @@ public final class DataSetProvider
 				columns[n].setHorizontalAlign( hint.getHorizontalAlign( ) );
 				columns[n].setTextFormat( hint.getTextFormat( ) );
 				columns[n].setDescription( hint.getDescription( ) );
+				columns[n].setWordWrap( hint.wordWrap( ) );
 			}
 			
 			// Update the column in Model if necessary
