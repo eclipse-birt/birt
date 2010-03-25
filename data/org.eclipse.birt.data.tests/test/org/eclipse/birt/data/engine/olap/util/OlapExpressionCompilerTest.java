@@ -52,6 +52,7 @@ public class OlapExpressionCompilerTest extends TestCase
 		IBinding binding5 = new Binding( "b5", new ScriptExpression("dimension.dim1.level1 + 25"));
 		IBinding binding6 = new Binding( "b6", new ScriptExpression("data.b4 + 1"));
 		IBinding binding7 = new Binding( "b7", new ScriptExpression("if( true ) data.b2; else data.b3;"));
+		IBinding binding8 = new Binding( "b8", new ScriptExpression("BirtComp.equalTo( dimension[\"customerRegions\"][\"COUNTRY\"], \"USA\" )"));
 		List bindings = new ArrayList();
 		bindings.add( binding1 );
 		bindings.add( binding2 );
@@ -103,5 +104,9 @@ public class OlapExpressionCompilerTest extends TestCase
 		Set s7 = OlapExpressionCompiler.getReferencedDimLevel( binding7.getExpression( ), bindings );
 		assertTrue( s7.size( ) == 1 );
 		assertTrue( s7.contains( new DimLevel("dim1","level2") ));
+		
+		Set s8 = OlapExpressionCompiler.getReferencedDimLevel( binding8.getExpression( ), bindings );
+		assertTrue( s8.size( ) == 1 );
+		assertTrue( s8.contains( new DimLevel("customerRegions","COUNTRY") ));
 	}
 }

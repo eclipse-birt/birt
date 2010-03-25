@@ -321,11 +321,22 @@ public class OlapExpressionCompiler
 				result,
 				bindings,
 				onlyFromDirectReferenceExpr );
-		populateDimLevels( grandpa,
+		if ( n.getLastChild( ) != n.getFirstChild( ) )
+		{
+			populateDimLevels( grandpa,
 				n.getLastChild( ),
 				result,
 				bindings,
 				onlyFromDirectReferenceExpr );
+		}
+		if ( n.getNext( ) != n.getFirstChild( ) && n.getNext( ) != n.getLastChild( ) )
+		{
+			populateDimLevels( grandpa,
+				n.getNext( ),
+				result,
+				bindings,
+				onlyFromDirectReferenceExpr );
+		}
 	}
 
 	/**
