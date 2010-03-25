@@ -145,9 +145,6 @@ public class DataEngineContext
 	
 	public final static int CUBE_META_SECURITY_STREAM = 112;
 	
-	public final static int CUBE_ROW_SECURITY_STREAM = 113;
-	
-
 	public final static int DIMENSION_META_SECURITY_STREAM = 114;
 	public final static String QUERY_STARTING_ID = "/dataEngine/queryStartingID";
 	
@@ -650,11 +647,11 @@ public class DataEngineContext
 			case CUBE_META_SECURITY_STREAM:
 				relativePath ="CubeMetaSecurity";
 				break;
-			case CUBE_ROW_SECURITY_STREAM:
-				relativePath = "CubeRowSecurity";
-				break;
 			case ACL_COLLECTION_STREAM:
 				relativePath = "ACLCollection";
+				break;
+			case DIMENSION_META_SECURITY_STREAM:
+				relativePath = "DimensionSecurity";
 				break;
 			default :
 				assert false; // impossible
