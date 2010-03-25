@@ -221,12 +221,17 @@ public class PreparedQueryUtil
 			for ( ISortDefinition sd : sorts )
 			{
 				List<String> bindingNames = ExpressionCompilerUtil.extractColumnExpression( sd.getExpression( ), ExpressionUtil.ROW_INDICATOR );
-				if ( bindingNames != null )
+				if ( bindingNames != null && bindingNames.size( ) > 0 )
 				{
 					for ( String bindingName : bindingNames )
 					{
 						sortedBinding.add( bindingName );
 					}
+				}
+				else
+				{
+					if( sd.getColumn( ) != null )
+						sortedBinding.add( sd.getColumn( ) );
 				}
 			}
 		}
