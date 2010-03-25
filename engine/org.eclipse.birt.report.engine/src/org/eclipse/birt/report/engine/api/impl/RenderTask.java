@@ -58,6 +58,7 @@ import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEngineContext;
 import org.eclipse.birt.report.engine.nLayout.LayoutEngine;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.toc.ITOCReader;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TOCView;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -74,6 +75,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	private InnerRender innerRender;
 	private long outputPageCount;
 
+	private ITOCReader tocReader;
 	private boolean designLoaded = false;
 	private boolean variablesLoaded = false;
 
@@ -151,6 +153,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 			setParameters( docInfo.parameters );
 			usingParameterValues( );
 			executionContext.registerGlobalBeans(docInfo.globalVariables);
+			try
+			{
+				tocReader = documentReader.getTOCReader( classLoader );
+			}
+			catch ( EngineException e )
+			{
+				log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+			}
 			variablesLoaded = true;
 		}
 	}
@@ -172,6 +182,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 		designLoaded = false;
 		unloadRenderExtensions( );
 		unloadVisiblePages( );
+		if ( tocReader != null )
+		{
+			try
+			{
+				tocReader.close( );
+			}
+			catch ( IOException ignored )
+			{
+			}
+		}
 		super.close( );
 	}
 
@@ -757,8 +777,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		if ( document instanceof IInternalReportDocument )
 		{
-			ITreeNode tocTree = ( (IInternalReportDocument) document )
-					.getTOCTree( executionContext.getApplicationClassLoader( ) );
+			ITreeNode tocTree = null;
+			if ( tocReader != null )
+			{
+				try
+				{
+					tocTree = tocReader.readTree( );
+				}
+				catch ( IOException e )
+				{
+					throw new EngineException( "Failed to read TOC tree.", e );
+				}
+			}
 			if ( tocTree != null )
 			{
 				LogicalPageSequence visiblePages = loadVisiblePages( );
@@ -778,6 +808,24 @@ public class RenderTask extends EngineTask implements IRenderTask
 		return TOCView.EMPTY_TOC_VIEW;
 	}
 
+	public ITreeNode getRawTOCTree( )
+	{
+		loadDocument( );
+		ITreeNode tocTree = null;
+		if ( tocReader != null )
+		{
+			try
+			{
+				tocTree = tocReader.readTree( );
+			}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+			}
+		}
+		return tocTree;
+	}
+	
 	public long getTotalPage( ) throws EngineException
 	{
 		LogicalPageSequence visiblePages = loadVisiblePages( );

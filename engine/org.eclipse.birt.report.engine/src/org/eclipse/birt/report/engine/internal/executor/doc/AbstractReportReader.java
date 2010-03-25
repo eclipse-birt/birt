@@ -17,8 +17,9 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.impl.IInternalReportDocument;
+import org.eclipse.birt.report.engine.api.impl.RenderTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -69,18 +70,12 @@ public abstract class AbstractReportReader implements IReportExecutor
 
 		reportDoc = context.getReportDocument( );
 
-		if ( reportDoc instanceof IInternalReportDocument )
+		IEngineTask engineTask = context.getEngineTask( );
+		if ( engineTask instanceof RenderTask )
 		{
-			try
-			{
-				ITreeNode tocTree = ((IInternalReportDocument) reportDoc)
-						.getTOCTree( context.getApplicationClassLoader( ) );
-				reportContent.setTOCTree( tocTree );
-			}
-			catch ( EngineException ex )
-			{
-				context.addException( ex );
-			}
+			RenderTask renderTask = (RenderTask) engineTask;
+			ITreeNode tocTree = renderTask.getRawTOCTree( );
+			reportContent.setTOCTree( tocTree );
 		}
 		
 		long totalPage = reportDoc.getPageCount( );

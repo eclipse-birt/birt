@@ -123,9 +123,10 @@ public class ReportDocumentReader
 	private boolean coreStreamLoaded = false;
 
 	private LinkedEntry<ReportDocumentReader> engineCacheEntry;
-	
+
 	private byte[] bodyData;
-	
+	private ITOCReader cachedTocReaderV0;
+
 	public ReportDocumentReader( ReportEngine engine,
 			IDocArchiveReader archive, boolean sharedArchive )
 			throws EngineException
@@ -186,16 +187,16 @@ public class ReportDocumentReader
 		return (String) properties.get( key );
 	}
 
-	protected class ReportDocumentCoreInfo
+	static public class ReportDocumentCoreInfo
 	{
 
-		int checkpoint;
-		long pageCount;
-		String systemId;
-		HashMap globalVariables;
-		HashMap parameters;
-		ITOCReader tocReader;
-		IDocumentIndexReader indexReader;
+		public int checkpoint;
+		public long pageCount;
+		public String systemId;
+		public HashMap globalVariables;
+		public HashMap parameters;
+		public ITOCReader tocReader;
+		public IDocumentIndexReader indexReader;
 	}
 
 	private void loadCoreStreamHeader( ) throws EngineException
@@ -415,49 +416,13 @@ public class ReportDocumentReader
 		}
 	}
 
-	protected ReportDocumentCoreInfo loadCoreStream( ClassLoader loader )
-	{
-		try{
-			Object lock = archive.lock( CORE_STREAM );
-			try
-			{
-				synchronized ( lock )
-				{
-					RAInputStream in = archive.getStream( CORE_STREAM );
-					try
-					{
-						DataInputStream di = new DataInputStream( in );
-	
-						// check the document version and core stream version
-						checkVersion( di );
-	
-						return loadCoreStream( di, loader );
-					}
-					finally
-					{
-						in.close( );
-					}
-				}
-			}
-			finally
-			{
-				archive.unlock( lock );
-			}
-		}
-		catch( IOException e )
-		{
-			logger.log( Level.SEVERE, "Failed to refresh", e ); //$NON-NLS-1$
-			return null;
-		}
-	}
-
 	private void loadCoreStream( DataInputStream di ) throws IOException
 	{
 		// load info into a document info object
 		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
 
 		loadCoreStreamHeader( di, documentInfo );
-		loadCoreStreamBody( di, documentInfo, null );
+		loadCoreStreamBody( di, documentInfo );
 
 		// save the document info into the object.
 		checkpoint = documentInfo.checkpoint;
@@ -479,6 +444,7 @@ public class ReportDocumentReader
 			}
 			if ( tocReader == null )
 			{
+				cachedTocReaderV0 = documentInfo.tocReader;
 				tocReader = documentInfo.tocReader;
 			}
 			else
@@ -491,85 +457,34 @@ public class ReportDocumentReader
 		}
 	}
 
-	private void loadCoreStreamBodyToBuffer( DataInputStream stream ) throws IOException
-	{
-		byte[] datas = new byte[1024];
-		int length = -1;
-		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-		while( (length = stream.read(datas) ) > 0 )
-		{
-			byteOut.write(datas, 0, length);
-		}
-		bodyData = byteOut.toByteArray();
-	}
-
-	private ReportDocumentCoreInfo loadCoreStream( DataInputStream di,
-			ClassLoader loader ) throws IOException
-	{
-		// load info into a document info object
-		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
-
-		loadCoreStreamHeader( di, documentInfo );
-		loadCoreStreamBody( di, documentInfo, loader );
-		
-		return documentInfo;
-	}
-
 	private void loadCoreStreamBody( DataInputStream di,
-			ReportDocumentCoreInfo documentInfo, ClassLoader loader )
-			throws IOException
+			ReportDocumentCoreInfo documentInfo ) throws IOException
 	{
-		loadCoreStreamBodyToBuffer(di);
-		readCoreStreamBodyFromBuffer(documentInfo, loader);
-	}
-
-	private void readCoreStreamBodyFromBuffer(
-			ReportDocumentCoreInfo documentInfo, ClassLoader loader)
-			throws IOException
-	{
-		DataInputStream bodyInput = null;
-		try
+		if ( CORE_VERSION_UNKNOWN.equals( coreVersion ) )
 		{
-			bodyInput = new DataInputStream( new ByteArrayInputStream( bodyData ) );
-			if ( CORE_VERSION_UNKNOWN.equals( coreVersion ) )
-			{
-				loadCoreStreamBodyUnknown( bodyInput, documentInfo, loader );
-			}
-			else if ( CORE_VERSION_0.equals( coreVersion )
-					|| CORE_VERSION_1.equals( coreVersion ) )
-			{
-				loadCoreStreamBodyV0( bodyInput, documentInfo, loader );
-			}
-			else if ( CORE_VERSION_2.equals( coreVersion ) )
-			{
-				loadCoreStreamBodyV2( bodyInput, documentInfo, loader );
-			}
-			else
-			{
-				throw new IOException( "unsupported core stream version: "
-						+ coreVersion );
-			}
+			loadCoreStreamBodyUnknown( di, documentInfo );
 		}
-		finally
+		else if ( CORE_VERSION_0.equals( coreVersion )
+				|| CORE_VERSION_1.equals( coreVersion ) )
 		{
-			if ( bodyInput != null )
-			{
-				bodyInput.close( );
-			}
+			loadCoreStreamBodyV0( di, documentInfo );
+		}
+		else if ( CORE_VERSION_2.equals( coreVersion ) )
+		{
+			loadCoreStreamBodyV2( di, documentInfo );
+		}
+		else
+		{
+			throw new IOException( "unsupported core stream version: "
+					+ coreVersion );
 		}
 	}
 
-	protected void loadCoreStreamBodyUnknown(DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo, ClassLoader classLoader)
-			throws IOException
+	protected void loadCoreStreamBodyUnknown( DataInputStream coreStream,
+			ReportDocumentCoreInfo documentInfo ) throws IOException
 	{
 		// load the report parameters
-		ClassLoader loader = classLoader == null ? getClassLoader( ) : classLoader;
-		Map originalParameters = IOUtil.readMap( coreStream, loader );
-		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
-		// load the persistence object
-		documentInfo.globalVariables = (HashMap) IOUtil.readMap( coreStream,
-				loader );
+		loadCoreStreamBodyToBuffer( coreStream );
 		if ( documentInfo.checkpoint == CHECKPOINT_END )
 		{
 			documentInfo.indexReader = new DocumentIndexReader(
@@ -577,21 +492,17 @@ public class ReportDocumentReader
 		}
 	}
 
-	protected void loadCoreStreamBodyV0(DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo, ClassLoader classLoader)
-			throws IOException
+	protected void loadCoreStreamBodyV0( DataInputStream coreStream,
+			ReportDocumentCoreInfo documentInfo ) throws IOException
 	{
-		ClassLoader loader = classLoader == null ? getClassLoader( ) : classLoader;
-		Map originalParameters = IOUtil.readMap( coreStream, loader );
+		Map originalParameters = IOUtil.readMap( coreStream );
 		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
 		// load the persistence object
-		documentInfo.globalVariables = (HashMap) IOUtil.readMap( coreStream,
-				loader );
+		documentInfo.globalVariables = (HashMap) IOUtil.readMap( coreStream );
 		if ( documentInfo.checkpoint == CHECKPOINT_END )
 		{
 			HashMap<String, Long> bookmarks = readMap( coreStream );
-			documentInfo.tocReader = new TOCReader( coreStream,
-					loader );
+			documentInfo.tocReader = new TOCReader( coreStream, null );
 			HashMap<String, Long> reportletsIndexById = readMap( coreStream );
 			HashMap<String, Long> reportletsIndexByBookmark = readMap( coreStream );
 			documentInfo.indexReader = new DocumentIndexReader(
@@ -600,21 +511,28 @@ public class ReportDocumentReader
 		}
 	}
 
-	protected void loadCoreStreamBodyV2(DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo, ClassLoader classLoader)
-			throws IOException
+	protected void loadCoreStreamBodyV2( DataInputStream coreStream,
+			ReportDocumentCoreInfo documentInfo ) throws IOException
 	{
-		ClassLoader loader = classLoader == null ? getClassLoader( ) : classLoader;
-		Map originalParameters = IOUtil.readMap( coreStream, loader );
-		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
-		// load the persistence object
-		documentInfo.globalVariables = (HashMap) IOUtil.readMap( coreStream,
-				loader );
+		loadCoreStreamBodyToBuffer( coreStream );
 		if ( documentInfo.checkpoint == CHECKPOINT_END )
 		{
 			documentInfo.indexReader = new DocumentIndexReader(
 					IDocumentIndexReader.VERSION_2, archive );
 		}
+	}
+
+	private void loadCoreStreamBodyToBuffer( DataInputStream stream )
+			throws IOException
+	{
+		byte[] datas = new byte[1024];
+		int length = -1;
+		ByteArrayOutputStream byteOut = new ByteArrayOutputStream( );
+		while ( ( length = stream.read( datas ) ) > 0 )
+		{
+			byteOut.write( datas, 0, length );
+		}
+		bodyData = byteOut.toByteArray( );
 	}
 
 	private HashMap<String, Long> readMap( DataInputStream di )
@@ -884,7 +802,7 @@ public class ReportDocumentReader
 		{
 			LinkedObjectManager<ReportDocumentReader> manager = engineCacheEntry
 					.getManager( );
-			synchronized(manager)
+			synchronized ( manager )
 			{
 				manager.remove( engineCacheEntry );
 			}
@@ -982,7 +900,7 @@ public class ReportDocumentReader
 		}
 		return reportRunnable.cloneRunnable( );
 	}
-	
+
 	public synchronized IReportRunnable getPreparedRunnable( )
 	{
 		if ( preparedRunnable == null )
@@ -998,6 +916,7 @@ public class ReportDocumentReader
 	public Map getParameterValues( )
 	{
 		loadCoreStreamLazily( );
+		loadVariableLazily( );
 		Map result = new HashMap( );
 		if ( parameters != null )
 		{
@@ -1016,7 +935,7 @@ public class ReportDocumentReader
 
 	public Map getParameterValues( ClassLoader loader )
 	{
-		ReportDocumentCoreInfo reportDocInfo = loadParametersAndVariables(loader);
+		ReportDocumentCoreInfo reportDocInfo = loadParametersAndVariables( loader );
 		if ( reportDocInfo == null )
 		{
 			return null;
@@ -1038,33 +957,50 @@ public class ReportDocumentReader
 		return result;
 	}
 
-	public ReportDocumentCoreInfo loadParametersAndVariables(ClassLoader loader)
+	protected void loadVariableLazily( )
 	{
-		ReportDocumentCoreInfo reportDocInfo = null;
+		if ( globalVariables != null )
+		{
+			ClassLoader loader = getClassLoader( );
+			ReportDocumentCoreInfo documentInfo = loadParametersAndVariables( loader );
+			this.globalVariables = documentInfo.globalVariables;
+			this.parameters = documentInfo.parameters;
+		}
+	}
+
+	public ReportDocumentCoreInfo loadParametersAndVariables( ClassLoader loader )
+	{
+		loadCoreStreamLazily( );
+		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
 		if ( bodyData == null )
 		{
-			reportDocInfo = loadCoreStream( loader );
+			documentInfo.parameters = parameters;
+			documentInfo.globalVariables = globalVariables;
+			return documentInfo;
 		}
-		else
+		try
 		{
-			try
-			{
-				reportDocInfo = new ReportDocumentCoreInfo( );
-				reportDocInfo.checkpoint = CHECKPOINT_END;
-				readCoreStreamBodyFromBuffer( reportDocInfo, loader );
-			}
-			catch ( IOException ee )
-			{
-				logger.log( Level.SEVERE, ee.getLocalizedMessage( ), ee );
-				return null;
-			}
+			DataInputStream dataStream = new DataInputStream(
+					new ByteArrayInputStream( bodyData ) );;
+			Map originalParameters = IOUtil.readMap( dataStream, loader );
+			documentInfo.parameters = convertToCompatibleParameter( originalParameters );
+			// load the persistence object
+			documentInfo.globalVariables = (HashMap) IOUtil.readMap(
+					dataStream, loader );
 		}
-		return reportDocInfo;
+		catch ( IOException ee )
+		{
+			logger.log( Level.SEVERE,
+					"Failed to load variables in the core stream", ee ); //$NON-NLS-1$
+		}
+
+		return documentInfo;
 	}
 
 	public Map getParameterDisplayTexts( )
 	{
 		loadCoreStreamLazily( );
+		loadVariableLazily( );
 		Map result = new HashMap( );
 		if ( parameters != null )
 		{
@@ -1194,7 +1130,7 @@ public class ReportDocumentReader
 			return null;
 		}
 		ArrayList<IBookmarkInfo> results = new ArrayList<IBookmarkInfo>( );
-		
+
 		loadCoreStreamLazily( );
 		if ( indexReader != null )
 		{
@@ -1292,26 +1228,6 @@ public class ReportDocumentReader
 		try
 		{
 			ITreeNode root = getTOCTree( );
-			if ( root != null )
-			{
-				ReportDesignHandle report = ( (ReportRunnable) getOnPreparedRunnable( ) )
-						.getReport( );
-				return new TOCView( root, report, locale, timeZone, format );
-			}
-		}
-		catch ( EngineException ex )
-		{
-			logger.log( Level.WARNING, ex.getMessage( ), ex );
-		}
-		return null;
-	}
-
-	public ITOCTree getTOCTree(String format, ULocale locale,
-			TimeZone timeZone, ClassLoader loader)
-	{
-		try
-		{
-			ITreeNode root = getTOCTree( loader );
 			if ( root != null )
 			{
 				ReportDesignHandle report = ( (ReportRunnable) getOnPreparedRunnable( ) )
@@ -1433,17 +1349,8 @@ public class ReportDocumentReader
 	public Map getGlobalVariables( String option )
 	{
 		loadCoreStreamLazily( );
+		loadVariableLazily( );
 		return globalVariables;
-	}
-
-	public Map getGlobalVariables( String option, ClassLoader loader )
-	{
-		ReportDocumentCoreInfo reportDocInfo = loadParametersAndVariables(loader);
-		if ( reportDocInfo != null )
-		{
-			return reportDocInfo.globalVariables;
-		}
-		return null;
 	}
 
 	public long getPageNumber( InstanceID iid )
@@ -1510,7 +1417,7 @@ public class ReportDocumentReader
 					|| version == IPageHintReader.VERSION_3
 					|| version == IPageHintReader.VERSION_4
 					|| version == IPageHintReader.VERSION_5
-					|| version == IPageHintReader.VERSION_6)
+					|| version == IPageHintReader.VERSION_6 )
 			{
 				long totalPage = pageHintReader.getTotalPage( );
 				for ( long pageNumber = 1; pageNumber <= totalPage; pageNumber++ )
@@ -1850,50 +1757,29 @@ public class ReportDocumentReader
 		}
 	}
 
-	public ITreeNode getTOCTree( ClassLoader loader ) throws EngineException
+	public ITOCReader getTOCReader( ClassLoader loader ) throws EngineException
 	{
-		ReportDocumentCoreInfo documentInfo = loadParametersAndVariables( loader );
-		ITOCReader tocReader = null;
+		loadCoreStreamLazily( );
+		if ( cachedTocReaderV0 != null )
+		{
+			// it is safe to reuse the tocReaderV0 as the close is empty.
+			return cachedTocReaderV0;
+		}
 		try
 		{
-			if ( documentInfo.tocReader != null )
-			{
-				tocReader = documentInfo.tocReader;
-			}
-			else
-			{
-				tocReader = new TOCReader( archive, loader );
-			}
-			if ( tocReader != null )
-			{
-				return tocReader.readTree( );
-			}
+			return new TOCReader( archive, loader );
 		}
 		catch ( IOException ex )
 		{
 			throw new EngineException( "failed to load toc tree", ex );
 		}
-		finally
-		{
-			if ( tocReader != null )
-			{
-				try
-				{
-					tocReader.close( );
-				}
-				catch ( IOException ignored )
-				{
-				}
-			}
-		}
-		return null;
 	}
-	
+
 	public void setEngineCacheEntry( LinkedEntry<ReportDocumentReader> entry )
 	{
 		this.engineCacheEntry = entry;
 	}
-	
+
 	public String getSystemId( )
 	{
 		return systemId;
