@@ -510,9 +510,14 @@ public class Hierarchy implements IHierarchy
 	 * @param stopSign
 	 * @return
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	public IDiskArray readAllRows( StopSign stopSign ) throws IOException
+	public IDiskArray readAllRows( StopSign stopSign ) throws IOException, DataException
 	{
+		if ( documentObj == null )
+		{
+			loadFromDisk( );
+		}
 		documentObj.seek( 0 );
 		int size = documentObj.readInt( );
 		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionRow.getCreator( ),
