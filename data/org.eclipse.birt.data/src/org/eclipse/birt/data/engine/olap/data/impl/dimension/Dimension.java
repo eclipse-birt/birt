@@ -114,7 +114,16 @@ public class Dimension implements IDimension
 	 */
 	public IDiskArray getAllRows( StopSign stopSign ) throws IOException
 	{
-		return hierarchy.readAllRows( stopSign );
+		try
+		{
+			return hierarchy.readAllRows( stopSign );
+		}
+		catch ( DataException e )
+		{
+			IOException ex = new IOException( e.getLocalizedMessage( ) );
+			ex.initCause( e );
+			throw ex;
+		}
 	}
 
 	/**

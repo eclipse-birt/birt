@@ -39,6 +39,7 @@ public class CubeMaterializer
 {
 	private IDocumentManager documentManager;
 	private DataEngine dataEngine;
+	
 	/**
 	 * 
 	 * @param pathName
@@ -271,13 +272,14 @@ public class CubeMaterializer
 	 */
 	private void saveDocObjToReportDocument( String name, IDocArchiveWriter writer, StopSign stopSign ) throws IOException, DataException
 	{
+		if( writer.exists( name ) )
+		{
+			return;
+		}
 		IDocumentObject documentObject = documentManager.openDocumentObject( name );
 		RAOutputStream outputStreadm = writer.createRandomAccessStream( name );
 		byte[] buffer = new byte[4096];
-		if ( documentObject == null )
-		{
-			documentObject = null;
-		}
+		
 		int readSize = documentObject.read( buffer, 0, buffer.length );
 		
 		while ( !stopSign.isStopped( ) && readSize >= 0 )

@@ -131,6 +131,26 @@ public class DataRequestSessionImpl extends DataRequestSession
 	//Used to avoid creating same dimension repeatedly when a dimension is shared by multiple cubes
 	private Map<String, IDimension> createdDimensions;
 
+	private CubeMaterializer cubeMaterializer;
+	
+	
+	private CubeMaterializer getCubeMaterializer( int cacheSize ) throws BirtException
+	{
+		//Make sure only one instance, do not created until really needed
+		if ( cubeMaterializer == null )
+		{
+			try
+			{
+				cubeMaterializer = new CubeMaterializer( this.dataEngine,
+						String.valueOf( dataEngine.hashCode( )), cacheSize );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( e.getLocalizedMessage( ), e );
+			}
+		}
+		return cubeMaterializer;
+	}
 
 	/**
 	 * Constructs the data request session with the provided session context
@@ -461,6 +481,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void shutdown( )
 	{
+		if ( cubeMaterializer != null )
+		{
+			try
+			{
+				cubeMaterializer.close( );
+			}
+			catch ( IOException e )
+			{
+			}
+		}
 		dataEngine.shutdown( );
 		dataEngine = null;
 	}
@@ -667,7 +697,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
 		try
 		{
-			CubeMaterializer cubeMaterializer = null;
 			if ( appContext == null )
 				appContext = sessionContext.getAppContext( );
 			
@@ -685,42 +714,24 @@ public class DataRequestSessionImpl extends DataRequestSession
 						size = value.intValue( );
 					}
 				}
-				cubeMaterializer = createCubeMaterializer( cubeHandle, size );
+				CubeMaterializer cm = getCubeMaterializer( size );
 				createCube( (TabularCubeHandle) cubeHandle,
-						cubeMaterializer,
+						cm,
 						appContext );
-				cubeMaterializer.close( );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
-				cubeMaterializer = createCubeMaterializer( cubeHandle, 0 );
-				createCube(  (TabularCubeHandle)cubeHandle, cubeMaterializer, appContext );
-				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
+				CubeMaterializer cm = getCubeMaterializer( 0 );
+				createCube(  (TabularCubeHandle)cubeHandle, cm, appContext );
+				cm.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
 						this.dataEngine.getSession( ).getStopSign( ) );
-				cubeMaterializer.close( );
 			}
 		}
 		catch ( Exception e )
 		{
 			throw new DataException( ResourceConstants.EXCEPTION_ERROR, e);
 		}
-	}
-
-	/**
-	 * Create a cube materializer.
-	 * @param cubeHandle
-	 * @return
-	 * @throws DataException
-	 * @throws IOException
-	 * @throws BirtException
-	 */
-	private CubeMaterializer createCubeMaterializer( CubeHandle cubeHandle, int size )
-			throws DataException, IOException, BirtException
-	{
-		CubeMaterializer cubeMaterializer = new CubeMaterializer( this.dataEngine,
-				cubeHandle.getQualifiedName( ), size );
-		return cubeMaterializer;
 	}
 
 	/**
@@ -783,10 +794,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 				String[] keyNames = dimensions[i].getHierarchy().getLevels()[dimensions[i]
 						.getHierarchy().getLevels().length - 1].getKeyNames();
-				for( int j = 0; j < keyNames.length; j++)                                       						
-				{
-					keyNames[j] = dimensions[i].getName() + "/" + keyNames[j];
-				}
 				factTableKey[i] = keyNames;
 				dimensionKey[i] = factTableKey[i];
 			}
@@ -1140,6 +1147,17 @@ public class DataRequestSessionImpl extends DataRequestSession
 						appContext,
 						queryMap,
 						metaMap, sl );
+				TabularDimensionHandle dimHandle = (TabularDimensionHandle) cubeHandle.getDimension( dim.getName( ) );
+				TabularHierarchyHandle hier = (TabularHierarchyHandle) dimHandle.getDefaultHierarchy( );
+				if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null )
+				{
+					String[] keyNames = dim.getHierarchy().getLevels()[dim
+							.getHierarchy().getLevels().length - 1].getKeyNames();
+					for( int j = 0; j < keyNames.length; j++)                                       						
+					{
+						keyNames[j] = dim.getName() + "/" + keyNames[j];
+					}
+				}
 				createdDimensions.put( dh.getName( ), dim );
 			}
 			result.add( dim);

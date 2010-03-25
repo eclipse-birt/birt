@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
+import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtDimensionView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
@@ -217,11 +218,13 @@ public class CubeQueryResults implements ICubeQueryResults
 							.getEngine( )
 							.hashCode( ) ),
 							executor.getSession( ).getTempDir( )
-									+ executor.getCubeQueryDefinition( )
-											.getName( ) );
+									+ executor.getSession( ).getEngine( ).hashCode( ) );
 		}
 		if ( manager != null )
-			return manager;
+		{
+			if( manager.exist( NamingUtil.getCubeDocName( executor.getCubeQueryDefinition( ).getName( ) ) ))
+				return manager;
+		}
 		
 		return DocumentManagerFactory.createRADocumentManager( executor.getContext( )
 					.getDocReader( ) );
