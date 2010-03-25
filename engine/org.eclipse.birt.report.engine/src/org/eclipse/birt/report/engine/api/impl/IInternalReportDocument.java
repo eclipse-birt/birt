@@ -16,7 +16,7 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.extension.engine.IReportDocumentExtension;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.toc.ITreeNode;
+import org.eclipse.birt.report.engine.toc.ITOCReader;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public interface IInternalReportDocument extends IReportDocument
@@ -37,5 +37,5 @@ public interface IInternalReportDocument extends IReportDocument
 	IReportDocumentExtension getDocumentExtension( String extension )
 			throws EngineException;
 	
-	ITreeNode getTOCTree( ClassLoader loader ) throws EngineException;
+	ITOCReader getTOCReader( ClassLoader loader ) throws EngineException;
 }

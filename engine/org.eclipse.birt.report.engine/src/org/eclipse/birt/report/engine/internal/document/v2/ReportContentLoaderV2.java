@@ -22,10 +22,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
-import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.impl.IInternalReportDocument;
+import org.eclipse.birt.report.engine.api.impl.RenderTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -110,20 +110,13 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 
 		reportDoc = context.getReportDocument( );
 		dataEngine.prepare( report, context.getAppContext( ) );
-		
-		if ( reportDoc instanceof IInternalReportDocument )
+
+		IEngineTask engineTask = context.getEngineTask( );
+		if ( engineTask instanceof RenderTask )
 		{
-			IInternalReportDocument docReader = (IInternalReportDocument) reportDoc;
-			try
-			{
-				ITreeNode tocTree = docReader.getTOCTree(context
-						.getApplicationClassLoader());
-				reportContent.setTOCTree( tocTree );
-			}
-			catch ( EngineException ex )
-			{
-				context.addException( ex );
-			}
+			RenderTask renderTask = (RenderTask) engineTask;
+			ITreeNode tocTree = renderTask.getRawTOCTree( );
+			reportContent.setTOCTree( tocTree );
 		}
 	}
 

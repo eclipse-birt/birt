@@ -17,10 +17,10 @@ import java.util.Collection;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.impl.RenderTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -38,7 +38,6 @@ import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.toc.ITreeNode;
 
 abstract public class AbstractReportExecutor implements IReportExecutor
 {
@@ -87,22 +86,14 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 		reportContent.setExecutionContext( context );
 		context.setReportContent( reportContent );
 
-		IReportDocument reportDoc = context.getReportDocument( );
-		if ( reportDoc instanceof ReportDocumentReader )
+		IEngineTask engineTask = context.getEngineTask( );
+		if ( engineTask instanceof RenderTask )
 		{
-			ReportDocumentReader docReader = (ReportDocumentReader) reportDoc;
-			try
-			{
-				ITreeNode tocTree = docReader.getTOCTree(context
-						.getApplicationClassLoader());
-				reportContent.setTOCTree( tocTree );
-			}
-			catch ( EngineException ex )
-			{
-				context.addException( ex );
-			}
+			RenderTask renderTask = (RenderTask) engineTask;
+			reportContent.setTOCTree( renderTask.getRawTOCTree( ) );
 		}
 
+		IReportDocument reportDoc = context.getReportDocument( );
 		long totalPage = reportDoc.getPageCount( );
 		context.setTotalPage( totalPage );
 		reportContent.setTotalPage( totalPage );

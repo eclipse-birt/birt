@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.api.impl.IInternalReportDocument;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.engine.IReportDocumentExtension;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.toc.ITreeNode;
+import org.eclipse.birt.report.engine.toc.TOCReader;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.util.TimeZone;
@@ -220,7 +220,7 @@ public class TransientReportDocument implements IInternalReportDocument
 				.getDocumentExtension( name );
 	}
 
-	public ITreeNode getTOCTree( ClassLoader loader ) throws EngineException
+	public TOCReader getTOCReader( ClassLoader loader ) throws EngineException
 	{
 		return null;
 	}

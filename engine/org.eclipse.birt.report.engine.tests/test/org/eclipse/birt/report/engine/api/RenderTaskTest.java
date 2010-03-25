@@ -220,10 +220,6 @@ public class RenderTaskTest extends EngineCase
 		Map<String, String> parameters = renderTask.getParameterValues();
 		assertEquals( expectedParamters, parameters);
 		HashMap<String, String> expectedVariables = new HashMap<String, String>();
-		expectedVariables.put("var1", "value1");
-		expectedVariables.put("var2", "value2");
-		Map<String, String> globalVariables = document.getGlobalVariables(null, null);
-		assertEquals( expectedVariables, globalVariables);
 		renderTask.close();
 	}
 	
