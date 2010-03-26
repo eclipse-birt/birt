@@ -44,10 +44,10 @@ class DrilledCube
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( engine.getSession( )
 				.getTempDir( ),
-				cubeName );
+				String.valueOf( engine.hashCode( ) ) );
 		DocManagerMap.getDocManagerMap( )
 				.set( String.valueOf( engine.hashCode( ) ),
-						engine.getSession( ).getTempDir( ) + cubeName,
+						engine.getSession( ).getTempDir( ) + engine.hashCode( ),
 						documentManager );
 		engine.addShutdownListener( new DocManagerReleaser( engine ) );
 		Dimension[] dimensions = new Dimension[2];
