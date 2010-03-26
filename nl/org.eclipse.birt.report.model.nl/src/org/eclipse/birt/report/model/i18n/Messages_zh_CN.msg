@@ -1887,7 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=脚本库
 Structure.IncludedCssStyleSheet=包括的 CSS 样式表
 Structure.DimensionJoinCondition=维联接条件
-Structure.FormatValue =Format Value
+Structure.FormatValue =格式类型
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression

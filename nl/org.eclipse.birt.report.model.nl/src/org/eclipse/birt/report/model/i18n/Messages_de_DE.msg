@@ -1887,7 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Skriptbibliothek
 Structure.IncludedCssStyleSheet=Enthaltene CSS-Stilvorlage
 Structure.DimensionJoinCondition=Dimensionsknotenpunkt-Bedingung
-Structure.FormatValue =Format Value
+Structure.FormatValue =Formatwert
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2272,7 +2272,7 @@ Structure.TimeInterval.unit=Einheit
 
 #39. FormatValue
 Structure.FormatValue.category=Kategorie
-Structure.FormatValue.pattern=Zusammengesetzter Ausdruck
+Structure.FormatValue.pattern=Muster
 Structure.FormatValue.locale=Gebietsschema
 
 ###########################################################
