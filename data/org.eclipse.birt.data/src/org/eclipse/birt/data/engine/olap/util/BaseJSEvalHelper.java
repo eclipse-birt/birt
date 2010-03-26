@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -49,7 +50,14 @@ public abstract class BaseJSEvalHelper
 			ICubeQueryDefinition queryDefn, ScriptContext cx, IBaseExpression expr )
 			throws DataException
 	{
-		this.scope = Context.getCurrentContext( ).initStandardObjects( );
+		try
+		{
+			this.scope = ( ( IDataScriptEngine )( cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ) ).getJSContext( cx ).initStandardObjects( );
+		}
+		catch (BirtException e)
+		{
+			throw DataException.wrap( e );
+		}
 		this.scope.setParentScope( parentScope );
 		this.queryDefn = queryDefn;
 		this.expr = expr;
@@ -57,7 +65,7 @@ public abstract class BaseJSEvalHelper
 		this.cx = cx;
 		this.jsObjectPopulators = new ArrayList( );
 		registerJSObjectPopulators( );
-		OLAPExpressionCompiler.compile( Context.getCurrentContext( ), this.expr );
+		OLAPExpressionCompiler.compile( cx.newContext(this.scope), this.expr );
 	}
 
 	/**
