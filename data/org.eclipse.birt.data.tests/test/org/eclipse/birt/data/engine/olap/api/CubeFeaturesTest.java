@@ -7144,10 +7144,10 @@ public class CubeFeaturesTest extends BaseTestCase
 			IOException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( engine.getSession( ).getTempDir( ),
-				cubeName );
+				String.valueOf(engine.hashCode( )) );
 		DocManagerMap.getDocManagerMap( )
 				.set( String.valueOf( engine.hashCode( ) ),
-						engine.getSession( ).getTempDir( ) + cubeName,
+						engine.getSession( ).getTempDir( ) + engine.hashCode( ),
 						documentManager );
 		engine.addShutdownListener( new DocManagerReleaser( engine ) );
 		Dimension[] dimensions = new Dimension[2];
@@ -7226,10 +7226,10 @@ public class CubeFeaturesTest extends BaseTestCase
 			throws BirtException, IOException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( engine.getSession( ).getTempDir( ),
-				cubeName );
+				String.valueOf( engine.hashCode( )) );
 		DocManagerMap.getDocManagerMap( )
 				.set( String.valueOf( engine.hashCode( ) ),
-						engine.getSession( ).getTempDir( ) + cubeName,
+						engine.getSession( ).getTempDir( ) + engine.hashCode( ),
 						documentManager );
 		engine.addShutdownListener( new DocManagerReleaser( engine ) );
 		Dimension[] dimensions = new Dimension[4];
