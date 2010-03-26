@@ -20,6 +20,7 @@ import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -27,7 +28,6 @@ import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.DataJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -59,17 +59,25 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	 * @param parentScope
 	 * @param cubeFilter
 	 * @param cx
+	 * @throws DataException 
 	 */
 	private void initialize( Scriptable parentScope,
 			IFilterDefinition cubeFilter,
-			ScriptContext cx, IBaseQueryResults outerResults, ICubeQueryDefinition query )
+			ScriptContext cx, IBaseQueryResults outerResults, ICubeQueryDefinition query ) throws DataException
 	{
-		this.scope = Context.getCurrentContext( ).initStandardObjects( );
+		try
+		{
+			this.scope = ( ( IDataScriptEngine )( cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ) ).getJSContext( cx ).initStandardObjects( );
+		}
+		catch (BirtException e)
+		{
+			throw DataException.wrap( e );
+		}
 		this.scope.setParentScope( parentScope );
 		this.measureObj = new DummyMeasureObject( );
 		this.dimObj = new DummyDimensionObject( );
 		this.expr = cubeFilter.getExpression( );
-		OLAPExpressionCompiler.compile( Context.getCurrentContext( ), this.expr );
+		OLAPExpressionCompiler.compile( cx.newContext( this.scope ), this.expr );
 		this.cx = cx;
 		this.scope.put( org.eclipse.birt.data.engine.script.ScriptConstants.MEASURE_SCRIPTABLE,
 				this.scope,

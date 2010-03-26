@@ -11,16 +11,13 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.script;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.mozilla.javascript.CompilerEnvirons;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Interpreter;
-import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.Script;
-import org.mozilla.javascript.ScriptOrFnNode;
+import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * 
@@ -31,8 +28,9 @@ public class OLAPExpressionCompiler
 	/**
 	 * 
 	 * @param cx
+	 * @throws DataException 
 	 */
-	public static void compile( Context cx, IBaseExpression expr )
+	public static void compile( ScriptContext cx, IBaseExpression expr ) throws DataException
 	{
 		if ( expr instanceof IConditionalExpression )
 		{
@@ -53,29 +51,19 @@ public class OLAPExpressionCompiler
 	 * 
 	 * @param cx
 	 * @param expr1
+	 * @throws DataException 
 	 */
-	private static void prepareScriptExpression( Context cx,
-			IBaseExpression expr1 )
+	private static void prepareScriptExpression( ScriptContext cx,
+			IBaseExpression expr1 ) throws DataException
 	{
+		try {
+			
 		if ( expr1 == null )
 			return;
 		if ( expr1 instanceof IScriptExpression )
 		{
 			String exprText = ( (IScriptExpression) expr1 ).getText( );
-
-			CompilerEnvirons compilerEnv = new CompilerEnvirons( );
-			compilerEnv.initFromContext( cx );
-			Parser p = new Parser( compilerEnv, cx.getErrorReporter( ) );
-
-			ScriptOrFnNode tree = p.parse( exprText, null, 0 );
-			Interpreter compiler = new Interpreter( );
-			Object compiledOb = compiler.compile( compilerEnv,
-					tree,
-					null,
-					false );
-			Script script = (Script) compiler.createScriptObject( compiledOb,
-					null );
-			expr1.setHandle( new OLAPExpressionHandler( script ) );
+			expr1.setHandle( new OLAPExpressionHandler( cx.compile( expr1.getScriptId(), null, 0, exprText ) ) );
 		}
 		else if ( expr1 instanceof IExpressionCollection )
 		{
@@ -85,6 +73,11 @@ public class OLAPExpressionCompiler
 				prepareScriptExpression( cx,
 						(IBaseExpression)exprs[i] );
 			}
+		}
+		}
+		catch (BirtException e)
+		{
+			throw DataException.wrap( e );
 		}
 	}
 }
