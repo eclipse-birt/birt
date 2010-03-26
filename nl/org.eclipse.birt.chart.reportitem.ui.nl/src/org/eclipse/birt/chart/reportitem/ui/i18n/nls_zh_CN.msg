@@ -100,5 +100,5 @@ ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=类别:
 ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=值:  
 ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 选项:  
 ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=值列表对给定的表达式不可用。 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=只有 data["name"] 之类格式的表达式才能获得值列表。
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=只有 data["name"]/[name] 之类格式的表达式才能获得值列表。
 

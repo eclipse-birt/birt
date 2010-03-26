@@ -1887,7 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Librería de scripts
 Structure.IncludedCssStyleSheet=Hoja de estilos CSS incluida
 Structure.DimensionJoinCondition=Condición de combinación de dimensión
-Structure.FormatValue =Format Value
+Structure.FormatValue =Valor de formato
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression

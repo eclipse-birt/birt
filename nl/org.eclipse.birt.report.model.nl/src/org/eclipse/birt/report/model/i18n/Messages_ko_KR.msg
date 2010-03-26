@@ -1887,7 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=스크립트 Lib
 Structure.IncludedCssStyleSheet=CSS 스타일시트 포함
 Structure.DimensionJoinCondition=차원 조인 조건
-Structure.FormatValue =Format Value
+Structure.FormatValue =형식 값
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -3237,7 +3237,7 @@ Element.Level.defaultValue=기본값
 Element.Level.ACLExpression=ACL 식
 Element.Level.MemberACLExpression=구성원 ACL 식
 Element.Level.action=작업
-Element.Level.format=서식
+Element.Level.format=형식
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
@@ -3246,7 +3246,7 @@ Element.Measure.measureExpression=측정값 식
 Element.Measure.dataType=데이터 형식
 Element.Measure.ACLExpression=ACL 식
 Element.Measure.action=작업
-Element.Measure.format=서식
+Element.Measure.format=형식
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값

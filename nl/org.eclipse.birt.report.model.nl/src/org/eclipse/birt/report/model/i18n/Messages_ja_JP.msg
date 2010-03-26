@@ -1887,7 +1887,7 @@ Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=スクリプトライブラリ
 Structure.IncludedCssStyleSheet=インクルードされている CSS スタイルシート
 Structure.DimensionJoinCondition=ディメンジョンのジョイン条件
-Structure.FormatValue =Format Value
+Structure.FormatValue =書式の値
 
 #0.MapRule
 Structure.MapRule.testExpr=テスト式
