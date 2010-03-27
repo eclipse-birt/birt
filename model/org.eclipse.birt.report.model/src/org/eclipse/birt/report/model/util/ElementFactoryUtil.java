@@ -62,13 +62,16 @@ public class ElementFactoryUtil
 
 		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
 				.getExtension( elementTypeName );
-
+		DesignElementHandle newElement= null;
 		// try extension first
 		if ( elemDefn != null )
 		{
-			return newExtensionElement( module, elementTypeName, name, reName );
+			newElement= newExtensionElement( module, elementTypeName, name, reName );
 		}
-
+		//if the element is null, it also could be it is not OS element. So keep trying. 
+		if(newElement != null)
+			return newElement;
+		
 		// try other system definitions
 		elemDefn = (ElementDefn) MetaDataDictionary.getInstance( ).getElement(
 				elementTypeName );
