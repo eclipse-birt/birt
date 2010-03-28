@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
  * unique name.
  */
 
-public class ElementFactoryUtil
+public class ElementFactoryUtil extends ElementFactoryUtilBase
 {
 
 	/**
@@ -59,7 +59,7 @@ public class ElementFactoryUtil
 	static public DesignElementHandle newElement( Module module,
 			String elementTypeName, String name, boolean reName )
 	{
-		
+
 		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
 				.getExtension( elementTypeName );
 		DesignElementHandle newElement = null;
@@ -189,6 +189,9 @@ public class ElementFactoryUtil
 			Module module, String elementTypeName, String name, boolean reName )
 	{
 		DesignElement element = newElement( elementTypeName, name );
+		if ( element == null )
+			element = tryNewCommercialElement( elementTypeName, name, module );
+
 		if ( element != null && module != null && reName )
 			module.makeUniqueName( element );
 		return element;
