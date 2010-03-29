@@ -1004,7 +1004,7 @@ BubbleSeriesAttributeComposite.Lbl.Line=線
 BubbleSeriesAttributeComposite.Lbl.AccLine=アクセラレーション線
 BubbleSeriesAttributeComposite.Lbl.LinePalette=系列パレットを線の色として使用する(&P)
 BubbleSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、BubbleSeriesAttributeComposite の引数としては使用できません。
-BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves=直線を曲線で表示する(&V)
+BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves=線を曲線で表示する(&V)
 BubbleSeriesAttributeComposite.Lbl.Orientation=向き(&O)
 
 DifferenceChart.Txt.DefaultDifferenceChartTitle=差分チャートのタイトル
@@ -1016,7 +1016,7 @@ DifferenceSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、Dif
 DifferenceSeriesAttributeComposite.Lbl.Line=線
 DifferenceSeriesAttributeComposite.Lbl.PositiveLine=正数
 DifferenceSeriesAttributeComposite.Lbl.NegativeLine=負数
-DifferenceSeriesAttributeComposite.Lbl.ShowLinesAsCurves=直線を曲線で表示する(&C)
+DifferenceSeriesAttributeComposite.Lbl.ShowLinesAsCurves=線を曲線で表示する(&C)
 DifferenceSeriesAttributeComposite.Lbl.LinePalette=系列パレットを線の色として使用する(&U)
 
 PositiveNegativeColorDialog.Lbl.PositiveNegativeColorEditor=正数/負数のカラーエディタ
