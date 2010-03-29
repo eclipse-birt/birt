@@ -35,10 +35,10 @@ dataset.property.queryTimeOut=クエリのタイムアウト (秒)(&Q)
 dataset.property.rowFetchSize=フェッチする行サイズ(&R)
 dataset.connection.autocommit.false=false
 dataset.connection.autocommit.true=true
-dataset.connection.isolationmode.read-uncommitted=read-uncommitted
-dataset.connection.isolationmode.read-committed=read-committed
-dataset.connection.isolationmode.repeatable-read=repeatable-read
-dataset.connection.isolationmode.serializable=シリアライズ可能
+dataset.connection.isolationmode.read-uncommitted=非コミット読み取り
+dataset.connection.isolationmode.read-committed=コミット済み読み取り
+dataset.connection.isolationmode.repeatable-read=再読み込み可能読み取り
+dataset.connection.isolationmode.serializable=直列化
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
