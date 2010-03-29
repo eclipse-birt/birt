@@ -647,6 +647,8 @@ BirtChartActionsMenu.show = function (evt, source, menuInfo ) {
 				transformY = (rootHeight - menuHeight) - this.yPadding;
 			if ((x + menuWidth) > rootWidth)
 				transformX = (rootWidth - menuWidth) - this.xPadding;
+			if ( transformX < 0 ) transformX = 0;
+			if ( transformY < 0 ) transformY = 0;
 			this.group.element.setAttribute('transform', 'translate('
 					+ (transformX / scl) + ', ' + (transformY / scl) + ')');
 		}
