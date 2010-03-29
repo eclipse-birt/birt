@@ -139,7 +139,7 @@ CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
 CrosstabReportItemTask.msg.pivot.crosstab=クロスタブを回転します。
 
-CrosstabReportItemHandle.Error.HasNoCube=クロステーブルは、1 つのキューブにアクセスできる必要があります。
+CrosstabReportItemHandle.Error.HasNoCube=クロスタブは、1 つのキューブにアクセスできる必要があります。
 CrosstabReportItemHandle.log.validate=検証中 (...)
 
 CrosstabScriptHandler.error.javascript=JavaScript の {1} 行目にある {0} :\r\n{2}\r\n
