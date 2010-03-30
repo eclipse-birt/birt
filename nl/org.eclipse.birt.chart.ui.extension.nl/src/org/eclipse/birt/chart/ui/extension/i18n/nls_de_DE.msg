@@ -482,6 +482,7 @@ RuleEditorDialog.Exception.InvalidRule=FEHLER\! Ungültiger Regelindex übergeben.
 
 FillCanvas.Transparent=Transparent
 FillCanvas.Auto=Automatisch
+FillChooserComposite.Button.Pattern=Pattern
 FillChooserComposite.Lbl.Opacity=Deckkraft: {0, number, integer}
 FillChooserComposite.Lbl.Gradient=Verlauf
 FillChooserComposite.Lbl.Transparent=Transparent
@@ -646,6 +647,11 @@ PaletteEditorComposite.Lbl.Add=&Hinzufügen
 PaletteEditorComposite.Lbl.Remove=&Entfernen
 PaletteEditorComposite.Lbl.Up=Aufwärts
 PaletteEditorComposite.Lbl.Down=Abwärts
+PatternImageEditorDialog.Group.Color=Farbe:
+PatternImageEditorDialog.Group.Pattern=Pattern:
+PatternImageEditorDialog.Label.Background=Hintergrund:
+PatternImageEditorDialog.Label.Foreground=Foreground:
+PatternImageEditorDialog.Title.PatternFillEditor=Pattern Image Editor
 
 LabelAttributesComposite.Lbl.Label=Beschriftung
 LabelAttributesComposite.Lbl.Font=S&chriftart:

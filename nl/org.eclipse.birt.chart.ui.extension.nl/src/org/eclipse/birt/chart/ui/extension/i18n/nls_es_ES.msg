@@ -482,6 +482,7 @@ RuleEditorDialog.Exception.InvalidRule=ERROR\! Se ha transmitido un índice de re
 
 FillCanvas.Transparent=Transparente
 FillCanvas.Auto=Automático
+FillChooserComposite.Button.Pattern=Pattern
 FillChooserComposite.Lbl.Opacity=Opacidad: {0, number, integer}
 FillChooserComposite.Lbl.Gradient=Gradiente
 FillChooserComposite.Lbl.Transparent=Transparente
@@ -646,6 +647,11 @@ PaletteEditorComposite.Lbl.Add=&Añadir
 PaletteEditorComposite.Lbl.Remove=&Quitar
 PaletteEditorComposite.Lbl.Up=Arriba
 PaletteEditorComposite.Lbl.Down=Abajo
+PatternImageEditorDialog.Group.Color=Color:
+PatternImageEditorDialog.Group.Pattern=Pattern:
+PatternImageEditorDialog.Label.Background=Fondo:
+PatternImageEditorDialog.Label.Foreground=Foreground:
+PatternImageEditorDialog.Title.PatternFillEditor=Pattern Image Editor
 
 LabelAttributesComposite.Lbl.Label=Etiqueta
 LabelAttributesComposite.Lbl.Font=&Fuente:

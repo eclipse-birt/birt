@@ -482,6 +482,7 @@ RuleEditorDialog.Exception.InvalidRule=エラー : 無効な規則インデックスが渡されま
 
 FillCanvas.Transparent=透明
 FillCanvas.Auto=自動
+FillChooserComposite.Button.Pattern=Pattern
 FillChooserComposite.Lbl.Opacity=透明度 : {0, number, integer}
 FillChooserComposite.Lbl.Gradient=グラデーション
 FillChooserComposite.Lbl.Transparent=透明
@@ -646,6 +647,11 @@ PaletteEditorComposite.Lbl.Add=追加(&A)
 PaletteEditorComposite.Lbl.Remove=削除(&R)
 PaletteEditorComposite.Lbl.Up=上へ
 PaletteEditorComposite.Lbl.Down=下へ
+PatternImageEditorDialog.Group.Color=カラー :
+PatternImageEditorDialog.Group.Pattern=Pattern:
+PatternImageEditorDialog.Label.Background=背景 :
+PatternImageEditorDialog.Label.Foreground=Foreground:
+PatternImageEditorDialog.Title.PatternFillEditor=Pattern Image Editor
 
 LabelAttributesComposite.Lbl.Label=ラベル
 LabelAttributesComposite.Lbl.Font=フォント(&O) :

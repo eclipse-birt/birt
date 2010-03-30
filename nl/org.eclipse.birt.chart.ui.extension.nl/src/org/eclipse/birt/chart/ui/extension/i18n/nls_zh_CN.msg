@@ -482,6 +482,7 @@ RuleEditorDialog.Exception.InvalidRule=错误\!  传递了无效的规则索引。.
 
 FillCanvas.Transparent=透明
 FillCanvas.Auto=自动
+FillChooserComposite.Button.Pattern=Pattern
 FillChooserComposite.Lbl.Opacity=不透明性: {0, number, integer}
 FillChooserComposite.Lbl.Gradient=渐变
 FillChooserComposite.Lbl.Transparent=透明
@@ -646,6 +647,11 @@ PaletteEditorComposite.Lbl.Add=添加(&A)
 PaletteEditorComposite.Lbl.Remove=删除(&R)
 PaletteEditorComposite.Lbl.Up=上移
 PaletteEditorComposite.Lbl.Down=下移
+PatternImageEditorDialog.Group.Color=颜色:
+PatternImageEditorDialog.Group.Pattern=Pattern:
+PatternImageEditorDialog.Label.Background=背景:
+PatternImageEditorDialog.Label.Foreground=Foreground:
+PatternImageEditorDialog.Title.PatternFillEditor=Pattern Image Editor
 
 LabelAttributesComposite.Lbl.Label=标签
 LabelAttributesComposite.Lbl.Font=字体(&O):

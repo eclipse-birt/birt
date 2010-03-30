@@ -482,6 +482,7 @@ RuleEditorDialog.Exception.InvalidRule=오류\! 잘못된 규칙 인덱스가 전달되었습니�
 
 FillCanvas.Transparent=투명
 FillCanvas.Auto=자동
+FillChooserComposite.Button.Pattern=Pattern
 FillChooserComposite.Lbl.Opacity=불투명도: {0, number, integer}
 FillChooserComposite.Lbl.Gradient=그라데이션
 FillChooserComposite.Lbl.Transparent=투명
@@ -646,6 +647,11 @@ PaletteEditorComposite.Lbl.Add=추가(&A)
 PaletteEditorComposite.Lbl.Remove=제거(&R)
 PaletteEditorComposite.Lbl.Up=위로
 PaletteEditorComposite.Lbl.Down=아래로
+PatternImageEditorDialog.Group.Color=색상:
+PatternImageEditorDialog.Group.Pattern=Pattern:
+PatternImageEditorDialog.Label.Background=배경:
+PatternImageEditorDialog.Label.Foreground=Foreground:
+PatternImageEditorDialog.Title.PatternFillEditor=Pattern Image Editor
 
 LabelAttributesComposite.Lbl.Label=레이블
 LabelAttributesComposite.Lbl.Font=글꼴(&O):
