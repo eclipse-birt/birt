@@ -345,11 +345,11 @@ public class PPTWriter
 				tooltip = codeLink( tooltip );
 			}
 			println( "<p:onmouseclick  hyperlinktype=3D\"url\" href=3D\""
-					+ hyperlink
+					+ link
 					+ "\" tips=3D\""
 					+ tooltip
 					+ "\"/><a href=3D\""
-					+ hyperlink
+					+ link
 					+ "/\" target=3D\"_parent\" onclick=3D\"window.event.cancelBubble=3Dtrue;\">" );
 		}
 		print( getEscapedStr( text ) );
@@ -481,7 +481,7 @@ public class PPTWriter
 			if ( hyperlink != null )
 			{
 				hyperlink = codeLink( hyperlink );
-				print( "href=3D\"" + hyperlink + "\" target=3D\"_parent\"" );
+				print( "href=3D\"" + link + "\" target=3D\"_parent\"" );
 			}
 		}
 		println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
