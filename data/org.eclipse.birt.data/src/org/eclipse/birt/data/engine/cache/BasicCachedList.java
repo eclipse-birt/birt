@@ -124,7 +124,23 @@ public class BasicCachedList implements List
 				e.printStackTrace();
 			}
 			this.currentCache.clear( );
-			this.currentCacheNo++;
+			
+			if( size % cacheSize == 0 )
+			{
+				this.currentCacheNo = fileList.size( );
+			}
+			else
+			{
+				try
+				{
+					this.currentCacheNo = fileList.size( ) - 1;
+					loadFromDisk( );
+				}
+				catch ( DataException e )
+				{
+					// TODO Auto-generated catch block
+				}
+			}
 		}
 		this.currentCache.add( o );
 		this.size++;
@@ -225,7 +241,6 @@ public class BasicCachedList implements List
 			catch ( DataException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 			this.currentCacheNo = index / cacheSize;
 			try
@@ -235,7 +250,6 @@ public class BasicCachedList implements List
 			catch ( DataException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		return this.currentCache.get( index - this.currentCacheNo * cacheSize );
