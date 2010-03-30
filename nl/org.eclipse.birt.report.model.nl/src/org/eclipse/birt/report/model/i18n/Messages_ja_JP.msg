@@ -667,8 +667,8 @@ Choices.variableType.page=ページ変数
 
 #82 nullValueOrderingType
 Choices.nullValueOrderingType.unknown=不明
-Choices.nullValueOrderingType.nullIsFirst=最初の Null
-Choices.nullValueOrderingType.nullIsLast=最後の Null
+Choices.nullValueOrderingType.nullIsFirst=Nullが最初
+Choices.nullValueOrderingType.nullIsLast=Nullが最後
 
 #83 dataVersion
 Choices.dataVersion.transient=一時的
