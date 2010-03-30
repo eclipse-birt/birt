@@ -481,7 +481,7 @@ public class PPTWriter
 			if ( hyperlink != null )
 			{
 				hyperlink = codeLink( hyperlink );
-				print( "href=3D\"" + link + "\" target=3D\"_parent\"" );
+				print( "href=3D\"" + hyperlink + "\" target=3D\"_parent\"" );
 			}
 		}
 		println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
