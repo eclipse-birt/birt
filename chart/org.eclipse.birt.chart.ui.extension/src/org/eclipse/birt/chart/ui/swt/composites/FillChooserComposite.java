@@ -91,6 +91,8 @@ public class FillChooserComposite extends Composite implements
 
 	private transient Button btnPN = null;
 
+	private Button btnPatternFill;
+
 	private transient Button btnReset = null;
 
 	private transient Button btnAuto = null;
@@ -115,6 +117,8 @@ public class FillChooserComposite extends Composite implements
 	private transient boolean bTransparencySliderEnable = true;
 
 	private transient boolean bPositiveNegativeEnabled = false;
+
+	private boolean bPatternFillEnabled = true;
 
 	private transient int iTransparency = 0;
 
@@ -145,6 +149,7 @@ public class FillChooserComposite extends Composite implements
 	public static final int ENABLE_TRANSPARENT_SLIDER = 1 << 4;
 	public static final int ENABLE_POSITIVE_NEGATIVE = 1 << 5;
 	public static final int DISABLE_GRADIENT_ANGLE = 1 << 6;
+	public static final int DISABLE_PATTERN_FILL = 1 << 7;
 
 	/**
 	 * @param parent
@@ -167,6 +172,7 @@ public class FillChooserComposite extends Composite implements
 				( ( ENABLE_POSITIVE_NEGATIVE & optionalStyle ) == ENABLE_POSITIVE_NEGATIVE ) );
 		this.bTransparencySliderEnable = ( ( ENABLE_TRANSPARENT_SLIDER & optionalStyle ) == ENABLE_TRANSPARENT_SLIDER );
 		this.bGradientAngleEnabled = !( ( DISABLE_GRADIENT_ANGLE & optionalStyle ) == DISABLE_GRADIENT_ANGLE );
+		this.bPatternFillEnabled = !( ( DISABLE_PATTERN_FILL & optionalStyle ) == DISABLE_PATTERN_FILL );
 	}
 
 	/**
@@ -382,7 +388,7 @@ public class FillChooserComposite extends Composite implements
 				{
 					return;
 				}
-				fireHandleEvent( MOUSE_CLICKED_EVENT );
+				// fireHandleEvent( MOUSE_CLICKED_EVENT );
 				toggleDropDown( );
 				break;
 			case SWT.Traverse :
@@ -484,6 +490,11 @@ public class FillChooserComposite extends Composite implements
 			iShellHeight += 30;
 		}
 		if ( bPositiveNegativeEnabled )
+		{
+			iShellHeight += 30;
+		}
+
+		if ( bPatternFillEnabled )
 		{
 			iShellHeight += 30;
 		}
@@ -692,6 +703,20 @@ public class FillChooserComposite extends Composite implements
 			btnPN.addListener( SWT.Traverse, this );
 		}
 
+		if ( bPatternFillEnabled )
+		{
+			btnPatternFill = new Button( cmpButtons, SWT.NONE );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.heightHint = BUTTON_HEIGHTHINT;
+			gd.horizontalSpan = 2;
+			btnPatternFill.setLayoutData( gd );
+			btnPatternFill.setText( Messages.getString("FillChooserComposite.Button.Pattern") ); //$NON-NLS-1$
+			btnPatternFill.addSelectionListener( this );
+			btnPatternFill.addListener( SWT.FocusOut, this );
+			btnPatternFill.addListener( SWT.KeyDown, this );
+			btnPatternFill.addListener( SWT.Traverse, this );
+		}
+
 		shell.pack( );
 		shell.layout( );
 		shell.open( );
@@ -825,6 +850,19 @@ public class FillChooserComposite extends Composite implements
 					this.setFill( fTmp );
 					fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 				}
+			}
+		}
+		else if ( oSource == btnPatternFill )
+		{
+			PatternImageEditorDialog dialog = new PatternImageEditorDialog( getShell( ),
+					fCurrent );
+			cmpDropDown.getShell( ).close( );
+			if ( dialog.open( ) == Window.OK )
+			{
+				Fill fTmp = dialog.getPatternImage( );
+				addAdapters( fTmp );
+				this.setFill( dialog.getPatternImage( ) );
+				fireHandleEvent( FillChooserComposite.FILL_CHANGED_EVENT );
 			}
 		}
 		else if ( oSource.equals( this.btnReset ) )

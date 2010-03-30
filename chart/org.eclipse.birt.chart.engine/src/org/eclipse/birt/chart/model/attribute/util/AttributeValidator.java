@@ -285,6 +285,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.PALETTE :
 				return validatePalette( (Palette) value, diagnostics, context );
+			case AttributePackage.PATTERN_IMAGE :
+				return validatePatternImage( (PatternImage) value,
+						diagnostics,
+						context );
 			case AttributePackage.ROTATION3_D :
 				return validateRotation3D( (Rotation3D) value,
 						diagnostics,
@@ -539,6 +543,14 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.ORIENTATION_OBJECT :
 				return validateOrientationObject( (Orientation) value,
+						diagnostics,
+						context );
+			case AttributePackage.PATTERN_BITMAP :
+				return validatePatternBitmap( (Long) value,
+						diagnostics,
+						context );
+			case AttributePackage.PATTERN_BITMAP_OBJECT :
+				return validatePatternBitmapObject( (Long) value,
 						diagnostics,
 						context );
 			case AttributePackage.PERCENTAGE :
@@ -1003,6 +1015,19 @@ public class AttributeValidator extends EObjectValidator
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return validate_EveryDefaultConstraint( (EObject) palette,
+				diagnostics,
+				context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validatePatternImage( PatternImage patternImage,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return validate_EveryDefaultConstraint( (EObject) patternImage,
 				diagnostics,
 				context );
 	}
@@ -1810,6 +1835,28 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateOrientationObject( Orientation orientationObject,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validatePatternBitmap( long patternBitmap,
+			DiagnosticChain diagnostics, Map<Object, Object> context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validatePatternBitmapObject( Long patternBitmapObject,
 			DiagnosticChain diagnostics, Map<Object, Object> context )
 	{
 		return true;

@@ -1680,4 +1680,41 @@ mouse cursor will become the specified cursor.</xsd:documentation>
     	</xsd:complexContent>
     </xsd:complexType>
 
+
+	<xsd:simpleType name="PatternBitmap">
+		<xsd:annotation>
+			<xsd:documentation>
+				This type represents the bitmap of a PatternFill.
+    		</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:long">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:complexType name="PatternImage">
+		<xsd:annotation>
+			<xsd:documentation>
+				This type represents the pattern image.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Image">
+				<xsd:sequence>
+					<xsd:element name="Bitmap" type="PatternBitmap">
+						<xsd:annotation>
+							<xsd:documentation>The 8x8 bitmap.</xsd:documentation>
+						</xsd:annotation></xsd:element>
+					<xsd:element name="ForeColor" type="ColorDefinition">
+						<xsd:annotation>
+							<xsd:documentation>The foreground color.</xsd:documentation>
+						</xsd:annotation></xsd:element>
+					<xsd:element name="BackColor" type="ColorDefinition">
+						<xsd:annotation>
+							<xsd:documentation>The background color.</xsd:documentation>
+						</xsd:annotation></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 </xsd:schema>

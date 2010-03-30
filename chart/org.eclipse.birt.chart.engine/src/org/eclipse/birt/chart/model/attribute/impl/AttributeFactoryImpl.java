@@ -212,6 +212,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return (EObject) createNumberFormatSpecifier( );
 			case AttributePackage.PALETTE :
 				return (EObject) createPalette( );
+			case AttributePackage.PATTERN_IMAGE :
+				return (EObject) createPatternImage( );
 			case AttributePackage.ROTATION3_D :
 				return (EObject) createRotation3D( );
 			case AttributePackage.SCRIPT_VALUE :
@@ -391,6 +393,11 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 						initialValue );
 			case AttributePackage.ORIENTATION_OBJECT :
 				return createOrientationObjectFromString( eDataType,
+						initialValue );
+			case AttributePackage.PATTERN_BITMAP :
+				return createPatternBitmapFromString( eDataType, initialValue );
+			case AttributePackage.PATTERN_BITMAP_OBJECT :
+				return createPatternBitmapObjectFromString( eDataType,
 						initialValue );
 			case AttributePackage.PERCENTAGE :
 				return createPercentageFromString( eDataType, initialValue );
@@ -589,6 +596,11 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 						instanceValue );
 			case AttributePackage.ORIENTATION_OBJECT :
 				return convertOrientationObjectToString( eDataType,
+						instanceValue );
+			case AttributePackage.PATTERN_BITMAP :
+				return convertPatternBitmapToString( eDataType, instanceValue );
+			case AttributePackage.PATTERN_BITMAP_OBJECT :
+				return convertPatternBitmapObjectToString( eDataType,
 						instanceValue );
 			case AttributePackage.PERCENTAGE :
 				return convertPercentageToString( eDataType, instanceValue );
@@ -964,6 +976,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		PaletteImpl palette = new PaletteImpl( );
 		return palette;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PatternImage createPatternImage( )
+	{
+		PatternImageImpl patternImage = new PatternImageImpl( );
+		return patternImage;
 	}
 
 	/**
@@ -2485,6 +2508,54 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			Object instanceValue )
 	{
 		return convertOrientationToString( AttributePackage.Literals.ORIENTATION,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Long createPatternBitmapFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return (Long) XMLTypeFactory.eINSTANCE.createFromString( XMLTypePackage.Literals.LONG,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertPatternBitmapToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return XMLTypeFactory.eINSTANCE.convertToString( XMLTypePackage.Literals.LONG,
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Long createPatternBitmapObjectFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return createPatternBitmapFromString( AttributePackage.Literals.PATTERN_BITMAP,
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertPatternBitmapObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return convertPatternBitmapToString( AttributePackage.Literals.PATTERN_BITMAP,
 				instanceValue );
 	}
 

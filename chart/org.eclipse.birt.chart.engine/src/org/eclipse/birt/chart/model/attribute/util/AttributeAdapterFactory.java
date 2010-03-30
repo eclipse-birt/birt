@@ -307,6 +307,12 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 		}
 
 		@Override
+		public Adapter casePatternImage( PatternImage object )
+		{
+			return createPatternImageAdapter( );
+		}
+
+		@Override
 		public Adapter caseRotation3D( Rotation3D object )
 		{
 			return createRotation3DAdapter( );
@@ -848,6 +854,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createPaletteAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.PatternImage <em>Pattern Image</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.PatternImage
+	 * @generated
+	 */
+	public Adapter createPatternImageAdapter( )
 	{
 		return null;
 	}

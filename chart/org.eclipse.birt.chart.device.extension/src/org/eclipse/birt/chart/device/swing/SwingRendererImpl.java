@@ -29,7 +29,9 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.awt.image.WritableRaster;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,6 +78,7 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.PatternImage;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
@@ -84,6 +87,8 @@ import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
+import org.eclipse.birt.chart.util.PatternImageUtil;
+import org.eclipse.birt.chart.util.PatternImageUtil.ByteColorModel;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
 
@@ -572,76 +577,38 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
-			java.awt.Image img = null;
+			java.awt.Image img = createImageFromModel( flBackground );
 
-			if ( flBackground instanceof EmbeddedImage )
+			if ( img != null )
 			{
-				try
+				final Shape shClip = _g2d.getClip( );
+				Area ar2 = new Area( r2d );
+				if ( shClip != null )
 				{
-					String imageData = ( (EmbeddedImage) flBackground ).getData( );
-					if ( imageData == null )
+					Area ar1 = new Area( shClip );
+					ar2.intersect( ar1 );
+				}
+				_g2d.setClip( ar2 );
+
+				final Size szImage = _ids.getSize( img );
+
+				int iXRepeat = (int) ( Math.ceil( r2d.width
+						/ szImage.getWidth( ) ) );
+				int iYRepeat = (int) ( Math.ceil( r2d.height
+						/ szImage.getHeight( ) ) );
+				ImageObserver io = (ImageObserver) _ids.getObserver( );
+				for ( int i = 0; i < iXRepeat; i++ )
+				{
+					for ( int j = 0; j < iYRepeat; j++ )
 					{
-						// To render a blank image for null embedded data
-						imageData = ""; //$NON-NLS-1$
+						_g2d.drawImage( img, (int) ( r2d.x + i
+								* szImage.getWidth( ) ), (int) ( r2d.y + j
+								* szImage.getHeight( ) ), io );
 					}
-					byte[] data = Base64.decodeBase64( imageData.getBytes( ) );
+				}
 
-					img = createImage( data );
-				}
-				catch ( Exception ilex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ilex );
-				}
+				_g2d.setClip( shClip ); // RESTORE
 			}
-			else
-			{
-				try
-				{
-					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
-				}
-				catch ( ChartException ilex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ilex );
-				}
-				catch ( MalformedURLException muex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							muex );
-				}
-			}
-
-			final Shape shClip = _g2d.getClip( );
-			Area ar2 = new Area( r2d );
-			if ( shClip != null )
-			{
-				Area ar1 = new Area( shClip );
-				ar2.intersect( ar1 );
-			}
-			_g2d.setClip( ar2 );
-
-			final Size szImage = _ids.getSize( img );
-
-			int iXRepeat = (int) ( Math.ceil( r2d.width / szImage.getWidth( ) ) );
-			int iYRepeat = (int) ( Math.ceil( r2d.height / szImage.getHeight( ) ) );
-			ImageObserver io = (ImageObserver) _ids.getObserver( );
-			for ( int i = 0; i < iXRepeat; i++ )
-			{
-				for ( int j = 0; j < iYRepeat; j++ )
-				{
-					_g2d.drawImage( img,
-							(int) ( r2d.x + i * szImage.getWidth( ) ),
-							(int) ( r2d.y + j * szImage.getHeight( ) ),
-							io );
-				}
-			}
-
-			_g2d.setClip( shClip ); // RESTORE
 		}
 	}
 
@@ -831,76 +798,42 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
-			java.awt.Image img = null;
-			if ( flBackground instanceof EmbeddedImage )
+			java.awt.Image img = createImageFromModel( flBackground );
+
+			if ( img != null )
 			{
-				try
+				final Shape shClip = _g2d.getClip( );
+				Area ar2 = new Area( new Polygon( i2a[0], i2a[1], loa.length ) );
+				if ( shClip != null )
 				{
-					byte[] data = Base64.decodeBase64( ( (EmbeddedImage) flBackground ).getData( )
-							.getBytes( ) );
+					Area ar1 = new Area( shClip );
+					ar2.intersect( ar1 );
+				}
+				_g2d.setClip( ar2 );
 
-					img = createImage( data );
-				}
-				catch ( Exception ilex )
+				final double dMinX = BaseRenderer.getX( loa, IConstants.MIN );
+				final double dMaxX = BaseRenderer.getX( loa, IConstants.MAX );
+				final double dMinY = BaseRenderer.getY( loa, IConstants.MIN );
+				final double dMaxY = BaseRenderer.getY( loa, IConstants.MAX );
+				final Size szImage = _ids.getSize( img );
+
+				final int iXRepeat = (int) ( Math.ceil( ( dMaxX - dMinX )
+						/ szImage.getWidth( ) ) );
+				final int iYRepeat = (int) ( Math.ceil( ( dMaxY - dMinY )
+						/ szImage.getHeight( ) ) );
+				final ImageObserver io = (ImageObserver) _ids.getObserver( );
+				for ( int i = 0; i < iXRepeat; i++ )
 				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ilex );
+					for ( int j = 0; j < iYRepeat; j++ )
+					{
+						_g2d.drawImage( img, (int) ( dMinX + i
+								* szImage.getWidth( ) ), (int) ( dMinY + j
+								* szImage.getHeight( ) ), io );
+					}
 				}
+
+				_g2d.setClip( shClip ); // RESTORE
 			}
-			else
-			{
-				try
-				{
-					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
-				}
-				catch ( ChartException ilex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ilex );
-				}
-				catch ( MalformedURLException muex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							muex );
-				}
-			}
-
-			final Shape shClip = _g2d.getClip( );
-			Area ar2 = new Area( new Polygon( i2a[0], i2a[1], loa.length ) );
-			if ( shClip != null )
-			{
-				Area ar1 = new Area( shClip );
-				ar2.intersect( ar1 );
-			}
-			_g2d.setClip( ar2 );
-
-			final double dMinX = BaseRenderer.getX( loa, IConstants.MIN );
-			final double dMaxX = BaseRenderer.getX( loa, IConstants.MAX );
-			final double dMinY = BaseRenderer.getY( loa, IConstants.MIN );
-			final double dMaxY = BaseRenderer.getY( loa, IConstants.MAX );
-			final Size szImage = _ids.getSize( img );
-
-			final int iXRepeat = (int) ( Math.ceil( ( dMaxX - dMinX )
-					/ szImage.getWidth( ) ) );
-			final int iYRepeat = (int) ( Math.ceil( ( dMaxY - dMinY )
-					/ szImage.getHeight( ) ) );
-			final ImageObserver io = (ImageObserver) _ids.getObserver( );
-			for ( int i = 0; i < iXRepeat; i++ )
-			{
-				for ( int j = 0; j < iYRepeat; j++ )
-				{
-					_g2d.drawImage( img,
-							(int) ( dMinX + i * szImage.getWidth( ) ),
-							(int) ( dMinY + j * szImage.getHeight( ) ),
-							io );
-				}
-			}
-
-			_g2d.setClip( shClip ); // RESTORE
 		}
 	}
 
@@ -1308,57 +1241,24 @@ public class SwingRendererImpl extends DeviceAdapter
 			}
 
 			// LOAD THE IMAGE
-			java.awt.Image img = null;
-			if ( flBackground instanceof EmbeddedImage )
+			java.awt.Image img = createImageFromModel( flBackground );
+			if ( img != null )
 			{
-				try
+				// REPLICATE THE IMAGE AS NEEDED
+				final Size szImage = _ids.getSize( img );
+				int iXRepeat = (int) ( Math.ceil( r2d.width
+						/ szImage.getWidth( ) ) );
+				int iYRepeat = (int) ( Math.ceil( r2d.height
+						/ szImage.getHeight( ) ) );
+				ImageObserver io = (ImageObserver) _ids.getObserver( );
+				for ( int i = 0; i < iXRepeat; i++ )
 				{
-					byte[] data = Base64.decodeBase64( ( (EmbeddedImage) flBackground ).getData( )
-							.getBytes( ) );
-
-					img = createImage( data );
-				}
-				catch ( Exception ilex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ilex );
-				}
-			}
-			else
-			{
-				try
-				{
-					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
-				}
-				catch ( ChartException ilex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ilex );
-				}
-				catch ( MalformedURLException muex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							muex );
-				}
-			}
-
-			// REPLICATE THE IMAGE AS NEEDED
-			final Size szImage = _ids.getSize( img );
-			int iXRepeat = (int) ( Math.ceil( r2d.width / szImage.getWidth( ) ) );
-			int iYRepeat = (int) ( Math.ceil( r2d.height / szImage.getHeight( ) ) );
-			ImageObserver io = (ImageObserver) _ids.getObserver( );
-			for ( int i = 0; i < iXRepeat; i++ )
-			{
-				for ( int j = 0; j < iYRepeat; j++ )
-				{
-					_g2d.drawImage( img,
-							(int) ( r2d.x + i * szImage.getWidth( ) ),
-							(int) ( r2d.y + j * szImage.getHeight( ) ),
-							io );
+					for ( int j = 0; j < iYRepeat; j++ )
+					{
+						_g2d.drawImage( img, (int) ( r2d.x + i
+								* szImage.getWidth( ) ), (int) ( r2d.y + j
+								* szImage.getHeight( ) ), io );
+					}
 				}
 			}
 
@@ -1887,6 +1787,65 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 	}
 
+	protected java.awt.Image createImageFromModel( Fill imageModel )
+			throws ChartException
+	{
+
+		java.awt.Image img = null;
+		if ( imageModel instanceof EmbeddedImage )
+		{
+			try
+			{
+				byte[] data = Base64.decodeBase64( ( (EmbeddedImage) imageModel ).getData( )
+						.getBytes( ) );
+
+				img = createImage( data );
+			}
+			catch ( Exception ilex )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						ilex );
+			}
+		}
+		else if ( imageModel instanceof PatternImage )
+		{
+			PatternImage pi = (PatternImage) imageModel;
+			byte[] data = PatternImageUtil.createImageData( pi,
+					ByteColorModel.RGBA );
+			BufferedImage bimg = new BufferedImage( 8,
+					8,
+					BufferedImage.TYPE_4BYTE_ABGR );
+			img = bimg;
+			WritableRaster raster = bimg.getRaster( );
+			raster.setDataElements( 0, 0, 8, 8, data );
+			bimg.flush( );
+		}
+		else if ( imageModel instanceof org.eclipse.birt.chart.model.attribute.Image )
+		{
+			try
+			{
+				final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) imageModel ).getURL( );
+				img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
+			}
+			catch ( ChartException ilex )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						ilex );
+			}
+			catch ( MalformedURLException muex )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						muex );
+			}
+		}
+
+		return img;
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1982,70 +1941,39 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
-			java.awt.Image img = null;
-			if ( flBackground instanceof EmbeddedImage )
+			java.awt.Image img = createImageFromModel( flBackground );
+
+			if ( img != null )
 			{
-				try
-				{
-					byte[] data = Base64.decodeBase64( ( (EmbeddedImage) flBackground ).getData( )
-							.getBytes( ) );
 
-					img = createImage( data );
-				}
-				catch ( Exception ilex )
+				final Shape shClip = _g2d.getClip( );
+				Area ar2 = new Area( e2d );
+				if ( shClip != null )
 				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ilex );
+					Area ar1 = new Area( shClip );
+					ar2.intersect( ar1 );
 				}
+				_g2d.setClip( ar2 );
+
+				final Size szImage = _ids.getSize( img );
+
+				int iXRepeat = (int) ( Math.ceil( e2d.width
+						/ szImage.getWidth( ) ) );
+				int iYRepeat = (int) ( Math.ceil( e2d.height
+						/ szImage.getHeight( ) ) );
+				ImageObserver io = (ImageObserver) _ids.getObserver( );
+				for ( int i = 0; i < iXRepeat; i++ )
+				{
+					for ( int j = 0; j < iYRepeat; j++ )
+					{
+						_g2d.drawImage( img, (int) ( e2d.x + i
+								* szImage.getWidth( ) ), (int) ( e2d.y + j
+								* szImage.getHeight( ) ), io );
+					}
+				}
+
+				_g2d.setClip( shClip ); // RESTORE
 			}
-			else
-			{
-				try
-				{
-					final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-					img = (java.awt.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
-				}
-				catch ( ChartException ilex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ilex );
-				}
-				catch ( MalformedURLException muex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							muex );
-				}
-			}
-
-			final Shape shClip = _g2d.getClip( );
-			Area ar2 = new Area( e2d );
-			if ( shClip != null )
-			{
-				Area ar1 = new Area( shClip );
-				ar2.intersect( ar1 );
-			}
-			_g2d.setClip( ar2 );
-
-			final Size szImage = _ids.getSize( img );
-
-			int iXRepeat = (int) ( Math.ceil( e2d.width / szImage.getWidth( ) ) );
-			int iYRepeat = (int) ( Math.ceil( e2d.height / szImage.getHeight( ) ) );
-			ImageObserver io = (ImageObserver) _ids.getObserver( );
-			for ( int i = 0; i < iXRepeat; i++ )
-			{
-				for ( int j = 0; j < iYRepeat; j++ )
-				{
-					_g2d.drawImage( img,
-							(int) ( e2d.x + i * szImage.getWidth( ) ),
-							(int) ( e2d.y + j * szImage.getHeight( ) ),
-							io );
-				}
-			}
-
-			_g2d.setClip( shClip ); // RESTORE
 		}
 	}
 

@@ -70,6 +70,7 @@ import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.attribute.PatternImage;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
@@ -324,6 +325,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass paletteEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass patternImageEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -756,6 +764,20 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EDataType orientationObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType patternBitmapEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType patternBitmapObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -2127,6 +2149,49 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getPatternImage( )
+	{
+		return patternImageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPatternImage_Bitmap( )
+	{
+		return (EAttribute) patternImageEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPatternImage_ForeColor( )
+	{
+		return (EReference) patternImageEClass.getEStructuralFeatures( )
+				.get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPatternImage_BackColor( )
+	{
+		return (EReference) patternImageEClass.getEStructuralFeatures( )
+				.get( 2 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRotation3D( )
 	{
 		return rotation3DEClass;
@@ -3012,6 +3077,26 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getPatternBitmap( )
+	{
+		return patternBitmapEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getPatternBitmapObject( )
+	{
+		return patternBitmapObjectEDataType;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -3358,6 +3443,11 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( paletteEClass, PALETTE__NAME );
 		createEReference( paletteEClass, PALETTE__ENTRIES );
 
+		patternImageEClass = createEClass( PATTERN_IMAGE );
+		createEAttribute( patternImageEClass, PATTERN_IMAGE__BITMAP );
+		createEReference( patternImageEClass, PATTERN_IMAGE__FORE_COLOR );
+		createEReference( patternImageEClass, PATTERN_IMAGE__BACK_COLOR );
+
 		rotation3DEClass = createEClass( ROTATION3_D );
 		createEReference( rotation3DEClass, ROTATION3_D__ANGLES );
 
@@ -3471,6 +3561,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 		markerTypeObjectEDataType = createEDataType( MARKER_TYPE_OBJECT );
 		menuStylesKeyTypeObjectEDataType = createEDataType( MENU_STYLES_KEY_TYPE_OBJECT );
 		orientationObjectEDataType = createEDataType( ORIENTATION_OBJECT );
+		patternBitmapEDataType = createEDataType( PATTERN_BITMAP );
+		patternBitmapObjectEDataType = createEDataType( PATTERN_BITMAP_OBJECT );
 		percentageEDataType = createEDataType( PERCENTAGE );
 		percentageObjectEDataType = createEDataType( PERCENTAGE_OBJECT );
 		positionObjectEDataType = createEDataType( POSITION_OBJECT );
@@ -3542,6 +3634,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		multiURLValuesEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		numberFormatSpecifierEClass.getESuperTypes( )
 				.add( this.getFormatSpecifier( ) );
+		patternImageEClass.getESuperTypes( ).add( this.getImage( ) );
 		scriptValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		seriesValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		stringFormatSpecifierEClass.getESuperTypes( )
@@ -3957,6 +4050,21 @@ public class AttributePackageImpl extends EPackageImpl implements
 				this.getFill( ),
 				null,
 				"entries", null, 1, -1, Palette.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( patternImageEClass,
+				PatternImage.class,
+				"PatternImage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getPatternImage_Bitmap( ),
+				this.getPatternBitmap( ),
+				"bitmap", null, 1, 1, PatternImage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getPatternImage_ForeColor( ),
+				this.getColorDefinition( ),
+				null,
+				"foreColor", null, 1, 1, PatternImage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getPatternImage_BackColor( ),
+				this.getColorDefinition( ),
+				null,
+				"backColor", null, 1, 1, PatternImage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( rotation3DEClass,
 				Rotation3D.class,
@@ -4493,6 +4601,12 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEDataType( orientationObjectEDataType,
 				Orientation.class,
 				"OrientationObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( patternBitmapEDataType,
+				long.class,
+				"PatternBitmap", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( patternBitmapObjectEDataType,
+				Long.class,
+				"PatternBitmapObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( percentageEDataType,
 				double.class,
 				"Percentage", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -5253,6 +5367,30 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( getPalette_Entries( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Entries" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( patternBitmapEDataType, source, new String[]{
+				"name", "PatternBitmap", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "http://www.eclipse.org/emf/2003/XMLType#long" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( patternBitmapObjectEDataType, source, new String[]{
+				"name", "PatternBitmap:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "PatternBitmap" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( patternImageEClass, source, new String[]{
+				"name", "PatternImage", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getPatternImage_Bitmap( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Bitmap" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getPatternImage_ForeColor( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ForeColor" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getPatternImage_BackColor( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "BackColor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( percentageEDataType, source, new String[]{
 				"name", "Percentage", //$NON-NLS-1$ //$NON-NLS-2$

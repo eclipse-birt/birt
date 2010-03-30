@@ -291,6 +291,15 @@ public interface AttributeFactory extends EFactory
 	Palette createPalette( );
 
 	/**
+	 * Returns a new object of class '<em>Pattern Image</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Pattern Image</em>'.
+	 * @generated
+	 */
+	PatternImage createPatternImage( );
+
+	/**
 	 * Returns a new object of class '<em>Rotation3 D</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -414,6 +414,18 @@ public class AttributeSwitch<T>
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case AttributePackage.PATTERN_IMAGE :
+			{
+				PatternImage patternImage = (PatternImage) theEObject;
+				T result = casePatternImage( patternImage );
+				if ( result == null )
+					result = caseImage( patternImage );
+				if ( result == null )
+					result = caseFill( patternImage );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case AttributePackage.ROTATION3_D :
 			{
 				Rotation3D rotation3D = (Rotation3D) theEObject;
@@ -984,6 +996,22 @@ public class AttributeSwitch<T>
 	 * @generated
 	 */
 	public T casePalette( Palette object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Pattern Image</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Pattern Image</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePatternImage( PatternImage object )
 	{
 		return null;
 	}

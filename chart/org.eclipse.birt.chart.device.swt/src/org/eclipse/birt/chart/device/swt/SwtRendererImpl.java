@@ -48,10 +48,13 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.PatternImage;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.InteractiveRenderer;
+import org.eclipse.birt.chart.util.PatternImageUtil;
+import org.eclipse.birt.chart.util.PatternImageUtil.ByteColorModel;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.swt.SWT;
@@ -59,6 +62,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.graphics.Rectangle;
@@ -1137,6 +1142,11 @@ public class SwtRendererImpl extends DeviceAdapter
 						ilex );
 			}
 		}
+		else if ( g instanceof PatternImage )
+		{
+			PatternImage patternImage = (PatternImage) g;
+			img = createImageFromPattern( patternImage );
+		}
 		else
 		{
 			final String sUrl = g.getURL( );
@@ -1158,6 +1168,19 @@ public class SwtRendererImpl extends DeviceAdapter
 
 		pattern.dispose( );
 		img.dispose( );
+	}
+
+	private Image createImageFromPattern( PatternImage patternImage )
+	{
+		Device device = ( (SwtDisplayServer) _ids ).getDevice( );
+
+		PaletteData paletteData = new PaletteData( 0xFF00, 0xFF0000, 0xFF000000 );
+		byte[] data = PatternImageUtil.createImageData( patternImage,
+				ByteColorModel.BGRA );
+
+		ImageData imageData = new ImageData( 8, 8, 32, paletteData, 4, data );
+
+		return new Image( device, imageData );
 	}
 
 	/*

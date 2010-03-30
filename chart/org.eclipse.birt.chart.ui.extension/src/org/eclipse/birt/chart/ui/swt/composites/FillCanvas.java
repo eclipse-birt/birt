@@ -31,8 +31,11 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
+import org.eclipse.birt.chart.model.attribute.PatternImage;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.util.PatternImageUtil;
+import org.eclipse.birt.chart.util.PatternImageUtil.ByteColorModel;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
@@ -41,7 +44,11 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
+import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -187,11 +194,31 @@ public class FillCanvas extends Canvas
 					}
 					else if ( fCurrent instanceof Image )
 					{
-						gc.fillRectangle( 2,
-								2,
-								getSize( ).x - 4,
-								this.getSize( ).y - 4 );
-						gc.drawImage( getSWTImage( (Image) fCurrent ), 2, 2 );
+						org.eclipse.swt.graphics.Image img = getSWTImage( (Image) fCurrent );
+						if ( fCurrent instanceof PatternImage )
+						{
+							Pattern ptn = new Pattern( Display.getCurrent( ),
+									img );
+							gc.setBackgroundPattern( ptn );
+							gc.fillRectangle( 2,
+									2,
+									getSize( ).x - 4,
+									this.getSize( ).y - 4 );
+							ptn.dispose( );
+						}
+						else
+						{
+							gc.fillRectangle( 2,
+									2,
+									getSize( ).x - 4,
+									this.getSize( ).y - 4 );
+							gc.drawImage( img, 2, 2 );
+						}
+
+						if ( img != null )
+						{
+							img.dispose( );
+						}
 					}
 					else if ( fCurrent instanceof Gradient )
 					{
@@ -309,6 +336,25 @@ public class FillCanvas extends Canvas
 							10,
 							10 );
 				}
+			}
+			else if ( modelImage instanceof PatternImage )
+			{
+				PatternImage patternImage = (PatternImage) modelImage;
+				Device device = Display.getCurrent( );
+
+				PaletteData paletteData = new PaletteData( 0xFF00,
+						0xFF0000,
+						0xFF000000 );
+				byte[] data = PatternImageUtil.createImageData( patternImage,
+						ByteColorModel.BGRA );
+
+				ImageData imageData = new ImageData( 8,
+						8,
+						32,
+						paletteData,
+						4,
+						data );
+				img = new org.eclipse.swt.graphics.Image( device, imageData );
 			}
 			else
 			{

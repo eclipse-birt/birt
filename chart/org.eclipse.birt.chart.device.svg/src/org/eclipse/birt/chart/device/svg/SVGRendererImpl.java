@@ -52,6 +52,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Trigger;
@@ -772,5 +773,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 	protected String convertFont( String fontFamily )
 	{
 		return FontUtil.getFontFamily( fontFamily );
+	}
+
+	@Override
+	protected Image createImageFromModel( Fill imageModel )
+			throws ChartException
+	{
+		return new SVGImage( super.createImageFromModel( imageModel ), null );
 	}
 }
