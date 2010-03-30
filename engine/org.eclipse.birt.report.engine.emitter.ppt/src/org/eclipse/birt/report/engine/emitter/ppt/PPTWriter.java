@@ -345,11 +345,11 @@ public class PPTWriter
 				tooltip = codeLink( tooltip );
 			}
 			println( "<p:onmouseclick  hyperlinktype=3D\"url\" href=3D\""
-					+ link
+					+ hyperlink
 					+ "\" tips=3D\""
 					+ tooltip
 					+ "\"/><a href=3D\""
-					+ link
+					+ hyperlink
 					+ "/\" target=3D\"_parent\" onclick=3D\"window.event.cancelBubble=3Dtrue;\">" );
 		}
 		print( getEscapedStr( text ) );
