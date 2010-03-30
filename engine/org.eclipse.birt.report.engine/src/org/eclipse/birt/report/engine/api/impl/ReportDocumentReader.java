@@ -959,7 +959,7 @@ public class ReportDocumentReader
 
 	protected void loadVariableLazily( )
 	{
-		if ( globalVariables != null )
+		if ( globalVariables == null )
 		{
 			ClassLoader loader = getClassLoader( );
 			ReportDocumentCoreInfo documentInfo = loadParametersAndVariables( loader );
