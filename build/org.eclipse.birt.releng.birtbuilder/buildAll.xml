@@ -463,6 +463,8 @@
 		   <fileset dir="${repo}">
 		       <include name="features/**"/>
 		       <include name="plugins/**"/>
+		   	   <include name="artifacts.jar"/>
+		   	   <include name="content.jar"/>
 		   </fileset>
 		</zip>
 		
