@@ -48,12 +48,12 @@ Method.onPageBreak=페이지 나누기
 
 ###########################################################
 # Crosstab exception
-Error.CrosstabException.DUPLICATE_DIMENSION=Cube dimension element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DUPLICATE_MEASURE=Cube measure element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DUPLICATE_LEVEL=Cube level element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DIMENSION_NOT_FOUND=No dimension view ''{0}'' found in Crosstab.
-Error.CrosstabException.MEASURE_NOT_FOUND=No measure view ''{0}'' found in Crosstab.
-Error.CrosstabException.LEVEL_NOT_FOUND=No level view ''{0}'' found in Crosstab.
+Error.CrosstabException.DUPLICATE_DIMENSION=큐브 차원 요소''{0}''을(를) 중복된 이름의 크로스 탭에 적용할 수 없습니다.
+Error.CrosstabException.DUPLICATE_MEASURE=큐브 측정 요소 ''{0}''을(를) 중복된 이름의 크로스 탭에 적용할 수 없습니다.
+Error.CrosstabException.DUPLICATE_LEVEL=큐브 수준 요소 ''{0}''을(를) 중복된 이름의 크로스 탭에 적용할 수 없습니다.
+Error.CrosstabException.DIMENSION_NOT_FOUND=크로스 탭에서 차원 보기 ''{0}''을(를) 찾을 수 없습니다.
+Error.CrosstabException.MEASURE_NOT_FOUND=크로스 탭에서 측정 보기 ''{0}''을(를) 찾을 수 없습니다.
+Error.CrosstabException.LEVEL_NOT_FOUND=크로스 탭에서 수준 보기 ''{0}''을(를) 찾을 수 없습니다.
 
 ###########################################################
 # Crosstab executor runtime error message

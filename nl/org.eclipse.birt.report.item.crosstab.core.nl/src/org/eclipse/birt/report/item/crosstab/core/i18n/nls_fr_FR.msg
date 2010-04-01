@@ -48,12 +48,12 @@ Method.onPageBreak=Au saut de page
 
 ###########################################################
 # Crosstab exception
-Error.CrosstabException.DUPLICATE_DIMENSION=Cube dimension element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DUPLICATE_MEASURE=Cube measure element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DUPLICATE_LEVEL=Cube level element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DIMENSION_NOT_FOUND=No dimension view ''{0}'' found in Crosstab.
-Error.CrosstabException.MEASURE_NOT_FOUND=No measure view ''{0}'' found in Crosstab.
-Error.CrosstabException.LEVEL_NOT_FOUND=No level view ''{0}'' found in Crosstab.
+Error.CrosstabException.DUPLICATE_DIMENSION=L'élément de dimension du cube ''{0}'' ne peut pas être appliqué à un tableau croisé qui possède un doublon.
+Error.CrosstabException.DUPLICATE_MEASURE=L'élément de mesure du cube ''{0}'' ne peut pas être appliqué à un tableau croisé qui possède un doublon.
+Error.CrosstabException.DUPLICATE_LEVEL=L'élément de niveau du cube ''{0}'' ne peut pas être appliqué à un tableau croisé qui possède un doublon.
+Error.CrosstabException.DIMENSION_NOT_FOUND=Impossible de trouver un affichage de dimension ''{0}'' dans le tableau croisé.
+Error.CrosstabException.MEASURE_NOT_FOUND=Impossible de trouver un affichage de mesure ''{0}'' dans le tableau croisé.
+Error.CrosstabException.LEVEL_NOT_FOUND=Impossible de trouver un affichage de niveau ''{0}'' dans le tableau croisé.
 
 ###########################################################
 # Crosstab executor runtime error message
