@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.EllipsisHelper;
+import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IChartComputation;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -36,6 +37,7 @@ import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.PlotComputation;
+import org.eclipse.birt.chart.computation.withaxes.OneAxis;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.Coordinates;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
@@ -48,6 +50,8 @@ import org.eclipse.birt.chart.event.BlockGenerationEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
+import org.eclipse.birt.chart.event.Oval3DRenderEvent;
+import org.eclipse.birt.chart.event.OvalRenderEvent;
 import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -80,6 +84,8 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.Marker;
+import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -768,6 +774,200 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 		}
 
+	}
+	
+	/**
+	 * Returns the decorator renderer associated with current series, default is
+	 * none.
+	 */
+	public IAxesDecorator getAxesDecorator( OneAxis ax )
+	{
+		return null;
+	}
+	
+	/**
+	 * Returns the panning offset for 3D engine.
+	 */
+	protected Location getPanningOffset( ) throws ChartException
+	{
+		return null;
+	}
+	
+	/**
+	 * Returns if current chart is transposed.
+	 */
+	public boolean isTransposed( )
+	{
+		return false;
+	}
+	
+	/**
+	 * Returns the 3D engine for this render.
+	 */
+	protected Engine3D get3DEngine( )
+	{
+		return null;
+	}
+
+	/**
+	 * Convenient routine to render a marker
+	 */
+	protected final void renderMarker( Object oParent, IPrimitiveRenderer ipr,
+			Marker m, Location lo, LineAttributes lia, Fill fPaletteEntry,
+			DataPointHints dph, Integer markerSize, boolean bDeferred,
+			boolean bConsiderTranspostion ) throws ChartException
+	{
+		// If data point is invalid, simply return.
+		if ( dph != null
+				&& dph.getIndex( ) >= 0
+				&& ( isNaN( dph.getOrthogonalValue( ) ) || dph.isOutside( ) ) )
+		{
+			return;
+		}
+		
+		if ( m != null )
+		{
+			Fill markerFill = m.getFill( );
+			m = goFactory.copyMarkerNoFill( m );
+
+			// Convert Fill for negative value
+			if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
+			{
+				fPaletteEntry = FillUtil.convertFill( fPaletteEntry,
+						( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
+						null );
+			}
+
+			// Set fill before call Script
+			// Only marker type isn't icon and marker fill don't be set, use
+			// current fill.
+			if ( m.getType( ).getValue( ) != MarkerType.ICON
+					&& fPaletteEntry != null )
+			{
+				m.setFill( fPaletteEntry );
+			}
+			else
+			{
+				// use the original marker's fill
+				m.setFill( goFactory.copyOf( markerFill ) );
+			}
+		}
+		
+		final AbstractScriptHandler<?> sh = getRunTimeContext( ).getScriptHandler( );
+		ScriptHandler.callFunction( sh,
+				ScriptHandler.BEFORE_DRAW_MARKER,
+				m,
+				dph,
+				getRunTimeContext( ).getScriptContext( ));
+		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_MARKER,
+				m );
+
+		Series se = getSeries( );
+
+		Object oSource = ( oParent instanceof Legend )
+				? ( StructureSource.createLegend( (Legend) oParent ) )
+				: ( WrappedStructureSource.createSeriesDataPoint( se, dph ) );
+		boolean bTransposed = bConsiderTranspostion
+				&& isTransposed( );
+		PrimitiveRenderEvent preCopy = null;
+
+		if ( m == null || !m.isVisible( ) )
+		{
+			int iSize = 5;
+			if ( m != null )
+			{
+				iSize = m.getSize( );
+			}
+
+			// prepare hot spot only
+			if ( lo instanceof Location3D )
+			{
+				final Oval3DRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( oSource,
+						Oval3DRenderEvent.class );
+				Location3D lo3d = (Location3D) lo;
+				ore.setLocation3D( new Location3D[]{
+						goFactory.createLocation3D( lo3d.getX( ) - iSize,
+								lo3d.getY( ) + iSize,
+								lo3d.getZ( ) ),
+						goFactory.createLocation3D( lo3d.getX( ) - iSize,
+								lo3d.getY( ) - iSize,
+								lo3d.getZ( ) ),
+						goFactory.createLocation3D( lo3d.getX( ) + iSize,
+								lo3d.getY( ) - iSize,
+								lo3d.getZ( ) ),
+						goFactory.createLocation3D( lo3d.getX( ) + iSize,
+								lo3d.getY( ) + iSize,
+								lo3d.getZ( ) )
+				} );
+				preCopy = ore.copy( );
+			}
+			else
+			{
+				final OvalRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( oSource,
+						OvalRenderEvent.class );
+				ore.setBounds( goFactory.createBounds( lo.getX( ) - iSize,
+						lo.getY( )
+						- iSize, iSize * 2, iSize * 2 ) );
+				preCopy = ore.copy( );
+			}
+		}
+		else if ( m.isVisible( ) )
+		{
+			final MarkerRenderer mr = new MarkerRenderer( this.getDevice( ),
+					oSource,
+					lo,
+					lia,
+					m.getFill( ),// Fill maybe changed in Script
+					m,
+					markerSize,
+					getDeferredCache( ),
+					bDeferred,
+					bTransposed );
+			mr.draw( ipr );
+			preCopy = mr.getRenderArea( );
+		}
+
+		if ( this.isInteractivityEnabled( ) && dph != null )
+		{
+			final Location panningOffset = this.getPanningOffset( );
+			final Engine3D engine3d = get3DEngine( );
+			if ( !( lo instanceof Location3D )
+					|| panningOffset != null
+					&& engine3d != null
+					&& engine3d.processEvent( preCopy,
+							panningOffset.getX( ),
+							panningOffset.getY( ) ) != null )
+			{
+				final EList<Trigger> elTriggers = se.getTriggers( );
+				if ( !elTriggers.isEmpty( ) )
+				{
+					final StructureSource iSource = ( oParent instanceof Legend )
+							? ( StructureSource.createSeries( se ) )
+							: ( WrappedStructureSource.createSeriesDataPoint( se,
+									dph ) );
+					final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( iSource,
+							InteractionEvent.class );
+					iev.setCursor( se.getCursor( ) );
+					Trigger tg;
+					for ( int t = 0; t < elTriggers.size( ); t++ )
+					{
+						tg = goFactory.copyOf( elTriggers.get( t ) );
+						this.processTrigger( tg, iSource );
+						iev.addTrigger( tg );
+					}
+					iev.setHotSpot( preCopy );
+					iev.setZOrder( (short) m.getSize( ) );
+					ipr.enableInteraction( iev );
+				}
+			}
+		}
+		ScriptHandler.callFunction( sh,
+				ScriptHandler.AFTER_DRAW_MARKER,
+				m,
+				dph,
+				getRunTimeContext( ).getScriptContext( ));
+		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_MARKER,
+				m );
 	}
 
 	/**

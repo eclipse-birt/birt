@@ -109,9 +109,6 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		this.context = context;
 		this.chart = (ChartWithoutAxes) context.getModel( );
 
-		// Need to remove if chart interactivity is required
-		this.chart.getInteractivity( ).setEnable( false );
-
 		init( );
 		placeComponents( );
 
@@ -412,6 +409,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		if ( btnPalette != null )
 		{
 			btnPalette.setEnabled( isEnabled );
+			btnConnectEndPoints.setEnabled( isEnabled );
 		}
 
 	}

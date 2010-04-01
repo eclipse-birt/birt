@@ -49,8 +49,6 @@ import org.eclipse.birt.chart.event.I3DRenderEvent;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
-import org.eclipse.birt.chart.event.Oval3DRenderEvent;
-import org.eclipse.birt.chart.event.OvalRenderEvent;
 import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -68,14 +66,11 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.Marker;
-import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -164,7 +159,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
 		final Chart cm = getModel( );
 		final IDeviceRenderer idr = getDevice( );
-		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler<?> sh = getRunTimeContext( ).getScriptHandler( );
 
 		if ( bFirstInSequence ) // SEQUENCE OF MULTIPLE SERIES RENDERERS
 		// (POSSIBLY PARTICIPATING IN A COMBINATION CHART)
@@ -919,7 +914,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		final Bounds bo = goFactory.createBounds( 0, 0, 0, 0 );
 		final IDeviceRenderer idr = getDevice( );
-		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler<?> sh = getRunTimeContext( ).getScriptHandler( );
 		final boolean bTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
 		final PlotWithAxes pwa = (PlotWithAxes) getComputations( );
 		final StringBuffer sb = new StringBuffer( );
@@ -2387,165 +2382,6 @@ public abstract class AxesRenderer extends BaseRenderer
 	}
 
 	/**
-	 * Convenient routine to render a marker
-	 */
-	protected final void renderMarker( Object oParent, IPrimitiveRenderer ipr,
-			Marker m, Location lo, LineAttributes lia, Fill fPaletteEntry,
-			DataPointHints dph, Integer markerSize, boolean bDeferred,
-			boolean bConsiderTranspostion ) throws ChartException
-	{
-		// If data point is invalid, simply return.
-		if ( dph != null
-				&& dph.getIndex( ) >= 0
-				&& ( isNaN( dph.getOrthogonalValue( ) ) || dph.isOutside( ) ) )
-		{
-			return;
-		}
-		
-		if ( m != null )
-		{
-			Fill markerFill = m.getFill( );
-			m = goFactory.copyMarkerNoFill( m );
-
-			// Convert Fill for negative value
-			if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
-			{
-				fPaletteEntry = ChartUtil.convertFill( fPaletteEntry,
-						( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
-						null );
-			}
-
-			// Set fill before call Script
-			// Only marker type isn't icon and marker fill don't be set, use
-			// current fill.
-			if ( m.getType( ).getValue( ) != MarkerType.ICON
-					&& fPaletteEntry != null )
-			{
-				m.setFill( fPaletteEntry );
-			}
-			else
-			{
-				// use the original marker's fill
-				m.setFill( goFactory.copyOf( markerFill ) );
-			}
-		}
-		
-		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
-		ScriptHandler.callFunction( sh,
-				ScriptHandler.BEFORE_DRAW_MARKER,
-				m,
-				dph,
-				getRunTimeContext( ).getScriptContext( ));
-		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_MARKER,
-				m );
-
-		Series se = getSeries( );
-
-		Object oSource = ( oParent instanceof Legend )
-				? ( StructureSource.createLegend( (Legend) oParent ) )
-				: ( WrappedStructureSource.createSeriesDataPoint( se, dph ) );
-		boolean bTransposed = bConsiderTranspostion
-				&& ( (ChartWithAxes) getModel( ) ).isTransposed( );
-		final Location panningOffset = this.getPanningOffset( );
-		PrimitiveRenderEvent preCopy = null;
-
-		if ( m == null || !m.isVisible( ) )
-		{
-			int iSize = 5;
-			if ( m != null )
-			{
-				iSize = m.getSize( );
-			}
-
-			// prepare hot spot only
-			if ( lo instanceof Location3D )
-			{
-				final Oval3DRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( oSource,
-						Oval3DRenderEvent.class );
-				Location3D lo3d = (Location3D) lo;
-				ore.setLocation3D( new Location3D[]{
-						goFactory.createLocation3D( lo3d.getX( ) - iSize,
-								lo3d.getY( ) + iSize,
-								lo3d.getZ( ) ),
-						goFactory.createLocation3D( lo3d.getX( ) - iSize,
-								lo3d.getY( ) - iSize,
-								lo3d.getZ( ) ),
-						goFactory.createLocation3D( lo3d.getX( ) + iSize,
-								lo3d.getY( ) - iSize,
-								lo3d.getZ( ) ),
-						goFactory.createLocation3D( lo3d.getX( ) + iSize,
-								lo3d.getY( ) + iSize,
-								lo3d.getZ( ) )
-				} );
-				preCopy = ore.copy( );
-			}
-			else
-			{
-				final OvalRenderEvent ore = ( (EventObjectCache) ipr ).getEventObject( oSource,
-						OvalRenderEvent.class );
-				ore.setBounds( goFactory.createBounds( lo.getX( ) - iSize,
-						lo.getY( )
-						- iSize, iSize * 2, iSize * 2 ) );
-				preCopy = ore.copy( );
-			}
-		}
-		else if ( m.isVisible( ) )
-		{
-			final MarkerRenderer mr = new MarkerRenderer( this.getDevice( ),
-					oSource,
-					lo,
-					lia,
-					m.getFill( ),// Fill maybe changed in Script
-					m,
-					markerSize,
-					this.getDeferredCache( ),
-					bDeferred,
-					bTransposed );
-			mr.draw( ipr );
-			preCopy = mr.getRenderArea( );
-		}
-
-		if ( this.isInteractivityEnabled( ) && dph != null )
-		{
-			if ( !( lo instanceof Location3D )
-					||  this.get3DEngine( )
-							.processEvent( preCopy,
-									panningOffset.getX( ),
-							panningOffset.getY( ) ) != null )
-			{
-				final EList<Trigger> elTriggers = se.getTriggers( );
-				if ( !elTriggers.isEmpty( ) )
-				{
-					final StructureSource iSource = ( oParent instanceof Legend )
-							? ( StructureSource.createSeries( se ) )
-							: ( WrappedStructureSource.createSeriesDataPoint( se,
-									dph ) );
-					final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( iSource,
-							InteractionEvent.class );
-					iev.setCursor( se.getCursor( ) );
-					Trigger tg;
-					for ( int t = 0; t < elTriggers.size( ); t++ )
-					{
-						tg = goFactory.copyOf( elTriggers.get( t ) );
-						this.processTrigger( tg, iSource );
-						iev.addTrigger( tg );
-					}
-					iev.setHotSpot( preCopy );
-					iev.setZOrder( (short) m.getSize( ) );
-					ipr.enableInteraction( iev );
-				}
-			}
-		}
-		ScriptHandler.callFunction( sh,
-				ScriptHandler.AFTER_DRAW_MARKER,
-				m,
-				dph,
-				getRunTimeContext( ).getScriptContext( ));
-		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_MARKER,
-				m );
-	}
-
-	/**
 	 * Renders all marker lines (and labels at requested positions) associated
 	 * with every axis in the plot Note that marker lines are drawn immediately
 	 * (not rendered as deferred) at the appropriate Z-order
@@ -2568,7 +2404,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		int iOrientation;
 
 		final IDeviceRenderer idr = getDevice( );
-		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler<?> sh = getRunTimeContext( ).getScriptHandler( );
 		final Location loStart = goFactory.createLocation( 0, 0 );
 		final Location loEnd = goFactory.createLocation( 0, 0 );
 
@@ -3018,7 +2854,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	/**
 	 * Returns if current chart is transposed.
 	 */
-	public final boolean isTransposed( )
+	public boolean isTransposed( )
 	{
 		return ( (ChartWithAxes) getModel( ) ).isTransposed( );
 	}
