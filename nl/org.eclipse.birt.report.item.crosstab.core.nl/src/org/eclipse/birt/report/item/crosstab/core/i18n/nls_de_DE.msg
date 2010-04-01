@@ -48,12 +48,12 @@ Method.onPageBreak=Bei Seitenumbruch
 
 ###########################################################
 # Crosstab exception
-Error.CrosstabException.DUPLICATE_DIMENSION=Cube dimension element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DUPLICATE_MEASURE=Cube measure element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DUPLICATE_LEVEL=Cube level element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DIMENSION_NOT_FOUND=No dimension view ''{0}'' found in Crosstab.
-Error.CrosstabException.MEASURE_NOT_FOUND=No measure view ''{0}'' found in Crosstab.
-Error.CrosstabException.LEVEL_NOT_FOUND=No level view ''{0}'' found in Crosstab.
+Error.CrosstabException.DUPLICATE_DIMENSION=Quaderdimensionselement '{0}' kann nicht auf Kreuztabelle mit demselben Namen angewendet werden.
+Error.CrosstabException.DUPLICATE_MEASURE=Quadereinheitselement '{0}' kann nicht auf Kreuztabelle mit demselben Namen angewendet werden.
+Error.CrosstabException.DUPLICATE_LEVEL=Quaderebenenelement '{0}' kann nicht auf Kreuztabelle mit demselben Namen angewendet werden.
+Error.CrosstabException.DIMENSION_NOT_FOUND=Keine Dimensionsansicht '{0}' in Kreuztabelle gefunden.
+Error.CrosstabException.MEASURE_NOT_FOUND=Keine Einheitenansicht '{0}' in Kreuztabelle gefunden.
+Error.CrosstabException.LEVEL_NOT_FOUND=Keine Ebenenansicht '{0}' in Kreuztabelle gefunden.
 
 ###########################################################
 # Crosstab executor runtime error message

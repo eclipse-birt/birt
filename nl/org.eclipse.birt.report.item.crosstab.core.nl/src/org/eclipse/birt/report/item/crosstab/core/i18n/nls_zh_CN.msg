@@ -48,12 +48,12 @@ Method.onPageBreak=出现分页符时
 
 ###########################################################
 # Crosstab exception
-Error.CrosstabException.DUPLICATE_DIMENSION=Cube dimension element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DUPLICATE_MEASURE=Cube measure element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DUPLICATE_LEVEL=Cube level element ''{0}'' cannot be applied to Crosstab with duplicate name.
-Error.CrosstabException.DIMENSION_NOT_FOUND=No dimension view ''{0}'' found in Crosstab.
-Error.CrosstabException.MEASURE_NOT_FOUND=No measure view ''{0}'' found in Crosstab.
-Error.CrosstabException.LEVEL_NOT_FOUND=No level view ''{0}'' found in Crosstab.
+Error.CrosstabException.DUPLICATE_DIMENSION=多维数据集维元素“{0}”无法应用到名称重复的交叉表。
+Error.CrosstabException.DUPLICATE_MEASURE=多维数据集度量元素“{0}”无法应用到名称重复的交叉表。
+Error.CrosstabException.DUPLICATE_LEVEL=多维数据集级别元素“{0}”无法应用到名称重复的交叉表。
+Error.CrosstabException.DIMENSION_NOT_FOUND=未在交叉表中找到维视图“{0}”。
+Error.CrosstabException.MEASURE_NOT_FOUND=未在交叉表中找到度量视图“{0}”。
+Error.CrosstabException.LEVEL_NOT_FOUND=未在交叉表中找到级别视图“{0}”。
 
 ###########################################################
 # Crosstab executor runtime error message
