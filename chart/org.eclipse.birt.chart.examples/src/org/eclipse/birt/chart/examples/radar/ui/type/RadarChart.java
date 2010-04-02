@@ -72,8 +72,6 @@ public class RadarChart extends DefaultChartTypeImpl
 
 	public static final String BULLSEYE_SUBTYPE_LITERAL = "Bullseye Radar Chart"; //$NON-NLS-1$
 
-	private static final String CHART_TITLE = Messages.getString( "RadarChart.Txt.DefaultRadarChartTitle" ); //$NON-NLS-1$
-
 	private static final String sStandardDescription = Messages.getString( "RadarChart.Txt.Description" ); //$NON-NLS-1$
 
 	private static final String sSpiderDescription = Messages.getString( "RadarChart.Txt.SpiderDescription" ); //$NON-NLS-1$
@@ -86,7 +84,7 @@ public class RadarChart extends DefaultChartTypeImpl
 
 	public RadarChart( )
 	{
-
+		chartTitle = Messages.getString( "RadarChart.Txt.DefaultRadarChartTitle" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -200,7 +198,10 @@ public class RadarChart extends DefaultChartTypeImpl
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+		newChart.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( getDefaultTitle( ) );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.setZOrder( 1 );
@@ -328,7 +329,7 @@ public class RadarChart extends DefaultChartTypeImpl
 			currentChart.getTitle( )
 					.getLabel( )
 					.getCaption( )
-					.setValue( CHART_TITLE );
+					.setValue( getDefaultTitle( ) );
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
@@ -401,7 +402,7 @@ public class RadarChart extends DefaultChartTypeImpl
 				currentChart.getTitle( )
 						.getLabel( )
 						.getCaption( )
-						.setValue( CHART_TITLE );
+						.setValue( getDefaultTitle( ) );
 			}
 		}
 		else

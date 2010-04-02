@@ -261,7 +261,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		}
 
 		Group grpMarker = new Group( cmp, SWT.NONE );
-		grpMarker.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.Markers" ) ); //$NON-NLS-1$
+		grpMarker.setText( Messages.getString( "RadarSeriesMarkerSheet.GroupLabel.Markers" ) ); //$NON-NLS-1$
 		grpMarker.setLayout( new GridLayout( 2, false ) );
 
 		// Layout for marker
