@@ -13,12 +13,17 @@ package org.eclipse.birt.chart.ui.swt;
 
 import java.util.Collection;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
@@ -29,6 +34,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -38,6 +44,7 @@ public class DefaultChartTypeImpl implements IChartType
 {
 
 	protected String chartTitle = ""; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -71,8 +78,9 @@ public class DefaultChartTypeImpl implements IChartType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String,
-	 *      org.eclipse.birt.chart.model.attribute.Orientation)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
+	 * java.lang.String, org.eclipse.birt.chart.model.attribute.Orientation)
 	 */
 	public Collection<IChartSubType> getChartSubtypes( String Dimension,
 			Orientation orientation )
@@ -83,8 +91,9 @@ public class DefaultChartTypeImpl implements IChartType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse.birt.chart.model.Chart,
-	 *      java.util.Hashtable)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse
+	 * .birt.chart.model.Chart, java.util.Hashtable)
 	 */
 	public boolean canAdapt( Chart cModel, Hashtable htModelHints )
 	{
@@ -94,9 +103,10 @@ public class DefaultChartTypeImpl implements IChartType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.String,
-	 *      org.eclipse.birt.chart.model.attribute.Orientation,
-	 *      java.lang.String, org.eclipse.birt.chart.model.Chart)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
+	 * .String, org.eclipse.birt.chart.model.attribute.Orientation,
+	 * java.lang.String, org.eclipse.birt.chart.model.Chart)
 	 */
 	public Chart getModel( String sType, Orientation Orientation,
 			String Dimension, Chart currentChart )
@@ -107,7 +117,9 @@ public class DefaultChartTypeImpl implements IChartType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions
+	 * ()
 	 */
 	public String[] getSupportedDimensions( )
 	{
@@ -119,7 +131,8 @@ public class DefaultChartTypeImpl implements IChartType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
 	public String getDefaultDimension( )
 	{
@@ -129,7 +142,9 @@ public class DefaultChartTypeImpl implements IChartType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
+	 * ()
 	 */
 	public boolean supportsTransposition( )
 	{
@@ -139,7 +154,9 @@ public class DefaultChartTypeImpl implements IChartType
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
+	 * (java.lang.String)
 	 */
 	public boolean supportsTransposition( String dimension )
 	{
@@ -245,6 +262,99 @@ public class DefaultChartTypeImpl implements IChartType
 		return tmpseries;
 	}
 
+	/**
+	 * Converts sample data for chart types.
+	 * 
+	 * @param currentSampleData
+	 * @param xAxisType
+	 * @param yAxisType
+	 * @return
+	 */
+	protected SampleData getConvertedSampleData( SampleData currentSampleData,
+			AxisType xAxisType, AxisType yAxisType )
+	{
+		// Convert base sample data
+		EList<BaseSampleData> bsdList = currentSampleData.getBaseSampleData( );
+		Vector<BaseSampleData> vNewBaseSampleData = getConvertedBaseSampleDataRepresentation( bsdList,
+				xAxisType );
+		currentSampleData.getBaseSampleData( ).clear( );
+		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
+
+		// Convert orthogonal sample data
+		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData( );
+		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<OrthogonalSampleData>( );
+		for ( int i = 0; i < osdList.size( ); i++ )
+		{
+			OrthogonalSampleData osd = osdList.get( i );
+			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( yAxisType,
+					osd.getDataSetRepresentation( ),
+					i ) );
+			vNewOrthogonalSampleData.add( osd );
+		}
+		currentSampleData.getOrthogonalSampleData( ).clear( );
+		currentSampleData.getOrthogonalSampleData( )
+				.addAll( vNewOrthogonalSampleData );
+		return currentSampleData;
+	}
+
+	/**
+	 * Converts sample data for chart types.
+	 * 
+	 * @param currentSampleData
+	 * @param xAxisType
+	 * @param yAxisTypes
+	 * @return
+	 */
+	protected SampleData getConvertedSampleData( SampleData currentSampleData,
+			AxisType xAxisType, List<AxisType> yAxisTypes )
+	{
+		// Convert base sample data
+		EList<BaseSampleData> bsdList = currentSampleData.getBaseSampleData( );
+		Vector<BaseSampleData> vNewBaseSampleData = getConvertedBaseSampleDataRepresentation( bsdList,
+				xAxisType );
+		currentSampleData.getBaseSampleData( ).clear( );
+		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
+
+		// Convert orthogonal sample data
+		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData( );
+		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = getConvertedOrthogonalSampleDataRepresentation( osdList,
+				yAxisTypes );
+		currentSampleData.getOrthogonalSampleData( ).clear( );
+		currentSampleData.getOrthogonalSampleData( )
+				.addAll( vNewOrthogonalSampleData );
+		return currentSampleData;
+	}
+
+	private Vector<BaseSampleData> getConvertedBaseSampleDataRepresentation(
+			EList<BaseSampleData> bsdList, AxisType xAxisType )
+	{
+		Vector<BaseSampleData> vNewBaseSampleData = new Vector<BaseSampleData>( );
+		for ( int i = 0; i < bsdList.size( ); i++ )
+		{
+			BaseSampleData bsd = bsdList.get( i );
+			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( xAxisType,
+					bsd.getDataSetRepresentation( ),
+					i ) );
+			vNewBaseSampleData.add( bsd );
+		}
+		return vNewBaseSampleData;
+	}
+
+	private Vector<OrthogonalSampleData> getConvertedOrthogonalSampleDataRepresentation(
+			EList<OrthogonalSampleData> osdList, List<AxisType> axisTypes )
+	{
+		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<OrthogonalSampleData>( );
+		for ( int i = 0; i < osdList.size( ); i++ )
+		{
+			OrthogonalSampleData osd = osdList.get( i );
+			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisTypes.get( i ),
+					osd.getDataSetRepresentation( ),
+					i ) );
+			vNewOrthogonalSampleData.add( osd );
+		}
+		return vNewOrthogonalSampleData;
+	}
+
 	public boolean canCombine( )
 	{
 		return false;
@@ -253,5 +363,10 @@ public class DefaultChartTypeImpl implements IChartType
 	public String getDefaultTitle( )
 	{
 		return chartTitle;
+	}
+
+	public boolean canExpand( )
+	{
+		return false;
 	}
 }

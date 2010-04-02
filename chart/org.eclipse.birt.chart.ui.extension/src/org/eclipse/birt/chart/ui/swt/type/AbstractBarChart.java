@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -510,7 +510,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					title.setValue( getDefaultTitle( ) );
 				}
 
-				ArrayList<AxisType> axisTypes = new ArrayList<AxisType>( );
+				List<AxisType> axisTypes = new ArrayList<AxisType>( );
 				EList<Axis> axes = ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 )
 						.getAssociatedAxes( );
@@ -575,11 +575,12 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 							axes.get( i ).setPercent( false );
 						}
 					}
-					EList seriesdefinitions = ( axes.get( i ) ).getSeriesDefinitions( );
-					Series firstSeries = ( (SeriesDefinition) seriesdefinitions.get( 0 ) ).getDesignTimeSeries( );
+					EList<SeriesDefinition> seriesdefinitions = ( axes.get( i ) ).getSeriesDefinitions( );
+					Series firstSeries = seriesdefinitions.get( 0 )
+							.getDesignTimeSeries( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
-						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+						Series series = seriesdefinitions.get( j ).getDesignTimeSeries( );
 						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
 							if ( j != 0 )
@@ -598,9 +599,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 							{
 								series.setStacked( true );
 							}
-							( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-									.clear( );
-							( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+							seriesdefinitions.get( j ).getSeries( ).clear( );
+							seriesdefinitions.get( j )
+									.getSeries( )
 									.add( series );
 						}
 						else
@@ -832,56 +833,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		return barseries;
 	}
 
-	private SampleData getConvertedSampleData( SampleData currentSampleData,
-			AxisType xAxisType, ArrayList axisTypes )
-	{
-		// Convert base sample data
-		EList bsdList = currentSampleData.getBaseSampleData( );
-		Vector vNewBaseSampleData = getConvertedBaseSampleDataRepresentation( bsdList,
-				xAxisType );
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
-
-		// Convert orthogonal sample data
-		EList osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector vNewOrthogonalSampleData = getConvertedOrthogonalSampleDataRepresentation( osdList,
-				axisTypes );
-		currentSampleData.getOrthogonalSampleData( ).clear( );
-		currentSampleData.getOrthogonalSampleData( )
-				.addAll( vNewOrthogonalSampleData );
-		return currentSampleData;
-	}
-
-	private Vector getConvertedBaseSampleDataRepresentation( EList bsdList,
-			AxisType xAxisType )
-	{
-		Vector vNewBaseSampleData = new Vector( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
-		{
-			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( xAxisType,
-					bsd.getDataSetRepresentation( ),
-					i ) );
-			vNewBaseSampleData.add( bsd );
-		}
-		return vNewBaseSampleData;
-	}
-
-	private Vector getConvertedOrthogonalSampleDataRepresentation(
-			EList osdList, ArrayList axisTypes )
-	{
-		Vector vNewOrthogonalSampleData = new Vector( );
-		for ( int i = 0; i < osdList.size( ); i++ )
-		{
-			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( (AxisType) axisTypes.get( i ),
-					osd.getDataSetRepresentation( ),
-					i ) );
-			vNewOrthogonalSampleData.add( osd );
-		}
-		return vNewOrthogonalSampleData;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -942,19 +893,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		return supportsTransposition( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse
-	 * .birt.chart.model.Chart, java.util.Hashtable)
-	 */
-	@Override
-	public boolean canAdapt( Chart cModel, Hashtable htModelHints )
-	{
-		return false;
-	}
-
 	@Override
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
@@ -1012,6 +950,12 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 	@Override
 	public boolean canCombine( )
+	{
+		return true;
+	}
+	
+	@Override
+	public boolean canExpand( )
 	{
 		return true;
 	}

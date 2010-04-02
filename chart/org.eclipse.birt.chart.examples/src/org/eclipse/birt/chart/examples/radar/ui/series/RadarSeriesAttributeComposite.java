@@ -24,8 +24,6 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.type.AreaSeries;
-import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
@@ -112,21 +110,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		init( );
 		placeComponents( );
 
-		ChartUIUtil.bindHelp( parent, getHelpId( series ) );
-	}
-
-	private String getHelpId( Series series )
-	{
-		String helpId = ChartHelpContextIds.SUBTASK_YSERIES_LINE;
-		if ( series instanceof AreaSeries )
-		{
-			helpId = ChartHelpContextIds.SUBTASK_YSERIES_AREA;
-		}
-		else if ( series instanceof ScatterSeries )
-		{
-			helpId = ChartHelpContextIds.SUBTASK_YSERIES_SCATTER;
-		}
-		return helpId;
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES_LINE );
 	}
 
 	private void init( )

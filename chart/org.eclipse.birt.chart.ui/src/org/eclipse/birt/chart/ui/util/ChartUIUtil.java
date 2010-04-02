@@ -1920,11 +1920,14 @@ public class ChartUIUtil
 		Collection<IChartType> cTypes = ChartUIExtensionsImpl.instance( )
 				.getUIChartTypeExtensions( context.getClass( ).getSimpleName( ) );
 		Iterator<IChartType> iterTypes = cTypes.iterator( );
+		boolean needExpand = ( (ChartWizardContext) context ).getDataServiceProvider( )
+				.checkState( IDataServiceProvider.PART_CHART );
 		while ( iterTypes.hasNext( ) )
 		{
 			IChartType type = iterTypes.next( );
-			// Only support enabled chart types
-			if ( ( (ChartWizardContext) context ).isEnabled( type.getName( ) ) )
+			// If chart needs expand according to category number, only display
+			// the chart that can expand
+			if ( !needExpand || type.canExpand( ) )
 			{
 				htTypes.put( type.getName( ), type );
 			}
@@ -2182,7 +2185,7 @@ public class ChartUIUtil
 	 * category expression as the sort key.
 	 * 
 	 * @param wizardContext
-	 * @return
+	 * @return result
 	 * @since 2.5.3
 	 */
 	public static boolean hasLimitOnCategorySortKey( ChartWizardContext wizardContext )

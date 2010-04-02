@@ -258,7 +258,8 @@ public class RadarChart extends DefaultChartTypeImpl
 			if ( !ChartPreviewPainter.isLivePreviewActive( ) )
 			{
 				helperModel.setSampleData( getConvertedSampleData( helperModel.getSampleData( ),
-						( ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getType( ) ) );
+						( ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getType( ),
+						AxisType.LINEAR_LITERAL ) );
 			}
 
 			// Create a new instance of the correct type and set initial
@@ -429,40 +430,6 @@ public class RadarChart extends DefaultChartTypeImpl
 		ChartUIUtil.copyGeneralSeriesAttributes( series, radarseries );
 
 		return radarseries;
-	}
-
-	private SampleData getConvertedSampleData( SampleData currentSampleData,
-			AxisType axisType )
-	{
-		// Convert base sample data
-		EList<BaseSampleData> bsdList = currentSampleData.getBaseSampleData( );
-		Vector<BaseSampleData> vNewBaseSampleData = new Vector<BaseSampleData>( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
-		{
-			BaseSampleData bsd = bsdList.get( i );
-			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-					bsd.getDataSetRepresentation( ),
-					i ) );
-			vNewBaseSampleData.add( bsd );
-		}
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
-
-		// Convert orthogonal sample data
-		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<OrthogonalSampleData>( );
-		for ( int i = 0; i < osdList.size( ); i++ )
-		{
-			OrthogonalSampleData osd = osdList.get( i );
-			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( AxisType.LINEAR_LITERAL,
-					osd.getDataSetRepresentation( ),
-					i ) );
-			vNewOrthogonalSampleData.add( osd );
-		}
-		currentSampleData.getOrthogonalSampleData( ).clear( );
-		currentSampleData.getOrthogonalSampleData( )
-				.addAll( vNewOrthogonalSampleData );
-		return currentSampleData;
 	}
 
 	/*

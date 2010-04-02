@@ -217,14 +217,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				context.setEnabled( ChartUIConstants.SUBTASK_AXIS_Z, false );
 				context.setEnabled( ChartUIConstants.SUBTASK_LEGEND, false );
 				context.setEnabled( ChartUIConstants.SUBTASK_TITLE, false );
-
-				// Disable some chart types
-				context.setEnabled( ChartUIConstants.TYPE_PIE, false );
-				context.setEnabled( ChartUIConstants.TYPE_METER, false );
-				context.setEnabled( ChartUIConstants.TYPE_STOCK, false );
-				context.setEnabled( ChartUIConstants.TYPE_BUBBLE, false );
-				context.setEnabled( ChartUIConstants.TYPE_DIFFERENCE, false );
-				context.setEnabled( ChartUIConstants.TYPE_GANTT, false );
 			}
 			chartBuilder.addCustomButton( new ApplyButtonHandler( chartBuilder ) {
 

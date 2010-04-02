@@ -174,6 +174,7 @@ public interface IChartType
 			ChartWizardContext context, int nbOfAxes, int nbOfSeries );
 
 	/**
+	 * Creates the corresponding series model.
 	 * 
 	 * @since 2.2
 	 */
@@ -196,4 +197,14 @@ public interface IChartType
 	 * @since 2.5
 	 */
 	String getDefaultTitle( );
+
+	/**
+	 * Returns true if current chart type can expand according to the category
+	 * number.
+	 * 
+	 * @return true if this chart size can expand according to the category
+	 *         number.
+	 * @since 2.6
+	 */
+	boolean canExpand( );
 }

@@ -239,7 +239,8 @@ public class MeterChart extends DefaultChartTypeImpl
 				helperModel.setSampleData( getConvertedSampleData( helperModel.getSampleData( ),
 						( (ChartWithAxes) currentChart ).getAxes( )
 								.get( 0 )
-								.getType( ) ) );
+								.getType( ),
+						AxisType.LINEAR_LITERAL ) );
 			}
 
 			// Create a new instance of the correct type and set initial
@@ -280,27 +281,33 @@ public class MeterChart extends DefaultChartTypeImpl
 
 			// Copy series definitions from old chart
 			( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-					.add( ( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
-							.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) );
-			Vector vOSD = new Vector( );
+					.add( ( (ChartWithAxes) helperModel ).getAxes( )
+							.get( 0 )
+							.getSeriesDefinitions( )
+							.get( 0 ) );
+			Vector<SeriesDefinition> vOSD = new Vector<SeriesDefinition>( );
 
 			// Only convert series in primary orthogonal axis.
-			Axis primaryOrthogonalAxis = ( (ChartWithAxes) helperModel ).getPrimaryOrthogonalAxis( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
+			Axis primaryOrthogonalAxis = ( (ChartWithAxes) helperModel ).getPrimaryOrthogonalAxis( ( (ChartWithAxes) helperModel ).getAxes( )
 					.get( 0 ) );
-			EList osd = primaryOrthogonalAxis.getSeriesDefinitions( );
+			EList<SeriesDefinition> osd = primaryOrthogonalAxis.getSeriesDefinitions( );
 			for ( int j = 0; j < osd.size( ); j++ )
 			{
-				SeriesDefinition sd = (SeriesDefinition) osd.get( j );
+				SeriesDefinition sd = osd.get( j );
 				Series series = sd.getDesignTimeSeries( );
 				sd.getSeries( ).clear( );
 				sd.getSeries( ).add( getConvertedSeries( series, j ) );
 				vOSD.add( sd );
 			}
 
-			( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ).clear( );
-			( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ).addAll( vOSD );
+			( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.clear( );
+			( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.addAll( vOSD );
 
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
@@ -366,19 +373,19 @@ public class MeterChart extends DefaultChartTypeImpl
 								.get( 0 ) );
 
 				// Update the series
-				EList seriesdefinitions = ( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( );
+				EList<SeriesDefinition> seriesdefinitions = ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
+						.get( 0 )
+						.getSeriesDefinitions( );
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
-					Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+					Series series = seriesdefinitions.get( j )
+							.getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
 
 					// Clear any existing series
-					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-							.clear( );
+					seriesdefinitions.get( j ).getSeries( ).clear( );
 					// Add the new series
-					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-							.add( series );
+					seriesdefinitions.get( j ).getSeries( ).add( series );
 				}
 
 				currentChart.getLegend( )
@@ -422,40 +429,6 @@ public class MeterChart extends DefaultChartTypeImpl
 		return dialseries;
 	}
 
-	private SampleData getConvertedSampleData( SampleData currentSampleData,
-			AxisType axisType )
-	{
-		// Convert base sample data
-		EList bsdList = currentSampleData.getBaseSampleData( );
-		Vector vNewBaseSampleData = new Vector( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
-		{
-			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-					bsd.getDataSetRepresentation( ),
-					i ) );
-			vNewBaseSampleData.add( bsd );
-		}
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
-
-		// Convert orthogonal sample data
-		EList osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector vNewOrthogonalSampleData = new Vector( );
-		for ( int i = 0; i < osdList.size( ); i++ )
-		{
-			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( AxisType.LINEAR_LITERAL,
-					osd.getDataSetRepresentation( ),
-					i ) );
-			vNewOrthogonalSampleData.add( osd );
-		}
-		currentSampleData.getOrthogonalSampleData( ).clear( );
-		currentSampleData.getOrthogonalSampleData( )
-				.addAll( vNewOrthogonalSampleData );
-		return currentSampleData;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -497,7 +470,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
 			String sTitle )
 	{
-		DefaultBaseSeriesComponent component = new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+		DefaultBaseSeriesComponent component = new DefaultBaseSeriesComponent( ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 ),
 				context,
 				sTitle );

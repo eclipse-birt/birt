@@ -162,11 +162,12 @@ public class GanttChart extends DefaultChartTypeImpl
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
 		newChart.setOrientation( orientation );
 
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setCategoryAxis( false );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).getScale( ).setStep( 10.0 );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).getLabel( ).setVisible( false );
+		Axis xAxis = newChart.getAxes( ).get( 0 );
+		xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
+		xAxis.setType( AxisType.LINEAR_LITERAL );
+		xAxis.setCategoryAxis( false );
+		xAxis.getScale( ).setStep( 10.0 );
+		xAxis.getLabel( ).setVisible( false );
 
 		newChart.getTitle( )
 				.getLabel( )
@@ -176,21 +177,18 @@ public class GanttChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
-				.add( sdX );
+		xAxis.getSeriesDefinitions( ).add( sdX );
 
-		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
-		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
+		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
+		yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
+		yAxis.setType( AxisType.DATE_TIME_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).shift( 0 );
 		Series valueSeries = GanttSeriesImpl.create( );
 		valueSeries.setLabelPosition( Position.ABOVE_LITERAL );
 		sdY.getSeries( ).add( valueSeries );
-		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
+		yAxis.getSeriesDefinitions( ).add( sdY );
 
 		addSampleData( newChart );
 		return newChart;
@@ -233,15 +231,18 @@ public class GanttChart extends DefaultChartTypeImpl
 				if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 				{
 					currentChart.setSubType( sNewSubType );
-					EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-							.get( 0 ) ).getAssociatedAxes( );
+					EList<Axis> axes = ( (ChartWithAxes) currentChart ).getAxes( )
+							.get( 0 )
+							.getAssociatedAxes( );
 					for ( int i = 0; i < axes.size( ); i++ )
 					{
-						( (Axis) axes.get( i ) ).setPercent( false );
-						EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
+						axes.get( i ).setPercent( false );
+						EList<SeriesDefinition> seriesdefinitions = axes.get( i )
+								.getSeriesDefinitions( );
 						for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 						{
-							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+							Series series = seriesdefinitions.get( j )
+									.getDesignTimeSeries( );
 							series.setStacked( false );
 						}
 					}
@@ -271,7 +272,7 @@ public class GanttChart extends DefaultChartTypeImpl
 			{
 				currentChart.setType( TYPE_LITERAL );
 
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
+				( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ).setCategoryAxis( true );
 
 				currentChart.setSubType( sNewSubType );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
@@ -284,28 +285,31 @@ public class GanttChart extends DefaultChartTypeImpl
 					title.setValue( getDefaultTitle( ) );
 				}
 
-				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( );
+				EList<Axis> axes = ( (ChartWithAxes) currentChart ).getAxes( )
+						.get( 0 )
+						.getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					( (Axis) axes.get( i ) ).setPercent( false );
-					( (Axis) axes.get( i ) ).setType( AxisType.DATE_TIME_LITERAL );
-					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
+					axes.get( i ).setPercent( false );
+					axes.get( i ).setType( AxisType.DATE_TIME_LITERAL );
+					EList<SeriesDefinition> seriesdefinitions = axes.get( i )
+							.getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
-						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+						Series series = seriesdefinitions.get( j )
+								.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
 						series.setStacked( false );
-						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-								.clear( );
-						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-								.add( series );
+						seriesdefinitions.get( j ).getSeries( ).clear( );
+						seriesdefinitions.get( j ).getSeries( ).add( series );
 					}
 				}
 
 				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-						( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-								.get( 0 ) ).getType( ) ) );
+						( (ChartWithAxes) currentChart ).getAxes( )
+								.get( 0 )
+								.getType( ),
+						AxisType.DATE_TIME_LITERAL ) );
 			}
 			else
 			{
@@ -323,22 +327,24 @@ public class GanttChart extends DefaultChartTypeImpl
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.TEXT_LITERAL );
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
+			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
+			xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
+			xAxis.setType( AxisType.TEXT_LITERAL );
+			xAxis.setCategoryAxis( true );
 
-			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
-			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
+			Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
+			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
+			yAxis.setType( AxisType.DATE_TIME_LITERAL );
 
 			// Copy generic chart properties from the old chart
 			currentChart.setBlock( helperModel.getBlock( ) );
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
 			currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ),
-					( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-							.get( 0 ) ).getType( ) ) );
+					( (ChartWithAxes) currentChart ).getAxes( )
+							.get( 0 )
+							.getType( ),
+					AxisType.DATE_TIME_LITERAL ) );
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
@@ -347,54 +353,48 @@ public class GanttChart extends DefaultChartTypeImpl
 					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
-						.clear( );
+				xAxis.getSeriesDefinitions( ).clear( );
 
 				// Copy base series definitions
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
+				xAxis.getSeriesDefinitions( )
 						.add( ( (ChartWithoutAxes) helperModel ).getSeriesDefinitions( )
 								.get( 0 ) );
 
 				// Clear existing series definitions
-				( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( )
-						.clear( );
+				yAxis.getSeriesDefinitions( ).clear( );
 
 				// Copy orthogonal series definitions
-				( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( )
-						.addAll( ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-								.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeriesDefinitions( ) );
+				yAxis.getSeriesDefinitions( )
+						.addAll( xAxis.getSeriesDefinitions( )
+								.get( 0 )
+								.getSeriesDefinitions( ) );
 
 				// Update the base series
-				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
+				Series series = xAxis.getSeriesDefinitions( )
+						.get( 0 )
+						.getDesignTimeSeries( );
 
 				// Clear existing series
-				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeries( )
-						.clear( );
+				xAxis.getSeriesDefinitions( ).get( 0 ).getSeries( ).clear( );
 
 				// Add converted series
-				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeries( )
+				xAxis.getSeriesDefinitions( )
+						.get( 0 )
+						.getSeries( )
 						.add( series );
 
 				// Update the orthogonal series
-				EList seriesdefinitions = ( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( );
+				EList<SeriesDefinition> seriesdefinitions = yAxis.getSeriesDefinitions( );
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
-					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+					series = seriesdefinitions.get( j ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
 					series.getLabel( ).setVisible( false );
 					series.setStacked( false );
 					// Clear any existing series
-					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-							.clear( );
+					seriesdefinitions.get( j ).getSeries( ).clear( );
 					// Add the new series
-					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-							.add( series );
+					seriesdefinitions.get( j ).getSeries( ).add( series );
 				}
 			}
 			else
@@ -454,41 +454,6 @@ public class GanttChart extends DefaultChartTypeImpl
 		return ganttseries;
 	}
 
-	private SampleData getConvertedSampleData( SampleData currentSampleData,
-			AxisType axisType )
-	{
-		// Convert base sample data
-		EList bsdList = currentSampleData.getBaseSampleData( );
-		Vector vNewBaseSampleData = new Vector( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
-		{
-			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-					bsd.getDataSetRepresentation( ),
-					i ) );
-			vNewBaseSampleData.add( bsd );
-		}
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
-
-		// Convert orthogonal sample data
-		EList osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector vNewOrthogonalSampleData = new Vector( );
-		for ( int i = 0; i < osdList.size( ); i++ )
-		{
-			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			// osd.setDataSetRepresentation( osd.getDataSetRepresentation( ) );
-			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( AxisType.DATE_TIME_LITERAL,
-					osd.getDataSetRepresentation( ),
-					i ) );
-			vNewOrthogonalSampleData.add( osd );
-		}
-		currentSampleData.getOrthogonalSampleData( ).clear( );
-		currentSampleData.getOrthogonalSampleData( )
-				.addAll( vNewOrthogonalSampleData );
-		return currentSampleData;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -536,7 +501,7 @@ public class GanttChart extends DefaultChartTypeImpl
 			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
 			String sTitle )
 	{
-		return new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+		return new DefaultBaseSeriesComponent( ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 ),
 				context,
 				sTitle );

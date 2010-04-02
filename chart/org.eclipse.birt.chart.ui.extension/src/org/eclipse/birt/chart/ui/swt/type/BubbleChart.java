@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -40,6 +41,7 @@ import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
@@ -110,10 +112,10 @@ public class BubbleChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String)
 	 */
-	public Collection getChartSubtypes( String sDimension,
+	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
 	{
-		Vector vSubTypes = new Vector( );
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( );
 		if ( sDimension.equals( TWO_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
@@ -163,26 +165,25 @@ public class BubbleChart extends DefaultChartTypeImpl
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).setCategoryAxis( false );
+		Axis xAxis = newChart.getAxes( ).get( 0 );
+		xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
+		xAxis.setType( AxisType.LINEAR_LITERAL );
+		xAxis.setCategoryAxis( false );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series baseSeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( baseSeries );
 		sdX.getSeriesPalette( ).shift( 0 );
-		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
-				.add( sdX );
+		xAxis.getSeriesDefinitions( ).add( sdX );
 
 		newChart.getTitle( )
 				.getLabel( )
 				.getCaption( )
 				.setValue( getDefaultTitle( ) );
 
-		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
-		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
+		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
+		yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
+		yAxis.setType( AxisType.LINEAR_LITERAL );
 
 		
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
@@ -190,8 +191,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 		Series orthogonalSeries = BubbleSeriesImpl.create( );
 		( (BubbleSeries) orthogonalSeries ).setStacked( false );
 		sdY.getSeries( ).add( orthogonalSeries );
-		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
+		yAxis.getSeriesDefinitions( ).add( sdY );
 
 		if ( sSubType.equalsIgnoreCase( STANDARD_SUBTYPE_LITERAL ) )
 		{
@@ -237,15 +237,18 @@ public class BubbleChart extends DefaultChartTypeImpl
 				if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 				{
 					currentChart.setSubType( sNewSubType );
-					EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-							.get( 0 ) ).getAssociatedAxes( );
+					EList<Axis> axes = ( (ChartWithAxes) currentChart ).getAxes( )
+							.get( 0 )
+							.getAssociatedAxes( );
 					for ( int i = 0; i < axes.size( ); i++ )
 					{
-						( (Axis) axes.get( i ) ).setPercent( false );
-						EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
+						axes.get( i ).setPercent( false );
+						EList<SeriesDefinition> seriesdefinitions = axes.get( i )
+								.getSeriesDefinitions( );
 						for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 						{
-							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+							Series series = seriesdefinitions.get( j )
+									.getDesignTimeSeries( );
 							series.setStacked( false );
 						}
 					}
@@ -277,39 +280,37 @@ public class BubbleChart extends DefaultChartTypeImpl
 					title.setValue( getDefaultTitle( ) );
 				}
 			
-				Axis xAxis = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) );
+				Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
 				xAxis.setCategoryAxis( false );
 
-				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( );
-				ArrayList axisTypes = new ArrayList( );
+				EList<Axis> axes = ( (ChartWithAxes) currentChart ).getAxes( )
+						.get( 0 ).getAssociatedAxes( );
+				List<AxisType> axisTypes = new ArrayList<AxisType>( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					if ( ! ChartPreviewPainter.isLivePreviewActive( ) )
 					{
-						( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+						axes.get( i ).setType( AxisType.LINEAR_LITERAL );
 					}
-					( (Axis) axes.get( i ) ).setPercent( false );
-					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
+					axes.get( i ).setPercent( false );
+					EList<SeriesDefinition> seriesdefinitions = axes.get( i ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
-						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+						Series series = seriesdefinitions.get( j )
+								.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
 						series.setStacked( false );
 
-						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-								.clear( );
-						( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-								.add( series );
-						axisTypes.add( ( (Axis) axes.get( i ) ).getType( ) );
+						seriesdefinitions.get( j ).getSeries( ).clear( );
+						seriesdefinitions.get( j ).getSeries( ).add( series );
+						axisTypes.add( axes.get( i ).getType( ) );
 					}
 				}
 				( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
 				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-						( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-								.get( 0 ) ).getType( ),
+						xAxis.getType( ),
 						axisTypes ) );
 			}
 			else
@@ -338,13 +339,13 @@ public class BubbleChart extends DefaultChartTypeImpl
 								.getLegendBehavior( ) );
 			}
 
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( false );
+			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
+			xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
+			xAxis.setCategoryAxis( false );
 
-			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
-			( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
+			Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
+			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
+			yAxis.setType( AxisType.LINEAR_LITERAL );
 
 			// Copy generic chart properties from the old chart
 			currentChart.setBlock( helperModel.getBlock( ) );
@@ -359,54 +360,46 @@ public class BubbleChart extends DefaultChartTypeImpl
 					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
-						.clear( );
+				xAxis.getSeriesDefinitions( ).clear( );
 
 				// Copy base series definitions
-				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
+				xAxis.getSeriesDefinitions( )
 						.add( ( (ChartWithoutAxes) helperModel ).getSeriesDefinitions( )
 								.get( 0 ) );
 
 				// Clear existing series definitions
-				( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( )
-						.clear( );
+				yAxis.getSeriesDefinitions( ).clear( );
 
 				// Copy orthogonal series definitions
-				( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( )
-						.addAll( ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-								.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeriesDefinitions( ) );
+				yAxis.getSeriesDefinitions( )
+						.addAll( ( xAxis.getSeriesDefinitions( ).get( 0 ) ).getSeriesDefinitions( ) );
 
 				// Update the base series
-				Series series = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
+				Series series = xAxis.getSeriesDefinitions( )
+						.get( 0 )
+						.getDesignTimeSeries( );
 
 				// Clear existing series
-				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeries( )
-						.clear( );
+				xAxis.getSeriesDefinitions( ).get( 0 ).getSeries( ).clear( );
 
 				// Add converted series
-				( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getSeries( )
+				xAxis.getSeriesDefinitions( )
+						.get( 0 )
+						.getSeries( )
 						.add( series );
 
 				// Update the orthogonal series
-				EList seriesdefinitions = ( (Axis) ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-						.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).getSeriesDefinitions( );
+				EList<SeriesDefinition> seriesdefinitions = yAxis.getSeriesDefinitions( );
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
-					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+					series = seriesdefinitions.get( j ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
 					series.getLabel( ).setVisible( false );
 					series.setStacked( false );
 					// Clear any existing series
-					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-							.clear( );
+					seriesdefinitions.get( j ).getSeries( ).clear( );
 					// Add the new series
-					( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-							.add( series );
+					seriesdefinitions.get( j ).getSeries( ).add( series );
 				}
 			}
 			else
@@ -461,56 +454,6 @@ public class BubbleChart extends DefaultChartTypeImpl
 
 		return bubbleSeries;
 	}
-	
-	private SampleData getConvertedSampleData( SampleData currentSampleData,
-			AxisType xAxisType, ArrayList axisTypes )
-	{
-		// Convert base sample data
-		EList bsdList = currentSampleData.getBaseSampleData( );
-		Vector vNewBaseSampleData = getConvertedBaseSampleDataRepresentation( bsdList,
-				xAxisType );
-		currentSampleData.getBaseSampleData( ).clear( );
-		currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
-
-		// Convert orthogonal sample data
-		EList osdList = currentSampleData.getOrthogonalSampleData( );
-		Vector vNewOrthogonalSampleData = getConvertedOrthogonalSampleDataRepresentation( osdList,
-				axisTypes );
-		currentSampleData.getOrthogonalSampleData( ).clear( );
-		currentSampleData.getOrthogonalSampleData( )
-				.addAll( vNewOrthogonalSampleData );
-		return currentSampleData;
-	}
-
-	private Vector getConvertedBaseSampleDataRepresentation( EList bsdList,
-			AxisType xAxisType )
-	{
-		Vector vNewBaseSampleData = new Vector( );
-		for ( int i = 0; i < bsdList.size( ); i++ )
-		{
-			BaseSampleData bsd = (BaseSampleData) bsdList.get( i );
-			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( xAxisType,
-					bsd.getDataSetRepresentation( ),
-					i ) );
-			vNewBaseSampleData.add( bsd );
-		}
-		return vNewBaseSampleData;
-	}
-
-	private Vector getConvertedOrthogonalSampleDataRepresentation(
-			EList osdList, ArrayList axisTypes )
-	{
-		Vector vNewOrthogonalSampleData = new Vector( );
-		for ( int i = 0; i < osdList.size( ); i++ )
-		{
-			OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
-			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( (AxisType) axisTypes.get( i ),
-					osd.getDataSetRepresentation( ),
-					i ) );
-			vNewOrthogonalSampleData.add( osd );
-		}
-		return vNewOrthogonalSampleData;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -554,7 +497,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
 			String sTitle )
 	{
-		return new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+		return new DefaultBaseSeriesComponent( ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 ),
 				context,
 				sTitle );
