@@ -354,8 +354,6 @@ public class StockChart extends DefaultChartTypeImpl
 								.getLegendBehavior( ) );
 			}
 
-			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
-					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
 				xAxis.getSeriesDefinitions( ).clear( );
@@ -398,10 +396,7 @@ public class StockChart extends DefaultChartTypeImpl
 					vsd.getSeries( ).add( series );
 				}
 			}
-			else
-			{
-				return null;
-			}
+
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );

@@ -356,8 +356,6 @@ public class BubbleChart extends DefaultChartTypeImpl
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 
-			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
-					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
 				xAxis.getSeriesDefinitions( ).clear( );
@@ -402,11 +400,6 @@ public class BubbleChart extends DefaultChartTypeImpl
 					seriesdefinitions.get( j ).getSeries( ).add( series );
 				}
 			}
-			else
-			{
-				return null;
-			}
-	
 			
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );

@@ -349,8 +349,6 @@ public class GanttChart extends DefaultChartTypeImpl
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 
-			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
-					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
 				xAxis.getSeriesDefinitions( ).clear( );
@@ -396,10 +394,6 @@ public class GanttChart extends DefaultChartTypeImpl
 					// Add the new series
 					seriesdefinitions.get( j ).getSeries( ).add( series );
 				}
-			}
-			else
-			{
-				return null;
 			}
 			
 			currentChart.getLegend( )
