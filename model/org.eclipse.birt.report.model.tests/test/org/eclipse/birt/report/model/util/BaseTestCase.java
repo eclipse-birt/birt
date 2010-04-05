@@ -701,6 +701,43 @@ public abstract class BaseTestCase extends TestCase
 	}
 
 	/**
+	 * Compare the golden file with the os.
+	 * 
+	 * @param goldenFileName
+	 * @param os
+	 * @return
+	 * @throws Exception
+	 */
+	protected boolean compareFileWithOS( String goldenFileName, ByteArrayOutputStream os ) throws Exception
+	{
+		String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
+
+		InputStream streamA = getResourceAStream( tmpGoldenFileName );
+		if ( os == null )
+			return false;
+
+		String outContent = os.toString( "utf-8" ); //$NON-NLS-1$
+
+		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
+		InputStreamReader readerA = new InputStreamReader( streamA );
+		InputStreamReader readerB = new InputStreamReader( streamB );
+
+		boolean ok = true;
+		try
+		{
+			ok = compareFile( readerA, readerB );
+		}
+		catch ( Exception e )
+		{
+			String outFileName = goldenFileName.replaceAll( "golden", "out" );
+			saveOutputFile( outFileName, outContent );
+
+			throw e;
+		}
+
+		return ok;
+	}
+	/**
 	 * Prints out all semantic errors stored in the error list during parsing
 	 * the design file.
 	 */
