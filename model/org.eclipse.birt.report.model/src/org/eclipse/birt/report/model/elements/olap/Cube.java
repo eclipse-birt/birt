@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
@@ -116,7 +117,7 @@ public abstract class Cube extends ReferenceableElement implements ICubeModel
 	 */
 	public void setDefaultMeasureGroup( MeasureGroup defaultMeasureGroup )
 	{
-		setProperty( Cube.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(
+		setProperty( ICubeModel.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(
 				null, defaultMeasureGroup ) );
 	}
 
@@ -132,5 +133,10 @@ public abstract class Cube extends ReferenceableElement implements ICubeModel
 	public void updateLayout( Module module )
 	{
 		// do nothing
+	}
+	
+	public boolean isBoundWithLayout( ElementPropertyDefn propDefn )
+	{
+		return false;
 	}
 }
