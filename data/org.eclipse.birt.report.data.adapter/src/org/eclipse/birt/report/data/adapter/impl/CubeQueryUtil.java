@@ -51,6 +51,8 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 
 
 /**
@@ -566,8 +568,13 @@ public class CubeQueryUtil implements ICubeQueryUtil
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet( hierHandle.getDataSet( ),
 						this.sessionImpl );
 			else
-				DefineDataSourceSetUtil.defineDataSourceAndDataSet( cubeHandle.getDataSet( ),
-						this.sessionImpl );
+			{
+				if( cubeHandle instanceof TabularCubeHandle )
+				{
+					DefineDataSourceSetUtil.defineDataSourceAndDataSet( ( ( TabularCubeHandle ) cubeHandle ).getDataSet( ) ,
+							this.sessionImpl );
+				}				
+			}
 			
 			Map levelValueMap = new HashMap( );
 
