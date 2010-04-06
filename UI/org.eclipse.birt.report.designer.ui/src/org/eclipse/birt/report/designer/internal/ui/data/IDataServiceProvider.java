@@ -39,6 +39,8 @@ public interface IDataServiceProvider
 			DataSetHandle dataSetHandle, Iterator binding,
 			Iterator groupIterator, boolean useDataSetFilter )
 			throws BirtException;
+	
+	void updateColumnCache( DataSetHandle dataSetHandle, boolean holdEvent );
 
 	void registerSession( DataSetHandle handle, DataRequestSession session )
 			throws BirtException;

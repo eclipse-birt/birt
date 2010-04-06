@@ -60,6 +60,11 @@ public class ExternalUIUtil
 		}
 	}
 
+	public static void updateColumnCache( DataSetHandle dataSetHandle,
+			boolean holdEvent )
+	{		
+	}
+	
 	public static void populateApplicationContext( DataSetHandle handle,
 			DataRequestSession session ) throws BirtException
 	{

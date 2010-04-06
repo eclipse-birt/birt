@@ -112,4 +112,11 @@ public class DataService
 		}
 		return Collections.EMPTY_LIST;
 	}
+	
+	public void updateColumnCache( DataSetHandle dataSetHandle,
+			boolean holdEvent )
+	{		
+		provider.updateColumnCache( dataSetHandle, holdEvent );
+	}
+	
 }

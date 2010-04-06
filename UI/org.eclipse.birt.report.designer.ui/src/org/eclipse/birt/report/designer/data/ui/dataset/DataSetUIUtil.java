@@ -14,38 +14,24 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.impl.ReportEngine;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
-
-import com.actuate.birt.report.model.api.DataMartHandle;
 
 /**
  * The utility class.
@@ -101,74 +87,7 @@ public final class DataSetUIUtil
 	public static void updateColumnCache( DataSetHandle dataSetHandle,
 			boolean holdEvent )
 	{
-		try
-		{
-			if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
-			{
-				EngineConfig ec = new EngineConfig( );
-				ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
-
-				ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
-						.copy( ).getHandle( null ) );
-
-				DummyEngineTask engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( copy ),
-						copy );
-
-				DataRequestSession session = engineTask.getDataSession( );
-
-				Map appContext = new HashMap( );
-				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-						Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
-
-				appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-						createResourceIdentifiers( ) );
-
-				engineTask.setAppContext( appContext );
-				engineTask.run( );
-
-				DataService.getInstance( ).registerSession( dataSetHandle,
-						session );
-				session.refreshMetaData( dataSetHandle, holdEvent );
-				engineTask.close( );
-				engine.destroy( );
-			}
-			else if ( dataSetHandle.getModuleHandle( ) instanceof DataMartHandle )
-			{
-				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-						dataSetHandle.getModuleHandle( ) );
-
-				Map appContext = new HashMap( );
-				
-				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-						Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
-				appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-						createResourceIdentifiers( ) );	
-				
-				context.setAppContext( appContext );
-
-				DataRequestSession session = DataRequestSession.newSession( context );
-				session.refreshMetaData( dataSetHandle, holdEvent );
-				session.shutdown( );
-			}
-			else
-			{
-				DataSessionContext context = new DataSessionContext( DataEngineContext.DIRECT_PRESENTATION,
-						dataSetHandle.getRoot( ),
-						null );
-				DataRequestSession drSession = DataRequestSession.newSession( context );
-				drSession.refreshMetaData( dataSetHandle, holdEvent );
-				drSession.shutdown( );
-			}
-		}
-		catch ( BirtException ex )
-		{
-			logger.entering( DataSetUIUtil.class.getName( ),
-					"updateColumnCache", //$NON-NLS-1$
-					new Object[]{
-						ex
-					} );
-		}
+		DataService.getInstance( ).updateColumnCache( dataSetHandle, holdEvent );
 	}
 
 	public static ResourceIdentifiers createResourceIdentifiers( )

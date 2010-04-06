@@ -72,4 +72,11 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 	{
 		ExternalUIUtil.populateApplicationContext( handle, session );
 	}
+	
+	public void updateColumnCache( DataSetHandle dataSetHandle,
+			boolean holdEvent )
+	{
+		ExternalUIUtil.updateColumnCache( dataSetHandle, holdEvent );
+	}
+
 }
