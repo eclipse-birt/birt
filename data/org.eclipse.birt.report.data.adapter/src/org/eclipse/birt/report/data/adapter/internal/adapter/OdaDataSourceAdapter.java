@@ -27,7 +27,9 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.mozilla.javascript.Scriptable;
+import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 
 /**
  * Adapts a Model ODA data source handle to equivalent DtE 
@@ -44,7 +46,7 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 	 *   property bindings are not evaluated.
 	 */
 	public OdaDataSourceAdapter( OdaDataSourceHandle source,
-			Scriptable propBindingScope, DataEngineContext dtCotnext )
+			Scriptable propBindingScope, DataEngineContext dtCotnext , ModelAdapter adapter )
 		throws BirtException
 	{
 		super(source.getQualifiedName());
@@ -74,20 +76,21 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 				String propName = ( String ) propNamesItr.next( );
 				assert ( propName != null );
 	
-				String propValue;
+				String propValue = "";
 				// If property binding expression exists and the mode is not
 				// UPDATE mode, use its evaluation result
-				String bindingExpr = source.getPropertyBinding( propName );
+				Expression expression = source.getPropertyBindingExpression( propName );
+				org.eclipse.birt.data.engine.api.querydefn.ScriptExpression script = adapter.adaptExpression( expression );			
+				
 				if ( bindingScope != null
-						&& bindingExpr != null
-						&& bindingExpr.length( ) > 0
+						&& script != null
 						&& DataSessionContext.MODE_UPDATE != dtCotnext.getMode( ) )
 				{
 					Object value = JavascriptEvalUtil.evaluateScript( null,
-							bindingScope,
-							bindingExpr,
-							ScriptExpression.defaultID,
-							0 );
+									bindingScope,
+									script.getText( ),
+									ScriptExpression.defaultID,
+									0 );
 					propValue = ( value == null ? null : value.toString( ) );
 				}
 				else
