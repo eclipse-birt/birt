@@ -4114,6 +4114,9 @@ JarFileFormProvider.Column.Name=Name
 JsFileFormProvider.Column.Name=Name
 ReportPageGenerator.List.Resources.JsFile=JavaScript-Dateien:
 
+PropertiesFileFormProvider.Column.Name=Name
+ReportPageGenerator.List.Resources.PropertiesFile=Properties Files:
+
 ###########################################################
 #ClassFinder
 ClassFinder.TaskStart=Handler-Klasse wird gesucht...

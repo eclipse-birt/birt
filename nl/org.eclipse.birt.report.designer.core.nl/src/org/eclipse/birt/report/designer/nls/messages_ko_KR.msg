@@ -4114,6 +4114,9 @@ JarFileFormProvider.Column.Name=이름
 JsFileFormProvider.Column.Name=이름
 ReportPageGenerator.List.Resources.JsFile=Javascript 파일:
 
+PropertiesFileFormProvider.Column.Name=Name
+ReportPageGenerator.List.Resources.PropertiesFile=Properties Files:
+
 ###########################################################
 #ClassFinder
 ClassFinder.TaskStart=처리기 클래스 검색 중...

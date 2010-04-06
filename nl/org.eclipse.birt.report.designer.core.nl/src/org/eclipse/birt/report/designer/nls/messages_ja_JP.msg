@@ -4114,6 +4114,9 @@ JarFileFormProvider.Column.Name=名前
 JsFileFormProvider.Column.Name=名前
 ReportPageGenerator.List.Resources.JsFile=JavaScriptファイル :
 
+PropertiesFileFormProvider.Column.Name=Name
+ReportPageGenerator.List.Resources.PropertiesFile=Properties Files:
+
 ###########################################################
 #ClassFinder
 ClassFinder.TaskStart=ハンドラクラスを検索中...

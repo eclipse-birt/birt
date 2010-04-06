@@ -4114,6 +4114,9 @@ JarFileFormProvider.Column.Name=名称
 JsFileFormProvider.Column.Name=名称
 ReportPageGenerator.List.Resources.JsFile=Javascript 文件:
 
+PropertiesFileFormProvider.Column.Name=Name
+ReportPageGenerator.List.Resources.PropertiesFile=Properties Files:
+
 ###########################################################
 #ClassFinder
 ClassFinder.TaskStart=正在搜索处理程序类...

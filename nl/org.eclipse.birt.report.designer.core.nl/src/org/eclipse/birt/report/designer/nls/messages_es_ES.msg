@@ -4114,6 +4114,9 @@ JarFileFormProvider.Column.Name=Nombre
 JsFileFormProvider.Column.Name=Nombre
 ReportPageGenerator.List.Resources.JsFile=Archivos de JavaScript:
 
+PropertiesFileFormProvider.Column.Name=Name
+ReportPageGenerator.List.Resources.PropertiesFile=Properties Files:
+
 ###########################################################
 #ClassFinder
 ClassFinder.TaskStart=Buscando clase de controlador...
