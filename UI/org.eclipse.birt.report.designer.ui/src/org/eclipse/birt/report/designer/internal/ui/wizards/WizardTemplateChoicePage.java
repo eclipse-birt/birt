@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewPa
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
+import org.eclipse.birt.report.designer.internal.ui.wizards.ExtensionTemplateListProvider.TemplateUICallback;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -43,6 +44,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -72,8 +74,10 @@ import org.osgi.framework.Bundle;
  * Supplies template selection page of new report wizard
  * 
  */
-public class WizardTemplateChoicePage extends WizardPage
+public class WizardTemplateChoicePage extends WizardPage implements
+		TemplateUICallback
 {
+
 	protected static final Logger logger = Logger.getLogger( WizardTemplateChoicePage.class.getName( ) );
 
 	private static final String[] IMAGE_TYPES = new String[]{
@@ -112,7 +116,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	private Combo directionCombo;
 	boolean isLTRDirection = ReportPlugin.getDefault( ).getLTRReportDirection( );
 	private int predefinedCount;
-	private ExtensionTemplateListProvider provider = new ExtensionTemplateListProvider( );
+	private ExtensionTemplateListProvider provider;
 	// bidi_hcg end
 
 	private boolean isModified = false;
@@ -130,11 +134,11 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	Image thumbnailImage;
 
-	protected java.util.List templates = new ArrayList( );
+	protected java.util.List<ReportDesignHandle> templates = new ArrayList<ReportDesignHandle>( );
 
 	// protected int selectedIndex;
 
-	protected Map imageMap;
+	protected Map<String, Image> imageMap;
 
 	private Composite previewPane;
 
@@ -150,7 +154,10 @@ public class WizardTemplateChoicePage extends WizardPage
 	{
 		super( pageName );
 
-		imageMap = new HashMap( );
+		provider = new ExtensionTemplateListProvider( this );
+
+		imageMap = new HashMap<String, Image>( );
+
 		if ( UIUtil.getFragmentDirectory( ) == null )
 		{
 			return;
@@ -195,7 +202,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			if ( !templateDirectory.exists( ) )
 			{
 				boolean createSucc = templateDirectory.mkdirs( );
-				if(!createSucc)
+				if ( !createSucc )
 				{
 					return new ReportDesignHandle[0];
 				}
@@ -208,7 +215,7 @@ public class WizardTemplateChoicePage extends WizardPage
 				}
 			} );
 
-			java.util.List reportDesingHandleList = new ArrayList( );
+			java.util.List<ReportDesignHandle> reportDesingHandleList = new ArrayList<ReportDesignHandle>( );
 			for ( int i = 0; i < filesArray.length; i++ )
 			{
 				try
@@ -220,7 +227,7 @@ public class WizardTemplateChoicePage extends WizardPage
 					if ( moduleHandle != null
 							&& moduleHandle instanceof ReportDesignHandle )
 					{
-						reportDesingHandleList.add( moduleHandle );
+						reportDesingHandleList.add( (ReportDesignHandle) moduleHandle );
 					}
 				}
 				catch ( Exception e )
@@ -233,7 +240,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			templateArray = new ReportDesignHandle[count];
 			for ( int i = 0; i < count; i++ )
 			{
-				templateArray[i] = (ReportDesignHandle) reportDesingHandleList.get( i );
+				templateArray[i] = reportDesingHandleList.get( i );
 			}
 
 		}
@@ -276,7 +283,8 @@ public class WizardTemplateChoicePage extends WizardPage
 		createCustomTemplateList( );
 
 		data = new GridData( GridData.BEGINNING | GridData.FILL_VERTICAL );
-		data.widthHint = 220;
+		data.widthHint = 250;
+		data.heightHint = 300;
 		templateList.getTree( ).setLayoutData( data );
 
 		previewPane = new Composite( composite, 0 );
@@ -335,7 +343,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		 * will be added to wizard page
 		 */
 
-		//addBidiPart( composite );
+		// addBidiPart( composite );
 
 		// bidi_hcg end
 		hookListeners( );
@@ -473,13 +481,13 @@ public class WizardTemplateChoicePage extends WizardPage
 			chkBox.setSelection( false );
 			chkBox.setEnabled( false );
 			setPageComplete( false );
-			if (directionCombo != null)
+			if ( directionCombo != null )
 			{
 				directionCombo.setEnabled( false );
 			}
 			return;
 		}
-		if (directionCombo != null)
+		if ( directionCombo != null )
 		{
 			directionCombo.setEnabled( true );
 		}
@@ -511,7 +519,8 @@ public class WizardTemplateChoicePage extends WizardPage
 		{
 			key = null;
 		}
-		Object img = null;
+
+		Image img = null;
 
 		if ( handle.getThumbnail( ) != null
 				&& handle.getThumbnail( ).length != 0 )
@@ -561,13 +570,12 @@ public class WizardTemplateChoicePage extends WizardPage
 					}
 
 				}
-				if (img != null)
+				if ( img != null )
 				{
 					previewCanvas.clear( );
-					previewCanvas.loadImage( ( (Image) img ) );
+					previewCanvas.loadImage( img );
 					// previewCanvas.showOriginal( );
 				}
-
 
 			}
 			else
@@ -663,7 +671,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	public void dispose( )
 	{
 		super.dispose( );
-		for ( Iterator it = templates.iterator( ); it.hasNext( ); )
+		for ( Iterator<ReportDesignHandle> it = templates.iterator( ); it.hasNext( ); )
 		{
 			Object item = it.next( );
 			if ( item instanceof ReportDesignHandle )
@@ -836,10 +844,33 @@ public class WizardTemplateChoicePage extends WizardPage
 		templateList.expandAll( );
 	}
 
+	public void contentChanged( )
+	{
+		if ( templateList != null
+				&& templateList.getTree( ) != null
+				&& !templateList.getTree( ).isDisposed( ) )
+		{
+			ISelection oldSel = templateList.getSelection( );
+
+			// reconstruct the input
+			Object[] objs = provider.getRootElements( );
+			Object[] roots = new Object[1 + objs.length];
+			roots[0] = TreeRoot;
+
+			System.arraycopy( objs, 0, roots, 1, objs.length );
+			templateList.setInput( roots );
+
+			// TODO better state recovering
+
+			templateList.expandToLevel( 2 );
+			templateList.setSelection( oldSel );
+		}
+	}
+
 	private ReportDesignHandle getSelectionHandle( )
 	{
 		IStructuredSelection selection = (IStructuredSelection) templateList.getSelection( );
-		List list = selection.toList( );
+		List<?> list = selection.toList( );
 		if ( list.size( ) != 1 )
 		{
 			return null;
@@ -982,4 +1013,5 @@ public class WizardTemplateChoicePage extends WizardPage
 		}
 
 	}
+
 }

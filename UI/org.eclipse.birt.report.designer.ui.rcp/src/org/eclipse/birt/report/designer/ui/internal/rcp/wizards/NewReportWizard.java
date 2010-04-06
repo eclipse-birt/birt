@@ -11,13 +11,19 @@
 
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.Locale;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -206,7 +212,7 @@ public class NewReportWizard extends Wizard implements
 		String cheatSheetIdFromPage = "";//$NON-NLS-1$
 		boolean showCheatSheetFromPage = false;
 
-		ReportDesignHandle selTemplate = templateChoicePage.getTemplate( );
+		final ReportDesignHandle selTemplate = templateChoicePage.getTemplate( );
 		final String templateFileName = selTemplate.getFileName( );
 
 		cheatSheetIdFromPage = selTemplate.getCheatSheet( );
@@ -227,6 +233,7 @@ public class NewReportWizard extends Wizard implements
 					doFinish( locPath,
 							fileName,
 							templateFileName,
+							resolveRemoteStream( templateFileName, selTemplate ),
 							cheatSheetId,
 							showCheatSheet,
 							monitor );
@@ -254,6 +261,44 @@ public class NewReportWizard extends Wizard implements
 		return true;
 	}
 
+	private InputStream resolveRemoteStream( String templateName,
+			ReportDesignHandle handle )
+	{
+		if ( templateName == null || handle == null )
+		{
+			return null;
+		}
+
+		File f = new File( templateName );
+
+		if ( !f.exists( ) )
+		{
+			try
+			{
+				new URL( templateName );
+			}
+			catch ( Exception e )
+			{
+				try
+				{
+					ByteArrayOutputStream out = new ByteArrayOutputStream( );
+					handle.serialize( out );
+
+					byte[] bytes = out.toByteArray( );
+					out.close( );
+
+					return new ByteArrayInputStream( bytes );
+				}
+				catch ( IOException ie )
+				{
+					ExceptionHandler.handle( ie, true );
+				}
+			}
+		}
+
+		return null;
+	}
+
 	/**
 	 * The worker method. It will find the container, create the file if missing
 	 * or just replace its contents, and open the editor on the newly created
@@ -268,8 +313,9 @@ public class NewReportWizard extends Wizard implements
 	 */
 
 	private void doFinish( IPath locationPath, String fileName,
-			String sourceFileName, final String cheatSheetId,
-			final boolean showCheatSheet, IProgressMonitor monitor )
+			final String templateFileName, final InputStream templateStream,
+			final String cheatSheetId, final boolean showCheatSheet,
+			IProgressMonitor monitor )
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
@@ -284,16 +330,29 @@ public class NewReportWizard extends Wizard implements
 			{
 				conExists = container.mkdirs( );
 			}
-			if( !conExists )
+			if ( !conExists )
 			{
 				ExceptionUtil.openError( Messages.getString( "NewReportWizard.title.Error" ), //$NON-NLS-1$
 						Messages.getString( "NewReportWizard.wizard.msgDirErr" ) ); //$NON-NLS-1$
 				return;
 			}
-			
-			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.createDesignFromTemplate( sourceFileName );
+
+			ReportDesignHandle handle;
+
+			if ( templateStream == null )
+			{
+				handle = SessionHandleAdapter.getInstance( )
+						.getSessionHandle( )
+						.createDesignFromTemplate( templateFileName );
+			}
+			else
+			{
+				handle = SessionHandleAdapter.getInstance( )
+						.getSessionHandle( )
+						.createDesignFromTemplate( templateFileName,
+								templateStream );
+			}
+
 			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
 			{
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
@@ -304,26 +363,26 @@ public class NewReportWizard extends Wizard implements
 				handle.setStringProperty( ModuleHandle.UNITS_PROP,
 						ReportPlugin.getDefault( ).getDefaultUnitPreference( ) );
 			}
-			if ( isPredifinedTemplate( sourceFileName ) )
+			if ( isPredifinedTemplate( templateFileName ) )
 			{
 				handle.setDisplayName( null );
 				handle.setDescription( null );
 			}
-			
-			//add the create property
+
+			// add the create property
 			UIUtil.addCreateBy( handle );
 			UIUtil.setDPI( handle );
-			//bidi_hcg start
-			//save value of bidiLayoutOrientation property
-			
+			// bidi_hcg start
+			// save value of bidiLayoutOrientation property
+
 			String bidiOrientation;
 			if ( templateChoicePage.isLTRDirection( ) )
 				bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_LTR;
 			else
 				bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
 
-			handle.setBidiOrientation( bidiOrientation ); 
-			
+			handle.setBidiOrientation( bidiOrientation );
+
 			// bidi_hcg end
 			handle.saveAs( file.getAbsolutePath( ) );
 			handle.close( );
@@ -379,10 +438,10 @@ public class NewReportWizard extends Wizard implements
 		monitor.worked( 1 );
 
 	} /*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.wizard.IWizard#canFinish()
-		 */
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
+	 */
 
 	public boolean canFinish( )
 	{
