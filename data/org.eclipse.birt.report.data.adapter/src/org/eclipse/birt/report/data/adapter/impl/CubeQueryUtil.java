@@ -571,9 +571,14 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			{
 				if( cubeHandle instanceof TabularCubeHandle )
 				{
-					DefineDataSourceSetUtil.defineDataSourceAndDataSet( ( ( TabularCubeHandle ) cubeHandle ).getDataSet( ) ,
+					DefineDataSourceSetUtil.defineDataSourceAndDataSet(  ( ( TabularCubeHandle ) cubeHandle ).getDataSet( ) ,
 							this.sessionImpl );
-				}				
+				}		
+				else 
+				{
+					DefineDataSourceSetUtil.defineDataSourceAndDataSet( ( DataSetHandle ) cubeHandle.getElementProperty( "dataSet" ) ,
+							this.sessionImpl );
+				}
 			}
 			
 			Map levelValueMap = new HashMap( );
