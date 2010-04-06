@@ -648,7 +648,9 @@ public class DataProcessor
 
 					odata[3] = Integer.valueOf( rsw.getGroupRowCount( k ) );
 					odata[4] = Integer.valueOf( k );
-					odata[5] = triggerExprs;
+					// Here just uses trigger expression/chart variable as the key.
+					odata[5] = getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
+							iae );
 
 					orthogonalDataList.add( odata );
 				}
@@ -879,7 +881,9 @@ public class DataProcessor
 
 						odata[3] = Integer.valueOf( rsw.getGroupRowCount( k ) );
 						odata[4] = Integer.valueOf( k );
-						odata[5] = triggerExprs;
+						// Here just uses trigger expression/chart variable as the key.
+						odata[5] = getDesignTimeStringsSeriesTriggerExpressions( seOrthogonalDesignSeries,
+								iae );
 
 						orthogonalDataList.add( odata );
 					}
