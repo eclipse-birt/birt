@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.PromptParameterDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -182,6 +183,7 @@ public class DTPUtil
 										selectedParameters,
 										null,
 										isSourceChanged );
+								DataSetUIUtil.updateColumnCacheAfterCleanRs( dataSetHandle );
 								return;
 							}
 						}
@@ -191,6 +193,7 @@ public class DTPUtil
 							modelOdaAdapter.updateDataSetHandle( design,
 									dataSetHandle,
 									isSourceChanged );
+							DataSetUIUtil.updateColumnCacheAfterCleanRs( dataSetHandle );
 							return;
 						}
 					}
@@ -199,6 +202,7 @@ public class DTPUtil
 				modelOdaAdapter.updateDataSetHandle( design,
 						dataSetHandle,
 						isSourceChanged );
+				DataSetUIUtil.updateColumnCacheAfterCleanRs( dataSetHandle );
 			}
 			catch ( SemanticException e )
 			{
