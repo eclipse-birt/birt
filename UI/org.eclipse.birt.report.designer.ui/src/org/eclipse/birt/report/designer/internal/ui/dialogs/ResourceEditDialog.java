@@ -262,6 +262,13 @@ public class ResourceEditDialog extends BaseDialog
 
 	}
 
+	public void setResourceURL( URL url )
+	{
+		this.resourceURLs = new URL[]{
+			url
+		};
+	}
+
 	/**
 	 * Set the resource file URL. The url is computed by Model.
 	 * 
