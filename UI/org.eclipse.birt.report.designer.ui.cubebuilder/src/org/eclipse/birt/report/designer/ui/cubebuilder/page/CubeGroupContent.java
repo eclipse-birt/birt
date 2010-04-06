@@ -96,6 +96,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TreeEvent;
 import org.eclipse.swt.events.TreeListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -103,6 +104,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TreeItem;
@@ -363,6 +365,30 @@ public class CubeGroupContent extends Composite implements Listener
 
 		} );
 
+		groupViewer.getTree( ).addListener( SWT.PaintItem,
+				new org.eclipse.swt.widgets.Listener( ) {
+
+					public void handleEvent( Event e )
+					{
+						TreeItem item = (TreeItem) e.item;
+
+						Color gray = Display.getCurrent( )
+								.getSystemColor( SWT.COLOR_DARK_GRAY );
+
+						if ( item != null && item.getData( ) != null )
+						{
+							if ( checkSharedDimension( item.getData( ) )
+									&& item.getData( ) instanceof LevelHandle )
+								item.setForeground( gray );
+							else
+								item.setForeground( item.getParent( )
+										.getForeground( ) );
+						}
+						else
+							item.setForeground( item.getParent( )
+									.getForeground( ) );
+					}
+				} );
 		final DragSource fieldsSource = new DragSource( groupViewer.getTree( ),
 				operations );
 		fieldsSource.setTransfer( types );

@@ -14,15 +14,11 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddResourceFileFolderSelectionDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.NewResourceFileDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ScriptLibHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
@@ -31,13 +27,13 @@ import org.eclipse.swt.widgets.Table;
 /**
  * 
  */
-public class JarFileFormProvider extends AbstractFormHandleProvider
+public class PropertiesFileFormProvider extends AbstractFormHandleProvider
 {
 
 	/**
 	 * 
 	 */
-	public JarFileFormProvider( )
+	public PropertiesFileFormProvider( )
 	{
 		// TODO Auto-generated constructor stub
 	}
@@ -46,9 +42,9 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		300
 	};
 	private static final String[] COLUMNS = new String[]{
-		Messages.getString( "JarFileFormProvider.Column.Name" ), //$NON-NLS-1$
+		Messages.getString( "PropertiesFileFormProvider.Column.Name" ), //$NON-NLS-1$
 	};
-	private static final String TITLE = Messages.getString( "ReportPageGenerator.List.Resources.JarFile" ); //$NON-NLS-1$
+	private static final String TITLE = Messages.getString( "ReportPageGenerator.List.Resources.PropertiesFile" ); //$NON-NLS-1$
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	private ModuleHandle inputElement;
@@ -75,7 +71,11 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 
 	public boolean doMoveItem( int oldPos, int newPos ) throws Exception
 	{
-		inputElement.shiftScriptLibs( oldPos, newPos );
+		List<String> resources = inputElement.getIncludeResources( );
+		String resource = resources.get( oldPos );
+		resources.remove( oldPos );
+		resources.add( newPos, resource );
+		inputElement.setIncludeResources( resources );
 		return true;
 	}
 
@@ -85,26 +85,20 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		{
 			return false;
 		}
-		ScriptLibHandle scriptLibHandle = ( (ScriptLibHandle) getElements( inputElement )[pos] );
-		if ( ( scriptLibHandle != null )
-				&& ( scriptLibHandle.getStructure( ) != null )
-				&& ( scriptLibHandle.getStructure( ) instanceof ScriptLib ) )
+		List<String> resources = inputElement.getIncludeResources( );
+		if ( resources != null && resources.size( ) > pos )
 		{
-			ScriptLib scriptLib = (ScriptLib) ( scriptLibHandle.getStructure( ) );
-			inputElement.dropScriptLib( scriptLib );
+			resources.remove( pos );
+			inputElement.setIncludeResources( resources );
+			return true;
 		}
-
-		return true;
+		return false;
 	}
 
 	public boolean doAddItem( int pos ) throws Exception
 	{
 
-		AddResourceFileFolderSelectionDialog dialog = new AddResourceFileFolderSelectionDialog( new String[]{
-		"*.jar"	},	new String[]{".jar"	}); //$NON-NLS-1$ //$NON-NLS-2$
-		dialog.setHelpDialogId( IHelpContextIds.ADD_JAR_FILES_DIALOG_ID );
-
-		dialog.setExistFiles( getElmentNames( inputElement ) );
+		NewResourceFileDialog dialog = new NewResourceFileDialog( );
 
 		if ( dialog.open( ) != Window.OK )
 		{
@@ -114,10 +108,30 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		int length = selection.length;
 		for ( int i = 0; i < length; i++ )
 		{
-			String fileName = dialog.getPath( i );
-			ScriptLib lib = StructureFactory.createScriptLib( );
-			lib.setName( fileName );
-			inputElement.addScriptLib( lib );
+			String path = dialog.getPath( );
+			if ( path.lastIndexOf( "." ) > 0 ) //$NON-NLS-1$
+			{
+				path = path.substring( 0, path.lastIndexOf( "." ) ); //$NON-NLS-1$
+			}
+			if ( inputElement.getIncludeResources( ) != null )
+			{
+				List resources = inputElement.getIncludeResources( );
+				if ( !resources.contains( path ) )
+				{
+					resources.add( path );
+					inputElement.setIncludeResources( resources );
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				List<String> resources = new ArrayList<String>( );
+				resources.add( path );
+				inputElement.setIncludeResources( resources );
+			}
 		}
 		return true;
 	}
@@ -129,12 +143,11 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 
 	public String getColumnText( Object element, int columnIndex )
 	{
-		if ( element instanceof ScriptLibHandle )
+		if ( element instanceof String )
 		{
-			ScriptLibHandle srcriptLibHandle = (ScriptLibHandle) element;
 			if ( columnIndex == 0 )
 			{
-				return srcriptLibHandle.getName( );
+				return (String) element;
 			}
 		}
 		return EMPTY_STRING;
@@ -147,7 +160,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 
 	public Object[] getElements( Object inputElement )
 	{
-		List list = new ArrayList( );
+		ArrayList list = new ArrayList( );
 		if ( inputElement instanceof List )
 		{
 			inputElement = ( (List) inputElement ).get( 0 );
@@ -155,25 +168,14 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		if ( inputElement instanceof ModuleHandle )
 		{
 			this.inputElement = (ModuleHandle) inputElement;
-			list = ( (ModuleHandle) inputElement ).getAllScriptLibs( );
+			list = (ArrayList) ( (ModuleHandle) inputElement ).getIncludeResources( );
 			if ( list == null || list.size( ) == 0 )
 			{
-				return new ScriptLibHandle[0];
+				return new String[0];
 			}
 		}
 
 		return list.toArray( );
-	}
-
-	private String[] getElmentNames( Object inputElement )
-	{
-		Object[] obj = getElements( inputElement );
-		String[] names = new String[obj.length];
-		for ( int i = 0; i < names.length; i++ )
-		{
-			names[i] = ( (ScriptLibHandle) ( obj[i] ) ).getName( );
-		}
-		return names;
 	}
 
 	public boolean canModify( Object element, String property )
@@ -200,7 +202,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		}
 		PropertyEvent propertyEvent = (PropertyEvent) event;
 		if ( propertyEvent.getPropertyName( )
-				.equals( ModuleHandle.SCRIPTLIBS_PROP ) )
+				.equals( ModuleHandle.INCLUDE_RESOURCE_PROP ) )
 		{
 			return true;
 		}

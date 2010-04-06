@@ -162,7 +162,8 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		txtDisplayNameID.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		btnDisplayNameID = new Button( composite, SWT.NONE );
-		btnDisplayNameID.setEnabled( getResourceURL( ) != null ? true : false );
+		btnDisplayNameID.setEnabled( getAvailableResourceUrls( ) != null
+				&& getAvailableResourceUrls( ).length > 0 ? true : false );
 		btnDisplayNameID.setText( "..." ); //$NON-NLS-1$
 		btnDisplayNameID.setToolTipText( Messages.getString( "ResourceKeyDescriptor.button.browse.tooltip" ) ); //$NON-NLS-1$
 		btnDisplayNameID.addSelectionListener( new SelectionAdapter( ) {
@@ -203,7 +204,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		ResourceEditDialog dlg = new ResourceEditDialog( composite.getShell( ),
 				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
 
-		dlg.setResourceURL( getResourceURL( ) );
+		dlg.setResourceURLs( getResourceURLs( ) );
 
 		if ( dlg.open( ) == Window.OK )
 		{
@@ -746,7 +747,8 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 		ExpressionButtonUtil.createExpressionButton( parent,
 				text,
-				expressionProvider, bindingHolder );
+				expressionProvider,
+				bindingHolder );
 	}
 
 	public void validate( )
@@ -833,7 +835,6 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			dialog.setCanFinish( true );
 		}
 	}
-
 
 	public boolean differs( ComputedColumnHandle binding )
 	{
@@ -1034,7 +1035,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			binding.setDisplayName( txtDisplayName.getText( ) );
 			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
-	
+
 			if ( ExpressionButtonUtil.getExpressionButton( txtExpression ) != null )
 			{
 				ExpressionButtonUtil.saveExpressionButtonControl( txtExpression,
@@ -1073,17 +1074,55 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		return true;
 	}
 
-	private URL getResourceURL( )
+	private URL[] getAvailableResourceUrls( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
+		List<URL> urls = new ArrayList<URL>( );
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return urls.toArray( new URL[0] );
+		else
+		{
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				URL url = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+				if ( url != null )
+					urls.add( url );
+			}
+			return urls.toArray( new URL[0] );
+		}
 	}
 
-	private String getBaseName( )
+	private String[] getBaseNames( )
 	{
-		return SessionHandleAdapter.getInstance( )
+		List<String> resources = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getIncludeResource( );
+				.getIncludeResources( );
+		if ( resources == null )
+			return null;
+		else
+			return resources.toArray( new String[0] );
 	}
+
+	private URL[] getResourceURLs( )
+	{
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return null;
+		else
+		{
+			URL[] urls = new URL[baseNames.length];
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				urls[i] = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+			}
+			return urls;
+		}
+	}
+
 }

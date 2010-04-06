@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import java.net.URL;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -13,20 +14,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 public class TemplateDescriptorProvider extends AbstractDescriptorProvider implements
 		IResourceKeyDescriptorProvider
 {
-
-	public String getBaseName( )
-	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getIncludeResource( );
-	}
-
-	public URL getResourceURL( )
-	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
-	}
 
 	public String getBrowseText( )
 	{
@@ -93,6 +80,36 @@ public class TemplateDescriptorProvider extends AbstractDescriptorProvider imple
 	{
 
 		return Messages.getString( "ResourceKeyDescriptor.button.reset.tooltip" ); //$NON-NLS-1$
+	}
+
+	public String[] getBaseNames( )
+	{
+		List<String> resources = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getIncludeResources( );
+		if ( resources == null )
+			return null;
+		else
+			return resources.toArray( new String[0] );
+	}
+
+	public URL[] getResourceURLs( )
+	{
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return null;
+		else
+		{
+			URL[] urls = new URL[baseNames.length];
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				urls[i] = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+			}
+			return urls;
+		}
 	}
 
 }

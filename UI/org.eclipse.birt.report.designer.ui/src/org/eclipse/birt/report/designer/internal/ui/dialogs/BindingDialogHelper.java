@@ -219,7 +219,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		txtDisplayNameID.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		btnDisplayNameID = new Button( composite, SWT.NONE );
-		btnDisplayNameID.setEnabled( getResourceURL( ) != null ? true : false );
+		btnDisplayNameID.setEnabled( getAvailableResourceUrls( ) != null
+				&& getAvailableResourceUrls( ).length > 0 ? true : false );
 		btnDisplayNameID.setText( "..." ); //$NON-NLS-1$
 		btnDisplayNameID.setToolTipText( Messages.getString( "ResourceKeyDescriptor.button.browse.tooltip" ) ); //$NON-NLS-1$
 		btnDisplayNameID.addSelectionListener( new SelectionAdapter( ) {
@@ -300,7 +301,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		ResourceEditDialog dlg = new ResourceEditDialog( composite.getShell( ),
 				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
 
-		dlg.setResourceURL( getResourceURL( ) );
+		dlg.setResourceURLs( getResourceURLs( ) );
 
 		if ( dlg.open( ) == Window.OK )
 		{
@@ -1717,18 +1718,55 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		return dialog.open( ) == 0;
 	}
 
-	private URL getResourceURL( )
+	private String[] getBaseNames( )
 	{
-		return SessionHandleAdapter.getInstance( )
+		List<String> resources = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
+				.getIncludeResources( );
+		if ( resources == null )
+			return null;
+		else
+			return resources.toArray( new String[0] );
 	}
 
-	private String getBaseName( )
+	private URL[] getAvailableResourceUrls( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getIncludeResource( );
+		List<URL> urls = new ArrayList<URL>( );
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return urls.toArray( new URL[0] );
+		else
+		{
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				URL url = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+				if ( url != null )
+					urls.add( url );
+			}
+			return urls.toArray( new URL[0] );
+		}
+	}
+
+	private URL[] getResourceURLs( )
+	{
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return null;
+		else
+		{
+			URL[] urls = new URL[baseNames.length];
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				urls[i] = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+			}
+			return urls;
+		}
 	}
 
 	private void updateRemoveBtnState( )

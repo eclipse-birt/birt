@@ -43,7 +43,7 @@ public class JsFileFormProvider extends AbstractFormHandleProvider
 	}
 
 	private static final int[] COLUMN_WIDTHS = new int[]{
-		400
+		300
 	};
 	private static final String[] COLUMNS = new String[]{
 		Messages.getString( "JsFileFormProvider.Column.Name" ), //$NON-NLS-1$

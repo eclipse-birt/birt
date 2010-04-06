@@ -6,9 +6,9 @@ import java.net.URL;
 public interface IResourceKeyDescriptorProvider extends IDescriptorProvider
 {
 
-	public String getBaseName( );
+	public String[] getBaseNames( );
 	
-	public URL getResourceURL( );
+	public URL[] getResourceURLs( );
 
 	public String getBrowseText( );
 

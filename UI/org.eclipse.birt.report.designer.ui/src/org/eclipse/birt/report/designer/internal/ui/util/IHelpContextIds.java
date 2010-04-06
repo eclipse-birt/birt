@@ -163,6 +163,9 @@ public interface IHelpContextIds
 	public static final String ADD_JAR_FILES_DIALOG_ID = PREFIX
 			+ "AddJarResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$
 
+	public static final String ADD_PROPERTIES_FILES_DIALOG_ID = PREFIX
+			+ "AddPropertiesResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$
+
 	public static final String ADD_JS_FILES_DIALOG_ID = PREFIX
 			+ "AddJsResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$
 
@@ -344,15 +347,17 @@ public interface IHelpContextIds
 
 	public static final String VARIABLE_DIALOG_ID = PREFIX
 			+ "VariableDialog_ID"; //$NON-NLS-1$
-	
+
 	public static final String SELECT_VARIABLE_DIALOG_ID = PREFIX
 			+ "SelectVariableDialog_ID"; //$NON-NLS-1$
 
 	public static final String EXPRESSION_EDITOR_ID = PREFIX
 			+ "ExpressionEditor_ID"; //$NON-NLS-1$;
 
-	public static final String GROUP_RENAME_DIALOG_ID = PREFIX + "GroupRenameDialog_ID"; //$NON-NLS-1$;
+	public static final String GROUP_RENAME_DIALOG_ID = PREFIX
+			+ "GroupRenameDialog_ID"; //$NON-NLS-1$;
 
-	public static final String SUMMARY_FIELD_DIALOG_ID = PREFIX + "SummaryFieldDialog_ID"; //$NON-NLS-1$
+	public static final String SUMMARY_FIELD_DIALOG_ID = PREFIX
+			+ "SummaryFieldDialog_ID"; //$NON-NLS-1$
 
 }

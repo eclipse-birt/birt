@@ -1301,7 +1301,7 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 		ResourceEditDialog dlg = new ResourceEditDialog( btnBrowse.getShell( ),
 				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
 
-		dlg.setResourceURL( getResourceURL( ) );
+		dlg.setResourceURLs( getResourceURLs( ) );
 
 		if ( dlg.open( ) == Window.OK )
 		{
@@ -2019,5 +2019,56 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 	public void setExpressionProvider( ExpressionProvider expressionProvider )
 	{
 		this.expressionProvider = expressionProvider;
+	}
+	
+	private URL[] getAvailableResourceUrls( )
+	{
+		List<URL> urls = new ArrayList<URL>( );
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return urls.toArray( new URL[0] );
+		else
+		{
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				URL url = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+				if ( url != null )
+					urls.add( url );
+			}
+			return urls.toArray( new URL[0] );
+		}
+	}
+
+	private String[] getBaseNames( )
+	{
+		List<String> resources = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getIncludeResources( );
+		if ( resources == null )
+			return null;
+		else
+			return resources.toArray( new String[0] );
+	}
+
+	private URL[] getResourceURLs( )
+	{
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return null;
+		else
+		{
+			URL[] urls = new URL[baseNames.length];
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				urls[i] = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+			}
+			return urls;
+		}
 	}
 }

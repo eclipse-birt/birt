@@ -37,7 +37,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -188,7 +187,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		txtDisplayNameID.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		btnDisplayNameID = new Button( composite, SWT.NONE );
-		btnDisplayNameID.setEnabled( getResourceURL( ) != null ? true : false );
+		btnDisplayNameID.setEnabled( getAvailableResourceUrls( ) != null
+				&& getAvailableResourceUrls( ).length > 0 ? true : false );
 		btnDisplayNameID.setText( "..." ); //$NON-NLS-1$
 		btnDisplayNameID.setToolTipText( Messages.getString( "ResourceKeyDescriptor.button.browse.tooltip" ) ); //$NON-NLS-1$
 		btnDisplayNameID.addSelectionListener( new SelectionAdapter( ) {
@@ -269,7 +269,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		ResourceEditDialog dlg = new ResourceEditDialog( composite.getShell( ),
 				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
 
-		dlg.setResourceURL( getResourceURL( ) );
+		dlg.setResourceURLs( getResourceURLs( ) );
 
 		if ( dlg.open( ) == Window.OK )
 		{
@@ -312,7 +312,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
 							.getDisplayName( ) );
 				else
-					cmbType.setText( "" );
+					cmbType.setText( "" ); //$NON-NLS-1$
 			if ( getBinding( ).getExpression( ) != null )
 				setDataFieldExpression( getBinding( ) );
 		}
@@ -1146,12 +1146,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 											.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
 									return;
 								}
-								
+
 								dialog.setCanFinish( true );
 							}
 							catch ( Exception e )
 							{
-								
+
 							}
 							finally
 							{
@@ -1477,18 +1477,55 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		return true;
 	}
 
-	private URL getResourceURL( )
+	private URL[] getAvailableResourceUrls( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
+		List<URL> urls = new ArrayList<URL>( );
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return urls.toArray( new URL[0] );
+		else
+		{
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				URL url = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+				if ( url != null )
+					urls.add( url );
+			}
+			return urls.toArray( new URL[0] );
+		}
 	}
 
-	private String getBaseName( )
+	private String[] getBaseNames( )
 	{
-		return SessionHandleAdapter.getInstance( )
+		List<String> resources = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getIncludeResource( );
+				.getIncludeResources( );
+		if ( resources == null )
+			return null;
+		else
+			return resources.toArray( new String[0] );
+	}
+
+	private URL[] getResourceURLs( )
+	{
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return null;
+		else
+		{
+			URL[] urls = new URL[baseNames.length];
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				urls[i] = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+			}
+			return urls;
+		}
 	}
 
 	private void updateRemoveBtnState( )

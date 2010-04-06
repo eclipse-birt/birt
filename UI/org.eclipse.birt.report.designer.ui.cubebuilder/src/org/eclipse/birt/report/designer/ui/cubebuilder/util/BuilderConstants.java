@@ -46,4 +46,11 @@ public class BuilderConstants
 	public static final String HYPERLINK_REPORT_ITEM_HANDLE = "HyperLink Report Item Handle"; //$NON-NLS-1$
 	public static final String HYPERLINK_REPORT_ITEM_PROVIDER = "HyperLink Report Item Expression Provider"; //$NON-NLS-1$
 	public static final String HYPERLINK_BUTTON_TEXT = "HyperLink Button Text"; //$NON-NLS-1$
+
+	public static final String FORMAT_HELPER_KEY = "Format Helper"; //$NON-NLS-1$
+	public static final String FORMAT_LABEL = "Format Label"; //$NON-NLS-1$
+	public static final String FORMAT_BUTTON_TEXT = "Format Button Text"; //$NON-NLS-1$
+	public static final String FORMAT_VALUE = "Format Value";//$NON-NLS-1$
+	public static final String FORMAT_VALUE_TYPE = "Format Value Type";//$NON-NLS-1$
+	public static final String FORMAT_VALUE_RESULT = "Format Value Result";//$NON-NLS-1$
 }
