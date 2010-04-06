@@ -378,8 +378,8 @@ public abstract class ContainerArea extends AbstractArea
 					resolutionX = 96;
 					resolutionY = 96;
 				}
-				float imageWidth = img.plainWidth( ) / resolutionX * 72;
-				float imageHeight = img.plainHeight( ) / resolutionY * 72;
+				float imageWidth = img.getPlainWidth( ) / resolutionX * 72;
+				float imageHeight = img.getPlainHeight( ) / resolutionY * 72;
 				if ( content != null )
 				{
 					IStyle style = content.getComputedStyle( );
