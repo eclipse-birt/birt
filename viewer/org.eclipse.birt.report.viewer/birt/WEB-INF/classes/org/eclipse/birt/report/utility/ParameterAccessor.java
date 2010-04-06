@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -42,7 +41,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
-import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
@@ -1199,7 +1197,7 @@ public class ParameterAccessor
 	{
 		assert request != null && paramName != null;
 
-		List paramList = new ArrayList( );
+		List<String> paramList = new ArrayList<String>( );
 
 		Set params = getParameterValues( request, paramName );
 		if ( params != null )
@@ -1241,7 +1239,7 @@ public class ParameterAccessor
 
 	public static Collection getSelectedColumns( HttpServletRequest request )
 	{
-		ArrayList columns = new ArrayList( );
+		ArrayList<String> columns = new ArrayList<String>( );
 
 		int columnCount = getParameterAsInt( request,
 				PARAM_SELECTEDCOLUMNNUMBER );
@@ -1318,8 +1316,9 @@ public class ParameterAccessor
 
 		StringBuffer sbHtmlEncoded = new StringBuffer( );
 		final char chrarry[] = s.toCharArray( );
+		final int length = chrarry.length;
 
-		for ( int i = 0; i < chrarry.length; i++ )
+		for ( int i = 0; i < length; i++ )
 		{
 			char c = chrarry[i];
 
@@ -1362,7 +1361,32 @@ public class ParameterAccessor
 					sbHtmlEncoded.append( "&#47;" ); //$NON-NLS-1$
 					break;
 				default :
-					sbHtmlEncoded.append( c );
+					if ( ( c > 0xd7ff && c < 0xdc00 ) && ( i + 1 ) < length )
+					{
+						i++;
+
+						char nc = chrarry[i];
+
+						if ( nc > 0xdbff && nc < 0xe000 )
+						{
+							// surrogates matched, must be character >= 0x10000
+
+							int rc = ( ( c - 0xd7c0 ) << 10 ) | ( nc & 0x3ff );
+
+							sbHtmlEncoded.append( "&#" ) //$NON-NLS-1$
+									.append( rc )
+									.append( ';' );
+						}
+						else
+						{
+							sbHtmlEncoded.append( c );
+							sbHtmlEncoded.append( nc );
+						}
+					}
+					else
+					{
+						sbHtmlEncoded.append( c );
+					}
 			}
 		}
 
@@ -2032,12 +2056,12 @@ public class ParameterAccessor
 	public static Set getParameterValues( HttpServletRequest request,
 			String parameterName )
 	{
-		Set parameterValues = null;
+		Set<String> parameterValues = null;
 		String[] parameterValuesArray = request.getParameterValues( parameterName );
 
 		if ( parameterValuesArray != null )
 		{
-			parameterValues = new LinkedHashSet( );
+			parameterValues = new LinkedHashSet<String>( );
 
 			for ( int i = 0; i < parameterValuesArray.length; i++ )
 			{
@@ -2446,10 +2470,10 @@ public class ParameterAccessor
 			PropertyResourceBundle bundle = new PropertyResourceBundle( is );
 			if ( bundle != null )
 			{
-				Enumeration keys = bundle.getKeys( );
+				Enumeration<String> keys = bundle.getKeys( );
 				while ( keys != null && keys.hasMoreElements( ) )
 				{
-					String key = (String) keys.nextElement( );
+					String key = keys.nextElement( );
 					String value = (String) bundle.getObject( key );
 					if ( key != null && value != null )
 						props.put( key, value );
