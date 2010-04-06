@@ -525,4 +525,8 @@ public interface IReportGraphicConstants
 	public static final String ICON_NODE_EXTFOL = "ExtFol"; //$NON-NLS-1$
 	public static final String ICON_NODE_JAR = "JAR"; //$NON-NLS-1$
 	public static final String ICON_NODE_FOL = "FOL"; //$NON-NLS-1$
+
+	// copy/paste format actions
+	public static final String ICON_COPY_FORMAT = "CopyFormat"; //$NON-NLS-1$
+	public static final String ICON_PASTE_FORMAT = "PasteFormat"; //$NON-NLS-1$
 }

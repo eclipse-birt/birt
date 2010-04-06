@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ContextSelectionAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
@@ -78,6 +80,7 @@ public class CopyFormatAction extends ContextSelectionAction
 		super( part );
 		setId( ID );
 		setText( ACTION_TEXT );
+		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_COPY_FORMAT ) );
 		instanceCount++;
 	}
 
