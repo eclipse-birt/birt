@@ -13,10 +13,12 @@ package org.eclipse.birt.chart.ui.swt;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
@@ -30,9 +32,8 @@ public final class ColorPalette
 {
 
 	private static ColorPalette instance = null;
-	private List colorLib = new ArrayList( );
-	private List colorAvailable = new ArrayList( );
-	private Color currentColor;
+	private List<RGB> colorLib = new ArrayList<RGB>( );
+	private Stack<RGB> colorAvailable = new Stack<RGB>( );
 	private HashMap<String, Color> hmColorUsed = new HashMap<String, Color>( );
 
 	private ColorPalette( )
@@ -64,6 +65,7 @@ public final class ColorPalette
 		colorLib.add( new RGB( 210, 210, 210 ) );
 		colorLib.add( new RGB( 184, 184, 114 ) );
 		colorLib.add( new RGB( 128, 128, 128 ) );
+		Collections.reverse( colorLib );
 	}
 
 	/**
@@ -90,45 +92,15 @@ public final class ColorPalette
 		return color;
 	}
 
-	/**
-	 * Gets new color from palette.
-	 * 
-	 * @return new color
-	 */
-	public Color getNewColor( )
-	{
-		Color color = getColor( );
-		currentColor = color;
-		if ( color != null )
-		{
-			colorAvailable.remove( color.getRGB( ) );
-		}
-		return color;
-	}
-
-	private Color getColor( )
+	private Color getAvailableColor( )
 	{
 		RGB rgb = colorAvailable.isEmpty( ) ? null
-				: (RGB) colorAvailable.get( 0 );
+				: (RGB) colorAvailable.pop( );
 		if ( rgb == null )
 		{
 			return null;
 		}
 		return getColor( rgb );
-	}
-
-	/**
-	 * Returns the color obtained last time
-	 * 
-	 * @return the color
-	 */
-	public Color getCurrentColor( )
-	{
-		if ( currentColor == null )
-		{
-			currentColor = getColor( );
-		}
-		return currentColor;
 	}
 
 	/**
@@ -145,13 +117,7 @@ public final class ColorPalette
 			expression = expression.toUpperCase( );
 			if ( !hmColorUsed.containsKey( expression ) )
 			{
-				hmColorUsed.put( expression, getNewColor( ) );
-				colorAvailable.remove( getCurrentColor( ).getRGB( ) );
-			}
-			else
-			{
-				// Set binding color be the current
-				currentColor = getColor( expression );
+				hmColorUsed.put( expression, getAvailableColor( ) );
 			}
 		}
 	}
@@ -163,9 +129,8 @@ public final class ColorPalette
 			expression = expression.toUpperCase( );
 			if ( hmColorUsed.containsKey( expression ) )
 			{
-				Color oldColor = (Color) hmColorUsed.get( expression );
-				colorAvailable.add( oldColor.getRGB( ) );
-				hmColorUsed.remove( expression );
+				Color oldColor = hmColorUsed.remove( expression );
+				colorAvailable.push( oldColor.getRGB( ) );
 			}
 		}
 	}
@@ -181,8 +146,7 @@ public final class ColorPalette
 	{
 		if ( expression != null && expression.length( ) > 0 )
 		{
-			expression = expression.toUpperCase( );
-			return (Color) hmColorUsed.get( expression );
+			return hmColorUsed.get( expression.toUpperCase( ) );
 		}
 		return null;
 	}
@@ -195,7 +159,6 @@ public final class ColorPalette
 	{
 		colorAvailable.clear( );
 		colorAvailable.addAll( colorLib );
-		currentColor = null;
 		hmColorUsed.clear( );
 	}
 
