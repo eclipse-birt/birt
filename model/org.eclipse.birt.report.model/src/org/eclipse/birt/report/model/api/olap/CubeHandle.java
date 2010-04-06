@@ -72,6 +72,8 @@ public abstract class CubeHandle extends ReportElementHandle
 		if ( !getElement( ).canDynamicExtends( ) )
 		{
 			Dimension dimension = module.findDimension( dimensionName );
+			if ( dimension == null )
+				return null;
 			if ( dimension.isContentOf( getElement( ) ) )
 				return (DimensionHandle) dimension.getHandle( module );
 			else
@@ -83,7 +85,7 @@ public abstract class CubeHandle extends ReportElementHandle
 					for ( BackRef ref : clients )
 					{
 						DesignElement client = ref.getElement( );
-						if (	client.isContentOf( getElement( ) ))
+						if ( client.isContentOf( getElement( ) ) )
 							return (DimensionHandle) client.getHandle( module );
 					}
 				}
