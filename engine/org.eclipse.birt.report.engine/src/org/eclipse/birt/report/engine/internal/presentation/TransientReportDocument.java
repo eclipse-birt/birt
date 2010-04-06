@@ -13,10 +13,12 @@ package org.eclipse.birt.report.engine.internal.presentation;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -220,6 +222,18 @@ public class TransientReportDocument implements IInternalReportDocument
 				.getDocumentExtension( name );
 	}
 
+	public Map<String, ParameterAttribute> loadParameters( ClassLoader loader )
+			throws EngineException
+	{
+		return new HashMap<String, ParameterAttribute>( );
+	}
+
+	public Map<String, Object> loadVariables( ClassLoader loader )
+			throws EngineException
+	{
+		return new HashMap<String, Object>( );
+	}
+
 	public TOCReader getTOCReader( ClassLoader loader ) throws EngineException
 	{
 		return null;
@@ -229,4 +243,5 @@ public class TransientReportDocument implements IInternalReportDocument
 	{
 		return document.getSystemId();
 	}
+	
 }

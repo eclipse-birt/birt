@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.Map;
+
+import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -36,6 +39,12 @@ public interface IInternalReportDocument extends IReportDocument
 
 	IReportDocumentExtension getDocumentExtension( String extension )
 			throws EngineException;
-	
+
 	ITOCReader getTOCReader( ClassLoader loader ) throws EngineException;
+
+	Map<String, ParameterAttribute> loadParameters( ClassLoader loader )
+			throws EngineException;
+
+	Map<String, Object> loadVariables( ClassLoader loader )
+			throws EngineException;
 }

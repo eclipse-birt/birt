@@ -64,7 +64,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.IResultSetItem;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader.ReportDocumentCoreInfo;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteMetaInfoIOUtil;
@@ -205,13 +204,12 @@ public class DataExtractionTaskV1 extends EngineTask
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
 
-		// load the informationf rom the report document
+		// load the information from the report document
 		ClassLoader classLoader = executionContext.getApplicationClassLoader( );
-		ReportDocumentCoreInfo docInfo = reportDocReaderImpl
-				.loadParametersAndVariables(classLoader);
-		setParameters( docInfo.parameters );
+		setParameters( reportDocReaderImpl.loadParameters( classLoader ) );
 		usingParameterValues( );
-		executionContext.registerGlobalBeans( docInfo.globalVariables );
+		executionContext.registerGlobalBeans( reportDocReaderImpl
+				.loadVariables( classLoader ) );
 
 	}
 
