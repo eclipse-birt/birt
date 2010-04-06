@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,6 +55,8 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 	
 	private Map<String, IBinding> nameToBinding = new HashMap<String, IBinding>( );
 	
+	private ICubeOperation[] realCubeOperations = new ICubeOperation[0];
+		
 	public PreparedCubeQueryDefinition( ICubeQueryDefinition cqd ) throws DataException
 	{
 		assert cqd != null;
@@ -80,7 +83,10 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 			}
 			realBindings.add( binding );
 		}
-		convertToCubeOperations( );
+		List<ICubeOperation> convertedCubeOperations = getConvertedCubeOperations( );
+		List<ICubeOperation> all = new ArrayList<ICubeOperation>( Arrays.asList( cqd.getCubeOperations( )));
+		all.addAll( convertedCubeOperations );
+		realCubeOperations = all.toArray( new ICubeOperation[0] );
 	}
 	
 	public ICubeQueryDefinition getCubeQueryDefinition( )
@@ -88,8 +94,9 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		return this.cqd;
 	}
 	
-	private void convertToCubeOperations( ) throws DataException
+	private List<ICubeOperation> getConvertedCubeOperations( ) throws DataException
 	{
+		List<ICubeOperation> convertedCubeOperations = new ArrayList<ICubeOperation>( );
 		Set<DirectedGraphEdge> edges = new HashSet<DirectedGraphEdge>( );
 		for ( IBinding binding : bindingsForNestAggregation )
 		{
@@ -118,7 +125,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		for ( GraphNode node : nodes )
 		{
 			IBinding b = (IBinding)node.getValue( );
-			cqd.addCubeOperation( CubeOperationFactory.getInstance( ).createAddingNestAggregationsOperation( new IBinding[]{b} ) );
+			convertedCubeOperations.add( CubeOperationFactory.getInstance( ).createAddingNestAggregationsOperation( new IBinding[]{b} ) );
 			processed.add( b );
 		}
 		
@@ -132,11 +139,9 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 					left.add( b );
 				}
 			}
-			cqd.addCubeOperation( CubeOperationFactory.getInstance( ).createAddingNestAggregationsOperation( left.toArray( new IBinding[0] ) ) );
+			convertedCubeOperations.add( CubeOperationFactory.getInstance( ).createAddingNestAggregationsOperation( left.toArray( new IBinding[0] ) ) );
 		}
-		
-		
-		
+		return convertedCubeOperations;
 	}
 
 	public void addBinding( IBinding binding )
@@ -196,7 +201,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 
 	public ICubeOperation[] getCubeOperations( )
 	{
-		return cqd.getCubeOperations( );
+		return realCubeOperations;
 	}
 
 	public IEdgeDefinition getEdge( int type )
