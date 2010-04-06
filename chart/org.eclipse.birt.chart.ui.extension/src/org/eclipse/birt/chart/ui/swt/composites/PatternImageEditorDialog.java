@@ -166,7 +166,10 @@ public class PatternImageEditorDialog extends TrayDialog
 
 		protected Composite createDropDown( Composite parent )
 		{
-			return new Composite( parent, SWT.NONE );
+			Composite composite = new Composite( parent, SWT.NONE );
+			composite.addListener( SWT.FocusOut, this );
+			composite.addListener( SWT.KeyDown, this );
+			return composite;
 		}
 
 		public void handleEvent( Event event )
@@ -211,8 +214,6 @@ public class PatternImageEditorDialog extends TrayDialog
 				shell.setLayout( new GridLayout( ) );
 				shell.setLocation( x, y );
 				dropDown = createDropDown( shell );
-				dropDown.addListener( SWT.KeyDown, this );
-				dropDown.addListener( SWT.FocusOut, this );
 				shell.layout( );
 				shell.pack( );
 				shell.open( );
@@ -311,7 +312,6 @@ public class PatternImageEditorDialog extends TrayDialog
 			composite.addListener( SWT.MouseDown, this );
 			composite.addListener( SWT.FocusOut, this );
 			composite.addListener( SWT.KeyDown, this );
-			composite.addListener( SWT.Traverse, this );
 			composite.addPaintListener( this );
 			return composite;
 		}
