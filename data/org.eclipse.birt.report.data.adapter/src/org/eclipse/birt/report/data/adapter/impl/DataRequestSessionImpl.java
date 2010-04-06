@@ -795,8 +795,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 				String[] keyNames = dimensions[i].getHierarchy().getLevels()[dimensions[i]
 						.getHierarchy().getLevels().length - 1].getKeyNames();
-				factTableKey[i] = keyNames;
-				dimensionKey[i] = factTableKey[i];
+				factTableKey[i] = new String[keyNames.length];
+				dimensionKey[i] = new String[keyNames.length];
+				for ( int j = 0; j<keyNames.length; j++)
+				{
+					factTableKey[i][j] =  dim.getName() + "/" + keyNames[j];
+					dimensionKey[i][j] = keyNames[j];
+				}
 			}
 			else
 			{
@@ -1150,17 +1155,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 						appContext,
 						queryMap,
 						metaMap, sl );
-				TabularDimensionHandle dimHandle = (TabularDimensionHandle) cubeHandle.getDimension( dim.getName( ) );
-				TabularHierarchyHandle hier = (TabularHierarchyHandle) dimHandle.getDefaultHierarchy( );
-				if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null )
-				{
-					String[] keyNames = dim.getHierarchy().getLevels()[dim
-							.getHierarchy().getLevels().length - 1].getKeyNames();
-					for( int j = 0; j < keyNames.length; j++)                                       						
-					{
-						keyNames[j] = dim.getName() + "/" + keyNames[j];
-					}
-				}
 				createdDimensions.put( dh.getName( ), dim );
 			}
 			result.add( dim);
