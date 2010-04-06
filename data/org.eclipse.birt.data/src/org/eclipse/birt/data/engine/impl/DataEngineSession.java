@@ -290,6 +290,13 @@ public class DataEngineSession
 	{
 		return this.stopSign;
 	}
+	
+	public void cancel( )
+	{
+		this.stopSign.stop( );
+		this.stopSign = new StopSign( );
+	}
+	
 	/**
 	 * 
 	 * @return

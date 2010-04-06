@@ -809,7 +809,7 @@ public class DataEngineImpl extends DataEngine
 
 	public void cancel( )
 	{
-		this.session.getStopSign( ).stop( );
+		this.session.cancel( );
 	}
 	
 	public ValidationContext getValidationContext( DataSourceRuntime dataSource, IOdaDataSetDesign dataSet )
