@@ -409,7 +409,7 @@ class ResultSetsAdapter
 		// different.
 	}
 
-	private static String convertToROMHorizontalAlignment(
+	static String convertToROMHorizontalAlignment(
 			HorizontalAlignment tmpAlign )
 	{
 		if ( tmpAlign == null )
@@ -453,7 +453,7 @@ class ResultSetsAdapter
 		return null;
 	}
 
-	private static Boolean convertToROMWordWrap( TextWrapType newValue )
+	static Boolean convertToROMWordWrap( TextWrapType newValue )
 	{
 		if ( newValue == null )
 			return null;
@@ -520,7 +520,7 @@ class ResultSetsAdapter
 	 *            the oda axis type
 	 * @return the rom analysis type, or null if no such type defined in rom
 	 */
-	private static String convertAxisTypeToAnalysisType( AxisType axisType )
+	static String convertAxisTypeToAnalysisType( AxisType axisType )
 	{
 		switch ( axisType )
 		{

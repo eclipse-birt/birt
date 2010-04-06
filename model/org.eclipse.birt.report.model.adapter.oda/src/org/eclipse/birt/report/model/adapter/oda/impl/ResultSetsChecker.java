@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute;
 import org.eclipse.birt.report.model.adapter.oda.IAmbiguousResultSetNode;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
@@ -42,6 +43,8 @@ class ResultSetsChecker
 
 	private final Iterator setDefinedResultsIter;
 
+	private final Iterator columnHintsIter;
+
 	/**
 	 * @param setDesign
 	 * @param cachedParameters
@@ -52,6 +55,7 @@ class ResultSetsChecker
 	{
 		this.setDesign = setDesign;
 		this.setDefinedResultsIter = setHandle.resultSetIterator( );
+		this.columnHintsIter = setHandle.columnHintsIterator( );
 	}
 
 	/**
@@ -105,15 +109,18 @@ class ResultSetsChecker
 				existingColumnHandle = ResultSetsAdapter
 						.findOdaResultSetColumn( setDefinedResultsIter,
 								nativeName, position, nativeDataType );
-
 			}
 
 			// if not found the matched column handle, do nothing
 			if ( existingColumnHandle == null )
 				continue;
+			
+			ColumnHintHandle existingColumnHintHandle = AdapterUtil
+					.findColumnHint( existingColumnHandle.getColumnName( ),
+							columnHintsIter );
 
 			ResultSetColumnChecker oneChecker = new ResultSetColumnChecker(
-					columnDefn, existingColumnHandle );
+					columnDefn, existingColumnHandle, existingColumnHintHandle );
 
 			List<IAmbiguousAttribute> attrs = oneChecker.process( );
 			if ( attrs == null || attrs.isEmpty( ) )
