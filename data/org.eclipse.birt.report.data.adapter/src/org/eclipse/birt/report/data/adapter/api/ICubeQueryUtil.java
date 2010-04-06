@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 /**
@@ -117,6 +118,10 @@ public interface ICubeQueryUtil
 			String targetLevel, ILevelDefinition[] higherLevelDefns,
 			Object[] values, Map appContext ) throws AdapterException;
 	
+	
+	public Iterator getMemberValueIterator( CubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values ) throws AdapterException;
 	/**
 	 * 
 	 * @param cubeHandle
@@ -124,12 +129,18 @@ public interface ICubeQueryUtil
 	 * @param dimensionLevels
 	 * @param values
 	 * @return
+	 * @deprecated use Method getMemberValueIterator( CubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values, Map appContext ) throws AdapterException;
 	 * @throws AdapterException
 	 */
 	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
 			String targetLevel, DimensionLevel[] dimensionLevels,
 			Object[] values ) throws AdapterException;
 
+	public Iterator getMemberValueIterator( CubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values, Map appContext ) throws AdapterException;
 	/**
 	 * 
 	 * @param cubeHandle
@@ -138,11 +149,23 @@ public interface ICubeQueryUtil
 	 * @param values
 	 * @param appContext
 	 * @return
+	 * @deprecated use Method getMemberValueIterator( CubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values, Map appContext ) throws AdapterException;
 	 * @throws AdapterException
 	 */
 	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
 			String targetLevel, DimensionLevel[] dimensionLevels,
 			Object[] values, Map appContext ) throws AdapterException;
+	
+	public Iterator getMemberValueIterator( CubeHandle cubeHandle,
+			String dataBindingExpr, ICubeQueryDefinition queryDefn )
+			throws AdapterException;
+	
+	public Iterator getMemberValueIterator( CubeHandle cubeHandle,
+			String dataBindingExpr, ICubeQueryDefinition queryDefn,Map appContext )
+			throws AdapterException;
+	
 	/**
 	 * Return member value of a given level.
 	 * @param cubeHandle

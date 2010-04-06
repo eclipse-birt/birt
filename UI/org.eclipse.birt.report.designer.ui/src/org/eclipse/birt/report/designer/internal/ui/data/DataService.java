@@ -20,6 +20,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
  * DataService
@@ -66,6 +67,15 @@ public class DataService
 	}
 	
 	public void registerSession( DataSetHandle handle,
+			DataRequestSession session ) throws BirtException
+	{
+		if ( provider != null )
+		{
+			provider.registerSession( handle, session );
+		}
+	}
+	
+	public void registerSession( CubeHandle handle,
 			DataRequestSession session ) throws BirtException
 	{
 		if ( provider != null )
