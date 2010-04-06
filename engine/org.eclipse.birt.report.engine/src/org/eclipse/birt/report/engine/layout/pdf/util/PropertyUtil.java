@@ -116,6 +116,8 @@ public class PropertyUtil
 				logger.log( Level.WARNING, "invalid color: {0}", value ); //$NON-NLS-1$
 			}
 		}
+		else if ( value instanceof StringValue )
+			return getColor( value.toString( ) );
 		return null;
 	}
 
