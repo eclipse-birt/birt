@@ -31,7 +31,6 @@ import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader.ReportDocumentCoreInfo;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
@@ -111,7 +110,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		executionContext.setReportDocument( reportDocument );
 
 		assert ( reportDocument instanceof IInternalReportDocument );
-		ReportDocumentReader internalReportDoc = (ReportDocumentReader) reportDocument;
+		IInternalReportDocument internalReportDoc = (IInternalReportDocument) reportDocument;
 		if ( reportRunnable == null )
 		{
 			// load the report runnable from the document
@@ -145,16 +144,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		if ( !variablesLoaded )
 		{
-			ReportDocumentReader documentReader = (ReportDocumentReader)reportDocument;
-			// load the information from the report document
-			ClassLoader classLoader = executionContext.getApplicationClassLoader();
-			ReportDocumentCoreInfo docInfo = documentReader
-					.loadParametersAndVariables(classLoader);
-			setParameters( docInfo.parameters );
-			usingParameterValues( );
-			executionContext.registerGlobalBeans(docInfo.globalVariables);
+			IInternalReportDocument documentReader = (IInternalReportDocument) reportDocument;
 			try
 			{
+				// load the information from the report document
+				ClassLoader classLoader = executionContext
+						.getApplicationClassLoader( );
+				setParameters( documentReader.loadParameters( classLoader ) );
+				usingParameterValues( );
+				executionContext.registerGlobalBeans( documentReader
+						.loadVariables( classLoader ) );
 				tocReader = documentReader.getTOCReader( classLoader );
 			}
 			catch ( EngineException e )

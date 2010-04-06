@@ -54,7 +54,6 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 		parameterDisplayTexts.putAll( context.getParameterDisplayTexts( ) );
 		beans.putAll( context.getGlobalBeans( ) );
 		errors = context.getErrors( );
-
 	}
 
 	public long getPageNumber( )

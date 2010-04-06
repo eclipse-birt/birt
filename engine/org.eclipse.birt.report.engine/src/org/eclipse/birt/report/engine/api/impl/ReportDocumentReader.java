@@ -935,24 +935,26 @@ public class ReportDocumentReader
 
 	public Map getParameterValues( ClassLoader loader )
 	{
-		ReportDocumentCoreInfo reportDocInfo = loadParametersAndVariables( loader );
-		if ( reportDocInfo == null )
-		{
-			return null;
-		}
-		HashMap parameters = reportDocInfo.parameters;
 		Map result = new HashMap( );
-		if ( parameters != null )
+		try
 		{
-			Iterator iterator = parameters.entrySet( ).iterator( );
-			while ( iterator.hasNext( ) )
+			Map parameters = loadParameters( loader );
+			if ( parameters != null )
 			{
-				Map.Entry entry = (Map.Entry) iterator.next( );
-				String name = (String) entry.getKey( );
-				ParameterAttribute value = (ParameterAttribute) entry
-						.getValue( );
-				result.put( name, value.getValue( ) );
+				Iterator iterator = parameters.entrySet( ).iterator( );
+				while ( iterator.hasNext( ) )
+				{
+					Map.Entry entry = (Map.Entry) iterator.next( );
+					String name = (String) entry.getKey( );
+					ParameterAttribute value = (ParameterAttribute) entry
+							.getValue( );
+					result.put( name, value.getValue( ) );
+				}
 			}
+		}
+		catch ( EngineException ex )
+		{
+			logger.log( Level.SEVERE, ex.getLocalizedMessage( ), ex );
 		}
 		return result;
 	}
@@ -961,40 +963,70 @@ public class ReportDocumentReader
 	{
 		if ( globalVariables == null )
 		{
+			assert ( bodyData != null );
+
 			ClassLoader loader = getClassLoader( );
-			ReportDocumentCoreInfo documentInfo = loadParametersAndVariables( loader );
-			this.globalVariables = documentInfo.globalVariables;
-			this.parameters = documentInfo.parameters;
+			DataInputStream dataStream = new DataInputStream(
+					new ByteArrayInputStream( bodyData ) );
+			try
+			{
+				parameters = (HashMap) IOUtil.readMap( dataStream, loader );
+				parameters = (HashMap) convertToCompatibleParameter( parameters );
+				globalVariables = (HashMap) IOUtil.readMap( dataStream, loader );
+			}
+			catch ( IOException ex )
+			{
+				logger
+						.log(
+								Level.SEVERE,
+								"Failed to load parameters and variables in the core stream", ex ); //$NON-NLS-1$
+			}
 		}
 	}
 
-	public ReportDocumentCoreInfo loadParametersAndVariables( ClassLoader loader )
+	public Map<String, ParameterAttribute> loadParameters( ClassLoader loader )
+			throws EngineException
 	{
 		loadCoreStreamLazily( );
-		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
 		if ( bodyData == null )
 		{
-			documentInfo.parameters = parameters;
-			documentInfo.globalVariables = globalVariables;
-			return documentInfo;
+			return parameters;
 		}
 		try
 		{
 			DataInputStream dataStream = new DataInputStream(
 					new ByteArrayInputStream( bodyData ) );;
-			Map originalParameters = IOUtil.readMap( dataStream, loader );
-			documentInfo.parameters = convertToCompatibleParameter( originalParameters );
-			// load the persistence object
-			documentInfo.globalVariables = (HashMap) IOUtil.readMap(
-					dataStream, loader );
+			Map parameters = IOUtil.readMap( dataStream, loader );
+			return convertToCompatibleParameter( parameters );
 		}
 		catch ( IOException ee )
 		{
-			logger.log( Level.SEVERE,
+			throw new EngineException(
+					"Failed to load parameters in the core stream", ee );  //$NON-NLS-1$
+		}
+	}
+
+	public Map loadVariables( ClassLoader loader ) throws EngineException
+	{
+		loadCoreStreamLazily( );
+		if ( bodyData == null )
+		{
+			return globalVariables;
+		}
+		try
+		{
+			DataInputStream dataStream = new DataInputStream(
+					new ByteArrayInputStream( bodyData ) );;
+			// skip the parameters
+			IOUtil.readMap( dataStream, loader );
+			// load the persistence object
+			return IOUtil.readMap( dataStream, loader );
+		}
+		catch ( IOException ee )
+		{
+			throw new EngineException(
 					"Failed to load variables in the core stream", ee ); //$NON-NLS-1$
 		}
-
-		return documentInfo;
 	}
 
 	public Map getParameterDisplayTexts( )
