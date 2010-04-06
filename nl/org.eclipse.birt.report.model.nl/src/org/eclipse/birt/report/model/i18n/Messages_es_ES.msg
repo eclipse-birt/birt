@@ -3897,6 +3897,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=Ya existe el espacio de nombr
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=La librería con el espacio de nombres "{0}" está incluida recursivamente.
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=La librería "{0}" no se puede suprimir ya que tiene descendientes "{1}" en el módulo activo.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=La librería "{0}" ya se ha incluido, no se puede añadir una librería dos veces.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=No se ha encontrado el recurso de hoja de estilos.

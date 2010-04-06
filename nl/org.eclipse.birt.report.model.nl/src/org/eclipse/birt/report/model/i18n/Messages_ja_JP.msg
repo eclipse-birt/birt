@@ -3897,6 +3897,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=ライブラリの "{0}" という名前
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY="{0}" という名前空間を持つライブラリが繰り返し含まれています。
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=ライブラリ "{0}" には現在のモジュールに含まれる下位レベル "{1}" があるため、削除できません。
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=ライブラリ "{0}" はすでにインクルードされています。同じライブラリを 2 回追加することはできません。
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=スタイルシートのリソースが見つかりません。

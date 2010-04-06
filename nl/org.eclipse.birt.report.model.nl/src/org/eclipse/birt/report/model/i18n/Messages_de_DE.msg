@@ -3897,6 +3897,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=Der Bibliothek-Namespace "{0}
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=Die Bibliothek mit dem Namespace "{0}" ist rekursiv einbezogen.
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=Die Bibliothek "{0}" kann nicht abgelegt werden, da sie im aktuellen Modul untergeordnete Elemente "{1}" aufweist.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=Die Bibliothek "{0}" ist bereits enthalten. Bibliotheken können nicht doppelt hinzugefügt werden.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=Die Stilvorlagen-Ressource wurde nicht gefunden.

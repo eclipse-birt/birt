@@ -3897,6 +3897,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=라이브러리 네임스페이스 "{0}"
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=네임스페이스가 "{0}"인 라이브러리가 반복 포함됩니다.
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=현재 모듈에 파생물 "{1}"이(가) 있으므로 라이브러리 "{0}"을(를) 삭제할 수 없습니다.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=라이브러리 "{0}"이(가) 이미 포함되어 있으며 라이브러리는 두 번 추가할 수 없습니다.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=스타일시트 리소스가 없습니다.

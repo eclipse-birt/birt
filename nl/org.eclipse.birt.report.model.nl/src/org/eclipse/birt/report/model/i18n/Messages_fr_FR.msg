@@ -3897,6 +3897,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=L''espace nom de bibliothèque
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=La bibliothèque avec le nom d''espace "{0}" est incluse de façon récurrente.
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=La bibliothèque "{0}" ne peut pas être supprimée, car elle possède des descendants "{1}" dans le module en cours.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=La bibliothèque "{0}" a déjà été incluse, une bibliothèque ne peut pas être ajoutée deux fois.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=La ressource de la feuille de style est introuvable.
