@@ -715,7 +715,7 @@ public class PostscriptWriter
 		{
 			this.font = f;
 			String javaName = font.getFamilyname( );
-			int javaStyle = font.style( );
+			int javaStyle = font.getStyle( );
 			setFont( javaName, javaStyle );
 		}
 	}
