@@ -20,6 +20,8 @@ public class HyperlinkInfo
 
 	private String tooltip;
 
+	private String color;
+
 	public static final int BOOKMARK = 0;
 
 	public static final int HYPERLINK = 1;
@@ -57,5 +59,15 @@ public class HyperlinkInfo
 	public int getType( )
 	{
 		return this.type;
+	}
+
+	public void setColor( String color )
+	{
+		this.color = color;
+	}
+
+	public String getColor( )
+	{
+		return this.color;
 	}
 }

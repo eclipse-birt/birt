@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -670,8 +671,16 @@ public class ExcelLayoutEngine
 	{
 		if ( link != null )
 		{
-			entry.setProperty( StyleConstant.COLOR_PROP,
-								StyleConstant.HYPERLINK_COLOR );
+			Color color = link.getColor( );
+			if ( color != null )
+			{
+				entry.setProperty( StyleConstant.COLOR_PROP, color );
+			}
+			else
+			{
+				entry.setProperty( StyleConstant.COLOR_PROP,
+						StyleConstant.HYPERLINK_COLOR );
+			}
 			entry.setProperty( StyleConstant.TEXT_UNDERLINE_PROP, true );
 			entry.setName( StyleEntry.ENTRYNAME_HYPERLINK );
 		}

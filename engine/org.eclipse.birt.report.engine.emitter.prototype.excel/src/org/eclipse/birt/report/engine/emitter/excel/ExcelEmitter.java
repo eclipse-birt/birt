@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
@@ -581,6 +582,12 @@ public class ExcelEmitter extends ContentEmitterAdapter
 							IHyperlinkAction.ACTION_DRILLTHROUGH, tooltip );
 					break;
 			}
+		}
+		if ( hyperlink != null )
+		{
+			Color color = PropertyUtil.getColor( content.getStyle( )
+					.getProperty( IStyle.STYLE_COLOR ) );
+			hyperlink.setColor( color );
 		}
 		return hyperlink;
 	}

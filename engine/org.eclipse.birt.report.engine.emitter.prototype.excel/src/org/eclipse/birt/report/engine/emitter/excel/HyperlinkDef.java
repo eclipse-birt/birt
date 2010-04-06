@@ -10,6 +10,8 @@
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.excel;
+
+import java.awt.Color;
 import java.io.Serializable;
 
 public class HyperlinkDef implements Serializable, Cloneable
@@ -17,6 +19,7 @@ public class HyperlinkDef implements Serializable, Cloneable
 	private String url;
 	private int type;
     private String toolTip;
+	private Color color;
     
 	public HyperlinkDef( String url, int type, String toolTip )
 	{
@@ -48,5 +51,15 @@ public class HyperlinkDef implements Serializable, Cloneable
 	public void setToolTip(String toolTip)
 	{
 		this.toolTip = toolTip;
+	}
+
+	public void setColor( Color color )
+	{
+		this.color = color;
+	}
+
+	public Color getColor( )
+	{
+		return this.color;
 	}
 }

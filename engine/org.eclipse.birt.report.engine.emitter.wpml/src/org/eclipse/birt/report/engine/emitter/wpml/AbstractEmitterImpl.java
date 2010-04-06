@@ -891,6 +891,12 @@ public abstract class AbstractEmitterImpl
 					break;
 			}
 		}
+		if ( hyperlink != null )
+		{
+			String color = WordUtil
+					.parseColor( content.getStyle( ).getColor( ) );
+			hyperlink.setColor( color );
+		}
 		return hyperlink;
 	}
 
