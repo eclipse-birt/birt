@@ -1849,6 +1849,11 @@ public class ExecutionContext
 	{
 		return isCancelled;
 	}
+	
+	public void restart(  )
+	{
+		this.isCancelled = false;
+	}
 
 	public void setCancelOnError( boolean cancel )
 	{
