@@ -32,11 +32,11 @@ public class ImageData extends SheetData
 		this.styleId = styleId;
 		height = ExcelUtil.convertDimensionType( image.getHeight( ), imageInfo
 				.getHeight( )
-				* ExcelUtil.INCH_PT / heightDpi, heightDpi ) / 1000;
+				* 1000 * ExcelUtil.INCH_PT / heightDpi, heightDpi ) / 1000;
 		imageHeight = (int) height;
 		int imageWidth = (int) ExcelUtil.convertDimensionType(
-				image.getWidth( ), imageInfo.getWidth( ) * ExcelUtil.INCH_PT
-						/ widthDpi, widthDpi );
+				image.getWidth( ), imageInfo.getWidth( ) * 1000
+						* ExcelUtil.INCH_PT / widthDpi, widthDpi );
 		width = Math.min( currentContainer.getSizeInfo( ).getWidth( ),
 				imageWidth );
 		altText = image.getAltText( );
