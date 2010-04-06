@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,7 +27,9 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
+import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
@@ -38,6 +43,9 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
+
+import com.actuate.birt.report.model.api.DataMartHandle;
 
 /**
  * The utility class.
@@ -113,14 +121,35 @@ public final class DataSetUIUtil
 				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
 						Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
 
+				appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+						createResourceIdentifiers( ) );
+
 				engineTask.setAppContext( appContext );
 				engineTask.run( );
 
 				DataService.getInstance( ).registerSession( dataSetHandle,
-						session );			
+						session );
 				session.refreshMetaData( dataSetHandle, holdEvent );
 				engineTask.close( );
 				engine.destroy( );
+			}
+			else if ( dataSetHandle.getModuleHandle( ) instanceof DataMartHandle )
+			{
+				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+						dataSetHandle.getModuleHandle( ) );
+
+				Map appContext = new HashMap( );
+				
+				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
+						Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
+				appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+						createResourceIdentifiers( ) );	
+				
+				context.setAppContext( appContext );
+
+				DataRequestSession session = DataRequestSession.newSession( context );
+				session.refreshMetaData( dataSetHandle, holdEvent );
+				session.shutdown( );
 			}
 			else
 			{
@@ -141,6 +170,71 @@ public final class DataSetUIUtil
 					} );
 		}
 	}
+
+	public static ResourceIdentifiers createResourceIdentifiers( )
+	{
+		ResourceIdentifiers ri = new ResourceIdentifiers( );
+		ri.setDesignResourceBaseURI( getReportDesignPath( ) );
+		ri.setApplResourceBaseURI( getBIRTResourcePath( ) );
+		return ri;
+	}
+
+	/**
+	 * Gets the BIRT resource path
+	 * 
+	 * @return
+	 * @throws URISyntaxException
+	 */
+	public static URI getReportDesignPath( )
+	{
+		if ( Utility.getReportModuleHandle( ) == null
+				|| Utility.getReportModuleHandle( ).getSystemId( ) == null )
+		{
+			return null;
+		}
+		try
+		{
+			return new URI( Utility.getReportModuleHandle( )
+					.getSystemId( )
+					.getPath( ) );
+		}
+		catch ( URISyntaxException e )
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Gets the report design file path
+	 * 
+	 * @return
+	 */
+	public static URI getBIRTResourcePath( )
+	{
+		try
+		{
+			return new URI( encode( ReportPlugin.getDefault( )
+					.getResourceFolder( ) ) );
+		}
+		catch ( URISyntaxException e )
+		{
+			return null;
+		}
+	}
+
+	private static String encode( String location )
+	{
+		try
+		{
+			return new File( location ).toURI( )
+					.toASCIIString( )
+					.replace( new File( "" ).toURI( ).toASCIIString( ), "" ); //$NON-NLS-1$//$NON-NLS-2$
+		}
+		catch ( Exception e )
+		{
+			return location;
+		}
+	}
 	
 	/**
 	 * Add this method according to GUI's requirement.This method is only for temporarily usage.
@@ -149,13 +243,14 @@ public final class DataSetUIUtil
 	 * @throws SemanticException
 	 * @deprecated
 	 */
-	public static CachedMetaDataHandle getCachedMetaDataHandle( DataSetHandle dataSetHandle ) throws SemanticException
+	public static CachedMetaDataHandle getCachedMetaDataHandle(
+			DataSetHandle dataSetHandle ) throws SemanticException
 	{
-		if( dataSetHandle.getCachedMetaDataHandle( ) == null )
+		if ( !hasMetaData( dataSetHandle ) )
 		{
 			updateColumnCache( dataSetHandle, true );
 		}
-		
+
 		return dataSetHandle.getCachedMetaDataHandle( );
 	}
 	
