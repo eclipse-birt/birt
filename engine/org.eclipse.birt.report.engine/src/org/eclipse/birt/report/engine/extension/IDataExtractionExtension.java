@@ -25,10 +25,6 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 public interface IDataExtractionExtension
 {
 
-	@Deprecated
-	void initilize( IReportContext context, IDataExtractionOption option )
-			throws BirtException;
-	
 	void initialize( IReportContext context, IDataExtractionOption option )
 			throws BirtException;
 
