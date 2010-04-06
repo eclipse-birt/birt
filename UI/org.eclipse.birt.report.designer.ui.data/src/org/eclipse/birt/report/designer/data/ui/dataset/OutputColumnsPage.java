@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -834,7 +835,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					ResourceEditDialog dlg = new ResourceEditDialog( getShell( ),
 							Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
 
-					dlg.setResourceURL( getResourceURL( ) );
+					dlg.setResourceURLs( getResourceURLs( ) );
 
 					if ( dlg.open( ) == Window.OK )
 					{
@@ -849,12 +850,34 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				bt.setEnabled( false );
 		}
 
-		private URL getResourceURL( )
+		private String[] getBaseNames( )
 		{
-			return SessionHandleAdapter.getInstance( )
+			List<String> resources = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
-					.findResource( getBaseName( ),
-							IResourceLocator.MESSAGE_FILE );
+					.getIncludeResources( );
+			if ( resources == null )
+				return null;
+			else
+				return resources.toArray( new String[0] );
+		}
+
+		private URL[] getResourceURLs( )
+		{
+			String[] baseNames = getBaseNames( );
+			if ( baseNames == null )
+				return null;
+			else
+			{
+				URL[] urls = new URL[baseNames.length];
+				for ( int i = 0; i < baseNames.length; i++ )
+				{
+					urls[i] = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.findResource( baseNames[i],
+									IResourceLocator.MESSAGE_FILE );
+				}
+				return urls;
+			}
 		}
 
 		private String getBaseName( )
