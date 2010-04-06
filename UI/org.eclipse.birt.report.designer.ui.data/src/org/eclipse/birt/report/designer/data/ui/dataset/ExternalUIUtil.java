@@ -60,16 +60,21 @@ public class ExternalUIUtil
 		}
 	}
 
+	public static void updateColumnCache( DataSetHandle dataSetHandle,
+			boolean holdEvent )
+	{		
+	}
+	
 	public static void populateApplicationContext( DataSetHandle handle,
 			DataRequestSession session ) throws BirtException
 	{
 	}
-
+	
 	public static void populateApplicationContext( CubeHandle handle,
 			DataRequestSession session ) throws BirtException
 	{
 	}
-	
+
 	public static boolean containsDataSource( DataSetHandle ds  )
 	{
 		if ( ds instanceof JointDataSetHandle )

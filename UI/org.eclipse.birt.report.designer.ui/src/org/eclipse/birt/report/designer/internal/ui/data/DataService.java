@@ -19,8 +19,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.Expression;
 
 /**
  * DataService
@@ -112,4 +112,11 @@ public class DataService
 		}
 		return Collections.EMPTY_LIST;
 	}
+	
+	public void updateColumnCache( DataSetHandle dataSetHandle,
+			boolean holdEvent )
+	{		
+		provider.updateColumnCache( dataSetHandle, holdEvent );
+	}
+	
 }
