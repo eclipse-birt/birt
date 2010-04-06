@@ -752,7 +752,7 @@ public class ExcelUtil
 		float PX_PT = INCH_PT / INCH_PX;
 		if ( value == null )
 		{
-			return (int) ( parent * 1000 );
+			return (int) ( parent );
 		}
 		if ( DimensionType.UNITS_PERCENTAGE.equals( value.getUnits( ) ) )
 		{
