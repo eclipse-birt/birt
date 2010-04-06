@@ -100,7 +100,7 @@ public class ModelAdapter implements IModelAdapter
 					? context.getTopScope( ) : null;
 			return new OdaDataSourceAdapter( (OdaDataSourceHandle) handle,
 					propBindingScope,
-					context.getDataEngineContext( ) );
+					context.getDataEngineContext( ), this );
 		}
 
 		if ( handle instanceof ScriptDataSourceHandle )

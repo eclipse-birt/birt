@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
@@ -57,15 +58,17 @@ public class OdaDataSetAdapter extends OdaDataSetDesign
 
 		// Set query text; if binding exists, use its result; otherwise
 		// use static design
-		String queryTextBinding = modelDataSet
-				.getPropertyBinding( OdaDataSet.QUERY_TEXT_PROP );
+		Expression expression = modelDataSet
+				.getPropertyBindingExpression( OdaDataSet.QUERY_TEXT_PROP );
+		org.eclipse.birt.data.engine.api.querydefn.ScriptExpression script = adapter.adaptExpression( expression );
+		
 		if ( propBindingScope != null
-				&& queryTextBinding != null && queryTextBinding.length( ) > 0
+				&& script != null
 				&& DataSessionContext.MODE_UPDATE != dtContext.getMode( ) )
 		{
 			String queryText = JavascriptEvalUtil.evaluateScript( null,
 					propBindingScope,
-					queryTextBinding,
+					script.getText( ),
 					ScriptExpression.defaultID,
 					0 ).toString( );
 			setQueryText( queryText );
