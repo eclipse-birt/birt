@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
@@ -1538,7 +1539,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 							reportItem.getDataSet( ),
 							DEUtil.getVisiableColumnBindingsList( designHandle )
 									.iterator( ),
-							DEUtil.getGroups( designHandle ).iterator( ),
+							designHandle instanceof TableGroupHandle ? null
+									: DEUtil.getGroups( designHandle )
+											.iterator( ),
 							true );
 		}
 		else

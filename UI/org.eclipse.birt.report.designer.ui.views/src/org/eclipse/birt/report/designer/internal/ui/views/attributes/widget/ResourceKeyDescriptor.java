@@ -75,37 +75,49 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 		}
 		oldValue = getDescriptorProvider( ).load( ).toString( );
 
-		String baseName = provider.getBaseName( );
-		if ( baseName == null )
+		String[] baseNames = provider.getBaseNames( );
+		if ( baseNames == null )
 		{
 			btnBrowse.setEnabled( false );
 		}
 		else
 		{
-			URL resource = provider.getResourceURL( );
-			String path = null;
+			URL[] resources = provider.getResourceURLs( );
+			String[] path = null;
 			try
 			{
-				if ( resource != null )
+				if ( resources != null && resources.length > 0 )
 				{
-					path = DEUtil.getFilePathFormURL( resource );
+					path = new String[resources.length];
+					for ( int i = 0; i < path.length; i++ )
+					{
+						path[i] = DEUtil.getFilePathFormURL( resources[i] );
+					}
 				}
-
 			}
 			catch ( Exception e )
 			{
 				ExceptionUtil.handle( e );
 			}
-			if ( resource == null || path == null || !new File( path ).exists( ) )
+			if ( resources == null || path == null || path.length == 0 )
 			{
 				btnBrowse.setEnabled( false );
 			}
 			else
 			{
-				btnBrowse.setEnabled( true );
+				boolean flag = false;
+				for ( int i = 0; i < path.length; i++ )
+				{
+					if ( path[i] != null && new File( path[i] ).exists( ) )
+					{
+						flag = true;
+						break;
+					}
+				}
+				btnBrowse.setEnabled( flag );
 			}
 		}
-		text.setEnabled( baseName != null );
+		text.setEnabled( btnBrowse.isEnabled( ) );
 
 		text.setText( DEUtil.resolveNull( oldValue ) );
 	}
@@ -137,7 +149,7 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 				SWT.PUSH,
 				isFormStyle( ) );
 		btnBrowse.setText( provider.getBrowseText( ) );
-		btnBrowse.setToolTipText( provider.getBrowseTooltipText( ) ); 
+		btnBrowse.setToolTipText( provider.getBrowseTooltipText( ) );
 		btnBrowse.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -200,7 +212,7 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 		ResourceEditDialog dlg = new ResourceEditDialog( btnBrowse.getShell( ),
 				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
 
-		dlg.setResourceURL( provider.getResourceURL( ) );
+		dlg.setResourceURLs( provider.getResourceURLs( ) );
 
 		if ( dlg.open( ) == Window.OK )
 		{

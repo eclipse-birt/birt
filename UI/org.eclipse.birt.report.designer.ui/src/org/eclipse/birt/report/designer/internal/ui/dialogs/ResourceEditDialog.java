@@ -16,6 +16,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -33,6 +37,7 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -64,23 +69,23 @@ import org.eclipse.swt.widgets.Text;
 public class ResourceEditDialog extends BaseDialog
 {
 
-	private Label nameLabel;
-
 	private TableViewer viewer;
 
 	private Text keyText, valueText;
 
 	private Button btnDelete;
 
-	private Properties content = new Properties( );
+	private Properties[] contents;
 
-	private String propFileName;
+	private String[] propFileName;
 
 	private boolean listChanged;
 
-	private URL resourceURL;
+	private URL[] resourceURLs;
 
 	private Button btnAdd;
+
+	private List<GlobalProperty> globalProperties = new ArrayList<GlobalProperty>( );
 
 	/**
 	 * PropertyLabelProvider
@@ -98,16 +103,16 @@ public class ResourceEditDialog extends BaseDialog
 		 */
 		public String getColumnText( Object element, int columnIndex )
 		{
-			if ( element instanceof Map.Entry )
+			if ( element instanceof GlobalProperty )
 			{
-				Map.Entry entry = (Map.Entry) element;
+				GlobalProperty entry = (GlobalProperty) element;
 
 				switch ( columnIndex )
 				{
 					case 0 :
-						return String.valueOf( entry.getKey( ) );
+						return String.valueOf( entry.key );
 					case 1 :
-						return String.valueOf( entry.getValue( ) );
+						return String.valueOf( entry.value );
 				}
 
 			}
@@ -262,9 +267,9 @@ public class ResourceEditDialog extends BaseDialog
 	 * 
 	 * @param url
 	 */
-	public void setResourceURL( URL url )
+	public void setResourceURLs( URL[] urls )
 	{
-		this.resourceURL = url;
+		this.resourceURLs = urls;
 	}
 
 	/*
@@ -288,19 +293,52 @@ public class ResourceEditDialog extends BaseDialog
 	 */
 	private void loadMessage( )
 	{
-		if ( this.resourceURL != null )
+		if ( this.resourceURLs != null && this.resourceURLs.length > 0 )
 		{
-			try
+			if ( contents == null )
+				contents = new Properties[resourceURLs.length];
+			if ( propFileName == null )
+				propFileName = new String[resourceURLs.length];
+			Map<String, GlobalProperty> propertyMap = new HashMap<String, GlobalProperty>( );
+			for ( int i = 0; i < resourceURLs.length; i++ )
 			{
-				InputStream in = this.resourceURL.openStream( );
-				content.load( in );
-				in.close( );
-				propFileName = DEUtil.getFilePathFormURL( resourceURL );
+				contents[i] = new Properties( );
+				try
+				{
+					if ( this.resourceURLs[i] != null )
+					{
+						InputStream in = this.resourceURLs[i].openStream( );
+						contents[i].load( in );
+						in.close( );
+						propFileName[i] = DEUtil.getFilePathFormURL( resourceURLs[i] );
+
+						Iterator iter = contents[i].keySet( ).iterator( );
+						if ( iter != null )
+						{
+							while ( iter.hasNext( ) )
+							{
+								String key = (String) iter.next( );
+								if ( !propertyMap.containsKey( key ) )
+								{
+									GlobalProperty property = new GlobalProperty( );
+									property.key = key;
+									property.value = contents[i].getProperty( key );
+									property.holder = contents[i];
+									property.isDeleted = false;
+									property.holderFile = propFileName[i];
+									propertyMap.put( key, property );
+								}
+							}
+						}
+					}
+				}
+				catch ( Exception e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
-			catch ( Exception e )
-			{
-				ExceptionHandler.handle( e );
-			}
+
+			globalProperties.addAll( propertyMap.values( ) );
 		}
 	}
 
@@ -309,31 +347,56 @@ public class ResourceEditDialog extends BaseDialog
 	 */
 	private boolean saveMessage( )
 	{
-		if ( this.resourceURL != null )
+		if ( isFileSystemFile( ) )
 		{
-			if ( this.resourceURL.getProtocol( ).equals( "file" ) //$NON-NLS-1$
-					&& listChanged )
+			if ( listChanged )
 			{
-				try
+				for ( int i = 0; i < globalProperties.size( ); i++ )
 				{
-					return saveFile( DEUtil.getFilePathFormURL( resourceURL ) );
+					GlobalProperty property = globalProperties.get( i );
+					if ( property.isDeleted && property.holder != null )
+					{
+						property.holder.remove( property.key );
+						globalProperties.remove( i );
+						i--;
+					}
 				}
-				catch ( Exception e )
+				for ( int i = 0; i < globalProperties.size( ); i++ )
 				{
-					ExceptionHandler.handle( e );
-					return false;
+					GlobalProperty property = globalProperties.get( i );
+					if ( !property.isDeleted && property.holder != null )
+					{
+						property.holder.put( property.key, property.value );
+					}
+				}
+				for ( int i = 0; i < resourceURLs.length; i++ )
+				{
+					URL url = resourceURLs[i];
+					if ( url != null )
+					{
+						if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
+						{
+							try
+							{
+								saveFile( DEUtil.getFilePathFormURL( url ),
+										contents[i],
+										propFileName[i] );
+							}
+							catch ( Exception e )
+							{
+								ExceptionHandler.handle( e );
+							}
+						}
+					}
 				}
 			}
-			else
-			{
-				return true;
-			}
+			return true;
 		}
-
 		return false;
 	}
 
-	private boolean saveFile( String filePath )
+	private boolean saveFile( String filePath, Properties properties,
+			String fileName )
 	{
 		File f = new File( filePath );
 		if ( !( f.exists( ) && f.isFile( ) ) )
@@ -364,7 +427,7 @@ public class ResourceEditDialog extends BaseDialog
 			{
 				fos = new FileOutputStream( f );
 
-				content.store( fos, "" ); //$NON-NLS-1$
+				properties.store( fos, "" ); //$NON-NLS-1$
 
 			}
 			return true;
@@ -403,10 +466,6 @@ public class ResourceEditDialog extends BaseDialog
 		loadMessage( );
 
 		final Composite innerParent = (Composite) super.createDialogArea( parent );
-
-		nameLabel = new Label( innerParent, SWT.NONE );
-		nameLabel.setText( Messages.getString( "ResourceEditDialog.message.ResourceFile" ) + propFileName ); //$NON-NLS-1$
-		nameLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		final Table table = new Table( innerParent, SWT.BORDER
 				| SWT.FULL_SELECTION );
@@ -452,9 +511,17 @@ public class ResourceEditDialog extends BaseDialog
 
 			public Object[] getElements( Object inputElement )
 			{
-				if ( inputElement instanceof Properties )
+				if ( inputElement instanceof List )
 				{
-					return ( (Properties) inputElement ).entrySet( ).toArray( );
+					List list = (List) inputElement;
+					List availableList = new ArrayList( );
+					for ( int i = 0; i < list.size( ); i++ )
+					{
+						GlobalProperty property = (GlobalProperty) list.get( i );
+						if ( !property.isDeleted )
+							availableList.add( property );
+					}
+					return availableList.toArray( );
 				}
 
 				return new Object[0];
@@ -558,7 +625,7 @@ public class ResourceEditDialog extends BaseDialog
 		lb.setText( Messages.getString( "ResourceEditDialog.message.AddNote" ) ); //$NON-NLS-1$
 		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		viewer.setInput( content );
+		viewer.setInput( globalProperties );
 
 		return innerParent;
 	}
@@ -576,41 +643,68 @@ public class ResourceEditDialog extends BaseDialog
 
 	private void addSelection( )
 	{
-		// if the file is read-only then change is not allowed.
-		File f = new File( propFileName );
-		if ( !( f.exists( ) && f.isFile( ) ) )
-		{
-			MessageDialog.openError( getShell( ),
-					Messages.getString( "ResourceEditDialog.NotFile.Title" ), //$NON-NLS-1$
-					Messages.getFormattedString( "ResourceEditDialog.NotFile.Message", //$NON-NLS-1$
-							new Object[]{
-								propFileName
-							} ) );
-			return;
-		}
-		else if ( !f.canWrite( ) )
-		{
-			MessageDialog.openError( getShell( ),
-					Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
-					Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message", //$NON-NLS-1$
-							new Object[]{
-								propFileName
-							} ) );
-			return;
-		}
-
 		String key = keyText.getText( );
 		String val = valueText.getText( );
-
 		if ( key != null && key.trim( ).length( ) > 0 )
 		{
-			content.put( key, val );
+			boolean isContained = false;
+			for ( int i = 0; i < globalProperties.size( ); i++ )
+			{
+				GlobalProperty property = (GlobalProperty) globalProperties.get( i );
+				if ( key.equals( property.key ) && !property.isDeleted )
+				{
+					property.value = val;
+					isContained = true;
+					break;
+				}
+			}
 
-			viewer.setInput( content );
+			if ( !isContained )
+			{
+				// if the file is read-only then change is not allowed.
+				if ( propFileName[0] == null )
+				{
+					return;
+				}
+				else
+				{
+					File f = new File( propFileName[0] );
+					if ( !( f.exists( ) && f.isFile( ) ) )
+					{
+						MessageDialog.openError( getShell( ),
+								Messages.getString( "ResourceEditDialog.NotFile.Title" ), //$NON-NLS-1$
+								Messages.getFormattedString( "ResourceEditDialog.NotFile.Message", //$NON-NLS-1$
+										new Object[]{
+											propFileName
+										} ) );
+						return;
+					}
+					else if ( !f.canWrite( ) )
+					{
+						MessageDialog.openError( getShell( ),
+								Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
+								Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message", //$NON-NLS-1$
+										new Object[]{
+											propFileName
+										} ) );
+						return;
+					}
 
+					GlobalProperty property = new GlobalProperty( );
+					property.key = key;
+					property.value = val;
+					property.holder = contents[0];
+					property.isDeleted = false;
+					property.holderFile = propFileName[0];
+
+					globalProperties.add( property );
+				}
+			}
+
+			viewer.refresh( );
 			listChanged = true;
-
 			updateSelection( );
+
 		}
 		else
 		{
@@ -626,39 +720,46 @@ public class ResourceEditDialog extends BaseDialog
 		{
 			return;
 		}
-		// if the file is read-only then change is not allowed.
-		File f = new File( propFileName );
-		if ( !( f.exists( ) && f.isFile( ) ) )
+
+		StructuredSelection selection = (StructuredSelection) viewer.getSelection( );
+		if ( selection.getFirstElement( ) instanceof GlobalProperty )
 		{
-			MessageDialog.openError( getShell( ),
-					Messages.getString( "ResourceEditDialog.NotFile.Title" ), //$NON-NLS-1$
-					Messages.getFormattedString( "ResourceEditDialog.NotFile.Message", //$NON-NLS-1$
-							new Object[]{
-								propFileName
-							} ) );
-			return;
+			GlobalProperty property = (GlobalProperty) selection.getFirstElement( );
+			String file = property.holderFile;
+			if ( file != null )
+			{
+				File f = new File( file );
+				if ( !( f.exists( ) && f.isFile( ) ) )
+				{
+					MessageDialog.openError( getShell( ),
+							Messages.getString( "ResourceEditDialog.NotFile.Title" ), //$NON-NLS-1$
+							Messages.getFormattedString( "ResourceEditDialog.NotFile.Message", //$NON-NLS-1$
+									new Object[]{
+										file
+									} ) );
+					return;
+				}
+				else if ( !f.canWrite( ) )
+				{
+					MessageDialog.openError( getShell( ),
+							Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
+							Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message", //$NON-NLS-1$
+									new Object[]{
+										file
+									} ) );
+					return;
+				}
+			}
+
+			// if the file is read-only then change is not allowed.
+			listChanged = true;
+			if ( property.holderFile != null )
+				property.isDeleted = true;
+			else
+				globalProperties.remove( property );
+			viewer.refresh( );
+			updateSelection( );
 		}
-		else if ( !f.canWrite( ) )
-		{
-			MessageDialog.openError( getShell( ),
-					Messages.getString( "ResourceEditDialog.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
-					Messages.getFormattedString( "ResourceEditDialog.ReadOnlyEncounter.Message", //$NON-NLS-1$
-							new Object[]{
-								propFileName
-							} ) );
-			return;
-		}
-
-		listChanged = true;
-
-		String key = keyText.getText( );
-
-		content.remove( key );
-
-		viewer.getTable( ).remove( viewer.getTable( ).getSelectionIndex( ) );
-
-		updateSelection( );
-
 	}
 
 	private void updateButtonState( )
@@ -671,9 +772,42 @@ public class ResourceEditDialog extends BaseDialog
 
 	private boolean isFileSystemFile( )
 	{
-		return this.resourceURL == null
-				|| this.resourceURL != null
-				&& this.resourceURL.getProtocol( ).equals( "file" ); //$NON-NLS-1$
+		if ( getAvailableResourceUrls( ) == null
+				|| getAvailableResourceUrls( ).length == 0 )
+			return false;
+		else
+		{
+			boolean flag = true;
+			for ( int i = 0; i < resourceURLs.length; i++ )
+			{
+				URL url = resourceURLs[i];
+				if ( url != null )
+				{
+					if ( !url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
+					{
+						flag = false;
+						break;
+					}
+				}
+			}
+			return flag;
+		}
+	}
+
+	private URL[] getAvailableResourceUrls( )
+	{
+		List<URL> urls = new ArrayList<URL>( );
+		if ( resourceURLs == null )
+			return urls.toArray( new URL[0] );
+		else
+		{
+			for ( int i = 0; i < resourceURLs.length; i++ )
+			{
+				if ( resourceURLs[i] != null )
+					urls.add( resourceURLs[i] );
+			}
+			return urls.toArray( new URL[0] );
+		}
 	}
 
 	/*
@@ -710,5 +844,15 @@ public class ResourceEditDialog extends BaseDialog
 	public boolean isKeyValueListChanged( )
 	{
 		return listChanged;
+	}
+
+	private class GlobalProperty
+	{
+
+		private String key;
+		private String value;
+		private Properties holder;
+		private String holderFile;
+		private boolean isDeleted;
 	}
 }

@@ -530,12 +530,7 @@ public class SelectValueDialog extends BaseDialog
 		{
 			try
 			{
-				if ( element instanceof Timestamp )
-				{
-					return DataTypeUtil.toLocaleNeutralString( element );
-				}
-				else
-					return DataTypeUtil.toString( element );
+				return DataTypeUtil.toLocaleNeutralString( element );
 			}
 			catch ( BirtException e )
 			{

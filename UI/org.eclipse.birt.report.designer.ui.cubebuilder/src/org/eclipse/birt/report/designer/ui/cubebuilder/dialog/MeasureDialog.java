@@ -37,12 +37,16 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
+import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -62,6 +66,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+import com.ibm.icu.util.ULocale;
+
 public class MeasureDialog extends TitleAreaDialog
 {
 
@@ -78,7 +84,8 @@ public class MeasureDialog extends TitleAreaDialog
 			.getAllowedChoices( )
 			.getChoices( );
 	private Object result;
-	private IDialogHelper helper;
+	private IDialogHelper securityHelper;
+	private IDialogHelper formatHelper;
 
 	public MeasureDialog( boolean newOrEdit )
 	{
@@ -254,6 +261,16 @@ public class MeasureDialog extends TitleAreaDialog
 					: getDataTypeDisplayName( input.getDataType( ) ) );
 		}
 
+		if ( formatHelper != null )
+		{
+			if ( typeCombo.getSelectionIndex( ) > -1 )
+			{
+				formatHelper.setProperty( BuilderConstants.FORMAT_VALUE_TYPE,
+						getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
+			}
+			formatHelper.update( true );
+		}
+
 	}
 
 	public Object getResult( )
@@ -285,10 +302,35 @@ public class MeasureDialog extends TitleAreaDialog
 							measure,
 							MeasureHandle.MEASURE_EXPRESSION_PROP );
 				}
-				if ( helper != null )
+				if ( securityHelper != null )
 				{
 					measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
-							(Expression) helper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
+				if ( formatHelper != null
+						&& formatHelper.getProperty( BuilderConstants.FORMAT_VALUE_RESULT ) instanceof Object[] )
+				{
+					Object[] formatValue = (Object[]) formatHelper.getProperty( BuilderConstants.FORMAT_VALUE_RESULT );
+					Object value = measure.getProperty( Measure.FORMAT_PROP );
+					if ( value == null )
+					{
+						FormatValue formatValueToSet = new FormatValue( );
+						formatValueToSet.setCategory( (String) formatValue[0] );
+						formatValueToSet.setPattern( (String) formatValue[1] );
+						formatValueToSet.setLocale( (ULocale) formatValue[2] );
+						measure.setProperty( Measure.FORMAT_PROP,
+								formatValueToSet );
+					}
+					else
+					{
+						PropertyHandle propHandle = measure.getPropertyHandle( Measure.FORMAT_PROP );
+						FormatValue formatValueToSet = (FormatValue) value;
+						FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+						formatHandle.setCategory( (String) formatValue[0] );
+						formatHandle.setPattern( (String) formatValue[1] );
+						formatHandle.setLocale( (ULocale) formatValue[2] );
+					}
+
 				}
 				result = measure;
 			}
@@ -305,10 +347,35 @@ public class MeasureDialog extends TitleAreaDialog
 				}
 				else
 					input.setMeasureExpression( null );
-				if ( helper != null )
+				if ( securityHelper != null )
 				{
 					input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
-							(Expression) helper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
+				if ( formatHelper != null
+						&& formatHelper.getProperty( BuilderConstants.FORMAT_VALUE_RESULT ) instanceof Object[] )
+				{
+					Object[] formatValue = (Object[]) formatHelper.getProperty( BuilderConstants.FORMAT_VALUE_RESULT );
+					Object value = input.getProperty( Measure.FORMAT_PROP );
+					if ( value == null )
+					{
+						FormatValue formatValueToSet = new FormatValue( );
+						formatValueToSet.setCategory( (String) formatValue[0] );
+						formatValueToSet.setPattern( (String) formatValue[1] );
+						formatValueToSet.setLocale( (ULocale) formatValue[2] );
+						input.setProperty( Measure.FORMAT_PROP,
+								formatValueToSet );
+					}
+					else
+					{
+						PropertyHandle propHandle = input.getPropertyHandle( Measure.FORMAT_PROP );
+						FormatValue formatValueToSet = (FormatValue) value;
+						FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+						formatHandle.setCategory( (String) formatValue[0] );
+						formatHandle.setPattern( (String) formatValue[1] );
+						formatHandle.setLocale( (ULocale) formatValue[2] );
+					}
+
 				}
 				result = input;
 			}
@@ -386,8 +453,14 @@ public class MeasureDialog extends TitleAreaDialog
 			{
 				handleTypeSelectEvent( );
 				checkOkButtonStatus( );
+				if ( formatHelper != null )
+				{
+					if ( typeCombo.getSelectionIndex( ) > -1 )
+						formatHelper.setProperty( BuilderConstants.FORMAT_VALUE_TYPE,
+								getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
+					formatHelper.update( true );
+				}
 			}
-
 		} );
 
 		Label expressionLabel = new Label( group, SWT.NONE );
@@ -412,6 +485,7 @@ public class MeasureDialog extends TitleAreaDialog
 
 		createSecurityPart( group );
 		createHyperLinkPart( group );
+		createFormatPart( group );
 		return group;
 	}
 
@@ -456,6 +530,44 @@ public class MeasureDialog extends TitleAreaDialog
 		return null;
 	}
 
+	private IDialogHelper createFormatPart( Composite parent )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
+				IDialogHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
+				if ( helperProvider != null )
+				{
+					formatHelper = helperProvider.createHelper( this,
+							BuilderConstants.FORMAT_HELPER_KEY );
+					if ( formatHelper != null )
+					{
+						formatHelper.setProperty( BuilderConstants.FORMAT_LABEL,
+								Messages.getString( "MeasureDialog.Label.Format" ) ); //$NON-NLS-1$
+						formatHelper.setProperty( BuilderConstants.FORMAT_BUTTON_TEXT,
+								Messages.getString( "MeasureDialog.Button.Format.Edit" ) ); //$NON-NLS-1$
+						PropertyHandle propHandle = input.getPropertyHandle( Measure.FORMAT_PROP );
+						if ( input.getProperty( Measure.FORMAT_PROP ) != null )
+						{
+							Object value = input.getProperty( Measure.FORMAT_PROP );
+							FormatValue formatValueToSet = (FormatValue) value;
+							FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+							formatHelper.setProperty( BuilderConstants.FORMAT_VALUE,
+									formatHandle );
+						}
+						formatHelper.createContent( parent );
+						formatHelper.update( true );
+						return formatHelper;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	private void createSecurityPart( Composite parent )
 	{
 		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
@@ -465,29 +577,30 @@ public class MeasureDialog extends TitleAreaDialog
 			for ( int i = 0; i < helperProviders.length; i++ )
 			{
 				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
-				if ( helperProvider != null && helper == null )
+				if ( helperProvider != null && securityHelper == null )
 				{
-					helper = helperProvider.createHelper( this,
+					securityHelper = helperProvider.createHelper( this,
 							BuilderConstants.SECURITY_HELPER_KEY );
-					if ( helper != null )
+					if ( securityHelper != null )
 					{
-						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
+						securityHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_LABEL,
 								Messages.getString( "MeasureDialog.Access.Control.List.Expression" ) ); //$NON-NLS-1$
-						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
+						securityHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
 								input );
-						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
+						securityHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
 								new CubeExpressionProvider( input ) );
-						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
+						securityHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
 								input.getACLExpression( ) );
-						helper.createContent( parent );
-						helper.addListener( SWT.Modify, new Listener( ) {
+						securityHelper.createContent( parent );
+						securityHelper.addListener( SWT.Modify,
+								new Listener( ) {
 
-							public void handleEvent( Event event )
-							{
-								helper.update( false );
-							}
-						} );
-						helper.update( true );
+									public void handleEvent( Event event )
+									{
+										securityHelper.update( false );
+									}
+								} );
+						securityHelper.update( true );
 					}
 				}
 			}

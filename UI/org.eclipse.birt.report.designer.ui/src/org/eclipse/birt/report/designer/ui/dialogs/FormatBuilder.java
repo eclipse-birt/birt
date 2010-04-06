@@ -20,6 +20,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -76,16 +79,22 @@ public class FormatBuilder extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
+		ScrolledComposite scrollContent = new ScrolledComposite( composite,
+				SWT.H_SCROLL | SWT.V_SCROLL );
+		scrollContent.setAlwaysShowScrollBars( false );
+		scrollContent.setExpandHorizontal( true );
+		scrollContent.setLayout( new FillLayout( ) );
+		scrollContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		switch ( type )
 		{
 			case STRING :
-				page = new FormatStringPage( composite,
+				page = new FormatStringPage( scrollContent,
 						SWT.NONE,
 						IFormatPage.PAGE_ALIGN_VIRTICAL,
 						false );
 				break;
 			case NUMBER :
-				page = new FormatNumberPage( composite,
+				page = new FormatNumberPage( scrollContent,
 						SWT.NONE,
 						IFormatPage.PAGE_ALIGN_VIRTICAL,
 						false );
@@ -93,15 +102,16 @@ public class FormatBuilder extends BaseDialog
 			case DATETIME :
 			case DATE :
 			case TIME :
-				page = new FormatDateTimePage( composite,
+				page = new FormatDateTimePage( scrollContent,
 						type,
 						SWT.NONE,
 						IFormatPage.PAGE_ALIGN_VIRTICAL,
 						false );
 				break;
 		}
-		( (Composite) page ).setLayoutData( new GridData( GridData.FILL_BOTH ) );
-
+		Point size = ( (Composite) page ).computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		( (Composite) page ).setSize( size );
+		scrollContent.setContent( (Composite) page );
 		UIUtil.bindHelp( composite, IHelpContextIds.FORMAT_BUILDER_ID );
 		return composite;
 	}

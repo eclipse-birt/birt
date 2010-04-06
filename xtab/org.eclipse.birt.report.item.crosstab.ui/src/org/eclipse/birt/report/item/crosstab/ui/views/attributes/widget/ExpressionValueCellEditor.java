@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -61,7 +62,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.21 $ $Date: 2009/11/19 02:04:53 $
+ * @version $Revision: 1.23 $ $Date: 2010/04/06 04:06:42 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -251,7 +252,7 @@ public class ExpressionValueCellEditor extends CellEditor
 
 							if ( dialog.open( ) == IDialogConstants.OK_ID )
 							{
-								newValue = dialog.getSelectedExprValue( );
+								newValue = DEUtil.removeQuote( dialog.getSelectedExprValue( ) );
 							}
 						}
 					}

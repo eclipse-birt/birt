@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.io.File;
 import java.net.URL;
-import java.util.logging.Level;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -273,43 +274,71 @@ public class SelectionChoiceDialog extends BaseDialog
 		this.validator = validator;
 	}
 
-	private String getBaseName( )
+	private String[] getBaseNames( )
 	{
-		return SessionHandleAdapter.getInstance( )
+		List<String> resources = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getIncludeResource( );
+				.getIncludeResources( );
+		if ( resources == null )
+			return null;
+		else
+			return resources.toArray( new String[0] );
 	}
 
-	private URL getResourceURL( )
+	private URL[] getResourceURLs( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
+		String[] baseNames = getBaseNames( );
+		if ( baseNames == null )
+			return null;
+		else
+		{
+			URL[] urls = new URL[baseNames.length];
+			for ( int i = 0; i < baseNames.length; i++ )
+			{
+				urls[i] = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findResource( baseNames[i],
+								IResourceLocator.MESSAGE_FILE );
+			}
+			return urls;
+		}
 	}
 
 	private boolean enableResourceKey( )
 	{
-		URL resource = getResourceURL( );
-		String path = null;
+		URL[] resources = getResourceURLs( );
+		String[] path = null;
 		try
 		{
-			if ( resource != null )
+			if ( resources != null && resources.length > 0 )
 			{
-				path = DEUtil.getFilePathFormURL( resource );
+				path = new String[resources.length];
+				for ( int i = 0; i < path.length; i++ )
+				{
+					path[i] = DEUtil.getFilePathFormURL( resources[i] );
+				}
 			}
-
 		}
 		catch ( Exception e )
 		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			ExceptionUtil.handle( e );
 		}
-		if ( resource == null || path == null || !new File( path ).exists( ) )
+		if ( resources == null || path == null || path.length == 0 )
 		{
 			return false;
 		}
 		else
 		{
-			return true;
+			boolean flag = false;
+			for ( int i = 0; i < path.length; i++ )
+			{
+				if ( path[i] != null && new File( path[i] ).exists( ) )
+				{
+					flag = true;
+					break;
+				}
+			}
+			return flag;
 		}
 	}
 
@@ -318,7 +347,7 @@ public class SelectionChoiceDialog extends BaseDialog
 		ResourceEditDialog dlg = new ResourceEditDialog( getShell( ),
 				Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
 
-		dlg.setResourceURL( getResourceURL( ) );
+		dlg.setResourceURLs( getResourceURLs( ) );
 
 		if ( dlg.open( ) == Window.OK )
 		{

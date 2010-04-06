@@ -39,7 +39,9 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -47,6 +49,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -55,6 +58,7 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
+import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CellEditor;
@@ -93,6 +97,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.util.ULocale;
 
 public class LevelPropertyDialog extends TitleAreaDialog
 {
@@ -264,11 +270,13 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				dynamicButton.setSelection( true );
 				updateButtonStatus( dynamicButton );
+				updateFormatHelper( dynamicFormatHelper, dynamicDataTypeCombo );
 			}
 			else
 			{
 				staticButton.setSelection( true );
 				updateButtonStatus( staticButton );
+				updateFormatHelper( staticFormatHelper, staticDataTypeCombo );
 			}
 		}
 	}
@@ -314,6 +322,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 	protected void okPressed( )
 	{
+		IDialogHelper formatHelper = null;
 		if ( dynamicButton.getSelection( ) )
 		{
 			try
@@ -374,6 +383,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					ExceptionUtil.handle( e );
 				}
 			}
+			formatHelper = dynamicFormatHelper;
 		}
 		else if ( staticButton.getSelection( ) )
 		{
@@ -444,9 +454,38 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					ExceptionHandler.handle( e );
 				}
 			}
-
+			formatHelper = staticFormatHelper;
 		}
-
+		if ( formatHelper != null
+				&& formatHelper.getProperty( BuilderConstants.FORMAT_VALUE_RESULT ) instanceof Object[] )
+		{
+			Object[] formatValue = (Object[]) formatHelper.getProperty( BuilderConstants.FORMAT_VALUE_RESULT );
+			Object value = input.getProperty( Level.FORMAT_PROP );
+			try
+			{
+				if ( value == null )
+				{
+					FormatValue formatValueToSet = new FormatValue( );
+					formatValueToSet.setCategory( (String) formatValue[0] );
+					formatValueToSet.setPattern( (String) formatValue[1] );
+					formatValueToSet.setLocale( (ULocale) formatValue[2] );
+					input.setProperty( Level.FORMAT_PROP, formatValueToSet );
+				}
+				else
+				{
+					PropertyHandle propHandle = input.getPropertyHandle( Level.FORMAT_PROP );
+					FormatValue formatValueToSet = (FormatValue) value;
+					FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+					formatHandle.setCategory( (String) formatValue[0] );
+					formatHandle.setPattern( (String) formatValue[1] );
+					formatHandle.setLocale( (ULocale) formatValue[2] );
+				}
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
 		super.okPressed( );
 	}
 
@@ -968,6 +1007,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				updateFormatHelper( dynamicFormatHelper, dynamicDataTypeCombo );
 				checkOkButtonStatus( );
 			}
 
@@ -979,6 +1019,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		dynamicLevelHelper = createLevelSecurityPart( groupGroup );
 		dynamicMemberHelper = createMemberSecurityPart( groupGroup );
 		createHyperLinkPart( groupGroup );
+		dynamicFormatHelper = createFormatPart( groupGroup );
 
 		dynamicTable = new Table( contents, SWT.SINGLE
 				| SWT.FULL_SELECTION
@@ -1174,6 +1215,45 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		}
 		return null;
 	}
+
+	private IDialogHelper createFormatPart( Composite parent )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
+				IDialogHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
+				if ( helperProvider != null )
+				{
+					IDialogHelper formatHelper = helperProvider.createHelper( this,
+							BuilderConstants.FORMAT_HELPER_KEY );
+					if ( formatHelper != null )
+					{
+						formatHelper.setProperty( BuilderConstants.FORMAT_LABEL,
+								Messages.getString( "LevelPropertyDialog.Label.Format" ) ); //$NON-NLS-1$
+						formatHelper.setProperty( BuilderConstants.FORMAT_BUTTON_TEXT,
+								Messages.getString( "LevelPropertyDialog.Button.Format.Edit" ) ); //$NON-NLS-1$
+						PropertyHandle propHandle = input.getPropertyHandle( Level.FORMAT_PROP );
+						if ( input.getProperty( Level.FORMAT_PROP ) != null )
+						{
+							Object value = input.getProperty( Level.FORMAT_PROP );
+							FormatValue formatValueToSet = (FormatValue) value;
+							FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+							formatHelper.setProperty( BuilderConstants.FORMAT_VALUE,
+									formatHandle );
+						}
+						formatHelper.createContent( parent );
+						formatHelper.update( true );
+						return formatHelper;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	String[] attributeItems = new String[0];
 
 	private void resetEditorItems( )
@@ -1303,6 +1383,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			dynamicButton.setSelection( true );
 			setExcludeGridData( staticArea, true );
 			setExcludeGridData( dynamicArea, false );
+			updateFormatHelper( dynamicFormatHelper, dynamicDataTypeCombo );
+
 			try
 			{
 				input.setLevelType( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC );
@@ -1318,6 +1400,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			staticButton.setSelection( true );
 			setExcludeGridData( dynamicArea, true );
 			setExcludeGridData( staticArea, false );
+			updateFormatHelper( staticFormatHelper, staticDataTypeCombo );
+
 			try
 			{
 				input.setLevelType( DesignChoiceConstants.LEVEL_TYPE_MIRRORED );
@@ -1329,6 +1413,19 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		}
 		this.getShell( ).layout( );
 		checkOkButtonStatus( );
+	}
+
+	private void updateFormatHelper( IDialogHelper helper, Combo combo )
+	{
+		if ( helper != null )
+		{
+			if ( combo.getSelectionIndex( ) > -1 )
+			{
+				helper.setProperty( BuilderConstants.FORMAT_VALUE_TYPE,
+						getDataTypeNames( )[combo.getSelectionIndex( )] );
+			}
+			helper.update( true );
+		}
 	}
 
 	private TabularLevelHandle input;
@@ -1360,7 +1457,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	private IDialogHelper dynamicLevelHelper;
 	private IDialogHelper dynamicMemberHelper;
 	private IDialogHelper staticLevelHelper;
-	private IDialogHelper staticMemberHelper;;
+	private IDialogHelper staticMemberHelper;
+	private IDialogHelper dynamicFormatHelper;
+	private IDialogHelper staticFormatHelper;;
 
 	protected Composite createStaticArea( Composite parent )
 	{
@@ -1398,6 +1497,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				updateFormatHelper( staticFormatHelper, staticDataTypeCombo );
 				checkOkButtonStatus( );
 			}
 
@@ -1405,7 +1505,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		staticLevelHelper = createLevelSecurityPart( properties );
 		staticMemberHelper = createMemberSecurityPart( properties );
-
+		staticFormatHelper = createFormatPart( properties );
 		Group contents = new Group( container, SWT.NONE );
 		layout = new GridLayout( );
 		contents.setLayout( layout );
