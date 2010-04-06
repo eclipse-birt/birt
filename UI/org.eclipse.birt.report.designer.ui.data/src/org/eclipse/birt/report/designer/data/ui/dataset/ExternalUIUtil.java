@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 
 public class ExternalUIUtil
@@ -60,6 +61,11 @@ public class ExternalUIUtil
 	}
 
 	public static void populateApplicationContext( DataSetHandle handle,
+			DataRequestSession session ) throws BirtException
+	{
+	}
+	
+	public static void populateApplicationContext( CubeHandle handle,
 			DataRequestSession session ) throws BirtException
 	{
 	}

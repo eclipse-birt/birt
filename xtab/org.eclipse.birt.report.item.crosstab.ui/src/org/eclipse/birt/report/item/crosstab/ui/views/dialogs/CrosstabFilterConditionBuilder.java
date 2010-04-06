@@ -2029,7 +2029,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 		}
 		if ( cube == null
-				|| ( !( cube instanceof TabularCubeHandle ) )
+				|| ( !( cube instanceof CubeHandle ) )
 				|| expressionCCombo.getText( ).length( ) == 0 )
 		{
 			return new ArrayList( );
@@ -2056,13 +2056,14 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			}
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			DataService.getInstance( )
-					.registerSession( ( (TabularCubeHandle) cube ).getDataSet( ),
+					.registerSession( cube,
 							session );
+			
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
 			iter = session.getCubeQueryUtil( )
-					.getMemberValueIterator( (TabularCubeHandle) cube,
+					.getMemberValueIterator( cube,
 							expression,
-							cubeQueryDefn );
+							cubeQueryDefn , session.getDataSessionContext().getAppContext() );
 		}
 		catch ( Exception e )
 		{
