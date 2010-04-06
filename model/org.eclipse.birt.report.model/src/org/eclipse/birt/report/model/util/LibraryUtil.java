@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.NamePropertyType;
 
 /**
  * The utility class for the library related operation.
@@ -60,6 +61,14 @@ public class LibraryUtil
 	public static Library checkIncludeLibrary( Module module, String namespace,
 			URL url, Module outermostModule ) throws LibraryException
 	{
+
+		// check whether the namespace of the library is valid or not
+		if ( StringUtil.isBlank( namespace )
+				|| !NamePropertyType.isValidName( namespace ) )
+		{
+			throw new LibraryException( module, new String[]{namespace},
+					LibraryException.DESIGN_EXCEPTION_INVALID_LIBRARY_NAMESPACE );
+		}
 
 		Library foundLib = outermostModule.getLibraryWithNamespace( namespace );
 
@@ -93,8 +102,9 @@ public class LibraryUtil
 			}
 			else
 			{
-				// the name space must be unique since foundLib == null at this time.
-				
+				// the name space must be unique since foundLib == null at this
+				// time.
+
 				foundLib = outermostModule.getLibraryByLocation( url
 						.toExternalForm( ) );
 			}
@@ -172,28 +182,28 @@ public class LibraryUtil
 	 * @param theme
 	 *            the theme to insert
 	 */
-	
+
 	public static void insertCompatibleThemeToLibrary( Library library,
 			Theme theme )
 	{
 		assert library != null;
 		assert theme != null;
-	
+
 		// The name should not be null if it is required. The parser state
 		// should have already caught this case.
-	
+
 		String name = theme.getName( );
 		assert !StringUtil.isBlank( name )
 				&& ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME )
 						.equals( name );
-	
+
 		NameSpace ns = library.getNameHelper( ).getNameSpace(
 				Module.THEME_NAME_SPACE );
 		assert library.getNameHelper( ).canContain( Module.THEME_NAME_SPACE,
 				name );
-	
+
 		ns.insert( theme );
-	
+
 		// Add the item to the container.
 		library.add( theme, ILibraryModel.THEMES_SLOT );
 	}
@@ -231,20 +241,20 @@ public class LibraryUtil
 	 *             if absolute file path is the same between library included in
 	 *             report design and library.
 	 */
-	
+
 	public static boolean hasLibrary( ReportDesignHandle designToExport,
 			LibraryHandle targetLibraryHandle )
 	{
 		String reportLocation = targetLibraryHandle.getModule( ).getLocation( );
-	
+
 		List<Library> libList = designToExport.getModule( ).getAllLibraries( );
-	
+
 		for ( Iterator<Library> libIter = libList.iterator( ); libIter
 				.hasNext( ); )
 		{
 			Library library = libIter.next( );
 			String libLocation = library.getRoot( ).getLocation( );
-	
+
 			if ( reportLocation.equals( libLocation ) )
 			{
 				return true;

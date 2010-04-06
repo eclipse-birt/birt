@@ -136,7 +136,7 @@ public class NamePropertyType extends TextualPropertyType
 	 * @param value
 	 * @return
 	 */
-	private boolean isValidName( String value )
+	public static boolean isValidName( String value )
 	{
 		assert value != null;
 

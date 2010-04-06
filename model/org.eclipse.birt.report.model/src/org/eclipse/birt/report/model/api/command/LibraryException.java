@@ -62,6 +62,13 @@ public class LibraryException extends SemanticException
 	final public static String DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED = MessageConstants.LIBRARY_EXCEPTION_LIBRARY_ALREADY_INCLUDED;
 
 	/**
+	 * Indicates the namespace of library is invalid, for it is empty or
+	 * contains illegal characters.
+	 */
+
+	final public static String DESIGN_EXCEPTION_INVALID_LIBRARY_NAMESPACE = MessageConstants.LIBRARY_EXCEPTION_INVALID_LIBRARY_NAMESPACE;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param module
@@ -102,7 +109,8 @@ public class LibraryException extends SemanticException
 		if ( DESIGN_EXCEPTION_LIBRARY_NOT_FOUND == sResourceKey
 				|| DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY == sResourceKey
 				|| DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE == sResourceKey
-				|| DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED == sResourceKey )
+				|| DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED == sResourceKey
+				|| DESIGN_EXCEPTION_INVALID_LIBRARY_NAMESPACE == sResourceKey )
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{(String) oaMessageArguments[0]} );

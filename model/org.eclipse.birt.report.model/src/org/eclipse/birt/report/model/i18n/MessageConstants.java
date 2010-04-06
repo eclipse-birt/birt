@@ -307,6 +307,7 @@ public interface MessageConstants
 	public static final String LIBRARY_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY = "Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_LIBRARY_HAS_DESCENDENTS = "Error.LibraryException.LIBRARY_HAS_DESCENDENTS"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_LIBRARY_ALREADY_INCLUDED = "Error.LibraryException.LIBRARY_ALREADY_INCLUDED"; //$NON-NLS-1$
+	public static final String LIBRARY_EXCEPTION_INVALID_LIBRARY_NAMESPACE = "Error.LibraryException.INVALID_LIBRARY_NAMESPACE"; //$NON-NLS-1$
 
 	// IncludedCssStyleSheetException
 	public static final String CSS_EXCEPTION_CSS_NOT_FOUND = "Error.CSSException.CSS_NOT_FOUND"; //$NON-NLS-1$
@@ -354,5 +355,5 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_WITH_NO_WIDTH = "Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT"; //$NON-NLS-1$	
-	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$	
 }
