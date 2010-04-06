@@ -784,6 +784,10 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			result = "&N";
 		}
+		else
+		{
+			result = autoText.getText( );
+		}
 		return result;
 	}
 	
