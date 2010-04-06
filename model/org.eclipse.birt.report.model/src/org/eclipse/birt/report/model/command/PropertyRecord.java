@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -255,6 +256,14 @@ public class PropertyRecord extends SimpleRecord
 			}
 
 			element.setProperty( propDefn, value );
+
+			// if the element is cube, need to update layout in some cases
+			if ( element instanceof Cube )
+			{
+				Cube cube = (Cube) element;
+				if ( cube.isBoundWithLayout( propDefn ) )
+					cube.updateLayout( cube.getRoot( ) );
+			}
 			return;
 		}
 
