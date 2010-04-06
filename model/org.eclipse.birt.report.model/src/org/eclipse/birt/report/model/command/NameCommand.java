@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.strategy.TabularDimensionPropSearchStrategy;
@@ -110,14 +112,36 @@ public class NameCommand extends AbstractElementCommand
 		// Drop the old name from the name space.
 
 		// Change the name.
-
 		stack.execute( rename );
 
 		// Add the new name to the name space.
-
 		renameSymbolFrom( oldName );
 
+		// change the name of the dimension that shares this element
+		if ( element instanceof Dimension )
+		{
+			updateDimensions( stack );
+		}
+
 		stack.commit( );
+	}
+
+	private void updateDimensions( ActivityStack stack )
+	{
+		Dimension dimension = (Dimension) element;
+		List<BackRef> clients = dimension.getClientList( );
+		for ( BackRef client : clients )
+		{
+			DesignElement content = client.getElement( );
+			String propName = client.getPropertyName( );
+			if ( content instanceof Dimension
+					&& ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP
+							.equals( propName ) )
+			{
+				NameRecord rename = new NameRecord( content, element.getName( ) );
+				stack.execute( rename );
+			}
+		}
 	}
 
 	/**
