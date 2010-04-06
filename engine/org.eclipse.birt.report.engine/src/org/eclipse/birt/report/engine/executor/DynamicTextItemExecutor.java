@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
@@ -86,8 +87,15 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 		{
 			contentType = TextItemDesign.AUTO_TEXT;
 		}
-		
+
 		Object content = evaluate( textDesign.getContent( ) );
+		if ( content != null )
+		{
+			if ( IOUtil.getTypeIndex( content ) == -1 )
+			{
+				content = content.toString( );
+			}
+		}
 
 		String rawType = ForeignContent.getTextRawType( contentType, content );
 		if ( IForeignContent.TEXT_TYPE.equals( rawType ) )

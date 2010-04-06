@@ -121,6 +121,12 @@ public class ImageAreaLayout implements ILayout
 							imageObject );
 					return;
 				}
+				else
+				{
+					// display the alt text or prompt object not accessible.
+					layout = createAltTextLayout( RESOURCE_UNREACHABLE );
+					return;
+				}
 			}
 			// display the alt text or prompt unsupported objects.
 			layout = createAltTextLayout( UNSUPPORTED_OBJECTS );

@@ -463,7 +463,7 @@ public class IOUtil
 	 * @param obValue
 	 * @return
 	 */
-	private static int getTypeIndex( Object obValue )
+	public static int getTypeIndex( Object obValue )
 	{
 		if ( obValue == null )
 			return TYPE_NULL;
@@ -493,7 +493,20 @@ public class IOUtil
 			}
 			if ( obValue instanceof Scriptable )
 			{
-				return TYPE_JSObject;
+				if ( obValue instanceof IdScriptableObject )
+				{
+					IdScriptableObject jsObject = ( (IdScriptableObject) obValue );
+					if ( jsObject.getClassName( ).equals( "Date" ) )
+					{
+						return TYPE_JSObject;
+					}
+					return -1;
+				}
+				else if ( obValue instanceof NativeJavaObject )
+				{
+					return TYPE_JSObject;
+				}
+				return -1;
 			}
 			if ( Timestamp.class.isAssignableFrom( obValue.getClass( ) ) )
 			{
