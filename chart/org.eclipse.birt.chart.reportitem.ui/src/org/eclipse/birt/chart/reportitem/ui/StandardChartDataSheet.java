@@ -394,23 +394,16 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				{
 					Tree tree = (Tree) event.widget;
 					TreeItem treeItem = tree.getSelection( )[0];
-					if ( treeItem.getData( ) instanceof LevelHandle
-							|| treeItem.getData( ) instanceof MeasureHandle )
-					{
 						if ( dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY ))
 						{
 							tree.setMenu( null );
 						}
 						else
 						{
-							tree.setMenu( createMenuManager( treeItem.getData( ) ).createContextMenu( tree ) );
+						tree.setMenu( createMenuManager( getHandleFromSelection( treeItem.getData( ) ) ).createContextMenu( tree ) );
 						// tree.getMenu( ).setVisible( true );
 						}
-					}
-					else
-					{
-						tree.setMenu( null );
-					}
+
 				}
 			}
 		} );
@@ -2495,11 +2488,22 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	
 	private String getBindingNameFrom(TreeItem treeItem)
 	{
-		if (treeItem.getData( ) instanceof ReportElementHandle)
+		Object selection = getHandleFromSelection( treeItem.getData( ) );
+		if ( selection instanceof ReportElementHandle)
 		{
-			return getBindingNameFrom((ReportElementHandle) treeItem.getData( ));
+			return getBindingNameFrom((ReportElementHandle) selection);
 		}
 		
+		return null;
+	}
+
+	protected Object getHandleFromSelection( Object selection )
+	{
+		if ( selection instanceof LevelHandle
+				|| selection instanceof MeasureHandle )
+		{
+			return selection;
+		}
 		return null;
 	}
 
