@@ -824,6 +824,7 @@ public class HTML2Content implements HTMLConstants
 	{
 		String src = null;
 		String flashVars = null;
+		String alt = null;
 		NodeList list = ele.getElementsByTagName( PROPERTY_PARAM );
 		for ( int i = 0; i < list.getLength( ); i++ )
 		{
@@ -840,6 +841,11 @@ public class HTML2Content implements HTMLConstants
 				{
 					flashVars = ( (Element) node )
 							.getAttribute( PROPERTY_VALUE );
+				}
+				else if ( "alt".equalsIgnoreCase( ( (Element) node )
+						.getAttribute( PROPERTY_NAME ) ) )
+				{
+					alt = ( (Element) node ).getAttribute( PROPERTY_VALUE );
 				}
 			}
 		}
@@ -885,8 +891,11 @@ public class HTML2Content implements HTMLConstants
 			{
 				flash.addParam( "FlashVars", flashVars ); //$NON-NLS-1$
 			}
-			String alt = ele.getAttribute( PROPERTY_ALT );
-			if ( alt != null && !"".equals( alt ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if ( alt == null ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			{
+				alt = ele.getAttribute( PROPERTY_ALT );
+			}
+			if ( alt != null && !"".equals( alt ) )
 			{
 				flash.setAltText( alt ); //$NON-NLS-1$
 			}
