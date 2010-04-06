@@ -26,14 +26,6 @@ public class DataExtractionExtensionBase implements IDataExtractionExtension
 		
 	}
 
-	@Deprecated
-	public void initilize( IReportContext context, IDataExtractionOption option )
-			throws BirtException
-	{
-		// TODO Auto-generated method stub
-
-	}
-
 	public void output( IExtractionResults results ) throws BirtException
 	{
 		// TODO Auto-generated method stub
