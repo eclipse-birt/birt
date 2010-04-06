@@ -4114,6 +4114,9 @@ JarFileFormProvider.Column.Name=Nom
 JsFileFormProvider.Column.Name=Nom
 ReportPageGenerator.List.Resources.JsFile=Fichiers Javascript :
 
+PropertiesFileFormProvider.Column.Name=Nom
+ReportPageGenerator.List.Resources.PropertiesFile=Properties Files:
+
 ###########################################################
 #ClassFinder
 ClassFinder.TaskStart=Recherche de la classe de gestionnaire...
@@ -4480,7 +4483,7 @@ CubePageGenerator.List.AdvancedProperty=Avancé
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=Bibliothèque
-LibraryLayoutEditorFormPage.warning.message=Pour afficher les éléments de la bibliothèque, cliquez sur un élément d'état dans la vue de contour.\n\nPour ajouter des éléments visuels à la bibliothèque, glissez-déplacez les éléments d'état depuis la palette ou utilisez le menu d'insertion.
+LibraryLayoutEditorFormPage.warning.message=To add a report item to the library, drag the item from the palette or use the insert menu.\n\nTo view report items in the editor, click on them in the outline view.
 LibraryLayoutEditorFormPage.warning.prompt=&Ne plus afficher ce message
 
 ###########################################################
