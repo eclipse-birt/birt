@@ -11,14 +11,20 @@
 
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
@@ -158,7 +164,7 @@ public class NewReportWizard extends Wizard implements
 		String cheatSheetIdFromPage = "";//$NON-NLS-1$
 		boolean showCheatSheetFromPage = false;
 
-		ReportDesignHandle selTemplate = templateChoicePage.getTemplate( );
+		final ReportDesignHandle selTemplate = templateChoicePage.getTemplate( );
 		final String templateName = selTemplate.getFileName( );
 
 		cheatSheetIdFromPage = templateChoicePage.getTemplate( )
@@ -181,6 +187,7 @@ public class NewReportWizard extends Wizard implements
 					doFinish( containerName,
 							fileName,
 							templateName,
+							resolveRemoteStream( templateName, selTemplate ),
 							cheatSheetId,
 							showCheatSheet,
 							monitor );
@@ -210,6 +217,44 @@ public class NewReportWizard extends Wizard implements
 			return false;
 		}
 		return true;
+	}
+
+	private InputStream resolveRemoteStream( String templateName,
+			ReportDesignHandle handle )
+	{
+		if ( templateName == null || handle == null )
+		{
+			return null;
+		}
+
+		File f = new File( templateName );
+
+		if ( !f.exists( ) )
+		{
+			try
+			{
+				new URL( templateName );
+			}
+			catch ( Exception e )
+			{
+				try
+				{
+					ByteArrayOutputStream out = new ByteArrayOutputStream( );
+					handle.serialize( out );
+
+					byte[] bytes = out.toByteArray( );
+					out.close( );
+
+					return new ByteArrayInputStream( bytes );
+				}
+				catch ( IOException ie )
+				{
+					ExceptionHandler.handle( ie, true );
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/*
@@ -505,9 +550,9 @@ public class NewReportWizard extends Wizard implements
 	 */
 
 	private void doFinish( IPath containerName, String fileName,
-			final String sourceFileName, String cheatSheetId,
-			boolean showCheatSheet, IProgressMonitor monitor )
-			throws CoreException
+			final String templateFileName, final InputStream templateStream,
+			String cheatSheetId, boolean showCheatSheet,
+			IProgressMonitor monitor ) throws CoreException
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
@@ -535,9 +580,21 @@ public class NewReportWizard extends Wizard implements
 
 		try
 		{
-			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.createDesignFromTemplate( sourceFileName );
+			ReportDesignHandle handle;
+
+			if ( templateStream == null )
+			{
+				handle = SessionHandleAdapter.getInstance( )
+						.getSessionHandle( )
+						.createDesignFromTemplate( templateFileName );
+			}
+			else
+			{
+				handle = SessionHandleAdapter.getInstance( )
+						.getSessionHandle( )
+						.createDesignFromTemplate( templateFileName,
+								templateStream );
+			}
 
 			if ( ReportPlugin.getDefault( )
 					.getEnableCommentPreference( file.getProject( ) ) )
@@ -555,7 +612,7 @@ public class NewReportWizard extends Wizard implements
 								.getDefaultUnitPreference( file.getProject( ) ) );
 			}
 
-			if ( isPredifinedTemplate( sourceFileName ) )
+			if ( isPredifinedTemplate( templateFileName ) )
 			{
 				handle.setDisplayName( null );
 				handle.setDescription( null );
@@ -571,7 +628,7 @@ public class NewReportWizard extends Wizard implements
 
 			handle.setBidiOrientation( bidiOrientation );
 
-			//add the create property
+			// add the create property
 			UIUtil.addCreateBy( handle );
 			UIUtil.setDPI( handle );
 			// bidi_hcg end
@@ -580,6 +637,7 @@ public class NewReportWizard extends Wizard implements
 		}
 		catch ( Exception e )
 		{
+			ExceptionHandler.handle( e, true );
 		}
 
 		// to refresh this project, or file does not exist will be told, though
