@@ -404,7 +404,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				return;
 			}
 		}
-		
+		UIUtil.processSessionResourceFolder( getEditorInput( ), 
+				UIUtil.getProjectFromInput( getEditorInput( ) ), null );
 		// load the model first here, so consequent pages can directly use it without reloading
 		getProvider( ).getReportModuleHandle( getEditorInput( ) );
 
