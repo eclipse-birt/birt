@@ -23,6 +23,8 @@ import java.util.Map.Entry;
 import org.eclipse.birt.chart.device.IScriptMenuHelper;
 import org.eclipse.birt.chart.device.ScriptMenuHelper;
 import org.eclipse.birt.chart.device.util.CSSHelper;
+import org.eclipse.birt.chart.device.util.HTMLEncoderAdapter;
+import org.eclipse.birt.chart.device.util.ICharacterEncoderAdapter;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
@@ -48,6 +50,7 @@ public class MultiActionValuesScriptGenerator
 	private static String MENU_JS_CODE;
 	
 	private static IScriptMenuHelper SCRIPT_MENU_HELPER = ScriptMenuHelper.instance( );
+
 	/**
 	 * Returns javascript content.
 	 * 
@@ -99,7 +102,7 @@ public class MultiActionValuesScriptGenerator
 			int i = 0;
 			for ( URLValue uv : getValidURLValues( muv ) )
 			{
-				sb = getURLValueJS( sb, i, uv );
+				sb = getURLValueJS( sb, i, uv, HTMLEncoderAdapter.getInstance( ) );
 				i++;
 			}
 		}
@@ -146,7 +149,7 @@ public class MultiActionValuesScriptGenerator
 			ActionValue av = subAction.getValue( );
 			if ( av instanceof URLValue )
 			{
-				sb = getURLValueJS( sb, i, (URLValue) av );
+				sb = getURLValueJS( sb, i, (URLValue) av, HTMLEncoderAdapter.getInstance( ) );
 			}
 			else if ( av instanceof ScriptValue )
 			{
@@ -207,7 +210,7 @@ public class MultiActionValuesScriptGenerator
 	 * @param uv
 	 * @return
 	 */
-	public static StringBuilder getURLValueJS( StringBuilder sb, int index, URLValue uv )
+	public static StringBuilder getURLValueJS( StringBuilder sb, int index, URLValue uv, ICharacterEncoderAdapter transferAdapter )
 	{
 		if ( index == 0 )
 		{
@@ -217,7 +220,8 @@ public class MultiActionValuesScriptGenerator
 		{
 			sb.append( "\t mii = new BirtChartMenuItemInfo();\n" );//$NON-NLS-1$
 		}
-		sb.append( "\t mii.text = '" + uv.getLabel( ).getCaption( ).getValue( ) + "';\n");//$NON-NLS-1$//$NON-NLS-2$
+		String text = transferAdapter.transformToJsConstants( transferAdapter.escape( uv.getLabel( ).getCaption( ).getValue( ) ) );
+		sb.append( "\t mii.text = '" + text + "';\n");//$NON-NLS-1$//$NON-NLS-2$
 		String url = uv.getBaseUrl( );
 		if ( !( url.startsWith( "\"" ) || url.endsWith( "\"" ) ) )//$NON-NLS-1$ //$NON-NLS-2$
 		{
@@ -231,10 +235,11 @@ public class MultiActionValuesScriptGenerator
 		if ( uv.getTooltip( ) != null
 				&& uv.getTooltip( ).trim( ).length( ) > 0 )
 		{
-			if ( uv.getTooltip( ).startsWith( "\"" ) || uv.getTooltip( ).startsWith( "'" ) ) //$NON-NLS-1$//$NON-NLS-2$
-				sb.append( "\t mii.tooltip = " + uv.getTooltip( ) + ";\n"); //$NON-NLS-1$//$NON-NLS-2$
+			String tooltip = transferAdapter.transformToJsConstants( uv.getTooltip( ) );
+			if ( tooltip.startsWith( "\"" ) || tooltip.startsWith( "'" ) ) //$NON-NLS-1$//$NON-NLS-2$
+				sb.append( "\t mii.tooltip = " + tooltip + ";\n"); //$NON-NLS-1$//$NON-NLS-2$
 			else
-				sb.append( "\t mii.tooltip = \"" + uv.getTooltip( ) + "\";\n"); //$NON-NLS-1$//$NON-NLS-2$
+				sb.append( "\t mii.tooltip = '" + tooltip + "';\n"); //$NON-NLS-1$//$NON-NLS-2$
 		}
 		
 		sb.append ( "\t menuInfo.addItemInfo(mii);\n");  //$NON-NLS-1$

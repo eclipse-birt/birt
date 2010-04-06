@@ -274,7 +274,7 @@ BirtChartMenuItem = function(parent, index, menuItemInfo) {
 	this.widget.onmouseout = BirtChartMenuHelper.dispatchEvent;
 
 	if (typeof this.itemInfo.tooltip != 'undefined')
-		this.setTooltip(bcmi.itemInfo.tooltip);
+		this.setTooltip(this.itemInfo.tooltip);
 	this.setStyles(this.parent.menuInfo.menuItemStyles);
 };
 BirtChartMenuItem.prototype = new BirtChartObject();

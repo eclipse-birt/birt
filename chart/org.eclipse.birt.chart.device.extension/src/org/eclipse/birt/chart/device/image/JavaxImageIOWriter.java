@@ -49,7 +49,9 @@ import org.eclipse.birt.chart.device.swing.ShapedAction;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.device.util.CSSHelper;
 import org.eclipse.birt.chart.device.util.HTMLAttribute;
+import org.eclipse.birt.chart.device.util.HTMLEncoderAdapter;
 import org.eclipse.birt.chart.device.util.HTMLTag;
+import org.eclipse.birt.chart.device.util.ICharacterEncoderAdapter;
 import org.eclipse.birt.chart.device.util.ScriptUtil;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
@@ -106,6 +108,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	
 	private String outputFormat;
 	
+	private ICharacterEncoderAdapter encoderAdapter = HTMLEncoderAdapter.getInstance( );	
 	/**
 	 * Returns the output format string for this writer.
 	 * 
@@ -911,59 +914,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	protected String eval2HTML( String expr )
 	{
-		if ( expr == null )
-		{
-			return ""; //$NON-NLS-1$
-		}
-		StringBuffer result = null;
-		char[] s2char = expr.toCharArray( );
-
-		for ( int i = 0, max = s2char.length, delta = 0; i < max; i++ )
-		{
-			char c = s2char[i];
-			String replacement = null;
-			// Filters the char not defined.
-			if ( !( c == 0x9 || c == 0xA || c == 0xD
-					|| ( c >= 0x20 && c <= 0xD7FF ) || ( c >= 0xE000 && c <= 0xFFFD ) ) )
-			{
-				// Ignores the illegal character.
-				replacement = ""; //$NON-NLS-1$
-			}
-			if ( c == '&' )
-			{
-				replacement = "&amp;"; //$NON-NLS-1$
-			}
-			else if ( c == '"' )
-			{
-				replacement = "&#34;"; //$NON-NLS-1$
-			}
-			else if ( c == '\r' )
-			{
-				replacement = "&#13;"; //$NON-NLS-1$
-			}
-			else if ( c == '<' )
-			{
-				replacement = "&lt;"; //$NON-NLS-1$
-			}
-			else if ( c >= 0x80 )
-			{
-				replacement = "&#x" + Integer.toHexString( c ) + ';'; //$NON-NLS-1$ 
-			}
-			if ( replacement != null )
-			{
-				if ( result == null )
-				{
-					result = new StringBuffer( expr );
-				}
-				result.replace( i + delta, i + delta + 1, replacement );
-				delta += ( replacement.length( ) - 1 );
-			}
-		}
-		if ( result == null )
-		{
-			return expr;
-		}
-		return result.toString( );
+		return encoderAdapter.escape( expr );
 	}
 	
 	protected String eval2JS( String expr, boolean bCallback )

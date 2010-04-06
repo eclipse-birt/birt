@@ -928,7 +928,7 @@ public class SVGInteractiveRenderer
 			switch ( typeValue )
 			{
 				case ActionType.URL_REDIRECT:
-					sb = MultiActionValuesScriptGenerator.getURLValueJS( sb, i, (URLValue) subAction.getValue( ) );
+					sb = MultiActionValuesScriptGenerator.getURLValueJS( sb, i, (URLValue) subAction.getValue( ), SVGEncoderAdapter.getInstance( ) );
 					break;
 				case ActionType.INVOKE_SCRIPT:
 					sb = MultiActionValuesScriptGenerator.getScriptValueJS( sb, i, (ScriptValue) subAction.getValue( ) );
@@ -973,7 +973,7 @@ public class SVGInteractiveRenderer
 		int i = 0;
 		for ( URLValue uv : MultiActionValuesScriptGenerator.getValidURLValues( values ) )
 		{
-			sb = MultiActionValuesScriptGenerator.getURLValueJS( sb, i, uv );
+			sb = MultiActionValuesScriptGenerator.getURLValueJS( sb, i, uv, SVGEncoderAdapter.getInstance( ) );
 			i++;
 		}
 		MultiActionValuesScriptGenerator.appendInteractivityVariables( sb );
