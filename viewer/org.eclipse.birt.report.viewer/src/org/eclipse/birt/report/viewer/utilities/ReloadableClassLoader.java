@@ -71,6 +71,11 @@ public class ReloadableClassLoader extends ClassLoader
 
 		return clz;
 	}
+	
+	public void setParent( ClassLoader parent )
+	{
+		this.parent = parent;
+	}
 
 	/**
 	 * @return the urls

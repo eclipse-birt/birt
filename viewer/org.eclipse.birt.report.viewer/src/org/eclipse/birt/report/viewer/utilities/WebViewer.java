@@ -1112,4 +1112,17 @@ public class WebViewer
 	{
 		return reloadableClassLoader;
 	}
+	
+	/**
+	 * Returns the application classloader reloaded with given parent
+	 */
+	public static ClassLoader getAppClassLoader( ClassLoader parent)
+	{
+		if ( reloadableClassLoader != null )
+		{
+			reloadableClassLoader.setParent( parent );
+			reloadableClassLoader.reload( );
+		}
+		return reloadableClassLoader;
+	}
 }
