@@ -814,6 +814,12 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_LAYOUT_PREFERENCE, ICONS_PATH
 				+ LAYOUT16_PATH
 				+ "layoutPreference.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_COPY_FORMAT, ICONS_PATH
+				+ MISC_PATH
+				+ "copy_format.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_PASTE_FORMAT, ICONS_PATH
+				+ MISC_PATH
+				+ "paste_format.gif" ); //$NON-NLS-1$
 	}
 
 	/**
