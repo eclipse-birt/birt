@@ -11,11 +11,13 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.adapter.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 
 /**
  * 
@@ -28,4 +30,19 @@ public class CubeHandleUtil
 		return false;
 	}
 
+	public static boolean isTimeDimension( DimensionHandle dimension )
+	{
+		return false;
+	}
+	
+	public static Date getStartTime( DimensionHandle dimension )
+	{
+		return null;
+	}
+	
+	public static Date getEndTime( DimensionHandle dimension )
+	{
+		return null;
+	}
+	
 }

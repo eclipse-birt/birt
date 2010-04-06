@@ -69,6 +69,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
@@ -984,6 +985,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			List<TabularHierarchyHandle> hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
 			for ( TabularHierarchyHandle hier: hiers )
 			{
+				if( CubeHandleUtil.isTimeDimension( dim ) )
+					continue;
 				String columnForDeepestLevel = null;
 				List levels = hier.getContents( TabularHierarchyHandle.LEVELS_PROP );
 				if ( levels.size( ) >= 1 )
@@ -1268,11 +1271,24 @@ public class DataRequestSessionImpl extends DataRequestSession
 					//remove cache limit for dimension data set
 					originalMemCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
 				}
-				DataSetIterator valueIt = new DataSetIterator( this,
+				IDatasetIterator valueIt = null;
+				if( !CubeHandleUtil.isTimeDimension( dim ) )
+				{
+					valueIt = new DataSetIterator( this,
 						queryMap.get( hierhandle ),
 						metaMap.get( hierhandle ),
 						appContext );
-				valueIt.initSecurityListenerAndDimension( dim.getName( ), sl );
+					( ( DataSetIterator )valueIt ).initSecurityListenerAndDimension( dim.getName( ), sl );
+				}
+				else
+				{
+					valueIt = new TimeDimensionDatasetIterator( this,
+							CubeHandleUtil.getStartTime( dim ),
+							CubeHandleUtil.getEndTime( dim ), 
+							getFieldName( hierhandle ),
+							getTimeType( hierhandle ));
+				}
+				
 				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
 						hierhandle.getName( ),
 						valueIt,
@@ -1282,7 +1298,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, originalMemCache );
 				}
-				
 			}
 			catch ( Exception e )
 			{
@@ -1303,6 +1318,40 @@ public class DataRequestSessionImpl extends DataRequestSession
 					e,
 					dim.getName( ) );
 		}
+	}
+	
+//	private Date getStartTime( TabularHierarchyHandle timeHierhandle )
+//	{
+//		return new Date( 100, 1, 1);
+//	}
+//	
+//	private Date getEndTime( TabularHierarchyHandle timeHierhandle )
+//	{
+//		return new Date( 106, 1, 1);
+//	}
+	
+	private String[] getFieldName( TabularHierarchyHandle timeHierhandle )
+	{
+		List levels = timeHierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
+		String[] fieldName = new String[levels.size( )];
+		for ( int i = 0; i < levels.size( ); i++ )
+		{
+			TabularLevelHandle level = (TabularLevelHandle) levels.get( i );
+			fieldName[i] = level.getName( );
+		}
+		return fieldName;
+	}
+	
+	private String[] getTimeType( TabularHierarchyHandle timeHierhandle )
+	{
+		List levels = timeHierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
+		String[] timeType = new String[levels.size( )];
+		for ( int i = 0; i < levels.size( ); i++ )
+		{
+			TabularLevelHandle level = (TabularLevelHandle) levels.get( i );
+			timeType[i] = level.getDateTimeLevelType( );
+		}
+		return timeType;
 	}
 	
 	
