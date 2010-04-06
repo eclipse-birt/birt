@@ -971,6 +971,11 @@ public class InsertInLayoutUtil
 			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
 			label.setText( UIUtil.getColumnDisplayName( model ) );
+			String displayKey = getDisplayKey( model );
+			if ( displayKey != null )
+			{
+				label.setTextKey( displayKey );
+			}
 			rule.insert( label );
 		}
 
