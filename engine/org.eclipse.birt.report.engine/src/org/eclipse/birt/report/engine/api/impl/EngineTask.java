@@ -184,6 +184,8 @@ public abstract class EngineTask implements IEngineTask
 	
 	protected IStatusHandler statusHandler;
 	
+	protected String[] userAcls;
+	
 	/**
 	 * @param engine
 	 *            reference to report engine
@@ -322,7 +324,10 @@ public abstract class EngineTask implements IEngineTask
 			appContext.putAll( sysAppContext );
 		}
 		addAppContext( context, appContext );
-		
+		if ( userAcls != null )
+		{
+			appContext.put( EngineConstants.USER_ACL_KEY, userAcls );
+		}
 		executionContext.setAppContext( appContext );
 
 		StringBuffer logStr = null;
@@ -2217,12 +2222,14 @@ public abstract class EngineTask implements IEngineTask
 		if ( acls != null )
 		{
 			String[] strippedAcls = strip( acls );
+			userAcls = strippedAcls;
 			executionContext.getAppContext( ).put(
 					EngineConstants.USER_ACL_KEY, strippedAcls );
 
 		}
 		else
 		{
+			userAcls = null;
 			executionContext.getAppContext( ).put(
 					EngineConstants.USER_ACL_KEY, null );
 		}
