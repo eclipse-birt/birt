@@ -136,20 +136,17 @@ public class DataDefinitionTextManager
 			String expr = iqem.getQuery( ).getDefinition( );
 			iqem.updateText( expr );
 
-			if ( !iqem.getExpressionButton( ).isCube( ) )
+			String name = exprCodec.getBindingName( iqem.getExpressionButton( )
+					.getExpression( ) );
+			if ( name != null )
 			{
-				String name = exprCodec.getBindingName( iqem.getExpressionButton( )
-						.getExpression( ) );
-				if ( name != null )
-				{
-					colorPalette.putColor( name );
-					usedColorKeys.add( name );
-					text.setBackground( colorPalette.getColor( name ) );
-				}
-				else
-				{
-					text.setBackground( null );
-				}
+				colorPalette.putColor( name );
+				usedColorKeys.add( name );
+				text.setBackground( colorPalette.getColor( name ) );
+			}
+			else
+			{
+				text.setBackground( null );
 			}
 		}
 
