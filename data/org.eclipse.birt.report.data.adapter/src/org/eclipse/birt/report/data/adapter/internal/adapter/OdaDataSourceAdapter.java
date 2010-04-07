@@ -25,11 +25,11 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
+import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.mozilla.javascript.Scriptable;
-import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 
 /**
  * Adapts a Model ODA data source handle to equivalent DtE 
@@ -49,7 +49,7 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 			Scriptable propBindingScope, DataEngineContext dtCotnext , ModelAdapter adapter )
 		throws BirtException
 	{
-		super(source.getQualifiedName());
+		super( source.getQualifiedName( ) );
 		bindingScope = propBindingScope;
 
 		// Adapt base class properties
@@ -115,18 +115,19 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 		}
 		
 		// TODO: move ModeDteApiAdpter there in future
-		addPropertyConfigurationId( this );
+		addPropertyConfigurationId( this, source );
 	}
 	
 	/**
 	 * Adds the externalized property configuration id for use by 
 	 * a BIRT consumer application's propertyProvider extension.
+	 * Use the name not qualified name as configurationId.
 	 */
-	private void addPropertyConfigurationId( OdaDataSourceDesign dteSource )
-			throws BirtException
+	private void addPropertyConfigurationId( OdaDataSourceDesign dteSource,
+			OdaDataSourceHandle sourceHandle ) throws BirtException
 	{
 		String configIdValue = dteSource.getExtensionID( )
-				+ Constants.ODA_PROP_CONFIG_KEY_SEPARATOR + dteSource.getName( );
+				+ Constants.ODA_PROP_CONFIG_KEY_SEPARATOR + sourceHandle.getName( );
 		dteSource.addPublicProperty( Constants.ODA_PROP_CONFIGURATION_ID,
 				configIdValue );
 	}
