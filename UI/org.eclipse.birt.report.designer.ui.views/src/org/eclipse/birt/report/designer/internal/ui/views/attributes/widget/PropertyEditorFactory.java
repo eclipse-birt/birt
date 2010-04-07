@@ -208,7 +208,7 @@ public class PropertyEditorFactory
 		else if ( handle.isExpressionProperty( o ) )
 		{
 			editor = new ExpressionCellEditor( parent, SWT.READ_ONLY );
-			editor.setValue( value );
+			editor.setValue(  ( (GroupPropertyHandle) o ).getValue( ) );
 		}
 		else if ( handle.isPassProperty( o ) )
 		{
