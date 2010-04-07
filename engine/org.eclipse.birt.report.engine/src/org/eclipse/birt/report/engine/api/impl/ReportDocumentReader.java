@@ -62,6 +62,8 @@ import org.eclipse.birt.report.engine.toc.ITOCReader;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TOCReader;
 import org.eclipse.birt.report.engine.toc.TOCView;
+import org.eclipse.birt.report.engine.toc.TreeNode;
+import org.eclipse.birt.report.engine.toc.document.TOCReaderV0;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ModuleUtil;
@@ -125,7 +127,7 @@ public class ReportDocumentReader
 	private LinkedEntry<ReportDocumentReader> engineCacheEntry;
 
 	private byte[] bodyData;
-	private ITOCReader cachedTocReaderV0;
+	private TreeNode cachedTreeV0;
 
 	public ReportDocumentReader( ReportEngine engine,
 			IDocArchiveReader archive, boolean sharedArchive )
@@ -444,8 +446,11 @@ public class ReportDocumentReader
 			}
 			if ( tocReader == null )
 			{
-				cachedTocReaderV0 = documentInfo.tocReader;
 				tocReader = documentInfo.tocReader;
+				if (tocReader != null )
+				{
+					cachedTreeV0 = (TreeNode)tocReader.readTree( );
+				}
 			}
 			else
 			{
@@ -1792,10 +1797,10 @@ public class ReportDocumentReader
 	public ITOCReader getTOCReader( ClassLoader loader ) throws EngineException
 	{
 		loadCoreStreamLazily( );
-		if ( cachedTocReaderV0 != null )
+		if ( cachedTreeV0 != null )
 		{
 			// it is safe to reuse the tocReaderV0 as the close is empty.
-			return cachedTocReaderV0;
+			return new TOCReaderV0( cachedTreeV0 );
 		}
 		try
 		{

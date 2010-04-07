@@ -42,6 +42,11 @@ public class TOCReaderV0 implements ITOCReader
 		root = readRoot( input );
 	}
 
+	public TOCReaderV0( TreeNode root )
+	{
+		this.root = root;
+	}
+	
 	public ITreeNode readTree( ) throws IOException
 	{
 		return root;
