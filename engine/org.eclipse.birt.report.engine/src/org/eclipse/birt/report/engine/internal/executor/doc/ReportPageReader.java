@@ -164,7 +164,9 @@ public class ReportPageReader extends AbstractReportReader
 				}
 				catch ( IOException ex )
 				{
-					logger.log( Level.SEVERE, "Can't load the page hints", ex );
+					logger
+							.log( Level.SEVERE, "Can not load the page hints",
+									ex );
 				}
 			}
 		}

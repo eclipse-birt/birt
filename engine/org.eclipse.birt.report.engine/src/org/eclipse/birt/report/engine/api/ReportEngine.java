@@ -72,7 +72,7 @@ public class ReportEngine implements IReportEngine
 		}
 		if ( engine == null )
 		{
-			System.out.println( "Can't load the report engine" );
+			System.out.println( "Can not load the report engine" );
 		}
 	}
 

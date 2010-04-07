@@ -254,7 +254,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 			}
 			catch ( IOException ex )
 			{
-				logger.log( Level.SEVERE, "Can't load the page content " + pageNumber, ex );
+				logger.log( Level.SEVERE, "Can not load the page content "
+						+ pageNumber, ex );
 			}
 			if ( pageContent == null )
 			{
@@ -296,7 +297,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				}
 				catch ( IOException ex )
 				{
-					logger.log( Level.SEVERE, "Can't load the page content" );
+					logger.log( Level.SEVERE, "Can not load the page content" );
 				}
 			}
 		}
@@ -370,7 +371,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 		catch ( IOException ex )
 		{
-			logger.log( Level.SEVERE, "Can't load the page content", ex );
+			logger.log( Level.SEVERE, "Can not load the page content", ex );
 		}
 
 		while ( !contents.isEmpty( ) )

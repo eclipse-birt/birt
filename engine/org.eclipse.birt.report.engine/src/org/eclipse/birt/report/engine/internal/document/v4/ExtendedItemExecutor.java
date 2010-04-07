@@ -273,7 +273,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 	protected IContent doCreateContent( )
 	{
 		throw new java.lang.IllegalStateException(
-				"can't create the content for extended item" );
+				"can not create the content for extended item" );
 	}
 
 	protected ReportItemExecutor doCreateExecutor( long offset )

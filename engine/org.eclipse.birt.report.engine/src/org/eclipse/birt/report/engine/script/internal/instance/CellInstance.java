@@ -91,13 +91,13 @@ public class CellInstance extends ReportElementInstance
 	public void setHeight( String height )
 	{
 		throw new UnsupportedOperationException(
-				"Can't set cell height, please set row height instead." );
+				"Can not set cell height, please set row height instead." );
 	}
 
 	public void setWidth( String width )
 	{
 		throw new UnsupportedOperationException(
-				"Can't set cell width, please set column width instead." );
+				"Can not set cell width, please set column width instead." );
 	}
 
 	/*

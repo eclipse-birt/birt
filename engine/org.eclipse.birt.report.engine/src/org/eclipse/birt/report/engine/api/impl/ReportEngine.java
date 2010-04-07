@@ -809,7 +809,7 @@ public class ReportEngine implements IReportEngine
 						catch ( CoreException ex )
 						{
 							logger.log( Level.WARNING,
-									"can't load the engine extension factory",
+											"can not load the engine extension factory",
 									ex );
 						}
 					}

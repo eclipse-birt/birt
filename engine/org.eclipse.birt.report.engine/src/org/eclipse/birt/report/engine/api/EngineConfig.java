@@ -111,7 +111,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	{
 		if ( logger == null )
 		{
-			throw new NullPointerException( "logger can't be NULL" );
+			throw new NullPointerException( "logger can not be NULL" );
 		}
 		setProperty( ENGINE_LOGGER, logger );
 	}

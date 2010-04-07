@@ -88,7 +88,8 @@ public class Platform
 			catch ( Exception ex )
 			{
 				platform = null;
-				throw new BirtException( "org.eclipse.birt.core", "Can't startup the OSGI framework",
+				throw new BirtException( "org.eclipse.birt.core",
+						"Can not startup the OSGI framework",
 						new Object[]{}, ex );
 			}
 		}

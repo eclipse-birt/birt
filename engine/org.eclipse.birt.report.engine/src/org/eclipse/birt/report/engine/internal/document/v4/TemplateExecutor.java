@@ -32,7 +32,7 @@ public class TemplateExecutor extends ReportItemExecutor
 	protected IContent doCreateContent( )
 	{
 		throw new IllegalStateException(
-				"can't re-generate content for template item" );
+				"can not re-generate content for template item" );
 	}
 
 	protected void doExecute( ) throws Exception

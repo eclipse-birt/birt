@@ -1339,7 +1339,7 @@ public class ReportQueryBuilder
 					// FIXME: can't support reference normal query to cube
 					// query.
 					throw new IllegalStateException(
-							"Can't support reference normal query to cube query" );
+							"Can not support reference normal query to cube query" );
 				}
 			}
 			return null;

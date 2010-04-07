@@ -241,7 +241,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	{
 		long id = design == null ? -1 : design.getID( );
 		throw new IllegalStateException(
-				"can't re-generate content for design " + id );
+				"can not re-generate content for design " + id );
 	}
 
 	protected void doExecute( ) throws Exception
