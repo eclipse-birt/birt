@@ -21,9 +21,11 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
@@ -107,10 +109,11 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		{
 			while ( container.getContainer( ) != null && !dataSetFound )
 			{
-				if ( container instanceof ListingElement )
+				if ( container instanceof ListingElement
+						|| container instanceof GridItem )
 				{
-					if ( ( (ListingElement) container )
-							.getDataSetElement( module ) != null )
+					String propName = IReportItemModel.DATA_SET_PROP;
+					if ( container.getReferenceProperty( module, propName ) != null )
 					{
 						dataSetFound = true;
 						break;
