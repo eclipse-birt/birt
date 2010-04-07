@@ -38,6 +38,6 @@ public class ImageItemExecutor extends ReportItemExecutor
 	protected IContent doCreateContent( )
 	{
 		throw new IllegalStateException(
-				"can't create the content for image item" );
+				"can not create the content for image item" );
 	}
 }

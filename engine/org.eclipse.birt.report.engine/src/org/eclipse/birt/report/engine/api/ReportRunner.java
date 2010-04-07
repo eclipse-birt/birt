@@ -373,7 +373,7 @@ public class ReportRunner
 		System.out
 				.println( "1. parameters/configs in command line will overide those in file" ); //$NON-NLS-1$
 		System.out
-				.println( "2. parameter/config name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
+				.println( "2. parameter/config name can not include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
 		System.out.println( "use \"--help/-h configNames\" for a list of configurables" );
 		System.out.println( "use \"--help/-h file\" for options in <file>" );
 	}
@@ -394,7 +394,7 @@ public class ReportRunner
 		System.out
 				.println( "1. configs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
 		System.out
-				.println( "2. config/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
+				.println( "2. config/renderOption name can not include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
 		System.out.println( "use \"--help/-h configNames\" for a list of configurables" );
 		System.out.println( "use \"--help/-h renderOptions\" for a list of render options" );
 		System.out.println( "use \"--help/-h file\" for options in <file>" );
@@ -418,7 +418,7 @@ public class ReportRunner
 		System.out
 				.println( "1. parameters/configs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
 		System.out
-				.println( "2. parameter/config/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
+				.println( "2. parameter/config/renderOption name can not include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
 		System.out.println( "use \"--help/-h configNames\" for a list of configurables" );
 		System.out.println( "use \"--help/-h renderOptions\" for a list of render options" );
 		System.out.println( "use \"--help/-h file\" for options in <file>" );
@@ -859,7 +859,7 @@ public class ReportRunner
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE,
-					"Can't open file: " + file.getAbsolutePath( ) ); //$NON-NLS-1
+					"Can not open file: " + file.getAbsolutePath( ) ); //$NON-NLS-1
 		}
 		params.putAll( ps );
 	}

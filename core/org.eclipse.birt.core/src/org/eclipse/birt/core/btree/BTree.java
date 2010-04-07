@@ -455,7 +455,7 @@ public class BTree<K, V> implements BTreeConstants
 
 		if ( file == null )
 		{
-			throw new IOException( "can't load node " + nodeId );
+			throw new IOException( "can not load node " + nodeId );
 		}
 
 		NodeInputStream in = new NodeInputStream( file, nodeId );

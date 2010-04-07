@@ -56,11 +56,12 @@ public class DataSetID
 	{
 		if ( null == parent )
 		{
-			throw new IllegalArgumentException( "The parent can't be null!" );
+			throw new IllegalArgumentException( "The parent can not be null!" );
 		}
 		if ( null == queryName )
 		{
-			throw new IllegalArgumentException( "The queryName can't be null!" );
+			throw new IllegalArgumentException(
+					"The queryName can not be null!" );
 		}
 		this.parent = parent;
 		this.rowId = rowId;
@@ -80,11 +81,12 @@ public class DataSetID
 	{
 		if ( null == parent )
 		{
-			throw new IllegalArgumentException( "The parent can't be null!" );
+			throw new IllegalArgumentException( "The parent can not be null!" );
 		}
 		if ( null == queryName )
 		{
-			throw new IllegalArgumentException( "The queryName can't be null!" );
+			throw new IllegalArgumentException(
+					"The queryName can not be null!" );
 		}
 		this.parent = parent;
 		this.rowId = -1;
@@ -153,7 +155,7 @@ public class DataSetID
 		if ( null == dataSetName )
 		{
 			throw new IllegalArgumentException(
-					"The dataSetName can't be null!" );
+					"The dataSetName can not be null!" );
 		}
 		this.dataSetName = dataSetName;
 	}

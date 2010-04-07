@@ -1352,9 +1352,8 @@ public class ReportDocumentReader
 			}
 			catch ( IOException ex )
 			{
-				logger
-						.log( Level.SEVERE, "can't open the page hint stream",
-								ex );
+				logger.log( Level.SEVERE, "can not open the page hint stream",
+						ex );
 			}
 		}
 	}

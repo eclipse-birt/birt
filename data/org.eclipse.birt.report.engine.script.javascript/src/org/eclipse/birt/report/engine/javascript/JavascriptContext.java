@@ -43,7 +43,7 @@ public class JavascriptContext implements IScriptContext
 	{
 		if ( scope == null )
 		{
-			throw new IllegalArgumentException( "Scope can't be null." );
+			throw new IllegalArgumentException( "Scope can not be null." );
 		}
 		this.scope = scope;
 		this.scriptContext = scriptContext;

@@ -86,7 +86,7 @@ public class FileCacheManager
 		if ( systemCache != null )
 		{
 			throw new IllegalArgumentException(
-					"can't set the system cache manger twice" );
+					"can not set the system cache manger twice" );
 		}
 		systemCache = manager;
 	}

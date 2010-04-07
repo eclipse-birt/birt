@@ -107,7 +107,7 @@ public class DataBlock extends Ext2Block
 		public int write( int tgt, byte b[], int off, int len )
 				throws IOException
 		{
-			throw new IOException( "Can't change the read only buffer" );
+			throw new IOException( "Can not change the read only buffer" );
 		}
 
 		public int read( int src, byte b[], int off, int len )

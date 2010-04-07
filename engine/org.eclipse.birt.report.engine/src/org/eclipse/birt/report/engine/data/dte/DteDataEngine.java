@@ -106,7 +106,7 @@ public class DteDataEngine extends AbstractDataEngine
 		catch ( Exception ex )
 		{
 			//FIXME: code review. throw engine exception. 
-			logger.log( Level.SEVERE, "can't create the DTE data engine", ex );
+			logger.log( Level.SEVERE, "can not create the DTE data engine", ex );
 		}
 	}
 	

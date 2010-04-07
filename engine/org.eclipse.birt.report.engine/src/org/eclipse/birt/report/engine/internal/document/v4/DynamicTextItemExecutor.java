@@ -39,6 +39,6 @@ public class DynamicTextItemExecutor extends ReportItemExecutor
 	protected IContent doCreateContent( )
 	{
 		throw new IllegalStateException(
-				"can't re-generate content for MultiLineItem" );
+				"can not re-generate content for MultiLineItem" );
 	}
 }

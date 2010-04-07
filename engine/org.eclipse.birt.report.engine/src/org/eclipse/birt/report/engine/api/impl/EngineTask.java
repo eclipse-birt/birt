@@ -481,7 +481,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		if ( options == null )
 		{
-			throw new NullPointerException( "options can't be null" );
+			throw new NullPointerException( "options can not be null" );
 		}
 		renderOptions = options;
 	}
@@ -1211,7 +1211,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		if ( signal == null )
 		{
-			throw new IllegalArgumentException( "signal can't be null" );
+			throw new IllegalArgumentException( "signal can not be null" );
 		}
 		cancelFlag = true;
 		long waitingTime = 0;
@@ -1985,7 +1985,7 @@ public abstract class EngineTask implements IEngineTask
 		if ( logger == null || !EngineLogger.isValidLogger( logger ) )
 		{
 			throw new IllegalArgumentException(
-					"the logger can't be NULL or children or in namespace of org.eclipse.birt" );
+					"the logger can not be NULL or children or in namespace of org.eclipse.birt" );
 		}
 		EngineLoggerHandler.setLogger( logger );
 		this.log = logger;

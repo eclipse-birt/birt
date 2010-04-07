@@ -621,7 +621,7 @@ public class ReportDocumentBuilder
 			}
 			catch ( IOException ex )
 			{
-				logger.log( Level.SEVERE, "Can't open the hint stream", ex );
+				logger.log( Level.SEVERE, "Can not open the hint stream", ex );
 				return false;
 			}
 			return true;
@@ -879,7 +879,7 @@ public class ReportDocumentBuilder
 			}
 			catch ( IOException ex )
 			{
-				logger.log( Level.SEVERE, "Can't open the hint stream", ex );
+				logger.log( Level.SEVERE, "Can not open the hint stream", ex );
 				return false;
 			}
 			return true;
