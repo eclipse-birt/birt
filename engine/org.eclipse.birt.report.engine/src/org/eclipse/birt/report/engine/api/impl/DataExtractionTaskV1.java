@@ -876,8 +876,8 @@ public class DataExtractionTaskV1 extends EngineTask
 				( (QueryDefinition) topSubquery.getParentQuery( ) )
 						.setQueryResultsID( rset.getQueryResultsID( ) );
 				newQuery.setSourceQuery( clonedSubquery );
-				setupDistinct( newQuery );
 				setupQueryWithFilterAndSort( newQuery );
+				setupDistinct( newQuery );
 			}
 
 			DataRequestSession dataSession = executionContext.getDataEngine( )
@@ -937,13 +937,12 @@ public class DataExtractionTaskV1 extends EngineTask
 		if ( this.distinct && selectedColumns != null )
 		{
 			IBaseQueryDefinition srcQuery = query.getSourceQuery( );
-			for ( int index = 0; index < selectedColumns.length; index++ )
+			Map bindings = srcQuery.getBindings( );
+			if ( bindings != null )
 			{
-				Map bindings = srcQuery.getBindings( );
-				if ( bindings != null )
+				for ( int index = 0; index < selectedColumns.length; index++ )
 				{
-					IBinding binding = (IBinding) bindings
-							.get( selectedColumns[index] );
+					IBinding binding = (IBinding) bindings.get( selectedColumns[index] );
 					if ( binding != null )
 					{
 						addQueryBinding( query, binding );
@@ -957,21 +956,21 @@ public class DataExtractionTaskV1 extends EngineTask
 			throws BirtException
 	{
 		IBinding newBinding = new Binding( binding.getBindingName( ) );
-		newBinding.setAggrFunction( binding.getAggrFunction( ) );
+//		newBinding.setAggrFunction( binding.getAggrFunction( ) );
 		newBinding.setDataType( binding.getDataType( ) );
 		newBinding.setDisplayName( binding.getDisplayName( ) );
 		newBinding.setExportable( binding.exportable( ) );
-		newBinding.setFilter( binding.getFilter( ) );
-		List aggrOns = binding.getAggregatOns( );
-		for ( Object aggrOn : aggrOns )
-		{
-			newBinding.addAggregateOn( (String) aggrOn );
-		}
-		List argus = binding.getArguments( );
-		for ( Object argu : argus )
-		{
-			newBinding.addArgument( (IBaseExpression) argu );
-		}
+//		newBinding.setFilter( binding.getFilter( ) );
+//		List aggrOns = binding.getAggregatOns( );
+//		for ( Object aggrOn : aggrOns )
+//		{
+//			newBinding.addAggregateOn( (String) aggrOn );
+//		}
+//		List argus = binding.getArguments( );
+//		for ( Object argu : argus )
+//		{
+//			newBinding.addArgument( (IBaseExpression) argu );
+//		}
 		String expr = ExpressionUtil.createDataSetRowExpression( newBinding
 				.getBindingName( ) );
 		IBaseExpression dbExpr = new ScriptExpression( expr, newBinding
