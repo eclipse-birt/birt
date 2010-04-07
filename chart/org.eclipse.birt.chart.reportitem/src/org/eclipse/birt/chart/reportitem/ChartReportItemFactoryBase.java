@@ -25,8 +25,6 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 /**
  * Basic implementation of report item factory.
@@ -63,14 +61,5 @@ public class ChartReportItemFactoryBase implements IChartReportItemFactory
 			ICubeResultSet set )
 	{
 		return new BIRTCubeResultSetEvaluator( set );
-	}
-
-	public TabularCubeHandle adaptCubeHandle( CubeHandle cubeHandle )
-	{
-		if ( cubeHandle instanceof TabularCubeHandle )
-		{
-			return (TabularCubeHandle) cubeHandle;
-		}
-		return null;
 	}
 }

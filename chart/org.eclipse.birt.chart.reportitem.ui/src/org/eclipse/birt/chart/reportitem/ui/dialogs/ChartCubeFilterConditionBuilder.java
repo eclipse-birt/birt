@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.IChartReportItemFactory;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil;
@@ -73,7 +72,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -1824,12 +1822,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		{
 			cube = ( (ExtendedItemHandle) designHandle ).getCube( );
 		}
-		IChartReportItemFactory factory = ChartReportItemUtil.getAdapter( currentItem,
-				IChartReportItemFactory.class );
-		cube = factory.adaptCubeHandle( cube );
-
 		if ( cube == null
-				|| ( !( cube instanceof TabularCubeHandle ) )
 				|| expression.getText( ).length( ) == 0 )
 		{
 			return new ArrayList( );
@@ -1865,8 +1858,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 					true,
 					ExpressionType.JAVASCRIPT );
 
-			iter = session.getCubeQueryUtil( )
-					.getMemberValueIterator( (TabularCubeHandle) cube,
+			iter = session.getCubeQueryUtil( ).getMemberValueIterator( cube,
 							exprCodec.getExpression( ),
 							(ICubeQueryDefinition) cubeQueryDefn );
 		}
