@@ -377,7 +377,7 @@ public class ModelDteApiAdapter
 			}
 		}
 
-        addPropertyConfigurationId( dteSource );
+		addPropertyConfigurationId( dteSource, source );
 
 		return dteSource;
 	}
@@ -451,14 +451,16 @@ public class ModelDteApiAdapter
 	/**
 	 * Adds the externalized property configuration id for use by 
 	 * a BIRT consumer application's propertyProvider extension.
+	 * Use the name not qualified name as configurationId.
 	 */
-	private void addPropertyConfigurationId( OdaDataSourceDesign dteSource )
+	private void addPropertyConfigurationId( OdaDataSourceDesign dteSource, OdaDataSourceHandle sourceHandle )
 		throws BirtException
 	{
-		String configIdValue = dteSource.getExtensionID() + 
-                                  Constants.ODA_PROP_CONFIG_KEY_SEPARATOR +
-        						  dteSource.getName();
-		dteSource.addPublicProperty( Constants.ODA_PROP_CONFIGURATION_ID, configIdValue );
+		String configIdValue = dteSource.getExtensionID( )
+				+ Constants.ODA_PROP_CONFIG_KEY_SEPARATOR
+				+ sourceHandle.getName( );
+		dteSource.addPublicProperty( Constants.ODA_PROP_CONFIGURATION_ID,
+				configIdValue );
 	}
 	
 	/**
