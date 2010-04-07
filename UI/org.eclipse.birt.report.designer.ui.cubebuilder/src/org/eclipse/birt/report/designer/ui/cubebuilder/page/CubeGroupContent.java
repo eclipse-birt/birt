@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -319,7 +320,7 @@ public class CubeGroupContent extends Composite implements Listener
 				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		( (GridData) groupViewer.getTree( ).getLayoutData( ) ).heightHint = 250;
 		( (GridData) groupViewer.getTree( ).getLayoutData( ) ).widthHint = 250;
-		groupViewer.setLabelProvider( new CubeLabelProvider( ) );
+		groupViewer.setLabelProvider( getCubeLabelProvider( ) );
 		groupViewer.setContentProvider( new CubeContentProvider( ) );
 		groupViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
@@ -1197,7 +1198,7 @@ public class CubeGroupContent extends Composite implements Listener
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.BORDER );
-		cubeLabelProvider = new CubeLabelProvider( );
+		cubeLabelProvider = getCubeLabelProvider( );
 		dataFieldsViewer.setLabelProvider( cubeLabelProvider );
 		dataFieldsViewer.setContentProvider( dataContentProvider );
 		dataFieldsViewer.setAutoExpandLevel( 3 );
@@ -1219,6 +1220,16 @@ public class CubeGroupContent extends Composite implements Listener
 		fieldsSource.setTransfer( types );
 		fieldsSource.addDragListener( new CustomDragListener( dataFieldsViewer ) );
 
+	}
+
+	private CubeLabelProvider getCubeLabelProvider( )
+	{
+		Object label = ElementAdapterManager.getAdapter( this,
+				CubeLabelProvider.class );
+		if ( label instanceof CubeLabelProvider )
+			return (CubeLabelProvider) label;
+		else
+			return new CubeLabelProvider( );
 	}
 
 	private Button addBtn;
