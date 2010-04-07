@@ -441,7 +441,14 @@ public class ImageAreaLayout implements ILayout
 				innerText.layout( );
 				// set the text position manually.
 				innerText.setAllocatedPosition( 0, 0 );
-
+				int rootHeight = root.getContentHeight( );
+				if ( rootHeight < innerText.getHeight( ) )
+				{
+					innerText.setHeight( ( rootHeight - 1000 ) > 0
+							? ( rootHeight - 1000 )
+							: 0 );
+					innerText.setNeedClip( true );
+				}
 				// restore the root status.
 				root.currentIP = lastIP;
 				root.currentBP = lastBP;
