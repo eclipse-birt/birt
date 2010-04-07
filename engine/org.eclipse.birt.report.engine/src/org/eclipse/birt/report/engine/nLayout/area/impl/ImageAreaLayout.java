@@ -121,6 +121,12 @@ public class ImageAreaLayout implements ILayout
 							imageObject );
 					return;
 				}
+				else
+				{
+					// display the alt text or prompt object not accessible.
+					layout = createAltTextLayout( RESOURCE_UNREACHABLE );
+					return;
+				}
 			}
 			// display the alt text or prompt unsupported objects.
 			layout = createAltTextLayout( UNSUPPORTED_OBJECTS );
@@ -422,6 +428,7 @@ public class ImageAreaLayout implements ILayout
 						IStyle.STYLE_TEXT_ALIGN, IStyle.CENTER_VALUE );
 				innerText.setVerticalAlign( IStyle.MIDDLE_VALUE );
 				innerText.setIgnoreReordering( true );
+
 				// save current root status
 				if ( PropertyUtil.isInlineElement( image ) )
 				{
@@ -435,7 +442,14 @@ public class ImageAreaLayout implements ILayout
 				innerText.layout( );
 				// set the text position manually.
 				innerText.setAllocatedPosition( 0, 0 );
-
+				int rootHeight = root.getContentHeight( );
+				if ( rootHeight < innerText.getHeight( ) )
+				{
+					innerText.setHeight( ( rootHeight - 1000 ) > 0
+							? ( rootHeight - 1000 )
+							: 0 );
+					innerText.setNeedClip( true );
+				}
 				// restore the root status.
 				root.currentIP = lastIP;
 				root.currentBP = lastBP;
