@@ -1546,7 +1546,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					{
 						if ( isSharingChart( true ) )
 						{
-							evaluator = createBaseEvaluator( (ExtendedItemHandle) itemHandle.getDataBindingReference( ),
+							evaluator = createBaseEvaluator( (ExtendedItemHandle) ChartReportItemUtil.getReportItemReference( itemHandle ),
 									cm,
 									columnExpression );
 						}
