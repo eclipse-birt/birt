@@ -142,7 +142,7 @@ public class DataGenerationEngine extends DteDataEngine
 			}
 			dos = null;
 		}
-		dteSession.shutdown( );
+		super.shutdown( );
 	}
 
 	/**
