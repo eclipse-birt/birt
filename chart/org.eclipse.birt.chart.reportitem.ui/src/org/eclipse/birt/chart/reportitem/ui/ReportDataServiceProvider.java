@@ -89,6 +89,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
@@ -1464,6 +1465,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			dteAdapter.setRowLimit( session, rowLimit, isCubeMode );
 		}
+		else
+		{
+			// Needs to clear previous settings if filter is set.
+			dteAdapter.setRowLimit( session, -1, isCubeMode );
+		}
 	}
 	
 	/**
@@ -1930,7 +1936,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		if ( needDefineCube( cube ) )
 		{
-			session.defineCube( cube );
+			DataService.getInstance( ).registerSession( cube, session );
+			session.defineCube( cube );	
 		}
 		
 		dteAdapter.populateApplicationContext( cube, session );
