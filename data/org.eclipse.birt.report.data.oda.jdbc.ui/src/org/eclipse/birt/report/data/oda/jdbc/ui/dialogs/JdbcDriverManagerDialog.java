@@ -85,6 +85,8 @@ public class JdbcDriverManagerDialog extends TrayDialog
 	private Map jarMap, driverMap;
 	private TabFolder tabFolder;
 	
+	private List externalDrivers;
+	
 	private static final String TEXT_ADDBUTTON = JdbcPlugin.getResourceString( "driverManagerDialog.text.Add" );//$NON-NLS-1$
 	private static final String TEXT_RESTOREBUTTON = JdbcPlugin.getResourceString( "driverManagerDialog.text.Restore" );//$NON-NLS-1$
 	private static final String TEXT_DELETEBUTTON = JdbcPlugin.getResourceString( "driverManagerDialog.text.Delete" );//$NON-NLS-1$
@@ -533,6 +535,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 		
 		updateJarMap( );
 		updateDriverMapInit( );
+		updateExternalDriverList( );
 
 		refreshJarViewer( );
 		refreshDriverViewer( );
@@ -628,6 +631,25 @@ public class JdbcDriverManagerDialog extends TrayDialog
 		} ) );
 
 		refreshDriver( );
+	}
+	
+	private void updateExternalDriverList( )
+	{
+		List externalJars = new ArrayList( );
+		Object[] jars = jarMap.values( ).toArray( new JarFile[0] );
+		for ( int i = 0; i < jars.length; i++ )
+		{
+			externalJars.add( jars[i] );
+		}
+		List drivers = JdbcToolKit.getDriverByJar( externalJars );
+		if ( drivers != null )
+		{
+			externalDrivers = new ArrayList( drivers.size( ) );
+			for ( int i = 0; i < drivers.size( ); i++ )
+			{
+				externalDrivers.add( ( (JDBCDriverInformation) drivers.get( i ) ).toString( ) );
+			}
+		}
 	}
 
 	/**
@@ -817,7 +839,14 @@ public class JdbcDriverManagerDialog extends TrayDialog
 		{
 			fileList.add(new File( ( (JarFile) jarsCopyIterator.next(  ) ).getFilePath( ) ) );
 		}
-		JdbcToolKit.addToDriverList( fileList );
+		List addedDrivers = JdbcToolKit.addToDriverList( fileList );
+		if ( addedDrivers != null )
+		{
+			for ( int i = 0; i < addedDrivers.size( ); i++ )
+			{
+				externalDrivers.add( ( (JDBCDriverInformation) addedDrivers.get( i ) ).toString( ) );
+			}
+		}
 
 		// remove drivers in to be deleted Jars
 		fileList.clear( );
@@ -827,8 +856,15 @@ public class JdbcDriverManagerDialog extends TrayDialog
 		{
 			fileList.add( new File( ( (JarFile) jarsDeleteIterator.next( ) ).getFilePath( ) ) );
 		}
-		JdbcToolKit.removeFromDriverList( fileList );
-
+		List removedDrivers = JdbcToolKit.removeFromDriverList( fileList );
+		if ( removedDrivers != null )
+		{
+			for ( int i = 0; i < removedDrivers.size( ); i++ )
+			{
+				externalDrivers.remove( ( (JDBCDriverInformation) removedDrivers.get( i ) ).toString( ) );
+			}
+		}
+		
 		resetRuntimeJars( );
 		updateDriverMap(JdbcToolKit.getDriverList());
 	}
@@ -939,9 +975,25 @@ public class JdbcDriverManagerDialog extends TrayDialog
 	 */
 	private void updateDriverButtons( )
 	{
-		editButton.setEnabled( driverViewer.getTable( ).getSelectionIndex( ) >= 0
+		if( driverViewer.getTable( ).getSelectionIndex( ) >= 0
 				&& driverViewer.getTable( ).getSelectionIndex( ) < driverViewer.getTable( )
-						.getItemCount( ) );
+				.getItemCount( ) )
+		{
+			if ( externalDrivers != null )
+			{
+				Object obj = ( (Map.Entry) driverViewer.getTable( )
+						.getSelection( )[0].getData( ) ).getValue( );
+				editButton.setEnabled( externalDrivers.contains( ( (DriverInfo) obj ).getDriverName( ) ) );
+			}
+			else
+			{
+				editButton.setEnabled( false );
+			}
+		}
+		else
+		{
+			editButton.setEnabled( false );
+		}
 	}
 	
 	/**
@@ -1141,6 +1193,12 @@ public class JdbcDriverManagerDialog extends TrayDialog
 					.getData( );
 
 			DriverInfo driverInfo = (DriverInfo) ( (Map.Entry) obj ).getValue( );
+			if ( externalDrivers == null
+					|| !externalDrivers.contains( driverInfo.getDriverName( ) ) )
+			{
+				return;
+			}
+
 			if ( obj instanceof Map.Entry )
 			{
 				dlg.setDriverClassName( ( (Map.Entry) obj ).getKey( )
