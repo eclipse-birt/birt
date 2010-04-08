@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.WrapperedRAInputStream;
 
@@ -174,7 +175,7 @@ public class RDAggrUtil
 			this.valueStream = valueStream;
 			if ( size > 0 )
 			{
-				this.currentValue = IOUtil.readObject( valueStream );
+				this.currentValue = IOUtil.readObject( valueStream, DataEngineSession.getCurrentClassLoader( ) );
 			}
 		}
 
@@ -213,7 +214,7 @@ public class RDAggrUtil
 				return null;
 			while ( groupInstanceIndex < index )
 			{
-				this.currentValue = IOUtil.readObject( valueStream );
+				this.currentValue = IOUtil.readObject( valueStream, DataEngineSession.getCurrentClassLoader( ) );
 				groupInstanceIndex++;
 			}
 
