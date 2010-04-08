@@ -48,8 +48,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
-import com.actuate.birt.report.model.api.DataMartHandle;
-
 
 public class ExternalUIUtil
 {
