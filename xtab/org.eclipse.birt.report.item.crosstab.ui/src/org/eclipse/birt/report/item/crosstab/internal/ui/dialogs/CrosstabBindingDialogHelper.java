@@ -70,6 +70,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -800,9 +801,27 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						if ( param.isDataField( ) )
 						{
 							Control control = paramsMap.get( param.getName( ) );
-							ExpressionButtonUtil.initExpressionButtonControl( control,
-									binding,
-									ComputedColumn.EXPRESSION_MEMBER );
+							if ( ExpressionButtonUtil.getExpressionButton( control ) != null )
+							{
+								ExpressionButtonUtil.initExpressionButtonControl( control,
+										binding,
+										ComputedColumn.EXPRESSION_MEMBER );
+							}
+							else
+							{
+								if ( control instanceof Combo )
+								{
+									( (Combo) control ).setText( binding.getExpression( ) );
+								}
+								else if ( control instanceof CCombo )
+								{
+									( (CCombo) control ).setText( binding.getExpression( ) );
+								}
+								else if ( control instanceof Text )
+								{
+									( (Text) control ).setText( binding.getExpression( ) );
+								}
+							}
 						}
 					}
 				}
