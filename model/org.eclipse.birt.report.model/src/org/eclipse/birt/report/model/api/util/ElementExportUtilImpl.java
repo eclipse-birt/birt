@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StyleElement;
@@ -90,12 +91,14 @@ public class ElementExportUtilImpl
 			String libraryFileName, boolean canOverride )
 			throws DesignFileException, SemanticException, IOException
 	{
-		ElementExporter.checkElementToExport( elementToExport, true );
 
 		DesignSessionImpl session = elementToExport.getModule( ).getSession( );
 		LibraryHandle libraryHandle = openOrCreateLibrary( session,
 				libraryFileName );
 		assert libraryHandle != null;
+
+		ElementExporter exporter = new ElementExporter( libraryHandle );
+		exporter.checkElementToExport( elementToExport, true );
 
 		exportElement( elementToExport, libraryHandle, canOverride );
 
@@ -133,28 +136,26 @@ public class ElementExportUtilImpl
 			String libraryFileName, boolean canOverride )
 			throws DesignFileException, SemanticException, IOException
 	{
-		DesignSessionImpl session = null;
+		if ( elementsToExport == null || elementsToExport.isEmpty( ) )
+			return;
+		DesignSessionImpl session = ( (DesignElementHandle) elementsToExport
+				.get( 0 ) ).getModule( ).getSession( );
+		assert session != null;
+		LibraryHandle libraryHandle = openOrCreateLibrary( session,
+				libraryFileName );
+		assert libraryHandle != null;
+
+		ElementExporter exporter = new ElementExporter( libraryHandle );
 
 		// Check the elements to export
-
 		Iterator iter = elementsToExport.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			DesignElementHandle elementToExport = (DesignElementHandle) iter
 					.next( );
 
-			ElementExporter.checkElementToExport( elementToExport, true );
-			if ( session == null )
-				session = elementToExport.getModule( ).getSession( );
+			exporter.checkElementToExport( elementToExport, true );
 		}
-
-		// That means the list of elements to export is empty.
-		if ( session == null )
-			return;
-
-		LibraryHandle libraryHandle = openOrCreateLibrary( session,
-				libraryFileName );
-		assert libraryHandle != null;
 
 		// Export all elements in the given list
 
@@ -193,8 +194,9 @@ public class ElementExportUtilImpl
 			LibraryHandle targetLibraryHandle, boolean canOverride )
 			throws SemanticException
 	{
-		ElementExporter.checkElementToExport( elementToExport, true );
+
 		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
+		exporter.checkElementToExport( elementToExport, true );
 		CommandStack stack = targetLibraryHandle.getCommandStack( );
 		try
 		{
@@ -226,10 +228,9 @@ public class ElementExportUtilImpl
 			ThemeHandle themeHandle, boolean canOverride )
 			throws SemanticException
 	{
-		ElementExporter.checkElementToExport( styleToExport, true );
-		ElementExporter exporter = new ElementExporter(
-				(LibraryHandle) themeHandle.getRoot( ) );
-
+		LibraryHandle libraryHandle = (LibraryHandle) themeHandle.getRoot( );
+		ElementExporter exporter = new ElementExporter( libraryHandle );
+		exporter.checkElementToExport( styleToExport, true );
 		exporter.exportStyle( styleToExport, themeHandle, canOverride );
 	}
 
@@ -801,9 +802,11 @@ public class ElementExportUtilImpl
 		if ( elementToExport == null )
 			return false;
 
+		ElementExporter exporter = new ElementExporter( new LibraryHandle(
+				new Library( new DesignSession( null ) ) ) );
 		try
 		{
-			ElementExporter.checkElementToExport( elementToExport, ignoreName );
+			exporter.checkElementToExport( elementToExport, ignoreName );
 		}
 		catch ( IllegalArgumentException e )
 		{
