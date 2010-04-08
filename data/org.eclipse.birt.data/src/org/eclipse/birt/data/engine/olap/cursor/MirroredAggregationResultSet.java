@@ -81,7 +81,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 		}
 		else
 		{
-			if ( !breakHierarchy )
+			if ( !isTimeMirror && !breakHierarchy )
 			{
 				this.mirrorLevel = this.mirrorLevel - 1;
 			}
