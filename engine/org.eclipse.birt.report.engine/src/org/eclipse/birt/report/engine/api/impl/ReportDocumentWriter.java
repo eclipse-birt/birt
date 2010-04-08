@@ -169,7 +169,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 *            design handler
 	 */
 	public ReportRunnable saveDesign( ReportRunnable runnable,
-			ReportRunnable originalRunnable )
+			ReportRunnable originalRunnable ) throws EngineException
 	{
 		RAOutputStream out = null;
 		ReportRunnable newRunnable = runnable;
@@ -192,6 +192,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "Failed to save design!", ex );
+			throw new EngineException( "Failed to save design!", ex );
 		}
 		finally
 		{
