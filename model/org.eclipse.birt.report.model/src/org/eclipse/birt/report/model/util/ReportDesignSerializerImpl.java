@@ -1190,7 +1190,9 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private void localizePropertyBindings( DesignElement element,
 			DesignElement newElement )
 	{
-		DesignElementHandle tmpElementHandle = element.getHandle( sourceDesign );
+		// element maybe lies in library, so getRoot rather than sourceDesign
+		DesignElementHandle tmpElementHandle = element.getHandle( element
+				.getRoot( ) );
 		List<PropertyBinding> elementBindings = tmpElementHandle
 				.getPropertyBindings( );
 
@@ -1337,8 +1339,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					targetScriptLib
 							.setContext( new StructureContext(
 									target,
-									target
-											.getPropertyDefn( IModuleModel.SCRIPTLIBS_PROP ),
+									target.getPropertyDefn( IModuleModel.SCRIPTLIBS_PROP ),
 									targetScriptLib ) );
 
 					relativePathList.add( sourceScriptLibPath );
