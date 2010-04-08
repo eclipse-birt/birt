@@ -3117,12 +3117,8 @@ public abstract class DesignElement
 
 	public boolean isManagedByNameSpace( )
 	{
-		if ( getContainerInfo( ) == null )
-			return false;
-
-		// if dimension refers a shared dimension, not managed by name space
-		if ( TabularDimensionPropSearchStrategy.getSharedDimension( getRoot( ),
-				this ) != null )
+		ContainerContext infor = getContainerInfo( );
+		if ( infor == null )
 			return false;
 
 		return getContainerInfo( ).isManagedByNameSpace( );

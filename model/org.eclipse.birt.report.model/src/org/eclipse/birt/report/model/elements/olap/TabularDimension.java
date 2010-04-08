@@ -139,4 +139,19 @@ public class TabularDimension extends Dimension
 	{
 		return ( hierarchy.getContainer( ) == this || getSharedDimension( module ) != null );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#isManagedByNameSpace()
+	 */
+	public boolean isManagedByNameSpace( )
+	{
+		// if dimension refers a shared dimension, not managed by name space
+		if ( TabularDimensionPropSearchStrategy.getSharedDimension( getRoot( ),
+				this ) != null )
+			return false;
+		return super.isManagedByNameSpace( );
+	}
 }

@@ -121,11 +121,11 @@ class ElementExporterImpl
 	 *            consider the element name to determine
 	 */
 
-	static void checkElementToExport( DesignElementHandle elementToExport,
+	void checkElementToExport( DesignElementHandle elementToExport,
 			boolean ignoreName )
 	{
 		ModuleHandle root = elementToExport.getRoot( );
-		if ( !( root instanceof ReportDesignHandle ) )
+		if ( !isSupportedExporting( root ) )
 		{
 			throw new IllegalArgumentException(
 					"The element to export must be in design file." ); //$NON-NLS-1$
@@ -136,6 +136,18 @@ class ElementExporterImpl
 			throw new IllegalArgumentException(
 					"The element must have name defined." ); //$NON-NLS-1$
 		}
+	}
+
+	protected boolean isSupportedExporting( ModuleHandle rootToExport )
+	{
+		if ( targetModuleHandle == null )
+			return true;
+		if ( targetModuleHandle instanceof LibraryHandle )
+		{
+			return rootToExport instanceof ReportDesignHandle;
+		}
+
+		return false;
 	}
 
 	/**
