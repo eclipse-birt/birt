@@ -206,7 +206,7 @@ class TimeMemberUtil
 						{
 							if ( isUnderMonthHierarchy )
 								dayOfMonthNode = createDayOfMonth( year,
-										( (Integer) nodes[j].key ).intValue( ) );
+										(Integer) ( ( (Member) nodes[j].key ).getKeyValues( )[0] ) );
 							else
 								dayOfMonthNode = createDayOfMonth( year,
 										month + 1 );
@@ -432,13 +432,13 @@ class TimeMemberUtil
 				|| month == 10 || month == 12 )
 		{
 			nodes = new MemberTreeNode[31];
-			for ( int i = 0; i < nodes.length; i++ )
+			for ( int i = 1; i <= nodes.length; i++ )
 			{
 				Member member = new Member( );
 				member.setKeyValues( new Object[]{
 					new Integer( i )
 				} );
-				nodes[i] = new MemberTreeNode( member );
+				nodes[i - 1] = new MemberTreeNode( member );
 			}
 		}
 		else if ( month == 2 )
@@ -446,38 +446,38 @@ class TimeMemberUtil
 			if ( isLeapYear )
 			{
 				nodes = new MemberTreeNode[29];
-				for ( int i = 0; i < nodes.length; i++ )
+				for ( int i = 1; i <= nodes.length; i++ )
 				{
 					Member member = new Member( );
 					member.setKeyValues( new Object[]{
 						new Integer( i )
 					} );
-					nodes[i] = new MemberTreeNode( member );
+					nodes[i -1 ] = new MemberTreeNode( member );
 				}
 			}
 			else
 			{
 				nodes = new MemberTreeNode[28];
-				for ( int i = 0; i < nodes.length; i++ )
+				for ( int i = 1; i <= nodes.length; i++ )
 				{
 					Member member = new Member( );
 					member.setKeyValues( new Object[]{
 						new Integer( i )
 					} );
-					nodes[i] = new MemberTreeNode( member );
+					nodes[i -1] = new MemberTreeNode( member );
 				}
 			}
 		}
 		else
 		{
 			nodes = new MemberTreeNode[30];
-			for ( int i = 0; i < nodes.length; i++ )
+			for ( int i = 1; i <= nodes.length; i++ )
 			{
 				Member member = new Member( );
 				member.setKeyValues( new Object[]{
 					new Integer( i )
 				} );
-				nodes[i] = new MemberTreeNode( member );
+				nodes[i-1] = new MemberTreeNode( member );
 			}
 		}
 		return nodes;
