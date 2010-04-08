@@ -66,7 +66,7 @@ public class JdbcToolKit
 	  * @param file
 	  * @return a List of JDBCDriverInformation
 	  */
-	public static void getJdbcDriverFromFile( List fileList )
+	public static List getJdbcDriverFromFile( List fileList )
 	{
 		if ( failLoadFileList != null )
 		{
@@ -91,6 +91,7 @@ public class JdbcToolKit
 		List driverInfos = getJDBCDriverInfoList( fileList );
 		jdbcDriverInfos.addAll( driverInfos );
 		tempAddedInDriverInfos.addAll( driverInfos );
+		return driverInfos;
 	}
 
 	/**
@@ -322,18 +323,21 @@ public class JdbcToolKit
 	 * add new found driver(s) to runtime driver list
 	 * @param fileList
 	 */
-	public static void addToDriverList( List fileList )
+	public static List addToDriverList( List fileList )
 	{
 		if ( fileList != null && fileList.size( ) != 0 )
-			getJdbcDriverFromFile( fileList );
+			return getJdbcDriverFromFile( fileList );
+
+		return null;
 	}
 
 	/**
 	 * remove driver(s) from runtime driver list
 	 * @param fileList
 	 */
-	public static void removeFromDriverList( List fileList )
+	public static List removeFromDriverList( List fileList )
 	{
+		List removedDrivers = new ArrayList( );
 		for ( int i = 0; i < fileList.size( ); i++ )
 		{
 			String fileName = ( (File) fileList.get( i ) ).getName( );
@@ -345,12 +349,14 @@ public class JdbcToolKit
 					if ( ( (JDBCDriverInformation) jdbcDriverInfos.get( j ) ).getDriverClassName( )
 							.equals( ( (JDBCDriverInformation) driverNames.get( k ) ).getDriverClassName( ) ) )
 					{
+						removedDrivers.add( jdbcDriverInfos.get( j ) );
 						jdbcDriverInfos.remove( j );
 					}
 			}
 			if ( failLoadFileList.contains( fileList.get( i ) ) )
 				failLoadFileList.remove( fileList.get( i ) );
 		}
+		return removedDrivers;
 	}
 
 	/**
