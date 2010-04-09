@@ -2,7 +2,7 @@
 #Cube treeNode properties
 DefaultNodeProvider.Tree.Cubes=多维数据集
 cube.new=新建多维数据集
-cube.action.new=新建数据和多维数据集
+cube.action.new=新建多维数据集(&C)
 cube.edit=编辑多维数据集
 CubeNodeProvider.menu.text=编辑(&E)
 cube.dimension.new=新建多维数据集维
