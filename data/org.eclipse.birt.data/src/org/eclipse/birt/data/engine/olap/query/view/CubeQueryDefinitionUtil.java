@@ -49,6 +49,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.LevelDefiniton;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
@@ -434,8 +435,11 @@ public class CubeQueryDefinitionUtil
 			}
 			for ( int i = 0; i < query.getFilters( ).size( ); i++ )
 			{
-				cloneQuery.addFilter( (IFilterDefinition) query.getFilters( )
-						.get( i ) );
+				if ( canAddFilterToDrill( query, rowDrill, columnDrill, i ) )
+				{
+					cloneQuery.addFilter( (IFilterDefinition) query.getFilters( )
+							.get( i ) );
+				}
 			}
 			for ( int i = 0; i < query.getSorts( ).size( ); i++ )
 			{
@@ -445,6 +449,146 @@ public class CubeQueryDefinitionUtil
 		return cloneQuery;
 	}
 
+	private static boolean canAddFilterToDrill(ICubeQueryDefinition query, IEdgeDrillFilter columnDrill,
+			IEdgeDrillFilter rowDrill, int i)
+	{
+		List<IDimensionDefinition> columnEdgeDimensions = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE )
+				.getDimensions( );
+		List<IDimensionDefinition> rowEdgeDimensions = query.getEdge( ICubeQueryDefinition.ROW_EDGE )
+				.getDimensions( );
+		ICubeFilterDefinition filter = (ICubeFilterDefinition) query.getFilters( )
+				.get( i );
+
+		int filterIndex = -1;
+		int rowDrillIndex = -1;
+		int columnDrillIndex = -1;
+		int edgeTag = -1;
+		boolean canAddFilter = false;
+
+		if ( rowEdgeDimensions != null && rowDrill != null )
+		{
+			for ( int p = 0; p < rowEdgeDimensions.size( ); p++ )
+			{
+				IDimensionDefinition rowEdgeDimension = rowEdgeDimensions.get( p );
+				String hierarchyName = rowEdgeDimension.getHierarchy( )
+						.get( 0 )
+						.getName( );
+
+				if ( hierarchyName.equals( filter.getTargetLevel( )
+						.getHierarchy( )
+						.getName( ) ) )
+				{
+					filterIndex = p;
+					edgeTag = ICubeQueryDefinition.ROW_EDGE;
+				}
+				if ( rowDrill.getTargetHierarchy( )
+						.getName( )
+						.equals( hierarchyName ) )
+					rowDrillIndex = p;
+			}
+		}
+
+		if ( columnEdgeDimensions != null && columnDrill != null )
+		{
+			for ( int p = 0; p < columnEdgeDimensions.size( ); p++ )
+			{
+				IDimensionDefinition columnEdgeDimension = columnEdgeDimensions.get( p );
+				String hierarchyName = columnEdgeDimension.getHierarchy( )
+						.get( 0 )
+						.getName( );
+
+				if ( hierarchyName.equals( filter.getTargetLevel( )
+						.getHierarchy( )
+						.getName( ) ) )
+				{
+					filterIndex = p;
+					edgeTag = ICubeQueryDefinition.COLUMN_EDGE;
+				}
+				if ( columnDrill.getTargetHierarchy( )
+						.getName( )
+						.equals( hierarchyName ) )
+					columnDrillIndex = p;
+			}
+		}
+
+		if ( edgeTag == ICubeQueryDefinition.ROW_EDGE )
+		{
+			if ( rowDrillIndex < filterIndex )
+			{
+				canAddFilter = false;
+			}
+			else if ( rowDrillIndex > filterIndex )
+			{
+				canAddFilter = true;
+			}
+			else
+			{
+				String filterTargetLevel = filter.getTargetLevel( ).getName( );
+				String drillTargetLevel = rowDrill.getTargetLevelName( );
+
+				List<ILevelDefinition> levelDefinition = filter.getTargetLevel( )
+						.getHierarchy( )
+						.getLevels( );
+				int drillLevelIndex = 0;
+				int filterLevelIndex = 0;
+				for ( int j = 0; j < levelDefinition.size( ); j++ )
+				{
+					ILevelDefinition level = levelDefinition.get( j );
+					if ( level.getName( ).equals( drillTargetLevel ) )
+					{
+						drillLevelIndex = j;
+					}
+					if ( level.getName( ).equals( filterTargetLevel ) )
+					{
+						filterLevelIndex = j;
+					}
+				}
+
+				if ( drillLevelIndex >= filterLevelIndex )
+					canAddFilter = true;
+			}
+		}
+		else if ( edgeTag == ICubeQueryDefinition.COLUMN_EDGE )
+		{
+			if ( columnDrillIndex < filterIndex )
+			{
+				canAddFilter = false;
+			}
+			else if ( columnDrillIndex > filterIndex )
+			{
+				canAddFilter = true;
+			}
+			else
+			{
+				String filterTargetLevel = filter.getTargetLevel( ).getName( );
+				String drillTargetLevel = columnDrill.getTargetLevelName( );
+
+				List<ILevelDefinition> levelDefinition = filter.getTargetLevel( )
+						.getHierarchy( )
+						.getLevels( );
+				int drillLevelIndex = 0;
+				int filterLevelIndex = 0;
+				for ( int j = 0; j < levelDefinition.size( ); j++ )
+				{
+					ILevelDefinition level = levelDefinition.get( j );
+					if ( level.getName( ).equals( drillTargetLevel ) )
+					{
+						drillLevelIndex = j;
+					}
+					if ( level.getName( ).equals( filterTargetLevel ) )
+					{
+						filterLevelIndex = j;
+					}
+				}
+
+				if ( drillLevelIndex >= filterLevelIndex )
+					canAddFilter = true;
+			}
+		}
+
+		return canAddFilter;
+	}
+	
 	private static boolean isGrandTotalOnEdge( List aggrOns, List dimLevels )
 			throws DataException
 	{
