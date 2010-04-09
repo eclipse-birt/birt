@@ -239,8 +239,8 @@ public class ReportDocumentBuilder
 					.getContext( );
 			htmlContext.setFixedLayout( true );
 			LayoutEngine pdfEmitter = new LayoutEngine( executor, htmlContext,
-					outputEmitters, null/* renderOptions */, executionContext
-							.getLocale( ), 0/* totalpage */);
+					outputEmitters, null, /* renderOptions */
+					executionContext, 0/* totalpage */);
 			pdfEmitter.setPageHandler( layoutPageHandler );
 			initializeContentEmitter( pdfEmitter, executor );
 			pdfEmitter.createPageHintGenerator( );

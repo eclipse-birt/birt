@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.util.HashMap;
 
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -82,8 +83,8 @@ public class AreaFactory
 
 			case IContent.AUTOTEXT_CONTENT :
 				int type = ((IAutoTextContent)content).getType( );
-				if ( type == IAutoTextContent.TOTAL_PAGE
-						|| type == IAutoTextContent.UNFILTERED_TOTAL_PAGE )
+				if ( ( type == IAutoTextContent.TOTAL_PAGE || type == IAutoTextContent.UNFILTERED_TOTAL_PAGE )
+						&& context.getEngineTaskType( ) != IEngineTask.TASK_RENDER )
 				{
 					context.addUnresolvedContent( content );
 					return new TemplateAreaLayout(parent, context, content);

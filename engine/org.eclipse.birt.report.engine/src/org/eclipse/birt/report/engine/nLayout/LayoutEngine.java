@@ -18,10 +18,8 @@ import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
-import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IBandContent;
@@ -41,6 +39,7 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
@@ -90,46 +89,27 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	 */
 	protected boolean isFirst = true;
 
-	public LayoutEngine( IReportExecutor executor,
-			IContentEmitter emitter, IRenderOption renderOptions,
-			Locale locale, long totalPage )
+	public LayoutEngine( IReportExecutor executor, IContentEmitter emitter,
+			IRenderOption renderOptions, ExecutionContext executionContext,
+			long totalPage )
 	{
 		this.emitter = emitter;
 		context = new LayoutContext( );
-		af = new AreaFactory(this);
-		//FIXME
+		af = new AreaFactory( this );
+		// FIXME
 		setupLayoutOptions( renderOptions );
-		String format = null;
-		int taskType = IEngineTask.TASK_UNKNOWN;
-		
-		if ( renderOptions == null )
-		{
-			taskType = IEngineTask.TASK_RUN;
-		}
-		else
-		{
-			format = renderOptions.getOutputFormat( );
-			Integer engineTaskType = (Integer)renderOptions.getOption( EngineTask.TASK_TYPE );
-			if( engineTaskType != null )
-			{
-				taskType= engineTaskType.intValue( );
-			}
-		}
-		if ( format == null )
-		{
-			format = "pdf";
-		}
-		context.setFormat( format );
-		context.setLocale( locale );
-		context.setEngineTaskType( taskType );
+		context.setFormat( "pdf" );
+		context.setLocale( executionContext.getLocale( ) );
+		context.setEngineTaskType( executionContext.getTaskType( ) );
 		context.totalPage = totalPage;
 	}
 	
 	public LayoutEngine( IReportExecutor executor,
 			HTMLLayoutContext htmlLayoutContext, IContentEmitter emitter,
-			IRenderOption renderOptions, Locale locale, long totalPage )
+			IRenderOption renderOptions, ExecutionContext executionContext,
+			long totalPage )
 	{
-		this( executor, emitter, renderOptions, locale, totalPage );
+		this( executor, emitter, renderOptions, executionContext, totalPage );
 		context.setHtmlLayoutContext( htmlLayoutContext );
 	}
 	

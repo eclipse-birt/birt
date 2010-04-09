@@ -108,9 +108,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			LayoutPageHandler layoutHandler = new LayoutPageHandler();
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
-				LayoutEngine pdfLayoutEmitter = new LayoutEngine(
-						executor, emitter, renderOptions, executionContext
-								.getLocale( ), 0l );
+				LayoutEngine pdfLayoutEmitter = new LayoutEngine( executor,
+						emitter, renderOptions, executionContext, 0l );
 				pdfLayoutEmitter.setPageHandler( layoutHandler );
 				emitter = pdfLayoutEmitter;
 			}

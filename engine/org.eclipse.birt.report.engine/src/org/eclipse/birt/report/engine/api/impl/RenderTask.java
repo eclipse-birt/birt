@@ -543,7 +543,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 						executor,
 						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
 						emitter,
-						renderOptions, executionContext.getLocale( ),
+						renderOptions, executionContext,
 						getDocumentTotalPage( ) );
 				pdfEmitter.setPageHandler( layoutPageHandler );
 				
@@ -690,7 +690,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				emitter = new LayoutEngine(
 						executor,
 						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
-						emitter, renderOptions, executionContext.getLocale( ),
+						emitter, renderOptions, executionContext,
 						getDocumentTotalPage( ) );
 			}
 
