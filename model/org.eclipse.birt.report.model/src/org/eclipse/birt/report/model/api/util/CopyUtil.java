@@ -41,6 +41,8 @@ import org.eclipse.birt.report.model.util.copy.ContextCopyPastePolicy;
 public class CopyUtil
 {
 
+	private static ContextCopyPastePolicy copyPastePolicy = new ContextCopyPastePolicy( );
+
 	/**
 	 * Returns the copy of the current element.
 	 * 
@@ -52,8 +54,8 @@ public class CopyUtil
 
 	public static IElementCopy copy( DesignElementHandle source )
 	{
-		return ContextCopyPastePolicy.getInstance( ).createCopy(
-				source.getElement( ), source.getModule( ) );
+		return copyPastePolicy.createCopy( source.getElement( ), source
+				.getModule( ) );
 	}
 
 	/**
@@ -83,8 +85,8 @@ public class CopyUtil
 							context,
 							ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED );
 
-		IDesignElement chosen = ContextCopyPastePolicy.getInstance( )
-				.preWorkForPaste( context, copy, root );
+		IDesignElement chosen = copyPastePolicy.preWorkForPaste( context, copy,
+				root );
 
 		if ( chosen == null )
 			return Collections.EMPTY_LIST;
@@ -127,8 +129,8 @@ public class CopyUtil
 							context,
 							ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED );
 
-		IDesignElement chosen = ContextCopyPastePolicy.getInstance( )
-				.preWorkForPaste( context, copy, root );
+		IDesignElement chosen = copyPastePolicy.preWorkForPaste( context, copy,
+				root );
 
 		if ( chosen == null )
 			return Collections.EMPTY_LIST;
@@ -170,8 +172,8 @@ public class CopyUtil
 							context,
 							ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED );
 
-		IDesignElement chosen = ContextCopyPastePolicy.getInstance( )
-				.preWorkForPaste( context, copy, root );
+		IDesignElement chosen = copyPastePolicy.preWorkForPaste( context, copy,
+				root );
 
 		if ( chosen == null )
 			return Collections.EMPTY_LIST;
@@ -215,8 +217,8 @@ public class CopyUtil
 							context,
 							ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED );
 
-		IDesignElement chosen = ContextCopyPastePolicy.getInstance( )
-				.preWorkForPaste( context, copy, root );
+		IDesignElement chosen = copyPastePolicy.preWorkForPaste( context, copy,
+				root );
 
 		if ( chosen == null )
 			return Collections.EMPTY_LIST;
@@ -246,14 +248,13 @@ public class CopyUtil
 			DesignElementHandle container, int slotID )
 	{
 		int tmpIndex = container.getElement( ).getSlotIndex( slotID );
-		
-		// no such slot ID		
+
+		// no such slot ID
 		if ( tmpIndex == -1 )
 			return false;
 
-		return ContextCopyPastePolicy.getInstance( ).isValidCopy(
-				new ContainerContext( container.getElement( ), slotID ),
-				container.getModule( ), copy );
+		return copyPastePolicy.isValidCopy( new ContainerContext( container
+				.getElement( ), slotID ), container.getModule( ), copy );
 
 	}
 
@@ -283,9 +284,8 @@ public class CopyUtil
 		if ( !propDefn.isElementType( ) )
 			return false;
 
-		return ContextCopyPastePolicy.getInstance( ).isValidCopy(
-				new ContainerContext( container.getElement( ), propName ),
-				container.getModule( ), copy );
+		return copyPastePolicy.isValidCopy( new ContainerContext( container
+				.getElement( ), propName ), container.getModule( ), copy );
 	}
 
 	/**
