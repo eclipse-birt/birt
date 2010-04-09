@@ -32,7 +32,7 @@ public class ChartEngine
 	static private ChartEngine ce = null;
 
 	/**
-	 * A Non instantiable constructor
+	 * A non-instantiable constructor
 	 */
 	private ChartEngine( PluginSettings ps )
 	{
@@ -84,12 +84,14 @@ public class ChartEngine
 	 * from/to an XML stream
 	 * 
 	 * @return A Serializer instance
-	 * @deprecated
+	 * @deprecated The Serializer instance is decoupled from the ChartEngine. To
+	 *             obtain a instance of SerializerImpl use:
+	 *             SerializerImpl.instance( ).
 	 */
 	public Serializer getSerializer( )
 	{
 		return SerializerImpl.instance( );
-	};
+	}
 
 	/**
 	 * Returns the IChartGenerator interface used to run and render charts
