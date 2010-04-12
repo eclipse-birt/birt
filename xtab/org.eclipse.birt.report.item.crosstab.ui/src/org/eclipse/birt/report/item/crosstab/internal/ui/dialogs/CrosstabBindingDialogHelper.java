@@ -446,7 +446,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				for ( int j = 0; j < levels; j++ )
 				{
 					LevelViewHandle level = dimension.getLevel( j );
-					levelList.add( level.getCubeLevel( ).getFullName( ) );
+					if ( level.getCubeLevel( ) != null )
+					{
+						levelList.add( level.getCubeLevel( ).getFullName( ) );
+					}
 				}
 			}
 		}
