@@ -854,6 +854,10 @@ public class ImageAreaLayout implements ILayout
 		 */
 		private int[] getArea( String string )
 		{
+			if ( string == null )
+			{
+				return null;
+			}
 			String[] rawDatas = string.split( "," );
 			if ( rawDatas.length == 8 )
 			{
