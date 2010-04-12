@@ -81,7 +81,7 @@ public class ExternalUIUtil
 	}
 
 	public static void updateColumnCache( DataSetHandle dataSetHandle,
-			boolean holdEvent )
+			boolean holdEvent ) throws BirtException
 	{
 		try
 		{
@@ -136,7 +136,7 @@ public class ExternalUIUtil
 		}
 		catch ( BirtException ex )
 		{
-			ExceptionHandler.handle( ex );
+			throw ex;
 		}
 	}
 

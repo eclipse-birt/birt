@@ -114,7 +114,7 @@ public class DataService
 	}
 	
 	public void updateColumnCache( DataSetHandle dataSetHandle,
-			boolean holdEvent )
+			boolean holdEvent ) throws BirtException
 	{		
 		provider.updateColumnCache( dataSetHandle, holdEvent );
 	}

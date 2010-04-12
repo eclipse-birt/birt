@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -87,7 +88,18 @@ public final class DataSetUIUtil
 	public static void updateColumnCache( DataSetHandle dataSetHandle,
 			boolean holdEvent )
 	{
-		DataService.getInstance( ).updateColumnCache( dataSetHandle, holdEvent );
+		try
+		{
+			DataService.getInstance( ).updateColumnCache( dataSetHandle, holdEvent );
+		}
+		catch ( BirtException ex )
+		{
+			logger.entering( DataSetUIUtil.class.getName( ),
+					"updateColumnCache", //$NON-NLS-1$
+					new Object[]{
+						ex
+					} );
+		}
 	}
 
 	public static ResourceIdentifiers createResourceIdentifiers( )
