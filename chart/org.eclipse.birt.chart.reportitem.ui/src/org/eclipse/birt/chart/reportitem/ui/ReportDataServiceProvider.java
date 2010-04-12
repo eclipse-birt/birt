@@ -1656,6 +1656,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		DataSetHandle dataSetHandle = ChartItemUtil.getBindingDataSet( itemHandle );
 		if ( needDefineDataSet( dataSetHandle) )
 		{
+			DataService.getInstance( ).registerSession( dataSetHandle, session );
 			dteAdapter.defineDataSet( dataSetHandle, session, true, false );
 		}
 		
