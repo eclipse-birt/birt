@@ -319,10 +319,12 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		{
 			DesignElement tmpElement = tmpElements.get( i );
 
-			if ( tmpElement instanceof Cube )
+			// add method to check whether this element need to update binding
+			// caused by the renaming action, for not all the cube need do this
+			if ( needUpdateBinding( tmpElement ) )
 			{
 				tmpOLAPNames.put( tmpElement, collectOLAPNames( sourceDesign,
-						(Cube) tmpElement ) );
+						tmpElement ) );
 			}
 		}
 
@@ -351,6 +353,20 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					buildOLAPNameMap( oldNames, newNames ) );
 		}
 
+	}
+
+	/**
+	 * Justifies whether this element needs to update binding expression caused
+	 * by the renaming action.
+	 * 
+	 * @param element
+	 * @return
+	 */
+	protected boolean needUpdateBinding( DesignElement element )
+	{
+		if ( element instanceof Cube )
+			return true;
+		return false;
 	}
 
 	/**
@@ -440,7 +456,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * @return a list containing names in strings.
 	 */
 
-	private List<String> collectOLAPNames( Module module, Cube cube )
+	private List<String> collectOLAPNames( Module module, DesignElement cube )
 	{
 		List<String> retMap = new ArrayList<String>( );
 
@@ -644,6 +660,12 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		{
 			DesignElement child = iter.next( );
 			addElement2NameSpace( child );
+		}
+
+		if ( content instanceof Cube )
+		{
+			Cube cube = (Cube) content;
+			cube.updateLayout( targetDesign );
 		}
 	}
 
@@ -1494,6 +1516,12 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		localizePropertyValues( element, newElement );
 		cacheMapping( element, newElement );
+
+		if ( newElement instanceof Cube )
+		{
+			Cube cube = (Cube) newElement;
+			cube.updateLayout( targetDesign );
+		}
 
 		return newElement;
 	}
