@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -35,6 +36,8 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWr
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -361,6 +364,11 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 
 	protected boolean canAddtoReport( Object transfer )
 	{
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		if (!(moduleHandle instanceof ReportDesignHandle || moduleHandle instanceof LibraryHandle))
+		{
+			return false;
+		}
 		if ( transfer instanceof ReportResourceEntry )
 			transfer = ( (ReportResourceEntry) transfer ).getReportElement( );
 		if ( transfer instanceof ReportElementHandle
