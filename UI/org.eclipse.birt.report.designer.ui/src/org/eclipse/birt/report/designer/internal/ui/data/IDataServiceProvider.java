@@ -40,7 +40,8 @@ public interface IDataServiceProvider
 			Iterator groupIterator, boolean useDataSetFilter )
 			throws BirtException;
 	
-	void updateColumnCache( DataSetHandle dataSetHandle, boolean holdEvent );
+	void updateColumnCache( DataSetHandle dataSetHandle, boolean holdEvent )
+			throws BirtException;
 
 	void registerSession( DataSetHandle handle, DataRequestSession session )
 			throws BirtException;

@@ -74,7 +74,7 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 	}
 	
 	public void updateColumnCache( DataSetHandle dataSetHandle,
-			boolean holdEvent )
+			boolean holdEvent ) throws BirtException
 	{
 		ExternalUIUtil.updateColumnCache( dataSetHandle, holdEvent );
 	}
