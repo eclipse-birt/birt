@@ -111,6 +111,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private Button btnEnableStudy;
 
+	private static final int DEFAULT_COVERAGE = 50;
+	
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_CHART );
@@ -345,6 +347,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			spnCorverage = new Spinner( cmpCoverage, SWT.BORDER );
 			{
 				int spnValue = (int) ( cwa.getCoverage( ) * 100 );
+				if ( !cwa.isSetCoverage( ) )
+				{
+					spnValue = DEFAULT_COVERAGE;
+				}
 				spnCorverage.setValues( spnValue, 1, 100, 0, 1, 10 );
 				spnCorverage.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 				spnCorverage.setEnabled( cwa.isSetCoverage( ) );
