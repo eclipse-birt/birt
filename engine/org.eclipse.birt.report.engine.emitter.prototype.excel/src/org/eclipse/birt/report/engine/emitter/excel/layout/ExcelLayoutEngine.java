@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.excel.BlankData;
+import org.eclipse.birt.report.engine.emitter.excel.BlankData.Type;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
@@ -47,7 +48,6 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
-import org.eclipse.birt.report.engine.emitter.excel.BlankData.Type;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
@@ -908,10 +908,18 @@ public class ExcelLayoutEngine
 			addEmptyData( data, container );
 		}
 
-		if ( container instanceof XlsCell )
+		while ( container != null )
 		{
-			XlsCell cell = (XlsCell)container;
-			data.setRowSpanInDesign( cell.getRowSpan( ) - 1 );
+			if ( container instanceof XlsCell )
+			{
+				XlsCell cell = (XlsCell) container;
+				data.setRowSpanInDesign( cell.getRowSpan( ) - 1 );
+				break;
+			}
+			else
+			{
+				container = container.getParent( );
+			}
 		}
 	}
 
