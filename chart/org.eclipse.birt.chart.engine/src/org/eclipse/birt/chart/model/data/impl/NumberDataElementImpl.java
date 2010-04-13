@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
-import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -205,7 +204,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
 	 */
 	@Override
 	public String toString( )
@@ -213,7 +211,8 @@ public class NumberDataElementImpl extends DataElementImpl implements
 		if ( eIsProxy( ) )
 			return super.toString( );
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
+		StringBuffer result = new StringBuffer( this.getClass( )
+				.getInterfaces( )[0].getSimpleName( ) );
 		result.append( " (value: " ); //$NON-NLS-1$
 		if ( valueESet )
 			result.append( value );
