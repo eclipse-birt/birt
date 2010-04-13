@@ -360,4 +360,6 @@ public interface IHelpContextIds
 	public static final String SUMMARY_FIELD_DIALOG_ID = PREFIX
 			+ "SummaryFieldDialog_ID"; //$NON-NLS-1$
 
+	public static final String RENAME_INPUT_DIALOG_ID = PREFIX + "RenameInputDialog_ID"; //$NON-NLS-1$
+
 }
