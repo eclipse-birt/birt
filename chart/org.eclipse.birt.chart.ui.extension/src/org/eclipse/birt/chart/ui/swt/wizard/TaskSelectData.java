@@ -18,7 +18,6 @@ import java.util.List;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -841,7 +840,16 @@ public class TaskSelectData extends SimpleTask implements
 							// Repaint chart.
 							if ( previewPainter != null )
 							{
-								previewPainter.renderModel( (IChartObject) getParameter( ChartLivePreviewThread.PARAM_CHART_MODEL ) );
+								Chart cm = (Chart) getParameter( ChartLivePreviewThread.PARAM_CHART_MODEL );
+								if ( cm instanceof ChartWithAxes )
+								{
+									checkDataTypeForChartWithAxes( );
+								}
+								else
+								{
+									ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
+								}
+								previewPainter.renderModel( cm );
 							}
 						}
 					} );
