@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
@@ -66,6 +67,13 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 
 class ElementExporterImpl
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( ElementExporterImpl.class
+			.getName( ) );
 
 	protected ModuleHandle targetModuleHandle;
 
@@ -791,6 +799,21 @@ class ElementExporterImpl
 	}
 
 	/**
+	 * @param elementHandle
+	 * @return
+	 */
+
+	protected DesignElementHandle createNewElement(
+			DesignElementHandle elementHandle )
+	{
+		String elementName = elementHandle.getDefn( ).getName( );
+		String name = elementHandle.getName( );
+
+		return ElementFactoryUtil.newElement( targetModuleHandle.getModule( ),
+				elementName, name, false );
+	}
+
+	/**
 	 * Duplicates the given element in target module, including properties and
 	 * contents.
 	 * 
@@ -805,15 +828,19 @@ class ElementExporterImpl
 	 *             into slot.
 	 */
 
-	protected DesignElementHandle duplicateElement(
+	protected final DesignElementHandle duplicateElement(
 			DesignElementHandle elementHandle, boolean onlyFactoryProperty )
 			throws SemanticException
 	{
-		String elementName = elementHandle.getDefn( ).getName( );
-		String name = elementHandle.getName( );
-
-		DesignElementHandle newElementHandle = ElementFactoryUtil.newElement(
-				targetModuleHandle.getModule( ), elementName, name, false );
+		DesignElementHandle newElementHandle = createNewElement( elementHandle );
+		if ( newElementHandle == null )
+		{
+			logger.severe( "Cannot create the element instance for " //$NON-NLS-1$
+					+ elementHandle.getDefn( ).getName( ) );
+			assert false;
+			
+			return null;
+		}
 
 		// Copy all properties from the original one to new element.
 
