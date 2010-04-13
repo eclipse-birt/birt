@@ -326,6 +326,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		String path = getPath( );
 
 		LibraryHandle libraryHandle = null;
+		boolean isDone = true;
 		try
 		{
 			ModuleHandle handle = openOrCreateLibrary( SessionHandleAdapter.getInstance( )
@@ -394,7 +395,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				if ( firstElement instanceof ImageHandle
 						&& DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals( ( (ImageHandle) firstElement ).getSource( ) ) )
 				{
-					exportEmbeddedImage( (ImageHandle) firstElement,
+					isDone = exportEmbeddedImage( (ImageHandle) firstElement,
 							libraryHandle );
 				}
 				else
@@ -435,11 +436,13 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		{
 			ExceptionHandler.handle( e );
 			e.printStackTrace( );
+			isDone = false;
 		}
 		catch ( SemanticException e )
 		{
 			ExceptionHandler.handle( e );
 			e.printStackTrace( );
+			isDone = false;
 		}
 		finally
 		{
@@ -461,7 +464,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
 				.getResourceSynchronizerService( );
 
-		if ( synchronizer != null )
+		if ( synchronizer != null && isDone)
 		{
 			synchronizer.notifyResourceChanged( new LibrarySaveChangeEvent( this,
 					Path.fromOSString( path ),
@@ -553,17 +556,17 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		return confirmOverride( null, null );
 	}
 
-	private void exportEmbeddedImage( ImageHandle image,
+	private boolean exportEmbeddedImage( ImageHandle image,
 			LibraryHandle libraryHandle ) throws SemanticException
 	{
 		if ( !( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals( image.getSource( ) ) ) )
 		{
-			return;
+			return false;
 		}
 		EmbeddedImageHandle embeded = image.getEmbeddedImage( );
 		if ( embeded == null )
 		{
-			return;
+			return false;
 		}
 
 		boolean notExist = ElementExportUtil.canExport( embeded,
@@ -582,18 +585,19 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 					ElementExportUtil.exportElement( (DesignElementHandle) image,
 							libraryHandle,
 							true );
-					return;
+					return true;
 				}
 				case 2 : // Cancel
 				default :
 					cancelPressed( );
-					return;
+					return false;
 			}
 		}
 		ElementExportUtil.exportElement( (DesignElementHandle) image,
 				libraryHandle,
 				true );
 		ElementExportUtil.exportStructure( embeded, libraryHandle, true );
+		return true;
 	}
 
 	/**
