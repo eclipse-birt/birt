@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -136,7 +137,7 @@ public class RenameAction extends AbstractViewerAction
 					Messages.getString( "RenameInputDialog.DialogTitle" ), //$NON-NLS-1$
 					Messages.getString( "RenameInputDialog.DialogMessage" ), //$NON-NLS-1$
 					originalName,
-					null );
+					IHelpContextIds.RENAME_INPUT_DIALOG_ID );
 			inputDialog.create( );
 			if ( inputDialog.open( ) == Window.OK )
 			{
