@@ -1660,7 +1660,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			dteAdapter.defineDataSet( dataSetHandle, session, true, false );
 		}
 		
-		dteAdapter.populateApplicationContext( dataSetHandle, session );
 		setRowLimit( session, getMaxRow(), false );
 		actualResultSet = dteAdapter.executeQuery( session, queryDefn );
 		return actualResultSet;
@@ -1941,7 +1940,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			session.defineCube( cube );	
 		}
 		
-		dteAdapter.populateApplicationContext( cube, session );
 		// Always cube query returned
 		setRowLimit( session, getMaxRow( ), true );
 		ICubeQueryResults cqr = dteAdapter.executeQuery( session,
@@ -2646,10 +2644,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			DataSetHandle dataSetHandle = ChartItemUtil.getBindingDataSet( itemHandle );
 			if ( needDefineDataSet( dataSetHandle ) )
 			{
+				DataService.getInstance( ).registerSession( dataSetHandle, session );
 				dteAdapter.defineDataSet( dataSetHandle, session, true, false );
 			}
 			
-			dteAdapter.populateApplicationContext( dataSetHandle, session );
 			setRowLimit( session, getMaxRow(), false );
 			actualResultSet = dteAdapter.executeQuery( session, queryDefn );
 			return actualResultSet;
