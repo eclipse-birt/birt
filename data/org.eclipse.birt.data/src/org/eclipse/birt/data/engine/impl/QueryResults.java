@@ -277,7 +277,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 * 
 	 * @param selfQueryResultID
 	 */
-	void setID( String selfQueryResultID )
+	public void setID( String selfQueryResultID )
 	{
 		this.setID( null, selfQueryResultID );
 	}

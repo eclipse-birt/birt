@@ -56,7 +56,7 @@ import org.mozilla.javascript.Scriptable;
  * 		1: prepare group, subquery and expressions
  * 		2: query preparation and sub query execution
  */
-final class PreparedQuery 
+public final class PreparedQuery 
 {
 	private 	IBaseQueryDefinition 	baseQueryDefn;
 	
@@ -423,7 +423,7 @@ final class PreparedQuery
 	 * @param executor
 	 * @parem dataSourceQuery
 	 */
-	QueryResults doPrepare( IBaseQueryResults outerResults,
+	public QueryResults doPrepare( IBaseQueryResults outerResults,
 			Scriptable scope, QueryExecutor executor,
 			PreparedDataSourceQuery dataSourceQuery ) throws DataException
 	{
