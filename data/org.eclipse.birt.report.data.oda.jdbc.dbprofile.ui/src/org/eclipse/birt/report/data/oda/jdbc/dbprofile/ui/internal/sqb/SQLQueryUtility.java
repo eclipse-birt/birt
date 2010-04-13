@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2009 Actuate Corporation.
+ * Copyright (c) 2008, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,7 @@ import java.util.Properties;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Connection;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.DBProfileStatement;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Driver;
+import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.SQLDataTypeUtility;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.IConnection;
@@ -43,8 +44,6 @@ import org.eclipse.datatools.modelbase.sql.datatypes.CharacterStringDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.DataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.ExactNumericDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.NumericalDataType;
-import org.eclipse.datatools.modelbase.sql.datatypes.PredefinedDataType;
-import org.eclipse.datatools.modelbase.sql.datatypes.PrimitiveType;
 import org.eclipse.datatools.modelbase.sql.query.NullOrderingType;
 import org.eclipse.datatools.modelbase.sql.query.OrderByOrdinal;
 import org.eclipse.datatools.modelbase.sql.query.OrderByResultColumn;
@@ -59,7 +58,6 @@ import org.eclipse.datatools.modelbase.sql.query.QueryValueExpression;
 import org.eclipse.datatools.modelbase.sql.query.ResultColumn;
 import org.eclipse.datatools.modelbase.sql.query.ValueExpressionColumn;
 import org.eclipse.datatools.modelbase.sql.query.ValueExpressionVariable;
-import org.eclipse.datatools.modelbase.sql.query.helper.DataTypeHelper;
 import org.eclipse.datatools.modelbase.sql.query.helper.StatementHelper;
 import org.eclipse.datatools.modelbase.sql.query.helper.TableHelper;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -506,7 +504,7 @@ public class SQLQueryUtility
             final ValueExpressionVariable var, DataElementAttributes elementAttrs )
     {
         DataType varDataType = var.getDataType();
-        elementAttrs.setNativeDataTypeCode( getJDBCTypeCode( varDataType ));
+        elementAttrs.setNativeDataTypeCode( toJDBCTypeCode( varDataType ));
 
         if( varDataType != null )
         {
@@ -535,24 +533,9 @@ public class SQLQueryUtility
             elementAttrs.setUiDescription( var.getDescription() );
     }
     
-    private static int getJDBCTypeCode( DataType varDataType )
+    private static int toJDBCTypeCode( DataType varDataType )
     {
-        if( varDataType == null )
-            return Types.NULL;  // unknown value 
-
-        int nativeTypeCode = DataTypeHelper.getJDBCTypeForNamedType( varDataType.getName() );
-        if( nativeTypeCode != 0 )   // has valid value
-            return nativeTypeCode;
-            
-        // native data type conversion is not handled by DataTypeHelper
-        if( varDataType instanceof PredefinedDataType )
-        {
-          if( ((PredefinedDataType) varDataType).getPrimitiveType().getValue() == PrimitiveType.BOOLEAN )
-              return java.sql.Types.BOOLEAN;
-          // TODO - handling of additional primitive JDBC data types
-        }
-        
-        return Types.NULL;  // unknown value 
+        return SQLDataTypeUtility.toJDBCTypeCode( varDataType );
     }
 
     /**
