@@ -23,8 +23,10 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDerivedExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -282,14 +284,21 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 			{
 				GroupPropertyHandle propHandle = (GroupPropertyHandle) iter
 						.next( );
+				DesignElementHandle elementHandle = null;
+				if ( elements != null && !elements.isEmpty( ) )
+					elementHandle = (DesignElementHandle) elements.get( 0 );
 
 				String propName = propHandle.getPropertyDefn( ).getName( );
 
 				if ( IDesignElementModel.EXTENDS_PROP.equals( propName )
 						|| IDesignElementModel.NAME_PROP.equals( propName )
-						|| IExtendedItemModel.EXTENSION_NAME_PROP
-								.equals( propName )
+						|| ( IExtendedItemModel.EXTENSION_NAME_PROP
+								.equals( propName ) && elementHandle instanceof IExtendedItemModel )
 						|| propHandle.isExtensionModelProperty( )
+						|| ( elementHandle instanceof IDerivedExtendableElementModel && IDerivedExtendableElementModel.EXTENSION_ID_PROP
+								.equals( propName ) )
+						|| ( elementHandle instanceof IOdaExtendableElementModel && IOdaExtendableElementModel.EXTENSION_ID_PROP
+								.equals( propName ) )
 						|| propHandle.getPropertyDefn( ).getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 				{
 					// ignore name, extends, extension id property.
