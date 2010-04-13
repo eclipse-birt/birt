@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.nLayout;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -98,7 +97,12 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		af = new AreaFactory( this );
 		// FIXME
 		setupLayoutOptions( renderOptions );
-		context.setFormat( "pdf" );
+		String format = "pdf";
+		if ( renderOptions != null )
+		{
+			format = renderOptions.getOutputFormat( );
+		}
+		context.setFormat( format );
 		context.setLocale( executionContext.getLocale( ) );
 		context.setEngineTaskType( executionContext.getTaskType( ) );
 		context.totalPage = totalPage;
