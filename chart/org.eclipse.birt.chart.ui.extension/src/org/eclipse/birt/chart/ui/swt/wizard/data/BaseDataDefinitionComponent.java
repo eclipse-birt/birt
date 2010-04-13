@@ -453,6 +453,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			updateText( query.getDefinition( ) );
 			DataDefinitionTextManager.getInstance( )
 					.addDataDefinitionText( getInputControl( ), this );
+			setTooltipForInputControl( );
 			if ( fAggEditorComposite != null )
 			{
 				fAggEditorComposite.setAggregation( query, seriesdefinition );
