@@ -2156,10 +2156,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					}
 
 					// Get a unique name.
-					String bindingName = ChartUtil.generateBindingNameOfValueSeries( qry,
+					String name = ChartUtil.generateBindingNameOfValueSeries( qry,
 							orthSD,
 							baseSD );
-					String name = ExpressionUtil.createRowExpression( bindingName );
 					if ( fNameSet.contains( name ) )
 					{
 						query.getBindings( ).remove( name );
