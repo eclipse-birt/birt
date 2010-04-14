@@ -921,9 +921,16 @@ public class ChartCubeQueryHelper
 			}
 			else
 			{
-				levelDefinition = registeredLevels.get( exprCodec.getCubeBindingName( filterCondExpr.getExpression( )
+				String levelName = exprCodec.getCubeBindingName( filterCondExpr.getExpression( )
 						.getText( ),
-						true ) );
+						true );
+				if ( levelName != null
+						&& exprCodec.getCubeBindingNameList( ).size( ) > 1 )
+				{
+					// In multiple dimensions case, do not set target level.
+					levelName = null;
+				}
+				levelDefinition = registeredLevels.get( levelName );
 			}
 
 			ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
