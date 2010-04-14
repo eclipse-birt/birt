@@ -37,6 +37,14 @@
                     	<member-value>
                     		<property name="value">value_1</property>
                     		<property name="level">testDimension/testLevel</property>
+                    		<list-property name="filter">
+                				<structure>
+                    				<property name="operator">lt</property>
+                    				<expression name="expr">filter expression</expression>
+                    				<expression name="value1">value1 expression</expression>
+                    				<expression name="value2">value2 expression</expression>
+                				</structure>
+            				</list-property>
                     		<property name="memberValues">
                     			<member-value>
                     				<property name="value">value_2</property>
@@ -62,7 +70,7 @@
     				<property name="member">
                     	<member-value>
                     		<property name="value">value_1</property>
-                    		<property name="level">testDimension/testLevel</property>
+                    		<property name="level">testDimension/testLevel</property>                    		
                     		<property name="memberValues">
                     			<member-value>
                     				<property name="value">value_2</property>
