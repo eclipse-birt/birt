@@ -3292,6 +3292,7 @@ Element.OdaLevel.attributes=특성
 Element.MemberValue.value=값
 Element.MemberValue.level=수준
 Element.MemberValue.memberValues=구성원 값
+Element.MemberValue.filter=Filter
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=키
