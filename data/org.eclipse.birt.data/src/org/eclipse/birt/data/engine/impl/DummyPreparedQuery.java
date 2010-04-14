@@ -1,0 +1,144 @@
+/*******************************************************************************
+ * Copyright (c) 2010 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.data.engine.impl;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.QueryResults;
+import org.mozilla.javascript.Scriptable;
+
+public class DummyPreparedQuery implements IPreparedQuery
+{
+
+	/**
+	 * Used for Result Set Sharing.
+	 * 
+	 */
+	private IQueryDefinition queryDefn;
+	private String tempDir;
+	private DataEngineContext context;
+	private List<IGroupInstanceInfo> targetGroups;
+	private DataEngineSession session;
+
+	/**
+	 * 
+	 * @param queryDefn
+	 * @param session
+	 */
+	public DummyPreparedQuery( IQueryDefinition queryDefn,
+			DataEngineSession session )
+	{
+		this.queryDefn = queryDefn;
+		this.session = session;
+		this.tempDir = session.getTempDir( );
+	}
+
+	/**
+	 * 
+	 * @param queryDefn
+	 * @param session
+	 * @param context
+	 * @param targetGroups
+	 */
+	public DummyPreparedQuery( IQueryDefinition queryDefn,
+			DataEngineSession session, DataEngineContext context,
+			List<IGroupInstanceInfo> targetGroups )
+	{
+		this( queryDefn, session );
+		this.context = context;
+		this.targetGroups = targetGroups;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.mozilla.
+	 * javascript.Scriptable)
+	 */
+	public IQueryResults execute( Scriptable queryScope ) throws BirtException
+	{
+		return this.execute( null, queryScope );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt
+	 * .data.engine.api.IQueryResults, org.mozilla.javascript.Scriptable)
+	 */
+	public IQueryResults execute( IQueryResults outerResults,
+			Scriptable queryScope ) throws BirtException
+	{
+		try
+		{
+			return this.execute( (IBaseQueryResults) outerResults, queryScope );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
+	 */
+	public Collection getParameterMetaData( ) throws BirtException
+	{
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
+	 */
+	public IQueryDefinition getReportQueryDefn( )
+	{
+		return this.queryDefn;
+	}
+
+	public IQueryResults execute( IBaseQueryResults outerResults,
+			Scriptable scope ) throws DataException
+	{
+		try
+		{
+			if ( context == null )
+				return new CachedQueryResults( session,
+						this.queryDefn.getQueryResultsID( ),
+						this );
+
+			else
+				return new QueryResults( this.tempDir,
+						this.context,
+						this.queryDefn.getQueryResultsID( ),
+						outerResults,
+						this.targetGroups );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+	}
+}

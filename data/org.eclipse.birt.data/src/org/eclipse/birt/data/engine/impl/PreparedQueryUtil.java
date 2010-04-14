@@ -31,22 +31,18 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
-import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -63,12 +59,10 @@ import org.eclipse.birt.data.engine.expression.NamedExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
-import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultClass;
-import org.mozilla.javascript.Scriptable;
 
 /**
  * Create concreate class of IPreparedQuery
@@ -549,114 +543,6 @@ public class PreparedQueryUtil
 				binding.setExpression( new ScriptExpression( ExpressionUtil.createDataSetRowExpression( binding.getBindingName( ) ) ) );
 			}
 		}
-	}
-	
-	/**
-	 * Used for Result Set Sharing.
-	 *
-	 */
-	private static class DummyPreparedQuery implements IPreparedQuery
-	{
-		private IQueryDefinition queryDefn;
-		private String  tempDir;
-		private DataEngineContext context;
-		private List<IGroupInstanceInfo> targetGroups;
-		private DataEngineSession session;
-		
-		/**
-		 * 
-		 * @param queryDefn
-		 * @param session
-		 */
-		public DummyPreparedQuery( IQueryDefinition queryDefn,
-				DataEngineSession session )
-		{
-			this.queryDefn = queryDefn;
-			this.session = session;
-			this.tempDir = session.getTempDir( );
-		}
-		
-		/**
-		 * 
-		 * @param queryDefn
-		 * @param session
-		 * @param context
-		 * @param targetGroups
-		 */
-		public DummyPreparedQuery( IQueryDefinition queryDefn,
-				DataEngineSession session, DataEngineContext context,
-				List<IGroupInstanceInfo> targetGroups )
-		{
-			this( queryDefn, session );
-			this.context = context;
-			this.targetGroups = targetGroups;
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.mozilla.javascript.Scriptable)
-		 */
-		public IQueryResults execute( Scriptable queryScope )
-				throws BirtException
-		{
-			return this.execute( null, queryScope );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt.data.engine.api.IQueryResults, org.mozilla.javascript.Scriptable)
-		 */
-		public IQueryResults execute( IQueryResults outerResults,
-				Scriptable queryScope ) throws BirtException
-		{
-			try
-			{
-				return this.execute( (IBaseQueryResults)outerResults, queryScope );
-			}
-			catch ( BirtException e )
-			{
-				throw DataException.wrap( e );
-			}
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
-		 */
-		public Collection getParameterMetaData( ) throws BirtException
-		{
-			return null;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
-		 */
-		public IQueryDefinition getReportQueryDefn( )
-		{
-			return this.queryDefn;
-		}
-
-		public IQueryResults execute( IBaseQueryResults outerResults,
-				Scriptable scope ) throws DataException
-		{
-			try
-			{
-				if ( context == null )
-					return new CachedQueryResults( session,
-							this.queryDefn.getQueryResultsID( ), this );
-
-				else
-					return new QueryResults( this.tempDir,
-							this.context,
-							this.queryDefn.getQueryResultsID( ), outerResults, this.targetGroups );
-			}
-			catch ( BirtException e )
-			{
-				throw DataException.wrap( e );
-			}
-		}
-		
 	}
 
 	/**
