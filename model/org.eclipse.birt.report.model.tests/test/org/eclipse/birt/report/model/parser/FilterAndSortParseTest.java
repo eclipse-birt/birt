@@ -73,6 +73,12 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( "value_1", memberValue.getValue( ) ); //$NON-NLS-1$
 		assertEquals( "testDimension/testLevel", memberValue.getCubeLevelName( ) ); //$NON-NLS-1$
 		assertNotNull( memberValue.getLevel( ) );
+		// test filter condition structures in member value
+		Iterator<FilterConditionHandle> iter = memberValue.filtersIterator( );
+		FilterConditionHandle filterStructHandle = iter.next( );
+		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT,
+				filterStructHandle.getOperator( ) );
+
 		memberValue = (MemberValueHandle) memberValue.getContent(
 				IMemberValueModel.MEMBER_VALUES_PROP, 0 );
 		assertEquals( "value_2", memberValue.getValue( ) ); //$NON-NLS-1$
@@ -156,6 +162,11 @@ public class FilterAndSortParseTest extends BaseTestCase
 		memberValue.setValue( valuePrefix + memberValue.getValue( ) );
 		memberValue.setLevel( designHandle
 				.findLevel( "testDimension/testLevel_one" ) ); //$NON-NLS-1$
+		// test filter condition structures in member value
+		Iterator<FilterConditionHandle> iter = memberValue.filtersIterator( );
+		FilterConditionHandle filterStructHandle = iter.next( );
+		memberValue.getPropertyHandle( IMemberValueModel.FILTER_PROP ).addItem(
+				filterStructHandle.getStructure( ).copy( ) );
 
 		// test sort properties
 		valueList = testTable.getListProperty( "sorts" ); //$NON-NLS-1$
