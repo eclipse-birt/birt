@@ -136,13 +136,6 @@ public class TextAreaLayout implements ILayout
 		{
 			textStyle.setUnderLine( true );
 		}
-		else
-		{
-			if ( content.getHyperlinkAction( ) != null )
-			{
-				textStyle.setUnderLine( true );
-			}
-		}
 		textStyle.setAlign( style.getProperty( IStyle.STYLE_TEXT_ALIGN ) );
 		IStyle s = content.getStyle( );
 		Color color = PropertyUtil.getColor( s
@@ -162,6 +155,10 @@ public class TextAreaLayout implements ILayout
 				textStyle.setColor( PropertyUtil.getColor( style
 						.getProperty( IStyle.STYLE_COLOR ) ) );
 			}
+		}
+		if ( content.getHyperlinkAction( ) != null )
+		{
+			textStyle.setHasHyperlink( true );
 		}
 		return textStyle;
 

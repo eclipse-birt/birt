@@ -123,7 +123,7 @@ public abstract class AbstractPage implements IPage
 		}
 	}
 	
-	private void drawDecorationLine( float textX, float textY, float width,
+	protected void drawDecorationLine( float textX, float textY, float width,
 			float lineWidth, float verticalOffset, Color color )
 	{
 		textY = textY + verticalOffset;

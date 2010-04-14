@@ -27,6 +27,7 @@ public class TextStyle  extends AreaConstants
 	protected boolean underLine = false;
 	protected boolean lineThrough = false;
 	protected boolean overLine = false;
+	protected boolean hasHyperlink = false;	
 	protected int direction = 0;
 	protected Color color = Color.BLACK;
 	protected CSSValue align = IStyle.LEFT_VALUE;
@@ -186,6 +187,14 @@ public class TextStyle  extends AreaConstants
 		return direction;
 	}
 
+	public boolean isHasHyperlink( )
+	{
+		return hasHyperlink;
+	}
 	
+	public void setHasHyperlink( boolean hasHyperlink )
+	{
+		this.hasHyperlink = hasHyperlink;
+	}
 	
 }
