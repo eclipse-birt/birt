@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.extension.internal;
 
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.ReportQueryBuilder;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -50,8 +51,16 @@ public class QueryContext implements IQueryContext
 	{
 		if ( context != null )
 		{
-			IDataEngine dataEngine = context.getDataEngine( );
-			return dataEngine.getDTESession( );
+			try
+			{
+				IDataEngine dataEngine = context.getDataEngine( );
+				return dataEngine.getDTESession( );
+			}
+			catch ( EngineException e )
+			{
+				context.addException( e );
+			}
+			
 		}
 		return null;
 	}

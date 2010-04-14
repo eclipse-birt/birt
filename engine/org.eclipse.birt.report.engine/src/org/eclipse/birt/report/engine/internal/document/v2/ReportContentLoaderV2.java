@@ -22,6 +22,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -94,7 +95,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 
 	protected Stack resultSets = new Stack( );
 
-	public ReportContentLoaderV2( ExecutionContext context )
+	public ReportContentLoaderV2( ExecutionContext context ) throws EngineException
 	{
 		this.context = context;
 		dataEngine = context.getDataEngine( );

@@ -834,7 +834,7 @@ public class ExecutionContext
 		this.getScriptContext( ).setTimeZone( timeZone );
 	}
 
-	public void openDataEngine( )
+	public void openDataEngine( ) throws EngineException
 	{
 		if ( dataEngine == null )
 		{
@@ -843,14 +843,9 @@ public class ExecutionContext
 				dataEngine = engine.getDataEngineFactory( ).createDataEngine(
 						this, needOutputResultSet );
 			}
-			catch ( BirtException bex )
+			catch ( Exception e )
 			{
-				addException( bex );
-			}
-			catch ( Exception ex )
-			{
-				addException( new EngineException( ex.getLocalizedMessage( ),
-						ex ) );
+				throw new EngineException( "can't create data engine", e );
 			}
 		}
 	}
@@ -858,7 +853,7 @@ public class ExecutionContext
 	/**
 	 * @return Returns the dataEngine.
 	 */
-	public IDataEngine getDataEngine( )
+	public IDataEngine getDataEngine( ) throws EngineException
 	{
 		if ( dataEngine == null )
 		{

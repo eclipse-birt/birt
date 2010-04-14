@@ -13,13 +13,14 @@ package org.eclipse.birt.report.engine.internal.document.v3;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.internal.executor.doc.ReportReader;
 
 public class ReportExecutorV3 extends ReportReader
 {
 
-	public ReportExecutorV3( ExecutionContext context ) throws IOException
+	public ReportExecutorV3( ExecutionContext context ) throws IOException, BirtException
 	{
 		super( context );
 	}

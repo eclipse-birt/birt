@@ -515,7 +515,7 @@ public abstract class EngineTask implements IEngineTask
 		return this.emitterID;
 	}
 
-	public DataRequestSession getDataSession( )
+	public DataRequestSession getDataSession( ) throws EngineException
 	{
 		return executionContext.getDataEngine( ).getDTESession( );
 	}

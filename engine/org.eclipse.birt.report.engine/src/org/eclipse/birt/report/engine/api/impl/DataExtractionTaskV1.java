@@ -216,7 +216,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	/*
 	 * prepare the meta data of DataExtractionTask.
 	 */
-	private void prepareMetaData( )
+	private void prepareMetaData( ) throws EngineException
 	{
 		if ( isMetaDataPrepared == true )
 			return;
@@ -494,7 +494,14 @@ public class DataExtractionTaskV1 extends EngineTask
 	{
 		assert iid != null;
 
-		prepareMetaData( );
+		try
+		{
+			prepareMetaData( );
+		}
+		catch ( EngineException e )
+		{
+			executionContext.addException( e );
+		}
 
 		instanceId = iid;
 		resultSetName = null;
@@ -505,7 +512,14 @@ public class DataExtractionTaskV1 extends EngineTask
 	{
 		assert displayName != null;
 
-		prepareMetaData( );
+		try
+		{
+			prepareMetaData( );
+		}
+		catch ( EngineException e )
+		{
+			executionContext.addException( e );
+		}
 
 		if ( displayName.startsWith( "InstanceId:" ) )
 		{

@@ -70,7 +70,7 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 		
 	}
 
-	protected AbstractReportExecutor( ExecutionContext context ) throws IOException
+	protected AbstractReportExecutor( ExecutionContext context ) throws IOException, BirtException
 	{
 		assert context.getDesign( ) != null;
 		assert context.getReportDocument( ) != null;

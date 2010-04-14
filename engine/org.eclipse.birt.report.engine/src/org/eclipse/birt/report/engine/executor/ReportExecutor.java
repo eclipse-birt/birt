@@ -90,7 +90,7 @@ public class ReportExecutor implements IReportExecutor
 		this.uniqueId = 0;
 	}
 
-	public IReportContent execute( )
+	public IReportContent execute( ) throws BirtException
 	{
 		reportContent = new ReportContent( report );
 		reportContent.setExecutionContext( context );
@@ -120,6 +120,7 @@ public class ReportExecutor implements IReportExecutor
 
 		// Prepare necessary data for this report
 		Map appContext = context.getAppContext( );
+		
 		context.getDataEngine( ).prepare( report, appContext );
 
 		// register the report variables

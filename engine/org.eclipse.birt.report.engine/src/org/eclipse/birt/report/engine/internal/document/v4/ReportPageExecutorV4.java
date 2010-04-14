@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -37,7 +38,7 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 	private ReportBodyExecutor bodyExecutor;
 
 	public ReportPageExecutorV4( ExecutionContext context, List pages,
-			boolean paged ) throws IOException
+			boolean paged ) throws IOException, BirtException
 	{
 		super( context );
 		this.outputPages.addAll( pages );

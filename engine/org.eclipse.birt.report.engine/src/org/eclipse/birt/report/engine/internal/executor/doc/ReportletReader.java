@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -28,7 +29,7 @@ public class ReportletReader extends AbstractReportReader
 	BodyReader bodyExecutor;
 
 	public ReportletReader( ExecutionContext context, long offset )
-		throws IOException
+		throws IOException, BirtException
 	{
 		super( context );
 		Fragment fragment = loadFragment( offset );

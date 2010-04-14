@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -54,7 +55,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 
 	ReportItemReaderManager manager;
 
-	public AbstractReportReader( ExecutionContext context ) throws IOException
+	public AbstractReportReader( ExecutionContext context ) throws IOException, BirtException
 	{
 		assert context.getDesign( ) != null;
 		assert context.getReportDocument( ) != null;

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.internal.document.v4;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -22,7 +23,7 @@ public class ReportExecutorV4 extends AbstractReportExecutor
 
 	protected ReportItemExecutor bodyExecutor;
 
-	public ReportExecutorV4( ExecutionContext context ) throws IOException
+	public ReportExecutorV4( ExecutionContext context ) throws IOException, BirtException
 	{
 		super( context );
 		bodyExecutor = new ReportBodyExecutor( manager, null );

@@ -550,7 +550,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		return choices;
 	}
 
-	private DataRequestSession createDataSession( DataSetHandle dataSet )
+	private DataRequestSession createDataSession( DataSetHandle dataSet ) throws EngineException
 	{
 		IDataEngine dataEngine = executionContext.getDataEngine( );
 		DataRequestSession dteSession = getDataSession();

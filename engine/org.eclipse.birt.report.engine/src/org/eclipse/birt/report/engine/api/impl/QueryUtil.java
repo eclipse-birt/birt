@@ -445,8 +445,16 @@ public class QueryUtil
 	private static String getResultSetID( ExecutionContext context,
 			String parent, String rowId, IDataQueryDefinition query )
 	{
-		IDataEngine engine = context.getDataEngine( );
-		if ( engine instanceof AbstractDataEngine )
+		IDataEngine engine = null;
+		try
+		{
+			engine = context.getDataEngine( );
+		}
+		catch ( EngineException e )
+		{
+			context.addException( e );
+		}
+		if ( engine != null && engine instanceof AbstractDataEngine )
 		{
 			AbstractDataEngine dataEngine = (AbstractDataEngine) engine;
 			String queryId = dataEngine.getQueryID( query );

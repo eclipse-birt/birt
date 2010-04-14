@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.internal.executor.doc;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
@@ -25,7 +26,7 @@ public class ReportReader extends AbstractReportReader
 
 	BodyReader bodyReader;
 
-	public ReportReader( ExecutionContext context ) throws IOException
+	public ReportReader( ExecutionContext context ) throws IOException, BirtException
 	{
 		super( context );
 		bodyReader = new BodyReader( this, null );

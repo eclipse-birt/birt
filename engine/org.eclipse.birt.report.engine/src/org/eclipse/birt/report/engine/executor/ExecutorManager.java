@@ -420,7 +420,6 @@ public class ExecutorManager
 		public IBaseResultSet executeQuery( IBaseResultSet parent,
 				IDataQueryDefinition query, Object handle )
 		{
-			IDataEngine dataEngine = context.getDataEngine( );
 			if ( query != null )
 			{
 				boolean useCache = false;
@@ -436,6 +435,7 @@ public class ExecutorManager
 				}
 				try
 				{
+					IDataEngine dataEngine = context.getDataEngine( );
 					IBaseResultSet rset = dataEngine.execute( parent, query,
 							handle, useCache );
 					context.setResultSet( rset );

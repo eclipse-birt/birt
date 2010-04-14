@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -56,7 +57,7 @@ public class ReportPageReader extends AbstractReportReader
 	 *            should the output keep pagianted.
 	 */
 	public ReportPageReader( ExecutionContext context, List pages, boolean paged )
-			throws IOException
+			throws IOException, BirtException
 	{
 		super( context );
 		outputPages.addAll( pages );
