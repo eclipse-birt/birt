@@ -413,16 +413,16 @@ public class PDFPage extends AbstractPage
 		else
 		{
 			PdfTemplate template = null;
-			if ( pageDevice.getImageMap( ).containsKey( imageId ) )
+			if ( pageDevice.getImageCache( ).containsKey( imageId ) )
 			{
-				template = pageDevice.getImageMap( ).get( imageId );
+				template = pageDevice.getImageCache( ).get( imageId );
 			}
 			else
 			{
 				template = contentByte.createTemplate( width, height );
 				Image image = Image.getInstance( imageData );
 				template.addImage( image, width, 0, 0, height, 0, 0 );
-				pageDevice.getImageMap( ).put( imageId, template );
+				pageDevice.getImageCache( ).put( imageId, template );
 			}
 			if ( template != null )
 			{
@@ -431,6 +431,9 @@ public class PDFPage extends AbstractPage
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	protected void drawImage( String uri, String extension, float imageX,
 			float imageY, float height, float width, String helpText, Map params )
 			throws Exception
@@ -453,16 +456,16 @@ public class PDFPage extends AbstractPage
 		else
 		{
 			PdfTemplate template = null;
-			if ( pageDevice.getImageMap( ).containsKey( uri ) )
+			if ( pageDevice.getImageCache( ).containsKey( uri ) )
 			{
-				template = pageDevice.getImageMap( ).get( uri );
+				template = pageDevice.getImageCache( ).get( uri );
 			}
 			else
 			{
 				template = contentByte.createTemplate( width, height );
 				Image image = Image.getInstance( new URL( uri ) );
 				template.addImage( image, width, 0, 0, height, 0, 0 );
-				pageDevice.getImageMap( ).put( uri, template );
+				pageDevice.getImageCache( ).put( uri, template );
 			}
 			if ( template != null )
 			{

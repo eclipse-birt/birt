@@ -74,6 +74,9 @@ public abstract class AbstractPage implements IPage
 				convertToPoint( width ), helpText, params );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void drawImage( String uri, String extension, int imageX,
 			int imageY, int height, int width, String helpText, Map params )
 			throws Exception

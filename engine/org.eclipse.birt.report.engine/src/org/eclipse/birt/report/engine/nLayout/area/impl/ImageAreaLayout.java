@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.ObjectContent;
-import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.emitter.ImageReader;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
@@ -39,8 +39,6 @@ import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IImageArea;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
-import org.eclipse.birt.report.engine.util.FlashFile;
-import org.eclipse.birt.report.engine.util.SvgFile;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.BadElementException;
@@ -49,16 +47,10 @@ import com.lowagie.text.Image;
 public class ImageAreaLayout implements ILayout
 {
 
-	public static final int TYPE_IMAGE_OBJECT = 0;
-	public static final int TYPE_FLASH_OBJECT = 1;
-	public static final int TYPE_SVG_OBJECT = 2;
-	private static final int RESOURCE_UNREACHABLE = 0;
-	private static final int UNSUPPORTED_OBJECTS = 1;
-
-	public int objectType = TYPE_IMAGE_OBJECT;
 	private ILayout layout = null;
 	private ContainerArea parent;
 	private IImageContent content;
+	private ImageReader reader;
 	private LayoutContext context;
 
 	protected static Logger logger = Logger.getLogger( ImageAreaLayout.class
@@ -83,53 +75,25 @@ public class ImageAreaLayout implements ILayout
 
 	protected void initialize( ) throws BirtException
 	{
-		checkObjectType( );
 		// choose the layout manager
-		IImageContent imageContent = (IImageContent) content;
-		Image imageObject = null;
-
-		if ( isOutputSupported( objectType ) )
+		reader = new ImageReader( content, context.getSupportedImageFormats( ) );
+		int result = reader.read( );
+		switch ( result )
 		{
-			if ( objectType == TYPE_IMAGE_OBJECT )
-			{
-				imageObject = EmitterUtil.getImage( imageContent );
-			}
-			if ( imageObject != null && objectType == TYPE_IMAGE_OBJECT
-					|| objectType == TYPE_FLASH_OBJECT
-					|| objectType == TYPE_SVG_OBJECT )
-			{
+			case ImageReader.RESOURCE_UNREACHABLE:
+				// display the alt text or prompt object not accessible.
+				layout = createAltTextLayout( ImageReader.RESOURCE_UNREACHABLE );
+				break;
+			case ImageReader.UNSUPPORTED_OBJECTS:
+				// display the alt text or prompt unsupported objects.
+				layout = createAltTextLayout( ImageReader.UNSUPPORTED_OBJECTS );
+				break;
+			case ImageReader.OBJECT_LOADED_SUCCESSFULLY:
 				// the output format can display this kind of object and the
 				// object is accessible.
 				layout = new ConcreteImageLayout( context, parent, content,
-						imageObject );
-			}
-			else
-			{
-				// display the alt text or prompt object not accessible.
-				layout = createAltTextLayout( RESOURCE_UNREACHABLE );
-			}
-		}
-		else
-		{
-			if ( objectType == TYPE_SVG_OBJECT )
-			{
-				// convert to a simple image, like PNG.
-				imageObject = EmitterUtil.getImage( imageContent );
-				if ( imageObject != null )
-				{
-					layout = new ConcreteImageLayout( context, parent, content,
-							imageObject );
-					return;
-				}
-				else
-				{
-					// display the alt text or prompt object not accessible.
-					layout = createAltTextLayout( RESOURCE_UNREACHABLE );
-					return;
-				}
-			}
-			// display the alt text or prompt unsupported objects.
-			layout = createAltTextLayout( UNSUPPORTED_OBJECTS );
+						reader.getByteArray( ) );
+				break;
 		}
 	}
 
@@ -164,9 +128,9 @@ public class ImageAreaLayout implements ILayout
 			}
 			EngineResourceHandle resourceHandle = new EngineResourceHandle(
 					locale );
-			if ( altTextType == UNSUPPORTED_OBJECTS )
+			if ( altTextType == ImageReader.UNSUPPORTED_OBJECTS )
 			{
-				if ( objectType == TYPE_FLASH_OBJECT )
+				if ( reader.getType( ) == ImageReader.TYPE_FLASH_OBJECT )
 				{
 					alt = resourceHandle
 							.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
@@ -177,7 +141,7 @@ public class ImageAreaLayout implements ILayout
 							.getMessage( MessageConstants.REPORT_ITEM_NOT_SUPPORTED_PROMPT );
 				}
 			}
-			if ( altTextType == RESOURCE_UNREACHABLE )
+			if ( altTextType == ImageReader.RESOURCE_UNREACHABLE )
 			{
 				alt = resourceHandle
 						.getMessage( MessageConstants.RESOURCE_UNREACHABLE_PROMPT );
@@ -185,57 +149,6 @@ public class ImageAreaLayout implements ILayout
 		}
 		altTextContent.setText( alt );
 		return altTextContent;
-	}
-
-	protected void checkObjectType( )
-	{
-		IImageContent image = (IImageContent) content;
-		String uri = image.getURI( );
-		String mimeType = image.getMIMEType( );
-		String extension = image.getExtension( );
-		if ( FlashFile.isFlash( mimeType, uri, extension ) )
-		{
-			objectType = TYPE_FLASH_OBJECT;
-		}
-		else if ( SvgFile.isSvg( mimeType, uri, extension ) )
-		{
-			objectType = TYPE_SVG_OBJECT;
-		}
-		else
-		{
-			objectType = TYPE_IMAGE_OBJECT;
-		}
-	}
-
-	/**
-	 * Check if the target output emitter supports the object type.
-	 */
-	private boolean isOutputSupported( int type )
-	{
-		String supportedImageFormats = context.getSupportedImageFormats( );
-		if ( type == TYPE_IMAGE_OBJECT )
-		{
-			if ( -1 != supportedImageFormats.indexOf( "PNG" )
-					|| -1 != supportedImageFormats.indexOf( "GIF" )
-					|| -1 != supportedImageFormats.indexOf( "BMP" )
-					|| -1 != supportedImageFormats.indexOf( "JPG" ) )
-				return true;
-		}
-		else if ( type == TYPE_FLASH_OBJECT )
-		{
-			if ( -1 != supportedImageFormats.indexOf( "SWF" ) )
-			{
-				return true;
-			}
-		}
-		else if ( type == TYPE_SVG_OBJECT )
-		{
-			if ( -1 != supportedImageFormats.indexOf( "SVG" ) )
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 
 	class ConcreteImageLayout implements ILayout
@@ -247,7 +160,8 @@ public class ImageAreaLayout implements ILayout
 		/** The DpiY */
 		private int resolutionY = 0;
 
-		private Image imageObject = null;
+		//private Image imageObject = null;
+		private byte[] data;
 
 		private ContainerArea parent;
 
@@ -274,12 +188,13 @@ public class ImageAreaLayout implements ILayout
 		private BlockTextArea innerText = null;
 
 		public ConcreteImageLayout( LayoutContext context,
-				ContainerArea parent, IImageContent content, Image imageObject )
+				ContainerArea parent, IImageContent content, byte[] data )
 		{
 			this.context = context;
 			this.image = content;
 			this.parent = parent;
-			this.imageObject = imageObject;
+			this.data = data;
+			
 			Object reportItemDesign = content.getGenerateBy( );
 			if ( null != reportItemDesign )
 			{
@@ -318,10 +233,26 @@ public class ImageAreaLayout implements ILayout
 			// prepare the DPI for the image.
 			int imageFileDpiX = 0;
 			int imageFileDpiY = 0;
-			if ( imageObject != null )
+			
+			Image imageObject = null;
+			if ( reader.getType( ) == ImageReader.TYPE_IMAGE_OBJECT
+					|| reader.getType( ) == ImageReader.TYPE_CONVERTED_SVG_OBJECT )
 			{
-				imageFileDpiX = imageObject.getDpiX( );
-				imageFileDpiY = imageObject.getDpiY( );
+				
+				try
+				{
+					imageObject = Image.getInstance( data );
+				}
+				catch ( Exception e )
+				{
+					logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+				}
+
+				if ( imageObject != null )
+				{
+					imageFileDpiX = imageObject.getDpiX( );
+					imageFileDpiY = imageObject.getDpiY( );
+				}
 			}
 			resolutionX = PropertyUtil.getImageDpi( content, imageFileDpiX,
 					context.getDpi( ) );
@@ -420,7 +351,7 @@ public class ImageAreaLayout implements ILayout
 			boolean isEmptyLine = true;
 			boolean innerTextInserted = false;
 			if ( "pdf".equalsIgnoreCase( context.getFormat( ) )
-					&& objectType == TYPE_FLASH_OBJECT )
+					&& reader.getType( ) == ImageReader.TYPE_FLASH_OBJECT )
 			{
 				innerTextInserted = true;
 				innerText = createInnerTextLayout( );
@@ -457,8 +388,7 @@ public class ImageAreaLayout implements ILayout
 			// For inline image, the hierarchy is
 			// LineArea->InlineContainer->ImageArea.
 			// the root is InlineContainer, so we just need to add the root
-			// directly
-			// to its parent(LineArea).
+			// directly to its parent(LineArea).
 			// In LineAreaLM, the lineArea will enlarge itself to hold the root.
 			// For block image, the hierarchy is BlockContainer->ImageArea
 			if ( PropertyUtil.isInlineElement( image ) )
@@ -530,9 +460,8 @@ public class ImageAreaLayout implements ILayout
 					.getContentWidth( ), true );
 			ImageArea imageArea = createImageArea( image );
 			imageArea.setParent( root );
-			// implement fitToContainer
-			// the maxHeight is the image's max possible height in an empty
-			// page.
+			// implement fitToContainer the maxHeight is the image's max
+			// possible height in an empty page.
 			int maxHeight = root.getMaxAvaHeight( );
 			int maxWidth = root.getMaxAvaWidth( );
 			int cHeight = contentDimension.getHeight( );
@@ -610,7 +539,6 @@ public class ImageAreaLayout implements ILayout
 			String extension = content.getExtension( );
 			area.setExtension( extension );
 			area.setMIMEType( mimeType );
-
 			switch ( content.getImageSource( ) )
 			{
 				case IImageContent.IMAGE_FILE :
@@ -619,34 +547,25 @@ public class ImageAreaLayout implements ILayout
 					break;
 				case IImageContent.IMAGE_NAME :
 					area.setUrl( "NamedImage_" + content.getURI( ) );
-					// area.setData( content.getData( ) );
 					break;
 				case IImageContent.IMAGE_EXPRESSION :
-					// area.setData( content.getData( ) );
 					break;
 			}
+			
+			area.setData( data );
 
-			if ( SvgFile.isSvg( mimeType, null, extension ) )
+			if ( reader.getType( ) == ImageReader.TYPE_SVG_OBJECT )
 			{
-				if ( imageObject != null )
-				{
-					// this SVG has been converted into JPEG.
-					area.setMIMEType( "image/jpeg" );
-					area.setExtension( ".jpg" );
-					area.setData( imageObject.getRawData( ) );
-				}
-				else
-				{
-					area.setMIMEType( "image/svg+xml" );
-					area.setExtension( ".svg" );
-					area.setData( content.getData( ) );
-				}
+				area.setMIMEType( "image/svg+xml" );
+				area.setExtension( ".svg" );
 			}
-			else
+			if ( reader.getType( ) == ImageReader.TYPE_CONVERTED_SVG_OBJECT )
 			{
-				area.setData( content.getData( ) );
+				// this SVG has been converted into JPEG.
+				area.setMIMEType( "image/jpeg" );
+				area.setExtension( ".jpg" );
 			}
-
+			
 			if ( content instanceof ObjectContent )
 			{
 				ObjectContent object = (ObjectContent) content;
@@ -786,12 +705,6 @@ public class ImageAreaLayout implements ILayout
 		private void createImageMapContainer( int x, int y, int width,
 				int height, IHyperlinkAction link )
 		{
-			// ReportContent reportContent = (ReportContent)
-			// image.getReportContent( );
-			// IContainerContent mapContent =
-			// reportContent.createContainerContent(
-			// );
-			// mapContent.setHyperlinkAction( link );
 			BlockContainerArea area = new BlockContainerArea( );
 			area.setAction( link );
 			area.setPosition( x, y );
@@ -853,6 +766,10 @@ public class ImageAreaLayout implements ILayout
 		 */
 		private int[] getArea( String string )
 		{
+			if ( string == null )
+			{
+				return null;
+			}
 			String[] rawDatas = string.split( "," );
 			if ( rawDatas.length == 8 )
 			{

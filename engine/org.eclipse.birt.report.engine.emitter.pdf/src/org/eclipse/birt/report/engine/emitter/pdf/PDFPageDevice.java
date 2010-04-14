@@ -59,7 +59,7 @@ public class PDFPageDevice implements IPageDevice
 	
 	private HashMap<Float, PdfTemplate> templateMap = new HashMap<Float, PdfTemplate>();
 	
-	private HashMap<String, PdfTemplate> imageMap = new HashMap<String, PdfTemplate>( );
+	private HashMap<String, PdfTemplate> imageCache = new HashMap<String, PdfTemplate>( );
 	
 	/**
 	 * the iText and Birt engine version info.
@@ -152,9 +152,9 @@ public class PDFPageDevice implements IPageDevice
 		return templateMap.containsKey( scale );
 	}
 		
-	public HashMap<String, PdfTemplate> getImageMap( )
+	public HashMap<String, PdfTemplate> getImageCache( )
 	{
-		return imageMap;
+		return imageCache;
 	}
 	
 	public void close( ) throws Exception

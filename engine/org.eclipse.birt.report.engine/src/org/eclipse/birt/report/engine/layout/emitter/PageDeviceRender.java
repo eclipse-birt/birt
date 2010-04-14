@@ -928,16 +928,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			byte[] data = image.getImageData( );
 			String extension = image.getExtension( );
 			String uri = image.getImageUrl( );
-			if ( data != null )
-			{
-				pageGraphic.drawImage( uri, data, extension, imageX, imageY,
-						height, width, helpText, image.getParameters( ) );
-			}
-			else if ( uri != null )
-			{
-				pageGraphic.drawImage( uri, extension, imageX, imageY,
-						height, width, helpText, image.getParameters( ) );
-			}
+			pageGraphic.drawImage( uri, data, extension, imageX, imageY,
+					height, width, helpText, image.getParameters( ) );
 		}
 		catch ( Throwable t )
 		{

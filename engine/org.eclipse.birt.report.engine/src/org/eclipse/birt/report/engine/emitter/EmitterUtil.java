@@ -212,6 +212,7 @@ public class EmitterUtil
 					in = new ByteArrayInputStream( data );
 					if ( SvgFile.isSvg( mimeType, uri, extension ) )
 						data = SvgFile.transSvgToArray( in );
+					in.close( );
 					image = Image.getInstance( data );
 					break;
 
