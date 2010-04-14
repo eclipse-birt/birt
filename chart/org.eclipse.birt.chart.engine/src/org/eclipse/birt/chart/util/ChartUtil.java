@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -104,6 +105,8 @@ public class ChartUtil
 	 * represent the value of chart max row number.
 	 */
 	public static final String CHART_MAX_ROW = "CHART_MAX_ROW"; //$NON-NLS-1$	
+	
+	private static final NumberFormat DEFAULT_NUMBER_FORMAT = NumberFormat.getInstance( Locale.getDefault( ) );
 	
 	/**
 	 * Returns if the given color definition is totally transparent. e.g.
@@ -354,6 +357,11 @@ public class ChartUtil
 		if ( value == null )
 		{
 			return null;
+		}
+		
+		if (value instanceof Number)
+		{
+			return DEFAULT_NUMBER_FORMAT.format( value );
 		}
 
 		return String.valueOf( value );
