@@ -302,7 +302,6 @@ public class PropertyUtil
 	public static int getRenderDpi( IContent content, int renderOptionDpi )
 	{
 		return getRenderDpi( content.getReportContent( ), renderOptionDpi );
-
 	}
 
 	private static int screenDpi = -1;
@@ -430,7 +429,7 @@ public class PropertyUtil
 	}
 
 	protected static int _getDimensionValue( IContent content, DimensionType d,
-			int dpi, int referenceLength )
+			int renderOptionDpi, int referenceLength )
 	{
 		if ( d.getValueType( ) == DimensionType.TYPE_DIMENSION )
 		{
@@ -446,11 +445,8 @@ public class PropertyUtil
 			}
 			else if ( units.equals( EngineIRConstants.UNITS_PX ) )
 			{
-				if ( dpi == 0 )
-				{
-					dpi = 96;
-				}
-				double point = d.getMeasure( ) / dpi * 72000d;
+				double point = d.getMeasure( ) / getRenderDpi( content, renderOptionDpi )
+						* 72000d;
 				return (int) point;
 			}
 			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
@@ -493,7 +489,7 @@ public class PropertyUtil
 	}
 
 	public static int getImageDimensionValue( IContent content,
-			DimensionType d, int dpi, int referenceLength )
+			DimensionType d, int renderOptionDpi, int referenceLength )
 	{
 		if ( d == null )
 		{
@@ -501,7 +497,7 @@ public class PropertyUtil
 		}
 		try
 		{
-			return _getDimensionValue( content, d, dpi, referenceLength );
+			return _getDimensionValue( content, d, renderOptionDpi, referenceLength );
 		}
 		catch ( Exception e )
 		{

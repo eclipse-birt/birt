@@ -337,9 +337,9 @@ public class ImageAreaLayout implements ILayout
 				logger.log( Level.SEVERE, e.getLocalizedMessage( ) );
 			}
 			int specifiedWidth = PropertyUtil.getImageDimensionValue( content,
-					content.getWidth( ), resolutionX, pWidth );
+					content.getWidth( ), context.getDpi( ), pWidth );
 			int specifiedHeight = PropertyUtil.getImageDimensionValue( content,
-					content.getHeight( ), resolutionY, 0 );
+					content.getHeight( ), context.getDpi( ), 0 );
 
 			Dimension dim = new Dimension( DEFAULT_WIDHT, DEFAULT_HEIGHT );
 			if ( intrinsic == null )
