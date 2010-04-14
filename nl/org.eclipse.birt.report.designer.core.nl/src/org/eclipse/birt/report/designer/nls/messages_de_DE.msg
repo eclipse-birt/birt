@@ -1458,9 +1458,9 @@ ExportToLibraryAction.action.text=In Bibliothek e&xportieren...
 ExportToLibraryAction.Button.Cancel=Abbrechen
 ExportToLibraryAction.Button.No=Nein
 ExportToLibraryAction.Button.Yes=Ja
-ExportToLibraryAction.Dialog.Message=\nZielbibliothek verfügt eventuell über dasselbe Designelement. Möchten Sie es überschreiben?
-ExportToLibraryAction.Dialog.Title=Element exportieren
-ExportToLibraryAction.Message.RememberDecision=Antwort merken
+ExportToLibraryAction.Dialog.Message=\nTarget library might have the same design element. Do you wish to overwrite it?
+ExportToLibraryAction.Dialog.Title=Element exportieren 
+ExportToLibraryAction.Message.RememberDecision=&Remember my decision
 
 
 ###########################################################
@@ -4652,8 +4652,8 @@ ReportDocumentEditor.errorMessage=Fehler beim Öffnen des Dokuments im Editor.
 
 ###########################################################
 #Export Element Dialog
-ExportElementDialog.Dialog.Title=Element exportieren 
-ExportElementDialog.Dialog.Message=Wählen Sie den Speicherort für das Element aus. 
+ExportElementDialog.Dialog.Title=Export Elements to Library
+ExportElementDialog.Dialog.Message=Select the target Library or create a new target.
 ExportElementDialog.label.NewFile=&Neuer Dateiname:
 ExportElementDialog.ErrorMessage=Dateiname muss auf '.rptlibrary' enden. 
 ExportElementDialog.ErrorMessageInvalid=Ungültiger Dateiname. 

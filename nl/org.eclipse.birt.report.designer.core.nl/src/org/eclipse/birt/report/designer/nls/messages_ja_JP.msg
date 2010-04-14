@@ -1458,9 +1458,9 @@ ExportToLibraryAction.action.text=ライブラリにエクスポート(&X)...
 ExportToLibraryAction.Button.Cancel=キャンセル
 ExportToLibraryAction.Button.No=いいえ
 ExportToLibraryAction.Button.Yes=はい
-ExportToLibraryAction.Dialog.Message=\nエクスポート先のライブラリには、同じデザイン要素があります。上書きしますか ?
-ExportToLibraryAction.Dialog.Title=要素のエクスポート
-ExportToLibraryAction.Message.RememberDecision=次回から同じ設定を使う
+ExportToLibraryAction.Dialog.Message=\nTarget library might have the same design element. Do you wish to overwrite it?
+ExportToLibraryAction.Dialog.Title=要素のエクスポート 
+ExportToLibraryAction.Message.RememberDecision=&Remember my decision
 
 
 ###########################################################
@@ -4652,8 +4652,8 @@ ReportDocumentEditor.errorMessage=エディタで文書を開いた際にエラーが発生しました
 
 ###########################################################
 #Export Element Dialog
-ExportElementDialog.Dialog.Title=要素のエクスポート 
-ExportElementDialog.Dialog.Message=要素の設定先を選択してください。 
+ExportElementDialog.Dialog.Title=Export Elements to Library
+ExportElementDialog.Dialog.Message=Select the target Library or create a new target.
 ExportElementDialog.label.NewFile=新規ファイル名(&N) :
 ExportElementDialog.ErrorMessage=ファイル名の拡張子は .rptlibrary にしてください。 
 ExportElementDialog.ErrorMessageInvalid=ファイル名が無効です。 
