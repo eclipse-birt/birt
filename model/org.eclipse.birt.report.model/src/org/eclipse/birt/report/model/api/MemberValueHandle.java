@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -108,5 +110,19 @@ public class MemberValueHandle extends ContentElementHandle
 			}
 			setStringProperty( LEVEL_PROP, valueToSet );
 		}
+	}
+
+	/**
+	 * Returns the iterator for filter list defined on this member value.
+	 * 
+	 * @return the iterator for <code>FilterCond</code> structure list defined
+	 *         on a table or list.
+	 */
+
+	public Iterator<FilterConditionHandle> filtersIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
 	}
 }

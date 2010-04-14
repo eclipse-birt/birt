@@ -28,7 +28,12 @@ public interface IMemberValueModel
 	String LEVEL_PROP = "level"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that defins a list CrosstabMemberValue.
+	 * Name of the property that defines a list CrosstabMemberValue.
 	 */
 	String MEMBER_VALUES_PROP = "memberValues"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines a list of FilterCondition.
+	 */
+	String FILTER_PROP = "filter"; //$NON-NLS-1$
 }

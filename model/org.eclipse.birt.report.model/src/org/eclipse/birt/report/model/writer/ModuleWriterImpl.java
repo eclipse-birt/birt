@@ -3889,14 +3889,14 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ILevelModel.LEVEL_TYPE_PROP );
 		property( obj, ILevelModel.DEFAULT_VALUE_PROP );
 		property( obj, ILevelModel.ACL_EXPRESSION_PROP );
-		property( obj, ILevelModel.MEMBER_ACL_EXPRESSION_PROP );		
-		
+		property( obj, ILevelModel.MEMBER_ACL_EXPRESSION_PROP );
+
 		writeStructureList( obj, ILevelModel.STATIC_VALUES_PROP );
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
 
 		writeAction( obj, ILevelModel.ACTION_PROP );
 		writeStructure( obj, ILevelModel.FORMAT_PROP );
-		
+
 	}
 
 	/*
@@ -3929,7 +3929,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IMeasureModel.IS_CALCULATED_PROP );
 		property( obj, IMeasureModel.MEASURE_EXPRESSION_PROP );
 		property( obj, IMeasureModel.DATA_TYPE_PROP );
-		property( obj, IMeasureModel.ACL_EXPRESSION_PROP );		
+		property( obj, IMeasureModel.ACL_EXPRESSION_PROP );
 
 		writeAction( obj, IMeasureModel.ACTION_PROP );
 		writeStructure( obj, IMeasureModel.FORMAT_PROP );
@@ -4199,6 +4199,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		super.visitMemberValue( obj );
 		property( obj, IMemberValueModel.VALUE_PROP );
 		property( obj, IMemberValueModel.LEVEL_PROP );
+
+		writeStructureList( obj, IMemberValueModel.FILTER_PROP );
+
 		writeContents( obj, IMemberValueModel.MEMBER_VALUES_PROP );
 
 		writer.endElement( );

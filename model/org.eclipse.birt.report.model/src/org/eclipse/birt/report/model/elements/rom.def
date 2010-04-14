@@ -3690,7 +3690,8 @@
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.MemberValue" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.MemberValue" name="MemberValue" nameSpace="none" since="2.2" xmlName="member-value">
     <Property displayNameID="Element.MemberValue.value" name="value" since="2.2" type="literalString"/>
-    <Property detailType="Level" displayNameID="Element.MemberValue.level" name="level" since="2.2" type="elementRef"/>    
+    <Property detailType="Level" displayNameID="Element.MemberValue.level" name="level" since="2.2" type="elementRef"/>
+    <Property detailType="FilterCondition" displayNameID="Element.MemberValue.filter" isList="true" name="filter" since="2.5" type="structure"/>     
 	<Property displayNameID="Element.MemberValue.memberValues" isList="true" name="memberValues" since="2.2" type="contentElement">
 		<Type name="MemberValue"/>
 	</Property>        
