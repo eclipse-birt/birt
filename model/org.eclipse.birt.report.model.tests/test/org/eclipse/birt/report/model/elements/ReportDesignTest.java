@@ -12,19 +12,27 @@
 package org.eclipse.birt.report.model.elements;
 
 import java.net.URLDecoder;
+import java.util.List;
+
 import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import sun.security.action.OpenFileInputStreamAction;
 
 /**
  * Unit test for class ReportDesign.
  * 
- * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
- * collapse" bordercolor="#111111" width="100%" id="AutoNumber3" height="50">
+ * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: * collapse" bordercolor="#111111" width="100%" id="AutoNumber3" height="50">
  * <tr>
  * <td width="33%" height="16"><b>Method </b></td>
  * <td width="33%" height="16"><b>Test Case </b></td>
@@ -41,8 +49,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td></td>
  * <td>name is required and set name isn't null ,but namespace contains this
  * name</td>
- * <td>value format is baseName + " " + ++index ,value is "firstDataSet 1"
- * </td>
+ * <td>value format is baseName + " " + ++index ,value is "firstDataSet 1"</td>
  * </tr>
  * 
  * <tr>
@@ -53,28 +60,12 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </tr>
  * 
  * </table>
- *  
+ * 
  */
 public class ReportDesignTest extends BaseTestCase
 {
 
 	private String fileName = "ReportDesignTest.xml"; //$NON-NLS-1$
-
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
-	 * @see TestCase#tearDown()
-	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
 
 	/**
 	 * test makeUniqueName().
@@ -146,5 +137,32 @@ public class ReportDesignTest extends BaseTestCase
 				"./ReportDesignTest.xml", IResourceLocator.IMAGE ) ); //$NON-NLS-1$
 		assertFalse( design.isFileExist( "1.jpg", IResourceLocator.IMAGE ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Test method collectPropValues()
+	 * 
+	 * @throws Exception
+	 */
+	public void testCollectProperties( ) throws Exception
+	{
+		openDesign( fileName );
+		List<Object> list = design.collectPropValues(
+				IReportDesignModel.BODY_SLOT, IReportItemModel.BOOKMARK_PROP );
+		assertEquals( 2, list.size( ) );
+		assertTrue( list.get( 0 ) instanceof Expression );
+		assertTrue( list.get( 1 ) instanceof Expression );
+		assertEquals( "TableBookmark", ( (Expression) list.get( 0 ) ) //$NON-NLS-1$
+				.getStringExpression( ) );
+		assertEquals( "DataBookmark", ( (Expression) list.get( 1 ) ) //$NON-NLS-1$
+				.getStringExpression( ) );
+
+		list = design.collectPropValues( IReportDesignModel.BODY_SLOT,
+				IReportItemModel.TOC_PROP );
+		assertEquals( 2, list.size( ) );
+		assertTrue( list.get( 0 ) instanceof TOC );
+		assertTrue( list.get( 1 ) instanceof TOC );
+		assertEquals( "TableToc", ( (TOC) list.get( 0 ) ).getExpression( ) ); //$NON-NLS-1$
+		assertEquals( "DataToc", ( (TOC) list.get( 1 ) ).getExpression( ) ); //$NON-NLS-1$
 	}
 }

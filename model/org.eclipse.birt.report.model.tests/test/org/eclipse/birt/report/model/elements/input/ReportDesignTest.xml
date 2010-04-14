@@ -62,5 +62,42 @@
                 </list>
             </report-items>
         </free-form>
+        <table>
+            <property name="dataSet">firstDataSet</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <text-property name="displayName">CUSTOMERNAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>              
+            </list-property>
+            <expression name="bookmark" type="javascript">TableBookmark</expression>
+            <structure name="toc">
+                <expression name="expressionValue" type="javascript">TableToc</expression>
+            </structure>
+            <property name="multiViews">
+                <multi-views>
+                    <property name="index">-1</property>
+                    <property name="views">
+                        <extended-item extensionName="Chart"/>
+                    </property>
+                </multi-views>
+            </property>
+            <column/>    
+            <detail>
+                <row>
+                    <cell>
+                        <data>
+                            <expression name="bookmark" type="javascript">DataBookmark</expression>
+                            <structure name="toc">
+                                <expression name="expressionValue" type="javascript">DataToc</expression>
+                            </structure>
+                            <property name="resultSetColumn">CUSTOMERNAME</property>
+                        </data>
+                    </cell>       
+                </row>
+            </detail>     
+        </table>        
     </body>
 </report>
