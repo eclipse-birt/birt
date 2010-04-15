@@ -11,6 +11,7 @@
 package org.eclipse.birt.data.engine.impl.rd;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +21,8 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -1471,6 +1474,45 @@ public class ViewingTest extends RDTestCase
 		qr.close( );
 		myGenDataEngine.shutdown( );
 	}
+	
+	public void testSourceQueryWithDistinctAndAutoBinding( ) throws BirtException
+	{
+		QueryDefinition sourceQuery = newReportQuery( );
+		sourceQuery.setAutoBinding( true );
+		
+		QueryDefinition qd = new QueryDefinition( );
+		qd.setDistinctValue( true );
+		qd.addBinding( new Binding( "CITY", new ScriptExpression( "dataSetRow[\"CITY\"]" ) ) );
+		IFilterDefinition[] filters = new IFilterDefinition[1];
+		List<String> operandList = new ArrayList<String>( );
+		operandList.add( "\"CHINA\"" );
+		filters[0] = new FilterDefinition( new ConditionalExpression( "dataSetRow[\"COUNTRY\"]",
+		IConditionalExpression.OP_IN, operandList ) );
+		for ( IFilterDefinition df : filters )
+		{
+		   qd.addFilter( df );
+		}
+		qd.setSourceQuery( sourceQuery );
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( qd )
+			.execute( scope );
+
+		// important step
+		queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		List<String> cities = new ArrayList<String>( );
+		while ( ri.next( ) )
+		{
+			cities.add( ri.getString( "CITY" ) );
+		}
+		assertTrue( Arrays.deepEquals( new String[]{"Beijing", "Shanghai"}, 
+				cities.toArray( new String[0]) ));
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+	}
+	
 	/**
 	 * @throws BirtException
 	 */

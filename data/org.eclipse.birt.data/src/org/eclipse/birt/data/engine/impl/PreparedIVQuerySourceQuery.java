@@ -393,23 +393,25 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 			{
 				if( queryDefinition.needAutoBinding( ) )
 				{
-					IBinding[] currentBindings = (IBinding[]) queryDefn.getBindings( ).values( ).toArray( new IBinding[0] );
-					bindings = new IBinding[currentBindings.length];
-					for( int i = 0;i<bindings.length;i++)
+					try
 					{
-						if ( currentBindings[i].getExpression( ) instanceof ScriptExpression )
+						IResultMetaData metaData = queryResults.getResultMetaData( );
+						bindings = new IBinding[ metaData.getColumnCount( ) ];
+						for ( int i = 1; i <= metaData.getColumnCount( ); i++ )
 						{
-							try
+							String colName = metaData.getColumnName( i );
+							if ( ServiceForQueryResults.isTempColumn( colName ))
 							{
-								String columnName = ExpressionUtil.getColumnName( 
-												( (ScriptExpression) currentBindings[i].getExpression( ) ).getText( ) );
-								bindings[i] = new Binding( columnName, currentBindings[i].getExpression( ) );
+								continue;
 							}
-							catch ( BirtException e )
-							{
-								throw DataException.wrap( e );
-							}
+							ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),
+									metaData.getColumnType( i ) );
+							bindings[i-1] = new Binding( colName, baseExpr );
 						}
+					}
+					catch ( BirtException e1 )
+					{
+						throw DataException.wrap( e1 );
 					}
 					resultClass = createResultClass( bindings, temporaryComputedColumns );
 				}
