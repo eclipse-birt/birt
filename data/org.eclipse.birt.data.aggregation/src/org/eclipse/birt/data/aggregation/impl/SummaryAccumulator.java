@@ -93,7 +93,7 @@ public abstract class SummaryAccumulator extends Accumulator
 
 	/**
 	 * try to convert <code>obj</code> to Double object.
-	 * if it failes, a DataException will be thrown.
+	 * if it fails, a DataException will be thrown.
 	 * @param obj
 	 * @return
 	 * @throws DataException
