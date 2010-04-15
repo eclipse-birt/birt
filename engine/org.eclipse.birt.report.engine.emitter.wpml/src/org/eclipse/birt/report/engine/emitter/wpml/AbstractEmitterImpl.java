@@ -210,7 +210,15 @@ public abstract class AbstractEmitterImpl
 
 	public void start( IReportContent report )
 	{
-		reportDpi = PropertyUtil.getRenderDpi( report, 0 );
+		Object dpi = report
+		.getReportContext( ).getRenderOption( ).getOption(
+				IRenderOption.RENDER_DPI );
+		int renderDpi =0;
+		if ( dpi != null && dpi instanceof Integer )
+		{
+			renderDpi = ( (Integer) dpi ).intValue( );
+		}
+		reportDpi = PropertyUtil.getRenderDpi( report, renderDpi );
 		this.reportContent = report;
 		if ( null == layoutPreference )
 		{
@@ -723,12 +731,18 @@ public abstract class AbstractEmitterImpl
 			int imageFileHeightDpi = imageInfo.getPhysicalHeightDpi( ) == -1
 					? 0
 					: imageInfo.getPhysicalHeightDpi( );
-			height = WordUtil.convertImageSize( image.getHeight( ), imageInfo
-					.getHeight( ), PropertyUtil.getImageDpi( image,
-					imageFileHeightDpi, 0 ) );
-			width = WordUtil.convertImageSize( image.getWidth( ), imageInfo
-					.getWidth( ), PropertyUtil.getImageDpi( image,
-					imageFileWidthDpi, 0 ) );
+			if ( image.getHeight( ) == null )
+			{
+				height = WordUtil.convertImageSize( image.getHeight( ),
+						imageInfo.getHeight( ), PropertyUtil.getImageDpi(
+								image, imageFileHeightDpi, 0 ) );
+			}
+			if ( image.getWidth( ) == null )
+			{
+				width = WordUtil.convertImageSize( image.getWidth( ), imageInfo
+						.getWidth( ), PropertyUtil.getImageDpi( image,
+						imageFileWidthDpi, 0 ) );
+			}
 
 			writeBookmark( image );
 			writeToc( image );

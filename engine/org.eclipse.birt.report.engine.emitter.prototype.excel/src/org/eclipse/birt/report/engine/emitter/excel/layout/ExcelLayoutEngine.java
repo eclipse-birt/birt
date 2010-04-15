@@ -702,11 +702,24 @@ public class ExcelLayoutEngine
 			int imageFileHeightDpi = imageInfo.getPhysicalHeightDpi( ) == -1
 					? 0
 					: imageInfo.getPhysicalHeightDpi( );
-			imageWidthDpi = PropertyUtil.getImageDpi( image, imageFileWidthDpi,
-					0 );
-			imageHeightDpi = PropertyUtil.getImageDpi( image,
-					imageFileHeightDpi, 0 );
-
+			if ( image.getWidth( ) == null )
+			{
+				imageWidthDpi = PropertyUtil.getImageDpi( image,
+						imageFileWidthDpi, 0 );
+			}
+			else
+			{
+				imageWidthDpi = reportDpi;
+			}
+			if ( image.getHeight( ) == null )
+			{
+				imageHeightDpi = PropertyUtil.getImageDpi( image,
+						imageFileHeightDpi, 0 );
+			}
+			else
+			{
+				imageHeightDpi = reportDpi;
+			}
 		}
 		catch ( IOException ex )
 		{

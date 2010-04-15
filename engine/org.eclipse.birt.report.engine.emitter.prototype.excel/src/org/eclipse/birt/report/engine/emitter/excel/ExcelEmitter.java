@@ -185,7 +185,14 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private void parsePageSize( IReportContent report )
 	{
-		reportDpi = PropertyUtil.getRenderDpi( report, 0 );
+		Object dpi = report.getReportContext( ).getRenderOption( ).getOption(
+				IRenderOption.RENDER_DPI );
+		int renderDpi = 0;
+		if ( dpi != null && dpi instanceof Integer )
+		{
+			renderDpi = ( (Integer) dpi ).intValue( );
+		}
+		reportDpi = PropertyUtil.getRenderDpi( report, renderDpi );
 		SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) report
 				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
 		this.pageWidth = ExcelUtil.convertDimensionType( masterPage
