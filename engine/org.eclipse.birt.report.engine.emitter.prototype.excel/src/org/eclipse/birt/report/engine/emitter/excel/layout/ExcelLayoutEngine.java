@@ -33,7 +33,6 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.excel.BlankData;
-import org.eclipse.birt.report.engine.emitter.excel.BlankData.Type;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
@@ -48,6 +47,7 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
+import org.eclipse.birt.report.engine.emitter.excel.BlankData.Type;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
@@ -702,11 +702,24 @@ public class ExcelLayoutEngine
 			int imageFileHeightDpi = imageInfo.getPhysicalHeightDpi( ) == -1
 					? 0
 					: imageInfo.getPhysicalHeightDpi( );
-			imageWidthDpi = PropertyUtil.getImageDpi( image, imageFileWidthDpi,
-					0 );
-			imageHeightDpi = PropertyUtil.getImageDpi( image,
-					imageFileHeightDpi, 0 );
-
+			if ( image.getWidth( ) == null )
+			{
+				imageWidthDpi = PropertyUtil.getImageDpi( image,
+						imageFileWidthDpi, 0 );
+			}
+			else
+			{
+				imageWidthDpi = reportDpi;
+			}
+			if ( image.getHeight( ) == null )
+			{
+				imageHeightDpi = PropertyUtil.getImageDpi( image,
+						imageFileHeightDpi, 0 );
+			}
+			else
+			{
+				imageHeightDpi = reportDpi;
+			}
 		}
 		catch ( IOException ex )
 		{
