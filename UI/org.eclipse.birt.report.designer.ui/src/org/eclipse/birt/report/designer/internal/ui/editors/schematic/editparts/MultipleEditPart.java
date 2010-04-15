@@ -35,7 +35,9 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.swt.widgets.Display;
 
@@ -64,7 +66,14 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 		installEditPolicy( EditPolicy.COMPONENT_ROLE,
 				new ReportComponentEditPolicy( ) );
 		installEditPolicy( EditPolicy.LAYOUT_ROLE,
-				new ReportFlowLayoutEditPolicy( ) );
+				new ReportFlowLayoutEditPolicy( )
+		{
+			@Override
+			protected Command getAddCommand( Request req )
+			{
+				return UnexecutableCommand.INSTANCE;
+			}
+		});
 	}
 
 	/* (non-Javadoc)
