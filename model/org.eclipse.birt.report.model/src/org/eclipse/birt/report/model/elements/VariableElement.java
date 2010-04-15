@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.core.Module;
 public class VariableElement extends ContentElement
 {
 
+	protected VariableElementHandle handle = null;
+
 	/**
 	 * Default constructor.
 	 */
@@ -76,7 +78,16 @@ public class VariableElement extends ContentElement
 
 	public VariableElementHandle handle( Module module )
 	{
-		return new VariableElementHandle( module, this );
+		if ( handle == null )
+		{
+			Module root = getRoot( );
+			if ( root != null && root != module )
+				throw new IllegalArgumentException(
+						"Illgal varialble element handle generation!" ); //$NON-NLS-1$
+			handle = new VariableElementHandle( module, this );
+		}
+
+		return handle;
 	}
 
 	/*
