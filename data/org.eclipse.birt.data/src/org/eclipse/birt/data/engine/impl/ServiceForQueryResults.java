@@ -987,7 +987,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			{
 				String colName = metaData.getFieldName( colIndex );
 				
-				if ( isTemp( colName ) )
+				if ( isTempColumn( colName ) )
 				{
 					continue;
 				}
@@ -1008,7 +1008,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		
 	}
 	
-	private boolean isTemp( String name )
+	public static boolean isTempColumn( String name )
 	{
 		return ( name.matches( "\\Q_{$TEMP_GROUP_\\E\\d*\\Q$}_\\E" )
 				|| name.matches( "\\Q_{$TEMP_SORT_\\E\\d*\\Q$}_\\E" ) || name.matches( "\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E" ) );
