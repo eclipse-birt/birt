@@ -148,9 +148,9 @@ public class TabularDimension extends Dimension
 	 */
 	public boolean isManagedByNameSpace( )
 	{
-		// if dimension refers a shared dimension, not managed by name space
-		if ( TabularDimensionPropSearchStrategy.getSharedDimension( getRoot( ),
-				this ) != null )
+		// if dimension refers a shared dimension whether it is resolved or not,
+		// not managed by name space
+		if ( getProperty( getRoot( ), INTERNAL_DIMENSION_RFF_TYPE_PROP ) != null )
 			return false;
 		return super.isManagedByNameSpace( );
 	}
