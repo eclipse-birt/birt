@@ -56,7 +56,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
-import org.eclipse.birt.report.model.elements.strategy.TabularDimensionPropSearchStrategy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -1919,7 +1918,7 @@ public abstract class DesignElement
 
 	public String getDisplayName( )
 	{
-		return (String) getLocalProperty( null, DISPLAY_NAME_PROP );
+		return (String) getProperty( null, DISPLAY_NAME_PROP );
 	}
 
 	/**
