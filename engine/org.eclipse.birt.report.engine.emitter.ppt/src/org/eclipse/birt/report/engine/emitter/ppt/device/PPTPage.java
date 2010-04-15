@@ -20,7 +20,10 @@ import java.util.Map;
 import org.eclipse.birt.report.engine.emitter.ppt.PPTWriter;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
+
+import com.lowagie.text.pdf.BaseFont;
 
 public class PPTPage extends AbstractPage
 {
@@ -112,8 +115,11 @@ public class PPTPage extends AbstractPage
 		// width of text is enlarged by 1 point because in ppt the text will be
 		// automatically wrapped if the width of textbox equals to the width of
 		// text exactly.
-		writer.drawText( text, textX, textY, width, height, textStyle
-				.getFontInfo( ), textStyle.getColor( ), textStyle.isRtl( ), link );
+		FontInfo fontInfo = textStyle.getFontInfo( );
+		float descend = fontInfo.getBaseFont( ).getFontDescriptor(
+				BaseFont.DESCENT, fontInfo.getFontSize( ) );
+		writer.drawText( text, textX, textY, width, height + descend * 0.6f,
+				fontInfo, textStyle.getColor( ), textStyle.isRtl( ), link );
 	}
 
 	public void setLink( HyperlinkDef link )
