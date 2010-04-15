@@ -126,6 +126,10 @@ public class RDAggrUtil
 			if ( this.contains( aggrName ) )
 			{
 				Object value = holders.get( aggrName ).get( groupInstanceIndex );
+
+				if ( value != null && value instanceof BirtException )
+					throw (BirtException) value;
+				
 				if ( qd != null && qd.getBindings( ).containsKey( aggrName ))
 				{
 					IBinding b = (IBinding)qd.getBindings( ).get( aggrName );
@@ -144,7 +148,7 @@ public class RDAggrUtil
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( e.getLocalizedMessage( ), e );
+			throw new DataException( e.getErrorCode( ), e );
 		}
 	}
 
