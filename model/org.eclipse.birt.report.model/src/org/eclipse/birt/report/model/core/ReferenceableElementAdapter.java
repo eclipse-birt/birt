@@ -95,6 +95,9 @@ public class ReferenceableElementAdapter
 
 	public void addClient( DesignElement client, String propName )
 	{
+		if ( client == element )
+			throw new IllegalArgumentException(
+					"Can not set itself as the reference client!" ); //$NON-NLS-1$
 		clients.add( new BackRef( client, propName ) );
 	}
 

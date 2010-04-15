@@ -42,6 +42,10 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -363,12 +367,26 @@ public class ContentCommand extends AbstractContentCommand
 		List<BackRef> clients = new ArrayList<BackRef>( referred
 				.getClientList( ) );
 
+		boolean isDimension = referred instanceof Dimension;
+
 		Iterator<BackRef> iter = clients.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			BackRef ref = iter.next( );
 			DesignElement client = ref.getElement( );
-			if ( unresolveReference )
+			if ( isDimension
+					&& ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP
+							.equals( ref.getPropertyName( ) ) )
+			{
+				// when the share dimension is drop, drop the cube dimension
+				ContainerContext context = client.getContainerInfo( );
+				assert client instanceof TabularDimension
+						&& context.getElement( ) instanceof Cube;
+				ContentCommand command = new ContentCommand( client.getRoot( ),
+						context );
+				command.remove( client );
+			}
+			else if ( unresolveReference )
 			{
 				BackRefRecord record = null;
 				if ( client != null )
