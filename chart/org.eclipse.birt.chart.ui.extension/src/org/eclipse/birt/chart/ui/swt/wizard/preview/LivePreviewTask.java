@@ -143,6 +143,30 @@ public class LivePreviewTask implements Runnable
 		return parameters.get( key );
 	}
 	
+	/**
+	 * Sets parameters map.
+	 * 
+	 * @param parameters
+	 */
+	public void setParameters(Map<String, Object> parameters)
+	{
+		this.parameters = parameters;
+	}
+	
+	/**
+	 * Returns parameters map.
+	 * 
+	 * @return
+	 */
+	public Map<String, Object> getParameters()
+	{
+		if (this.parameters.isEmpty( ))
+		{
+			return null;
+		}
+		return this.parameters;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */

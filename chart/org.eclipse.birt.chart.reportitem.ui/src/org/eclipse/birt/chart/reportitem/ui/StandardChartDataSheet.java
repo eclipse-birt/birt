@@ -55,7 +55,10 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
+import org.eclipse.birt.chart.ui.swt.wizard.preview.ChartLivePreviewThread;
+import org.eclipse.birt.chart.ui.swt.wizard.preview.LivePreviewTask;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -186,6 +189,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private Label dataPreviewDescription;
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
 			.createExpressionCodec( );
+	
+	private final String HEAD_INFO = "HeaderInfo"; //$NON-NLS-1$
+	
+	private final String DATA_LIST = "DataList"; //$NON-NLS-1$
+	
+	private Composite parentComposite;
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider, int iSupportedDataItems )
@@ -827,33 +836,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		else
 		{
-			refreshColumnsListView( );
+			refreshDataPreview( );
 		}
 	}
-
-	/**
-	 * 
-	 */
-	private void refreshColumnsListView( )
+	
+	private void refreshDataPreview()
 	{
-		// if ( dataProvider.getDataSetFromHandle( ) == null )
-		// {
-		// return;
-		// }
-		//		
-		// if ( isCubeMode( ) )
-		// {
-		//
-		// }
-		
-		// 1. Create a runnable.
-		Runnable runnable = new Runnable( ) {
+		final boolean isTablePreview = getContext( ).isShowingDataPreview( );
+		LivePreviewTask lpt = new LivePreviewTask( Messages.getString("StandardChartDataSheet.Message.RetrieveData"), //$NON-NLS-1$
+				null );
+		// Add a task to retrieve data and bind data to chart.
+		lpt.addTask( new LivePreviewTask( ) {
 
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
-			 */
 			public void run( )
 			{
 				ColumnBindingInfo[] headers = null;
@@ -868,18 +862,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						dataList = getPreviewData( );
 					}
 
-					final ColumnBindingInfo[] headerInfo = headers;
-					final List<?> data = dataList;
-					// Execute UI operation in UI thread.
-					Display.getDefault( ).syncExec( new Runnable( ) {
-
-						public void run( )
-						{
-							updateColumnsTableViewer( headerInfo, data );
-							ChartWizard.removeException( ChartWizard.StaChartDSh_dPreview_ID );
-						}
-
-					} );
+					this.setParameter( HEAD_INFO, headers );
+					this.setParameter( DATA_LIST, dataList );
 				}
 				catch ( Exception e )
 				{
@@ -897,19 +881,62 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						 */
 						public void run( )
 						{
-
-							updateColumnsTableViewer( headerInfo, data );
+							if ( isTablePreview )
+							{
+								// Still update table preview in here to ensure
+								// the
+								// column headers of table preview can be
+								// updated
+								// and user can select expression from table
+								// preview
+								// even if there is no preview data.
+								updateTablePreview( headerInfo, data );
+							}
+							else
+							{
+								updateColumnsTableViewer( headerInfo, data );
+							}
 							ChartWizard.showException( ChartWizard.StaChartDSh_dPreview_ID,
 									message );
 						}
 					} );
 				}
 			}
-		};
+		} );
 
-		// 2. Run it.
-		new Thread( runnable ).start( );
+		// Add a task to render chart.
+		lpt.addTask( new LivePreviewTask( ) {
+
+			public void run( )
+			{
+
+				final ColumnBindingInfo[] headerInfo = (ColumnBindingInfo[]) this.getParameter( HEAD_INFO );
+				final List<?> data = (List<?>) this.getParameter( DATA_LIST );
+				// Execute UI operation in UI thread.
+				Display.getDefault( ).syncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						if ( isTablePreview )
+						{
+							updateTablePreview( headerInfo, data );
+						}
+						else
+						{
+							updateColumnsTableViewer( headerInfo, data );
+						}
+						ChartWizard.removeException( ChartWizard.StaChartDSh_dPreview_ID );
+					}
+
+				} );
+			}
+		} );
+		
+		// Add live preview tasks to live preview thread.
+		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).setParentShell( parentComposite.getShell( ) );
+		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).add( lpt );
 	}
+
 
 	/**
 	 * @param headerInfo
@@ -942,6 +969,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	@Override
 	public Composite createDataSelector( Composite parent )
 	{
+		parentComposite = parent;
 		// select the only data set
 		if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
 				&& itemHandle.getContainer( ) instanceof ModuleHandle )
@@ -1759,68 +1787,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			return;
 		}
-		// 1. Create a runnable.
-		Runnable runnable = new Runnable( ) {
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
-			 */
-			public void run( )
-			{
-				ColumnBindingInfo[] headers = null;
-				List<?> dataList = null;
-				try
-				{
-					// Get header and data in other thread.
-					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
-					dataList = getPreviewData( );
-
-					final ColumnBindingInfo[] headerInfo = headers;
-					final List<?> data = dataList;
-					// Execute UI operation in UI thread.
-					Display.getDefault( ).syncExec( new Runnable( ) {
-
-						public void run( )
-						{
-							updateTablePreview( headerInfo, data );
-							ChartWizard.removeException( ChartWizard.StaChartDSh_dPreview_ID );
-						}
-					} );
-				}
-				catch ( Exception e )
-				{
-					final ColumnBindingInfo[] headerInfo = headers;
-					final List<?> data = dataList;
-
-					// Catch any exception.
-					final String message = e.getMessage( );
-					Display.getDefault( ).syncExec( new Runnable( ) {
-
-						/*
-						 * (non-Javadoc)
-						 * 
-						 * @see java.lang.Runnable#run()
-						 */
-						public void run( )
-						{
-							// Still update table preview in here to ensure the
-							// column headers of table preview can be updated
-							// and user can select expression from table preview
-							// even if there is no preview data.
-							updateTablePreview( headerInfo, data );
-
-							ChartWizard.showException( ChartWizard.StaChartDSh_dPreview_ID,
-									message );
-						}
-					} );
-				}
-			}
-		};
-
-		// 2. Run it.
-		new Thread( runnable ).start( );
+		refreshDataPreview( );
 	}
 
 	private void refreshTableColor( )
