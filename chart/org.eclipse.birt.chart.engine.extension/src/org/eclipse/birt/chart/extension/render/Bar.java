@@ -713,12 +713,13 @@ public final class Bar extends AxesRenderer
 						// Adjusts last position for the study layout.
 						au = ssl.getUnit( bs, i ); // UNIT POSITIONS (MAX, MIN) FOR
 						// INDEX = 'i'
-						dValue = Methods.asDouble( dpha[i].getOrthogonalValue( ) );
+						Object oValue = dpha[i].getOrthogonalValue( );
+						dValue = oValue == null ? 0 : Methods.asDouble( oValue  );
 						try
 						{
 							// Calculate orthogonal Y position and save it as next
 							// base location.
-							double dMargin = srh.getLocationOnOrthogonal( dpha[i].getOrthogonalValue( ) )
+							double dMargin = srh.getLocationOnOrthogonal( oValue == null ? 0 : oValue )
 									- srh.getLocationOnOrthogonal( srh.getOrthogonalScale( )
 											.getMinimum( ) );
 							double lastPosition = au.getLastPosition( dValue );
