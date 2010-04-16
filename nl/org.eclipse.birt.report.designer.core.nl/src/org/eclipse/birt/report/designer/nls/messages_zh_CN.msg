@@ -4115,7 +4115,7 @@ JsFileFormProvider.Column.Name=名称
 ReportPageGenerator.List.Resources.JsFile=Javascript 文件:
 
 PropertiesFileFormProvider.Column.Name=名称
-ReportPageGenerator.List.Resources.PropertiesFile=Properties Files:
+ReportPageGenerator.List.Resources.PropertiesFile=属性文件:
 
 ###########################################################
 #ClassFinder
@@ -4483,7 +4483,7 @@ CubePageGenerator.List.AdvancedProperty=高级
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=库
-LibraryLayoutEditorFormPage.warning.message=To add a report item to the library, drag the item from the palette or use the insert menu.\n\nTo view report items in the editor, click on them in the outline view.
+LibraryLayoutEditorFormPage.warning.message=要向库中添加报表项，从选项板中拖动项目或使用插入菜单。\n\n要在编辑器中查看报表项，请单击大纲视图中的报表项。
 LibraryLayoutEditorFormPage.warning.prompt=不再显示此消息(&D)
 
 ###########################################################

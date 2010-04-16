@@ -4115,7 +4115,7 @@ JsFileFormProvider.Column.Name=이름
 ReportPageGenerator.List.Resources.JsFile=Javascript 파일:
 
 PropertiesFileFormProvider.Column.Name=이름
-ReportPageGenerator.List.Resources.PropertiesFile=Properties Files:
+ReportPageGenerator.List.Resources.PropertiesFile=속성 파일:
 
 ###########################################################
 #ClassFinder
@@ -4483,7 +4483,7 @@ CubePageGenerator.List.AdvancedProperty=고급
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=라이브러리
-LibraryLayoutEditorFormPage.warning.message=To add a report item to the library, drag the item from the palette or use the insert menu.\n\nTo view report items in the editor, click on them in the outline view.
+LibraryLayoutEditorFormPage.warning.message=라이브러리에 보고서 항목을 추가하려면 색상표에서 항목을 끌어 오거나 삽입 메뉴를 사용하십시오.\n\n편집기에서 보고서 항목을 보려면 윤곽선 보기에서 항목을 클릭하십시오.
 LibraryLayoutEditorFormPage.warning.prompt=이 메시지를 다시 표시 안 함(&D)
 
 ###########################################################

@@ -4115,7 +4115,7 @@ JsFileFormProvider.Column.Name=名前
 ReportPageGenerator.List.Resources.JsFile=JavaScriptファイル :
 
 PropertiesFileFormProvider.Column.Name=名前
-ReportPageGenerator.List.Resources.PropertiesFile=Properties Files:
+ReportPageGenerator.List.Resources.PropertiesFile=プロパティファイル :
 
 ###########################################################
 #ClassFinder
@@ -4483,7 +4483,7 @@ CubePageGenerator.List.AdvancedProperty=詳細設定
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=ライブラリ
-LibraryLayoutEditorFormPage.warning.message=To add a report item to the library, drag the item from the palette or use the insert menu.\n\nTo view report items in the editor, click on them in the outline view.
+LibraryLayoutEditorFormPage.warning.message=レポート項目をライブラリに追加するには、パレットから項目をドラッグするか、[挿入] メニューを使用します。\n\nレポート項目をエディタで表示するには、アウトラインビューでレポート項目をクリックします。
 LibraryLayoutEditorFormPage.warning.prompt=今後、このメッセージを表示しない(&D)
 
 ###########################################################
