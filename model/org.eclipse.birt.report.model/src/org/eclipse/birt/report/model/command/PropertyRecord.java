@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
@@ -325,10 +326,12 @@ public class PropertyRecord extends SimpleRecord
 
 			List<Structure> structs = (List<Structure>) values;
 			int count = structs.size( );
+			Module module = element.getRoot( );
 			for ( int i = 0; i < count; i++ )
 			{
-				context.remove( 0 );
-				adjustReferredClients( structs.get( i ) );
+				Structure struct = context.getStructureAt( module, 0 );
+				context.remove( struct );
+				adjustReferredClients( struct );
 			}
 		}
 	}
