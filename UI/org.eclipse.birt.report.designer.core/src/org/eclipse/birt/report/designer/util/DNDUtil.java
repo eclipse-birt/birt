@@ -1250,6 +1250,11 @@ public final class DNDUtil
 			{
 				return CONTAIN_NO;
 			}
+			Object root = targetHandle.getElementHandle( ).getModuleHandle( );
+			if (!(root instanceof ReportDesignHandle || root instanceof LibraryHandle))
+			{
+				return CONTAIN_NO;
+			}
 			return targetHandle.getElementHandle( )
 					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;

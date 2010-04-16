@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -518,7 +519,9 @@ public class ReportTemplateTransferDropTargetListener extends
 					return false;
 				}
 			}
-			return true;
+			Object root = getTargetEditPart( ).getRoot( ).getModel( );
+			return root instanceof ReportDesignHandle || root instanceof LibraryHandle;
+			//return true;
 		}
 		return false;
 	} /*
