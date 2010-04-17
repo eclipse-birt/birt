@@ -42,6 +42,7 @@ import org.mozilla.javascript.Scriptable;
 
 public class OlapExpressionUtil
 {
+
 	/**
 	 * get the attribute reference name.
 	 * 
@@ -55,7 +56,7 @@ public class OlapExpressionUtil
 	{
 		return dimName + '/' + levelName + '/' + attrName;
 	}
-	
+
 	/**
 	 * 
 	 * @param originalMeasureName
@@ -66,6 +67,7 @@ public class OlapExpressionUtil
 	{
 		return "_&$" + originalMeasureName + "$&_";
 	}
+
 	/**
 	 * 
 	 * @param expr
@@ -73,18 +75,18 @@ public class OlapExpressionUtil
 	 */
 	public static boolean isReferenceToDimLevel( String expr )
 	{
-		if( expr == null )
+		if ( expr == null )
 			return false;
 		return expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" );
 	}
-	
+
 	/**
 	 * This method is used to get the level name that reference by a level
 	 * reference expression of following format:
 	 * dimension["dimensionName"]["levelName"].
 	 * 
-	 * String[0] dimensionName;
-	 * String[1] levelName;
+	 * String[0] dimensionName; String[1] levelName;
+	 * 
 	 * @param expr
 	 * @return String[]
 	 */
@@ -104,18 +106,17 @@ public class OlapExpressionUtil
 			result[2] = result[2].replaceAll( "\\Q\"]\\E", "" );
 		return result;
 	}
-	
+
 	/**
-	 * This method is used to get the dimension,level,attributes name that reference by a level&attribute
-	 * reference expression of following format:
+	 * This method is used to get the dimension,level,attributes name that
+	 * reference by a level&attribute reference expression of following format:
 	 * dimension["dimensionName"]["levelName"]["attributeName"].
 	 * 
-	 * String[0] dimensionName;
-	 * String[1] levelName;
-	 * String[2] attributeName;
+	 * String[0] dimensionName; String[1] levelName; String[2] attributeName;
+	 * 
 	 * @param expr
 	 * @return String[]
-	 * @throws DataException 
+	 * @throws DataException
 	 */
 	private static String[] getTargetAttribute( String expr, List bindings )
 			throws DataException
@@ -160,14 +161,15 @@ public class OlapExpressionUtil
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 
 	 * @param expr
 	 * @return
 	 * @throws DataException
 	 */
-	public static DimLevel getTargetDimLevel( String expr ) throws DataException
+	public static DimLevel getTargetDimLevel( String expr )
+			throws DataException
 	{
 		final String[] target = getTargetLevel( expr );
 		if ( target == null || target.length < 2 )
@@ -196,18 +198,18 @@ public class OlapExpressionUtil
 	 */
 	public static String getMeasure( String expr ) throws DataException
 	{
-		if( expr == null )
+		if ( expr == null )
 			return null;
-		
-		String result = findMeasure(expr);
-		if ( result == null  )
+
+		String result = findMeasure( expr );
+		if ( result == null )
 			throw new DataException( ResourceConstants.INVALID_MEASURE_REF,
 					expr );
 
 		return result;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param expr
@@ -215,16 +217,16 @@ public class OlapExpressionUtil
 	 */
 	private static String findMeasure( String expr )
 	{
-		if( expr == null )
+		if ( expr == null )
 			return null;
-		
+
 		if ( !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
 			return null;
 
 		return expr.replaceFirst( "\\Qmeasure[\"\\E", "" )
 				.replaceFirst( "\\Q\"]\\E", "" );
 	}
-	
+
 	/**
 	 * 
 	 * @param expr
@@ -232,14 +234,14 @@ public class OlapExpressionUtil
 	 */
 	public static String getMeasure( IBaseExpression expr )
 	{
-		if( expr instanceof IScriptExpression )
+		if ( expr instanceof IScriptExpression )
 		{
-			return findMeasure(((IScriptExpression) expr).getText());
+			return findMeasure( ( (IScriptExpression) expr ).getText( ) );
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * to check whether the expression directly reference to a dimension or
 	 * measure
@@ -275,9 +277,10 @@ public class OlapExpressionUtil
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Return the binding name of data["binding"]
+	 * 
 	 * @param expr
 	 * @return
 	 */
@@ -289,7 +292,7 @@ public class OlapExpressionUtil
 			return null;
 		return expr.replaceFirst( "\\Qdata[\"\\E", "" )
 				.replaceFirst( "\\Q\"]\\E", "" );
-	
+
 	}
 
 	/**
@@ -302,7 +305,7 @@ public class OlapExpressionUtil
 	{
 		return level + "/" + attribute;
 	}
-	
+
 	/**
 	 * 
 	 * @param dimentionName
@@ -314,7 +317,7 @@ public class OlapExpressionUtil
 	{
 		return dimensionName + "/" + levelName;
 	}
-	
+
 	/**
 	 * 
 	 * @param level
@@ -324,16 +327,17 @@ public class OlapExpressionUtil
 	{
 		return level + "/" + "DisplayName";
 	}
-	
+
 	/**
-	 * This method returns a list of CubeAggrDefnOnMeasure instances which describes the
-	 * aggregations that need to be calculated in cube query.
+	 * This method returns a list of CubeAggrDefnOnMeasure instances which
+	 * describes the aggregations that need to be calculated in cube query.
 	 * 
 	 * @param bindings
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public static CubeAggrDefnOnMeasure[] getAggrDefns( List bindings ) throws DataException
+	public static CubeAggrDefnOnMeasure[] getAggrDefns( List bindings )
+			throws DataException
 	{
 		if ( bindings == null || bindings.size( ) == 0 )
 			return new CubeAggrDefnOnMeasure[0];
@@ -347,13 +351,18 @@ public class OlapExpressionUtil
 				if ( binding.getAggrFunction( ) != null
 						|| binding.getAggregatOns( ).size( ) != 0 )
 				{
-					IAggrFunction af = AggregationManager.getInstance( ).getAggregation( binding.getAggrFunction( ) );
-					if ( af != null && af.getType( ) == IAggrFunction.RUNNING_AGGR )
+					IAggrFunction af = AggregationManager.getInstance( )
+							.getAggregation( binding.getAggrFunction( ) );
+					if ( af != null
+							&& af.getType( ) == IAggrFunction.RUNNING_AGGR )
 					{
-						throw new DataException( ResourceConstants.INVALID_AGGR_TYPE_ON_MEASURE, af.getName( ));
+						throw new DataException( ResourceConstants.INVALID_AGGR_TYPE_ON_MEASURE,
+								af.getName( ) );
 					}
 					cubeAggrDefns.add( new CubeAggrDefnOnMeasure( binding.getBindingName( ),
-							getMeasure( binding.getExpression( )==null?null:( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
+							getMeasure( binding.getExpression( ) == null
+									? null
+									: ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							convertToDimLevel( binding.getAggregatOns( ) ),
 							binding.getAggrFunction( ),
 							convertToDimLevelAttribute( binding.getArguments( ),
@@ -371,23 +380,24 @@ public class OlapExpressionUtil
 		return cubeAggrDefns.toArray( new CubeAggrDefnOnMeasure[0] );
 	}
 
-	
 	/**
-	 * This method returns a list of CubeNestAggrDefn instances which describes the
-	 * aggregations that need to be calculated in cube query.
+	 * This method returns a list of CubeNestAggrDefn instances which describes
+	 * the aggregations that need to be calculated in cube query.
 	 * 
 	 * @param bindings
 	 * @param basedBindings
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public static CubeNestAggrDefn[] getAggrDefnsByNestBinding( List<IBinding> bindings, IBinding[] basedBindings ) throws DataException
+	public static CubeNestAggrDefn[] getAggrDefnsByNestBinding(
+			List<IBinding> bindings, IBinding[] basedBindings )
+			throws DataException
 	{
 		if ( bindings == null || bindings.size( ) == 0 )
 			return new CubeNestAggrDefn[0];
 
-		List<IBinding> based = new ArrayList<IBinding>( Arrays.asList( basedBindings ));
-			
+		List<IBinding> based = new ArrayList<IBinding>( Arrays.asList( basedBindings ) );
+
 		List<CubeNestAggrDefn> cubeAggrDefns = new ArrayList<CubeNestAggrDefn>( );
 		for ( IBinding binding : bindings )
 		{
@@ -395,7 +405,7 @@ public class OlapExpressionUtil
 			{
 				if ( binding.getAggrFunction( ) != null )
 				{
-					if ( !CubeQueryDefinitionUtil.isRunnnigAggr( binding.getAggrFunction( ) ))
+					if ( !CubeQueryDefinitionUtil.isRunnnigAggr( binding.getAggrFunction( ) ) )
 					{
 						cubeAggrDefns.add( new CubeNestAggrDefn( binding.getBindingName( ),
 								binding.getExpression( ),
@@ -413,11 +423,12 @@ public class OlapExpressionUtil
 								binding.getAggrFunction( ),
 								null,
 								binding.getFilter( ),
-								getFullLevelsForRunningAggregation( binding, based),
-								binding.getArguments( )));
+								getFullLevelsForRunningAggregation( binding,
+										based ),
+								binding.getArguments( ) ) );
 					}
 				}
-					
+
 			}
 			catch ( DataException ex )
 			{
@@ -429,12 +440,12 @@ public class OlapExpressionUtil
 		}
 		return cubeAggrDefns.toArray( new CubeNestAggrDefn[0] );
 	}
-	
-	private static List getFullLevelsForRunningAggregation( IBinding binding, List<IBinding> based ) throws DataException
+
+	private static List getFullLevelsForRunningAggregation( IBinding binding,
+			List<IBinding> based ) throws DataException
 	{
-		List<String> referencedBindings = 
-			ExpressionCompilerUtil.extractColumnExpression( 
-					binding.getExpression( ), ExpressionUtil.DATA_INDICATOR );
+		List<String> referencedBindings = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+				ExpressionUtil.DATA_INDICATOR );
 		if ( referencedBindings == null || referencedBindings.isEmpty( ) )
 		{
 			throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION,
@@ -444,7 +455,7 @@ public class OlapExpressionUtil
 		for ( IBinding b : based )
 		{
 			if ( b.getBindingName( ).equals( reference )
-					&& isAggregationBinding( b ))
+					&& isAggregationBinding( b ) )
 			{
 				return convertToDimLevel( b.getAggregatOns( ) );
 			}
@@ -452,16 +463,17 @@ public class OlapExpressionUtil
 		throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION,
 				binding.getBindingName( ) );
 	}
-	
-	public static boolean isAggregationBinding(IBinding binding) throws DataException
+
+	public static boolean isAggregationBinding( IBinding binding )
+			throws DataException
 	{
-		if (binding == null)
+		if ( binding == null )
 		{
 			return false;
 		}
 		return binding.getAggrFunction( ) != null;
 	}
-	
+
 	/**
 	 * 
 	 * @param expr
@@ -500,29 +512,38 @@ public class OlapExpressionUtil
 		}
 		return result;
 	}
-	
-	private static List convertToDimLevel( List dimLevelExpressions ) throws DataException
-	{
-		List result = new ArrayList();
-		for( int i = 0; i < dimLevelExpressions.size( ); i++ )
-		{
-			result.add( getTargetDimLevel( dimLevelExpressions.get( i ).toString( )) );
-		}
-		return result;
-	}
-	
-	private static List convertToDimLevelAttribute( List dimLevelExpressions, List bindings )
+
+	private static List convertToDimLevel( List dimLevelExpressions )
 			throws DataException
 	{
 		List result = new ArrayList( );
 		for ( int i = 0; i < dimLevelExpressions.size( ); i++ )
 		{
-			result.add( getTargetAttribute( ( (IScriptExpression) dimLevelExpressions.get( i ) ).getText( ), bindings ) );
+			result.add( getTargetDimLevel( dimLevelExpressions.get( i )
+					.toString( ) ) );
 		}
 		return result;
 	}
-	
-	
+
+	private static List convertToDimLevelAttribute( List dimLevelExpressions,
+			List bindings ) throws DataException
+	{
+		List result = new ArrayList( );
+		for ( int i = 0; i < dimLevelExpressions.size( ); i++ )
+		{
+			try
+			{
+				String[] attr = getTargetAttribute( ( (IScriptExpression) dimLevelExpressions.get( i ) ).getText( ),
+						bindings );
+				result.add( attr );
+			}
+			catch ( DataException e )
+			{
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * 
 	 * @param expr
@@ -537,7 +558,7 @@ public class OlapExpressionUtil
 			return true;
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @param expr
@@ -567,7 +588,7 @@ public class OlapExpressionUtil
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @param outResults
@@ -585,7 +606,8 @@ public class OlapExpressionUtil
 		{
 			try
 			{
-				return ( (IQueryService) outResults ).getExecutorHelper( ).getScriptable( );
+				return ( (IQueryService) outResults ).getExecutorHelper( )
+						.getScriptable( );
 			}
 			catch ( BirtException e )
 			{
