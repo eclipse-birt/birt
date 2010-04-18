@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.olap.util;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
@@ -76,6 +78,17 @@ public class OlapExpressionCompiler
 			IBaseExpression op2 = ( (IConditionalExpression) expr ).getOperand2( );
 			dimName = getReferencedScriptObject( op2, objectName );
 			return dimName;
+		}
+		//In 2.6 we only consider support IInNotInFilter in single dimension filter
+		//In future we may allow the filter cross dimensions.
+		else if( expr instanceof ICollectionConditionalExpression )
+		{	
+			Collection<IScriptExpression> testExpr = ((ICollectionConditionalExpression)expr).getExpr( );
+			if( testExpr.size( ) > 0 )
+			{
+				return getReferencedScriptObject( testExpr.iterator( ).next( ), objectName );
+			}
+			
 		}
 
 		return null;

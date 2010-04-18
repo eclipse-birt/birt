@@ -13,8 +13,10 @@ package org.eclipse.birt.data.engine.script;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -276,7 +279,7 @@ public class ScriptEvalUtil
 				{
 					return compareAsString( obj1, obj2, strComp );
 				}
-				if ( obj1 instanceof Boolean )
+				else if ( obj1 instanceof Boolean )
 				{
 					if ( obj1.equals( obj2 ) )
 						return 0;
@@ -290,6 +293,22 @@ public class ScriptEvalUtil
 				else if ( obj1 instanceof Comparable )
 				{
 					return ( (Comparable) obj1 ).compareTo( obj2 );
+				}
+				else if( obj1 instanceof Collection )
+				{
+					Collection o1 = (Collection)obj1;
+					Collection o2 = (Collection)obj2;
+					if( o1.size( ) != o2.size( ) )
+						return -1;
+					Iterator it1 = o1.iterator( );
+					Iterator it2 = o2.iterator( );
+					while( it1.hasNext( ))
+					{
+						int result = compare( it1.next( ), it2.next( )); 
+						if(  result != 0 )
+							return result;
+					}
+					return 0;
 				}
 				// most judgements should end here
 				else
@@ -700,6 +719,36 @@ public class ScriptEvalUtil
 					}
 				}
 			}
+			else if ( expr instanceof ICollectionConditionalExpression )
+			{
+				Collection<IScriptExpression> testExpr = ((ICollectionConditionalExpression)expr).getExpr( );
+				Collection<Collection<IScriptExpression>> operand = ((ICollectionConditionalExpression)expr).getOperand( );
+				List<Object> testObj = new ArrayList<Object>( );
+				boolean in = false;
+				for( IScriptExpression se : testExpr )
+				{
+					testObj.add( evalExpr( se, cx, source, lineNo  ) );
+				}
+				for( Collection<IScriptExpression> op : operand )
+				{
+					List<Object> targetObj = new ArrayList<Object>( );
+					for( IScriptExpression se : op )
+					{
+						if( se.getHandle( )== null )
+						{
+							se.setHandle( evalExpr( se, cx, source, lineNo ) );
+						}
+						targetObj.add( se.getHandle( ) );
+					}
+					if( compare( testObj, targetObj ) == 0 )
+					{
+						in = Boolean.TRUE;
+						break;
+					}
+				}
+				result = ( ( (ICollectionConditionalExpression) expr ).getOperator( ) == ICollectionConditionalExpression.OP_IN )
+						? in : ( !in );
+			}
 			else
 			{
 				IScriptExpression jsExpr = (IScriptExpression) expr;
@@ -725,6 +774,7 @@ public class ScriptEvalUtil
 				}
 
 			}
+			
 			if ( logger.isLoggable( Level.FINER ) )
 				logger.exiting( ScriptEvalUtil.class.getName( ),
 						"evalExpr",
