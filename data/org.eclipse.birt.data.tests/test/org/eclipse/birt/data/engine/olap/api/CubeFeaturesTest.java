@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.api;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.olap.OLAPException;
@@ -26,13 +27,16 @@ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.CollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -1892,6 +1896,163 @@ public class CubeFeaturesTest extends BaseTestCase
 		engine.shutdown( );
 
 	}
+	
+	/**
+	 * Test collection IN filter
+	 * @throws Exception
+	 */
+	public void testFilter7( ) throws Exception
+	{
+
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+		List<IScriptExpression> exprs = new ArrayList<IScriptExpression>();
+		exprs.add( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]") );
+		exprs.add( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]") );
+		List<Collection<IScriptExpression>> targets = new ArrayList<Collection<IScriptExpression>>();
+		Collection<IScriptExpression> CNBJ = new ArrayList<IScriptExpression>();
+		CNBJ.add( new ScriptExpression( "\"CN\"") );
+		CNBJ.add( new ScriptExpression( "\"BJ\"") );
+		
+		Collection<IScriptExpression> JPTK = new ArrayList<IScriptExpression>();
+		JPTK.add( new ScriptExpression( "\"JP\"") );
+		JPTK.add( new ScriptExpression( "\"TK\"") );
+		
+		targets.add( CNBJ );
+		targets.add( JPTK );
+		
+		CollectionConditionalExpression filterExpr = new CollectionConditionalExpression( exprs, ICollectionConditionalExpression.OP_IN, targets );
+		IFilterDefinition filter = new FilterDefinition( filterExpr );
+		cqd.addFilter( filter );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1" );
+		
+		engine.shutdown( );
+
+	}
+	
+	/**
+	 * Test collection NOTIN filter
+	 * @throws Exception
+	 */
+	public void testFilter8( ) throws Exception
+	{
+
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+		List<IScriptExpression> exprs = new ArrayList<IScriptExpression>();
+		exprs.add( new ScriptExpression( "data[\"edge1level1\"]") );
+		exprs.add( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]") );
+		List<Collection<IScriptExpression>> targets = new ArrayList<Collection<IScriptExpression>>();
+		Collection<IScriptExpression> CNBJ = new ArrayList<IScriptExpression>();
+		CNBJ.add( new ScriptExpression( "\"CN\"") );
+		CNBJ.add( new ScriptExpression( "\"BJ\"") );
+		
+		Collection<IScriptExpression> JPTK = new ArrayList<IScriptExpression>();
+		JPTK.add( new ScriptExpression( "\"JP\"") );
+		JPTK.add( new ScriptExpression( "\"TK\"") );
+		
+		targets.add( CNBJ );
+		targets.add( JPTK );
+		
+		CollectionConditionalExpression filterExpr = new CollectionConditionalExpression( exprs, ICollectionConditionalExpression.OP_NOT_IN, targets );
+		IFilterDefinition filter = new FilterDefinition( filterExpr );
+		cqd.addFilter( filter );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1" );
+		
+		engine.shutdown( );
+
+	}
+	
 	/**
 	 * Test grand total
 	 * 

@@ -267,6 +267,10 @@ public class JavascriptEvalUtil
 		{
 		    return ( (Wrapper) inputObj ).unwrap( );
 		}
+		else if ( inputObj instanceof Scriptable )
+		{
+			return ((Scriptable) inputObj).getDefaultValue( null );
+		}
 		
 		return inputObj;
 	}
