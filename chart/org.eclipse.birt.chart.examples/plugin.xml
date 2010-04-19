@@ -21,6 +21,8 @@
    </extension>
 
    <extension
+         id="ChartWizardContext"
+         name="Chart example types"
          point="org.eclipse.birt.chart.ui.types">
       <chartType
             classDefinition="org.eclipse.birt.chart.examples.radar.ui.type.RadarChart"
