@@ -15,7 +15,9 @@ import java.util.Collection;
 
 import org.eclipse.birt.data.engine.api.CollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.CubeSortDefinition;
@@ -69,11 +71,11 @@ public class CubeElementFactory implements ICubeElementFactory
 	 * create a new ICubeFilterDefinition instance.
 	 * @return
 	 */
-	public ICubeFilterDefinition creatLevelMemberFilterDefinition(
+	public IFilterDefinition creatLevelMemberFilterDefinition(
 			Collection<IScriptExpression> targetLevels, int operator,
 			Collection<Collection<IScriptExpression>> memberValues )
 	{
-		return new CubeFilterDefinition( new CollectionConditionalExpression( targetLevels,
+		return new FilterDefinition( new CollectionConditionalExpression( targetLevels,
 				operator,
 				memberValues ) );
 	}
