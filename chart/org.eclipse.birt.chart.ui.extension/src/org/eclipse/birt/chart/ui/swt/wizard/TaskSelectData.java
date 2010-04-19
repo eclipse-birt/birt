@@ -811,6 +811,14 @@ public class TaskSelectData extends SimpleTask implements
 
 	public void doPreview( )
 	{
+		if ( getChartModel( ) instanceof ChartWithAxes )
+		{
+			checkDataTypeForChartWithAxes( );
+		}
+		else
+		{
+			ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
+		}
 		LivePreviewTask lpt = new LivePreviewTask( Messages.getString( "TaskFormatChart.LivePreviewTask.BindData" ), null ); //$NON-NLS-1$
 		// Add a task to retrieve data and bind data to chart.
 		lpt.addTask( new LivePreviewTask() {
@@ -841,14 +849,6 @@ public class TaskSelectData extends SimpleTask implements
 							if ( previewPainter != null )
 							{
 								Chart cm = (Chart) getParameter( ChartLivePreviewThread.PARAM_CHART_MODEL );
-								if ( cm instanceof ChartWithAxes )
-								{
-									checkDataTypeForChartWithAxes( );
-								}
-								else
-								{
-									ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
-								}
 								previewPainter.renderModel( cm );
 							}
 						}

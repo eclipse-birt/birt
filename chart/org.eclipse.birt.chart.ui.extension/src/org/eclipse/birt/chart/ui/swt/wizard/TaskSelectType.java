@@ -1871,6 +1871,20 @@ public class TaskSelectType extends SimpleTask implements
 
 	public void doPreview( )
 	{
+		// To update data type after chart type
+		// conversion
+		if ( chartModel instanceof ChartWithAxes )
+		{
+			ChartAdapter.beginIgnoreNotifications( );
+			// should use design time model rather than
+			// runtime model.
+			checkDataTypeForChartWithAxes( );
+			ChartAdapter.endIgnoreNotifications( );
+		}
+		else
+		{
+			ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
+		}
 		LivePreviewTask lpt = new LivePreviewTask( Messages.getString( "TaskFormatChart.LivePreviewTask.BindData" ), null ); //$NON-NLS-1$
 		// Add a task to retrieve data and bind data to chart.
 		lpt.addTask( new LivePreviewTask() {
@@ -1901,20 +1915,7 @@ public class TaskSelectType extends SimpleTask implements
 							if ( previewPainter != null )
 							{
 								Chart cm = (Chart) getParameter( ChartLivePreviewThread.PARAM_CHART_MODEL );
-								// To update data type after chart type
-								// conversion
-								if ( cm instanceof ChartWithAxes )
-								{
-									ChartAdapter.beginIgnoreNotifications( );
-									// should use design time model rather than
-									// runtime model.
-									checkDataTypeForChartWithAxes( );
-									ChartAdapter.endIgnoreNotifications( );
-								}
-								else
-								{
-									ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
-								}
+
 								previewPainter.renderModel( cm );
 							}
 						}
