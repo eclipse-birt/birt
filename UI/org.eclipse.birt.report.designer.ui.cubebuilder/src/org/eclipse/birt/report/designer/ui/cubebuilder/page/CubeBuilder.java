@@ -155,7 +155,6 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 					while ( iter.hasNext( ) )
 					{
 						DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-						TabularHierarchyHandle conditionHierarchy = (TabularHierarchyHandle) condition.getHierarchy( );
 
 						boolean check = true;
 						if ( condition.getJoinConditions( ) != null
@@ -196,25 +195,20 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 			{
 				String[] buttons = new String[]{
 						IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL,
-						IDialogConstants.CANCEL_LABEL
+						IDialogConstants.NO_LABEL
 				};
 
 				MessageDialog d = new MessageDialog( getShell( ),
-						Messages.getString("CubeBuilder.AutoPrimaryKeyDialog.Title"), //$NON-NLS-1$
+						Messages.getString( "CubeBuilder.AutoPrimaryKeyDialog.Title" ), //$NON-NLS-1$
 						null,
-						Messages.getString("CubeBuilder.AutoPrimaryKeyDialog.Message"), //$NON-NLS-1$
-						MessageDialog.INFORMATION,
+						Messages.getString( "CubeBuilder.AutoPrimaryKeyDialog.Message" ), //$NON-NLS-1$
+						MessageDialog.WARNING,
 						buttons,
 						0 );
 				int result = d.open( );
 				if ( result == 1 )
 				{
 					return true;
-				}
-				if ( result == 2 )
-				{
-					return false;
 				}
 				else
 				{
@@ -237,16 +231,18 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 					if ( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
 							hierarchy ) )
 					{
-						if ( condition.getJoinConditions( ) != null
-								&& condition.getJoinConditions( )
-										.iterator( )
-										.hasNext( ) )
+						if ( condition.getJoinConditions( ) != null )
 						{
-							int number = conditionMap.containsKey( conditionHierarchy ) ? ( (Integer) conditionMap.get( conditionHierarchy ) ).intValue( )
-									: 0;
-							conditionMap.put( conditionHierarchy, ++number );
-							flag = false;
-							break;
+							Iterator iter1 = condition.getJoinConditions( )
+									.iterator( );
+							while ( iter1.hasNext( ) )
+							{
+								iter1.next( );
+								int number = conditionMap.containsKey( conditionHierarchy ) ? ( (Integer) conditionMap.get( conditionHierarchy ) ).intValue( )
+										: 0;
+								conditionMap.put( conditionHierarchy, ++number );
+								flag = false;
+							}
 						}
 					}
 				}
@@ -259,22 +255,19 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 
 				String[] buttons = new String[]{
 						IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL,
-						IDialogConstants.CANCEL_LABEL
+						IDialogConstants.NO_LABEL
 				};
 
 				MessageDialog d = new MessageDialog( getShell( ),
 						Messages.getString( "MissLinkDialog.Title" ), //$NON-NLS-1$
 						null,
 						Messages.getString( "MissLinkDialog.Question" ), //$NON-NLS-1$
-						MessageDialog.INFORMATION,
+						MessageDialog.WARNING,
 						buttons,
 						0 );
 				int result = d.open( );
 				if ( result == 1 )
 					return true;
-				else if ( result == 2 )
-					return false;
 				else
 				{
 					this.showSelectionPage( getLinkGroupNode( ) );
@@ -297,22 +290,19 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 
 						String[] buttons = new String[]{
 								IDialogConstants.YES_LABEL,
-								IDialogConstants.NO_LABEL,
-								IDialogConstants.CANCEL_LABEL
+								IDialogConstants.NO_LABEL
 						};
 
 						MessageDialog d = new MessageDialog( getShell( ),
 								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Title" ), //$NON-NLS-1$
 								null,
 								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Message" ), //$NON-NLS-1$
-								MessageDialog.INFORMATION,
+								MessageDialog.WARNING,
 								buttons,
 								0 );
 						int result = d.open( );
 						if ( result == 1 )
 							return true;
-						else if ( result == 2 )
-							return false;
 						else
 						{
 							this.showSelectionPage( getLinkGroupNode( ) );
@@ -321,9 +311,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 					}
 				}
 			}
-
 			conditionMap.clear( );
-
 			return true;
 		}
 	}
