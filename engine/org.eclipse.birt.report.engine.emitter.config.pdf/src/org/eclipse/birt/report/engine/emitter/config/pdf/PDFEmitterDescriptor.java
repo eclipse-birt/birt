@@ -232,12 +232,16 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 			renderOption.setEmitterID( getID( ) );
 			renderOption.setOutputFormat( "pdf" ); //$NON-NLS-1$
 
-			for ( IOptionValue optionValue : values )
+			if ( values != null && values.length > 0 )
 			{
-				if ( optionValue != null )
+				for ( IOptionValue optionValue : values )
 				{
-					renderOption.setOption( getRenderOptionName( optionValue
-							.getName( ) ), optionValue.getValue( ) );
+					if ( optionValue != null )
+					{
+						renderOption.setOption(
+								getRenderOptionName( optionValue.getName( ) ),
+								optionValue.getValue( ) );
+					}
 				}
 			}
 
