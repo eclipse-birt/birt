@@ -35,10 +35,10 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=Maßeinheit unterstützt nicht
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Warnung
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.AutoPrimaryKeyDialog.Message=Einige Spalten, die als Verknüpfungsschlüssel verwendet werden, sind nicht in Ebenen definiert. Überprüfen Sie die Schaltfläche 'Automatischer Primärschlüssel' auf der Datensatzauswahlseite, um den Quader abzuschließen.
+CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, do you want to check the "Auto primary key" option to complete the cube?
 CubeBuilder.AutoPrimaryKeyDialog.Title=Problem mit dem automatischen Primärschlüssel
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=Alle Primärschlüssel aus gemeinsamen Dimensionen müssen miteinander verknüpft sein.
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=Fehler bei der Verknüpfung einer gemeinsamen Dimension.
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked, do you want to define the missing links to complete the cube?
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=Missing Shared Dimension Link
 CubeBuilder.Title=Kreuztabellen-Cube Builder
 DatasePage.EmptyName.ErrorMessage=Der Name des Quaders ist erforderlich.
 DatasetPage.Title=Datensatz
@@ -145,7 +145,7 @@ LevelPropertyDialog.MSG.Tooltip=(Alle anderen Werte anzeigen, die in keine diese
 LevelPropertyDialog.MSG.DefaultValue=<Standardwert>
 
 MissLinkDialog.Title=Fehlende Verknüpfung zwischen Datensätzen
-MissLinkDialog.Question=Verknüpfen Sie alle Gruppen aus anderen Datensätzen mit dem primären Datensatz, um den Quader abzuschließen
+MissLinkDialog.Question=All groups from other data sets should be linked to the primary data set, do you want to define the missing links to complete the cube?
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties
