@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.impl.query;
 
+import java.util.Collection;
+
+import org.eclipse.birt.data.engine.api.CollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -62,6 +65,19 @@ public class CubeElementFactory implements ICubeElementFactory
 				axisQulifierValue );
 	}
 	
+	/**
+	 * create a new ICubeFilterDefinition instance.
+	 * @return
+	 */
+	public ICubeFilterDefinition creatLevelMemberFilterDefinition(
+			Collection<IScriptExpression> targetLevels, int operator,
+			Collection<Collection<IScriptExpression>> memberValues )
+	{
+		return new CubeFilterDefinition( new CollectionConditionalExpression( targetLevels,
+				operator,
+				memberValues ) );
+	}
+
 	/**
 	 * create a new ICubeSortDefinition instance.
 	 */
