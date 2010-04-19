@@ -374,6 +374,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				{
 					return;
 				}
+				if (isDelete( ))
+				{
+					return;
+				}
 				if(((DeferredGraphicalViewer)getViewer( )).getFigureCanvas( ) == null)
 				{
 					return;
