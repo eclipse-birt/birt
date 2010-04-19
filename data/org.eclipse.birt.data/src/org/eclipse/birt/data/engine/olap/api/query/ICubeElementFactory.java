@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.api.query;
 
+import java.util.Collection;
+
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 
@@ -47,6 +49,17 @@ public interface ICubeElementFactory
 			IBaseExpression filterExpr, ILevelDefinition targetLevel,
 			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue );
 
+	/**
+	 * 
+	 * @param targetLevels
+	 * @param operator
+	 * @param memberValues
+	 * @return
+	 */
+	public ICubeFilterDefinition creatLevelMemberFilterDefinition(
+			Collection<IScriptExpression> targetLevels, int operator,
+			Collection<Collection<IScriptExpression>> memberValues );
+	
 	/**
 	 * 
 	 * @param filterExpr
