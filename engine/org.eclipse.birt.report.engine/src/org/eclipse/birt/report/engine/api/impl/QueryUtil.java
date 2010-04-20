@@ -199,8 +199,18 @@ public class QueryUtil
 					if ( !found )
 					{
 						dsIDs.add( dsId );
-						QueryTask task = new QueryTask( query, dsId,
-								(int) dataId.getRowID( ), iid );
+						QueryTask task;
+						if ( dataId.getCellID( ) != null )
+						{
+							task = new QueryTask( query, dsId, dataId
+									.getCellID( ), iid );
+						}
+						else
+						{
+							task = new QueryTask( query, dsId, (int) dataId
+									.getRowID( ), iid);
+						}
+						
 						plan.add( task );
 						break;
 					}
@@ -302,32 +312,49 @@ public class QueryUtil
 	/*
 	 * 
 	 */
-	static public List executePlan( ExecutionContext executionContext,
+	static public List executePlan( final ExecutionContext executionContext,
 			ArrayList<QueryTask> plan ) throws EngineException
+	{
+		List results = new ArrayList( );
+		IBaseResultSet parent = executePlan( plan, 0, executionContext,
+				new IResultSetIDProvider( ) {
+
+					public String getResultsID( String parent,
+							String rawId, IDataQueryDefinition query )
+					{
+						return getResultSetID( executionContext, parent, rawId,
+								query );
+					}
+				} );
+		if ( parent != null && !results.contains( parent ) )
+		{
+			results.add( parent );
+		}
+		return results;
+	}
+
+	public static IBaseResultSet executePlan( List<QueryTask> plan, int index,
+			ExecutionContext executionContext,
+			IResultSetIDProvider resultsIDProvider ) throws EngineException
 	{
 		if ( plan == null || plan.size( ) == 0 )
 		{
 			return null;
 		}
-		List results = new ArrayList( );
 		IBaseResultSet parent = null;
 		try
 		{
-			for ( int current = plan.size( ) - 1; current >= 0; current-- )
+			for ( int current = plan.size( ) - 1; current >= index; current-- )
 			{
-				if ( parent != null )
-				{
-					results.add( parent );
-				}
 				QueryTask task = plan.get( current );
 				IDataQueryDefinition query = task.getQuery( );
 				if ( task.getParent( ) == null )
 				{
 					// this is a top query
-					String rset = getResultSetID( executionContext, null, "-1",
-							query );
-					IBaseQueryResults baseResults = executeQuery( null, query,
-							rset, executionContext );
+					String rsID = resultsIDProvider.getResultsID( null,
+							"-1", query );
+					IBaseQueryResults baseResults = QueryUtil.executeQuery(
+							null, query, rsID, executionContext );
 					if ( baseResults == null )
 						return null;
 					if ( baseResults instanceof IQueryResults )
@@ -352,26 +379,22 @@ public class QueryUtil
 				}
 				else
 				{
-					if ( parent == null )
-					{
-						throw new EngineException(
-								MessageConstants.RESULTSET_EXTRACT_ERROR );
-					}
+					assert parent != null;
 
 					// skip parent to the proper position
-					String parentId = null;
+					String parentID = null;
 					if ( parent instanceof IQueryResultSet )
 					{
 						IResultIterator parentItr = ( (IQueryResultSet) parent )
 								.getResultIterator( );
 						parentItr.moveTo( task.getRowID( ) );
-						parentId = ( (QueryResultSet) parent )
+						parentID = ( (QueryResultSet) parent )
 								.getQueryResultsID( );
 					}
 					else if ( parent instanceof ICubeResultSet )
 					{
 						( (ICubeResultSet) parent ).skipTo( task.getCellID( ) );
-						parentId = ( (CubeResultSet) parent )
+						parentID = ( (CubeResultSet) parent )
 								.getQueryResultsID( );
 					}
 
@@ -380,18 +403,20 @@ public class QueryUtil
 						IResultIterator parentItr = ( (QueryResultSet) parent )
 								.getResultIterator( );
 						String queryName = query.getName( );
-						IResultIterator itr = parentItr
-								.getSecondaryIterator( executionContext
-										.getScriptContext( ), queryName );
+						ScriptContext scriptContext = executionContext
+								.getScriptContext( );
+						IResultIterator itr = parentItr.getSecondaryIterator(
+								scriptContext, queryName );
 						parent = new QueryResultSet( (QueryResultSet) parent,
 								(ISubqueryDefinition) query, itr );
 					}
 					else
 					{
-						String rset = getResultSetID( executionContext,
-								parentId, parent.getRawID( ), query  );
-						IBaseQueryResults baseResults = executeQuery( parent
-								.getQueryResults( ), query, rset,
+						String rsID = resultsIDProvider.getResultsID(
+								parentID, parent.getRawID( ), query );
+						// TODO: if rsID is null, return?
+						IBaseQueryResults baseResults = QueryUtil.executeQuery(
+								parent.getQueryResults( ), query, rsID,
 								executionContext );
 						if ( baseResults instanceof IQueryResults )
 						{
@@ -435,11 +460,7 @@ public class QueryUtil
 		{
 			throw new EngineException( ex );
 		}
-		if ( parent != null && !results.contains( parent ) )
-		{
-			results.add( parent );
-		}
-		return results;
+		return parent;
 	}
 
 	private static String getResultSetID( ExecutionContext context,
@@ -540,5 +561,11 @@ public class QueryUtil
 			throw new EngineException( ex );
 		}
 		return null;
+	}
+
+	public static interface IResultSetIDProvider
+	{
+		String getResultsID( String parent, String rawId,
+				IDataQueryDefinition query );
 	}
 }
