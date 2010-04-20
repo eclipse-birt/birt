@@ -642,9 +642,9 @@ public class JdbcDriverManagerDialog extends TrayDialog
 			externalJars.add( jars[i] );
 		}
 		List drivers = JdbcToolKit.getDriverByJar( externalJars );
+		externalDrivers = new ArrayList( );
 		if ( drivers != null )
 		{
-			externalDrivers = new ArrayList( drivers.size( ) );
 			for ( int i = 0; i < drivers.size( ); i++ )
 			{
 				externalDrivers.add( ( (JDBCDriverInformation) drivers.get( i ) ).toString( ) );
