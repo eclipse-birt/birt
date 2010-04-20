@@ -86,6 +86,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 					iid = new InstanceID( pid, uid, iid.getComponentID( ), iid
 							.getDataID( ) );
 					content.setInstanceID( iid );
+					this.instanceId = iid;
 				}
 				else
 				{
