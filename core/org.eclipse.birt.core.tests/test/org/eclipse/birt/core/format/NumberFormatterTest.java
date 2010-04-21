@@ -19,6 +19,8 @@ import java.util.Locale;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * 
  */
@@ -328,4 +330,32 @@ public class NumberFormatterTest extends TestCase
 			}
 		}
 	}
+
+	public void testRoundingMode( )
+	{
+		// support
+		// roundingMode:HALF_EVEN,HALF_UP,HALF_DOWN,UP,DOWN,FLOOR,CEILING,UNNECESSARY
+		// Default value is :HALF_UP
+		String pattern = "###0.0{RoundingMode=HALF_EVEN;}";
+		double[] values = {3.00, 3.01, 3.02, 3.03, 3.04, 3.05, 3.06, 3.07,
+				3.08, 3.09};
+		String[] upGoldens = {"3.0", "3.0", "3.0", "3.0", "3.0", "3.1", "3.1",
+				"3.1", "3.1", "3.1"};
+		String[] evenGoldens = {"3.0", "3.0", "3.0", "3.0", "3.0", "3.0",
+				"3.1", "3.1", "3.1", "3.1"};
+		NumberFormatter nf = new NumberFormatter( pattern, ULocale.getDefault( ) );
+		for ( int index = 0; index < values.length; index++ )
+		{
+			String result = nf.format( values[index] );
+			assertTrue( result.equals( evenGoldens[index] ) );
+		}
+		pattern = "###0.0{RoundingMode=HALF_UP;}";
+		nf = new NumberFormatter( pattern, ULocale.getDefault( ) );
+		for ( int index = 0; index < values.length; index++ )
+		{
+			String result = nf.format( values[index] );
+			assertTrue( result.equals( upGoldens[index] ) );
+		}
+	}
+
 }

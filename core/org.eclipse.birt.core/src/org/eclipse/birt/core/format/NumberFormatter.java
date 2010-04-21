@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.format;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -35,6 +36,7 @@ public class NumberFormatter
 {
 
 	private static final String DIGIT_SUBSTITUTION = "DigitSubstitution";
+	private static final String ROUNDING_MODE = "RoundingMode";
 
 	/**
 	 * logger used to log syntax errors.
@@ -90,6 +92,8 @@ public class NumberFormatter
 	 * used to indicate whether to use ICU symbols
 	 */
 	private boolean digitSubstitution;
+
+	private RoundingMode roundingMode = RoundingMode.HALF_UP;
 
 	/**
 	 * constructor with no argument
@@ -258,6 +262,27 @@ public class NumberFormatter
 						{
 							String value = values.get( index ).trim( );
 							digitSubstitution = Boolean.valueOf( value );
+						}
+						if ( ROUNDING_MODE.equalsIgnoreCase( names.get( index )
+								.trim( ) ) )
+						{
+							String value = values.get( index ).trim( );
+							if ( value.equalsIgnoreCase( "HALF_EVEN" ) )
+								roundingMode = RoundingMode.HALF_EVEN;
+							else if ( value.equalsIgnoreCase( "HALF_UP" ) )
+								roundingMode = RoundingMode.HALF_UP;
+							else if ( value.equalsIgnoreCase( "HALF_DOWN" ) )
+								roundingMode = RoundingMode.HALF_DOWN;
+							else if ( value.equalsIgnoreCase( "UP" ) )
+								roundingMode = RoundingMode.UP;
+							else if ( value.equalsIgnoreCase( "DOWN" ) )
+								roundingMode = RoundingMode.DOWN;
+							else if ( value.equalsIgnoreCase( "FLOOR" ) )
+								roundingMode = RoundingMode.FLOOR;
+							else if ( value.equalsIgnoreCase( "CEILING" ) )
+								roundingMode = RoundingMode.CEILING;
+							else if ( value.equalsIgnoreCase( "UNNECESSARY" ) )
+								roundingMode = RoundingMode.UNNECESSARY;
 						}
 					}
 					if ( begin == 0 )
@@ -496,6 +521,15 @@ public class NumberFormatter
 						.setDecimalFormatSymbols( symbols );
 			}
 		}
+
+		if ( decimalFormat instanceof DecimalFormat )
+		{
+			( (DecimalFormat) decimalFormat ).setRoundingMode( roundingMode );
+		}
+		if ( numberFormat instanceof DecimalFormat )
+		{
+			( (DecimalFormat) numberFormat ).setRoundingMode( roundingMode );
+		}
 	}
 
 	private void handleNamedFormats( String patternStr )
@@ -588,7 +622,7 @@ public class NumberFormatter
 			int scale = bd.scale( );
 			if ( scale > roundPrecision )
 			{
-				bd = bd.setScale( roundPrecision, BigDecimal.ROUND_HALF_DOWN );
+				bd = bd.setScale( roundPrecision, roundingMode );
 			}
 		}
 		return bd;
@@ -602,7 +636,7 @@ public class NumberFormatter
 			int scale = bd.scale( );
 			if ( scale > roundPrecision )
 			{
-				bd = bd.setScale( roundPrecision, BigDecimal.ROUND_HALF_DOWN );
+				bd = bd.setScale( roundPrecision, roundingMode );
 				return bd.doubleValue( );
 			}
 		}
