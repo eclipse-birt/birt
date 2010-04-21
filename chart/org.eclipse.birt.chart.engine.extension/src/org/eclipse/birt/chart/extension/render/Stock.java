@@ -126,7 +126,7 @@ public final class Stock extends AxesRenderer
 //					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 //		}
 
-		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler<?> sh = getRunTimeContext( ).getScriptHandler( );
 
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "info.render.series", //$NON-NLS-1$
@@ -304,6 +304,9 @@ public final class Stock extends AxesRenderer
 				dX += dSpacing + dWidth / 2 + iSharedUnitIndex * dWidth;
 			}
 			
+			lre = ( (EventObjectCache) ipr ).getEventObject( WrappedStructureSource.createSeriesDataPoint( ss,
+					dpha[i] ),
+					LineRenderEvent.class );
 			if ( ss.isShowAsBarStick( ) )
 			{
 				int stickLength = ss.getStickLength( );
@@ -311,28 +314,17 @@ public final class Stock extends AxesRenderer
 				Location loStart2 = goFactory.createLocation( 0, 0 ), loEnd2 = goFactory.createLocation( 0,
 						0 );
 
-				// STANDARD PROCESSING FOR REGULAR NON-TRANSPOSED AXES (NOTE:
-				// SYMMETRIC CODE)
-				{
-					loStart.set( dX - stickLength, dOpen );
-					loEnd.set( dX + stickLength, dClose );
+				loStart.set( dX - stickLength, dOpen );
+				loEnd.set( dX + stickLength, dClose );
 
-					loStart2.set( dX, dOpen );
-					loEnd2.set( dX, dClose );
+				loStart2.set( dX, dOpen );
+				loEnd2.set( dX, dClose );
 
-					loUpper.set( dX, dHigh > dLow ? dHigh : dLow );
-					loLower.set( dX, dHigh < dLow ? dHigh : dLow );
+				loUpper.set( dX, dHigh > dLow ? dHigh : dLow );
+				loLower.set( dX, dHigh < dLow ? dHigh : dLow );
 
-					loaFrontFace[0].set( dX - stickLength, dHigh );
-					loaFrontFace[1].set( dX - stickLength, dLow );
-					loaFrontFace[2].set( dX + stickLength, dLow );
-					loaFrontFace[3].set( dX + stickLength, dHigh );
-				}
 
 				// UPPER-LOWER SEGMENT
-				lre = ( (EventObjectCache) ipr ).getEventObject( WrappedStructureSource.createSeriesDataPoint( ss,
-						dpha[i] ),
-						LineRenderEvent.class );
 				lre.setLineAttributes( lia );
 				lre.setStart( loUpper );
 				lre.setEnd( loLower );
@@ -367,9 +359,6 @@ public final class Stock extends AxesRenderer
 				}			
 
 				// UPPER SEGMENT
-				lre = ( (EventObjectCache) ipr ).getEventObject( WrappedStructureSource.createSeriesDataPoint( ss,
-						dpha[i] ),
-						LineRenderEvent.class );
 				lre.setLineAttributes( lia );
 				lre.setStart( loStart );
 				lre.setEnd( loUpper );
@@ -498,13 +487,6 @@ public final class Stock extends AxesRenderer
 		}
 		final ClientArea ca = lg.getClientArea( );
 		final StockSeries ss = (StockSeries) getSeries( );
-
-		RectangleRenderEvent rre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
-				RectangleRenderEvent.class );
-		rre.setBackground( ca.getBackground( ) );
-		rre.setBounds( bo );
-		ipr.fillRectangle( rre );
-
 		final LineAttributes lia = ss.getLineAttributes( );
 		if ( !lia.isVisible( ) )
 		{
@@ -513,54 +495,68 @@ public final class Stock extends AxesRenderer
 					"exception.stock.lineattr.visibility", //$NON-NLS-1$ 
 					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 		}
-
-		final ChartWithAxes cwa = (ChartWithAxes) getModel( );
+		
 		final LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
 				LineRenderEvent.class );
-		rre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
-				RectangleRenderEvent.class );
-		lre.setLineAttributes( lia );
-		rre.setBackground( fPaletteEntry );
-		rre.setOutline( lia );
-
-		if ( cwa.isTransposed( ) ) // TURN THE CANDLE
+		if ( ss.isShowAsBarStick( ) )
 		{
-			// DRAW THE LINE
-			lre.setStart( goFactory.createLocation( bo.getLeft( ), bo.getTop( )
-					+ bo.getHeight( )
-					/ 2 ) );
-			lre.setEnd( goFactory.createLocation( bo.getLeft( ) + bo.getWidth( ),
-					bo.getTop( ) + bo.getHeight( ) / 2 ) );
+			int stickLength = ss.getStickLength( );
 
-			// DEFINE THE RECTANGLE
-			rre.setBounds( goFactory.createBounds( bo.getLeft( )
+			// UPPER-LOWER SEGMENT
+			lre.setLineAttributes( lia );
+			lre.setStart( goFactory.createLocation( bo.getLeft( )
 					+ bo.getWidth( )
-					/ 4,
-					bo.getTop( ) + 1,
-					bo.getWidth( ) / 2,
-					bo.getHeight( ) - 2 ) );
+					/ 2, bo.getTop( ) ) );
+			lre.setEnd( goFactory.createLocation( bo.getLeft( )
+					+ bo.getWidth( )
+					/ 2, bo.getTop( ) + bo.getHeight( ) ) );
+			ipr.drawLine( lre );
+
+			// OPEN SEGMENT
+			lre.setStart( goFactory.createLocation( bo.getLeft( )
+					+ bo.getWidth( )
+					/ 2
+					- stickLength, bo.getTop( ) + bo.getHeight( ) * 3 / 4 ) );
+			lre.setEnd( goFactory.createLocation( bo.getLeft( )
+					+ bo.getWidth( )
+					/ 2, bo.getTop( ) + bo.getHeight( ) * 3 / 4 ) );
+			ipr.drawLine( lre );
+
+			// CLOSE SEGMENT
+			lre.setStart( goFactory.createLocation( bo.getLeft( )
+					+ bo.getWidth( )
+					/ 2, bo.getTop( ) + bo.getHeight( ) / 4 ) );
+			lre.setEnd( goFactory.createLocation( bo.getLeft( )
+					+ bo.getWidth( )
+					/ 2
+					+ stickLength, bo.getTop( ) + bo.getHeight( ) / 4 ) );
+			ipr.drawLine( lre );
 		}
 		else
-		// STRAIGHT CANDLE
 		{
+			// DEFINE THE RECTANGLE
+			RectangleRenderEvent rre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
+					RectangleRenderEvent.class );			
+			rre.setBackground( fPaletteEntry );
+			rre.setOutline( lia );			
+			rre.setBounds( goFactory.createBounds( bo.getLeft( ) + 1,
+					bo.getTop( ) + bo.getHeight( ) / 4,
+					bo.getWidth( ) - 2,
+					bo.getHeight( ) / 2 ) );
+			
 			// DEFINE THE LINE
+			lre.setLineAttributes( lia );
 			lre.setStart( goFactory.createLocation( bo.getLeft( )
 					+ bo.getWidth( )
 					/ 2, bo.getTop( ) + bo.getHeight( ) ) );
 			lre.setEnd( goFactory.createLocation( bo.getLeft( )
 					+ bo.getWidth( )
-					/ 2,
-					bo.getTop( ) ) );
+					/ 2, bo.getTop( ) ) );
 
-			// DEFINE THE RECTANGLE
-			rre.setBounds( goFactory.createBounds( bo.getLeft( ) + 1,
-					bo.getTop( )
-					+ bo.getHeight( )
-					/ 4, bo.getWidth( ) - 2, bo.getHeight( ) / 2 ) );
+			ipr.drawLine( lre );
+			ipr.fillRectangle( rre );
+			ipr.drawRectangle( rre );
 		}
-		ipr.drawLine( lre );
-		ipr.fillRectangle( rre );
-		ipr.drawRectangle( rre );
 	}
 
 	private boolean isValidEntry( StockEntry entry )
@@ -643,7 +639,7 @@ public final class Stock extends AxesRenderer
 	
 	protected void renderDataPointLabel( Label laDataPoint, DataPointHints dph,
 			Position pDataPoint, Location[] loaFrontFace, Plot p,
-			AbstractScriptHandler sh, double dX, double dY, double dWidth,
+			AbstractScriptHandler<?> sh, double dX, double dY, double dWidth,
 			double dHeight, double dHigh, double dLow, double dOpen,
 			double dClose ) throws ChartException
 	{
