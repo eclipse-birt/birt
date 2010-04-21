@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -175,7 +176,10 @@ public class ModelAdapter implements IModelAdapter
 	{
 		if( expr == null || expr.getStringExpression( ) == null )
 			return null;
-		return new ExpressionAdapter( expr, dataType );
+		ScriptExpression jsExpr = new ExpressionAdapter( expr, dataType );
+		if( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+			jsExpr.setConstant( true );
+		return jsExpr;
 	}
 	
 /*	*//**
@@ -421,7 +425,10 @@ public class ModelAdapter implements IModelAdapter
 	{
 		if( expr == null || expr.getStringExpression( ) == null)
 			return null;
-		return new ExpressionAdapter( expr, el );
+		ScriptExpression jsExpr = new ExpressionAdapter( expr, el );
+		if( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+			jsExpr.setConstant( true );
+		return jsExpr;
 	}
 	
 }
