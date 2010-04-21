@@ -752,27 +752,37 @@ public class ScriptEvalUtil
 			else
 			{
 				IScriptExpression jsExpr = (IScriptExpression) expr;
-				if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
+				if( jsExpr.isConstant( ) && jsExpr.getConstantValue( ) != null )
 				{
-					if ( jsExpr.getHandle( ) instanceof ICompiledScript )
-					{
-						result = cx.evaluate( (ICompiledScript) jsExpr.getHandle( ) );
-					}
-					else
-					{
-						result = ( (CompiledExpression) jsExpr.getHandle( ) ).evaluate( cx,
-								( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx ) );
-					}
+					result = jsExpr.getConstantValue( );
 				}
 				else
 				{
-					result = evaluateJSAsExpr( cx,
-							( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx ),
-							jsExpr.getText( ),
-							source,
-							lineNo );
+					if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
+					{
+						if ( jsExpr.getHandle( ) instanceof ICompiledScript )
+						{
+							result = cx.evaluate( (ICompiledScript) jsExpr.getHandle( ) );
+						}
+						else
+						{
+							result = ( (CompiledExpression) jsExpr.getHandle( ) ).evaluate( cx,
+									( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx ) );
+						}
+					}
+					else
+					{
+						result = evaluateJSAsExpr( cx,
+								( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx ),
+								jsExpr.getText( ),
+								source,
+								lineNo );
+					}
+					if( jsExpr.isConstant( ) )
+					{
+						jsExpr.setConstantValue( result );
+					}
 				}
-
 			}
 			
 			if ( logger.isLoggable( Level.FINER ) )
