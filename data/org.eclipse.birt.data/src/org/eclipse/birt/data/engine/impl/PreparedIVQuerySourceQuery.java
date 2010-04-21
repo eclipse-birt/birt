@@ -496,7 +496,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 						getResultClass( ),
 						query,
 						queryDefn.getStartingRow( ) );
-				query.setDistinctValueFlag( queryDefn.getDistinctValue( ) );
 				resultIterator = new CachedResultSet( query,
 						resultClass,
 						querySourcePopulator,

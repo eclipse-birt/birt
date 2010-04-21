@@ -62,6 +62,7 @@ import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -462,6 +463,8 @@ public class ResultIterator implements IResultIterator
 		while( keyIterator1.hasNext( ) )
 		{
 			Object key = keyIterator1.next( );
+			if( ExprMetaUtil.POS_NAME.equals( key ) )
+				continue;
 			if( ( map2.get( key ) == null && map1.get( key ) != null ) )
 			{
 				return false;
