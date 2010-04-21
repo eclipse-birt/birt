@@ -149,8 +149,8 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * axes
 	 * 
 	 * @param bo
-	 * @override
 	 */
+	@Override
 	public final void render(
 			Map<Series, LegendItemRenderingHints> htRenderers, Bounds bo )
 			throws ChartException
@@ -543,12 +543,12 @@ public abstract class AxesRenderer extends BaseRenderer
 				boolean isTransposed )
 		{
 			double[][] sa = sort( xArray, yArray, isTransposed );
-			int iSize = mergeBase( sa, isTransposed );
+			int iSize = mergeBase( sa );
 
 			return new FittingCurveHelper( sa, iSize );
 		}
 
-		private static int mergeBase( double[][] sa, boolean isTransposed )
+		private static int mergeBase( double[][] sa )
 		{
 			int iLen = sa.length;
 			int iDst = 0;
@@ -1201,10 +1201,31 @@ public abstract class AxesRenderer extends BaseRenderer
 		}
 	}
 
+	private OneAxis[] getAllOneAxes( )
+	{
+		PlotWithAxes pwa = (PlotWithAxes) getComputations( );
+		AllAxes aax = pwa.getAxes( );
+		OneAxis[] oaxa = new OneAxis[2
+				+ aax.getOverlayCount( )
+				+ ( aax.getAncillaryBase( ) != null ? 1 : 0 )];
+		oaxa[0] = aax.getPrimaryBase( );
+		oaxa[1] = aax.getPrimaryOrthogonal( );
+		for ( int i = 0; i < aax.getOverlayCount( ); i++ )
+		{
+			oaxa[2 + i] = aax.getOverlay( i );
+		}
+		if ( aax.getAncillaryBase( ) != null )
+		{
+			oaxa[2 + aax.getOverlayCount( )] = aax.getAncillaryBase( );
+		}
+		return oaxa;
+	}
+
 	/**
-	 * Ths background is the first component rendered within the plot block.
+	 * This background is the first component rendered within the plot block.
 	 * This is rendered with Z-order=0
 	 */
+	@Override
 	protected void renderBackground( IPrimitiveRenderer ipr, Plot p )
 			throws ChartException
 	{
@@ -1419,11 +1440,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 
 			// DRAW THE FLOOR
-			if ( loa == null )
-			{
-				loa = new Location3D[4];
-			}
-
 			loa[0] = goFactory.createLocation3D( dXStart, dYStart, dZStart );
 			loa[1] = goFactory.createLocation3D( dXStart, dYStart, dZEnd );
 			loa[2] = goFactory.createLocation3D( dXEnd, dYStart, dZEnd );
@@ -1444,25 +1460,14 @@ public abstract class AxesRenderer extends BaseRenderer
 		}
 
 		// SETUP AXIS ARRAY
-		final OneAxis[] oaxa = new OneAxis[2
-				+ aax.getOverlayCount( )
-				+ ( aax.getAncillaryBase( ) != null ? 1 : 0 )];
-		oaxa[0] = aax.getPrimaryBase( );
-		oaxa[1] = aax.getPrimaryOrthogonal( );
-		for ( int i = 0; i < aax.getOverlayCount( ); i++ )
-		{
-			oaxa[2 + i] = aax.getOverlay( i );
-		}
-		if ( aax.getAncillaryBase( ) != null )
-		{
-			oaxa[2 + aax.getOverlayCount( )] = aax.getAncillaryBase( );
-		}
+		final OneAxis[] oaxa = getAllOneAxes( );
 
 		// RENDER MARKER RANGES (MARKER LINES ARE DRAWN LATER)
 		renderMarkerRanges( oaxa, bo );
 
 		// RENDER MARKER LINES
-		renderMarkerLines( oaxa, bo );
+		// MarkerLines will be drawn at the foreground.
+		// renderMarkerLines( oaxa, bo );
 
 		// RENDER GRID LINES (MAJOR=DONE; MINOR=DONE)
 		double x = 0, y = 0, vnext = 0;
@@ -2216,6 +2221,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * This method renders the bar graphic elements superimposed over the plot
 	 * background and any previously rendered series' graphic elements.
 	 */
+	@Override
 	public void renderPlot( IPrimitiveRenderer ipr, Plot p )
 			throws ChartException
 	{
@@ -2266,6 +2272,9 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		if ( bLastInSequence )
 		{
+			// RENDER MARKER LINES
+			renderMarkerLines( );
+
 			final Location panningOffset = getPanningOffset( );
 
 			try
@@ -2326,13 +2335,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 
 		}
-		// }
-		// finally
-		// {
-		// // restore clipping.
-		// cre.setVertices( null );
-		// getDevice( ).setClip( cre );
-		// }
 	}
 
 	/**
@@ -2376,6 +2378,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * Returns the decorator renderer associated with current series, default is
 	 * none.
 	 */
+	@Override
 	public IAxesDecorator getAxesDecorator( OneAxis ax )
 	{
 		return null;
@@ -2391,10 +2394,13 @@ public abstract class AxesRenderer extends BaseRenderer
 	 * 
 	 * @throws ChartException
 	 */
-	private final void renderMarkerLines( OneAxis[] oaxa,
-			Bounds boPlotClientArea ) throws ChartException
+	private final void renderMarkerLines( )
+			throws ChartException
 	{
+		PlotWithAxes pwa = (PlotWithAxes) getComputations( );
+		Bounds boPlotClientArea = pwa.getPlotBounds( );
 		Axis ax;
+		OneAxis[] oaxa = getAllOneAxes( );
 		int iLineCount, iAxisCount = oaxa.length;
 		MarkerLine ml;
 		LineRenderEvent lre;
@@ -2413,7 +2419,6 @@ public abstract class AxesRenderer extends BaseRenderer
 		Label la = null;
 		double dOriginalAngle = 0;
 		final boolean bTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
-		final PlotWithAxes pwa = (PlotWithAxes) getComputations( );
 		final Bounds boText = goFactory.createBounds( 0, 0, 0, 0 );
 
 		for ( int i = 0; i < iAxisCount; i++ )
@@ -2854,6 +2859,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	/**
 	 * Returns if current chart is transposed.
 	 */
+	@Override
 	public boolean isTransposed( )
 	{
 		return ( (ChartWithAxes) getModel( ) ).isTransposed( );
@@ -3540,6 +3546,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.render.BaseRenderer#isFirstVisibleSeries()
 	 */
+	@Override
 	protected boolean isFirstVisibleSeries( )
 	{
 		// The study layout for multiple Y axes, we just check if the series is
@@ -3588,6 +3595,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.render.BaseRenderer#isLastVisibleSeries()
 	 */
+	@Override
 	protected boolean isLastSeries( )
 	{
 		//The study layout for multiple Y axes, we just check if the series is
@@ -3607,13 +3615,10 @@ public abstract class AxesRenderer extends BaseRenderer
 			Series s = renderer.getSeries( );
 			return ( s == seList.get( seList.size( ) - 1 ) );
 		}
-		else
+		if ( iSeriesIndex == 0 )
 		{
-			if ( iSeriesIndex == 0 )
-			{
-				return false;
-			}
-			return iSeriesIndex == ( iSeriesCount - 1 );
+			return false;
 		}
+		return iSeriesIndex == ( iSeriesCount - 1 );
 	}
 }
