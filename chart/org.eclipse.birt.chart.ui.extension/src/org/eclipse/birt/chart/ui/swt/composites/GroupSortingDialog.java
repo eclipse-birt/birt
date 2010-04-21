@@ -258,7 +258,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			cmpSortArea.setLayout( new GridLayout( 3, false ) );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 2;
-			gd.widthHint = 200;
+			gd.widthHint = 300;
 			cmpSortArea.setLayoutData( gd );
 		}
 		lblSorting = new Label( cmpSortArea, SWT.NONE );
