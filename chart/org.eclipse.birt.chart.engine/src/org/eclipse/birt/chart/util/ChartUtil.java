@@ -969,7 +969,9 @@ public class ChartUtil
 				return grouping.getAggregateParameters( )
 						.toArray( new String[0] );
 			}
-			else if ( orthQuery != null && orthQuery.getGrouping( ) != null )
+			else if ( orthQuery != null
+					&& orthQuery.getGrouping( ) != null
+					&& orthQuery.getGrouping( ).isEnabled( ) )
 			{
 				return orthQuery.getGrouping( )
 						.getAggregateParameters( )
