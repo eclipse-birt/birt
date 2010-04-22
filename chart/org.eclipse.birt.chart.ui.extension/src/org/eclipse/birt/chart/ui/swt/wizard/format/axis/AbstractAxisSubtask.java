@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.MarkerLine;
@@ -125,18 +126,16 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	 */
 	abstract protected int getAxisAngleType( );
 
-	protected boolean isChart3D( Axis ax )
+	protected boolean isChart3D( )
 	{
 		if ( getChart( ) instanceof ChartWithAxes )
 		{
 			return ( getChart( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL );
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
+	@Override
 	public void createControl( Composite parent )
 	{
 		cmpContent = new Composite( parent, SWT.NONE );
@@ -323,7 +322,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			Axis ax = getAxisForProcessing( );
 			boolean bStaggered = ax.isSetStaggered( ) && ax.isStaggered( );
-			boolean bNot3D = !isChart3D( ax );
+			boolean bNot3D = !isChart3D( );
 
 			cbStaggered.setSelection( bNot3D && bStaggered );
 			cbStaggered.setText( Messages.getString( "AbstractAxisSubtask.Label.Stagger" ) ); //$NON-NLS-1$
@@ -389,7 +388,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		Axis ax = getAxisForProcessing( );
 		boolean isLabelEnabled = ax.getLabel( ).isVisible( );
 		fdcFont.setEnabled( isLabelEnabled );
-		cbStaggered.setEnabled( !isChart3D( ax ) && isLabelEnabled );
+		cbStaggered.setEnabled( !isChart3D( ) && isLabelEnabled );
 		setToggleButtonEnabled( BUTTON_LABEL, isLabelEnabled );
 	}
 
@@ -557,6 +556,23 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 	}
 
+	private double suggestLabelSpan( Axis ax )
+	{
+		boolean bHorizontal = ( (ChartWithAxes) getChart( ) ).isTransposed( ) != ( ax.getOrientation( ) == Orientation.HORIZONTAL_LITERAL );
+
+		if ( !bHorizontal )
+		{
+			if ( ax.getType( ) == AxisType.LINEAR_LITERAL
+					|| ax.getType( ) == AxisType.LOGARITHMIC_LITERAL )
+			{
+				return 30;
+			}
+			return 50;
+		}
+
+		return 16;
+	}
+
 	public void widgetSelected( SelectionEvent e )
 	{
 		// Detach popup dialog if there's selected button.
@@ -580,6 +596,11 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			}
 			else
 			{
+				if ( lneLabelSpan.getValue( ) == 0 )
+				{
+					double value = suggestLabelSpan( getAxisForProcessing( ) );
+					lneLabelSpan.setValue( value );
+				}
 				getAxisForProcessing( ).setLabelSpan( lneLabelSpan.getValue( ) );
 			}
 		}
