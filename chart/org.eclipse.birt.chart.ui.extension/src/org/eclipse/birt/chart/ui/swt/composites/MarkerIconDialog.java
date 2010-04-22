@@ -121,6 +121,21 @@ public class MarkerIconDialog extends TrayDialog
 			btnEmbeddedImage.setSelection( true );
 			switchTo( EMBEDDED_TYPE );
 		}
+		else if ( icon instanceof Image )
+		{
+			try
+			{
+				if ( "file".equals( new URL( ( (Image) icon ).getURL( ) ).getProtocol( ) ) ) //$NON-NLS-1$
+				{
+					btnLocal.setSelection( true );
+					switchTo( LOCAL_TYPE );
+				}
+			}
+			catch ( MalformedURLException e )
+			{
+				// do nothing
+			}
+		}
 		c.pack( );
 		preview();
 		Point size = getShell( ).computeSize( SWT.DEFAULT, SWT.DEFAULT );
