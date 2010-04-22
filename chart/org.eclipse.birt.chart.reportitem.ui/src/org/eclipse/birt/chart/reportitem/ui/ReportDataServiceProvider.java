@@ -67,7 +67,6 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -99,7 +98,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
@@ -197,7 +195,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * 
 	 * @throws ChartException
 	 */
-	public void initialize() throws ChartException
+	public void initialize( ) throws ChartException
 	{
 		try
 		{
@@ -208,18 +206,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				engineTask = new ChartDummyEngineTask( engine,
 						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
 						itemHandle.getModuleHandle( ) );
-			}
 
-			if ( isReportDesignHandle( ) )
-			{
-				session = prepareDataRequestSession( engineTask,
-						getMaxRow( ),
-						false );
+				session = engineTask.getDataSession( );
 				engineTask.run( );
 			}
 			else
 			{
-				session = prepareDataRequestSession( getMaxRow( ), false );
+				DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+						getReportDesignHandle( ) );
+				session = DataRequestSession.newSession( dsc );
 			}
 		}
 		catch ( BirtException e )
@@ -1951,92 +1946,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		return new BIRTCubeResultSetEvaluator( cqr );
-	}
-
-	/**
-	 * @param maxRow
-	 * @param isCubeMode
-	 * @return
-	 * @throws BirtException
-	 */
-	private DataRequestSession prepareDataRequestSession(
-			EngineTask aEngineTask, int maxRow, boolean isCudeMode )
-			throws BirtException
-	{
-
-		// DataSessionContext dsc = new DataSessionContext(
-		// DataSessionContext.MODE_DIRECT_PRESENTATION,
-		// getReportDesignHandle( ) );
-
-		// Bugzilla #210225.
-		// If filter is set on report item handle of chart, here should not use
-		// data cache mode and get all valid data firstly, then set row limit on
-		// query(QueryDefinition.setMaxRows) to get required rows.
-		PropertyHandle filterProperty = itemHandle.getPropertyHandle( IExtendedItemModel.FILTER_PROP );
-		if ( filterProperty == null
-				|| filterProperty.getListValue( ) == null
-				|| filterProperty.getListValue( ).size( ) == 0 )
-		{
-			Map<String, Integer> appContext = new HashMap<String, Integer>( );
-			if ( !isCudeMode )
-			{
-				appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
-						Integer.valueOf( maxRow ) );
-			}
-			else
-			{
-				appContext.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
-						Integer.valueOf( maxRow ) );
-				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
-						Integer.valueOf( maxRow ) );
-			}
-			aEngineTask.setAppContext( appContext );
-		}
-
-		DataRequestSession aSession = aEngineTask.getDataSession( );
-		
-		return aSession;
-	}
-
-	/**
-	 * @param maxRow
-	 * @param isCubeMode
-	 * @return
-	 * @throws BirtException
-	 */
-	private DataRequestSession prepareDataRequestSession( int maxRow,
-			boolean isCudeMode ) throws BirtException
-	{
-		DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				getReportDesignHandle( ) );
-
-		// Bugzilla #210225.
-		// If filter is set on report item handle of chart, here should not use
-		// data cache mode and get all valid data firstly, then set row limit on
-		// query(QueryDefinition.setMaxRows) to get required rows.
-		PropertyHandle filterProperty = itemHandle.getPropertyHandle( IExtendedItemModel.FILTER_PROP );
-		if ( filterProperty == null
-				|| filterProperty.getListValue( ) == null
-				|| filterProperty.getListValue( ).size( ) == 0 )
-		{
-			Map<String, Integer> appContext = new HashMap<String, Integer>( );
-			if ( !isCudeMode )
-			{
-				appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
-						Integer.valueOf( maxRow ) );
-			}
-			else
-			{
-				appContext.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
-						Integer.valueOf( maxRow ) );
-				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
-						Integer.valueOf( maxRow ) );
-			}
-			dsc.setAppContext( appContext );
-		}
-
-		DataRequestSession aSession = DataRequestSession.newSession( dsc );
-		return aSession;
 	}
 
 	/**
