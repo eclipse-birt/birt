@@ -1,45 +1,45 @@
-RadarSeriesImpl.displayName=Radar Series
+RadarSeriesImpl.displayName=Série en radar
 
-RadarChart.Txt.DefaultRadarChartTitle=Radar Chart Title
-RadarChart.Txt.DisplayName=Radar
-RadarChart.SubType.Standard=Standard Radar Chart
-RadarChart.SubType.Spider=Spider Radar Chart
-RadarChart.SubType.Bullseye=Bullseye Radar Chart
+RadarChart.Txt.DefaultRadarChartTitle=Titre du graphique en radar
+RadarChart.Txt.DisplayName=Graphique en radar
+RadarChart.SubType.Standard=Graphique en radar standard
+RadarChart.SubType.Spider=Graphique en radar avec toile d'araignée
+RadarChart.SubType.Bullseye=Graphique en radar avec cercles concentriques
 
-RadarChart.Tooltip.InputExpression=Input an expression which is displayed as Legend text for each item
-RadarChart.Txt.HelpText=Radar charts show the current data value of a certain measurement. The regions with different colors represent the ranges of measurement values. A needle associates with a dial and shows the value of it.
-RadarChart.Txt.Description=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines
-RadarChart.Txt.SpiderDescription=Spider Radar charts contain a polygon grid overlaid with one or more series polygons/lines
-RadarChart.Txt.BullseyeDescription=Bullseye Radar charts contain a circular filled grid overlaid with one or more series polygons/lines
+RadarChart.Tooltip.InputExpression=Entrer une expression affichée comme texte de légende pour chaque élément
+RadarChart.Txt.HelpText=Les graphiques en radar indiquent la valeur de données actuelle d'une mesure spécifique. Les zones de différentes couleurs représentent les plages de valeurs de mesure. Une aiguille est associée à un cadran et indique la valeur correspondante.
+RadarChart.Txt.Description=Les graphiques en radar standard contiennent une grille circulaire superposée à un ou plusieurs polygones/lignes de série
+RadarChart.Txt.SpiderDescription=Les graphiques en radar avec toile d'araignée contiennent une grille circulaire superposée à un ou plusieurs polygones/lignes de série
+RadarChart.Txt.BullseyeDescription=Les graphiques en radar avec cercles concentriques contiennent une grille circulaire superposée à un ou plusieurs polygones/lignes de série
 
-RadarSeriesAttributeComposite.Lbl.Radius=Radi&us:
-RadarSeriesAttributeComposite.Lbl.StartAngle=Start An&gle:
-RadarSeriesAttributeComposite.Lbl.StopAngle=Stop Angl&e:
-RadarSeriesAttributeSheetImpl.Lbl.Type=Type:
-RadarSeriesAttributeSheetImpl.Lbl.Fill=Fill:
-RadarSeriesAttributeComposite.Lbl.DialTicks=&Ticks
-RadarSeriesAttributeComposite.Lbl.DialScale=S&cale
-RadarBaseSeriesComponent.Label.CategoryDefinition=&Category Definition:
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web/Radar Labels
+RadarSeriesAttributeComposite.Lbl.Radius=Ray&on :
+RadarSeriesAttributeComposite.Lbl.StartAngle=An&gle de début :
+RadarSeriesAttributeComposite.Lbl.StopAngle=An&gle de fin :
+RadarSeriesAttributeSheetImpl.Lbl.Type=Type :
+RadarSeriesAttributeSheetImpl.Lbl.Fill=Remplissage :
+RadarSeriesAttributeComposite.Lbl.DialTicks=&Repères
+RadarSeriesAttributeComposite.Lbl.DialScale=E&chelle :
+RadarBaseSeriesComponent.Label.CategoryDefinition=Définition de &catégorie :
+RadarSeriesAttributeComposite.Lbl.ShowWeb=Afficher les étiquettes &Web/radar
 
-RadarSeriesAttributeComposite.Exception.IllegalArgument=Series of type {0} is an invalid argument for RadarSeriesAttributeComposite.
-RadarSeriesAttributeComposite.Lbl.LinePalette=Use Series &Palette as Line Color
-RadarSeriesAttributeComposite.Lbl.FillPoly=Fill Poly&gons
-RadarSeriesAttributeComposite.Lbl.ConnectPoints=&Connect Data Set Endpoints(polygon)
+RadarSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est un argument non valide pour RadarSeriesAttributeComposite.
+RadarSeriesAttributeComposite.Lbl.LinePalette=Utiliser la &palette de série pour la couleur de trait
+RadarSeriesAttributeComposite.Lbl.FillPoly=Remplir les poly&gones
+RadarSeriesAttributeComposite.Lbl.ConnectPoints=&Connecter les points finaux du jeu de données (polygone)
 
-RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=S&how Lines as Curves
+RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=A&fficher les lignes sous la forme de courbes
 
-RadarSeriesMarkerSheet.Label.Markers=&Marker
-RadarSeriesMarkerSheet.GroupLabel.Markers=Marker
+RadarSeriesMarkerSheet.Label.Markers=&Repère
+RadarSeriesMarkerSheet.GroupLabel.Markers=Repère
 
-RadarSeriesMarkerSheet.Label.Web=Chart Line Configuration
-RadarSeriesMarkerSheet.Label.Series=Series Line Configuration
+RadarSeriesMarkerSheet.Label.Web=Configuration des lignes du graphique
+RadarSeriesMarkerSheet.Label.Series=Configuration des lignes de série
 
-Radar.Composite.Label.ScaleCount=&Number Scale Steps in Chart
-Radar.Composite.Label.ScaleCountToolTip=Number Scale Steps with which to create in the Chart
-Radar.Composite.Label.bullsEye=Set the Bullseye colors to translucent
-
-
+Radar.Composite.Label.ScaleCount=&Numéroter les étapes (échelles) du graphique
+Radar.Composite.Label.ScaleCountToolTip=Numéroter les étapes (échelles) à partir desquelles créer le graphique
+Radar.Composite.Label.bullsEye=Définir les couleurs des cercles concentriques sur Translucide
 
 
-Radar.Composite.Label.PlotPercentageToolTip=Percentage of Plot Area the Radar will Consume
+
+
+Radar.Composite.Label.PlotPercentageToolTip=Pourcentage de zone de tracé occupée par le graphique en radar

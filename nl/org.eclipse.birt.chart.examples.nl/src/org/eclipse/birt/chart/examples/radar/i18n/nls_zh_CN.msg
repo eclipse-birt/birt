@@ -1,45 +1,45 @@
-RadarSeriesImpl.displayName=Radar Series
+RadarSeriesImpl.displayName=雷达图系列
 
-RadarChart.Txt.DefaultRadarChartTitle=Radar Chart Title
-RadarChart.Txt.DisplayName=Radar
-RadarChart.SubType.Standard=Standard Radar Chart
-RadarChart.SubType.Spider=Spider Radar Chart
-RadarChart.SubType.Bullseye=Bullseye Radar Chart
+RadarChart.Txt.DefaultRadarChartTitle=雷达图标题
+RadarChart.Txt.DisplayName=雷达图
+RadarChart.SubType.Standard=标准雷达图
+RadarChart.SubType.Spider=星形雷达图
+RadarChart.SubType.Bullseye=靶眼雷达图
 
-RadarChart.Tooltip.InputExpression=Input an expression which is displayed as Legend text for each item
-RadarChart.Txt.HelpText=Radar charts show the current data value of a certain measurement. The regions with different colors represent the ranges of measurement values. A needle associates with a dial and shows the value of it.
-RadarChart.Txt.Description=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines
-RadarChart.Txt.SpiderDescription=Spider Radar charts contain a polygon grid overlaid with one or more series polygons/lines
-RadarChart.Txt.BullseyeDescription=Bullseye Radar charts contain a circular filled grid overlaid with one or more series polygons/lines
+RadarChart.Tooltip.InputExpression=输入对每个项目显示为图例文本的表达式
+RadarChart.Txt.HelpText=雷达图显示某个度量的当前数据值。 具有不同颜色的区域表示度量值的范围。 一个指针与一个刻度盘关联，显示刻度值。
+RadarChart.Txt.Description=标准雷达图包含由一个或多个系列多边形/线段覆盖的圆形网格
+RadarChart.Txt.SpiderDescription=星形雷达图包含由一个或多个系列多边形/线段覆盖的多边形网格
+RadarChart.Txt.BullseyeDescription=靶眼雷达图包含由一个或多个系列多边形/线段覆盖的圆形填充网格
 
-RadarSeriesAttributeComposite.Lbl.Radius=Radi&us:
-RadarSeriesAttributeComposite.Lbl.StartAngle=Start An&gle:
-RadarSeriesAttributeComposite.Lbl.StopAngle=Stop Angl&e:
-RadarSeriesAttributeSheetImpl.Lbl.Type=Type:
-RadarSeriesAttributeSheetImpl.Lbl.Fill=Fill:
-RadarSeriesAttributeComposite.Lbl.DialTicks=&Ticks
-RadarSeriesAttributeComposite.Lbl.DialScale=S&cale
-RadarBaseSeriesComponent.Label.CategoryDefinition=&Category Definition:
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web/Radar Labels
+RadarSeriesAttributeComposite.Lbl.Radius=半径(&U):
+RadarSeriesAttributeComposite.Lbl.StartAngle=起始角度(&G):
+RadarSeriesAttributeComposite.Lbl.StopAngle=停止角度(&E):
+RadarSeriesAttributeSheetImpl.Lbl.Type=类型:
+RadarSeriesAttributeSheetImpl.Lbl.Fill=填充:
+RadarSeriesAttributeComposite.Lbl.DialTicks=刻度线(&T)
+RadarSeriesAttributeComposite.Lbl.DialScale=比例(&C)
+RadarBaseSeriesComponent.Label.CategoryDefinition=类别定义(&C):
+RadarSeriesAttributeComposite.Lbl.ShowWeb=显示 Web/雷达标签(&W)
 
-RadarSeriesAttributeComposite.Exception.IllegalArgument=Series of type {0} is an invalid argument for RadarSeriesAttributeComposite.
-RadarSeriesAttributeComposite.Lbl.LinePalette=Use Series &Palette as Line Color
-RadarSeriesAttributeComposite.Lbl.FillPoly=Fill Poly&gons
-RadarSeriesAttributeComposite.Lbl.ConnectPoints=&Connect Data Set Endpoints(polygon)
+RadarSeriesAttributeComposite.Exception.IllegalArgument=对于 RadarSeriesAttributeComposite，类型 {0} 的系列是无效参数。
+RadarSeriesAttributeComposite.Lbl.LinePalette=在确定线条颜色时使用系列选项板(&P)
+RadarSeriesAttributeComposite.Lbl.FillPoly=填充多边形(&G)
+RadarSeriesAttributeComposite.Lbl.ConnectPoints=连接数据集端点(多边形)(&C)
 
-RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=S&how Lines as Curves
+RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=线显示为曲线(&H)
 
-RadarSeriesMarkerSheet.Label.Markers=&Marker
-RadarSeriesMarkerSheet.GroupLabel.Markers=Marker
+RadarSeriesMarkerSheet.Label.Markers=标记(&M)
+RadarSeriesMarkerSheet.GroupLabel.Markers=标记
 
-RadarSeriesMarkerSheet.Label.Web=Chart Line Configuration
-RadarSeriesMarkerSheet.Label.Series=Series Line Configuration
+RadarSeriesMarkerSheet.Label.Web=图表线配置
+RadarSeriesMarkerSheet.Label.Series=系列线配置
 
-Radar.Composite.Label.ScaleCount=&Number Scale Steps in Chart
-Radar.Composite.Label.ScaleCountToolTip=Number Scale Steps with which to create in the Chart
-Radar.Composite.Label.bullsEye=Set the Bullseye colors to translucent
-
-
+Radar.Composite.Label.ScaleCount=图表中的数标步进值(&N)
+Radar.Composite.Label.ScaleCountToolTip=在图表中创建时所用的数标步进值
+Radar.Composite.Label.bullsEye=将靶眼颜色设置为半透明
 
 
-Radar.Composite.Label.PlotPercentageToolTip=Percentage of Plot Area the Radar will Consume
+
+
+Radar.Composite.Label.PlotPercentageToolTip=雷达图在绘图区中所占百分比

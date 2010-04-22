@@ -1,45 +1,45 @@
-RadarSeriesImpl.displayName=Radar Series
+RadarSeriesImpl.displayName=Serie radial
 
-RadarChart.Txt.DefaultRadarChartTitle=Radar Chart Title
-RadarChart.Txt.DisplayName=Radar
-RadarChart.SubType.Standard=Standard Radar Chart
-RadarChart.SubType.Spider=Spider Radar Chart
-RadarChart.SubType.Bullseye=Bullseye Radar Chart
+RadarChart.Txt.DefaultRadarChartTitle=Título de diagrama radial
+RadarChart.Txt.DisplayName=Radial
+RadarChart.SubType.Standard=Diagrama radial estándar
+RadarChart.SubType.Spider=Diagrama radial de araña
+RadarChart.SubType.Bullseye=Diagrama radial de ojo de buey
 
-RadarChart.Tooltip.InputExpression=Input an expression which is displayed as Legend text for each item
-RadarChart.Txt.HelpText=Radar charts show the current data value of a certain measurement. The regions with different colors represent the ranges of measurement values. A needle associates with a dial and shows the value of it.
-RadarChart.Txt.Description=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines
-RadarChart.Txt.SpiderDescription=Spider Radar charts contain a polygon grid overlaid with one or more series polygons/lines
-RadarChart.Txt.BullseyeDescription=Bullseye Radar charts contain a circular filled grid overlaid with one or more series polygons/lines
+RadarChart.Tooltip.InputExpression=Introduzca una expresión que se muestre como texto de leyenda para cada elemento
+RadarChart.Txt.HelpText=Los diagramas radiales muestran el valor de los datos actuales de una medida. Las regiones con colores diferentes representan los intervalos de los valores de medida. Un indicador asociado a un cuadrante muestra su valor.
+RadarChart.Txt.Description=Los diagramas radiales estándar contienen una cuadrícula circular a la que se superponen series de líneas o polígonos
+RadarChart.Txt.SpiderDescription=Los diagramas radiales de araña contienen una cuadrícula de polígonos a la que se superponen series de líneas o polígonos
+RadarChart.Txt.BullseyeDescription=Los diagramas radiales de ojo de buey contienen una cuadrícula circular rellena a la que se superponen series de líneas o polígonos
 
-RadarSeriesAttributeComposite.Lbl.Radius=Radi&us:
-RadarSeriesAttributeComposite.Lbl.StartAngle=Start An&gle:
-RadarSeriesAttributeComposite.Lbl.StopAngle=Stop Angl&e:
-RadarSeriesAttributeSheetImpl.Lbl.Type=Type:
-RadarSeriesAttributeSheetImpl.Lbl.Fill=Fill:
-RadarSeriesAttributeComposite.Lbl.DialTicks=&Ticks
-RadarSeriesAttributeComposite.Lbl.DialScale=S&cale
-RadarBaseSeriesComponent.Label.CategoryDefinition=&Category Definition:
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web/Radar Labels
+RadarSeriesAttributeComposite.Lbl.Radius=Radi&o:
+RadarSeriesAttributeComposite.Lbl.StartAngle=Án&gulo de inicio:
+RadarSeriesAttributeComposite.Lbl.StopAngle=Áng&ulo de detención:
+RadarSeriesAttributeSheetImpl.Lbl.Type=Tipo:
+RadarSeriesAttributeSheetImpl.Lbl.Fill=Relleno:
+RadarSeriesAttributeComposite.Lbl.DialTicks=&Marcas
+RadarSeriesAttributeComposite.Lbl.DialScale=E&scala
+RadarBaseSeriesComponent.Label.CategoryDefinition=Definición de &categoría:
+RadarSeriesAttributeComposite.Lbl.ShowWeb=Mostrar etiquetas &Web/Radial
 
-RadarSeriesAttributeComposite.Exception.IllegalArgument=Series of type {0} is an invalid argument for RadarSeriesAttributeComposite.
-RadarSeriesAttributeComposite.Lbl.LinePalette=Use Series &Palette as Line Color
-RadarSeriesAttributeComposite.Lbl.FillPoly=Fill Poly&gons
-RadarSeriesAttributeComposite.Lbl.ConnectPoints=&Connect Data Set Endpoints(polygon)
+RadarSeriesAttributeComposite.Exception.IllegalArgument=La serie de tipo {0} no es un argumento válido para RadarSeriesAttributeComposite.
+RadarSeriesAttributeComposite.Lbl.LinePalette=Usar &paleta de series como color de línea
+RadarSeriesAttributeComposite.Lbl.FillPoly=Rellenar polí&gonos
+RadarSeriesAttributeComposite.Lbl.ConnectPoints=&Conectar puntos finales de conjunto de datos (polígono)
 
-RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=S&how Lines as Curves
+RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=M&ostrar líneas como curvas
 
-RadarSeriesMarkerSheet.Label.Markers=&Marker
-RadarSeriesMarkerSheet.GroupLabel.Markers=Marker
+RadarSeriesMarkerSheet.Label.Markers=&Marcador
+RadarSeriesMarkerSheet.GroupLabel.Markers=Marcador
 
-RadarSeriesMarkerSheet.Label.Web=Chart Line Configuration
-RadarSeriesMarkerSheet.Label.Series=Series Line Configuration
+RadarSeriesMarkerSheet.Label.Web=Configuración de línea de diagrama
+RadarSeriesMarkerSheet.Label.Series=Configuración de línea de serie
 
-Radar.Composite.Label.ScaleCount=&Number Scale Steps in Chart
-Radar.Composite.Label.ScaleCountToolTip=Number Scale Steps with which to create in the Chart
-Radar.Composite.Label.bullsEye=Set the Bullseye colors to translucent
-
-
+Radar.Composite.Label.ScaleCount=&Número de pasos de escala en el diagrama
+Radar.Composite.Label.ScaleCountToolTip=Numero de pasos de escala con los que crear el diagrama
+Radar.Composite.Label.bullsEye=Establecer los colores de ojo de buey como translúcidos
 
 
-Radar.Composite.Label.PlotPercentageToolTip=Percentage of Plot Area the Radar will Consume
+
+
+Radar.Composite.Label.PlotPercentageToolTip=Porcentaje de área de dibujo que consumirá el radial
