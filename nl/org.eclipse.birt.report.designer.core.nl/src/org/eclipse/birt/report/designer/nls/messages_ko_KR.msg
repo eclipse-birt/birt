@@ -1458,9 +1458,9 @@ ExportToLibraryAction.action.text=라이브러리로 내보내기(&X)...
 ExportToLibraryAction.Button.Cancel=취소
 ExportToLibraryAction.Button.No=아니오
 ExportToLibraryAction.Button.Yes=예
-ExportToLibraryAction.Dialog.Message=\nTarget library might have the same design element. Do you wish to overwrite it?
-ExportToLibraryAction.Dialog.Title=요소 내보내기 
-ExportToLibraryAction.Message.RememberDecision=&Remember my decision
+ExportToLibraryAction.Dialog.Message=\n대상 라이브러리에 동일한 디자인 요소가 있을 수 있습니다. 덮어쓰시겠습니까?
+ExportToLibraryAction.Dialog.Title=요소 내보내기
+ExportToLibraryAction.Message.RememberDecision=선택 저장(&R)
 
 
 ###########################################################
@@ -4652,8 +4652,8 @@ ReportDocumentEditor.errorMessage=편집기에서 문서를 여는 동안 오류가 발생했습니�
 
 ###########################################################
 #Export Element Dialog
-ExportElementDialog.Dialog.Title=Export Elements to Library
-ExportElementDialog.Dialog.Message=Select the target Library or create a new target.
+ExportElementDialog.Dialog.Title=라이브러리로 요소 내보내기
+ExportElementDialog.Dialog.Message=대상 라이브러리를 선택하거나 새 대상을 생성하십시오.
 ExportElementDialog.label.NewFile=새 파일 이름(&N):
 ExportElementDialog.ErrorMessage=파일 이름은 .rptlibrary로 끝나야 합니다. 
 ExportElementDialog.ErrorMessageInvalid=파일 이름이 잘못되었습니다. 

@@ -88,7 +88,7 @@ StandardChartDataSheet.Label.PlotAsValueSeries=Tracer une série de valeurs
 StandardChartDataSheet.Label.UseToGroupYSeries=Utiliser la série verticale de groupes
 StandardChartDataSheet.Label.EnableLivePreview=Activer l'aperçu direct du graphique
 StandardChartDataSheet.Label.UseToGroupValueSeries=Utiliser la série de valeurs de groupes
-StandardChartDataSheet.Message.RetrieveData=Retrieve data for preview
+StandardChartDataSheet.Message.RetrieveData=Récupérer les données pour l'aperçu
 StandardChartDataSheet.NewDataCube=<Nouveau cube de données>
 StandardChartDataSheet.NewDataSet=<Nouveau jeu de données>
 

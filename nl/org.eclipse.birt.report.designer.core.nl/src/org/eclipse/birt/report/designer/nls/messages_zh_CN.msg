@@ -1458,9 +1458,9 @@ ExportToLibraryAction.action.text=导出到库(&X)...
 ExportToLibraryAction.Button.Cancel=取消
 ExportToLibraryAction.Button.No=否
 ExportToLibraryAction.Button.Yes=是
-ExportToLibraryAction.Dialog.Message=\nTarget library might have the same design element. Do you wish to overwrite it?
-ExportToLibraryAction.Dialog.Title=导出元素 
-ExportToLibraryAction.Message.RememberDecision=&Remember my decision
+ExportToLibraryAction.Dialog.Message=\n目标库可能具有相同的设计元素。 是否要覆盖?
+ExportToLibraryAction.Dialog.Title=导出元素
+ExportToLibraryAction.Message.RememberDecision=记住我的决定(&R)
 
 
 ###########################################################
@@ -4652,8 +4652,8 @@ ReportDocumentEditor.errorMessage=在编辑器中打开文档时出错。
 
 ###########################################################
 #Export Element Dialog
-ExportElementDialog.Dialog.Title=Export Elements to Library
-ExportElementDialog.Dialog.Message=Select the target Library or create a new target.
+ExportElementDialog.Dialog.Title=将元素导出到库
+ExportElementDialog.Dialog.Message=选择目标库或创建新目标。
 ExportElementDialog.label.NewFile=新文件名称(&N):
 ExportElementDialog.ErrorMessage=文件名必须以 .rptlibrary 结尾。 
 ExportElementDialog.ErrorMessageInvalid=文件名无效。 

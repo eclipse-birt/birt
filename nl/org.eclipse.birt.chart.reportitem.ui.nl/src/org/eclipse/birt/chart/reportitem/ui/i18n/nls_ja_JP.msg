@@ -88,7 +88,7 @@ StandardChartDataSheet.Label.PlotAsValueSeries=値系列としてプロットする
 StandardChartDataSheet.Label.UseToGroupYSeries=Y 系列のグループ化に使用する
 StandardChartDataSheet.Label.EnableLivePreview=ライブグラフプレビューの有効化
 StandardChartDataSheet.Label.UseToGroupValueSeries=値系列のグループ化に使用する
-StandardChartDataSheet.Message.RetrieveData=Retrieve data for preview
+StandardChartDataSheet.Message.RetrieveData=プレビューするデータを取得します。
 StandardChartDataSheet.NewDataCube=<データキューブの新規作成...>
 StandardChartDataSheet.NewDataSet=<新規データセット...>
 
