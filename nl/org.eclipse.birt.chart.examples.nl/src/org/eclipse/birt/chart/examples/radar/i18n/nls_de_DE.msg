@@ -1,45 +1,45 @@
-RadarSeriesImpl.displayName=Radar Series
+RadarSeriesImpl.displayName=Radardatenreihe
 
-RadarChart.Txt.DefaultRadarChartTitle=Radar Chart Title
+RadarChart.Txt.DefaultRadarChartTitle=Radardiagrammtitel
 RadarChart.Txt.DisplayName=Radar
-RadarChart.SubType.Standard=Standard Radar Chart
-RadarChart.SubType.Spider=Spider Radar Chart
-RadarChart.SubType.Bullseye=Bullseye Radar Chart
+RadarChart.SubType.Standard=Standardradardiagramm
+RadarChart.SubType.Spider=Netzradardiagramm
+RadarChart.SubType.Bullseye=Punktradardiagramm
 
-RadarChart.Tooltip.InputExpression=Input an expression which is displayed as Legend text for each item
-RadarChart.Txt.HelpText=Radar charts show the current data value of a certain measurement. The regions with different colors represent the ranges of measurement values. A needle associates with a dial and shows the value of it.
-RadarChart.Txt.Description=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines
-RadarChart.Txt.SpiderDescription=Spider Radar charts contain a polygon grid overlaid with one or more series polygons/lines
-RadarChart.Txt.BullseyeDescription=Bullseye Radar charts contain a circular filled grid overlaid with one or more series polygons/lines
+RadarChart.Tooltip.InputExpression=Geben Sie einen Ausdruck ein, der für jedes Objekt als Legendentext angezeigt wird.
+RadarChart.Txt.HelpText=Radardiagramme zeigen den aktuellen Datenwert einer bestimmten Messgröße an. Die verschiedenfarbigen Abschnitte stellen die Bereiche der Messgrößenwerte dar. Nadeln sind mit Tachometern verknüpft und zeigen deren Wert an.
+RadarChart.Txt.Description=Standardradardiagramme enthalten ein zirkuläres Raster, das von einem oder mehreren Reihenpolygonen bzw. einer oder mehreren Reihenlinien überlagert wird.
+RadarChart.Txt.SpiderDescription=Netzradardiagramme enthalten ein polygonales Raster, das von einem oder mehreren Reihenpolygonen bzw. einer oder mehreren Reihenlinien überlagert wird.
+RadarChart.Txt.BullseyeDescription=Punktradardiagramme enthalten ein zirkuläres, gefülltes Raster, das von einem oder mehreren Reihenpolygonen bzw. einer oder mehreren Reihenlinien überlagert wird.
 
 RadarSeriesAttributeComposite.Lbl.Radius=Radi&us:
-RadarSeriesAttributeComposite.Lbl.StartAngle=Start An&gle:
-RadarSeriesAttributeComposite.Lbl.StopAngle=Stop Angl&e:
-RadarSeriesAttributeSheetImpl.Lbl.Type=Type:
-RadarSeriesAttributeSheetImpl.Lbl.Fill=Fill:
-RadarSeriesAttributeComposite.Lbl.DialTicks=&Ticks
-RadarSeriesAttributeComposite.Lbl.DialScale=S&cale
-RadarBaseSeriesComponent.Label.CategoryDefinition=&Category Definition:
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web/Radar Labels
+RadarSeriesAttributeComposite.Lbl.StartAngle=&Startwinkel:
+RadarSeriesAttributeComposite.Lbl.StopAngle=Endwink&el:
+RadarSeriesAttributeSheetImpl.Lbl.Type=Geben Sie Folgendes ein:
+RadarSeriesAttributeSheetImpl.Lbl.Fill=Füllung:
+RadarSeriesAttributeComposite.Lbl.DialTicks=&Häkchen
+RadarSeriesAttributeComposite.Lbl.DialScale=S&kalierung
+RadarBaseSeriesComponent.Label.CategoryDefinition=&Kategoriedefinition:
+RadarSeriesAttributeComposite.Lbl.ShowWeb=&Web-/Radarbeschriftungen anzeigen
 
-RadarSeriesAttributeComposite.Exception.IllegalArgument=Series of type {0} is an invalid argument for RadarSeriesAttributeComposite.
-RadarSeriesAttributeComposite.Lbl.LinePalette=Use Series &Palette as Line Color
-RadarSeriesAttributeComposite.Lbl.FillPoly=Fill Poly&gons
-RadarSeriesAttributeComposite.Lbl.ConnectPoints=&Connect Data Set Endpoints(polygon)
+RadarSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} ist ein ungültiges Argument für RadarSeriesAttributeComposite.
+RadarSeriesAttributeComposite.Lbl.LinePalette=&Palette für Datenreihe als Linienfarbe verwenden
+RadarSeriesAttributeComposite.Lbl.FillPoly=Poly&gons füllen
+RadarSeriesAttributeComposite.Lbl.ConnectPoints=Datensatzendpunkte verbinden (polygonal)
 
-RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=S&how Lines as Curves
+RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=&Linien als Kurven anzeigen
 
-RadarSeriesMarkerSheet.Label.Markers=&Marker
-RadarSeriesMarkerSheet.GroupLabel.Markers=Marker
+RadarSeriesMarkerSheet.Label.Markers=&Markierung
+RadarSeriesMarkerSheet.GroupLabel.Markers=Markierung
 
-RadarSeriesMarkerSheet.Label.Web=Chart Line Configuration
-RadarSeriesMarkerSheet.Label.Series=Series Line Configuration
+RadarSeriesMarkerSheet.Label.Web=Diagrammlinienkonfiguration
+RadarSeriesMarkerSheet.Label.Series=Reihenlinienkonfiguration
 
-Radar.Composite.Label.ScaleCount=&Number Scale Steps in Chart
-Radar.Composite.Label.ScaleCountToolTip=Number Scale Steps with which to create in the Chart
-Radar.Composite.Label.bullsEye=Set the Bullseye colors to translucent
-
-
+Radar.Composite.Label.ScaleCount=A&nzahl Skalenschritte in Diagramm
+Radar.Composite.Label.ScaleCountToolTip=Anzahl Skalenschritte zum Erstellen im Diagramm
+Radar.Composite.Label.bullsEye=Punktfarben als transparent festlegen
 
 
-Radar.Composite.Label.PlotPercentageToolTip=Percentage of Plot Area the Radar will Consume
+
+
+Radar.Composite.Label.PlotPercentageToolTip=Prozentsatz der Zeichnungsfläche, der für den Radar erforderlich ist

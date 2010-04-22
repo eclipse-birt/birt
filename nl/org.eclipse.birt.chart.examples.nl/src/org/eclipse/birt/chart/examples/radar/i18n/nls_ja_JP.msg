@@ -1,45 +1,45 @@
-RadarSeriesImpl.displayName=Radar Series
+RadarSeriesImpl.displayName=レーダ系列
 
-RadarChart.Txt.DefaultRadarChartTitle=Radar Chart Title
-RadarChart.Txt.DisplayName=Radar
-RadarChart.SubType.Standard=Standard Radar Chart
-RadarChart.SubType.Spider=Spider Radar Chart
-RadarChart.SubType.Bullseye=Bullseye Radar Chart
+RadarChart.Txt.DefaultRadarChartTitle=レーダグラフのタイトル
+RadarChart.Txt.DisplayName=レーダ
+RadarChart.SubType.Standard=標準レーダグラフ
+RadarChart.SubType.Spider=スパイダーレーダグラフ
+RadarChart.SubType.Bullseye=ブルズアイレーダグラフ
 
-RadarChart.Tooltip.InputExpression=Input an expression which is displayed as Legend text for each item
-RadarChart.Txt.HelpText=Radar charts show the current data value of a certain measurement. The regions with different colors represent the ranges of measurement values. A needle associates with a dial and shows the value of it.
-RadarChart.Txt.Description=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines
-RadarChart.Txt.SpiderDescription=Spider Radar charts contain a polygon grid overlaid with one or more series polygons/lines
-RadarChart.Txt.BullseyeDescription=Bullseye Radar charts contain a circular filled grid overlaid with one or more series polygons/lines
+RadarChart.Tooltip.InputExpression=各項目の凡例として表示されている式を入力してください。
+RadarChart.Txt.HelpText=レーダグラフ。データの測定値を示します。 測定値の範囲に応じて領域を色分けします。 レーダ上のダイアルを指す針によって値が示されます。
+RadarChart.Txt.Description=標準レーダグラフ。円形のグリッド上に多角形と線を重ね合わせて表示します。
+RadarChart.Txt.SpiderDescription=スパイダーレーダグラフ。多角形のグリッド上に多角形と線を重ね合わせて表示します。
+RadarChart.Txt.BullseyeDescription=ブルズアイレーダグラフ。円形の塗りつぶされたグリッド上に多角形と線を重ね合わせて表示します。
 
-RadarSeriesAttributeComposite.Lbl.Radius=Radi&us:
-RadarSeriesAttributeComposite.Lbl.StartAngle=Start An&gle:
-RadarSeriesAttributeComposite.Lbl.StopAngle=Stop Angl&e:
-RadarSeriesAttributeSheetImpl.Lbl.Type=Type:
-RadarSeriesAttributeSheetImpl.Lbl.Fill=Fill:
-RadarSeriesAttributeComposite.Lbl.DialTicks=&Ticks
-RadarSeriesAttributeComposite.Lbl.DialScale=S&cale
-RadarBaseSeriesComponent.Label.CategoryDefinition=&Category Definition:
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web/Radar Labels
+RadarSeriesAttributeComposite.Lbl.Radius=半径(&U) :
+RadarSeriesAttributeComposite.Lbl.StartAngle=始点の角度(&G) :
+RadarSeriesAttributeComposite.Lbl.StopAngle=終端の角度(&E) :
+RadarSeriesAttributeSheetImpl.Lbl.Type=型 :
+RadarSeriesAttributeSheetImpl.Lbl.Fill=塗りつぶし :
+RadarSeriesAttributeComposite.Lbl.DialTicks=目盛を付ける(&T)
+RadarSeriesAttributeComposite.Lbl.DialScale=スケール(&C)
+RadarBaseSeriesComponent.Label.CategoryDefinition=カテゴリの定義(&C) :
+RadarSeriesAttributeComposite.Lbl.ShowWeb=Web / レーダラベルを表示(&W)
 
-RadarSeriesAttributeComposite.Exception.IllegalArgument=Series of type {0} is an invalid argument for RadarSeriesAttributeComposite.
-RadarSeriesAttributeComposite.Lbl.LinePalette=Use Series &Palette as Line Color
-RadarSeriesAttributeComposite.Lbl.FillPoly=Fill Poly&gons
-RadarSeriesAttributeComposite.Lbl.ConnectPoints=&Connect Data Set Endpoints(polygon)
+RadarSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、RadarSeriesAttributeComposite の引数としては使用できません。
+RadarSeriesAttributeComposite.Lbl.LinePalette=系列パレットを線の色として使用する(&P)
+RadarSeriesAttributeComposite.Lbl.FillPoly=多角形の塗りつぶし(&G)
+RadarSeriesAttributeComposite.Lbl.ConnectPoints=データセットエンドポイントの接続（多角形）(&C)
 
-RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=S&how Lines as Curves
+RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=線を曲線で表示(&H)
 
-RadarSeriesMarkerSheet.Label.Markers=&Marker
-RadarSeriesMarkerSheet.GroupLabel.Markers=Marker
+RadarSeriesMarkerSheet.Label.Markers=マーカ(&M)
+RadarSeriesMarkerSheet.GroupLabel.Markers=マーカ
 
-RadarSeriesMarkerSheet.Label.Web=Chart Line Configuration
-RadarSeriesMarkerSheet.Label.Series=Series Line Configuration
+RadarSeriesMarkerSheet.Label.Web=グラフの線の設定
+RadarSeriesMarkerSheet.Label.Series=系列の線の設定
 
-Radar.Composite.Label.ScaleCount=&Number Scale Steps in Chart
-Radar.Composite.Label.ScaleCountToolTip=Number Scale Steps with which to create in the Chart
-Radar.Composite.Label.bullsEye=Set the Bullseye colors to translucent
-
-
+Radar.Composite.Label.ScaleCount=グラフの目盛(&N)
+Radar.Composite.Label.ScaleCountToolTip=グラフで使用する目盛を設定
+Radar.Composite.Label.bullsEye=ブルズアイの色を半透明に設定
 
 
-Radar.Composite.Label.PlotPercentageToolTip=Percentage of Plot Area the Radar will Consume
+
+
+Radar.Composite.Label.PlotPercentageToolTip=レーダグラフで使用するプロット領域の割合
