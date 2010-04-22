@@ -1594,9 +1594,10 @@ public class ReportDocumentReader
 
 	public Report getReportIR( ReportDesignHandle designHandle )
 	{
+		InputStream stream = null;
 		try
 		{
-			InputStream stream = archive.getStream( DESIGN_IR_STREAM );
+			stream = archive.getStream( DESIGN_IR_STREAM );
 			EngineIRReader reader = new EngineIRReader( );
 			Report reportIR = reader.read( stream );
 			reportIR.setVersion( getVersion( ) );
@@ -1607,6 +1608,20 @@ public class ReportDocumentReader
 		{
 			// an error occurs in reading the engine ir
 			logger.log( Level.FINE, "Failed to load the engine IR", ioex );
+		}
+		finally
+		{
+			if ( stream != null )
+			{
+				try
+				{
+					stream.close( );
+				}
+				catch ( IOException ignored )
+				{
+				}
+				stream = null;
+			}
 		}
 		return null;
 	}
