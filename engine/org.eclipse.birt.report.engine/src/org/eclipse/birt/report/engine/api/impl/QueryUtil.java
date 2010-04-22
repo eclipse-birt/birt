@@ -524,14 +524,14 @@ public class QueryUtil
 			if ( dataSession == null )
 				return null;
 			Map appContext = executionContext.getAppContext( );
+			dataSession.getDataSessionContext( ).setAppContext( appContext );
 			ScriptContext scriptContext = executionContext.getScriptContext( );
 			processQueryExtensions( query, executionContext );
 			if ( query instanceof QueryDefinition )
 			{
 				QueryDefinition tmpQuery = (QueryDefinition) query;
 				tmpQuery.setQueryResultsID( rset );
-				IPreparedQuery pQuery = dataSession.prepare( tmpQuery,
-						appContext );
+				IPreparedQuery pQuery = dataSession.prepare( tmpQuery );
 				if ( pQuery == null )
 					return null;
 				return dataSession.execute(  pQuery, parent, scriptContext );
@@ -540,8 +540,7 @@ public class QueryUtil
 			{
 				ICubeQueryDefinition cubeQuery = (ICubeQueryDefinition) query;
 				cubeQuery.setQueryResultsID( rset );
-				IPreparedCubeQuery pQuery = dataSession.prepare( cubeQuery,
-						appContext );
+				IPreparedCubeQuery pQuery = dataSession.prepare( cubeQuery );
 				if ( pQuery == null )
 					return null;
 				return dataSession.execute(  pQuery, parent, scriptContext );
@@ -549,8 +548,7 @@ public class QueryUtil
 			else if ( query instanceof ISubCubeQueryDefinition )
 			{
 				ISubCubeQueryDefinition cubeQuery = (ISubCubeQueryDefinition) query;
-				IPreparedCubeQuery pQuery = dataSession.prepare( cubeQuery,
-						appContext );
+				IPreparedCubeQuery pQuery = dataSession.prepare( cubeQuery );
 				if ( pQuery == null )
 					return null;
 				return dataSession.execute(  pQuery, parent, scriptContext );

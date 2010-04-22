@@ -570,7 +570,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	private IResultIterator executeQuery( DataRequestSession dteSession,
 			QueryDefinition queryDefn ) throws BirtException
 	{
-		IPreparedQuery query = dteSession.prepare( queryDefn, getAppContext( ) );
+		IPreparedQuery query = dteSession.prepare( queryDefn );
 		IQueryResults result = (IQueryResults)dteSession.execute( query, null,
 				executionContext.getScriptContext( ) );
 		return result.getResultIterator( );
@@ -972,6 +972,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				// Handle data source and data set
 				QueryDefinition queryDefn = createQueryDefinition( dataSet );
 				DataRequestSession dteSession = createDataSession( dataSet );
+				dteSession.getDataSessionContext( )
+						.setAppContext( getAppContext( ) );
 
 				Iterator iter = parameterGroup.getParameters( ).iterator( );
 				while ( iter.hasNext( ) )
@@ -1277,6 +1279,8 @@ public class GetParameterDefinitionTask extends EngineTask
 			try
 			{
 				DataRequestSession dteSession = createDataSession( dataSet );
+				dteSession.getDataSessionContext( )
+						.setAppContext( getAppContext( ) );
 				QueryDefinition queryDefn = createQueryDefinition( dataSet );
 				ParameterHelper.addParameterBinding( queryDefn, parameter,
 						dteSession.getModelAdaptor( ) );

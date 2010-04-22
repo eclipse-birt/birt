@@ -291,7 +291,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 			if ( dteResults == null )
 			{
-				IBasePreparedQuery pQuery = dteSession.prepare( query, null );
+				IBasePreparedQuery pQuery = dteSession.prepare( query );
 				dteResults = dteSession.execute( pQuery, null, context.getScriptContext( ) );
 				putCachedQueryResult( query, dteResults.getID( ) );
 			}
@@ -322,7 +322,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 			if ( dteResults == null )
 			{
-				IBasePreparedQuery pQuery = dteSession.prepare( query, null );
+				IBasePreparedQuery pQuery = dteSession.prepare( query );
 				dteResults = dteSession.execute( pQuery, parentQueryResults, context.getScriptContext( ) );
 				putCachedQueryResult( query, dteResults.getID( ) );
 			}
