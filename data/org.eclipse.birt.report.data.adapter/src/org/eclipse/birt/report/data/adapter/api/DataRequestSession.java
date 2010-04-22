@@ -237,6 +237,12 @@ public abstract class DataRequestSession
 
 	public abstract IBasePreparedQuery prepare( IDataQueryDefinition query,
 			Map appContext ) throws AdapterException;
+	
+	/**
+	 * Prepare a base data query, and return an IBasePreparedQuery instance
+	 * which can be subsequently executed to produce query results.
+	 */
+	public abstract IBasePreparedQuery prepare( IDataQueryDefinition query ) throws AdapterException;
 
 	/**
 	 * Execute a base prepared query, return an IBaseQueryResults instance which
@@ -420,6 +426,15 @@ public abstract class DataRequestSession
 	 */
 	public abstract IPreparedCubeQuery prepare( ISubCubeQueryDefinition query,
 			Map appContext ) throws BirtException;
+	
+	/**
+	 * 
+	 * @param query
+	 * @param appContext
+	 * @return
+	 * @throws BirtException
+	 */
+	public abstract IPreparedCubeQuery prepare( ISubCubeQueryDefinition query ) throws BirtException;
 	
 	/**
 	 * 

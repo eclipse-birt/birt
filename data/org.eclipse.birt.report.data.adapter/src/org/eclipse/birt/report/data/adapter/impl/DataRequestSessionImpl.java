@@ -2159,4 +2159,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return this.dataEngine;
 	}
+
+	@Override
+	public IBasePreparedQuery prepare(IDataQueryDefinition query)
+			throws AdapterException 
+	{
+		return prepare( query, null );
+	}
+
+	@Override
+	public IPreparedCubeQuery prepare(ISubCubeQueryDefinition query)
+			throws BirtException 
+	{
+		return prepare( query, null );
+	}
 }
