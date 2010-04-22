@@ -329,8 +329,7 @@ public class NumberFormatter
 				return result.replace( '.', decimalSeparator );
 			}
 			
-			if ( num < 0 && num > -1 )
-				num = roundValue( num );
+			num = roundValue( num );
 			return numberFormat.format( num );
 
 		}
@@ -522,14 +521,6 @@ public class NumberFormatter
 			}
 		}
 
-		if ( decimalFormat instanceof DecimalFormat )
-		{
-			( (DecimalFormat) decimalFormat ).setRoundingMode( roundingMode );
-		}
-		if ( numberFormat instanceof DecimalFormat )
-		{
-			( (DecimalFormat) numberFormat ).setRoundingMode( roundingMode );
-		}
 	}
 
 	private void handleNamedFormats( String patternStr )
