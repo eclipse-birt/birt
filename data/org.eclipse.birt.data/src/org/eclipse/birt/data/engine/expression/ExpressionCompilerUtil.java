@@ -324,7 +324,8 @@ public class ExpressionCompilerUtil
 		if ( expression instanceof IScriptExpression )
 		{
 			String text = ( (IScriptExpression) expression ).getText( );
-			
+			if ( text.trim( ).length( ) == 0 )
+				return true;
 			// fake a registry to register the aggregation.
 			AggregateRegistry aggrReg = new AggregateRegistry( ) {
 
