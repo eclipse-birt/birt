@@ -3292,7 +3292,7 @@ Element.OdaLevel.attributes=Attributs
 Element.MemberValue.value=Valeur
 Element.MemberValue.level=Niveau
 Element.MemberValue.memberValues=Valeurs de membre
-Element.MemberValue.filter=Filter
+Element.MemberValue.filter=Filtrer
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=Clé

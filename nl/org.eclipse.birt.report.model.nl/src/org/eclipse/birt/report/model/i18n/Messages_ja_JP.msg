@@ -3292,7 +3292,7 @@ Element.OdaLevel.attributes=属性
 Element.MemberValue.value=値
 Element.MemberValue.level=レベル
 Element.MemberValue.memberValues=メンバ値
-Element.MemberValue.filter=Filter
+Element.MemberValue.filter=フィルタ
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=キー
