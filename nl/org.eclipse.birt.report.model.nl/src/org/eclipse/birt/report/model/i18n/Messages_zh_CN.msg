@@ -3292,7 +3292,7 @@ Element.OdaLevel.attributes=属性
 Element.MemberValue.value=值
 Element.MemberValue.level=级别
 Element.MemberValue.memberValues=成员值
-Element.MemberValue.filter=筛选
+Element.MemberValue.filter=筛选器
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=关键字
