@@ -47,6 +47,7 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.graphics.Transform;
 
 /**
  * Contains useful methods for rendering text on an SWT graphics context
@@ -90,6 +91,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 	 *            The chart model structure containing the encapsulated text
 	 *            (and attributes) to be rendered
 	 */
+	@Override
 	public final void renderShadowAtLocation( IPrimitiveRenderer ipr,
 			int iLabelPosition, // IConstants. LEFT, RIGHT, ABOVE or BELOW
 			Location lo, // POINT WHERE THE CORNER OF THE ROTATED RECTANGLE
@@ -352,6 +354,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 	 * @param la
 	 * @throws ChartException
 	 */
+	@Override
 	public final void renderTextAtLocation( IPrimitiveRenderer idr,
 			int iLabelPosition, // IConstants. LEFT, RIGHT, ABOVE
 			// or BELOW
@@ -444,10 +447,11 @@ final class SwtTextRenderer extends TextRendererAdapter
 	 * @param taBlock
 	 * @param la
 	 */
+	@Override
 	public final void renderTextInBlock( IDeviceRenderer idr, Bounds boBlock,
 			TextAlignment taBlock, Label la ) throws ChartException
 	{
-		IChartComputation cComp = ( (IDeviceRenderer) idr ).getChartComputation( );
+		IChartComputation cComp = idr.getChartComputation( );
 		Text t = la.getCaption( );
 		String sText = t.getValue( );
 		ColorDefinition cdText = t.getColor( );
@@ -633,15 +637,10 @@ final class SwtTextRenderer extends TextRendererAdapter
 
 		final Rectangle r;
 
-		Object tr = null;
+		Transform tr = null;
 
-		// In Linux-Cairo environment, it uses a cascaded transform setting
-		// policy, not a overriding policy. So we must set a reverse tranforming
-		// again to restore to original state. see bugzilla 137654.
-
-		// This transform object records the reverse tranforming, which is used
-		// to restore original state.
-		Object rtr = null;
+		Transform trOld = new Transform( getDevice( ) );
+		gc.getTransform( trOld );
 
 		// In Linux-Cairo environment, the reverse transformation may damage the
 		// clipping area due to computing-precision lost, so we must record it
@@ -651,9 +650,8 @@ final class SwtTextRenderer extends TextRendererAdapter
 		if ( R31Enhance.isR31Available( ) )
 		{
 			r = new Rectangle( 0, 0, (int) dFW, (int) dFH );
-
-			tr = R31Enhance.newTransform( getDevice( ) );
-			rtr = R31Enhance.newTransform( getDevice( ) );
+			tr = new Transform( getDevice( ) );
+			gc.getTransform( tr );
 
 			if ( la.getCaption( ).getFont( ).getRotation( ) != 0 )
 			{
@@ -672,30 +670,18 @@ final class SwtTextRenderer extends TextRendererAdapter
 				else
 					tTx += dFH * Math.abs( dSineTheta );
 
-				R31Enhance.translate( gc,
-						tr,
-						(float) ( dFW / 2 ),
-						(float) ( dFH / 2 ) );
-				R31Enhance.translate( gc, tr, tTx, tTy );
-				R31Enhance.rotate( gc, tr, -rotate );
-
-				R31Enhance.rotate( gc, rtr, rotate );
-				R31Enhance.translate( gc, rtr, -tTx, -tTy );
-				R31Enhance.translate( gc,
-						rtr,
-						(float) ( -dFW / 2 ),
-						(float) ( -dFH / 2 ) );
+				tr.translate( (float) ( dFW / 2 ), (float) ( dFH / 2 ) );
+				tr.translate( tTx, tTy );
+				tr.rotate( -rotate );
 			}
 			else
 			{
 				R31Enhance.translate( gc, tr, (float) dX, (float) dY );
-				R31Enhance.translate( gc, rtr, (float) -dX, (float) -dY );
 			}
 
 			// if we are using transformation, record previous clipping first.
 			previousClipping = new Region( );
 			gc.getClipping( previousClipping );
-
 			R31Enhance.setTransform( gc, tr );
 		}
 		else
@@ -816,19 +802,16 @@ final class SwtTextRenderer extends TextRendererAdapter
 			}
 		}
 
-		// apply reverse tranforming, this is necessary for Linux-Cairo
-		// environment.
-		R31Enhance.setTransform( gc, rtr );
-		// keep setting null transformation to reset for other platforms.
-		R31Enhance.setTransform( gc, null );
-		// if previous clipping is recorded, restore it here and dispose.
+		// restore the transform and clipping
+		R31Enhance.setTransform( gc, trOld );
+
 		if ( previousClipping != null )
 		{
 			gc.setClipping( previousClipping );
 			previousClipping.dispose( );
 		}
 
-		R31Enhance.disposeTransform( rtr );
+		R31Enhance.disposeTransform( trOld );
 		R31Enhance.disposeTransform( tr );
 
 		f.dispose( );
