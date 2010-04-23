@@ -449,15 +449,26 @@ public class CubeQueryDefinitionUtil
 		return cloneQuery;
 	}
 
-	private static boolean canAddFilterToDrill(ICubeQueryDefinition query, IEdgeDrillFilter columnDrill,
-			IEdgeDrillFilter rowDrill, int i)
+	private static boolean canAddFilterToDrill( ICubeQueryDefinition query,
+			IEdgeDrillFilter rowDrill, IEdgeDrillFilter columnDrill, int i )
 	{
-		List<IDimensionDefinition> columnEdgeDimensions = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE )
-				.getDimensions( );
-		List<IDimensionDefinition> rowEdgeDimensions = query.getEdge( ICubeQueryDefinition.ROW_EDGE )
-				.getDimensions( );
+		List<IDimensionDefinition> columnEdgeDimensions = null;
+
+		if ( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
+			columnEdgeDimensions = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE )
+					.getDimensions( );
+
+		List<IDimensionDefinition> rowEdgeDimensions = null;
+
+		if ( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
+			rowEdgeDimensions = query.getEdge( ICubeQueryDefinition.ROW_EDGE )
+					.getDimensions( );
+
 		ICubeFilterDefinition filter = (ICubeFilterDefinition) query.getFilters( )
 				.get( i );
+
+		if ( filter.getTargetLevel( ) == null )
+			return false;
 
 		int filterIndex = -1;
 		int rowDrillIndex = -1;
