@@ -384,6 +384,10 @@ public class FactTableRowIterator implements IFactTableRowIterator
 			{
 				continue;
 			}
+			
+			if( currentSegment != null )
+				currentSegment.close( );
+			
 			currentSegment = factTable.getDocumentManager( ).openDocumentObject( FTSUDocName );
 			
 			for ( int i = 0; i < dimensionIndex.length; i++ )

@@ -502,6 +502,7 @@ public class FactTableAccessor
 		}
 		DimensionDivision[] subDimensions = calculateDimensionDivision( dimensionMemberCount,
 				segmentNumber );
+		documentObject.close( );
 		return new FactTable( factTableName,
 				documentManager,
 				dimensionInfo,
