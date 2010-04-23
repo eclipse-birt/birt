@@ -30,7 +30,7 @@ import org.eclipse.birt.data.engine.olap.cursor.MergedCubeCursor;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
-import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
+import org.eclipse.birt.data.engine.olap.data.document.CubeRADocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
@@ -225,9 +225,8 @@ public class CubeQueryResults implements ICubeQueryResults
 			if( manager.exist( NamingUtil.getCubeDocName( executor.getCubeQueryDefinition( ).getName( ) ) ))
 				return manager;
 		}
-		
-		return DocumentManagerFactory.createRADocumentManager( executor.getContext( )
-					.getDocReader( ) );
+		return CubeRADocumentManagerFactory.createRADocumentManager( executor.getCubeQueryDefinition( ).getName( ), 
+				executor.getContext( ).getDocReader( ) );
 	}
 
 	/**
