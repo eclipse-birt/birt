@@ -1750,13 +1750,15 @@ public final class PieRenderer
 					Fill fPaletteEntry = null;
 					if ( bPaletteByCategory )
 					{
-						fPaletteEntry = getPaletteColor( slice.getCategoryIndex( ) );
+						fPaletteEntry = getPaletteColor( slice.getCategoryIndex( ),
+								slice.getDataPointHints( ) );
 					}
 					else
 					{
 						fPaletteEntry = getPaletteColor( pie.getSeriesDefinition( )
 								.getRunTimeSeries( )
-								.indexOf( ps ) );
+								.indexOf( ps ),
+								slice.getDataPointHints( ) );
 					}
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_ELEMENT,
@@ -1809,13 +1811,14 @@ public final class PieRenderer
 				Fill fPaletteEntry = null;
 				if ( bPaletteByCategory )
 				{
-					fPaletteEntry = getPaletteColor( slice.getCategoryIndex( ) );
+					fPaletteEntry = getPaletteColor( slice.getCategoryIndex( ),
+							slice.getDataPointHints( ) );
 				}
 				else
 				{
 					fPaletteEntry = getPaletteColor( pie.getSeriesDefinition( )
 							.getRunTimeSeries( )
-							.indexOf( ps ) );
+							.indexOf( ps ), slice.getDataPointHints( ) );
 				}
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_DATA_POINT,
@@ -2465,11 +2468,19 @@ public final class PieRenderer
 	 * @param iIndex
 	 * @return
 	 */
-	private final Fill getPaletteColor( int iIndex )
+	private final Fill getPaletteColor( int iIndex, DataPointHints dph )
 	{
-		final Fill fiClone = FillUtil.getPaletteFill( pa.getEntries( ), iIndex );
-
+		Fill fiClone = FillUtil.getPaletteFill( pa.getEntries( ), iIndex );
 		pie.updateTranslucency( fiClone, ps );
+
+		// Convert Fill for negative value
+		if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
+		{
+			fiClone = FillUtil.convertFill( fiClone,
+					( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
+					null );
+		}
+
 		return fiClone;
 	}
 
