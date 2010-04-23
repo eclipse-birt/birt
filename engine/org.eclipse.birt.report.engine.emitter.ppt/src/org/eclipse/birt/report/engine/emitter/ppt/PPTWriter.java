@@ -339,18 +339,17 @@ public class PPTWriter
 			if ( hyperlink != null )
 			{
 				hyperlink = codeLink( hyperlink );
+				print( "<p:onmouseclick  hyperlinktype=3D\"url\" href=3D\""
+						+ hyperlink + "\"" );
+				if ( tooltip != null )
+				{
+					tooltip = codeLink( tooltip );
+					print( " tips=3D\"" + tooltip + "\"" );
+				}
+				println( "/><a href=3D\""
+						+ hyperlink
+						+ "/\" target=3D\"_parent\" onclick=3D\"window.event.cancelBubble=3Dtrue;\">" );
 			}
-			if ( tooltip != null )
-			{
-				tooltip = codeLink( tooltip );
-			}
-			println( "<p:onmouseclick  hyperlinktype=3D\"url\" href=3D\""
-					+ hyperlink
-					+ "\" tips=3D\""
-					+ tooltip
-					+ "\"/><a href=3D\""
-					+ hyperlink
-					+ "/\" target=3D\"_parent\" onclick=3D\"window.event.cancelBubble=3Dtrue;\">" );
 		}
 		print( getEscapedStr( text ) );
 		if ( link != null )
