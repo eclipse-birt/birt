@@ -119,7 +119,7 @@ class RDSave implements IRDSave
 			IBinding binding = (IBinding)this.queryDefn.getBindings( ).get( key );
 			if ( this.streamManager.getVersion( ) >= VersionManager.VERSION_2_2_1_3
 					&& this.queryDefn instanceof QueryDefinition
-					&& ( (QueryDefinition) this.queryDefn ).getQueryResultsID( ) == null
+					&& this.context.getMode( ) == DataEngineContext.MODE_GENERATION
 					&& binding.getAggregatOns( ).size( ) == 0
 					&& binding.getAggrFunction( ) == null )
 			{

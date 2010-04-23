@@ -130,12 +130,25 @@ public class StreamManager
 		this.dataMetaManagers = new HashMap();
 		VersionManager vm = new VersionManager( context );
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
-		{
+		{			
 			vm.setVersion( VersionManager.getLatestVersion( ) );
 			this.version = VersionManager.getLatestVersion( );
 		}
+		else if ( context.getMode( ) == DataEngineContext.MODE_UPDATE
+				&& this.rootQueryResultID == null )
+		{
+			//TODO add this for the case when doing IV without query result id
+			if ( this.context.hasInStream( null,
+					null,
+					DataEngineContext.VERSION_INFO_STREAM ) == false )
+			{
+				this.version = VersionManager.getLatestVersion( );
+			}
+			else
+				this.version = vm.getVersion( );
+		}
 		else
-		{	
+		{
 			this.version = vm.getVersion( );
 		}
 	}
