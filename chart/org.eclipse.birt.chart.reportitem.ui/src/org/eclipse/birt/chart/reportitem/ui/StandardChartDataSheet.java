@@ -387,7 +387,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 			public void dragStart( DragSourceEvent event )
 			{
-				text = createCubeExpression( );
+				text = getDraggableCubeExpression( );
 				if ( text == null )
 				{
 					event.doit = false;
@@ -2475,11 +2475,21 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	}
 
 	/**
+	 * This method returns a cube expression that is draggable.
+	 * 
+	 * @return
+	 */
+	protected String getDraggableCubeExpression()
+	{
+		return createCubeExpression( );
+	}
+	
+	/**
 	 * Creates the cube expression
 	 * 
 	 * @return expression
 	 */
-	private String createCubeExpression( )
+	protected String createCubeExpression( )
 	{
 		if ( cubeTreeViewer == null )
 		{
