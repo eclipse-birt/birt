@@ -53,17 +53,17 @@ feature@org.eclipse.birt.rcp.nl=v20100224,:ext:xgu@dev.eclipse.org:/cvsroot/birt
 feature@org.eclipse.birt.dtp.sybase.nl=v200911041343,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.build/R1.6_Feature_Projects/org.eclipse.birt.dtp.sybase.nl.feature
 
 
-!*** Apache Xerces**************************************************************************** 
-feature@org.apache.commons.codec=v20081027,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature 
+!*** Apache Xerces****************************************************************************
+feature@org.apache.commons.codec=v20081027,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature
 
-feature@com.lowagie.itext=v20081027,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/com.lowagie.itext.feature
-plugin@com.lowagie.itext=v20100408,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
+!*** feature@com.lowagie.itext=v20081027,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/com.lowagie.itext.feature*********************
+!*** plugin@com.lowagie.itext=v20100408,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext********************* 
 
-feature@org.apache.derby.core=v20100115,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.derby.core.feature
+!*** feature@org.apache.derby.core=v20100115,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.derby.core.feature*********************
 plugin@org.apache.derby.core=v20100129,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
 
-feature@org.mozilla.rhino=v20090521,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature 
+!*** feature@org.mozilla.rhino=v20090521,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature*********************
 plugin@org.mozilla.rhino=v20090608,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
-feature@org.w3c.sac=v20081027,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature 
+!*** feature@org.w3c.sac=v20081027,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature*********************
 plugin@org.w3c.sac=v20070710,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
