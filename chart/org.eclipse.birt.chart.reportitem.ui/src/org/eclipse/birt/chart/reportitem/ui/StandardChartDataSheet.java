@@ -189,6 +189,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private Label dataPreviewDescription;
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
 			.createExpressionCodec( );
+	
+	private final String HEAD_INFO = "HeaderInfo"; //$NON-NLS-1$
+	
+	private final String DATA_LIST = "DataList"; //$NON-NLS-1$
+	
+	private Composite parentComposite;
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider, int iSupportedDataItems )
@@ -290,7 +296,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		notifyListeners( event );
 	}
 
-	
 	@Override
 	public Composite createDataDragSource( Composite parent )
 	{
@@ -835,14 +840,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 	}
 
-	private final String HEADER_INFO = "HeaderInfo"; //$NON-NLS-1$
-	private final String DATA_LIST = "DataList"; //$NON-NLS-1$
-
-	private void refreshDataPreview() {
-		final boolean refreshTablePreviw = getContext().isShowingDataPreview( );
-		LivePreviewTask lpt = new LivePreviewTask(  ); 
-		// Add a task to retrieve data and bind data to flash chart.
-		lpt.addTask( new LivePreviewTask( Messages.getString("StandardChartDataSheet.Message.RetrieveData"), null ) { //$NON-NLS-1$
+	private void refreshDataPreview()
+	{
+		final boolean isTablePreview = getContext( ).isShowingDataPreview( );
+		LivePreviewTask lpt = new LivePreviewTask( Messages.getString("StandardChartDataSheet.Message.RetrieveData"), //$NON-NLS-1$
+				null );
+		// Add a task to retrieve data and bind data to chart.
+		lpt.addTask( new LivePreviewTask( ) {
 
 			public void run( )
 			{
@@ -857,8 +861,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					{
 						dataList = getPreviewData( );
 					}
-					
-					this.setParameter( HEADER_INFO, headers );
+
+					this.setParameter( HEAD_INFO, headers );
 					this.setParameter( DATA_LIST, dataList );
 				}
 				catch ( Exception e )
@@ -877,7 +881,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						 */
 						public void run( )
 						{
-							if ( refreshTablePreviw )
+							if ( isTablePreview )
 							{
 								// Still update table preview in here to ensure the
 								// column headers of table preview can be updated
@@ -889,7 +893,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							{
 								updateColumnsTableViewer( headerInfo, data );
 							}
-							
 							ChartWizard.showException( ChartWizard.StaChartDSh_dPreview_ID,
 									message );
 						}
@@ -903,14 +906,14 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			public void run()
 			{
 
-				final ColumnBindingInfo[] headerInfo = (ColumnBindingInfo[]) getParameter( HEADER_INFO );
+				final ColumnBindingInfo[] headerInfo = (ColumnBindingInfo[]) getParameter( HEAD_INFO );
 				final List<?> data = (List<?>) getParameter( DATA_LIST );
 				// Execute UI operation in UI thread.
 				Display.getDefault( ).syncExec( new Runnable( ) {
 
 					public void run( )
 					{
-						if ( refreshTablePreviw )
+						if ( isTablePreview )
 						{
 							// Still update table preview in here to ensure the
 							// column headers of table preview can be updated
@@ -922,7 +925,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						{
 							updateColumnsTableViewer( headerInfo, data );
 						}
-						
 						ChartWizard.removeException( ChartWizard.StaChartDSh_dPreview_ID );
 					}
 				} );
@@ -930,6 +932,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		});
 		
 		// Add live preview tasks to live preview thread.
+		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).setParentShell( parentComposite.getShell( ) );
 		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).add( lpt );	
 	}
 	
@@ -964,6 +967,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	@Override
 	public Composite createDataSelector( Composite parent )
 	{
+		parentComposite = parent;
 		// select the only data set
 		if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
 				&& itemHandle.getContainer( ) instanceof ModuleHandle )
