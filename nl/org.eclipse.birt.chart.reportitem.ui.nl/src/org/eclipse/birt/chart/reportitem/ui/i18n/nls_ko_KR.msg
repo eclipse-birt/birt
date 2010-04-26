@@ -88,6 +88,7 @@ StandardChartDataSheet.Label.PlotAsValueSeries=값 계열로 플롯
 StandardChartDataSheet.Label.UseToGroupYSeries=Y 계열을 그룹화하는 데 사용
 StandardChartDataSheet.Label.EnableLivePreview=실시간 차트 미리 보기 사용
 StandardChartDataSheet.Label.UseToGroupValueSeries=값 계열을 그룹화하는 데 사용
+StandardChartDataSheet.Message.RetrieveData=Retrieve data for preview
 StandardChartDataSheet.NewDataCube=<새 데이터 큐브...>
 StandardChartDataSheet.NewDataSet=<새 데이터 집합...>
 
