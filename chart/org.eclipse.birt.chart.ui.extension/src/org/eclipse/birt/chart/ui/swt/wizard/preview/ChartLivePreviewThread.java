@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.preview;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -185,16 +186,19 @@ public class ChartLivePreviewThread extends Thread
 			        
 				if ( tp != null )
 				{
-					Object chartModel = null;
+					Map<String, Object> parameters = null;
 					for ( LivePreviewTask lpt : tp.getTasks( ) )
 					{
 						if ( blinker != thisThread )
 						{
 							break;
 						}
-						lpt.setParameter( PARAM_CHART_MODEL, chartModel );
+						if ( parameters != null )
+						{
+							lpt.setParameters( parameters );
+						}
 						lpt.run( );
-						chartModel = lpt.getParameter( PARAM_CHART_MODEL );
+						parameters = lpt.getParamerters( );
 					}
 				}
 			}
