@@ -25,6 +25,7 @@ tablepage.label.selectTable=Seleccione una o varias tablas y haga clic en el bot
 tablepage.label.filter=Filt&ro:
 tablepage.label.refresh=Actualizando...
 tablepage.label.schema=&Esquema:
+tablepage.label.queryText=Q&uery Text:
 tablepage.button.filter=&Aplicar filtro
 tablepage.button.dnd=&Entrecomillar todos los identificadores
 tablepage.button.showSystemTables=M&ostrar las tablas del sistema

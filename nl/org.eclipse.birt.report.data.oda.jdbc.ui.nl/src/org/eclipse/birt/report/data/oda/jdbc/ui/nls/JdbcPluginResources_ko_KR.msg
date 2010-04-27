@@ -25,6 +25,7 @@ tablepage.label.selectTable=테이블을 이동하여 데이터 집합에 사용하려면 테이블을 
 tablepage.label.filter=필터(&R):
 tablepage.label.refresh=새로 고치는 중...
 tablepage.label.schema=스키마(&S):
+tablepage.label.queryText=Q&uery Text:
 tablepage.button.filter=필터 적용(&A)
 tablepage.button.dnd=모든 식별자 인용(&Q)
 tablepage.button.showSystemTables=시스템 테이블 표시(&H)

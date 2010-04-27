@@ -25,6 +25,7 @@ tablepage.label.selectTable=Sélectionnez une ou plusieurs table(s), puis cliquez
 tablepage.label.filter=Filt&re :
 tablepage.label.refresh=Actualisation...
 tablepage.label.schema=&Schéma :
+tablepage.label.queryText=Q&uery Text:
 tablepage.button.filter=&Appliquer le filtre
 tablepage.button.dnd=Indi&quer tous les identificateurs
 tablepage.button.showSystemTables=Affic&her les tables systèmes

@@ -25,6 +25,7 @@ tablepage.label.selectTable=データセットで使用するテーブルを移動するには、テーブ
 tablepage.label.filter=フィルタ(&R) :
 tablepage.label.refresh=更新中...
 tablepage.label.schema=スキーマ(&S) :
+tablepage.label.queryText=Q&uery Text:
 tablepage.button.filter=フィルタの適用(&A)
 tablepage.button.dnd=すべての識別子に引用符をつける(&Q)
 tablepage.button.showSystemTables=システムテーブルを表示する(&H)
