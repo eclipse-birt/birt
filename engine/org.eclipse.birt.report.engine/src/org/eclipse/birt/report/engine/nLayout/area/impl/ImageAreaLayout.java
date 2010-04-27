@@ -654,6 +654,11 @@ public class ImageAreaLayout implements ILayout
 							return;
 						}
 						String url = attributes.get( "href" );
+						//does not support javascript in href.
+						if ( url.startsWith( "javascript:" ) )
+						{
+							url = null;
+						}
 						String targetWindow = attributes.get( "target" );
 						createImageMap( area, imageArea, url, targetWindow );
 					}
