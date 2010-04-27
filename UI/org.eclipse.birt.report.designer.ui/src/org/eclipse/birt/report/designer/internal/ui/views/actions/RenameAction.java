@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ContentElementHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -107,6 +108,11 @@ public class RenameAction extends AbstractViewerAction
 			}
 			return ( (ReportElementHandle) obj ).getDefn( ).getNameOption( ) != MetaDataConstants.NO_NAME
 					&& ( (ReportElementHandle) obj ).canEdit( );
+		}
+		if ( obj instanceof ContentElementHandle )
+		{
+			return ( (ContentElementHandle) obj ).getDefn( ).getNameOption( ) != MetaDataConstants.NO_NAME
+					&& ( (ContentElementHandle) obj ).canEdit( );
 		}
 		// No report element selected
 		return false;
