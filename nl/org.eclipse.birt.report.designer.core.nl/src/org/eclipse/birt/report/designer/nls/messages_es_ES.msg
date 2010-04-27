@@ -147,7 +147,7 @@ AttributesBuilder.Label.Cube=Editor de propiedades - Cubo
 AttributesBuilder.Label.DynamicFilterParameter=Editor de propiedades - Parámetro de filtro dinámico
 AttributesBuilder.Label.MasterPage=Editor de propiedades - Página maestra
 AttributesBuilder.Label.None=Editor de propiedades - Ninguno
-AttributesBuilder.Label.Picture=Editor de propiedades - Imagen
+AttributesBuilder.Label.Picture=Property Editor - Image
 AttributesBuilder.Label.Report=Editor de propiedades - Informe
 AttributesBuilder.Label.Row=Editor de propiedades - Fila
 AttributesBuilder.Label.Table=Editor de propiedades - Tabla
@@ -561,7 +561,7 @@ dataset.editor.inputDialog.columnName=&Nombre de columna
 dataset.editor.inputDialog.dataType=&Tipo de datos
 dataset.editor.inputDialog.expression=&Expresión
 dataset.editor.inputDialog.aggrArgu=Arg&umento
-dataset.editor.inputDialog.aggrFunc=A&gregación
+dataset.editor.inputDialog.aggrFunc=A&ggregation
 dataset.editor.inputDialog.filter=&Filtro
 dataset.editor.inputDialog.value1=Valor &1
 dataset.editor.inputDialog.value2=Valor &2
@@ -902,7 +902,7 @@ designer.preview.preference.bidiOrientation.auto=Automático
 designer.preview.preference.bidiOrientation.ltr=De izquierda a derecha
 designer.preview.preference.bidiOrientation.rtl=De derecha a izquierda
 designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
+designer.preview.preference.updateParameter.confirmButton=&Always prompt for confirmation when updating result set/parameter design attributes.
 
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}
@@ -1646,7 +1646,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = Establezca un formato de f
 ###########################################################
 #FormatDateTimePage properties
 
-FormatDateTimePage.label.custom.settings.label=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
+FormatDateTimePage.label.custom.settings.label=Example format&s (Click one to copy below, then modify):
 FormatDateTimePage.label.custom.settings=Ajustes personalizados
 FormatDateTimePage.label.format.code=Códi&go de formato:
 FormatDateTimePage.label.format.page=&Formato como:
@@ -1685,7 +1685,7 @@ FormatNumberPage.currency.symbol.none=Sin símbolo
 FormatNumberPage.label.currency.settings=Ajustes de moneda
 FormatNumberPage.label.custom.preview.group=Vista previa
 FormatNumberPage.label.custom.preview.label=Vista previa con formato:
-FormatNumberPage.label.custom.settings.lable=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
+FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
 FormatNumberPage.label.custom.settings=Ajustes personalizados
 FormatNumberPage.label.decimal.places=Nú&mero de decimales: 
 FormatNumberPage.label.fixed.settings=Ajustes fijos
@@ -1729,7 +1729,7 @@ FormatStringAttributePage.Trans.SetStringFormat = Establezca un formato de caden
 
 FormatStringPage.default.preview.text=Mi string
 FormatStringPage.label.custom.preview.label=Vista previa con formato:
-FormatStringPage.label.custom.settings.label=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
+FormatStringPage.label.custom.settings.label=Example format&s (Click one to copy below, then modify):
 FormatStringPage.label.customSettings=Ajustes personalizados
 FormatStringPage.label.format.code=Códi&go de formato:
 FormatStringPage.label.formatStringAs=&Formato como:
@@ -2601,7 +2601,7 @@ MasterPagePaletteFactory.paletteDrawerName.autoText=AutoText
 MasterPagePaletteFactory.ToolTip.Grid=Elemento de informe de cuadrícula
 MasterPagePaletteFactory.ToolTip.Text=Elemento de informe de texto
 MasterPagePaletteFactory.Autotext.Variable=Variable
-MasterPagePaletteFactory.AutotextTooltip.Variable=Variable
+MasterPagePaletteFactory.AutotextTooltip.Variable=Variable Item
 
 ###########################################################
 #MasterPageProcess properties

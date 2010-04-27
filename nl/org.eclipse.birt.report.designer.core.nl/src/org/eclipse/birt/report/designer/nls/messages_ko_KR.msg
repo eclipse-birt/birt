@@ -147,7 +147,7 @@ AttributesBuilder.Label.Cube=속성 편집기 - 큐브
 AttributesBuilder.Label.DynamicFilterParameter=속성 편집기 - 동적 필터 매개 변수
 AttributesBuilder.Label.MasterPage=속성 편집기 - 마스터 페이지
 AttributesBuilder.Label.None=속성 편집기 - 없음
-AttributesBuilder.Label.Picture=속성 편집기 - 그림
+AttributesBuilder.Label.Picture=Property Editor - Image
 AttributesBuilder.Label.Report=속성 편집기 - 보고서
 AttributesBuilder.Label.Row=속성 편집기 - 행
 AttributesBuilder.Label.Table=속성 편집기 - 테이블
@@ -561,7 +561,7 @@ dataset.editor.inputDialog.columnName=열 이름(&C)
 dataset.editor.inputDialog.dataType=데이터 형식(&T):
 dataset.editor.inputDialog.expression=식(&E)
 dataset.editor.inputDialog.aggrArgu=인수(&R)
-dataset.editor.inputDialog.aggrFunc=집계(&A)
+dataset.editor.inputDialog.aggrFunc=A&ggregation
 dataset.editor.inputDialog.filter=필터(&F)
 dataset.editor.inputDialog.value1=값 &1
 dataset.editor.inputDialog.value2=값 &2
@@ -902,7 +902,7 @@ designer.preview.preference.bidiOrientation.auto=자동
 designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
 designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
 designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
+designer.preview.preference.updateParameter.confirmButton=&Always prompt for confirmation when updating result set/parameter design attributes.
 
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기
@@ -1646,7 +1646,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = 날짜 시간 형식을 설정합니�
 ###########################################################
 #FormatDateTimePage properties
 
-FormatDateTimePage.label.custom.settings.label=예 형식(하나를 눌러 아래 복사한 다음 수정):
+FormatDateTimePage.label.custom.settings.label=Example format&s (Click one to copy below, then modify):
 FormatDateTimePage.label.custom.settings=사용자 지정 설정
 FormatDateTimePage.label.format.code=형식 코드(&C):
 FormatDateTimePage.label.format.page=다음으로 형식 지정(&F):
@@ -1685,7 +1685,7 @@ FormatNumberPage.currency.symbol.none=기호 없음
 FormatNumberPage.label.currency.settings=통화 설정
 FormatNumberPage.label.custom.preview.group=미리 보기
 FormatNumberPage.label.custom.preview.label=형식 미리 보기:
-FormatNumberPage.label.custom.settings.lable=예 형식 (하나를 눌러 아래 복사한 다음 수정):
+FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
 FormatNumberPage.label.custom.settings=사용자 지정 설정
 FormatNumberPage.label.decimal.places=소수 자릿수(&D): 
 FormatNumberPage.label.fixed.settings=고정 설정
@@ -1729,7 +1729,7 @@ FormatStringAttributePage.Trans.SetStringFormat = 문자열 형식을 설정합니다.
 
 FormatStringPage.default.preview.text=내 문자열
 FormatStringPage.label.custom.preview.label=형식 미리 보기:
-FormatStringPage.label.custom.settings.label=예 형식(하나를 눌러 아래 복사한 다음 수정):
+FormatStringPage.label.custom.settings.label=Example format&s (Click one to copy below, then modify):
 FormatStringPage.label.customSettings=사용자 지정 설정
 FormatStringPage.label.format.code=형식 코드(&C):
 FormatStringPage.label.formatStringAs=다음으로 형식 지정(&F):
@@ -2601,7 +2601,7 @@ MasterPagePaletteFactory.paletteDrawerName.autoText=AutoText
 MasterPagePaletteFactory.ToolTip.Grid=눈금 보고서 항목
 MasterPagePaletteFactory.ToolTip.Text=텍스트 보고서 항목
 MasterPagePaletteFactory.Autotext.Variable=변수
-MasterPagePaletteFactory.AutotextTooltip.Variable=변수
+MasterPagePaletteFactory.AutotextTooltip.Variable=Variable Item
 
 ###########################################################
 #MasterPageProcess properties
