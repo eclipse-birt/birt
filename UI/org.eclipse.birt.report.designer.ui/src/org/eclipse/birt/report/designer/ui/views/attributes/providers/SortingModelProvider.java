@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
@@ -300,6 +301,18 @@ public class SortingModelProvider
 		PropertyHandle propertyHandle = element.getPropertyHandle( ListingHandle.SORT_PROP );
 		if ( propertyHandle.getAt( pos ) != null )
 			propertyHandle.removeItem( pos );
+
+		try
+		{
+			if ( propertyHandle.getListValue( ) == null
+					|| propertyHandle.getListValue( ).size( ) == 0 )
+				element.setProperty( ListingHandle.SORT_PROP, null );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
 		return true;
 	}
 

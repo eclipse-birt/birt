@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -36,8 +37,9 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
  */
 public class FilterModelProvider
 {
+
 	protected static Logger logger = Logger.getLogger( FilterModelProvider.class.getName( ) );
-	
+
 	/**
 	 * The property field indicates current filter type, the flag is different
 	 * between table and crosstab.
@@ -45,7 +47,7 @@ public class FilterModelProvider
 	 * @since 2.3
 	 */
 	protected String fFilterPropertyName;
-	
+
 	/**
 	 * The list of allowed FilterCondition.OPERATOR_MEMBER
 	 */
@@ -57,12 +59,12 @@ public class FilterModelProvider
 	 * Constant, represents empty String array.
 	 */
 	protected static final String[] EMPTY = new String[0];
-	
-	public FilterModelProvider()
+
+	public FilterModelProvider( )
 	{
 		fFilterPropertyName = TableHandle.FILTER_PROP;
 	}
-	
+
 	/**
 	 * Gets the display names of the given property keys.
 	 * 
@@ -295,6 +297,17 @@ public class FilterModelProvider
 		if ( propertyHandle.getAt( pos ) != null )
 		{
 			propertyHandle.removeItem( pos );
+		}
+
+		try
+		{
+			if ( propertyHandle.getListValue( ) == null
+					|| propertyHandle.getListValue( ).size( ) == 0 )
+				element.setProperty( fFilterPropertyName, null );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
 		}
 
 		return true;

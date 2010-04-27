@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
@@ -251,6 +252,16 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		PropertyHandle phandle = elementHandle.getPropertyHandle( StyleHandle.MAP_RULES_PROP );
 
 		phandle.removeItem( pos );
+		try
+		{
+			if ( phandle.getListValue( ) == null
+					|| phandle.getListValue( ).size( ) == 0 )
+				elementHandle.setProperty( StyleHandle.MAP_RULES_PROP, null );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 
 		return true;
 	}
@@ -306,13 +317,15 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 				else if ( designElement instanceof GroupHandle )
 				{
 					reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-				}else
+				}
+				else
 				{
 					reportElement = designElement;
 				}
-				if(reportElement == null) break;
+				if ( reportElement == null )
+					break;
 			}
-			
+
 			if ( reportElement instanceof ReportItemHandle )
 			{
 				builder.setReportElement( (ReportItemHandle) reportElement );
@@ -390,11 +403,13 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 			else if ( designElement instanceof GroupHandle )
 			{
 				reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-			}else
+			}
+			else
 			{
 				reportElement = designElement;
 			}
-			if(reportElement == null) break;
+			if ( reportElement == null )
+				break;
 		}
 		if ( reportElement instanceof ReportItemHandle )
 		{

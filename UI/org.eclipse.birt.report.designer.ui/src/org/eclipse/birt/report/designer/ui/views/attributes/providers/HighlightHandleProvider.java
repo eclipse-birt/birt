@@ -223,6 +223,18 @@ public class HighlightHandleProvider
 
 		phandle.removeItem( pos );
 
+		try
+		{
+			if ( phandle.getListValue( ) == null
+					|| phandle.getListValue( ).size( ) == 0 )
+				elementHandle.setProperty( StyleHandle.HIGHLIGHT_RULES_PROP,
+						null );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
 		return true;
 	}
 

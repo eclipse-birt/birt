@@ -190,6 +190,17 @@ public class MapHandleProvider
 
 		phandle.removeItem( pos );
 
+		try
+		{
+			if ( phandle.getListValue( ) == null
+					|| phandle.getListValue( ).size( ) == 0 )
+				elementHandle.setProperty( StyleHandle.MAP_RULES_PROP, null );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		
 		return true;
 	}
 

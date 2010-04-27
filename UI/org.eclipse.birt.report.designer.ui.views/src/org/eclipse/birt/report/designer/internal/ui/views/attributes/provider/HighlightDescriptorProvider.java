@@ -8,6 +8,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
@@ -278,6 +279,18 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		PropertyHandle phandle = getDesignElementHandle( ).getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
 
 		phandle.removeItem( pos );
+
+		try
+		{
+			if ( phandle.getListValue( ) == null
+					|| phandle.getListValue( ).size( ) == 0 )
+				getDesignElementHandle( ).setProperty( StyleHandle.HIGHLIGHT_RULES_PROP,
+						null );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 
 		return true;
 	}
