@@ -634,8 +634,11 @@ public class StyleBuilder extends PreferenceDialog
 		}
 		// Do not layout before the dialog area has been created
 		// to avoid incomplete calculations.
-		if ( dialogTitleArea != null )
+		if ( dialogArea != null )
+		{
+			dialogTitleArea.getParent( ).layout( true );
 			dialogTitleArea.layout( true );
+		}
 	}
 
 	public void setTitleMessage( String newMessage, int newType )
@@ -687,8 +690,8 @@ public class StyleBuilder extends PreferenceDialog
 			updateMessage( shownMessage );
 			messageImageLabel.setImage( messageImage );
 			setImageLabelVisible( messageImage != null );
-			layoutForNewMessage( );
 		}
+		layoutForNewMessage( );
 	}
 
 	private void updateMessage( String newMessage )
@@ -703,14 +706,19 @@ public class StyleBuilder extends PreferenceDialog
 
 	public void setTitleMessage( String message )
 	{
-		if ( messageLabel != null )
+		if ( messageLabel != null ){
 			messageLabel.setText( message );
+			layoutForNewMessage( );
+		}
 	}
 
 	public void setTitleTitle( String title )
 	{
 		if ( titleLabel != null )
+		{
 			titleLabel.setText( title );
+			layoutForNewMessage( );
+		}
 	}
 
 	private boolean titleImageLargest = true;
@@ -741,7 +749,8 @@ public class StyleBuilder extends PreferenceDialog
 		this.titleImage = titleImage;
 	}
 
-	private static class PreferenceTreeLabelProvider implements ITableLabelProvider
+	private static class PreferenceTreeLabelProvider implements
+			ITableLabelProvider
 	{
 
 		public Image getColumnImage( Object element, int columnIndex )
