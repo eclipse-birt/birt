@@ -21,9 +21,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.ChildrenAllowedNode;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.DBNodeUtil;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.FilterConfig;
+import org.eclipse.birt.report.data.oda.jdbc.ui.model.FilterConfig.Type;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.IDBNode;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.RootNode;
-import org.eclipse.birt.report.data.oda.jdbc.ui.model.FilterConfig.Type;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
@@ -921,6 +921,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		layout.numColumns = 1;
 		composite.setLayout( layout );
 		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		Label queryTextLabel = new Label( composite, SWT.NONE );
+		queryTextLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.queryText" ) );//$NON-NLS-1$	
 
 		CompositeRuler ruler = new CompositeRuler( );
 		LineNumberRulerColumn lineNumbers = new LineNumberRulerColumn( );
