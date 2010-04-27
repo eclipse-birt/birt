@@ -248,6 +248,15 @@ public abstract class AbstractFieldEditor extends FieldEditor
 
 					public void run( )
 					{
+						if ( (BaseStylePreferencePage) getPage( ) == null )
+							return;
+						else if ( ( (BaseStylePreferencePage) getPage( ) ).getBuilder( ) == null
+								|| ( (BaseStylePreferencePage) getPage( ) ).getBuilder( )
+										.getShell( ) == null
+								|| ( (BaseStylePreferencePage) getPage( ) ).getBuilder( )
+										.getShell( )
+										.isDisposed( ) )
+							return;
 						( (BaseStylePreferencePage) getPage( ) ).getBuilder( )
 								.refreshPagesStatus( );
 						refresh = false;
