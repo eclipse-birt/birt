@@ -299,7 +299,10 @@ public class FormatDateTimeLayoutPeer extends FormatLayoutPeer
 			{
 				try
 				{
-					fmtStr = new DateFormatter( pattern, locale ).format( sampleDateTime );
+					if ( pattern == null || pattern.length( ) == 0 )
+						fmtStr = defaultPreviewText;
+					else
+						fmtStr = new DateFormatter( pattern, locale ).format( sampleDateTime );
 				}
 				catch ( Exception e )
 				{
