@@ -770,7 +770,8 @@ public class DataExtractionTaskV1 extends EngineTask
 
 			updatePlanFully( plan, newQuery );
 			IBaseResultSet rset = QueryUtil.executePlan( plan, 0, executionContext, resultsIDProvider);
-			if ( !( rset instanceof IQueryResults ) )
+			if ( rset == null
+					|| !( rset.getQueryResults( ) instanceof IQueryResults ) )
 			{
 				return null;
 			}
