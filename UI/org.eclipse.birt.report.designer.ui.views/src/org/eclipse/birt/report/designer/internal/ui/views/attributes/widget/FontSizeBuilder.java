@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.FocusListener;
@@ -93,10 +92,6 @@ public class FontSizeBuilder extends Composite
 			valueCombo = new CCombo( this, SWT.DROP_DOWN );
 			valueCombo.setVisibleItemCount( 30 );
 		}
-		GridData data = new GridData( );
-		data.horizontalAlignment = GridData.FILL;
-		data.grabExcessHorizontalSpace = true;
-		valueCombo.setLayoutData( data );
 
 		if ( isFormStyle )
 			unitCombo = FormWidgetFactory.getInstance( ).createCCombo( this );
@@ -105,16 +100,6 @@ public class FontSizeBuilder extends Composite
 			unitCombo = new CCombo( this, SWT.DROP_DOWN );
 			unitCombo.setVisibleItemCount( 30 );
 		}
-		data = new GridData( );
-		if ( Platform.getOS( ).equals( Platform.OS_LINUX ) )
-		{
-			data.widthHint = 80;
-		}
-		else
-			data.widthHint = 60;
-
-		data.horizontalAlignment = GridData.HORIZONTAL_ALIGN_END;
-		unitCombo.setLayoutData( data );
 
 		valueCombo.addFocusListener( new FocusListener( ) {
 
@@ -150,8 +135,10 @@ public class FontSizeBuilder extends Composite
 			{
 				String val = valueCombo.getText( );
 
-				unitCombo.setEnabled( ( isInPreIntTable( val ) || !isPredefinedValue( val ) )
-						&& DEUtil.isValidNumber( val ) );
+				boolean enabled = ( isInPreIntTable( val ) || !isPredefinedValue( val ) )
+						&& DEUtil.isValidNumber( val );
+				if ( unitCombo.getEnabled( ) != enabled )
+					unitCombo.setEnabled( enabled );
 
 				if ( !unitCombo.isEnabled( ) )
 				{
@@ -185,11 +172,39 @@ public class FontSizeBuilder extends Composite
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				// processAction( );
+				isProcessing = true;
+				processAction( );
+				isProcessing = false;
 			}
 		} );
 
+		unitCombo.addFocusListener( new FocusListener( ) {
+
+			public void focusGained( org.eclipse.swt.events.FocusEvent e )
+			{
+				// does nothing.
+			}
+
+			public void focusLost( org.eclipse.swt.events.FocusEvent e )
+			{
+				if ( !isProcessing )
+					processAction( );
+			}
+
+		} );
+
 		initChoice( );
+
+		GridData data = new GridData( );
+		data.widthHint = (int) ( unitCombo.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT ).x * 1.5 );
+		if ( valueCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y < unitCombo.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT ).y )
+			data.heightHint = unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y - 2;
+		valueCombo.setLayoutData( data );
+		unitCombo.setVisibleItemCount( 30 );
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		unitCombo.setLayoutData( data );
 	}
 
 	/**

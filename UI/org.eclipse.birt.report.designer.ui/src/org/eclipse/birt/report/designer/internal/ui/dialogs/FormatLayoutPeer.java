@@ -1054,11 +1054,13 @@ public abstract class FormatLayoutPeer implements IFormatPage
 		{
 			if ( cba != null )
 			{
-				cba.setEnabled( enabled );
+				if ( cba.getEnabled( ) != enabled )
+					cba.setEnabled( enabled );
 			}
 			else
 			{
-				cbb.setEnabled( enabled );
+				if ( cbb.getEnabled( ) != enabled )
+					cbb.setEnabled( enabled );
 			}
 		}
 
