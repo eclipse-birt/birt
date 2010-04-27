@@ -137,9 +137,9 @@ import com.ibm.icu.util.ULocale;
 public class ParameterDialog extends BaseTitleAreaDialog
 {
 
-	private static final String NULL_VALUE = Messages.getString("ParameterDialog.Value.Null"); //$NON-NLS-1$
+	private static final String NULL_VALUE = Messages.getString( "ParameterDialog.Value.Null" ); //$NON-NLS-1$
 
-	private static final String EMPTY_VALUE = Messages.getString("ParameterDialog.Value.Empty"); //$NON-NLS-1$
+	private static final String EMPTY_VALUE = Messages.getString( "ParameterDialog.Value.Empty" ); //$NON-NLS-1$
 
 	private static final String CHOICE_NO_DEFAULT = Messages.getString( "ParameterDialog.Choice.NoDefault" ); //$NON-NLS-1$
 
@@ -1804,7 +1804,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 
 		updateCheckBoxArea( );
-		updateMessageLine( );
 		boolean radioEnable = false;
 		if ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) )
 				|| ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) && !DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) ) )
@@ -1855,19 +1854,28 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		if ( isInitialized && defaultValueList != null )
 		{
 			Expression expression = getFirstDefaultValue( );
-			defaultValueList.clear( );
-			if ( isStatic( )
-					&& ( PARAM_CONTROL_COMBO.equals( type )
-							|| PARAM_CONTROL_LIST.equals( type ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( type ) ) )
+			if ( enableAllowMultiValueVisible( )
+					&& allowMultiChoice.getSelection( ) )
 			{
-				defaultValueList.add( expression );
-				valueTable.refresh( );
+
 			}
-			else if ( expression != null )
+			else
 			{
-				defaultValueList.add( expression );
+				defaultValueList.clear( );
+				if ( isStatic( )
+						&& ( PARAM_CONTROL_COMBO.equals( type )
+								|| PARAM_CONTROL_LIST.equals( type ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( type ) ) )
+				{
+					defaultValueList.add( expression );
+					valueTable.refresh( );
+				}
+				else if ( expression != null )
+				{
+					defaultValueList.add( expression );
+				}
 			}
 		}
+		updateMessageLine( );
 	}
 
 	private void switchParamterType( )
@@ -2991,7 +2999,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				}
 
 				return ParameterValidationUtil.validate( getSelectedDataType( ),
-						STANDARD_DATE_TIME_PATTERN,
+						null,
 						tempdefaultValue,
 						ULocale.getDefault( ) );
 			}
@@ -3594,6 +3602,16 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 		}
 		updateButtons( );
+
+		if ( defaultValueViewer != null
+				&& !defaultValueViewer.getTable( ).isDisposed( )
+				&& defaultValueViewer.getTable( ).isVisible( ) )
+			defaultValueViewer.refresh( );
+
+		if ( valueTable != null
+				&& !valueTable.getTable( ).isDisposed( )
+				&& valueTable.getTable( ).isVisible( ) )
+			valueTable.refresh( );
 	}
 
 	private String validateName( )
