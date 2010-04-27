@@ -487,6 +487,7 @@ public class ImageBuilder extends BaseDialog
 
 			public void handleEvent( Event event )
 			{
+				modifyDialogContent( );
 				if ( event.data instanceof String[] )
 				{
 					preview( DEUtil.removeQuote( ( (String[]) event.data )[1] ) );
