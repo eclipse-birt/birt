@@ -37,7 +37,7 @@
 
 	<target name="main" depends="init">
 		<antcall target="prepareSrc" />
-		<antcall target="buildBirtThirdPartyFeature"/>
+		<!--antcall target="buildBirtThirdPartyFeature"/-->
 		<antcall target="buildBirtFeature"/>
 		<antcall target="buildBirtOSGI"/>
 		<antcall target="fetchBirtWtpFeature"/>
