@@ -42,7 +42,9 @@ public class PageSetAction extends Action implements UpdateAction
 	{
 		FormEditor editor = UIUtil.getActiveReportEditor( );
 		setEnabled( editor != null );
-		if ( editor != null )
+		//Add judge the id is null,see https://bugs.eclipse.org/bugs/show_bug.cgi?id=305851
+		//It is a strange because  the BIRD editor is not null.Maybe conflict with others product?Need deeply research.
+		if ( editor != null && editor.getActivePageInstance( )!= null && editor.getActivePageInstance( ).getId( ) != null)
 		{
 			setChecked( editor.getActivePageInstance( )
 					.getId( )
