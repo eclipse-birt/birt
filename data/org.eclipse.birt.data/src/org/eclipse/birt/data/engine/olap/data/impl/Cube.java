@@ -147,6 +147,7 @@ public class Cube implements ICube
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		factTable = factTableConstructor.load( name,
 				stopSign );
+		documentObject.close( );
 	}
 
 	/*
