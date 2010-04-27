@@ -141,6 +141,10 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
+		if (prePage == this)
+		{
+			return true;
+		}
 		if ( getEditorInput( ) != prePage.getEditorInput( ) )
 		{
 			setInput( prePage.getEditorInput( ) );
