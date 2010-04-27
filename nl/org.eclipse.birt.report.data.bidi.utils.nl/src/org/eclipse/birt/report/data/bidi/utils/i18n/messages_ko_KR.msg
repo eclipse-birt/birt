@@ -3,17 +3,17 @@ preference.bidiframe.title = 양방향 형식
 preference.bidiframe.arabictitle = 아랍어 특정 기능
  
 
-report.bidi.properties.externalbidiformat.orderingscheme=순서 체계
+report.bidi.properties.externalbidiformat.orderingscheme=&Ordering Scheme
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = 순서 체계 값 선택 
-report.bidi.properties.externalbidiformat.textdirection=텍스트 방향
+report.bidi.properties.externalbidiformat.textdirection=Text &Direction
 report.bidi.properties.externalbidiformat.textdirection.tooltip = 텍스트 방향 값 선택
-report.bidi.properties.externalbidiformat.symswap=대칭 변경
+report.bidi.properties.externalbidiformat.symswap=Symmetric S&wapping
 report.bidi.properties.externalbidiformat.symswap.tooltip = 대칭 변경 값 선택
 report.bidi.properties.externalbidiformat.symswap.true=참
 report.bidi.properties.externalbidiformat.symswap.false=거짓
-report.bidi.properties.externalbidiformat.shaping=텍스트 모양
+report.bidi.properties.externalbidiformat.shaping=Text &Shaping
 report.bidi.properties.externalbidiformat.shaping.tooltip = 텍스트 모양 값 선택
-report.bidi.properties.externalbidiformat.numshaping=숫자 모양
+report.bidi.properties.externalbidiformat.numshaping=&Numeric Shaping
 report.bidi.properties.externalbidiformat.numshaping.tooltip = 숫자 모양 선택
 report.bidi.properties.externalbidiformat.orderingscheme.visual =시각적
 report.bidi.properties.externalbidiformat.orderingscheme.logical =논리적

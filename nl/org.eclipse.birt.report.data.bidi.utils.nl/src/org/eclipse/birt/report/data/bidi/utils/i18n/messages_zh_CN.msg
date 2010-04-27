@@ -3,17 +3,17 @@ preference.bidiframe.title = 双向格式
 preference.bidiframe.arabictitle = 阿拉伯特定功能
  
 
-report.bidi.properties.externalbidiformat.orderingscheme=排序方案
+report.bidi.properties.externalbidiformat.orderingscheme=&Ordering Scheme
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = 选择排序方案值 
-report.bidi.properties.externalbidiformat.textdirection=文本方向
+report.bidi.properties.externalbidiformat.textdirection=Text &Direction
 report.bidi.properties.externalbidiformat.textdirection.tooltip = 选择文本方向值
-report.bidi.properties.externalbidiformat.symswap=对称交换
+report.bidi.properties.externalbidiformat.symswap=Symmetric S&wapping
 report.bidi.properties.externalbidiformat.symswap.tooltip = 选择对称交换值
 report.bidi.properties.externalbidiformat.symswap.true=真
 report.bidi.properties.externalbidiformat.symswap.false=假
-report.bidi.properties.externalbidiformat.shaping=文本造型
+report.bidi.properties.externalbidiformat.shaping=Text &Shaping
 report.bidi.properties.externalbidiformat.shaping.tooltip = 选择文本造型值
-report.bidi.properties.externalbidiformat.numshaping=数字造型
+report.bidi.properties.externalbidiformat.numshaping=&Numeric Shaping
 report.bidi.properties.externalbidiformat.numshaping.tooltip = 选择数字造型
 report.bidi.properties.externalbidiformat.orderingscheme.visual =视觉
 report.bidi.properties.externalbidiformat.orderingscheme.logical =逻辑

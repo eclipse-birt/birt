@@ -3,17 +3,17 @@ preference.bidiframe.title = Formato bidireccional
 preference.bidiframe.arabictitle = Funciones específicas del árabe
  
 
-report.bidi.properties.externalbidiformat.orderingscheme=Esquema de orden
+report.bidi.properties.externalbidiformat.orderingscheme=&Ordering Scheme
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = Elegir valor de esquema de orden 
-report.bidi.properties.externalbidiformat.textdirection=Dirección del texto
+report.bidi.properties.externalbidiformat.textdirection=Text &Direction
 report.bidi.properties.externalbidiformat.textdirection.tooltip = Elegir valor de dirección del texto
-report.bidi.properties.externalbidiformat.symswap=Intercambio simétrico
+report.bidi.properties.externalbidiformat.symswap=Symmetric S&wapping
 report.bidi.properties.externalbidiformat.symswap.tooltip = Elegir valor de intercambio simétrico
 report.bidi.properties.externalbidiformat.symswap.true=True
 report.bidi.properties.externalbidiformat.symswap.false=False
-report.bidi.properties.externalbidiformat.shaping=Forma del texto
+report.bidi.properties.externalbidiformat.shaping=Text &Shaping
 report.bidi.properties.externalbidiformat.shaping.tooltip = Elegir valor de forma del texto
-report.bidi.properties.externalbidiformat.numshaping=Forma numérica
+report.bidi.properties.externalbidiformat.numshaping=&Numeric Shaping
 report.bidi.properties.externalbidiformat.numshaping.tooltip = Elegir forma numérica
 report.bidi.properties.externalbidiformat.orderingscheme.visual =Visual
 report.bidi.properties.externalbidiformat.orderingscheme.logical =Lógica

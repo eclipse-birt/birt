@@ -3,17 +3,17 @@ preference.bidiframe.title = 双方向形式
 preference.bidiframe.arabictitle = アラビア語固有の機能
  
 
-report.bidi.properties.externalbidiformat.orderingscheme=スキームの順序
+report.bidi.properties.externalbidiformat.orderingscheme=&Ordering Scheme
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = スキームの順序値の選択 
-report.bidi.properties.externalbidiformat.textdirection=文字列の向き
+report.bidi.properties.externalbidiformat.textdirection=Text &Direction
 report.bidi.properties.externalbidiformat.textdirection.tooltip = 文字列の向きの値の選択
-report.bidi.properties.externalbidiformat.symswap=対照的な置換
+report.bidi.properties.externalbidiformat.symswap=Symmetric S&wapping
 report.bidi.properties.externalbidiformat.symswap.tooltip = 対照的な置換の値の選択
 report.bidi.properties.externalbidiformat.symswap.true=True
 report.bidi.properties.externalbidiformat.symswap.false=False
-report.bidi.properties.externalbidiformat.shaping=文字列整形
+report.bidi.properties.externalbidiformat.shaping=Text &Shaping
 report.bidi.properties.externalbidiformat.shaping.tooltip = 文字列整形の値の選択
-report.bidi.properties.externalbidiformat.numshaping=数値整形
+report.bidi.properties.externalbidiformat.numshaping=&Numeric Shaping
 report.bidi.properties.externalbidiformat.numshaping.tooltip = 数値整形の選択
 report.bidi.properties.externalbidiformat.orderingscheme.visual =視覚
 report.bidi.properties.externalbidiformat.orderingscheme.logical =論理
