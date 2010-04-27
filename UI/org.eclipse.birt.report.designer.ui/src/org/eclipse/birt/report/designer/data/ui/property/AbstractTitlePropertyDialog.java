@@ -9,22 +9,18 @@
 
 package org.eclipse.birt.report.designer.data.ui.property;
 
-import org.eclipse.jface.dialogs.ControlAnimator;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.ImageAndMessageArea;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.util.Policy;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -61,15 +57,11 @@ public abstract class AbstractTitlePropertyDialog extends
 	private Label messageImageLabel;
 	private Text messageLabel;
 	private int messageLabelHeight;
-	private ImageAndMessageArea messageArea;
 	private Label leftFillerLabel;
 	private String errorMessage;
 	private boolean showingError = false;
-	private boolean showingWarning = false;
 	private String message = ""; //$NON-NLS-1$
 	private Image messageImage;
-	private String warningMessage;
-	private ControlAnimator animator;
 
 	private static final int H_GAP_IMAGE = 5;
 	static
@@ -181,18 +173,12 @@ public abstract class AbstractTitlePropertyDialog extends
 		// Any change?
 		if ( errorMessage == null ? newErrorMessage == null
 				: errorMessage.equals( newErrorMessage ) )
-		{
 			return;
-		}
 		errorMessage = newErrorMessage;
 
 		// Clear or set error message.
 		if ( errorMessage == null )
 		{
-			if ( messageArea != null && !showingWarning )
-			{
-				setMessageAreaVisible( false );
-			}
 			if ( showingError )
 			{
 				// we were previously showing an error
@@ -202,89 +188,33 @@ public abstract class AbstractTitlePropertyDialog extends
 			// avoid calling setMessage in case it is overridden to call
 			// setErrorMessage,
 			// which would result in a recursive infinite loop
-			if ( message == null )
-			{
+			if ( message == null ) // this should probably never happen since
 				// setMessage does this conversion....
 				message = ""; //$NON-NLS-1$
-			}
 			updateMessage( message );
 			messageImageLabel.setImage( messageImage );
 			setImageLabelVisible( messageImage != null );
-
-			if ( showingWarning )
-				setWarningMessage( warningMessage );
-
 		}
 		else
 		{
+			// Add in a space for layout purposes but do not
+			// change the instance variable
+			String displayedErrorMessage = " " + errorMessage; //$NON-NLS-1$
+			updateMessage( displayedErrorMessage );
 			if ( !showingError )
 			{
 				// we were not previously showing an error
 				showingError = true;
+				messageImageLabel.setImage( JFaceResources.getImage( DLG_IMG_TITLE_ERROR ) );
+				setImageLabelVisible( true );
 			}
-			if ( showingWarning )
-				setWarningMessage( null );
-
-			if ( messageArea == null )
-			{
-				// create a message area to display the error
-				messageArea = new ImageAndMessageArea( titleArea, SWT.WRAP );
-				messageArea.setBackground( messageLabel.getBackground( ) );
-
-				animator = Policy.getAnimatorFactory( )
-						.createAnimator( messageArea );
-			}
-			// show the error
-			messageArea.setToolTipText( errorMessage );
-			messageArea.setText( errorMessage );
-			messageArea.setImage( JFaceResources.getImage( DLG_IMG_TITLE_ERROR ) );
-			setMessageAreaVisible( true );
 		}
-		int verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
-		int horizontalSpacing = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_SPACING );
-		setLayoutsForNormalMessage( verticalSpacing, horizontalSpacing );
+		layoutForNewMessage( );
 	}
 
 	private void updateMessage( String newMessage )
 	{
 		messageLabel.setText( newMessage );
-	}
-
-	private void setMessageAreaVisible( boolean visible )
-	{
-		messageArea.moveAbove( null );
-
-		// assumes that bottom of the message area should match
-		// the bottom of te parent composite.
-		int bottom = titleArea.getBounds( ).y + titleArea.getBounds( ).height;
-
-		// Only set bounds if the message area is CLOSED (i.e. not visible)
-		// and out of place. The bounds are dependent on whether a message
-		// image is being shown.
-		Rectangle msgLabelBounds = messageLabel.getBounds( );
-		if ( !messageArea.isVisible( ) && messageArea.getBounds( ).y != bottom )
-		{
-			messageArea.setBounds( ( messageImageLabel == null ) ? msgLabelBounds.x
-					: messageImageLabel.getBounds( ).x,
-					bottom,
-					( messageImageLabel == null ) ? msgLabelBounds.width
-							: msgLabelBounds.width
-									+ messageImageLabel.getBounds( ).width,
-					messageArea.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y );
-		}
-		animator.setVisible( visible );
-		setMessageLayoutData( );
-	}
-
-	private void setMessageLayoutData( )
-	{
-		if ( messageArea == null )
-			return;
-		FormData messageAreaData = new FormData( );
-		messageAreaData.right = new FormAttachment( titleImageLabel );
-		messageAreaData.left = new FormAttachment( leftFillerLabel );
-		messageAreaData.bottom = new FormAttachment( 100, 0 );
-		messageArea.setLayoutData( messageAreaData );
 	}
 
 	private void setImageLabelVisible( boolean visible )
@@ -296,13 +226,19 @@ public abstract class AbstractTitlePropertyDialog extends
 	public void setTitleMessage( String message )
 	{
 		if ( messageLabel != null )
+		{
 			messageLabel.setText( message );
+			layoutForNewMessage( );
+		}
 	}
 
 	public void setTitleTitle( String title )
 	{
 		if ( titleLabel != null )
+		{
 			titleLabel.setText( title );
+			layoutForNewMessage( );
+		}
 	}
 
 	private void determineTitleImageLargest( )
@@ -369,49 +305,59 @@ public abstract class AbstractTitlePropertyDialog extends
 		this.titleImage = titleImage;
 	}
 
-	private void setWarningMessage( String newMessage )
+	private void layoutForNewMessage( )
 	{
-		// Any change?
-		if ( warningMessage == null ? newMessage == null
-				: warningMessage.equals( newMessage ) )
+		int verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
+		int horizontalSpacing = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_SPACING );
+		// If there are no images then layout as normal
+		if ( errorMessage == null && messageImage == null )
 		{
-			return;
-		}
-		warningMessage = newMessage;
-
-		// Clear or set warning message.
-		if ( warningMessage == null )
-		{
-			if ( messageArea != null && !showingError )
-				setMessageAreaVisible( false );
-
-			if ( showingWarning )
-				showingWarning = false;
-
+			setImageLabelVisible( false );
+			setLayoutsForNormalMessage( verticalSpacing, horizontalSpacing );
 		}
 		else
 		{
-			if ( !showingWarning )
-				showingWarning = true;
-
-			warningMessage = newMessage;
-			if ( messageArea == null )
-			{
-				// create a message area to display the error
-				messageArea = new ImageAndMessageArea( titleArea, SWT.WRAP );
-				messageArea.setBackground( messageLabel.getBackground( ) );
-
-				animator = Policy.getAnimatorFactory( )
-						.createAnimator( messageArea );
-			}
-			// show the error
-			messageArea.setToolTipText( warningMessage );
-			messageArea.setText( warningMessage );
-			messageArea.setImage( JFaceResources.getImage( DLG_IMG_MESSAGE_WARNING ) );
-			setMessageAreaVisible( true );
+			messageImageLabel.setVisible( true );
+			leftFillerLabel.setVisible( true );
+			/**
+			 * Note that we do not use horizontalSpacing here as when the
+			 * background of the messages changes there will be gaps between the
+			 * icon label and the message that are the background color of the
+			 * shell. We add a leading space elsewhere to compendate for this.
+			 */
+			FormData data = new FormData( );
+			data.left = new FormAttachment( 0, H_GAP_IMAGE );
+			data.top = new FormAttachment( titleLabel, verticalSpacing );
+			messageImageLabel.setLayoutData( data );
+			data = new FormData( );
+			data.top = new FormAttachment( messageImageLabel, 0 );
+			data.left = new FormAttachment( 0, 0 );
+			data.bottom = new FormAttachment( messageLabel, 0, SWT.BOTTOM );
+			data.right = new FormAttachment( messageImageLabel, 0, SWT.RIGHT );
+			data = new FormData( );
+			data.top = new FormAttachment( messageImageLabel, 0, SWT.TOP );
+			data.left = new FormAttachment( 0, 0 );
+			data.bottom = new FormAttachment( messageImageLabel, 0, SWT.BOTTOM );
+			data.right = new FormAttachment( messageImageLabel, 0 );
+			leftFillerLabel.setLayoutData( data );
+			FormData messageLabelData = new FormData( );
+			messageLabelData.top = new FormAttachment( titleLabel,
+					verticalSpacing );
+			messageLabelData.right = new FormAttachment( titleImageLabel );
+			messageLabelData.left = new FormAttachment( messageImageLabel, 0 );
+			messageLabelData.height = messageLabelHeight;
+			if ( titleImageLargest )
+				messageLabelData.bottom = new FormAttachment( titleImageLabel,
+						0,
+						SWT.BOTTOM );
+			messageLabel.setLayoutData( messageLabelData );
 		}
-		int verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
-		int horizontalSpacing = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_SPACING );
-		setLayoutsForNormalMessage( verticalSpacing, horizontalSpacing );
+		// Do not layout before the dialog area has been created
+		// to avoid incomplete calculations.
+		if ( dialogArea != null )
+		{
+			titleArea.getParent( ).layout( true );
+			titleArea.layout( true );
+		}
 	}
 }
