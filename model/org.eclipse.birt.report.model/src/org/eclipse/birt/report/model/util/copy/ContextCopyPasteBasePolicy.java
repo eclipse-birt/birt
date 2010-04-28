@@ -11,7 +11,11 @@
 
 package org.eclipse.birt.report.model.util.copy;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
@@ -44,34 +48,34 @@ class ContextCopyPasteBasePolicy
 	 * @return the instance of <code>ContextCopiedElement</code> with context
 	 *         information.
 	 */
-	
+
 	public IElementCopy createCopy( DesignElement source, Module root )
 	{
 		String xpath = XPathUtil.getXPath( source.getHandle( root ) );
-	
+
 		String extendsName = source.getExtendsName( );
-	
+
 		String libLocation = null;
 		long extendsElementID = DesignElement.NO_ID;
-	
+
 		if ( !StringUtil.isBlank( extendsName ) )
 		{
 			String namespace = StringUtil.extractNamespace( extendsName );
 			Library lib = root.getLibraryWithNamespace( namespace );
 			if ( lib != null )
 				libLocation = lib.getLocation( );
-	
+
 			DesignElement element = source.getExtendsElement( );
 			if ( element != null )
 				extendsElementID = element.getID( );
 		}
-	
+
 		String location = null;
 		if ( root != null && root.getSystemId( ) != null )
 			location = root.getLocation( );
-	
+
 		DesignElement destination = null;
-	
+
 		if ( extendsElementID != DesignElement.NO_ID )
 		{
 			try
@@ -85,9 +89,9 @@ class ContextCopyPasteBasePolicy
 				return null;
 			}
 		}
-	
+
 		DesignElement localized = null;
-	
+
 		try
 		{
 			localized = (DesignElement) source.doClone( CopyForPastePolicy
@@ -98,10 +102,11 @@ class ContextCopyPasteBasePolicy
 			localized = null;
 			assert false;
 		}
-	
+
 		ContextCopiedElement retValue = new ContextCopiedElement( destination,
-				localized, xpath, location, libLocation, extendsElementID );
-	
+				localized, xpath, location, libLocation, extendsElementID, root
+						.getPropertyBindings( source ) );
+
 		return retValue;
 	}
 
@@ -124,19 +129,19 @@ class ContextCopyPasteBasePolicy
 	 * @return <code>true</code> is the copy is good for pasting. Otherwise
 	 *         <code>false</code>.
 	 */
-	
+
 	public boolean isValidCopy( ContainerContext context, Module module,
 			IElementCopy copy )
 	{
 		if ( !( copy instanceof ContextCopiedElement ) )
 			return false;
-	
+
 		DesignElement copied = ( (ContextCopiedElement) copy )
 				.getLocalizedCopy( );
-	
+
 		if ( copied == null )
 			return false;
-	
+
 		return context.canContain( module, copied );
 	}
 
@@ -153,13 +158,13 @@ class ContextCopyPasteBasePolicy
 	 * @return the element copy that should be added into the context
 	 * 
 	 */
-	
+
 	public IDesignElement preWorkForPaste( ContainerContext context,
 			IElementCopy content, Module module )
 	{
-	
+
 		ContextCopiedElement copy = null;
-	
+
 		try
 		{
 			copy = (ContextCopiedElement) ( (ContextCopiedElement) content )
@@ -170,21 +175,21 @@ class ContextCopyPasteBasePolicy
 			assert false;
 			return null;
 		}
-	
+
 		String location = copy.getRootLocation( );
 		if ( location == null )
 			return copy.getLocalizedCopy( );
-	
+
 		DesignElement copiedElement = copy.getCopy( );
-	
+
 		DesignSessionImpl session = module.getSession( );
 		Module copiedRoot = session.getOpenedModule( location );
 		if ( copiedRoot == null )
 			return copy.getLocalizedCopy( );
-	
+
 		String nameSpace = StringUtil.extractNamespace( copiedElement
 				.getExtendsName( ) );
-	
+
 		// if the element is extends, element should be validated whether the
 		// localize it or not
 		if ( !StringUtil.isEmpty( nameSpace ) )
@@ -192,44 +197,59 @@ class ContextCopyPasteBasePolicy
 			Library lib = module.getLibraryWithNamespace( nameSpace );
 			if ( lib == null )
 				return copy.getLocalizedCopy( );
-	
+
 			long extendsElementID = copy.getExtendsElementID( );
 			if ( extendsElementID == DesignElement.NO_ID )
 				return copy.getLocalizedCopy( );
-	
+
 			// gets the location of the library which contains the copied
 			// extends.
 			String libLocation = copy.getLibLocation( );
 			if ( libLocation == null )
 				return copy.getLocalizedCopy( );
-	
+
 			// validates the location of the library which contains the copied
 			// extends is the same as the location of the library of the target
 			// container
 			if ( !libLocation.equals( lib.getLocation( ) ) )
 				return copy.getLocalizedCopy( );
-	
+
 			Library copiedLib = copiedRoot.getLibraryWithNamespace( nameSpace );
 			if ( copiedLib == null )
 				return copy.getLocalizedCopy( );
-	
+
 			// validates the location of the newly open library is the same as
 			// the location of the library which contains the extends element.
-	
+
 			if ( !libLocation.equals( copiedLib.getLocation( ) ) )
 				return copy.getLocalizedCopy( );
-	
+
 			DesignElement libElement = lib.getElementByID( extendsElementID );
 			if ( libElement == null )
 				return copy.getLocalizedCopy( );
-	
+
 			DesignElement copyLibElement = copiedLib
 					.getElementByID( extendsElementID );
 			if ( libElement.getDefn( ) != copyLibElement.getDefn( ) )
 				return copy.getLocalizedCopy( );
 		}
-	
+
 		return copy.getCopy( );
 	}
 
+	public void copyPropertyBindings( IElementCopy copy,
+			DesignElementHandle target ) throws SemanticException
+	{
+		if ( target == null
+				|| target.getRoot( ) == null
+				|| target.getRoot( ).getPropertyDefn(
+						IModuleModel.PROPERTY_BINDINGS_PROP ) == null )
+			return;
+		for ( PropertyBinding propBinding : ( (ContextCopiedElement) copy )
+				.getPropertyBindings( ) )
+		{
+			target.setPropertyBinding( propBinding.getName( ), propBinding
+					.getExpressionProperty( PropertyBinding.VALUE_MEMBER ) );
+		}
+	}
 }

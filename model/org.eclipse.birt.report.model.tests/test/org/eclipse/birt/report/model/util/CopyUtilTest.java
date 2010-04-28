@@ -13,7 +13,9 @@ package org.eclipse.birt.report.model.util;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -21,7 +23,9 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.CopyUtil;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -305,4 +309,28 @@ public class CopyUtilTest extends BaseTestCase
 		assertEquals( 0, list.size( ) );
 	}
 
+	/**
+	 * Tests copy and paste an element with property bindings.
+	 * 
+	 * @throws Exception
+	 */
+	public void testCopyWithBinding( ) throws Exception
+	{
+		openDesign( "CopyUtilTest_4.xml" ); //$NON-NLS-1$
+		DataSourceHandle dataSource = designHandle
+				.findDataSource( "Data Source" ); //$NON-NLS-1$
+		assertNotNull( dataSource );
+		IElementCopy copy = CopyUtil.copy( dataSource );
+		CopyUtil.paste( copy, designHandle, IModuleModel.DATA_SOURCE_SLOT );
+
+		dataSource = designHandle.findDataSource( "Data Source1" ); //$NON-NLS-1$
+		assertNotNull( dataSource );
+		Expression expr = dataSource.getPropertyBindingExpression( "odaUser" ); //$NON-NLS-1$
+		assertNotNull( expr );
+		assertEquals( IExpressionType.CONSTANT, expr.getType( ) );
+		assertEquals( "administrator", expr.getStringExpression( ) ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "CopyUtilTest_4_golden.xml" ) ); //$NON-NLS-1$
+	}
 }

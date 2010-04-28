@@ -11,8 +11,13 @@
 
 package org.eclipse.birt.report.model.util.copy;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
@@ -21,7 +26,7 @@ import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
  * 
  */
 
-class ContextCopiedElement implements IElementCopy,Cloneable
+class ContextCopiedElement implements IElementCopy, Cloneable
 {
 
 	private final DesignElement copy;
@@ -31,6 +36,7 @@ class ContextCopiedElement implements IElementCopy,Cloneable
 	private final String xpath;
 	private final String libLocation;
 	private final long extendsElementID;
+	private final List<PropertyBinding> bindings;
 
 	/**
 	 * Default constructor.
@@ -49,10 +55,13 @@ class ContextCopiedElement implements IElementCopy,Cloneable
 	 *            the name space of the library
 	 * @param extendsElementID
 	 *            the element id of the library
+	 * @param bindings
+	 *            the list of property bindings of the element
 	 */
 	ContextCopiedElement( DesignElement element,
 			DesignElement localizedElement, String xpath, String rootLocation,
-			String libLocation, long extendsElementID )
+			String libLocation, long extendsElementID,
+			List<PropertyBinding> bindings )
 	{
 		this.copy = element;
 		this.localizedCopy = localizedElement;
@@ -60,6 +69,16 @@ class ContextCopiedElement implements IElementCopy,Cloneable
 		this.xpath = xpath;
 		this.libLocation = libLocation;
 		this.extendsElementID = extendsElementID;
+		if ( bindings == null || bindings.isEmpty( ) )
+			this.bindings = Collections.emptyList( );
+		else
+		{
+			this.bindings = new ArrayList<PropertyBinding>( bindings.size( ) );
+			for ( PropertyBinding propBinding : bindings )
+			{
+				this.bindings.add( (PropertyBinding) propBinding.copy( ) );
+			}
+		}
 	}
 
 	/*
@@ -81,7 +100,7 @@ class ContextCopiedElement implements IElementCopy,Cloneable
 
 		ContextCopiedElement retValue = new ContextCopiedElement( newCopy,
 				newLocalized, xpath, rootLocation, libLocation,
-				extendsElementID );
+				extendsElementID, bindings );
 
 		return retValue;
 	}
@@ -145,7 +164,9 @@ class ContextCopiedElement implements IElementCopy,Cloneable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.util.IElementCopy#getHandle(org.eclipse.birt.report.model.api.ModuleHandle)
+	 * @see
+	 * org.eclipse.birt.report.model.api.util.IElementCopy#getHandle(org.eclipse
+	 * .birt.report.model.api.ModuleHandle)
 	 */
 
 	public DesignElementHandle getHandle( ModuleHandle handle )
@@ -153,4 +174,11 @@ class ContextCopiedElement implements IElementCopy,Cloneable
 		return getCopy( ).getHandle( handle.getModule( ) );
 	}
 
+	/**
+	 * Gets the list of property bindings of the element
+	 */
+	List<PropertyBinding> getPropertyBindings( )
+	{
+		return bindings;
+	}
 }

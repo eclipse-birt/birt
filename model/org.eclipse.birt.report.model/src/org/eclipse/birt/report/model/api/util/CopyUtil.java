@@ -93,8 +93,8 @@ public class CopyUtil
 
 		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
-
-		container.getSlot( slotID ).add( target );
+		container.getSlot( slotID ).add( target );		
+		copyPastePolicy.copyPropertyBindings( copy, target );
 		return checkPostPasteErrors( target.getElement( ), root );
 	}
 
@@ -137,8 +137,8 @@ public class CopyUtil
 
 		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
-
-		container.getSlot( slotID ).add( target, newPos );
+		container.getSlot( slotID ).add( target, newPos );		
+		copyPastePolicy.copyPropertyBindings( copy, target );		
 		return checkPostPasteErrors( target.getElement( ), root );
 	}
 
@@ -180,8 +180,8 @@ public class CopyUtil
 
 		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
-
 		container.add( propName, target );
+		copyPastePolicy.copyPropertyBindings( copy, target );
 		return checkPostPasteErrors( target.getElement( ), root );
 	}
 
@@ -225,8 +225,8 @@ public class CopyUtil
 
 		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
-
 		container.add( propName, target, newPos );
+		copyPastePolicy.copyPropertyBindings( copy, target );
 		return checkPostPasteErrors( target.getElement( ), root );
 	}
 
