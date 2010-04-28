@@ -519,7 +519,7 @@ public class ReportTemplateTransferDropTargetListener extends
 					return false;
 				}
 			}
-			Object root = getTargetEditPart( ).getRoot( ).getModel( );
+			Object root = getTargetEditPart( ).getRoot( ).getContents( ).getModel( );
 			return root instanceof ReportDesignHandle || root instanceof LibraryHandle;
 			//return true;
 		}
