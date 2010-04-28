@@ -67,18 +67,20 @@ public class DataCache
 
 	public void addData( int col, SheetData data )
 	{	
-		
-		int rowIndex = data.getRowIndex( );
-		columns.get( col ).add( data );
-		maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
-		BookmarkDef bookmark = data.getBookmark( );
-		if ( bookmark == null )
+		if ( col < getColumnCount( ) )
 		{
-			return;
+			int rowIndex = data.getRowIndex( );
+			columns.get( col ).add( data );
+			maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
+			BookmarkDef bookmark = data.getBookmark( );
+			if ( bookmark == null )
+			{
+				return;
+			}
+			bookmark.setColumnNo( col + 1 );
+			bookmark.setRowNo( rowIndex );
+			bookmarks.add( bookmark );
 		}
-		bookmark.setColumnNo( col + 1 );
-		bookmark.setRowNo( rowIndex );
-		bookmarks.add( bookmark );
 	}
 
 	public void clearCachedSheetData( )
@@ -158,9 +160,12 @@ public class DataCache
 	 */
 	public SheetData getColumnLastData( int index )
 	{
-		ArrayList<SheetData> columnDatas = columns.get( index );
-		if ( !columnDatas.isEmpty( ) )
-			return columnDatas.get( columnDatas.size( ) - 1 );
+		if ( index < getColumnCount( ) )
+		{
+			ArrayList<SheetData> columnDatas = columns.get( index );
+			if ( !columnDatas.isEmpty( ) )
+				return columnDatas.get( columnDatas.size( ) - 1 );
+		}
 		return null;
 	}
 
