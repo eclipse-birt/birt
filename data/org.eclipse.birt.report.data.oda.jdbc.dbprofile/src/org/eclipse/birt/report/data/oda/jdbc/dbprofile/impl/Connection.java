@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2008, 2009 Actuate Corporation.
+ * Copyright (c) 2008, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -39,8 +39,9 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
     protected static final String SQB_DATA_SET_TYPE = "org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqbDataSet"; //$NON-NLS-1$
     private static final String JDBC_CONN_TYPE = "java.sql.Connection"; //$NON-NLS-1$
 
-    private static final String CLASS_NAME = Connection.class.getName();
-    private static final Logger sm_logger = Logger.getLogger( CLASS_NAME );
+    private static final String sm_className = Connection.class.getName();
+    private static final String sm_packageName = Connection.class.getPackage().getName();
+    private static final Logger sm_logger = Logger.getLogger( sm_packageName );
 
     private IConnectionProfile m_dbProfile;
     
@@ -59,7 +60,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         catch( OdaException ex )
         {
             // log warning with connect status
-            sm_logger.logp( Level.WARNING, CLASS_NAME, "open(Properties)",  //$NON-NLS-1$
+            sm_logger.logp( Level.WARNING, sm_className, "open(Properties)",  //$NON-NLS-1$
                     Messages.connection_openFailed, ex );
             originalEx = ex;
         }
@@ -103,7 +104,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	    if( m_dbProfile == null )
 	        throw new OdaException( Messages.connection_nullProfile );
 
-        if( m_dbProfile.getConnectionState() != IConnectionProfile.CONNECTED_STATE )
+        if( m_dbProfile.getConnectionState() != IConnectionProfile.CONNECTED_STATE )    // not connected yet
         {
 	        // connect via the db profile
 	        IStatus connectStatus = m_dbProfile.connect();
