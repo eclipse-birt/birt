@@ -15,10 +15,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionSet;
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -75,16 +85,61 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	 * @param parent
 	 * @return query definition
 	 * @throws BirtException
+	 * @deprecated to invoke {@link #createBaseQuery(IDataQueryDefinition)} instead.
 	 */
 	public IDataQueryDefinition createQuery( IDataQueryDefinition parent )
 			throws BirtException
 	{
-		BaseQueryDefinition query = createQueryDefinition( parent );
-		if ( query == null )
-		{
-			return null;
-		}
+		return createBaseQuery( parent );
+	}
+	
+	@Override
+	protected void generateExtraBindings( BaseQueryDefinition query )
+			throws ChartException
+	{
+		List<SeriesDefinition> sdList = ChartUtil.getAllOrthogonalSeriesDefinitions( fChartModel );
+		sdList.addAll( ChartUtil.getBaseSeriesDefinitions( fChartModel ) );
 
+		// Iterate all data definitions in series and add binding for complex
+		// expression
+		ExpressionSet exprSet = new ExpressionSet( );
+		for ( int i = 0; i < sdList.size( ); i++ )
+		{
+			SeriesDefinition sd = sdList.get( i );
+			List<Query> queryList = sd.getDesignTimeSeries( )
+					.getDataDefinition( );
+			for ( int j = 0; j < queryList.size( ); j++ )
+			{
+				exprSet.add( queryList.get( j ).getDefinition( ) );
+			}
+
+			exprSet.add( sd.getQuery( ).getDefinition( ) );
+		}
+		for ( String expr : exprSet )
+		{
+			exprCodec.decode( expr );
+			if ( !exprCodec.isRowBinding( false ) )
+			{
+				String bindingName = ChartExpressionUtil.escapeSpecialCharacters( exprCodec.getExpression( ) );
+				Binding colBinding = new Binding( bindingName );
+				colBinding.setDataType( DataType.ANY_TYPE );
+				colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+						modelAdapter,
+						false ) );
+
+				try
+				{
+					query.addBinding( colBinding );
+				}
+				catch ( DataException e )
+				{
+					throw new ChartException( ChartReportItemPlugin.ID,
+							ChartException.DATA_BINDING,
+							e );
+				}
+			}
+		}
+		
 		// Handle groups.
 		List<GroupHandle> groups = getGroups( );
 		for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
@@ -114,12 +169,20 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 					ComputedColumnHandle binding = iterator.next( );
 					if ( binding.getAggregateFunction( ) != null )
 					{
-						query.addBinding( modelAdapter.adaptBinding( binding ) );
+						try
+						{
+							query.addBinding( modelAdapter.adaptBinding( binding ) );
+						}
+						catch ( BirtException e )
+						{
+							throw new ChartException( ChartReportItemPlugin.ID,
+									ChartException.DATA_BINDING,
+									e );
+						}
 					}
 				}
 			}
 		}
-		return query;
 	}
 	
 	/**
