@@ -24,6 +24,8 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -132,6 +134,22 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 				}
 				parameters.put( ( (ScalarParameterHandle) parameterObject ).getQualifiedName( ),
 						new DummyParameterAttribute( value, "" ) );
+			}
+			else if ( parameterObject instanceof DynamicFilterParameterHandle )
+			{
+				List defaultValue = ( (DynamicFilterParameterHandle) parameterObject ).getDefaultValueList( );
+				if ( defaultValue != null && defaultValue.size( ) > 0 )
+				{
+					Expression expression = (Expression) defaultValue.get( 0 );
+					String defaultValueString = expression.getStringExpression( );
+					parameters.put( ( (DynamicFilterParameterHandle) parameterObject ).getQualifiedName( ),
+							new DummyParameterAttribute( defaultValueString, "" ) );
+				}
+				else
+				{
+					parameters.put( ( (DynamicFilterParameterHandle) parameterObject ).getQualifiedName( ),
+							new DummyParameterAttribute( "true", "" ) );
+				}
 			}
 		}
 		paramsProp = new ReportParameters( parameters, this );
