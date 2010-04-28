@@ -26,14 +26,12 @@ import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
 /**
  * Validates the property whose type is element reference. If the value can
- * refer to an actual element, it will be resolved after validation.
- * <h3>Rule</h3>
+ * refer to an actual element, it will be resolved after validation. <h3>Rule</h3>
  * The rule is that the element reference value should refer to an actual
- * element in the same report.
- * <h3>Applicability</h3>
- * This validator is only applied to the element reference properties of
- * <code>DesignElement</code>, except <code>StyledElement.STYLE_PROP</code>.
- * The <code>StyledElement.STYLE_PROP</code> value should be validated with
+ * element in the same report. <h3>Applicability</h3> This validator is only
+ * applied to the element reference properties of <code>DesignElement</code>,
+ * except <code>StyledElement.STYLE_PROP</code>. The
+ * <code>StyledElement.STYLE_PROP</code> value should be validated with
  * {@link StyleReferenceValidator}.
  */
 
@@ -72,7 +70,8 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module, DesignElement element, String propName )
+	public List<SemanticException> validate( Module module,
+			DesignElement element, String propName )
 	{
 		boolean flag = isInTemplateParameterDefinitionSlot( element );
 		if ( flag )
@@ -105,13 +104,14 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 					// check each reference value in the list
 
 					ElementRefValue item = valueList.get( i );
-					if ( !item.isResolved( ) )
+
+					// check reference is resolved and not self-reference
+					if ( !item.isResolved( ) || item.getElement( ) == element )
 					{
-						list
-								.add( new SemanticError(
-										element,
-										new String[]{propName, item.getName( )},
-										SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
+						list.add( new SemanticError(
+								element,
+								new String[]{propName, item.getName( )},
+								SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF ) );
 					}
 				}
 			}
@@ -136,8 +136,8 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	 *            the element holding this element reference property
 	 * @param containmentPropName
 	 *            the name of the property
-	 * @return <code>true</code> if the property is resolved;
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if the property is resolved; <code>false</code>
+	 *         otherwise.
 	 */
 
 	private boolean checkElementReference( Module module,
@@ -153,7 +153,8 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 		if ( ref == null )
 			return true;
 
-		return ref.isResolved( );
+		// check reference is resolved and not self-reference
+		return ref.isResolved( ) && element != ref.getElement( );
 	}
 
 }
