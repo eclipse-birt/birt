@@ -191,7 +191,7 @@ public class ArchiveFile implements IArchiveFile
 		}
 	}
 
-	public void setCacheSize( int cacheSize )
+	public void setCacheSize( long cacheSize )
 	{
 		if ( isArchiveFileAvailable( af ) )
 		{
@@ -199,7 +199,7 @@ public class ArchiveFile implements IArchiveFile
 		}
 	}
 
-	public int getUsedCache( )
+	public long getUsedCache( )
 	{
 		if ( isArchiveFileAvailable( af ) )
 		{
@@ -208,15 +208,22 @@ public class ArchiveFile implements IArchiveFile
 		return 0;
 	}
 
-	static public int getTotalUsedCache( )
+	static public long getTotalUsedCache( )
 	{
-		return systemCacheManager.getUsedCacheSize( ) * 4096;
+		return (long) systemCacheManager.getUsedCacheSize( ) * 4096;
 	}
 
-	static public void setTotalCacheSize( int size )
+	static public void setTotalCacheSize( long size )
 	{
-		int blockCount = ( size + 4095 ) / 4096;
-		systemCacheManager.setMaxCacheSize( blockCount );
+		long blockCount = ( size + 4095 ) / 4096;
+		if ( blockCount > Integer.MAX_VALUE )
+		{
+			systemCacheManager.setMaxCacheSize( Integer.MAX_VALUE );
+		}
+		else
+		{
+			systemCacheManager.setMaxCacheSize( (int) blockCount );
+		}
 	}
 
 	/**

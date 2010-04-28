@@ -242,7 +242,7 @@ public class ArchiveView implements IArchiveFile
 		return view.getName( );
 	}
 
-	public int getUsedCache( )
+	public long getUsedCache( )
 	{
 		return view.getUsedCache( );
 	}
@@ -252,7 +252,7 @@ public class ArchiveView implements IArchiveFile
 		return view.removeEntry( name );
 	}
 
-	public void setCacheSize( int cacheSize )
+	public void setCacheSize( long cacheSize )
 	{
 		view.setCacheSize( cacheSize );
 	}

@@ -27,9 +27,9 @@ public interface IArchiveFile
 
 	public boolean exists( String name );
 
-	public void setCacheSize( int cacheSize );
+	public void setCacheSize( long cacheSize );
 
-	public int getUsedCache( );
+	public long getUsedCache( );
 
 	public ArchiveEntry openEntry( String name ) throws IOException;
 
