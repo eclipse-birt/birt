@@ -12,15 +12,19 @@
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
@@ -35,11 +39,12 @@ import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.util.TempPathManager;
 import org.eclipse.birt.data.engine.olap.util.ComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper;
 import org.mozilla.javascript.Scriptable;
 
@@ -128,7 +133,23 @@ public class CubeQueryExecutor
 	private int getFilterType( IFilterDefinition filter, Set<DimLevel> dimLevelInCubeQuery ) throws DataException
 	{
 		if(! (filter instanceof ICubeFilterDefinition))
+		{
+			if( filter.getExpression( ) instanceof ICollectionConditionalExpression )
+			{
+				Collection<IScriptExpression> exprs = ( ( ICollectionConditionalExpression )( filter.getExpression( ) ) ).getExpr( );
+				Set dimensionSet = new HashSet( );
+				Iterator<IScriptExpression> exprsIterator = exprs.iterator( );
+				while( exprsIterator.hasNext( ) )
+				{
+					dimensionSet.add( OlapExpressionUtil.getTargetDimLevel( exprsIterator.next( ).getText( ) ).getDimensionName( ) );
+				}
+				if( dimensionSet.size( ) == 1 )
+					return CubeQueryExecutor.DIMENSION_FILTER;
+				else
+					return CubeQueryExecutor.FACTTABLE_FILTER;
+			}
 			return CubeQueryExecutor.DIMENSION_FILTER;
+		}
 		ICubeFilterDefinition cubeFilter = (ICubeFilterDefinition) filter;
 		if ( cubeFilter.getTargetLevel( ) != null)
 			return CubeQueryExecutor.DIMENSION_FILTER;

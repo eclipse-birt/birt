@@ -734,13 +734,20 @@ public class ScriptEvalUtil
 					List<Object> targetObj = new ArrayList<Object>( );
 					for( IScriptExpression se : op )
 					{
-						if( se.getHandle( )== null )
+						if( se == null )
 						{
-							se.setHandle( evalExpr( se, cx, source, lineNo ) );
+							targetObj.add( null );
 						}
-						targetObj.add( se.getHandle( ) );
+						else
+						{
+							if( se.getHandle( )== null )
+							{
+								se.setHandle( evalExpr( se, cx, source, lineNo ) );
+							}
+							targetObj.add( se.getHandle( ) );
+						}
 					}
-					if( compare( testObj, targetObj ) == 0 )
+					if( compareIgnoreNull( testObj, targetObj ) == 0 )
 					{
 						in = Boolean.TRUE;
 						break;
@@ -797,6 +804,19 @@ public class ScriptEvalUtil
 		}
 
 	}	
+	
+	private static int compareIgnoreNull( List<Object> valueList, List<Object> targetList ) throws DataException
+	{
+		for( int i = 0; i < valueList.size( ); i++ )
+		{
+			if( targetList.get( i ) == null )
+				continue;
+			int result = compare( valueList.get( i ), targetList.get( i ) ); 
+			if(  result != 0 )
+				return result;
+		}
+		return 0;
+	}
 	
 	/**
 	 * Evaluates a ROM script and converts the result type into one accepted by

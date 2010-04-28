@@ -24,8 +24,8 @@ import java.util.Collection;
  */
 public interface ICollectionConditionalExpression
 {
-	public static int OP_IN = 1;
-	public static int OP_NOT_IN = 2;
+	public static int OP_IN = IConditionalExpression.OP_IN;
+	public static int OP_NOT_IN = IConditionalExpression.OP_NOT_IN;
 	public Collection<IScriptExpression> getExpr( );
 
 	public Collection<Collection<IScriptExpression>> getOperand( );
