@@ -106,7 +106,7 @@ public class ChartUtil
 	 */
 	public static final String CHART_MAX_ROW = "CHART_MAX_ROW"; //$NON-NLS-1$	
 	
-	private static final NumberFormat DEFAULT_NUMBER_FORMAT = NumberFormat.getInstance( Locale.getDefault( ) );
+	private static final NumberFormat DEFAULT_NUMBER_FORMAT = initDefaultNumberFormat( );
 	
 	/**
 	 * Returns if the given color definition is totally transparent. e.g.
@@ -359,11 +359,6 @@ public class ChartUtil
 			return null;
 		}
 		
-		if (value instanceof Number)
-		{
-			return DEFAULT_NUMBER_FORMAT.format( value );
-		}
-
 		return String.valueOf( value );
 	}
 
@@ -1984,5 +1979,23 @@ public class ChartUtil
 	public static boolean hasSorting(SeriesDefinition seriesDefinition )
 	{
 		return ( SortOption.ASCENDING_LITERAL == seriesDefinition.getSorting( ) ) || ( SortOption.DESCENDING_LITERAL == seriesDefinition.getSorting( ) );
+	}
+	
+	private static NumberFormat initDefaultNumberFormat( )
+	{
+		NumberFormat format = NumberFormat.getInstance( Locale.getDefault( ) );
+		format.setGroupingUsed( false );
+		return format;
+	}
+
+	/**
+	 * Returns a default NumberFormat, which can be used when none is specified.
+	 * 
+	 * @return A default NumberFormat, which can be used when none is specified.
+	 * @since 2.5.3
+	 */
+	public static NumberFormat getDefaultNumberFormat( )
+	{
+		return DEFAULT_NUMBER_FORMAT;
 	}
 }

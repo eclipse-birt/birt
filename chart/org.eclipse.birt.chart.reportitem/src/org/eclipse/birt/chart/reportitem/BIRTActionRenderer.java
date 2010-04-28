@@ -88,7 +88,12 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 		public String getBookmark( )
 		{
-			return ChartUtil.stringValue( evaluate( handle.getTargetBookmark( ) ) );
+			Object value = evaluate( handle.getTargetBookmark( ) );
+			if (value instanceof Number)
+			{
+				return ChartUtil.getDefaultNumberFormat( ).format( value );
+			}
+			return ChartUtil.stringValue(  value);
 		}
 
 		public String getActionString( )
