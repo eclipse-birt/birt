@@ -16,17 +16,27 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
+import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
+import org.eclipse.birt.report.designer.internal.ui.layout.TableLayoutData.ColumnData;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -40,6 +50,11 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Image;
@@ -247,6 +262,81 @@ public class CrosstabUIHelper
 				true,
 				false,
 				false );
+	}
+	
+	public static void validateFixedColumnWidth(ExtendedItemHandle handle)
+	{
+		EditPartViewer viewer = UIUtil.getLayoutEditPartViewer( );
+		Object obj = viewer.getEditPartRegistry( ).get( handle );
+		if (!(obj instanceof CrosstabTableEditPart))
+		{
+			return;
+		}
+		CrosstabTableEditPart part = (CrosstabTableEditPart)obj;
+		Dimension tableSize = part.getFigure( ).getSize( );
+
+		part.getCrosstabHandleAdapter( )
+				.setWidth( converPixToDefaultUnit( tableSize.width, part),
+						getDefaultUnits(part ) );
+		
+		adjustOthersColumn( new ArrayList( ), part );
+	}
+	
+	protected static void adjustOthersColumn(List exclusion, CrosstabTableEditPart part)
+	{
+		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
+		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
+				.getConstraint( figure );
+		ColumnData[] datas = data.columnWidths;
+		if (datas == null)
+		{
+			return;
+		}
+		for ( int i = 0; i < datas.length; i++ )
+		{
+			if (exclusion.contains( Integer.valueOf( datas[i].columnNumber ) ))
+			{
+				continue;
+			}
+			
+			ITableLayoutOwner.DimensionInfomation dim = part.getColumnWidth( datas[i].columnNumber );
+			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) ))
+			{
+				resizeFixColumn(0,  datas[i].columnNumber, 1, part);
+			}
+			else if (dim.getUnits( ) == null || dim.getUnits( ).length( ) == 0)
+			{
+				resizeFixColumn(0,  datas[i].columnNumber,  datas[i].columnNumber, part);
+			}
+		}
+	}
+	
+	private static void resizeFixColumn( int value, int start, int end, CrosstabTableEditPart part )
+	{
+		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter( );
+
+		int startWidth = 0;
+		int endWidth = 0;
+		startWidth = CrosstabTableUtil.caleVisualWidth( part, start );
+		endWidth = CrosstabTableUtil.caleVisualWidth( part, end );
+		
+		crosstabAdapter.setColumnWidth( start, converPixToDefaultUnit( startWidth + value, part), getDefaultUnits( part ) );
+		if (start != end)
+		{
+			crosstabAdapter.setColumnWidth( end, converPixToDefaultUnit( endWidth - value, part), getDefaultUnits( part ) );
+		}
+	}
+	
+	private static double converPixToDefaultUnit(int pix, CrosstabTableEditPart part)
+	{
+		double in = MetricUtility.pixelToPixelInch( pix );
+		return DimensionUtil.convertTo(in, DesignChoiceConstants.UNITS_IN, getDefaultUnits( part )).getMeasure( );
+	}
+	
+	private static String getDefaultUnits( CrosstabTableEditPart part)
+	{
+		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter( );
+		return crosstabAdapter.getDesignElementHandle( ).getModuleHandle( ).getDefaultUnits( );
 	}
 
 }
