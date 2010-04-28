@@ -13,10 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -46,31 +44,43 @@ public class TocExpressionPropertyDescriptorProvider extends
 	{
 		if ( isReadOnly( ) )
 			return;
+
+		GroupElementHandle groupElementHandle = null;
 		if ( input instanceof GroupElementHandle )
 		{
-			if ( value instanceof Expression )
-			{
-				TOC toc = StructureFactory.createTOC( );
-				toc.setExpressionProperty( TOC.TOC_EXPRESSION,
-						(Expression) value );
-				( (GroupElementHandle) input ).setProperty( property, toc );
-			}
-			else
-				( (GroupElementHandle) input ).setProperty( property, value );
+			groupElementHandle = (GroupElementHandle) input;
 		}
 		else if ( input instanceof List )
 		{
-			if ( value instanceof Expression )
+			groupElementHandle = DEUtil.getGroupElementHandle( (List) input );
+		}
+
+		if ( groupElementHandle != null )
+		{
+			if ( groupElementHandle.getPropertyHandle( property ) != null )
+			{
+				Object propertyValue = groupElementHandle.getPropertyHandle( property )
+						.getValue( );
+				if ( propertyValue instanceof TOC )
+				{
+					( (TOC) propertyValue ).setExpressionProperty( TOC.TOC_EXPRESSION,
+							(Expression) value );
+				}
+				else
+				{
+					TOC toc = StructureFactory.createTOC( );
+					toc.setExpressionProperty( TOC.TOC_EXPRESSION,
+							(Expression) value );
+					groupElementHandle.setProperty( property, toc );
+				}
+			}
+			else
 			{
 				TOC toc = StructureFactory.createTOC( );
 				toc.setExpressionProperty( TOC.TOC_EXPRESSION,
 						(Expression) value );
-				DEUtil.getGroupElementHandle( (List) input )
-						.setProperty( property, toc );
+				groupElementHandle.setProperty( property, toc );
 			}
-			else
-				DEUtil.getGroupElementHandle( (List) input )
-						.setProperty( property, value );
 		}
 	}
 }
