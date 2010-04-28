@@ -46,11 +46,13 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
@@ -115,6 +117,14 @@ public class ChartAggregationCellViewProvider extends
 					info.isNew( ) );
 
 			ChartInXTabStatusManager.updateGrandItemStatus( cell );
+			
+			// In fixed layout, need to set width for other cells  
+			if ( cell.getCrosstab( ).getModuleHandle( ) instanceof ReportDesignHandle
+					&& DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( ( (ReportDesignHandle) cell.getCrosstab( )
+							.getModuleHandle( ) ).getLayoutPreference( ) ) )
+			{
+				CrosstabUIHelper.validateFixedColumnWidth( (ExtendedItemHandle) cell.getCrosstabHandle( ) );
+			}
 		}
 		catch ( BirtException e )
 		{
