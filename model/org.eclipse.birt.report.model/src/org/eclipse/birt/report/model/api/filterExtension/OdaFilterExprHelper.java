@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.filterExtension;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
+import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 
 /**
  * OdaFilterExprHelper
@@ -28,11 +29,11 @@ public class OdaFilterExprHelper extends OdaFilterExprHelperImpl
 	 * filter definitions. If under OS BIRT, the list will only contain the
 	 * IFilterExprDefinition instance which represent the BIRT predefined ones.
 	 * 
-	 *@param odaDatasetExtensionId
+	 * @param odaDatasetExtensionId
 	 *            oda datasource extension id.
-	 *@param odaDataSourceExtensionId
+	 * @param odaDataSourceExtensionId
 	 *            oda dataset extension id.
-	 *@param filterType
+	 * @param filterType
 	 *            the filter type
 	 * @return List of IFilterExprDefinition instance.
 	 */
@@ -78,7 +79,8 @@ public class OdaFilterExprHelper extends OdaFilterExprHelperImpl
 					return fed;
 			}
 		}
-		return new FilterExprDefinition( birtFilterExprId );
+		return ODAProviderFactory.getInstance( ).createFilterExprDefinition(
+				birtFilterExprId );
 	}
 
 	/**

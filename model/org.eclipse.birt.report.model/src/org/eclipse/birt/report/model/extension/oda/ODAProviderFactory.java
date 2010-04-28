@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.extension.oda;
 
+import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -64,6 +65,23 @@ public class ODAProviderFactory implements IODAProviderFactory
 		return null;
 	}
 
+	public IFilterExprDefinition createFilterExprDefinition( )
+	{
+		if ( baseFactory != null )
+			return baseFactory.createFilterExprDefinition();
+		
+		return null;
+	}
+
+	public IFilterExprDefinition createFilterExprDefinition(
+			String birtFilterExpr )
+	{
+		if ( baseFactory != null )
+			return baseFactory.createFilterExprDefinition(birtFilterExpr);
+		
+		return null;
+	}
+	
 	/**
 	 * Set the base factory for this class. This method should be called before
 	 * any other operation.
