@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.5.1.v20090818-1200 Build &lt;2.5.1.v20090818-1200></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.0.v20100427-1001 Build &lt;2.6.0.v20100427-1001></property>
     <property name="units">in</property>
     <property name="layoutPreference">auto layout</property>
     <data-sources>
@@ -1013,7 +1013,7 @@ group by CLASSICMODELS.PRODUCTS.PRODUCTNAME, CLASSICMODELS.PRODUCTS.PRODUCTLINE]
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
+            <property name="outputFormat">PNG</property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">eq</property>
@@ -1924,7 +1924,7 @@ group by CLASSICMODELS.PRODUCTS.PRODUCTNAME, CLASSICMODELS.PRODUCTS.PRODUCTLINE]
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
+            <property name="outputFormat">PNG</property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">eq</property>
@@ -2827,7 +2827,7 @@ group by CLASSICMODELS.PRODUCTS.PRODUCTNAME, CLASSICMODELS.PRODUCTS.PRODUCTLINE]
   <Rotation/>
 </model:ChartWithAxes>
 ]]></xml-property>
-            <property name="outputFormat">SVG</property>
+            <property name="outputFormat">PNG</property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">eq</property>

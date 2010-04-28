@@ -214,6 +214,7 @@ public class DataExtractionTaskTest extends EngineCase
 	{
 		dataExTask.selectResultSet( "ELEMENT_339" );
 		dataExTask.setDistinctValuesOnly( true );
+		dataExTask.selectColumns( new String[]{"COUNTRY"} );
 		IExtractionResults results = dataExTask.extract( );
 		IDataIterator itr = results.nextResultIterator( );
 		HashSet set = new HashSet();

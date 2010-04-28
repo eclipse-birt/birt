@@ -64,13 +64,13 @@ public class PDFImageLMTest extends PDFLayoutTest
 		ContainerArea blockContainer = (ContainerArea) logicContainers.next( );
 		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
 		{
-			checkChart( 158313, 72290, 44270, 11221, "#bookmark", null, null,
+			checkChart( 145268, 70623, 56165, 15004, null, "bookmark", null,
 					blockContainer );
 			logicContainers.next( );
-			checkChart( 158313, 72290, 44270, 11221,
-					"run\\?__report=.*120358.rptdesign&__overwrite=true", null,
+			checkChart( 145268, 70623, 56165, 15004,
+					"run?__report=%2FD%3A%2FBIRT_2.6.0%2Forg.eclipse.birt.report.engine.tests%2F120358.rptdesign&__overwrite=true", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
-			checkChart( 158313, 72290, 44270, 11221, "120358.rptdesign", null,
+			checkChart( 145268, 70623, 56165, 15004, "120358.rptdesign", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
 		}
 	}
@@ -94,7 +94,7 @@ public class PDFImageLMTest extends PDFLayoutTest
 		assertEquals( y, map.getY( ) );
 		assertEquals( width, map.getWidth( ) );
 		assertEquals( height, map.getHeight( ) );
-		assertTrue( link.getHyperlink( ).matches( hyperlink ) );
+		assertEquals( hyperlink, link.getHyperlink( ) );
 		assertEquals( bookmark, link.getBookmark( ) );
 		assertEquals( targetWindow, link.getTargetWindow( ) );
 	}
