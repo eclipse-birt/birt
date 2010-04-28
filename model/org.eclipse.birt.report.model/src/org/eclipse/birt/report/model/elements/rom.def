@@ -3605,7 +3605,7 @@
     <Property displayNameID="Element.TabularDimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
   	  <Type name="TabularHierarchy"/>
   	</Property>
-  	<Property detailType="Dimension" displayNameID="Element.TabularDimension.internalDimensionRef" name="internalDimensionRef" runtimeSettable="false" since="2.5" type="elementRef" />	  
+  	<Property canInherit="false" detailType="Dimension" displayNameID="Element.TabularDimension.internalDimensionRef" name="internalDimensionRef" runtimeSettable="false" since="2.5" type="elementRef" />	  
   </Element>  
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaDimension" extends="Dimension" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaDimension" name="OdaDimension" since="2.2" xmlName="oda-dimension">
     <Property displayNameID="Element.OdaDimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">

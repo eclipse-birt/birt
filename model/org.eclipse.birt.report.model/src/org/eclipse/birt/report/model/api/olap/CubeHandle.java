@@ -91,7 +91,7 @@ public abstract class CubeHandle extends ReportElementHandle
 				}
 			}
 		}
-		else if ( getElement( ).getDynamicExtends( getModule( ) ) != null )
+		else if ( getElement( ).getDynamicExtendsElement( getModule( ) ) != null )
 		{
 			Cube cube = (Cube) getElement( );
 			DesignElement element = cube.findLocalElement( dimensionName,
@@ -180,7 +180,7 @@ public abstract class CubeHandle extends ReportElementHandle
 					&& measure.isContentOf( getElement( ) ) )
 				return (MeasureHandle) measure.getHandle( module );
 		}
-		else if ( getElement( ).getDynamicExtends( getModule( ) ) != null )
+		else if ( getElement( ).getDynamicExtendsElement( getModule( ) ) != null )
 		{
 			Cube cube = (Cube) getElement( );
 			DesignElement element = cube.findLocalElement( measureName,

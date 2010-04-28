@@ -3754,19 +3754,6 @@ public abstract class DesignElement
 		return false;
 	}
 
-	/**
-	 * Gets the dynamic extended element. By default it is null. Some inherited
-	 * class will override this method to define its behavior.
-	 * 
-	 * @param module
-	 *            the module that this element resides in
-	 * @return
-	 */
-	public DesignElement getDynamicExtends( Module module )
-	{
-		return null;
-	}
-
 	public boolean canDynamicExtends( )
 	{
 		return false;

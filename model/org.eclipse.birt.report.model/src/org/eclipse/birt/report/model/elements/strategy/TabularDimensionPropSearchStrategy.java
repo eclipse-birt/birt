@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.elements.strategy;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
@@ -19,7 +20,6 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.util.ElementStructureUtil;
 
 /**
  * Provides the specific property searching route for <code>ReportItem</code>,
@@ -67,9 +67,10 @@ public class TabularDimensionPropSearchStrategy extends PropertySearchStrategy
 	{
 		if ( element.getContainer( ) instanceof Module )
 			return super.getPropertyFromSelf( module, element, prop );
-		
+
 		if ( ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP
-				.equalsIgnoreCase( prop.getName( ) ) )
+				.equalsIgnoreCase( prop.getName( ) )
+				|| prop.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 			return super.getPropertyFromSelf( module, element, prop );
 
 		Dimension tmpDimension = getSharedDimension( module, element );

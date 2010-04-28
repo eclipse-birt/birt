@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem.StatusInfo;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -116,6 +117,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 */
 
 	public List<DesignElement> unhandleIDElements = new ArrayList<DesignElement>( );
+
+	/**
+	 * Cached element list that is cube dimension and defines shared dimension
+	 * property. These elements should be generated layout structures.
+	 */
+	protected List<TabularDimension> unhandleCubeDimensions = new ArrayList<TabularDimension>( );
 
 	/**
 	 * Lists of those extended-item whose name is not allocated.
@@ -340,6 +347,18 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			unhandleIDElements = null;
 		}
 
+		// when all elements have uniqye id, we can update cube dimension
+		// structures
+		if ( !unhandleCubeDimensions.isEmpty( ) )
+		{
+			for ( TabularDimension dimension : unhandleCubeDimensions )
+			{
+				dimension.updateLayout( module );
+				module.manageId( dimension, true );
+			}
+			unhandleCubeDimensions = null;
+		}
+
 		// add un-named extended items to name-space
 		if ( !unnamedReportItems.isEmpty( )
 				&& versionNumber <= VersionUtil.VERSION_3_2_12 )
@@ -467,7 +486,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			DesignElement element = unhandleIDElements.get( i );
 
 			if ( element.getExtendsElement( ) == null
-					&& element.getDynamicExtends( module ) == null )
+					&& element.getDynamicExtendsElement( module ) == null )
 			{
 				if ( element.getRoot( ) == module )
 				{

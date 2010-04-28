@@ -73,7 +73,7 @@ public class CubeNameContext extends GeneralModuleNameContext
 					return super
 							.resolve( focus, element, propDefn, elementDefn );
 
-				Cube referredCube = (Cube) cube.getDynamicExtends( cube
+				Cube referredCube = (Cube) cube.getDynamicExtendsElement( cube
 						.getRoot( ) );
 				if ( referredCube == null )
 					return new ElementRefValue( null, name );
@@ -120,7 +120,8 @@ public class CubeNameContext extends GeneralModuleNameContext
 				return super
 						.resolve( focus, elementName, propDefn, elementDefn );
 
-			Cube referredCube = (Cube) cube.getDynamicExtends( cube.getRoot( ) );
+			Cube referredCube = (Cube) cube.getDynamicExtendsElement( cube
+					.getRoot( ) );
 			if ( referredCube == null )
 				return new ElementRefValue( null, elementName );
 

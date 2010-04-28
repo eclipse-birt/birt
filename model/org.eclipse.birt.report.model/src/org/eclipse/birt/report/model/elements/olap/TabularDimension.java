@@ -13,13 +13,16 @@ package org.eclipse.birt.report.model.elements.olap;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.strategy.TabularDimensionPropSearchStrategy;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * This class represents a Dimension element. Dimension contains a list of
@@ -33,6 +36,8 @@ public class TabularDimension extends Dimension
 		implements
 			ITabularDimensionModel
 {
+
+	protected TabularDimensionProvider provider = null;
 
 	/**
 	 * Default constructor.
@@ -55,6 +60,7 @@ public class TabularDimension extends Dimension
 	{
 		super( name );
 		cachedPropStrategy = TabularDimensionPropSearchStrategy.getInstance( );
+		provider = new TabularDimensionProvider( this );
 	}
 
 	/*
@@ -137,7 +143,7 @@ public class TabularDimension extends Dimension
 	 */
 	protected boolean isValidHierarchy( DesignElement hierarchy, Module module )
 	{
-		return ( hierarchy.getContainer( ) == this || getSharedDimension( module ) != null );
+		return hierarchy.getContainer( ) == this;
 	}
 
 	/*
@@ -150,8 +156,127 @@ public class TabularDimension extends Dimension
 	{
 		// if dimension refers a shared dimension whether it is resolved or not,
 		// not managed by name space
-		if ( getProperty( getRoot( ), INTERNAL_DIMENSION_RFF_TYPE_PROP ) != null )
+		if ( hasSharedDimension( getRoot( ) ) )
 			return false;
 		return super.isManagedByNameSpace( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#baseClone()
+	 */
+
+	protected Object baseClone( ) throws CloneNotSupportedException
+	{
+		TabularDimension clonedElement = (TabularDimension) super.baseClone( );
+		clonedElement.provider = new TabularDimensionProvider( clonedElement );
+		clonedElement.provider.updateLayout( clonedElement.getRoot( ) );
+
+		return clonedElement;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getLocalProperty(org
+	 * .eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	public Object getLocalProperty( Module module, ElementPropertyDefn prop )
+	{
+		assert prop != null;
+
+		if ( prop.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
+			return super.getLocalProperty( module, prop );
+
+		if ( hasSharedDimension( module ) )
+			return provider.getLayoutProperty( module, prop );
+
+		return super.getLocalProperty( module, prop );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#setProperty(org.eclipse
+	 * .birt.report.model.metadata.ElementPropertyDefn, java.lang.Object)
+	 */
+	public void setProperty( ElementPropertyDefn prop, Object value )
+	{
+		assert prop != null;
+		if ( prop.getTypeCode( ) == IPropertyType.ELEMENT_TYPE
+				&& hasSharedDimension( getRoot( ) ) )
+		{
+			provider.setLayoutProperty( prop, value );
+		}
+		else
+		{
+			if ( INTERNAL_DIMENSION_RFF_TYPE_PROP.equals( prop.getName( ) ) )
+			{
+				propValues.put( HIERARCHIES_PROP, null );
+				setProperty( DEFAULT_HIERARCHY_PROP, null );
+			}
+			super.setProperty( prop, value );
+		}
+	}
+
+	/**
+	 * 
+	 * @param module
+	 */
+	public void updateLayout( Module module )
+	{
+		provider.updateLayout( module );
+	}
+
+	public boolean hasSharedDimension( Module module )
+	{
+		return getLocalProperty( module, INTERNAL_DIMENSION_RFF_TYPE_PROP ) != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getDynamicExtends(org
+	 * .eclipse.birt.report.model.core.Module)
+	 */
+	public DesignElement getDynamicExtendsElement( Module module )
+	{
+		return getSharedDimension( module );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#canDynamicExtends()
+	 */
+	public boolean canDynamicExtends( )
+	{
+		return hasSharedDimension( getRoot( ) );
+	}
+
+	/**
+	 * Gets the default hierarchy in this dimension.
+	 * 
+	 * @param module
+	 * @return
+	 */
+	public DesignElement getDefaultHierarchy( Module module )
+	{
+		if ( hasSharedDimension( module ) )
+		{
+			String name = getStringProperty( module, DEFAULT_HIERARCHY_PROP );
+			return provider.findLocalElement( name, MetaDataDictionary
+					.getInstance( ).getElement(
+							ReportDesignConstants.HIERARCHY_ELEMENT ) );
+		}
+
+		return super.getDefaultHierarchy( module );
+
 	}
 }

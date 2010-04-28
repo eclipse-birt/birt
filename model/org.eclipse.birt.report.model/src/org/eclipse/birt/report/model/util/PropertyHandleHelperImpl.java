@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.strategy.ExtendedItemPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
@@ -89,6 +91,31 @@ class PropertyHandleHelperImpl
 				&& ITableRowModel.REPEATABLE_PROP.equals( propName ) )
 		{
 			return !rowRepeatableVisibleInContext( element );
+		}
+		else if ( element instanceof TabularDimensionHandle )
+		{
+			// can not edit any property in the cube dimension that has defined
+			// share dimension
+			TabularDimension dimension = (TabularDimension) element
+					.getElement( );
+			if ( dimension.hasSharedDimension( element.getModule( ) ) )
+				return true;
+
+		}
+
+		// all the children in cube dimension is read-only
+		DesignElementHandle container = element.getContainer( );
+		while ( container != null )
+		{
+			if ( container instanceof TabularDimensionHandle )
+			{
+				TabularDimension dimension = (TabularDimension) container
+						.getElement( );
+				if ( dimension.hasSharedDimension( container.getModule( ) ) )
+					return true;
+			}
+
+			container = container.getContainer( );
 		}
 
 		return false;
