@@ -25,6 +25,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -336,6 +337,18 @@ public abstract class BaseDialog extends TrayDialog
 	 */
 	protected void initializeBounds( )
 	{
+		Shell shell = getShell();
+		if (shell != null) {
+			if (shell.getDisplay().getDismissalAlignment() == SWT.RIGHT) {
+				// make the default button the right-most button
+				Button defaultButton = shell.getDefaultButton();
+				if (defaultButton != null
+						&& isContained(buttonBar, defaultButton)) {
+					defaultButton.moveBelow(null);
+					((Composite) buttonBar).layout();
+				}
+			}
+		}
 		Point size;
 		if (  !needRememberLastSize( ) )
 		{
@@ -350,6 +363,17 @@ public abstract class BaseDialog extends TrayDialog
 				location.y,
 				size.x,
 				size.y ) ) );
+	}
+	
+	private boolean isContained(Control container, Control control) {
+		Composite parent;
+		while ((parent = control.getParent()) != null) {
+			if (parent == container) {
+				return true;
+			}
+			control = parent;
+		}
+		return false;
 	}
 
 	// if an instance of this dialog needn't remember last size and location,
