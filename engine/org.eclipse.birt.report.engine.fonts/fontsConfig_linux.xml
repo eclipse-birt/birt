@@ -2,7 +2,7 @@
 <font>
 	<font-aliases>
 		<mapping name="serif" font-family="Lucida Bright" />
-		<mapping name="sans serif" font-family="Lucida Sans" />
+		<mapping name="sans-serif" font-family="Lucida Sans" />
 		<mapping name="monospace" font-family="Lucida Sans Typewriter" />
 		<mapping name="cursive" font-family="Lucida Sans Typewriter" />
 		<mapping name="fantasy" font-family="Lucida Sans Typewriter" />
