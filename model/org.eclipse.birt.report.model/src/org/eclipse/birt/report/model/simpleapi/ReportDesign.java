@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
@@ -366,8 +367,16 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 
 		String[] tmpArray = new String[tmpNames.size( )];
 		tmpNames.toArray( tmpArray );
-		this.defineFunctionProperties( tmpArray, this.getClass( ), DONTENUM );
-
+		ContextFactory.getGlobal( ).enterContext( );
+		try
+		{
+			this.defineFunctionProperties( tmpArray, this.getClass( ), DONTENUM );
+		}
+		finally
+		{
+			Context.exit( );
+		}
+		
 		this.defineProperty( "getReportElementByID", //$NON-NLS-1$
 				new Function_getReportElementByID( ), DONTENUM );
 		this.defineProperty( "setUserProperty", //$NON-NLS-1$
