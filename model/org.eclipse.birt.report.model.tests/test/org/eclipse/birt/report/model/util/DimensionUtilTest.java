@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.util;
 
+import javax.print.attribute.ResolutionSyntax;
+
 import junit.framework.TestCase;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -219,27 +221,43 @@ public class DimensionUtilTest extends TestCase
 	 */
 	public void testMerge( ) throws Exception
 	{
+		DimensionValue in = DimensionValue.parse( "1in" );
 		DimensionValue cm = DimensionValue.parse( "1cm" );
 		DimensionValue mm = DimensionValue.parse( "10mm" );
 		DimensionValue percentage = DimensionValue.parse( "25%" );
 		DimensionValue px = DimensionValue.parse( "10px" );
+		DimensionValue ex = DimensionValue.parse( "10ex" );
 
 		// Merge between same absolute unit.
+		assertEquals( "2in", DimensionUtil.mergeDimension( in, in ).toString( ) );
 		assertEquals( "2cm", DimensionUtil.mergeDimension( cm, cm ).toString( ) );
 		assertEquals( "20mm", DimensionUtil.mergeDimension( mm, mm ).toString( ) );
 		// Merge between different absolute units.
 		assertEquals( "2cm", DimensionUtil.mergeDimension( cm, mm ).toString( ) );
 		assertEquals( "20mm", DimensionUtil.mergeDimension( mm, cm ).toString( ) );
 		// Merge between same relative unit.
-		assertEquals( "50%", DimensionUtil.mergeDimension( percentage, percentage ).toString( ) );
+		assertEquals( "50%", DimensionUtil.mergeDimension( percentage,
+				percentage ).toString( ) );
 		assertEquals( "20px", DimensionUtil.mergeDimension( px, px ).toString( ) );
-				
+		assertEquals( "20ex", DimensionUtil.mergeDimension( ex, ex ).toString( ) );
+		// Merge between absolute unit and pixel
+		assertEquals( "2in", DimensionUtil.mergeDimension( in, px, 10 )
+				.toString( ) );
+		if ( ResolutionSyntax.DPI > 0 )
+		{
+			// Try default dpi value
+			assertEquals( DimensionUtil.mergeDimension( px, in,
+					ResolutionSyntax.DPI ).toString( ), DimensionUtil
+					.mergeDimension( px, in ).toString( ) );
+		}
 		// Merge between different relative unit.
+		assertNull( DimensionUtil.mergeDimension( percentage, ex ) );
 		assertNull( DimensionUtil.mergeDimension( percentage, px ) );
+		assertNull( DimensionUtil.mergeDimension( px, ex ) );
 		// Merge between absolute unit and relative unit.
 		assertNull( DimensionUtil.mergeDimension( cm, percentage ) );
-		assertNull( DimensionUtil.mergeDimension( cm, px ) );
+		assertNull( DimensionUtil.mergeDimension( cm, ex ) );
 		assertNull( DimensionUtil.mergeDimension( mm, percentage ) );
-		assertNull( DimensionUtil.mergeDimension( mm, px ) );
+		assertNull( DimensionUtil.mergeDimension( mm, ex ) );
 	}
 }

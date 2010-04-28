@@ -811,8 +811,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * Returns if the table is a summary table. A summary table should not allow
 	 * adding any detail rows.
 	 * 
-	 * @return
-	 *         <code>true<code> if the table is a summary table.Otherwise <code>false<code>.
+	 * @return <code>true<code> if the table is a summary table.Otherwise <code>false<code>.
 	 */
 	public boolean isSummaryTable( )
 	{
@@ -836,13 +835,27 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	}
 
 	/**
-	 * Sets the width of the table to fit columns' widths. The new width value
-	 * will be the sum of the columns' widths.
+	 * Sets the width of the table to fit columns' widths with default dpi
+	 * value. The new width value will be the sum of the columns' widths.
 	 * 
 	 * @throws SemanticException
 	 *             when width of the table cannot be calculated.
 	 */
 	public void setWidthToFitColumns( ) throws SemanticException
+	{
+		setWidthToFitColumns( -1 );
+	}
+
+	/**
+	 * Sets the width of the table to fit columns' widths with the given dpi
+	 * value. The new width value will be the sum of the columns' widths.
+	 * 
+	 * @param dpi
+	 *            the dpi value
+	 * @throws SemanticException
+	 *             when width of the table cannot be calculated.
+	 */
+	public void setWidthToFitColumns( int dpi ) throws SemanticException
 	{
 		DimensionValue absoluteWidths = null;
 		DimensionValue relativeWidths = null;
@@ -852,6 +865,16 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 					SemanticError.DESIGN_EXCEPTION_TABLE_NO_COLUMN_FOUND );
 		}
 		List columns = getColumns( ).getContents( );
+		if ( dpi <= 0 )
+		{
+			// Invalid dpi value. Try the value defined in the design file.
+			ModuleHandle moduleHandle = getModuleHandle( );
+			if ( moduleHandle instanceof ReportDesignHandle )
+			{
+				dpi = ( (ReportDesignHandle) moduleHandle ).getImageDPI( );
+			}
+		}
+
 		for ( int index = 0; index < columns.size( ); index++ )
 		{
 			ColumnHandle column = (ColumnHandle) columns.get( index );
@@ -865,15 +888,17 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 						SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_WITH_NO_WIDTH );
 			}
 			int repeat = column.getRepeatCount( );
+			String unit = columnWidth.getUnits( );
 			if ( repeat > 1 )
 			{ // Process repeat
 				columnWidth = new DimensionValue( columnWidth.getMeasure( )
-						* repeat, columnWidth.getUnits( ) );
+						* repeat, unit );
 			}
-			if ( DimensionUtil.isAbsoluteUnit( columnWidth.getUnits( ) ) )
+			if ( DimensionUtil.isAbsoluteUnit( unit )
+					|| DesignChoiceConstants.UNITS_PX.equalsIgnoreCase( unit ) )
 			{
 				absoluteWidths = DimensionUtil.mergeDimension( absoluteWidths,
-						columnWidth );
+						columnWidth, dpi );
 			}
 			else
 			{
