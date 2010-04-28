@@ -65,7 +65,26 @@ public class DataSetViewData
 	private transient boolean wordWrap = false;
 	
 	private transient ExpressionHandle aclExpr = null;
+	
+	private transient String externalizedName = null;
+	
+	/**
+	 * @return the ExternalizedName.
+	 */
+	public final String getExternalizedName()
+	{
+		return externalizedName;
+	}
 
+	/**
+	 * @param externalizedName
+	 *            The externalizedName to set.
+	 */
+	public final void setExternalizedName(String externalizedName)
+	{
+		this.externalizedName = externalizedName;
+	}
+	
 	/**
 	 * @return the dataType.
 	 */
