@@ -1685,14 +1685,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		// old default value is invalid,
 		// then set the default value to null, else let in remain it unchanged.
 		// -- Begin --
-		try
-		{
-			validateValueList( defaultValueList );
-		}
-		catch ( BirtException e1 )
-		{
-			defaultValueList = null;
-		}
+
+		validateValueList( defaultValueList );
+
 		// -- End --
 
 		buildControlTypeList( type );
@@ -2675,7 +2670,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	protected void delTableValue( )
 	{
 		int index = defaultValueViewer.getTable( ).getSelectionIndex( );
-		if ( index > -1 )
+		if ( index > -1 && defaultValueList != null )
 		{
 			defaultValueList.remove( index );
 			defaultValueViewer.refresh( );
@@ -2691,6 +2686,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		else
 		{
+			if ( defaultValueList == null )
+			{
+				defaultValueViewer.getTable( ).removeAll( );
+				updateDynamicTableButtons( );
+			}
 			delBtn.setEnabled( false );
 		}
 	}
@@ -3024,17 +3024,25 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	}
 
 	private void validateValueList( List<Expression> values )
-			throws BirtException
 	{
 		if ( values != null )
 		{
-			for ( Expression value : values )
+			for ( int i = 0; i < values.size( ); i++ )
 			{
-				if ( value == null )
-					validateValue( null );
-				else
-					validateValue( value.getStringExpression( ),
-							value.getType( ) );
+				Expression value = values.get( i );
+				try
+				{
+					if ( value == null )
+						validateValue( null );
+					else
+						validateValue( value.getStringExpression( ),
+								value.getType( ) );
+				}
+				catch ( Exception e )
+				{
+					values.remove( value );
+					i--;
+				}
 			}
 		}
 	}
@@ -3042,15 +3050,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	protected void okPressed( )
 	{
 		// Validate the date first -- begin -- bug 164765
-		try
-		{
-			validateValueList( defaultValueList );
-		}
-		catch ( BirtException e1 )
-		{
-			ExceptionHandler.handle( e1 );
-			return;
-		}
+
+		validateValueList( defaultValueList );
+
 		// Validate the date first -- end --
 
 		try
@@ -3606,12 +3608,17 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		if ( defaultValueViewer != null
 				&& !defaultValueViewer.getTable( ).isDisposed( )
 				&& defaultValueViewer.getTable( ).isVisible( ) )
+		{
 			defaultValueViewer.refresh( );
-
+			updateDynamicTableButtons( );
+		}
 		if ( valueTable != null
 				&& !valueTable.getTable( ).isDisposed( )
 				&& valueTable.getTable( ).isVisible( ) )
+		{
 			valueTable.refresh( );
+			updateStaticTableButtons( );
+		}
 	}
 
 	private String validateName( )
