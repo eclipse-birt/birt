@@ -376,6 +376,25 @@ public class ReportEngine implements IReportEngine
 		return helper
 				.createGetParameterDefinitionTask( (ReportRunnable) reportRunnable );
 	}
+	
+	/**
+	 * creates an engine task for obtaining report parameter definitions
+	 * 
+	 * @param reportRunnable
+	 *            the runnable report design object
+	 * @return a GetParameterDefinitionTask
+	 */
+	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
+			IReportRunnable reportRunnable )
+	{
+		logger
+				.log(
+						Level.FINE,
+						"ReportEngine.createGetParameterDefinitionTask: reportRunnable={0} ",
+						reportRunnable );
+		return helper
+				.createGetParameterDefinitionTask( (ReportRunnable) reportRunnable );
+	}
 
 	/**
 	 * returns all supported output formats through BIRT engine emitter
