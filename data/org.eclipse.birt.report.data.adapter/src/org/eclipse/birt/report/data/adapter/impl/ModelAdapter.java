@@ -109,7 +109,7 @@ public class ModelAdapter implements IModelAdapter
 			return new ScriptDataSourceAdapter( (ScriptDataSourceHandle) handle );
 		}
 
-		logger.warning( "handle type: " + (handle == null ? "" : handle.getClass( ).getName( )) ); //$NON-NLS-1$
+		logger.fine( "handle type: " + ( handle == null ? "" : handle.getClass( ).getName( ) ) ); //$NON-NLS-1$
 		return null;
 
 	}
@@ -155,7 +155,7 @@ public class ModelAdapter implements IModelAdapter
 			}
 
 		}
-		logger.warning( "handle type: " + (handle == null ? "" : handle.getClass( ).getName( )) ); //$NON-NLS-1$
+		logger.fine( "handle type: " + ( handle == null ? "" : handle.getClass( ).getName( ) ) ); //$NON-NLS-1$
 		return design;
 	
 	}
