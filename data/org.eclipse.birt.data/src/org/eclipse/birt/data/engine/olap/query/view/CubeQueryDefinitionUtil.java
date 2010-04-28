@@ -464,6 +464,11 @@ public class CubeQueryDefinitionUtil
 			rowEdgeDimensions = query.getEdge( ICubeQueryDefinition.ROW_EDGE )
 					.getDimensions( );
 
+		if( ! ( query.getFilters( ).get( i ) instanceof ICubeFilterDefinition ) )
+		{
+			return true;
+		}
+		
 		ICubeFilterDefinition filter = (ICubeFilterDefinition) query.getFilters( )
 				.get( i );
 
