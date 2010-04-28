@@ -52,7 +52,6 @@ public class MetaDataPopulator
 			DataSetHandle dataSetHandle ) throws BirtException
 	{
 		List resultSetList = null;
-		boolean removeDuplicated = false;
 		if ( dataSetHandle instanceof OdaDataSetHandle )
 		{
 			PropertyHandle handle = dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
@@ -66,8 +65,6 @@ public class MetaDataPopulator
 		else
 		{
 			resultSetList = MetaDataUtil.getResultPropertyHandle( dataSetHandle );
-			removeDuplicated = true;
-			
 		}
 
 		List computedList = (List) dataSetHandle.getProperty( OdaDataSetHandle.COMPUTED_COLUMNS_PROP );
@@ -117,7 +114,7 @@ public class MetaDataPopulator
 			count += resultSetList.size( );
 
 			// populate computed columns
-			if ( computedList != null && computedList.size( ) > 3 )
+			if ( computedList != null )
 			{
 				for ( int n = 0; n < computedList.size( ); n++ )
 				{
@@ -131,11 +128,6 @@ public class MetaDataPopulator
 					computedColumn = (ComputedColumn) computedList.get( i );
 					
 					String columnName = computedColumn.getName( );
-					if( removeDuplicated )
-					{
-						if( uniqueColumnNameSet.contains( columnName ) )
-							continue;
-					}
 					String uniqueColumnName = getUniqueName( orgColumnNameSet,
 							uniqueColumnNameSet,
 							columnName,
