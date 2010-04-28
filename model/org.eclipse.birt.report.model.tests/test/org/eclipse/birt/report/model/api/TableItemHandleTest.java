@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
@@ -690,15 +691,25 @@ public class TableItemHandleTest extends BaseTestCase
 		checkCalculationException(
 				"testTable8", //$NON-NLS-1$
 				SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE );
-		checkCalculationException(
-				"testTable9", //$NON-NLS-1$
+		checkCalculationException( "testTable9", //$NON-NLS-1$
 				SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_ILLEGAL_PERCENTAGE );
-		checkCalculationException(
-				"testTable10", //$NON-NLS-1$
+		checkCalculationException( "testTable10", //$NON-NLS-1$
 				SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_WITH_NO_WIDTH );
-		checkCalculationException(
-				"testTable11", //$NON-NLS-1$
-				SemanticError.DESIGN_EXCEPTION_TABLE_NO_COLUMN_FOUND );	
+		checkCalculationException( "testTable11", //$NON-NLS-1$
+				SemanticError.DESIGN_EXCEPTION_TABLE_NO_COLUMN_FOUND );
+		checkWidthCalculation( "testTable12", "4in" ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkWidthCalculation( "testTable13", "4in" ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkWidthCalculation( "testTable14", "8in" ); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		designHandle.setImageDPI( 0 );
+		checkWidthCalculation( "testTable12", "2.5in" ); //$NON-NLS-1$ //$NON-NLS-2$		
+		checkWidthCalculation( "testTable13", "2.5in" ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkWidthCalculation( "testTable14", "5in" ); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		checkWidthCalculation( "testTable12", "2in", 150 ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkWidthCalculation( "testTable13", "2in", 150 ); //$NON-NLS-1$ //$NON-NLS-2$
+		checkWidthCalculation( "testTable14", "4in", 150 ); //$NON-NLS-1$ //$NON-NLS-2$
+		
 	}
 
 	/**
@@ -711,7 +722,7 @@ public class TableItemHandleTest extends BaseTestCase
 	private void checkWidthCalculation( String tableName )
 			throws SemanticException
 	{
-		checkWidthCalculation( tableName, null );
+		checkWidthCalculation( tableName, null, -1 );
 	}
 
 	/**
@@ -722,17 +733,42 @@ public class TableItemHandleTest extends BaseTestCase
 	 *            the table name
 	 * @param expectedWidth
 	 *            the expected width after calculated.
+	 * @throws SemanticException
 	 */
 	private void checkWidthCalculation( String tableName, String expectedWidth )
 			throws SemanticException
 	{
+		checkWidthCalculation( tableName, expectedWidth, -1 );
+	}
+
+	/**
+	 * Checks the width of the table with given name before and after
+	 * calculated.
+	 * 
+	 * @param tableName
+	 *            the table name
+	 * @param expectedWidth
+	 *            the expected width after calculated.
+	 * @param dpi
+	 *            the dpi value
+	 */
+	private void checkWidthCalculation( String tableName, String expectedWidth,
+			int dpi ) throws SemanticException
+	{
 		TableHandle table = (TableHandle) designHandle.findElement( tableName );
-		assertTrue( table.getWidth( ).getValue( ) instanceof DimensionValue );
-		DimensionValue oldWidth = (DimensionValue) table.getWidth( ).getValue( );
-		table.setWidthToFitColumns( );
+		assertNotNull( table );
 		if ( expectedWidth == null )
 		{
-			expectedWidth = oldWidth.toString( );
+			assertTrue( table.getWidth( ).getValue( ) instanceof DimensionValue );
+			expectedWidth = table.getWidth( ).getValue( ).toString( );
+		}
+		if ( dpi == -1 )
+		{
+			table.setWidthToFitColumns( );
+		}
+		else
+		{
+			table.setWidthToFitColumns( dpi );
 		}
 		assertEquals( expectedWidth, table.getWidth( ).getValue( ).toString( ) );
 	}

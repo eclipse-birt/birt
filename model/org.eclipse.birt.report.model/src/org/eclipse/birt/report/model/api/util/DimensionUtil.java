@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import javax.print.attribute.ResolutionSyntax;
+
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -48,6 +50,11 @@ public class DimensionUtil
 	 */
 
 	private static final double POINTS_PER_PICA = 12;
+
+	/**
+	 * The default DPI value.
+	 */
+	private static final int DEFAULT_DPI = 96;
 
 	/**
 	 * Convert a measure from one units to another. The conversion is between
@@ -487,10 +494,11 @@ public class DimensionUtil
 	}
 
 	/**
-	 * Merges two dimension values. If these two dimension values are not in the
-	 * same unit, only dimension values in absolute units can be merged. The
-	 * unit of the merged result will be according to the first dimension value.
-	 * If one of them is null, the other value will be returned.
+	 * Merges two dimension values with default dpi. If these two dimension
+	 * values are not in the same unit, only dimension values in absolute units
+	 * and pixels can be merged. The unit of the merged result will be according
+	 * to the first dimension value except its unit is is pixel. If one of them
+	 * is null, the other value will be returned.
 	 * 
 	 * @param dimension1
 	 *            the first dimension value to merge
@@ -502,6 +510,28 @@ public class DimensionUtil
 	public static DimensionValue mergeDimension( DimensionValue dimension1,
 			DimensionValue dimension2 )
 	{
+		return mergeDimension( dimension1, dimension2, -1 );
+	}
+
+	/**
+	 * Merges two dimension values with the given dpi value. If these two
+	 * dimension values are not in the same unit, only dimension values in
+	 * absolute units and pixels can be merged. The unit of the merged result
+	 * will be according to the first dimension value except its unit is
+	 * pixel.If one of them is null, the other value will be returned.
+	 * 
+	 * @param dimension1
+	 *            the first dimension value to merge
+	 * @param dimension2
+	 *            the second dimension value to merge
+	 * @param dpi
+	 *            the dpi value
+	 * @return the merged dimension value, or null if these two dimension value
+	 *         cannot be merged or both of them are null.
+	 */
+	public static DimensionValue mergeDimension( DimensionValue dimension1,
+			DimensionValue dimension2, int dpi )
+	{
 		if ( dimension1 == null || dimension2 == null )
 		{
 			if ( dimension1 == null )
@@ -511,17 +541,54 @@ public class DimensionUtil
 			return dimension1;
 		}
 		String unit = dimension1.getUnits( );
-		if ( unit.equalsIgnoreCase( dimension2.getUnits( ) ) )
+		String unit2 = dimension2.getUnits( );
+		Double meature = null;
+		if ( unit.equalsIgnoreCase( unit2 ) )
 		{
-			return new DimensionValue( dimension1.getMeasure( )
-					+ dimension2.getMeasure( ), unit );
+			meature = dimension1.getMeasure( ) + dimension2.getMeasure( );
 		}
-		else if ( isAbsoluteUnit( unit )
-				&& isAbsoluteUnit( dimension2.getUnits( ) ) )
+		else if ( isAbsoluteUnit( unit ) )
 		{
-			return mergeDimension( dimension1, convertTo( dimension2, null,
-					unit ) );
+			if ( isAbsoluteUnit( unit2 ) )
+			{
+				meature = dimension1.getMeasure( )
+						+ convertTo( dimension2, null, unit ).getMeasure( );
+			}
+			else if ( DesignChoiceConstants.UNITS_PX.equalsIgnoreCase( unit2 ) )
+			{
+				meature = dimension1.getMeasure( )
+						+ convertTo( dimension2, null, unit, 0,
+								validateDPI( dpi ) );
+			}
 		}
+		else if ( DesignChoiceConstants.UNITS_PX.equalsIgnoreCase( unit )
+				&& isAbsoluteUnit( unit2 ) )
+		{
+			meature = convertTo( dimension1, null, unit2, 0, validateDPI( dpi ) )
+					+ dimension2.getMeasure( );
+			unit = unit2;
+		}
+		if ( meature != null )
+			return new DimensionValue( meature, unit );
 		return null;
+	}
+
+	/**
+	 * Validates the dpi value. If the value is invalid, try to use the JVM
+	 * defined value and model defined default value.
+	 * 
+	 * @param dpi
+	 *            the dpi value
+	 * @return the validated dpi value
+	 */
+	private static int validateDPI( int dpi )
+	{
+		if ( dpi <= 0 )
+			// Try to use JVM defined value if the dpi value is invalid.
+			dpi = ResolutionSyntax.DPI;
+		if ( dpi <= 0 )
+			// Use the default value if the JVM defined is invalid.
+			dpi = DEFAULT_DPI;
+		return dpi;
 	}
 }

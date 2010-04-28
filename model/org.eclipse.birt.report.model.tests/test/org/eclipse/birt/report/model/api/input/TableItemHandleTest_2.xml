@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" >
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21">
+	<property name="imageDPI">50</property>
     <data-sources>
         <oda-data-source name="myDataSource" />
     </data-sources>
     <data-sets>
-        <oda-data-set name="dataSet" >
+        <oda-data-set name="dataSet">
             <property name="dataSource">myDataSource</property>
         </oda-data-set>
     </data-sets>
     <page-setup>
-        <graphic-master-page name="My Page" >
+        <graphic-master-page name="My Page">
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
         </graphic-master-page>
     </page-setup>
     <body>
-        <table name="testTable1" >
+        <table name="testTable1">
             <property name="width">1.2in</property>
             <property name="dataSet">dataSet</property>
             <column>
@@ -25,7 +26,7 @@
                 <property name="width">1in</property>
             </column>
         </table>    
-        <table name="testTable2" >
+        <table name="testTable2">
             <property name="width">1.2in</property>
             <property name="dataSet">dataSet</property>
             <column>
@@ -35,7 +36,7 @@
                 <property name="width">50%</property>
             </column>
         </table>
-        <table name="testTable3" >
+        <table name="testTable3">
             <property name="width">3cm</property>
             <property name="dataSet">dataSet</property>
             <column>
@@ -51,7 +52,7 @@
                 <property name="width">25%</property>
             </column>
         </table>
-        <table name="testTable4" >
+        <table name="testTable4">
             <property name="width">3cm</property>
             <property name="dataSet">dataSet</property>
             <column>
@@ -64,7 +65,7 @@
                 <property name="width">3px</property>
             </column>
         </table>
-        <table name="testTable5" >
+        <table name="testTable5">
             <property name="width">3in</property>
             <property name="dataSet">dataSet</property>
             <column>
@@ -77,7 +78,7 @@
                 <property name="width">30%</property>
             </column>
         </table>              
-        <table name="testTable6" >
+        <table name="testTable6">
             <property name="width">3in</property>
             <property name="dataSet">dataSet</property>
             <column>
@@ -99,7 +100,7 @@
                 <property name="width">20%</property>
             </column>
         </table>
-        <table name="testTable7" >
+        <table name="testTable7">
             <property name="width">3in</property>
             <property name="dataSet">dataSet</property>
             <column>
@@ -109,23 +110,23 @@
                 <property name="width">10%</property>
             </column>
             <column>
-                <property name="width">10px</property>
+                <property name="width">10ex</property>
             </column>
         </table>
-        <table name="testTable8" >
+        <table name="testTable8">
             <property name="width">3in</property>
             <property name="dataSet">dataSet</property>
             <column>
                 <property name="width">1in</property>
             </column>
             <column>
-                <property name="width">10px</property>
+                <property name="width">10em</property>
             </column>
             <column>
-                <property name="width">10px</property>
+                <property name="width">10em</property>
             </column>
         </table>
-        <table name="testTable9" >
+        <table name="testTable9">
             <property name="width">3in</property>
             <property name="dataSet">dataSet</property>
             <column>
@@ -142,7 +143,7 @@
                 <property name="width">20%</property>
             </column>            
         </table>                
-        <table name="testTable10" >
+        <table name="testTable10">
             <property name="dataSet">dataSet</property>
             <column>
                 <property name="width">1in</property>
@@ -152,9 +153,49 @@
                 <property name="width">20%</property>
             </column>            
         </table>
-        <table name="testTable11" >
+        <table name="testTable11">
             <property name="width">3in</property>
             <property name="dataSet">dataSet</property>
         </table>
+        <table name="testTable12">        	
+        	<property name="dataSet">dataSet</property>
+            <column>
+                <property name="width">1in</property>
+            </column>
+            <column>
+                <property name="width">50px</property>
+            </column>   
+            <column>
+                <property name="width">100px</property>
+            </column>            
+        </table>
+        <table name="testTable13">        	
+        	<property name="dataSet">dataSet</property>
+            <column>
+                <property name="width">50px</property>
+            </column>
+            <column>
+                <property name="width">1in</property>
+            </column>               
+            <column>
+                <property name="width">100px</property>
+            </column>            
+        </table>
+        <table name="testTable14">        	
+        	<property name="dataSet">dataSet</property>
+        	<property name="width">3in</property>
+            <column>
+                <property name="width">50%</property>
+            </column>
+            <column>
+                <property name="width">1in</property>
+            </column>
+            <column>
+                <property name="width">50px</property>
+            </column>               
+            <column>
+                <property name="width">100px</property>
+            </column>            
+        </table>        
     </body>
 </report>
