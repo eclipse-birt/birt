@@ -378,6 +378,20 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				{
 					return;
 				}
+				
+				EditPart parent = getParent( );
+				while(parent != null )
+				{
+					if (parent instanceof RootEditPart)
+					{
+						break;
+					}
+					parent = parent.getParent( );
+				}
+				if (parent == null)
+				{
+					return;
+				}
 				if(((DeferredGraphicalViewer)getViewer( )).getFigureCanvas( ) == null)
 				{
 					return;
