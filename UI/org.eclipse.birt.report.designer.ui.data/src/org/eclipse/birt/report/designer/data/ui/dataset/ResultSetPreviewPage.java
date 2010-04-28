@@ -690,6 +690,10 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 			return "";//$NON-NLS-1$
 		}
 
+		String externalizedName = columnsModel[index].getExternalizedName( );
+		if ( externalizedName != null && ( !externalizedName.equals( "" ) ) )
+			return externalizedName;
+
 		return columnsModel[index].getDisplayName( );
 	}
 

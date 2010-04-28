@@ -792,9 +792,13 @@ public final class DataSetProvider
 					}
 					if ( columns[n].getName( ).equals( hint.getColumnName( ) ) )
 					{
-						columns[n].setDisplayName( hint.getExternalizedValue( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_ID_MEMBER,
-								org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
-								hint.getModule( ).getLocale( ) ) );
+						if ( hint.getDisplayNameKey( ) != null )
+						{
+							columns[n].setExternalizedName( hint.getExternalizedValue( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_ID_MEMBER,
+									org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
+									hint.getModule( ).getLocale( ) ) );
+						}
+						columns[n].setDisplayName( hint.getDisplayName( ) );
 						columns[n].setDisplayNameKey( hint.getDisplayNameKey( ) );
 						columns[n].setAlias( hint.getAlias( ) );
 						columns[n].setHelpText( hint.getHelpText( ) );
