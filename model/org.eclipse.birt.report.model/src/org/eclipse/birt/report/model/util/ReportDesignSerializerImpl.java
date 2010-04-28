@@ -95,6 +95,7 @@ import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -667,6 +668,11 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			Cube cube = (Cube) content;
 			cube.updateLayout( targetDesign );
 		}
+		else if ( content instanceof TabularDimension )
+		{
+			TabularDimension dimension = (TabularDimension) content;
+			dimension.updateLayout( targetDesign );
+		}
 	}
 
 	/**
@@ -762,6 +768,29 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		visitDesignElement( obj );
 
 		localizeStyle( (StyledElement) currentNewElement, obj );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitorImpl#
+	 * visitTabularDimension
+	 * (org.eclipse.birt.report.model.elements.olap.TabularDimension)
+	 */
+	public void visitTabularDimension( TabularDimension obj )
+	{
+		if ( obj.getSharedDimension( sourceDesign ) != null )
+		{
+			TabularDimension newElement = (TabularDimension) localize( obj );
+
+			newElement.updateLayout( targetDesign );
+
+			targetDesign.manageId( newElement, true );
+
+			currentNewElement = newElement;
+		}
+		else
+			super.visitTabularDimension( obj );
 	}
 
 	/**
@@ -1521,6 +1550,11 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		{
 			Cube cube = (Cube) newElement;
 			cube.updateLayout( targetDesign );
+		}
+		else if ( newElement instanceof TabularDimension )
+		{
+			TabularDimension dimension = (TabularDimension) newElement;
+			dimension.updateLayout( targetDesign );
 		}
 
 		return newElement;

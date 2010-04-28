@@ -32,7 +32,9 @@ import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -264,6 +266,18 @@ public class PropertyRecord extends SimpleRecord
 				Cube cube = (Cube) element;
 				if ( cube.isBoundWithLayout( propDefn ) )
 					cube.updateLayout( cube.getRoot( ) );
+			}
+			else if ( element instanceof TabularDimension )
+			{
+				TabularDimension dimension = (TabularDimension) element;
+				if ( ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP
+						.equals( propDefn.getName( ) ) )
+				{
+					Module root = dimension.getRoot( );
+					dimension.updateLayout( root );
+					if ( root != null )
+						root.manageId( dimension, true );
+				}
 			}
 			return;
 		}

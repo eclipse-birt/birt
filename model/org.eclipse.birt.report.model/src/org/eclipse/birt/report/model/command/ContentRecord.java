@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -260,9 +261,15 @@ public class ContentRecord extends SimpleRecord
 
 		}
 
+		// for some cube and tabular dimension, we should do localization for
+		// container properties
 		if ( content instanceof Cube )
 		{
 			( (Cube) content ).updateLayout( module );
+		}
+		else if ( content instanceof TabularDimension )
+		{
+			( (TabularDimension) content ).updateLayout( module );
 		}
 	}
 

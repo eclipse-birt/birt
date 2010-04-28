@@ -266,7 +266,8 @@ public final class ContainerContext
 		{
 			// all the children in the element that has the dynamic extends will
 			// not be managed by name space
-			if ( focusContainer.getDynamicExtends( focusContainer.getRoot( ) ) != null )
+			if ( focusContainer.getDynamicExtendsElement( focusContainer
+					.getRoot( ) ) != null )
 				return false;
 
 			focusContainer = focusContainer.getContainer( );

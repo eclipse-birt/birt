@@ -33,7 +33,7 @@ public class TabularDimensionState extends ReportElementState
 	 * The dimension being created.
 	 */
 
-	protected Dimension element = null;
+	protected TabularDimension element = null;
 
 	/**
 	 * Constructs dimension state with the design parser handler, the container
@@ -122,6 +122,16 @@ public class TabularDimensionState extends ReportElementState
 			assert foundElement == null
 					|| foundElement == TabularDimensionPropSearchStrategy
 							.getSharedDimension( handler.module, element );
+		}
+
+		// update layout to do localization
+		if ( element.hasSharedDimension( handler.module ) )
+		{
+			// update the layout properties and handle the id for children
+			handler.unhandleCubeDimensions.add( element );
+
+			if ( !handler.unhandleIDElements.contains( element ) )
+				handler.unhandleIDElements.add( element );
 		}
 	}
 

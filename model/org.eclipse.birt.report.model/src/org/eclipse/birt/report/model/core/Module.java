@@ -460,7 +460,7 @@ public abstract class Module extends DesignElement
 			return;
 		assert element.getID( ) > 0;
 		Long idObj = Long.valueOf( element.getID( ) );
-		assert idMap.containsKey( idObj );
+		assert idMap.containsKey( idObj ) && idMap.get( idObj ) == element;
 		idMap.remove( idObj );
 	}
 
@@ -756,11 +756,9 @@ public abstract class Module extends DesignElement
 					.getTemplateParameterElement( module );
 			if ( templateParam != null && templateParam.getRoot( ) != module )
 			{
-				element
-						.setProperty(
-								IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
-								new ElementRefValue( null, templateParam
-										.getFullName( ) ) );
+				element.setProperty(
+						IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
+						new ElementRefValue( null, templateParam.getFullName( ) ) );
 			}
 		}
 
