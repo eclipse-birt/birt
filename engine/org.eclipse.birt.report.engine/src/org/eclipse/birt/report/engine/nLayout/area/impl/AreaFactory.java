@@ -84,7 +84,8 @@ public class AreaFactory
 			case IContent.AUTOTEXT_CONTENT :
 				int type = ((IAutoTextContent)content).getType( );
 				if ( ( type == IAutoTextContent.TOTAL_PAGE || type == IAutoTextContent.UNFILTERED_TOTAL_PAGE )
-						&& context.getEngineTaskType( ) != IEngineTask.TASK_RENDER )
+						&& ( "pdf".equalsIgnoreCase( context.getFormat( ) ) || context
+								.getEngineTaskType( ) != IEngineTask.TASK_RENDER ) )
 				{
 					context.addUnresolvedContent( content );
 					return new TemplateAreaLayout(parent, context, content);
