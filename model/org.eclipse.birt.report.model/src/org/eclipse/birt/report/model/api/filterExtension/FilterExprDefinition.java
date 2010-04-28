@@ -24,7 +24,7 @@ import com.ibm.icu.util.ULocale;
  * FilterExprDefinition
  */
 
-class FilterExprDefinition implements IFilterExprDefinition
+public class FilterExprDefinition implements IFilterExprDefinition
 {
 
 	protected static final int UNDEFINED = -1;
@@ -55,7 +55,7 @@ class FilterExprDefinition implements IFilterExprDefinition
 	 */
 	protected boolean supportUnboundedMaxArgs = false;
 
-	FilterExprDefinition( )
+	public FilterExprDefinition( )
 	{
 	}
 

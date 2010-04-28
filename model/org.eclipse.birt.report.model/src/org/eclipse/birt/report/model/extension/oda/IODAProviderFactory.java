@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.extension.oda;
 
+import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -22,4 +23,9 @@ public interface IODAProviderFactory
 
 	public ODAProvider createODAProvider( DesignElement element,
 			String extensionID );
+
+	public IFilterExprDefinition createFilterExprDefinition( );
+
+	public IFilterExprDefinition createFilterExprDefinition(
+			String birtFilterExpr );
 }

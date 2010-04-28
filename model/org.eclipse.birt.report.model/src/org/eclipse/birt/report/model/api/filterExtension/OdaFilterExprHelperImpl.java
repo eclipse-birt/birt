@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
+import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 
 /**
  * OdaFilterExprHelper
@@ -34,21 +35,21 @@ class OdaFilterExprHelperImpl
 	 * The constant for dynamic filter type
 	 */
 	public static int DYNAMIC_FILTER = 1;
-	
-	/**
-	 * The flag to initialize the birt predefined filter operators.
-	 */
-	private static boolean initBirtExpr = false;
 
 	/**
 	 * BIRT predefined filter expression id.
 	 */
-	protected static Set birtPredefinedFilterConstants = new HashSet( );
+	public static Set birtPredefinedFilterConstants = new HashSet( );
 
 	/**
 	 * The list contains the BIRT predefined filter definitions.
 	 */
 	protected static List<IFilterExprDefinition> birtFilterExprDefList = new ArrayList( );
+
+	/**
+	 * The flag to initialize the birt predefined filter operators.
+	 */
+	private static boolean initBirtExpr = false;
 
 	static
 	{
@@ -130,7 +131,8 @@ class OdaFilterExprHelperImpl
 
 	private static void addToList( String key )
 	{
-		IFilterExprDefinition fed = new FilterExprDefinition( key );
+		IFilterExprDefinition fed = ODAProviderFactory.getInstance( )
+				.createFilterExprDefinition( key );
 		birtFilterExprDefList.add( fed );
 	}
 }
