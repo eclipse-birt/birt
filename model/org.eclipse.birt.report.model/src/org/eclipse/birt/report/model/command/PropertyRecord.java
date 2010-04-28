@@ -338,12 +338,12 @@ public class PropertyRecord extends SimpleRecord
 		{
 			// always remove the first one
 
-			List<Structure> structs = (List<Structure>) values;
+			List<Structure> structs = new ArrayList<Structure>( );
+			structs.addAll( (List<Structure>) values );
 			int count = structs.size( );
-			Module module = element.getRoot( );
 			for ( int i = 0; i < count; i++ )
 			{
-				Structure struct = context.getStructureAt( module, 0 );
+				Structure struct = structs.get( i );
 				context.remove( struct );
 				adjustReferredClients( struct );
 			}
