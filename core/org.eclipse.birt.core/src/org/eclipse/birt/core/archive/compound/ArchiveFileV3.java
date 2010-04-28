@@ -111,9 +111,9 @@ public class ArchiveFileV3 implements IArchiveFile
 		return fs.getProperty( PROPERTY_SYSTEM_ID );
 	}
 
-	public int getUsedCache( )
+	public long getUsedCache( )
 	{
-		return fs.getUsedCacheSize( ) * 4096;
+		return (long) fs.getUsedCacheSize( ) * 4096;
 	}
 
 	public List listEntries( String namePattern )
@@ -163,9 +163,17 @@ public class ArchiveFileV3 implements IArchiveFile
 		fs.flush( );
 	}
 
-	public void setCacheSize( int cacheSize )
+	public void setCacheSize( long cacheSize )
 	{
-		fs.setCacheSize( cacheSize );
+		long maxCacheBlock = cacheSize / 4096;
+		if ( maxCacheBlock > Integer.MAX_VALUE )
+		{
+			fs.setCacheSize( Integer.MAX_VALUE );
+		}
+		else
+		{
+			fs.setCacheSize( (int) cacheSize );
+		}
 	}
 
 	synchronized public void unlockEntry( Object locker ) throws IOException

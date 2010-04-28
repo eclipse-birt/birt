@@ -110,12 +110,12 @@ public class ArchiveFileV1 implements IArchiveFile
 		}
 	}
 
-	public void setCacheSize( int cacheSize )
+	public void setCacheSize( long cacheSize )
 	{
 		// V1 doesn't support the cache size
 	}
 
-	public int getUsedCache( )
+	public long getUsedCache( )
 	{
 		return 0;
 

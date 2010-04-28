@@ -287,8 +287,7 @@ public class Ext2FileSystem
 
 	public void setCacheSize( int cacheSize )
 	{
-		int maxCacheBlock = cacheSize / 4096;
-		cacheManager.setMaxCacheSize( maxCacheBlock );
+			cacheManager.setMaxCacheSize( cacheSize );
 	}
 
 	public void setCacheManager( SystemCacheManager manager )

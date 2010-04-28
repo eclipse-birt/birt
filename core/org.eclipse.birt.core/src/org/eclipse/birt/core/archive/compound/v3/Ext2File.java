@@ -58,7 +58,7 @@ public class Ext2File
 	 */
 	private boolean enableCache;
 	/**
-	 * × the cached data block id
+	 * ï¿½ the cached data block id
 	 */
 	private int cachedBlockId;
 	/**
@@ -107,6 +107,11 @@ public class Ext2File
 
 	public void close( ) throws IOException
 	{
+		if ( fs == null )
+		{
+			// the file has been closed
+			return;
+		}
 		try
 		{
 			if ( cachedBlock != DataBlock.READ_ONLY_BLOCK )
@@ -120,6 +125,7 @@ public class Ext2File
 		finally
 		{
 			fs.unregisterOpenedFile( this );
+			fs = null;
 		}
 	}
 
@@ -130,6 +136,11 @@ public class Ext2File
 
 	public void setLength( long length ) throws IOException
 	{
+		if ( fs == null )
+		{
+			throw new IOException( "The archive file has been closed." );
+		}
+
 		if ( fs.isReadOnly( ) )
 		{
 			throw new IOException( "the file is opened in read only mode" );
@@ -153,6 +164,11 @@ public class Ext2File
 
 	public int read( byte[] buffer, int off, int size ) throws IOException
 	{
+		if ( fs == null )
+		{
+			throw new IOException( "The archive file has been closed." );
+		}
+
 		assert buffer != null;
 		assert off >= 0;
 		assert off + size <= buffer.length;
@@ -271,6 +287,10 @@ public class Ext2File
 
 	public void write( byte[] buffer, int off, int size ) throws IOException
 	{
+		if ( fs == null )
+		{
+			throw new IOException( "The archive file has been closed." );
+		}
 		if ( fs.isReadOnly( ) )
 		{
 			throw new IOException( "the file is opened in read only mode" );

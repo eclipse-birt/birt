@@ -248,15 +248,22 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 * @param cacheSize
 	 *            cache size in bytes
 	 */
-	public void setCacheSize( int cacheSize )
+	public void setCacheSize( long cacheSize )
 	{
-		int cacheBlocks = ( cacheSize + BLOCK_SIZE - 1 ) / BLOCK_SIZE;
-		caches.setMaxCacheSize( cacheBlocks );
+		long cacheBlocks = ( cacheSize + BLOCK_SIZE - 1 ) / BLOCK_SIZE;
+		if ( cacheBlocks > Integer.MAX_VALUE )
+		{
+			caches.setMaxCacheSize( Integer.MAX_VALUE );
+		}
+		else
+		{
+			caches.setMaxCacheSize( (int) cacheBlocks );
+		}
 	}
 
-	public int getUsedCache( )
+	public long getUsedCache( )
 	{
-		return caches.getUsedCacheSize( ) * BLOCK_SIZE;
+		return (long) caches.getUsedCacheSize( ) * BLOCK_SIZE;
 	}
 
 	public String getDependId( )
