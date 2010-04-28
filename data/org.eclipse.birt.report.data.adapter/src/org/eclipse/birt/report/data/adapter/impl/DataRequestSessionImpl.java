@@ -892,9 +892,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				
 				//append dimension key for temp PK dimension
 				dimensionKey = appendArray( dimensionKey, new String[]{
-						DataSetIterator.createLevelName(
-								getCubeTempPKDimensionName( cubeHandle ),
-								getCubeTempPKFieldName( cubeHandle ))});
+						getCubeTempPKFieldName( cubeHandle )});
 			}
 			
 			//does not need aggregation to define measures in this case, clear all aggregations on measures
@@ -1392,11 +1390,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		QueryDefinition q = null;
 		ILevelDefn[] tempLevels = new ILevelDefn[]{ CubeElementFactory.createLevelDefinition( getCubeTempPKFieldName( cubeHandle ),
-				new String[]{ DataSetIterator.createLevelName(
-						getCubeTempPKDimensionName( cubeHandle ),
-						getCubeTempPKFieldName( cubeHandle ))},
+				new String[]{ getCubeTempPKFieldName( cubeHandle )},
 				new String[]{}) };
-		Object rowLimit = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
 		IHierarchy h = null ;
 		try
 		{
