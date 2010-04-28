@@ -62,12 +62,17 @@ public class FatBlockList
 	{
 		for ( int i = 0; i < 3; i++ )
 		{
-			FatBlock cachedBlock = cachedFatBlocks[i];
-			if ( cachedBlock != null )
-			{
-				fs.unloadBlock( cachedBlock );
-				cachedFatBlocks[i] = null;
-			}
+			clear( i );
+		}
+	}
+
+	protected void clear( int level ) throws IOException
+	{
+		FatBlock cachedBlock = cachedFatBlocks[level];
+		if ( cachedBlock != null )
+		{
+			fs.unloadBlock( cachedBlock );
+			cachedFatBlocks[level] = null;
 		}
 	}
 

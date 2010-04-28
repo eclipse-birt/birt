@@ -26,6 +26,7 @@ class FreeBlockTable implements Ext2Constants
 	protected Ext2Node freeNode;
 	protected FreeBlockList freeBlockList;
 	protected boolean dirty;
+	protected boolean isLocked;
 
 	FreeBlockTable( Ext2FileSystem fs )
 	{
@@ -69,12 +70,12 @@ class FreeBlockTable implements Ext2Constants
 		Ext2File file = new Ext2File( fs, NodeTable.INODE_FREE_TABLE, false );
 		try
 		{
+			isLocked = true;
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream(
 					Ext2Node.NODE_SIZE );
 			DataOutputStream out = new DataOutputStream( buffer );
-			while ( !freeNodes.isEmpty( ) )
+			for ( Ext2Node freeNode : freeNodes )
 			{
-				Ext2Node freeNode = freeNodes.removeFirst( );
 				buffer.reset( );
 				freeNode.write( out );
 				file.write( buffer.toByteArray( ), 0, Ext2Node.NODE_SIZE );
@@ -89,12 +90,17 @@ class FreeBlockTable implements Ext2Constants
 		}
 		finally
 		{
+			isLocked = false;
 			file.close( );
 		}
 	}
 
 	public int getFreeBlock( ) throws IOException
 	{
+		if ( isLocked )
+		{
+			return -1;
+		}
 		if ( freeBlockList != null )
 		{
 			int blockId = freeBlockList.removeLastBlock( );

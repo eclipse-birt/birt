@@ -120,7 +120,7 @@ public class FileCacheManager
 		{
 			synchronized ( systemCache )
 			{
-				systemCache.increaseUsedCacheSize( -releasedCacheSize );
+				// systemCache.increaseUsedCacheSize( -releasedCacheSize );
 				for ( Cacheable cache : removedCaches )
 				{
 					systemCache.addCache( cache );
@@ -287,15 +287,43 @@ public class FileCacheManager
 	{
 		cache.getReferenceCount( ).set( 1 );
 		Object cacheKey = cache.getCacheKey( );
-		caches.put( cacheKey, cache );
-		lockedCacheSize++;
-		if ( systemCache != null )
+
+		Cacheable oldCache = caches.get( cacheKey );
+		if ( oldCache != null )
 		{
-			synchronized ( systemCache )
+			int referenceCount = oldCache.getReferenceCount( ).get( );
+			if ( referenceCount >= 1 )
 			{
-				systemCache.increaseUsedCacheSize( 1 );
+				throw new IllegalStateException( "Reference count is not zero" );
+			}
+			if ( referenceCount == 0 )
+			{
+				// the cache exist in the free cache
+				freeCaches.remove( oldCache );
+			}
+			else
+			{
+				// the cache exist in the system cache
+				assert ( systemCache != null );
+				synchronized ( systemCache )
+				{
+					systemCache.removeCache( oldCache );
+				}
 			}
 		}
+		else
+		{
+			// adjust the system cache size as we add a block
+			if ( systemCache != null )
+			{
+				synchronized ( systemCache )
+				{
+					systemCache.increaseUsedCacheSize( 1 );
+				}
+			}
+		}
+		caches.put( cacheKey, cache );
+		lockedCacheSize++;
 		if ( maxCacheSize > 0 )
 		{
 			adjustFreeCaches( );
