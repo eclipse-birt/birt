@@ -41,7 +41,23 @@ public class CubeUtil
 	{
 		StringBuffer result = new StringBuffer( );
 		List ordinateEdge = getAllEdges( cursor );
-
+		boolean isLeftTop = true; 
+		for ( int i = 0; i < ordinateEdge.size( ); i++ )
+		{
+			EdgeCursor edge = (EdgeCursor) ordinateEdge.get( i );
+			if( edge.getPosition( ) != -1 )
+			{
+				isLeftTop = false;
+			}
+		}
+		if( isLeftTop )
+		{
+			result.append( POSITION_DELIMITER );
+			result.append( -1 );
+			result.append( POSITION_DELIMITER );
+			result.append( -1 );
+			return result.toString( );
+		}
 		for ( int i = 0; i < ordinateEdge.size( ); i++ )
 		{
 			EdgeCursor edge = (EdgeCursor) ordinateEdge.get( i );
