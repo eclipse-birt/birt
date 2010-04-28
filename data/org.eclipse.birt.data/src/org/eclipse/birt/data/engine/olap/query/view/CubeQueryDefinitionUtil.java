@@ -40,6 +40,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -49,7 +50,6 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.LevelDefiniton;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
@@ -463,12 +463,11 @@ public class CubeQueryDefinitionUtil
 		if ( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
 			rowEdgeDimensions = query.getEdge( ICubeQueryDefinition.ROW_EDGE )
 					.getDimensions( );
-
 		if( ! ( query.getFilters( ).get( i ) instanceof ICubeFilterDefinition ) )
 		{
 			return true;
 		}
-		
+			
 		ICubeFilterDefinition filter = (ICubeFilterDefinition) query.getFilters( )
 				.get( i );
 
