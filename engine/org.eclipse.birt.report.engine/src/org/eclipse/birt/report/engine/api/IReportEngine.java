@@ -213,6 +213,16 @@ public interface IReportEngine
 	 */
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
 			IRunnable reportRunnable );
+	
+	/**
+	 * Creates an engine task for obtaining report parameter definitions.
+	 * 
+	 * @param reportRunnable
+	 *            the runnable report design object
+	 * @return a GetParameterDefinitionTask 
+	 */
+	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
+			IReportRunnable reportRunnable );
 
 	/**
 	 * Returns all supported output formats through BIRT engine emitter
