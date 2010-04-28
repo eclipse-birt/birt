@@ -12,15 +12,21 @@
 package org.eclipse.birt.report.item.crosstab.core.re;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -51,12 +57,14 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
@@ -156,7 +164,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						ROW_AXIS_TYPE,
 						rowLevelNameList,
 						levelViewList,
-						levelMapping );
+						levelMapping,
+						modelAdapter );
 			}
 
 			// add column edge
@@ -168,7 +177,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 						COLUMN_AXIS_TYPE,
 						columnLevelNameList,
 						levelViewList,
-						levelMapping );
+						levelMapping,
+						modelAdapter );
 			}
 
 			// add fact table filters on Crosstab
@@ -267,8 +277,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	private static void addEdgeDefinition( ICubeQueryDefinition cubeQuery,
 			CrosstabReportItemHandle crosstabItem, int axis,
 			List<String> levelNameList, List<LevelViewHandle> levelViewList,
-			Map<LevelHandle, ILevelDefinition> levelMapping )
-			throws BirtException
+			Map<LevelHandle, ILevelDefinition> levelMapping,
+			IModelAdapter modelAdapter ) throws BirtException
 	{
 		// TODO check visibility?
 
@@ -351,12 +361,298 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				{
 					MemberValueHandle mvh = (MemberValueHandle) members.get( i );
 
-					if ( mvh != null )
+					if ( mvh != null && mvh.getLevel( ) != null )
 					{
 						addDrillDefinition( edge, mvh, levelMapping );
 					}
 				}
+
+				addEdgeMemberFilter( cubeQuery,
+						modelAdapter,
+						members,
+						levelMapping );
 			}
+		}
+	}
+
+	private static void addEdgeMemberFilter( ICubeQueryDefinition cubeQuery,
+			IModelAdapter modelAdapter, List<MemberValueHandle> members,
+			Map<LevelHandle, ILevelDefinition> levelMapping )
+			throws BirtException
+	{
+		List<List<IScriptExpression>> allTargetLevels = new ArrayList<List<IScriptExpression>>( );
+		List<List<List<IScriptExpression>>> allMemberValues = new ArrayList<List<List<IScriptExpression>>>( );
+		List<List<List<Boolean>>> allMemberFlags = new ArrayList<List<List<Boolean>>>( );
+		int[] op = new int[]{
+			0
+		};
+
+		for ( MemberValueHandle mvh : members )
+		{
+			if ( mvh != null )
+			{
+				List<IScriptExpression> targetLevels = new ArrayList<IScriptExpression>( );
+				List<List<IScriptExpression>> memberValues = new ArrayList<List<IScriptExpression>>( );
+				List<List<Boolean>> memberFlags = new ArrayList<List<Boolean>>( );
+
+				traverseMemberFilter( targetLevels,
+						op,
+						memberValues,
+						memberFlags,
+						mvh,
+						levelMapping,
+						modelAdapter,
+						1,
+						new int[]{
+							1
+						} );
+
+				allTargetLevels.add( targetLevels );
+				allMemberValues.add( memberValues );
+				allMemberFlags.add( memberFlags );
+			}
+		}
+
+		List<IScriptExpression> mergedTargetLevels = new ArrayList<IScriptExpression>( );
+		Collection<Collection<IScriptExpression>> mergedMemberValues = new ArrayList<Collection<IScriptExpression>>( );
+
+		int maxLen = 0;
+
+		// determine maximum size of all effective buckets
+		for ( int i = 0; i < allMemberValues.size( ); i++ )
+		{
+			List<List<IScriptExpression>> memberValues = allMemberValues.get( i );
+
+			for ( int j = 0; j < memberValues.size( ); j++ )
+			{
+				List<IScriptExpression> bucket = memberValues.get( j );
+
+				List<Boolean> flagBucket = allMemberFlags.get( i ).get( j );
+
+				for ( Boolean mark : flagBucket )
+				{
+					if ( mark != null && mark.booleanValue( ) )
+					{
+						if ( bucket.size( ) > maxLen )
+						{
+							maxLen = bucket.size( );
+						}
+
+						mergedMemberValues.add( bucket );
+
+						break;
+					}
+				}
+			}
+		}
+
+		// normalize merged member values
+		for ( Collection<IScriptExpression> bucket : mergedMemberValues )
+		{
+			int gap = maxLen - bucket.size( );
+
+			while ( gap > 0 )
+			{
+				// fill with placeholder
+				bucket.add( null );
+
+				gap--;
+			}
+		}
+
+		// merge target levels to maixmum length
+		for ( List<IScriptExpression> targetLevels : allTargetLevels )
+		{
+			if ( mergedTargetLevels.size( ) < maxLen
+					&& targetLevels.size( ) > mergedTargetLevels.size( ) )
+			{
+				mergedTargetLevels.addAll( targetLevels.subList( mergedTargetLevels.size( ),
+						Math.min( targetLevels.size( ), maxLen ) ) );
+			}
+		}
+
+		if ( mergedMemberValues.size( ) > 0 )
+		{
+			IFilterDefinition memberFilter = getCubeElementFactory( ).creatLevelMemberFilterDefinition( mergedTargetLevels,
+					op[0],
+					mergedMemberValues );
+
+			cubeQuery.addFilter( memberFilter );
+		}
+	}
+
+	/**
+	 * !!!Note depth and pos is 1-based for this method.
+	 */
+	private static void traverseMemberFilter(
+			List<IScriptExpression> targetLevels, int[] op,
+			List<List<IScriptExpression>> memberValues,
+			List<List<Boolean>> memberFlags, MemberValueHandle member,
+			Map<LevelHandle, ILevelDefinition> levelMapping,
+			IModelAdapter modelAdapter, int depth, int[] pos )
+			throws BirtException
+	{
+		LevelHandle targetLevel = member.getLevel( );
+
+		if ( targetLevel == null )
+		{
+			// this must be the pseudo root level, which only denotes a filter.
+			depth--;
+		}
+		else
+		{
+			// process non-root level member value
+
+			String targetDataType = targetLevel.getDataType( );
+			int dteDataType = DataAdapterUtil.adaptModelDataType( targetDataType );
+
+			if ( depth > targetLevels.size( ) )
+			{
+				ILevelDefinition targetLevelDef = levelMapping.get( targetLevel );
+
+				IDimensionDefinition targetDimDef = targetLevelDef.getHierarchy( )
+						.getDimension( );
+
+				targetLevels.add( modelAdapter.adaptJSExpression( ExpressionUtil.createJSDimensionExpression( targetDimDef.getName( ),
+						targetLevelDef.getName( ) ),
+						targetDataType ) );
+			}
+
+			String val = member.getValue( );
+
+			// TODO check null val?
+			matrixAdd( memberValues,
+					memberFlags,
+					depth,
+					pos,
+					modelAdapter.adaptJSExpression( ExpressionUtil.generateConstantExpr( val,
+							dteDataType ),
+							targetDataType ),
+					false );
+		}
+
+		Iterator<FilterConditionHandle> filters = member.filtersIterator( );
+
+		if ( filters == null || !filters.hasNext( ) )
+		{
+			return;
+		}
+
+		// TODO only can support first filter and OP_IN/OP_NOT_IN for now
+		FilterConditionHandle fch = filters.next( );
+
+		int dop = DataAdapterUtil.adaptModelFilterOperator( fch.getOperator( ) );
+
+		assert dop == IConditionalExpression.OP_IN
+				|| dop == IConditionalExpression.OP_NOT_IN
+				|| dop == IConditionalExpression.OP_NONE;
+
+		if ( op[0] == 0 )
+		{
+			// use the first op encountered
+			op[0] = dop;
+		}
+		else if ( op[0] != dop )
+		{
+			// TODO throw exception?
+		}
+
+		// TODO only check value1 for now
+		List<Expression> val1list = fch.getValue1ExpressionList( )
+				.getListValue( );
+
+		if ( val1list != null && val1list.size( ) > 0 )
+		{
+			if ( depth + 1 > targetLevels.size( ) )
+			{
+				targetLevels.add( modelAdapter.adaptExpression( (Expression) fch.getExpressionProperty( FilterCondition.EXPR_MEMBER )
+						.getValue( ),
+						ExpressionLocation.CUBE ) );
+			}
+
+			for ( Expression expr : val1list )
+			{
+				matrixAdd( memberValues,
+						memberFlags,
+						depth + 1,
+						pos,
+						modelAdapter.adaptExpression( expr,
+								ExpressionLocation.CUBE ),
+						true );
+			}
+		}
+
+		// keep processing child members
+		List children = member.getContents( IMemberValueModel.MEMBER_VALUES_PROP );
+
+		if ( children != null )
+		{
+			for ( int i = 0; i < children.size( ); i++ )
+			{
+				MemberValueHandle child = (MemberValueHandle) children.get( i );
+
+				if ( child != null )
+				{
+					traverseMemberFilter( targetLevels,
+							op,
+							memberValues,
+							memberFlags,
+							child,
+							levelMapping,
+							modelAdapter,
+							depth + 1,
+							pos );
+				}
+			}
+		}
+	}
+
+	private static void matrixAdd( List<List<IScriptExpression>> values,
+			List<List<Boolean>> flags, int depth, int[] pos,
+			IScriptExpression val, boolean mark )
+	{
+		List<IScriptExpression> bucket;
+		List<Boolean> flagBucket;
+
+		if ( pos[0] > values.size( ) )
+		{
+			bucket = new ArrayList<IScriptExpression>( );
+			values.add( bucket );
+
+			flagBucket = new ArrayList<Boolean>( );
+			flags.add( flagBucket );
+
+			if ( pos[0] > 1 )
+			{
+				List<IScriptExpression> lastBucket = values.get( pos[0] - 2 );
+				List<Boolean> lastFlagBucket = flags.get( pos[0] - 2 );
+
+				for ( int i = 1; i < depth; i++ )
+				{
+					// copy the shared bucket values
+					bucket.add( lastBucket.get( i - 1 ) );
+					// also copy the flags
+					flagBucket.add( lastFlagBucket.get( i - 1 ) );
+				}
+			}
+
+			pos[0]++;
+		}
+		else
+		{
+			bucket = values.get( pos[0] - 1 );
+			flagBucket = flags.get( pos[0] - 1 );
+		}
+
+		if ( depth > bucket.size( ) )
+		{
+			bucket.add( val );
+			flagBucket.add( Boolean.valueOf( mark ) );
+		}
+		else
+		{
+			bucket.set( depth - 1, val );
+			flagBucket.set( depth - 1, Boolean.valueOf( mark ) );
 		}
 	}
 
@@ -401,6 +697,9 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		drillDef.setTuple( tuples );
 	}
 
+	/**
+	 * !!!Note depth is 0-based for this method.
+	 */
 	private static void traverseDrillMember( Object[] output,
 			MemberValueHandle member,
 			Map<LevelHandle, ILevelDefinition> levelMapping,
@@ -537,7 +836,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 							qualifyLevels,
 							qualifyValues,
 							DataAdapterUtil.adaptModelSortDirection( sortKey.getDirection( ) ) );
-					
+
 					sortDef.setSortLocale( sortKey.getLocale( ) );
 					sortDef.setSortStrength( sortKey.getStrength( ) );
 
@@ -589,12 +888,27 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 					if ( ModuleUtil.isListFilterValue( filterCon ) )
 					{
+						List<ScriptExpression> vals = null;
+
+						List<Expression> val1list = filterCon.getValue1ExpressionList( )
+								.getListValue( );
+
+						if ( val1list != null )
+						{
+							vals = new ArrayList<ScriptExpression>( );
+
+							for ( Expression expr : val1list )
+							{
+								vals.add( modelAdapter.adaptExpression( expr,
+										ExpressionLocation.CUBE ) );
+							}
+						}
+
 						filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
 								.getValue( ),
 								ExpressionLocation.CUBE ),
 								DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-								filterCon.getValue1ExpressionList( )
-										.getListValue( ) );
+								vals );
 					}
 					else
 					{
@@ -645,11 +959,27 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 				if ( ModuleUtil.isListFilterValue( filterCon ) )
 				{
+					List<ScriptExpression> vals = null;
+
+					List<Expression> val1list = filterCon.getValue1ExpressionList( )
+							.getListValue( );
+
+					if ( val1list != null )
+					{
+						vals = new ArrayList<ScriptExpression>( );
+
+						for ( Expression expr : val1list )
+						{
+							vals.add( modelAdapter.adaptExpression( expr,
+									ExpressionLocation.CUBE ) );
+						}
+					}
+
 					filterCondExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) filterCon.getExpressionProperty( IFilterConditionElementModel.EXPR_PROP )
 							.getValue( ),
 							ExpressionLocation.CUBE ),
 							DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-							filterCon.getValue1ExpressionList( ).getListValue( ) );
+							vals );
 				}
 				else
 				{
