@@ -17,6 +17,7 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
@@ -150,9 +151,12 @@ public class ViewerPlugin extends Plugin
 		String rootPath = getFilePath( "/birt" ); //$NON-NLS-1$
 		if ( rootPath != null )
 			System.setProperty( BIRT_VIEWER_ROOT_PATH, rootPath );
-
+		
 		// set designer flag
 		System.setProperty( BIRT_IS_DESIGNER, "true" ); //$NON-NLS-1$
+
+		// check web app adatper, ensure the adapter plugin has been started.
+		IWebAppInfo dummy = WebViewer.getCurrentWebApp( );
 	}
 
 	/**
