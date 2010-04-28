@@ -287,7 +287,7 @@ public class Ext2FileSystem
 
 	public void setCacheSize( int cacheSize )
 	{
-			cacheManager.setMaxCacheSize( cacheSize );
+		cacheManager.setMaxCacheSize( cacheSize );
 	}
 
 	public void setCacheManager( SystemCacheManager manager )
@@ -352,6 +352,21 @@ public class Ext2FileSystem
 			throw new IOException( "The file is opend in read only mode" );
 		}
 		// check if there are any opened stream links with the name,
+		if ( !openedFiles.isEmpty( ) )
+		{
+			ArrayList<Ext2File> removedFiles = new ArrayList<Ext2File>( );
+			for ( Ext2File file : openedFiles )
+			{
+				if ( name.equals( file.getName( ) ) )
+				{
+					removedFiles.add( file );
+				}
+			}
+			for ( Ext2File file : removedFiles )
+			{
+				file.close( );
+			}
+		}
 		Ext2Entry entry = entryTable.removeEntry( name );
 		if ( entry != null )
 		{
@@ -578,7 +593,7 @@ public class Ext2FileSystem
 			}
 			rf.readFully( buffer, offset, size );
 		}
-		
+
 	}
 
 	void writeBlock( int blockId, byte[] buffer, int offset, int size )

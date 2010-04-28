@@ -26,16 +26,18 @@ public class FreeBlockList extends FatBlockList
 		for ( int level = Ext2Node.INDIRECT_BLOCK_COUNT - 1; level >= 0; level-- )
 		{
 			int blockId = node.getIndirectBlock( level );
-			if ( blockId != -1 )
+			if ( blockId > 0 )
 			{
 				FatBlock fatBlock = getCachedBlock( level, blockId );
 				int nextBlockId = getLastBlock( level, fatBlock );
-				if ( nextBlockId > 0 )
+				if ( nextBlockId < 0 )
 				{
 					nextBlockId = blockId;
+					node.setIndirectBlock( level, -1 );
+					clear( level );
 				}
 				int blockCount = node.getBlockCount( );
-				node.setBlockCount( blockCount-- );;
+				node.setBlockCount( blockCount - 1 );
 				return nextBlockId;
 			}
 		}
@@ -45,9 +47,9 @@ public class FreeBlockList extends FatBlockList
 			int blockId = node.getDirectBlock( i );
 			if ( blockId > 0 )
 			{
-				node.setDirectBlock( i, 0 );
+				node.setDirectBlock( i, -1 );
 				int blockCount = node.getBlockCount( );
-				node.setBlockCount( blockCount-- );;
+				node.setBlockCount( blockCount - 1 );
 				return blockId;
 			}
 		}
@@ -65,16 +67,18 @@ public class FreeBlockList extends FatBlockList
 			{
 				if ( level == 0 )
 				{
-					fatBlock.setBlock( index, 0 );
+					fatBlock.setBlock( index, -1 );
 					return blockId;
 				}
-				FatBlock nextFatBlock = getCachedBlock( level, blockId );
-				int nextBlockId = getLastBlock( level--, nextFatBlock );
+				FatBlock nextFatBlock = getCachedBlock( level - 1, blockId );
+				int nextBlockId = getLastBlock( level - 1, nextFatBlock );
 				if ( nextBlockId > 0 )
 				{
 					return nextBlockId;
 				}
-				fatBlock.setBlock( index, 0 );
+				// return the block used by the nextFatBlock
+				fatBlock.setBlock( index, -1 );
+				clear( level - 1 );
 				return blockId;
 			}
 		}

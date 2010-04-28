@@ -165,14 +165,14 @@ public class ArchiveFileV3 implements IArchiveFile
 
 	public void setCacheSize( long cacheSize )
 	{
-		long maxCacheBlock = cacheSize / 4096;
-		if ( maxCacheBlock > Integer.MAX_VALUE )
+		long cacheBlock = cacheSize / 4096;
+		if ( cacheBlock > Integer.MAX_VALUE )
 		{
 			fs.setCacheSize( Integer.MAX_VALUE );
 		}
 		else
 		{
-			fs.setCacheSize( (int) cacheSize );
+			fs.setCacheSize( (int) cacheBlock );
 		}
 	}
 
