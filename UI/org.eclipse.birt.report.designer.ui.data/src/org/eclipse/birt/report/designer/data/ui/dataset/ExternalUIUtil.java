@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -215,6 +216,11 @@ public class ExternalUIUtil
 	{
 	}
 
+	public static void populateApplicationContext( DataSourceHandle handle,
+			DataRequestSession session ) throws BirtException
+	{
+	}
+	
 	public static boolean containsDataSource( DataSetHandle ds  )
 	{
 		if ( ds instanceof JointDataSetHandle )
