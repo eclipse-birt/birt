@@ -61,11 +61,11 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 		composite.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.VERTICAL_ALIGN_FILL ) );
 
-		addDataFetchSettingGroup( composite );
-		
 		Object handle = ( (DataSetEditor) getContainer( ) ).getHandle( );
 		if ( handle instanceof OdaDataSetHandle )
 		{
+			addDataFetchSettingGroup( composite );
+			
 			String extensionID = ( (OdaDataSetHandle) handle ).getExtensionID( );
 			if ( extensionID != null
 					&& extensionID.equalsIgnoreCase( STORED_PROCEDURE_EXTENSION_ID ) )
