@@ -35,10 +35,10 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=La mesure ne prend pas en ch
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Avertissement
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, do you want to check the "Auto primary key" option to complete the cube?
+CubeBuilder.AutoPrimaryKeyDialog.Message=Certaines colonnes utilisées en tant que clés de jointure ne sont définies sur aucun niveau. Voulez-vous activer l'option "Clé principale automatique" pour compléter le cube ?
 CubeBuilder.AutoPrimaryKeyDialog.Title=Problème relatif à la clé principale automatique
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked, do you want to define the missing links to complete the cube?
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=Missing Shared Dimension Link
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=Toutes les clés principales des dimensions partagées doivent être liées. Voulez-vous définir les liaisons manquantes pour compléter le cube ?
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=Liaison des dimensions partagées manquante
 CubeBuilder.Title=Générateur de cube de tableau croisé
 DatasePage.EmptyName.ErrorMessage=Le nom du cube est requis.
 DatasetPage.Title=Jeu de données
@@ -145,7 +145,7 @@ LevelPropertyDialog.MSG.Tooltip=(Afficher toutes les autres valeurs qui ne corre
 LevelPropertyDialog.MSG.DefaultValue=<Valeur par défaut>
 
 MissLinkDialog.Title=Lien manquant entre les jeux de données
-MissLinkDialog.Question=All groups from other data sets should be linked to the primary data set, do you want to define the missing links to complete the cube?
+MissLinkDialog.Question=Tous les groupes des autres jeux de données et le jeu de données principal doivent être liés. Voulez-vous définir les liaisons manquantes pour compléter le cube ?
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties

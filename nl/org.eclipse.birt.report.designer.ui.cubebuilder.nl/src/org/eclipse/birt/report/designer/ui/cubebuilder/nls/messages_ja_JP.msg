@@ -35,10 +35,10 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=ƒƒWƒƒ[‚Å‚Í Any Œ^‚Ìƒf[ƒ^‚
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Œx
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, do you want to check the "Auto primary key" option to complete the cube?
+CubeBuilder.AutoPrimaryKeyDialog.Message=ƒWƒ‡ƒCƒ“ƒL[‚Æ‚µ‚Äg—p‚³‚ê‚Ä‚¢‚é—ñ‚Ì’†‚ÉAƒŒƒxƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚ª‚ ‚è‚Ü‚·Bu©“®ƒvƒ‰ƒCƒ}ƒŠƒL[vƒIƒvƒVƒ‡ƒ“‚ğŠm”F‚µ‚ÄAƒLƒ…[ƒu‚ğŠ®¬‚µ‚Ü‚·‚© ?
 CubeBuilder.AutoPrimaryKeyDialog.Title=©“®ƒvƒ‰ƒCƒ}ƒŠƒL[‚Ì–â‘è
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked, do you want to define the missing links to complete the cube?
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=Missing Shared Dimension Link
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì‚·‚×‚Ä‚Ìƒvƒ‰ƒCƒ}ƒŠƒL[‚ÍƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B•s–¾‚ÈƒŠƒ“ƒN‚ğ’è‹`‚µ‚ÄƒLƒ…[ƒu‚ğŠ®¬‚µ‚Ü‚·‚© ?
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=•s–¾‚È‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“ƒŠƒ“ƒN
 CubeBuilder.Title=ƒNƒƒXƒ^ƒuƒLƒ…[ƒuƒrƒ‹ƒ_
 DatasePage.EmptyName.ErrorMessage=ƒLƒ…[ƒu‚Ì–¼‘O‚ğw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 DatasetPage.Title=ƒf[ƒ^ƒZƒbƒg
@@ -145,7 +145,7 @@ LevelPropertyDialog.MSG.Tooltip=(ã‹L‚ÌğŒ‚Ì‚¢‚¸‚ê‚É‚à“–‚Ä‚Í‚Ü‚ç‚È‚¢‚·‚×‚Ä‚Ì’l‚
 LevelPropertyDialog.MSG.DefaultValue=<ƒfƒtƒHƒ‹ƒg’l>
 
 MissLinkDialog.Title=ƒf[ƒ^ƒZƒbƒgŠÔ‚ÌƒŠƒ“ƒNì¬
-MissLinkDialog.Question=All groups from other data sets should be linked to the primary data set, do you want to define the missing links to complete the cube?
+MissLinkDialog.Question=‘¼‚Ìƒf[ƒ^ƒZƒbƒg‚Ì‚·‚×‚Ä‚ÌƒOƒ‹[ƒv‚ğƒvƒ‰ƒCƒ}ƒŠƒf[ƒ^ƒZƒbƒg‚ÉƒŠƒ“ƒN‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B•s–¾‚ÈƒŠƒ“ƒN‚ğ’è‹`‚µ‚ÄƒLƒ…[ƒu‚ğŠ®¬‚µ‚Ü‚·‚© ?
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties

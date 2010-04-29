@@ -35,10 +35,10 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=측정 시 데이터 형식 "Any"는 
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=경고
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, do you want to check the "Auto primary key" option to complete the cube?
+CubeBuilder.AutoPrimaryKeyDialog.Message=결합 키로 사용되는 일부 열이 수준에서 정의되지 않았습니다. "자동 기본 키" 옵션을 선택하여 큐브를 완료하시겠습니까?
 CubeBuilder.AutoPrimaryKeyDialog.Title=자동 기본 키 문제
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked, do you want to define the missing links to complete the cube?
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=Missing Shared Dimension Link
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=공유 차원의 모든 기본 키를 연결해야 합니다. 누락된 링크를 정의하여 큐브를 완료하시겠습니까?
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=공유 차원 링크 누락
 CubeBuilder.Title=크로스 탭 큐브 빌더
 DatasePage.EmptyName.ErrorMessage=큐브의 이름이 필요합니다.
 DatasetPage.Title=데이터 집합
@@ -145,7 +145,7 @@ LevelPropertyDialog.MSG.Tooltip=(위의 조건 중 어느 조건에도 포함되지 않는 다른 �
 LevelPropertyDialog.MSG.DefaultValue=<기본값>
 
 MissLinkDialog.Title=데이터 집합 간 링크 없음
-MissLinkDialog.Question=All groups from other data sets should be linked to the primary data set, do you want to define the missing links to complete the cube?
+MissLinkDialog.Question=다른 데이터 집합의 모든 그룹을 기본 데이터 집합에 연결해야 합니다. 누락된 링크를 정의하여 큐브를 완료하시겠습니까?
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties

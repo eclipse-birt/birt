@@ -35,10 +35,10 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=度量不支持数据类型“任意”，
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.AutoPrimaryKeyDialog.Message=There has some columns used as joining keys are not defined on levels, do you want to check the "Auto primary key" option to complete the cube?
+CubeBuilder.AutoPrimaryKeyDialog.Message=某些用作联接键的列未在级别上定义，是否要选中“自动主键”选项以完成多维数据集?
 CubeBuilder.AutoPrimaryKeyDialog.Title=自动主键问题
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=All the primary keys from shared dimensions should be linked, do you want to define the missing links to complete the cube?
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=Missing Shared Dimension Link
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=共享维中的所有主键均应链接，是否要定义缺少的链接以完成多维数据集?
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=缺少共享维链接
 CubeBuilder.Title=交叉表多维数据集生成器
 DatasePage.EmptyName.ErrorMessage=需要提供多维数据集的名称。
 DatasetPage.Title=数据集
@@ -145,7 +145,7 @@ LevelPropertyDialog.MSG.Tooltip=(显示所有不符合以上任何条件的其它值)
 LevelPropertyDialog.MSG.DefaultValue=<默认值>
 
 MissLinkDialog.Title=数据集之间缺少链接
-MissLinkDialog.Question=All groups from other data sets should be linked to the primary data set, do you want to define the missing links to complete the cube?
+MissLinkDialog.Question=其它数据集内的所有组均应链接到主数据集，是否要定义缺少的链接以完成多维数据集?
 SetConstraintCommand.setUserProperty=设置用户属性
 ###########################################################
 #RenameInputDialog properties
