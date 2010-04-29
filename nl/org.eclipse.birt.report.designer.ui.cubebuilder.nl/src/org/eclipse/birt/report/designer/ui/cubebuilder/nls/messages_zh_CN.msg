@@ -35,10 +35,10 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=度量不支持数据类型“任意”，
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.AutoPrimaryKeyDialog.Message=某些用作联接键的列未在级别上定义，请选中数据集选择页面上的“自动主键”按钮，以完成多维数据集。
+CubeBuilder.AutoPrimaryKeyDialog.Message=某些用作联接键的列未在级别上定义，是否要选中“自动主键”选项以完成多维数据集?
 CubeBuilder.AutoPrimaryKeyDialog.Title=自动主键问题
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=共享维中的所有主键均应链接
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=错误共享维链接
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=共享维中的所有主键均应链接，是否要定义缺少的链接以完成多维数据集?
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=缺少共享维链接
 CubeBuilder.Title=交叉表多维数据集生成器
 DatasePage.EmptyName.ErrorMessage=需要提供多维数据集的名称。
 DatasetPage.Title=数据集
@@ -145,7 +145,7 @@ LevelPropertyDialog.MSG.Tooltip=(显示所有不符合以上任何条件的其它值)
 LevelPropertyDialog.MSG.DefaultValue=<默认值>
 
 MissLinkDialog.Title=数据集之间缺少链接
-MissLinkDialog.Question=将其它数据集内的所有组链接到主数据集以完成多维数据集
+MissLinkDialog.Question=其它数据集内的所有组均应链接到主数据集，是否要定义缺少的链接以完成多维数据集?
 SetConstraintCommand.setUserProperty=设置用户属性
 ###########################################################
 #RenameInputDialog properties

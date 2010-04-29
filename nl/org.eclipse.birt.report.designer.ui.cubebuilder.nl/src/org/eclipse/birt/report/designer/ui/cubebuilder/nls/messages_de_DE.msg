@@ -35,10 +35,10 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=Maßeinheit unterstützt nicht
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Warnung
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.AutoPrimaryKeyDialog.Message=Einige Spalten, die als Verknüpfungsschlüssel verwendet werden, sind nicht in Ebenen definiert. Überprüfen Sie die Schaltfläche 'Automatischer Primärschlüssel' auf der Datensatzauswahlseite, um den Quader abzuschließen.
+CubeBuilder.AutoPrimaryKeyDialog.Message=Einige Spalten, die als Verknüpfungsschlüssel verwendet werden, sind nicht in Ebenen definiert. Möchten Sie die Option 'Automatischer Primärschlüssel' überprüfen, um den Quader abzuschließen?
 CubeBuilder.AutoPrimaryKeyDialog.Title=Problem mit dem automatischen Primärschlüssel
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=Alle Primärschlüssel aus gemeinsamen Dimensionen müssen miteinander verknüpft sein.
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=Fehler bei der Verknüpfung einer gemeinsamen Dimension.
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=Alle Primärschlüssel aus gemeinsamen Dimensionen müssen miteinander verknüpft sein. Möchten Sie die fehlenden Verknüpfungen angeben, um den Quader abzuschließen?
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=Fehlende Verknüpfung einer gemeinsamen Dimension
 CubeBuilder.Title=Kreuztabellen-Cube Builder
 DatasePage.EmptyName.ErrorMessage=Der Name des Quaders ist erforderlich.
 DatasetPage.Title=Datensatz
@@ -145,7 +145,7 @@ LevelPropertyDialog.MSG.Tooltip=(Alle anderen Werte anzeigen, die in keine diese
 LevelPropertyDialog.MSG.DefaultValue=<Standardwert>
 
 MissLinkDialog.Title=Fehlende Verknüpfung zwischen Datensätzen
-MissLinkDialog.Question=Verknüpfen Sie alle Gruppen aus anderen Datensätzen mit dem primären Datensatz, um den Quader abzuschließen
+MissLinkDialog.Question=Alle Gruppen aus anderen Datensätzen müssen mit dem primären Datensatz verknüpft sein. Möchten Sie die fehlenden Verknüpfungen angeben, um den Quader abzuschließen?
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties

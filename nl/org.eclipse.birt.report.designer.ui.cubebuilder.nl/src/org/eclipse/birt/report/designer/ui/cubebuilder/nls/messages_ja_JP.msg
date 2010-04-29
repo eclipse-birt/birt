@@ -35,10 +35,10 @@ CubeGroupContent.MeasureDataTypeErrorDialog.Message=ƒƒWƒƒ[‚Å‚Í Any Œ^‚Ìƒf[ƒ^‚
 CubeGroupContent.MeasureDataTypeErrorDialog.Title=Œx
 ###########################################################
 #Cube Builder Dialog properties
-CubeBuilder.AutoPrimaryKeyDialog.Message=ƒWƒ‡ƒCƒ“ƒL[‚Æ‚µ‚Äg—p‚³‚ê‚Ä‚¢‚é—ñ‚Ì’†‚ÉAƒŒƒxƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚ª‚ ‚è‚Ü‚·B[ƒf[ƒ^ƒZƒbƒg‚Ì‘I‘ğ] ƒy[ƒW‚Ìu©“®ƒvƒ‰ƒCƒ}ƒŠƒL[vƒ{ƒ^ƒ“‚ğŠm”F‚µ‚ÄAƒLƒ…[ƒu‚ğŠ®¬‚µ‚Ä‚­‚¾‚³‚¢B
+CubeBuilder.AutoPrimaryKeyDialog.Message=ƒWƒ‡ƒCƒ“ƒL[‚Æ‚µ‚Äg—p‚³‚ê‚Ä‚¢‚é—ñ‚Ì’†‚ÉAƒŒƒxƒ‹‚Å’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚à‚Ì‚ª‚ ‚è‚Ü‚·Bu©“®ƒvƒ‰ƒCƒ}ƒŠƒL[vƒIƒvƒVƒ‡ƒ“‚ğŠm”F‚µ‚ÄAƒLƒ…[ƒu‚ğŠ®¬‚µ‚Ü‚·‚© ?
 CubeBuilder.AutoPrimaryKeyDialog.Title=©“®ƒvƒ‰ƒCƒ}ƒŠƒL[‚Ì–â‘è
-CubeBuilder.SharedDimensionErrorLinkDialog.Message=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“‚©‚ç‚Ì‚·‚×‚Ä‚Ìƒvƒ‰ƒCƒ}ƒŠƒL[‚ÍƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B@
-CubeBuilder.SharedDimensionErrorLinkDialog.Title=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“ƒŠƒ“ƒN‚ÌƒGƒ‰[
+CubeBuilder.SharedDimensionErrorLinkDialog.Message=‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“‚Ì‚·‚×‚Ä‚Ìƒvƒ‰ƒCƒ}ƒŠƒL[‚ÍƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚·B•s–¾‚ÈƒŠƒ“ƒN‚ğ’è‹`‚µ‚ÄƒLƒ…[ƒu‚ğŠ®¬‚µ‚Ü‚·‚© ?
+CubeBuilder.SharedDimensionErrorLinkDialog.Title=•s–¾‚È‹¤—LƒfƒBƒƒ“ƒWƒ‡ƒ“ƒŠƒ“ƒN
 CubeBuilder.Title=ƒNƒƒXƒ^ƒuƒLƒ…[ƒuƒrƒ‹ƒ_
 DatasePage.EmptyName.ErrorMessage=ƒLƒ…[ƒu‚Ì–¼‘O‚ğw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 DatasetPage.Title=ƒf[ƒ^ƒZƒbƒg
@@ -145,7 +145,7 @@ LevelPropertyDialog.MSG.Tooltip=(ã‹L‚ÌğŒ‚Ì‚¢‚¸‚ê‚É‚à“–‚Ä‚Í‚Ü‚ç‚È‚¢‚·‚×‚Ä‚Ì’l‚
 LevelPropertyDialog.MSG.DefaultValue=<ƒfƒtƒHƒ‹ƒg’l>
 
 MissLinkDialog.Title=ƒf[ƒ^ƒZƒbƒgŠÔ‚ÌƒŠƒ“ƒNì¬
-MissLinkDialog.Question=ƒLƒ…[ƒu‚ğŠ®¬‚·‚é‚É‚ÍA‚·‚×‚Ä‚ÌƒOƒ‹[ƒv‚ğ•Ê‚Ìƒf[ƒ^ƒZƒbƒg‚©‚çƒvƒ‰ƒCƒ}ƒŠƒf[ƒ^ƒZƒbƒg‚ÉƒŠƒ“ƒN‚µ‚Ä‚­‚¾‚³‚¢B
+MissLinkDialog.Question=‘¼‚Ìƒf[ƒ^ƒZƒbƒg‚Ì‚·‚×‚Ä‚ÌƒOƒ‹[ƒv‚ğƒvƒ‰ƒCƒ}ƒŠƒf[ƒ^ƒZƒbƒg‚ÉƒŠƒ“ƒN‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B•s–¾‚ÈƒŠƒ“ƒN‚ğ’è‹`‚µ‚ÄƒLƒ…[ƒu‚ğŠ®¬‚µ‚Ü‚·‚© ?
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties
