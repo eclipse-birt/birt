@@ -223,8 +223,8 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 		try
 		{
 			newCube.add( CubeHandle.MEASURE_GROUPS_PROP, measureGroup );
-			if ( newCube.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
-				newCube.setDefaultMeasureGroup( measureGroup );
+//			if ( newCube.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
+//				newCube.setDefaultMeasureGroup( measureGroup );
 			TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 					.newTabularMeasure( columnHandle.getColumnName( ) );
 			Expression expression = new Expression( ExpressionUtility.getExpression( columnHandle,
