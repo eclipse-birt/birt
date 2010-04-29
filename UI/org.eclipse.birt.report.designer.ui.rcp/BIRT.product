@@ -33,7 +33,7 @@
 
    <plugins>
       <plugin id="com.ibm.icu"/>
-      <plugin id="com.lowagie.itext"/>
+      <plugin id="com.lowagie.text"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
       <plugin id="javax.wsdl"/>
