@@ -33,7 +33,6 @@ import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -747,6 +746,15 @@ public class InsertInLayoutUtil
 		}
 
 		dataHandle.setResultSetColumn( model.getColumnName( ) );
+		boolean wordWrap = UIUtil.isWordWrap( model );
+		if (wordWrap)
+		{
+			dataHandle.getPrivateStyle( ).setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NORMAL );
+		}
+		else
+		{
+			dataHandle.getPrivateStyle( ).setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NOWRAP );
+		}
 
 		if ( targetParent instanceof ReportItemHandle )
 		{
@@ -971,7 +979,7 @@ public class InsertInLayoutUtil
 			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
 			label.setText( UIUtil.getColumnDisplayName( model ) );
-			String displayKey = getDisplayKey( model );
+			String displayKey = UIUtil.getColumnDisplayNameKey( model );
 			if ( displayKey != null )
 			{
 				label.setTextKey( displayKey );
@@ -1517,7 +1525,7 @@ public class InsertInLayoutUtil
 						{
 							labelItemHandle.setText( labelText );
 						}
-						String displayKey = getDisplayKey( columns[j] );
+						String displayKey = UIUtil.getColumnDisplayNameKey( columns[j] );
 						if ( displayKey != null )
 						{
 							labelItemHandle.setTextKey( displayKey );
@@ -1534,6 +1542,15 @@ public class InsertInLayoutUtil
 						// DesignElementFactory.getInstance( )
 						// .newDataItem( null );
 						dataHandle.setResultSetColumn( columns[j].getColumnName( ) );
+						boolean wordWrap = UIUtil.isWordWrap( columns[j] );
+						if (wordWrap)
+						{
+							dataHandle.getPrivateStyle( ).setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NORMAL );
+						}
+						else
+						{
+							dataHandle.getPrivateStyle( ).setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NOWRAP );
+						}
 
 						cell.addElement( dataHandle, cells.getSlotID( ) );
 
@@ -1565,22 +1582,6 @@ public class InsertInLayoutUtil
 				}
 			}
 		}
-	}
-
-	private static String getDisplayKey( ResultSetColumnHandle column )
-	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( ); iter.hasNext( ); )
-		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
-			{
-				return element.getDisplayNameKey( );
-			}
-		}
-		return null;
 	}
 
 	/**
