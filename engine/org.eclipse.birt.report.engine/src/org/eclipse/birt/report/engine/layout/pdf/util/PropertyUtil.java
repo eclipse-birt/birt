@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -42,6 +43,7 @@ public class PropertyUtil
 	private static Logger logger = Logger.getLogger( PropertyUtil.class
 			.getName( ) );
 
+	private static Pattern colorPattern = Pattern.compile( "rgb\\(.+,.+,.+\\)" );
 	/**
 	 * Checks if the font is bold
 	 * 
@@ -116,8 +118,14 @@ public class PropertyUtil
 				logger.log( Level.WARNING, "invalid color: {0}", value ); //$NON-NLS-1$
 			}
 		}
+		else if ( value == CSSValueConstants.TRANSPARENT_VALUE )
+		{
+			return null;
+		}
 		else if ( value instanceof StringValue )
+		{
 			return getColor( value.toString( ) );
+		}
 		return null;
 	}
 
@@ -151,27 +159,26 @@ public class PropertyUtil
 		else if ( color.equalsIgnoreCase( "Blue" ) )
 			return Color.blue;
 		else if ( color.equalsIgnoreCase( "Teal" ) )
-			return hexToColor( "#008080" );
+			return new Color( 0, 0x80, 0x80 );
 		else if ( color.equalsIgnoreCase( "Aqua" ) )
-			return hexToColor( "#00FFFF" );
+			return new Color( 0, 0xff, 0xff );
 		else if ( color.equalsIgnoreCase( "Silver" ) )
-			return hexToColor( "#C0C0C0" );
+			return new Color( 0xc0, 0xc0, 0xc0 );
 		else if ( color.equalsIgnoreCase( "Navy" ) )
-			return hexToColor( "#000080" );
+			return new Color( 0, 0x0, 0x80 );
 		else if ( color.equalsIgnoreCase( "Lime" ) )
-			return hexToColor( "#00FF00" );
+			return new Color( 0, 0xff, 0 );
 		else if ( color.equalsIgnoreCase( "Olive" ) )
-			return hexToColor( "#808000" );
+			return new Color( 0x80, 0x80, 0 );
 		else if ( color.equalsIgnoreCase( "Purple" ) )
-			return hexToColor( "#800080" );
+			return new Color( 0x80, 0, 0x80 );
 		else if ( color.equalsIgnoreCase( "Fuchsia" ) )
-			return hexToColor( "#FF00FF" );
+			return new Color( 0xff, 0, 0xff );
 		else if ( color.equalsIgnoreCase( "Maroon" ) )
-			return hexToColor( "#800000" );
+			return new Color( 0x80, 0, 0 );
 		else
 		{
-			Pattern p = Pattern.compile( "rgb\\(.+,.+,.+\\)" );
-			Matcher m = p.matcher( color );
+			Matcher m = colorPattern.matcher( color );
 			if ( m.find( ) )
 			{
 				String[] rgb = color.substring( m.start( ) + 4, m.end( ) - 1 )
