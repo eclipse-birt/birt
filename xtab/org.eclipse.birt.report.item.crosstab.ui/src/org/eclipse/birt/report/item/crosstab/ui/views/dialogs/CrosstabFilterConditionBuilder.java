@@ -1859,7 +1859,10 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				createValueListComposite( valuesComposite );
 				valueList = new ArrayList( filterConditionElement.getValue1ExpressionList( )
 						.getListValue( ) );
-				tableViewer.setInput( valueList );
+				if ( valueList != null )
+				{
+					tableViewer.setInput( valueList );
+				}
 			}
 			else
 			{
@@ -1867,12 +1870,16 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				if ( filterConditionElement != null )
 				{
 					if ( filterConditionElement.getValue1ExpressionList( )
-							.getListValue( )
-							.size( ) > 0 )
+							.getListValue( ) != null
+							&& filterConditionElement.getValue1ExpressionList( )
+									.getListValue( )
+									.size( ) > 0 )
+					{
 						ExpressionButtonUtil.initExpressionButtonControl( expressionValue1,
 								filterConditionElement.getValue1ExpressionList( )
 										.getListValue( )
 										.get( 0 ) );
+					}
 					ExpressionButtonUtil.initExpressionButtonControl( expressionValue2,
 							filterConditionElement,
 							FilterCondition.VALUE2_MEMBER );
@@ -2055,15 +2062,13 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 								IExpressionConverter.EXPRESSION_CLASS_CUBE );
 			}
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			DataService.getInstance( )
-					.registerSession( cube,
-							session );
-			
+			DataService.getInstance( ).registerSession( cube, session );
+
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-			iter = session.getCubeQueryUtil( )
-					.getMemberValueIterator( cube,
-							expression,
-							cubeQueryDefn , session.getDataSessionContext().getAppContext() );
+			iter = session.getCubeQueryUtil( ).getMemberValueIterator( cube,
+					expression,
+					cubeQueryDefn,
+					session.getDataSessionContext( ).getAppContext( ) );
 		}
 		catch ( Exception e )
 		{
