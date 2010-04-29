@@ -422,7 +422,7 @@ public class GroupDialog extends TitleAreaDialog
 					String dateType = (String) dateTypeSelectedList.get( i );
 					TabularLevelHandle level = DesignElementFactory.getInstance( )
 							.newTabularLevel( (DimensionHandle) hierarchy.getContainer( ),
-									dateType );
+									getDateTypeDisplayName( dateType ) );
 					try
 					{
 						level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
@@ -454,7 +454,7 @@ public class GroupDialog extends TitleAreaDialog
 							{
 								TabularLevelHandle level = DesignElementFactory.getInstance( )
 										.newTabularLevel( (DimensionHandle) hierarchy.getContainer( ),
-												dateType );
+												getDateTypeDisplayName( dateType ) );
 								try
 								{
 									level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
@@ -478,7 +478,7 @@ public class GroupDialog extends TitleAreaDialog
 						// out of old level list:month out (year,quarter)
 						TabularLevelHandle level = DesignElementFactory.getInstance( )
 								.newTabularLevel( (DimensionHandle) hierarchy.getContainer( ),
-										dateType );
+										getDateTypeDisplayName( dateType ) );
 						try
 						{
 							level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
