@@ -156,6 +156,10 @@ public class TextAreaLayout implements ILayout
 						.getProperty( IStyle.STYLE_COLOR ) ) );
 			}
 		}
+		if ( content.getHyperlinkAction( ) != null )
+		{
+			textStyle.setHasHyperlink( true );
+		}
 		return textStyle;
 
 	}
