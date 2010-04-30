@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.parameters.AbstractParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.CascadingParameterGroup;
@@ -32,8 +31,8 @@ import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.parameters.RadioParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ScalarParameter;
 import org.eclipse.birt.report.designer.ui.parameters.StaticTextParameter;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
-import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -453,7 +452,7 @@ public class InputParameterDialog extends BaseDialog
 		return container;
 	}
 
-	private void checkParam( final String defaultValue, List list )
+	private void checkParam( final String defaultValue,final Object value, List list )
 	{
 		if ( !performed )
 		{
@@ -464,7 +463,9 @@ public class InputParameterDialog extends BaseDialog
 				{
 					if ( ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( )
 							.toString( )
-							.equals( defaultValue ) )
+							.equals( defaultValue ) || ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( )
+							.toString( )
+							.equals( DEUtil.removeQuote( defaultValue )))
 					{
 						contains = true;
 						break;
@@ -485,7 +486,7 @@ public class InputParameterDialog extends BaseDialog
 
 					public Object getValue( )
 					{
-						return defaultValue;
+						return value == null?defaultValue:value;
 					}
 				};
 				list.add( choice );
@@ -533,7 +534,7 @@ public class InputParameterDialog extends BaseDialog
 			list.add( blankValueChoice );
 		}
 		list.addAll( listParam.getValueList( ) );
-		checkParam( listParam.getDefaultValue( ), list );
+		checkParam( listParam.getDefaultValue( ),value, list );
 		if ( !isRequired )
 		{
 			boolean hasNull = false;
@@ -586,7 +587,12 @@ public class InputParameterDialog extends BaseDialog
 			boolean found = false;
 			for ( int i = 0; i < combo.getItemCount( ); i++ )
 			{
-				if ( value.equals( combo.getData( combo.getItem( i ) ) ) )
+				String str = null;
+				if (value instanceof String)
+				{
+					str = (String)value;
+				}
+				if ( value.equals( combo.getData( combo.getItem( i ) ) ) || (str != null && DEUtil.removeQuote( str ).equals( combo.getData( combo.getItem( i ) ))))
 				{
 					combo.select( i );
 					paramValues.put( listParam.getHandle( ).getName( ),
@@ -727,7 +733,7 @@ public class InputParameterDialog extends BaseDialog
 			list.add( blankValueChoice );
 		}
 		list.addAll( listParam.getValueList( ) );
-		checkParam( listParam.getDefaultValue( ), list );
+		checkParam( listParam.getDefaultValue( ),value, list );
 		if ( !isRequired )
 		{
 			list.add( InputParameterDialog.nullValueChoice );
