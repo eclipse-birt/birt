@@ -496,7 +496,7 @@
 			<include name="org.apache.derby.core_*/**" />
 			<include name="org.w3c.sac_*/**" />
 			<include name="org.mozilla.rhino_*/**" />
-			<include name="com.lowagie.itext_*/**" />
+			<include name="com.lowagie.text_*/**" />
 			<!-- birt bundles -->
 			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
 			<include name="org.eclipse.birt.chart.device.svg_*.jar" />
