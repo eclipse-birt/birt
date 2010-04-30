@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
@@ -821,7 +823,8 @@ class DataSetParameterAdapter
 			inputAttrs = designFactory.createInputElementAttributes( );
 
 		setDefaultScalarValue( inputAttrs, paramDefn.getParameterDataType( ),
-				paramDefn.getDefaultValue( ) );
+				paramDefn.getExpressionProperty(
+						DataSetParameter.DEFAULT_VALUE_MEMBER ).getValue( ) );
 
 		inputAttrs.setOptional( paramDefn.isOptional( ) );
 
@@ -1193,17 +1196,12 @@ class DataSetParameterAdapter
 			return;
 		}
 
-		String originalValue = setParam.getDefaultValue( );
-		String quotataionMark = null;
-		if ( ParameterValueUtil.isQuoted( originalValue ) )
-		{
-			quotataionMark = originalValue.substring( 0, 1 );
-		}
-
-		String romDefaultValue = AdapterUtil.needsQuoteDelimiters( setParam
-				.getParameterDataType( ) ) ? ParameterValueUtil.toJsExprValue(
-				literalValue, quotataionMark ) : literalValue;
-		setParam.setDefaultValue( romDefaultValue );
+		Expression romDefaultValue = null;
+		if ( literalValue != null )
+			romDefaultValue = new Expression( literalValue,
+					IExpressionType.CONSTANT );
+		setParam.setExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER,
+				romDefaultValue );
 	}
 
 	/**
@@ -1216,28 +1214,40 @@ class DataSetParameterAdapter
 	 * @param dataType
 	 *            the data type
 	 * @param value
-	 *            the default value
+	 *            the default value in rom
 	 */
 
 	private void setDefaultScalarValue( InputElementAttributes elementAttrs,
-			String dataType, String value )
+			String dataType, Object value )
 	{
-		String literalValue = value;
-
-		if ( AdapterUtil.needsQuoteDelimiters( dataType ) )
+		assert value instanceof Expression;
+		Expression expr = (Expression) value;
+		Object defaultValue = null;		
+		if ( expr != null )
 		{
-			if ( ParameterValueUtil.isQuoted( value ) )
-				literalValue = ParameterValueUtil.toLiteralValue( value );
+			if ( IExpressionType.CONSTANT.equals( expr.getType( ) ) )
+			{
+				defaultValue = expr.getExpression( );
+			}
 			else
-				literalValue = BIRT_JS_EXPR;
+			{
+				defaultValue = BIRT_JS_EXPR;
+				if ( AdapterUtil.needsQuoteDelimiters( dataType ) )
+				{
+					String literalValue = expr.getStringExpression( );
+					if ( ParameterValueUtil.isQuoted( literalValue ) )
+						defaultValue = ParameterValueUtil
+								.toLiteralValue( literalValue );
+				}
+			}
 		}
 
 		StaticValues newValues = null;
 
-		if ( literalValue != null )
+		if ( defaultValue != null )
 		{
 			newValues = designFactory.createStaticValues( );
-			newValues.add( literalValue );
+			newValues.add( defaultValue );
 		}
 
 		elementAttrs.setDefaultValues( newValues );
@@ -1631,7 +1641,10 @@ class DataSetParameterAdapter
 			}
 
 			setDefaultScalarValue( inputElementAttrs,
-					tmpROMParam.getDataType( ), tmpROMParam.getDefaultValue( ) );
+					tmpROMParam.getDataType( ), tmpROMParam
+							.getExpressionProperty(
+									DataSetParameter.DEFAULT_VALUE_MEMBER )
+							.getValue( ) );
 		}
 	}
 
