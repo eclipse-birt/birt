@@ -1087,6 +1087,7 @@
 				<exclude name="*.doc/doc.zip"/>
 				<exclude name="*.doc.isv/doc.zip"/>
 				<exclude name="*.doc.isv/chart*/**"/>
+				<exclude name=".project"/>
 				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${buildDirectory}/features" prefix="features">

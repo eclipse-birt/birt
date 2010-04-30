@@ -536,6 +536,7 @@
 				<exclude name="org.apache.commons.codec/**"/>
 				<exclude name="org.eclipse.birt.converters/**"/>
 				<exclude name="tutorials/**" />
+				<exclude name=".project"/>
 			</fileset>
 		</copy>
 		
