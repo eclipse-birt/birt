@@ -28,7 +28,7 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">1</property>
                     <property name="position">2</property>
-                    <expression name="defaultValue">'default param value'</expression>
+                    <expression name="defaultValue" type="constant">default param value</expression>
                     <property name="isOptional">false</property>
                     <property name="allowNull">false</property>
                     <property name="isInput">true</property>
