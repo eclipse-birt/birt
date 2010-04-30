@@ -10,7 +10,10 @@
             <property name="dataSetName">myDataSet2</property>
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
-            <property name="dataType">decimal</property>            
+            <property name="dataType">decimal</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">not updated default value</value>
+            </simple-property-list>
             <list-property name="selectionList">
                 <structure>
                     <property name="value">option 1</property>
@@ -92,7 +95,7 @@
                     <property name="paramName">Param 2</property>
                     <property name="nativeName">dataSetParam2</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">0</property>                    
+                    <property name="nativeDataType">0</property>
                     <property name="position">2</property>
                     <expression name="defaultValue">param["Param 2"]</expression>
                     <property name="isOptional">true</property>
@@ -103,14 +106,14 @@
                     <property name="paramName">Param 3</property>
                     <property name="nativeName">dataSetParam3</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">0</property>                    
+                    <property name="nativeDataType">0</property>
                     <property name="position">3</property>
                     <expression name="defaultValue">data set param default value 3</expression>
                     <property name="isInput">true</property>
                     <property name="isOutput">true</property>
                 </structure>
             </list-property>
-            <property name="dataSource">myDataSource1</property>            
+            <property name="dataSource">myDataSource1</property>
             <property name="resultSetName">userid</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -130,9 +133,6 @@
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultValues>
-            <design:values>JS_EXPR</design:values>
-          </design:defaultValues>
           <design:optional>false</design:optional>
           <design:masksValue>true</design:masksValue>
           <design:dynamicValueChoices>
@@ -158,7 +158,7 @@
         <design:elementAttributes>
           <design:defaultValues>
             <design:values>JS_EXPR</design:values>
-          </design:defaultValues>        
+          </design:defaultValues>
           <design:optional>true</design:optional>
           <design:masksValue>false</design:masksValue>
           <design:dynamicValueChoices>

@@ -1220,11 +1220,11 @@ class DataSetParameterAdapter
 	private void setDefaultScalarValue( InputElementAttributes elementAttrs,
 			String dataType, Object value )
 	{
-		assert value instanceof Expression;
-		Expression expr = (Expression) value;
 		Object defaultValue = null;		
-		if ( expr != null )
+		if ( value != null )
 		{
+			assert value instanceof Expression;
+			Expression expr = (Expression) value;
 			if ( IExpressionType.CONSTANT.equals( expr.getType( ) ) )
 			{
 				defaultValue = expr.getExpression( );
