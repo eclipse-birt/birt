@@ -1730,8 +1730,7 @@ public class UIUtil
 			if ( element.getColumnName( ).equals( column.getColumnName( ) )
 					|| column.getColumnName( ).equals( element.getAlias( ) ) )
 			{
-				if ( element.getDisplayName( ) == null
-						&& element.getDisplayNameKey( ) != null )
+				if ( element.getDisplayNameKey( ) != null )
 				{
 					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
 							ColumnHint.DISPLAY_NAME_MEMBER );
@@ -1766,7 +1765,7 @@ public class UIUtil
 		}
 		return null;
 	}
-	
+
 	public static boolean isWordWrap( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
@@ -2023,14 +2022,14 @@ public class UIUtil
 	{
 		Object[] resolves = ElementAdapterManager.getAdapters( model,
 				IRelatedFileChangeResolve.class );
-		if (resolves == null)
+		if ( resolves == null )
 		{
-			return ;
+			return;
 		}
-		
-		for(int i=0;i<resolves.length; i++)
+
+		for ( int i = 0; i < resolves.length; i++ )
 		{
-			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve)resolves[i];
+			IRelatedFileChangeResolve find = (IRelatedFileChangeResolve) resolves[i];
 			find.notifySaveFile( model );
 		}
 	}
