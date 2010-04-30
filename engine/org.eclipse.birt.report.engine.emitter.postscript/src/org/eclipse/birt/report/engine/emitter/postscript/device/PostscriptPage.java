@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.engine.emitter.postscript.PostscriptWriter;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 public class PostscriptPage extends AbstractPage
@@ -70,14 +71,22 @@ public class PostscriptPage extends AbstractPage
 	 *      float, java.awt.Color, boolean, boolean, boolean)
 	 */
 	protected void drawText( String text, float textX, float textY, float baseline,
-			float width, float height, TextStyle fontStyle )
+			float width, float height, TextStyle textStyle )
 	{
-		writer.drawString( text, textX, textY + baseline, fontStyle.getFontInfo( ),
-				convertToPoint( fontStyle.getLetterSpacing( ) ),
-				convertToPoint( fontStyle.getWordSpacing( ) ), fontStyle
-						.getColor( ), fontStyle.isLinethrough( ), fontStyle
-						.isOverline( ), fontStyle.isUnderline( ), fontStyle
+		writer.drawString( text, textX, textY + baseline, textStyle.getFontInfo( ),
+				convertToPoint( textStyle.getLetterSpacing( ) ),
+				convertToPoint( textStyle.getWordSpacing( ) ), textStyle
+						.getColor( ), textStyle.isLinethrough( ), textStyle
+						.isOverline( ), textStyle.isUnderline( ), textStyle
 						.getAlign( ) );
+		if ( textStyle.isHasHyperlink( ) )
+		{
+			FontInfo fontInfo = textStyle.getFontInfo( );
+			float lineWidth = fontInfo.getLineWidth( );
+			Color color = textStyle.getColor( );
+			drawDecorationLine( textX, textY, width, lineWidth,
+					convertToPoint( fontInfo.getUnderlinePosition( ) ), color );
+		}
 	}
 
 	/*

@@ -543,6 +543,14 @@ public class PDFPage extends AbstractPage
 						.getColor( ), textStyle.isLinethrough( ), textStyle
 						.isOverline( ), textStyle.isUnderline( ), textStyle
 						.getAlign( ) );
+		if ( textStyle.isHasHyperlink( ) )
+		{
+			FontInfo fontInfo = textStyle.getFontInfo( );
+			float lineWidth = fontInfo.getLineWidth( );
+			Color color = textStyle.getColor( );
+			drawDecorationLine( textX, textY, width, lineWidth,
+					convertToPoint( fontInfo.getUnderlinePosition( ) ), color );
+		}
 	}
 
 	private void drawText( String text, float textX, float textY, float width,
