@@ -224,11 +224,10 @@ public abstract class PreparedDataSourceQuery
 
 		Collection parameterHints = null;
 		
-		IBaseDataSourceDesign dataSourceDesign = null;
+		IBaseDataSourceDesign dataSourceDesign = this.dataEngine.getDataSourceDesign( dataSetDesign.getDataSourceName( ) );
 		DataSourceRuntime dsRuntime = this.dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) );
 		if ( dsRuntime != null )
 		{
-			dataSourceDesign = dsRuntime.getDesign( );
 			DataSetRuntime dataSet = DataSetRuntime.newInstance( dataSetDesign,
 					null, this.dataEngine.getSession( ) );
 			parameterHints = new ParameterUtil( outerScope,
@@ -313,7 +312,7 @@ public abstract class PreparedDataSourceQuery
 		{
 			return PreparedDataSourceQuery.this.dataEngine.getSession( )
 					.getDataSetCacheManager( )
-					.doesLoadFromCache( this.dataSource.getDesign( ),
+					.doesLoadFromCache( dataEngine.getDataSourceDesign( this.dataSet.getDesign( ).getDataSourceName( ) ),
 							this.dataSet.getDesign( ),
 							new ParameterUtil( this.tabularOuterResults == null
 									? null
