@@ -456,6 +456,7 @@ from OFFICES]]></xml-property>
         </label>
         <extended-item extensionName="Crosstab" extensionVersion="2.5.0" name="NewCross Tab"
  id="13">
+            <property name="cube">Data Cube1</property>
             <property name="measures">
                 <extended-item extensionName="MeasureView" name="NewMeasure View" id="20">
                     <property name="measure">OFFICECODE1</property>
@@ -506,7 +507,6 @@ from OFFICES]]></xml-property>
             <property name="header">
                 <extended-item extensionName="CrosstabCell" id="14"/>
             </property>
-            <property name="cube">Data Cube1</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">COUNTRY</property>
