@@ -655,7 +655,7 @@ public class ImageAreaLayout implements ILayout
 						}
 						String url = attributes.get( "href" );
 						//does not support javascript in href.
-						if ( url.startsWith( "javascript:" ) )
+						if ( url != null && url.startsWith( "javascript:" ) )
 						{
 							url = null;
 						}
