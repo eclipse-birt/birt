@@ -1730,8 +1730,7 @@ public class UIUtil
 			if ( element.getColumnName( ).equals( column.getColumnName( ) )
 					|| column.getColumnName( ).equals( element.getAlias( ) ) )
 			{
-				if ( element.getDisplayName( ) == null
-						&& element.getDisplayNameKey( ) != null )
+				if ( element.getDisplayNameKey( ) != null )
 				{
 					String displayName = element.getExternalizedValue( ColumnHint.DISPLAY_NAME_ID_MEMBER,
 							ColumnHint.DISPLAY_NAME_MEMBER );
