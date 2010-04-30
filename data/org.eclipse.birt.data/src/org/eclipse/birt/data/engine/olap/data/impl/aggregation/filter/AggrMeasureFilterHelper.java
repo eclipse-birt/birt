@@ -86,6 +86,8 @@ public class AggrMeasureFilterHelper
 			{
 				if( resultSet[i].getAllLevels( ) == null || resultSet[i].getAllLevels( ).length == 0 )
 				{
+					if ( resultSet[i].length( ) == 0 )
+						return null;
 					AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet[i] );
 					for ( int j = 0; j < jsMeasureEvalFilterHelper.size( ); j++ )
 					{
