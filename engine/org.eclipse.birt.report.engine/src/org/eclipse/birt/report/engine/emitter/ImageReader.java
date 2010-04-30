@@ -171,11 +171,21 @@ public class ImageReader
 
 	private void readImage( String uri ) throws IOException
 	{
+		if( uri == null )
+		{
+			status = RESOURCE_UNREACHABLE;
+			return;
+		}
 		readImage( new URL( uri ) );
 	}
 
 	private void readImage( URL url ) throws IOException
 	{
+		if( url == null )
+		{
+			status = RESOURCE_UNREACHABLE;
+			return;
+		}
 		InputStream in = url.openStream( );
 		readImage( in );
 	}

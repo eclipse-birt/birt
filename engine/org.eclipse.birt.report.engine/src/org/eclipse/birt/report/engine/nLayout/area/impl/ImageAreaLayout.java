@@ -51,6 +51,7 @@ public class ImageAreaLayout implements ILayout
 	private ContainerArea parent;
 	private IImageContent content;
 	private ImageReader reader;
+	private Image imageObject = null;
 	private LayoutContext context;
 
 	protected static Logger logger = Logger.getLogger( ImageAreaLayout.class
@@ -89,8 +90,25 @@ public class ImageAreaLayout implements ILayout
 				layout = createAltTextLayout( ImageReader.UNSUPPORTED_OBJECTS );
 				break;
 			case ImageReader.OBJECT_LOADED_SUCCESSFULLY:
-				// the output format can display this kind of object and the
-				// object is accessible.
+				//the object is accessible.
+				if ( reader.getType( ) == ImageReader.TYPE_IMAGE_OBJECT
+						|| reader.getType( ) == ImageReader.TYPE_CONVERTED_SVG_OBJECT )
+				{
+					try
+					{
+						imageObject = Image.getInstance( reader.getByteArray( ) );
+					}
+					catch ( Exception e )
+					{
+						logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+					}
+					// unrecognized image formats.
+					if ( imageObject == null )
+					{
+						layout = createAltTextLayout( ImageReader.UNSUPPORTED_OBJECTS );
+						break;
+					}
+				}
 				layout = new ConcreteImageLayout( context, parent, content,
 						reader.getByteArray( ) );
 				break;
@@ -234,20 +252,10 @@ public class ImageAreaLayout implements ILayout
 			int imageFileDpiX = 0;
 			int imageFileDpiY = 0;
 			
-			Image imageObject = null;
+
 			if ( reader.getType( ) == ImageReader.TYPE_IMAGE_OBJECT
 					|| reader.getType( ) == ImageReader.TYPE_CONVERTED_SVG_OBJECT )
 			{
-				
-				try
-				{
-					imageObject = Image.getInstance( data );
-				}
-				catch ( Exception e )
-				{
-					logger.log( Level.WARNING, e.getLocalizedMessage( ) );
-				}
-
 				if ( imageObject != null )
 				{
 					imageFileDpiX = imageObject.getDpiX( );
