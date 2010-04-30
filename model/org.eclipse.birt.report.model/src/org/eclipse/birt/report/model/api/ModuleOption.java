@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import com.ibm.icu.util.ULocale;
@@ -197,7 +198,14 @@ public class ModuleOption implements IModuleOption
 
 	public ULocale getLocale( )
 	{
-		return (ULocale) options.get( LOCALE_KEY );
+		Object locale = options.get( LOCALE_KEY );
+		if ( locale instanceof ULocale )
+			return (ULocale) locale;
+		else if ( locale instanceof Locale )
+		{
+			return ULocale.forLocale( ( (Locale) locale ) );
+		}
+		return null;
 	}
 
 	/**
