@@ -1702,8 +1702,8 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 					}
 				}
 
-				rule.setProperty( MapRule.DISPLAY_MEMBER,
-						DEUtil.resolveNull( display.getText( ) ) );
+				rule.setDisplay( DEUtil.resolveNull( display.getText( ) ) );
+				rule.setDisplayKey( DEUtil.resolveNull( resourceKeytext.getText( ) ) );
 
 				ExpressionButtonUtil.saveExpressionButtonControl( expression,
 						rule,
