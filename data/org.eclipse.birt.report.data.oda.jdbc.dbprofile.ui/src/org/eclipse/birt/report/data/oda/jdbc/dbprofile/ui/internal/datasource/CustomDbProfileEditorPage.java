@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2009 Actuate Corporation.
+ * Copyright (c) 2009, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -47,9 +47,8 @@ public class CustomDbProfileEditorPage extends DbProfileEditorPage
     protected void setDataSourceDesignProperties( DataSourceDesign design, Properties propertyValuePairs ) 
         throws OdaException
     {
-        Properties dataSourceProps = propertyValuePairs;
-        if( ! isEditingExternalProfile() )   // need to save the profile properties in data source design
-            dataSourceProps = DbProfilePropertyProvider.adaptToDataSourceProperties( propertyValuePairs );
+        Properties dataSourceProps = 
+            DbProfilePropertyProvider.adaptToDataSourceProperties( propertyValuePairs );
         
         super.setDataSourceDesignProperties( design, dataSourceProps );
     }
