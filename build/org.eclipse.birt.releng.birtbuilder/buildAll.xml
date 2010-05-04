@@ -292,7 +292,7 @@
                     tofile="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}-${build.date}.zip"/>
 	</target>
 	
-	<target name="installWTPPackage" unless="HQ.BIRT.skip">
+	<target name="installWTPpackage" unless="HQ.BIRT.skip">
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
 		<unzip src="${buildDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip" 
 					dest="${updateJarWorkingDir}" overwrite="true" />
