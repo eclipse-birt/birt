@@ -724,10 +724,16 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			int ret = createValueListComposite( valuesComposite );
 			if ( ret != 0 )
 			{
+				valueList = new ArrayList( );
 				if ( filterConditionElement != null )
 				{
-					valueList = new ArrayList( filterConditionElement.getValue1ExpressionList( )
-							.getListValue( ) );
+					if ( filterConditionElement.getValue1ExpressionList( )
+							.getListValue( ) != null
+							&& filterConditionElement.getValue1ExpressionList( )
+									.getListValue( )
+									.size( ) > 0 )
+						valueList.addAll( filterConditionElement.getValue1ExpressionList( )
+								.getListValue( ) );
 				}
 
 				tableViewer.setInput( valueList );
