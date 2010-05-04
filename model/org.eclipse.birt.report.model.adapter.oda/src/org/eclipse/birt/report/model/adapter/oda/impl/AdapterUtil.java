@@ -422,11 +422,36 @@ public class AdapterUtil
 					IAbstractScalarParameterModel.VALUE_EXPR_PROP, expr );
 		}
 
+		// the label need to follow the value expression 
+		
 		value = valueQuery.getDisplayNameColumn( );
 		cachedValue = cachedValueQuery == null ? null : cachedValueQuery
 				.getDisplayNameColumn( );
 		if ( cachedValue == null || !cachedValue.equals( value ) )
-			reportParam.setLabelExpr( value );
+		{
+			Expression expr = null;
+			if ( value != null )
+			{
+				String labelExpr = value;
+				try
+				{
+					String columnName = ExpressionUtil.getColumnName( value );
+					if ( !StringUtil.isBlank( columnName ) )
+						labelExpr = columnName;
+				}
+				catch ( BirtException e )
+				{
+					// Do nothing
+				}
+				expr = new Expression( ExpressionUtil
+						.createDataSetRowExpression( labelExpr ),
+						IExpressionType.JAVASCRIPT );
+			}
+			
+			reportParam.setProperty(
+					IAbstractScalarParameterModel.LABEL_EXPR_PROP, expr );
+		}
+			
 	}
 
 	/**
