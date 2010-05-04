@@ -484,7 +484,7 @@ public class StreamManager
 	 */
 	private boolean useTempStream( int streamType )
 	{
-		if( this.version < VersionManager.VERSION_2_2 )
+		if( this.version < VersionManager.VERSION_2_2 || this.version >= VersionManager.VERSION_2_5_2_0 )
 			return false;
 		
 		switch ( streamType )
