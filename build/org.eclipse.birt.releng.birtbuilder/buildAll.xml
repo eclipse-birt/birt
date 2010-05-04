@@ -295,26 +295,25 @@
 	<target name="CreateUpdateSite" if="updateSite">
 		
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
-		<property name="compsite.site" value="${buildDirectory}/../../UpdateSite/${updateSite}" />
-		<property name="repo" value="${compsite.site}/${buildId}" />
+		<property name="compsite.site" value="${updateSite}" />
+		<property name="repo" value="${updateSite}/${buildId}" />
+		
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		<mkdir dir="${updateJarWorkingDir}/packed"/>
 		
-        <exec executable="unzip" dir="${buildDirectory}">
-            <arg line="-o -q birt-all-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
-        </exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-wtp-integration-sdk-${package.version}.zip -d ${updateJarWorkingDir}" />
-		</exec>
+		<unzip src="${buildDirectory}/birt-all-${package.version}.bak.zip" 
+			dest="${updateJarWorkingDir}" overwrite="true" />
 		
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-nl-${package.version}.zip -d ${updateJarWorkingDir}" />
-		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-dtp-nl-${package.version}.zip -d ${updateJarWorkingDir}" />
-		</exec>		
-
+		<unzip src="${buildDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip" 
+			dest="${updateJarWorkingDir}" overwrite="true" />
+		
+		<unzip src="${buildDirectory}/${buildId}/birt-nl-${package.version}.zip" 
+			dest="${updateJarWorkingDir}" overwrite="true" />
+		
+		<unzip src="${buildDirectory}/${buildId}/birt-dtp-nl-${package.version}.zip" 
+			dest="${updateJarWorkingDir}" overwrite="true" />
+			
 		<delete includeemptydirs="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features">
 				<include name="org.eclipse.birt.sdk*/**"/>
@@ -354,12 +353,12 @@
 		<!-- create site.xml -->
 		<antcall target="generateCategory"/>
 		
-		<!-- TODO: generate p2 composite update site -->
+		<!-- generate p2 composite update site, generate p2-metadata -->
         <antcall target="GenP2CompositeUpdateSite"/>
                 
-		<!-- TODO: generate birt-updatesite package -->
-		<antcall target = "GenUpdatesitePackage"/>
-		
+		<!-- generate birt-updatesite package -->
+		<antcall target="GenUpdatesitePackage"/>
+		<antcall target="GenUpdatesitePackageForHQ"/>
 		
 	</target>
 
@@ -394,7 +393,7 @@
 		
 	</target>
 		
-    <target name="GenP2CompositeUpdateSite">
+    <target name="GenP2CompositeUpdateSite" unless="HQ.BIRT.skip">
     	<property name="p2.repo.name" value="BIRT TEST" />
     	<mkdir dir="${repo}" />
             
@@ -413,7 +412,7 @@
                   <arg line="-metadataRepository file:${repo}"/>
                   <arg line="-artifactRepository file:${repo}"/>
                   <arg line="-source ${updateJarWorkingDir}/packed"/>
-                  <arg line="-configs gtk.linux.x86"/>
+                  <arg line="-configs ${updateSiteConfig}"/>
                   <arg line="-compress"/>
             	  <arg line="-reusePack200Files"/>
                   <arg line="-publishArtifacts"/>
@@ -457,7 +456,7 @@
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.integration.wtp.source}" token="@FEATURE.BIRT.WTP.SOURCE@"/>		
 	</target>
 	
-	<target name="GenUpdatesitePackage">
+	<target name="GenUpdatesitePackage" unless="HQ.BIRT.skip">
 
 		<zip destfile="${postingDirectory}/${buildId}/birt-updatesite-${package.version}.zip">
 		   <fileset dir="${repo}">
@@ -476,6 +475,16 @@
 		
 	</target>
 	
+	<target name="GenUpdatesitePackageForHQ" if="HQ.BIRT.skip">
+		<zip destfile="${postingDirectory}/${buildId}/birt-updatesite-${package.version}.zip">
+		   <fileset dir="${updateJarWorkingDir}/packed">
+		       <include name="features/**"/>
+		       <include name="plugins/**"/>
+		   </fileset>
+		</zip>
+		
+	</target>
+			
 	<target name="renameBirtUpdatesitePackage" unless="skip.rename.package">
 			<move file="${postingDirectory}/${buildId}/birt-updatesite-${package.version}.zip"
 			      tofile="${postingDirectory}/${buildId}/birt-updatesite-${package.version}-${build.date}.zip"/>
