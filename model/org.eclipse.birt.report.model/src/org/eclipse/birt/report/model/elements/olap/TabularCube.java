@@ -104,45 +104,7 @@ public class TabularCube extends Cube
 		}
 		return (TabularCubeHandle) handle;
 	}
-	
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.ReferenceableElement#doClone(org.eclipse
-	 * .birt.report.model.elements.strategy.CopyPolicy)
-	 */
-	public Object doClone( CopyPolicy policy )
-			throws CloneNotSupportedException
-	{
-		DesignElement element = (DesignElement) super.doClone( policy );
-
-		handleDefaultMeasureGroup( element );
-		return element;
-	}
-
-	/**
-	 * The special case for the default measure group. If the cube extends a
-	 * library cube, the default measure group is set to be local measure group.
-	 * 
-	 * @param cloned
-	 */
-
-	protected void handleDefaultMeasureGroup( DesignElement cloned )
-	{
-		Module module = getRoot( );
-		DesignElement measureGroup = getDefaultMeasureGroup( module );
-		if ( measureGroup != null )
-		{
-			int index = measureGroup.getIndex( module );
-			DesignElement clonedMeasureGroup = new ContainerContext( cloned,
-					MEASURE_GROUPS_PROP ).getContent( module, index );
-			assert clonedMeasureGroup != null;
-			cloned.setProperty( DEFAULT_MEASURE_GROUP_PROP,
-					new ElementRefValue( null, clonedMeasureGroup ) );
-		}
-	}
+		
 	
 	/**
 	 * Sets the measure group at the specified position to be default.
