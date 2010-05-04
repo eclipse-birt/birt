@@ -316,9 +316,11 @@ public abstract class AbstractEmitterImpl
 
 	public void computePageProperties( IPageContent page )
 	{
-		pageWidth = WordUtil.convertTo( page.getPageWidth( ), 0, reportDpi );
-		// 11 inch * 1440
-		pageHeight = WordUtil.convertTo( page.getPageHeight( ), 0, reportDpi );
+		// Default height/width is the width/height of A4, the width 595.275pt *
+		// PT_TWIPS, the height is 841.889 * PT_TWIPS
+		pageWidth = WordUtil.convertTo( page.getPageWidth( ), 11906, reportDpi );
+		pageHeight = WordUtil.convertTo( page.getPageHeight( ), 16838,
+				reportDpi );
 
 		footerHeight = WordUtil.convertTo( page.getFooterHeight( ), 0,
 				reportDpi );
