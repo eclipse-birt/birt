@@ -75,11 +75,13 @@ public class EmbeddedBrowserFactory implements IBrowserFactory
 	 */
 	private boolean test( )
 	{
-		if ( !Constants.OS_WIN32.equalsIgnoreCase( Platform.getOS( ) )
-				&& !Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ) )
-		{
-			return false;
-		}
+		// !remove OS check, see bugzilla#270189
+		// if ( !Constants.OS_WIN32.equalsIgnoreCase( Platform.getOS( ) )
+		// && !Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ) )
+		// {
+		// return false;
+		// }
+		
 		if ( !tested )
 		{
 			tested = true;
