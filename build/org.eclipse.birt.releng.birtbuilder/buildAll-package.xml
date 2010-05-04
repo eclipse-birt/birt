@@ -52,6 +52,8 @@
 		<antcall target="CreateDistribute"/>
 		<antcall target="renameBirtPackage"/>
 		<antcall target="sendNotification"/>
+		<antcall target="copy2UploadArea"/>
+
 	</target>
 
 	<target name="init">
