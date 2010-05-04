@@ -143,7 +143,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		if (prePage == this)
 		{
-			return true;
+			//return true;
 		}
 		if ( getEditorInput( ) != prePage.getEditorInput( ) )
 		{
