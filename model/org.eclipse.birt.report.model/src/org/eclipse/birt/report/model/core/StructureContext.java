@@ -13,8 +13,10 @@ package org.eclipse.birt.report.model.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -27,6 +29,13 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 public class StructureContext
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( StructureContext.class
+			.getName( ) );
 
 	protected final ContainerInfo containerInfo;
 
@@ -564,12 +573,35 @@ public class StructureContext
 		ElementContainerInfo( DesignElement element,
 				ElementPropertyDefn propDefn )
 		{
+			if ( propDefn == null )
+			{
+				throw new IllegalArgumentException( );
+			}
+
 			container = element;
 			this.propDefn = propDefn;
-			if ( propDefn == null
-					|| propDefn != element
-							.getPropertyDefn( propDefn.getName( ) ) )
+
+			IPropertyDefn tmpPropDefn = container
+					.getPropertyDefn( this.propDefn.getName( ) );
+
+			if ( tmpPropDefn == null )
+			{
+				logger.warning( "cannot get property definition " + propDefn //$NON-NLS-1$
+						+ " for element " + container.getName( ) ); //$NON-NLS-1$
+ 
 				throw new IllegalArgumentException( );
+			}
+
+			if ( this.propDefn != tmpPropDefn )
+			{
+				logger.warning( "property definitions: " //$NON-NLS-1$
+						+ this.propDefn.getName( ) + " and " //$NON-NLS-1$
+						+ tmpPropDefn.getName( ) + " are different. " ); //$NON-NLS-1$
+				
+				throw new IllegalArgumentException( "property definitions: " //$NON-NLS-1$
+						+ this.propDefn.getName( ) + " and " //$NON-NLS-1$
+						+ tmpPropDefn.getName( ) + " are different. " ); //$NON-NLS-1$
+			}
 		}
 
 		/*

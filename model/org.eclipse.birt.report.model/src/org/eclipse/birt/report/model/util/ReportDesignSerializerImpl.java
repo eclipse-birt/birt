@@ -1390,7 +1390,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					targetScriptLib
 							.setContext( new StructureContext(
 									target,
-									target.getPropertyDefn( IModuleModel.SCRIPTLIBS_PROP ),
+									target
+											.getPropertyDefn( IModuleModel.SCRIPTLIBS_PROP ),
 									targetScriptLib ) );
 
 					relativePathList.add( sourceScriptLibPath );
@@ -1837,6 +1838,17 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 	}
 
+	protected Iterator<IElementPropertyDefn> getLocalizablePropertyDefns(
+			DesignElement element )
+	{
+		// get properties from ascendants.
+
+		Iterator<IElementPropertyDefn> iter = element.getPropertyDefns( )
+				.iterator( );
+
+		return iter;
+	}
+
 	/**
 	 * Copies all values from element to newElement. Structure, element
 	 * reference values, etc. are dumped as a new copy.
@@ -1861,8 +1873,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		// get properties from ascendants.
 
-		Iterator<IElementPropertyDefn> iter = element.getPropertyDefns( )
-				.iterator( );
+		Iterator<IElementPropertyDefn> iter = getLocalizablePropertyDefns( element );
 		while ( iter.hasNext( ) )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
