@@ -28,7 +28,7 @@
             </overridden-values>
         </tabular-cube>
         <tabular-cube name="cube11" id="86" extends="new_library.Data Cube1">
-            <property name="defaultMeasureGroup">Summary Field11</property>
+            <property name="defaultMeasureGroup">Summary Field1</property>
             <overridden-values>
                 <ref-entry baseId="22" name="Group1" id="87">
                     <property name="defaultHierarchy">NewTabularHierarchy21</property>
@@ -40,7 +40,7 @@
             </overridden-values>
         </tabular-cube>
         <tabular-cube name="cube12" id="92" extends="new_library.Data Cube1">
-            <property name="defaultMeasureGroup">Summary Field12</property>
+            <property name="defaultMeasureGroup">Summary Field1</property>
             <overridden-values>
                 <ref-entry baseId="22" name="Group2" id="93">
                     <property name="defaultHierarchy">NewTabularHierarchy22</property>
