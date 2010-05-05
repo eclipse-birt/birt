@@ -123,7 +123,8 @@ public final class Bar extends AxesRenderer
 			int count = 0, id = 0;
 			for ( Axis axis : axs )
 			{
-				if ( axis.isSideBySide( ) )
+				if ( axis.isSideBySide( )
+						&& axis.getSeriesDefinitions( ).size( ) > 0 )
 				{
 					SeriesDefinition sd = axis.getSeriesDefinitions( ).get( 0 );
 					if ( sd.getDesignTimeSeries( ) instanceof BarSeries )
