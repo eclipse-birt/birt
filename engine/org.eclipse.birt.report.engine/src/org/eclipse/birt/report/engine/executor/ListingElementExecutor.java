@@ -18,6 +18,8 @@ import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.model.api.TableHandle;
 
 /**
  * An abstract class that defines execution logic for a Listing element, which
@@ -67,6 +69,19 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 	private boolean isPageBreakIntervalValid( ListingDesign design )
 	{
+		//support summary table
+		if ( design instanceof TableItemDesign )
+		{
+			TableHandle handle = (TableHandle) design.getHandle( );
+			if ( handle.isSummaryTable( ) )
+			{
+				if ( design.getGroupCount( ) > 0 )
+				{
+					return true;
+				}
+			}
+
+		}
 		BandDesign detailBand = design.getDetail( );
 		if ( detailBand == null || detailBand.getContentCount( ) == 0 )
 		{
