@@ -911,6 +911,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 
 				final ColumnBindingInfo[] headerInfo = (ColumnBindingInfo[]) this.getParameter( HEAD_INFO );
+				if (headerInfo == null)
+				{
+					return;
+				}
+				
 				final List<?> data = (List<?>) this.getParameter( DATA_LIST );
 				// Execute UI operation in UI thread.
 				Display.getDefault( ).syncExec( new Runnable( ) {
