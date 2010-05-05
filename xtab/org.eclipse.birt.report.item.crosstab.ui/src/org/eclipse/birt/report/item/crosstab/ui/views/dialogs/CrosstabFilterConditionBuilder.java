@@ -2757,6 +2757,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			try
 			{
 				newValue.setLevel( tempLevel );
+				newValue.setValue( "" );
 				lastMemberValue.add( IMemberValueModel.MEMBER_VALUES_PROP,
 						newValue );
 			}
@@ -2872,6 +2873,14 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			memberValueHandle = DesignElementFactory.getInstance( )
 					.newMemberValue( );
+			try
+			{
+				memberValueHandle.setValue( "" );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 		memberValueHandle = updateMemberValuesFromLevelList( referencedLevelList,
 				memberValueHandle );
