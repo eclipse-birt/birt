@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IActionFilter;
@@ -52,6 +53,7 @@ public class PathResourceEntry extends BaseResourceEntity
 	private boolean isFolder;
 	private boolean isRoot;
 	private LibraryHandle library;
+	private ReportDesignHandle rptdesign;
 	private ArrayList childrenList;
 	private CssStyleSheetHandle cssStyleHandle;
 	private boolean isFile;
@@ -290,6 +292,11 @@ public class PathResourceEntry extends BaseResourceEntity
 
 	public void dispose( )
 	{
+		if ( this.rptdesign != null )
+		{
+			this.rptdesign.close( );
+			this.rptdesign = null;
+		}
 		if ( this.library != null )
 		{
 			this.library.close( );
@@ -346,6 +353,39 @@ public class PathResourceEntry extends BaseResourceEntity
 			}
 			return library;
 		}
+		else if ( adapter == ReportDesignHandle.class
+				&& getURL( ).toString( ).toLowerCase( ).endsWith( "rptdesign" ) )
+		{
+			if ( !this.isFolder && this.rptdesign == null )
+			{
+				try
+				{
+					String projectFolder = UIUtil.getProjectFolder( );
+					if ( projectFolder != null )
+					{
+						Map properties = new HashMap( );
+						properties.put( IModuleOption.RESOURCE_FOLDER_KEY,
+								projectFolder );
+						// use file path instead of URL to open libarary here
+						this.rptdesign = SessionHandleAdapter.getInstance( )
+								.getSessionHandle( )
+								.openDesign( this.path,
+										new ModuleOption( properties ) );
+					}
+					else
+					{
+						// use file path instead of URL to open libarary here
+						this.rptdesign = SessionHandleAdapter.getInstance( )
+								.getSessionHandle( )
+								.openDesign( this.path );
+					}
+				}
+				catch ( Exception e )
+				{
+				}
+			}
+			return rptdesign;
+		}
 		else if ( adapter == CssStyleSheetHandle.class
 				&& getURL( ).toString( ).toLowerCase( ).endsWith( ".css" ) ) //$NON-NLS-1$
 		{
@@ -368,25 +408,29 @@ public class PathResourceEntry extends BaseResourceEntity
 			}
 			return cssStyleHandle;
 		}
-		else if (adapter == IActionFilter.class)
+		else if ( adapter == IActionFilter.class )
 		{
-			return new IActionFilter()
-			{
+			return new IActionFilter( ) {
 
 				public boolean testAttribute( Object target, String name,
 						String value )
 				{
-					if (target instanceof PathResourceEntry && "extension".equals( name ))
+					if ( target instanceof PathResourceEntry
+							&& "extension".equals( name ) )
 					{
-						PathResourceEntry entry = (PathResourceEntry)target;
-						if (entry.getURL( ) != null && entry.getURL( ).toString( ).toLowerCase( ).endsWith( value ))
+						PathResourceEntry entry = (PathResourceEntry) target;
+						if ( entry.getURL( ) != null
+								&& entry.getURL( )
+										.toString( )
+										.toLowerCase( )
+										.endsWith( value ) )
 						{
 							return true;
 						}
 					}
 					return false;
 				}
-				
+
 			};
 		}
 		return null;
@@ -425,7 +469,7 @@ public class PathResourceEntry extends BaseResourceEntity
 			return this.path.hashCode( );
 		return super.hashCode( );
 	}
-	
+
 	public String getPath( )
 	{
 		return path;

@@ -36,6 +36,7 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.resource.StructureEntry;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
@@ -56,7 +57,9 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#getChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
+	 * getChildren(java.lang.Object)
 	 */
 	public Object[] getChildren( Object parentElement )
 	{
@@ -68,7 +71,11 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 
 		if ( parentElement instanceof ResourceEntryWrapper )
 		{
-			if ( ( (ResourceEntryWrapper) parentElement ).getType( ) == ResourceEntryWrapper.LIBRARY )
+			if ( ( (ResourceEntryWrapper) parentElement ).getType( ) == ResourceEntryWrapper.RPTDESIGN )
+			{
+				return new Object[]{};
+			}
+			else if ( ( (ResourceEntryWrapper) parentElement ).getType( ) == ResourceEntryWrapper.LIBRARY )
 			{
 				Object object = ( (ResourceEntryWrapper) parentElement ).getAdapter( LibraryHandle.class );
 				return getElementChildren( parentElement, object );
@@ -88,25 +95,24 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 			List childrenList = new ArrayList( );
 			for ( int i = 0; i < children.length; i++ )
 			{
-				Object object = children[i].getAdapter( LibraryHandle.class );
-				if ( object != null )
+				if ( children[i].getAdapter( ReportDesignHandle.class ) != null )
+				{
+					childrenList.add( new ResourceEntryWrapper( ResourceEntryWrapper.RPTDESIGN,
+							children[i] ) );
+				}
+				else if ( children[i].getAdapter( LibraryHandle.class ) != null )
 				{
 					childrenList.add( new ResourceEntryWrapper( ResourceEntryWrapper.LIBRARY,
 							children[i] ) );
 				}
+				else if ( children[i].getAdapter( CssStyleSheetHandle.class ) != null )
+				{
+					childrenList.add( new ResourceEntryWrapper( ResourceEntryWrapper.CSS_STYLE_SHEET,
+							children[i] ) );
+				}
 				else
 				{
-					object = children[i].getAdapter( CssStyleSheetHandle.class );
-
-					if ( object != null )
-					{
-						childrenList.add( new ResourceEntryWrapper( ResourceEntryWrapper.CSS_STYLE_SHEET,
-								children[i] ) );
-					}
-					else
-					{
-						childrenList.add( children[i] );
-					}
+					childrenList.add( children[i] );
 				}
 			}
 			return childrenList.toArray( );
@@ -123,7 +129,7 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 *            the specified parent entry.
 	 * @return all children in the specified parent.
 	 */
-	private Object[] getElementChildren( Object parentElement, Object object )
+	protected Object[] getElementChildren( Object parentElement, Object object )
 	{
 		Object[] children = super.getChildren( object );
 		List entryList = new ArrayList( );
@@ -174,13 +180,20 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#getImage(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
+	 * getImage(java.lang.Object)
 	 */
 	public Image getImage( Object element )
 	{
 		if ( element instanceof ResourceEntryWrapper )
 		{
-			if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.LIBRARY )
+			if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.RPTDESIGN )
+			{
+				Object object = ( (ResourceEntryWrapper) element ).getAdapter( ReportDesignHandle.class );
+				return super.getImage( object );
+			}
+			else if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.LIBRARY )
 			{
 				Object object = ( (ResourceEntryWrapper) element ).getAdapter( LibraryHandle.class );
 				return super.getImage( object );
@@ -202,11 +215,22 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#getText(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
+	 * getText(java.lang.Object)
 	 */
 	public String getText( Object element )
 	{
 		if ( element instanceof ResourceEntryWrapper
+				&& ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.RPTDESIGN )
+		{
+			ReportDesignHandle rptdesign = (ReportDesignHandle) ( (ResourceEntryWrapper) element ).getAdapter( ReportDesignHandle.class );
+			// fileName of the LibraryHandle is a relative path.
+			String fileName = rptdesign.getFileName( );
+			// fileName is a URL string.
+			return new File( fileName ).getName( );
+		}
+		else if ( element instanceof ResourceEntryWrapper
 				&& ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.LIBRARY )
 		{
 			LibraryHandle lib = (LibraryHandle) ( (ResourceEntryWrapper) element ).getAdapter( LibraryHandle.class );
@@ -254,7 +278,9 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#hasChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
+	 * hasChildren(java.lang.Object)
 	 */
 	public boolean hasChildren( Object element )
 	{

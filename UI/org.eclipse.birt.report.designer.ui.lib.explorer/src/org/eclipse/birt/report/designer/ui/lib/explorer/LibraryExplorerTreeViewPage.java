@@ -23,7 +23,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -33,6 +32,7 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
@@ -124,7 +124,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		if ( synchronizer != null )
 		{
 			synchronizer.addListener( IReportResourceChangeEvent.NewResource
-					| IReportResourceChangeEvent.LibraySaveChange|IReportResourceChangeEvent.DataDesignSaveChange, this );
+					| IReportResourceChangeEvent.LibraySaveChange
+					| IReportResourceChangeEvent.DataDesignSaveChange, this );
 		}
 	}
 
@@ -208,7 +209,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 */
 	protected void configTreeViewer( final TreeViewer treeViewer )
 	{
-		ViewsTreeProvider provider = new LibraryExplorerProvider( );
+		ViewsTreeProvider provider = (ViewsTreeProvider) ElementAdapterManager.getAdapter( this,
+				ViewsTreeProvider.class );
+		if ( provider == null )
+			provider = new LibraryExplorerProvider( );
 
 		treeViewer.setContentProvider( provider );
 		treeViewer.setLabelProvider( provider );
@@ -460,7 +464,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		Menu menu = menuManager.createContextMenu( control );
 
 		control.setMenu( menu );
-		
+
 		getSite( ).registerContextMenu( "org.eclipse.birt.report.designer.ui.lib.explorer.view", menuManager, //$NON-NLS-1$
 				getSite( ).getSelectionProvider( ) );
 	}
@@ -592,7 +596,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		if ( synchronizer != null )
 		{
 			synchronizer.removeListener( IReportResourceChangeEvent.NewResource
-					| IReportResourceChangeEvent.LibraySaveChange|IReportResourceChangeEvent.DataDesignSaveChange, this );
+					| IReportResourceChangeEvent.LibraySaveChange
+					| IReportResourceChangeEvent.DataDesignSaveChange, this );
 		}
 
 		libraryBackup.dispose( );
@@ -626,7 +631,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		if ( treeViewer != null && !treeViewer.getTree( ).isDisposed( ) )
 		{
 			treeViewer.refresh( );
-			treeViewer.setInput( ResourceLocator.getRootEntries( ) );
+			treeViewer.setInput( getRootEntries( ) );
 			handleTreeViewerRefresh( );
 		}
 	}
@@ -656,7 +661,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			ISelection selection = getSelection( );
 
 			treeViewer.setSelection( null );
-			treeViewer.setInput( ResourceLocator.getRootEntries( ) );
+			treeViewer.setInput( getRootEntries( ) );
 			handleTreeViewerRefresh( );
 			if ( selection != null )
 			{
@@ -689,7 +694,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	public void resourceChanged( IReportResourceChangeEvent event )
 	{
 		if ( event.getType( ) != IReportResourceChangeEvent.NewResource
-				&& event.getType( ) != IReportResourceChangeEvent.LibraySaveChange && event.getType( ) != IReportResourceChangeEvent.DataDesignSaveChange)
+				&& event.getType( ) != IReportResourceChangeEvent.LibraySaveChange
+				&& event.getType( ) != IReportResourceChangeEvent.DataDesignSaveChange )
 		{
 			return;
 		}
@@ -809,4 +815,31 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			}
 		} );
 	}
+
+	private ResourceEntry[] getRootEntries( )
+	{
+		ResourceEntry systemResource = new FragmentResourceEntry( );
+
+		ResourceEntry sharedResource = (ResourceEntry) ElementAdapterManager.getAdapter( this,
+				ResourceEntry.class );
+
+		if ( sharedResource == null )
+			sharedResource = new PathResourceEntry( );
+
+		// System Resources node should not be shown if no file is contained in
+		// this node.
+		if ( systemResource.hasChildren( ) )
+		{
+			return new ResourceEntry[]{
+					systemResource, sharedResource
+			};
+		}
+		else
+		{
+			return new ResourceEntry[]{
+				sharedResource
+			};
+		}
+	}
+
 }
