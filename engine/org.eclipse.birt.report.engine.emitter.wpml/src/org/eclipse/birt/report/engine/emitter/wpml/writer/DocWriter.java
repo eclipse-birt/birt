@@ -265,11 +265,13 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 
 	public void writeContent( int type, String txt, IStyle style,
 			IStyle inlineStyle, String fontFamily, HyperlinkInfo info,
-			InlineFlag inlineFlag, TextFlag flag, int paragraphWidth )
+			InlineFlag inlineFlag, TextFlag flag, int paragraphWidth,
+			boolean runIsRtl )
 	{
 		if ( inlineFlag == InlineFlag.BLOCK )
 		{
-			writeText( type, txt, style, fontFamily, info, flag, paragraphWidth );
+			writeText( type, txt, style, fontFamily, info, flag, paragraphWidth,
+					runIsRtl );
 		}
 		else
 		{
@@ -281,10 +283,10 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 			}
 			if ( inlineStyle != null )
 				writeTextInRun( type, txt, inlineStyle, fontFamily, info,
-						isInline, paragraphWidth );
+						isInline, paragraphWidth, runIsRtl );
 			else
 				writeTextInRun( type, txt, style, fontFamily, info, isInline,
-						paragraphWidth );
+						paragraphWidth, runIsRtl );
 		}
 	}
 

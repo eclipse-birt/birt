@@ -72,6 +72,7 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
+import org.eclipse.birt.report.engine.layout.pdf.text.BidiSplitter;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
@@ -920,6 +921,7 @@ public abstract class AbstractEmitterImpl
 		HyperlinkInfo hyper = getHyperlink( content );
 		int paragraphWidth = (int) WordUtil
 				.twipToPt( context.getCurrentWidth( ) );
+		boolean rtl = content.isDirectionRTL( );
 		if ( content instanceof TextContent )
 		{
 			TextFlag textFlag = TextFlag.START;
@@ -927,47 +929,81 @@ public abstract class AbstractEmitterImpl
 			if ( "".equals( txt ) || txt == null || WordUtil.isField( content ) )
 			{
 				wordWriter.writeContent( type, txt, computedStyle, inlineStyle,
-								fontFamily, hyper, inlineFlag, textFlag,
-								paragraphWidth );
+						fontFamily, hyper, inlineFlag, textFlag,
+						paragraphWidth, rtl );
 			}
 			else
 			{
-				FontSplitter fontSplitter = getFontSplitter( content );
-				while ( fontSplitter.hasMore( ) )
+				int level = rtl ? 1 : 0;
+				BidiSplitter bidiSplitter = new BidiSplitter( new Chunk( txt,
+						0, level, level ) );
+				if ( bidiSplitter.hasMore( ) )
 				{
-					Chunk ch = fontSplitter.getNext( );
-					int offset = ch.getOffset( );
-					int length = ch.getLength( );
-					fontFamily = getFontFamily( computedStyle, ch );
-					String string = null;
-					if ( ch == Chunk.HARD_LINE_BREAK)
+					do
 					{
-						string = ch.getText();
-					}
-					else
+						Chunk ch = bidiSplitter.getNext( );
+						level = ch.getRunLevel( );
+						// TextContent contentClone = (TextContent)
+						// content.cloneContent( false );
+						// contentClone.setText( ch.getText( ) );
+						FontSplitter fontSplitter = getFontSplitter( content,
+								ch.getText( ) );
+						while ( fontSplitter.hasMore( ) )
+						{
+							ch = fontSplitter.getNext( );
+							wordWriter.writeContent( type, ch.getText( ),
+									computedStyle, inlineStyle, getFontFamily(
+											computedStyle, ch ), hyper,
+									inlineFlag, textFlag, paragraphWidth,
+									// TODO: Revisit for more accurate level computation
+									( level & 1 ) != 0 || !rtl && level > 0 );
+							textFlag = fontSplitter.hasMore( )
+									|| bidiSplitter.hasMore( )
+									? TextFlag.MIDDLE
+									: TextFlag.END;
+						}
+					} while ( bidiSplitter.hasMore( ) );
+				}
+				else
+				{
+					// Should not get here - BidiSplitter will return at least 1 chunk
+					FontSplitter fontSplitter = getFontSplitter( content, ( (TextContent) content ).getText( ) );
+					while ( fontSplitter.hasMore( ) )
 					{
-						string = txt.substring(offset, offset + length);
+						Chunk ch = fontSplitter.getNext( );
+						int offset = ch.getOffset( );
+						int length = ch.getLength( );
+						fontFamily = getFontFamily( computedStyle, ch );
+						String string = null;
+						if ( ch == Chunk.HARD_LINE_BREAK)
+						{
+							string = ch.getText();
+						}
+						else
+						{
+							string = txt.substring(offset, offset + length);
+						}
+						wordWriter.writeContent( type, string, computedStyle, inlineStyle,
+								fontFamily, hyper, inlineFlag, textFlag,
+								paragraphWidth, rtl );
+						textFlag = fontSplitter.hasMore( )
+								? TextFlag.MIDDLE
+								: TextFlag.END;
 					}
-					wordWriter.writeContent( type, string, computedStyle, inlineStyle,
-							fontFamily, hyper, inlineFlag, textFlag,
-							paragraphWidth );
-					textFlag = fontSplitter.hasMore( )
-							? TextFlag.MIDDLE
-							: TextFlag.END;
 				}
 			}
 			if ( inlineFlag == InlineFlag.BLOCK )
 			{
 				wordWriter.writeContent( type, null, computedStyle,
 						inlineStyle, fontFamily, hyper, inlineFlag,
-						TextFlag.END, paragraphWidth );
+						TextFlag.END, paragraphWidth, rtl );
 			}
 		}
 		else
 		{
 			wordWriter.writeContent( type, txt, computedStyle, inlineStyle,
 					computedStyle.getFontFamily( ), hyper, inlineFlag,
-					TextFlag.WHOLE, paragraphWidth );
+					TextFlag.WHOLE, paragraphWidth, rtl );
 		}
 	}
 
@@ -986,12 +1022,11 @@ public abstract class AbstractEmitterImpl
 		return fontFamily;
 	}
 
-	private FontSplitter getFontSplitter( IContent content )
+	private FontSplitter getFontSplitter( IContent content, String text )
 	{
 		FontMappingManager fontManager = FontMappingManagerFactory
 				.getInstance( ).getFontMappingManager( "doc",
 						Locale.getDefault( ) );
-		String text = ( (TextContent) content ).getText( );
 		FontSplitter fontSplitter = new FontSplitter( fontManager, new Chunk(
 				text ), (TextContent) content, true );
 		return fontSplitter;
