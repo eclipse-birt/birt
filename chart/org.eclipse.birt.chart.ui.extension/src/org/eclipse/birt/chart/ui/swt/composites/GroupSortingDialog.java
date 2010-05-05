@@ -135,6 +135,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			SeriesDefinition sd )
 	{
 		super( shell );
+		setShellStyle( SWT.CLOSE | SWT.TITLE | SWT.RESIZE );
 		this.wizardContext = wizardContext;
 		this.sd = sd;
 	}
@@ -143,6 +144,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			SeriesDefinition sd, boolean disableAggregation )
 	{
 		super( shell );
+		setShellStyle( SWT.CLOSE | SWT.TITLE | SWT.RESIZE );
 		this.wizardContext = wizardContext;
 		this.sd = sd;
 		this.fEnableAggregation = disableAggregation;
