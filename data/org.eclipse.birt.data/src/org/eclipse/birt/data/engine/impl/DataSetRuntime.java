@@ -26,7 +26,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
-import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
@@ -345,10 +344,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		DataSetRuntime dataSet = null;
 		if ( dataSetDefn instanceof IOdaDataSetDesign )
 		{
-			IOdaDataSetDesign odaDsetDesign = (IOdaDataSetDesign) dataSetDefn;
-			IOdaDataSourceDesign odaDataSourceDesign = (IOdaDataSourceDesign) ( (DataEngineImpl) session.getEngine( ) ).getDataSourceRuntime( odaDsetDesign.getDataSourceName( ) )
-					.getDesign( );
-			
+			IOdaDataSetDesign odaDsetDesign = (IOdaDataSetDesign) dataSetDefn;			
 			dataSet = new OdaDataSetRuntime( odaDsetDesign,
 					queryExecutor,
 					session );

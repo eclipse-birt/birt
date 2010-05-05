@@ -359,7 +359,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		if ( !( this.baseQueryDefn instanceof IQueryDefinition ) )
 			return false;
 		return this.session.getDataSetCacheManager( )
-			.doesLoadFromCache( this.dataSource.getDesign( ),
+			.doesLoadFromCache( ((DataEngineImpl)session.getEngine( )).getDataSourceDesign( this.dataSet.getDesign( ).getDataSourceName( ) ),
 				this.dataSet.getDesign( ),
 				new ParameterUtil( this.tabularOuterResults == null
 						? null
