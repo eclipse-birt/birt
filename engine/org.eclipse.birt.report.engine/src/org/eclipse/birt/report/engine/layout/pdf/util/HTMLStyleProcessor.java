@@ -51,7 +51,7 @@ public class HTMLStyleProcessor
 	/** the CSS2.0 Parser */
 	private CSSEngine cssEngine;
 
-	private Pattern pattern;
+	private static Pattern pattern = Pattern.compile( "[ ]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );;
 
 	/**
 	 * Constructor
@@ -65,7 +65,6 @@ public class HTMLStyleProcessor
 		// interface of constructor
 		cssEngine = new BIRTCSSEngine( );
 		this.report = report;
-		pattern = Pattern.compile( "[ ]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
 	}
 
 	protected void processBackgroundImage( IStyle style, Map context )

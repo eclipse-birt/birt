@@ -62,7 +62,10 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 public class CubeQueryUtil implements ICubeQueryUtil
 {
 	private DataRequestSessionImpl sessionImpl;
-	
+
+	private static Pattern pattern = Pattern
+			.compile( "(\\d+(\\.\\d*)?)*|(\\.\\d*)*" );
+
 	public CubeQueryUtil( DataRequestSessionImpl session )
 	{
 		this.sessionImpl = session;
@@ -816,7 +819,6 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 */
 	public boolean isValidDimensionName( String name )
 	{
-		Pattern pattern = Pattern.compile( "(\\d+(\\.\\d*)?)*|(\\.\\d*)*" );
 		Matcher isNum = pattern.matcher( name );
 		return !isNum.matches( );
 	}	

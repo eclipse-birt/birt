@@ -55,7 +55,7 @@ public class HTMLProcessor
 			"13.8pt", "18pt", //$NON-NLS-1$//$NON-NLS-2$
 			"23pt", "36pt"}; //$NON-NLS-1$//$NON-NLS-2$
 
-	private Pattern pattern;
+	private static Pattern pattern = Pattern.compile( "[ ]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
 
 	// private static String[] FONT_SIZE = new String[]{"xx-small", "x-small",
 	// //$NON-NLS-1$ //$NON-NLS-2$
@@ -76,7 +76,6 @@ public class HTMLProcessor
 		// Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
 		this.appContext = context;
-		pattern = Pattern.compile( "[ ]*([^:]*)[ ]*:[ ]*([^;]*)[ ]*[;]*" );
 	}
 
 	public HTMLProcessor( String rootPath )

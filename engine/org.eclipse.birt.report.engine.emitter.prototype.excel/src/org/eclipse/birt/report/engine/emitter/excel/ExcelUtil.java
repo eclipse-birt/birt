@@ -71,6 +71,9 @@ public class ExcelUtil
 			.getName( ) );
 
 	private static final HashSet<Character> splitChar = new HashSet<Character>( );
+	
+	private static Pattern pattern = Pattern.compile( scienticPattern,
+			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL );
 	static
 	{
 
@@ -1015,8 +1018,6 @@ public class ExcelUtil
 
 	private static boolean isScientific( String givenValue )
 	{
-		Pattern pattern = Pattern.compile( scienticPattern,
-				Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL );
 		Matcher matcher = pattern.matcher( givenValue );
 		if ( matcher.matches( ) )
 		{

@@ -41,7 +41,9 @@ public class PropertyUtil
 
 	private static Logger logger = Logger.getLogger( PropertyUtil.class
 			.getName( ) );
-
+	
+	private static Pattern colorPattern = Pattern.compile( "rgb\\(.+,.+,.+\\)" );
+	
 	/**
 	 * Checks if the font is bold
 	 * 
@@ -170,8 +172,7 @@ public class PropertyUtil
 			return hexToColor( "#800000" );
 		else
 		{
-			Pattern p = Pattern.compile( "rgb\\(.+,.+,.+\\)" );
-			Matcher m = p.matcher( color );
+			Matcher m = colorPattern.matcher( color );
 			if ( m.find( ) )
 			{
 				String[] rgb = color.substring( m.start( ) + 4, m.end( ) - 1 )
