@@ -20,6 +20,7 @@
 	<SampleChartName.Tube>
 	<SampleChartName.Cone>
 	<SampleChartName.Pyramid>
+	<SampleChartName.Radar>
 </SampleChartCategory.PrimitiveCharts>
 <SampleChartCategory.3DCharts>
 	<SampleChartName.Bar>
