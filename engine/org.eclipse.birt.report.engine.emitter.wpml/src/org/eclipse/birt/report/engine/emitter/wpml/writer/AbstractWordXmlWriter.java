@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.wpml.writer;
 
-import java.text.Bidi;
-
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -48,11 +46,6 @@ public abstract class AbstractWordXmlWriter
 
 	// Holds the global layout orientation.
 	protected boolean rtl = false;
-
-	// Holds Bidi text information
-	protected String[] bidiChunks = new String[0];
-
-	protected int[] bidiLevels = new int[0];
 
 	protected abstract void writeTableLayout( );
 
@@ -585,15 +578,7 @@ public abstract class AbstractWordXmlWriter
 	 */
 	protected void writeBidi( boolean rtl )
 	{
-		if ( rtl )
-		{
-			writer.openTag( "w:bidi" );
-			writer.closeTag( "w:bidi" );
-		}
-		else
-		{
-			writeAttrTag( "w:bidi", "off" );
-		}
+		writeAttrTag( "w:bidi", rtl ? "" : "off");
 	}
 
 	protected void writeField( boolean isStart )
@@ -812,32 +797,6 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag( "w:tcBorders" );
 	}
 
-	/**
-	 * @param text
-	 * @param rtl
-	 * @return
-	 * 
-	 * @author bidi_hcg
-	 */
-	protected void buildBidiChunks( String text, boolean rtl )
-	{
-		Bidi bidiObj = new Bidi( text, rtl
-				? Bidi.DIRECTION_RIGHT_TO_LEFT
-				: Bidi.DIRECTION_LEFT_TO_RIGHT );
-		int nRuns = bidiObj.getRunCount( );
-		if ( nRuns != bidiChunks.length )
-		{
-			bidiChunks = new String[nRuns];
-			bidiLevels = new int[nRuns];
-		}
-		for ( int i = 0; i < nRuns; i++ )
-		{
-			bidiChunks[i] = text.substring( bidiObj.getRunStart( i ), bidiObj
-					.getRunLimit( i ) );
-			bidiLevels[i] = bidiObj.getRunLevel( i ) & 1;
-		}
-	}
-
 	protected void writeAttrTag( String name, String val )
 	{
 		writer.openTag( name );
@@ -865,7 +824,8 @@ public abstract class AbstractWordXmlWriter
 	}
 
 	private void writeTextInParagraph( int type, String txt, IStyle style,
-			String fontFamily, HyperlinkInfo info, int paragraphWidth )
+			String fontFamily, HyperlinkInfo info, int paragraphWidth,
+			boolean runIsRtl )
 	{
 		writer.openTag( "w:p" );
 		writer.openTag( "w:pPr" );
@@ -887,9 +847,11 @@ public abstract class AbstractWordXmlWriter
 		{
 			writeIndent( indent );
 		}
+		writeBidi( CSSConstants.CSS_RTL_VALUE.equals( style.getDirection( ) ) ); // bidi_hcg
+
 		writer.closeTag( "w:pPr" );
 		writeTextInRun( type, txt, style, fontFamily, info, false,
-				paragraphWidth );
+				paragraphWidth, runIsRtl );
 	}
 
 	private void writeParagraphBorders( IStyle style )
@@ -901,12 +863,12 @@ public abstract class AbstractWordXmlWriter
 
 	public void writeText( int type, String txt, IStyle style,
 			String fontFamily, HyperlinkInfo info, TextFlag flag,
-			int paragraphWidth )
+			int paragraphWidth, boolean runIsRtl )
 	{
 		if ( flag == TextFlag.START )
 		{
 			writeTextInParagraph( type, txt, style, fontFamily, info,
-					paragraphWidth );
+					paragraphWidth, runIsRtl );
 		}
 		else if ( flag == TextFlag.END )
 		{
@@ -915,19 +877,19 @@ public abstract class AbstractWordXmlWriter
 		else if ( flag == TextFlag.MIDDLE )
 		{
 			writeTextInRun( type, txt, style, fontFamily, info, false,
-					paragraphWidth );
+					paragraphWidth, runIsRtl );
 		}
 		else
 		{
 			writeTextInParagraph( type, txt, style, fontFamily, info,
-					paragraphWidth );
+					paragraphWidth, runIsRtl );
 			writer.closeTag( "w:p" );
 		}
 	}
 
 	public void writeTextInRun( int type, String txt, IStyle style,
 			String fontFamily, HyperlinkInfo info, boolean isInline,
-			int paragraphWidth )
+			int paragraphWidth, boolean runIsRtl  )
 	{
 		if ( "".equals( txt ) )
 		{
@@ -943,54 +905,38 @@ public abstract class AbstractWordXmlWriter
 		openHyperlink( info );
 		boolean isField = WordUtil.isField( type );
 		String direction = style.getDirection( );
-		boolean textIsRtl = CSSConstants.CSS_RTL_VALUE.equals( direction );
-		int nChunks = isField ? 1 : 0;
-
-		writer.openTag( "w:pPr" );
-		writeBidi( textIsRtl );
-		writer.closeTag( "w:pPr" );
 
 		if ( isField )
 		{
 			writeField( true );
 		}
-		else
+		writer.openTag( "w:r" );
+		writer.openTag( "w:rPr" );
+		writeRunProperties( style, fontFamily, info );
+		if ( isInline )
 		{
-			buildBidiChunks( txt, textIsRtl );
-			nChunks = bidiChunks.length;
-			assert nChunks > 0;
-		}
-
-		for ( int i = 0; i < nChunks; i++ )
-		{
-			writer.openTag( "w:r" );
-			writer.openTag( "w:rPr" );
-			writeRunProperties( style, fontFamily, info );
-			if ( isInline )
-			{
-				writeAlign( style.getTextAlign( ), direction );
-				writeBackgroundColor( style.getBackgroundColor( ) );
-				writePosition( style.getVerticalAlign( ), style
+			writeAlign( style.getTextAlign( ), direction );
+			writeBackgroundColor( style.getBackgroundColor( ) );
+			writePosition( style.getVerticalAlign( ), style
 						.getProperty( StyleConstants.STYLE_FONT_SIZE ) );
 				writeRunBorders( style );
-			}
-			if ( !isField && bidiLevels[i] == Bidi.DIRECTION_RIGHT_TO_LEFT )
-			{
-				writer.openTag( "w:rtl" );
-				writer.closeTag( "w:rtl" );
-			}
-			writer.closeTag( "w:rPr" );
-
-			if ( isField )
-			{
-				writeAutoText( type );
-			}
-			else
-			{
-				writeString( bidiChunks[i], style );
-			}
-			writer.closeTag( "w:r" );
 		}
+		if ( !isField && runIsRtl )
+		{
+			writer.openTag( "w:rtl" );
+			writer.closeTag( "w:rtl" );
+		}
+		writer.closeTag( "w:rPr" );
+
+		if ( isField )
+		{
+			writeAutoText( type );
+		}
+		else
+		{
+			writeString( txt, style );
+		}
+		writer.closeTag( "w:r" );
 		if ( isField )
 		{
 			writeField( false );
