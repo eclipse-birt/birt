@@ -10,6 +10,7 @@
 package org.eclipse.birt.chart.ui.swt;
 
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
@@ -53,25 +54,29 @@ public class DataTextDropListener extends DropTargetAdapter
 
 		// check if valid expression
 		// Get Data in a Java format
-		Object object = null;
-		Transfer[] transferAgents = ( (DropTarget) event.widget ).getTransfer( );
-		for ( int i = 0; i < transferAgents.length; i++ )
+		// Since in Mac os x, the event.currentDataType.data is still null, so
+		// here ignores validation under Mac os x.
+		if ( !Platform.OS_MACOSX.equals( Platform.getOS( ) ) )
 		{
-			Transfer transfer = transferAgents[i];
-			if ( transfer != null && transfer instanceof SimpleTextTransfer)
+			Object object = null;
+			Transfer[] transferAgents = ( (DropTarget) event.widget ).getTransfer( );
+			for ( int i = 0; i < transferAgents.length; i++ )
 			{
-				object = SimpleTextTransfer.getInstance( )
-						.nativeToJava( event.currentDataType );
-				break;
+				Transfer transfer = transferAgents[i];
+				if ( transfer != null && transfer instanceof SimpleTextTransfer )
+				{
+					object = SimpleTextTransfer.getInstance( )
+							.nativeToJava( event.currentDataType );
+					break;
+				}
+			}
+			if ( object != null
+					&& !DataDefinitionTextManager.getInstance( )
+							.isValidExpression( txtDataDefn, object.toString( ) ) )
+			{
+				event.detail = DND.DROP_NONE;
 			}
 		}
-		if ( object != null
-				&& !DataDefinitionTextManager.getInstance( )
-						.isValidExpression( txtDataDefn, object.toString( ) ) )
-		{
-			event.detail = DND.DROP_NONE;
-		}
-
 	}
 
 	/*
@@ -104,6 +109,18 @@ public class DataTextDropListener extends DropTargetAdapter
 	public void drop( DropTargetEvent event )
 	{
 		String bindingName = (String) event.data;
+		
+		// Since in Mac os X, the dragEnter method did not validate expression, so
+		// here validate the expression. 
+		if ( Platform.OS_MACOSX.equals( Platform.getOS( ) ) )
+		{
+			if ( !DataDefinitionTextManager.getInstance( )
+					.isValidExpression( txtDataDefn, bindingName ) )
+			{
+				return;
+			}
+		}
+		
 		btnBuilder.setBindingName( bindingName, true );
 		// String expression = (String) event.data;
 		// // If it's last element, remove color binding
@@ -132,5 +149,4 @@ public class DataTextDropListener extends DropTargetAdapter
 		// // Refresh all data definition text
 		// DataDefinitionTextManager.getInstance( ).refreshAll( );
 	}
-
 }
