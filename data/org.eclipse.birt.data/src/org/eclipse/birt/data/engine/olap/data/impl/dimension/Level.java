@@ -121,7 +121,8 @@ public class Level implements ILevel
 	 */
 	public void close() throws IOException
 	{
-		diskIndex.close( );
+		if( diskIndex != null )
+			diskIndex.close( );
 	}
 
 	/*
