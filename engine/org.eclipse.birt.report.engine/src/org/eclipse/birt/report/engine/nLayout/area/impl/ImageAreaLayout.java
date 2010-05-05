@@ -63,6 +63,7 @@ public class ImageAreaLayout implements ILayout
 
 	protected static Logger logger = Logger.getLogger( ImageAreaLayout.class
 			.getName( ) );
+	private static Pattern pattern = Pattern.compile( " ([^=]*)=\"([^\"]*)\"" );
 
 	public ImageAreaLayout( ContainerArea parent, LayoutContext context,
 			IImageContent content )
@@ -712,7 +713,6 @@ public class ImageAreaLayout implements ILayout
 				return;
 			}
 			String[] maps = imageMapObject.split( "/>" );
-			Pattern pattern = Pattern.compile( " ([^=]*)=\"([^\"]*)\"" );
 			for ( String map : maps )
 			{
 				map = map.trim( );

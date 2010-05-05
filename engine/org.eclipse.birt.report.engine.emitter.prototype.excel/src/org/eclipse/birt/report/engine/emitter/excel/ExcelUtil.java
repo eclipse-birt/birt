@@ -69,6 +69,9 @@ public class ExcelUtil
 	private static final String currencySymbol = "£¢€￥¥";
 	protected static Logger logger = Logger.getLogger( ExcelUtil.class
 			.getName( ) );
+	
+	private static Pattern pattern = Pattern.compile( scienticPattern,
+			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL );
 
 	private static final HashSet<Character> splitChar = new HashSet<Character>( );
 	static
@@ -997,8 +1000,7 @@ public class ExcelUtil
 
 	private static boolean isScientific( String givenValue )
 	{
-		Pattern pattern = Pattern.compile( scienticPattern,
-				Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL );
+		
 		Matcher matcher = pattern.matcher( givenValue );
 		if ( matcher.matches( ) )
 		{
