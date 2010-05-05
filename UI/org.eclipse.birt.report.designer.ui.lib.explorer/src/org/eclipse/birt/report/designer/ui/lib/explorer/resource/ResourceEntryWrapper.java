@@ -24,6 +24,7 @@ public class ResourceEntryWrapper implements ResourceEntry
 
 	public static final int LIBRARY = 0;
 	public static final int CSS_STYLE_SHEET = 1;
+	public static final int RPTDESIGN = 2;
 
 	private ResourceEntry proxy;
 	private int type;
@@ -73,7 +74,7 @@ public class ResourceEntryWrapper implements ResourceEntry
 	{
 		return proxy.hasChildren( );
 	}
-	
+
 	public ResourceEntry getParent( )
 	{
 		return proxy.getParent( );
