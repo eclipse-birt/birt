@@ -212,7 +212,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		boolean needComboField = predefinedQuery != null
 				&& predefinedQuery.length > 0
 				&& ( provider.checkState( IDataServiceProvider.SHARE_QUERY )
-						|| provider.checkState( IDataServiceProvider.HAS_CUBE ) || provider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) );
+						|| provider.checkState( IDataServiceProvider.HAS_CUBE )
+						|| (provider.checkState( IDataServiceProvider.INHERIT_CUBE )&&!provider.checkState( IDataServiceProvider.PART_CHART ))
+						|| provider.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ));
 		needComboField &= !isSharingChart;
 		boolean hasContentAssist = ( !isSharingChart && predefinedQuery != null && predefinedQuery.length > 0 );
 		IAssistField assistField = null;
@@ -251,7 +253,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					String text = btnBuilder.getExpression( );
 
 					// Do nothing for the same query
-					if ( !isTableSharedBinding( ) && text.equals( oldQuery ) )
+					if ( !isTableSharedBinding( )
+							&& !( isInXTabNonAggrCellAndInheritCube( ) )
+							&& text.equals( oldQuery ) )
 					{
 						return;
 					}
@@ -441,6 +445,16 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				&& ( context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.SHARE_QUERY ) || context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) );
+	}
+	
+	private boolean isInXTabNonAggrCellAndInheritCube()
+	{
+		IDataServiceProvider provider = context.getDataServiceProvider( );
+		int state = provider.getState( );
+		return ( state & ( IDataServiceProvider.HAS_DATA_SET | IDataServiceProvider.HAS_CUBE ) ) == 0
+				&& ( state & IDataServiceProvider.INHERIT_CUBE ) != 0
+				&& ( state & IDataServiceProvider.SHARE_QUERY ) == 0
+				&& ( state & IDataServiceProvider.PART_CHART ) == 0;
 	}
 
 	public void selectArea( boolean selected, Object data )

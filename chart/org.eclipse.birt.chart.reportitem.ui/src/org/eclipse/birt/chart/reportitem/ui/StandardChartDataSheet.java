@@ -80,6 +80,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -89,8 +90,8 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -336,26 +337,15 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		cubeTreeViewer.getTree( )
 				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		( (GridData) cubeTreeViewer.getTree( ).getLayoutData( ) ).heightHint = 120;
+		
 		ViewsTreeProvider provider = new ViewsTreeProvider( ) {
-			@Override
-			public boolean hasChildren( Object element )
-			{
-				// Chart just uses cube level, doesn't support attribute of
-				// level, so return false if current is level handle. 
-				if ( element instanceof TabularLevelHandle )
-				{
-					return false;
-				}
-				
-				return super.hasChildren( element );
-			}
 
 			@Override
 			public Color getBackground( Object element )
 			{
-				if (element instanceof ReportElementHandle)
+				if ( element instanceof ReportElementHandle )
 				{
-					String key = getBindingNameFrom( (ReportElementHandle)element );
+					String key = getBindingNameFrom( (ReportElementHandle) element );
 					return ColorPalette.getInstance( ).getColor( key );
 				}
 				return super.getBackground( element );
@@ -839,7 +829,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			refreshDataPreview( );
 		}
 	}
-	
+
 	private void refreshDataPreview()
 	{
 		final boolean isTablePreview = getContext( ).isShowingDataPreview( );
@@ -941,8 +931,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).setParentShell( parentComposite.getShell( ) );
 		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).add( lpt );
 	}
-
-
+	
 	/**
 	 * @param headerInfo
 	 * @param data
@@ -2203,6 +2192,16 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 								getMenuForDimension( getChartModel( ), expr ) );
 					}
 				}
+				else if (data instanceof LevelAttributeHandle)
+				{
+					// Menu for LevelAttribute
+					String expr = createCubeExpression( );
+					if ( expr != null )
+					{
+						addMenu( manager,
+								getMenuForDimension( getChartModel( ), expr ) );
+					}
+				}
 			}
 
 			private void addMenu( IMenuManager manager, Object item )
@@ -2465,6 +2464,23 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			return getBindingNameFrom((ReportElementHandle) selection);
 		}
+		else if (selection instanceof LevelAttributeHandle)
+		{
+			LevelAttributeHandle la = (LevelAttributeHandle) selection;
+			LevelHandle level = (LevelHandle)((Level) la.getContext( )
+					.getValueContainer( )).getHandle( la.getModule( ) );
+			String dimensionName = level.getContainer( )
+					.getContainer( )
+					.getName( );
+			ComputedColumnHandle binding = ChartCubeUtil.findLevelAttrBinding( itemHandle,
+					dimensionName,
+					level.getName( ),
+					la.getName( ) );
+			if ( binding != null )
+			{
+				return binding.getName( );
+			}
+		}
 		
 		return null;
 	}
@@ -2472,7 +2488,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	protected Object getHandleFromSelection( Object selection )
 	{
 		if ( selection instanceof LevelHandle
-				|| selection instanceof MeasureHandle )
+				|| selection instanceof MeasureHandle
+				|| selection instanceof LevelAttributeHandle )
 		{
 			return selection;
 		}
@@ -2623,6 +2640,37 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		return items.toArray( new String[items.size( )] );
 	}
 
+	protected void updatePredefinedQueriesForInheritXTab( )
+	{
+		// Get all column bindings.
+		List<String> dimensionExprs = new ArrayList<String>( );
+		List<String> measureExprs = new ArrayList<String>( );
+		ReportItemHandle reportItemHandle = dataProvider.getReportItemHandle( );
+		for ( Iterator<ComputedColumnHandle> iter = reportItemHandle.getColumnBindings( )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ComputedColumnHandle cch = iter.next( );
+			ChartReportItemUtil.loadExpression( exprCodec, cch );
+			if ( exprCodec.isDimensionExpresion( ) )
+			{
+				dimensionExprs.add( cch.getName( ) );
+			}
+			else if ( exprCodec.isMeasureExpresion( ) )
+			{
+				measureExprs.add( cch.getName( ) );
+			}
+		}
+		
+		String[] valueExprs = measureExprs.toArray( new String[measureExprs.size( )] );
+
+		getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+				null );
+		getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+				null );
+		getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+				valueExprs );
+	}
+	
 	protected void updatePredefinedQueriesForSharingCube( )
 	{
 		// Get all column bindings.
@@ -2788,6 +2836,11 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						|| dataProvider.isSharedBinding( ) )
 				{
 					updatePredefinedQueriesForSharingCube( );
+				}
+				else if ( dataProvider.isInXTabNonAggrCell( )
+						&& dataProvider.isInheritCube( ) )
+				{
+					updatePredefinedQueriesForInheritXTab( );
 				}
 				// TODO do we need to handle xtab inheritance case? currently we
 				// just inherit the cube from xtab essentially

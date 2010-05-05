@@ -320,7 +320,7 @@ public class ChartExpressionUtil
 				{
 					IDimLevel level = levels.iterator( ).next( );
 					return new String[]{
-							level.getDimensionName( ), level.getLevelName( )
+							level.getDimensionName( ), level.getLevelName( ), level.getAttrName( )
 					};
 				}
 			}

@@ -114,6 +114,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -780,6 +781,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		return false;
 	}
+	
+	/**
+	 * Check whether an inherited data cube is used.
+	 * @return
+	 * @since 2.5.3
+	 */
+	boolean isInheritCube()
+	{
+		return getDataSet( ) == null
+				&& getDataCube( ) == null
+				&& checkState( IDataServiceProvider.INHERIT_CUBE );
+	}
 
 	/**
 	 * Check if chart is in multiple view.
@@ -963,6 +976,25 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 								null ),
 								exprType ) );
 				columnList.add( column );
+				
+				// Add LevelAttributes
+				Iterator itLevelAttr = levelHandle.attributesIterator( );
+				while (itLevelAttr.hasNext( ))
+				{
+					LevelAttributeHandle laHandle = (LevelAttributeHandle)itLevelAttr.next( );
+					ComputedColumn columnLA = StructureFactory.newComputedColumn( itemHandle,
+							ChartCubeUtil.createLevelAttrBindingName(levelHandle, laHandle ) );
+					columnLA.setDataType( laHandle.getDataType( ) );
+					columnLA.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+							new Expression( exprConverter.getDimensionExpression( levelHandle.getContainer( )
+									.getContainer( )
+									.getName( ),
+									levelHandle.getName( ),
+									laHandle.getName( ) ),
+									exprType ) );
+					columnList.add( columnLA );
+				}
+				
 			}
 			// Add measures
 			for ( MeasureHandle measureHandle : ChartCubeUtil.getAllMeasures( cubeHandle ) )
@@ -2174,6 +2206,23 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		return ChartCubeUtil.isInXTabMeasureCell( itemHandle );
 	}
+	
+	boolean isInXTabCell( )
+	{
+		try{
+			return ChartCubeUtil.getXtabContainerCell( itemHandle, false ) !=null;
+		}
+		catch (BirtException e)
+		{
+			// do nothing
+		}
+		return false;
+	}
+	
+	boolean isInXTabNonAggrCell( )
+	{
+		return isInXTabCell( ) && !isInXTabAggrCell( );
+	}
 
 	boolean isPartChart( )
 	{
@@ -2228,7 +2277,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					headers );
 		}
 	}
-
+	
 	/**
 	 * Returns report item handle.
 	 * 
@@ -2245,6 +2294,21 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			return itemHandle.getDataBindingReference( );
+		}
+		else if ( isInXTabNonAggrCell( ) && isInheritCube( ) )
+		{
+			DesignElementHandle handle = itemHandle;
+			while ( handle != null )
+			{
+				handle = handle.getContainer( );
+
+				if ( handle instanceof ReportItemHandle
+						&& ( (ReportItemHandle) handle ).getColumnBindings( ) != null )
+				{
+					return (ReportItemHandle) handle;
+				}
+			}
+			return null;
 		}
 
 		return itemHandle;
@@ -2963,7 +3027,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(java.lang.String,
 	 *      java.lang.Object)
 	 */
-	@SuppressWarnings("static-access")
 	public boolean update( String type, Object value )
 	{
 		boolean isUpdated = false;
@@ -2972,8 +3035,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			copySeriesDefinition( value );
 		}
 		else if ( ChartUIConstants.QUERY_VALUE.equals( type )
-				&& getDataCube( ) != null
-				&& isSharedBinding( ) )
+				&& ( getDataCube( ) != null && isSharedBinding( ) || isInXTabNonAggrCell( )
+						&& isInheritCube( ) ) )
 		{
 			// Need to automated set category/Y optional bindings by value
 			// series
@@ -3133,7 +3196,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return property != null && property.isSet( );
 	}
 	
-	@SuppressWarnings("static-access")
 	boolean isInheritColumnsOnly( )
 	{
 		return itemHandle.getDataSet( ) == null
@@ -3141,7 +3203,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				&& context.isInheritColumnsOnly( );
 	}
 
-	@SuppressWarnings("static-access")
 	boolean isInheritColumnsGroups( )
 	{
 		return itemHandle.getDataSet( ) == null

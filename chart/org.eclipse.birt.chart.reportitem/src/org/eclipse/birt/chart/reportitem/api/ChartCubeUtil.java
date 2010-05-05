@@ -48,6 +48,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -55,6 +56,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -429,6 +431,40 @@ public class ChartCubeUtil extends ChartItemUtil
 		}
 		return null;
 	}
+	
+	/**
+	 * Gets the cell in cross tab which contains the chart
+	 * 
+	 * @param chartHandle
+	 *            the handle with chart
+	 * @return the cell which contains the chart or null
+	 * @throws BirtException
+	 * @since 2.3
+	 */
+	public static CrosstabCellHandle getXtabContainerCell(
+			DesignElementHandle chartHandle, boolean bOnlyAggrCell ) throws BirtException
+	{
+		DesignElementHandle container = chartHandle.getContainer( );
+		if ( container instanceof ExtendedItemHandle )
+		{
+			ExtendedItemHandle xtabHandle = (ExtendedItemHandle) container;
+			String exName = xtabHandle.getExtensionName( );
+			if ( ICrosstabConstants.AGGREGATION_CELL_EXTENSION_NAME.equals( exName ) )
+			{
+				return (AggregationCellHandle) xtabHandle.getReportItem( );
+			}
+			if (!bOnlyAggrCell)
+			{
+				IReportItem cellHandle = xtabHandle.getReportItem( );
+				
+				if ( cellHandle instanceof CrosstabCellHandle )
+				{
+					return (CrosstabCellHandle) cellHandle;
+				}
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Creates the dimension expression according to level
@@ -476,6 +512,16 @@ public class ChartCubeUtil extends ChartItemUtil
 				+ EXPRESSION_SPLITTOR
 				+ level.getName( );
 	}
+	
+	public static String createLevelAttrBindingName( LevelHandle level, LevelAttributeHandle levelAttr )
+	{
+		String levelName = createLevelBindingName( level );
+		if ( levelName == null || levelAttr == null )
+		{
+			return null;
+		}
+		return levelName + EXPRESSION_SPLITTOR + levelAttr.getName( );
+	}
 
 	public static String createMeasureBindingName( MeasureHandle measure )
 	{
@@ -522,6 +568,32 @@ public class ChartCubeUtil extends ChartItemUtil
 						&& levelName.equals( levelNames[1] ) )
 				{
 					return cch;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static ComputedColumnHandle findLevelAttrBinding(
+			ReportItemHandle handle, String dimensionName, String levelName, String laName )
+	{
+		if ( dimensionName != null && levelName != null && laName!=null )
+		{
+			ExpressionCodec exprCodec = ChartModelHelper.instance( )
+					.createExpressionCodec( );
+			for ( Iterator<ComputedColumnHandle> bindings = getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
+			{
+				ComputedColumnHandle cch = bindings.next( );
+				ChartReportItemUtil.loadExpression( exprCodec, cch );
+				String[] levelNames = exprCodec.getLevelNames( );
+				if ( levelNames != null
+						&& dimensionName.equals( levelNames[0] )
+						&& levelName.equals( levelNames[1] ) )
+				{
+					if (levelNames.length>2 && laName.equals( levelNames[2] ))
+					{
+						return cch;
+					}
 				}
 			}
 		}
