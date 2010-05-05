@@ -1225,7 +1225,8 @@ class DataSetParameterAdapter
 		{
 			assert value instanceof Expression;
 			Expression expr = (Expression) value;
-			if ( IExpressionType.CONSTANT.equals( expr.getType( ) ) )
+			if ( IExpressionType.CONSTANT.equals( expr.getType( ) ) 
+					|| expr.getExpression( ) == null )
 			{
 				defaultValue = expr.getExpression( );
 			}
