@@ -22,6 +22,7 @@ Gantt=Les graphiques de Gantt sont utilisés pour suivre la durée et la progressi
 Tube=Les graphiques à cylindres ressemblent aux graphiques à barres, au détail près que les barres sont représentées par des cylindres.
 Cone=Les graphiques à cônes ressemblent aux graphiques à barres, au détail près que les barres sont représentées par des cônes.
 Pyramid=Les graphiques à pyramides ressemblent aux graphiques à barres, au détail près que les barres sont représentées par des pyramides.
+Radar=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines.
 
 ###########################################################
 #3D Charts
@@ -129,6 +130,7 @@ SampleChartName.Gantt=Gantt
 SampleChartName.Tube=Cylindre
 SampleChartName.Cone=Cône
 SampleChartName.Pyramid=Pyramide
+SampleChartName.Radar=Radar
 #3D Charts
 SampleChartName.Bar=Barre
 SampleChartName.Line=Ligne

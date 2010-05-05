@@ -22,6 +22,7 @@ Gantt=간트 차트는 작업 기간 및 진행 상황을 추적하는 데 사용됩니다. 이 차트의 Y �
 Tube=튜브형 차트는 막대형 차트와 유사하게 튜브 모양의 막대로 표시됩니다.
 Cone=원뿔형 차트는 막대형 차트와 유사하게 원뿔 모양의 막대로 표시됩니다.
 Pyramid=피라미드 차트는 막대형 차트와 유사하게 피라피드 모양의 막대로 표시됩니다.
+Radar=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines.
 
 ###########################################################
 #3D Charts
@@ -129,6 +130,7 @@ SampleChartName.Gantt=간트
 SampleChartName.Tube=튜브
 SampleChartName.Cone=원뿔
 SampleChartName.Pyramid=피라미드
+SampleChartName.Radar=Radar
 #3D Charts
 SampleChartName.Bar=막대형
 SampleChartName.Line=꺽은선형
