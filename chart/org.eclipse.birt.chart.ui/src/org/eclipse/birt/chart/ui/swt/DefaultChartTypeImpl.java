@@ -344,7 +344,7 @@ public class DefaultChartTypeImpl implements IChartType
 			EList<OrthogonalSampleData> osdList, List<AxisType> axisTypes )
 	{
 		Vector<OrthogonalSampleData> vNewOrthogonalSampleData = new Vector<OrthogonalSampleData>( );
-		for ( int i = 0; i < osdList.size( ); i++ )
+		for ( int i = 0; i < axisTypes.size( ); i++ )
 		{
 			OrthogonalSampleData osd = osdList.get( i );
 			osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisTypes.get( i ),
