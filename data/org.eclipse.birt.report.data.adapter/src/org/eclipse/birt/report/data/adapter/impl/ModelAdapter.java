@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
@@ -423,11 +424,19 @@ public class ModelAdapter implements IModelAdapter
 	public ScriptExpression adaptExpression( Expression expr,
 			ExpressionLocation el )
 	{
-		if( expr == null || expr.getStringExpression( ) == null)
+		if ( expr == null || expr.getStringExpression( ) == null )
 			return null;
-		ScriptExpression jsExpr = new ExpressionAdapter( expr, el );
-		if( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+
+		ScriptExpression jsExpr = null;
+		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+		{
+			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
 			jsExpr.setConstant( true );
+			return jsExpr;
+		}
+		else
+			jsExpr = new ExpressionAdapter( expr, el );
+
 		return jsExpr;
 	}
 	
