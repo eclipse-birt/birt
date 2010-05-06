@@ -19,6 +19,7 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
@@ -198,6 +199,10 @@ public class CubeMaterializer
 			IDatasetIterator factTable, String[] measureColumns,
 			StopSign stopSign ) throws IOException, BirtException
 	{
+		if( dimensions.length == 0 )
+		{
+			throw new DataException( ResourceConstants.MISSING_DIMENSION_IN_CUBE, name );
+		}
 		Cube cube = new Cube( name, documentManager );
 		cube.create( factTableJointColumnNames, DimJointColumnNames, dimensions, factTable, measureColumns, stopSign );
 		cube.close( );
