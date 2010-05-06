@@ -25,7 +25,7 @@ adapter.invalid.datetimetype=Le type de données dateheure "{0}" est incorrect.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
 invalid.datetime.value=La valeur DateHeure "{0}" est incorrecte.
-missing.join.condition=La condition de jointure nécessaire entre la table de faits et la dimension "{0}" est manquante.
+missing.join.condition=The join condition between primary data set "{0}" and dimension "{1}" in cube "{2}" is missing.
 exception.error=Une exception s'est produite au cours du traitement. Pour plus de détails, consultez le message suivant :
 invalid.level.expression=Le nom de niveau "{0}" est introuvable.
 invalid.measure.expression=L'expression de mesure"{0}" ne peut pas être nulle.

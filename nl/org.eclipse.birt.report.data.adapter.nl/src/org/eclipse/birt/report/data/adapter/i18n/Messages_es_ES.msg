@@ -25,7 +25,7 @@ adapter.invalid.datetimetype=El tipo de fecha/hora "{0}" no es válido.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
 invalid.datetime.value=El valor Fecha/Hora "{0}"no es válido.
-missing.join.condition=Falta la condición de combinación entre la tabla de hechos y las dimensiones "{0}".
+missing.join.condition=The join condition between primary data set "{0}" and dimension "{1}" in cube "{2}" is missing.
 exception.error=Se ha producido una excepción durante el procesamiento. Consulte el siguiente mensaje para obtener más información:
 invalid.level.expression=No se ha encontrado el nombre de nivel "{0}".
 invalid.measure.expression=La expresión de medida para la medida "{0}" no puede ser nula.
