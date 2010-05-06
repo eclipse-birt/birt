@@ -42,9 +42,11 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -157,6 +159,7 @@ public class CrosstabAdaptUtil
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelHandle.getName( ) );
+		CrosstabAdaptUtil.formatDataItem( levelHandle, dataHandle );
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 
 		if ( levelHandle.getDateTimeFormat( ) != null )
@@ -223,6 +226,7 @@ public class CrosstabAdaptUtil
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelAttrHandle.getName( ) );
+		CrosstabAdaptUtil.formatDataItem( levelHandle, dataHandle );
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 		
 		if ( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals( levelAttrHandle.getName( ) ) )
@@ -535,5 +539,89 @@ public class CrosstabAdaptUtil
 			return false;
 		}
 		return true;
+	}
+	
+	public static void formatDataItem(LevelHandle levelHandle, DataItemHandle dataHandle)
+	{
+		if (levelHandle == null || dataHandle == null)
+		{
+			return;
+		}
+		String type = levelHandle.getDataType( );
+		Object value = levelHandle.getProperty( org.eclipse.birt.report.model.elements.olap.Level.FORMAT_PROP );
+		formatDataItem(type, value, dataHandle);
+	}
+	
+	public static void formatDataItem(MeasureHandle measureHandle, DataItemHandle dataHandle)
+	{
+		if (measureHandle == null || dataHandle == null)
+		{
+			return;
+		}
+		String type = measureHandle.getDataType( );
+		Object value = measureHandle.getProperty( org.eclipse.birt.report.model.elements.olap.Level.FORMAT_PROP );
+		formatDataItem(type, value, dataHandle);
+	}
+	
+	private static void formatDataItem(String type,Object value, DataItemHandle dataHandle)
+	{
+		if (value == null && !(value instanceof FormatValue))
+		{
+			return;
+		}
+		StyleHandle styleHanlde = dataHandle.getPrivateStyle( );
+		FormatValue formartValue = (FormatValue)value;
+		try
+		{
+			if (DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( type ))
+			{
+				if (formartValue.getPattern( ) != null)
+				{
+					styleHanlde.setNumberFormat( formartValue.getPattern( ) );
+				}
+				if (formartValue.getCategory( ) != null)
+				{
+					styleHanlde.setNumberFormatCategory( formartValue.getCategory( ) );
+				}
+			}
+//			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type ))
+//			{
+//				if (formartValue.getPattern( ) != null)
+//				{
+//					styleHanlde.setDateFormat(  formartValue.getPattern( ) );
+//				}
+//				if (formartValue.getCategory( ) != null)
+//				{
+//					styleHanlde.setDateFormatCategory( formartValue.getCategory( ) );
+//				}
+//			}
+			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( type )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type ))
+			{
+				if (formartValue.getPattern( ) != null)
+				{
+					styleHanlde.setDateTimeFormat( formartValue.getPattern( ) );
+				}
+				if (formartValue.getCategory( ) != null)
+				{
+					styleHanlde.setDateTimeFormatCategory( formartValue.getCategory( ) );
+				}
+			}
+			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( type ))
+			{
+				if (formartValue.getPattern( ) != null)
+				{
+					styleHanlde.setStringFormat( formartValue.getPattern( ) );
+				}
+				if (formartValue.getCategory( ) != null)
+				{
+					styleHanlde.setStringFormatCategory( formartValue.getCategory( ) );
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ), e );
+		}
 	}
 }

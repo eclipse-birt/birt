@@ -113,6 +113,7 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 				
 				DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( measureName );
+				CrosstabAdaptUtil.formatDataItem( computedMeasure.getCubeMeasure( ), dataHandle );
 				dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 		
 				AggregationCellHandle cell = computedMeasure.getCell( );

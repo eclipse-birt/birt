@@ -19,6 +19,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.ICrosstabModelListener;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -129,6 +130,7 @@ public class CrosstabPlugin extends AbstractUIPlugin
 						
 						DataItemHandle dataItem = (DataItemHandle) cellHandle.getContents( ).get( 0 );
 
+						CrosstabAdaptUtil.formatDataItem( measureView.getCubeMeasure( ), dataItem );
 						// update action to dataHandle
 						ActionHandle actionHandle = measureView.getCubeMeasure( )
 								.getActionHandle( );
