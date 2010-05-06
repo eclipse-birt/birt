@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.data.IDataServiceProvider;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 
 /**
  * DefaultDataServiceProvider
@@ -73,10 +74,15 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 		ExternalUIUtil.populateApplicationContext( handle, session );
 	}
 	
+	public void registerSession ( DataSourceHandle handle,
+			DataRequestSession session ) throws BirtException
+	{
+		ExternalUIUtil.populateApplicationContext( handle, session );
+	}
+	
 	public void updateColumnCache( DataSetHandle dataSetHandle,
 			boolean holdEvent ) throws BirtException
 	{
 		ExternalUIUtil.updateColumnCache( dataSetHandle, holdEvent );
 	}
-
 }

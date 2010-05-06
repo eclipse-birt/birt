@@ -19,6 +19,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 
 /**
  * IDataServiceProvider
@@ -47,5 +48,8 @@ public interface IDataServiceProvider
 			throws BirtException;
 	
 	void registerSession( CubeHandle handle, DataRequestSession session)
+			throws BirtException;
+	
+	void registerSession( DataSourceHandle handle, DataRequestSession session )
 			throws BirtException;
 }
