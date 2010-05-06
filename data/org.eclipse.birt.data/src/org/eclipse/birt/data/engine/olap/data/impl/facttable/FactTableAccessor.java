@@ -127,9 +127,11 @@ public class FactTableAccessor
 				dimensionPosition[i] = dimensionSeekers[i].find( currentRow.getDimensionKeys()[i] );
 				if ( dimensionPosition[i] < 0 )
 				{
-					String[] args = new String[2];
-					args[0] = currentRow.getDimensionKeys()[i].toString( );
-					args[1] = dimensions[i].getName( );
+					String[] args = new String[4];
+					args[0] = factTableName;
+					args[1] = Arrays.toString( factTableJointColumnNames[i] );
+					args[2] = currentRow.getDimensionKeys()[i].toString( );
+					args[3] = dimensions[i].getName( );
 					throw new DataException( ResourceConstants.INVALID_DIMENSIONPOSITION_OF_FACTTABLEROW,
 							args );
 				}
