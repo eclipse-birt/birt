@@ -808,7 +808,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 				fromJoin = true;
 				Iterator it = cubeHandle.joinConditionsIterator( );
 				if ( !it.hasNext() )
-					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, dim.getName() );
+					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, 
+							new String[]{cubeHandle.getDataSet( ).getName( ), dim.getName(), cubeHandle.getName( )} );
 				boolean foundJoinCondition = false;
 				while ( it.hasNext( ) )
 				{
