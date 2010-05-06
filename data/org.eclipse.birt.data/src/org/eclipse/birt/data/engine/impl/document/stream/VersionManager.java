@@ -54,10 +54,7 @@ public class VersionManager
 	public final static int VERSION_2_5_1_0 = 110;
 	
 	//In version 2_5_1_1 the summary table tag is added
-	public final static int VERSION_2_5_1_1 = 120;
-	
-	//In version 2_5_2_0 the temp stream will never be created
-	public final static int VERSION_2_5_2_0 = 130;
+	public final static int VERSION_2_5_1_1 = 120;	
 	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
@@ -132,7 +129,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_5_2_0;
+		return VERSION_2_5_1_1;
 	}
 
 }
