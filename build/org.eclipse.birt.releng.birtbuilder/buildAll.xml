@@ -108,6 +108,10 @@
 			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
 		</condition>
 		
+		<condition property="skip.build.rcp" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
+			
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
 		<property name="javacSource" value="1.5" />
@@ -666,7 +670,7 @@
 	<!-- - - - - - - - - - - - - - - - - - 
           target: buildBirtRCPFeature                      
          - - - - - - - - - - - - - - - - - -->
-    <target name="buildBirtRCPFeature">
+    <target name="buildBirtRCPFeature" unless="skip.build.rcp">
   		<antcall target="logger">
 			<param name="message" value="Export BIRT RCP product started"/>
 		</antcall>
@@ -694,7 +698,7 @@
 		</antcall>
  	</target>
 	
-	<target name="fetchRCP">
+	<target name="fetchRCP" unless="skip.build.rcp">
   		<antcall target="logger">
 			<param name="message" value="Fetch birt rcp plugin started"/>
 		</antcall>		
