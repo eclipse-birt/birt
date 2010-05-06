@@ -206,6 +206,8 @@ public class CrosstabUIHelper
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelHandle.getName( ) + "_" + DISPALY_NAME );
+		
+		CrosstabAdaptUtil.formatDataItem( levelHandle, dataHandle );
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 
 		if ( levelHandle.getDateTimeFormat( ) != null )
