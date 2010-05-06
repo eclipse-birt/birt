@@ -216,6 +216,11 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock
 
 	private String processString( String str )
 	{
+		//This is a variable.
+		if (str.startsWith( "${" ) && str.endsWith( "}" )) //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			return str;
+		}
 		File file = new File( str );
 		String temp = file.getAbsolutePath( );
 		int index = temp.indexOf( str );
@@ -227,6 +232,7 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock
 				str = File.separator + str;
 			}
 		}
+		
 		return  DEFAULT_RESOURCE_FOLDER_DISPLAY + str;
 	}
 
