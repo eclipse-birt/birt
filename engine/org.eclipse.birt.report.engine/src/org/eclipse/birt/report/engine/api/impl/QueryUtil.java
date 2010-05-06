@@ -119,8 +119,13 @@ public class QueryUtil
 					}
 					else
 					{
+						String id = task.getCellID( );
+						if( id == null )
+						{
+							id = String.valueOf( rowid );
+						}
 						String rset = getResultSetID( executionContext, sb
-								.toString( ), String.valueOf( rowid ), query );
+								.toString( ), id, query );
 						sb.setLength( 0 );
 						if ( rset != null )
 						{
