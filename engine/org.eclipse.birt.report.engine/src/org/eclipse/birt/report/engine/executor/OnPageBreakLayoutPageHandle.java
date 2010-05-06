@@ -65,8 +65,11 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 	{
 		MasterPageDesign pageDesign = (MasterPageDesign) pageContent
 				.getGenerateBy( );
+		Report report = pageContent.getReportContent( ).getDesign( );
 		if ( pageDesign.getOnPageStart( ) != null
-				|| pageDesign.getOnPageEnd( ) != null )
+				|| pageDesign.getOnPageEnd( ) != null
+				|| report.getOnPageStart( ) != null
+				|| report.getOnPageEnd( ) != null )
 		{
 			bufferAllContents = true;
 		}
