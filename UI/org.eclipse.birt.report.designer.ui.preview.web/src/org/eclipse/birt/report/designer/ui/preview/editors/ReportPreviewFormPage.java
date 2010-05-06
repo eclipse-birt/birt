@@ -91,14 +91,16 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			setInput( prePage.getEditorInput( ) );
 		}
 
+		boolean bool = true;
 		// if the model is dirty, save it at first.
 		if ( isDirtyModel( ) )
 		{
 			doSave( null );
+			bool = false;
 		}
 
 		// save the last changes.
-		if ( prePage.isDirty( ) )
+		if ( prePage.isDirty( ) && bool)
 		{
 			prePage.doSave( null );
 		}
