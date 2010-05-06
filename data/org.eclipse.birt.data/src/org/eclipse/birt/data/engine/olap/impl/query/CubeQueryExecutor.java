@@ -90,7 +90,13 @@ public class CubeQueryExecutor
 		this.dimensionFilterEvalHelpers = new ArrayList<IJSFilterHelper> ();
 		this.aggrMeasureFilterEvalHelpers = new ArrayList<IAggrMeasureFilterEvalHelper>();
 		this.advancedFacttableBasedFilterEvalHelper = new ArrayList<IJSFacttableFilterEvalHelper>();
-		populateFilterHelpers();
+		if ( !(context.getMode( ) == DataEngineContext.MODE_PRESENTATION
+				&& defn.getQueryResultsID( ) != null) )
+		{
+			//query execution result will be loaded directly from document
+			//needless to populate filer helpers
+			populateFilterHelpers();
+		}
 	}
 	
 	private void populateFilterHelpers( ) throws DataException
