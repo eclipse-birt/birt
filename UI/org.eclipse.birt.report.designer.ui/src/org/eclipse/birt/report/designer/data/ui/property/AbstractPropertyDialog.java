@@ -65,7 +65,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.16 $ $Date: 2009/02/19 10:07:59 $
+ * @version $Revision: 1.17 $ $Date: 2009/03/04 08:13:29 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -746,6 +746,11 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	 */
 	protected void okPressed( )
 	{
+		if ( currentNode != null )
+		{
+			if ( !okPressed( currentNode ) )
+				return;
+		}
 		//First call ok on all the pages
 		if ( rootNode.hasSubNodes( ) )
 		{
@@ -753,7 +758,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 			for ( int n = 0; n < nodes.length; n++ )
 			{
 				//Check whether the current page can be closed
-				if ( !okPressed( nodes[n] ) )
+				if ( nodes[n] != currentNode && ( !okPressed( nodes[n] )) )
 				{
 					return;
 				}
