@@ -202,7 +202,6 @@ public class MeasureDialog extends TitleAreaDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.MEASURE_DIALOG );
-		setTitle( Messages.getString( "MeasureDialog.Title.Property" ) ); //$NON-NLS-1$
 
 		Composite area = (Composite) super.createDialogArea( parent );
 
@@ -221,6 +220,14 @@ public class MeasureDialog extends TitleAreaDialog
 		initMeasureDialog( );
 
 		return contents;
+	}
+
+	protected Control createContents( Composite parent )
+	{
+		Control control = super.createContents( parent );
+		setTitle( Messages.getString( "MeasureDialog.Title.Description" ) ); //$NON-NLS-1$
+		setMessage( Messages.getString( "MeasureDialog.Text.Description" ) ); //$NON-NLS-1$	
+		return control;
 	}
 
 	private void initMeasureDialog( )
