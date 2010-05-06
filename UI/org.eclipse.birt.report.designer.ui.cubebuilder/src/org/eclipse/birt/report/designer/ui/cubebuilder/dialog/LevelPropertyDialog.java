@@ -297,7 +297,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 
 		} );
-
 	}
 
 	private void refreshStaticViewer( )
@@ -964,6 +963,26 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				Iterator attrIter = input.attributesIterator( );
+				while ( attrIter.hasNext( ) )
+				{
+					LevelAttributeHandle handle = (LevelAttributeHandle) attrIter.next( );
+					if ( handle != null
+							&& fieldCombo != null
+							&& fieldCombo.getText( ) != null
+							&& fieldCombo.getText( ).equals( handle.getName( ) ) )
+					{
+						try
+						{
+							handle.drop( );
+						}
+						catch ( PropertyValueException e1 )
+						{
+							ExceptionHandler.handle( e1 );
+						}
+					}
+				}
+				refreshDynamicViewer( );
 				checkOkButtonStatus( );
 			}
 
@@ -1273,7 +1292,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			list.remove( handle.getName( ) );
 		}
 
-		list.remove( input.getColumnName( ) );
+		list.remove( fieldCombo.getText( ) );
 		if ( name != null && !list.contains( name ) )
 		{
 			list.add( 0, name );
