@@ -361,7 +361,7 @@ data.olap.FacttableRowNotDistinct=ĞĞÔÚÊÂÊµ±íÖĞÓ¦¸÷²»ÏàÍ¬¡£¡°{0}¡±³öÏÖ¶à´Î¡£
 data.olap.FacttableJointColumnNotExist=Î¬ÖĞ²»´æÔÚÁª½ÓÁĞ¡°{0}¡±¡£
 data.olap.ParameterColumnOfAggregationNotExist=Î¬ÖĞ²»´æÔÚ²ÎÊıÁĞ¡°{0}¡±¡£
 data.olap.FacttableNullMeasureValue=¶ÈÁ¿ÁĞµÄÖµÎª¿Õ¡£¡°{0}¡±¡£
-data.olap.InvalidDimensionPositionFacttableRow=Î¬¼üÖµ¡°{0}¡±ÔÚÎ¬¡°{1}¡±ÖĞ²»´æÔÚ¡£
+data.olap.InvalidDimensionPositionFacttableRow=The fact table of cube "{0}" has an invalid data row where the value of dimension key "{1}" is "{2}" which however does not exist in dimension "{3}".
 data.olap.measureNameNotFound=ÕÒ²»µ½¶ÈÁ¿Ãû³Æ¡°{0}¡±¡£
 data.olap.levelNameNotFound=ÕÒ²»µ½¼¶±ğÃû³Æ¡°{0}¡±¡£
 data.olap.dimensionNameNotFound=ÕÒ²»µ½Î¬Ãû³Æ¡°{0}¡±¡£
@@ -400,6 +400,7 @@ data.olap.InvalidNestAggregationOn=¶àÎ¬Êı¾İ¼¯Ç¶Ì×¾ÛºÏ¡°{1}¡±ÖĞµÄ¡°{0}¡±¾ÛºÏÌõ¼şÔ
 data.olap.sort.exprError=ÉèÖÃµÄÒıÓÃÎ¬¼¶±ğÖ»Ó¦°üº¬Ò»¸ö¼¶±ğ!
 data.olap.query.noCubeBinding=ÓÉÓÚÃ»ÓĞ¿ÉÓÃµÄ¶àÎ¬Êı¾İ¼¯°ó¶¨£¬ÎŞ·¨Ö´ĞĞ¶àÎ¬Êı¾İ¼¯²éÑ¯!
 data.olap.FailLoadCube=¼ÓÔØ¶àÎ¬Êı¾İ¼¯Ê§°Ü:¡°{0}¡±¡£
+data.olap.MissingDimensionInCube=There must have at least one dimension in cube:"{0}"
 
 data.cache.UnsupportedIncrementalCacheMode=ÉĞÎ´Ö§³ÖÔöÁ¿»º´æµÄ¡°{0}¡±Ä£Ê½!
 # Configuration file parser error code

@@ -361,7 +361,7 @@ data.olap.FacttableRowNotDistinct=Die Zeilen sollten in der Faktentabelle eindeu
 data.olap.FacttableJointColumnNotExist=Die Verknüpfungsspalte "{0}" existiert nicht in den Dimensionen.
 data.olap.ParameterColumnOfAggregationNotExist=Die Parameterspalte "{0}" existiert nicht in den Dimensionen.
 data.olap.FacttableNullMeasureValue=Der Wert einer Einheitsspalte ist Null. "{0}"
-data.olap.InvalidDimensionPositionFacttableRow=Der Schlüsselwert der Dimension '{0}' ist in Dimension '{1}' nicht enthalten.
+data.olap.InvalidDimensionPositionFacttableRow=The fact table of cube "{0}" has an invalid data row where the value of dimension key "{1}" is "{2}" which however does not exist in dimension "{3}".
 data.olap.measureNameNotFound=Der Einheitsname "{0}" wurde nicht gefunden.
 data.olap.levelNameNotFound=Der Ebenenname "{0}" wurde nicht gefunden.
 data.olap.dimensionNameNotFound=Der Dimensionsname "{0}" wurde nicht gefunden.
@@ -400,6 +400,7 @@ data.olap.InvalidNestAggregationOn=Aggregat in '{0}' in Quader-Verschachtelungsa
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Quaderbindung verfügbar.
 data.olap.FailLoadCube=Fehler beim Laden von Quader: '{0}'.
+data.olap.MissingDimensionInCube=There must have at least one dimension in cube:"{0}"
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code
