@@ -385,6 +385,7 @@ public class ResourceConstants
 	public static final String REFERENCED_DIM_LEVEL_SET_ERROR = "data.olap.sort.exprError";
 	public static final String CUBE_QUERY_NO_CUBE_BINDING = "data.olap.query.noCubeBinding";
 	public static final String FAIL_LOAD_CUBE = "data.olap.FailLoadCube";
+	public static final String MISSING_DIMENSION_IN_CUBE = "data.olap.MissingDimensionInCube";
 	
 	public final static String CONFIG_FILE_PARSER_MODE_FAIL = "data.executor.configFileParser.getModeByID";
 	public final static String CONFIG_FILE_PARSER_TIMESTAMP_FORMAT_FAIL = "data.executor.configFileParser.getTSFormatByID";
