@@ -18,6 +18,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 
 /**
  * 
@@ -41,7 +43,15 @@ public class AggrSortHelper
 		{
 			ITargetSort[] targetSorts = new ITargetSort[sorts.size( )];
 			sorts.toArray( targetSorts );
-			int baseIndex = getBaseResultSetIndex( resultSet, targetSorts[0].getTargetLevel( ) );
+			int baseIndex = -1;
+			if( targetSorts[0] instanceof AggrSortDefinition )
+			{
+				baseIndex = getBaseResultSetIndex( resultSet, ( ( AggrSortDefinition )targetSorts[0] ).getAggrName( ), targetSorts[0].getTargetLevel( ) );
+			}
+			else
+			{
+				baseIndex = getBaseResultSetIndex( resultSet, targetSorts[0].getTargetLevel( ) );
+			}
 			IAggregationResultSet[] targetResultSet = new IAggregationResultSet[sorts.size( )];
 			for ( int i = 0; i < targetSorts.length; i++ )
 			{
@@ -55,7 +65,7 @@ public class AggrSortHelper
 					}
 					else
 					{
-						targetResultSet[i] = getMatchedResultSet( resultSet, aggrLevels );
+						targetResultSet[i] = getMatchedResultSet( resultSet, aggrLevels, sortDefn.getAggrName( ) );
 					}
 				}
 			}
@@ -92,6 +102,29 @@ public class AggrSortHelper
 		}
 		throw new DataException( "Can't find the base aggregation result set for the target level:", level );//$NON-NLS-1$
 	}
+	
+	/**
+	 * 
+	 * @param resultSet
+	 * @param aggregationName
+	 * @param level
+	 * @return
+	 * @throws DataException
+	 */
+	private static int getBaseResultSetIndex(
+			IAggregationResultSet[] resultSet, String aggregationName, DimLevel level )
+			throws DataException
+	{
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			if ( isEdgeResultSet( resultSet[i] )
+					&& ( resultSet[i].getLevelIndex( level ) >= 0 ) )
+			{
+				return i;
+			}
+		}
+		throw new DataException( "Can't find the base aggregation result set for the target level:", level );//$NON-NLS-1$
+	}
 
 	/**
 	 * A result set would come to be an edge result set only if its aggregation
@@ -114,7 +147,7 @@ public class AggrSortHelper
 	 * @throws DataException
 	 */
 	private static IAggregationResultSet getMatchedResultSet(
-			IAggregationResultSet[] resultSet, DimLevel[] levelNames )
+			IAggregationResultSet[] resultSet, DimLevel[] levelNames, String aggregationName )
 			throws DataException
 	{
 		for ( int i = 0; i < resultSet.length; i++ )
@@ -133,10 +166,25 @@ public class AggrSortHelper
 			}
 			if ( match )
 			{
-				if ( !isEdgeResultSet( rSet ) )
+				if ( !isEdgeResultSet( rSet ) && existAggregation( rSet.getAggregationDefinition( ), aggregationName ) )
 					return rSet;
 			}
 		}
 		throw new DataException( ResourceConstants.INVALID_SORT_DEFN );
+	}
+	
+	private static boolean existAggregation( AggregationDefinition aggrDef, String aggregationName )
+	{
+		AggregationFunctionDefinition[] funcs = aggrDef.getAggregationFunctions( );
+		if( funcs == null )
+		{
+			return false;
+		}
+		for( int i = 0; i < funcs.length; i++ )
+		{
+			if( funcs[i].getName( ).equals( aggregationName ) )
+				return true;
+		}
+		return false;
 	}
 }
