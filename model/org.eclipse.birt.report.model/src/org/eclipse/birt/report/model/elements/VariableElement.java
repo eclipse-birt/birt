@@ -22,8 +22,6 @@ import org.eclipse.birt.report.model.core.Module;
 public class VariableElement extends ContentElement
 {
 
-	protected VariableElementHandle handle = null;
-
 	/**
 	 * Default constructor.
 	 */
@@ -87,7 +85,7 @@ public class VariableElement extends ContentElement
 			handle = new VariableElementHandle( module, this );
 		}
 
-		return handle;
+		return (VariableElementHandle) handle;
 	}
 
 	/*
