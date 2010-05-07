@@ -115,16 +115,20 @@
          </propertyVisibility>
          <style
                displayNameID="Element.Crosstab"
-               name="crosstab">
+               name="crosstab"
+               type="Crosstab">
          </style>
          <style
-               name="crosstab-header">
+               name="crosstab-header"
+               type="Crosstab">
          </style>
          <style
-               name="crosstab-detail">
+               name="crosstab-detail"
+               type="Crosstab">
          </style>
          <style
-               name="crosstab-row-header">
+               name="crosstab-row-header"
+               type="Crosstab">
          </style>
          <property
                canInherit="true"
@@ -211,8 +215,16 @@
             </elementType>
          </property>
          <style
-               name="crosstab-column-header">
+               name="crosstab-column-header"
+               type="Crosstab">
          </style>
+         <property
+               canInherit="true"
+               detailType="ReportItemTheme"
+               isEncryptable="false"
+               name="theme"
+               type="elementRef">
+         </property>
          <!--method
                context="presentation"
                displayNameID="Method.onPageBreak"

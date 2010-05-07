@@ -1014,4 +1014,23 @@ public abstract class BaseTestCase extends TestCase
 
 		return sb.toString( );
 	}
+
+	/**
+	 * Writes the document to the internal output stream.
+	 * 
+	 * @throws Exception
+	 */
+
+	protected void serializeDocument( ) throws Exception
+	{
+		os = new ByteArrayOutputStream( );
+
+		ReportDesignSerializer visitor = new ReportDesignSerializer( );
+		designHandle.getModule( ).apply( visitor );
+
+		design = visitor.getTarget( );
+		designHandle = (ReportDesignHandle) design.getHandle( design );
+
+		designHandle.serialize( os );
+	}
 }

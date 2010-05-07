@@ -139,7 +139,7 @@
             </list-property>
         </tabular-cube>
         <tabular-cube name="testCube1" id="13">
-            <property name="defaultMeasureGroup">testMeasureGroup</property>
+            <property name="defaultMeasureGroup">testMeasureGroup1</property>
             <expression name="ACLExpression" type="javascript">ACL expression</expression>
             <list-property name="filter">
                 <structure>
