@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -146,10 +147,11 @@ public class DataSetDataSourceSelectionPage
 			{
 				if ( lastSelectedDataSourceIndex != combo.getSelectionIndex( ) )
 				{
-					( (DataSetHandle) ( getContainer( ).getModel( ) ) ).setDataSource( combo.getItem( combo.getSelectionIndex( ) ) );
+					DataSetHandle datasetHandle = (DataSetHandle) getContainer( ).getModel( ) ;
+					datasetHandle.setDataSource( combo.getItem( combo.getSelectionIndex( ) ) );
 					( (DataSetEditor) ( getContainer( ) ) ).updateDataSetDesign( this );
-					if ( ( (DataSetHandle) ( getContainer( ).getModel( ) ) ).getProperty( DataSetHandle.RESULT_SET_PROP ) != null )
-						( (DataSetHandle) ( getContainer( ).getModel( ) ) ).clearProperty( DataSetHandle.RESULT_SET_PROP );
+					if ( datasetHandle instanceof OdaDataSetHandle && datasetHandle.getProperty( DataSetHandle.RESULT_SET_PROP ) != null )
+						datasetHandle.clearProperty( DataSetHandle.RESULT_SET_PROP );
 				}
 			}
 		}
@@ -177,9 +179,12 @@ public class DataSetDataSourceSelectionPage
 			{
 				if ( lastSelectedDataSourceIndex != combo.getSelectionIndex( ) )
 				{
-					( (DataSetHandle) ( getContainer( ).getModel( ) ) ).setDataSource( combo.getItem( combo.getSelectionIndex( ) ) );
+					DataSetHandle datasetHandle =  (DataSetHandle) getContainer( ).getModel( ) ;
+					datasetHandle.setDataSource( combo.getItem( combo.getSelectionIndex( ) ) );
 					( (DataSetEditor) ( getContainer( ) ) ).updateDataSetDesign( this );
-					( (DataSetHandle) ( getContainer( ).getModel( ) ) ).clearProperty( DataSetHandle.RESULT_SET_PROP );
+					
+					if( datasetHandle instanceof OdaDataSetHandle && datasetHandle.getProperty( DataSetHandle.RESULT_SET_PROP ) != null )
+						datasetHandle.clearProperty( DataSetHandle.RESULT_SET_PROP );
 				}
 				( (DataSetHandle) ( getContainer( ).getModel( ) ) ).removeListener( this );
 			}
