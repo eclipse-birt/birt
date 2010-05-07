@@ -58,20 +58,20 @@ import com.ibm.icu.util.StringTokenizer;
  * object by calling the {@link #getModel() getModel}method. It defines two
  * abstract methods {@link #performCancel() performCancel}and
  * {@link #performOk() performOk}. These methods are called when the user
- * presses the ok or cancel button. <br/><br/>
+ * presses the ok or cancel button. <br/>
+ * <br/>
  * 
  * Pages can be added to this by either calling the
  * {@link #addNodeTo(String, PropertyNode) addNodeTo}method or by calling the
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.17 $ $Date: 2009/03/04 08:13:29 $
+ * @version $Revision: 1.18 $ $Date: 2010/05/06 02:10:51 $
  */
 
-public abstract class AbstractPropertyDialog extends BaseDialog
-		implements
-			IPropertyPageContainer,
-			IPageChangeProvider
+public abstract class AbstractPropertyDialog extends BaseDialog implements
+		IPropertyPageContainer,
+		IPageChangeProvider
 {
 
 	private static final String SASHFORM_RIGHT = "SASHFORM.RIGHT"; //$NON-NLS-1$
@@ -97,9 +97,9 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	private DialogMessageArea messageArea = null;
 
 	private String nodeId;
-	
+
 	protected boolean showPage = false;
-	
+
 	private int[] widthHints = new int[2];
 
 	private Control treeViewer;
@@ -107,8 +107,8 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	private Control pageContainer;
 
 	private Composite container;
-	
-	private ListenerList pageChangedListeners = new ListenerList();
+
+	private ListenerList pageChangedListeners = new ListenerList( );
 
 	/**
 	 * The only constructor for this dialog. It takes the parentShell and the
@@ -125,14 +125,15 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		setModel( model );
 		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
 		propertyPaneLayout = new StackLayout( );
-		rootNode = new PropertyNode(
-				"org.eclipse.birt.report.designer.ui.dialogs.properties.propertydialog.rootnode" ); //$NON-NLS-1$
+		rootNode = new PropertyNode( "org.eclipse.birt.report.designer.ui.dialogs.properties.propertydialog.rootnode" ); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.IPropertyPageContainer#setModel(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.IPropertyPageContainer#setModel(java
+	 * .lang.Object)
 	 */
 	public void setModel( Object model )
 	{
@@ -142,7 +143,8 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.IPropertyPageContainer#getModel()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.IPropertyPageContainer#getModel()
 	 */
 	public final Object getModel( )
 	{
@@ -158,25 +160,26 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	 * 
 	 * <pre>
 	 * 
-	 *  
-	 *   
-	 *    
-	 *     
+	 * 
+	 * 
+	 * 
+	 * 
 	 *           Prop1
 	 *           |_
 	 *             Prop2
-	 *      
-	 *     
-	 *    
-	 *   
-	 *  
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
 	 * </pre>
 	 * 
-	 * <br/>The api needs to be called as follows: <br/><code>
+	 * <br/>
+	 * The api needs to be called as follows: <br/>
+	 * <code>
 	 *  addNodeTo("/", Prop1Node);<br/>
 	 *  addNodeTo("/Prop1", Prop2Node);<br/>
-	 * </code>
-	 * Prop1 and Prop2 being the node ids of the respective nodes.
+	 * </code> Prop1 and Prop2 being the node ids of the respective nodes.
 	 * 
 	 * @param path
 	 *            The path under which the new node is to be added.
@@ -221,7 +224,9 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	public final void addPageTo( String path, String nodeId, String nodeLabel,
 			Image nodeImage, IPropertyPage page )
 	{
-		PropertyNode node = new PropertyNode( nodeId, nodeLabel, nodeImage,
+		PropertyNode node = new PropertyNode( nodeId,
+				nodeLabel,
+				nodeImage,
 				page );
 		addNodeTo( path, node );
 	}
@@ -257,7 +262,9 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -269,7 +276,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		layout.marginHeight = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_MARGIN );
 		layout.verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
 		composite.setLayout( layout );
-		
+
 		container = new Composite( composite, SWT.NONE );
 		layout = new GridLayout( );
 		layout.numColumns = 3;
@@ -285,7 +292,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		pageContainer = createPropertyPane( container );
 		pageContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		addDragListerner( sash, container, treeViewer, pageContainer );
-		
+
 		Label label = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
 		label.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -293,16 +300,17 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 		return composite;
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.TrayDialog#close()
 	 */
 	public boolean close( )
 	{
 
 		IDialogSettings setting = getDialogBoundsSettings( );
-		if(setting != null)
+		if ( setting != null )
 		{
 			setting.put( SASHFORM_LEFT, widthHints[0] );
 			setting.put( SASHFORM_RIGHT, widthHints[1] );
@@ -310,7 +318,6 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 		return super.close( );
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -322,11 +329,12 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		try
 		{
 			IDialogSettings setting = getDialogBoundsSettings( );
-			if(setting != null)
+			if ( setting != null )
 			{
 				widthHints[0] = setting.getInt( SASHFORM_LEFT );
 				widthHints[1] = setting.getInt( SASHFORM_RIGHT );
-			}else
+			}
+			else
 			{
 				final int total = getDefaultSize( ).x;
 				widthHints[0] = (int) ( total * 0.2 );
@@ -347,8 +355,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		container.layout( true );
 		super.initializeBounds( );
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param sash
@@ -402,7 +409,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		}
 		else
 		{
-			if(viewer.getTree( ).getItems( ).length>0)
+			if ( viewer.getTree( ).getItems( ).length > 0 )
 			{
 				TreeItem firstNode = viewer.getTree( ).getItems( )[0];
 				StructuredSelection select = new StructuredSelection( firstNode.getData( ) );
@@ -418,8 +425,9 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 			public void selectionChanged( SelectionChangedEvent event )
 			{
-				final PropertyNode selectedNode = (PropertyNode) ( (IStructuredSelection) event
-						.getSelection( ) ).getFirstElement( );
+				final PropertyNode selectedNode = (PropertyNode) ( (IStructuredSelection) event.getSelection( ) ).getFirstElement( );
+				if(selectedNode == null)
+					return;
 				if ( processSelection )
 				{
 					BusyIndicator.showWhile( getShell( ).getDisplay( ),
@@ -469,6 +477,8 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 	public void showSelectionPage( PropertyNode selectedNode )
 	{
+		if ( selectedNode == null )
+			return;
 		showPage = showPage( selectedNode );
 		if ( !showPage )
 		{
@@ -479,14 +489,14 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 	private final Composite createPropertyPane( Composite parent )
 	{
-		//If the title is visible
-		//create the title area.
+		// If the title is visible
+		// create the title area.
 		Composite propertyContainer = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		propertyContainer.setLayout( layout );
-		
+
 		Composite titleComposite = new Composite( propertyContainer, SWT.NONE );
 		layout = new GridLayout( );
 		layout.marginHeight = 0;
@@ -514,7 +524,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		propertyPane.setLayoutData( data );
 		return propertyContainer;
 	}
-	
+
 	/**
 	 * Create TitleArea
 	 * 
@@ -549,7 +559,6 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 		return messageComposite;
 	}
-	
 
 	private final boolean showPage( PropertyNode node )
 	{
@@ -561,17 +570,17 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 				return false;
 			}
 		}
-		//Check whether the page control has been created
+		// Check whether the page control has been created
 		if ( !node.isPageControlCreated( ) )
 		{
-			//if not create it
+			// if not create it
 			Control control = node.createPageControl( propertyPane );
 			assert ( control != null ) : "Control has not been created for node " + node.getId( ); //$NON-NLS-1$
 		}
 		currentNode = node;
-		//show the page control
+		// show the page control
 		propertyPaneLayout.topControl = node.getPageControl( );
-		//Call the activated method to indicate that this page is activated
+		// Call the activated method to indicate that this page is activated
 		node.getPage( ).pageActivated( );
 		viewer.setSelection( new StructuredSelection( node ) );
 		propertyPane.layout( );
@@ -622,7 +631,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	{
 		return this.propertyPane;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -657,10 +666,10 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	/**
 	 * Called when the user pressed the Ok button. It is called only if all the
 	 * pages return true for their individual
-	 * {@link org.eclipse.birt.report.designer.data.ui.property.IPropertyPage#performOk() performOk}
-	 * methods. Derived classes can save the contents of the dialog and perform
-	 * any validation if necessary on the contents. <br/>The dialog is closed if
-	 * this method returns true.
+	 * {@link org.eclipse.birt.report.designer.data.ui.property.IPropertyPage#performOk()
+	 * performOk} methods. Derived classes can save the contents of the dialog
+	 * and perform any validation if necessary on the contents. <br/>
+	 * The dialog is closed if this method returns true.
 	 * 
 	 * @return boolean indicating whether the method was successful or not.
 	 */
@@ -669,8 +678,9 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	/**
 	 * Called when the user presses the Cancel button. It is called only if all
 	 * the pages return true for their individual
-	 * {@link org.eclipse.birt.report.designer.data.ui.property.IPropertyPage#performCancel() performCancel()}
-	 * methods. <br/>The dialog is closed if this method returns true.
+	 * {@link org.eclipse.birt.report.designer.data.ui.property.IPropertyPage#performCancel()
+	 * performCancel()} methods. <br/>
+	 * The dialog is closed if this method returns true.
 	 * 
 	 * @return boolean indicating whether the method was successful or not.
 	 */
@@ -678,7 +688,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 
 	private final void performHelp( )
 	{
-		//Call the perform help of the current page
+		// Call the perform help of the current page
 		if ( currentNode != null )
 		{
 			currentNode.getPageControl( ).notifyListeners( SWT.Help,
@@ -693,13 +703,13 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	 */
 	protected final void cancelPressed( )
 	{
-		//First call cancel on all the pages
+		// First call cancel on all the pages
 		if ( rootNode.hasSubNodes( ) )
 		{
 			PropertyNode[] nodes = rootNode.getSubNodes( );
 			for ( int n = 0; n < nodes.length; n++ )
 			{
-				//Check whether the current page can be cancelled
+				// Check whether the current page can be cancelled
 				if ( !cancelPressed( nodes[n] ) )
 				{
 					return;
@@ -707,7 +717,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 			}
 		}
 
-		//Finally call it on the dialog
+		// Finally call it on the dialog
 		if ( performCancel( ) )
 		{
 			super.cancelPressed( );
@@ -718,22 +728,22 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	{
 		if ( node.getPage( ).performCancel( ) )
 		{
-			//if this node allows performing the cancel operation
-			//check the child nodes
+			// if this node allows performing the cancel operation
+			// check the child nodes
 			if ( node.hasSubNodes( ) )
 			{
 				PropertyNode[] nodes = node.getSubNodes( );
 				for ( int n = 0; n < nodes.length; n++ )
 				{
-					//Check whether the current page can be cancelled
+					// Check whether the current page can be cancelled
 					if ( !cancelPressed( nodes[n] ) )
 					{
 						return false;
 					}
 				}
 			}
-			//If we have come here then we know that all the nodes have
-			//successfully allowed cancelling
+			// If we have come here then we know that all the nodes have
+			// successfully allowed cancelling
 			return true;
 		}
 		return false;
@@ -751,20 +761,20 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 			if ( !okPressed( currentNode ) )
 				return;
 		}
-		//First call ok on all the pages
+		// First call ok on all the pages
 		if ( rootNode.hasSubNodes( ) )
 		{
 			PropertyNode[] nodes = rootNode.getSubNodes( );
 			for ( int n = 0; n < nodes.length; n++ )
 			{
-				//Check whether the current page can be closed
-				if ( nodes[n] != currentNode && ( !okPressed( nodes[n] )) )
+				// Check whether the current page can be closed
+				if ( nodes[n] != currentNode && ( !okPressed( nodes[n] ) ) )
 				{
 					return;
 				}
 			}
 		}
-		//Finally call it on the dialog
+		// Finally call it on the dialog
 		if ( performOk( ) )
 		{
 			super.okPressed( );
@@ -775,22 +785,22 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	{
 		if ( node.getPage( ).performOk( ) )
 		{
-			//if this node allows performing the cancel operation
-			//check the child nodes
+			// if this node allows performing the cancel operation
+			// check the child nodes
 			if ( node.hasSubNodes( ) )
 			{
 				PropertyNode[] nodes = node.getSubNodes( );
 				for ( int n = 0; n < nodes.length; n++ )
 				{
-					//Check whether the current page can be cancelled
+					// Check whether the current page can be cancelled
 					if ( !okPressed( nodes[n] ) )
 					{
 						return false;
 					}
 				}
 			}
-			//If we have come here then we know that all the nodes have
-			//successfully allowed cancelling
+			// If we have come here then we know that all the nodes have
+			// successfully allowed cancelling
 			return true;
 		}
 		return false;
@@ -803,14 +813,15 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	 */
 	protected void handleShellCloseEvent( )
 	{
-		//Same as cancel
+		// Same as cancel
 		cancelPressed( );
 	}
 
-	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#getDefaultSize()
+	 * 
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#
+	 * getDefaultSize()
 	 */
 	protected Point getDefaultSize( )
 	{
@@ -834,8 +845,9 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer#setMessage(java.lang.String,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer
+	 * #setMessage(java.lang.String, int)
 	 */
 	public final void setMessage( String message, int messageType )
 	{
@@ -886,7 +898,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	{
 		return nodeId;
 	}
-	
+
 	protected PropertyNode getCurrentNode( )
 	{
 		return currentNode;
@@ -898,11 +910,13 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		sash.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
 		return sash;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.IPageChangeProvider#addPageChangedListener(org.eclipse.jface.dialogs.IPageChangedListener)
+	 * @see
+	 * org.eclipse.jface.dialogs.IPageChangeProvider#addPageChangedListener(
+	 * org.eclipse.jface.dialogs.IPageChangedListener)
 	 */
 	public void addPageChangedListener( IPageChangedListener listener )
 	{
@@ -922,7 +936,9 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.IPageChangeProvider#removePageChangedListener(org.eclipse.jface.dialogs.IPageChangedListener)
+	 * @see
+	 * org.eclipse.jface.dialogs.IPageChangeProvider#removePageChangedListener
+	 * (org.eclipse.jface.dialogs.IPageChangedListener)
 	 */
 	public void removePageChangedListener( IPageChangedListener listener )
 	{
