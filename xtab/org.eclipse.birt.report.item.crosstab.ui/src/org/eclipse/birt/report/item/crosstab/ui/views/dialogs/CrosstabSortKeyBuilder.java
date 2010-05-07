@@ -29,6 +29,7 @@ import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatAdapter;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -1059,6 +1060,14 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		{
 			memberValueHandle = DesignElementFactory.getInstance( )
 					.newMemberValue( );
+			try
+			{
+				memberValueHandle.setValue( "" );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 		memberValueHandle = updateMemberValuesFromLevelList( referencedLevelList,
 				memberValueHandle );
@@ -1194,6 +1203,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			try
 			{
 				newValue.setLevel( tempLevel );
+				newValue.setValue( "" );
 				lastMemberValue.add( IMemberValueModel.MEMBER_VALUES_PROP,
 						newValue );
 			}
