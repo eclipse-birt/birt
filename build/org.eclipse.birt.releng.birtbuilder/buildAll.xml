@@ -37,7 +37,6 @@
 
 	<target name="main" depends="init">
 		<antcall target="prepareSrc" />
-		<!--antcall target="buildBirtThirdPartyFeature"/-->
 		<antcall target="buildBirtFeature"/>
 		<antcall target="buildBirtOSGI"/>
 		<antcall target="fetchBirtWtpFeature"/>
@@ -108,6 +107,10 @@
 			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
 		</condition>
 		
+		<condition property="skip.build.rcp" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
+			
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
 		<property name="javacSource" value="1.5" />
@@ -427,9 +430,9 @@
     	   <fileset dir="${updateJarWorkingDir}/packed/features" includes="*.pack.gz"/>
     	</copy>
             
-            <!--try create composite repository-->
-            <p2.composite.artifact.repository.create location="file://${compsite.site}" name="${p2.repo.name}" compressed="true" failOnExists="false" />
-            <p2.composite.metadata.repository.create location="file://${compsite.site}" name="${p2.repo.name}" compressed="true" failOnExists="false" />
+        <!--try create composite repository-->
+        <p2.composite.artifact.repository.create location="file://${compsite.site}" name="${p2.repo.name}" compressed="true" failOnExists="false" />
+        <p2.composite.metadata.repository.create location="file://${compsite.site}" name="${p2.repo.name}" compressed="true" failOnExists="false" />
 
             <!--add childRepo to composite repo-->
             <p2.composite.artifact.repository.add location="file://${compsite.site}" child="${buildId}" />
@@ -526,6 +529,19 @@
 				<include name="*/**"/>
 			</fileset>
 		</delete>
+		
+		<cvs cvsRoot="${mapCvsRoot}"
+			package="source/org.eclipse.birt.releng"
+			dest="${buildDirectory}/maps"
+			tag="${mapVersionTag}"
+		/>
+		
+		<!-- this value could be overwrite by the bootstrap command -->
+		<property name="birt.url.token" value="@BIRT.URL.TOKEN@"/>
+		
+		<replace dir="${buildDirectory}/maps" value="${mapCvsRoot}" token="${birt.url.token}">
+			<include name="**/*.map" />
+		</replace>
 		
         <cvs command="export -d source" cvsRoot="${mapCvsRoot}" dest="${buildDirectory}" 
 		package="source" tag="${mapVersionTag}" taskname="CVS - source"/>
@@ -669,7 +685,7 @@
 	<!-- - - - - - - - - - - - - - - - - - 
           target: buildBirtRCPFeature                      
          - - - - - - - - - - - - - - - - - -->
-    <target name="buildBirtRCPFeature">
+    <target name="buildBirtRCPFeature" unless="skip.build.rcp">
   		<antcall target="logger">
 			<param name="message" value="Export BIRT RCP product started"/>
 		</antcall>
@@ -697,7 +713,7 @@
 		</antcall>
  	</target>
 	
-	<target name="fetchRCP">
+	<target name="fetchRCP" unless="skip.build.rcp">
   		<antcall target="logger">
 			<param name="message" value="Fetch birt rcp plugin started"/>
 		</antcall>		

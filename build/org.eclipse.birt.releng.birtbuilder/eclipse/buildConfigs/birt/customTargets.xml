@@ -193,9 +193,6 @@
 		<replace dir="${buildDirectory}/plugins/" value="1.6.7.${buildId}" token="@Replace_By_Version@">
 			<include name="org.mozilla.rhino/about.properties" />
 		</replace>
-		<replace dir="${buildDirectory}/plugins/" value="2.1.7.${buildId}" token="@Replace_By_Version@">
-			<include name="com.lowagie.itext/about.properties" />
-		</replace>
         <chmod file="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/templateGenerator.sh" perm="755"/>
 	</target>
 
