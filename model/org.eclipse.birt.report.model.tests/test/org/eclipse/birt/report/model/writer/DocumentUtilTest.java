@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.writer;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,12 +22,10 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
-import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
-import org.eclipse.birt.report.model.util.ReportDesignSerializer;
 
 /**
  * Tests the document related serialization.
@@ -262,38 +259,6 @@ public class DocumentUtilTest extends BaseTestCase
 		serializeDocument( );
 
 		assertTrue( compareFile( "DocumentUtilTest_UserProperty1_golden.xml" ) ); //$NON-NLS-1$
-	}
-
-	/**
-	 * Writes the document to the internal output stream.
-	 * 
-	 * @throws Exception
-	 */
-
-	private void serializeDocument( ) throws Exception
-	{
-		os = new ByteArrayOutputStream( );
-
-		ReportDesignSerializer visitor = new ReportDesignSerializer( );
-		designHandle.getModule( ).apply( visitor );
-
-		design = visitor.getTarget( );
-		designHandle = (ReportDesignHandle) design.getHandle( design );
-
-		designHandle.serialize( os );
-	}
-
-	/**
-	 * Writes the document to the internal output stream.
-	 * 
-	 * @throws Exception
-	 */
-
-	private void serializeNonLineBreakDocument( ) throws Exception
-	{
-		os = new ByteArrayOutputStream( );
-
-		DocumentUtil.serialize( designHandle, os );
 	}
 
 	/**
@@ -626,7 +591,7 @@ public class DocumentUtilTest extends BaseTestCase
 	public void testVariableElements( ) throws Exception
 	{
 		// flatten variable elements with the library
-		
+
 		openDesign( "DocumentUtilTest_16.xml" ); //$NON-NLS-1$
 
 		serializeDocument( );

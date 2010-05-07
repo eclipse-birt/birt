@@ -76,6 +76,7 @@ filter
 repeatHeader
 pageBreakInterval
 sortByGroups
+theme
 bookmark
 bookmarkDisplayName
 toc

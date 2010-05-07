@@ -708,7 +708,8 @@ public abstract class BaseTestCase extends TestCase
 	 * @return
 	 * @throws Exception
 	 */
-	protected boolean compareFileWithOS( String goldenFileName, ByteArrayOutputStream os ) throws Exception
+	protected boolean compareFileWithOS( String goldenFileName,
+			ByteArrayOutputStream os ) throws Exception
 	{
 		String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
 
@@ -737,6 +738,7 @@ public abstract class BaseTestCase extends TestCase
 
 		return ok;
 	}
+
 	/**
 	 * Prints out all semantic errors stored in the error list during parsing
 	 * the design file.
@@ -1050,5 +1052,24 @@ public abstract class BaseTestCase extends TestCase
 		}
 
 		return sb.toString( );
+	}
+
+	/**
+	 * Writes the document to the internal output stream.
+	 * 
+	 * @throws Exception
+	 */
+
+	protected void serializeDocument( ) throws Exception
+	{
+		os = new ByteArrayOutputStream( );
+
+		ReportDesignSerializer visitor = new ReportDesignSerializer( );
+		designHandle.getModule( ).apply( visitor );
+
+		design = visitor.getTarget( );
+		designHandle = (ReportDesignHandle) design.getHandle( design );
+
+		designHandle.serialize( os );
 	}
 }

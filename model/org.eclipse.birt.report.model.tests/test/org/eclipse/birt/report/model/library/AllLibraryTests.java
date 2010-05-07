@@ -43,7 +43,8 @@ public class AllLibraryTests
 		test.addTestSuite( ReferenceValueUtilTest.class );
 		test.addTestSuite( ReloadLibraryTest.class );
 		test.addTestSuite( LibrarySharedResultSetTest.class );
-		
+		test.addTestSuite( ReportItemThemeTest.class );
+
 		// add all test classes here
 
 		return test;

@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -434,7 +435,7 @@ public class DesignElementCloneTest extends BaseTestCase
 		// test "theme" property
 
 		ElementRefValue theme = (ElementRefValue) clonedDesign.getProperty(
-				clonedDesign, ReportDesign.THEME_PROP );
+				clonedDesign, ISupportThemeElementConstants.THEME_PROP );
 		assertNotNull( theme );
 		assertEquals( "theme1", theme.getName( ) ); //$NON-NLS-1$
 		assertNull( theme.getElement( ) );
