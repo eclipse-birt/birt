@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -178,6 +179,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 */
 
 	private HashMap<String, IPredefinedStyle> predefinedStyles = new HashMap<String, IPredefinedStyle>( );
+
+	/**
+	 * The map to store the type and value list. The key is the type of
+	 * predefined style. Value is the list of predefined styles whose type is
+	 * the specified key value.
+	 */
+	private HashMap<String, List<IPredefinedStyle>> predefinedStyleTypes = new HashMap<String, List<IPredefinedStyle>>( );
 
 	/**
 	 * Map of property value validators, holding the validator name as key. Each
@@ -572,10 +580,25 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		if ( StringUtil.isBlank( name ) )
 			throw new MetaDataException(
 					MetaDataException.DESIGN_EXCEPTION_MISSING_STYLE_NAME );
-		if ( predefinedStyles.get( name ) != null )
+
+		String key = name.toLowerCase( );
+		if ( predefinedStyles.get( key ) != null )
 			throw new MetaDataException( new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_STYLE_NAME );
-		predefinedStyles.put( name, style );
+		predefinedStyles.put( key, style );
+
+		String type = style.getType( );
+		if ( !StringUtil.isBlank( type ) )
+		{
+			List<IPredefinedStyle> styles = predefinedStyleTypes.get( name );
+			if ( styles == null )
+			{
+				styles = new ArrayList<IPredefinedStyle>( );
+				predefinedStyleTypes.put( type, styles );
+			}
+			if ( !styles.contains( style ) )
+				styles.add( style );
+		}
 	}
 
 	/**
@@ -588,7 +611,10 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IPredefinedStyle getPredefinedStyle( String name )
 	{
-		return predefinedStyles.get( name );
+		if ( StringUtil.isBlank( name ) )
+			return null;
+		String key = name.toLowerCase( );
+		return predefinedStyles.get( key );
 	}
 
 	/*
@@ -1117,5 +1143,22 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	{
 		ExtensionManager.getInstance( ).initialize( );
 		isiniatializedExtensionManager = true;
+	}
+
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public List<IPredefinedStyle> getPredefinedStyles( String type )
+	{
+		if ( predefinedStyleTypes == null || type == null )
+			return Collections.emptyList( );
+
+		List<IPredefinedStyle> styles = predefinedStyleTypes.get( type );
+		if ( styles == null )
+			return Collections.emptyList( );
+
+		return styles;
 	}
 }

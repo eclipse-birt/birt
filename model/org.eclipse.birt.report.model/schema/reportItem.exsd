@@ -501,6 +501,13 @@ Designer UI
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="type" type="string">
+            <annotation>
+               <documentation>
+                  The type for this style. It is usually set to the extension id for the element definition that defines this style selector, for example, &quot;Crosstab&quot;.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

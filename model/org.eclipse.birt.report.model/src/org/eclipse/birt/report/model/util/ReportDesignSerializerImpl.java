@@ -65,6 +65,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -90,6 +91,8 @@ import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
@@ -210,6 +213,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		visitSlots( obj, targetDesign, IReportDesignModel.SLOT_COUNT );
 
+		// visit external selectors
 		localizeExternalSelectors( );
 
 		addExternalElements( );
@@ -768,6 +772,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		visitDesignElement( obj );
 
 		localizeStyle( (StyledElement) currentNewElement, obj );
+
+		localizeReportItemTheme( (StyledElement) currentNewElement, obj );
 	}
 
 	/*
@@ -819,6 +825,100 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		localizeSelfStyleProperties( target, source, notEmptyProperties );
 
 		notEmptyProperties.clear( );
+	}
+
+	private void localizeReportItemTheme( StyledElement target,
+			StyledElement source )
+	{
+		DesignElement e = source;
+		AbstractTheme reportItemTheme = null;
+		boolean hasSetTheme = false;
+		while ( e != null )
+		{
+			if ( e instanceof ReportItem && e instanceof ISupportThemeElement )
+			{
+				ReportItem item = (ReportItem) e;
+				if ( item.getLocalProperty( item.getRoot( ),
+						ISupportThemeElementConstants.THEME_PROP ) != null )
+				{
+					if ( !hasSetTheme )
+						hasSetTheme = true;
+					AbstractTheme theme = item.getTheme( sourceDesign );
+					if ( theme != null )
+						reportItemTheme = theme;
+					break;
+				}
+			}
+
+			e = e.getContainer( );
+		}
+
+		if ( !hasSetTheme || reportItemTheme == null )
+			return;
+
+		List<IElementPropertyDefn> propDefns = source.getDefn( )
+				.getProperties( );
+		for ( IElementPropertyDefn prop : propDefns )
+		{
+			// the property may be user-defined property. So, the value may be
+			// null.
+			if ( prop == null || !prop.isStyleProperty( ) )
+				continue;
+
+			String propName = prop.getName( );
+			ElementPropertyDefn targetProp = target.getPropertyDefn( propName );
+			if ( targetProp == null )
+				continue;
+
+			// if target has local value, do nothing
+			if ( target.getLocalProperty( targetDesign, targetProp ) != null )
+				continue;
+
+			StyleElement style = target.getStyle( targetDesign );
+			if ( style != null
+					&& style.getLocalProperty( targetDesign, targetProp ) != null )
+				continue;
+
+			// if source has no value, do nothing
+			List<String> selectos = new ArrayList<String>( );
+			List<String> tmpSelectors = source.getElementSelectors( );
+			if ( tmpSelectors != null )
+				selectos.addAll( tmpSelectors );
+
+			String tmpSelector = source.getContainerInfo( ).getSelector( );
+			if ( tmpSelector != null )
+				selectos.add( tmpSelector );
+
+			for ( String selector : selectos )
+			{
+				style = reportItemTheme.findStyle( selector );
+				if ( style == null )
+					continue;
+				Object value = style.getLocalProperty( sourceDesign,
+						(ElementPropertyDefn) prop );
+				if ( value == null )
+					continue;
+
+				if ( target.getLocalProperty( targetDesign, targetProp ) == null )
+				{
+
+					switch ( targetProp.getTypeCode( ) )
+					{
+						case IPropertyType.LIST_TYPE :
+							target.setProperty( targetProp, ModelUtil
+									.copyValue( targetProp, value ) );
+							break;
+						case IPropertyType.STRUCT_TYPE :
+							handleStructureValue( target, targetProp, value );
+							break;
+						default :
+							target.setProperty( targetProp, ModelUtil
+									.copyValue( targetProp, value ) );
+					}
+				}
+			}
+
+		}
 	}
 
 	/**
@@ -1390,8 +1490,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					targetScriptLib
 							.setContext( new StructureContext(
 									target,
-									target
-											.getPropertyDefn( IModuleModel.SCRIPTLIBS_PROP ),
+									target.getPropertyDefn( IModuleModel.SCRIPTLIBS_PROP ),
 									targetScriptLib ) );
 
 					relativePathList.add( sourceScriptLibPath );
@@ -1887,7 +1986,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			if ( IDesignElementModel.EXTENDS_PROP.equals( propName )
 					|| IDesignElementModel.USER_PROPERTIES_PROP
 							.equals( propName )
-					|| IModuleModel.THEME_PROP.equals( propName )
+					|| ISupportThemeElementConstants.THEME_PROP
+							.equals( propName )
 					|| IModuleModel.LIBRARIES_PROP.equals( propName )
 					|| IModuleModel.PROPERTY_BINDINGS_PROP.equals( propName ) )
 				continue;

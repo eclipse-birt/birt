@@ -16,12 +16,17 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.command.ContentElementInfo;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.ContentElement;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.GridItem;
+import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
@@ -433,7 +438,8 @@ public class PropertySearchStrategy
 			PropertyValueInfo valueInfo )
 	{
 		String selector = ( (ElementDefn) element.getDefn( ) ).getSelector( );
-		return getPropertyFromSelector( module, prop, selector, valueInfo );
+		return getPropertyFromSelector( module, element, prop, selector,
+				valueInfo );
 	}
 
 	/**
@@ -480,7 +486,8 @@ public class PropertySearchStrategy
 
 		String selector = element.getContainerInfo( ).getSelector( );
 
-		return getPropertyFromSelector( module, prop, selector, valueInfo );
+		return getPropertyFromSelector( module, element, prop, selector,
+				valueInfo );
 	}
 
 	/**
@@ -496,13 +503,44 @@ public class PropertySearchStrategy
 	 */
 
 	protected Object getPropertyFromSelector( Module module,
-			ElementPropertyDefn prop, String selector,
+			DesignElement element, ElementPropertyDefn prop, String selector,
 			PropertyValueInfo valueInfo )
 	{
 		assert module != null;
 
 		if ( selector == null )
 			return null;
+
+		// get it from report item theme
+		DesignElement e = element;
+		while ( e != null )
+		{
+			if ( e instanceof ListingElement || e instanceof GridItem
+					|| e instanceof ExtendedItem )
+			{
+				ReportItem item = (ReportItem) e;
+				if ( item.getLocalProperty( item.getRoot( ),
+						ISupportThemeElement.THEME_PROP ) != null )
+				{
+					AbstractTheme theme = item.getTheme( module );
+					if ( theme == null )
+						break;
+
+					StyleElement style = theme.findStyle( selector );
+					if ( style != null )
+					{
+						if ( valueInfo != null )
+							valueInfo.addSelectorStyle( style );
+						Object value = style.getLocalProperty( module, prop );
+						if ( value != null )
+							return value;
+					}
+					break;
+				}
+			}
+
+			e = e.getContainer( );
+		}
 
 		// Find the predefined style
 

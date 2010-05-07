@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
@@ -944,6 +945,17 @@ class DesignVisitorImpl
 	}
 
 	/**
+	 * Visits the report item theme element.
+	 * 
+	 * @param obj
+	 *            the report item theme to traverse
+	 */
+	protected void visitReportItemTheme( ReportItemThemeHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
 	 * A class forward the visit of an element to its handle.
 	 * 
 	 */
@@ -1219,8 +1231,8 @@ class DesignVisitorImpl
 		 */
 		public void visitDynamicFilterParameter( DynamicFilterParameter obj )
 		{
-			DesignVisitorImpl.this
-					.visitDynamicFilterParameter( obj.handle( module ) );
+			DesignVisitorImpl.this.visitDynamicFilterParameter( obj
+					.handle( module ) );
 		}
 
 		/**
@@ -1292,7 +1304,8 @@ class DesignVisitorImpl
 
 		public void visitGraphicMasterPage( GraphicMasterPage obj )
 		{
-			DesignVisitorImpl.this.visitGraphicMasterPage( obj.handle( module ) );
+			DesignVisitorImpl.this
+					.visitGraphicMasterPage( obj.handle( module ) );
 		}
 
 		/**
@@ -1316,7 +1329,8 @@ class DesignVisitorImpl
 
 		public void visitOdaDataSource( OdaDataSource obj )
 		{
-			DesignVisitorImpl.this.visitExtendedDataSource( obj.handle( module ) );
+			DesignVisitorImpl.this
+					.visitExtendedDataSource( obj.handle( module ) );
 		}
 
 		/**
@@ -1390,7 +1404,8 @@ class DesignVisitorImpl
 
 		public void visitTemplateReportItem( TemplateReportItem obj )
 		{
-			DesignVisitorImpl.this.visitTemplateReportItem( obj.handle( module ) );
+			DesignVisitorImpl.this
+					.visitTemplateReportItem( obj.handle( module ) );
 		}
 
 		/**
@@ -1473,7 +1488,8 @@ class DesignVisitorImpl
 		 */
 		public void visitTabularMeasureGroup( TabularMeasureGroup obj )
 		{
-			DesignVisitorImpl.this.visitTabularMeasureGroup( obj.handle( module ) );
+			DesignVisitorImpl.this.visitTabularMeasureGroup( obj
+					.handle( module ) );
 		}
 
 		/**
@@ -1551,11 +1567,22 @@ class DesignVisitorImpl
 		 * Visits the derived data set.
 		 * 
 		 * @param obj
-		 *            the derived dta set
+		 *            the derived data set
 		 */
 		public void visitDerivedDataSet( DerivedDataSet obj )
 		{
 			DesignVisitorImpl.this.visitDerivedDataSet( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the report item theme.
+		 * 
+		 * @param obj
+		 *            the report item theme to traverse
+		 */
+		public void visitReportItemTheme( ReportItemTheme obj )
+		{
+			DesignVisitorImpl.this.visitReportItemTheme( obj.handle( module ) );
 		}
 	}
 }

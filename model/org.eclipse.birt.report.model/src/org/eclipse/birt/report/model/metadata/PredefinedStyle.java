@@ -56,6 +56,12 @@ public class PredefinedStyle implements IPredefinedStyle
 
 	private String displayNameKey = null;
 
+	/**
+	 * The string that specifies the type of this selector. Now it can be one
+	 * of: Table, Grid and List. It must be name of the IElementDefn.
+	 */
+	private String type = null;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -101,12 +107,29 @@ public class PredefinedStyle implements IPredefinedStyle
 		name = theName;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public String getType( )
+	{
+		return type;
+	}
+
+	/**
+	 * 
+	 * @param type
+	 */
+	public void setType( String type )
+	{
+		this.type = type;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-
 	public String toString( )
 	{
 		if ( !StringUtil.isBlank( getName( ) ) )

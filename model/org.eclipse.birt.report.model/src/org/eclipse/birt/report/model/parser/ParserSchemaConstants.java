@@ -84,6 +84,8 @@ interface ParserSchemaConstants
 
 	int STYLE_TAG = DesignSchemaConstants.STYLE_TAG.toLowerCase( ).hashCode( );
 	int THEME_TAG = DesignSchemaConstants.THEME_TAG.toLowerCase( ).hashCode( );
+	int REPORT_ITEM_THEME_TAG = DesignSchemaConstants.REPORT_ITEM_THEME_TAG
+			.toLowerCase( ).hashCode( );
 
 	int CELL_TAG = DesignSchemaConstants.CELL_TAG.toLowerCase( ).hashCode( );
 

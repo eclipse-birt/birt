@@ -237,6 +237,7 @@ public interface MessageConstants
 	// ThemeException
 
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$
+	public static final String THEME_EXCEPTION_WRONG_TYPE = "Error.ThemeException.WRONG_TYPE"; //$NON-NLS-1$
 
 	// DesignParserException
 	public static final String DESIGN_PARSER_EXCEPTION_FILE_NOT_FOUND = "Error.DesignParserException.FILE_NOT_FOUND"; //$NON-NLS-1$
@@ -356,4 +357,6 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$	
+
+	
 }

@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.command.ThemeCommand;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
@@ -30,8 +31,10 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -1504,5 +1507,59 @@ public abstract class ReportItemHandle extends ReportElementHandle
 			}
 		}
 		return super.getProperty( propName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.ModuleHandle#setThemeName(java.lang
+	 * .String)
+	 */
+	public void setThemeName( String themeName ) throws SemanticException
+	{
+		if ( element instanceof ISupportThemeElement )
+		{
+			ThemeCommand command = new ThemeCommand( getModule( ), element );
+			command.setTheme( themeName );
+		}
+		else
+			throw new IllegalOperationException( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.ModuleHandle#setTheme(org.eclipse.birt
+	 * .report.model.api.ThemeHandle)
+	 */
+
+	public void setTheme( ReportItemThemeHandle theme )
+			throws SemanticException
+	{
+		if ( element instanceof ISupportThemeElement )
+		{
+			ThemeCommand command = new ThemeCommand( getModule( ), getElement( ) );
+			command.setThemeElement( theme );
+		}
+		else
+			throw new IllegalOperationException( );
+	}
+
+	/**
+	 * Returns the refresh rate when viewing the report.
+	 * 
+	 * @return the refresh rate
+	 */
+
+	public final ReportItemThemeHandle getTheme( )
+	{
+		ReportItemTheme theme = (ReportItemTheme) ( (ReportItem) element )
+				.getTheme( module );
+		if ( theme == null )
+			return null;
+
+		return (ReportItemThemeHandle) theme.getHandle( theme.getRoot( ) );
 	}
 }

@@ -66,9 +66,7 @@ public class ExtendedItemPropSearchStrategy
 
 		// add all section style properties
 		tmpSet.add( Integer.valueOf( IStyleModel.DISPLAY_PROP.hashCode( ) ) );
-		tmpSet
-				.add( Integer
-						.valueOf( IStyleModel.MASTER_PAGE_PROP.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IStyleModel.MASTER_PAGE_PROP.hashCode( ) ) );
 		tmpSet.add( Integer.valueOf( IStyleModel.PAGE_BREAK_BEFORE_PROP
 				.hashCode( ) ) );
 		tmpSet.add( Integer.valueOf( IStyleModel.PAGE_BREAK_AFTER_PROP
@@ -92,9 +90,7 @@ public class ExtendedItemPropSearchStrategy
 				.hashCode( ) ) );
 
 		// add: zIndex
-		tmpSet
-				.add( Integer
-						.valueOf( IReportItemModel.Z_INDEX_PROP.hashCode( ) ) );
+		tmpSet.add( Integer.valueOf( IReportItemModel.Z_INDEX_PROP.hashCode( ) ) );
 
 		hostViewRelatedProps = Collections.unmodifiableSet( tmpSet );
 	}
@@ -146,8 +142,8 @@ public class ExtendedItemPropSearchStrategy
 		if ( elementDefn != null )
 		{
 			String selector = extendedItem.getExtDefn( ).getSelector( );
-			selectorValue = getPropertyFromSelector( module, prop, selector,
-					valueInfo );
+			selectorValue = getPropertyFromSelector( module, extendedItem,
+					prop, selector, valueInfo );
 			if ( selectorValue != null )
 			{
 				if ( value == null )
@@ -211,8 +207,8 @@ public class ExtendedItemPropSearchStrategy
 			if ( predefinedStyle instanceof String )
 			{
 				String styleName = (String) predefinedStyle;
-				Object selectorValue = getPropertyFromSelector( module, prop,
-						styleName, valueInfo );
+				Object selectorValue = getPropertyFromSelector( module,
+						extendedItem, prop, styleName, valueInfo );
 				if ( selectorValue != null )
 				{
 					if ( value == null )
@@ -264,10 +260,9 @@ public class ExtendedItemPropSearchStrategy
 					}
 					catch ( PropertyValueException e )
 					{
-						logger
-								.log(
-										Level.WARNING,
-										"property( " + prop.getName( ) + " ) value " + value + "is invalid" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						logger.log(
+								Level.WARNING,
+								"property( " + prop.getName( ) + " ) value " + value + "is invalid" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					}
 				}
 			}
@@ -296,10 +291,9 @@ public class ExtendedItemPropSearchStrategy
 			}
 			catch ( PropertyValueException e )
 			{
-				logger
-						.log(
-								Level.WARNING,
-								"property( " + prop.getName( ) + " ) value " + value + "is invalid" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				logger.log(
+						Level.WARNING,
+						"property( " + prop.getName( ) + " ) value " + value + "is invalid" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		}
 	}

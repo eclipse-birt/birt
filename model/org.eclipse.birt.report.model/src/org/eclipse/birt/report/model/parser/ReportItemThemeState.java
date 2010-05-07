@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -22,17 +26,17 @@ import org.xml.sax.Attributes;
  * This class parses a theme in the library.
  */
 
-class ThemeState extends ReportElementState
+class ReportItemThemeState extends ReportElementState
 {
 
 	/**
-	 * The row being created.
+	 * The report item theme being created.
 	 */
 
-	protected Theme element;
+	protected ReportItemTheme element;
 
 	/**
-	 * Constructs the table or list row state with the design parser handler,
+	 * Constructs the report item theme state with the design parser handler,
 	 * the container element and the container slot of the table row.
 	 * 
 	 * @param handler
@@ -43,8 +47,8 @@ class ThemeState extends ReportElementState
 	 *            the slot in which this element appears
 	 */
 
-	ThemeState( ModuleParserHandler handler, DesignElement theContainer,
-			int slot )
+	ReportItemThemeState( ModuleParserHandler handler,
+			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );
 
@@ -83,7 +87,23 @@ class ThemeState extends ReportElementState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-		element = new Theme( );
+		element = new ReportItemTheme( );
+
+		String type = getAttrib( attrs, DesignSchemaConstants.TYPE_ATTRIB );
+		type = StringUtil.trimString( type );
+
+		if ( !ReportItemTheme.isValidType( type ) )
+		{
+			RecoverableError
+					.dealInvalidPropertyValue(
+							handler,
+							new PropertyValueException(
+									type,
+									PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+									IPropertyType.STRING_TYPE ) );
+		}
+		setProperty( IReportItemThemeModel.TYPE_PROP, type );
+
 		initElement( attrs, true );
 	}
 

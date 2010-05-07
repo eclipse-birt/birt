@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -228,5 +229,40 @@ public abstract class ReportItem extends ReferencableStyledElement
 					element,
 					ExtendsForbiddenException.DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND );
 		}
+	}
+
+	/**
+	 * 
+	 * @param module
+	 * @return
+	 */
+	public AbstractTheme getTheme( Module module )
+	{
+		if ( !( this instanceof ISupportThemeElement ) )
+			return null;
+		ElementRefValue value = (ElementRefValue) getProperty( module,
+				ISupportThemeElement.THEME_PROP );
+		if ( value == null )
+			return null;
+		return (ReportItemTheme) value.getElement( );
+
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public AbstractTheme getTheme( )
+	{
+		return getTheme( getRoot( ) );
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getThemeName( )
+	{
+		return null;
 	}
 }

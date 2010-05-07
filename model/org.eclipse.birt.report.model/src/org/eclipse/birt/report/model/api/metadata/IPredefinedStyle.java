@@ -50,4 +50,10 @@ public interface IPredefinedStyle
 	 */
 	public String getName( );
 
+	/**
+	 * 
+	 * @return
+	 */
+	public String getType( );
+
 }

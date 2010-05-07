@@ -11,16 +11,19 @@
 
 package org.eclipse.birt.report.model.elements.interfaces;
 
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
+
 /**
- * The interface for theme elements to store the constants.
+ * The interface for elements that supports to set theme on it.
  */
 
-public interface IThemeModel extends IAbstractThemeModel
+public interface ISupportThemeElement extends ISupportThemeElementConstants
 {
 
-	/**
-	 * css file property
-	 */
+	String getThemeName( );
 
-	public static final String CSSES_PROP = "cssStyleSheets";//$NON-NLS-1$
+	AbstractTheme getTheme( );
+	
+	AbstractTheme getTheme( Module module );
 }

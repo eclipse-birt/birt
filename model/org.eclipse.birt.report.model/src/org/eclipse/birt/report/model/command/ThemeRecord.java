@@ -17,11 +17,10 @@ import java.util.List;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ThemeEvent;
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
@@ -46,10 +45,10 @@ public class ThemeRecord extends SimpleRecord
 	private ElementRefValue oldTheme;
 
 	/**
-	 * The library to operate
+	 * The element to operate. It must be ISupportThemeElement.
 	 */
 
-	protected Module module;
+	protected DesignElement element;
 
 	/**
 	 * Constructs the library record.
@@ -60,13 +59,13 @@ public class ThemeRecord extends SimpleRecord
 	 *            the new theme
 	 */
 
-	ThemeRecord( Module module, ElementRefValue newTheme )
+	ThemeRecord( DesignElement element, ElementRefValue newTheme )
 	{
-		this.module = module;
+		this.element = element;
 		this.newTheme = newTheme;
 
-		oldTheme = (ElementRefValue) module.getLocalProperty( module,
-				IModuleModel.THEME_PROP );
+		oldTheme = (ElementRefValue) element.getLocalProperty( element
+				.getRoot( ), ISupportThemeElement.THEME_PROP );
 
 		label = CommandLabelFactory
 				.getCommandLabel( MessageConstants.SET_THEME_MESSAGE );
@@ -86,12 +85,12 @@ public class ThemeRecord extends SimpleRecord
 
 		if ( undo )
 		{
-			module.setProperty( IModuleModel.THEME_PROP, oldTheme );
+			element.setProperty( ISupportThemeElement.THEME_PROP, oldTheme );
 			updateStyles( newTheme );
 		}
 		else
 		{
-			module.setProperty( IModuleModel.THEME_PROP, newTheme );
+			element.setProperty( ISupportThemeElement.THEME_PROP, newTheme );
 			updateStyles( oldTheme );
 		}
 	}
@@ -105,7 +104,7 @@ public class ThemeRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
-		return module;
+		return element;
 	}
 
 	/*
@@ -117,7 +116,7 @@ public class ThemeRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
-		return new ThemeEvent( module );
+		return new ThemeEvent( element );
 	}
 
 	/**
@@ -137,7 +136,7 @@ public class ThemeRecord extends SimpleRecord
 		if ( !theme.isResolved( ) )
 			return;
 
-		Theme t = (Theme) theme.getElement( );
+		AbstractTheme t = (AbstractTheme) theme.getElement( );
 		List<StyleElement> styles = t.getAllStyles( );
 		Iterator<StyleElement> iter = styles.iterator( );
 		while ( iter.hasNext( ) )

@@ -68,6 +68,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.OdaLevel;
@@ -516,16 +517,14 @@ public class PropertyCommand extends AbstractPropertyCommand
 				{
 					LevelAttribute attibute = new LevelAttribute( );
 					attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
-					attibute
-							.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+					attibute.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 					struct = attibute;
 				}
 				else if ( element instanceof OdaLevel )
 				{
 					OdaLevelAttribute attibute = new OdaLevelAttribute( );
 					attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
-					attibute
-							.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+					attibute.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 					struct = attibute;
 				}
 				if ( attributesPropertyDefn != null && struct != null )
@@ -928,11 +927,9 @@ public class PropertyCommand extends AbstractPropertyCommand
 		{
 			doSetProperty( prop, value );
 		}
-		else if ( IModuleModel.THEME_PROP.equals( propName ) )
+		else if ( ISupportThemeElementConstants.THEME_PROP.equals( propName ) )
 		{
-			assert module == element;
-
-			ThemeCommand cmd = new ThemeCommand( (Module) element );
+			ThemeCommand cmd = new ThemeCommand( module, element );
 			cmd.setThemeRefValue( (ElementRefValue) value );
 		}
 		else

@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -43,7 +44,8 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 
 public abstract class ListingElement extends ReportItem
 		implements
-			IListingElementModel
+			IListingElementModel,
+			ISupportThemeElement
 {
 
 	/**
@@ -182,12 +184,11 @@ public abstract class ListingElement extends ReportItem
 
 			if ( isDataBindingReferring( module ) )
 			{
-				errors
-						.add( ContentExceptionFactory
-								.createContentException(
-										containerInfo,
-										null,
-										ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN ) );
+				errors.add( ContentExceptionFactory
+						.createContentException(
+								containerInfo,
+								null,
+								ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN ) );
 				return errors;
 			}
 		}
@@ -221,12 +222,11 @@ public abstract class ListingElement extends ReportItem
 
 			if ( isDataBindingReferring( module ) )
 			{
-				errors
-						.add( ContentExceptionFactory
-								.createContentException(
-										containerInfo,
-										content,
-										ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN ) );
+				errors.add( ContentExceptionFactory
+						.createContentException(
+								containerInfo,
+								content,
+								ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN ) );
 				return errors;
 			}
 

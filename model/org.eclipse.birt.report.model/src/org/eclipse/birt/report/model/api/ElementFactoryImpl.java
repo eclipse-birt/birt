@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
@@ -379,6 +380,25 @@ class ElementFactoryImpl
 	{
 		Style element = new Style( name );
 		( (Theme) theme.getElement( ) ).makeUniqueName( element );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new style element, and the style element is supposed to be
+	 * adding to some theme in Library. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param theme
+	 *            the theme to add the style
+	 * @param name
+	 *            the required style name
+	 * @return a handle to the style
+	 */
+
+	public SharedStyleHandle newStyle( ReportItemThemeHandle theme, String name )
+	{
+		Style element = new Style( name );
+		( (ReportItemTheme) theme.getElement( ) ).makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -1073,6 +1093,22 @@ class ElementFactoryImpl
 	public ThemeHandle newTheme( String name )
 	{
 		Theme element = new Theme( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new report item theme element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the report item theme name.
+	 * @return a handle to the theme item
+	 */
+
+	public ReportItemThemeHandle newReportItemTheme( String name )
+	{
+		ReportItemTheme element = new ReportItemTheme( name );
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}

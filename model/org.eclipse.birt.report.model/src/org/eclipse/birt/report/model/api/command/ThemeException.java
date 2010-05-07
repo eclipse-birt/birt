@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Indicates an error while setting the style of an element.
- *  
+ * 
  */
 
 public class ThemeException extends SemanticException
@@ -27,9 +27,8 @@ public class ThemeException extends SemanticException
 	/**
 	 * The serial version UID
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
-	
 
 	/**
 	 * The theme name being set.
@@ -42,6 +41,12 @@ public class ThemeException extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_NOT_FOUND = MessageConstants.THEME_EXCEPTION_NOT_FOUND;
+
+	/**
+	 * Error code indicating the report item refers a wrong type of report item
+	 * theme.
+	 */
+	public static final String DESIGN_EXCEPTION_WRONG_TYPE = MessageConstants.THEME_EXCEPTION_WRONG_TYPE;
 
 	/**
 	 * Constructor.
@@ -78,10 +83,11 @@ public class ThemeException extends SemanticException
 	 */
 	public String getLocalizedMessage( )
 	{
-		if ( sResourceKey == DESIGN_EXCEPTION_NOT_FOUND )
+		if ( sResourceKey == DESIGN_EXCEPTION_NOT_FOUND
+				|| sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE )
 		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{themeName, getElementName( element )} );
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					themeName, getElementName( element )} );
 		}
 
 		return ModelMessages.getMessage( sResourceKey );

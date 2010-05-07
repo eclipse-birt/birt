@@ -269,6 +269,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 		{
 			String name = attrs.getValue( NAME_ATTRIB );
 			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
+			String type = attrs.getValue( TYPE_ATTRIB );
 
 			if ( StringUtil.isBlank( name ) )
 			{
@@ -287,6 +288,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				PredefinedStyle style = new PredefinedStyle( );
 				style.setName( name );
 				style.setDisplayNameKey( displayNameID );
+				style.setType( type );
 				try
 				{
 					dictionary.addPredefinedStyle( style );
