@@ -73,7 +73,7 @@ public class HTMLEncoderAdapter implements ICharacterEncoderAdapter
 			}
 			else if ( c == '\'' )
 			{
-				replacement = "&#180;"; //$NON-NLS-1$
+				replacement = "&#39;"; //$NON-NLS-1$
 			}
 			else if ( c == '\r' )
 			{
