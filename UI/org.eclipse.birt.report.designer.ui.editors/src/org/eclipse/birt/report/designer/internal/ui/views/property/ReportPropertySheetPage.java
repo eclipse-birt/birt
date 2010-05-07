@@ -886,8 +886,12 @@ public class ReportPropertySheetPage extends Page implements
 				for ( int i = 0; i < children.length; i++ )
 				{
 					MementoElement child = children[i];
-					TreeItem item = root.getItem( ( (Integer) child.getValue( ) ).intValue( ) );
-					restoreExpandedMemento( item, child );
+					int index = ( (Integer) child.getValue( ) ).intValue( );
+					if ( index >= 0 && index < root.getItemCount( ) )
+					{
+						TreeItem item = root.getItem( index );
+						restoreExpandedMemento( item, child );
+					}
 				}
 			}
 		}

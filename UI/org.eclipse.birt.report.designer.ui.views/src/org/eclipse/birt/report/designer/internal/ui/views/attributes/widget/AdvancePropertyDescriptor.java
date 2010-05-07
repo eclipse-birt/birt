@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ReportViewsPlugin;
-import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
@@ -655,8 +654,12 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 				for ( int i = 0; i < children.length; i++ )
 				{
 					MementoElement child = children[i];
-					TreeItem item = root.getItem( ( (Integer) child.getValue( ) ).intValue( ) );
-					restoreExpandedMemento( item, child );
+					int index = ( (Integer) child.getValue( ) ).intValue( );
+					if ( index >= 0 && index < root.getItemCount( ) )
+					{
+						TreeItem item = root.getItem( index );
+						restoreExpandedMemento( item, child );
+					}
 				}
 			}
 		}
