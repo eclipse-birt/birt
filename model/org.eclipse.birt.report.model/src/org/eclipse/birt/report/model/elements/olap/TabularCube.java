@@ -15,12 +15,15 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.core.ContainerContext;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
@@ -57,7 +60,9 @@ public class TabularCube extends Cube
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -79,7 +84,9 @@ public class TabularCube extends Cube
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
+	 * .birt.report.model.core.Module)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -104,14 +111,13 @@ public class TabularCube extends Cube
 		}
 		return (TabularCubeHandle) handle;
 	}
-		
-	
+
 	/**
 	 * Sets the measure group at the specified position to be default.
 	 * 
 	 * @param index
 	 */
-	
+
 	public void setDefaultMeasureGroup( int index )
 	{
 		List groups = getListProperty( getRoot( ), MEASURE_GROUPS_PROP );
@@ -120,5 +126,63 @@ public class TabularCube extends Cube
 		if ( index >= 0 && index < groups.size( ) )
 			setProperty( Cube.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(
 					null, (DesignElement) groups.get( index ) ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.elements.olap.Cube#findLocalElement(java
+	 * .lang.String, org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 */
+
+	public DesignElement findLocalElement( String name, IElementDefn type )
+	{
+		if ( StringUtil.isBlank( name ) || type == null )
+			return null;
+
+		Module root = getRoot( );
+		if ( root == null )
+			return null;
+
+		ElementDefn targetDefn = (ElementDefn) type;
+		int nameSpaceID = targetDefn.getNameSpaceID( );
+
+		NameSpace tmpNS = root.getNameHelper( ).getNameSpace( nameSpaceID );
+		DesignElement tmpSharedElement = tmpNS.getElement( name );
+
+		if ( tmpSharedElement instanceof TabularHierarchy )
+		{
+			TabularDimension tmpCubeDim = findLocalDimension( (TabularDimension) tmpSharedElement
+					.getContainer( ) );
+
+			if ( tmpCubeDim == null )
+				return null;
+
+			return tmpCubeDim.getLocalHierarchy( root, name );
+		}
+		else if ( tmpSharedElement instanceof TabularDimension )
+		{
+			return findLocalDimension( (TabularDimension) tmpSharedElement
+					.getContainer( ) );
+		}
+		return null;
+	}
+
+	private TabularDimension findLocalDimension( Dimension sharedDim )
+	{
+		TabularDimension tmpCubeDim = null;
+		List<BackRef> cubeDims = sharedDim.getClientList( );
+		for ( int i = 0; i < cubeDims.size( ); i++ )
+		{
+			BackRef cubeDim = cubeDims.get( i );
+			if ( cubeDim.getElement( ).getContainer( ) == this )
+			{
+				tmpCubeDim = (TabularDimension) cubeDim.getElement( );
+				break;
+			}
+		}
+
+		return tmpCubeDim;
 	}
 }
