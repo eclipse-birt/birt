@@ -117,8 +117,8 @@ public abstract class Cube extends ReferenceableElement implements ICubeModel
 	 */
 	public void setDefaultMeasureGroup( MeasureGroup defaultMeasureGroup )
 	{
-		setProperty( ICubeModel.DEFAULT_MEASURE_GROUP_PROP,
-				new ElementRefValue( null, defaultMeasureGroup ) );
+		setProperty( ICubeModel.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(
+				null, defaultMeasureGroup ) );
 	}
 
 	public DesignElement findLocalElement( String name, IElementDefn type )
@@ -134,12 +134,7 @@ public abstract class Cube extends ReferenceableElement implements ICubeModel
 	{
 		// do nothing
 	}
-
-	/**
-	 * 
-	 * @param propDefn
-	 * @return
-	 */
+	
 	public boolean isBoundWithLayout( ElementPropertyDefn propDefn )
 	{
 		return false;

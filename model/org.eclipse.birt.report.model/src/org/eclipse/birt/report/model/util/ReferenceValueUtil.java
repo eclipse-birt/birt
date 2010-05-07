@@ -80,7 +80,7 @@ public class ReferenceValueUtil
 		ElementRefPropertyType refType = (ElementRefPropertyType) prop
 				.getType( );
 
-		refType.resolve( module, null, prop, ref );
+		refType.resolve( module, structure.getElement( ), prop, ref );
 
 		if ( !ref.isResolved( ) )
 			return ref;
