@@ -231,7 +231,7 @@ public class ChartExamples implements SelectionListener
 				String methodName = icp.getMethodName( className );
 				setChartModel( ImportChartModel.getChartModel( className,
 						methodName ) );
-				preview.renderModel( getChartModel( ) );
+				preview.renderModel( getChartModel( ).copyInstance( ) );
 				description.setText( icp.getDescription( className ) );
 				ChartExamplesView.setActionsEnabled(true);
 			}
