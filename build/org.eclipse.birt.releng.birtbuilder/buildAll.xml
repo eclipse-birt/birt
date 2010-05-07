@@ -529,6 +529,16 @@
 			</fileset>
 		</delete>
 		
+		<cvs cvsRoot="${mapCvsRoot}"
+			package="source/org.eclipse.birt.releng"
+			dest="${buildDirectory}/maps"
+			tag="${mapVersionTag}"
+		/>
+		
+		<replace dir="${buildDirectory}/maps" value="${mapCvsRoot}" token="${birt.url.token}">
+			<include name="**/*.map" />
+		</replace>
+		
         <cvs command="export -d source" cvsRoot="${mapCvsRoot}" dest="${buildDirectory}" 
 		package="source" tag="${mapVersionTag}" taskname="CVS - source"/>
 
