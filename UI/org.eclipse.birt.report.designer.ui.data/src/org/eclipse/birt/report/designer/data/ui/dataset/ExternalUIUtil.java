@@ -84,60 +84,52 @@ public class ExternalUIUtil
 	public static void updateColumnCache( DataSetHandle dataSetHandle,
 			boolean holdEvent ) throws BirtException
 	{
-		try
+		if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
 		{
-			if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
-			{
-				EngineConfig ec = new EngineConfig( );
-				ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
+			EngineConfig ec = new EngineConfig( );
+			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
 
-				ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
-						.copy( ).getHandle( null ) );
+			ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
+					.copy( ).getHandle( null ) );
 
-				DummyEngineTask engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( copy ),
-						copy );
+			DummyEngineTask engineTask = new DummyEngineTask( engine,
+					new ReportEngineHelper( engine ).openReportDesign( copy ),
+					copy );
 
-				DataRequestSession session = engineTask.getDataSession( );
+			DataRequestSession session = engineTask.getDataSession( );
 
-				Map appContext = new HashMap( );
-				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-						Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
+			Map appContext = new HashMap( );
+			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
+					Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
 
-				appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-						createResourceIdentifiers( ) );
+			appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+					createResourceIdentifiers( ) );
 
-				engineTask.setAppContext( appContext );
-				engineTask.run( );
+			engineTask.setAppContext( appContext );
+			engineTask.run( );
 
-				DataService.getInstance( ).registerSession( dataSetHandle,
-						session );
-				session.refreshMetaData( dataSetHandle, holdEvent );
-				engineTask.close( );
-				engine.destroy( );
-			}
-			else
-			{
-				DataSessionContext context = new DataSessionContext( DataEngineContext.DIRECT_PRESENTATION,
-						dataSetHandle.getRoot( ),
-						null );
-				Map appContext = new HashMap( );
-
-				appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-						Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
-				appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-						createResourceIdentifiers( ) );
-
-				context.setAppContext( appContext );
-
-				DataRequestSession drSession = DataRequestSession.newSession( context );
-				drSession.refreshMetaData( dataSetHandle, holdEvent );
-				drSession.shutdown( );
-			}
+			DataService.getInstance( ).registerSession( dataSetHandle, session );
+			session.refreshMetaData( dataSetHandle, holdEvent );
+			engineTask.close( );
+			engine.destroy( );
 		}
-		catch ( BirtException ex )
+		else
 		{
-			throw ex;
+			DataSessionContext context = new DataSessionContext( DataEngineContext.DIRECT_PRESENTATION,
+					dataSetHandle.getRoot( ),
+					null );
+			Map appContext = new HashMap( );
+
+			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
+					Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
+			appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+					createResourceIdentifiers( ) );
+
+			context.setAppContext( appContext );
+
+			DataRequestSession drSession = DataRequestSession.newSession( context );
+			drSession.refreshMetaData( dataSetHandle, holdEvent );
+			drSession.shutdown( );
 		}
 	}
 
