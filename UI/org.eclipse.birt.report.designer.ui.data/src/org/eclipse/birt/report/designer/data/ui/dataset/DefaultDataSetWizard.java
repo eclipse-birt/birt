@@ -95,8 +95,7 @@ public class DefaultDataSetWizard extends Wizard
 			try
 			{
 				createSelectedDataSetTearDown( dataSetHandle );
-				DataSetUIUtil.updateColumnCache( dataSetHandle );
-
+				DataSetUIUtil.updateColumnCache( dataSetHandle, false );
 			}
 			catch ( Exception e )
 			{

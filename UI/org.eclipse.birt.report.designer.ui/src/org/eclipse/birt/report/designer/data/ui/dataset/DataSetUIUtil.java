@@ -51,9 +51,20 @@ public final class DataSetUIUtil
 	public static void updateColumnCache( DataSetHandle dataSetHandle )
 			throws SemanticException
 	{
-		updateColumnCache( dataSetHandle, false );
+		try
+		{
+			updateColumnCache( dataSetHandle, false );
+		}
+		catch ( BirtException e )
+		{
+			logger.entering( DataSetUIUtil.class.getName( ),
+					"updateColumnCache", //$NON-NLS-1$
+					new Object[]{
+						e
+					} );
+		}
 	}
-	
+
 	/**
 	 * Update column cache with clean the resultset property
 	 * 
@@ -84,22 +95,13 @@ public final class DataSetUIUtil
 	 * 
 	 * @param dataSetHandle
 	 * @param holdEvent
+	 * @throws BirtException
 	 */
 	public static void updateColumnCache( DataSetHandle dataSetHandle,
-			boolean holdEvent )
+			boolean holdEvent ) throws BirtException
 	{
-		try
-		{
-			DataService.getInstance( ).updateColumnCache( dataSetHandle, holdEvent );
-		}
-		catch ( BirtException ex )
-		{
-			logger.entering( DataSetUIUtil.class.getName( ),
-					"updateColumnCache", //$NON-NLS-1$
-					new Object[]{
-						ex
-					} );
-		}
+		DataService.getInstance( ).updateColumnCache( dataSetHandle,
+					holdEvent );
 	}
 
 	public static ResourceIdentifiers createResourceIdentifiers( )
@@ -179,7 +181,18 @@ public final class DataSetUIUtil
 	{
 		if ( !hasMetaData( dataSetHandle ) )
 		{
-			updateColumnCache( dataSetHandle, true );
+			try
+			{
+				updateColumnCache( dataSetHandle, true );
+			}
+			catch ( BirtException e )
+			{
+				logger.entering( DataSetUIUtil.class.getName( ),
+						"updateColumnCache", //$NON-NLS-1$
+						new Object[]{
+							e
+						} );
+			}
 		}
 
 		return dataSetHandle.getCachedMetaDataHandle( );

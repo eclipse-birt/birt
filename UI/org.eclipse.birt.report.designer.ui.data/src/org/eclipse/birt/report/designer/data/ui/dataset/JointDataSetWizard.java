@@ -85,9 +85,9 @@ public class JointDataSetWizard extends Wizard
 			try
 			{
 				if ( joinDataSetHandle != null )
-					DataSetUIUtil.updateColumnCache( joinDataSetHandle );
+					DataSetUIUtil.updateColumnCache( joinDataSetHandle, false );
 			}
-			catch ( SemanticException e )
+			catch ( Exception e )
 			{
 				ExceptionHandler.handle( e );
 			}

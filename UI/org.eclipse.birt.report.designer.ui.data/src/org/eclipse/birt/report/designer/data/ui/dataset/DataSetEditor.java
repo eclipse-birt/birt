@@ -681,11 +681,12 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 
 		try
 		{
-			DataSetUIUtil.updateColumnCache( this.getHandle( ) );
+			DataSetUIUtil.updateColumnCache( this.getHandle( ), false );
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
+			return;
 		}
 
 		// First call ok on all the pages
