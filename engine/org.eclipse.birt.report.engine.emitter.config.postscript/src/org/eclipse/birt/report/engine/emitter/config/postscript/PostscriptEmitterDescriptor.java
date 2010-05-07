@@ -176,7 +176,8 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi
 				.setDisplayType( IConfigurableOption.DisplayType.TEXT );
 		chartDpi.setDefaultValue( new Integer( 192 ) );
-		chartDpi.setToolTip( null );
+		chartDpi
+				.setToolTip( "The DPI which chart engine uses to generate charts. For example, 192." );
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
