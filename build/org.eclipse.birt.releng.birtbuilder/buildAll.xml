@@ -535,6 +535,9 @@
 			tag="${mapVersionTag}"
 		/>
 		
+		<!-- this value could be overwrite by the bootstrap command -->
+		<property name="birt.url.token" value="@BIRT.URL.TOKEN@"/>
+		
 		<replace dir="${buildDirectory}/maps" value="${mapCvsRoot}" token="${birt.url.token}">
 			<include name="**/*.map" />
 		</replace>
