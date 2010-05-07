@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -84,6 +85,8 @@ public final class DataSetProvider
 	// constant value
 	private static final char RENAME_SEPARATOR = '_';
 	private static String UNNAME_PREFIX = "UNNAMED"; //$NON-NLS-1$
+	
+	private boolean needToFocusOnOutput = true;
 
 	/**
 	 * @return
@@ -219,7 +222,11 @@ public final class DataSetProvider
 					items[i].getName( ) );
 			if ( hint != null )
 			{
-				items[i].setAnalysis( hint.getAnalysis( ) );
+				if ( !items[i].isComputedColumn( ) )
+					items[i].setAnalysis( getDefaultAnalysisType( items[i].getDataTypeName( ),
+							hint.getAnalysis( ) ) );
+				else
+					items[i].setAnalysis( hint.getAnalysis( ) );
 				items[i].setACLExpression( hint.getACLExpression( ) );
 				items[i].setFormat( hint.getFormat( ) );
 				items[i].setDisplayLength( hint.getDisplayLength( ) );
@@ -230,11 +237,48 @@ public final class DataSetProvider
 				items[i].setDescription( hint.getDescription( ) );
 				items[i].setWordWrap( hint.wordWrap( ) );
 			}
+			else
+			{
+				if ( items[i].isComputedColumn( ) )
+					items[i].setAnalysis( null );
+				else
+					items[i].setAnalysis( getDefaultAnalysisType( items[i].getDataTypeName( ),
+							null ) );
+			}
 		}
 		updateModel( dataSetHandle, items );
 		return items;
 	}
 
+	public String getDefaultAnalysisType( String dataType,
+			String originalAnalysis )
+	{
+		String defaultAnalysisType = null;
+
+		if ( !this.needToFocusOnOutput )
+			return originalAnalysis;
+		if ( originalAnalysis != null )
+			return originalAnalysis;
+
+		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_MEASURE;
+		}
+		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE;
+		}
+		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
+		}
+
+		return defaultAnalysisType;
+	}
 	/**
 	 * get Cached metadata
 	 * 
@@ -262,7 +306,11 @@ public final class DataSetProvider
 					items[i].getName( ) );
 			if ( hint != null )
 			{
-				items[i].setAnalysis( hint.getAnalysis( ) );
+				if ( !items[i].isComputedColumn( ) )
+					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getDataTypeName( ),
+							hint.getAnalysis( ) ) );
+				else
+					items[i].setAnalysis( hint.getAnalysis( ) );
 				items[i].setACLExpression( hint.getACLExpression( ) );
 				items[i].setFormat( hint.getFormat( ) );
 				items[i].setDisplayLength( hint.getDisplayLength( ) );
@@ -272,6 +320,13 @@ public final class DataSetProvider
 				items[i].setTextFormat( hint.getTextFormat( ) );
 				items[i].setDescription( hint.getDescription( ) );
 				items[i].setWordWrap( hint.wordWrap( ) );
+			}
+			else
+			{
+				if ( items[i].isComputedColumn( ) )
+					items[i].setAnalysis( null );
+				else
+					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getDataTypeName( ), null ) );
 			}
 		}
 		return items;
@@ -802,7 +857,8 @@ public final class DataSetProvider
 						columns[n].setDisplayNameKey( hint.getDisplayNameKey( ) );
 						columns[n].setAlias( hint.getAlias( ) );
 						columns[n].setHelpText( hint.getHelpText( ) );
-						columns[n].setAnalysis( hint.getAnalysis( ) );
+						columns[n].setAnalysis( getDefaultAnalysisType( columns[n].getDataTypeName( ),
+									hint.getAnalysis( ) ) );
 						columns[n].setACLExpression( hint.getACLExpression( ) );
 						break;
 					}
@@ -849,8 +905,9 @@ public final class DataSetProvider
 	 * @param ds
 	 * @param columns
 	 */
-	public DataSetViewData[] getCachedDataSetItemModel( DataSetHandle ds )
+	public DataSetViewData[] getCachedDataSetItemModel( DataSetHandle ds, boolean needToFocusOnOutput )
 	{
+		this.needToFocusOnOutput = needToFocusOnOutput;
 		DataSetViewData[] result = (DataSetViewData[]) this.htColumns.get( ds );
 		if ( result == null )
 		{

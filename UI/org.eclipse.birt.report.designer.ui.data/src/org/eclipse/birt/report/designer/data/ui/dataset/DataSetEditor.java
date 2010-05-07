@@ -188,7 +188,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		setPageFocus( );
 
 		// start model manager to process the edit transaction
-		itemModelManager.start( ds );
+		itemModelManager.start( ds, needToFocusOnOutput );
 	}
 
 	protected void initModelManager( )
@@ -954,7 +954,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 		 * @param ds
 		 *            model to be listened
 		 */
-		public void start( DataSetHandle dataSet )
+		public void start( DataSetHandle dataSet, boolean needToFocusOnOutput )
 		{
 			assert dataSet != null;
 
@@ -966,8 +966,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			setContextLoader( dataSet );
 
 			this.savedItemModel = DataSetProvider.getCurrentInstance( )
-					.getCachedDataSetItemModel( ds );// .getDataSetItemModel( ds
-														// );
+					.getCachedDataSetItemModel( ds , needToFocusOnOutput );
 
 			this.ds.addListener( this );
 		}
