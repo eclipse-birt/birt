@@ -27,6 +27,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 
 import com.ibm.icu.util.ULocale;
@@ -268,7 +269,14 @@ public class DimensionCellEditor extends CDialogCellEditor
 
 			public void focusLost( FocusEvent e )
 			{
-				DimensionCellEditor.this.focusLost( );
+				Display.getDefault( ).asyncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						if ( defaultLabel != null && !defaultLabel.isDisposed( ) )
+							DimensionCellEditor.this.focusLost( );
+					}
+				} );
 			}
 		} );
 

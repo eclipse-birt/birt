@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFil
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
@@ -31,9 +30,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 
-public class BackgroundImageCellEditor extends DialogCellEditor
+public class BackgroundImageCellEditor extends CDialogCellEditor
 {
 
 	private static final String[] IMAGE_TYPES = new String[]{
@@ -112,7 +112,15 @@ public class BackgroundImageCellEditor extends DialogCellEditor
 			public void focusLost( FocusEvent e )
 			{
 				doSetValue( text.getText( ) );
-				BackgroundImageCellEditor.this.focusLost( );
+				Display.getDefault( ).asyncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						if ( text != null && !text.isDisposed( ) )
+							BackgroundImageCellEditor.this.focusLost( );
+					}
+				} );
+
 			}
 		} );
 
@@ -133,7 +141,7 @@ public class BackgroundImageCellEditor extends DialogCellEditor
 		String extensions[] = new String[]{
 			"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		};
-		
+
 		ResourceSelectionValidator validator = new ResourceSelectionValidator( IMAGE_TYPES );
 		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
 				true,
@@ -183,6 +191,12 @@ public class BackgroundImageCellEditor extends DialogCellEditor
 	protected void doSetFocus( )
 	{
 		text.setFocus( );
+	}
+
+	protected void doValueChanged( )
+	{
+		// nothing
+
 	}
 
 }
