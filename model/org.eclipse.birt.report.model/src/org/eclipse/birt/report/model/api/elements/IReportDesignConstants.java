@@ -95,6 +95,7 @@ interface IReportDesignConstants
 	String VARIABLE_ELEMENT = "VariableElement"; //$NON-NLS-1$
 	String DATA_GROUP_ELEMENT = "DataGroup"; //$NON-NLS-1$
 	String DERIVED_DATA_SET_ELEMENT = "DerivedDataSet"; //$NON-NLS-1$
+	String REPORT_ITEM_THEME_ELEMENT = "ReportItemTheme"; //$NON-NLS-1$
 
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

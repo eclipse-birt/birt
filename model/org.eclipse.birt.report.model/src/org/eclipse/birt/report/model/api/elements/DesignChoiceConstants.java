@@ -1035,4 +1035,12 @@ public interface DesignChoiceConstants
 	public static final String WINDOW_STATUS_NORMAL = "normal"; //$NON-NLS-1$
 	public static final String WINDOW_STATUS_MAXIMIZED = "maximized"; //$NON-NLS-1$
 	
+	/**
+	 * reportItemThemeType
+	 */
+	public static final String CHOICE_REPORT_ITEM_THEME_TYPE = "reportItemThemeType"; //$NON-NLS-1$
+	public static final String REPORT_ITEM_THEME_TYPE_TABLE = "Table"; //$NON-NLS-1$
+	public static final String REPORT_ITEM_THEME_TYPE_LIST = "List"; //$NON-NLS-1$
+	public static final String REPORT_ITEM_THEME_TYPE_GRID = "Grid"; //$NON-NLS-1$
+	
 }

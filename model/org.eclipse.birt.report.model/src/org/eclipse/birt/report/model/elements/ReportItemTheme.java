@@ -11,38 +11,32 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.css.CssStyleSheet;
-import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
-import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * This class represents a theme in the library.
  * 
  */
 
-public class Theme extends AbstractTheme
+public class ReportItemTheme extends AbstractTheme
 		implements
-			IThemeModel,
-			ICssStyleSheetOperation
+			IReportItemThemeModel
 {
-
-	private List<String> cachedStyleNames = new ArrayList<String>( );
-
-	private ICssStyleSheetOperation operation = null;
 
 	/**
 	 * Constructor.
 	 */
 
-	public Theme( )
+	public ReportItemTheme( )
 	{
 		super( );
 	}
@@ -54,7 +48,7 @@ public class Theme extends AbstractTheme
 	 *            the element name
 	 */
 
-	public Theme( String theName )
+	public ReportItemTheme( String theName )
 	{
 		super( theName );
 	}
@@ -69,7 +63,7 @@ public class Theme extends AbstractTheme
 
 	public void apply( ElementVisitor visitor )
 	{
-		visitor.visitTheme( this );
+		visitor.visitReportItemTheme( this );
 	}
 
 	/*
@@ -80,7 +74,7 @@ public class Theme extends AbstractTheme
 
 	public String getElementName( )
 	{
-		return ReportDesignConstants.THEME_ITEM;
+		return ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT;
 	}
 
 	/*
@@ -105,68 +99,28 @@ public class Theme extends AbstractTheme
 	 * @return an API handle for this element
 	 */
 
-	public ThemeHandle handle( Module module )
+	public ReportItemThemeHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new ThemeHandle( module, this );
+			handle = new ReportItemThemeHandle( module, this );
 		}
-		return (ThemeHandle) handle;
+		return (ReportItemThemeHandle) handle;
 	}
 
-	/**
-	 * Drops the given css from css list.
-	 * 
-	 * @param css
-	 *            the css to drop
-	 * @return the position of the css to drop
-	 */
-
-	public int dropCss( CssStyleSheet css )
+	public static boolean isValidType( String type )
 	{
-		if ( operation == null )
-			return -1;
-		return operation.dropCss( css );
+		if ( StringUtil.isBlank( type ) )
+			return false;
+		List<IPredefinedStyle> styles = MetaDataDictionary.getInstance( )
+				.getPredefinedStyles( type );
+		if ( styles == null || styles.isEmpty( ) )
+			return false;
+		return true;
 	}
 
-	/**
-	 * Adds the given css to css list.
-	 * 
-	 * @param css
-	 *            the css to insert
-	 */
-
-	public void addCss( CssStyleSheet css )
+	public String getType( Module module )
 	{
-		if ( operation == null )
-			operation = new CssStyleSheetAdapter( );
-		operation.addCss( css );
-	}
-
-	/**
-	 * Insert the given css to the given position
-	 * 
-	 * @param css
-	 * @param index
-	 */
-
-	public void insertCss( CssStyleSheet css, int index )
-	{
-		if ( operation == null )
-			operation = new CssStyleSheetAdapter( );
-		operation.insertCss( css, index );
-	}
-
-	/**
-	 * Returns only csses this module includes directly.
-	 * 
-	 * @return list of csses. each item is <code>CssStyleSheet</code>
-	 */
-
-	public List<CssStyleSheet> getCsses( )
-	{
-		if ( operation == null )
-			return Collections.emptyList( );
-		return operation.getCsses( );
+		return getStringProperty( module, TYPE_PROP );
 	}
 }

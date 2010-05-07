@@ -226,8 +226,8 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			String selector = list.get( i );
-			Object selectValue = getPropertyFromSelector( module, prop,
-					selector, valueInfo );
+			Object selectValue = getPropertyFromSelector( module, element,
+					prop, selector, valueInfo );
 			if ( selectValue != null )
 			{
 				if ( value == null )

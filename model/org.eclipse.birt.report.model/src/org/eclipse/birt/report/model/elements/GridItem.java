@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
 /**
@@ -87,7 +88,10 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
  * 
  */
 
-public class GridItem extends ReportItem implements IGridItemModel
+public class GridItem extends ReportItem
+		implements
+			IGridItemModel,
+			ISupportThemeElement
 {
 
 	/**

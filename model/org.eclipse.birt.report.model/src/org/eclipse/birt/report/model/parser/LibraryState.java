@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
@@ -127,6 +126,9 @@ public class LibraryState extends ModuleState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CUBES_TAG ) )
 			return new CubesState( handler, getElement( ),
 					ILibraryModel.CUBE_SLOT );
+		if ( tagName
+				.equalsIgnoreCase( DesignSchemaConstants.REPORT_ITEM_THEMES_TAG ) )
+			return new ReportItemThemesState( );
 		return super.startElement( tagName );
 
 	}
@@ -151,7 +153,35 @@ public class LibraryState extends ModuleState
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.THEME_TAG == tagValue )
-				return new ThemeState( handler, module, Library.THEMES_SLOT );
+				return new ThemeState( handler, module,
+						ILibraryModel.THEMES_SLOT );
+
+			return super.startElement( tagName );
+		}
+	}
+
+	/**
+	 * Parses the contents of the body tag that contains the list of top-level
+	 * sections.
+	 */
+
+	class ReportItemThemesState extends InnerParseState
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
+		 */
+
+		public AbstractParseState startElement( String tagName )
+		{
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.REPORT_ITEM_THEME_TAG == tagValue )
+				return new ReportItemThemeState( handler, module,
+						ILibraryModel.REPORT_ITEM_THEME_SLOT );
 
 			return super.startElement( tagName );
 		}

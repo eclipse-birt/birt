@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.elements.CellHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 
 /**
  * Represents a grid item in the design. A grid item contains a set of report
@@ -34,7 +34,10 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
  * @see org.eclipse.birt.report.model.elements.GridItem
  */
 
-public class GridHandle extends ReportItemHandle implements IGridItemModel
+public class GridHandle extends ReportItemHandle
+		implements
+			IGridItemModel,
+			ISupportThemeElementConstants
 {
 
 	/**
@@ -213,9 +216,9 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 * @param columnIndex
 	 *            the column index from 1 to the number of columns in the grid
 	 * @param inForce
-	 *            <code>true</code> indicates to paste the column regardless
-	 *            of the different layout of cells. <code>false</code>
-	 *            indicates not.
+	 *            <code>true</code> indicates to paste the column regardless of
+	 *            the different layout of cells. <code>false</code> indicates
+	 *            not.
 	 * @return <code>true</code> indicates the paste operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */
@@ -284,8 +287,8 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	}
 
 	/**
-	 * Moves the column from <code>sourceColumn</code> to
-	 * <code>destIndex</code>.
+	 * Moves the column from <code>sourceColumn</code> to <code>destIndex</code>
+	 * .
 	 * 
 	 * @param sourceColumn
 	 *            the source column ranging from 1 to the column number
@@ -402,8 +405,8 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 *            the copied table row
 	 * @param parameters
 	 *            parameters needed by insert operation.
-	 * @return <code>true</code> indicates the insert and paste operation can
-	 *         be done. Otherwise <code>false</code>.
+	 * @return <code>true</code> indicates the insert and paste operation can be
+	 *         done. Otherwise <code>false</code>.
 	 */
 
 	public boolean canInsertAndPasteRow( IDesignElement copiedRow,
@@ -480,7 +483,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 		if ( copiedRow == null || parameters == null
 				|| !( copiedRow instanceof TableRow ) )
 			throw new IllegalArgumentException( "empty row to paste." );//$NON-NLS-1$
-		
+
 		RowBandPasteAction pasteAction = new RowBandPasteAction(
 				new GridRowBandAdapter( this ) );
 
@@ -528,7 +531,8 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	{
 		if ( copiedRow == null || parameters == null
 				|| !( copiedRow instanceof TableRow ) )
-			throw new IllegalArgumentException( "empty row to insert and paste." );//$NON-NLS-1$
+			throw new IllegalArgumentException(
+					"empty row to insert and paste." );//$NON-NLS-1$
 
 		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(
 				new GridRowBandAdapter( this ) );
@@ -557,7 +561,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 
 		action.doShift( parameters );
 	}
-	
+
 	/**
 	 * Returns the caption text of this grid.
 	 * 
@@ -607,7 +611,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	{
 		setStringProperty( IGridItemModel.CAPTION_KEY_PROP, captionKey );
 	}
-	
+
 	/**
 	 * Returns the value of the summary.
 	 * 

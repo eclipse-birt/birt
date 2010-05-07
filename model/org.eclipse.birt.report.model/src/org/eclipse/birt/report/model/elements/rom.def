@@ -646,9 +646,14 @@
   	<Choice displayNameID="Choices.gadgetContentType.text" name="text"/>
   	<Choice displayNameID="Choices.gadgetContentType.image" name="image"/>  	
   </ChoiceType>
-    <ChoiceType name="WindowStatus">
+  <ChoiceType name="WindowStatus">
   	<Choice displayNameID="Choices.windowStatus.normal" name="normal"/>
   	<Choice displayNameID="Choices.windowStatus.maximized" name="maximized"/>
+  </ChoiceType>
+  <ChoiceType name="reportItemThemeType">
+  	<Choice displayNameID="Choices.reportItemThemeType.Table" name="Table"/>
+  	<Choice displayNameID="Choices.reportItemThemeType.List" name="List"/>
+  	<Choice displayNameID="Choices.reportItemThemeType.Grid" name="Grid"/>
   </ChoiceType>   
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
@@ -1724,6 +1729,9 @@
     </Slot>
     <Slot displayNameID="Element.Library.slot.cubes" multipleCardinality="true" name="cubes" since="2.2" xmlName="cubes">
       <Type name="Cube"/>
+    </Slot>
+    <Slot displayNameID="Element.Library.slot.reportItemThemes" multipleCardinality="true" name="reportItemThemes" since="2.6" xmlName="report-item-themes">
+      <Type name="ReportItemTheme"/>
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportDesign" extends="LayoutModule" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" name="ReportDesign" nameSpace="none" selector="report" since="1.0" xmlName="report">
@@ -2931,6 +2939,9 @@
     <Property displayNameID="Element.Listing.sortByGroups" name="sortByGroups" runtimeSettable="false" since="2.2" type="boolean">
     	<Default>true</Default>
     </Property>
+    <Property canInherit="false" detailType="ReportItemTheme" displayNameID="Element.Listing.theme" name="theme" runtimeSettable="false" since="2.6" type="elementRef">
+    	<Trigger validator="ThemeReferenceValidator"/>
+    </Property>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">
@@ -3385,6 +3396,9 @@
     <Property displayNameID="Element.Grid.caption" name="caption" runtimeSettable="false" since="2.3" type="string"/>
     <Property displayNameID="Element.Grid.captionID" name="captionID" since="2.3" type="resourceKey"/>
     <Property displayNameID="Element.Grid.summary" name="summary" runtimeSettable="false" since="2.3" type="string"/>
+    <Property canInherit="false" detailType="ReportItemTheme" displayNameID="Element.Grid.theme" name="theme" runtimeSettable="false" since="2.6" type="elementRef">
+    	<Trigger validator="ThemeReferenceValidator"/>
+    </Property>
     <Slot displayNameID="Element.Grid.slot.columns" multipleCardinality="true" name="columns" since="1.0">
       <Type name="Column"/>
       <Trigger validator="InconsistentColumnsValidator"/>
@@ -3564,6 +3578,13 @@
     <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.Theme.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure">
       <Trigger validator="IncludedCssStyleSheetValidator"/>
     </Property>
+  </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ReportItemTheme" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ReportItemTheme" name="ReportItemTheme" nameSpace="theme" since="2.6" xmlName="report-item-theme">
+    <Property canInherit="false" detailType="reportItemThemeType" displayNameID="Element.ReportItemTheme.type" name="type" runtimeSettable="false" since="2.6" type="string"/>
+    <Slot displayNameID="Element.ReportItemTheme.slot.styles" isManagedByNameSpace="false" multipleCardinality="true" name="styles" since="2.6" xmlName="styles">
+      <Type name="Style"/>
+	  <Trigger validator="ThemeStyleNameValidator"/>		
+    </Slot>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Cube" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Cube" name="Cube" nameSpace="cube" since="2.2" xmlName="cube">
   	<Property detailType="MeasureGroup" displayNameID="Element.Cube.defaultMeasureGroup" name="defaultMeasureGroup" runtimeSettable="false" since="2.2" type="elementRef"/>
@@ -3798,20 +3819,20 @@
     </Property>
   </Element>  
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />
-  <Style displayNameID="Style.List" name="list" reference="List. Applies to all slots within the list" />
-  <Style displayNameID="Style.ListHeader" name="list-header" reference="List Header" />
-  <Style displayNameID="Style.ListFooter" name="list-footer" reference="List Footer" />
-  <Style displayNameID="Style.ListDetail" name="list-detail" reference="List Detail" />
-  <Style displayNameID="Style.Table" name="table" reference="Table Item" />
-  <Style displayNameID="Style.TableHeader" name="table-header" reference="Table Header" />
-  <Style displayNameID="Style.TableFooter" name="table-footer" reference="Table Footer" />
-  <Style displayNameID="Style.TableDetail" name="table-detail" reference="Table Detail" />
+  <Style displayNameID="Style.List" name="list" reference="List. Applies to all slots within the list" type="List"/>
+  <Style displayNameID="Style.ListHeader" name="list-header" reference="List Header" type="List"/>
+  <Style displayNameID="Style.ListFooter" name="list-footer" reference="List Footer" type="List" />
+  <Style displayNameID="Style.ListDetail" name="list-detail" reference="List Detail" type="List" />
+  <Style displayNameID="Style.Table" name="table" reference="Table Item" type="Table" />
+  <Style displayNameID="Style.TableHeader" name="table-header" reference="Table Header" type="Table" />
+  <Style displayNameID="Style.TableFooter" name="table-footer" reference="Table Footer" type="Table" />
+  <Style displayNameID="Style.TableDetail" name="table-detail" reference="Table Detail" type="Table" />
   <Style displayNameID="Style.TableHeaderCell" name="table-header-cell" reference="Table Header Cell" />
   <Style displayNameID="Style.TableFooterCell" name="table-footer-cell" reference="Table Footer Cell" />
   <Style displayNameID="Style.TableDetailCell" name="table-detail-cell" reference="Table Detail Cell" />
   <Style displayNameID="Style.Label" name="label" reference="Label item" />
   <Style displayNameID="Style.Text" name="text" reference="Text item" />
-  <Style displayNameID="Style.Grid" name="grid" reference="Grid item" />
+  <Style displayNameID="Style.Grid" name="grid" reference="Grid item" type="Grid" />
   <Style displayNameID="Style.Data" name="data" reference="Data item" />
   <Style displayNameID="Style.Image" name="image" reference="Image item" />
   <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" />

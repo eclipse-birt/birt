@@ -12,21 +12,15 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetHandleAdapter;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
@@ -37,7 +31,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
  * @see org.eclipse.birt.report.model.elements.Theme
  */
 
-public class ThemeHandle extends ReportElementHandle implements IThemeModel
+public class ThemeHandle extends AbstractThemeHandle implements IThemeModel
 {
 
 	/**
@@ -54,40 +48,6 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	public ThemeHandle( Module module, DesignElement element )
 	{
 		super( module, element );
-	}
-
-	/**
-	 * Returns the styles slot of row. Through SlotHandle, each style can be
-	 * obtained.
-	 * 
-	 * @return the handle to the style slot
-	 * 
-	 * @see SlotHandle
-	 */
-
-	public SlotHandle getStyles( )
-	{
-		return getSlot( IThemeModel.STYLES_SLOT );
-	}
-
-	/**
-	 * Gets all styles in theme,include css file.
-	 * 
-	 * @return all styles.each item is <code>StyleHandle</code>
-	 */
-
-	public List getAllStyles( )
-	{
-		Theme theme = (Theme) getElement( );
-		List styles = new ArrayList( );
-		List styleList = theme.getAllStyles( );
-		Iterator iter = styleList.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			StyleElement style = (StyleElement) iter.next( );
-			styles.add( style.getHandle( module ) );
-		}
-		return styles;
 	}
 
 	/**
@@ -109,112 +69,12 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		return allStyles;
 	}
 
-	/**
-	 * Returns the style with the given name.
-	 * 
-	 * @param name
-	 *            the style name
-	 * @return the corresponding style
-	 */
-
-	public StyleHandle findStyle( String name )
-	{
-		Theme theme = (Theme) getElement( );
-		StyleElement style = theme.findStyle( name );
-		if ( style != null )
-			return (StyleHandle) style.getHandle( module );
-
-		return null;
-	}
-
-	/**
-	 * Makes the unique style name in the given theme. The return name is based
-	 * on <code>name</code>.
-	 * 
-	 * @param name
-	 *            the style name
-	 * @return the new unique style name
-	 */
-
-	String makeUniqueStyleName( String name )
-	{
-		assert this != null;
-
-		SlotHandle styles = getStyles( );
-		Set set = new HashSet( );
-		for ( int i = 0; i < styles.getCount( ); i++ )
-		{
-			StyleHandle style = (StyleHandle) styles.get( i );
-			set.add( style.getName( ) );
-		}
-
-		// Should different from css file name
-
-		PropertyHandle propHandle = getPropertyHandle( IThemeModel.CSSES_PROP );
-		Iterator iterator = propHandle.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			IncludedCssStyleSheetHandle handle = (IncludedCssStyleSheetHandle) iterator
-					.next( );
-			set.add( handle.getFileName( ) );
-		}
-
-		// Add a numeric suffix that makes the name unique.
-
-		int index = 0;
-		String baseName = name;
-		while ( set.contains( name ) )
-		{
-			name = baseName + ++index;
-		}
-		return name;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.DesignElementHandle#getDisplayLabel
-	 * (int)
-	 */
-
-	public String getDisplayLabel( int level )
-	{
-
-		String displayLabel = super.getDisplayLabel( level );
-
-		Module rootModule = getModule( );
-		if ( rootModule instanceof Library )
-			displayLabel = StringUtil.buildQualifiedReference(
-					( (Library) rootModule ).getNamespace( ), displayLabel );
-
-		return displayLabel;
-
-	}
-
-	/**
-	 * Returns the iterator over all included css style sheets. Each one is the
-	 * instance of <code>IncludedCssStyleSheetHandle</code>
-	 * 
-	 * @return the iterator over all included css style sheets.
-	 */
-
-	public Iterator includeCssesIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( IThemeModel.CSSES_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
-	}
-
-	/**
-	 * Includes one css with the given css file name. The new css will be
-	 * appended to the css list.
-	 * 
-	 * @param sheetHandle
-	 *            css style sheet handle
-	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list.
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#addCss(org.eclipse
+	 * .birt.report.model.api.css.CssStyleSheetHandle)
 	 */
 
 	public void addCss( CssStyleSheetHandle sheetHandle )
@@ -225,15 +85,12 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		adapter.addCss( sheetHandle );
 	}
 
-	/**
-	 * Includes one CSS structure with the given IncludedCssStyleSheet. The new
-	 * css will be appended to the CSS list.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param cssStruct
-	 *            the CSS structure
-	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list.
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#addCss(org.eclipse
+	 * .birt.report.model.api.elements.structures.IncludedCssStyleSheet)
 	 */
 
 	public void addCss( IncludedCssStyleSheet cssStruct )
@@ -247,17 +104,13 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		adapter.addCss( cssStruct );
 	}
 
-	/**
-	 * Includes one css with the given css file name. The new css will be
-	 * appended to the css list.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param fileName
-	 *            css file name
-	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list.
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#addCss(java.lang
+	 * .String)
 	 */
-
 	public void addCss( String fileName ) throws SemanticException
 	{
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
@@ -265,16 +118,12 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		adapter.addCss( fileName );
 	}
 
-	/**
-	 * Drops the given css style sheet of this design file.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param sheetHandle
-	 *            the css to drop
-	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list. Or it maybe
-	 *             because that the given css is not found in the design. Or
-	 *             that the css has descedents in the current module
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#dropCss(org.eclipse
+	 * .birt.report.model.api.css.CssStyleSheetHandle)
 	 */
 
 	public void dropCss( CssStyleSheetHandle sheetHandle )
@@ -285,13 +134,13 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		adapter.dropCss( sheetHandle );
 	}
 
-	/**
-	 * Check style sheet can be droped or not.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param sheetHandle
-	 * @return <code>true</code> can be dropped.else return <code>false</code>
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#canDropCssStyleSheet
+	 * (org.eclipse.birt.report.model.api.css.CssStyleSheetHandle)
 	 */
-
 	public boolean canDropCssStyleSheet( CssStyleSheetHandle sheetHandle )
 	{
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
@@ -299,11 +148,12 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		return adapter.canDropCssStyleSheet( sheetHandle );
 	}
 
-	/**
-	 * Check style sheet can be added or not.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param sheetHandle
-	 * @return <code>true</code> can be added.else return <code>false</code>
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#canAddCssStyleSheet
+	 * (org.eclipse.birt.report.model.api.css.CssStyleSheetHandle)
 	 */
 
 	public boolean canAddCssStyleSheet( CssStyleSheetHandle sheetHandle )
@@ -313,13 +163,13 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		return adapter.canAddCssStyleSheet( sheetHandle );
 	}
 
-	/**
-	 * Check style sheet can be added or not.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param fileName
-	 * @return <code>true</code> can be added.else return <code>false</code>
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#canAddCssStyleSheet
+	 * (java.lang.String)
 	 */
-
 	public boolean canAddCssStyleSheet( String fileName )
 	{
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
@@ -327,18 +177,12 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		return adapter.canAddCssStyleSheet( fileName );
 	}
 
-	/**
-	 * Reloads the css with the given css file path. If the css already is
-	 * included directly, reload it. If the css is not included, exception will
-	 * be thrown.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param sheetHandle
-	 *            css style sheet handle
-	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list. Or it maybe
-	 *             because that the given css is not found in the design. Or
-	 *             that the css has descedents in the current module
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#reloadCss(org.eclipse
+	 * .birt.report.model.api.css.CssStyleSheetHandle)
 	 */
 
 	public void reloadCss( CssStyleSheetHandle sheetHandle )
@@ -349,13 +193,11 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		adapter.reloadCss( sheetHandle );
 	}
 
-	/**
-	 * Gets <code>CssStyleSheetHandle</code> by file name.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param fileName
-	 *            the file name.
-	 * 
-	 * @return the cssStyleSheet handle.
+	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
+	 * findCssStyleSheetHandleByName(java.lang.String)
 	 */
 	public CssStyleSheetHandle findCssStyleSheetHandleByName( String fileName )
 	{
@@ -365,12 +207,11 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 
 	}
 
-	/**
-	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param fileName
-	 *            the file name
-	 * @return the includedCssStyleSheet handle.
+	 * @see org.eclipse.birt.report.model.api.AbstractThemeHandle#
+	 * findIncludedCssStyleSheetHandleByName(java.lang.String)
 	 */
 	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByName(
 			String fileName )
@@ -380,14 +221,12 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		return adapter.findIncludedCssStyleSheetHandleByFileName( fileName );
 	}
 
-	/**
-	 * Renames both <code>IncludedCssStyleSheet</code> and
-	 * <code>CSSStyleSheet<code> to newFileName.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param handle
-	 *            the includedCssStyleSheetHandle
-	 * @param newFileName
-	 *            the new file name
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#renameCss(org.eclipse
+	 * .birt.report.model.api.IncludedCssStyleSheetHandle, java.lang.String)
 	 */
 	public void renameCss( IncludedCssStyleSheetHandle handle,
 			String newFileName ) throws SemanticException
@@ -398,14 +237,13 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		adapter.renameCss( handle, newFileName );
 	}
 
-	/**
-	 * Checks included style sheet can be renamed or not.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param handle
-	 *            the included css style sheet handle.
-	 * @param newFileName
-	 *            the new file name.
-	 * @return <code>true</code> can be renamed.else return <code>false</code>
+	 * @see
+	 * org.eclipse.birt.report.model.api.AbstractThemeHandle#canRenameCss(org
+	 * .eclipse.birt.report.model.api.IncludedCssStyleSheetHandle,
+	 * java.lang.String)
 	 */
 	public boolean canRenameCss( IncludedCssStyleSheetHandle handle,
 			String newFileName ) throws SemanticException

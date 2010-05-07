@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 
 /**
  * Represents slots and common properties in the two list-oriented elements:
@@ -39,7 +40,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 public abstract class ListingHandle extends ReportItemHandle
 		implements
-			IListingElementModel
+			IListingElementModel,
+			ISupportThemeElementConstants
 {
 
 	/**

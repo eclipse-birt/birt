@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api.core;
 
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
+
 /**
  * The interface for the root element to store the constants.
  */
@@ -153,7 +155,7 @@ public interface IModuleModel
 	 * Name of the theme property.
 	 */
 
-	public static final String THEME_PROP = "theme"; //$NON-NLS-1$
+	public static final String THEME_PROP = ISupportThemeElement.THEME_PROP;
 
 	/**
 	 * Name of the "propertyBindings" property.

@@ -64,10 +64,10 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Parameter;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -740,8 +740,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Finds a theme by its name in this module and the included modules.
 	 * 
 	 * @param name
-	 *            name of the style
-	 * @return a handle to the style, or <code>null</code> if the style is not
+	 *            name of the theme
+	 * @return a handle to the theme, or <code>null</code> if the theme is not
 	 *         found
 	 */
 
@@ -751,6 +751,22 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( theme == null )
 			return null;
 		return (ThemeHandle) theme.getHandle( theme.getRoot( ) );
+	}
+
+	/**
+	 * Finds a report item theme by its name in this module and its included
+	 * libraries.
+	 * 
+	 * @param name
+	 *            name of the report item theme
+	 * @return a handle to the report item theme, or null if not found
+	 */
+	public final ReportItemThemeHandle findReportItemTheme( String name )
+	{
+		ReportItemTheme theme = module.findReportItemTheme( name );
+		if ( theme == null )
+			return null;
+		return (ReportItemThemeHandle) theme.getHandle( theme.getRoot( ) );
 	}
 
 	/**
@@ -1594,6 +1610,20 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 */
 
 	public List getVisibleThemes( int level )
+	{
+		return Collections.emptyList( );
+	}
+
+	/**
+	 * Returns report item theme handles according the input level.
+	 * 
+	 * @param level
+	 *            an <code>int</code> value, which should be the one defined in
+	 *            <code>IVisibleLevelControl</code>.
+	 * 
+	 * @return theme handles according the input level
+	 */
+	public List getVisibleReportItemThemes( int level )
 	{
 		return Collections.emptyList( );
 	}
@@ -3048,18 +3078,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( nameSpaceList.size( ) == 0 )
 			return modules;
 
-		// Check value in design handle and libraries.
-
-		DesignElement element = (DesignElement) nameSpaceList.get( 0 );
-		int slotID = element.getContainerInfo( ) == null
-				? IDesignElementModel.NO_SLOT
-				: element.getContainerInfo( ).getSlotID( );
-		assert slotID != IDesignElementModel.NO_SLOT;
-
 		// Libraries
 		modules = getVisibleModules( level );
 
-		return checkVisibleElements( nameSpaceList, modules, slotID );
+		return checkVisibleElements( nameSpaceList, modules );
 	}
 
 	/**
@@ -3068,9 +3090,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @param level
 	 * @return
 	 */
-	protected List getVisibleModules( int level )
+	protected List<ModuleHandle> getVisibleModules( int level )
 	{
-		List modules = new ArrayList( );
+		List<ModuleHandle> modules = new ArrayList<ModuleHandle>( );
 		modules.add( this );
 		modules.addAll( getLibraries( level ) );
 		return modules;
@@ -3088,25 +3110,26 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return the list contains sorted design elements.
 	 */
 
-	private List checkVisibleElements( List nameSpaceList, List modules,
-			int slotID )
+	private List checkVisibleElements( List nameSpaceList, List modules )
 	{
 		assert modules != null;
 		List resultList = new ArrayList( );
-
-		for ( int i = 0; i < modules.size( ); ++i )
+		List<Module> moduleList = new ArrayList<Module>( );
+		for ( int i = 0; i < modules.size( ); i++ )
 		{
-			ModuleHandle handle = (ModuleHandle) modules.get( i );
-			SlotHandle slotHandle = handle.getSlot( slotID );
-			for ( int j = 0; j < slotHandle.getCount( ); ++j )
+			ModuleHandle moduleHandle = (ModuleHandle) modules.get( i );
+			moduleList.add( moduleHandle.getModule( ) );
+		}
+
+		for ( int i = 0; i < nameSpaceList.size( ); ++i )
+		{
+			DesignElement content = (DesignElement) nameSpaceList.get( i );
+
+			if ( moduleList.contains( content.getRoot( ) ) )
 			{
-				DesignElementHandle contentHandle = slotHandle.get( j );
-				DesignElement content = contentHandle.getElement( );
-				if ( nameSpaceList.contains( content ) )
-				{
-					resultList.add( content );
-				}
+				resultList.add( content );
 			}
+
 		}
 		return resultList;
 	}

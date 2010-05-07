@@ -11,39 +11,16 @@
 
 package org.eclipse.birt.report.model.elements.interfaces;
 
+
 /**
- * The interface for library element to store the constants.
+ * The interface for elements that supports to set theme on it.
  */
 
-public interface ILibraryModel
+public interface ISupportThemeElementConstants
 {
 
-	// Library slots
-	// See constants defined in the module class.
-
 	/**
-	 * Identifier of the slot that holds themes.
+	 * Name of the property that defines theme name applied for this element.
 	 */
-
-	public static final int THEMES_SLOT = 0;
-
-	/**
-	 * Identifier of the slot that holds a collections of cube elements.
-	 */
-
-	public static final int CUBE_SLOT = 6;
-
-	/**
-	 * Identifier of the slot that holds a collections of report item theme
-	 * elements.
-	 */
-
-	public static final int REPORT_ITEM_THEME_SLOT = 7;
-
-	/**
-	 * Number of slots in the library.
-	 */
-
-	public static final int SLOT_COUNT = 8;
-
+	public static final String THEME_PROP = "theme"; //$NON-NLS-1$
 }

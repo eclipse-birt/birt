@@ -12,14 +12,20 @@
 package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.command.ThemeException;
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
@@ -38,9 +44,12 @@ public class ThemeCommand extends AbstractElementCommand
 	 *            the module to set the theme
 	 */
 
-	public ThemeCommand( Module module )
+	public ThemeCommand( Module module, DesignElement element )
 	{
-		super( module, module );
+		super( module, element );
+		if ( element.getPropertyDefn( ISupportThemeElementConstants.THEME_PROP ) == null )
+			throw new IllegalArgumentException(
+					"The element does not support theme property!" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -68,7 +77,8 @@ public class ThemeCommand extends AbstractElementCommand
 	 *             if the element can not have theme or the theme is not found.
 	 */
 
-	public void setThemeElement( ThemeHandle theme ) throws SemanticException
+	public void setThemeElement( AbstractThemeHandle theme )
+			throws SemanticException
 	{
 		if ( theme == null )
 		{
@@ -79,7 +89,7 @@ public class ThemeCommand extends AbstractElementCommand
 		String name = null;
 		if ( theme != null )
 			name = ReferenceValueUtil.needTheNamespacePrefix( theme
-					.getElement( ), theme.getModule( ), (Module) element );
+					.getElement( ), theme.getModule( ), element.getRoot( ) );
 
 		Object retValue = doValidateValue( name );
 
@@ -90,7 +100,7 @@ public class ThemeCommand extends AbstractElementCommand
 		if ( refValue.isResolved( )
 				&& refValue.getElement( ) != theme.getElement( ) )
 			throw new SemanticError( element, new String[]{
-					IModuleModel.THEME_PROP, refValue.getName( )},
+					ISupportThemeElement.THEME_PROP, refValue.getName( )},
 					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
 
 		doSetThemeRefValue( (ElementRefValue) retValue );
@@ -110,7 +120,8 @@ public class ThemeCommand extends AbstractElementCommand
 	protected void setThemeRefValue( ElementRefValue refValue )
 			throws SemanticException
 	{
-		if ( refValue == null && ( (Module) element ).getThemeName( ) == null )
+		if ( refValue == null
+				&& ( (ISupportThemeElement) element ).getThemeName( ) == null )
 			return;
 
 		doSetThemeRefValue( refValue );
@@ -126,18 +137,21 @@ public class ThemeCommand extends AbstractElementCommand
 	 *             if the value is not valid
 	 */
 
-	private Object doValidateValue( String name ) throws PropertyValueException
+	private Object doValidateValue( String name ) throws SemanticException
 	{
 		name = StringUtil.trimString( name );
 
-		Module currentModule = (Module) element;
-		ElementPropertyDefn propDefn = currentModule
-				.getPropertyDefn( IModuleModel.THEME_PROP );
+		ElementPropertyDefn propDefn = element
+				.getPropertyDefn( ISupportThemeElementConstants.THEME_PROP );
+		if ( propDefn == null )
+			throw new PropertyNameException( element,
+					ISupportThemeElementConstants.THEME_PROP );
 
-		if ( name == null && currentModule.getThemeName( ) == null )
+		if ( name == null
+				&& ( (ISupportThemeElement) element ).getThemeName( ) == null )
 			return null;
 
-		return propDefn.validateValue( currentModule, currentModule, name );
+		return propDefn.validateValue( module, element, name );
 	}
 
 	/**
@@ -151,24 +165,39 @@ public class ThemeCommand extends AbstractElementCommand
 	private void doSetThemeRefValue( ElementRefValue newThemeValue )
 			throws SemanticException
 	{
-		if ( newThemeValue != null && !newThemeValue.isResolved( ) )
+		if ( newThemeValue != null )
 		{
+			// can not set an unresoved value
 			String name = ReferenceValueUtil.needTheNamespacePrefix(
-					newThemeValue, (Module) element );
-			throw new ThemeException( element, name,
-					ThemeException.DESIGN_EXCEPTION_NOT_FOUND );
+					newThemeValue, element.getRoot( ) );
+			if ( !newThemeValue.isResolved( ) )
+			{
+
+				throw new ThemeException( element, name,
+						ThemeException.DESIGN_EXCEPTION_NOT_FOUND );
+			}
+
+			// can not set theme in report item to a wrong type
+			AbstractTheme theme = (AbstractTheme) newThemeValue.getElement( );
+			if ( theme instanceof ReportItemTheme
+					&& !element.getDefn( ).getName( ).equals(
+							( (ReportItemTheme) theme ).getType( module ) ) )
+			{
+				throw new ThemeException( element, name,
+						ThemeException.DESIGN_EXCEPTION_WRONG_TYPE );
+			}
+
 		}
 
 		if ( newThemeValue != null
 				&& newThemeValue.isResolved( )
-				&& newThemeValue.getElement( ) == ( (Module) element )
+				&& newThemeValue.getElement( ) == ( (ISupportThemeElement) element )
 						.getTheme( ) )
 			return;
 
 		// adjust the back references for styles in the theme
 
-		ThemeRecord themeRecord = new ThemeRecord( (Module) element,
-				newThemeValue );
+		ThemeRecord themeRecord = new ThemeRecord( element, newThemeValue );
 		getModule( ).getActivityStack( ).execute( themeRecord );
 	}
 }

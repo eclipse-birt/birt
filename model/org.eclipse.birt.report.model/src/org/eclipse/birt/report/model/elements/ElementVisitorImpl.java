@@ -575,6 +575,18 @@ class ElementVisitorImpl
 	}
 
 	/**
+	 * Visits the report item theme.
+	 * 
+	 * @param obj
+	 *            the report item theme to traverse
+	 */
+
+	public void visitReportItemTheme( ReportItemTheme obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
 	 * Visits the template parameter definition.
 	 * 
 	 * @param obj

@@ -168,7 +168,9 @@ interface IDesignSchemaConstants
 	static final String PROPERTY_VALUE_TAG = "property-value"; //$NON-NLS-1$
 	static final String RECTANGLE_TAG = "rectangle"; //$NON-NLS-1$ 
 	static final String REF_ENTRY_TAG = "ref-entry"; //$NON-NLS-1$	
-	static final String REPORT_ITEMS_TAG = "report-items"; //$NON-NLS-1$ 
+	static final String REPORT_ITEMS_TAG = "report-items"; //$NON-NLS-1$
+	static final String	REPORT_ITEM_THEME_TAG = "report-item-theme"; //$NON-NLS-1$
+	static final String REPORT_ITEM_THEMES_TAG = "report-item-themes"; //$NON-NLS-1$
 	static final String REPORT_TAG = "report"; //$NON-NLS-1$
 	static final String RESOURCE_KEY_ATTRIB = "resource-key"; //$NON-NLS-1$
 	static final String RESOURCE_TAG = "resource"; //$NON-NLS-1$	
@@ -224,6 +226,7 @@ interface IDesignSchemaConstants
 	static final String TOC_TAG = "toc"; //$NON-NLS-1$ 
 	static final String TRANSLATION_TAG = "translation"; //$NON-NLS-1$
 	static final String TRANSLATIONS_TAG = "translations"; //$NON-NLS-1$
+	static final String TYPE_ATTRIB = "type"; //$NON-NLS-1$
 	static final String TYPE_TAG = "type"; //$NON-NLS-1$
 	static final String VALUE_ACCESS_CONTROL_TAG = "value-access-control"; //$NON-NLS-1$
 	static final String VALUE_TAG = "value"; //$NON-NLS-1$

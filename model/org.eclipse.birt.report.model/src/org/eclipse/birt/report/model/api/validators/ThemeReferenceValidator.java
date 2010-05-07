@@ -20,6 +20,9 @@ import org.eclipse.birt.report.model.api.command.ThemeException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -69,16 +72,53 @@ public class ThemeReferenceValidator extends AbstractElementValidator
 	public List<SemanticException> validate( Module module,
 			DesignElement element )
 	{
-		if ( element != module )
+		if ( !( element instanceof ISupportThemeElement || module == element ) )
 			return Collections.emptyList( );
 
-		List<SemanticException> list = new ArrayList<SemanticException>( );
-		String themeName = module.getThemeName( );
-		if ( !StringUtil.isEmpty( themeName ) && module.getTheme( module ) == null )
+		if ( element instanceof Module )
 		{
-			list.add( new ThemeException( module,
-					themeName,
+			List<SemanticException> list = new ArrayList<SemanticException>( );
+			String themeName = module.getThemeName( );
+			if ( !StringUtil.isEmpty( themeName )
+					&& module.getTheme( module ) == null )
+			{
+				list.add( new ThemeException( module, themeName,
+						ThemeException.DESIGN_EXCEPTION_NOT_FOUND ) );
+			}
+			return list;
+		}
+		else if ( element instanceof ReportItem )
+		{
+			return doValidate( module, (ReportItem) element );
+		}
+		else
+		{
+			assert false;
+			return Collections.emptyList( );
+		}
+	}
+
+	private List<SemanticException> doValidate( Module module,
+			ReportItem element )
+	{
+		List<SemanticException> list = new ArrayList<SemanticException>( );
+		String themeName = element.getThemeName( );
+		if ( !StringUtil.isEmpty( themeName )
+				&& element.getTheme( module ) == null )
+		{
+			list.add( new ThemeException( module, themeName,
 					ThemeException.DESIGN_EXCEPTION_NOT_FOUND ) );
+		}
+		else
+		{
+			ReportItemTheme theme = (ReportItemTheme) element.getTheme( module );
+			if ( theme != null
+					&& !element.getDefn( ).getName( ).equals(
+							theme.getType( theme.getRoot( ) ) ) )
+			{
+				list.add( new ThemeException( element, themeName,
+						ThemeException.DESIGN_EXCEPTION_WRONG_TYPE ) );
+			}
 		}
 		return list;
 	}

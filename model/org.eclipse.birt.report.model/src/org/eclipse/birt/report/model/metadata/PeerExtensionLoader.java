@@ -886,10 +886,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String name = propTag.getAttribute( NAME_ATTRIB );
 			String displayNameID = propTag
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
+			String type = propTag.getAttribute( TYPE_ATTRIB );
 
 			PredefinedStyle style = new PredefinedStyle( );
 			style.setName( name );
 			style.setDisplayNameKey( displayNameID );
+			style.setType( type );
 			return style;
 		}
 

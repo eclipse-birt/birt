@@ -21,9 +21,12 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
@@ -237,6 +240,21 @@ class ContainerContextProviderImpl
 		{
 			errors.add( e );
 			return errors;
+		}
+
+		if ( focus.getElement( ) instanceof ReportItemTheme )
+		{
+			ReportItemTheme theme = (ReportItemTheme) focus.getElement( );
+			String type = theme.getType( theme.getRoot( ) );
+			IPredefinedStyle style = MetaDataDictionary.getInstance( )
+					.getPredefinedStyle( element.getName( ) );
+			if ( StringUtil.isBlank( type ) || style == null
+					|| !type.equals( style.getType( ) ) )
+			{
+				errors.add( e );
+				return errors;
+			}
+
 		}
 
 		// special cases check table header containment.

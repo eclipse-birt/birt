@@ -60,12 +60,14 @@ import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -103,7 +105,8 @@ import com.ibm.icu.util.ULocale;
 public abstract class Module extends DesignElement
 		implements
 			IModuleModel,
-			INameContainer
+			INameContainer,
+			ISupportThemeElement
 {
 
 	/**
@@ -2355,6 +2358,21 @@ public abstract class Module extends DesignElement
 	{
 		return (Theme) resolveElement( null, name, null, MetaDataDictionary
 				.getInstance( ).getElement( ReportDesignConstants.THEME_ITEM ) );
+	}
+
+	/**
+	 * Finds a theme in this module and its included modules.
+	 * 
+	 * @param name
+	 *            Name of the style to find.
+	 * @return The style, or null if the style is not found.
+	 */
+
+	public final ReportItemTheme findReportItemTheme( String name )
+	{
+		return (ReportItemTheme) resolveElement( null, name, null,
+				MetaDataDictionary.getInstance( ).getElement(
+						ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT ) );
 	}
 
 	/**
