@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *
  ******************************************************************************
  */  
@@ -15,6 +15,8 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.logging.Level;
@@ -51,7 +53,7 @@ public class ColumnHint
 	 */
 	public ColumnHint( String columnName )
 	{
-		String methodName = "ColumnHint";
+		final String methodName = "ColumnHint(String)"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, columnName );
 
 		if( columnName == null || columnName.length() == 0 )
@@ -82,7 +84,7 @@ public class ColumnHint
 	 */
 	public void setPosition( int position )
 	{
-		String methodName = "setPosition";
+		final String methodName = "setPosition(int)"; //$NON-NLS-1$
 
 		if( position < 1 )
 		{
@@ -92,7 +94,7 @@ public class ColumnHint
 
 			if( sm_logger.isLoggable( Level.SEVERE ) )
 			    sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Invalid column position {0}.", new Integer( position ) );
+					"Invalid column position {0}.", new Integer( position ) ); //$NON-NLS-1$
 			throw ex;
 		}
 		
@@ -124,9 +126,12 @@ public class ColumnHint
                 dataType == java.sql.Date.class ||
 		        dataType == Time.class ||
 		        dataType == Timestamp.class ||
+                dataType == Blob.class ||
 		        dataType == IBlob.class ||
-		        dataType == IClob.class  ||
-                dataType == Boolean.class );
+                dataType == Clob.class ||
+		        dataType == IClob.class ||
+                dataType == Boolean.class ||
+                dataType == Object.class );
 		
 		m_dataType = dataType;
 	}
@@ -169,7 +174,7 @@ public class ColumnHint
 	 */
 	public void setAlias( String alias )
 	{
-		String methodName = "setAlias";
+		final String methodName = "setAlias(String)"; //$NON-NLS-1$
 		
 		// ok to set the alias as null, meaning no alias,  but 
 		// not ok to have an empty alias
@@ -181,7 +186,7 @@ public class ColumnHint
 
 			if( sm_logger.isLoggable( Level.SEVERE ) )
 			    sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"The alias is empty; must be either null or non-empty value." );
+					"The alias is empty; must be either null or non-empty value." ); //$NON-NLS-1$
 			throw ex;
 		}
 		
