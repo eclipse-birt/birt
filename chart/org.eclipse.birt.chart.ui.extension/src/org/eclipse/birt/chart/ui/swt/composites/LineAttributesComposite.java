@@ -219,12 +219,16 @@ public class LineAttributesComposite extends Composite implements
 			lblColor.setText( Messages.getString( "LineAttributesComposite.Lbl.Color" ) ); //$NON-NLS-1$
 			lblColor.setEnabled( bEnableUI );
 
-			cmbColor = new FillChooserComposite( cmpContent,
+			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
+					| FillChooserComposite.ENABLE_TRANSPARENT
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+
+			 cmbColor = new FillChooserComposite( cmpContent,
 					SWT.DROP_DOWN | SWT.READ_ONLY,
+					iFillOption,
 					wizardContext,
-					this.laCurrent.getColor( ),
-					false,
-					false );
+					this.laCurrent.getColor( ) );
+
 			GridData gdCBColor = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBColor.horizontalSpan = 5;
 			cmbColor.setLayoutData( gdCBColor );
