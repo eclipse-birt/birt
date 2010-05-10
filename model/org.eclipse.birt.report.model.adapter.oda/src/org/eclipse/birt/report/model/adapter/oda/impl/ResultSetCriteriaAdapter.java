@@ -319,8 +319,7 @@ public class ResultSetCriteriaAdapter
 					.getColumnName( ) );
 			sortHint.setProperty( SortHint.POSITION_MEMBER, key
 					.getColumnPosition( ) );
-			sortHint
-					.setProperty( SortHint.IS_OPTIONAL_MEMBER, key.isOptional( ) );
+			sortHint.setProperty( SortHint.IS_OPTIONAL_MEMBER, key.isOptional( ) );
 
 			SortDirectionType sortType = key.getSortDirection( );
 
@@ -523,7 +522,10 @@ public class ResultSetCriteriaAdapter
 				DynamicFilterParameterHandle dynamicFilterParamHandle = (DynamicFilterParameterHandle) parameterHandle;
 				key = DYNAMIC_PREFIX
 						+ dynamicFilterParamHandle.getDataSetName( )
-						+ SEPERATOR + dynamicFilterParamHandle.getColumn( );
+						+ SEPERATOR
+						+ ExpressionUtil
+								.createDataSetRowExpression( dynamicFilterParamHandle
+										.getColumn( ) );
 			}
 		}
 		return key;
@@ -578,10 +580,10 @@ public class ResultSetCriteriaAdapter
 			FilterCondition filterCondition = StructureFactory
 					.createFilterCond( );
 			filterCondition.setExpr( filter.getColumnExpr( ) );
-			
-			//in default, to make sure the pushdown is true.
+
+			// in default, to make sure the pushdown is true.
 			filterCondition.setPushDown( true );
-			
+
 			FilterConditionHandle filterConditionHandle = (FilterConditionHandle) setHandle
 					.getPropertyHandle( IDataSetModel.FILTER_PROP ).addItem(
 							filterCondition );
