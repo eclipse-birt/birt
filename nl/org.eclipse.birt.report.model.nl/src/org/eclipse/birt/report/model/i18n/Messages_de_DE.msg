@@ -711,6 +711,11 @@ Choices.gadgetContentType.image=Bild
 Choices.windowStatus.normal=Normal
 Choices.windowStatus.maximized=Maximiert
 
+#90 reportItemThemeType
+Choices.reportItemThemeType.Table=Table Theme
+Choices.reportItemThemeType.List=List Theme
+Choices.reportItemThemeType.Grid=Grid Theme
+
 ###########################################################
 # Classes
 
@@ -2363,6 +2368,7 @@ Element.DataMartDataSource=Datenobjekt-Datenquelle
 Element.DataMartDataSet=Datenobjekt-Datensatz
 Element.DataMartCube=Datenobjektquader
 Element.TimeDimension=Zeitliche Dimension
+Element.ReportItemTheme=Report Item Theme
 
 ###########################################################
 # Element property names
@@ -2402,6 +2408,7 @@ Element.Library.slot.pageSetup=Seite einrichten
 Element.Library.slot.components=Komponenten
 Element.Library.slot.themes=Designs
 Element.Library.slot.cubes=Quader
+Element.Library.slot.reportItemThemes=Report Item Themes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Aktualisierungsrate
@@ -3018,7 +3025,8 @@ Element.Grid.onPageBreak.reportContext=Berichtkontext
 Element.Grid.caption=Beschriftung
 Element.Grid.captionID=Beschriftungsschl黶sel
 Element.Grid.summary=Zusammenfassung
-  
+Element.Grid.theme=Theme
+
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Seitenausrichtung
   
@@ -3125,6 +3133,7 @@ Element.Listing.onRow=Bei Zeile
 Element.Listing.onRow.toolTip=Wird f黵 jede Zeile aufgerufen, die aus dem Datensatz f黵 dieses Element abgerufen wurde, jedoch vor dem Erstellen von Inhalt f黵 diese Zeile
 Element.Listing.onFinish=Beim Beenden
 Element.Listing.onFinish.toolTip=Wird nach dem Lesen der letzten Zeile aus dem Datensatz f黵 dieses Element aufgerufen, jedoch vor dem Erstellen der Fu遺eile
+Element.Listing.theme=Theme
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=Inhalt
@@ -3292,6 +3301,7 @@ Element.OdaLevel.attributes=Attribute
 Element.MemberValue.value=Wert
 Element.MemberValue.level=Ebene
 Element.MemberValue.memberValues=Mitgliedswerte
+Element.MemberValue.filter=Filter
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=Schl黶sel
@@ -3393,6 +3403,10 @@ Element.DataMartCube.dataObject=Datenobjekt
 Element.TimeDimension.startTimePoint=Startzeitpunkt
 Element.TimeDimension.endTimePoint=Endzeitpunkt
 Element.TimeDimension.hierarchies=Hierarchien
+
+#63 ReportItemTheme ( Prefix Element.ReportItemTheme )
+Element.ReportItemTheme.slot.styles=样式
+Element.ReportItemTheme.type=类型
 
 ###########################################################
 # Predefined style
@@ -3663,6 +3677,7 @@ New.DataMartCube=NewDataMartCube
 New.TabElement=NewTabElement
 New.GadgetItem=NewGadgetItem
 New.TimeDimension=NewTimeDimension
+New.ReportItemTheme=NewReportItemTheme
 
 ###########################################################
 #Default theme name.
@@ -3826,7 +3841,8 @@ Error.StyleException.FORBIDDEN={0} kann keinen Stil aufweisen.
 Error.StyleException.NOT_FOUND=Der von {1} verwendete Stil "{0}" wurde nicht gefunden.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=Das von {1} verwendete Thema "{0}" wurde nicht gefunden.    
+Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
+Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=Die Datei "{0}" wurde nicht gefunden.
@@ -3897,6 +3913,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=Der Bibliothek-Namespace "{0}
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=Die Bibliothek mit dem Namespace "{0}" ist rekursiv einbezogen.
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=Die Bibliothek "{0}" kann nicht abgelegt werden, da sie im aktuellen Modul untergeordnete Elemente "{1}" aufweist.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=Die Bibliothek "{0}" ist bereits enthalten. Bibliotheken k鰊nen nicht doppelt hinzugef黦t werden.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=Die Stilvorlagen-Ressource wurde nicht gefunden.

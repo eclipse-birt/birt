@@ -711,6 +711,11 @@ Choices.gadgetContentType.image=Image
 Choices.windowStatus.normal=Normal
 Choices.windowStatus.maximized=Agrandi
 
+#90 reportItemThemeType
+Choices.reportItemThemeType.Table=Table Theme
+Choices.reportItemThemeType.List=List Theme
+Choices.reportItemThemeType.Grid=Grid Theme
+
 ###########################################################
 # Classes
 
@@ -2363,6 +2368,7 @@ Element.DataMartDataSource=Source de données de l'objet de données
 Element.DataMartDataSet=Jeu de données de l'objet de données
 Element.DataMartCube=Cube de l'objet de données
 Element.TimeDimension=Dimension de temps
+Element.ReportItemTheme=Report Item Theme
 
 ###########################################################
 # Element property names
@@ -2402,6 +2408,7 @@ Element.Library.slot.pageSetup=Mise en page
 Element.Library.slot.components=Composants
 Element.Library.slot.themes=Thèmes
 Element.Library.slot.cubes=Cubes
+Element.Library.slot.reportItemThemes=Report Item Themes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Fréquence d'actualisation
@@ -3018,7 +3025,8 @@ Element.Grid.onPageBreak.reportContext=Contexte d'état
 Element.Grid.caption=Légende
 Element.Grid.captionID=Clé de légende
 Element.Grid.summary=Résumé
-  
+Element.Grid.theme=Theme
+
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientation
   
@@ -3125,6 +3133,7 @@ Element.Listing.onRow=A la ligne
 Element.Listing.onRow.toolTip=Commande appelée pour chaque ligne extraite du jeu de données pour cet élément, mais avant la création de tout contenu pour cette ligne
 Element.Listing.onFinish=A la fin
 Element.Listing.onFinish.toolTip=Commande appelée après la lecture de la dernière ligne du jeu de données pour cet élément, mais avant la création de la bande du pied de page
+Element.Listing.theme=Theme
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=Contenu
@@ -3292,6 +3301,7 @@ Element.OdaLevel.attributes=Attributs
 Element.MemberValue.value=Valeur
 Element.MemberValue.level=Niveau
 Element.MemberValue.memberValues=Valeurs de membre
+Element.MemberValue.filter=Filter
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=Clé
@@ -3393,6 +3403,10 @@ Element.DataMartCube.dataObject=Objet de données :
 Element.TimeDimension.startTimePoint=Limite pour l'heure de début
 Element.TimeDimension.endTimePoint=Limite pour l'heure de fin
 Element.TimeDimension.hierarchies=Hiérarchies
+
+#63 ReportItemTheme ( Prefix Element.ReportItemTheme )
+Element.ReportItemTheme.slot.styles=ÑùÊ½
+Element.ReportItemTheme.type=ÀàÐÍ
 
 ###########################################################
 # Predefined style
@@ -3663,6 +3677,7 @@ New.DataMartCube=NewDataMartCube
 New.TabElement=NewTabElement
 New.GadgetItem=NewGadgetItem
 New.TimeDimension=NewTimeDimension
+New.ReportItemTheme=NewReportItemTheme
 
 ###########################################################
 #Default theme name.
@@ -3826,7 +3841,8 @@ Error.StyleException.FORBIDDEN=L''élément {0} ne peut pas être associé à un styl
 Error.StyleException.NOT_FOUND=Impossible de trouver le style "{0}" utilisé par {1}.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=Impossible de trouver le thème "{0}" utilisé par {1}.    
+Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
+Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=Le fichier "{0}" est introuvable.
@@ -3897,6 +3913,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=L''espace nom de bibliothèque
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=La bibliothèque avec le nom d''espace "{0}" est incluse de façon récurrente.
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=La bibliothèque "{0}" ne peut pas être supprimée, car elle possède des descendants "{1}" dans le module en cours.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=La bibliothèque "{0}" a déjà été incluse, une bibliothèque ne peut pas être ajoutée deux fois.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=La ressource de la feuille de style est introuvable.
