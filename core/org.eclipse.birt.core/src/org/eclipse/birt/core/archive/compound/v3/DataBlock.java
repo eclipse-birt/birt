@@ -37,8 +37,8 @@ public class DataBlock extends Ext2Block
 			throws IOException
 	{
 		assert ( b != null );
-		assert ( tgt + len < buffer.length );
-		assert ( off + len < b.length );
+		assert ( tgt + len <= buffer.length );
+		assert ( off + len <= b.length );
 
 		if ( len > 0 )
 		{
@@ -67,8 +67,8 @@ public class DataBlock extends Ext2Block
 			throws IOException
 	{
 		assert ( b != null );
-		assert ( off + len < b.length );
-		assert ( src + len < buffer.length );
+		assert ( off + len <= b.length );
+		assert ( src + len <= buffer.length );
 		System.arraycopy( buffer, src, b, off, len );
 		return len;
 	}
@@ -114,7 +114,7 @@ public class DataBlock extends Ext2Block
 				throws IOException
 		{
 			assert ( b != null );
-			assert ( off + len < b.length );
+			assert ( off + len <= b.length );
 			for ( int i = 0; i < len; i++ )
 			{
 				b[off + i] = 0;
