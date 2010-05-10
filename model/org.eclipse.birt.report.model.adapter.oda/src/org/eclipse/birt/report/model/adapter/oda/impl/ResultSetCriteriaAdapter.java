@@ -578,6 +578,10 @@ public class ResultSetCriteriaAdapter
 			FilterCondition filterCondition = StructureFactory
 					.createFilterCond( );
 			filterCondition.setExpr( filter.getColumnExpr( ) );
+			
+			//in default, to make sure the pushdown is true.
+			filterCondition.setPushDown( true );
+			
 			FilterConditionHandle filterConditionHandle = (FilterConditionHandle) setHandle
 					.getPropertyHandle( IDataSetModel.FILTER_PROP ).addItem(
 							filterCondition );
