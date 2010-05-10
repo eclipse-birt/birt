@@ -112,6 +112,8 @@ public class ResultIterator implements IResultIterator
 	
 	private boolean distinctValue;
 	
+	private StopSign stopSign = null;
+	
 	/**
 	 * Constructor for report query (which produces a QueryResults)
 	 * 
@@ -166,6 +168,8 @@ public class ResultIterator implements IResultIterator
 		
 		// add shutdown listener when initial work has been done.
 		addEngineShutdownListener( );
+		
+		stopSign = this.resultService.getSession( ).getStopSign( );
 		
 		logger.exiting( ResultIterator.class.getName( ), "ResultIterator" );
 	}
@@ -957,18 +961,21 @@ public class ResultIterator implements IResultIterator
 			return;
 		
 		this.resultService.getSession( ).getEngine( ).removeListener( listener );
-		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
+		if( !stopSign.isStopped( ) )
 		{
-			// save all gap row
-			while ( this.next( ) );
-			// save results when needs
-			this.getRdSaveHelper( ).doSaveFinish( );
-		}
-
-		if ( needCache() && !this.isEmpty( ))
-		{
-			while( this.next() );
-			closeCacheOutputStream( );
+			if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
+			{
+				// save all gap row
+				while ( this.next( ) );
+				// save results when needs
+				this.getRdSaveHelper( ).doSaveFinish( );
+			}
+		
+			if ( needCache() && !this.isEmpty( ))
+			{
+				while( this.next() );
+				closeCacheOutputStream( );
+			}
 		}
 		if ( odiResult != null )
 				odiResult.close( );
