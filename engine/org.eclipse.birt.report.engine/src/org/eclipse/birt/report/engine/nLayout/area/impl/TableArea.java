@@ -291,10 +291,18 @@ public class TableArea extends RepeatableArea
 						.getPageHintGenerator( );
 				if ( pageHintGenerator != null && unresolvedRow != null )
 				{
-					pageHintGenerator.addUnresolvedRowHint( unresolvedRow
-							.getTableArea( ).getContent( ).getInstanceID( )
-							.toUniqueString( ),
-							convertRowToHint( unresolvedRow ) );
+					InstanceID unresolvedTableIID = unresolvedRow
+							.getTableArea( ).getContent( ).getInstanceID( );
+					// this iid can be null, because the table may be generated
+					// from HTML2Content.
+					// in this case, they are ignored by unresloved row hint.
+					// Currently, large HTML text is not supported to be split.
+					if ( unresolvedTableIID != null )
+					{
+						pageHintGenerator.addUnresolvedRowHint(
+								unresolvedTableIID.toUniqueString( ),
+								convertRowToHint( unresolvedRow ) );
+					}
 				}
 			}
 		}
