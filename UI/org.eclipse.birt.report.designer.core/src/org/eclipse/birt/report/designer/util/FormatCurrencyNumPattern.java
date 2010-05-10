@@ -246,6 +246,9 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		{
 			pattern = positivePatt;
 		}
+
+		pattern = applyRoundingMode( pattern );
+
 		/**
 		 * For currency, there is no default pattern, because DTE not support
 		 * "currency" as a predefined pattern string.
@@ -267,6 +270,8 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	public void setPattern( String patternStr )
 	{
 		String patt = valPattern( patternStr );
+
+		patt = checkRoundingMode( patt );
 
 		this.useSep = patt.indexOf( "," ) != -1; //$NON-NLS-1$
 		this.useSpace = patt.indexOf( " " ) != -1; //$NON-NLS-1$
@@ -423,5 +428,15 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	public void setUseSpace( boolean useSpace )
 	{
 		this.useSpace = useSpace;
+	}
+
+	public String getRoundingMode( )
+	{
+		return rounding;
+	}
+
+	public void setRoundingMode( String mode )
+	{
+		this.rounding = mode;
 	}
 }

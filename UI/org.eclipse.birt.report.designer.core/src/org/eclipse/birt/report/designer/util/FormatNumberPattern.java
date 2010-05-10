@@ -29,6 +29,28 @@ public class FormatNumberPattern
 	public static final String SYMBOL_POSITION_AFTER = Messages.getString( "FormatNumberPage.symblePos.after" ); //$NON-NLS-1$
 	public static final String SYMBOL_POSITION_BEFORE = Messages.getString( "FormatNumberPage.symblePos.before" ); //$NON-NLS-1$
 
+	public static final String[] ROUNDING_MODES_NAMES = {
+			Messages.getString( "FormatNumberPage.roundingMode.halfUp" ), //$NON-NLS-1$
+			Messages.getString( "FormatNumberPage.roundingMode.halfDown" ), //$NON-NLS-1$
+			Messages.getString( "FormatNumberPage.roundingMode.halfEven" ), //$NON-NLS-1$
+			Messages.getString( "FormatNumberPage.roundingMode.up" ), //$NON-NLS-1$
+			Messages.getString( "FormatNumberPage.roundingMode.down" ), //$NON-NLS-1$
+			Messages.getString( "FormatNumberPage.roundingMode.ceiling" ), //$NON-NLS-1$
+			Messages.getString( "FormatNumberPage.roundingMode.floor" ), //$NON-NLS-1$
+			Messages.getString( "FormatNumberPage.roundingMode.unnecessary" ) //$NON-NLS-1$
+	};
+
+	public static final String[] ROUNDING_MODES_VALUES = {
+			"HALF_UP", //$NON-NLS-1$
+			"HALF_DOWN", //$NON-NLS-1$
+			"HALF_EVEN", //$NON-NLS-1$
+			"UP", //$NON-NLS-1$
+			"DOWN", //$NON-NLS-1$
+			"CEILING", //$NON-NLS-1$
+			"FLOOR", //$NON-NLS-1$
+			"UNNECESSARY" //$NON-NLS-1$
+	};
+
 	// private HashMap categoryPatternMaps;
 
 	/**
@@ -40,6 +62,8 @@ public class FormatNumberPattern
 	 * type
 	 */
 	private char type;
+
+	protected String rounding = null;
 
 	protected String zeroIndicator = "\'0\'"; //$NON-NLS-1$
 	protected String defaultDecs = "0000000000"; //$NON-NLS-1$
@@ -71,11 +95,11 @@ public class FormatNumberPattern
 	 */
 	public static String getPatternForCategory( String category, ULocale locale )
 	{
-		if (locale == null)
+		if ( locale == null )
 		{
 			locale = ULocale.getDefault( );
 		}
-		
+
 		String pattern = null;
 		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( category ) )
 		{
@@ -187,6 +211,38 @@ public class FormatNumberPattern
 	}
 
 	/**
+	 * @return Returns the index for the matching rounding mode value, if not
+	 *         found, returns the default index as 0.
+	 */
+	public static int getRoundingModeIndexByValue( String val )
+	{
+		int i = 0;
+		for ( String rm : ROUNDING_MODES_VALUES )
+		{
+			if ( rm.equalsIgnoreCase( val ) )
+			{
+				return i;
+			}
+			i++;
+		}
+		return 0;
+	}
+
+	public static String getRoundingModeByName( String name )
+	{
+		int i = 0;
+		for ( String rm : ROUNDING_MODES_NAMES )
+		{
+			if ( rm.equals( name ) )
+			{
+				return ROUNDING_MODES_VALUES[i];
+			}
+			i++;
+		}
+		return null;
+	}
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param category
@@ -293,5 +349,44 @@ public class FormatNumberPattern
 	protected String getDefaultPatt( )
 	{
 		return this.category;
+	}
+
+	protected String checkRoundingMode( String pattern )
+	{
+		// try detect rounding mode
+		int ridx = pattern.indexOf( "{RoundingMode=" ); //$NON-NLS-1$
+		if ( ridx != -1 )
+		{
+			int rnidx = pattern.indexOf( '}', ridx );
+
+			int offset = "{RoundingMode=".length( ); //$NON-NLS-1$
+
+			if ( rnidx != -1 && rnidx > ridx + offset )
+			{
+				rounding = pattern.substring( ridx + offset, rnidx ).trim( );
+
+				if ( rnidx < pattern.length( ) - 1 )
+				{
+					pattern = pattern.substring( 0, ridx )
+							+ pattern.substring( rnidx + 1 );
+				}
+				else
+				{
+					pattern = pattern.substring( 0, ridx );
+				}
+			}
+		}
+
+		return pattern;
+	}
+
+	protected String applyRoundingMode( String pattern )
+	{
+		if ( rounding != null )
+		{
+			pattern += "{RoundingMode=" + rounding + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		return pattern;
 	}
 }

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.util;
 
-import org.eclipse.birt.report.designer.util.DEUtil;
-
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;
 
@@ -124,6 +122,9 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		{
 			pattern = positivePatt;
 		}
+
+		pattern = applyRoundingMode( pattern );
+		
 		/**
 		 * when the pattern equals the default value, just returns the category
 		 * name as the pattern value. DTE recognize it.
@@ -145,6 +146,8 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	public void setPattern( String patternStr )
 	{
 		String patt = valPattern( patternStr );
+
+		patt = checkRoundingMode( patt );
 
 		this.useSep = patt.indexOf( "," ) != -1; //$NON-NLS-1$
 		// this.useZero = patt.indexOf( zeroIndicator ) != -1;
@@ -258,4 +261,15 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	{
 		this.symPos = symPos;
 	}
+
+	public String getRoundingMode( )
+	{
+		return rounding;
+	}
+
+	public void setRoundingMode( String mode )
+	{
+		this.rounding = mode;
+	}
+
 }

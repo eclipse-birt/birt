@@ -70,6 +70,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 	private static final String LABEL_NEGATIVE_NUMBERS = Messages.getString( "FormatNumberPage.label.negative.numbers" ); //$NON-NLS-1$
 	private static final String LABEL_SCIENTIFIC_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.scientific.settings" ); //$NON-NLS-1$
 	private static final String LABEL_DECIMAL_PLACES = Messages.getString( "FormatNumberPage.label.decimal.places" ); //$NON-NLS-1$
+	private static final String LABEL_ROUNDING_MODE = Messages.getString( "FormatNumberPage.label.rounding.mode" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_PREVIEW_NUMBER = Messages.getString( "FormatNumberPage.label.preview.number" ); //$NON-NLS-1$
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatNumberPage.label.general.preview.group" ); //$NON-NLS-1$
 
@@ -93,6 +94,9 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 
 	private XCombo cPlacesChoice, cSymbolChoice, cSymPosChoice, fPlacesChoice,
 			pSymPosChoice, pPlacesChoice, sPlacesChoice;
+
+	private XCombo cRoundgingChoice, pRoundgingChoice, fRoundgingChoice,
+			sRoundgingChoice;
 
 	private Button cUseSep, pUseSep, fUseSep, cUseSpace;
 
@@ -291,6 +295,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 		cPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
 		cUseSep.setSelection( fmtPattern.getUseSep( ) );
 		cUseSpace.setSelection( fmtPattern.getUseSpace( ) );
+		cRoundgingChoice.select( FormatNumberPattern.getRoundingModeIndexByValue( fmtPattern.getRoundingMode( ) ) );
 		if ( !StringUtil.isBlank( fmtPattern.getSymbol( ) ) )
 		{
 			cSymbolChoice.setText( fmtPattern.getSymbol( ) );
@@ -332,6 +337,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 	private void refreshFixedSetting( FormatFixedNumPattern fmtPattern )
 	{
 		fPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
+		fRoundgingChoice.select( FormatNumberPattern.getRoundingModeIndexByValue( fmtPattern.getRoundingMode( ) ) );
 		fUseSep.setSelection( fmtPattern.getUseSep( ) );
 		// fUseZero.setSelection( fmtPattern.getUseZero( ) );
 		if ( fmtPattern.getUseBracket( ) )
@@ -347,6 +353,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 	private void refreshPercentSetting( FormatPercentNumPattern fmtPattern )
 	{
 		pPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
+		pRoundgingChoice.select( FormatNumberPattern.getRoundingModeIndexByValue( fmtPattern.getRoundingMode( ) ) );
 		pUseSep.setSelection( fmtPattern.getUseSep( ) );
 		// pUseZero.setSelection( fmtPattern.getUseZero( ) );
 		pSymPosChoice.setText( fmtPattern.getSymPos( ) );
@@ -363,6 +370,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 	private void refreshScientificSetting( FormatScientificNumPattern fmtPattern )
 	{
 		sPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
+		sRoundgingChoice.select( FormatNumberPattern.getRoundingModeIndexByValue( fmtPattern.getRoundingMode( ) ) );
 	}
 
 	private void refreshCustomSetting( FormatCustomNumPattern fmtPattern )
@@ -385,6 +393,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 			String places = cPlacesChoice.getText( );
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
+			pattern.setRoundingMode( FormatNumberPattern.getRoundingModeByName( cRoundgingChoice.getText( ) ) );
 			pattern.setUseSep( cUseSep.getSelection( ) );
 			pattern.setUseSpace( cUseSpace.getSelection( ) );
 			pattern.setSymbol( cSymbolChoice.getText( ) );
@@ -397,6 +406,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 			String places = fPlacesChoice.getText( );
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
+			pattern.setRoundingMode( FormatNumberPattern.getRoundingModeByName( fRoundgingChoice.getText( ) ) );
 			pattern.setUseSep( fUseSep.getSelection( ) );
 			// pattern.setUseZero( fUseZero.getSelection( ) );
 			pattern.setUseBracket( fNegNumChoice.getSelectionIndex( ) == 1 );
@@ -407,6 +417,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 			String places = pPlacesChoice.getText( );
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
+			pattern.setRoundingMode( FormatNumberPattern.getRoundingModeByName( pRoundgingChoice.getText( ) ) );
 			pattern.setUseSep( pUseSep.getSelection( ) );
 			// pattern.setUseZero( pUseZero.getSelection( ) );
 			pattern.setSymPos( pSymPosChoice.getText( ) );
@@ -418,6 +429,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 			String places = sPlacesChoice.getText( );
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
+			pattern.setRoundingMode( FormatNumberPattern.getRoundingModeByName( sRoundgingChoice.getText( ) ) );
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) )
 		{
@@ -527,6 +539,15 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 		cPlacesChoice.addModifyListener( myModifyListener );
 		cPlacesChoice.addFocusListener( myFocusListener );
 		cPlacesChoice.select( 2 );
+
+		FormWidgetFactory.getInstance( )
+				.createLabel( setting, isFormStyle )
+				.setText( LABEL_ROUNDING_MODE );
+		cRoundgingChoice = new XCombo( setting, true, isFormStyle );;
+		cRoundgingChoice.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+		cRoundgingChoice.setItems( FormatNumberPattern.ROUNDING_MODES_NAMES );
+		cRoundgingChoice.addSelectionListener( mySelectionListener );
+		cRoundgingChoice.select( 0 );
 
 		cUseSep = FormWidgetFactory.getInstance( ).createButton( setting,
 				SWT.CHECK,
@@ -664,6 +685,15 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 		fPlacesChoice.addFocusListener( myFocusListener );
 		fPlacesChoice.select( 2 );
 
+		FormWidgetFactory.getInstance( )
+				.createLabel( setting, isFormStyle )
+				.setText( LABEL_ROUNDING_MODE );
+		fRoundgingChoice = new XCombo( setting, true, isFormStyle );;
+		fRoundgingChoice.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+		fRoundgingChoice.setItems( FormatNumberPattern.ROUNDING_MODES_NAMES );
+		fRoundgingChoice.addSelectionListener( mySelectionListener );
+		fRoundgingChoice.select( 0 );
+
 		fUseSep = FormWidgetFactory.getInstance( ).createButton( setting,
 				SWT.CHECK,
 				isFormStyle );
@@ -735,6 +765,15 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 		pPlacesChoice.addFocusListener( myFocusListener );
 		pPlacesChoice.select( 2 );
 
+		FormWidgetFactory.getInstance( )
+				.createLabel( setting, isFormStyle )
+				.setText( LABEL_ROUNDING_MODE );
+		pRoundgingChoice = new XCombo( setting, true, isFormStyle );;
+		pRoundgingChoice.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+		pRoundgingChoice.setItems( FormatNumberPattern.ROUNDING_MODES_NAMES );
+		pRoundgingChoice.addSelectionListener( mySelectionListener );
+		pRoundgingChoice.select( 0 );
+
 		pUseSep = FormWidgetFactory.getInstance( ).createButton( setting,
 				SWT.CHECK,
 				isFormStyle );
@@ -787,23 +826,23 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 
 	private void createScientificSettingPart( Composite parent )
 	{
-		Group group;
+		Group setting;
 		if ( isFormStyle )
 		{
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
+			setting = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		}
 		else
 		{
-			group = new Group( parent, SWT.NONE );
+			setting = new Group( parent, SWT.NONE );
 		}
-		group.setText( LABEL_SCIENTIFIC_SETTINGS_GROUP );
-		group.setLayoutData( createGridData4Part( ) );
-		group.setLayout( new GridLayout( 2, false ) );
+		setting.setText( LABEL_SCIENTIFIC_SETTINGS_GROUP );
+		setting.setLayoutData( createGridData4Part( ) );
+		setting.setLayout( new GridLayout( 2, false ) );
 
-		Label label = FormWidgetFactory.getInstance( ).createLabel( group,
+		Label label = FormWidgetFactory.getInstance( ).createLabel( setting,
 				isFormStyle );
 		label.setText( LABEL_DECIMAL_PLACES );
-		sPlacesChoice = new XCombo( group, false, isFormStyle );
+		sPlacesChoice = new XCombo( setting, false, isFormStyle );
 		sPlacesChoice.setItems( new String[]{
 				"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
 		} );
@@ -814,6 +853,16 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 		sPlacesChoice.addModifyListener( myModifyListener );
 		pPlacesChoice.addFocusListener( myFocusListener );
 		sPlacesChoice.select( 2 );
+
+		FormWidgetFactory.getInstance( )
+				.createLabel( setting, isFormStyle )
+				.setText( LABEL_ROUNDING_MODE );
+		sRoundgingChoice = new XCombo( setting, true, isFormStyle );;
+		sRoundgingChoice.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+		sRoundgingChoice.setItems( FormatNumberPattern.ROUNDING_MODES_NAMES );
+		sRoundgingChoice.addSelectionListener( mySelectionListener );
+		sRoundgingChoice.select( 0 );
+
 	}
 
 	private Label createGeneralPreviewPart4Page( Composite parent )
@@ -916,6 +965,7 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 		typeChoicer.setEnabled( enabled );
 		localeChoicer.setEnabled( enabled );
 		cPlacesChoice.setEnabled( enabled );
+		cRoundgingChoice.setEnabled( enabled );
 		cUseSep.setEnabled( enabled );
 		cUseSpace.setEnabled( enabled );
 		cSymbolChoice.setEnabled( enabled );
@@ -938,17 +988,20 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 		cNegNumChoice.setEnabled( enabled );
 
 		fPlacesChoice.setEnabled( enabled );
+		fRoundgingChoice.setEnabled( enabled );
 		fUseSep.setEnabled( enabled );
 		// fUseZero.setEnabled(enabledb );
 		fNegNumChoice.setEnabled( enabled );
 
 		pPlacesChoice.setEnabled( enabled );
+		pRoundgingChoice.setEnabled( enabled );
 		pUseSep.setEnabled( enabled );
 		// pUseZero.setEnabled( enabled );
 		pSymPosChoice.setEnabled( enabled );
 		pNegNumChoice.setEnabled( enabled );
 
 		sPlacesChoice.setEnabled( enabled );
+		sRoundgingChoice.setEnabled( enabled );
 
 		customFormatCodeTextBox.setEnabled( enabled );
 		customPreviewTextBox.setEnabled( enabled );

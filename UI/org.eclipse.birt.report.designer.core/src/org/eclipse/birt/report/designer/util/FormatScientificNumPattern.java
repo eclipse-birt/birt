@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.util;
 
-import org.eclipse.birt.report.designer.util.DEUtil;
 
 /**
  * A pattern class serves for getting and setting pattern string for a
@@ -36,7 +35,9 @@ public class FormatScientificNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern#getPattern()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * #getPattern()
 	 */
 	public String getPattern( )
 	{
@@ -51,6 +52,9 @@ public class FormatScientificNumPattern extends FormatNumberPattern
 		{
 			pattern = "0." + decStr + "E00"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
+
+		pattern = applyRoundingMode( pattern );
+
 		/**
 		 * when the pattern equals the default value, just returns the category
 		 * name as the pattern value. DTE recognize it.
@@ -65,7 +69,9 @@ public class FormatScientificNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern#setPattern(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * #setPattern(java.lang.String)
 	 */
 	public void setPattern( String patternStr )
 	{
@@ -75,6 +81,8 @@ public class FormatScientificNumPattern extends FormatNumberPattern
 		{
 			patt = DEFAULT_SCIENTIFIC_PATTERN;
 		}
+
+		patt = checkRoundingMode( patt );
 
 		if ( patt.indexOf( "." ) != -1 ) //$NON-NLS-1$
 		{
@@ -86,14 +94,18 @@ public class FormatScientificNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern#getDefaultPatt()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
+	 * #getDefaultPatt()
 	 */
 	protected String getDefaultPatt( )
 	{
 		return DEFAULT_SCIENTIFIC_PATTERN;
 	}
 
-	/** Get DecPlaces
+	/**
+	 * Get DecPlaces
+	 * 
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces( )
@@ -101,13 +113,25 @@ public class FormatScientificNumPattern extends FormatNumberPattern
 		return decPlaces;
 	}
 
-	/** Set DecPlaces 
+	/**
+	 * Set DecPlaces
+	 * 
 	 * @param decPlaces
 	 *            The decPlaces to set.
 	 */
 	public void setDecPlaces( int decPlaces )
 	{
 		this.decPlaces = decPlaces;
+	}
+
+	public String getRoundingMode( )
+	{
+		return rounding;
+	}
+
+	public void setRoundingMode( String mode )
+	{
+		this.rounding = mode;
 	}
 
 }

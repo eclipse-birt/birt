@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.util;
 
-import org.eclipse.birt.report.designer.util.DEUtil;
 
 /**
  * A pattern class serves for getting and setting pattern string for a fixed
@@ -23,7 +22,7 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 
 	private int decPlaces = 0;
 	private boolean useSep = false;
-	//	private boolean useZero = false;
+	// private boolean useZero = false;
 	private boolean useBracket = false;
 
 	/**
@@ -40,7 +39,9 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern#getPattern()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * #getPattern()
 	 */
 	public String getPattern( )
 	{
@@ -61,10 +62,10 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 		{
 			positivePatt = positivePatt + "." + decStr; //$NON-NLS-1$
 		}
-		//		if ( useZero )
-		//		{
-		//			positivePatt = zeroIndicator + positivePatt;
-		//		}
+		// if ( useZero )
+		// {
+		// positivePatt = zeroIndicator + positivePatt;
+		// }
 		if ( useBracket )
 		{
 			negativePatt = "(" + positivePatt + ")"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -78,6 +79,9 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 		{
 			pattern = positivePatt;
 		}
+
+		pattern = applyRoundingMode( pattern );
+
 		/**
 		 * when the pattern equals the default value, just returns the category
 		 * name as the pattern value. DTE recognize it.
@@ -92,14 +96,18 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern#setPattern(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * #setPattern(java.lang.String)
 	 */
 	public void setPattern( String patternStr )
 	{
 		String patt = valPattern( patternStr );
 
+		patt = checkRoundingMode( patt );
+
 		this.useSep = patt.indexOf( "," ) != -1; //$NON-NLS-1$
-		//		this.useZero = patt.indexOf( zeroIndicator ) != -1;
+		// this.useZero = patt.indexOf( zeroIndicator ) != -1;
 		this.useBracket = patt.indexOf( "(" ) != -1 //$NON-NLS-1$
 				&& patt.indexOf( ")" ) != -1; //$NON-NLS-1$
 		if ( patt.indexOf( "." ) != -1 ) //$NON-NLS-1$
@@ -112,14 +120,18 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern#getDefaultPatt()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
+	 * #getDefaultPatt()
 	 */
 	protected String getDefaultPatt( )
 	{
 		return DEFAULT_FIXED_PATTERN;
 	}
 
-	/** Get DecPlaces
+	/**
+	 * Get DecPlaces
+	 * 
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces( )
@@ -127,7 +139,9 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 		return decPlaces;
 	}
 
-	/** Set DecPlaces
+	/**
+	 * Set DecPlaces
+	 * 
 	 * @param decPlaces
 	 *            The decPlaces to set.
 	 */
@@ -136,8 +150,8 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 		this.decPlaces = decPlaces;
 	}
 
-	/** get UseSep
-	 * Returns useSep.
+	/**
+	 * get UseSep Returns useSep.
 	 */
 	public boolean getUseSep( )
 	{
@@ -145,7 +159,8 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 	}
 
 	/**
-	 *  Set useSep
+	 * Set useSep
+	 * 
 	 * @param useSep
 	 *            The useSep to set.
 	 */
@@ -162,13 +177,25 @@ public class FormatFixedNumPattern extends FormatNumberPattern
 		return this.useBracket;
 	}
 
-	/** Set useBracket
+	/**
+	 * Set useBracket
+	 * 
 	 * @param useBracket
 	 *            The useBracket to set.
 	 */
 	public void setUseBracket( boolean useBracket )
 	{
 		this.useBracket = useBracket;
+	}
+
+	public String getRoundingMode( )
+	{
+		return rounding;
+	}
+
+	public void setRoundingMode( String mode )
+	{
+		this.rounding = mode;
 	}
 
 }
