@@ -36,6 +36,7 @@
     <property name="sign.dir" value="" />
 
 	<target name="main" depends="init">
+		<antcall target="prepareMapFile"/>
 		<antcall target="prepareSrc" />
 		<antcall target="buildBirtThirdPartyFeature"/>
 		<antcall target="buildBirtFeature"/>
@@ -517,6 +518,29 @@
 		</ant>
 	</target>
 	
+	<target name="checkLocal">
+		<available property="mapsLocal" file="${buildDirectory}/maps/source/org.eclipse.birt.releng" />
+	</target>
+
+	<target name="prepareMapFile" depends="checkLocal" unless="mapsLocal">
+		<cvs cvsRoot="${mapCvsRoot}"
+			package="source/org.eclipse.birt.releng"
+			dest="${buildDirectory}/maps"
+			tag="${mapVersionTag}"
+		/>
+		
+		<!-- this value could be overwrite by the bootstrap command -->
+		<property name="birt.url.token" value="@BIRT.URL.TOKEN@"/>
+		<property name="dtp.url.token" value="@DTP.URL.TOKEN@"/>
+		
+		<replace dir="${buildDirectory}/maps" value="${mapCvsRoot}" token="${birt.url.token}">
+			<include name="**/*.map" />
+		</replace>
+		<replace dir="${buildDirectory}/maps" value="${dtp.mapCvsRoot}" token="${dtp.url.token}">
+			<include name="**/*.map" />
+		</replace>
+	</target>
+	
 	<target name="prepareSrc" if="prepare.src.flag">
 		
   		<antcall target="logger">
@@ -528,19 +552,6 @@
 				<include name="*/**"/>
 			</fileset>
 		</delete>
-		
-		<cvs cvsRoot="${mapCvsRoot}"
-			package="source/org.eclipse.birt.releng"
-			dest="${buildDirectory}/maps"
-			tag="${mapVersionTag}"
-		/>
-		
-		<!-- this value could be overwrite by the bootstrap command -->
-		<property name="birt.url.token" value="@BIRT.URL.TOKEN@"/>
-		
-		<replace dir="${buildDirectory}/maps" value="${mapCvsRoot}" token="${birt.url.token}">
-			<include name="**/*.map" />
-		</replace>
 		
         <cvs command="export -d source" cvsRoot="${mapCvsRoot}" dest="${buildDirectory}" 
 		package="source" tag="${mapVersionTag}" taskname="CVS - source"/>
@@ -565,6 +576,7 @@
 				<exclude name="org.apache.commons.codec/**"/>
 				<exclude name="org.eclipse.birt.converters/**"/>
 				<exclude name="tutorials/**" />
+				<exclude name=".project"/>
 			</fileset>
 		</copy>
 		

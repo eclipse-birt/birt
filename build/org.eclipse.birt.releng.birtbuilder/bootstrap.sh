@@ -232,9 +232,15 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMap
 -Dbasebuilder=/home/adb/releng.250/org.eclipse.releng.basebuilder -DpostPackage=BIRTOutput  \
 -Dtest.dir=/home/adb/releng.250/unittest -Dp4.home=/home/adb/releng.250/P4 \
 -Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng.250/org.eclipse.birt.releng.birtbuilder/mapTag.properties \
--Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_5_2 \
--DmapVersionTag=HEAD -DBranchVersion=2.5.2 -Dant.dir=$ANT_HOME/bin \
+-Dbuild.date=$builddate -Dpackage.version=2_5_2 \
+-DBranchVersion=2.5.2 -Dant.dir=$ANT_HOME/bin \
 -Dusername.sign=slee -Dpassword.sign="" -Dhostname.sign=build.eclipse.org -Dhome.dir=/home/data/users/slee -Dsign.dir=/home/data/httpd/download-staging.priv/birt"
+-DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt \
+-DmapVersionTag=BIRT_2_5_x_Branch \
+-Ddtp.mapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/datatools \
+-Ddtp.mapVersionTag=DTP_1_7_2_Post_Branch \
+-Dbirt.url.token=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt \
+-Ddtp.url.token=:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools" 
 
 #skipPreBuild
 

@@ -1,5 +1,6 @@
 <project name="test" default="prepareSrc">
 	
+	<!-- ${dtp.mapCvsRoot}and ${dtp.mapVersionTag} will be overwriten by value in bootstrap.sh -->
 	<property name="dtp.mapCvsRoot" value=":ext:xgu@dev.eclipse.org:/cvsroot/datatools"/>
 	<property name="dtp.mapVersionTag" value="DTP_1_7_2_Post_Branch" />
 
