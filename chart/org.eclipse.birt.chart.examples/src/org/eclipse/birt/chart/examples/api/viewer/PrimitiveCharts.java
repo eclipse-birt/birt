@@ -1401,14 +1401,14 @@ public final class PrimitiveCharts
 		} );
 
 		StockDataSet dsStockValues = StockDataSetImpl.create( new StockEntry[]{
-				new StockEntry( 27.01, 27.10, 26.82, 26.85 ),
-				new StockEntry( 26.87, 27.15, 26.83, 27.01 ),
-				new StockEntry( 26.84, 27.15, 26.78, 26.97 ),
-				new StockEntry( 27.00, 27.17, 26.94, 27.07 ),
-				new StockEntry( 27.01, 27.15, 26.89, 26.95 ),
-				new StockEntry( 27.00, 27.32, 26.80, 26.96 ),
-				new StockEntry( 27.15, 27.28, 27.01, 27.16 ),
-				new StockEntry( 27.22, 27.40, 27.07, 27.11 ),
+				new StockEntry( 27.01, 26.82, 27.10, 26.85 ),
+				new StockEntry( 26.87, 26.83, 27.15, 27.01 ),
+				new StockEntry( 26.84, 26.78, 27.15, 26.97 ),
+				new StockEntry( 27.00, 26.94, 27.17, 27.07 ),
+				new StockEntry( 27.01, 26.89, 27.15, 26.95 ),
+				new StockEntry( 27.00, 26.80, 27.32, 26.96 ),
+				new StockEntry( 27.15, 27.01, 27.28, 27.16 ),
+				new StockEntry( 27.22, 27.07, 27.40, 27.11 ),
 		} );
 
 		NumberDataSet dsStockVolume = NumberDataSetImpl.create( new double[]{

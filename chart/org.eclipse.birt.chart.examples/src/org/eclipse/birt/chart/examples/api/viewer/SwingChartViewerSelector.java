@@ -518,7 +518,9 @@ public final class SwingChartViewerSelector extends JPanel implements
 				jcbPercent.setEnabled( false );
 			}
 
-			if ( jcbModels.getSelectedIndex( ) == 7 )
+			if ( jcbModels.getSelectedIndex( ) == 7
+					|| jcbModels.getSelectedIndex( ) == 6
+					|| jcbModels.getSelectedIndex( ) == 9 )
 			{
 				cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 			}

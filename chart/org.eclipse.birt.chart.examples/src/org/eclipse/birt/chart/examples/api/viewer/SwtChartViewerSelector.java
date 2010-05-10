@@ -282,7 +282,9 @@ public final class SwtChartViewerSelector extends Composite
 				cbPercent.setEnabled( false );
 			}
 
-			if ( cbType.getSelectionIndex( ) == 7 )
+			if ( cbType.getSelectionIndex( ) == 7
+					|| cbType.getSelectionIndex( ) == 6
+					|| cbType.getSelectionIndex( ) == 9 )
 			{
 				cm.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 			}
