@@ -241,8 +241,9 @@ public class PropertyHandle extends SimpleValueHandle
 		else if ( ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT
 				.equals( elementDefn.getName( ) ) )
 		{
-			return moduleHandle
-					.getVisibleReportItemThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
+			return moduleHandle.getVisibleReportItemThemes(
+					IAccessControl.DIRECTLY_INCLUDED_LEVEL, getDefn( )
+							.getName( ) );
 		}
 
 		return list;

@@ -1623,7 +1623,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @return theme handles according the input level
 	 */
-	public List getVisibleReportItemThemes( int level )
+	public List<ReportItemThemeHandle> getVisibleReportItemThemes( int level, String type )
 	{
 		return Collections.emptyList( );
 	}
