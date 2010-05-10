@@ -1016,7 +1016,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( getDummyLevelNameForJointHierarchyKey( key ),
 									null,
 									DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-							temp.setDataType( getColumnDataType( hier, key ) );
+							temp.setDataType( getColumnDataType( hier.getDataSet( ), key ) );
 							metaList.add( temp );
 						}
 					}
@@ -1966,9 +1966,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 								String cubeKey = joinCondition.getCubeKey( );
 								String cubeKeyWithDimIdentifier = OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
 										cubeKey );
-								metaList.add( new DataSetIterator.ColumnMeta( cubeKeyWithDimIdentifier,
+								DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( cubeKeyWithDimIdentifier,
 										null,
-										DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE ) );
+										DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
+								temp.setDataType( getColumnDataType( cubeHandle.getDataSet( ), cubeKey ) );
+								metaList.add( temp );
 								query.addBinding( new Binding( cubeKeyWithDimIdentifier,
 										new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) ) );
 								GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
@@ -2118,9 +2120,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return result;
 	}
 	
-	private static int getColumnDataType( TabularHierarchyHandle thh, String jointHierarchyKey )
+	private static int getColumnDataType( DataSetHandle dsh, String jointHierarchyKey )
 	{
-		DataSetHandle dsh = thh.getDataSet( );
 		CachedMetaDataHandle cmdh = dsh.getCachedMetaDataHandle( );
 		Iterator itr = cmdh.getResultSet( ).iterator( );
 		while ( itr.hasNext( ) )
