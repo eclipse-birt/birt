@@ -89,6 +89,7 @@ import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -99,6 +100,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -171,6 +174,72 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 	private static final Object[] EMPTY = new Object[0];
 
 	private static final String SORTING_PREFERENCE_KEY = "ExpressionBuilder.preference.enable.sorting"; //$NON-NLS-1$
+
+	private TableViewer categoryTable, functionTable;
+	private TreeViewer subCategoryTable;
+	private IExpressionProvider provider;
+	private SourceViewer sourceViewer;
+	private JSSourceViewerConfiguration sourceViewerConfiguration = new JSSourceViewerConfiguration( );
+
+	private IPreferenceStore preferenceStore;
+	private Color backgroundColor;
+	private Color foregroundColor;
+
+	private FormText messageLine;
+
+	protected String expression = null;
+	protected String title;
+
+	private boolean useSorting = false;
+	private Object[] defaultSelection;
+
+	private Map<ToolItem, Integer> toolItemType = new HashMap<ToolItem, Integer>( );
+
+	/**
+	 * Create an expression builder under the given parent shell with the given
+	 * initial expression
+	 * 
+	 * @param parentShell
+	 *            the parent shell
+	 * @param initExpression
+	 *            the initial expression
+	 */
+	public ExpressionBuilder( Shell parentShell, String initExpression )
+	{
+		super( parentShell );
+		title = DIALOG_TITLE;
+		this.expression = UIUtil.convertToGUIString( initExpression );
+		this.preferenceStore = new ScopedPreferenceStore( new InstanceScope( ),
+				"org.eclipse.ui.editors" ); //$NON-NLS-1$
+	}
+
+	protected void setShellStyle( int newShellStyle )
+	{
+		newShellStyle |= SWT.MAX | SWT.RESIZE;
+		super.setShellStyle( newShellStyle );
+	}
+
+	/**
+	 * Create an expression builder under the default parent shell with the
+	 * given initial expression
+	 * 
+	 * @param initExpression
+	 *            the initial expression
+	 */
+	public ExpressionBuilder( String initExpression )
+	{
+		this( UIUtil.getDefaultShell( ), initExpression );
+	}
+
+	/**
+	 * Create an expression builder under the default parent shell without an
+	 * initail expression
+	 * 
+	 */
+	public ExpressionBuilder( )
+	{
+		this( null );
+	}
 
 	/**
 	 * TableContentProvider
@@ -295,8 +364,8 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 					messageLine.getParent( ).setVisible( true );
 					String message = provider.getDisplayText( table.getSelection( )[0].getData( ) );
 					message = message.replaceAll( "&", "&amp;" ); //$NON-NLS-1$//$NON-NLS-2$
-					message = message.replaceAll( "<", "&lt;" );
-					message = message.replaceAll( ">", "&gt;" );
+					message = message.replaceAll( "<", "&lt;" ); //$NON-NLS-1$ //$NON-NLS-2$
+					message = message.replaceAll( ">", "&gt;" ); //$NON-NLS-1$//$NON-NLS-2$
 					messageLine.setText( "<form><p> <b>" //$NON-NLS-1$
 							+ Messages.getString( "ExpressionBuilder.Label.Hint" ) //$NON-NLS-1$
 							+ "</b>: " //$NON-NLS-1$
@@ -367,107 +436,42 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 			}
 			if ( event.getSource( ) == functionTable )
 			{
-				if ( selection.getFirstElement( ) instanceof Object[] )
-				{
-					Object[] inputArray = (Object[]) selection.getFirstElement( );
-					if ( inputArray.length == 2
-							&& inputArray[1] instanceof ReportItemHandle )
-					{
-						ReportItemHandle handle = (ReportItemHandle) inputArray[1];
-						handle.getModuleHandle( )
-								.getCommandStack( )
-								.startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
-						ColumnBindingDialog dialog = new ColumnBindingDialog( handle,
-								Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ) ); //$NON-NLS-1$
-						if ( dialog.open( ) == Dialog.OK )
-						{
-							handle.getModuleHandle( )
-									.getCommandStack( )
-									.commit( );
-							functionTable.refresh( );
-						}
-						else
-						{
-							handle.getModuleHandle( )
-									.getCommandStack( )
-									.rollback( );
-						}
-						return;
-					}
-				}
-				String insertText = provider.getInsertText( selection.getFirstElement( ) );
-				if ( insertText != null )
-				{
-					insertText( insertText );
-				}
+				insertSelection( selection );
 				return;
 			}
 		}
 	};
-	private TableViewer categoryTable, functionTable;
-	private TreeViewer subCategoryTable;
-	private IExpressionProvider provider;
-	private SourceViewer sourceViewer;
-	private JSSourceViewerConfiguration sourceViewerConfiguration = new JSSourceViewerConfiguration( );
 
-	private IPreferenceStore preferenceStore;
-	private Color backgroundColor;
-	private Color foregroundColor;
-
-	private FormText messageLine;
-
-	protected String expression = null;
-	protected String title;
-
-	private boolean useSorting = false;
-	private Object[] defaultSelection;
-
-	private Map<ToolItem, Integer> toolItemType = new HashMap<ToolItem, Integer>( );
-
-	/**
-	 * Create an expression builder under the given parent shell with the given
-	 * initial expression
-	 * 
-	 * @param parentShell
-	 *            the parent shell
-	 * @param initExpression
-	 *            the initial expression
-	 */
-	public ExpressionBuilder( Shell parentShell, String initExpression )
+	private void insertSelection( IStructuredSelection selection )
 	{
-		super( parentShell );
-		title = DIALOG_TITLE;
-		this.expression = UIUtil.convertToGUIString( initExpression );
-		this.preferenceStore = new ScopedPreferenceStore( new InstanceScope( ),
-				"org.eclipse.ui.editors" ); //$NON-NLS-1$
-	}
-
-	protected void setShellStyle( int newShellStyle )
-	{
-		newShellStyle |= SWT.MAX | SWT.RESIZE;
-		super.setShellStyle( newShellStyle );
-	}
-
-	/**
-	 * Create an expression builder under the default parent shell with the
-	 * given initial expression
-	 * 
-	 * @param initExpression
-	 *            the initial expression
-	 */
-	public ExpressionBuilder( String initExpression )
-	{
-		this( UIUtil.getDefaultShell( ), initExpression );
-	}
-
-	/**
-	 * Create an expression builder under the default parent shell without an
-	 * initail expression
-	 * 
-	 */
-	public ExpressionBuilder( )
-	{
-		this( null );
+		if ( selection.getFirstElement( ) instanceof Object[] )
+		{
+			Object[] inputArray = (Object[]) selection.getFirstElement( );
+			if ( inputArray.length == 2 && inputArray[1] instanceof ReportItemHandle )
+			{
+				ReportItemHandle handle = (ReportItemHandle) inputArray[1];
+				handle.getModuleHandle( )
+						.getCommandStack( )
+						.startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
+				ColumnBindingDialog dialog = new ColumnBindingDialog( handle,
+						Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ) ); //$NON-NLS-1$
+				if ( dialog.open( ) == Dialog.OK )
+				{
+					handle.getModuleHandle( ).getCommandStack( ).commit( );
+					functionTable.refresh( );
+				}
+				else
+				{
+					handle.getModuleHandle( ).getCommandStack( ).rollback( );
+				}
+				return;
+			}
+		}
+		String insertText = provider.getInsertText( selection.getFirstElement( ) );
+		if ( insertText != null )
+		{
+			insertText( insertText );
+		}
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -785,8 +789,33 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		Composite listArea = new Composite( parent, SWT.NONE );
 		listArea.setLayout( new GridLayout( 3, true ) );
 		listArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		new Label( listArea, SWT.NONE ).setText( LABEL_CATEGORY );
-		new Label( listArea, SWT.NONE ).setText( LABEL_SUB_CATEGORY );
+		Label categoryLabel = new Label( listArea, SWT.NONE );
+		categoryLabel.setText( LABEL_CATEGORY );
+		categoryLabel.addTraverseListener( new TraverseListener( ) {
+
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
+				{
+					e.detail = SWT.TRAVERSE_NONE;
+					categoryTable.getControl( ).setFocus( );
+				}
+			}
+		} );
+
+		Label subCategoryLabel = new Label( listArea, SWT.NONE );
+		subCategoryLabel.setText( LABEL_SUB_CATEGORY );
+		subCategoryLabel.addTraverseListener( new TraverseListener( ) {
+
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
+				{
+					e.detail = SWT.TRAVERSE_NONE;
+					subCategoryTable.getControl( ).setFocus( );
+				}
+			}
+		} );
 
 		Composite functionHeader = new Composite( listArea, SWT.NONE );
 		functionHeader.setLayout( new GridLayout( 2, false ) );
@@ -796,6 +825,17 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		functionLabel.setText( LABEL_FUNCTIONS );
 		functionLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
+		functionLabel.addTraverseListener( new TraverseListener( ) {
+
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
+				{
+					e.detail = SWT.TRAVERSE_NONE;
+					functionTable.getControl( ).setFocus( );
+				}
+			}
+		} );
 		ToolBar toolBar = new ToolBar( functionHeader, SWT.FLAT );
 		toolBar.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 
@@ -826,6 +866,26 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		categoryTable = new TableViewer( listArea, style );
 		subCategoryTable = new TreeViewer( listArea, style );
 		functionTable = new TableViewer( listArea, style );
+
+		functionTable.getControl( ).addKeyListener( new KeyListener( ) {
+
+			public void keyPressed( KeyEvent e )
+			{
+			}
+
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.character == ' ' )
+				{
+					IStructuredSelection selection = (IStructuredSelection) functionTable.getSelection( );
+					if ( !selection.isEmpty( ) )
+					{
+						insertSelection( selection );
+					}
+				}
+			}
+
+		} );
 
 		initTable( categoryTable );
 		initTree( subCategoryTable );
