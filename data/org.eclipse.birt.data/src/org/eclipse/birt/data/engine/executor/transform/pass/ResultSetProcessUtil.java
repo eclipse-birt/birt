@@ -112,6 +112,9 @@ class ResultSetProcessUtil extends RowProcessUtil
 		//Filter group instances.
 		doGroupFiltering(  );
 
+		if( needDoGroupFiltering( ) && psController.needDoOperation( PassStatusController.AGGR_ROW_FILTERING ) )
+			prepareAggregations( aggrDefns );
+		
 		//Filter aggregation filters
 		doAggrRowFiltering(  );
 		
