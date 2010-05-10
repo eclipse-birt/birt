@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.core.framework.PlatformConfig;
 
 
 
@@ -99,7 +100,9 @@ public class SwingChartPrinter implements Printable
 
 	private void printChart( Graphics2D g2d ) throws ChartException
 	{
-		IDeviceRenderer render = ChartEngine.instance().getRenderer("dv.SWING"); 
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		IDeviceRenderer render = ChartEngine.instance(config).getRenderer("dv.SWING"); 
 		render.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
 
 		// The input size is in points (1 inch = 72 points)

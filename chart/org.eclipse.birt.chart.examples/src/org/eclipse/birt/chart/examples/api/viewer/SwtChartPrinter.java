@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.factory.IGenerator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.printing.Printer;
 
@@ -51,8 +52,10 @@ public class SwtChartPrinter
 	{
 		// create graphics context for printer
 		GC gc = new GC(printer); 	
-
-		IDeviceRenderer render = ChartEngine.instance().getRenderer("dv.SWT"); 
+		
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		IDeviceRenderer render = ChartEngine.instance( config ).getRenderer("dv.SWT"); 
 				
 		render.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, gc);
 
