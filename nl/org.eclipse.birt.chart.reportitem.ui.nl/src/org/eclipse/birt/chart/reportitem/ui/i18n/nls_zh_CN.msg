@@ -88,7 +88,7 @@ StandardChartDataSheet.Label.PlotAsValueSeries=绘制为值系列
 StandardChartDataSheet.Label.UseToGroupYSeries=用来将 Y 系列分组
 StandardChartDataSheet.Label.EnableLivePreview=启用实时图表预览
 StandardChartDataSheet.Label.UseToGroupValueSeries=用来将值系列分组
-StandardChartDataSheet.Message.RetrieveData=Retrieve data for preview
+StandardChartDataSheet.Message.RetrieveData=检索用于预览的数据
 StandardChartDataSheet.NewDataCube=<新建多维数据集...>
 StandardChartDataSheet.NewDataSet=<新建数据集...>
 

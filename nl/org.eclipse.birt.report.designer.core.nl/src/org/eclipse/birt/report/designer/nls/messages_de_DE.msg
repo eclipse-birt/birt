@@ -561,7 +561,7 @@ dataset.editor.inputDialog.columnName=&Spaltenname
 dataset.editor.inputDialog.dataType=Daten&typ
 dataset.editor.inputDialog.expression=&Ausdruck
 dataset.editor.inputDialog.aggrArgu=A&rgument
-dataset.editor.inputDialog.aggrFunc=&Aggregat
+dataset.editor.inputDialog.aggrFunc=A&ggregat
 dataset.editor.inputDialog.filter=&Filter
 dataset.editor.inputDialog.value1=Wert &1
 dataset.editor.inputDialog.value2=Wert &2
@@ -902,7 +902,7 @@ designer.preview.preference.bidiOrientation.auto=Automatisch
 designer.preview.preference.bidiOrientation.ltr=Von links nach rechts
 designer.preview.preference.bidiOrientation.rtl=Von rechts nach links
 designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
+designer.preview.preference.updateParameter.confirmButton=Bei &Aktualisierung von Ergebnis-/Parameterdesignattributen immer nach Bestätigung fragen.
 
 designer.preview.previewaction.label.webviewer=Bericht in Web Viewer anzeigen
 designer.preview.previewaction.label=Bericht als {0} anzeigen
@@ -1646,7 +1646,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = Legen Sie das Datum-/Uhrze
 ###########################################################
 #FormatDateTimePage properties
 
-FormatDateTimePage.label.custom.settings.label=Beispielformate (Klicken Sie auf ein Beispiel, um es zu kopieren und zu bearbeiten):
+FormatDateTimePage.label.custom.settings.label=Bei&spielformate (Klicken Sie auf ein Beispiel, um es zu kopieren und zu bearbeiten):
 FormatDateTimePage.label.custom.settings=Benutzerdefinierte Einstellungen
 FormatDateTimePage.label.format.code=Format&code:
 FormatDateTimePage.label.format.page=&Formatieren als:
@@ -1685,7 +1685,7 @@ FormatNumberPage.currency.symbol.none=Kein Symbol
 FormatNumberPage.label.currency.settings=Währungseinstellungen
 FormatNumberPage.label.custom.preview.group=Vorschau
 FormatNumberPage.label.custom.preview.label=Vorschau mit Format:
-FormatNumberPage.label.custom.settings.lable=Beispielformate (Klicken Sie auf ein Beispiel, um es zu kopieren und zu bearbeiten):
+FormatNumberPage.label.custom.settings.lable=Bei&spielformate (Klicken Sie auf ein Beispiel, um es zu kopieren und zu bearbeiten):
 FormatNumberPage.label.custom.settings=Benutzerdefinierte Einstellungen
 FormatNumberPage.label.decimal.places=&Dezimalstellen: 
 FormatNumberPage.label.fixed.settings=Feste Einstellungen
@@ -1729,7 +1729,7 @@ FormatStringAttributePage.Trans.SetStringFormat = Legen Sie das Zeichenkettenfor
 
 FormatStringPage.default.preview.text=Beispielzeichenfolge
 FormatStringPage.label.custom.preview.label=Vorschau mit Format:
-FormatStringPage.label.custom.settings.label=Beispielformate (Klicken Sie auf ein Beispiel, um es zu kopieren und zu bearbeiten):
+FormatStringPage.label.custom.settings.label=Bei&spielformate (Klicken Sie auf ein Beispiel, um es zu kopieren und zu bearbeiten):
 FormatStringPage.label.customSettings=Benutzerdefinierte Einstellungen
 FormatStringPage.label.format.code=Format&code:
 FormatStringPage.label.formatStringAs=&Formatieren als:
@@ -2601,7 +2601,7 @@ MasterPagePaletteFactory.paletteDrawerName.autoText=AutoText
 MasterPagePaletteFactory.ToolTip.Grid=Rasterberichtobjekt
 MasterPagePaletteFactory.ToolTip.Text=Textberichtobjekt
 MasterPagePaletteFactory.Autotext.Variable=Variable
-MasterPagePaletteFactory.AutotextTooltip.Variable=Variable
+MasterPagePaletteFactory.AutotextTooltip.Variable=Variablenelement
 
 ###########################################################
 #MasterPageProcess properties

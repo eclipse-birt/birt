@@ -902,7 +902,7 @@ designer.preview.preference.bidiOrientation.auto=Automático
 designer.preview.preference.bidiOrientation.ltr=De izquierda a derecha
 designer.preview.preference.bidiOrientation.rtl=De derecha a izquierda
 designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
+designer.preview.preference.updateParameter.confirmButton=Solicit&ar siempre confirmación antes de actualizar los atributos de diseño de parámetros/conjunto de resultados.
 
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}
@@ -1646,7 +1646,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = Establezca un formato de f
 ###########################################################
 #FormatDateTimePage properties
 
-FormatDateTimePage.label.custom.settings.label=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
+FormatDateTimePage.label.custom.settings.label=Formato&s de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
 FormatDateTimePage.label.custom.settings=Ajustes personalizados
 FormatDateTimePage.label.format.code=Códi&go de formato:
 FormatDateTimePage.label.format.page=&Formato como:
@@ -1685,7 +1685,7 @@ FormatNumberPage.currency.symbol.none=Sin símbolo
 FormatNumberPage.label.currency.settings=Ajustes de moneda
 FormatNumberPage.label.custom.preview.group=Vista previa
 FormatNumberPage.label.custom.preview.label=Vista previa con formato:
-FormatNumberPage.label.custom.settings.lable=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
+FormatNumberPage.label.custom.settings.lable=Formato&s de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
 FormatNumberPage.label.custom.settings=Ajustes personalizados
 FormatNumberPage.label.decimal.places=Nú&mero de decimales: 
 FormatNumberPage.label.fixed.settings=Ajustes fijos
@@ -1729,7 +1729,7 @@ FormatStringAttributePage.Trans.SetStringFormat = Establezca un formato de caden
 
 FormatStringPage.default.preview.text=Mi string
 FormatStringPage.label.custom.preview.label=Vista previa con formato:
-FormatStringPage.label.custom.settings.label=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
+FormatStringPage.label.custom.settings.label=Formato&s de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
 FormatStringPage.label.customSettings=Ajustes personalizados
 FormatStringPage.label.format.code=Códi&go de formato:
 FormatStringPage.label.formatStringAs=&Formato como:
@@ -2601,7 +2601,7 @@ MasterPagePaletteFactory.paletteDrawerName.autoText=AutoText
 MasterPagePaletteFactory.ToolTip.Grid=Elemento de informe de cuadrícula
 MasterPagePaletteFactory.ToolTip.Text=Elemento de informe de texto
 MasterPagePaletteFactory.Autotext.Variable=Variable
-MasterPagePaletteFactory.AutotextTooltip.Variable=Variable
+MasterPagePaletteFactory.AutotextTooltip.Variable=Elemento variable
 
 ###########################################################
 #MasterPageProcess properties

@@ -147,7 +147,7 @@ AttributesBuilder.Label.Cube=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒLƒ…[ƒu
 AttributesBuilder.Label.DynamicFilterParameter=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - “®“IƒtƒBƒ‹ƒ^ƒpƒ‰ƒƒ^
 AttributesBuilder.Label.MasterPage=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒ}ƒXƒ^ƒy[ƒW
 AttributesBuilder.Label.None=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ‚È‚µ
-AttributesBuilder.Label.Picture=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - }
+AttributesBuilder.Label.Picture=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒCƒ[ƒW
 AttributesBuilder.Label.Report=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒŒƒ|[ƒg
 AttributesBuilder.Label.Row=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - s
 AttributesBuilder.Label.Table=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒe[ƒuƒ‹
@@ -561,7 +561,7 @@ dataset.editor.inputDialog.columnName=—ñ–¼(&C)
 dataset.editor.inputDialog.dataType=ƒf[ƒ^Œ^(&T)
 dataset.editor.inputDialog.expression=®(&E)
 dataset.editor.inputDialog.aggrArgu=ˆø”(&R)
-dataset.editor.inputDialog.aggrFunc=WŒv(&A)
+dataset.editor.inputDialog.aggrFunc=WŒv(&G)
 dataset.editor.inputDialog.filter=ƒtƒBƒ‹ƒ^(&F)
 dataset.editor.inputDialog.value1=’l 1(&1)
 dataset.editor.inputDialog.value2=’l 2(&2)
@@ -902,7 +902,7 @@ designer.preview.preference.bidiOrientation.auto=©“®
 designer.preview.preference.bidiOrientation.ltr=¶‚©‚ç‰E
 designer.preview.preference.bidiOrientation.rtl=‰E‚©‚ç¶
 designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
+designer.preview.preference.updateParameter.confirmButton=Œ‹‰ÊƒZƒbƒg‚Ü‚½‚Íƒpƒ‰ƒƒ^‚ÌƒfƒUƒCƒ“‘®«‚ğXV‚·‚éÛ‚ÉAí‚ÉŠm”FƒƒbƒZ[ƒW‚ğ•\¦‚·‚é(&A)
 
 designer.preview.previewaction.label.webviewer=Web ƒrƒ…[ƒA‚ÅƒŒƒ|[ƒg‚ğ•\¦‚·‚é
 designer.preview.previewaction.label=ƒŒƒ|[ƒg‚ğ {0} ‚Æ‚µ‚Ä•\¦‚·‚é
@@ -1646,7 +1646,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = “ú•t/ŠÔ‚ÌŒ`®‚ğİ’è‚µ‚Ü‚
 ###########################################################
 #FormatDateTimePage properties
 
-FormatDateTimePage.label.custom.settings.label=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs[‚µ‚Ä•ÏX) :
+FormatDateTimePage.label.custom.settings.label=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs[‚µ‚Ä•ÏX)(&S) :
 FormatDateTimePage.label.custom.settings=ƒJƒXƒ^ƒ€İ’è
 FormatDateTimePage.label.format.code=‘®ƒR[ƒh(&C) :
 FormatDateTimePage.label.format.page=‘®İ’è(&F) :
@@ -1685,7 +1685,7 @@ FormatNumberPage.currency.symbol.none=‹L†‚È‚µ
 FormatNumberPage.label.currency.settings=’Ê‰İ‚Ìİ’è
 FormatNumberPage.label.custom.preview.group=ƒvƒŒƒrƒ…[
 FormatNumberPage.label.custom.preview.label=‘®•t‚«ƒvƒŒƒrƒ…[ :
-FormatNumberPage.label.custom.settings.lable=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs[‚µ‚Ä•ÏX) :
+FormatNumberPage.label.custom.settings.lable=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs[‚µ‚Ä•ÏX)(&S) :
 FormatNumberPage.label.custom.settings=ƒJƒXƒ^ƒ€İ’è
 FormatNumberPage.label.decimal.places=¬”“_ˆÈ‰º‚ÌŒ…”(&D) : 
 FormatNumberPage.label.fixed.settings=ŒÅ’èİ’è
@@ -1729,7 +1729,7 @@ FormatStringAttributePage.Trans.SetStringFormat = •¶š—ñ‚Ì‘®‚ğİ’è‚µ‚Ü‚·B
 
 FormatStringPage.default.preview.text=ƒTƒ“ƒvƒ‹•¶š—ñ
 FormatStringPage.label.custom.preview.label=‘®•t‚«ƒvƒŒƒrƒ…[ :
-FormatStringPage.label.custom.settings.label=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs[‚µ‚Ä•ÏX) :
+FormatStringPage.label.custom.settings.label=ƒTƒ“ƒvƒ‹‚Ì‘® (Ÿ‚Ì‚¢‚¸‚ê‚©‚ğƒRƒs[‚µ‚Ä•ÏX)(&S) :
 FormatStringPage.label.customSettings=ƒJƒXƒ^ƒ€İ’è
 FormatStringPage.label.format.code=‘®ƒR[ƒh(&C) :
 FormatStringPage.label.formatStringAs=‘®İ’è(&F) :
@@ -2601,7 +2601,7 @@ MasterPagePaletteFactory.paletteDrawerName.autoText=’èŒ^‹å
 MasterPagePaletteFactory.ToolTip.Grid=ƒOƒŠƒbƒh‚ÌƒŒƒ|[ƒg€–Ú
 MasterPagePaletteFactory.ToolTip.Text=ƒeƒLƒXƒg‚ÌƒŒƒ|[ƒg€–Ú
 MasterPagePaletteFactory.Autotext.Variable=•Ï”
-MasterPagePaletteFactory.AutotextTooltip.Variable=•Ï”
+MasterPagePaletteFactory.AutotextTooltip.Variable=‰Â•Ï€–Ú
 
 ###########################################################
 #MasterPageProcess properties

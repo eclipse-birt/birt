@@ -147,7 +147,7 @@ AttributesBuilder.Label.Cube=属性编辑器 - 多维数据集
 AttributesBuilder.Label.DynamicFilterParameter=属性编辑器 - 动态筛选器参数
 AttributesBuilder.Label.MasterPage=属性编辑器 - 主页
 AttributesBuilder.Label.None=属性编辑器 - 无
-AttributesBuilder.Label.Picture=属性编辑器 - 图片
+AttributesBuilder.Label.Picture=属性编辑器 - 图像
 AttributesBuilder.Label.Report=属性编辑器 - 报表
 AttributesBuilder.Label.Row=属性编辑器 - 行
 AttributesBuilder.Label.Table=属性编辑器 - 表
@@ -561,7 +561,7 @@ dataset.editor.inputDialog.columnName=列名称(&C)
 dataset.editor.inputDialog.dataType=数据类型(&T)
 dataset.editor.inputDialog.expression=表达式(&E)
 dataset.editor.inputDialog.aggrArgu=参数(&R)
-dataset.editor.inputDialog.aggrFunc=聚合(&A)
+dataset.editor.inputDialog.aggrFunc=聚合(&G)
 dataset.editor.inputDialog.filter=筛选器(&F)
 dataset.editor.inputDialog.value1=值 1(&1)
 dataset.editor.inputDialog.value2=值 2(&2)
@@ -902,7 +902,7 @@ designer.preview.preference.bidiOrientation.auto=自动
 designer.preview.preference.bidiOrientation.ltr=从左到右
 designer.preview.preference.bidiOrientation.rtl=从右到左
 designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=Always prompt for confirmation when updating result set/parameter design attributes.
+designer.preview.preference.updateParameter.confirmButton=更新结果集/参数设计属性时始终提示确认(&A)。
 
 designer.preview.previewaction.label.webviewer=在 Web 查看器中查看报表
 designer.preview.previewaction.label=以 {0} 格式查看报表
@@ -1646,7 +1646,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = 设置日期时间格式。
 ###########################################################
 #FormatDateTimePage properties
 
-FormatDateTimePage.label.custom.settings.label=格式示例（单击下面要复制的一项，然后进行修改）:
+FormatDateTimePage.label.custom.settings.label=示例格式(单击下面要复制的一项，然后进行修改)(&S):
 FormatDateTimePage.label.custom.settings=自定义设置
 FormatDateTimePage.label.format.code=格式代码(&C):
 FormatDateTimePage.label.format.page=格式为(&F):
@@ -1685,7 +1685,7 @@ FormatNumberPage.currency.symbol.none=无符号
 FormatNumberPage.label.currency.settings=货币设置
 FormatNumberPage.label.custom.preview.group=预览
 FormatNumberPage.label.custom.preview.label=带格式预览:
-FormatNumberPage.label.custom.settings.lable=格式示例 （单击下面要复制的一项，然后进行修改）:
+FormatNumberPage.label.custom.settings.lable=示例格式(单击下面要复制的一项，然后进行修改)(&S):
 FormatNumberPage.label.custom.settings=自定义设置
 FormatNumberPage.label.decimal.places=小数位(&D): 
 FormatNumberPage.label.fixed.settings=固定设置
@@ -1729,7 +1729,7 @@ FormatStringAttributePage.Trans.SetStringFormat = 设置字符串格式。
 
 FormatStringPage.default.preview.text=我的字符串
 FormatStringPage.label.custom.preview.label=带格式预览:
-FormatStringPage.label.custom.settings.label=格式示例（单击下面要复制的一项，然后进行修改）:
+FormatStringPage.label.custom.settings.label=示例格式(单击下面要复制的一项，然后进行修改)(&S):
 FormatStringPage.label.customSettings=自定义设置
 FormatStringPage.label.format.code=格式代码(&C):
 FormatStringPage.label.formatStringAs=格式为(&F):
@@ -2601,7 +2601,7 @@ MasterPagePaletteFactory.paletteDrawerName.autoText=自动图文集
 MasterPagePaletteFactory.ToolTip.Grid=网格报表项
 MasterPagePaletteFactory.ToolTip.Text=文本报表项
 MasterPagePaletteFactory.Autotext.Variable=变量
-MasterPagePaletteFactory.AutotextTooltip.Variable=变量
+MasterPagePaletteFactory.AutotextTooltip.Variable=变量项
 
 ###########################################################
 #MasterPageProcess properties
