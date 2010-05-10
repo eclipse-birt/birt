@@ -452,7 +452,7 @@ public class FillUtil
 		{
 			if ( fill instanceof MultipleFill )
 			{
-				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+				fill = goFactory.copyOf( ( (MultipleFill) fill ).getFills( )
 						.get( 0 ) );
 			}
 		}
@@ -460,7 +460,7 @@ public class FillUtil
 		{
 			if ( fill instanceof MultipleFill )
 			{
-				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+				fill = goFactory.copyOf( ( (MultipleFill) fill ).getFills( )
 						.get( 1 ) );
 			}
 			else if ( fNegative != null )

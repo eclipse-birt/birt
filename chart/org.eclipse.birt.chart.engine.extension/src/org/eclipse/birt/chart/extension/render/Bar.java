@@ -413,7 +413,7 @@ public final class Bar extends AxesRenderer
 			if ( dpha[i] != null
 					&& dpha[i].getOrthogonalValue( ) instanceof Double )
 			{
-				fixedFill = ChartUtil.convertFill( f,
+				fixedFill = FillUtil.convertFill( f,
 						( (Double) dpha[i].getOrthogonalValue( ) ).doubleValue( ),
 						null );
 			}
