@@ -1486,11 +1486,11 @@ ExpressionBuilder.toolTipText.Button=Abrir el compilador de expresiones
 ###########################################################
 #ExpressionBuilder properties
 
-ExpressionBuilder.Label.Category=Categoría:
-ExpressionBuilder.Label.Functions=Haga doble clic para insertar:
+ExpressionBuilder.Label.Category=&Category:
+ExpressionBuilder.Label.Functions=Double Click to &insert:
 ExpressionBuilder.Label.Hint=Sugerencia
 ExpressionBuilder.Label.Operators=Operadores:
-ExpressionBuilder.Label.SubCategory=Subcategoría:
+ExpressionBuilder.Label.SubCategory=&Sub-Category:
 ExpressionBuilder.Message.Prompt=Introduzca una expresión en el campo Expresión. Busque la lista de objetos disponibles y haga doble clic para copiarla en la expresión.
 ExpressionBuilder.ToolTip=Abrir el compilador de expresiones
 ExpressionBuilder.toolTipText.validate=Validar
@@ -1688,6 +1688,7 @@ FormatNumberPage.label.custom.preview.label=Vista previa con formato:
 FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
 FormatNumberPage.label.custom.settings=Ajustes personalizados
 FormatNumberPage.label.decimal.places=Nú&mero de decimales: 
+FormatNumberPage.label.rounding.mode=&Rounding Mode:
 FormatNumberPage.label.fixed.settings=Ajustes fijos
 FormatNumberPage.label.format.code=Códi&go de formato:
 FormatNumberPage.label.format.number.page=&Formato como:
@@ -1708,6 +1709,15 @@ FormatNumberPage.preview.invalidFormatCode=Código de formato no válido
 FormatNumberPage.preview.invalidNumber=Número no válido para vista previa
 FormatNumberPage.symblePos.after=Después
 FormatNumberPage.symblePos.before=Antes
+
+FormatNumberPage.roundingMode.halfUp=Half Up
+FormatNumberPage.roundingMode.halfDown=Half Down
+FormatNumberPage.roundingMode.halfEven=Half Even
+FormatNumberPage.roundingMode.up=Arriba
+FormatNumberPage.roundingMode.down=Abajo
+FormatNumberPage.roundingMode.ceiling=Ceiling
+FormatNumberPage.roundingMode.floor=Floor
+FormatNumberPage.roundingMode.unnecessary=Unnecessary
 
 ###########################################################
 #FormatNumberPreferencePage properties

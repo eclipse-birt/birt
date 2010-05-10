@@ -1486,11 +1486,11 @@ ExpressionBuilder.toolTipText.Button=Ausdruckserstellung öffnen
 ###########################################################
 #ExpressionBuilder properties
 
-ExpressionBuilder.Label.Category=Kategorie:
-ExpressionBuilder.Label.Functions=Einfügen durch Doppelklicken:
+ExpressionBuilder.Label.Category=&Category:
+ExpressionBuilder.Label.Functions=Double Click to &insert:
 ExpressionBuilder.Label.Hint=Hinweis
 ExpressionBuilder.Label.Operators=Operatoren:
-ExpressionBuilder.Label.SubCategory=Unterkategorie:
+ExpressionBuilder.Label.SubCategory=&Sub-Category:
 ExpressionBuilder.Message.Prompt=Geben Sie in das Feld für die Ausdruckserstellung einen Ausdruck ein. Durchsuchen Sie die Liste der verfügbaren Objekte, und kopieren Sie sie per Doppelklick in den Ausdruck.
 ExpressionBuilder.ToolTip=Ausdruckserstellung öffnen
 ExpressionBuilder.toolTipText.validate=Validieren
@@ -1688,6 +1688,7 @@ FormatNumberPage.label.custom.preview.label=Vorschau mit Format:
 FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
 FormatNumberPage.label.custom.settings=Benutzerdefinierte Einstellungen
 FormatNumberPage.label.decimal.places=&Dezimalstellen: 
+FormatNumberPage.label.rounding.mode=&Rounding Mode:
 FormatNumberPage.label.fixed.settings=Feste Einstellungen
 FormatNumberPage.label.format.code=Format&code:
 FormatNumberPage.label.format.number.page=&Formatieren als:
@@ -1708,6 +1709,15 @@ FormatNumberPage.preview.invalidFormatCode=Ungültiger Formatcode
 FormatNumberPage.preview.invalidNumber=Zahl für Vorschau ungültig
 FormatNumberPage.symblePos.after=Nach
 FormatNumberPage.symblePos.before=Vor
+
+FormatNumberPage.roundingMode.halfUp=Half Up
+FormatNumberPage.roundingMode.halfDown=Half Down
+FormatNumberPage.roundingMode.halfEven=Half Even
+FormatNumberPage.roundingMode.up=Nach oben
+FormatNumberPage.roundingMode.down=Nach unten
+FormatNumberPage.roundingMode.ceiling=Ceiling
+FormatNumberPage.roundingMode.floor=Floor
+FormatNumberPage.roundingMode.unnecessary=Unnecessary
 
 ###########################################################
 #FormatNumberPreferencePage properties

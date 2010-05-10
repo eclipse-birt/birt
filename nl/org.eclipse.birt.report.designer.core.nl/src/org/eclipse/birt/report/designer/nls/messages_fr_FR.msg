@@ -1486,11 +1486,11 @@ ExpressionBuilder.toolTipText.Button=Ouvrir le Générateur d'expression
 ###########################################################
 #ExpressionBuilder properties
 
-ExpressionBuilder.Label.Category=Catégorie :
-ExpressionBuilder.Label.Functions=Double clic pour insérer :
+ExpressionBuilder.Label.Category=&Category:
+ExpressionBuilder.Label.Functions=Double Click to &insert:
 ExpressionBuilder.Label.Hint=Indication
 ExpressionBuilder.Label.Operators=Opérateurs :
-ExpressionBuilder.Label.SubCategory=Sous-catégorie :
+ExpressionBuilder.Label.SubCategory=&Sub-Category:
 ExpressionBuilder.Message.Prompt=Entrez une expression dans le champ Expression. Parcourez la liste des objets disponibles et cliquez deux fois sur un objet pour le copier dans votre expression.
 ExpressionBuilder.ToolTip=Ouvrir le Générateur d'expression
 ExpressionBuilder.toolTipText.validate=Valider
@@ -1688,6 +1688,7 @@ FormatNumberPage.label.custom.preview.label=Aperçu au format :
 FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
 FormatNumberPage.label.custom.settings=Paramètres personnalisés
 FormatNumberPage.label.decimal.places=Emplacement des &décimales : 
+FormatNumberPage.label.rounding.mode=&Rounding Mode:
 FormatNumberPage.label.fixed.settings=Paramètres fixés
 FormatNumberPage.label.format.code=&Code de format :
 FormatNumberPage.label.format.number.page=&Format :
@@ -1708,6 +1709,15 @@ FormatNumberPage.preview.invalidFormatCode=Code de format incorrect
 FormatNumberPage.preview.invalidNumber=Format de nombre incorrect pour l'aperçu
 FormatNumberPage.symblePos.after=Après
 FormatNumberPage.symblePos.before=Avant
+
+FormatNumberPage.roundingMode.halfUp=Half Up
+FormatNumberPage.roundingMode.halfDown=Half Down
+FormatNumberPage.roundingMode.halfEven=Half Even
+FormatNumberPage.roundingMode.up=Vers le haut
+FormatNumberPage.roundingMode.down=Vers le bas
+FormatNumberPage.roundingMode.ceiling=Ceiling
+FormatNumberPage.roundingMode.floor=Floor
+FormatNumberPage.roundingMode.unnecessary=Unnecessary
 
 ###########################################################
 #FormatNumberPreferencePage properties
