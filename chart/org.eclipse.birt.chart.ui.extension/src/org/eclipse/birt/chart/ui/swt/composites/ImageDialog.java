@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.EmbeddedImage;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.model.attribute.PatternImage;
 import org.eclipse.birt.chart.model.attribute.impl.EmbeddedImageImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -88,6 +89,7 @@ public class ImageDialog extends TrayDialog
 		this.fCurrent = fCurrent;
 	}
 
+	@Override
 	protected Control createContents( Composite parent )
 	{
 		Control ct = super.createContents( parent );
@@ -101,6 +103,7 @@ public class ImageDialog extends TrayDialog
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite topCompostie = (Composite) super.createDialogArea( parent );
@@ -136,6 +139,7 @@ public class ImageDialog extends TrayDialog
 		uri.setText( Messages.getString( "ImageDialog.label.URLImage" ) ); //$NON-NLS-1$
 		uri.addSelectionListener( new SelectionAdapter( ) {
 
+			@Override
 			public void widgetSelected( SelectionEvent e )
 			{
 				selectedType = URI_TYPE;
@@ -148,6 +152,7 @@ public class ImageDialog extends TrayDialog
 		embedded.setText( Messages.getString( "ImageDialog.label.EmbeddedImage" ) ); //$NON-NLS-1$
 		embedded.addSelectionListener( new SelectionAdapter( ) {
 
+			@Override
 			public void widgetSelected( SelectionEvent e )
 			{
 				selectedType = EMBEDDED_TYPE;
@@ -190,6 +195,7 @@ public class ImageDialog extends TrayDialog
 		browseButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		browseButton.addSelectionListener( new SelectionAdapter( ) {
 
+			@Override
 			public void widgetSelected( SelectionEvent event )
 			{
 				FileDialog fileChooser = new FileDialog( getShell( ), SWT.OPEN );
@@ -224,6 +230,7 @@ public class ImageDialog extends TrayDialog
 		previewButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		previewButton.addSelectionListener( new SelectionAdapter( ) {
 
+			@Override
 			public void widgetSelected( SelectionEvent e )
 			{
 				preview( removeQuote( uriEditor.getText( ) ) );
@@ -275,6 +282,7 @@ public class ImageDialog extends TrayDialog
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 
+	@Override
 	protected void okPressed( )
 	{
 		switch ( selectedType )
@@ -364,7 +372,7 @@ public class ImageDialog extends TrayDialog
 	private void initURIEditor( )
 	{
 		String uri = ""; //$NON-NLS-1$
-		if ( fCurrent instanceof Image )
+		if ( fCurrent instanceof Image && !( fCurrent instanceof PatternImage ) )
 		{
 			uri = ( (Image) fCurrent ).getURL( );
 
