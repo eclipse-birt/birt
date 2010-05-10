@@ -711,6 +711,11 @@ Choices.gadgetContentType.image=イメージ
 Choices.windowStatus.normal=標準
 Choices.windowStatus.maximized=最大化
 
+#90 reportItemThemeType
+Choices.reportItemThemeType.Table=Table Theme
+Choices.reportItemThemeType.List=List Theme
+Choices.reportItemThemeType.Grid=Grid Theme
+
 ###########################################################
 # Classes
 
@@ -2363,6 +2368,7 @@ Element.DataMartDataSource=データオブジェクトのデータソース
 Element.DataMartDataSet=データオブジェクトのデータセット
 Element.DataMartCube=データオブジェクトキューブ
 Element.TimeDimension=時間のディメンジョン
+Element.ReportItemTheme=Report Item Theme
 
 ###########################################################
 # Element property names
@@ -2402,6 +2408,7 @@ Element.Library.slot.pageSetup=ページ設定
 Element.Library.slot.components=コンポーネント
 Element.Library.slot.themes=テーマ
 Element.Library.slot.cubes=キューブ
+Element.Library.slot.reportItemThemes=Report Item Themes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=更新頻度
@@ -3018,6 +3025,7 @@ Element.Grid.onPageBreak.reportContext=レポートのコンテキスト
 Element.Grid.caption=キャプション
 Element.Grid.captionID=キャプションキー
 Element.Grid.summary=サマリ
+Element.Grid.theme=テーマ
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=向き
@@ -3125,6 +3133,7 @@ Element.Listing.onRow=行ごと
 Element.Listing.onRow.toolTip=この要素のデータセットから各行が取得された際に、その行のコンテンツが作成される前に呼び出されます
 Element.Listing.onFinish=終了時
 Element.Listing.onFinish.toolTip=この要素のデータセットから最後の行が読み込まれた後で、フッタバンドが作成される前に呼び出されます
+Element.Listing.theme=テーマ
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=コンテンツ
@@ -3395,6 +3404,10 @@ Element.TimeDimension.startTimePoint=開始時刻ポイント
 Element.TimeDimension.endTimePoint=終了時刻ポイント
 Element.TimeDimension.hierarchies=階層
 
+#63 ReportItemTheme ( Prefix Element.ReportItemTheme )
+Element.ReportItemTheme.slot.styles=種類
+Element.ReportItemTheme.type=種類
+
 ###########################################################
 # Predefined style
 Style.Report=レポート
@@ -3664,6 +3677,7 @@ New.DataMartCube=新規 DataMart キューブ
 New.TabElement=新規タブ要素
 New.GadgetItem=新規ガジェットの項目
 New.TimeDimension=NewTimeDimension
+New.ReportItemTheme=NewReportItemTheme
 
 ###########################################################
 #Default theme name.
@@ -3764,7 +3778,7 @@ Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE=マスタページ "{0}" のページの種類が
 Error.SemanticError.INVALID_PAGE_MARGINS=マスタページ "{0}" の余白の値が無効です。
 Error.SemanticError.MISSING_MASTER_PAGE=レポートには、マスタページが少なくとも 1 つ含まれている必要があります。
 Error.SemanticError.INVALID_MULTI_COLUMN=マスタページ "{0}" のページコンテンツの外部に列の幅が設定されています。
-Error.SemanticError.INVALID_ELEMENT_REF=この要素 "{0}" には、未定義の要素 "{2}" を参照するプロパティ "{1}" が含まれています。
+Error.SemanticError.INVALID_ELEMENT_REF=The element "{0}" has property "{1}" that refers an undefined element or refers itself : "{2}".
 Error.SemanticError.INVALID_DATA_BINDING_REF=要素 "{0}" には、要素 "{1}" (コンテナまたは要素の内容) を参照するプロパティ dataBindingRef が含まれています。
 Error.SemanticError.MISSING_SQL_STMT=JDBC 選択データセット "{0}" には、SQL 文が含まれている必要があります。
 Error.SemanticError.MISSING_DATA_SET={0} は、1 つのデータセットにアクセスできる必要があります。
@@ -3827,7 +3841,8 @@ Error.StyleException.FORBIDDEN={0} にはスタイルを適用できません。
 Error.StyleException.NOT_FOUND={1} で使用されているスタイル "{0}" が見つかりません。
     
 #ThemeException
-Error.ThemeException.NOT_FOUND={1} で使用されているテーマ "{0}" が見つかりません。    
+Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
+Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=ファイル "{0}" が見つかりません。

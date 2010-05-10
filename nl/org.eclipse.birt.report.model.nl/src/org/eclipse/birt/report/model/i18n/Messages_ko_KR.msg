@@ -711,6 +711,11 @@ Choices.gadgetContentType.image=이미지
 Choices.windowStatus.normal=기본
 Choices.windowStatus.maximized=최대화
 
+#90 reportItemThemeType
+Choices.reportItemThemeType.Table=Table Theme
+Choices.reportItemThemeType.List=List Theme
+Choices.reportItemThemeType.Grid=Grid Theme
+
 ###########################################################
 # Classes
 
@@ -2363,6 +2368,7 @@ Element.DataMartDataSource=데이터 개체 데이터 원본
 Element.DataMartDataSet=데이터 개체 데이터 집합
 Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
+Element.ReportItemTheme=Report Item Theme
 
 ###########################################################
 # Element property names
@@ -2402,6 +2408,7 @@ Element.Library.slot.pageSetup=페이지 설정
 Element.Library.slot.components=구성 요소
 Element.Library.slot.themes=테마
 Element.Library.slot.cubes=큐브
+Element.Library.slot.reportItemThemes=Report Item Themes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=새로 고침 빈도
@@ -3018,6 +3025,7 @@ Element.Grid.onPageBreak.reportContext=보고서 컨텍스트
 Element.Grid.caption=캡션
 Element.Grid.captionID=캡션 키
 Element.Grid.summary=요약
+Element.Grid.theme=테마
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=방향
@@ -3125,6 +3133,7 @@ Element.Listing.onRow=행에서
 Element.Listing.onRow.toolTip=이 요소에 대한 데이터 집합에서 검색된 각 행에 대해 해당 행에 대한 내용을 생성하기 전에 호출됩니다
 Element.Listing.onFinish=종료 시
 Element.Listing.onFinish.toolTip=이 요소에 대한 데이터 집합에서 마지막 행을 읽은 이후이며 바닥글 밴드가 생성되기 이전에 호출됩니다
+Element.Listing.theme=테마
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=내용
@@ -3395,6 +3404,10 @@ Element.TimeDimension.startTimePoint=시작 시점
 Element.TimeDimension.endTimePoint=종료 시점
 Element.TimeDimension.hierarchies=계층
 
+#63 ReportItemTheme ( Prefix Element.ReportItemTheme )
+Element.ReportItemTheme.slot.styles=스타일
+Element.ReportItemTheme.type=형식
+
 ###########################################################
 # Predefined style
 Style.Report=보고서
@@ -3664,6 +3677,7 @@ New.DataMartCube=새 Data Mart 큐브
 New.TabElement=새 탭 요소
 New.GadgetItem=새 가젯 항목
 New.TimeDimension=NewTimeDimension
+New.ReportItemTheme=NewReportItemTheme
 
 ###########################################################
 #Default theme name.
@@ -3764,7 +3778,7 @@ Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE=마스터 페이지 "{0}"의 페이지 형식이
 Error.SemanticError.INVALID_PAGE_MARGINS=마스터 페이지 "{0}"의 여백 값이 잘못되었습니다.
 Error.SemanticError.MISSING_MASTER_PAGE=보고서에 하나 이상의 마스터 페이지가 있어야 합니다.
 Error.SemanticError.INVALID_MULTI_COLUMN=마스터 페이지 "{0}"에 페이지 내용 밖으로 걸쳐진 열이 있습니다.
-Error.SemanticError.INVALID_ELEMENT_REF=요소 "{0}"에 정의되지 않은 요소 "{2}"을(를) 참조하는 속성 "{1}"이(가) 있습니다.
+Error.SemanticError.INVALID_ELEMENT_REF=The element "{0}" has property "{1}" that refers an undefined element or refers itself : "{2}".
 Error.SemanticError.INVALID_DATA_BINDING_REF=요소 "{0}"에 요소의 컨테이너 또는 내용인 요소 "{1}"을(를) 참조하는 속성 dataBindingRef가 있습니다.
 Error.SemanticError.MISSING_SQL_STMT=JDBC 선택 데이터 집합 "{0}"에는 SQL 문이 있어야 합니다.
 Error.SemanticError.MISSING_DATA_SET={0}은(는) 하나의 데이터 집합을 액세스할 수 있어야 합니다.
@@ -3827,7 +3841,8 @@ Error.StyleException.FORBIDDEN={0}은(는) 스타일을 가질 수 없습니다.
 Error.StyleException.NOT_FOUND={1}에서 사용된 스타일 "{0}"이(가) 없습니다.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND={1}에서 사용된 테마 "{0}"이(가) 없습니다.    
+Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
+Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=파일 "{0}"이(가) 없습니다.

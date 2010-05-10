@@ -711,6 +711,11 @@ Choices.gadgetContentType.image=Image
 Choices.windowStatus.normal=Normal
 Choices.windowStatus.maximized=Agrandi
 
+#90 reportItemThemeType
+Choices.reportItemThemeType.Table=Table Theme
+Choices.reportItemThemeType.List=List Theme
+Choices.reportItemThemeType.Grid=Grid Theme
+
 ###########################################################
 # Classes
 
@@ -2363,6 +2368,7 @@ Element.DataMartDataSource=Source de données de l'objet de données
 Element.DataMartDataSet=Jeu de données de l'objet de données
 Element.DataMartCube=Cube de l'objet de données
 Element.TimeDimension=Dimension de temps
+Element.ReportItemTheme=Report Item Theme
 
 ###########################################################
 # Element property names
@@ -2402,6 +2408,7 @@ Element.Library.slot.pageSetup=Mise en page
 Element.Library.slot.components=Composants
 Element.Library.slot.themes=Thèmes
 Element.Library.slot.cubes=Cubes
+Element.Library.slot.reportItemThemes=Report Item Themes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Fréquence d'actualisation
@@ -3018,6 +3025,7 @@ Element.Grid.onPageBreak.reportContext=Contexte d'état
 Element.Grid.caption=Légende
 Element.Grid.captionID=Clé de légende
 Element.Grid.summary=Résumé
+Element.Grid.theme=Thème
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientation
@@ -3125,6 +3133,7 @@ Element.Listing.onRow=A la ligne
 Element.Listing.onRow.toolTip=Commande appelée pour chaque ligne extraite du jeu de données pour cet élément, mais avant la création de tout contenu pour cette ligne
 Element.Listing.onFinish=A la fin
 Element.Listing.onFinish.toolTip=Commande appelée après la lecture de la dernière ligne du jeu de données pour cet élément, mais avant la création de la bande du pied de page
+Element.Listing.theme=Thème
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=Contenu
@@ -3395,6 +3404,10 @@ Element.TimeDimension.startTimePoint=Limite pour l'heure de début
 Element.TimeDimension.endTimePoint=Limite pour l'heure de fin
 Element.TimeDimension.hierarchies=Hiérarchies
 
+#63 ReportItemTheme ( Prefix Element.ReportItemTheme )
+Element.ReportItemTheme.slot.styles=Styles
+Element.ReportItemTheme.type=Type
+
 ###########################################################
 # Predefined style
 Style.Report=Etat
@@ -3664,6 +3677,7 @@ New.DataMartCube=NewDataMartCube
 New.TabElement=NewTabElement
 New.GadgetItem=NewGadgetItem
 New.TimeDimension=NewTimeDimension
+New.ReportItemTheme=NewReportItemTheme
 
 ###########################################################
 #Default theme name.
@@ -3764,7 +3778,7 @@ Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE=La page maître "{0}" ne peut avoir 
 Error.SemanticError.INVALID_PAGE_MARGINS=La page maître "{0}" comporte une valeur de marge incorrecte.
 Error.SemanticError.MISSING_MASTER_PAGE=L'état doit comporter au moins une page maître.
 Error.SemanticError.INVALID_MULTI_COLUMN=La page maître "{0}" comporte une plage de colonne en dehors du contenu de la page.
-Error.SemanticError.INVALID_ELEMENT_REF=La propriété "{1}" de l''élément "{0}" fait référence à un élément non défini "{2}".
+Error.SemanticError.INVALID_ELEMENT_REF=The element "{0}" has property "{1}" that refers an undefined element or refers itself : "{2}".
 Error.SemanticError.INVALID_DATA_BINDING_REF=La propriété dataBindingRef de l'élément "{0}" fait référence à un élément "{1}" qui correspond au conteneur ou au contenu de l'élément.
 Error.SemanticError.MISSING_SQL_STMT=Le jeu de données JDBC de sélection "{0}" doit comporter une instruction SQL.
 Error.SemanticError.MISSING_DATA_SET={0} doit pouvoir accéder à un jeu de données.
@@ -3827,7 +3841,8 @@ Error.StyleException.FORBIDDEN=L''élément {0} ne peut pas être associé à un styl
 Error.StyleException.NOT_FOUND=Impossible de trouver le style "{0}" utilisé par {1}.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=Impossible de trouver le thème "{0}" utilisé par {1}.    
+Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
+Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=Le fichier "{0}" est introuvable.

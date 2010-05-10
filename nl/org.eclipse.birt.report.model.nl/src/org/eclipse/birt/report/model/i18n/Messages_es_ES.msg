@@ -711,6 +711,11 @@ Choices.gadgetContentType.image=Imagen
 Choices.windowStatus.normal=Normal
 Choices.windowStatus.maximized=Maximizado
 
+#90 reportItemThemeType
+Choices.reportItemThemeType.Table=Table Theme
+Choices.reportItemThemeType.List=List Theme
+Choices.reportItemThemeType.Grid=Grid Theme
+
 ###########################################################
 # Classes
 
@@ -2363,6 +2368,7 @@ Element.DataMartDataSource=Fuente de datos de objeto de datos
 Element.DataMartDataSet=Conjunto de datos de objeto de datos
 Element.DataMartCube=Cubo de objeto de datos
 Element.TimeDimension=Dimensión de tiempo
+Element.ReportItemTheme=Report Item Theme
 
 ###########################################################
 # Element property names
@@ -2402,6 +2408,7 @@ Element.Library.slot.pageSetup=Configurar página
 Element.Library.slot.components=Componentes
 Element.Library.slot.themes=Temas
 Element.Library.slot.cubes=Cubos
+Element.Library.slot.reportItemThemes=Report Item Themes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Intervalo de actualización
@@ -3018,6 +3025,7 @@ Element.Grid.onPageBreak.reportContext=Contexto de informe
 Element.Grid.caption=Título
 Element.Grid.captionID=Clave de título
 Element.Grid.summary=Resumen
+Element.Grid.theme=Tema
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientación
@@ -3125,6 +3133,7 @@ Element.Listing.onRow=En fila
 Element.Listing.onRow.toolTip=Llamado para cada fila recuperada del conjunto de datos para este elemento, pero antes de crear cualquier contenido para dicha fila
 Element.Listing.onFinish=En fin
 Element.Listing.onFinish.toolTip=Llamado después de leer la última fila del conjunto de datos para este elemento, pero antes de crear la banda de pie de página
+Element.Listing.theme=Tema
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=Contenido
@@ -3395,6 +3404,10 @@ Element.TimeDimension.startTimePoint=Punto de inicio
 Element.TimeDimension.endTimePoint=Punto de finalización
 Element.TimeDimension.hierarchies=Jerarquías
 
+#63 ReportItemTheme ( Prefix Element.ReportItemTheme )
+Element.ReportItemTheme.slot.styles=Estilos
+Element.ReportItemTheme.type=Tipo
+
 ###########################################################
 # Predefined style
 Style.Report=Informe
@@ -3664,6 +3677,7 @@ New.DataMartCube=NewDataMartCube
 New.TabElement=NewTabElement
 New.GadgetItem=NewGadgetItem
 New.TimeDimension=NewTimeDimension
+New.ReportItemTheme=NewReportItemTheme
 
 ###########################################################
 #Default theme name.
@@ -3764,7 +3778,7 @@ Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE=La página maestra "{0}" no puede es
 Error.SemanticError.INVALID_PAGE_MARGINS=La página maestra "{0}" tiene un valor de margen no válido.
 Error.SemanticError.MISSING_MASTER_PAGE=El informe debe tener al menos una página maestra.
 Error.SemanticError.INVALID_MULTI_COLUMN=La página maestra "{0}" tiene las columnas extendidas fuera del contenido de la página.
-Error.SemanticError.INVALID_ELEMENT_REF=El elemento "{0}" tiene la propiedad "{1}" que hace referencia al elemento indefinido "{2}".
+Error.SemanticError.INVALID_ELEMENT_REF=The element "{0}" has property "{1}" that refers an undefined element or refers itself : "{2}".
 Error.SemanticError.INVALID_DATA_BINDING_REF=El elemento "{0}" tiene la propiedad dataBindingRef que hace referencia al elemento "{1}" que es el contenedor o contenido del elemento.
 Error.SemanticError.MISSING_SQL_STMT=El conjunto de datos de selección JDBC "{0}" debe tener una sentencia SQL.
 Error.SemanticError.MISSING_DATA_SET={0} debe poder acceder a un conjunto de datos.
@@ -3827,7 +3841,8 @@ Error.StyleException.FORBIDDEN=El valor {0} no puede tener ningún estilo.
 Error.StyleException.NOT_FOUND=No encuentra el estilo "{0}" usado por {1}.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=No se encuentra el tema "{0}" usado por {1}.    
+Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
+Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=No se ha encontrado el archivo "{0}".
