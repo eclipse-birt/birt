@@ -171,6 +171,9 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		}
 		else
 		{
+			validateBoxProperty( content.getComputedStyle( ), parent == null
+					? context.getMaxWidth( )
+					: parent.getMaxAvaWidth( ), context.getMaxHeight( ) );
 			buildProperties( content, context );
 			if ( specifiedHeight > 0 )
 			{

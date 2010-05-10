@@ -936,7 +936,7 @@ public abstract class ContainerArea extends AbstractArea
 
 		int[] hs = new int[]{bottomMargin, topMargin, bottomPadding,
 				topPadding, bottomBorder, topBorder};
-		// resolveBoxConflict( hs, maxHeight );
+		resolveBoxConflict( hs, maxHeight );
 
 		style.setProperty( IStyle.STYLE_MARGIN_LEFT, new FloatValue(
 				CSSPrimitiveValue.CSS_NUMBER, vs[1] ) );
