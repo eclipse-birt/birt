@@ -217,17 +217,17 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMap
 -Dbootclasspath=$bootclasspath_15 -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps \
 -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign $prepareSrc \
--Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng.230/src \
--DbaseLocation=/home/adb/releng.230/baseLocation -DbaseLocation.emf=/home/adb/releng.230/baseLocation \
+-Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng.260/src \
+-DbaseLocation=/home/adb/releng.260/baseLocation -DbaseLocation.emf=/home/adb/releng.230/baseLocation \
 -DgroupConfiguration=true -DjavacVerbose=true \
--Dbasebuilder=/home/adb/releng.230/org.eclipse.releng.basebuilder -DpostPackage=BIRTOutput  \
--Dtest.dir=/home/adb/releng.230/unittest -Dp4.home=/home/adb/releng.230/P4 \
+-Dbasebuilder=/home/adb/releng.260/org.eclipse.releng.basebuilder -DpostPackage=BIRTOutput  \
+-Dtest.dir=/home/adb/releng.260/unittest -Dp4.home=/home/adb/releng.260/P4 \
 -Djvm15_home=$jvm15_home -DmapTag.properties=/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/mapTag.properties \
--Dbuild.date=$builddate -Dpackage.version=2_3_0 -DBranchVersion=2.3.0 \
+-Dbuild.date=$builddate -Dpackage.version=2_6_0 -DBranchVersion=2.6.0 \
 -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt \
--DmapVersionTag=BIRT_2_3_0_Branch \
+-DmapVersionTag=HEAD \
 -Ddtp.mapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/datatools \
--Ddtp.mapVersionTag=DTP_1_7_2_Post_Branch \
+-Ddtp.mapVersionTag=HEAD \
 -Dbirt.url.token=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt \
 -Ddtp.url.token=:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools" 
 
