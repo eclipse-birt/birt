@@ -22,10 +22,12 @@ import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -46,6 +48,7 @@ import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelpe
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -160,13 +163,39 @@ public class CubeQueryExecutor
 		if ( cubeFilter.getTargetLevel( ) != null)
 			return CubeQueryExecutor.DIMENSION_FILTER;
 		
-		Set<DimLevel> refDimLevels = OlapExpressionCompiler.getReferencedDimLevel( filter.getExpression( ),
-				this.defn.getBindings( ) );
-
-		if( refDimLevels.size( ) > 0 )
+		String measure = OlapExpressionCompiler.getReferencedScriptObject( filter.getExpression( ), "measure" );
+		if( measure != null )
 			return CubeQueryExecutor.FACTTABLE_FILTER;
 		
-		return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+		List bindingName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
+		
+		if( existAggregationBinding( bindingName, this.defn.getBindings( ) ) )
+			return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+		
+		return CubeQueryExecutor.FACTTABLE_FILTER;
+	}
+	
+	/**
+	 * 
+	 * @param bindingName
+	 * @param bindings
+	 * @return
+	 * @throws DataException
+	 */
+	private static boolean existAggregationBinding( List bindingName, List bindings ) throws DataException
+	{
+		for( int i = 0; i < bindingName.size( ); i++ )
+		{
+			for( int j = 0; j < bindings.size( ); j++ )
+			{
+				IBinding binding = (IBinding) bindings.get( j );
+				if( bindingName.get( i ).equals( binding.getBindingName( ) ) && OlapExpressionUtil.isAggregationBinding( binding ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	/**
 	 * 
