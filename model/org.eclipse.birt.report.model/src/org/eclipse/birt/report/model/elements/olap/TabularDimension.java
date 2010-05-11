@@ -297,7 +297,7 @@ public class TabularDimension extends Dimension
 		}
 
 		List<DesignElement> hierarchies = (List<DesignElement>) super
-				.getLocalProperty( module, hierarchyName );
+				.getLocalProperty( module, Dimension.HIERARCHIES_PROP );
 
 		if ( hierarchies == null || hierarchies.isEmpty( ) )
 			return null;
