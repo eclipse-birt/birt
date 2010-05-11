@@ -251,6 +251,7 @@ public class RadarChart extends DefaultChartTypeImpl
 			String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		helperModel.eAdapters( ).addAll( currentChart.eAdapters( ) );
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
 				.cacheSeries( ChartUIUtil.getAllOrthogonalSeriesDefinitions( helperModel ) );
