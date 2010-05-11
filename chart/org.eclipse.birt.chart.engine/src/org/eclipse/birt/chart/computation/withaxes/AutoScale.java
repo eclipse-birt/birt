@@ -325,6 +325,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public final Object clone( )
 	{
 		final AutoScale sc = new AutoScale( info );
@@ -2310,46 +2311,18 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.context.setUnit( Integer.valueOf( iUnit ) );
 
 			// OVERRIDE MINIMUM IF SPECIFIED
-			if ( oMinimum != null )
+			if ( oMinimum instanceof DateTimeDataElement )
 			{
-				if ( oMinimum instanceof DateTimeDataElement )
-				{
-					sc.setMinimum( ( (DateTimeDataElement) oMinimum ).getValueAsCDateTime( ) );
-					sc.info.oMinimumFixed( ( (DateTimeDataElement) oMinimum ).getValueAsCDateTime( ) );
-				}
-				else
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							"exception.invalid.minimum.scale.value", //$NON-NLS-1$ 
-							new Object[]{
-									oMinimum,
-									ax.getModelAxis( ).getType( ).getName( )
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) );
-				}
+				sc.setMinimum( ( (DateTimeDataElement) oMinimum ).getValueAsCDateTime( ) );
+				sc.info.oMinimumFixed( ( (DateTimeDataElement) oMinimum ).getValueAsCDateTime( ) );
 				sc.info.bMinimumFixed( true );
 			}
 
 			// OVERRIDE MAXIMUM IF SPECIFIED
-			if ( oMaximum != null )
+			if ( oMaximum instanceof DateTimeDataElement )
 			{
-				if ( oMaximum instanceof DateTimeDataElement )
-				{
-					sc.setMaximum( ( (DateTimeDataElement) oMaximum ).getValueAsCDateTime( ) );
-					sc.info.oMaximumFixed( ( (DateTimeDataElement) oMaximum ).getValueAsCDateTime( ) );
-				}
-				else
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							"exception.invalid.maximum.scale.value", //$NON-NLS-1$
-							new Object[]{
-									oMaximum,
-									ax.getModelAxis( ).getType( ).getName( )
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) );
-				}
+				sc.setMaximum( ( (DateTimeDataElement) oMaximum ).getValueAsCDateTime( ) );
+				sc.info.oMaximumFixed( ( (DateTimeDataElement) oMaximum ).getValueAsCDateTime( ) );
 				sc.info.bMaximumFixed( true );
 			}
 
@@ -4076,52 +4049,16 @@ public final class AutoScale extends Methods implements Cloneable
 			throws ChartException
 	{
 		// OVERRIDE MINIMUM IF SPECIFIED
-		if ( oMinimum != null )
+		if ( oMinimum instanceof NumberDataElement )
 		{
-			if ( oMinimum instanceof NumberDataElement )
-			{
-				sc.setMinimum( new Double( ( (NumberDataElement) oMinimum ).getValue( ) ) );
-			}
-			/*
-			 * else if (oMinimum instanceof DateTimeDataElement) { sc.oMinimum =
-			 * ((DateTimeDataElement) oMinimum).getValueAsCDateTime(); }
-			 */
-			else
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						"exception.invalid.minimum.scale.value", //$NON-NLS-1$
-						new Object[]{
-								oMinimum,
-								ax.getModelAxis( ).getType( ).getName( )
-						},
-						Messages.getResourceBundle( rtc.getULocale( ) ) );
-			}
+			sc.setMinimum( new Double( ( (NumberDataElement) oMinimum ).getValue( ) ) );
 			sc.info.bMinimumFixed( true );
 		}
 
 		// OVERRIDE MAXIMUM IF SPECIFIED
-		if ( oMaximum != null )
+		if ( oMaximum instanceof NumberDataElement )
 		{
-			if ( oMaximum instanceof NumberDataElement )
-			{
-				sc.setMaximum( Double.valueOf( ( (NumberDataElement) oMaximum ).getValue( ) ) );
-			}
-			/*
-			 * else if (oMaximum instanceof DateTimeDataElement) { sc.oMaximum =
-			 * ((DateTimeDataElement) oMaximum).getValueAsCDateTime(); }
-			 */
-			else
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.GENERATION,
-						"exception.invalid.maximum.scale.value", //$NON-NLS-1$
-						new Object[]{
-								oMaximum,
-								ax.getModelAxis( ).getType( ).getName( )
-						},
-						Messages.getResourceBundle( rtc.getULocale( ) ) );
-			}
+			sc.setMaximum( Double.valueOf( ( (NumberDataElement) oMaximum ).getValue( ) ) );
 			sc.info.bMaximumFixed( true );
 		}
 
