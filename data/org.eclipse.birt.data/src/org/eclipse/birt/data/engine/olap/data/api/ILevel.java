@@ -53,4 +53,10 @@ public interface ILevel
 	 * @return
 	 */
 	public int getAttributeDataType( String attributeName );
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getLeveType( );
 }
