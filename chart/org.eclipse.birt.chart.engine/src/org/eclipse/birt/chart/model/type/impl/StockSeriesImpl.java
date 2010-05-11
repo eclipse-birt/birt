@@ -601,12 +601,12 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		}
 
 		// Copy series specific properties
-		if ( series instanceof BarSeries )
+		if ( series instanceof BarSeries && ( (BarSeries) series ).getRiserOutline( ) != null )
 		{
 			this.getLineAttributes( )
 					.setColor( ( (BarSeries) series ).getRiserOutline( ) );
 		}
-		else if ( series instanceof LineSeries )
+		else if ( series instanceof LineSeries && ( (LineSeries) series ).getLineAttributes( ) != null )
 		{
 			this.setLineAttributes( ( (LineSeries) series ).getLineAttributes( ) );
 		}
