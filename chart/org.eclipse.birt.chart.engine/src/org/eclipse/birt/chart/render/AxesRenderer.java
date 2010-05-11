@@ -66,13 +66,20 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.StringFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
@@ -2384,6 +2391,26 @@ public abstract class AxesRenderer extends BaseRenderer
 		return null;
 	}
 
+	private static FormatSpecifier getValidMarkerLineFormat( MarkerLine mkl )
+	{
+		DataElement de = mkl.getValue( );
+		FormatSpecifier fs = mkl.getFormatSpecifier( );
+
+		boolean bValid = de instanceof DateTimeDataElement
+				&& ( fs instanceof DateFormatSpecifier || fs instanceof JavaDateFormatSpecifier )
+				|| de instanceof NumberDataElement
+				&& ( fs instanceof FractionNumberFormatSpecifier
+						|| fs instanceof JavaNumberFormatSpecifier || fs instanceof NumberFormatSpecifier )
+				|| de instanceof TextDataElement
+				&& fs instanceof StringFormatSpecifier;
+
+		if ( bValid )
+		{
+			return fs;
+		}
+		return null;
+	}
+
 	/**
 	 * Renders all marker lines (and labels at requested positions) associated
 	 * with every axis in the plot Note that marker lines are drawn immediately
@@ -2476,7 +2503,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					{
 						la.getCaption( )
 								.setValue( ValueFormatter.format( deValue,
-										ml.getFormatSpecifier( ),
+										getValidMarkerLineFormat( ml ),
 										oaxa[i].getRunTimeContext( )
 												.getULocale( ),
 										null ) );
