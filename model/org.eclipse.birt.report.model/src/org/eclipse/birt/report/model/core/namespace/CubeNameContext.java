@@ -68,36 +68,21 @@ public class CubeNameContext extends GeneralModuleNameContext
 
 		// dimension to shared dimension case
 		int nameSpaceID = targetDefn.getNameSpaceID( );
+
 		if ( nameSpaceID == Module.DIMENSION_NAME_SPACE )
-			return super.resolve( focus, element, propDefn, elementDefn );
+		{
+			if ( focus instanceof Dimension )
+				return super.resolve( focus, element, propDefn, elementDefn );
+		}
 
-		boolean needLocalInstance = false;
-
-		// data object cube case.
+		// the focus is data object cube.
 		if ( focus != null && focus.canDynamicExtends( ) )
 		{
 			Cube referredCube = (Cube) focus.getDynamicExtendsElement( focus
 					.getRoot( ) );
 			if ( referredCube == null )
 				return new ElementRefValue( null, elementName );
-
-			needLocalInstance = true;
 		}
-
-		// shared dimension.
-		ElementRefValue refValue = super.resolve( focus, element, propDefn,
-				elementDefn );
-		if ( refValue.isResolved( ) )
-		{
-			DesignElement tmpElement = refValue.getElement( );
-			needLocalInstance = inSharedDimension( tmpElement );
-		}
-
-		// only data object cube and shared dimension need to find locale
-		// instance.
-
-		if ( !needLocalInstance )
-			return refValue;
 
 		Cube cube = findTarget( focus );
 		if ( cube == null )
@@ -131,10 +116,13 @@ public class CubeNameContext extends GeneralModuleNameContext
 
 		// dimension to shared dimension case
 		int nameSpaceID = targetDefn.getNameSpaceID( );
-		if ( nameSpaceID == Module.DIMENSION_NAME_SPACE )
-			return super.resolve( focus, elementName, propDefn, elementDefn );
 
-		boolean needLocalInstance = false;
+		if ( nameSpaceID == Module.DIMENSION_NAME_SPACE )
+		{
+			if ( focus instanceof Dimension )
+				return super
+						.resolve( focus, elementName, propDefn, elementDefn );
+		}
 
 		// data object cube case.
 		if ( focus != null && focus.canDynamicExtends( ) )
@@ -143,28 +131,11 @@ public class CubeNameContext extends GeneralModuleNameContext
 					.getRoot( ) );
 			if ( referredCube == null )
 				return new ElementRefValue( null, elementName );
-
-			needLocalInstance = true;
 		}
-
-		// shared dimension.
-		ElementRefValue refValue = super.resolve( focus, elementName, propDefn,
-				elementDefn );
-		if ( refValue.isResolved( ) )
-		{
-			DesignElement tmpElement = refValue.getElement( );
-			needLocalInstance = inSharedDimension( tmpElement );
-		}
-
-		// only data object cube and shared dimension need to find locale
-		// instance.
-
-		if ( !needLocalInstance )
-			return refValue;
 
 		Cube cube = findTarget( focus );
 		if ( cube == null )
-			return refValue;
+			return super.resolve( focus, elementName, propDefn, elementDefn );
 
 		DesignElement retElement = cube.findLocalElement( elementName,
 				targetDefn );
@@ -173,22 +144,6 @@ public class CubeNameContext extends GeneralModuleNameContext
 
 		// not resolved
 		return new ElementRefValue( null, elementName );
-
-	}
-
-	private boolean inSharedDimension( DesignElement element )
-	{
-		DesignElement tmpElement = element;
-		while ( tmpElement != null && !( tmpElement instanceof Dimension ) )
-		{
-			tmpElement = tmpElement.getContainer( );
-		}
-
-		if ( ( tmpElement instanceof Dimension )
-				&& ( tmpElement.getContainer( ) instanceof Module ) )
-			return true;
-
-		return false;
 	}
 
 	private boolean isCubeReferred( IElementDefn targetDefn )

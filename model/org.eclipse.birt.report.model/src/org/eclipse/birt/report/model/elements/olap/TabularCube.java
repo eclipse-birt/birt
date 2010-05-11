@@ -151,6 +151,9 @@ public class TabularCube extends Cube
 		NameSpace tmpNS = root.getNameHelper( ).getNameSpace( nameSpaceID );
 		DesignElement tmpSharedElement = tmpNS.getElement( name );
 
+		// tmpSharedElement can be local elements or elements in the shared
+		// dimension
+
 		if ( tmpSharedElement instanceof TabularHierarchy )
 		{
 			TabularDimension tmpCubeDim = findLocalDimension( (TabularDimension) tmpSharedElement
@@ -163,14 +166,16 @@ public class TabularCube extends Cube
 		}
 		else if ( tmpSharedElement instanceof TabularDimension )
 		{
-			return findLocalDimension( (TabularDimension) tmpSharedElement
-					.getContainer( ) );
+			return findLocalDimension( (TabularDimension) tmpSharedElement );
 		}
 		return null;
 	}
 
 	private TabularDimension findLocalDimension( Dimension sharedDim )
 	{
+		if ( sharedDim.getContainer( ) == this )
+			return (TabularDimension) sharedDim;
+
 		TabularDimension tmpCubeDim = null;
 		List<BackRef> cubeDims = sharedDim.getClientList( );
 		for ( int i = 0; i < cubeDims.size( ); i++ )
