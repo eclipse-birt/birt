@@ -193,7 +193,12 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 
 			// handle empty value mapping, this is done by adding an extra
 			// mapping rule to related data item.
-			if ( emptyVlaue != null && handle instanceof DataItemHandle )
+			
+			// TODO to ensure it always overwrits the existing empty value
+			// mapping successfully in case the report is a rerun, We always add
+			// the new map rule here no matter current emptyValue setting is
+			// null or not. Better solution may be some smart detecting.
+			if ( /* emptyVlaue != null && */handle instanceof DataItemHandle )
 			{
 				DataItemHandle dataHandle = (DataItemHandle) handle;
 
