@@ -28,8 +28,10 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil.EAttributeAccessor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
@@ -177,6 +179,7 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 		{
 			case EXPRESS_BUTTON_CREATE :
 				final Control control = (Control) inData[1];
+				new Label( (Composite) inData[0], SWT.NONE );
 				IExpressionButton ceb = new IExpressionButton( ) {
 
 					public void setExpression( String expr )
