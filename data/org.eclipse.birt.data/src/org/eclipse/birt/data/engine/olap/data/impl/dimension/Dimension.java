@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
@@ -70,6 +71,11 @@ public class Dimension implements IDimension
 		documentObj = documentManager.createDocumentObject( NamingUtil.getDimensionDocName( name ) );
 		documentObj.writeBoolean( isTime );
 		documentObj.writeString( hierarchy.getName( ) );
+		ILevel[] levels = hierarchy.getLevels( );
+		for( int i = 0; i < levels.length; i++ )
+		{
+			documentObj.writeString( levels[i].getLeveType( ) );
+		}
 		this.hierarchy =  (Hierarchy)hierarchy;
 		length = hierarchy.size( );
 		// close document object
@@ -104,6 +110,17 @@ public class Dimension implements IDimension
 		hierarchy = new Hierarchy( documentManager, name, hierarchyName );
 		hierarchy.loadFromDisk( );
 		length = hierarchy.size( );
+		Level[] levels = ( Level[] ) hierarchy.getLevels( );
+		try
+		{
+			for( int i = 0; i < levels.length; i++ )
+			{
+				levels[i].setLevelType( documentObj.readString( ) );
+			}
+		}
+		catch( java.io.EOFException e )
+		{
+		}
 		documentObj.close( );
 		documentObj = null;
 	}

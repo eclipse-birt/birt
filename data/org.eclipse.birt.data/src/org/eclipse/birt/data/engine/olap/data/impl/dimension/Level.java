@@ -33,6 +33,7 @@ public class Level implements ILevel
 	private int[] attributeDataTypes;
 	private String[] attributeColNames;
 	private int size;
+	private String levelType;
 	
 	private DiskIndex diskIndex = null;
 	
@@ -253,5 +254,19 @@ public class Level implements ILevel
 	DiskIndex getDiskIndex( )
 	{
 		return diskIndex;
+	}
+
+	void setLevelType( String levelType )
+	{
+		this.levelType = levelType;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.ILevel#getLeveType()
+	 */
+	public String getLeveType( )
+	{
+		return levelType;
 	}
 }

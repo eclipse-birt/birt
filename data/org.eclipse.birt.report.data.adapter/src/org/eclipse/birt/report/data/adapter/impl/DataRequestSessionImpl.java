@@ -1275,11 +1275,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 				}
 				else
 				{
+					String[] timeType = getTimeType( hierhandle );
 					valueIt = new TimeDimensionDatasetIterator( this,
 							CubeHandleUtil.getStartTime( dim ),
 							CubeHandleUtil.getEndTime( dim ), 
 							getFieldName( hierhandle ),
-							getTimeType( hierhandle ));
+							timeType );
+					for( int l = 0; l < levelInHier.size( ); l++ )
+					{
+						levelInHier.get( l ).setTimeType( timeType[l] );
+					}
 				}
 				
 				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),

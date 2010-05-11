@@ -25,6 +25,7 @@ public class LevelDefinition implements ILevelDefn
 	private String name = null;
 	private String[] keyColumns = null;
 	private String[] attributeColumns = null;
+	private String timeType = null;
 	private static Logger logger = Logger.getLogger( LevelDefinition.class.getName( ) );
 	
 	/**
@@ -72,6 +73,20 @@ public class LevelDefinition implements ILevelDefn
 	public String getLevelName( )
 	{
 		return name;
+	}
+
+	public void setTimeType( String timeType )
+	{
+		this.timeType = timeType;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn#getTimeType()
+	 */
+	public String getTimeType( )
+	{
+		return timeType;
 	}
 
 }

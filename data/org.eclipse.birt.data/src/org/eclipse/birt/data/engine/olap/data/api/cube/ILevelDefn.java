@@ -34,4 +34,16 @@ public interface ILevelDefn
 	 * @return
 	 */
 	public String[] getAttributeColumns( );
+	
+	/**
+	 * 
+	 * @param timeType
+	 */
+	public void setTimeType( String timeType );
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getTimeType( );
 }
