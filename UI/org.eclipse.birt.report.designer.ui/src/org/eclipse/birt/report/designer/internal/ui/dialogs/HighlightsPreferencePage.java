@@ -149,7 +149,8 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 		innerParent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		final Table table = new Table( innerParent, SWT.BORDER
-				| SWT.FULL_SELECTION );
+				| SWT.FULL_SELECTION
+				| SWT.MULTI );
 
 		GridData data = new GridData( GridData.FILL_BOTH );
 		table.setLayoutData( data );
@@ -341,22 +342,35 @@ public class HighlightsPreferencePage extends BaseStylePreferencePage
 
 	private void updateButtons( )
 	{
-		fEditButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) );
+		if ( fTableViewer.getTable( ).getSelectionCount( ) == 1 )
+		{
+			fEditButton.setEnabled( fTableViewer.getTable( )
+					.getSelectionIndex( ) >= 0
+					&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
+							.getItemCount( ) );
 
-		fDeleteButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) );
+			fDeleteButton.setEnabled( fTableViewer.getTable( )
+					.getSelectionIndex( ) >= 0
+					&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
+							.getItemCount( ) );
 
-		fMoveUpButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) > 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) );
+			fMoveUpButton.setEnabled( fTableViewer.getTable( )
+					.getSelectionIndex( ) > 0
+					&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
+							.getItemCount( ) );
 
-		fMoveDownButton.setEnabled( fTableViewer.getTable( )
-				.getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) - 1 );
+			fMoveDownButton.setEnabled( fTableViewer.getTable( )
+					.getSelectionIndex( ) >= 0
+					&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
+							.getItemCount( ) - 1 );
+		}
+		else
+		{
+			fEditButton.setEnabled( false );
+			fDeleteButton.setEnabled( false );
+			fMoveUpButton.setEnabled( false );
+			fMoveDownButton.setEnabled( false );
+		}
 	}
 
 	private void add( )
