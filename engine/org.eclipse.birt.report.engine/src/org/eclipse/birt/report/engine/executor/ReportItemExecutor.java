@@ -326,6 +326,13 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 */
 	protected void processBookmark( ReportItemDesign item, IContent itemContent )
 	{
+		// don't support the book mark in master page as the master page may be
+		// used multiple times while the book mark should be unique in the whole
+		// report.
+		if ( context.isExecutingMasterPage( ) )
+		{
+			return;
+		}
 		Object tmp = null;
 		if ( item.getBookmark( ) == null )
 		{
