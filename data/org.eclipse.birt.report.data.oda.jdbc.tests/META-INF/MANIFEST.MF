@@ -7,7 +7,7 @@ Bundle-ClassPath: odajdbctests.jar
 Bundle-Activator: org.eclipse.birt.report.data.oda.jdbc.plugin.Activator
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
- org.junit,
+ org.junit4;bundle-version="[4.5.0,4.8.1]",
  org.eclipse.birt.report.data.oda.jdbc,
  org.eclipse.datatools.connectivity.oda,
  org.apache.derby.core
