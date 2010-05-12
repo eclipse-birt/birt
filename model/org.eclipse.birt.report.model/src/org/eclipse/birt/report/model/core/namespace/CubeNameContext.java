@@ -97,9 +97,11 @@ public class CubeNameContext extends GeneralModuleNameContext
 					targetDefn );
 			if ( retElement != null )
 				return new ElementRefValue( null, retElement );
+			
+			return new ElementRefValue( null, elementName );
 		}
 		
-		return new ElementRefValue( null, elementName );
+		return super.resolve( focus, element, propDefn, elementDefn );
 	}
 
 	/*
