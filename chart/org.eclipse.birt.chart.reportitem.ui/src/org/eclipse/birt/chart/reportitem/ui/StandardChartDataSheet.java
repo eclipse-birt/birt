@@ -48,6 +48,7 @@ import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
+import org.eclipse.birt.chart.ui.swt.composites.DataItemCombo;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
@@ -155,7 +156,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	private boolean bIsInheritSelected = true;
 
 	private CCombo cmbInherit = null;
-	private CCombo cmbDataItems = null;
+	private DataItemCombo cmbDataItems = null;
 
 	private StackLayout stackLayout = null;
 	private Composite cmpStack = null;
@@ -1017,9 +1018,32 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		cmbInherit.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbInherit.addListener( SWT.Selection, this );
 
-		cmbDataItems = new CCombo( cmpDetail, SWT.DROP_DOWN
-				| SWT.READ_ONLY
-				| SWT.BORDER );
+		cmbDataItems = new DataItemCombo( cmpDetail, SWT.DROP_DOWN
+				| SWT.READ_ONLY | SWT.BORDER ) {
+
+			@Override
+			public boolean triggerSelection( int index )
+			{
+				int selectState = selectDataTypes.get( index ).intValue( );
+				if ( selectState == SELECT_NEW_DATASET
+						|| selectState == SELECT_NEW_DATACUBE )
+				{
+					return false;
+				}
+				return true;
+			}
+
+			@Override
+			public boolean skipSelection( int index )
+			{
+				int selectState = selectDataTypes.get( index ).intValue( );
+				if ( selectState == SELECT_NEXT )
+				{
+					return true;
+				}
+				return false;
+			}
+		};
 		cmbDataItems.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbDataItems.addListener( SWT.Selection, this );
 		cmbDataItems.setVisibleItemCount( 30 );
@@ -1203,7 +1227,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
-			ChartUIUtil.setText( cmbDataItems, sItemRef );
+			cmbDataItems.setText( sItemRef );
 			currentData = sItemRef;
 			return;
 		}
@@ -1214,7 +1238,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
-			ChartUIUtil.setText( cmbDataItems, sDataSet );
+			cmbDataItems.setText( sDataSet );
 			currentData = sDataSet;
 			return;
 		}
@@ -1226,7 +1250,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
-			ChartUIUtil.setText( cmbDataItems, sDataCube );
+			cmbDataItems.setText( sDataCube );
 			currentData = sDataCube;
 			return;
 		}
@@ -1465,19 +1489,19 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							if ( getDataServiceProvider( ).getReportItemReference( ) == null
 									&& getDataServiceProvider( ).getDataSet( ) != null
 									&& getDataServiceProvider( ).getDataSet( )
-											.equals( ChartUIUtil.getText( cmbDataItems ) ) )
+											.equals( cmbDataItems.getText( ) ) )
 							{
 								return;
 							}
-							getDataServiceProvider( ).setDataSet( ChartUIUtil.getText( cmbDataItems ) );
-							currentData = ChartUIUtil.getText( cmbDataItems );
-							switchDataSet( ChartUIUtil.getText( cmbDataItems ) );
+							getDataServiceProvider( ).setDataSet( cmbDataItems.getText( ) );
+							currentData = cmbDataItems.getText( );
+							switchDataSet( cmbDataItems.getText( ) );
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
 						case SELECT_DATA_CUBE :
-							getDataServiceProvider( ).setDataCube( ChartUIUtil.getText( cmbDataItems ) );
-							currentData = ChartUIUtil.getText( cmbDataItems );
+							getDataServiceProvider( ).setDataCube( cmbDataItems.getText( ) );
+							currentData = cmbDataItems.getText( );
 							updateDragDataSource( );
 							setEnabledForButtons( );
 							// Update preview via event
@@ -1486,12 +1510,12 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							fireEvent( tablePreview, EVENT_PREVIEW );
 							break;
 						case SELECT_REPORT_ITEM :
-							if ( ChartUIUtil.getText( cmbDataItems )
+							if ( cmbDataItems.getText( )
 									.equals( getDataServiceProvider( ).getReportItemReference( ) ) )
 							{
 								return;
 							}
-							getDataServiceProvider( ).setReportItemReference( ChartUIUtil.getText( cmbDataItems ) );
+							getDataServiceProvider( ).setReportItemReference( cmbDataItems.getText( ) );
 							
 							// TED 10163
 							// Following calls will revise chart model for
@@ -1515,7 +1539,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 								ChartAdapter.endIgnoreNotifications( );
 							}
 														
-							currentData = ChartUIUtil.getText( cmbDataItems );
+							currentData = cmbDataItems.getText( );
 							// selectDataSet( );
 							// switchDataSet( cmbDataItems.getText( ) );
 
@@ -1665,7 +1689,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		}
 		else
 		{
-			ChartUIUtil.setText( cmbDataItems, currentDS );
+			cmbDataItems.setText( currentDS );
 			currentData = currentDS;
 		}
 	}
