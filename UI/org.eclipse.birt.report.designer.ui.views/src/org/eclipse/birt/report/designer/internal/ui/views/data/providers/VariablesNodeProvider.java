@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
@@ -47,6 +50,8 @@ public class VariablesNodeProvider extends DefaultNodeProvider
 	private static class AddVariableAction extends AbstractElementAction
 	{
 
+		private boolean isDone;
+		private Object createElement;
 		public AddVariableAction( Object selectedObject )
 		{
 			super( selectedObject,
@@ -56,6 +61,7 @@ public class VariablesNodeProvider extends DefaultNodeProvider
 		@Override
 		protected boolean doAction( ) throws Exception
 		{
+			isDone = false;
 			ReportDesignHandle designHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 			VariableElementHandle variable = (VariableElementHandle) ElementProcessorFactory.createProcessor( ReportDesignConstants.VARIABLE_ELEMENT )
@@ -66,7 +72,31 @@ public class VariablesNodeProvider extends DefaultNodeProvider
 			if ( dialog.open( ) == Dialog.OK )
 				designHandle.getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP )
 						.add( variable );
+			isDone = true;
+			createElement = variable;
 			return true;
+		}
+		
+		@Override
+		protected void postDoAction( )
+		{
+			super.postDoAction( );
+			if ( isDone && createElement != null)
+			{
+				List list = new ArrayList( );
+
+				list.add( createElement );
+				ReportRequest r = new ReportRequest( );
+				r.setType( ReportRequest.CREATE_ELEMENT );
+
+				r.setSelectionObject( list );
+				SessionHandleAdapter.getInstance( )
+						.getMediator( )
+						.notifyRequest( r );
+
+			}
+			isDone = false;
+			createElement = null;
 		}
 
 	}
