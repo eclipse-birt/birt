@@ -134,7 +134,7 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 						.equals( getColumn( ).getColumnName( ) ) )
 				{
 					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) condition.getHierarchy( );
-					if ( hierarchy.getDataSet( ) == null )
+					if ( hierarchy == null || hierarchy.getDataSet( ) == null )
 						break;
 
 					if ( OlapUtil.getDataField( hierarchy.getDataSet( ),
