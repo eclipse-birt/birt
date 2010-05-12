@@ -156,7 +156,7 @@ public class TabularCube extends Cube
 
 		if ( tmpSharedElement instanceof TabularHierarchy )
 		{
-			TabularDimension tmpCubeDim = findLocalDimension( (TabularDimension) tmpSharedElement
+			Dimension tmpCubeDim = findLocalDimension( (Dimension) tmpSharedElement
 					.getContainer( ) );
 
 			if ( tmpCubeDim == null )
@@ -171,19 +171,19 @@ public class TabularCube extends Cube
 		return null;
 	}
 
-	private TabularDimension findLocalDimension( Dimension sharedDim )
+	private Dimension findLocalDimension( Dimension sharedDim )
 	{
 		if ( sharedDim.getContainer( ) == this )
-			return (TabularDimension) sharedDim;
+			return sharedDim;
 
-		TabularDimension tmpCubeDim = null;
+		Dimension tmpCubeDim = null;
 		List<BackRef> cubeDims = sharedDim.getClientList( );
 		for ( int i = 0; i < cubeDims.size( ); i++ )
 		{
 			BackRef cubeDim = cubeDims.get( i );
 			if ( cubeDim.getElement( ).getContainer( ) == this )
 			{
-				tmpCubeDim = (TabularDimension) cubeDim.getElement( );
+				tmpCubeDim = (Dimension) cubeDim.getElement( );
 				break;
 			}
 		}

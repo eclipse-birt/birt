@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  */
 public class CubeNameContext extends GeneralModuleNameContext
 {
-
 	/**
 	 * Constructs one cube element name space.
 	 * 
@@ -88,11 +87,18 @@ public class CubeNameContext extends GeneralModuleNameContext
 		if ( cube == null )
 			return super.resolve( focus, element, propDefn, elementDefn );
 
-		DesignElement retElement = cube.findLocalElement( elementName,
-				targetDefn );
-		if ( retElement != null )
-			return new ElementRefValue( null, retElement );
-
+		//TODO cache the element definitions in two resolve methods.
+		if ( targetDefn.isKindOf( MetaDataDictionary.getInstance( ).getElement(
+				ReportDesignConstants.HIERARCHY_ELEMENT ) )
+				|| targetDefn.isKindOf( MetaDataDictionary.getInstance( )
+						.getElement( ReportDesignConstants.DIMENSION_ELEMENT ) ) )
+		{
+			DesignElement retElement = cube.findLocalElement( elementName,
+					targetDefn );
+			if ( retElement != null )
+				return new ElementRefValue( null, retElement );
+		}
+		
 		return new ElementRefValue( null, elementName );
 	}
 
@@ -137,13 +143,21 @@ public class CubeNameContext extends GeneralModuleNameContext
 		if ( cube == null )
 			return super.resolve( focus, elementName, propDefn, elementDefn );
 
-		DesignElement retElement = cube.findLocalElement( elementName,
-				targetDefn );
-		if ( retElement != null )
-			return new ElementRefValue( null, retElement );
+		if ( targetDefn.isKindOf( MetaDataDictionary.getInstance( ).getElement(
+				ReportDesignConstants.HIERARCHY_ELEMENT ) )
+				|| targetDefn.isKindOf( MetaDataDictionary.getInstance( )
+						.getElement( ReportDesignConstants.DIMENSION_ELEMENT ) ) )
+		{
+			DesignElement retElement = cube.findLocalElement( elementName,
+					targetDefn );
+			if ( retElement != null )
+				return new ElementRefValue( null, retElement );
 
-		// not resolved
-		return new ElementRefValue( null, elementName );
+			// not resolved
+			return new ElementRefValue( null, elementName );
+		}
+
+		return super.resolve( focus, elementName, propDefn, elementDefn );
 	}
 
 	private boolean isCubeReferred( IElementDefn targetDefn )
