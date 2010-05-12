@@ -35,7 +35,6 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -43,8 +42,8 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
-import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.FillUtil;
 
 /**
  * This class implements marker rendering capability used in Line, Area or other
@@ -118,7 +117,7 @@ public final class MarkerRenderer
 		}
 		
 		iSize = _markerSize == null ? _m.getSize( ) : _markerSize.intValue( );
-		paletteEntry = ChartUtil.convertFill( _paletteEntry,
+		paletteEntry = FillUtil.convertFill( _paletteEntry,
 				iSize,
 				goFactory.TRANSPARENT( ) );
 		if ( paletteEntry instanceof ColorDefinition
@@ -202,21 +201,7 @@ public final class MarkerRenderer
 
 	private void drawCrosshair( IPrimitiveRenderer ipr ) throws ChartException
 	{
-		if ( paletteEntry instanceof Gradient )
-		{
-			paletteEntry = ( (Gradient) paletteEntry ).getStartColor( );
-		}
-
-		if ( !( paletteEntry instanceof ColorDefinition ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.RENDERING,
-					"exception.illegal.filltype.crosshair.marker", //$NON-NLS-1$
-					new Object[]{
-						paletteEntry
-					},
-					Messages.getResourceBundle( iRender.getULocale( ) ) );
-		}
+		paletteEntry = FillUtil.getColor( paletteEntry );
 		if ( ChartUtil.isColorTransparent( (ColorDefinition) paletteEntry ) )
 		{
 			// Avoid marker is invisible
