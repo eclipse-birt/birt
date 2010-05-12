@@ -226,40 +226,7 @@ public class FillCanvas extends Canvas
 					}
 					else if ( fCurrent instanceof MultipleFill )
 					{
-						if ( ( (MultipleFill) fCurrent ).getFills( ) == null )
-						{
-							return;
-						}
-						Color clr1 = null;
-						Color clr2 = null;
-						if ( ( (MultipleFill) fCurrent ).getFills( ).get( 0 ) != null )
-						{
-							ColorDefinition cd1 = (ColorDefinition) ( (MultipleFill) fCurrent ).getFills( )
-									.get( 0 );
-							clr1 = new Color( Display.getDefault( ),
-									cd1.getRed( ),
-									cd1.getGreen( ),
-									cd1.getBlue( ) );
-							gc.setBackground( clr1 );
-							gc.fillRectangle( 2,
-									2,
-									( this.getSize( ).x ) / 2 - 2,
-									this.getSize( ).y - 4 );
-						}
-						if ( ( (MultipleFill) fCurrent ).getFills( ).get( 1 ) != null )
-						{
-							ColorDefinition cd2 = (ColorDefinition) ( (MultipleFill) fCurrent ).getFills( )
-									.get( 1 );
-							clr2 = new Color( Display.getDefault( ),
-									cd2.getRed( ),
-									cd2.getGreen( ),
-									cd2.getBlue( ) );
-							gc.setBackground( clr2 );
-							gc.fillRectangle( ( this.getSize( ).x ) / 2,
-									2,
-									this.getSize( ).x / 2 - 2,
-									this.getSize( ).y - 4 );
-						}
+						fillMultiFill( gc );
 					}
 				}
 
@@ -289,6 +256,22 @@ public class FillCanvas extends Canvas
 		}
 	}
 
+	private void fillPolygonWithIdr( GC gc, Fill fill, Location[] la )
+	{
+		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
+		PolygonRenderEvent event = new PolygonRenderEvent( this );
+		event.setPoints( la );
+		event.setBackground( fill );
+		try
+		{
+			idr.fillPolygon( event );
+		}
+		catch ( ChartException e )
+		{
+
+		}
+	}
+
 	/**
 	 * Fill gradient.
 	 * 
@@ -296,23 +279,42 @@ public class FillCanvas extends Canvas
 	 */
 	protected void fillGradient( GC gc )
 	{
-		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
-		PolygonRenderEvent event = new PolygonRenderEvent( this );
 		Location[] la = LocationImpl.create( new double[]{
 				2, 2, this.getSize( ).x - 2, this.getSize( ).x - 2
 		}, new double[]{
 				2, this.getSize( ).y - 2, this.getSize( ).y - 2, 2
 		} );
-		event.setPoints( la );
-		event.setBackground( fCurrent );
-		try
-		{
-			idr.fillPolygon( event );
-		}
-		catch ( ChartException e )
-		{
-			
-		}
+
+		fillPolygonWithIdr( gc, fCurrent, la );
+	}
+
+	/**
+	 * Fill gradient.
+	 * 
+	 * @param gc
+	 */
+	private void fillMultiFill( GC gc )
+	{
+		MultipleFill mFill = (MultipleFill) fCurrent;
+
+		double width = this.getSize( ).x - 4;
+		double height = this.getSize( ).y - 4;
+
+		Location[] la = LocationImpl.create( new double[]{
+				2, 2, width / 2 + 2, width / 2 + 2
+		}, new double[]{
+				2, height + 2, height + 2, 2
+		} );
+
+		fillPolygonWithIdr( gc, mFill.getFills( ).get( 0 ), la );
+
+		la = LocationImpl.create( new double[]{
+				width / 2 + 2, width / 2 + 2, width + 2, width + 2
+		}, new double[]{
+				2, height + 2, height + 2, 2
+		} );
+
+		fillPolygonWithIdr( gc, mFill.getFills( ).get( 1 ), la );
 	}
 
 	private org.eclipse.swt.graphics.Image getSWTImage( Image modelImage )
@@ -383,6 +385,7 @@ public class FillCanvas extends Canvas
 		return img;
 	}
 
+	@Override
 	public void setEnabled( boolean bState )
 	{
 		super.setEnabled( bState );
