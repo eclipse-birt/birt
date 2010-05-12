@@ -130,6 +130,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	public boolean _enableScript = true;
 	
+	@Override
 	protected void init( )
 	{
 		// Do not invoke super method.
@@ -152,6 +153,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
 	 *      java.lang.Object)
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void setProperty( String sProperty, Object oValue )
 	{
 		super.setProperty( sProperty, oValue );
@@ -225,6 +228,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * @param os
 	 * @throws ChartException
 	 */
+	@Override
 	public void after( ) throws ChartException
 	{
 		super.after( );
@@ -387,6 +391,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * 
 	 * @see org.eclipse.birt.chart.device.IStructureDefinitionListener#changeStructure(org.eclipse.birt.chart.event.StructureChangeEvent)
 	 */
+	@Override
 	public void changeStructure( StructureChangeEvent scev )
 	{
 		// Object sourceObj = scev.getSource( );
@@ -458,6 +463,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * 
 	 * @see org.eclipse.birt.chart.device.IPrimitiveRenderer#enableInteraction(org.eclipse.birt.chart.event.InteractionEvent)
 	 */
+	@Override
 	public void enableInteraction( InteractionEvent ie ) throws ChartException
 	{
 		if ( _iun == null )
@@ -625,6 +631,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		return -1;
 	}
 
+	@Override
 	public void drawArc( ArcRenderEvent are ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( are, false );
@@ -632,6 +639,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( are, false );
 	}
 
+	@Override
 	public void drawArea( AreaRenderEvent are ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( are, false );
@@ -639,6 +647,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( are, false );
 	}
 
+	@Override
 	public void drawImage( ImageRenderEvent pre ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( pre, false );
@@ -646,11 +655,13 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( pre, false );
 	}
 
+	@Override
 	protected Image createImage( byte[] data )
 	{
 		return new SVGImage( super.createImage( data ), null, data );
 	}
 
+	@Override
 	public void drawLine( LineRenderEvent lre ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( lre, false );
@@ -658,6 +669,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( lre, false );
 	}
 
+	@Override
 	public void drawOval( OvalRenderEvent ore ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( ore, false );
@@ -665,6 +677,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( ore, false );
 	}
 
+	@Override
 	public void drawPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( pre, false );
@@ -672,6 +685,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( pre, false );
 	}
 
+	@Override
 	public void drawRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( rre, false );
@@ -679,6 +693,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( rre, false );
 	}
 
+	@Override
 	public void fillArc( ArcRenderEvent are ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( are, false );
@@ -686,6 +701,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( are, false );
 	}
 
+	@Override
 	public void fillArea( AreaRenderEvent are ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( are, false );
@@ -693,6 +709,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( are, false );
 	}
 
+	@Override
 	public void fillOval( OvalRenderEvent ore ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( ore, false );
@@ -700,6 +717,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( ore, false );
 	}
 
+	@Override
 	public void fillPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( pre, false );
@@ -707,6 +725,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( pre, false );
 	}
 
+	@Override
 	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
 		ivRenderer.groupPrimitive( rre, false );
@@ -719,6 +738,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * 
 	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderListener#drawText(org.eclipse.birt.chart.event.TextRenderEvent)
 	 */
+	@Override
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
 		String fontName = convertFont( tre.getLabel( )
@@ -764,6 +784,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( tre, true );
 	}
 
+	@Override
 	public String getMimeType( )
 	{
 		return "image/svg+xml"; //$NON-NLS-1$
@@ -779,6 +800,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 	protected Image createImageFromModel( Fill imageModel )
 			throws ChartException
 	{
-		return new SVGImage( super.createImageFromModel( imageModel ), null );
+		Image img = super.createImageFromModel( imageModel );
+		if ( !( img instanceof SVGImage ) )
+		{
+			img = new SVGImage( img, null );
+		}
+		return img;
 	}
 }
