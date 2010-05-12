@@ -21,9 +21,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.ChildrenAllowedNode;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.DBNodeUtil;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.FilterConfig;
-import org.eclipse.birt.report.data.oda.jdbc.ui.model.FilterConfig.Type;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.IDBNode;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.RootNode;
+import org.eclipse.birt.report.data.oda.jdbc.ui.model.FilterConfig.Type;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
@@ -67,6 +67,8 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MenuDetectEvent;
+import org.eclipse.swt.events.MenuDetectListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -81,6 +83,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
@@ -102,6 +106,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Text searchTxt = null;
 	private ComboViewer filterComboViewer = null;
 	private Combo schemaCombo = null;
+	private Menu treeMenu = null;
 
 	private Label schemaLabel = null;
 	private Tree availableDbObjectsTree = null;
@@ -376,16 +381,30 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		treeData.grabExcessVerticalSpace = true;
 		treeData.heightHint = 150;
 		availableDbObjectsTree.setLayoutData( treeData );
+		
+		createObjectTreeMenu( );
+		
+		availableDbObjectsTree.addMenuDetectListener( new MenuDetectListener( ) {
+
+			public void menuDetected( MenuDetectEvent e )
+			{
+				if ( availableDbObjectsTree.getSelectionCount( ) > 0 )
+				{
+					TreeItem item = availableDbObjectsTree.getSelection( )[0];
+					if ( item.getParentItem( ) != null )
+					{
+						treeMenu.setVisible( true );
+						treeMenu.setLocation( e.x, e.y );
+					}
+				}
+			}
+		} );
 
 		availableDbObjectsTree.addMouseListener( new MouseAdapter( ) {
 
 			public void mouseDoubleClick( MouseEvent e )
 			{
-				String text = getTextToInsert( );
-				if ( text.length( ) > 0 )
-				{
-					insertText( text );
-				}
+				insertTreeItemText( );
 			}
 		} );
 
@@ -399,6 +418,23 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		//bidi_hcg: pass value of metadataBidiFormatStr
 		addFetchDbObjectListener( metadataBidiFormatStr );
 		return tablescomposite;
+	}
+
+	private void createObjectTreeMenu( )
+	{
+		treeMenu = new Menu( availableDbObjectsTree );
+		
+		MenuItem insert = new MenuItem( treeMenu, SWT.NONE );
+		insert.setText( JdbcPlugin.getResourceString( "sqleditor.objectTree.menuItem.insert" ) );
+		insert.addSelectionListener(new SelectionAdapter(){
+
+            public void widgetSelected(SelectionEvent e)
+            {
+				insertTreeItemText( );
+           }
+
+        });
+		availableDbObjectsTree.setMenu( treeMenu );
 	}
 
 	private void createSchemaFilterComposite( boolean supportsSchema,
@@ -906,7 +942,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		textWidget.setSelection( selectionStart + text.length( ) );
 		textWidget.setFocus( );
 	}
-
+	
 	/**
 	 * Creates the textual query editor
 	 * 
@@ -1067,5 +1103,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			odaConnectionProvider = null;
 		}
 		dataSetDesign = null;
+	}
+
+	private void insertTreeItemText( )
+	{
+		String text = getTextToInsert( );
+		if ( text.length( ) > 0 )
+		{
+			insertText( text );
+		}
 	}
 }
