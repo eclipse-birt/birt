@@ -209,11 +209,6 @@ public abstract class ContainerArea extends AbstractArea
 		return textIndent;
 	}
 
-	public boolean isNeedClip( )
-	{
-		return needClip;
-	}
-
 	public void setInlineStacking( boolean isInlineStacking )
 	{
 		this.isInlineStacking = isInlineStacking;

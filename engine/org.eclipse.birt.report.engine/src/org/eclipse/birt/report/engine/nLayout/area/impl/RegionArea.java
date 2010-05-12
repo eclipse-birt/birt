@@ -34,13 +34,13 @@ public class RegionArea extends BlockContainerArea implements IContainerArea
 
 	public void close( ) throws BirtException
 	{
-		if ( specifiedHeight > currentBP )
+		if ( context.isFixedLayout( ) )
 		{
 			setContentHeight( specifiedHeight );
 		}
 		else
 		{
-			setContentHeight( currentBP );
+			setContentHeight( Math.max( specifiedHeight, currentBP ) );
 		}
 		finished = true;
 	}
