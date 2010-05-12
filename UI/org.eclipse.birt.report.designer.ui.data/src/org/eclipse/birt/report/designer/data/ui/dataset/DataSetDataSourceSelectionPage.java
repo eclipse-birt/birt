@@ -63,6 +63,7 @@ public class DataSetDataSourceSelectionPage
 
 		// populate the combo box with data sources of the same type
 		combo.setItems( getSimilarDataSources( ) );
+		combo.setVisibleItemCount( 30 );
 		selectCurrentDataSource( );
 		
 		( (DataSetHandle) this.getContainer( ).getModel( ) ).addListener( this );

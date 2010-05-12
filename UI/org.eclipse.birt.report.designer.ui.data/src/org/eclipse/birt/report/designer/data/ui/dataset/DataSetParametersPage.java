@@ -1832,6 +1832,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			linkToSalarParameter = new Combo( reportParamComposite, SWT.READ_ONLY );
 			linkToSalarParameter.setLayoutData( ControlProvider.getGridDataWithHSpan( 1 ) );
 			linkToSalarParameter.setItems( ParameterPageUtil.getLinkedReportParameterNames( (OdaDataSetParameterHandle) structureHandle ) );
+			linkToSalarParameter.setVisibleItemCount( 30 );
 			linkToSalarParameter.select( Utility.findIndex( linkToSalarParameter.getItems( ),
 					( (OdaDataSetParameterHandle) structureHandle ).getParamName( ) ) );
 			linkToSalarParameter.addModifyListener( new ModifyListener( ) {
