@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -39,6 +40,8 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -58,6 +61,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 	private CubeBuilder builder;
 	private Button filterButton;
 	private Button primaryKeyButton;
+	private Label primaryKeyLabel, primaryKeyHint;
 
 	public DatasetSelectionPage( CubeBuilder builder, CubeHandle model )
 	{
@@ -69,7 +73,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 	{
 		Composite container = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
-		layout.numColumns = 3;
+		layout.numColumns = 4;
 		layout.marginRight = 20;
 		container.setLayout( layout );
 
@@ -98,13 +102,15 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		} );
 
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		data.horizontalSpan = 2;
+		data.horizontalSpan = 3;
 		nameText.setLayoutData( data );
 
 		Label dateSetLabel = new Label( container, SWT.NONE );
 		dateSetLabel.setText( Messages.getString( "DatasetPage.Label.PrimaryDataset" ) ); //$NON-NLS-1$
 		dataSetCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		dataSetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.horizontalSpan = 2;
+		dataSetCombo.setLayoutData( data );
 		dataSetCombo.setVisibleItemCount( 30 );
 		dataSetCombo.addSelectionListener( new SelectionAdapter( ) {
 
@@ -151,10 +157,6 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		new Label( container, SWT.NONE );
 
 		primaryKeyButton = new Button( container, SWT.CHECK );
-		primaryKeyButton.setText( Messages.getString("DatasetSelectionPage.Button.Auto.Primary.Key") ); //$NON-NLS-1$
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.horizontalSpan = 2;
-		primaryKeyButton.setLayoutData( data );
 		primaryKeyButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -170,6 +172,33 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 			}
 
 		} );
+
+		primaryKeyLabel = new Label( container, SWT.WRAP );
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.horizontalSpan = 2;
+		primaryKeyLabel.setLayoutData( data );
+		primaryKeyLabel.setText( Messages.getString( "DatasetSelectionPage.Label.Auto.Primary.Key" ) ); //$NON-NLS-1$
+
+		primaryKeyLabel.addTraverseListener( new TraverseListener( ) {
+
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
+				{
+					e.detail = SWT.TRAVERSE_NONE;
+					primaryKeyButton.setSelection( !primaryKeyButton.getSelection( ) );
+				}
+			}
+		} );
+
+		new Label( container, SWT.NONE );
+
+		primaryKeyHint = new Label( container, SWT.WRAP );
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.horizontalSpan = 3;
+		primaryKeyHint.setLayoutData( data );
+		primaryKeyHint.setText( Messages.getString( "DatasetSelectionPage.Text.Auto.Primary.Key" ) ); //$NON-NLS-1$
+		primaryKeyHint.setForeground( ColorManager.getColor( 128, 128, 128 ) );
 
 		return container;
 	}
