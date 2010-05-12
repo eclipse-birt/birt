@@ -145,79 +145,77 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		else
 		{
 			boolean flag = true;
-			if ( !input.autoPrimaryKey( ) )
-			{
-				for ( int i = 0; i < childList.size( ); i++ )
-				{
-					flag = true;
-					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) childList.get( i );
-					Iterator iter = input.joinConditionsIterator( );
-					while ( iter.hasNext( ) )
-					{
-						DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-
-						boolean check = true;
-						if ( condition.getJoinConditions( ) != null
-								&& condition.getJoinConditions( )
-										.iterator( )
-										.hasNext( ) )
-						{
-							Iterator keyIter = condition.getJoinConditions( )
-									.iterator( );
-							check = false;
-							while ( keyIter.hasNext( ) )
-							{
-								DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) keyIter.next( );
-								if ( hierarchy.getLevelCount( ) > 0 )
-								{
-									for ( int j = 0; j < hierarchy.getLevelCount( ); j++ )
-									{
-										TabularLevelHandle level = (TabularLevelHandle) hierarchy.getLevel( j );
-										if ( joinCondition.getHierarchyKey( )
-												.equals( level.getColumnName( ) ) )
-										{
-											check = true;
-										}
-									}
-								}
-							}
-							if ( !check )
-							{
-								flag = false;
-								break;
-							}
-						}
-					}
-				}
-			}
-
-			if ( !flag )
-			{
-				String[] buttons = new String[]{
-						IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL
-				};
-
-				MessageDialog d = new MessageDialog( getShell( ),
-						Messages.getString( "CubeBuilder.AutoPrimaryKeyDialog.Title" ), //$NON-NLS-1$
-						null,
-						Messages.getString( "CubeBuilder.AutoPrimaryKeyDialog.Message" ), //$NON-NLS-1$
-						MessageDialog.WARNING,
-						buttons,
-						0 );
-				int result = d.open( );
-				if ( result == 1 )
-				{
-					return true;
-				}
-				else
-				{
-					this.showSelectionPage( getDatasetNode( ) );
-					return false;
-				}
-			}
-
-			flag = true;
+//			if ( !input.autoPrimaryKey( ) )
+//			{
+//				for ( int i = 0; i < childList.size( ); i++ )
+//				{
+//					flag = true;
+//					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) childList.get( i );
+//					Iterator iter = input.joinConditionsIterator( );
+//					boolean check = false;
+//					while ( iter.hasNext( ) )
+//					{
+//						DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
+//						if ( condition.getJoinConditions( ) != null
+//								&& condition.getJoinConditions( )
+//										.iterator( )
+//										.hasNext( ) )
+//						{
+//							Iterator keyIter = condition.getJoinConditions( )
+//									.iterator( );
+//							while ( keyIter.hasNext( ) )
+//							{
+//								DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) keyIter.next( );
+//								if ( hierarchy.getLevelCount( ) > 0 )
+//								{
+//									for ( int j = 0; j < hierarchy.getLevelCount( ); j++ )
+//									{
+//										TabularLevelHandle level = (TabularLevelHandle) hierarchy.getLevel( j );
+//										if ( joinCondition.getHierarchyKey( )
+//												.equals( level.getColumnName( ) ) )
+//										{
+//											check = true;
+//										}
+//									}
+//								}
+//							}
+//							if ( !check )
+//							{
+//								flag = false;
+//								break;
+//							}
+//						}
+//					}
+//				}
+//			}
+//
+//			if ( !flag )
+//			{
+//				String[] buttons = new String[]{
+//						IDialogConstants.YES_LABEL,
+//						IDialogConstants.NO_LABEL
+//				};
+//
+//				MessageDialog d = new MessageDialog( getShell( ),
+//						Messages.getString( "CubeBuilder.AutoPrimaryKeyDialog.Title" ), //$NON-NLS-1$
+//						null,
+//						Messages.getString( "CubeBuilder.AutoPrimaryKeyDialog.Message" ), //$NON-NLS-1$
+//						MessageDialog.WARNING,
+//						buttons,
+//						0 );
+//				int result = d.open( );
+//				if ( result == 1 )
+//				{
+//					return true;
+//				}
+//				else
+//				{
+//					this.showSelectionPage( getDatasetNode( ) );
+//					return false;
+//				}
+//			}
+//
+//			flag = true;
 			HashMap conditionMap = new HashMap( );
 			for ( int i = 0; i < childList.size( ); i++ )
 			{
