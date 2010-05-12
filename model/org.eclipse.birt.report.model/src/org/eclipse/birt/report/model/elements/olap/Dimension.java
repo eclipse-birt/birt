@@ -246,4 +246,28 @@ public abstract class Dimension extends ReferenceableElement
 	{
 		nameHelper.rename( element );
 	}
+
+	/**
+	 * Gets the default hierarchy in this dimension.
+	 * 
+	 * @param module
+	 * @return
+	 */
+	public DesignElement getLocalHierarchy( Module module, String hierarchyName )
+	{
+		List<DesignElement> hierarchies = (List<DesignElement>) super
+				.getLocalProperty( module, Dimension.HIERARCHIES_PROP );
+
+		if ( hierarchies == null || hierarchies.isEmpty( ) )
+			return null;
+
+		for ( int i = 0; i < hierarchies.size( ); i++ )
+		{
+			DesignElement tmpElement = hierarchies.get( i );
+			if ( hierarchyName.equalsIgnoreCase( tmpElement.getName( ) ) )
+				return tmpElement;
+		}
+
+		return null;
+	}
 }

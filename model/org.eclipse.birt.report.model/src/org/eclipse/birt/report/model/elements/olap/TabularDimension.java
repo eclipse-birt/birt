@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.elements.olap;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -281,12 +279,14 @@ public class TabularDimension extends Dimension
 		return super.getDefaultHierarchy( module );
 	}
 
-	/**
-	 * Gets the default hierarchy in this dimension.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param module
-	 * @return
+	 * @see
+	 * org.eclipse.birt.report.model.elements.olap.Dimension#getLocalHierarchy
+	 * (org.eclipse.birt.report.model.core.Module, java.lang.String)
 	 */
+
 	public DesignElement getLocalHierarchy( Module module, String hierarchyName )
 	{
 		if ( hasSharedDimension( module ) )
@@ -296,19 +296,6 @@ public class TabularDimension extends Dimension
 							ReportDesignConstants.HIERARCHY_ELEMENT ) );
 		}
 
-		List<DesignElement> hierarchies = (List<DesignElement>) super
-				.getLocalProperty( module, Dimension.HIERARCHIES_PROP );
-
-		if ( hierarchies == null || hierarchies.isEmpty( ) )
-			return null;
-
-		for ( int i = 0; i < hierarchies.size( ); i++ )
-		{
-			DesignElement tmpElement = hierarchies.get( i );
-			if ( hierarchyName.equalsIgnoreCase( tmpElement.getName( ) ) )
-				return tmpElement;
-		}
-
-		return null;
+		return super.getLocalHierarchy( module, hierarchyName );
 	}
 }
