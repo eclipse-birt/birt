@@ -10,6 +10,7 @@ sqleditor.action.cut=자르기
 sqleditor.action.copy=복사
 sqleditor.action.paste=붙여넣기
 sqleditor.action.selectAll=모두 선택
+sqleditor.objectTree.menuItem.insert=Insert into query text
 connection.test=테스트 연결
 connection.success=연결 성공.
 connection.failed=연결을 만들지 못했습니다. 연결 속성을 확인하십시오.

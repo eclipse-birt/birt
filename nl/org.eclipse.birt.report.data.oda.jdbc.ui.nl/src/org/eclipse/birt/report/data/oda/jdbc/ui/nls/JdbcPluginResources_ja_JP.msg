@@ -10,6 +10,7 @@ sqleditor.action.cut=切り取り
 sqleditor.action.copy=コピー
 sqleditor.action.paste=貼り付け
 sqleditor.action.selectAll=すべて選択
+sqleditor.objectTree.menuItem.insert=Insert into query text
 connection.test=接続テスト
 connection.success=接続完了。
 connection.failed=接続を確立できません。接続プロパティを確認してください。

@@ -10,6 +10,7 @@ sqleditor.action.cut=Cortar
 sqleditor.action.copy=Copiar
 sqleditor.action.paste=Pegar
 sqleditor.action.selectAll=Seleccionar todo
+sqleditor.objectTree.menuItem.insert=Insert into query text
 connection.test=Probar conexión
 connection.success=Conexión realizada correctamente.
 connection.failed=No se ha podido crear una conexión. Verifique las propiedades de conexión.

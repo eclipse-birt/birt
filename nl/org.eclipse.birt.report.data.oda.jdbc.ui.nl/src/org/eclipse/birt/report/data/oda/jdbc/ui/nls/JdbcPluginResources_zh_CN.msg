@@ -10,6 +10,7 @@ sqleditor.action.cut=剪切
 sqleditor.action.copy=复制
 sqleditor.action.paste=粘贴
 sqleditor.action.selectAll=全选
+sqleditor.objectTree.menuItem.insert=Insert into query text
 connection.test=测试连接
 connection.success=连接成功。
 connection.failed=未能创建连接。请验证连接属性。
