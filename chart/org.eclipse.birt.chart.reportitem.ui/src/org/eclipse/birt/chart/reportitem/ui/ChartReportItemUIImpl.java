@@ -290,7 +290,17 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 						sWidthUnits,
 						DesignChoiceConstants.UNITS_PT ).getMeasure( );
 			}
-
+			
+			// Set default width/height if the value is zero.
+			if ( dWidthInPoints == 0 )
+			{
+				dWidthInPoints = ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH;
+			}
+			if ( dHeightInPoints == 0 )
+			{
+				dHeightInPoints = ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT;
+			}
+			
 			final double dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
 			final double dWidthInPixels = ( idsSWT.getDpiResolution( ) * dWidthInPoints ) / 72d;
 
