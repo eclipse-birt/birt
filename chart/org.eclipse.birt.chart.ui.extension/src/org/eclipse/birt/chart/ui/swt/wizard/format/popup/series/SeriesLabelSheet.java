@@ -389,12 +389,16 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		lblShadow.setLayoutData( gdLBLShadow );
 		lblShadow.setText( Messages.getString( "LabelAttributesComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
 
+		int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+
 		fccShadow = new FillChooserComposite( grpAttributes,
-				SWT.NONE,
+				SWT.DROP_DOWN | SWT.READ_ONLY,
+				iFillOption,
 				getContext( ),
-				getSeriesForProcessing( ).getLabel( ).getShadowColor( ),
-				false,
-				false );
+				getSeriesForProcessing( ).getLabel( ).getShadowColor( ) );
+
 		GridData gdFCCShadow = new GridData( GridData.FILL_BOTH );
 		gdFCCShadow.verticalAlignment = SWT.CENTER;
 		fccShadow.setLayoutData( gdFCCShadow );

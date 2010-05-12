@@ -348,6 +348,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 				context,
 				series.getSliceOutline( ),
 				false,
+				false,
 				false );
 		GridData gdFCCSliceOutline = new GridData( GridData.FILL_HORIZONTAL );
 		gdFCCSliceOutline.horizontalSpan = 2;

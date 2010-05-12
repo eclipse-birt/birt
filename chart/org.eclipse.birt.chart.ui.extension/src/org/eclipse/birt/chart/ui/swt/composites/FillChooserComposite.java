@@ -220,10 +220,35 @@ public class FillChooserComposite extends Composite implements
 			ChartWizardContext wizardContext, Fill fCurrent,
 			boolean bEnableGradient, boolean bEnableImage )
 	{
+		this( parent,
+				style,
+				wizardContext,
+				fCurrent,
+				bEnableGradient,
+				bEnableImage,
+				true );
+	}
+
+	/**
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param wizardContext
+	 * @param fCurrent
+	 *            If null, create a Fill using adapters from wizard context
+	 * @param bEnableGradient
+	 * @param bEnableImage
+	 */
+	public FillChooserComposite( Composite parent, int style,
+			ChartWizardContext wizardContext, Fill fCurrent,
+			boolean bEnableGradient, boolean bEnableImage,
+			boolean bEnablePattern )
+	{
 		super( parent, style );
 		this.fCurrent = fCurrent;
 		this.bGradientEnabled = bEnableGradient;
 		this.bImageEnabled = bEnableImage;
+		this.bPatternFillEnabled = bEnablePattern;
 		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );

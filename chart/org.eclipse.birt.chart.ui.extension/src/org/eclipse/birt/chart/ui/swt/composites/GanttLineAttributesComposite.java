@@ -219,6 +219,7 @@ public class GanttLineAttributesComposite extends Composite implements
 					context,
 					this.laCurrent.getColor( ),
 					false,
+					false,
 					false );
 			GridData gdCBColor = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBColor.horizontalSpan = 5;

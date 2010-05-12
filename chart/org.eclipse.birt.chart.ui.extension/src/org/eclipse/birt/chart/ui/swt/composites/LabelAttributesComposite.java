@@ -465,12 +465,13 @@ public class LabelAttributesComposite extends Composite implements
 			lblShadow.setText( Messages.getString( "LabelAttributesComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
 			lblShadow.setEnabled( bEnableUI );
 
-			fccShadow = new FillChooserComposite( cmpGeneral,
-					SWT.NONE,
-					wizardContext,
-					cdShadow,
-					false,
-					false );
+			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
+					| FillChooserComposite.ENABLE_TRANSPARENT
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+
+			fccShadow = new FillChooserComposite( cmpGeneral, SWT.DROP_DOWN
+					| SWT.READ_ONLY, iFillOption, wizardContext, cdShadow );
+
 			GridData gdFCCShadow = new GridData( GridData.FILL_BOTH );
 			fccShadow.setLayoutData( gdFCCShadow );
 			fccShadow.addListener( this );

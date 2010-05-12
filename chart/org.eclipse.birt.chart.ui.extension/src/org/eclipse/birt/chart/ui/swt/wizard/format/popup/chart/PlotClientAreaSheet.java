@@ -302,6 +302,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				getContext( ),
 				getBlockForProcessing( ).getClientArea( ).getShadowColor( ),
 				false,
+				false,
 				false );
 		{
 			GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );

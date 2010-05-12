@@ -174,12 +174,16 @@ public class LineSeriesAttributeComposite extends Composite
 			lblShadow = new Label( cmpShadow, SWT.NONE );
 			lblShadow.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShadowColor" ) ); //$NON-NLS-1$
 
+			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
+					| FillChooserComposite.ENABLE_TRANSPARENT
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+
 			fccShadow = new FillChooserComposite( cmpShadow,
-					SWT.NONE,
+					SWT.DROP_DOWN | SWT.READ_ONLY,
+					iFillOption,
 					context,
-					( (LineSeries) series ).getShadowColor( ),
-					false,
-					false );
+					( (LineSeries) series ).getShadowColor( ) );
+
 			GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
 			fccShadow.setLayoutData( gdFCCShadow );
 			fccShadow.addListener( this );

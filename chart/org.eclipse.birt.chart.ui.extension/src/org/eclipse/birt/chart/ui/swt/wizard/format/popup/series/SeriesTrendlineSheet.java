@@ -252,6 +252,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				getContext( ),
 				getTrendline( ).getLabel( ).getShadowColor( ),
 				false,
+				false,
 				false );
 		GridData gdFCCShadow = new GridData( GridData.FILL_BOTH );
 		fccShadow.setLayoutData( gdFCCShadow );

@@ -181,6 +181,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				getContext( ),
 				getLegend( ).getClientArea( ).getShadowColor( ),
 				false,
+				false,
 				false );
 		GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
 		fccShadow.setLayoutData( gdFCCShadow );
