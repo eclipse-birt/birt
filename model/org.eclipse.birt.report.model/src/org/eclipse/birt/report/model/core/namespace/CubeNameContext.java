@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  */
 public class CubeNameContext extends GeneralModuleNameContext
 {
+
 	/**
 	 * Constructs one cube element name space.
 	 * 
@@ -86,8 +87,25 @@ public class CubeNameContext extends GeneralModuleNameContext
 		Cube cube = findTarget( focus );
 		if ( cube == null )
 			return super.resolve( focus, element, propDefn, elementDefn );
+		else if ( cube.canDynamicExtends( ) )
+		{
+			Cube referredCube = (Cube) cube.getDynamicExtendsElement( cube
+					.getRoot( ) );
 
-		//TODO cache the element definitions in two resolve methods.
+			// referred tabular cube is not resolved in data mart cube
+			if ( referredCube == null )
+				return new ElementRefValue( null, elementName );
+
+			// find local element in data mart cube
+			DesignElement retElement = cube.findLocalElement( elementName,
+					targetDefn );
+			if ( retElement != null )
+				return new ElementRefValue( null, retElement );
+
+			return new ElementRefValue( null, elementName );
+		}
+
+		// TODO cache the element definitions in two resolve methods.
 		if ( targetDefn.isKindOf( MetaDataDictionary.getInstance( ).getElement(
 				ReportDesignConstants.HIERARCHY_ELEMENT ) )
 				|| targetDefn.isKindOf( MetaDataDictionary.getInstance( )
@@ -97,10 +115,10 @@ public class CubeNameContext extends GeneralModuleNameContext
 					targetDefn );
 			if ( retElement != null )
 				return new ElementRefValue( null, retElement );
-			
+
 			return new ElementRefValue( null, elementName );
 		}
-		
+
 		return super.resolve( focus, element, propDefn, elementDefn );
 	}
 
@@ -132,7 +150,7 @@ public class CubeNameContext extends GeneralModuleNameContext
 						.resolve( focus, elementName, propDefn, elementDefn );
 		}
 
-		// data object cube case.
+		// the focus is data object cube.
 		if ( focus != null && focus.canDynamicExtends( ) )
 		{
 			Cube referredCube = (Cube) focus.getDynamicExtendsElement( focus
@@ -144,7 +162,25 @@ public class CubeNameContext extends GeneralModuleNameContext
 		Cube cube = findTarget( focus );
 		if ( cube == null )
 			return super.resolve( focus, elementName, propDefn, elementDefn );
+		else if ( cube.canDynamicExtends( ) )
+		{
+			Cube referredCube = (Cube) cube.getDynamicExtendsElement( cube
+					.getRoot( ) );
 
+			// referred tabular cube is not resolved in data mart cube
+			if ( referredCube == null )
+				return new ElementRefValue( null, elementName );
+
+			// find local element in data mart cube
+			DesignElement retElement = cube.findLocalElement( elementName,
+					targetDefn );
+			if ( retElement != null )
+				return new ElementRefValue( null, retElement );
+
+			return new ElementRefValue( null, elementName );
+		}
+
+		// TODO cache the element definitions in two resolve methods.
 		if ( targetDefn.isKindOf( MetaDataDictionary.getInstance( ).getElement(
 				ReportDesignConstants.HIERARCHY_ELEMENT ) )
 				|| targetDefn.isKindOf( MetaDataDictionary.getInstance( )
@@ -155,7 +191,6 @@ public class CubeNameContext extends GeneralModuleNameContext
 			if ( retElement != null )
 				return new ElementRefValue( null, retElement );
 
-			// not resolved
 			return new ElementRefValue( null, elementName );
 		}
 
