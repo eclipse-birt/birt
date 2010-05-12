@@ -9,7 +9,9 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.dnd.DND;
@@ -70,11 +72,20 @@ public class DataTextDropListener extends DropTargetAdapter
 					break;
 				}
 			}
-			if ( object != null
-					&& !DataDefinitionTextManager.getInstance( )
-							.isValidExpression( txtDataDefn, object.toString( ) ) )
+			if ( object != null )
 			{
-				event.detail = DND.DROP_NONE;
+				// object is a binding name. expression is needed for
+				// validation.
+				ExpressionCodec expCodec = ChartModelHelper.instance( )
+						.createExpressionCodec( );
+				expCodec.setBindingName( object.toString( ),
+						btnBuilder.isCube( ) );
+				if ( !DataDefinitionTextManager.getInstance( )
+						.isValidExpression( txtDataDefn,
+								expCodec.getExpression( ) ) )
+				{
+					event.detail = DND.DROP_NONE;
+				}
 			}
 		}
 	}
@@ -114,8 +125,11 @@ public class DataTextDropListener extends DropTargetAdapter
 		// here validate the expression. 
 		if ( Platform.OS_MACOSX.equals( Platform.getOS( ) ) )
 		{
+			ExpressionCodec expCodec = ChartModelHelper.instance( )
+					.createExpressionCodec( );
+			expCodec.setBindingName( bindingName, btnBuilder.isCube( ) );
 			if ( !DataDefinitionTextManager.getInstance( )
-					.isValidExpression( txtDataDefn, bindingName ) )
+					.isValidExpression( txtDataDefn, expCodec.getExpression( ) ) )
 			{
 				return;
 			}

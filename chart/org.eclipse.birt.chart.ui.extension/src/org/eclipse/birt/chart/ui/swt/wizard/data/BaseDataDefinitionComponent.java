@@ -956,7 +956,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		if ( context.getDataServiceProvider( )
 				.checkState( IDataServiceProvider.SHARE_QUERY ) || context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS ) )
+						.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS )
+				|| context.getDataServiceProvider( )
+						.checkState( IDataServiceProvider.HAS_CUBE ) )
 		{
 			if ( cmbDefinition == null )
 				return false;
@@ -966,21 +968,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				return false;
 			}
 			return true;
-		}
-		if ( cmbDefinition != null
-				&& context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.HAS_CUBE ) )
-		{
-			// argument is a binding name
-			String[] items = cmbDefinition.getItems( );
-			for ( String s : items )
-			{
-				if ( s.indexOf( expression ) > 0 )
-				{
-					return true;
-				}
-			}
-			return false;
 		}
 		return true;
 	}
