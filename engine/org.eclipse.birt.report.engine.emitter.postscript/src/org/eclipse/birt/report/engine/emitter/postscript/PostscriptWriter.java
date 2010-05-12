@@ -470,8 +470,15 @@ public class PostscriptWriter
 		byte[] imageData = image.getData( );
 		if ( imageWidth == 0 || imageHeight == 0 )
 		{
-			imageWidth = image.getWidth( );
-			imageHeight = image.getHeight( );
+			int resolutionX = image.getPhysicalWidthDpi( );
+			int resolutionY = image.getPhysicalHeightDpi( );
+			if ( 0 == resolutionX || 0 == resolutionY )
+			{
+				resolutionX = 96;
+				resolutionY = 96;
+			}
+			imageWidth = image.getWidth( ) / resolutionX * 72;
+			imageHeight = image.getHeight( ) / resolutionY * 72;
 		}
 
 		Position imageSize = new Position( imageWidth, imageHeight );
