@@ -738,8 +738,8 @@ public class ExpressionProvider implements
 				childrenList.add( rowNum );
 			}
 			// add edit option
-			childrenList.add( new Object[]{
-					Messages.getString( "ExpressionProvider.EditBindings" ), parent} ); //$NON-NLS-1$
+			addEditBindingsItem( childrenList, 
+					Messages.getString( "ExpressionProvider.EditBindings" ), parent ); //$NON-NLS-1$
 		}
 		else
 		{
@@ -764,6 +764,22 @@ public class ExpressionProvider implements
 		return childrenList;
 	}
 
+	/**
+	 * Add 'Edit Bindings' item into children items list, if current context
+	 * doesn't allow editing column, subclass will override this method.
+	 * 
+	 * @param childrenList
+	 * @param itemText
+	 * @param parent
+	 * @since 2.6
+	 */
+	protected void addEditBindingsItem( ArrayList<Object> childrenList, String itemText, Object parent )
+	{
+		childrenList.add( new Object[]{
+				itemText, parent
+		} ); 
+	}
+	
 	/**
 	 * Check overload method signature
 	 * 

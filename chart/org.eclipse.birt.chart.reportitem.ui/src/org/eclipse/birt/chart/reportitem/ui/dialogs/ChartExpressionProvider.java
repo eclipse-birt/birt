@@ -251,4 +251,19 @@ public class ChartExpressionProvider extends ExpressionProvider
 				&& wizardContext != null
 				&& wizardContext.isInheritColumnsOnly( );
 	}
+	
+	/**
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#addEditBindingsItem(java.util.ArrayList, java.lang.String, java.lang.Object)
+	 * @since 2.6
+	 */
+	protected void addEditBindingsItem( ArrayList<Object> childrenList, String itemText, Object parent )
+	{
+		ReportItemHandle itemHandle = (ReportItemHandle) elementHandle;
+		if ( !ChartItemUtil.isChildOfMultiViewsHandle( itemHandle ) )
+		{
+			childrenList.add( new Object[]{
+					itemText, parent
+			} );
+		}
+	}
 }
