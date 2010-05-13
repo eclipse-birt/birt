@@ -73,11 +73,12 @@ public class EdgeAxis implements IEdgeAxis
 
 		if ( view.getMirroredDefinition( ) != null
 				&& service.getMirrorStartPosition( ) > 0 )
+		{
 			this.dataAccessor = new RowDataAccessor( service,
 					new MirroredAggregationResultSet( rs,
-							service.getMirrorStartPosition( ),
-							service.isBreakHierarchy( ),
-							sortList ) );
+							service,
+							sortList ) );			
+		}
 		else
 			this.dataAccessor = new RowDataAccessor( service, rs );
 
@@ -155,7 +156,10 @@ public class EdgeAxis implements IEdgeAxis
 					}
 					else
 					{
-						axis = new DimensionAxis( this, rs, index, levelIndex );
+						axis = new DimensionAxis( this,
+								rs,
+								index,
+								levelIndex );
 					}
 					index++;
 					levelIndex++;

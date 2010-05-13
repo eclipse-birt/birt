@@ -75,7 +75,11 @@ public class DateTimeCursorTest extends BaseTestCase
 		ICubeQueryDefinition cqd = createMirroredQueryDefinition( "level12" );
 		
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null,
+				cqd,
+				de.getSession( ),
+				this.scope,
+				de.getContext( ) ), cube, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false   );
 
@@ -114,7 +118,11 @@ public class DateTimeCursorTest extends BaseTestCase
 		ICubeQueryDefinition cqd = createMirroredQueryDefinition( "level13");
 		
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null,
+				cqd,
+				de.getSession( ),
+				this.scope,
+				de.getContext( ) ), cube, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
 
@@ -153,7 +161,11 @@ public class DateTimeCursorTest extends BaseTestCase
 		ICubeQueryDefinition cqd = createMirroredQueryDefinition( "level14" );
 		
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null,
+				cqd,
+				de.getSession( ),
+				this.scope,
+				de.getContext( ) ), cube, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
 

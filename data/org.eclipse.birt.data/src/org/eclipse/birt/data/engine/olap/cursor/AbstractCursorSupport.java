@@ -45,6 +45,7 @@ public class AbstractCursorSupport implements
 	INavigator navigator;
 	private Accessor accessor;
 	private int fetchDirection = 0, fetchSize = -1;
+	private String name;
 	
 	/**
 	 * 
@@ -741,7 +742,7 @@ public class AbstractCursorSupport implements
 	 */
 	public String getName( ) throws OLAPException
 	{
-		return null;
+		return this.name;
 	}
 
 	public void setId( String value ) throws OLAPException
@@ -755,6 +756,7 @@ public class AbstractCursorSupport implements
 	 */
 	public void setName( String value ) throws OLAPException
 	{
+		this.name = value;
 	}
 	
 	/**

@@ -52,12 +52,14 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 	private List[] breakHierarchyList;
 	private Map noBreakHierarchyKeyMap;
 	private boolean isTimeMirror = false;
+	private RowDataAccessorService service;
 	
 	public MirroredAggregationResultSet( IAggregationResultSet rs,
-			int mirrorLevel, boolean breakHierarchy, List sortList ) throws IOException
+			RowDataAccessorService service, List sortList ) throws IOException
 	{
-		this.mirrorLevel = mirrorLevel;
-		this.breakHierarchy = breakHierarchy;
+		this.mirrorLevel = service.getMirrorStartPosition( );
+		this.breakHierarchy = service.isBreakHierarchy( );
+		this.service = service;
 		Member member = new Member( );
 		member.setKeyValues( new Object[]{
 			"#ROOT#"
@@ -66,7 +68,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 		this.resultObject = new Object[ rs.getLevelCount( )];
 		this.rs = rs;
 		this.sortList = sortList;
-		this.isTimeMirror = TimeMemberUtil.containsTimeMirror( rs, mirrorLevel );
+		this.isTimeMirror = TimeMemberUtil.containsTimeMirror( rs, service );
 
 		if ( !isTimeMirror && breakHierarchy )
 		{
@@ -210,7 +212,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 
 					if ( !node.containsChild( member ) )
 					{
-						if ( TimeMemberUtil.isTimeMirror( rs, j ) )
+						if ( TimeMemberUtil.isTimeMirror( rs, j, service ) )
 						{
 							break;
 						}
@@ -233,11 +235,12 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 				MemberTreeNode parentNode = null;
 				for ( int j = this.mirrorLevel; j < this.rs.getLevelCount( ); j++ )
 				{
-					if ( TimeMemberUtil.isTimeMirror( rs, j ) )
+					if ( TimeMemberUtil.isTimeMirror( rs, j, service ) )
 					{
-						MemberTreeNode[] nodes = TimeMemberUtil.getDateTimeNodes( rs.getAttributeNames( ),
+						MemberTreeNode[] nodes = TimeMemberUtil.getDateTimeNodes( rs.getAllLevels( ),
 								rs.getLevelAttribute( j, 0 ),
-								j );
+								j,
+								service );
 						for ( int k = 0; k < nodes.length; k++ )
 						{
 							if ( parentNode == null )

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
@@ -43,31 +44,13 @@ class TimeMemberUtil
 	private static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH = "week-of-month"; //$NON-NLS-1$
 	private static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR = "week-of-year"; //$NON-NLS-1$
 	private static final String DATE_TIME_LEVEL_TYPE_YEAR = "year"; //$NON-NLS-1$
-	
-	private static final String DATE_TIME_LEVEL_ATTR = "DateTime"; //$NON-NLS-1$
-	
-	public static String getTimeType( String attributeName )
-	{
-		if ( attributeName == null || attributeName.trim( ).length( ) == 0 )
-		{
-			return null;
-		}
-		String[] names = attributeName.split( "\\Q/\\E" );
-		if ( names.length > 0 )
-		{
-			if ( names[names.length - 1].equals( DATE_TIME_LEVEL_ATTR ) )
-				return names[0];
-		}
-		return null;
-	}
-	
 
-	public static MemberTreeNode[] getDateTimeNodes( String[][] types, Object dateTimeValue, int index )
+	public static MemberTreeNode[] getDateTimeNodes( DimLevel[] dimLevels, Object dateTimeValue, int index, RowDataAccessorService service )
 	{
-		String[] dateTypes = new String[types.length - index];
-		for( int i= index; i< types.length; i++ )
+		String[] dateTypes = new String[dimLevels.length - index];
+		for ( int i = index; i < dimLevels.length; i++ )
 		{
-			dateTypes[i-index]= getTimeType( types[i][0] );
+			dateTypes[i - index] = service.getLevelType( dimLevels[i] );
 		}
 		
 		MemberTreeNode[] secondsNode = null;
@@ -543,30 +526,31 @@ class TimeMemberUtil
 		return nodes;
 	}
 		
-	public static boolean isTimeMirror( IAggregationResultSet rs, int index )
+	public static boolean isTimeMirror( IAggregationResultSet rs, int index,RowDataAccessorService service )
 	{
 		for ( int i = index; i < rs.getLevelCount( ); i++ )
 		{
-			if ( rs.getLevelAttributes( i ) == null || !isTimeMirrorAttributes( rs.getLevelAttributes( i )[0] ) )
+			if ( rs.getLevelAttributes( i ) == null
+					|| !isTimeMirrorAttributes( service.getLevelType( rs.getLevel( i ) ) ) )
 				return false;
 		}
 		return true;
 	}
 
 	public static boolean containsTimeMirror( IAggregationResultSet rs,
-			int index )
+			RowDataAccessorService service )
 	{
+		int index = service.getMirrorStartPosition( );
 		for ( int i = index; i < rs.getLevelCount( ); i++ )
 		{
-			if ( isTimeMirror( rs, i ) )
+			if ( isTimeMirror( rs, i, service ) )
 				return true;
 		}
 		return false;
 	}
 	
-	private static boolean isTimeMirrorAttributes( String attrName )
+	private static boolean isTimeMirrorAttributes( String types )
 	{
-		String types = getTimeType( attrName );
 		if ( types == null
 				|| types.equals( DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH )
 				|| types.equals( DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR )

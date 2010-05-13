@@ -93,11 +93,13 @@ public class CubeQueryResults implements ICubeQueryResults
 					this.scope,
 					this.context );
 			executor.getFacttableBasedFilterHelpers( ).addAll( this.preparedQuery.getInternalFilters( ) );
-			BirtCubeView bcv = new BirtCubeView( executor, appContext );
+			
 			IDocumentManager documentManager = getDocumentManager( executor );
 			ICube cube = loadCube( documentManager, executor );
-
+			
+			BirtCubeView bcv = new BirtCubeView( executor, cube, appContext );		
 			CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube, true );
+
 			ICubeQueryDefinition baseQuery = cubeQueryDefinition;
 
 			DrillQueryHelper helper = new DrillQueryHelper( outResults,
