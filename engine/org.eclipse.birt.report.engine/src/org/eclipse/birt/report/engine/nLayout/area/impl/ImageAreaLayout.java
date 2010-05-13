@@ -522,6 +522,16 @@ public class ImageAreaLayout implements ILayout
 								.setAllocatedHeight( Math.min( maxHeight,
 										cHeight ) );
 						root.setAllocatedWidth( Math.min( maxWidth, cWidth ) );
+						//Fix Bugzilla – Bug 271555	The right and bottom border are still shown even the chart exceeds the page size and got cut in PDF [1200]
+						//a temporary solution. root should set the same dimension with imageArea, but currently can not find a solution to avoid empty page when a large image is put into a grid 
+						if ( maxWidth < cWidth )
+						{
+							root.getBoxStyle( ).setRightBorder( null );
+						}
+						if ( maxHeight < cHeight )
+						{
+							root.getBoxStyle( ).setBottomBorder( null );
+						}
 					}
 				}
 			}
