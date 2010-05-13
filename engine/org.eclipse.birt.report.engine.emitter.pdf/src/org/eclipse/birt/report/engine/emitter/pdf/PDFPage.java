@@ -801,7 +801,7 @@ public class PDFPage extends AbstractPage
 	private void simulateBold( PdfContentByte cb )
 	{
 		cb.setTextRenderingMode( PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE );
-		cb.setLineWidth( 0.9f );
+		cb.setLineWidth( 0.2f );
 		cb.setTextMatrix( 0, 0 );
 	}
 
