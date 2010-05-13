@@ -66,9 +66,12 @@ import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -679,6 +682,7 @@ public abstract class Module extends DesignElement
 
 		// slots
 		List<DesignElement> unhandledElements = new ArrayList<DesignElement>( );
+		List<TabularDimension> unhandledCubeDimensions = new ArrayList<TabularDimension>( );
 
 		Iterator<ISlotDefn> slots = ( (ElementDefn) defn ).slotsIterator( );
 		while ( slots.hasNext( ) )
@@ -698,6 +702,30 @@ public abstract class Module extends DesignElement
 					if ( !unhandledElements.contains( innerElement ) )
 						unhandledElements.add( innerElement );
 					continue;
+				}
+				else if ( innerElement instanceof Cube )
+				{
+					Cube cube = (Cube) innerElement;
+					List dimensions = cube.getListProperty( module,
+							ICubeModel.DIMENSIONS_PROP );
+					if ( dimensions != null )
+					{
+						for ( int i = 0; i < dimensions.size( ); i++ )
+						{
+							Dimension dimension = (Dimension) dimensions
+									.get( i );
+							if ( dimension instanceof TabularDimension )
+							{
+								TabularDimension tabularDimension = (TabularDimension) dimension;
+								if ( tabularDimension
+										.hasSharedDimension( module ) )
+								{
+									unhandledCubeDimensions
+											.add( tabularDimension );
+								}
+							}
+						}
+					}
 				}
 				buildNameSpaceAndIDMap( module, innerElement );
 			}
@@ -735,6 +763,13 @@ public abstract class Module extends DesignElement
 			buildNameSpaceAndIDMap( module, element );
 		}
 
+		// handle cube dimension that refers shared dimension
+		for ( TabularDimension element : unhandledCubeDimensions )
+		{
+			element.updateLayout( module );
+			buildNameSpaceAndIDMap( module, element );
+		}
+
 		return module;
 	}
 
@@ -768,10 +803,14 @@ public abstract class Module extends DesignElement
 		ElementDefn defn = (ElementDefn) element.getDefn( );
 
 		assert module.getElementByID( element.getID( ) ) == null
-				|| element.isVirtualElement( );
+				|| element.isVirtualElement( ) || element.canDynamicExtends( );
 		assert element.getID( ) > NO_ID;
 		if ( module.getElementByID( element.getID( ) ) == null )
 			module.addElementID( element );
+		else if ( element.canDynamicExtends( ) )
+		{
+			assert module.getElementByID( element.getID( ) ) == element;
+		}
 		else
 		{
 			element.setID( module.getNextID( ) );
@@ -803,7 +842,7 @@ public abstract class Module extends DesignElement
 
 		if ( element.isContainer( ) )
 		{
-			Iterator<DesignElement> iter = new LevelContentIterator( this,
+			Iterator<DesignElement> iter = new LevelContentIterator( module,
 					element, 1 );
 			while ( iter.hasNext( ) )
 			{
