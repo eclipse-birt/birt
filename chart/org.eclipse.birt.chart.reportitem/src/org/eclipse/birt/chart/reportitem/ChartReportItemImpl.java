@@ -43,9 +43,12 @@ import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.IChartReportItem;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -58,6 +61,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
@@ -765,6 +769,52 @@ public final class ChartReportItemImpl extends ReportItem implements
 		List<SemanticException> list = new ArrayList<SemanticException>( );
 		if ( cm != null )
 		{
+			if ( ChartItemUtil.getBindingDataSet( handle ) == null
+					&& ChartCubeUtil.getBindingCube( handle ) == null )
+			{
+				list.add( new SemanticError( handle.getElement( ),
+						SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );
+			}
+
+			SeriesDefinition bsd = ChartUtil.getBaseSeriesDefinitions( cm )
+					.get( 0 );
+			if ( !bsd.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 )
+					.isDefined( ) )
+			{
+				ExtendedElementException exception = new ExtendedElementException( getHandle( ).getElement( ),
+						ChartReportItemPlugin.ID,
+						"SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+						Messages.getResourceBundle( ) );
+				exception.setProperty( ExtendedElementException.LOCALIZED_MESSAGE,
+						Messages.getString( "SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+								Messages.getString( cm instanceof ChartWithAxes ? "QueryHelper.Text.XSeries"//$NON-NLS-1$
+										: "QueryHelper.Text.CategroySeries" ) ) );//$NON-NLS-1$
+				list.add( exception );
+			}
+
+			SD: for ( SeriesDefinition vsd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+			{
+				Series series = vsd.getDesignTimeSeries( );
+				for ( Query query : series.getDataDefinition( ) )
+				{
+					if ( !query.isDefined( ) )
+					{
+						ExtendedElementException exception = new ExtendedElementException( getHandle( ).getElement( ),
+								ChartReportItemPlugin.ID,
+								"SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+								Messages.getResourceBundle( ) );
+						exception.setProperty( ExtendedElementException.LOCALIZED_MESSAGE,
+								Messages.getString( "SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+										Messages.getString( cm instanceof ChartWithAxes ? "QueryHelper.Text.YSeries"//$NON-NLS-1$
+												: "QueryHelper.Text.ValueSeries" ) ) );//$NON-NLS-1$
+						list.add( exception );
+						break SD;
+					}
+				}
+			}
+			
 			try
 			{
 				checkScriptSyntax( cm.getScript( ) );

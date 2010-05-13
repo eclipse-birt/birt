@@ -11,14 +11,12 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.provider;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.ChartReportItemBuilderImpl;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -41,7 +39,7 @@ public class ChartViewNodeProvider extends DefaultNodeProvider
 		{
 			iconPath = ChartUIConstants.IMAGE_OUTLINE_LIB;
 		}
-		if ( ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) handle ) == null
+		if ( handle.getSemanticErrors( ).size( ) > 0
 				&& !ChartReportItemBuilderImpl.isChartWizardOpen( ) )
 		{
 			iconPath = ChartUIConstants.IMAGE_OUTLINE_ERROR;
