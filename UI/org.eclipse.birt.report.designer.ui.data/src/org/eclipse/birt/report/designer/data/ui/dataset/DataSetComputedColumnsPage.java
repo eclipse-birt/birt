@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExpressionProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -923,6 +924,12 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		{
 			super( structureOrHandle );
 			populateFunctions( );
+		}
+
+		protected void setSystemHelp( Composite composite )
+		{
+			Utility.setSystemHelp( composite,
+					IHelpConstants.CONEXT_ID_DATASET_COMPUTEDCOLUMNS_DIALOG );
 		}
 
 		/**

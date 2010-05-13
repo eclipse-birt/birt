@@ -85,10 +85,16 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 		validateSyntax( );
 
 		addListeners(  );
-		Utility.setSystemHelp( composite,
-				IHelpConstants.CONEXT_ID_PROPERTYHANDLE_DIALOG );
+		
+		setSystemHelp( composite );
 
 		return composite;
+	}
+
+	protected void setSystemHelp( Composite composite )
+	{
+		Utility.setSystemHelp( composite,
+				IHelpConstants.CONEXT_ID_PROPERTYHANDLE_DIALOG );
 	}
 
 	/**

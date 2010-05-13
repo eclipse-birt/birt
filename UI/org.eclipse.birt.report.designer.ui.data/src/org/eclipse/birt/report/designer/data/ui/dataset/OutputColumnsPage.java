@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionProp
 import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
+import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -714,6 +715,12 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			super( structureOrHandle );
 
 			data = (DataSetViewData) structureOrHandle;
+		}
+
+		protected void setSystemHelp( Composite composite )
+		{
+			Utility.setSystemHelp( composite,
+					IHelpConstants.CONEXT_ID_OUTPUT_COLUMNS_DIALOG );
 		}
 
 		/*

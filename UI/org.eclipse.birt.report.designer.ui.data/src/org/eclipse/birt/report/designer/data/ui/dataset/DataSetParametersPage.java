@@ -22,6 +22,7 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -1647,6 +1648,12 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			super( structureOrHandle );
 			this.isOdaDataSetHandle = isOdaDataSetHandle;
 			structureHandle = getStructureHandle( structureOrHandle );
+		}
+
+		protected void setSystemHelp( Composite composite )
+		{
+			Utility.setSystemHelp( composite,
+					IHelpConstants.CONEXT_ID_DATASET_PARAMETERS_DIALOG );
 		}
 
 		/*
