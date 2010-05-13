@@ -2,6 +2,7 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
@@ -82,5 +83,10 @@ public class RowDataAccessorService
 	public void setFetchSize( int fetchSize )
 	{
 		this.fetchLimit = fetchSize;	
+	}
+	
+	public String getLevelType( DimLevel dimLevel )
+	{
+		return this.view.getLevelType( dimLevel );
 	}
 }

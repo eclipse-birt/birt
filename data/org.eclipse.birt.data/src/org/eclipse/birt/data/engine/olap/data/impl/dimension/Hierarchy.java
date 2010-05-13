@@ -385,6 +385,7 @@ public class Hierarchy implements IHierarchy
 					attributesDataType[i],
 					currentIndex,
 					diskIndex[i]);
+			levels[i].setLevelType( levelDefs[i].getTimeType( ) );
 		}
 		for ( int i = 0; i < levels.length; i++ )
 		{

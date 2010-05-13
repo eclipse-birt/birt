@@ -1265,6 +1265,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 					originalMemCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
 				}
 				IDatasetIterator valueIt = null;
+				String[] timeType = getTimeLevelType( hierhandle );
+				for( int i = 0; i < timeType.length; i++ )
+				{
+					levelInHier.get( i ).setTimeType( timeType[i] );
+				}
+
 				if( !CubeHandleUtil.isTimeDimension( dim ) )
 				{
 					valueIt = new DataSetIterator( this,
@@ -1275,16 +1281,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 				}
 				else
 				{
-					String[] timeType = getTimeType( hierhandle );
 					valueIt = new TimeDimensionDatasetIterator( this,
 							CubeHandleUtil.getStartTime( dim ),
 							CubeHandleUtil.getEndTime( dim ), 
 							getFieldName( hierhandle ),
 							timeType );
-					for( int l = 0; l < levelInHier.size( ); l++ )
-					{
-						levelInHier.get( l ).setTimeType( timeType[l] );
-					}
 				}
 				
 				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
@@ -1318,16 +1319,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 	}
 	
-//	private Date getStartTime( TabularHierarchyHandle timeHierhandle )
-//	{
-//		return new Date( 100, 1, 1);
-//	}
-//	
-//	private Date getEndTime( TabularHierarchyHandle timeHierhandle )
-//	{
-//		return new Date( 106, 1, 1);
-//	}
-	
 	private String[] getFieldName( TabularHierarchyHandle timeHierhandle )
 	{
 		List levels = timeHierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
@@ -1340,7 +1331,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return fieldName;
 	}
 	
-	private String[] getTimeType( TabularHierarchyHandle timeHierhandle )
+	private String[] getTimeLevelType( TabularHierarchyHandle timeHierhandle )
 	{
 		List levels = timeHierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
 		String[] timeType = new String[levels.size( )];

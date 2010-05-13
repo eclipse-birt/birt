@@ -383,6 +383,7 @@ public class CursorNavigatorTest extends BaseTestCase
 		EdgeCursor columnCursor = cubeView.getColumnEdgeView( ).getEdgeCursor( );
 
 		BirtCubeView subCubeView = new BirtCubeView( cubeView.getCubeQueryExecutor( ),
+				cube,
 				null );
 
 		columnCursor.beforeFirst( );
@@ -484,7 +485,7 @@ public class CursorNavigatorTest extends BaseTestCase
 				cqd,
 				de.getSession( ),
 				this.scope,
-				de.getContext( ) ), null );
+				de.getContext( ) ), cube, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
 		EdgeCursor pageCursor = (EdgeCursor) dataCursor.getPageEdge( ).toArray( )[0];

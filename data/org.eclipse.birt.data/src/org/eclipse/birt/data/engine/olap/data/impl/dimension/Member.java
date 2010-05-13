@@ -71,6 +71,23 @@ public class Member implements IComparableStructure
 		return true;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		int hashCode = 1;
+		for ( int i = 0; i < getKeyValues( ).length; i++ )
+		{
+			hashCode = 31
+					* hashCode
+					+ ( getKeyValues( )[i] == null ? 0
+							: getKeyValues( )[i].hashCode( ) );
+		}
+		return hashCode;
+	}
+	
 	public static IStructureCreator getCreator( )
 	{
 		if ( creator == null )

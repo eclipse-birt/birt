@@ -89,16 +89,20 @@ class DateCube
 		}, new String[]{
 			"year/DateTime"
 		} );
+		levelDefs[1].setTimeType( "year" );
 		levelDefs[2] = new LevelDefinition( "level13", new String[]{
 			"level13"
 		}, new String[]{
 			"quarter/DateTime"
 		} );
+		levelDefs[2].setTimeType( "quarter" );
 		levelDefs[3] = new LevelDefinition( "level14", new String[]{
 			"level14"
 		}, new String[]{
 			"month/DateTime"
 		} );
+		levelDefs[3].setTimeType( "month" );
+
 		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1",
 				documentManager,
 				iterator,

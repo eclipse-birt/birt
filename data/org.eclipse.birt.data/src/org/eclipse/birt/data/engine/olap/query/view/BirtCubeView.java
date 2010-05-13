@@ -62,6 +62,7 @@ public class BirtCubeView
 	private IResultSet parentResultSet;
 	private IPreparedCubeOperation[] preparedCubeOperations;
 	private CubeCursor cubeCursor;
+	private ICube cube;
 
 	private BirtCubeView( )
 	{
@@ -73,9 +74,11 @@ public class BirtCubeView
 	 * @param queryExecutor
 	 * @throws DataException
 	 */
-	public BirtCubeView( CubeQueryExecutor queryExecutor, Map appContext ) throws DataException
+	public BirtCubeView( CubeQueryExecutor queryExecutor, ICube cube, Map appContext ) throws DataException
 	{
 		this.executor = queryExecutor;
+		this.cube = cube;
+
 		pageEdgeView = createBirtEdgeView( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.PAGE_EDGE ), ICubeQueryDefinition.PAGE_EDGE );
 		columnEdgeView = createBirtEdgeView( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.COLUMN_EDGE ), ICubeQueryDefinition.COLUMN_EDGE );
 		rowEdgeView = createBirtEdgeView( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.ROW_EDGE ), ICubeQueryDefinition.ROW_EDGE );
@@ -161,7 +164,7 @@ public class BirtCubeView
 	 */
 	public BirtCubeView( CubeQueryExecutor queryExecutor ) throws DataException
 	{
-		this( queryExecutor, null );
+		this( queryExecutor, null, null );
 	}
 
 	/**
@@ -337,6 +340,11 @@ public class BirtCubeView
 	public BirtEdgeView getPageEdgeView( )
 	{
 		return this.pageEdgeView;
+	}
+	
+	public ICube getCube( )
+	{
+		return this.cube;
 	}
 	
 	/**
