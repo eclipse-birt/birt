@@ -203,10 +203,14 @@ public abstract class Dimension extends ReferenceableElement
 		{
 			int index = hierarchy.getIndex( module );
 			DesignElement clonedHierarchy = new ContainerContext( element,
-					HIERARCHIES_PROP ).getContent( module, index );
-			assert clonedHierarchy != null;
-			element.setProperty( DEFAULT_HIERARCHY_PROP, new ElementRefValue(
-					null, clonedHierarchy ) );
+					HIERARCHIES_PROP ).getContent( clonedDimension.getRoot( ),
+					index );
+
+			// for cube dimension that refers a shared dimension, at this time,
+			// the clonedHierarchy may be null for the layout is not generated
+			if ( clonedHierarchy != null )
+				element.setProperty( DEFAULT_HIERARCHY_PROP,
+						new ElementRefValue( null, clonedHierarchy ) );
 		}
 		return element;
 	}

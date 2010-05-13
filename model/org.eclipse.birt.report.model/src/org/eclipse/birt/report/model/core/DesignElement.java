@@ -2962,13 +2962,20 @@ public abstract class DesignElement
 			}
 
 		}
+
 		// clone slots.
 		int slotCount = cachedDefn.getSlotCount( );
+		Iterator<ISlotDefn> iter1 = ( (ElementDefn) cachedDefn )
+				.slotsIterator( );
 		if ( slotCount > 0 )
 		{
 			element.slots = new ContainerSlot[slotCount];
 			for ( int i = 0; i < slotCount; i++ )
-				element.slots[i] = slots[i].copy( element, i, policy );
+			{
+				SlotDefn slot = (SlotDefn) iter1.next( );
+				element.slots[i] = slots[i].copy( element, slot.getSlotID( ),
+						policy );
+			}
 		}
 
 		return element;
