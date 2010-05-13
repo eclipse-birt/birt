@@ -272,43 +272,43 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 					return false;
 				}
 			}
-			else
-			{
-				Iterator iter = conditionMap.keySet( ).iterator( );
-				while ( iter.hasNext( ) )
-				{
-					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) iter.next( );
-					if ( hierarchy.getPrimaryKeys( ) == null
-							|| hierarchy.getPrimaryKeys( ).size( ) == 0 )
-						continue;
-					int number = ( (Integer) conditionMap.get( hierarchy ) ).intValue( );
-					if ( hierarchy.getPrimaryKeys( ).size( ) != number )
-					{
-						conditionMap.clear( );
-
-						String[] buttons = new String[]{
-								IDialogConstants.YES_LABEL,
-								IDialogConstants.NO_LABEL
-						};
-
-						MessageDialog d = new MessageDialog( getShell( ),
-								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Title" ), //$NON-NLS-1$
-								null,
-								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Message" ), //$NON-NLS-1$
-								MessageDialog.WARNING,
-								buttons,
-								0 );
-						int result = d.open( );
-						if ( result == 1 )
-							return true;
-						else
-						{
-							this.showSelectionPage( getLinkGroupNode( ) );
-							return false;
-						}
-					}
-				}
-			}
+//			else
+//			{
+//				Iterator iter = conditionMap.keySet( ).iterator( );
+//				while ( iter.hasNext( ) )
+//				{
+//					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) iter.next( );
+//					if ( hierarchy.getPrimaryKeys( ) == null
+//							|| hierarchy.getPrimaryKeys( ).size( ) == 0 )
+//						continue;
+//					int number = ( (Integer) conditionMap.get( hierarchy ) ).intValue( );
+//					if ( hierarchy.getPrimaryKeys( ).size( ) != number )
+//					{
+//						conditionMap.clear( );
+//
+//						String[] buttons = new String[]{
+//								IDialogConstants.YES_LABEL,
+//								IDialogConstants.NO_LABEL
+//						};
+//
+//						MessageDialog d = new MessageDialog( getShell( ),
+//								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Title" ), //$NON-NLS-1$
+//								null,
+//								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Message" ), //$NON-NLS-1$
+//								MessageDialog.WARNING,
+//								buttons,
+//								0 );
+//						int result = d.open( );
+//						if ( result == 1 )
+//							return true;
+//						else
+//						{
+//							this.showSelectionPage( getLinkGroupNode( ) );
+//							return false;
+//						}
+//					}
+//				}
+//			}
 			conditionMap.clear( );
 			return true;
 		}
