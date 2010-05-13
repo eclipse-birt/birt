@@ -522,6 +522,21 @@
 		<available property="mapsLocal" file="${buildDirectory}/maps/source/org.eclipse.birt.releng" />
 	</target>
 
+	<target name="compareMapFiles" if="compareMaps">
+		<property file="${mapTag.properties}"/>
+		<property name="cvsDiffFile" value="${buildDirectory}/cvsDiff.txt" />
+		<cvs cvsRoot="${mapCvsRoot}" dest="${buildDirectory}/maps" command="diff -w -r ${lastMapTag}" output="${cvsDiffFile}" />
+		<!--modifiedMaps mapDiffFile="${cvsDiffFile}" /-->
+	</target>
+
+	<target name="tagMapFiles" if="tagMaps">
+		<!-- Stores tag on the filesystem so map files can be compared -->
+		<echo file="${mapTag.properties}">
+		lastMapTag=${buildId}
+		</echo>
+		<cvs dest="${buildDirectory}/maps/source/org.eclipse.birt.releng" command="tag v${package.version}_${buildId}" />
+	</target>
+			
 	<target name="prepareMapFile" depends="checkLocal" unless="mapsLocal">
 		<cvs cvsRoot="${mapCvsRoot}"
 			package="source/org.eclipse.birt.releng"
@@ -529,6 +544,11 @@
 			tag="${mapVersionTag}"
 		/>
 		
+		<!--compare the map files project-->
+		<antcall target="compareMapFiles" />
+		<!--tag the map files project-->
+		<antcall target="tagMapFiles" />
+
 		<!-- this value could be overwrite by the bootstrap command -->
 		<property name="birt.url.token" value="@BIRT.URL.TOKEN@"/>
 		<property name="dtp.url.token" value="@DTP.URL.TOKEN@"/>
@@ -539,6 +559,7 @@
 		<replace dir="${buildDirectory}/maps" value="${dtp.mapCvsRoot}" token="${dtp.url.token}">
 			<include name="**/*.map" />
 		</replace>
+		
 	</target>
 	
 	<target name="prepareSrc" if="prepare.src.flag">
