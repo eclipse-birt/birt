@@ -55,22 +55,24 @@
             </list-property>
         </table>
         <image name="Image2" id="8">
-            <structure name="action">
-                <property name="linkType">drill-through</property>
-                <property name="reportName">Another report</property>
-                <expression name="targetBookmark">www.rock.com/bookmarks/1.jsp</expression>
-                <property name="targetWindow">Window3</property>
-                <list-property name="paramBindings">
-                    <structure>
-                        <property name="paramName">param1</property>
-                        <expression name="expression" type="javascript">params["param11"]</expression>
-                    </structure>
-                    <structure>
-                        <property name="paramName">param2</property>
-                        <expression name="expression">2*2=6</expression>
-                    </structure>
-                </list-property>
-            </structure>
+            <list-property name="action">
+	           	<structure>
+	                <property name="linkType">drill-through</property>
+	                <property name="reportName">Another report</property>
+	                <expression name="targetBookmark">www.rock.com/bookmarks/1.jsp</expression>
+	                <property name="targetWindow">Window3</property>
+	                <list-property name="paramBindings">
+	                    <structure>
+	                        <property name="paramName">param1</property>
+	                        <expression name="expression" type="javascript">params["param11"]</expression>
+	                    </structure>
+	                    <structure>
+	                        <property name="paramName">param2</property>
+	                        <expression name="expression">2*2=6</expression>
+	                    </structure>
+	                </list-property>
+	            </structure>
+ 			</list-property>	         
         </image>
     </body>
 </report>

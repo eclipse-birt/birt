@@ -546,9 +546,9 @@ public abstract class BoundColumnsMgr
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
-		Action action = (Action) element.getLocalProperty( module,
+		List actions = (List) element.getLocalProperty( module,
 				IImageItemModel.ACTION_PROP );
-		dealAction( element, module, action );
+		dealAction( element, module, actions );
 	}
 
 	/**
@@ -563,9 +563,9 @@ public abstract class BoundColumnsMgr
 	protected void dealLabel( Label element, Module module )
 	{
 		dealReportItem( element, module );
-		Action action = (Action) element.getLocalProperty( module,
+		List actions = (List) element.getLocalProperty( module,
 				ILabelModel.ACTION_PROP );
-		dealAction( element, module, action );
+		dealAction( element, module, actions );
 	}
 
 	/**
@@ -580,9 +580,9 @@ public abstract class BoundColumnsMgr
 	protected void dealData( DataItem element, Module module )
 	{
 		dealReportItem( element, module );
-		Action action = (Action) element.getLocalProperty( module,
+		List actions = (List) element.getLocalProperty( module,
 				IDataItemModel.ACTION_PROP );
-		dealAction( element, module, action );
+		dealAction( element, module, actions );
 	}
 
 	/**
@@ -596,41 +596,48 @@ public abstract class BoundColumnsMgr
 	 *            the action object
 	 */
 
-	private void dealAction( ReportItem element, Module module, Action action )
+	private void dealAction( ReportItem element, Module module, List actions )
 	{
-		if ( action == null )
+		if ( actions == null || actions.isEmpty( ) )
 			return;
 
-		String value = (String) action.getProperty( module, Action.URI_MEMBER );
-		if ( value != null )
-			handleBoundsForValue( element, module, value );
-		value = action
-				.getStringProperty( module, Action.TARGET_BOOKMARK_MEMBER );
-		if ( value != null )
-			handleBoundsForValue( element, module, value );
-
-		List paramBindings = (List) action.getLocalProperty( module,
-				Action.PARAM_BINDINGS_MEMBER );
-		if ( paramBindings != null && paramBindings.size( ) > 0 )
+		for ( int i = 0; i < actions.size( ); i++ )
 		{
+			Action action = (Action) actions.get( i );
+			String value = (String) action.getProperty( module,
+					Action.URI_MEMBER );
+			if ( value != null )
+				handleBoundsForValue( element, module, value );
+			value = action.getStringProperty( module,
+					Action.TARGET_BOOKMARK_MEMBER );
+			if ( value != null )
+				handleBoundsForValue( element, module, value );
 
-			for ( int i = 0; i < paramBindings.size( ); i++ )
+			List paramBindings = (List) action.getLocalProperty( module,
+					Action.PARAM_BINDINGS_MEMBER );
+			if ( paramBindings != null && paramBindings.size( ) > 0 )
 			{
-				ParamBinding paramValue = (ParamBinding) paramBindings.get( i );
-				handleBoundsForParamBinding( element, module, paramValue
+
+				for ( int j = 0; j < paramBindings.size( ); j++ )
+				{
+					ParamBinding paramValue = (ParamBinding) paramBindings
+							.get( j );
+					handleBoundsForParamBinding( element, module, paramValue
+							.getExpression( ) );
+				}
+			}
+
+			List searchKeys = (List) action.getLocalProperty( module,
+					Action.SEARCH_MEMBER );
+			if ( searchKeys == null || searchKeys.size( ) < 1 )
+				return;
+
+			for ( int j = 0; j < searchKeys.size( ); j++ )
+			{
+				SearchKey searchKey = (SearchKey) searchKeys.get( j );
+				handleBoundsForValue( element, module, searchKey
 						.getExpression( ) );
 			}
-		}
-
-		List searchKeys = (List) action.getLocalProperty( module,
-				Action.SEARCH_MEMBER );
-		if ( searchKeys == null || searchKeys.size( ) < 1 )
-			return;
-
-		for ( int i = 0; i < searchKeys.size( ); i++ )
-		{
-			SearchKey searchKey = (SearchKey) searchKeys.get( i );
-			handleBoundsForValue( element, module, searchKey.getExpression( ) );
 		}
 	}
 

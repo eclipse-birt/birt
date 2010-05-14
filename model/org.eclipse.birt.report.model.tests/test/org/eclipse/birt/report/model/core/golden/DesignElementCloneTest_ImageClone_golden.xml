@@ -41,26 +41,32 @@
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText" key="help">Help Test For Image Item</text-property>
-                    <structure name="action">
-                        <expression name="uri">http://localhost:8080/bluehero</expression>
-                    </structure>
+                    <list-property name="action">
+	                    <structure>
+	                        <expression name="uri">http://localhost:8080/bluehero</expression>
+	                    </structure>
+                    </list-property>
                 </image>
                 <image name="Image2" id="7">
                     <property name="source">embed</property>
                     <property name="imageName">image2.jpg</property>
                     <text-property name="helpText" key="abc">Image2-Help-Text</text-property>
-                    <structure name="action">
-                        <expression name="uri">http://localhost:8080/bluehero</expression>
-                    </structure>
+                    <list-property name="action">
+	                    <structure>
+	                        <expression name="uri">http://localhost:8080/bluehero</expression>
+	                    </structure>
+                    </list-property>
                 </image>
                 <image name="Image3" id="8">
                     <property name="source">expr</property>
                     <expression name="typeExpr">Type Expression</expression>
                     <expression name="valueExpr">Value Expression</expression>
                     <text-property name="helpText">Help Text</text-property>
-                    <structure name="action">
-                        <expression name="uri">http://localhost:8080/blue</expression>
-                    </structure>
+	                <list-property name="action">
+	                    <structure>
+	                        <expression name="uri">http://localhost:8080/blue</expression>
+	                    </structure>
+	                </list-property>
                 </image>
                 <image name="Image4" id="9">
                     <property name="source">expr</property>
@@ -75,18 +81,22 @@
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText" key="help">Help Test For Image Item</text-property>
-                    <structure name="action">
-                        <expression name="uri">http://localhost:8080/bluehero</expression>
-                    </structure>
+	                <list-property name="action">
+	                    <structure>
+	                        <expression name="uri">http://localhost:8080/bluehero</expression>
+	                    </structure>
+	                </list-property>
                 </image>
                 <image name="Image31" id="12">
                     <property name="source">expr</property>
                     <expression name="typeExpr">Type Expression</expression>
                     <expression name="valueExpr">Value Expression</expression>
                     <text-property name="helpText">Help Text</text-property>
-                    <structure name="action">
-                        <expression name="uri">http://localhost:8080/blue</expression>
-                    </structure>
+	                <list-property name="action">
+	                    <structure>
+	                        <expression name="uri">http://localhost:8080/blue</expression>
+	                    </structure>
+	               	</list-property>
                 </image>
             </contents>
         </graphic-master-page>
@@ -96,9 +106,11 @@
             <property name="source">embed</property>
             <property name="imageName">bodyImage.jpg</property>
             <text-property name="helpText">BodyImage-Help-Text</text-property>
-            <structure name="action">
-                <expression name="uri">http://localhost:8080/bodyImage.jpg</expression>
-            </structure>
+	        <list-property name="action">
+	            <structure>
+	                <expression name="uri">http://localhost:8080/bodyImage.jpg</expression>
+	            </structure>
+	        </list-property>
         </image>
     </body>
 </report>

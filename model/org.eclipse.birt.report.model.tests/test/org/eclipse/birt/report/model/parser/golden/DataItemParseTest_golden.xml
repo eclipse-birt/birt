@@ -46,9 +46,11 @@
                     </list-property>
                     <property name="resultSetColumn">First data value</property>
                     <text-property name="helpText" key="New key">New help</text-property>
-                    <structure name="action">
-                        <expression name="uri">http://localhost:8080/</expression>
-                    </structure>
+                    <list-property name="action">
+		           		<structure>
+	                        <expression name="uri">http://localhost:8080/</expression>
+	                    </structure>
+                    </list-property>
                 </data>
             </report-items>
         </free-form>
@@ -79,9 +81,11 @@
             </list-property>
             <property name="resultSetColumn">column1</property>
             <text-property name="helpText" key="New body help key">New body help</text-property>
-            <structure name="action">
-                <expression name="uri">http://localhost:80/</expression>
-            </structure>
+            <list-property name="action">
+	           	<structure>
+	                <expression name="uri">http://localhost:80/</expression>
+	            </structure>
+            </list-property>
         </data>
         <data name="Body Data1" id="9">
             <property name="dataBindingRef">Body Data</property>

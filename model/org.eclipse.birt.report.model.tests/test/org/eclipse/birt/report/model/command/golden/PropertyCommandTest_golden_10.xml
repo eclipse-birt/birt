@@ -50,19 +50,21 @@
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText">Help Test For Image Item</text-property>
-                    <structure name="action">
-                        <property name="linkType">drill-through</property>
-                        <property name="reportName">iserver/report1</property>
-                        <property name="targetWindow">Window3</property>
-                        <list-property name="search">
-                            <structure>
-                                <expression name="expression">searchKey1</expression>
-                            </structure>
-                            <structure>
-                                <expression name="expression">searchKey2</expression>
-                            </structure>
-                        </list-property>
-                    </structure>
+                    <list-property name="action">
+                		<structure>
+	                        <property name="linkType">drill-through</property>
+	                        <property name="reportName">iserver/report1</property>
+	                        <property name="targetWindow">Window3</property>
+	                        <list-property name="search">
+	                            <structure>
+	                                <expression name="expression">searchKey1</expression>
+	                            </structure>
+	                            <structure>
+	                                <expression name="expression">searchKey2</expression>
+	                            </structure>
+	                        </list-property>
+	                    </structure>
+                    </list-property>
                 </image>
             </contents>
         </graphic-master-page>

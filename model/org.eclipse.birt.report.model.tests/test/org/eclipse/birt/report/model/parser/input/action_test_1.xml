@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
+	<page-setup>
+		<graphic-master-page name="My Page">
+			<property name="topMargin">0.95mm</property>
+			<property name="leftMargin">0.8mm</property>
+			<property name="bottomMargin">0.75mm</property>
+			<property name="rightMargin">0.9mm</property>
+			<property name="columns">1</property>
+			<property name="columnSpacing">0.25mm</property>
+			<contents>
+				<image name="Image1">
+					<property name="source">url</property>
+					<expression name="uri">http://www.eclipse.org/birt/test/1.jpg
+					</expression>
+					<text-property name="altText">Help Test For Image Item
+					</text-property>
+					<list-property name="action">
+						<structure>
+							<property name="toolTip">toolTip</property>
+							<property name="targetWindow">Window2</property>
+							<property name="linkType">hyperlink</property>
+							<expression name="uri">www.rock.com.cn/haha/test.html
+							</expression>
+						</structure>
+						<structure>
+	                        <property name="linkType">bookmark-link</property>
+	                        <property name="targetWindow">Window3</property>
+	                        <expression name="targetBookmark">www.rock.com.cn/haha/index.html/bookmarklink1</expression>
+	                    </structure>
+					</list-property>
+				</image>
+			</contents>
+		</graphic-master-page>
+	</page-setup>
+</report>

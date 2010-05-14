@@ -259,7 +259,7 @@ public class ModelUtil extends ModelUtilBase
 			// Style property and extends property will be removed.
 			// The properties inherited from style or parent will be
 			// flatten to new element.
-						
+
 			if ( needSkipProperty( destination, propName ) )
 				continue;
 
@@ -1107,8 +1107,7 @@ public class ModelUtil extends ModelUtilBase
 
 		if ( versionNo < 0
 				|| versionNo > DesignSchemaConstants.REPORT_VERSION_NUMBER )
-			rtnList
-					.add( new VersionInfo( version, VersionInfo.INVALID_VERSION ) );
+			rtnList.add( new VersionInfo( version, VersionInfo.INVALID_VERSION ) );
 
 		if ( versionNo <= VersionInfo.COLUMN_BINDING_FROM_VERSION
 				&& DesignSchemaConstants.REPORT_VERSION_NUMBER > VersionInfo.COLUMN_BINDING_FROM_VERSION )
@@ -1158,8 +1157,7 @@ public class ModelUtil extends ModelUtilBase
 							&& element
 									.getDefn( )
 									.isKindOf(
-											dd
-													.getElement( ReportDesignConstants.REPORT_ITEM ) ) )
+											dd.getElement( ReportDesignConstants.REPORT_ITEM ) ) )
 						return true;
 				}
 				else
@@ -1636,32 +1634,6 @@ public class ModelUtil extends ModelUtilBase
 		}
 
 		return newList;
-	}
-
-	/**
-	 * Sets the action for some element handle. The element may be label, image
-	 * and label and all other elements that defines action property.
-	 * 
-	 * @param elementHandle
-	 *            the element that to set the action
-	 * @param actionPropName
-	 *            the internal name of the action property
-	 * @param action
-	 *            the action structure to set
-	 * @return
-	 * @throws SemanticException
-	 */
-	public static ActionHandle setAction( DesignElementHandle elementHandle,
-			String actionPropName, Action action ) throws SemanticException
-	{
-		elementHandle.setProperty( actionPropName, action );
-
-		Action actionValue = (Action) elementHandle.getElement( ).getProperty(
-				elementHandle.getModule( ), actionPropName );
-		if ( actionValue == null )
-			return null;
-		return (ActionHandle) actionValue.getHandle( elementHandle
-				.getPropertyHandle( actionPropName ) );
 	}
 
 	/**

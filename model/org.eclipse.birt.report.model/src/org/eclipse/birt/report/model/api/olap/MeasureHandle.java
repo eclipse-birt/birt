@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
@@ -22,7 +24,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.impl.ActionHelper;
 
 /**
  * This class represents a measure element.
@@ -194,12 +196,7 @@ public abstract class MeasureHandle extends ReportElementHandle
 
 	public ActionHandle getActionHandle( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ACTION_PROP );
-		Action action = (Action) propHandle.getValue( );
-
-		if ( action == null )
-			return null;
-		return (ActionHandle) action.getHandle( propHandle );
+		return new ActionHelper( this, ACTION_PROP ).getActionHandle( );
 	}
 
 	/**
@@ -217,7 +214,19 @@ public abstract class MeasureHandle extends ReportElementHandle
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		return ModelUtil.setAction( this, ACTION_PROP, action );
+		return new ActionHelper( this, ACTION_PROP ).setAction( action );
+	}
+
+	/**
+	 * Returns the iterator for action defined on this measure.
+	 * 
+	 * @return the iterator for <code>Action</code> structure list defined on
+	 *         this measure
+	 */
+
+	public Iterator<ActionHandle> actionsIterator( )
+	{
+		return new ActionHelper( this, ACTION_PROP ).actionsIterator( );
 	}
 
 	/**

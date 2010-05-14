@@ -77,7 +77,9 @@
                                             <property name="dataType">date-time</property>
                                         </structure>
                                     </list-property>
-                                    <structure name="action"/>
+                                    <list-property name="action">
+	           							<structure/>
+	           						</list-property>
                                     <structure name="format">
                                         <property name="category">testLevelFormatCategory</property>
                                         <property name="pattern">testLevelFormatPattern</property>
@@ -114,7 +116,9 @@
                             <expression name="measureExpression">updated column</expression>
                             <property name="dataType">boolean</property>
                             <expression name="ACLExpression" type="constant">new ACL expression</expression>
-                            <structure name="action"/>
+                            <list-property name="action">
+	           					<structure/>
+	           				</list-property>
                             <structure name="format">
                                 <property name="category">testMeasureFormatCategory</property>
                                 <property name="pattern">testMeasureFormatPattern</property>

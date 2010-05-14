@@ -28,10 +28,12 @@
                     <expression name="expression">dataSetRow["actionBookMark"]</expression>
                 </structure>
             </list-property>
-            <structure name="action">
-                <property name="linkType">bookmark-link</property>
-                <expression name="targetBookmark">row["actionBookMark"]</expression>
-            </structure>
+            <list-property name="action">
+	            <structure>
+	                <property name="linkType">bookmark-link</property>
+	                <expression name="targetBookmark">row["actionBookMark"]</expression>
+	            </structure>
+            </list-property>
         </data>
         <table name="table1" id="6">
             <list-property name="boundDataColumns">

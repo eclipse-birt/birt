@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.impl.ActionHelper;
 
 /**
  * Represents a data item element. A data item has an action, value expression
@@ -58,13 +58,7 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public ActionHandle getActionHandle( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( IDataItemModel.ACTION_PROP );
-		Action action = (Action) propHandle.getValue( );
-
-		if ( action == null )
-			return null;
-
-		return (ActionHandle) action.getHandle( propHandle );
+		return new ActionHelper( this, ACTION_PROP ).getActionHandle( );
 	}
 
 	/**
@@ -82,7 +76,19 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		return ModelUtil.setAction( this, ACTION_PROP, action );
+		return new ActionHelper( this, ACTION_PROP ).setAction( action );
+	}
+
+	/**
+	 * Returns the iterator for action defined on this data item.
+	 * 
+	 * @return the iterator for <code>Action</code> structure list defined on
+	 *         this data item
+	 */
+
+	public Iterator<ActionHandle> actionsIterator( )
+	{
+		return new ActionHelper( this, ACTION_PROP ).actionsIterator( );
 	}
 
 	/**

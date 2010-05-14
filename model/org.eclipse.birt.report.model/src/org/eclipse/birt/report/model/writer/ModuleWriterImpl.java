@@ -1816,7 +1816,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKey( obj, IDataItemModel.HELP_TEXT_KEY_PROP,
 				IDataItemModel.HELP_TEXT_PROP );
 
-		writeAction( obj, IDataItemModel.ACTION_PROP );
+		writeActions( obj, IDataItemModel.ACTION_PROP );
 
 		writer.endElement( );
 	}
@@ -2027,7 +2027,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKey( obj, ILabelModel.HELP_TEXT_ID_PROP,
 				ILabelModel.HELP_TEXT_PROP );
 
-		writeAction( obj, ILabelModel.ACTION_PROP );
+		writeActions( obj, ILabelModel.ACTION_PROP );
 
 		writer.endElement( );
 	}
@@ -3067,7 +3067,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKey( obj, IImageItemModel.HELP_TEXT_ID_PROP,
 				IImageItemModel.HELP_TEXT_PROP );
 
-		writeAction( obj, IImageItemModel.ACTION_PROP );
+		writeActions( obj, IImageItemModel.ACTION_PROP );
 
 		writer.endElement( );
 	}
@@ -3081,12 +3081,21 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 *            the property name of action structure
 	 */
 
-	protected void writeAction( DesignElement obj, String propName )
+	protected void writeActions( DesignElement obj, String propName )
 	{
-		Action action = (Action) obj.getLocalProperty( getModule( ), propName );
-		if ( action == null )
+		List actions = (List) obj.getLocalProperty( getModule( ), propName );
+		if ( actions == null || actions.isEmpty( ) )
 			return;
-		writeAction( action, propName );
+
+		writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
+		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
+		for ( int i = 0; i < actions.size( ); i++ )
+		{
+			Action action = (Action) actions.get( i );
+			writeAction( action );
+		}
+
+		writer.endElement( );
 	}
 
 	/**
@@ -3098,13 +3107,12 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 *            the property name of action structure on the element.
 	 */
 
-	protected void writeAction( Action action, String propName )
+	protected void writeAction( Action action )
 	{
 		String linkType = (String) action.getProperty( getModule( ),
 				Action.LINK_TYPE_MEMBER );
 
 		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-		writer.attribute( IDesignElementModel.NAME_PROP, propName );
 
 		property( action, Action.FORMAT_TYPE_MEMBER );
 		property( action, Action.LINK_TYPE_MEMBER );
@@ -3894,7 +3902,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		writeStructureList( obj, ILevelModel.STATIC_VALUES_PROP );
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
 
-		writeAction( obj, ILevelModel.ACTION_PROP );
+		writeActions( obj, ILevelModel.ACTION_PROP );
 		writeStructure( obj, ILevelModel.FORMAT_PROP );
 
 	}
@@ -3931,7 +3939,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IMeasureModel.DATA_TYPE_PROP );
 		property( obj, IMeasureModel.ACL_EXPRESSION_PROP );
 
-		writeAction( obj, IMeasureModel.ACTION_PROP );
+		writeActions( obj, IMeasureModel.ACTION_PROP );
 		writeStructure( obj, IMeasureModel.FORMAT_PROP );
 	}
 

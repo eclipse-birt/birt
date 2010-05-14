@@ -201,7 +201,7 @@ public class StructureState extends AbstractPropertyState
 		this.name = propDefn.getName( );
 	}
 
-	protected void setName( String name )
+	public void setName( String name )
 	{
 		super.setName( name );
 
@@ -262,8 +262,7 @@ public class StructureState extends AbstractPropertyState
 
 			if ( StringUtil.isBlank( name ) )
 			{
-				handler
-						.getErrorHandler( )
+				handler.getErrorHandler( )
 						.semanticError(
 								new DesignParserException(
 										DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
@@ -284,8 +283,7 @@ public class StructureState extends AbstractPropertyState
 
 		if ( propDefn == null )
 		{
-			handler
-					.getErrorHandler( )
+			handler.getErrorHandler( )
 					.semanticError(
 							new DesignParserException(
 									DesignParserException.DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME ) );
@@ -561,7 +559,7 @@ public class StructureState extends AbstractPropertyState
 		structDict.put(
 				ParameterFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				ParameterFormatValue.class );
-		
+
 		structDict.put( FormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				FormatValue.class );
 
@@ -599,6 +597,7 @@ public class StructureState extends AbstractPropertyState
 				AggregationArgument.class );
 		structDict.put( SortHint.SORT_HINT_STRUCT.toLowerCase( ),
 				SortHint.class );
-		structDict.put(  TimeInterval.STRUCTURE_NAME.toLowerCase( ), TimeInterval.class );
+		structDict.put( TimeInterval.STRUCTURE_NAME.toLowerCase( ),
+				TimeInterval.class );
 	}
 }

@@ -1,4 +1,4 @@
-<structure name="action">
+<structure>
 	<property name="linkType">drill-through</property>
 	<property name="targetWindow">Window3</property>
     <property name="drillThroughReportName">iserver/report1</property>

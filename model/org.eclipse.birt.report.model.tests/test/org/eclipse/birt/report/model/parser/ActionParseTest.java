@@ -14,20 +14,19 @@ package org.eclipse.birt.report.model.parser;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
-import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SearchKeyHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * TestCases for ActionState and Action class. Parse ActionState and get the
  * property value from the element it bind to.
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -272,6 +271,34 @@ public class ActionParseTest extends BaseTestCase
 		actionHandle.setToolTip( "new toolTip" );//$NON-NLS-1$
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
+	}
+
+	/**
+	 * Tests the action property changes. Now action in label, image, data,
+	 * level and measure is changed to structure list rather than single
+	 * structure. Bugzilla 265391.
+	 * 
+	 * @throws Exception
+	 */
+	public void testListAction( ) throws Exception
+	{
+		openDesign( "action_test_1.xml" ); //$NON-NLS-1$
+		ImageHandle imageHandle = (ImageHandle) designHandle
+				.findElement( "Image1" ); //$NON-NLS-1$
+		PropertyHandle propHandle = imageHandle
+				.getPropertyHandle( IImageItemModel.ACTION_PROP );
+		Iterator<ActionHandle> iter = imageHandle.actionsIterator( );
+		ActionHandle actionHandle = iter.next( );
+		assertNotSame( actionHandle.getStructure( ), iter.next( )
+				.getStructure( ) );
+
+		// add the first action to the end
+		propHandle.addItem( actionHandle.getStructure( ) );
+
+		// save report
+		save( );
+		assertTrue( compareFile( "action_test_golden_1.xml" ) ); //$NON-NLS-1$
+
 	}
 
 }

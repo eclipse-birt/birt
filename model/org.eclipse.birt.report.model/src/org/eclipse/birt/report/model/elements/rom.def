@@ -2625,7 +2625,7 @@
       <Argument name="this" tagID="Element.Label.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.ILabelInstance"/>
       <Argument name="reportContext" tagID="Element.Label.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
-    <Property detailType="Action" displayNameID="Element.Label.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
+    <Property detailType="Action" displayNameID="Element.Label.action" isList="true" name="action" runtimeSettable="false" since="1.0" type="structure"/>
     <PropertyVisibility name="dataSet" visibility="hide"/>
     <PropertyVisibility name="dataBindingRef" visibility="hide"/>
     <StyleProperty name="backgroundColor"/>
@@ -2708,7 +2708,7 @@
 	</Property>
     <Property displayNameID="Element.Data.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Data.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
-    <Property detailType="Action" displayNameID="Element.Data.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
+    <Property detailType="Action" displayNameID="Element.Data.action" isList="true" name="action" runtimeSettable="false" since="1.0" type="structure"/>
     <Method context="startup" displayNameID="Element.Data.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Data.onPrepare.toolTip">
       <Argument name="this" tagID="Element.Data.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IDataItem"/>
       <Argument name="reportContext" tagID="Element.Data.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
@@ -3329,7 +3329,7 @@
 	<Property detailType="EmbeddedImage" displayNameID="Element.Image.imageName" name="imageName" returnType="string" runtimeSettable="false" since="1.0" type="structRef"/>
     <Property displayNameID="Element.Image.valueExpr" name="valueExpr" returnType="blob" since="2.0" type="expression"/>
     <Property displayNameID="Element.Image.typeExpr" name="typeExpr" returnType="string" runtimeSettable="false" since="2.0" type="expression"/>
-    <Property detailType="Action" displayNameID="Element.Image.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
+    <Property detailType="Action" displayNameID="Element.Image.action" isList="true" name="action" runtimeSettable="false" since="1.0" type="structure"/>
 	<Property displayNameID="Element.Image.fitToContainer" name="fitToContainer" runtimeSettable="true" since="2.5" type="boolean">
 		<Default>false</Default>
 	</Property>
@@ -3666,7 +3666,7 @@
   	<Property displayNameID="Element.Level.defaultValue" name="defaultValue" since="2.3" type="expression" />
   	<Property displayNameID="Element.Level.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
   	<Property displayNameID="Element.Level.MemberACLExpression" name="memberACLExpression" since="2.5.2" type="expression"/>
-  	<Property detailType="Action" displayNameID="Element.Level.action" isList="false" name="action" runtimeSettable="false" since="2.5" type="structure"/>
+  	<Property detailType="Action" displayNameID="Element.Level.action" isList="true" name="action" runtimeSettable="false" since="2.5" type="structure"/>
   	<Property detailType="FormatValue" displayNameID="Element.Level.format" isList="false" name="format" runtimeSettable="false" since="2.6" type="structure"/>	      	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularLevel" name="TabularLevel" since="2.2" xmlName="tabular-level">
@@ -3702,7 +3702,7 @@
 		<Default>decimal</Default>
 	</Property>
 	<Property displayNameID="Element.Measure.ACLExpression" name="ACLExpression" since="2.5.2" type="expression"/>
-	<Property detailType="Action" displayNameID="Element.Measure.action" isList="false" name="action" runtimeSettable="false" since="2.5" type="structure"/>
+	<Property detailType="Action" displayNameID="Element.Measure.action" isList="true" name="action" runtimeSettable="false" since="2.5" type="structure"/>
 	<Property detailType="FormatValue" displayNameID="Element.Measure.format" isList="false" name="format" runtimeSettable="false" since="2.6" type="structure"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularMeasure" extends="Measure" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularMeasure" name="TabularMeasure" since="2.2" xmlName="tabular-measure">

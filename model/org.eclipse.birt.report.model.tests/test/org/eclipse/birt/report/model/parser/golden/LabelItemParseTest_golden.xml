@@ -59,9 +59,11 @@
                     <property name="height">0.5mm</property>
                     <property name="width">1mm</property>
                     <text-property name="text">Today's Date</text-property>
-                    <structure name="action">
-                        <expression name="uri">www.myhost.com</expression>
-                    </structure>
+                    <list-property name="action">
+		           		<structure>
+	                        <expression name="uri">www.myhost.com</expression>
+	                    </structure>
+                    </list-property>
                 </label>
             </contents>
         </graphic-master-page>

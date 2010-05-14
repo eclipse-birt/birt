@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.impl.ActionHelper;
 
 /**
  * Represents a label report item. A label shows a static piece of text
@@ -124,13 +126,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public ActionHandle getActionHandle( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( ACTION_PROP );
-		Action action = (Action) propHandle.getValue( );
-
-		if ( action == null )
-			return null;
-
-		return (ActionHandle) action.getHandle( propHandle );
+		return new ActionHelper( this, ACTION_PROP ).getActionHandle( );
 	}
 
 	/**
@@ -148,7 +144,19 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		return ModelUtil.setAction( this, ACTION_PROP, action );
+		return new ActionHelper( this, ACTION_PROP ).setAction( action );
+	}
+
+	/**
+	 * Returns the iterator for action defined on this label item.
+	 * 
+	 * @return the iterator for <code>Action</code> structure list defined on
+	 *         this label item
+	 */
+
+	public Iterator<ActionHandle> actionsIterator( )
+	{
+		return new ActionHelper( this, ACTION_PROP ).actionsIterator( );
 	}
 
 	/**

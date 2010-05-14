@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -25,7 +26,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.impl.ActionHelper;
 
 /**
  * Represents an image report item. The image can come from a number of sources:
@@ -635,12 +636,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public ActionHandle getActionHandle( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( IImageItemModel.ACTION_PROP );
-		Action action = (Action) propHandle.getValue( );
-
-		if ( action == null )
-			return null;
-		return (ActionHandle) action.getHandle( propHandle );
+		return new ActionHelper( this, ACTION_PROP ).getActionHandle( );
 	}
 
 	/**
@@ -658,7 +654,19 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		return ModelUtil.setAction( this, ACTION_PROP, action );
+		return new ActionHelper( this, ACTION_PROP ).setAction( action );
+	}
+
+	/**
+	 * Returns the iterator for action defined on this image item.
+	 * 
+	 * @return the iterator for <code>Action</code> structure list defined on
+	 *         this image item
+	 */
+
+	public Iterator<ActionHandle> actionsIterator( )
+	{
+		return new ActionHelper( this, ACTION_PROP ).actionsIterator( );
 	}
 
 	/**

@@ -1,4 +1,4 @@
-<structure name="action">
+<structure>
     <property name="linkType">drill-through</property>
     <property name="reportName">iserver/report1</property>
     <list-property name="paramBindings">

@@ -149,8 +149,7 @@ public class Action extends PropertyStructure
 
 	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
-		assert false;
-		return null;
+		return new ActionHandle( valueHandle, index );
 	}
 
 	/*

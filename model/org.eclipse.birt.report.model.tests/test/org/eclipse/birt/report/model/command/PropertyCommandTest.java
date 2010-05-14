@@ -380,8 +380,8 @@ public class PropertyCommandTest extends BaseTestCase
 	{
 		// action has set in image, so it has structure context
 		Action action = (Action) actionHandle.getStructure( );
-		assertEquals( actionHandle.getStructure( ), imageHandle
-				.getProperty( ImageHandle.ACTION_PROP ) );
+		assertEquals( actionHandle.getStructure( ), ( (List) imageHandle
+				.getProperty( ImageHandle.ACTION_PROP ) ).get( 0 ) );
 		StructureContext context = action.getContext( );
 		assertNotNull( context );
 
@@ -1292,8 +1292,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		// use the rule1 structure to replace rule2 structure
 
-		command2
-				.replaceItem( mem2, rule2.getStructure( ), rule1.getStructure( ) );
+		command2.replaceItem( mem2, rule2.getStructure( ), rule1.getStructure( ) );
 
 		// assert whether the value was replaced
 
@@ -1309,8 +1308,7 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( "Open", rule2.getDisplay( ) ); //$NON-NLS-1$
 
 		// use the sTwoHandle structure to replace sHandle structure
-		command1
-				.replaceItem( mem1, rule1.getStructure( ), rule2.getStructure( ) );
+		command1.replaceItem( mem1, rule1.getStructure( ), rule2.getStructure( ) );
 		propHandle = styleHandle1.getPropertyHandle( Style.MAP_RULES_PROP );
 		rule1 = ( (MapRuleHandle) propHandle.getAt( 0 ) );
 		assertEquals( "Open", rule1.getDisplay( ) ); //$NON-NLS-1$
@@ -1897,7 +1895,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		// if the toc is dropped and set with a new one. There is no back
 		// reference.
-		
+
 		iter1 = style.clientsIterator( );
 		assertFalse( iter1.hasNext( ) );
 	}

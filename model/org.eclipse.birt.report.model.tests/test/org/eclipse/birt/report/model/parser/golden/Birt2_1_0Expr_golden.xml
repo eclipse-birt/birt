@@ -47,9 +47,11 @@
     </data-sets>
     <body>
         <data name="myData1" id="5">
-            <structure name="action">
-                <property name="linkType">hyperlink</property>
-            </structure>
+            <list-property name="action">
+	           	<structure>
+	                <property name="linkType">hyperlink</property>
+	            </structure>
+            </list-property>
         </data>
         <list name="MyList2" id="6">
             <list-property name="userProperties">

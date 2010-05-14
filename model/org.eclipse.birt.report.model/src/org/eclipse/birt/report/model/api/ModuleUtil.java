@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -153,8 +154,12 @@ public class ModuleUtil
 			{
 				if ( DesignSchemaConstants.STRUCTURE_TAG
 						.equalsIgnoreCase( tagName ) )
-					return new ActionStructureState( ActionParserHandler.this,
-							element );
+				{
+					ActionStructureState state = new ActionStructureState(
+							ActionParserHandler.this, element );
+					state.setName( IImageItemModel.ACTION_PROP );
+					return state;
+				}
 				return super.startElement( tagName );
 			}
 		}
@@ -202,12 +207,17 @@ public class ModuleUtil
 		Module module = element == null ? handler.getModule( ) : element
 				.getModule( );
 
+		ElementPropertyDefn propDefn = e
+				.getPropertyDefn( IImageItemModel.ACTION_PROP );
+
 		if ( streamData == null )
 		{
 			Action action = StructureFactory.createAction( );
-			e.setProperty( ImageHandle.ACTION_PROP, action );
-			action.setContext( new StructureContext( e, e
-					.getPropertyDefn( ImageHandle.ACTION_PROP ), action ) );
+			List<Action> actions = new ArrayList<Action>( );
+			actions.add( action );
+
+			e.setProperty( propDefn, actions );
+			action.setContext( new StructureContext( e, propDefn, action ) );
 			return getActionHandle( e.getHandle( module ) );
 		}
 
@@ -219,11 +229,13 @@ public class ModuleUtil
 
 		if ( element != null )
 		{
-			Action action = (Action) image.getProperty( handler.getModule( ),
-					IImageItemModel.ACTION_PROP );
-			e.setProperty( IImageItemModel.ACTION_PROP, action );
+			List actions = (List) image.getProperty( handler.getModule( ),
+					propDefn );
+			assert actions != null && actions.size( ) == 1;
+			Action action = (Action) actions.get( 0 );
+			e.setProperty( propDefn, actions );
 			action.setContext( new StructureContext( e, e
-					.getPropertyDefn( ImageHandle.ACTION_PROP ), action ) );
+					.getPropertyDefn( IImageItemModel.ACTION_PROP ), action ) );
 		}
 
 		return getActionHandle( e.getHandle( module ) );
@@ -240,7 +252,9 @@ public class ModuleUtil
 	{
 		PropertyHandle propHandle = element
 				.getPropertyHandle( IImageItemModel.ACTION_PROP );
-		Action action = (Action) propHandle.getValue( );
+		List actions = (List) propHandle.getValue( );
+		assert actions != null && actions.size( ) == 1;
+		Action action = (Action) actions.get( 0 );
 
 		if ( action == null )
 			return null;
@@ -413,7 +427,7 @@ public class ModuleUtil
 		public void write( OutputStream os, Action action ) throws IOException
 		{
 			writer = new SectionXMLWriter( os, UnicodeUtil.SIGNATURE_UTF_8 );
-			writeAction( action, IImageItemModel.ACTION_PROP );
+			writeAction( action );
 		}
 
 		protected Module getModule( )
@@ -703,9 +717,7 @@ public class ModuleUtil
 		}
 		catch ( IOException e )
 		{
-			rtnList
-					.add( new VersionInfo( null,
-							VersionInfo.INVALID_DESIGN_FILE ) );
+			rtnList.add( new VersionInfo( null, VersionInfo.INVALID_DESIGN_FILE ) );
 			return rtnList;
 		}
 
@@ -730,9 +742,7 @@ public class ModuleUtil
 		}
 		catch ( DesignFileException e1 )
 		{
-			rtnList
-					.add( new VersionInfo( null,
-							VersionInfo.INVALID_DESIGN_FILE ) );
+			rtnList.add( new VersionInfo( null, VersionInfo.INVALID_DESIGN_FILE ) );
 		}
 		finally
 		{

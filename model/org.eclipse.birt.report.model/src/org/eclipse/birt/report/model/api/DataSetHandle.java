@@ -897,11 +897,12 @@ public abstract class DataSetHandle extends ReportElementHandle
 						.getPropertyHandle( IImageItemModel.ACTION_PROP );
 				if ( actionPropHandle != null )
 				{
-					Action action = (Action) actionPropHandle.getValue( );
-					if ( action != null )
+					Iterator actionIter = actionPropHandle.iterator( );
+					while ( actionIter.hasNext( ) )
 					{
-						ActionHandle actionHandle = (ActionHandle) action
-								.getHandle( actionPropHandle );
+
+						ActionHandle actionHandle = (ActionHandle) actionIter
+								.next( );
 						MemberHandle paramBindingsMemberHandle = actionHandle
 								.getMember( Action.PARAM_BINDINGS_MEMBER );
 						removeParamBindingFor( paramBindingsMemberHandle,
@@ -984,11 +985,12 @@ public abstract class DataSetHandle extends ReportElementHandle
 						.getPropertyHandle( IImageItemModel.ACTION_PROP );
 				if ( actionPropHandle != null )
 				{
-					Action action = (Action) actionPropHandle.getValue( );
-					if ( action != null )
+					Iterator actionIter = actionPropHandle.iterator( );
+					while ( actionIter.hasNext( ) )
 					{
-						ActionHandle actionHandle = (ActionHandle) action
-								.getHandle( actionPropHandle );
+
+						ActionHandle actionHandle = (ActionHandle) actionIter
+								.next( );
 						MemberHandle paramBindingsMemberHandle = actionHandle
 								.getMember( Action.PARAM_BINDINGS_MEMBER );
 						updateParamBindings( paramBindingsMemberHandle,

@@ -7,7 +7,9 @@
     </styles>
     <body>
         <image name="Image1" id="6">
-            <structure name="action"/>
+            <list-property name="action">
+            	<structure/>
+            </list-property>
         </image>
     </body>
 </report>

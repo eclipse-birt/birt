@@ -22,9 +22,11 @@
             <report-items>
                 <data name="My First Data" id="6">
                     <text-property name="helpText" key="help">data help</text-property>
-                    <structure name="action">
-                        <expression name="uri">http://localhost:8080/</expression>
-                    </structure>
+	                <list-property name="action">
+	                    <structure>
+	                        <expression name="uri">http://localhost:8080/</expression>
+	                    </structure>
+	                </list-property>
                 </data>
             </report-items>
         </free-form>
@@ -66,9 +68,11 @@
                 </structure>
             </list-property>
             <text-property name="helpText" key="help">data help</text-property>
-            <structure name="action">
-                <expression name="uri">http://localhost:80/</expression>
-            </structure>
+	        <list-property name="action">
+	           	<structure>
+	                <expression name="uri">http://localhost:80/</expression>
+	            </structure>
+	        </list-property>
         </data>
     </body>
     <scratch-pad>

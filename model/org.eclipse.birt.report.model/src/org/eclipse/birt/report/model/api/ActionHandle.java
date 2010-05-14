@@ -66,6 +66,20 @@ public class ActionHandle extends StructureHandle
 	}
 
 	/**
+	 * Constructs the handle of action.
+	 * 
+	 * @param valueHandle
+	 *            the value handle for action list of one property
+	 * @param index
+	 *            the position of this action in the list
+	 */
+
+	public ActionHandle( SimpleValueHandle valueHandle, int index )
+	{
+		super( valueHandle, index );
+	}
+
+	/**
 	 * Construct an handle to deal with the action structure.
 	 * 
 	 * @param element
