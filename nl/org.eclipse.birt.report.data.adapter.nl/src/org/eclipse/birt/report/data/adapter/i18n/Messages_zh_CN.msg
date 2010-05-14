@@ -25,7 +25,7 @@ adapter.invalid.datetimetype=日期时间类型“{0}”无效。
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
 invalid.datetime.value=日期时间值“{0}”无效。
-missing.join.condition=The join condition between primary data set "{0}" and dimension "{1}" in cube "{2}" is missing.
+missing.join.condition=主数据集“{0}”与多维数据集“{2}”中的维“{1}”之间的联接条件缺失。
 exception.error=处理过程中出错。有关详情，请参阅下列消息:
 invalid.level.expression=找不到级别名称“{0}”。
 invalid.measure.expression=度量“{0}”的度量表达式不能为空。

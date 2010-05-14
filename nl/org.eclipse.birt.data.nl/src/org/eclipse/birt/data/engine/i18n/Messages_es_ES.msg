@@ -361,7 +361,7 @@ data.olap.FacttableRowNotDistinct=Las filas deben ser diferentes en la tabla de 
 data.olap.FacttableJointColumnNotExist=La columna de combinación "{0}" no existe en dimensiones.
 data.olap.ParameterColumnOfAggregationNotExist=La columna de parámetro "{0}" no existe en dimensiones.
 data.olap.FacttableNullMeasureValue=El valor de una columna de medida es nulo "{0}".
-data.olap.InvalidDimensionPositionFacttableRow=The fact table of cube "{0}" has an invalid data row where the value of dimension key "{1}" is "{2}" which however does not exist in dimension "{3}".
+data.olap.InvalidDimensionPositionFacttableRow=La tabla de datos del cubo "{0}" tiene una fila de datos no válida en la que el valor de clave de dimensión "{1}" es "{2}", que sin embargo no existe en la dimensión "{3}".
 data.olap.measureNameNotFound=No se ha encontrado el nombre de medida "{0}".
 data.olap.levelNameNotFound=No se ha encontrado el nombre de nivel "{0}".
 data.olap.dimensionNameNotFound=No se ha encontrado el nombre de dimensión "{0}".
@@ -400,7 +400,7 @@ data.olap.InvalidNestAggregationOn="{0}" añadido a la agregación de nido de cubo
 data.olap.sort.exprError=El nivel de la dimensión a la que se hace referencia establecido sólo debería contener un nivel.
 data.olap.query.noCubeBinding=Error al ejecutar la consulta de cubo porque no hay disponible ningún enlace de cubo.
 data.olap.FailLoadCube=Error al cargar el cubo:"{0}".
-data.olap.MissingDimensionInCube=There must have at least one dimension in cube:"{0}"
+data.olap.MissingDimensionInCube=Debe haber al menos una dimensión en el cubo:"{0}"
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code

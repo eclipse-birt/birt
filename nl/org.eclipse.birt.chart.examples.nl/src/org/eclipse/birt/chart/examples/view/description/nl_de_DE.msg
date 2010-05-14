@@ -22,7 +22,7 @@ Gantt=Gantt-Diagramme werden zur Verfolgung der Dauer und des Fortschritts von A
 Tube=Röhrendiagramme sind ähnlich wie Balkendiagramme, wobei die Balken als Röhren dargestellt werden.
 Cone=Kegeldiagramme sind ähnlich wie Balkendiagramme, wobei die Balken als Kegel dargestellt werden.
 Pyramid=Pyramidendiagramme sind ähnlich wie Balkendiagramme, wobei die Balken als Pyramiden dargestellt werden.
-Radar=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines.
+Radar=Standardradardiagramme enthalten ein zirkuläres Raster, das von einem oder mehreren Reihenpolygonen bzw. einer oder mehreren Reihenlinien überlagert wird.
 
 ###########################################################
 #3D Charts

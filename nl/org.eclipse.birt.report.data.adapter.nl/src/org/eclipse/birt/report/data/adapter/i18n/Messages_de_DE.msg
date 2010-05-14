@@ -25,7 +25,7 @@ adapter.invalid.datetimetype=Der Typ für Datum/Zeit "{0}" ist ungültig.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
 invalid.datetime.value=Datums-/Uhrzeitwert "{0}" ist ungültig.
-missing.join.condition=The join condition between primary data set "{0}" and dimension "{1}" in cube "{2}" is missing.
+missing.join.condition=Die Knotenpunktbedingung zwischen dem primären Datensatz '{0}' und der Dimension '{1}' im Quader '{2}' fehlt.
 exception.error=Ein Ausnahmefehler ist während der Verarbeitung aufgetreten. Nähere Informationen finden Sie in der folgenden Meldung:
 invalid.level.expression=Der Ebenenname "{0}" wurde nicht gefunden.
 invalid.measure.expression=Der Ausdruck für die Maßeinheit "{0}" darf nicht Null sein.

@@ -25,7 +25,7 @@ adapter.invalid.datetimetype=날짜/시간 형식 "{0}"이(가) 잘못되었습니다.
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
 invalid.datetime.value=날짜/시간 값 "{0}"이(가) 잘못되었습니다.
-missing.join.condition=The join condition between primary data set "{0}" and dimension "{1}" in cube "{2}" is missing.
+missing.join.condition=기본 데이터 집합 "{0}"과 큐브 "{2}"의 차원 "{1}" 간의 조인 조건이 없습니다.
 exception.error=처리 도중 예외가 발생했습니다. 자세한 내용은 다음 메시지를 참조하십시오.
 invalid.level.expression=수준 이름 "{0}"을(를) 찾을 수 없습니다.
 invalid.measure.expression=측정값 "{0}"의 측정값 식은 널(null)일 수 없습니다.

@@ -361,7 +361,7 @@ data.olap.FacttableRowNotDistinct=행은 팩트 테이블에서 고유해야 합니다. "{0}"이(
 data.olap.FacttableJointColumnNotExist=조인 열 "{0}"이(가) 차원에 없습니다.
 data.olap.ParameterColumnOfAggregationNotExist=매개 변수 열 "{0}"이(가) 차원에 없습니다.
 data.olap.FacttableNullMeasureValue=측정 열의 값이 널(null)입니다. "{0}".
-data.olap.InvalidDimensionPositionFacttableRow=The fact table of cube "{0}" has an invalid data row where the value of dimension key "{1}" is "{2}" which however does not exist in dimension "{3}".
+data.olap.InvalidDimensionPositionFacttableRow=큐브 "{0}"의 팩트 테이블에 잘못된 데이터 행이 있습니다. 여기서 차원 키 "{1}"의 값은 "{2}"이며, 이 값은 차원 "{3}"에 더 이상 없습니다.
 data.olap.measureNameNotFound=측정값 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.levelNameNotFound=수준 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.dimensionNameNotFound=차원 이름 "{0}"을(를) 찾을 수 없습니다.
@@ -400,7 +400,7 @@ data.olap.InvalidNestAggregationOn=큐브 중첩 집계 "{1}"의 "{0}" 집계가 해당 기본
 data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합니다!
 data.olap.query.noCubeBinding=사용 가능한 큐브 바인딩이 없어 큐브 쿼리를 실행하지 못했습니다!
 data.olap.FailLoadCube=큐브 "{0}"을(를) 로드하지 못했습니다.
-data.olap.MissingDimensionInCube=There must have at least one dimension in cube:"{0}"
+data.olap.MissingDimensionInCube=큐브에 하나 이상의 차원이 있어야 합니다: "{0}".
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code

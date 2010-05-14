@@ -25,7 +25,7 @@ adapter.invalid.datetimetype=日時型 "{0}" が無効です。
 adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
 invalid.datetime.value=日時の値 "{0}" が無効です。
-missing.join.condition=The join condition between primary data set "{0}" and dimension "{1}" in cube "{2}" is missing.
+missing.join.condition=キューブ "{2}" のプライマリデータセット "{0}" とディメンジョン "{1}" との間にジョイン条件がありません。
 exception.error=処理中に例外が発生しました。詳しくは次のメッセージを参照してください :
 invalid.level.expression=レベル名 "{0}" が見つかりません。
 invalid.measure.expression=メジャー "{0}" の式は null にできません。

@@ -361,7 +361,7 @@ data.olap.FacttableRowNotDistinct=Les lignes de la table des faits doivent être 
 data.olap.FacttableJointColumnNotExist=La colonne jointe "{0}" n''existe pas dans les dimensions.
 data.olap.ParameterColumnOfAggregationNotExist=La colonne de paramètre "{0}" n''existe pas dans les dimensions.
 data.olap.FacttableNullMeasureValue=Une des colonnes de mesures comporte une valeur vide. "{0}".
-data.olap.InvalidDimensionPositionFacttableRow=The fact table of cube "{0}" has an invalid data row where the value of dimension key "{1}" is "{2}" which however does not exist in dimension "{3}".
+data.olap.InvalidDimensionPositionFacttableRow=La table des faits du cube "{0}" possède une ligne de données non valide dont la valeur de la clé de dimension "{1}" est "{2}", qui n'existe pas dans la dimension "{3}".
 data.olap.measureNameNotFound=Le nom de mesure "{0}" est introuvable.
 data.olap.levelNameNotFound=Le nom de niveau "{0}" est introuvable.
 data.olap.dimensionNameNotFound=Le nom de dimension "{0}" est introuvable.
@@ -400,7 +400,7 @@ data.olap.InvalidNestAggregationOn=Agrégation "{0}" sur l'agrégation imbriquée d
 data.olap.sort.exprError=Le jeu de niveaux de dimension référencés ne doit contenir qu'un seul niveau.
 data.olap.query.noCubeBinding=Impossible d'exécuter la requête du cube car aucune liaison au cube n'est disponible.
 data.olap.FailLoadCube=Echec du chargement du cube :"{0}".
-data.olap.MissingDimensionInCube=There must have at least one dimension in cube:"{0}"
+data.olap.MissingDimensionInCube=Le cube doit contenir au moins une dimension : "{0}"
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code

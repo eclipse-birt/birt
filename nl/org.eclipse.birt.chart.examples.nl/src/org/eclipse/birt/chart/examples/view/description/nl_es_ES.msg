@@ -22,7 +22,7 @@ Gantt=Los diagramas de Gantt se utilizan para seguir la duración y el progreso d
 Tube=Los diagramas de tubos se parecen a los diagramas de barras, pero con las barras representadas como tubos.
 Cone=Los diagramas de conos se parecen a los diagramas de barras, pero con las barras representadas como conos.
 Pyramid=Los diagramas de pirámides se parecen a los diagramas de barras, pero con las barras representadas como pirámides.
-Radar=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines.
+Radar=Los diagramas radiales estándar contienen una cuadrícula circular a la que se superponen series de líneas o polígonos.
 
 ###########################################################
 #3D Charts
@@ -130,7 +130,7 @@ SampleChartName.Gantt=Gantt
 SampleChartName.Tube=Tubo
 SampleChartName.Cone=Cono
 SampleChartName.Pyramid=Pirámide
-SampleChartName.Radar=Radar
+SampleChartName.Radar=Radial
 #3D Charts
 SampleChartName.Bar=Barra
 SampleChartName.Line=Línea

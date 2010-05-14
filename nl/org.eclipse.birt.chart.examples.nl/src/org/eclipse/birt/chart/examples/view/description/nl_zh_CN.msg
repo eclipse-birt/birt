@@ -22,7 +22,7 @@ Gantt=¸ÊÌØÍ¼ÓÃÓÚ¸ú×ÙÈÎÎñµÄ³ÖĞøÊ±¼äºÍ½ø¶È¡£ËüÃÇÍ¨¹ıÈÕÆÚÊ±¼ä Y Öá±íÊ¾£¬Ê¹ÓÃ×Ô¶¨Òå¿
 Tube=¹ÜĞÎÍ¼ÓëÌõĞÎÍ¼ÀàËÆ£¬ÆäÌõĞÎÓÃ¹ÜĞÎ±íÊ¾¡£
 Cone=×¶ĞÎÍ¼ÓëÌõĞÎÍ¼ÀàËÆ£¬ÆäÌõĞÎÓÃ×¶ĞÎ±íÊ¾¡£
 Pyramid=Àâ×¶Í¼ÓëÌõĞÎÍ¼ÀàËÆ£¬ÆäÌõĞÎÓÃÀâ×¶±íÊ¾¡£
-Radar=Standard Radar charts contain a circular grid overlaid with one or more series polygons/lines.
+Radar=±ê×¼À×´ïÍ¼°üº¬ÓÉÒ»¸ö»ò¶à¸öÏµÁĞ¶à±ßĞÎ/Ïß¶Î¸²¸ÇµÄÔ²ĞÎÍø¸ñ¡£
 
 ###########################################################
 #3D Charts
@@ -130,7 +130,7 @@ SampleChartName.Gantt=¸ÊÌØÍ¼
 SampleChartName.Tube=¹ÜĞÎÍ¼
 SampleChartName.Cone=×¶ĞÎÍ¼
 SampleChartName.Pyramid=Àâ×¶Í¼
-SampleChartName.Radar=Radar
+SampleChartName.Radar=À×´ïÍ¼
 #3D Charts
 SampleChartName.Bar=ÌõĞÎÍ¼
 SampleChartName.Line=ÕÛÏßÍ¼
