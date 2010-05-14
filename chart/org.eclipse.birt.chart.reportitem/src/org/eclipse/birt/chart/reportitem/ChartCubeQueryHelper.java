@@ -75,6 +75,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
@@ -891,26 +892,28 @@ public class ChartCubeQueryHelper
 				}
 			}
 
+			List<Expression> value1 = filterCon.getValue1ExpressionList( )
+					.getListValue( );
 			if ( ModuleUtil.isListFilterValue( filterCon ) )
 			{
 				filterCondExpr = new ConditionalExpression( ChartReportItemUtil.newExpression( modelAdapter,
 						exprCodec,
 						filterQuery ),
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-						filterCon.getValue1ExpressionList( ).getListValue( ) );
+						value1 );
 			}
 			else
 			{
+				Object value2 = filterCon.getExpressionProperty( FilterConditionElementHandle.VALUE2_PROP )
+						.getValue( );
 				filterCondExpr = new ConditionalExpression( ChartReportItemUtil.newExpression( modelAdapter,
 						exprCodec,
 						filterQuery ),
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-						ChartReportItemUtil.newExpression( modelAdapter,
-								exprCodec,
-								filterCon.getValue1( ) ),
-						ChartReportItemUtil.newExpression( modelAdapter,
-								exprCodec,
-								filterCon.getValue2( ) ) );
+						value1 == null ? null
+								: modelAdapter.adaptExpression( value1.get( 0 ) ),
+						value2 == null ? null
+								: modelAdapter.adaptExpression( (Expression) value2 ) );
 			}
 
 			ILevelDefinition levelDefinition = null;
