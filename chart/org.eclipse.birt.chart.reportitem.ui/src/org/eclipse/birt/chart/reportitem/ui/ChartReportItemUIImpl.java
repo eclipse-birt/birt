@@ -292,13 +292,49 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			}
 			
 			// Set default width/height if the value is zero.
+			final ExtendedItemHandle fEih = eih;
 			if ( dWidthInPoints == 0 )
 			{
 				dWidthInPoints = ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH;
+				final double w = DimensionUtil.convertTo( dWidthInPoints,
+						DesignChoiceConstants.UNITS_PT,
+						sWidthUnits ).getMeasure( );
+				Display.getDefault( ).asyncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						try
+						{
+							fEih.setWidth( w );
+						}
+						catch ( SemanticException e )
+						{
+							logger.log( e );
+						}
+					}
+				} );
+
 			}
 			if ( dHeightInPoints == 0 )
 			{
 				dHeightInPoints = ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT;
+				final double h = DimensionUtil.convertTo( dHeightInPoints,
+						DesignChoiceConstants.UNITS_PT,
+						sHeightUnits ).getMeasure( );
+				Display.getDefault( ).asyncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						try
+						{
+							fEih.setHeight( h );
+						}
+						catch ( SemanticException e )
+						{
+							logger.log( e );
+						}
+					}
+				} );
 			}
 			
 			final double dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
