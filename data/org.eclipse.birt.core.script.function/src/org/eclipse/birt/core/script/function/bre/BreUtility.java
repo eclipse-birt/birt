@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.core.script.function.bre;
 
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.function.i18n.Messages;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
@@ -21,38 +22,22 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
  */
 abstract class Function_temp implements IScriptFunctionExecutor
 {
-	protected int length;
-	protected boolean isFixed;
+	protected int minParamCount;
+	protected int maxParamCount;
 	
-	public Object execute( Object[] args, IScriptFunctionContext context  )
+	public Object execute( Object[] args, IScriptFunctionContext context  ) throws BirtException
 	{
 		if ( args == null )
-			throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
-		if ( isFixed )
+			throw new BirtException( "org.eclipse.birt.core.script.function", "error.arguement.cannot.empty",
+					Messages.RESOURCE_BUNDLE);
+		if ( args.length < minParamCount || args.length > maxParamCount )
 		{
-			if ( args.length != length )
-				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.fixedArgument",
-						new Object[]{
-								length, args.length
-						} ) );
+			throw new BirtException( "org.eclipse.birt.core.script.function", "error.argument.number.outofValidRange", 
+					new Object[]{ minParamCount, maxParamCount, args.length },
+					Messages.RESOURCE_BUNDLE);
 		}
-		else
-		{
-			if ( args.length > length )
-				throw new IllegalArgumentException( Messages.getFormattedString( "error.incorrect.number.function.variableArgument",
-						new Object[]{
-								length, args.length
-						} ) );
-		}
+		return getValue( args );
 
-		try
-		{
-			return getValue( args );
-		}
-		catch ( BirtException e )
-		{
-			throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ), e );
-		}
 	}
 	protected abstract Object getValue( Object[] args ) throws BirtException;
 }

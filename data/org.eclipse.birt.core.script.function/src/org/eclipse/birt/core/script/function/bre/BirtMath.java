@@ -71,8 +71,8 @@ class BirtMath implements IScriptFunctionExecutor
 		 */
 		Function_Add()
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( final Object[] args ) throws BirtException
@@ -96,8 +96,8 @@ class BirtMath implements IScriptFunctionExecutor
 		 */
 		Function_Subtract()
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		/*
 		 * (non-Javadoc)
@@ -126,8 +126,8 @@ class BirtMath implements IScriptFunctionExecutor
 		 */
 		Function_Multiple( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 
 		/*
@@ -156,8 +156,8 @@ class BirtMath implements IScriptFunctionExecutor
 		 */
 		Function_Divide( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		/*
@@ -184,8 +184,8 @@ class BirtMath implements IScriptFunctionExecutor
 		 */
 		Function_Round()
 		{
-			length = 2;
-			isFixed = false;
+			minParamCount = 1;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -232,8 +232,8 @@ class BirtMath implements IScriptFunctionExecutor
 
 		Function_RoundUp()
 		{
-			length = 2;
-			isFixed = false;
+			minParamCount = 1;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -306,8 +306,8 @@ class BirtMath implements IScriptFunctionExecutor
 
 		Function_RoundDown()
 		{
-			length = 2;
-			isFixed = false;
+			minParamCount = 1;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -352,8 +352,8 @@ class BirtMath implements IScriptFunctionExecutor
 
 		Function_Ceiling()
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -408,8 +408,8 @@ class BirtMath implements IScriptFunctionExecutor
 
 		Function_Mod()
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -440,8 +440,8 @@ class BirtMath implements IScriptFunctionExecutor
 
 		Function_SafeDivide( )
 		{
-			length = 3;
-			isFixed = true;
+			minParamCount = 3;
+			maxParamCount = 3;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException

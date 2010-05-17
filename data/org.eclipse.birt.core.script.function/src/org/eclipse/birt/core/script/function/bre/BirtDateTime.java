@@ -156,8 +156,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	{
 		Function_Year()
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 		/**
 		 * 
@@ -197,8 +197,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_Quarter( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -255,8 +255,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_Month()
 		{
-			length = 2;
-			isFixed = false;
+			minParamCount = 1;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -327,8 +327,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_Week( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -364,8 +364,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_Day( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -401,8 +401,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_WeekDay( )
 		{
-			length = 2;
-			isFixed = false;
+			minParamCount = 1;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -473,8 +473,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_Today( )
 		{
-			length = 0;
-			isFixed = true;
+			minParamCount = 0;
+			maxParamCount = 0;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -512,8 +512,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_Now( )
 		{
-			length = 0;
-			isFixed = true;
+			minParamCount = 0;
+			maxParamCount = 0;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -542,8 +542,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_DiffYear( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -584,8 +584,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_DiffMonth( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -627,8 +627,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_DiffQuarter( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -671,8 +671,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_DiffWeek( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -720,8 +720,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_DiffDay( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -794,8 +794,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_DiffHour( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -835,8 +835,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_DiffMinute( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -897,8 +897,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_DiffSecond( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -943,8 +943,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_AddYear( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 			
 		protected Object getValue( Object[] args ) throws BirtException
@@ -982,8 +982,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_AddMonth( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 			
 		protected Object getValue( Object[] args ) throws BirtException
@@ -1021,8 +1021,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_AddQuarter( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 			
 		protected Object getValue( Object[] args ) throws BirtException
@@ -1056,8 +1056,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_AddWeek( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 			
 		protected Object getValue( Object[] args ) throws BirtException
@@ -1091,8 +1091,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_AddDay( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 			
 		protected Object getValue( Object[] args ) throws BirtException
@@ -1130,8 +1130,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_AddHour( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 			
 		protected Object getValue( Object[] args ) throws BirtException
@@ -1169,8 +1169,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_AddMinute( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 			
 		protected Object getValue( Object[] args ) throws BirtException
@@ -1208,8 +1208,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		Function_AddSecond( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 			
 		protected Object getValue( Object[] args ) throws BirtException

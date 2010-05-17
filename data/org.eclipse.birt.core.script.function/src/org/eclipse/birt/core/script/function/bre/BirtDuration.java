@@ -84,8 +84,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 
 		Function_Year( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 		
 		protected Object getValue( Object[] args ) throws BirtException
@@ -112,8 +112,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 
 		Function_Month( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -140,8 +140,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 
 		Function_Day( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -168,8 +168,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 
 		Function_Hours( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -196,8 +196,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 
 		Function_Seconds( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -224,8 +224,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 
 		Function_TimeInMills( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -256,8 +256,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 
 		Function_Minutes( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -288,8 +288,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 
 		Function_Longer( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -315,8 +315,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	{
 		Function_Shorter( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -342,8 +342,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	{
 		Function_GetSign( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -367,8 +367,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	{
 		Function_Multiply( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -395,8 +395,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	{
 		Function_Negate( )
 		{
-			length = 1;
-			isFixed = true;
+			minParamCount = 1;
+			maxParamCount = 1;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -420,8 +420,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	{
 		Function_Subtract( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -447,8 +447,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	{
 		Function_Add( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -474,8 +474,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	{
 		Function_AddTo( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
@@ -502,8 +502,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	{
 		Function_Compare( )
 		{
-			length = 2;
-			isFixed = true;
+			minParamCount = 2;
+			maxParamCount = 2;
 		}
 
 		protected Object getValue( Object[] args ) throws BirtException
