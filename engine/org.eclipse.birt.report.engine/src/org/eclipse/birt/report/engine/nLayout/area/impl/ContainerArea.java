@@ -930,44 +930,63 @@ public abstract class ContainerArea extends AbstractArea
 		int bottomBorder = Math.max( 0, getDimensionValue( style
 				.getProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH ), 0 ) );
 
-		int[] vs = new int[]{rightMargin, leftMargin, rightPadding,
-				leftPadding, rightBorder, leftBorder};
-		resolveBoxConflict( vs, maxWidth );
+		int[] vsStyle = new int[]{
+				IStyle.STYLE_MARGIN_RIGHT,
+				IStyle.STYLE_MARGIN_LEFT,
+				IStyle.STYLE_PADDING_RIGHT,
+				IStyle.STYLE_PADDING_LEFT,
+				IStyle.STYLE_BORDER_RIGHT_WIDTH,
+				IStyle.STYLE_BORDER_LEFT_WIDTH
+		};
+		int[] vs = new int[]{
+				rightMargin,
+				leftMargin,
+				rightPadding,
+				leftPadding,
+				rightBorder,
+				leftBorder
+		};
+		boolean[] vsConflicted = resolveBoxConflict( vs, maxWidth );
 
-		int[] hs = new int[]{bottomMargin, topMargin, bottomPadding,
-				topPadding, bottomBorder, topBorder};
-		resolveBoxConflict( hs, maxHeight );
+		int[] hsStyle = new int[]{
+				IStyle.STYLE_MARGIN_BOTTOM,
+				IStyle.STYLE_MARGIN_TOP,
+				IStyle.STYLE_PADDING_BOTTOM,
+				IStyle.STYLE_PADDING_TOP,
+				IStyle.STYLE_BORDER_BOTTOM_WIDTH,
+				IStyle.STYLE_BORDER_TOP_WIDTH
+		};
+		int[] hs = new int[]{
+				bottomMargin,
+				topMargin,
+				bottomPadding,
+				topPadding,
+				bottomBorder,
+				topBorder
+		};
+		boolean[] hsConflicted = resolveBoxConflict( hs, maxHeight );
 
-		style.setProperty( IStyle.STYLE_MARGIN_LEFT, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, vs[1] ) );
-		style.setProperty( IStyle.STYLE_MARGIN_RIGHT, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, vs[0] ) );
-		style.setProperty( IStyle.STYLE_MARGIN_TOP, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, hs[1] ) );
-		style.setProperty( IStyle.STYLE_MARGIN_BOTTOM, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, hs[0] ) );
+		for ( int i = 0; i < vsStyle.length; i++ )
+		{
+			if ( vsConflicted[i] )
+			{
+				style.setProperty( vsStyle[i],
+						new FloatValue( CSSPrimitiveValue.CSS_PT, vs[i] / 1000 ) );
+			}
+		}
 
-		style.setProperty( IStyle.STYLE_PADDING_LEFT, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, vs[3] ) );
-		style.setProperty( IStyle.STYLE_PADDING_RIGHT, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, vs[2] ) );
-		style.setProperty( IStyle.STYLE_PADDING_TOP, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, hs[3] ) );
-		style.setProperty( IStyle.STYLE_PADDING_BOTTOM, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, hs[2] ) );
-
-		style.setProperty( IStyle.STYLE_BORDER_LEFT_WIDTH, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, vs[5] ) );
-		style.setProperty( IStyle.STYLE_BORDER_RIGHT_WIDTH, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, vs[4] ) );
-		style.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, hs[5] ) );
-		style.setProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, hs[4] ) );
+		for ( int i = 0; i < hsStyle.length; i++ )
+		{
+			if ( hsConflicted[i] )
+			{
+				style.setProperty( hsStyle[i],
+						new FloatValue( CSSPrimitiveValue.CSS_PT, vs[i] / 1000 ) );
+			}
+		}
 	}
 
 	private void resolveConflict( int[] values, int maxTotal, int total,
-			int start )
+			int start, boolean[] conflicted )
 	{
 		int length = values.length - start;
 		if ( length == 0 )
@@ -981,19 +1000,26 @@ public abstract class ContainerArea extends AbstractArea
 			if ( values[start] > 0 )
 			{
 				values[start] = 0;
+				conflicted[start] = true;
 			}
-			resolveConflict( values, maxTotal, othersTotal, start + 1 );
+			resolveConflict( values,
+					maxTotal,
+					othersTotal,
+					start + 1,
+					conflicted );
 		}
 	}
 
-	protected void resolveBoxConflict( int[] vs, int max )
+	protected boolean[] resolveBoxConflict( int[] vs, int max )
 	{
 		int vTotal = 0;
+		boolean[] conflicted = new boolean[vs.length];
 		for ( int i = 0; i < vs.length; i++ )
 		{
 			vTotal += vs[i];
 		}
-		resolveConflict( vs, max, vTotal, 0 );
+		resolveConflict( vs, max, vTotal, 0, conflicted );
+		return conflicted;
 	}
 
 
