@@ -299,13 +299,14 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				final double w = DimensionUtil.convertTo( dWidthInPoints,
 						DesignChoiceConstants.UNITS_PT,
 						sWidthUnits ).getMeasure( );
+				final String dimension = String.valueOf(w) + sWidthUnits;
 				Display.getDefault( ).asyncExec( new Runnable( ) {
 
 					public void run( )
 					{
 						try
 						{
-							fEih.setWidth( w );
+							fEih.setWidth( dimension );
 						}
 						catch ( SemanticException e )
 						{
@@ -321,13 +322,14 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				final double h = DimensionUtil.convertTo( dHeightInPoints,
 						DesignChoiceConstants.UNITS_PT,
 						sHeightUnits ).getMeasure( );
+				final String dimension = String.valueOf(h) + sHeightUnits;
 				Display.getDefault( ).asyncExec( new Runnable( ) {
 
 					public void run( )
 					{
 						try
 						{
-							fEih.setHeight( h );
+							fEih.setHeight( dimension );
 						}
 						catch ( SemanticException e )
 						{
