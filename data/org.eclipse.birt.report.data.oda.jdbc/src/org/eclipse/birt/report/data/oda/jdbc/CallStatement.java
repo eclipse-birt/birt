@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.math.BigDecimal;
-import java.nio.channels.UnsupportedAddressTypeException;
 import java.sql.CallableStatement;
 import java.sql.DatabaseMetaData;
 import java.sql.Date;
@@ -1220,9 +1219,29 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
-					e );
+			try
+			{
+				return retryToGetParameterValue( parameterId );
+			}
+			catch ( OdaException e1 )
+			{
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
+						e );
+			}
+			catch ( SQLException e2 )
+			{
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
+						e );
+			}
 		}
+	}
+	
+	//get parameter value when getMoreResult should be called.
+	private int retryToGetParameterValue( int parameterId ) throws OdaException, SQLException
+	{		
+		IResultSet rs = this.getResultSet( );
+		while ( rs.next( ) );
+		return callStat.getInt( parameterId );
 	}
 
 	/*
@@ -1755,8 +1774,10 @@ public class CallStatement implements IAdvancedQuery
 					return false;
 				return true;
 			}
-			
-			return callStat.getMoreResults( );
+			boolean flag = callStat.getMoreResults( );
+			if ( flag )
+				this.rs = this.callStat.getResultSet( );
+			return flag;
 		}
 		catch ( SQLException e )
 		{
