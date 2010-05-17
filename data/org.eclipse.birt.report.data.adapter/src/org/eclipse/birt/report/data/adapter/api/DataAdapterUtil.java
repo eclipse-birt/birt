@@ -23,6 +23,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -39,7 +40,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -654,7 +654,7 @@ public class DataAdapterUtil
 				{
 					return new JSResultIteratorObject( it.getParent( ), this.scope );
 				}
-				return Context.javaToJS( this.currentIterator.getValue( arg0 ), this.scope);
+				return JavascriptEvalUtil.convertToJavascriptValue( this.currentIterator.getValue( arg0 ), this.scope );
 			}
 			catch ( BirtException e )
 			{
