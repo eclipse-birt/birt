@@ -917,11 +917,16 @@ public class ChartCubeQueryHelper
 					.getListValue( );
 			if ( ModuleUtil.isListFilterValue( filterCon ) )
 			{
+				List<ScriptExpression> valueList = new ArrayList<ScriptExpression>( value1.size( ) );
+				for ( Expression value : value1 )
+				{
+					valueList.add( modelAdapter.adaptExpression( value ) );
+				}
 				filterCondExpr = new ConditionalExpression( ChartReportItemUtil.newExpression( modelAdapter,
 						exprCodec,
 						filterQuery ),
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
-						value1 );
+						valueList );
 			}
 			else
 			{
