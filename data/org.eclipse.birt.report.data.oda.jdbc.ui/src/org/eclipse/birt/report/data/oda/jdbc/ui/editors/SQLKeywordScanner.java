@@ -23,11 +23,12 @@ import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2008/08/21 09:42:14 $
+ * @version $Revision: 1.4 $ $Date: 2009/07/07 06:50:16 $
  */
 
 public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax
@@ -56,7 +57,7 @@ public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax
 		} ) );
 
 		setRules( (IRule[]) rules.toArray( new IRule[rules.size( )] ) );
-		this.setDefaultReturnToken( new Token( new TextAttribute( ColorManager.getColor(0, 0, 0) )));
+		this.setDefaultReturnToken( new Token( new TextAttribute( Display.getDefault( ).getSystemColor( SWT.COLOR_LIST_FOREGROUND ))));
 	}
 
 }

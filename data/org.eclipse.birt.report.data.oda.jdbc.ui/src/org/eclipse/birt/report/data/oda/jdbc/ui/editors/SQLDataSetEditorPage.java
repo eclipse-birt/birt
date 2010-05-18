@@ -270,9 +270,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		layout.horizontalSpacing = 2;
 		pageContainer.setLayout( layout );
 		pageContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		
+
 		pageContainer.setSashWidth( 3 );
-		
+
 		Control left = createDBMetaDataSelectionComposite( pageContainer );
 		Control right = createTextualQueryComposite( pageContainer );
 		setWidthHints( pageContainer, left, right );
@@ -288,60 +288,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			Control right )
 	{
 		int leftWidth = left.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		int totalWidth = pageContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		int rightWidth = right.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 
-		if ( (double) leftWidth / (double) totalWidth > 0.4 )
-		{
-			// if left side is too wide, set it to default value 40:60
-			totalWidth = leftWidth / 40 * 100;
-			pageContainer.setWeights( new int[]{
-					leftWidth - 3, totalWidth * 6 / 10
-			} );
-		}
-		else
-		{
-			pageContainer.setWeights( new int[]{
-					leftWidth, totalWidth - leftWidth
-			} );
-		}
-	}
-
-	private Sash createSash( final Composite composite )
-	{
-		final Sash sash = new Sash( composite, SWT.VERTICAL );
-		sash.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
-		return sash;
-	}
-
-	/**
-	 * 
-	 * @param sash
-	 * @param parent
-	 * @param left
-	 * @param right
-	 */
-	private void addDragListerner( final Sash sash, final Composite parent,
-			final Control left, final Control right )
-	{
-		sash.addListener( SWT.Selection, new Listener( ) {
-
-			public void handleEvent( Event event )
-			{
-				if ( event.detail == SWT.DRAG )
-				{
-					return;
-				}
-				Sash sash = (Sash) event.widget;
-				int shift = event.x - sash.getBounds( ).x;
-
-				left.setSize( left.getSize( ).x + shift, left.getSize( ).y );
-				right.setSize( right.getSize( ).x - shift, right.getSize( ).y );
-				right.setLocation( right.getLocation( ).x + shift,
-						right.getLocation( ).y );
-				sash.setLocation( sash.getLocation( ).x + shift,
-						sash.getLocation( ).y );
-			}
+		pageContainer.setWeights( new int[]{
+				leftWidth, rightWidth
 		} );
+
 	}
 
 	/**
@@ -383,7 +335,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		availableDbObjectsTree = new Tree( tablescomposite, SWT.BORDER
 				| SWT.MULTI );
 		GridData treeData = new GridData( GridData.FILL_BOTH );
-		treeData.heightHint = 150;
+		treeData.minimumHeight = 150;
 		availableDbObjectsTree.setLayoutData( treeData );
 
 		availableDbObjectsTree.addMenuDetectListener( new MenuDetectListener( ) {
@@ -395,7 +347,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					TreeItem item = availableDbObjectsTree.getSelection( )[0];
 					if ( item.getParentItem( ) != null )
 					{
-//						treeMenu.setVisible( true );
 						treeMenu.setLocation( e.x, e.y );
 						return;
 					}
@@ -411,6 +362,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				insertTreeItemText( );
 			}
 		} );
+
+		createObjectTreeMenu( );
 
 		createSchemaFilterComposite( supportsSchema,
 				supportsProcedure,
@@ -450,7 +403,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		GridLayout groupLayout = new GridLayout( );
 		groupLayout.numColumns = 3;
-		// groupLayout.horizontalSpacing = 10;
 		groupLayout.verticalSpacing = 10;
 		selectTableGroup.setLayout( groupLayout );
 
@@ -494,7 +446,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		GridData btnData = new GridData( GridData.HORIZONTAL_ALIGN_CENTER );
 		btnData.horizontalSpan = 3;
 		findButton.setLayoutData( btnData );
-
 		findButton.setText( JdbcPlugin.getResourceString( "tablepage.button.filter" ) );//$NON-NLS-1$
 
 		// Add listener to the find button
