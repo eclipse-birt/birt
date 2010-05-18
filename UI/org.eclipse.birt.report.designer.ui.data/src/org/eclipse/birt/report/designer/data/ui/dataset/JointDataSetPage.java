@@ -749,61 +749,103 @@ public class JointDataSetPage extends WizardPage
 	private void setParameters( JointDataSetHandle dsHandle )
 			throws SemanticException
 	{
-		int num = 0;
-		dsHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ).clearValue( );
+		List<DataSetParameter> params = null;
+		PropertyHandle dsParameterHandle = dsHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP );
 		if ( leftDataSetName.equals( rightDataSetName ) )
 		{
-			num = addParameters( dsHandle,
-					leftDataSetName + "1", //$NON-NLS-1$
-					leftHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ),
-					0 );
-			addParameters( dsHandle,
-					rightDataSetName + "2", //$NON-NLS-1$
-					rightHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ),
-					num );
+			params = getDataSetParameters( 
+					leftDataSetName + "1", leftHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ), 
+					rightDataSetName + "2", rightHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ) );
 		}
 		else
 		{
-			num = addParameters( dsHandle,
-					leftDataSetName,
-					leftHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ),
-					0 );
-			addParameters( dsHandle,
-					rightDataSetName,
-					rightHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ),
-					num );
+			params = getDataSetParameters( 
+					leftDataSetName, leftHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ), 
+					rightDataSetName, rightHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP ) );
+		}
+		if ( params.size( ) == 0 ) //parameter count turning to 0 case
+		{
+			dsParameterHandle.clearValue( );
+		}
+		else
+		{
+			Iterator iter = dsParameterHandle.iterator( );
+			int i = 0;
+			
+			while ( iter.hasNext( ) && i < params.size( ) )
+			{
+				DataSetParameterHandle parameterHandle = (DataSetParameterHandle) iter.next( );
+				updateDataSetParameterHandle( parameterHandle, params.get( i ));
+				i++;
+			}
+			
+			//parameter count decreasing case
+			while ( i < dsParameterHandle.getListValue( ).size( ) )
+			{
+				dsParameterHandle.removeItem( dsParameterHandle.getListValue( ).size( ) - 1 );
+			}
+			
+			//parameter count increasing case
+			for (; i<params.size( ); i++)
+			{
+				dsParameterHandle.addItem( params.get( i ) );
+			}
 		}
 	}
-
-	/**
-	 * Add the parameters to JointDatasetHandle from a sub dataset.
-	 * 
-	 * @param dsHandle
-	 * @param datasetName
-	 * @param parameterHandle
-	 * @param startPosition
-	 * @return
-	 * @throws SemanticException
-	 */
-	private int addParameters( JointDataSetHandle dsHandle, String dataSetName,
-			PropertyHandle parameterHandle, int startPosition )
-			throws SemanticException
+	
+	private static void updateDataSetParameterHandle( DataSetParameterHandle handle, DataSetParameter param )
 	{
-		int returnValue = 0;
-		PropertyHandle dsParameterHandle = dsHandle.getPropertyHandle( IDataSetModel.PARAMETERS_PROP );
+		try
+		{
+			handle.setDataType( param.getDataType( ) );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		handle.setAllowNull( param.allowNull( ) );
+		handle.setDefaultValue( param.getDefaultValue( ) );
+		handle.setIsInput( param.isInput( ) );
+		handle.setIsOutput( param.isOutput( ) );
+		try
+		{
+			handle.setName( param.getName( ) );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		handle.setIsOptional( param.isOptional( ) );
+		handle.setPosition( param.getPosition( ) );
+	}
+
+	
+	private static List<DataSetParameter> getDataSetParameters( String dataSetName1,
+			PropertyHandle parameterHandle1, String dataSetName2, PropertyHandle parameterHandle2 )
+	{
+		List<DataSetParameter> params1 = getDataSetParameters( dataSetName1, parameterHandle1, 0 );
+		List<DataSetParameter> params2 = getDataSetParameters( dataSetName2, parameterHandle2, params1.size( ) );
+		params1.addAll( params2 );
+		return params1;
+	}
+	
+	private static List<DataSetParameter> getDataSetParameters( String dataSetName,
+			PropertyHandle parameterHandle, int startPosition )
+	{
 		Iterator paramterIterator = parameterHandle.iterator( );
+		List<DataSetParameter> result = new ArrayList<DataSetParameter>( );
+		int position = startPosition;
 		while ( paramterIterator.hasNext( ) )
 		{
 			DataSetParameterHandle paramter = (DataSetParameterHandle) ( paramterIterator.next( ) );
-			DataSetParameter dataSetParameter = null;
-			dataSetParameter = toDataSetParameter( (DataSetParameter) paramter.getStructure( ),
+			DataSetParameter dataSetParameter = 
+				toDataSetParameter( (DataSetParameter) paramter.getStructure( ),
 					dataSetName,
-					new Integer( startPosition + returnValue ) );
-			
-			dsParameterHandle.addItem( dataSetParameter );
-			returnValue++;
+					position );
+			position++;
+			result.add( dataSetParameter );
 		}
-		return returnValue;
+		return result;
 	}
 	
 	/**
@@ -811,7 +853,7 @@ public class JointDataSetPage extends WizardPage
 	 * @param parameter
 	 * @return
 	 */
-	private DataSetParameter toDataSetParameter( DataSetParameter parameter,
+	private static DataSetParameter toDataSetParameter( DataSetParameter parameter,
 			String dataSetName, Integer position )
 	{
 		DataSetParameter dataSetParameter = new DataSetParameter( );
