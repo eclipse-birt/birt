@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ContentElementHandle;
 import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
@@ -173,7 +174,8 @@ public class DefaultNodeProvider implements INodeProvider
 
 		if ( !( object instanceof ResultSetColumnHandle )
 				&& !( object instanceof CssStyleSheetHandle )
-				&& !( object instanceof CssSharedStyleHandle ) )
+				&& !( object instanceof CssSharedStyleHandle ) 
+				&& !( object instanceof DataSetParameterHandle ) )
 		{
 			menu.add( new PasteAction( object ) );
 		}
