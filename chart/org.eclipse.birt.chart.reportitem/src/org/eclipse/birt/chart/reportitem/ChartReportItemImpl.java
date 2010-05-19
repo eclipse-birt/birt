@@ -778,10 +778,11 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 			SeriesDefinition bsd = ChartUtil.getBaseSeriesDefinitions( cm )
 					.get( 0 );
-			if ( !bsd.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 )
-					.isDefined( ) )
+			List<Query> bsQuery = bsd.getDesignTimeSeries( )
+					.getDataDefinition( );
+			if ( bsQuery.size( ) == 0
+					|| bsQuery.get( 0 ) == null
+					|| !bsQuery.get( 0 ).isDefined( ) )
 			{
 				ExtendedElementException exception = new ExtendedElementException( getHandle( ).getElement( ),
 						ChartReportItemPlugin.ID,
@@ -794,23 +795,36 @@ public final class ChartReportItemImpl extends ReportItem implements
 				list.add( exception );
 			}
 
-			SD: for ( SeriesDefinition vsd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+			ExtendedElementException yException = new ExtendedElementException( getHandle( ).getElement( ),
+					ChartReportItemPlugin.ID,
+					"SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+					Messages.getResourceBundle( ) );
+			yException.setProperty( ExtendedElementException.LOCALIZED_MESSAGE,
+					Messages.getString( "SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+							Messages.getString( cm instanceof ChartWithAxes ? "QueryHelper.Text.YSeries"//$NON-NLS-1$
+									: "QueryHelper.Text.ValueSeries" ) ) );//$NON-NLS-1$
+			List<SeriesDefinition> ysds = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
+			if ( ysds.size( ) == 0 )
 			{
-				Series series = vsd.getDesignTimeSeries( );
-				for ( Query query : series.getDataDefinition( ) )
+				list.add( yException );
+			}
+			else
+			{
+				SD: for ( SeriesDefinition vsd : ysds )
 				{
-					if ( !query.isDefined( ) )
+					Series series = vsd.getDesignTimeSeries( );
+					if ( series.getDataDefinition( ).size( ) == 0 )
 					{
-						ExtendedElementException exception = new ExtendedElementException( getHandle( ).getElement( ),
-								ChartReportItemPlugin.ID,
-								"SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
-								Messages.getResourceBundle( ) );
-						exception.setProperty( ExtendedElementException.LOCALIZED_MESSAGE,
-								Messages.getString( "SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
-										Messages.getString( cm instanceof ChartWithAxes ? "QueryHelper.Text.YSeries"//$NON-NLS-1$
-												: "QueryHelper.Text.ValueSeries" ) ) );//$NON-NLS-1$
-						list.add( exception );
+						list.add( yException );
 						break SD;
+					}
+					for ( Query query : series.getDataDefinition( ) )
+					{
+						if ( !query.isDefined( ) )
+						{
+							list.add( yException );
+							break SD;
+						}
 					}
 				}
 			}
