@@ -8,7 +8,6 @@
     </list-property>
     <cubes>
         <tabular-cube name="designChildCube" id="13" extends="lib.testCube">
-            <property name="defaultMeasureGroup">testMeasureGroup1</property>
             <overridden-values>
                 <ref-entry baseId="8" name="testDimension1" id="8">
                     <property name="defaultHierarchy">testHierarchy1</property>

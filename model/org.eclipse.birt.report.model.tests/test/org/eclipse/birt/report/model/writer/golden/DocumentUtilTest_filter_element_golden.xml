@@ -4,7 +4,6 @@
     <property name="units">in</property>
     <cubes>
         <tabular-cube name="Customer Cube" id="7">
-            <property name="defaultMeasureGroup">Summary Field</property>
             <property name="dimensions">
                 <tabular-dimension name="Group" id="9">
                     <property name="defaultHierarchy">NewTabularHierarchy</property>

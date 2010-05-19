@@ -35,7 +35,6 @@
     </data-sets>
     <cubes>
         <tabular-cube name="Cube" id="45">
-            <property name="defaultMeasureGroup">NewTabularMeasureGroup</property>
             <property name="dimensions">
                 <tabular-dimension name="Group" id="47">
                     <property name="defaultHierarchy">NewTabularHierarchy</property>

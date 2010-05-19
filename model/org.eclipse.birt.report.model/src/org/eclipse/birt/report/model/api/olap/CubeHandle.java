@@ -212,13 +212,12 @@ public abstract class CubeHandle extends ReportElementHandle
 	 * Gets the default measure group for the cube.
 	 * 
 	 * @return the default measure group
+	 * 
+	 * @deprecated
 	 */
 	public MeasureGroupHandle getDefaultMeasureGroup( )
 	{
-		DesignElement measureGroup = ( (Cube) getElement( ) )
-				.getDefaultMeasureGroup( module );
-		return measureGroup == null ? null : (MeasureGroupHandle) measureGroup
-				.getHandle( module );
+		return null;
 	}
 
 	/**
@@ -227,11 +226,11 @@ public abstract class CubeHandle extends ReportElementHandle
 	 * @param defaultMeasureGroup
 	 *            the default measure group to set
 	 * @throws SemanticException
+	 * @deprecated
 	 */
 	public void setDefaultMeasureGroup( MeasureGroupHandle defaultMeasureGroup )
 			throws SemanticException
-	{
-		setProperty( DEFAULT_MEASURE_GROUP_PROP, defaultMeasureGroup );
+	{		
 	}
 
 	/**

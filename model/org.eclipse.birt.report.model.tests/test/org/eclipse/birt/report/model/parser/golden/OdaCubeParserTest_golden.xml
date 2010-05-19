@@ -2,7 +2,6 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <cubes>
         <oda-cube name="newtestCube" id="4">
-            <property name="defaultMeasureGroup">testDefaultMeasureGroup</property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>

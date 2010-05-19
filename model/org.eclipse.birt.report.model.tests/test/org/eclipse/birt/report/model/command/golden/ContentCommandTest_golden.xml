@@ -2,7 +2,6 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <cubes>
         <tabular-cube name="Customer Cube" id="1629">
-            <property name="defaultMeasureGroup">Summary Field</property>
             <property name="dimensions">
                 <tabular-dimension name="Products" id="1630">
                     <property name="defaultHierarchy">NewTabularHierarchy</property>
