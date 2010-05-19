@@ -12,11 +12,11 @@ package org.eclipse.birt.report.designer.ui.actions;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.designer.ui.preview.Activator;
 import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -193,9 +193,14 @@ public class PreviewCascadingMenuGroup implements
 		}
 
 		FormEditor editor = UIUtil.getActiveReportEditor( false );
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-
+		ModuleHandle model = null;
+		if (model == null )
+		{
+			if (editor instanceof MultiPageReportEditor)
+			{
+				model = ((MultiPageReportEditor)editor).getModel( );
+			}
+		}
 		if ( model == null )
 		{
 			return;

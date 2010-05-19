@@ -1,6 +1,8 @@
 package org.eclipse.birt.report.debug.internal.ui.script.actions;
 import org.eclipse.birt.report.debug.internal.ui.script.launcher.ScriptLaunchShortcut;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.ui.DebugUITools;
@@ -8,6 +10,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.forms.editor.FormEditor;
 
 
 /*******************************************************************************
@@ -51,7 +54,16 @@ public class DebugScriptAction implements IWorkbenchWindowActionDelegate
 	 */
 	public void run( IAction action )
 	{
-		ModuleHandle handle = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		ModuleHandle handle = null;
+
+		if (handle == null )
+		{
+			FormEditor editor = UIUtil.getActiveReportEditor( false );
+			if (editor instanceof MultiPageReportEditor)
+			{
+				handle = ((MultiPageReportEditor)editor).getModel( );
+			}
+		}
 		if (handle != null)
 		{
 			String fileName = handle.getFileName( );

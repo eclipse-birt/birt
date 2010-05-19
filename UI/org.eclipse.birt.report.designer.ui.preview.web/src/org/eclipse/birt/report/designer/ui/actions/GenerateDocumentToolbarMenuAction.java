@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -59,8 +60,14 @@ public class GenerateDocumentToolbarMenuAction implements
 		System.clearProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS );
 
 		FormEditor editor = UIUtil.getActiveReportEditor( false );
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		ModuleHandle model = null;
+		if (model == null )
+		{
+			if (editor instanceof MultiPageReportEditor)
+			{
+				model = ((MultiPageReportEditor)editor).getModel( );
+			}
+		}
 		if (model == null)
 		{
 			return;
