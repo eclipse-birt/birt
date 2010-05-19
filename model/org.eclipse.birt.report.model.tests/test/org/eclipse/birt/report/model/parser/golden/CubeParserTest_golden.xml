@@ -12,8 +12,7 @@
         </script-data-set>
     </data-sets>
     <cubes>
-        <tabular-cube name="newtestCube" id="7">
-            <property name="defaultMeasureGroup">testDefaultMeasureGroup</property>
+        <tabular-cube name="newtestCube" id="7">            
             <expression name="ACLExpression" type="constant">new ACL expression</expression>
             <list-property name="filter">
                 <structure>

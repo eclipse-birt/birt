@@ -3828,7 +3828,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	public void visitCube( Cube obj )
 	{
 		super.visitCube( obj );
-		property( obj, ICubeModel.DEFAULT_MEASURE_GROUP_PROP );
 		property( obj, ICubeModel.ACL_EXPRESSION_PROP );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
 

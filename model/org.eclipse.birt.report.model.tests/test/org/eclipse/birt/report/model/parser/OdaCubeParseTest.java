@@ -167,13 +167,9 @@ public class OdaCubeParseTest extends BaseTestCase
 		// cube
 		OdaCubeHandle cube = (OdaCubeHandle) designHandle.findCube( "testCube" ); //$NON-NLS-1$
 		cube.setName( namePrix + cube.getName( ) );
-		cube.setDefaultMeasureGroup( factory
-				.newOdaMeasureGroup( "testDefaultMeasureGroup" ) ); //$NON-NLS-1$
 
 		// dimension
-		cube
-				.add( OdaCubeHandle.DIMENSIONS_PROP, factory
-						.newOdaDimension( null ) );
+		cube.add( OdaCubeHandle.DIMENSIONS_PROP, factory.newOdaDimension( null ) );
 		DimensionHandle dimension = (DimensionHandle) cube.getContent(
 				OdaCubeHandle.DIMENSIONS_PROP, 0 );
 		dimension.setName( namePrix + dimension.getName( ) );

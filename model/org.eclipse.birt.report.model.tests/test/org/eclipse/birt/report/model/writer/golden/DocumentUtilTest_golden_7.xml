@@ -2,7 +2,6 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
     <cubes>
         <tabular-cube name="Customer Cube" id="88">
-            <property name="defaultMeasureGroup">Summary Field</property>
             <property name="dimensions">
                 <tabular-dimension name="orderDate" id="11">
                     <property name="isTimeType">true</property>

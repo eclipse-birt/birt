@@ -14,7 +14,6 @@
     </data-sets>
     <cubes>
         <tabular-cube name="Customer Cube" id="20">
-            <property name="defaultMeasureGroup">Summary Field</property>
             <property name="dimensions">
                 <tabular-dimension name="Group" id="21">
                     <property name="defaultHierarchy">NewTabularHierarchy</property>

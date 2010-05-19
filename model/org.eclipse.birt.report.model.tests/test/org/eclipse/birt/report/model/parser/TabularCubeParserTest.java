@@ -287,8 +287,6 @@ public class TabularCubeParserTest extends BaseTestCase
 		cube.setDataSet( designHandle.findDataSet( "secondDataSet" ) ); //$NON-NLS-1$
 		cube.setName( namePrix + cube.getName( ) );
 		cube.setAutoPrimaryKey( false );
-		cube.setDefaultMeasureGroup( factory
-				.newTabularMeasureGroup( "testDefaultMeasureGroup" ) ); //$NON-NLS-1$
 
 		ExpressionHandle expressionHandle = cube.getACLExpression( );
 		expressionHandle
