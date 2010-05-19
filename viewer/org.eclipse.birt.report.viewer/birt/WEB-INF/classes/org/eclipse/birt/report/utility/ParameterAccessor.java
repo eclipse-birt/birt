@@ -155,9 +155,14 @@ public class ParameterAccessor
 	public static final String PARAM_PAGE_RANGE = "__pagerange"; //$NON-NLS-1$
 
 	/**
-	 * URL parameter name that gives the report design name.
+	 * URL parameter name that indicates the parameter value is null.
 	 */
 	public static final String PARAM_ISNULL = "__isnull"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that indicates the parameter value list is null.
+	 */
+	public static final String PARAM_ISNULLLIST = "__isnulllist"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that indicate the report parameter as a locale string.

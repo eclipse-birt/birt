@@ -24,9 +24,14 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	__mode : Constants.SERVLET_FRAMESET,
 
 	/**
-	 *	Identify the parameter is null.
+	 *	Identify the parameter value is null.
 	 */
 	__isnull : '__isnull',
+
+	/**
+	 *	Identify the parameter value list is null.
+	 */
+	__isnulllist : '__isnulllist',
 
 	/**
 	 *	Prefix that identify the parameter is to set Display Text for "select" parameter
@@ -587,10 +592,10 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					flag = false;
 				}
 				
-				// check select
+				// need check selection
 				if( flag )
 				{
-					if ( oSEC[0].selectedIndex < 0 && this.visible )
+					if ( this.__is_parameter_required( oIEC ) && oSEC[0].selectedIndex < 0 && this.visible )
 					{
 						oSEC[0].focus( );
 						alert( birtUtility.formatMessage( Constants.error.parameterNotSelected, paramName ) );
@@ -744,10 +749,15 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				else
 				{
 					// don't allow new value
+					
+					// multi-value case
 					if( oSEC[0].multiple )
 					{
 						// allow multi value
 						var options = oSEC[0].options;
+						// record the old length
+						var ck = k;
+						
 						for( var l = 0; l < options.length; l++ )
 						{
 							if( !options[l].selected )
@@ -787,6 +797,19 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
 							this.__parameter[k].value = tempText;
 							k++;
+						}
+						
+						// compare the length, if no any selection processed, should be an empty list.
+						if ( ck == k )
+						{
+							if( !this.__parameter[k] )
+							{
+								this.__parameter[k] = { };
+							}
+						
+							this.__parameter[k].name = this.__isnulllist;
+							this.__parameter[k].value = paramName;
+							k++;	
 						}
 					}
 					else

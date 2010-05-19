@@ -493,27 +493,38 @@ public class BirtUtility
 			}
 			else
 			{
-				// Check if parameter set to null
-				if ( ParameterAccessor.PARAM_ISNULL.equalsIgnoreCase( paramName ) )
+				// Check if it's the parameter value list set to null
+				if ( ParameterAccessor.PARAM_ISNULLLIST.equalsIgnoreCase( paramName ) )
 				{
 					paramName = (String) paramValue;
-					paramValue = null;
+					// remove from the map rather than set to null, so it get
+					// the chance to use the default values
+					params.remove( paramName );
 				}
-
-				List list = (List) params.get( paramName );
-				if ( list == null )
+				else
 				{
-					list = new ArrayList( );
-					params.put( paramName, list );
+					// Check if it's the parameter value set to null
+					if ( ParameterAccessor.PARAM_ISNULL.equalsIgnoreCase( paramName ) )
+					{
+						paramName = (String) paramValue;
+						paramValue = null;
+					}
+
+					List list = (List) params.get( paramName );
+					if ( list == null )
+					{
+						list = new ArrayList( );
+						params.put( paramName, list );
+					}
+					list.add( paramValue );
 				}
-				list.add( paramValue );
 			}
 		}
 
 		Iterator it = params.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			Map.Entry entry = (Map.Entry)it.next( );
+			Map.Entry entry = (Map.Entry) it.next( );
 			String paramName = (String) entry.getKey( );
 			List paramValues = (List) entry.getValue( );
 
@@ -531,29 +542,30 @@ public class BirtUtility
 			// convert parameter
 			if ( parameter.isMultiValue( ) )
 			{
-				List values = new ArrayList( );
-
-				// convert multi-value parameter
-				for ( int i = 0; i < paramValues.size( ); i++ )
+				if ( paramValues == null )
 				{
-					Object paramValueObj = DataUtil.validate( paramName,
-							dataType,
-							pattern,
-							(String) paramValues.get( i ),
-							bean.getLocale( ),
-							bean.getTimeZone( ),
-							isLocale );
-					values.add( paramValueObj );
-				}
-
-				// push to parameter map
-				// FIXME: if list is empty or only contains null value, regard
-				// it as NULL object
-				if ( values.size( ) == 0
-						|| ( values.size( ) == 1 && values.get( 0 ) == null ) )
+					// the value list is null
 					parameterMap.put( paramName, null );
+				}
 				else
+				{
+					List values = new ArrayList( );
+
+					// convert multi-value parameter
+					for ( int i = 0; i < paramValues.size( ); i++ )
+					{
+						Object paramValueObj = DataUtil.validate( paramName,
+								dataType,
+								pattern,
+								(String) paramValues.get( i ),
+								bean.getLocale( ),
+								bean.getTimeZone( ),
+								isLocale );
+						values.add( paramValueObj );
+					}
+
 					parameterMap.put( paramName, values.toArray( ) );
+				}
 			}
 			else
 			{
@@ -561,7 +573,8 @@ public class BirtUtility
 				Object paramValueObj = DataUtil.validate( paramName,
 						dataType,
 						pattern,
-						(String) paramValues.get( 0 ),
+						paramValues == null ? null
+								: (String) paramValues.get( 0 ),
 						bean.getLocale( ),
 						bean.getTimeZone( ),
 						isLocale );
@@ -709,7 +722,7 @@ public class BirtUtility
 	public static String toHtml( String text )
 	{
 		return text.replaceAll( "\n", "<BR/>" ); // .replaceAll(
-													// "^([\s])*[^\s]", "&nbsp;");
+		// "^([\s])*[^\s]", "&nbsp;");
 	}
 
 	/**
