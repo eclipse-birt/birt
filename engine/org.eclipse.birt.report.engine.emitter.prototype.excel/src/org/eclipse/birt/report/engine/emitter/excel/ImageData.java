@@ -23,9 +23,9 @@ public class ImageData extends SheetData
 	private int width;
 	private int imageHeight;
 
-	public ImageData( IImageContent image, int styleId, int datatype,
-			Image imageInfo, XlsContainer currentContainer, int heightDpi,
-			int widthDpi )
+	public ImageData( IImageContent image, int imageWidth, int styleId,
+			int datatype, Image imageInfo, XlsContainer currentContainer,
+			int heightDpi, int widthDpi )
 	{
 		super( );
 		this.dataType = datatype;
@@ -34,9 +34,6 @@ public class ImageData extends SheetData
 				.getHeight( )
 				* 1000 * ExcelUtil.INCH_PT / heightDpi, heightDpi ) / 1000;
 		imageHeight = (int) height;
-		int imageWidth = (int) ExcelUtil.convertDimensionType(
-				image.getWidth( ), imageInfo.getWidth( ) * 1000
-						* ExcelUtil.INCH_PT / widthDpi, widthDpi );
 		width = Math.min( currentContainer.getSizeInfo( ).getWidth( ),
 				imageWidth );
 		altText = image.getAltText( );

@@ -737,8 +737,8 @@ public class ExcelLayoutEngine
 		StyleEntry entry = engine.getStyle( style, imageSize, parentSizeInfo,
 											getParentStyle( container ) );
 		setlinkStyle( entry, link );
-		SheetData data = createImageData( image, entry, container,
-				imageHeightDpi, imageWidthDpi );
+		SheetData data = createImageData( image, imageSize.getWidth( ), entry,
+				container, imageHeightDpi, imageWidthDpi );
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
 		data.setStartX( imageSize.getStartCoordinate( ) );
@@ -746,8 +746,9 @@ public class ExcelLayoutEngine
 		addData( data );
 	}
 
-	private SheetData createImageData( IImageContent image, StyleEntry entry,
-			XlsContainer container, int imageHeightDpi, int imageWidhtDpi )
+	private SheetData createImageData( IImageContent image, int imageWidth,
+			StyleEntry entry, XlsContainer container, int imageHeightDpi,
+			int imageWidhtDpi )
 	{
 		int type = SheetData.IMAGE;
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
@@ -774,8 +775,8 @@ public class ExcelLayoutEngine
 			byte[] data = imageInfo.getData( );
 			if ( data != null )
 			{
-				return createData( image, entry, container, type, imageInfo,
-						imageHeightDpi, imageWidhtDpi );
+				return createData( image, imageWidth, entry, container, type,
+						imageInfo, imageHeightDpi, imageWidhtDpi );
 			}
 			else
 			{
@@ -792,13 +793,13 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	protected SheetData createData( IImageContent image, StyleEntry entry,
-			XlsContainer container, int type, Image imageInfo,
-			int imageHeightDpi, int imageWidthDpi )
+	protected SheetData createData( IImageContent image, int imageWidth,
+			StyleEntry entry, XlsContainer container, int type,
+			Image imageInfo, int imageHeightDpi, int imageWidthDpi )
 	{
 		int styleId = engine.getStyleId( entry );
-		SheetData imageData = new ImageData( image, styleId, type, imageInfo,
-				container, imageHeightDpi, imageWidthDpi );
+		SheetData imageData = new ImageData( image, imageWidth, styleId, type,
+				imageInfo, container, imageHeightDpi, imageWidthDpi );
 		return imageData;
 	}
 
