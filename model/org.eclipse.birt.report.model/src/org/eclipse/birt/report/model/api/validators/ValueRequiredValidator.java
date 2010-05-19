@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.validators;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -73,10 +74,12 @@ public class ValueRequiredValidator extends AbstractPropertyValidator
 
 		Object value = element.getProperty( module, propName );
 		if ( value == null
-				|| ( value instanceof String && StringUtil
-						.isBlank( (String) value ) ) )
+				|| ( value instanceof String && StringUtil.isBlank( (String) value ) )
+				|| ( value instanceof Expression && ( (Expression) value ).getExpression( ) == null ) )
 		{
-			list.add( new PropertyValueException( element, propName, value,
+			list.add( new PropertyValueException( element,
+					propName,
+					value,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
