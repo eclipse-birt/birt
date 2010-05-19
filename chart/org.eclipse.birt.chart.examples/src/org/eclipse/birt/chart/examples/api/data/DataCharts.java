@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.examples.api.data;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -34,6 +35,7 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
+import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
@@ -47,6 +49,8 @@ import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
+import org.eclipse.birt.chart.util.BigNumber;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 public class DataCharts
 {
@@ -326,4 +330,110 @@ public class DataCharts
 		return cwaBar;
 	}
 
+	/**
+	 * To support big number by chart API, there are two steps:
+	 * <p>
+	 * 1. Create big number data set and set big number flag as true in the data
+	 * set. When you create instance of NumberDataSet, the
+	 * <code>org.eclipse.birt.chart.util.BigNubmer</code> class should be used .
+	 * <P>
+	 * 2. Adjust big number data set before doing chart layout and rendering.
+	 * You need to call ChartUtil.adjustBigNumberWithinDataSets(chart_model).
+	 * 
+	 * @return
+	 */
+	protected static final Chart createBigNumberSliceChart( )
+	{
+		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
+		cwoaPie.getBlock( ).setBackground( ColorDefinitionImpl.PINK( ) );
+
+		// Plot
+		Plot p = cwoaPie.getPlot( );
+		p.getClientArea( ).setBackground( ColorDefinitionImpl.PINK( ) );
+		p.getClientArea( ).getOutline( ).setVisible( false );
+		p.getOutline( ).setVisible( false );
+
+		// Legend
+		Legend lg = cwoaPie.getLegend( );
+		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+		lg.getClientArea( ).getOutline( ).setVisible( true );
+		lg.getTitle( ).setVisible( false );
+
+		// Title
+		cwoaPie.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( "Big Number Pie Chart" ); //$NON-NLS-1$
+		cwoaPie.getTitle( ).getOutline( ).setVisible( false );
+
+		// Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
+				"New York", "Boston", "Chicago", "San Francisco", "Dallas", "Miami"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$
+		} );
+
+		// 1. Create a big number data set and set big number flag as true.
+		NumberDataSet seriesOneValues = NumberDataSetImpl.create( new BigNumber[]{
+				new BigNumber( "3E314" ),
+				new BigNumber( "5E315" ),
+				new BigNumber( "8E314" ),
+				new BigNumber( "7E315" ),
+				new BigNumber( "5.5E315" ),
+				new BigNumber( "3.5E316" )
+		} );
+		( (DataSetImpl) seriesOneValues ).setIsBigNumber( true );
+
+		// Base Series
+		SeriesDefinition sd = SeriesDefinitionImpl.create( );
+		cwoaPie.getSeriesDefinitions( ).add( sd );
+
+		Series seCategory = (Series) SeriesImpl.create( );
+
+		final Fill[] fiaBase = {
+				ColorDefinitionImpl.ORANGE( ),
+				GradientImpl.create( ColorDefinitionImpl.create( 225, 225, 255 ),
+						ColorDefinitionImpl.create( 255, 255, 225 ),
+						-35,
+						false ),
+				ColorDefinitionImpl.CREAM( ),
+				ColorDefinitionImpl.RED( ),
+				ColorDefinitionImpl.GREEN( ),
+				ColorDefinitionImpl.BLUE( ).brighter( ),
+				ColorDefinitionImpl.CYAN( ).darker( ),
+		};
+		sd.getSeriesPalette( ).getEntries( ).clear( );
+		for ( int i = 0; i < fiaBase.length; i++ )
+		{
+			sd.getSeriesPalette( ).getEntries( ).add( fiaBase[i] );
+		}
+
+		seCategory.setDataSet( categoryValues );
+		sd.getSeries( ).add( seCategory );
+
+		// Orthogonal Series
+		SeriesDefinition sdCity = SeriesDefinitionImpl.create( );
+		sd.getSeriesDefinitions( ).add( sdCity );
+
+		PieSeries sePie = (PieSeries) PieSeriesImpl.create( );
+		sePie.setDataSet( seriesOneValues );
+		sePie.setLabelPosition( Position.INSIDE_LITERAL );
+		sePie.setSeriesIdentifier( "Cities" ); //$NON-NLS-1$
+
+		sdCity.getSeries( ).add( sePie );
+
+		// Min Slice
+		cwoaPie.setMinSlice( 10 );
+		cwoaPie.setMinSlicePercent( false );
+		cwoaPie.setMinSliceLabel( "Others" );//$NON-NLS-1$
+
+		// 2. Adjust big number data sets for runtime chart model.
+		try
+		{
+			ChartUtil.adjustBigNumberWithinDataSets( cwoaPie );
+		}
+		catch ( ChartException e )
+		{
+			e.printStackTrace( );
+		}
+		return cwoaPie;
+	}
 }

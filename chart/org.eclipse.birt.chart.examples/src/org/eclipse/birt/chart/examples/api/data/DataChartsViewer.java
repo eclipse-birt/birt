@@ -370,6 +370,7 @@ public final class DataChartsViewer extends JPanel implements
 			jcbModels.addItem( "Min Slice" );//$NON-NLS-1$
 			jcbModels.addItem( "Multiple Y Axis" );//$NON-NLS-1$
 			jcbModels.addItem( "Multiple Y Series" );//$NON-NLS-1$
+			jcbModels.addItem( "Big number Y Series" );//$NON-NLS-1$
 
 			jcbModels.setSelectedIndex( 0 );
 			jp.add( jcbModels );
@@ -451,6 +452,8 @@ public final class DataChartsViewer extends JPanel implements
 				case 2 :
 					cm = DataCharts.createMultiYAxisChart( );
 					break;
+				case 3 :
+					cm = DataCharts.createBigNumberSliceChart( );
 			}
 
 			bNeedsGeneration = true;
