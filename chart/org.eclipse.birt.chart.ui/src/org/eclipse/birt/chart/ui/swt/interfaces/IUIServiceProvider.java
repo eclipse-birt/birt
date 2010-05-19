@@ -84,7 +84,7 @@ public interface IUIServiceProvider
 	 * Constant indicating an expression builder to input tootips (one type of
 	 * triggers ) for value series while using cube case
 	 */
-	public static final int COMMAND_CUBE_EXPRESSION_TOOLTIPS_DATAPOINTS = 6;
+	public static final int COMMAND_CUBE_EXPRESSION_TOOLTIPS_DATAPOINTS = 9;
 	
 	/**
 	 * Constant indicating a common expression builder.

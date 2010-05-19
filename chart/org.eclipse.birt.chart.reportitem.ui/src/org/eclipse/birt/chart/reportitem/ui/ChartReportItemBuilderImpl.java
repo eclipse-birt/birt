@@ -644,6 +644,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			case COMMAND_EXPRESSION_TRIGGERS_SIMPLE :
 			case COMMAND_EXPRESSION_SCRIPT_DATAPOINTS :
 			case COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS :
+			case COMMAND_CUBE_EXPRESSION_TOOLTIPS_DATAPOINTS :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
 						| SWT.RESIZE
 						| SWT.APPLICATION_MODAL );

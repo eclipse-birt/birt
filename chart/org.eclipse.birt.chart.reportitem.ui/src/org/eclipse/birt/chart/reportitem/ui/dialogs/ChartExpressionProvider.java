@@ -173,6 +173,7 @@ public class ChartExpressionProvider extends ExpressionProvider
 		else if ( DATA_POINTS.equals( parent ) )
 		{
 			list.add( ScriptHandler.BASE_VALUE );
+			list.add( ScriptHandler.OPTIONAL_Y_VALUE );
 			list.add( ScriptHandler.ORTHOGONAL_VALUE );
 			list.add( ScriptHandler.SERIES_VALUE );
 		}
@@ -200,6 +201,10 @@ public class ChartExpressionProvider extends ExpressionProvider
 		if ( element.equals( ScriptHandler.BASE_VALUE ) )
 		{
 			return Messages.getString( "ChartExpressionProvider.DataPoints.BaseValue" );//$NON-NLS-1$;
+		}
+		else if ( element.equals( ScriptHandler.OPTIONAL_Y_VALUE ) )
+		{
+			return Messages.getString( "ChartExpressionProvider.DataPoints.OptionalYValue" );//$NON-NLS-1$;
 		}
 		else if ( element.equals( ScriptHandler.ORTHOGONAL_VALUE ) )
 		{

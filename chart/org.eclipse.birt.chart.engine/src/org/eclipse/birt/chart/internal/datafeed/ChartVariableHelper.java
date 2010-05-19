@@ -57,10 +57,21 @@ public class ChartVariableHelper
 					.get( 0 ),
 					currOrthoSD,
 					baseSD );
+			String optionalYExpr = null; 
+			
+			if ( currOrthoSD.getQuery( ) != null
+					&& currOrthoSD.getQuery( ).getDefinition( ) != null
+					&& !"".equals( currOrthoSD.getQuery( ) //$NON-NLS-1$
+							.getDefinition( ) ) )
+			{
+				optionalYExpr = currOrthoSD.getQuery( ).getDefinition( );
+			}
+			
 			String seriesName = currOrthoSeries.getSeriesIdentifier( )
 					.toString( );
 			return parseChartVariables( script,
 					categoryExpr,
+					optionalYExpr,
 					seriesExpr,
 					seriesName );
 		}
@@ -76,12 +87,14 @@ public class ChartVariableHelper
 	 * 
 	 * @param script
 	 * @param categoryExpr
+	 * @param optionalYExpr
 	 * @param seriesExpr
 	 * @param seriesName
 	 * @return
 	 */
 	private static String parseChartVariables( String script,
 			String categoryExpr,
+			String optionalYExpr,
 			String seriesExpr, String seriesName )
 	{
 		if ( script == null )
@@ -251,6 +264,11 @@ public class ChartVariableHelper
 			{
 				returnSB.append( src.replace( ScriptHandler.BASE_VALUE,
 						categoryExpr == null ? "" : categoryExpr ) ); //$NON-NLS-1$
+			}
+			else if ( expr.equals( ScriptHandler.OPTIONAL_Y_VALUE ) )
+			{
+				returnSB.append( src.replace( ScriptHandler.OPTIONAL_Y_VALUE,
+						optionalYExpr == null ? "" : optionalYExpr ) ); //$NON-NLS-1$
 			}
 			else if ( expr.equals( ScriptHandler.ORTHOGONAL_VALUE ) )
 			{
