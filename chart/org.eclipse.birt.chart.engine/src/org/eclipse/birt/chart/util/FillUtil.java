@@ -59,8 +59,8 @@ public class FillUtil
 		if ( fill instanceof MultipleFill )
 		{
 			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
-			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
-			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
+			ColorDefinition cd0 = getColor( fills.get( 0 ) );
+			ColorDefinition cd1 = getColor( fills.get( 1 ) );
 			return goFactory.darker( getSortedColors( false, cd0, cd1 ) );
 		}
 		return null;
@@ -88,16 +88,16 @@ public class FillUtil
 		if ( fill instanceof MultipleFill )
 		{
 			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
-			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
-			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
 			MultipleFill newFill = MultipleFillImpl.create( );
-			newFill.getFills( ).add( goFactory.darker( cd0 ) );
-			newFill.getFills( ).add( goFactory.darker( cd1 ) );
+			for ( Fill fill_i : fills )
+			{
+				newFill.getFills( ).add( getDarkerFill( fill_i ) );
+			}
 			return newFill;
 		}
 		if ( fill instanceof Image )
 		{
-			return fill;
+			return fill.copyInstance( );
 		}
 		return fill;
 	}
@@ -128,8 +128,8 @@ public class FillUtil
 		if ( fill instanceof MultipleFill )
 		{
 			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
-			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
-			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
+			ColorDefinition cd0 = getColor( fills.get( 0 ) );
+			ColorDefinition cd1 = getColor( fills.get( 1 ) );
 			return goFactory.brighter( getSortedColors( true, cd0, cd1 ) );
 		}
 		return null;
@@ -143,10 +143,7 @@ public class FillUtil
 			applyBrightness( new_fill, brightness );
 			return new_fill;
 		}
-		else
-		{
-			return fill;
-		}
+		return fill;
 	}
 
 	/**
@@ -171,16 +168,16 @@ public class FillUtil
 		if ( fill instanceof MultipleFill )
 		{
 			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
-			ColorDefinition cd0 = (ColorDefinition) fills.get( 0 );
-			ColorDefinition cd1 = (ColorDefinition) fills.get( 1 );
 			MultipleFill newFill = MultipleFillImpl.create( );
-			newFill.getFills( ).add( goFactory.brighter( cd0 ) );
-			newFill.getFills( ).add( goFactory.brighter( cd1 ) );
+			for ( Fill fill_i : fills )
+			{
+				newFill.getFills( ).add( getBrighterFill( fill_i ) );
+			}
 			return newFill;
 		}
 		if ( fill instanceof Image )
 		{
-			return fill;
+			return fill.copyInstance( );
 		}
 		return fill;
 	}
@@ -259,11 +256,7 @@ public class FillUtil
 
 			return gradient;
 		}
-		else
-		{
-			return convertFillToGradient( fill, bTransposed );
-		}
-
+		return convertFillToGradient( fill, bTransposed );
 	}
 
 	/**
@@ -514,8 +507,8 @@ public class FillUtil
 		if ( fill instanceof MultipleFill )
 		{
 			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
-			ColorDefinition cdStart = (ColorDefinition) fills.get( 0 );
-			ColorDefinition cdEnd = (ColorDefinition) fills.get( fills.size( ) - 1 );
+			ColorDefinition cdStart = getColor( fills.get( 0 ) );
+			ColorDefinition cdEnd = getColor( fills.get( fills.size( ) - 1 ) );
 			return goFactory.copyOf( getSortedColors( bSelBrighter,
 					cdStart,
 					cdEnd ) );
