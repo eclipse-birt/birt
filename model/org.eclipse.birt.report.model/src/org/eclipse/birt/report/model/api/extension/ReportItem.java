@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.extension;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -269,4 +270,15 @@ public class ReportItem
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IReportItem#availableBindings
+	 * ()
+	 */
+	public Iterator availableBindings( )
+	{
+		return Collections.EMPTY_LIST.iterator( );
+	}
 }

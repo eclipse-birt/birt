@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api.extension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -244,4 +245,10 @@ public interface IReportItem
 	 */
 	public boolean canExport( );
 
+	/**
+	 * Gets the iterator of all available bindings.
+	 * 
+	 * @return the iterator
+	 */
+	public Iterator availableBindings( );
 }
