@@ -108,7 +108,7 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 		imageData.transparentPixel = 1;
 		Image image = new Image( display, imageData );
 		GC gc = new GC( image );
-		// gc.setBackground( background );
+		gc.setBackground( background );
 		gc.fillRectangle( 0, 0, width, height );
 
 		gc.setForeground( rectColor );
