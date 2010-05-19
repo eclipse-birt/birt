@@ -18,7 +18,7 @@
 <body>
 <br>
 <chart:renderChart width="600" height="400" output="svg"
-	model="<%=SampleHelper.createSampleDesignTimeChart("Bug details of " + component + " component","Year","Number") %>"
+	model='<%=SampleHelper.createSampleDesignTimeChart("Bug details of " + component + " component","Year","Number") %>'
 	data="<%=SampleHelper.createSampleDetailsEvaluator(component) %>">
 </chart:renderChart>
 
