@@ -465,7 +465,6 @@ CLASSICMODELS.ORDERS.STATUS = 'Shipped']]></xml-property>
     </data-sets>
     <cubes>
         <tabular-cube name="salesbydate" id="61">
-            <property name="defaultMeasureGroup">Summary Field1</property>
             <property name="dimensions">
                 <tabular-dimension name="Group2" id="63">
                     <property name="defaultHierarchy">NewTabularHierarchy2</property>
