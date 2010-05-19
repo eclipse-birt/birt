@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.library;
 
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -55,13 +57,37 @@ public class LibraryWithCubeTest extends BaseTestCase
 				0 );
 
 		openDesign( "BlankLibraryWithCubeTest.xml" );//$NON-NLS-1$
-		
-		CubeHandle newCubeHandle = (CubeHandle)designHandle.getElementFactory( )
+
+		CubeHandle newCubeHandle = (CubeHandle) designHandle
+				.getElementFactory( )
 				.newElementFrom( cubeHandle, "extenedCube" );//$NON-NLS-1$
-		designHandle.getCubes( ).add(  newCubeHandle );
-		
-		save();
-		assertTrue( compareFile( "LibraryWithCubeTest.xml" ));//$NON-NLS-1$
+		designHandle.getCubes( ).add( newCubeHandle );
+
+		save( );
+		assertTrue( compareFile( "LibraryWithCubeTest.xml" ) );//$NON-NLS-1$
 	}
 
+	/**
+	 * @throws Exception
+	 */
+
+	public void resolveLibraryOLAP( ) throws Exception
+	{
+		openDesign( "LibraryWithCubeTest1.xml" );//$NON-NLS-1$
+
+		ExtendedItemHandle tmpElement = (ExtendedItemHandle) designHandle
+				.findElement( "NewDimension View11" ); //$NON-NLS-1$
+		ElementRefValue refValue = (ElementRefValue) tmpElement.getElement( )
+				.getProperty( design, "dimension" ); //$NON-NLS-1$
+		assertTrue( refValue.isResolved( ) );
+		assertNotNull( refValue.getLibraryNamespace( ) );
+
+		tmpElement = (ExtendedItemHandle) designHandle
+				.findElement( "NewLevel View11" ); //$NON-NLS-1$
+		refValue = (ElementRefValue) tmpElement.getElement( ).getProperty(
+				design, "dimension" ); //$NON-NLS-1$
+		assertTrue( refValue.isResolved( ) );
+		assertNotNull( refValue.getLibraryNamespace( ) );
+
+	}
 }

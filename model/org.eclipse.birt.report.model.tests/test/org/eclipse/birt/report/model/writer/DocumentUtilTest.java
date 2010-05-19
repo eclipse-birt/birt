@@ -596,7 +596,7 @@ public class DocumentUtilTest extends BaseTestCase
 
 		serializeDocument( );
 
-		saveOutputFile( "DocumentUtilTest_golden_16.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "DocumentUtilTest_golden_16.xml" ) ); //$NON-NLS-1$
 	}
 
 	/*

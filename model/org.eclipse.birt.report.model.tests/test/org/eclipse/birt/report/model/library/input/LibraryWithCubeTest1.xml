@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16" id="1">
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">regression_211553.rptlibrary</property>
+            <property name="namespace">cube</property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <extended-item extensionName="Crosstab" extensionVersion="2.3.0" name="NewCross Tab1"
+ id="117">
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" name="NewCrosstab View11" id="123">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" name="NewDimension View11" id="124">
+                            <property name="dimension">cube.Group1</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View11" id="125">
+                                    <property name="level">cube.Group1/year</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="126">
+                                            <property name="content">
+                                                <data name="year1" id="127">
+                                                    <property name="resultSetColumn">year</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="cube">cube.Data Cube1</property>
+        </extended-item>
+    </body>
+</report>

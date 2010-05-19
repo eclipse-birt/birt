@@ -44,6 +44,7 @@ public class AllLibraryTests
 		test.addTestSuite( ReloadLibraryTest.class );
 		test.addTestSuite( LibrarySharedResultSetTest.class );
 		test.addTestSuite( ReportItemThemeTest.class );
+		test.addTestSuite( LibraryWithCubeTest.class );
 
 		// add all test classes here
 

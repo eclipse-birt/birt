@@ -6,8 +6,7 @@
     <body>
         <extended-item extensionName="TestingAction" id="24">
             <property name="variables">
-                <variable-element>
-                    <property name="variableName">dataXML</property>
+                <variable-element name="dataXML">
                     <expression name="value">var g_dataPart = reportContext</expression>
                 </variable-element>
             </property>
