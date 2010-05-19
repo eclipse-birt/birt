@@ -33,6 +33,7 @@ ChartExpressionProvider.Category.ChartVariables=변수
 ChartExpressionProvider.ChartVariables.DataPoints=차트 데이터 요소
 ChartExpressionProvider.ChartVariables.LegendItems=차트 범례
 ChartExpressionProvider.DataPoints.BaseValue=범주 데이터
+ChartExpressionProvider.DataPoints.OptionalYValue=Optional Y Data
 ChartExpressionProvider.DataPoints.OrthogonalValue=값 데이터
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=이벤트

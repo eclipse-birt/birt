@@ -33,6 +33,7 @@ ChartExpressionProvider.Category.ChartVariables=变量
 ChartExpressionProvider.ChartVariables.DataPoints=图表数据点
 ChartExpressionProvider.ChartVariables.LegendItems=图表图例
 ChartExpressionProvider.DataPoints.BaseValue=类别数据
+ChartExpressionProvider.DataPoints.OptionalYValue=Optional Y Data
 ChartExpressionProvider.DataPoints.OrthogonalValue=值数据
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=事件
