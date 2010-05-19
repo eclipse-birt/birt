@@ -745,7 +745,7 @@ public abstract class HTMLEmitter
 			}
 			else if ( ( flag & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 )
 			{
-				styleBuffer.append( "display: inline-block !important; display: inline; margin: 2px; zoom:1" ); //$NON-NLS-1$
+				styleBuffer.append( "display:inline-block; zoom:1; *+display:inline;" ); //$NON-NLS-1$
 			}
 			else if ( ( flag & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
 			{
