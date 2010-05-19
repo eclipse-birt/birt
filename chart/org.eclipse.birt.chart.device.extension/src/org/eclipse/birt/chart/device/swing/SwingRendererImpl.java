@@ -19,9 +19,11 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Paint;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.TexturePaint;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -112,13 +114,13 @@ public class SwingRendererImpl extends DeviceAdapter
 	protected Graphics2D _g2d;
 
 	protected IDisplayServer _ids;
-	
+
 	protected ITextRenderer _tr = null;
 
 	private IUpdateNotifier _iun = null;
 
 	private SwingEventHandler _eh = null;
-	
+
 	private InteractiveRenderer iv = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
@@ -190,8 +192,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String
+	 * , java.lang.Object)
 	 */
 	public void setProperty( String sProperty, Object oValue )
 	{
@@ -219,7 +222,8 @@ public class SwingRendererImpl extends DeviceAdapter
 					jc.removeFocusListener( _eh );
 				}
 
-				_eh = new SwingEventHandler( iv, _lhmAllTriggers,
+				_eh = new SwingEventHandler( iv,
+						_lhmAllTriggers,
 						_iun,
 						getULocale( ) );
 				jc.addMouseListener( _eh );
@@ -231,12 +235,12 @@ public class SwingRendererImpl extends DeviceAdapter
 		else if ( sProperty.equals( IDeviceRenderer.GRAPHICS_CONTEXT ) )
 		{
 			_g2d = (Graphics2D) oValue;
-			prepareGraphicsContext();
+			prepareGraphicsContext( );
 		}
 		else if ( sProperty.equals( IDeviceRenderer.DPI_RESOLUTION ) )
 		{
 			getDisplayServer( ).setDpiResolution( ( (Integer) oValue ).intValue( ) );
-		
+
 		}
 
 	}
@@ -248,7 +252,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		_g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON );
 
-		getDisplayServer().setGraphicsContext( _g2d );
+		getDisplayServer( ).setGraphicsContext( _g2d );
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "SwingRendererImpl.info.using.graphics.context", //$NON-NLS-1$
 						new Object[]{
@@ -257,6 +261,7 @@ public class SwingRendererImpl extends DeviceAdapter
 						getULocale( ) ) );
 
 	}
+
 	/**
 	 * 
 	 * @param g2d
@@ -269,7 +274,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#setClip(org.eclipse.birt.chart.output.ClipRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.output.IPrimitiveRenderListener#setClip(org.eclipse
+	 * .birt.chart.output.ClipRenderEvent)
 	 */
 	public void setClip( ClipRenderEvent pre )
 	{
@@ -289,7 +296,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawImage(org.eclipse.birt.chart.output.ImageRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawImage(org.
+	 * eclipse.birt.chart.output.ImageRenderEvent)
 	 */
 	public void drawImage( ImageRenderEvent pre ) throws ChartException
 	{
@@ -391,7 +400,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawLine(org.eclipse.birt.chart.output.LineRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawLine(org.eclipse
+	 * .birt.chart.output.LineRenderEvent)
 	 */
 	public void drawLine( LineRenderEvent lre ) throws ChartException
 	{
@@ -438,7 +449,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IPrimitiveRenderer#drawRectangle(org.eclipse.birt.chart.event.RectangleRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.device.IPrimitiveRenderer#drawRectangle(org.eclipse
+	 * .birt.chart.event.RectangleRenderEvent)
 	 */
 	public void drawRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
@@ -485,8 +498,11 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#fillRectangle(org.eclipse.birt.chart.output.RectangleRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.output.IPrimitiveRenderListener#fillRectangle(
+	 * org.eclipse.birt.chart.output.RectangleRenderEvent)
 	 */
+	@Override
 	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
 	{
 		if ( iv != null )
@@ -577,6 +593,11 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
+			if ( flBackground instanceof PatternImage )
+			{
+				fillWithPatternImage( new Area( r2d ), flBackground );
+				return;
+			}
 			java.awt.Image img = createImageFromModel( flBackground );
 
 			if ( img != null )
@@ -601,14 +622,40 @@ public class SwingRendererImpl extends DeviceAdapter
 				{
 					for ( int j = 0; j < iYRepeat; j++ )
 					{
-						_g2d.drawImage( img, (int) ( r2d.x + i
-								* szImage.getWidth( ) ), (int) ( r2d.y + j
-								* szImage.getHeight( ) ), io );
+						_g2d.drawImage( img,
+								(int) ( r2d.x + i * szImage.getWidth( ) ),
+								(int) ( r2d.y + j * szImage.getHeight( ) ),
+								io );
 					}
 				}
 
 				_g2d.setClip( shClip ); // RESTORE
 			}
+		}
+	}
+
+	protected BufferedImage convertPatternImage( java.awt.Image img )
+	{
+		if ( img instanceof BufferedImage )
+		{
+			return (BufferedImage) img;
+		}
+		return null;
+	}
+
+	private void fillWithPatternImage( Shape shape, Fill fill )
+			throws ChartException
+	{
+		java.awt.Image img = createImageFromModel( fill );
+		BufferedImage bimg = convertPatternImage( img );
+
+		if ( bimg != null )
+		{
+			_g2d.setPaint( new TexturePaint( bimg, new Rectangle( 0,
+					0,
+					bimg.getWidth( ),
+					bimg.getHeight( ) ) ) );
+			_g2d.fill( shape );
 		}
 	}
 
@@ -663,7 +710,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawPolygon(org.eclipse.birt.chart.output.PolygonRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawPolygon(org
+	 * .eclipse.birt.chart.output.PolygonRenderEvent)
 	 */
 
 	public void drawPolygon( PolygonRenderEvent pre ) throws ChartException
@@ -710,8 +759,11 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#fillPolygon(org.eclipse.birt.chart.output.PolygonRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.output.IPrimitiveRenderListener#fillPolygon(org
+	 * .eclipse.birt.chart.output.PolygonRenderEvent)
 	 */
+	@Override
 	public void fillPolygon( PolygonRenderEvent pre ) throws ChartException
 	{
 		if ( iv != null )
@@ -798,12 +850,17 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
+			Area ar2 = new Area( new Polygon( i2a[0], i2a[1], loa.length ) );
+			if ( flBackground instanceof PatternImage )
+			{
+				fillWithPatternImage( ar2, flBackground );
+				return;
+			}
 			java.awt.Image img = createImageFromModel( flBackground );
 
 			if ( img != null )
 			{
 				final Shape shClip = _g2d.getClip( );
-				Area ar2 = new Area( new Polygon( i2a[0], i2a[1], loa.length ) );
 				if ( shClip != null )
 				{
 					Area ar1 = new Area( shClip );
@@ -840,7 +897,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawArc(org.eclipse.birt.chart.output.ArcRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawArc(org.eclipse
+	 * .birt.chart.output.ArcRenderEvent)
 	 */
 	public void drawArc( ArcRenderEvent are ) throws ChartException
 	{
@@ -978,8 +1037,11 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#fillArc(org.eclipse.birt.chart.output.ArcRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.output.IPrimitiveRenderListener#fillArc(org.eclipse
+	 * .birt.chart.output.ArcRenderEvent)
 	 */
+	@Override
 	public void fillArc( ArcRenderEvent are ) throws ChartException
 	{
 		if ( iv != null )
@@ -1182,6 +1244,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					bo.getHeight( ) );
 
 			Shape shPreviousClip = _g2d.getClip( );
+			Area ar = null;
 
 			if ( are.getInnerRadius( ) >= 0
 					&& are.getOuterRadius( ) > 0
@@ -1218,7 +1281,8 @@ public class SwingRendererImpl extends DeviceAdapter
 					Area ar1 = new Area( shPreviousClip );
 					fArea.intersect( ar1 );
 				}
-				_g2d.setClip( fArea );
+				// _g2d.setClip( fArea );
+				ar = fArea;
 			}
 			else
 			{
@@ -1237,8 +1301,17 @@ public class SwingRendererImpl extends DeviceAdapter
 					Area ar1 = new Area( shPreviousClip );
 					ar2.intersect( ar1 );
 				}
-				_g2d.setClip( ar2 );
+				// _g2d.setClip( ar2 );
+				ar = ar2;
 			}
+
+			if ( flBackground instanceof PatternImage )
+			{
+				fillWithPatternImage( new Area( ar ), flBackground );
+				return;
+			}
+
+			_g2d.setClip( ar );
 
 			// LOAD THE IMAGE
 			java.awt.Image img = createImageFromModel( flBackground );
@@ -1269,7 +1342,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderListener#drawArea(org.eclipse.birt.chart.event.AreaRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderListener#drawArea(org.eclipse
+	 * .birt.chart.event.AreaRenderEvent)
 	 */
 	public void drawArea( AreaRenderEvent are ) throws ChartException
 	{
@@ -1347,8 +1422,11 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderListener#fillArea(org.eclipse.birt.chart.event.AreaRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderListener#fillArea(org.eclipse
+	 * .birt.chart.event.AreaRenderEvent)
 	 */
+	@Override
 	public void fillArea( AreaRenderEvent are ) throws ChartException
 	{
 		if ( iv != null )
@@ -1477,7 +1555,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderListener#drawText(org.eclipse.birt.chart.event.TextRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderListener#drawText(org.eclipse
+	 * .birt.chart.event.TextRenderEvent)
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
@@ -1541,7 +1621,8 @@ public class SwingRendererImpl extends DeviceAdapter
 			List<ShapedAction> al = _lhmAllTriggers.get( tc );
 			if ( al == null )
 			{
-				al = new ArrayList<ShapedAction>( 4 ); // UNDER NORMAL CONDITIONS
+				al = new ArrayList<ShapedAction>( 4 ); // UNDER NORMAL
+														// CONDITIONS
 				_lhmAllTriggers.put( tc, al );
 			}
 			al.add( sa );
@@ -1552,7 +1633,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#enableInteraction(org.eclipse.birt.chart.output.InteractionEvent)
+	 * @see
+	 * org.eclipse.birt.chart.output.IPrimitiveRenderListener#enableInteraction
+	 * (org.eclipse.birt.chart.output.InteractionEvent)
 	 */
 	public void enableInteraction( InteractionEvent iev ) throws ChartException
 	{
@@ -1596,8 +1679,8 @@ public class SwingRendererImpl extends DeviceAdapter
 
 			final Location[] loa = new Location[4];
 			loa[0] = goFactory.createLocation( bo.getLeft( ), bo.getTop( ) );
-			loa[1] = goFactory.createLocation( bo.getLeft( ), bo.getTop( )
-					+ bo.getHeight( ) );
+			loa[1] = goFactory.createLocation( bo.getLeft( ),
+					bo.getTop( ) + bo.getHeight( ) );
 			loa[2] = goFactory.createLocation( bo.getLeft( ) + bo.getWidth( ),
 					bo.getTop( ) + bo.getHeight( ) );
 			loa[3] = goFactory.createLocation( bo.getLeft( ) + bo.getWidth( ),
@@ -1738,7 +1821,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderListener#drawOval(org.eclipse.birt.chart.event.OvalRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderListener#drawOval(org.eclipse
+	 * .birt.chart.event.OvalRenderEvent)
 	 */
 	public void drawOval( OvalRenderEvent ore ) throws ChartException
 	{
@@ -1849,8 +1934,11 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderListener#fillOval(org.eclipse.birt.chart.event.OvalRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderListener#fillOval(org.eclipse
+	 * .birt.chart.event.OvalRenderEvent)
 	 */
+	@Override
 	public void fillOval( OvalRenderEvent ore ) throws ChartException
 	{
 		if ( iv != null )
@@ -1941,13 +2029,18 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
 		{
+			Area ar2 = new Area( e2d );
+			if ( flBackground instanceof PatternImage )
+			{
+				fillWithPatternImage( ar2, flBackground );
+				return;
+			}
 			java.awt.Image img = createImageFromModel( flBackground );
 
 			if ( img != null )
 			{
 
 				final Shape shClip = _g2d.getClip( );
-				Area ar2 = new Area( e2d );
 				if ( shClip != null )
 				{
 					Area ar1 = new Area( shClip );
@@ -2012,7 +2105,9 @@ public class SwingRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IPrimitiveRenderer#applyTransformation(org.eclipse.birt.chart.event.TransformationEvent)
+	 * @see
+	 * org.eclipse.birt.chart.device.IPrimitiveRenderer#applyTransformation(
+	 * org.eclipse.birt.chart.event.TransformationEvent)
 	 */
 	public void applyTransformation( TransformationEvent tev )
 			throws ChartException

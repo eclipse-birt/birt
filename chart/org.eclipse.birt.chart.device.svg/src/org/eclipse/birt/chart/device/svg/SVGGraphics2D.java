@@ -23,9 +23,10 @@ import java.awt.Image;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.RenderingHints.Key;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.RenderingHints.Key;
+import java.awt.TexturePaint;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.font.TextAttribute;
@@ -37,16 +38,28 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
 import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
+import java.io.ByteArrayOutputStream;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.ImageOutputStream;
+
+import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.chart.device.ImageWriterFactory;
 import org.eclipse.birt.chart.device.svg.i18n.Messages;
 import org.eclipse.birt.chart.device.util.ChartGraphics2D;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -70,6 +83,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	protected FontRenderContext fontRenderContext;
 	protected AffineTransform transforms;
 	protected List<SVGGradientPaint> paints = new ArrayList<SVGGradientPaint>( );
+	protected Set<TexturePaint> textures = new HashSet<TexturePaint>( );
 	protected Element definitions;
 	protected Element styles;
 	protected Element codeScript;
@@ -903,11 +917,15 @@ public class SVGGraphics2D extends ChartGraphics2D
 				style += "fill-opacity:" + alpha + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 			element.setAttribute( "style", style + "fill:" + serializeToString( color ) + ";stroke:none;" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
-		else
+		else if ( paint instanceof SVGGradientPaint )
 		{
-			if ( paint instanceof SVGGradientPaint )
 				element.setAttribute( "style", style + "fill:url(#" + ( (SVGGradientPaint) paint ).getId( ) + ");stroke:none;fill-opacity:1.0" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
+		else if ( paint instanceof TexturePaint )
+		{
+			element.setAttribute( "style", style + "fill:url(#" + getTextureId( (TexturePaint) paint ) + ");stroke:none;fill-opacity:1.0" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+
 		if ( styleClass != null )
 			element.setAttribute( "class", styleClass ); //$NON-NLS-1$
 		if ( id != null )
@@ -1175,9 +1193,11 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * 
 	 * @see java.awt.Graphics#dispose()
 	 */
+	@Override
 	public void dispose( )
 	{
 		paints.clear( );
+		textures.clear( );
 	}
 
 	/**
@@ -1269,15 +1289,60 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * @param stroke
 	 *            The stroke to set.
 	 */
+	@Override
 	public void setStroke( Stroke stroke )
 	{
 		this.stroke = stroke;
+	}
+
+	private Element createEmbeddeImage(BufferedImage img)
+	{
+		if (img==null)
+		{
+			return null;
+		}
+		
+		int width = img.getWidth( );
+		int height = img.getHeight( );
+		ImageWriter iw = ImageWriterFactory.instance( )
+				.createByFormatName( "gif" ); //$NON-NLS-1$
+		ByteArrayOutputStream baos = new ByteArrayOutputStream( 8192*2 );
+		String sUrl = null;
+		try
+		{
+			final ImageOutputStream ios = SecurityUtil.newImageOutputStream( baos );
+			ImageWriteParam iwp = iw.getDefaultWriteParam( );
+			iw.setOutput( ios );
+			iw.write( (IIOMetadata) null, new IIOImage( img, null, null ), iwp );
+			img.flush( );
+			ios.close( );
+			sUrl = SVGImage.BASE64
+					+ new String( Base64.encodeBase64( baos.toByteArray( ) ) );
+		}
+		catch ( Exception ex )
+		{
+			logger.log( ex );
+		}
+		finally
+		{
+			iw.dispose( );
+		}
+		
+		Element elem = dom.createElement( "image" ); //$NON-NLS-1$
+		elem.setAttribute( "id", "img_" + img.hashCode( ) ); //$NON-NLS-1$//$NON-NLS-2$
+		elem.setAttribute( "x", "0" ); //$NON-NLS-1$//$NON-NLS-2$
+		elem.setAttribute( "y", "0" ); //$NON-NLS-1$ //$NON-NLS-2$
+		elem.setAttribute( "width", Integer.toString( width ) ); //$NON-NLS-1$
+		elem.setAttribute( "height", Integer.toString( height ) ); //$NON-NLS-1$
+		elem.setAttribute( "xlink:href", sUrl ); //$NON-NLS-1$
+		return elem;
 	}
 
 	/**
 	 * @param paint
 	 *            The paint to set.
 	 */
+	@Override
 	public void setPaint( Paint paint )
 	{
 		if ( paint instanceof GradientPaint )
@@ -1295,6 +1360,27 @@ public class SVGGraphics2D extends ChartGraphics2D
 				gp = paints.get( index );
 			}
 			this.paint = gp;
+		}
+		else if ( paint instanceof TexturePaint )
+		{
+			TexturePaint tp = (TexturePaint) paint;
+			if ( !textures.contains( tp ) )
+			{
+				textures.add( tp );
+				Element elemImg = createEmbeddeImage( tp.getImage( ) );
+				if ( elemImg != null )
+				{
+					definitions.appendChild( elemImg );
+					String imgId = elemImg.getAttribute( "id" ); //$NON-NLS-1$
+					definitions.appendChild( createTexturePaint( tp,
+							imgId,
+							false ) );
+					definitions.appendChild( createTexturePaint( tp,
+							imgId,
+							true ) );
+				}
+			}
+			this.paint = tp;
 		}
 		else
 			this.paint = paint;
@@ -1346,6 +1432,37 @@ public class SVGGraphics2D extends ChartGraphics2D
 		elem.appendChild( endColor );
 		return elem;
 	}
+	
+	private String getTextureId( TexturePaint paint )
+	{
+		return "tp" + paint.hashCode( ); //$NON-NLS-1$
+	}
+
+	protected Element createTexturePaint( TexturePaint paint, String imgId,
+			boolean highlight )
+	{
+		Element elem = dom.createElement( "pattern" ); //$NON-NLS-1$
+		if ( highlight )
+			elem.setAttribute( "id", getTextureId( paint ) + "h" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		else
+			elem.setAttribute( "id", getTextureId( paint ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		BufferedImage img = paint.getImage( );
+		int width = img.getWidth( );
+		int height = img.getHeight( );
+		elem.setAttribute( "patternUnits", "userSpaceOnUse" );
+		elem.setAttribute( "width", Integer.toString( width ) );
+		elem.setAttribute( "height", Integer.toString( height ) );
+
+		Element elemUse = dom.createElement( "use" );
+		elemUse.setAttribute( "x", "0" );
+		elemUse.setAttribute( "y", "0" );
+		elemUse.setAttribute( "xlink:href", "#" + imgId );
+		
+		elem.appendChild( elemUse );
+		return elem;
+	}
+
 
 	private String serializeHighlightToString( Color cd )
 	{

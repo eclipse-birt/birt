@@ -17,6 +17,7 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -806,5 +807,15 @@ public class SVGRendererImpl extends SwingRendererImpl
 			img = new SVGImage( img, null );
 		}
 		return img;
+	}
+
+	@Override
+	protected BufferedImage convertPatternImage( Image img )
+	{
+		if ( img instanceof SVGImage )
+		{
+			img = ( (SVGImage) img ).image;
+		}
+		return super.convertPatternImage( img );
 	}
 }
