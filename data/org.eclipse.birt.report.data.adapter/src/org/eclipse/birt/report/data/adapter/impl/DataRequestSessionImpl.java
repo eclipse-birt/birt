@@ -1794,23 +1794,33 @@ public class DataRequestSessionImpl extends DataRequestSession
 				String levelName = DataSetIterator.createLevelName( dimName, level.getName( ));
 				query.addBinding( new Binding( levelName ,
 						new ScriptExpression( exprString, type )));
-					GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
+				GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
+				
+				if ( ExpressionUtil.getColumnName( exprString ) != null )
+				{
+					//if exprString is just dataSetRow["xxx"]
+					//dataSetRow["xxx"] evaluation faster than row["xxx"] since its value are just from data set result set rather than Rhino 
+					gd.setKeyExpression( exprString );
+				}
+				else
+				{
 					gd.setKeyExpression( ExpressionUtil.createJSRowExpression( levelName ) );
+				}
 		
-					if ( level.getLevelType( ) != null && level.getDateTimeLevelType( ) == null )
-					{
-						gd.setIntervalRange( level.getIntervalRange( ) );
-						gd.setIntervalStart( level.getIntervalBase( ) );
-						gd.setInterval( GroupAdapter.intervalFromModel( level.getInterval( ) ) );
-					}
-					if ( level.getDateTimeLevelType( ) != null )
-					{
-						gd.setIntervalRange( level.getIntervalRange( ) == 0 ? 1
-								: level.getIntervalRange( ) );
-						gd.setIntervalStart( String.valueOf( DataSetIterator.getDefaultStartValue( level.getDateTimeLevelType( ),level.getIntervalBase( ))) );
-						gd.setInterval( IGroupDefinition.NUMERIC_INTERVAL  );
-					}
-					query.addGroup( gd );
+				if ( level.getLevelType( ) != null && level.getDateTimeLevelType( ) == null )
+				{
+					gd.setIntervalRange( level.getIntervalRange( ) );
+					gd.setIntervalStart( level.getIntervalBase( ) );
+					gd.setInterval( GroupAdapter.intervalFromModel( level.getInterval( ) ) );
+				}
+				if ( level.getDateTimeLevelType( ) != null )
+				{
+					gd.setIntervalRange( level.getIntervalRange( ) == 0 ? 1
+							: level.getIntervalRange( ) );
+					gd.setIntervalStart( String.valueOf( DataSetIterator.getDefaultStartValue( level.getDateTimeLevelType( ),level.getIntervalBase( ))) );
+					gd.setInterval( IGroupDefinition.NUMERIC_INTERVAL  );
+				}
+				query.addGroup( gd );
 			}
 		}
 		catch ( DataException e )
@@ -1971,7 +1981,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 										new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) ) );
 								GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
 									.size( ) ) );
-								gd.setKeyExpression( ExpressionUtil.createJSRowExpression( cubeKeyWithDimIdentifier ) );
+								//dataSetRow["xxx"] evaluation faster than row["xxx"] since its value are just from data set result set rather than Rhino 
+								gd.setKeyExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) );
 								query.addGroup( gd );
 							}
 						}
