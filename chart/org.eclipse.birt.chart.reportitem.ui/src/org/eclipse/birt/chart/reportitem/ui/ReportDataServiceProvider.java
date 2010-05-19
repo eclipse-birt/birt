@@ -671,31 +671,33 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		if ( source == null )
 			return null;
-		ULocale locale = ULocale.getDefault( );
-		String value = source.toString( );
-		int index = value.indexOf( 'E' );
-		// It means the value is very larger, using E marked.
-		if ( index >= 0 )
+		if ( source instanceof Number )
 		{
-			String returnValue = DataTypeUtil.toString( Double.valueOf( value.substring( 0,
-					index ) ),
-					locale )
-					+ "E";
-			String exponent = value.substring( index + 1 );
-			if ( exponent.matches( "[\\+-]+[1-9]{1}[0-9]*" ) )
+			ULocale locale = ULocale.getDefault( );
+			String value = source.toString( );
+			int index = value.indexOf( 'E' );
+			// It means the value is very larger, using E marked.
+			if ( index >= 0 )
 			{
-				returnValue += exponent.substring( 0, 1 )
-						+ DataTypeUtil.toString( Integer.valueOf( exponent.substring( 1 ) ),
-								locale );
+				String returnValue = DataTypeUtil.toString( Double.valueOf( value.substring( 0,
+						index ) ),
+						locale )
+						+ "E";
+				String exponent = value.substring( index + 1 );
+				if ( exponent.matches( "[\\+-]+[1-9]{1}[0-9]*" ) )
+				{
+					returnValue += exponent.substring( 0, 1 )
+							+ DataTypeUtil.toString( Integer.valueOf( exponent.substring( 1 ) ),
+									locale );
+				}
+				else
+				{
+					returnValue += DataTypeUtil.toString( Integer.valueOf( exponent ),
+							locale );
+				}
+				return returnValue;
 			}
-			else
-			{
-				returnValue += DataTypeUtil.toString( Integer.valueOf( exponent ),
-						locale );
-			}
-			return returnValue;
 		}
-		
 		return DataTypeUtil.toString( source );
 	}
 	

@@ -87,7 +87,7 @@ public class ChartWizard extends WizardBase
 
 	private ChartAdapter adapter = null;
 
-	private boolean isOkPressed = false;
+	protected boolean isOkPressed = false;
 	
 	public ChartWizard( )
 	{
@@ -421,6 +421,9 @@ public class ChartWizard extends WizardBase
 				strTitle,
 				imgTitle ) 
 		{
+			/* (non-Javadoc)
+			 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBaseDialog#okPressed()
+			 */
 			protected void okPressed( )
 			{
 				super.okPressed( );
