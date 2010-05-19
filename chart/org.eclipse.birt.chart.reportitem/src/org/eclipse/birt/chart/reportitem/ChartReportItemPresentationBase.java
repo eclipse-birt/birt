@@ -380,19 +380,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 				rtc = drtc;
 
-				// After performance fix, script context will return null model.
-				// cm = rtc.getScriptContext( ).getChartInstance( );
-
-				// Set back the cm into the handle from the engine, so that the
-				// chart inside the
-				// reportdesignhandle is the same as the one used during
-				// presentation.
-				// No command should be executed, since it's a runtime operation
-				// Set the model directly through setModel and not setProperty
 				if ( cm != null && modelHandle != null )
 				{
 					IReportItem item = modelHandle.getReportItem( );
-					( (ChartReportItemImpl) item ).setModel( cm );
 					( (ChartReportItemImpl) item ).setSharedScale( rtc.getSharedScale( ) );
 				}
 
