@@ -468,6 +468,13 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 						// remove the aggregation header cell since now it
 						// becomes innermost
 						precedingLevel.getAggregationHeaderProperty( ).drop( 0 );
+
+						// we still need to check missing aggreagtions for
+						// the precedingLevel with count-axis levels, in case
+						// the subtotal in not for all measures. If the
+						// subtotal is for all measures, then this call is
+						// supposed to do nothing.
+						addAggregationForLevel( precedingLevel, axisType );
 					}
 					else
 					{
