@@ -28,8 +28,10 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
+import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
+import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
@@ -321,6 +323,10 @@ class ComputedColumnHelperInstance
 
 	// computed column array which will be evaluated
 	private IComputedColumn[] computedColumn;
+	
+	//save such computed columns whose expression is just like dataSetRow["xxx"]
+	private Map<String, ColumnReferenceExpression> columnReferenceMap 
+		= new HashMap<String, ColumnReferenceExpression>();
 
 	// computed column position index array
 	private int[] columnIndexArray;
@@ -393,7 +399,14 @@ class ComputedColumnHelperInstance
 					Object value = null;
 					try
 					{
-						if ( computedColumn[i].getExpression( ).getHandle( ) != null
+						ColumnReferenceExpression cre = columnReferenceMap.get( computedColumn[i].getName() );
+						if ( cre != null )
+						{
+							//for these computed columns whose expression is just like dataSetRow["xxx"]
+							//fetch value just from result set directly rather than Rhino
+							value = ExprEvaluateUtil.evaluateColumnReferenceExpression( resultObject, rowIndex, cre );
+						}
+						else if ( computedColumn[i].getExpression( ).getHandle( ) != null
 								&& computedColumn[i].getExpression( )
 										.getHandle( ) instanceof CompiledExpression )
 						{
@@ -417,7 +430,6 @@ class ComputedColumnHelperInstance
 											0,
 											exprText ) );
 								}
-
 								if ( expr.getHandle( ) != null
 										&& expr.getHandle( ) instanceof CompiledExpression )
 								{
@@ -592,7 +604,29 @@ class ComputedColumnHelperInstance
 			cmptColPos ++;
 		}
 		
+		//find out computed columns whose expression is just like dataSetRow["xxx"]
+		columnReferenceMap.clear( );
+		for ( IComputedColumn cc : computedColumn )
+		{
+			String exprText = null;
+			if ( cc.getExpression( ) instanceof IScriptExpression )
+			{
+				exprText = ((IScriptExpression)cc.getExpression( )).getText( );
+			}
+			if ( exprText == null )
+			{
+				continue;
+			}
+			ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
+			expressionCompiler.setDataSetMode( false);
+			CompiledExpression ce = expressionCompiler.compile( exprText, null, cx );
+			if ( ce instanceof ColumnReferenceExpression )
+			{
+				//if it's expression is just like dataSetRow["xxx"]
+				columnReferenceMap.put( cc.getName( ), (ColumnReferenceExpression)ce );
+			}
 
+		}
 		isPrepared = true;
 	}
 }

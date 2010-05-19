@@ -453,34 +453,39 @@ public class ExprEvaluateUtil
 		{
 			// Direct column reference
 			ColumnReferenceExpression colref = (ColumnReferenceExpression) expr;
-			if ( colref.isIndexed( ) )
-			{
-				int idx = colref.getColumnindex( );
-				// Special case: row[0] refers to internal rowID
-				if ( idx == 0 )
-					return new Integer( index );
-				else if ( roObject != null )
-					return roObject.getFieldValue( idx );
-				else
-					return null;
-			}
-			else
-			{
-				String name = colref.getColumnName( );
-				// Special case: row._rowPosition refers to internal rowID
-				if ( JSRowObject.ROW_POSITION.equals( name ) )
-					return new Integer( index );
-				else if ( roObject != null )
-					return roObject.getFieldValue( name );
-				else
-					return null;
-			}
+			return evaluateColumnReferenceExpression( roObject, index, colref );
 		}
 		else
 		{
 			return  expr.evaluate( cx, scope );
 		}
 
+	}
+	
+	public static Object evaluateColumnReferenceExpression( IResultObject roObject, int index, ColumnReferenceExpression colref ) throws DataException
+	{
+		if ( colref.isIndexed( ) )
+		{
+			int idx = colref.getColumnindex( );
+			// Special case: row[0] refers to internal rowID
+			if ( idx == 0 )
+				return new Integer( index );
+			else if ( roObject != null )
+				return roObject.getFieldValue( idx );
+			else
+				return null;
+		}
+		else
+		{
+			String name = colref.getColumnName( );
+			// Special case: row._rowPosition refers to internal rowID
+			if ( JSRowObject.ROW_POSITION.equals( name ) )
+				return new Integer( index );
+			else if ( roObject != null )
+				return roObject.getFieldValue( name );
+			else
+				return null;
+		}
 	}
 	
 	/**

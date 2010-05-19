@@ -32,7 +32,6 @@ import org.eclipse.birt.data.engine.impl.util.DirectedGraphEdge;
 import org.eclipse.birt.data.engine.impl.util.GraphNode;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
-import org.mozilla.javascript.Context;
 
 /**
  * The utility class to provide method for expression compiling
@@ -55,6 +54,7 @@ public class ExpressionCompilerUtil
 		expressionCompiler.setDataSetMode( true );
 		return expressionCompiler.compile( expr, null, cx );
 	}
+	
 
 	/**
 	 * 
