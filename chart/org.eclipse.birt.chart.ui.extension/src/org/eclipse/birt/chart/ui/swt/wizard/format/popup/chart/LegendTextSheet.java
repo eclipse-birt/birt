@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
@@ -82,6 +83,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		containsYOG = ChartUtil.containsYOptionalGrouping( getChart( ) );
 	}
 
+	@Override
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_LEGEND_BLOCK );
@@ -278,8 +280,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		}
 		else if ( event.widget.equals( fccBackground ) )
 		{
-			getLegend( ).getClientArea( )
-					.setBackground( (ColorDefinition) event.data );
+			getLegend( ).getClientArea( ).setBackground( (Fill) event.data );
 		}
 		else if ( event.widget.equals( icText ) )
 		{

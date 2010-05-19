@@ -159,6 +159,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_LABEL );
@@ -377,6 +378,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				getContext( ),
 				getSeriesForProcessing( ).getLabel( ).getBackground( ),
+				false,
 				false,
 				false );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
