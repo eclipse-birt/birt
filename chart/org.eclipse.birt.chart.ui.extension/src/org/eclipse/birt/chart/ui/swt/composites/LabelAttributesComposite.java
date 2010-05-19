@@ -451,6 +451,7 @@ public class LabelAttributesComposite extends Composite implements
 				wizardContext,
 				fBackground,
 				false,
+				false,
 				false );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
 		fccBackground.setLayoutData( gdFCCBackground );
