@@ -18,10 +18,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -47,6 +50,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.IChartReportItem;
@@ -56,6 +60,8 @@ import org.eclipse.birt.chart.script.IChartEventHandler;
 import org.eclipse.birt.chart.script.internal.ChartWithAxesImpl;
 import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
@@ -1001,6 +1007,50 @@ public final class ChartReportItemImpl extends ReportItem implements
 	public Serializer getSerializer( )
 	{
 		return serializer;
+	}
+	
+	@Override
+	public Iterator<ComputedColumnHandle> availableBindings( )
+	{
+		// Get all bindings
+		Iterator<ComputedColumnHandle> allBindings = ChartItemUtil.getAllColumnBindingsIterator( handle );
+
+		// Get all query definitions from chart model
+		List<Query> queries = new ArrayList<Query>( );
+		queries.addAll( ChartUtil.getBaseSeriesDefinitions( cm )
+				.get( 0 )
+				.getDesignTimeSeries( )
+				.getDataDefinition( ) );
+		for ( SeriesDefinition vsd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+		{
+			queries.addAll( vsd.getDesignTimeSeries( ).getDataDefinition( ) );
+			queries.add( vsd.getQuery( ) );
+		}
+
+		// Get all binding names from query definition
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		Set<String> bindingNames = new HashSet<String>( );
+		for ( Query query : queries )
+		{
+			if ( query.isDefined( ) )
+			{
+				bindingNames.addAll( exprCodec.getBindingNames( query.getDefinition( ) ) );
+			}
+		}
+
+		// Compare the binding names
+		List<ComputedColumnHandle> availableBindings = new ArrayList<ComputedColumnHandle>( );
+		while ( allBindings.hasNext( ) )
+		{
+			ComputedColumnHandle binding = allBindings.next( );
+			if ( bindingNames.contains( binding.getName( ) ) )
+			{
+				availableBindings.add( binding );
+			}
+		}
+
+		return availableBindings.iterator( );
 	}
 
 }
