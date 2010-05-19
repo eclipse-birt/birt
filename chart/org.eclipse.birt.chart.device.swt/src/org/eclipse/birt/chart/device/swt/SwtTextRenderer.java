@@ -47,6 +47,8 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.graphics.TextLayout;
+import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.graphics.Transform;
 
 /**
@@ -723,13 +725,10 @@ final class SwtTextRenderer extends TextRendererAdapter
 		final Font f = (Font) _sxs.createFont( fd );
 		gc.setFont( f );
 
-		// R31Enhance.setTextAntialias( gc, 1 ); // SWT.ON
-
-		if ( fd.isUnderline( ) || fd.isStrikethrough( ) )
-		{
-			int lineWidth = (int) ( fd.getSize( ) / 12 );
-			gc.setLineWidth( lineWidth );
-		}
+		TextStyle style = new TextStyle( f, null, null );
+		style.underline = fd.isUnderline( );
+		style.strikeout = fd.isStrikethrough( );
+		TextLayout layout = new TextLayout( gc.getDevice( ) );
 
 		if ( R31Enhance.isR31Available( ) )
 		{
@@ -747,24 +746,12 @@ final class SwtTextRenderer extends TextRendererAdapter
 				{
 					dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 				}
-				gc.drawText( oText,
-						(int) ( dXOffset + ins.getLeft( ) ),
-						(int) ( dH * i  + ins.getTop( ) ),
-						true );
-				if ( fd.isUnderline( ) )
-				{
-					gc.drawLine( (int) ( dXOffset + ins.getLeft( ) ),
-							(int) ( dH * ( i + 1 ) + ins.getTop( ) ),
-							(int) ( dXOffset + ins.getLeft( ) + dW ),
-							(int) ( dH * ( i + 1 ) + ins.getTop( ) ) );
-				}
-				if ( fd.isStrikethrough( ) )
-				{
-					gc.drawLine( (int) ( dXOffset + ins.getLeft( ) ),
-							(int) ( dH * ( i + 0.5 ) + ins.getTop( ) ),
-							(int) ( dXOffset + ins.getLeft( ) + dW ),
-							(int) ( dH * ( i + 0.5 ) + ins.getTop( ) ) );
-				}
+
+				int x = (int) ( dXOffset + ins.getLeft( ) );
+				int y = (int) ( dH * i + ins.getTop( ) );
+				layout.setText( oText );
+				layout.setStyle( style, 0, oText.length( ) );
+				layout.draw( gc, x, y );
 			}
 		}
 		else
@@ -781,24 +768,12 @@ final class SwtTextRenderer extends TextRendererAdapter
 				{
 					dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 				}
-				gc.drawText( oText,
-						(int) ( dX + dXOffset + ins.getLeft( ) ),
-						(int) ( dY + dH * i + ins.getTop( ) ),
-						true );
-				if ( fd.isUnderline( ) )
-				{
-					gc.drawLine( (int) ( dX + dXOffset + ins.getLeft( ) ),
-							(int) ( dY + dH * ( i + 1 ) + ins.getTop( ) ),
-							(int) ( dX + dXOffset + ins.getLeft( ) + dW ),
-							(int) ( dY + dH * ( i + 1 ) + ins.getTop( ) ) );
-				}
-				if ( fd.isStrikethrough( ) )
-				{
-					gc.drawLine( (int) ( dX + dXOffset + ins.getLeft( ) ),
-							(int) ( dY + dH * ( i + 0.5 ) + ins.getTop( ) ),
-							(int) ( dX + dXOffset + ins.getLeft( ) + dW ),
-							(int) ( dY + dH * ( i + 0.5 ) + ins.getTop( ) ) );
-				}
+
+				int x = (int) ( dX + dXOffset + ins.getLeft( ) );
+				int y = (int) ( dY + dH * i + ins.getTop( ) );
+				layout.setText( oText );
+				layout.setStyle( style, 0, oText.length( ) );
+				layout.draw( gc, x, y );
 			}
 		}
 
@@ -814,6 +789,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 		R31Enhance.disposeTransform( trOld );
 		R31Enhance.disposeTransform( tr );
 
+		layout.dispose( );
 		f.dispose( );
 		clrText.dispose( );
 		cComp.recycleTextMetrics( itm );
