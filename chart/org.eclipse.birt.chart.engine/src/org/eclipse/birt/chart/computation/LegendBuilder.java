@@ -738,7 +738,7 @@ public final class LegendBuilder implements IConstants
 			Object df = null;
 			if ( fs == null && oText instanceof Number )
 			{
-				String sPattern = ValueFormatter.getNumericPattern( ( (Number) oText ).doubleValue( ) );
+				String sPattern = ValueFormatter.getNumericPattern( (Number) oText );
 				df = dfCache.get( sPattern );
 			}
 			

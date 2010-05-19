@@ -27,8 +27,7 @@ public final class LegendLayoutHints
 	private final String minSliceText;
 	private final LegendItemHints[] liha;
 
-	public LegendLayoutHints( Size legendSize, Size titleSize, Label laTitle,
-			boolean isMinSliceApplied, String minSliceText,
+	public LegendLayoutHints( Size legendSize, Size titleSize, Label laTitle, boolean isMinSliceApplied, String minSliceText,
 			LegendItemHints[] liha )
 	{
 		this.cachedSize = legendSize;

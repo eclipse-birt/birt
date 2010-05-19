@@ -28,11 +28,14 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
+import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NullDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin;
+import org.eclipse.birt.chart.util.BigNumber;
+import org.eclipse.birt.chart.util.NumberUtil;
 
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -86,6 +89,7 @@ public class DataSetProcessorImpl extends DataSetAdapter
 			boolean bAnyNonNull = false;
 			Object o;
 			double d, dMax = 0;
+			BigNumber bnMax = null;
 			while ( dsi.hasNext( ) )
 			{
 				o = dsi.next( );
@@ -93,21 +97,38 @@ public class DataSetProcessorImpl extends DataSetAdapter
 				{
 					continue;
 				}
-				d = ( (Number) o ).doubleValue( );
-				if ( Double.isNaN( d ) || Double.isInfinite( dMax ) )
+
+				if ( NumberUtil.isBigNumber( o ) )
 				{
-					continue;
+					if ( !bAnyNonNull )
+					{
+						bnMax = (BigNumber) o;
+						bAnyNonNull = true;
+					}
+					else
+					{
+						bnMax = bnMax.max( (BigNumber) o );
+					}
 				}
-				if ( !bAnyNonNull )
+				else
 				{
-					dMax = d;
-					bAnyNonNull = true;
-				}
-				else if ( dMax < d )
-				{
-					dMax = d;
+					d = ( (Number) o ).doubleValue( );
+					if ( Double.isNaN( d ) || Double.isInfinite( dMax ) )
+					{
+						continue;
+					}
+					if ( !bAnyNonNull )
+					{
+						dMax = d;
+						bAnyNonNull = true;
+					}
+					else if ( dMax < d )
+					{
+						dMax = d;
+					}
 				}
 			}
+
 			if ( !bAnyNonNull )
 			{
 				logger.log( new ChartException( ChartEngineExtensionPlugin.ID,
@@ -116,7 +137,7 @@ public class DataSetProcessorImpl extends DataSetAdapter
 						Messages.getResourceBundle( getULocale( ) ) ) );
 				return null;
 			}
-			return new Double( dMax );
+			return ( bnMax == null ) ? new Double( dMax ) : bnMax;
 		}
 		else if ( ds instanceof DateTimeDataSet )
 		{
@@ -186,6 +207,7 @@ public class DataSetProcessorImpl extends DataSetAdapter
 			boolean bAnyNonNull = false;
 			Object o;
 			double d, dMin = 0;
+			BigNumber bnMin = null;
 			while ( dsi.hasNext( ) )
 			{
 				o = dsi.next( );
@@ -193,19 +215,34 @@ public class DataSetProcessorImpl extends DataSetAdapter
 				{
 					continue;
 				}
-				d = ( (Number) o ).doubleValue( );
-				if ( Double.isNaN( d ) || Double.isInfinite( d ) )
+				if ( NumberUtil.isBigNumber( o ) )
 				{
-					continue;
+					if ( !bAnyNonNull )
+					{
+						bnMin = (BigNumber) o;
+						bAnyNonNull = true;
+					}
+					else
+					{
+						bnMin = bnMin.min( (BigNumber) o );
+					}
 				}
-				if ( !bAnyNonNull )
+				else
 				{
-					dMin = d;
-					bAnyNonNull = true;
-				}
-				else if ( dMin > d )
-				{
-					dMin = d;
+					d = ( (Number) o ).doubleValue( );
+					if ( Double.isNaN( d ) || Double.isInfinite( d ) )
+					{
+						continue;
+					}
+					if ( !bAnyNonNull )
+					{
+						dMin = d;
+						bAnyNonNull = true;
+					}
+					else if ( dMin > d )
+					{
+						dMin = d;
+					}
 				}
 			}
 			if ( !bAnyNonNull )
@@ -216,7 +253,7 @@ public class DataSetProcessorImpl extends DataSetAdapter
 						Messages.getResourceBundle( getULocale( ) ) ) );
 				return null;
 			}
-			return new Double( dMin );
+			return ( bnMin == null ) ? new Double( dMin ) : bnMin;
 		}
 		else if ( ds instanceof DateTimeDataSet )
 		{
@@ -298,11 +335,49 @@ public class DataSetProcessorImpl extends DataSetAdapter
 					break;
 
 				case IConstants.NUMERICAL :
-					final Double[] doaDataSet = new Double[(int) lRowCount];
+					// Checks the big decimal case.
+					boolean isBigDecimal = false;
+					Number[] doaDataSet = new Number[(int) lRowCount];
 					while ( rsds.hasNext( ) )
 					{
-						doaDataSet[i++] = Methods.asDouble( rsds.next( )[0] );
+						Object next = rsds.next( )[0];
+						if ( next instanceof Number || next == null)
+						{
+							doaDataSet[i] = NumberUtil.transformNumber( next );
+							if ( !isBigDecimal && NumberUtil.isBigDecimal( doaDataSet[i] ) )
+							{
+								isBigDecimal = true;
+							}
+							i++;
+						}
+						else {
+							throw new ChartException( ChartEngineExtensionPlugin.ID,
+									ChartException.INVALID_DATA_TYPE,
+									"The type of received data type should be numerical.",
+									Messages.getResourceBundle( getULocale( ) ) );
+						}
 					}
+					
+					// Convert all value as big decimal or double.
+					if ( isBigDecimal )
+					{
+						Number[] da = new BigNumber[doaDataSet.length];
+						for ( int j = 0; j < doaDataSet.length; j++ )
+						{
+							da[j] = NumberUtil.asBigNumber( doaDataSet[j], null );
+						}
+						doaDataSet = da;
+					}
+					else
+					{
+						Double[] da = new Double[doaDataSet.length];
+						for ( int j = 0; j < doaDataSet.length; j++ )
+						{
+							da[j] = (Double) doaDataSet[j];
+						}
+						doaDataSet = da;
+					}
+					
 					if ( ds == null )
 					{
 						ds = NumberDataSetImpl.create( doaDataSet );
@@ -311,6 +386,9 @@ public class DataSetProcessorImpl extends DataSetAdapter
 					{
 						ds.setValues( doaDataSet );
 					}
+					
+					((DataSetImpl)ds).setIsBigNumber( isBigDecimal );
+					
 					break;
 
 				case IConstants.DATE_TIME :

@@ -554,7 +554,7 @@ public final class DataPointHints
 		DecimalFormat df = null;
 		if ( fs == null && oBaseValue instanceof Number )
 		{
-			df = new DecimalFormat( ValueFormatter.getNumericPattern( ( (Number) oBaseValue ).doubleValue( ) ) );
+			df = new DecimalFormat( ValueFormatter.getNumericPattern( (Number) oBaseValue ) );	
 		}
 		
 		try

@@ -23,8 +23,8 @@ import org.eclipse.birt.chart.computation.Rectangle;
 import org.eclipse.birt.chart.computation.RotatedRectangle;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
-import org.eclipse.birt.chart.computation.withaxes.AxisTickCoordinates;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale.ScaleInfo;
+import org.eclipse.birt.chart.computation.withaxes.AxisTickCoordinates;
 import org.eclipse.birt.chart.computation.withoutaxes.SeriesRenderingHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -73,10 +73,13 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.DeferredCache;
 import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.FillUtil;
+import org.eclipse.birt.chart.util.NumberUtil;
 import org.eclipse.emf.common.util.EList;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.DecimalFormat;
 
 /**
@@ -232,7 +235,7 @@ public final class DialRenderer
 	}
 
 	final AutoScale getAutoScale( double startAngle, double stopAngle,
-			Scale sc, Bounds bo ) throws ChartException
+			Scale sc, Bounds bo, BigDecimal divisor ) throws ChartException
 	{
 		Bounds boCA = goFactory.copyOf( bo );
 		boCA.adjust( insCA );
@@ -251,7 +254,8 @@ public final class DialRenderer
 				sc,
 				ds.getDial( ).getFormatSpecifier( ),
 				dial.getRunTimeContext( ),
-				dFullRadius );
+				dFullRadius,
+				divisor );
 		// get initial extraSpacing
 		double extraSpacing = getDialExtraSpacing( isc );
 
@@ -313,7 +317,14 @@ public final class DialRenderer
 				ds.getDial( ).getFormatSpecifier( ),
 				dial.getRunTimeContext( ),
 				Math.min( dialBounds.getWidth( ) / 2d,
-						dialBounds.getHeight( ) / 2d ) );
+						dialBounds.getHeight( ) / 2d ),
+				divisor );
+	}
+	
+	final AutoScale getAutoScale( double startAngle, double stopAngle,
+			Scale sc, Bounds bo ) throws ChartException
+	{
+		return getAutoScale( startAngle, stopAngle, sc, bo, null );
 	}
 
 	final double getDialExtraSpacing( AutoScale sc ) throws ChartException
@@ -416,19 +427,33 @@ public final class DialRenderer
 
 		final boolean bDialSuperimposed = dial.isDialSuperimposed( );
 		final boolean bFirstSeries = dial.isFirstDial( );
-
+		
 		final org.eclipse.birt.chart.model.component.Dial dialComponent = ds.getDial( );
 		final Needle needleComponent = ds.getNeedle( );
 
 		if ( !bDialSuperimposed )
 		{
+			
+			DataSetIterator dsi = new DataSetIterator( dial.getSeries( ).getDataSet( ) );
+			BigDecimal divisor = null;
+			dsi.reset( );
+			while ( dsi.hasNext( ) )
+			{
+				Object o = dsi.next( );
+				if ( NumberUtil.isBigNumber( o ) )
+				{
+					divisor = ((BigNumber)o).getDivisor( );
+					break;
+				}
+			}
+			
 			// initialize per dial series if not superimposed.
 			dRadius = getDialRadius( );
 			dStartAngle = getDialStartAngle( );
 			dStopAngle = getDialStopAngle( );
 			inverseScale = isInverseScale( );
 			sc = getDialScale( );
-			asc = getAutoScale( dStartAngle, dStopAngle, sc, bo );
+			asc = getAutoScale( dStartAngle, dStopAngle, sc, bo, divisor );
 			dExtraSpacing = getDialExtraSpacing( asc );
 		}
 
@@ -1115,22 +1140,34 @@ public final class DialRenderer
 
 		for ( int i = 0; i < da.size( ); i++ )
 		{
-			
-			if ( ChartUtil.mathEqual( dAxisValue, (int) dAxisValue ) )
-			{
-				nde.setValue( (int) dAxisValue );
-			}
-			else
-			{
-				nde.setValue( dAxisValue );
-			}
-			
 			try
 			{
-				sText = ValueFormatter.format( nde,
-						fs,
-						dial.getRunTimeContext( ).getULocale( ),
-						df );
+				if ( sc.isBigNumber( ) )
+				{
+					BigDecimal bdValue = sc.getBigNumberDivisor( )
+							.multiply( BigDecimal.valueOf( dAxisValue ),
+									NumberUtil.DEFAULT_MATHCONTEXT );
+					sText = ValueFormatter.format( bdValue,
+							fs,
+							dial.getRunTimeContext( ).getULocale( ),
+							df );
+				}
+				else
+				{
+					if ( ChartUtil.mathEqual( dAxisValue, (int) dAxisValue ) )
+					{
+						nde.setValue( (int) dAxisValue );
+					}
+					else
+					{
+						nde.setValue( dAxisValue );
+					}
+					
+					sText = ValueFormatter.format( nde,
+							fs,
+							dial.getRunTimeContext( ).getULocale( ),
+							df );
+				}
 			}
 			catch ( ChartException dfex )
 			{
@@ -1220,7 +1257,7 @@ public final class DialRenderer
 
 	private AutoScale computeScale( Label lb, DataSetIterator dsi,
 			double dValue, double dStart, double dEnd, Scale scModel,
-			FormatSpecifier fs, RunTimeContext rtc, double fullRadius )
+			FormatSpecifier fs, RunTimeContext rtc, double fullRadius, BigDecimal divisor )
 			throws ChartException
 	{
 		AutoScale sc = null;
@@ -1242,6 +1279,8 @@ public final class DialRenderer
 				IConstants.LINEAR
 				| IConstants.NUMERICAL, rtc, fs, null, IConstants.FORWARD, true );
 		sc = new AutoScale( info );
+		sc.setBigNubmerDivisor( divisor );
+		
 		sc.setMinimum( Double.valueOf( dMinValue ) );
 		sc.setMaximum( Double.valueOf( dMaxValue ) );
 		sc.setStep( new Double( dStep ) );

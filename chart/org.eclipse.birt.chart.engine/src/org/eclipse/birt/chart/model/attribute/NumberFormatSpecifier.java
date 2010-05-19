@@ -221,6 +221,16 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	String format( double dValue, ULocale lo );
 
 	/**
+	 * Returns a formatted string representation of specified number.
+	 * 
+	 * @param number
+	 * @param lo
+	 * @return
+	 * @since 2.6
+	 */
+	String format( Number number, ULocale lo );
+	
+	/**
 	 * @generated
 	 */
 	NumberFormatSpecifier copyInstance( );

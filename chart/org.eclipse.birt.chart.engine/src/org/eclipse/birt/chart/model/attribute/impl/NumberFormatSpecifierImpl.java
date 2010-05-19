@@ -15,12 +15,13 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
+import org.eclipse.birt.chart.util.NumberUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.util.ULocale;
 
@@ -492,6 +493,46 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 		return sb.toString( );
 	}
 
+	public String format( Number number, ULocale lo )
+	{
+		Number n = NumberUtil.transformNumber( number );
+		if ( n instanceof Double )
+		{
+			return format( ((Double)number).doubleValue( ), lo);
+		}
+		
+		// Format big decimal.
+		BigDecimal bdNum = (BigDecimal) n;
+		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
+		if ( isSetFractionDigits( ) )
+		{
+			df.setMinimumFractionDigits( getFractionDigits( ) );
+			df.setMaximumFractionDigits( getFractionDigits( ) );
+		}
+		String pattern = NumberUtil.adjustBigNumberFormatPattern( df.toLocalizedPattern( ) );
+		if ( pattern.indexOf( 'E' ) < 0 )
+		{
+			pattern = pattern +  NumberUtil.BIG_DECIMAL_FORMAT_SUFFIX;
+		}
+		
+		df.applyLocalizedPattern( pattern);
+
+		final StringBuffer sb = new StringBuffer( );
+		if ( getPrefix( ) != null )
+		{
+			sb.append( getPrefix( ) );
+		}
+		sb.append( isSetMultiplier( ) ? df.format( bdNum.multiply( BigDecimal.valueOf( getMultiplier( ) ),
+				NumberUtil.DEFAULT_MATHCONTEXT ) )
+				: df.format( bdNum ) );
+		if ( getSuffix( ) != null )
+		{
+			sb.append( getSuffix( ) );
+		}
+
+		return sb.toString( );
+	}
+	
 	/**
 	 * @generated
 	 */

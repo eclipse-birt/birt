@@ -395,7 +395,7 @@ public class Line extends AxesRenderer
 					au = ssl.getUnit( ls, i ); // UNIT POSITIONS (MAX, MIN) FOR
 					// INDEX = 'i'
 					dValue = isNaN( dpha[i].getOrthogonalValue( ) ) ? 0
-							: ( (Double) dpha[i].getOrthogonalValue( ) ).doubleValue( );
+							: ( (Number) dpha[i].getOrthogonalValue( ) ).doubleValue( );
 					dEnd = computeStackPosition( au, dValue, ax );
 
 					try

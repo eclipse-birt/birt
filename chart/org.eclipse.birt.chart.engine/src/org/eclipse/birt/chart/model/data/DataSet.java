@@ -67,5 +67,13 @@ public interface DataSet extends IChartObject
 	 * @generated
 	 */
 	DataSet copyInstance( );
+	
+	/**
+	 * Checks if the values in data set are big number.
+	 * 
+	 * @return
+	 * @since 2.6
+	 */
+	boolean isBigNumber( );
 
 } // DataSet

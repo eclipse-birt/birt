@@ -25,8 +25,11 @@ import org.eclipse.birt.chart.model.attribute.StringFormatSpecifier;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.NumberUtil;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.DecimalFormatSymbols;
@@ -76,7 +79,15 @@ public final class ValueFormatter
 			// CHECK IF AN INTERNAL JAVA FORMAT SPECIFIER WAS COMPUTED
 			if ( oCachedJavaFormatter != null ) 
 			{
-				if ( oValue instanceof Double
+				if ( NumberUtil.isBigNumber( oValue ) )
+				{
+					return ( (DecimalFormat) oCachedJavaFormatter ).format( ((BigNumber)oValue).getValue( ) );
+				}
+				else if (  NumberUtil.isBigDecimal( oValue ) )
+				{
+					return ( (DecimalFormat) oCachedJavaFormatter ).format( oValue );
+				}
+				else if ( oValue instanceof Double
 						|| oValue instanceof NumberDataElement )
 				{
 					if ( oCachedJavaFormatter instanceof DecimalFormat )
@@ -84,7 +95,7 @@ public final class ValueFormatter
 						final double dValue = oValue instanceof Double ? ( (Double) oValue ).doubleValue( )
 								: ( (NumberDataElement) oValue ).getValue( );
 						sValue = ( (DecimalFormat) oCachedJavaFormatter ).format( dValue );
-						return correctNumber( sValue, dValue );
+						return correctNumber( sValue );
 					}
 				}
 				else if ( oValue instanceof Calendar
@@ -117,7 +128,15 @@ public final class ValueFormatter
 			}
 			else
 			{
-				if ( oValue instanceof Number )
+				if ( NumberUtil.isBigNumber( oValue ) )
+				{
+					return NumberUtil.getDefaultBigDecimalFormat( lcl ).format( ((BigNumber)oValue).getValue( ) );
+				}
+				else if ( NumberUtil.isBigDecimal( oValue ) )
+				{
+					return NumberUtil.getDefaultBigDecimalFormat( lcl ).format( oValue );
+				}
+				else if ( oValue instanceof Number )
 				{
 					return NumberFormat.getInstance( lcl )
 							.format( ( (Number) oValue ).doubleValue( ) );
@@ -154,20 +173,42 @@ public final class ValueFormatter
 		else if ( NumberFormatSpecifier.class.isInstance( fs ) )
 		{
 			final NumberFormatSpecifier nfs = (NumberFormatSpecifier) fs;
-			final double dValue = asPrimitiveDouble( oValue, lcl );
-			return correctNumber( nfs.format( dValue, lcl ), dValue );
+			if ( NumberUtil.isBigNumber( oValue ) )
+			{
+				return correctNumber( nfs.format( ((BigNumber)oValue).getValue( ) , lcl ) );
+			}
+			else if ( NumberUtil.isBigDecimal( oValue ) )
+			{
+				return correctNumber( nfs.format( (BigDecimal)oValue , lcl ) );
+			}
+			else
+			{
+				final double dValue = asPrimitiveDouble( oValue, lcl );
+				return correctNumber( nfs.format( dValue, lcl ) );
+			}
 		}
 		else if ( JavaNumberFormatSpecifier.class.isInstance( fs ) )
 		{
 			final JavaNumberFormatSpecifier nfs = (JavaNumberFormatSpecifier) fs;
-			final double dValue = asPrimitiveDouble( oValue, lcl );
-			return correctNumber( nfs.format( dValue, lcl ), dValue );
+			if ( NumberUtil.isBigNumber( oValue ) )
+			{
+				return correctNumber( nfs.format( ((BigNumber)oValue).getValue( ) , lcl ) );
+			}
+			else if ( NumberUtil.isBigDecimal( oValue ) )
+			{
+				return correctNumber( nfs.format( (BigDecimal)oValue , lcl ) );
+			}
+			else
+			{
+				final double dValue = asPrimitiveDouble( oValue, lcl );
+				return correctNumber( nfs.format( dValue, lcl ) );
+			}
 		}
 		else if ( FractionNumberFormatSpecifier.class.isInstance( fs ) )
 		{
 			final FractionNumberFormatSpecifier fnfs = (FractionNumberFormatSpecifier) fs;
 			final double dValue = asPrimitiveDouble( oValue, lcl );
-			return correctNumber( fnfs.format( dValue, lcl ), dValue );
+			return correctNumber( fnfs.format( dValue, lcl ) );
 		}
 		else if ( DateFormatSpecifier.class.isInstance( fs ) )
 		{
@@ -186,7 +227,15 @@ public final class ValueFormatter
 		}
 		else
 		{
-			if ( oValue instanceof Number )
+			if ( NumberUtil.isBigNumber( oValue ) )
+			{
+				return NumberUtil.getDefaultBigDecimalFormat( lcl ).format( ((BigNumber)oValue).getValue( ) );
+			}
+			else if ( NumberUtil.isBigDecimal( oValue ) )
+			{
+				return NumberUtil.getDefaultBigDecimalFormat( lcl ).format( oValue );
+			}
+			else if ( oValue instanceof Number )
 			{
 				return NumberFormat.getInstance( lcl )
 						.format( ( (Number) oValue ).doubleValue( ) );
@@ -256,11 +305,10 @@ public final class ValueFormatter
 	/**
 	 * Takes care of problems while presenting -0.00
 	 * 
-	 * @param df
-	 * @param dValue
+	 * @param sValue
 	 * @return corrected number
 	 */
-	private static final String correctNumber( String sValue, double dValue )
+	private static final String correctNumber( String sValue )
 	{
 		int n = ( sValue.length( ) - sNegativeZero.length( ) );
 		final StringBuffer sb = new StringBuffer( sNegativeZero );
@@ -278,27 +326,38 @@ public final class ValueFormatter
 	}
 	
 	/**
-	 * Returns an auto computed decimal format pattern for category data or axis
-	 * label. If it's an integer, no decimal point and no separator. This is
-	 * also used for representing logarithmic values.
-	 * 
-	 * @return numeric pattern
+	 * @param num
+	 * @return
+	 * @since 2.5.3
 	 */
-	public static String getNumericPattern( double dValue )
+	public static String getNumericPattern( Number num )
 	{
-		if ( ChartUtil.mathEqual( dValue, (long) dValue ) )
+		Number numValue = num;
+		if ( NumberUtil.isBigDecimal( num ) )
 		{
-			// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
-			return sNumericPattern;
+			// Do nothing here.
 		}
-
+		else if (  NumberUtil.isBigNumber( num ) )
+		{
+			numValue = ((BigNumber)num).getValue( );
+		}
+		else
+		{
+			double value = numValue.doubleValue( );
+			if ( ChartUtil.mathEqual( value, (long) value ) )
+			{
+				// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
+				return sNumericPattern;
+			}
+		}
+		
 		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
-		String sValue = String.valueOf( dValue );
+		String sValue = String.valueOf( numValue );
 		int iEPosition = sValue.indexOf( dfs.getExponentSeparator( ) );
 
 		if ( iEPosition > 0 )
 		{
-			dValue = Double.valueOf( sValue.substring( 0, iEPosition ) )
+			double dValue = Double.valueOf( sValue.substring( 0, iEPosition ) )
 					.doubleValue( );
 
 			if ( ChartUtil.mathEqual( dValue, Math.round( dValue ) ) )
@@ -345,5 +404,17 @@ public final class ValueFormatter
 			return sb.toString( );
 		}
 		return sNumericPattern;
+	}
+	
+	/**
+	 * Returns an auto computed decimal format pattern for category data or axis
+	 * label. If it's an integer, no decimal point and no separator. This is
+	 * also used for representing logarithmic values.
+	 * 
+	 * @return numeric pattern
+	 */
+	public static String getNumericPattern( double dValue )
+	{
+		return getNumericPattern( Double.valueOf( dValue ) );
 	}
 }

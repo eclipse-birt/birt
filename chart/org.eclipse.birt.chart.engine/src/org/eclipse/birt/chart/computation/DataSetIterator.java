@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.CDateTime;
 
 import com.ibm.icu.util.Calendar;
@@ -64,6 +65,8 @@ public final class DataSetIterator implements Iterator
 	private Object[] oa = null;
 
 	private boolean isReverse = false;
+
+	private BigNumber[] cnda;
 
 	/**
 	 * 
@@ -133,6 +136,11 @@ public final class DataSetIterator implements Iterator
 			{
 				iContentType = IConstants.NON_PRIMITIVE_ARRAY;
 				dda = (Double[]) oContent;
+			}
+			else if ( oContent instanceof BigNumber[])
+			{
+				iContentType = IConstants.BIG_NUMBER_PRIMITIVE_ARRAY;
+				cnda = (BigNumber[])oContent;
 			}
 		}
 		else if ( iDataType == IConstants.DATE_TIME )
@@ -237,6 +245,11 @@ public final class DataSetIterator implements Iterator
 				da = new double[]{
 					( (Number) oContent ).doubleValue( )
 				};
+			}
+			else if ( oContent instanceof BigNumber[])
+			{
+				iContentType = IConstants.BIG_NUMBER_PRIMITIVE_ARRAY;
+				cnda = (BigNumber[])oContent;
 			}
 		}
 		else if ( ds instanceof DateTimeDataSet )
@@ -347,6 +360,10 @@ public final class DataSetIterator implements Iterator
 			{
 				return dda.length;
 			}
+			else if ( iContentType == IConstants.BIG_NUMBER_PRIMITIVE_ARRAY )
+			{
+				return cnda.length;
+			}
 		}
 		else if ( iDataType == IConstants.DATE_TIME )
 		{
@@ -391,6 +408,16 @@ public final class DataSetIterator implements Iterator
 		return dda[getIndex( )];
 	}
 
+	public final BigNumber nextBigNumber( )
+	{
+		if ( it != null )
+		{
+			iCursor++;
+			return (BigNumber) it.next( );
+		}
+		return cnda[getIndex( )];
+	}
+	
 	/**
 	 * @return
 	 */
@@ -479,6 +506,10 @@ public final class DataSetIterator implements Iterator
 			else if ( iContentType == IConstants.PRIMITIVE_ARRAY )
 			{
 				return new Double( nextPrimitiveDouble( ) );
+			}
+			else if ( iContentType == IConstants.BIG_NUMBER_PRIMITIVE_ARRAY )
+			{
+				return nextBigNumber( );
 			}
 		}
 		else if ( iDataType == IConstants.DATE_TIME )

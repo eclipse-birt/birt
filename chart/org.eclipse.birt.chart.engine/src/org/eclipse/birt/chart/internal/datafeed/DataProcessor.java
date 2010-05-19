@@ -1453,6 +1453,9 @@ public class DataProcessor
 		{
 			generateRuntimeSeries( (ChartWithoutAxes) cm, rsw );
 		}
+		// Pre-process data set for big number, get a shared divisor for all
+		// data in series data set in a axis.
+		ChartUtil.adjustBigNumberWithinDataSets( cm );
 	}
 
 	/**

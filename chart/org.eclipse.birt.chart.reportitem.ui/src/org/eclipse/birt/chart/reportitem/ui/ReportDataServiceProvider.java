@@ -629,7 +629,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						{
 							// Bugzilla#190229, to get string with localized
 							// format
-							record[n] = DataTypeUtil.toString( iter.getValue( expressions[n] ) );
+							record[n] = valueAsString( iter.getValue( expressions[n] ) );
 						}
 						dataList.add( record );
 					}
@@ -661,6 +661,44 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return dataList;
 	}
 
+	/**
+	 * @param source
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws BirtException
+	 */
+	private String valueAsString( Object source ) throws NumberFormatException, BirtException
+	{
+		if ( source == null )
+			return null;
+		ULocale locale = ULocale.getDefault( );
+		String value = source.toString( );
+		int index = value.indexOf( 'E' );
+		// It means the value is very larger, using E marked.
+		if ( index >= 0 )
+		{
+			String returnValue = DataTypeUtil.toString( Double.valueOf( value.substring( 0,
+					index ) ),
+					locale )
+					+ "E";
+			String exponent = value.substring( index + 1 );
+			if ( exponent.matches( "[\\+-]+[1-9]{1}[0-9]*" ) )
+			{
+				returnValue += exponent.substring( 0, 1 )
+						+ DataTypeUtil.toString( Integer.valueOf( exponent.substring( 1 ) ),
+								locale );
+			}
+			else
+			{
+				returnValue += DataTypeUtil.toString( Integer.valueOf( exponent ),
+						locale );
+			}
+			return returnValue;
+		}
+		
+		return DataTypeUtil.toString( source );
+	}
+	
 	private boolean isReportDesignHandle( )
 	{
 		return itemHandle.getModuleHandle( ) instanceof ReportDesignHandle;

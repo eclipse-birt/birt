@@ -123,9 +123,9 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 		for ( int i = 0; i < iCount; i++ )
 		{
 			o = dpha[i].getOrthogonalValue( );
-			if ( o instanceof Double )
+			if ( o instanceof Number )
 			{
-				doa[i] = ( (Double) o ).doubleValue( );
+				doa[i] = ( (Number) o ).doubleValue( );
 			}
 			else if ( o == null )
 			{

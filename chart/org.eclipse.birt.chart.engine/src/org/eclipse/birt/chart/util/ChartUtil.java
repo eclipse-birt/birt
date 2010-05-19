@@ -28,6 +28,8 @@ import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Polygon;
+import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
+import org.eclipse.birt.chart.datafeed.NumberDataPointEntry;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -64,9 +66,11 @@ import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -75,6 +79,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.DecimalFormatSymbols;
 import com.ibm.icu.text.NumberFormat;
@@ -144,6 +149,25 @@ public class ChartUtil
 		return Math.abs( v1 - v2 ) < EPS;
 	}
 
+	/**
+	 * Returns if the given two double values are equal within a small
+	 * precision.
+	 * 
+	 * @param v1
+	 * @param v2
+	 * @param isBigNumber
+	 * @return
+	 * @since 2.6
+	 */
+	public static final boolean mathEqual( double v1, double v2, boolean isBigNumber )
+	{
+		if ( isBigNumber )
+		{
+			return Double.compare( Math.abs( v1 - v2 ), Double.MIN_VALUE ) <= 0;
+		}
+		return mathEqual( v1, v2 );
+	}
+	
 	/**
 	 * Returns if the given two double values are not equal within a small
 	 * precision.
@@ -485,6 +509,8 @@ public class ChartUtil
 				return Calendar.WEEK_OF_YEAR;
 			case ScaleUnitType.YEARS :
 				return Calendar.YEAR;
+			case ScaleUnitType.QUARTERS :
+				return CDateTime.QUARTER;
 		}
 		return -1;
 	}
@@ -631,6 +657,47 @@ public class ChartUtil
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Checks precise of big number. 
+	 * 
+	 * @param bdValue
+	 * @return
+	 * @since 2.6
+	 */
+	public static boolean checkBigNumberPrecise( BigDecimal bdValue )
+	{
+		if ( bdValue.compareTo( BigDecimal.valueOf( bdValue.intValue( ) )) == 0 )
+		{
+			return true;
+		}
+		
+		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
+		String sValue = String.valueOf( bdValue );
+		int iEPosition = sValue.indexOf( dfs.getExponentSeparator( ) );
+
+		if ( iEPosition > 0 )
+		{
+			sValue = sValue.substring( 0, iEPosition );
+		}
+		
+		if ( sValue.length( ) < 8 )
+		{
+			return true;
+		}
+		int iPoint = sValue.indexOf( '.' );
+		int iZero = sValue.lastIndexOf( "00000000" ); //$NON-NLS-1$
+		if ( iZero >= iPoint && iEPosition < 0 )
+		{
+			return false;
+		}
+		int iNine = sValue.lastIndexOf( "99999999" ); //$NON-NLS-1$
+		if ( iNine >= iPoint && iEPosition < 0 )
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -1658,6 +1725,11 @@ public class ChartUtil
 		private Map<T, V> hm = new HashMap<T, V>( );
 		protected ULocale locale;
 
+		public Cache( )
+		{
+			// Do nothing.
+		}
+		
 		public Cache( ULocale lcl )
 		{
 			locale = lcl;
@@ -1999,5 +2071,236 @@ public class ChartUtil
 	public static NumberFormat getDefaultNumberFormat( )
 	{
 		return DEFAULT_NUMBER_FORMAT;
+	}
+
+	/**
+	 * Adjust data set if there are big number in chart model. In order to get
+	 * same scale in same axis, all big number in data sets in same axis will
+	 * have same divisor, this method computes same divisor for each axis in
+	 * chart model.
+	 * 
+	 * @param cm
+	 * @throws ChartException
+	 * @since 2.6
+	 */
+	public static void adjustBigNumberWithinDataSets(Chart cm ) throws ChartException
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
+			EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
+			final SeriesDefinition sdBase = elSD.get( 0 );
+			final Series seBaseRuntimeSeries = sdBase.getRunTimeSeries( )
+					.get( 0 );
+			adjustDataSets( new Series[]{
+				seBaseRuntimeSeries
+			} );
+
+			final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase,
+					true );
+
+			for ( int i = 0; i < axaOrthogonal.length; i++ ) // FOR EACH AXIS
+			{
+				List<Series> seriesList = new ArrayList<Series>( );
+				elSD = axaOrthogonal[i].getSeriesDefinitions( );
+				for ( int j = 0; j < elSD.size( ); j++ )
+				{
+					SeriesDefinition sdOrthogonal = elSD.get( j );
+					seriesList.addAll( sdOrthogonal.getRunTimeSeries( ) );
+				}
+
+				adjustDataSets( seriesList.toArray( new Series[]{} ) );
+			}
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+			
+			EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions( );
+			final SeriesDefinition sdBase = elSD.get( 0 );
+			final Series seBaseRuntimeSeries = sdBase.getRunTimeSeries( ).get( 0 );
+			adjustDataSets( new Series[]{
+					seBaseRuntimeSeries
+				} );
+			
+			elSD = sdBase.getSeriesDefinitions( );
+			for ( int j = 0; j < elSD.size( ); j++ ) // FOR EACH ORTHOGONAL
+			// SERIES DEFINITION
+			{
+				SeriesDefinition sdOrthogonal = elSD.get( j );
+				adjustDataSets( sdOrthogonal.getRunTimeSeries( ).toArray( new Series[]{} ) );
+			}
+		}
+	}
+
+	private static void adjustDataSets( Series[] seriesArray ) throws ChartException
+	{
+		IDataSetProcessor idsp;
+		boolean hasBigNumber = false;
+		BigDecimal bnMin = null;
+		BigDecimal bnMax = null;
+		Number[] doaDataSet = null;
+
+		// Check if related series contains big number.
+		for ( Series series : seriesArray )
+		{
+			DataSet ds = series.getDataSet( );
+			hasBigNumber = ( (DataSetImpl) ds ).isBigNumber( );
+			if ( hasBigNumber )
+			{
+				break;
+			}
+		}
+
+		// If related series contains big number, computes a sharing divisor for
+		// all big number and transform all values into big number.
+		if ( hasBigNumber )
+		{
+			for ( Series series : seriesArray )
+			{
+				DataSet ds = series.getDataSet( );
+				idsp = PluginSettings.instance( )
+						.getDataSetProcessor( series.getClass( ) );
+				if ( bnMin == null )
+				{
+					bnMin = NumberUtil.asBigDecimal( (Number) idsp.getMinimum( ds ) );
+					bnMax = NumberUtil.asBigDecimal( (Number) idsp.getMaximum( ds ) );
+					continue;
+				}
+
+				bnMin = bnMin.min( NumberUtil.asBigDecimal( (Number) idsp.getMinimum( ds ) ) );
+				bnMax = bnMax.max( NumberUtil.asBigDecimal( (Number) idsp.getMaximum( ds ) ) );
+			}
+
+			BigDecimal absMax = bnMax.abs( );
+			BigDecimal absMin = bnMin.abs( );
+			if ( absMin.compareTo( NumberUtil.DOUBLE_MIN ) >= 0
+					&& absMax.compareTo( NumberUtil.DOUBLE_MAX ) <= 0 )
+			{
+				// All data in data set are less than Double_MAX, use double
+				// always.
+				for ( Series series : seriesArray )
+				{
+					DataSet ds = series.getDataSet( );
+					idsp = PluginSettings.instance( )
+							.getDataSetProcessor( series.getClass( ) );
+
+					if ( ds.getValues( ) instanceof BigNumber[] )
+					{
+						doaDataSet = (Number[]) ds.getValues( );
+						Number[] newDoaDataSet = new Double[doaDataSet.length];
+						for ( int j = 0; j < doaDataSet.length; j++ )
+						{
+							newDoaDataSet[j] = NumberUtil.asDouble( doaDataSet[j] );
+						}
+						ds.setValues( newDoaDataSet );
+					}
+					else if ( ds.getValues( ) instanceof NumberDataPointEntry[] )
+					{
+						NumberDataPointEntry[] ndpe = (NumberDataPointEntry[]) ds.getValues( );
+						for ( int j = 0; j < ndpe.length; j++ )
+						{
+							Number[] nums = ndpe[j].getNumberData( );
+							if ( nums == null || nums.length == 0 )
+							{
+								continue;
+							}
+							Number[] newNums = new Number[nums.length];
+							for ( int k = 0; k < nums.length; k++ )
+							{
+								newNums[k] = NumberUtil.asDouble( nums[k] );
+							}
+							ndpe[j].setNumberData( newNums );
+						}
+					}
+				}
+
+			}
+			else if ( absMax.compareTo( NumberUtil.DOUBLE_MIN ) < 0 )
+			{
+				BigDecimal divisor = BigDecimal.ONE.divide( NumberUtil.DEFAULT_MULTIPLIER.divide( bnMin,
+						NumberUtil.DEFAULT_MATHCONTEXT ),
+						NumberUtil.DEFAULT_MATHCONTEXT );
+
+				for ( Series series : seriesArray )
+				{
+					DataSet ds = series.getDataSet( );
+					idsp = PluginSettings.instance( )
+							.getDataSetProcessor( series.getClass( ) );
+					if ( ds.getValues( ) instanceof Number[] )
+					{
+						doaDataSet = (Number[]) ds.getValues( );
+
+						Number[] numbers = new BigNumber[doaDataSet.length];
+						for ( int j = 0; j < doaDataSet.length; j++ )
+						{
+							numbers[j] = NumberUtil.asBigNumber( doaDataSet[j],
+									divisor );
+						}
+						ds.setValues( numbers );
+					}
+					else if ( ds.getValues( ) instanceof NumberDataPointEntry[] )
+					{
+						NumberDataPointEntry[] ndpe = (NumberDataPointEntry[]) ds.getValues( );
+						for ( int j = 0; j < ndpe.length; j++ )
+						{
+							Number[] nums = ndpe[j].getNumberData( );
+							if (  nums == null || nums.length == 0 )
+							{
+								continue;
+							}
+							Number[] newNums = new BigNumber[nums.length];
+							for ( int k = 0; k < nums.length; k++ )
+							{
+								newNums[k] = NumberUtil.asBigNumber( nums[k], divisor );
+							}
+							ndpe[j].setNumberData( newNums );
+						}
+					}
+				}
+			}
+			else
+			{
+				BigDecimal divisor = bnMax.divide( NumberUtil.DEFAULT_DIVISOR,
+						NumberUtil.DEFAULT_MATHCONTEXT );
+
+				for ( Series series : seriesArray )
+				{
+					DataSet ds = series.getDataSet( );
+					idsp = PluginSettings.instance( )
+							.getDataSetProcessor( series.getClass( ) );
+					if ( ds.getValues( ) instanceof Number[] )
+					{
+						doaDataSet = (Number[]) ds.getValues( );
+						Number[] numbers = new BigNumber[doaDataSet.length];
+						for ( int j = 0; j < doaDataSet.length; j++ )
+						{
+							numbers[j] = NumberUtil.asBigNumber( doaDataSet[j],
+									divisor );
+						}
+						ds.setValues( numbers );
+					}
+					else if ( ds.getValues( ) instanceof NumberDataPointEntry[] )
+					{
+						NumberDataPointEntry[] ndpe = (NumberDataPointEntry[]) ds.getValues( );
+						for ( int j = 0; j < ndpe.length; j++ )
+						{
+							Number[] nums = ndpe[j].getNumberData( );
+							if (  nums == null || nums.length == 0 )
+							{
+								continue;
+							}
+							Number[] newNums = new BigNumber[nums.length];
+							for ( int k = 0; k < nums.length; k++ )
+							{
+								newNums[k] = NumberUtil.asBigNumber( nums[k], divisor );
+							}
+							ndpe[j].setNumberData( newNums );
+						}
+					}
+				}
+			}
+		}
 	}
 }

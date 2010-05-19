@@ -4423,6 +4423,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( scaleUnitTypeEEnum, ScaleUnitType.WEEKS_LITERAL );
 		addEEnumLiteral( scaleUnitTypeEEnum, ScaleUnitType.MONTHS_LITERAL );
 		addEEnumLiteral( scaleUnitTypeEEnum, ScaleUnitType.YEARS_LITERAL );
+		addEEnumLiteral( scaleUnitTypeEEnum, ScaleUnitType.QUARTERS_LITERAL );
 
 		initEEnum( sortOptionEEnum, SortOption.class, "SortOption" ); //$NON-NLS-1$
 		addEEnumLiteral( sortOptionEEnum, SortOption.ASCENDING_LITERAL );

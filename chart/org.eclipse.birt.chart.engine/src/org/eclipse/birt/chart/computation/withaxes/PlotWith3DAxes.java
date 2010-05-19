@@ -52,8 +52,10 @@ import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
+import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.NumberUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 
@@ -960,10 +962,17 @@ public class PlotWith3DAxes extends PlotWithAxes
 					}
 					else
 					{
-						final double dV1 = asDouble( oV1 ).doubleValue( );
-						if ( Math.min( asDouble( oMin ).doubleValue( ), dV1 ) == dV1 )
+						if ( NumberUtil.isBigNumber( oV1 ) )
 						{
-							oMin = oV1;
+							oMin = ( (BigNumber) oMin ).min( (BigNumber) oV1 );
+						}
+						else
+						{
+							final double dV1 = asDouble( oV1 ).doubleValue( );
+							if ( Math.min( asDouble( oMin ).doubleValue( ), dV1 ) == dV1 )
+							{
+								oMin = oV1;
+							}
 						}
 					}
 				}
@@ -976,10 +985,17 @@ public class PlotWith3DAxes extends PlotWithAxes
 					}
 					else
 					{
-						final double dV2 = asDouble( oV2 ).doubleValue( );
-						if ( Math.max( asDouble( oMax ).doubleValue( ), dV2 ) == dV2 )
+						if ( NumberUtil.isBigNumber( oV2 ) )
 						{
-							oMax = oV2;
+							oMax = ( (BigNumber) oMax ).max( (BigNumber) oV2 );
+						}
+						else
+						{
+							final double dV2 = asDouble( oV2 ).doubleValue( );
+							if ( Math.max( asDouble( oMax ).doubleValue( ), dV2 ) == dV2 )
+							{
+								oMax = oV2;
+							}
 						}
 					}
 				}
@@ -1084,10 +1100,19 @@ public class PlotWith3DAxes extends PlotWithAxes
 		{
 			try
 			{
-				return new double[]{
-						asDouble( oMin ).doubleValue( ),
-						asDouble( oMax ).doubleValue( )
-				};
+				if ( NumberUtil.isBigNumber( oMin ) || NumberUtil.isBigNumber( oMax ) )
+				{
+					return new BigNumber[]{
+							(BigNumber) oMin, (BigNumber) oMax
+					};
+				}
+				else
+				{
+					return new double[]{
+							asDouble( oMin ).doubleValue( ),
+							asDouble( oMax ).doubleValue( )
+					};
+				}
 			}
 			catch ( ClassCastException ex )
 			{

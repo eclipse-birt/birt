@@ -673,7 +673,7 @@ public final class Bar extends AxesRenderer
 					au = ssl.getUnit( bs, i ); // UNIT POSITIONS (MAX, MIN) FOR
 					// INDEX = 'i'
 					dValue = isNaN( dpha[i].getOrthogonalValue( ) ) ? 0
-							: ( (Double) dpha[i].getOrthogonalValue( ) ).doubleValue( );
+							: ( (Number) dpha[i].getOrthogonalValue( ) ).doubleValue( );
 					double[] values = computeStackPosition( au, dValue, ax );
 					dStart = values[0];
 					dEnd = values[1];

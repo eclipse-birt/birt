@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.extension.render;
 
+import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.withaxes.AutoScale;
 import org.eclipse.birt.chart.computation.withoutaxes.SeriesRenderingHints;
@@ -40,6 +41,10 @@ import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
+import org.eclipse.birt.chart.util.BigNumber;
+import org.eclipse.birt.chart.util.NumberUtil;
+
+import com.ibm.icu.math.BigDecimal;
 
 /**
  * Dial
@@ -187,7 +192,19 @@ public class Dial extends BaseRenderer
 			{
 				BaseRenderer br = getRenderer( i );
 				Series se = br.getSeries( );
-
+				DataSetIterator dsi = new DataSetIterator( se.getDataSet( ) );
+				BigDecimal divisor = null;
+				dsi.reset( );
+				while ( dsi.hasNext( ) )
+				{
+					Object o = dsi.next( );
+					if ( NumberUtil.isBigNumber( o ) )
+					{
+						divisor = ( (BigNumber) o ).getDivisor( );
+						break;
+					}
+				}
+				
 				if ( !( br instanceof Dial )
 						|| !se.isVisible( ) )
 				{
@@ -198,7 +215,7 @@ public class Dial extends BaseRenderer
 				( (Dial) br ).getActualRenderer( ).updateRadius( radius );
 				
 				asc = ( (Dial) br ).getActualRenderer( )
-						.getAutoScale( startAngle, stopAngle, sc, boCB );
+						.getAutoScale( startAngle, stopAngle, sc, boCB, divisor );
 
 				// fix bugzilla: 122343
 				if ( sc.getMin( ) == null || sc.getMax( ) == null )

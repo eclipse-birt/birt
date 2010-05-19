@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
+import org.eclipse.birt.chart.util.NumberUtil;
+
+import com.ibm.icu.math.BigDecimal;
+
 /**
  * Computation unit for total, min, max and etc.
  */
@@ -37,7 +41,9 @@ public final class AxisSubUnit
 	/** The field stores min position of series in axes. */
 	private double dLastMinPosition = Double.NaN;
 
-	/** Return positive and negative values should be accumulated together or not */
+	/**
+	 * Return positive and negative values should be accumulated together or not
+	 */
 	private final boolean bStackTogether;
 
 	/**
@@ -175,7 +181,19 @@ public final class AxisSubUnit
 			return 0;
 		}
 		// Do not use dTotal to compute percentage to avoid data out of bound
-		return ( dValue * 100d ) / ( dPositiveTotal - dNegativeTotal );
+		double result = ( dValue * 100d ) / ( dPositiveTotal - dNegativeTotal );
+		// If result is out of double, then use big decimal to compute.
+		if ( Double.isInfinite( result ) || Double.isNaN( result ) )
+		{
+			result = BigDecimal.valueOf( dValue )
+					.multiply( BigDecimal.valueOf( 100 ),
+							NumberUtil.DEFAULT_MATHCONTEXT )
+					.divide( BigDecimal.valueOf( dPositiveTotal
+							- dNegativeTotal ),
+							NumberUtil.DEFAULT_MATHCONTEXT )
+					.doubleValue( );
+		}
+		return result;
 	}
 
 	/**

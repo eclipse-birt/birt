@@ -181,17 +181,18 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 	<xsd:simpleType name="ScaleUnitType">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-			This type defines predefined date unit types for scale.
+				This type defines predefined date unit types for scale.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="Seconds"/>
-			<xsd:enumeration value="Minutes"/>
-			<xsd:enumeration value="Hours"/>
-			<xsd:enumeration value="Days"/>
-			<xsd:enumeration value="Weeks"/>
-			<xsd:enumeration value="Months"/>
-			<xsd:enumeration value="Years"/>
+			<xsd:enumeration value="Seconds" />
+			<xsd:enumeration value="Minutes" />
+			<xsd:enumeration value="Hours" />
+			<xsd:enumeration value="Days" />
+			<xsd:enumeration value="Weeks" />
+			<xsd:enumeration value="Months" />
+			<xsd:enumeration value="Years" />
+			<xsd:enumeration value="Quarters"></xsd:enumeration>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="LeaderLineStyle">

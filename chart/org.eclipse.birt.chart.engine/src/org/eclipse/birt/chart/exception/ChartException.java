@@ -109,6 +109,8 @@ public class ChartException extends BirtException
 	 * Exception type for all null values error.
 	 */
 	public static final int ALL_NULL_DATASET = 20;
+	
+	public static final int INVALID_DATA_TYPE = 21;
 	/**
 	 * Exception type for Validation error.
 	 */

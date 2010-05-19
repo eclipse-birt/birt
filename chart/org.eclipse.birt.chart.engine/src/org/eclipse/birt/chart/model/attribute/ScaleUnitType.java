@@ -123,7 +123,15 @@ public enum ScaleUnitType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	YEARS_LITERAL(6, "Years", "Years");
+	YEARS_LITERAL(6, "Years", "Years"), /**
+										 * The '<em><b>Quarters</b></em>' literal object.
+										 * <!-- begin-user-doc -->
+										 * <!-- end-user-doc -->
+										 * @see #QUARTERS
+										 * @generated
+										 * @ordered
+										 */
+	QUARTERS_LITERAL(7, "Quarters", "Quarters");
 
 	/**
 	 * The '<em><b>Seconds</b></em>' literal value.
@@ -203,6 +211,21 @@ public enum ScaleUnitType implements Enumerator {
 	public static final int YEARS = 6;
 
 	/**
+	 * The '<em><b>Quarters</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Quarters</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #QUARTERS_LITERAL
+	 * @model name="Quarters"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int QUARTERS = 7;
+
+	/**
 	 * An array of all the '<em><b>Scale Unit Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -215,6 +238,7 @@ public enum ScaleUnitType implements Enumerator {
 			WEEKS_LITERAL,
 			MONTHS_LITERAL,
 			YEARS_LITERAL,
+			QUARTERS_LITERAL,
 	};
 
 	/**
@@ -284,6 +308,8 @@ public enum ScaleUnitType implements Enumerator {
 				return MONTHS_LITERAL;
 			case YEARS :
 				return YEARS_LITERAL;
+			case QUARTERS :
+				return QUARTERS_LITERAL;
 		}
 		return null;
 	}

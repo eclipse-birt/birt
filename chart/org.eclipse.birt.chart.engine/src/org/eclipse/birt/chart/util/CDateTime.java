@@ -56,12 +56,15 @@ public class CDateTime extends GregorianCalendar
 			Calendar.YEAR
 	};
 
+	public static final int QUARTER = GroupingUnitType.QUARTERS;
+	
 	private static int[] iaCalendarUnits = {
 			Calendar.SECOND,
 			Calendar.MINUTE,
 			Calendar.HOUR_OF_DAY,
 			Calendar.DATE,
 			Calendar.MONTH,
+			QUARTER
 	};
 
 	private static final SimpleDateFormat _sdf = new SimpleDateFormat( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
@@ -264,7 +267,14 @@ public class CDateTime extends GregorianCalendar
 	public CDateTime backward( int iUnit, int iStep )
 	{
 		CDateTime cd = (CDateTime) clone( );
-		cd.add( iUnit, -iStep );
+		if ( iUnit == QUARTER )
+		{
+			cd.add( Calendar.MONTH, ( iStep == 0 ? 1 : iStep ) * -3 );
+		}
+		else
+		{
+			cd.add( iUnit, -iStep );
+		}
 		return cd;
 	}
 
@@ -280,7 +290,14 @@ public class CDateTime extends GregorianCalendar
 	public CDateTime forward( int iUnit, int iStep )
 	{
 		CDateTime cd = (CDateTime) clone( );
-		cd.add( iUnit, iStep );
+		if ( iUnit == QUARTER )
+		{
+			cd.add( Calendar.MONTH, ( iStep == 0 ? 1 : iStep ) * 3 );
+		}
+		else
+		{
+			cd.add( iUnit, iStep );
+		}
 		return cd;
 	}
 
@@ -591,11 +608,11 @@ public class CDateTime extends GregorianCalendar
 				return dDays / 365.25;
 			}
 		}
-		else if ( iUnit == GroupingUnitType.QUARTERS )
+		else if ( iUnit == QUARTER )
 		{
-			int startQuarter = cdt1.getYear( ) * 4 + numberOfQuarter( cdt1 );
-			int endQuarter = cdt2.getYear( ) * 4 + numberOfQuarter( cdt2 );
-			return endQuarter - startQuarter;
+			int maxQuarter = cdt1.getYear( ) * 4 + numberOfQuarter( cdt1 );
+			int minQuarter = cdt2.getYear( ) * 4 + numberOfQuarter( cdt2 );
+			return maxQuarter - minQuarter;
 		}
 
 		return 0;
@@ -950,5 +967,18 @@ public class CDateTime extends GregorianCalendar
 	public void setTimeOnly( boolean timeOnly )
 	{
 		bTimeOnly = timeOnly;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.ibm.icu.util.Calendar#add(int, int)
+	 */
+	public void add(int unit, int step )
+	{
+		if ( unit == QUARTER )
+		{
+			super.add( Calendar.MONTH, ( step == 0 ? 1 : step ) * 3 );
+			return;
+		}
+		super.add( unit, step );
 	}
 }

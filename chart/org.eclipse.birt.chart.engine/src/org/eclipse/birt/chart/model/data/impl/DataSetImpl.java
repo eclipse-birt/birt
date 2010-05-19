@@ -172,6 +172,7 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	protected void set( DataSet src )
 	{
 		values = src.getValues( );
+		isBigNumber = src.isBigNumber( );
 	}
 
 	/**
@@ -191,4 +192,23 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 		return result.toString( );
 	}
 
+	private boolean isBigNumber = false;
+
+	/**
+	 * Sets true/false to indicate if the values in data set are big number.
+	 * 
+	 * @param isBigNumber
+	 */
+	public void setIsBigNumber(boolean isBigNumber )
+	{
+		this.isBigNumber = isBigNumber;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.data.DataSet#isBigNumber()
+	 */
+	public boolean isBigNumber( )
+	{
+		return this.isBigNumber;
+	}
 } //DataSetImpl

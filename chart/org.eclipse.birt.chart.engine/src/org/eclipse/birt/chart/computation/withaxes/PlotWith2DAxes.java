@@ -53,11 +53,14 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.AxesRenderer;
 import org.eclipse.birt.chart.render.IAxesDecorator;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
+import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.NumberUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.util.Calendar;
 
 /**
@@ -288,7 +291,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		IDataSetProcessor iDSP = null;
 		// ANY STACKED SERIES ASSOCIATED WITH AXIS 'ax'
 		boolean bAnyStacked = false;
-
+		
 		for ( int i = 0; i < iSeriesCount; i++ )
 		{
 			if ( sea[i].isStacked( ) )
@@ -336,11 +339,18 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							}
 							else
 							{
-								final double dV1 = asDouble( oV1 ).doubleValue( );
-								if ( Math.min( asDouble( oMin ).doubleValue( ),
-										dV1 ) == dV1 )
+								if ( NumberUtil.isBigNumber( oV1 ) )
 								{
-									oMin = oV1;
+									oMin = ( (BigNumber) oMin ).min( (BigNumber) oV1 );
+								}
+								else
+								{
+									final double dV1 = asDouble( oV1 ).doubleValue( );
+									if ( Math.min( asDouble( oMin ).doubleValue( ),
+											dV1 ) == dV1 )
+									{
+										oMin = oV1;
+									}
 								}
 							}
 						}
@@ -354,11 +364,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							}
 							else
 							{
-								final double dV2 = asDouble( oV2 ).doubleValue( );
-								if ( Math.max( asDouble( oMax ).doubleValue( ),
-										dV2 ) == dV2 )
+								if ( NumberUtil.isBigNumber( oV2 ) )
 								{
-									oMax = oV2;
+									oMax = ( (BigNumber) oMax ).max( (BigNumber) oV2 );
+								}
+								else
+								{
+									final double dV2 = asDouble( oV2 ).doubleValue( );
+
+									if ( Math.max( asDouble( oMax ).doubleValue( ),
+											dV2 ) == dV2 )
+									{
+										oMax = oV2;
+									}
 								}
 							}
 						}
@@ -423,6 +441,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			}
 		}
 
+		boolean isbignumber = false;
+		BigDecimal bigDivisor = null;
 		// ONLY NUMERIC VALUES ARE SUPPORTED IN STACKED ELEMENT COMPUTATIONS
 		if ( bAnyStacked || ax.isPercent( ) )
 		{
@@ -523,8 +543,14 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							if ( oValue != null ) // NULL CHECK
 							{
 								// EXTRACT WRAPPED VALUE
-								double dValue = ( (Double) oValue ).doubleValue( );
+								double dValue = ( (Number) oValue ).doubleValue( );
 								au.computeTotal( dValue );
+								if ( NumberUtil.isBigNumber( oValue ) && !isbignumber )
+								{
+									isbignumber = true;
+									bigDivisor = ((BigNumber)oValue).getDivisor( );
+								}
+								
 							}
 							iSeriesIndex++;
 						}
@@ -571,15 +597,29 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			// If dAxisMin or dAxisMax is not changed, do not set oMin or oMax
 			if ( dAxisMin != Double.MAX_VALUE
 					&& ( oMin == null || Double.compare( dAxisMin,
-							(Double) oMin ) < 1 ) )
+							( (Number) oMin).doubleValue( ) ) < 1 ) )
 			{
-				oMin = new Double( dAxisMin );
+				if ( isbignumber && !ax.isPercent( )  )
+				{
+					oMin = new BigNumber( BigDecimal.valueOf( dAxisMin ).multiply( bigDivisor, NumberUtil.DEFAULT_MATHCONTEXT ), bigDivisor );				
+				}
+				else
+				{
+					oMin = new Double( dAxisMin );
+				}
 			}
 			if ( dAxisMax != -Double.MAX_VALUE
 					&& ( oMax == null || Double.compare( dAxisMax,
-							(Double) oMax ) > 1 ) )
+							((Number) oMax ).doubleValue( ) ) > 1 ) )
 			{
-				oMax = new Double( dAxisMax );
+				if ( isbignumber && !ax.isPercent( ) )
+				{
+					oMax = new BigNumber( BigDecimal.valueOf( dAxisMax ).multiply( bigDivisor, NumberUtil.DEFAULT_MATHCONTEXT ), bigDivisor );
+				}
+				else
+				{
+					oMax = new Double( dAxisMax );
+				}
 			}
 		}
 
@@ -637,24 +677,48 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			try
 			{
-				double dMin = asDouble( oMin ).doubleValue( );
-				double dMax = asDouble( oMax ).doubleValue( );
-
-				if ( dMin == dMax )
+				if ( NumberUtil.isBigNumber( oMin ) || NumberUtil.isBigNumber( oMax ) )
 				{
-					if ( dMin > 0 )
+					if ( ( (BigNumber) oMin ).compareTo( oMax ) == 0 )
 					{
-						dMin = 0;
+						if ( ( (BigNumber) oMin ).getValue( )
+								.compareTo( BigDecimal.ZERO ) > 0 )
+						{
+							oMin = new BigNumber( BigDecimal.ZERO,
+									( (BigNumber) oMin ).getDivisor( ) );
+						}
+						if ( ( (BigNumber) oMax ).getValue( )
+								.compareTo( BigDecimal.ZERO ) < 0 )
+						{
+							oMax = new BigNumber( BigDecimal.ZERO,
+									( (BigNumber) oMax ).getDivisor( ) );
+						}
 					}
-					if ( dMax < 0 )
-					{
-						dMax = 0;
-					}
+					return new BigNumber[]{
+							(BigNumber) oMin, (BigNumber) oMax
+					};
 				}
+				else
+				{
+					double dMin = asDouble( oMin ).doubleValue( );
+					double dMax = asDouble( oMax ).doubleValue( );
 
-				return new double[]{
-						dMin, dMax
-				};
+					if ( dMin == dMax )
+					{
+						if ( dMin > 0 )
+						{
+							dMin = 0;
+						}
+						if ( dMax < 0 )
+						{
+							dMax = 0;
+						}
+					}
+
+					return new double[]{
+							dMin, dMax
+					};
+				}
 			}
 			catch ( ClassCastException ex )
 			{
@@ -910,14 +974,21 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		if ( ( iAxisType & NUMERICAL ) == NUMERICAL
 				|| ( iAxisType & DATE_TIME ) == DATE_TIME )
 		{
+			Object minMax = getMinMax( axPrimaryOrthogonal, iAxisType );
 			if ( rtc.getSharedScale( ) != null )
 			{
-				dsi = rtc.getSharedScale( ).createDataSetIterator( iAxisType );
+				if ( minMax instanceof BigNumber[] )
+				{
+					dsi = rtc.getSharedScale( ).createDataSetIterator( iAxisType, true, ((BigNumber[])minMax)[1].getDivisor( ) );
+				}
+				else
+				{
+					dsi = rtc.getSharedScale( ).createDataSetIterator( iAxisType, false, null );	
+				}
 			}
 			else
 			{
-				dsi = new DataSetIterator( getMinMax( axPrimaryOrthogonal,
-						iAxisType ), iAxisType );
+				dsi = new DataSetIterator( minMax, iAxisType );
 			}
 			// Reverse the series categories if needed.
 			dsi.reverse( cwa.isReverseCategory( ) );
@@ -1012,7 +1083,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -2487,14 +2557,25 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		if ( ( iAxisType & NUMERICAL ) == NUMERICAL
 				|| ( iAxisType & DATE_TIME ) == DATE_TIME )
 		{
+			Object minMax = getMinMax( yAxis, iAxisType );
 			if ( rtc.getSharedScale( ) != null )
 			{
-				dsi = rtc.getSharedScale( ).createDataSetIterator( iAxisType );
+				if ( minMax instanceof BigNumber[] )
+				{
+					dsi = rtc.getSharedScale( )
+							.createDataSetIterator( iAxisType,
+									true,
+									( (BigNumber[]) minMax )[1].getDivisor( ) );
+				}
+				else
+				{
+					dsi = rtc.getSharedScale( )
+							.createDataSetIterator( iAxisType, false, null );
+				}
 			}
 			else
 			{
-				dsi = new DataSetIterator( getMinMax( yAxis, iAxisType ),
-						iAxisType );
+				dsi = new DataSetIterator( minMax, iAxisType );
 			}
 			// Reverse the series categories if needed.
 			dsi.reverse( isReverseCategory );

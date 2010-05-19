@@ -2228,8 +2228,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				sdBase = elBase.get( i );
 				alRuntimeSeries = sdBase.getRunTimeSeries( );
-
-				if ( ChartUtil.isDataEmpty( rtc ) )
+				
+				if ( alRuntimeSeries.isEmpty( ) || ChartUtil.isDataEmpty( rtc ) )
 				{
 					brna = new BaseRenderer[1];
 					brna[0] = new EmptyWithoutAxes( );

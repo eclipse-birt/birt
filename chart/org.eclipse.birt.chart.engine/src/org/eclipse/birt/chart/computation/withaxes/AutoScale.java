@@ -49,11 +49,14 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.ChartUtil.CacheDateFormat;
 import org.eclipse.birt.chart.util.ChartUtil.CacheDecimalFormat;
+import org.eclipse.birt.chart.util.NumberUtil;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Calendar;
@@ -276,7 +279,8 @@ public final class AutoScale extends Methods implements Cloneable
 			Calendar.HOUR_OF_DAY,
 			Calendar.DATE,
 			Calendar.MONTH,
-			Calendar.YEAR
+			Calendar.YEAR,
+			CDateTime.QUARTER,
 	};
 
 	private static int[] iaSecondDeltas = {
@@ -309,6 +313,8 @@ public final class AutoScale extends Methods implements Cloneable
 	};
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
+	private boolean bIsBigNumber;
+	private BigDecimal bigNumberDivisor;
 
 	/**
 	 * Returns the scale direction.
@@ -341,6 +347,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.staggeredHelper = staggeredHelper;
 		sc.hmComputedLabelText = sc.hmComputedLabelText;
 		sc.tmpSC = tmpSC;
+		sc.setBigNubmerDivisor( getBigNumberDivisor( ) );
 
 		return sc;
 	}
@@ -356,7 +363,7 @@ public final class AutoScale extends Methods implements Cloneable
 			return false; // CANNOT ZOOM FOR FIXED STEPS
 		}
 		if ( ChartUtil.mathEqual( 0,
-				( (Number) context.getStep( ) ).doubleValue( ) ) )
+				( (Number) context.getStep( ) ).doubleValue( ), isBigNumber( ) ) )
 		{
 			return false; // CANNOT ZOOM ANY MORE
 		}
@@ -419,7 +426,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 				}
 				// To prevent endless loop if step is not changed
-				if ( ChartUtil.mathEqual( dStep, oldStep ) )
+				if ( ChartUtil.mathEqual( dStep, oldStep, isBigNumber( ) ) )
 				{
 					dStep /= 2;
 				}
@@ -577,7 +584,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				if ( ChartUtil.mathEqual( ( (Number) oStep ).doubleValue( ),
-						dStep ) )
+						dStep, isBigNumber( ) ) )
 				{
 					// Can not zoom any more, result is always the same;
 					return false;
@@ -882,7 +889,7 @@ public final class AutoScale extends Methods implements Cloneable
 				double dMin = asDouble( context.getMin( ) ).doubleValue( );
 				double dStep = asDouble( oStep ).doubleValue( );
 
-				if ( !ChartUtil.mathEqual( dMax, dMin ) )
+				if ( !ChartUtil.mathEqual( dMax, dMin, isBigNumber( ) ) )
 				{
 					double lNTicks = Math.ceil( ( dMax - dMin ) / dStep - 0.5 ) + 1;
 					if ( ( lNTicks > TICKS_MAX ) || ( lNTicks < 2 ) )
@@ -1056,7 +1063,14 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						continue;
 					}
-					dValue = ( (Double) oValue ).doubleValue( );
+					if ( NumberUtil.isBigNumber( oValue ) )
+					{
+						dValue = ((BigNumber)oValue).doubleValue( );
+					}
+					else
+					{
+						dValue = ( (Double) oValue ).doubleValue( );
+					}
 					if ( dValue < dMinValue )
 						dMinValue = dValue;
 					if ( dValue > dMaxValue )
@@ -1364,17 +1378,17 @@ public final class AutoScale extends Methods implements Cloneable
 
 			for ( int i = 0; i < da.size( ) - 1; i++ )
 			{
-				nde.setValue( dAxisValue );
-				if ( info.fs == null )
-				{
-					df = computeDecimalFormat( dAxisValue, dAxisStep );
-				}
 				try
 				{
+					if ( info.fs == null )
+					{
+						df = computeDecimalFormat( dAxisValue, dAxisStep );
+					}
+					nde.setValue( dAxisValue );
 					sText = ValueFormatter.format( nde,
-							info.fs,
-							info.rtc.getULocale( ),
-							df );
+								info.fs,
+								info.rtc.getULocale( ),
+								df );
 				}
 				catch ( ChartException dfex )
 				{
@@ -1904,6 +1918,19 @@ public final class AutoScale extends Methods implements Cloneable
 			double zoomFactor, int iMarginPercent, PlotComputation plotComp )
 			throws ChartException
 	{
+		// Get divisor if current is big number.
+		BigDecimal divisor = null;
+		dsi.reset( );
+		while ( dsi.hasNext( ) )
+		{
+			Object v = dsi.next( );
+			if ( NumberUtil.isBigNumber( v ) )
+			{
+				divisor = ((BigNumber)v).getDivisor( );
+				break;
+			}
+		}
+		
 		final Scale scModel = ax.getModelAxis( ).getScale( );
 		final FormatSpecifier fs = ax.getFormatSpecifier( );
 		final Label la = ax.getLabel( );
@@ -1997,7 +2024,8 @@ public final class AutoScale extends Methods implements Cloneable
 					.dFactor( factor );
 
 			sc = new AutoScale( info );
-
+			sc.setBigNubmerDivisor( divisor );
+			
 			sc.setMinimum( Double.valueOf( 0 ) );
 			sc.setMaximum( Double.valueOf( 0 ) );
 			sc.setStep( new Double( dStep ) );
@@ -2038,6 +2066,8 @@ public final class AutoScale extends Methods implements Cloneable
 					scModel.isAutoExpand( ) ).dZoomFactor( zoomFactor )
 					.iMarginPercent( iMarginPercent );
 			sc = new AutoScale( info );
+			sc.setBigNubmerDivisor( divisor );
+			
 			sc.setData( dsi );
 			sc.computeTicks( xs,
 					ax.getLabel( ),
@@ -2065,7 +2095,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					continue;
 				}
-				dValue = ( (Double) oValue ).doubleValue( );
+				dValue = ( (Number) oValue ).doubleValue( );
 				if ( dValue < dMinValue )
 					dMinValue = dValue;
 				if ( dValue > dMaxValue )
@@ -2123,6 +2153,8 @@ public final class AutoScale extends Methods implements Cloneable
 					.iMarginPercent( iMarginPercent )
 					.dPrecision( dPrecision );
 			sc = new AutoScale( info );
+			sc.setBigNubmerDivisor( divisor );
+			
 			sc.setMaximum( Double.valueOf( 0 ) );
 			sc.setMinimum( Double.valueOf( 0 ) );
 			sc.setStep( new Double( dStep ) );
@@ -2159,7 +2191,7 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						continue;
 					}
-					dValue = ( (Double) oValue ).doubleValue( );
+					dValue = ( (Number) oValue ).doubleValue( );
 					if ( dValue < dMinValue )
 						dMinValue = dValue;
 					if ( dValue > dMaxValue )
@@ -2196,6 +2228,8 @@ public final class AutoScale extends Methods implements Cloneable
 					scModel.isAutoExpand( ) ).dZoomFactor( zoomFactor )
 					.iMarginPercent( iMarginPercent );
 			sc = new AutoScale( info );
+			sc.setBigNubmerDivisor( divisor );
+			
 			sc.setMaximum( Double.valueOf( 0 ) );
 			sc.setMinimum( Double.valueOf( 0 ) );
 			sc.setStep( new Double( 10 ) );
@@ -2304,6 +2338,8 @@ public final class AutoScale extends Methods implements Cloneable
 					.iMinUnit( oMinValue.equals( oMaxValue ) ? getUnitId( iUnit )
 							: getMinUnitId( fs, rtc ) );
 			sc = new AutoScale( info );
+			sc.setBigNubmerDivisor( divisor );
+			
 			sc.setMaximum( cdtMaxAxis );
 			sc.setMinimum( cdtMinAxis );
 			sc.setStep( Integer.valueOf( 1 ) );
@@ -2727,7 +2763,7 @@ public final class AutoScale extends Methods implements Cloneable
 			double dStep = asDouble( context.getStep( ) ).doubleValue( );
 
 			bMaxIsNotIntegralMultipleOfStep = !ChartUtil.mathEqual( dMax
-					/ dStep, (int) ( dMax / dStep ) );
+					/ dStep, (int) ( dMax / dStep ), isBigNumber( ) );
 
 			if ( info.bStepFixed && context.getStepNumber( ) != null )
 			{
@@ -2881,7 +2917,7 @@ public final class AutoScale extends Methods implements Cloneable
 			// ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER ISN'T DEFINED
 			if ( info.fs == null )
 			{
-				String pattern = ValueFormatter.getNumericPattern( ( (Number) oValue ).doubleValue( ) );
+				String pattern = ValueFormatter.getNumericPattern( (Number) oValue );
 				df = info.cacheNumFormat.get( pattern );
 			}
 			try
@@ -3359,19 +3395,49 @@ public final class AutoScale extends Methods implements Cloneable
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
 				DecimalFormat df = null;
+				boolean isbignumber = isBigNumber();
+				BigDecimal bdAxisValue = null;
+				BigDecimal bdAxisStep = null;
+				if ( isbignumber )
+				{
+					bdAxisValue = BigDecimal.valueOf( dAxisValue );
+					bdAxisStep = BigDecimal.valueOf( dAxisStep );
+				}
+				
 				if ( info.fs == null )
 				{
-					df = computeDecimalFormat( dAxisValue, dAxisStep );
+					if ( !isbignumber )
+					{
+						df = computeDecimalFormat( dAxisValue, dAxisStep );
+					}
+					else
+					{
+						df = computeDecimalFormat( bdAxisValue,
+								bdAxisStep.multiply( getBigNumberDivisor( ),
+										NumberUtil.DEFAULT_MATHCONTEXT ) );
+						
+					}
 				}
 				for ( int i = 0; i < da.size( ); i++ )
 				{
-					nde.setValue( dAxisValue );
+					
 					try
 					{
-						sText = ValueFormatter.format( nde,
-								info.fs,
-								info.rtc.getULocale( ),
-								df );
+						if ( !isbignumber )
+						{
+							nde.setValue( dAxisValue );
+							sText = ValueFormatter.format( nde,
+									info.fs,
+									info.rtc.getULocale( ),
+									df );
+						}
+						else
+						{
+							sText = ValueFormatter.format( bdAxisValue,
+									info.fs,
+									info.rtc.getULocale( ),
+									df );
+						}
 					}
 					catch ( ChartException dfex )
 					{
@@ -3389,28 +3455,68 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						dMaxW = dW;
 					}
-					dAxisValue += dAxisStep;
+					if ( !isbignumber )
+					{
+						dAxisValue += dAxisStep;
+					}
+					else
+					{
+						bdAxisValue = bdAxisValue.add( bdAxisStep,
+								NumberUtil.DEFAULT_MATHCONTEXT )
+								.multiply( getBigNumberDivisor( ),
+										NumberUtil.DEFAULT_MATHCONTEXT );
+					}
 				}
 			}
 			else if ( ( getType( ) & LOGARITHMIC ) == LOGARITHMIC )
 			{
 				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
+				
 				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
+				
+				BigDecimal bdAxisValue = null;
+				BigDecimal bdAxisStep = null;
+				boolean isbignumber = isBigNumber();
+				if ( isbignumber )
+				{
+					bdAxisValue = BigDecimal.valueOf( dAxisValue )
+							.multiply( bigNumberDivisor,
+									NumberUtil.DEFAULT_MATHCONTEXT );
+					bdAxisStep = BigDecimal.valueOf( dAxisStep );
+				}
 				DecimalFormat df = null;
 				for ( int i = 0; i < da.size( ); i++ )
 				{
 					if ( info.fs == null )
 					{
-						df = computeDecimalFormat( dAxisValue, dAxisStep );
+						if ( !isbignumber )
+						{
+							df = computeDecimalFormat( dAxisValue, dAxisStep );
+						}
+						else
+						{
+							df = computeDecimalFormat( bdAxisValue, bdAxisStep );
+						}
 					}
-					nde.setValue( dAxisValue );
+					
 					try
 					{
-						sText = ValueFormatter.format( nde,
-								info.fs,
-								info.rtc.getULocale( ),
-								df );
+						if ( !isbignumber )
+						{
+							nde.setValue( dAxisValue );
+							sText = ValueFormatter.format( nde,
+									info.fs,
+									info.rtc.getULocale( ),
+									df );
+						}
+						else
+						{
+							sText = ValueFormatter.format( (Number) bdAxisValue,
+									info.fs,
+									info.rtc.getULocale( ),
+									df );
+						}
 					}
 					catch ( ChartException dfex )
 					{
@@ -3427,7 +3533,16 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						dMaxW = dW;
 					}
-					dAxisValue *= dAxisStep;
+				
+					if ( isBigNumber( ) )
+					{
+						bdAxisValue = bdAxisValue.multiply( bdAxisStep,
+								NumberUtil.DEFAULT_MATHCONTEXT );
+					}
+					else
+					{
+						dAxisValue *= dAxisStep;
+					}
 				}
 			}
 			else if ( ( getType( ) & DATE_TIME ) == DATE_TIME )
@@ -4128,6 +4243,45 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 	}
 
+	public final DecimalFormat computeDecimalFormat( BigDecimal bdAxisValue, BigDecimal bdAxisStep)
+	{
+		// Use a more precise pattern
+		String valuePattern;
+		String stepPattern;
+
+		boolean bValuePrecise = false;
+		boolean bStepPrecise = false;
+
+		// return NumberUtil.getBigDecimalFormat( );
+		valuePattern = ValueFormatter.getNumericPattern( bdAxisValue );
+		stepPattern = ValueFormatter.getNumericPattern( bdAxisStep );
+
+		bValuePrecise = ChartUtil.checkBigNumberPrecise( bdAxisValue );
+		bStepPrecise = ChartUtil.checkBigNumberPrecise( bdAxisStep );
+
+		// See Bugzilla#185883
+		if ( bValuePrecise )
+		{
+			if ( bStepPrecise )
+			{
+				// If they are both double-precise, use the more precise one
+				if ( valuePattern.length( ) < stepPattern.length( ) )
+				{
+					return info.cacheNumFormat.get( stepPattern );
+				}
+			}
+		}
+		else
+		{
+			if ( bStepPrecise )
+			{
+				return info.cacheNumFormat.get( stepPattern );
+			}
+			// If they are neither double-precise, use the default value
+		}
+		return info.cacheNumFormat.get( valuePattern );
+	}
+	
 	/**
 	 * Computes the default DecimalFormat pattern for axis according to axis
 	 * value and scale steps.
@@ -4142,11 +4296,37 @@ public final class AutoScale extends Methods implements Cloneable
 			double dAxisStep )
 	{
 		// Use a more precise pattern
-		String valuePattern = ValueFormatter.getNumericPattern( dAxisValue );
-		String stepPattern = ValueFormatter.getNumericPattern( dAxisStep );
+		String valuePattern;
+		String stepPattern;
 
-		boolean bValuePrecise = ChartUtil.checkDoublePrecise( dAxisValue );
-		boolean bStepPrecise = ChartUtil.checkDoublePrecise( dAxisStep );
+		boolean bValuePrecise = false;
+		boolean bStepPrecise = false;
+
+		if ( this.isBigNumber( ) )
+		{
+			// return NumberUtil.getBigDecimalFormat( );
+			BigDecimal bdAxisValue = this.getBigNumberDivisor( )
+					.multiply( new BigDecimal( dAxisValue ),
+							NumberUtil.DEFAULT_MATHCONTEXT );
+			BigDecimal bdAxisStep = this.getBigNumberDivisor( )
+					.multiply( new BigDecimal( dAxisStep ),
+							NumberUtil.DEFAULT_MATHCONTEXT );
+			
+			valuePattern = ValueFormatter.getNumericPattern( bdAxisValue );
+			stepPattern = ValueFormatter.getNumericPattern( bdAxisStep );
+
+			bValuePrecise = ChartUtil.checkBigNumberPrecise( bdAxisValue );
+			bStepPrecise = ChartUtil.checkBigNumberPrecise( bdAxisStep );
+		}
+		else
+		{
+			// Use a more precise pattern
+			valuePattern = ValueFormatter.getNumericPattern( dAxisValue );
+			stepPattern = ValueFormatter.getNumericPattern( dAxisStep );
+
+			bValuePrecise = ChartUtil.checkDoublePrecise( dAxisValue );
+			bStepPrecise = ChartUtil.checkDoublePrecise( dAxisStep );
+		}
 
 		// See Bugzilla#185883
 		if ( bValuePrecise )
@@ -4372,4 +4552,45 @@ public final class AutoScale extends Methods implements Cloneable
 		public abstract boolean isTickLabelStaggered( int index );
 	}
 
+	/**
+	 * Sets big number divisor for axis scale.
+	 * 
+	 * @param divisor
+	 * @since 2.6
+	 */
+	public void setBigNubmerDivisor(BigDecimal divisor)
+	{
+		if ( divisor == null )
+		{
+			this.bIsBigNumber = false;
+			this.bigNumberDivisor = null;
+		}
+		else
+		{
+			this.bIsBigNumber = true;
+			this.bigNumberDivisor = divisor;
+		}
+	}
+	
+	/**
+	 * Checks if the axis scale represents big number.
+	 * 
+	 * @return
+	 * @since 2.6
+	 */
+	public boolean isBigNumber()
+	{
+		return this.bIsBigNumber;
+	}
+	
+	/**
+	 * Returns big number divisor of axis scale.
+	 * 
+	 * @return
+	 * @since 2.6
+	 */
+	public BigDecimal getBigNumberDivisor()
+	{
+		return this.bigNumberDivisor;
+	}
 }

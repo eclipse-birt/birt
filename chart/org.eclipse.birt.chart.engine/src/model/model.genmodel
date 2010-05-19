@@ -205,6 +205,7 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ScaleUnitType/Weeks"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ScaleUnitType/Months"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ScaleUnitType/Years"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ScaleUnitType/Quarters"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//SortOption">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//SortOption/Ascending"/>

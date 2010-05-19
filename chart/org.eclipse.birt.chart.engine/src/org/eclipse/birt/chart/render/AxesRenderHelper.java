@@ -75,8 +75,10 @@ import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.NumberUtil;
 import org.eclipse.emf.common.util.EList;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.DecimalFormat;
 
 /**
@@ -447,6 +449,8 @@ public final class AxesRenderHelper
 
 		double dAxisValue;
 		double dAxisStep;
+		BigDecimal bdAxisValue;
+		BigDecimal bdAxisStep;
 
 		public void close( ) throws ChartException
 		{
@@ -466,19 +470,38 @@ public final class AxesRenderHelper
 			{
 				dAxisValue += dAxisStep;
 			}
+			
+			if ( sc.isBigNumber( ) )
+			{
+				bdAxisValue = BigDecimal.valueOf( dAxisValue )
+						.multiply( sc.getBigNumberDivisor( ),
+								NumberUtil.DEFAULT_MATHCONTEXT );
+			}
+		
 		}
 
 		public void handlePreEachTick( int i ) throws ChartException
 		{
 			if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 			{
-				nde.setValue( dAxisValue );
 				try
 				{
-					sText = ValueFormatter.format( nde,
-							axModel.getFormatSpecifier( ),
-							ax.getRunTimeContext( ).getULocale( ),
-							df );
+					if ( sc.isBigNumber( ) )
+					{
+						sText = ValueFormatter.format( bdAxisValue,
+								axModel.getFormatSpecifier( ),
+								ax.getRunTimeContext( ).getULocale( ),
+								df );
+					}
+					else
+					{
+						nde.setValue( dAxisValue );
+						sText = ValueFormatter.format( nde,
+								axModel.getFormatSpecifier( ),
+								ax.getRunTimeContext( ).getULocale( ),
+								df );
+					}
+
 				}
 				catch ( ChartException dfex )
 				{
@@ -493,9 +516,22 @@ public final class AxesRenderHelper
 		{
 			dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( );
 			dAxisStep = Methods.asDouble( sc.getStep( ) ).doubleValue( );
-			if ( axModel.getFormatSpecifier( ) == null )
+			
+			if ( sc.isBigNumber( ) )
 			{
-				df = sc.computeDecimalFormat( dAxisValue, dAxisStep );
+				bdAxisValue = BigDecimal.valueOf( dAxisValue );
+				bdAxisStep = BigDecimal.valueOf( dAxisStep );
+				if ( axModel.getFormatSpecifier( ) == null )
+				{
+					df = sc.computeDecimalFormat( bdAxisValue, bdAxisStep.multiply( sc.getBigNumberDivisor( ), NumberUtil.DEFAULT_MATHCONTEXT ) );
+				}
+			}
+			else
+			{
+				if ( axModel.getFormatSpecifier( ) == null )
+				{
+					df = sc.computeDecimalFormat( dAxisValue, dAxisStep );
+				}
 			}
 		}
 
@@ -506,7 +542,9 @@ public final class AxesRenderHelper
 
 		double dAxisValue;
 		double dAxisStep;
-
+		BigDecimal bdAxisValue;
+		BigDecimal bdAxisStep;
+		
 		public void close( ) throws ChartException
 		{
 			// TODO Auto-generated method stub
@@ -515,7 +553,14 @@ public final class AxesRenderHelper
 
 		public void handlePostEachTick( int i ) throws ChartException
 		{
-			dAxisValue *= dAxisStep;
+			if ( sc.isBigNumber( ) )
+			{
+				bdAxisValue = bdAxisValue.multiply( bdAxisStep, NumberUtil.DEFAULT_MATHCONTEXT );
+			}
+			else
+			{
+				dAxisValue *= dAxisStep;
+			}
 		}
 
 		public void handlePreEachTick( int i ) throws ChartException
@@ -523,13 +568,23 @@ public final class AxesRenderHelper
 			// PERFORM COMPUTATIONS ONLY IF AXIS LABEL IS VISIBLE
 			if ( bRenderAxisLabels )
 			{
-				nde.setValue( dAxisValue );
 				try
 				{
-					sText = ValueFormatter.format( nde,
-							axModel.getFormatSpecifier( ),
-							ax.getRunTimeContext( ).getULocale( ),
-							df );
+					if ( sc.isBigNumber( ) )
+					{
+						sText = ValueFormatter.format( bdAxisValue,
+								axModel.getFormatSpecifier( ),
+								ax.getRunTimeContext( ).getULocale( ),
+								df );
+					}
+					else
+					{
+						nde.setValue( dAxisValue );
+						sText = ValueFormatter.format( nde,
+								axModel.getFormatSpecifier( ),
+								ax.getRunTimeContext( ).getULocale( ),
+								df );
+					}
 				}
 				catch ( ChartException dfex )
 				{
@@ -544,12 +599,23 @@ public final class AxesRenderHelper
 		{
 			dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( );
 			dAxisStep = Methods.asDouble( sc.getStep( ) ).doubleValue( );
-			if ( axModel.getFormatSpecifier( ) == null )
+			if ( sc.isBigNumber( ) )
 			{
-				df = sc.computeDecimalFormat( dAxisValue, dAxisStep );
+				bdAxisValue = BigDecimal.valueOf( dAxisValue ).multiply( sc.getBigNumberDivisor( ), NumberUtil.DEFAULT_MATHCONTEXT );
+				bdAxisStep = BigDecimal.valueOf( dAxisStep );
+				if ( axModel.getFormatSpecifier( ) == null )
+				{
+					df = sc.computeDecimalFormat( bdAxisValue, bdAxisStep );
+				}
+			}
+			else
+			{
+				if ( axModel.getFormatSpecifier( ) == null )
+				{
+					df = sc.computeDecimalFormat( dAxisValue, dAxisStep );
+				}
 			}
 		}
-
 	}
 
 	private final class DatetimeAxisTypeComputation implements

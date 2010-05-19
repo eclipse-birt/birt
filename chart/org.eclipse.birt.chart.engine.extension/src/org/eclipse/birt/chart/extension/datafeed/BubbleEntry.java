@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.extension.datafeed;
 
 import org.eclipse.birt.chart.computation.ValueFormatter;
-import org.eclipse.birt.chart.datafeed.IDataPointEntry;
+import org.eclipse.birt.chart.datafeed.NumberDataPointEntry;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -20,13 +20,16 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
+import org.eclipse.birt.chart.util.BigNumber;
+import org.eclipse.birt.chart.util.NumberUtil;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.util.ULocale;
 
 /**
  * BubbleEntry
  */
-public final class BubbleEntry implements IDataPointEntry
+public final class BubbleEntry extends NumberDataPointEntry
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine.extension/render" ); //$NON-NLS-1$
@@ -34,7 +37,13 @@ public final class BubbleEntry implements IDataPointEntry
 	private Object oValue;
 
 	private double dSize;
-
+	
+	private BigNumber bnSize;
+	
+	private boolean bIsBigNumber = false;
+		
+	private BigDecimal divisor;
+	
 	/** Index for category value, starting with 1. Default value is 0 */
 	private int index = 0;
 
@@ -68,12 +77,25 @@ public final class BubbleEntry implements IDataPointEntry
 	 */
 	public BubbleEntry( Object value, Object size )
 	{
+		init( value, size );
+	}
+
+	private void init( Object value, Object size )
+	{
+		if ( NumberUtil.isBigNumber( value )  )
+		{
+			bIsBigNumber = true;
+			divisor = ((BigNumber)value).getDivisor( );
+			bnSize = (BigNumber) size;
+		}
+		
 		this.oValue = value;
 		if ( value instanceof Double && ( (Double) value ).isNaN( ) )
 		{
 			// Handle NaN as null
 			this.oValue = null;
 		}
+		
 		// Invalid size is set to 0 by default
 		this.dSize = ( size instanceof Number ) ? ( (Number) size ).doubleValue( )
 				: 0;
@@ -108,6 +130,15 @@ public final class BubbleEntry implements IDataPointEntry
 	public final void setValue( Object value )
 	{
 		this.oValue = value;
+		if ( NumberUtil.isBigNumber( value ) )
+		{
+			bIsBigNumber = true;
+			divisor = ((BigNumber)value).getDivisor( );
+		}
+		else
+		{
+			bIsBigNumber = false;
+		}
 	}
 
 	/**
@@ -115,9 +146,14 @@ public final class BubbleEntry implements IDataPointEntry
 	 */
 	public final double getSize( )
 	{
-		return dSize;
+		return bIsBigNumber ? bnSize.doubleValue( ) : dSize;
 	}
 
+	public final Number getSizeNumber( )
+	{
+		return bIsBigNumber ? bnSize : Double.valueOf( dSize );
+	}
+	
 	/**
 	 * @param end
 	 *            The size to set.
@@ -125,6 +161,18 @@ public final class BubbleEntry implements IDataPointEntry
 	public final void setSize( double dSize )
 	{
 		this.dSize = dSize;
+	}
+	
+	public final void setSize( Number size )
+	{
+		if ( NumberUtil.isBigNumber( size ) )
+		{
+			this.dSize = ((BigNumber)size).doubleValue( );
+			this.bnSize = (BigNumber) size;
+			return;
+		}
+		
+		this.setSize( size.doubleValue( ) );
 	}
 
 	public String getFormattedString( String type, FormatSpecifier formatter,
@@ -139,10 +187,16 @@ public final class BubbleEntry implements IDataPointEntry
 			}
 			else if ( BubbleDataPointDefinition.TYPE_SIZE.equals( type ) )
 			{
-				str = ValueFormatter.format( new Double( dSize ),
-						formatter,
-						locale,
-						null );
+				Object size = null;
+				if ( bIsBigNumber )
+				{
+					size = bnSize;
+				}
+				else
+				{
+					size = new Double( dSize );
+				}
+				str = ValueFormatter.format( size, formatter, locale, null );
 			}
 		}
 		catch ( ChartException e )
@@ -154,14 +208,18 @@ public final class BubbleEntry implements IDataPointEntry
 
 	public String getFormattedString( FormatSpecifier formatter, ULocale locale )
 	{
-		String strSize = String.valueOf( dSize );
+		String strSize = bIsBigNumber ? String.valueOf( bnSize )
+				: String.valueOf( dSize );
 		if ( formatter instanceof NumberFormatSpecifier
 				|| formatter instanceof JavaNumberFormatSpecifier
 				|| formatter instanceof FractionNumberFormatSpecifier )
 		{
 			try
 			{
-				strSize = ValueFormatter.format( dSize, formatter, locale, null );
+				strSize = ValueFormatter.format( bIsBigNumber ? bnSize : dSize,
+						formatter,
+						locale,
+						null );
 			}
 			catch ( ChartException e )
 			{
@@ -193,6 +251,63 @@ public final class BubbleEntry implements IDataPointEntry
 
 	public boolean isValid( )
 	{
-		return getValue( ) != null && !Double.isNaN( dSize ) && dSize != 0;
+		if ( !bIsBigNumber )
+		{
+			return getValue( ) != null && !Double.isNaN( dSize ) && dSize != 0;
+		}
+		return bnSize != null && bnSize.doubleValue( ) != 0;
+	}
+	
+
+	/**
+	 * Checks if the value is big number.
+	 * 
+	 * @return
+	 */
+	public boolean isBigNumber( )
+	{
+		return bIsBigNumber;
+	}
+	
+	/**
+	 * Returns divisor of big number.
+	 * 
+	 * @return
+	 */
+	public BigDecimal getDivisor( )
+	{
+		return divisor;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.datafeed.NumberDataPointEntry#setNumberData(java.lang.Number[])
+	 */
+	@Override
+	public void setNumberData( Number[] data )
+	{
+		if ( data == null || data.length < 2  )
+		{
+			return;
+		}
+		
+		init( data[0], data[1] );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.datafeed.NumberDataPointEntry#getNumberData()
+	 */
+	@Override
+	public Number[] getNumberData( )
+	{
+		if ( bIsBigNumber )
+		{
+			return new BigNumber[]{(BigNumber) oValue, bnSize};
+		}
+		
+		if ( oValue instanceof Number )
+		{
+			return new Double[]{ Double.valueOf( ((Number)oValue).doubleValue( ) ), Double.valueOf( dSize ) };
+		}
+		return null;
 	}
 }
