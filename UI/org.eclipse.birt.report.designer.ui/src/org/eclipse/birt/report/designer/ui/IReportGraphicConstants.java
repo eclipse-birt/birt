@@ -487,6 +487,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_SCRIPT_HELP = "Script Help"; //$NON-NLS-1$
 
 	public static final String ICON_REPORT_PROJECT_OVER = "Report Project Over";//$NON-NLS-1$
+	public static final String ICON_REPORT_LOCAL_LIBRARY_OVER = "Report Local Library Over";//$NON-NLS-1$
+	public static final String ICON_REPORT_LIBRARY_OVER = "Report Library Over";//$NON-NLS-1$
 
 	/** The width of the vertical ruler. */
 	public final static int VERTICAL_RULER_WIDTH = 12;

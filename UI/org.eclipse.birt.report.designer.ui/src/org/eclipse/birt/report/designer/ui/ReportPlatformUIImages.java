@@ -783,6 +783,11 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_REPORT_PROJECT_OVER,
 				ICONS_PATH + OVR16_PATH + "report_project_over.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_REPORT_LOCAL_LIBRARY_OVER,
+				ICONS_PATH + OVR16_PATH + "local_library_overwrite.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_REPORT_LIBRARY_OVER,
+				ICONS_PATH + OVR16_PATH + "library_overwrite.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_TOOL_CALENDAR, ICONS_PATH
 				+ OBJ16_PATH
@@ -916,15 +921,15 @@ public class ReportPlatformUIImages
 		}
 		else if ( model instanceof DesignElementHandle )
 		{// the icon name for elements is just the same as the element name
-			if ( isLinkImg( (DesignElementHandle) model ) == true )
-			{
-				image = getImage( ( (DesignElementHandle) model ).getElement( )
-						.getDefn( )
-						.getName( )
-						+ "_" //$NON-NLS-1$
-						+ IReportGraphicConstants.LINK );
-			}
-			else
+//			if ( isLinkImg( (DesignElementHandle) model ) == true )
+//			{
+//				image = getImage( ( (DesignElementHandle) model ).getElement( )
+//						.getDefn( )
+//						.getName( )
+//						+ "_" //$NON-NLS-1$
+//						+ IReportGraphicConstants.LINK );
+//			}
+//			else
 			{
 				image = getImage( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )

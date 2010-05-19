@@ -51,13 +51,14 @@ public class CascadingParameterGroupNodeProvider extends DefaultNodeProvider
 
 	public String getIconName( Object model )
 	{
-		if ( !DEUtil.isLinkedElement( (DesignElementHandle)model ) )
-		{
-			return IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP;
-		}else
-		{
-			return IReportGraphicConstants.ICON_CASCADING_PARAMETER_GROUP_ELEMENT_LINK;
-		}
+		return IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP;
+//		if ( !DEUtil.isLinkedElement( (DesignElementHandle)model ) )
+//		{
+//			return IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP;
+//		}
+//		{
+//			return IReportGraphicConstants.ICON_CASCADING_PARAMETER_GROUP_ELEMENT_LINK;
+//		}
 	}
 
 	protected DesignElementHandle createElement( String type ) throws Exception

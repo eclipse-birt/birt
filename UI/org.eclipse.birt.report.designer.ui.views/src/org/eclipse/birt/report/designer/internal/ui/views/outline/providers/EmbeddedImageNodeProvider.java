@@ -38,14 +38,8 @@ public class EmbeddedImageNodeProvider extends DefaultNodeProvider
 	{
 		assert(model instanceof EmbeddedImageHandle);
 		EmbeddedImageHandle image = (EmbeddedImageHandle)model;
-		if(image.isLibReference())
-		{
-			return IReportGraphicConstants.ICON_ELEMENT_IMAGE_LINK;
-		}else
-		{
-			return IReportGraphicConstants.ICON_ELEMENT_IMAGE;
-		}
 		
+		return IReportGraphicConstants.ICON_ELEMENT_IMAGE;
 		
 	}
 

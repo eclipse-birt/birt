@@ -35,16 +35,16 @@ public class ChartViewNodeProvider extends DefaultNodeProvider
 	{
 		DesignElementHandle handle = (DesignElementHandle) model;
 		String iconPath = ChartUIConstants.IMAGE_OUTLINE;
-		if ( DEUtil.isLinkedElement( handle ) )
-		{
-			iconPath = ChartUIConstants.IMAGE_OUTLINE_LIB;
-		}
+//		if ( DEUtil.isLinkedElement( handle ) )
+//		{
+//			iconPath = ChartUIConstants.IMAGE_OUTLINE_LIB;
+//		}
 		if ( handle.getSemanticErrors( ).size( ) > 0
 				&& !ChartReportItemBuilderImpl.isChartWizardOpen( ) )
 		{
 			iconPath = ChartUIConstants.IMAGE_OUTLINE_ERROR;
 		}
-		return UIHelper.getImage( iconPath );
+		return decorateImage( UIHelper.getImage( iconPath ), model);
 	}
 
 	public boolean hasChildren( Object object )

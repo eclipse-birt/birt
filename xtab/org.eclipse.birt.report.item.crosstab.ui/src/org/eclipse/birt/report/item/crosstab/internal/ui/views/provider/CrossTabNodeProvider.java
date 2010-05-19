@@ -82,9 +82,9 @@ public class CrossTabNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-		if ( model instanceof DesignElementHandle
-				&& DEUtil.isLinkedElement( (DesignElementHandle) model ) )
-			return CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_LINK_IMAGE );
-		return CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE );
+//		if ( model instanceof DesignElementHandle
+//				&& DEUtil.isLinkedElement( (DesignElementHandle) model ) )
+//			return CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_LINK_IMAGE );
+		return decorateImage( CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE ), model);
 	}
 }

@@ -320,7 +320,15 @@ public class DefaultNodeProvider implements INodeProvider
 				icon = ReportPlatformUIImages.getImage( model );
 			}
 		}
-		return icon;
+		
+		return decorateImage( icon, model );
+		//return icon;
+	}
+	
+	protected Image decorateImage(Image image, Object model)
+	{
+		IReportImageDecorator decorator = new LibraryElementImageDecorator( );
+		return decorator.decorateImage( image, model );
 	}
 
 	/**
