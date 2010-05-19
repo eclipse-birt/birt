@@ -21,6 +21,8 @@ public interface IEngineConfig extends IPlatformConfig
 	static final String LOG_DESTINATION = "logDest"; //$NON-NLS-1$			
 	static final String LOG_LEVEL = "logLevel"; //$NON-NLS-1$
 	static final String LOG_FILE = "logFile"; //$NON-NLS-1$
+	static final String LOG_ROLLING_SIZE = "logRollingSize";//$NON-NLS-1$
+	static final String LOG_MAX_BACKUP_INDEX = "logMaxBackupIndex";//$NON-NLS-1$
 	/**
 	 * define the logger used by the report engine.
 	 * 

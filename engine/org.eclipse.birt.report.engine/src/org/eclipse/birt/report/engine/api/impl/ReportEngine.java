@@ -205,6 +205,8 @@ public class ReportEngine implements IReportEngine
 		String dest = null;
 		String file = null;
 		Level level = Level.WARNING;
+		int rollingSize = 0;
+		int maxBackupIndex = 1;
 		if ( config != null )
 		{
 			logger = config.getLogger( );
@@ -215,8 +217,15 @@ public class ReportEngine implements IReportEngine
 			{
 				level = Level.WARNING;
 			}
+			rollingSize = config.getLogRollingSize( );
+			maxBackupIndex = config.getLogMaxBackupIndex( );
 		}
-		EngineLogger.startEngineLogging( logger, dest, file, level );
+		EngineLogger.startEngineLogging( logger,
+				dest,
+				file,
+				level,
+				rollingSize,
+				maxBackupIndex );
 	}
 	
 
@@ -658,7 +667,7 @@ public class ReportEngine implements IReportEngine
 	{
 		if ( logger != null )
 		{
-			EngineLogger.startEngineLogging( logger, null, null, null );
+			EngineLogger.startEngineLogging( logger, null, null, null, 0, 1 );
 		}
 	}
 

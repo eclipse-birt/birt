@@ -74,21 +74,33 @@ public class EngineLogger
 	static private Logger fileLogger = null;
 
 	/**
+	 * the rolling file size for the log file.
+	 */
+	private static int logRollingSize = 0;
+	
+	/**
+	 * the maximum number of backup files to keep around.
+	 */
+	private static int logMaxBackupIndex = 1;
+
+	/**
 	 * This function should only called by the main application that starts
 	 * BIRT. It will add a new log handler to the global BIRT logger.
 	 * 
-	 * @param directoryName -
-	 *            the directory name of the log file (e.g. C:\Log). The final
+	 * @param directoryName
+	 *            - the directory name of the log file (e.g. C:\Log). The final
 	 *            file name will be the directory name plus an unique file name.
 	 *            For example, if the directory name is C:\Log, the log file
 	 *            name will be something like
 	 *            C:\Log\ReportEngine_2005_02_26_11_26_56.log
-	 * @param logLevel -
-	 *            the log level to be set. If logLevel is null, it will be
+	 * @param logLevel
+	 *            - the log level to be set. If logLevel is null, it will be
 	 *            ignored.
+	 * @param rollingSize
+	 * @param maxBackupIndex
 	 */
 	public static void startEngineLogging( Logger logger, String directoryName,
-			String file, Level logLevel )
+			String file, Level logLevel, int rollingSize, int maxBackupIndex )
 	{
 		Logger rootLogger = Logger.getLogger( BIRT_NAME_SPACE );
 		if ( sharedHandler == null )
@@ -121,13 +133,21 @@ public class EngineLogger
 			{
 				logLevel = rootLogger.getLevel( );
 			}
+
+			logRollingSize = rollingSize;
+			logMaxBackupIndex = maxBackupIndex;
+			
 			if ( logLevel != Level.OFF
 					&& ( dirName != null || fileName != null ) )
 			{
-				fileLogger = createFileLogger( dirName, fileName );
+				fileLogger = createFileLogger( dirName,
+						fileName,
+						logRollingSize,
+						logMaxBackupIndex );
 				sharedHandler.setSharedLogger( fileLogger );
 			}
 			rootLogger.setLevel( logLevel );
+			
 		}
 
 		rootLogger.setUseParentHandlers( false );
@@ -196,10 +216,14 @@ public class EngineLogger
 		{
 			if ( userLogger != null )
 			{
-				if ( newLevel != Level.OFF && fileLogger == null
+				if ( newLevel != Level.OFF
+						&& fileLogger == null
 						&& ( dirName != null || fileName != null ) )
 				{
-					fileLogger = createFileLogger( dirName, fileName );
+					fileLogger = createFileLogger( dirName,
+							fileName,
+							logRollingSize,
+							logMaxBackupIndex );
 					if ( fileLogger != null )
 					{
 						sharedHandler.setSharedLogger( fileLogger );
@@ -240,7 +264,8 @@ public class EngineLogger
 		return new String( directoryName + fileName ); //$NON-NLS-1$; $NON-NLS-2$;
 	}
 
-	private static Logger createFileLogger( String dirName, String fileName )
+	private static Logger createFileLogger( String dirName, String fileName,
+			int rollingSize, int logMaxBackupIndex )
 	{
 		try
 		{
@@ -260,8 +285,19 @@ public class EngineLogger
 								+ "\" should be a folder instead of a file" );
 				}
 			}
-			Handler logFileHandler = new FileHandler(
-					generateUniqueLogFileName( dirName, fileName ), true );
+			String logFileName = generateUniqueLogFileName( dirName, fileName );
+			Handler logFileHandler = null;
+			if ( rollingSize <= 0 )
+			{
+				logFileHandler = new FileHandler( logFileName, true );
+			}
+			else
+			{
+				logFileHandler = new FileHandler( logFileName,
+						rollingSize,
+						logMaxBackupIndex,
+						true );
+			}
 			// In BIRT log, we should always use the simple format.
 			logFileHandler.setFormatter( new SimpleFormatter( ) );
 			logFileHandler.setLevel( Level.FINEST );

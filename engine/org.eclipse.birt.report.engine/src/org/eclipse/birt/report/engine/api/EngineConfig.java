@@ -300,6 +300,58 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	}
 
 	/**
+	 * Get the maximum number of bytes that the output file is allowed to reach
+	 * before being rolled over to backup files.
+	 * 
+	 * @return
+	 */
+	public int getLogRollingSize( )
+	{
+		Object obj = getProperty( LOG_ROLLING_SIZE );
+		if ( obj != null && obj instanceof Integer )
+		{
+			return ( (Integer) obj ).intValue( );
+		}
+		return 0;// there is no limit for the file size by default
+	}
+	
+	/**
+	 * Set the maximum number of bytes that the output file is allowed to reach
+	 * before being rolled over to backup files.
+	 * 
+	 * @param size
+	 */
+	public void setLogRollingSize( int size )
+	{
+		setProperty( LOG_ROLLING_SIZE, size );
+	}
+
+	/**
+	 * Returns the value of the MaxBackupIndex option.
+	 * 
+	 * @return
+	 */
+	public int getLogMaxBackupIndex( )
+	{
+		Object obj = getProperty( LOG_MAX_BACKUP_INDEX );
+		if ( obj != null && obj instanceof Integer )
+		{
+			return ( (Integer) obj ).intValue( );
+		}
+		return 1;// There is one backup file by default.
+	}
+	
+	/**
+	 * Set the maximum number of backup files to keep around.
+	 * 
+	 * @param maxBackupIndex
+	 */
+	public void setLogMaxBackupIndex( int maxBackupIndex )
+	{
+		setProperty( LOG_MAX_BACKUP_INDEX, maxBackupIndex );
+	}
+
+	/**
 	 * sets the directory for temporary files
 	 * 
 	 * @param tmpDir
