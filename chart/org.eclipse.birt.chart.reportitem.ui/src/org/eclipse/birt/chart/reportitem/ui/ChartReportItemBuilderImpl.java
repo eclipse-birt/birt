@@ -284,7 +284,15 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			
 			if ( contextResult != null && contextResult.getModel( ) != null )
 			{
-
+				// Here checks if OK button has been pressed. If OK button has
+				// not been pressed in this case, it might mean the chart
+				// builder dialog is not closed normally, it should return
+				// Window.CANCEL to tell invoker to break following tasks.
+				if ( !chartBuilder.isOkPressed( ))
+				{
+					return Window.CANCEL;
+				}
+				
 				// Pressing Finish
 				updateModel( extendedHandle,
 						chartBuilder,
@@ -346,11 +354,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			}
 			// clear all old exceptions
 			ChartWizard.clearExceptions( );
-//			
-//			if ( dataProvider != null )
-//			{
-//				dataProvider.dispose();
-//			}
 		}
 	}
 	

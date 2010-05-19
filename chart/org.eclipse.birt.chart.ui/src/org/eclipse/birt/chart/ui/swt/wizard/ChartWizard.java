@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBaseDialog;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IButtonHandler;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
@@ -86,6 +87,8 @@ public class ChartWizard extends WizardBase
 
 	private ChartAdapter adapter = null;
 
+	private boolean isOkPressed = false;
+	
 	public ChartWizard( )
 	{
 		this( null );
@@ -403,5 +406,36 @@ public class ChartWizard extends WizardBase
 				}
 			} );
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase#createDialog(org.eclipse.swt.widgets.Shell, int, int, java.lang.String, org.eclipse.swt.graphics.Image)
+	 */
+	protected WizardBaseDialog createDialog( Shell shell, int initialWidth,
+			int initialHeight, String strTitle, Image imgTitle )
+	{
+		return new WizardBaseDialog( this,
+				shell,
+				initialWidth,
+				initialHeight,
+				strTitle,
+				imgTitle ) 
+		{
+			protected void okPressed( )
+			{
+				super.okPressed( );
+				isOkPressed = true;
+			}
+		};
+	}
+	
+	/**
+	 * Checks if OK button has been pressed.
+	 * 
+	 * @return <code>true</code> if OK button has been pressed.
+	 */
+	public boolean isOkPressed( )
+	{
+		return isOkPressed;
 	}
 }
