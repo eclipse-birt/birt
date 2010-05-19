@@ -78,7 +78,9 @@ public class PatternImageEditorDialog extends TrayDialog
 		ChartUIUtil.bindHelp( parent,
 				ChartHelpContextIds.DIALOG_COLOR_PATTERN_FILL );
 		getShell( ).setText( Messages.getString( "PatternImageEditorDialog.Title.PatternFillEditor" ) ); //$NON-NLS-1$
-		return super.createContents( parent );
+		Control control = super.createContents( parent );
+		getShell( ).setDefaultButton( null );
+		return control;
 	}
 
 	@Override
@@ -186,7 +188,7 @@ public class PatternImageEditorDialog extends TrayDialog
 
 		}
 
-		private void onDropDonwFocusOut( )
+		public void onDropDonwFocusOut( )
 		{
 			Control currentControl = Display.getCurrent( ).getCursorControl( );
 
@@ -236,9 +238,79 @@ public class PatternImageEditorDialog extends TrayDialog
 		private static final int CELL_HEIGHT = 12;
 		private final Context context;
 
+		private int iRowAct = 0;
+		private int iColAct = 0;
+
 		PatternBitmapEditComposite( Context context )
 		{
 			this.context = context;
+		}
+
+		private void select( int iRow, int iCol )
+		{
+			if ( moveTo( iRow, iCol ) )
+			{
+				toggleCell( iRow, iCol );
+			}
+		}
+
+		void toggleCell( int iRow, int iCol )
+		{
+			long bitmap = context.getBitmap( );
+			bitmap = PatternImageUtil.togglePixel( bitmap, iCol, iRow );
+			context.updateBitmap( bitmap );
+			context.notifyListeners( );
+			dropDown.redraw( );
+		}
+
+		private boolean moveTo( int iRow, int iCol )
+		{
+			if ( iRow >= 0 && iRow < 8 && iCol >= 0 & iCol < 8 )
+			{
+				iRowAct = iRow;
+				iColAct = iCol;
+				return true;
+			}
+			return false;
+		}
+
+		private void processKeyDown( int keyCode )
+		{
+			switch ( keyCode )
+			{
+				case SWT.ESC :
+					onDropDonwFocusOut( );
+					break;
+				case SWT.CR :
+				case SWT.KEYPAD_CR :
+					toggleCell( iRowAct, iColAct );
+					break;
+				case SWT.HOME :
+					moveTo( 0, 0 );
+					dropDown.redraw( );
+					break;
+				case SWT.END :
+					moveTo( 7, 7 );
+					dropDown.redraw( );
+					break;
+				case SWT.ARROW_LEFT :
+					moveTo( iRowAct, iColAct - 1 );
+					dropDown.redraw( );
+					break;
+				case SWT.ARROW_RIGHT :
+					moveTo( iRowAct, iColAct + 1 );
+					dropDown.redraw( );
+					break;
+				case SWT.ARROW_UP :
+					moveTo( iRowAct - 1, iColAct );
+					dropDown.redraw( );
+					break;
+				case SWT.ARROW_DOWN :
+					moveTo( iRowAct + 1, iColAct );
+					dropDown.redraw( );
+					break;
+			}
+
 		}
 
 		@Override
@@ -249,12 +321,12 @@ public class PatternImageEditorDialog extends TrayDialog
 				case SWT.MouseDown :
 					int iRow = ( event.y - MARGIN ) / CELL_WIDTH;
 					int iCol = ( event.x - MARGIN ) / CELL_HEIGHT;
-					long bitmap = context.getBitmap( );
-					bitmap = PatternImageUtil.togglePixel( bitmap, iCol, iRow );
-					context.updateBitmap( bitmap );
-					context.notifyListeners( );
-					dropDown.redraw( );
+					select( iRow, iCol );
 					break;
+				case SWT.KeyDown :
+					processKeyDown( event.keyCode );
+					break;
+
 			}
 
 			super.handleEvent( event );
@@ -276,8 +348,9 @@ public class PatternImageEditorDialog extends TrayDialog
 			Color colorBack = createColor( context.getPatternImage( )
 					.getBackColor( ) );
 
-			gc.setForeground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_GRAY ) );
+			Color colorAct = gc.getDevice( ).getSystemColor( SWT.COLOR_RED );
+			Color colorInact = gc.getDevice( ).getSystemColor( SWT.COLOR_GRAY );
+			gc.setForeground( colorInact );
 
 			long bitmap = context.getBitmap( );
 
@@ -295,6 +368,12 @@ public class PatternImageEditorDialog extends TrayDialog
 				}
 			}
 
+			gc.setForeground( colorAct );
+			gc.drawRectangle( CELL_WIDTH * iColAct,
+					CELL_HEIGHT * iRowAct,
+					CELL_WIDTH,
+					CELL_HEIGHT );
+
 			colorFore.dispose( );
 			colorBack.dispose( );
 		}
@@ -311,7 +390,9 @@ public class PatternImageEditorDialog extends TrayDialog
 
 			composite.addListener( SWT.MouseDown, this );
 			composite.addListener( SWT.FocusOut, this );
+			composite.addListener( SWT.FocusIn, this );
 			composite.addListener( SWT.KeyDown, this );
+			composite.addListener( SWT.Traverse, this );
 			composite.addPaintListener( this );
 			return composite;
 		}
@@ -462,7 +543,7 @@ public class PatternImageEditorDialog extends TrayDialog
 			}
 		}
 
-		private static class ItemFrame extends Composite implements
+		private class ItemFrame extends Composite implements
 				PaintListener,
 				Listener
 		{
@@ -483,10 +564,14 @@ public class PatternImageEditorDialog extends TrayDialog
 				gl.marginLeft = MARGIN;
 				gl.marginRight = MARGIN;
 				setLayout( gl );
-				view = new Composite( this, SWT.DOUBLE_BUFFERED );
+				view = new Composite( this, SWT.NO_BACKGROUND );
 				view.setLayoutData( new GridData( VIEW_WIDTH, VIEW_HEIGHT ) );
 				view.addPaintListener( this );
 				view.addListener( SWT.MouseDown, this );
+				view.addListener( SWT.KeyDown, this );
+				view.addListener( SWT.Traverse, this );
+				view.addListener( SWT.FocusIn, this );
+				view.addListener( SWT.FocusOut, this );
 
 				btnDropDown = new Button( this, SWT.ARROW | SWT.DOWN );
 				btnDropDown.setLayoutData( new GridData( BUTTON_WIDTH,
@@ -497,11 +582,72 @@ public class PatternImageEditorDialog extends TrayDialog
 			public void paintControl( PaintEvent e )
 			{
 				drawItem( e.gc, context.getPatternImage( ), 0, 0 );
+
+				if ( view.isFocusControl( ) )
+				{
+					GC gc = e.gc;
+					Color cOld = gc.getForeground( );
+					int lineStyleOld = gc.getLineStyle( );
+
+					gc.setLineStyle( SWT.LINE_DOT );
+					gc.setForeground( gc.getDevice( )
+							.getSystemColor( SWT.COLOR_BLACK ) );
+
+					gc.drawRectangle( 1, 1, VIEW_WIDTH - 2, VIEW_HEIGHT - 2 );
+
+					gc.setForeground( gc.getDevice( )
+							.getSystemColor( SWT.COLOR_WHITE ) );
+					gc.drawRectangle( 2, 2, VIEW_WIDTH - 4, VIEW_HEIGHT - 4 );
+
+					gc.setForeground( cOld );
+					gc.setLineStyle( lineStyleOld );
+				}
+
 			}
 
 			public void doRedraw( )
 			{
 				view.redraw( );
+			}
+
+			private void doToggleDropDown( )
+			{
+				Event event = new Event( );
+				event.type = DropDownControl.ToggleDropDown;
+				event.widget = this;
+				notifyListeners( DropDownControl.ToggleDropDown, event );
+			}
+
+			private void processKeyDown( int keyCode )
+			{
+				switch ( keyCode )
+				{
+					case SWT.ESC :
+						break;
+					case SWT.CR :
+					case SWT.KEYPAD_CR :
+						doToggleDropDown( );
+						break;
+					case SWT.HOME :
+						select( 0 );
+						break;
+					case SWT.END :
+						select( context.getBitmaps( ).size( ) - 1 );
+						break;
+					case SWT.ARROW_LEFT :
+						select( context.getIndex( ) - 1 );
+						break;
+					case SWT.ARROW_RIGHT :
+						select( context.getIndex( ) + 1 );
+						break;
+					case SWT.ARROW_UP :
+						select( context.getIndex( ) - columns );
+						break;
+					case SWT.ARROW_DOWN :
+						select( context.getIndex( ) + columns );
+						break;
+				}
+
 			}
 
 			public void handleEvent( Event event )
@@ -510,9 +656,23 @@ public class PatternImageEditorDialog extends TrayDialog
 				{
 					case SWT.MouseDown :
 					case SWT.Selection :
-						event.type = DropDownControl.ToggleDropDown;
-						event.widget = this;
-						notifyListeners( DropDownControl.ToggleDropDown, event );
+						doToggleDropDown( );
+						break;
+					case SWT.KeyDown :
+						processKeyDown( event.keyCode );
+						break;
+					case SWT.Traverse :
+						if ( event.detail == SWT.TRAVERSE_TAB_NEXT
+								|| event.detail == SWT.TRAVERSE_TAB_PREVIOUS )
+						{
+							event.doit = true;
+						}
+						break;
+					case SWT.FocusIn :
+						view.redraw( );
+						break;
+					case SWT.FocusOut :
+						view.redraw( );
 						break;
 				}
 
