@@ -34,8 +34,8 @@ public class ArchiveFileSaveTest extends TestCase
 		}
 		entry.write( 0, bytes, 0, 255 );
 		file.save( );
-		copyFile( "test.archive", "new.archive" );
 		file.close( );
+		copyFile( "test.archive", "new.archive" );
 		assertTrue( new File( "test.archive" ).exists( ) );
 
 		file = new ArchiveFile( "new.archive", "r" );
