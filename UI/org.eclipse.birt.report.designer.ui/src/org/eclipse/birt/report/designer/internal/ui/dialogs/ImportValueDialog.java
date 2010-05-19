@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
@@ -86,8 +87,6 @@ public class ImportValueDialog extends BaseDialog
 
 	private static final String LABEL_SELECT_VALUE = Messages.getString( "ImportValueDialog.Label.SelectValue" ); //$NON-NLS-1$
 
-	private static final String DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
-
 	private Combo dataSetChooser, columnChooser;
 
 	private Text valueEditor;
@@ -108,7 +107,7 @@ public class ImportValueDialog extends BaseDialog
 
 	private String style;
 
-	private java.util.List choiceList;
+	private java.util.List<String> choiceList;
 
 	private int expectedColumnDataType;
 
@@ -117,7 +116,7 @@ public class ImportValueDialog extends BaseDialog
 	/**
 	 * Constructs a new instance of the dialog
 	 */
-	public ImportValueDialog( String style, java.util.List choices )
+	public ImportValueDialog( String style, java.util.List<String> choices )
 	{
 		super( DLG_TITLE );
 
@@ -456,9 +455,9 @@ public class ImportValueDialog extends BaseDialog
 		currentDataSetName = dataSetChooser.getText( );
 
 		selectedList.removeAll( );
-		for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+		for ( Iterator<String> iter = choiceList.iterator( ); iter.hasNext( ); )
 		{
-			String value = (String) iter.next( );
+			String value = iter.next( );
 			if ( value != null )
 			{
 				selectedList.add( value );
@@ -569,23 +568,28 @@ public class ImportValueDialog extends BaseDialog
 						Object candiateValue = iter.next( );
 						if ( candiateValue != null )
 						{
-							if ( candiateValue instanceof java.sql.Date )
+							if ( expectedColumnDataType == DataType.SQL_DATE_TYPE
+									&& candiateValue instanceof Date )
 							{
 								formatter.applyPattern( "yyyy-MM-dd" ); //$NON-NLS-1$
 								result = formatter.format( (Date) candiateValue );
 							}
-							else if ( candiateValue instanceof java.sql.Time )
+							else if ( expectedColumnDataType == DataType.SQL_TIME_TYPE
+									&& candiateValue instanceof Date )
 							{
 								formatter.applyPattern( "HH:mm:ss.SSS" ); //$NON-NLS-1$
 								result = formatter.format( (Date) candiateValue );
 							}
-							else if ( candiateValue instanceof Date )
+							else if ( expectedColumnDataType == DataType.DATE_TYPE
+									&& candiateValue instanceof Date )
 							{
 								formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" ); //$NON-NLS-1$
 								result = formatter.format( (Date) candiateValue );
 							}
 							else
-								result = String.valueOf( candiateValue);
+							{
+								result = String.valueOf( candiateValue );
+							}
 						}
 						else
 						{
