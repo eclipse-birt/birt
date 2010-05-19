@@ -117,7 +117,6 @@ public class EngintTaskLoggerTest extends EngineCase
 		File tmpDir = new File( tmpPath );
 		File[] logFiles = tmpDir.listFiles( new FilenameFilter( ) {
 
-			@Override
 			public boolean accept( File parent, String name )
 			{
 				return name.matches( ".*log\\.?[0-9]*?$" );
