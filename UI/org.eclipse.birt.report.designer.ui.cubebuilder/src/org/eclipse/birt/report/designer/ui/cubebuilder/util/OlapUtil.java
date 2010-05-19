@@ -43,6 +43,9 @@ public class OlapUtil
 
 	public static String[] getDataFieldNames( DataSetHandle dataset )
 	{
+		if ( dataset == null )
+			return new String[0];
+		
 		String[] columns = new String[0];
 		try
 		{
@@ -63,6 +66,9 @@ public class OlapUtil
 
 	public static String getDataFieldDisplayName( ResultSetColumnHandle column )
 	{
+		if ( column == null )
+			return null;
+		
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
 		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 				.iterator( ); iter.hasNext( ); )
@@ -81,6 +87,9 @@ public class OlapUtil
 
 	public static String[] getDataFieldDisplayNames( DataSetHandle dataset )
 	{
+		if ( dataset == null )
+			return new String[0];
+
 		String[] columns = new String[0];
 		try
 		{
@@ -101,6 +110,9 @@ public class OlapUtil
 
 	public static ResultSetColumnHandle[] getDataFields( DataSetHandle dataset )
 	{
+		if ( dataset == null )
+			return new ResultSetColumnHandle[0];
+
 		ResultSetColumnHandle[] columns = new ResultSetColumnHandle[0];
 		try
 		{
@@ -122,6 +134,8 @@ public class OlapUtil
 	public static ResultSetColumnHandle getDataField( DataSetHandle dataset,
 			String fieldName )
 	{
+		if ( dataset == null || fieldName == null )
+			return null;
 		try
 		{
 			List columnList = DataUtil.getColumnList( dataset );
@@ -244,6 +258,8 @@ public class OlapUtil
 	public static DataSetHandle getHierarchyDataset(
 			TabularHierarchyHandle hierarchy )
 	{
+		if ( hierarchy == null )
+			return null;
 		DataSetHandle dataset = hierarchy.getDataSet( );
 		if ( dataset == null
 				&& hierarchy.getLevelCount( ) > 0

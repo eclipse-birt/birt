@@ -18,19 +18,22 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractTitlePropertyDialog;
 import org.eclipse.birt.report.designer.data.ui.property.PropertyNode;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -118,10 +121,112 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	{
 		if ( checkCubeLink( ) )
 		{
+			clearInvalidGroup( );
+			clearInvalidJoin( );
 			return true;
 		}
 		else
 			return false;
+	}
+
+	private void clearInvalidJoin( )
+	{
+		Iterator iter = input.joinConditionsIterator( );
+		List<DimensionConditionHandle> invaildConditionList = new ArrayList<DimensionConditionHandle>( );
+		while ( iter.hasNext( ) )
+		{
+			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
+			TabularHierarchyHandle conditionHierarchy = (TabularHierarchyHandle) condition.getHierarchy( );
+			if ( conditionHierarchy == null )
+			{
+				invaildConditionList.add( condition );
+			}
+			else
+			{
+				if ( condition.getJoinConditions( ) != null )
+				{
+					Iterator iter1 = condition.getJoinConditions( ).iterator( );
+					List<DimensionJoinConditionHandle> invaildJoinList = new ArrayList<DimensionJoinConditionHandle>( );
+					while ( iter1.hasNext( ) )
+					{
+						DimensionJoinConditionHandle join = (DimensionJoinConditionHandle) iter1.next( );
+						String primaryKey = join.getCubeKey( );
+						String hierarchyKey = join.getHierarchyKey( );
+
+						if ( OlapUtil.getDataField( input.getDataSet( ),
+								primaryKey ) == null )
+						{
+							invaildJoinList.add( join );
+						}
+						else if ( OlapUtil.getDataField( conditionHierarchy.getDataSet( ),
+								hierarchyKey ) == null )
+						{
+							invaildJoinList.add( join );
+						}
+					}
+					if ( !invaildJoinList.isEmpty( ) )
+					{
+						for ( int i = 0; i < invaildJoinList.size( ); i++ )
+						{
+							try
+							{
+								invaildJoinList.get( i ).drop( );
+							}
+							catch ( PropertyValueException e )
+							{
+								ExceptionHandler.handle( e );
+							}
+						}
+					}
+				}
+
+				if ( condition.getJoinConditions( ) == null
+						|| !condition.getJoinConditions( )
+								.iterator( )
+								.hasNext( ) )
+				{
+					invaildConditionList.add( condition );
+				}
+			}
+		}
+		if ( !invaildConditionList.isEmpty( ) )
+		{
+			for ( int i = 0; i < invaildConditionList.size( ); i++ )
+			{
+				try
+				{
+					invaildConditionList.get( i ).drop( );
+				}
+				catch ( PropertyValueException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		}
+	}
+
+	private void clearInvalidGroup( )
+	{
+		if ( input != null )
+		{
+			TabularDimensionHandle[] dimensions = (TabularDimensionHandle[]) input.getContents( ICubeModel.DIMENSIONS_PROP )
+					.toArray( new TabularDimensionHandle[0] );
+			for ( int i = 0; i < dimensions.length; i++ )
+			{
+				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );
+				if ( hierarchy == null || hierarchy.getLevelCount( ) == 0 )
+				{
+					try
+					{
+						dimensions[i].drop( );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+			}
+		}
 	}
 
 	private boolean checkCubeLink( )
@@ -145,77 +250,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		else
 		{
 			boolean flag = true;
-//			if ( !input.autoPrimaryKey( ) )
-//			{
-//				for ( int i = 0; i < childList.size( ); i++ )
-//				{
-//					flag = true;
-//					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) childList.get( i );
-//					Iterator iter = input.joinConditionsIterator( );
-//					boolean check = false;
-//					while ( iter.hasNext( ) )
-//					{
-//						DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-//						if ( condition.getJoinConditions( ) != null
-//								&& condition.getJoinConditions( )
-//										.iterator( )
-//										.hasNext( ) )
-//						{
-//							Iterator keyIter = condition.getJoinConditions( )
-//									.iterator( );
-//							while ( keyIter.hasNext( ) )
-//							{
-//								DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) keyIter.next( );
-//								if ( hierarchy.getLevelCount( ) > 0 )
-//								{
-//									for ( int j = 0; j < hierarchy.getLevelCount( ); j++ )
-//									{
-//										TabularLevelHandle level = (TabularLevelHandle) hierarchy.getLevel( j );
-//										if ( joinCondition.getHierarchyKey( )
-//												.equals( level.getColumnName( ) ) )
-//										{
-//											check = true;
-//										}
-//									}
-//								}
-//							}
-//							if ( !check )
-//							{
-//								flag = false;
-//								break;
-//							}
-//						}
-//					}
-//				}
-//			}
-//
-//			if ( !flag )
-//			{
-//				String[] buttons = new String[]{
-//						IDialogConstants.YES_LABEL,
-//						IDialogConstants.NO_LABEL
-//				};
-//
-//				MessageDialog d = new MessageDialog( getShell( ),
-//						Messages.getString( "CubeBuilder.AutoPrimaryKeyDialog.Title" ), //$NON-NLS-1$
-//						null,
-//						Messages.getString( "CubeBuilder.AutoPrimaryKeyDialog.Message" ), //$NON-NLS-1$
-//						MessageDialog.WARNING,
-//						buttons,
-//						0 );
-//				int result = d.open( );
-//				if ( result == 1 )
-//				{
-//					return true;
-//				}
-//				else
-//				{
-//					this.showSelectionPage( getDatasetNode( ) );
-//					return false;
-//				}
-//			}
-//
-//			flag = true;
+
 			HashMap conditionMap = new HashMap( );
 			for ( int i = 0; i < childList.size( ); i++ )
 			{
@@ -252,8 +287,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 				conditionMap.clear( );
 
 				String[] buttons = new String[]{
-						IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL
+						IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL
 				};
 
 				MessageDialog d = new MessageDialog( getShell( ),
@@ -272,43 +306,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 					return false;
 				}
 			}
-//			else
-//			{
-//				Iterator iter = conditionMap.keySet( ).iterator( );
-//				while ( iter.hasNext( ) )
-//				{
-//					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) iter.next( );
-//					if ( hierarchy.getPrimaryKeys( ) == null
-//							|| hierarchy.getPrimaryKeys( ).size( ) == 0 )
-//						continue;
-//					int number = ( (Integer) conditionMap.get( hierarchy ) ).intValue( );
-//					if ( hierarchy.getPrimaryKeys( ).size( ) != number )
-//					{
-//						conditionMap.clear( );
-//
-//						String[] buttons = new String[]{
-//								IDialogConstants.YES_LABEL,
-//								IDialogConstants.NO_LABEL
-//						};
-//
-//						MessageDialog d = new MessageDialog( getShell( ),
-//								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Title" ), //$NON-NLS-1$
-//								null,
-//								Messages.getString( "CubeBuilder.SharedDimensionErrorLinkDialog.Message" ), //$NON-NLS-1$
-//								MessageDialog.WARNING,
-//								buttons,
-//								0 );
-//						int result = d.open( );
-//						if ( result == 1 )
-//							return true;
-//						else
-//						{
-//							this.showSelectionPage( getLinkGroupNode( ) );
-//							return false;
-//						}
-//					}
-//				}
-//			}
+
 			conditionMap.clear( );
 			return true;
 		}
