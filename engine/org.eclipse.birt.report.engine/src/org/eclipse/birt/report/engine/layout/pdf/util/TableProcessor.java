@@ -261,6 +261,7 @@ public class TableProcessor implements HTMLConstants
 				{
 					columnWidth.add( PropertyUtil.getDimensionAttribute(
 							element, "width" ) );
+					HTML2Content.handleStyle( element, cssStyles, content );
 				}
 				else if ( "tbody".equals( tagName ) || "thead".equals( tagName )
 						|| "tfoot".equals( tagName ) )
@@ -303,9 +304,10 @@ public class TableProcessor implements HTMLConstants
 			content = (RowContent) parent.getReportContent( )
 					.createRowContent( );
 			setParent( parent );
-			HTML2Content.handleStyle( element, cssStyles, content );
 			content.setHeight( PropertyUtil.getDimensionAttribute( element,
 					"height" ) );
+			HTML2Content.handleStyle( element, cssStyles, content );
+			
 		}
 
 		public void processNodes( )

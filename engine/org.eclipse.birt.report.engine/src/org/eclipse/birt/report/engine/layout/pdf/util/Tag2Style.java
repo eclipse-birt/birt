@@ -500,6 +500,17 @@ public abstract class Tag2Style implements HTMLConstants
 				PropertiesProcessor.process( properties, ele, sp );
 			}
 		} );
+		
+		tag2Style.put( TAG_COL, new Tag2Style( ) {
+
+			String[] properties = new String[]{PROPERTY_WIDTH};
+
+			public void process( Element ele, StyleProperties sp )
+			{
+				setBlockDisplay( sp.getStyle( ) );
+				PropertiesProcessor.process( properties, ele, sp );
+			}
+		} );
 
 		tag2Style.put( TAG_TR, new Tag2Style( ) {
 
