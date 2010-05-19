@@ -139,7 +139,7 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	 */
 	public DataType getDataType( String expression )
 	{
-		return DataType.NUMERIC_LITERAL;
+		return null;
 	}
 
 	/*

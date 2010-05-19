@@ -184,7 +184,10 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 
 					public void setExpression( String expr )
 					{
-						ChartUIUtil.setText( control, expr );
+						if ( expr != null )
+						{
+							ChartUIUtil.setText( control, expr );
+						}
 					}
 
 					public void setEnabled( boolean bEnabled )

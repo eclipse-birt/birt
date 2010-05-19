@@ -110,6 +110,7 @@ public class ChartWizardLauncher implements ChartUIConstants
 		context.addPredefinedQuery( QUERY_CATEGORY, new String[]{
 				"row[\"abc\"]", "abc" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		context.addPredefinedQuery( QUERY_VALUE, new String[]{} );
 
 		context.setRtL( ChartUtil.isRightToLeftLocale( ULocale.getDefault( ) ) );
 
@@ -139,15 +140,17 @@ public class ChartWizardLauncher implements ChartUIConstants
 		OutputStream os = null;
 		try
 		{
-			os = new FileOutputStream( chartFile );
+
 			if ( contextResult != null )
 			{
+				os = new FileOutputStream( chartFile );
 				// Pressing Finish
 				serializer.write( contextResult.getModel( ), os );
 
 			}
 			else if ( applyData[0] != null )
 			{
+				os = new FileOutputStream( chartFile );
 				// Pressing Cancel but Apply was pressed before, so revert to
 				// the point pressing Apply
 				serializer.write( (Chart) applyData[0], os );
