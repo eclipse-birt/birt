@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -87,7 +88,13 @@ public class ChartBindingGroupDescriptorProvider extends
 			info.setBindingValue( name );
 			info.setReadOnly( true );
 		}
-		
+		if ( ChartCubeUtil.isPlotChart( element )
+				|| ChartCubeUtil.isAxisChart( element ) )
+		{
+			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF );
+			info.setReadOnly( true );
+		}
+
 		return info;
 	}
 

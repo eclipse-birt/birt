@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.page;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartBindingGroupDescriptorProvider;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartShareBindingsFormHandlerProvider;
@@ -77,7 +78,9 @@ public class ChartBindingPage extends BindingPage
 			@Override
 			public boolean isEditable( )
 			{
-				return !ChartItemUtil.isChartInheritGroups( rih );
+				return !ChartItemUtil.isChartInheritGroups( rih )
+						&& !ChartCubeUtil.isAxisChart( rih )
+						&& !ChartCubeUtil.isPlotChart( rih );
 			}
 
 		};
