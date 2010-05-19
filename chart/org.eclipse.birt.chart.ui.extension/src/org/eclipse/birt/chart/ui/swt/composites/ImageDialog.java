@@ -12,9 +12,11 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import org.apache.commons.codec.binary.Base64;
@@ -35,8 +37,14 @@ import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -55,6 +63,8 @@ import org.eclipse.swt.widgets.Text;
 public class ImageDialog extends TrayDialog
 {
 
+	private final static String DATA_BASE64 = "data:;base64,"; //$NON-NLS-1$
+
 	final private static int URI_TYPE = 0;
 
 	final private static int EMBEDDED_TYPE = 1;
@@ -63,7 +73,7 @@ public class ImageDialog extends TrayDialog
 
 	private Composite inputArea;
 
-	private IconCanvas previewCanvas;
+	private ImageCanvas previewCanvas;
 
 	private Text uriEditor;
 
@@ -247,33 +257,12 @@ public class ImageDialog extends TrayDialog
 		gd.heightHint = 300;
 		previewArea.setLayoutData( gd );
 		previewArea.setLayout( new FillLayout( ) );
-
-		previewCanvas = new IconCanvas( previewArea );
+		previewCanvas = new ImageCanvas( previewArea );
 	}
 
 	private void preview( String uri )
 	{
-		try
-		{
-			// if ( imageData != null )
-			// {
-			// ByteArrayInputStream bis = new ByteArrayInputStream(
-			// Base64.decodeBase64( imageData.getBytes( ) ) );
-			// previewCanvas.loadImage( bis );
-			// }
-
-			previewCanvas.loadImage( new URL( uri ) );
-
-		}
-		catch ( Exception e )
-		{
-			logger.log( e );
-		}
-	}
-
-	private void clearPreview( )
-	{
-		previewCanvas.clear( );
+		previewCanvas.update( uri );
 	}
 
 	/*
@@ -366,7 +355,18 @@ public class ImageDialog extends TrayDialog
 		getButton( IDialogConstants.OK_ID ).setEnabled( false );
 		browseButton.setVisible( embedded.getSelection( ) );
 		
+		initPreview( );
+
 		return true;
+	}
+
+	private void initPreview( )
+	{
+		String sUrl = ( selectedType == EMBEDDED_TYPE ) ? "data:;base64," //$NON-NLS-1$
+				+ imageData : removeQuote( uriEditor.getText( )
+				.trim( ) );
+		previewCanvas.update( sUrl );
+
 	}
 
 	private void initURIEditor( )
@@ -384,8 +384,6 @@ public class ImageDialog extends TrayDialog
 
 		uriEditor.setText( uri );
 		uriEditor.setFocus( );
-		// Listener will be called automatically
-		clearPreview( );
 	}
 
 	private void updateButtons( )
@@ -412,7 +410,7 @@ public class ImageDialog extends TrayDialog
 		getButton( IDialogConstants.OK_ID ).setEnabled( complete );
 		if ( !complete )
 		{
-			previewCanvas.clear( );
+			// previewCanvas.clear( );
 		}
 		browseButton.setVisible( embedded.getSelection( ) );
 	}
@@ -444,6 +442,123 @@ public class ImageDialog extends TrayDialog
 			return string.trim( ).substring( 1, string.trim( ).length( ) - 1 );
 		}
 		return string.trim( );
+	}
+
+	private static class ImageCanvas extends Composite implements PaintListener
+	{
+
+		private ImageData imageData;
+
+		public ImageCanvas( Composite parent )
+		{
+			super( parent, SWT.NONE );
+			addPaintListener( this );
+		}
+
+		public void update( String sUrl )
+		{
+			if ( sUrl == null )
+			{
+				return;
+			}
+
+			InputStream in = null;
+
+			try
+			{
+
+				if ( sUrl.startsWith( DATA_BASE64 ) )
+				{
+					byte[] buf = Base64.decodeBase64( sUrl.substring( DATA_BASE64.length( ) )
+							.getBytes( ) );
+					in = new ByteArrayInputStream( buf );
+				}
+				else
+				{
+					in = new BufferedInputStream( new URL( sUrl ).openStream( ) );
+				}
+
+				ImageData[] datas = new ImageLoader( ).load( in );
+
+				if ( datas.length > 0 )
+				{
+					imageData = datas[0];
+				}
+			}
+			catch ( Exception e )
+			{
+				imageData = null;
+				logger.log( e );
+			}
+			finally
+			{
+				if ( in != null )
+				{
+					try
+					{
+						in.close( );
+					}
+					catch ( Exception e )
+					{
+						// do nothing
+					}
+				}
+			}
+
+			redraw( );
+		}
+
+		public void paintControl( PaintEvent e )
+		{
+			if ( imageData == null )
+			{
+				return;
+			}
+			GC gc = e.gc;
+			Rectangle destRect = getClientArea( );
+			org.eclipse.swt.graphics.Image img = new org.eclipse.swt.graphics.Image( gc.getDevice( ),
+					imageData );
+			Rectangle srcRect = img.getBounds( );
+			if ( srcRect.width > 0 && srcRect.height > 0 )
+			{
+				int x = 0, y = 0, w = destRect.width, h = destRect.height;
+
+				if ( srcRect.width < w && srcRect.height < h )
+				{
+					w = srcRect.width;
+					h = srcRect.height;
+					x = ( destRect.width - w ) / 2;
+					y = ( destRect.height - h ) / 2;
+				}
+				else
+				{
+					if ( ( 1d * srcRect.width / srcRect.height ) >= ( 1d * destRect.width / destRect.height ) )
+					{
+						double rate = 1d * w / srcRect.width;
+						h = (int) ( srcRect.height * rate + 0.5 );
+						y = ( destRect.height - h ) / 2;
+					}
+					else
+					{
+						double rate = 1d * h / srcRect.height;
+						w = (int) ( srcRect.width * rate + 0.5 );
+						x = ( destRect.width - w ) / 2;
+					}
+				}
+
+				gc.drawImage( img,
+						0,
+						0,
+						srcRect.width,
+						srcRect.height,
+						x,
+						y,
+						w,
+						h );
+			}
+			img.dispose( );
+		}
+
 	}
 
 }
