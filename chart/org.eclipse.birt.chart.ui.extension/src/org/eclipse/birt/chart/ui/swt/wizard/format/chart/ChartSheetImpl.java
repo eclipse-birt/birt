@@ -149,6 +149,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				getContext( ),
 				getChart( ).getBlock( ).getBackground( ),
 				true,
+				true,
+				true,
 				true );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );

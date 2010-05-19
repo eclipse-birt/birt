@@ -154,6 +154,7 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 
 			// GENERATE AND RENDER THE CHART
 			final Generator gr = Generator.instance( );
+			gr.setHighContrast( Display.getCurrent( ).getHighContrast( ) );
 
 			RunTimeContext rtc = new RunTimeContext( );
 			rtc.setScriptingEnabled( false );

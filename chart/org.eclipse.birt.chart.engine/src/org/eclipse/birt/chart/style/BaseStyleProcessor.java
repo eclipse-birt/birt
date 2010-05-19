@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.StyledComponent;
 public class BaseStyleProcessor implements IStyleProcessor
 {
 
+	private boolean isHighContrast = false;
 	public IStyle getStyle( Chart model, StyledComponent name )
 	{
 		return null;
@@ -30,6 +31,24 @@ public class BaseStyleProcessor implements IStyleProcessor
 	public void processStyle( Chart model )
 	{
 
+	}
+
+	public void setHighContrast( boolean ishighContrast )
+	{
+		this.isHighContrast = ishighContrast;
+	}
+
+	public boolean isHighContrast( )
+	{
+		try
+		{
+			return isHighContrast;
+		}
+		finally
+		{
+			// reset the environment
+			isHighContrast = false;
+		}
 	}
 
 }

@@ -253,12 +253,22 @@ public final class Generator implements IGenerator
 
 				Fill background = ( (Block) component ).getBackground( );
 
-				if ( background == null
-						|| ( background instanceof ColorDefinition && ( (ColorDefinition) background ).getTransparency( ) == 0 ) )
+				if ( background == null )
 				{
 					if ( newBackcolor != null )
 					{
 						( (Block) component ).setBackground( newBackcolor );
+					}
+					else
+					{
+						if ( implicitProcessor.isHighContrast( ) )
+						{
+							( (Block) component ).setBackground( goFactory.BLACK( ) );
+						}
+						else
+						{
+							( (Block) component ).setBackground( goFactory.WHITE( ) );
+						}
 					}
 					if ( newBackimage != null )
 					{
@@ -1834,5 +1844,10 @@ public final class Generator implements IGenerator
 			}
 		}
 
+	}
+
+	public void setHighContrast( boolean isHighContrast )
+	{
+		implicitProcessor.setHighContrast( isHighContrast );
 	}
 }

@@ -37,4 +37,8 @@ public interface IStyleProcessor
 	 * @since 2.6
 	 */
 	void processStyle( Chart model );
+
+	void setHighContrast( boolean isHighContrast );
+
+	boolean isHighContrast( );
 }

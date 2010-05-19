@@ -1403,7 +1403,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 		block = BlockImpl.create( ); // OUTERMOST BLOCK
 		// block.setBackground( ColorDefinitionImpl.TRANSPARENT( ) );
 		// TED 12117-- default background is white color.
-		block.setBackground( ColorDefinitionImpl.WHITE( ) );
+		// block.setBackground( ColorDefinitionImpl.WHITE( ) );
 
 		TitleBlock tb = (TitleBlock) TitleBlockImpl.create( ); // TITLE
 		Plot pl = (Plot) PlotImpl.create( ); // PLOT

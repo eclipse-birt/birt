@@ -521,6 +521,7 @@ public final class DesignerRepresentation extends ReportElementFigure
 		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
 
 		Generator gr = Generator.instance( );
+		gr.setHighContrast( Display.getCurrent( ).getHighContrast( ) );
 		ChartAdapter.beginIgnoreNotifications( );
 		cm.clearSections( IConstants.RUN_TIME ); // REMOVE OLD TRANSIENT
 		// RUNTIME SERIES
