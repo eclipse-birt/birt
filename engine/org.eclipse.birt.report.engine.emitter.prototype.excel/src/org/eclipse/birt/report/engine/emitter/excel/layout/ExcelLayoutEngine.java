@@ -902,6 +902,8 @@ public class ExcelLayoutEngine
 	{
 		XlsContainer container = getCurrentContainer( );
 		container.setEmpty( false );
+		if ( data.getStartX( ) == data.getEndX( ) )
+			return;
 		int col = axis.getColumnIndexByCoordinate( data.getStartX( ) );
 		if ( col == -1 || col >= cache.getColumnCount( ) )
 			return;
