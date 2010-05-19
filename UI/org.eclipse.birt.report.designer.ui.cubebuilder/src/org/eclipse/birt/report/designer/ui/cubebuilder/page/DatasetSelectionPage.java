@@ -42,6 +42,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -199,6 +201,12 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		primaryKeyHint.setLayoutData( data );
 		primaryKeyHint.setText( Messages.getString( "DatasetSelectionPage.Text.Auto.Primary.Key" ) ); //$NON-NLS-1$
 		primaryKeyHint.setForeground( ColorManager.getColor( 128, 128, 128 ) );
+
+		FontData fontData = primaryKeyHint.getFont( ).getFontData( )[0];
+		Font font = new Font( parent.getDisplay( ), new FontData( fontData.getName( ),
+				fontData.getHeight( ),
+				SWT.ITALIC ) );
+		primaryKeyHint.setFont( font );
 
 		return container;
 	}
