@@ -22,14 +22,14 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
+import org.eclipse.birt.chart.style.BaseStyleProcessor;
 import org.eclipse.birt.chart.style.IStyle;
-import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
 
 /**
  * SimpleProcessor
  */
-public final class LabelStyleProcessor implements IStyleProcessor
+public final class LabelStyleProcessor extends BaseStyleProcessor
 {
 
 	private static SimpleStyle sstyle = null;

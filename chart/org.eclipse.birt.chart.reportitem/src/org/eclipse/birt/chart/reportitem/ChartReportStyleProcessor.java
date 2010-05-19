@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.chart.computation.GObjectFactory;
@@ -18,8 +20,12 @@ import org.eclipse.birt.chart.computation.IGObjectFactory;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -27,9 +33,19 @@ import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.StringFormatSpecifierImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.style.BaseStyleProcessor;
 import org.eclipse.birt.chart.style.IStyle;
-import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
+import org.eclipse.birt.chart.util.ChartExpressionUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -38,14 +54,19 @@ import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.model.api.ColorHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
@@ -54,10 +75,10 @@ import org.w3c.dom.css.CSSValueList;
 /**
  * ChartReportStyleProcessor
  */
-public class ChartReportStyleProcessor implements IStyleProcessor
+public class ChartReportStyleProcessor extends BaseStyleProcessor
 {
 
-	private static final String[][] fontSizes = {
+	protected static final String[][] fontSizes = {
 			{
 					DesignChoiceConstants.FONT_SIZE_XX_SMALL, "7"}, //$NON-NLS-1$  
 			{
@@ -74,17 +95,17 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 					DesignChoiceConstants.FONT_SIZE_XX_LARGE, "13"}, //$NON-NLS-1$ 
 	};
 
-	private DesignElementHandle handle;
+	protected DesignElementHandle handle;
 
-	private boolean useCache;
+	protected boolean useCache;
 
-	private final org.eclipse.birt.report.engine.content.IStyle dstyle;
+	protected final org.eclipse.birt.report.engine.content.IStyle dstyle;
 	
-	private final int dpi;
+	protected final int dpi;
 
-	private SimpleStyle cache = null;
+	protected SimpleStyle cache = null;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
@@ -735,4 +756,204 @@ public class ChartReportStyleProcessor implements IStyleProcessor
         }
     	return false;
     }
+    
+    @Override
+	public void processStyle( Chart cm )
+	{
+		CubeHandle cube = ChartCubeUtil.getBindingCube( handle );
+		if ( cube == null )
+		{
+			return;
+		}
+		final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		List<Query> bsQuery = ChartUtil.getBaseSeriesDefinitions( cm )
+				.get( 0 )
+				.getDesignTimeSeries( )
+				.getDataDefinition( );
+		List<SeriesDefinition> vsds = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
+		SeriesDefinition vsd = vsds.get( 0 );
+
+		LevelHandle category = bsQuery.size( ) == 0 ? null
+				: findLevelHandle( cube, exprCodec, bsQuery.get( 0 ) );
+		LevelHandle yoption = findLevelHandle( cube, exprCodec, vsd.getQuery( ) );
+		MeasureHandle measure = findMeasureHandle( cube,
+				exprCodec,
+				vsd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 ) );
+
+		if ( category != null || measure != null || yoption != null )
+		{
+			// Set the format in cube to chart model
+			processCubeStyle( cm, category, measure, yoption );
+		}
+	}
+	
+	protected void processCubeStyle( Chart cm, LevelHandle category,
+			MeasureHandle measure, LevelHandle yoption )
+	{
+		for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+		{
+			// Since renderer always use runtime series, set format to
+			// runtime series here
+			for ( Series series : sd.getRunTimeSeries( ) )
+			{
+				if ( series.getLabel( ).isVisible( ) )
+				{
+					for ( DataPointComponent dpc : series.getDataPoint( )
+							.getComponents( ) )
+					{
+						if ( dpc.getType( ).getValue( ) == DataPointComponentType.BASE_VALUE )
+						{
+							if ( dpc.getFormatSpecifier( ) == null )
+							{
+								dpc.setFormatSpecifier( createFormatSpecifier( category ) );
+							}
+						}
+						else if ( dpc.getType( ).getValue( ) == DataPointComponentType.ORTHOGONAL_VALUE )
+						{
+							if ( dpc.getFormatSpecifier( ) == null )
+							{
+								dpc.setFormatSpecifier( createFormatSpecifier( measure ) );
+							}
+						}
+						else if ( dpc.getType( ).getValue( ) == DataPointComponentType.SERIES_VALUE )
+						{
+							if ( dpc.getFormatSpecifier( ) == null )
+							{
+								dpc.setFormatSpecifier( createFormatSpecifier( yoption ) );
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if ( cm.getLegend( ).getFormatSpecifier( ) == null )
+		{
+			cm.getLegend( )
+					.setFormatSpecifier( createFormatSpecifier( yoption ) );
+		}
+
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			Axis xAxis = cwa.getAxes( ).get( 0 );
+
+			if ( xAxis.getLabel( ).isVisible( )
+					&& xAxis.getFormatSpecifier( ) == null )
+			{
+				xAxis.setFormatSpecifier( createFormatSpecifier( category ) );
+			}
+
+			for ( Axis yAxis : xAxis.getAssociatedAxes( ) )
+			{
+				if ( yAxis.getLabel( ).isVisible( )
+						&& yAxis.getFormatSpecifier( ) == null )
+				{
+					yAxis.setFormatSpecifier( createFormatSpecifier( measure ) );
+				}
+			}
+		}
+	}
+	
+	private final LevelHandle findLevelHandle(CubeHandle cube,
+			ExpressionCodec exprCodec, Query query)
+	{
+		if ( query != null
+				&& query.isDefined( )
+				&& exprCodec.isCubeBinding( query.getDefinition( ), true ) )
+		{
+			String bindingName = exprCodec.getBindingName( );
+			Iterator<ComputedColumnHandle> bindings = ChartItemUtil.getAllColumnBindingsIterator( (ReportItemHandle) handle );
+			while ( bindings.hasNext( ) )
+			{
+				ComputedColumnHandle cc = bindings.next( );
+				if ( cc.getName( ).equals( bindingName ) )
+				{
+					String expr = cc.getExpression( );
+					if ( ChartExpressionUtil.isDimensionExpresion( expr ) )
+					{
+						String[] levels = ChartExpressionUtil.getLevelNameFromDimensionExpression( expr );
+						return cube.getDimension( levels[0] )
+								.getDefaultHierarchy( )
+								.getLevel( levels[1] );
+					}
+					break;
+				}
+			}
+		}
+		return null;
+	}
+	
+	private final MeasureHandle findMeasureHandle( CubeHandle cube,
+			ExpressionCodec exprCodec, Query query )
+	{
+		if ( query != null
+				&& query.isDefined( )
+				&& exprCodec.isCubeBinding( query.getDefinition( ), true ) )
+		{
+			String bindingName = exprCodec.getBindingName( );
+			Iterator<ComputedColumnHandle> bindings = ChartItemUtil.getAllColumnBindingsIterator( (ReportItemHandle) handle );
+			while ( bindings.hasNext( ) )
+			{
+				ComputedColumnHandle cc = bindings.next( );
+				if ( cc.getName( ).equals( bindingName ) )
+				{
+					String expr = cc.getExpression( );
+					if ( ChartExpressionUtil.isMeasureExpresion( expr ) )
+					{
+						return cube.getMeasure( ChartExpressionUtil.getMeasureName( expr ) );
+					}
+					break;
+				}
+			}
+		}
+		return null;
+	}
+
+	protected FormatSpecifier createFormatSpecifier( LevelHandle levelHandle )
+	{
+		if ( levelHandle != null )
+		{
+			return convertToFormatSpecifier( levelHandle.getFormat( ),
+					levelHandle.getDataType( ) );
+		}
+		return null;
+	}
+
+	protected FormatSpecifier createFormatSpecifier( MeasureHandle measureHandle )
+	{
+		if ( measureHandle != null )
+		{
+			return convertToFormatSpecifier( measureHandle.getFormat( ),
+					measureHandle.getDataType( ) );
+		}
+		return null;
+	}
+	
+	protected FormatSpecifier convertToFormatSpecifier( FormatValueHandle format,
+			String dataType )
+	{
+		if ( format != null )
+		{
+			if ( format.getPattern( ) != null )
+			{
+				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
+						|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType )
+						|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
+				{
+					return JavaNumberFormatSpecifierImpl.create( new NumberFormatter( format.getPattern( ) ).getFormatCode( ) );
+				}
+				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType )
+						|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType )
+						|| DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( dataType ) )
+				{
+					return JavaDateFormatSpecifierImpl.create( new DateFormatter( format.getPattern( ) ).getFormatCode( ) );
+				}
+				return StringFormatSpecifierImpl.create( format.getPattern( ) );
+			}
+		}
+		return null;
+	}
+	
 }

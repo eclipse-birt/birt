@@ -137,6 +137,9 @@ public final class Generator implements IGenerator
 	public final void prepareStyles( Chart model,
 			IStyleProcessor externalProcessor )
 	{
+		// Process styles for the whole chart model at first
+		externalProcessor.processStyle( model );
+		
 		Stack<StyledComponent> token = new Stack<StyledComponent>( );
 
 		token.push( StyledComponent.CHART_ALL_LITERAL );

@@ -55,8 +55,8 @@ import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl;
+import org.eclipse.birt.chart.style.BaseStyleProcessor;
 import org.eclipse.birt.chart.style.IStyle;
-import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
 
 import com.ibm.icu.util.ULocale;
@@ -73,7 +73,7 @@ public class SampleHelper
 
 	private static StyleProcessor instance;
 
-	static final class StyleProcessor implements IStyleProcessor
+	static final class StyleProcessor extends BaseStyleProcessor
 	{
 
 		private static final SimpleStyle sstyle;

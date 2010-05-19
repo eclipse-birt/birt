@@ -25,7 +25,7 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 /**
  * A default implementation for IStyleProcessor.
  */
-public final class SimpleProcessor implements IStyleProcessor
+public final class SimpleProcessor extends BaseStyleProcessor
 {
 
 	private static final SimpleStyle defaultStyle;
@@ -84,9 +84,9 @@ public final class SimpleProcessor implements IStyleProcessor
 	{
 		if ( model != null && model.getStyles( ).size( ) > 0 )
 		{
-			for ( Iterator itr = model.getStyles( ).iterator( ); itr.hasNext( ); )
+			for ( Iterator<StyleMap> itr = model.getStyles( ).iterator( ); itr.hasNext( ); )
 			{
-				StyleMap sm = (StyleMap) itr.next( );
+				StyleMap sm = itr.next( );
 
 				if ( sm.getComponentName( ).equals( name ) )
 				{
