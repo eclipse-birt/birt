@@ -477,8 +477,8 @@ public class PostscriptWriter
 				resolutionX = 96;
 				resolutionY = 96;
 			}
-			imageWidth = image.getWidth( ) / resolutionX * 72;
-			imageHeight = image.getHeight( ) / resolutionY * 72;
+			imageWidth = ( (float) image.getWidth( ) ) / resolutionX * 72;
+			imageHeight = ( (float) image.getHeight( ) ) / resolutionY * 72;
 		}
 
 		Position imageSize = new Position( imageWidth, imageHeight );
