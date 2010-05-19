@@ -211,6 +211,7 @@ ScaleUnitType.Hours.displayName=ŠÔ
 ScaleUnitType.Days.displayName=“ú
 ScaleUnitType.Weeks.displayName=T
 ScaleUnitType.Months.displayName=Œ
+ScaleUnitType.Quarters.displayName=l”¼Šú
 ScaleUnitType.Years.displayName=”N
 
 SortOption.Ascending.displayName=¸‡

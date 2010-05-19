@@ -211,6 +211,7 @@ ScaleUnitType.Hours.displayName=Horas
 ScaleUnitType.Days.displayName=Días
 ScaleUnitType.Weeks.displayName=Semanas
 ScaleUnitType.Months.displayName=Meses
+ScaleUnitType.Quarters.displayName=Trimestres
 ScaleUnitType.Years.displayName=Años
 
 SortOption.Ascending.displayName=Ascendente

@@ -211,6 +211,7 @@ ScaleUnitType.Hours.displayName=시간
 ScaleUnitType.Days.displayName=일
 ScaleUnitType.Weeks.displayName=주
 ScaleUnitType.Months.displayName=월
+ScaleUnitType.Quarters.displayName=분기
 ScaleUnitType.Years.displayName=연
 
 SortOption.Ascending.displayName=오름차순

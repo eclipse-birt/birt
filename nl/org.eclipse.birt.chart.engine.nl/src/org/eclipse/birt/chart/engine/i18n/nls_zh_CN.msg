@@ -211,6 +211,7 @@ ScaleUnitType.Hours.displayName=小时
 ScaleUnitType.Days.displayName=日
 ScaleUnitType.Weeks.displayName=周
 ScaleUnitType.Months.displayName=月
+ScaleUnitType.Quarters.displayName=季
 ScaleUnitType.Years.displayName=年
 
 SortOption.Ascending.displayName=升序
