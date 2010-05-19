@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -454,7 +453,7 @@ public class SelectValueDialog extends BaseDialog
 				}
 				else
 				{
-					return e1.toString( ).compareTo( e2.toString( ) );
+					return getDataText( e1 ).compareTo( getDataText( e2 ) );
 				}
 			}
 			else if ( sortDir == SWT.DOWN )
@@ -473,7 +472,7 @@ public class SelectValueDialog extends BaseDialog
 				}
 				else
 				{
-					return e2.toString( ).compareTo( e1.toString( ) );
+					return getDataText( e2 ).compareTo( getDataText( e1 ) );
 				}
 			}
 			return 0;

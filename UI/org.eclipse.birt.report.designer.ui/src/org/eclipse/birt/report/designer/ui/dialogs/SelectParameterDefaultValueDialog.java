@@ -14,10 +14,10 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
-import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -44,8 +44,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * Presents a list of values from dataset, allows user to select to define
  * default value for dynamic parameter
@@ -61,7 +59,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 	private int[] selectedIndices = null;
 	private int sortDir = SWT.UP;
 	private java.util.List<Object> columnValueList = new ArrayList<Object>( );
-	private final String NULL_VALUE_DISPLAY = Messages.getString( "SelectValueDialog.SelectValue.NullValue" ); //$NON-NLS-1$
+	private final String nullValueDispaly = Messages.getString( "SelectValueDialog.SelectValue.NullValue" ); //$NON-NLS-1$
 
 	public SelectParameterDefaultValueDialog( Shell parentShell, String title )
 	{
@@ -262,7 +260,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				}
 				else
 				{
-					return e1.toString( ).compareTo( e2.toString( ) );
+					return getDataText( e1 ).compareTo( getDataText( e2 ) );
 				}
 			}
 			else if ( sortDir == SWT.DOWN )
@@ -281,7 +279,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				}
 				else
 				{
-					return e2.toString( ).compareTo( e1.toString( ) );
+					return getDataText( e2 ).compareTo( getDataText( e1 ) );
 				}
 			}
 			return 0;
@@ -314,31 +312,12 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			DateFormatter formatter = new DateFormatter( ULocale.US );
-
 			if ( columnIndex == 0 )
 			{
 				if ( element != null )
-				{
-					if ( element instanceof java.sql.Date )
-					{
-						formatter.applyPattern( "yyyy-MM-dd" ); //$NON-NLS-1$
-						return formatter.format( (Date) element );
-					}
-					else if ( element instanceof java.sql.Time )
-					{
-						formatter.applyPattern( "HH:mm:ss.SSS" ); //$NON-NLS-1$
-						return formatter.format( (Date) element );
-					}
-					else if ( element instanceof Date )
-					{
-						formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" ); //$NON-NLS-1$
-						return formatter.format( (Date) element );
-					}
-					else
-						return element.toString( );
-				}
-				return NULL_VALUE_DISPLAY;
+					return getDataText( element );
+				else
+					return nullValueDispaly;
 			}
 			return null;
 		}
@@ -347,6 +326,22 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		{
 			return null;
 		}
+	}
+
+	private String getDataText( Object element )
+	{
+		if ( element != null )
+		{
+			try
+			{
+				return DataTypeUtil.toLocaleNeutralString( element );
+			}
+			catch ( BirtException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+		return null;
 	}
 
 }
