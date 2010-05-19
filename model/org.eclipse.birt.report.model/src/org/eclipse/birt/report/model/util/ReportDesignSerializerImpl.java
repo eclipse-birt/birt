@@ -209,7 +209,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	public void visitReportDesign( ReportDesign obj )
 	{
 		sourceDesign = obj;
-		targetDesign = localizeDesign( obj );
+		localizeDesign( obj );
 
 		visitSlots( obj, targetDesign, IReportDesignModel.SLOT_COUNT );
 
@@ -1370,39 +1370,37 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * @return the localized design
 	 */
 
-	private ReportDesign localizeDesign( ReportDesign source )
+	private void localizeDesign( ReportDesign source )
 	{
-		ReportDesign design = new ReportDesign( source.getSession( ) );
+		targetDesign = new ReportDesign( source.getSession( ) );
 
-		design.setFileName( source.getFileName( ) );
-		design.setSystemId( source.getSystemId( ) );
+		targetDesign.setFileName( source.getFileName( ) );
+		targetDesign.setSystemId( source.getSystemId( ) );
 
-		design.setID( design.getNextID( ) );
-		design.addElementID( design );
+		targetDesign.setID( targetDesign.getNextID( ) );
+		targetDesign.addElementID( targetDesign );
 		// handle module options
 		ModuleOption options = source.getOptions( );
 		try
 		{
 			if ( options != null )
-				design.setOptions( ( (ModuleOption) options.copy( ) ) );
+				targetDesign.setOptions( ( (ModuleOption) options.copy( ) ) );
 		}
 		catch ( CloneNotSupportedException e )
 		{
 			assert false;
 		}
 
-		localizePropertyValues( source, design );
+		localizePropertyValues( source, targetDesign );
 
-		localizeIncludeResourceValues( source, design );
+		localizeIncludeResourceValues( source, targetDesign );
 
-		localizeScriptLibValues( source, design );
+		localizeScriptLibValues( source, targetDesign );
 
 		// css style sheet must be treated here. It is different from other
 		// elements and property values.
 
-		visitCssStyleSheets( source, design );
-
-		return design;
+		visitCssStyleSheets( source, targetDesign );
 	}
 
 	/**
