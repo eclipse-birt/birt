@@ -113,19 +113,36 @@ public class TemplateExecutor implements TextTemplate.Visitor
 
 	public Object visitValue( TextTemplate.ValueNode node, Object value )
 	{
-		Object result = null;
-		if ( values != null )
+		String expression = node.getValue( );
+		if ( expression != null )
 		{
-			String keyExpr = node.getValue( );
-			if ( keyExpr != null )
+			expression = expression.trim( );
+			if ( "pageNumber".equals( expression )
+					|| "totalPage".equals( expression ) )
 			{
-				keyExpr = keyExpr.trim( );
+				Object result = ExpressionUtil.evaluate( context,
+						Expression.newScript( expression ) );
+				String text = formatValue( node, result );
+				buffer.append( text );
 			}
-			result = values.get( keyExpr );
+			else
+			{
+				Object result = null;
+				if ( values != null )
+				{
+					String keyExpr = node.getValue( );
+					if ( keyExpr != null )
+					{
+						keyExpr = keyExpr.trim( );
+					}
+					result = values.get( keyExpr );
+				}
+
+				String text = formatValue( node, result );
+				buffer.append( text );
+			}
 		}
 
-		String text = formatValue( node, result );
-		buffer.append( text );
 		return value;
 	}
 
