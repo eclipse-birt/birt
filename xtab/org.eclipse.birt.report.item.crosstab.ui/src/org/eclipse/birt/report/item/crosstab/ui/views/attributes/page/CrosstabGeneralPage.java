@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
@@ -23,11 +25,13 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Sec
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.HideMeasureHeaderProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.MeasureComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -38,6 +42,7 @@ public class CrosstabGeneralPage extends GeneralPage
 
 	IDescriptorProvider grandTotalColumnProvider, grandTotalRowProvider;
 	IDescriptorProvider layoutMeasuresProvider;
+	private ComboSection layoutMeasureSection;
 
 	protected void buildContent( )
 	{
@@ -67,10 +72,9 @@ public class CrosstabGeneralPage extends GeneralPage
 		addSection( CrosstabPageSectionId.CROSSTAB_SEPERATOR_1,
 				seperatorSection );
 
-
 		layoutMeasuresProvider = new MeasureComboPropertyDescriptorProvider( ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP,
 				ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
-		ComboSection layoutMeasureSection = new ComboSection( Messages.getString( "LayoutMeasuresSection.DisplayName" ), //$NON-NLS-1$
+		layoutMeasureSection = new ComboSection( Messages.getString( "LayoutMeasuresSection.DisplayName" ), //$NON-NLS-1$
 				container,
 				true );
 		layoutMeasureSection.setProvider( layoutMeasuresProvider );
@@ -117,5 +121,58 @@ public class CrosstabGeneralPage extends GeneralPage
 	public boolean canReset( )
 	{
 		return false;
+	}
+
+	public void refresh( )
+	{
+		super.refresh( );
+		checkLayoutProperty( );
+	}
+
+	private void checkLayoutProperty( )
+	{
+		if ( input instanceof List
+				&& DEUtil.getMultiSelectionHandle( (List) input )
+						.isExtendedElements( ) )
+		{
+			if ( checkControl( ) )
+				layoutMeasureSection.getComboControl( )
+						.getControl( )
+						.setEnabled( false );
+		}
+		else if ( input instanceof List
+				&& DEUtil.getMultiSelectionHandle( (List) input )
+						.getModuleHandle( ) instanceof LibraryHandle )
+		{
+			if ( checkControl( ) )
+				layoutMeasureSection.getComboControl( )
+						.getControl( )
+						.setEnabled( false );
+		}
+		else
+		{
+			if ( checkControl( ) )
+				layoutMeasureSection.getComboControl( )
+						.getControl( )
+						.setEnabled( true );
+		}
+	}
+
+	private boolean checkControl( )
+	{
+		if ( layoutMeasureSection != null
+				&& layoutMeasureSection.getComboControl( ) != null
+				&& layoutMeasureSection.getComboControl( ).getControl( ) != null
+				&& !layoutMeasureSection.getComboControl( )
+						.getControl( )
+						.isDisposed( ) )
+			return true;
+		return false;
+	}
+
+	public void postElementEvent( )
+	{
+		super.postElementEvent( );
+		checkLayoutProperty( );
 	}
 }
