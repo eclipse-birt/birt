@@ -15,7 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.util.NumberUtil;
+
+import com.ibm.icu.math.BigDecimal;
 
 /**
  * We use this class to store shared scale context of chart in cross-tab.
@@ -102,7 +106,57 @@ public final class SharedScaleContext
 	public final DataSetIterator createDataSetIterator( int iDataType )
 			throws ChartException, IllegalArgumentException
 	{
+		if ( ( iDataType & IConstants.NUMERICAL ) == IConstants.NUMERICAL )
+		{
+			List<Object> minmax = new ArrayList<Object>( 2 );
+			for ( Object o : alMinmax )
+			{
+				if ( o instanceof Number )
+				{
+					minmax.add( Double.valueOf( ( (Number) o ).doubleValue( ) ) );
+				}
+				else
+				{
+					minmax.add( o );
+				}
+			}
+			return new DataSetIterator( minmax, iDataType );
+		}
 		return new DataSetIterator( alMinmax, iDataType );
 	}
 
+	/**
+	 * Create a DataSetIterator with the min/max value, which can be used by
+	 * AutoScale. This method supports big decimal.
+	 * 
+	 * @param iDataType
+	 * @param isBigNumber
+	 *            indicates current is big number.
+	 * @param divisor
+	 *            the divisor for big number, actual big number will divide the
+	 *            divisor to get a double value, the double value is used to
+	 *            compute scale of axis.
+	 * @return
+	 * @throws ChartException
+	 * @throws IllegalArgumentException
+	 * @since 2.6
+	 */
+	public final DataSetIterator createDataSetIterator( int iDataType,
+			boolean isBigNumber, BigDecimal divisor ) throws ChartException,
+			IllegalArgumentException
+	{
+		if( isBigNumber )
+		{
+			List<Object> minmax = new ArrayList<Object>( 2 );
+			for ( Object o: alMinmax )
+			{
+				minmax.add( NumberUtil.asBigNumber( NumberUtil.transformNumber( o ), divisor ) );
+			}
+			return new DataSetIterator( minmax, iDataType );
+		}
+		else
+		{
+			return createDataSetIterator( iDataType );
+		}
+	}
 }
