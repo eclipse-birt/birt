@@ -179,6 +179,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				false,
 				true,
 				true,
+				false,
 				false );
 		GridData gdFCCLine = new GridData( GridData.FILL_BOTH );
 		gdFCCLine.horizontalSpan = 9;

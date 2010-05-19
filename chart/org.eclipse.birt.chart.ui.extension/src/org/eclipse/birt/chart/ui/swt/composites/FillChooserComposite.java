@@ -169,10 +169,10 @@ public class FillChooserComposite extends Composite implements
 				( ( ENABLE_IMAGE & optionalStyle ) == ENABLE_IMAGE ),
 				( ( ENABLE_AUTO & optionalStyle ) == ENABLE_AUTO ),
 				( ( ENABLE_TRANSPARENT & optionalStyle ) == ENABLE_TRANSPARENT ),
-				( ( ENABLE_POSITIVE_NEGATIVE & optionalStyle ) == ENABLE_POSITIVE_NEGATIVE ) );
+				( ( ENABLE_POSITIVE_NEGATIVE & optionalStyle ) == ENABLE_POSITIVE_NEGATIVE ),
+				!( ( DISABLE_PATTERN_FILL & optionalStyle ) == DISABLE_PATTERN_FILL ) );
 		this.bTransparencySliderEnable = ( ( ENABLE_TRANSPARENT_SLIDER & optionalStyle ) == ENABLE_TRANSPARENT_SLIDER );
 		this.bGradientAngleEnabled = !( ( DISABLE_GRADIENT_ANGLE & optionalStyle ) == DISABLE_GRADIENT_ANGLE );
-		this.bPatternFillEnabled = !( ( DISABLE_PATTERN_FILL & optionalStyle ) == DISABLE_PATTERN_FILL );
 	}
 
 	/**
@@ -274,7 +274,8 @@ public class FillChooserComposite extends Composite implements
 	public FillChooserComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, Fill fCurrent,
 			boolean bEnableGradient, boolean bEnableImage, boolean bEnableAuto,
-			boolean bEnableTransparent, boolean bPositiveNegative )
+			boolean bEnableTransparent, boolean bPositiveNegative,
+			boolean bEnablePattern )
 	{
 		super( parent, style );
 		this.fCurrent = fCurrent;
@@ -283,6 +284,7 @@ public class FillChooserComposite extends Composite implements
 		this.bAutoEnabled = bEnableAuto;
 		this.bTransparentEnabled = bEnableTransparent;
 		this.bPositiveNegativeEnabled = bPositiveNegative;
+		this.bPatternFillEnabled = bEnablePattern;
 		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );
@@ -535,6 +537,7 @@ public class FillChooserComposite extends Composite implements
 		shell.setLocation( iXLoc, iYLoc );
 		shell.addShellListener( new ShellAdapter( ) {
 
+			@Override
 			public void shellClosed( ShellEvent e )
 			{
 				clearColorSelection( );
@@ -759,6 +762,7 @@ public class FillChooserComposite extends Composite implements
 		return this.fCurrent;
 	}
 
+	@Override
 	public void setEnabled( boolean bState )
 	{
 		btnDown.setEnabled( bState );
@@ -767,6 +771,7 @@ public class FillChooserComposite extends Composite implements
 		this.bEnabled = bState;
 	}
 
+	@Override
 	public boolean isEnabled( )
 	{
 		return this.bEnabled;

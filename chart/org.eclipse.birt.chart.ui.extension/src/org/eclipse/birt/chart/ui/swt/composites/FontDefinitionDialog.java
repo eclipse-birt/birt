@@ -206,6 +206,8 @@ public class FontDefinitionDialog extends TrayDialog implements
 				false,
 				false,
 				true,
+				false,
+				false,
 				false );
 		{
 			GridData gdFCCColor = new GridData( GridData.FILL_HORIZONTAL );
