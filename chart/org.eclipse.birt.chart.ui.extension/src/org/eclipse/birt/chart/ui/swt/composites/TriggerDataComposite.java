@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IAssistField;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -1258,6 +1259,12 @@ public class TriggerDataComposite extends Composite implements
 		int type = this.triggerMatrix.getType( );
 		if ( ( type & TriggerSupportMatrix.TYPE_DATAPOINT ) == TriggerSupportMatrix.TYPE_DATAPOINT )
 		{
+			boolean useCube = wizardContext.getDataServiceProvider( )
+					.checkState( IDataServiceProvider.HAS_CUBE )
+					|| wizardContext.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY );
+			if ( useCube )
+				return IUIServiceProvider.COMMAND_CUBE_EXPRESSION_TOOLTIPS_DATAPOINTS;
 			return IUIServiceProvider.COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS;
 		}
 		return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_SIMPLE;
