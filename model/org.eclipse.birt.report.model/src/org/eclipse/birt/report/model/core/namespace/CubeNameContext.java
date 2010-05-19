@@ -142,7 +142,7 @@ public class CubeNameContext extends GeneralModuleNameContext
 							elementDefn );
 			}
 
-			DesignElement retElement = cube.findLocalElement( elementName,
+			DesignElement retElement = cube.findLocalElement( tmpName,
 					targetDefn );
 			if ( retElement != null )
 				return new ElementRefValue( namespace, retElement );
