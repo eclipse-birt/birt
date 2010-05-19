@@ -116,7 +116,8 @@ import org.eclipse.swt.dnd.DragSource;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MenuDetectEvent;
+import org.eclipse.swt.events.MenuDetectListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Color;
@@ -537,50 +538,45 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				
 			}} );
 		
-		table.addMouseListener( new MouseAdapter() {
-			@Override
-			public void mouseDown( MouseEvent e )
+		table.addMenuDetectListener( new MenuDetectListener( ) {
+			
+			public void menuDetected( MenuDetectEvent arg0 )
 			{
-				if ( e.button == 3 )
+				if ( isCubeMode( ) )
 				{
-					if ( isCubeMode( ) )
+					// share cube
+					table.setMenu( null );
+				}
+				else
+				{
+					TableItem item = table.getSelection( )[0];
+					if ( item == null )
 					{
-						// share cube
-						table.setMenu( null );
+						tableViewerColumns.getTable( ).select( -1 );
+					}
+					// Bind context menu to each header button
+					boolean isSharingChart = dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY );
+					if ( item != null && !isSharingChart )
+					{
+						if ( table.getMenu( ) != null )
+						{
+							table.getMenu( ).dispose( );
+						}
+						table.setMenu( createMenuManager( item.getData( ) ).createContextMenu( table ) );
 					}
 					else
 					{
-						TableItem item = ( (Table) e.widget ).getItem( new Point( e.x,
-								e.y ) );
-						if ( item == null )
-						{
-							tableViewerColumns.getTable( ).select( -1 );
-						}
-						// Bind context menu to each header button
-						boolean isSharingChart = dataProvider.checkState( IDataServiceProvider.SHARE_CHART_QUERY );
-						if ( item != null && !isSharingChart )
-						{
-							if ( table.getMenu( ) != null )
-							{
-								table.getMenu( ).dispose( );
-							}
-							table.setMenu( createMenuManager( item.getData( ) ).createContextMenu( table ) );
-						}
-						else
-						{
-							table.setMenu( null );
-						}
-
-						if ( table.getMenu( ) != null && !isSharingChart )
-						{
-							table.getMenu( ).setVisible( true );
-						}
+						table.setMenu( null );
 					}
-					
 
+					if ( table.getMenu( ) != null && !isSharingChart )
+					{
+						table.getMenu( ).setVisible( true );
+					}
 				}
+				
 			}
-		} ) ;
+		} );
 		
 		table.addListener( SWT.Resize, new Listener( ) {
 
