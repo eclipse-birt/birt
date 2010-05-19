@@ -12,8 +12,10 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
@@ -48,6 +50,10 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
 			.createExpressionCodec( );
 
+	/**
+	 * Comment for <code>actionHandleCache</code>
+	 */
+	private ActionHandleCache actionHandleCache = new ActionHandleCache();
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -120,14 +126,14 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 	private void getURLValueExpressions( List<String> expList, URLValue uv )
 	{
 		String sa = uv.getBaseUrl( );
-
+		
 		try
 		{
-			ActionHandle handle = ModuleUtil.deserializeAction( sa );
-
-			
+			// Since it costs big time to crate instance of ActionHandle. Here
+			// uses a cache to avoid creating duplicate ActionHandle for same
+			// sa.  
+			ActionHandle handle = actionHandleCache.get( sa );
 			String exp;
-
 			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( handle.getLinkType( ) ) )
 			{
 				ExpressionHandle expHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.URI_MEMBER );
@@ -189,6 +195,29 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 		catch ( DesignFileException e )
 		{
 			logger.log( e );
+		}
+	}
+	
+	/**
+	 * This class caches instance of ActionHandle.
+	 */
+	private static class ActionHandleCache
+	{
+		private Map<String, ActionHandle> hm = new HashMap<String, ActionHandle>( );
+
+		public ActionHandle get( String key ) throws DesignFileException 		{
+			ActionHandle value = hm.get( key );
+			if ( value == null )
+			{
+				value = newValue( key );
+				hm.put( key, value );
+			}
+			return value;
+		}
+
+		protected ActionHandle newValue( String key ) throws DesignFileException
+		{
+			return ModuleUtil.deserializeAction( key );
 		}
 	}
 }
