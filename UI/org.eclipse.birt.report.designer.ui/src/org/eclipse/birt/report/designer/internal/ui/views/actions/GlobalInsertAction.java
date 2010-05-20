@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.jface.viewers.ISelectionProvider;
 
@@ -116,10 +117,22 @@ public class GlobalInsertAction extends AbstractGlobalSelectionAction
 			{
 				stack.rollback( );
 				ExceptionHandler.handle( e );
+				return;
 			}
-			stack.commit( );
-			synWithMediator( handle );
+			
 		}
+		if ( handle instanceof ExtendedItemHandle )
+		{
+			if ( ElementProcessorFactory.createProcessor( handle ) != null
+					&& !ElementProcessorFactory.createProcessor( handle )
+							.editElement( handle ) )
+			{
+				stack.rollback( );
+				return;
+			}
+		}
+		stack.commit( );
+		synWithMediator( handle );
 		super.run( );
 	}
 
