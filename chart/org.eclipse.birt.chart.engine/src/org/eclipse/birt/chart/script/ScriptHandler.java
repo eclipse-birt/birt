@@ -163,16 +163,6 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	 * The pre-defined chart variable name to access base category data.
 	 */
 	public static final String VARIABLE_CATEGORY = BASE_VALUE;
-
-	/**
-	 * The pre-defined chart variable name to access optional y data.
-	 */
-	public static final String OPTIONAL_Y_VALUE = "optionalYData"; //$NON-NLS-1$
-	
-	/**
-	 * The pre-defined chart variable name to access optional y data.
-	 */
-	public static final String VARIABLE_SERIES = OPTIONAL_Y_VALUE ;
 	
 	/**
 	 * The pre-defined chart variable name to access orthogonal value data.
@@ -192,7 +182,7 @@ public final class ScriptHandler extends AbstractScriptHandler<IChartEventHandle
 	/**
 	 * The pre-defined chart variable name to access series name.
 	 */
-	public static final String VARIABLE_SERIES_NAME = SERIES_VALUE;
+	public static final String VARIABLE_SERIES = SERIES_VALUE;
 
 
 	/** The variable names for highlight and toggle visibility functions. */

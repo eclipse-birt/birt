@@ -67,11 +67,11 @@ public class ChartVariableHelper
 				optionalYExpr = currOrthoSD.getQuery( ).getDefinition( );
 			}
 			
-			String seriesName = currOrthoSeries.getSeriesIdentifier( )
-					.toString( );
+			String seriesName = ( optionalYExpr != null && optionalYExpr.trim( )
+					.length( ) > 0 ) ? optionalYExpr
+					: "\"" + currOrthoSeries.getSeriesIdentifier( ).toString( ) + "\"";
 			return parseChartVariables( script,
 					categoryExpr,
-					optionalYExpr,
 					seriesExpr,
 					seriesName );
 		}
@@ -87,14 +87,12 @@ public class ChartVariableHelper
 	 * 
 	 * @param script
 	 * @param categoryExpr
-	 * @param optionalYExpr
 	 * @param seriesExpr
 	 * @param seriesName
 	 * @return
 	 */
 	private static String parseChartVariables( String script,
 			String categoryExpr,
-			String optionalYExpr,
 			String seriesExpr, String seriesName )
 	{
 		if ( script == null )
@@ -265,11 +263,6 @@ public class ChartVariableHelper
 				returnSB.append( src.replace( ScriptHandler.BASE_VALUE,
 						categoryExpr == null ? "" : categoryExpr ) ); //$NON-NLS-1$
 			}
-			else if ( expr.equals( ScriptHandler.OPTIONAL_Y_VALUE ) )
-			{
-				returnSB.append( src.replace( ScriptHandler.OPTIONAL_Y_VALUE,
-						optionalYExpr == null ? "" : optionalYExpr ) ); //$NON-NLS-1$
-			}
 			else if ( expr.equals( ScriptHandler.ORTHOGONAL_VALUE ) )
 			{
 				returnSB.append( src.replace( ScriptHandler.ORTHOGONAL_VALUE,
@@ -277,12 +270,8 @@ public class ChartVariableHelper
 			}
 			else if ( expr.equals( ScriptHandler.SERIES_VALUE ) )
 			{
-				StringBuffer ssb = new StringBuffer( );
-				ssb.append( "\"" ); //$NON-NLS-1$
-				ssb.append( seriesName );
-				ssb.append( "\"" ); //$NON-NLS-1$
 				returnSB.append( src.replace( ScriptHandler.SERIES_VALUE,
-						seriesName == null ? "" : ssb ) ); //$NON-NLS-1$
+						seriesName == null ? "" : seriesName ) ); //$NON-NLS-1$
 			}
 			else
 			{
