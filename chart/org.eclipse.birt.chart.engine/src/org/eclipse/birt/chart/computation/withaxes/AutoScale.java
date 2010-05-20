@@ -52,9 +52,9 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.NumberUtil;
 import org.eclipse.birt.chart.util.ChartUtil.CacheDateFormat;
 import org.eclipse.birt.chart.util.ChartUtil.CacheDecimalFormat;
-import org.eclipse.birt.chart.util.NumberUtil;
 
 import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.DecimalFormat;
@@ -309,6 +309,7 @@ public final class AutoScale extends Methods implements Cloneable
 			iaHourDeltas,
 			iaDayDeltas,
 			iaMonthDeltas,
+			null,
 			null
 	};
 

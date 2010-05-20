@@ -54,7 +54,49 @@ public class ChartWizardLauncher implements ChartUIConstants
 
 	public void launch( String filePath )
 	{
-		init( );
+
+		// Create display
+		Display.getDefault( );
+
+		// Set standalone mode rather than OSGI mode
+		PlatformConfig config = new PlatformConfig( );
+		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		ChartEngine.instance( config );
+		final SampleStandardDataSheet ssd = new SampleStandardDataSheet( );
+
+		if ( !UIHelper.isEclipseMode( ) )
+		{
+			// Registers the wizard task and the chart wizard
+			try
+			{
+				TasksManager.instance( )
+						.registerTask( TaskSelectType.class.getName( ),
+								new TaskSelectType( ) );
+				TasksManager.instance( )
+						.registerTask( TaskSelectData.class.getName( ),
+								new TaskSelectData( ) {
+									@Override
+									public void doPreview( )
+									{
+										super.doPreview( );
+										ssd.refreshSampleDataPreiview( );
+									}
+								} );
+				TasksManager.instance( )
+						.registerTask( TaskFormatChart.class.getName( ),
+								new TaskFormatChart( ) );
+				String sChartTasks = TaskSelectType.class.getName( )
+						+ "," + TaskSelectData.class.getName( ) + "," + TaskFormatChart.class.getName( ); //$NON-NLS-1$ //$NON-NLS-2$
+				TasksManager.instance( )
+						.registerWizard( ChartWizard.class.getName( ),
+								sChartTasks,
+								"" ); //$NON-NLS-1$
+			}
+			catch ( Exception e )
+			{
+				WizardBase.displayException( e );
+			}
+		}
 
 		Chart chart = null;
 		Serializer serializer = null;
@@ -94,11 +136,13 @@ public class ChartWizardLauncher implements ChartUIConstants
 		final ChartWizard chartWizard = new ChartWizard( );
 		// Customized data provider and data sheet as below
 		IDataServiceProvider dataProvider = new DefaultDataServiceProviderImpl( );
+
 		// Create context
 		final ChartWizardContext context = new ChartWizardContext( chart,
 				new SimpleUIServiceProviderImpl( ),
 				dataProvider,
-				new SampleStandardDataSheet( dataProvider ) );
+				ssd );
+		ssd.setContext( context );
 
 		// Use these methods to disable the UI you want.
 		context.setEnabled( SUBTASK_TITLE, false );
@@ -176,44 +220,6 @@ public class ChartWizardLauncher implements ChartUIConstants
 		}
 
 
-	}
-
-	void init( )
-	{
-		// Create display
-		Display.getDefault( );
-
-		// Set standalone mode rather than OSGI mode
-		PlatformConfig config = new PlatformConfig( );
-		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
-		ChartEngine.instance( config );
-
-		if ( !UIHelper.isEclipseMode( ) )
-		{
-			// Registers the wizard task and the chart wizard
-			try
-			{
-				TasksManager.instance( )
-						.registerTask( TaskSelectType.class.getName( ),
-								new TaskSelectType( ) );
-				TasksManager.instance( )
-						.registerTask( TaskSelectData.class.getName( ),
-								new TaskSelectData( ) );
-				TasksManager.instance( )
-						.registerTask( TaskFormatChart.class.getName( ),
-								new TaskFormatChart( ) );
-				String sChartTasks = TaskSelectType.class.getName( )
-						+ "," + TaskSelectData.class.getName( ) + "," + TaskFormatChart.class.getName( ); //$NON-NLS-1$ //$NON-NLS-2$
-				TasksManager.instance( )
-						.registerWizard( ChartWizard.class.getName( ),
-								sChartTasks,
-								"" ); //$NON-NLS-1$
-			}
-			catch ( Exception e )
-			{
-				WizardBase.displayException( e );
-			}
-		}
 	}
 
 	public static void main( String[] args )

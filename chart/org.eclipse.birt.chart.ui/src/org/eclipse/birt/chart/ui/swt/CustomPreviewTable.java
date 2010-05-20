@@ -392,7 +392,7 @@ public class CustomPreviewTable extends Composite implements
 	// cnvCells.updateScrollbars( );
 	// }
 
-	private void addDragListenerToHeaderButton( Button button )
+	protected void addDragListenerToHeaderButton( Button button )
 	{
 		DragSource ds = new DragSource( button, DND.DROP_COPY );
 		ds.setTransfer( new Transfer[]{
