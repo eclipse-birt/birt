@@ -421,6 +421,23 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				{
 					needRefresh = true;
 				}
+//				if (isPercentageValue( handle.getProperty( StyleHandle.MARGIN_TOP_PROP ) ))
+//				{
+//					needRefresh = true;
+//				}
+//				if (isPercentageValue( handle.getProperty( StyleHandle.MARGIN_BOTTOM_PROP ) ))
+//				{
+//					needRefresh = true;
+//				}
+				if (isPercentageValue( handle.getProperty( StyleHandle.MARGIN_LEFT_PROP ) ))
+				{
+					needRefresh = true;
+				}
+				if (isPercentageValue( handle.getProperty( StyleHandle.MARGIN_RIGHT_PROP ) ))
+				{
+					needRefresh = true;
+				}
+				
 				if (needRefresh)
 				{
 					refreshVisuals( );
@@ -428,6 +445,19 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			}
 		});
 		
+	}
+	private boolean isPercentageValue(Object object)
+	{
+		if ( object instanceof DimensionValue )
+		{
+			DimensionValue dimension = (DimensionValue) object;
+			String units = dimension.getUnits( );
+			if (DesignChoiceConstants.UNITS_PERCENTAGE.equals( units ))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/*
@@ -612,7 +642,14 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		if ( getFigure( ) instanceof IReportElementFigure )
 		{
-			( (IReportElementFigure) getFigure( ) ).setMargin( getModelAdapter( ).getMargin( null ) );
+			if (isFixLayout( ) && getFigure( ).getParent( ) != null)
+			{
+				( (IReportElementFigure) getFigure( ) ).setMargin( getModelAdapter( ).getMargin( null, getFigure( ).getParent( ).getClientArea( ).getSize( ) ) );
+			}
+			else
+			{
+				( (IReportElementFigure) getFigure( ) ).setMargin( getModelAdapter( ).getMargin( null ) );
+			}
 		}
 	}
 

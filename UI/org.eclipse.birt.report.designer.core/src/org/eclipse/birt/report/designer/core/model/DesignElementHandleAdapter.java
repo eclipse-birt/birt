@@ -205,6 +205,10 @@ public abstract class DesignElementHandleAdapter
 		return DEUtil.getPadding( getHandle(), retValue );
 	}
 
+	public Insets getMargin( Insets retValue)
+	{
+		return getMargin(retValue, new Dimension(-1,-1));
+	}
 	/**
 	 * Get the margin of the current element.
 	 * 
@@ -212,7 +216,7 @@ public abstract class DesignElementHandleAdapter
 	 *            The margin value of the current element.
 	 * @return The maring's new value of the current element.
 	 */
-	public Insets getMargin( Insets retValue )
+	public Insets getMargin( Insets retValue, Dimension size )
 	{
 		if ( retValue == null )
 		{
@@ -246,19 +250,57 @@ public abstract class DesignElementHandleAdapter
 		prop = getHandle( ).getProperty( StyleHandle.MARGIN_LEFT_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
-			px = DEUtil.convertToPixel( prop, fontSize );
+			if (isPercentageValue( prop ) && size.width > 0)
+			{
+				px = getMeasure( prop ) * size.width / 100;
+			}
+			else
+			{
+				px = DEUtil.convertToPixel( prop, fontSize );
+			}
 		}
 
 		prop = getHandle( ).getProperty( StyleHandle.MARGIN_RIGHT_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
-			py = DEUtil.convertToPixel( prop, fontSize );
+			if (isPercentageValue( prop ) && size.width > 0)
+			{
+				py = getMeasure( prop ) * size.width / 100;
+			}
+			else
+			{
+				py = DEUtil.convertToPixel( prop, fontSize );
+			}
 		}
 
 		retValue.left = (int) px;
 		retValue.right = (int) py;
 
 		return retValue;
+	}
+	private boolean isPercentageValue(Object object)
+	{
+		if ( object instanceof DimensionValue )
+		{
+			DimensionValue dimension = (DimensionValue) object;
+			String units = dimension.getUnits( );
+			if (DesignChoiceConstants.UNITS_PERCENTAGE.equals( units ))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private double getMeasure(Object object)
+	{
+		if ( object instanceof DimensionValue )
+		{
+			DimensionValue dimension = (DimensionValue) object;
+			double measure = dimension.getMeasure( );
+			return measure;
+		}
+		return 0;
 	}
 
 	/**
