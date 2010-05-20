@@ -169,7 +169,7 @@ public class ReferenceableElementAdapter
 	 *            the module
 	 */
 
-	protected void broadcastToClients( NotificationEvent ev, Module module )
+	public void broadcastToClients( NotificationEvent ev, Module module )
 	{
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
