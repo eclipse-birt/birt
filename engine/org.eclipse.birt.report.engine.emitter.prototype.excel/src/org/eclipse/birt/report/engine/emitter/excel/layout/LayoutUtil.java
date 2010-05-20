@@ -1,20 +1,16 @@
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
-import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
-import org.eclipse.birt.report.engine.layout.emitter.Image;
 
 
 public class LayoutUtil
@@ -49,38 +45,31 @@ public class LayoutUtil
 		return new ColumnsInfo( column );
 	}
 
-	public static ColumnsInfo createImage( IImageContent image, int width,
-			int imageWidthDpi )
+	public static ColumnsInfo createImage( int width )
 	{
-		width = getImageWidth( image, width, imageWidthDpi );
 		int[] column = new int[]{width};
 		return new ColumnsInfo( column );
 	}
 
-	public static int getImageWidth( IImageContent image, int width,
-			int imageWidthDpi )
+	public static int getImageWidth( DimensionType value, int parentWidth,
+			int imageInfoWidth, int dpi )
 	{
-		int dpi = imageWidthDpi;
-		DimensionType value = image.getWidth( );
+		int width;
 		if ( value != null )
 		{
-			width = getElementWidth( value, width, dpi );
+			width = getElementWidth( value, parentWidth, dpi );
 		}
 		else
 		{
-			try
-			{
-				Image imageInfo = EmitterUtil.parseImage( image, image
-						.getImageSource( ), image.getURI( ), image
-						.getMIMEType( ), image.getExtension( ) );
-				width = (int) ( imageInfo.getWidth( ) * ExcelUtil.INCH_PT / dpi * 1000 );
-			}
-			catch ( IOException e1 )
-			{
-				log.log( Level.WARNING, e1.getLocalizedMessage( ) );
-			}
+			width = (int) ( imageInfoWidth * ExcelUtil.INCH_PT / dpi );
 		}
 		return width;
+	}
+
+	public static int getImageHeight( DimensionType value, int imageInfoHeight,
+			int dpi )
+	{
+		return ExcelUtil.convertDimensionType( value, imageInfoHeight, dpi );
 	}
 
 	public static int getElementWidth( IContent content, int width, int dpi )

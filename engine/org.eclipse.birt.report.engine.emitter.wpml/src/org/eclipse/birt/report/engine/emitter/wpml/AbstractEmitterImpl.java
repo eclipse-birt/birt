@@ -698,10 +698,13 @@ public abstract class AbstractEmitterImpl
 		String mimeType = image.getMIMEType( );
 		String extension = image.getExtension( );
 		String altText = image.getAltText( );
-		double height = WordUtil.convertImageSize( image.getHeight( ),
-				0, reportDpi );
-		double width = WordUtil.convertImageSize( image.getWidth( ), 0,
+		double height = WordUtil.convertImageSize( image.getHeight( ), 0,
 				reportDpi );
+		int parentWidth = (int) ( WordUtil
+				.twipToPt( context.getCurrentWidth( ) )
+				* reportDpi / 72 );
+		double width = WordUtil.convertImageSize( image.getWidth( ),
+				parentWidth, reportDpi );
 		context.addContainer( false );
 
 		if ( FlashFile.isFlash( mimeType, uri, extension ) )
@@ -734,17 +737,28 @@ public abstract class AbstractEmitterImpl
 			int imageFileHeightDpi = imageInfo.getPhysicalHeightDpi( ) == -1
 					? 0
 					: imageInfo.getPhysicalHeightDpi( );
-			if ( image.getHeight( ) == null )
+			if ( image.getHeight( ) == null && image.getWidth( ) == null )
 			{
-				height = WordUtil.convertImageSize( image.getHeight( ),
-						imageInfo.getHeight( ), PropertyUtil.getImageDpi(
-								image, imageFileHeightDpi, 0 ) );
+				height = WordUtil
+						.convertImageSize( image.getHeight( ), imageInfo
+								.getHeight( ), PropertyUtil.getImageDpi( image,
+								imageFileHeightDpi, 0 ) );
+				width = WordUtil
+						.convertImageSize( image.getWidth( ), imageInfo
+								.getWidth( ), PropertyUtil.getImageDpi( image,
+								imageFileWidthDpi, 0 ) );
 			}
-			if ( image.getWidth( ) == null )
+			else if ( image.getWidth( ) == null )
 			{
-				width = WordUtil.convertImageSize( image.getWidth( ), imageInfo
-						.getWidth( ), PropertyUtil.getImageDpi( image,
-						imageFileWidthDpi, 0 ) );
+				float scale = ( (float) imageInfo.getHeight( ) )
+						/ ( (float) imageInfo.getWidth( ) );
+				width = height / scale;
+			}
+			else if ( image.getHeight( ) == null )
+			{
+				float scale = ( (float) imageInfo.getHeight( ) )
+						/ ( (float) imageInfo.getWidth( ) );
+				height = width * scale;
 			}
 
 			writeBookmark( image );

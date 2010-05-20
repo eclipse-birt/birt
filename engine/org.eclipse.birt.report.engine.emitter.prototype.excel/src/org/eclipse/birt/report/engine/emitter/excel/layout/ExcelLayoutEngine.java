@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -689,56 +688,42 @@ public class ExcelLayoutEngine
 	public void addImageData( IImageContent image, IStyle style,
 			HyperlinkDef link, BookmarkDef bookmark )
 	{
-		int imageWidthDpi;
-		int imageHeightDpi;
+		XlsContainer container = getCurrentContainer( );
+		ContainerSizeInfo parentSizeInfo = container.getSizeInfo( );
+		int imageWidthDpi = reportDpi;
+		int imageHeightDpi = reportDpi;
+		int imageHeight;
+		int imageWidth;
+		byte[] imageData = null;
 		try
 		{
-			Image imageInfo = EmitterUtil.parseImage( image, image
-					.getImageSource( ), image.getURI( ), image.getMIMEType( ),
-					image.getExtension( ) );
-			int imageFileWidthDpi = imageInfo.getPhysicalWidthDpi( ) == -1
-					? 0
-					: imageInfo.getPhysicalWidthDpi( );
-			int imageFileHeightDpi = imageInfo.getPhysicalHeightDpi( ) == -1
-					? 0
-					: imageInfo.getPhysicalHeightDpi( );
-			if ( image.getWidth( ) == null )
-			{
-				imageWidthDpi = PropertyUtil.getImageDpi( image,
-						imageFileWidthDpi, 0 );
-			}
-			else
-			{
-				imageWidthDpi = reportDpi;
-			}
-			if ( image.getHeight( ) == null )
-			{
-				imageHeightDpi = PropertyUtil.getImageDpi( image,
-						imageFileHeightDpi, 0 );
-			}
-			else
-			{
-				imageHeightDpi = reportDpi;
-			}
+			Image imageInfo = EmitterUtil
+					.parseImage( image, image.getImageSource( ),
+							image.getURI( ), image.getMIMEType( ), image
+									.getExtension( ) );
+			imageData = imageInfo.getData( );
+			int[] imageSize = getImageSize( image, imageInfo, parentSizeInfo,
+					imageWidthDpi, imageHeightDpi );
+			imageHeight = imageSize[0];
+			imageWidth = imageSize[1];
 		}
 		catch ( IOException ex )
 		{
-			imageWidthDpi = reportDpi;
-			imageHeightDpi = reportDpi;
+			imageHeight = LayoutUtil.getImageHeight( image.getHeight( ), 0,
+					imageHeightDpi );
+			imageWidth = LayoutUtil.getImageWidth( image.getWidth( ),
+					parentSizeInfo.getWidth( ), 0, imageWidthDpi );
 		}
 
-		XlsContainer container = getCurrentContainer( );
-		ContainerSizeInfo parentSizeInfo = container.getSizeInfo( );
-		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( image,
-				parentSizeInfo.getWidth( ), imageWidthDpi );
+		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( imageWidth );
 		splitColumns( imageColumnsInfo, parentSizeInfo );
 		ContainerSizeInfo imageSize = new ContainerSizeInfo( parentSizeInfo
 				.getStartCoordinate( ), imageColumnsInfo.getTotalWidth( ) );
 		StyleEntry entry = engine.getStyle( style, imageSize, parentSizeInfo,
-											getParentStyle( container ) );
+				getParentStyle( container ) );
 		setlinkStyle( entry, link );
-		SheetData data = createImageData( image, imageSize.getWidth( ), entry,
-				container, imageHeightDpi, imageWidthDpi );
+		SheetData data = createImageData( image, imageData, imageSize
+				.getWidth( ), imageHeight, entry, container );
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
 		data.setStartX( imageSize.getStartCoordinate( ) );
@@ -746,9 +731,58 @@ public class ExcelLayoutEngine
 		addData( data );
 	}
 
-	private SheetData createImageData( IImageContent image, int imageWidth,
-			StyleEntry entry, XlsContainer container, int imageHeightDpi,
-			int imageWidhtDpi )
+	private int[] getImageSize( IImageContent image, Image imageInfo,
+			ContainerSizeInfo parentSizeInfo, int imageWidthDpi,
+			int imageHeightDpi )
+	{
+		int imageHeight;
+		int imageWidth;
+		int imageInfoHeight = imageInfo.getHeight( ) * 1000;
+		int imageInfoWidth = imageInfo.getWidth( ) * 1000;
+		if ( image.getWidth( ) == null && image.getHeight( ) == null )
+		{
+			int imageFileWidthDpi = imageInfo.getPhysicalWidthDpi( ) == -1
+					? 0
+					: imageInfo.getPhysicalWidthDpi( );
+			int imageFileHeightDpi = imageInfo.getPhysicalHeightDpi( ) == -1
+					? 0
+					: imageInfo.getPhysicalHeightDpi( );
+			imageWidthDpi = PropertyUtil.getImageDpi( image, imageFileWidthDpi,
+					0 );
+			imageHeightDpi = PropertyUtil.getImageDpi( image,
+					imageFileHeightDpi, 0 );
+		}
+
+		if ( image.getWidth( ) == null && image.getHeight( ) != null )
+		{
+			imageHeight = LayoutUtil.getImageHeight( image.getHeight( ),
+					imageInfoHeight, imageHeightDpi );
+			float scale = ( (float) imageInfoHeight )
+					/ ( (float) imageInfoWidth );
+			imageWidth = (int) ( imageHeight / scale );
+		}
+		else if ( image.getHeight( ) == null && image.getWidth( ) != null )
+		{
+			imageWidth = LayoutUtil.getImageWidth( image.getWidth( ),
+					parentSizeInfo.getWidth( ), imageInfoWidth, imageWidthDpi );
+			float scale = ( (float) imageInfoHeight )
+					/ ( (float) imageInfoWidth );
+			imageHeight = (int) ( imageWidth * scale );
+		}
+		else
+		{
+			imageHeight = LayoutUtil.getImageHeight( image.getHeight( ),
+					imageInfoHeight, imageHeightDpi );
+			imageWidth = LayoutUtil.getImageWidth( image.getWidth( ),
+					parentSizeInfo.getWidth( ), imageInfoWidth, imageWidthDpi );
+		}
+		int[] imageSize = {imageHeight, imageWidth};
+		return imageSize;
+	}
+
+	private SheetData createImageData( IImageContent image, byte[] imageData,
+			int imageWidth, int imageHeight, StyleEntry entry,
+			XlsContainer container )
 	{
 		int type = SheetData.IMAGE;
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
@@ -766,40 +800,25 @@ public class ExcelLayoutEngine
 			return createData( altText, entry );
 		}
 
-		try
+		if ( imageData != null )
 		{
-			Image imageInfo = EmitterUtil.parseImage( image, image
-					.getImageSource( ), image.getURI( ), image.getMIMEType( ),
-					image.getExtension( ) );
-
-			byte[] data = imageInfo.getData( );
-			if ( data != null )
-			{
-				return createData( image, imageWidth, entry, container, type,
-						imageInfo, imageHeightDpi, imageWidhtDpi );
-			}
-			else
-			{
-				entry.setProperty( StyleConstant.DATA_TYPE_PROP,
-						SheetData.STRING );
-				return createData( image.getAltText( ), entry );
-			}
+			return createData( image, imageData, imageWidth, imageHeight,
+					entry, container, type );
 		}
-		catch ( IOException e )
+		else
 		{
-			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
 			entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.STRING );
 			return createData( image.getAltText( ), entry );
 		}
 	}
 
-	protected SheetData createData( IImageContent image, int imageWidth,
-			StyleEntry entry, XlsContainer container, int type,
-			Image imageInfo, int imageHeightDpi, int imageWidthDpi )
+	protected SheetData createData( IImageContent image, byte[] data,
+			int imageWidth, int imageHeight, StyleEntry entry,
+			XlsContainer container, int type )
 	{
 		int styleId = engine.getStyleId( entry );
-		SheetData imageData = new ImageData( image, imageWidth, styleId, type,
-				imageInfo, container, imageHeightDpi, imageWidthDpi );
+		SheetData imageData = new ImageData( image, data, imageWidth,
+				imageHeight, styleId, type, container );
 		return imageData;
 	}
 
