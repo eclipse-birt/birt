@@ -33,7 +33,6 @@ ChartExpressionProvider.Category.ChartVariables=変数
 ChartExpressionProvider.ChartVariables.DataPoints=グラフのデータポイント
 ChartExpressionProvider.ChartVariables.LegendItems=グラフの凡例
 ChartExpressionProvider.DataPoints.BaseValue=カテゴリデータ
-ChartExpressionProvider.DataPoints.OptionalYValue=Optional Y Data
 ChartExpressionProvider.DataPoints.OrthogonalValue=値データ
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=イベント

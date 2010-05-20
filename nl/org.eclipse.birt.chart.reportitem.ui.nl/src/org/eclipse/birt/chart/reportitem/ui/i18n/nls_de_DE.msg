@@ -33,7 +33,6 @@ ChartExpressionProvider.Category.ChartVariables=Variablen
 ChartExpressionProvider.ChartVariables.DataPoints=Diagramm-Datenpunkt
 ChartExpressionProvider.ChartVariables.LegendItems=Diagrammlegende
 ChartExpressionProvider.DataPoints.BaseValue=Kategoriedaten
-ChartExpressionProvider.DataPoints.OptionalYValue=Optional Y Data
 ChartExpressionProvider.DataPoints.OrthogonalValue=Wertdaten
 ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
 ChartExpressionProvider.ChartVariables.Event=Ereignis
