@@ -160,8 +160,7 @@ public class PreparedQueryUtil
 					queryDefn,
 					dset,
 					appContext,
-					QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
-							appContext ));
+					contextVisitor );
 		}
 		else if ( dset instanceof IOdaDataSetDesign )
 		{
