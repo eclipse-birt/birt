@@ -712,9 +712,9 @@ Choices.windowStatus.normal=標準
 Choices.windowStatus.maximized=最大化
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=テーブルテーマ
+Choices.reportItemThemeType.List=リストテーマ
+Choices.reportItemThemeType.Grid=グリッドテーマ
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=データオブジェクトのデータソース
 Element.DataMartDataSet=データオブジェクトのデータセット
 Element.DataMartCube=データオブジェクトキューブ
 Element.TimeDimension=時間のディメンジョン
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=レポート項目テーマ
 
 ###########################################################
 # Element property names
@@ -3676,7 +3676,7 @@ New.DataMartCube=新規 DataMart キューブ
 New.TabElement=新規タブ要素
 New.GadgetItem=新規ガジェットの項目
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NewReportItemTheme
+New.ReportItemTheme=レポート項目テーマの新規作成
 
 ###########################################################
 #Default theme name.
@@ -3840,8 +3840,8 @@ Error.StyleException.FORBIDDEN={0} にはスタイルを適用できません。
 Error.StyleException.NOT_FOUND={1} で使用されているスタイル "{0}" が見つかりません。
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND={1} で使用されているテーマ "{0}" が見つかりません。
+Error.ThemeException.WRONG_TYPE={1} で使用されているテーマ "{0}" は、レポート項目テーマの種類が正しくありません。    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=ファイル "{0}" が見つかりません。

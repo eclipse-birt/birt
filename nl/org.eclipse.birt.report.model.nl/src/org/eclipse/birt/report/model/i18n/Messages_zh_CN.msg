@@ -712,9 +712,9 @@ Choices.windowStatus.normal=正常
 Choices.windowStatus.maximized=已最大化
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=表主题
+Choices.reportItemThemeType.List=列表主题
+Choices.reportItemThemeType.Grid=网格主题
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=数据对象数据源
 Element.DataMartDataSet=数据对象数据集
 Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=时间维
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=报表项主题
 
 ###########################################################
 # Element property names
@@ -3840,8 +3840,8 @@ Error.StyleException.FORBIDDEN={0} 不得具有样式。
 Error.StyleException.NOT_FOUND=未找到 {1} 使用的样式 "{0}"。
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND=未找到 {1} 使用的主题“{0}”。
+Error.ThemeException.WRONG_TYPE={1} 使用的主题“{0}”是错误类型报表项主题。    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=未找到文件 "{0}"。

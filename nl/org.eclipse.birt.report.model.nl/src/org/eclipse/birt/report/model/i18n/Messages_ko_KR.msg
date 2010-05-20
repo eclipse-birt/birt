@@ -712,9 +712,9 @@ Choices.windowStatus.normal=기본
 Choices.windowStatus.maximized=최대화
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=테이블 테마
+Choices.reportItemThemeType.List=목록 테마
+Choices.reportItemThemeType.Grid=눈금 테마
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=데이터 개체 데이터 원본
 Element.DataMartDataSet=데이터 개체 데이터 집합
 Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=보고서 항목 테마
 
 ###########################################################
 # Element property names
@@ -3676,7 +3676,7 @@ New.DataMartCube=새 Data Mart 큐브
 New.TabElement=새 탭 요소
 New.GadgetItem=새 가젯 항목
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NewReportItemTheme
+New.ReportItemTheme=새 보고서 항목 테마
 
 ###########################################################
 #Default theme name.
@@ -3840,8 +3840,8 @@ Error.StyleException.FORBIDDEN={0}은(는) 스타일을 가질 수 없습니다.
 Error.StyleException.NOT_FOUND={1}에서 사용된 스타일 "{0}"이(가) 없습니다.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND={1}에서 사용하는 테마 "{0}"이(가) 없습니다.
+Error.ThemeException.WRONG_TYPE={1}에서 사용하는 테마 "{0}"이(가) 잘못된 형식의 보고서 항목 테마입니다.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=파일 "{0}"이(가) 없습니다.

@@ -1486,11 +1486,11 @@ ExpressionBuilder.toolTipText.Button=打开表达式生成器
 ###########################################################
 #ExpressionBuilder properties
 
-ExpressionBuilder.Label.Category=&Category:
-ExpressionBuilder.Label.Functions=Double Click to &insert:
+ExpressionBuilder.Label.Category=类别(&C):
+ExpressionBuilder.Label.Functions=双击以插入(&I):
 ExpressionBuilder.Label.Hint=提示
 ExpressionBuilder.Label.Operators=运算符:
-ExpressionBuilder.Label.SubCategory=&Sub-Category:
+ExpressionBuilder.Label.SubCategory=子类别(&S):
 ExpressionBuilder.Message.Prompt=在“表达式”字段中输入一个表达式。浏览可用对象列表并双击对象以将其复制到表达式中。
 ExpressionBuilder.ToolTip=打开表达式生成器
 ExpressionBuilder.toolTipText.validate=验证
@@ -1688,7 +1688,7 @@ FormatNumberPage.label.custom.preview.label=带格式预览:
 FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
 FormatNumberPage.label.custom.settings=自定义设置
 FormatNumberPage.label.decimal.places=小数位(&D): 
-FormatNumberPage.label.rounding.mode=&Rounding Mode:
+FormatNumberPage.label.rounding.mode=舍入模式(&R):
 FormatNumberPage.label.fixed.settings=固定设置
 FormatNumberPage.label.format.code=格式代码(&C):
 FormatNumberPage.label.format.number.page=格式为(&F):

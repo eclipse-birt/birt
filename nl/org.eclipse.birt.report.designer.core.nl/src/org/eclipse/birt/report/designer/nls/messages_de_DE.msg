@@ -1486,11 +1486,11 @@ ExpressionBuilder.toolTipText.Button=Ausdruckserstellung öffnen
 ###########################################################
 #ExpressionBuilder properties
 
-ExpressionBuilder.Label.Category=&Category:
-ExpressionBuilder.Label.Functions=Double Click to &insert:
+ExpressionBuilder.Label.Category=&Kategorie:
+ExpressionBuilder.Label.Functions=E&infügen durch Doppelklicken:
 ExpressionBuilder.Label.Hint=Hinweis
 ExpressionBuilder.Label.Operators=Operatoren:
-ExpressionBuilder.Label.SubCategory=&Sub-Category:
+ExpressionBuilder.Label.SubCategory=&Unterkategorie:
 ExpressionBuilder.Message.Prompt=Geben Sie in das Feld für die Ausdruckserstellung einen Ausdruck ein. Durchsuchen Sie die Liste der verfügbaren Objekte, und kopieren Sie sie per Doppelklick in den Ausdruck.
 ExpressionBuilder.ToolTip=Ausdruckserstellung öffnen
 ExpressionBuilder.toolTipText.validate=Validieren
@@ -1688,7 +1688,7 @@ FormatNumberPage.label.custom.preview.label=Vorschau mit Format:
 FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
 FormatNumberPage.label.custom.settings=Benutzerdefinierte Einstellungen
 FormatNumberPage.label.decimal.places=&Dezimalstellen: 
-FormatNumberPage.label.rounding.mode=&Rounding Mode:
+FormatNumberPage.label.rounding.mode=Modus "&Runden":
 FormatNumberPage.label.fixed.settings=Feste Einstellungen
 FormatNumberPage.label.format.code=Format&code:
 FormatNumberPage.label.format.number.page=&Formatieren als:
@@ -1710,14 +1710,14 @@ FormatNumberPage.preview.invalidNumber=Zahl für Vorschau ungültig
 FormatNumberPage.symblePos.after=Nach
 FormatNumberPage.symblePos.before=Vor
 
-FormatNumberPage.roundingMode.halfUp=Half Up
-FormatNumberPage.roundingMode.halfDown=Half Down
-FormatNumberPage.roundingMode.halfEven=Half Even
+FormatNumberPage.roundingMode.halfUp=Halb nach oben
+FormatNumberPage.roundingMode.halfDown=Halb nach unten
+FormatNumberPage.roundingMode.halfEven=Halb gerade
 FormatNumberPage.roundingMode.up=Nach oben
 FormatNumberPage.roundingMode.down=Nach unten
-FormatNumberPage.roundingMode.ceiling=Ceiling
-FormatNumberPage.roundingMode.floor=Floor
-FormatNumberPage.roundingMode.unnecessary=Unnecessary
+FormatNumberPage.roundingMode.ceiling=Obergrenze
+FormatNumberPage.roundingMode.floor=Boden
+FormatNumberPage.roundingMode.unnecessary=Nicht erforderlich
 
 ###########################################################
 #FormatNumberPreferencePage properties

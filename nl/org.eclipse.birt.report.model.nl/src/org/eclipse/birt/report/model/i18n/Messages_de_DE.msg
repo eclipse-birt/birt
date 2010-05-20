@@ -712,9 +712,9 @@ Choices.windowStatus.normal=Normal
 Choices.windowStatus.maximized=Maximiert
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=Tabellenthema
+Choices.reportItemThemeType.List=Listenthema
+Choices.reportItemThemeType.Grid=Rasterthema
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=Datenobjekt-Datenquelle
 Element.DataMartDataSet=Datenobjekt-Datensatz
 Element.DataMartCube=Datenobjektquader
 Element.TimeDimension=Zeitliche Dimension
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=Berichtobjektthema
 
 ###########################################################
 # Element property names
@@ -3024,7 +3024,7 @@ Element.Grid.onPageBreak.reportContext=Berichtkontext
 Element.Grid.caption=Beschriftung
 Element.Grid.captionID=Beschriftungsschlüssel
 Element.Grid.summary=Zusammenfassung
-Element.Grid.theme=Design
+Element.Grid.theme=Thema
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Seitenausrichtung
@@ -3132,7 +3132,7 @@ Element.Listing.onRow=Bei Zeile
 Element.Listing.onRow.toolTip=Wird für jede Zeile aufgerufen, die aus dem Datensatz für dieses Element abgerufen wurde, jedoch vor dem Erstellen von Inhalt für diese Zeile
 Element.Listing.onFinish=Beim Beenden
 Element.Listing.onFinish.toolTip=Wird nach dem Lesen der letzten Zeile aus dem Datensatz für dieses Element aufgerufen, jedoch vor dem Erstellen der Fußzeile
-Element.Listing.theme=Design
+Element.Listing.theme=Thema
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=Inhalt
@@ -3676,7 +3676,7 @@ New.DataMartCube=NewDataMartCube
 New.TabElement=NewTabElement
 New.GadgetItem=NewGadgetItem
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NewReportItemTheme
+New.ReportItemTheme=NeuesBerichtobjektthema
 
 ###########################################################
 #Default theme name.
@@ -3840,8 +3840,8 @@ Error.StyleException.FORBIDDEN={0} kann keinen Stil aufweisen.
 Error.StyleException.NOT_FOUND=Der von {1} verwendete Stil "{0}" wurde nicht gefunden.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND=Das von {1} verwendete Thema "{0}" wurde nicht gefunden.
+Error.ThemeException.WRONG_TYPE=Das von {1} verwendete Thema "{0}" ist nicht das korrekte Berichtobjektthema.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=Die Datei "{0}" wurde nicht gefunden.
@@ -3912,7 +3912,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=Der Bibliothek-Namespace "{0}
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=Die Bibliothek mit dem Namespace "{0}" ist rekursiv einbezogen.
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=Die Bibliothek "{0}" kann nicht abgelegt werden, da sie im aktuellen Modul untergeordnete Elemente "{1}" aufweist.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=Die Bibliothek "{0}" ist bereits enthalten. Bibliotheken können nicht doppelt hinzugefügt werden.
-Error.LibraryException.INVALID_LIBRARY_NAMESPACE=Der Namespace '{0}' der Bibliothek ist ungültig, da er leer ist oder ungültige Zeichen enthält.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=Der Namespace "{0}" der Bibliothek ist ungültig, da er leer ist oder ungültige Zeichen enthält.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=Die Stilvorlagen-Ressource wurde nicht gefunden.

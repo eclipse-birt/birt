@@ -1486,11 +1486,11 @@ ExpressionBuilder.toolTipText.Button=式ビルダを開く
 ###########################################################
 #ExpressionBuilder properties
 
-ExpressionBuilder.Label.Category=&Category:
-ExpressionBuilder.Label.Functions=Double Click to &insert:
+ExpressionBuilder.Label.Category=カテゴリ(&C) :
+ExpressionBuilder.Label.Functions=ダブルクリックして挿入(&I) :
 ExpressionBuilder.Label.Hint=ヒント
 ExpressionBuilder.Label.Operators=演算子 :
-ExpressionBuilder.Label.SubCategory=&Sub-Category:
+ExpressionBuilder.Label.SubCategory=サブカテゴリ(&S) :
 ExpressionBuilder.Message.Prompt=[式] フィールドに式を入力してください。使用可能なオブジェクトの一覧を参照し、式に使用する項目をダブルクリックしてコピーします。
 ExpressionBuilder.ToolTip=式ビルダを開く
 ExpressionBuilder.toolTipText.validate=検証
@@ -1688,7 +1688,7 @@ FormatNumberPage.label.custom.preview.label=書式付きプレビュー :
 FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
 FormatNumberPage.label.custom.settings=カスタム設定
 FormatNumberPage.label.decimal.places=小数点以下の桁数(&D) : 
-FormatNumberPage.label.rounding.mode=&Rounding Mode:
+FormatNumberPage.label.rounding.mode=ラウンディングモード(&R) :
 FormatNumberPage.label.fixed.settings=固定設定
 FormatNumberPage.label.format.code=書式コード(&C) :
 FormatNumberPage.label.format.number.page=書式設定(&F) :
@@ -1710,14 +1710,14 @@ FormatNumberPage.preview.invalidNumber=プレビューする数値が無効です。
 FormatNumberPage.symblePos.after=後ろ
 FormatNumberPage.symblePos.before=前
 
-FormatNumberPage.roundingMode.halfUp=Half Up
-FormatNumberPage.roundingMode.halfDown=Half Down
-FormatNumberPage.roundingMode.halfEven=Half Even
+FormatNumberPage.roundingMode.halfUp=ハーフアップ
+FormatNumberPage.roundingMode.halfDown=ハーフダウン
+FormatNumberPage.roundingMode.halfEven=ハーフイーブン
 FormatNumberPage.roundingMode.up=上へ
 FormatNumberPage.roundingMode.down=下へ
-FormatNumberPage.roundingMode.ceiling=Ceiling
-FormatNumberPage.roundingMode.floor=Floor
-FormatNumberPage.roundingMode.unnecessary=Unnecessary
+FormatNumberPage.roundingMode.ceiling=シーリング
+FormatNumberPage.roundingMode.floor=床
+FormatNumberPage.roundingMode.unnecessary=不要
 
 ###########################################################
 #FormatNumberPreferencePage properties

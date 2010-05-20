@@ -1486,11 +1486,11 @@ ExpressionBuilder.toolTipText.Button=식 빌더 열기
 ###########################################################
 #ExpressionBuilder properties
 
-ExpressionBuilder.Label.Category=&Category:
-ExpressionBuilder.Label.Functions=Double Click to &insert:
+ExpressionBuilder.Label.Category=범주(&C):
+ExpressionBuilder.Label.Functions=삽입하려면 두 번 클릭(&I):
 ExpressionBuilder.Label.Hint=힌트
 ExpressionBuilder.Label.Operators=연산자:
-ExpressionBuilder.Label.SubCategory=&Sub-Category:
+ExpressionBuilder.Label.SubCategory=하위 범주(&S):
 ExpressionBuilder.Message.Prompt=식 필드에 식을 입력하십시오. 사용 가능한 객체 목록을 찾아보고 식으로 복사하려면 두 번 클릭하십시오.
 ExpressionBuilder.ToolTip=식 빌더 열기
 ExpressionBuilder.toolTipText.validate=확인
@@ -1688,7 +1688,7 @@ FormatNumberPage.label.custom.preview.label=형식 미리 보기:
 FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
 FormatNumberPage.label.custom.settings=사용자 지정 설정
 FormatNumberPage.label.decimal.places=소수 자릿수(&D): 
-FormatNumberPage.label.rounding.mode=&Rounding Mode:
+FormatNumberPage.label.rounding.mode=반올림 모드(&R):
 FormatNumberPage.label.fixed.settings=고정 설정
 FormatNumberPage.label.format.code=형식 코드(&C):
 FormatNumberPage.label.format.number.page=다음으로 형식 지정(&F):

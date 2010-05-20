@@ -712,9 +712,9 @@ Choices.windowStatus.normal=Normal
 Choices.windowStatus.maximized=Agrandi
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=Thème de tableau
+Choices.reportItemThemeType.List=Thème de liste
+Choices.reportItemThemeType.Grid=Thème de grille
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=Source de données de l'objet de données
 Element.DataMartDataSet=Jeu de données de l'objet de données
 Element.DataMartCube=Cube de l'objet de données
 Element.TimeDimension=Dimension de temps
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=Thème d'élément d'état
 
 ###########################################################
 # Element property names
@@ -3300,7 +3300,7 @@ Element.OdaLevel.attributes=Attributs
 Element.MemberValue.value=Valeur
 Element.MemberValue.level=Niveau
 Element.MemberValue.memberValues=Valeurs de membre
-Element.MemberValue.filter=Filtrer
+Element.MemberValue.filter=Filtre
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=Clé
@@ -3676,7 +3676,7 @@ New.DataMartCube=NewDataMartCube
 New.TabElement=NewTabElement
 New.GadgetItem=NewGadgetItem
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NewReportItemTheme
+New.ReportItemTheme=Nouveau thème d'élément d'état
 
 ###########################################################
 #Default theme name.
@@ -3840,8 +3840,8 @@ Error.StyleException.FORBIDDEN=L''élément {0} ne peut pas être associé à un styl
 Error.StyleException.NOT_FOUND=Impossible de trouver le style "{0}" utilisé par {1}.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND=Impossible de trouver le thème "{0}" utilisé par {1}.
+Error.ThemeException.WRONG_TYPE=Le thème d'élément d'état "{0}" utilisé par {1} n'est pas correct.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=Le fichier "{0}" est introuvable.

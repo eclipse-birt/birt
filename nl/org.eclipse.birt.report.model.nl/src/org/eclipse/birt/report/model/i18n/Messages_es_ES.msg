@@ -712,9 +712,9 @@ Choices.windowStatus.normal=Normal
 Choices.windowStatus.maximized=Maximizado
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=Tema de tabla
+Choices.reportItemThemeType.List=Tema de lista
+Choices.reportItemThemeType.Grid=Tema de cuadrícula
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=Fuente de datos de objeto de datos
 Element.DataMartDataSet=Conjunto de datos de objeto de datos
 Element.DataMartCube=Cubo de objeto de datos
 Element.TimeDimension=Dimensión de tiempo
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=Tema de elemento de informe
 
 ###########################################################
 # Element property names
@@ -3676,7 +3676,7 @@ New.DataMartCube=NewDataMartCube
 New.TabElement=NewTabElement
 New.GadgetItem=NewGadgetItem
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NewReportItemTheme
+New.ReportItemTheme=NuevoTemaElementoInforme
 
 ###########################################################
 #Default theme name.
@@ -3840,8 +3840,8 @@ Error.StyleException.FORBIDDEN=El valor {0} no puede tener ningún estilo.
 Error.StyleException.NOT_FOUND=No encuentra el estilo "{0}" usado por {1}.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND=No se encuentra el tema "{0}" usado por {1}.
+Error.ThemeException.WRONG_TYPE=El tema "{0}" usado por {1} es de un tema de elemento de informe incorrecto.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=No se ha encontrado el archivo "{0}".
