@@ -192,6 +192,11 @@ public abstract class NotificationEvent
 	 */
 	public static final int DATA_DESIGN_RELOADED_EVENT = 25;
 
+	/**
+	 * The event type of DataMartPropertyEvent.
+	 */
+	public static final int DATA_MART_PROPERTY_EVENT = 26;
+
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
 

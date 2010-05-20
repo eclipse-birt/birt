@@ -230,4 +230,11 @@ public interface IMetaDataDictionary
 	 */
 
 	public List<IMethodInfo> getFunctions( );
+
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public List<IPredefinedStyle> getPredefinedStyles( String type );
 }

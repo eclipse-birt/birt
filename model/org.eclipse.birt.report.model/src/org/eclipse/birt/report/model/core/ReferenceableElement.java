@@ -29,7 +29,7 @@ public abstract class ReferenceableElement extends DesignElement
 			IReferencableElement
 {
 
-	private IReferencableElement adapter = null;
+	protected IReferencableElement adapter = null;
 
 	/**
 	 * Default constructor.
