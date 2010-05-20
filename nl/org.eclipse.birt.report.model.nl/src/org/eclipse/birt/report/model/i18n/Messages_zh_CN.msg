@@ -189,7 +189,7 @@ Choices.mapOperator.top-percent=最高百分比
 Choices.mapOperator.bottom-percent=最低百分比
 Choices.mapOperator.not-like=非类似于
 Choices.mapOperator.not-match=不匹配
-Choices.mapOperator.not-in=不在以下范围内
+Choices.mapOperator.not-in=不属于
 Choices.mapOperator.in=在其中
   
 #15.imageRefType
@@ -403,15 +403,15 @@ Choices.filterOperator.isTrue=为真
 Choices.filterOperator.isFalse=为假
 Choices.filterOperator.like=类似
 Choices.filterOperator.not-like=非类似于
-Choices.filterOperator.top-n=上 n
-Choices.filterOperator.bottom-n=下 n
-Choices.filterOperator.top-percent=上百分比
-Choices.filterOperator.bottom-percent=下百分比
+Choices.filterOperator.top-n=前 n 个
+Choices.filterOperator.bottom-n=后 n 个
+Choices.filterOperator.top-percent=最高百分比
+Choices.filterOperator.bottom-percent=最低百分比
 Choices.filterOperator.any=任何
 Choices.filterOperator.match=匹配
 Choices.filterOperator.not-match=不匹配
 Choices.filterOperator.in=在其中
-Choices.filterOperator.not-in=不在以下范围内
+Choices.filterOperator.not-in=不属于
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=更改
