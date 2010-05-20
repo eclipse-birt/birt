@@ -34,16 +34,9 @@ public interface ILibraryModel
 	public static final int CUBE_SLOT = 6;
 
 	/**
-	 * Identifier of the slot that holds a collections of report item theme
-	 * elements.
-	 */
-
-	public static final int REPORT_ITEM_THEME_SLOT = 7;
-
-	/**
 	 * Number of slots in the library.
 	 */
 
-	public static final int SLOT_COUNT = 8;
+	public static final int SLOT_COUNT = 7;
 
 }

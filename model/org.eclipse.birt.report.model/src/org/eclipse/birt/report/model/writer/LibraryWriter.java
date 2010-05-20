@@ -103,8 +103,6 @@ public class LibraryWriter extends ModuleWriter
 
 		writeContents( obj, ILibraryModel.THEMES_SLOT,
 				DesignSchemaConstants.THEMES_TAG );
-		writeContents( obj, ILibraryModel.REPORT_ITEM_THEME_SLOT,
-				DesignSchemaConstants.REPORT_ITEM_THEMES_TAG );
 		writeArrangedContents( obj, IModuleModel.COMPONENT_SLOT,
 				DesignSchemaConstants.COMPONENTS_TAG );
 		writeContents( obj, IModuleModel.PAGE_SLOT,

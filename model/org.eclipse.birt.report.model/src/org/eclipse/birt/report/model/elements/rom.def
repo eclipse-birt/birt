@@ -1699,6 +1699,7 @@
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="LayoutModule" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
     <Slot displayNameID="Element.Library.slot.themes" multipleCardinality="true" name="themes" since="2.0" xmlName="themes">
       <Type name="Theme"/>
+      <Type name="ReportItemTheme"/>
     </Slot>
     <Slot displayNameID="Element.Library.slot.parameters" multipleCardinality="true" name="parameters" since="1.0" xmlName="parameters">
       <Type name="Parameter"/>
@@ -1729,9 +1730,6 @@
     </Slot>
     <Slot displayNameID="Element.Library.slot.cubes" multipleCardinality="true" name="cubes" since="2.2" xmlName="cubes">
       <Type name="Cube"/>
-    </Slot>
-    <Slot displayNameID="Element.Library.slot.reportItemThemes" multipleCardinality="true" name="reportItemThemes" since="2.6" xmlName="report-item-themes">
-      <Type name="ReportItemTheme"/>
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportDesign" extends="LayoutModule" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" name="ReportDesign" nameSpace="none" selector="report" since="1.0" xmlName="report">
