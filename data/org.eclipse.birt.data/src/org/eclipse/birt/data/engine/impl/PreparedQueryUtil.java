@@ -156,12 +156,11 @@ public class PreparedQueryUtil
 
 		if ( dset instanceof IScriptDataSetDesign )
 		{
-			preparedQuery = new PreparedScriptDSQuery( dataEngine,
-					queryDefn,
-					dset,
-					appContext,
-					QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
-							appContext ));
+				preparedQuery = new PreparedScriptDSQuery( dataEngine,
+						queryDefn,
+						dset,
+						appContext,
+						contextVisitor );
 		}
 		else if ( dset instanceof IOdaDataSetDesign )
 		{
