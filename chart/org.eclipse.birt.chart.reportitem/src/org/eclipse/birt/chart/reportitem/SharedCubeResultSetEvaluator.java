@@ -73,6 +73,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	 */
 	public SharedCubeResultSetEvaluator( ICubeQueryResults qr,
 			IBaseCubeQueryDefinition queryDefinition, Chart cm )
+			throws BirtException
 	{
 		super( qr );
 		parseLevelIndex( queryDefinition, cm );

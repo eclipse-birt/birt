@@ -65,9 +65,18 @@ public class BIRTCubeResultSetEvaluator extends
 	}
 
 	public BIRTCubeResultSetEvaluator( ICubeQueryResults qr )
+			throws BirtException
 	{
 		this.rs = null;
 		this.qr = qr;
+		try
+		{
+			initCubeCursor( );
+		}
+		catch ( OLAPException e )
+		{
+			logger.log( e );
+		}
 	}
 
 	public int[] getGroupBreaks( int groupLevel )
