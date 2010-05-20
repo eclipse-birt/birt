@@ -1761,18 +1761,23 @@ FormatStringPreferencePage.formatString.title=Chaîne
 
 FormPage.Button.Add=&Ajouter
 FormPage.Button.AddWithDialog=&Ajouter...
-FormPage.Button.AddWithDialog.JAR=&Ajouter... 
-FormPage.Button.AddWithDialog.JS=&Ajouter... 
+FormPage.Button.AddWithDialog.PROP=&Add File...
+FormPage.Button.AddWithDialog.JAR=Add Fi&le...
+FormPage.Button.AddWithDialog.JS=Add File&...
 FormPage.Button.Add.AggregateOn=Ajouter l'a&grégation
 FormPage.Button.AddWithDialog.AggregateOn=Ajouter l'a&grégation...
 FormPage.Button.Delete=&Supprimer
-FormPage.Button.Delete.Alt1=Suppri&mer 
-FormPage.Button.Down=&Bas
-FormPage.Button.Down.Alt1=&Vers le bas
+FormPage.Button.DeleteFile=&Remove File
+FormPage.Button.DeleteFile.Alt1=Remove F&ile
+FormPage.Button.DeleteFile.Alt2=Remove &File
+FormPage.Button.Down=Move Dow&n
+FormPage.Button.Down.Alt1=Move Do&wn
+FormPage.Button.Down.Alt2=Move &Down
 FormPage.Button.Edit=&Modifier
 FormPage.Button.EditWithDialog=&Modifier...
-FormPage.Button.Up=&Vers le haut
-FormPage.Button.Up.Alt1=Vers le &haut
+FormPage.Button.Up=Move &Up
+FormPage.Button.Up.Alt1=Move U&p
+FormPage.Button.Up.Alt2=Mov&e Up
 FormPage.Button.Binding.Refresh=Ac&tualiser
 FormPage.Menu.ModifyProperty=Modifier la propriété
 FormPage.toolTipText.Up=Déplacer vers le haut
@@ -3158,7 +3163,11 @@ PublishTemplateViewAction.action.displaytext=Enregistrer le modèle avec l'&assis
 ###########################################################
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=Actualiser la bib&liothèque
-
+RefreshModuleHandleAction.MessageBox.Title=Refresh Library
+RefreshModuleHandleAction.MessageBox.Text=Current design has unsaved changes. Do you want to save or discard these changes first?
+RefreshModuleHandleAction.MessageBox.SaveButton=&Save
+RefreshModuleHandleAction.MessageBox.DiscardButton=&Discard
+RefreshModuleHandleAction.MessageBox.CancelButton=Annuler
 ###########################################################
 #ReloadCssStylesAction
 ReloadCssStylesAction.Action.Text=&Recharger un fichier CSS
@@ -4336,8 +4345,11 @@ MultiPageReportEditor.ConfirmTitle=Fichier inexistant
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Le modèle d'état a été créé à l'aide d'une version antérieure de BIRT Designer. L'enregistrement de ce modèle entraînera une mise à niveau vers la version actuelle ; il sera peut-être impossible de l'ouvrir dans une version antérieure de BIRT. Voulez-vous enregistrer le modèle d'état ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=Le contenu de cet éditeur a peut-être été modifié par une source externe. Voulez-vous recharger les modifications ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=Le contenu de cet éditeur a peut-être été modifié par une source externe. Voulez-vous recharger le contenu avec ces modifications ?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=The content of this editor may have been changed from outside, and the editor has unsaved changes.\n\nDo you want to save the editor and reload the outside changes, or discard the editor's unsaved changes before reloading?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirmer
-MultiPageReportEditor.SaveButton=Enregistrer
+MultiPageReportEditor.SaveButton=&Save
+MultiPageReportEditor.DiscardButton=&Discard
+MultiPageReportEditor.CancelButton=Annuler
 MultiPageReportEditor.SaveConfirmMessage=Le fichier a été supprimé. Souhaitez-vous enregistrer vos modifications ou fermer l'éditeur sans enregistrer ?
 TableArea.Button.Up=&Vers le haut
 

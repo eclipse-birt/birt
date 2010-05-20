@@ -1761,18 +1761,23 @@ FormatStringPreferencePage.formatString.title=字符串格式
 
 FormPage.Button.Add=添加(&A)
 FormPage.Button.AddWithDialog=添加(&A)...
-FormPage.Button.AddWithDialog.JAR=添加(&A)... 
-FormPage.Button.AddWithDialog.JS=添加(&D)... 
+FormPage.Button.AddWithDialog.PROP=&Add File...
+FormPage.Button.AddWithDialog.JAR=Add Fi&le...
+FormPage.Button.AddWithDialog.JS=Add File&...
 FormPage.Button.Add.AggregateOn=添加聚合(&G)
 FormPage.Button.AddWithDialog.AggregateOn=添加聚合(&G)...
 FormPage.Button.Delete=删除(&R)
-FormPage.Button.Delete.Alt1=删除(&V) 
-FormPage.Button.Down=下移(&N)
-FormPage.Button.Down.Alt1=下移(&W)
+FormPage.Button.DeleteFile=&Remove File
+FormPage.Button.DeleteFile.Alt1=Remove F&ile
+FormPage.Button.DeleteFile.Alt2=Remove &File
+FormPage.Button.Down=Move Dow&n
+FormPage.Button.Down.Alt1=Move Do&wn
+FormPage.Button.Down.Alt2=Move &Down
 FormPage.Button.Edit=编辑(&D)
 FormPage.Button.EditWithDialog=编辑(&D)...
-FormPage.Button.Up=上移(&U)
-FormPage.Button.Up.Alt1=上移(&P)
+FormPage.Button.Up=Move &Up
+FormPage.Button.Up.Alt1=Move U&p
+FormPage.Button.Up.Alt2=Mov&e Up
 FormPage.Button.Binding.Refresh=刷新(&F)
 FormPage.Menu.ModifyProperty=修改属性
 FormPage.toolTipText.Up=上移
@@ -3158,7 +3163,11 @@ PublishTemplateViewAction.action.displaytext=使用新建报表向导来注册模板(&Z)...
 ###########################################################
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=刷新库(&L)
-
+RefreshModuleHandleAction.MessageBox.Title=Refresh Library
+RefreshModuleHandleAction.MessageBox.Text=Current design has unsaved changes. Do you want to save or discard these changes first?
+RefreshModuleHandleAction.MessageBox.SaveButton=&Save
+RefreshModuleHandleAction.MessageBox.DiscardButton=&Discard
+RefreshModuleHandleAction.MessageBox.CancelButton=取消
 ###########################################################
 #ReloadCssStylesAction
 ReloadCssStylesAction.Action.Text=重新加载 CSS 文件(&R)
@@ -4336,8 +4345,11 @@ MultiPageReportEditor.ConfirmTitle=文件不存在
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=报表设计是使用较早版本的 BIRT Designer 创建的。保存它将会升级到当前版本，可能使较早版本的 BIRT 无法打开它。是否仍要保存?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=此编辑器的内容可能已从外部更改，要重新加载更改吗?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=此编辑器的内容可能已从外部更改，要重新加载具有这些更改的内容吗?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=The content of this editor may have been changed from outside, and the editor has unsaved changes.\n\nDo you want to save the editor and reload the outside changes, or discard the editor's unsaved changes before reloading?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=确认
-MultiPageReportEditor.SaveButton=保存
+MultiPageReportEditor.SaveButton=&Save
+MultiPageReportEditor.DiscardButton=&Discard
+MultiPageReportEditor.CancelButton=取消
 MultiPageReportEditor.SaveConfirmMessage=文件已被删除。是要保存更改还是要关闭编辑器而不保存?
 TableArea.Button.Up=上移(&U)
 

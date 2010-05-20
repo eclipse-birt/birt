@@ -1761,18 +1761,23 @@ FormatStringPreferencePage.formatString.title=문자열 형식
 
 FormPage.Button.Add=추가(&A)
 FormPage.Button.AddWithDialog=추가(&A)...
-FormPage.Button.AddWithDialog.JAR=추가(&A)... 
-FormPage.Button.AddWithDialog.JS=추가(&D)... 
+FormPage.Button.AddWithDialog.PROP=&Add File...
+FormPage.Button.AddWithDialog.JAR=Add Fi&le...
+FormPage.Button.AddWithDialog.JS=Add File&...
 FormPage.Button.Add.AggregateOn=집계 추가(&G)
 FormPage.Button.AddWithDialog.AggregateOn=집계 추가(&G)...
 FormPage.Button.Delete=제거(&R)
-FormPage.Button.Delete.Alt1=제거(&V) 
-FormPage.Button.Down=아래로(&N)
-FormPage.Button.Down.Alt1=아래로(&W)
+FormPage.Button.DeleteFile=&Remove File
+FormPage.Button.DeleteFile.Alt1=Remove F&ile
+FormPage.Button.DeleteFile.Alt2=Remove &File
+FormPage.Button.Down=Move Dow&n
+FormPage.Button.Down.Alt1=Move Do&wn
+FormPage.Button.Down.Alt2=Move &Down
 FormPage.Button.Edit=편집(&D)
 FormPage.Button.EditWithDialog=편집(&D)...
-FormPage.Button.Up=위로(&U)
-FormPage.Button.Up.Alt1=위로(&P)
+FormPage.Button.Up=Move &Up
+FormPage.Button.Up.Alt1=Move U&p
+FormPage.Button.Up.Alt2=Mov&e Up
 FormPage.Button.Binding.Refresh=새로 고침(&F)
 FormPage.Menu.ModifyProperty=속성 수정
 FormPage.toolTipText.Up=위로 이동
@@ -3158,7 +3163,11 @@ PublishTemplateViewAction.action.displaytext=새 보고서 마법사를 템플릿에 등록(&Z
 ###########################################################
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=라이브러리 새로 고침(&L)
-
+RefreshModuleHandleAction.MessageBox.Title=Refresh Library
+RefreshModuleHandleAction.MessageBox.Text=Current design has unsaved changes. Do you want to save or discard these changes first?
+RefreshModuleHandleAction.MessageBox.SaveButton=&Save
+RefreshModuleHandleAction.MessageBox.DiscardButton=&Discard
+RefreshModuleHandleAction.MessageBox.CancelButton=취소
 ###########################################################
 #ReloadCssStylesAction
 ReloadCssStylesAction.Action.Text=CSS 파일 다시 로드(&R)
@@ -4336,8 +4345,11 @@ MultiPageReportEditor.ConfirmTitle=파일 없음
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=이 보고서 디자인은 이전 버전의 BIRT Designer에서 만들어졌습니다. 이 보고서 디자인을 저장하면 보고서 디자인이 현재 버전으로 업그레이드되어 이전 버전의 BIRT Designer에서 열지 못하게 될 수 있습니다. 저장하시겠습니까?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=이 편집기의 내용이 외부에서 변경되었을 수 있습니다. 변경 사항을 다시 로드하시겠습니까?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=이 편집기의 내용이 외부에서 변경되었을 수 있습니다. 이 변경 사항을 다시 로드하시겠습니까?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=The content of this editor may have been changed from outside, and the editor has unsaved changes.\n\nDo you want to save the editor and reload the outside changes, or discard the editor's unsaved changes before reloading?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=확인
-MultiPageReportEditor.SaveButton=저장
+MultiPageReportEditor.SaveButton=&Save
+MultiPageReportEditor.DiscardButton=&Discard
+MultiPageReportEditor.CancelButton=취소
 MultiPageReportEditor.SaveConfirmMessage=파일이 삭제되었습니다. 변경 사항을 저장하시겠습니까? 아니면 저장하지 않고 편집기를 닫으시겠습니까?
 TableArea.Button.Up=위로(&U)
 
