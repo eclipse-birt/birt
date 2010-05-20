@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.datatools.help.HelpUtil;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -158,24 +159,44 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 
 			if ( ds instanceof OdaDataSourceHandle )
 			{
-				handle = (OdaDataSourceHandle) ds;
+				handle = (OdaDataSourceHandle)ds;
 				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ds;
-				// '.' char will interrupt help system
-				Utility.setSystemHelp( composite, IHelpConstants.PREFIX
+				String contextId = getDynamicContextId( odsh.getExtensionID( ) + ".properties", //$NON-NLS-1$
+						odsh.getExtensionID( ) ); 
+				if ( contextId != null )
+				{
+					//contextId is provided thru o.e.datatools.help extension point
+					Utility.setSystemHelp( composite, contextId );
+				}
+				else
+				{
+					// '.' char will interrupt help system
+					Utility.setSystemHelp( composite, IHelpConstants.PREFIX
 						+ "Wizard_DataSourcePropertyBinding" + "(" //$NON-NLS-1$ //$NON-NLS-2$
 						+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //$NON-NLS-1$
 						+ "_ID" ); //$NON-NLS-1$
+				}
 
 			}
 			else if ( ds instanceof OdaDataSetHandle )
 			{
-				handle = (OdaDataSetHandle) ds;
+				handle = (OdaDataSetHandle)ds;
 				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ( ( (OdaDataSetHandle) ds ).getDataSource( ) );
-				// '.' char will interrupt help system
-				Utility.setSystemHelp( composite, IHelpConstants.PREFIX
+				String contextId = getDynamicContextId( ((OdaDataSetHandle)ds).getExtensionID( ) + ".properties",
+						odsh.getExtensionID( ));
+				if ( contextId != null )
+				{
+					//contextId is provided thru o.e.datatools.help extension point
+					Utility.setSystemHelp( composite, contextId );
+				}
+				else
+				{
+					// '.' char will interrupt help system
+					Utility.setSystemHelp( composite, IHelpConstants.PREFIX
 						+ "Wizard_DataSetPropertyBinding" + "(" //$NON-NLS-1$ //$NON-NLS-2$
 						+ odsh.getExtensionID( ).replace( '.', '_' ) + ")" //$NON-NLS-1$
 						+ "_ID" ); //$NON-NLS-1$
+				}
 			}
 			createExpressionButton( composite,
 					propertyText,
@@ -186,6 +207,11 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		if ( size <= 0 )
 			setEmptyPropertyMessages( composite );
 		return composite;
+	}
+	
+	private static String getDynamicContextId( String helpKey, String helpPlugin )
+	{
+		return HelpUtil.getContextId( helpKey, helpPlugin );
 	}
 
 	private void createExpressionButton( Composite composite,
