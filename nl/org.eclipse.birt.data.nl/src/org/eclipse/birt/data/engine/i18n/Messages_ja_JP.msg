@@ -161,7 +161,7 @@ data.engine.sortExprContainRowNum=ソート式では、Java スクリプトオブジェクト "row
 
 
 data.engine.ResultSetNotStart=結果セットはまだ開始していません。
-data.engine.GetLevelMemberError=結果セットが開始されていないため、レベルメンバを達成できません。
+data.engine.GetLevelMemberError=This data binding is used outside of the available scope.
 
 data.engine.invalidRowIndex=行のインデックス値が無効です : {0}
 data.engine.backwardSeekError=このバージョンでは、後方シークを実行できません。

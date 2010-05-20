@@ -161,7 +161,7 @@ data.engine.sortExprContainRowNum=La expresión de ordenación no puede hacer refe
 
 
 data.engine.ResultSetNotStart=El conjunto de resultados no se ha iniciado todavía.
-data.engine.GetLevelMemberError=No se pueden obtener miembros por nivel porque no se ha iniciado el conjunto de resultados.
+data.engine.GetLevelMemberError=This data binding is used outside of the available scope.
 
 data.engine.invalidRowIndex=Valor de índice de fila no válido: {0}.
 data.engine.backwardSeekError=Esta versión no admite la búsqueda inversa.
