@@ -27,6 +27,8 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.swt.wizard.data.YOptionalDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -84,7 +86,8 @@ public class RadarSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
 		{
-			BaseDataDefinitionComponent ddc = new BaseDataDefinitionComponent( sTitle,
+			BaseDataDefinitionComponent ddc = new YOptionalDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_GROUP,
+					ChartUIConstants.QUERY_OPTIONAL,
 					seriesDefn,
 					seriesDefn.getQuery( ),
 					context,

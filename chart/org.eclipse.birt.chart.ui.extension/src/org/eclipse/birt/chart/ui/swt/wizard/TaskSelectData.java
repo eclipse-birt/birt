@@ -271,8 +271,8 @@ public class TaskSelectData extends SimpleTask implements
 		fDataArea.setContent( dataComposite );
 
 		getDataSheet( ).createDataSelector( dataComposite );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.widthHint = fRightSize.x;
+		GridData gd = new GridData( );
+		gd.widthHint = fRightSize.x - 40;
 		new Label( dataComposite, SWT.NONE ).setLayoutData( gd );
 
 		getDataSheet( ).createDataDragSource( dataComposite );
