@@ -86,21 +86,6 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 	private int style;
 
 	/**
-	 * The index of the button group created in the same page.
-	 */
-	private int index = 0;
-
-	/**
-	 * Set the index of this form created in the same page.
-	 * 
-	 * @param index
-	 */
-	public void setButtonGroupIndex( int index )
-	{
-		this.index = index;
-	}
-
-	/**
 	 * When Add button is clicked, whether invoke dialogs.
 	 */
 	protected boolean bAddWithDialog = false;
@@ -348,14 +333,8 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 					SWT.PUSH );
 		else
 			btnDel = new Button( formPanel, SWT.BORDER );
-		if ( 0 == index )
-		{
-			btnDel.setText( Messages.getString( "FormPage.Button.Delete" ) ); //$NON-NLS-1$
-		}
-		else if ( 1 == index )
-		{
-			btnDel.setText( Messages.getString( "FormPage.Button.Delete.Alt1" ) ); //$NON-NLS-1$
-		}
+
+		btnDel.setText( Messages.getString( "FormPage.Button.Delete" ) ); //$NON-NLS-1$
 
 		btnDel.addSelectionListener( new SelectionAdapter( ) {
 
@@ -373,16 +352,7 @@ public class SortingFormPropertyDescriptor extends PropertyDescriptor implements
 			btnAdd = new Button( formPanel, SWT.BORDER );
 		if ( bAddWithDialog == true )
 		{
-
-			if ( descriptorProvider.getDisplayName( )
-					.equals( Messages.getString( "ReportPageGenerator.List.Resources.JsFile" ) ) ) //$NON-NLS-1$
-			{
-				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog.JS" ) ); //$NON-NLS-1$
-			}
-			else
-			{
-				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog.JAR" ) ); //$NON-NLS-1$
-			}
+			btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog" ) ); //$NON-NLS-1$
 		}
 		else
 		{

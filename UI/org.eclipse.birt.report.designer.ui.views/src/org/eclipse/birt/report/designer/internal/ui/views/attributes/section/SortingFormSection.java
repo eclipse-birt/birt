@@ -313,14 +313,5 @@ public class SortingFormSection extends Section
 	{
 		this.customForm = customForm;
 	}
-	
-	/**
-	 * Set the index of the current form created within one page.
-	 * 
-	 * @param index
-	 */
-	public void setButtonGroupIndex( int index )
-	{
-		this.customForm.setButtonGroupIndex( index );
-	}
+
 }

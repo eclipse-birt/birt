@@ -15,8 +15,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ja
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.JsFileFormProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertiesFileFormProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndButtonSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FileFormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.swt.SWT;
@@ -59,7 +57,7 @@ public class ResourcesPage extends LibraryAttributePage
 				container,
 				true );
 		jarFileSection.setCustomForm( new FileFormPropertyDescriptor( true ) );
-		jarFileSection.setButtonGroupIndex( 0 );
+		jarFileSection.setButtonGroupIndex( 1 );
 		jarFileSection.setProvider( jarFileProvider );
 		jarFileSection.showDisplayLabel( true );
 		jarFileSection.setButtonWithDialog( true );
@@ -76,7 +74,7 @@ public class ResourcesPage extends LibraryAttributePage
 				container,
 				true );
 		jsFileSection.setCustomForm( new FileFormPropertyDescriptor( true ) );
-		jsFileSection.setButtonGroupIndex( 1 );
+		jsFileSection.setButtonGroupIndex( 2 );
 		jsFileSection.setProvider( jsFileProvider );
 		jsFileSection.showDisplayLabel( true );
 		jsFileSection.setButtonWithDialog( true );

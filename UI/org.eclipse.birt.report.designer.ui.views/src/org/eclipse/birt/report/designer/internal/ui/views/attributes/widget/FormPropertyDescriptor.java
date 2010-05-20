@@ -318,13 +318,25 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 					SWT.PUSH );
 		else
 			btnDel = new Button( formPanel, SWT.BORDER );
-		if ( 0 == index )
+
+		if ( descriptorProvider.getDisplayName( )
+				.equals( Messages.getString( "ReportPageGenerator.List.Resources.PropertiesFile" ) ) ) //$NON-NLS-1$
+		{
+			btnDel.setText( Messages.getString( "FormPage.Button.DeleteFile" ) ); //$NON-NLS-1$
+		}
+		else if ( descriptorProvider.getDisplayName( )
+				.equals( Messages.getString( "ReportPageGenerator.List.Resources.JarFile" ) ) ) //$NON-NLS-1$
+		{
+			btnDel.setText( Messages.getString( "FormPage.Button.DeleteFile.Alt1" ) ); //$NON-NLS-1$
+		}
+		else if ( descriptorProvider.getDisplayName( )
+				.equals( Messages.getString( "ReportPageGenerator.List.Resources.JsFile" ) ) ) //$NON-NLS-1$
+		{
+			btnDel.setText( Messages.getString( "FormPage.Button.DeleteFile.Alt2" ) ); //$NON-NLS-1$
+		}
+		else
 		{
 			btnDel.setText( Messages.getString( "FormPage.Button.Delete" ) ); //$NON-NLS-1$
-		}
-		else if ( 1 == index )
-		{
-			btnDel.setText( Messages.getString( "FormPage.Button.Delete.Alt1" ) ); //$NON-NLS-1$
 		}
 
 		btnDel.addSelectionListener( new SelectionAdapter( ) {
@@ -343,15 +355,24 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			btnAdd = new Button( formPanel, SWT.BORDER );
 		if ( bAddWithDialog == true )
 		{
-
 			if ( descriptorProvider.getDisplayName( )
+					.equals( Messages.getString( "ReportPageGenerator.List.Resources.PropertiesFile" ) ) ) //$NON-NLS-1$
+			{
+				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog.PROP" ) ); //$NON-NLS-1$
+			}
+			else if ( descriptorProvider.getDisplayName( )
 					.equals( Messages.getString( "ReportPageGenerator.List.Resources.JsFile" ) ) ) //$NON-NLS-1$
 			{
 				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog.JS" ) ); //$NON-NLS-1$
 			}
-			else
+			else if ( descriptorProvider.getDisplayName( )
+					.equals( Messages.getString( "ReportPageGenerator.List.Resources.JarFile" ) ) ) //$NON-NLS-1$
 			{
 				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog.JAR" ) ); //$NON-NLS-1$
+			}
+			else
+			{
+				btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog" ) ); //$NON-NLS-1$
 			}
 		}
 		else
@@ -411,6 +432,10 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			{
 				btnUp.setText( Messages.getString( "FormPage.Button.Up.Alt1" ) ); //$NON-NLS-1$
 			}
+			else if ( 2 == index )
+			{
+				btnUp.setText( Messages.getString( "FormPage.Button.Up.Alt2" ) ); //$NON-NLS-1$
+			}
 			btnUp.setToolTipText( Messages.getString( "FormPage.toolTipText.Up" ) ); //$NON-NLS-1$
 			btnUp.addSelectionListener( new SelectionAdapter( ) {
 
@@ -431,6 +456,10 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			else if ( 1 == index )
 			{
 				btnDown.setText( Messages.getString( "FormPage.Button.Down.Alt1" ) ); //$NON-NLS-1$
+			}
+			else if ( 2 == index )
+			{
+				btnDown.setText( Messages.getString( "FormPage.Button.Down.Alt2" ) ); //$NON-NLS-1$
 			}
 
 			btnDown.setToolTipText( Messages.getString( "FormPage.toolTipText.Down" ) ); //$NON-NLS-1$
