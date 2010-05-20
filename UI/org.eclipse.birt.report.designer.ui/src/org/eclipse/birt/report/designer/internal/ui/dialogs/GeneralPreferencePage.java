@@ -20,9 +20,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
@@ -47,7 +48,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 	private Object model;
 
-	private ThemeHandle theme;
+	private AbstractThemeHandle theme;
 
 	private Combo preName;
 
@@ -69,6 +70,8 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 	private Label preLabel;
 
+	boolean isReportItemTheme = false;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -86,12 +89,15 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	 * @param model
 	 * @param theme
 	 */
-	public GeneralPreferencePage( Object model, ThemeHandle theme )
+	public GeneralPreferencePage( Object model, AbstractThemeHandle theme )
 	{
 		super( model );
 
 		this.model = model;
 		this.theme = theme;
+
+		if ( theme instanceof ReportItemThemeHandle )
+			isReportItemTheme = true;
 	}
 
 	/**
@@ -123,7 +129,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				IHelpContextIds.STYLE_BUILDER_GERNERAL_ID );
 
 		Label note = new Label( getFieldEditorParent( ), SWT.NONE );
-		note.setText( Messages.getString("GeneralPreferencePage.Label.Note") ); //$NON-NLS-1$
+		note.setText( Messages.getString( "GeneralPreferencePage.Label.Note" ) ); //$NON-NLS-1$
 		note.setForeground( note.getDisplay( )
 				.getSystemColor( SWT.COLOR_WIDGET_DARK_SHADOW ) );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
@@ -176,7 +182,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		preStyle.setLayoutData( data );
 
 		preLabel = new Label( nameComp, SWT.NONE );
-		preLabel.setText( Messages.getString("GeneralPreferencePage.Label.PreDefinedStyle") ); //$NON-NLS-1$
+		preLabel.setText( Messages.getString( "GeneralPreferencePage.Label.PreDefinedStyle" ) ); //$NON-NLS-1$
 		data = new GridData( );
 		data.horizontalIndent = width;
 		preLabel.setLayoutData( data );
@@ -185,7 +191,14 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		preName.setLayoutData( data );
 		preName.setVisibleItemCount( 30 );
-		preName.setItems( getPredefinedStyeNames( ) );
+		if ( isReportItemTheme )
+		{
+			preName.setItems( getPredefinedStyleNames( ( (ReportItemThemeHandle) theme ).getType( ) ) );
+		}
+		else
+		{
+			preName.setItems( getPredefinedStyleNames( null ) );
+		}
 		preName.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -223,7 +236,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		cusStyle.setLayoutData( data );
 
 		cusLabel = new Label( nameComp, SWT.NONE );
-		cusLabel.setText( Messages.getString("GeneralPreferencePage.Label.CustomStyle") ); //$NON-NLS-1$
+		cusLabel.setText( Messages.getString( "GeneralPreferencePage.Label.CustomStyle" ) ); //$NON-NLS-1$
 		data = new GridData( );
 		data.horizontalIndent = width;
 		cusLabel.setLayoutData( data );
@@ -242,9 +255,18 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		} );
 	}
 
-	private String[] getPredefinedStyeNames( )
+	private String[] getPredefinedStyleNames( String type )
 	{
-		List preStyles = DEUtil.getMetaDataDictionary( ).getPredefinedStyles( );
+		List preStyles = null;
+		if ( type == null )
+		{
+			preStyles = DEUtil.getMetaDataDictionary( ).getPredefinedStyles( );
+		}
+		else
+		{
+			preStyles = DEUtil.getMetaDataDictionary( )
+					.getPredefinedStyles( type );
+		}
 		if ( preStyles == null )
 		{
 			return new String[]{};
@@ -267,7 +289,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	{
 		if ( model instanceof StyleHandle )
 		{
-			if ( ( (StyleHandle) model ).isPredefined( ) )
+			if ( ( (StyleHandle) model ).isPredefined( ) || isReportItemTheme )
 			{
 				preStyle.setSelection( true );
 				setPredefinedStyle( true );
@@ -281,8 +303,13 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				{
 					cusName.setText( ( (StyleHandle) model ).getName( ) );
 				}
-
 			}
+		}
+
+		if ( isReportItemTheme )
+		{
+			cusStyle.setEnabled( false );
+			cusName.setEnabled( false );
 		}
 		super.initialize( );
 		initialized = true;

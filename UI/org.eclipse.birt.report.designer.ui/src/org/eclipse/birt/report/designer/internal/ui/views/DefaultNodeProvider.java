@@ -665,9 +665,18 @@ public class DefaultNodeProvider implements INodeProvider
 						SWT.ICON_WARNING );
 				return false;
 			}
-			else if ( supportList.size( ) == 1 )
+			else if ( supportList.size( ) > 0  )
 			{
-				type = supportList.get( 0 ).getName( );
+				if(model instanceof DesignElementHandle){
+					DesignElementHandle element = (DesignElementHandle)model;
+					for(int i=0;i<supportList.size( );i++){
+						IElementDefn define = supportList.get( i );
+						if(element.getDefn( ).equals( define )){
+							type = define.getName( );
+							break;
+						}
+					}
+				}
 			}
 			else
 			{

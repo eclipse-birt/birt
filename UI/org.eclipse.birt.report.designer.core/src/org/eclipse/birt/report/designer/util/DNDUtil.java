@@ -48,6 +48,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -640,6 +641,7 @@ public final class DNDUtil
 				|| selection instanceof GroupHandle
 				|| selection instanceof StyleHandle
 				|| selection instanceof ThemeHandle
+				|| selection instanceof ReportItemThemeHandle
 				|| selection instanceof EmbeddedImageHandle
 				|| selection instanceof TemplateElementHandle
 				|| selection instanceof DataSetItemModel

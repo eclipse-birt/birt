@@ -34,8 +34,8 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.PageBreakPreferenceP
 import org.eclipse.birt.report.designer.internal.ui.dialogs.StylePreferenceNode;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
@@ -112,7 +112,7 @@ public class StyleBuilder extends PreferenceDialog
 	 * @param handle
 	 */
 	public StyleBuilder( Shell parentShell, ReportElementHandle handle,
-			ThemeHandle theme, String title )
+			AbstractThemeHandle theme, String title )
 	{
 		super( parentShell, createPreferenceManager( handle, theme ) );
 		IPreferenceNode[] nodes = this.getPreferenceManager( )
@@ -207,7 +207,7 @@ public class StyleBuilder extends PreferenceDialog
 	}
 
 	private static PreferenceManager createPreferenceManager(
-			ReportElementHandle handle, ThemeHandle theme )
+			ReportElementHandle handle, AbstractThemeHandle theme )
 	{
 		PreferenceManager preferenceManager = new PreferenceManager( '/' );
 

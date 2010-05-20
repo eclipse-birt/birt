@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -61,6 +62,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -564,6 +566,10 @@ public class DEUtil
 		else if ( parent instanceof ThemeHandle )
 		{
 			slotID = ThemeHandle.STYLES_SLOT;
+		}
+		else if ( parent instanceof ReportItemThemeHandle )
+		{
+			slotID = ReportItemThemeHandle.STYLES_SLOT;
 		}
 		return slotID;
 	}
@@ -1821,7 +1827,7 @@ public class DEUtil
 	 * 
 	 * @return Alphabetically sortted styles list.
 	 */
-	public static Iterator getStyles( ThemeHandle theme )
+	public static Iterator getStyles( AbstractThemeHandle theme )
 	{
 		return getStyles( theme, new AlphabeticallyComparator( ) );
 	}
@@ -1832,7 +1838,7 @@ public class DEUtil
 	 * @param comparator
 	 * @return return styles list sortted with given comparator.
 	 */
-	public static Iterator getStyles( ThemeHandle theme, Comparator comparator )
+	public static Iterator getStyles( AbstractThemeHandle theme, Comparator comparator )
 	{
 		List styles = new ArrayList( );
 

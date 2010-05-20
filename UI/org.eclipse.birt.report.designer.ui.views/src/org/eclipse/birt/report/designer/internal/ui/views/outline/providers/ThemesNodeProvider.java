@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.outline.providers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
@@ -70,7 +73,9 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName
+	 * (java.lang.Object)
 	 */
 	public String getIconName( Object model )
 	{
@@ -80,7 +85,9 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#createElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
+	 * #createElement(java.lang.String)
 	 */
 	protected DesignElementHandle createElement( String type ) throws Exception
 	{
@@ -101,7 +108,8 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 			nameHelper.makeUniqueName( theme );
 			nameHelper.dropElement( theme );
 
-			RenameInputDialog inputDialog = new RenameInputDialog( Display.getCurrent( ).getActiveShell( ),
+			RenameInputDialog inputDialog = new RenameInputDialog( Display.getCurrent( )
+					.getActiveShell( ),
 					Messages.getString( "NewThemeDialog.DialogTitle" ), //$NON-NLS-1$
 					Messages.getString( "NewThemeDialog.DialogMessage" ), //$NON-NLS-1$
 					theme.getName( ),
@@ -111,18 +119,21 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 
 			if ( inputDialog.open( ) == Window.OK )
 			{
-				return factory.newTheme( inputDialog.getResult( ).toString( ).trim( ) );
+				return factory.newTheme( inputDialog.getResult( )
+						.toString( )
+						.trim( ) );
 			}
 			return null;
 		}
 		return super.createElement( type );
 	}
-	
+
 	public Object[] getChildren( Object model )
 	{
-		return ( (SlotHandle) model ).getElementHandle( )
+		List list = new ArrayList( );
+		list.addAll( ( (SlotHandle) model ).getElementHandle( )
 				.getModuleHandle( )
-				.getVisibleThemes( IAccessControl.NATIVE_LEVEL )
-				.toArray( );
+				.getVisibleThemes( IAccessControl.NATIVE_LEVEL ) );
+		return list.toArray( );
 	}
 }

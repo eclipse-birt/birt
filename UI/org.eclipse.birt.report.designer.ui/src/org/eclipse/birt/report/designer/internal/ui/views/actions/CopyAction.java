@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -209,6 +209,7 @@ public class CopyAction extends AbstractViewAction
 				|| selection instanceof GroupHandle
 				|| selection instanceof StyleHandle
 				|| selection instanceof ThemeHandle
+				|| selection instanceof ReportItemThemeHandle
 				|| selection instanceof EmbeddedImageHandle
 				|| selection instanceof TemplateElementHandle
 				|| selection instanceof CubeHandle
