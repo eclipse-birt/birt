@@ -36,6 +36,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 		ChartReportItemPresentationBase
 {
 
+	@Override
 	public void setModelObject( ExtendedItemHandle eih )
 	{
 		// Get the host chart handle from host chart
@@ -46,7 +47,18 @@ public final class ChartReportItemPresentationAxisImpl extends
 			return;
 		}
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( PROPERTY_CHART );
-
+		// Add lock to avoid concurrent exception from EMF. IReportItem has one
+		// design time chart model that could be shared by multiple
+		// presentation instance, but only allows one copy per item
+		// concurrently.
+		synchronized ( item )
+		{
+			// Must copy model here to generate runtime data later
+			if ( cm != null )
+			{
+				cm = cm.copyInstance( );
+			}
+		}
 		setChartModelObject( item );
 	}
 
