@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.lib.editors;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.IRelatedFileChangeResolve;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.LibrarySaveChangeEvent;
@@ -29,6 +33,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 
 public class LibraryFileChangeResolve implements IRelatedFileChangeResolve
 {
+
+	protected static final Logger logger = Logger.getLogger( LibraryFileChangeResolve.class.getName( ) );
 
 	public boolean acceptType( int type )
 	{
@@ -68,7 +74,41 @@ public class LibraryFileChangeResolve implements IRelatedFileChangeResolve
 
 	public boolean reload( ModuleHandle owner )
 	{
-		if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
+		if ( owner.needsSave( ) )
+		{
+			MessageDialog md = new MessageDialog( UIUtil.getDefaultShell( ),
+					Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), //$NON-NLS-1$
+					null,
+					Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage" ), //$NON-NLS-1$
+					MessageDialog.QUESTION_WITH_CANCEL,
+					new String[]{
+							Messages.getString( "MultiPageReportEditor.SaveButton" ), //$NON-NLS-1$
+							Messages.getString( "MultiPageReportEditor.DiscardButton" ), //$NON-NLS-1$
+							Messages.getString( "MultiPageReportEditor.CancelButton" ) //$NON-NLS-1$
+					},
+					0 );
+
+			switch ( md.open( ) )
+			{
+				case 0 :
+					try
+					{
+						owner.save( );
+					}
+					catch ( IOException e )
+					{
+						logger.log( Level.SEVERE, e.getMessage( ), e );
+					}
+					UIUtil.reloadModuleHandleLibraries( owner );
+					return true;
+				case 1 :
+					UIUtil.reloadModuleHandleLibraries( owner );
+					return true;
+				default :
+					return false;
+			}
+		}
+		else if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
 				Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ 
 		{
 			UIUtil.reloadModuleHandleLibraries( owner );

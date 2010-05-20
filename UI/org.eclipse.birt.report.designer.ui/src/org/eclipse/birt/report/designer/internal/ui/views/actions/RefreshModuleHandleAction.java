@@ -14,9 +14,12 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 /**
  * 
@@ -68,13 +71,56 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-		try
+		if ( ( (ModuleHandle) getSelection( ) ).needsSave( ) )
 		{
-			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand", null); //$NON-NLS-1$
+			MessageDialog md = new MessageDialog( UIUtil.getDefaultShell( ),
+					Messages.getString( "RefreshModuleHandleAction.MessageBox.Title" ), //$NON-NLS-1$
+					null,
+					Messages.getString( "RefreshModuleHandleAction.MessageBox.Text" ), //$NON-NLS-1$
+					MessageDialog.QUESTION_WITH_CANCEL,
+					new String[]{
+							Messages.getString( "RefreshModuleHandleAction.MessageBox.SaveButton" ), //$NON-NLS-1$
+							Messages.getString( "RefreshModuleHandleAction.MessageBox.DiscardButton" ), //$NON-NLS-1$
+							Messages.getString( "RefreshModuleHandleAction.MessageBox.CancelButton" ) //$NON-NLS-1$
+					},
+					0 );
+
+			switch ( md.open( ) )
+			{
+				case 0 :
+					try
+					{
+						( (ModuleHandle) getSelection( ) ).save( );
+						CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand", null ); //$NON-NLS-1$
+					}
+					catch ( Exception e )
+					{
+						logger.log( Level.SEVERE, e.getMessage( ), e );
+					}
+					break;
+				case 1 :
+					try
+					{
+						CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand", null ); //$NON-NLS-1$
+					}
+					catch ( Exception e )
+					{
+						logger.log( Level.SEVERE, e.getMessage( ), e );
+					}
+					break;
+				default :
+			}
 		}
-		catch ( Exception e )
+		else
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			try
+			{
+				CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand", null ); //$NON-NLS-1$
+			}
+			catch ( Exception e )
+			{
+				logger.log( Level.SEVERE, e.getMessage( ), e );
+			}
 		}
 	}
 }
