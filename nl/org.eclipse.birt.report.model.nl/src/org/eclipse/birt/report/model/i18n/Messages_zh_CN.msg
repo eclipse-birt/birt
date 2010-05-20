@@ -712,9 +712,9 @@ Choices.windowStatus.normal=正常
 Choices.windowStatus.maximized=已最大化
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=表主题
+Choices.reportItemThemeType.List=列表主题
+Choices.reportItemThemeType.Grid=网格主题
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=数据对象数据源
 Element.DataMartDataSet=数据对象数据集
 Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=时间维
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=报表项主题
 
 ###########################################################
 # Element property names
@@ -2408,7 +2408,7 @@ Element.Library.slot.pageSetup=页面设置
 Element.Library.slot.components=组件
 Element.Library.slot.themes=主题
 Element.Library.slot.cubes=多维数据集
-Element.Library.slot.reportItemThemes=Report Item Themes
+Element.Library.slot.reportItemThemes=报表项主题
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=刷新比率
@@ -3025,7 +3025,7 @@ Element.Grid.onPageBreak.reportContext=报表上下文
 Element.Grid.caption=标题
 Element.Grid.captionID=标题关键字
 Element.Grid.summary=摘要
-Element.Grid.theme=Theme
+Element.Grid.theme=主题
 
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=方向
@@ -3133,7 +3133,7 @@ Element.Listing.onRow=遇到行时
 Element.Listing.onRow.toolTip=为从此元素的数据集中检索出的每行调用，但在为该行创建内容之前
 Element.Listing.onFinish=完成时
 Element.Listing.onFinish.toolTip=在从此元素的数据集内读取最后一行之后调用，但在创建页脚区段之前
-Element.Listing.theme=Theme
+Element.Listing.theme=主题
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=内容
@@ -3301,7 +3301,7 @@ Element.OdaLevel.attributes=属性
 Element.MemberValue.value=值
 Element.MemberValue.level=级别
 Element.MemberValue.memberValues=成员值
-Element.MemberValue.filter=Filter
+Element.MemberValue.filter=筛选器
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=关键字
@@ -3841,8 +3841,8 @@ Error.StyleException.FORBIDDEN={0} 不得具有样式。
 Error.StyleException.NOT_FOUND=未找到 {1} 使用的样式 "{0}"。
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND=未找到 {1} 使用的主题“{0}”。
+Error.ThemeException.WRONG_TYPE={1} 使用的主题“{0}”是错误类型报表项主题。    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=未找到文件 "{0}"。
@@ -3913,7 +3913,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=库名称空间 "{0}" 已存在。
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=递归包括具有名称空间 "{0}" 的库。
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=由于库 "{0}" 在当前模块中具有附属项 "{1}"，不能删除。
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=已包括库 "{0}"，一个库不能添加两次。
-Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=库的名称空间“{0}”无效，因为它为空或包含非法字符。
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=未找到样式表资源。

@@ -712,9 +712,9 @@ Choices.windowStatus.normal=標準
 Choices.windowStatus.maximized=最大化
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=テーブルテーマ
+Choices.reportItemThemeType.List=リストテーマ
+Choices.reportItemThemeType.Grid=グリッドテーマ
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=データオブジェクトのデータソース
 Element.DataMartDataSet=データオブジェクトのデータセット
 Element.DataMartCube=データオブジェクトキューブ
 Element.TimeDimension=時間のディメンジョン
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=レポート項目テーマ
 
 ###########################################################
 # Element property names
@@ -2408,7 +2408,7 @@ Element.Library.slot.pageSetup=ページ設定
 Element.Library.slot.components=コンポーネント
 Element.Library.slot.themes=テーマ
 Element.Library.slot.cubes=キューブ
-Element.Library.slot.reportItemThemes=Report Item Themes
+Element.Library.slot.reportItemThemes=レポート項目テーマ
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=更新頻度
@@ -3025,7 +3025,7 @@ Element.Grid.onPageBreak.reportContext=レポートのコンテキスト
 Element.Grid.caption=キャプション
 Element.Grid.captionID=キャプションキー
 Element.Grid.summary=サマリ
-Element.Grid.theme=Theme
+Element.Grid.theme=テーマ
 
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=向き
@@ -3133,7 +3133,7 @@ Element.Listing.onRow=行ごと
 Element.Listing.onRow.toolTip=この要素のデータセットから各行が取得された際に、その行のコンテンツが作成される前に呼び出されます
 Element.Listing.onFinish=終了時
 Element.Listing.onFinish.toolTip=この要素のデータセットから最後の行が読み込まれた後で、フッタバンドが作成される前に呼び出されます
-Element.Listing.theme=Theme
+Element.Listing.theme=テーマ
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=コンテンツ
@@ -3301,7 +3301,7 @@ Element.OdaLevel.attributes=属性
 Element.MemberValue.value=値
 Element.MemberValue.level=レベル
 Element.MemberValue.memberValues=メンバ値
-Element.MemberValue.filter=Filter
+Element.MemberValue.filter=フィルタ
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=キー
@@ -3677,7 +3677,7 @@ New.DataMartCube=新規 DataMart キューブ
 New.TabElement=新規タブ要素
 New.GadgetItem=新規ガジェットの項目
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NewReportItemTheme
+New.ReportItemTheme=レポート項目テーマの新規作成
 
 ###########################################################
 #Default theme name.
@@ -3841,8 +3841,8 @@ Error.StyleException.FORBIDDEN={0} にはスタイルを適用できません。
 Error.StyleException.NOT_FOUND={1} で使用されているスタイル "{0}" が見つかりません。
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND={1} で使用されているテーマ "{0}" が見つかりません。
+Error.ThemeException.WRONG_TYPE={1} で使用されているテーマ "{0}" は、レポート項目テーマの種類が正しくありません。    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=ファイル "{0}" が見つかりません。
@@ -3913,7 +3913,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=ライブラリの "{0}" という名前
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY="{0}" という名前空間を持つライブラリが繰り返し含まれています。
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=ライブラリ "{0}" には現在のモジュールに含まれる下位レベル "{1}" があるため、削除できません。
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=ライブラリ "{0}" はすでにインクルードされています。同じライブラリを 2 回追加することはできません。
-Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=ライブラリの名前空間 "{0}" が無効です。空であるか、または無効な文字が含まれています。
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=スタイルシートのリソースが見つかりません。

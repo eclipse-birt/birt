@@ -712,9 +712,9 @@ Choices.windowStatus.normal=기본
 Choices.windowStatus.maximized=최대화
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=테이블 테마
+Choices.reportItemThemeType.List=목록 테마
+Choices.reportItemThemeType.Grid=눈금 테마
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=데이터 개체 데이터 원본
 Element.DataMartDataSet=데이터 개체 데이터 집합
 Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=보고서 항목 테마
 
 ###########################################################
 # Element property names
@@ -2408,7 +2408,7 @@ Element.Library.slot.pageSetup=페이지 설정
 Element.Library.slot.components=구성 요소
 Element.Library.slot.themes=테마
 Element.Library.slot.cubes=큐브
-Element.Library.slot.reportItemThemes=Report Item Themes
+Element.Library.slot.reportItemThemes=보고서 항목 테마
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=새로 고침 빈도
@@ -3025,7 +3025,7 @@ Element.Grid.onPageBreak.reportContext=보고서 컨텍스트
 Element.Grid.caption=캡션
 Element.Grid.captionID=캡션 키
 Element.Grid.summary=요약
-Element.Grid.theme=Theme
+Element.Grid.theme=테마
 
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=방향
@@ -3133,7 +3133,7 @@ Element.Listing.onRow=행에서
 Element.Listing.onRow.toolTip=이 요소에 대한 데이터 집합에서 검색된 각 행에 대해 해당 행에 대한 내용을 생성하기 전에 호출됩니다
 Element.Listing.onFinish=종료 시
 Element.Listing.onFinish.toolTip=이 요소에 대한 데이터 집합에서 마지막 행을 읽은 이후이며 바닥글 밴드가 생성되기 이전에 호출됩니다
-Element.Listing.theme=Theme
+Element.Listing.theme=테마
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=내용
@@ -3301,7 +3301,7 @@ Element.OdaLevel.attributes=특성
 Element.MemberValue.value=값
 Element.MemberValue.level=수준
 Element.MemberValue.memberValues=구성원 값
-Element.MemberValue.filter=Filter
+Element.MemberValue.filter=필터
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=키
@@ -3677,7 +3677,7 @@ New.DataMartCube=새 Data Mart 큐브
 New.TabElement=새 탭 요소
 New.GadgetItem=새 가젯 항목
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NewReportItemTheme
+New.ReportItemTheme=새 보고서 항목 테마
 
 ###########################################################
 #Default theme name.
@@ -3841,8 +3841,8 @@ Error.StyleException.FORBIDDEN={0}은(는) 스타일을 가질 수 없습니다.
 Error.StyleException.NOT_FOUND={1}에서 사용된 스타일 "{0}"이(가) 없습니다.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND={1}에서 사용하는 테마 "{0}"이(가) 없습니다.
+Error.ThemeException.WRONG_TYPE={1}에서 사용하는 테마 "{0}"이(가) 잘못된 형식의 보고서 항목 테마입니다.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=파일 "{0}"이(가) 없습니다.
@@ -3913,7 +3913,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=라이브러리 네임스페이스 "{0}"
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=네임스페이스가 "{0}"인 라이브러리가 반복 포함됩니다.
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=현재 모듈에 파생물 "{1}"이(가) 있으므로 라이브러리 "{0}"을(를) 삭제할 수 없습니다.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=라이브러리 "{0}"이(가) 이미 포함되어 있으며 라이브러리는 두 번 추가할 수 없습니다.
-Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=라이브러리의 네임스페이스 "{0}"이(가) 잘못되었습니다. 비어 있거나 잘못된 문자를 포함하고 있습니다.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=스타일시트 리소스가 없습니다.

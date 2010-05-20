@@ -712,9 +712,9 @@ Choices.windowStatus.normal=Normal
 Choices.windowStatus.maximized=Maximizado
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=Table Theme
-Choices.reportItemThemeType.List=List Theme
-Choices.reportItemThemeType.Grid=Grid Theme
+Choices.reportItemThemeType.Table=Tema de tabla
+Choices.reportItemThemeType.List=Tema de lista
+Choices.reportItemThemeType.Grid=Tema de cuadrícula
 
 ###########################################################
 # Classes
@@ -2368,7 +2368,7 @@ Element.DataMartDataSource=Fuente de datos de objeto de datos
 Element.DataMartDataSet=Conjunto de datos de objeto de datos
 Element.DataMartCube=Cubo de objeto de datos
 Element.TimeDimension=Dimensión de tiempo
-Element.ReportItemTheme=Report Item Theme
+Element.ReportItemTheme=Tema de elemento de informe
 
 ###########################################################
 # Element property names
@@ -2408,7 +2408,7 @@ Element.Library.slot.pageSetup=Configurar página
 Element.Library.slot.components=Componentes
 Element.Library.slot.themes=Temas
 Element.Library.slot.cubes=Cubos
-Element.Library.slot.reportItemThemes=Report Item Themes
+Element.Library.slot.reportItemThemes=Temas de elemento de informe
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Intervalo de actualización
@@ -3025,7 +3025,7 @@ Element.Grid.onPageBreak.reportContext=Contexto de informe
 Element.Grid.caption=Título
 Element.Grid.captionID=Clave de título
 Element.Grid.summary=Resumen
-Element.Grid.theme=Theme
+Element.Grid.theme=Tema
 
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientación
@@ -3133,7 +3133,7 @@ Element.Listing.onRow=En fila
 Element.Listing.onRow.toolTip=Llamado para cada fila recuperada del conjunto de datos para este elemento, pero antes de crear cualquier contenido para dicha fila
 Element.Listing.onFinish=En fin
 Element.Listing.onFinish.toolTip=Llamado después de leer la última fila del conjunto de datos para este elemento, pero antes de crear la banda de pie de página
-Element.Listing.theme=Theme
+Element.Listing.theme=Tema
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=Contenido
@@ -3301,7 +3301,7 @@ Element.OdaLevel.attributes=Atributos
 Element.MemberValue.value=Valor
 Element.MemberValue.level=Nivel
 Element.MemberValue.memberValues=Valores de miembro
-Element.MemberValue.filter=Filter
+Element.MemberValue.filter=Filtro
 
 #60. SortElement ( prefix Element.SortElement )
 Element.SortElement.key=Clave
@@ -3677,7 +3677,7 @@ New.DataMartCube=NewDataMartCube
 New.TabElement=NewTabElement
 New.GadgetItem=NewGadgetItem
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NewReportItemTheme
+New.ReportItemTheme=NuevoTemaElementoInforme
 
 ###########################################################
 #Default theme name.
@@ -3841,8 +3841,8 @@ Error.StyleException.FORBIDDEN=El valor {0} no puede tener ningún estilo.
 Error.StyleException.NOT_FOUND=No encuentra el estilo "{0}" usado por {1}.
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=The theme "{0}" used by {1} is not found.
-Error.ThemeException.WRONG_TYPE=The theme "{0}" used by {1} is the wrong type report item theme.    
+Error.ThemeException.NOT_FOUND=No se encuentra el tema "{0}" usado por {1}.
+Error.ThemeException.WRONG_TYPE=El tema "{0}" usado por {1} es de un tema de elemento de informe incorrecto.    
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=No se ha encontrado el archivo "{0}".
@@ -3913,7 +3913,7 @@ Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=Ya existe el espacio de nombr
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=La librería con el espacio de nombres "{0}" está incluida recursivamente.
 Error.LibraryException.LIBRARY_HAS_DESCENDENTS=La librería "{0}" no se puede suprimir ya que tiene descendientes "{1}" en el módulo activo.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=La librería "{0}" ya se ha incluido, no se puede añadir una librería dos veces.
-Error.LibraryException.INVALID_LIBRARY_NAMESPACE=The namespace "{0}" of the library is invalid, for it is empty or contains illegal characters.
+Error.LibraryException.INVALID_LIBRARY_NAMESPACE=El espacio de nombres "{0}" de la librería no es válido ya que está vacío o contiene caracteres no válidos.
 
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=No se ha encontrado el recurso de hoja de estilos.
