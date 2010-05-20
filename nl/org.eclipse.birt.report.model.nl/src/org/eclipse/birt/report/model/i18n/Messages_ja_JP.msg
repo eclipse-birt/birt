@@ -2408,7 +2408,6 @@ Element.Library.slot.pageSetup=ページ設定
 Element.Library.slot.components=コンポーネント
 Element.Library.slot.themes=テーマ
 Element.Library.slot.cubes=キューブ
-Element.Library.slot.reportItemThemes=Report Item Themes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=更新頻度

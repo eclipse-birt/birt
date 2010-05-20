@@ -2408,7 +2408,6 @@ Element.Library.slot.pageSetup=Seite einrichten
 Element.Library.slot.components=Komponenten
 Element.Library.slot.themes=Designs
 Element.Library.slot.cubes=Quader
-Element.Library.slot.reportItemThemes=Report Item Themes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Aktualisierungsrate
