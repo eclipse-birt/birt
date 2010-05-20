@@ -324,7 +324,8 @@ public final class Generator implements IGenerator
 		else if ( component instanceof LineAttributes )
 		{
 			// only apply to axis
-			if ( component.eContainer( ) instanceof Axis )
+			if ( component.eContainer( ) instanceof Axis
+					|| component.eContainer( ) instanceof Series )
 			{	
 				LineAttributes lia = (LineAttributes) component;
 				if ( lia.getColor( ) == null )

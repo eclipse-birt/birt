@@ -221,7 +221,8 @@ public class LineAttributesComposite extends Composite implements
 
 			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
 					| FillChooserComposite.ENABLE_TRANSPARENT
-					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+					| FillChooserComposite.ENABLE_AUTO;
 
 			 cmbColor = new FillChooserComposite( cmpContent,
 					SWT.DROP_DOWN | SWT.READ_ONLY,

@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
@@ -1209,7 +1208,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		super.initialize( );
 		setExplosion( 20 );
 		setLabelPosition( Position.OUTSIDE_LITERAL );
-		setLeaderLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+		setLeaderLineAttributes( LineAttributesImpl.create( null,
 				LineStyle.SOLID_LITERAL,
 				1 ) );
 		setLeaderLineLength( 40 );

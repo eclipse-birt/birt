@@ -801,7 +801,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	{
 		super.initialize( );
 		setLabelPosition( Position.ABOVE_LITERAL );
-		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+		final LineAttributes lia = LineAttributesImpl.create( null,
 				LineStyle.SOLID_LITERAL,
 				0 );
 		lia.setVisible( true );
