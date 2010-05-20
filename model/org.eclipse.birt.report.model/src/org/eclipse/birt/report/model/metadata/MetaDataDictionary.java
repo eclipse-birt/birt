@@ -590,7 +590,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		String type = style.getType( );
 		if ( !StringUtil.isBlank( type ) )
 		{
-			List<IPredefinedStyle> styles = predefinedStyleTypes.get( name );
+			List<IPredefinedStyle> styles = predefinedStyleTypes.get( type );
 			if ( styles == null )
 			{
 				styles = new ArrayList<IPredefinedStyle>( );
