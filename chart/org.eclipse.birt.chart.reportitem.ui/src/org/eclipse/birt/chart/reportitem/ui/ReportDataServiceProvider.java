@@ -815,7 +815,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	boolean isInheritanceOnly( )
 	{
-		if ( isInMultiView( ) || isInXTabMeasureCell( ) )
+		if ( isInXTabCell( )|| isInMultiView( ) || isInXTabMeasureCell( ) )
 		{
 			return true;
 		}
