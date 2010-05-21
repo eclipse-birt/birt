@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.device.swing;
 
 import java.awt.Image;
 import java.awt.MediaTracker;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -43,7 +41,7 @@ public final class SwingImageCache
 	/**
 	 * 
 	 */
-	private final Hashtable<URI, Image> htCache;
+	private final Hashtable<String, Image> htCache;
 
 	/**
 	 * 
@@ -69,18 +67,8 @@ public final class SwingImageCache
 	 */
 	final Image loadImage( URL url ) throws ChartException
 	{
-		URI uri;
-		try
-		{
-			uri = url.toURI( );
-		}
-		catch ( URISyntaxException e )
-		{
-			throw new ChartException( ChartDeviceExtensionPlugin.ID,
-					ChartException.RENDERING,
-					e );
-		}
-		Image img = htCache.get( uri );
+		String sUrl = url.toString( );
+		Image img = htCache.get( sUrl );
 		if ( img != null )
 		{
 			logger.log( ILogger.INFORMATION,
@@ -132,7 +120,7 @@ public final class SwingImageCache
 						ChartException.IMAGE_LOADING,
 						ex );
 			}
-			htCache.put( uri, img );
+			htCache.put( sUrl, img );
 		}
 		return img;
 	}
