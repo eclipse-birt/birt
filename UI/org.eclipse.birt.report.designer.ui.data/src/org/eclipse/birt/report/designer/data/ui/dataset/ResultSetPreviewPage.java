@@ -457,7 +457,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 									.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 											newContextLoader );
 							ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
-							DataSetUIUtil.clearPropertyBindingMap( dsHandle,
+							clearProperyBindingMap( 
 									dataSetBindingMap,
 									dataSourceBindingMap );
 
@@ -515,15 +515,9 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 					}
 					finally
 					{
-						try
-						{
-							DataSetUIUtil.resetPropertyBinding( dsHandle,
-									dataSetBindingMap,
-									dataSourceBindingMap );
-						}
-						catch ( SemanticException e )
-						{
-						}
+						resetPropertyBinding(
+								dataSetBindingMap,
+								dataSourceBindingMap );
 					}		
 
 					// Restore old thread context class loader
@@ -803,6 +797,49 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		return Messages.getString( "dataset.resultset.preview.tooltip" ); //$NON-NLS-1$
 	}
 
+	private void resetPropertyBinding( final Map dataSetBindingMap,
+			final Map dataSourceBindingMap )
+	{
+		Display.getDefault( ).syncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				try
+				{
+					DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
+					DataSetUIUtil.resetPropertyBinding( dsHandle,
+							dataSetBindingMap,
+							dataSourceBindingMap );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		} );
+	}
+
+	private void clearProperyBindingMap( final Map dataSetBindingMap,
+			final Map dataSourceBindingMap )
+	{
+		Display.getDefault( ).syncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
+				try
+				{
+					DataSetUIUtil.clearPropertyBindingMap( dsHandle,
+							dataSetBindingMap,
+							dataSourceBindingMap );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		} );
+	}
 }
 
 /**
