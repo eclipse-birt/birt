@@ -52,6 +52,7 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 
 
 /**
@@ -572,16 +573,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 						this.sessionImpl );
 			else
 			{
-				if( cubeHandle instanceof TabularCubeHandle )
-				{
-					DefineDataSourceSetUtil.defineDataSourceAndDataSet(  ( ( TabularCubeHandle ) cubeHandle ).getDataSet( ) ,
-							this.sessionImpl );
-				}		
-				else 
-				{
-					DefineDataSourceSetUtil.defineDataSourceAndDataSet( ( DataSetHandle ) cubeHandle.getElementProperty( "dataSet" ) ,
-							this.sessionImpl );
-				}
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( (DataSetHandle) cubeHandle.getElementProperty( ITabularCubeModel.DATA_SET_PROP ),
+						this.sessionImpl );
 			}
 			
 			Map levelValueMap = new HashMap( );
@@ -673,7 +666,11 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			String targetLevel, DimensionLevel[] dimensionLevels,
 			Object[] values ) throws AdapterException
 	{
-		return null;
+		return this.getMemberValueIterator( cubeHandle,
+				targetLevel,
+				dimensionLevels,
+				values,
+				null );
 	}
 	
 	/*
@@ -695,7 +692,47 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			String targetLevel, DimensionLevel[] dimensionLevels,
 			Object[] values, Map appContext ) throws AdapterException
 	{
-		return null;
+		try
+		{
+			if ( ( dimensionLevels == null && values != null )
+					|| ( dimensionLevels != null && values == null )
+					|| cubeHandle == null || targetLevel == null )
+				return null;
+			DimLevel target = OlapExpressionUtil.getTargetDimLevel( targetLevel );
+			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
+					0 ) );
+			if ( hierHandle.getDataSet( ) != null )
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( hierHandle.getDataSet( ),
+						this.sessionImpl );
+			else
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( (DataSetHandle) cubeHandle.getProperty( ITabularCubeModel.DATA_SET_PROP ),
+						this.sessionImpl );
+			Map levelValueMap = new HashMap( );
+			if ( dimensionLevels != null )
+			{
+				for ( int i = 0; i < dimensionLevels.length; i++ )
+				{
+					if ( target.getDimensionName( )
+							.equals( dimensionLevels[i].getDimensionName( ) ) )
+					{
+						levelValueMap.put( dimensionLevels[i].getLevelName( ),
+								values[i] );
+					}
+				}
+			}
+			DataSetIterator it = createDataSetIterator( appContext,
+					hierHandle,
+					String.valueOf( cubeHandle.getElement( ).getID( ) ) );
+
+			return new MemberValueIterator( it,
+					levelValueMap,
+					target.getLevelName( ),
+					target.getAttrName( ) );
+		}
+		catch ( BirtException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
 	}
 	
 	/*
