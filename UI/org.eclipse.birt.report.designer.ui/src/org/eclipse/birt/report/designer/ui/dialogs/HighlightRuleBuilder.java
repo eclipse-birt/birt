@@ -788,6 +788,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 						reportItem.getDataSet( ),
 						DEUtil.getVisiableColumnBindingsList( designHandle )
 								.iterator( ),
+						DEUtil.getGroups( designHandle ).iterator( ),
 						false );
 			}
 
@@ -881,8 +882,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 
 		Button btn = new Button( wrapper, SWT.TOGGLE );
 		GridData gdata = new GridData( );
-		gdata.widthHint = 22;
-		gdata.heightHint = 22;
+		//gdata.widthHint = 22;
+		//gdata.heightHint = 22;
 		btn.setLayoutData( gdata );
 
 		return btn;
