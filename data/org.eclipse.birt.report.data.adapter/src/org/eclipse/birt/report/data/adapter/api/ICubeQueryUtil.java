@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
@@ -38,6 +39,18 @@ public interface ICubeQueryUtil
 	 */
 	public IDimensionLevel[] getReferencedDimensionLevel( String expression ) throws AdapterException;
 	
+	/**
+	 * Return all the level/level attributes that referenced by an expression,
+	 * including the referenced binding
+	 * 
+	 * @param expression
+	 * @param bindings
+	 * @return
+	 * @throws AdapterException
+	 */
+	public IDimensionLevel[] getReferencedDimensionLevel( String expression,
+			List<IBinding> bindings ) throws AdapterException;
+
 	/**
 	 * Utility method to acquire referable bindings, either in cube filter or
 	 * cube sort.
