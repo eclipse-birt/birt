@@ -52,6 +52,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt.chart.model.data.DataSet)
 	 */
+	@Override
 	public Object getMaximum( DataSet ds ) throws ChartException
 	{
 		DataSetIterator dsi = null;
@@ -138,6 +139,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt.chart.model.data.DataSet)
 	 */
+	@Override
 	public Object getMinimum( DataSet ds ) throws ChartException
 	{
 		DataSetIterator dsi = null;
@@ -225,6 +227,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 	 * @see org.eclipse.birt.chart.model.data.IDataSetProcessor#populate(java.lang.Object,
 	 *      org.eclipse.birt.chart.model.data.DataSet)
 	 */
+	@Override
 	public final DataSet populate( Object oResultSetDef, DataSet ds )
 			throws ChartException
 	{
@@ -281,12 +284,11 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 			}
 			else
 			{
-				for ( i = 0; rsds.hasNext( ); i++ )
+				for ( i = 0; i<values.length; i++ )
 				{
-					Object[] oTwoComponents = rsds.next( );
-					validateBubbleEntryData( oTwoComponents );
-					Object value = oTwoComponents[0];
-					Object size = oTwoComponents[1];
+					validateBubbleEntryData( values[i] );
+					Object value = values[i][0];
+					Object size = values[i][1];
 					if ( dataType == IConstants.NUMERICAL )
 					{
 						bea[i] = new BubbleEntry( value, size );
@@ -358,6 +360,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 	 * @see org.eclipse.birt.chart.datafeed.DataSetProcessor#fromString(java.lang.String,
 	 *      org.eclipse.birt.chart.model.data.DataSet)
 	 */
+	@Override
 	public final DataSet fromString( String sDataSetRepresentation, DataSet ds )
 			throws ChartException
 	{
@@ -440,6 +443,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.DataSetProcessor#getExpectedStringFormat()
 	 */
+	@Override
 	public String getExpectedStringFormat( )
 	{
 		return Messages.getString( "info.bubble.sample.format", getULocale( ) ); //$NON-NLS-1$
@@ -450,6 +454,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.DataSetAdapter#toString(java.lang.Object[])
 	 */
+	@Override
 	public String toString( Object[] columnData ) throws ChartException
 	{
 		if ( columnData == null || columnData.length == 0 )
@@ -505,6 +510,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 	 * @param series
 	 * @return index array
 	 */
+	@Override
 	public int[] getDataDefIdsForGrouping( Series series )
 	{
 		return new int[]{
