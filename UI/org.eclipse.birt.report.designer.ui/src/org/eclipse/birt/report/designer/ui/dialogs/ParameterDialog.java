@@ -273,8 +273,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private static final Image DEFAULT_ICON = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DEFAULT );
 
-	private static final String STANDARD_DATE_TIME_PATTERN = ParameterUtil.STANDARD_DATE_TIME_PATTERN;
-
 	public static final String CONTROLTYPE_VALUE = "controltype";//$NON-NLS-1$
 
 	public static final String DATATYPE_VALUE = "datatype";//$NON-NLS-1$
@@ -2999,7 +2997,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				}
 
 				return ParameterValidationUtil.validate( getSelectedDataType( ),
-						null,
+						ParameterUtil.STANDARD_DATE_TIME_PATTERN,
 						tempdefaultValue,
 						ULocale.getDefault( ) );
 			}
