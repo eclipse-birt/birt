@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,8 +20,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -29,6 +32,7 @@ import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -334,7 +338,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 					}
 					case 5 :
 					{
-						value = defn.getHelpText( );
+						value = defn.getDisplayNameKey( );
 						break;
 					}
 				}
@@ -388,6 +392,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
 		column.setText( Messages.getString( "dataset.editor.title.displayName" ) ); //$NON-NLS-1$
 		column.setWidth( 100 );
+		
+		TableColumn displayNameKeyColumn = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
+		displayNameKeyColumn.setText( Messages.getString( "dataset.editor.title.displayNameKey" ) ); //$NON-NLS-1$
+		displayNameKeyColumn.setWidth( 100 );
 	}
 	
 	protected void addNewDefn( ColumnDefn defn ) throws SemanticException
@@ -1042,6 +1050,29 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				columnHint.setProperty( ColumnHint.DISPLAY_NAME_MEMBER, displayName );
 		}
 
+
+		public String getDisplayNameKey( )
+		{
+			if ( this.columnHintHandle != null )
+				return this.columnHintHandle.getDisplayNameKey( );
+			else
+				return (String) columnHint.getProperty( null,
+						ColumnHint.DISPLAY_NAME_ID_MEMBER );
+		}
+
+		/**
+		 * 
+		 * @param displayName
+		 */
+		public void setDisplayNameKey( String displayNameKey )
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setDisplayNameKey( displayNameKey );
+			else
+				columnHint.setProperty( ColumnHint.DISPLAY_NAME_ID_MEMBER,
+						displayNameKey );
+		}
+
 		/**
 		 * @return Returns the helpText.
 		 */
@@ -1672,7 +1703,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		private String title;
 		private ColumnDefn columnDefn;
 		
-		private String columnName, alias, displayName;
+		private String columnName, alias, displayName, displayNameKey;
 		private int dataType;
 		private String EMPTY_STRING = "";
 		
@@ -1688,7 +1719,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		{
 			Composite composite = new Composite( parent, SWT.NONE );
 			GridLayout layout = new GridLayout( );
-			layout.numColumns = 2;
+			layout.numColumns = 3;
 			layout.marginTop = 5;
 			composite.setLayout( layout );
 			GridData layoutData = new GridData( GridData.FILL_BOTH );
@@ -1705,7 +1736,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			labelData.horizontalSpan = 1;
 			
 			GridData textData = new GridData( GridData.FILL_HORIZONTAL );
-			textData.horizontalSpan = 1;
+			textData.horizontalSpan = 2;
 			
 			Label columnNameLabel = new Label( composite, SWT.NONE );
 			columnNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.columnName" ) ); //$NON-NLS-1$
@@ -1776,9 +1807,89 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				public void modifyText( ModifyEvent e )
 				{
 					displayName = displayNameText.getText( ).trim( );
+					validateSyntax( );
 				}
 
 			} );
+			
+			createDisplayNameKeyArea( composite );
+		}
+		
+		private void createDisplayNameKeyArea( Composite parent )
+		{
+			Label displayNameKeyLabel = new Label( parent, SWT.NONE );
+			displayNameKeyLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.displayNameKey" ) ); //$NON-NLS-1$
+			displayNameKeyLabel.setLayoutData( new GridData( ) );
+			
+			final Text tx = ControlProvider.createText( parent, displayNameKey );
+			tx.setLayoutData( ControlProvider.getGridDataWithHSpan( 1 ) );
+			tx.addModifyListener( new ModifyListener( ) {
+
+				public void modifyText( ModifyEvent e )
+				{
+					displayNameKey = tx.getText( ).trim( );
+					validateSyntax( );
+				}
+
+			} );
+
+			SelectionAdapter listener = new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent event )
+				{
+					ResourceEditDialog dlg = new ResourceEditDialog( getShell( ),
+							Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
+
+					dlg.setResourceURLs( getResourceURLs( ) );
+
+					if ( dlg.open( ) == Window.OK )
+					{
+						tx.setText( (String) dlg.getResult( ) );
+					}
+				}
+			};
+			Button bt = new Button( parent, SWT.PUSH );
+			bt.setText( "..." ); //$NON-NLS-1$
+			bt.addSelectionListener( listener );
+			if ( getBaseName( ) == null )
+				bt.setEnabled( false );
+		}
+
+		private String[] getBaseNames( )
+		{
+			List<String> resources = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getIncludeResources( );
+			if ( resources == null )
+				return null;
+			else
+				return resources.toArray( new String[0] );
+		}
+
+		private URL[] getResourceURLs( )
+		{
+			String[] baseNames = getBaseNames( );
+			if ( baseNames == null )
+				return null;
+			else
+			{
+				URL[] urls = new URL[baseNames.length];
+				for ( int i = 0; i < baseNames.length; i++ )
+				{
+					urls[i] = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.findResource( baseNames[i],
+									IResourceLocator.MESSAGE_FILE );
+				}
+				return urls;
+			}
+		}
+
+		private String getBaseName( )
+		{
+			return SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getIncludeResource( );
 		}
 		
 		protected boolean isResizable( )
@@ -1796,6 +1907,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			this.columnDefn.setDataType( getTypeString( dataType ) );
 			this.columnDefn.setAlias( alias );
 			this.columnDefn.setDisplayName( displayName );
+			this.columnDefn.setDisplayNameKey( displayNameKey );
 			
 			return this.columnDefn;
 		}
@@ -1807,6 +1919,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				columnName = resolveNull( this.columnDefn.getColumnName( ) );
 				alias = resolveNull( this.columnDefn.getAlias( ) );
 				displayName = resolveNull( this.columnDefn.getDisplayName( ) );
+				displayNameKey = resolveNull( this.columnDefn.getDisplayNameKey( ) );
 				this.dataType = getTypeIndex( this.columnDefn.getDataType( ) );
 			}
 			else
@@ -1814,6 +1927,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				columnName = EMPTY_STRING;
 				alias = EMPTY_STRING;
 				displayName = EMPTY_STRING;
+				displayNameKey = EMPTY_STRING;
 				this.dataType = defaultDataTypeIndex;
 			}
 		}

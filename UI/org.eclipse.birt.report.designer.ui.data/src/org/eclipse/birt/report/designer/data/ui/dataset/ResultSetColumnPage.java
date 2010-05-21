@@ -11,16 +11,21 @@
 
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -92,6 +97,7 @@ public class ResultSetColumnPage extends Composite
 		//default type is "string"
 		protected int dataType = getTypeIndex( DesignChoiceConstants.PARAM_TYPE_STRING );
 		protected String displayName;
+		protected String displayNameKey;
 		protected String helpText;
 
 		public boolean equals( Object obj )
@@ -123,6 +129,7 @@ public class ResultSetColumnPage extends Composite
 	protected static String COLUMN_DATA_TYPE = Messages.getString( "dataset.editor.title.type" ); //$NON-NLS-1$
 	protected static String COLUMN_ALIAS = Messages.getString( "dataset.editor.title.alias" ); //$NON-NLS-1$
 	protected static String COLUMN_DISPLAY_NAME = Messages.getString( "dataset.editor.title.displayName" ); //$NON-NLS-1$
+	protected static String COLUMN_DISPLAY_NAME_KEY = Messages.getString( "dataset.editor.title.displayNameKey" ); //$NON-NLS-1$
 
 	protected ArrayList columnList = new ArrayList( );
 	protected ArrayList listenerList = new ArrayList( );
@@ -213,6 +220,9 @@ public class ResultSetColumnPage extends Composite
 					case 4 :
 						text = model.displayName;
 						break;
+					case 5 :
+						text = model.displayNameKey;
+						break;
 				}
 				return Utility.convertToGUIString( text );
 			}
@@ -277,10 +287,11 @@ public class ResultSetColumnPage extends Composite
 				COLUMN_NAME,
 				COLUMN_DATA_TYPE,
 				COLUMN_ALIAS,
-				COLUMN_DISPLAY_NAME
+				COLUMN_DISPLAY_NAME,
+				COLUMN_DISPLAY_NAME_KEY
 		};
 		int[] columnWidth = new int[]{
-				20, 100, 100, 100, 100
+				20, 100, 100, 100, 100, 100
 		};
 		
 		for ( int i = 0; i < columns.length; i++ )
@@ -504,7 +515,13 @@ public class ResultSetColumnPage extends Composite
 					ColumnHint columnHint = StructureFactory.createColumnHint( );
 					columnHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER,
 							model.columnName );
+					columnHint.setProperty( ColumnHint.DISPLAY_NAME_ID_MEMBER, model.displayNameKey );
 					columnHintHandle = (ColumnHintHandle) columnHintPropertyHandle.addItem( columnHint );
+				}
+				else
+				{
+					columnHintHandle.setDisplayName( model.displayName );
+					columnHintHandle.setDisplayNameKey( model.displayNameKey );
 				}
 				updateColumnHintProperties( model, columnHintHandle );
 			}
@@ -655,7 +672,7 @@ public class ResultSetColumnPage extends Composite
 		private String title;
 		private ResultSetColumnModel columnModel;
 		
-		private String columnName, alias, displayName;
+		private String columnName, alias, displayName, displayNameKey;
 		private int dataType;
 		private String EMPTY_STRING = ""; //$NON-NLS-1$
 
@@ -671,7 +688,7 @@ public class ResultSetColumnPage extends Composite
 		{
 			Composite composite = new Composite( parent, SWT.NONE );
 			GridLayout layout = new GridLayout( );
-			layout.numColumns = 2;
+			layout.numColumns = 3;
 			layout.marginTop = 5;
 			composite.setLayout( layout );
 			GridData layoutData = new GridData( GridData.FILL_BOTH );
@@ -686,7 +703,7 @@ public class ResultSetColumnPage extends Composite
 			labelData.horizontalSpan = 1;
 			
 			GridData textData = new GridData( GridData.FILL_HORIZONTAL );
-			textData.horizontalSpan = 1;
+			textData.horizontalSpan = 2;
 			
 			Label columnNameLabel = new Label( composite, SWT.NONE );
 			columnNameLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.columnName" ) ); //$NON-NLS-1$
@@ -763,13 +780,91 @@ public class ResultSetColumnPage extends Composite
 				}
 
 			} );
+			
+			createDisplayNameKeyArea( composite );
 		}
 		
+		private void createDisplayNameKeyArea( Composite parent )
+		{
+			Label displayNameKeyLabel = new Label( parent, SWT.NONE );
+			displayNameKeyLabel.setText( Messages.getString( "ResultSetColumnPage.inputDialog.label.displayNameKey" ) ); //$NON-NLS-1$
+			displayNameKeyLabel.setLayoutData( new GridData( ) );
+			
+			final Text tx = ControlProvider.createText( parent, displayNameKey );
+			tx.setLayoutData( ControlProvider.getGridDataWithHSpan( 1 ) );
+			tx.addModifyListener( new ModifyListener( ) {
+
+				public void modifyText( ModifyEvent e )
+				{
+					displayNameKey = tx.getText( ).trim( );
+				}
+
+			} );
+
+			SelectionAdapter listener = new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent event )
+				{
+					ResourceEditDialog dlg = new ResourceEditDialog( getShell( ),
+							Messages.getString( "ResourceKeyDescriptor.title.SelectKey" ) ); //$NON-NLS-1$
+
+					dlg.setResourceURLs( getResourceURLs( ) );
+
+					if ( dlg.open( ) == Window.OK )
+					{
+						tx.setText( (String) dlg.getResult( ) );
+					}
+				}
+			};
+			Button bt = new Button( parent, SWT.PUSH );
+			bt.setText( "..." ); //$NON-NLS-1$
+			bt.addSelectionListener( listener );
+			if ( getBaseName( ) == null )
+				bt.setEnabled( false );
+		}
+
+		private String[] getBaseNames( )
+		{
+			List<String> resources = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getIncludeResources( );
+			if ( resources == null )
+				return null;
+			else
+				return resources.toArray( new String[0] );
+		}
+
+		private URL[] getResourceURLs( )
+		{
+			String[] baseNames = getBaseNames( );
+			if ( baseNames == null )
+				return null;
+			else
+			{
+				URL[] urls = new URL[baseNames.length];
+				for ( int i = 0; i < baseNames.length; i++ )
+				{
+					urls[i] = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.findResource( baseNames[i],
+									IResourceLocator.MESSAGE_FILE );
+				}
+				return urls;
+			}
+		}
+
+		private String getBaseName( )
+		{
+			return SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getIncludeResource( );
+		}
+
 		protected boolean isResizable( )
 		{
 			return true;
 		}
-		
+
 		protected ResultSetColumnModel getResultSetColumnModel( )
 		{
 			if( this.columnModel == null )
@@ -780,6 +875,7 @@ public class ResultSetColumnPage extends Composite
 			this.columnModel.dataType = dataType;
 			this.columnModel.alias = alias;
 			this.columnModel.displayName = displayName;
+			this.columnModel.displayNameKey = displayNameKey;			
 			
 			return this.columnModel;
 		}
@@ -791,6 +887,7 @@ public class ResultSetColumnPage extends Composite
 				columnName = resolveNull( this.columnModel.columnName );
 				alias = resolveNull( this.columnModel.alias );
 				displayName = resolveNull( this.columnModel.displayName );
+				displayNameKey = resolveNull( this.columnModel.displayNameKey );
 				this.dataType = this.columnModel.dataType;
 			}
 			else
@@ -798,6 +895,7 @@ public class ResultSetColumnPage extends Composite
 				this.columnName = EMPTY_STRING;
 				this.alias = EMPTY_STRING;
 				this.displayName = EMPTY_STRING;
+				this.displayNameKey = EMPTY_STRING;
 				this.dataType = -1;
 			}
 		}
