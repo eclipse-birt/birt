@@ -237,6 +237,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				getContext( ),
 				getTrendline( ).getLabel( ).getBackground( ),
 				false,
+				false,
 				false );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
 		fccBackground.setLayoutData( gdFCCBackground );
