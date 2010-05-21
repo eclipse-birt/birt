@@ -113,6 +113,7 @@ import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularLevelModel;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.mozilla.javascript.Scriptable;
@@ -2030,9 +2031,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 			return handle.getDataSet( ).getQualifiedName( );
 		else
 		{
-			TabularCubeHandle cubeHandle = acquireContainerCube( handle );
-			if( cubeHandle!= null )
-				return cubeHandle.getDataSet( ).getQualifiedName( ); 
+			CubeHandle cubeHandle = acquireContainerCube( handle );
+			if ( cubeHandle != null )
+			{
+				return cubeHandle.getElementProperty( ITabularCubeModel.DATA_SET_PROP )
+						.getQualifiedName( );
+			}
 		}
 		return null;
 	}
@@ -2042,12 +2046,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param hierHandle
 	 * @return
 	 */
-	private static TabularCubeHandle acquireContainerCube( TabularHierarchyHandle hierHandle )
+	private static CubeHandle acquireContainerCube(
+			TabularHierarchyHandle hierHandle )
 	{
 		DesignElementHandle handle = hierHandle.getContainer( ).getContainer( );
-		if( handle == null || !(handle instanceof TabularCubeHandle))
+		if ( handle == null || !( handle instanceof CubeHandle ) )
 			return null;
-		return (TabularCubeHandle)handle;
+		return (CubeHandle) handle;
 	}
 
 	/**
@@ -2061,7 +2066,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			return handle.filtersIterator( );
 		else
 		{
-			TabularCubeHandle cubeHandle = DataRequestSessionImpl.acquireContainerCube( handle );
+			CubeHandle cubeHandle = DataRequestSessionImpl.acquireContainerCube( handle );
 			if( cubeHandle!= null )
 				return cubeHandle.filtersIterator( );
 		}
