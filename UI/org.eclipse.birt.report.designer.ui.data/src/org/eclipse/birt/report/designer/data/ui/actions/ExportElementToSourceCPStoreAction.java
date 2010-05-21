@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.data.ui.actions;
 import org.eclipse.birt.report.designer.data.ui.datasource.ExportDataSourceDialog;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -22,6 +23,7 @@ import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
 import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSourceDesignSession;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 
@@ -32,6 +34,7 @@ import org.eclipse.ui.PlatformUI;
 public class ExportElementToSourceCPStoreAction extends AbstractViewAction
 {
 	private static final String DISPLAY_TEXT = Messages.getString( "ExportToCPSouceAction.action.text" ); //$NON-NLS-1$
+	private final static String BUTTON_OK = Messages.getString( "datasource.exportToCP.errorBox.button.OK" ); //$NON-NLS-1$
 
 	public ExportElementToSourceCPStoreAction( Object selectedObject )
 	{
@@ -88,17 +91,38 @@ public class ExportElementToSourceCPStoreAction extends AbstractViewAction
 		}
 		if ( selection instanceof OdaDataSourceHandle )
 		{
-			ExportDataSourceDialog dialog = new ExportDataSourceDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					Messages.getString( "datasource.exprotToCP.title" ),
-					(DataSourceHandle) selection );
-			if ( dialog.open( ) == Dialog.OK )
+			try
 			{
-				try
+				DesignSessionRequest designSessionRequest = DTPUtil.getInstance( )
+						.createDesignSessionRequest( (OdaDataSourceHandle) selection );
+				
+				if ( designSessionRequest.getDataSourceDesign( )
+						.hasLinkToProfile( ) )
 				{
-					DesignSessionRequest designSessionRequest = DTPUtil.getInstance( )
-							.createDesignSessionRequest( (OdaDataSourceHandle) selection );
+					MessageDialog errorDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+							Messages.getString( "datasource.exprotToCP.title" ),
+							null,
+							Messages.getFormattedString( "datasource.exportToCP.error.alreadyExported",
+									new Object[]{
+										( (OdaDataSourceHandle) selection ).getName( )
+									} ),
+							MessageDialog.ERROR,
+							new String[]{
+								BUTTON_OK
+							},
+							0 );
+
+					errorDialog.open( );
+					return;
+				}
+				ExportDataSourceDialog dialog = new ExportDataSourceDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						Messages.getString( "datasource.exprotToCP.title" ),
+						(DataSourceHandle) selection );
+				
+				if ( dialog.open( ) == Dialog.OK )
+				{
 					OdaDesignSession session = DataSourceDesignSession.convertDesignToLinkedProfile( designSessionRequest,
 							dialog.getProfileName( ),
 							dialog.isExternalToCP( ),
@@ -111,10 +135,10 @@ public class ExportElementToSourceCPStoreAction extends AbstractViewAction
 									session.getRequestDataSourceDesign( ),
 									(OdaDataSourceHandle) selection );
 				}
-				catch ( Exception ex )
-				{
-					ExceptionHandler.handle( ex );
-				}
+			}
+			catch ( Exception ex )
+			{
+				ExceptionHandler.handle( ex );
 			}
 		}
 	}
