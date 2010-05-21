@@ -1235,6 +1235,7 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 						reportItem.getDataSet( ),
 						DEUtil.getVisiableColumnBindingsList( designHandle )
 								.iterator( ),
+						DEUtil.getGroups( designHandle ).iterator( ),
 						false );
 			}
 
@@ -1704,7 +1705,7 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 
 				rule.setDisplay( DEUtil.resolveNull( display.getText( ) ) );
 				rule.setDisplayKey( DEUtil.resolveNull( resourceKeytext.getText( ) ) );
-				
+
 				ExpressionButtonUtil.saveExpressionButtonControl( expression,
 						rule,
 						StyleRule.TEST_EXPR_MEMBER );
@@ -2020,7 +2021,7 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 	{
 		this.expressionProvider = expressionProvider;
 	}
-	
+
 	private URL[] getAvailableResourceUrls( )
 	{
 		List<URL> urls = new ArrayList<URL>( );
