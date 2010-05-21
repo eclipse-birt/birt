@@ -51,7 +51,6 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
-import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
 
@@ -1034,5 +1033,39 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
 		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#
+	 * getReferencedDimensionLevel(java.lang.String)
+	 */
+	public IDimensionLevel[] getReferencedDimensionLevel( String expression,
+			List<IBinding> bindings ) throws AdapterException
+	{
+		try
+		{
+			IDimensionLevel[] result = new IDimensionLevel[0];
+			Set dimLevels = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expression ),
+					bindings );
+			if ( dimLevels != null )
+			{
+				result = new IDimensionLevel[dimLevels.size( )];
+				Iterator it = dimLevels.iterator( );
+				int index = 0;
+				while ( it.hasNext( ) )
+				{
+					DimLevel dimLevel = (DimLevel) it.next( );
+					result[index] = new DimensionLevel( dimLevel );
+					index++;
+				}
+			}
+			return result;
+		}
+		catch ( DataException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
 	}
 }
