@@ -735,9 +735,11 @@ datasource.exportToCP.message=데이터 원본 탐색기로 "{0}"을(를) 내보내고 있습니다
 datasource.exportToCP.checkBox=내보낸 데이터 원본에 대한 연결 프로필 저장소 생성(&C)
 datasource.exportToCP.externalCheckBox=데이터 원본에 있는 외부화된 연결 프로필 사용(&U)
 datasource.exportToCP.label.specifyName=연결 프로필 이름(&E):
+datasource.exportToCP.errorBox.button.OK=확인 
 datasource.exportToCP.error.emptyFileName=비어 있지 않은 연결 프로필 이름을 지정해야 합니다!
 datasource.exportToCP.error.invalidFileName=지정된 연결 프로필 이름에 잘못된 문자가 있습니다!
 datasource.exportToCP.error.duplicatedFileName=연결 프로필 이름이 이미 있습니다!
+datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
 
 
 ###########################################################
@@ -2819,6 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=열 이름(&C):
 ResultSetColumnPage.inputDialog.label.dataType=데이터 형식(&T): 
 ResultSetColumnPage.inputDialog.label.alias=열 별칭(&A): 
 ResultSetColumnPage.inputDialog.label.displayName=표시 이름(&D): 
+ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=열 이름을 입력해야 합니다.
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=열 이름 및 별칭이 같을 수 없습니다.
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=열 이름 "{0}"이(가) 이미 사용되고 있습니다.

@@ -735,9 +735,11 @@ datasource.exportToCP.message=您正在将“{0}”导出到数据源资源管理器。
 datasource.exportToCP.checkBox=为导出的数据源创建连接配置文件存储(&C)。
 datasource.exportToCP.externalCheckBox=使用数据源中外部化的连接配置文件(&U)。
 datasource.exportToCP.label.specifyName=连接配置文件名称(&E):
+datasource.exportToCP.errorBox.button.OK=确定 
 datasource.exportToCP.error.emptyFileName=必须指定一个非空连接配置文件名称!
 datasource.exportToCP.error.invalidFileName=指定的连接配置文件名称包含无效字符!
 datasource.exportToCP.error.duplicatedFileName=该连接配置文件名称已存在!
+datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
 
 
 ###########################################################
@@ -2819,6 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=列名称(&C):
 ResultSetColumnPage.inputDialog.label.dataType=数据类型(&T): 
 ResultSetColumnPage.inputDialog.label.alias=列别名(&A): 
 ResultSetColumnPage.inputDialog.label.displayName=显示名称(&D): 
+ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=要求输入列名称。
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=列名称和其别名应不同。
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=列名称“{0}”已经在使用。

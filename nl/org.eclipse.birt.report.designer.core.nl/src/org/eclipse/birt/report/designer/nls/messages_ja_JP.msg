@@ -735,9 +735,11 @@ datasource.exportToCP.message="{0}" をデータソースのエクスプローラにエクスポート
 datasource.exportToCP.checkBox=エクスポートされたデータソース用の接続プロファイルストアを作成する(&C)
 datasource.exportToCP.externalCheckBox=データソースの外部化した接続プロファイルを使用する(&U)
 datasource.exportToCP.label.specifyName=接続プロファイル名(&E) :
+datasource.exportToCP.errorBox.button.OK=OK 
 datasource.exportToCP.error.emptyFileName=空でない接続プロファイル名を指定してください。
 datasource.exportToCP.error.invalidFileName=指定された接続プロファイル名には無効な文字が含まれています。
 datasource.exportToCP.error.duplicatedFileName=この接続プロファイル名はすでに存在します。
+datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
 
 
 ###########################################################
@@ -2819,6 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=列名(&C) :
 ResultSetColumnPage.inputDialog.label.dataType=データ型(&T) : 
 ResultSetColumnPage.inputDialog.label.alias=列エイリアス(&A) : 
 ResultSetColumnPage.inputDialog.label.displayName=表示名(&D) : 
+ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=入力するには列名が必要です。
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=列名とそのエイリアスを同一にすることはできません。
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=列名 "{0}" は既に使用されています。

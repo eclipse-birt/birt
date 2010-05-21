@@ -735,9 +735,11 @@ datasource.exportToCP.message=Vous exportez "{0}" vers l'explorateur de source d
 datasource.exportToCP.checkBox=&Créez un emplacement de stockage des profils de connexion pour la source de données exportée.
 datasource.exportToCP.externalCheckBox=&Utilisez le profil de connexion externalisé dans la source de données.
 datasource.exportToCP.label.specifyName=Nom du profil de conn&exion :
+datasource.exportToCP.errorBox.button.OK=OK 
 datasource.exportToCP.error.emptyFileName=Vous devez indiquer un nom de profil de connexion non vide !
 datasource.exportToCP.error.invalidFileName=Le nom du profil de connexion indiqué contient un ou des caractères non valides !
 datasource.exportToCP.error.duplicatedFileName=Le nom du profil de connexion existe déjà !
+datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
 
 
 ###########################################################
@@ -2819,6 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=Nom de &colonne :
 ResultSetColumnPage.inputDialog.label.dataType=&Type de données : 
 ResultSetColumnPage.inputDialog.label.alias=&Alias de colonne : 
 ResultSetColumnPage.inputDialog.label.displayName=Nom &d'affichage : 
+ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=Le nom de la colonne est requis.
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=Le nom de colonne et son alias doivent être différents.
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=Le nom de colonne "{0}" a déjà été utilisé.

@@ -735,9 +735,11 @@ datasource.exportToCP.message=Sie sind dabei, '{0}' in den Datenquellen-Explorer
 datasource.exportToCP.checkBox=&Verbindungsprofilspeicher für die exportierte Datenquelle erstellen
 datasource.exportToCP.externalCheckBox=Externalisiertes Verbind&ungsprofil in der Datenquelle verwenden
 datasource.exportToCP.label.specifyName=V&erbindungsprofilname:
+datasource.exportToCP.errorBox.button.OK=OK 
 datasource.exportToCP.error.emptyFileName=Der Verbindungsprofilname darf nicht leer sein.
 datasource.exportToCP.error.invalidFileName=Der angegebene Verbindungsprofilname enthält mindestens ein ungültiges Zeichen.
 datasource.exportToCP.error.duplicatedFileName=Der Verbindungsprofilname existierte bereits!
+datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
 
 
 ###########################################################
@@ -2819,6 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=&Spaltenname:
 ResultSetColumnPage.inputDialog.label.dataType=Daten&typ: 
 ResultSetColumnPage.inputDialog.label.alias=Spalten&alias: 
 ResultSetColumnPage.inputDialog.label.displayName=&Anzeigename: 
+ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=Eingabe des Spaltennamens erforderlich.
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=Spaltenname und Spaltenalias dürfen nicht identisch sein.
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=Spaltenname '{0}' wurde bereits verwendet.
