@@ -19,12 +19,15 @@ import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
@@ -154,7 +157,15 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 
 			// GENERATE AND RENDER THE CHART
 			final Generator gr = Generator.instance( );
-			gr.setHighContrast( Display.getCurrent( ).getHighContrast( ) );
+			if ( Display.getCurrent( ).getHighContrast( ) )
+			{
+				Color color = Display.getDefault( )
+						.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
+				ColorDefinition cd = ColorDefinitionImpl.create( color.getRed( ),
+						color.getGreen( ),
+						color.getBlue( ) );
+				gr.setDefaultBackground( cd );
+			}
 
 			RunTimeContext rtc = new RunTimeContext( );
 			rtc.setScriptingEnabled( false );

@@ -29,7 +29,9 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
@@ -521,7 +523,16 @@ public final class DesignerRepresentation extends ReportElementFigure
 		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
 
 		Generator gr = Generator.instance( );
-		gr.setHighContrast( Display.getCurrent( ).getHighContrast( ) );
+		if ( Display.getCurrent( ).getHighContrast( ) )
+		{
+			Color color = Display.getDefault( )
+					.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
+			ColorDefinition cd = ColorDefinitionImpl.create( color.getRed( ),
+					color.getGreen( ),
+					color.getBlue( ) );
+			gr.setDefaultBackground( cd );
+		}
+
 		ChartAdapter.beginIgnoreNotifications( );
 		cm.clearSections( IConstants.RUN_TIME ); // REMOVE OLD TRANSIENT
 		// RUNTIME SERIES

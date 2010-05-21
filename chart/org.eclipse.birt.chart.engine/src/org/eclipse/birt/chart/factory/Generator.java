@@ -264,9 +264,9 @@ public final class Generator implements IGenerator
 					}
 					else
 					{
-						if ( implicitProcessor.isHighContrast( ) )
+						if ( implicitProcessor.getDefaultBackgroundColor( ) != null )
 						{
-							( (Block) component ).setBackground( goFactory.BLACK( ) );
+							( (Block) component ).setBackground( implicitProcessor.getDefaultBackgroundColor( ) );
 						}
 						else
 						{
@@ -1850,8 +1850,8 @@ public final class Generator implements IGenerator
 
 	}
 
-	public void setHighContrast( boolean isHighContrast )
+	public void setDefaultBackground( ColorDefinition cd )
 	{
-		implicitProcessor.setHighContrast( isHighContrast );
+		implicitProcessor.setDefaultBackgroundColor( cd );
 	}
 }

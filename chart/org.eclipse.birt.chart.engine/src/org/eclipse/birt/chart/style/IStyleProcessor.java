@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.style;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 
 /**
@@ -38,7 +39,18 @@ public interface IStyleProcessor
 	 */
 	void processStyle( Chart model );
 
-	void setHighContrast( boolean isHighContrast );
+	/**
+	 * To set the default background color.
+	 * 
+	 * @param color
+	 *            default background color
+	 */
+	void setDefaultBackgroundColor( ColorDefinition cd );
 
-	boolean isHighContrast( );
+	/**
+	 * Get the default background color.
+	 * 
+	 * @return color
+	 */
+	ColorDefinition getDefaultBackgroundColor( );
 }

@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.style;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 
 /**
@@ -21,8 +22,8 @@ import org.eclipse.birt.chart.model.attribute.StyledComponent;
 
 public class BaseStyleProcessor implements IStyleProcessor
 {
+	private ColorDefinition backgroundColor = null;
 
-	private boolean isHighContrast = false;
 	public IStyle getStyle( Chart model, StyledComponent name )
 	{
 		return null;
@@ -33,21 +34,21 @@ public class BaseStyleProcessor implements IStyleProcessor
 
 	}
 
-	public void setHighContrast( boolean ishighContrast )
+	public void setDefaultBackgroundColor( ColorDefinition cd )
 	{
-		this.isHighContrast = ishighContrast;
+		this.backgroundColor = cd;
 	}
 
-	public boolean isHighContrast( )
+	public ColorDefinition getDefaultBackgroundColor( )
 	{
 		try
 		{
-			return isHighContrast;
+			return backgroundColor;
 		}
 		finally
 		{
 			// reset the environment
-			isHighContrast = false;
+			backgroundColor = null;
 		}
 	}
 
