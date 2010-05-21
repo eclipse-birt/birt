@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -41,9 +42,9 @@ import org.eclipse.birt.report.model.api.command.ExtendsEvent;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.namespace.AbstractNameHelper;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.Label;
@@ -67,8 +68,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Unit test for Class DesignElement.
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
- * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -93,15 +93,13 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>clears listeners when remove an element or add an element then undo.
- * </td>
+ * <td>clears listeners when remove an element or add an element then undo.</td>
  * <td>listeners are cleaned.</td>
  * </tr>
  * 
  * <tr>
  * <td>{@link #testBroadcast}</td>
- * <td>set element and their relationships , all elements subscribe listener
- * </td>
+ * <td>set element and their relationships , all elements subscribe listener</td>
  * <td>all elements contain listener</td>
  * </tr>
  * 
@@ -443,8 +441,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>label3 has resource-key and label name but hasnot value of display-name
- * </td>
+ * <td>label3 has resource-key and label name but hasnot value of display-name</td>
  * <td>label3</td>
  * </tr>
  * 
@@ -477,15 +474,14 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>this label has text attribute and value is blue , but hasnot label name
- * </td>
+ * <td>this label has text attribute and value is blue , but hasnot label name</td>
  * <td>label("blue")</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>this label has text attribute,value is blue and length more than 30
- * chars</td>
+ * <td>this label has text attribute,value is blue and length more than 30 chars
+ * </td>
  * <td>label("test asdf sadf sadf sdaf...")</td>
  * </tr>
  * 
@@ -503,8 +499,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>text3 has resource-key and label name but hasnot value of display-name
- * </td>
+ * <td>text3 has resource-key and label name but hasnot value of display-name</td>
  * <td>text3</td>
  * </tr>
  * 
@@ -542,15 +537,13 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>this text has static-text attribute , and length is less than 30 chars
- * </td>
+ * <td>this text has static-text attribute , and length is less than 30 chars</td>
  * <td>text("This is ")</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>this text has static-text attribute , and length is more than 30 chars
- * </td>
+ * <td>this text has static-text attribute , and length is more than 30 chars</td>
  * <td>text("a sample bit of plain...")</td>
  * </tr>
  * 
@@ -568,8 +561,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>grid3 has resource-key and label name but hasnot value of display-name
- * </td>
+ * <td>grid3 has resource-key and label name but hasnot value of display-name</td>
  * <td>grid3</td>
  * </tr>
  * 
@@ -619,15 +611,14 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>list3 has resource-key and list name but hasnot value of display-name
- * </td>
+ * <td>list3 has resource-key and list name but hasnot value of display-name</td>
  * <td>list3</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>this list hasnot list name but has resource-key and value of
- * display-name</td>
+ * <td>this list hasnot list name but has resource-key and value of display-name
+ * </td>
  * <td>Ant</td>
  * </tr>
  * 
@@ -676,8 +667,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>image3 has resource-key and image name but hasnot value of display-name
- * </td>
+ * <td>image3 has resource-key and image name but hasnot value of display-name</td>
  * <td>image3</td>
  * </tr>
  * 
@@ -751,8 +741,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>table3 has resource-key and table name but hasnot value of display-name
- * </td>
+ * <td>table3 has resource-key and table name but hasnot value of display-name</td>
  * <td>table3</td>
  * </tr>
  * 
@@ -808,15 +797,14 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>data3 has resource-key and data name but hasnot value of display-name
- * </td>
+ * <td>data3 has resource-key and data name but hasnot value of display-name</td>
  * <td>data3</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>this data hasnot data name but has resource-key and value of
- * display-name</td>
+ * <td>this data hasnot data name but has resource-key and value of display-name
+ * </td>
  * <td>Ant</td>
  * </tr>
  * 
@@ -1466,21 +1454,16 @@ public class DesignElementTest extends BaseTestCase
 	 * </ul>
 	 * 
 	 * @throws Exception
-	 *//*
-	public void testValidatePropertyValue( ) throws Exception
-	{
-		try
-		{
-			designElement
-					.validatePropertyValue( design, "Hello world", "hello" ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		catch ( Exception e )
-		{
-			assertTrue( e instanceof PropertyNameException );
-		}
-
-		designElement.setProperty( DesignElement.DISPLAY_NAME_PROP, "report" );//$NON-NLS-1$
-	}*/
+	 */
+	/*
+	 * public void testValidatePropertyValue( ) throws Exception { try {
+	 * designElement .validatePropertyValue( design, "Hello world", "hello" );
+	 * //$NON-NLS-1$ //$NON-NLS-2$ } catch ( Exception e ) { assertTrue( e
+	 * instanceof PropertyNameException ); }
+	 * 
+	 * designElement.setProperty( DesignElement.DISPLAY_NAME_PROP, "report"
+	 * );//$NON-NLS-1$ }
+	 */
 
 	/**
 	 * Test getDisplayName( ).
@@ -3766,6 +3749,43 @@ public class DesignElementTest extends BaseTestCase
 
 		style = designHandle.getElementFactory( ).newStyle( "table" ); //$NON-NLS-1$
 		assertEquals( "Table", style.getDisplayLabel( ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the default value for page-break-inside. bugzilla_292425. Row in
+	 * table or table group, default is avoid; otherwise default is auto.
+	 * 
+	 * @throws Exception
+	 */
+	public void testPageBreakInsideInRow( ) throws Exception
+	{
+		createDesign( );
+
+		ElementFactory factory = designHandle.getElementFactory( );
+		TableHandle table = factory.newTableItem( "testTalbe", 1 ); //$NON-NLS-1$
+
+		// row in table, default is avoid
+		RowHandle row = (RowHandle) table.getHeader( ).get( 0 );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID, row
+				.getStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP ) );
+
+		// row in table group, default is avoid
+		TableGroupHandle groupHandle = factory.newTableGroup( );
+		row = factory.newTableRow( );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO, row
+				.getStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP ) );
+		groupHandle.getHeader( ).add( row );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID, row
+				.getStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP ) );
+
+		// row in grid, default is auto
+		GridHandle grid = factory.newGridItem( "testGrid" ); //$NON-NLS-1$
+		row = factory.newTableRow( );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO, row
+				.getStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP ) );
+		grid.getRows( ).add( row );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO, row
+				.getStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP ) );
 	}
 
 	/**

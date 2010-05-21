@@ -16,13 +16,16 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.CellOverlappingValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * This class represents a row in a Grid or a table.
@@ -169,5 +172,41 @@ public class TableRow extends StyledElement implements ITableRowModel
 				this ) );
 
 		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+	public Object getProperty( Module module, ElementPropertyDefn prop )
+	{
+
+		String propName = prop.getName( );
+		if ( IStyleModel.PAGE_BREAK_INSIDE_PROP.equals( propName ) )
+		{
+			Object value = cachedPropStrategy.getPropertyExceptRomDefault(
+					module, this, prop );
+			if ( value != null )
+			{
+				return value;
+			}
+
+			// get default in different cases
+			DesignElement container = getContainer( );
+			if ( container instanceof TableItem
+					|| container instanceof TableGroup )
+			{
+				// row in table or table group: default is avoid
+				return DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID;
+			}
+
+			return prop.getDefault( );
+		}
+
+		return super.getProperty( module, prop );
 	}
 }
