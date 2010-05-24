@@ -1585,6 +1585,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	__cancel : function( )
 	{
 		window.status = "cancel";
+		document.title = "cancel";
 	},
 
 	/**

@@ -25,6 +25,8 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.CloseWindowListener;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
+import org.eclipse.swt.browser.TitleEvent;
+import org.eclipse.swt.browser.TitleListener;
 import org.eclipse.swt.browser.WindowEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -200,6 +202,19 @@ public class InputParameterHtmlDialog extends Dialog
 			}
 		} );
 
+		// workaround for Bugzilla 279563
+		browser.addTitleListener( new TitleListener( ) {
+
+			public void changed( TitleEvent event )
+			{
+				if ( STATUS_CANCEL.equalsIgnoreCase( event.title ) )
+				{
+					// If fire cancel event, close parameter dialog directly
+					( (Browser) event.widget ).getShell( ).close( );
+				}
+			}
+		} );
+		
 		display( );
 
 		return composite;
