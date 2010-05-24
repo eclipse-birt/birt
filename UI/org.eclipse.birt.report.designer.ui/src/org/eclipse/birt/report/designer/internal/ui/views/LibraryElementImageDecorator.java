@@ -30,8 +30,8 @@ public class LibraryElementImageDecorator implements IReportImageDecorator
 	private static int Normal_Element = 1;
 	private static int Library_Element = 2;
 	private static int Local_Library_Element = 4;
-	private String Library_Key = "LibraryKey";
-	private String Local_Library_Key = "LocalLibraryKey";
+	private String Library_Key = "LibraryKey"; //$NON-NLS-1$
+	private String Local_Library_Key = "LocalLibraryKey"; //$NON-NLS-1$
 	public Image decorateImage( Image image, Object element )
 	{
 		int flag =  getElementFlag( element );
@@ -39,8 +39,18 @@ public class LibraryElementImageDecorator implements IReportImageDecorator
 		{
 			return image;
 		}
-		DesignElementHandle handle = (DesignElementHandle)element;
-		String key = handle.getElement( ).getDefn( ).getName( );
+		String key = ""; //$NON-NLS-1$
+		if (element instanceof DesignElementHandle)
+		{
+			DesignElementHandle handle = (DesignElementHandle)element;
+			key = handle.getElement( ).getDefn( ).getName( );
+		}
+		else if (element instanceof EmbeddedImageHandle)
+		{
+			EmbeddedImageHandle imageHandle = (EmbeddedImageHandle)element;
+			key = imageHandle.getQualifiedName( );
+		}
+		
 		ImageDescriptor descriptor = null;
 		if ((flag&Library_Element) != 0)
 		{
@@ -73,23 +83,26 @@ public class LibraryElementImageDecorator implements IReportImageDecorator
 		{
 			return Normal_Element;
 		}
-		DesignElementHandle handle = (DesignElementHandle)element;
-		boolean isLinkEmbeddedImage = false;
+		
 		if (element instanceof EmbeddedImageHandle)
 		{
 			EmbeddedImageHandle image = (EmbeddedImageHandle)element;
 			if (image.isLibReference( ))
 			{
-				isLinkEmbeddedImage = true;
+				return Library_Element;
 			}
 		}
-		if ( DEUtil.isLinkedElement( handle ) || isLinkEmbeddedImage)
+		else if (element instanceof DesignElementHandle)
 		{
-			if (handle.hasLocalProperties( ))
+			DesignElementHandle handle = (DesignElementHandle)element;
+			if ( DEUtil.isLinkedElement( handle ))
 			{
-				return Local_Library_Element;
+				if (handle.hasLocalProperties( ))
+				{
+					return Local_Library_Element;
+				}
+				return Library_Element;
 			}
-			return Library_Element;
 		}
 		return Normal_Element;
 	}
