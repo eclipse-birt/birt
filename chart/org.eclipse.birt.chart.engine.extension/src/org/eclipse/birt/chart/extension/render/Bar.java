@@ -1285,8 +1285,9 @@ public final class Bar extends AxesRenderer
 						if ( cwa.getDimension( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) {
 							adjustLocationsWithTriangle2D(loaFrontFace, thicknesses[0], thicknesses[1], dSeriesThickness);
 
-							zorder_hint = isStackedOrPercent( bs ) ? i :  
-								i * getSeriesCount( ) + getSeriesIndex( );
+							zorder_hint = isStackedOrPercent( bs ) ? ( i * iSharedUnitCount )
+									+ iSharedUnitIndex
+									: i * getSeriesCount( ) + getSeriesIndex( );
 						}
 						
 						renderRiserTriangle2D( ipr,
@@ -1303,8 +1304,9 @@ public final class Bar extends AxesRenderer
 					}
 					else
 					{
-						int zorder_hint = isStackedOrPercent( bs ) ? i :  
-							i * getSeriesCount( ) + getSeriesIndex( );
+						int zorder_hint = isStackedOrPercent( bs ) ? ( i * iSharedUnitCount )
+								+ iSharedUnitIndex
+								: i * getSeriesCount( ) + getSeriesIndex( );
 						
 						renderPlane( ipr,
 								WrappedStructureSource.createSeriesDataPoint( bs,
