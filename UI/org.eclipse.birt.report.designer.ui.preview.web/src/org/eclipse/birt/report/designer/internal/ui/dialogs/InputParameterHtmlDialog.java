@@ -202,7 +202,6 @@ public class InputParameterHtmlDialog extends Dialog
 			}
 		} );
 
-		// workaround for Bugzilla 279563
 		browser.addTitleListener( new TitleListener( ) {
 
 			public void changed( TitleEvent event )
