@@ -730,7 +730,7 @@
          </colorOverride>
          <colorOverride
                id="org.eclipse.birt.report.designer.ui.DarkShadowLineColor"
-               value="COLOR_TITLE_INACTIVE_BACKGROUND">
+               value="COLOR_TITLE_INACTIVE_FOREGROUND">
          </colorOverride>
          <colorOverride
                id="org.eclipse.birt.report.designer.ui.JSCOMMENTCOLOR"
