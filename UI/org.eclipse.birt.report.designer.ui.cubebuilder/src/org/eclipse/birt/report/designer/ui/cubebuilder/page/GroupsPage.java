@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
-import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
@@ -21,7 +20,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-public class GroupsPage extends AbstractDescriptionPropertyPage
+public class GroupsPage extends AbstractCubePropertyPage
 {
 
 	public static final String GROUPPAGE_MESSAGE = Messages.getString( "GroupsPage.Title.Message" ); //$NON-NLS-1$

@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -53,7 +52,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
+public class DatasetSelectionPage extends AbstractCubePropertyPage
 {
 
 	private static final String NEW_DATA_SET = Messages.getString( "DatasetSelectionPage.Combo.NewDataSet0" ); //$NON-NLS-1$
@@ -176,8 +175,9 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		} );
 		
 		primaryKeyLabel = new Label( container, SWT.WRAP );
-		data = new GridData( GridData.FILL_HORIZONTAL );
+		data = new GridData(SWT.FILL, SWT.NONE, false, false);
 		data.horizontalSpan = 2;
+		data.widthHint = 500;
 		primaryKeyLabel.setLayoutData( data );
 		primaryKeyLabel.setText( Messages.getString( "DatasetSelectionPage.Label.Auto.Primary.Key" ) ); //$NON-NLS-1$
 
@@ -196,8 +196,9 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		new Label( container, SWT.NONE );
 				
 		primaryKeyHint = new Label( container, SWT.WRAP );
-		data = new GridData( GridData.FILL_HORIZONTAL );
+		data = new GridData(SWT.FILL, SWT.NONE, false, false);
 		data.horizontalSpan = 3;
+		data.widthHint = 500;
 		primaryKeyHint.setLayoutData( data );
 		primaryKeyHint.setText( Messages.getString( "DatasetSelectionPage.Text.Auto.Primary.Key" ) ); //$NON-NLS-1$
 		primaryKeyHint.setForeground( ColorManager.getColor( 128, 128, 128 ) );
