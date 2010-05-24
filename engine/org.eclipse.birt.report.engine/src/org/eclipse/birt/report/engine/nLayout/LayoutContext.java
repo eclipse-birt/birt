@@ -128,16 +128,6 @@ public class LayoutContext
 	{
 		return unresolvedContent;
 	}
-	
-	public long getTotalPage( )
-	{
-		return totalPage;
-	}
-	
-	public void setTotalPage( long totalPage )
-	{
-		this.totalPage = totalPage;
-	}
 
 	public long getPageCount( )
 	{
@@ -345,7 +335,7 @@ public class LayoutContext
 		this.dpi = dpi;
 	}
 	
-	private boolean reserveDocumentPageNumbers = false;
+	private boolean reserveDocumentPageNumbers = true;
 
 	public boolean isReserveDocumentPageNumbers( )
 	{
@@ -490,5 +480,14 @@ public class LayoutContext
 		}
 	}
 	
+	public long getTotalPage( )
+	{
+		return totalPage;
+	}
+
+	public void setTotalPage( long totalPage )
+	{
+		this.totalPage = totalPage;
+	}
 
 }

@@ -82,23 +82,27 @@ public class AreaFactory
 				return new ImageAreaLayout(parent, context, (IImageContent)content);
 
 			case IContent.AUTOTEXT_CONTENT :
-				int type = ((IAutoTextContent)content).getType( );
+				int type = ( (IAutoTextContent) content ).getType( );
 				if ( ( type == IAutoTextContent.TOTAL_PAGE || type == IAutoTextContent.UNFILTERED_TOTAL_PAGE )
-						&& ( "pdf".equalsIgnoreCase( context.getFormat( ) ) || context
-								.getEngineTaskType( ) != IEngineTask.TASK_RENDER ) )
+						&& "pdf".equalsIgnoreCase( context.getFormat( ) )
+						&& ( context.getEngineTaskType( ) == IEngineTask.TASK_RUNANDRENDER || ( !context
+								.isReserveDocumentPageNumbers( )
+								&& context.getEngineTaskType( ) == IEngineTask.TASK_RENDER
+								&& context.getHtmlLayoutContext( ) != null && context
+								.getHtmlLayoutContext( ).isPaged( ) ) ) )
 				{
 					context.addUnresolvedContent( content );
-					return new TemplateAreaLayout(parent, context, content);
+					return new TemplateAreaLayout( parent, context, content );
 				}
 				else
 				{
-					if(PropertyUtil.isInlineElement( content ))
+					if ( PropertyUtil.isInlineElement( content ) )
 					{
-						return new InlineTextArea(parent,  context, content);
+						return new InlineTextArea( parent, context, content );
 					}
 					else
 					{
-						return new BlockTextArea(parent, context, content);
+						return new BlockTextArea( parent, context, content );
 					}
 				}
 			default :

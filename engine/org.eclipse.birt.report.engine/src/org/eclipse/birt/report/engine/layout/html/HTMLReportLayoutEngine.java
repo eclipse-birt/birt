@@ -198,6 +198,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	public void setLayoutPageHint( IPageHint pageHint )
 	{
 		this.pageHint = pageHint;
+		context.setPaged( true );
 	}
 
 	public long getPageCount( )

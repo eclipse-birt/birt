@@ -90,7 +90,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public LayoutEngine( IReportExecutor executor, IContentEmitter emitter,
 			IRenderOption renderOptions, ExecutionContext executionContext,
-			long totalPage )
+			long documentTotalPage )
 	{
 		this.emitter = emitter;
 		context = new LayoutContext( );
@@ -105,7 +105,15 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		context.setFormat( format );
 		context.setLocale( executionContext.getLocale( ) );
 		context.setEngineTaskType( executionContext.getTaskType( ) );
-		context.totalPage = totalPage;
+		long filteredTotalPage = executionContext.getFilteredTotalPage( );
+		if ( filteredTotalPage == 0 )
+		{
+			context.totalPage = documentTotalPage;
+		}
+		else
+		{
+			context.totalPage = filteredTotalPage;
+		}
 	}
 	
 	public LayoutEngine( IReportExecutor executor,
@@ -274,6 +282,10 @@ public class LayoutEngine extends LayoutEmitterAdapter
 				if ( ( (Boolean) reserveDocumentPageNumbers ).booleanValue( ) )
 				{
 					context.setReserveDocumentPageNumbers( true );
+				}
+				else
+				{
+					context.setReserveDocumentPageNumbers( false );
 				}
 			}
 			// Object rtlFlag = options.get( IRenderOption.RTL_FLAG );
@@ -691,19 +703,8 @@ public class LayoutEngine extends LayoutEmitterAdapter
 				else
 					nf = new NumberFormatter( pattern, new ULocale( locale ) );
 			}
-			
-			long totalPageCount = 0;
 
-			if ( context.isReserveDocumentPageNumbers( ) )
-			{
-				totalPageCount = context.totalPage;
-			}
-			else
-			{
-				totalPageCount = context.pageCount;
-			}
-
-			totalPageContent.setText( nf.format( totalPageCount ) );
+			totalPageContent.setText( nf.format( context.pageCount ) );
 
 			AbstractArea totalPageArea = null;
 			ChunkGenerator cg = new ChunkGenerator( context.getFontManager( ),

@@ -52,6 +52,9 @@ public class HTMLLayoutContext
 	
 	protected boolean isFixedLayout = false;
 	
+	protected boolean isPaged = false;
+	
+
 	public PageBufferFactory getBufferFactory( )
 	{
 		return bufferFactory;
@@ -200,4 +203,14 @@ public class HTMLLayoutContext
 		this.isFixedLayout = isFixedLayout;
 	}
 	
+	public boolean isPaged( )
+	{
+		return isPaged;
+	}
+
+	public void setPaged( boolean isPaged )
+	{
+		this.isPaged = isPaged;
+	}
+
 }
