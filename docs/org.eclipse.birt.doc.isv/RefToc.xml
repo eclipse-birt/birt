@@ -14,6 +14,7 @@
     <topic label="Extension Points Reference" >
       <topic label="org_eclipse_birt_report_designer_ui_editors_multiPageEditorContributor" href="ref/ext/org_eclipse_birt_report_designer_ui_editors_multiPageEditorContributor.html" />
       <topic label="org_eclipse_birt_report_designer_ui_reportitemUI" href="ref/ext/org_eclipse_birt_report_designer_ui_reportitemUI.html" />
+      <topic label="org_eclipse_birt_report_engine_emitter_config" href="ref/ext/org_eclipse_birt_report_engine_emitter_config.html" />
       <topic label="org_eclipse_birt_report_engine_emitters" href="ref/ext/org_eclipse_birt_report_engine_emitters.html" />
       <topic label="org_eclipse_birt_report_engine_reportitemGeneration" href="ref/ext/org_eclipse_birt_report_engine_reportitemGeneration.html" />
       <topic label="org_eclipse_birt_report_engine_reportitemPresentation" href="ref/ext/org_eclipse_birt_report_engine_reportitemPresentation.html" />
