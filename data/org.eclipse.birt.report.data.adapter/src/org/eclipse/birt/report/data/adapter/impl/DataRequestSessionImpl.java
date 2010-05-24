@@ -36,6 +36,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -1452,6 +1453,24 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		List bindings = query.getBindings( );
+		for ( int i = 0; i < bindings.size( ); i++ )
+		{
+			IBinding binding = (IBinding) bindings.get( i );
+			if ( binding.getAggrFunction( ) != null )
+			{
+				if ( IBuildInAggregation.TOTAL_TOP_N_FUNC.equals( binding.getAggrFunction( ) )
+						|| IBuildInAggregation.TOTAL_BOTTOM_N_FUNC.equals( binding.getAggrFunction( ) )
+						|| IBuildInAggregation.TOTAL_TOP_N_FUNC.equals( binding.getAggrFunction( ) )
+						|| IBuildInAggregation.TOTAL_TOP_N_FUNC.equals( binding.getAggrFunction( ) ) )
+				{
+					throw new AdapterException( ResourceConstants.UNSUPPORTED_AGGR_IN_BINDING,
+							new Object[]{
+								binding.getBindingName( )
+							} );
+				}
+			}
+		}
 		QueryAdapter.adaptQuery( query );
 		dataEngine.getSession( ).getStopSign( ).start( );
 		setModuleHandleToAppContext( appContext );

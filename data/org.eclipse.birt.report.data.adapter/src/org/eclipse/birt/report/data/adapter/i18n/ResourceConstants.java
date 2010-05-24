@@ -39,4 +39,5 @@ public class ResourceConstants
 	public final static String CUBE_MEASURE_CREATION_ERROR = "cube.error.createmeasure";
 	public final static String CUBE_MISS_DATASET_ERROR = "cube.error.datasetmiss";
 	public final static String CUBE_JOINT_COLUMN_NOT_IN_LEVELS = "cube.jointColumnNotInLevels";
+	public final static String UNSUPPORTED_AGGR_IN_BINDING = "cube.unsupportedAggregationInBinding";
 }
