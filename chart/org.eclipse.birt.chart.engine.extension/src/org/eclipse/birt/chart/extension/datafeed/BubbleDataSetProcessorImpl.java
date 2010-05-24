@@ -249,10 +249,10 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 			boolean isBigDecimal = false;
 			int i = 0;
 			final BubbleEntry[] bea = new BubbleEntry[(int) lRowCount];
-			Object[][] values = null;
+			Object[][] values = new Object[(int) lRowCount][2];
+			
 			if ( dataType == IConstants.NUMERICAL )
 			{
-				values = new Object[(int) lRowCount][2];
 				while ( rsds.hasNext( ) )
 				{
 					Object[] o = rsds.next( );
@@ -266,6 +266,17 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 					{
 						isBigDecimal = true;
 					}
+				}
+			}
+			else
+			{
+				while ( rsds.hasNext( ) )
+				{
+					Object[] o = rsds.next( );
+					Object[] newO = new Object[2];
+					newO[0] = o[0];
+					newO[1] = o[1];
+					values[i++] = newO;
 				}
 			}
 
