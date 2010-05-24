@@ -195,15 +195,10 @@ public class FontSizeBuilder extends Composite
 
 		initChoice( );
 
-		GridData data = new GridData( );
-		data.widthHint = (int) ( unitCombo.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ).x * 1.5 );
-		if ( valueCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y < unitCombo.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ).y )
-			data.heightHint = unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y - 2;
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		valueCombo.setLayoutData( data );
 		unitCombo.setVisibleItemCount( 30 );
-		data = new GridData( GridData.FILL_HORIZONTAL );
+		data = new GridData( );
 		unitCombo.setLayoutData( data );
 	}
 
