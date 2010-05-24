@@ -337,7 +337,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				levelNameList.add( lv.getCubeLevel( ).getFullName( ) );
 
 				if ( mirrorLevel != null
-						&& mirrorLevel.getQualifiedName( )
+						&& mirrorLevel.getFullName( )
 								.equals( lv.getCubeLevelName( ) ) )
 				{
 					edge.setMirrorStartingLevel( levelDef );
