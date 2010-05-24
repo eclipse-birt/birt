@@ -201,6 +201,7 @@ public class FillChooserComposite extends Composite implements
 		this.bAutoEnabled = bEnableAuto;
 		this.bTransparentEnabled = bEnableTransparent;
 		this.wizardContext = wizardContext;
+		this.bPatternFillEnabled = bEnableImage;
 		init( );
 		placeComponents( );
 		initAccessible( );
