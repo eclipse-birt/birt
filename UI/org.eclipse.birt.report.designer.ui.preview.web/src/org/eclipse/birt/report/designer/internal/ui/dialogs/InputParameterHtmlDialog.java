@@ -197,7 +197,8 @@ public class InputParameterHtmlDialog extends Dialog
 				else if ( STATUS_CANCEL.equalsIgnoreCase( event.text ) )
 				{
 					// If fire cancel event, close parameter dialog directly
-					( (Browser) event.widget ).getShell( ).close( );
+					if ( !( (Browser) event.widget ).getShell( ).isDisposed( ) )
+						( (Browser) event.widget ).getShell( ).close( );
 				}
 			}
 		} );
@@ -209,7 +210,8 @@ public class InputParameterHtmlDialog extends Dialog
 				if ( STATUS_CANCEL.equalsIgnoreCase( event.title ) )
 				{
 					// If fire cancel event, close parameter dialog directly
-					( (Browser) event.widget ).getShell( ).close( );
+					if ( !( (Browser) event.widget ).getShell( ).isDisposed( ) )
+						( (Browser) event.widget ).getShell( ).close( );
 				}
 			}
 		} );
