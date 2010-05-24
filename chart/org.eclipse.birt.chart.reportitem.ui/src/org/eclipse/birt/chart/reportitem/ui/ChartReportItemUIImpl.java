@@ -291,54 +291,6 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 						DesignChoiceConstants.UNITS_PT ).getMeasure( );
 			}
 			
-			// Set default width/height if the value is zero.
-			final ExtendedItemHandle fEih = eih;
-			if ( dWidthInPoints == 0 )
-			{
-				dWidthInPoints = ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH;
-				final double w = DimensionUtil.convertTo( dWidthInPoints,
-						DesignChoiceConstants.UNITS_PT,
-						sWidthUnits ).getMeasure( );
-				final String dimension = String.valueOf(w) + sWidthUnits;
-				Display.getDefault( ).asyncExec( new Runnable( ) {
-
-					public void run( )
-					{
-						try
-						{
-							fEih.setWidth( dimension );
-						}
-						catch ( SemanticException e )
-						{
-							logger.log( e );
-						}
-					}
-				} );
-
-			}
-			if ( dHeightInPoints == 0 )
-			{
-				dHeightInPoints = ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT;
-				final double h = DimensionUtil.convertTo( dHeightInPoints,
-						DesignChoiceConstants.UNITS_PT,
-						sHeightUnits ).getMeasure( );
-				final String dimension = String.valueOf(h) + sHeightUnits;
-				Display.getDefault( ).asyncExec( new Runnable( ) {
-
-					public void run( )
-					{
-						try
-						{
-							fEih.setHeight( dimension );
-						}
-						catch ( SemanticException e )
-						{
-							logger.log( e );
-						}
-					}
-				} );
-			}
-			
 			final double dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
 			final double dWidthInPixels = ( idsSWT.getDpiResolution( ) * dWidthInPoints ) / 72d;
 
