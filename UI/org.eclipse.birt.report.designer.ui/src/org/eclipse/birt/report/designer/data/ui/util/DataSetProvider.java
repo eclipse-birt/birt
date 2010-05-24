@@ -223,7 +223,7 @@ public final class DataSetProvider
 			if ( hint != null )
 			{
 				if ( !items[i].isComputedColumn( ) )
-					items[i].setAnalysis( getDefaultAnalysisType( items[i].getDataTypeName( ),
+					items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ), items[i].getDataTypeName( ),
 							hint.getAnalysis( ) ) );
 				else
 					items[i].setAnalysis( hint.getAnalysis( ) );
@@ -242,7 +242,7 @@ public final class DataSetProvider
 				if ( items[i].isComputedColumn( ) )
 					items[i].setAnalysis( null );
 				else
-					items[i].setAnalysis( getDefaultAnalysisType( items[i].getDataTypeName( ),
+					items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ), items[i].getDataTypeName( ),
 							null ) );
 			}
 		}
@@ -250,7 +250,7 @@ public final class DataSetProvider
 		return items;
 	}
 
-	public String getDefaultAnalysisType( String dataType,
+	public String getDefaultAnalysisType( String columnName, String dataType,
 			String originalAnalysis )
 	{
 		String defaultAnalysisType = null;
@@ -275,6 +275,23 @@ public final class DataSetProvider
 				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
 		{
 			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
+		}
+		
+		if ( columnName.length( ) >= 3 )
+		{
+			String lastThreeLetters = columnName.substring( columnName.length( ) - 3 );
+			if ( lastThreeLetters.equalsIgnoreCase( "key" ) )
+			{
+				defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
+			}
+		}
+		if ( columnName.length( ) >= 2 )
+		{
+			String lastTwoLetters = columnName.substring( columnName.length( ) - 2 );
+			if ( lastTwoLetters.equalsIgnoreCase( "id" ) )
+			{
+				defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
+			}
 		}
 
 		return defaultAnalysisType;
@@ -307,7 +324,7 @@ public final class DataSetProvider
 			if ( hint != null )
 			{
 				if ( !items[i].isComputedColumn( ) )
-					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getDataTypeName( ),
+					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getName( ), items[i].getDataTypeName( ),
 							hint.getAnalysis( ) ) );
 				else
 					items[i].setAnalysis( hint.getAnalysis( ) );
@@ -326,7 +343,7 @@ public final class DataSetProvider
 				if ( items[i].isComputedColumn( ) )
 					items[i].setAnalysis( null );
 				else
-					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getDataTypeName( ), null ) );
+					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getName( ), items[i].getDataTypeName( ), null ) );
 			}
 		}
 		return items;
@@ -857,7 +874,7 @@ public final class DataSetProvider
 						columns[n].setDisplayNameKey( hint.getDisplayNameKey( ) );
 						columns[n].setAlias( hint.getAlias( ) );
 						columns[n].setHelpText( hint.getHelpText( ) );
-						columns[n].setAnalysis( getDefaultAnalysisType( columns[n].getDataTypeName( ),
+						columns[n].setAnalysis( getDefaultAnalysisType( columns[n].getName( ), columns[n].getDataTypeName( ),
 									hint.getAnalysis( ) ) );
 						columns[n].setACLExpression( hint.getACLExpression( ) );
 						break;
