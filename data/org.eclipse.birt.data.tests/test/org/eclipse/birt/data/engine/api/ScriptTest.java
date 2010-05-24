@@ -76,11 +76,10 @@ public class ScriptTest extends APITestCase
 		try
 		{
 			createAndRunQuery();
+			assertTrue( false );
 		}
 		catch (DataException e )
 		{
-			// Expect an exception since SQL will not run
-			assertEquals( e.getErrorCode(), ResourceConstants.CANNOT_PREPARE_STATEMENT );
 		}
 		checkOutputFile();
 	}

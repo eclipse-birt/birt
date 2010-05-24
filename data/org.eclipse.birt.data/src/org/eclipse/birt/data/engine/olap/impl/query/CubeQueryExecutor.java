@@ -148,11 +148,15 @@ public class CubeQueryExecutor
 				Collection<IScriptExpression> exprs = ( ( ICollectionConditionalExpression )( filter.getExpression( ) ) ).getExpr( );
 				Set dimensionSet = new HashSet( );
 				Iterator<IScriptExpression> exprsIterator = exprs.iterator( );
-				while( exprsIterator.hasNext( ) )
+				while ( exprsIterator.hasNext( ) )
 				{
-					dimensionSet.add( OlapExpressionUtil.getTargetDimLevel( exprsIterator.next( ).getText( ) ).getDimensionName( ) );
+					Iterator dimLevels = OlapExpressionCompiler.getReferencedDimLevel( exprsIterator.next( ),
+							this.defn.getBindings( ) )
+							.iterator( );
+					while ( dimLevels.hasNext( ) )
+						dimensionSet.add( ( (DimLevel) dimLevels.next( ) ).getDimensionName( ) );
 				}
-				if( dimensionSet.size( ) == 1 )
+				if ( dimensionSet.size( ) == 1 )
 					return CubeQueryExecutor.DIMENSION_FILTER;
 				else
 					return CubeQueryExecutor.FACTTABLE_FILTER;
