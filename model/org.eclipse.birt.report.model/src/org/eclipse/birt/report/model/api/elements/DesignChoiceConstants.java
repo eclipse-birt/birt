@@ -1030,17 +1030,25 @@ public interface DesignChoiceConstants
 	public static final String GADGET_CONTENT_TYPE_VIDEOURL = "videourl"; //$NON-NLS-1$
 	public static final String GADGET_CONTENT_TYPE_TEXT = "text"; //$NON-NLS-1$
 	public static final String GADGET_CONTENT_TYPE_IMAGE = "image"; //$NON-NLS-1$
-	
+
 	public static final String CHOICE_WINDOW_STATUS = "windowStatus"; //$NON-NLS-1$
 	public static final String WINDOW_STATUS_NORMAL = "normal"; //$NON-NLS-1$
 	public static final String WINDOW_STATUS_MAXIMIZED = "maximized"; //$NON-NLS-1$
-	
+
 	/**
-	 * reportItemThemeType
+	 * Choice constants for reportItemThemeType.
 	 */
 	public static final String CHOICE_REPORT_ITEM_THEME_TYPE = "reportItemThemeType"; //$NON-NLS-1$
 	public static final String REPORT_ITEM_THEME_TYPE_TABLE = "Table"; //$NON-NLS-1$
 	public static final String REPORT_ITEM_THEME_TYPE_LIST = "List"; //$NON-NLS-1$
 	public static final String REPORT_ITEM_THEME_TYPE_GRID = "Grid"; //$NON-NLS-1$
-	
+
+	/**
+	 * Choice constants for nullsOrdering.
+	 */
+	public static final String CHOICE_NULLS_ORDERING = "nullsOrdering"; //$NON-NLS-1$
+	public static final String NULLS_ORDERING_NULLS_LOWEST = "nulls lowest"; //$NON-NLS-1$
+	public static final String NULLS_ORDERING_NULLS_HIGHEST = "nulls highest"; //$NON-NLS-1$
+	public static final String NULLS_ORDERING_EXCLUDE_NULLS = "exclude nulls"; //$NON-NLS-1$
+
 }

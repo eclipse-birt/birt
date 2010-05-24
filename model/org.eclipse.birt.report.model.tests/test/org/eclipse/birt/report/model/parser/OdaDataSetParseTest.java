@@ -57,6 +57,8 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Tests oda data set case.
  * <table border="1" cellpadding="0" cellspacing="0" * * * * * * * * * * * * * * style="border-collapse: collapse" bordercolor="#111111" width="100%" * * * * * * * * * * * * * * id="AutoNumber6">
@@ -181,6 +183,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 		dataSet.setDesigerStateContentAsString( "new content as string" ); //$NON-NLS-1$
 
 		dataSet.setIsVisible( true );
+		dataSet.setLocale( ULocale.FRANCE );
+		dataSet.setNullsOrdering( DesignChoiceConstants.NULLS_ORDERING_EXCLUDE_NULLS );
 
 		String strBlob = "new content as blob"; //$NON-NLS-1$
 
@@ -204,8 +208,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		sortHint.setColumnName( "newSortHint" ); //$NON-NLS-1$
 		sortHint.setPosition( 1 );
 		sortHint.setDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
-		sortHint
-				.setNullValueOrdering( DesignChoiceConstants.NULL_VALUE_ORDERING_TYPE_NULLISLAST );
+		sortHint.setNullValueOrdering( DesignChoiceConstants.NULL_VALUE_ORDERING_TYPE_NULLISLAST );
 		sortHint.setOptional( false );
 
 		// ACL properties
@@ -301,6 +304,9 @@ public class OdaDataSetParseTest extends BaseTestCase
 		assertEquals( dataSource, dataSet.getDataSource( ) );
 
 		assertFalse( dataSet.isVisible( ) );
+		assertEquals( ULocale.US, dataSet.getLocale( ) );
+		assertEquals( DesignChoiceConstants.NULLS_ORDERING_NULLS_HIGHEST,
+				dataSet.getNullsOrdering( ) );
 
 		// Test "input-parameters" on DataSet
 

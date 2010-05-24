@@ -654,6 +654,11 @@
   	<Choice displayNameID="Choices.reportItemThemeType.Table" name="Table"/>
   	<Choice displayNameID="Choices.reportItemThemeType.List" name="List"/>
   	<Choice displayNameID="Choices.reportItemThemeType.Grid" name="Grid"/>
+  </ChoiceType>
+  <ChoiceType name="nullsOrdering">
+  	<Choice displayNameID="Choices.nullsOrdering.nullsLowest" name="nulls lowest"/>
+  	<Choice displayNameID="Choices.nullsOrdering.nullsHighest" name="nulls highest"/>
+  	<Choice displayNameID="Choices.nullsOrdering.excludeNulls" name="exclude nulls"/>
   </ChoiceType>   
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
@@ -1962,6 +1967,10 @@
     <Property displayNameID="Element.DataSet.RowACLExpression" name="rowACLExpression" since="2.5.2" type="expression"/>
     <Property displayNameID="Element.DataSet.isVisible" name="isVisible" since="2.5" type="boolean">
     	<Default>true</Default>
+    </Property>
+    <Property displayNameID="Element.DataSet.locale" name="locale" since="2.6" type="locale"/>
+    <Property detailType="nullsOrdering" displayNameID="Element.DataSet.nullsOrdering" name="nullsOrdering" since="2.6" type="choice">
+    	<Default>nulls lowest</Default>
     </Property>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.SimpleDataSet" extends="DataSet" hasStyle="false" isAbstract="true" isNameRequired="true" name="SimpleDataSet" since="1.0" xmlName="simple-data-set">

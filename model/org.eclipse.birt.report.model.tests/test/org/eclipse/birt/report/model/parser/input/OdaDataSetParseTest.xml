@@ -12,6 +12,8 @@
             <expression name="ACLExpression" type="javascript">ACL expression</expression>
             <expression name="rowACLExpression" type="javascript">row ACL expression</expression>
             <property name="isVisible">false</property>
+            <property name="locale">en_US</property>
+            <property name="nullsOrdering">nulls highest</property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>

@@ -99,4 +99,15 @@ public interface IDataSetModel
 	 */
 	String IS_VISIBLE_PROP = "isVisible"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that specifies the locale for this data set applied.
+	 */
+	String LOCALE_PROP = "locale"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the ordering of null values. By
+	 * default, it is nulls lowest.
+	 */
+	String NULLS_ORDERING_PROP = "nullsOrdering"; //$NON-NLS-1$
+
 }

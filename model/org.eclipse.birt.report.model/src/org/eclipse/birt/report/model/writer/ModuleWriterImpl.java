@@ -3223,6 +3223,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IDataSetModel.ACL_EXPRESSION_PROP );
 		property( obj, IDataSetModel.ROW_ACL_EXPRESSION_PROP );
 		property( obj, IDataSetModel.IS_VISIBLE_PROP );
+		property( obj, IDataSetModel.LOCALE_PROP );
+		property( obj, IDataSetModel.NULLS_ORDERING_PROP );
 		writeStructureList( obj, IDataSetModel.RESULT_SET_HINTS_PROP );
 		writeStructureList( obj, IDataSetModel.COMPUTED_COLUMNS_PROP );
 		writeStructureList( obj, IDataSetModel.COLUMN_HINTS_PROP );

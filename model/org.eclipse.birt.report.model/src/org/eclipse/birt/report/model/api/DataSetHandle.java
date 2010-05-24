@@ -35,6 +35,8 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Abstract handle for data set elements. A data set is a named object that
  * provides a result set defined as a sequence of data rows. Report elements use
@@ -1166,4 +1168,65 @@ public abstract class DataSetHandle extends ReportElementHandle
 	{
 		setBooleanProperty( IS_VISIBLE_PROP, isVisible );
 	}
+
+	/**
+	 * Gets the locale of this data set element.
+	 * 
+	 * @return the locale of this data set
+	 * 
+	 * @see #setLocale(ULocale)
+	 */
+
+	public ULocale getLocale( )
+	{
+		return (ULocale) getProperty( LOCALE_PROP );
+	}
+
+	/**
+	 * Sets the locale for this data set element.
+	 * 
+	 * @param locale
+	 *            the locale to data set
+	 * @throws SemanticException
+	 * 
+	 * @see #getLocale()
+	 */
+
+	public void setLocale( ULocale locale ) throws SemanticException
+	{
+		setProperty( LOCALE_PROP, locale );
+	}
+
+	/**
+	 * Gets the ordering of null values. Its value must be one of the following:
+	 * <ul>
+	 * <li><code>NULLS_ORDERING_NULLS_LOWEST</code>
+	 * <li><code>NULLS_ORDERING_NULLS_HIGHEST</code>
+	 * <li><code>NULLS_ORDERING_EXCLUDE_NULLS</code>
+	 * </ul>
+	 * 
+	 * @return ordering of null values.
+	 */
+	public String getNullsOrdering( )
+	{
+		return getStringProperty( NULLS_ORDERING_PROP );
+	}
+
+	/**
+	 * Sets the ordering of null values. Its value must be one of the following:
+	 * <ul>
+	 * <li><code>NULLS_ORDERING_NULLS_LOWEST</code>
+	 * <li><code>NULLS_ORDERING_NULLS_HIGHEST</code>
+	 * <li><code>NULLS_ORDERING_EXCLUDE_NULLS</code>
+	 * </ul>
+	 * 
+	 * @param nullsOrdering
+	 * @throws SemanticException
+	 */
+	public void setNullsOrdering( String nullsOrdering )
+			throws SemanticException
+	{
+		setStringProperty( NULLS_ORDERING_PROP, nullsOrdering );
+	}
+
 }
