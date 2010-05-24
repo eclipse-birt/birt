@@ -232,6 +232,12 @@ public interface IHelpContextIds
 	public static final String LEVEL_PROPERTY_DIALOG = PREFIX
 			+ "LevelPropertyDialog_ID"; //$NON-NLS-1$
 
+	public static final String LEVEL_STATIC_ATTRIBUTE_DIALOG = PREFIX
+			+ "LevelStaicAttributeDialog_ID"; //$NON-NLS-1$
+
+	public static final String LEVEL_DYNAMIC_ATTRIBUTE_DIALOG = PREFIX
+			+ "LevelDynamicAttributeDialog_ID"; //$NON-NLS-1$
+
 	public static final String MEASURE_DIALOG = PREFIX + "MeasureDialog_ID"; //$NON-NLS-1$
 
 	public static final String XTAB_FILTER_CONDITION_BUILDER = PREFIX
@@ -360,6 +366,7 @@ public interface IHelpContextIds
 	public static final String SUMMARY_FIELD_DIALOG_ID = PREFIX
 			+ "SummaryFieldDialog_ID"; //$NON-NLS-1$
 
-	public static final String RENAME_INPUT_DIALOG_ID = PREFIX + "RenameInputDialog_ID"; //$NON-NLS-1$
+	public static final String RENAME_INPUT_DIALOG_ID = PREFIX
+			+ "RenameInputDialog_ID"; //$NON-NLS-1$
 
 }
