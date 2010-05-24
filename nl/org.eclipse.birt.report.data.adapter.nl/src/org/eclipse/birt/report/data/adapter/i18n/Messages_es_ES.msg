@@ -36,3 +36,4 @@ cube.error.createdimension=Se produce un error al crear la dimensión:{0}.
 cube.error.createmeasure=Se produce un error al crear la medida.
 cube.error.datasetmiss=El cubo no se puede crear porque falta el conjunto de datos relacionado.
 cube.jointColumnNotInLevels=La columna de combinación "{0}" no está definida como campo clave de ningún nivel en la dimensión "{1}".
+cube.unsupportedAggregationInBinding=TopN/BottomN function in binding "{0}" is not supported in xTab.

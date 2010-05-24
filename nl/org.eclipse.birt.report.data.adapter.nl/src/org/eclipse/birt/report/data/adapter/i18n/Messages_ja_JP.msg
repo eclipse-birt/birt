@@ -36,3 +36,4 @@ cube.error.createdimension=ディメンジョン {0} の作成中にエラーが発生しました。
 cube.error.createmeasure=メジャー要素の作成中にエラーが発生しました。
 cube.error.datasetmiss=関連するデータセットが見つからないため、キューブを作成できません。
 cube.jointColumnNotInLevels=結合列 "{0}" はディメンション "{1}" のいずれのレベルのキーフィールドとしても定義されていません。
+cube.unsupportedAggregationInBinding=TopN/BottomN function in binding "{0}" is not supported in xTab.

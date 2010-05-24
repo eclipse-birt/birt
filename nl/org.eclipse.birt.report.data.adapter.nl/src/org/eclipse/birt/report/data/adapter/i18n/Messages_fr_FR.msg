@@ -36,3 +36,4 @@ cube.error.createdimension=Une erreur s''est produite lors de la création de la 
 cube.error.createmeasure=Une erreur s'est produite lors de la création de la mesure.
 cube.error.datasetmiss=Le cube ne peut pas être créé car le jeu de données correspondant est manquant.
 cube.jointColumnNotInLevels=La colonne jointe "{0}" n'est pas définie en tant que champ clé pour aucun niveau dans la dimension "{1}".
+cube.unsupportedAggregationInBinding=TopN/BottomN function in binding "{0}" is not supported in xTab.

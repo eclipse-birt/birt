@@ -36,3 +36,4 @@ cube.error.createdimension=차원 생성 도중 {0} 오류가 발생했습니다.
 cube.error.createmeasure=측정값 생성 도중 오류가 발생했습니다.
 cube.error.datasetmiss=관련된 데이터 집합이 없어 큐브를 생성할 수 없습니다.
 cube.jointColumnNotInLevels=조인 열 "{0}"이(가) 차원 "{1}"에 있는 수준의 키 필드로 정의되지 않았습니다.
+cube.unsupportedAggregationInBinding=TopN/BottomN function in binding "{0}" is not supported in xTab.
