@@ -17,6 +17,8 @@ import org.eclipse.birt.data.engine.executor.cache.CacheRequest;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.cache.SmartRowResultSet;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupProcessorManager;
 import org.eclipse.birt.data.engine.executor.transform.pass.PassManager;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -194,6 +196,14 @@ public class ResultSetPopulator
 	public void populateResultSet( OdiResultSetWrapper odaResultSet ) throws DataException
 	{
 		PassManager.populateResultSet( this, odaResultSet, this.session );
+	}
+	
+	public DataSetFromCache cacheDataSet( DataSetToCache dstc ) throws DataException
+	{
+		PassManager.populateDataSetResultSet( this, new OdiResultSetWrapper( dstc ) );
+		CachedResultSet itr = this.getResultIterator( );
+		dstc.saveDataSetResult( itr );
+		return new DataSetFromCache( session );
 	}
 
 	/**

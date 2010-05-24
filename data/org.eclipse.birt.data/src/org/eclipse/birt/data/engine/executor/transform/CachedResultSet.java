@@ -132,8 +132,20 @@ public class CachedResultSet implements IResultIterator
 				session,
 				eventHandler
 				);
-		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( dataSetToCache ));
+		DataSetFromCache dsfc = resultSetPopulator.cacheDataSet( dataSetToCache );
 		dataSetToCache.close( );
+		this.close( );
+		this.handler = eventHandler;
+		this.aggrHolderManager = new AggrHolderManager( );
+		this.resultSetPopulator = new ResultSetPopulator( 
+				query,
+				meta,
+				this,
+				session,
+				eventHandler
+				);
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( dsfc ));
+		dsfc.close( );
 	}
 	
 	

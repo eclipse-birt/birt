@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnRoundManager;
 import org.eclipse.birt.data.engine.executor.aggregation.AggregationHelper;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
 import org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
@@ -34,7 +34,6 @@ import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
-import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 
 /**
@@ -50,6 +49,10 @@ public class PassManager
 	private FilterByRow filterByRow;
 	
 	private DataEngineSession session;
+	
+	private ComputedColumnsState iccState; 
+	private PassStatusController psController;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -74,6 +77,46 @@ public class PassManager
 		new PassManager( populator, session ).pass( odaResultSet );
 	}
 	
+	public static void populateDataSetResultSet( ResultSetPopulator populator, 
+			OdiResultSetWrapper odaResultSetWrapper ) throws DataException
+	{
+		new PassManager( populator, populator.getSession( ) ).prepareDataSetResultSet( odaResultSetWrapper );
+	}
+	
+	
+	private void prepareDataSetResultSet( OdiResultSetWrapper odaResultSet ) throws DataException
+	{
+		this.populator.getExpressionProcessor( ).setDataSetMode( true );
+		prepareFetchEventList( );
+		psController = new PassStatusController( populator,
+				filterByRow,
+				computedColumnHelper );
+		boolean needMultiPass = psController.needMultipassProcessing( );
+		if ( !needMultiPass )
+		{
+			doSinglePass( odaResultSet );
+		}
+		else
+		{
+			populateDataSet( odaResultSet );
+		}
+		
+	}
+	
+	private void prepareQueryResultSet( ) throws DataException
+	{
+		if ( psController.needMultipassProcessing( ) )
+		{
+			this.populator.getExpressionProcessor( ).setDataSetMode( false );
+			ResultSetProcessUtil.doPopulate( this.populator,
+					iccState,
+					computedColumnHelper,
+					filterByRow,
+					psController,
+					Arrays.asList(this.populator.getQuery( ).getOrdering( )) );
+		}
+	}
+	
 	/**
 	 * Pass the oda result set.
 	 * @param odaResultSet
@@ -82,20 +125,8 @@ public class PassManager
 	 */
 	private void pass( OdiResultSetWrapper odaResultSet ) throws DataException
 	{
-		prepareFetchEventList( );
-
-		PassStatusController psController = new PassStatusController( populator,
-				filterByRow,
-				computedColumnHelper );
-
-		if ( !psController.needMultipassProcessing( ) )
-		{
-			doSinglePass( odaResultSet );
-		}
-		else
-		{
-			doMultiPass( odaResultSet, psController );
-		}
+		prepareDataSetResultSet( odaResultSet );
+		prepareQueryResultSet( );
 		
 		// TODO remove me
 		calculateAggregationsInColumnBinding( );
@@ -185,7 +216,6 @@ public class PassManager
 		
 		removeOnFetchScriptHelper( );
 		handleEndOfDataSetProcess( );
-		saveDataSetResult( odaResultSet );
 	}
 
 	/**
@@ -202,48 +232,6 @@ public class PassManager
 			{
 				it.remove( );
 			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param odaResultSet
-	 * @param iccState
-	 * @param psController
-	 * @param stopSign
-	 * @throws DataException
-	 */
-	private void doMultiPass( OdiResultSetWrapper odaResultSet, PassStatusController psController ) throws DataException
-	{
-		// The data member which record the state of each computed column.
-		// The order that computed columns are cached in iccState is significant
-		// and only after all
-		// the computed columns in higherindex is marked as "avaliable" that the
-		// computed columns in lower
-		// index can be marked as available
-		ComputedColumnsState iccState = null;
-		
-		if ( computedColumnHelper != null )
-		{
-			iccState = new ComputedColumnsState( computedColumnHelper );
-		}
-		doPopulation( odaResultSet, iccState, psController );
-	}
-	
-	/**
-	 * Saves the calculated data set result set to cache if needed
-	 * @param rsWrapper
-	 * @throws DataException
-	 */
-	private void saveDataSetResult( OdiResultSetWrapper rsWrapper ) throws DataException
-	{
-		Object resultSource = rsWrapper.getWrappedOdiResultSet( );
-		assert resultSource != null;
-		if ( resultSource instanceof DataSetToCache )
-		{
-			DataSetToCache dstc = (DataSetToCache) resultSource;
-			IResultIterator itr = populator.getResultIterator( );
-			dstc.saveDataSetResult( itr );
 		}
 	}
 
@@ -269,48 +257,40 @@ public class PassManager
 		}
 		return fetchEventsList;
 	}
-
-	/**
-	 * Do the actual population job of result set.
-	 * 
-	 * @param odaResultSet
-	 * @param iccState
-	 * @param psController
-	 * @param stopSign
-	 * @throws DataException
-	 */
-	private void doPopulation( OdiResultSetWrapper odaResultSet,
-			ComputedColumnsState iccState, PassStatusController psController )
-			throws DataException
+	
+	private void populateDataSet( OdiResultSetWrapper odaResultSet )
+		throws DataException
 	{
+		// The data member which record the state of each computed column.
+		// The order that computed columns are cached in iccState is significant
+		// and only after all
+		// the computed columns in higherindex is marked as "avaliable" that the
+		// computed columns in lower
+		// index can be marked as available
+		
+		if ( computedColumnHelper != null )
+		{
+			iccState = new ComputedColumnsState( computedColumnHelper );
+		}
+		
 		List cachedSorting = Arrays.asList( this.populator.getQuery( )
 				.getOrdering( ) == null ? new Object[0]
 				: this.populator.getQuery( ).getOrdering( ) );
 		this.populator.getQuery( ).setOrdering( new ArrayList( ) );
-		/****************************Populate Data Set Rows************************************/
-
 		this.populator.getExpressionProcessor( ).setDataSetMode( true );
 		
 		populateResultSetCacheInResultSetPopulator( odaResultSet );
 
-		DataSetProcessUtil.doPopulate( this.populator,
+		if ( !(odaResultSet.getWrappedOdiResultSet( ) instanceof DataSetFromCache ))
+		{
+			DataSetProcessUtil.doPopulate( this.populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
 				psController );
-	
+		}
 		handleEndOfDataSetProcess( );
-		
-		saveDataSetResult( odaResultSet );
-		//		
-		/****************************Populate Result Set Rows***********************************/
-		this.populator.getExpressionProcessor( ).setDataSetMode( false );
-		ResultSetProcessUtil.doPopulate( this.populator,
-				iccState,
-				computedColumnHelper,
-				filterByRow,
-				psController,
-				cachedSorting );
+		this.populator.getQuery( ).setOrdering( cachedSorting );
 	}
 
 	/**

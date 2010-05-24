@@ -116,8 +116,8 @@ public class DataSetCacheTest extends APITestCase
 			//"cc1" values sequence is {1, 2, 3, 4, 5, 6}
 			assertEquals( i, itr.getInteger( "cc1" ).intValue( ));
 			
-			//row count is 6
-			assertEquals(6, itr.getInteger( "cc2" ).intValue( ));
+			//row count is 7
+			assertEquals(7, itr.getInteger( "cc2" ).intValue( ));
 			i++;
 		}
 		itr.close( );
@@ -144,8 +144,8 @@ public class DataSetCacheTest extends APITestCase
 			//"cc1" values sequence is {6, 5}
 			assertEquals( i, itr.getInteger( "cc1" ).intValue( ));
 			
-			//"cc2" value is still always 6
-			assertEquals(6, itr.getInteger( "cc2" ).intValue( ));
+			//"cc2" value is still 7
+			assertEquals(7, itr.getInteger( "cc2" ).intValue( ));
 			i--;
 		}
 		itr.close( );
@@ -170,8 +170,8 @@ public class DataSetCacheTest extends APITestCase
 			//"cc1" values sequence is {1, 2, 3, 4, 5, 6}
 			assertEquals( i, itr.getInteger( "cc1" ).intValue( ));
 			
-			//row count is 6
-			assertEquals(6, itr.getInteger( "cc2" ).intValue( ));
+			//"cc2" value is still 7
+			assertEquals(7, itr.getInteger( "cc2" ).intValue( ));
 			i++;
 		}
 		itr.close( );

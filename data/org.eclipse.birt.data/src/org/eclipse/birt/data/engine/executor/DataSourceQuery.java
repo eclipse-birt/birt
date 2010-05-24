@@ -753,15 +753,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						.getCurrentDataSetDesign( )
 						.getRowFetchLimit( );
 			}
-			int cacheCountConfig = session.getDataSetCacheManager( ).getCacheCountConfig( );
-			if ( fetchRowLimit != 0
-					&& fetchRowLimit < cacheCountConfig )
+			if ( fetchRowLimit != 0 )
 			{
 				odaStatement.setMaxRows( fetchRowLimit );
-			}
-			else if ( cacheCountConfig > 0 )
-			{
-				odaStatement.setMaxRows( cacheCountConfig );
 			}
 		}
 		
