@@ -81,6 +81,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
@@ -276,13 +277,17 @@ public class GroupDialog extends BaseDialog implements Listener
 		// Composite topComposite = (Composite) super.createDialogArea( parent
 		// );
 
-		ScrolledComposite sc = new ScrolledComposite( parent, SWT.H_SCROLL
-				| SWT.V_SCROLL );
-		sc.setLayout( new FillLayout( ) );
-		sc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		applyDialogFont( sc );
+		ScrolledComposite scrollContent = new ScrolledComposite( (Composite) super.createDialogArea( parent ),
+				SWT.H_SCROLL | SWT.V_SCROLL );
+		scrollContent.setAlwaysShowScrollBars( false );
+		scrollContent.setExpandHorizontal( true );
+		scrollContent.setMinWidth( 600 );
+		scrollContent.setLayout( new FillLayout( ) );
+		scrollContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		
+		applyDialogFont( scrollContent );
 
-		Composite topComposite = new Composite( sc, SWT.NONE );
+		Composite topComposite = new Composite( scrollContent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.marginHeight = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_MARGIN );
 		layout.marginWidth = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_MARGIN );
@@ -302,13 +307,13 @@ public class GroupDialog extends BaseDialog implements Listener
 		createFilterSortingArea( topComposite );
 		UIUtil.bindHelp( parent, IHelpContextIds.GROUP_DIALOG_ID );
 
-		sc.setContent( topComposite );
-		sc.setExpandHorizontal( true );
-		sc.setExpandVertical( true );
-		sc.setMinWidth( 500 );
-		sc.setMinHeight( 650 );
+		Point size = topComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		topComposite.setSize( size.x, size.y  );
 
-		return sc;
+		scrollContent.setContent( topComposite );
+		
+
+		return scrollContent;
 	}
 
 	private void createBookmarkArea( Composite parent )
