@@ -83,6 +83,7 @@ import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -898,6 +899,17 @@ public class ChartCubeQueryHelper
 						&& !registeredLevels.containsKey( filterBindingName )
 						&& !registeredMeasures.containsKey( filterBindingName ) )
 				{
+					String operator = filterCon.getOperator( );
+					if ( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N.equals( operator )
+							|| DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT.equals( operator )
+							|| DesignChoiceConstants.FILTER_OPERATOR_TOP_N.equals( operator )
+							|| DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT.equals( operator ) )
+					{
+						// Top and Bottom are not supported in fact table of
+						// data engine
+						break;
+					}
+					
 					// If filter expression is not used as dimension or measure,
 					// should set dimension/measure expression as filter
 					// directly
