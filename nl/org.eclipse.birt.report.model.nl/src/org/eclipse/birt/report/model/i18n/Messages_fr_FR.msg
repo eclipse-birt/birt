@@ -716,6 +716,11 @@ Choices.reportItemThemeType.Table=Thème de tableau
 Choices.reportItemThemeType.List=Thème de liste
 Choices.reportItemThemeType.Grid=Thème de grille
 
+#91 nullsOrdering
+Choices.nullsOrdering.nullsLowest=Nulls Lowest
+Choices.nullsOrdering.nullsHighest=Null Highest
+Choices.nullsOrdering.excludeNulls=Exclude Nulls
+
 ###########################################################
 # Classes
 
@@ -2508,6 +2513,8 @@ Element.DataSet.sortHints=Tri par astuces
 Element.DataSet.ACLExpression=Expression ACL
 Element.DataSet.RowACLExpression=Expression ACL de la ligne
 Element.DataSet.isVisible=Visible
+Element.DataSet.locale=Informations locales
+Element.DataSet.nullsOrdering=Nulls Ordering
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Avant l'ouverture

@@ -716,6 +716,11 @@ Choices.reportItemThemeType.Table=Tabellenthema
 Choices.reportItemThemeType.List=Listenthema
 Choices.reportItemThemeType.Grid=Rasterthema
 
+#91 nullsOrdering
+Choices.nullsOrdering.nullsLowest=Nulls Lowest
+Choices.nullsOrdering.nullsHighest=Null Highest
+Choices.nullsOrdering.excludeNulls=Exclude Nulls
+
 ###########################################################
 # Classes
 
@@ -2508,6 +2513,8 @@ Element.DataSet.sortHints=Sortierungshinweise
 Element.DataSet.ACLExpression=Ausdruck 'ACL'
 Element.DataSet.RowACLExpression=Zeilenausdruck 'ACL'
 Element.DataSet.isVisible=Sichtbar
+Element.DataSet.locale=Gebietsschema
+Element.DataSet.nullsOrdering=Nulls Ordering
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Vor dem Öffnen

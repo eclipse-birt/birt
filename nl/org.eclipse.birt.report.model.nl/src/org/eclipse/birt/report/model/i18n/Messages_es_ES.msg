@@ -716,6 +716,11 @@ Choices.reportItemThemeType.Table=Tema de tabla
 Choices.reportItemThemeType.List=Tema de lista
 Choices.reportItemThemeType.Grid=Tema de cuadrícula
 
+#91 nullsOrdering
+Choices.nullsOrdering.nullsLowest=Nulls Lowest
+Choices.nullsOrdering.nullsHighest=Null Highest
+Choices.nullsOrdering.excludeNulls=Exclude Nulls
+
 ###########################################################
 # Classes
 
@@ -2508,6 +2513,8 @@ Element.DataSet.sortHints=Sugerencias de orden
 Element.DataSet.ACLExpression=Expresión ACL
 Element.DataSet.RowACLExpression=Expresión ACL de fila
 Element.DataSet.isVisible=Visible
+Element.DataSet.locale=Configuración regional
+Element.DataSet.nullsOrdering=Nulls Ordering
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Antes de abrir

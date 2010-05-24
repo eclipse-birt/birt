@@ -716,6 +716,11 @@ Choices.reportItemThemeType.Table=테이블 테마
 Choices.reportItemThemeType.List=목록 테마
 Choices.reportItemThemeType.Grid=눈금 테마
 
+#91 nullsOrdering
+Choices.nullsOrdering.nullsLowest=Nulls Lowest
+Choices.nullsOrdering.nullsHighest=Null Highest
+Choices.nullsOrdering.excludeNulls=Exclude Nulls
+
 ###########################################################
 # Classes
 
@@ -2508,6 +2513,8 @@ Element.DataSet.sortHints=힌트 정렬
 Element.DataSet.ACLExpression=ACL 식
 Element.DataSet.RowACLExpression=행 ACL 식
 Element.DataSet.isVisible=표시
+Element.DataSet.locale=로케일
+Element.DataSet.nullsOrdering=Nulls Ordering
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=열기 이전

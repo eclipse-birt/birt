@@ -716,6 +716,11 @@ Choices.reportItemThemeType.Table=表主题
 Choices.reportItemThemeType.List=列表主题
 Choices.reportItemThemeType.Grid=网格主题
 
+#91 nullsOrdering
+Choices.nullsOrdering.nullsLowest=Nulls Lowest
+Choices.nullsOrdering.nullsHighest=Null Highest
+Choices.nullsOrdering.excludeNulls=Exclude Nulls
+
 ###########################################################
 # Classes
 
@@ -2508,6 +2513,8 @@ Element.DataSet.sortHints=排序提示
 Element.DataSet.ACLExpression=ACL 表达式
 Element.DataSet.RowACLExpression=行 ACL 表达式
 Element.DataSet.isVisible=可见
+Element.DataSet.locale=区域设置
+Element.DataSet.nullsOrdering=Nulls Ordering
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=打开前

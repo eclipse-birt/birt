@@ -716,6 +716,11 @@ Choices.reportItemThemeType.Table=テーブルテーマ
 Choices.reportItemThemeType.List=リストテーマ
 Choices.reportItemThemeType.Grid=グリッドテーマ
 
+#91 nullsOrdering
+Choices.nullsOrdering.nullsLowest=Nulls Lowest
+Choices.nullsOrdering.nullsHighest=Null Highest
+Choices.nullsOrdering.excludeNulls=Exclude Nulls
+
 ###########################################################
 # Classes
 
@@ -2508,6 +2513,8 @@ Element.DataSet.sortHints=ソートのヒント
 Element.DataSet.ACLExpression=ACL 式
 Element.DataSet.RowACLExpression=行の ACL 式
 Element.DataSet.isVisible=表示
+Element.DataSet.locale=ロケール
+Element.DataSet.nullsOrdering=Nulls Ordering
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=開く前
