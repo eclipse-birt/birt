@@ -13,12 +13,11 @@ package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 public class Label extends ReportItem implements ILabel
 {
@@ -158,7 +157,8 @@ public class Label extends ReportItem implements ILabel
 		cmdStack.startNonUndoableTrans( null );
 		try
 		{
-			handle.setProperty( ILabelModel.ACTION_PROP, action.getStructure( ));
+			( (LabelHandle) handle )
+					.setAction( (Action) action.getStructure( ) );
 		}
 		catch ( SemanticException e )
 		{

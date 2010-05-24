@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
-import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
@@ -360,7 +359,9 @@ public class Image extends ReportItem implements IImage
 		setProperty( IImageItemModel.HELP_TEXT_ID_PROP, helpTextKey );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#getAction()
 	 */
 	public IAction getAction( )
@@ -434,9 +435,13 @@ public class Image extends ReportItem implements IImage
 	{
 		return ( (ImageHandle) handle ).getURL( );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#addAction(org.eclipse.birt.report.model.api.simpleapi.IAction)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IImage#addAction(org.eclipse
+	 * .birt.report.model.api.simpleapi.IAction)
 	 */
 	public void addAction( IAction action ) throws SemanticException
 	{
@@ -447,7 +452,8 @@ public class Image extends ReportItem implements IImage
 		cmdStack.startNonUndoableTrans( null );
 		try
 		{
-			handle.setProperty( IImageItemModel.ACTION_PROP, action.getStructure( ));
+			( (ImageHandle) handle )
+					.setAction( (Action) action.getStructure( ) );
 		}
 		catch ( SemanticException e )
 		{
