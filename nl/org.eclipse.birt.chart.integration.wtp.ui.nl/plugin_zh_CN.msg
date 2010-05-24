@@ -17,4 +17,4 @@ birtResourcesDefinition= Web 应用程序资源定义图表
 birt.action.importruntime.name=导入图表运行时组件(&C)...
 
 ##################Do not externalize the version number
-runtime.version=2.5.0
+runtime.version=2.6.0

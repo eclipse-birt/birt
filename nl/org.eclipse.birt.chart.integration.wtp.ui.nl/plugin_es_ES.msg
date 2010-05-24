@@ -17,4 +17,4 @@ birtResourcesDefinition= Definición de recursos de aplicación Web de diagramas
 birt.action.importruntime.name=Im&portar componente de tiempo de ejecución de diagramas...
 
 ##################Do not externalize the version number
-runtime.version=2.5.0
+runtime.version=2.6.0
