@@ -250,7 +250,7 @@ public class TaskSelectData extends SimpleTask implements
 
 	private void createDataArea( )
 	{
-		fDataArea = new ScrolledComposite( foSashForm, SWT.VERTICAL );
+		fDataArea = new ScrolledComposite( foSashForm, SWT.VERTICAL|SWT.V_SCROLL );
 		{
 			GridLayout gl = new GridLayout( );
 			fDataArea.setLayout( gl );
@@ -258,6 +258,7 @@ public class TaskSelectData extends SimpleTask implements
 			fDataArea.setLayoutData( gd );
 			fDataArea.setExpandHorizontal( true );
 			fDataArea.setExpandVertical( true );
+
 		}
 
 		Composite dataComposite = new Composite( fDataArea, SWT.NONE );
@@ -279,6 +280,8 @@ public class TaskSelectData extends SimpleTask implements
 		getDataSheet( ).createActionButtons( dataComposite );
 
 		new Label( dataComposite, SWT.NONE );
+
+		fDataArea.setMinHeight( fDataArea.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y );
 	}
 
 	private void createHeadArea( )
