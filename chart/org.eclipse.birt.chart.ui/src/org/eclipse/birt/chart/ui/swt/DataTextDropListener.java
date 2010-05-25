@@ -56,9 +56,9 @@ public class DataTextDropListener extends DropTargetAdapter
 
 		// check if valid expression
 		// Get Data in a Java format
-		// Since in Mac os x, the event.currentDataType.data is still null, so
-		// here ignores validation under Mac os x.
-		if ( !Platform.OS_MACOSX.equals( Platform.getOS( ) ) )
+		// Since in Mac os x / Linux, the event.currentDataType.data is still
+		// null, so here ignores validation under Mac os x /Linux.
+		if ( Platform.OS_WIN32.equals( Platform.getOS( ) ) )
 		{
 			Object object = null;
 			Transfer[] transferAgents = ( (DropTarget) event.widget ).getTransfer( );
@@ -121,9 +121,10 @@ public class DataTextDropListener extends DropTargetAdapter
 	{
 		String bindingName = (String) event.data;
 		
-		// Since in Mac os X, the dragEnter method did not validate expression, so
+		// Since in Mac os X/ Linux, the dragEnter method did not validate
+		// expression, so
 		// here validate the expression. 
-		if ( Platform.OS_MACOSX.equals( Platform.getOS( ) ) )
+		if ( !Platform.OS_WIN32.equals( Platform.getOS( ) ) )
 		{
 			ExpressionCodec expCodec = ChartModelHelper.instance( )
 					.createExpressionCodec( );
