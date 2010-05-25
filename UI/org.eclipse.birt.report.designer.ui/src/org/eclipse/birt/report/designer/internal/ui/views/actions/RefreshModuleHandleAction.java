@@ -80,7 +80,7 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 					MessageDialog.QUESTION_WITH_CANCEL,
 					new String[]{
 							Messages.getString( "RefreshModuleHandleAction.MessageBox.SaveButton" ), //$NON-NLS-1$
-							Messages.getString( "RefreshModuleHandleAction.MessageBox.DiscardButton" ), //$NON-NLS-1$
+							//Messages.getString( "RefreshModuleHandleAction.MessageBox.DiscardButton" ), //$NON-NLS-1$
 							Messages.getString( "RefreshModuleHandleAction.MessageBox.CancelButton" ) //$NON-NLS-1$
 					},
 					0 );
@@ -98,16 +98,16 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 						logger.log( Level.SEVERE, e.getMessage( ), e );
 					}
 					break;
-				case 1 :
-					try
-					{
-						CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand", null ); //$NON-NLS-1$
-					}
-					catch ( Exception e )
-					{
-						logger.log( Level.SEVERE, e.getMessage( ), e );
-					}
-					break;
+				// case 1 :
+				// try
+				// {
+				//						CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand", null ); //$NON-NLS-1$
+				// }
+				// catch ( Exception e )
+				// {
+				// logger.log( Level.SEVERE, e.getMessage( ), e );
+				// }
+				// break;
 				default :
 			}
 		}

@@ -83,7 +83,7 @@ public class LibraryFileChangeResolve implements IRelatedFileChangeResolve
 					MessageDialog.QUESTION_WITH_CANCEL,
 					new String[]{
 							Messages.getString( "MultiPageReportEditor.SaveButton" ), //$NON-NLS-1$
-							Messages.getString( "MultiPageReportEditor.DiscardButton" ), //$NON-NLS-1$
+							//Messages.getString( "MultiPageReportEditor.DiscardButton" ), //$NON-NLS-1$
 							Messages.getString( "MultiPageReportEditor.CancelButton" ) //$NON-NLS-1$
 					},
 					0 );
@@ -101,9 +101,9 @@ public class LibraryFileChangeResolve implements IRelatedFileChangeResolve
 					}
 					UIUtil.reloadModuleHandleLibraries( owner );
 					return true;
-				case 1 :
-					UIUtil.reloadModuleHandleLibraries( owner );
-					return true;
+					// case 1 :
+					// UIUtil.reloadModuleHandleLibraries( owner );
+					// return true;
 				default :
 					return false;
 			}
