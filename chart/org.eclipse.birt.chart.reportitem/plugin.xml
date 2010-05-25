@@ -32,7 +32,7 @@
          <property
                detailType="Action"
                displayNameID="Element.Chart.action"
-               isList="false"
+               isList="true"
                name="action"
                type="structure"/>
     	<property detailType="SortKey" 
