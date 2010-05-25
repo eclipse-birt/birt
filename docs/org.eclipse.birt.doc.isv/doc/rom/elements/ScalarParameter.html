@@ -52,6 +52,8 @@ used for passwords.</dd>
 <dt><a href="#Property-controlType">controlType</a></dt>
 <dd>The suggested type of UI control to use when 
 displaying the parameter.</dd>
+<dt><a href="#Property-defaultValue">defaultValue</a></dt>
+<dd>The default value of the parameter.</dd>
 <dt><a href="#Property-fixedOrder">fixedOrder</a></dt>
 <dd>Whether to display the list sorted in unsorted (fixed) order.</dd>
 <dt><a href="#Property-format">format</a></dt>
@@ -79,7 +81,6 @@ match one of the values in the static or dynamic selection list.</dd>
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
 <a href="AbstractScalarParameter.html#Property-dataSetName">dataSetName</a>, 
 <a href="AbstractScalarParameter.html#Property-dataType">dataType</a>, 
-<a href="AbstractScalarParameter.html#Property-defaultValue">defaultValue</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
 <a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
 <a href="AbstractScalarParameter.html#Property-distinct">distinct</a>, 
@@ -112,9 +113,28 @@ match one of the values in the static or dynamic selection list.</dd>
 <h3>Description</h3>
 
 <div class="section-text">
-<p>The data type for the parameter. The data type controls 
-how the Requester formats, parses and validates the parameter. Every type can optionally provide a choice list. 
-And, the parameter can require that the user select one of the choices.</p></div>
+<p>This element defines a single-value parameter. Scalar 
+parameters can have selection lists.</p>
+
+<p>Scalar parameters can provide a selection list. The list 
+can be static (defined by the <code>selectionList</code> 
+property) or dynamic (defined by the <code>dataSet</code>,
+<code>valueExpr</code> and <code>labelExpr</code> 
+properties.) The user can be required to select a value from the list, or can 
+enter a value not in the list (as controlled by the <code>
+mustMatch</code> property).</p>
+
+<p>BIRT uses the following rules to determine the selection 
+list:</p>
+
+<ul>
+<li>If the dataSet property is set, then the selection list is dynamic.</li>
+
+<li>Else, if the selectionList property has one or more entries, use that list.</li>
+
+<li>Else, assume the parameter has no selection list.</li>
+
+</ul></div>
 <h3>See Also</h3>
 
 <div class="section-text">
@@ -380,6 +400,41 @@ value, and the control is rendered as a UI combo box.</p></div>
 
 <div class="section-text">
 <p> <code>mustMatch</code> property</p></div>
+
+<hr>
+<h2><a name="Property-defaultValue">defaultValue Property</a></h2>
+
+<p class="section-text">The default value of the parameter.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#list">list</a></td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Default value</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The default value for the parameter. The default value 
+can be an expression, but cannot reference any other parameters.</p></div>
 
 <hr>
 <h2><a name="Property-fixedOrder">fixedOrder Property</a></h2>

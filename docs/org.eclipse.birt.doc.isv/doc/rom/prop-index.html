@@ -11,7 +11,13 @@
 <h1>Property Index</h1>
 <table class="summary-table">
 <tr><td>ACLExpression</td>
-<td><a href="elements/ListingGroup.html">ListingGroup</a> Element, 
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
+<a href="elements/Cube.html">Cube</a> Element, 
+<a href="elements/DataSet.html">DataSet</a> Element, 
+<a href="elements/Dimension.html">Dimension</a> Element, 
+<a href="elements/Level.html">Level</a> Element, 
+<a href="elements/ListingGroup.html">ListingGroup</a> Element, 
+<a href="elements/Measure.html">Measure</a> Element, 
 <a href="elements/ReportDesign.html">ReportDesign</a> Element, 
 <a href="elements/ReportItem.html">ReportItem</a> Element
 </td>
@@ -21,9 +27,12 @@
 </td>
 
 <tr><td>action</td>
-<td><a href="elements/Data.html">Data</a> Element, 
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
+<a href="elements/Data.html">Data</a> Element, 
 <a href="elements/Image.html">Image</a> Element, 
-<a href="elements/Label.html">Label</a> Element
+<a href="elements/Label.html">Label</a> Element, 
+<a href="elements/Level.html">Level</a> Element, 
+<a href="elements/Measure.html">Measure</a> Element
 </td>
 
 <tr><td>aggregateFunction</td>
@@ -98,6 +107,10 @@
 <td><a href="elements/Module.html">Module</a> Element
 </td>
 
+<tr><td>autoKey</td>
+<td><a href="elements/TabularCube.html">TabularCube</a> Element
+</td>
+
 <tr><td>autoSuggestThreshold</td>
 <td><a href="elements/ScalarParameter.html">ScalarParameter</a> Element
 </td>
@@ -113,6 +126,10 @@
 </td>
 
 <tr><td>backgroundImage</td>
+<td><a href="elements/Style.html">Style</a> Element
+</td>
+
+<tr><td>backgroundImageType</td>
 <td><a href="elements/Style.html">Style</a> Element
 </td>
 
@@ -137,7 +154,7 @@
 </td>
 
 <tr><td>base</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>bidiLayoutOrientation</td>
@@ -272,6 +289,7 @@
 <tr><td>category</td>
 <td><a href="structs/DateFormatValue.html">DateFormatValue</a> Structure, 
 <a href="structs/DateTimeFormatValue.html">DateTimeFormatValue</a> Structure, 
+<a href="structs/FormatValue.html">FormatValue</a> Structure, 
 <a href="structs/NumberFormatValue.html">NumberFormatValue</a> Structure, 
 <a href="structs/ParameterFormatValue.html">ParameterFormatValue</a> Structure, 
 <a href="structs/StringFormatValue.html">StringFormatValue</a> Structure, 
@@ -294,7 +312,7 @@
 </td>
 
 <tr><td>colorPalette</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>column</td>
@@ -334,7 +352,7 @@
 </td>
 
 <tr><td>configVars</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>content</td>
@@ -351,7 +369,8 @@
 </td>
 
 <tr><td>controlType</td>
-<td><a href="elements/ScalarParameter.html">ScalarParameter</a> Element
+<td><a href="elements/DynamicFilterParameter.html">DynamicFilterParameter</a> Element, 
+<a href="elements/ScalarParameter.html">ScalarParameter</a> Element
 </td>
 
 <tr><td>createdBy</td>
@@ -452,19 +471,26 @@
 </td>
 
 <tr><td>defaultValue</td>
-<td><a href="elements/AbstractScalarParameter.html">AbstractScalarParameter</a> Element, 
-<a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
+<td><a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
+<a href="elements/DynamicFilterParameter.html">DynamicFilterParameter</a> Element, 
 <a href="elements/Level.html">Level</a> Element, 
-<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
+<a href="elements/ScalarParameter.html">ScalarParameter</a> Element
 </td>
 
 <tr><td>description</td>
-<td><a href="elements/Module.html">Module</a> Element, 
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
+<a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
+<a href="elements/Module.html">Module</a> Element, 
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
 <a href="elements/TemplateParameterDefinition.html">TemplateParameterDefinition</a> Element
 </td>
 
 <tr><td>descriptionID</td>
-<td><a href="elements/Module.html">Module</a> Element, 
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
+<a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
+<a href="elements/Module.html">Module</a> Element, 
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
 <a href="elements/TemplateParameterDefinition.html">TemplateParameterDefinition</a> Element
 </td>
 
@@ -525,10 +551,16 @@
 <td><a href="structs/MapRule.html">MapRule</a> Structure
 </td>
 
+<tr><td>displayLength</td>
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure
+</td>
+
 <tr><td>displayName</td>
 <td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
 <a href="structs/ComputedColumn.html">ComputedColumn</a> Structure, 
 <a href="structs/CustomColor.html">CustomColor</a> Structure, 
+<a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
 <a href="elements/ReportDesign.html">ReportDesign</a> Element, 
 <a href="elements/ReportElement.html">ReportElement</a> Element, 
 <a href="elements/TemplateElement.html">TemplateElement</a> Element, 
@@ -539,6 +571,8 @@
 <td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
 <a href="structs/ComputedColumn.html">ComputedColumn</a> Structure, 
 <a href="structs/CustomColor.html">CustomColor</a> Structure, 
+<a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
 <a href="elements/ReportDesign.html">ReportDesign</a> Element, 
 <a href="elements/ReportElement.html">ReportElement</a> Element, 
 <a href="elements/TemplateElement.html">TemplateElement</a> Element, 
@@ -636,7 +670,8 @@
 <a href="elements/ExtendedItem.html">ExtendedItem</a> Element, 
 <a href="elements/Hierarchy.html">Hierarchy</a> Element, 
 <a href="elements/Listing.html">Listing</a> Element, 
-<a href="elements/ListingGroup.html">ListingGroup</a> Element
+<a href="elements/ListingGroup.html">ListingGroup</a> Element, 
+<a href="elements/MemberValue.html">MemberValue</a> Element
 </td>
 
 <tr><td>filterExpr</td>
@@ -701,6 +736,8 @@
 <tr><td>format</td>
 <td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
 <a href="structs/HideRule.html">HideRule</a> Structure, 
+<a href="elements/Level.html">Level</a> Element, 
+<a href="elements/Measure.html">Measure</a> Element, 
 <a href="elements/ScalarParameter.html">ScalarParameter</a> Element
 </td>
 
@@ -730,6 +767,18 @@
 <td><a href="elements/Cell.html">Cell</a> Element
 </td>
 
+<tr><td>heading</td>
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
+<a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure
+</td>
+
+<tr><td>headingID</td>
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
+<a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure
+</td>
+
 <tr><td>height</td>
 <td><a href="elements/Cell.html">Cell</a> Element, 
 <a href="elements/MasterPage.html">MasterPage</a> Element, 
@@ -738,14 +787,16 @@
 </td>
 
 <tr><td>helpGuide</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>helpText</td>
 <td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
 <a href="elements/Data.html">Data</a> Element, 
+<a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
 <a href="elements/Image.html">Image</a> Element, 
 <a href="elements/Label.html">Label</a> Element, 
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
 <a href="elements/Parameter.html">Parameter</a> Element, 
 <a href="elements/ParameterGroup.html">ParameterGroup</a> Element
 </td>
@@ -753,8 +804,10 @@
 <tr><td>helpTextID</td>
 <td><a href="structs/ColumnHint.html">ColumnHint</a> Structure, 
 <a href="elements/Data.html">Data</a> Element, 
+<a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
 <a href="elements/Image.html">Image</a> Element, 
 <a href="elements/Label.html">Label</a> Element, 
+<a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
 <a href="elements/Parameter.html">Parameter</a> Element, 
 <a href="elements/ParameterGroup.html">ParameterGroup</a> Element
 </td>
@@ -784,6 +837,10 @@
 <td><a href="elements/Style.html">Style</a> Element
 </td>
 
+<tr><td>horizontalAlign</td>
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure
+</td>
+
 <tr><td>iconFile</td>
 <td><a href="elements/ReportDesign.html">ReportDesign</a> Element
 </td>
@@ -801,7 +858,7 @@
 </td>
 
 <tr><td>images</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>includeResource</td>
@@ -818,6 +875,10 @@
 
 <tr><td>inputDataSets</td>
 <td><a href="elements/DerivedDataSet.html">DerivedDataSet</a> Element
+</td>
+
+<tr><td>internalDimensionRef</td>
+<td><a href="elements/TabularDimension.html">TabularDimension</a> Element
 </td>
 
 <tr><td>interval</td>
@@ -878,7 +939,8 @@
 </td>
 
 <tr><td>isVisible</td>
-<td><a href="structs/UserProperty.html">UserProperty</a> Structure
+<td><a href="elements/DataSet.html">DataSet</a> Element, 
+<a href="structs/UserProperty.html">UserProperty</a> Structure
 </td>
 
 <tr><td>joinConditions</td>
@@ -955,7 +1017,7 @@
 </td>
 
 <tr><td>libraries</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>lineHeight</td>
@@ -973,6 +1035,7 @@
 <tr><td>locale</td>
 <td><a href="structs/DateFormatValue.html">DateFormatValue</a> Structure, 
 <a href="structs/DateTimeFormatValue.html">DateTimeFormatValue</a> Structure, 
+<a href="structs/FormatValue.html">FormatValue</a> Structure, 
 <a href="structs/NumberFormatValue.html">NumberFormatValue</a> Structure, 
 <a href="structs/ParameterFormatValue.html">ParameterFormatValue</a> Structure, 
 <a href="elements/ReportDesign.html">ReportDesign</a> Element, 
@@ -1010,6 +1073,10 @@
 <td><a href="elements/Style.html">Style</a> Element
 </td>
 
+<tr><td>measure</td>
+<td><a href="structs/TimeInterval.html">TimeInterval</a> Structure
+</td>
+
 <tr><td>measureExpression</td>
 <td><a href="elements/Measure.html">Measure</a> Element
 </td>
@@ -1027,6 +1094,10 @@
 <tr><td>member</td>
 <td><a href="elements/FilterConditionElement.html">FilterConditionElement</a> Element, 
 <a href="elements/SortElement.html">SortElement</a> Element
+</td>
+
+<tr><td>memberACLExpression</td>
+<td><a href="elements/Level.html">Level</a> Element
 </td>
 
 <tr><td>memberValues</td>
@@ -1072,6 +1143,7 @@
 
 <tr><td>nativeDataType</td>
 <td><a href="structs/DataSetParam.html">DataSetParam</a> Structure, 
+<a href="elements/DynamicFilterParameter.html">DynamicFilterParameter</a> Element, 
 <a href="structs/OdaDataSetParam.html">OdaDataSetParam</a> Structure, 
 <a href="structs/OdaLevelAttribute.html">OdaLevelAttribute</a> Structure, 
 <a href="structs/OdaResultSetColumn.html">OdaResultSetColumn</a> Structure, 
@@ -1132,6 +1204,10 @@
 </td>
 
 <tr><td>orphans</td>
+<td><a href="elements/Style.html">Style</a> Element
+</td>
+
+<tr><td>overflow</td>
 <td><a href="elements/Style.html">Style</a> Element
 </td>
 
@@ -1205,6 +1281,7 @@
 <tr><td>pattern</td>
 <td><a href="structs/DateFormatValue.html">DateFormatValue</a> Structure, 
 <a href="structs/DateTimeFormatValue.html">DateTimeFormatValue</a> Structure, 
+<a href="structs/FormatValue.html">FormatValue</a> Structure, 
 <a href="structs/NumberFormatValue.html">NumberFormatValue</a> Structure, 
 <a href="structs/ParameterFormatValue.html">ParameterFormatValue</a> Structure, 
 <a href="structs/StringFormatValue.html">StringFormatValue</a> Structure, 
@@ -1239,7 +1316,7 @@
 </td>
 
 <tr><td>propertyBindings</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>propertyMasks</td>
@@ -1316,6 +1393,10 @@
 
 <tr><td>rightMargin</td>
 <td><a href="elements/MasterPage.html">MasterPage</a> Element
+</td>
+
+<tr><td>rowACLExpression</td>
+<td><a href="elements/DataSet.html">DataSet</a> Element
 </td>
 
 <tr><td>rowFetchLimit</td>
@@ -1444,7 +1525,7 @@
 </td>
 
 <tr><td>subject</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>summary</td>
@@ -1488,6 +1569,10 @@
 <a href="structs/TOCStructure.html">TOCStructure</a> Structure
 </td>
 
+<tr><td>textFormat</td>
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure
+</td>
+
 <tr><td>textID</td>
 <td><a href="elements/Label.html">Label</a> Element
 </td>
@@ -1523,7 +1608,7 @@
 </td>
 
 <tr><td>theme</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>thumbnail</td>
@@ -1567,8 +1652,12 @@
 <td><a href="elements/Image.html">Image</a> Element
 </td>
 
+<tr><td>unit</td>
+<td><a href="structs/TimeInterval.html">TimeInterval</a> Structure
+</td>
+
 <tr><td>units</td>
-<td><a href="elements/Module.html">Module</a> Element
+<td><a href="elements/LayoutModule.html">LayoutModule</a> Element
 </td>
 
 <tr><td>uri</td>
@@ -1577,7 +1666,8 @@
 </td>
 
 <tr><td>userProperties</td>
-<td><a href="elements/DesignElement.html">DesignElement</a> Element
+<td><a href="elements/DesignElement.html">DesignElement</a> Element, 
+<a href="elements/FilterConditionElement.html">FilterConditionElement</a> Element
 </td>
 
 <tr><td>value</td>
@@ -1659,6 +1749,10 @@
 
 <tr><td>wordSpacing</td>
 <td><a href="elements/Style.html">Style</a> Element
+</td>
+
+<tr><td>wordWrap</td>
+<td><a href="structs/ColumnHint.html">ColumnHint</a> Structure
 </td>
 
 <tr><td>x</td>

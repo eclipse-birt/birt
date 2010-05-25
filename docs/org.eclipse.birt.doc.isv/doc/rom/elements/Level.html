@@ -39,6 +39,10 @@ Base element for level elements within a hierarchy.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-ACLExpression">ACLExpression</a></dt>
+<dd></dd>
+<dt><a href="#Property-action">action</a></dt>
+<dd></dd>
 <dt><a href="#Property-dataType">dataType</a></dt>
 <dd>Level data type property.</dd>
 <dt><a href="#Property-dateTimeFormat">dateTimeFormat</a></dt>
@@ -47,6 +51,8 @@ Base element for level elements within a hierarchy.</div>
 <dd>Date time type.</dd>
 <dt><a href="#Property-defaultValue">defaultValue</a></dt>
 <dd>Default value expression applied on this level.</dd>
+<dt><a href="#Property-format">format</a></dt>
+<dd></dd>
 <dt><a href="#Property-interval">interval</a></dt>
 <dd>When creating intervals, this property allows grouping on a range
 of contiguous values.</dd>
@@ -57,6 +63,8 @@ data is divided into groups.</dd>
 <dd>Number of contiguous groups to merge to create a single group.</dd>
 <dt><a href="#Property-levelType">levelType</a></dt>
 <dd>Type of the level.</dd>
+<dt><a href="#Property-memberACLExpression">memberACLExpression</a></dt>
+<dd></dd>
 <dt><a href="#Property-staticValues">staticValues</a></dt>
 <dd>Series of rules applied on this level.</dd>
 </dl>
@@ -89,6 +97,70 @@ expression defined on the level could be dynamic reference to a dataset,
 also it could be static that user defined on the level by a value list.</p></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-ACLExpression">ACLExpression Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>ACL expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-action">action Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../structs/Action.html">Action</a> Structure</td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Action</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-dataType">dataType Property</a></h2>
 
 <p class="section-text">Level data type property.</p>
@@ -333,6 +405,36 @@ time. This is used to speed up the performance.</p></div>
 <p>This property defines.</p></div>
 
 <hr>
+<h2><a name="Property-format">format Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../structs/FormatValue.html">FormatValue</a> Structure</td></tr>
+<tr><td>Since:</td>
+<td>2.6</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Format</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-interval">interval Property</a></h2>
 
 <p class="section-text">When creating intervals, this property allows grouping on a range
@@ -552,6 +654,40 @@ attribute on it to do filter operation on the query result from data
 base. If the level is mirrored, you can define a list of rules as static
 values to do mirroring and set an BIRT expression as the default value,
 which is used as default during mirroring.</p></div>
+
+<hr>
+<h2><a name="Property-memberACLExpression">memberACLExpression Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Member ACL expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-staticValues">staticValues Property</a></h2>

@@ -95,9 +95,6 @@ If a data set does not provide parameters, you can restrict the values that the 
 <!-- JAHT 20090607  I think this topic is obsolete. Chart UI now seems to use standard BIRT UI for Hyperlink Options -->
 <description>A hyperlink can link a part of a chart to a web site, another location within the same report, or a location within a different report.
 </description>
-
-<!-- link updated JAHT 20090614 -->
-<!-- Link not in doc TRyan 20100128 topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/viewing.19.3.html" label="How to create a hyperlink that links two sections in a report"/>
 </context>
 
 <context id="ExpressionBuilder_ID" title="Expression Builder - Specify Data Definition">
@@ -344,9 +341,6 @@ You can hide, display, or customize the selected axis line and grid lines.
 <description>
 Interactivity is a response to a user action, such as clicking or moving the mouse over a chart or a part of a chart.
 </description>
-
-<!-- link updated JAHT 20090608 -->
-<!-- Link not in doc TRyan 20100128 topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/viewing.19.3.html" label="How to create a hyperlink that links two sections in a report"/>
 </context>
 
 <context id="LegendLayout_ID" title="Legend Layout">

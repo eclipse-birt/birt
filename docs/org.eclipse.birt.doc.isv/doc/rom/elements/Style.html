@@ -45,6 +45,8 @@ Describes a Style element.</div>
 <dd></dd>
 <dt><a href="#Property-backgroundImage">backgroundImage</a></dt>
 <dd></dd>
+<dt><a href="#Property-backgroundImageType">backgroundImageType</a></dt>
+<dd></dd>
 <dt><a href="#Property-backgroundPositionX">backgroundPositionX</a></dt>
 <dd></dd>
 <dt><a href="#Property-backgroundPositionY">backgroundPositionY</a></dt>
@@ -124,6 +126,8 @@ Describes a Style element.</div>
 <dt><a href="#Property-numberFormat">numberFormat</a></dt>
 <dd></dd>
 <dt><a href="#Property-orphans">orphans</a></dt>
+<dd></dd>
+<dt><a href="#Property-overflow">overflow</a></dt>
 <dd></dd>
 <dt><a href="#Property-paddingBottom">paddingBottom</a></dt>
 <dd></dd>
@@ -366,6 +370,63 @@ Describes a Style element.</div>
 <td>Background</td></tr>
 </table>
 
+
+<hr>
+<h2><a name="Property-backgroundImageType">backgroundImageType Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (imageRefType)</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Background image type</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>url</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Background</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>none</td>
+<td>No image</td>
+<td>none</td>
+<td></td></tr>
+<tr><td>url</td>
+<td>URL</td>
+<td>url</td>
+<td></td></tr>
+<tr><td>file</td>
+<td>FILE</td>
+<td>file</td>
+<td></td></tr>
+<tr><td>expr</td>
+<td>Expression</td>
+<td>expr</td>
+<td></td></tr>
+<tr><td>embed</td>
+<td>Embedded Image</td>
+<td>embed</td>
+<td></td></tr>
+</tbody></table><br>
 
 <hr>
 <h2><a name="Property-backgroundPositionX">backgroundPositionX Property</a></h2>
@@ -2583,6 +2644,59 @@ Describes a Style element.</div>
 <tr><td>inherit</td>
 <td>Inherit</td>
 <td>inherit</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-overflow">overflow Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (overflow)</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Overflow</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>hidden</td></tr>
+<tr><td>Inherited:</td>
+<td>No</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>visible</td>
+<td>Visible</td>
+<td>visible</td>
+<td></td></tr>
+<tr><td>hidden</td>
+<td>Hidden</td>
+<td>hidden</td>
+<td></td></tr>
+<tr><td>scroll</td>
+<td>Scroll</td>
+<td>scroll</td>
+<td></td></tr>
+<tr><td>auto</td>
+<td>Auto</td>
+<td>auto</td>
 <td></td></tr>
 </tbody></table><br>
 

@@ -41,10 +41,16 @@ Defines a dynamic filter parameter.</div>
 <dl class="section-text">
 <dt><a href="#Property-column">column</a></dt>
 <dd>Refers to the data set column.</dd>
+<dt><a href="#Property-controlType">controlType</a></dt>
+<dd></dd>
+<dt><a href="#Property-defaultValue">defaultValue</a></dt>
+<dd>The default value of the parameter.</dd>
 <dt><a href="#Property-displayType">displayType</a></dt>
 <dd>The display type for the parameter.</dd>
 <dt><a href="#Property-filterOperator">filterOperator</a></dt>
 <dd>Contains a set of operators.</dd>
+<dt><a href="#Property-nativeDataType">nativeDataType</a></dt>
+<dd></dd>
 </dl>
 
 <h3>Inherited Properties</h3>
@@ -54,7 +60,6 @@ Defines a dynamic filter parameter.</div>
 <a href="DesignElement.html#Property-customXml">customXml</a>, 
 <a href="AbstractScalarParameter.html#Property-dataSetName">dataSetName</a>, 
 <a href="AbstractScalarParameter.html#Property-dataType">dataType</a>, 
-<a href="AbstractScalarParameter.html#Property-defaultValue">defaultValue</a>, 
 <a href="ReportElement.html#Property-displayName">displayName</a>, 
 <a href="ReportElement.html#Property-displayNameID">displayNameID</a>, 
 <a href="AbstractScalarParameter.html#Property-distinct">distinct</a>, 
@@ -125,6 +130,100 @@ Defines a dynamic filter parameter.</div>
 <h3>See Also</h3>
 
 <div class="section-text">
+<p><code>defaultValue</code> property</p></div>
+
+<hr>
+<h2><a name="Property-controlType">controlType Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (paramControl)</td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Control type</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>list-box</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>text-box</td>
+<td>Text Box</td>
+<td>text-box</td>
+<td></td></tr>
+<tr><td>list-box</td>
+<td>Combo/List Box</td>
+<td>list-box</td>
+<td></td></tr>
+<tr><td>radio-button</td>
+<td>Radio Button</td>
+<td>radio-button</td>
+<td></td></tr>
+<tr><td>check-box</td>
+<td>Check Box</td>
+<td>check-box</td>
+<td></td></tr>
+<tr><td>auto-suggest</td>
+<td>Text Box - Auto Suggest</td>
+<td>auto-suggest</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-defaultValue">defaultValue Property</a></h2>
+
+<p class="section-text">The default value of the parameter.</p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#list">list</a></td></tr>
+<tr><td>Since:</td>
+<td>1.0</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Default value</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+<h3>Description</h3>
+
+<div class="section-text">
+<p>The default value for the parameter. The default value 
+can be an expression, but cannot reference any other parameters.</p>
+
 <p>&nbsp;</p></div>
 
 <hr>
@@ -209,5 +308,35 @@ Defines a dynamic filter parameter.</div>
 
 <div class="section-text">
 <p>Contains a set of operators.</p></div>
+
+<hr>
+<h2><a name="Property-nativeDataType">nativeDataType Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#integer">integer</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5.1</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Native data type</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
 </body>
 </html>

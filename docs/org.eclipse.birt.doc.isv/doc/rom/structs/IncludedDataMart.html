@@ -9,6 +9,8 @@
 <p class="title">Eclipse BIRT Report Object Model (ROM)</p>
 <p class="subtitle">IncludedDataMart Structure</p>
 <h1>Structure Overview</h1>
+<div class="section-text">
+Link to a dataMart used by the report design with a namespace.</div>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -22,16 +24,21 @@
 
 <dl class="section-text">
 <dt><a href="#Property-fileName">fileName</a></dt>
-<dd></dd>
+<dd>File name of the dataMart.</dd>
 <dt><a href="#Property-namespace">namespace</a></dt>
-<dd></dd>
+<dd>Name space of the dataMart.</dd>
 </dl>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Report design can include a number of dataMarts, dataMart is a reusable component with a number of predefined data elements. 
+Included dataMart structure is used to supply a link to the dataMart file and a namespace that is unique to each included dataMarts.</p></div>
 <h1>Property Detail</h1>
 
 <h2><a name="Property-fileName">fileName Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">File name of the dataMart.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -51,11 +58,15 @@
 <td>Yes</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>File name of the dataMart that is included, it can either in absolute or relative path.</p></div>
 
 <hr>
 <h2><a name="Property-namespace">namespace Property</a></h2>
 
-<p class="section-text"></p>
+<p class="section-text">Name space of the dataMart.</p>
 <h3>Details</h3>
 
 <table class="detail-table">
@@ -75,5 +86,9 @@
 <td>Yes</td></tr>
 </table>
 
+<h3>Description</h3>
+
+<div class="section-text">
+<p>Name space is unique to each included dataMart,data elements inside a dataMart is referenced using the namespace prefix.</p></div>
 </body>
 </html>

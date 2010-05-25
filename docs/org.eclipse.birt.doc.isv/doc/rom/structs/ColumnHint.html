@@ -24,12 +24,22 @@ report-related data attributes about a result set column.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-ACLExpression">ACLExpression</a></dt>
+<dd></dd>
+<dt><a href="#Property-action">action</a></dt>
+<dd></dd>
 <dt><a href="#Property-alias">alias</a></dt>
 <dd>Provides an &quot;alias&quot; name to the column for use within the report.</dd>
 <dt><a href="#Property-analysis">analysis</a></dt>
 <dd>Determines how the column is used when exporting the data to an OLAP cube.</dd>
 <dt><a href="#Property-columnName">columnName</a></dt>
 <dd>The name of the result set column for which hints are defined.</dd>
+<dt><a href="#Property-description">description</a></dt>
+<dd></dd>
+<dt><a href="#Property-descriptionID">descriptionID</a></dt>
+<dd></dd>
+<dt><a href="#Property-displayLength">displayLength</a></dt>
+<dd></dd>
 <dt><a href="#Property-displayName">displayName</a></dt>
 <dd>The optional localizable display name for the column.</dd>
 <dt><a href="#Property-displayNameID">displayNameID</a></dt>
@@ -38,9 +48,15 @@ report-related data attributes about a result set column.</div>
 <dd>Determines how the column will be used when exporting data.</dd>
 <dt><a href="#Property-format">format</a></dt>
 <dd>The format string used to format the column data when displaying the value in the search result UI.</dd>
+<dt><a href="#Property-heading">heading</a></dt>
+<dd></dd>
+<dt><a href="#Property-headingID">headingID</a></dt>
+<dd></dd>
 <dt><a href="#Property-helpText">helpText</a></dt>
 <dd>The optional localizable descriptive text that explains the column to the end user.</dd>
 <dt><a href="#Property-helpTextID">helpTextID</a></dt>
+<dd></dd>
+<dt><a href="#Property-horizontalAlign">horizontalAlign</a></dt>
 <dd></dd>
 <dt><a href="#Property-onColumnLayout">onColumnLayout</a></dt>
 <dd></dd>
@@ -48,6 +64,10 @@ report-related data attributes about a result set column.</div>
 <dd>Specifies the parent of the column when exporting the data to an OLAP cube.</dd>
 <dt><a href="#Property-searching">searching</a></dt>
 <dd>Indicates how the column will be used when searching.</dd>
+<dt><a href="#Property-textFormat">textFormat</a></dt>
+<dd></dd>
+<dt><a href="#Property-wordWrap">wordWrap</a></dt>
+<dd></dd>
 </dl>
 
 <h3>Description</h3>
@@ -57,6 +77,58 @@ report-related data attributes about a result set column.</div>
 about a retrieved column or a computed column.</p></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-ACLExpression">ACLExpression Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>ACL expression	</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-action">action Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../structs/Action.html">Action</a> Structure</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Action</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-alias">alias Property</a></h2>
 
 <p class="section-text">Provides an &quot;alias&quot; name to the column for use within the report.</p>
@@ -170,6 +242,78 @@ use with analysis depends on the Export property above.</p></div>
 <p>This property keys the column hint to a column within the 
 result set. The name is defined either by the data provider, a result set column 
 definition, or a computed column definition. </p></div>
+
+<hr>
+<h2><a name="Property-description">description Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Description</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-descriptionID">descriptionID Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#resourceKey">resourceKey</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Description Resource Key</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-displayLength">displayLength Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#integer">integer</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Display Length</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
 
 <hr>
 <h2><a name="Property-displayName">displayName Property</a></h2>
@@ -311,6 +455,54 @@ results.</p></div>
 <p>Style <code>format</code> properties</p></div>
 
 <hr>
+<h2><a name="Property-heading">heading Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#string">string</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Heading</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-headingID">headingID Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#resourceKey">resourceKey</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Heading Resource Key</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-helpText">helpText Property</a></h2>
 
 <p class="section-text">The optional localizable descriptive text that explains the column to the end user.</p>
@@ -363,6 +555,53 @@ The help text can be localized.</p></div>
 <td>Yes</td></tr>
 </table>
 
+
+<hr>
+<h2><a name="Property-horizontalAlign">horizontalAlign Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (textAlign)</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Horizontal Alignment        </td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>left</td>
+<td>Left</td>
+<td>left</td>
+<td></td></tr>
+<tr><td>center</td>
+<td>Center</td>
+<td>center</td>
+<td></td></tr>
+<tr><td>right</td>
+<td>Right</td>
+<td>right</td>
+<td></td></tr>
+<tr><td>justify</td>
+<td>Justify</td>
+<td>justify</td>
+<td></td></tr>
+</tbody></table><br>
 
 <hr>
 <h2><a name="Property-onColumnLayout">onColumnLayout Property</a></h2>
@@ -467,5 +706,92 @@ column is a detail attribute.</p></div>
 
 <div class="section-text">
 <p>Indicates how the column will be used when searching.</p></div>
+
+<hr>
+<h2><a name="Property-textFormat">textFormat Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#choice">choice</a> (stringFormat)</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Text Format</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
+<h3>Choices</h3>
+
+<table class="section-table">
+<thead><tr><td>Name</td><td>Display Name</td>
+<td>Value</td><td>Description</td></tr></thead>
+<tbody>
+<tr><td>Unformatted</td>
+<td>Unformatted</td>
+<td>Unformatted</td>
+<td></td></tr>
+<tr><td>></td>
+<td>Uppercase</td>
+<td>></td>
+<td></td></tr>
+<tr><td><</td>
+<td>Lowercase</td>
+<td><</td>
+<td></td></tr>
+<tr><td>Zip Code</td>
+<td>Zip Code</td>
+<td>Zip Code</td>
+<td></td></tr>
+<tr><td>Zip Code + 4</td>
+<td>Zip Code + 4</td>
+<td>Zip Code + 4</td>
+<td></td></tr>
+<tr><td>Phone Number</td>
+<td>Phone Number</td>
+<td>Phone Number</td>
+<td></td></tr>
+<tr><td>Social Security Number</td>
+<td>Social Security Number</td>
+<td>Social Security Number</td>
+<td></td></tr>
+<tr><td>Custom</td>
+<td>Custom</td>
+<td>Custom</td>
+<td></td></tr>
+</tbody></table><br>
+
+<hr>
+<h2><a name="Property-wordWrap">wordWrap Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Word Wrap</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>No</td></tr>
+</table>
+
 </body>
 </html>

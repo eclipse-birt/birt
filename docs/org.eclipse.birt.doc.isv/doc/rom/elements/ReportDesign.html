@@ -21,7 +21,7 @@ The report design element represents report as a whole.</div>
 <tr><td>XML Element:</td>
 <td><code>report</code></td></tr>
 <tr><td>Extends:</td>
-<td><a href="Module.html">Module</a></td></tr>
+<td><a href="LayoutModule.html">LayoutModule</a></td></tr>
 <tr><td>Extendable:</td>
 <td>No</td></tr>
 <tr><td>Abstract:</td>
@@ -91,8 +91,6 @@ The report design element represents report as a whole.</div>
 <dt><a href="#Method-initialize">initialize</a></dt>
 <dd>Called when the report starts executing in either the 
 Factory or Presentation engine.</dd>
-<dt><a href="#Method-onContentUpdate">onContentUpdate</a></dt>
-<dd></dd>
 <dt><a href="#Method-onPageEnd">onPageEnd</a></dt>
 <dd></dd>
 <dt><a href="#Method-onPageStart">onPageStart</a></dt>
@@ -129,25 +127,25 @@ items can extend these items. Defines a &quot;private library&quot; for this des
 
 <p class="section-text">
 <a href="Module.html#Property-author">author</a>, 
-<a href="Module.html#Property-base">base</a>, 
-<a href="Module.html#Property-colorPalette">colorPalette</a>, 
+<a href="LayoutModule.html#Property-base">base</a>, 
+<a href="LayoutModule.html#Property-colorPalette">colorPalette</a>, 
 <a href="Module.html#Property-comments">comments</a>, 
-<a href="Module.html#Property-configVars">configVars</a>, 
+<a href="LayoutModule.html#Property-configVars">configVars</a>, 
 <a href="Module.html#Property-createdBy">createdBy</a>, 
 <a href="Module.html#Property-description">description</a>, 
 <a href="Module.html#Property-descriptionID">descriptionID</a>, 
-<a href="Module.html#Property-helpGuide">helpGuide</a>, 
-<a href="Module.html#Property-images">images</a>, 
+<a href="LayoutModule.html#Property-helpGuide">helpGuide</a>, 
+<a href="LayoutModule.html#Property-images">images</a>, 
 <a href="Module.html#Property-includeResource">includeResource</a>, 
 <a href="Module.html#Property-includeScripts">includeScripts</a>, 
-<a href="Module.html#Property-libraries">libraries</a>, 
-<a href="Module.html#Property-propertyBindings">propertyBindings</a>, 
+<a href="LayoutModule.html#Property-libraries">libraries</a>, 
+<a href="LayoutModule.html#Property-propertyBindings">propertyBindings</a>, 
 <a href="Module.html#Property-scriptLibs">scriptLibs</a>, 
-<a href="Module.html#Property-subject">subject</a>, 
-<a href="Module.html#Property-theme">theme</a>, 
+<a href="LayoutModule.html#Property-subject">subject</a>, 
+<a href="LayoutModule.html#Property-theme">theme</a>, 
 <a href="Module.html#Property-title">title</a>, 
 <a href="Module.html#Property-titleID">titleID</a>, 
-<a href="Module.html#Property-units">units</a>
+<a href="LayoutModule.html#Property-units">units</a>
 </p>
 <h3>Description</h3>
 
@@ -1000,29 +998,6 @@ not visa-versa. This is the generally accepted meaning of an include.</p></div>
 <div class="section-text">
 <p>Report Design <code>beforeFactory</code> method</p>
 <p>Report Design <code>beforeRender</code> method</p></div>
-
-<hr>
-<h2><a name="Method-onContentUpdate">onContentUpdate Method</a></h2>
-
-<p class="section-text"></p>
-<h3>Synopsis
-</h3>
-
-<p class="section-text"><code>None&nbsp;obj.onContentUpdate(&nbsp;)</code></p>
-<h3>Details
-</h3>
-
-<table class="detail-table">
-<tr><td>Since:</td>
-<td>2.5</td></tr>
-<tr><td>Context:</td>
-<td>client</td></tr>
-<tr><td>Arguments:</td>
-<td>None</td></tr>
-<tr><td>Return Type:</td>
-<td>None</td></tr>
-</table>
-
 
 <hr>
 <h2><a name="Method-onPageEnd">onPageEnd Method</a></h2>

@@ -39,6 +39,8 @@ Parent of simple data set and joint data set.</div>
 <h3>Property Summary</h3>
 
 <dl class="section-text">
+<dt><a href="#Property-ACLExpression">ACLExpression</a></dt>
+<dd></dd>
 <dt><a href="#Property-cachedMetaData">cachedMetaData</a></dt>
 <dd>Cached derived data attributes of a data set.</dd>
 <dt><a href="#Property-columnHints">columnHints</a></dt>
@@ -47,11 +49,15 @@ Parent of simple data set and joint data set.</div>
 <dd>User-defined columns in the result set.</dd>
 <dt><a href="#Property-filter">filter</a></dt>
 <dd>An optional set of filters to apply to the result set before any other data transforms.</dd>
+<dt><a href="#Property-isVisible">isVisible</a></dt>
+<dd></dd>
 <dt><a href="#Property-needsCache">needsCache</a></dt>
 <dd></dd>
 <dt><a href="#Property-parameters">parameters</a></dt>
 <dd>Defines the data access attributes of the list of input and/or output parameters.</dd>
 <dt><a href="#Property-resultSetHints">resultSetHints</a></dt>
+<dd></dd>
+<dt><a href="#Property-rowACLExpression">rowACLExpression</a></dt>
 <dd></dd>
 <dt><a href="#Property-rowFetchLimit">rowFetchLimit</a></dt>
 <dd></dd>
@@ -80,6 +86,40 @@ Parent of simple data set and joint data set.</div>
 <p></p></div>
 <h1>Property Detail</h1>
 
+<h2><a name="Property-ACLExpression">ACLExpression Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>ACL expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-cachedMetaData">cachedMetaData Property</a></h2>
 
 <p class="section-text">Cached derived data attributes of a data set.</p>
@@ -273,6 +313,36 @@ scripting variable.</p></div>
 property</p></div>
 
 <hr>
+<h2><a name="Property-isVisible">isVisible Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#boolean">boolean</a></td></tr>
+<tr><td>Since:</td>
+<td>2.5</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Visible</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>true</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
 <h2><a name="Property-needsCache">needsCache Property</a></h2>
 
 <p class="section-text"></p>
@@ -366,6 +436,40 @@ property</p></div>
 <td>Yes</td></tr>
 <tr><td>Property Sheet Visibility:</td>
 <td>Hidden</td></tr>
+<tr><td>Property Sheet Group:</td>
+<td>Top</td></tr>
+</table>
+
+
+<hr>
+<h2><a name="Property-rowACLExpression">rowACLExpression Property</a></h2>
+
+<p class="section-text"></p>
+<h3>Details</h3>
+
+<table class="detail-table">
+<tr><td>Type:</td>
+<td><a href="../types.html#expression">expression</a></td></tr>
+<tr><td>Context:</td>
+<td></td></tr>
+<tr><td>Expression Type:</td>
+<td>None</td></tr>
+<tr><td>Since:</td>
+<td>2.5.2</td></tr>
+<tr><td>Required:</td>
+<td>No</td></tr>
+<tr><td>Display Name:</td>
+<td>Row ACL expression</td></tr>
+<tr><td>JavaScript Type:</td>
+<td></td></tr>
+<tr><td>Default Value:</td>
+<td>None</td></tr>
+<tr><td>Inherited:</td>
+<td>Yes</td></tr>
+<tr><td>Runtime Settable:</td>
+<td>Yes</td></tr>
+<tr><td>Property Sheet Visibility:</td>
+<td>Visible</td></tr>
 <tr><td>Property Sheet Group:</td>
 <td>Top</td></tr>
 </table>
