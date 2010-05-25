@@ -177,7 +177,7 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage
 		primaryKeyLabel = new Label( container, SWT.WRAP );
 		data = new GridData(SWT.FILL, SWT.NONE, false, false);
 		data.horizontalSpan = 2;
-		data.widthHint = 500;
+		data.widthHint = 400;
 		primaryKeyLabel.setLayoutData( data );
 		primaryKeyLabel.setText( Messages.getString( "DatasetSelectionPage.Label.Auto.Primary.Key" ) ); //$NON-NLS-1$
 
@@ -198,7 +198,7 @@ public class DatasetSelectionPage extends AbstractCubePropertyPage
 		primaryKeyHint = new Label( container, SWT.WRAP );
 		data = new GridData(SWT.FILL, SWT.NONE, false, false);
 		data.horizontalSpan = 3;
-		data.widthHint = 500;
+		data.widthHint = 400;
 		primaryKeyHint.setLayoutData( data );
 		primaryKeyHint.setText( Messages.getString( "DatasetSelectionPage.Text.Auto.Primary.Key" ) ); //$NON-NLS-1$
 		primaryKeyHint.setForeground( ColorManager.getColor( 128, 128, 128 ) );

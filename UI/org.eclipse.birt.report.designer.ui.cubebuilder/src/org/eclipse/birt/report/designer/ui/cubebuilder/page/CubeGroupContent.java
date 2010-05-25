@@ -319,7 +319,7 @@ public class CubeGroupContent extends Composite implements Listener
 		groupViewer.getTree( )
 				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		( (GridData) groupViewer.getTree( ).getLayoutData( ) ).heightHint = 250;
-		( (GridData) groupViewer.getTree( ).getLayoutData( ) ).widthHint = 250;
+		( (GridData) groupViewer.getTree( ).getLayoutData( ) ).widthHint = 200;
 		groupViewer.setLabelProvider( getCubeLabelProvider( ) );
 		groupViewer.setContentProvider( new CubeContentProvider( ) );
 		groupViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
@@ -1205,7 +1205,7 @@ public class CubeGroupContent extends Composite implements Listener
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		dataFieldsViewer.getTree( ).setLayoutData( gd );
 		( (GridData) dataFieldsViewer.getTree( ).getLayoutData( ) ).heightHint = 250;
-		( (GridData) dataFieldsViewer.getTree( ).getLayoutData( ) ).widthHint = 225;
+		( (GridData) dataFieldsViewer.getTree( ).getLayoutData( ) ).widthHint = 200;
 		dataFieldsViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
 			public void selectionChanged( SelectionChangedEvent event )
