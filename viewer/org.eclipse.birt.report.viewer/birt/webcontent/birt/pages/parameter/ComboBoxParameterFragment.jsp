@@ -89,7 +89,9 @@
 			CLASS="birtviewer_parameter_dialog_Select"
 			birtParameterType="combobox" 
 			<%= !CHECKED ? "DISABLED='true'" : "" %> 
-			<%=  allowMultiValue? "multiple='true'" : "" %> >
+			<%=  allowMultiValue? "multiple='true'" : "" %>
+			<%= ( !parameterBean.allowNewValues( ) && parameterBean.isRequired( ) ) ? "aria-required='true'" : "" %>
+		    >
 <%
 	if ( parameterBean.getSelectionList( ) != null )
 	{

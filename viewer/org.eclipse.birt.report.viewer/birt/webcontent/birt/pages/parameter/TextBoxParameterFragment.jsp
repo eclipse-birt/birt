@@ -67,6 +67,7 @@
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getDisplayText( ) == null )? "" : parameterBean.getDisplayText( ) ) %>" 
 			<%= ( !parameterBean.isRequired( ) && parameterBean.getValue( ) == null )? "DISABLED='true'" : "" %>
+			<%= parameterBean.isRequired( ) ? "aria-required='true'" : "" %>
             >
 
 		<INPUT TYPE="HIDDEN"
