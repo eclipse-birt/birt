@@ -112,13 +112,16 @@ public class IDEOpenSampleReportAction extends Action implements
 	{
 		TreeItem item = (TreeItem) composite.getSelectedElement( );
 		final Object selectedElement = item.getData( );
-		if ( selectedElement == null || !( selectedElement instanceof ReportDesignHandle ) )
+		if ( selectedElement == null
+				|| !( selectedElement instanceof ReportDesignHandle ) )
 			return;
 
 		/*
 		 * 1.Create a report project
 		 */
-		if ( item.getParentItem( ).getText( ).equals( DRILL_TO_DETAILS_CATEGORY ) )
+		if ( item.getParentItem( )
+				.getText( )
+				.equals( DRILL_TO_DETAILS_CATEGORY ) )
 		{
 			reportProject = createProject( DRILL_TO_DETAILS_CATEGORY, false );
 
@@ -153,18 +156,21 @@ public class IDEOpenSampleReportAction extends Action implements
 				{
 					ExceptionUtil.handle( e );
 				}
-			}
 
-			Enumeration enumeration = SampleIncludedSourceEntry.getJavaObjects( );
-			while ( enumeration.hasMoreElements( ) )
-			{
-				URL javaObjectURL = (URL) enumeration.nextElement( );
-				String filename = javaObjectURL.getFile( );
-				String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
+				Enumeration enumeration = SampleIncludedSourceEntry.getJavaObjects( );
+				while ( enumeration.hasMoreElements( ) )
+				{
+					URL javaObjectURL = (URL) enumeration.nextElement( );
+					String filename = javaObjectURL.getFile( );
+					String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
 
-				PlaceResources.copy( composite.getShell( ), reportProject.getFolder( "src" ) //$NON-NLS-1$
-						.getLocation( )
-						.toOSString( ), desFileName, javaObjectURL );
+					PlaceResources.copy( composite.getShell( ),
+							reportProject.getFolder( "src" ) //$NON-NLS-1$
+									.getLocation( )
+									.toOSString( ),
+							desFileName,
+							javaObjectURL );
+				}
 			}
 		}
 		else
@@ -186,7 +192,9 @@ public class IDEOpenSampleReportAction extends Action implements
 					false );
 		}
 		else
+		{
 			return;
+		}
 
 		/*
 		 * 3.Refresh the report project
@@ -303,11 +311,12 @@ public class IDEOpenSampleReportAction extends Action implements
 					IDialogConstants.PROCEED_LABEL,
 					Messages.getString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText" ),
 					IDialogConstants.CANCEL_LABEL
-			}		;
+			};
 			MessageDialog messageDlg = new MessageDialog( UIUtil.getDefaultShell( ),
 					Messages.getString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title" ),
 					null,
-					Messages.getFormattedString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message", buttonLabels),
+					Messages.getFormattedString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message",
+							buttonLabels ),
 					MessageDialog.INFORMATION,
 					buttonLabels,
 					0 );
@@ -346,7 +355,8 @@ public class IDEOpenSampleReportAction extends Action implements
 		if ( isJavaProject == true )
 		{
 			String[] natures = new String[]{
-					JavaCore.NATURE_ID, "org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
+					JavaCore.NATURE_ID,
+					"org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
 			};
 			description.setNatureIds( natures );
 			addJavaBuildSpec( description );
@@ -354,7 +364,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		else
 		{
 			String[] natures = new String[]{
-					"org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
+				"org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
 			};
 			description.setNatureIds( natures );
 		}
@@ -551,7 +561,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		{
 			super.setEnabled( false );
 			return;
-		}			
+		}
 		Object selectedElement = item.getData( );
 		if ( selectedElement == null )
 			super.setEnabled( false );
