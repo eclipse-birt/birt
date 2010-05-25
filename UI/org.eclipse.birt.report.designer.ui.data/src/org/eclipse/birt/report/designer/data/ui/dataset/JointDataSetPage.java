@@ -780,10 +780,12 @@ public class JointDataSetPage extends WizardPage
 			}
 			
 			//parameter count decreasing case
-			while ( i < dsParameterHandle.getListValue( ).size( ) )
-			{
-				dsParameterHandle.removeItem( dsParameterHandle.getListValue( ).size( ) - 1 );
-			}
+			if ( dsParameterHandle.getListValue( ) != null )
+				while ( i < dsParameterHandle.getListValue( ).size( ) )
+				{
+					dsParameterHandle.removeItem( dsParameterHandle.getListValue( )
+							.size( ) - 1 );
+				}
 			
 			//parameter count increasing case
 			for (; i<params.size( ); i++)
