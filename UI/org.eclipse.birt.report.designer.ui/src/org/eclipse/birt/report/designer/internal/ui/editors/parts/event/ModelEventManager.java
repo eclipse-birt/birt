@@ -85,7 +85,7 @@ public class ModelEventManager implements Listener
 			{
 				if ( ( (IModelEventFilter) filter ).filterModelEvent( focus, ev ) )
 				{
-					return;
+					continue;
 				}
 			}
 			processor.addElementEvent( focus, ev );
