@@ -56,6 +56,7 @@ import org.eclipse.swt.custom.BidiSegmentEvent;
 import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
@@ -66,6 +67,8 @@ import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MenuDetectEvent;
@@ -86,7 +89,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -109,6 +111,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private ComboViewer filterComboViewer = null;
 	private Combo schemaCombo = null;
 	private Menu treeMenu = null;
+	private ScrolledComposite sComposite;
+	private Composite tablescomposite;
 
 	private Label schemaLabel = null;
 	private Tree availableDbObjectsTree = null;
@@ -276,9 +280,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		Control left = createDBMetaDataSelectionComposite( pageContainer );
 		Control right = createTextualQueryComposite( pageContainer );
 		setWidthHints( pageContainer, left, right );
+		
 		return pageContainer;
 	}
-
+	
 	/**
 	 * @param pageContainer
 	 * @param left
@@ -314,18 +319,56 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 */
 	private Control createDBMetaDataSelectionComposite( Composite parent )
 	{
+		sComposite = new ScrolledComposite( parent, SWT.H_SCROLL
+				| SWT.V_SCROLL );
+		sComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		sComposite.setExpandHorizontal( true );
+		sComposite.setExpandVertical( true );
+		sComposite.addControlListener( new ControlAdapter( ) {
+
+			public void controlResized( ControlEvent e )
+			{
+				computeSize( );
+			}
+		} );
+		
 		boolean supportsSchema = JdbcMetaDataProvider.getInstance( )
 				.isSupportSchema( );
 		boolean supportsProcedure = JdbcMetaDataProvider.getInstance( )
 				.isSupportProcedure( );
-		Composite tablescomposite = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+		
+		tablescomposite = new Composite( sComposite, SWT.NONE );
 
-		tablescomposite.setLayout( layout );
-		GridData data = new GridData( GridData.FILL_VERTICAL );
+		tablescomposite.setLayout( new GridLayout( ) );
+		GridData data = new GridData( GridData.FILL_BOTH );
 		data.grabExcessVerticalSpace = true;
 		tablescomposite.setLayoutData( data );
 
+		createDBObjectTree( tablescomposite );
+
+		createSchemaFilterComposite( supportsSchema,
+				supportsProcedure,
+				tablescomposite );
+
+		createSQLOptionGroup( tablescomposite );
+
+		addDragSupportToTree( );
+		// bidi_hcg: pass value of metadataBidiFormatStr
+		addFetchDbObjectListener( metadataBidiFormatStr );
+		
+		sComposite.setContent( tablescomposite );
+
+		return tablescomposite;
+	}
+
+	private void computeSize( )
+	{
+		sComposite.setMinSize( tablescomposite.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+		tablescomposite.layout( );
+	}
+	
+	private void createDBObjectTree( Composite tablescomposite )
+	{
 		// Available Items
 		Label dataSourceLabel = new Label( tablescomposite, SWT.LEFT );
 		dataSourceLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.availableItems" ) );//$NON-NLS-1$
@@ -362,19 +405,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				insertTreeItemText( );
 			}
 		} );
-
-		createObjectTreeMenu( );
-
-		createSchemaFilterComposite( supportsSchema,
-				supportsProcedure,
-				tablescomposite );
-
-		createSQLOptionGroup( tablescomposite );
-
-		addDragSupportToTree( );
-		// bidi_hcg: pass value of metadataBidiFormatStr
-		addFetchDbObjectListener( metadataBidiFormatStr );
-		return tablescomposite;
 	}
 
 	private void createObjectTreeMenu( )
