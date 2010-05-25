@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -74,19 +75,37 @@ public class RootArea extends BlockContainerArea
 	public void initialize( ) throws BirtException
 	{
 		IPageContent pageContent = (IPageContent) content;
-		
-		if ( context.isAutoPageBreak( )
-				&& !context.isReserveDocumentPageNumbers( ) )
+
+		if ( context.getEngineTaskType( ) == IEngineTask.TASK_RENDER )
 		{
-			context.setPageNumber( context.getPageNumber( ) + 1 );
-			pageContent = createPageContent( pageContent );
+			if ( context.isReserveDocumentPageNumbers( ) )
+			{
+				long number = pageContent.getPageNumber( );
+				if ( number > 0 )
+				{
+					context.setPageNumber( number );
+				}
+			}
+			else
+			{
+				context.setPageNumber( context.getPageNumber( ) + 1 );
+				pageContent = createPageContent( pageContent );
+			}
 		}
 		else
 		{
-			long number = pageContent.getPageNumber( );
-			if ( number > 0 )
+			if ( context.isAutoPageBreak( ) )
 			{
-				context.setPageNumber( number );
+				context.setPageNumber( context.getPageNumber( ) + 1 );
+				pageContent = createPageContent( pageContent );
+			}
+			else
+			{
+				long number = pageContent.getPageNumber( );
+				if ( number > 0 )
+				{
+					context.setPageNumber( number );
+				}
 			}
 		}
 		
