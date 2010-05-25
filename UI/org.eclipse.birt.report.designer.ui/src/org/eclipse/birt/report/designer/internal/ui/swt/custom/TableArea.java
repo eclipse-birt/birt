@@ -26,6 +26,7 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -50,6 +51,8 @@ public class TableArea extends Composite
 
 	private Button newButton, editButton, removeButton, upButton, downButton,
 			removeAllButton;
+	private Table table;
+	private Composite buttonBar;
 
 	public TableArea( Composite parent, int tableStyle,
 			IBaseTableAreaModifier modifier )
@@ -62,11 +65,21 @@ public class TableArea extends Composite
 		createButtonBar( );
 	}
 
+	public Point computeSize( int wHint, int hHint, boolean changed )
+	{
+		checkWidget( );
+		Point tableSize = table.computeSize( wHint, hHint, changed );
+		Point buttonsSize = buttonBar.computeSize( wHint, hHint, changed );
+
+		int x = tableSize.x + buttonsSize.x + 5;
+		int y = Math.max( tableSize.y, buttonsSize.y );
+
+		return new Point( x, y );
+	}
+
 	protected void createTableViewer( int tableStyle )
 	{
-		Table table = new Table( this, tableStyle
-				| SWT.FULL_SELECTION
-				| SWT.BORDER );
+		table = new Table( this, tableStyle | SWT.FULL_SELECTION | SWT.BORDER );
 		table.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		table.setHeaderVisible( true );
 		table.setLinesVisible( true );
@@ -110,9 +123,13 @@ public class TableArea extends Composite
 
 	protected Composite createButtonBar( )
 	{
-		Composite buttonBar = new Composite( this, SWT.NONE );
+		buttonBar = new Composite( this, SWT.NONE );
 		buttonBar.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
-		buttonBar.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
+
+		GridData gd = new GridData( );
+		gd.grabExcessVerticalSpace = true;
+		gd.horizontalAlignment = SWT.FILL;
+		buttonBar.setLayoutData( gd );
 
 		if ( modifier instanceof ITableAreaModifier )
 		{
@@ -303,10 +320,10 @@ public class TableArea extends Composite
 
 	private void doRemoveAll( )
 	{
-		if(( (ITableAreaModifier) modifier ).removeItemAll( ))
+		if ( ( (ITableAreaModifier) modifier ).removeItemAll( ) )
 		{
 			tableViewer.refresh( );
-			updateButtons();
+			updateButtons( );
 		}
 
 	}

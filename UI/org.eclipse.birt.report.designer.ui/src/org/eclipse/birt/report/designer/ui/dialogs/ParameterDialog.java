@@ -907,7 +907,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		staticRadio = new Button( choiceArea, SWT.RADIO );
 		staticRadio.setText( RADIO_STATIC );
 		GridData gd = new GridData( );
-		gd.widthHint = 100;
+		gd.widthHint = Math.max( staticRadio.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT ).x, 100 );
 		gd.horizontalIndent = 40;
 		staticRadio.setLayoutData( gd );
 		staticRadio.addSelectionListener( new SelectionAdapter( ) {
@@ -931,11 +932,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 		} );
 
-		Label dummy = new Label( choiceArea, SWT.NONE );
-		dummy.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		allowMultiChoice = new Button( choiceArea, SWT.CHECK );
 		allowMultiChoice.setText( CHECK_ALLOW_MULTI );
+		gd = new GridData( );
+		gd.horizontalSpan = 2;
+		gd.horizontalAlignment = SWT.END;
+		gd.grabExcessHorizontalSpace = true;
+		allowMultiChoice.setLayoutData( gd );
 		allowMultiChoice.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -4310,6 +4314,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 
 		changeControlType( );
+
+		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		displayArea.setSize( size );
+		displayArea.getParent( ).layout( );
 	}
 
 	private void initDefaultValueViewer( )
