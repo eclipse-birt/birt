@@ -16,8 +16,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jst.common.project.facet.JavaFacetUtils;
-import org.eclipse.jst.j2ee.web.project.facet.WebFacetUtils;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.project.facet.core.IDynamicPreset;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectBase;
@@ -56,7 +54,7 @@ public class BirtFacetPresetFactory implements IPresetFactory
 			final IProjectFacet birtFacet = ProjectFacetsManager
 					.getProjectFacet( "birt.chart.runtime" ); //$NON-NLS-1$
 
-			final IProjectFacetVersion chartFacetVersion = birtFacet.getVersion( "2.5.0" ); //$NON-NLS-1$
+			final IProjectFacetVersion chartFacetVersion = birtFacet.getVersion( "2.6.0" ); //$NON-NLS-1$
 
 			facets.add( chartFacetVersion );
 			facets.add( webFacetVersion );
