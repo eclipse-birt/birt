@@ -69,9 +69,9 @@ import com.ibm.icu.util.ULocale;
 public class RenderTask extends EngineTask implements IRenderTask
 {
 
-	private IReportDocument reportDocument;
-	private IReportRunnable reportRunnable;
-	private InnerRender innerRender;
+	protected IReportDocument reportDocument;
+	protected IReportRunnable reportRunnable;
+	protected InnerRender innerRender;
 	private long outputPageCount;
 
 	private ITOCReader tocReader;
@@ -377,7 +377,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	/**
 	 * Renders a range of pages.
 	 */
-	private class PageRangeRender implements InnerRender
+	protected class PageRangeRender implements InnerRender
 	{
 
 		protected ArrayList<long[]> pageSequences;
@@ -654,7 +654,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 	}
 
-	private class ReportletRender implements InnerRender
+	protected class ReportletRender implements InnerRender
 	{
 
 		private long offset;
