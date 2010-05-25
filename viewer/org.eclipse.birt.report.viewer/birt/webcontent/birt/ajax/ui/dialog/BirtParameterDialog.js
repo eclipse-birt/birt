@@ -1692,7 +1692,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				var offsetITC = Position.cumulativeOffset( oFirstITC );
 				var offsetST = Position.cumulativeOffset( oFirstST );
 				
-				if( offsetITC > offsetST )
+				// compare y-offset first, then x-offset to determine the visual order
+				if( ( offsetITC[1] > offsetST[1] ) || ( offsetITC[1] == offsetST[1] && offsetITC[0] > offsetST[0] ) )
 				{
 					oFirstST.focus( );				
 				}
