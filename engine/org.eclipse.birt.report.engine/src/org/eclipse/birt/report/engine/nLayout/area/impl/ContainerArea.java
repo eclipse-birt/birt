@@ -989,7 +989,9 @@ public abstract class ContainerArea extends AbstractArea
 			return;
 		}
 		assert ( length > 0 );
-		if ( total > maxTotal )
+		// total may be a negative value because the sum of values is out of the
+		// limitation of java int.
+		if ( total > maxTotal || total < 0 )
 		{
 			int othersTotal = total - values[start];
 			if ( values[start] > 0 )
