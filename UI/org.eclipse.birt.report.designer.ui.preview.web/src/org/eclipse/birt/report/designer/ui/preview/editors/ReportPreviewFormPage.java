@@ -147,6 +147,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 					isDisplay = true;
 					if ( isMissingParameter( ) )
 					{
+						isPreviewing = false;
 						return false;
 					}
 				}
