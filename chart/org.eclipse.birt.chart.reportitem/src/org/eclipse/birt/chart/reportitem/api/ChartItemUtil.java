@@ -294,6 +294,42 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	}
 
 	/**
+	 * Converts the group unit from DtE's to Chart's.
+	 * 
+	 * @param groupInterval
+	 * @return
+	 * @since 2.6
+	 */
+	public static int convertToChartGroupUnit( int groupInterval )
+	{
+		switch ( groupInterval )
+		{
+			case IGroupDefinition.NO_INTERVAL :
+			case IGroupDefinition.NUMERIC_INTERVAL :
+				return -1;
+			case IGroupDefinition.SECOND_INTERVAL :
+				return GroupingUnitType.SECONDS;
+			case IGroupDefinition.MINUTE_INTERVAL :
+				return GroupingUnitType.MINUTES;
+			case IGroupDefinition.HOUR_INTERVAL :
+				return GroupingUnitType.HOURS;
+			case IGroupDefinition.DAY_INTERVAL :
+				return GroupingUnitType.DAYS;
+			case IGroupDefinition.WEEK_INTERVAL :
+				return GroupingUnitType.WEEKS;
+			case IGroupDefinition.MONTH_INTERVAL :
+				return GroupingUnitType.MONTHS;
+			case IGroupDefinition.QUARTER_INTERVAL :
+				return GroupingUnitType.QUARTERS;
+			case IGroupDefinition.YEAR_INTERVAL :
+				return GroupingUnitType.YEARS;
+			case IGroupDefinition.STRING_PREFIX_INTERVAL :
+				return GroupingUnitType.STRING_PREFIX;
+		}
+		return -1;
+	}
+	
+	/**
 	 * Convert interval range from Chart's to DtE's.
 	 * 
 	 * @param dataType
@@ -321,7 +357,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 
 		return range;
 	}
-
+	
 	/**
 	 * Convert sort direction from Chart's to DtE's.
 	 * 

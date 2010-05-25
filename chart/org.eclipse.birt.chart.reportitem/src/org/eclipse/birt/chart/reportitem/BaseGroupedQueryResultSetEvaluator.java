@@ -22,13 +22,16 @@ import org.eclipse.birt.chart.factory.AbstractGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -70,19 +73,23 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
 			.createExpressionCodec( );
 
+	protected ExtendedItemHandle itemHandle = null;
+
 	/**
 	 * Constructor.
 	 * 
-	 * @param resultSet
+	 * @param resultIterator
 	 * @param hasSummaryAggregation
 	 * @param cm
+	 * @param handle
 	 * @throws ChartException
 	 */
 	public BaseGroupedQueryResultSetEvaluator( IResultIterator resultIterator,
-			boolean hasSummaryAggregation, Chart cm ) throws ChartException
+			boolean hasSummaryAggregation, Chart cm, ExtendedItemHandle handle )
+			throws ChartException
 	{
 		fHasSummaryAggregation = hasSummaryAggregation;
-
+		itemHandle = handle;
 		fResultIterator = resultIterator;
 		fGroupDefinitions = fResultIterator.getQueryResults( )
 				.getPreparedQuery( )
@@ -120,7 +127,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			ExtendedItemHandle handle ) throws ChartException
 	{
 		fHasSummaryAggregation = hasAggregation;
-
+		itemHandle = handle;
 		fResultIterator = resultIterator;
 		if ( isSubQuery )
 		{
@@ -435,7 +442,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			List<IGroupDefinition> groupDefinitions ) throws ChartException
 	{
 		faEnabledGroups = new boolean[fGroupCount];
-
+		boolean isSharing = isSharing( );
 		// Check the category expression.
 		EList<SeriesDefinition> baseSDs = ChartUtil.getBaseSeriesDefinitions( cm );
 		for ( SeriesDefinition sd : baseSDs )
@@ -454,6 +461,12 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			if ( index >= 0 )
 			{
 				faEnabledGroups[index] = true;
+				
+				if ( isSharing && sd.getGrouping( ) != null )
+				{
+					IGroupDefinition gd = groupDefinitions.get( index );
+					setGroupingInterval( sd.getGrouping( ), gd );
+				}
 			}
 		}
 
@@ -474,7 +487,26 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			if ( index >= 0 )
 			{
 				faEnabledGroups[index] = true;
+				if ( isSharing && sd.getQuery( ) != null )
+				{
+					IGroupDefinition gd = groupDefinitions.get( index );
+					setGroupingInterval( sd.getQuery( ).getGrouping( ), gd );
+				}
 			}
+		}
+	}
+
+	/**
+	 * @param sd
+	 * @param gd
+	 */
+	private void setGroupingInterval( SeriesGrouping sg, IGroupDefinition gd )
+	{
+		GroupingUnitType gut = GroupingUnitType.get( ChartItemUtil.convertToChartGroupUnit( gd.getInterval( ) ) );
+		if ( gut != null && sg != null )
+		{
+			sg.setGroupingUnit( gut );
+			sg.setGroupingInterval( gd.getIntervalRange( ) );
 		}
 	}
 	
@@ -523,6 +555,16 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		}
 			
 		return -1;
+	}
+	
+	private boolean isSharing( )
+	{
+		if ( itemHandle == null )
+		{
+			return false;
+		}
+		return ChartItemUtil.isChartInheritGroups( itemHandle )
+				|| ( ChartItemUtil.getReportItemReference( itemHandle ) != null );
 	}
 }
 

@@ -1696,7 +1696,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				{
 					return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
 							ChartReportItemUtil.isSetSummaryAggregation( cm ),
-							cm );
+							cm, itemHandle );
 				}
 			}
 		}
@@ -2611,7 +2611,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
 						ChartReportItemUtil.isSetSummaryAggregation( cm ),
-						cm ) {
+						cm, itemHandle ) {
 
 					/*
 					 * (non-Javadoc)

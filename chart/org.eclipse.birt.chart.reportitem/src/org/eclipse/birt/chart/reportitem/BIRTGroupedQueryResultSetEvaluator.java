@@ -36,12 +36,14 @@ public class BIRTGroupedQueryResultSetEvaluator
 	 * @param resultSet
 	 * @param hasAggregation
 	 * @param cm
+	 * @param handle
 	 * @throws ChartException
 	 */
 	public BIRTGroupedQueryResultSetEvaluator( IQueryResultSet resultSet,
-			boolean hasAggregation, Chart cm ) throws ChartException
+			boolean hasAggregation, Chart cm,
+			ExtendedItemHandle handle  ) throws ChartException
 	{
-		super( resultSet.getResultIterator( ), hasAggregation, cm );
+		super( resultSet.getResultIterator( ), hasAggregation, cm, handle );
 		
 		fQueryResultSet = resultSet;
 	}
