@@ -389,7 +389,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 		for ( MemberValueHandle mvh : members )
 		{
-			if ( mvh != null )
+			if ( mvh != null && mvh.getLevel( ) == null )
 			{
 				List<IScriptExpression> targetLevels = new ArrayList<IScriptExpression>( );
 				List<List<IScriptExpression>> memberValues = new ArrayList<List<IScriptExpression>>( );
