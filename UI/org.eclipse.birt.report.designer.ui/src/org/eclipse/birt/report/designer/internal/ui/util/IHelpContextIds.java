@@ -233,7 +233,7 @@ public interface IHelpContextIds
 			+ "LevelPropertyDialog_ID"; //$NON-NLS-1$
 
 	public static final String LEVEL_STATIC_ATTRIBUTE_DIALOG = PREFIX
-			+ "LevelStaicAttributeDialog_ID"; //$NON-NLS-1$
+			+ "LevelStaticAttributeDialog_ID"; //$NON-NLS-1$
 
 	public static final String LEVEL_DYNAMIC_ATTRIBUTE_DIALOG = PREFIX
 			+ "LevelDynamicAttributeDialog_ID"; //$NON-NLS-1$
