@@ -317,6 +317,12 @@ public abstract class PropertiesProcessor implements HTMLConstants
 							DimensionType d = DimensionType.parserUnit( value );
 							if ( d != null )
 							{
+								String unit = d.getUnits( );
+								if ( unit == null || unit.length( ) == 0 )
+								{
+									d = new DimensionType( d.getMeasure( ),
+											DimensionType.UNITS_PX );
+								}
 								sp.addProperty( StyleProperties.WIDTH, d );
 							}
 						}
@@ -332,6 +338,12 @@ public abstract class PropertiesProcessor implements HTMLConstants
 							DimensionType d = DimensionType.parserUnit( value );
 							if ( d != null )
 							{
+								String unit = d.getUnits( );
+								if ( unit == null || unit.length( ) == 0 )
+								{
+									d = new DimensionType( d.getMeasure( ),
+											DimensionType.UNITS_PX );
+								}
 								sp.addProperty( StyleProperties.HEIGHT, d );
 							}
 						}
