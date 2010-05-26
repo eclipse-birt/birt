@@ -137,8 +137,7 @@ public class OdaCubeParseTest extends BaseTestCase
 		assertEquals( measureGroup, cube.getContent(
 				OdaCubeHandle.MEASURE_GROUPS_PROP, 0 ) );
 		assertEquals( "testMeasureGroup", measureGroup.getName( ) ); //$NON-NLS-1$
-		// test getDefaultMeasureGroup in cube
-		assertEquals( measureGroup, cube.getDefaultMeasureGroup( ) );
+		
 		propHandle = measureGroup
 				.getPropertyHandle( MeasureGroupHandle.MEASURES_PROP );
 
