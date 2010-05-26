@@ -1642,7 +1642,7 @@ class DataSetParameterAdapter
 			}
 
 			setDefaultScalarValue( inputElementAttrs,
-					tmpROMParam.getDataType( ), tmpROMParam
+					tmpROMParam.getParameterDataType( ), tmpROMParam
 							.getExpressionProperty(
 									DataSetParameter.DEFAULT_VALUE_MEMBER )
 							.getValue( ) );
