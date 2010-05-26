@@ -611,10 +611,19 @@
 				<exclude name=".project"/>
 			</fileset>
 		</copy>
-		
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart" failonerror="false" >
+			<fileset dir="${buildDirectory}/source/features/org.eclipse.birt.chart.feature" />   
+		</copy> 
+		<copy todir="${buildDirectory}/features/org.eclipse.birt" failonerror="false" >
+			<fileset dir="${buildDirectory}/source/features/org.eclipse.birt.feature" />   
+		</copy>
+		<copy todir="${buildDirectory}/features//org.eclipse.birt.report.designer.editor.xml.wtp" failonerror="false" >
+			<fileset dir="${buildDirectory}/source/features//org.eclipse.birt.report.designer.editor.xml.wtp.feature" />   
+		</copy>
 		<!-- copy BIRT NL plugins -->
         <ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="prepareSrc" />
-		
+		<ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="updateBatikFeature" />
+
   		<antcall target="logger">
 			<param name="message" value="Copyied all source plugins to buildDirectory/plugins/"/>
 		</antcall>
