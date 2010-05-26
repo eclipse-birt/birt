@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.type.impl;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -25,6 +26,8 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -1189,7 +1192,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return series instance
 	 */
 	public static final Series create( )
 	{
@@ -1301,6 +1304,12 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 		clockwiseESet = src.isSetClockwise( );
 
+	}
+	
+	@Override
+	public NameSet getLabelPositionScope( ChartDimension dimension )
+	{
+		return LiteralHelper.inoutPositionSet;
 	}
 
 } // PieSeriesImpl

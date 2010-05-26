@@ -150,23 +150,31 @@ public class LiteralHelper
 	public static final NameSet fullTickStyleSet = getFullTickStyleSet( );
 
 	/**
-	 * Comment for <code>horizontalPositionSet</code>
+	 * Left and Right positions
 	 */
 	public static final NameSet horizontalPositionSet = getHorizontalPositionSet( );
 	/**
-	 * Comment for <code>verticalPositionSet</code>
+	 * Above and Below positions
 	 */
 	public static final NameSet verticalPositionSet = getVerticalPositionSet( );
 	/**
-	 * Comment for <code>inoutPositionSet</code>
+	 * Horizontal and Vertical positions
+	 */
+	public static final NameSet directionPositionSet = getDirectionPositionSet( );
+	/**
+	 * Inside and Outside positions
 	 */
 	public static final NameSet inoutPositionSet = getInoutPositionSet( );
 	/**
-	 * Comment for <code>notoutPositionSet</code>
+	 * Inside and Directions positions
 	 */
 	public static final NameSet notOutPositionSet = getNotOutPositionSet( );
 	/**
-	 * Comment for <code>fullPositionSet</code>
+	 * Outside position
+	 */
+	public static final NameSet outPositionSet = getOutPositionSet( );
+	/**
+	 * Full positions
 	 */
 	public static final NameSet fullPositionSet = getFullPositionSet( );
 	/**
@@ -246,8 +254,9 @@ public class LiteralHelper
 
 	/**
 	 * Returns grouping unit types of specified data type.
+	 * 
 	 * @param dataType
-	 * @return
+	 * @return grouping unit types
 	 * @since BIRT 2.3
 	 */
 	public static NameSet getGroupingUnitTypeSet( DataType dataType )
@@ -478,6 +487,19 @@ public class LiteralHelper
 				Position.BELOW_LITERAL.getName( ),
 		} );
 	}
+	
+	private static NameSet getDirectionPositionSet( )
+	{
+		String prefix = "Position."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		return new NameSet( prefix, suffix, new String[]{
+				Position.ABOVE_LITERAL.getName( ),
+				Position.BELOW_LITERAL.getName( ),
+				Position.LEFT_LITERAL.getName( ),
+				Position.RIGHT_LITERAL.getName( ),
+		} );
+	}
 
 	private static NameSet getInoutPositionSet( )
 	{
@@ -487,6 +509,16 @@ public class LiteralHelper
 		return new NameSet( prefix, suffix, new String[]{
 				Position.INSIDE_LITERAL.getName( ),
 				Position.OUTSIDE_LITERAL.getName( ),
+		} );
+	}
+	
+	private static NameSet getOutPositionSet( )
+	{
+		String prefix = "Position."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		return new NameSet( prefix, suffix, new String[]{
+			Position.OUTSIDE_LITERAL.getName( )
 		} );
 	}
 	
@@ -559,8 +591,8 @@ public class LiteralHelper
 	 * @return
 	 */
 	private static NameSet getCursorSet( ) {
-		String prefix = "Cursor.";
-		String suffix = ".displayName";
+		String prefix = "Cursor."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
 	
 		return new NameSet( prefix, suffix, new String[]{
 				CursorType.AUTO.getName( ),
@@ -582,7 +614,7 @@ public class LiteralHelper
 		} );
 	}
 	
-	private static String[] toStringNameArray( List objList )
+	private static String[] toStringNameArray( List<?> objList )
 	{
 		if ( objList == null )
 		{
@@ -592,7 +624,7 @@ public class LiteralHelper
 		String[] rt = new String[objList.size( )];
 		int i = 0;
 
-		for ( Iterator itr = objList.iterator( ); itr.hasNext( ); )
+		for ( Iterator<?> itr = objList.iterator( ); itr.hasNext( ); )
 		{
 			Object obj = itr.next( );
 

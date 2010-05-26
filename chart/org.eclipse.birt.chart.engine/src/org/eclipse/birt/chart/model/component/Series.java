@@ -13,12 +13,14 @@ package org.eclipse.birt.chart.model.component;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.IChartObject;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 
@@ -470,7 +472,7 @@ public interface Series extends IChartObject
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @return
+	 * @return true means this series can be stacked
 	 */
 	boolean canBeStacked( );
 
@@ -480,7 +482,7 @@ public interface Series extends IChartObject
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @return
+	 * @return true means this series can share scale unit
 	 */
 	boolean canShareAxisUnit( );
 
@@ -490,7 +492,7 @@ public interface Series extends IChartObject
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @return
+	 * @return true means this series can be used in combination chart
 	 */
 	boolean canParticipateInCombination( );
 
@@ -518,6 +520,16 @@ public interface Series extends IChartObject
 	 * @return display name for the series type
 	 */
 	String getDisplayName( );
+	
+	/**
+	 * Returns supported label positions scope in current series. Label position
+	 * set in series must be in one of these types.
+	 * 
+	 * @param dimension
+	 *            chart dimension
+	 * @return NameSet with supported label positions.
+	 */
+	NameSet getLabelPositionScope( ChartDimension dimension );
 
 	/**
 	 * Sets the value dataSet.
@@ -529,7 +541,7 @@ public interface Series extends IChartObject
 	/**
 	 * Returns the value dataSet.
 	 * 
-	 * @return
+	 * @return value data set
 	 */
 	DataSet getDataSet( );
 
@@ -545,7 +557,7 @@ public interface Series extends IChartObject
 	 * Returns the user dataSet.
 	 * 
 	 * @param userkey
-	 * @return
+	 * @return user data set
 	 */
 	DataSet getDataSet( String userkey );
 

@@ -279,10 +279,9 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		this.txtSeparator.setText( ( str == null ) ? "" : str ); //$NON-NLS-1$
 
 		// Position
-		int positionScope = ChartUIUtil.getPositionScopeOfSeriesLabel( getSeriesForProcessing( ),
-				getContext( ).getModel( ).getDimension( ) );
-		cmbPosition.setItems( ChartUIUtil.getPositionDisplayNames( positionScope,
-				isFlippedAxes( ) ) );
+		cmbPosition.setItems( getSeriesForProcessing( ).getLabelPositionScope( getContext( ).getModel( )
+				.getDimension( ) )
+				.getDisplayNames( ) );
 
 		Position lpCurrent = getSeriesForProcessing( ).getLabelPosition( );
 		if ( lpCurrent != null )

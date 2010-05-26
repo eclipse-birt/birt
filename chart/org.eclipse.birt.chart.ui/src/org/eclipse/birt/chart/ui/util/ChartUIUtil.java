@@ -58,10 +58,7 @@ import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
-import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
-import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
@@ -1241,54 +1238,6 @@ public class ChartUIUtil
 			}
 		}
 		return position;
-	}
-
-	/**
-	 * Gets the position scope of Series label.
-	 * 
-	 * @param series
-	 *            series
-	 * @param dimension
-	 *            chart dimension
-	 * @return position scope of constants
-	 * @see ChartUIConstants#ALLOW_ALL_POSITION
-	 */
-	public static int getPositionScopeOfSeriesLabel( Series series,
-			ChartDimension dimension )
-	{
-		// 4 positions by default
-		int positionScope = ChartUIConstants.ALLOW_HORIZONTAL_POSITION
-				| ChartUIConstants.ALLOW_VERTICAL_POSITION;
-		if ( series instanceof BarSeries )
-		{
-			if ( dimension == ChartDimension.THREE_DIMENSIONAL_LITERAL )
-			{
-				// Only one position
-				positionScope = ChartUIConstants.ALLOW_OUT_POSITION;
-			}
-			else
-			{
-				// Only two positions
-				positionScope = ChartUIConstants.ALLOW_INOUT_POSITION;
-			}
-		}
-		else if ( series instanceof PieSeries )
-		{
-			// Only two positions
-			positionScope = ChartUIConstants.ALLOW_INOUT_POSITION;
-		}
-		else if ( series instanceof GanttSeriesImpl )
-		{
-			// Add one position
-			positionScope |= ChartUIConstants.ALLOW_IN_POSITION;
-		}
-		else if ( series instanceof BubbleSeriesImpl )
-		{
-			// Add one position
-			positionScope |= ChartUIConstants.ALLOW_IN_POSITION;
-		}
-
-		return positionScope;
 	}
 
 	/**

@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -33,6 +34,8 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -1152,7 +1155,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return series instance
 	 */
 	public static Series create( )
 	{
@@ -1326,6 +1329,12 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 		translucentESet = src.isSetTranslucent( );
 
+	}
+
+	public NameSet getLabelPositionScope( ChartDimension dimension )
+	{
+		// Default implementation is vertical and horizontal positions.
+		return LiteralHelper.directionPositionSet;
 	}
 
 } // SeriesImpl

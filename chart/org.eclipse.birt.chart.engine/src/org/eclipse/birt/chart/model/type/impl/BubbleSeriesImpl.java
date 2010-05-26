@@ -1,13 +1,18 @@
-/**
- * <copyright>
- * </copyright>
+/***********************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.chart.model.type.impl;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
@@ -17,9 +22,10 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
-import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -331,7 +337,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return series instance
 	 */
 	public static final Series create( )
 	{
@@ -410,6 +416,12 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 
 		accOrientationESet = src.isSetAccOrientation( );
 
+	}
+	
+	@Override
+	public NameSet getLabelPositionScope( ChartDimension dimension )
+	{
+		return LiteralHelper.notOutPositionSet;
 	}
 
 } // BubbleSeriesImpl

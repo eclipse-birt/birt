@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.type.impl;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
@@ -27,6 +28,8 @@ import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -362,7 +365,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return series instance
 	 */
 	public static final Series create( )
 	{
@@ -469,12 +472,12 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 		// being changed
 
 		// Convert orthogonal sample data
-		EList osdList = currentSampleData.getOrthogonalSampleData( );
+		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData( );
 		for ( int i = 0; i < osdList.size( ); i++ )
 		{
 			if ( i == iSeriesDefinitionIndex )
 			{
-				OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
+				OrthogonalSampleData osd = osdList.get( i );
 				osd.setDataSetRepresentation( getConvertedOrthogonalSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
 				currentSampleData.getOrthogonalSampleData( ).set( i, osd );
 			}
@@ -569,6 +572,16 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 		riserESet = src.isSetRiser( );
 
+	}
+	
+	@Override
+	public NameSet getLabelPositionScope( ChartDimension dimension )
+	{
+		if ( ChartDimension.THREE_DIMENSIONAL_LITERAL == dimension )
+		{
+			return LiteralHelper.outPositionSet;
+		}
+		return LiteralHelper.inoutPositionSet;
 	}
 
 } // BarSeriesImpl
