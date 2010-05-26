@@ -611,9 +611,16 @@ public class NumberFormatter
 		if ( roundPrecision >= 0 )
 		{
 			int scale = bd.scale( );
-			if ( scale > roundPrecision )
+			try
 			{
-				bd = bd.setScale( roundPrecision, roundingMode );
+				if ( scale > roundPrecision )
+				{
+					bd = bd.setScale( roundPrecision, roundingMode );
+				}
+			}
+			catch ( ArithmeticException e )
+			{
+				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
 			}
 		}
 		return bd;
@@ -625,10 +632,18 @@ public class NumberFormatter
 		{
 			BigDecimal bd = BigDecimal.valueOf( value );
 			int scale = bd.scale( );
-			if ( scale > roundPrecision )
+			try
 			{
-				bd = bd.setScale( roundPrecision, roundingMode );
-				return bd.doubleValue( );
+				if ( scale > roundPrecision )
+				{
+					bd = bd.setScale( roundPrecision, roundingMode );
+					return bd.doubleValue( );
+				}
+			}
+			catch ( ArithmeticException e )
+			{
+				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+				return value;
 			}
 		}
 		return value;
