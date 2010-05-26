@@ -737,8 +737,10 @@ public class ExcelLayoutEngine
 	{
 		int imageHeight;
 		int imageWidth;
-		int imageInfoHeight = imageInfo.getHeight( ) * 1000;
-		int imageInfoWidth = imageInfo.getWidth( ) * 1000;
+		int imageInfoHeight = (int) ( imageInfo.getHeight( ) * 1000
+				* ExcelUtil.INCH_PT / imageHeightDpi );
+		int imageInfoWidth = (int) ( imageInfo.getWidth( ) * 1000
+				* ExcelUtil.INCH_PT / imageWidthDpi );
 		if ( image.getWidth( ) == null && image.getHeight( ) == null )
 		{
 			int imageFileWidthDpi = imageInfo.getPhysicalWidthDpi( ) == -1
