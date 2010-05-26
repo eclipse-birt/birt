@@ -1,6 +1,6 @@
 !*************** REPORT ENGINE ***********
-plugin@org.eclipse.birt.core=v20100512,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core
-plugin@org.eclipse.birt.report.engine=v20100525,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine
+plugin@org.eclipse.birt.core=v20100526,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core
+plugin@org.eclipse.birt.report.engine=v20100526,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine
 
 plugin@org.eclipse.birt.report.engine.emitter.config=v20100304,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.config
 plugin@org.eclipse.birt.report.engine.emitter.excel.config=v20100512,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.config.excel
@@ -15,7 +15,7 @@ plugin@org.eclipse.birt.report.engine.emitter.html=v20100519,:ext:xgu@dev.eclips
 plugin@org.eclipse.birt.report.engine.emitter.pdf=v20100513,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf
 plugin@org.eclipse.birt.report.engine.fonts=v20100428,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.fonts
 plugin@org.eclipse.birt.report.engine.script.javascript=v20100408,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.script.javascript
-plugin@org.eclipse.birt.report.engine.emitter.postscript=v20100519,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.postscript
+plugin@org.eclipse.birt.report.engine.emitter.postscript=v20100526,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.postscript
 plugin@org.eclipse.birt.report.engine.emitter.wpml=v20100520,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.wpml
-plugin@org.eclipse.birt.report.engine.emitter.prototype.excel=v20100525,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel
+plugin@org.eclipse.birt.report.engine.emitter.prototype.excel=v20100526,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel
 plugin@org.eclipse.birt.report.engine.emitter.ppt=v20100429,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.ppt
