@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.core.namespace;
 
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -39,6 +40,9 @@ public class CubeNameContext extends GeneralModuleNameContext
 	private static final IElementDefn DIMENSION_DEFN = MetaDataDictionary
 			.getInstance( )
 			.getElement( ReportDesignConstants.DIMENSION_ELEMENT );
+
+	private static final int NAMESPACE_INDEX = 0;
+	private static final int NAME_INDEX = 1;
 
 	/**
 	 * Constructs one cube element name space.
@@ -69,8 +73,6 @@ public class CubeNameContext extends GeneralModuleNameContext
 		if ( element == null )
 			return null;
 
-		String elementName = element.getName( );
-
 		ElementDefn targetDefn = getTargetDefn( propDefn, elementDefn );
 		if ( targetDefn == null || isCubeReferred( targetDefn ) )
 			return super.resolve( focus, element, propDefn, elementDefn );
@@ -84,9 +86,14 @@ public class CubeNameContext extends GeneralModuleNameContext
 				return super.resolve( focus, element, propDefn, elementDefn );
 		}
 
-		String namespace = StringUtil.extractNamespace( elementName );
-		String name = StringUtil.extractName( elementName );
-		
+		String namespace = null;
+		Module root = element.getRoot( );
+		if ( root instanceof Library )
+		{
+			namespace = root.getNamespace( );
+		}
+		String name = element.getName( );
+
 		// the focus is data object cube.
 		if ( focus != null && focus.canDynamicExtends( ) )
 		{
@@ -109,8 +116,7 @@ public class CubeNameContext extends GeneralModuleNameContext
 				return new ElementRefValue( namespace, name );
 
 			// find local element in data mart cube
-			DesignElement retElement = cube.findLocalElement( elementName,
-					targetDefn );
+			DesignElement retElement = cube.findLocalElement( name, targetDefn );
 			if ( retElement != null )
 				return new ElementRefValue( namespace, retElement );
 
@@ -120,26 +126,26 @@ public class CubeNameContext extends GeneralModuleNameContext
 		if ( targetDefn.isKindOf( HIERARCHY_DEFN )
 				|| targetDefn.isKindOf( DIMENSION_DEFN ) )
 		{
-			String tmpName = elementName;
+			String tmpName = name;
 			if ( namespace != null )
 			{
 				Module tmpRoot = cube.getRoot( );
 				if ( tmpRoot instanceof Library )
 				{
-					if ( namespace.equals( ( (Library) tmpRoot )
-							.getNamespace( ) ) )
+					if ( namespace
+							.equals( ( (Library) tmpRoot ).getNamespace( ) ) )
 					{
 						tmpName = name;
 					}
 					else
 						// different name spaces.
-						return super.resolve( focus, elementName, propDefn,
+						return super.resolve( focus, element, propDefn,
 								elementDefn );
 				}
 				else
 					// root is report design. but want to find library OLAP.
-					return super.resolve( focus, elementName, propDefn,
-							elementDefn );
+					return super
+							.resolve( focus, element, propDefn, elementDefn );
 			}
 
 			DesignElement retElement = cube.findLocalElement( tmpName,
@@ -181,9 +187,10 @@ public class CubeNameContext extends GeneralModuleNameContext
 						.resolve( focus, elementName, propDefn, elementDefn );
 		}
 
-		String namespace = StringUtil.extractNamespace( elementName );
-		String name = StringUtil.extractName( elementName );
-		
+		String[] rets = splitName( elementName, IAccessControl.ARBITARY_LEVEL );
+		String namespace = rets[NAMESPACE_INDEX];
+		String name = rets[NAME_INDEX];
+
 		// the focus is data object cube.
 		if ( focus != null && focus.canDynamicExtends( ) )
 		{
@@ -206,8 +213,7 @@ public class CubeNameContext extends GeneralModuleNameContext
 				return new ElementRefValue( namespace, name );
 
 			// find local element in data mart cube
-			DesignElement retElement = cube.findLocalElement( elementName,
-					targetDefn );
+			DesignElement retElement = cube.findLocalElement( name, targetDefn );
 			if ( retElement != null )
 				return new ElementRefValue( namespace, retElement );
 
@@ -223,8 +229,8 @@ public class CubeNameContext extends GeneralModuleNameContext
 				Module tmpRoot = cube.getRoot( );
 				if ( tmpRoot instanceof Library )
 				{
-					if ( namespace.equals( ( (Library) tmpRoot )
-							.getNamespace( ) ) )
+					if ( namespace
+							.equals( ( (Library) tmpRoot ).getNamespace( ) ) )
 					{
 						tmpName = name;
 					}
@@ -294,5 +300,25 @@ public class CubeNameContext extends GeneralModuleNameContext
 			return elementDefn;
 		return (ElementDefn) ( propDefn == null ? null : propDefn
 				.getTargetElementType( ) );
+	}
+
+	private String[] splitName( String elementName, int level )
+	{
+		String namespace = StringUtil.extractNamespace( elementName );
+		String name = StringUtil.extractName( elementName );
+
+		Module moduleToSearch = module;
+		if ( namespace != null )
+			moduleToSearch = module.getLibraryWithNamespace( namespace, level );
+
+		// check whether the root is library, get the namespace of the library.
+
+		else if ( moduleToSearch instanceof Library )
+			namespace = ( (Library) moduleToSearch ).getNamespace( );
+
+		String[] names = new String[2];
+		names[NAMESPACE_INDEX] = namespace;
+		names[NAME_INDEX] = name;
+		return names;
 	}
 }
