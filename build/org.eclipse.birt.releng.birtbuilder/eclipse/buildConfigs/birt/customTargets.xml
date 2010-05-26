@@ -141,6 +141,12 @@
          unpack="false"/>]]></replacevalue>
 			<include name="**/feature.xml" />
 		</replace>
+		<replace dir="${buildDirectory}/features">
+			<replacetoken><![CDATA[<plugin id="org.apache.batik.pdf" download-size="0" install-size="0" version="0.0.0" unpack="false"/>]]></replacetoken>
+			<replacevalue><![CDATA[<plugin id="org.apache.batik.pdf" download-size="0" install-size="0" version="0.0.0" unpack="true"/>]]></replacevalue>
+			<include name="**/feature.xml" />
+		</replace>
+		
 	</target>
 	
 	<target name="CheckNewThirdPartyJar" if="CheckNewJars">
