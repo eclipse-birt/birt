@@ -584,10 +584,9 @@
 			</fileset>
 		</delete>
 		
-		<!--
         <cvs command="export -d source" cvsRoot="${mapCvsRoot}" dest="${buildDirectory}" 
 		package="source" tag="${mapVersionTag}" taskname="CVS - source"/>
-		-->
+
   		<antcall target="logger">
 			<param name="message" value="Finish to sync BIRT source folder"/>
 		</antcall>
