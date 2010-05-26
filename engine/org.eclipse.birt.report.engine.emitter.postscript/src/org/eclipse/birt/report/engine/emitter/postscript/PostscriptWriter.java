@@ -1004,7 +1004,9 @@ public class PostscriptWriter
 	{
 		if ( collate )
 		{
-			out.println( "%%Requirements: collate");
+			out.println( "%%BeginFeature: *Collate true");
+			out.println( "1  dict dup /Collate true put setpagedevice");
+			out.println( "%%EndFeature");
 		}
 	}
 
