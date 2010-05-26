@@ -57,6 +57,11 @@ public class StyleProperties
 	{
 		properties.put( name, value );
 	}
+	
+	public Object getProperty(String name)
+	{
+		return properties.get( name );
+	}
 
 	public void setProperties( IContent content )
 	{

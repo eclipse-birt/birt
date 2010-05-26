@@ -11,12 +11,11 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
@@ -108,12 +107,6 @@ public class TableProcessor implements HTMLConstants
 				cellContent.setParent( rowContent );
 			}
 		}
-		for ( int i = 0; i < table.getColCount( ); i++ )
-		{
-			Column column = new Column( report );
-			column.setWidth( tableState.getColumnWidth( i ) );
-			tableContent.addColumn( column );
-		}
 	}
 
 	private static class State
@@ -150,7 +143,7 @@ public class TableProcessor implements HTMLConstants
 
 		private int columnCount;
 		private int rowCount;
-		private List columnWidth;
+		private TableContent table;
 
 		public TableState( Element element,
 				Map<Element, StyleProperties> cssStyles, IContent parent,
@@ -159,12 +152,12 @@ public class TableProcessor implements HTMLConstants
 			super( element, cssStyles, action );
 			content = (TableContent) parent.getReportContent( )
 					.createTableContent( );
+			table = (TableContent) content;
 			setParent( parent );
 			content.setWidth( PropertyUtil.getDimensionAttribute( element,
 					PROPERTY_WIDTH ) );
 			HTML2Content.handleStyle( element, cssStyles, content );
 			processCellStyle( element, cssStyles );
-			columnWidth = new ArrayList( );
 		}
 		
 		protected void processRow( Element element,
@@ -239,7 +232,38 @@ public class TableProcessor implements HTMLConstants
 			Element ele = element;
 			processNodes( ele );
 		}
+		
+		void handleColumnStyle( Element ele,
+				Map<Element, StyleProperties> cssStyles, IColumn column )
+		{
+			StyleProperties sp = cssStyles.get( ele );
+			if ( sp == null )
+			{
+				sp = new StyleProperties( new StyleDeclaration(
+						content.getCSSEngine( ) ) );
+				cssStyles.put( ele, sp );
+			}
+			String tagName = ele.getTagName( );
+			Tag2Style tag2Style = Tag2Style.getStyleProcess( tagName );
+			if ( tag2Style != null )
+			{
+				tag2Style.process( ele, sp );
+			}
+			column.setInlineStyle( sp.getStyle( ) );
+			Object w = sp.getProperty( StyleProperties.WIDTH );
+			if ( w != null && w instanceof DimensionType )
+			{
+				column.setWidth( (DimensionType) w );
+			}
+		}
 
+		private void addColumn(int count)
+		{
+			for(int i=0;i<count; i++)
+			{
+				table.addColumn( new Column(table.getReportContent( )) );
+			}
+		}
 		private void processNodes( Element ele )
 		{
 			for ( Node node = ele.getFirstChild( ); node != null; node = node
@@ -253,15 +277,25 @@ public class TableProcessor implements HTMLConstants
 					RowState rowState = new RowState( element, cssStyles,
 							content, action );
 					rowState.processNodes( );
-					columnCount = Math.max( columnCount, rowState
-							.getColumnCount( ) );
+					columnCount = Math.max( columnCount,
+							rowState.getColumnCount( ) );
+					if ( columnCount > table.getColumnCount( ) )
+					{
+						addColumn( columnCount - table.getColumnCount( ) );
+					}
 					++rowCount;
 				}
 				else if ( "col".equals( tagName ) )
 				{
-					columnWidth.add( PropertyUtil.getDimensionAttribute(
-							element, "width" ) );
-					HTML2Content.handleStyle( element, cssStyles, content );
+					Column column = new Column( content.getReportContent( ) );
+					DimensionType cw = PropertyUtil.getDimensionAttribute(
+							element, "width" );
+					if ( cw != null )
+					{
+						column.setWidth( cw );
+					}
+					( (TableContent) content ).addColumn( column );
+					handleColumnStyle( element, cssStyles, column );
 				}
 				else if ( "tbody".equals( tagName ) || "thead".equals( tagName )
 						|| "tfoot".equals( tagName ) )
@@ -281,14 +315,6 @@ public class TableProcessor implements HTMLConstants
 			return rowCount;
 		}
 
-		public DimensionType getColumnWidth( int column )
-		{
-			if ( column >= columnWidth.size( ) )
-			{
-				return null;
-			}
-			return (DimensionType) columnWidth.get( column );
-		}
 	}
 
 	private static class RowState extends State
