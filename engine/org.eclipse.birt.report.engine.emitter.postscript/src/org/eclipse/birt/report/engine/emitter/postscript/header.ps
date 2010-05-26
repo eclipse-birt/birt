@@ -10,7 +10,7 @@
   3 index 2 index lineto
   pop pop pop pop
 }def
-/xc 0.2679492 matrix currentmatrix 3 get dup abs div mul def
+/xc 0.2679492 matrix currentmatrix 3 get dup 0 eq{pop}{dup abs div mul}ifelse def
 /italicmatrix [1 0 xc 1 0 0] def
 /RD {string currentfile exch readstring pop} executeonly def
 /rcl{
