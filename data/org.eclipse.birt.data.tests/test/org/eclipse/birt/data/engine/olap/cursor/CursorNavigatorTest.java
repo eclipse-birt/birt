@@ -104,7 +104,7 @@ public class CursorNavigatorTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube  );
 
 		// retrieve the edge cursors
 		// EdgeCursor pageCursor = cubeView.getMeasureEdgeView( );
@@ -308,7 +308,7 @@ public class CursorNavigatorTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube  );
 
 		// retrieve the edge cursors
 		// EdgeCursor pageCursor = cubeView.getMeasureEdgeView( );
@@ -374,7 +374,7 @@ public class CursorNavigatorTest extends BaseTestCase
 				de.getSession( ),
 				this.scope,
 				de.getContext( ) ) );
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube  );
 
 
 		// retrieve the edge cursors
@@ -487,7 +487,7 @@ public class CursorNavigatorTest extends BaseTestCase
 				this.scope,
 				de.getContext( ) ), cube, null );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 		EdgeCursor pageCursor = (EdgeCursor) dataCursor.getPageEdge( ).toArray( )[0];
 		
 		List columnEdgeBindingNames = new ArrayList( );

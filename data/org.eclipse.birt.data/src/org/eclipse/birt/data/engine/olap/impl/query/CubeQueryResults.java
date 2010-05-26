@@ -26,7 +26,6 @@ import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.cursor.MergedCubeCursor;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
@@ -34,8 +33,6 @@ import org.eclipse.birt.data.engine.olap.data.document.CubeRADocumentManagerFact
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
-import org.eclipse.birt.data.engine.olap.query.view.BirtDimensionView;
-import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
 import org.eclipse.birt.data.engine.olap.script.JSMeasureAccessor;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
@@ -98,30 +95,8 @@ public class CubeQueryResults implements ICubeQueryResults
 			ICube cube = loadCube( documentManager, executor );
 			
 			BirtCubeView bcv = new BirtCubeView( executor, cube, appContext );		
-			CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube, true );
-
-			ICubeQueryDefinition baseQuery = cubeQueryDefinition;
-
-			DrillQueryHelper helper = new DrillQueryHelper( outResults,
-					baseQuery,
-					cube,
-					session,
-					scope,
-					context,
-					appContext,
-					stopSign );
-			if ( helper.getAllCubeViews( ).length > 0 )
-			{
-				BirtCubeView view = findBaseView( bcv, helper.getAllCubeViews( ) );
-				cubeCursor = new MergedCubeCursor( cubeCursor,
-						bcv,
-						view,
-						helper );
-				baseQuery = view.getCubeQueryDefinition( );
-			}
-			
+			CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube );		
 			cube.close( );
-
 			
 			String newResultSetId = executor.getQueryResultsId( );
 			if ( newResultSetId != null )
@@ -133,7 +108,7 @@ public class CubeQueryResults implements ICubeQueryResults
 					new JSMeasureAccessor( cubeCursor, bcv.getMeasureMapping( ) ) );
 			this.scope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
 					this.scope,
-					new JSLevelAccessor( baseQuery, bcv ) );
+					new JSLevelAccessor( this.cubeQueryDefinition, bcv ) );
 
 			this.cubeCursor = new CubeCursorImpl( outResults,
 					cubeCursor,
@@ -152,52 +127,6 @@ public class CubeQueryResults implements ICubeQueryResults
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
-	}
-	
-	private BirtCubeView findBaseView( BirtCubeView baseView,
-			BirtCubeView[] drillView )
-	{
-		BirtEdgeView columnEdge = baseView.getColumnEdgeView( );
-		BirtEdgeView rowEdge = baseView.getRowEdgeView( );
-
-		BirtCubeView view = baseView;
-
-		int column = this.getLevelCount( columnEdge );
-		int row = this.getLevelCount( rowEdge );
-		
-		for ( int i = 0; i < drillView.length; i++ )
-		{
-			columnEdge = drillView[i].getColumnEdgeView( );
-			rowEdge = drillView[i].getRowEdgeView( );
-
-			int drillColumn = this.getLevelCount( columnEdge ), drillRow = this.getLevelCount( rowEdge );
-
-			if ( column <= drillColumn )
-			{
-				if ( row <= drillRow )
-				{
-					view = drillView[i];
-					row = drillRow;
-				}
-				column = drillColumn;
-			}
-		}
-		return view;
-	}
-	
-	private int getLevelCount( BirtEdgeView view )
-	{
-		int count = 0;
-		if ( view != null )
-		{
-			for ( int i = 0; i < view.getDimensionViews( ).size( ); i++ )
-			{
-				BirtDimensionView dimView = (BirtDimensionView) view.getDimensionViews( )
-						.get( i );
-				count += dimView.getMemberSelection( ).size( );
-			}
-		}
-		return count;
 	}
 	
 	/**

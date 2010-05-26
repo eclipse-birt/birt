@@ -43,6 +43,13 @@ public interface IEdgeDefinition extends INamedObject
 	 * @return
 	 */
 	public List<IEdgeDrillFilter> getDrillFilter();
+	
+	/**
+	 * Get the drill definition from the specified dimension.
+	 * @param dim
+	 * @return
+	 */
+	public IEdgeDrillFilter[] getDrillFilter( IDimensionDefinition dim );
 
 	/**
 	 * Return the level where mirror gets start.

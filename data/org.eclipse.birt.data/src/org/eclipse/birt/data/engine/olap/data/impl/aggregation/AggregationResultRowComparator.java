@@ -40,6 +40,12 @@ public class AggregationResultRowComparator implements Comparator<IAggregationRe
 
 		for ( int i = 0; i < keyLevelIndexs.length; i++ )
 		{
+			//only for drill operation, the member key value will be null
+			if ( member1[keyLevelIndexs[i]] == null
+					|| member2[keyLevelIndexs[i]] == null )
+			{
+				continue;
+			}
 			int result = ( member1[keyLevelIndexs[i]] ).compareTo( member2[keyLevelIndexs[i]] );
 			if ( result < 0 )
 			{

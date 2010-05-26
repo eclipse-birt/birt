@@ -13,7 +13,7 @@ package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,10 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -36,11 +32,8 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -52,15 +45,8 @@ import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.LevelDefiniton;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
-import org.eclipse.birt.data.engine.olap.data.api.ILevel;
-import org.eclipse.birt.data.engine.olap.data.api.ISelection;
-import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
-import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
-import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefnOnMeasure;
@@ -204,629 +190,24 @@ public class CubeQueryDefinitionUtil
 		return af != null && af.getType( ) == IAggrFunction.RUNNING_AGGR;
 	}
 	
-
-	public static ICubeQueryDefinition[] getCubeQueryFromDrills(
-			ICubeQueryDefinition query, ICube cube, int edgeType ) throws DataException
+	public static List<IEdgeDrillFilter[]> flatternDrillFilter(
+			IEdgeDefinition edge )
 	{
-		List queryDefinition = new ArrayList( );
-		IEdgeDefinition edge = query.getEdge( edgeType );
+		if ( edge == null || edge.getDrillFilter( ).isEmpty( ) )
+			return Collections.EMPTY_LIST;
 
-		if ( edge != null && edge.getDrillFilter( ).size( ) > 0 )
-		{
-			IEdgeDrillFilter rowDrill = null, columnDrill = null;
-			for ( int i = 0; i < edge.getDrillFilter( ).size( ); i++ )
-			{
-				if ( edgeType == ICubeQueryDefinition.COLUMN_EDGE )
-					columnDrill = (IEdgeDrillFilter) edge.getDrillFilter( )
-							.get( i );
-				else
-					rowDrill = (IEdgeDrillFilter) edge.getDrillFilter( )
-							.get( i );
-				queryDefinition.add( cloneCubeQueryDefinition( query,
-						columnDrill,
-						rowDrill,
-						cube ) );
-			}
-		}
-		ICubeQueryDefinition[] drillQuery = new ICubeQueryDefinition[queryDefinition.size( )];
-		for ( int i = 0; i < drillQuery.length; i++ )
-		{
-			drillQuery[i] = (ICubeQueryDefinition) queryDefinition.get( i );
-		}
-		return drillQuery;
-	}
-	
-	public static ICubeQueryDefinition[] getCrossCubeQueryFromDrills(
-			ICubeQueryDefinition query, ICube cube ) throws DataException
-	{
-		IEdgeDefinition columnEdge = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = query.getEdge( ICubeQueryDefinition.ROW_EDGE );
-		List<ICubeQueryDefinition> queryDefinition = new ArrayList<ICubeQueryDefinition>( );
-
-		if ( columnEdge != null
-				&& columnEdge.getDrillFilter( ).size( ) > 0 && rowEdge != null
-				&& rowEdge.getDrillFilter( ).size( ) > 0 )
-		{
-			IEdgeDrillFilter rowDrill = null, columnDrill = null;
-			for ( int i = 0; i < columnEdge.getDrillFilter( ).size( ); i++ )
-			{
-				columnDrill = (IEdgeDrillFilter) columnEdge.getDrillFilter( )
-						.get( i );
-				for ( int j = 0; j < rowEdge.getDrillFilter( ).size( ); j++ )
-				{
-					rowDrill = (IEdgeDrillFilter) rowEdge.getDrillFilter( )
-							.get( j );
-
-					queryDefinition.add( cloneCubeQueryDefinition( query,
-							columnDrill,
-							rowDrill,
-							cube ) );
-				}
-			}
-		}
-		ICubeQueryDefinition[] drillQuery = new ICubeQueryDefinition[queryDefinition.size( )];
-		for ( int i = 0; i < drillQuery.length; i++ )
-		{
-			drillQuery[i] = (ICubeQueryDefinition) queryDefinition.get( i );
-		}
-		return drillQuery;
-	}
-
-	private static ICubeQueryDefinition cloneCubeQueryDefinition(
-			ICubeQueryDefinition query, IEdgeDrillFilter columnDrill,
-			IEdgeDrillFilter rowDrill, ICube cube ) throws DataException
-	{
-		DrillCubeQueryDefinition cloneQuery = null;
-		if( query!= null )
-		{
-			cloneQuery = new DrillCubeQueryDefinition( query.getName( ) );
-			if ( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
-			{
-				if ( columnDrill != null )
-				{
-					( (DrillCubeQueryDefinition) cloneQuery ).setTupleOnColumn( columnDrill.getTuple( ) );					
-				}
-
-				cloneEdgeDefinition( cloneQuery,
-						query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ),
-						ICubeQueryDefinition.COLUMN_EDGE,
-						columnDrill,
-						cube );
-			}
-			if ( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
-			{
-				if ( rowDrill != null )
-				{
-					( (DrillCubeQueryDefinition) cloneQuery ).setTupleOnRow( rowDrill.getTuple( ) );
-				}
-
-				cloneEdgeDefinition( cloneQuery,
-						query.getEdge( ICubeQueryDefinition.ROW_EDGE ),
-						ICubeQueryDefinition.ROW_EDGE,
-						rowDrill,
-						cube );
-			}
-			for ( int i = 0; i < query.getMeasures( ).size( ); i++ )
-			{
-				IMeasureDefinition measure = ( (IMeasureDefinition) query.getMeasures( )
-						.get( i ) );
-				IMeasureDefinition cloneMeasure = cloneQuery.createMeasure( measure.getName( ) );
-				cloneMeasure.setAggrFunction( measure.getAggrFunction( ) );
-			}
-			for ( int i = 0; i < query.getComputedMeasures( ).size( ); i++ )
-			{
-				IComputedMeasureDefinition measure = ( (IComputedMeasureDefinition) query.getComputedMeasures( )
-						.get( i ) );
-				IMeasureDefinition cloneMeasure = cloneQuery.createComputedMeasure( measure.getName( ),
-						measure.getType( ),
-						measure.getExpression( ) );
-				cloneMeasure.setAggrFunction( measure.getAggrFunction( ) );
-			}
-
-			List<String> levelDefnOnColumn = new ArrayList<String>();
-			List<String> levelDefnOnRow = new ArrayList<String>();
-
-			if ( columnDrill != null )
-			{
-				levelDefnOnColumn = findLevelExpressionFromQuery( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ),
-						columnDrill, cube );
-			}
-			if ( rowDrill != null )
-			{
-				levelDefnOnRow = findLevelExpressionFromQuery( query.getEdge( ICubeQueryDefinition.ROW_EDGE ),
-						rowDrill, cube );
-			}
-
-			for ( int i = 0; i < query.getBindings( ).size( ); i++ )
-			{
-				IBinding binding = (IBinding) query.getBindings( ).get( i );
-				if ( binding.getAggrFunction( ) != null )
-				{
-					List dimLevelOnColumn = getReferenceDimLevelOnEdge( query, ICubeQueryDefinition.COLUMN_EDGE );
-					List dimLevelOnRow = getReferenceDimLevelOnEdge( query, ICubeQueryDefinition.ROW_EDGE );
-					
-					IBinding newBinding = new Binding( binding.getBindingName( ),
-							binding.getExpression( ) );
-					newBinding.setDataType( binding.getDataType( ) );
-					newBinding.setAggrFunction( binding.getAggrFunction( ) );
-					newBinding.setDisplayName( binding.getDisplayName( ) );
-					newBinding.setExportable( binding.exportable( ) );
-					newBinding.setFilter( newBinding.getFilter( ) );
-					for ( int k = 0; k < binding.getArguments( ).size( ); k++ )
-					{
-						newBinding.addArgument( (IBaseExpression) binding.getArguments( )
-								.get( k ) );
-					}
-
-					List aggrOns = binding.getAggregatOns( );
-					
-					if ( aggrOns != null && !aggrOns.isEmpty( ) )
-					{
-						boolean columnExist = false, rowExist = false;
-						
-						boolean detailLevelOnColumn = isGrandTotalOnEdge( aggrOns,
-								dimLevelOnColumn );
-						boolean detailLevelOnRow = isGrandTotalOnEdge( aggrOns,
-								dimLevelOnRow );
-						if ( !detailLevelOnColumn && !detailLevelOnRow )
-						{
-							continue;
-						}
-
-						if ( ( detailLevelOnColumn && columnDrill != null )
-								|| ( detailLevelOnRow && rowDrill != null ) )
-						{
-							for ( int k = 0; k < aggrOns.size( ); k++ )
-							{
-								String aggrExpr = aggrOns.get( k ).toString( );
-								DimLevel target = OlapExpressionUtil.getTargetDimLevel( aggrExpr );
-
-								String dimensionNameOnColumn = columnDrill != null
-										? columnDrill.getTargetHierarchy( )
-												.getDimension( )
-												.getName( ) : null;
-								String dimensionNameOnRow = rowDrill != null
-										? rowDrill.getTargetHierarchy( )
-												.getDimension( )
-												.getName( ) : null;
-								if ( !columnExist
-										&& target.getDimensionName( )
-												.equals( dimensionNameOnColumn ) )
-								{
-									if ( !detailLevelOnColumn )
-									{
-										newBinding.addAggregateOn( aggrExpr );
-									}
-									else
-									{
-										columnExist = true;
-										for ( int t = 0; t < levelDefnOnColumn.size( ); t++ )
-											newBinding.addAggregateOn( (String) levelDefnOnColumn.get( t ) );
-									}
-								}
-								else if ( !rowExist
-										&& target.getDimensionName( )
-												.equals( dimensionNameOnRow ) )
-								{
-									if ( !detailLevelOnRow )
-									{
-										newBinding.addAggregateOn( aggrExpr );
-									}
-									else
-									{
-										rowExist = true;
-										for ( int t = 0; t < levelDefnOnRow.size( ); t++ )
-											newBinding.addAggregateOn( (String) levelDefnOnRow.get( t ) );
-									}
-								}
-								else if ( !target.getDimensionName( )
-										.equals( dimensionNameOnColumn )
-										&& !target.getDimensionName( )
-												.equals( dimensionNameOnRow ) )
-									newBinding.addAggregateOn( aggrExpr );
-							}
-							cloneQuery.addBinding( newBinding );
-						}
-					}
-				}
-				else
-					cloneQuery.addBinding( (IBinding) query.getBindings( )
-							.get( i ) );
-			}
-			for ( int i = 0; i < query.getFilters( ).size( ); i++ )
-			{
-				if ( canAddFilterToDrill( query, rowDrill, columnDrill, i ) )
-				{
-					cloneQuery.addFilter( (IFilterDefinition) query.getFilters( )
-							.get( i ) );
-				}
-			}
-			for ( int i = 0; i < query.getSorts( ).size( ); i++ )
-			{
-				cloneQuery.addSort( (ISortDefinition) query.getSorts( ).get( i ) );
-			}
-		}
-		return cloneQuery;
-	}
-
-	private static boolean canAddFilterToDrill( ICubeQueryDefinition query,
-			IEdgeDrillFilter rowDrill, IEdgeDrillFilter columnDrill, int i )
-	{
-		List<IDimensionDefinition> columnEdgeDimensions = null;
-
-		if ( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
-			columnEdgeDimensions = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE )
-					.getDimensions( );
-
-		List<IDimensionDefinition> rowEdgeDimensions = null;
-
-		if ( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
-			rowEdgeDimensions = query.getEdge( ICubeQueryDefinition.ROW_EDGE )
-					.getDimensions( );
-		if( ! ( query.getFilters( ).get( i ) instanceof ICubeFilterDefinition ) )
-		{
-			return true;
-		}
-			
-		ICubeFilterDefinition filter = (ICubeFilterDefinition) query.getFilters( )
-				.get( i );
-
-		if ( filter.getTargetLevel( ) == null )
-			return false;
-
-		int filterIndex = -1;
-		int rowDrillIndex = -1;
-		int columnDrillIndex = -1;
-		int edgeTag = -1;
-		boolean canAddFilter = false;
-
-		if ( rowEdgeDimensions != null && rowDrill != null )
-		{
-			for ( int p = 0; p < rowEdgeDimensions.size( ); p++ )
-			{
-				IDimensionDefinition rowEdgeDimension = rowEdgeDimensions.get( p );
-				String hierarchyName = rowEdgeDimension.getHierarchy( )
-						.get( 0 )
-						.getName( );
-
-				if ( hierarchyName.equals( filter.getTargetLevel( )
-						.getHierarchy( )
-						.getName( ) ) )
-				{
-					filterIndex = p;
-					edgeTag = ICubeQueryDefinition.ROW_EDGE;
-				}
-				if ( rowDrill.getTargetHierarchy( )
-						.getName( )
-						.equals( hierarchyName ) )
-					rowDrillIndex = p;
-			}
-		}
-
-		if ( columnEdgeDimensions != null && columnDrill != null )
-		{
-			for ( int p = 0; p < columnEdgeDimensions.size( ); p++ )
-			{
-				IDimensionDefinition columnEdgeDimension = columnEdgeDimensions.get( p );
-				String hierarchyName = columnEdgeDimension.getHierarchy( )
-						.get( 0 )
-						.getName( );
-
-				if ( hierarchyName.equals( filter.getTargetLevel( )
-						.getHierarchy( )
-						.getName( ) ) )
-				{
-					filterIndex = p;
-					edgeTag = ICubeQueryDefinition.COLUMN_EDGE;
-				}
-				if ( columnDrill.getTargetHierarchy( )
-						.getName( )
-						.equals( hierarchyName ) )
-					columnDrillIndex = p;
-			}
-		}
-
-		if ( edgeTag == ICubeQueryDefinition.ROW_EDGE )
-		{
-			if ( rowDrillIndex < filterIndex )
-			{
-				canAddFilter = false;
-			}
-			else if ( rowDrillIndex > filterIndex )
-			{
-				canAddFilter = true;
-			}
-			else
-			{
-				String filterTargetLevel = filter.getTargetLevel( ).getName( );
-				String drillTargetLevel = rowDrill.getTargetLevelName( );
-
-				List<ILevelDefinition> levelDefinition = filter.getTargetLevel( )
-						.getHierarchy( )
-						.getLevels( );
-				int drillLevelIndex = 0;
-				int filterLevelIndex = 0;
-				for ( int j = 0; j < levelDefinition.size( ); j++ )
-				{
-					ILevelDefinition level = levelDefinition.get( j );
-					if ( level.getName( ).equals( drillTargetLevel ) )
-					{
-						drillLevelIndex = j;
-					}
-					if ( level.getName( ).equals( filterTargetLevel ) )
-					{
-						filterLevelIndex = j;
-					}
-				}
-
-				if ( drillLevelIndex >= filterLevelIndex )
-					canAddFilter = true;
-			}
-		}
-		else if ( edgeTag == ICubeQueryDefinition.COLUMN_EDGE )
-		{
-			if ( columnDrillIndex < filterIndex )
-			{
-				canAddFilter = false;
-			}
-			else if ( columnDrillIndex > filterIndex )
-			{
-				canAddFilter = true;
-			}
-			else
-			{
-				String filterTargetLevel = filter.getTargetLevel( ).getName( );
-				String drillTargetLevel = columnDrill.getTargetLevelName( );
-
-				List<ILevelDefinition> levelDefinition = filter.getTargetLevel( )
-						.getHierarchy( )
-						.getLevels( );
-				int drillLevelIndex = 0;
-				int filterLevelIndex = 0;
-				for ( int j = 0; j < levelDefinition.size( ); j++ )
-				{
-					ILevelDefinition level = levelDefinition.get( j );
-					if ( level.getName( ).equals( drillTargetLevel ) )
-					{
-						drillLevelIndex = j;
-					}
-					if ( level.getName( ).equals( filterTargetLevel ) )
-					{
-						filterLevelIndex = j;
-					}
-				}
-
-				if ( drillLevelIndex >= filterLevelIndex )
-					canAddFilter = true;
-			}
-		}
-
-		return canAddFilter;
-	}
-	
-	private static boolean isGrandTotalOnEdge( List aggrOns, List dimLevels )
-			throws DataException
-	{
-		boolean flag = false;
-		for ( int i = 0; i < aggrOns.size( ); i++ )
-		{
-			String aggrExpr = aggrOns.get( i ).toString( );
-			DimLevel target = OlapExpressionUtil.getTargetDimLevel( aggrExpr );
-			if ( !dimLevels.isEmpty( )
-					&& dimLevels.get( dimLevels.size( ) - 1 )
-							.equals( target ) )
-			{
-				flag = true;
-				break;
-			}
-		}
-		return flag;
-	}
-
-
-	private static void cloneEdgeDefinition( DrillCubeQueryDefinition cloneQuery,
-			IEdgeDefinition edge, int type, IEdgeDrillFilter drill, ICube cube ) throws DataException
-	{
-		IEdgeDefinition cloneEdge = cloneQuery.createEdge( type );
-		Iterator<IDimensionDefinition> dimension = edge.getDimensions( )
-				.iterator( );
-		List<ILevelDefinition> levelDefnList = new ArrayList<ILevelDefinition>( );
-
-		while ( dimension.hasNext( ) )
-		{
-			IDimensionDefinition dim = (IDimensionDefinition) dimension.next( );
-			IDimensionDefinition cloneDim = cloneEdge.createDimension( dim.getName( ) );
-			Iterator<IHierarchyDefinition> hierarchyIter = dim.getHierarchy( ).iterator( );
-			while ( hierarchyIter.hasNext( ) )
-			{
-				IHierarchyDefinition hierarchy = (IHierarchyDefinition) hierarchyIter.next( );
-				IHierarchyDefinition cloneHier = cloneDim.createHierarchy( hierarchy.getName( ) );
-				if ( drill!= null && hierarchy.getName( ).equals( drill.getTargetHierarchy( )
-						.getName( ) ) )
-				{
-					{
-						IHierarchy cubeHierarchy = findHierarchyFromCube( cube,
-								hierarchy );
-
-						for ( ILevel cubeLevel : cubeHierarchy.getLevels( ) )
-						{
-							ILevelDefinition cloneLevel;
-							if ( cubeLevel.getName( )
-									.equals( drill.getTargetLevelName( ) ) )
-							{
-								cloneLevel = cloneHier.createLevel( cubeLevel.getName( ) );
-								levelDefnList.add( cloneLevel );
-								break;
-							}
-							cloneLevel = cloneHier.createLevel( cubeLevel.getName( ) );
-							levelDefnList.add( cloneLevel );
-						}
-					}
-				}
-				else
-				{
-					Iterator<ILevelDefinition> levels = hierarchy.getLevels( )
-							.iterator( );
-					while ( levels.hasNext( ) )
-					{
-						ILevelDefinition level = (ILevelDefinition) levels.next( );
-						ILevelDefinition cloneLevel = cloneHier.createLevel( level.getName( ) );
-						levelDefnList.add( cloneLevel );
-					}
-				}
-			}
-		}
- 		if ( drill != null )
-		{
-			Iterator members = drill.getTuple( ).iterator( );
-			Iterator levels = levelDefnList.iterator( );
-			
-			Collection<Object[]> qulifiedTuple = new ArrayList<Object[]>( );
-		
-			while ( members.hasNext( ) && levels.hasNext( ) )
-			{
-				Object[] key = (Object[]) members.next( );
-				if ( key != null && key.length > 0 && key[0] != null )
-				{
-					ILevelDefinition level = (ILevelDefinition) levels.next( );
-					int dataType = getLevelDataType( level, cube );
-
-					Object[] qualifiedKey = new Object[key.length];
-					Object[][] multipleKey = new Object[key.length][];
-
-					for ( int i = 0; i < key.length; i++ )
-					{
-						try
-						{
-							Object value = DataTypeUtil.convert( key[i],
-									dataType );
-							qualifiedKey[i] = value;
-							multipleKey[i] = new Object[]{
-								value
-							};
-						}
-						catch ( BirtException e )
-						{
-						}
-					}
-					
-					qulifiedTuple.add( qualifiedKey );
-					ISelection selection = SelectionFactory.createMutiKeySelection( multipleKey );
-					( (DrillCubeQueryDefinition) cloneQuery ).addLevelFilter( new LevelFilter( new DimLevel( (ILevelDefinition) level ),
-							new ISelection[]{
-								selection
-							} ) );
-				}
-			}
-			
-			if ( type == ICubeQueryDefinition.COLUMN_EDGE )
-				cloneQuery.setTupleOnColumn( qulifiedTuple );
-			else
-				cloneQuery.setTupleOnRow( qulifiedTuple );
-			drill.setTuple( qulifiedTuple );
-		}
-	}
-	
-	private static int getLevelDataType( ILevelDefinition level, ICube cube )
-	{
-		IHierarchy hierarchy = findHierarchyFromCube( cube,
-				level.getHierarchy( ) );
-		int dataType = DataType.ANY_TYPE;
-		if ( hierarchy != null )
-		{
-			ILevel[] levelArray = hierarchy.getLevels( );
-			for ( int i = 0; i < levelArray.length; i++ )
-			{
-				if ( levelArray[i].getName( ).equals( level.getName( ) ) )
-				{
-					dataType = levelArray[i].getKeyDataType( level.getName( ) );
-					break;
-				}
-			}
-		}
-		return dataType;
-	}
-
-	private static List findLevelExpressionFromQuery( IEdgeDefinition edge,
-			IEdgeDrillFilter drill, ICube cube ) throws DataException
-	{
-		List<String> levelList = new ArrayList<String>( );
 		List<IDimensionDefinition> dimensionList = edge.getDimensions( );
-
+		List<IEdgeDrillFilter[]> drillOnDimension = new ArrayList<IEdgeDrillFilter[]>( );
 		for ( int i = 0; i < dimensionList.size( ); i++ )
 		{
-			IDimensionDefinition dim = (IDimensionDefinition) dimensionList.get( i );
-			List<IHierarchyDefinition> hierarchyList = dim.getHierarchy( );
-			IHierarchyDefinition hier = (IHierarchyDefinition) hierarchyList.get( 0 );
-			if ( hier.getName( )
-					.equals( drill.getTargetHierarchy( ).getName( ) ) )
-			{
-//				if ( DrillType.DRILL_TO_ROOTS.equals( drill.getDrillOperation( ) )
-//						|| DrillType.DRILL_TO_ANCESTORS.equals( drill.getDrillOperation( ) )
-//						|| DrillType.DRILL_TO_PARENT.equals( drill.getDrillOperation( ) ) )
-//				{
-//					for ( int k = 0; k < hier.getLevels( ).size( ); k++ )
-//					{
-//						ILevelDefinition level = (ILevelDefinition) hier.getLevels( )
-//								.get( k );
-//						levelList.add( ExpressionUtil.createJSDimensionExpression( dim.getName( ),
-//								level.getName( ) ) );
-//
-//						if ( level.getName( )
-//								.equals( drill.getTargetLevel( ) ) )
-//						{
-//							break;
-//						}
-//					}
-//				}
-//				else
-				{
-					IHierarchy cubeHierarchy = findHierarchyFromCube( cube,
-							drill.getTargetHierarchy( ) );
-					for ( ILevel cubeLevel : cubeHierarchy.getLevels( ) )
-					{
-						if ( cubeLevel.getName( )
-								.equals( drill.getTargetLevelName( ) ) )
-						{
-							levelList.add( ExpressionUtil.createJSDimensionExpression( dim.getName( ),
-									cubeLevel.getName( ) ) );
-							break;
-						}
-						levelList.add( ExpressionUtil.createJSDimensionExpression( dim.getName( ),
-								cubeLevel.getName( ) ) );
-					}
-				}
-			}
-			else
-			{
-				for ( int k = 0; k < hier.getLevels( ).size( ); k++ )
-				{
-					ILevelDefinition level = (ILevelDefinition) hier.getLevels( )
-							.get( k );
-					levelList.add( ExpressionUtil.createJSDimensionExpression( dim.getName( ),
-							level.getName( ) ) );
-				}
-			}
+			IDimensionDefinition dimension = dimensionList.get( i );
+			IEdgeDrillFilter[] drill = edge.getDrillFilter( dimension );
+			if ( drill.length > 0 )
+				drillOnDimension.add( drill );
 		}
-		return levelList;
+		return drillOnDimension;
 	}
-	
-	private static IHierarchy findHierarchyFromCube( ICube cube,
-			IHierarchyDefinition hierarchy )
-	{
-		for ( IDimension dim : cube.getDimesions( ) )
-		{
-			if ( dim.getName( ).equals( hierarchy.getDimension( ).getName( ) )
-					&& dim.getHierarchy( )
-							.getName( )
-							.equals( hierarchy.getName( ) ) )
-			{
-				return dim.getHierarchy( );
-			}
-		}
-		return null;
-	}
-	
+		
 	public static CalculatedMember[] addCalculatedMembers (CubeAggrDefn[] cubeAggrs, AggregationRegisterTable manager,
 			Scriptable scope, ScriptContext cx ) throws DataException
 	{
@@ -1243,6 +624,30 @@ public class CubeQueryDefinitionUtil
 					(IBaseExpression) ( (IBinding) queryDefn.getBindings( )
 							.get( i ) ).getExpression( ), cx );
 		}
+	}
+
+	/**
+	 * Get the drilled target level for the drill operation.
+	 * 
+	 * @param drill
+	 * @return
+	 */
+	public static List<DimLevel> getDrilledTargetLevels( IEdgeDrillFilter drill )
+	{
+		IHierarchyDefinition hierarchy = drill.getTargetHierarchy( );
+		List levels = hierarchy.getLevels( );
+		List<DimLevel> targetLevels = new ArrayList<DimLevel>( );
+		for ( int j = 0; j < levels.size( ); j++ )
+		{
+			ILevelDefinition levelDefn = (ILevelDefinition) levels.get( j );
+			targetLevels.add( new DimLevel( hierarchy.getDimension( ).getName( ),
+					levelDefn.getName( ) ) );
+			if ( levelDefn.getName( ).equals( drill.getTargetLevelName( ) ) )
+			{
+				break;
+			}
+		}
+		return targetLevels;
 	}
 
 	/**

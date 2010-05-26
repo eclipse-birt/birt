@@ -158,7 +158,10 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 
 			for ( int j = 0; j < rs.getLevelCount( ); j++ )
 			{
-				currValue[j] = rs.getLevelKeyValue( j )[0];
+				if ( rs.getLevelKeyValue( j ) != null )
+					currValue[j] = rs.getLevelKeyValue( j )[0];
+				else
+					currValue[j] = null;
 			}
 			
 			for ( int j = 0; j < this.mirrorLevel; j++ )

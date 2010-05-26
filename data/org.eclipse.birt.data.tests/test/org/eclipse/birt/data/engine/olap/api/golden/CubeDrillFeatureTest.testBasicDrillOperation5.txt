@@ -1,0 +1,11 @@
+
+CHINA		null		null		2003		null		null		CAR		null		4.0		
+CHINA		null		null		2004		2		4		CAR		null		2.0		
+CHINA		null		null		2004		2		5		CAR		null		4.0		
+FRANCE		STATE3		CITY5		2003		null		null		MOTOR		007		5.0		
+FRANCE		STATE3		CITY6		2004		2		4		MOTOR		007		6.0		
+FRANCE		STATE3		CITY7		2003		null		null		MOTOR		007		7.0		
+FRANCE		STATE4		CITY8		2004		2		5		MOTOR		007		8.0		
+USA		null		null		2003		null		null		PLANE		null		33.0		
+USA		null		null		2004		2		4		PLANE		null		24.0		
+USA		null		null		2004		2		5		PLANE		null		12.0		

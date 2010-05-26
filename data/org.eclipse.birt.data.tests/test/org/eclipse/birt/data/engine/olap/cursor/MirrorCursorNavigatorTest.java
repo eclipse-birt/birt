@@ -78,7 +78,7 @@ public class MirrorCursorNavigatorTest extends BaseTestCase
 				this.scope,
 				de.getContext( ) ) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) , cube, false  );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) , cube );
 
 		// retrieve the edge cursors
 		// EdgeCursor pageCursor = cubeView.getMeasureEdgeView( );

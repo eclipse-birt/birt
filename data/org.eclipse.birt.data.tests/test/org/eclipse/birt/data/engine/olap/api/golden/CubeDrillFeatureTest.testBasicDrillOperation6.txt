@@ -1,0 +1,13 @@
+
+		                                                                           CAR		MOTOR		PLANE		Total
+CHINA		null		null		2003		null		null		4.0		null		null		4.0
+CHINA		null		null		2004		2		4		2.0		null		null		2.0
+CHINA		null		null		2004		2		5		4.0		null		null		4.0
+FRANCE		STATE3		CITY5		2003		null		null		null		5.0		null		5.0
+FRANCE		STATE3		CITY6		2004		2		4		null		6.0		null		6.0
+FRANCE		STATE3		CITY7		2003		null		null		null		7.0		null		7.0
+FRANCE		STATE4		CITY8		2004		2		5		null		8.0		null		8.0
+USA		null		null		2003		null		null		null		null		33.0		33.0
+USA		null		null		2004		2		4		null		null		24.0		24.0
+USA		null		null		2004		2		5		null		null		12.0		12.0
+                     Total		10.0		26.0		69.0		105.0

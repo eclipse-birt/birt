@@ -1,0 +1,8 @@
+
+		                                                                           CAR		MOTOR		PLANE		
+CHINA		null		2003		1		4.0		null		null		
+CHINA		null		2004		2		6.0		null		null		
+FRANCE		null		2003		1		null		12.0		null		
+FRANCE		null		2004		2		null		14.0		null		
+USA		null		2003		1		null		null		33.0		
+USA		null		2004		2		null		null		36.0		

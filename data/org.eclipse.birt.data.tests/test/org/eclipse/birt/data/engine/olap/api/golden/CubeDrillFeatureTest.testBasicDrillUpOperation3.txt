@@ -1,0 +1,16 @@
+
+		                                                                           CAR		MOTOR		PLANE		
+CHINA		STATE1		CITY1		2003		null		null		1.0		null		null		
+CHINA		STATE1		CITY2		2004		2		4		2.0		null		null		
+CHINA		STATE2		CITY3		2003		null		null		3.0		null		null		
+CHINA		STATE2		CITY4		2004		2		5		4.0		null		null		
+FRANCE		STATE3		CITY5		2003		null		null		null		5.0		null		
+FRANCE		STATE3		CITY6		2004		2		4		null		6.0		null		
+FRANCE		STATE3		CITY7		2003		null		null		null		7.0		null		
+FRANCE		STATE4		CITY8		2004		2		5		null		8.0		null		
+USA		STATE5		CITY10		2004		2		4		null		null		10.0		
+USA		STATE5		CITY9		2003		null		null		null		null		9.0		
+USA		STATE6		CITY11		2003		null		null		null		null		11.0		
+USA		STATE6		CITY12		2004		2		5		null		null		12.0		
+USA		STATE6		CITY13		2003		null		null		null		null		13.0		
+USA		STATE7		CITY14		2004		2		4		null		null		14.0		

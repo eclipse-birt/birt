@@ -73,8 +73,8 @@ public class QueryExecutor
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public IResultSet execute( BirtCubeView view,
-			StopSign stopSign, ICube cube, boolean needSaveToDocWhenUpate ) throws IOException, BirtException
+	public IResultSet execute( BirtCubeView view, StopSign stopSign, ICube cube )
+			throws IOException, BirtException
 	{
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		AggregationDefinition[] aggrDefns = prepareCube( executor.getCubeQueryDefinition( ),
@@ -126,6 +126,9 @@ public class QueryExecutor
 			{
 				rs = populateRs( view, aggrDefns, cubeQueryExecutorHelper, 
 						stopSign, false );
+				
+				rs = processOperationOnQuery( view, stopSign, rs );
+
 				break;
 			}
 			case DataEngineContext.MODE_PRESENTATION:
@@ -137,17 +140,15 @@ public class QueryExecutor
 							.getQueryResultsID( ),
 							executor.getContext( ).getDocReader( ),
 							new VersionManager( executor.getContext( ) ).getVersion( ) );
+					initLoadedAggregationResultSets( rs, aggrDefns );
+					
+					rs = processOperationOnQuery( view, stopSign, rs );
 					break;
 				}
 				else
 				{
 					rs = cubeQueryExecutorHelper.execute( aggrDefns, stopSign );
-					CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
-							view.getPreparedCubeOperations( ),
-							view.getCubeQueryExecutor( ).getScope( ),
-							view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
-
-					rs = coe.execute( rs, stopSign );
+					rs = processOperationOnQuery( view, stopSign, rs );
 					break;
 				}
 			}
@@ -172,12 +173,6 @@ public class QueryExecutor
 				{
 					//need to re-execute the query.
 					rs = cubeQueryExecutorHelper.execute( aggrDefns, stopSign );
-					CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
-							view.getPreparedCubeOperations( ),
-							view.getCubeQueryExecutor( ).getScope( ),
-							view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
-
-					rs = coe.execute( rs, stopSign );
 				}
 				else
 				{
@@ -191,11 +186,13 @@ public class QueryExecutor
 					
 					incrementExecute( rs, ieh );
 				}
-				if ( executor.getContext( ).getDocWriter( ) != null && needSaveToDocWhenUpate )
+				if ( executor.getContext( ).getDocWriter( ) != null )
 				{
 					if ( id == null )
 					{
-						id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
+						id = executor.getSession( )
+								.getQueryResultIDUtil( )
+								.nextID( );
 					}
 					// save rs back to report document
 					CubeQueryDefinitionIOUtil.save( id, executor.getContext( )
@@ -205,10 +202,28 @@ public class QueryExecutor
 							executor.getContext( ).getDocWriter( ) );
 					executor.setQueryResultsId( id );
 				}
+				
+				rs = processOperationOnQuery( view, stopSign, rs );
 			}
 		}
 		
 		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
+	}
+
+	private IAggregationResultSet[] processOperationOnQuery( BirtCubeView view,
+			StopSign stopSign, IAggregationResultSet[] rs )
+			throws DataException, IOException, BirtException
+	{
+		DrillOperationExecutor drillOp = new DrillOperationExecutor( );
+		rs = drillOp.execute( rs, view.getCubeQueryDefinition( ) );
+		
+		CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
+				view.getPreparedCubeOperations( ),
+				view.getCubeQueryExecutor( ).getScope( ),
+				view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
+
+		rs = coe.execute( rs, stopSign );
+		return rs;
 	}
 	
 	private void initLoadedAggregationResultSets( IAggregationResultSet[] arss, AggregationDefinition[] ads )
@@ -267,15 +282,7 @@ public class QueryExecutor
 		//If not load from local dir
 		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
 		{
-			rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
-			
-			CubeOperationsExecutor coe = new CubeOperationsExecutor(view.getCubeQueryDefinition( ),
-					view.getPreparedCubeOperations( ),
-					view.getCubeQueryExecutor( ).getScope( ),
-					view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
-			
-			rs = coe.execute( rs, stopSign );
-
+			rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );			
 			//If need save to local dir
 			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 			{
@@ -294,7 +301,7 @@ public class QueryExecutor
 						writer );
 				writer.finish( );
 			}		
-			
+			//only save the raw aggregation result into RD.
 			if ( saveToRD)
 			{
 				//Save to RD using same id.

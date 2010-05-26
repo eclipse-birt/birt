@@ -88,6 +88,12 @@ public class AggregationResultRow implements IAggregationResultRow
 		IAggregationResultRow other = (IAggregationResultRow) o;
 		for ( int i = 0; i < getLevelMembers().length; i++ )
 		{
+			//only for drill operation, the member key value will be null
+			if ( getLevelMembers( )[i] == null
+					|| other.getLevelMembers( )[i] == null )
+			{
+				continue;
+			}
 			int result = ( getLevelMembers()[i] ).compareTo( other.getLevelMembers()[i] );
 			if ( result < 0 )
 			{

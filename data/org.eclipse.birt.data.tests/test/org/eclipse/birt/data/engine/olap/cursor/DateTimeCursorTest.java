@@ -81,7 +81,7 @@ public class DateTimeCursorTest extends BaseTestCase
 				this.scope,
 				de.getContext( ) ), cube, null );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false   );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
 		List rowEdgeBindingNames = new ArrayList();
 		rowEdgeBindingNames.add( "level11" );
@@ -124,7 +124,7 @@ public class DateTimeCursorTest extends BaseTestCase
 				this.scope,
 				de.getContext( ) ), cube, null );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
 		List rowEdgeBindingNames = new ArrayList();
 		rowEdgeBindingNames.add( "level11" );
@@ -167,7 +167,7 @@ public class DateTimeCursorTest extends BaseTestCase
 				this.scope,
 				de.getContext( ) ), cube, null );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube, false  );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
 		List rowEdgeBindingNames = new ArrayList();
 		rowEdgeBindingNames.add( "level11" );

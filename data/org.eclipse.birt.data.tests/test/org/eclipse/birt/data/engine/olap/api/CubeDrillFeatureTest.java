@@ -41,100 +41,95 @@ public class CubeDrillFeatureTest extends BaseTestCase
 
 	private final static String cubeName = "DrilledCube";
 
-	
-	public void testDrillDownOperation( ) throws Exception
+	/**
+	 * Test basic drill up operation
+	 * Drill on the first dimension
+	 * @throws Exception
+	 */
+	public void testBasicDrillUpOperation( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IDimensionDefinition dim1 = rowEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
+		hier1.createLevel( "COUNTRY" );
+		hier1.createLevel( "STATE" );
+		hier1.createLevel( "CITY" );
 
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-		hier2.createLevel( "level22" );
-		hier2.createLevel( "level23" );
+		hier2.createLevel( "YEAR" );
+		hier2.createLevel( "QUARTER" );
+		hier2.createLevel( "MONTH" );
 
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dim3 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
+		hier3.createLevel( "PRODUCTLINE" );
+		
 		cqd.createMeasure( "measure1" );
 
-		IBinding binding1 = new Binding( "edge1level1" );
+		IBinding binding1 = new Binding( "binding1" );
 
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"COUNTRY\"]" ) );
 		cqd.addBinding( binding1 );
 
-		IBinding binding2 = new Binding( "edge1level2" );
+		IBinding binding2 = new Binding( "binding2" );
 
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"STATE\"]" ) );
 		cqd.addBinding( binding2 );
 
-		IBinding binding3 = new Binding( "edge1level3" );
+		IBinding binding3 = new Binding( "binding3" );
 
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"CITY\"]" ) );
 		cqd.addBinding( binding3 );
 		
-		IBinding binding4 = new Binding( "edge1level4" );
+		IBinding binding4 = new Binding( "binding4" );
 
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"YEAR\"]" ) );
 		cqd.addBinding( binding4 );
 
-		IBinding binding5 = new Binding( "edge2level21" );
+		IBinding binding5 = new Binding( "binding5" );
 
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"QUARTER\"]" ) );
 		cqd.addBinding( binding5 );
 
 
-		IBinding binding6 = new Binding( "edge2level22" );
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
+		IBinding binding6 = new Binding( "binding6" );
+		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"MONTH\"]" ) );
 		cqd.addBinding( binding6 );
 
-		IBinding binding7 = new Binding( "edge2level23" );
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
+		IBinding binding7 = new Binding( "binding7" );
+		binding7.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"PRODUCTLINE\"]" ) );
 		cqd.addBinding( binding7 );
 
 		IBinding binding8 = new Binding( "measure1" );
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
 
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
+		IEdgeDrillFilter filter = rowEdge.createDrillFilter( "drill1" );
 		filter.setTargetHierarchy( hier1 );
-		filter.setTargetLevelName( "level14" );
+		filter.setTargetLevelName( "COUNTRY" );
 		List memberList = new ArrayList( );
 		memberList.add( new Object[]{
-			"CAR"
+			"CHINA"
 		} );
-		memberList.add( null );
 		memberList.add( null );
 		memberList.add( null );
 		filter.setTuple( memberList );
 
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
+		IEdgeDrillFilter filter2 = rowEdge.createDrillFilter( "drill2" );
 		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level12" );
+		filter2.setTargetLevelName( "STATE" );
 		memberList = new ArrayList( );
 		memberList.add( new Object[]{
-			"MOTOR"
+			"USA"
 		} );
 		memberList.add( new Object[]{
-				null
-			} );
+				"STATE5", "STATE7", "STATE6"
+		} );
 		filter2.setTuple( memberList );
-
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
-		filter3.setTargetHierarchy( hier1 );
-		filter3.setTargetLevelName( "level13" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-			Integer.valueOf( "2005" )
-		} );
-		memberList.add( null );
-
-		filter3.setTuple( memberList );
 
 		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
 		
@@ -144,15 +139,210 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
 		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
+		rowEdgeBindingNames.add( "binding1" );
+		rowEdgeBindingNames.add( "binding2" );
+		rowEdgeBindingNames.add( "binding3" );
+		rowEdgeBindingNames.add( "binding4" );
+		rowEdgeBindingNames.add( "binding5" );
+		rowEdgeBindingNames.add( "binding6" );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "binding7" );
+
+		printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1",
+				null,
+				null,
+				null, null );
+
+		engine.shutdown( );
+	}
+
+	/**
+	 * Drill on the first dimension with duplicated second dimension
+	 * @throws Exception
+	 */
+	public void testBasicDrillOperation2( ) throws Exception
+	{
+
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "COUNTRY" );
+		hier1.createLevel( "STATE" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "YEAR" );
+		hier2.createLevel( "QUARTER" );
+
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dim3 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
+		hier3.createLevel( "PRODUCTLINE" );
+		
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "binding1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"COUNTRY\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "binding2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"STATE\"]" ) );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding4 = new Binding( "binding4" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"YEAR\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "binding5" );
+
+		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"QUARTER\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IBinding binding7 = new Binding( "binding7" );
+		binding7.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"PRODUCTLINE\"]" ) );
+		cqd.addBinding( binding7 );
+
+		IBinding binding8 = new Binding( "measure1" );
+		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding8 );
+
+		IEdgeDrillFilter filter = rowEdge.createDrillFilter( "drill1" );
+		filter.setTargetHierarchy( hier1 );
+		filter.setTargetLevelName( "COUNTRY" );
+		List memberList = new ArrayList( );
+		memberList.add( new Object[]{
+				"USA", "CHINA", "FRANCE"
+		} );
+		filter.setTuple( memberList );
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
+		
+		DrilledCube cube = new DrilledCube( );
+		cube.createCube( engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "binding1" );
+		rowEdgeBindingNames.add( "binding2" );
+		rowEdgeBindingNames.add( "binding4" );
+		rowEdgeBindingNames.add( "binding5" );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "binding7" );
+
+		printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1",
+				null,
+				null,
+				null, null );
+
+		engine.shutdown( );
+	}
+
+	
+	/**
+	 * Drill on the second dimension
+	 * @throws Exception
+	 */
+	public void testBasicDrillUpOperation3( ) throws Exception
+	{
+
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "COUNTRY" );
+		hier1.createLevel( "STATE" );
+		hier1.createLevel( "CITY" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "YEAR" );
+		hier2.createLevel( "QUARTER" );
+		hier2.createLevel( "MONTH" );
+
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dim3 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
+		hier3.createLevel( "PRODUCTLINE" );
+		
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "binding1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"COUNTRY\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "binding2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"STATE\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "binding3" );
+
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"CITY\"]" ) );
+		cqd.addBinding( binding3 );
+		
+		IBinding binding4 = new Binding( "binding4" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"YEAR\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "binding5" );
+
+		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"QUARTER\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IBinding binding6 = new Binding( "binding6" );
+
+		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"MONTH\"]" ) );
+		cqd.addBinding( binding6 );
+
+		IBinding binding7 = new Binding( "binding7" );
+		binding7.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"PRODUCTLINE\"]" ) );
+		cqd.addBinding( binding7 );
+
+		IBinding binding8 = new Binding( "measure1" );
+		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding8 );
+
+		IEdgeDrillFilter filter = rowEdge.createDrillFilter( "drill1" );
+		filter.setTargetHierarchy( hier2 );
+		filter.setTargetLevelName( "YEAR" );
+		List memberList = new ArrayList( );
+		memberList.add( new Object[]{
+			"2003"
+		} );
+		memberList.add( null );
+		memberList.add( null );
+		filter.setTuple( memberList );
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
+		
+		DrilledCube cube = new DrilledCube( );
+		cube.createCube( engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "binding1" );
+		rowEdgeBindingNames.add( "binding2" );
+		rowEdgeBindingNames.add( "binding3" );
+		rowEdgeBindingNames.add( "binding4" );
+		rowEdgeBindingNames.add( "binding5" );
+		rowEdgeBindingNames.add( "binding6" );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "binding7" );
 
 		printCube( cursor,
 				columnEdgeBindingNames,
@@ -166,103 +356,91 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	}
 	
 	/**
-	 * Test on the Tuple with data type convert
+	 * Drill on the first and second dimension
 	 * @throws Exception
 	 */
-	public void testDrillDownOperation1( ) throws Exception
+	public void testBasicDrillUpOperation4( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IDimensionDefinition dim1 = rowEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
+		hier1.createLevel( "COUNTRY" );
+		hier1.createLevel( "STATE" );
+		hier1.createLevel( "CITY" );
 
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-		hier2.createLevel( "level22" );
-		hier2.createLevel( "level23" );
+		hier2.createLevel( "YEAR" );
+		hier2.createLevel( "QUARTER" );
+		hier2.createLevel( "MONTH" );
 
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dim3 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
+		hier3.createLevel( "PRODUCTLINE" );
+		
 		cqd.createMeasure( "measure1" );
 
-		IBinding binding1 = new Binding( "edge1level1" );
+		IBinding binding1 = new Binding( "binding1" );
 
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"COUNTRY\"]" ) );
 		cqd.addBinding( binding1 );
 
-		IBinding binding2 = new Binding( "edge1level2" );
+		IBinding binding2 = new Binding( "binding2" );
 
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"STATE\"]" ) );
 		cqd.addBinding( binding2 );
 
-		IBinding binding3 = new Binding( "edge1level3" );
+		IBinding binding3 = new Binding( "binding3" );
 
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"CITY\"]" ) );
 		cqd.addBinding( binding3 );
 		
-		IBinding binding4 = new Binding( "edge1level4" );
+		IBinding binding4 = new Binding( "binding4" );
 
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"YEAR\"]" ) );
 		cqd.addBinding( binding4 );
 
-		IBinding binding5 = new Binding( "edge2level21" );
+		IBinding binding5 = new Binding( "binding5" );
 
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"QUARTER\"]" ) );
 		cqd.addBinding( binding5 );
 
+		IBinding binding6 = new Binding( "binding6" );
 
-		IBinding binding6 = new Binding( "edge2level22" );
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
+		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"MONTH\"]" ) );
 		cqd.addBinding( binding6 );
 
-		IBinding binding7 = new Binding( "edge2level23" );
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
+		IBinding binding7 = new Binding( "binding7" );
+		binding7.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"PRODUCTLINE\"]" ) );
 		cqd.addBinding( binding7 );
 
 		IBinding binding8 = new Binding( "measure1" );
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
-
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
-		filter.setTargetHierarchy( hier1 );
-		filter.setTargetLevelName( "level14" );
+		
+		IEdgeDrillFilter filter1 = rowEdge.createDrillFilter( "drill2" );
+		filter1.setTargetHierarchy( hier1 );
+		filter1.setTargetLevelName( "COUNTRY" );
 		List memberList = new ArrayList( );
 		memberList.add( new Object[]{
-			"CAR"
+			"USA","CHINA"
 		} );
-		memberList.add( null );
+		filter1.setTuple( memberList );
+		
+		IEdgeDrillFilter filter = rowEdge.createDrillFilter( "drill1" );
+		filter.setTargetHierarchy( hier2 );
+		filter.setTargetLevelName( "YEAR" );
+		memberList = new ArrayList( );
+		memberList.add( new Object[]{
+			"2003"
+		} );
 		memberList.add( null );
 		memberList.add( null );
 		filter.setTuple( memberList );
-
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level12" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-				null
-			} );
-		filter2.setTuple( memberList );
-
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
-		filter3.setTargetHierarchy( hier1 );
-		filter3.setTargetLevelName( "level13" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-			"2005"
-		} );
-		memberList.add( null );
-
-		filter3.setTuple( memberList );
-
+		
 		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
 		
 		DrilledCube cube = new DrilledCube( );
@@ -271,15 +449,15 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
 		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
+		rowEdgeBindingNames.add( "binding1" );
+		rowEdgeBindingNames.add( "binding2" );
+		rowEdgeBindingNames.add( "binding3" );
+		rowEdgeBindingNames.add( "binding4" );
+		rowEdgeBindingNames.add( "binding5" );
+		rowEdgeBindingNames.add( "binding6" );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "binding7" );
 
 		printCube( cursor,
 				columnEdgeBindingNames,
@@ -291,436 +469,125 @@ public class CubeDrillFeatureTest extends BaseTestCase
 
 		engine.shutdown( );
 	}
-		
-	public void testDrillDownOperationOnRowAndColumn( ) throws Exception
-	{
 
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
-		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-
-		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
-		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-
-		cqd.createMeasure( "measure1" );
-
-		IBinding binding1 = new Binding( "edge1level1" );
-
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
-		cqd.addBinding( binding1 );
-
-		IBinding binding2 = new Binding( "edge1level2" );
-
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
-		cqd.addBinding( binding2 );
-
-		IBinding binding3 = new Binding( "edge1level3" );
-
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
-		cqd.addBinding( binding3 );
-		
-		IBinding binding4 = new Binding( "edge1level4" );
-
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
-		cqd.addBinding( binding4 );
-
-		IBinding binding5 = new Binding( "edge2level21" );
-
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
-		cqd.addBinding( binding5 );
-
-
-		IBinding binding6 = new Binding( "edge2level22" );
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
-		cqd.addBinding( binding6 );
-
-		IBinding binding7 = new Binding( "edge2level23" );
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
-		cqd.addBinding( binding7 );
-
-		IBinding binding8 = new Binding( "measure1" );
-		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		cqd.addBinding( binding8 );
-
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
-		filter.setTargetHierarchy( hier1 );
-		filter.setTargetLevelName( "level14" );
-		List memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		memberList.add( null );
-		filter.setTuple( memberList );
-
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2");
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level12" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( null );
-		filter2.setTuple( memberList );
-
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
-		filter3.setTargetHierarchy( hier1 );
-		filter3.setTargetLevelName( "level13" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-			Integer.valueOf( "2005" )
-		} );
-		memberList.add( null );
-		filter3.setTuple( memberList );
-		
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
-		filter4.setTargetHierarchy( hier2 );
-		filter4.setTargetLevelName( "level23" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"US"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		filter4.setTuple( memberList );
-		
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
-		filter5.setTargetHierarchy( hier2 );
-		filter5.setTargetLevelName( "level22" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CN"
-		} );
-		memberList.add( null );
-		filter5.setTuple( memberList );
-
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
-		
-		DrilledCube cube = new DrilledCube( );
-		cube.createCube( engine );
-		
-		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
-		ICubeQueryResults queryResults = pcq.execute( null );
-		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
-		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
-
-		printCube( cursor,
-				columnEdgeBindingNames,
-				rowEdgeBindingNames,
-				"measure1",
-				null,
-				null,
-				null, null );
-
-		engine.shutdown( );
-	}
-	
-	public void testDrillDownOperationOnRowAndColumn2( ) throws Exception
-	{
-
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
-		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
-		hier1.createLevel( "level13" );
-				
-		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
-		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-
-		cqd.createMeasure( "measure1" );
-
-		IBinding binding1 = new Binding( "edge1level1" );
-
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
-		cqd.addBinding( binding1 );
-
-		IBinding binding2 = new Binding( "edge1level2" );
-
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
-		cqd.addBinding( binding2 );
-
-		IBinding binding3 = new Binding( "edge1level3" );
-
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
-		cqd.addBinding( binding3 );
-		
-		IBinding binding4 = new Binding( "edge1level4" );
-
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
-		cqd.addBinding( binding4 );
-
-		IBinding binding5 = new Binding( "edge2level21" );
-
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
-		cqd.addBinding( binding5 );
-
-
-		IBinding binding6 = new Binding( "edge2level22" );
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
-		cqd.addBinding( binding6 );
-
-		IBinding binding7 = new Binding( "edge2level23" );
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
-		cqd.addBinding( binding7 );
-
-		IBinding binding8 = new Binding( "measure1" );
-		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		cqd.addBinding( binding8 );
-
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
-		filter.setTargetHierarchy( hier1 );
-		filter.setTargetLevelName( "level14" );
-		List memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		memberList.add( null );		
-		filter.setTuple( memberList );
-
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level12" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-			new Integer( 2005 )
-		} );
-		filter2.setTuple( memberList );
-
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
-		filter3.setTargetHierarchy( hier1 );
-		filter3.setTargetLevelName( "level11" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"BUS"
-		} );
-		filter3.setTuple( memberList );
-		
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
-		filter4.setTargetHierarchy( hier2 );
-		filter4.setTargetLevelName( "level23" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"US"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		filter4.setTuple( memberList );
-		
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
-		filter5.setTargetHierarchy( hier2 );
-		filter5.setTargetLevelName( "level22" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CN"
-		} );
-		memberList.add( null );
-		filter5.setTuple( memberList );
-
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
-		
-		DrilledCube cube = new DrilledCube( );
-		cube.createCube( engine );
-		
-		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
-		ICubeQueryResults queryResults = pcq.execute( null );
-		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
-		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
-
-		printCube( cursor,
-				columnEdgeBindingNames,
-				rowEdgeBindingNames,
-				"measure1",
-				null,
-				null,
-				null, null );
-
-		engine.shutdown( );
-	}
-	
 	/**
-	 * test multiple value selection
+	 * Drill on the first, second, third dimension
 	 * @throws Exception
 	 */
-	public void testDrillDownOperationOnRowAndColumn3( ) throws Exception
+	public void testBasicDrillOperation5( ) throws Exception
 	{
-
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IDimensionDefinition dim1 = rowEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
+		hier1.createLevel( "COUNTRY" );
+		hier1.createLevel( "STATE" );
+		hier1.createLevel( "CITY" );
 
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-		hier2.createLevel( "level22" );
+		hier2.createLevel( "YEAR" );
+		hier2.createLevel( "QUARTER" );
+		hier2.createLevel( "MONTH" );
+
+		IDimensionDefinition dim3 = rowEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
+		hier3.createLevel( "PRODUCTLINE" );
+		hier3.createLevel( "PRODUCTTYPE" );
 
 		cqd.createMeasure( "measure1" );
 
-		IBinding binding1 = new Binding( "edge1level1" );
+		IBinding binding1 = new Binding( "binding1" );
 
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"COUNTRY\"]" ) );
 		cqd.addBinding( binding1 );
 
-		IBinding binding2 = new Binding( "edge1level2" );
+		IBinding binding2 = new Binding( "binding2" );
 
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"STATE\"]" ) );
 		cqd.addBinding( binding2 );
 
-		IBinding binding3 = new Binding( "edge1level3" );
+		IBinding binding3 = new Binding( "binding3" );
 
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"CITY\"]" ) );
 		cqd.addBinding( binding3 );
 		
-		IBinding binding4 = new Binding( "edge1level4" );
+		IBinding binding4 = new Binding( "binding4" );
 
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"YEAR\"]" ) );
 		cqd.addBinding( binding4 );
 
-		IBinding binding5 = new Binding( "edge2level21" );
+		IBinding binding5 = new Binding( "binding5" );
 
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"QUARTER\"]" ) );
 		cqd.addBinding( binding5 );
 
+		IBinding binding6 = new Binding( "binding6" );
 
-		IBinding binding6 = new Binding( "edge2level22" );
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
+		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"MONTH\"]" ) );
 		cqd.addBinding( binding6 );
 
-		IBinding binding7 = new Binding( "edge2level23" );
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
+		IBinding binding7 = new Binding( "binding7" );
+		binding7.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"PRODUCTLINE\"]" ) );
 		cqd.addBinding( binding7 );
+		
+		IBinding binding9 = new Binding( "binding8" );
+		binding9.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"PRODUCTTYPE\"]" ) );
+		cqd.addBinding( binding9 );
 
 		IBinding binding8 = new Binding( "measure1" );
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
-
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
-		filter.setTargetHierarchy( hier1 );
-		filter.setTargetLevelName( "level14" );
+		
+		IEdgeDrillFilter filter1 = rowEdge.createDrillFilter( "drill2" );
+		filter1.setTargetHierarchy( hier1 );
+		filter1.setTargetLevelName( "COUNTRY" );
 		List memberList = new ArrayList( );
 		memberList.add( new Object[]{
-			"BICK"
+			"USA","CHINA"
 		} );
-		memberList.add( null );
+		filter1.setTuple( memberList );
+		
+		IEdgeDrillFilter filter = rowEdge.createDrillFilter( "drill1" );
+		filter.setTargetHierarchy( hier2 );
+		filter.setTargetLevelName( "YEAR" );
+		memberList = new ArrayList( );
+		memberList.add( new Object[]{
+			"2003"
+		} );
 		memberList.add( null );
 		memberList.add( null );
 		filter.setTuple( memberList );
 		
-		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill11" );
-		filter1.setTargetHierarchy( hier1 );
-		filter1.setTargetLevelName( "level12" );
+		IEdgeDrillFilter filter2 = rowEdge.createDrillFilter( "drill13" );
+		filter2.setTargetHierarchy( hier3 );
+		filter2.setTargetLevelName( "PRODUCTLINE" );
 		memberList = new ArrayList( );
 		memberList.add( new Object[]{
-			"BICK"
-		} );
-		memberList.add( new Object[]{
-				Integer.valueOf( 2005 ), Integer.valueOf( 2007 )
-		} );
-		filter1.setTuple( memberList );
-
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level13" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
+			"CAR", "PLANE"
 		} );
 		memberList.add( null );
 		memberList.add( null );
 		filter2.setTuple( memberList );
-
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
-		filter3.setTargetHierarchy( hier1 );
-		filter3.setTargetLevelName( "level14" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
-		} );
-		memberList.add( new Object[]{
-			Integer.valueOf( "2005" )
-		} );
-		memberList.add( new Object[]{
-				"A1", "A2"
-		} );
-		memberList.add( null );
-		filter3.setTuple( memberList );
-
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
-		filter4.setTargetHierarchy( hier2 );
-		filter4.setTargetLevelName( "level23" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"US"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		filter4.setTuple( memberList );
-
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
-		filter5.setTargetHierarchy( hier2 );
-		filter5.setTargetLevelName( "level23" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CN"
-		} );
-		memberList.add( new Object[]{
-				"BJ", "SZ"
-		} );
-		memberList.add( null );
-		filter5.setTuple( memberList );
-
+		
 		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
-
+		
 		DrilledCube cube = new DrilledCube( );
 		cube.createCube( engine );
-
+		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
 		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
+		rowEdgeBindingNames.add( "binding1" );
+		rowEdgeBindingNames.add( "binding2" );
+		rowEdgeBindingNames.add( "binding3" );
+		rowEdgeBindingNames.add( "binding4" );
+		rowEdgeBindingNames.add( "binding5" );
+		rowEdgeBindingNames.add( "binding6" );
+		rowEdgeBindingNames.add( "binding7" );
+		rowEdgeBindingNames.add( "binding8" );
+		List columnEdgeBindingNames = new ArrayList( );
 
 		printCube( cursor,
 				columnEdgeBindingNames,
@@ -732,451 +599,86 @@ public class CubeDrillFeatureTest extends BaseTestCase
 
 		engine.shutdown( );
 	}
-	
-	public void testDrillDownOperationOnRowAndColumn4( ) throws Exception
+		
+	/**
+	 * Drill on the first, second and the sub total.
+	 * @throws Exception
+	 */
+	public void testBasicDrillOperation6( ) throws Exception
 	{
-
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IDimensionDefinition dim1 = rowEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
-		hier1.createLevel( "level13" );
-		hier1.createLevel( "level14" );
+		hier1.createLevel( "COUNTRY" );
+		hier1.createLevel( "STATE" );
+		hier1.createLevel( "CITY" );
 
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-		hier2.createLevel( "level22" );
-		hier2.createLevel( "level23" );
+		hier2.createLevel( "YEAR" );
+		hier2.createLevel( "QUARTER" );
+		hier2.createLevel( "MONTH" );
+
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dim3 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
+		hier3.createLevel( "PRODUCTLINE" );
 
 		cqd.createMeasure( "measure1" );
 
-		IBinding binding1 = new Binding( "edge1level1" );
+		IBinding binding1 = new Binding( "binding1" );
 
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"COUNTRY\"]" ) );
 		cqd.addBinding( binding1 );
 
-		IBinding binding2 = new Binding( "edge1level2" );
+		IBinding binding2 = new Binding( "binding2" );
 
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"STATE\"]" ) );
 		cqd.addBinding( binding2 );
 
-		IBinding binding3 = new Binding( "edge1level3" );
+		IBinding binding3 = new Binding( "binding3" );
 
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"CITY\"]" ) );
 		cqd.addBinding( binding3 );
 		
-		IBinding binding4 = new Binding( "edge1level4" );
+		IBinding binding4 = new Binding( "binding4" );
 
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"YEAR\"]" ) );
 		cqd.addBinding( binding4 );
 
-		IBinding binding5 = new Binding( "edge2level21" );
+		IBinding binding5 = new Binding( "binding5" );
 
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"QUARTER\"]" ) );
 		cqd.addBinding( binding5 );
 
+		IBinding binding6 = new Binding( "binding6" );
 
-		IBinding binding6 = new Binding( "edge2level22" );
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
+		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"MONTH\"]" ) );
 		cqd.addBinding( binding6 );
 
-		IBinding binding7 = new Binding( "edge2level23" );
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
+		IBinding binding7 = new Binding( "binding7" );
+		binding7.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"PRODUCTLINE\"]" ) );
 		cqd.addBinding( binding7 );
 
 		IBinding binding8 = new Binding( "measure1" );
 		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding8 );
-
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
-		filter.setTargetHierarchy( hier1 );
-		filter.setTargetLevelName( "level12" );
-		List memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"BICK"
-		} );
-		memberList.add( null );
-		filter.setTuple( memberList );
 		
-		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill12" );
-		filter1.setTargetHierarchy( hier1 );
-		filter1.setTargetLevelName( "level13" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"BICK"
-		} );
-		memberList.add( new Object[]{
-				Integer.valueOf( 2005 ), Integer.valueOf( 2007 )
-		} );
-		filter1.setTuple( memberList );
-
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level13" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		filter2.setTuple( memberList );
-
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
-		filter3.setTargetHierarchy( hier1 );
-		filter3.setTargetLevelName( "level14" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
-		} );
-		memberList.add( new Object[]{
-			Integer.valueOf( "2005" )
-		} );
-		memberList.add( new Object[]{
-				"A1", "A2"
-		} );
-		memberList.add( null );
-		filter3.setTuple( memberList );
-
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
-		filter4.setTargetHierarchy( hier2 );
-		filter4.setTargetLevelName( "level22" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"US"
-		} );
-		memberList.add( new Object[]{
-				"LA", "NY", "NZ"
-		} );
-		filter4.setTuple( memberList );
-
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
-
-		DrilledCube cube = new DrilledCube( );
-		cube.createCube( engine );
-
-		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
-		ICubeQueryResults queryResults = pcq.execute( null );
-		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
-		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
-
-		printCube( cursor,
-				columnEdgeBindingNames,
-				rowEdgeBindingNames,
-				"measure1",
-				null,
-				null,
-				null, null );
-
-		engine.shutdown( );
-	}
-
-	public void testDrillUpOperation( ) throws Exception
-	{
-
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
-		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
-		hier1.createLevel( "level13" );
-		hier1.createLevel( "level14" );
-
-		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
-		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-		hier2.createLevel( "level22" );
-		hier2.createLevel( "level23" );
-
-		cqd.createMeasure( "measure1" );
-
-		IBinding binding1 = new Binding( "edge1level1" );
-
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
-		cqd.addBinding( binding1 );
-
-		IBinding binding2 = new Binding( "edge1level2" );
-
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
-		cqd.addBinding( binding2 );
-
-		IBinding binding3 = new Binding( "edge1level3" );
-
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
-		cqd.addBinding( binding3 );
-		
-		IBinding binding4 = new Binding( "edge1level4" );
-
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
-		cqd.addBinding( binding4 );
-
-		IBinding binding5 = new Binding( "edge2level21" );
-
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
-		cqd.addBinding( binding5 );
-
-		IBinding binding6 = new Binding( "edge2level22" );
-
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
-		cqd.addBinding( binding6 );
-		
-		IBinding binding7 = new Binding( "edge2level23" );
-
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
-		cqd.addBinding( binding7 );
-		
-		IBinding binding8 = new Binding( "measure1" );
-		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		cqd.addBinding( binding8 );
-
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
-		filter.setTargetHierarchy( hier1 );
-		filter.setTargetLevelName( "level11" );
-		List memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
-		} );
-		filter.setTuple( memberList );
-
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level12" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-			new Integer( 2005 )
-		} );
-		filter2.setTuple( memberList );
-		
-
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill2" );
-		filter3.setTargetHierarchy( hier1 );
-		filter3.setTargetLevelName( "level13" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-			new Integer( 2007 )
-		} );
-		memberList.add( new Object[]{
-			"A14"
-		} );
-		filter3.setTuple( memberList );
-
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
-		DrilledCube cube = new DrilledCube();
-		cube.createCube( engine );
-		
-		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
-		ICubeQueryResults queryResults = pcq.execute( null );
-		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
-		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
-
-		printCube( cursor,
-				columnEdgeBindingNames,
-				rowEdgeBindingNames,
-				"measure1", null, null, null, null );
-
-		engine.shutdown( );
-	}
-	
-	public void testDrillUpOperation1( ) throws Exception
-	{
-
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
-		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
-		hier1.createLevel( "level13" );
-		hier1.createLevel( "level14" );
-
-		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
-		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-		hier2.createLevel( "level22" );
-		hier2.createLevel( "level23" );
-
-		cqd.createMeasure( "measure1" );
-
-		IBinding binding1 = new Binding( "edge1level1" );
-
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
-		cqd.addBinding( binding1 );
-
-		IBinding binding2 = new Binding( "edge1level2" );
-
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
-		cqd.addBinding( binding2 );
-
-		IBinding binding3 = new Binding( "edge1level3" );
-
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
-		cqd.addBinding( binding3 );
-		
-		IBinding binding4 = new Binding( "edge1level4" );
-
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
-		cqd.addBinding( binding4 );
-
-		IBinding binding5 = new Binding( "edge2level21" );
-
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
-		cqd.addBinding( binding5 );
-
-		IBinding binding6 = new Binding( "edge2level22" );
-
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
-		cqd.addBinding( binding6 );
-		
-		IBinding binding7 = new Binding( "edge2level23" );
-
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
-		cqd.addBinding( binding7 );
-		
-		IBinding binding8 = new Binding( "measure1" );
-		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		cqd.addBinding( binding8 );
-
-		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill1" );
-		filter1.setTargetHierarchy( hier1 );
-		filter1.setTargetLevelName( "level12" );
-		List memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
-		} );
-		memberList.add( null );
-		filter1.setTuple( memberList );
-		
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level12" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-			null
-		} );
-		filter2.setTuple( memberList );
-		
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
-		DrilledCube cube = new DrilledCube();
-		cube.createCube( engine );
-		
-		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
-		ICubeQueryResults queryResults = pcq.execute( null );
-		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
-		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
-
-		printCube( cursor,
-				columnEdgeBindingNames,
-				rowEdgeBindingNames,
-				"measure1", null, null, null, null );
-
-		engine.shutdown( );
-	}
-		
-	public void testDrillOperationWithGrandTotal( ) throws Exception
-	{
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
-		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
-		hier1.createLevel( "level13" );
-				
-		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
-		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-
-		cqd.createMeasure( "measure1" );
-
-		IBinding binding1 = new Binding( "edge1level1" );
-
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
-		cqd.addBinding( binding1 );
-
-		IBinding binding2 = new Binding( "edge1level2" );
-
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
-		cqd.addBinding( binding2 );
-
-		IBinding binding3 = new Binding( "edge1level3" );
-
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
-		cqd.addBinding( binding3 );
-		
-		IBinding binding4 = new Binding( "edge1level4" );
-
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
-		cqd.addBinding( binding4 );
-
-		IBinding binding5 = new Binding( "edge2level21" );
-
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
-		cqd.addBinding( binding5 );
-
-
-		IBinding binding6 = new Binding( "edge2level22" );
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
-		cqd.addBinding( binding6 );
-
-		IBinding binding7 = new Binding( "edge2level23" );
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
-		cqd.addBinding( binding7 );
-
-		IBinding binding8 = new Binding( "measure1" );
-		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		cqd.addBinding( binding8 );
-
 		IBinding binding9 = new Binding( "total1" );
 		binding9.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]");
-		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]");
-		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]");
+		binding9.addAggregateOn( "dimension[\"dimension1\"][\"COUNTRY\"]");
+		binding9.addAggregateOn( "dimension[\"dimension1\"][\"STATE\"]");
+		binding9.addAggregateOn( "dimension[\"dimension1\"][\"CITY\"]");
+		binding9.addAggregateOn( "dimension[\"dimension2\"][\"YEAR\"]");
+		binding9.addAggregateOn( "dimension[\"dimension2\"][\"QUARTER\"]");
+		binding9.addAggregateOn( "dimension[\"dimension2\"][\"MONTH\"]");
 		binding9.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		cqd.addBinding( binding9 );
 		
 		IBinding binding10 = new Binding( "total2" );
 		binding10.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		binding10.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]");
+		binding10.addAggregateOn( "dimension[\"dimension3\"][\"PRODUCTLINE\"]");
 		binding10.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		cqd.addBinding( binding10 );
 		
@@ -1185,372 +687,56 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		binding11.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		cqd.addBinding( binding11 );
 		
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
-		filter.setTargetHierarchy( hier1 );
-		filter.setTargetLevelName( "level14" );
-		List memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		memberList.add( null );
-		filter.setTuple( memberList );
-
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level12" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-			new Integer( 2005 )
-		} );
-		filter2.setTuple( memberList );
-
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
-		filter3.setTargetHierarchy( hier1 );
-		filter3.setTargetLevelName( "level11" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"BUS"
-		} );
-		filter3.setTuple( memberList );
-		
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
-		filter4.setTargetHierarchy( hier2 );
-		filter4.setTargetLevelName( "level23" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"US"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		filter4.setTuple( memberList );
-		
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
-		filter5.setTargetHierarchy( hier2 );
-		filter5.setTargetLevelName( "level22" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CN"
-		} );
-		memberList.add( null );
-		filter5.setTuple( memberList );
-
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
-		
-		DrilledCube cube = new DrilledCube( );
-		cube.createCube( engine );
-		
-		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
-		ICubeQueryResults queryResults = pcq.execute( null );
-		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
-		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
-
-		printCube( cursor,
-				columnEdgeBindingNames,
-				rowEdgeBindingNames,
-				"measure1",
-				"total1",
-				"total2",
-				"grandTotal1", null );
-
-		engine.shutdown( );
-	}
-	
-	public void testDrillOperationWithGrandTotal1( ) throws Exception
-	{
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
-		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
-		hier1.createLevel( "level13" );
-				
-		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
-		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-
-		cqd.createMeasure( "measure1" );
-
-		IBinding binding1 = new Binding( "edge1level1" );
-
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
-		cqd.addBinding( binding1 );
-
-		IBinding binding2 = new Binding( "edge1level2" );
-
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
-		cqd.addBinding( binding2 );
-
-		IBinding binding3 = new Binding( "edge1level3" );
-
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
-		cqd.addBinding( binding3 );
-		
-		IBinding binding4 = new Binding( "edge1level4" );
-
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
-		cqd.addBinding( binding4 );
-
-		IBinding binding5 = new Binding( "edge2level21" );
-
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
-		cqd.addBinding( binding5 );
-
-
-		IBinding binding6 = new Binding( "edge2level22" );
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
-		cqd.addBinding( binding6 );
-
-		IBinding binding7 = new Binding( "edge2level23" );
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
-		cqd.addBinding( binding7 );
-
-		IBinding binding8 = new Binding( "measure1" );
-		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		cqd.addBinding( binding8 );
-
-		IBinding binding9 = new Binding( "total1" );
-		binding9.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]");
-		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]");
-		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]");
-		binding9.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		cqd.addBinding( binding9 );
-		
-		IBinding binding10 = new Binding( "total2" );
-		binding10.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		binding10.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]");
-		binding10.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		cqd.addBinding( binding10 );
-
-		IBinding binding11 = new Binding( "subTotalOnLevel11AndLeve12" );
-		binding11.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		binding11.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]");
-		binding11.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]");
-		binding11.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		cqd.addBinding( binding11 );
-
-		IEdgeDrillFilter filter = columnEdge.createDrillFilter( "drill1" );
-		filter.setTargetHierarchy( hier1 );
-		filter.setTargetLevelName( "level14" );
-		List memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CAR"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		memberList.add( null );
-		filter.setTuple( memberList );
-
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level12" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"MOTOR"
-		} );
-		memberList.add( new Object[]{
-			new Integer( 2005 )
-		} );
-		filter2.setTuple( memberList );
-
-		IEdgeDrillFilter filter3 = columnEdge.createDrillFilter( "drill3" );
-		filter3.setTargetHierarchy( hier1 );
-		filter3.setTargetLevelName( "level11" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"BUS"
-		} );
-		filter3.setTuple( memberList );
-		
-		IEdgeDrillFilter filter4 = rowEdge.createDrillFilter( "drill4" );
-		filter4.setTargetHierarchy( hier2 );
-		filter4.setTargetLevelName( "level23" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"US"
-		} );
-		memberList.add( null );
-		memberList.add( null );
-		filter4.setTuple( memberList );
-		
-		IEdgeDrillFilter filter5 = rowEdge.createDrillFilter( "drill5" );
-		filter5.setTargetHierarchy( hier2 );
-		filter5.setTargetLevelName( "level22" );
-		memberList = new ArrayList( );
-		memberList.add( new Object[]{
-			"CN"
-		} );
-		memberList.add( null );
-		filter5.setTuple( memberList );
-
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
-		
-		DrilledCube cube = new DrilledCube( );
-		cube.createCube( engine );
-		
-		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
-		ICubeQueryResults queryResults = pcq.execute( null );
-		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
-		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
-
-		printCube( cursor,
-				columnEdgeBindingNames,
-				rowEdgeBindingNames,
-				"measure1",
-				null,
-				null,
-				null, "subTotalOnLevel11AndLeve12" );
-
-		engine.shutdown( );
-	}
-	
-	public void testEdgeStartAndEdgeEnd( ) throws Exception
-	{
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
-		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
-		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		hier1.createLevel( "level11" );
-		hier1.createLevel( "level12" );
-		hier1.createLevel( "level13" );
-
-		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
-		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		hier2.createLevel( "level21" );
-		hier2.createLevel( "level22" );
-		hier2.createLevel( "level23" );
-
-		cqd.createMeasure( "measure1" );
-
-		IBinding binding1 = new Binding( "edge1level1" );
-
-		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
-		cqd.addBinding( binding1 );
-
-		IBinding binding2 = new Binding( "edge1level2" );
-
-		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
-		cqd.addBinding( binding2 );
-
-		IBinding binding3 = new Binding( "edge1level3" );
-
-		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
-		cqd.addBinding( binding3 );
-		
-		IBinding binding4 = new Binding( "edge1level4" );
-
-		binding4.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level14\"]" ) );
-		cqd.addBinding( binding4 );
-
-		IBinding binding5 = new Binding( "edge2level21" );
-
-		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
-		cqd.addBinding( binding5 );
-
-		IBinding binding6 = new Binding( "edge2level22" );
-
-		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level22\"]" ) );
-		cqd.addBinding( binding6 );
-		
-		IBinding binding7 = new Binding( "edge2level23" );
-
-		binding7.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level23\"]" ) );
-		cqd.addBinding( binding7 );
-		
-		IBinding binding8 = new Binding( "measure1" );
-		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		cqd.addBinding( binding8 );
-
-		IEdgeDrillFilter filter1 = columnEdge.createDrillFilter( "drill2" );
+		IEdgeDrillFilter filter1 = rowEdge.createDrillFilter( "drill2" );
 		filter1.setTargetHierarchy( hier1 );
-		filter1.setTargetLevelName( "level11" );
+		filter1.setTargetLevelName( "COUNTRY" );
 		List memberList = new ArrayList( );
 		memberList.add( new Object[]{
-			"BICK"
+			"USA","CHINA"
 		} );
 		filter1.setTuple( memberList );
 		
-		IEdgeDrillFilter filter2 = columnEdge.createDrillFilter( "drill2" );
-		filter2.setTargetHierarchy( hier1 );
-		filter2.setTargetLevelName( "level14" );
+		IEdgeDrillFilter filter = rowEdge.createDrillFilter( "drill1" );
+		filter.setTargetHierarchy( hier2 );
+		filter.setTargetLevelName( "YEAR" );
 		memberList = new ArrayList( );
 		memberList.add( new Object[]{
-			"BUS"
+			"2003"
 		} );
 		memberList.add( null );
 		memberList.add( null );
-		memberList.add( null );
-		filter2.setTuple( memberList );
-		
+		filter.setTuple( memberList );
+				
 		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
-		DrilledCube cube = new DrilledCube();
+		
+		DrilledCube cube = new DrilledCube( );
 		cube.createCube( engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
-		List columnEdgeBindingNames = new ArrayList( );
-		columnEdgeBindingNames.add( "edge1level1" );
-		columnEdgeBindingNames.add( "edge1level2" );
-		columnEdgeBindingNames.add( "edge1level3" );
-		columnEdgeBindingNames.add( "edge1level4" );
 		List rowEdgeBindingNames = new ArrayList( );
-		rowEdgeBindingNames.add( "edge2level21" );
-		rowEdgeBindingNames.add( "edge2level22" );
-		rowEdgeBindingNames.add( "edge2level23" );
-	
-		List ordinateEdge = cursor.getOrdinateEdge( );
-		EdgeCursor columnEdgeCursor = (EdgeCursor)ordinateEdge.get( 0 );
-		String output = "";
-		columnEdgeCursor.beforeFirst( );
-		while ( columnEdgeCursor.next( ) )
-		{
-			List dimensionCursors = columnEdgeCursor.getDimensionCursor( );
-			output += "Edge Position :"
-					+ columnEdgeCursor.getPosition( ) + "\n";
-			for ( int i = 0; i < dimensionCursors.size( ); i++ )
-			{
-				DimensionCursor dim = (DimensionCursor) dimensionCursors.get( i );
-				output += "       Dimension "
-						+ i + " Start Position :"
-						+ dim.getEdgeStart( ) + "\n";
-				output += "       Dimension "
-						+ i + " Edge  Position :"
-						+ dim.getEdgeEnd( ) + "\n";
-			}
-		}
+		rowEdgeBindingNames.add( "binding1" );
+		rowEdgeBindingNames.add( "binding2" );
+		rowEdgeBindingNames.add( "binding3" );
+		rowEdgeBindingNames.add( "binding4" );
+		rowEdgeBindingNames.add( "binding5" );
+		rowEdgeBindingNames.add( "binding6" );
 
-		this.testPrint( output );
-		this.checkOutputFile( );
-		close( cursor );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "binding7" );
 
-		engine.shutdown( );	
+		printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1",
+				"total2",
+				"total1",
+				"grandTotal1",
+				null );
+
+		engine.shutdown( );
 	}
-	
 	
 	private DataEngineContext createPresentationContext( ) throws BirtException
 	{
@@ -1595,26 +781,37 @@ public class CubeDrillFeatureTest extends BaseTestCase
 			String measureBindingNames, String columnAggr, String rowAggr,
 			String overallAggr, String subTotal ) throws OLAPException
 	{
-		EdgeCursor edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 0 ) );
-		EdgeCursor edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
-		DimensionCursor columnCursor1 = (DimensionCursor) edge1.getDimensionCursor( )
-				.get( 0 );
+		EdgeCursor edge1 = null, edge2 = null;
+
+		int index = 0;
+		if ( columnEdgeBindingNames != null && !columnEdgeBindingNames.isEmpty( ) )
+		{
+			edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( index ) );
+			index++;
+		}
+		if ( rowEdgeBindingNames != null && !rowEdgeBindingNames.isEmpty( ) )
+			edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( index ) );
+		DimensionCursor columnCursor1 = null;
+		if ( edge1 != null )
+			columnCursor1 = (DimensionCursor) edge1.getDimensionCursor( )
+					.get( 0 );
 
 		String[] lines = new String[columnEdgeBindingNames.size( )];
 		for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
 		{
-			lines[i] = "		                        ";
+			lines[i] = "		                                                                           ";
 		}
 
-		while ( edge1.next( ) )
-		{
-			for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+		if ( edge1 != null )
+			while ( edge1.next( ) )
 			{
-				lines[i] += cursor.getObject( columnEdgeBindingNames.get( i )
-						.toString( ) )
-						+ "		";
+				for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+				{
+					lines[i] += cursor.getObject( columnEdgeBindingNames.get( i )
+							.toString( ) )
+							+ "		";
+				}
 			}
-		}
 
 		if ( rowAggr != null )
 			lines[lines.length - 1] += "Total";
@@ -1634,24 +831,35 @@ public class CubeDrillFeatureTest extends BaseTestCase
 						.toString( ) )
 						+ "		";
 			}
-			edge1.beforeFirst( );
-			while ( edge1.next( ) )
+			if ( edge1 != null )
+				edge1.beforeFirst( );
+			if ( edge1 != null )
+				while ( edge1.next( ) )
+				{
+					if ( subTotal == null )
+					{
+						line += cursor.getObject( measureBindingNames ) + "		";
+					}
+					else
+					{
+						if ( columnCursor1 != null
+								&& edge1.getPosition( ) == columnCursor1.getEdgeEnd( ) )
+						{
+							line += cursor.getObject( measureBindingNames );
+							line += "|" + cursor.getObject( subTotal ) + "  ";
+						}
+						else
+						{
+							line += cursor.getObject( measureBindingNames )
+									+ "		";
+						}
+					}
+				}
+			else
 			{
 				if ( subTotal == null )
 				{
 					line += cursor.getObject( measureBindingNames ) + "		";
-				}
-				else
-				{
-					if( edge1.getPosition( ) == columnCursor1.getEdgeEnd( ) )
-					{
-						line += cursor.getObject( measureBindingNames );
-						line += "|" + cursor.getObject( subTotal ) + "  ";						
-					}
-					else
-					{
-						line += cursor.getObject( measureBindingNames ) + "		";						
-					}
 				}
 			}
 

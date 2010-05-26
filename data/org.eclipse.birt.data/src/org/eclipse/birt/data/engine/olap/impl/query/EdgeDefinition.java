@@ -99,6 +99,30 @@ public class EdgeDefinition extends NamedObject implements IEdgeDefinition
 	{
 		return this.drillOperation;
 	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#getDrillFilter()
+	 */
+	public IEdgeDrillFilter[] getDrillFilter( IDimensionDefinition dim )
+	{
+		List<IEdgeDrillFilter> drillList = new ArrayList<IEdgeDrillFilter>( );
+		for ( int i = 0; i < this.drillOperation.size( ); i++ )
+		{
+			IEdgeDrillFilter filter = this.drillOperation.get( i );
+			if ( filter.getTargetHierarchy( )
+					.getDimension( )
+					.getName( )
+					.equals( dim.getName( ) ) )
+			{
+				drillList.add( filter );
+			}
+		}
+		IEdgeDrillFilter[] drillFilters = new IEdgeDrillFilter[drillList.size( )];
+
+		for ( int i = 0; i < drillList.size( ); i++ )
+			drillFilters[i] = drillList.get( i );
+		return drillFilters;
+	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition#createDrillFilter(java.lang.String, org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter.DrillType)

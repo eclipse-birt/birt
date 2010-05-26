@@ -348,8 +348,8 @@ class DimensionTraverse
 		EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
 		if ( edgeInfo == null )
 			return -1;
-		if( edgeInfo.isNull ==0 )
-			return -1;
+//		if( edgeInfo.isNull ==0 )
+//			return -1;
 		
 		int endPosition = edgeInfo.firstChild, position;
 		EdgeInfo info = edgeInfo;
@@ -376,8 +376,8 @@ class DimensionTraverse
 		EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
 		if ( edgeInfo == null )
 			return -1;
-		if( edgeInfo.isNull ==0 )
-			return -1;
+//		if( edgeInfo.isNull ==0 )
+//			return -1;
 		
 		int endPosition = edgeInfo.firstChild;
 
