@@ -262,8 +262,20 @@ public class ExprEvaluateUtil
 			{
 				if ( ( (IScriptExpression) dataExpr ).getText( ) == null )
 					throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
-
-				Object value = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, ((IScriptExpression) dataExpr).getText( ), null,0 );
+				Object value = null;
+				if( ((IScriptExpression) dataExpr).isConstant( ) )
+				{
+					value = ((IScriptExpression) dataExpr).getConstantValue( );
+					if(  value == null )
+					{
+						value = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, ((IScriptExpression) dataExpr).getText( ), null,0 );
+						((IScriptExpression) dataExpr).setConstantValue( value );
+					}
+				}
+				else
+				{
+					value = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, ((IScriptExpression) dataExpr).getText( ), null,0 );
+				}
 				
 				if ( javaType == true )
 					value = JavascriptEvalUtil.convertJavascriptValue( value );
