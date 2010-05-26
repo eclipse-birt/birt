@@ -212,6 +212,12 @@ public class CubeQueryResults implements ICubeQueryResults
 			throws DataException, IOException
 	{
 		IDocumentManager manager = null;
+		if ( preparedQuery.isFromDataMart( ) )
+		{
+			//cube should be always loaded from data mart, nothing to do with MODE
+			return CubeRADocumentManagerFactory.createRADocumentManager( executor.getCubeQueryDefinition( ).getName( ), 
+					executor.getContext( ).getDocReader( ) );
+		}
 		if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION
 				|| executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
