@@ -110,9 +110,9 @@ public class GroupUtil implements ICrosstabConstants
 				{
 					EdgeGroup gp = groups.get( i );
 
-					// use full name for dimension and level, this ensures
-					// uniqueness in current module
-					if ( dimensionHandle.getFullName( )
+					// use qualified name for dimension but full name for level,
+					// because dimension name is globally unique
+					if ( dimensionHandle.getQualifiedName( )
 							.equals( gp.dimensionName )
 							&& levelHandle.getFullName( ).equals( gp.levelName ) )
 					{
