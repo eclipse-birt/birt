@@ -1013,18 +1013,20 @@ public class PostscriptWriter
 		if ( duplex != null && !"SIMPLEX".equalsIgnoreCase( duplex ))
 		{
 			String duplexValue = duplex;
-			if ("HORIZONTAL".equalsIgnoreCase( duplex ))
+			String tumbleValue = "true";
+            if ("HORIZONTAL".equalsIgnoreCase( duplex ) )
 			{
-			    duplexValue = "DuplexTumble";
+				duplexValue = "DuplexTumble";
 			}
-		    else if ("VERTICAL".equalsIgnoreCase( duplex ) )
-		    {
-			    duplexValue = "DuplexNoTumble";
-		    }
+			else if ( "VERTICAL".equalsIgnoreCase( duplex ) )
+			{
+				duplexValue = "DuplexNoTumble";
+				duplexValue = "false";
+			}
 			out.println( "%%BeginFeature: *Duplex " + duplexValue );
-		    out.println("<</Duplex true /Tumble true>> setpagedevice");
-		    out.println("%%EndFeature");
-
+			out.println( "<</Duplex true /Tumble " + tumbleValue
+					+ ">> setpagedevice" );
+			out.println( "%%EndFeature" );
 		}
 	}
 
