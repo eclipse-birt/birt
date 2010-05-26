@@ -883,10 +883,11 @@
 	        <arg line="-o -q birt-osgi-${package.version}.zip -d ${tmpsite}" />
 	    </exec>
 		<!-- BIRT third party -->
+		<!--
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite}" />
 		</exec>
-
+		-->
 		<!-- backup un-signed and packed version to  birt-all-${package.version}.bak.zip -->
 		<zip destfile="${buildDirectory}/birt-all-${package.version}.bak.zip">
              <fileset dir="${tmpsite}" includes="eclipse/**"/>
