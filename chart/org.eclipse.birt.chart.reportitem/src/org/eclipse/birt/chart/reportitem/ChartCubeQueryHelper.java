@@ -837,8 +837,11 @@ public class ChartCubeQueryHelper
 				filters = getFiltersFromXtab( crossTab );
 			}
 		}
-		else if ( handle.getContainer( ) instanceof ExtendedItemHandle )
+		else if ( handle.getContainer( ) instanceof ExtendedItemHandle
+				&& handle.getCube( ) == null )
 		{
+			// In inheritance case, chart's cube should be null and container
+			// should be xtab cell
 			ExtendedItemHandle xtabHandle = (ExtendedItemHandle) handle.getContainer( );
 			String exName = xtabHandle.getExtensionName( );
 			if ( ICrosstabConstants.AGGREGATION_CELL_EXTENSION_NAME.equals( exName )
