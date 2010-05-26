@@ -236,6 +236,17 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			context.setOfficeVersion( "office2003" );
 		}
+		
+		Object hideGridlines = renderOptions
+				.getOption( IExcelRenderOption.HIDE_GRIDLINES );
+		if ( hideGridlines != null && hideGridlines instanceof Boolean )
+		{
+			context.setHideGridlines( (Boolean) hideGridlines );
+		}
+		else
+		{
+			context.setHideGridlines( (Boolean) false );
+		}
 	}
 
 	public void startPage( IPageContent page ) throws BirtException

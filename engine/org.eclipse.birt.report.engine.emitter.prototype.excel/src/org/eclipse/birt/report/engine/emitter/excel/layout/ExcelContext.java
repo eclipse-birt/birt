@@ -23,6 +23,8 @@ public class ExcelContext
 	private String tempFileDir;
 
 	private ULocale locale;
+
+	private Boolean hideGridlines;
 	
 	public void setWrappingText(boolean wrappingText)
 	{
@@ -62,5 +64,15 @@ public class ExcelContext
 	public void setLocale( ULocale locale )
 	{
 		this.locale = locale;
+	}
+
+	public boolean getHideGridlines( )
+	{
+		return this.hideGridlines;
+	}
+
+	public void setHideGridlines( Boolean hideGridlines )
+	{
+		this.hideGridlines = hideGridlines;
 	}
 }

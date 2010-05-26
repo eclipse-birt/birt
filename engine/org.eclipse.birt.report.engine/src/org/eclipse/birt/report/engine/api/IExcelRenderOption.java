@@ -24,7 +24,12 @@ public interface IExcelRenderOption extends IRenderOption
 	 * This is the option to decide in which office version will you output the excel file
 	 */
 	public static final String OFFICE_VERSION = "excelRenderOption.officeVersion";
-	
+
+	/**
+	 * The option to hide the gridlines in the worksheet
+	 */
+	public static final String HIDE_GRIDLINES = "excelRenderOption.hideGridlines";
+
 	/**
 	 * 
 	 * @param wrappingText

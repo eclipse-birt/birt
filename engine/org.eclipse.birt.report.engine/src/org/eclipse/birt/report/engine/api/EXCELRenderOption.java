@@ -67,5 +67,25 @@ public class EXCELRenderOption extends RenderOption implements IExcelRenderOptio
 	{
 		setOption(WRAPPING_TEXT , wrappingText);
 	}
+	
+	/**
+	 * Set hide gridlines.
+	 * 
+	 * @param hide gridlines
+	 */
+	public void setHideGridlines( boolean hideGridlines )
+	{
+		setOption( HIDE_GRIDLINES, hideGridlines );
+	}
+	
+	/**
+	 * Get hide gridlines.
+	 * 
+	 * @param hide gridlines
+	 */
+	public boolean getHideGridlines()
+	{
+		return getBooleanOption(HIDE_GRIDLINES,false);
+	}
 
 }

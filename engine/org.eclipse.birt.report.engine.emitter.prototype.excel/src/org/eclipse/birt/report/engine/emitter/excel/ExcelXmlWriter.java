@@ -805,6 +805,12 @@ public class ExcelXmlWriter implements IExcelWriter
 	{
 		writer.openTag( "WorksheetOptions" );
 		writer.attribute( "xmlns", "urn:schemas-microsoft-com:office:excel" );
+		
+		if ( context.getHideGridlines( ) )
+		{
+			writer.openTag( "DoNotDisplayGridlines" );
+			writer.closeTag( "DoNotDisplayGridlines" );
+		}
 		writer.openTag( "PageSetup" );
 
 		if ( orientation != null )
