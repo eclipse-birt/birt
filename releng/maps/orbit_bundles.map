@@ -73,3 +73,6 @@ plugin@org.w3c.dom.svg,1.1.0=GET,http://qa-build/BIRTOutput/platform/orbit-S2010
 plugin@org.w3c.dom.svg.source,1.1.0=GET,http://qa-build/BIRTOutput/platform/orbit-S20100508202910-Helios/bundles/org.w3c.dom.svg.source_1.1.0.v200806040011.jar,usetimestamp=true
 
 plugin@com.lowagie.text,2.1.7=GET,http://qa-build/BIRTOutput/platform/orbit-S20100508202910-Helios/bundles/com.lowagie.text_2.1.7.v201004222200.jar,usetimestamp=true
+
+plugin@org.w3c.dom.events,3.0.0=GET,http://qa-build/BIRTOutput/platform/orbit-S20100508202910-Helios/bundles/org.w3c.dom.events_3.0.0.draft20060413_v200905140418.jar,usetimestamp=true
+

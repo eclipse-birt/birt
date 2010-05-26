@@ -111,6 +111,10 @@
 		<condition property="skip.build.rcp" value="true">
 			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
 		</condition>
+		
+		<condition property="update.batik" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
 			
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
@@ -561,6 +565,11 @@
 			<include name="**/*.map" />
 		</replace>
 		
+		<antcall target="useBatik1_7"/>
+	</target>
+	
+	<target name="useBatik1_7" if="update.batik">
+        <ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="updateBatik" />
 	</target>
 	
 	<target name="prepareSrc" if="prepare.src.flag">
