@@ -11,22 +11,14 @@
 
 package org.eclipse.birt.report.engine.emitter.postscript;
 
+import org.eclipse.birt.report.engine.api.IPostscriptRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 
 
 public class PostscriptRenderOption extends RenderOption
+		implements
+			IPostscriptRenderOption
 {
-	public static final String PS_LEVEL = "psLevel";
-
-	public static final String OPTION_PAPER_SIZE = "OptionPagerSize";
-
-	public static final String OPTION_PAPER_TRAY = "OptionPageTray";
-
-	public static final String OPTION_DUPLEX = "OptionDuplex";
-
-	public static final String OPTION_COPIES = "OptionCopies";
-
-	public static final String OPTION_COLLATE = "OptionCollate";
 
 	/**
 	 * Sets postscript level.
@@ -94,5 +86,15 @@ public class PostscriptRenderOption extends RenderOption
 	public boolean getCollate( )
 	{
 		return getBooleanOption( OPTION_COLLATE, false );
+	}
+
+	public void setResolution( int resolution )
+	{
+		options.put( OPTION_RESOLUTION, resolution );
+	}
+
+	public int getResolution( )
+	{
+		return getIntOption( OPTION_RESOLUTION, 0 );
 	}
 }

@@ -16,6 +16,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.eclipse.birt.report.engine.api.IPostscriptRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.emitter.postscript.PostscriptRenderOption;
 import org.eclipse.birt.report.engine.emitter.postscript.PostscriptWriter;
@@ -48,8 +49,10 @@ public class PostscriptPageDevice implements IPageDevice
 				PostscriptRenderOption.OPTION_COPIES, 1 );
 		boolean collate = renderOption.getBooleanOption(
 				PostscriptRenderOption.OPTION_COLLATE, false );
+		int resolution = renderOption.getIntOption(
+				IPostscriptRenderOption.OPTION_RESOLUTION, 0 );
 		writer.startRenderer( author, description, paperSize, paperTray,
-				duplex, copies, collate );
+				duplex, copies, collate, resolution );
 	}
 
 	/*

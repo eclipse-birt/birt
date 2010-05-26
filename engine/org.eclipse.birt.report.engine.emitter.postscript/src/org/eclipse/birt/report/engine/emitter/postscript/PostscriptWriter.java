@@ -938,10 +938,10 @@ public class PostscriptWriter
 	}
 
 	public void startRenderer( String paperSize, String paperTray,
-			String duplex, int copies, boolean collate ) throws IOException
+			String duplex, int copies, boolean collate, int resolution ) throws IOException
 	{
 		startRenderer( null, null, paperSize, paperTray, duplex, copies,
-				collate );
+				collate, resolution );
 	}
 
 	/*
@@ -951,7 +951,7 @@ public class PostscriptWriter
 	 */
 	public void startRenderer( String author, String description,
 			String paperSize, String paperTray, String duplex, int copies,
-			boolean collate ) throws IOException
+			boolean collate, int resolution ) throws IOException
 	{
 		if ( author != null )
 		{
@@ -965,6 +965,7 @@ public class PostscriptWriter
 		setPaperSize( paperSize );
 		setPaperTray( paperTray );
 		setDuplex( duplex );
+		setResolution( resolution );
 		FileUtil.load(
 				"org/eclipse/birt/report/engine/emitter/postscript/header.ps",
 				out );
@@ -1028,6 +1029,20 @@ public class PostscriptWriter
 			out.println( "%%BeginFeature: *Duplex " + duplexValue );
 			out.println( "<</Duplex true /Tumble " + tumbleValue
 					+ ">> setpagedevice" );
+			out.println( "%%EndFeature" );
+		}
+	}
+
+	private void setResolution( int resolution )
+	{
+		if ( resolution > 0 )
+		{
+			out.println( "%%BeginFeature: *Resolution " + resolution + "x"
+					+ resolution + "dpi" );
+			out.println( " << /HWResolution [" + resolution + " " + resolution
+					+ "]" );
+			out.println( "  /Policies << /HWResolution 2 >>" );
+			out.println( " >> setpagedevice" );
 			out.println( "%%EndFeature" );
 		}
 	}
