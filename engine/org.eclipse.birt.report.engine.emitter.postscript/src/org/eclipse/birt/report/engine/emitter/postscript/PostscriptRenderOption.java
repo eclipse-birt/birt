@@ -107,4 +107,14 @@ public class PostscriptRenderOption extends RenderOption
 	{
 		return getBooleanOption( OPTION_GRAY, false );
 	}
+
+	public void setScale( int scale )
+	{
+		options.put( OPTION_SCALE, scale );
+	}
+
+	public int getScale( )
+	{
+		return getIntOption( OPTION_SCALE, 100 );
+	}
 }

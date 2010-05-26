@@ -53,8 +53,11 @@ public class PostscriptPageDevice implements IPageDevice
 				IPostscriptRenderOption.OPTION_RESOLUTION, 0 );
 		boolean gray = renderOption.getBooleanOption(
 				IPostscriptRenderOption.OPTION_GRAY, false );
-		writer.startRenderer( author, description, paperSize, paperTray,
-				duplex, copies, collate, resolution, gray );
+		int scale = renderOption
+				.getIntOption( IPostscriptRenderOption.OPTION_SCALE, 100 );
+		writer.startRenderer(	author, description, paperSize, paperTray,
+								duplex, copies, collate, resolution, gray,
+								scale );
 	}
 
 	/*

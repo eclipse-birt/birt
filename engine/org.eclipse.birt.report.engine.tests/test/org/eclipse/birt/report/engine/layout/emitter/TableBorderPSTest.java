@@ -122,7 +122,7 @@ public class TableBorderPSTest extends TestCase
 		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
 				new FileOutputStream("TableBorderPSTest.ps") );
 		writer = new PostscriptWriter( bufferedOutputStream, "title" );
-		writer.startRenderer( null, null, null, 1, false, 600, false );
+		writer.startRenderer( null, null, null, 1, false, 600, false, 100 );
 		writer.startPage( pageWidth, pageHeight );
 		testBorderDraw( );
 		writer.endPage( );

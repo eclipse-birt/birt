@@ -939,10 +939,10 @@ public class PostscriptWriter
 
 	public void startRenderer( String paperSize, String paperTray,
 			String duplex, int copies, boolean collate, int resolution,
-			boolean gray ) throws IOException
+			boolean gray, int scale ) throws IOException
 	{
-		startRenderer( null, null, paperSize, paperTray, duplex, copies,
-				collate, resolution, gray );
+		startRenderer(	null, null, paperSize, paperTray, duplex, copies,
+						collate, resolution, gray, scale );
 	}
 
 	/*
@@ -952,7 +952,8 @@ public class PostscriptWriter
 	 */
 	public void startRenderer( String author, String description,
 			String paperSize, String paperTray, String duplex, int copies,
-			boolean collate, int resolution, boolean gray ) throws IOException
+			boolean collate, int resolution, boolean gray, int scale )
+			throws IOException
 	{
 		if ( author != null )
 		{
@@ -963,7 +964,10 @@ public class PostscriptWriter
 		out.println( "%%BeginSetup");
 		setCollate( collate );
 		setCopies( copies );
-		setPaperSize( paperSize );
+		int[] pageSize = getPaperSize( paperSize );
+		int width = pageSize[0];
+		int height = pageSize[1];
+		setPaperSize( paperSize, width, height );
 		setPaperTray( paperTray );
 		setDuplex( duplex );
 		setResolution( resolution );
@@ -971,6 +975,9 @@ public class PostscriptWriter
 		FileUtil.load(
 				"org/eclipse/birt/report/engine/emitter/postscript/header.ps",
 				out );
+		setScale( height, scale );
+		out.println( "%%EndResource" );
+		out.println( "%%EndSetup" );
 	}
 
 	private void setPaperTray( String paperTray )
@@ -982,12 +989,12 @@ public class PostscriptWriter
 		}
 	}
 
-	private void setPaperSize( String paperSize )
+	private void setPaperSize( String paperSize, int width, int height )
 	{
 		if ( paperSize != null )
 		{
 			out.println( "%%BeginFeature: *PageSize " + paperSize );
-			out.println( "<</PageSize [" + getPaperSize( paperSize )
+			out.println( "<</PageSize [" + width + " " + height
 					+ "] /ImagingBBox null>> setpagedevice" );
 			out.println("%%EndFeature");
 		}
@@ -1059,7 +1066,19 @@ public class PostscriptWriter
 		}
 	}
 
-	private String getPaperSize( String paperSize )
+	private void setScale( int height, int scale )
+	{
+		if ( scale != 100 )
+		{
+			float absoluteScale = scale / 100f;
+			float yOffset = height * ( 1 - absoluteScale );
+			out.println( "/mysetup [ " + absoluteScale + " 0 0 "
+					+ absoluteScale + " 0 " + yOffset + "] def" );
+			out.println( "mysetup concat" );
+		}
+	}
+
+	private int[] getPaperSize( String paperSize )
 	{
 		int width = 595;
 		int height = 842;
@@ -1098,7 +1117,7 @@ public class PostscriptWriter
 			width = 729;
 			height = 1032;
 		}
-		return width + " " + height;
+		return new int[]{width, height};
 	}
 	
 	public void fillPage( Color color )
