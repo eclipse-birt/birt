@@ -28,6 +28,7 @@ public interface IPostscriptRenderOption extends IRenderOption
 
 	public static final String OPTION_RESOLUTION = "OptionResolution";
 
+	public static final String OPTION_GRAY = "OptionGray";
 	/**
 	 * Sets postscript level.
 	 * 
@@ -63,4 +64,8 @@ public interface IPostscriptRenderOption extends IRenderOption
 	void setResolution( int resolution );
 	
 	int getResolution( );
+
+	void setGray( boolean gray );
+
+	boolean getGray( );
 }

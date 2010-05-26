@@ -938,10 +938,11 @@ public class PostscriptWriter
 	}
 
 	public void startRenderer( String paperSize, String paperTray,
-			String duplex, int copies, boolean collate, int resolution ) throws IOException
+			String duplex, int copies, boolean collate, int resolution,
+			boolean gray ) throws IOException
 	{
 		startRenderer( null, null, paperSize, paperTray, duplex, copies,
-				collate, resolution );
+				collate, resolution, gray );
 	}
 
 	/*
@@ -951,7 +952,7 @@ public class PostscriptWriter
 	 */
 	public void startRenderer( String author, String description,
 			String paperSize, String paperTray, String duplex, int copies,
-			boolean collate, int resolution ) throws IOException
+			boolean collate, int resolution, boolean gray ) throws IOException
 	{
 		if ( author != null )
 		{
@@ -966,6 +967,7 @@ public class PostscriptWriter
 		setPaperTray( paperTray );
 		setDuplex( duplex );
 		setResolution( resolution );
+		setGray( gray );
 		FileUtil.load(
 				"org/eclipse/birt/report/engine/emitter/postscript/header.ps",
 				out );
@@ -1043,6 +1045,16 @@ public class PostscriptWriter
 					+ "]" );
 			out.println( "  /Policies << /HWResolution 2 >>" );
 			out.println( " >> setpagedevice" );
+			out.println( "%%EndFeature" );
+		}
+	}
+
+	private void setGray( boolean gray )
+	{
+		if ( gray )
+		{
+			out.println( "%%BeginFeature: *HPColorAsGray true" );
+			out.println( "<</ProcessColorModel /DeviceGray>> setpagedevice" );
 			out.println( "%%EndFeature" );
 		}
 	}

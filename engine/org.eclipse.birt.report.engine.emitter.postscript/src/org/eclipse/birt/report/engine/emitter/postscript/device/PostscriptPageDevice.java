@@ -51,8 +51,10 @@ public class PostscriptPageDevice implements IPageDevice
 				PostscriptRenderOption.OPTION_COLLATE, false );
 		int resolution = renderOption.getIntOption(
 				IPostscriptRenderOption.OPTION_RESOLUTION, 0 );
+		boolean gray = renderOption.getBooleanOption(
+				IPostscriptRenderOption.OPTION_GRAY, false );
 		writer.startRenderer( author, description, paperSize, paperTray,
-				duplex, copies, collate, resolution );
+				duplex, copies, collate, resolution, gray );
 	}
 
 	/*

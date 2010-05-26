@@ -97,4 +97,14 @@ public class PostscriptRenderOption extends RenderOption
 	{
 		return getIntOption( OPTION_RESOLUTION, 0 );
 	}
+
+	public void setGray( boolean gray )
+	{
+		options.put( OPTION_GRAY, gray );
+	}
+
+	public boolean getGray( )
+	{
+		return getBooleanOption( OPTION_GRAY, false );
+	}
 }
