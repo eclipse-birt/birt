@@ -617,7 +617,7 @@
 		<copy todir="${buildDirectory}/features/org.eclipse.birt" failonerror="false" >
 			<fileset dir="${buildDirectory}/source/features/org.eclipse.birt.feature" />   
 		</copy>
-		<copy todir="${buildDirectory}/features//org.eclipse.birt.report.designer.editor.xml.wtp" failonerror="false" >
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.report.designer.editor.xml.wtp" failonerror="false" >
 			<fileset dir="${buildDirectory}/source/features//org.eclipse.birt.report.designer.editor.xml.wtp.feature" />   
 		</copy>
 		<!-- copy BIRT NL plugins -->
