@@ -374,43 +374,62 @@ function highlightElement(evt, id, compList, highlight) {
 	}
 }
 function getNewStyle(style, index, styleAttr, highlight, lookUpTable, id) {
-	color = style.substring(index + styleAttr.length, style.length);
-	if (color.substring(0, 6).search("none") != -1)
-		return style;
-	rgbIndex = color.search("rgb");
-	if (rgbIndex == -1) {
-		var urlStr = undefined;
-		if (styleAttr == "fill:")
-			urlStr = /fill:\s*url\(#([^\x27]+)\);/g;
-		else
-			urlStr = /stroke:\s*url\(#([^\x27]+)\);/g;
-		var result = urlStr.exec(style);
-		if (result != null && typeof result != 'undefined') {
-			var endOf = /\w+h\b/g;
-			var re =  endOf.exec(result[1]);
-			if ( typeof re != 'undefined') {
-				return style.replace(urlStr, styleAttr + "url(#" + result[1]
-						+ "h);");
-			} else {
-				return style.replace(urlStr, styleAttr + "url(#"
-						+ result[1].substring(0, result[1].length - 1) + ");");
-			}
-		} else {
-			hexColor = color.substring(1, 7);
-			hc = getHighlight(hexColor, highlight, lookUpTable, id);
-			return style.replace(styleAttr + "#" + hexColor, styleAttr + hc);
-		}
-	} else {
-		bracketIndex = color.search("\\)");
-		color = color.substring(0, bracketIndex);
-		hexColor = getHexFromRGB(color);
-		hc = getHighlight(hexColor, highlight, lookUpTable, id);
-		return style.substring(0, index)
-				+ styleAttr
-				+ hc
-				+ style.substring(index + bracketIndex + styleAttr.length + 1,
-						style.length);
-	}
+    var start = index + styleAttr.length;
+    var end = style.length;
+    for ( var i = start; i < style.length; i++ ) {
+         if ( style.charAt(i) == ';' ) {
+             end = i;
+             break;
+         }
+    }
+    color = style.substring(start, end);
+    if (color.substring(0, 6).search("none") != -1)
+        return style;
+    rgbIndex = color.search("rgb");
+    urlIndex = color.search("url");
+    if (rgbIndex == -1 || urlIndex != -1 ) {
+        if ( urlIndex != -1 ) {
+        	var rgbPattern = /rgb\s*([^\x27]+)/g;
+	        var rgbResult = rgbPattern.exec(style);
+    	    if ( rgbResult != null && typeof rgbResult != 'undefnied' ) {
+        	    style = style.replace( rgbPattern, "");
+            	style = style + rgbResult[0].substring( rgbResult[0].search(";") );
+        	}
+        }
+
+        var urlStr = undefined;
+        if (styleAttr == "fill:")
+            urlStr = /fill:[\x20]*url\(#([^\x27]+)\)[\x20]*;/g;
+        else
+            urlStr = /stroke:[\x20]*url\(#([^\x27]+)\)[\x20]*;/g;
+        var result = urlStr.exec(style);
+        if (result != null && typeof result != 'undefined') {
+            var endOf = /\w+h\b/;
+            var re =  endOf.exec(result[1]);
+            if ( typeof re == 'undefined' || re == null ) {
+                return style.replace(urlStr, styleAttr + "url(#" + result[1]
+                        + "h);");
+            } else {
+                return style.replace(urlStr, styleAttr + "url(#"
+                        + result[1].substring(0, result[1].length - 1) + ");");
+            }
+        } else {
+            hexColor = color.substring(1, 7);
+            hc = getHighlight(hexColor, highlight, lookUpTable, id);
+            return style.replace(styleAttr + "#" + hexColor, styleAttr + hc);
+        }
+    } else {
+        bracketIndex = color.search("\\)");
+        color = color.substring(0, bracketIndex);
+        hexColor = getHexFromRGB(color);
+        hc = getHighlight(hexColor, highlight, lookUpTable, id);
+        return style.substring(0, index)
+                + styleAttr
+                + hc
+                + style.substring(index + bracketIndex + styleAttr.length + 1,
+                        style.length);
+    } 
+    return style;
 }
 function redirect(target, url) {
 	if (target == '_blank') {
