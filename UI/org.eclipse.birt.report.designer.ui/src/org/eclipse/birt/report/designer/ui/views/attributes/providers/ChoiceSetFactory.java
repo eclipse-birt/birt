@@ -156,7 +156,7 @@ public class ChoiceSetFactory
 		IElementPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
 				.getElement( elementName )
 				.getProperty( property );
-		
+
 		return propertyDefn.getAllowedChoices( );
 	}
 
@@ -643,6 +643,28 @@ public class ChoiceSetFactory
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 		Iterator iterator = handle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL )
+				.iterator( );
+
+		if ( iterator != null )
+		{
+			while ( iterator.hasNext( ) )
+			{
+				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
+				list.add( elementHandle.getQualifiedName( ) );
+			}
+		}
+		return (String[]) list.toArray( new String[0] );
+	}
+
+	public static String[] getReportItemThemes( String type )
+	{
+		ArrayList list = new ArrayList( );
+		list.add( CHOICE_NONE );
+
+		ModuleHandle handle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		Iterator iterator = handle.getVisibleReportItemThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL,
+				type )
 				.iterator( );
 
 		if ( iterator != null )

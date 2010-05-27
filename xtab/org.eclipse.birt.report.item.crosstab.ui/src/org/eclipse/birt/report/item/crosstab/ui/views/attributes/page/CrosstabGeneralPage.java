@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -21,10 +22,13 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Si
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.CheckSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelper;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -174,5 +178,25 @@ public class CrosstabGeneralPage extends GeneralPage
 	{
 		super.postElementEvent( );
 		checkLayoutProperty( );
+	}
+	
+	protected void applyCustomSections( )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( this,
+				ISectionHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				ISectionHelperProvider helperProvider = (ISectionHelperProvider) helperProviders[i];
+				if ( helperProvider != null )
+				{
+					ISectionHelper helper = helperProvider.createHelper( this,
+							PageConstants.THEME_HELPER_KEY );
+					if ( helper != null )
+						helper.createAndRegisterSections( this );
+				}
+			}
+		}
 	}
 }

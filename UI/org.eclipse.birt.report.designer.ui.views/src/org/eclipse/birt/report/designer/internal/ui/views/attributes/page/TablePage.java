@@ -23,10 +23,13 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Che
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ColorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComplexUnitSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelper;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -163,5 +166,26 @@ public class TablePage extends GeneralPage
 		addSection( PageSectionId.TABLE_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
 
 		addFontsSection( );
+
+	}
+
+	protected void applyCustomSections( )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( this,
+				ISectionHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				ISectionHelperProvider helperProvider = (ISectionHelperProvider) helperProviders[i];
+				if ( helperProvider != null )
+				{
+					ISectionHelper helper = helperProvider.createHelper( this,
+							PageConstants.THEME_HELPER_KEY );
+					if ( helper != null )
+						helper.createAndRegisterSections( this );
+				}
+			}
+		}
 	}
 }
