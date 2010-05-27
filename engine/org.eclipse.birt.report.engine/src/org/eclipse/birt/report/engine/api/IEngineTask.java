@@ -40,6 +40,8 @@ public interface IEngineTask {
 	
 	public static final int TASK_DATAEXTRACTION = 4;
 	
+	public static final int TASK_DATASETPREVIEW = 5;
+	
 	/**
 	 * sets the task locale
 	 * @param locale the task locale

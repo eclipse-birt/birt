@@ -31,6 +31,7 @@ import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
+import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
 import org.eclipse.birt.report.engine.api.IDocumentWriter;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
@@ -519,5 +520,11 @@ public class ReportEngineHelper
 			logger.log( Level.SEVERE, ex.getMessage( ), ex ); //$NON-NLS-1$
 		}
 		return null;
+	}
+	
+	public IDatasetPreviewTask createDatasetPreviewTask( )
+			throws EngineException
+	{
+		return new DatasetPreviewTask( engine );
 	}
 }

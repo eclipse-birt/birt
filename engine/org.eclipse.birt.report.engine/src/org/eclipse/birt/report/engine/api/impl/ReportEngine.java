@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
+import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
 import org.eclipse.birt.report.engine.api.IDocumentWriter;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
@@ -905,5 +906,12 @@ public class ReportEngine implements IReportEngine
 	public DataEngineFactory getDataEngineFactory( )
 	{
 		return DataEngineFactory.getInstance( );
+	}
+
+	public IDatasetPreviewTask createDatasetPreviewTask( )
+			throws EngineException
+	{
+		logger.log( Level.FINE, "createDatasetPreviewTask" );
+		return helper.createDatasetPreviewTask( );
 	}
 }

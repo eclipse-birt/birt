@@ -581,4 +581,12 @@ public class ReportEngine implements IReportEngine
 	{
 		return engine.createEngineTask( taskName );
 	}
+
+	public IDatasetPreviewTask createDatasetPreviewTask( )
+			throws EngineException
+	{
+		return engine.createDatasetPreviewTask( );
+	}
+	
+	
 }

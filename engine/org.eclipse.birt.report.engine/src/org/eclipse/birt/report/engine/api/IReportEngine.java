@@ -422,6 +422,9 @@ public interface IReportEngine
 	 */
 	public IDataExtractionTask createDataExtractionTask(
 			IReportDocument reportDocument );
+	
+	public IDatasetPreviewTask createDatasetPreviewTask( )
+			throws EngineException;
 
 	/**
 	 * Shut down the engine, release all the resources.
