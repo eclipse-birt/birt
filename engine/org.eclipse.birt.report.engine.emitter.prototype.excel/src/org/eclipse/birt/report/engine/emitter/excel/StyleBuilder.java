@@ -228,7 +228,7 @@ public class StyleBuilder
 			}
 			else if ( "dashed".equalsIgnoreCase( bs ) )
 			{
-				bs = "DashDot";
+				bs = "Dash";
 			}
 			else if ( "double".equalsIgnoreCase( bs ) )
 			{
