@@ -1145,10 +1145,11 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		isiniatializedExtensionManager = true;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param type
-	 * @return
+	 * @see org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#
+	 * getPredefinedStyles(java.lang.String)
 	 */
 	public List<IPredefinedStyle> getPredefinedStyles( String type )
 	{
@@ -1160,5 +1161,22 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			return Collections.emptyList( );
 
 		return styles;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#
+	 * getReportItemThemeTypes()
+	 */
+	public List<String> getReportItemThemeTypes( )
+	{
+		if ( predefinedStyleTypes == null || predefinedStyleTypes.isEmpty( ) )
+			return Collections.emptyList( );
+
+		List<String> types = new ArrayList<String>( );
+		types.addAll( predefinedStyleTypes.keySet( ) );
+		return types;
+
 	}
 }

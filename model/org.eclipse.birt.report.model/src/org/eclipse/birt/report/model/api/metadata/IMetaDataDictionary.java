@@ -237,4 +237,10 @@ public interface IMetaDataDictionary
 	 * @return
 	 */
 	public List<IPredefinedStyle> getPredefinedStyles( String type );
+
+	/**
+	 * Gets all the supported report item theme types.
+	 * @return
+	 */
+	public List<String> getReportItemThemeTypes( );
 }
