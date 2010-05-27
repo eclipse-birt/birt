@@ -735,11 +735,11 @@ datasource.exportToCP.message=Vous exportez "{0}" vers l'explorateur de source d
 datasource.exportToCP.checkBox=&Créez un emplacement de stockage des profils de connexion pour la source de données exportée.
 datasource.exportToCP.externalCheckBox=&Utilisez le profil de connexion externalisé dans la source de données.
 datasource.exportToCP.label.specifyName=Nom du profil de conn&exion :
-datasource.exportToCP.errorBox.button.OK=OK 
+datasource.exportToCP.errorBox.button.OK=OK
 datasource.exportToCP.error.emptyFileName=Vous devez indiquer un nom de profil de connexion non vide !
 datasource.exportToCP.error.invalidFileName=Le nom du profil de connexion indiqué contient un ou des caractères non valides !
 datasource.exportToCP.error.duplicatedFileName=Le nom du profil de connexion existe déjà !
-datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
+datasource.exportToCP.error.alreadyExported=La source de données "{0}" a déjà externalisé ses propriétés.
 
 
 ###########################################################
@@ -1763,23 +1763,23 @@ FormatStringPreferencePage.formatString.title=Chaîne
 
 FormPage.Button.Add=&Ajouter
 FormPage.Button.AddWithDialog=&Ajouter...
-FormPage.Button.AddWithDialog.PROP=&Add File...
-FormPage.Button.AddWithDialog.JAR=Add Fi&le...
-FormPage.Button.AddWithDialog.JS=Add File&...
+FormPage.Button.AddWithDialog.PROP=&Ajouter un fichier...
+FormPage.Button.AddWithDialog.JAR=Ajouter un fi&chier...
+FormPage.Button.AddWithDialog.JS=Ajouter un fichier&...
 FormPage.Button.Add.AggregateOn=Ajouter l'a&grégation
 FormPage.Button.AddWithDialog.AggregateOn=Ajouter l'a&grégation...
 FormPage.Button.Delete=&Supprimer
-FormPage.Button.DeleteFile=&Remove File
-FormPage.Button.DeleteFile.Alt1=Remove F&ile
-FormPage.Button.DeleteFile.Alt2=Remove &File
-FormPage.Button.Down=Move Dow&n
-FormPage.Button.Down.Alt1=Move Do&wn
-FormPage.Button.Down.Alt2=Move &Down
+FormPage.Button.DeleteFile=&Supprimer un fichier
+FormPage.Button.DeleteFile.Alt1=Supprimer un f&ichier
+FormPage.Button.DeleteFile.Alt2=Supprimer un &fichier
+FormPage.Button.Down=Déplacer vers le ba&s
+FormPage.Button.Down.Alt1=Déplacer vers le b&as
+FormPage.Button.Down.Alt2=&Déplacer vers le bas
 FormPage.Button.Edit=&Modifier
 FormPage.Button.EditWithDialog=&Modifier...
-FormPage.Button.Up=Move &Up
-FormPage.Button.Up.Alt1=Move U&p
-FormPage.Button.Up.Alt2=Mov&e Up
+FormPage.Button.Up=Déplacer vers le &haut
+FormPage.Button.Up.Alt1=Déplacer vers le ha&ut
+FormPage.Button.Up.Alt2=Déplacer v&ers le haut
 FormPage.Button.Binding.Refresh=Ac&tualiser
 FormPage.Menu.ModifyProperty=Modifier la propriété
 FormPage.toolTipText.Up=Déplacer vers le haut
@@ -2821,7 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=Nom de &colonne :
 ResultSetColumnPage.inputDialog.label.dataType=&Type de données : 
 ResultSetColumnPage.inputDialog.label.alias=&Alias de colonne : 
 ResultSetColumnPage.inputDialog.label.displayName=Nom &d'affichage : 
-ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
+ResultSetColumnPage.inputDialog.label.displayNameKey=&Clé de nom d'affichage : 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=Le nom de la colonne est requis.
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=Le nom de colonne et son alias doivent être différents.
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=Le nom de colonne "{0}" a déjà été utilisé.
@@ -3166,10 +3166,10 @@ PublishTemplateViewAction.action.displaytext=Enregistrer le modèle avec l'&assis
 ###########################################################
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=Actualiser la bib&liothèque
-RefreshModuleHandleAction.MessageBox.Title=Refresh Library
-RefreshModuleHandleAction.MessageBox.Text=Current design has unsaved changes. Do you want to save or discard these changes first?
-RefreshModuleHandleAction.MessageBox.SaveButton=&Save
-RefreshModuleHandleAction.MessageBox.DiscardButton=&Discard
+RefreshModuleHandleAction.MessageBox.Title=Actualiser la bibliothèque
+RefreshModuleHandleAction.MessageBox.Text=Les modifications du modèle de création actuel n'ont pas été enregistrées. Souhaitez-vous d'abord enregistrer ou refuser les modifications apportées ?
+RefreshModuleHandleAction.MessageBox.SaveButton=&Enregistrer
+RefreshModuleHandleAction.MessageBox.DiscardButton=&Refuser
 RefreshModuleHandleAction.MessageBox.CancelButton=Annuler
 ###########################################################
 #ReloadCssStylesAction
@@ -4348,10 +4348,10 @@ MultiPageReportEditor.ConfirmTitle=Fichier inexistant
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Le modèle d'état a été créé à l'aide d'une version antérieure de BIRT Designer. L'enregistrement de ce modèle entraînera une mise à niveau vers la version actuelle ; il sera peut-être impossible de l'ouvrir dans une version antérieure de BIRT. Voulez-vous enregistrer le modèle d'état ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=Le contenu de cet éditeur a peut-être été modifié par une source externe. Voulez-vous recharger les modifications ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=Le contenu de cet éditeur a peut-être été modifié par une source externe. Voulez-vous recharger le contenu avec ces modifications ?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=The content of this editor may have been changed from outside, and the editor has unsaved changes.\n\nDo you want to save the editor and reload the outside changes, or discard the editor's unsaved changes before reloading?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=Le contenu de cet éditeur a peut-être été modifié par une source externe et les modifications apportées n'ont pas été enregistrées dans l'éditeur.\n\nVoulez-vous enregistrer l'éditeur et recharger les modifications externes, ou souhaitez-vous refuser les modifications non enregistrées avant le rechargement ?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirmer
-MultiPageReportEditor.SaveButton=&Save
-MultiPageReportEditor.DiscardButton=&Discard
+MultiPageReportEditor.SaveButton=&Enregistrer
+MultiPageReportEditor.DiscardButton=&Refuser
 MultiPageReportEditor.CancelButton=Annuler
 MultiPageReportEditor.SaveConfirmMessage=Le fichier a été supprimé. Souhaitez-vous enregistrer vos modifications ou fermer l'éditeur sans enregistrer ?
 TableArea.Button.Up=&Vers le haut

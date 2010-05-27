@@ -735,11 +735,11 @@ datasource.exportToCP.message=Sie sind dabei, '{0}' in den Datenquellen-Explorer
 datasource.exportToCP.checkBox=&Verbindungsprofilspeicher für die exportierte Datenquelle erstellen
 datasource.exportToCP.externalCheckBox=Externalisiertes Verbind&ungsprofil in der Datenquelle verwenden
 datasource.exportToCP.label.specifyName=V&erbindungsprofilname:
-datasource.exportToCP.errorBox.button.OK=OK 
+datasource.exportToCP.errorBox.button.OK=OK
 datasource.exportToCP.error.emptyFileName=Der Verbindungsprofilname darf nicht leer sein.
 datasource.exportToCP.error.invalidFileName=Der angegebene Verbindungsprofilname enthält mindestens ein ungültiges Zeichen.
 datasource.exportToCP.error.duplicatedFileName=Der Verbindungsprofilname existierte bereits!
-datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
+datasource.exportToCP.error.alreadyExported=Die Eigenschaften der Datenquelle '({0})' wurden bereits externalisiert.
 
 
 ###########################################################
@@ -1763,23 +1763,23 @@ FormatStringPreferencePage.formatString.title=Format Zeichenfolge
 
 FormPage.Button.Add=&Hinzufügen
 FormPage.Button.AddWithDialog=&Hinzufügen...
-FormPage.Button.AddWithDialog.PROP=&Add File...
-FormPage.Button.AddWithDialog.JAR=Add Fi&le...
-FormPage.Button.AddWithDialog.JS=Add File&...
+FormPage.Button.AddWithDialog.PROP=&Datei hinzufügen...
+FormPage.Button.AddWithDialog.JAR=Da&tei hinzufügen...
+FormPage.Button.AddWithDialog.JS=Datei hinzufügen&...
 FormPage.Button.Add.AggregateOn=A&ggregat hinzufügen
 FormPage.Button.AddWithDialog.AggregateOn=A&ggregat hinzufügen...
 FormPage.Button.Delete=&Entfernen
-FormPage.Button.DeleteFile=&Remove File
-FormPage.Button.DeleteFile.Alt1=Remove F&ile
-FormPage.Button.DeleteFile.Alt2=Remove &File
-FormPage.Button.Down=Move Dow&n
-FormPage.Button.Down.Alt1=Move Do&wn
-FormPage.Button.Down.Alt2=Move &Down
+FormPage.Button.DeleteFile=&Datei entfernen
+FormPage.Button.DeleteFile.Alt1=D&atei entfernen
+FormPage.Button.DeleteFile.Alt2=Da&tei entfernen
+FormPage.Button.Down=Nach unte&n
+FormPage.Button.Down.Alt1=Nach un&ten
+FormPage.Button.Down.Alt2=Nach &unten
 FormPage.Button.Edit=&Bearbeiten
 FormPage.Button.EditWithDialog=&Bearbeiten...
-FormPage.Button.Up=Move &Up
-FormPage.Button.Up.Alt1=Move U&p
-FormPage.Button.Up.Alt2=Mov&e Up
+FormPage.Button.Up=Nach &oben
+FormPage.Button.Up.Alt1=Nach o&ben
+FormPage.Button.Up.Alt2=Na&ch oben
 FormPage.Button.Binding.Refresh=A&ktualisieren
 FormPage.Menu.ModifyProperty=Eigenschaft modifizieren
 FormPage.toolTipText.Up=Nach oben
@@ -2821,7 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=&Spaltenname:
 ResultSetColumnPage.inputDialog.label.dataType=Daten&typ: 
 ResultSetColumnPage.inputDialog.label.alias=Spalten&alias: 
 ResultSetColumnPage.inputDialog.label.displayName=&Anzeigename: 
-ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
+ResultSetColumnPage.inputDialog.label.displayNameKey=Namens&schlüssel anzeigen: 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=Eingabe des Spaltennamens erforderlich.
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=Spaltenname und Spaltenalias dürfen nicht identisch sein.
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=Spaltenname '{0}' wurde bereits verwendet.
@@ -3166,10 +3166,10 @@ PublishTemplateViewAction.action.displaytext=Vorlage mit Ass&istent für neuen Be
 ###########################################################
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=&Bibliothek aktualisieren
-RefreshModuleHandleAction.MessageBox.Title=Refresh Library
-RefreshModuleHandleAction.MessageBox.Text=Current design has unsaved changes. Do you want to save or discard these changes first?
-RefreshModuleHandleAction.MessageBox.SaveButton=&Save
-RefreshModuleHandleAction.MessageBox.DiscardButton=&Discard
+RefreshModuleHandleAction.MessageBox.Title=Bibliothek aktualisieren
+RefreshModuleHandleAction.MessageBox.Text=Es sind ungespeicherte Änderungen im aktuellen Design vorhanden. Möchten Sie diese Änderungen zuerst speichern oder verwerfen?
+RefreshModuleHandleAction.MessageBox.SaveButton=&Speichern
+RefreshModuleHandleAction.MessageBox.DiscardButton=&Verwerfen
 RefreshModuleHandleAction.MessageBox.CancelButton=Abbrechen
 ###########################################################
 #ReloadCssStylesAction
@@ -4348,10 +4348,10 @@ MultiPageReportEditor.ConfirmTitle=Datei ist nicht vorhanden.
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Das Berichtdesign wurde mit einer früheren Version von BIRT Designer erstellt. Durch Speichern wird es auf die aktuelle Version aktualisiert. Dadurch kann es möglicherweise nicht mehr mit einer älteren Version von BIRT geöffnet werden. Möchten Sie das Berichtdesign trotzdem speichern?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=Der Inhalt dieses Editors wurde möglicherweise extern geändert. Möchten Sie die Änderungen neu laden?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=Der Inhalt dieses Editors wurde möglicherweise extern geändert. Möchten Sie den Inhalt mit diesen Änderungen neu laden?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=The content of this editor may have been changed from outside, and the editor has unsaved changes.\n\nDo you want to save the editor and reload the outside changes, or discard the editor's unsaved changes before reloading?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=Der Inhalt dieses Editors wurde möglicherweise extern geändert, und im Editor sind ungespeicherte Änderungen vorhanden.\n\nMöchten Sie den Editor speichern und die Änderungen neu laden oder die ungespeicherten Änderungen im Editor verwerfen, bevor Sie neu laden?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Bestätigen
-MultiPageReportEditor.SaveButton=&Save
-MultiPageReportEditor.DiscardButton=&Discard
+MultiPageReportEditor.SaveButton=&Speichern
+MultiPageReportEditor.DiscardButton=&Verwerfen
 MultiPageReportEditor.CancelButton=Abbrechen
 MultiPageReportEditor.SaveConfirmMessage=Die Datei wurde gelöscht. Möchten Sie Ihre Änderungen speichern oder den Editor schließen, ohne zu speichern?
 TableArea.Button.Up=&Nach oben

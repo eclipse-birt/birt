@@ -161,7 +161,7 @@ data.engine.sortExprContainRowNum=Sortierungsausdruck kann nicht auf Javascript-
 
 
 data.engine.ResultSetNotStart=Das Ergebnis wurde noch nicht gestartet.
-data.engine.GetLevelMemberError=This data binding is used outside of the available scope.
+data.engine.GetLevelMemberError=Diese Datenbindung wird außerhalb des verfügbaren Umfangs verwendet.
 
 data.engine.invalidRowIndex=Ungültiger Zeilenindexwert: {0}.
 data.engine.backwardSeekError=Die Rückwärtssuche wird in dieser Version nicht unterstützt.

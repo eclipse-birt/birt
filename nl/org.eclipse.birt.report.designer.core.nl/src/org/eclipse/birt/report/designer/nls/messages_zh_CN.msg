@@ -735,11 +735,11 @@ datasource.exportToCP.message=ÄúÕıÔÚ½«¡°{0}¡±µ¼³öµ½Êı¾İÔ´×ÊÔ´¹ÜÀíÆ÷¡£
 datasource.exportToCP.checkBox=Îªµ¼³öµÄÊı¾İÔ´´´½¨Á¬½ÓÅäÖÃÎÄ¼ş´æ´¢(&C)¡£
 datasource.exportToCP.externalCheckBox=Ê¹ÓÃÊı¾İÔ´ÖĞÍâ²¿»¯µÄÁ¬½ÓÅäÖÃÎÄ¼ş(&U)¡£
 datasource.exportToCP.label.specifyName=Á¬½ÓÅäÖÃÎÄ¼şÃû³Æ(&E):
-datasource.exportToCP.errorBox.button.OK=È·¶¨ 
+datasource.exportToCP.errorBox.button.OK=??
 datasource.exportToCP.error.emptyFileName=±ØĞëÖ¸¶¨Ò»¸ö·Ç¿ÕÁ¬½ÓÅäÖÃÎÄ¼şÃû³Æ!
 datasource.exportToCP.error.invalidFileName=Ö¸¶¨µÄÁ¬½ÓÅäÖÃÎÄ¼şÃû³Æ°üº¬ÎŞĞ§×Ö·û!
 datasource.exportToCP.error.duplicatedFileName=¸ÃÁ¬½ÓÅäÖÃÎÄ¼şÃû³ÆÒÑ´æÔÚ!
-datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
+datasource.exportToCP.error.alreadyExported=???“{0}”??????????
 
 
 ###########################################################
@@ -1763,23 +1763,23 @@ FormatStringPreferencePage.formatString.title=×Ö·û´®¸ñÊ½
 
 FormPage.Button.Add=Ìí¼Ó(&A)
 FormPage.Button.AddWithDialog=Ìí¼Ó(&A)...
-FormPage.Button.AddWithDialog.PROP=&Add File...
-FormPage.Button.AddWithDialog.JAR=Add Fi&le...
-FormPage.Button.AddWithDialog.JS=Add File&...
+FormPage.Button.AddWithDialog.PROP=????(&A)...
+FormPage.Button.AddWithDialog.JAR=????(&L)...
+FormPage.Button.AddWithDialog.JS=????&...
 FormPage.Button.Add.AggregateOn=Ìí¼Ó¾ÛºÏ(&G)
 FormPage.Button.AddWithDialog.AggregateOn=Ìí¼Ó¾ÛºÏ(&G)...
 FormPage.Button.Delete=É¾³ı(&R)
-FormPage.Button.DeleteFile=&Remove File
-FormPage.Button.DeleteFile.Alt1=Remove F&ile
-FormPage.Button.DeleteFile.Alt2=Remove &File
-FormPage.Button.Down=Move Dow&n
-FormPage.Button.Down.Alt1=Move Do&wn
-FormPage.Button.Down.Alt2=Move &Down
+FormPage.Button.DeleteFile=????(&R)
+FormPage.Button.DeleteFile.Alt1=????(&I)
+FormPage.Button.DeleteFile.Alt2=????(&F)
+FormPage.Button.Down=??(&N)
+FormPage.Button.Down.Alt1=??(&W)
+FormPage.Button.Down.Alt2=??(&D)
 FormPage.Button.Edit=±à¼­(&D)
 FormPage.Button.EditWithDialog=±à¼­(&D)...
-FormPage.Button.Up=Move &Up
-FormPage.Button.Up.Alt1=Move U&p
-FormPage.Button.Up.Alt2=Mov&e Up
+FormPage.Button.Up=??(&U)
+FormPage.Button.Up.Alt1=??(&P)
+FormPage.Button.Up.Alt2=??(&E)
 FormPage.Button.Binding.Refresh=Ë¢ĞÂ(&F)
 FormPage.Menu.ModifyProperty=ĞŞ¸ÄÊôĞÔ
 FormPage.toolTipText.Up=ÉÏÒÆ
@@ -2821,7 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=ÁĞÃû³Æ(&C):
 ResultSetColumnPage.inputDialog.label.dataType=Êı¾İÀàĞÍ(&T): 
 ResultSetColumnPage.inputDialog.label.alias=ÁĞ±ğÃû(&A): 
 ResultSetColumnPage.inputDialog.label.displayName=ÏÔÊ¾Ãû³Æ(&D): 
-ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
+ResultSetColumnPage.inputDialog.label.displayNameKey=???????(&K): 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=ÒªÇóÊäÈëÁĞÃû³Æ¡£
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=ÁĞÃû³ÆºÍÆä±ğÃûÓ¦²»Í¬¡£
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=ÁĞÃû³Æ¡°{0}¡±ÒÑ¾­ÔÚÊ¹ÓÃ¡£
@@ -3166,10 +3166,10 @@ PublishTemplateViewAction.action.displaytext=Ê¹ÓÃĞÂ½¨±¨±íÏòµ¼À´×¢²áÄ£°å(&Z)...
 ###########################################################
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=Ë¢ĞÂ¿â(&L)
-RefreshModuleHandleAction.MessageBox.Title=Refresh Library
-RefreshModuleHandleAction.MessageBox.Text=Current design has unsaved changes. Do you want to save or discard these changes first?
-RefreshModuleHandleAction.MessageBox.SaveButton=&Save
-RefreshModuleHandleAction.MessageBox.DiscardButton=&Discard
+RefreshModuleHandleAction.MessageBox.Title=???
+RefreshModuleHandleAction.MessageBox.Text=????????????? ????????????
+RefreshModuleHandleAction.MessageBox.SaveButton=??(&S)
+RefreshModuleHandleAction.MessageBox.DiscardButton=??(&D)
 RefreshModuleHandleAction.MessageBox.CancelButton=È¡Ïû
 ###########################################################
 #ReloadCssStylesAction
@@ -4348,11 +4348,11 @@ MultiPageReportEditor.ConfirmTitle=ÎÄ¼ş²»´æÔÚ
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=±¨±íÉè¼ÆÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT Designer ´´½¨µÄ¡£±£´æËü½«»áÉı¼¶µ½µ±Ç°°æ±¾£¬¿ÉÄÜÊ¹½ÏÔç°æ±¾µÄ BIRT ÎŞ·¨´ò¿ªËü¡£ÊÇ·ñÈÔÒª±£´æ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=´Ë±à¼­Æ÷µÄÄÚÈİ¿ÉÄÜÒÑ´ÓÍâ²¿¸ü¸Ä£¬ÒªÖØĞÂ¼ÓÔØ¸ü¸ÄÂğ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=´Ë±à¼­Æ÷µÄÄÚÈİ¿ÉÄÜÒÑ´ÓÍâ²¿¸ü¸Ä£¬ÒªÖØĞÂ¼ÓÔØ¾ßÓĞÕâĞ©¸ü¸ÄµÄÄÚÈİÂğ?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=The content of this editor may have been changed from outside, and the editor has unsaved changes.\n\nDo you want to save the editor and reload the outside changes, or discard the editor's unsaved changes before reloading?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=???????????????,????????????\n\n??????????????,??????????????????????
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=È·ÈÏ
-MultiPageReportEditor.SaveButton=&Save
-MultiPageReportEditor.DiscardButton=&Discard
-MultiPageReportEditor.CancelButton=È¡Ïû
+MultiPageReportEditor.SaveButton=??(&S)
+MultiPageReportEditor.DiscardButton=??(&D)
+MultiPageReportEditor.CancelButton=??
 MultiPageReportEditor.SaveConfirmMessage=ÎÄ¼şÒÑ±»É¾³ı¡£ÊÇÒª±£´æ¸ü¸Ä»¹ÊÇÒª¹Ø±Õ±à¼­Æ÷¶ø²»±£´æ?
 TableArea.Button.Up=ÉÏÒÆ(&U)
 

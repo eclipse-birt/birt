@@ -735,11 +735,11 @@ datasource.exportToCP.message=Está exportando "{0}" al explorador de fuentes de 
 datasource.exportToCP.checkBox=&Crear almacenamiento de perfil de conexión para la fuente de datos exportada.
 datasource.exportToCP.externalCheckBox=&Utilizar el perfil de conexión externalizado de la fuente de datos.
 datasource.exportToCP.label.specifyName=Nombre del perfil de con&exión:
-datasource.exportToCP.errorBox.button.OK=Aceptar 
+datasource.exportToCP.errorBox.button.OK=Aceptar
 datasource.exportToCP.error.emptyFileName=Debe especificar un nombre de perfil de conexión que no esté vacío.
 datasource.exportToCP.error.invalidFileName=El nombre del perfil de conexión especificado incluye caracteres no válidos.
 datasource.exportToCP.error.duplicatedFileName=El nombre del perfil de conexión ya existe.
-datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
+datasource.exportToCP.error.alreadyExported=La fuente de datos "{0}" ya ha externalizado sus propiedades.
 
 
 ###########################################################
@@ -1763,23 +1763,23 @@ FormatStringPreferencePage.formatString.title=Formato de string
 
 FormPage.Button.Add=&Añadir
 FormPage.Button.AddWithDialog=&Añadir...
-FormPage.Button.AddWithDialog.PROP=&Add File...
-FormPage.Button.AddWithDialog.JAR=Add Fi&le...
-FormPage.Button.AddWithDialog.JS=Add File&...
+FormPage.Button.AddWithDialog.PROP=&Añadir archivo...
+FormPage.Button.AddWithDialog.JAR=Añadir archi&vo...
+FormPage.Button.AddWithDialog.JS=Añadir archivo&...
 FormPage.Button.Add.AggregateOn=Añadir a&gregación
 FormPage.Button.AddWithDialog.AggregateOn=Añadir a&gregación...
 FormPage.Button.Delete=&Quitar
-FormPage.Button.DeleteFile=&Remove File
-FormPage.Button.DeleteFile.Alt1=Remove F&ile
-FormPage.Button.DeleteFile.Alt2=Remove &File
-FormPage.Button.Down=Move Dow&n
-FormPage.Button.Down.Alt1=Move Do&wn
-FormPage.Button.Down.Alt2=Move &Down
+FormPage.Button.DeleteFile=&Eliminar archivo
+FormPage.Button.DeleteFile.Alt1=Eliminar arch&ivo
+FormPage.Button.DeleteFile.Alt2=Eliminar &archivo
+FormPage.Button.Down=Mover hacia abaj&o
+FormPage.Button.Down.Alt1=Mover hacia aba&jo
+FormPage.Button.Down.Alt2=Mover hacia &abajo
 FormPage.Button.Edit=Ed&itar
 FormPage.Button.EditWithDialog=E&ditar...
-FormPage.Button.Up=Move &Up
-FormPage.Button.Up.Alt1=Move U&p
-FormPage.Button.Up.Alt2=Mov&e Up
+FormPage.Button.Up=Mover hacia &arriba
+FormPage.Button.Up.Alt1=Mover hacia a&rriba
+FormPage.Button.Up.Alt2=Mov&er hacia arriba
 FormPage.Button.Binding.Refresh=Ac&tualizar
 FormPage.Menu.ModifyProperty=Modificar propiedad
 FormPage.toolTipText.Up=Mover hacia arriba
@@ -2821,7 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=Nombre de &columna:
 ResultSetColumnPage.inputDialog.label.dataType=&Tipo de datos: 
 ResultSetColumnPage.inputDialog.label.alias=&Alias de columna: 
 ResultSetColumnPage.inputDialog.label.displayName=N&ombre en pantalla: 
-ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
+ResultSetColumnPage.inputDialog.label.displayNameKey=&Clave de nombre en pantalla: 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=Debe introducir el nombre de columna.
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=El nombre de columna y el alias no deben coincidir.
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=El nombre de columna "{0}" ya se ha utilizado.
@@ -3166,10 +3166,10 @@ PublishTemplateViewAction.action.displaytext=Registrar plantilla con el as&isten
 ###########################################################
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=Actualizar &librería
-RefreshModuleHandleAction.MessageBox.Title=Refresh Library
-RefreshModuleHandleAction.MessageBox.Text=Current design has unsaved changes. Do you want to save or discard these changes first?
-RefreshModuleHandleAction.MessageBox.SaveButton=&Save
-RefreshModuleHandleAction.MessageBox.DiscardButton=&Discard
+RefreshModuleHandleAction.MessageBox.Title=Actualizar librería
+RefreshModuleHandleAction.MessageBox.Text=El diseño actual tiene cambios no guardados. ¿Desea guardar o desechar estos cambios primero?
+RefreshModuleHandleAction.MessageBox.SaveButton=&Guardar
+RefreshModuleHandleAction.MessageBox.DiscardButton=&Desechar
 RefreshModuleHandleAction.MessageBox.CancelButton=Cancelar
 ###########################################################
 #ReloadCssStylesAction
@@ -4348,10 +4348,10 @@ MultiPageReportEditor.ConfirmTitle=El archivo no existe
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Una versión anterior de BIRT Designer ha creado el diseño de informe. Al guardarlo, se actualizará a la versión actual y podría no ser accesible a versiones anteriores de BIRT. ¿Aún desea guardarlo?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=El contenido de este editor puede haber cambiado desde fuera, ¿desea volver a cargar los cambios?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=El contenido de este editor puede haber cambiado desde fuera, ¿desea volver a cargar el contenido con estos cambios?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=The content of this editor may have been changed from outside, and the editor has unsaved changes.\n\nDo you want to save the editor and reload the outside changes, or discard the editor's unsaved changes before reloading?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=El contenido de este editor puede haber cambiado desde fuera y el editor tiene cambios no guardados.\n\n¿Desea guardar el editor y volver a cargar los cambios de fuera o desechar los cambios no guardados del editor antes de volver a cargar?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirmar
-MultiPageReportEditor.SaveButton=&Save
-MultiPageReportEditor.DiscardButton=&Discard
+MultiPageReportEditor.SaveButton=&Guardar
+MultiPageReportEditor.DiscardButton=&Desechar
 MultiPageReportEditor.CancelButton=Cancelar
 MultiPageReportEditor.SaveConfirmMessage=El archivo se ha eliminado. ¿Desea guardar los cambios o cerrar el editor sin guardar?
 TableArea.Button.Up=A&rriba

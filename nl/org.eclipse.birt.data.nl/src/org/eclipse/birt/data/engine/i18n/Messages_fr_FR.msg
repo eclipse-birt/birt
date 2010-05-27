@@ -161,7 +161,7 @@ data.engine.sortExprContainRowNum=L'expression de tri ne peut pas référencer l'o
 
 
 data.engine.ResultSetNotStart=Le jeu de résultats n'a pas encore démarré.
-data.engine.GetLevelMemberError=This data binding is used outside of the available scope.
+data.engine.GetLevelMemberError=Cette liaison de données est utilisée en dehors de l'étendue proposée.
 
 data.engine.invalidRowIndex=Valeur d'index de ligne incorrecte : {0}.
 data.engine.backwardSeekError=La recherche en arrière n'est pas prise en charge dans cette version.

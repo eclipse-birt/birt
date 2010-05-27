@@ -161,7 +161,7 @@ data.engine.sortExprContainRowNum=정렬 식에서 Java 스크립트 개체 "row.__num"을 �
 
 
 data.engine.ResultSetNotStart=결과 집합이 시작되지 않았습니다.
-data.engine.GetLevelMemberError=This data binding is used outside of the available scope.
+data.engine.GetLevelMemberError=이 데이터 바인딩이 사용 가능한 범위를 벗어나 사용되고 있습니다.
 
 data.engine.invalidRowIndex=잘못된 행 인덱스 값: {0}.
 data.engine.backwardSeekError=이 버전에서는 뒤로 검색이 지원되지 않습니다.

@@ -735,11 +735,11 @@ datasource.exportToCP.message=데이터 원본 탐색기로 "{0}"을(를) 내보내고 있습니다
 datasource.exportToCP.checkBox=내보낸 데이터 원본에 대한 연결 프로필 저장소 생성(&C)
 datasource.exportToCP.externalCheckBox=데이터 원본에 있는 외부화된 연결 프로필 사용(&U)
 datasource.exportToCP.label.specifyName=연결 프로필 이름(&E):
-datasource.exportToCP.errorBox.button.OK=확인 
+datasource.exportToCP.errorBox.button.OK=확인
 datasource.exportToCP.error.emptyFileName=비어 있지 않은 연결 프로필 이름을 지정해야 합니다!
 datasource.exportToCP.error.invalidFileName=지정된 연결 프로필 이름에 잘못된 문자가 있습니다!
 datasource.exportToCP.error.duplicatedFileName=연결 프로필 이름이 이미 있습니다!
-datasource.exportToCP.error.alreadyExported=The data source "{0}" has already externalized its properties.
+datasource.exportToCP.error.alreadyExported=데이터 원본 "{0}"이(가) 이미 해당 속성을 외부화했습니다.
 
 
 ###########################################################
@@ -1763,23 +1763,23 @@ FormatStringPreferencePage.formatString.title=문자열 형식
 
 FormPage.Button.Add=추가(&A)
 FormPage.Button.AddWithDialog=추가(&A)...
-FormPage.Button.AddWithDialog.PROP=&Add File...
-FormPage.Button.AddWithDialog.JAR=Add Fi&le...
-FormPage.Button.AddWithDialog.JS=Add File&...
+FormPage.Button.AddWithDialog.PROP=파일 추가(&A)...
+FormPage.Button.AddWithDialog.JAR=파일 추가(&L)...
+FormPage.Button.AddWithDialog.JS=파일 추가(&.)...
 FormPage.Button.Add.AggregateOn=집계 추가(&G)
 FormPage.Button.AddWithDialog.AggregateOn=집계 추가(&G)...
 FormPage.Button.Delete=제거(&R)
-FormPage.Button.DeleteFile=&Remove File
-FormPage.Button.DeleteFile.Alt1=Remove F&ile
-FormPage.Button.DeleteFile.Alt2=Remove &File
-FormPage.Button.Down=Move Dow&n
-FormPage.Button.Down.Alt1=Move Do&wn
-FormPage.Button.Down.Alt2=Move &Down
+FormPage.Button.DeleteFile=파일 제거(&R)
+FormPage.Button.DeleteFile.Alt1=파일 제거(&I)
+FormPage.Button.DeleteFile.Alt2=파일 제거(&F)
+FormPage.Button.Down=아래로 이동(&N)
+FormPage.Button.Down.Alt1=아래로 이동(&W)
+FormPage.Button.Down.Alt2=아래로 이동(&D)
 FormPage.Button.Edit=편집(&D)
 FormPage.Button.EditWithDialog=편집(&D)...
-FormPage.Button.Up=Move &Up
-FormPage.Button.Up.Alt1=Move U&p
-FormPage.Button.Up.Alt2=Mov&e Up
+FormPage.Button.Up=위로 이동(&U)
+FormPage.Button.Up.Alt1=위로 이동(&P)
+FormPage.Button.Up.Alt2=위로 이동(&E)
 FormPage.Button.Binding.Refresh=새로 고침(&F)
 FormPage.Menu.ModifyProperty=속성 수정
 FormPage.toolTipText.Up=위로 이동
@@ -2821,7 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=열 이름(&C):
 ResultSetColumnPage.inputDialog.label.dataType=데이터 형식(&T): 
 ResultSetColumnPage.inputDialog.label.alias=열 별칭(&A): 
 ResultSetColumnPage.inputDialog.label.displayName=표시 이름(&D): 
-ResultSetColumnPage.inputDialog.label.displayNameKey=Display Name &Key: 
+ResultSetColumnPage.inputDialog.label.displayNameKey=표시 이름 키(&K): 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=열 이름을 입력해야 합니다.
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=열 이름 및 별칭이 같을 수 없습니다.
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=열 이름 "{0}"이(가) 이미 사용되고 있습니다.
@@ -3166,10 +3166,10 @@ PublishTemplateViewAction.action.displaytext=새 보고서 마법사를 템플릿에 등록(&Z
 ###########################################################
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=라이브러리 새로 고침(&L)
-RefreshModuleHandleAction.MessageBox.Title=Refresh Library
-RefreshModuleHandleAction.MessageBox.Text=Current design has unsaved changes. Do you want to save or discard these changes first?
-RefreshModuleHandleAction.MessageBox.SaveButton=&Save
-RefreshModuleHandleAction.MessageBox.DiscardButton=&Discard
+RefreshModuleHandleAction.MessageBox.Title=라이브러리 새로 고침
+RefreshModuleHandleAction.MessageBox.Text=현재 디자인에 저장하지 않은 변경 사항이 있습니다. 먼저 이러한 변경 사항을 저장 또는 취소하시겠습니까?
+RefreshModuleHandleAction.MessageBox.SaveButton=저장(&S)
+RefreshModuleHandleAction.MessageBox.DiscardButton=취소(&D)
 RefreshModuleHandleAction.MessageBox.CancelButton=취소
 ###########################################################
 #ReloadCssStylesAction
@@ -4348,10 +4348,10 @@ MultiPageReportEditor.ConfirmTitle=파일 없음
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=이 보고서 디자인은 이전 버전의 BIRT Designer에서 만들어졌습니다. 이 보고서 디자인을 저장하면 보고서 디자인이 현재 버전으로 업그레이드되어 이전 버전의 BIRT Designer에서 열지 못하게 될 수 있습니다. 저장하시겠습니까?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=이 편집기의 내용이 외부에서 변경되었을 수 있습니다. 변경 사항을 다시 로드하시겠습니까?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=이 편집기의 내용이 외부에서 변경되었을 수 있습니다. 이 변경 사항을 다시 로드하시겠습니까?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=The content of this editor may have been changed from outside, and the editor has unsaved changes.\n\nDo you want to save the editor and reload the outside changes, or discard the editor's unsaved changes before reloading?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=이 편집기의 내용이 외부에서 변경된 것 같습니다. 편집기에 저장하지 않는 변경 사항이 있습니다.\n\n편집기를 저장하고 변경 사항을 다시 로드하시겠습니까, 아니면 다시 로드하기 전에 편집기의 저장하지 않은 변경 사항을 취소하시겠습니까?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=확인
-MultiPageReportEditor.SaveButton=&Save
-MultiPageReportEditor.DiscardButton=&Discard
+MultiPageReportEditor.SaveButton=저장(&S)
+MultiPageReportEditor.DiscardButton=취소(&D)
 MultiPageReportEditor.CancelButton=취소
 MultiPageReportEditor.SaveConfirmMessage=파일이 삭제되었습니다. 변경 사항을 저장하시겠습니까? 아니면 저장하지 않고 편집기를 닫으시겠습니까?
 TableArea.Button.Up=위로(&U)
