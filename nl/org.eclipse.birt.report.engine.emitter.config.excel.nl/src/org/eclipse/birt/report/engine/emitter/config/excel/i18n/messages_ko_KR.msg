@@ -21,8 +21,10 @@ OptionDisplayValue.OfficeVersion=출력 버전:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 OptionDisplayValue.ChartDpi=차트 DPI
+OptionDisplayValue.HideGridlines=Hide grid lines
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=텍스트 줄 바꿈 가능 여부를 나타냅니다.
 OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
+OptionDescription.HideGridlines=Hide grid lines.
