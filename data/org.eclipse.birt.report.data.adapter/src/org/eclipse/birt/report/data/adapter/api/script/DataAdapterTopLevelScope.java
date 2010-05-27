@@ -23,9 +23,12 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -47,6 +50,8 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 	private Scriptable paramsProp;
 	private Object reportContextProp;
 
+	private Context cx;
+
 	
 	/**
 	 * Constructor; initializes standard objects in scope
@@ -58,6 +63,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 		super(cx);
 		// init BIRT native objects
 		new CoreJavaScriptInitializer( ).initialize( cx, this );
+		this.cx = cx;
 		designModule = module;
 	}
 	
@@ -191,7 +197,33 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 			return null;
 
 		ScalarParameterHandle sp = (ScalarParameterHandle) params;
-		String defaultValue = sp.getDefaultValue( );
+		String defaultValue = null;
+		List defaultValueList = sp.getDefaultValueList( );
+		if ( defaultValueList != null && defaultValueList.size( ) > 0 )
+		{
+			Expression expression = (Expression) defaultValueList.get( 0 );
+			defaultValue = expression.getStringExpression( );
+			String type = expression.getType( );
+			if ( ExpressionType.JAVASCRIPT.equals( type ) )
+			{
+				try
+				{
+					Object evaluatedResult = JavascriptEvalUtil.evaluateScript( cx,
+							this,
+							expression.getStringExpression( ),
+							ScriptExpression.defaultID,
+							0 );
+					if ( evaluatedResult != null )
+					{
+						defaultValue = evaluatedResult.toString( );
+					}
+				}
+				catch (BirtException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+		}
 		String type = sp.getDataType( );
 		if ( defaultValue == null )
 		{
