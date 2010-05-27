@@ -114,6 +114,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	protected ColumnDefn newDefn = null;
 
 	private static String DEFAULT_MESSAGE = Messages.getString( "dataset.editor.outputColumns" );//$NON-NLS-1$
+	private static String DEFAULT_COLUMN_NAME = "Column"; //$NON-NLS-1$
 
 	protected String defaultDataTypeDisplayName;
 	protected int defaultDataTypeIndex;
@@ -405,7 +406,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		{
 			if ( rsColumnMap.get( name ) != null )
 			{
-				name = getUniqueName( );
+				name = getUniqueColumnName( );
 				defn.setColumnName( name );
 			}
 			ResultSetColumnHandle rsHandle;
@@ -587,34 +588,32 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		}
 	}
 
-	protected final String getUniqueName( )
+	protected String getUniqueColumnName( )
 	{
-		int n = 1;
-		String prefix = "column"; //$NON-NLS-1$
-		StringBuffer buf = new StringBuffer( );
-		while ( buf.length( ) == 0 )
+		String name = DEFAULT_COLUMN_NAME;
+		int index = 0;
+		while ( !isUniqeColumnName( name ) )
 		{
-			buf.append( prefix ).append( n++ );
-			if ( rsColumns == null )
-				continue;
-
-			Iterator iter = rsColumns.iterator( );
-			if ( iter != null )
-			{
-				while ( iter.hasNext( ) && buf.length( ) > 0 )
-				{
-					ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
-					if ( buf.toString( )
-							.equalsIgnoreCase( column.getColumnName( ) ) )
-					{
-						buf.setLength( 0 );
-					}
-				}
-			}
+			index++;
+			name = DEFAULT_COLUMN_NAME + "_" + index;//$NON-NLS-1$
 		}
-		return buf.toString( );
+		return name;
 	}
+	
+	private boolean isUniqeColumnName( String name )
+	{
+		Iterator iter = columnHints.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
+			if ( hint.getColumnName( ) != null
+					&& hint.getColumnName( ).equals( name ) )
+				return false;
+		}
 
+		return true;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1044,12 +1043,12 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		 */
 		public void setDisplayName( String displayName )
 		{
-			if(this.columnHintHandle!=null)
-				columnHintHandle.setDisplayName(displayName);
-			else
-				columnHint.setProperty( ColumnHint.DISPLAY_NAME_MEMBER, displayName );
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setDisplayName( displayName );
+			else if ( displayName != null && displayName.trim( ).length( ) > 0 )
+				columnHint.setProperty( ColumnHint.DISPLAY_NAME_MEMBER,
+						displayName );
 		}
-
 
 		public String getDisplayNameKey( )
 		{

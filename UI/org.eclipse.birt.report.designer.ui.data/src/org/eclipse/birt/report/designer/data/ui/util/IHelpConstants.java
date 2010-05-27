@@ -90,12 +90,12 @@ public interface IHelpConstants
 			+ "Dialog_PropertyHandle_ID";//$NON-NLS-1$
 
 	public static final String CONEXT_ID_DATASET_PARAMETERS_DIALOG = PREFIX
-	+ "Dialog_DataSet_Parameters_ID";//$NON-NLS-1$
+			+ "Dialog_DataSet_Parameters_ID";//$NON-NLS-1$
 
 	public static final String CONEXT_ID_OUTPUT_COLUMNS_DIALOG = PREFIX
-	+ "Dialog_Output_Columns_ID";//$NON-NLS-1$
+			+ "Dialog_Output_Columns_ID";//$NON-NLS-1$
 
 	public static final String CONEXT_ID_DATASET_COMPUTEDCOLUMNS_DIALOG = PREFIX
-	+ "Dialog_DataSet_ComputedColumns_ID";//$NON-NLS-1$
+			+ "Dialog_DataSet_ComputedColumns_ID";//$NON-NLS-1$
 
 }
