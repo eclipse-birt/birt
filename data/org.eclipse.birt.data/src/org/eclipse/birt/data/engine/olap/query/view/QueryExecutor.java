@@ -41,7 +41,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.CachedAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.SortedAggregationRowArray;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
@@ -95,16 +94,6 @@ public class QueryExecutor
 		cubeQueryExecutorHelper.addAggrMeasureFilter( executor.getMeasureFilterEvalHelpers( ) );
 		cubeQueryExecutorHelper.addMeasureFilter( executor.getFacttableBasedFilterHelpers( ) );
 		
-		if ( view.getCubeQueryDefinition( ) instanceof DrillCubeQueryDefinition )
-		{
-			DrillCubeQueryDefinition query = (DrillCubeQueryDefinition) view.getCubeQueryDefinition( );
-			for ( int i = 0; i < query.getLevelFilter( ).size( ); i++ )
-			{
-				cubeQueryExecutorHelper.addFilter( (LevelFilter) query.getLevelFilter( )
-						.get( i ) );
-			}
-		}
-		
 		populateAggregationSort( executor, cubeQueryExecutorHelper, ICubeQueryDefinition.COLUMN_EDGE );
 		populateAggregationSort( executor, cubeQueryExecutorHelper, ICubeQueryDefinition.ROW_EDGE );
 		populateAggregationSort( executor, cubeQueryExecutorHelper, ICubeQueryDefinition.PAGE_EDGE );
@@ -120,6 +109,13 @@ public class QueryExecutor
 			{
 				rs = populateRs( view, aggrDefns, cubeQueryExecutorHelper, 
 						stopSign, true );
+				
+				CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
+						view.getPreparedCubeOperations( ),
+						view.getCubeQueryExecutor( ).getScope( ),
+						view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
+
+				rs = coe.execute( rs, stopSign );
 				break;
 			}
 			case DataEngineContext.DIRECT_PRESENTATION:
