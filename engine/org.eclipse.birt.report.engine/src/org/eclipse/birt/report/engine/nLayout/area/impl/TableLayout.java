@@ -14,11 +14,13 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea.TableLayoutInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
@@ -45,6 +47,8 @@ public class TableLayout
 	protected int endCol;
 	
 	protected RowArea unresolvedRow;
+	
+	private RowArea currentRow;
 	
 	private boolean isRTL = false;
 	
@@ -651,6 +655,7 @@ public class TableLayout
 	private void updateRow( RowArea rowArea, boolean isFixedLayout )
 	{
 		RowArea lastRow = (RowArea) rows.getCurrent( );
+		currentRow = rowArea;
 		boolean usedResolvedRow= false;
 		int height = rowArea.getSpecifiedHeight( );
 		if ( !isFixedLayout || height==0)
@@ -687,7 +692,7 @@ public class TableLayout
 				else
 				{
 					CellArea cell = rowArea.getCell( i );
-					if(cell==null)
+					if ( cell == null )
 					{
 						if ( unresolvedRow != null )
 						{
@@ -701,12 +706,22 @@ public class TableLayout
 						}
 					}
 
-					if ( cell != null && cell.getRowSpan( ) == 1 )
+					if ( cell != null )
 					{
-						height = Math.max( height, cell.getHeight( ) );
-						i = i + cell.getColSpan( ) - 1;
+						if ( cell.getRowSpan( ) == 1 )
+						{
+							height = Math.max( height, cell.getHeight( ) );
+							i = i + cell.getColSpan( ) - 1;
+						}
+						else
+						{							
+							if( ! isInRepeatHeader( ) )
+							{
+								cell.setUsedRowSpan( cell.getUsedRowSpan( ) + 1 );
+							}
+						}
 					}
-
+					
 				}
 			}
 		}
@@ -743,11 +758,20 @@ public class TableLayout
 						}
 					}
 
-					if ( cell != null && cell.getRowSpan( ) == 1 )
+					if ( cell != null )
 					{
-						i = i + cell.getColSpan( ) - 1;
+						if ( cell.getRowSpan( ) == 1 )
+						{
+							i = i + cell.getColSpan( ) - 1;
+						}
+						else
+						{
+							if( ! isInRepeatHeader( ) )
+							{
+								cell.setUsedRowSpan( cell.getUsedRowSpan( ) + 1 );
+							}
+						}
 					}
-
 				}
 			}
 		}
@@ -767,7 +791,7 @@ public class TableLayout
 		if ( upperCell != null )
 		{
 			cellContent = (ICellContent) upperCell.getContent( );
-			rowSpan = upperCell.getRowSpan( ) -1;
+			rowSpan = upperCell.getRowSpan( ) - 1;
 		}
 		
 		if ( cellContent == null )
@@ -789,6 +813,16 @@ public class TableLayout
 		
 		emptyCell.setHeight( 0 );
 		emptyCell.setRowSpan( rowSpan );
+		
+		CellArea originalCell = upperCell;
+		if ( upperCell instanceof DummyCell )
+		{
+			originalCell = ( (DummyCell) upperCell ).getCell( );
+		}
+		if( ! isInRepeatHeader( ) )
+		{
+			originalCell.setUsedRowSpan( originalCell.getUsedRowSpan( ) + 1 );
+		}
 		
 		CellArea leftSideCellArea = null;
 		if ( emptyCellColID > startCol )
@@ -859,6 +893,12 @@ public class TableLayout
 		}
 		dummyCell.setRowSpan( upperCell.getRowSpan( ) - 1 );
 		dummyCell.setColSpan( upperCell.getColSpan( ) );
+		
+		CellArea originalCell = dummyCell.getCell( );
+		if( ! isInRepeatHeader( ) )
+		{
+			originalCell.setUsedRowSpan( originalCell.getUsedRowSpan( ) + 1 );
+		}
 		dummyCell.isDummy = true;
 		return dummyCell;
 	}
@@ -920,6 +960,33 @@ public class TableLayout
 	public CursorableList getRows( )
 	{
 		return rows;
+	}
+	
+	private boolean isInRepeatHeader( )
+	{
+		if ( currentRow == null )
+			return false;
+		IContent rowContent = currentRow.getContent( );
+		if ( rowContent != null )
+		{
+			// band
+			IBandContent band = (IBandContent) rowContent.getParent( );
+			if ( band != null )
+			{
+				int type = ( (IBandContent) band ).getBandType( );
+				if ( type == IBandContent.BAND_HEADER
+						|| type == IBandContent.BAND_GROUP_HEADER )
+				{
+					RowDesign rowDesign = (RowDesign) rowContent
+							.getGenerateBy( );
+					if ( rowDesign == null || rowDesign.getRepeatable( ) )
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 /*

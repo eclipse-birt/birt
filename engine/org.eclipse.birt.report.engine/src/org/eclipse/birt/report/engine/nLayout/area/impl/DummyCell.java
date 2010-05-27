@@ -30,10 +30,6 @@ public class DummyCell extends CellArea
 {
 	protected CellArea cell;
 	
-	protected int rowSpan;
-	
-	protected int colSpan;
-	
 	/**
 	 * For the first dummy cell, delta = 0 + lastRowHeight
 	 * For the subsequent dummy cell, delta = upperDummyCellDelta + lastRowHeight
@@ -60,29 +56,9 @@ public class DummyCell extends CellArea
 		return cell;
 	}
 	
-	public void setRowSpan(int rowSpan)
-	{
-		this.rowSpan = rowSpan;
-	}
-	
-	public int getRowSpan()
-	{
-		return rowSpan;
-	}
-	
 	public int getColumnID()
 	{
 		return cell.getColumnID( );
-	}
-
-	public int getColSpan( )
-	{
-		return colSpan;
-	}
-
-	public void setColSpan( int colSpan )
-	{
-		this.colSpan = colSpan;
 	}
 	
 	public int getDelta( )
@@ -98,8 +74,7 @@ public class DummyCell extends CellArea
 	public CellArea cloneArea( )
 	{
 		CellArea cloneCell = cell.cloneArea( );
-		cloneCell.setRowID( rowSpan );
-		cloneCell.setColSpan( colSpan );
+		cell.setRowSpan( cell.getRowSpan( ) - cell.getUsedRowSpan( ) + 1 );
 		return cloneCell;
 	}
 	

@@ -34,9 +34,14 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	protected int colSpan = 1;
 	protected int columnID = 0;
 	protected int rowID = 0;
-	
+
+	/**
+	 * the row span has been consumed, not including header and footer rows if
+	 * repeat header is true.
+	 */
+	private int usedRowSpan = 0;
+
 	protected DiagonalInfo diagonalInfo;
-	
 
 	static
 	{
@@ -121,6 +126,16 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		this.rowSpan = rowSpan;
 	}
 
+	public int getUsedRowSpan( )
+	{
+		return usedRowSpan;
+	}
+
+	public void setUsedRowSpan( int usedRowSpan )
+	{
+		this.usedRowSpan = usedRowSpan;
+	}
+	
 	public void close( ) throws BirtException
 	{
 		height = currentBP + getOffsetY( ) + localProperties.getPaddingBottom( );
@@ -274,6 +289,8 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	public CellArea cloneArea( )
 	{
 		CellArea cell = new CellArea( this );
+		cell.setRowSpan( rowSpan );
+		cell.setColSpan( colSpan );
 		cell.setBoxStyle( new BoxStyle( cell.getBoxStyle( ) ) );
 		return cell;
 	}
@@ -305,6 +322,8 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	public CellArea deepClone( )
 	{
 		CellArea cell = (CellArea) super.deepClone( );
+		cell.setRowSpan( rowSpan );	
+		cell.setColSpan( colSpan );
 		cell.setBoxStyle( new BoxStyle( cell.getBoxStyle( ) ) );
 		if ( getRowSpan( ) > 1 )
 		{
