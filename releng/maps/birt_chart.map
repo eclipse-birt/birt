@@ -1,7 +1,7 @@
 !*************** BIRT CHART ***********
 plugin@org.eclipse.birt.chart.device.extension=v20100521,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.extension
 plugin@org.eclipse.birt.chart.device.pdf=v20100304,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.pdf
-plugin@org.eclipse.birt.chart.device.svg=v20100519,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.svg
+plugin@org.eclipse.birt.chart.device.svg=v20100527,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.svg
 plugin@org.eclipse.birt.chart.device.swt=v20100519,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.swt
 plugin@org.eclipse.birt.chart.engine=v20100526,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine
 plugin@org.eclipse.birt.chart.engine.extension=v20100524,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine.extension
