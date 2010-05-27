@@ -32,7 +32,6 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 
 	protected static final String TEXT_WRAPPING = "TextWrapping";
 	protected static final String CHART_DPI = "ChartDpi";
-	private static final String HIDE_GRIDLINES = "HideGridlines";
 
 	protected IConfigurableOption[] options;
 	protected Locale locale;
@@ -65,17 +64,6 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi
 				.setToolTip( "The DPI which chart engine uses to generate charts. For example, 192." );
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
-
-		ConfigurableOption hideGridlines = new ConfigurableOption(
-				HIDE_GRIDLINES );
-		hideGridlines
-				.setDisplayName( getMessage( "OptionDisplayValue.HideGridlines" ) ); //$NON-NLS-1$
-		hideGridlines.setDataType( IConfigurableOption.DataType.BOOLEAN );
-		hideGridlines.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
-		hideGridlines.setDefaultValue( Boolean.FALSE );
-		hideGridlines.setToolTip( null );
-		hideGridlines
-				.setDescription( getMessage( "OptionDescription.HideGridlines" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{wrappingText, chartDpi};
 	}
@@ -149,10 +137,6 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( CHART_DPI.equals( name ) )
 		{
 			return IRenderOption.CHART_DPI;
-		}
-		if ( HIDE_GRIDLINES.equals( name ) )
-		{
-			return IExcelRenderOption.HIDE_GRIDLINES;
 		}
 		return name;
 	}
