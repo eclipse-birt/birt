@@ -262,9 +262,7 @@ public class GetParameterDefinitionTask extends EngineTask
 					Object userData )
 			{
 				String name = param.getName( );
-				String expr = param.getDefaultValue( );
-				String type = param.getDataType( );
-				Object value = convertToType( expr, type );
+				Object value = getDefaultValue( name );
 				values.put( name, value );
 				return true;
 			}
