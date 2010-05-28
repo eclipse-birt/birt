@@ -148,6 +148,10 @@ public class RowArea extends ContainerArea
 			specifiedHeight = 0;
 			table.addRow( this );
 		}
+		if ( content != null && content.isRTL( ) ) // bidi_hcg
+		{
+			reorderCellsForRTL( );
+		}
 		parent.update( this );
 		finished = true;
 		
@@ -435,4 +439,15 @@ public class RowArea extends ContainerArea
 
 	}
 
+	protected void reorderCellsForRTL( )
+	{
+		if ( cells != null )
+		{
+			int nCells = cells.length;
+			while ( nCells-- > 0 )
+			{
+				cells[nCells].flipPositionForRtl( );
+			}
+		}
+	}
 }

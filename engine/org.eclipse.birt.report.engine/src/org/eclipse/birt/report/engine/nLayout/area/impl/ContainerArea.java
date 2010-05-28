@@ -1298,6 +1298,20 @@ public abstract class ContainerArea extends AbstractArea
 		return null;
 	}
 
+	/**
+	 * 	Reposition the table for RTL preserving margins.
+	 * 
+	 * @author bidi_hcg
+	 */
+	protected void flipPositionForRtl( )
+	{
+		if ( parent != null )
+		{
+			setAllocatedX( parent.getAllocatedWidth( ) - getAllocatedX( )
+					- getAllocatedWidth( ) );
+		}
+	}
+
 	protected static class SplitResult
 	{
 

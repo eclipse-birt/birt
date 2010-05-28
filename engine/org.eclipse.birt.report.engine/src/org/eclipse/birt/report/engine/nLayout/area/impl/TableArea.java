@@ -184,6 +184,7 @@ public class TableArea extends RepeatableArea
 		layout = new TableLayout( tableContent, layoutInfo, start, end );
 
 		parent.add( this );
+		// No longer using addDummyColumnForRTL
 		// TODO addDummyColumnForRTL
 
 		addCaption( ( (ITableContent) content ).getCaption( ) );
@@ -503,6 +504,11 @@ public class TableArea extends RepeatableArea
 		updateBackgroundImage( );
 		if ( parent != null )
 		{
+			IContent parentContent = parent.getContent( );
+			if ( parentContent != null && parentContent.isRTL( ) ) // bidi_hcg
+			{
+				flipPositionForRtl( );
+			}
 			boolean pb = checkPageBreak( );
 			if ( pb )
 			{
@@ -911,28 +917,10 @@ public class TableArea extends RepeatableArea
 			this.xPositions = new int[columnNumber];
 			this.tableWidth = 0;
 
-			if ( tableContent.isRTL( ) ) // bidi_hcg
+			for ( int i = 0; i < columnNumber; i++ )
 			{
-				int parentMaxWidth = parent != null ? parent
-						.getCurrentMaxContentWidth( ) : context.getMaxWidth( );
-				for ( int i = 0; i < columnNumber; i++ )
-				{
-					xPositions[i] = parentMaxWidth - tableWidth - colWidth[i];
-					tableWidth += colWidth[i];
-				}
-				if ( xPositions[columnNumber - 1] != 0 )
-				{
-					addDummyColumnForRTL( colWidth );
-				}
-			}
-			else
-			// ltr
-			{
-				for ( int i = 0; i < columnNumber; i++ )
-				{
-					xPositions[i] = tableWidth;
-					tableWidth += colWidth[i];
-				}
+				xPositions[i] = tableWidth;
+				tableWidth += colWidth[i];
 			}
 		}
 

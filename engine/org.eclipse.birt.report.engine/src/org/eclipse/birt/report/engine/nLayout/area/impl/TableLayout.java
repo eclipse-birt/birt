@@ -186,7 +186,9 @@ public class TableLayout
 		IStyle rowStyle = row.getComputedStyle( );
 		IStyle columnStyle = getColumnStyle( columnID );
 		IStyle preRowStyle = null;
-		IStyle preColumnStyle = getColumnStyle( columnID - 1 );
+		IStyle preColumnStyle = isRTL
+				? getColumnStyle( columnID + 1 ) // TODO need valid columnID when getColumnStyle gets supported
+				: getColumnStyle( columnID - 1 );
 		IStyle leftCellContentStyle = null;
 		IStyle topCellStyle = null;
 

@@ -516,8 +516,8 @@ public class LineArea extends InlineStackingArea
 		// Derive the baseLevel from the parent content direction.
 		if ( parent.content != null )
 		{
-			if ( CSSConstants.CSS_RTL_VALUE.equals( parent.content
-					.getComputedStyle( ).getDirection( ) ) )
+			// IContent#isDirectionRTL already looks at computed style
+			if ( parent.content.isDirectionRTL( ) )
 				baseLevel = Bidi.DIRECTION_RIGHT_TO_LEFT;
 		}
 		//parent.add( this );
