@@ -557,15 +557,6 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 
 	}
 
-	public void autoPageBreak( ) throws BirtException
-	{
-		if ( parent != null )
-		{
-			parent.autoPageBreak( );
-			// updateChildrenPosition( );
-		}
-	}
-
 	protected boolean isValidResult( List result )
 	{
 		return result.size( ) > 0;

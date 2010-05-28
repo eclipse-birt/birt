@@ -161,7 +161,10 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 			while ( aHeight + parent.getAbsoluteBP( ) > context.getMaxBP( ) )
 			{
 				addLineBreakToExtension( );
-				parent.autoPageBreak( );
+				if ( !parent.autoPageBreak( ) )
+				{
+					return false;
+				}
 				aHeight = getAllocatedHeight( );
 				ret = true;
 			}

@@ -120,12 +120,19 @@ public abstract class ContainerArea extends AbstractArea
 		this.content = area.content;
 	}
 
-	public void autoPageBreak( ) throws BirtException
+	public boolean autoPageBreak( ) throws BirtException
 	{
+		if ( context.isFixedLayout( )
+				&& specifiedHeight + parent.getAbsoluteBP( ) <= context
+						.getMaxBP( ) )
+		{
+			return false;
+		}
 		if ( parent != null )
 		{
-			parent.autoPageBreak( );
+			return parent.autoPageBreak( );
 		}
+		return false;
 	}
 
 	public int getAbsoluteBP( )
@@ -750,7 +757,10 @@ public abstract class ContainerArea extends AbstractArea
 			// We add 3pt to avoid unexpected page break. 
 			while ( aHeight + parent.getAbsoluteBP( ) - 3000 > context.getMaxBP( ) )
 			{
-				parent.autoPageBreak( );
+				if ( !parent.autoPageBreak( ) )
+				{
+					return false;
+				}
 				aHeight = getAllocatedHeight( );
 				ret = true;
 			}

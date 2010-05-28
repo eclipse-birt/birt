@@ -49,7 +49,7 @@ public class RootArea extends BlockContainerArea
 	}
 
 	
-	public void autoPageBreak( ) throws BirtException
+	public boolean autoPageBreak( ) throws BirtException
 	{
 		int height = context.getMaxBP( );
 		SplitResult result = split( height, false) ;
@@ -65,6 +65,7 @@ public class RootArea extends BlockContainerArea
 		}
 		updateChildrenPosition( );
 		initialize( );
+		return true;
 	}
 
 	public RootArea cloneArea( )

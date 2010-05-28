@@ -176,7 +176,10 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 				}
 				while ( aHeight + parent.getAbsoluteBP( ) >= context.getMaxBP( ) )
 				{
-					parent.autoPageBreak( );
+					if ( !parent.autoPageBreak( ) )
+					{
+						break;
+					}
 					aHeight = getAllocatedHeight( );
 				}
 			}
