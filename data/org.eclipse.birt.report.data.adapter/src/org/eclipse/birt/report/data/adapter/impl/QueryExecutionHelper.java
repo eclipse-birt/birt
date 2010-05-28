@@ -38,11 +38,14 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -292,13 +295,11 @@ class QueryExecutionHelper
 			else if ( paramObj instanceof OdaDataSetParameterHandle )
 			{
 				OdaDataSetParameterHandle paramBinding = (OdaDataSetParameterHandle) paramObj;
-				if ( paramBinding.getDefaultValue( ) != null )
-				{
-					ScriptExpression paramValueExpr = new ScriptExpression( paramBinding.getDefaultValue( ) );
-					InputParameterBinding inputParamBinding = new InputParameterBinding( paramBinding.getName( ),
-							paramValueExpr );
-					parameterBindings.add( inputParamBinding );
-				}
+				ExpressionHandle handle = paramBinding.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER );
+				InputParameterBinding inputParamBinding = new InputParameterBinding( paramBinding.getName( ),
+						this.session.getModelAdaptor( )
+								.adaptExpression( (Expression) handle.getValue( ) ) );
+				parameterBindings.add( inputParamBinding );
 			}
 		}
 		return parameterBindings;
