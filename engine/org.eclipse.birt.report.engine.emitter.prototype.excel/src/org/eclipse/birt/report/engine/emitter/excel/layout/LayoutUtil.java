@@ -54,16 +54,14 @@ public class LayoutUtil
 	public static int getImageWidth( DimensionType value, int parentWidth,
 			int imageInfoWidth, int dpi )
 	{
-		int width;
-		if ( value != null )
+		if ( value == null )
 		{
-			width = getElementWidth( value, parentWidth, dpi );
+			return imageInfoWidth;
 		}
 		else
 		{
-			width = (int) ( imageInfoWidth * ExcelUtil.INCH_PT / dpi );
+			return getElementWidth( value, parentWidth, dpi );
 		}
-		return width;
 	}
 
 	public static int getImageHeight( DimensionType value, int imageInfoHeight,
