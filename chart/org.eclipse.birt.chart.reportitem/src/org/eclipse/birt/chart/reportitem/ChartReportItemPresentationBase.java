@@ -711,6 +711,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	public Object onRowSets( IBaseResultSet[] baseResultSet )
 			throws BirtException
 	{
+		if ( cm == null )
+		{
+			return null;
+		}
 		// Extract result set to render and check for null data
 		IBaseResultSet resultSet = getDataToRender( baseResultSet );
 		boolean bAutoHide = ( cm != null && !cm.getEmptyMessage( ).isVisible( ) );
