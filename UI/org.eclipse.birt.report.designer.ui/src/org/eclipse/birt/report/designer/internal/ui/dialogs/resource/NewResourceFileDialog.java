@@ -204,19 +204,22 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 		{
 			ResourceEntry entry = (ResourceEntry) selected[0];
 			File file = new File( entry.getURL( ).getPath( ) );
+			if ( file == null || file.isFile( ) )
+				return;
 			try
 			{
 				File newFile = new File( file, newFileName );
 
 				newFile.createNewFile( );
-				
+
 				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
 						.getResourceSynchronizerService( );
 
 				if ( synchronizer != null )
 				{
 					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-							Path.fromOSString( newFile.getAbsolutePath( ) ), IReportResourceChangeEvent.NewResource ) );
+							Path.fromOSString( newFile.getAbsolutePath( ) ),
+							IReportResourceChangeEvent.NewResource ) );
 				}
 			}
 			catch ( IOException e )
@@ -234,9 +237,14 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 	 */
 	public String getPath( )
 	{
-		if ( !newFileName.equals( "" ) ) //$NON-NLS-1$
+		Object[] selected = getResult( );
+		if ( selected.length > 0 && !newFileName.equals( "" ) ) //$NON-NLS-1$
 		{
 			String path = super.getPath( );
+			ResourceEntry entry = (ResourceEntry) selected[0];
+			File file = new File( entry.getURL( ).getPath( ) );
+			if ( file == null || file.isFile( ) )
+				return path;
 			return path
 					+ ( ( path.equals( "" ) || path.endsWith( "/" ) ) ? "" : "/" ) //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 					+ newFileName;
