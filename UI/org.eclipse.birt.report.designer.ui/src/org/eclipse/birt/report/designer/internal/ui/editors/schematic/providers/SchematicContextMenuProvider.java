@@ -67,8 +67,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatActi
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ExtendElementAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleHandleAction;
@@ -88,6 +88,7 @@ import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -110,6 +111,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.ContextMenuProvider;
@@ -851,9 +853,12 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			SlotHandle themeSlot = libraryHandle.getThemes( );
 			for ( Iterator iter = themeSlot.getContents( ).iterator( ); iter.hasNext( ); )
 			{
-				ThemeHandle theme = (ThemeHandle) iter.next( );
-				subMenu.add( new AddThemeStyleAction( theme,
-						(AddStyleAction) getAction( AddStyleAction.ID ) ) );
+				Object obj = iter.next( );
+				if ( obj instanceof ThemeHandle )
+				{
+					subMenu.add( new AddThemeStyleAction( (ThemeHandle) obj,
+							(AddStyleAction) getAction( AddStyleAction.ID ) ) );
+				}
 			}
 			menu.add( subMenu );
 
@@ -932,8 +937,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		if ( selectedObject instanceof LibraryHandle )
 		{
 			SlotHandle obj = ( (LibraryHandle) selectedObject ).getThemes( );
-			menu.add( new InsertAction( obj,
-					Messages.getString( "ThemesNodeProvider.action.New" ) ) ); //$NON-NLS-1$
+			menu.add( new ExtendElementAction( ProviderFactory.createProvider( obj ),
+					"org.eclipse.birt.report.designer.internal.ui.action.NewReportItemThemeAction",
+					obj,
+					Messages.getString( "ThemesNodeProvider.action.New" ), ReportDesignConstants.THEME_ITEM ) ); //$NON-NLS-1$
 		}
 
 		MenuManager subMenu = new MenuManager( APPLY_THEME_MENU_ITEM_TEXT );
