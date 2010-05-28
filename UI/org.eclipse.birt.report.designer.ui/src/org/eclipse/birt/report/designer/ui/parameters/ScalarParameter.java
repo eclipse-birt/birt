@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.parameters;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
 /**
@@ -108,12 +112,63 @@ public abstract class ScalarParameter implements IParameter
 
 	public String getDefaultValue( )
 	{
-		return handle.getDefaultValue( );
+		IGetParameterDefinitionTask task = engineTask.getEngine( )
+			.createGetParameterDefinitionTask( engineTask.getReportRunnable( ) );
+		Object obj = task.getDefaultValue( handle.getName( ) );
+		if (obj == null)
+		{
+			return null;
+		}
+		if (obj instanceof Object[] )
+		{
+			Object[] objs = (Object[])obj;
+			if (objs.length > 0)
+			{
+				return objs[0].toString( );
+			}
+			else
+			{
+				return null;
+			}
+		}
+		return obj.toString( );
+		//return handle.getDefaultValue( );
 	}
 	
 	public List getDefaultValues( )
 	{
-		return handle.getDefaultValueList( );
+		IGetParameterDefinitionTask task = engineTask.getEngine( )
+		.createGetParameterDefinitionTask( engineTask.getReportRunnable( ) );
+
+		Object obj =  task.getDefaultValue( handle.getName( ) );
+		List retValue = new ArrayList();
+		if (obj == null)
+		{
+			return retValue;
+		}
+		if (obj instanceof Object[])
+		{
+			Object[] objs = (Object[])obj;
+			for (int i=0; i<objs.length; i++)
+			{
+				retValue.add( objs[i] );
+			}
+		}
+		else if (obj instanceof Collection)
+		{
+			Collection collection = (Collection)obj;
+			Iterator itor = collection.iterator( );
+			while(itor.hasNext( ))
+			{
+				retValue.add( itor.next( ) );
+			}
+		}
+		else
+		{
+			retValue.add( obj );
+		}
+		return retValue;
+		//return handle.getDefaultValueList( );
 	}
 
 	/**

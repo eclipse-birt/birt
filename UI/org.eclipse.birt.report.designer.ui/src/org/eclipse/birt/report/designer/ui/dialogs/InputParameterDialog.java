@@ -452,7 +452,7 @@ public class InputParameterDialog extends BaseDialog
 		return container;
 	}
 
-	private void checkParam( final String defaultValue,final Object value, List list )
+	private void checkParam( final Object defaultValue, List list )
 	{
 		if ( !performed )
 		{
@@ -461,11 +461,12 @@ public class InputParameterDialog extends BaseDialog
 			{
 				try
 				{
-					if ( ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( )
-							.toString( )
-							.equals( defaultValue ) || ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( )
-							.toString( )
-							.equals( DEUtil.removeQuote( defaultValue )))
+					Object obj =  ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( );
+					if (obj == null)
+					{
+						continue;
+					}
+					if (obj.equals( defaultValue ) )
 					{
 						contains = true;
 						break;
@@ -481,12 +482,12 @@ public class InputParameterDialog extends BaseDialog
 
 					public String getLabel( )
 					{
-						return defaultValue;
+						return defaultValue.toString( );
 					}
 
 					public Object getValue( )
 					{
-						return value == null?defaultValue:value;
+						return defaultValue;
 					}
 				};
 				list.add( choice );
@@ -504,7 +505,7 @@ public class InputParameterDialog extends BaseDialog
 		Object value = null;
 		try
 		{
-			if ( listParam.getDefaultValues( ) != null )
+			if ( listParam.getDefaultValue( ) != null )
 				value = listParam.converToDataType( listParam.getDefaultValue( ) );
 		}
 		catch ( BirtException e )
@@ -534,7 +535,14 @@ public class InputParameterDialog extends BaseDialog
 			list.add( blankValueChoice );
 		}
 		list.addAll( listParam.getValueList( ) );
-		checkParam( listParam.getDefaultValue( ),value, list );
+		try
+		{
+			checkParam( listParam.converToDataType(listParam.getDefaultValue( )),list );
+		}
+		catch ( BirtException e1 )
+		{
+			//do nothing
+		}
 		if ( !isRequired )
 		{
 			boolean hasNull = false;
@@ -587,12 +595,7 @@ public class InputParameterDialog extends BaseDialog
 			boolean found = false;
 			for ( int i = 0; i < combo.getItemCount( ); i++ )
 			{
-				String str = null;
-				if (value instanceof String)
-				{
-					str = (String)value;
-				}
-				if ( value.equals( combo.getData( combo.getItem( i ) ) ) || (str != null && DEUtil.removeQuote( str ).equals( combo.getData( combo.getItem( i ) ))))
+				if ( value.equals( combo.getData( combo.getItem( i ) ) ))
 				{
 					combo.select( i );
 					paramValues.put( listParam.getHandle( ).getName( ),
@@ -733,7 +736,14 @@ public class InputParameterDialog extends BaseDialog
 			list.add( blankValueChoice );
 		}
 		list.addAll( listParam.getValueList( ) );
-		checkParam( listParam.getDefaultValue( ),value, list );
+		try
+		{
+			checkParam( listParam.converToDataType(listParam.getDefaultValue( )),list );
+		}
+		catch ( BirtException e1 )
+		{
+			//do nothing
+		}
 		if ( !isRequired )
 		{
 			list.add( InputParameterDialog.nullValueChoice );
@@ -853,6 +863,7 @@ public class InputParameterDialog extends BaseDialog
 	private void cascadingParamValueChanged( CascadingParameterGroup group,
 			ListingParameter listParam )
 	{
+		
 		clearPostParamList( group, listParam );
 		if ( postParamLists.containsKey( listParam )
 				&& paramValues.containsKey( listParam.getHandle( ).getName( ) ) )
@@ -860,19 +871,31 @@ public class InputParameterDialog extends BaseDialog
 			Object value = paramValues.get( listParam.getHandle( ).getName( ) );
 			listParam.setSelectionValue( value );
 			ListingParameter postParam = (ListingParameter) group.getPostParameter( listParam );
+			if (postParam == null)
+			{
+				return;
+			}
 			Control control = postParamLists.get( listParam );
 			setControlItems( control, new String[0] );
 			for ( Iterator iterator = postParam.getValueList( ).iterator( ); iterator.hasNext( ); )
 			{
 				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
+				if (choice.getValue( ) == null)
+				{
+					continue;
+				}
 				String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
 						: choice.getLabel( ) );
 				if ( label != null )
 				{
 					addControlItem( control, label );
 					control.setData( label, choice.getValue( ) );
-				}
+				}	
 			}
+			
+			processPostParator( postParam, control );
+			
+			cascadingParamValueChanged( group, postParam );
 		}
 	}
 
@@ -897,6 +920,91 @@ public class InputParameterDialog extends BaseDialog
 		if ( control instanceof org.eclipse.swt.widgets.List )
 		{
 			( (org.eclipse.swt.widgets.List) control ).add( item );
+		}
+	}
+	
+	private void processPostParator(ListingParameter listParam,  Control control )
+	{
+		Object value = paramValues.get( listParam.getHandle( ).getName( ) );
+		if (value == null)
+		{
+			return;
+		}
+		boolean found = false;
+		if ( control instanceof Combo )
+		{
+			Combo combo = (Combo)control;
+			for ( int i = 0; i < combo.getItemCount( ); i++ )
+			{
+				if ( value.equals( combo.getData( combo.getItem( i ) ) ))
+				{
+					combo.select( i );
+					paramValues.put( listParam.getHandle( ).getName( ),
+							combo.getData( combo.getItem( i ) ) );
+					listParam.setSelectionValue( value.toString( ) );
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+			{
+				try
+				{
+					Object obj = listParam.converToDataType(listParam.getDefaultValue( ));
+					if (obj == null)
+					{
+						listParam.setSelectionValue( null );
+						paramValues.put( listParam.getHandle( ).getName( ), null );
+					}
+					else
+					{
+						combo.setText( value.toString( ) );
+						listParam.setSelectionValue( combo.getText( ) );
+						paramValues.put( listParam.getHandle( ).getName( ),
+								combo.getText( ) );
+					}
+				}
+				catch ( BirtException e )
+				{
+					//
+				}
+			
+			}
+		}
+		if ( control instanceof org.eclipse.swt.widgets.List )
+		{
+			org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List)control;
+			List newValueList = new ArrayList( );
+			List oldvalueList = new ArrayList( );
+
+			if ( value instanceof Object[] )
+			{
+				oldvalueList = Arrays.asList( (Object[]) value );
+			}
+			else
+			{
+				oldvalueList.add( value );
+			}
+
+			for ( int i = 0; i < list.getItemCount( ); i++ )
+			{
+				Object item = list
+						.getData( list.getItem( i ) );
+				if ( oldvalueList.indexOf( item ) >= 0 )
+				{
+					list.select( i );
+					// paramValues.put( listParam.getHandle( ).getName( ),
+					// new Object[]{
+					// listViewer.getList( )
+					// .getData( listViewer.getList( )
+					// .getItem( i ) )
+					// } );
+					newValueList.add( list
+							.getData( list.getItem( i ) ) );
+				}
+			}
+			paramValues.put( listParam.getHandle( ).getName( ),
+					newValueList.toArray( new Object[newValueList.size( )] ) );
 		}
 	}
 
