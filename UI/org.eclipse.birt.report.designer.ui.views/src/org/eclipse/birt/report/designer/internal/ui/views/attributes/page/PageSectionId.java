@@ -127,6 +127,7 @@ public class PageSectionId
 
 	public final static String LIST_NAME = "LIST_NAME"; //$NON-NLS-1$
 	public final static String LIST_STYLE = "LIST_STYLE"; //$NON-NLS-1$
+	public final static String LIST_THEME = "LIST_THEME"; //$NON-NLS-1$
 	public final static String LIST_COLOR = "LIST_COLOR"; //$NON-NLS-1$
 
 	public final static String MARGINS_TOP = "MARGINS_TOP"; //$NON-NLS-1$
@@ -200,6 +201,7 @@ public class PageSectionId
 	public final static String TABLE_HORIZONTAL_ALIGN = "TABLE_HORIZONTAL_ALIGN"; //$NON-NLS-1$
 	public final static String TABLE_VERTICAL_ALIGN = "TABLE_VERTICAL_ALIGN"; //$NON-NLS-1$
 	public final static String TABLE_STYLE = "TABLE_STYLE"; //$NON-NLS-1$
+	public final static String TABLE_THEME = "TABLE_THEME"; //$NON-NLS-1$
 	public final static String TABLE_BACKGROUND_COLOR = "TABLE_BACKGROUND_COLOR"; //$NON-NLS-1$
 
 	public final static String TEMPLATE_REPORTITEM_I18_I18N = "I18N_I18N"; //$NON-NLS-1$
@@ -307,6 +309,8 @@ public class PageSectionId
 	public static final String GRID_SEPERATOR2 = "GRID_SEPERATOR2";//$NON-NLS-1$
 
 	public static final String GRID_DISPLAY = "GRID_DISPLAY";//$NON-NLS-1$
+
+	public static final String GRID_THEME = "GRID_THEME";//$NON-NLS-1$
 
 	public static final String LIST_DISPLAY = "LIST_DISPLAY";//$NON-NLS-1$
 

@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Sep
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -280,7 +281,19 @@ public class GridPage extends GeneralPage
 					ISectionHelper helper = helperProvider.createHelper( this,
 							PageConstants.THEME_HELPER_KEY );
 					if ( helper != null )
-						helper.createAndRegisterSections( this );
+					{
+						Section section = helper.createSection( container,
+								GridHandle.THEME_PROP,
+								ReportDesignConstants.GRID_ITEM,
+								true );
+						if ( section instanceof SimpleComboSection )
+							( (SimpleComboSection) section ).setWidth( 200 );
+						section.setLayoutNum( 6 );
+						section.setGridPlaceholder( 4, true );
+						addSectionAfter( PageSectionId.GRID_THEME,
+								section,
+								PageSectionId.GRID_DISPLAY );
+					}
 				}
 			}
 		}

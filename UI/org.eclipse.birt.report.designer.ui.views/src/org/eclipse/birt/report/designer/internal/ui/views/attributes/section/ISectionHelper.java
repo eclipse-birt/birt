@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * 
@@ -19,5 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Attrib
 
 public interface ISectionHelper
 {
-	public void createAndRegisterSections(AttributePage page);
+
+	public Section createSection( Composite container, String property,
+			String element, boolean formStyle );
 }

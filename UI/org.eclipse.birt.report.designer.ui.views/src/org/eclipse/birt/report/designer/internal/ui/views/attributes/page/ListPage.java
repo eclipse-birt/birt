@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Sep
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -65,8 +66,6 @@ public class ListPage extends GeneralPage
 		elementIdSection.setLayoutNum( 4 );
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.LIST_ELEMENT_ID, elementIdSection );
-
-
 
 		Section seperatorSection = new SeperatorSection( container,
 				SWT.HORIZONTAL );
@@ -183,7 +182,7 @@ public class ListPage extends GeneralPage
 
 		return providers;
 	}
-	
+
 	protected void applyCustomSections( )
 	{
 		Object[] helperProviders = ElementAdapterManager.getAdapters( this,
@@ -198,7 +197,19 @@ public class ListPage extends GeneralPage
 					ISectionHelper helper = helperProvider.createHelper( this,
 							PageConstants.THEME_HELPER_KEY );
 					if ( helper != null )
-						helper.createAndRegisterSections( this );
+					{
+						Section section = helper.createSection( container,
+								ListHandle.THEME_PROP,
+								ReportDesignConstants.LIST_ITEM,
+								true );
+						if ( section instanceof SimpleComboSection )
+							( (SimpleComboSection) section ).setWidth( 200 );
+						section.setLayoutNum( 6 );
+						section.setGridPlaceholder( 4, true );
+						addSectionAfter( PageSectionId.LIST_THEME,
+								section,
+								PageSectionId.LIST_DISPLAY );
+					}
 				}
 			}
 		}

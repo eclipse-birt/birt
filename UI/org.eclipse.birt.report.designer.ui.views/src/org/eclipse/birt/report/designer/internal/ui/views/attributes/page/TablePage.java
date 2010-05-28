@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Tex
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
 
@@ -183,7 +184,19 @@ public class TablePage extends GeneralPage
 					ISectionHelper helper = helperProvider.createHelper( this,
 							PageConstants.THEME_HELPER_KEY );
 					if ( helper != null )
-						helper.createAndRegisterSections( this );
+					{
+						Section section = helper.createSection( container,
+								TableHandle.THEME_PROP,
+								ReportDesignConstants.TABLE_ITEM,
+								true );
+						if ( section instanceof SimpleComboSection )
+							( (SimpleComboSection) section ).setWidth( 200 );
+						section.setLayoutNum( 6 );
+						section.setGridPlaceholder( 4, true );
+						addSectionAfter( PageSectionId.TABLE_THEME,
+								section,
+								PageSectionId.TABLE_CAN_SHRINK );
+					}
 				}
 			}
 		}

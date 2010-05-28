@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.swt.SWT;
 
 public class CrosstabGeneralPage extends GeneralPage
@@ -179,7 +180,7 @@ public class CrosstabGeneralPage extends GeneralPage
 		super.postElementEvent( );
 		checkLayoutProperty( );
 	}
-	
+
 	protected void applyCustomSections( )
 	{
 		Object[] helperProviders = ElementAdapterManager.getAdapters( this,
@@ -194,7 +195,19 @@ public class CrosstabGeneralPage extends GeneralPage
 					ISectionHelper helper = helperProvider.createHelper( this,
 							PageConstants.THEME_HELPER_KEY );
 					if ( helper != null )
-						helper.createAndRegisterSections( this );
+					{
+						Section section = helper.createSection( container,
+								ISupportThemeElementConstants.THEME_PROP,
+								ICrosstabConstants.CROSSTAB_EXTENSION_NAME,
+								true );
+						if ( section instanceof SimpleComboSection )
+							( (SimpleComboSection) section ).setWidth( 200 );
+						section.setLayoutNum( 6 );
+						section.setGridPlaceholder( 4, true );
+						addSectionAfter( CrosstabPageSectionId.CROSSTAB_THEME,
+								section,
+								CrosstabPageSectionId.CROSSTAB_DISPLAY );
+					}
 				}
 			}
 		}

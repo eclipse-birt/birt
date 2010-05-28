@@ -53,5 +53,6 @@ public class CrosstabPageSectionId extends PageSectionId
 	public static final String CROSSTAB_CELL_HEIGHT = "CROSSTAB_CELL_HEIGHT";//$NON-NLS-1$
 	public static final String CROSSTAB_SEPERATOR_2 = "CROSSTAB_SEPERATOR_2";//$NON-NLS-1$
 	public static final String CROSSTAB_DISPLAY = "CROSSTAB_DISPLAY";//$NON-NLS-1$
+	public static final String CROSSTAB_THEME = "CROSSTAB_THEME";//$NON-NLS-1$
 
 }
