@@ -154,6 +154,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
@@ -2325,6 +2326,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IGridItemModel.SUMMARY_PROP );
 		resourceKey( obj, IGridItemModel.CAPTION_KEY_PROP,
 				IGridItemModel.CAPTION_PROP );
+		property( obj, ISupportThemeElementConstants.THEME_PROP );
 		writeColumns( obj, IGridItemModel.COLUMN_SLOT );
 		writeContents( obj, IGridItemModel.ROW_SLOT, null );
 
@@ -3446,6 +3448,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IListingElementModel.REPEAT_HEADER_PROP );
 		property( obj, IListingElementModel.PAGE_BREAK_INTERVAL_PROP );
 		property( obj, IListingElementModel.SORT_BY_GROUPS_PROP );
+		property( obj, ISupportThemeElementConstants.THEME_PROP );
 
 		writeStructureList( obj, IListingElementModel.SORT_PROP );
 		writeStructureList( obj, IListingElementModel.FILTER_PROP );
