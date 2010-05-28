@@ -112,6 +112,10 @@
 			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
 		</condition>
 				
+		<condition property="update.batik" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
+	
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
 		<property name="javacSource" value="1.5" />
@@ -560,7 +564,9 @@
 		<replace dir="${buildDirectory}/maps" value="${dtp.mapCvsRoot}" token="${dtp.url.token}">
 			<include name="**/*.map" />
 		</replace>
-	
+		
+		<antcall target="useBatik1_7"/>
+
 	</target>
 	
 	<target name="useBatik1_7" if="update.batik">
@@ -617,6 +623,7 @@
 		</copy>
 		<!-- copy BIRT NL plugins -->
         <ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="prepareSrc" />
+		<ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="updateBatikFeature" />
 
   		<antcall target="logger">
 			<param name="message" value="Copyied all source plugins to buildDirectory/plugins/"/>
