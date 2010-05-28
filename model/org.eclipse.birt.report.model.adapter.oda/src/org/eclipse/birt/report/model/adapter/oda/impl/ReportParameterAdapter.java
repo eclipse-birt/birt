@@ -11,11 +11,7 @@
 
 package org.eclipse.birt.report.model.adapter.oda.impl;
 
-import java.io.IOException;
-
 import org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter;
-import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
-import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -90,26 +86,11 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 			return;
 
 		ParameterDefinition matchedParam = null;
-		ParameterDefinition cachedParam = null;
 
 		String dataType = null;
 
 		OdaDataSetHandle setHandle = (OdaDataSetHandle) dataSetParam
 				.getElementHandle( );
-
-		String strDesignValues = setHandle.getDesignerValues( );
-
-		DesignValues designerValues = null;
-
-		try
-		{
-			if ( strDesignValues != null )
-				designerValues = SerializerImpl.instance( ).read(
-						strDesignValues );
-		}
-		catch ( IOException e )
-		{
-		}
 
 		if ( dataSetDesign != null )
 		{
@@ -121,11 +102,6 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 					.getOdaExtensionDataSetId( ),
 					(OdaDataSetParameter) dataSetParam.getStructure( ),
 					setHandle == null ? null : setHandle.parametersIterator( ) );
-
-			if ( designerValues != null )
-				cachedParam = DataSetParameterAdapter.findParameterDefinition(
-						designerValues.getDataSetParameters( ), dataSetParam
-								.getNativeName( ), dataSetParam.getPosition( ) );
 		}
 
 		CommandStack cmdStack = reportParam.getModuleHandle( )
@@ -136,7 +112,7 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		{
 			if ( matchedParam != null )
 				updateLinkedReportParameter( reportParam, matchedParam,
-						cachedParam, dataType, (OdaDataSetHandle) dataSetParam
+						null, dataType, (OdaDataSetHandle) dataSetParam
 								.getElementHandle( ) );
 
 			updateLinkedReportParameterFromROMParameter( reportParam,

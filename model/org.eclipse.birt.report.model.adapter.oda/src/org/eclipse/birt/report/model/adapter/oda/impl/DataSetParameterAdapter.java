@@ -557,7 +557,7 @@ class DataSetParameterAdapter
 
 				if ( paramHandle != null )
 					new ReportParameterAdapter( ).updateLinkedReportParameter(
-							paramHandle, odaParamDefn, cachedParamDefn,
+							paramHandle, odaParamDefn, null,
 							dataType, setHandle );
 			}
 		}
