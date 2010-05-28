@@ -735,11 +735,11 @@ datasource.exportToCP.message=ÄúÕıÔÚ½«¡°{0}¡±µ¼³öµ½Êı¾İÔ´×ÊÔ´¹ÜÀíÆ÷¡£
 datasource.exportToCP.checkBox=Îªµ¼³öµÄÊı¾İÔ´´´½¨Á¬½ÓÅäÖÃÎÄ¼ş´æ´¢(&C)¡£
 datasource.exportToCP.externalCheckBox=Ê¹ÓÃÊı¾İÔ´ÖĞÍâ²¿»¯µÄÁ¬½ÓÅäÖÃÎÄ¼ş(&U)¡£
 datasource.exportToCP.label.specifyName=Á¬½ÓÅäÖÃÎÄ¼şÃû³Æ(&E):
-datasource.exportToCP.errorBox.button.OK=??
+datasource.exportToCP.errorBox.button.OK=È·¶¨
 datasource.exportToCP.error.emptyFileName=±ØĞëÖ¸¶¨Ò»¸ö·Ç¿ÕÁ¬½ÓÅäÖÃÎÄ¼şÃû³Æ!
 datasource.exportToCP.error.invalidFileName=Ö¸¶¨µÄÁ¬½ÓÅäÖÃÎÄ¼şÃû³Æ°üº¬ÎŞĞ§×Ö·û!
 datasource.exportToCP.error.duplicatedFileName=¸ÃÁ¬½ÓÅäÖÃÎÄ¼şÃû³ÆÒÑ´æÔÚ!
-datasource.exportToCP.error.alreadyExported=???“{0}”??????????
+datasource.exportToCP.error.alreadyExported=Êı¾İÔ´¡°{0}¡±ÒÑ¾­Î´Íâ²¿»¯ÆäÊôĞÔ¡£
 
 
 ###########################################################
@@ -1763,23 +1763,23 @@ FormatStringPreferencePage.formatString.title=×Ö·û´®¸ñÊ½
 
 FormPage.Button.Add=Ìí¼Ó(&A)
 FormPage.Button.AddWithDialog=Ìí¼Ó(&A)...
-FormPage.Button.AddWithDialog.PROP=????(&A)...
-FormPage.Button.AddWithDialog.JAR=????(&L)...
-FormPage.Button.AddWithDialog.JS=????&...
+FormPage.Button.AddWithDialog.PROP=Ìí¼ÓÎÄ¼ş(&A)...
+FormPage.Button.AddWithDialog.JAR=Ìí¼ÓÎÄ¼ş(&L)...
+FormPage.Button.AddWithDialog.JS=Ìí¼ÓÎÄ¼ş&...
 FormPage.Button.Add.AggregateOn=Ìí¼Ó¾ÛºÏ(&G)
 FormPage.Button.AddWithDialog.AggregateOn=Ìí¼Ó¾ÛºÏ(&G)...
 FormPage.Button.Delete=É¾³ı(&R)
-FormPage.Button.DeleteFile=????(&R)
-FormPage.Button.DeleteFile.Alt1=????(&I)
-FormPage.Button.DeleteFile.Alt2=????(&F)
-FormPage.Button.Down=??(&N)
-FormPage.Button.Down.Alt1=??(&W)
-FormPage.Button.Down.Alt2=??(&D)
+FormPage.Button.DeleteFile=É¾³ıÎÄ¼ş(&R)
+FormPage.Button.DeleteFile.Alt1=É¾³ıÎÄ¼ş(&I)
+FormPage.Button.DeleteFile.Alt2=É¾³ıÎÄ¼ş(&F)
+FormPage.Button.Down=ÏÂÒÆ(&N)
+FormPage.Button.Down.Alt1=ÏÂÒÆ(&W)
+FormPage.Button.Down.Alt2=ÏÂÒÆ(&D)
 FormPage.Button.Edit=±à¼­(&D)
 FormPage.Button.EditWithDialog=±à¼­(&D)...
-FormPage.Button.Up=??(&U)
-FormPage.Button.Up.Alt1=??(&P)
-FormPage.Button.Up.Alt2=??(&E)
+FormPage.Button.Up=ÉÏÒÆ(&U)
+FormPage.Button.Up.Alt1=ÉÏÒÆ(&P)
+FormPage.Button.Up.Alt2=ÉÏÒÆ(&E)
 FormPage.Button.Binding.Refresh=Ë¢ĞÂ(&F)
 FormPage.Menu.ModifyProperty=ĞŞ¸ÄÊôĞÔ
 FormPage.toolTipText.Up=ÉÏÒÆ
@@ -2821,7 +2821,7 @@ ResultSetColumnPage.inputDialog.label.columnName=ÁĞÃû³Æ(&C):
 ResultSetColumnPage.inputDialog.label.dataType=Êı¾İÀàĞÍ(&T): 
 ResultSetColumnPage.inputDialog.label.alias=ÁĞ±ğÃû(&A): 
 ResultSetColumnPage.inputDialog.label.displayName=ÏÔÊ¾Ãû³Æ(&D): 
-ResultSetColumnPage.inputDialog.label.displayNameKey=???????(&K): 
+ResultSetColumnPage.inputDialog.label.displayNameKey=ÏÔÊ¾Ãû³Æ¹Ø¼ü×Ö(&K): 
 ResultSetColumnPage.inputDialog.warning.emptyColumnName=ÒªÇóÊäÈëÁĞÃû³Æ¡£
 ResultSetColumnPage.inputDialog.error.sameValue.columnNameAndAlias=ÁĞÃû³ÆºÍÆä±ğÃûÓ¦²»Í¬¡£
 ResultSetColumnPage.inputDialog.error.duplicatedColumnName=ÁĞÃû³Æ¡°{0}¡±ÒÑ¾­ÔÚÊ¹ÓÃ¡£
@@ -3166,10 +3166,10 @@ PublishTemplateViewAction.action.displaytext=Ê¹ÓÃĞÂ½¨±¨±íÏòµ¼À´×¢²áÄ£°å(&Z)...
 ###########################################################
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=Ë¢ĞÂ¿â(&L)
-RefreshModuleHandleAction.MessageBox.Title=???
-RefreshModuleHandleAction.MessageBox.Text=????????????? ????????????
-RefreshModuleHandleAction.MessageBox.SaveButton=??(&S)
-RefreshModuleHandleAction.MessageBox.DiscardButton=??(&D)
+RefreshModuleHandleAction.MessageBox.Title=Ë¢ĞÂ¿â
+RefreshModuleHandleAction.MessageBox.Text=µ±Ç°Éè¼Æ°üº¬Î´±£´æµÄ¸ü¸Ä¡£ ±£´æ»¹ÊÇÏÈ·ÅÆúÕâĞ©¸ü¸Ä?
+RefreshModuleHandleAction.MessageBox.SaveButton=±£´æ(&S)
+RefreshModuleHandleAction.MessageBox.DiscardButton=·ÅÆú(&D)
 RefreshModuleHandleAction.MessageBox.CancelButton=È¡Ïû
 ###########################################################
 #ReloadCssStylesAction
@@ -4348,11 +4348,11 @@ MultiPageReportEditor.ConfirmTitle=ÎÄ¼ş²»´æÔÚ
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=±¨±íÉè¼ÆÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT Designer ´´½¨µÄ¡£±£´æËü½«»áÉı¼¶µ½µ±Ç°°æ±¾£¬¿ÉÄÜÊ¹½ÏÔç°æ±¾µÄ BIRT ÎŞ·¨´ò¿ªËü¡£ÊÇ·ñÈÔÒª±£´æ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=´Ë±à¼­Æ÷µÄÄÚÈİ¿ÉÄÜÒÑ´ÓÍâ²¿¸ü¸Ä£¬ÒªÖØĞÂ¼ÓÔØ¸ü¸ÄÂğ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=´Ë±à¼­Æ÷µÄÄÚÈİ¿ÉÄÜÒÑ´ÓÍâ²¿¸ü¸Ä£¬ÒªÖØĞÂ¼ÓÔØ¾ßÓĞÕâĞ©¸ü¸ÄµÄÄÚÈİÂğ?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=???????????????,????????????\n\n??????????????,??????????????????????
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=´Ë±à¼­Æ÷µÄÄÚÈİ¿ÉÄÜÒÑ´ÓÍâ²¿¸ü¸Ä£¬±à¼­Æ÷°üº¬Î´±£´æµÄ¸ü¸Ä¡£\n\n±£´æ±à¼­Æ÷²¢ÖØĞÂ¼ÓÔØÍâ²¿¸ü¸Ä£¬»¹ÊÇÔÚÖØĞÂ¼ÓÔØÖ®Ç°·ÅÆú±à¼­Æ÷µÄÎ´±£´æµÄ¸ü¸Ä?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=È·ÈÏ
-MultiPageReportEditor.SaveButton=??(&S)
-MultiPageReportEditor.DiscardButton=??(&D)
-MultiPageReportEditor.CancelButton=??
+MultiPageReportEditor.SaveButton=±£´æ(&S)
+MultiPageReportEditor.DiscardButton=·ÅÆú(&D)
+MultiPageReportEditor.CancelButton=È¡Ïû
 MultiPageReportEditor.SaveConfirmMessage=ÎÄ¼şÒÑ±»É¾³ı¡£ÊÇÒª±£´æ¸ü¸Ä»¹ÊÇÒª¹Ø±Õ±à¼­Æ÷¶ø²»±£´æ?
 TableArea.Button.Up=ÉÏÒÆ(&U)
 

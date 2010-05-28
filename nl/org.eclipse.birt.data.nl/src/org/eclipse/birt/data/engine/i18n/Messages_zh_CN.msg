@@ -161,7 +161,7 @@ data.engine.sortExprContainRowNum=排序表达式不能引用 java 脚本对象 "row.__num"。
 
 
 data.engine.ResultSetNotStart=结果集尚未启动。
-data.engine.GetLevelMemberError=?????????????????
+data.engine.GetLevelMemberError=此数据绑定在可用的作用域外部使用。
 
 data.engine.invalidRowIndex=无效的行索引值: {0}。
 data.engine.backwardSeekError=此版本不支持反向搜寻。
