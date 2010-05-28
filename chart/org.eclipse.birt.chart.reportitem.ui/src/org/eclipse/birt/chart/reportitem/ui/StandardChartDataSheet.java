@@ -258,15 +258,22 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	{
 		if ( isCubeMode( ) )
 		{
-			// getDataServiceProvider( ).checkState(
-			// IDataServiceProvider.SHARE_QUERY )
-			boolean disabled = getDataServiceProvider( ).isInXTabAggrCell( )
-					|| getDataServiceProvider( ).isInXTabMeasureCell( );
-			btnFilters.setEnabled( !disabled
-					&& !getDataServiceProvider( ).isInheritColumnsGroups( ) );
-			btnBinding.setEnabled( !getDataServiceProvider( ).isInheritColumnsGroups( )
-					&& getDataServiceProvider( ).isInvokingSupported( )
-					|| getDataServiceProvider( ).isSharedBinding( ) );
+			boolean inheritXTab = getDataServiceProvider( ).checkState( IDataServiceProvider.INHERIT_CUBE );
+			if ( inheritXTab )
+			{
+				btnFilters.setEnabled( false );
+				btnBinding.setEnabled( false );
+			}
+			else
+			{
+				boolean disabled = getDataServiceProvider( ).isInXTabAggrCell( )
+						|| getDataServiceProvider( ).isInXTabMeasureCell( );
+				btnFilters.setEnabled( !disabled
+						&& !getDataServiceProvider( ).isInheritColumnsGroups( ) );
+				btnBinding.setEnabled( !getDataServiceProvider( ).isInheritColumnsGroups( )
+						&& getDataServiceProvider( ).isInvokingSupported( )
+						|| getDataServiceProvider( ).isSharedBinding( ) );
+			}
 			btnParameters.setEnabled( false );
 		}
 		else
