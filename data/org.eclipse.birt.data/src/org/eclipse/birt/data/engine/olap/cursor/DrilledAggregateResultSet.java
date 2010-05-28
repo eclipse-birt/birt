@@ -302,20 +302,14 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 			IEdgeDrillFilter targetDrill, List<IEdgeDrillFilter[]> drillFilters )
 	{
 		List list = new ArrayList( );
-		int index = -1;
 		for ( int i = 0; i < drillFilters.size( ); i++ )
 		{
 			IEdgeDrillFilter[] filters = drillFilters.get( i );
-			if ( index >= 0 )
-			{
-				list.add( filters );
-			}
 			for ( int t = 0; t < filters.length; t++ )
 			{
-				if ( targetDrill.equals( filters[t] ) )
+				if ( !targetDrill.equals( filters[t] ) )
 				{
-					index = i;
-					break;
+					list.add( filters );
 				}
 			}
 		}

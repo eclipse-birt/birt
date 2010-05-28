@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
@@ -52,10 +52,10 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 	private List[] breakHierarchyList;
 	private Map noBreakHierarchyKeyMap;
 	private boolean isTimeMirror = false;
-	private RowDataAccessorService service;
+	private MirrorMetaInfo service;
 	
 	public MirroredAggregationResultSet( IAggregationResultSet rs,
-			RowDataAccessorService service, List sortList ) throws IOException
+			MirrorMetaInfo service, List sortList ) throws IOException
 	{
 		this.mirrorLevel = service.getMirrorStartPosition( );
 		this.breakHierarchy = service.isBreakHierarchy( );

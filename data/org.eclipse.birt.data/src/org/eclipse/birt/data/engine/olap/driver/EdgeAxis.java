@@ -19,7 +19,6 @@ import javax.olap.OLAPException;
 
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;
-import org.eclipse.birt.data.engine.olap.cursor.MirroredAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataAccessor;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataAccessorService;
 import org.eclipse.birt.data.engine.olap.cursor.SubRowDataAccessor;
@@ -70,17 +69,7 @@ public class EdgeAxis implements IEdgeAxis
 		populateDimensionAxis( resultSet, view );
 		service = new RowDataAccessorService( dimensionAxis,
 				view );
-
-		if ( view.getMirroredDefinition( ) != null
-				&& service.getMirrorStartPosition( ) > 0 )
-		{
-			this.dataAccessor = new RowDataAccessor( service,
-					new MirroredAggregationResultSet( rs,
-							service,
-							sortList ) );			
-		}
-		else
-			this.dataAccessor = new RowDataAccessor( service, rs );
+		this.dataAccessor = new RowDataAccessor( service, rs );
 
 		for ( int i = 0; i < this.dimensionAxis.length; i++ )
 		{
@@ -126,12 +115,7 @@ public class EdgeAxis implements IEdgeAxis
 		int index = -1, levelIndex = -1;
 		if ( !isCalculatedMember )
 		{
-			ILevelDefinition mirrorStartLevel = null;
-			if ( view.getMirroredDefinition( ) != null )
-				mirrorStartLevel = view.getMirroredDefinition( )
-						.getMirrorStartingLevel( );
 			levelIndex = index = 0;
-			boolean isMirrored = false;
 			for ( int i = 0; i < view.getDimensionViews( ).size( ); i++ )
 			{
 				BirtDimensionView dv = (BirtDimensionView) ( view.getDimensionViews( ).get( i ) );
@@ -141,26 +125,7 @@ public class EdgeAxis implements IEdgeAxis
 				{
 					ILevelDefinition level = (ILevelDefinition) levelIter.next( );
 					DimensionAxis axis = null;
-					if ( level == mirrorStartLevel )
-					{
-						isMirrored = true;
-					}
-
-					if ( isMirrored )
-					{
-						axis = new DimensionAxis( this,
-								rs,
-								index,
-								levelIndex,
-								true );
-					}
-					else
-					{
-						axis = new DimensionAxis( this,
-								rs,
-								index,
-								levelIndex );
-					}
+					axis = new DimensionAxis( this, rs, index, levelIndex );
 					index++;
 					levelIndex++;
 					dimensionAxisList.add( axis );

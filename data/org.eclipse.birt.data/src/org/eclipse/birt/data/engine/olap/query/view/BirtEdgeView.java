@@ -12,22 +12,14 @@
 package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
-import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
-import org.eclipse.birt.data.engine.olap.data.api.ILevel;
-import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
-import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.driver.IEdgeAxis;
 
 /**
@@ -45,8 +37,6 @@ public class BirtEdgeView
 	private IEdgeDefinition edgeDefn;
 	private int pageEndingPosition, type;
 	private IEdgeAxis edgeAxis;
-	
-	private Map<DimLevel, String> levelTypes = new HashMap<DimLevel, String>( );
 
 	private final static String CALCULATED_MEMBER ="CALCULATED_MEMBER";
 
@@ -97,46 +87,7 @@ public class BirtEdgeView
 		while ( dims.hasNext( ) )
 		{
 			IDimensionDefinition defn = (IDimensionDefinition) dims.next( );
-			populateTimeDimensionTypes( defn , cubeView.getCube( ) );
 			dimensionViewList.add( new BirtDimensionView( defn ) );
-		}
-	}
-	
-	private void populateTimeDimensionTypes( IDimensionDefinition defn,
-			ICube cube )
-	{
-		if ( cube != null )
-			for ( int i = 0; i < cube.getDimesions( ).length; i++ )
-			{
-				IDimension dimension = cube.getDimesions( )[i];
-				if ( dimension.getName( ).equals( defn.getName( ) )
-						&& dimension.getHierarchy( )
-								.getName( )
-								.equals( defn.getHierarchy( )
-										.get( 0 )
-										.getName( ) ) )
-				{
-					List<ILevelDefinition> levelDefn = defn.getHierarchy( )
-							.get( 0 )
-							.getLevels( );
-					ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-					for ( int j = 0; j < levelDefn.size( ); j++ )
-					{
-						for ( int k = 0; k < levels.length; k++ )
-						{
-							if ( levelDefn.get( j )
-									.getName( )
-									.equals( levels[k].getName( ) ) )
-							{
-								this.levelTypes.put( new DimLevel( defn.getName( ),
-										levelDefn.get( j ).getName( ) ),
-										levels[k].getLeveType( ) );
-								break;
-							}
-						}
-					}
-					break;
-				}
 		}
 	}
 
@@ -192,15 +143,6 @@ public class BirtEdgeView
 	}
 	
 	/**
-	 * For time dimension issue.
-	 * @return
-	 */
-	public String getLevelType( DimLevel dimLevel )
-	{
-		return this.levelTypes.get( dimLevel );
-	}
-	
-	/**
 	 * 
 	 * @return
 	 */
@@ -209,18 +151,6 @@ public class BirtEdgeView
 		return this.name;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public IMirroredDefinition getMirroredDefinition( )
-	{
-		if ( this.edgeDefn != null )
-			return this.edgeDefn.getMirroredDefinition( );
-		else
-			return null;
-	}
-	
 	public int getPageEndingIndex( )
 	{
 		return this.pageEndingPosition;

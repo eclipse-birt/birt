@@ -109,13 +109,8 @@ public class QueryExecutor
 			{
 				rs = populateRs( view, aggrDefns, cubeQueryExecutorHelper, 
 						stopSign, true );
+				rs = processOperationOnQuery( view, stopSign, rs );
 				
-				CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
-						view.getPreparedCubeOperations( ),
-						view.getCubeQueryExecutor( ).getScope( ),
-						view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
-
-				rs = coe.execute( rs, stopSign );
 				break;
 			}
 			case DataEngineContext.DIRECT_PRESENTATION:
@@ -210,15 +205,22 @@ public class QueryExecutor
 			StopSign stopSign, IAggregationResultSet[] rs )
 			throws DataException, IOException, BirtException
 	{
+		//process mirror operation
+		MirrorOperationExecutor moe = new MirrorOperationExecutor( );
+		rs = moe.execute( rs, view, cubeQueryExecutorHelper );
+
+		//process drill operation
 		DrillOperationExecutor drillOp = new DrillOperationExecutor( );
 		rs = drillOp.execute( rs, view.getCubeQueryDefinition( ) );
 		
+		//process derived measure/nested aggregation
 		CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
 				view.getPreparedCubeOperations( ),
 				view.getCubeQueryExecutor( ).getScope( ),
 				view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
 
 		rs = coe.execute( rs, stopSign );
+		
 		return rs;
 	}
 	
@@ -324,6 +326,7 @@ public class QueryExecutor
 			id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
 			rs = AggregationResultSetSaveUtil.load( id,
 					new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ), VersionManager.getLatestVersion( ) );
+			initLoadedAggregationResultSets( rs, aggrDefns );
 			//TODO:Currently, share the same queryResultsID with the shared report item in the report document if the report document exists
 		}
 		

@@ -45,7 +45,8 @@ class TimeMemberUtil
 	private static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR = "week-of-year"; //$NON-NLS-1$
 	private static final String DATE_TIME_LEVEL_TYPE_YEAR = "year"; //$NON-NLS-1$
 
-	public static MemberTreeNode[] getDateTimeNodes( DimLevel[] dimLevels, Object dateTimeValue, int index, RowDataAccessorService service )
+	public static MemberTreeNode[] getDateTimeNodes( DimLevel[] dimLevels,
+			Object dateTimeValue, int index, MirrorMetaInfo service )
 	{
 		String[] dateTypes = new String[dimLevels.length - index];
 		for ( int i = index; i < dimLevels.length; i++ )
@@ -526,7 +527,8 @@ class TimeMemberUtil
 		return nodes;
 	}
 		
-	public static boolean isTimeMirror( IAggregationResultSet rs, int index,RowDataAccessorService service )
+	public static boolean isTimeMirror( IAggregationResultSet rs, int index,
+			MirrorMetaInfo service )
 	{
 		for ( int i = index; i < rs.getLevelCount( ); i++ )
 		{
@@ -538,7 +540,7 @@ class TimeMemberUtil
 	}
 
 	public static boolean containsTimeMirror( IAggregationResultSet rs,
-			RowDataAccessorService service )
+			MirrorMetaInfo service )
 	{
 		int index = service.getMirrorStartPosition( );
 		for ( int i = index; i < rs.getLevelCount( ); i++ )
