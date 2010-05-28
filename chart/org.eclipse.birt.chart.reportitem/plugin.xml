@@ -14,7 +14,17 @@
             extensionName="Chart"
             hasStyle="true"
             isNameRequired="false">
-         <style name="chart" displayNameID="Element.Chart"/>
+         <style
+               displayNameID="Element.Chart"
+               name="chart"
+               type="Chart"/>
+         <property
+               canInherit="true"
+               detailType="ReportItemTheme"
+               isEncryptable="false"
+               name="theme"
+               type="elementRef">
+         </property>
          <property
                type="xml"
                displayNameID="Element.Chart.xmlRepresentation"
@@ -116,7 +126,7 @@
          <propertyVisibility
                name="inheritColumns"
                visibility="hide">
-         </propertyVisibility>
+         </propertyVisibility>         
       </reportItem>
    </extension>
    <extension
