@@ -46,8 +46,15 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		//list.add( "\u20A9" ); //$NON-NLS-1$
 		list.add( "DKK" ); //$NON-NLS-1$
 
-		String defaultSymbol = Currency.getInstance( ULocale.getDefault( ) )
-				.getSymbol( );
+		String defaultSymbol = null;
+		Currency defaultCurrency = Currency.getInstance( ULocale.getDefault( ) );
+		if ( defaultCurrency != null )
+		{
+			// the default currency could be null if country is not set properly
+			// in locale settings.
+			defaultSymbol = defaultCurrency.getSymbol( );
+		}
+
 		/*
 		 * bug 233779, the localSymbol doesn't allow to be null in IBM JDK List
 		 * but in Sun JDK, it's option and ArrayList allows to be null.
