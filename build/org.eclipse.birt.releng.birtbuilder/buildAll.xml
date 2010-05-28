@@ -83,10 +83,11 @@
 		<condition property="generateFeatureVersionSuffix" value="false">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
+		<!--
 		<condition property="createUpdateSite" value="true">
 			<equals arg1="${buildType}" arg2="I" />
 		</condition>
-		
+		-->
 		<!-- concise build setting -->
 		
 		<condition property="skip.build.OSGI" value="true">
@@ -564,9 +565,9 @@
 		<replace dir="${buildDirectory}/maps" value="${dtp.mapCvsRoot}" token="${dtp.url.token}">
 			<include name="**/*.map" />
 		</replace>
-		
+		<!--
 		<antcall target="useBatik1_7"/>
-
+		-->
 	</target>
 	
 	<target name="useBatik1_7" if="update.batik">
@@ -623,8 +624,9 @@
 		</copy>
 		<!-- copy BIRT NL plugins -->
         <ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="prepareSrc" />
+		<!--
 		<ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="updateBatikFeature" />
-
+		-->
   		<antcall target="logger">
 			<param name="message" value="Copyied all source plugins to buildDirectory/plugins/"/>
 		</antcall>
