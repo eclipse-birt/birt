@@ -15,4 +15,5 @@ public class ChartPageSectionId extends PageSectionId
 	public static final String CHART_ELEMENT_ID = "CHART_ELEMENT_ID";//$NON-NLS-1$
 	public static final String CHART_DISPLAY = "CHART_DISPLAY";//$NON-NLS-1$
 	public static final String CHART_SEPERATOR_2 = "CHART_SEPERATOR_2";//$NON-NLS-1$
+	public static final String CHART_THEME = "CHART_THEME"; //$NON-NLS-1$
 }
