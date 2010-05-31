@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="type"
+            class="org.eclipse.birt.chart.examples.radar.model.type.util.RadarTypeResourceFactoryImpl"/>
+   </extension>
+      
+    <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.birt.eclipse.org/RadarChartModelType"
+            class="org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage"
+            genModel="src/oro/eclipse/birt/chart/examples/radar/model/radar.genmodel"/>
+   </extension>
+
+</plugin>
