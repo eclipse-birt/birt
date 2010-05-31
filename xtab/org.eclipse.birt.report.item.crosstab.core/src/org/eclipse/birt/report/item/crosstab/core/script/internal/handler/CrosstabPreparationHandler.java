@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.core.script.internal.handler;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +33,6 @@ import org.eclipse.birt.report.item.crosstab.core.script.ICrosstabCell;
 import org.eclipse.birt.report.item.crosstab.core.script.internal.CrosstabCellImpl;
 import org.eclipse.birt.report.item.crosstab.core.script.internal.CrosstabImpl;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -48,7 +49,9 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 		ICrosstabConstants
 {
 
-	private static Logger logger = Logger.getLogger( CrosstabPreparationHandler.class.getName( ) );
+	private static final Logger logger = Logger.getLogger( CrosstabPreparationHandler.class.getName( ) );
+
+	private static final String AUTO_EMPTY_VALUE_EXPR_PREFIX = "/*AUTO_EXPR_EMPTY_VALUE*/"; //$NON-NLS-1$
 
 	private CrosstabScriptHandler handler;
 	private CrosstabReportItemHandle crosstab;
@@ -97,7 +100,7 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 		String emptyValue = crosstab.getEmptyCellValue( );
 
 		// process crosstab header
-		handleCell( crosstab.getHeader( ), emptyValue );
+		handleCell( crosstab.getHeader( ), null );
 
 		// process column edge
 		if ( crosstab.getDimensionCount( COLUMN_AXIS_TYPE ) > 0 )
@@ -112,15 +115,15 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 				{
 					LevelViewHandle lv = dv.getLevel( j );
 
-					handleCell( lv.getCell( ), emptyValue );
-					handleCell( lv.getAggregationHeader( ), emptyValue );
+					handleCell( lv.getCell( ), null );
+					handleCell( lv.getAggregationHeader( ), null );
 				}
 			}
 
 		}
 
 		// process column grandtotal header
-		handleCell( crosstab.getGrandTotal( COLUMN_AXIS_TYPE ), emptyValue );
+		handleCell( crosstab.getGrandTotal( COLUMN_AXIS_TYPE ), null );
 
 		// process row edge
 		if ( crosstab.getDimensionCount( ROW_AXIS_TYPE ) > 0 )
@@ -135,15 +138,15 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 				{
 					LevelViewHandle lv = dv.getLevel( j );
 
-					handleCell( lv.getCell( ), emptyValue );
-					handleCell( lv.getAggregationHeader( ), emptyValue );
+					handleCell( lv.getCell( ), null );
+					handleCell( lv.getAggregationHeader( ), null );
 				}
 			}
 
 		}
 
 		// process row grandtotal header
-		handleCell( crosstab.getGrandTotal( ROW_AXIS_TYPE ), emptyValue );
+		handleCell( crosstab.getGrandTotal( ROW_AXIS_TYPE ), null );
 
 		// process measure
 		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
@@ -153,7 +156,7 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 
 			for ( int j = 0; j < mv.getHeaderCount( ); j++ )
 			{
-				handleCell( mv.getHeader( j ), emptyValue );
+				handleCell( mv.getHeader( j ), null );
 			}
 
 			handleCell( mv.getCell( ), emptyValue );
@@ -186,29 +189,47 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 		// prepare contents
 		for ( Iterator itr = cell.getContents( ).iterator( ); itr.hasNext( ); )
 		{
-
 			ReportElementHandle handle = (ReportElementHandle) itr.next( );
 
 			context.prepare( handle );
 
 			// handle empty value mapping, this is done by adding an extra
 			// mapping rule to related data item.
-			
-			// TODO to ensure it always overwrits the existing empty value
-			// mapping successfully in case the report is a rerun, We always add
-			// the new map rule here no matter current emptyValue setting is
-			// null or not. Better solution may be some smart detecting.
-			if ( /* emptyVlaue != null && */handle instanceof DataItemHandle )
+			if ( emptyVlaue != null && handle instanceof DataItemHandle )
 			{
 				DataItemHandle dataHandle = (DataItemHandle) handle;
 
+				PropertyHandle mapHandle = dataHandle.getPropertyHandle( StyleHandle.MAP_RULES_PROP );
+
+				ArrayList<MapRule> rules = mapHandle.getListValue( );
+
+				if ( rules != null )
+				{
+					// try clear the existing auto map rule first
+					List<MapRule> removeList = new ArrayList<MapRule>( );
+
+					for ( MapRule rl : rules )
+					{
+						if ( rl.getTestExpression( ) != null
+								&& rl.getTestExpression( )
+										.startsWith( AUTO_EMPTY_VALUE_EXPR_PREFIX ) )
+						{
+							removeList.add( rl );
+						}
+					}
+
+					if ( removeList.size( ) > 0 )
+					{
+						mapHandle.removeItems( removeList );
+					}
+				}
+
 				MapRule rule = StructureFactory.createMapRule( );
 
-				rule.setTestExpression( ExpressionUtil.createJSDataExpression( dataHandle.getResultSetColumn( ) ) );
+				rule.setTestExpression( AUTO_EMPTY_VALUE_EXPR_PREFIX
+						+ ExpressionUtil.createJSDataExpression( dataHandle.getResultSetColumn( ) ) );
 				rule.setOperator( DesignChoiceConstants.MAP_OPERATOR_NULL );
 				rule.setDisplay( emptyVlaue );
-
-				PropertyHandle mapHandle = dataHandle.getPropertyHandle( StyleHandle.MAP_RULES_PROP );
 
 				try
 				{
