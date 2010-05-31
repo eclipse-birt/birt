@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.data.api.cube.TimeDimensionUtil;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.DimensionRowAccessor;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
@@ -130,6 +131,7 @@ public interface IJSObjectPopulator
 		//
 		private DummyJSLevels levels;
 		private List levelNames;
+		private boolean useDimensionLevel;
 
 		/**
 		 * 
@@ -140,6 +142,7 @@ public interface IJSObjectPopulator
 		{
 			this.levels = levels;
 			this.levelNames = levelNames;
+			this.useDimensionLevel = false;
 		}
 
 		/*
@@ -164,6 +167,11 @@ public interface IJSObjectPopulator
 			{
 				if( TimeDimensionUtil.getFieldIndex( value ) == -1 )
 					throw new RuntimeException( "Invalid level Name:" + value );//$NON-NLS-1$
+			}
+			if( !useDimensionLevel && this.levels.getLevelNames( )!= null )
+			{
+				this.levelNames = this.levels.getLevelNames( );
+				useDimensionLevel = true;
 			}
 			if ( this.levelNames.contains( value ) )
 			{
@@ -276,6 +284,19 @@ public interface IJSObjectPopulator
 		public boolean isTimeDimLevel( )
 		{
 			return resultRow.isTimeDimensionRow( );
+		}
+		
+		public List getLevelNames( )
+		{
+			if( resultRow instanceof DimensionRowAccessor )
+			{
+				return ( ( DimensionRowAccessor )resultRow ).getLevelNames( );
+			}
+			else
+			{
+				return null;
+			}
+				
 		}
 	}
 

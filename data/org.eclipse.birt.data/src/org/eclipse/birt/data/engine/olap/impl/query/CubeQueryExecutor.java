@@ -165,19 +165,36 @@ public class CubeQueryExecutor
 		}
 		ICubeFilterDefinition cubeFilter = (ICubeFilterDefinition) filter;
 		if ( cubeFilter.getTargetLevel( ) != null)
+		{
 			return CubeQueryExecutor.DIMENSION_FILTER;
+		}
+		else
+		{
+			String measure = OlapExpressionCompiler.getReferencedScriptObject( filter.getExpression( ), ScriptConstants.MEASURE_SCRIPTABLE );
+			if( measure != null )
+				return CubeQueryExecutor.FACTTABLE_FILTER;
+			
+			List bindingName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
+			if( bindingName.size( ) > 0 )
+			{
+				if( existAggregationBinding( bindingName, this.defn.getBindings( ) ) )
+					return CubeQueryExecutor.AGGR_MEASURE_FILTER;
 		
-		String measure = OlapExpressionCompiler.getReferencedScriptObject( filter.getExpression( ), "measure" );
-		if( measure != null )
-			return CubeQueryExecutor.FACTTABLE_FILTER;
-		
-		List bindingName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
-		
-		if( existAggregationBinding( bindingName, this.defn.getBindings( ) ) )
-			return CubeQueryExecutor.AGGR_MEASURE_FILTER;
-		
-		return CubeQueryExecutor.FACTTABLE_FILTER;
+				return CubeQueryExecutor.FACTTABLE_FILTER;
+			}
+			else
+			{
+				List dimensionName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DIMENSION_SCRIPTABLE );
+				if( dimensionName.size( ) > 1 )
+				{
+					return FACTTABLE_FILTER;
+				}
+				return DIMENSION_FILTER;
+			}
+		}
 	}
+	
+	
 	
 	/**
 	 * 

@@ -12,8 +12,10 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -42,6 +44,17 @@ public class DimensionRowAccessor extends AbstractRowAccessor
 		this.dimension = dimension;
 		if( !dimension.isTime( ) )
 			populateFieldIndexMap( );
+	}
+	
+	public List getLevelNames( )
+	{
+		List levelName = new ArrayList( );
+		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			levelName.add( levels[i].getName( ) );
+		}
+		return levelName;
 	}
 
 	/*
