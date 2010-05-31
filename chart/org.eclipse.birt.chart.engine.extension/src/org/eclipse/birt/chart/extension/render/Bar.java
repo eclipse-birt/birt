@@ -1231,6 +1231,10 @@ public final class Bar extends AxesRenderer
 				{
 					if ( rt.getValue( ) == RiserType.TUBE )
 					{
+						
+						int zorder_hint = isStackedOrPercent( bs ) ? ( i * iSharedUnitCount )
+								+ iSharedUnitIndex
+								: i * getSeriesCount( ) + getSeriesIndex( );
 						renderRiserTube2D( ipr,
 								WrappedStructureSource.createSeriesDataPoint( bs,
 										dpha[i] ),
@@ -1245,7 +1249,8 @@ public final class Bar extends AxesRenderer
 								isTransposed( ),
 								true,
 								bInverted,
-								isStackedOrPercent( bs ));
+								isStackedOrPercent( bs ),
+								zorder_hint );
 					}
 					else if ( rt.getValue( ) == RiserType.CONE )
 					{
@@ -1259,6 +1264,10 @@ public final class Bar extends AxesRenderer
 								loaFrontFace,
 								dValue,
 								isStacked );
+						
+						int zorder_hint = isStackedOrPercent( bs ) ? ( i * iSharedUnitCount )
+								+ iSharedUnitIndex
+								: i * getSeriesCount( ) + getSeriesIndex( );
 						
 						renderRiserCone2D( ipr,
 								WrappedStructureSource.createSeriesDataPoint( bs,
@@ -1274,7 +1283,7 @@ public final class Bar extends AxesRenderer
 								true,
 								bInverted,
 								isStackedOrPercent( bs ),
-								coneBottomHeight);
+								coneBottomHeight, zorder_hint);
 					}
 					else if ( rt.getValue( ) == RiserType.TRIANGLE )
 					{
@@ -2558,7 +2567,8 @@ public final class Bar extends AxesRenderer
 					false,// Always non-transposed in legend
 					false,
 					false,
-					false);
+					false,
+					0 );
 		}
 		else if ( bs.getRiser( ).getValue( ) == RiserType.CONE )
 		{
@@ -2575,7 +2585,8 @@ public final class Bar extends AxesRenderer
 					false,
 					false,// Always upward
 					false,
-					2 * getDeviceScale( ));
+					2 * getDeviceScale( ),
+					0 );
 		}
 		else if ( bs.getRiser( ).getValue( ) == RiserType.TRIANGLE )
 		{
@@ -2647,7 +2658,8 @@ public final class Bar extends AxesRenderer
 	private void renderRiserTube2D( IPrimitiveRenderer ipr, Object oSource,
 			DataPointHints dpha, Location[] loaFront, Fill f,
 			LineAttributes lia, ChartDimension cd, double dSeriesThickness,
-			boolean bOffset, boolean bTransposed, boolean bDeferred, boolean bInverted, boolean bStacked )
+			boolean bOffset, boolean bTransposed, boolean bDeferred,
+			boolean bInverted, boolean bStacked, int zorder_hint )
 			throws ChartException
 	{
 		ArrayList alModel = new ArrayList( ); 
@@ -2881,7 +2893,8 @@ public final class Bar extends AxesRenderer
 		{
 			dc.addModel( new WrappedInstruction( getDeferredCache( ),
 					alModel,
-					PrimitiveRenderEvent.FILL) );
+					PrimitiveRenderEvent.FILL,
+					zorder_hint ) );
 		}
 	}
 
@@ -2907,7 +2920,7 @@ public final class Bar extends AxesRenderer
 			DataPointHints dpha, Location[] loaFront, Fill f,
 			LineAttributes lia, ChartDimension cd, double dSeriesThickness,
 			boolean bOffset, boolean bTransposed, boolean bDeferred,
-			boolean bInverted, boolean bIsStacked, double ovalHeight) throws ChartException
+			boolean bInverted, boolean bIsStacked, double ovalHeight, int zorder_hint) throws ChartException
 	{
 		ArrayList alModel = new ArrayList( ); 
 		
@@ -2926,7 +2939,7 @@ public final class Bar extends AxesRenderer
 		PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				PolygonRenderEvent.class );
 		LineRenderEvent lre = ( (EventObjectCache) ipr ).getEventObject( oSource,
-				LineRenderEvent.class );;
+				LineRenderEvent.class );
 		ArcRenderEvent are = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				ArcRenderEvent.class );
 		
@@ -3171,7 +3184,7 @@ public final class Bar extends AxesRenderer
 		{
 			dc.addModel( new WrappedInstruction( getDeferredCache( ),
 					alModel,
-					PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW ) );
+					PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW, zorder_hint ) );
 		}
 	}
 
