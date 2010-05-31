@@ -31,6 +31,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 public class BackgroundImageCellEditor extends CDialogCellEditor
@@ -50,6 +52,18 @@ public class BackgroundImageCellEditor extends CDialogCellEditor
 			".svg" //$NON-NLS-1$
 	};
 
+	Listener filter = new Listener( ) {
+
+		public void handleEvent( Event event )
+		{
+			if ( text.isDisposed( ) )
+				return;
+			handleFocus( SWT.FocusOut );
+		}
+	};
+
+	boolean hasFocus = false;
+	
 	private static final int defaultStyle = SWT.SINGLE;
 
 	private Text text;
@@ -112,16 +126,15 @@ public class BackgroundImageCellEditor extends CDialogCellEditor
 			public void focusLost( FocusEvent e )
 			{
 				doSetValue( text.getText( ) );
-				Display.getDefault( ).asyncExec( new Runnable( ) {
-
-					public void run( )
-					{
-						if ( text != null && !text.isDisposed( ) )
-							BackgroundImageCellEditor.this.focusLost( );
-					}
-				} );
-
+				if ( text != null && !text.isDisposed( ) )
+					BackgroundImageCellEditor.this.focusLost( );
 			}
+			
+			public void focusGained( FocusEvent e )
+			{
+				handleFocus( SWT.FocusIn );
+			}
+			
 		} );
 
 		text.addModifyListener( new ModifyListener( ) {
@@ -136,6 +149,41 @@ public class BackgroundImageCellEditor extends CDialogCellEditor
 		return composite;
 	}
 
+	void handleFocus( int type )
+	{
+		switch ( type )
+		{
+			case SWT.FocusIn :
+			{
+				if ( hasFocus )
+					return;
+				text.selectAll( );
+				hasFocus = true;
+				Display display = text.getDisplay( );
+				display.removeFilter( SWT.FocusIn, filter );
+				display.addFilter( SWT.FocusIn, filter );
+				Event e = new Event( );
+				text.notifyListeners( SWT.FocusIn, e );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				if ( !hasFocus )
+					return;
+				Control focusControl = text.getDisplay( )
+						.getFocusControl( );
+				if ( focusControl == text )
+					return;
+				hasFocus = false;
+				Display display = text.getDisplay( );
+				display.removeFilter( SWT.FocusIn, filter );
+				Event e = new Event( );
+				text.notifyListeners( SWT.FocusOut, e );
+				break;
+			}
+		}
+	}
+	
 	protected Object openDialogBox( Control cellEditorWindow )
 	{
 		String extensions[] = new String[]{

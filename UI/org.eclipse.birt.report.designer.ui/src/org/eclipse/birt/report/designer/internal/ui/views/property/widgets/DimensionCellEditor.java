@@ -28,6 +28,8 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import com.ibm.icu.util.ULocale;
@@ -40,9 +42,21 @@ public class DimensionCellEditor extends CDialogCellEditor
 
 	private String[] units;
 	private String unitName;
-	private Text defaultLabel;
+	private Text textEditor;
 	private int style;
 	private int inProcessing = 0;
+
+	Listener filter = new Listener( ) {
+
+		public void handleEvent( Event event )
+		{
+			if ( textEditor.isDisposed( ) )
+				return;
+			handleFocus( SWT.FocusOut );
+		}
+	};
+
+	boolean hasFocus = false;
 
 	/**
 	 * Creates a new dialog cell editor parented under the given control.
@@ -174,7 +188,7 @@ public class DimensionCellEditor extends CDialogCellEditor
 		{
 			oldValue = parseInputString2dValue( (String) oldValue );
 		}
-		String newValue = defaultLabel.getText( );
+		String newValue = textEditor.getText( );
 		DimensionValue dValue = parseInputString2dValue( newValue );
 		if ( dValue != null )
 		{
@@ -240,11 +254,11 @@ public class DimensionCellEditor extends CDialogCellEditor
 	 */
 	protected Control createContents( Composite cell )
 	{
-		defaultLabel = new Text( cell, SWT.LEFT | style );
-		defaultLabel.setFont( cell.getFont( ) );
-		defaultLabel.setBackground( cell.getBackground( ) );
+		textEditor = new Text( cell, SWT.LEFT | style );
+		textEditor.setFont( cell.getFont( ) );
+		textEditor.setBackground( cell.getBackground( ) );
 
-		defaultLabel.addKeyListener( new KeyAdapter( ) {
+		textEditor.addKeyListener( new KeyAdapter( ) {
 
 			// hook key pressed - see PR 14201
 			public void keyPressed( KeyEvent e )
@@ -253,7 +267,7 @@ public class DimensionCellEditor extends CDialogCellEditor
 			}
 		} );
 
-		defaultLabel.addTraverseListener( new TraverseListener( ) {
+		textEditor.addTraverseListener( new TraverseListener( ) {
 
 			public void keyTraversed( TraverseEvent e )
 			{
@@ -265,16 +279,56 @@ public class DimensionCellEditor extends CDialogCellEditor
 			}
 		} );
 
-		defaultLabel.addFocusListener( new FocusAdapter( ) {
+		textEditor.addFocusListener( new FocusAdapter( ) {
 
 			public void focusLost( FocusEvent e )
 			{
-				if ( defaultLabel != null && !defaultLabel.isDisposed( ) )
+				if ( textEditor != null && !textEditor.isDisposed( ) )
 					DimensionCellEditor.this.focusLost( );
+			}
+
+			public void focusGained( FocusEvent e )
+			{
+				handleFocus( SWT.FocusIn );
 			}
 		} );
 
-		return defaultLabel;
+		return textEditor;
+	}
+
+	void handleFocus( int type )
+	{
+		switch ( type )
+		{
+			case SWT.FocusIn :
+			{
+				if ( hasFocus )
+					return;
+				textEditor.selectAll( );
+				hasFocus = true;
+				Display display = textEditor.getDisplay( );
+				display.removeFilter( SWT.FocusIn, filter );
+				display.addFilter( SWT.FocusIn, filter );
+				Event e = new Event( );
+				textEditor.notifyListeners( SWT.FocusIn, e );
+				break;
+			}
+			case SWT.FocusOut :
+			{
+				if ( !hasFocus )
+					return;
+				Control focusControl = textEditor.getDisplay( )
+						.getFocusControl( );
+				if ( focusControl == textEditor )
+					return;
+				hasFocus = false;
+				Display display = textEditor.getDisplay( );
+				display.removeFilter( SWT.FocusIn, filter );
+				Event e = new Event( );
+				textEditor.notifyListeners( SWT.FocusOut, e );
+				break;
+			}
+		}
 	}
 
 	/**
@@ -294,7 +348,7 @@ public class DimensionCellEditor extends CDialogCellEditor
 	 */
 	protected void updateContents( Object value )
 	{
-		if ( defaultLabel == null )
+		if ( textEditor == null )
 			return;
 
 		String text = "";//$NON-NLS-1$
@@ -325,7 +379,7 @@ public class DimensionCellEditor extends CDialogCellEditor
 				text = value.toString( );
 			}
 		}
-		defaultLabel.setText( text );
+		textEditor.setText( text );
 	}
 
 	/**
@@ -335,7 +389,7 @@ public class DimensionCellEditor extends CDialogCellEditor
 	 */
 	protected Text getDefaultText( )
 	{
-		return defaultLabel;
+		return textEditor;
 	}
 
 	/*
