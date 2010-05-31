@@ -269,14 +269,8 @@ public class DimensionCellEditor extends CDialogCellEditor
 
 			public void focusLost( FocusEvent e )
 			{
-				Display.getDefault( ).asyncExec( new Runnable( ) {
-
-					public void run( )
-					{
-						if ( defaultLabel != null && !defaultLabel.isDisposed( ) )
-							DimensionCellEditor.this.focusLost( );
-					}
-				} );
+				if ( defaultLabel != null && !defaultLabel.isDisposed( ) )
+					DimensionCellEditor.this.focusLost( );
 			}
 		} );
 
