@@ -78,6 +78,7 @@ public class DataTextDropListener extends DropTargetAdapter
 				// validation.
 				ExpressionCodec expCodec = ChartModelHelper.instance( )
 						.createExpressionCodec( );
+				expCodec.setType( btnBuilder.getExpressionType( ) );
 				expCodec.setBindingName( object.toString( ),
 						btnBuilder.isCube( ) );
 				if ( !DataDefinitionTextManager.getInstance( )
