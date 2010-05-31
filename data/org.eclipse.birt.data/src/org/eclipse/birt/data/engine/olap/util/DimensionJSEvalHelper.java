@@ -52,8 +52,9 @@ public class DimensionJSEvalHelper extends BaseJSEvalHelper
 	{
 		IDimensionDefinition dimDefn = getTargetDimension( );
 		if ( dimDefn == null )
-			throw new DataException( ResourceConstants.REFERENCED_DIMENSION_NOT_FOUND,
-					dimName );
+		{
+			return new ArrayList( );
+		}
 		List result = new ArrayList( );
 		List levels = ( (IHierarchyDefinition) dimDefn.getHierarchy( ).get( 0 ) ).getLevels( );
 		for ( int j = 0; j < levels.size( ); j++ )
