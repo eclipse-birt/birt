@@ -122,7 +122,7 @@ public abstract class ContainerArea extends AbstractArea
 
 	public boolean autoPageBreak( ) throws BirtException
 	{
-		if ( context.isFixedLayout( )
+		if ( context.isFixedLayout( ) && specifiedHeight > 0
 				&& specifiedHeight + parent.getAbsoluteBP( ) <= context
 						.getMaxBP( ) )
 		{
