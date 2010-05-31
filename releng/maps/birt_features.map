@@ -2,13 +2,13 @@
 feature@org.eclipse.birt.sdk=v20100427,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
 plugin@org.eclipse.birt.sdk=v20100303,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
-feature@org.eclipse.birt=v20100430,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
+feature@org.eclipse.birt=v20100531,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
 plugin@org.eclipse.birt=v20100303,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
-feature@org.eclipse.birt.osgi.runtime=v20100430,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime
+feature@org.eclipse.birt.osgi.runtime=v20100531,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime
 feature@org.eclipse.birt.osgi.runtime.sdk=v20100427,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime.sdk
 
-feature@org.eclipse.birt.chart=v20100427,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
+feature@org.eclipse.birt.chart=v20100531,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20100303,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
 feature@org.eclipse.birt.report.designer.editor.xml.wtp=v20100430,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
@@ -23,7 +23,7 @@ feature@org.eclipse.birt.chart.doc.isv=v20100427,:ext:xgu@dev.eclipse.org:/cvsro
 feature@org.eclipse.birt.cshelp=v20100427,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.cshelp.feature
 feature@org.eclipse.birt.doc.isv=v20100427,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.isv.feature
 feature@org.eclipse.birt.doc=v20100427,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
-feature@org.eclipse.birt.example=v20100427,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
+feature@org.eclipse.birt.example=v20100531,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
 
 !*************** BIRT  TEST ***********
 feature@org.eclipse.birt.testhelper=v20100427,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.testhelper.feature
