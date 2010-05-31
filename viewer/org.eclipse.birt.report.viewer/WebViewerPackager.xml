@@ -503,6 +503,7 @@
 			<include name="org.eclipse.birt.chart.engine_*.jar" />
 			<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
 			<include name="org.eclipse.birt.chart.reportitem_*.jar" />
+			<include name="org.eclipse.birt.chart.examples.core_*.jar" />
 			<include name="org.eclipse.birt.core_*.jar" />
 			<include name="org.eclipse.birt.data_*.jar" />
 			<include name="org.eclipse.birt.data.aggregation_*.jar" />

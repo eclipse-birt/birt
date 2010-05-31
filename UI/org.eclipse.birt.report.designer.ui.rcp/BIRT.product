@@ -73,6 +73,7 @@
       <plugin id="org.eclipse.birt.chart.engine"/>
       <plugin id="org.eclipse.birt.chart.engine.extension"/>
       <plugin id="org.eclipse.birt.chart.examples"/>
+      <plugin id="org.eclipse.birt.chart.examples.core"/>
       <plugin id="org.eclipse.birt.chart.reportitem"/>
       <plugin id="org.eclipse.birt.chart.reportitem.ui"/>
       <plugin id="org.eclipse.birt.chart.ui"/>
