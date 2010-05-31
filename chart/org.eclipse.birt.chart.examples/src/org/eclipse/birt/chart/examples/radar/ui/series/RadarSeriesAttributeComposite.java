@@ -16,7 +16,7 @@ import java.math.BigInteger;
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl;
-import org.eclipse.birt.chart.examples.radar.ui.type.RadarChart;
+import org.eclipse.birt.chart.examples.radar.render.Radar;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -212,7 +212,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 				gd.verticalAlignment = SWT.TOP;
 				btnTranslucentBullseye.setLayoutData( gd );
 				btnTranslucentBullseye.setVisible( chart.getSubType( )
-						.equals( RadarChart.BULLSEYE_SUBTYPE_LITERAL ) );
+						.equals( Radar.BULLSEYE_SUBTYPE_LITERAL ) );
 			}
 		}
 
@@ -325,7 +325,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
-
+		// No code.
 	}
 
 	/*

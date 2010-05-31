@@ -17,6 +17,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl;
+import org.eclipse.birt.chart.examples.radar.render.Radar;
 import org.eclipse.birt.chart.examples.view.util.UIHelper;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -61,17 +62,6 @@ import org.eclipse.swt.graphics.Image;
 public class RadarChart extends DefaultChartTypeImpl
 {
 
-	/**
-	 * Comment for <code>TYPE_LITERAL</code>
-	 */
-	public static final String TYPE_LITERAL = "Radar Chart"; //$NON-NLS-1$
-
-	public static final String STANDARD_SUBTYPE_LITERAL = "Standard Radar Chart"; //$NON-NLS-1$
-
-	public static final String SPIDER_SUBTYPE_LITERAL = "Spider Radar Chart"; //$NON-NLS-1$
-
-	public static final String BULLSEYE_SUBTYPE_LITERAL = "Bullseye Radar Chart"; //$NON-NLS-1$
-
 	private static final String sStandardDescription = Messages.getString( "RadarChart.Txt.Description" ); //$NON-NLS-1$
 
 	private static final String sSpiderDescription = Messages.getString( "RadarChart.Txt.SpiderDescription" ); //$NON-NLS-1$
@@ -94,7 +84,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 */
 	public String getName( )
 	{
-		return TYPE_LITERAL;
+		return Radar.TYPE_LITERAL;
 	}
 
 	/*
@@ -114,7 +104,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 */
 	public IHelpContent getHelp( )
 	{
-		return new HelpContentImpl( TYPE_LITERAL,
+		return new HelpContentImpl( Radar.TYPE_LITERAL,
 				Messages.getString( "RadarChart.Txt.HelpText" ) ); //$NON-NLS-1$
 	}
 
@@ -138,17 +128,17 @@ public class RadarChart extends DefaultChartTypeImpl
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
+			vSubTypes.add( new DefaultChartSubTypeImpl( Radar.STANDARD_SUBTYPE_LITERAL,
 					UIHelper.getImage( "icons/wizban/Radar71.gif" ), //$NON-NLS-1$
 					sStandardDescription,
 					Messages.getString( "RadarChart.SubType.Standard" ) ) ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( SPIDER_SUBTYPE_LITERAL,
+			vSubTypes.add( new DefaultChartSubTypeImpl( Radar.SPIDER_SUBTYPE_LITERAL,
 					UIHelper.getImage( "icons/wizban/spiderweb.gif" ), //$NON-NLS-1$
 					sSpiderDescription,
 					Messages.getString( "RadarChart.SubType.Spider" ) ) ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( BULLSEYE_SUBTYPE_LITERAL,
+			vSubTypes.add( new DefaultChartSubTypeImpl( Radar.BULLSEYE_SUBTYPE_LITERAL,
 					UIHelper.getImage( "icons/wizban/bullseye.gif" ), //$NON-NLS-1$
 					sBullseyeDescription,
 					Messages.getString( "RadarChart.SubType.Bullseye" ) ) ); //$NON-NLS-1$
@@ -181,7 +171,7 @@ public class RadarChart extends DefaultChartTypeImpl
 			}
 		}
 		newChart = ChartWithoutAxesImpl.create( );
-		newChart.setType( TYPE_LITERAL );
+		newChart.setType( Radar.TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
@@ -267,7 +257,7 @@ public class RadarChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = ChartWithoutAxesImpl.create( );
-			currentChart.setType( TYPE_LITERAL );
+			currentChart.setType( Radar.TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 			// ( (DialChart) currentChart ).setDialSuperimposition( false );
@@ -334,7 +324,7 @@ public class RadarChart extends DefaultChartTypeImpl
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
-			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
+			if ( currentChart.getType( ).equals( Radar.TYPE_LITERAL ) )
 			{
 				currentChart.setSubType( sNewSubType );
 				// ( (DialChart) currentChart ).setDialSuperimposition(
@@ -350,7 +340,7 @@ public class RadarChart extends DefaultChartTypeImpl
 				// Create a new instance of the correct type and set initial
 				// properties
 				currentChart = ChartWithoutAxesImpl.create( );
-				currentChart.setType( TYPE_LITERAL );
+				currentChart.setType( Radar.TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
