@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.net.URI;
-import java.net.URL;
 
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
@@ -198,23 +197,6 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 	{
 		boolean complete = txtUriEditor.getText( ) != null
 				&& txtUriEditor.getText( ).trim( ).length( ) > 0;
-
-		if ( complete )
-		{
-			try
-			{
-				// handle double quotation
-				new URL( removeQuote( txtUriEditor.getText( ).trim( ) ) );
-			}
-			catch ( Exception e )
-			{
-				complete = false;
-			}
-		}
-		if ( !complete )
-		{
-			previewCanvas.clear( );
-		}
 
 		btnPreview.setEnabled( complete );
 		getButton( IDialogConstants.OK_ID ).setEnabled( complete );
