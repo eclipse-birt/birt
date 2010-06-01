@@ -120,6 +120,13 @@ Follow on-screen prompts, which vary by data source type, to edit the data sourc
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/connecting.2.1.html" label="Connecting to a Data Source"/>
 </context>
 
+<context id="DataSourceSelectionDialog_ID" title="Link with Data Source">
+<!--  SEQUENCE: New a data source a and b. New a data set link on data source a. Delete data source a. Double click to edit data set. Created 20100524 JAHT No relevant link -->
+<description>
+Select a data source for the data set. The data source previously defined for the data set is unavailable.
+</description>
+</context>
+
 <context id="Dialog_DatasetEdit_ID" title="Edit Data Set - Data Set">
 <!-- Updated khahn 20090505 linked 20090604 enhanced per Nola 20090616-->
 <!-- SEQUENCE: In Data Explorer, double-click a data set. -->
@@ -422,6 +429,23 @@ Assign custom default names to elements that you use in your report. Each name y
 </description>
 </context>
 
+
+<context id="Preference_BIRT_ExpressionSyntax_ID" title="Preferences - Expression Syntax page">
+<!--  Sequence Window->Preferences->Report Design->Expression Syntax  Created, no relevant link JAHT 20100601 -->
+<description>
+Select the default expression syntax to use in the expression builder. BIRT Report Designer includes a JavaScript parser. JavaScript Syntax is the only option unless your BIRT environment provides a custom parser.
+</description>
+</context>
+
+
+<context id="Preference_BIRT_Layout_ID" title="Preferences - Layout page">
+<!--  Sequence Window->Preferences->Report Design->Layout  Created, no relevant link JAHT 20100601 -->
+<description>
+Select the default unit of measure to use for report item dimensions such as margin, padding, height, and width.
+</description>
+</context>
+
+
 <context id="Preference_BIRT_Library_ID" title="Preferences - Library page">
 <!--  no relevant link, Obsolete, no library on preferences list khahn 20090605 -->
 <description>Use this page to add or remove libraries.
@@ -687,6 +711,14 @@ Select a JAR file from the BIRT resource folder.
 </context>
 
 
+<context id="AddJsResourceFileFolderSelectionDialog_ID" title="Browse Resource Files">
+<!-- SEQUENCE: Choose Resources in Property Editor. In JavaScript files, choose Add. No relevant link JAHT 20100601 -->
+<description>
+Select a JavaScript file from the BIRT resource folder.
+</description>
+</context>
+
+
 <context id="DataColumnBindingDialog_ID" title="Data Binding">
 <!-- SEQUENCE: Drag data element to layout or double-click an aggregation in layout. BUG: Aggregation Builder and New Data Binding are using the same context ID and topics are not interchangeable. linked khahn 20090605 updated 20090611 -->
 <description>
@@ -748,10 +780,25 @@ To specify the data to retrieve from the data source, open expression builder an
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/aggregate.9.2.html" label="How to display aggregate data"/>
 </context>
 
-<context id="ThumbnailBuilder_ID" title="Thumbnail Builder">
-<!--  SEQUENCE: Open template, In Outline, select report root. In property editor-General, next to Thumbnail,choose . . . linked khahn 20090605 updated 20090613 -->
+<context id="SelectValueDialog_ID" title="Select Value">
+<!-- SEQUENCE: Select a table. In Property Editor, select Filters tab. Choose Add. In New Filter Condition, select a field, then select <Select value> in the value field. Created JAHT 20100524 No available link. -->
 <description>
-Generate a thumbnail that resembles the report, browse to a thumbnail on the file system, or use a thumbnail in the eclipse workspace.
+Select a value to filter the data set displayed by the list or table.
+</description>
+</context>
+
+<context id="ThumbnailBuilder_ID" title="Thumbnail Builder">
+<!--  SEQUENCE: Open template, In Outline, select report root. In Pproperty Editor-General, next to Thumbnail, choose ... linked khahn 20090605 updated 20090613 -->
+<description>
+Generate a thumbnail that resembles the report, browse to a thumbnail on the file system, or use a thumbnail in the resource folder.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.19.7.html" label="How to publish a template"/>
+</context>
+
+<context id="AddImageResourceFileFolderSelectionDialog_ID" title="Select an Image File">
+<!--  SEQUENCE: Open template, In Outline, select report root. In Pproperty Editor-General, next to Thumbnail, choose ... Select Import from shared resources. Choose Import. Created and linked JAHT 20100524 -->
+<description>
+Select a thumbnail in the resource folder. The thumbnail appears in the New Report Wizard when a report developer uses a published template to create a report design.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.19.7.html" label="How to publish a template"/>
 </context>
