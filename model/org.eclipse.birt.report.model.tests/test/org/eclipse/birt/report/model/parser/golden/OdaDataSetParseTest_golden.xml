@@ -49,6 +49,7 @@
                     <property name="textFormat">&lt;</property>
                     <text-property name="description" key="newDescriptionKey">New Description</text-property>
                     <expression name="ACLExpression" type="javascript">ACL expression</expression>
+                    <property name="analysisColumn">new analysis column</property>                    
                 </structure>
             </list-property>
             <list-property name="filter">

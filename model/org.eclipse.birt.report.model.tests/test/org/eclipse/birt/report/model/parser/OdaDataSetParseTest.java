@@ -258,6 +258,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 				.setTextFormat( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE );
 		columnHintHandle.setDescription( "New Description" ); //$NON-NLS-1$
 		columnHintHandle.setDescriptionKey( "newDescriptionKey" ); //$NON-NLS-1$
+		
+		columnHintHandle.setAnalysisColumn( "new analysis column" ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
@@ -854,6 +856,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 				.getHelpTextKey( ) );
 		assertEquals( "Help me!", columnHint.getHelpText( ) ); //$NON-NLS-1$
 		assertTrue( columnHint.isOnColumnLayout( ) );
+		
+		assertEquals( "Test Column", columnHint.getAnalysisColumn( ) ); //$NON-NLS-1$
 
 		// Test "filter" on DataSet
 

@@ -1518,7 +1518,8 @@
     <Member displayNameID="Structure.ColumnHint.description" name="description" runtimeSettable="false" since="2.5.2" type="string"/>
     <Member displayNameID="Structure.ColumnHint.descriptionID" name="descriptionID" since="2.5.2" type="resourceKey"/>
     <Member detailType="Action" displayNameID="Structure.ColumnHint.action" isList="false" name="action" runtimeSettable="false" since="2.5.2" type="structure"/>
-    <Member displayNameID="Structure.ColumnHint.ACLExpression" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>	
+    <Member displayNameID="Structure.ColumnHint.ACLExpression" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>
+	<Member displayNameID="Structure.ColumnHint.analysisColumn" name="analysisColumn" runtimeSettable="false" since="2.6" type="string"/>    	
   </Structure>
   <Structure displayNameID="Structure.SortHint" name="SortHint" since="2.5">
   	<Member displayNameID="Structure.SortHint.columnName" name="columnName" since="2.5" type="string" />

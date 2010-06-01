@@ -260,6 +260,12 @@ public class ColumnHint extends PropertyStructure
 	 */
 	public static final String ACL_EXPRESSION_MEMBER = "ACLExpression"; //$NON-NLS-1$
 
+	/**
+	 * Name of the member which used to associate a field to the selected field
+	 * when the analysisType is attribute.
+	 */
+	public static final String ANALYSIS_COLUMN_MEMBER = "analysisColumn"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 

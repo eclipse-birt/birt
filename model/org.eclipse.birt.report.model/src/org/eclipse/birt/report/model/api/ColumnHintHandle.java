@@ -705,4 +705,26 @@ public class ColumnHintHandle extends StructureHandle
 	{
 		return getExpressionProperty( ColumnHint.ACL_EXPRESSION_MEMBER );
 	}
+
+	/**
+	 * Gets the analysis column.
+	 * 
+	 * @return the analysis column.
+	 */
+	public String getAnalysisColumn( )
+	{
+		return getStringProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER );
+	}
+
+	/**
+	 * Sets the analysis column.
+	 * 
+	 * @param column
+	 *            the column to set
+	 * @throws SemanticException
+	 */
+	public void setAnalysisColumn( String column ) throws SemanticException
+	{
+		setProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER, column );
+	}
 }
