@@ -13,9 +13,12 @@ package org.eclipse.birt.data.engine.olap.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -25,6 +28,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -43,6 +47,7 @@ import org.mozilla.javascript.Scriptable;
 public class OlapExpressionUtil
 {
 
+	private static Logger logger = Logger.getLogger( OlapExpressionUtil.class.getName( ) );
 	/**
 	 * get the attribute reference name.
 	 * 
@@ -80,32 +85,6 @@ public class OlapExpressionUtil
 		return expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" );
 	}
 
-	/**
-	 * This method is used to get the level name that reference by a level
-	 * reference expression of following format:
-	 * dimension["dimensionName"]["levelName"].
-	 * 
-	 * String[0] dimensionName; String[1] levelName;
-	 * 
-	 * @param expr
-	 * @return String[]
-	 */
-	private static String[] getTargetLevel( String expr )
-	{
-		// TODO enhance me.
-		if ( expr == null )
-			return null;
-		if ( !expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
-			return null;
-
-		expr = expr.replaceFirst( "\\Qdimension\\E", "" );
-		String[] result = expr.split( "\\Q\"][\"\\E" );
-		result[0] = result[0].replaceAll( "\\Q[\"\\E", "" );
-		result[1] = result[1].replaceAll( "\\Q\"]\\E", "" );
-		if ( result.length > 2 )
-			result[2] = result[2].replaceAll( "\\Q\"]\\E", "" );
-		return result;
-	}
 
 	/**
 	 * This method is used to get the dimension,level,attributes name that
@@ -171,22 +150,14 @@ public class OlapExpressionUtil
 	public static DimLevel getTargetDimLevel( String expr )
 			throws DataException
 	{
-		final String[] target = getTargetLevel( expr );
-		if ( target == null || target.length < 2 )
+		Set<DimLevel> s = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expr ), 
+				Collections.EMPTY_LIST );
+		if ( s != null && s.size( ) == 1 )
 		{
-			throw new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
+			return s.iterator( ).next( );
+		}
+		throw new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
 					expr );
-		}
-		switch ( target.length )
-		{
-			case 2 :
-				return new DimLevel( target[0], target[1] );
-			case 3 :
-				return new DimLevel( target[0], target[1], target[2] );
-			default :
-				throw new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
-						expr );
-		}
 	}
 
 	/**
@@ -222,9 +193,20 @@ public class OlapExpressionUtil
 
 		if ( !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
 			return null;
-
-		return expr.replaceFirst( "\\Qmeasure[\"\\E", "" )
-				.replaceFirst( "\\Q\"]\\E", "" );
+        try
+		{
+			List<String> result = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expr ) , "measure" );
+			if ( result != null && result.size( ) == 1 )
+			{
+				return result.get( 0 );
+			}
+			return null;
+		}
+		catch ( DataException e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+			return null;
+		}
 	}
 
 	/**
@@ -290,9 +272,20 @@ public class OlapExpressionUtil
 			return null;
 		if ( !expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )
 			return null;
-		return expr.replaceFirst( "\\Qdata[\"\\E", "" )
-				.replaceFirst( "\\Q\"]\\E", "" );
-
+        try
+		{
+			List<String> result = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expr ) , "data" );
+			if ( result != null && result.size( ) == 1 )
+			{
+				return result.get( 0 );
+			}
+			return null;
+		}
+		catch ( DataException e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+			return null;
+		}
 	}
 
 	/**
