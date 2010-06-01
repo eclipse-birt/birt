@@ -2049,7 +2049,8 @@ Structure.ColumnHint.textFormat=文本格式
 Structure.ColumnHint.description=说明
 Structure.ColumnHint.descriptionID=说明资源关键字
 Structure.ColumnHint.action=操作
-Structure.ColumnHint.ACLExpression=ACL expression	
+Structure.ColumnHint.ACLExpression=ACL Expression	
+Structure.ColumnHint.analysisColumn=Analysis Column
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项

@@ -2049,7 +2049,8 @@ Structure.ColumnHint.textFormat=テキストの書式
 Structure.ColumnHint.description=説明
 Structure.ColumnHint.descriptionID=説明リソースキー
 Structure.ColumnHint.action=実行
-Structure.ColumnHint.ACLExpression=ACL expression	
+Structure.ColumnHint.ACLExpression=ACL Expression	
+Structure.ColumnHint.analysisColumn=Analysis Column
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目

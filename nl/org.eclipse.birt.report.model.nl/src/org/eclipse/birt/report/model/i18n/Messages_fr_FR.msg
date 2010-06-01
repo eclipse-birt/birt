@@ -2049,7 +2049,8 @@ Structure.ColumnHint.textFormat=Format du texte
 Structure.ColumnHint.description=Description
 Structure.ColumnHint.descriptionID=Clé de ressource de la description
 Structure.ColumnHint.action=Action
-Structure.ColumnHint.ACLExpression=ACL expression	
+Structure.ColumnHint.ACLExpression=ACL Expression	
+Structure.ColumnHint.analysisColumn=Analysis Column
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Choix de sélection

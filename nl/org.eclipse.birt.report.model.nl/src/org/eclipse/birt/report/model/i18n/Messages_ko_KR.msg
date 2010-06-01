@@ -2049,7 +2049,8 @@ Structure.ColumnHint.textFormat=텍스트 형식
 Structure.ColumnHint.description=설명
 Structure.ColumnHint.descriptionID=설명 리소스 키
 Structure.ColumnHint.action=작업
-Structure.ColumnHint.ACLExpression=ACL expression	
+Structure.ColumnHint.ACLExpression=ACL Expression	
+Structure.ColumnHint.analysisColumn=Analysis Column
 
 #12. SelectionList Choice
 Structure.SelectionChoice=선택 영역 선택
