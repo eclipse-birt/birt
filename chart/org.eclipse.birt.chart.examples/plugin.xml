@@ -13,12 +13,6 @@
       </extension>
 
 
-   <extension
-         point="org.eclipse.birt.chart.engine.modelrenderers">
-      <modelRenderer
-            renderer="org.eclipse.birt.chart.examples.radar.render.Radar"
-            series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
-   </extension>
 
    <extension
          id="ChartWizardContext"
@@ -35,10 +29,4 @@
             seriesUIProvider="org.eclipse.birt.chart.examples.radar.ui.series.RadarSeriesUIProvider"
             seriesType="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
    </extension>
-      <extension
-         point="org.eclipse.birt.chart.engine.datasetprocessors">
-      <datasetProcessor
-            processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl"
-            series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
-      </extension>
 </plugin>
