@@ -17,6 +17,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -972,8 +973,8 @@ public class TableLayout
 		if ( rowContent != null )
 		{
 			// band
-			IBandContent band = (IBandContent) rowContent.getParent( );
-			if ( band != null )
+			IElement band = rowContent.getParent( );
+			if ( band != null && band instanceof IBandContent )
 			{
 				int type = ( (IBandContent) band ).getBandType( );
 				if ( type == IBandContent.BAND_HEADER
