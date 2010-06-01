@@ -163,7 +163,7 @@ public abstract class PropertiesProcessor implements HTMLConstants
 							IStyle style = sp.getStyle( );
 							if ( !hasProperty( style, IStyle.STYLE_FONT_SIZE ) )
 							{
-								style.setFontSize( FONT_SIZE[size + 7] + "pt" );
+								style.setFontSize( FONT_SIZE[size + 7] );
 							}
 						}
 						catch ( Exception e )
