@@ -986,7 +986,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			try
 			{
 				String colName = metaData.getFieldName( colIndex );
-				
+				String colAlias = metaData.getFieldAlias( colIndex );
 				if ( isTempColumn( colName ) )
 				{
 					continue;
@@ -999,6 +999,10 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 						session.getEngineContext( ).getScriptContext( ));
 				baseExpr.setHandle( compiledExpr );
 				this.exprManager.addAutoBindingExpr( colName, baseExpr );
+				if ( colAlias != null )
+				{
+					this.exprManager.addAutoBindingExpr( colAlias, baseExpr );
+				}
 			}
 			catch ( BirtException e )
 			{
