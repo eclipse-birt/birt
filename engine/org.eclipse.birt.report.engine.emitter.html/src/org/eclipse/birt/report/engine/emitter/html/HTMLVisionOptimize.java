@@ -355,13 +355,13 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	public void buildCellStyle( ICellContent cell, StringBuffer styleBuffer,
 			boolean isHead, boolean fixedCellHeight )
 	{
+		IStyle style = getElementStyle( cell );
 		// implement the cell's clip.
 		if ( fixedReport )
 		{
-			styleBuffer.append( "overflow:hidden;" );
+			HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style, true );
 		}
 
-		IStyle style = getElementStyle( cell );
 		IStyle cellMergedStyle = new CellMergedStyle( cell );
 
 		if ( null != style )

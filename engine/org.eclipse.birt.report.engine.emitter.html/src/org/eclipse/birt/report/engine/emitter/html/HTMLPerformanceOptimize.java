@@ -363,15 +363,14 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	public void buildCellStyle( ICellContent cell, StringBuffer styleBuffer,
 			boolean isHead, boolean fixedCellHeight )
 	{
+		// The method getStyle( ) will never return a null value;
+		IStyle style = cell.getStyle( );
+		
 		// implement the cell's clip.
 		if ( fixedReport )
 		{
-			styleBuffer.append( "overflow:hidden;" );
+			HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style, true );
 		}
-		
-		// The method getStyle( ) will nevel return a null value;
-		IStyle style = cell.getStyle( );
-		
 		// output the none value of the display
 		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
 		if ( IStyle.NONE_VALUE == display )
