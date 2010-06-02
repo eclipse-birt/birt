@@ -44,8 +44,8 @@ import org.eclipse.birt.chart.style.BaseStyleProcessor;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.SimpleStyle;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -777,9 +777,12 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		LevelHandle category = bsQuery.size( ) == 0 ? null
 				: findLevelHandle( cube, exprCodec, bsQuery.get( 0 ) );
 		LevelHandle yoption = findLevelHandle( cube, exprCodec, vsd.getQuery( ) );
-		MeasureHandle measure = findMeasureHandle( cube,
-				exprCodec,
-				vsd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 ) );
+		Query query = null;
+		if ( vsd.getDesignTimeSeries( ).getDataDefinition( ).size( ) > 0 )
+		{
+			query = vsd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
+		}
+		MeasureHandle measure = findMeasureHandle( cube, exprCodec, query );
 
 		if ( category != null || measure != null || yoption != null )
 		{
