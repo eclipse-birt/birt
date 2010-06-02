@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -108,5 +109,10 @@ public class OlapExpressionCompilerTest extends TestCase
 		Set s8 = OlapExpressionCompiler.getReferencedDimLevel( binding8.getExpression( ), bindings );
 		assertTrue( s8.size( ) == 1 );
 		assertTrue( s8.contains( new DimLevel("customerRegions","COUNTRY") ));
+		
+		Set s9 = OlapExpressionCompiler.getReferencedDimLevel( 
+				new ScriptExpression("dimension[\"\\\"dim1\"][\"level1\\\"\"][\"attr1\"]"), Collections.EMPTY_LIST );
+		assertTrue( s9.size( ) == 1 );
+		assertTrue( s9.contains( new DimLevel("\"dim1","level1\"","attr1") ));
 	}
 }
