@@ -13,10 +13,15 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.CollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -33,6 +38,7 @@ public class ExprUtil
 	private final static int SCRIPT_EXPRESSION = 1;
 	private final static int CONDITIONAL_EXPRESSION = 2;
 	private final static int COMBINED_EXPRESSION = 3;
+	private final static int COLLECTION_EXPRESSION = 4;
 
 	/**
 	 * @param dos
@@ -72,6 +78,29 @@ public class ExprUtil
 			for ( int i = 0; i < exprs.length; i++ )
 			{
 				saveBaseExpr( dos, (IBaseExpression)exprs[i] );
+			}
+		}
+		else if ( baseExpr instanceof ICollectionConditionalExpression )
+		{
+			IOUtil.writeInt( dos, COLLECTION_EXPRESSION );
+			ICollectionConditionalExpression collectionExpr = (ICollectionConditionalExpression) baseExpr;
+			Object[] expr = collectionExpr.getExpr( ).toArray( );
+			IOUtil.writeInt( dos, expr.length );
+			for ( int i = 0; i < expr.length; i++ )
+			{
+				saveBaseExpr( dos, (IBaseExpression) expr[i] );
+			}
+			IOUtil.writeInt( dos, collectionExpr.getOperator( ) );
+			Object[] values = collectionExpr.getOperand( ).toArray( );
+			IOUtil.writeInt( dos, values.length );
+			for ( int i = 0; i < values.length; i++ )
+			{
+				Object[] operands = ( (Collection) values[i] ).toArray( );
+				IOUtil.writeInt( dos, operands.length );
+				for ( int k = 0; k < operands.length; k++ )
+				{
+					saveBaseExpr( dos, (IBaseExpression) operands[k] );
+				}
 			}
 		}
 		else
@@ -130,6 +159,33 @@ public class ExprUtil
 				baseExpr[i] = (IBaseExpression)loadBaseExpr( dis );
 			}
 			return new ExpressionCollection( baseExpr );
+		}
+		else if ( exprType == COLLECTION_EXPRESSION )
+		{
+			int size = IOUtil.readInt( dis );
+			List baseExpr = new ArrayList( );
+			for ( int i = 0; i < size; i++ )
+			{
+				baseExpr.add( loadBaseExpr( dis ) );
+			}
+			int operater = IOUtil.readInt( dis );
+
+			size = IOUtil.readInt( dis );
+			List operandList = new ArrayList( );
+			for ( int i = 0; i < size; i++ )
+			{
+				List valueList = new ArrayList( );
+				int valueSize = IOUtil.readInt( dis );
+				for ( int k = 0; k < valueSize; k++ )
+				{
+					valueList.add( loadBaseExpr( dis ) );
+				}
+				operandList.add( valueList );
+			}
+
+			return new CollectionConditionalExpression( baseExpr,
+					operater,
+					operandList );
 		}
 		else
 		{
@@ -193,7 +249,29 @@ public class ExprUtil
 							( (IExpressionCollection) be2 ).getExpressions( ) );
 
 		}
-
+		else if ( be instanceof ICollectionConditionalExpression &&
+				be2 instanceof ICollectionConditionalExpression )
+		{
+			ICollectionConditionalExpression f1 = (ICollectionConditionalExpression)be;
+			ICollectionConditionalExpression f2 = (ICollectionConditionalExpression)be2;
+			
+			if ( be.getDataType( ) != be2.getDataType( )
+					|| f1.getExpr( ).size( ) != f2.getExpr( ).size( )
+					|| f1.getOperand( ).size( ) != f2.getOperand( ).size( ) )
+				return false;
+			
+			if ( !isEqualExpressionArray( f1.getExpr( ), f2.getExpr( ) ) )
+				return false;
+			Iterator iter1 = f1.getOperand( ).iterator( );
+			Iterator iter2 = f2.getOperand( ).iterator( );
+			while ( iter1.hasNext( ) )
+			{
+				if ( !isEqualExpressionArray( (Collection) iter1.next( ),
+						(Collection) iter2.next( ) ) )
+					return false;
+			}
+			return true;
+		}
 		return false;
 	}
 
