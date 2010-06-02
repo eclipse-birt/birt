@@ -42,9 +42,9 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
-import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -297,7 +297,17 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 							cmbSortExpr,
 							wizardContext.getExtendedItem( ),
 							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-							null );
+							new Listener( ) {
+
+								public void handleEvent( Event event )
+								{
+									if ( event.data instanceof String[] )
+									{
+										handleBuilderAction( (String[]) event.data );
+									}
+
+								}
+							} );
 
 			Query query = getSeriesDefinitionForProcessing( ).getSortKey( );
 			if ( query != null )
@@ -339,7 +349,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 	 */
 	protected void handleBuilderAction( String[] data )
 	{
-		if ( data.length != 2 || data[1].equals( data[0] ) )
+		if ( data.length != 4 || data[1].equals( data[0] ) )
 		{
 			return;
 		}
