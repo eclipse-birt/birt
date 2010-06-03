@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.querydefn.JoinCondition;
 import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -50,9 +51,14 @@ public class JointDataSetAdapter extends JointDataSetDesign
 		
 		if ( jc != null )
 		{
-			setLeftDataSetDesignName( jc.getLeftDataSet());
-			setRightDataSetDesignName( jc.getRightDataSet());
-			setJoinType( adaptJoinType(jc.getJoinType()) );
+			Iterator iter = handle.dataSetsIterator( );
+			DataSetHandle leftHandle = (DataSetHandle) iter.next( );
+			setLeftDataSetDesignQulifiedName( leftHandle.getQualifiedName( ) );
+			setLeftDataSetDesignName( jc.getLeftDataSet( ) );
+			DataSetHandle rightHandle = (DataSetHandle) iter.next( );
+			setRightDataSetDesignQulifiedName( rightHandle.getQualifiedName( ) );
+			setRightDataSetDesignName( jc.getRightDataSet( ) );
+			setJoinType( adaptJoinType( jc.getJoinType( ) ) );
 		}
 		
 		DataAdapterUtil.adaptBaseDataSet( handle, this, adapter );

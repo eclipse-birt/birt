@@ -773,6 +773,16 @@ class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign
 	{
 		return this.source.getRightDataSetDesignName( );
 	}
+
+	public String getLeftDataSetDesignQulifiedName( )
+	{
+		return this.source.getLeftDataSetDesignQulifiedName( );
+	}
+
+	public String getRightDataSetDesignQulifiedName( )
+	{
+		return this.source.getRightDataSetDesignQulifiedName( );
+	}
 	
 }
 

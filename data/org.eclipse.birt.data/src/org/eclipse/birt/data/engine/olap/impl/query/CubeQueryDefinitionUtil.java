@@ -505,71 +505,10 @@ public class CubeQueryDefinitionUtil
 				}
 			}
 		}
-		if ( ed1.getDrillFilter( ).size( ) != ed2.getDrillFilter( ).size( ))
-		{
-			return false;
-		}
-		i = 0;
-		for ( IEdgeDrillFilter edf : ed1.getDrillFilter( ))
-		{
-			if ( !isEqual( edf, ed2.getDrillFilter( ).get( i )))
-			{
-				return false;
-			}
-			i++;
-		}
+
 		return true;
 	}
-	
-	private static boolean isEqual( IEdgeDrillFilter edf1, IEdgeDrillFilter edf2 )
-	{
-		if ( edf1 == null )
-		{
-			return null == edf2;
-		}
-		if ( edf2 == null )
-		{
-			return false;
-		}
-		if (  edf1.getLevelFilter( ).size( ) != edf2.getLevelFilter( ).size( ))
-		{
-			return false;
-		}
-		{
-			Iterator<IFilterDefinition> itr1 = edf1.getLevelFilter( ).iterator( );
-			Iterator<IFilterDefinition> itr2 = edf2.getLevelFilter( ).iterator( );
-			while ( itr1.hasNext( ) )
-			{
-				if ( !isEqual( itr1.next( ), itr2.next( )))
-				{
-					return false;
-				}
-			}
-		}
-		if ( edf1.getLevelSort( ).size( ) != edf2.getLevelSort( ).size( ) )
-		{
-			return false;
-		}
-		Iterator<ISortDefinition> itr1 = edf1.getLevelSort( ).iterator( );
-		Iterator<ISortDefinition> itr2 = edf2.getLevelSort( ).iterator( );
-		while ( itr1.hasNext( ) )
-		{
-			if ( !isEqual( itr1.next( ), itr2.next( )))
-			{
-				return false;
-			}
-		}
-		if ( !isEqual( edf1.getTargetHierarchy( ), edf2.getTargetHierarchy( )))
-		{
-			return false;
-		}
-		if ( !isEqual(  edf1.getTargetLevelName( ), edf2.getTargetLevelName( )))
-		{
-			return false;
-		}
-		return Arrays.deepEquals( edf1.getTuple( ).toArray( ),  edf2.getTuple( ).toArray( ));
-	}
-	
+		
 	private static boolean isEqual( ULocale l1, ULocale l2 )
 	{
 		if ( l1 == null )

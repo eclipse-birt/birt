@@ -54,6 +54,22 @@ public interface IJointDataSetDesign extends IBaseDataSetDesign
 	 * @return name of data set that servers as second oprand
 	 */
 	public String getRightDataSetDesignName( );
+	
+	/**
+	 * This method returns the name of data set which servers as left operand of
+	 * a joint.
+	 * 
+	 * @return name of data set that servers as first oprand
+	 */
+	public String getLeftDataSetDesignQulifiedName( );
+
+	/**
+	 * This method returns the name of data set which servers as right operand
+	 * of a joint.
+	 * 
+	 * @return name of data set that servers as second oprand
+	 */
+	public String getRightDataSetDesignQulifiedName( );
 
 	/**
 	 * This method returns the Joint Type.

@@ -40,6 +40,8 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	 * A list of join conditions.
 	 */
 	private List joinConditions = new ArrayList();
+	private String rightDataSetQualifiedName;
+	private String leftDataSetQualifiedName;
 
 	/**
 	 * Constructor
@@ -92,11 +94,11 @@ public class JointDataSetDesign extends BaseDataSetDesign
 		return left;
 	}
 
-	public void setLeftDataSetDesignName( String dataSetName)
+	public void setLeftDataSetDesignName( String dataSetName )
 	{
 		left = dataSetName;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -148,6 +150,32 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	public void addJoinCondition( JoinCondition jc)
 	{
 		this.joinConditions.add( jc );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getLeftDataSetDesignQulifiedName()
+	 */
+	public String getLeftDataSetDesignQulifiedName( )
+	{
+		return this.leftDataSetQualifiedName;
+	}
+
+	public void setLeftDataSetDesignQulifiedName( String leftDataSetQualifiedName )
+	{
+		this.leftDataSetQualifiedName = leftDataSetQualifiedName;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getRightDataSetDesignQulifiedName()
+	 */
+	public String getRightDataSetDesignQulifiedName( )
+	{
+		return this.rightDataSetQualifiedName;
+	}
+
+	public void setRightDataSetDesignQulifiedName( String rightDataSetQualifiedName )
+	{
+		this.rightDataSetQualifiedName = rightDataSetQualifiedName;
 	}
 
 }

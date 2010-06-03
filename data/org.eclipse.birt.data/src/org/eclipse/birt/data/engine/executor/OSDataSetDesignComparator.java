@@ -67,8 +67,12 @@ public class OSDataSetDesignComparator
 			IJointDataSetDesign design2 = (IJointDataSetDesign) dataSetDesign2;
 			if ( ComparatorUtil.isEqualString( design1.getLeftDataSetDesignName( ),
 					design2.getLeftDataSetDesignName( ) ) == false
+					|| ComparatorUtil.isEqualString( design1.getLeftDataSetDesignQulifiedName( ),
+							design2.getLeftDataSetDesignQulifiedName( ) ) == false
 					|| ComparatorUtil.isEqualString( design1.getRightDataSetDesignName( ),
 							design2.getRightDataSetDesignName( ) ) == false
+					|| ComparatorUtil.isEqualString( design1.getRightDataSetDesignQulifiedName( ),
+							design2.getRightDataSetDesignQulifiedName( ) ) == false
 					|| design1.getJoinType( ) != design2.getJoinType( )
 					|| ComparatorUtil.isEqualJointCondition( design1.getJoinConditions( ),
 							design2.getJoinConditions( ) ) == false )

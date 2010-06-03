@@ -88,8 +88,8 @@ public class EngineExecutionHints implements IEngineExecutionHints
 		{
 			IJointDataSetDesign jointDesign = ( IJointDataSetDesign )design;
 			
-			populateDataSetNames( engine.getDataSetDesign( jointDesign.getLeftDataSetDesignName( )), engine, names );
-			populateDataSetNames( engine.getDataSetDesign( jointDesign.getRightDataSetDesignName( ) ), engine, names );
+			populateDataSetNames( engine.getDataSetDesign( jointDesign.getLeftDataSetDesignQulifiedName( ) ), engine, names );
+			populateDataSetNames( engine.getDataSetDesign( jointDesign.getRightDataSetDesignQulifiedName( ) ), engine, names );
 		}
 	}
 	
