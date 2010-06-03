@@ -150,11 +150,14 @@ public class OlapExpressionUtil
 	public static DimLevel getTargetDimLevel( String expr )
 			throws DataException
 	{
-		Set<DimLevel> s = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expr ), 
-				Collections.EMPTY_LIST );
-		if ( s != null && s.size( ) == 1 )
+		if ( expr != null && expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
 		{
-			return s.iterator( ).next( );
+			Set<DimLevel> s = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expr ), 
+				Collections.EMPTY_LIST );
+			if ( s != null && s.size( ) == 1 )
+			{
+				return s.iterator( ).next( );
+			}
 		}
 		throw new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
 					expr );
