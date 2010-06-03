@@ -213,7 +213,10 @@ public class FillUtil
 		else if ( fill instanceof MultipleFill )
 		{
 			List<Fill> fills = ( (MultipleFill) fill ).getFills( );
-			grad = createDefaultGradient( (ColorDefinition) fills.get( 0 ) );
+			if ( fills.get( 0 ) instanceof ColorDefinition )
+			{
+				grad = createDefaultGradient( (ColorDefinition) fills.get( 0 ) );
+			}
 		}
 		else if ( fill instanceof Gradient )
 		{
