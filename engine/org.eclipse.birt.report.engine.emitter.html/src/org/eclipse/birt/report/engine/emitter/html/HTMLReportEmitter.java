@@ -96,6 +96,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSValue;
 
+import com.ibm.icu.text.Bidi;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -2435,6 +2436,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		int display = htmlEmitter.getTextElementType( x, y, width, height, mergedStyle );
+		// bidi_hcg: fix for bug 307327. If text content is Bidi, treat it as
+		// a inline-block element
+		if ( display == HTMLEmitterUtil.DISPLAY_INLINE
+				&& ( text.isDirectionRTL( ) || Bidi.requiresBidi( textValue
+						.toCharArray( ), 0, textValue.length( ) ) ) )
+		{
+			display |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
+		}
 		// action
 		String tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 

@@ -254,7 +254,8 @@ public abstract class HTMLEmitter
 	 * offset with respect to its containing block. When an element's x or y is
 	 * set, it will be treated as a block level element regardless of the
 	 * 'Display' property set in style. When designating width or height value
-	 * to an inline element, it will be treated as inline-block.
+	 * to an inline element, or when the element has right-to-left base
+	 * direction, it it will be treated as inline-block.
 	 * 
 	 * @param x
 	 *            Specifies how far a box's left margin edge is offset to the
@@ -295,6 +296,11 @@ public abstract class HTMLEmitter
 			{
 				return IStyle.INLINE_BLOCK_VALUE;
 			}
+			// RTL text is also treated as inline-block
+			else if ( IStyle.CSS_RTL_VALUE.equals( style.getDirection( ) ) )
+			{
+				return IStyle.INLINE_BLOCK_VALUE;
+			}
 			else
 			{
 				return IStyle.INLINE_VALUE;
@@ -310,7 +316,8 @@ public abstract class HTMLEmitter
 	 * offset with respect to its containing block. When an element's x or y is
 	 * set, it will be treated as a block level element regardless of the
 	 * 'Display' property set in style. When designating width or height value
-	 * to an inline element, it will be treated as inline-block.
+	 * to an inline element, or when the element has right-to-left base
+	 * direction, it it will be treated as inline-block.
 	 * 
 	 * @param x
 	 *            Specifies how far a box's left margin edge is offset to the
@@ -353,6 +360,11 @@ public abstract class HTMLEmitter
 			{
 				type |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
 			}
+			// RTL element is also treated as inline-block
+			else if ( IStyle.CSS_RTL_VALUE.equals( style.getDirection( ) ) )
+			{
+				type |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
+			}
 			return type;
 		}
 
@@ -365,7 +377,8 @@ public abstract class HTMLEmitter
 	 * offset with respect to its containing block. When an element's x or y is
 	 * set, it will be treated as a block level element regardless of the
 	 * 'Display' property set in style. When designating width or height value
-	 * to an inline element, it will be treated as inline-block.
+	 * to an inline element, or when the element has right-to-left base
+	 * direction, it will be treated as inline-block.
 	 * 
 	 * @param x
 	 *            Specifies how far a box's left margin edge is offset to the
@@ -406,6 +419,11 @@ public abstract class HTMLEmitter
 			type |= HTMLEmitterUtil.DISPLAY_INLINE;
 			//Inline text doesn't support height.
 			if ( width != null )
+			{
+				type |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
+			}
+			// RTL element is also treated as inline-block
+			else if ( IStyle.CSS_RTL_VALUE.equals( style.getDirection( ) ) )
 			{
 				type |= HTMLEmitterUtil.DISPLAY_INLINE_BLOCK;
 			}
