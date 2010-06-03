@@ -52,6 +52,7 @@ public class ModelPlugin extends BIRTPlugin
 	public void stop( BundleContext context ) throws Exception
 	{
 		ODAProviderFactory.releaseInstance( );
+		OdaExtensionLoaderFactory.releaseInstance( );
 		BundleFactory.releaseInstance( );
 		MetaDataDictionary.releaseExtension( );
 		super.stop( context );

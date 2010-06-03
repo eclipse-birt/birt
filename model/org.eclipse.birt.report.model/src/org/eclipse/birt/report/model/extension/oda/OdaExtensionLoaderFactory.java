@@ -57,4 +57,12 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 		return null;
 	}
 
+	/**
+     * Singleton instance release method.
+     */
+    public static void releaseInstance()
+    {
+        baseFactory = null;
+        instance = null;
+    }
 }
