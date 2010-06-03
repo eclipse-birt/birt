@@ -26,7 +26,6 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
-import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.Expression;
@@ -45,7 +44,6 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -215,8 +213,8 @@ public class ModelUtil extends ModelUtilBase
 		assert destination != null;
 
 		if ( !( ( source instanceof ReportDesignHandle ) && ( destination instanceof ModuleHandle ) ) )
-			assert destination.getDefn( ).getName( ).equalsIgnoreCase(
-					source.getDefn( ).getName( ) );
+			assert destination.getDefn( ).getName( )
+					.equalsIgnoreCase( source.getDefn( ).getName( ) );
 
 		if ( source.getDefn( ).allowsUserProperties( ) )
 		{
@@ -245,8 +243,8 @@ public class ModelUtil extends ModelUtilBase
 		}
 
 		if ( source.getElement( ) instanceof IExtendableElement )
-			duplicateExtensionIdentifier( source.getElement( ), destination
-					.getElement( ), source.getModule( ) );
+			duplicateExtensionIdentifier( source.getElement( ),
+					destination.getElement( ), source.getModule( ) );
 
 		Iterator<PropertyHandle> iter = source.getPropertyIterator( );
 
@@ -309,7 +307,9 @@ public class ModelUtil extends ModelUtilBase
 				continue;
 			}
 			else
-				value = propHandle.getElement( ).getStrategy( )
+				value = propHandle
+						.getElement( )
+						.getStrategy( )
 						.getPropertyExceptRomDefault( propHandle.getModule( ),
 								propHandle.getElement( ), propDefn );
 
@@ -318,21 +318,40 @@ public class ModelUtil extends ModelUtilBase
 				String encryption = propHandle.getElement( ).getEncryptionID(
 						propDefn );
 				Object valueToSet = EncryptionUtil.encrypt( propDefn,
-						encryption, ModelUtil.copyValue( propHandle.getDefn( ),
-								value ) );
+						encryption,
+						ModelUtil.copyValue( propHandle.getDefn( ), value ) );
 				destination.getElement( ).setProperty( propName, valueToSet );
 				destination.getElement( ).setEncryptionHelper( propDefn,
 						encryption );
 			}
 			else
 			{
-				Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
-						value );
+				Object valueToSet = ModelUtil.copyValue( propDefn, value );
 
 				if ( removeNameSpace && value instanceof ReferenceValue )
 					( (ReferenceValue) valueToSet ).setLibraryNamespace( null );
 
 				destination.getElement( ).setProperty( propName, valueToSet );
+
+				if ( valueToSet != null
+						&& propDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+				{
+					if ( propDefn.isList( ) )
+					{
+						List<Object> values = (List<Object>) valueToSet;
+						for ( int i = 0; i < values.size( ); i++ )
+						{
+							DesignElement item = (DesignElement) values.get( i );
+							item.setContainer( destination.getElement( ),
+									propName );
+						}
+					}
+					else
+					{
+						( (DesignElement) valueToSet ).setContainer(
+								destination.getElement( ), propName );
+					}
+				}
 			}
 		}
 	}
