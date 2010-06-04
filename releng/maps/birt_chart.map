@@ -3,7 +3,7 @@ plugin@org.eclipse.birt.chart.device.extension=v20100521,:ext:xgu@dev.eclipse.or
 plugin@org.eclipse.birt.chart.device.pdf=v20100304,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.pdf
 plugin@org.eclipse.birt.chart.device.svg=v20100527,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.svg
 plugin@org.eclipse.birt.chart.device.swt=v20100519,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.swt
-plugin@org.eclipse.birt.chart.engine=v20100526,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine
+plugin@org.eclipse.birt.chart.engine=v20100604,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine
 plugin@org.eclipse.birt.chart.engine.extension=v20100601,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine.extension
 plugin@org.eclipse.birt.chart.examples=v20100601,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.examples
 plugin@org.eclipse.birt.chart.integration.wtp.ui=v20100525,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.integration.wtp.ui
@@ -14,4 +14,4 @@ plugin@org.eclipse.birt.chart.ui.extension=v20100602,:ext:xgu@dev.eclipse.org:/c
 plugin@org.eclipse.birt.chart.viewer=v20100519,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.viewer
 plugin@org.eclipse.birt.core.ui=v20100325,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.ui
 
-plugin@org.eclipse.birt.chart.examples.core=v20100601,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.examples.core
+plugin@org.eclipse.birt.chart.examples.core=v20100604,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.examples.core
