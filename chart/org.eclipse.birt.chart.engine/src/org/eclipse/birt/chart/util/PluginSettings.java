@@ -17,7 +17,9 @@ import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
@@ -30,6 +32,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.log.JavaUtilLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.IExtChartModelLoader;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
@@ -471,6 +474,69 @@ public final class PluginSettings
 		return null;
 	}
 
+	private Map<String, Object> chartModelPackagesMap = null;
+	
+	/**
+	 * Returns extra chart model packages.
+	 * 
+	 * @return
+	 * @throws ChartException
+	 * @since 2.6
+	 */
+	public final Map<String, Object> getExtChartModelPackages() throws ChartException
+	{
+		if ( chartModelPackagesMap != null )
+		{
+			return chartModelPackagesMap;
+		}
+		
+		String sXsdListName = "charttypes"; //$NON-NLS-1$
+		String sXsdComplexName = "chartType"; //$NON-NLS-1$
+		String sXsdElementName = "namespaceURI"; //$NON-NLS-1$
+		String sXsdElementValue = "modelLoader"; //$NON-NLS-1$
+		final IExtensionRegistry ier = Platform.getExtensionRegistry( );
+		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
+		if ( iep == null )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.PLUGIN,
+					"exception.cannot.find.plugin.entry", //$NON-NLS-1$
+					new Object[]{
+							"", sXsdElementName, sXsdElementValue //$NON-NLS-1$
+					},
+					Messages.getResourceBundle( ) );
+		}
+		final IExtension[] iea = iep.getExtensions( );
+		IConfigurationElement[] icea;
+
+		Map<String, Object> chartTypePakcages = new LinkedHashMap<String, Object>( );
+
+		for ( int i = 0; i < iea.length; i++ )
+		{
+			icea = iea[i].getConfigurationElements( );
+			for ( int j = 0; j < icea.length; j++ )
+			{
+				if ( icea[j].getName( ).equals( sXsdComplexName ) )
+				{
+					try
+					{
+						chartTypePakcages.put( icea[j].getAttribute( sXsdElementName ),
+								( (IExtChartModelLoader) icea[j].createExecutableExtension( sXsdElementValue ) ).getChartTypePackage( ) );
+					}
+					catch ( FrameworkException cex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.PLUGIN,
+								cex );
+					}
+				}
+			}
+		}
+
+		chartModelPackagesMap = chartTypePakcages;
+		return chartModelPackagesMap;
+	}
+	
 	/**
 	 * Retrieves the first instance of a series renderer registered as an
 	 * extension for a given series type.

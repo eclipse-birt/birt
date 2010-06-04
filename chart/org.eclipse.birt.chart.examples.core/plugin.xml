@@ -13,17 +13,15 @@
             processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl"
             series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
       </extension>
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <parser
-            type="type"
-            class="org.eclipse.birt.chart.examples.radar.model.type.util.RadarTypeResourceFactoryImpl"/>
-   </extension>
+      <extension
+            point="org.eclipse.birt.chart.engine.charttypes">
+         <chartType
+               modelLoader="org.eclipse.birt.chart.examples.radar.model.RadarModelLoader"
+               namespaceURI="http://www.birt.eclipse.org/RadarChartModelType"
+               packageLoader="org.eclipse.birt.chart.examples.radar.model.RadarTypePackageLoader"
+               typePackage="org.eclipse.birt.chart.examples.radar.model.RadarTypePackageLoader">
+         </chartType>
+      </extension>
       
-    <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://www.birt.eclipse.org/RadarChartModelType"
-            class="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarTypePackageImpl"
-            genModel="src/org/eclipse/birt/chart/examples/core/radar/model/radar.genmodel"/>
-   </extension>
 
 </plugin>

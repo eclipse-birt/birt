@@ -29,17 +29,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.util.ModelResourceFactoryImpl;
+import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.Resource.IOWrappedException;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
@@ -55,10 +59,28 @@ public class SerializerImpl implements Serializer
 
 	private static Serializer sz = null;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/model" ); //$NON-NLS-1$
+	
 	static
 	{
 		EPackage.Registry.INSTANCE.put( ModelPackage.eNS_URI,
 				ModelPackage.eINSTANCE );
+		try
+		{
+			for ( Map.Entry<String, Object> e : PluginSettings.instance( )
+					.getExtChartModelPackages( )
+					.entrySet( ) )
+			{
+
+				EPackage.Registry.INSTANCE.put( e.getKey( ),
+						e.getValue( ) );
+
+			}
+		}
+		catch ( ChartException e )
+		{
+			logger.log( e );
+		}
 	}
 
 	/**
