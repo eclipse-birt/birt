@@ -621,9 +621,7 @@ public class IOUtil
 					bytes = new byte[len];
 					dis.readFully( bytes );
 					final ClassLoader loader = classLoader;
-					try
-					{
-						ObjectInputStream oo = new ObjectInputStream(
+					ObjectInputStream oo = new ObjectInputStream(
 								new ByteArrayInputStream( bytes ) ) {
 
 							protected Class resolveClass( ObjectStreamClass desc )
@@ -633,9 +631,11 @@ public class IOUtil
 										loader );
 							}
 						};
+					try
+					{
 						obValue = oo.readObject( );
 					}
-					catch ( Exception ex )
+					catch ( ClassNotFoundException ex )
 					{
 						IOException ie = new IOException( ex.getMessage( ) );
 						ie.initCause( ex );

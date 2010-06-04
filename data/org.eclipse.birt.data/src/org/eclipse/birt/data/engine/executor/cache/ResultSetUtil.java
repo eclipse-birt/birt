@@ -18,15 +18,14 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -88,15 +87,41 @@ public class ResultSetUtil
 	 * @param count
 	 * @return
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	public static IResultObject readResultObject( DataInputStream dis,
-			IResultClass rsMeta, int count ) throws IOException
+			IResultClass rsMeta, int count ) throws DataException
 	{
 		Object[] obs = new Object[rsMeta.getFieldCount( )];
 
 		for ( int i = 0; i < count; i++ )
-			obs[i] = IOUtil.readObject( dis, DataEngineSession.getCurrentClassLoader( ) );
-
+		{
+			try 
+			{
+				obs[i] = IOUtil.readObject( dis, DataEngineSession.getCurrentClassLoader( ) );
+			}
+			catch ( IOException e )
+			{
+				Throwable t = e.getCause( );
+				if ( t instanceof ClassNotFoundException )
+				{
+					throw new DataException(  
+							ResourceConstants.FAIL_LOAD_CLASS, e, new String[]{
+									t.getMessage( ),
+									rsMeta.getFieldNativeTypeName( i+1 ),
+									rsMeta.getFieldName( i+1 ),
+							} );
+				}
+				else
+				{
+					throw new DataException(  
+								ResourceConstants.FAIL_LOAD_COLUMN_VALUE, e, new String[]{
+										rsMeta.getFieldNativeTypeName( i+1 ),
+										rsMeta.getFieldName( i+1 )
+								} );
+				}
+			}
+		}
 		return new ResultObject( rsMeta, obs );
 	}
 	

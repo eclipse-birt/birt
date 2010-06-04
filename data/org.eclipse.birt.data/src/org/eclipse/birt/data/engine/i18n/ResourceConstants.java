@@ -139,6 +139,9 @@ public class ResourceConstants
 	public final static String WRITE_CACHE_TEMPFILE_ERROR = "data.engine.WriteCacheTempError";
 	public final static String READ_CACHE_TEMPFILE_ERROR = "data.engine.ReadCacheTempError";
 	public final static String CLOSE_CACHE_TEMPFILE_ERROR = "data.engine.CloseCacheTempError";
+	public final static String FAIL_LOAD_COLUMN_VALUE = "data.engine.FailedLoadColumnValue";
+	public final static String FAIL_LOAD_CLASS = "data.engine.FailedLoadClass";
+	
 	
 	// data engine factory exception
 	public final static String LOAD_FACTORY_ERROR = "load.factory.error";
@@ -410,4 +413,6 @@ public class ResourceConstants
 	public final static String CLASS_LODA_ERROR = "data.derivedDataSet.classLoadError";
 	public final static String CALCULATOR_NOT_EXIST = "data.derivedDataSet.calculatorNotExist";
 	public final static String INVALID_QUERY_TEXT = "data.derivedDataSet.invalidQueryText";
+	
+	
 }

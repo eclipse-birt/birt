@@ -111,20 +111,11 @@ public class DataSetResultSet implements IDataSetPopulator
 	{
 		if ( this.rowIndex < this.rowCount - 1 || this.rowCount == -1 )
 		{
-			try
-			{
-				rowIndex++;
-				this.currentObject = ResultSetUtil.readResultObject( dis,
-						rsMetaData,
-						colCount );
-				this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME, this.getCurrentIndex( ) );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-						e,
-						"Result Data" );
-			}
+			rowIndex++;
+			this.currentObject = ResultSetUtil.readResultObject( dis,
+					rsMetaData,
+					colCount );
+			this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME, this.getCurrentIndex( ) );
 		}
 		else
 		{
