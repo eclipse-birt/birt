@@ -59,13 +59,14 @@ import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.IChartEventHandler;
 import org.eclipse.birt.chart.script.internal.ChartWithAxesImpl;
 import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -1019,7 +1020,12 @@ public final class ChartReportItemImpl extends ReportItem implements
 	{
 		// Get all bindings
 		Iterator<ComputedColumnHandle> allBindings = ChartItemUtil.getAllColumnBindingsIterator( handle );
-
+		ReportItemHandle bindingHolder = ChartItemUtil.getBindingHolder( handle );
+		if ( bindingHolder.getCube( ) == null  )
+		{
+			return allBindings;
+		}
+		
 		// Get all query definitions from chart model
 		List<Query> queries = new ArrayList<Query>( );
 		queries.addAll( ChartUtil.getBaseSeriesDefinitions( cm )
