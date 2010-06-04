@@ -133,6 +133,8 @@ data.engine.OpenCacheTempError=Exception lors de l'ouverture du fichier temporai
 data.engine.WriteCacheTempError=Exception lors de l'écriture du fichier temporaire pour la mise en mémoire cache des lignes de résultats.
 data.engine.ReadCacheTempError=Exception lors de la lecture du fichier temporaire pour la mise en mémoire cache des lignes de résultats.
 data.engine.CloseCacheTempError=Exception lors de la fermeture du fichier temporaire pour la mise en mémoire cache des lignes de résultats.
+data.engine.FailedLoadColumnValue=Failed to load value for "{0}" type column "{1}".
+data.engine.FailedLoadClass=Failed to load class "{0}" for "{1}" type column "{2}". please make sure class "{0}" is included in BIRT engine's class loading path.
 
 #load data engine factory exception
 load.factory.error=Une erreur s'est produite lors du chargement de la génération du moteur de données.
