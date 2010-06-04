@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.data.ui.datasource;
@@ -161,7 +161,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			{
 				handle = (OdaDataSourceHandle)ds;
 				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ds;
-				String contextId = getDynamicContextId( odsh.getExtensionID( ) + ".properties", //$NON-NLS-1$
+				String contextId = getDynamicContextId( odsh.getExtensionID( ),
 						odsh.getExtensionID( ) ); 
 				if ( contextId != null )
 				{
@@ -182,7 +182,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			{
 				handle = (OdaDataSetHandle)ds;
 				OdaDataSourceHandle odsh = (OdaDataSourceHandle) ( ( (OdaDataSetHandle) ds ).getDataSource( ) );
-				String contextId = getDynamicContextId( ((OdaDataSetHandle)ds).getExtensionID( ) + ".properties",
+				String contextId = getDynamicContextId( ((OdaDataSetHandle)ds).getExtensionID( ),
 						odsh.getExtensionID( ));
 				if ( contextId != null )
 				{
@@ -209,9 +209,9 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		return composite;
 	}
 	
-	private static String getDynamicContextId( String helpKey, String helpPlugin )
+	private static String getDynamicContextId( String helpKeyPrefix, String helpPlugin )
 	{
-		return HelpUtil.getContextId( helpKey, helpPlugin );
+		return HelpUtil.getContextId( helpKeyPrefix + ".properties.helpKey", helpPlugin ); //$NON-NLS-1$
 	}
 
 	private void createExpressionButton( Composite composite,
