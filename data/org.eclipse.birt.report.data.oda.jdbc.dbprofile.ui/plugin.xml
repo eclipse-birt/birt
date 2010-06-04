@@ -100,4 +100,19 @@
       </dataSourcePropertyService>
    </extension>
 
+   <extension
+         point="org.eclipse.datatools.help.helpKeyProperties">
+      <contextIds
+            file="contextIds.properties"
+            plugin="%oda.data.source.id">
+      </contextIds>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml"
+            plugin="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui">
+      </contexts>
+   </extension>
+
 </plugin>

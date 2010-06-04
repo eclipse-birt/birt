@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?NLS type="org.eclipse.help.contexts"?>
+
+<contexts>
+>
+<context id="Page_DataSourceProperties_ID" title="Edit Data Source - JDBC Database Connection for Query Builder - Property Binding">
+   <description>Use this page to define the run-time attributes of a JDBC Database connection profile. Values that you set on this page override the values defined on the other pages of Edit Data Source. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
+
+- Database: Type an expression for the name of the database to access.
+- User Name: Type an expression for the user name you use to access the database.
+- Password: Type an expression for the Password for the user name.
+- JDBC Driver URL: Type an expression for the URL for the machine that runs the database.
+- JDBC Driver Class: Type an expression for the JDBC driver.  This driver specifies the brand of database you use.
+- JDBC Driver JAR List: Type an expression for the full file path of the JDBC driver&apos;s JAR file(s), using &apos;;&apos; to separate each file path.
+- Connection Profile Name: Type an expression for the name of the connection profile.
+- Connection Profile Store URL: Type an expression for the URL to the location of the connection profile store.</description>
+</context>
+
+<context id="Page_DataSetProperties_ID" title="Edit Data Set - JDBC SQL Select Query Data Set - Property Binding">
+   <description>Use this page to define the run-time attributes of a SQL Select Query data set. Values that you set on this page override the values defined on the other pages of Edit Data Set. You can use JavaScript to build the property binding value, for example, to access the values of report parameters.
+
+- Query Text: Type an expression for the SQL statement for the query.  The SQL syntax must be in standard SQL supported by the SQB SQL parser.</description>
+</context>
+</contexts>
