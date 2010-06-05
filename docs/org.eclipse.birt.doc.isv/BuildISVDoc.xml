@@ -121,8 +121,8 @@
 			<include name="**/*.jar"/>
 		</fileset>
 		-->
-		<fileset dir="../com.lowagie.itext">
-			<include name="**/*.jar"/>
+		<fileset dir="../">
+			<include name="com.lowagie.text_*.jar"/>
 		</fileset>
 		<fileset dir="../org.apache.derby.core">
 			<include name="**/*.jar"/>
