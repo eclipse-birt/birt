@@ -62,6 +62,7 @@ public class ExportManifestUtils
 		false,//"modelodaapi.jar",
 		false,//"odadesignapi.jar",
 		false,//"javax.servlet_.*.jar",
+		false,//"chartexamplescoreapi.jar"
 		false,//"javax.servlet.jsp_.*.jar"
 	};
 
