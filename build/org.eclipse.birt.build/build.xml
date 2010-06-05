@@ -18,6 +18,7 @@
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="bin" />
 	<property name="lib.dir" value="lib" />
+	<property name="export.jar.name" value="org.eclipse.birt.build_2.2.0.jar" />
 
 	<path id="class.path">
 		<fileset dir="${lib.dir}">
@@ -42,7 +43,7 @@
 
 	<target name="clean">
 		<delete dir="${build.dir}" />
-		<delete file="customtask.jar" />
+		<delete file="${export.jar.name}" />
 	</target>
 	
 	<target name="build" description="Compile java source files">
@@ -61,7 +62,7 @@
 
 	
 	<target name="jar" depends="build">
-		<jar destfile="customtask.jar">
+		<jar destfile="${export.jar.name}">
 			<fileset dir="${build.dir}">
 				<include name="**/*.class"/>
 				<include name="**/*.properties"/>
