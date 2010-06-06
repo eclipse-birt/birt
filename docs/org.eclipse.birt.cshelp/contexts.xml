@@ -133,7 +133,7 @@ Select a data source for the data set. The data source previously defined for th
 <description>
 Edit or view the following attributes of the data set:
 - Data Source - Change the data source for the data set. 
-- Output Columns - Add an alias or display name for each column that BIRT uses in Data Explorer and in column headings of a table. Specify a display name ID that specifies the resource key.
+- Output Columns - Review or modify the alias and display name properties of the output columns.
 - Computed Columns - Add the result of an expression to the data set.
 - Parameters - Create a data set parameter to filter the result set in a query. At runtime, the data set parameter provides a replacement for the ? parameter marker in the WHERE clause of the query.
 - Filters - Filter the data set as an alternative to filtering the data source.
@@ -746,7 +746,7 @@ Specify a unique display name, a data type, and an expression that specifies an 
 
 <context id="Dialog_PropertyHandle_ID" title="Computed Column/Filter/Parameter">
 <!--  linked khahn 20090605 -->
-<!-- SEQUENCE: Double-click a data set>select Output Columns or anything except Query>In Define output columns, choose a column >choose Edit> This help topic does not work properly. Deleted most of the original verbage that applied to other selections. updated 20090611 Reverted back to the original verbage, and edited it. khahn 20090616  -->
+<!-- SEQUENCE: Double-click a data set>select Output Columns or anything except Query>In Define output columns, choose a column >choose Edit> This help topic does not work properly. Updated khahn 20090616  -->
 <description>
 Set or modify a property of a data set. 
 
@@ -770,6 +770,33 @@ BIRT supports two types of parameters, report and data set. You typically define
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/subreport.13.10.html" label="Link the orders subreport to the customers master report"/>
 </context>
+
+<context id="Dialog_DataSet_Parameters_ID" title="Dialog_DataSet_Parameters_ID">
+<!-- SEQUENCE: Double-click a data set>select Output Columns or anything except Query>In Define output columns, choose a column >choose Edit Created JAHT 20100605  -->
+<description>
+Type a name for the data set parameter and select a data type.
+Select the direction of the parameter, Input, Input/Output, or Output.
+Type a default value or provide an expression for the default value.
+Select an existing report parameter or create a new report parameter to provide a value to the data set parameter   when the report runs.
+</description>
+</context>
+
+
+<context id="Dialog_Output_Columns_ID" title="Dialog_Output_Columns_ID">
+<!-- SEQUENCE: Double-click a data set>Select Output Columns>Select a column>Choose Edit Created JAHT 20100605  -->
+<description>
+Add an alias or display name for a column. BIRT displays the alias in Expression Builder and the display name in Data Explorer, a data element, and the column headings of a table. Optionally, specify a display name ID to specify the resource key.
+</description>
+</context>
+
+
+<context id="Dialog_DataSet_ComputedColumns_ID" title="Dialog_DataSet_ComputedColumns_ID">
+<!-- SEQUENCE: Double-click a data set>Select Computed Columns>Choose Add or select an existing column and choose Edit Created JAHT 20100605  -->
+<description>
+Type a name for the computed column and select a data type. Specify how to compute the column using an expression and, optionally, an aggregation function. Optionally, specify filtering for an aggregation.
+</description>
+</context>
+
 
 <context id="AddEditSortkey_ID" title="Sort Key">
 <!-- SEQUENCE: Select a table. Choose the Sorting tab, choose Add. linked khahn 20090605 updated 20090612 -->
@@ -851,11 +878,27 @@ Create a group link between multiple data sets used by a cube.
 </context>
 
 <context id="LevelPropertyDialog_ID" title="Edit Group Level">
-<!-- SEQUENCE: In Cross Tab Builder, double-click a data field name in a group. linked-link turned out to be unrelated. updated khahn 20090613 -->
+<!-- SEQUENCE: In Cross Tab Builder, double-click a data field name in a group. linked khahn 20090613. updated JAHT 20100604 -->
 <description>
-To specify user-defined values for row and column headings for this dimension, choose Static. To specify values from the data source for row and column headings, choose Dynamic. 
+To specify user-defined values for row and column headings for this dimension, choose Static. To specify values from the data source for row and column headings, choose Dynamic.
+
+To provide additional information about a group, add attributes by choosing Add. To edit or remove an attribute, select the attribute. Then, choose Edit or Remove respectively.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.6.html" label="Set up data for the cross tab"/> 
+</context>
+
+<context id="LevelDynamicAttributeDialog_ID" title="Edit Level Attribute">
+<!-- SEQUENCE: In Cross Tab Builder, double-click a data field name in a group. In Edit Group Level, select Dynamic. Then, choose Add or Edit. created JAHT 20100604 -->
+<description>
+Select a field that provides extra information about the group member. For example, if the group is a product code, using the product name as an attribute enables the cross-tab developer to display the name to the user.
+</description>
+</context>
+
+<context id="LevelStaticAttributeDialog_ID" title="Edit Level Attribute">
+<!-- SEQUENCE: In Cross Tab Builder, double-click a data field name in a group. In Edit Group Level, select Static. Then, choose Add or Edit. created JAHT 20100604 -->
+<description>
+Type a value that provides  extra information about the group member. Then, type a condition expression to specify the value of the group member to which the attribute applies. For example, a static set of group values, RED, YELLOW, and GREEN could have an attribute that displays DANGER, WARNING, and SAFE respectively.
+</description>
 </context>
 
 <context id="MeasureDialog_ID" title="Summary Field Properties">
