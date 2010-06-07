@@ -491,16 +491,17 @@ public final class PluginSettings
 		}
 		
 		chartModelPackagesMap = new LinkedHashMap<String, Object>( );
-
+		
+		if ( !inEclipseEnv( ) )
+		{
+			return chartModelPackagesMap;
+		}
+		
 		String sXsdListName = "charttypes"; //$NON-NLS-1$
 		String sXsdComplexName = "chartType"; //$NON-NLS-1$
 		String sXsdElementName = "namespaceURI"; //$NON-NLS-1$
 		String sXsdElementValue = "modelLoader"; //$NON-NLS-1$
 		final IExtensionRegistry ier = Platform.getExtensionRegistry( );
-		if ( ier == null )
-		{
-			return chartModelPackagesMap;
-		}
 		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
 		if ( iep == null )
 		{
