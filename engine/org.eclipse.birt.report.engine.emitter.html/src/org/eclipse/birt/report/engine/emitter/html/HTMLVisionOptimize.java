@@ -357,7 +357,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	{
 		IStyle style = getElementStyle( cell );
 		// implement the cell's clip.
-		if ( fixedReport )
+		if ( fixedReport && style != null )
 		{
 			HTMLEmitterUtil.buildOverflowStyle( styleBuffer, style, true );
 		}
