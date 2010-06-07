@@ -11,7 +11,7 @@ plugin@org.eclipse.birt.chart.reportitem=v20100604,:ext:xgu@dev.eclipse.org:/cvs
 plugin@org.eclipse.birt.chart.reportitem.ui=v20100601,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem.ui
 plugin@org.eclipse.birt.chart.ui=v20100601,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui
 plugin@org.eclipse.birt.chart.ui.extension=v20100602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui.extension
-plugin@org.eclipse.birt.chart.viewer=v20100519,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.viewer
+plugin@org.eclipse.birt.chart.viewer=v20100607,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.viewer
 plugin@org.eclipse.birt.core.ui=v20100325,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.ui
 
-plugin@org.eclipse.birt.chart.examples.core=v20100604,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.examples.core
+plugin@org.eclipse.birt.chart.examples.core=v20100607,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.examples.core
