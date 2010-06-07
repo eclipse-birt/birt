@@ -148,10 +148,10 @@ public class RowArea extends ContainerArea
 			specifiedHeight = 0;
 			table.addRow( this );
 		}
-		if ( content != null && content.isRTL( ) ) // bidi_hcg
-		{
-			reorderCellsForRTL( );
-		}
+		//if ( content != null && content.isRTL( ) ) // bidi_hcg
+		//{
+			//reorderCellsForRTL( );
+		//}
 		parent.update( this );
 		finished = true;
 		
@@ -186,11 +186,15 @@ public class RowArea extends ContainerArea
 		int columnID = cArea.getColumnID( );
 		int colSpan = cArea.getColSpan( );
 		// Retrieve direction from the top-level content.
-		if ( colSpan > 1 && content.isRTL( ) )
-		{
-			columnID += colSpan - 1;
-		}
+		//if ( colSpan > 1 && content.isRTL( ) )
+		//{
+			//columnID += colSpan - 1;
+		//}
 		cArea.setPosition( getTableArea( ).getXPos( columnID ), 0 );
+		if ( content != null && content.isRTL( ) )
+		{
+			cArea.flipPositionForRtl( );
+		}
 	}
 
 	public void add( AbstractArea area )
@@ -200,11 +204,15 @@ public class RowArea extends ContainerArea
 		int columnID = cArea.getColumnID( );
 		int colSpan = cArea.getColSpan( );
 		// Retrieve direction from the top-level content.
-		if ( colSpan > 1 && content.isRTL( ) )
-		{
-			columnID += colSpan - 1;
-		}
+		//if ( colSpan > 1 && content.isRTL( ) )
+		//{
+			//columnID += colSpan - 1;
+		//}
 		cArea.setPosition( getTableArea( ).getXPos( columnID ), 0 );
+		if ( content != null && content.isRTL( ) )
+		{
+			cArea.flipPositionForRtl( );
+		}
 	}
 
 	public void addChild( IArea area )
@@ -439,15 +447,4 @@ public class RowArea extends ContainerArea
 
 	}
 
-	protected void reorderCellsForRTL( )
-	{
-		if ( cells != null )
-		{
-			int nCells = cells.length;
-			while ( nCells-- > 0 )
-			{
-				cells[nCells].flipPositionForRtl( );
-			}
-		}
-	}
 }

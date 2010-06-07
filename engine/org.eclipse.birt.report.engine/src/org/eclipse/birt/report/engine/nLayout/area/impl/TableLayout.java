@@ -138,24 +138,24 @@ public class TableLayout
 		RowArea currentRow = (RowArea) currentCell.getParent( );
 		int columnID = currentCell.getColumnID( ); 
 		CellArea cell = null;
-		if ( isRTL )
-		{
-			cell = currentRow.getCell( columnID + 1 );
-			if ( cell == null && lastRow != null )
-			{
-				cell = lastRow.getCell( columnID + 1 );
-			}
-			if ( cell == null )
-			{
-				// FIXME:
-				// For RtL reports, the left cell of current cell is not
-				// initialized yet. Assume left cell has the same border style
-				// as current style, although the assumption is not always
-				// correct.
-				return currentCell.getContent( ).getComputedStyle( );
-			}
-		}
-		else
+//		if ( isRTL )
+//		{
+//			cell = currentRow.getCell( columnID + 1 );
+//			if ( cell == null && lastRow != null )
+//			{
+//				cell = lastRow.getCell( columnID + 1 );
+//			}
+//			if ( cell == null )
+//			{
+//				// FIXME:
+//				// For RtL reports, the left cell of current cell is not
+//				// initialized yet. Assume left cell has the same border style
+//				// as current style, although the assumption is not always
+//				// correct.
+//				return currentCell.getContent( ).getComputedStyle( );
+//			}
+//		}
+//		else
 		{
 			cell = currentRow.getCell( columnID - 1 );
 			if ( cell == null && lastRow != null )
@@ -187,10 +187,10 @@ public class TableLayout
 		IStyle rowStyle = row.getComputedStyle( );
 		IStyle columnStyle = getColumnStyle( columnID );
 		IStyle preRowStyle = null;
-		IStyle preColumnStyle = isRTL
+		IStyle preColumnStyle = /*isRTL
 				? getColumnStyle( columnID + 1 ) // TODO need valid columnID when getColumnStyle gets supported
-				: getColumnStyle( columnID - 1 );
-		IStyle leftCellContentStyle = null;
+				: */getColumnStyle( columnID - 1 );
+		IStyle leftCellContentStyle = null; // for RTL it will be right cell content style
 		IStyle topCellStyle = null;
 
 		RowArea lastRow = null;
@@ -209,7 +209,8 @@ public class TableLayout
 				topCellStyle = cell.getContent( ).getComputedStyle( );
 			}
 		}
-		if ( ( !isRTL && columnID > startCol ) || ( isRTL && columnID + colSpan - 1 < endCol ) )
+//		if ( ( !isRTL && columnID > startCol ) || ( isRTL && columnID + colSpan - 1 < endCol ) )
+		if ( columnID > startCol )
 		{
 			leftCellContentStyle = getLeftCellContentStyle( lastRow, cellArea );
 		}
@@ -258,7 +259,7 @@ public class TableLayout
 					}
 				}
 			}
-			else
+			else if ( !isRTL )
 			{
 				if ( leftCellContentStyle != null || cellContentStyle != null )
 				{
@@ -288,6 +289,20 @@ public class TableLayout
 					}
 				}
 			}
+			else if ( isRTL
+					&& columnID > startCol
+					&& ( leftCellContentStyle != null || cellContentStyle != null ) )
+			{
+				// Resolve left border for the previous (logically) cell and set it
+				// as the right border for the current cell
+				BorderInfo border = bcr.resolveCellLeftBorder( columnStyle,
+						preColumnStyle, cellContentStyle, leftCellContentStyle );
+				if ( border != null )
+				{
+					cellArea.getBoxStyle( ).setRightBorder( border );
+				}
+			}
+
 		}
 		else
 		{
@@ -332,7 +347,7 @@ public class TableLayout
 					}
 				}
 			}
-			else
+			else if ( !isRTL )
 			{
 				// TODO fix row span conflict
 				if ( leftCellContentStyle != null || cellContentStyle != null )
@@ -362,6 +377,20 @@ public class TableLayout
 					}
 				}
 			}
+			else if ( isRTL
+					&& columnID > startCol
+					&& ( leftCellContentStyle != null || cellContentStyle != null ) )
+			{
+				// Resolve left border for the previous (logically) cell and set it
+				// as the right border for the current cell
+				BorderInfo border = bcr.resolveCellLeftBorder( columnStyle,
+						preColumnStyle, cellContentStyle, leftCellContentStyle );
+				if ( border != null )
+				{
+					cellArea.getBoxStyle( ).setRightBorder( border );
+				}
+			}
+
 		}
 	}
 
