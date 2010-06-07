@@ -52,11 +52,23 @@ public class JointDataSetAdapter extends JointDataSetDesign
 		if ( jc != null )
 		{
 			Iterator iter = handle.dataSetsIterator( );
-			DataSetHandle leftHandle = (DataSetHandle) iter.next( );
-			setLeftDataSetDesignQulifiedName( leftHandle.getQualifiedName( ) );
+			DataSetHandle leftHandle = null, rightHandle = null;
+			if ( iter.hasNext( ) )
+			{
+				leftHandle = (DataSetHandle) iter.next( );
+				setLeftDataSetDesignQulifiedName( leftHandle.getQualifiedName( ) );
+			}
+			if ( iter.hasNext( ) )
+			{
+				rightHandle = (DataSetHandle) iter.next( );
+				setRightDataSetDesignQulifiedName( rightHandle.getQualifiedName( ) );
+			}
+			else
+			{
+				if ( leftHandle != null )
+					setRightDataSetDesignQulifiedName( leftHandle.getQualifiedName( ) );
+			}
 			setLeftDataSetDesignName( jc.getLeftDataSet( ) );
-			DataSetHandle rightHandle = (DataSetHandle) iter.next( );
-			setRightDataSetDesignQulifiedName( rightHandle.getQualifiedName( ) );
 			setRightDataSetDesignName( jc.getRightDataSet( ) );
 			setJoinType( adaptJoinType( jc.getJoinType( ) ) );
 		}

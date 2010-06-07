@@ -157,6 +157,8 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	 */
 	public String getLeftDataSetDesignQulifiedName( )
 	{
+		if ( this.leftDataSetQualifiedName == null )
+			return this.left;
 		return this.leftDataSetQualifiedName;
 	}
 
@@ -170,6 +172,8 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	 */
 	public String getRightDataSetDesignQulifiedName( )
 	{
+		if ( this.rightDataSetQualifiedName == null )
+			return this.right;
 		return this.rightDataSetQualifiedName;
 	}
 
