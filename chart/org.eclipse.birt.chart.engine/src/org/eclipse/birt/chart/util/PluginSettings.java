@@ -490,11 +490,17 @@ public final class PluginSettings
 			return chartModelPackagesMap;
 		}
 		
+		chartModelPackagesMap = new LinkedHashMap<String, Object>( );
+
 		String sXsdListName = "charttypes"; //$NON-NLS-1$
 		String sXsdComplexName = "chartType"; //$NON-NLS-1$
 		String sXsdElementName = "namespaceURI"; //$NON-NLS-1$
 		String sXsdElementValue = "modelLoader"; //$NON-NLS-1$
 		final IExtensionRegistry ier = Platform.getExtensionRegistry( );
+		if ( ier == null )
+		{
+			return chartModelPackagesMap;
+		}
 		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
 		if ( iep == null )
 		{
@@ -509,7 +515,6 @@ public final class PluginSettings
 		final IExtension[] iea = iep.getExtensions( );
 		IConfigurationElement[] icea;
 
-		Map<String, Object> chartTypePakcages = new LinkedHashMap<String, Object>( );
 
 		for ( int i = 0; i < iea.length; i++ )
 		{
@@ -520,7 +525,7 @@ public final class PluginSettings
 				{
 					try
 					{
-						chartTypePakcages.put( icea[j].getAttribute( sXsdElementName ),
+						chartModelPackagesMap.put( icea[j].getAttribute( sXsdElementName ),
 								( (IExtChartModelLoader) icea[j].createExecutableExtension( sXsdElementValue ) ).getChartTypePackage( ) );
 					}
 					catch ( FrameworkException cex )
@@ -533,7 +538,6 @@ public final class PluginSettings
 			}
 		}
 
-		chartModelPackagesMap = chartTypePakcages;
 		return chartModelPackagesMap;
 	}
 	
