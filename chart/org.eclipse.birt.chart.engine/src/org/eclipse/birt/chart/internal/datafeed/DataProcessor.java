@@ -48,6 +48,7 @@ import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -986,6 +987,7 @@ public class DataProcessor
 		Calendar[] ca;
 		String[] sa;
 		Object[] oa;
+		BigNumber[] bna;
 
 		int[] indexArray = new int[indexMap.size( )];
 
@@ -1064,6 +1066,21 @@ public class DataProcessor
 					doubleBuffer[idx] = da[0];
 				}
 				ds.setValues( doubleBuffer );
+			}
+			else if ( oContent instanceof BigNumber[] )
+			{
+				bna = (BigNumber[]) oContent;
+
+				BigNumber[] bigNumberBuffer = new BigNumber[indexArray.length];
+				for ( int i = 0; i < bna.length; i++ )
+				{
+					int idx = indexArray[i];
+					if ( idx != -1 )
+					{
+						bigNumberBuffer[idx] = bna[i];
+					}
+				}
+				ds.setValues( bigNumberBuffer );
 			}
 		}
 		else if ( ds instanceof DateTimeDataSet )
