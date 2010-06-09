@@ -1,4 +1,0 @@
-id, desc, info,
-int, clob, blob
-1, 'abc', cde
-2, 'gmf', qqq

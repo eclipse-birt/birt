@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jrun-web-app>
-	<load-system-classes-first>false</load-system-classes-first>
-	<uri-character-encoding>UTF-8</uri-character-encoding>
-	<enable-jrun-web-services>false</enable-jrun-web-services>
-</jrun-web-app>

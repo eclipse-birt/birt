@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.20">
-    <property name="author">W.C. Fields</property>
-    <property name="helpGuide">http://company.com/reportHelp.html</property>
-    <property name="createdBy">Whiz-Bang Plus</property>
-    <property name="refreshRate">30</property>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<report>
-<foreign raw-type="binary/value"/>
-<foreign raw-type="text/html"/>
-<foreign raw-type="text/html"/>
-</report>

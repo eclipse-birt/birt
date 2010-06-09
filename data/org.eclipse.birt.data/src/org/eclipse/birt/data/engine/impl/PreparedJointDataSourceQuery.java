@@ -489,9 +489,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 */
 	private void populatePreparedQuery( IQueryResults outer ) throws BirtException
 	{
-		this.leftQueryResults = populatePreparedQuery( outer,
-				true,
-				PreparedJointDataSourceQuery.this.dataSet.getLeftDataSetDesignQulifiedName( ) );
+		this.leftQueryResults = populatePreparedQuery( outer, true,
+				PreparedJointDataSourceQuery.this.dataSet.getLeftDataSetDesignName( ) );
 		this.leftResultMetaData = this.leftQueryResults.getResultMetaData( );
 		
 		DataSetCacheManager dscm = dataEngine.getSession( ).getDataSetCacheManager( );
@@ -502,7 +501,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		leftAppContext = dscm.getCurrentAppContext( );
 		
 		this.rightQueryResults = populatePreparedQuery( outer, false,
-				PreparedJointDataSourceQuery.this.dataSet.getRightDataSetDesignQulifiedName( ) );
+				PreparedJointDataSourceQuery.this.dataSet.getRightDataSetDesignName( ) );
 		this.rightResultMetaData = this.rightQueryResults.getResultMetaData( );
 		
 		rightDataSourceDesign = dscm.getCurrentDataSourceDesign( );

@@ -1,8 +1,0 @@
-DataSource.beforeOpen:
-  extensionID=org.eclipse.birt.report.data.oda.jdbc
-  isOpen=false
-  extensionProperties:
-    aProp
-    aProp
-    aProp
-    aProp
