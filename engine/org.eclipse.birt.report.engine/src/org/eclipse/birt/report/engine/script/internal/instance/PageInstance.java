@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IReportItemInstance;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.PageContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.script.internal.ElementUtil;
 
 public class PageInstance implements IPageInstance
@@ -46,9 +46,9 @@ public class PageInstance implements IPageInstance
 		for ( IContent content : contents )
 		{
 			Object generateBy = content.getGenerateBy( );
-			if ( generateBy instanceof ReportItemDesign )
+			if ( generateBy instanceof ReportElementDesign )
 			{
-				ReportItemDesign design = (ReportItemDesign) generateBy;
+				ReportElementDesign design = (ReportElementDesign) generateBy;
 				if ( design.getID( ) == elementId )
 				{
 					try
@@ -80,9 +80,9 @@ public class PageInstance implements IPageInstance
 		for ( IContent content : contents )
 		{
 			Object generateBy = content.getGenerateBy( );
-			if ( generateBy instanceof ReportItemDesign )
+			if ( generateBy instanceof ReportElementDesign )
 			{
-				ReportItemDesign design = (ReportItemDesign) generateBy;
+				ReportElementDesign design = (ReportElementDesign) generateBy;
 				if ( elementName.equals( design.getName( ) ) )
 				{
 					try
