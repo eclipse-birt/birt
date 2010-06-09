@@ -45,20 +45,23 @@ public class PageInstance implements IPageInstance
 		ArrayList<IReportItemInstance> instances = new ArrayList<IReportItemInstance>( );
 		for ( IContent content : contents )
 		{
-			ReportItemDesign design = (ReportItemDesign) content
-					.getGenerateBy( );
-			if ( design.getID( ) == elementId )
+			Object generateBy = content.getGenerateBy( );
+			if ( generateBy instanceof ReportItemDesign )
 			{
-				try
+				ReportItemDesign design = (ReportItemDesign) generateBy;
+				if ( design.getID( ) == elementId )
 				{
-					ReportItemInstance instance = (ReportItemInstance) ElementUtil
-							.getInstance( content, context,
-									RunningState.PAGEBREAK );
-					instances.add( instance );
-				}
-				catch ( BirtException ex )
-				{
-					throw new ScriptException( ex );
+					try
+					{
+						ReportItemInstance instance = (ReportItemInstance) ElementUtil
+						        .getInstance( content, context,
+						                      RunningState.PAGEBREAK );
+						instances.add( instance );
+					}
+					catch ( BirtException ex )
+					{
+						throw new ScriptException( ex );
+					}
 				}
 			}
 		}
@@ -76,20 +79,23 @@ public class PageInstance implements IPageInstance
 		ArrayList<IReportItemInstance> instances = new ArrayList<IReportItemInstance>( );
 		for ( IContent content : contents )
 		{
-			ReportItemDesign design = (ReportItemDesign) content
-					.getGenerateBy( );
-			if ( elementName.equals( design.getName( ) ) )
+			Object generateBy = content.getGenerateBy( );
+			if ( generateBy instanceof ReportItemDesign )
 			{
-				try
+				ReportItemDesign design = (ReportItemDesign) generateBy;
+				if ( elementName.equals( design.getName( ) ) )
 				{
-					ReportItemInstance instance = (ReportItemInstance) ElementUtil
-							.getInstance( content, context,
-									RunningState.PAGEBREAK );
-					instances.add( instance );
-				}
-				catch ( BirtException ex )
-				{
-					throw new ScriptException( ex );
+					try
+					{
+						ReportItemInstance instance = (ReportItemInstance) ElementUtil
+						        .getInstance( content, context,
+						                      RunningState.PAGEBREAK );
+						instances.add( instance );
+					}
+					catch ( BirtException ex )
+					{
+						throw new ScriptException( ex );
+					}
 				}
 			}
 		}
