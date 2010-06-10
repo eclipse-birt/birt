@@ -67,6 +67,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -348,9 +349,6 @@ public class ResultSetColumnPage extends Composite
 
 		add = new Button( composite, SWT.NONE );
 		add.setText( Messages.getString( "ResultSetColumnPage.button.add" ) );
-		GridData addGd = new GridData( );
-		addGd.widthHint = 52;
-		add.setLayoutData( addGd );
 		add.setEnabled( true );
 		add.addSelectionListener( new SelectionAdapter( ) {
 
@@ -363,9 +361,6 @@ public class ResultSetColumnPage extends Composite
 		
 		edit = new Button( composite, SWT.NONE );
 		edit.setText( Messages.getString( "ResultSetColumnPage.button.edit" ) );
-		GridData editGd = new GridData( );
-		editGd.widthHint = 52;
-		edit.setLayoutData( editGd );
 		edit.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -377,9 +372,6 @@ public class ResultSetColumnPage extends Composite
 		
 		delete = new Button( composite, SWT.NONE );
 		delete.setText( Messages.getString( "ResultSetColumnPage.button.delete" ) );
-		GridData deleteGd = new GridData( );
-		deleteGd.widthHint = 52;
-		delete.setLayoutData( deleteGd );
 		delete.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -391,9 +383,6 @@ public class ResultSetColumnPage extends Composite
 
 		up = new Button( composite, SWT.NONE );
 		up.setText( Messages.getString( "ResultSetColumnPage.button.up" ) );
-		GridData upGd = new GridData( );
-		upGd.widthHint = 52;
-		up.setLayoutData( upGd );
 		up.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -405,9 +394,6 @@ public class ResultSetColumnPage extends Composite
 
 		down = new Button( composite, SWT.NONE );
 		down.setText( Messages.getString( "ResultSetColumnPage.button.down" ) );
-		GridData downGd = new GridData( );
-		downGd.widthHint = 52;
-		down.setLayoutData( downGd );
 		down.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -416,7 +402,27 @@ public class ResultSetColumnPage extends Composite
 			}
 
 		} );
+		
+		int width = getMaxWidth( add, 55 );
+		width = getMaxWidth( edit, width );
+		width = getMaxWidth( delete, width );
+		width = getMaxWidth( up, width );
+		width = getMaxWidth( down, width );
 
+		GridData buttonGd = new GridData( );
+		buttonGd.widthHint = width;
+
+		add.setLayoutData( buttonGd );
+		edit.setLayoutData( buttonGd );
+		delete.setLayoutData( buttonGd );
+		up.setLayoutData( buttonGd );
+		down.setLayoutData( buttonGd );
+	}
+	
+	private int getMaxWidth( Control control, int size )
+	{
+		int width = control.computeSize( -1, -1 ).x;
+		return width > size ? width : size;
 	}
 
 	protected void doNew( )

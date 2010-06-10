@@ -1415,21 +1415,15 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			layout.verticalSpacing = 20;
 			btnComposite.setLayout( btnLayout );
 
-			GridData btnData = new GridData( GridData.CENTER );
-			btnData.widthHint = 52;
-
 			btnAdd = new Button( btnComposite, SWT.NONE );
 			btnAdd.setText( Messages.getString( "ResultSetColumnPage.button.add" ) ); //$NON-NLS-1$
-			btnAdd.setLayoutData( btnData );
 			btnAdd.setEnabled( true );
 
 			btnEdit = new Button( btnComposite, SWT.NONE );
 			btnEdit.setText( Messages.getString( "ResultSetColumnPage.button.edit" ) ); //$NON-NLS-1$
-			btnEdit.setLayoutData( btnData );
 
 			btnRemove = new Button( btnComposite, SWT.NONE );
 			btnRemove.setText( Messages.getString( "ResultSetColumnPage.button.delete" ) ); //$NON-NLS-1$
-			btnRemove.setLayoutData( btnData );
 			btnRemove.addSelectionListener( new SelectionListener( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -1445,7 +1439,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 
 			btnUp = new Button( btnComposite, SWT.NONE );
 			btnUp.setText( Messages.getString( "ResultSetColumnPage.button.up" ) ); //$NON-NLS-1$
-			btnUp.setLayoutData( btnData );
 			btnUp.addSelectionListener( new SelectionListener( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -1461,7 +1454,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 
 			btnDown = new Button( btnComposite, SWT.NONE );
 			btnDown.setText( Messages.getString( "ResultSetColumnPage.button.down" ) ); //$NON-NLS-1$
-			btnDown.setLayoutData( btnData );
 			btnDown.addSelectionListener( new SelectionListener( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -1474,6 +1466,21 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				}
 
 			} );
+			
+			int width = getMaxWidth( btnAdd, 55 );
+			width = getMaxWidth( btnEdit, width );
+			width = getMaxWidth( btnRemove, width );
+			width = getMaxWidth( btnUp, width );
+			width = getMaxWidth( btnDown, width );
+
+			GridData btnData = new GridData( GridData.CENTER );
+			btnData.widthHint = width;
+
+			btnAdd.setLayoutData( btnData );
+			btnEdit.setLayoutData( btnData );
+			btnRemove.setLayoutData( btnData );
+			btnUp.setLayoutData( btnData );
+			btnDown.setLayoutData( btnData );			
 
 			menu = new Menu( viewer.getTable( ) );
 			menu.addMenuListener( new MenuAdapter( ) {
@@ -1521,6 +1528,12 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				}
 
 			} );
+		}
+
+		private int getMaxWidth( Control control, int size )
+		{
+			int width = control.computeSize( -1, -1 ).x;
+			return width > size ? width : size;
 		}
 
 		/**
