@@ -128,8 +128,8 @@ public class BirtException extends Exception
 	 */
 	public BirtException( String message )
 	{
-		super( message );
-		this.sResourceKey = null;
+		super( );
+		this.sResourceKey = message;
 		this.rb = null;
 		this.oaMessageArguments = null;
 	}
