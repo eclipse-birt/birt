@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.resourcelocator;
 
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry.Filter;
 
 public class ResourceEntryFilter implements Filter
@@ -32,7 +33,7 @@ public class ResourceEntryFilter implements Filter
 			else if ( filter.getType( )
 					.equals( ResourceFilter.FILTER_DOT_RESOURCES ) )
 			{
-				if ( entity.getName( ).startsWith( "." ) )//$NON-NLS-1$
+				if ( entity.getName( ).startsWith( "." ) && !entity.getName( ).endsWith( "."+IReportElementConstants.LIBRARY_FILE_EXTENSION ))//$NON-NLS-1$ //$NON-NLS-2$
 					return false;
 			}
 			else if ( filter.getType( )
