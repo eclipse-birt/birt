@@ -18,9 +18,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -82,7 +82,7 @@ public class StyleNodeProvider extends DefaultNodeProvider
 				.getDisplay( )
 				.getActiveShell( ),
 				handle,
-				handle.getContainer( ) instanceof ThemeHandle ? (ThemeHandle) handle.getContainer( )
+				handle.getContainer( ) instanceof AbstractThemeHandle ? (AbstractThemeHandle) handle.getContainer( )
 						: null,
 				StyleBuilder.DLG_TITLE_EDIT );
 		return builder.open( ) == Window.OK;
