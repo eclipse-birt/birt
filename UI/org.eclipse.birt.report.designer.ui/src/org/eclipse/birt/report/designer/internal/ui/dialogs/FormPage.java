@@ -542,11 +542,11 @@ public class FormPage extends Composite implements Listener
 			if ( btnEdit != null )
 				btnEdit.setEnabled( false );
 		}
-		if ( this.provider instanceof FilterHandleProvider )
-		{
-			btnDown.setEnabled( false );
-			btnUp.setEnabled( false );
-		}
+		// if ( this.provider instanceof FilterHandleProvider )
+		// {
+		// btnDown.setEnabled( false );
+		// btnUp.setEnabled( false );
+		// }
 	}
 
 	private void updateBindingParameters( )
