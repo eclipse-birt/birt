@@ -425,3 +425,6 @@ data.derivedDataSet.illegalClassInstance=‰Šú‰»‚·‚éƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ª–³Œø‚Å‚·
 data.derivedDataSet.classLoadError=ƒNƒ‰ƒXƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒ[ƒh‚Å‚«‚Ü‚¹‚ñB
 data.derivedDataSet.calculatorNotExist=ŒvZ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚©AŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 data.derivedDataSet.invalidQueryText=ƒNƒGƒŠƒeƒLƒXƒg‚ª–³Œø‚Å‚·B
+
+#data mart data source
+data.datamart.failLoadDataSet = Failed to load Data Object data set "{0}".

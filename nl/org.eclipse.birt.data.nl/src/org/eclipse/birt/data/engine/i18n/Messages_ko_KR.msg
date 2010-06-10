@@ -425,3 +425,6 @@ data.derivedDataSet.illegalClassInstance=초기화할 클래스 인스턴스가 잘못되었습니
 data.derivedDataSet.classLoadError=클래스 인스턴스를 로드하지 못했습니다.
 data.derivedDataSet.calculatorNotExist=계산기가 정의되지 않았거나 찾을 수 없습니다.
 data.derivedDataSet.invalidQueryText=잘못된 쿼리 텍스트입니다.
+
+#data mart data source
+data.datamart.failLoadDataSet = Failed to load Data Object data set "{0}".

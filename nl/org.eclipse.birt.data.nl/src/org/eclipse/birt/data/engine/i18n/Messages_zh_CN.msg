@@ -425,3 +425,6 @@ data.derivedDataSet.illegalClassInstance=要初始化的类实例非法。
 data.derivedDataSet.classLoadError=无法加载类实例。
 data.derivedDataSet.calculatorNotExist=计算器未定义或无法找到。
 data.derivedDataSet.invalidQueryText=无效查询文本。
+
+#data mart data source
+data.datamart.failLoadDataSet = Failed to load Data Object data set "{0}".

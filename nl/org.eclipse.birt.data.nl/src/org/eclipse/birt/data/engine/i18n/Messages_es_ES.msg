@@ -425,3 +425,6 @@ data.derivedDataSet.illegalClassInstance=La instancia de clase utilizada para in
 data.derivedDataSet.classLoadError=No se ha podido cargar la instancia de clase.
 data.derivedDataSet.calculatorNotExist=No se ha definido la calculadora o no puede encontrarse.
 data.derivedDataSet.invalidQueryText=Texto de consulta no válido.
+
+#data mart data source
+data.datamart.failLoadDataSet = Failed to load Data Object data set "{0}".
