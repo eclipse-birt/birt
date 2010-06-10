@@ -3169,7 +3169,7 @@ PublishTemplateViewAction.action.displaytext=새 보고서 마법사를 템플릿에 등록(&Z
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=라이브러리 새로 고침(&L)
 RefreshModuleHandleAction.MessageBox.Title=라이브러리 새로 고침
-RefreshModuleHandleAction.MessageBox.Text=현재 디자인에 저장하지 않은 변경 사항이 있습니다. 먼저 이러한 변경 사항을 저장 또는 취소하시겠습니까?
+RefreshModuleHandleAction.MessageBox.Text=현재 디자인에 저장하지 않은 변경 사항이 있습니다. 먼저 이러한 변경 사항을 저장하시겠습니까?
 RefreshModuleHandleAction.MessageBox.SaveButton=저장(&S)
 RefreshModuleHandleAction.MessageBox.DiscardButton=취소(&D)
 RefreshModuleHandleAction.MessageBox.CancelButton=취소
@@ -4357,7 +4357,7 @@ MultiPageReportEditor.ConfirmTitle=파일 없음
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=이 보고서 디자인은 이전 버전의 BIRT Designer에서 만들어졌습니다. 이 보고서 디자인을 저장하면 보고서 디자인이 현재 버전으로 업그레이드되어 이전 버전의 BIRT Designer에서 열지 못하게 될 수 있습니다. 저장하시겠습니까?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=이 편집기의 내용이 외부에서 변경되었을 수 있습니다. 변경 사항을 다시 로드하시겠습니까?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=이 편집기의 내용이 외부에서 변경되었을 수 있습니다. 이 변경 사항을 다시 로드하시겠습니까?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=이 편집기의 내용이 외부에서 변경된 것 같습니다. 편집기에 저장하지 않는 변경 사항이 있습니다.\n\n편집기를 저장하고 변경 사항을 다시 로드하시겠습니까, 아니면 다시 로드하기 전에 편집기의 저장하지 않은 변경 사항을 취소하시겠습니까?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=이 편집기의 내용이 외부에서 변경된 것 같습니다. 편집기에 저장하지 않는 변경 사항이 있습니다.\n\n편집기를 저장하고 변경 사항을 다시 로드하시겠습니까?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=확인
 MultiPageReportEditor.SaveButton=저장(&S)
 MultiPageReportEditor.DiscardButton=취소(&D)

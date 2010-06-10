@@ -21,10 +21,10 @@ OptionDisplayValue.OfficeVersion=Ausgabeversion:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 OptionDisplayValue.ChartDpi=Diagramm-DPI
-OptionDisplayValue.HideGridlines=Hide grid lines
+OptionDisplayValue.HideGridlines=Rasterlinien ausblenden
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=Gibt an, ob der Text Zeilenumbrüche enthält.
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
-OptionDescription.HideGridlines=Hide grid lines.
+OptionDescription.HideGridlines=Rasterlinien ausblenden.

@@ -133,8 +133,8 @@ data.engine.OpenCacheTempError=打开用于缓存结果行的临时文件时出现例外。
 data.engine.WriteCacheTempError=写入用于缓存结果行的临时文件时出现例外。
 data.engine.ReadCacheTempError=读取用于缓存结果行的临时文件时出现例外。
 data.engine.CloseCacheTempError=关闭用于缓存结果行的临时文件时出现例外。
-data.engine.FailedLoadColumnValue=Failed to load value for "{0}" type column "{1}".
-data.engine.FailedLoadClass=Failed to load class "{0}" for "{1}" type column "{2}". please make sure class "{0}" is included in BIRT engine's class loading path.
+data.engine.FailedLoadColumnValue=无法加载“{0}”类型列“{1}”的值。
+data.engine.FailedLoadClass=无法加载“{1}”类型列“{2}”的类“{0}”。 请确保 BIRT 引擎的类加载路径中包含类“{0}”。
 
 #load data engine factory exception
 load.factory.error=加载数据引擎工厂时出错。

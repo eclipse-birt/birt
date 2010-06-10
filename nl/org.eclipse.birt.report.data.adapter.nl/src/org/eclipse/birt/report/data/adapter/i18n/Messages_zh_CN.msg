@@ -36,4 +36,4 @@ cube.error.createdimension=创建维时出现错误: {0}。
 cube.error.createmeasure=创建度量时出现错误。
 cube.error.datasetmiss=由于缺少相关数据集，无法创建多维数据集。
 cube.jointColumnNotInLevels=联接列“{0}”未定义为维“{1}”中任何级别的关键字字段。
-cube.unsupportedAggregationInBinding=TopN/BottomN function in binding "{0}" is not supported in xTab.
+cube.unsupportedAggregationInBinding=xTab 中不支持绑定“{0}”中的 TopN/BottomN 函数。

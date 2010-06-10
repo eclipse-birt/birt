@@ -3169,7 +3169,7 @@ PublishTemplateViewAction.action.displaytext=ƒeƒ“ƒvƒŒ[ƒg‚ğƒŒƒ|[ƒg‚ÌV‹Kì¬ƒEƒ
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=ƒ‰ƒCƒuƒ‰ƒŠ‚ÌXV(&L)
 RefreshModuleHandleAction.MessageBox.Title=ƒ‰ƒCƒuƒ‰ƒŠ‚ÌXV
-RefreshModuleHandleAction.MessageBox.Text=Œ»İ‚ÌƒfƒUƒCƒ“‚Í•ÏX‚ª•Û‘¶‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB ‚±‚Ì•ÏX‚ğÅ‰‚É•Û‘¶‚Ü‚½‚Í”jŠü‚µ‚Ü‚·‚© ?
+RefreshModuleHandleAction.MessageBox.Text=Œ»İ‚ÌƒfƒUƒCƒ“‚Í•ÏX‚ª•Û‘¶‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB ‚±‚ê‚ç‚Ì•ÏX‚ğÅ‰‚É•Û‘¶‚µ‚Ü‚·‚© ?
 RefreshModuleHandleAction.MessageBox.SaveButton=ã‘‚«•Û‘¶(&S)
 RefreshModuleHandleAction.MessageBox.DiscardButton=”jŠü(&D)
 RefreshModuleHandleAction.MessageBox.CancelButton=ƒLƒƒƒ“ƒZƒ‹
@@ -4357,7 +4357,7 @@ MultiPageReportEditor.ConfirmTitle=ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñ
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=‚±‚ÌƒŒƒ|[ƒgƒfƒUƒCƒ“‚ÍˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT Designer ‚Åì¬‚³‚ê‚½‚à‚Ì‚Å‚·B‚±‚ÌƒŒƒ|[ƒg‚ğ•Û‘¶‚·‚é‚ÆŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÉƒAƒbƒvƒOƒŒ[ƒh‚³‚ê‚é‚Ì‚ÅAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Å‚ÍŠJ‚¯‚È‚­‚È‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B•Û‘¶‚µ‚Ü‚·‚© ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=‚±‚ÌƒGƒfƒBƒ^‚ÌƒRƒ“ƒeƒ“ƒc‚ªŠO•”‚©‚ç•ÏX‚³‚ê‚½‰Â”\«‚ª‚ ‚è‚Ü‚·B•ÏX‚ğÄƒ[ƒh‚µ‚Ü‚·‚© ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=‚±‚ÌƒGƒfƒBƒ^‚ÌƒRƒ“ƒeƒ“ƒc‚ªŠO•”‚©‚ç•ÏX‚³‚ê‚½‰Â”\«‚ª‚ ‚è‚Ü‚·B•ÏX‚³‚ê‚½ƒRƒ“ƒeƒ“ƒc‚ğÄƒ[ƒh‚µ‚Ü‚·‚© ?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=‚±‚ÌƒGƒfƒBƒ^‚ÌƒRƒ“ƒeƒ“ƒc‚ªŠO•”‚©‚ç•ÏX‚³‚ê‚½‰Â”\«‚ª‚ ‚èA•ÏX‚ª•Û‘¶‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB\n\nƒGƒfƒBƒ^‚ğ•Û‘¶‚µ‚ÄŠO•”‚©‚ç‚Ì•ÏX‚ğÄƒ[ƒh‚µ‚Ü‚·‚© ? ‚Ü‚½‚ÍÄƒ[ƒh‘O‚ÉƒGƒfƒBƒ^‚Ì•Û‘¶‚³‚ê‚Ä‚¢‚È‚¢•ÏX‚ğ”jŠü‚µ‚Ü‚·‚© ?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=‚±‚ÌƒGƒfƒBƒ^‚ÌƒRƒ“ƒeƒ“ƒc‚ªŠO•”‚©‚ç•ÏX‚³‚ê‚½‰Â”\«‚ª‚ ‚èA•ÏX‚ª•Û‘¶‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB\n\nƒGƒfƒBƒ^‚ğ•Û‘¶‚µ‚ÄŠO•”‚©‚ç‚Ì•ÏX‚ğÄƒ[ƒh‚µ‚Ü‚·‚© ?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Šm”F
 MultiPageReportEditor.SaveButton=ã‘‚«•Û‘¶(&S)
 MultiPageReportEditor.DiscardButton=”jŠü(&D)

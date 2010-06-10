@@ -717,9 +717,9 @@ Choices.reportItemThemeType.List=リストテーマ
 Choices.reportItemThemeType.Grid=グリッドテーマ
 
 #91 nullsOrdering
-Choices.nullsOrdering.nullsLowest=Nulls Lowest
-Choices.nullsOrdering.nullsHighest=Null Highest
-Choices.nullsOrdering.excludeNulls=Exclude Nulls
+Choices.nullsOrdering.nullsLowest=Null (最低)
+Choices.nullsOrdering.nullsHighest=Null (最高)
+Choices.nullsOrdering.excludeNulls=Null を除外する
 
 ###########################################################
 # Classes
@@ -2049,8 +2049,8 @@ Structure.ColumnHint.textFormat=テキストの書式
 Structure.ColumnHint.description=説明
 Structure.ColumnHint.descriptionID=説明リソースキー
 Structure.ColumnHint.action=実行
-Structure.ColumnHint.ACLExpression=ACL Expression	
-Structure.ColumnHint.analysisColumn=Analysis Column
+Structure.ColumnHint.ACLExpression=ACL 式	
+Structure.ColumnHint.analysisColumn=分析列
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目
@@ -2516,7 +2516,7 @@ Element.DataSet.ACLExpression=ACL 式
 Element.DataSet.RowACLExpression=行の ACL 式
 Element.DataSet.isVisible=表示
 Element.DataSet.locale=ロケール
-Element.DataSet.nullsOrdering=Nulls Ordering
+Element.DataSet.nullsOrdering=Null の順序
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=開く前

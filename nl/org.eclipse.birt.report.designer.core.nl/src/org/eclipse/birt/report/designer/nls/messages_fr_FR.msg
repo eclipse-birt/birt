@@ -3169,7 +3169,7 @@ PublishTemplateViewAction.action.displaytext=Enregistrer le modèle avec l'&assis
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=Actualiser la bib&liothèque
 RefreshModuleHandleAction.MessageBox.Title=Actualiser la bibliothèque
-RefreshModuleHandleAction.MessageBox.Text=Les modifications du modèle de création actuel n'ont pas été enregistrées. Souhaitez-vous d'abord enregistrer ou refuser les modifications apportées ?
+RefreshModuleHandleAction.MessageBox.Text=Les modifications du modèle de création actuel n'ont pas été enregistrées. Souhaitez-vous d'abord enregistrer les modifications apportées ?
 RefreshModuleHandleAction.MessageBox.SaveButton=&Enregistrer
 RefreshModuleHandleAction.MessageBox.DiscardButton=&Refuser
 RefreshModuleHandleAction.MessageBox.CancelButton=Annuler
@@ -4357,7 +4357,7 @@ MultiPageReportEditor.ConfirmTitle=Fichier inexistant
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Le modèle d'état a été créé à l'aide d'une version antérieure de BIRT Designer. L'enregistrement de ce modèle entraînera une mise à niveau vers la version actuelle ; il sera peut-être impossible de l'ouvrir dans une version antérieure de BIRT. Voulez-vous enregistrer le modèle d'état ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=Le contenu de cet éditeur a peut-être été modifié par une source externe. Voulez-vous recharger les modifications ?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=Le contenu de cet éditeur a peut-être été modifié par une source externe. Voulez-vous recharger le contenu avec ces modifications ?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=Le contenu de cet éditeur a peut-être été modifié par une source externe et les modifications apportées n'ont pas été enregistrées dans l'éditeur.\n\nVoulez-vous enregistrer l'éditeur et recharger les modifications externes, ou souhaitez-vous refuser les modifications non enregistrées avant le rechargement ?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=Le contenu de cet éditeur a peut-être été modifié par une source externe et les modifications apportées n'ont pas été enregistrées dans l'éditeur.\n\nVoulez-vous enregistrer l'éditeur et recharger les modifications externes ?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirmer
 MultiPageReportEditor.SaveButton=&Enregistrer
 MultiPageReportEditor.DiscardButton=&Refuser

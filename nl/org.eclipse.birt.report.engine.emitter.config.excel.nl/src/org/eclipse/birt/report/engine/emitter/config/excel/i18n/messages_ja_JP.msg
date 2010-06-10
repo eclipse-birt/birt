@@ -21,10 +21,10 @@ OptionDisplayValue.OfficeVersion=出力バージョン :
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 OptionDisplayValue.ChartDpi=グラフの DPI
-OptionDisplayValue.HideGridlines=Hide grid lines
+OptionDisplayValue.HideGridlines=罫線を非表示
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=文字列を折り返すかどうかを示します。
 OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
-OptionDescription.HideGridlines=Hide grid lines.
+OptionDescription.HideGridlines=罫線を非表示にします。

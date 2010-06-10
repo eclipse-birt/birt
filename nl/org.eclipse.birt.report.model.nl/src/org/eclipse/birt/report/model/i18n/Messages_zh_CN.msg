@@ -717,9 +717,9 @@ Choices.reportItemThemeType.List=列表主题
 Choices.reportItemThemeType.Grid=网格主题
 
 #91 nullsOrdering
-Choices.nullsOrdering.nullsLowest=Nulls Lowest
-Choices.nullsOrdering.nullsHighest=Null Highest
-Choices.nullsOrdering.excludeNulls=Exclude Nulls
+Choices.nullsOrdering.nullsLowest=空值下限
+Choices.nullsOrdering.nullsHighest=空值上限
+Choices.nullsOrdering.excludeNulls=排除空值
 
 ###########################################################
 # Classes
@@ -2049,8 +2049,8 @@ Structure.ColumnHint.textFormat=文本格式
 Structure.ColumnHint.description=说明
 Structure.ColumnHint.descriptionID=说明资源关键字
 Structure.ColumnHint.action=操作
-Structure.ColumnHint.ACLExpression=ACL Expression	
-Structure.ColumnHint.analysisColumn=Analysis Column
+Structure.ColumnHint.ACLExpression=ACL 表达式	
+Structure.ColumnHint.analysisColumn=分析列
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项
@@ -2516,7 +2516,7 @@ Element.DataSet.ACLExpression=ACL 表达式
 Element.DataSet.RowACLExpression=行 ACL 表达式
 Element.DataSet.isVisible=可见
 Element.DataSet.locale=区域设置
-Element.DataSet.nullsOrdering=Nulls Ordering
+Element.DataSet.nullsOrdering=空值排序
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=打开前

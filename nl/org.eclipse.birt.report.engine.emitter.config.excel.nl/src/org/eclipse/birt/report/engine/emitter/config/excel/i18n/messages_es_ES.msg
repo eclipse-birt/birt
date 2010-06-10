@@ -21,10 +21,10 @@ OptionDisplayValue.OfficeVersion=Versión de salida:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 OptionDisplayValue.ChartDpi=Diagrama DPI
-OptionDisplayValue.HideGridlines=Hide grid lines
+OptionDisplayValue.HideGridlines=Ocultar líneas de cuadrícula
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=Indica si el texto se puede autoajustar.
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
-OptionDescription.HideGridlines=Hide grid lines.
+OptionDescription.HideGridlines=Ocultar líneas de cuadrícula.

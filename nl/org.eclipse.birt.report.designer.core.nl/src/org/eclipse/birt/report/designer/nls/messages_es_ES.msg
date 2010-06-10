@@ -3169,7 +3169,7 @@ PublishTemplateViewAction.action.displaytext=Registrar plantilla con el as&isten
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=Actualizar &librería
 RefreshModuleHandleAction.MessageBox.Title=Actualizar librería
-RefreshModuleHandleAction.MessageBox.Text=El diseño actual tiene cambios no guardados. ¿Desea guardar o desechar estos cambios primero?
+RefreshModuleHandleAction.MessageBox.Text=El diseño actual tiene cambios no guardados. ¿Desea guardar estos cambios primero?
 RefreshModuleHandleAction.MessageBox.SaveButton=&Guardar
 RefreshModuleHandleAction.MessageBox.DiscardButton=&Desechar
 RefreshModuleHandleAction.MessageBox.CancelButton=Cancelar
@@ -4357,7 +4357,7 @@ MultiPageReportEditor.ConfirmTitle=El archivo no existe
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Una versión anterior de BIRT Designer ha creado el diseño de informe. Al guardarlo, se actualizará a la versión actual y podría no ser accesible a versiones anteriores de BIRT. ¿Aún desea guardarlo?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=El contenido de este editor puede haber cambiado desde fuera, ¿desea volver a cargar los cambios?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=El contenido de este editor puede haber cambiado desde fuera, ¿desea volver a cargar el contenido con estos cambios?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=El contenido de este editor puede haber cambiado desde fuera y el editor tiene cambios no guardados.\n\n¿Desea guardar el editor y volver a cargar los cambios de fuera o desechar los cambios no guardados del editor antes de volver a cargar?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=El contenido de este editor puede haber cambiado desde fuera y el editor tiene cambios no guardados.\n\n¿Desea guardar el editor y volver a cargar los cambios de fuera?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirmar
 MultiPageReportEditor.SaveButton=&Guardar
 MultiPageReportEditor.DiscardButton=&Desechar

@@ -717,9 +717,9 @@ Choices.reportItemThemeType.List=Listenthema
 Choices.reportItemThemeType.Grid=Rasterthema
 
 #91 nullsOrdering
-Choices.nullsOrdering.nullsLowest=Nulls Lowest
-Choices.nullsOrdering.nullsHighest=Null Highest
-Choices.nullsOrdering.excludeNulls=Exclude Nulls
+Choices.nullsOrdering.nullsLowest=Niedrigste Nullwerte
+Choices.nullsOrdering.nullsHighest=Höchste Nullwerte
+Choices.nullsOrdering.excludeNulls=Nullwerte ausschließen
 
 ###########################################################
 # Classes
@@ -2049,8 +2049,8 @@ Structure.ColumnHint.textFormat=Textformat
 Structure.ColumnHint.description=Beschreibung
 Structure.ColumnHint.descriptionID=Beschreibungs-Ressourcenschlüssel
 Structure.ColumnHint.action=Aktion
-Structure.ColumnHint.ACLExpression=ACL Expression	
-Structure.ColumnHint.analysisColumn=Analysis Column
+Structure.ColumnHint.ACLExpression=Ausdruck 'ACL'	
+Structure.ColumnHint.analysisColumn=Analysespalte
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Auswahl
@@ -2516,7 +2516,7 @@ Element.DataSet.ACLExpression=Ausdruck 'ACL'
 Element.DataSet.RowACLExpression=Zeilenausdruck 'ACL'
 Element.DataSet.isVisible=Sichtbar
 Element.DataSet.locale=Gebietsschema
-Element.DataSet.nullsOrdering=Nulls Ordering
+Element.DataSet.nullsOrdering=Reihenfolge für Nullwerte
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Vor dem Öffnen

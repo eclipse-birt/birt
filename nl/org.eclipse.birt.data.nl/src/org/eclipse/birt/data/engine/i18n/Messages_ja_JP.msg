@@ -133,8 +133,8 @@ data.engine.OpenCacheTempError=Œ‹‰Ês‚ğƒLƒƒƒbƒVƒ…‚·‚é‚½‚ß‚Ìˆêƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚Ä‚
 data.engine.WriteCacheTempError=Œ‹‰Ês‚ğƒLƒƒƒbƒVƒ…‚·‚é‚½‚ß‚Ìˆêƒtƒ@ƒCƒ‹‚É‘‚«‚ñ‚Å‚¢‚é‚Æ‚«‚É—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B
 data.engine.ReadCacheTempError=Œ‹‰Ês‚ğƒLƒƒƒbƒVƒ…‚·‚é‚½‚ß‚Ìˆêƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚Å‚¢‚é‚Æ‚«‚É—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B
 data.engine.CloseCacheTempError=Œ‹‰Ês‚ğƒLƒƒƒbƒVƒ…‚·‚é‚½‚ß‚Ìˆêƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚Ä‚¢‚é‚Æ‚«‚É—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B
-data.engine.FailedLoadColumnValue=Failed to load value for "{0}" type column "{1}".
-data.engine.FailedLoadClass=Failed to load class "{0}" for "{1}" type column "{2}". please make sure class "{0}" is included in BIRT engine's class loading path.
+data.engine.FailedLoadColumnValue="{0}" Œ^‚Ì—ñ "{1}" ‚Ì’l‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB
+data.engine.FailedLoadClass="{1}" Œ^‚Ì—ñ "{2}" ‚ÌƒNƒ‰ƒX "{0}" ‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB ƒNƒ‰ƒX "{0}"‚ªABIRT ƒGƒ“ƒWƒ“‚ÌƒNƒ‰ƒX“Ç‚İ‚İƒpƒX‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚é‚±‚Æ‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B
 
 #load data engine factory exception
 load.factory.error=ƒf[ƒ^ƒGƒ“ƒWƒ“‚Ìƒtƒ@ƒNƒgƒŠ‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB

@@ -21,10 +21,10 @@ OptionDisplayValue.OfficeVersion=输出版本:
 OptionDisplayValue.Office2003=Microsoft Office 2003
 OptionDisplayValue.Office2007=Microsoft Office 2007
 OptionDisplayValue.ChartDpi=图表 DPI
-OptionDisplayValue.HideGridlines=Hide grid lines
+OptionDisplayValue.HideGridlines=隐藏网络线
 
 ###########################################################
 #Option Description
 OptionDescription.WrappingText=表示文本是否可自动换行。
 OptionDescription.ChartDpi=DPI 用于生成图表。
-OptionDescription.HideGridlines=Hide grid lines.
+OptionDescription.HideGridlines=隐藏网络线。

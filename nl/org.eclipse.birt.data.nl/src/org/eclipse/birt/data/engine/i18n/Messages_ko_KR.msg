@@ -133,8 +133,8 @@ data.engine.OpenCacheTempError=결과 행 캐싱을 위한 임시 파일을 여는 중 예외 발생
 data.engine.WriteCacheTempError=결과 행 캐싱을 위한 임시 파일을 쓰는 중 예외 발생.
 data.engine.ReadCacheTempError=결과 행 캐싱을 위한 임시 파일을 읽는 중 예외 발생.
 data.engine.CloseCacheTempError=결과 행 캐싱을 위한 임시 파일을 닫는 중 예외 발생.
-data.engine.FailedLoadColumnValue=Failed to load value for "{0}" type column "{1}".
-data.engine.FailedLoadClass=Failed to load class "{0}" for "{1}" type column "{2}". please make sure class "{0}" is included in BIRT engine's class loading path.
+data.engine.FailedLoadColumnValue="{0}" 형식 열 "{1}"의 값을 로드하지 못했습니다.
+data.engine.FailedLoadClass="{1}" 형식 열 "{2}"의 클래스 "{0}"을(를) 로드하지 못했습니다. 클래스 "{0}"이(가) BIRT 엔진의 클래스 로딩 경로에 있는지 확인하십시오.
 
 #load data engine factory exception
 load.factory.error=데이터 엔진 팩토리 로드 중 오류가 발생했습니다.

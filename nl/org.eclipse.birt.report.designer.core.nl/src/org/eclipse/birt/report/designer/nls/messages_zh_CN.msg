@@ -3169,7 +3169,7 @@ PublishTemplateViewAction.action.displaytext=使用新建报表向导来注册模板(&Z)...
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=刷新库(&L)
 RefreshModuleHandleAction.MessageBox.Title=刷新库
-RefreshModuleHandleAction.MessageBox.Text=当前设计包含未保存的更改。 保存还是先放弃这些更改?
+RefreshModuleHandleAction.MessageBox.Text=当前设计包含未保存的更改。 是否先保存这些更改?
 RefreshModuleHandleAction.MessageBox.SaveButton=保存(&S)
 RefreshModuleHandleAction.MessageBox.DiscardButton=放弃(&D)
 RefreshModuleHandleAction.MessageBox.CancelButton=取消
@@ -4357,7 +4357,7 @@ MultiPageReportEditor.ConfirmTitle=文件不存在
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=报表设计是使用较早版本的 BIRT Designer 创建的。保存它将会升级到当前版本，可能使较早版本的 BIRT 无法打开它。是否仍要保存?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=此编辑器的内容可能已从外部更改，要重新加载更改吗?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=此编辑器的内容可能已从外部更改，要重新加载具有这些更改的内容吗?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=此编辑器的内容可能已从外部更改，编辑器包含未保存的更改。\n\n保存编辑器并重新加载外部更改，还是在重新加载之前放弃编辑器的未保存的更改?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=此编辑器的内容可能已从外部更改，编辑器包含未保存的更改。\n\n是否要保存编辑器并重新加载外部更改?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=确认
 MultiPageReportEditor.SaveButton=保存(&S)
 MultiPageReportEditor.DiscardButton=放弃(&D)

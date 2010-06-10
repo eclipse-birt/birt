@@ -36,4 +36,4 @@ cube.error.createdimension=Fehler beim Erstellen von Dimension:{0}.
 cube.error.createmeasure=Fehler beim Erstellen von Maßeinheit.
 cube.error.datasetmiss=Der Quader kann nicht erstellt werden, da der zugehörige Datensatz fehlt.
 cube.jointColumnNotInLevels=Verknüpfungsspalte '{0}' ist nicht als Schlüsselfeld einer Ebene in Dimension '{1}' definiert.
-cube.unsupportedAggregationInBinding=TopN/BottomN function in binding "{0}" is not supported in xTab.
+cube.unsupportedAggregationInBinding=Funktion 'TopN/BottomN' in Bindung '{0}' wird in xTab nicht unterstützt.

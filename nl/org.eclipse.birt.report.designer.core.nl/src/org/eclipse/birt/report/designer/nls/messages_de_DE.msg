@@ -3169,7 +3169,7 @@ PublishTemplateViewAction.action.displaytext=Vorlage mit Ass&istent für neuen Be
 #RefreshModuleHandleAction
 RefreshModuleHandleAction.Action.Text=&Bibliothek aktualisieren
 RefreshModuleHandleAction.MessageBox.Title=Bibliothek aktualisieren
-RefreshModuleHandleAction.MessageBox.Text=Es sind ungespeicherte Änderungen im aktuellen Design vorhanden. Möchten Sie diese Änderungen zuerst speichern oder verwerfen?
+RefreshModuleHandleAction.MessageBox.Text=Es sind ungespeicherte Änderungen im aktuellen Design vorhanden. Möchten Sie diese Änderungen zuerst speichern?
 RefreshModuleHandleAction.MessageBox.SaveButton=&Speichern
 RefreshModuleHandleAction.MessageBox.DiscardButton=&Verwerfen
 RefreshModuleHandleAction.MessageBox.CancelButton=Abbrechen
@@ -4357,7 +4357,7 @@ MultiPageReportEditor.ConfirmTitle=Datei ist nicht vorhanden.
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Das Berichtdesign wurde mit einer früheren Version von BIRT Designer erstellt. Durch Speichern wird es auf die aktuelle Version aktualisiert. Dadurch kann es möglicherweise nicht mehr mit einer älteren Version von BIRT geöffnet werden. Möchten Sie das Berichtdesign trotzdem speichern?
 MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=Der Inhalt dieses Editors wurde möglicherweise extern geändert. Möchten Sie die Änderungen neu laden?
 MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=Der Inhalt dieses Editors wurde möglicherweise extern geändert. Möchten Sie den Inhalt mit diesen Änderungen neu laden?
-MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=Der Inhalt dieses Editors wurde möglicherweise extern geändert, und im Editor sind ungespeicherte Änderungen vorhanden.\n\nMöchten Sie den Editor speichern und die Änderungen neu laden oder die ungespeicherten Änderungen im Editor verwerfen, bevor Sie neu laden?
+MultiPageReportEditor.ConfirmVersion.Dialog.SaveAndReloadMessage=Der Inhalt dieses Editors wurde möglicherweise extern geändert, und im Editor sind ungespeicherte Änderungen vorhanden.\n\nMöchten Sie den Editor speichern und die Änderungen neu laden?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Bestätigen
 MultiPageReportEditor.SaveButton=&Speichern
 MultiPageReportEditor.DiscardButton=&Verwerfen

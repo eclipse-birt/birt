@@ -717,9 +717,9 @@ Choices.reportItemThemeType.List=Thème de liste
 Choices.reportItemThemeType.Grid=Thème de grille
 
 #91 nullsOrdering
-Choices.nullsOrdering.nullsLowest=Nulls Lowest
-Choices.nullsOrdering.nullsHighest=Null Highest
-Choices.nullsOrdering.excludeNulls=Exclude Nulls
+Choices.nullsOrdering.nullsLowest=Valeurs nulles les plus basses
+Choices.nullsOrdering.nullsHighest=Valeurs nulles les plus élevées
+Choices.nullsOrdering.excludeNulls=Exclure les valeurs nulles
 
 ###########################################################
 # Classes
@@ -2049,8 +2049,8 @@ Structure.ColumnHint.textFormat=Format du texte
 Structure.ColumnHint.description=Description
 Structure.ColumnHint.descriptionID=Clé de ressource de la description
 Structure.ColumnHint.action=Action
-Structure.ColumnHint.ACLExpression=ACL Expression	
-Structure.ColumnHint.analysisColumn=Analysis Column
+Structure.ColumnHint.ACLExpression=Expression ACL	
+Structure.ColumnHint.analysisColumn=Colonne Analyse
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Choix de sélection
@@ -2516,7 +2516,7 @@ Element.DataSet.ACLExpression=Expression ACL
 Element.DataSet.RowACLExpression=Expression ACL de la ligne
 Element.DataSet.isVisible=Visible
 Element.DataSet.locale=Informations locales
-Element.DataSet.nullsOrdering=Nulls Ordering
+Element.DataSet.nullsOrdering=Commande de valeurs nulles
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.beforeOpen=Avant l'ouverture
