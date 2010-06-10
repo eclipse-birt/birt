@@ -13,9 +13,11 @@
  */ 
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Adapts a Model Column definition
@@ -42,5 +44,17 @@ public class ColumnAdapter extends ColumnDefinition
 	{
 		super( modelColumnHint.getColumnName( ) );
 		DataAdapterUtil.updateColumnDefn( this, modelColumnHint );
+		this.setAnalysisType( this.acquireAnalysisType( modelColumnHint.getAnalysis( ) ) );
+	}
+	
+	public static int acquireAnalysisType( String type )
+	{
+		if( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ))
+			return IColumnDefinition.ANALYSIS_DIMENSION;
+		else if( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( type ))
+			return IColumnDefinition.ANALYSIS_MEASURE;
+		else if( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( type ))
+			return IColumnDefinition.ANALYSIS_ATTRIBUTE;
+		return -1;
 	}
 }

@@ -323,8 +323,8 @@ public class DataAdapterUtil
 		assert dteColumn.getColumnName( ).equals(
 				modelColumnHint.getColumnName( ) );
 		dteColumn.setAlias( modelColumnHint.getAlias( ) );
-
-		String exportConstant = modelColumnHint.getExport( );
+		dteColumn.setAnalysisType( ColumnAdapter.acquireAnalysisType( modelColumnHint.getAnalysis( ) ) );
+ 		String exportConstant = modelColumnHint.getExport( );
 		if ( exportConstant != null )
 		{
 			int exportHint = IColumnDefinition.DONOT_EXPORT; // default value

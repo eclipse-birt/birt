@@ -11,13 +11,13 @@
 package org.eclipse.birt.report.data.adapter.impl;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 
 /**
  * resultset column from resultset property
  *
  */
-class ResultSetColumnDefinition implements IColumnDefinition
+class ResultSetColumnDefinition extends ColumnDefinition
 {
 	String 		name, nativeName;
 	int 		position = -1;
@@ -33,52 +33,9 @@ class ResultSetColumnDefinition implements IColumnDefinition
 	 */
 	ResultSetColumnDefinition( String name ) 
 	{
-	    this.name = name;
+	    super( name );
 	}
 
-	/**
-	 * Assigns the indexed position to a Column definition.
-	 * @param position 1-based position of column in the data row
-	 */
-	void setColumnPosition( int position ) 
-	{
-	    this.position = position;
-	}
-	
-	
-	/**
-	 * Gets the column name 
-	 */
-	public String getColumnName() 
-	{
-		return name;
-	}
-	
-	/**
-	 * Gets the column position 
-	 */
-	public int getColumnPosition() 
-	{
-		return position;
-	}
-	
-	/**
-	 * Gets the data type of the column.
-	 * @return Data type as an integer. 
-	 */
-	public int getDataType() 
-	{
-		return dataType;
-	}
-	
-	/**
-	 * @param dataType The dataType to set.
-	 */
-	void setDataType(int dataType) 
-	{
-		this.dataType = dataType;
-	}
-	
 	/**
 	 * Gets the data type of the column.
 	 * @return Data type as an integer. 
@@ -95,39 +52,6 @@ class ResultSetColumnDefinition implements IColumnDefinition
 	void setDataTypeName( String dataTypeName )
 	{
 		this.dataTypeName = dataTypeName;
-	}
-
-	/* (non-Javadoc)
-     * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getNativeDataType()
-     */
-    public int getNativeDataType()
-    {
-        return nativeDataType;
-    }
-    
-    /**
-     * @param dataType The native data type to set.
-     */
-    void setNativeDataType( int typeCode ) 
-    {
-        nativeDataType = typeCode;
-    }
-
-    /** 
-	 * Gets the alias of the column. An alias is a string that can be used interchangably as 
-	 * the name to refer to a column.
-	 */
-	public String getAlias() 
-	{
-		return alias;
-	}
-
-	/**
-	 * @param alias The alias to set.
-	 */
-	void setAlias(String alias) 
-	{
-		this.alias = alias;
 	}
 
 	/**
@@ -164,34 +88,5 @@ class ResultSetColumnDefinition implements IColumnDefinition
 	boolean isComputedColumn()
 	{
 		return this.computedCol;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getExportHint()
-	 */
-	public int getExportHint( )
-	{
-		return -1;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getSearchHint()
-	 */
-	public int getSearchHint( )
-	{
-		return -1;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getColumnNativeName()
-	 */
-	public String getColumnNativeName( )
-	{
-		return this.nativeName;
-	}
-
-	public void setColumnNativeName( String nativeName )
-	{
-		this.nativeName = nativeName;
 	}
 }
