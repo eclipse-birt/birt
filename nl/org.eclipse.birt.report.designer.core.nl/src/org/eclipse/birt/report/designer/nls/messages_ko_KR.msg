@@ -670,6 +670,8 @@ DataSetParameterBindingInputDialog.Title.NewParameter=새 매개 변수
 DataSetParameterBindingInputDialog.Title.EditParameter=매개 변수 편집
 DataSetParameterBindingInputDialog.Label.DataType=데이터 형식:
 DataSetParameterBindingInputDialog.Label.Value=값(&V):
+DataSetParametersPage.ParameterButton.Tooltip.Edit=Edit Report Parameter
+DataSetParametersPage.ParameterButton.Tooltip.New=New Report Parameter
 DataSetParametersPage.Prompt.new=<여기에 새 매개 변수 입력>
 DataSetParametersPage.default.None=해당 없음
 DataSetParametersPage.reportParam.None=없음
@@ -4222,6 +4224,13 @@ DataSetColumnBindingsFormHandleProvider.NONE=해당 없음
 ###########################################################
 #DataSetColumnBindingsFormPage
 DataSetColumnBindingsFormPage.Button.RemoveUnused=사용하지 않는 열 제거
+
+###########################################################
+#DataSetSettingsPage
+DataSetSettingsPage.DataGroup.Title=BIRT Engine settings for comparing data set column values
+DataSetSettingsPage.Locale.Label=&Locale of character string values:
+DataSetSettingsPage.NullValueOrdering.Label=&Ordering of Null values:
+
 ###########################################################
 #ResourceSelectionValidator
 ResourceSelectionValidator.ExtError=선택한 파일은 다음으로 끝나야 합니다. 

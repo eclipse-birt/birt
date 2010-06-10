@@ -670,6 +670,8 @@ DataSetParameterBindingInputDialog.Title.NewParameter=パラメタの新規作成
 DataSetParameterBindingInputDialog.Title.EditParameter=パラメタの編集
 DataSetParameterBindingInputDialog.Label.DataType=データ型 :
 DataSetParameterBindingInputDialog.Label.Value=値(&V) :
+DataSetParametersPage.ParameterButton.Tooltip.Edit=Edit Report Parameter
+DataSetParametersPage.ParameterButton.Tooltip.New=New Report Parameter
 DataSetParametersPage.Prompt.new=<ここに新しいパラメタを入力してください...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=なし
@@ -4222,6 +4224,13 @@ DataSetColumnBindingsFormHandleProvider.NONE=N/A
 ###########################################################
 #DataSetColumnBindingsFormPage
 DataSetColumnBindingsFormPage.Button.RemoveUnused=未使用のカラムの削除
+
+###########################################################
+#DataSetSettingsPage
+DataSetSettingsPage.DataGroup.Title=BIRT Engine settings for comparing data set column values
+DataSetSettingsPage.Locale.Label=&Locale of character string values:
+DataSetSettingsPage.NullValueOrdering.Label=&Ordering of Null values:
+
 ###########################################################
 #ResourceSelectionValidator
 ResourceSelectionValidator.ExtError=選択したファイルの拡張子は次のようにしてください : 

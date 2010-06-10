@@ -670,6 +670,8 @@ DataSetParameterBindingInputDialog.Title.NewParameter=Nouveau paramètre
 DataSetParameterBindingInputDialog.Title.EditParameter=Modifier le paramètre
 DataSetParameterBindingInputDialog.Label.DataType=Type de données :
 DataSetParameterBindingInputDialog.Label.Value=&Valeur :
+DataSetParametersPage.ParameterButton.Tooltip.Edit=Edit Report Parameter
+DataSetParametersPage.ParameterButton.Tooltip.New=New Report Parameter
 DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Aucun
@@ -4222,6 +4224,13 @@ DataSetColumnBindingsFormHandleProvider.NONE=N/A
 ###########################################################
 #DataSetColumnBindingsFormPage
 DataSetColumnBindingsFormPage.Button.RemoveUnused=Supprimer une colonne inutilisée
+
+###########################################################
+#DataSetSettingsPage
+DataSetSettingsPage.DataGroup.Title=BIRT Engine settings for comparing data set column values
+DataSetSettingsPage.Locale.Label=&Locale of character string values:
+DataSetSettingsPage.NullValueOrdering.Label=&Ordering of Null values:
+
 ###########################################################
 #ResourceSelectionValidator
 ResourceSelectionValidator.ExtError=Le fichier sélectionné doit se terminer par 

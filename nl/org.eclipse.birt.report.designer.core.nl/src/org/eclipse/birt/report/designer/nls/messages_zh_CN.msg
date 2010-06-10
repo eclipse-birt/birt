@@ -670,6 +670,8 @@ DataSetParameterBindingInputDialog.Title.NewParameter=新建参数
 DataSetParameterBindingInputDialog.Title.EditParameter=编辑参数
 DataSetParameterBindingInputDialog.Label.DataType=数据类型:
 DataSetParameterBindingInputDialog.Label.Value=值(&V):
+DataSetParametersPage.ParameterButton.Tooltip.Edit=Edit Report Parameter
+DataSetParametersPage.ParameterButton.Tooltip.New=New Report Parameter
 DataSetParametersPage.Prompt.new=<此处为新参数...>
 DataSetParametersPage.default.None=不适用
 DataSetParametersPage.reportParam.None=无
@@ -4222,6 +4224,13 @@ DataSetColumnBindingsFormHandleProvider.NONE=不适用
 ###########################################################
 #DataSetColumnBindingsFormPage
 DataSetColumnBindingsFormPage.Button.RemoveUnused=删除未使用的列
+
+###########################################################
+#DataSetSettingsPage
+DataSetSettingsPage.DataGroup.Title=BIRT Engine settings for comparing data set column values
+DataSetSettingsPage.Locale.Label=&Locale of character string values:
+DataSetSettingsPage.NullValueOrdering.Label=&Ordering of Null values:
+
 ###########################################################
 #ResourceSelectionValidator
 ResourceSelectionValidator.ExtError=选中的文件的结尾必须是 
