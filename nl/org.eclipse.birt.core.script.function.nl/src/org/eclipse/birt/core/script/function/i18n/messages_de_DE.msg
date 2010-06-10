@@ -26,9 +26,6 @@ error.incorrect.type.function.argument=Falscher Argumenttyp.
 error.BirtMath.ceiling.significance.notApplied=Angegebene Signifikanz '{0}' kann nicht auf Zahl '{1}' angewendet werden.
 error.BirtMath.mod.invalid.divisor=Divisor darf nicht 0 sein.
 
-error.BirtComp.match.invalid.pattern=Musterwert darf nicht Null sein.
-error.BirtComp.like.invalid.pattern=Musterwert darf nicht Null sein.
-
 error.BirtDateTime.cannotBeNull.DateValue=Datumswert darf nicht Null sein.
 
 error.BirtStr.left.invalidArgument=Wert '{0}' von Argument n ist für Skriptfunktion ungültig.

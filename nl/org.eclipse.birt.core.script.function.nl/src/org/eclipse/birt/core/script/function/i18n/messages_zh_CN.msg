@@ -26,9 +26,6 @@ error.incorrect.type.function.argument=参数类型不正确。
 error.BirtMath.ceiling.significance.notApplied=给定的有效值“{0}”无法应用到数值“{1}”。
 error.BirtMath.mod.invalid.divisor=除数不能为 0。
 
-error.BirtComp.match.invalid.pattern=模式值不能为空!
-error.BirtComp.like.invalid.pattern=模式值不能为空!
-
 error.BirtDateTime.cannotBeNull.DateValue=日期值不能为空!
 
 error.BirtStr.left.invalidArgument=参数 n 的值“{0}”对于脚本函数无效。

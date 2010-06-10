@@ -26,9 +26,6 @@ error.incorrect.type.function.argument=El tipo de argumento es incorrecto.
 error.BirtMath.ceiling.significance.notApplied=No se puede aplicar el valor "{0}" dado al número "{1}".
 error.BirtMath.mod.invalid.divisor=El divisor no puede ser 0.
 
-error.BirtComp.match.invalid.pattern=El valor de patrón no puede ser nulo.
-error.BirtComp.like.invalid.pattern=El valor de patrón no puede ser nulo.
-
 error.BirtDateTime.cannotBeNull.DateValue=El valor de fecha no puede ser nulo
 
 error.BirtStr.left.invalidArgument=El valor "{0}" del n de argumento no es válido por la función de script.

@@ -26,9 +26,6 @@ error.incorrect.type.function.argument=引数の型が正しくありません。
 error.BirtMath.ceiling.significance.notApplied=指定した重要度 "{0}" を数 "{1}" に適用できません。
 error.BirtMath.mod.invalid.divisor=除数は 0 にすることができません。
 
-error.BirtComp.match.invalid.pattern=パターンの値は null にすることができません。
-error.BirtComp.like.invalid.pattern=パターンの値は null にすることができません。
-
 error.BirtDateTime.cannotBeNull.DateValue=日付の値は null にすることができません。
 
 error.BirtStr.left.invalidArgument=引数 n の値 "{0}" は、スクリプト関数に対して無効です。

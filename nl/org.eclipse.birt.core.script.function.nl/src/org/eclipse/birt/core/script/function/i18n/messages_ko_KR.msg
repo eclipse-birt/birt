@@ -26,9 +26,6 @@ error.incorrect.type.function.argument=잘못된 인수 형식입니다.
 error.BirtMath.ceiling.significance.notApplied=지정된 유의 수준 "{0}"을(를) 숫자 "{1}"에 적용할 수 없습니다.
 error.BirtMath.mod.invalid.divisor=제수는 0일 수 없습니다.
 
-error.BirtComp.match.invalid.pattern=패턴 값은 널(null)일 수 없습니다!
-error.BirtComp.like.invalid.pattern=패턴 값은 널(null)일 수 없습니다!
-
 error.BirtDateTime.cannotBeNull.DateValue=날짜 값은 널(null)일 수 없습니다!
 
 error.BirtStr.left.invalidArgument=인수 n의 값 "{0}"은(는) 스크립트 함수에 알맞지 않습니다.
