@@ -243,7 +243,13 @@ public class FactTableRowIterator implements IFactTableRowIterator
 					if( !readMeasure )
 					{
 						if( allMeasuerSize != -1 )
-							currentSegment.skipBytes( allMeasuerSize );
+						{
+							int n = currentSegment.skipBytes( allMeasuerSize );
+							if( n == -1 )
+							{
+								break;
+							}
+						}
 						else
 							readMeasure( );
 					}
