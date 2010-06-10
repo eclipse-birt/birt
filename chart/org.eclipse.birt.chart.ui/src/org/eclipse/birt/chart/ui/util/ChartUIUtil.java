@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -1167,12 +1168,30 @@ public class ChartUIUtil
 			return true;
 		}
 		ChartWithAxes chartWithAxes = (ChartWithAxes) chart;
-		ColorDefinition wall = (ColorDefinition) chartWithAxes.getWallFill( );
-		ColorDefinition floor = (ColorDefinition) chartWithAxes.getFloorFill( );
-		return wall != null
-				&& wall.getTransparency( ) > 0
-				|| floor != null
-				&& floor.getTransparency( ) > 0;
+		
+		Fill wall = chartWithAxes.getWallFill( );
+		if ( wall != null )
+		{
+			if ( wall instanceof ColorDefinition
+					&& ( (ColorDefinition) wall ).getTransparency( ) > 0 )
+			{
+				return true;
+			}
+			return true;
+		}
+
+		Fill floor = chartWithAxes.getFloorFill( );
+		if ( floor != null )
+		{
+			if ( floor instanceof ColorDefinition
+					&& ( (ColorDefinition) floor ).getTransparency( ) > 0 )
+			{
+				return true;
+			}
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
