@@ -2375,6 +2375,7 @@ Element.DataMartDataSet=데이터 개체 데이터 집합
 Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
 Element.ReportItemTheme=보고서 항목 테마
+Element.AbstractTheme=Abstract Theme
 
 ###########################################################
 # Element property names
@@ -2717,6 +2718,7 @@ Element.ReportItem.ACLExpression=ACL 식
 Element.ReportItem.cascadeACL=계단식 ACL
 Element.ReportItem.allowExport=내보내기 허용
 Element.ReportItem.pushDown=아래로 밀어내기
+Element.ReportItem.theme=테마
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=내용
@@ -3032,7 +3034,6 @@ Element.Grid.onPageBreak.reportContext=보고서 컨텍스트
 Element.Grid.caption=캡션
 Element.Grid.captionID=캡션 키
 Element.Grid.summary=요약
-Element.Grid.theme=테마
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=방향
@@ -3140,7 +3141,6 @@ Element.Listing.onRow=행에서
 Element.Listing.onRow.toolTip=이 요소에 대한 데이터 집합에서 검색된 각 행에 대해 해당 행에 대한 내용을 생성하기 전에 호출됩니다
 Element.Listing.onFinish=종료 시
 Element.Listing.onFinish.toolTip=이 요소에 대한 데이터 집합에서 마지막 행을 읽은 이후이며 바닥글 밴드가 생성되기 이전에 호출됩니다
-Element.Listing.theme=테마
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=내용
@@ -3181,7 +3181,6 @@ Element.DesignElement.userProperties=사용자 속성
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=스타일
-Element.Theme.cssStyleSheets=CSS 스타일시트
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=이름
@@ -3414,6 +3413,9 @@ Element.TimeDimension.hierarchies=계층
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=스타일
 Element.ReportItemTheme.type=형식
+
+#64 AbstractTheme ( Prefix Element.AbstractTheme )
+Element.AbstractTheme.cssStyleSheets=CSS 스타일시트
 
 ###########################################################
 # Predefined style

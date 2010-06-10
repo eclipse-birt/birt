@@ -2375,6 +2375,7 @@ Element.DataMartDataSet=Datenobjekt-Datensatz
 Element.DataMartCube=Datenobjektquader
 Element.TimeDimension=Zeitliche Dimension
 Element.ReportItemTheme=Berichtobjektthema
+Element.AbstractTheme=Abstract Theme
 
 ###########################################################
 # Element property names
@@ -2717,6 +2718,7 @@ Element.ReportItem.ACLExpression=Ausdruck 'ACL'
 Element.ReportItem.cascadeACL=Verschachtelung 'ACL'
 Element.ReportItem.allowExport=Export zulassen
 Element.ReportItem.pushDown=Push Down
+Element.ReportItem.theme=Design
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Inhalt
@@ -3032,7 +3034,6 @@ Element.Grid.onPageBreak.reportContext=Berichtkontext
 Element.Grid.caption=Beschriftung
 Element.Grid.captionID=Beschriftungsschlüssel
 Element.Grid.summary=Zusammenfassung
-Element.Grid.theme=Thema
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Seitenausrichtung
@@ -3140,7 +3141,6 @@ Element.Listing.onRow=Bei Zeile
 Element.Listing.onRow.toolTip=Wird für jede Zeile aufgerufen, die aus dem Datensatz für dieses Element abgerufen wurde, jedoch vor dem Erstellen von Inhalt für diese Zeile
 Element.Listing.onFinish=Beim Beenden
 Element.Listing.onFinish.toolTip=Wird nach dem Lesen der letzten Zeile aus dem Datensatz für dieses Element aufgerufen, jedoch vor dem Erstellen der Fußzeile
-Element.Listing.theme=Thema
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=Inhalt
@@ -3181,7 +3181,6 @@ Element.DesignElement.userProperties=Benutzereigenschaften
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=Stile
-Element.Theme.cssStyleSheets=CSS-Stilvorlagen
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=Name
@@ -3414,6 +3413,9 @@ Element.TimeDimension.hierarchies=Hierarchien
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Stile
 Element.ReportItemTheme.type=Typ
+
+#64 AbstractTheme ( Prefix Element.AbstractTheme )
+Element.AbstractTheme.cssStyleSheets=CSS-Stilvorlagen
 
 ###########################################################
 # Predefined style

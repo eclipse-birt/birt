@@ -2375,6 +2375,7 @@ Element.DataMartDataSet=Jeu de données de l'objet de données
 Element.DataMartCube=Cube de l'objet de données
 Element.TimeDimension=Dimension de temps
 Element.ReportItemTheme=Thème d'élément d'état
+Element.AbstractTheme=Abstract Theme
 
 ###########################################################
 # Element property names
@@ -2717,6 +2718,7 @@ Element.ReportItem.ACLExpression=Expression ACL
 Element.ReportItem.cascadeACL=Cascade ACL
 Element.ReportItem.allowExport=Autoriser l'exportation
 Element.ReportItem.pushDown=Déplacer vers le bas
+Element.ReportItem.theme=Thème
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenu
@@ -3032,7 +3034,6 @@ Element.Grid.onPageBreak.reportContext=Contexte d'état
 Element.Grid.caption=Légende
 Element.Grid.captionID=Clé de légende
 Element.Grid.summary=Résumé
-Element.Grid.theme=Thème
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientation
@@ -3140,7 +3141,6 @@ Element.Listing.onRow=A la ligne
 Element.Listing.onRow.toolTip=Commande appelée pour chaque ligne extraite du jeu de données pour cet élément, mais avant la création de tout contenu pour cette ligne
 Element.Listing.onFinish=A la fin
 Element.Listing.onFinish.toolTip=Commande appelée après la lecture de la dernière ligne du jeu de données pour cet élément, mais avant la création de la bande du pied de page
-Element.Listing.theme=Thème
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=Contenu
@@ -3181,7 +3181,6 @@ Element.DesignElement.userProperties=Propriétés de l'utilisateur
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=Styles
-Element.Theme.cssStyleSheets=Feuilles de style CSS
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=Nom
@@ -3414,6 +3413,9 @@ Element.TimeDimension.hierarchies=Hiérarchies
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Styles
 Element.ReportItemTheme.type=Type
+
+#64 AbstractTheme ( Prefix Element.AbstractTheme )
+Element.AbstractTheme.cssStyleSheets=Feuilles de style CSS
 
 ###########################################################
 # Predefined style

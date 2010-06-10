@@ -2375,6 +2375,7 @@ Element.DataMartDataSet=Conjunto de datos de objeto de datos
 Element.DataMartCube=Cubo de objeto de datos
 Element.TimeDimension=Dimensión de tiempo
 Element.ReportItemTheme=Tema de elemento de informe
+Element.AbstractTheme=Abstract Theme
 
 ###########################################################
 # Element property names
@@ -2717,6 +2718,7 @@ Element.ReportItem.ACLExpression=Expresión ACL
 Element.ReportItem.cascadeACL=Cascada ACL
 Element.ReportItem.allowExport=Permitir exportación
 Element.ReportItem.pushDown=Oprimir
+Element.ReportItem.theme=Tema
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenido
@@ -3032,7 +3034,6 @@ Element.Grid.onPageBreak.reportContext=Contexto de informe
 Element.Grid.caption=Título
 Element.Grid.captionID=Clave de título
 Element.Grid.summary=Resumen
-Element.Grid.theme=Tema
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientación
@@ -3140,7 +3141,6 @@ Element.Listing.onRow=En fila
 Element.Listing.onRow.toolTip=Llamado para cada fila recuperada del conjunto de datos para este elemento, pero antes de crear cualquier contenido para dicha fila
 Element.Listing.onFinish=En fin
 Element.Listing.onFinish.toolTip=Llamado después de leer la última fila del conjunto de datos para este elemento, pero antes de crear la banda de pie de página
-Element.Listing.theme=Tema
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=Contenido
@@ -3181,7 +3181,6 @@ Element.DesignElement.userProperties=Propiedades de usuario
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=Estilos
-Element.Theme.cssStyleSheets=Hoja de estilos CSS
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=Nombre
@@ -3414,6 +3413,9 @@ Element.TimeDimension.hierarchies=Jerarquías
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Estilos
 Element.ReportItemTheme.type=Tipo
+
+#64 AbstractTheme ( Prefix Element.AbstractTheme )
+Element.AbstractTheme.cssStyleSheets=Hoja de estilos CSS
 
 ###########################################################
 # Predefined style

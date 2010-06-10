@@ -2375,6 +2375,7 @@ Element.DataMartDataSet=数据对象数据集
 Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=时间维
 Element.ReportItemTheme=报表项主题
+Element.AbstractTheme=Abstract Theme
 
 ###########################################################
 # Element property names
@@ -2717,6 +2718,7 @@ Element.ReportItem.ACLExpression=ACL 表达式
 Element.ReportItem.cascadeACL=层叠 ACL
 Element.ReportItem.allowExport=允许导出
 Element.ReportItem.pushDown=下推
+Element.ReportItem.theme=主题
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容
@@ -3032,7 +3034,6 @@ Element.Grid.onPageBreak.reportContext=报表上下文
 Element.Grid.caption=标题
 Element.Grid.captionID=标题关键字
 Element.Grid.summary=摘要
-Element.Grid.theme=主题
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=方向
@@ -3140,7 +3141,6 @@ Element.Listing.onRow=遇到行时
 Element.Listing.onRow.toolTip=为从此元素的数据集中检索出的每行调用，但在为该行创建内容之前
 Element.Listing.onFinish=完成时
 Element.Listing.onFinish.toolTip=在从此元素的数据集内读取最后一行之后调用，但在创建页脚区段之前
-Element.Listing.theme=主题
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=内容
@@ -3181,7 +3181,6 @@ Element.DesignElement.userProperties=用户属性
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=样式
-Element.Theme.cssStyleSheets=CSS 样式表
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=名称
@@ -3414,6 +3413,9 @@ Element.TimeDimension.hierarchies=层次结构
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=样式
 Element.ReportItemTheme.type=类型
+
+#64 AbstractTheme ( Prefix Element.AbstractTheme )
+Element.AbstractTheme.cssStyleSheets=CSS 样式表
 
 ###########################################################
 # Predefined style

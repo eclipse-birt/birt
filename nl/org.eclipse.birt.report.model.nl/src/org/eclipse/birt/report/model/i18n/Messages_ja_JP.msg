@@ -2375,6 +2375,7 @@ Element.DataMartDataSet=データオブジェクトのデータセット
 Element.DataMartCube=データオブジェクトキューブ
 Element.TimeDimension=時間のディメンジョン
 Element.ReportItemTheme=レポート項目テーマ
+Element.AbstractTheme=Abstract Theme
 
 ###########################################################
 # Element property names
@@ -2717,6 +2718,7 @@ Element.ReportItem.ACLExpression=ACL 式
 Element.ReportItem.cascadeACL=ACL を重ねて表示
 Element.ReportItem.allowExport=エクスポートを許可する
 Element.ReportItem.pushDown=プッシュ (下へ)
+Element.ReportItem.theme=テーマ
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=コンテンツ
@@ -3032,7 +3034,6 @@ Element.Grid.onPageBreak.reportContext=レポートのコンテキスト
 Element.Grid.caption=キャプション
 Element.Grid.captionID=キャプションキー
 Element.Grid.summary=サマリ
-Element.Grid.theme=テーマ
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=向き
@@ -3140,7 +3141,6 @@ Element.Listing.onRow=行ごと
 Element.Listing.onRow.toolTip=この要素のデータセットから各行が取得された際に、その行のコンテンツが作成される前に呼び出されます
 Element.Listing.onFinish=終了時
 Element.Listing.onFinish.toolTip=この要素のデータセットから最後の行が読み込まれた後で、フッタバンドが作成される前に呼び出されます
-Element.Listing.theme=テーマ
 
 #33 GraphicMasterPage ( Prefix Element.GraphicMasterPage)
 Element.GraphicMasterPage.slot.contents=コンテンツ
@@ -3181,7 +3181,6 @@ Element.DesignElement.userProperties=ユーザのプロパティ
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=スタイル
-Element.Theme.cssStyleSheets=CSS スタイルシート
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=名前
@@ -3414,6 +3413,9 @@ Element.TimeDimension.hierarchies=階層
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=種類
 Element.ReportItemTheme.type=種類
+
+#64 AbstractTheme ( Prefix Element.AbstractTheme )
+Element.AbstractTheme.cssStyleSheets=CSS スタイルシート
 
 ###########################################################
 # Predefined style
