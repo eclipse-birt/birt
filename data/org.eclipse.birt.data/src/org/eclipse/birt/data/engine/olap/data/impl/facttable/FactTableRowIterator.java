@@ -374,9 +374,9 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		for ( int i = 0; i < factTable.getMeasureInfo( ).length; i++ )
 		{
 			if( factTable.getMeasureInfo( )[i].getDataType( ) == DataType.DOUBLE_TYPE )
-				size += 8;
+				size += 9;
 			else if( factTable.getMeasureInfo( )[i].getDataType( ) == DataType.INTEGER_TYPE )
-				size += 4;
+				size += 5;
 			else
 				return -1;
 		}
