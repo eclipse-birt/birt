@@ -154,7 +154,7 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 		// All script data set columns are "custom", to allow setting
 		// values later
 		ResultFieldMetadata c = new ResultFieldMetadata(
-				nextIndex,name, name, dataType, dataType.getName(), true );
+				nextIndex,name, name, dataType, dataType.getName(), true, -1 );
 		describedColumns.add( c );
 	}
 	

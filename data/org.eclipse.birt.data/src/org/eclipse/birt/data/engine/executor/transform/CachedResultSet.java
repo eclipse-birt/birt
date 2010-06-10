@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.executor.transform;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,14 +27,16 @@ import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
+import org.eclipse.birt.data.engine.impl.index.SerializableBirtHash;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.AggrHolderManager;
 import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
@@ -231,7 +234,7 @@ public class CachedResultSet implements IResultIterator
 				ResultFieldMetadata rfMeta = new ResultFieldMetadata(i, meta
 						.getFieldName(i + 1), meta.getFieldLabel(i + 1), meta
 						.getFieldValueClass(i + 1), meta
-						.getFieldNativeTypeName(i + 1), false);
+						.getFieldNativeTypeName(i + 1), false, meta.getAnalysisType( i+1 ));
 				rfMeta.setAlias( meta.getFieldAlias( i+1 ) );
 				projectedColumns.add( rfMeta );
 			}
@@ -250,7 +253,7 @@ public class CachedResultSet implements IResultIterator
 										.getName(),
 								DataType.getClass(((IComputedColumn) helper
 										.getComputedColumnList().get(i))
-										.getDataType()), null, true));
+										.getDataType()), null, true, -1));
 					}
 				}
 				meta = new ResultClass(projectedColumns);
@@ -299,18 +302,26 @@ public class CachedResultSet implements IResultIterator
 					( this.resultSetPopulator.getQuery( ).getQueryDefinition( )!= null && ((IQueryDefinition) this.resultSetPopulator.getQuery( )
 							.getQueryDefinition( )).needAutoBinding( )) ? null
 							: resultSetPopulator.getEventHandler( )
-									.getAllColumnBindings( ) );
+									.getAllColumnBindings( ), streamsWrapper.getStreamManager( ).getVersion( ) );
 			try
 			{
 				streamsWrapper.getStreamForResultClass( ).close( );
 				if ( streamsWrapper.getStreamForDataSet( ) != null )
 				{
+					Map<String, IIndexSerializer> index = streamsWrapper.getStreamForIndex( this.getResultClass( ) );
 					this.resultSetPopulator.getCache( )
 								.doSave( streamsWrapper.getStreamForDataSet( ),
 										streamsWrapper.getStreamForDataSetRowLens( ),
+										index,
 										resultSetPopulator.getEventHandler( )
 												.getAllColumnBindings( ) );
+					
+					for( IIndexSerializer ind: index.values( ))
+					{
+						ind.close( );
+					}
 				}
+				
 				streamsWrapper.getStreamForDataSet( ).close( );
 				streamsWrapper.getStreamForDataSetRowLens( ).close( );
 			}

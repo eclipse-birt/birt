@@ -159,7 +159,7 @@ class ComputedColumnCalculator
 					meta.getFieldNativeTypeName( i ),
 					returnToOriginalValue ? true : ( PassUtil.isTemporaryResultSetComputedColumn(meta.getFieldName( i ))
 							 ? true
-							: false ) ) );
+							: false ), meta.getAnalysisType( i ) ) );
 		}
 		return new ResultClass( projectedColumns );
 	}

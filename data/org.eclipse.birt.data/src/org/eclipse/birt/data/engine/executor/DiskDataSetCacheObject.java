@@ -123,7 +123,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 			fis1 = FileSecurity.createFileInputStream( getMetaFile( ) );
 			bis1 = new BufferedInputStream( fis1 );
 			IOUtil.readInt( bis1 );
-			rsClass = new ResultClass( bis1 );
+			rsClass = new ResultClass( bis1, 0 );
 			bis1.close( );
 			fis1.close( );
 

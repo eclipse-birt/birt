@@ -32,6 +32,7 @@ public class ResultFieldMetadata
 	private String m_nativeTypeName;
 	private boolean m_isCustom;
 	private Class m_driverProvidedDataType;
+	private int m_analysisType = -1;
 
 	public ResultFieldMetadata( int driverPosition, String name, 
 						 		String label, Class dataType,
@@ -44,9 +45,26 @@ public class ResultFieldMetadata
 		m_dataType = dataType;
 		m_nativeTypeName = nativeTypeName;
 		m_isCustom = isCustom;
-		m_driverProvidedDataType = null;	// initialize to unknown
+		m_driverProvidedDataType = null;
+		// initialize to unknown
 	}
 	
+	public ResultFieldMetadata( int driverPosition, String name, 
+						 		String label, Class dataType,
+								String nativeTypeName, boolean isCustom, int analysisType )
+	{
+		this( driverPosition, name, label, dataType, nativeTypeName, isCustom );
+		this.m_analysisType = analysisType;
+	}
+	public int getAnalysisType( )
+	{
+		return this.m_analysisType;
+	}
+	
+	public void setAnalysisType( int type )
+	{
+		this.m_analysisType = type;
+	}
 	// returns the driver position from the runtime metadata
 	public int getDriverPosition()
 	{

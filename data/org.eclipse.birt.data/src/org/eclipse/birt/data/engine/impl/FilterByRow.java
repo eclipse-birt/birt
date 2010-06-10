@@ -300,6 +300,8 @@ public class FilterByRow implements IResultObjectEvent
 		public boolean process( IResultObject row, int rowIndex )
 				throws DataException
 		{
+			if( currentFilters.size( ) == 0 )
+				return true;
 			logger.entering( FilterByRow.class.getName( ), "process" );
 			boolean isAccepted = true;
 			Iterator filterIt = currentFilters.iterator( );

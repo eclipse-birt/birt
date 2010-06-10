@@ -15,18 +15,25 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.index.DataSetInMemoryStringIndex;
+import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
+import org.eclipse.birt.data.engine.impl.index.SerializableBirtHash;
+import org.eclipse.birt.data.engine.impl.index.SerializableDataSetNumberIndex;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -47,7 +54,7 @@ public class ResultSetUtil
 	 * @throws IOException
 	 */
 	public static int writeResultObject( DataOutputStream dos,
-			IResultObject resultObject, int count, Set nameSet )
+			IResultObject resultObject, int count, Set nameSet, Map<String, IIndexSerializer> index, int rowIndex)
 			throws DataException, IOException
 	{
 		if ( resultObject.getResultClass( ) == null )
@@ -63,9 +70,40 @@ public class ResultSetUtil
 					&& ( nameSet.contains( resultObject.getResultClass( )
 							.getFieldName( i ) ) || nameSet.contains( resultObject.getResultClass( )
 							.getFieldAlias( i ) ) ) )
-				IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
+			{
+				IIndexSerializer currIndex = index.get( resultObject.getResultClass( )
+						.getFieldName( i ) );
+				Object candidate = resultObject.getFieldValue( i );
+				if ( currIndex != null )
+				{
+					if ( currIndex instanceof SerializableBirtHash )
+					{
+						SerializableBirtHash hashIndex = (SerializableBirtHash) currIndex;
+						if ( hashIndex.containsKey( candidate ) )
+						{
+							( (List) hashIndex.get( candidate ) ).add( rowIndex );
+						}
+						else
+						{
+							List<Integer> rowIdList = new ArrayList<Integer>( );
+							rowIdList.add( rowIndex );
+							currIndex.put( candidate, rowIdList );
+						}
+						IOUtil.writeObject( tempDos,
+								hashIndex.getKeyValue( candidate ) );
+					}
+					else if ( currIndex instanceof SerializableDataSetNumberIndex )
+					{
+						currIndex.put( candidate, rowIndex );
+						IOUtil.writeObject( tempDos, candidate );
+					}
+				}
+				else
+				{
+					IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
+				}
+			}
 		}
-		
 		tempDos.flush( );
 		tempBos.flush( );
 		tempBaos.flush( );
@@ -87,22 +125,35 @@ public class ResultSetUtil
 	 * @param count
 	 * @return
 	 * @throws IOException
-	 * @throws DataException 
 	 */
 	public static IResultObject readResultObject( DataInputStream dis,
-			IResultClass rsMeta, int count ) throws DataException
+			IResultClass rsMeta, int count,
+			Map<String, DataSetInMemoryStringIndex> index ) throws DataException
 	{
-		Object[] obs = new Object[rsMeta.getFieldCount( )];
-
-		for ( int i = 0; i < count; i++ )
+		int i = 0;
+		try
 		{
-			try 
+			Object[] obs = new Object[rsMeta.getFieldCount( )];
+
+			for ( i = 0; i < count; i++ )
 			{
-				obs[i] = IOUtil.readObject( dis, DataEngineSession.getCurrentClassLoader( ) );
+				obs[i] = IOUtil.readObject( dis,
+						DataEngineSession.getCurrentClassLoader( ) );
+				if ( rsMeta.getAnalysisType( i + 1 ) == IColumnDefinition.ANALYSIS_DIMENSION )
+				{
+					if ( index.containsKey( rsMeta.getFieldName( i + 1 ) ) )
+					{
+						obs[i] = index.get( rsMeta.getFieldName( i + 1 ) )
+								.getKeyValue( obs[i] );
+					}
+				}
+
 			}
-			catch ( IOException e )
-			{
-				Throwable t = e.getCause( );
+			return new ResultObject( rsMeta, obs );
+		}
+		catch ( IOException e )
+		{
+			Throwable t = e.getCause( );
 				if ( t instanceof ClassNotFoundException )
 				{
 					throw new DataException(  
@@ -120,9 +171,8 @@ public class ResultSetUtil
 										rsMeta.getFieldName( i+1 )
 								} );
 				}
-			}
 		}
-		return new ResultObject( rsMeta, obs );
+
 	}
 	
 	/**

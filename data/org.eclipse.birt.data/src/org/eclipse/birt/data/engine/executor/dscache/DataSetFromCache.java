@@ -170,7 +170,8 @@ public class DataSetFromCache
 						rsMeta.getFieldLabel( i + 1 ),
 						rsMeta.getFieldValueClass( i + 1 ),
 						rsMeta.getFieldNativeTypeName( i + 1 ),
-						rsMeta.isCustomField( i + 1 ) );
+						rsMeta.isCustomField( i + 1 ),
+						rsMeta.getAnalysisType( i+1 ));
 				metadata.setAlias( rsMeta.getFieldAlias( i + 1 ) );
 				metadataList.add( metadata );
 				realColumnCount++;
@@ -186,7 +187,7 @@ public class DataSetFromCache
 					null,
 					DataType.getClass( tempComputedColumn.getDataType( ) ),
 					null,
-					true );
+					true, -1 );
 			metadataList.add( metadata );
 		}
 		

@@ -31,6 +31,10 @@ public interface IColumnDefinition
 	public static final int EXPORT_IF_REALIZED = 2;	
 	public static final int ALWAYS_EXPORT = 3;
 
+	public static final int ANALYSIS_DIMENSION = 0;
+	public static final int ANALYSIS_MEASURE = 1;
+	public static final int ANALYSIS_ATTRIBUTE = 2;
+	
 	/**
 	 * Gets the column name. Column name uniquely identifies a column in the data
 	 * row.
@@ -58,6 +62,12 @@ public interface IColumnDefinition
 	 */
 	public int getDataType();
 
+	/**
+	 * Get the data analysis type.
+	 * 
+	 * @return
+	 */
+	public int getAnalysisType();
     /**
      * Gets the column's native data type as defined by the underlying data source.
      * The native data type code value is implementation-specific.

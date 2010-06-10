@@ -50,6 +50,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ResultIterator;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -215,7 +216,7 @@ class CacheUtilFactory
 				// save the count of data
 				IOUtil.writeInt( bos1, this.rowCount );
 		
-				( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ) );
+				( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ), 0 );
 
 				bos1.close( );
 				fos1.close( );
@@ -358,7 +359,7 @@ class CacheUtilFactory
 				IOUtil.writeInt( bos1, this.rowCount );
 				// save the meta data of result
 			
-				( (ResultClass) rsMeta ).doSave( bos1, populateDataSetRowMapping( rsMeta ) );
+				( (ResultClass) rsMeta ).doSave( bos1, populateDataSetRowMapping( rsMeta ), 0 );
 
 				bos1.close( );
 				fos1.close( );
@@ -450,7 +451,7 @@ class CacheUtilFactory
 				BufferedInputStream bis1 = new BufferedInputStream( fis1 );
 
 				rowCount = IOUtil.readInt( bis1 );
-				rsClass = new ResultClass( bis1 );
+				rsClass = new ResultClass( bis1, 0 );
 
 				bis1.close( );
 				fis1.close( );
@@ -580,7 +581,7 @@ class CacheUtilFactory
 				BufferedInputStream bis1 = new BufferedInputStream( fis1 );
 
 				rowCount = IOUtil.readInt( bis1 );
-				rsClass = new ResultClass( bis1 );
+				rsClass = new ResultClass( bis1, 0 );
 
 				bis1.close( );
 				fis1.close( );
@@ -999,7 +1000,7 @@ class CacheUtilFactory
 				BufferedInputStream bis = new BufferedInputStream( fis );
 
 				rowCount = IOUtil.readInt( bis );
-				rsClass = new ResultClass( bis );
+				rsClass = new ResultClass( bis, 0 );
 
 				bis.close( );
 				fis.close( );
@@ -1076,7 +1077,7 @@ class CacheUtilFactory
 				IOUtil.writeInt( bos1, this.rowCount );
 
 				// save the meta data of result
-				( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ) );
+				( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ), 0 );
 
 				bos1.close( );
 				fos1.close( );

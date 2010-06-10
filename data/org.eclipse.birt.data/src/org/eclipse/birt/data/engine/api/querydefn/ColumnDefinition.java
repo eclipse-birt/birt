@@ -21,14 +21,14 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
  */
 public class ColumnDefinition implements IColumnDefinition
 {
-	String 		name, nativeName;
-	int 		position = -1;
-	int			dataType = DataType.UNKNOWN_TYPE;
-    int         nativeDataType = 0;     // unknown
-	String 	 	alias;
-	int			searchHint = NOT_SEARCHABLE;
-	int 		exportHint = DONOT_EXPORT;
-	
+	private String 		name, nativeName;
+	private int 		position = -1;
+	private int			dataType = DataType.UNKNOWN_TYPE;
+    private int         nativeDataType = 0;     // unknown
+	private String 	 	alias;
+	private int			searchHint = NOT_SEARCHABLE;
+	private int 		exportHint = DONOT_EXPORT;
+	private int         analysisType = -1;
 	/**
 	 * Construct a Column definition for a named column
 	 */
@@ -97,6 +97,10 @@ public class ColumnDefinition implements IColumnDefinition
 		return searchHint;
 	}
 
+	public int getAnalysisType()
+	{
+		return this.analysisType;
+	}
 	/**
 	 * Gets the export hint for the column
 	 */
@@ -159,5 +163,10 @@ public class ColumnDefinition implements IColumnDefinition
 	public void setColumnNativeName( String nativeName )
 	{
 		this.nativeName = nativeName;
+	}
+	
+	public void setAnalysisType( int analysisType )
+	{
+		this.analysisType = analysisType;
 	}
 }

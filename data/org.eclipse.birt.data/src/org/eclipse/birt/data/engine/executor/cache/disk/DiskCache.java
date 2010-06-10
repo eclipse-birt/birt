@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
@@ -419,7 +420,7 @@ public class DiskCache implements ResultSetCache
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
 	public void doSave( DataOutputStream outputStream,
-			DataOutputStream rowLensStream, List<IBinding> cacheRequestMap )
+			DataOutputStream rowLensStream, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
 			throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
@@ -441,7 +442,7 @@ public class DiskCache implements ResultSetCache
 				offset += ResultSetUtil.writeResultObject( dos,
 						this.diskBasedResultSet.nextRow( ),
 						colCount,
-						resultSetNameSet );
+						resultSetNameSet, map, i );
 			}
 			
 			this.reset( );

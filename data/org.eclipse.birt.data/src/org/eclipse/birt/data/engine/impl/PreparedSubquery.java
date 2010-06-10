@@ -257,7 +257,8 @@ class PreparedSubquery implements IPreparedQueryService
 						parentResultClass.getFieldName( i + 1 ),
 						parentResultClass.getFieldValueClass( i + 1 ),
 						parentResultClass.getFieldNativeTypeName( i + 1 ),
-						parentResultClass.isCustomField( i + 1 ) );
+						parentResultClass.isCustomField( i + 1 ),
+						-1 );
 				columnsList.add( columnMetaData );
 				columnMetaData.setAlias( parentResultClass.getFieldAlias( i + 1 ) );
 			}
@@ -273,7 +274,8 @@ class PreparedSubquery implements IPreparedQueryService
 						compColumn.getName( ),
 						DataType.getClass( compColumn.getDataType( ) ),
 						null /* nativeTypeName */,
-						true );
+						true,
+						-1 );
 				columnsList.add( columnMetaData );
 			}
 

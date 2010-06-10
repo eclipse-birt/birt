@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -45,7 +46,7 @@ public class ResultClass implements IResultClass
 	private ResultClassHelper resultClassHelper;
 	private boolean hasAny;
 	private List originalAnyTypeField;
-	
+	private int version;
 	public ResultClass( List projectedColumns ) throws DataException
 	{	
 		assert( projectedColumns != null );
@@ -147,12 +148,12 @@ public class ResultClass implements IResultClass
 	 * @param inputStream
 	 * @throws DataException
 	 */
-	public ResultClass( InputStream inputStream ) throws DataException
+	public ResultClass( InputStream inputStream, int version ) throws DataException
 	{
 		assert inputStream != null;
-		
+		this.version = version;
 		DataInputStream dis = new DataInputStream( inputStream );
-		
+
 		try
 		{
 			List newProjectedColumns = new ArrayList( );
@@ -168,13 +169,16 @@ public class ResultClass implements IResultClass
 				String ntName = IOUtil.readString( dis );
 				boolean bool = IOUtil.readBool( dis );
 				String dpdpName = IOUtil.readString( dis );
-				
+				int analysistype = -1;
+				if( version >= VersionManager.VERSION_2_5_2_0 )
+					analysistype = IOUtil.readInt( dis );
 				ResultFieldMetadata metaData = new ResultFieldMetadata( driverPos,
 						name,
 						lable,
 						Class.forName( dtName ),
 						ntName,
-						bool );
+						bool, analysistype );
+				metaData.setAnalysisType( analysistype );
 				metaData.setAlias( alias );
 				if ( dpdpName != null )
 					metaData.setDriverProvidedDataType( Class.forName( dpdpName ) );
@@ -205,7 +209,7 @@ public class ResultClass implements IResultClass
 	 * @param requestColumnMap if NULL provided means all the column in data set should be populated.
 	 * @throws DataException
 	 */
-	public void doSave( OutputStream outputStream, List<IBinding> requestColumnMap )
+	public void doSave( OutputStream outputStream, List<IBinding> requestColumnMap, int version )
 			throws DataException
 	{
 		assert outputStream != null;
@@ -255,6 +259,8 @@ public class ResultClass implements IResultClass
 					else
 						IOUtil.writeString( dos,
 								column.getDriverProvidedDataType( ).getName( ) );
+					if( version >= VersionManager.VERSION_2_5_2_0 )
+						IOUtil.writeInt( dos, column.getAnalysisType( ) );
 					writeCount++;
 				}
 			}
@@ -484,6 +490,17 @@ public class ResultClass implements IResultClass
 				return true;
 		}	
 		return false;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 * @throws DataException
+	 */
+	public int getAnalysisType( int index ) throws DataException
+	{
+		return this.projectedCols[index-1].getAnalysisType( );
 	}
 	
 }

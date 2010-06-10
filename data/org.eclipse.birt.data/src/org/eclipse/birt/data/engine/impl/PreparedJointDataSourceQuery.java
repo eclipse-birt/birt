@@ -336,7 +336,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 						leftPrefix + left.getColumnName( i ),
 						getTypeClass( left.getColumnType( i ) ),
 						left.getColumnNativeTypeName( i ),
-						false ) );
+						false, -1 ) );
 			}
 			for ( int i = ( left.getColumnCount( ) - leftTempColumnSize ) + 1; i <= ( left.getColumnCount( ) - leftTempColumnSize )
 					+ ( right.getColumnCount( ) - rightTempColumnSize ); i++ )
@@ -355,7 +355,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 								- ( left.getColumnCount( ) - leftTempColumnSize ) ) ),
 						right.getColumnNativeTypeName( i
 								- ( left.getColumnCount( ) - leftTempColumnSize ) ),
-						false ) );
+						false, -1 ) );
 			}
 
 			if ( dataSet.getComputedColumns( ) != null )
@@ -375,7 +375,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 							cc.getName( ),
 							DataType.getClass( cc.getDataType( ) ),
 							null,
-							true ) );
+							true, -1 ) );
 				}
 			}
 			if ( dataSet.getResultSetHints( ) != null )

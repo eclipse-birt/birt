@@ -452,7 +452,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 							"",
 							result,
 							null,
-							false );
+							false, -1 );
 					projectedColumns.add( rfm );
 				}
 			}
@@ -469,7 +469,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 						"",
 						result,
 						null,
-						true );
+						true, -1 );
 				projectedColumns.add( rfm );
 			}
 			return new ResultClass( projectedColumns );

@@ -60,6 +60,7 @@ import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.script.JSDummyRowObject;
 import org.mozilla.javascript.Scriptable;
@@ -642,7 +643,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			List<IBinding> metaMap = new ArrayList<IBinding>( );
 			populateDataSetRowMapping( metaMap, getResultClass( ) );
-			( (ResultClass) (getResultClass( )) ).doSave( metaOutputStream, metaMap );
+			( (ResultClass) (getResultClass( )) ).doSave( metaOutputStream, metaMap, VersionManager.getLatestVersion( ));
 			if(metaOutputStream!=null)
 			{
 				metaOutputStream.close( );
@@ -712,7 +713,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 			while( bindings.hasNext( ) )
 			{
 				IBinding binding = (IBinding)(bindings.next( ));
-				columns.add( new ResultFieldMetadata( position, binding.getBindingName( ), binding.getDisplayName( ), binding.getClass( ), null, false ) );
+				columns.add( new ResultFieldMetadata( position, binding.getBindingName( ), binding.getDisplayName( ), binding.getClass( ), null, false, -1 ) );
 				position ++;
 			}
 			return new ResultClass( columns );

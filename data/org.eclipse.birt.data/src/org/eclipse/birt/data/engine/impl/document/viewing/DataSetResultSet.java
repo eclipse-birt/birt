@@ -14,7 +14,9 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -47,12 +49,14 @@ public class DataSetResultSet implements IDataSetPopulator
 	private RAInputStream dataSetRowLensStream;
 	private DataInputStream disRowLensStream;
 	private long initPos;
+	private List<Integer> prefilteredRowIds;
+	private Map index;
 
 	/**
 	 * @param inputStream
 	 * @throws DataException 
 	 */
-	public DataSetResultSet( RAInputStream inputStream, RAInputStream lensStream, IResultClass rsMetaData, int version ) throws DataException
+	public DataSetResultSet( RAInputStream inputStream, RAInputStream lensStream, IResultClass rsMetaData, List<Integer> prefilteredRowIds, Map index, int version ) throws DataException
 	{
 		assert inputStream != null;
 		assert rsMetaData != null;
@@ -76,6 +80,10 @@ public class DataSetResultSet implements IDataSetPopulator
 		this.rsMetaData = populateResultClass(rsMetaData);
 		//Notice we should use column count in original metadata
 		this.colCount = rsMetaData.getFieldCount( );
+		this.prefilteredRowIds = prefilteredRowIds;
+		if( this.prefilteredRowIds!= null )
+			Collections.sort( this.prefilteredRowIds );
+		this.index = index;
 		this.initLoad( );
 	}
 	
@@ -91,7 +99,8 @@ public class DataSetResultSet implements IDataSetPopulator
 				null,
 				Integer.class,
 				null,
-				true );
+				true,
+				-1 );
 		list.add( rfm );
 		return new ResultClass( list );
 	}
@@ -109,13 +118,32 @@ public class DataSetResultSet implements IDataSetPopulator
 	 */
 	public IResultObject next( ) throws DataException
 	{
+		if ( this.prefilteredRowIds!= null )
+		{
+			if( this.prefilteredRowIds.isEmpty( ))
+				return null;
+			this.skipTo( this.prefilteredRowIds.get( 0 ) );
+			this.prefilteredRowIds.remove( 0 );
+			return this.getResultObject( );
+		}
+		
 		if ( this.rowIndex < this.rowCount - 1 || this.rowCount == -1 )
 		{
-			rowIndex++;
-			this.currentObject = ResultSetUtil.readResultObject( dis,
-					rsMetaData,
-					colCount );
-			this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME, this.getCurrentIndex( ) );
+			try
+			{
+				rowIndex++;
+				this.currentObject = ResultSetUtil.readResultObject( dis,
+						rsMetaData,
+						colCount,
+						this.index );
+				this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME, this.getCurrentIndex( ) );
+			}
+			catch ( Exception e )
+			{
+				throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+						e,
+						"Result Data" );
+			}
 		}
 		else
 		{
@@ -134,24 +162,35 @@ public class DataSetResultSet implements IDataSetPopulator
 		return rowIndex;
 	}
 	
-	public void skipTo( int index ) throws DataException, IOException
+	public void skipTo( int index ) throws DataException
 	{
-		if( this.rowIndex == index )
-			return;
-		
-		if ( this.rowIndex < this.rowCount || this.rowCount == -1 )
+		try
 		{
-			if( this.dataSetRowLensStream!= null )
-			{
-				this.dataSetRowLensStream.seek( index * 8 );
-				long position = IOUtil.readLong( this.disRowLensStream );
-				this.rowIndex = index;
-				this.inputStream.seek( position + this.initPos );
-				this.dis = new DataInputStream( inputStream );
-				this.currentObject = ResultSetUtil.readResultObject( dis, rsMetaData, colCount );
-				this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME, this.getCurrentIndex( ) );
+			if ( this.rowIndex == index )
 				return;
+
+			if ( this.rowIndex < this.rowCount || this.rowCount == -1 )
+			{
+				if ( this.dataSetRowLensStream != null )
+				{
+					this.dataSetRowLensStream.seek( index * 8 );
+					long position = IOUtil.readLong( this.disRowLensStream );
+					this.rowIndex = index;
+					this.inputStream.seek( position + this.initPos );
+					this.dis = new DataInputStream( inputStream );
+					this.currentObject = ResultSetUtil.readResultObject( dis,
+							rsMetaData,
+							colCount,
+							this.index);
+					this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
+							this.getCurrentIndex( ) );
+					return;
+				}
 			}
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
 		}
 		/*
 		while( this.rowIndex - 1 < index && this.rowIndex < this.rowCount )

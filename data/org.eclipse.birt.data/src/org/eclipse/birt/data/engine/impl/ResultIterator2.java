@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.mozilla.javascript.Scriptable;
 
@@ -160,6 +161,8 @@ class ResultIterator2 extends ResultIterator
 				IOUtil.writeString( dos, null );
 				IOUtil.writeBool( dos, false );
 				IOUtil.writeString( dos, null );
+				if( streamManager.getVersion( ) >= VersionManager.VERSION_2_5_2_0 )
+					IOUtil.writeInt( dos, -1 );
 			}
 
 			dos.close( );

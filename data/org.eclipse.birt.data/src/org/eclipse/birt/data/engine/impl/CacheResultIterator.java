@@ -88,7 +88,7 @@ public class CacheResultIterator implements IResultIterator
 		try
 		{
 			createCacheInputStream( tempDir );
-			resultClass = new ResultClass( this.metaInputStream );
+			resultClass = new ResultClass( this.metaInputStream, 0 );
 			rowCount = IOUtil.readInt( rowInputStream );
 			if( rowCount == -1 )
 				rowCount = Integer.MAX_VALUE;

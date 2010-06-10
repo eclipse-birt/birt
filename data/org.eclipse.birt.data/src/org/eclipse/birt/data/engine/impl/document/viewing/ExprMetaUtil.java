@@ -214,7 +214,7 @@ public class ExprMetaUtil
 					name,
 					clazz,
 					clazz == null ? null : clazz.toString( ),
-					i == exprMetas.length - 1 ? true : false );
+					i == exprMetas.length - 1 ? true : false, -1 );
 			newProjectedColumns.add( metaData );
 		}
 

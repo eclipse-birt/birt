@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
@@ -276,7 +277,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						.getTempDir( ),
 						getEngineContext( ),
 						new QueryResultInfo( realBasedQueryID, null, -1 ) );
-				DataSetResultSet dataSetResult = rdLoad.loadDataSetData( );
+				DataSetResultSet dataSetResult = rdLoad.loadDataSetData( null, new HashMap() );
 				StreamManager manager = new StreamManager( getEngineContext( ),
 						new QueryResultInfo( queryDefn.getQueryResultsID( ),
 								null,
@@ -300,7 +301,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 											null,
 											-1 ) );
 
-							dataSetResult = rdLoad.loadDataSetData( );
+							dataSetResult = rdLoad.loadDataSetData( null, null );
 						}
 						else
 						{
@@ -386,7 +387,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
 			processedRC.doSave( resultClassStream,
-					new ArrayList( queryDefn.getBindings( ).values( ) ) );
+					new ArrayList( queryDefn.getBindings( ).values( ) ), manager.getVersion( ) );
 
 			resultClassStream.close( );
 
@@ -400,6 +401,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 
 			cache.doSave( dataSetDataStream,
 					rowLensStream,
+					new HashMap(),
 					eventHandler.getAllColumnBindings( ) );
 			dataSetDataStream.flush( );
 			cache.close( );
@@ -443,6 +445,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 								.equals( resultFieldMetadata.getName( ) ) )
 						{
 							resultFieldMetadata.setAlias( columnDefinition.getAlias( ) );
+							resultFieldMetadata.setAnalysisType( columnDefinition.getAnalysisType( ) );
 							break;
 						}
 					}
@@ -467,7 +470,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 							cc.getName( ),
 							DataType.getClass( cc.getDataType( ) ),
 							null,
-							true ) );
+							true, -1) );
 				}
 			}
 		}
@@ -487,7 +490,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						meta.getFieldName( i ),
 						meta.getFieldValueClass( i ),
 						meta.getFieldNativeTypeName( i ),
-						false );
+						false, meta.getAnalysisType( i ));
 				rfm.setAlias( meta.getFieldAlias( i ) );
 				projectedColumns.add( rfm );
 			}

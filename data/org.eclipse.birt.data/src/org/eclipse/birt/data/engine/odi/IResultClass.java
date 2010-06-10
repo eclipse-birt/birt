@@ -170,6 +170,15 @@ public interface IResultClass
 	public boolean wasAnyType( String name ) throws DataException;
 	
 	/**
+	 * Return the analysis type of the column.
+	 * 
+	 * @param name
+	 * @return
+	 * @throws DataException
+	 */
+	public int getAnalysisType( int index ) throws DataException;
+	
+	/**
 	 * Indicate whether the column with given index is of Any type when the
 	 * result class is firstly set.
 	 * @param index

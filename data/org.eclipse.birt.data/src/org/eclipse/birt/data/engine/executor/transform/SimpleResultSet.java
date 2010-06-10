@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.executor.transform;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
@@ -35,6 +36,8 @@ import org.eclipse.birt.data.engine.executor.cache.SmartCacheRequest;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
+import org.eclipse.birt.data.engine.impl.index.SerializableBirtHash;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -118,6 +121,14 @@ public class SimpleResultSet implements IResultIterator
 					( (RAOutputStream) dataSetStream ).seek( rowCountOffset );
 					IOUtil.writeInt( dataSetStream, rowCount );
 				}
+				if ( this.streamsWrapper.getStreamForIndex( this.getResultClass( ) )!= null )
+				{
+					Map<String, IIndexSerializer> hashes = this.streamsWrapper.getStreamForIndex( this.getResultClass( ) );
+					for( IIndexSerializer hash : hashes.values( ))
+					{
+						hash.close( );
+					}
+				}
 				if ( this.streamsWrapper.getStreamManager( )
 						.hasOutStream( DataEngineContext.EXPR_VALUE_STREAM,
 								StreamManager.ROOT_STREAM,
@@ -181,7 +192,7 @@ public class SimpleResultSet implements IResultIterator
 		{
 			( (ResultClass) getResultClass( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
 					( this.query instanceof IQueryDefinition && ( (IQueryDefinition) this.query ).needAutoBinding( ) )
-							? null : this.handler.getAllColumnBindings( ) );
+							? null : this.handler.getAllColumnBindings( ), streamsWrapper.getStreamManager( ).getVersion( ) );
 		}
 		try
 		{
@@ -353,7 +364,7 @@ public class SimpleResultSet implements IResultIterator
 					offset += ResultSetUtil.writeResultObject( new DataOutputStream( dataSetStream ),
 							currResultObj,
 							colCount,
-							resultSetNameSet );
+							resultSetNameSet, streamsWrapper.getStreamForIndex( this.currResultObj.getResultClass( ) ), this.rowCount-1 );
 				}
 			}
 			catch ( IOException e )

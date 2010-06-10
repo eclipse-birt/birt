@@ -62,6 +62,7 @@ import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -312,7 +313,7 @@ public class ResultIterator implements IResultIterator
 	{
 		List<IBinding> metaMap = new ArrayList<IBinding>( );
 		populateDataSetRowMapping( metaMap, odiResult.getResultClass() );
-		( (ResultClass) (odiResult.getResultClass()) ).doSave( metaOutputStream, metaMap );
+		( (ResultClass) (odiResult.getResultClass()) ).doSave( metaOutputStream, metaMap, 0 );
 		if(metaOutputStream!=null)
 		{
 			metaOutputStream.close( );

@@ -17,12 +17,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -399,6 +401,26 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		}
 		if( result == null )
 			result = odaStatement.getMetaData();
+		
+		if ( design != null )
+		{
+			List hintList = design.getResultSetHints( );
+			for ( int i = 0; i < hintList.size( ); i++ )
+			{
+				IColumnDefinition columnDefinition = (IColumnDefinition) hintList.get( i );
+				for ( int j = 1; j <= result.getFieldCount( ); j++ )
+				{
+					ResultFieldMetadata resultFieldMetadata = result.getFieldMetaData( j );
+					if ( columnDefinition.getColumnName( )
+							.equals( resultFieldMetadata.getName( ) ) )
+					{
+						resultFieldMetadata.setAlias( columnDefinition.getAlias( ) );
+						resultFieldMetadata.setAnalysisType( columnDefinition.getAnalysisType( ) );
+						break;
+					}
+				}
+			}
+		}
 		return result;
     }
     

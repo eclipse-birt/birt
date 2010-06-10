@@ -156,7 +156,8 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 						null,
 						DataType.getClass( binding.getDataType( ) ),
 						null,
-						false );
+						false,
+						-1 );
 				list.add( rfmeta );
 				this.originalBindingNames.add( binding.getBindingName( ) );
 			}

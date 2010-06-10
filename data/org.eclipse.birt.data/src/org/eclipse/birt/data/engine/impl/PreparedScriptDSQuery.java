@@ -171,7 +171,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 							columnDefn.getColumnName( ),
 							DataType.getClass( columnDefn.getDataType( ) ),
 							null /* nativeTypeName */,
-							true );
+							true, columnDefn.getAnalysisType( ) );
 					columnsList.add( columnMetaData );
 					columnMetaData.setAlias( columnDefn.getAlias( ) );
 				}
@@ -189,7 +189,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 						compColumn.getName(),
 						DataType.getClass( compColumn.getDataType( ) ),
 						null /* nativeTypeName */, 
-						true );
+						true, -1 );
 			    columnsList.add( columnMetaData );
 			}
 			
