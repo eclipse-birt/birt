@@ -131,6 +131,10 @@ public interface ICrosstabConstants
 	String CROSSTAB_DETAIL_SELECTOR = "crosstab-detail"; //$NON-NLS-1$
 	String CROSSTAB_COLUMN_HEADER_SELECTOR = "crosstab-column-header"; //$NON-NLS-1$
 	String CROSSTAB_ROW_HEADER_SELECTOR = "crosstab-row-header"; //$NON-NLS-1$
+	String CROSSTAB_COLUMN_GRAND_TOTAL_SELECTOR = "crosstab-column-grand-total";	 //$NON-NLS-1$
+	String CROSSTAB_ROW_GRAND_TOTAL_SELECTOR = "crosstab-row-grand-total";	 //$NON-NLS-1$
+	String CROSSTAB_COLUMN_SUB_TOTAL_SELECTOR = "crosstab-column-sub-total"; //$NON-NLS-1$
+	String CROSSTAB_ROW_SUB_TOTAL_SELECTOR = "crosstab-row-sub-total"; //$NON-NLS-1$
 
 	String DEFAULT_MEASURE_FUNCTION = DesignChoiceConstants.MEASURE_FUNCTION_SUM;
 }
