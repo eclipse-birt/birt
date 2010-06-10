@@ -414,5 +414,8 @@ public class ResourceConstants
 	public final static String CALCULATOR_NOT_EXIST = "data.derivedDataSet.calculatorNotExist";
 	public final static String INVALID_QUERY_TEXT = "data.derivedDataSet.invalidQueryText";
 	
+	//data mart data source
+	public final static String FAIL_LOAD_DATAOBJECT_DATASET= "data.datamart.failLoadDataSet";
+	
 	
 }
