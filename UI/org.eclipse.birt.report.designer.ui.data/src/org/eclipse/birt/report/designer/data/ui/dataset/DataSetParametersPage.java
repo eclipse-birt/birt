@@ -28,6 +28,8 @@ import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFa
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
@@ -78,6 +80,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -90,12 +93,11 @@ import org.eclipse.swt.widgets.Text;
  * Property page to define dataset parameters. If they could be retrieved from
  * DataSetParameter metadata, they will be displayed automatically. Five
  * properties will be shown in this page, which is name, data type, mode,
- * default value, and linked <code>ScalarParameter</code> parameter. User
- * could edit those properties to construct data set parameter for query.
+ * default value, and linked <code>ScalarParameter</code> parameter. User could
+ * edit those properties to construct data set parameter for query.
  */
-public class DataSetParametersPage extends AbstractDescriptionPropertyPage
-		implements
-			Listener
+public class DataSetParametersPage extends AbstractDescriptionPropertyPage implements
+		Listener
 {
 
 	protected boolean modelChanged = true;
@@ -122,7 +124,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractDescriptionPropertyPage#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.
+	 * AbstractDescriptionPropertyPage
+	 * #createContents(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createContents( Composite parent )
 	{
@@ -142,7 +146,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		DataSetHandle dataSetHandle = (DataSetHandle) getContainer( ).getModel( );
 		isOdaDataSetHandle = ParameterPageUtil.isOdaDataSetHandle( dataSetHandle );
 		isJointOrDerivedDataSetHandle = ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle );
-	
+
 		viewer = new PropertyHandleTableViewer( parent,
 				!isJointOrDerivedDataSetHandle,
 				true,
@@ -150,9 +154,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				!isJointOrDerivedDataSetHandle );
 		createTableColumns( );
 
-		setContentProvider( );		
+		setContentProvider( );
 		setLabelProvider( dataSetHandle );
-		
+
 		adjustParameterOnPosition( parameters );
 		if ( ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle ) )
 		{
@@ -169,7 +173,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			addListeners( );
 		}
 		dataSetHandle.addListener( this );
-		
+
 		return viewer.getControl( );
 	}
 
@@ -192,8 +196,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		column.setText( " " ); //$NON-NLS-1$
 		column.setResizable( false );
 		column.setWidth( 23 );
-		
-		
+
 		if ( isOdaDataSetHandle )
 		{
 			String[] cellLabels = ParameterPageUtil.odaCellLabels;
@@ -240,7 +243,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
 			column.setText( cellLabels[3] );
 			column.setWidth( 100 );
-			
+
 			if ( isJointOrDerivedDataSetHandle )
 			{
 				column = new TableColumn( viewer.getViewer( ).getTable( ),
@@ -416,7 +419,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		viewer.getViewer( )
 				.addSelectionChangedListener( new ViewerSelectionListener( ) );
 	}
-	
+
 	private void doNew( )
 	{
 		DataSetParameter newParam = null;
@@ -429,7 +432,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		newParam.setName( getUniqueName( ) );
 		newParam.setIsInput( true );
 		newParam.setPosition( new Integer( position + 1 ) );
-		
+
 		doEdit( newParam );
 	}
 
@@ -460,7 +463,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			refreshLinkedReportParamStatus( );
 		}
 	}
-	
+
 	protected void refreshLinkedReportParamStatus( )
 	{
 		TableItem items[] = viewer.getViewer( ).getTable( ).getItems( );
@@ -479,16 +482,16 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				{
 					if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( reportParam.getParamType( ) ) )
 					{
-						getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam",
+						getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam", //$NON-NLS-1$
 								new Object[]{
-										handle.getName( )
+									handle.getName( )
 								} ),
 								IMessageProvider.ERROR );
 					}
 				}
 				else
 				{
-					getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.LinkedReportParamNotFound",
+					getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.LinkedReportParamNotFound", //$NON-NLS-1$
 							new Object[]{
 									handle.getParamName( ), handle.getName( )
 							} ),
@@ -508,7 +511,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			getContainer( ).setMessage( Messages.getFormattedString( "dataset.editor.error.noInputParameterDefaultValue", new Object[]{this.getNoneValuedParameterName( )} ), IMessageProvider.ERROR ); //$NON-NLS-1$
 		}
 	}
-	
+
 	protected DataSetParameter getStructure( Object structureOrHandle )
 	{
 		DataSetParameter structure = null;
@@ -523,9 +526,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 		return structure;
 	}
-	
+
 	/**
-	 * adjust the parameter position based on its native position if it is available 
+	 * adjust the parameter position based on its native position if it is
+	 * available
+	 * 
 	 * @param handle
 	 */
 	private void adjustParameterOnPosition( PropertyHandle handle )
@@ -553,8 +558,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			}
 		}
 	}
-	
-    private void setToolTips( )
+
+	private void setToolTips( )
 	{
 		viewer.getNewButton( )
 				.setToolTipText( Messages.getString( "DataSetParameterPage.toolTipText.New" ) );//$NON-NLS-1$
@@ -591,7 +596,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#pageActivated()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * pageActivated()
 	 */
 	public void pageActivated( )
 	{
@@ -715,7 +722,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			{
 				( (OdaDataSetParameter) parameter ).setNativeName( ( (ParameterMetaData) paramFromDataSet ).getNativeName( ) );
 			}
-			if ( "REF CURSOR".equals( paramFromDataSet.getNativeTypeName( ) ) )
+			if ( "REF CURSOR".equals( paramFromDataSet.getNativeTypeName( ) ) ) //$NON-NLS-1$
 				parameter.setNativeDataType( new Integer( -10 ) );
 		}
 		else
@@ -779,7 +786,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			isSame = true;
 		else if ( param1 == null || param2 == null )
 			isSame = false;
-		else if ( param1.getParameterDataType( ).equals( param2.getParameterDataType( ) )
+		else if ( param1.getParameterDataType( )
+				.equals( param2.getParameterDataType( ) )
 				&& ( param1.isInput( ) == param2.isInput( ) )
 				&& ( param1.isOutput( ) == param2.isOutput( ) ) )
 			isSame = true;
@@ -817,7 +825,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			newNames.add( name );
 		}
 	}
-	
+
 	private static List collectParameterNames( List parameters )
 	{
 		List names = new ArrayList( );
@@ -831,10 +839,12 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 		return names;
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.report.model.core.Listener#elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Listener#elementChanged(org.eclipse
+	 * .birt.report.model.api.DesignElementHandle,
+	 * org.eclipse.birt.report.model.activity.NotificationEvent)
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
@@ -902,20 +912,20 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 					DataSetParameterHandle parameter = (DataSetParameterHandle) iter.next( );
 					if ( parameter instanceof OdaDataSetParameterHandle )
 					{
-						boolean hasNativeName = ( (OdaDataSetParameterHandle) parameter ).getNativeName( ) != null &&
-								( (OdaDataSetParameterHandle) parameter ).getNativeName( )
+						boolean hasNativeName = ( (OdaDataSetParameterHandle) parameter ).getNativeName( ) != null
+								&& ( (OdaDataSetParameterHandle) parameter ).getNativeName( )
 										.trim( )
 										.length( ) > 0;
-						if ( !hasNativeName &&
-								( parameter.getPosition( ) == null || parameter.getPosition( )
+						if ( !hasNativeName
+								&& ( parameter.getPosition( ) == null || parameter.getPosition( )
 										.intValue( ) != position ) )
 						{
 							parameter.setPosition( new Integer( position ) );
 						}
-						else if ( hasNativeName &&
-								parameter.getPosition( ) != null &&
-								parameter.getPosition( ).intValue( ) > 0 &&
-								parameter.getPosition( ).intValue( ) != position )
+						else if ( hasNativeName
+								&& parameter.getPosition( ) != null
+								&& parameter.getPosition( ).intValue( ) > 0
+								&& parameter.getPosition( ).intValue( ) != position )
 						{
 							parameter.setPosition( new Integer( position ) );
 						}
@@ -961,25 +971,33 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		return buf.toString( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#performCancel()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
+	 * #performCancel()
 	 */
 	public boolean performCancel( )
 	{
-		//   selectorImage.dispose();
+		// selectorImage.dispose();
 		( (DataSetHandle) getContainer( ).getModel( ) ).removeListener( this );
 		return super.performCancel( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#performOk()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
+	 * #performOk()
 	 */
 	public boolean performOk( )
 	{
 		DataSetHandle dataSetHandle = (DataSetHandle) getContainer( ).getModel( );
 		isOdaDataSetHandle = ParameterPageUtil.isOdaDataSetHandle( dataSetHandle );
 		isJointOrDerivedDataSetHandle = ParameterPageUtil.isJointOrDerivedDataSetHandle( dataSetHandle );
-		
+
 		if ( doSaveEmptyParameter( parameters ) )
 		{
 			// selectorImage.dispose();
@@ -1011,6 +1029,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 	/**
 	 * whether to save empty parameter
+	 * 
 	 * @param parameters
 	 * @return
 	 */
@@ -1049,7 +1068,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 		return true;
 	}
-	
+
 	private List getMultipleValueReportParameter( PropertyHandle parameters )
 	{
 		List multipleValueList = new ArrayList( );
@@ -1057,8 +1076,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		{
 			parameters = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
 		}
-		if ( parameters != null &&
-				(DataSetHandle) getContainer( ).getModel( ) instanceof OdaDataSetHandle )
+		if ( parameters != null
+				&& (DataSetHandle) getContainer( ).getModel( ) instanceof OdaDataSetHandle )
 		{
 			Iterator iter = parameters.iterator( );
 			String paramName = null;
@@ -1074,9 +1093,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 						ScalarParameterHandle handle = ParameterPageUtil.getScalarParameter( paramName,
 								needsRefresh );
 						needsRefresh = false;
-						if ( handle != null &&
-								handle.getQualifiedName( ).equals( paramName ) &&
-								( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( ( (ScalarParameterHandle) handle ).getParamType( ) ) ) )
+						if ( handle != null
+								&& handle.getQualifiedName( )
+										.equals( paramName )
+								&& ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( ( (ScalarParameterHandle) handle ).getParamType( ) ) ) )
 						{
 							multipleValueList.add( paramName );
 						}
@@ -1090,7 +1110,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#canLeave()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
+	 * #canLeave()
 	 */
 	public boolean canLeave( )
 	{
@@ -1122,7 +1144,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	{
 
 		/*
-		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+		 * @see
+		 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
+		 * (org.eclipse.jface.viewers.SelectionChangedEvent)
 		 */
 		public void selectionChanged( SelectionChangedEvent event )
 		{
@@ -1131,13 +1155,13 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	}
 
 	/**
-	 * Depending on the value of the parameters the properties of various controls
-	 * on this page are set
+	 * Depending on the value of the parameters the properties of various
+	 * controls on this page are set
 	 */
 	private void setPageProperties( )
 	{
 		viewer.updateButtons( );
-		
+
 		boolean parametersExist = ( parameters != null
 				&& parameters.getListValue( ) != null && parameters.getListValue( )
 				.size( ) > 0 );
@@ -1148,7 +1172,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#getToolTip()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * getToolTip()
 	 */
 	public String getToolTip( )
 	{
@@ -1172,14 +1198,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 	}
 
 	/**
-	 * Since the weak link between the dataset parameter and report parameter, we had to 
+	 * Since the weak link between the dataset parameter and report parameter,
+	 * we had to
 	 * 
 	 */
 	private void enableModelChanged( )
 	{
 		( (DataSetEditor) this.getContainer( ) ).enableLinkedParamChanged( );
 	}
-	
+
 	/**
 	 * The listener on scalar parameter
 	 * 
@@ -1198,14 +1225,16 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 	}
 
-	private class ParameterViewContentProvider
-			implements
-				IStructuredContentProvider
+	private class ParameterViewContentProvider implements
+			IStructuredContentProvider
 	{
+
 		private final String separator = "::"; //$NON-NLS-1$
 
 		/*
-		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
+		 * java.lang.Object)
 		 */
 		public Object[] getElements( Object inputElement )
 		{
@@ -1215,14 +1244,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			if ( inputElement instanceof JointDataSetHandle )
 			{
 				JointDataSetHandle handle = (JointDataSetHandle) inputElement;
-				List params = getSubDataSetParameters( handle, "", 0 );
+				List params = getSubDataSetParameters( handle, "", 0 ); //$NON-NLS-1$
 				return params.toArray( );
 			}
-			
+
 			if ( inputElement instanceof DerivedDataSetHandle )
 			{
 				List paramList = getDerivedDataSetParameters( (DerivedDataSetHandle) inputElement,
-						"",
+						"", //$NON-NLS-1$
 						0 );
 				return paramList.toArray( );
 			}
@@ -1239,7 +1268,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 					params.add( iter.next( ) );
 				}
 			}
-            refreshPositions( );
+			refreshPositions( );
 			return params.toArray( );
 		}
 
@@ -1251,13 +1280,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 
 		/*
-		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		public void inputChanged( Viewer viewer, Object oldInput,
 				Object newInput )
 		{
 		}
-		
+
 		/**
 		 * Gets the list of all the sub data set parameters
 		 * 
@@ -1279,12 +1310,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				if ( nextElement instanceof JointDataSetHandle )
 				{
 					subDataSetParams.addAll( getSubDataSetParameters( (JointDataSetHandle) nextElement,
-							prefix + "1" + separator, count ) );
-					
+							prefix + "1" + separator, //$NON-NLS-1$
+							count ) );
+
 					count += subDataSetParams.size( );
-					
+
 					subDataSetParams.addAll( getSubDataSetParameters( (JointDataSetHandle) nextElement,
-							prefix + "2" + separator, count ) );
+							prefix + "2" + separator, //$NON-NLS-1$
+							count ) );
 				}
 				else
 				{
@@ -1294,9 +1327,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 						count++;
 						DataSetParameterHandle param = (DataSetParameterHandle) params.next( );
 						DataSetParameter newParam1 = createDataSetParameter( param,
-								prefix + "1", count++ );
+								prefix + "1", //$NON-NLS-1$
+								count++ );
 						DataSetParameter newParam2 = createDataSetParameter( param,
-								prefix + "2", count );
+								prefix + "2", //$NON-NLS-1$
+								count );
 						subDataSetParams.add( newParam1 );
 						subDataSetParams.add( newParam2 );
 					}
@@ -1311,7 +1346,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 					if ( nextElement instanceof JointDataSetHandle )
 					{
 						subDataSetParams.addAll( getSubDataSetParameters( (JointDataSetHandle) nextElement,
-								preFixStr + separator, count ) );
+								preFixStr + separator,
+								count ) );
 						count += subDataSetParams.size( );
 					}
 					else
@@ -1322,7 +1358,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 							count++;
 							DataSetParameterHandle param = (DataSetParameterHandle) params.next( );
 							subDataSetParams.add( createDataSetParameter( param,
-									preFixStr, count ) );
+									preFixStr,
+									count ) );
 						}
 					}
 				}
@@ -1331,7 +1368,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 
 		private List getDerivedDataSetParameters(
-				DerivedDataSetHandle derivedDataSetHandle, String prefix, int count )
+				DerivedDataSetHandle derivedDataSetHandle, String prefix,
+				int count )
 		{
 			List subDataSetParams = new ArrayList( );
 			List<DataSetHandle> dataSets = derivedDataSetHandle.getInputDataSets( );
@@ -1372,7 +1410,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		 * @return
 		 */
 		private DataSetParameter createDataSetParameter(
-				DataSetParameterHandle parameter, String dataSetName, int position )
+				DataSetParameterHandle parameter, String dataSetName,
+				int position )
 		{
 			DataSetParameter dataSetParameter = null;
 			if ( parameter instanceof OdaDataSetParameterHandle )
@@ -1394,16 +1433,18 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			dataSetParameter.setIsInput( parameter.isInput( ) );
 			dataSetParameter.setIsOutput( parameter.isOutput( ) );
 			dataSetParameter.setName( dataSetName
-					+ separator + parameter.getName( ) );
+					+ separator
+					+ parameter.getName( ) );
 			dataSetParameter.setIsOptional( parameter.isOptional( ) );
 			dataSetParameter.setPosition( position );
 			return dataSetParameter;
 		}
-		
+
 	}
 
 	private class ParameterViewLableProvider implements ITableLabelProvider
 	{
+
 		private DataSetHandle dataSetHandle;
 
 		public ParameterViewLableProvider( DataSetHandle dataSetHandle )
@@ -1412,8 +1453,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 
 		/*
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object,
-		 *      int)
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
+		 * .lang.Object, int)
 		 */
 		public Image getColumnImage( Object element, int columnIndex )
 		{
@@ -1421,12 +1463,13 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 
 		/*
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
-		 *      int)
+		 * @see
+		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
+		 * lang.Object, int)
 		 */
 		public String getColumnText( Object element, int columnIndex )
 		{
-			String value = null;			
+			String value = null;
 			DataSetParameter parameter = getStructure( element );
 
 			if ( isOdaDataSetHandle )
@@ -1447,7 +1490,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 
 		/*
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
 		 */
 		public void addListener( ILabelProviderListener listener )
 		{
@@ -1461,7 +1506,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 
 		/*
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
+		 * .lang.Object, java.lang.String)
 		 */
 		public boolean isLabelProperty( Object element, String property )
 		{
@@ -1469,12 +1516,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 
 		/*
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * .jface.viewers.ILabelProviderListener)
 		 */
 		public void removeListener( ILabelProviderListener listener )
 		{
 		}
-		
+
 		/**
 		 * Gets the joint data set parameter's information
 		 * 
@@ -1485,7 +1534,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		private String getJointDataSetParametersValue(
 				DataSetParameter parameter, int columnIndex )
 		{
-			if( columnIndex == 4 )
+			if ( columnIndex == 4 )
 			{
 				if ( parameter instanceof OdaDataSetParameter )
 				{
@@ -1498,13 +1547,13 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			}
 			if ( columnIndex == 5 )
 			{
-			    String value = null;
+				String value = null;
 				if ( parameter instanceof OdaDataSetParameter )
 				{
 					value = ( (OdaDataSetParameter) parameter ).getParamName( );
 				}
-				return value == null || value.trim( ).length( ) == 0
-						? UNLINKED_REPORT_PARAM : value;
+				return value == null || value.trim( ).length( ) == 0 ? UNLINKED_REPORT_PARAM
+						: value;
 			}
 			return getParametersValue( parameter, columnIndex );
 		}
@@ -1568,13 +1617,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			{
 				case 0 :
 				{
-					if ( parameter.getPosition( ) != null && parameter.getPosition( ).intValue( )>0 )
+					if ( parameter.getPosition( ) != null
+							&& parameter.getPosition( ).intValue( ) > 0 )
 					{
 						value = parameter.getPosition( ).toString( );
 					}
 					else
 					{
-						value =""; //$NON-NLS-1$
+						value = ""; //$NON-NLS-1$
 					}
 					break;
 				}
@@ -1627,7 +1677,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			return value;
 		}
 	}
-	
+
 	private class ParameterInputDialog extends PropertyHandleInputDialog
 	{
 
@@ -1638,12 +1688,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		private String directionString = ""; //$NON-NLS-1$
 		private Text dataSetParamName = null, nativeParameterName = null;
 		private Combo dataType = null;
-		private Combo direction = null; 
+		private Combo direction = null;
 		private Text defaultValueText = null;
 		private Combo linkToSalarParameter = null;
-		private boolean inputChanged = modelChanged, isOdaDataSetHandle = false;
-		
-		protected ParameterInputDialog( Object structureOrHandle, boolean isOdaDataSetHandle )
+		private boolean inputChanged = modelChanged,
+				isOdaDataSetHandle = false;
+		private Button parameterButton;
+
+		protected ParameterInputDialog( Object structureOrHandle,
+				boolean isOdaDataSetHandle )
 		{
 			super( structureOrHandle );
 			this.isOdaDataSetHandle = isOdaDataSetHandle;
@@ -1659,7 +1712,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#createCustomControls(org.eclipse.swt.widgets.Composite)
+		 * @see org.eclipse.birt.report.designer.data.ui.dataset.
+		 * PropertyHandleInputDialog
+		 * #createCustomControls(org.eclipse.swt.widgets.Composite)
 		 */
 		protected void createCustomControls( Composite parent )
 		{
@@ -1703,8 +1758,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 			} );
 		}
-		
-		private void createNativeNameCell(  Composite parent, String lable  )
+
+		private void createNativeNameCell( Composite parent, String lable )
 		{
 			ControlProvider.createLabel( parent, lable );
 
@@ -1721,7 +1776,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			dataType = ControlProvider.createCombo( parent, SWT.READ_ONLY );
 			dataType.setLayoutData( ControlProvider.getGridDataWithHSpan( 2 ) );
 			dataType.setVisibleItemCount( 30 );
-			//is ref cursor??
+			// is ref cursor??
 			if ( structureHandle.getNativeDataType( ) != null
 					&& structureHandle.getNativeDataType( ) == -10 )
 			{
@@ -1768,7 +1823,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 			} );
 		}
-		
+
 		// handle defaultValue issue happened consequently
 		private boolean needsUpdateUI( )
 		{
@@ -1836,7 +1891,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			ControlProvider.createLabel( parent, label );
 
 			reportParamComposite = ControlProvider.getDefaultComposite( parent );
-			linkToSalarParameter = new Combo( reportParamComposite, SWT.READ_ONLY );
+			linkToSalarParameter = new Combo( reportParamComposite,
+					SWT.READ_ONLY );
 			linkToSalarParameter.setLayoutData( ControlProvider.getGridDataWithHSpan( 1 ) );
 			linkToSalarParameter.setItems( ParameterPageUtil.getLinkedReportParameterNames( (OdaDataSetParameterHandle) structureHandle ) );
 			linkToSalarParameter.setVisibleItemCount( 30 );
@@ -1933,15 +1989,18 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				}
 			};
 
-			ControlProvider.createButton( reportParamComposite,
-					SWT.PUSH,
-					listener );
+			parameterButton = new Button( reportParamComposite, SWT.PUSH );
+			parameterButton.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_PARAMETER ) );
+			parameterButton.addSelectionListener( listener );
+
+			checkParameterButtonTooltip( );
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#rollback()
+		 * @see org.eclipse.birt.report.designer.data.ui.dataset.
+		 * PropertyHandleInputDialog#rollback()
 		 */
 		protected void rollback( )
 		{
@@ -1973,14 +2032,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			{
 				ExceptionHandler.handle( e );
 			}
-			//rollback the model changed status
-			modelChanged = inputChanged; 
+			// rollback the model changed status
+			modelChanged = inputChanged;
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#validateSemantics(java.lang.Object)
+		 * @see org.eclipse.birt.report.designer.data.ui.dataset.
+		 * PropertyHandleInputDialog#validateSemantics(java.lang.Object)
 		 */
 		protected IStatus validateSemantics( Object structureOrHandle )
 		{
@@ -1990,7 +2050,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 			return getOKStatus( );
 		}
-		
+
 		/*
 		 * necessary in two scenarios 1. linkToSalarParameter 2. okPressed
 		 */
@@ -2019,7 +2079,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 			return null;
 		}
-		
+
 		private void setDirection( String direction )
 		{
 			if ( direction == null || direction.equals( "" ) ) //$NON-NLS-1$
@@ -2045,7 +2105,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#validateSyntax(java.lang.Object)
+		 * @see org.eclipse.birt.report.designer.data.ui.dataset.
+		 * PropertyHandleInputDialog#validateSyntax(java.lang.Object)
 		 */
 		protected IStatus validateSyntax( Object structureOrHandle )
 		{
@@ -2057,7 +2118,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			// blankProperty check
 			if ( isBlankProperty( dataSetParamName.getText( ) ) )
 				return getBlankPropertyStatus( ParameterPageUtil.dialogLabels[0] );
-			
+
 			// LinkedTo report parameter data type check
 			if ( checkParamDataType( ) )
 			{
@@ -2069,7 +2130,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		}
 
 		/**
-		 * Indicates whether the linked report parameter data type should be checked 
+		 * Indicates whether the linked report parameter data type should be
+		 * checked
 		 * 
 		 * @return
 		 */
@@ -2080,9 +2142,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 					&& linkToSalarParameter.getSelectionIndex( ) > 0
 					&& !isMatchedParamDataType( );
 		}
-		
+
 		/**
-		 * Checks whether the linked report parameter's data type matches the current data set parameter's data type.
+		 * Checks whether the linked report parameter's data type matches the
+		 * current data set parameter's data type.
 		 * 
 		 * @return
 		 */
@@ -2097,7 +2160,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 			}
 			return true;
 		}
-		
+
 		private boolean isUniqueName( )
 		{
 			DataSetParameter structure = getStructure( getStructureOrHandle( ) );
@@ -2118,7 +2181,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 
 			return true;
 		}
-		
+
 		private void directionChanged( )
 		{
 			if ( isOutputParameter( ) )
@@ -2146,7 +2209,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				}
 			}
 		}
-		
+
 		private void linkToSalarParameterChanged( )
 		{
 			String paramName = Utility.findIndex( linkToSalarParameter.getItems( ),
@@ -2167,11 +2230,27 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				enableComposite( defaultValueComposite, false );
 				defaultValueText.setText( NONE_DEFAULT_VALUE );
 			}
+
+			checkParameterButtonTooltip( );
+		}
+
+		private void checkParameterButtonTooltip( )
+		{
+			ParameterHandle handle = ParameterPageUtil.getScalarParameter( linkToSalarParameter.getText( ),
+					false );
+			if ( parameterButton != null && !parameterButton.isDisposed( ) )
+			{
+				if ( handle == null )
+					parameterButton.setToolTipText( Messages.getString("DataSetParametersPage.ParameterButton.Tooltip.New") ); //$NON-NLS-1$
+				else
+					parameterButton.setToolTipText( Messages.getString("DataSetParametersPage.ParameterButton.Tooltip.Edit") ); //$NON-NLS-1$
+			}
 		}
 
 		private boolean isOutputParameter( )
 		{
-			return direction.getText( ).equals( ParameterPageUtil.directions[1] );
+			return direction.getText( )
+					.equals( ParameterPageUtil.directions[1] );
 		}
 
 		private void enableComposite( Composite composite, boolean enable )
@@ -2186,8 +2265,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 				}
 			}
 		}
-		
-		private DataSetParameterHandle getStructureHandle( Object structureOrHandle )
+
+		private DataSetParameterHandle getStructureHandle(
+				Object structureOrHandle )
 		{
 			if ( structureOrHandle instanceof DataSetParameterHandle )
 			{
@@ -2213,15 +2293,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.designer.data.ui.dataset.PropertyHandleInputDialog#getTitle()
+		 * @see org.eclipse.birt.report.designer.data.ui.dataset.
+		 * PropertyHandleInputDialog#getTitle()
 		 */
 		protected String getTitle( )
 		{
-			return getStructureOrHandle( ) instanceof Structure
-					? Messages.getString( "DataSetParameterBindingInputDialog.Title.NewParameter" )
-					: Messages.getString( "DataSetParameterBindingInputDialog.Title.EditParameter" );
+			return getStructureOrHandle( ) instanceof Structure ? Messages.getString( "DataSetParameterBindingInputDialog.Title.NewParameter" ) //$NON-NLS-1$
+					: Messages.getString( "DataSetParameterBindingInputDialog.Title.EditParameter" ); //$NON-NLS-1$
 		}
 
 	}
-	
+
 }
