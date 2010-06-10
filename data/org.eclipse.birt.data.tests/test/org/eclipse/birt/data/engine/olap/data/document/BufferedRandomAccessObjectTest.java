@@ -114,6 +114,35 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		documentObject.close( );
 	}
 	
+	public void testLong( ) throws IOException
+	{
+		int objectNumber = 1001;
+		BufferedRandomDataAccessObject documentObject = 
+			new BufferedRandomDataAccessObject(
+				new SimpleRandomAccessObject(new File(tmpPath
+						+ File.separatorChar + "testInteger1"), "rw"), 1024);
+		for ( int i = 0; i < objectNumber; i++ )
+		{
+			documentObject.writeLong( i );
+		}
+		documentObject.seek( 0 );
+		for ( int i = 0; i < objectNumber; i++ )
+		{
+			assertEquals( documentObject.readLong( ), i );
+		}
+		documentObject.seek( 800 );
+		assertEquals( documentObject.readLong( ), 100 );
+		documentObject.seek( 1608 );
+		assertEquals( documentObject.readLong( ), 201 );
+		assertEquals( documentObject.readLong( ), 202 );
+		documentObject.seek( 5608 );
+		documentObject.writeLong( 1000001 );
+		assertEquals( documentObject.readLong( ), 702 );
+		documentObject.seek( 5608 );
+		assertEquals( documentObject.readLong( ), 1000001 );
+		documentObject.close( );
+	}
+	
 	public void testInteger2( ) throws IOException
 	{
 		BlockRandomAccessObject documentObject = new BlockRandomAccessObject(

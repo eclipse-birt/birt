@@ -229,15 +229,9 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	 */
 	public int readInt( ) throws IOException
 	{
-		int ch1 = this.read( );
-		int ch2 = this.read( );
-		int ch3 = this.read( );
-		int ch4 = this.read( );
-		if ( ( ch1 | ch2 | ch3 | ch4 ) < 0 )
-		{
-			throw new EOFException( );
-		}
-		return ( ( ch1 << 24 ) + ( ch2 << 16 ) + ( ch3 << 8 ) + ( ch4 << 0 ) );
+		byte[] b = new byte[4];
+		readFully( b );
+		return ( ( b[0] & 0xff ) << 24 | ( b[1] & 0xff ) << 16 | ( b[2] & 0xff ) << 8 | ( b[3] & 0xff ) );
 	}
 
 	/**
@@ -249,7 +243,16 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	 */
 	public long readLong( ) throws IOException
 	{
-		return ( (long) ( readInt( ) ) << 32 ) + ( readInt( ) & 0xFFFFFFFFL );
+		byte[] b = new byte[8];
+		readFully( b );
+		return ( (long)( b[0] & 0xff ) << 56 ) + 
+							( (long)( b[1] & 0xff ) << 48 ) +
+							( (long)( b[2] & 0xff ) << 40 ) +
+							( (long)( b[3] & 0xff ) << 32 ) +
+							( (long)( b[4] & 0xff ) << 24 ) +
+							( (long)( b[5] & 0xff ) << 16 ) +
+							( (long)( b[6] & 0xff ) << 8 ) +
+							( (long)( b[7] & 0xff ) );
 	}
 	
 	/**

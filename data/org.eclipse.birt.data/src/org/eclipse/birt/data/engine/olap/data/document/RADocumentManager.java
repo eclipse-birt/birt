@@ -74,7 +74,7 @@ public class RADocumentManager implements IDocumentManager
 		RAInputStream inputStream = archiveReader.getStream( documentObjectName );
 		if ( inputStream == null )
 			return null;
-		return new DocumentObject( new RandomDataAccessObject( new RAReader( inputStream ) ) );
+		return new DocumentObject( new BufferedRandomDataAccessObject( new RAReader( inputStream ), 8192 ) );
 	}
 
 	/*
