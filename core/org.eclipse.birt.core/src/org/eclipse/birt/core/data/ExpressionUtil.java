@@ -60,8 +60,7 @@ public final class ExpressionUtil
 	 */
 	public static String createRowExpression( String rowName )
 	{
-		return ROW_INDICATOR
-				+ "[\"" + ( rowName == null ? "" : rowName.trim( ) ) + "\"]";
+		return createJSRowExpression( rowName );
 	}
 
 	/**
@@ -72,8 +71,7 @@ public final class ExpressionUtil
 	 */
 	public static String createDataSetRowExpression( String rowName )
 	{
-		return DATASET_ROW_INDICATOR
-				+ "[\"" + ( rowName == null ? "" : rowName.trim( ) ) + "\"]";
+		return createJSDataSetRowExpression( rowName );
 	}
 	
 	/**
