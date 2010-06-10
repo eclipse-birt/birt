@@ -24,7 +24,6 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
@@ -92,7 +91,12 @@ public class CubeQueryDefinitionUtil
 			ieh.setFilters( filters );
 		}
 		ISortDefinition[] sorts = getIncrementSorts( basedQuery, newQuery );
-		ieh.setSorts( sorts );
+		if ( sorts == null )
+		{
+			return null;
+		}
+		else
+			ieh.setSorts( sorts );
 		return ieh;
 	}
 	
@@ -170,6 +174,10 @@ public class CubeQueryDefinitionUtil
 	private static ISortDefinition[] getIncrementSorts( ICubeQueryDefinition basedQuery, 
 			ICubeQueryDefinition newQuery ) throws DataException
 	{
+		if ( newQuery.getSorts( ).size( ) < basedQuery.getSorts( ).size( ) )
+		{
+			return null;
+		}
 		if ( isEqualSorts( basedQuery.getSorts( ), newQuery.getSorts( )))
 		{
 			return new ISortDefinition[0];
