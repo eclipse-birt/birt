@@ -118,14 +118,13 @@ public class GanttChart extends DefaultChartTypeImpl
 		if ( sDimension.equals( TWO_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
-			{
-				img2D = UIHelper.getImage( "icons/wizban/ganttchartimage.gif" ); //$NON-NLS-1$
-			}
-			else
-			{
-				img2D = UIHelper.getImage( "icons/wizban/horizontalganttchartimage.gif" ); //$NON-NLS-1$
-			}
+			// if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
+			// {
+			//				img2D = UIHelper.getImage( "icons/wizban/ganttchartimage.gif" ); //$NON-NLS-1$
+			// }
+
+			img2D = UIHelper.getImage( "icons/wizban/horizontalganttchartimage.gif" ); //$NON-NLS-1$
+
 			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
 					img2D,
 					sStandardDescription,
