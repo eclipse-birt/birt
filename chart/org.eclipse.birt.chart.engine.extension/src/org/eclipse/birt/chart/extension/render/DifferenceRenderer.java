@@ -401,8 +401,8 @@ public final class DifferenceRenderer
 			EList<Fill> fills = ( (MultipleFill) paletteEntry ).getFills( );
 			// Copy instance to avoid the element been removed from
 			// EObjectContainmentList
-			fillColorP = goFactory.copyOf( (ColorDefinition) fills.get( 0 ) );
-			fillColorN = goFactory.copyOf( (ColorDefinition) fills.get( 1 ) );
+			fillColorP = goFactory.copyOf( fills.get( 0 ) );
+			fillColorN = goFactory.copyOf( fills.get( 1 ) );
 		}
 		else if ( isColor && paletteEntry instanceof Gradient )
 		{

@@ -760,7 +760,7 @@ public final class Stock extends AxesRenderer
 			// Price increase
 			if ( fill instanceof MultipleFill )
 			{
-				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+				fill = goFactory.copyOf( ( (MultipleFill) fill ).getFills( )
 						.get( 0 ) );
 			}
 			else
@@ -775,7 +775,7 @@ public final class Stock extends AxesRenderer
 			if ( fill instanceof MultipleFill )
 			{
 				// Negative color
-				fill = goFactory.copyOf( (ColorDefinition) ( (MultipleFill) fill ).getFills( )
+				fill = goFactory.copyOf( ( (MultipleFill) fill ).getFills( )
 						.get( 1 ) );
 			}
 			// Palette color
