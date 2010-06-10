@@ -416,11 +416,32 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		List<IScriptExpression> mergedTargetLevels = new ArrayList<IScriptExpression>( );
 		Collection<Collection<IScriptExpression>> mergedMemberValues = new ArrayList<Collection<IScriptExpression>>( );
 
-		int maxLen = 0;
+		// TODO data engine should provider way better API to avoid this crappy
+		// logic.
 
-		// determine maximum size of all effective buckets
-		for ( int i = 0; i < allMemberValues.size( ); i++ )
+		// merge all target levels into one single list
+		List<String> keyList = new ArrayList<String>( );
+
+		for ( int i = 0; i < allTargetLevels.size( ); i++ )
 		{
+			List<IScriptExpression> targetLevels = allTargetLevels.get( i );
+
+			String startLevel = targetLevels.get( 0 ).getText( );
+
+			int startIdx = keyList.indexOf( startLevel );
+
+			if ( startIdx == -1 )
+			{
+				startIdx = keyList.size( );
+
+				for ( IScriptExpression target : targetLevels )
+				{
+					keyList.add( target.getText( ) );
+
+					mergedTargetLevels.add( target );
+				}
+			}
+
 			List<List<IScriptExpression>> memberValues = allMemberValues.get( i );
 
 			for ( int j = 0; j < memberValues.size( ); j++ )
@@ -429,24 +450,47 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 				List<Boolean> flagBucket = allMemberFlags.get( i ).get( j );
 
+				boolean effective = false;
+
+				// check if this bucket is effective
 				for ( Boolean mark : flagBucket )
 				{
 					if ( mark != null && mark.booleanValue( ) )
 					{
-						if ( bucket.size( ) > maxLen )
-						{
-							maxLen = bucket.size( );
-						}
-
-						mergedMemberValues.add( bucket );
-
+						effective = true;
 						break;
 					}
+				}
+
+				if ( !effective )
+				{
+					continue;
+				}
+
+				if ( startIdx == 0 )
+				{
+					mergedMemberValues.add( bucket );
+				}
+				else
+				{
+					List<IScriptExpression> newBucket = new ArrayList<IScriptExpression>( );
+
+					for ( int k = 0; k < startIdx; k++ )
+					{
+						// fill with placeholder
+						newBucket.add( null );
+					}
+
+					newBucket.addAll( bucket );
+
+					mergedMemberValues.add( newBucket );
 				}
 			}
 		}
 
-		// normalize merged member values
+		int maxLen = keyList.size( );
+
+		// normalize merged member values with same length
 		for ( Collection<IScriptExpression> bucket : mergedMemberValues )
 		{
 			int gap = maxLen - bucket.size( );
@@ -457,17 +501,6 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				bucket.add( null );
 
 				gap--;
-			}
-		}
-
-		// merge target levels to maixmum length
-		for ( List<IScriptExpression> targetLevels : allTargetLevels )
-		{
-			if ( mergedTargetLevels.size( ) < maxLen
-					&& targetLevels.size( ) > mergedTargetLevels.size( ) )
-			{
-				mergedTargetLevels.addAll( targetLevels.subList( mergedTargetLevels.size( ),
-						Math.min( targetLevels.size( ), maxLen ) ) );
 			}
 		}
 
