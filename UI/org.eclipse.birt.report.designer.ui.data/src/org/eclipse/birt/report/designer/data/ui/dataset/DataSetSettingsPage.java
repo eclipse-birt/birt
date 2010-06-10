@@ -11,13 +11,25 @@
 
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -27,11 +39,14 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * 
@@ -48,9 +63,16 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 	private String numberText = null;
 	private String nameText = null;
 	boolean changed = false;
-	
-	private static String STORED_PROCEDURE_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet";
-	
+
+	private static String STORED_PROCEDURE_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet"; //$NON-NLS-1$
+
+	private static IChoiceSet nullOrderingChoiceSet = MetaDataDictionary.getInstance( )
+			.getElement( ReportDesignConstants.DATA_SET_ELEMENT )
+			.getProperty( DesignChoiceConstants.CHOICE_NULLS_ORDERING )
+			.getAllowedChoices( );
+	private Combo localeCombo;
+	private Combo nullOrderingCombo;
+
 	public Control createContents( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
@@ -65,7 +87,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 		if ( handle instanceof OdaDataSetHandle )
 		{
 			addDataFetchSettingGroup( composite );
-			
+
 			String extensionID = ( (OdaDataSetHandle) handle ).getExtensionID( );
 			if ( extensionID != null
 					&& extensionID.equalsIgnoreCase( STORED_PROCEDURE_EXTENSION_ID ) )
@@ -73,7 +95,73 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 				addResultSetGroup( composite );
 			}
 		}
+
+		addDataComparisonGroup( composite );
 		return composite;
+	}
+
+	private void addDataComparisonGroup( Composite composite )
+	{
+		Group group = new Group( composite, SWT.NONE );
+		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		group.setText( Messages.getString("DataSetSettingsPage.DataGroup.Title") ); //$NON-NLS-1$
+
+		GridLayout groupGridLayout = new GridLayout( );
+		groupGridLayout.numColumns = 2;
+		group.setLayout( groupGridLayout );
+
+		Label localeLabel = new Label( group, SWT.NONE );
+		localeLabel.setText( Messages.getString("DataSetSettingsPage.Locale.Label") ); //$NON-NLS-1$
+
+		localeCombo = new Combo( group, SWT.READ_ONLY | SWT.BORDER );
+		localeCombo.setVisibleItemCount( 30 );
+		GridData gd = new GridData( );
+		gd.widthHint = 200;
+		localeCombo.setLayoutData( gd );
+
+		localeCombo.setVisibleItemCount( 30 );
+		List<String> localeNames = new ArrayList<String>( );
+		localeNames.add( Messages.getString( "SortkeyBuilder.Locale.Auto" ) ); //$NON-NLS-1$
+		localeNames.addAll( FormatAdapter.LOCALE_TABLE.keySet( ) );
+		localeCombo.setItems( localeNames.toArray( new String[]{} ) );
+		localeCombo.select( 0 );
+
+		DataSetHandle dataset = (DataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( );
+
+		if ( dataset.getLocale( ) != null )
+		{
+			String locale = null;
+			for ( Map.Entry<String, ULocale> entry : FormatAdapter.LOCALE_TABLE.entrySet( ) )
+			{
+				if ( dataset.getLocale( ).equals( entry.getValue( ) ) )
+				{
+					locale = entry.getKey( );
+				}
+			}
+			if ( locale != null )
+			{
+				int index = localeCombo.indexOf( locale );
+				localeCombo.select( index < 0 ? 0 : index );
+			}
+		}
+
+		Label nullOrderingLabel = new Label( group, SWT.NONE );
+		nullOrderingLabel.setText( Messages.getString("DataSetSettingsPage.NullValueOrdering.Label") ); //$NON-NLS-1$
+
+		nullOrderingCombo = new Combo( group, SWT.READ_ONLY | SWT.BORDER );
+		gd = new GridData( );
+		gd.widthHint = 200;
+		nullOrderingCombo.setLayoutData( gd );
+
+		nullOrderingCombo.setItems( ChoiceSetFactory.getDisplayNamefromChoiceSet( nullOrderingChoiceSet ) );
+		nullOrderingCombo.setText( ChoiceSetFactory.getDisplayNameFromChoiceSet( DesignChoiceConstants.NULLS_ORDERING_NULLS_LOWEST,
+				nullOrderingChoiceSet ) );
+
+		if ( dataset.getNullsOrdering( ) != null )
+		{
+			nullOrderingCombo.setText( ChoiceSetFactory.getDisplayNameFromChoiceSet( dataset.getNullsOrdering( ),
+					nullOrderingChoiceSet ) );
+		}
 	}
 
 	/**
@@ -103,9 +191,9 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 
 		final Text rowFetchLimitText = new Text( dataFetchSettingGroup,
 				SWT.BORDER );
-		GridData gData = new GridData( GridData.FILL_HORIZONTAL);
+		GridData gData = new GridData( GridData.FILL_HORIZONTAL );
 		rowFetchLimitText.setLayoutData( gData );
-		
+
 		if ( getDataSetRowFetchLimit( ) > 0 )
 		{
 			fetchAllDataCheckBox.setSelection( false );
@@ -133,7 +221,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 
 				if ( isSelection )
 				{
-					rowFetchLimitText.setText( "" );  //$NON-NLS-1$
+					rowFetchLimitText.setText( "" ); //$NON-NLS-1$
 				}
 
 			}
@@ -195,24 +283,25 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 		selectResultSetCheckBox.setLayoutData( data );
 		selectResultSetCheckBox.setText( Messages.getString( "dataset.editor.settings.resultsetselection.enableResultSetSelection" ) ); //$NON-NLS-1$
 
-		Composite selectionComposite = new Composite( resultSetNumberGroup, SWT.NONE );
+		Composite selectionComposite = new Composite( resultSetNumberGroup,
+				SWT.NONE );
 		GridLayout cmpLayout = new GridLayout( );
 		cmpLayout.numColumns = 5;
 		selectionComposite.setLayout( cmpLayout );
 		GridData cmpGridData = new GridData( GridData.FILL_HORIZONTAL );
 		selectionComposite.setLayoutData( cmpGridData );
-		
+
 		resultSetName = new Button( selectionComposite, SWT.RADIO );
 		data = new GridData( );
 		data.horizontalSpan = 3;
 		resultSetName.setLayoutData( data );
 		resultSetName.setText( Messages.getString( "dataset.editor.settings.resultsetselection.selectResultSetByName" ) ); //$NON-NLS-1$
 
-		final Text nameText = new Text( selectionComposite,
-				SWT.BORDER );
-		GridData gData = new GridData(GridData.FILL_HORIZONTAL );
-		/*gData.horizontalSpan = 2;
-		gData.widthHint = 100;*/
+		final Text nameText = new Text( selectionComposite, SWT.BORDER );
+		GridData gData = new GridData( GridData.FILL_HORIZONTAL );
+		/*
+		 * gData.horizontalSpan = 2; gData.widthHint = 100;
+		 */
 		nameText.setLayoutData( gData );
 
 		resultSetNumber = new Button( selectionComposite, SWT.RADIO );
@@ -221,28 +310,26 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 		resultSetNumber.setLayoutData( data );
 		resultSetNumber.setText( Messages.getString( "dataset.editor.settings.resultsetselection.selectResultSetByNumber" ) ); //$NON-NLS-1$
 
-		final Text numberText = new Text( selectionComposite,
-				SWT.BORDER );
-		gData = new GridData( GridData.FILL_HORIZONTAL);
+		final Text numberText = new Text( selectionComposite, SWT.BORDER );
+		gData = new GridData( GridData.FILL_HORIZONTAL );
 		numberText.setLayoutData( gData );
-
 
 		selectResultSetCheckBox.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				final boolean selected = selectResultSetCheckBox.getSelection();
+				final boolean selected = selectResultSetCheckBox.getSelection( );
 				resultSetName.setEnabled( selected );
 				resultSetNumber.setEnabled( selected );
-				
-				if( selected )
+
+				if ( selected )
 				{
-					if( resultSetName.getSelection())
+					if ( resultSetName.getSelection( ) )
 					{
 						numberText.setEnabled( false );
 						nameText.setEnabled( true );
 					}
-					else if ( resultSetNumber.getSelection())
+					else if ( resultSetNumber.getSelection( ) )
 					{
 						nameText.setEnabled( false );
 						numberText.setEnabled( true );
@@ -257,10 +344,10 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 				{
 					nameText.setEnabled( selected );
 					numberText.setEnabled( selected );
-					
+
 				}
 				changed = true;
-				
+
 			}
 		} );
 
@@ -288,7 +375,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 
 			public void modifyText( ModifyEvent e )
 			{
-				DataSetSettingsPage.this.nameText = nameText.getText();
+				DataSetSettingsPage.this.nameText = nameText.getText( );
 				changed = true;
 			}
 
@@ -303,7 +390,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 				if ( isNumber( numberText.getText( ) ) )
 				{
 					String number = numberText.getText( );
-					if ( number.trim( ).length( ) == 0 ) 
+					if ( number.trim( ).length( ) == 0 )
 						number = "0"; //$NON-NLS-1$
 					rsNumber = new Double( number ).intValue( );
 					rsNumber = rsNumber < 0 ? 0 : rsNumber;
@@ -320,7 +407,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 			}
 
 		} );
-		
+
 		if ( ( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).getResultSetName( ) != null )
 		{
 			resultSetName.setSelection( true );
@@ -346,6 +433,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 			numberText.setEnabled( false );
 		}
 	}
+
 	/**
 	 * Test the text to see if it can be parsed to an integer.
 	 * 
@@ -363,9 +451,9 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 			return true;
 		}
 		return text.matches( "^[0-9]*[1-9][0-9]*$" ); //$NON-NLS-1$
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param count
@@ -396,7 +484,9 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#performCancel()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
+	 * #performCancel()
 	 */
 	public boolean performCancel( )
 	{
@@ -407,7 +497,9 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#canLeave()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
+	 * #canLeave()
 	 */
 	public boolean canLeave( )
 	{
@@ -416,10 +508,10 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 			( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setProperty( IOdaDataSetModel.RESULT_SET_NUMBER_PROP,
 					null );
 			( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setResultSetName( null );
-			
+
 			if ( !updateResultSetSetting( ) )
 				return true;
-			
+
 			return canLeavePage( );
 		}
 		catch ( Exception e )
@@ -477,22 +569,74 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#performOk()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
+	 * #performOk()
 	 */
 	public boolean performOk( )
 	{
 		if ( canLeave( ) )
 		{
+			dealDataSetLocale( );
+			dealDataSetNullOrdering( );
 			return super.performOk( );
 		}
 		else
 			return false;
 	}
 
+	private void dealDataSetNullOrdering( )
+	{
+		if ( nullOrderingCombo != null && !nullOrderingCombo.isDisposed( ) )
+		{
+			for ( int i = 0; i < nullOrderingChoiceSet.getChoices( ).length; i++ )
+			{
+				IChoice choice = nullOrderingChoiceSet.getChoices( )[i];
+				if ( choice.getDisplayName( )
+						.equals( nullOrderingCombo.getText( ) ) )
+				{
+					try
+					{
+						( ( (DataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ) ).setNullsOrdering( choice.getName( ) );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+			}
+		}
+	}
+
+	private void dealDataSetLocale( )
+	{
+		if ( localeCombo != null && !localeCombo.isDisposed( ) )
+		{
+			String locale = localeCombo.getText( );
+			try
+			{
+				if ( FormatAdapter.LOCALE_TABLE.containsKey( locale ) )
+				{
+					( ( (DataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ) ).setLocale( FormatAdapter.LOCALE_TABLE.get( locale ) );
+				}
+				else
+				{
+					( ( (DataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ) ).setLocale( null );
+				}
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.data.ui.property.AbstractPropertyPage#getToolTip()
+	 * @see
+	 * org.eclipse.birt.report.designer.data.ui.property.AbstractPropertyPage
+	 * #getToolTip()
 	 */
 	public String getToolTip( )
 	{
