@@ -139,7 +139,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private static final String ERROR_MSG_INVALID_REPORT = Messages.getString( "HyperlinkBuilder.ErrorMessage.InvalidReport" ); //$NON-NLS-1$
 
 	private static final String TOOLTIP_BROWSE_FILE = Messages.getString( "HyperlinkBuilder.BrowseForFile" ); //$NON-NLS-1$
-	private static final String TOOLTIP_EXPRESSION = Messages.getString( "HyperlinkBuilder.OpenExpression" ); //$NON-NLS-1$
+	//private static final String TOOLTIP_EXPRESSION = Messages.getString( "HyperlinkBuilder.OpenExpression" ); //$NON-NLS-1$
 	private static final String[] STEPS = new String[]{
 			"",//$NON-NLS-1$ 
 			Messages.getString( "HyperlinkBuilder.Step.1" ),//$NON-NLS-1$ 
@@ -188,9 +188,11 @@ public class HyperlinkBuilder extends BaseDialog
 	private boolean bTargetEnabled = true;
 	private boolean bTooltipEnabled = true;
 
+	private ExpressionProvider provider;
+
 	private Object targetReportHandle;
 
-	private HashMap paramTypes = new HashMap( );
+	private HashMap<String, String> paramTypes = new HashMap<String, String>( );
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -246,7 +248,7 @@ public class HyperlinkBuilder extends BaseDialog
 				else if ( columnIndex == 2 )
 				{
 					String name = parameterBinding.getParamName( );
-					String dataType = (String) paramTypes.get( name );
+					String dataType = paramTypes.get( name );
 					if ( dataType == null )
 					{
 						return ""; //$NON-NLS-1$
@@ -409,33 +411,39 @@ public class HyperlinkBuilder extends BaseDialog
 	private Button checkButton;
 	private Group targetGroup;
 
+	private boolean showBookMark = true;
+
 	private boolean isIDE = false;
+	private boolean isRelativeToProjectRoot = false;
 	private Text tooltipText;
 	private ScrolledComposite scrollContent;
 
 	public HyperlinkBuilder( Shell parentShell )
 	{
-		super( parentShell, TITLE );
+		this( parentShell, false );
 	}
 
 	public HyperlinkBuilder( )
 	{
-		this( UIUtil.getDefaultShell( ) );
+		this( UIUtil.getDefaultShell( ), false );
 	}
 
 	public HyperlinkBuilder( Shell parentShell, boolean isIDE )
 	{
+		this( parentShell, isIDE, false );
+	}
+
+	public HyperlinkBuilder( Shell parentShell, boolean isIDE, boolean isRelativeToProjectRoot )
+	{
 		super( parentShell, TITLE );
 		this.isIDE = isIDE;
+		this.isRelativeToProjectRoot = isRelativeToProjectRoot;
 	}
 
 	public HyperlinkBuilder( boolean isIDE )
 	{
-		this( UIUtil.getDefaultShell( ) );
-		this.isIDE = isIDE;
+		this( UIUtil.getDefaultShell( ), isIDE );
 	}
-
-	private boolean showBookMark = true;
 
 	public void showBookMark( boolean showBookMark )
 	{
@@ -1081,8 +1089,6 @@ public class HyperlinkBuilder extends BaseDialog
 			return provider;
 	}
 
-	private ExpressionProvider provider;
-
 	public void setExpressionProvider( ExpressionProvider provider )
 	{
 		this.provider = provider;
@@ -1091,7 +1097,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private Button createBrowerButton( Composite parent, final Text text,
 			final boolean needQuote, final boolean needFilter )
 	{
-		List extensionList = ReportPlugin.getDefault( )
+		List<String> extensionList = ReportPlugin.getDefault( )
 				.getReportExtensionNameList( );
 		String[] extensionNames = new String[extensionList.size( )];
 		for ( int i = 0; i < extensionNames.length; i++ )
@@ -1102,7 +1108,7 @@ public class HyperlinkBuilder extends BaseDialog
 				text,
 				needQuote,
 				needFilter,
-				extensionNames ); //$NON-NLS-1$
+				extensionNames );
 	}
 
 	private Button createBrowerButton( Composite parent, final Text text,
@@ -1123,6 +1129,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				boolean projectMode = false;
 				String filename = null;
 				if ( !isIDE || getProjectFolder( ) == null )
 				{
@@ -1135,6 +1142,8 @@ public class HyperlinkBuilder extends BaseDialog
 				}
 				else
 				{
+					projectMode = true;
+					
 					ProjectFileDialog dialog;
 					if ( needFilter )
 					{
@@ -1142,15 +1151,18 @@ public class HyperlinkBuilder extends BaseDialog
 								fileExt );
 					}
 					else
+					{
 						dialog = new ProjectFileDialog( getProjectFolder( ) );
+					}
+					
 					if ( dialog.open( ) == Window.OK )
 					{
 						filename = dialog.getPath( );
 					}
 				}
+				
 				try
 				{
-
 					if ( filename != null )
 					{
 						File file = new File( filename );
@@ -1172,8 +1184,22 @@ public class HyperlinkBuilder extends BaseDialog
 							return;
 						}
 
-						filename = URIUtil.getRelativePath( getBasePath( ),
-								filename );
+						if ( projectMode && isRelativeToProjectRoot )
+						{
+							filename = URIUtil.getRelativePath( getProjectFolder( ),
+									filename );
+							
+							// force to absolute path syntax
+							if ( !filename.startsWith( "/" ) ) //$NON-NLS-1$
+							{
+								filename = "/" + filename; //$NON-NLS-1$
+							}
+						}
+						else
+						{
+							filename = URIUtil.getRelativePath( getBasePath( ),
+									filename );
+						}
 
 						filename = new Path( filename ).toString( );
 
@@ -1312,18 +1338,18 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					inputHandle.setTargetFileType( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN );
 					inputHandle.setReportName( locationEditor.getText( ) );
-					for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
+					for ( Iterator<ParamBinding> iter = bindingList.iterator( ); iter.hasNext( ); )
 					{
-						inputHandle.addParamBinding( (ParamBinding) iter.next( ) );
+						inputHandle.addParamBinding( iter.next( ) );
 					}
 				}
 				else if ( reportDocumentButton.getSelection( ) )
 				{
 					inputHandle.setTargetFileType( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT );
 					inputHandle.setReportName( documentEditor.getText( ) );
-					for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
+					for ( Iterator<ParamBinding> iter = bindingList.iterator( ); iter.hasNext( ); )
 					{
-						inputHandle.addParamBinding( (ParamBinding) iter.next( ) );
+						inputHandle.addParamBinding( iter.next( ) );
 					}
 				}
 
@@ -1464,7 +1490,7 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( selectedType ) )
 		{
-			ExpressionHandle uri = (ExpressionHandle) getURI( );
+			ExpressionHandle uri = getURI( );
 
 			locationEditor.setText( uri == null || uri.getExpression( ) == null ? "" : (String) uri.getExpression( ) ); //$NON-NLS-1$
 			locationEditor.setData( ExpressionButtonUtil.EXPR_TYPE, uri == null
@@ -1673,7 +1699,7 @@ public class HyperlinkBuilder extends BaseDialog
 					if ( targetReportHandle instanceof ReportDesignHandle )
 					{
 						paramTypes.clear( );
-						for ( Iterator iter = ( (ReportDesignHandle) tmpReportDesign ).getAllParameters( )
+						for ( Iterator iter = tmpReportDesign.getAllParameters( )
 								.iterator( ); iter.hasNext( ); )
 						{
 							Object obj = iter.next( );
@@ -1807,11 +1833,11 @@ public class HyperlinkBuilder extends BaseDialog
 				TOCNode rootTocNode = tocTree.getRoot( );
 				// TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC(
 				// null );
-				List chooserItems = getAllTocDisplayString( rootTocNode );
+				List<String> chooserItems = getAllTocDisplayString( rootTocNode );
 				chooserItems.add( 0, "---" ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) getAllTocDisplayString(
 				// rootTocNode ).toArray( new String[0] ) );
-				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
+				anchorChooser.setItems( chooserItems.toArray( new String[0] ) );
 			}
 			else
 			{
@@ -1853,9 +1879,9 @@ public class HyperlinkBuilder extends BaseDialog
 		return bookmarkArray;
 	}
 
-	private List getAllTocDisplayString( TOCNode parent )
+	private List<String> getAllTocDisplayString( TOCNode parent )
 	{
-		List tocList = new ArrayList( );
+		List<String> tocList = new ArrayList<String>( );
 		if ( parent.getParent( ) != null )
 		{
 			tocList.add( "\"" + parent.getDisplayString( ) + "\"" ); //$NON-NLS-1$//$NON-NLS-2$
@@ -1927,21 +1953,21 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void buildParameterChoices( String selectedParameter )
 	{
-		ArrayList avaliavleList = new ArrayList( );
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
+		ArrayList<String> avaliableList = new ArrayList<String>( );
+		for ( Iterator<ParameterHandle> iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			ParameterHandle parameter = (ParameterHandle) iter.next( );
-			avaliavleList.add( parameter.getQualifiedName( ) );
+			ParameterHandle parameter = iter.next( );
+			avaliableList.add( parameter.getQualifiedName( ) );
 		}
-		for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
+		for ( Iterator<ParamBinding> iter = bindingList.iterator( ); iter.hasNext( ); )
 		{
-			ParamBinding paramBinding = (ParamBinding) iter.next( );
+			ParamBinding paramBinding = iter.next( );
 			if ( !paramBinding.getParamName( ).equals( selectedParameter ) )
 			{
-				avaliavleList.remove( paramBinding.getParamName( ) );
+				avaliableList.remove( paramBinding.getParamName( ) );
 			}
 		}
-		parameterChooser.setItems( (String[]) avaliavleList.toArray( new String[0] ) );
+		parameterChooser.setItems( avaliableList.toArray( new String[0] ) );
 	}
 
 	private void deleteRow( )
@@ -2136,7 +2162,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		if ( parameterList != null )
 		{
-			for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
+			for ( Iterator<ParameterHandle> iter = parameterList.iterator( ); iter.hasNext( ); )
 			{
 				Object obj = iter.next( );
 				if ( obj instanceof ScalarParameterHandle
