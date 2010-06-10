@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -37,11 +38,13 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
+import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
@@ -557,8 +560,8 @@ class DataSetParameterAdapter
 
 				if ( paramHandle != null )
 					new ReportParameterAdapter( ).updateLinkedReportParameter(
-							paramHandle, odaParamDefn, null,
-							dataType, setHandle );
+							paramHandle, odaParamDefn, null, dataType,
+							setHandle );
 			}
 		}
 	}
@@ -1220,12 +1223,12 @@ class DataSetParameterAdapter
 	private void setDefaultScalarValue( InputElementAttributes elementAttrs,
 			String dataType, Object value )
 	{
-		Object defaultValue = null;		
+		Object defaultValue = null;
 		if ( value != null )
 		{
 			assert value instanceof Expression;
 			Expression expr = (Expression) value;
-			if ( IExpressionType.CONSTANT.equals( expr.getType( ) ) 
+			if ( IExpressionType.CONSTANT.equals( expr.getType( ) )
 					|| expr.getExpression( ) == null )
 			{
 				defaultValue = expr.getExpression( );
@@ -1641,11 +1644,62 @@ class DataSetParameterAdapter
 				inputParamAttrs.setElementAttributes( inputElementAttrs );
 			}
 
-			setDefaultScalarValue( inputElementAttrs,
-					tmpROMParam.getParameterDataType( ), tmpROMParam
+			setDefaultScalarValue( inputElementAttrs, tmpROMParam
+					.getParameterDataType( ), tmpROMParam
+					.getExpressionProperty(
+							DataSetParameter.DEFAULT_VALUE_MEMBER ).getValue( ) );
+
+			restoreReportParameterRelatedValues( inputElementAttrs, tmpROMParam );
+		}
+	}
+
+	/**
+	 * Restores ODA data set parameter information that relates to the report
+	 * parameter. In the design value, these values were not saved.
+	 * 
+	 * @param inputElementAttrs
+	 *            the input element attributes of the ODA data set parameter
+	 * @param odaParamHandle
+	 *            the ROM data set parameter
+	 */
+	private void restoreReportParameterRelatedValues(
+			InputElementAttributes inputElementAttrs,
+			OdaDataSetParameterHandle odaParamHandle )
+	{
+		String paramterName = odaParamHandle.getParamName( );
+		ModuleHandle moduleHandle = setHandle.getModuleHandle( );
+		ParameterHandle paramHandle = moduleHandle.findParameter( paramterName );
+		if ( paramHandle instanceof ScalarParameterHandle )
+		{
+			ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
+			DataSetHandle dataSetHandle = scalarParamHandle.getDataSet( );
+			if ( !( dataSetHandle instanceof OdaDataSetHandle ) )
+				return;
+
+			DynamicValuesQuery query = inputElementAttrs
+					.getDynamicValueChoices( );
+			if ( query == null )
+			{
+				query = designFactory.createDynamicValuesQuery( );
+				inputElementAttrs.setDynamicValueChoices( query );
+			}
+			query.setDataSetDesign( new DataSetAdapter( )
+					.createDataSetDesign( (OdaDataSetHandle) dataSetHandle ) );
+			String valueColumn = AdapterUtil
+					.convertToODAColumn( scalarParamHandle
 							.getExpressionProperty(
-									DataSetParameter.DEFAULT_VALUE_MEMBER )
-							.getValue( ) );
+									IAbstractScalarParameterModel.VALUE_EXPR_PROP )
+							.getExpression( ) );
+			boolean enabled = !StringUtil.isBlank( valueColumn );
+			query.setValueColumn( valueColumn );
+			query.setDisplayNameColumn( AdapterUtil
+					.convertToODAColumn( scalarParamHandle
+							.getExpressionProperty(
+									IAbstractScalarParameterModel.LABEL_EXPR_PROP )
+							.getExpression( ) ) );
+			query.setEnabled( enabled
+					&& DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
+							.equals( scalarParamHandle.getValueType( ) ) );
 		}
 	}
 

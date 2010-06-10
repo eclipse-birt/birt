@@ -142,7 +142,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 				.updateDataSetHandle( setDesign, setHandle, false );
 
 		save( );
-		
+
 		compareTextFile( "OdaDataSetConvertReportParamTest_1_golden.xml" ); //$NON-NLS-1$
 
 		openDesign( "OdaDataSetConvertReportParamTest_1.xml" ); //$NON-NLS-1$
@@ -270,7 +270,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		dataUIHints.setDisplayNameKey( "newPromptTextKeyParam1" ); //$NON-NLS-1$
 		dataUIHints.setDescription( "new help text for report param 1" ); //$NON-NLS-1$
 		dataUIHints.setDescriptionKey( "newHelpTextKeyParam1" ); //$NON-NLS-1$
-		
+
 		InputParameterAttributes paramAttrs = param.getInputAttributes( );
 		InputElementAttributes elementAttrs = paramAttrs.getElementAttributes( );
 
