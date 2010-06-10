@@ -158,7 +158,7 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 			sProperty[1] = property.getValue( );
 
 			TableItem tiProp = new TableItem( table, SWT.CHECK );
-			tiProp.setBackground( getSelectionColor( ) );
+			// tiProp.setBackground( getSelectionColor( ) );
 			tiProp.setText( sProperty );
 		}
 		if ( table.getItemCount( ) > 0 )
