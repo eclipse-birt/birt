@@ -290,10 +290,13 @@ public abstract class AbstractEmitterImpl
 
 	public void end( IReportContent report ) throws IOException, BirtException
 	{
-		adjustInline( );
-		writeSectionInBody( );
-		wordWriter.endPage( );
-		wordWriter.end( );
+		if ( previousPage != null )
+		{
+			adjustInline( );
+			writeSectionInBody( );
+			wordWriter.endPage( );
+			wordWriter.end( );
+		}
 	}
 
 	public void endContainer( IContainerContent container )
