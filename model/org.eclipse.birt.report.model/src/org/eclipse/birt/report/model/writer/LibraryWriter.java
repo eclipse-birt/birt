@@ -13,13 +13,13 @@ package org.eclipse.birt.report.model.writer;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
-import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
@@ -127,12 +127,26 @@ public class LibraryWriter extends ModuleWriter
 	{
 		writer.startElement( DesignSchemaConstants.THEME_TAG );
 
-		super.visitDesignElement( obj );
+		super.visitTheme( obj );
 
 		writeContents( obj, IAbstractThemeModel.STYLES_SLOT,
 				DesignSchemaConstants.STYLES_TAG );
-		writeStructureList( obj, IThemeModel.CSSES_PROP );
+
 		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitorImpl#visitAbstractTheme
+	 * (org.eclipse.birt.report.model.elements.AbstractTheme)
+	 */
+	public void visitAbstractTheme( AbstractTheme obj )
+	{
+		super.visitAbstractTheme( obj );
+
+		writeStructureList( obj, IAbstractThemeModel.CSSES_PROP );
 	}
 
 	/*
@@ -149,7 +163,7 @@ public class LibraryWriter extends ModuleWriter
 		attribute( obj, DesignSchemaConstants.TYPE_ATTRIB,
 				IReportItemThemeModel.TYPE_PROP );
 
-		super.visitDesignElement( obj );
+		super.visitReportItemTheme( obj );
 
 		writeContents( obj, IAbstractThemeModel.STYLES_SLOT,
 				DesignSchemaConstants.STYLES_TAG );

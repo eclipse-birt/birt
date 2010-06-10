@@ -3575,16 +3575,18 @@
       <Argument name="reportContext" tagID="Element.ExtendedItem.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
   </Element>
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Theme" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Theme" name="Theme" nameSpace="theme" since="2.0" xmlName="theme">
-    <Slot displayNameID="Element.Theme.slot.styles" isManagedByNameSpace="false" multipleCardinality="true" name="styles" since="2.0" xmlName="styles">
-      <Type name="Style"/>
-	  <Trigger validator="ThemeStyleNameValidator"/>		
-    </Slot>
-    <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.Theme.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.AbstractTheme" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="AbstractTheme" since="2.6">
+    <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.AbstractTheme.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure">
       <Trigger validator="IncludedCssStyleSheetValidator"/>
     </Property>
   </Element>
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ReportItemTheme" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ReportItemTheme" name="ReportItemTheme" nameSpace="theme" since="2.6" xmlName="report-item-theme">
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Theme" extends="AbstractTheme" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Theme" name="Theme" nameSpace="theme" since="2.0" xmlName="theme">
+    <Slot displayNameID="Element.Theme.slot.styles" isManagedByNameSpace="false" multipleCardinality="true" name="styles" since="2.0" xmlName="styles">
+      <Type name="Style"/>
+	  <Trigger validator="ThemeStyleNameValidator"/>		
+    </Slot>    
+  </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ReportItemTheme" extends="AbstractTheme" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ReportItemTheme" name="ReportItemTheme" nameSpace="theme" since="2.6" xmlName="report-item-theme">
     <Property canInherit="false" detailType="reportItemThemeType" displayNameID="Element.ReportItemTheme.type" name="type" runtimeSettable="false" since="2.6" type="string"/>
     <Slot displayNameID="Element.ReportItemTheme.slot.styles" isManagedByNameSpace="false" multipleCardinality="true" name="styles" since="2.6" xmlName="styles">
       <Type name="Style"/>

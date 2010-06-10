@@ -562,6 +562,11 @@ class ElementVisitorImpl
 		visitDesignElement( obj );
 	}
 
+	public void visitAbstractTheme( AbstractTheme obj )
+	{
+		visitDesignElement( obj );
+	}
+
 	/**
 	 * Visits the theme.
 	 * 
@@ -571,7 +576,7 @@ class ElementVisitorImpl
 
 	public void visitTheme( Theme obj )
 	{
-		visitDesignElement( obj );
+		visitAbstractTheme( obj );
 	}
 
 	/**
@@ -583,7 +588,7 @@ class ElementVisitorImpl
 
 	public void visitReportItemTheme( ReportItemTheme obj )
 	{
-		visitDesignElement( obj );
+		visitAbstractTheme( obj );
 	}
 
 	/**

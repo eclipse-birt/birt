@@ -665,7 +665,7 @@ class DesignVisitorImpl
 
 	protected void visitTheme( ThemeHandle obj )
 	{
-		visitDesignElement( obj );
+		visitAbstractTheme( obj );
 	}
 
 	/**
@@ -951,6 +951,17 @@ class DesignVisitorImpl
 	 *            the report item theme to traverse
 	 */
 	protected void visitReportItemTheme( ReportItemThemeHandle obj )
+	{
+		visitAbstractTheme( obj );
+	}
+	
+	/**
+	 * Visits the abstract theme element.
+	 * 
+	 * @param obj
+	 *            the abstract theme to traverse
+	 */
+	protected void visitAbstractTheme( AbstractThemeHandle obj )
 	{
 		visitDesignElement( obj );
 	}

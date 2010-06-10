@@ -38,11 +38,11 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -474,7 +474,7 @@ public class ListPropertyState extends AbstractPropertyState
 		if ( element instanceof ICssStyleSheetOperation )
 		{
 			if ( IReportDesignModel.CSSES_PROP.equalsIgnoreCase( name )
-					|| IThemeModel.CSSES_PROP.equalsIgnoreCase( name ) )
+					|| IAbstractThemeModel.CSSES_PROP.equalsIgnoreCase( name ) )
 			{
 				AbstractPropertyState state = new IncludedCssStyleSheetListState(
 						handler, element );

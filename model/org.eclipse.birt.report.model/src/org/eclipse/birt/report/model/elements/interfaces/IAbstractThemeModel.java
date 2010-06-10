@@ -30,4 +30,10 @@ public interface IAbstractThemeModel
 
 	public final static String DEFAULT_THEME_NAME = "Theme.defaultThemeName"; //$NON-NLS-1$
 
+	/**
+	 * css file property
+	 */
+	
+	public static final String CSSES_PROP = "cssStyleSheets";//$NON-NLS-1$
+
 }

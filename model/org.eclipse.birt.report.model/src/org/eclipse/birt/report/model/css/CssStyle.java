@@ -18,8 +18,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
-import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
 /**
  * This class represents a shared css style which can't be modified.
@@ -45,7 +45,7 @@ public class CssStyle extends Style
 		}
 		else if ( obj instanceof Theme )
 		{
-			super.setContainer( obj, IThemeModel.CSSES_PROP );
+			super.setContainer( obj, IAbstractThemeModel.CSSES_PROP );
 		}
 	}
 

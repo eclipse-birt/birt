@@ -11,16 +11,10 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.css.CssStyleSheet;
-import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
 /**
@@ -30,13 +24,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
 public class Theme extends AbstractTheme
 		implements
-			IThemeModel,
-			ICssStyleSheetOperation
+			IThemeModel
+			
 {
-
-	private List<String> cachedStyleNames = new ArrayList<String>( );
-
-	private ICssStyleSheetOperation operation = null;
 
 	/**
 	 * Constructor.
@@ -114,59 +104,4 @@ public class Theme extends AbstractTheme
 		return (ThemeHandle) handle;
 	}
 
-	/**
-	 * Drops the given css from css list.
-	 * 
-	 * @param css
-	 *            the css to drop
-	 * @return the position of the css to drop
-	 */
-
-	public int dropCss( CssStyleSheet css )
-	{
-		if ( operation == null )
-			return -1;
-		return operation.dropCss( css );
-	}
-
-	/**
-	 * Adds the given css to css list.
-	 * 
-	 * @param css
-	 *            the css to insert
-	 */
-
-	public void addCss( CssStyleSheet css )
-	{
-		if ( operation == null )
-			operation = new CssStyleSheetAdapter( );
-		operation.addCss( css );
-	}
-
-	/**
-	 * Insert the given css to the given position
-	 * 
-	 * @param css
-	 * @param index
-	 */
-
-	public void insertCss( CssStyleSheet css, int index )
-	{
-		if ( operation == null )
-			operation = new CssStyleSheetAdapter( );
-		operation.insertCss( css, index );
-	}
-
-	/**
-	 * Returns only csses this module includes directly.
-	 * 
-	 * @return list of csses. each item is <code>CssStyleSheet</code>
-	 */
-
-	public List<CssStyleSheet> getCsses( )
-	{
-		if ( operation == null )
-			return Collections.emptyList( );
-		return operation.getCsses( );
-	}
 }

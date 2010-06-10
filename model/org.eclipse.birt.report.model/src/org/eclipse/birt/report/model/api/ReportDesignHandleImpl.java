@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheetHandleAdapter;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.VariableElement;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
@@ -1412,7 +1413,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 		{
 			themeHandle = themeList.get( i );
 			Iterator<Object> iter = themeHandle.getPropertyHandle(
-					ThemeHandle.CSSES_PROP ).iterator( );
+					IAbstractThemeModel.CSSES_PROP ).iterator( );
 			while ( iter.hasNext( ) )
 			{
 				IncludedCssStyleSheetHandle sheetHandle = (IncludedCssStyleSheetHandle) iter

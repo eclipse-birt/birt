@@ -28,8 +28,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
-import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
 /**
  * Adapter of CssStyleSheet operation of ThemeHandle/ReportDesignHandle.
@@ -278,7 +278,7 @@ public class CssStyleSheetHandleAdapter
 		else if ( element instanceof Theme )
 		{
 
-			propName = IThemeModel.CSSES_PROP;
+			propName = IAbstractThemeModel.CSSES_PROP;
 		}
 
 		PropertyHandle propHandle = element.getHandle( module )

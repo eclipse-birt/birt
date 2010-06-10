@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -25,6 +26,7 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleShe
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
@@ -65,11 +67,12 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator
 
 		List cssStyle = null;
 		Iterator<IncludedCssStyleSheetHandle> iter = null;
-		if ( element instanceof Theme )
+		if ( element instanceof AbstractTheme )
 		{
-			ThemeHandle themeHandle = (ThemeHandle) element.getHandle( module );
+			AbstractThemeHandle themeHandle = (AbstractThemeHandle) element
+					.getHandle( module );
 			iter = themeHandle.includeCssesIterator( );
-			cssStyle = ( (Theme) element ).getCsses( );
+			cssStyle = ( (AbstractTheme) element ).getCsses( );
 
 		}
 		else if ( element instanceof ReportDesign )
@@ -95,7 +98,7 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator
 				cssFileNameList.add( css.getFileName( ) );
 			}
 		}
-		
+
 		List<SemanticException> errorList = new ArrayList<SemanticException>( );
 		while ( iter.hasNext( ) )
 		{

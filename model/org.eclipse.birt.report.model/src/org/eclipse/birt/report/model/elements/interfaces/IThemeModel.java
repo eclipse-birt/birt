@@ -17,10 +17,4 @@ package org.eclipse.birt.report.model.elements.interfaces;
 
 public interface IThemeModel extends IAbstractThemeModel
 {
-
-	/**
-	 * css file property
-	 */
-
-	public static final String CSSES_PROP = "cssStyleSheets";//$NON-NLS-1$
 }

@@ -46,14 +46,14 @@
     </list-property>
     <themes>
         <theme name="theme1" id="3">
-            <styles>
-                <style name="label" id="4"/>
-            </styles>
             <list-property name="cssStyleSheets">
 		    	<structure>
     				<property name="fileName">base.css</property>
 		    	</structure>
 		    </list-property>
+            <styles>
+                <style name="label" id="4"/>
+            </styles>            
         </theme>
         <theme name="theme2" id="5">
             <styles>
