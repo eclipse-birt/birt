@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIter
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor.FTSUDocumentObjectNamingUtil;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
+import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
@@ -77,6 +78,11 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	//All the dimensions, dimIndex and levelIndex are got from it
 	private IDimensionResultIterator[] allCubeDimensionResultIterators;
 	private IDimension[] allCubeDimensions;
+	
+	private int[] subDimensionIndex;
+	private boolean existMeasureFilter = false;
+	private boolean readMeasure = false;
+	private int allMeasuerSize;
 	
 	/**
 	 * 
@@ -136,6 +142,9 @@ public class FactTableRowIterator implements IFactTableRowIterator
 			dimensionIndex[factTable.getDimensionIndex( dimensionName[i] )] = i;
 
 		}
+		
+		allMeasuerSize = getAllMeasuerSize( );
+		
 		filterSubDimension( );
 		this.currentPos = new int[factTable.getDimensionInfo( ).length];
 		this.currentMeasureValues = new Object[factTable.getMeasureInfo( ).length];
@@ -147,6 +156,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		computeAllMeasureInfo();
 
 		nextSegment( );
+		
 		logger.exiting( FactTableRowIterator.class.getName( ),
 				"FactTableRowIterator" );
 	}
@@ -225,32 +235,24 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				Bytes combinedDimensionPosition = currentSegment.readBytes( );
 				
 				currentPos = factTable.getCombinedPositionCalculator( )
-						.calculateDimensionPosition( getSubDimensionIndex( ),
+						.calculateDimensionPosition( subDimensionIndex,
 								combinedDimensionPosition.bytesValue( ) );
-				 
-				for ( int i = 0; i < this.currentMeasureValues.length; i++ )
-				{
-					currentMeasureValues[i] = DocumentObjectUtil.readValue( currentSegment,
-							factTable.getMeasureInfo()[i].getDataType( ) );
-				}
-				currentMeasureMap.setMeasureValue( currentMeasureValues );
-				if ( computedMeasureHelper != null )
-				{
-					try
-					{
-						currentComputedMeasureValues = computedMeasureHelper.computeMeasureValues( currentMeasureMap );
-					}
-					catch ( DataException e )
-					{
-						throw new DataException(ResourceConstants.FAIL_COMPUTE_COMPUTED_MEASURE_VALUE, e);
-					}
-				}
+				readMeasure = false;
 				if ( !isSelectedRow( ) )
 				{
+					if( !readMeasure )
+					{
+						if( allMeasuerSize != -1 )
+							currentSegment.skipBytes( allMeasuerSize );
+						else
+							readMeasure( );
+					}
 					continue;
 				}
 				else
 				{
+					if( !readMeasure )
+						readMeasure( );
 					return true;
 				}
 			}
@@ -348,8 +350,9 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				return false;
 			}
 		}
-		if ( measureFilters != null )
+		if( existMeasureFilter )
 		{
+			readMeasure( );
 			for ( int i = 0; i < measureFilters.size( ); i++ )
 			{
 				IJSFacttableFilterEvalHelper measureFilter = (IJSFacttableFilterEvalHelper) measureFilters.get( i );
@@ -357,7 +360,54 @@ public class FactTableRowIterator implements IFactTableRowIterator
 					return false;
 			}
 		}
+		
 		return true;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private int getAllMeasuerSize( )
+	{
+		int size = 0;
+		for ( int i = 0; i < factTable.getMeasureInfo( ).length; i++ )
+		{
+			if( factTable.getMeasureInfo( )[i].getDataType( ) == DataType.DOUBLE_TYPE )
+				size += 8;
+			else if( factTable.getMeasureInfo( )[i].getDataType( ) == DataType.INTEGER_TYPE )
+				size += 4;
+			else
+				return -1;
+		}
+		return size;
+	}
+
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws DataException
+	 */
+	private void readMeasure() throws IOException, DataException
+	{
+		for ( int i = 0; i < this.currentMeasureValues.length; i++ )
+		{
+			currentMeasureValues[i] = DocumentObjectUtil.readValue( currentSegment,
+				factTable.getMeasureInfo()[i].getDataType( ) );
+		}
+		currentMeasureMap.setMeasureValue( currentMeasureValues );
+		if ( computedMeasureHelper != null )
+		{
+			try
+			{
+				currentComputedMeasureValues = computedMeasureHelper.computeMeasureValues( currentMeasureMap );
+			}
+			catch ( DataException e )
+			{
+				throw new DataException(ResourceConstants.FAIL_COMPUTE_COMPUTED_MEASURE_VALUE, e);
+			}
+		}
+		readMeasure = true;
 	}
 
 	/**
@@ -378,8 +428,9 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				return false;
 			}
 			currentSubDim = traversalor.getIntArray( );
+			subDimensionIndex = getSubDimensionIndex( );
 			String FTSUDocName = FTSUDocumentObjectNamingUtil.getDocumentObjectName( NamingUtil.getFactTableName( factTable.getName( ) ),
-					getSubDimensionIndex( ) );
+					subDimensionIndex );
 			if ( !factTable.getDocumentManager( ).exist( FTSUDocName ) )
 			{
 				continue;
@@ -523,6 +574,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	public void addMeasureFilter( IJSFacttableFilterEvalHelper measureFilter )
 	{
 		measureFilters.add( measureFilter );
+		existMeasureFilter = true;
 	}
 	
 	/**
