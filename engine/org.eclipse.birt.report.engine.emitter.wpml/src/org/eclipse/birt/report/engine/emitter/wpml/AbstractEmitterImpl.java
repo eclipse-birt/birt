@@ -542,7 +542,6 @@ public abstract class AbstractEmitterImpl
 
 		int width = WordUtil.convertTo( table.getWidth( ), context
 				.getCurrentWidth( ), reportDpi );
-		width = Math.min( width, context.getCurrentWidth( ) );
 		int[] cols = computeTblColumnWidths( table, width );
 		wordWriter
 				.startTable( table.getComputedStyle( ), getTableWidth( cols ) );
@@ -1268,6 +1267,7 @@ public abstract class AbstractEmitterImpl
 		{
 			return tblColumns;
 		}
+		tblWidth = Math.min( tblWidth, context.getCurrentWidth( ) );
 		return EmitterUtil.resizeTableColumn( tblWidth, tblColumns, count,
 				total );
 	}
