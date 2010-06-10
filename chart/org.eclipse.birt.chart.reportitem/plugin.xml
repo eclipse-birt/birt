@@ -19,13 +19,6 @@
                name="chart"
                type="Chart"/>
          <property
-               canInherit="true"
-               detailType="ReportItemTheme"
-               isEncryptable="false"
-               name="theme"
-               type="elementRef">
-         </property>
-         <property
                type="xml"
                displayNameID="Element.Chart.xmlRepresentation"
                name="xmlRepresentation"/>

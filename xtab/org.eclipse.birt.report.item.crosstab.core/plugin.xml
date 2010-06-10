@@ -218,13 +218,6 @@
                name="crosstab-column-header"
                type="Crosstab">
          </style>
-         <property
-               canInherit="true"
-               detailType="ReportItemTheme"
-               isEncryptable="false"
-               name="theme"
-               type="elementRef">
-         </property>
          <!--method
                context="presentation"
                displayNameID="Method.onPageBreak"

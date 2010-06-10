@@ -75,6 +75,7 @@ cascadeACL
 ACLExpression
 allowExport
 pushDown
+theme
 style
 name
 extends

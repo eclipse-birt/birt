@@ -76,7 +76,6 @@ filter
 repeatHeader
 pageBreakInterval
 sortByGroups
-theme
 bookmark
 bookmarkDisplayName
 toc
@@ -97,6 +96,7 @@ cascadeACL
 ACLExpression
 allowExport
 pushDown
+theme
 style
 name
 extends

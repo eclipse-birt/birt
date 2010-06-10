@@ -168,4 +168,8 @@ public interface IReportItemModel
 	 */
 	public static final String PUSH_DOWN_PROP = "pushDown"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that defines theme name applied for this element.
+	 */
+	public static final String THEME_PROP = ISupportThemeElementConstants.THEME_PROP;
 }

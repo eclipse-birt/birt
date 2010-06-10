@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.command.ThemeEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.AbstractTheme;
-import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
@@ -65,7 +65,7 @@ public class ThemeRecord extends SimpleRecord
 		this.newTheme = newTheme;
 
 		oldTheme = (ElementRefValue) element.getLocalProperty( element
-				.getRoot( ), ISupportThemeElement.THEME_PROP );
+				.getRoot( ), ISupportThemeElementConstants.THEME_PROP );
 
 		label = CommandLabelFactory
 				.getCommandLabel( MessageConstants.SET_THEME_MESSAGE );
@@ -85,12 +85,14 @@ public class ThemeRecord extends SimpleRecord
 
 		if ( undo )
 		{
-			element.setProperty( ISupportThemeElement.THEME_PROP, oldTheme );
+			element.setProperty( ISupportThemeElementConstants.THEME_PROP,
+					oldTheme );
 			updateStyles( newTheme );
 		}
 		else
 		{
-			element.setProperty( ISupportThemeElement.THEME_PROP, newTheme );
+			element.setProperty( ISupportThemeElementConstants.THEME_PROP,
+					newTheme );
 			updateStyles( oldTheme );
 		}
 	}

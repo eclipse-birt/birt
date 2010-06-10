@@ -839,7 +839,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			{
 				ReportItem item = (ReportItem) e;
 				if ( item.getLocalProperty( item.getRoot( ),
-						ISupportThemeElementConstants.THEME_PROP ) != null )
+						IReportItemModel.THEME_PROP ) != null )
 				{
 					if ( !hasSetTheme )
 						hasSetTheme = true;

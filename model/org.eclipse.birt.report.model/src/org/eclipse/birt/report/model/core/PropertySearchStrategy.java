@@ -18,15 +18,11 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.command.ContentElementInfo;
 import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.ContentElement;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.GridItem;
-import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
-import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
@@ -515,12 +511,11 @@ public class PropertySearchStrategy
 		DesignElement e = element;
 		while ( e != null )
 		{
-			if ( e instanceof ListingElement || e instanceof GridItem
-					|| e instanceof ExtendedItem )
+			if ( e instanceof ReportItem )
 			{
 				ReportItem item = (ReportItem) e;
 				if ( item.getLocalProperty( item.getRoot( ),
-						ISupportThemeElement.THEME_PROP ) != null )
+						IReportItemModel.THEME_PROP ) != null )
 				{
 					AbstractTheme theme = item.getTheme( module );
 					if ( theme == null )

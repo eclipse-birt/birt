@@ -36,7 +36,8 @@ import org.eclipse.birt.report.model.util.ContentIterator;
 
 public abstract class ReportItem extends ReferencableStyledElement
 		implements
-			IReportItemModel
+			IReportItemModel,
+			ISupportThemeElement
 {
 
 	/**
@@ -238,10 +239,8 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 */
 	public AbstractTheme getTheme( Module module )
 	{
-		if ( !( this instanceof ISupportThemeElement ) )
-			return null;
 		ElementRefValue value = (ElementRefValue) getProperty( module,
-				ISupportThemeElement.THEME_PROP );
+				THEME_PROP );
 		if ( value == null )
 			return null;
 		return (ReportItemTheme) value.getElement( );
@@ -263,6 +262,6 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 */
 	public String getThemeName( )
 	{
-		return null;
+		return getStringProperty( getRoot( ), THEME_PROP );
 	}
 }

@@ -100,7 +100,8 @@ public class ThemeCommand extends AbstractElementCommand
 		if ( refValue.isResolved( )
 				&& refValue.getElement( ) != theme.getElement( ) )
 			throw new SemanticError( element, new String[]{
-					ISupportThemeElement.THEME_PROP, refValue.getName( )},
+					ISupportThemeElementConstants.THEME_PROP,
+					refValue.getName( )},
 					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
 
 		doSetThemeRefValue( (ElementRefValue) retValue );

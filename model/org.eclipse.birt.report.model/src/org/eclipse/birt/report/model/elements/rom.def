@@ -2531,6 +2531,9 @@
 	<Property displayNameID="Element.ReportItem.pushDown" name="pushDown" since="2.5" type="boolean" >
 		<Default>true</Default>
 	</Property>
+	<Property canInherit="false" detailType="ReportItemTheme" displayNameID="Element.ReportItem.theme" name="theme" runtimeSettable="false" since="2.6" type="elementRef">
+    	<Trigger validator="ThemeReferenceValidator"/>
+    </Property>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>    
@@ -2946,10 +2949,7 @@
     </Property>
     <Property displayNameID="Element.Listing.sortByGroups" name="sortByGroups" runtimeSettable="false" since="2.2" type="boolean">
     	<Default>true</Default>
-    </Property>
-    <Property canInherit="false" detailType="ReportItemTheme" displayNameID="Element.Listing.theme" name="theme" runtimeSettable="false" since="2.6" type="elementRef">
-    	<Trigger validator="ThemeReferenceValidator"/>
-    </Property>
+    </Property>    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.List" extends="Listing" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ListItem" name="List" selector="list" since="1.0" xmlName="list">
     <Slot displayNameID="Element.List.slot.header" multipleCardinality="true" name="header" selector="list-header" since="1.0" xmlName="header">
@@ -3404,9 +3404,6 @@
     <Property displayNameID="Element.Grid.caption" name="caption" runtimeSettable="false" since="2.3" type="string"/>
     <Property displayNameID="Element.Grid.captionID" name="captionID" since="2.3" type="resourceKey"/>
     <Property displayNameID="Element.Grid.summary" name="summary" runtimeSettable="false" since="2.3" type="string"/>
-    <Property canInherit="false" detailType="ReportItemTheme" displayNameID="Element.Grid.theme" name="theme" runtimeSettable="false" since="2.6" type="elementRef">
-    	<Trigger validator="ThemeReferenceValidator"/>
-    </Property>
     <Slot displayNameID="Element.Grid.slot.columns" multipleCardinality="true" name="columns" since="1.0">
       <Type name="Column"/>
       <Trigger validator="InconsistentColumnsValidator"/>
@@ -3837,12 +3834,12 @@
   <Style displayNameID="Style.TableHeaderCell" name="table-header-cell" reference="Table Header Cell" />
   <Style displayNameID="Style.TableFooterCell" name="table-footer-cell" reference="Table Footer Cell" />
   <Style displayNameID="Style.TableDetailCell" name="table-detail-cell" reference="Table Detail Cell" />
-  <Style displayNameID="Style.Label" name="label" reference="Label item" />
-  <Style displayNameID="Style.Text" name="text" reference="Text item" />
+  <Style displayNameID="Style.Label" name="label" reference="Label item" type="Label"/>
+  <Style displayNameID="Style.Text" name="text" reference="Text item" type="Text"/>
   <Style displayNameID="Style.Grid" name="grid" reference="Grid item" type="Grid" />
-  <Style displayNameID="Style.Data" name="data" reference="Data item" />
-  <Style displayNameID="Style.Image" name="image" reference="Image item" />
-  <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" />
+  <Style displayNameID="Style.Data" name="data" reference="Data item" type="Data"/>
+  <Style displayNameID="Style.Image" name="image" reference="Image item" type="Image"/>
+  <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" type="TextData"/>
   <Style displayNameID="Style.TableGroupHeaderCell" name="table-group-header-cell" reference="Table Group Header Cell" />
   <Style displayNameID="Style.TableGroupFooterCell" name="table-group-footer-cell" reference="Table Group Footer Cell" />
   <Style displayNameID="Style.TableGroupHeader1" name="table-group-header-1" reference="Table Group Header 1" />
@@ -3939,10 +3936,10 @@
   <Style displayNameID="Style.MatrixCell" name="matrix-cell" reference="Maxtrix cell" />
   <Style displayNameID="Style.Number" name="number" reference="Number data item" />
   <Style displayNameID="Style.String" name="string" reference="String data item" />
-  <Style displayNameID="Style.FreeForm" name="free-form" reference="Free-form item" />
-  <Style displayNameID="Style.Line" name="line" reference="Line item" />
-  <Style displayNameID="Style.Rectangle" name="rectangle" reference="Rectangel item" />
-  <Style displayNameID="Style.ExtendedItem" name="extended-item" reference="Extended item" />
+  <Style displayNameID="Style.FreeForm" name="free-form" reference="Free-form item" type="FreeForm"/>
+  <Style displayNameID="Style.Line" name="line" reference="Line item" type="Line"/>
+  <Style displayNameID="Style.Rectangle" name="rectangle" reference="Rectangel item" type="Rectangle"/>
+  <Style displayNameID="Style.ExtendedItem" name="extended-item" reference="Extended item" type="ExtendedItem"/>
   <Style displayNameID="Style.GroupHeader1" name="group-header-1" reference="List or table group header for level 1" />
   <Style displayNameID="Style.GroupHeader2" name="group-header-2" reference="List or table group header for level 2" />
   <Style displayNameID="Style.GroupHeader3" name="group-header-3" reference="List or table group header for level 3" />
@@ -3961,6 +3958,6 @@
   <Style displayNameID="Style.GroupFooter7" name="group-footer-7" reference="List or table group footer for level 7" />
   <Style displayNameID="Style.GroupFooter8" name="group-footer-8" reference="List or table group footer for level 8" />
   <Style displayNameID="Style.GroupFooter9" name="group-footer-9" reference="List or table group footer for level 9" />
-  <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" />
+  <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" type="TextData"/>
  -->
 </ReportMetaData>
