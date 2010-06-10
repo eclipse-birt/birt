@@ -977,8 +977,7 @@ public class WebViewer
 				null,
 				null,
 				null,
-				null )
-				+ "&" + random.nextInt( ) ); //$NON-NLS-1$
+				null ) + "&" + random.nextInt( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1055,12 +1054,8 @@ public class WebViewer
 		if ( reportName == null )
 			return false;
 
-		Pattern p = Pattern.compile( ".[a-z]{3}document$" ); //$NON-NLS-1$
-		Matcher m = p.matcher( reportName );
-		if ( m.find( ) )
-			return true;
-
-		return false;
+		// only need handle ".rptdocument" case
+		return reportName.toLowerCase( ).endsWith( ".rptdocument" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1112,11 +1107,11 @@ public class WebViewer
 	{
 		return reloadableClassLoader;
 	}
-	
+
 	/**
 	 * Returns the application classloader reloaded with given parent
 	 */
-	public static ClassLoader getAppClassLoader( ClassLoader parent)
+	public static ClassLoader getAppClassLoader( ClassLoader parent )
 	{
 		if ( reloadableClassLoader != null )
 		{
