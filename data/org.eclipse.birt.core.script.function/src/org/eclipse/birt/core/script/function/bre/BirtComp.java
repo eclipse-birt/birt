@@ -282,7 +282,7 @@ public class BirtComp implements IScriptFunctionExecutor
 	{
 		if ( obj2 == null )
 		{
-			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtComp.match.invalid.pattern" ) );
+			return false;
 		}
 		if ( obj1 == null )
 		{
@@ -350,7 +350,7 @@ public class BirtComp implements IScriptFunctionExecutor
 	{
 		if ( obj2 == null )
 		{
-			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtComp.like.invalid.pattern" ) );
+			return false;
 		}
 		if ( obj1 == null )
 		{
