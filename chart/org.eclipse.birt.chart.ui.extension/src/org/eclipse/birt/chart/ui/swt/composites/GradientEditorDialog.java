@@ -93,6 +93,7 @@ public class GradientEditorDialog extends TrayDialog implements
 				bSupportAngle );
 	}
 
+	@Override
 	protected Control createContents( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_COLOR_GRADIENT );
@@ -102,6 +103,7 @@ public class GradientEditorDialog extends TrayDialog implements
 		return super.createContents( parent );
 	}
 
+	@Override
 	protected void setShellStyle( int newShellStyle )
 	{
 		super.setShellStyle( newShellStyle
@@ -110,6 +112,7 @@ public class GradientEditorDialog extends TrayDialog implements
 				| SWT.APPLICATION_MODAL );
 	}
 
+	@Override
 	protected Control createDialogArea( Composite parent )
 	{
 		GridLayout glContent = new GridLayout( );
@@ -141,6 +144,7 @@ public class GradientEditorDialog extends TrayDialog implements
 				wizardContext,
 				gCurrent.getStartColor( ),
 				false,
+				false,
 				false );
 		GridData gdFCCStartColor = new GridData( GridData.FILL_HORIZONTAL );
 		fccStartColor.setLayoutData( gdFCCStartColor );
@@ -156,6 +160,7 @@ public class GradientEditorDialog extends TrayDialog implements
 				wizardContext,
 				gCurrent.getEndColor( ),
 				false,
+				false, 
 				false );
 		GridData gdFCCEndColor = new GridData( GridData.FILL_HORIZONTAL );
 		fccEndColor.setLayoutData( gdFCCEndColor );
@@ -218,6 +223,7 @@ public class GradientEditorDialog extends TrayDialog implements
 		return gCurrent;
 	}
 
+	@Override
 	protected void cancelPressed( )
 	{
 		gCurrent = gBackup;
