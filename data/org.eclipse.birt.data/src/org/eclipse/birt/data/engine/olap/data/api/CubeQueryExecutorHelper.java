@@ -28,6 +28,7 @@ import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -39,6 +40,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.CubeDimensionReader;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSetFromOriginalCube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation;
@@ -51,7 +54,11 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortHelp
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
+import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;
@@ -70,7 +77,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private List simpleLevelFilters = null;	// list for SimepleLevelFilter
 	private List measureFilters = null;
 	private Map dimJSFilterMap = null;
-	private Map dimRowForFilterMap = null;
 	
 	private List rowSort = null;
 	private List columnSort = null;
@@ -117,7 +123,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		this.aggrFilterHelpers = new ArrayList( );
 		this.aggrMeasureFilters = new ArrayList( );
 		this.dimJSFilterMap = new HashMap( );
-		this.dimRowForFilterMap = new HashMap( );
 		
 		this.rowSort = new ArrayList( );
 		this.columnSort = new ArrayList( );
@@ -306,7 +311,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		aggrFilterHelpers.clear( );
 		aggrMeasureFilters.clear( );
 		dimJSFilterMap.clear( );
-		dimRowForFilterMap.clear( );
 		rowSort.clear( );
 		columnSort.clear( );
 	}
@@ -321,7 +325,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		aggrFilterHelpers = null;
 		aggrMeasureFilters = null;
 		dimJSFilterMap = null;
-		dimRowForFilterMap = null;
 		rowSort = null;
 		columnSort = null;
 	}
@@ -334,6 +337,68 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			AggregationDefinition[] aggregations, StopSign stopSign )
 			throws IOException, BirtException
 	{
+		if( !isDimensionTableQuery( aggregations ) )
+		{
+			return executeFactTableQuery( aggregations, stopSign );
+		}
+		else
+		{
+			IAggregationResultSet[] resultSet = new IAggregationResultSet[1];
+			resultSet[0] = executeDimensionTableQuery( aggregations[0], stopSign );
+			return resultSet;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param aggregations
+	 * @return
+	 */
+	private boolean isDimensionTableQuery( AggregationDefinition[] aggregations )
+	{
+		if( aggregations.length > 1 )
+			return false;
+		if( aggregations[0].getAggregationFunctions( ) != null )
+			return false;
+		DimLevel[] levels = aggregations[0].getLevels( );
+		if( levels == null || levels.length == 0 )
+			return false;
+		for( int i = 0; i < levels.length; i++ )
+		{
+			for( int j = 0; j < levels.length; j++ )
+			{
+				if( !levels[i].getDimensionName( ).equals( levels[j].getDimensionName( ) ) )
+				{
+					return false;
+				}
+			}
+		}
+		
+		if( measureFilters.size( ) > 0 )
+			return false;
+		
+		if( aggrFilterHelpers.size( ) > 0 )
+			return false;
+		
+		if( dimJSFilterMap.size( ) > 1 ||
+				( dimJSFilterMap.size( ) == 1 && dimJSFilterMap.get( levels[0].getDimensionName()) == null) )
+			return false;
+				
+		return true;
+	}
+	
+	/**
+	 * 
+	 * @param aggregations
+	 * @param stopSign
+	 * @return
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	private IAggregationResultSet[] executeFactTableQuery(
+			AggregationDefinition[] aggregations, StopSign stopSign )
+			throws IOException, BirtException
+	{
 		IAggregationResultSet[] resultSet = onePassExecute( aggregations,
 				stopSign );
 		
@@ -342,7 +407,124 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		applyAggrSort( resultSet );
 		
 		return resultSet;
-	}	
+	}
+	
+	/**
+	 * 
+	 * @param aggregations
+	 * @param stopSign
+	 * @return
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	private IAggregationResultSet executeDimensionTableQuery(
+			AggregationDefinition aggregations, StopSign stopSign )
+			throws IOException, BirtException
+	{
+		
+		DimLevel[] levels = aggregations.getLevels( );
+		String dimensionName = levels[0].getDimensionName( );
+		
+		IDimension[] dimensions = cube.getDimesions( );
+		
+		Dimension sourceDimension = null;
+		for ( int i = 0; i < dimensions.length; i++ )
+		{
+			if( dimensionName.equals( dimensions[i].getName( ) ) )
+			{
+				sourceDimension = (Dimension)dimensions[i];
+				break;
+			}
+		}
+		IDiskArray dimensionrow = 
+			getFiltedDistinctDiemensionRow( sourceDimension, levels, aggregations.getSortTypes( ), stopSign );
+		
+		IAggregationResultSet resultSet = 
+			new AggregationResultSet( aggregations, dimensionrow, getKeyColumnName( aggregations ) ,null );
+		
+		return resultSet;
+	}
+	
+	private static String[][] getKeyColumnName( AggregationDefinition aggregation )
+	{
+		DimLevel[] levels = aggregation.getLevels( );
+		String[][] result = new String[levels.length][1];
+		for( int i = 0; i < levels.length; i++ )
+		{
+			result[i][0] = levels[i].getLevelName( );
+		}
+		return result;
+	}
+
+	private IDiskArray getFiltedDistinctDiemensionRow( 
+			Dimension dimension, DimLevel[] levels, int[] sortType, StopSign stopSign ) throws DataException, IOException
+	{
+		List jsFilters = getDimensionJSFilterList( dimension.getName( ) );
+		LevelFilterHelper filterHelper = new LevelFilterHelper( dimension,
+				simpleLevelFilters,
+				levelFilters );
+		IDiskArray filtedPosition = filterHelper.getJSFilterResult( jsFilters, isBreakHierarchy );
+		IDiskArray filtedRow = null;
+		if( filtedPosition != null )
+		{
+			filtedRow = dimension.getDimensionRowByPositions( filtedPosition, stopSign );
+		}
+		else
+		{
+			filtedRow = dimension.getAllRows( stopSign );
+		}
+		
+		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
+		DimensionRow dimensionRow = null;
+		Member[] members = null;
+		
+		int levelIndex[] = new int[levels.length];
+		for( int i = 0; i < levels.length; i++ )
+		{
+			levelIndex[i] = getLevelIndex( dimension, levels[i] );
+		}
+		boolean isAscending = true;
+		if( sortType[0] == IDimensionSortDefn.SORT_DESC )
+			isAscending = false;
+		DiskSortedStack sortedRow = new DiskSortedStack( filtedRow.size(), isAscending, true, AggregationResultRow.getCreator( ) );
+		for( int i = 0; i < filtedRow.size( ); i++ )
+		{
+			dimensionRow = ( DimensionRow )filtedRow.get( i );
+			members = new Member[levels.length];
+			
+			for( int j = 0; j < members.length; j++ )
+			{
+				members[j] = dimensionRow.getMembers( )[levelIndex[j]];
+			}
+			sortedRow.push( new AggregationResultRow( members, null ) );
+		}
+		
+		Object obj = sortedRow.pop( );
+		while( obj != null )
+		{
+			result.add( ( AggregationResultRow )obj );
+			obj = sortedRow.pop( );
+		}
+		
+		return result;
+	}
+	
+	private static int getLevelIndex( Dimension dimension, DimLevel level )
+	{
+		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
+		if ( levels == null )
+		{
+			return -1;
+		}
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			if ( levels[i].getName( ).equals( level.getLevelName( ) ) )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
 	
 	/**
 	 * @param resultSet

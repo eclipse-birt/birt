@@ -1564,6 +1564,115 @@ public class CubeFeaturesTest extends BaseTestCase
 
 	}
 
+	public void testDimensionQuery1( ) throws Exception
+	{
+
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IFilterDefinition filter = new FilterDefinition( new ConditionalExpression( "dimension[\"dimension1\"][\"level11\"]",
+				IConditionalExpression.OP_EQ,
+				"\"CN\"" ) );
+		cqd.addFilter( filter );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		List rowEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				null );
+		
+		engine.shutdown( );
+
+	}
+	
+	public void testDimensionQuery2( ) throws Exception
+	{
+
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		List rowEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				null );
+		
+		engine.shutdown( );
+
+	}
+	
+	public void testDimensionQuery3( ) throws Exception
+	{
+
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2" );
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IFilterDefinition filter = new FilterDefinition( new ConditionalExpression( "dimension[\"dimension1\"][\"level11\"]",
+				IConditionalExpression.OP_EQ,
+				"\"CN\"" ) );
+		cqd.addFilter( filter );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		List rowEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				null );
+		
+		engine.shutdown( );
+
+	}
+	
 	/**
 	 * Filter2, filter out all level11 = CN and level21 > 2000.
 	 * 
@@ -7056,7 +7165,9 @@ public class CubeFeaturesTest extends BaseTestCase
 			String overallAggr ) throws OLAPException
 	{
 		EdgeCursor edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 0 ) );
-		EdgeCursor edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
+		EdgeCursor edge2 = null;
+		if( cursor.getOrdinateEdge( ).size( ) > 1 )
+			edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
 
 		String[] lines = new String[columnEdgeBindingNames.size( )];
 		for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
@@ -7083,7 +7194,7 @@ public class CubeFeaturesTest extends BaseTestCase
 			output += "\n" + lines[i];
 		}
 
-		while ( edge2.next( ) )
+		while ( edge2 != null && edge2.next( ) )
 		{
 			String line = "";
 			for ( int i = 0; i < rowEdgeBindingNames.size( ); i++ )
