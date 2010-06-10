@@ -171,8 +171,10 @@ public interface ReportDocumentConstants
 	static final String BIRT_ENGINE_VERSION_2_5_0 = "2.5.0";
 	/** the version value used by 2.5.1 */
 	static final String BIRT_ENGINE_VERSION_2_5_1 = "2.5.1";
+	/** the version value used by 2.6.0 */
+	static final String BIRT_ENGINE_VERSION_2_6_0 = "2.6.0";
 	/** the current version */
-	static final String BIRT_ENGINE_VERSION = BIRT_ENGINE_VERSION_2_5_1;
+	static final String BIRT_ENGINE_VERSION = BIRT_ENGINE_VERSION_2_6_0;
 	/**
 	 * extraction task version
 	 */
