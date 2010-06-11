@@ -19,6 +19,8 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.util.SecurityUtil;
@@ -33,6 +35,13 @@ import com.ibm.icu.util.Calendar;
 
 class FileMetaLogger implements IMetaLogger
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( FileMetaLogger.class
+			.getName( ) );
 
 	/**
 	 * Default log file name.
@@ -232,10 +241,29 @@ class FileMetaLogger implements IMetaLogger
 
 		OutputStreamWriter retWriter = null;
 
+		File outputFile = new File( fileName );
+		File parentFile = outputFile.getParentFile( );
+
+		// there may be permission issues.
+		// 1. the output file is a directory; 2. the output file exists and has
+		// no write permission. 3. the parent directory has no writer
+		// permission.
+
+		boolean existed = outputFile.exists( );
+
+		if ( outputFile.isDirectory( ) || ( existed && !outputFile.canWrite( ) )
+				|| ( !existed && parentFile != null && !parentFile.canWrite( ) ) )
+		{
+			logger.log( Level.WARNING,
+					"No permission to write metadata log file." ); //$NON-NLS-1$
+			return null;
+		}
+
 		try
 		{
-			retWriter = new OutputStreamWriter( SecurityUtil
-					.createFileOutputStream( new File( fileName ) ),
+
+			retWriter = new OutputStreamWriter(
+					SecurityUtil.createFileOutputStream( outputFile ),
 					DEFAULT_ENCODING );
 		}
 		catch ( UnsupportedEncodingException e )
@@ -275,6 +303,9 @@ class FileMetaLogger implements IMetaLogger
 				return false;
 			}
 		}
+
+		if ( writer == null )
+			return false;
 
 		return true;
 	}
