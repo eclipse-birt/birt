@@ -194,6 +194,9 @@ public class DataSetNumberIndex implements IDataSetIndex
 		}
 		else if ( searchOption == IConditionalExpression.OP_GT )
 		{
+			//If value is found
+			if ( high == low )
+				return high + 1;
 			for ( int i = low; i <= high; i++ )
 			{
 				if ( ScriptEvalUtil.compare( sortedList.get( i ), target ) > 0 )
@@ -204,6 +207,9 @@ public class DataSetNumberIndex implements IDataSetIndex
 		}
 		else if ( searchOption == IConditionalExpression.OP_LT )
 		{
+			//if value is found
+			if  ( high == low )
+				return high - 1;
 			for ( int i = high; i >= low; i-- )
 			{
 				if ( ScriptEvalUtil.compare( sortedList.get( i ), target ) < 0 )
@@ -307,6 +313,7 @@ public class DataSetNumberIndex implements IDataSetIndex
 
 		public List<Integer> seek( Object value ) throws DataException
 		{
+			init( );
 			List keyList = this.keys.get( );
 			List<List<Integer>> indexList = this.indexs.get( );
 			int threshHold = binarySearch( value, keyList, IConditionalExpression.OP_EQ );
