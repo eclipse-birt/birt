@@ -64,6 +64,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.executor.ReportExtensionExecutor;
 import org.eclipse.birt.report.engine.extension.engine.IContentProcessor;
 import org.eclipse.birt.report.engine.extension.engine.IGenerateExtension;
@@ -83,6 +84,7 @@ import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -90,6 +92,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 import com.ibm.icu.util.TimeZone;
@@ -1196,6 +1199,39 @@ public abstract class EngineTask implements IEngineTask
 		return null;
 	}
 
+	protected org.eclipse.birt.report.engine.ir.Expression createExpression(
+			ExpressionHandle expressionHandle )
+	{
+		if ( expressionHandle != null )
+		{
+			if ( expressionHandle.isSet( ) )
+			{
+				String type = expressionHandle.getType( );
+				if ( ExpressionType.CONSTANT.equals( type ) )
+				{
+					// String valueType = expressionHandle.getValue( );
+					String text = expressionHandle.getStringExpression( );
+					return org.eclipse.birt.report.engine.ir.Expression
+							.newConstant( -1, text );
+				}
+				else
+				{
+					String text = expressionHandle.getStringExpression( );
+					if ( text != null )
+					{
+						text = text.trim( );
+						if ( text.length( ) > 0 )
+						{
+							return org.eclipse.birt.report.engine.ir.Expression
+									.newScript( type, text );
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1603,6 +1639,46 @@ public abstract class EngineTask implements IEngineTask
 		}
 		layoutEngine.setOption( TASK_TYPE,  new Integer(taskType));
 		return layoutEngine;
+	}
+
+	protected void initReportVariable( )
+	{
+		IReportRunnable runnable = executionContext.getRunnable( );
+		if ( runnable != null )
+		{
+			ReportDesignHandle reportDesign = executionContext
+					.getReportDesign( );
+			// register the report variables
+			List<VariableElementHandle> varElements = reportDesign
+					.getPageVariables( );
+			for ( VariableElementHandle varElement : varElements )
+			{
+				String scope = varElement.getType( );
+				String name = varElement.getVariableName( );
+
+				PageVariable var = new PageVariable( name, scope );
+				executionContext.addPageVariable( var );
+
+				ExpressionHandle exprHandle = varElement
+						.getExpressionProperty( VariableElementHandle.VALUE_PROP );
+
+				org.eclipse.birt.report.engine.ir.Expression defaultValue = createExpression( exprHandle );
+
+				if ( defaultValue != null )
+				{
+					try
+					{
+						Object value = executionContext.evaluate( defaultValue );
+						var.setDefaultValue( value );
+						var.setValue( value );
+					}
+					catch ( BirtException ex )
+					{
+						executionContext.addException( ex );
+					}
+				}
+			}
+		}
 	}
 
 	protected void loadDesign( )

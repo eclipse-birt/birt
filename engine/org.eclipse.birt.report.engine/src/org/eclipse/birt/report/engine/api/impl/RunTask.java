@@ -205,6 +205,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			setupRenderOption( );
 			updateRtLFlag( );
 		}
+		initReportVariable( );
 		loadDesign( );
 		prepareDesign( );
 		startFactory( );

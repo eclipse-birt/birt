@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,12 +36,14 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.executor.ReportExtensionExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.engine.IContentProcessor;
 import org.eclipse.birt.report.engine.extension.engine.IRenderExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.ReportPageExecutor;
 import org.eclipse.birt.report.engine.internal.document.ReportletExecutor;
 import org.eclipse.birt.report.engine.internal.document.v4.PageRangeIterator;
@@ -164,6 +167,23 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 	}
 
+	protected void loadReportVariable( ) throws IOException
+	{
+		PageHintReader hintsReader = new PageHintReader( reportDocument );
+		try
+		{
+			// load the report variables
+			Collection<PageVariable> vars = hintsReader.getPageVariables( );
+			if ( vars != null )
+			{
+				executionContext.addPageVariables( vars );
+			}
+		}
+		finally
+		{
+			hintsReader.close( );
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -227,6 +247,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				throw new EngineException( MessageConstants.RENDER_OPTION_ERROR ); //$NON-NLS-1$
 			}
 			loadDocument();
+			loadReportVariable( );
 			IReportRunnable runnable = executionContext.getRunnable( );
 			if ( runnable == null )
 			{

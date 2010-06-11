@@ -123,29 +123,8 @@ public class ReportExecutor implements IReportExecutor
 		
 		context.getDataEngine( ).prepare( report, appContext );
 
-		// register the report variables
-		Collection<PageVariableDesign> varDesigns = report.getPageVariables( );
-		for ( PageVariableDesign varDesign : varDesigns )
-		{
-			String name = varDesign.getName( );
-			String scope = varDesign.getScope( );
-			PageVariable var = new PageVariable( name, scope );
-			context.addPageVariable( var );
-			Expression expr = varDesign.getDefaultValue( );
-			if ( expr != null )
-			{
-				try
-				{
-					Object value = context.evaluate( expr );
-					var.setDefaultValue( value );
-					var.setValue( value );
-				}
-				catch ( BirtException ex )
-				{
-					context.addException( ex );
-				}
-			}
-		}
+		// the report variables has been registered before the initialize at
+		// EngineTask.initReportVariable()
 
 		if ( reportletExecutor == null )
 		{
