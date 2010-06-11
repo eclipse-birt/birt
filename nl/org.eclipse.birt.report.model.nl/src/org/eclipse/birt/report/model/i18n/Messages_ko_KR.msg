@@ -3683,8 +3683,6 @@ New.VariableElement=NewVariableElement
 New.DataMartDataSource=새 Data Mart 데이터 원본
 New.DataMartDataSet=새 Data Mart 데이터 집합
 New.DataMartCube=새 Data Mart 큐브
-New.TabElement=새 탭 요소
-New.GadgetItem=새 가젯 항목
 New.TimeDimension=NewTimeDimension
 New.ReportItemTheme=새 보고서 항목 테마
 

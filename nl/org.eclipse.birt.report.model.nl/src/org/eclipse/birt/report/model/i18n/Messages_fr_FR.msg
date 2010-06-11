@@ -3683,8 +3683,6 @@ New.VariableElement=NouvelElementVariable
 New.DataMartDataSource=NewDataMartDataSource
 New.DataMartDataSet=NewDataMartDataSet
 New.DataMartCube=NewDataMartCube
-New.TabElement=NewTabElement
-New.GadgetItem=NewGadgetItem
 New.TimeDimension=NewTimeDimension
 New.ReportItemTheme=Nouveau thème d'élément d'état
 

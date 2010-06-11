@@ -3683,8 +3683,6 @@ New.VariableElement=新变量元素
 New.DataMartDataSource=新DataMart数据源
 New.DataMartDataSet=新DataMart数据集
 New.DataMartCube=新DataMart多维数据集
-New.TabElement=新选项卡元素
-New.GadgetItem=新小工具项
 New.TimeDimension=NewTimeDimension
 New.ReportItemTheme=NewReportItemTheme
 

@@ -3683,8 +3683,6 @@ New.VariableElement=新しい変数要素
 New.DataMartDataSource=新規 DataMart データソース
 New.DataMartDataSet=新規 DataMart データセット
 New.DataMartCube=新規 DataMart キューブ
-New.TabElement=新規タブ要素
-New.GadgetItem=新規ガジェットの項目
 New.TimeDimension=NewTimeDimension
 New.ReportItemTheme=レポート項目テーマの新規作成
 
