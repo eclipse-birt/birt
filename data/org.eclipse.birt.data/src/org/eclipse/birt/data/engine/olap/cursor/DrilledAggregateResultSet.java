@@ -181,10 +181,14 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 					duplicatedIndex.add( positions.get( k ) );
 			}
 			this.calculator.finish( aggregationRows.get( i ) );
+			
+			int baseIndex = 0;
 			Iterator<Integer> iter = duplicatedIndex.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				aggregationRows.remove( iter.next( ) );
+				int index = iter.next( ).intValue( );
+				aggregationRows.remove( index - baseIndex );
+				baseIndex++;
 			}
 			duplicatedIndex.clear( );
 		}
