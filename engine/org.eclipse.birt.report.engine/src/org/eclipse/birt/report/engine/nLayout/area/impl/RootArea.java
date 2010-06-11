@@ -79,18 +79,39 @@ public class RootArea extends BlockContainerArea
 
 		if ( context.getEngineTaskType( ) == IEngineTask.TASK_RENDER )
 		{
-			if ( context.isReserveDocumentPageNumbers( ) )
+			if ( context.isFixedLayout( ) )
 			{
-				long number = pageContent.getPageNumber( );
-				if ( number > 0 )
+				if ( context.isReserveDocumentPageNumbers( )
+						&& context.getHtmlLayoutContext( ) != null
+						&& context.getHtmlLayoutContext( ).isPaged( ) )
 				{
-					context.setPageNumber( number );
+					long number = pageContent.getPageNumber( );
+					if ( number > 0 )
+					{
+						context.setPageNumber( number );
+					}
 				}
+				else
+				{
+					context.setPageNumber( context.getPageNumber( ) + 1 );
+					pageContent = createPageContent( pageContent );
+				}	
 			}
 			else
 			{
-				context.setPageNumber( context.getPageNumber( ) + 1 );
-				pageContent = createPageContent( pageContent );
+				if ( context.isReserveDocumentPageNumbers( ) )
+				{
+					long number = pageContent.getPageNumber( );
+					if ( number > 0 )
+					{
+						context.setPageNumber( number );
+					}
+				}
+				else
+				{
+					context.setPageNumber( context.getPageNumber( ) + 1 );
+					pageContent = createPageContent( pageContent );
+				}
 			}
 		}
 		else
