@@ -93,7 +93,7 @@ public class DiskCache implements ResultSetCache
 	 */
 	public DiskCache( IResultObject[] resultObjects, IResultObject resultObject,
 			IRowResultSet rowResultSet, IResultClass rsMeta,
-			Comparator comparator, int MemoryCacheRowCount, DataEngineSession session )
+			Comparator comparator, int MemoryCacheRowCount,int maxRows, DataEngineSession session )
 			throws DataException
 	{
 		//this.rsMeta = rsMeta;
@@ -110,7 +110,7 @@ public class DiskCache implements ResultSetCache
 			
 			logger.info( "Start processRestResultObjects" );
 			diskBasedResultSet.processRestResultObjects( resultObject,
-					rowResultSet );
+					rowResultSet, maxRows == -1? -1 : maxRows - resultObjects.length );
 		}
 		catch ( IOException e )
 		{

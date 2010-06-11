@@ -78,6 +78,21 @@ public class CacheUtil
 		//The unit is 1M.
 		return populateMemBufferSize( appContext.get( DataEngine.MEMORY_BUFFER_SIZE )) * 1024 * 1024;
 	}
+	
+	public static int getMaxRows( Map appContext )
+	{
+		if ( appContext == null )
+			return -1;
+		Object maxRows = appContext.get( DataEngine.MAX_DATA_OBJECT_ROWS );
+		if ( maxRows != null )
+		{
+			return Integer.parseInt( maxRows.toString( ) );
+		}
+		else
+		{
+			return -1;
+		}
+	}
 
 	/**
 	 * 

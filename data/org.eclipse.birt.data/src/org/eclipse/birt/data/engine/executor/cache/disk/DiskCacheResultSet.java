@@ -76,9 +76,9 @@ class DiskCacheResultSet
 	 * @throws IOException
 	 */
 	public void processRestResultObjects( IResultObject resultObject,
-			IRowResultSet rs ) throws DataException, IOException
+			IRowResultSet rs, int maxRows ) throws DataException, IOException
 	{
-		dataCount += databaseExport.exportRestDataToDisk( resultObject, rs );
+		dataCount += databaseExport.exportRestDataToDisk( resultObject, rs, maxRows );
 		rowIterator = databaseExport.getRowIterator( );
 	}
 	

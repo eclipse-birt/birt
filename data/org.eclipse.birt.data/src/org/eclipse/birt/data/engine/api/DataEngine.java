@@ -72,6 +72,13 @@ abstract public class DataEngine
 	 */
 	public static String MEMORY_BUFFER_SIZE = "org.eclipse.birt.data.query.ResultBufferSize";
 	
+	/**
+	 * This setting allow the administrator to set a limit on the amount of data that a query against 
+	 * a data object is allowed to access. Queries should be aborted with error if it exceeds this limit.
+	 */
+	public static String MAX_DATA_OBJECT_ROWS = "org.eclipse.birt.data.query.MaxDataObjectRows";
+	
+	
 	public static String DATA_SET_CACHE_DELTA_FILE = "org.eclipse.birt.data.cache.DeltaFile";
 	
 	/**

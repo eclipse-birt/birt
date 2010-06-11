@@ -346,6 +346,11 @@ public class BirtCubeView
 		return this.cube;
 	}
 	
+	public Map getAppContext( )
+	{
+		return appContext;
+	}
+	
 	/**
 	 * 
 	 * @return

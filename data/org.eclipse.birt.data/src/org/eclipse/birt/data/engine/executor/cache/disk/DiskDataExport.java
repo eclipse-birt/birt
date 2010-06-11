@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -68,16 +69,17 @@ abstract class DiskDataExport
 	
 	/**
 	 * Export data which is fetched form RowResultSet, which is the second step
-	 * of export following the first step of exportStartDataToDisk.
+	 *  of export following the first step of exportStartDataToDisk.
 	 * 
-	 * @param resultObject, the start resultObject
-	 * @param rs, follows the resultObject
-	 * @param stopSign
-	 * @throws DataException, fetch data exception
-	 * @throws IOException, file writer exception
+	 * @param resultObject
+	 * @param rs
+	 * @param maxRows
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
 	 */
 	public abstract int exportRestDataToDisk( IResultObject resultObject,
-			IRowResultSet rs ) throws DataException, IOException;
+			IRowResultSet rs, int maxRows ) throws DataException, IOException;
 	
 	/**
 	 * get a ObjectFileWithCache object for goal file 
@@ -117,7 +119,7 @@ abstract class DiskDataExport
 	 * @return how much data is exported
 	 */
 	protected int innerExportRestData( IResultObject resultObject,
-			IRowResultSet rs, int dataCountOfUnit ) throws DataException,
+			IRowResultSet rs, int dataCountOfUnit, int maxRows ) throws DataException,
 			IOException
 	{
 		int columnCount = rs.getMetaData( ).getFieldCount( );
@@ -130,6 +132,9 @@ abstract class DiskDataExport
 		IResultObject odaObject = null;
 		while ( ( odaObject = rs.next( ) ) != null && !session.getStopSign( ).isStopped( ) )
 		{
+			if( maxRows > 0 && currDataCount > maxRows )
+				throw new DataException( ResourceConstants.EXCEED_MAX_DATA_OBJECT_ROWS );
+			
 			Object[] ob = new Object[columnCount];
 			for ( int i = 0; i < columnCount; i++ )
 				ob[i] = odaObject.getFieldValue( i + 1 );

@@ -61,11 +61,11 @@ class DiskSortExport extends DiskDataExport
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#exportRestDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject,
 	 *      org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
-	public int exportRestDataToDisk( IResultObject resultObject, IRowResultSet rs ) throws DataException,
+	public int exportRestDataToDisk( IResultObject resultObject, IRowResultSet rs, int maxRos ) throws DataException,
 			IOException
 	{		 
 		// sort the raw data to unit
-		int dataCountOfRest = innerExportRestData( resultObject, rs, dataCountOfUnit );
+		int dataCountOfRest = innerExportRestData( resultObject, rs, dataCountOfUnit, maxRos );
 		dataCountOfTotal += dataCountOfRest;
 		
 		// prepares for merge sort

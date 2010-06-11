@@ -53,9 +53,9 @@ class DiskDirectExport extends DiskDataExport
 	 *      org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
 	public int exportRestDataToDisk( IResultObject resultObject,
-			IRowResultSet rs ) throws DataException, IOException
+			IRowResultSet rs, int maxRows ) throws DataException, IOException
 	{
-		int result = innerExportRestData( resultObject, rs, dataCountOfUnit );
+		int result = innerExportRestData( resultObject, rs, dataCountOfUnit, maxRows );
 		rowFile.endWrite( );
 		return result;
 	}

@@ -92,6 +92,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private List cubePosFilters;
 	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
+	public int maxDataObjectRows = -1;
+	public int memoryCacheSize = -1;
+	
 	/**
 	 * 
 	 * @param cube
@@ -695,6 +698,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( new CubeDimensionReader( cube ),
 				dataSet4Aggregation,
 				aggregations );
+		if( maxDataObjectRows != -1 )
+			aggregationCalculatorExecutor.setMaxDataObjectRows( maxDataObjectRows );
+		if( memoryCacheSize != -1 )
+			aggregationCalculatorExecutor.setMemoryCacheSize( memoryCacheSize );
 		return aggregationCalculatorExecutor.execute( stopSign );
 	}
 	
@@ -837,5 +844,25 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			existNames.add( name );
 		}
 		
+	}
+	
+	public void setMaxDataObjectRows( int rowSize )
+	{
+		this.maxDataObjectRows = rowSize;
+	}
+	
+	public int getMaxDataObjectRows( )
+	{
+		return maxDataObjectRows;
+	}
+	
+	public void setMemoryCacheSize( int memoryCacheSize )
+	{
+		this.memoryCacheSize = memoryCacheSize;
+	}
+	
+	public int getMemoryCacheSize( int memoryCacheSize )
+	{
+		return memoryCacheSize;
 	}
 }

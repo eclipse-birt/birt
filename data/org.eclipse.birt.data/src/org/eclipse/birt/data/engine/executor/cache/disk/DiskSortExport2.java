@@ -20,6 +20,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -89,12 +90,13 @@ class DiskSortExport2 extends DiskDataExport
 	 *      org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
 	public int exportRestDataToDisk( IResultObject resultObject,
-			IRowResultSet rs ) throws DataException, IOException
+			IRowResultSet rs, int maxRows ) throws DataException, IOException
 	{
 		// sort the raw data to unit
 		int dataCountOfRest = innerExportRestData( resultObject,
 				rs,
-				dataCountOfUnit );
+				dataCountOfUnit,
+				maxRows );
 		dataCountOfTotal += dataCountOfRest;
 
 		MergeSortImpl mergeSortImpl = new MergeSortImpl( this.dataCountOfUnit,
@@ -113,7 +115,7 @@ class DiskSortExport2 extends DiskDataExport
 	 *      org.eclipse.birt.data.engine.executor.cache.IRowResultSet, int)
 	 */
 	protected int innerExportRestData( IResultObject resultObject,
-			IRowResultSet rs, int dataCountOfUnit ) throws DataException,
+			IRowResultSet rs, int dataCountOfUnit, int maxRows ) throws DataException,
 			IOException
 	{
 		addNewRow( resultObject );
@@ -124,6 +126,8 @@ class DiskSortExport2 extends DiskDataExport
 		
 		while ( ( odaObject = rs.next( ) ) != null )
 		{
+			if( maxRows > 0 && currDataCount > maxRows )
+				throw new DataException( ResourceConstants.EXCEED_MAX_DATA_OBJECT_ROWS );
 			if( session.getStopSign( ).isStopped( ) )
 				return 0;
 			Object[] ob = new Object[columnCount];

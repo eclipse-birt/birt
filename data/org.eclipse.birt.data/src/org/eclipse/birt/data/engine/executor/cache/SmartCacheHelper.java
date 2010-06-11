@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.cache.disk.DiskCache;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -301,6 +302,8 @@ class SmartCacheHelper
 		// compute the number of rows which can be cached in memory
 		long memoryCacheSize = CacheUtil.computeMemoryBufferSize( eventHandler.getAppContext() );
 		
+		int maxRows = CacheUtil.getMaxRows( eventHandler.getAppContext( ) );
+		
 		IResultObject odaObject;
 		IResultObject[] resultObjects;
 		List resultObjectsList = new ArrayList( );
@@ -313,7 +316,10 @@ class SmartCacheHelper
 			if ( usedMemorySize < memoryCacheSize )
 			{
 				dataCount++;
-				
+				if( maxRows > 0 && dataCount > maxRows )
+				{
+					throw new DataException( ResourceConstants.EXCEED_MAX_DATA_OBJECT_ROWS );
+				}
 				//the followed variable is for performance
 				int odaObjectFieldCount = odaObject.getResultClass( ).getFieldCount( );
 				int metaFieldCount = rsMeta.getFieldCount( );
@@ -348,6 +354,7 @@ class SmartCacheHelper
 						rsMeta,
 						getComparator( sortSpec, eventHandler ),
 						dataCount,
+						maxRows,
 						this.session );
 				break;
 			}

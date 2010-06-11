@@ -54,6 +54,9 @@ public class AggregationExecutor
 	private IDataSet4Aggregation dataSet4Aggregation;
 	protected static Logger logger = Logger.getLogger( AggregationExecutor.class.getName( ) );
 
+	public int maxDataObjectRows = -1;
+	public int memoryCacheSize = -1;
+	
 	/**
 	 * 
 	 * @param dimensionResultIterators
@@ -208,6 +211,7 @@ public class AggregationExecutor
 
 		prepareSortedStacks( );
 		int measureCount = dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( ).length;
+		int factRowCount = 0;
 		try
 		{
 			while ( dataSet4Aggregation.next( ) && !stopSign.isStopped( ) )
@@ -233,8 +237,10 @@ public class AggregationExecutor
 					}
 					aggregationRow.setParameterValues( getParameterValues( ) );
 					diskSortedStackWrapper.diskSortedStack.push( aggregationRow );
-
 				}
+				
+				if( maxDataObjectRows >0 && factRowCount++ > maxDataObjectRows )
+					throw new DataException( ResourceConstants.EXCEED_MAX_DATA_OBJECT_ROWS );
 			}
 		}
 		catch ( BirtException e )
@@ -448,6 +454,26 @@ public class AggregationExecutor
 		{
 			paraInfos[i] = metaInfo.getColumnInfo( paraColumns[i] );
 		}
+	}
+	
+	public void setMaxDataObjectRows( int rowSize )
+	{
+		this.maxDataObjectRows = rowSize;
+	}
+	
+	public int getMaxDataObjectRows( )
+	{
+		return maxDataObjectRows;
+	}
+	
+	public void setMemoryCacheSize( int memoryCacheSize )
+	{
+		this.memoryCacheSize = memoryCacheSize;
+	}
+	
+	public int getMemoryCacheSize( int memoryCacheSize )
+	{
+		return memoryCacheSize;
 	}
 }
 

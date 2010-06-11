@@ -154,6 +154,7 @@ public class ResourceConstants
 	// data set cache error
 	public final static String DATASETCACHE_SAVE_ERROR = "data.engine.datasetcache.save.error";
 	public final static String DATASETCACHE_LOAD_ERROR = "data.engine.datasetcache.load.error";
+	public final static String EXCEED_MAX_DATA_OBJECT_ROWS = "data.engine.exceed.max.data.object.row";
 	
 	// error related with data engine context
 	public final static String RD_INVALID_MODE = "data.engine.InvalidMode";
