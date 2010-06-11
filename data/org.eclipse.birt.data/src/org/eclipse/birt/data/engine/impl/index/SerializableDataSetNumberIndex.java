@@ -65,8 +65,14 @@ public class SerializableDataSetNumberIndex<T> implements IIndexSerializer
 		{
 			List<T> keyList = new LinkedList<T>( );
 			keyList.addAll( this.numberAndIndex.keySet( ) );
+			if ( keyList.size( ) == 0 )
+			{
+				output.close( );
+				return;
+			}
+
 			Collections.sort( keyList, new NumberComparator<T>( ) );
-			int segs = keyList.size( ) / BLOCKNUMBER + 1;
+			int segs = ( keyList.size( ) - 1 ) / BLOCKNUMBER + 1;
 			IOUtil.writeInt( output, segs );
 			long intOffset = output.getOffset( );
 			DataOutputStream dout = new DataOutputStream( output );
