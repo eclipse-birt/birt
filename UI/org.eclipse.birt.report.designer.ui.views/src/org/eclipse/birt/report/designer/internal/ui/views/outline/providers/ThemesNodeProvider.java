@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
@@ -115,6 +116,7 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 					Messages.getString( "NewThemeDialog.DialogTitle" ), //$NON-NLS-1$
 					Messages.getString( "NewThemeDialog.DialogMessage" ), //$NON-NLS-1$
 					theme.getName( ),
+					ChoiceSetFactory.getThemes( ),
 					null );
 
 			inputDialog.create( );

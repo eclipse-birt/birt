@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views;
 
+import java.util.Arrays;
+
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
@@ -63,6 +65,8 @@ public class RenameInputDialog extends BaseDialog
 	 */
 	private Text errorMessageText;
 
+	private String[] existedNames;
+	
 	public RenameInputDialog( Shell parentShell, String dialogTitle, String dialogMessage,
 			String initialValue, String helpContextID )
 	{
@@ -70,6 +74,13 @@ public class RenameInputDialog extends BaseDialog
 		this.message = dialogMessage;
 		this.value = initialValue;
 		this.helpContextID = helpContextID;
+	}
+
+	public RenameInputDialog( Shell parentShell, String dialogTitle, String dialogMessage,
+			String initialValue, String[] existedNames, String helpContextID )
+	{
+		this( parentShell, dialogTitle, dialogMessage, initialValue, helpContextID );
+		this.existedNames = existedNames;
 	}
 
 	// /*
@@ -123,6 +134,12 @@ public class RenameInputDialog extends BaseDialog
 				{
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
 					setErrorMessage( Messages.getString( "RenameInputDialog.Message.BlankName" ) ); //$NON-NLS-1$
+				}
+				else if ( existedNames != null
+						&& Arrays.asList( existedNames ).contains( text.getText( ).trim( ) ) )
+				{
+					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+					setErrorMessage( Messages.getString( "RenameInputDialog.Message.DuplicateName" ) ); //$NON-NLS-1$
 				}
 				else
 				{

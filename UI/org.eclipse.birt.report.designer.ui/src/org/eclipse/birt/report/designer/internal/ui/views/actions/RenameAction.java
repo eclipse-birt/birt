@@ -138,11 +138,20 @@ public class RenameAction extends AbstractViewerAction
 				|| selectedItem.getData( ) instanceof EmbeddedImageHandle )
 		{
 			initOriginalName( );
+
+			TreeItem[] items = selectedItem.getParentItem( ).getItems( );
+			String[] existedNames = new String[items.length];
+			for ( int i = 0; i < items.length; i++ )
+			{
+				existedNames[i] = items[i].getText( );
+			}
+
 			RenameInputDialog inputDialog = new RenameInputDialog( selectedItem.getParent( )
 					.getShell( ),
 					Messages.getString( "RenameInputDialog.DialogTitle" ), //$NON-NLS-1$
 					Messages.getString( "RenameInputDialog.DialogMessage" ), //$NON-NLS-1$
 					originalName,
+					existedNames,
 					IHelpContextIds.RENAME_INPUT_DIALOG_ID );
 			inputDialog.create( );
 			if ( inputDialog.open( ) == Window.OK )
