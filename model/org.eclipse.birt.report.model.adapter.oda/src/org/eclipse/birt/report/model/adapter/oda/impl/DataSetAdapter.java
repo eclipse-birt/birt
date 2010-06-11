@@ -55,6 +55,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 class DataSetAdapter extends AbstractDataAdapter
 {
 
+	private static DataSetAdapter instance;
+
 	/**
 	 * 
 	 */
@@ -62,6 +64,20 @@ class DataSetAdapter extends AbstractDataAdapter
 	DataSetAdapter( )
 	{
 		super( );
+	}
+
+	/**
+	 * Gets the instance.
+	 * 
+	 * @return the instance
+	 */
+	static DataSetAdapter getInstance( )
+	{
+		if ( instance == null )
+		{
+			instance = new DataSetAdapter( );
+		}
+		return instance;
 	}
 
 	/**

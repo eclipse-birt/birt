@@ -1673,7 +1673,8 @@ class DataSetParameterAdapter
 		{
 			ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
 			DataSetHandle dataSetHandle = scalarParamHandle.getDataSet( );
-			if ( !( dataSetHandle instanceof OdaDataSetHandle ) )
+			if ( !( dataSetHandle instanceof OdaDataSetHandle )
+					|| dataSetHandle == setHandle )
 				return;
 
 			DynamicValuesQuery query = inputElementAttrs
@@ -1683,8 +1684,18 @@ class DataSetParameterAdapter
 				query = designFactory.createDynamicValuesQuery( );
 				inputElementAttrs.setDynamicValueChoices( query );
 			}
-			query.setDataSetDesign( new DataSetAdapter( )
-					.createDataSetDesign( (OdaDataSetHandle) dataSetHandle ) );
+
+			if ( query.getDataSetDesign( ) == null )
+			{
+				query.setDataSetDesign( DataSetAdapter.getInstance( )
+						.createDataSetDesign( (OdaDataSetHandle) dataSetHandle ) );
+			}
+			else
+			{
+				DataSetAdapter.getInstance( ).updateDataSetDesign(
+						(OdaDataSetHandle) dataSetHandle,
+						query.getDataSetDesign( ) );
+			}
 			String valueColumn = AdapterUtil
 					.convertToODAColumn( scalarParamHandle
 							.getExpressionProperty(
