@@ -23,7 +23,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -158,7 +157,6 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 			sProperty[1] = property.getValue( );
 
 			TableItem tiProp = new TableItem( table, SWT.CHECK );
-			// tiProp.setBackground( getSelectionColor( ) );
 			tiProp.setText( sProperty );
 		}
 		if ( table.getItemCount( ) > 0 )
@@ -204,7 +202,6 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 				sProperty[1] = ""; //$NON-NLS-1$
 
 				TableItem tiProp = new TableItem( table, SWT.NONE );
-				tiProp.setBackground( getSelectionColor( ) );
 				tiProp.setText( sProperty );
 				table.select( table.getItemCount( ) - 1 );
 
@@ -281,10 +278,5 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 		{
 			property.setValue( value );
 		}
-	}
-
-	private Color getSelectionColor( )
-	{
-		return getDisplay( ).getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT );
 	}
 }
