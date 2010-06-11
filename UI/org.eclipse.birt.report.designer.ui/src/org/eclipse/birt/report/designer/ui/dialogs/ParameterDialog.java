@@ -50,11 +50,11 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -932,7 +932,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 		} );
 
-
 		allowMultiChoice = new Button( choiceArea, SWT.CHECK );
 		allowMultiChoice.setText( CHECK_ALLOW_MULTI );
 		gd = new GridData( );
@@ -1687,9 +1686,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		// old default value is invalid,
 		// then set the default value to null, else let in remain it unchanged.
 		// -- Begin --
-
-		validateValueList( defaultValueList );
-
+		makeUniqueAndValid( );
 		// -- End --
 
 		buildControlTypeList( type );
@@ -1706,15 +1703,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			clearDefaultValueChooserSelections( );
 		}
 
-		if ( ( isStatic( ) && !distinct.isEnabled( ) )
-				|| ( distinct.isEnabled( ) && !distinct.getSelection( ) ) )
+		if ( ( isStatic( ) ) )
 		{
-			makeUniqueAndValid( );
 			refreshStaticValueTable( );
 		}
 		else
 		{
 			refreshColumns( true );
+			refreshDynamicValueTable( );
 		}
 
 		lastDataType = type;
@@ -1738,20 +1734,45 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 
 			Set set = new HashSet( );
-			for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+
+			if ( ( isStatic( ) && !distinct.isEnabled( ) )
+					|| ( distinct.isEnabled( ) && !distinct.getSelection( ) ) )
 			{
-				SelectionChoice choice = (SelectionChoice) iter.next( );
-				if ( isValidValue( choice.getValue( ) ) != null
-						|| set.contains( validateValue( choice.getValue( ) ) ) )
+				if ( choiceList != null )
 				{
-					iter.remove( );
-					change = true;
+					for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+					{
+						SelectionChoice choice = (SelectionChoice) iter.next( );
+						if ( isValidValue( choice.getValue( ) ) != null
+								|| set.contains( validateValue( choice.getValue( ) ) ) )
+						{
+							iter.remove( );
+							change = true;
+						}
+						else
+						{
+							set.add( validateValue( choice.getValue( ) ) );
+						}
+					}
 				}
-				else
+				set.clear( );
+			}
+			
+			if ( defaultValueList != null )
+			{
+				for ( Iterator iter = defaultValueList.iterator( ); iter.hasNext( ); )
 				{
-
-					set.add( validateValue( choice.getValue( ) ) );
-
+					Expression expression = (Expression) iter.next( );
+					if ( isValidValue( expression.getStringExpression( ) ) != null
+							|| set.contains( validateValue( expression.getStringExpression( ) ) ) )
+					{
+						iter.remove( );
+						change = true;
+					}
+					else
+					{
+						set.add( validateValue( expression.getStringExpression( ) ) );
+					}
 				}
 			}
 		}
@@ -3026,25 +3047,17 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	}
 
 	private void validateValueList( List<Expression> values )
+			throws BirtException
 	{
 		if ( values != null )
 		{
-			for ( int i = 0; i < values.size( ); i++ )
+			for ( Expression value : values )
 			{
-				Expression value = values.get( i );
-				try
-				{
-					if ( value == null )
-						validateValue( null );
-					else
-						validateValue( value.getStringExpression( ),
-								value.getType( ) );
-				}
-				catch ( Exception e )
-				{
-					values.remove( value );
-					i--;
-				}
+				if ( value == null )
+					validateValue( null );
+				else
+					validateValue( value.getStringExpression( ),
+							value.getType( ) );
 			}
 		}
 	}
@@ -3053,7 +3066,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		// Validate the date first -- begin -- bug 164765
 
-		validateValueList( defaultValueList );
+		try
+		{
+			validateValueList( defaultValueList );
+		}
+		catch ( BirtException e1 )
+		{
+			ExceptionHandler.handle( e1 );
+			return;
+		}
 
 		// Validate the date first -- end --
 
@@ -3456,6 +3477,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			else
 				addButton.setEnabled( true );
 		}
+		updateMessageLine( );
 	}
 
 	private void updateStaticTableButtons( )
@@ -3493,6 +3515,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		changeDefault.setSelection( isDefault );
 		changeDefault.setEnabled( isEnable );
+		updateMessageLine( );
 	}
 
 	protected void updateButtons( )
@@ -3504,9 +3527,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					&& !columnChooser.isDisposed( )
 					&& !isStatic( ) )
 			{
+				String expression = getExpression( columnChooser,
+						columnChooser.getText( ) );
 				canFinish = canFinish
-						&& ( getExpression( columnChooser,
-								columnChooser.getText( ) ).length( ) > 0 );
+						&& ( expression != null && expression.length( ) > 0 );
 			}
 		}
 		getOkButton( ).setEnabled( canFinish );
@@ -3606,21 +3630,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 		}
 		updateButtons( );
-
-		if ( defaultValueViewer != null
-				&& !defaultValueViewer.getTable( ).isDisposed( )
-				&& defaultValueViewer.getTable( ).isVisible( ) )
-		{
-			defaultValueViewer.refresh( );
-			updateDynamicTableButtons( );
-		}
-		if ( valueTable != null
-				&& !valueTable.getTable( ).isDisposed( )
-				&& valueTable.getTable( ).isVisible( ) )
-		{
-			valueTable.refresh( );
-			updateStaticTableButtons( );
-		}
 	}
 
 	private String validateName( )
@@ -3635,19 +3644,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 			return ERROR_MSG_DUPLICATED_NAME;
 		}
-		if ( defaultValueChooser != null
-				&& ( !defaultValueChooser.isDisposed( ) )
-				&& defaultValueChooser.getText( ).length( ) != 0 )
+		try
 		{
-			try
-			{
-				validateValue( getDefaultValueChooserValue( ),
-						(String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) );
-			}
-			catch ( BirtException e )
-			{
-				return ERROR_MSG_MISMATCH_DATA_TYPE;
-			}
+			validateValueList( defaultValueList );
+		}
+		catch ( BirtException e )
+		{
+			return ERROR_MSG_MISMATCH_DATA_TYPE;
 		}
 
 		return null;
@@ -4149,6 +4152,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 			return null;
 		}
+		if ( columnList == null )
+			return null;
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
 			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
