@@ -147,6 +147,7 @@ data.engine.BirtException=BIRT で例外 {0} が発生しました。詳しくは、次の例外を参
 # data set cache error
 data.engine.datasetcache.save.error=データセットキャッシュのファイルを保存できません。
 data.engine.datasetcache.load.error=データセットキャッシュのファイルを読み込めません。
+data.engine.exceed.max.data.object.row=Query can't be processed. To run the query, they need to either increase the result set buffer size or narrow down the query.
 
 # error related with data engine context
 data.engine.InvalidMode=データエンジンコンテキストのモードの値 {0} が無効です。

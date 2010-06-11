@@ -147,6 +147,7 @@ data.engine.BirtException=BIRT 예외 {0}이(가) 발생했습니다. 자세한 내용은 다음 �
 # data set cache error
 data.engine.datasetcache.save.error=데이터 집합 캐시를 저장하는 중 오류가 발생했습니다.
 data.engine.datasetcache.load.error=데이터 집합 캐시 파일을 로드하는 중 오류가 발생했습니다.
+data.engine.exceed.max.data.object.row=Query can't be processed. To run the query, they need to either increase the result set buffer size or narrow down the query.
 
 # error related with data engine context
 data.engine.InvalidMode=데이터 엔진 컨텍스트의 모드 값 {0}이(가) 잘못되었습니다.

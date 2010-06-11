@@ -147,6 +147,7 @@ data.engine.BirtException=In BIRT ist ein Ausnahmefehler aufgetreten: {0}. Weite
 # data set cache error
 data.engine.datasetcache.save.error=Beim Speichern von Dateien des Datensatz-Caches ist ein Fehler aufgetreten.
 data.engine.datasetcache.load.error=Beim Laden von Dateien des Datensatz-Caches ist ein Fehler aufgetreten.
+data.engine.exceed.max.data.object.row=Query can't be processed. To run the query, they need to either increase the result set buffer size or narrow down the query.
 
 # error related with data engine context
 data.engine.InvalidMode=Der Modus-Wert {0} des Datenengine-Kontexts ist ungültig.

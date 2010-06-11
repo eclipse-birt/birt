@@ -147,6 +147,7 @@ data.engine.BirtException=发生 BIRT 例外：{0}。查看下一个例外以了解更多信息。
 # data set cache error
 data.engine.datasetcache.save.error=保存数据源缓存的文件时出错。
 data.engine.datasetcache.load.error=加载数据源缓存的文件时出错。
+data.engine.exceed.max.data.object.row=Query can't be processed. To run the query, they need to either increase the result set buffer size or narrow down the query.
 
 # error related with data engine context
 data.engine.InvalidMode=数据引擎上下文的模式值 {0} 无效。
