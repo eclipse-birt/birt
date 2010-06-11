@@ -789,7 +789,10 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			{
 				Series series = seriesdefinitions.get( j )
 						.getDesignTimeSeries( );
-				( (BarSeries) series ).setRiser( foRiserType );
+				if ( series instanceof BarSeries )
+				{
+					( (BarSeries) series ).setRiser( foRiserType );
+				}
 				series.setStacked( false );// Stacked is unsupported in 3D
 				if ( ( series instanceof BarSeries )
 						&& ( series.getLabelPosition( ) != Position.OUTSIDE_LITERAL ) )
