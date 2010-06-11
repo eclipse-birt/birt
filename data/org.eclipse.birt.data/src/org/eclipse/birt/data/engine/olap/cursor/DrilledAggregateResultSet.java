@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -87,8 +89,12 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 						drills );
 			}
 			
-			recalculateAggregation( tempBufferArray );
-			removeDuplictedRow( tempBufferArray );
+			if ( this.calculator == null )
+			{
+				removeDuplictedRow( tempBufferArray );
+			}
+			else
+				recalculateAggregation( tempBufferArray );
 			
 			sortAggregationRow( tempBufferArray );
 
@@ -162,11 +168,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 			List<IAggregationResultRow> aggregationRows ) throws DataException,
 			IOException
 	{
-		if ( this.calculator == null )
-		{
-			return;
-		}
-
+		Set<Integer> duplicatedIndex = new HashSet<Integer>( );
 		for ( int i = 0; i < aggregationRows.size( ); i++ )
 		{
 			this.calculator.start( );
@@ -175,8 +177,16 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 			for ( int k = 0; k < positions.size( ); k++ )
 			{
 				this.calculator.onRow( aggregationRows.get( positions.get( k ) ) );
+				if ( k != 0 )
+					duplicatedIndex.add( positions.get( k ) );
 			}
 			this.calculator.finish( aggregationRows.get( i ) );
+			Iterator<Integer> iter = duplicatedIndex.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				aggregationRows.remove( iter.next( ) );
+			}
+			duplicatedIndex.clear( );
 		}
 	}
 
