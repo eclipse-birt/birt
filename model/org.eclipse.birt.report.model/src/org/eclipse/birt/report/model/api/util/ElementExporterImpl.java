@@ -48,11 +48,17 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Hierarchy;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.Measure;
+import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -82,7 +88,7 @@ class ElementExporterImpl
 	 * value is element in library handle.
 	 */
 
-	private Map propBindingMap = new HashMap( );
+	private Map<DesignElementHandle, DesignElementHandle> propBindingMap = new HashMap<DesignElementHandle, DesignElementHandle>( );
 
 	/**
 	 * Constructs the exporter with the handle of target library.
@@ -368,7 +374,7 @@ class ElementExporterImpl
 
 		while ( iter.hasNext( ) )
 		{
-			DesignElement element = (DesignElement) iter.next( );
+			DesignElement element = iter.next( );
 			if ( element.getName( ) == null )
 				continue;
 			dropDuplicatedElement( element );
@@ -391,8 +397,9 @@ class ElementExporterImpl
 	{
 
 		int nameSpaceID = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		NameSpace nameSpace = targetModuleHandle.getModule( ).getNameHelper( )
-				.getNameSpace( nameSpaceID );
+		Module targetModule = targetModuleHandle.getModule( );
+		NameSpace nameSpace = targetModule.getNameHelper( ).getNameSpace(
+				nameSpaceID );
 
 		DesignElement duplicateElement = nameSpace.getElement( element
 				.getName( ) );
@@ -404,6 +411,27 @@ class ElementExporterImpl
 		if ( targetElement == null )
 			return;
 
+		// for OLAP element, rename it
+		if ( isOLAPElement( targetElement ) )
+		{
+			targetModule.makeUniqueName( element );
+
+			// handle default hierarchy property
+			if ( element instanceof Hierarchy )
+			{
+				Dimension targetDimension = (Dimension) element.getContainer( );
+				if ( targetElement.getName( ).equals(
+						targetDimension.getStringProperty( targetModule,
+								IDimensionModel.DEFAULT_HIERARCHY_PROP ) ) )
+				{
+
+					targetDimension.setDefaultHierarchy( (Hierarchy) element );
+				}
+
+			}
+			return;
+		}
+
 		// check this element with duplicate name can be dropped or not
 		if ( !canDropInContext( targetElement ) )
 		{
@@ -414,6 +442,16 @@ class ElementExporterImpl
 
 		targetElement.getHandle( targetModuleHandle.getModule( ) ).drop( );
 
+	}
+
+	private boolean isOLAPElement( DesignElement element )
+	{
+		if ( element instanceof Cube || element instanceof Dimension
+				|| element instanceof Hierarchy || element instanceof Level
+				|| element instanceof MeasureGroup
+				|| element instanceof Measure )
+			return true;
+		return false;
 	}
 
 	/**
@@ -477,13 +515,10 @@ class ElementExporterImpl
 	static boolean canDropInContext( DesignElement element )
 	{
 		assert element != null;
-		DesignElement container = element.getContainer( );
+		DesignElement container = element;
 		while ( container != null )
 		{
-			// checks element locates in cube
-			if ( container instanceof Cube )
-				return false;
-			else if ( container instanceof ExtendedItem )
+			if ( container instanceof ExtendedItem )
 			{
 				// element locates in ExtendedItem, if the element is
 				// ElementItem type this element can not be dropped, otherwise
@@ -522,13 +557,6 @@ class ElementExporterImpl
 			return;
 		}
 
-		// if canOverride, we must firstly drop the elements whose name are
-		// duplicate with the exported element and its contents
-		if ( canOverride )
-		{
-			findAndDropDuplicatedElement( elementToExport );
-		}
-
 		int slotID = getExportSlotID( elementToExport );
 
 		// if the element only exist in the report design such as template
@@ -540,6 +568,13 @@ class ElementExporterImpl
 
 		DesignElementHandle newElementHandle = duplicateElement(
 				elementToExport, false );
+
+		// if canOverride, we must firstly drop the elements whose name are
+		// duplicate with the exported element and its contents
+		if ( canOverride )
+		{
+			findAndDropDuplicatedElement( newElementHandle );
+		}
 
 		SlotHandle slotHandle = targetModuleHandle.getSlot( slotID );
 		addToSlot( slotHandle, newElementHandle );
@@ -838,7 +873,7 @@ class ElementExporterImpl
 			logger.severe( "Cannot create the element instance for " //$NON-NLS-1$
 					+ elementHandle.getDefn( ).getName( ) );
 			assert false;
-			
+
 			return null;
 		}
 
@@ -856,6 +891,7 @@ class ElementExporterImpl
 			targetModuleHandle.getModule( ).makeUniqueName(
 					newElementHandle.getElement( ) );
 		}
+
 		return newElementHandle;
 	}
 

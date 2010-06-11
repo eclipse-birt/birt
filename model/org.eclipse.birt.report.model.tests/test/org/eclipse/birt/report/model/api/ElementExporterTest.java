@@ -1064,22 +1064,13 @@ public class ElementExporterTest extends BaseTestCase
 		openDesign( "ExportXtabWithDuplicatedElementNameTest.xml" ); //$NON-NLS-1$
 		openLibrary( "ExportXtabWithDuplicatedElementNameTestLibrary.xml" ); //$NON-NLS-1$
 
-		// some item in the cube has duplicate name with that in the library, so
-		// this cube can not be exported whether the override is TRUE or FALSE
+		// some item in the cube has duplicate name with that in the library :
+		// if override is false, we throw exception; otherwise rename the
+		// duplicate element, which will cause some binding invalid and user
+		// have to revise them manually
 		DesignElementHandle handle = designHandle.findCube( "Cube" ); //$NON-NLS-1$
-		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, true ) );
+		assertTrue( ElementExportUtil.canExport( handle, libraryHandle, true ) );
 		assertFalse( ElementExportUtil.canExport( handle, libraryHandle, false ) );
-		try
-		{
-			ElementExportUtil.exportElement( handle, libraryHandle, true );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					SemanticException.DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL, e
-							.getErrorCode( ) );
-		}
 
 		handle = designHandle.findElement( "table" ); //$NON-NLS-1$
 		assertTrue( ElementExportUtil.canExport( handle, libraryHandle, true ) );

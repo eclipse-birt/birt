@@ -652,9 +652,7 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 
 		if ( name == null )
 		{
-			name = ModelMessages.getMessage( "New." //$NON-NLS-1$
-					+ element.getDefn( ).getName( ) );
-			name = name.trim( );
+			name = getDefaultName( element );
 		}
 
 		// Add a numeric suffix that makes the name unique.
@@ -681,4 +679,14 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		return getUniqueName( element, null );
 	}
 
+	protected String getDefaultName( DesignElement element )
+	{
+		String name = null;
+
+		name = ModelMessages.getMessage( "New." //$NON-NLS-1$
+				+ element.getDefn( ).getName( ) );
+		name = name.trim( );
+
+		return name;
+	}
 }
