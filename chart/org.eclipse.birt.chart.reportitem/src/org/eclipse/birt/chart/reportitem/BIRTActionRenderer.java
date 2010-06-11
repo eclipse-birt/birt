@@ -225,10 +225,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			{
 				return text;
 			}
-			else
-			{
-				return ChartUtil.stringValue( chAction.evaluate( text ) );
-			}
+			return ChartUtil.stringValue( chAction.evaluate( text ) );
 		}
 
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( handle.getLinkType( ) ) )
@@ -241,14 +238,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		return DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( handle.getTargetBookmarkType( ) );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.render.IActionRenderer#processAction(org.eclipse
-	 * .birt.chart.model.data.Action,
-	 * org.eclipse.birt.chart.event.StructureSource)
-	 */
+	@Override
 	public void processAction( Action action, StructureSource source )
 	{
 		if ( action instanceof MultipleActions )
@@ -356,6 +346,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 
 				sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
 
+					@Override
 					public Object evaluate( String expr )
 					{
 						return dph.getUserValue( expr );
@@ -367,6 +358,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				final LegendItemHints lih = (LegendItemHints) source.getSource( );
 				sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
 
+					@Override
 					public Object evaluate( String expr )
 					{
 						if ( expr != null )
@@ -402,6 +394,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			{
 				sa = handler.getURL( new ChartHyperlinkActionBase( handle ) {
 
+					@Override
 					public Object evaluate( String expr )
 					{
 						return evaluator.evaluate( expr );

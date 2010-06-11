@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.SearchKeyHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 
 /**
  * A BIRT action evaluator implementation.
@@ -59,6 +60,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IActionEvaluator#getActionExpressions(org.eclipse.birt.chart.model.data.Action)
 	 */
+	@Override
 	public String[] getActionExpressions( Action action, StructureSource source )
 	{
 		if ( action instanceof MultipleActions )
@@ -161,14 +163,17 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 			}
 			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( handle.getLinkType( ) ) )
 			{
-				exp = handle.getTargetBookmark( );
+				ExpressionHandle exprHandle = handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.Action.TARGET_BOOKMARK_MEMBER );
+				exprCodec.setExpression( exprHandle.getStringValue( ) );
+				exprCodec.setType( exprHandle.getType( ) );
+				exp = exprCodec.encode( );
 
 				if ( exp != null && !expList.contains( exp ) )
 				{
 					expList.add( exp );
 				}
 
-				for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
+				for ( Iterator<?> itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
 				{
 					SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
 					exp = skh.getExpression( );
@@ -179,10 +184,13 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 					}
 				}
 
-				for ( Iterator itr = handle.getParamBindings( ).iterator( ); itr.hasNext( ); )
+				for ( Iterator<?> itr = handle.getParamBindings( ).iterator( ); itr.hasNext( ); )
 				{
 					ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-					exp = pbh.getExpression( );
+					exprHandle = pbh.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
+					exprCodec.setExpression( exprHandle.getStringValue( ) );
+					exprCodec.setType( exprHandle.getType( ) );
+					exp = exprCodec.encode( );
 
 					if ( !expList.contains( exp ) )
 					{
