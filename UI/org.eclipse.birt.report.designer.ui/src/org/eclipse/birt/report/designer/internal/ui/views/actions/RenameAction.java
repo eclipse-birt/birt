@@ -143,7 +143,14 @@ public class RenameAction extends AbstractViewerAction
 			String[] existedNames = new String[items.length];
 			for ( int i = 0; i < items.length; i++ )
 			{
-				existedNames[i] = items[i].getText( );
+				if ( items[i].getData( ) instanceof DesignElementHandle )
+				{
+					existedNames[i] = ( (DesignElementHandle) items[i].getData( ) ).getName( );
+				}
+				else if ( items[i].getData( ) instanceof EmbeddedImageHandle )
+				{
+					existedNames[i] = ( (EmbeddedImageHandle) items[i].getData( ) ).getName( );
+				}
 			}
 
 			RenameInputDialog inputDialog = new RenameInputDialog( selectedItem.getParent( )
