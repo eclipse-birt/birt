@@ -651,6 +651,7 @@ DataSetFiltersPage.toolTipText.New=Nouveau filtre.
 DataSetFiltersPage.toolTipText.Edit=Modifier le filtre.
 DataSetFiltersPage.title.FilterInputDialog=Filtre
 DataSetFiltersPage.messages.selectVauleUnavailable=Liste de valeurs non disponible avec l'expression spécifiée.
+DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=The linked dynamic parameter "{0}" of the dynamic filter does not exist!
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -4788,4 +4789,5 @@ VariableDropAdapter.TranasctionName=Créer l'élément Date à partir de la variable
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Le nom doit être spécifié
+RenameInputDialog.Message.BlankName=Name cannot be blank.
+RenameInputDialog.Message.DuplicateName=Duplicate name exists.

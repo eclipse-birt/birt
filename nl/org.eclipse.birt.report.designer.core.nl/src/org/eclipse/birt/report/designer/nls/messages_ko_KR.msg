@@ -651,6 +651,7 @@ DataSetFiltersPage.toolTipText.New=필터 새로 만들기
 DataSetFiltersPage.toolTipText.Edit=필터 편집
 DataSetFiltersPage.title.FilterInputDialog=필터
 DataSetFiltersPage.messages.selectVauleUnavailable=지정한 식으로 값 목록을 사용할 수 없습니다.
+DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=The linked dynamic parameter "{0}" of the dynamic filter does not exist!
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -4788,4 +4789,5 @@ VariableDropAdapter.TranasctionName=변수에서 데이터 항목 생성
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=이름은 비워둘 수 없습니다.
+RenameInputDialog.Message.BlankName=Name cannot be blank.
+RenameInputDialog.Message.DuplicateName=Duplicate name exists.

@@ -651,6 +651,7 @@ DataSetFiltersPage.toolTipText.New=新建筛选器。
 DataSetFiltersPage.toolTipText.Edit=编辑筛选器。
 DataSetFiltersPage.title.FilterInputDialog=筛选器
 DataSetFiltersPage.messages.selectVauleUnavailable=值列表对给定的表达式不可用。
+DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=The linked dynamic parameter "{0}" of the dynamic filter does not exist!
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -4788,4 +4789,5 @@ VariableDropAdapter.TranasctionName=使用变量创建数据项
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=名称不能为空白
+RenameInputDialog.Message.BlankName=Name cannot be blank.
+RenameInputDialog.Message.DuplicateName=Duplicate name exists.

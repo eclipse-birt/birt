@@ -651,6 +651,7 @@ DataSetFiltersPage.toolTipText.New=新しいフィルタを作成します。
 DataSetFiltersPage.toolTipText.Edit=フィルタを編集します。
 DataSetFiltersPage.title.FilterInputDialog=フィルタ
 DataSetFiltersPage.messages.selectVauleUnavailable=この式では値リストを使用できません。
+DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=The linked dynamic parameter "{0}" of the dynamic filter does not exist!
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -4788,4 +4789,5 @@ VariableDropAdapter.TranasctionName=変数から日付項目を作成
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=名前は空白にできません。
+RenameInputDialog.Message.BlankName=Name cannot be blank.
+RenameInputDialog.Message.DuplicateName=Duplicate name exists.
