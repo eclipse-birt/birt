@@ -18,16 +18,17 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 
 /**
  * The data set item used in data UI.
- *  
+ * 
  */
 public class DataSetViewData
 {
+
 	private static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
-		.getStructure( ResultSetColumn.RESULT_SET_COLUMN_STRUCT )
-		.getMember( ResultSetColumn.DATA_TYPE_MEMBER )
-		.getAllowedChoices( )
-		.getChoices( ); 
-	
+			.getStructure( ResultSetColumn.RESULT_SET_COLUMN_STRUCT )
+			.getMember( ResultSetColumn.DATA_TYPE_MEMBER )
+			.getAllowedChoices( )
+			.getChoices( );
+
 	private transient String dataSetColumnName = null;
 
 	private transient String name = null;
@@ -45,33 +46,47 @@ public class DataSetViewData
 	private transient String helpText = null;
 
 	private transient boolean isComputedColumn = false;
-	
+
 	private transient String displayNameKey = null;
 
 	private transient String analysis = null;
-	
+
 	private transient String format = null;
-	
+
 	private transient int displayLength = 0;
-	
+
 	private transient String heading = null;
-	
+
 	private transient String horizontalAlign = null;
-	
+
 	private transient String textFormat = null;
-	
+
 	private transient String description = null;
-	
+
 	private transient boolean wordWrap = false;
-	
+
 	private transient ExpressionHandle aclExpr = null;
-	
+
 	private transient String externalizedName = null;
+
+	private transient String analysisColumn = null;
+
 	
+	public String getAnalysisColumn( )
+	{
+		return analysisColumn;
+	}
+
+	
+	public void setAnalysisColumn( String analysisColumn )
+	{
+		this.analysisColumn = analysisColumn;
+	}
+
 	/**
 	 * @return the ExternalizedName.
 	 */
-	public final String getExternalizedName()
+	public final String getExternalizedName( )
 	{
 		return externalizedName;
 	}
@@ -80,11 +95,11 @@ public class DataSetViewData
 	 * @param externalizedName
 	 *            The externalizedName to set.
 	 */
-	public final void setExternalizedName(String externalizedName)
+	public final void setExternalizedName( String externalizedName )
 	{
 		this.externalizedName = externalizedName;
 	}
-	
+
 	/**
 	 * @return the dataType.
 	 */
@@ -109,7 +124,6 @@ public class DataSetViewData
 	{
 		return dataTypeName;
 	}
-	
 
 	/**
 	 * @return
@@ -147,7 +161,7 @@ public class DataSetViewData
 		{
 			return alias;
 		}
-		
+
 		return getName( );
 	}
 

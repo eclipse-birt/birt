@@ -85,7 +85,7 @@ public final class DataSetProvider
 	// constant value
 	private static final char RENAME_SEPARATOR = '_';
 	private static String UNNAME_PREFIX = "UNNAMED"; //$NON-NLS-1$
-	
+
 	private boolean needToFocusOnOutput = true;
 
 	/**
@@ -223,10 +223,24 @@ public final class DataSetProvider
 			if ( hint != null )
 			{
 				if ( !items[i].isComputedColumn( ) )
-					items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ), items[i].getDataTypeName( ),
+				{
+					items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ),
+							items[i].getDataTypeName( ),
 							hint.getAnalysis( ) ) );
+					if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( hint.getAnalysis( ) ) )
+					{
+						items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
+					}
+					else
+					{
+						items[i].setAnalysisColumn( null );
+					}
+				}
 				else
+				{
 					items[i].setAnalysis( hint.getAnalysis( ) );
+					items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
+				}
 				items[i].setACLExpression( hint.getACLExpression( ) );
 				items[i].setFormat( hint.getFormat( ) );
 				items[i].setDisplayLength( hint.getDisplayLength( ) );
@@ -240,10 +254,17 @@ public final class DataSetProvider
 			else
 			{
 				if ( items[i].isComputedColumn( ) )
+				{
 					items[i].setAnalysis( null );
+					items[i].setAnalysisColumn( null );
+				}
 				else
-					items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ), items[i].getDataTypeName( ),
+				{
+					items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ),
+							items[i].getDataTypeName( ),
 							null ) );
+					items[i].setAnalysisColumn( null );
+				}
 			}
 		}
 		updateModel( dataSetHandle, items );
@@ -276,7 +297,7 @@ public final class DataSetProvider
 		{
 			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
 		}
-		
+
 		if ( columnName.length( ) >= 3 )
 		{
 			String lastThreeLetters = columnName.substring( columnName.length( ) - 3 );
@@ -296,6 +317,7 @@ public final class DataSetProvider
 
 		return defaultAnalysisType;
 	}
+
 	/**
 	 * get Cached metadata
 	 * 
@@ -324,10 +346,24 @@ public final class DataSetProvider
 			if ( hint != null )
 			{
 				if ( !items[i].isComputedColumn( ) )
-					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getName( ), items[i].getDataTypeName( ),
+				{
+					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getName( ),
+							items[i].getDataTypeName( ),
 							hint.getAnalysis( ) ) );
+					if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( items[i].getAnalysis( ) ) )
+					{
+						items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
+					}
+					else
+					{
+						items[i].setAnalysisColumn( null );
+					}
+				}
 				else
+				{
 					items[i].setAnalysis( hint.getAnalysis( ) );
+					items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
+				}
 				items[i].setACLExpression( hint.getACLExpression( ) );
 				items[i].setFormat( hint.getFormat( ) );
 				items[i].setDisplayLength( hint.getDisplayLength( ) );
@@ -341,9 +377,17 @@ public final class DataSetProvider
 			else
 			{
 				if ( items[i].isComputedColumn( ) )
+				{
 					items[i].setAnalysis( null );
+					items[i].setAnalysisColumn( null );
+				}
 				else
-					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getName( ), items[i].getDataTypeName( ), null ) );
+				{
+					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getName( ),
+							items[i].getDataTypeName( ),
+							null ) );
+					items[i].setAnalysisColumn( null );
+				}
 			}
 		}
 		return items;
@@ -547,11 +591,12 @@ public final class DataSetProvider
 				session.defineDataSource( session.getModelAdaptor( )
 						.adaptDataSource( dataSetHandle.getDataSource( ) ) );
 			}
-			
+
 		}
 		else
 		{
-			DefineDataSourceSetUtil.defineDataSourceAndDataSet( dataSetHandle, session );
+			DefineDataSourceSetUtil.defineDataSourceAndDataSet( dataSetHandle,
+					session );
 		}
 		session.defineDataSet( dataSetDesign );
 		IQueryResults resultSet = executeQuery( session, queryDefn );
@@ -617,6 +662,7 @@ public final class DataSetProvider
 			if ( hint != null )
 			{
 				columns[n].setAnalysis( hint.getAnalysis( ) );
+				columns[n].setAnalysisColumn( hint.getAnalysisColumn( ) );
 				columns[n].setACLExpression( hint.getACLExpression( ) );
 				columns[n].setFormat( hint.getFormat( ) );
 				columns[n].setDisplayLength( hint.getDisplayLength( ) );
@@ -627,7 +673,7 @@ public final class DataSetProvider
 				columns[n].setDescription( hint.getDescription( ) );
 				columns[n].setWordWrap( hint.wordWrap( ) );
 			}
-			
+
 			// Update the column in Model if necessary
 			if ( !uniqueColumnName.equals( columnName ) )
 				updateModelColumn( dataSet, columns[n] );
@@ -874,8 +920,18 @@ public final class DataSetProvider
 						columns[n].setDisplayNameKey( hint.getDisplayNameKey( ) );
 						columns[n].setAlias( hint.getAlias( ) );
 						columns[n].setHelpText( hint.getHelpText( ) );
-						columns[n].setAnalysis( getDefaultAnalysisType( columns[n].getName( ), columns[n].getDataTypeName( ),
-									hint.getAnalysis( ) ) );
+						columns[n].setAnalysis( getDefaultAnalysisType( columns[n].getName( ),
+								columns[n].getDataTypeName( ),
+								hint.getAnalysis( ) ) );
+						if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( columns[n].getAnalysis( ) ) )
+						{
+							columns[n].setAnalysisColumn( hint.getAnalysis( ) );
+						}
+						else
+						{
+							columns[n].setAnalysisColumn( null );
+						}
+						columns[n].setAnalysisColumn( hint.getAnalysisColumn( ) );
 						columns[n].setACLExpression( hint.getACLExpression( ) );
 						break;
 					}
@@ -922,7 +978,8 @@ public final class DataSetProvider
 	 * @param ds
 	 * @param columns
 	 */
-	public DataSetViewData[] getCachedDataSetItemModel( DataSetHandle ds, boolean needToFocusOnOutput )
+	public DataSetViewData[] getCachedDataSetItemModel( DataSetHandle ds,
+			boolean needToFocusOnOutput )
 	{
 		this.needToFocusOnOutput = needToFocusOnOutput;
 		DataSetViewData[] result = (DataSetViewData[]) this.htColumns.get( ds );
@@ -1231,7 +1288,8 @@ public final class DataSetProvider
 				useFilters );
 
 		return session.prepare( getQueryDefinition( dataSetDesign,
-				bindingParams ), null );
+				bindingParams ),
+				null );
 	}
 
 	/**
