@@ -91,12 +91,7 @@ public class CubeQueryDefinitionUtil
 			ieh.setFilters( filters );
 		}
 		ISortDefinition[] sorts = getIncrementSorts( basedQuery, newQuery );
-		if ( sorts == null )
-		{
-			return null;
-		}
-		else
-			ieh.setSorts( sorts );
+		ieh.setSorts( sorts );
 		return ieh;
 	}
 	
@@ -174,10 +169,6 @@ public class CubeQueryDefinitionUtil
 	private static ISortDefinition[] getIncrementSorts( ICubeQueryDefinition basedQuery, 
 			ICubeQueryDefinition newQuery ) throws DataException
 	{
-		if ( newQuery.getSorts( ).size( ) < basedQuery.getSorts( ).size( ) )
-		{
-			return null;
-		}
 		if ( isEqualSorts( basedQuery.getSorts( ), newQuery.getSorts( )))
 		{
 			return new ISortDefinition[0];

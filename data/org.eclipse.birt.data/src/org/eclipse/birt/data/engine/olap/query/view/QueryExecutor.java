@@ -255,10 +255,7 @@ public class QueryExecutor
 			IncrementExecutionHint ieh ) throws DataException, IOException
 	{
 		assert baseResultSets != null && ieh != null;
-		if ( ieh.getSorts( ).length > 0 )
-		{
-			applyIncrementSorts( baseResultSets );
-		}
+		applyIncrementSorts( baseResultSets );
 	}
 	
 	private void applyIncrementSorts( IAggregationResultSet[] baseResultSets ) throws DataException, IOException
