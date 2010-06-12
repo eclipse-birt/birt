@@ -11,11 +11,22 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.util.CommandLabelFactory;
+import org.eclipse.birt.report.model.util.ContentExceptionFactory;
+import org.eclipse.birt.report.model.util.StyleUtil;
 
 /**
  * Represents a report item theme in the library. Each theme contains some
@@ -85,5 +96,67 @@ public class ReportItemThemeHandle extends AbstractThemeHandle
 	public void setType( String type ) throws SemanticException
 	{
 		setStringProperty( TYPE_PROP, type );
+	}
+
+	/**
+	 * Imports the selected styles in a <code>CssStyleSheetHandle</code> to the
+	 * given theme of the library. Each in the list is instance of
+	 * <code>SharedStyleHandle</code> .If any style selected has a duplicate
+	 * name with that of one style already existing in the report design, this
+	 * method will rename it and then add it to the design.
+	 * 
+	 * @param stylesheet
+	 *            the style sheet handle that contains all the selected styles
+	 * @param selectedStyles
+	 *            the selected style list
+	 * @param themeName
+	 *            the name of the theme to put styles
+	 */
+
+	public void importCssStyles( CssStyleSheetHandle stylesheet,
+			List<SharedStyleHandle> selectedStyles ) throws SemanticException
+	{
+		ActivityStack stack = module.getActivityStack( );
+		stack.startTrans( CommandLabelFactory
+				.getCommandLabel( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
+
+		List<String> names = ( (ReportItemTheme) element )
+				.getSupportedPredefinedStyleNames( module );
+		for ( int i = 0; i < selectedStyles.size( ); i++ )
+		{
+			SharedStyleHandle style = selectedStyles.get( i );
+			String styleName = style.getName( ).toLowerCase( );
+			if ( !names.contains( styleName ) )
+			{
+				ContentException e = ContentExceptionFactory
+						.createContentException(
+								new ContainerContext( element, STYLES_SLOT ),
+								style.getElement( ),
+								ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
+				throw e;
+			}
+			else if ( stylesheet.findStyle( style.getName( ) ) != null )
+			{
+				try
+				{
+					// Copy CssStyle to Style
+
+					SharedStyleHandle newStyle = StyleUtil
+							.TransferCssStyleToSharedStyle( module, style );
+
+					if ( newStyle == null )
+						continue;
+
+					getStyles( ).add( newStyle );
+				}
+				catch ( SemanticException e )
+				{
+					stack.rollback( );
+					throw e;
+				}
+			}
+		}
+
+		stack.commit( );
 	}
 }

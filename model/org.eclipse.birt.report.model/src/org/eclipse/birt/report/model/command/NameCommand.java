@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
@@ -362,12 +363,12 @@ public class NameCommand extends AbstractElementCommand
 		if ( element instanceof Style )
 		{
 			DesignElement tmpContainer = element.getContainer( );
-			if ( tmpContainer instanceof Theme )
+			if ( tmpContainer instanceof AbstractTheme )
 			{
 				List<SemanticException> errors = ThemeStyleNameValidator
 						.getInstance( )
 						.validateForRenamingStyle(
-								(ThemeHandle) tmpContainer.getHandle( module ),
+								(AbstractThemeHandle) tmpContainer.getHandle( module ),
 								(StyleHandle) element.getHandle( module ), name );
 				if ( !errors.isEmpty( ) )
 					return false;

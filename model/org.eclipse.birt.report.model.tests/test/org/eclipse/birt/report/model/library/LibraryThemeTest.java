@@ -99,7 +99,7 @@ public class LibraryThemeTest extends BaseTestCase
 				"input/base.css" ).getFile( ) ) );//$NON-NLS-1$
 
 		List styles = themeHandle.getAllStyles( );
-		assertEquals( 5, styles.size( ) );
+		assertEquals( 9, styles.size( ) );
 
 		assertNotNull( sheetHandle.getContainerHandle( ) );
 
@@ -137,7 +137,7 @@ public class LibraryThemeTest extends BaseTestCase
 		// add css file name
 		themeHandle.addCss( "base.css" ); //$NON-NLS-1$
 		styles = themeHandle.getAllStyles( );
-		assertEquals( 5, styles.size( ) );
+		assertEquals( 9, styles.size( ) );
 
 		CssStyleSheetHandle stylySheetHandle = themeHandle
 				.findCssStyleSheetHandleByName( "base.css" ); //$NON-NLS-1$

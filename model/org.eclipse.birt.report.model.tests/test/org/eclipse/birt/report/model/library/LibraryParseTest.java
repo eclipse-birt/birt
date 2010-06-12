@@ -466,7 +466,7 @@ public class LibraryParseTest extends BaseTestCase
 				.includeCssesIterator( ).next( );
 		assertEquals( "base.css", css.getFileName( ) );//$NON-NLS-1$
 		List styles = theme.getAllStyles( );
-		assertEquals( 6, styles.size( ) );
+		assertEquals( 10, styles.size( ) );
 	}
 
 	/**
