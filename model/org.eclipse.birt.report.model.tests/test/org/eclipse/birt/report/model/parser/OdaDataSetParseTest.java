@@ -270,29 +270,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		numberFormat
 				.setCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		numberFormat.setPattern( "test number pattern" ); //$NON-NLS-1$
-		columnHintHandle.setNumberFormat( numberFormat );
-
-		StringFormatValue stringFormat = new StringFormatValue( );
-		stringFormat
-				.setCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM );
-		stringFormat.setPattern( "test string pattern" ); //$NON-NLS-1$
-		columnHintHandle.setStringFormat( stringFormat );
-
-		DateFormatValue dateFormat = new DateFormatValue( );
-		dateFormat.setCategory( DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM );
-		dateFormat.setPattern( "test date pattern" ); //$NON-NLS-1$
-		columnHintHandle.setDateFormat( dateFormat );
-
-		TimeFormatValue timeFormat = new TimeFormatValue( );
-		timeFormat.setCategory( DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM );
-		timeFormat.setPattern( "test time pattern" ); //$NON-NLS-1$
-		columnHintHandle.setTimeFormat( timeFormat );
-
-		DateTimeFormatValue dateTimeFormat = new DateTimeFormatValue( );
-		dateTimeFormat
-				.setCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM );
-		dateTimeFormat.setPattern( "test date time pattern" ); //$NON-NLS-1$
-		columnHintHandle.setDateTimeFormat( dateTimeFormat );
+		columnHintHandle.setValueFormat( numberFormat );		
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
@@ -515,24 +493,8 @@ public class OdaDataSetParseTest extends BaseTestCase
 				.columnHintsIterator( ).next( );
 		assertNotNull( columnHintHandle );
 		assertEquals( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED,
-				columnHintHandle.getStringFormat( ).getCategory( ) );
-		assertEquals( "string pattern", columnHintHandle.getStringFormat( )
-				.getPattern( ) );
-		assertEquals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED,
-				columnHintHandle.getNumberFormat( ).getCategory( ) );
-		assertEquals( "number pattern", columnHintHandle.getNumberFormat( )
-				.getPattern( ) );
-		assertEquals( DesignChoiceConstants.DATE_FORMAT_TYPE_LONG_DATE,
-				columnHintHandle.getDateFormat( ).getCategory( ) );
-		assertEquals( "date pattern", columnHintHandle.getDateFormat( )
-				.getPattern( ) );
-		assertEquals( DesignChoiceConstants.TIME_FORMAT_TYPE_SHORT_TIME,
-				columnHintHandle.getTimeFormat( ).getCategory( ) );
-		assertEquals( "time pattern", columnHintHandle.getTimeFormat( )
-				.getPattern( ) );
-		assertEquals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
-				columnHintHandle.getDateTimeFormat( ).getCategory( ) );
-		assertEquals( "date time pattern", columnHintHandle.getDateTimeFormat( )
+				columnHintHandle.getValueFormat( ).getCategory( ) );
+		assertEquals( "string pattern", columnHintHandle.getValueFormat( )
 				.getPattern( ) );
 
 		// Test "filter" on DataSet

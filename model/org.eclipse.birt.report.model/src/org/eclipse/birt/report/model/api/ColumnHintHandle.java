@@ -14,11 +14,7 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
-import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 
 /**
  * Represents the handle of column hint. The column hint provides the hint about
@@ -741,118 +737,26 @@ public class ColumnHintHandle extends StructureHandle
 	}
 
 	/**
-	 * Gets the display format of string.
+	 * Gets the value format of the column.
 	 * 
-	 * @return the string format
+	 * @return the value format
 	 */
-	public StringFormatValue getStringFormat( )
+	public FormatValue getValueFormat( )
 	{
-		return (StringFormatValue) getProperty( ColumnHint.STRING_FORMAT_MEMBER );
+		return (FormatValue) getProperty( ColumnHint.VALUE_FORMAT_MEMBER );
 	}
 
 	/**
-	 * Sets the display format of string.
+	 * Sets the value format of the column.
 	 * 
 	 * @param format
-	 *            the string format to set
+	 *            the value format to set
 	 * @throws SemanticException
 	 */
-	public void setStringFormat( StringFormatValue format )
+	public void setValueFormat( FormatValue format )
 			throws SemanticException
 	{
-		setProperty( ColumnHint.STRING_FORMAT_MEMBER, format );
-	}
-
-	/**
-	 * Gets the display format of number.
-	 * 
-	 * @return the number format
-	 */
-	public NumberFormatValue getNumberFormat( )
-	{
-		return (NumberFormatValue) getProperty( ColumnHint.NUMBER_FORMAT_MEMBER );
-	}
-
-	/**
-	 * Sets the display format of number.
-	 * 
-	 * @param format
-	 *            the number format to set
-	 * @throws SemanticException
-	 */
-	public void setNumberFormat( NumberFormatValue format )
-			throws SemanticException
-	{
-		setProperty( ColumnHint.NUMBER_FORMAT_MEMBER, format );
-	}
-
-	/**
-	 * Gets the display format of date.
-	 * 
-	 * @return the date format
-	 */
-	public DateFormatValue getDateFormat( )
-	{
-		return (DateFormatValue) getProperty( ColumnHint.DATE_FORMAT_MEMBER );
-	}
-
-	/**
-	 * Sets the display format of date.
-	 * 
-	 * @param format
-	 *            the date format to set
-	 * @throws SemanticException
-	 */
-	public void setDateFormat( DateFormatValue format )
-			throws SemanticException
-	{
-		setProperty( ColumnHint.DATE_FORMAT_MEMBER, format );
-	}
-
-	/**
-	 * Gets the display format of time.
-	 * 
-	 * @return the time format
-	 */
-	public TimeFormatValue getTimeFormat( )
-	{
-		return (TimeFormatValue) getProperty( ColumnHint.TIME_FORMAT_MEMBER );
-	}
-
-	/**
-	 * Sets the display format of string.
-	 * 
-	 * @param format
-	 *            the string format to set
-	 * @throws SemanticException
-	 */
-	public void setTimeFormat( TimeFormatValue format )
-			throws SemanticException
-	{
-		setProperty( ColumnHint.TIME_FORMAT_MEMBER, format );
-	}
-
-	/**
-	 * Gets the display format of date time.
-	 * 
-	 * @return the date time format
-	 */
-	public DateTimeFormatValue getDateTimeFormat( )
-	{
-		return (DateTimeFormatValue) getProperty( ColumnHint.DATETIME_FORMAT_MEMBER );
-	}
-
-	/**
-	 * Sets the display format of date time.
-	 * 
-	 * @param format
-	 *            the date time format to set
-	 * @throws SemanticException
-	 */
-	public void setDateTimeFormat( DateTimeFormatValue format )
-			throws SemanticException
-	{
-		setProperty( ColumnHint.DATETIME_FORMAT_MEMBER, format );
-	}
+		setProperty( ColumnHint.VALUE_FORMAT_MEMBER, format );
+	}	
 
 }

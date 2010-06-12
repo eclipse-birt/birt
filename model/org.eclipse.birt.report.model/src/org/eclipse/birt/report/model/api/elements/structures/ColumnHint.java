@@ -273,30 +273,10 @@ public class ColumnHint extends PropertyStructure
 	public static final String ANALYSIS_COLUMN_MEMBER = "analysisColumn"; //$NON-NLS-1$
 
 	/**
-	 * Name of the member that defines the format of string to display. 
+	 * Name of the member that defines the format of value. 
 	 */
-	public static final String STRING_FORMAT_MEMBER = "stringFormat"; //$NON-NLS-1$
+	public static final String VALUE_FORMAT_MEMBER = "valueFormat"; //$NON-NLS-1$
 	
-	/**
-	 * Name of the member that defines the format of string to display. 
-	 */
-	public static final String NUMBER_FORMAT_MEMBER = "numberFormat"; //$NON-NLS-1$
-
-	/**
-	 * Name of the member that defines the format of string to display. 
-	 */
-	public static final String DATE_FORMAT_MEMBER = "dateFormat"; //$NON-NLS-1$
-	
-	/**
-	 * Name of the member that defines the format of string to display. 
-	 */
-	public static final String TIME_FORMAT_MEMBER = "timeFormat"; //$NON-NLS-1$
-
-	/**
-	 * Name of the member that defines the format of string to display. 
-	 */
-	public static final String DATETIME_FORMAT_MEMBER = "dateTimeFormat"; //$NON-NLS-1$
-
 	/*
 	 * (non-Javadoc)
 	 * 
