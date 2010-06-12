@@ -820,7 +820,8 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	
 	public void updateOKButtonStatus( boolean isEnabled )
 	{
-		getOkButton( ).setEnabled( isEnabled );
+		if ( getOkButton( ) != null )
+			getOkButton( ).setEnabled( isEnabled );
 	}
 
 	/*
