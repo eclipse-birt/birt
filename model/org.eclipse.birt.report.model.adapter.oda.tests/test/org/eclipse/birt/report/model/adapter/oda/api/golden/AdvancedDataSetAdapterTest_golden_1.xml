@@ -38,25 +38,26 @@
                     <property name="columnName">user-name</property>
                     <property name="alias">user name</property>
                     <property name="analysis">dimension</property>
-                    <property name="format">##.#</property>
+                    <property name="format">##.###</property>
                     <text-property name="displayName" key="displayNameForUserNameKey">display name for user name</text-property>
                     <text-property name="helpText" key="helpTextForUserNameKey">help text for user name</text-property>
                     <property name="onColumnLayout">true</property>
-                    <property name="displayLength">-1</property>
                     <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>                    
-                </structure>
+                    <structure name="valueFormat">
+                        <property name="pattern">##.#</property>
+                    </structure>
+</structure>
                 <structure>
                     <property name="columnName">credit</property>
                     <property name="analysis">measure</property>
-                    <property name="format">#.##</property>
                     <text-property name="displayName" key="displayNameForCreditKey">display name for credit</text-property>
                     <text-property name="helpText" key="helpTextForCreditKey">help text for credit</text-property>
                     <property name="onColumnLayout">true</property>
-                    <property name="displayLength">-1</property>
                     <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>                    
-                </structure>
+                    <structure name="valueFormat">
+                        <property name="pattern">#.##</property>
+                    </structure>
+</structure>
                 <structure>
                     <property name="columnName">column1</property>
                     <property name="alias">user name</property>

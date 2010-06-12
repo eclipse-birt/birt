@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.datatools.connectivity.oda.design.AxisAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
@@ -123,11 +124,15 @@ class ResultSetColumnChecker
 				checkProperty( ColumnHint.DISPLAY_NAME_ID_MEMBER, uiHints
 						.getDisplayNameKey( ), columnHintHandle
 						.getDisplayNameKey( ) );
-				checkProperty( ColumnHint.DESCRIPTION_MEMBER, uiHints
-						.getDescription( ), columnHintHandle.getDescription( ) );
-				checkProperty( ColumnHint.DESCRIPTION_ID_MEMBER, uiHints
-						.getDescriptionKey( ), columnHintHandle
-						.getDescriptionKey( ) );
+
+				// not support description and description key
+				/*
+				 * checkProperty( ColumnHint.DESCRIPTION_MEMBER, uiHints
+				 * .getDescription( ), columnHintHandle.getDescription( ) );
+				 * checkProperty( ColumnHint.DESCRIPTION_ID_MEMBER, uiHints
+				 * .getDescriptionKey( ), columnHintHandle .getDescriptionKey( )
+				 * );
+				 */
 			}
 		}
 		AxisAttributes axisAttrs = columnDefn.getMultiDimensionAttributes( );
@@ -153,11 +158,21 @@ class ResultSetColumnChecker
 			ValueFormatHints formattingHints = usageHints.getFormattingHints( );
 			if ( formattingHints != null )
 			{
-				checkProperty( ColumnHint.FORMAT_MEMBER, formattingHints
-						.getDisplayFormat( ), columnHintHandle.getFormat( ) );
-				checkProperty( ColumnHint.DISPLAY_LENGTH_MEMBER,
-						formattingHints.getDisplaySize( ), columnHintHandle
-								.getDisplayLength( ) );
+				// compare the pattern part of value-format member with display
+				// format string in oda
+				FormatValue format = columnHintHandle.getValueFormat( );
+				String pattern = null;
+				if ( format != null )
+					pattern = format.getPattern( );
+				checkProperty( ColumnHint.VALUE_FORMAT_MEMBER, formattingHints
+						.getDisplayFormat( ), pattern );
+
+				// not support display length now
+				/*
+				 * checkProperty( ColumnHint.DISPLAY_LENGTH_MEMBER,
+				 * formattingHints.getDisplaySize( ), columnHintHandle
+				 * .getDisplayLength( ) );
+				 */
 
 				checkProperty(
 						ColumnHint.HORIZONTAL_ALIGN_MEMBER,
@@ -165,10 +180,13 @@ class ResultSetColumnChecker
 								.convertToROMHorizontalAlignment( formattingHints
 										.getHorizontalAlignment( ) ),
 						columnHintHandle.getHorizontalAlign( ) );
-				checkProperty( ColumnHint.WORD_WRAP_MEMBER, ResultSetsAdapter
-						.convertToROMWordWrap( formattingHints
-								.getTextWrapType( ) ), columnHintHandle
-						.wordWrap( ) );
+
+				// not support word-wrap
+				/*
+				 * checkProperty( ColumnHint.WORD_WRAP_MEMBER, ResultSetsAdapter
+				 * .convertToROMWordWrap( formattingHints .getTextWrapType( ) ),
+				 * columnHintHandle .wordWrap( ) );
+				 */
 			}
 		}
 	}

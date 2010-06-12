@@ -15,18 +15,12 @@
             </design:uiHints>
           </design:attributes>
           <design:usageHints>
-            <design:formattingHints>
-              <design:displaySize>0</design:displaySize>
-              <design:displayFormat>##.###</design:displayFormat>
-              <design:horizontalAlignment>Automatic</design:horizontalAlignment>
-              <design:textWrapType>None</design:textWrapType>
-            </design:formattingHints>
             <design:helpText>%message.column-hint.help Help me!</design:helpText>
           </design:usageHints>
           <design:multiDimensionAttributes>
             <design:axisType>DimensionAttribute</design:axisType>
             <design:onColumnLayout>true</design:onColumnLayout>
-          </design:multiDimensionAttributes>          
+          </design:multiDimensionAttributes>
         </design:resultColumnDefinitions>
         <design:resultColumnDefinitions>
           <design:attributes>
@@ -37,7 +31,7 @@
       </design:resultSetColumns>
       <design:criteria>
         <design:rowOrdering/>
-      </design:criteria>      
+      </design:criteria>
     </design:resultSetDefinitions>
   </design:ResultSets>
 </model:DesignValues>

@@ -470,7 +470,7 @@ public class AdvancedDataSetAdapterTest extends BaseTestCase
 		assertEquals(
 				"userName", node.getOdaResultSetColumnHandle( ).getColumnName( ) ); //$NON-NLS-1$
 		List<IAmbiguousAttribute> attrs = node.getAmbiguousAttributes( );
-		assertEquals( 10, attrs.size( ) );
+		assertEquals( 9, attrs.size( ) );
 		IAmbiguousAttribute attr = attrs.get( 0 );
 		assertEquals( OdaResultSetColumn.NATIVE_DATA_TYPE_MEMBER, attr
 				.getAttributeName( ) );

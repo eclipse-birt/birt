@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.datatools.connectivity.oda.design.AxisAttributes;
@@ -286,23 +287,19 @@ class ResultSetsAdapter
 			newHint.setProperty( ColumnHint.DISPLAY_NAME_ID_MEMBER, newValue );
 		}
 
-		// description to description in data ui hints.
+		// description to description in data ui hints: not support now
 
-		oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
-				.getDescription( );
-		newValue = dataUIHints.getDescription( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
-		{
-			newHint.setProperty( ColumnHint.DESCRIPTION_MEMBER, newValue );
-		}
-
-		oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
-				.getDescriptionKey( );
-		newValue = dataUIHints.getDescriptionKey( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
-		{
-			newHint.setProperty( ColumnHint.DESCRIPTION_ID_MEMBER, newValue );
-		}
+		/*
+		 * oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
+		 * .getDescription( ); newValue = dataUIHints.getDescription( ); if (
+		 * oldValue == null || !oldValue.equals( newValue ) ) {
+		 * newHint.setProperty( ColumnHint.DESCRIPTION_MEMBER, newValue ); }
+		 * 
+		 * oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
+		 * .getDescriptionKey( ); newValue = dataUIHints.getDescriptionKey( );
+		 * if ( oldValue == null || !oldValue.equals( newValue ) ) {
+		 * newHint.setProperty( ColumnHint.DESCRIPTION_ID_MEMBER, newValue ); }
+		 */
 
 	}
 
@@ -371,19 +368,29 @@ class ResultSetsAdapter
 				: cachedOutputAttrs.getFormattingHints( );
 		oldValue = cachedFormatHints == null ? null : cachedFormatHints
 				.getDisplayFormat( );
+
+		// convert display format in oda to pattern part of value-format member
 		newValue = formatHints.getDisplayFormat( );
 		if ( oldValue == null || !oldValue.equals( newValue ) )
 		{
-			newHint.setProperty( ColumnHint.FORMAT_MEMBER, newValue );
+			FormatValue format = (FormatValue) newHint.getProperty( null,
+					ColumnHint.VALUE_FORMAT_MEMBER );
+			if ( format == null )
+			{
+				format = StructureFactory.newFormatValue( );
+				newHint.setProperty( ColumnHint.VALUE_FORMAT_MEMBER, format );
+			}
+
+			format.setPattern( (String) newValue );
 		}
 
-		newValue = formatHints.getDisplaySize( );
-		oldValue = cachedFormatHints == null ? null : cachedFormatHints
-				.getDisplaySize( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
-		{
-			newHint.setProperty( ColumnHint.DISPLAY_LENGTH_MEMBER, newValue );
-		}
+		// not support display length
+		/*
+		 * newValue = formatHints.getDisplaySize( ); oldValue =
+		 * cachedFormatHints == null ? null : cachedFormatHints .getDisplaySize(
+		 * ); if ( oldValue == null || !oldValue.equals( newValue ) ) {
+		 * newHint.setProperty( ColumnHint.DISPLAY_LENGTH_MEMBER, newValue ); }
+		 */
 
 		newValue = formatHints.getHorizontalAlignment( );
 		oldValue = cachedFormatHints == null ? null : cachedFormatHints
@@ -395,22 +402,22 @@ class ResultSetsAdapter
 					convertToROMHorizontalAlignment( (HorizontalAlignment) newValue ) );
 		}
 
-		newValue = formatHints.getTextWrapType( );
-		oldValue = cachedFormatHints == null ? null : cachedFormatHints
-				.getTextWrapType( );
-
-		if ( oldValue == null || !oldValue.equals( newValue ) )
-		{
-			newHint.setProperty( ColumnHint.WORD_WRAP_MEMBER,
-					convertToROMWordWrap( (TextWrapType) newValue ) );
-		}
+		// not support word-wrap
+		/*
+		 * newValue = formatHints.getTextWrapType( ); oldValue =
+		 * cachedFormatHints == null ? null : cachedFormatHints
+		 * .getTextWrapType( );
+		 * 
+		 * if ( oldValue == null || !oldValue.equals( newValue ) ) {
+		 * newHint.setProperty( ColumnHint.WORD_WRAP_MEMBER,
+		 * convertToROMWordWrap( (TextWrapType) newValue ) ); }
+		 */
 
 		// cannot handle text format since two objects in ODA and ROM are
 		// different.
 	}
 
-	static String convertToROMHorizontalAlignment(
-			HorizontalAlignment tmpAlign )
+	static String convertToROMHorizontalAlignment( HorizontalAlignment tmpAlign )
 	{
 		if ( tmpAlign == null )
 			return null;
@@ -1157,16 +1164,15 @@ class ResultSetsAdapter
 		}
 
 		// description maps to the description in data element UI hints.
-		String desc = hint.getDescription( );
-		String descKey = hint.getDescriptionKey( );
-		if ( desc != null || descKey != null )
-		{
-			if ( uiHints == null )
-				uiHints = designFactory.createDataElementUIHints( );
-
-			uiHints.setDescription( desc );
-			uiHints.setDescriptionKey( descKey );
-		}
+		// String desc = hint.getDescription( );
+		// String descKey = hint.getDescriptionKey( );
+		/*
+		 * if ( desc != null || descKey != null ) { if ( uiHints == null )
+		 * uiHints = designFactory.createDataElementUIHints( );
+		 * 
+		 * uiHints.setDescription( desc ); uiHints.setDescriptionKey( descKey );
+		 * }
+		 */
 
 		dataAttrs.setUiHints( uiHints );
 
@@ -1204,14 +1210,13 @@ class ResultSetsAdapter
 
 		// formatting related.
 
-		String format = hint.getFormat( );
-		int displayLength = hint.getDisplayLength( );
-		boolean wordWrap = hint.wordWrap( );
+		FormatValue format = hint.getValueFormat( );
+		// int displayLength = hint.getDisplayLength( );
+		// boolean wordWrap = hint.wordWrap( );
 		String horizontalAlign = hint.getHorizontalAlign( );
 
-		if ( format != null || horizontalAlign != null
-				|| hint.getProperty( ColumnHint.DISPLAY_LENGTH_MEMBER ) != null
-				|| hint.getProperty( ColumnHint.WORD_WRAP_MEMBER ) != null )
+		if ( ( format != null && format.getPattern( ) != null )
+				|| horizontalAlign != null )
 		{
 			if ( outputAttrs == null )
 				outputAttrs = designFactory.createOutputElementAttributes( );
@@ -1219,11 +1224,12 @@ class ResultSetsAdapter
 			ValueFormatHints formatHint = designFactory
 					.createValueFormatHints( );
 
-			formatHint.setDisplayFormat( format );
-			formatHint.setDisplaySize( displayLength );
+			if ( format != null )
+				formatHint.setDisplayFormat( format.getPattern( ) );
+			// formatHint.setDisplaySize( displayLength );
 			formatHint
 					.setHorizontalAlignment( convertToOdaHorizontalAlignment( horizontalAlign ) );
-			formatHint.setTextWrapType( convertToROMWordWrap( wordWrap ) );
+			// formatHint.setTextWrapType( convertToROMWordWrap( wordWrap ) );
 
 			// cannot handle text format since two objects in ODA and ROM are
 			// different.
