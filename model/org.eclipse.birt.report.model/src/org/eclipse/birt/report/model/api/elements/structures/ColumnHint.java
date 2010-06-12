@@ -151,6 +151,7 @@ public class ColumnHint extends PropertyStructure
 	 * Name of the format member. This member is used to format the column data
 	 * when displaying the value in the viewing UI, especially within the search
 	 * results.
+	 * @deprecated
 	 */
 
 	public static final String FORMAT_MEMBER = "format"; //$NON-NLS-1$
@@ -207,6 +208,7 @@ public class ColumnHint extends PropertyStructure
 	/**
 	 * Name of the display length member. This member indicates how long texts
 	 * to display.
+	 * @deprecated
 	 */
 
 	public static final String DISPLAY_LENGTH_MEMBER = "displayLength"; //$NON-NLS-1$
@@ -221,6 +223,7 @@ public class ColumnHint extends PropertyStructure
 	/**
 	 * Name of the word wrap member. This member indicates if the word need to
 	 * be wrapped.
+	 * @deprecated
 	 */
 
 	public static final String WORD_WRAP_MEMBER = "wordWrap"; //$NON-NLS-1$
@@ -228,6 +231,7 @@ public class ColumnHint extends PropertyStructure
 	/**
 	 * Name of the text format member. This member provides the text format of
 	 * the column.
+	 * @deprecated
 	 */
 
 	public static final String TEXT_FORMAT_MEMBER = "textFormat"; //$NON-NLS-1$
@@ -235,6 +239,7 @@ public class ColumnHint extends PropertyStructure
 	/**
 	 * Name of the description member. The member provides an optional
 	 * localizable description of the column.
+	 * @deprecated
 	 */
 
 	public static final String DESCRIPTION_MEMBER = "description"; //$NON-NLS-1$
@@ -242,6 +247,7 @@ public class ColumnHint extends PropertyStructure
 	/**
 	 * Name of the description id member. The member provides the resource key
 	 * for the description.
+	 * @deprecated
 	 */
 
 	public static final String DESCRIPTION_ID_MEMBER = "descriptionID"; //$NON-NLS-1$
@@ -265,6 +271,31 @@ public class ColumnHint extends PropertyStructure
 	 * when the analysisType is attribute.
 	 */
 	public static final String ANALYSIS_COLUMN_MEMBER = "analysisColumn"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that defines the format of string to display. 
+	 */
+	public static final String STRING_FORMAT_MEMBER = "stringFormat"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the member that defines the format of string to display. 
+	 */
+	public static final String NUMBER_FORMAT_MEMBER = "numberFormat"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that defines the format of string to display. 
+	 */
+	public static final String DATE_FORMAT_MEMBER = "dateFormat"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the member that defines the format of string to display. 
+	 */
+	public static final String TIME_FORMAT_MEMBER = "timeFormat"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that defines the format of string to display. 
+	 */
+	public static final String DATETIME_FORMAT_MEMBER = "dateTimeFormat"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)

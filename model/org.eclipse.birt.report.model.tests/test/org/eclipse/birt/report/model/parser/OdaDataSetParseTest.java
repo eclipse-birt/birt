@@ -39,12 +39,17 @@ import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
@@ -258,8 +263,36 @@ public class OdaDataSetParseTest extends BaseTestCase
 				.setTextFormat( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE );
 		columnHintHandle.setDescription( "New Description" ); //$NON-NLS-1$
 		columnHintHandle.setDescriptionKey( "newDescriptionKey" ); //$NON-NLS-1$
-		
+
 		columnHintHandle.setAnalysisColumn( "new analysis column" ); //$NON-NLS-1$
+
+		NumberFormatValue numberFormat = new NumberFormatValue( );
+		numberFormat
+				.setCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
+		numberFormat.setPattern( "test number pattern" ); //$NON-NLS-1$
+		columnHintHandle.setNumberFormat( numberFormat );
+
+		StringFormatValue stringFormat = new StringFormatValue( );
+		stringFormat
+				.setCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM );
+		stringFormat.setPattern( "test string pattern" ); //$NON-NLS-1$
+		columnHintHandle.setStringFormat( stringFormat );
+
+		DateFormatValue dateFormat = new DateFormatValue( );
+		dateFormat.setCategory( DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM );
+		dateFormat.setPattern( "test date pattern" ); //$NON-NLS-1$
+		columnHintHandle.setDateFormat( dateFormat );
+
+		TimeFormatValue timeFormat = new TimeFormatValue( );
+		timeFormat.setCategory( DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM );
+		timeFormat.setPattern( "test time pattern" ); //$NON-NLS-1$
+		columnHintHandle.setTimeFormat( timeFormat );
+
+		DateTimeFormatValue dateTimeFormat = new DateTimeFormatValue( );
+		dateTimeFormat
+				.setCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM );
+		dateTimeFormat.setPattern( "test date time pattern" ); //$NON-NLS-1$
+		columnHintHandle.setDateTimeFormat( dateTimeFormat );
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
@@ -476,6 +509,31 @@ public class OdaDataSetParseTest extends BaseTestCase
 				ColumnHint.DESCRIPTION_MEMBER ) );
 		assertEquals( "descriptionKey", columnHint.getProperty( design, //$NON-NLS-1$
 				ColumnHint.DESCRIPTION_ID_MEMBER ) );
+
+		// format
+		ColumnHintHandle columnHintHandle = (ColumnHintHandle) dataSet
+				.columnHintsIterator( ).next( );
+		assertNotNull( columnHintHandle );
+		assertEquals( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED,
+				columnHintHandle.getStringFormat( ).getCategory( ) );
+		assertEquals( "string pattern", columnHintHandle.getStringFormat( )
+				.getPattern( ) );
+		assertEquals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED,
+				columnHintHandle.getNumberFormat( ).getCategory( ) );
+		assertEquals( "number pattern", columnHintHandle.getNumberFormat( )
+				.getPattern( ) );
+		assertEquals( DesignChoiceConstants.DATE_FORMAT_TYPE_LONG_DATE,
+				columnHintHandle.getDateFormat( ).getCategory( ) );
+		assertEquals( "date pattern", columnHintHandle.getDateFormat( )
+				.getPattern( ) );
+		assertEquals( DesignChoiceConstants.TIME_FORMAT_TYPE_SHORT_TIME,
+				columnHintHandle.getTimeFormat( ).getCategory( ) );
+		assertEquals( "time pattern", columnHintHandle.getTimeFormat( )
+				.getPattern( ) );
+		assertEquals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
+				columnHintHandle.getDateTimeFormat( ).getCategory( ) );
+		assertEquals( "date time pattern", columnHintHandle.getDateTimeFormat( )
+				.getPattern( ) );
 
 		// Test "filter" on DataSet
 
@@ -856,7 +914,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 				.getHelpTextKey( ) );
 		assertEquals( "Help me!", columnHint.getHelpText( ) ); //$NON-NLS-1$
 		assertTrue( columnHint.isOnColumnLayout( ) );
-		
+
 		assertEquals( "Test Column", columnHint.getAnalysisColumn( ) ); //$NON-NLS-1$
 
 		// Test "filter" on DataSet

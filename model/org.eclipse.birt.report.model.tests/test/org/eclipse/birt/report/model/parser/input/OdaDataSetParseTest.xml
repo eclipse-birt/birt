@@ -119,7 +119,27 @@
                     <property name="wordWrap">true</property>
                     <property name="textFormat">></property>
                     <text-property name="description" key="descriptionKey">Description</text-property>
-                    <expression name="ACLExpression" type="javascript">ACL expression</expression>                  
+                    <expression name="ACLExpression" type="javascript">ACL expression</expression>
+					<structure name="stringFormat">
+                        <property name="category">Unformatted</property>
+                        <property name="pattern">string pattern</property>
+                    </structure>
+                    <structure name="numberFormat">
+                        <property name="category">Fixed</property>
+                        <property name="pattern">number pattern</property>
+                    </structure>
+                    <structure name="dateFormat">
+                        <property name="category">Long Date</property>
+                        <property name="pattern">date pattern</property>
+                    </structure>
+                    <structure name="timeFormat">
+                        <property name="category">Short Time</property>
+                        <property name="pattern">time pattern</property>
+                    </structure>
+                    <structure name="dateTimeFormat">
+                        <property name="category">General Date</property>
+                        <property name="pattern">date time pattern</property>
+                    </structure>                                      
                 </structure>
             </list-property>
             <list-property name="sortHints">

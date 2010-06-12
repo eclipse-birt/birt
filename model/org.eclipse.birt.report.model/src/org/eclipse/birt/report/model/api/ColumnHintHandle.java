@@ -14,6 +14,11 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
+import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 
 /**
  * Represents the handle of column hint. The column hint provides the hint about
@@ -265,6 +270,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * Returns the format option.
 	 * 
 	 * @return the format option
+	 * @deprecated
 	 */
 
 	public String getFormat( )
@@ -277,6 +283,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * 
 	 * @param format
 	 *            the format option to set
+	 * @deprecated            
 	 */
 
 	public void setFormat( String format )
@@ -473,6 +480,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * Gets the display length of the column.
 	 * 
 	 * @return the display length
+	 * @deprecated
 	 */
 	public int getDisplayLength( )
 	{
@@ -489,6 +497,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * 
 	 * @param displayLength
 	 *            the new display length
+	 * @deprecated
 	 */
 	public void setDisplayLength( int displayLength )
 	{
@@ -536,6 +545,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * Gets the hint if the word needs to wrap.
 	 * 
 	 * @return true if the word needs to wrap, otherwise false.
+	 * @deprecated
 	 */
 	public boolean wordWrap( )
 	{
@@ -552,6 +562,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * 
 	 * @param wordWrap
 	 *            the hint value indicates if the word needs to wrap.
+	 * @deprecated
 	 */
 	public void setWordWrap( boolean wordWrap )
 	{
@@ -574,10 +585,10 @@ public class ColumnHintHandle extends StructureHandle
 	 * </ul>
 	 * 
 	 * @return the text format of the column
+	 * @deprecated
 	 */
 	public String getTextFormat( )
 	{
-
 		return getStringProperty( ColumnHint.TEXT_FORMAT_MEMBER );
 	}
 
@@ -600,6 +611,7 @@ public class ColumnHintHandle extends StructureHandle
 	 *            the new text format
 	 * @throws SemanticException
 	 *             if the format is not defined.
+	 * @deprecated
 	 */
 	public void setTextFormat( String format ) throws SemanticException
 	{
@@ -610,7 +622,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * Gets the description of the column.
 	 * 
 	 * @return the description
-	 * 
+	 * @deprecated
 	 */
 	public String getDescription( )
 	{
@@ -622,7 +634,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * 
 	 * @param description
 	 *            the new description
-	 * 
+	 * @deprecated
 	 */
 	public void setDescription( String description )
 	{
@@ -633,7 +645,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * Gets the resource key of the description of the column.
 	 * 
 	 * @return the resource key of the description
-	 * 
+	 * @deprecated
 	 */
 	public String getDescriptionKey( )
 	{
@@ -645,7 +657,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * 
 	 * @param descriptionID
 	 *            the new resource key of the description
-	 * 
+	 * @deprecated
 	 */
 	public void setDescriptionKey( String descriptionID )
 	{
@@ -727,4 +739,120 @@ public class ColumnHintHandle extends StructureHandle
 	{
 		setProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER, column );
 	}
+
+	/**
+	 * Gets the display format of string.
+	 * 
+	 * @return the string format
+	 */
+	public StringFormatValue getStringFormat( )
+	{
+		return (StringFormatValue) getProperty( ColumnHint.STRING_FORMAT_MEMBER );
+	}
+
+	/**
+	 * Sets the display format of string.
+	 * 
+	 * @param format
+	 *            the string format to set
+	 * @throws SemanticException
+	 */
+	public void setStringFormat( StringFormatValue format )
+			throws SemanticException
+	{
+		setProperty( ColumnHint.STRING_FORMAT_MEMBER, format );
+	}
+
+	/**
+	 * Gets the display format of number.
+	 * 
+	 * @return the number format
+	 */
+	public NumberFormatValue getNumberFormat( )
+	{
+		return (NumberFormatValue) getProperty( ColumnHint.NUMBER_FORMAT_MEMBER );
+	}
+
+	/**
+	 * Sets the display format of number.
+	 * 
+	 * @param format
+	 *            the number format to set
+	 * @throws SemanticException
+	 */
+	public void setNumberFormat( NumberFormatValue format )
+			throws SemanticException
+	{
+		setProperty( ColumnHint.NUMBER_FORMAT_MEMBER, format );
+	}
+
+	/**
+	 * Gets the display format of date.
+	 * 
+	 * @return the date format
+	 */
+	public DateFormatValue getDateFormat( )
+	{
+		return (DateFormatValue) getProperty( ColumnHint.DATE_FORMAT_MEMBER );
+	}
+
+	/**
+	 * Sets the display format of date.
+	 * 
+	 * @param format
+	 *            the date format to set
+	 * @throws SemanticException
+	 */
+	public void setDateFormat( DateFormatValue format )
+			throws SemanticException
+	{
+		setProperty( ColumnHint.DATE_FORMAT_MEMBER, format );
+	}
+
+	/**
+	 * Gets the display format of time.
+	 * 
+	 * @return the time format
+	 */
+	public TimeFormatValue getTimeFormat( )
+	{
+		return (TimeFormatValue) getProperty( ColumnHint.TIME_FORMAT_MEMBER );
+	}
+
+	/**
+	 * Sets the display format of string.
+	 * 
+	 * @param format
+	 *            the string format to set
+	 * @throws SemanticException
+	 */
+	public void setTimeFormat( TimeFormatValue format )
+			throws SemanticException
+	{
+		setProperty( ColumnHint.TIME_FORMAT_MEMBER, format );
+	}
+
+	/**
+	 * Gets the display format of date time.
+	 * 
+	 * @return the date time format
+	 */
+	public DateTimeFormatValue getDateTimeFormat( )
+	{
+		return (DateTimeFormatValue) getProperty( ColumnHint.DATETIME_FORMAT_MEMBER );
+	}
+
+	/**
+	 * Sets the display format of date time.
+	 * 
+	 * @param format
+	 *            the date time format to set
+	 * @throws SemanticException
+	 */
+	public void setDateTimeFormat( DateTimeFormatValue format )
+			throws SemanticException
+	{
+		setProperty( ColumnHint.DATETIME_FORMAT_MEMBER, format );
+	}
+
 }
