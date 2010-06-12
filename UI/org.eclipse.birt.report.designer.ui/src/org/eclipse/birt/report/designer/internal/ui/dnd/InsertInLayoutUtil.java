@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -56,6 +58,7 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
@@ -64,6 +67,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -746,16 +750,7 @@ public class InsertInLayoutUtil
 		}
 
 		dataHandle.setResultSetColumn( model.getColumnName( ) );
-		boolean wordWrap = UIUtil.isWordWrap( model );
-		if (wordWrap)
-		{
-			dataHandle.getPrivateStyle( ).setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NORMAL );
-		}
-		else
-		{
-			dataHandle.getPrivateStyle( ).setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NOWRAP );
-		}
-
+		formatDataHandle( dataHandle, model );
 		if ( targetParent instanceof ReportItemHandle )
 		{
 			ReportItemHandle container = (ReportItemHandle) targetParent;
@@ -1542,16 +1537,8 @@ public class InsertInLayoutUtil
 						// DesignElementFactory.getInstance( )
 						// .newDataItem( null );
 						dataHandle.setResultSetColumn( columns[j].getColumnName( ) );
-						boolean wordWrap = UIUtil.isWordWrap( columns[j] );
-						if (wordWrap)
-						{
-							dataHandle.getPrivateStyle( ).setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NORMAL );
-						}
-						else
-						{
-							dataHandle.getPrivateStyle( ).setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NOWRAP );
-						}
-
+						
+						formatDataHandle( dataHandle, columns[j] );
 						cell.addElement( dataHandle, cells.getSlotID( ) );
 
 						// add data binding to table.
@@ -1583,7 +1570,112 @@ public class InsertInLayoutUtil
 			}
 		}
 	}
+	
+	private static void formatDataHandle(DataItemHandle dataHandle, ResultSetColumnHandle column)
+	{
+		try
+		{
+			StyleHandle styleHandle = dataHandle.getPrivateStyle( );
+			boolean wordWrap = UIUtil.isWordWrap( column );
+			if (wordWrap)
+			{
+				styleHandle.setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NORMAL );
+			}
+			else
+			{
+				styleHandle.setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NOWRAP );
+			}
+			
+			String aliment = UIUtil.getClolumnHandleAlignment( column );
+			if (aliment != null)
+			{
+				styleHandle.setTextAlign( aliment );
+			}
+			
+			String helpText = UIUtil.getClolumnHandleHelpText( column );
+			if (helpText != null)
+			{
+				dataHandle.setHelpText( helpText );
+			}
+			ColumnHintHandle hintHandle = findColumnHintHandle( column );
+			if (hintHandle != null)
+			{
+				formatDataHandleDataType( column.getDataType( ), hintHandle.getValueFormat( ), styleHandle );
+			}
+			
+		}
+		catch(SemanticException e)
+		{
+			//do nothing now
+		}
+		
+	}
 
+	private static ColumnHintHandle findColumnHintHandle(ResultSetColumnHandle column)
+	{
+		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element;
+			}
+		}
+		return null;
+	}
+	private static void formatDataHandleDataType(String type, FormatValue formartValue,StyleHandle styleHandle)
+	{
+		if (formartValue == null)
+		{
+			return;
+		}
+		try
+		{
+			if (DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( type )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( type )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( type ))
+			{
+				if (formartValue.getPattern( ) != null)
+				{
+					styleHandle.setNumberFormat( formartValue.getPattern( ) );
+				}
+				if (formartValue.getCategory( ) != null)
+				{
+					styleHandle.setNumberFormatCategory( formartValue.getCategory( ) );
+				}
+			}
+			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( type )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type ))
+			{
+				if (formartValue.getPattern( ) != null)
+				{
+					styleHandle.setDateTimeFormat( formartValue.getPattern( ) );
+				}
+				if (formartValue.getCategory( ) != null)
+				{
+					styleHandle.setDateTimeFormatCategory( formartValue.getCategory( ) );
+				}
+			}
+			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( type ))
+			{
+				if (formartValue.getPattern( ) != null)
+				{
+					styleHandle.setStringFormat( formartValue.getPattern( ) );
+				}
+				if (formartValue.getCategory( ) != null)
+				{
+					styleHandle.setStringFormatCategory( formartValue.getCategory( ) );
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			//do nothing now
+		}
+	}
 	/**
 	 * Sets initial width to new object
 	 * 

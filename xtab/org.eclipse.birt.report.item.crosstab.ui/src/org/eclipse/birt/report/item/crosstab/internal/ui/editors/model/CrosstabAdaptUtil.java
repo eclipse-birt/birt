@@ -569,19 +569,21 @@ public class CrosstabAdaptUtil
 		{
 			return;
 		}
-		StyleHandle styleHanlde = dataHandle.getPrivateStyle( );
+		StyleHandle styleHandle = dataHandle.getPrivateStyle( );
 		FormatValue formartValue = (FormatValue)value;
 		try
 		{
-			if (DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( type ))
+			if (DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( type )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( type )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( type ))
 			{
 				if (formartValue.getPattern( ) != null)
 				{
-					styleHanlde.setNumberFormat( formartValue.getPattern( ) );
+					styleHandle.setNumberFormat( formartValue.getPattern( ) );
 				}
 				if (formartValue.getCategory( ) != null)
 				{
-					styleHanlde.setNumberFormatCategory( formartValue.getCategory( ) );
+					styleHandle.setNumberFormatCategory( formartValue.getCategory( ) );
 				}
 			}
 //			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type ))
@@ -600,22 +602,22 @@ public class CrosstabAdaptUtil
 			{
 				if (formartValue.getPattern( ) != null)
 				{
-					styleHanlde.setDateTimeFormat( formartValue.getPattern( ) );
+					styleHandle.setDateTimeFormat( formartValue.getPattern( ) );
 				}
 				if (formartValue.getCategory( ) != null)
 				{
-					styleHanlde.setDateTimeFormatCategory( formartValue.getCategory( ) );
+					styleHandle.setDateTimeFormatCategory( formartValue.getCategory( ) );
 				}
 			}
 			else if (DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( type ))
 			{
 				if (formartValue.getPattern( ) != null)
 				{
-					styleHanlde.setStringFormat( formartValue.getPattern( ) );
+					styleHandle.setStringFormat( formartValue.getPattern( ) );
 				}
 				if (formartValue.getCategory( ) != null)
 				{
-					styleHanlde.setStringFormatCategory( formartValue.getCategory( ) );
+					styleHandle.setStringFormatCategory( formartValue.getCategory( ) );
 				}
 			}
 		}

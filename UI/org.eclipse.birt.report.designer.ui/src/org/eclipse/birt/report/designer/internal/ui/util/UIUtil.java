@@ -1781,6 +1781,38 @@ public class UIUtil
 		}
 		return false;
 	}
+	
+	public static String getClolumnHandleAlignment(ResultSetColumnHandle column)
+	{
+		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getHorizontalAlign( );
+			}
+		}
+		return null;
+	}
+	
+	public static String getClolumnHandleHelpText(ResultSetColumnHandle column)
+	{
+		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getHelpText( );
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Return the analysis of dataset column
