@@ -36,6 +36,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String TEXT_WRAPPING = "TextWrapping";
 	private static final String EMBEDDED_FONT = "EmbeddedFont";
 	private static final String CHART_DPI = "ChartDpi";
+	private static final String RENDER_CHART_IN_SVG = "RenderChartInSVG";
 
 	private IConfigurableOption[] options;
 	private Locale locale;
@@ -140,8 +141,22 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 				.setToolTip( "The DPI which chart engine uses to generate charts. For example, 192." );
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
+		// Initializes the option for render chart in svg.
+		ConfigurableOption renderChartInSVG = new ConfigurableOption(
+				RENDER_CHART_IN_SVG );
+		renderChartInSVG
+				.setDisplayName( getMessage( "OptionDisplayValue.RenderChartInSVG" ) ); //$NON-NLS-1$
+		renderChartInSVG.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		renderChartInSVG
+				.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		renderChartInSVG.setDefaultValue( Boolean.TRUE );
+		renderChartInSVG.setToolTip( null );
+		renderChartInSVG
+				.setDescription( getMessage( "OptionDescription.RenderChartInSVG" ) ); //$NON-NLS-1$
+
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow, embeddedFont, chartDpi};
+				fontSubstitution, pageOverFlow, embeddedFont, chartDpi,
+				renderChartInSVG};
 
 	}
 
@@ -239,9 +254,34 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 				{
 					if ( optionValue != null )
 					{
-						renderOption.setOption(
-								getRenderOptionName( optionValue.getName( ) ),
-								optionValue.getValue( ) );
+						if ( optionValue.getName( )
+								.equals( RENDER_CHART_IN_SVG ) )
+						{
+							boolean renderChartInSVG = true;
+							Object value = optionValue.getValue( );
+							if ( value != null && value instanceof Boolean )
+							{
+								renderChartInSVG = (Boolean) value;
+							}
+							if ( renderChartInSVG )
+							{
+								renderOption
+										.setSupportedImageFormats( "PNG;GIF;JPG;BMP;SWF;SVG" );
+							}
+							else
+							{
+								renderOption
+										.setSupportedImageFormats( "PNG;GIF;JPG;BMP;SWF" );
+							}
+						}
+						else
+						{
+							renderOption
+									.setOption(
+											getRenderOptionName( optionValue
+													.getName( ) ), optionValue
+													.getValue( ) );
+						}
 					}
 				}
 			}
