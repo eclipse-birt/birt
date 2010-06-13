@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -23,6 +24,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
@@ -246,12 +248,28 @@ class ContainerContextProviderImpl
 		{
 			ReportItemTheme theme = (ReportItemTheme) focus.getElement( );
 			String type = theme.getType( theme.getRoot( ) );
+			String styleName = element.getName( );
 			IPredefinedStyle style = MetaDataDictionary.getInstance( )
-					.getPredefinedStyle( element.getName( ) );
+					.getPredefinedStyle( styleName );
+
+			// first, check the style is the supported predefined styles in this
+			// type of report item theme
 			if ( StringUtil.isBlank( type ) || style == null
 					|| !type.equals( style.getType( ) ) )
 			{
 				errors.add( e );
+				return errors;
+			}
+
+			// second, check the style is unique and no another same name style
+			// exists
+			List<SemanticException> exceptions = ThemeStyleNameValidator
+					.getInstance( ).validateForAddingStyle(
+							(AbstractThemeHandle) theme.getHandle( theme
+									.getRoot( ) ), styleName );
+			if ( exceptions != null && !exceptions.isEmpty( ) )
+			{
+				errors.addAll( exceptions );
 				return errors;
 			}
 

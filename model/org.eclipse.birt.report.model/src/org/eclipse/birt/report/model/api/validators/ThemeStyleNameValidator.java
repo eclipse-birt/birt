@@ -101,7 +101,7 @@ public class ThemeStyleNameValidator extends AbstractElementValidator
 	{
 		List<SemanticException> list = new ArrayList<SemanticException>( );
 
-		if ( getSameNameStyles( theme, styleName ).size( ) > 1 )
+		if ( getSameNameStyles( theme, styleName ).size( ) > 0 )
 			list.add( new NameException( theme.getElement( ), styleName,
 					NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 
