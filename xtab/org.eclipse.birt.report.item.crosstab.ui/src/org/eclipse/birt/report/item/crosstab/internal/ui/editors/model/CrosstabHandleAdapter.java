@@ -1531,7 +1531,9 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		}
 		catch ( CrosstabException e )
 		{
-			ExceptionUtil.handle( e );
+			//There are some issues when show as chart.So ignore the exception.
+			//ExceptionUtil.handle( e );
+			//do nothing now
 		}
 
 	}
