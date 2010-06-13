@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -33,7 +34,6 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
@@ -265,9 +265,9 @@ public class DeleteCommand extends Command
 				report.dropCss( cssStyleHandle );
 			}
 		}
-		else if ( containerHandle instanceof ThemeHandle )
+		else if ( containerHandle instanceof AbstractThemeHandle )
 		{
-			ThemeHandle theme = (ThemeHandle) containerHandle;
+			AbstractThemeHandle theme = (AbstractThemeHandle) containerHandle;
 			if ( theme.canDropCssStyleSheet( cssStyleHandle ) )
 			{
 				theme.dropCss( cssStyleHandle );
@@ -350,7 +350,7 @@ public class DeleteCommand extends Command
 			SlotHandle slot = (SlotHandle) source;
 			DesignElementHandle handle = slot.getElementHandle( );
 			return slot.getContents( ).size( ) > 0
-					&& ( ( handle instanceof DesignElementHandle && ( (DesignElementHandle) handle ).canDrop( ) )  )
+					&& ( ( handle instanceof DesignElementHandle && ( (DesignElementHandle) handle ).canDrop( ) ) )
 					&& canDrop( slot.getContents( ) );
 		}
 		if ( source instanceof EmbeddedImageHandle )
@@ -384,7 +384,7 @@ public class DeleteCommand extends Command
 			}
 			return false;
 		}
-		else if (source instanceof ModuleHandle)
+		else if ( source instanceof ModuleHandle )
 		{
 			return false;
 		}
@@ -407,9 +407,9 @@ public class DeleteCommand extends Command
 			{
 				return ( (ReportDesignHandle) elementHandle ).canDropCssStyleSheet( (CssStyleSheetHandle) source );
 			}
-			else if ( elementHandle instanceof ThemeHandle )
+			else if ( elementHandle instanceof AbstractThemeHandle )
 			{
-				return ( (ThemeHandle) elementHandle ).canDropCssStyleSheet( (CssStyleSheetHandle) source );
+				return ( (AbstractThemeHandle) elementHandle ).canDropCssStyleSheet( (CssStyleSheetHandle) source );
 			}
 			else
 			{

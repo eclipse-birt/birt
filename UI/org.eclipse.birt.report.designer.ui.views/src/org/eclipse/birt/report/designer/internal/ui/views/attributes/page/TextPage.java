@@ -24,10 +24,13 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Col
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontSizeSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontStyleSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelper;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
@@ -231,5 +234,38 @@ public class TextPage extends GeneralPage
 		}
 
 		return providers;
+	}
+	
+	protected void applyCustomSections( )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( this,
+				ISectionHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				ISectionHelperProvider helperProvider = (ISectionHelperProvider) helperProviders[i];
+				if ( helperProvider != null )
+				{
+					ISectionHelper helper = helperProvider.createHelper( this,
+							PageConstants.THEME_HELPER_KEY );
+					if ( helper != null )
+					{
+						Section section = helper.createSection( container,
+								TextItemHandle.THEME_PROP,
+								ReportDesignConstants.TEXT_ITEM,
+								true );
+						if ( section instanceof SimpleComboSection )
+							( (SimpleComboSection) section ).setWidth( 200 );
+						section.setLayoutNum( 6 );
+						section.setGridPlaceholder( 4, true );
+						addSectionAfter( PageSectionId.TEXT_THEME,
+								section,
+								PageSectionId.TEXT_DISPLAY );
+
+					}
+				}
+			}
+		}
 	}
 }

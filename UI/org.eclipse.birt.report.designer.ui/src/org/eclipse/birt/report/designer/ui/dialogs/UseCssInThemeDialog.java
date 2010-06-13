@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,14 +29,17 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -140,11 +144,11 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 		return this.fileName;
 	}
 
-	public ThemeHandle getTheme( )
+	public AbstractThemeHandle getTheme( )
 	{
 		if ( themeIndex > -1 )
 		{
-			return (ThemeHandle) getThemes( ).get( themeIndex );
+			return (AbstractThemeHandle) getThemes( ).get( themeIndex );
 		}
 		else
 		{
@@ -153,7 +157,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 
 	}
 
-	public void setTheme( ThemeHandle theme )
+	public void setTheme( AbstractThemeHandle theme )
 	{
 		themeIndex = getThemes( ).indexOf( theme );
 	}
@@ -420,7 +424,8 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 		title.setText( DIALOG_LABEL_NOFILE );
 
 		updateThemes( );
-
+		themeIndex = themeCombo.getSelectionIndex( );
+		
 		fileName = fileNameField.getText( ).trim( );
 		if ( fileName.length( ) == 0 )
 		{
@@ -452,14 +457,38 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 					fileName
 				} ) );
 
+	
+		
+		List availableStyles = null;
+		if ( getTheme( ) instanceof ReportItemThemeHandle )
+		{
+			availableStyles = new ArrayList( );
+			availableStyles.addAll( Arrays.asList( getPredefinedStyleNames( ( (ReportItemThemeHandle) getTheme( ) ).getType( ) ) ) );
+		}
+
 		Iterator styleIter = cssHandle.getStyleIterator( );
 		while ( styleIter.hasNext( ) )
 		{
 			SharedStyleHandle styleHandle = (SharedStyleHandle) styleIter.next( );
 
-			styleMap.put( styleHandle.getName( ), styleHandle );
-
-			styleNames.add( styleHandle.getName( ) );
+			if ( getTheme( ) instanceof ReportItemThemeHandle )
+			{
+				if ( availableStyles.contains( styleHandle.getName( ) ) )
+				{
+					styleMap.put( styleHandle.getName( ), styleHandle );
+					styleNames.add( styleHandle.getName( ) );
+				}
+				else
+				{
+					unSupportedStyleNames.add( styleHandle.getName( )
+							+ Messages.getString( "WizardSelectCssStylePage.text.cannot.import.style" ) ); //$NON-NLS-1$
+				}
+			}
+			else
+			{
+				styleMap.put( styleHandle.getName( ), styleHandle );
+				styleNames.add( styleHandle.getName( ) );
+			}
 		}
 
 		List unSupportedStyles = cssHandle.getUnsupportedStyles( );
@@ -500,7 +529,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 
 		if ( themeCombo.getItemCount( ) == 0 )
 		{
-			List<ThemeHandle> themeList = getThemes( );
+			List<AbstractThemeHandle> themeList = getThemes( );
 			for ( int i = 0; i < themeList.size( ); i++ )
 			{
 				String displayName = themeList.get( i ).getName( );
@@ -530,7 +559,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 
 		updateThemes( );
 		themeIndex = themeCombo.getSelectionIndex( );
-		ThemeHandle theme = getTheme( );
+		AbstractThemeHandle theme = getTheme( );
 
 		if ( getButton( IDialogConstants.OK_ID ) != null )
 		{
@@ -557,7 +586,7 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 		}
 	}
 
-	private List<ThemeHandle> getThemes( )
+	private List<AbstractThemeHandle> getThemes( )
 	{
 		ModuleHandle module = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
@@ -568,10 +597,10 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 		}
 		LibraryHandle libraryHandle = (LibraryHandle) module;
 		SlotHandle slotHandle = libraryHandle.getThemes( );
-		List<ThemeHandle> list = new ArrayList<ThemeHandle>( );
+		List<AbstractThemeHandle> list = new ArrayList<AbstractThemeHandle>( );
 		for ( Iterator iter = slotHandle.iterator( ); iter.hasNext( ); )
 		{
-			list.add( (ThemeHandle) iter.next( ) );
+			list.add( (AbstractThemeHandle) iter.next( ) );
 		}
 		return list;
 	}
@@ -593,4 +622,28 @@ public class UseCssInThemeDialog extends BaseTitleAreaDialog
 		this.includedCssHandle = handle;
 	}
 
+	private String[] getPredefinedStyleNames( String type )
+	{
+		List preStyles = null;
+		if ( type == null )
+		{
+			preStyles = DEUtil.getMetaDataDictionary( ).getPredefinedStyles( );
+		}
+		else
+		{
+			preStyles = DEUtil.getMetaDataDictionary( )
+					.getPredefinedStyles( type );
+		}
+		if ( preStyles == null )
+		{
+			return new String[]{};
+		}
+		String[] names = new String[preStyles.size( )];
+		for ( int i = 0; i < preStyles.size( ); i++ )
+		{
+			names[i] = ( (IPredefinedStyle) preStyles.get( i ) ).getName( );
+		}
+		Arrays.sort( names );
+		return names;
+	}
 }

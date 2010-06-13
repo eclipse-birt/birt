@@ -57,6 +57,7 @@ public class PageSectionId
 	public final static String DATA_FONT_STYLE = "DATA_FONT_STYLE"; //$NON-NLS-1$
 	public final static String DATA_SEPERATOR_1 = "DATA_SEPERATOR_1"; //$NON-NLS-1$
 	public final static String DATA_STYLE = "DATA_STYLE"; //$NON-NLS-1$
+	public final static String DATA_THEME = "DATA_THEME"; //$NON-NLS-1$
 
 	public static final String DATASET_LIBRARY = "DATASET_LIBRARY"; //$NON-NLS-1$
 	public static final String DATASET_SEPERATOR = "DATASET_SEPERATOR"; //$NON-NLS-1$
@@ -300,11 +301,17 @@ public class PageSectionId
 
 	public static final String LABEL_DISPLAY = "LABEL_DISPLAY";//$NON-NLS-1$
 
+	public static final String LABEL_THEME = "LABEL_THEME";//$NON-NLS-1$
+
 	public static final String TEXT_DISPLAY = "TEXT_DISPLAY";//$NON-NLS-1$
+	
+	public static final String TEXT_THEME = "TEXT_THEME";//$NON-NLS-1$
 
 	public static final String TEXT_SEPERATOR_3 = "TEXT_SEPERATOR_3";//$NON-NLS-1$
 
 	public static final String IMAGE_DISPLAY = "IMAGE_DISPLAY";//$NON-NLS-1$
+	
+	public static final String IMAGE_THEME = "IMAGE_THEME";//$NON-NLS-1$
 
 	public static final String GRID_SEPERATOR2 = "GRID_SEPERATOR2";//$NON-NLS-1$
 

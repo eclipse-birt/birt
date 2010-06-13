@@ -24,10 +24,13 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Col
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontSizeSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontStyleSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelper;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -39,6 +42,8 @@ import org.eclipse.swt.SWT;
  */
 public class DataPage extends GeneralPage
 {
+
+	private SimpleComboSection styleSection;
 
 	/*
 	 * (non-Javadoc)
@@ -106,7 +111,7 @@ public class DataPage extends GeneralPage
 		Section seperator2Section = new SeperatorSection( container,
 				SWT.HORIZONTAL );
 
-		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
+		styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
 				container,
 				true );
 
@@ -212,5 +217,40 @@ public class DataPage extends GeneralPage
 		}
 
 		return providers;
+	}
+	
+	protected void applyCustomSections( )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( this,
+				ISectionHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				ISectionHelperProvider helperProvider = (ISectionHelperProvider) helperProviders[i];
+				if ( helperProvider != null )
+				{
+					ISectionHelper helper = helperProvider.createHelper( this,
+							PageConstants.THEME_HELPER_KEY );
+					if ( helper != null )
+					{
+						Section section = helper.createSection( container,
+								DataItemHandle.THEME_PROP,
+								ReportDesignConstants.DATA_ITEM,
+								true );
+						if ( section instanceof SimpleComboSection )
+							( (SimpleComboSection) section ).setWidth( 200 );
+						section.setLayoutNum( 4 );
+						section.setGridPlaceholder( 2, true );
+						addSectionAfter( PageSectionId.DATA_THEME,
+								section,
+								PageSectionId.DATA_STYLE );
+						
+						styleSection.setLayoutNum( 2 );
+						styleSection.setGridPlaceholder( 0, false );
+					}
+				}
+			}
+		}
 	}
 }

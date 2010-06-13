@@ -14,13 +14,17 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
@@ -69,10 +73,22 @@ public class SelectCssStyleWizard extends Wizard
 		if ( selection != null && selection instanceof DesignElementHandle )
 		{
 			DesignElementHandle element = (DesignElementHandle) selection;
-			if ( element instanceof ThemeHandle
-					|| element.getContainer( ) instanceof ThemeHandle )
+			if ( element instanceof AbstractThemeHandle
+					|| element.getContainer( ) instanceof AbstractThemeHandle )
 			{
 				pageDesc = WIZARD_PAGE_DESCRIPTION_LIBRARY;
+				ReportItemThemeHandle theme = null;
+				if ( element instanceof ReportItemThemeHandle )
+				{
+					theme = ( (ReportItemThemeHandle) element );
+				}
+				else if ( element.getContainer( ) instanceof ReportItemThemeHandle )
+				{
+					theme = ( (ReportItemThemeHandle) element.getContainer( ) );
+				}
+
+				if ( theme != null )
+					stylePage.setTheme( theme );
 			}
 		}
 		stylePage.setDescription( pageDesc );
@@ -111,6 +127,30 @@ public class SelectCssStyleWizard extends Wizard
 					libraryHandle.importCssStyles( cssHandle,
 							styleList,
 							element.getContainer( ).getName( ) );
+				}
+				else if ( selection instanceof ReportItemThemeHandle )
+				{
+					ReportItemThemeHandle theme = ( (ReportItemThemeHandle) selection );
+					try
+					{
+						theme.importCssStyles( cssHandle, styleList );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+				else if ( element.getContainer( ) instanceof ReportItemThemeHandle )
+				{
+					ReportItemThemeHandle theme = ( (ReportItemThemeHandle) element.getContainer( ) );
+					try
+					{
+						theme.importCssStyles( cssHandle, styleList );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
 				}
 				else if ( element instanceof StyleHandle )// selection is a
 				// Style node in

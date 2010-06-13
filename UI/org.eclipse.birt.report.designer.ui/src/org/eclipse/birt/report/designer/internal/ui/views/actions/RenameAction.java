@@ -24,8 +24,11 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -100,11 +103,17 @@ public class RenameAction extends AbstractViewerAction
 		{
 			return true;
 		}
+		if ( obj instanceof SharedStyleHandle
+				&& ( (SharedStyleHandle) obj ).getContainer( ) instanceof ReportItemThemeHandle )
+		{
+			return false;
+		}
 		if ( obj instanceof ReportElementHandle )
 		{
 			if ( obj instanceof GroupHandle )
 			{
-				return !((GroupHandle)obj).getPropertyHandle( IGroupElementModel.GROUP_NAME_PROP ).isReadOnly( );
+				return !( (GroupHandle) obj ).getPropertyHandle( IGroupElementModel.GROUP_NAME_PROP )
+						.isReadOnly( );
 			}
 			return ( (ReportElementHandle) obj ).getDefn( ).getNameOption( ) != MetaDataConstants.NO_NAME
 					&& ( (ReportElementHandle) obj ).canEdit( );
@@ -213,7 +222,7 @@ public class RenameAction extends AbstractViewerAction
 		{
 			newName = null;
 		}
-		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null )
 		{
 			return false;
 		}

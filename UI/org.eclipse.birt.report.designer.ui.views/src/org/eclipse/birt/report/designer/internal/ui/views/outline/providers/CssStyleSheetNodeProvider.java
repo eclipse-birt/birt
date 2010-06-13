@@ -20,18 +20,16 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.EditUseCssStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
@@ -47,9 +45,9 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 	 * Creates the context menu for the given object.
 	 * 
 	 * @param object
-	 * 		the object
+	 *            the object
 	 * @param menu
-	 * 		the menu
+	 *            the menu
 	 */
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
@@ -77,11 +75,27 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 		if ( model instanceof CssStyleSheetHandle )
 		{
 			CssStyleSheetHandle cssStyleHandle = (CssStyleSheetHandle) model;
+
+			List availableStyles = null;
+			if ( cssStyleHandle.getContainerHandle( ) instanceof ReportItemThemeHandle )
+			{
+				availableStyles = new ArrayList( );
+				availableStyles.addAll( Arrays.asList( getPredefinedStyleNames( ( (ReportItemThemeHandle) cssStyleHandle.getContainerHandle( ) ).getType( ) ) ) );
+			}
+
 			List childrenList = new ArrayList( );
 			for ( Iterator iter = cssStyleHandle.getStyleIterator( ); iter.hasNext( ); )
 			{
 				SharedStyleHandle styleHandle = (SharedStyleHandle) iter.next( );
-				childrenList.add( styleHandle );
+				if ( cssStyleHandle.getContainerHandle( ) instanceof ReportItemThemeHandle )
+				{
+					if ( availableStyles.contains( styleHandle.getName( ) ) )
+						childrenList.add( styleHandle );
+				}
+				else
+				{
+					childrenList.add( styleHandle );
+				}
 			}
 
 			Object[] childrenArray = childrenList.toArray( new SharedStyleHandle[childrenList.size( )] );
@@ -95,10 +109,10 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 	 * Gets the icon image for the given model.
 	 * 
 	 * @param model
-	 * 		the model of the node
+	 *            the model of the node
 	 * 
 	 * @return Returns the icon name for the model,or null if no proper one
-	 * 	available for the given model
+	 *         available for the given model
 	 */
 	public Image getNodeIcon( Object model )
 	{
@@ -127,12 +141,12 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 					.getModuleHandle( );
 			URL url = moudleHandle.findResource( cssStyleSheetHandle.getFileName( ),
 					IResourceLocator.CASCADING_STYLE_SHEET );
-			
-			if(url != null && url.getFile( ) != null)
+
+			if ( url != null && url.getFile( ) != null )
 			{
 				return url.getFile( );
 			}
-			
+
 		}
 
 		return super.getNodeTooltip( model );
@@ -142,16 +156,43 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#performEdit(org.eclipse.birt.model.api.ElementDetailHandle)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
+	 * #performEdit(org.eclipse.birt.model.api.ElementDetailHandle)
 	 */
 	protected boolean performEdit( ElementDetailHandle handle )
 	{
-		EditUseCssStyleAction action = new EditUseCssStyleAction(handle);
-		if(!action.isEnabled( ))
+		EditUseCssStyleAction action = new EditUseCssStyleAction( handle );
+		if ( !action.isEnabled( ) )
 		{
 			return false;
 		}
 		action.run( );
 		return true;
+	}
+
+	private String[] getPredefinedStyleNames( String type )
+	{
+		List preStyles = null;
+		if ( type == null )
+		{
+			preStyles = DEUtil.getMetaDataDictionary( ).getPredefinedStyles( );
+		}
+		else
+		{
+			preStyles = DEUtil.getMetaDataDictionary( )
+					.getPredefinedStyles( type );
+		}
+		if ( preStyles == null )
+		{
+			return new String[]{};
+		}
+		String[] names = new String[preStyles.size( )];
+		for ( int i = 0; i < preStyles.size( ); i++ )
+		{
+			names[i] = ( (IPredefinedStyle) preStyles.get( i ) ).getName( );
+		}
+		Arrays.sort( names );
+		return names;
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,9 +26,14 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -76,6 +82,8 @@ public class WizardSelectCssStylePage extends WizardPage
 
 	private Button deselectAll;
 
+	private ReportItemThemeHandle theme;
+
 	public WizardSelectCssStylePage( String pageName )
 	{
 		super( pageName );
@@ -101,8 +109,8 @@ public class WizardSelectCssStylePage extends WizardPage
 		setPageComplete( validateFileName( ) );
 		setErrorMessage( null );
 		setMessage( null );
-		
-		UIUtil.bindHelp(parent,IHelpContextIds.IMPORT_CSS_STYLE_WIZARD_ID);
+
+		UIUtil.bindHelp( parent, IHelpContextIds.IMPORT_CSS_STYLE_WIZARD_ID );
 	}
 
 	private void createFileNameComposite( Composite parent )
@@ -138,23 +146,26 @@ public class WizardSelectCssStylePage extends WizardPage
 						.getDisplay( )
 						.getActiveShell( ),
 						SWT.NULL );
-				
-				fileSelector.setFilterExtensions(new String[]{"*.css;*.CSS"});//$NON-NLS-1$ //$NON-NLS-2$
+
+				fileSelector.setFilterExtensions( new String[]{
+					"*.css;*.CSS"} );//$NON-NLS-1$ //$NON-NLS-2$
 
 				String fileName = fileSelector.open( );
 				if ( fileName != null )
 				{
 					// should check extensions in Linux enviroment
-					if (checkExtensions( new String[]{"*.css","*.CSS"}, fileName ) == false ) //$NON-NLS-1$ //$NON-NLS-2$
+					if ( checkExtensions( new String[]{
+							"*.css", "*.CSS"}, fileName ) == false ) //$NON-NLS-1$ //$NON-NLS-2$
 					{
 						ExceptionHandler.openErrorMessageBox( Messages.getString( "WizardSelectCssStylePage.FileNameError.Title" ), //$NON-NLS-1$
 								Messages.getString( "WizardSelectCssStylePage.FileNameError.Message" ) ); //$NON-NLS-1$
-						
-					}else
+
+					}
+					else
 					{
 						fileNameField.setText( fileName );
 					}
-					
+
 				}
 			}
 		} );
@@ -331,33 +342,64 @@ public class WizardSelectCssStylePage extends WizardPage
 						.openCssStyleSheet( fileName );
 
 				CssErrDialog cssErrorDialg = null;
-				if(!cssHandle.getParserFatalErrors( ).isEmpty( ))
+				if ( !cssHandle.getParserFatalErrors( ).isEmpty( ) )
 				{
-					cssErrorDialg = new CssErrDialog(this.getShell( ),cssHandle.getParserFatalErrors( ),CssErrDialog.FATAL_ERROR);
-				}else
-				if(!cssHandle.getParserErrors( ).isEmpty( ))
-				{
-					cssErrorDialg = new CssErrDialog(this.getShell( ),cssHandle.getParserErrors( ),CssErrDialog.ERROR);
-	
-				}else
-				if(!cssHandle.getParserWarnings( ).isEmpty( ))
-				{
-					cssErrorDialg = new CssErrDialog(this.getShell( ),cssHandle.getParserWarnings(),CssErrDialog.WARNING);
+					cssErrorDialg = new CssErrDialog( this.getShell( ),
+							cssHandle.getParserFatalErrors( ),
+							CssErrDialog.FATAL_ERROR );
 				}
-				
-				if( cssErrorDialg != null)
+				else if ( !cssHandle.getParserErrors( ).isEmpty( ) )
+				{
+					cssErrorDialg = new CssErrDialog( this.getShell( ),
+							cssHandle.getParserErrors( ),
+							CssErrDialog.ERROR );
+
+				}
+				else if ( !cssHandle.getParserWarnings( ).isEmpty( ) )
+				{
+					cssErrorDialg = new CssErrDialog( this.getShell( ),
+							cssHandle.getParserWarnings( ),
+							CssErrDialog.WARNING );
+				}
+
+				if ( cssErrorDialg != null )
 				{
 					cssErrorDialg.open( );
 				}
-				
+
+				List availableStyles = null;
+				if ( theme != null )
+				{
+					availableStyles = new ArrayList( );
+					availableStyles.addAll( Arrays.asList( getPredefinedStyleNames( theme.getType( ) ) ) );
+				}
+
+				List themeStyleNames = getThemeStyleNames( );
+
 				Iterator styleIter = cssHandle.getStyleIterator( );
 				while ( styleIter.hasNext( ) )
 				{
 					SharedStyleHandle styleHandle = (SharedStyleHandle) styleIter.next( );
 
-					styleMap.put( styleHandle.getName( ), styleHandle );
-
-					styleNames.add( styleHandle.getName( ) );
+					if ( theme != null )
+					{
+						if ( availableStyles.contains( styleHandle.getName( ) )
+								&& !themeStyleNames.contains( styleHandle.getName( ) ) )
+						{
+							styleMap.put( styleHandle.getName( ), styleHandle );
+							styleNames.add( styleHandle.getName( ) );
+						}
+						else
+						{
+							unSupportedStyleNames.add( styleHandle.getName( )
+									+ Messages.getString( "WizardSelectCssStylePage.text.cannot.import.style" ) ); //$NON-NLS-1$
+						}
+					}
+					else
+					{
+						styleMap.put( styleHandle.getName( ), styleHandle );
+						styleNames.add( styleHandle.getName( ) );
+					}
 				}
 
 				List unSupportedStyles = cssHandle.getUnsupportedStyles( );
@@ -454,17 +496,72 @@ public class WizardSelectCssStylePage extends WizardPage
 		setMessage( null );
 		return true;
 	}
-	
-	private boolean checkExtensions(String fileExt[], String fileName )
-	{		
+
+	private boolean checkExtensions( String fileExt[], String fileName )
+	{
 		for ( int i = 0; i < fileExt.length; i++ )
 		{
-			String ext = fileExt[i].substring(fileExt[i].lastIndexOf('.') );
+			String ext = fileExt[i].substring( fileExt[i].lastIndexOf( '.' ) );
 			if ( fileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
 			{
 				return true;
 			}
 		}
 		return false;
+	}
+
+	private String[] getPredefinedStyleNames( String type )
+	{
+		List preStyles = null;
+		if ( type == null )
+		{
+			preStyles = DEUtil.getMetaDataDictionary( ).getPredefinedStyles( );
+		}
+		else
+		{
+			preStyles = DEUtil.getMetaDataDictionary( )
+					.getPredefinedStyles( type );
+		}
+		if ( preStyles == null )
+		{
+			return new String[]{};
+		}
+		String[] names = new String[preStyles.size( )];
+		for ( int i = 0; i < preStyles.size( ); i++ )
+		{
+			names[i] = ( (IPredefinedStyle) preStyles.get( i ) ).getName( );
+		}
+		Arrays.sort( names );
+		return names;
+	}
+
+	private List getThemeStyleNames( )
+	{
+		List styleNames = new ArrayList( );
+		if ( theme != null )
+		{
+			getChildrenNameBySlotHandle( theme.getStyles( ), styleNames );
+		}
+		return styleNames;
+	}
+
+	private void getChildrenNameBySlotHandle( SlotHandle slotHandle,
+			List styleNames )
+	{
+		Iterator itor = slotHandle.iterator( );
+		while ( itor.hasNext( ) )
+		{
+			Object obj = itor.next( );
+			if ( obj instanceof DesignElementHandle )
+			{
+				DesignElementHandle eleHandle = (DesignElementHandle) obj;
+				styleNames.add( eleHandle.getName( ) );
+			}
+		}
+	}
+
+	public void setTheme( ReportItemThemeHandle theme )
+	{
+		this.theme = theme;
 	}
 }

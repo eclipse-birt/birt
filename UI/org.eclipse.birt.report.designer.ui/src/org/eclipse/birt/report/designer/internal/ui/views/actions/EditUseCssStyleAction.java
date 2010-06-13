@@ -16,11 +16,11 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInReportDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInThemeDialog;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
@@ -82,13 +82,13 @@ public class EditUseCssStyleAction extends AbstractViewAction
 		{
 			editCssInReportDesign( cssStyle, (ReportDesignHandle) container );
 		}
-		else if ( container instanceof ThemeHandle )
+		else if ( container instanceof AbstractThemeHandle )
 		{
-			editCssInTheme( cssStyle, (ThemeHandle) container );
+			editCssInTheme( cssStyle, (AbstractThemeHandle) container );
 		}
 	}
 
-	private void editCssInTheme( CssStyleSheetHandle cssStyle, ThemeHandle theme )
+	private void editCssInTheme( CssStyleSheetHandle cssStyle, AbstractThemeHandle theme )
 	{
 		UseCssInThemeDialog dialog = new UseCssInThemeDialog( );
 		dialog.setDialogTitle( Messages.getString( "EditUseCssStyleAction.EditCssTitle" ) );
@@ -103,7 +103,7 @@ public class EditUseCssStyleAction extends AbstractViewAction
 					.getCommandStack( );
 			stack.startTrans( ACTION_TEXT );
 
-			ThemeHandle themeHandle = dialog.getTheme( );
+			AbstractThemeHandle themeHandle = dialog.getTheme( );
 			if ( themeHandle == theme )
 			{
 				try
