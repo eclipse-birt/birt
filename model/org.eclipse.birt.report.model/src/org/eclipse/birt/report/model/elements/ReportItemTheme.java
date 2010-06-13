@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -124,26 +122,5 @@ public class ReportItemTheme extends AbstractTheme
 	public String getType( Module module )
 	{
 		return getStringProperty( module, TYPE_PROP );
-	}
-
-	public List<IPredefinedStyle> getSupportedPredefinedStyles( Module module )
-	{
-		return MetaDataDictionary.getInstance( ).getPredefinedStyles(
-				getType( module ) );
-	}
-
-	public List<String> getSupportedPredefinedStyleNames( Module module )
-	{
-		List<IPredefinedStyle> styles = getSupportedPredefinedStyles( module );
-		if ( styles == null || styles.isEmpty( ) )
-			return Collections.emptyList( );
-
-		List<String> names = new ArrayList<String>( );
-		for ( IPredefinedStyle style : styles )
-		{
-			names.add( style.getName( ).toLowerCase( ) );
-		}
-
-		return names;
 	}
 }

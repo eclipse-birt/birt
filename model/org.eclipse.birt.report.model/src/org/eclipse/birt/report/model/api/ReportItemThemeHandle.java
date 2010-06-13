@@ -15,17 +15,13 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
-import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.StyleUtil;
 
 /**
@@ -120,40 +116,26 @@ public class ReportItemThemeHandle extends AbstractThemeHandle
 		stack.startTrans( CommandLabelFactory
 				.getCommandLabel( MessageConstants.IMPORT_CSS_STYLES_MESSAGE ) );
 
-		List<String> names = ( (ReportItemTheme) element )
-				.getSupportedPredefinedStyleNames( module );
 		for ( int i = 0; i < selectedStyles.size( ); i++ )
 		{
 			SharedStyleHandle style = selectedStyles.get( i );
-			String styleName = style.getName( ).toLowerCase( );
-			if ( !names.contains( styleName ) )
+
+			try
 			{
-				ContentException e = ContentExceptionFactory
-						.createContentException(
-								new ContainerContext( element, STYLES_SLOT ),
-								style.getElement( ),
-								ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
-				throw e;
+				// Copy CssStyle to Style
+
+				SharedStyleHandle newStyle = StyleUtil
+						.TransferCssStyleToSharedStyle( module, style );
+
+				if ( newStyle == null )
+					continue;
+
+				getStyles( ).add( newStyle );
 			}
-			else if ( stylesheet.findStyle( style.getName( ) ) != null )
+			catch ( SemanticException e )
 			{
-				try
-				{
-					// Copy CssStyle to Style
-
-					SharedStyleHandle newStyle = StyleUtil
-							.TransferCssStyleToSharedStyle( module, style );
-
-					if ( newStyle == null )
-						continue;
-
-					getStyles( ).add( newStyle );
-				}
-				catch ( SemanticException e )
-				{
-					stack.rollback( );
-					throw e;
-				}
+				stack.rollback( );
+				throw e;
 			}
 		}
 
