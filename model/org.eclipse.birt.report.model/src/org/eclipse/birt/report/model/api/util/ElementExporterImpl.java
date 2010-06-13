@@ -515,7 +515,7 @@ class ElementExporterImpl
 	static boolean canDropInContext( DesignElement element )
 	{
 		assert element != null;
-		DesignElement container = element;
+		DesignElement container = element.getContainer( );
 		while ( container != null )
 		{
 			if ( container instanceof ExtendedItem )
