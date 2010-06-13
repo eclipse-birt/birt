@@ -404,13 +404,11 @@ public class NewInstanceHelper
 			
 		}
 
-		@Override
 		public ULocale getCompareLocale( )
 		{
 			return null;
 		}
 
-		@Override
 		public String getNullsOrdering( )
 		{
 			return null;

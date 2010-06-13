@@ -744,13 +744,11 @@ class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
 		return this.source.getPrimaryResultSetNumber( );
 	}
 
-	@Override
 	public ULocale getCompareLocale( )
 	{
 		return this.source.getCompareLocale( );
 	}
 
-	@Override
 	public String getNullsOrdering( )
 	{
 		return this.source.getNullsOrdering( );
@@ -798,13 +796,11 @@ class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign
 		return this.source.getRightDataSetDesignQulifiedName( );
 	}
 
-	@Override
 	public ULocale getCompareLocale( )
 	{
 		return this.source.getCompareLocale( );
 	}
 
-	@Override
 	public String getNullsOrdering( )
 	{
 		return this.source.getNullsOrdering( );
@@ -842,14 +838,12 @@ class ScriptDataSetAdapter extends DataSetAdapter implements IScriptDataSetDesig
 	}
 
 
-	@Override
 	public ULocale getCompareLocale( )
 	{
 		return this.source.getCompareLocale( );
 	}
 
 
-	@Override
 	public String getNullsOrdering( )
 	{
 		return this.source.getNullsOrdering( );
