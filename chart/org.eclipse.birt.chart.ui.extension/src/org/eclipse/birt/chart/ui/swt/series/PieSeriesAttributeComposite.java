@@ -161,6 +161,8 @@ public class PieSeriesAttributeComposite extends Composite implements
 				series.getLeaderLineAttributes( ),
 				true,
 				true,
+				true,
+				true,
 				true );
 		GridData gdLIACLeaderLine = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACLeaderLine.horizontalSpan = 2;

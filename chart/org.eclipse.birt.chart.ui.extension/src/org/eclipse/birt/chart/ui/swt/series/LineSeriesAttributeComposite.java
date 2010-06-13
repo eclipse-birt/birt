@@ -151,6 +151,8 @@ public class LineSeriesAttributeComposite extends Composite
 				( (LineSeries) series ).getLineAttributes( ),
 				true,
 				true,
+				true,
+				true,
 				true );
 		GridData gdLIACLine = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACLine.horizontalSpan = 2;

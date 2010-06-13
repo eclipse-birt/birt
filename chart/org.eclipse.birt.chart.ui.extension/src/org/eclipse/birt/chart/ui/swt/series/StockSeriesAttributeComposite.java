@@ -32,9 +32,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
@@ -114,7 +114,9 @@ public class StockSeriesAttributeComposite extends Composite implements
 				series.getLineAttributes( ),
 				true,
 				true,
-				false );
+				false,
+				true,
+				true );
 		GridData gdLIACStock = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACStock.verticalSpan = 3;
 		liacStock.setLayoutData( gdLIACStock );

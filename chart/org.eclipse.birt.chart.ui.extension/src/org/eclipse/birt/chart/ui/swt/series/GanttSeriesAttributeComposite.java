@@ -185,6 +185,8 @@ public class GanttSeriesAttributeComposite extends Composite
 				series.getOutline( ),
 				true,
 				true,
+				true,
+				true,
 				true );
 		oliacGantt.addListener( this );
 	}

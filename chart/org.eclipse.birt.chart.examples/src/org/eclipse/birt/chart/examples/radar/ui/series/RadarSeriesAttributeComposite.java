@@ -150,6 +150,8 @@ public class RadarSeriesAttributeComposite extends Composite implements
 					series.getWebLineAttributes( ),
 					true,
 					true,
+					true,
+					true,
 					true );
 			GridData wgdLIACLine = new GridData( );
 			wgdLIACLine.widthHint = 200;
@@ -227,6 +229,8 @@ public class RadarSeriesAttributeComposite extends Composite implements
 				SWT.NONE,
 				context,
 				series.getLineAttributes( ),
+				true,
+				true,
 				true,
 				true,
 				true );

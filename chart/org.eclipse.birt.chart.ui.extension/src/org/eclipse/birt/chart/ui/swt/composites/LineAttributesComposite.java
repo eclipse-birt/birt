@@ -64,6 +64,8 @@ public class LineAttributesComposite extends Composite implements
 
 	private transient boolean bEnableVisibility = true;
 
+	private transient boolean bEnableAutoColor = false;
+
 	private transient Vector<Listener> vListeners = null;
 
 	public static final int STYLE_CHANGED_EVENT = 1;
@@ -120,6 +122,29 @@ public class LineAttributesComposite extends Composite implements
 		this.bEnableWidths = bEnableWidths;
 		this.bEnableVisibility = bEnableVisibility;
 		this.bEnableColor = bEnableColor;
+		this.wizardContext = wizardContext;
+		init( );
+		placeComponents( );
+	}
+
+	public LineAttributesComposite( Composite parent, int style,
+			ChartWizardContext wizardContext, LineAttributes laCurrent,
+			boolean bEnableWidths, boolean bEnableStyles,
+			boolean bEnableVisibility, boolean bEnableColor,
+			boolean bEnableAutoColor )
+	{
+		super( parent, style );
+		this.laCurrent = laCurrent;
+		if ( laCurrent == null )
+		{
+			// Create a default line attributes instance
+			this.laCurrent = AttributeFactory.eINSTANCE.createLineAttributes( );
+		}
+		this.bEnableStyles = bEnableStyles;
+		this.bEnableWidths = bEnableWidths;
+		this.bEnableVisibility = bEnableVisibility;
+		this.bEnableColor = bEnableColor;
+		this.bEnableAutoColor = bEnableAutoColor;
 		this.wizardContext = wizardContext;
 		init( );
 		placeComponents( );
@@ -221,8 +246,12 @@ public class LineAttributesComposite extends Composite implements
 
 			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
 					| FillChooserComposite.ENABLE_TRANSPARENT
-					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
-					| FillChooserComposite.ENABLE_AUTO;
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+
+			if ( bEnableAutoColor )
+			{
+				iFillOption |= FillChooserComposite.ENABLE_AUTO;
+			}
 
 			 cmbColor = new FillChooserComposite( cmpContent,
 					SWT.DROP_DOWN | SWT.READ_ONLY,

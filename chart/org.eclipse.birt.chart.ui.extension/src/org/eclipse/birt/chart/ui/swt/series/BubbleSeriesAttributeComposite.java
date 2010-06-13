@@ -134,6 +134,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 				( (BubbleSeries) series ).getAccLineAttributes( ),
 				true,
 				true,
+				true,
+				true,
 				true );
 		GridData gdLIACAccLine = new GridData( GridData.FILL_BOTH );
 		gdLIACAccLine.horizontalSpan = 2;
@@ -184,6 +186,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 				SWT.NONE,
 				context,
 				( (BubbleSeries) series ).getLineAttributes( ),
+				true,
+				true,
 				true,
 				true,
 				true );

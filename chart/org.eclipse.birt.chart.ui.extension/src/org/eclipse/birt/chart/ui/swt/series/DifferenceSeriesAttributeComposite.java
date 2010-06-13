@@ -139,6 +139,8 @@ public class DifferenceSeriesAttributeComposite extends Composite
 				( (DifferenceSeries) series ).getLineAttributes( ),
 				true,
 				true,
+				true,
+				true,
 				true );
 		liacLine1.addListener( this );
 		
@@ -154,6 +156,8 @@ public class DifferenceSeriesAttributeComposite extends Composite
 				SWT.NONE,
 				context,
 				( (DifferenceSeries) series ).getNegativeLineAttributes( ),
+				true,
+				true,
 				true,
 				true,
 				true );
