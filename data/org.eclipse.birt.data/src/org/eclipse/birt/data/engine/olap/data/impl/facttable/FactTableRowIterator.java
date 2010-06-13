@@ -82,7 +82,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	private int[] subDimensionIndex;
 	private boolean existMeasureFilter = false;
 	private boolean readMeasure = false;
-	private int allMeasuerSize;
+	private int[] measureSize;
 	
 	/**
 	 * 
@@ -143,7 +143,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 
 		}
 		
-		allMeasuerSize = getAllMeasuerSize( );
+		caculateMeasuerSize( );
 		
 		filterSubDimension( );
 		this.currentPos = new int[factTable.getDimensionInfo( ).length];
@@ -242,16 +242,8 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				{
 					if( !readMeasure )
 					{
-						if( allMeasuerSize != -1 )
-						{
-							int n = currentSegment.skipBytes( allMeasuerSize );
-							if( n == -1 )
-							{
-								break;
-							}
-						}
-						else
-							readMeasure( );
+						if( !skipMeasure( ) )
+							break;
 					}
 					continue;
 				}
@@ -374,19 +366,18 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 * 
 	 * @return
 	 */
-	private int getAllMeasuerSize( )
+	private void caculateMeasuerSize( )
 	{
-		int size = 0;
+		this.measureSize = new int[factTable.getMeasureInfo( ).length];
 		for ( int i = 0; i < factTable.getMeasureInfo( ).length; i++ )
 		{
 			if( factTable.getMeasureInfo( )[i].getDataType( ) == DataType.DOUBLE_TYPE )
-				size += 9;
+				measureSize[i] = 8;
 			else if( factTable.getMeasureInfo( )[i].getDataType( ) == DataType.INTEGER_TYPE )
-				size += 5;
+				measureSize[i] = 4;
 			else
-				return -1;
+				measureSize[i] = -1;
 		}
-		return size;
 	}
 
 	/**
@@ -414,6 +405,28 @@ public class FactTableRowIterator implements IFactTableRowIterator
 			}
 		}
 		readMeasure = true;
+	}
+	
+	private boolean skipMeasure() throws IOException, DataException
+	{
+		for ( int i = 0; i < this.measureSize.length; i++ )
+		{
+			if( measureSize[i] <= 0 )
+			{
+				DocumentObjectUtil.readValue( currentSegment,
+						factTable.getMeasureInfo()[i].getDataType( ) );
+			}
+			else
+			{
+				byte nullSign = currentSegment.readByte( );
+				if( nullSign != 0 )
+				{
+					if( currentSegment.skipBytes( measureSize[i] ) == -1 )
+						return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
