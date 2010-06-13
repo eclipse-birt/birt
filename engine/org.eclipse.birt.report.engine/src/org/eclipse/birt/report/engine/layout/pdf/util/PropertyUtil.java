@@ -452,6 +452,10 @@ public class PropertyUtil
 			}
 			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
 			{
+				if ( referenceLength < 0 )
+				{
+					return -1;
+				}
 				double point = referenceLength * d.getMeasure( ) / 100.0;
 				return (int) point;
 			}

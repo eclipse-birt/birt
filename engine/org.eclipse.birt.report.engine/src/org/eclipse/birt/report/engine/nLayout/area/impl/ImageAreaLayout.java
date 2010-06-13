@@ -280,7 +280,7 @@ public class ImageAreaLayout implements ILayout
 			int specifiedWidth = PropertyUtil.getImageDimensionValue( content,
 					content.getWidth( ), context.getDpi( ), pWidth );
 			int specifiedHeight = PropertyUtil.getImageDimensionValue( content,
-					content.getHeight( ), context.getDpi( ), 0 );
+					content.getHeight( ), context.getDpi( ), -1 );
 
 			Dimension dim = new Dimension( DEFAULT_WIDHT, DEFAULT_HEIGHT );
 			if ( intrinsic == null )
