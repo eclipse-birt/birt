@@ -362,7 +362,7 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	private ISubCubeQueryDefinition createSubCubeQuery( ) throws BirtException
+	protected ISubCubeQueryDefinition createSubCubeQuery( ) throws BirtException
 	{
 		String queryName = ChartReportItemConstants.NAME_SUBQUERY;
 		AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( handle );
