@@ -48,14 +48,15 @@ public class PostscriptRenderOption extends RenderOption
 		return getStringOption( OPTION_PAPER_SIZE );
 	}
 
-	public void setPaperTray( String paperTray )
+	public void setPaperTray( int paperTrayCode )
 	{
-		options.put( OPTION_PAPER_TRAY, paperTray );
+		options.put( OPTION_PAPER_TRAY, paperTrayCode );
 	}
 
-	public String getPaperTray( )
+	public int getPaperTray( )
 	{
-		return getStringOption( OPTION_PAPER_TRAY );
+		return getIntOption( OPTION_PAPER_TRAY,
+				IPostscriptRenderOption.TRAYCODE_AUTO );
 	}
 
 	public void setDuplex( String duplex )
