@@ -251,80 +251,116 @@ public class ExprEvaluateUtil
 	 * @throws BirtException
 	 */
 	private static Object doEvaluateRawExpression( IBaseExpression dataExpr,
-			Scriptable scope, boolean javaType, ScriptContext cx ) throws BirtException
+			Scriptable scope, boolean javaType, ScriptContext cx )
+			throws BirtException
 	{
-		/*if( cx.getScope( ) != scope )
-		cx.enterScope( scope );*/
 		if ( dataExpr == null )
 			return null;
-		
+
 		if ( dataExpr instanceof IScriptExpression )
+		{
+			if ( ( (IScriptExpression) dataExpr ).getText( ) == null )
+				throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
+			Object value = null;
+			if ( ( (IScriptExpression) dataExpr ).isConstant( ) )
 			{
-				if ( ( (IScriptExpression) dataExpr ).getText( ) == null )
-					throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
-				Object value = null;
-				if( ((IScriptExpression) dataExpr).isConstant( ) )
+				value = ( (IScriptExpression) dataExpr ).getConstantValue( );
+				if ( value == null )
 				{
-					value = ((IScriptExpression) dataExpr).getConstantValue( );
-					if(  value == null )
-					{
-						value = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, ((IScriptExpression) dataExpr).getText( ), null,0 );
-						((IScriptExpression) dataExpr).setConstantValue( value );
-					}
-				}
-				else
-				{
-					value = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, ((IScriptExpression) dataExpr).getText( ), null,0 );
-				}
-				
-				if ( javaType == true )
-					value = JavascriptEvalUtil.convertJavascriptValue( value );
-				
-				value = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
-				
-				return value;
-			}
-			else if ( dataExpr instanceof IConditionalExpression )
-			{
-				if( dataExpr.getHandle( )!= null )
-					return new Boolean(((NEvaluator)dataExpr.getHandle( )).evaluate( cx, scope ));
-				
-				IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
-				int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
-				IBaseExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );
-				IBaseExpression operand2 = ( (IConditionalExpression) dataExpr ).getOperand2( );
-				
-				if ( operand1 instanceof IExpressionCollection )
-				{
-					Object[] expr = ( (IExpressionCollection) operand1 ).getExpressions( ).toArray( );
-					Object[] result = new Object[expr.length];
-					for ( int i = 0; i < result.length; i++ )
-					{
-						result[i] = doEvaluateRawExpression( (IBaseExpression)expr[i],
-								scope,
-								javaType, cx );
-					}
-					return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
+					value = ScriptEvalUtil.evaluateJSAsExpr( cx,
 							scope,
-							javaType, cx ),
-							oper,
-							flatternMultipleValues( result ) );
-				}
-				else
-				{
-					return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
-							scope,
-							javaType, cx ),
-							oper,
-							doEvaluateRawExpression( operand1, scope, javaType, cx ),
-							doEvaluateRawExpression( operand2, scope, javaType, cx ) );
+							( (IScriptExpression) dataExpr ).getText( ),
+							null,
+							0 );
+					( (IScriptExpression) dataExpr ).setConstantValue( value );
 				}
 			}
 			else
 			{
-				assert false;
-				return null;
+				value = ScriptEvalUtil.evaluateJSAsExpr( cx,
+						scope,
+						( (IScriptExpression) dataExpr ).getText( ),
+						null,
+						0 );
 			}
+
+			if ( javaType == true )
+				value = JavascriptEvalUtil.convertJavascriptValue( value );
+
+			value = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+
+			return value;
+		}
+		else if ( dataExpr instanceof IConditionalExpression )
+		{
+			return evaluateConditionExpression( (IConditionalExpression) dataExpr,
+					scope,
+					javaType,
+					cx,
+					null );
+		}
+		else
+		{
+			assert false;
+			return null;
+		}
+	}
+
+	/**
+	 * 
+	 * @param dataExpr
+	 * @param scope
+	 * @param javaType
+	 * @param cx
+	 * @return
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	public static Object evaluateConditionExpression(
+			IConditionalExpression dataExpr, Scriptable scope,
+			boolean javaType, ScriptContext cx, CompareHints filterHints )
+			throws DataException, BirtException
+	{
+		if ( dataExpr.getHandle( ) != null )
+			return new Boolean( ( (NEvaluator) dataExpr.getHandle( ) ).evaluate( cx,
+					scope ) );
+
+		IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
+		int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
+		IBaseExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );
+		IBaseExpression operand2 = ( (IConditionalExpression) dataExpr ).getOperand2( );
+
+		if ( operand1 instanceof IExpressionCollection )
+		{
+			Object[] expr = ( (IExpressionCollection) operand1 ).getExpressions( )
+					.toArray( );
+			Object[] result = new Object[expr.length];
+			for ( int i = 0; i < result.length; i++ )
+			{
+				result[i] = doEvaluateRawExpression( (IBaseExpression) expr[i],
+						scope,
+						javaType,
+						cx );
+			}
+			return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
+					scope,
+					javaType,
+					cx ),
+					oper,
+					flatternMultipleValues( result ),
+					filterHints );
+		}
+		else
+		{
+			return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
+					scope,
+					javaType,
+					cx ),
+					oper,
+					doEvaluateRawExpression( operand1, scope, javaType, cx ),
+					doEvaluateRawExpression( operand2, scope, javaType, cx ),
+					filterHints );
+		}
 	}
 	
 	//------------------------------------------------------------------

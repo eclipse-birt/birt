@@ -156,6 +156,12 @@ public class ModelAdapter implements IModelAdapter
 			}
 
 		}
+		
+		if( design!= null )
+		{
+			design.setCompareLocale( handle.getLocale( ) );
+			design.setNullsOrdering( handle.getNullsOrdering( ) );			
+		}
 		logger.fine( "handle type: " + ( handle == null ? "" : handle.getClass( ).getName( ) ) ); //$NON-NLS-1$
 		return design;
 	

@@ -25,11 +25,14 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
+import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.odi.FilterUtil;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
+
+import com.ibm.icu.text.Collator;
 
 /**
  * Implementation of IFilter, which will do filtering on row data.
@@ -47,7 +50,6 @@ public class FilterByRow implements IResultObjectEvent
 	public static final int DATASET_AGGR_FILTER = 7;
 
 	//
-	private DataSetRuntime dataSet;
 	private FilterByRowHelper currentFilters;
 	private FilterByRowHelper dataSetFilters;
 	private FilterByRowHelper dataSetAggrFilters;
@@ -72,8 +74,6 @@ public class FilterByRow implements IResultObjectEvent
 				dataSetFilters, queryFilters, groupFilters, dataSet
 		};
 		logger.entering( FilterByRow.class.getName( ), "FilterByRow", params );
-
-		this.dataSet = dataSet;
 
 		if ( dataSetFilters != null && dataSetFilters.size( ) > 0 )
 			this.dataSetFilters = new FilterByRowHelper( dataSet,
@@ -284,12 +284,23 @@ public class FilterByRow implements IResultObjectEvent
 		private DataSetRuntime dataSet;
 		private List currentFilters;
 		private Mode mode;
+		private CompareHints compareHints;
 
 		FilterByRowHelper( DataSetRuntime dataSet, Mode mode, List filters )
 		{
 			this.dataSet = dataSet;
 			this.currentFilters = filters;
 			this.mode = mode;
+			if ( mode == Mode.DataSet && this.dataSet.getDesign( )!= null )
+			{
+				String nullOrdering = this.dataSet.getDesign( )
+						.getNullsOrdering( );
+				Collator collator = Collator.getInstance( this.dataSet.getDesign( )
+						.getCompareLocale( ) == null ? dataSet.getSession( )
+						.getEngineContext( )
+						.getLocale( ) : this.dataSet.getDesign( ).getCompareLocale( ) );
+				this.compareHints = new CompareHints( collator, nullOrdering );
+			}
 		}
 
 		public List getFilters( )
@@ -324,8 +335,20 @@ public class FilterByRow implements IResultObjectEvent
 						 * else result = ScriptEvalUtil.evalExpr( expr,
 						 * cx,dataSet.getScriptScope(), "Filter", 0 );
 						 */
-						result = ExprEvaluateUtil.evaluateRawExpression2( expr,
-								dataSet.getScriptScope( ), dataSet.getSession( ).getEngineContext( ).getScriptContext( ) );
+						if ( expr instanceof IConditionalExpression )
+							result = ExprEvaluateUtil.evaluateConditionExpression( (IConditionalExpression) expr,
+									dataSet.getScriptScope( ),
+									true,
+									dataSet.getSession( )
+											.getEngineContext( )
+											.getScriptContext( ),
+									compareHints );
+						else
+							result = ExprEvaluateUtil.evaluateRawExpression2( expr,
+									dataSet.getScriptScope( ),
+									dataSet.getSession( )
+											.getEngineContext( )
+											.getScriptContext( ) );
 					}
 					catch ( BirtException e2 )
 					{

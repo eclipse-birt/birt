@@ -12,6 +12,8 @@ package org.eclipse.birt.data.engine.executor.cache;
 
 import java.util.Comparator;
 
+import org.eclipse.birt.data.engine.expression.CompareHints;
+
 /**
  * A simple sort specification store class, which is used to generate
  * corresponding comparator.
@@ -21,14 +23,14 @@ public class SortSpec
 	private int[] sortKeyIndexes;
 	private String[] sortKeyColumns;
 	private boolean[] sortAscending;
-	private Comparator[] comparator;
+	private CompareHints[] comparator;
 	/**
 	 * @param sortKeyIndexes
 	 * @param sortKeyColumns
 	 * @param sortAscending
 	 */
 	public SortSpec( int[] sortKeyIndexes, String[] sortKeyColumns,
-			boolean[] sortAscending, Comparator[] comparator )
+			boolean[] sortAscending, CompareHints[] comparator )
 	{
 		this.setSortKeyIndexes( sortKeyIndexes );
 		this.setSortKeyColumns( sortKeyColumns );
@@ -47,12 +49,12 @@ public class SortSpec
 			return 0;
 	}
 
-	void setComparator( Comparator[] comparator )
+	void setComparator( CompareHints[] comparator )
 	{
 		this.comparator = comparator;
 	}
 
-	Comparator[] getComparator( )
+	CompareHints[] getComparator( )
 	{
 		return comparator;
 	}

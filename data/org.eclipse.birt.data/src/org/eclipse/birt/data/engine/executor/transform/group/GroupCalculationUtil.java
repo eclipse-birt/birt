@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SortSpec;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
+import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IQuery;
@@ -332,7 +333,7 @@ public class GroupCalculationUtil
 		int[] sortKeyIndexes = new int[groupCount + sortCount];
 		String[] sortKeyColumns = new String[groupCount + sortCount];
 		boolean[] sortAscending = new boolean[groupCount + sortCount];
-		Comparator[] comparator = new Comparator[groupCount + sortCount];
+		CompareHints[] comparator = new CompareHints[groupCount + sortCount];
 		for ( int i = 0; i < groupCount; i++ )
 		{
 			int index = groupDefs[i].getColumnIndex( );
@@ -364,7 +365,7 @@ public class GroupCalculationUtil
 			sortKeyIndexes[groupCount + i] = keyIndex;
 			sortKeyColumns[groupCount + i] = keyName;
 			sortAscending[groupCount + i] = query.getOrdering( )[i].isAscendingOrder( );
-			comparator[groupCount + i] = query.getOrdering( )[i].getComparator( );
+			comparator[groupCount + i] = new CompareHints( query.getOrdering( )[i].getComparator( ), null );
 		}
 
 		return new SortSpec( sortKeyIndexes, sortKeyColumns, sortAscending, comparator );
@@ -390,6 +391,7 @@ final class GroupBoundaryInfo implements ICachedObject
 	// Used by Group filtering
 	private boolean accept = true;
 	private Collator[] comparator;
+	private CompareHints[] compareHints;
 
 	/**
 	 * 
@@ -515,10 +517,12 @@ final class GroupBoundaryInfo implements ICachedObject
 		this.sortKeys = sortKeys;
 		this.sortDirections = sortOrderings;
 		this.comparator = new Collator[this.sortKeys.length];
+		this.compareHints = new CompareHints[this.sortKeys.length];
 		for( int i = 0; i < this.comparator.length; i++ )
 		{
 			this.comparator[i] = sortStrength[i] == ISortDefinition.ASCII_SORT_STRENGTH
 					? null : Collator.getInstance( sortLocale[i]);
+			this.compareHints[i] = new CompareHints( this.comparator[i], null );
 		}
 	}
 
@@ -546,9 +550,9 @@ final class GroupBoundaryInfo implements ICachedObject
 	 * Return the sort strength;
 	 * @return
 	 */
-	Comparator[] getCollarComparator()
+	CompareHints[] getCollarComparator()
 	{
-		return this.comparator;
+		return this.compareHints;
 	}
 	
 	/**
@@ -590,7 +594,7 @@ final class GroupBoundaryInfoComparator implements Comparator
 		Object[] sortKeys1 = ( (GroupBoundaryInfo) o1 ).getSortKeys( );
 		Object[] sortKeys2 = ( (GroupBoundaryInfo) o2 ).getSortKeys( );
 		boolean[] sortDirection = ( (GroupBoundaryInfo) o1 ).getSortDirection( );
-		Comparator[] comparator = ( (GroupBoundaryInfo) o1 ).getCollarComparator( );
+		CompareHints[] comparator = ( (GroupBoundaryInfo) o1 ).getCollarComparator( );
 		int result = 0;
 		for ( int i = 0; i < sortKeys1.length; i++ )
 		{

@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.cache.disk.DiskCache;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -116,7 +117,7 @@ class SmartCacheHelper
 		int[] sortKeyIndexs = new int[fieldCount];
 		String[] sortKeyNames = new String[fieldCount];
 		boolean[] ascending = new boolean[fieldCount];
-		Comparator[] comparator = new Comparator[fieldCount];
+		CompareHints[] comparator = new CompareHints[fieldCount];
 		for ( int i = 0; i < fieldCount; i++ )
 		{
 			sortKeyIndexs[i] = i + 1; // 1-based
@@ -398,7 +399,7 @@ class SmartCacheHelper
 			return null;
 
 		final boolean[] sortAscending = sortSpec.getSortAscending();
-		final Comparator[] comparators = sortSpec.getComparator( );
+		final CompareHints[] comparators = sortSpec.getComparator( );
 		Comparator comparator = new Comparator( ) {
 
 			/**

@@ -36,6 +36,8 @@ import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * 
  */
@@ -400,6 +402,18 @@ public class NewInstanceHelper
 		{
 			// TODO Auto-generated method stub
 			
+		}
+
+		@Override
+		public ULocale getCompareLocale( )
+		{
+			return null;
+		}
+
+		@Override
+		public String getNullsOrdering( )
+		{
+			return null;
 		}
 	};
 

@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 
+import com.ibm.icu.util.ULocale;
 
 /**
  * Default implementation of {@link org.eclipse.birt.data.engine.api.IBaseDataSetDesign} interface.<p>
@@ -58,6 +59,8 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
     private IScriptExpression dataSetACL;
     private Map<String, IScriptExpression> columnACL = new HashMap<String, IScriptExpression>();
     private IScriptExpression rowACL;
+	private String nullOrdering;
+	private ULocale uLocale;
     
     
 	/**
@@ -385,5 +388,25 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	public void setRowACL( IScriptExpression expr )
 	{
 		this.rowACL = expr;
+	}
+
+	public ULocale getCompareLocale( )
+	{
+		return this.uLocale;
+	}
+
+	public String getNullsOrdering( )
+	{
+		return this.nullOrdering;
+	}
+	
+	public void setCompareLocale( ULocale ulocale )
+	{
+		this.uLocale = ulocale;
+	}
+	
+	public void setNullsOrdering( String nullOrdering )
+	{
+		this.nullOrdering = nullOrdering;
 	}
 }

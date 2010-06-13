@@ -455,15 +455,15 @@ public class ScriptEvalTest extends TestCase
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "true",
-				IConditionalExpression.OP_FALSE, null, null );
+				IConditionalExpression.OP_FALSE, null, null, null );
 		assertResult(result,false);
 
 		result = ScriptEvalUtil.evalConditionalExpr( new Boolean(false),
-				IConditionalExpression.OP_FALSE, null, null );
+				IConditionalExpression.OP_FALSE, null, null, null );
 		assertResult(result,true);
 
 		result = ScriptEvalUtil.evalConditionalExpr( "Boolean(false)",
-				IConditionalExpression.OP_FALSE, null, null );
+				IConditionalExpression.OP_FALSE, null, null, null );
 		assertResult(result,false);
 	}
 
@@ -474,15 +474,15 @@ public class ScriptEvalTest extends TestCase
 	{	
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "true",
-				IConditionalExpression.OP_TRUE, null, null );
+				IConditionalExpression.OP_TRUE, null, null, null );
 		assertResult(result,true);
 
 		result = ScriptEvalUtil.evalConditionalExpr( new Boolean(false),
-				IConditionalExpression.OP_TRUE, null, null );
+				IConditionalExpression.OP_TRUE, null, null, null );
 		assertResult(result,false);
 
 		result = ScriptEvalUtil.evalConditionalExpr( "asdasd",
-				IConditionalExpression.OP_TRUE, null, null );
+				IConditionalExpression.OP_TRUE, null, null, null );
 		assertResult(result,false);
 		
 		result = ScriptEvalUtil.evalConditionalExpr( new Boolean(true),
@@ -497,11 +497,11 @@ public class ScriptEvalTest extends TestCase
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "true",
-				IConditionalExpression.OP_NOT_NULL, null, null );
+				IConditionalExpression.OP_NOT_NULL, null, null, null );
 		assertResult(result,true);
 		
 		result = ScriptEvalUtil.evalConditionalExpr( null,
-				IConditionalExpression.OP_NOT_NULL, null, null );
+				IConditionalExpression.OP_NOT_NULL, null, null, null );
 		assertResult(result,false);
 	}
 
@@ -512,11 +512,11 @@ public class ScriptEvalTest extends TestCase
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "true",
-				IConditionalExpression.OP_NULL, null, null );
+				IConditionalExpression.OP_NULL, null, null, null );
 		assertResult(result,false);
 		
 		result = ScriptEvalUtil.evalConditionalExpr( null,
-				IConditionalExpression.OP_NULL, null, null );
+				IConditionalExpression.OP_NULL, null, null, null );
 		assertResult(result,true);
 	}
 

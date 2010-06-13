@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Describes the static design of any data set to be used by 
  * the Data Engine.
@@ -26,6 +28,10 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
  */
 public interface IBaseDataSetDesign
 {
+	public static final String NULLS_ORDERING_NULLS_LOWEST = "nulls lowest"; //$NON-NLS-1$
+	public static final String NULLS_ORDERING_NULLS_HIGHEST = "nulls highest"; //$NON-NLS-1$
+	public static final String NULLS_ORDERING_EXCLUDE_NULLS = "exclude nulls"; //$NON-NLS-1$
+	
     /**
      * Gets the name of the data set.
      * @return Name of data set.
@@ -157,5 +163,20 @@ public interface IBaseDataSetDesign
 	 * @return
 	 */
 	public int getRowFetchLimit( );
+
+	/**
+	 * Return the Locale of comparison.
+	 * @return
+	 */
+	public ULocale getCompareLocale( );
+
+	/**
+	 * Return the null order of comparison.
+	 * {@link IBaseDataSetDesign#NULLS_ORDERING_EXCLUDE_NULLS,
+	 * IBaseDataSetDesign#NULLS_ORDERING_NULLS_HIGHEST,
+	 * IBaseDataSetDesign#NULLS_ORDERING_NULLS_LOWEST}
+	 * @return
+	 */
+	public String getNullsOrdering( );
 
 }

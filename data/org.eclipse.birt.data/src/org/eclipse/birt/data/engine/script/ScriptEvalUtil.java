@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -29,15 +28,17 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
-import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.LogUtil;
@@ -98,11 +99,42 @@ public class ScriptEvalUtil
 	public static Object evalConditionalExpr( Object obj, int operator,
 			Object Op1, Object Op2 ) throws DataException
 	{
-		return evalConditionalExpr( obj, operator, new Object[]{
-				Op1, Op2
-		} );
+		return evalConditionalExpr( obj, operator, Op1, Op2, null );
 	}
 	
+	/**
+	 * 
+	 * @param obj
+	 * @param operator
+	 * @param Op1
+	 * @param Op2
+	 * @param compareHints the hints for comparison
+	 * @return
+	 * @throws DataException
+	 */
+	public static Object evalConditionalExpr( Object obj, int operator,
+			Object Op1, Object Op2, CompareHints compareHints )
+			throws DataException
+	{
+		return evalConditionalExpr( obj, operator, new Object[]{
+				Op1, Op2
+		}, compareHints );
+	}
+
+	/**
+	 * 
+	 * @param obj
+	 * @param operator
+	 * @param ops
+	 * @return
+	 * @throws DataException
+	 */
+	public static Object evalConditionalExpr( Object obj, int operator,
+			Object[] ops ) throws DataException
+	{
+		return evalConditionalExpr( obj, operator, ops, null );
+	}
+
 	/**
 	 * 
 	 * @param obj
@@ -112,19 +144,18 @@ public class ScriptEvalUtil
 	 * @return A Boolean result
 	 * @throws DataException
 	 */
-	public static Object evalConditionalExpr( Object obj,
-			int operator, Object[] ops )
-			throws DataException
+	public static Object evalConditionalExpr( Object obj, int operator,
+			Object[] ops, CompareHints compareHints ) throws DataException
 	{
-		ExprTextAndValue[] opTextAndValue = new ExprTextAndValue[ops.length]; 
-		for( int i=0; i< ops.length; i++ )
+		ExprTextAndValue[] opTextAndValue = new ExprTextAndValue[ops.length];
+		for ( int i = 0; i < ops.length; i++ )
 		{
 			opTextAndValue[i] = createExprTextAndValueInstance( ops[i] );
 		}
 		
 		Object resultObject = obj;
 		Object[] resultOp = new Object[ops.length];
-		for( int i=0; i< ops.length; i++ )
+		for ( int i = 0; i < ops.length; i++ )
 		{
 			resultOp[i] = opTextAndValue[i].value;
 		}
@@ -141,7 +172,7 @@ public class ScriptEvalUtil
 		
 		if ( logger.isLoggable( Level.FINER ) )
 		{
-			String logStr ="";
+			String logStr = "";
 			for ( int i = 0; i < ops.length; i++ )
 			{
 				logStr += resultOp[i] == null
@@ -150,36 +181,49 @@ public class ScriptEvalUtil
 			}
 			logger.entering( ScriptEvalUtil.class.getName( ),
 					"evalConditionalExpr",
-					"evalConditionalExpr() resultObject=" +
-							LogUtil.toString( resultObject ) + ", operator=" +
-							operator + logStr );
+					"evalConditionalExpr() resultObject="
+							+ LogUtil.toString( resultObject ) + ", operator="
+							+ operator + logStr );
 		}
 		boolean result = false;
+
+		if ( compareHints != null
+				&& IBaseDataSetDesign.NULLS_ORDERING_EXCLUDE_NULLS.equals( compareHints.getNullType( ) ) )
+		{
+			if ( resultObject == null )
+				return false;
+		}
 		switch ( operator )
 		{
 			case IConditionalExpression.OP_EQ :
-			    result = compare( resultObject, resultOp[0] ) == 0;
+				result = compare( resultObject, resultOp[0], compareHints ) == 0;
 				break;
 			case IConditionalExpression.OP_NE :
-			    result = compare( resultObject, resultOp[0] ) != 0;
+				result = compare( resultObject, resultOp[0], compareHints ) != 0;
 				break;
 			case IConditionalExpression.OP_LT :
-				result = compare( resultObject, resultOp[0] ) < 0;
+				result = compare( resultObject, resultOp[0], compareHints ) < 0;
 				break;
 			case IConditionalExpression.OP_LE :
-				result = compare( resultObject, resultOp[0] ) <= 0;
+				result = compare( resultObject, resultOp[0], compareHints ) <= 0;
 				break;
 			case IConditionalExpression.OP_GE :
-				result = compare( resultObject, resultOp[0] ) >= 0;
+				result = compare( resultObject, resultOp[0], compareHints ) >= 0;
 				break;
 			case IConditionalExpression.OP_GT :
-				result = compare( resultObject, resultOp[0] ) > 0;
+				result = compare( resultObject, resultOp[0], compareHints ) > 0;
 				break;
 			case IConditionalExpression.OP_BETWEEN :
-				result = between( resultObject, resultOp[0], resultOp[1] );
+				result = between( resultObject,
+						resultOp[0],
+						resultOp[1],
+						compareHints );
 				break;
 			case IConditionalExpression.OP_NOT_BETWEEN :
-				result = !( between( resultObject, resultOp[0], resultOp[1] ) );
+				result = !( between( resultObject,
+						resultOp[0],
+						resultOp[1],
+						compareHints ) );
 				break;
 			case IConditionalExpression.OP_NULL :
 				result = resultObject == null;
@@ -222,7 +266,7 @@ public class ScriptEvalUtil
 				result = in( resultObject, resultOp );
 				break;
 			case IConditionalExpression.OP_NOT_IN :
-				result = !in( resultObject, resultOp);
+				result = !in( resultObject, resultOp );
 				break;
 			default :
 				throw new DataException(
@@ -257,27 +301,20 @@ public class ScriptEvalUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static int compare( Object obj1, Object obj2, Comparator strComp )
-			throws DataException
+	public static int compare( Object obj1, Object obj2,
+			CompareHints compareHints ) throws DataException
 	{
 		if ( obj1 == null || obj2 == null )
 		{
-			// all non-null values are greater than null value
-			if ( obj1 == null && obj2 != null )
-				return -1;
-			else if ( obj1 != null && obj2 == null )
-				return 1;
-			else
-				return 0;
+			return CompareNullValue( obj1, obj2, compareHints );
 		}
-
 		try
 		{
 			if ( MiscUtil.isSameType( obj1, obj2 ) )
 			{
 				if ( obj1 instanceof String )
 				{
-					return compareAsString( obj1, obj2, strComp );
+					return compareAsString( obj1, obj2, compareHints );
 				}
 				else if ( obj1 instanceof Boolean )
 				{
@@ -294,18 +331,18 @@ public class ScriptEvalUtil
 				{
 					return ( (Comparable) obj1 ).compareTo( obj2 );
 				}
-				else if( obj1 instanceof Collection )
+				else if ( obj1 instanceof Collection )
 				{
-					Collection o1 = (Collection)obj1;
-					Collection o2 = (Collection)obj2;
-					if( o1.size( ) != o2.size( ) )
+					Collection o1 = (Collection) obj1;
+					Collection o2 = (Collection) obj2;
+					if ( o1.size( ) != o2.size( ) )
 						return -1;
 					Iterator it1 = o1.iterator( );
 					Iterator it2 = o2.iterator( );
-					while( it1.hasNext( ))
+					while ( it1.hasNext( ) )
 					{
-						int result = compare( it1.next( ), it2.next( )); 
-						if(  result != 0 )
+						int result = compare( it1.next( ), it2.next( ) );
+						if ( result != 0 )
 							return result;
 					}
 					return 0;
@@ -313,7 +350,7 @@ public class ScriptEvalUtil
 				// most judgements should end here
 				else
 				{
-					return compareAsString( obj1, obj2, strComp );
+					return compareAsString( obj1, obj2, compareHints );
 				}
 			}
 			else if ( MiscUtil.isBigDecimal( obj1 )
@@ -333,7 +370,7 @@ public class ScriptEvalUtil
 				}
 				catch ( Exception e )
 				{
-					return compareAsString( obj1, obj2, strComp );
+					return compareAsString( obj1, obj2, compareHints );
 				}
 			}
 			else if ( MiscUtil.isDateOrString( obj1 )
@@ -346,7 +383,7 @@ public class ScriptEvalUtil
 				}
 				catch ( Exception e )
 				{
-					return compareAsString( obj1, obj2, strComp );
+					return compareAsString( obj1, obj2, compareHints );
 				}
 			}
 			else if ( MiscUtil.isBooleanOrString( obj1 )
@@ -371,7 +408,7 @@ public class ScriptEvalUtil
 				}
 				catch ( Exception e )
 				{
-					return compareAsString( obj1, obj2, strComp );
+					return compareAsString( obj1, obj2, compareHints );
 				}
 			}
 			else
@@ -384,15 +421,65 @@ public class ScriptEvalUtil
 
 	}
 
-	private static int compareAsString( Object obj1, Object obj2,
-			Comparator comp ) throws BirtException
+	private static int CompareNullValue( Object obj1, Object obj2,
+			CompareHints compareHints )
 	{
-		return comp == null ? DataTypeUtil.toString( obj1 )
-				.compareTo( DataTypeUtil.toString( obj2 ) )
-				: comp.compare( DataTypeUtil.toString( obj1 ),
+		if ( compareHints == null )
+		{
+			// all non-null values are greater than null value
+			if ( obj1 == null && obj2 != null )
+				return -1;
+			else if ( obj1 != null && obj2 == null )
+				return 1;
+			else
+				return 0;
+		}
+		else
+		{
+			String type = compareHints.getNullType( );
+			if ( IBaseDataSetDesign.NULLS_ORDERING_NULLS_HIGHEST.equals( type ) )
+			{
+				// all non-null values are less than null value
+				if ( obj1 == null && obj2 != null )
+					return 1;
+				else if ( obj1 != null && obj2 == null )
+					return -1;
+				else
+					return 0;
+			}
+			else if ( IBaseDataSetDesign.NULLS_ORDERING_NULLS_LOWEST.equals( type ) )
+			{
+				// all non-null values are greater than null value
+				if ( obj1 == null && obj2 != null )
+					return -1;
+				else if ( obj1 != null && obj2 == null )
+					return 1;
+				else
+					return 0;
+			}
+			else
+			{
+				// all non-null values are greater than null value
+				if ( obj1 == null && obj2 != null )
+					return -1;
+				else if ( obj1 != null && obj2 == null )
+					return 1;
+				else
+					return 0;
+			}
+		}
+	}
+
+	private static int compareAsString( Object obj1, Object obj2,
+			CompareHints comp ) throws BirtException
+	{
+		return ( comp == null || comp.getComparator( ) == null )
+				? DataTypeUtil.toString( obj1 )
+						.compareTo( DataTypeUtil.toString( obj2 ) )
+				: comp.getComparator( ).compare( DataTypeUtil.toString( obj1 ),
 						DataTypeUtil.toString( obj2 ) );
 	}
-	
+
 	/**
 	 * Most objects should already be formatted to the same type by method
 	 * formatToComparable at this point if neither of them is null. This method
@@ -408,19 +495,20 @@ public class ScriptEvalUtil
 	{
 		return compare( obj1, obj2, null );
 	}
-	
+
 	/**
 	 * @param resultObject
 	 * @param resultOp1
 	 * @param resultOp2
-	 * @return true if resultObject is between resultOp1 and resultOp2, false otherwise
+	 * @return true if resultObject is between resultOp1 and resultOp2, false
+	 *         otherwise
 	 * @throws DataException
 	 */
 	private static boolean between( Object resultObject, Object resultOp1,
-			Object resultOp2 ) throws DataException
+			Object resultOp2, CompareHints compareHints ) throws DataException
 	{
 		Object min, max;
-		if ( compare( resultOp1, resultOp2 ) <= 0 )
+		if ( compare( resultOp1, resultOp2, compareHints ) <= 0 )
 		{
 			min = resultOp1;
 			max = resultOp2;
@@ -430,10 +518,10 @@ public class ScriptEvalUtil
 			min = resultOp2;
 			max = resultOp1;
 		}
-		return compare( resultObject, min ) >= 0
-				&& compare( resultObject, max ) <= 0;
+		return compare( resultObject, min, compareHints ) >= 0
+				&& compare( resultObject, max, compareHints ) <= 0;
 	}
-	
+
 	/**
 	 * @param obj
 	 * @param bln
@@ -632,14 +720,9 @@ public class ScriptEvalUtil
 		return false;
 	}
 
-/*	public static Object evalExpr( IBaseExpression expr, ScriptContext cx, String source, int lineNo ) throws BirtException
-	{
-		Scriptable scope = ( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx );
-		return evalExpr( expr, cx, scope, source, lineNo );
-	}*/
 	/**
 	 * Evaluates a IJSExpression or IConditionalExpression
-	 * 	
+	 * 
 	 * @param expr
 	 * @param cx
 	 * @param scope
@@ -698,7 +781,8 @@ public class ScriptEvalUtil
 						}
 						result = evalConditionalExpr( expression,
 								conditionalExpr.getOperator( ),
-								MiscUtil.flatternMultipleValues( opValues ) );
+								MiscUtil.flatternMultipleValues( opValues ),
+								null );
 					}
 					else
 					{
@@ -715,7 +799,8 @@ public class ScriptEvalUtil
 								conditionalExpr.getOperator( ),
 								new Object[]{
 										Op1, Op2
-								} );
+								},
+								null );
 					}
 				}
 			}

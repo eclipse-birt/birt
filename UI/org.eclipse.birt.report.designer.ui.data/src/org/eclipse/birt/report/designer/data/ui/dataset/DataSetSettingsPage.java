@@ -508,7 +508,8 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 			( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setProperty( IOdaDataSetModel.RESULT_SET_NUMBER_PROP,
 					null );
 			( (OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getHandle( ) ).setResultSetName( null );
-
+			dealDataSetLocale( );
+			dealDataSetNullOrdering( );
 			if ( !updateResultSetSetting( ) )
 				return true;
 
@@ -577,8 +578,6 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 	{
 		if ( canLeave( ) )
 		{
-			dealDataSetLocale( );
-			dealDataSetNullOrdering( );
 			return super.performOk( );
 		}
 		else

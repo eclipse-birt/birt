@@ -64,6 +64,8 @@ import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Create concreate class of IPreparedQuery
  */
@@ -741,6 +743,18 @@ class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
 	{
 		return this.source.getPrimaryResultSetNumber( );
 	}
+
+	@Override
+	public ULocale getCompareLocale( )
+	{
+		return this.source.getCompareLocale( );
+	}
+
+	@Override
+	public String getNullsOrdering( )
+	{
+		return this.source.getNullsOrdering( );
+	}
 	
 }
 
@@ -783,7 +797,18 @@ class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign
 	{
 		return this.source.getRightDataSetDesignQulifiedName( );
 	}
-	
+
+	@Override
+	public ULocale getCompareLocale( )
+	{
+		return this.source.getCompareLocale( );
+	}
+
+	@Override
+	public String getNullsOrdering( )
+	{
+		return this.source.getNullsOrdering( );
+	}	
 }
 
 class ScriptDataSetAdapter extends DataSetAdapter implements IScriptDataSetDesign
@@ -814,6 +839,20 @@ class ScriptDataSetAdapter extends DataSetAdapter implements IScriptDataSetDesig
 	public String getOpenScript( )
 	{
 		return this.source.getOpenScript( );
+	}
+
+
+	@Override
+	public ULocale getCompareLocale( )
+	{
+		return this.source.getCompareLocale( );
+	}
+
+
+	@Override
+	public String getNullsOrdering( )
+	{
+		return this.source.getNullsOrdering( );
 	}
 }
 
