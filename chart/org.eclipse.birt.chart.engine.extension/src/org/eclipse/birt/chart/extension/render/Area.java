@@ -497,9 +497,8 @@ public class Area extends Line
 			// Adjusts zero location for study layout case.
 			if ( ChartUtil.isStudyLayout( cwa ) )
 			{
-				double dStart = Methods.asDouble( srh.getOrthogonalScale( )
-						.getMinimum( ) ).doubleValue( );
-				zeroLocation = srh.getLocationOnOrthogonal( dStart );
+				zeroLocation = srh.getLocationOnOrthogonal( srh.getOrthogonalScale( )
+						.getMinimum( ) );
 			}
 
 			final Bounds boClientArea = srh.getClientAreaBounds( true );
