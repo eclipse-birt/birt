@@ -12,9 +12,7 @@
 package org.eclipse.birt.chart.extension.datafeed;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -24,11 +22,9 @@ import org.eclipse.birt.chart.engine.extension.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
-import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.impl.GanttDataSetImpl;
 import org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin;
 import org.eclipse.birt.chart.util.CDateTime;
-import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
@@ -113,27 +109,23 @@ public final class GanttDataSetProcessorImpl extends DataSetAdapter
 					"exception.dataset.ganttseries",//$NON-NLS-1$
 					Messages.getResourceBundle( getULocale( ) ) );
 		}
-		// else
-		// {
-		// for ( int i = 0; i < obja.length; i++ )
-		// {
-		// if ( !( obja[i] instanceof Date )
-		// && !( obja[i] instanceof String ) )
-		// {
-		// if ( !( obja[i] == null ) )
-		// {
-		// valid = false;
-		// break;
-		// }
-		// }
-		// }
-		// }
+		else
+		{
+			for ( int i = 0; i < obja.length - 1; i++ )
+			{
+				if ( !( obja[i] instanceof CDateTime ) )
+				{
+					valid = false;
+					break;
+				}
+			}
+		}
 
 		if ( !valid )
 		{
 			throw new ChartException( ChartEngineExtensionPlugin.ID,
 					ChartException.VALIDATION,
-					"exception.dataset.null.ganttentry", //$NON-NLS-1$
+					"exception.dataset.invalid.ganttentry", //$NON-NLS-1$
 					Messages.getResourceBundle( getULocale( ) ) );
 		}
 	}
