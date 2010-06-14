@@ -1,6 +1,7 @@
 exception.base.orthogonal.null.datadefinition=Der angegebene Datendefinitionsausdruck ist ungültig.
 exception.dataset.stockseries=Die an die Kursreihe gebundenen Dateneinträge sind unvollständig. Sie müssen vier Werte enthalten: Hoch, Niedrig, Öffnen und Schließen. 
 exception.dataset.null.stockentry=Der Dateneintrag hat einen ungültigen Null- oder Nichtzahl-Wert. 
+exception.dataset.invalid.ganttentry=The data entry has a value of invalid type.
 exception.empty.dataset=Leeren Datensatz gefunden
 exception.empty.palette=Die mit der Datenreihe {0} verknüpfte Palette ist leer
 exception.null.values='Alle Null'-Werte in einem Diagramm können nicht definiert werden

@@ -1,6 +1,7 @@
 exception.base.orthogonal.null.datadefinition=L'expression de définition de données spécifiée est incorrecte.
 exception.dataset.stockseries=Les entrées de données liées aux séries d'actions sont incomplètes. Elles doivent contenir quatre valeurs : Elevée, Faible, Ouverte et Fermée. 
 exception.dataset.null.stockentry=L'entrée de données contient une valeur nulle incorrecte ou une valeur non numérique. 
+exception.dataset.invalid.ganttentry=The data entry has a value of invalid type.
 exception.empty.dataset=Jeu de données vide détecté
 exception.empty.palette=La palette associée à la série {0} est vide
 exception.null.values=Impossible de définir les valeurs 'toutes nulles' sur un tracé

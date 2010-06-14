@@ -1,6 +1,7 @@
 exception.base.orthogonal.null.datadefinition=给定的数据定义表达式无效。
 exception.dataset.stockseries=受股票系列约束的数据项不完整。它们必须包含四个值：最高、最低、开盘、收盘。 
 exception.dataset.null.stockentry=数据项具有无效的空值或非数字值。 
+exception.dataset.invalid.ganttentry=The data entry has a value of invalid type.
 exception.empty.dataset=找到空数据集
 exception.empty.palette=与系列 {0} 相关联的调色板为空
 exception.null.values=无法在图形中定义“全空”值

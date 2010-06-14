@@ -1,6 +1,7 @@
 exception.base.orthogonal.null.datadefinition=La expresión de definición de datos indicada no es válida.
 exception.dataset.stockseries=Las entradas de datos enlazadas a la serie de cotizaciones están incompletas. Deben contener cuatro valores: Alto, Bajo, Apertura y Cierre. 
 exception.dataset.null.stockentry=La entrada de datos tiene un valor nulo o no numérico que no es válido 
+exception.dataset.invalid.ganttentry=The data entry has a value of invalid type.
 exception.empty.dataset=Se ha encontrado un conjunto de datos vacío
 exception.empty.palette=La paleta asociada con la serie {0} está vacía
 exception.null.values=No se pueden definir valores "todo nulo" en un dibujo
