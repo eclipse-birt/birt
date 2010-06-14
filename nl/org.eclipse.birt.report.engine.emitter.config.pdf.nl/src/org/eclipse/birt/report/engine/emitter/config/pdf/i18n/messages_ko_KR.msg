@@ -26,6 +26,7 @@ OptionDisplayValue.ENLARGE_PAGE_SIZE=페이지 크기 확대
 OptionDisplayValue.FontSubstitution=글꼴 대체
 OptionDisplayValue.EmbeddedFont=포함 글꼴
 OptionDisplayValue.ChartDpi=차트 DPI 
+OptionDisplayValue.RenderChartInSVG=Render chart in vector graphics
 
 ###########################################################
 #Option Description
@@ -35,3 +36,4 @@ OptionDescription.PageOverFlow=내용 출력 방식을 제어합니다.
 OptionDescription.FontSubstitution=지정된 글꼴이 문자를 표시하지 못하는 경우 자동으로 글꼴을 선택합니다.
 OptionDescription.EmbeddedFont=트루타입 글꼴은 생성된 PDF 파일에 포함되어야 합니다.
 OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
+OptionDescription.RenderChartInSVG=Render chart in vector graphics.

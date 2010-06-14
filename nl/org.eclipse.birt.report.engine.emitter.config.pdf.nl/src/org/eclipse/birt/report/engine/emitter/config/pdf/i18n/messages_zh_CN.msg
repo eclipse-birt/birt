@@ -26,6 +26,7 @@ OptionDisplayValue.ENLARGE_PAGE_SIZE=扩大页面大小
 OptionDisplayValue.FontSubstitution=字体替代
 OptionDisplayValue.EmbeddedFont=嵌入字体
 OptionDisplayValue.ChartDpi=图表 DPI 
+OptionDisplayValue.RenderChartInSVG=Render chart in vector graphics
 
 ###########################################################
 #Option Description
@@ -35,3 +36,4 @@ OptionDescription.PageOverFlow=控制如何输出内容。
 OptionDescription.FontSubstitution=如果指定的字体无法显示字符，将自动选择字体。
 OptionDescription.EmbeddedFont=true-type 字体应嵌入到生成的 PDF 文件中。
 OptionDescription.ChartDpi=DPI 用于生成图表。
+OptionDescription.RenderChartInSVG=Render chart in vector graphics.
