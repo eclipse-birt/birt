@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=Rasterthema
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=Niedrigste Nullwerte
-Choices.nullsOrdering.nullsHighest=Höchste Nullwerte
+Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=Nullwerte ausschließen
 
 ###########################################################
@@ -2051,6 +2051,7 @@ Structure.ColumnHint.descriptionID=Beschreibungs-Ressourcenschlüssel
 Structure.ColumnHint.action=Aktion
 Structure.ColumnHint.ACLExpression=Ausdruck 'ACL'	
 Structure.ColumnHint.analysisColumn=Analysespalte
+Structure.ColumnHint.valueFormat=Value Format
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Auswahl

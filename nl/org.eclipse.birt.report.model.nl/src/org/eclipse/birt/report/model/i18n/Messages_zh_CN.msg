@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=网格主题
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=空值下限
-Choices.nullsOrdering.nullsHighest=空值上限
+Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=排除空值
 
 ###########################################################
@@ -2051,6 +2051,7 @@ Structure.ColumnHint.descriptionID=说明资源关键字
 Structure.ColumnHint.action=操作
 Structure.ColumnHint.ACLExpression=ACL 表达式	
 Structure.ColumnHint.analysisColumn=分析列
+Structure.ColumnHint.valueFormat=Value Format
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项

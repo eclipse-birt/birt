@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=Tema de cuadrícula
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=Nulos más bajos
-Choices.nullsOrdering.nullsHighest=Nulo más alto
+Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=Excluir nulos
 
 ###########################################################
@@ -2051,6 +2051,7 @@ Structure.ColumnHint.descriptionID=Clave de recursos de descripción
 Structure.ColumnHint.action=Acción
 Structure.ColumnHint.ACLExpression=Expresión ACL	
 Structure.ColumnHint.analysisColumn=Columna de análisis
+Structure.ColumnHint.valueFormat=Value Format
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Opciones de selección

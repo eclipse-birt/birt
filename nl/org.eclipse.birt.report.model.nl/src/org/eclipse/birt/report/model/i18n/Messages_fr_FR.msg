@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=Thème de grille
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=Valeurs nulles les plus basses
-Choices.nullsOrdering.nullsHighest=Valeurs nulles les plus élevées
+Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=Exclure les valeurs nulles
 
 ###########################################################
@@ -2051,6 +2051,7 @@ Structure.ColumnHint.descriptionID=Clé de ressource de la description
 Structure.ColumnHint.action=Action
 Structure.ColumnHint.ACLExpression=Expression ACL	
 Structure.ColumnHint.analysisColumn=Colonne Analyse
+Structure.ColumnHint.valueFormat=Value Format
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Choix de sélection

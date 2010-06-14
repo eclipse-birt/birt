@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=눈금 테마
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=널(Null) 최하위
-Choices.nullsOrdering.nullsHighest=널(Null) 최상위
+Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=널(Null) 제외
 
 ###########################################################
@@ -2051,6 +2051,7 @@ Structure.ColumnHint.descriptionID=설명 리소스 키
 Structure.ColumnHint.action=작업
 Structure.ColumnHint.ACLExpression=ACL 식	
 Structure.ColumnHint.analysisColumn=분석 열
+Structure.ColumnHint.valueFormat=Value Format
 
 #12. SelectionList Choice
 Structure.SelectionChoice=선택 영역 선택

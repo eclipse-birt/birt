@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=グリッドテーマ
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=Null (最低)
-Choices.nullsOrdering.nullsHighest=Null (最高)
+Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=Null を除外する
 
 ###########################################################
@@ -2051,6 +2051,7 @@ Structure.ColumnHint.descriptionID=説明リソースキー
 Structure.ColumnHint.action=実行
 Structure.ColumnHint.ACLExpression=ACL 式	
 Structure.ColumnHint.analysisColumn=分析列
+Structure.ColumnHint.valueFormat=Value Format
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目
