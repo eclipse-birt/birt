@@ -24,11 +24,6 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=An Seitengröße anpassen
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Mehrere Seiten ausgeben
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrößern
 OptionDisplayValue.FontSubstitution=Schriftart ersetzen
-OptionDisplayValue.Copies=Anzahl der Exemplare
-OptionDisplayValue.Collate=Sortieren
-OptionDisplayValue.Duplex=Duplex
-OptionDisplayValue.PaperSize=Papierformat
-OptionDisplayValue.PaperTray=Papierschacht
 OptionDisplayValue.ChartDpi=Diagramm-DPI
 
 ###########################################################
@@ -37,9 +32,4 @@ OptionDescription.BidiProcessing=BIDI-Verarbeitung wird verwendet.
 OptionDescription.TextWrapping=Text muss Zeilenumbrüche enthalten.
 OptionDescription.PageOverFlow=Legen Sie fest, wie der Inhalt ausgegeben wird.
 OptionDescription.FontSubstitution=Überprüfung erforderlich, ob die ausgewählte Schriftart das Zeichen unterstützt.
-OptionDescription.Copies=Anzahl der Exemplare.
-OptionDescription.Collate=Sortieren.
-OptionDescription.Duplex=Duplex.
-OptionDescription.PaperSize=Papierformat.
-OptionDescription.PaperTray=Papierschacht.
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
