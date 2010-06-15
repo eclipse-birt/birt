@@ -3,7 +3,7 @@ JavaxImageIOWriter.exception.invalid.image.size=指定的图像宽度或高度无效 (<=0)。
 JavaxImageIOWriter.exception.no.imagewriter.mimetype.and.format=无法为 mime 类型 [{0}] 及 {2} 的格式 [{1}] 找到任何已注册的图像编写器
 JavaxImageIOWriter.exception.no.imagewriter.mimetype=无法为 mime 类型 [{0}] 找到任何已注册的图像编写器
 JavaxImageIOWriter.info.using.imagewriter=使用 {0} 图像编写器 {1}
-JavaxImageIOWriter.exception.caption=例外:
+JavaxImageIOWriter.exception.caption=异常:
 JavaxImageIOWriter.wrapped.caption=用括号括起:
 JavaxImageIOWriter.message.caption=消息:
 JavaxImageIOWriter.trace.caption=跟踪:

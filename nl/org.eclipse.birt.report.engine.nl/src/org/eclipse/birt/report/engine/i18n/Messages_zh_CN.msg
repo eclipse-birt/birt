@@ -59,7 +59,7 @@ Error.ScriptClassCastError = 类 {0} 不实现 {1} 接口。
 Error.ScriptClassNotFoundError = 未找到类 {0}。
 Error.ScriptClassIllegalAccessError = 尝试加载类 {0} 时出现 IllegalAccessException。
 Error.ScriptClassInstantiationError = 无法实例化类 {0}。 确保它不是接口或抽象类。
-Error.UnhandledScriptError = 执行脚本时出现未处理的例外。
+Error.UnhandledScriptError = 执行脚本时出现未处理的异常。
 
 ###########################################################
 Error.PageNotFoundError = 未找到页 {0}。
