@@ -87,7 +87,7 @@ birt.viewer.dialog.page.error.invalidpagerange=无效页范围
 ###############################################################################
 # Dialog title
 ###############################################################################
-birt.viewer.dialog.exception.title=例外
+birt.viewer.dialog.exception.title=异常
 birt.viewer.dialog.exportReport.title=导出报表
 birt.viewer.dialog.parameter.title=参数
 birt.viewer.dialog.simpleExportData.title=导出数据
@@ -221,8 +221,8 @@ birt.viewer.componentProcessorException.MISSING_OPERATOR=错误: 缺少运算符!!!
 # Exception dialog
 ###############################################################################
 birt.viewer.exceptionDialog.stackTrace=堆栈跟踪:
-birt.viewer.exceptionDialog.showStackTrace=显示例外堆栈跟踪
-birt.viewer.exceptionDialog.hideStackTrace=隐藏例外堆栈跟踪
+birt.viewer.exceptionDialog.showStackTrace=显示异常堆栈跟踪
+birt.viewer.exceptionDialog.hideStackTrace=隐藏异常堆栈跟踪
 
 ###############################################################################
 # Birt Viewer JSP Taglib

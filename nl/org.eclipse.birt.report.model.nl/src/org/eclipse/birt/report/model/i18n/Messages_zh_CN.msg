@@ -3887,7 +3887,7 @@ Error.XMLParserException.UNKNOWN_TAG=XML 文件包含不支持的元素。
 Error.XMLParserException.SAX_ERROR=SAX 检测到错误并显示文件的基本 XML 语法。
 Error.XMLParserException.INVALID_BOOLEAN=布尔属性未包含有效值。
 Error.XMLParserException.WARNINGS_FOUND=分析完成，但出现不可恢复错误。
-Error.XMLParserException.EXCEPTION=出现一般例外。
+Error.XMLParserException.EXCEPTION=出现一般异常。
 Error.XMLParserException.INVALID_INTEGER=整型属性包含了一个无效值。
     
 #UserPropertyException

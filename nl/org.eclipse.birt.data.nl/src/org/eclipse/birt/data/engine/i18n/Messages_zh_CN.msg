@@ -128,11 +128,11 @@ data.engine.WriteTempError=Îª´óÊı¾İ¼¯Ğ´ÈëÁÙÊ±ÎÄ¼şÊ±³öÏÖÒì³£¡£
 data.engine.ReadTempError=Îª´óÊı¾İ¼¯¶ÁÈ¡ÁÙÊ±ÎÄ¼şÊ±³öÏÖÒì³£¡£
 
 #resultiterator cache exception
-data.engine.CreateCacheTempError=´´½¨ÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÀıÍâ¡£
-data.engine.OpenCacheTempError=´ò¿ªÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÀıÍâ¡£
-data.engine.WriteCacheTempError=Ğ´ÈëÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÀıÍâ¡£
-data.engine.ReadCacheTempError=¶ÁÈ¡ÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÀıÍâ¡£
-data.engine.CloseCacheTempError=¹Ø±ÕÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÀıÍâ¡£
+data.engine.CreateCacheTempError=´´½¨ÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÒì³£¡£
+data.engine.OpenCacheTempError=´ò¿ªÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÒì³£¡£
+data.engine.WriteCacheTempError=Ğ´ÈëÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÒì³£¡£
+data.engine.ReadCacheTempError=¶ÁÈ¡ÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÒì³£¡£
+data.engine.CloseCacheTempError=¹Ø±ÕÓÃÓÚ»º´æ½á¹ûĞĞµÄÁÙÊ±ÎÄ¼şÊ±³öÏÖÒì³£¡£
 
 #load data engine factory exception
 load.factory.error=¼ÓÔØÊı¾İÒıÇæ¹¤³§Ê±³ö´í¡£
@@ -140,7 +140,7 @@ load.factory.error=¼ÓÔØÊı¾İÒıÇæ¹¤³§Ê±³ö´í¡£
 # Wrapped Error
 data.engine.DataConversionError=×ª»»Êı¾İÀàĞÍÊ±³ö´í¡£
 data.engine.BadDataTypeCondExpr=ÔÚÌõ¼ş±í´ïÊ½ÖĞ·¢ÏÖÁËÎŞĞ§Êı¾İÀàĞÍ¡£
-data.engine.BirtException=·¢Éú BIRT ÀıÍâ£º{0}¡£²é¿´ÏÂÒ»¸öÀıÍâÒÔÁË½â¸ü¶àĞÅÏ¢¡£
+data.engine.BirtException=·¢Éú BIRT Òì³££º{0}¡£²é¿´ÏÂÒ»¸öÒì³£ÒÔÁË½â¸ü¶àĞÅÏ¢¡£
 
 # data set cache error
 data.engine.datasetcache.save.error=±£´æÊı¾İÔ´»º´æµÄÎÄ¼şÊ±³ö´í¡£
@@ -178,7 +178,7 @@ data.engine.BadGroupKeyExpr=×é¼ü±í´ïÊ½ {0} ÎŞĞ§¡£
 data.engine.GroupNotExist=ÁĞ {1} ÖĞÊ¹ÓÃµÄ×é¡°{0}¡±²»´æÔÚ¡£
 data.engine.BadSortKeyExpr=ÅÅĞò¹Ø¼ü×Ö±í´ïÊ½ {0} ÎŞĞ§¡£
 data.engine.NoParamMetaForDataSource=ÎŞ·¨»ñÈ¡´ËÀàĞÍÊı¾İÔ´µÄ²ÎÊıÔªÊı¾İ¡£
-data.engine.UnexpectedError=ÓÉÓÚÒâÍâµÄÀıÍâ£¬Êı¾İÒıÇæ²Ù×÷Ê§°Ü¡£ 
+data.engine.UnexpectedError=ÓÉÓÚÒâÍâµÄÒì³££¬Êı¾İÒıÇæ²Ù×÷Ê§°Ü¡£ 
 data.engine.ConvertDataTypeError=ÎŞ·¨½«²ÎÊıÖµ {0} ×ª»»³ÉÀàĞÍ {1}¡£
 data.engine.CannotInstantiateAggregationFactory=ÎŞ·¨ÊµÀı»¯¾ÛºÏ¹¤³§ {0}¡£
 date.engine.DuplicateAggregationName=ÖØ¸´µÄ¾ÛºÏÃû³Æ: {0}¡£
@@ -243,7 +243,7 @@ odaconsumer.SameParamNameForDifferentHints=¶¨ÒåÊı¾İ¼¯ÖĞµÄÁíÒ»¸ö²ÎÊıÊ±Ê¹ÓÃÁËÏàÍ¬µ
 odaconsumer.DifferentParamNameForSamePosition=¶¨ÒåÊı¾İ¼¯ÖĞµÄÁíÒ»¸ö²ÎÊı {0} Ê±Ê¹ÓÃÁËÏàÍ¬µÄÎ»ÖÃ {1}¡£
 odaconsumer.ParameterValueIsNull=²ÎÊıÖµÎª null¡£
 odaconsumer.UnsupportedParameterValueType=²»Ö§³ÖµÄ²ÎÊıÖµÀàĞÍ: {0}
-odaconsumer.UnknownExceptionThrown=ÔÚ×îºóÒ»´Îµ÷ÓÃ setter Ê±²úÉúÎ´ÖªÀıÍâ¡£
+odaconsumer.UnknownExceptionThrown=ÔÚ×îºóÒ»´Îµ÷ÓÃ setter Ê±²úÉúÎ´ÖªÒì³£¡£
 odaconsumer.CannotConvertIndexedParameterValue=ÎŞ·¨½«Ë÷Òı {1} ´¦µÄ²ÎÊıÖµ {0} ´ÓÖµÀàĞÍ {2} ×ª»»Îª ODA ÀàĞÍ {3}¡£
 odaconsumer.CannotConvertNamedParameterValue=ÎŞ·¨½«¾ßÓĞ²ÎÊıÃû {1} µÄ²ÎÊıÖµ {0} ´ÓÖµÀàĞÍ {2} ×ª»»Îª ODA ÀàĞÍ {3}¡£
 odaconsumer.UnrecognizedProjectedColumnName=ÎŞ·¨Ê¶±ğ¼Æ»®µÄÁĞÃû³Æ:{0}

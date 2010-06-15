@@ -15,8 +15,8 @@ ReportLauncher.PortValueAbsent=缺少请求端口值。
 ReportLauncher.FailToStartDebugServer=无法启动调试服务器。
 ReportLauncher.FailToStartReportPlatform=无法启动报表平台。
 ReportLauncher.UserClassPathReceived=收到的用户类路径: 
-ReportLauncher.EngineException=引擎例外
-ReportLauncher.IOException=IO 例外
+ReportLauncher.EngineException=引擎异常
+ReportLauncher.IOException=IO 异常
 
 ########################################
 #ReportVMClient
