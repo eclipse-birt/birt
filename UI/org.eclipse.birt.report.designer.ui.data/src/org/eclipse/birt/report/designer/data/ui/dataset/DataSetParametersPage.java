@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.model.adapter.oda.ReportParameterAdapter;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
@@ -433,7 +434,23 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		newParam.setIsInput( true );
 		newParam.setPosition( new Integer( position + 1 ) );
 
-		doEdit( newParam );
+		CommandStack stack = Utility.getCommandStack( );
+		stack.startTrans( Messages.getString( "DataSetParameterBindingInputDialog.Title.NewParameter" ) ); //$NON-NLS-1$
+
+		ParameterInputDialog dlg = new ParameterInputDialog( newParam,
+				isOdaDataSetHandle );
+
+		if ( dlg.open( ) == Window.OK )
+		{
+			viewer.getViewer( ).refresh( );
+			refreshMessage( );
+			refreshLinkedReportParamStatus( );
+			stack.commit( );
+		}
+		else
+		{
+			stack.rollback( );
+		}
 	}
 
 	private void doEdit( )
@@ -448,12 +465,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				.getData( );
 		originalStructure = (DataSetParameter) handle.getStructure( ).copy( );
 
-		doEdit( handle );
-	}
+		CommandStack stack = Utility.getCommandStack( );
+		stack.startTrans( Messages.getString( "DataSetParameterBindingInputDialog.Title.EditParameter" ) ); //$NON-NLS-1$
 
-	protected void doEdit( Object structureOrHandle )
-	{
-		ParameterInputDialog dlg = new ParameterInputDialog( structureOrHandle,
+		ParameterInputDialog dlg = new ParameterInputDialog( handle,
 				isOdaDataSetHandle );
 
 		if ( dlg.open( ) == Window.OK )
@@ -461,6 +476,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			viewer.getViewer( ).refresh( );
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
+			stack.commit( );
+		}
+		else
+		{
+			stack.rollback( );
 		}
 	}
 
@@ -2004,35 +2024,35 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		 */
 		protected void rollback( )
 		{
-			DataSetParameter structure = getStructure( getStructureOrHandle( ) );
-			try
-			{
-				if ( originalStructure != null )
-				{
-					structure.setName( originalStructure.getName( ) );
-					structure.setParameterDataType( originalStructure.getParameterDataType( ) );
-					structure.setIsInput( originalStructure.isInput( ) );
-					structure.setIsOutput( originalStructure.isOutput( ) );
-					structure.setDefaultValue( originalStructure.getDefaultValue( ) );
-					structure.setExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER,
-							originalStructure.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER ) );
-
-					if ( isOdaDataSetHandle )
-						( (OdaDataSetParameter) structure ).setParamName( ( (OdaDataSetParameter) originalStructure ).getParamName( ) );
-
-					originalStructure = null;
-				}
-				else
-				{
-					parameters.removeItem( structure );
-					viewer.getViewer( ).refresh( );
-				}
-			}
-			catch ( Exception e )
-			{
-				ExceptionHandler.handle( e );
-			}
-			// rollback the model changed status
+//			DataSetParameter structure = getStructure( getStructureOrHandle( ) );
+//			try
+//			{
+//				if ( originalStructure != null )
+//				{
+//					structure.setName( originalStructure.getName( ) );
+//					structure.setParameterDataType( originalStructure.getParameterDataType( ) );
+//					structure.setIsInput( originalStructure.isInput( ) );
+//					structure.setIsOutput( originalStructure.isOutput( ) );
+//					structure.setDefaultValue( originalStructure.getDefaultValue( ) );
+//					structure.setExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER,
+//							originalStructure.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER ) );
+//
+//					if ( isOdaDataSetHandle )
+//						( (OdaDataSetParameter) structure ).setParamName( ( (OdaDataSetParameter) originalStructure ).getParamName( ) );
+//
+//					originalStructure = null;
+//				}
+//				else
+//				{
+//					parameters.removeItem( structure );
+//					viewer.getViewer( ).refresh( );
+//				}
+//			}
+//			catch ( Exception e )
+//			{
+//				ExceptionHandler.handle( e );
+//			}
+//			// rollback the model changed status
 			modelChanged = inputChanged;
 		}
 
@@ -2170,7 +2190,13 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				while ( iter.hasNext( ) )
 				{
 					DataSetParameterHandle handle = (DataSetParameterHandle) iter.next( );
-					if ( structure != handle.getStructure( )
+					if ( originalStructure != null
+							&& dataSetParamName.getText( )
+									.equals( originalStructure.getName( ) ) )
+					{
+						return true;
+					}
+					else if ( structure != handle.getStructure( )
 							&& handle.getName( )
 									.equals( dataSetParamName.getText( ) ) )
 					{
