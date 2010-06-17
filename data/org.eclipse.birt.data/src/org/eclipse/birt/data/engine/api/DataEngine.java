@@ -67,8 +67,9 @@ abstract public class DataEngine
 	public static String DATA_SET_CACHE_ROW_LIMIT = "org.eclipse.birt.data.cache.RowLimit";
 
 	/**
-	 * Indicate the size of data cached for each result set.We only accept positive integer as input, the unit of which
-	 * would be MB. 
+	 * Indicate the size of data cached for each result set.We only accept non-negative integer as input, 
+	 * the unit of which would be MB. 
+	 * If this setting is 0, all temporary rows will be cached in memory during query processing.
 	 */
 	public static String MEMORY_BUFFER_SIZE = "org.eclipse.birt.data.query.ResultBufferSize";
 	
