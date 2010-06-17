@@ -514,14 +514,8 @@ public class AggregationAccessor extends Accessor
 			{
 				DimLevel level = (DimLevel) levelList.get( i );
 				Object value1 = valueMap.get( level );
-				Object value2 = null;
-				if ( rs.getLevelKeyValue( rs.getLevelIndex( level ) ) != null )
-					value2 = rs.getLevelKeyValue( rs.getLevelIndex( level ) )[rs.getLevelKeyColCount( rs.getLevelIndex( level ) ) - 1];;
-				if( value1 == value2)
-				{
-					continue;
-				}
-				if (  value1== null || value2== null ||!value1.equals( value2 ) )
+				Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( level ) )[rs.getLevelKeyColCount( rs.getLevelIndex( level ) ) - 1];;
+				if ( !value1.equals( value2 ) )
 				{
 					match = false;
 					break;
@@ -564,9 +558,7 @@ public class AggregationAccessor extends Accessor
 			DimLevel level = (DimLevel) levelList.get( start );
 
 			Object value1 = valueMap.get( level );
-			Object value2 = null;
-			if ( rs.getLevelKeyValue( rs.getLevelIndex( level ) ) != null )
-				value2 = rs.getLevelKeyValue( rs.getLevelIndex( level ) )[rs.getLevelKeyColCount( rs.getLevelIndex( level ) ) - 1];
+			Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( level ) )[rs.getLevelKeyColCount( rs.getLevelIndex( level ) ) - 1];
 			int sortType = rs.getSortType( rs.getLevelIndex( level ) ) == IDimensionSortDefn.SORT_DESC
 					? -1 : 1;
 			int direction = sortType

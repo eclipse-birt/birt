@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2010 Actuate Corporation.
+/*******************************************************************************
+ * Copyright (c) 2004, 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,352 +8,318 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
-import org.eclipse.birt.data.engine.api.ISortDefinition;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
-import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
+import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
-import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 
 /**
- * 
- * @author Administrator
- * 
+ * The aggregation result set for drilled operation
+ *
  */
 public class DrilledAggregateResultSet implements IAggregationResultSet
 {
 
-	private IDiskArray bufferedStructureArray;
-	private DimLevel[] dimLevel;
-	private DrilledAggregationCalculator calculator;
-	private IAggregationResultRow resultObject;
-	private IAggregationResultSet aggregationRsFromCube;
+	private static Logger logger = Logger.getLogger( DrilledAggregateResultSet.class.getName( ) );
+	private int levelCount = 0;
 	private int currentPosition;
+	private IDiskArray bufferedStructureArray;
+	private IAggregationResultRow resultObject;
+	private IAggregationResultSet metaResultSet;
+	private int[][] attributeDataTypes;
+	private int[][] keyDataTypes;
 
-	public DrilledAggregateResultSet(
-			IAggregationResultSet aggregationRsFromCube,
-			List<IEdgeDrillFilter[]> drillFilters ) throws IOException, DataException
+	// if true, this means this drill resultset has not been added into base
+	// result set.
+	private boolean[] statusForRs;
+
+	/**
+	 * merge the drill result set with base result into bufferdStructureArray.
+	 */
+	public DrilledAggregateResultSet( IAggregationResultSet baseResultSet,
+			List<IAggregationResultSet> drillsRs,
+			List<IEdgeDrillFilter> drillsDefn ) throws IOException
 	{
-		bufferedStructureArray = new BufferedStructureArray( AggregationResultRow.getCreator( ),
-				2000 );
+		Object[] params = {
+				baseResultSet, drillsRs, drillsDefn
+		};
+		logger.entering( AggregationResultSet.class.getName( ),
+				"MergedAggregateResultSet",
+				params );
 
-		this.dimLevel = aggregationRsFromCube.getAllLevels( );
-		this.aggregationRsFromCube = aggregationRsFromCube;
-		
-		if ( aggregationRsFromCube.getAggregationCount( ) > 0 )
+		this.levelCount = baseResultSet.getLevelCount( );
+		this.metaResultSet = baseResultSet;
+		this.statusForRs = new boolean[drillsRs.size( )];
+		for ( int i = 0; i < drillsRs.size( ); i++ )
 		{
-			AggregationDefinition aggr = aggregationRsFromCube.getAggregationDefinition( );
-			calculator =  new DrilledAggregationCalculator( aggr );
+			if ( levelCount < ( (IAggregationResultSet) drillsRs.get( i ) ).getLevelCount( ) )
+			{
+				metaResultSet = ( (IAggregationResultSet) drillsRs.get( i ) );
+				levelCount = metaResultSet.getLevelCount( );
+			}
+			if ( ( (IAggregationResultSet) drillsRs.get( i ) ).length( ) > 0 )
+				( (IAggregationResultSet) drillsRs.get( i ) ).seek( 0 );
+			statusForRs[i] = true;
 		}
 
-		for ( int k = 0; k < aggregationRsFromCube.length( ); k++ )
-		{
-			aggregationRsFromCube.seek( k );
-			IEdgeDrillFilter targetDrill = getTargetDrillOperation( aggregationRsFromCube.getCurrentRow( ),
-					drillFilters );
-
-			if ( targetDrill == null )
-			{
-				bufferedStructureArray.add( aggregationRsFromCube.getCurrentRow( ) );
-				continue;
-			}
-			
-			List<IAggregationResultRow> tempBufferArray = populateResultSet( aggregationRsFromCube,
-					targetDrill );
-			
-			List<IEdgeDrillFilter[]> drills = this.getRemainingDrillOperation( targetDrill,
-					drillFilters );
-
-			if ( !drills.isEmpty( ) )
-			{
-				tempBufferArray = populateNextResultSet( tempBufferArray,
-						drills );
-			}
-			
-			recalculateAggregation( tempBufferArray );
-			removeDuplictedRow( tempBufferArray );
-			
-			sortAggregationRow( tempBufferArray );
-
-			Iterator<IAggregationResultRow> iter = tempBufferArray.iterator( );
-			while ( iter.hasNext( ) )
-				bufferedStructureArray.add( iter.next( ) );
-			k = aggregationRsFromCube.getPosition( );
-		}
+		this.bufferedStructureArray = passBaseCubeResultSet( baseResultSet,
+				drillsRs,
+				drillsDefn );
 		
+		updateStatus( drillsRs );
+
+		while ( !isComplete( ) )
+		{
+			this.bufferedStructureArray = passInterimCubeResultSet( bufferedStructureArray,
+					drillsRs,
+					drillsDefn );
+			updateStatus( drillsRs );
+		}
+
 		this.resultObject = (IAggregationResultRow) bufferedStructureArray.get( 0 );
-	}
-
-	private void sortAggregationRow( List<IAggregationResultRow> aggregationRows )
-	{
-		final int[] sortType = this.aggregationRsFromCube.getSortType( );
-
-		final boolean[] sorts = new boolean[sortType.length];
-		for ( int i = 0; i < sortType.length; i++ )
+		if ( resultObject.getLevelMembers( ) != null )
 		{
-			if ( ISortDefinition.SORT_ASC == sortType[i] )
-				sorts[i] = true;
-			else if ( ISortDefinition.SORT_DESC == sortType[i] )
-				sorts[i] = false;
-			else
-				sorts[i] = true;
-		}
-		Collections.sort( aggregationRows, new Comparator( ) {
+			keyDataTypes = new int[resultObject.getLevelMembers( ).length][];
+			attributeDataTypes = new int[resultObject.getLevelMembers( ).length][];
 
-			public int compare( Object o1, Object o2 )
+			for ( int i = 0; i < resultObject.getLevelMembers( ).length; i++ )
 			{
-				IAggregationResultRow row1 = (IAggregationResultRow) o1;
-				IAggregationResultRow row2 = (IAggregationResultRow) o2;
-				Object[] keyValues1 = new Object[row1.getLevelMembers( ).length];
-				Object[] keyValues2 = new Object[row2.getLevelMembers( ).length];
-				for ( int i = 0; i < row1.getLevelMembers( ).length; i++ )
+				keyDataTypes[i] = new int[resultObject.getLevelMembers( )[i].getKeyValues( ).length];
+				for ( int j = 0; j < resultObject.getLevelMembers( )[i].getKeyValues( ).length; j++ )
 				{
-					if ( row1.getLevelMembers( )[i] != null )
-						keyValues1[i] = row1.getLevelMembers( )[i].getKeyValues( )[0];
-					else
-						keyValues1[i] = null;
-					if ( row2.getLevelMembers( )[i] != null )
-						keyValues2[i] = row2.getLevelMembers( )[i].getKeyValues( )[0];
-					else
-						keyValues2[i] = null;						
+					keyDataTypes[i][j] = DataType.getDataType( resultObject.getLevelMembers( )[i].getKeyValues( )[j].getClass( ) );
 				}
-				return CompareUtil.compare( keyValues1, keyValues2, sorts );
-			}
-		} );
-	}
+				if ( resultObject.getLevelMembers( )[i].getAttributes( ) != null )
+				{
+					attributeDataTypes[i] = new int[resultObject.getLevelMembers( )[i].getAttributes( ).length];
 
-	private void removeDuplictedRow( List<IAggregationResultRow> aggregationRows )
-	{
-		for ( int i = 0; i < aggregationRows.size( ); i++ )
-		{
-			IAggregationResultRow rows = aggregationRows.get( i );
-			for ( int k = i + 1; k < aggregationRows.size( ); )
-			{
-				if ( rows.compareTo( aggregationRows.get( k ) ) == 0 )
-				{
-					aggregationRows.remove( k );
-				}
-				else
-				{
-					k++;
+					for ( int j = 0; j < attributeDataTypes[i].length; j++ )
+					{
+						if ( resultObject.getLevelMembers( )[i].getAttributes( )[j] != null )
+							attributeDataTypes[i][j] = DataType.getDataType( resultObject.getLevelMembers( )[i].getAttributes( )[j].getClass( ) );
+					}
 				}
 			}
 		}
 	}
 
-	private void recalculateAggregation(
-			List<IAggregationResultRow> aggregationRows ) throws DataException,
-			IOException
+	/**
+	 * 
+	 * @param drillsRs
+	 */
+	private void updateStatus( List<IAggregationResultSet> drillsRs )
 	{
-		if ( this.calculator == null )
+		for ( int i = 0; i < drillsRs.size( ); i++ )
 		{
-			return;
-		}
-
-		for ( int i = 0; i < aggregationRows.size( ); i++ )
-		{
-			this.calculator.start( );
-			List<Integer> positions = getRowsPositionInAggregationRows( i,
-					aggregationRows );
-			for ( int k = 0; k < positions.size( ); k++ )
+			IAggregationResultSet rs = (IAggregationResultSet) drillsRs.get( i );
+			if ( rs.length( )== 0 || rs.getPosition( ) == rs.length( ) - 1 )
 			{
-				this.calculator.onRow( aggregationRows.get( positions.get( k ) ) );
+				this.statusForRs[i] = false;
 			}
-			this.calculator.finish( aggregationRows.get( i ) );
 		}
 	}
 
-	private List<Integer> getRowsPositionInAggregationRows( int index,
-			List<IAggregationResultRow> aggregationRows )
-	{
-		List<Integer> position = new ArrayList<Integer>( );
-		position.add( index );
-		IAggregationResultRow row = (IAggregationResultRow) aggregationRows.get( index );
-		for ( int i = index + 1; i < aggregationRows.size( ); i++ )
+	private BufferedStructureArray passBaseCubeResultSet( IAggregationResultSet baseResultSet,
+			List<IAggregationResultSet> drillResultSets, List<IEdgeDrillFilter> drillFilters ) throws IOException
+	{		
+		BufferedStructureArray tempBufferArray = new BufferedStructureArray( AggregationResultRow.getCreator( ),
+				2000 );
+		List<Member[]> currentMemberList;
+		List<Member[]> previewMemberList = new ArrayList<Member[]>( );
+		for ( int i = 0; i < baseResultSet.length( ); i++ )
 		{
-			if ( row.compareTo( aggregationRows.get( i ) ) == 0 )
-				position.add( i );
+			baseResultSet.seek( i );
+			IAggregationResultRow row = baseResultSet.getCurrentRow( );
+
+			currentMemberList = getDrilledMemberList( row.getLevelMembers( ),
+					drillResultSets,
+					drillFilters );
+
+			addMemberIntoBufferedArray( tempBufferArray,
+					currentMemberList,
+					previewMemberList );
 		}
-		return position;
+		return tempBufferArray;
 	}
 
-	private List<IAggregationResultRow> populateNextResultSet(
-			List<IAggregationResultRow> tempBufferArray,
-			List<IEdgeDrillFilter[]> nextDrills ) throws IOException
-	{
-		List finalBufferArray = new ArrayList<IAggregationResultRow>( );
-		for ( int i = 0; i < tempBufferArray.size( ); i++ )
-		{
-			IAggregationResultRow rows = tempBufferArray.get( i );
-			for ( int k = 0; k < nextDrills.size( ); k++ )
-			{
-				IEdgeDrillFilter[] filters = nextDrills.get( k );
-				for ( int t = 0; t < filters.length; t++ )
-				{
-					IEdgeDrillFilter targetFilter = filters[t];
-					rows = this.populateResultSet( rows, targetFilter );
-				}
-			}
-			finalBufferArray.add( rows );
-		}
-		return finalBufferArray;
-	}
-
-	private IAggregationResultRow populateResultSet(
-			IAggregationResultRow aggregationRow, IEdgeDrillFilter targetDrill )
+	private void addMemberIntoBufferedArray(
+			BufferedStructureArray tempBufferArray,
+			List<Member[]> currentMemberList, List<Member[]> previewMemberList )
 			throws IOException
 	{
-		IAggregationResultRow row = aggregationRow;
-		if ( isDrilledElement( aggregationRow, targetDrill ) )
+		boolean addToBuffer = false;
+		if ( previewMemberList.size( ) == currentMemberList.size( ) )
 		{
-			Member[] drillMember = new Member[this.dimLevel.length];
-			for ( int i = 0; i < drillMember.length; i++ )
+			for ( int t1 = 0; t1 < currentMemberList.size( ); t1++ )
 			{
-				drillMember[i] = new Member( );
-				if ( !this.dimLevel[i].getDimensionName( )
-						.equals( targetDrill.getTargetHierarchy( )
-								.getDimension( )
-								.getName( ) ) )
+				Member[] previousMember = (Member[]) previewMemberList.get( t1 );
+				Member[] currentMember = (Member[]) currentMemberList.get( t1 );
+				if ( previousMember.length == currentMember.length )
 				{
-					drillMember[i] = aggregationRow.getLevelMembers( )[i];
+					for ( int t2 = 0; t2 < previousMember.length; t2++ )
+					{
+						if ( !previousMember[t2].equals( currentMember[t2] ) )
+						{
+							addToBuffer = true;
+							break;
+						}
+					}
 				}
 				else
 				{
-					List comparableLevels = CubeQueryDefinitionUtil.getDrilledTargetLevels( targetDrill );
-					if ( comparableLevels.contains( this.dimLevel[i] ) )
-					{
-						drillMember[i] = aggregationRow.getLevelMembers( )[i];
-					}
-					else
-					{
-						drillMember[i] = null;
-					}
-					continue;
+					addToBuffer = true;
 				}
+				if ( addToBuffer )
+					break;
 			}
-			row = new AggregationResultRow( drillMember,
-					aggregationRow.getAggregationValues( ) );
 		}
-		return row;
+		else
+		{
+			addToBuffer = true;
+		}
+
+		if ( addToBuffer )
+		{
+			for ( int j = 0; j < currentMemberList.size( ); j++ )
+			{
+				tempBufferArray.add( new AggregationResultRow( (Member[]) currentMemberList.get( j ),
+						null ) );
+			}
+			previewMemberList.clear( );
+			previewMemberList.addAll( currentMemberList );
+		}
+	}
+	
+	private BufferedStructureArray passInterimCubeResultSet(
+			IDiskArray bufferedStructureArray,
+			List<IAggregationResultSet> drillResultSets, List<IEdgeDrillFilter> drillFilters ) throws IOException
+	{
+		BufferedStructureArray tempBufferArray = new BufferedStructureArray( Member.getCreator( ),
+				2000 );
+		List<Member[]> currentMemberList;
+		List<Member[]> previewMemberList = new ArrayList<Member[]>( );
+		for ( int i = 0; i < bufferedStructureArray.size( ); i++ )
+		{
+
+			IAggregationResultRow row = (IAggregationResultRow) bufferedStructureArray.get( i );
+
+			currentMemberList = getDrilledMemberList( row.getLevelMembers( ),
+					drillResultSets,
+					drillFilters );
+
+			addMemberIntoBufferedArray( tempBufferArray,
+					currentMemberList,
+					previewMemberList );
+		}
+		bufferedStructureArray.close( );
+		return tempBufferArray;
 	}
 
-	private List<IAggregationResultRow> populateResultSet(
-			IAggregationResultSet aggregationRsFromCube,
-			IEdgeDrillFilter targetDrill ) throws IOException
+	private List<Member[]> getDrilledMemberList( Member[] member, List<IAggregationResultSet> drillResultsets,
+			List<IEdgeDrillFilter> drillFilters ) throws IOException
 	{
-		List<IAggregationResultRow> drillResultSet = new ArrayList<IAggregationResultRow>( );
-		int k = aggregationRsFromCube.getPosition( );
-		for ( ; k < aggregationRsFromCube.length( ); k++ )
+		List<Member[]> result = new ArrayList<Member[]>( );
+		boolean matched = false;
+		IEdgeDrillFilter appliedDrill = null;
+		for ( int i = 0; i < drillFilters.size( ); i++ )
 		{
-			aggregationRsFromCube.seek( k );
+			IEdgeDrillFilter drill = (IEdgeDrillFilter) drillFilters.get( i );
 
-			if ( isDrilledElement( aggregationRsFromCube.getCurrentRow( ),
-					targetDrill ) )
+			if ( !statusForRs[i] )
 			{
-				IAggregationResultRow row = this.populateResultSet( aggregationRsFromCube.getCurrentRow( ),
-						targetDrill );
-				drillResultSet.add( row );
+				continue;
 			}
-			else
+			Object[] tuple = drill.getTuple( ).toArray( );
+			for ( int j = 0; j < tuple.length; j++ )
 			{
-				aggregationRsFromCube.seek( k - 1 );
+				if ( tuple[j] != null && ( (Object[]) tuple[j] )[0] != null )
+				{
+					if ( member.length <= j
+							|| !containMember( member[j], (Object[]) tuple[j] ) )
+					{
+						matched = false;
+						break;
+					}
+				}
+				matched = true;
+			}
+
+			if ( matched )
+			{
+				appliedDrill = drill;
 				break;
 			}
 		}
 
-		return drillResultSet;
-	}
-
-	private IEdgeDrillFilter getTargetDrillOperation(
-			IAggregationResultRow row, List<IEdgeDrillFilter[]> drillFilters )
-	{
-		for ( int i = 0; i < drillFilters.size( ); i++ )
+		if ( appliedDrill != null )
 		{
-			IEdgeDrillFilter[] filters = drillFilters.get( i );
-			for ( int t = 0; t < filters.length; t++ )
+			if ( !statusForRs[drillFilters.indexOf( appliedDrill )] )
 			{
-				if ( isDrilledElement( row, filters[t] ) )
-				{
-					return filters[t];
-				}
+				return Collections.EMPTY_LIST;
 			}
-		}
-		return null;
-	}
-
-	private List<IEdgeDrillFilter[]> getRemainingDrillOperation(
-			IEdgeDrillFilter targetDrill, List<IEdgeDrillFilter[]> drillFilters )
-	{
-		List list = new ArrayList( );
-		for ( int i = 0; i < drillFilters.size( ); i++ )
-		{
-			IEdgeDrillFilter[] filters = drillFilters.get( i );
-			for ( int t = 0; t < filters.length; t++ )
+			IAggregationResultSet rs = ( (IAggregationResultSet) drillResultsets.get( drillFilters.indexOf( appliedDrill ) ) );
+			for ( int k = rs.getPosition( ); k < rs.length( ); k++ )
 			{
-				if ( !targetDrill.equals( filters[t] ) )
+				rs.seek( k );
+				IAggregationResultRow row = rs.getCurrentRow( );
+
+				if ( isDrilledElement( member,
+						row.getLevelMembers( ),
+						appliedDrill ) )
 				{
-					list.add( filters );
+					Member[] drillMember = new Member[rs.getLevelCount( )];
+
+					System.arraycopy( row.getLevelMembers( ),
+							0,
+							drillMember,
+							0,
+							row.getLevelMembers( ).length );
+
+					result.add( drillMember );
 				}
-			}
-		}
-		return list;
-	}
-
-	private boolean isDrilledElement( IAggregationResultRow row,
-			IEdgeDrillFilter drill )
-	{
-		List comparableLevels = CubeQueryDefinitionUtil.getDrilledTargetLevels( drill );
-
-		boolean matched = true;
-		Object[] tuple = drill.getTuple( ).toArray( );
-		for ( int j = 0; j < tuple.length; j++ )
-		{
-			if ( tuple[j] == null )
-				continue;
-			int levelIndex = -1;
-			for ( int t = 0; t < this.dimLevel.length; t++ )
-			{
-				if ( this.dimLevel[t].equals( comparableLevels.get( j ) ) )
+				else
 				{
-					levelIndex = t;
 					break;
 				}
 			}
-			if ( levelIndex == -1 )
-				return false;
-			if ( !containMember( row.getLevelMembers( )[levelIndex].getKeyValues( ),
-					(Object[]) tuple[j] ) )
-			{
-				matched = false;
-				break;
-			}
-		}
-		return matched;
-	}
 
-	private boolean containMember( Object[] levelkey, Object[] key )
+		}
+		else
+			result.add( member );
+		return result;
+	}
+	
+	private boolean isComplete( )
 	{
-		Object[] memberKeys = levelkey;
-		for ( Object obj : key )
+		for( int i=0; i<statusForRs.length; i++ )
 		{
-			if ( obj.toString( ).equals( memberKeys[0].toString( ) ) )
+			if( statusForRs[i] )
+				return false;
+		}
+		return true;
+	}
+	
+	private boolean containMember( Member member, Object[] key )
+	{
+		Object[] memberKeys = member.getKeyValues( );
+		for( Object obj: key )
+		{
+			if( obj.equals( memberKeys[0] ))
 			{
 				return true;
 			}
@@ -361,61 +327,83 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 		return false;
 	}
 
+	private boolean isDrilledElement( Member[] currentMember,
+			Member[] drillMember, IEdgeDrillFilter filter )
+	{
+		if ( drillMember.length < currentMember.length )
+		{
+			for ( int i = 0; i < drillMember.length; i++ )
+			{
+				if ( !drillMember[i].equals( currentMember[i] ) )
+					return false;
+			}
+		}
+		else
+		{
+			for ( int i = 0; i < currentMember.length; i++ )
+			{
+				if ( !currentMember[i].equals( drillMember[i] ) )
+					return false;
+			}
+		}
+		return true;
+	}
+
 	public void clear( ) throws IOException
 	{
-		this.bufferedStructureArray.clear( );
+		bufferedStructureArray.clear( );
 	}
 
 	public void close( ) throws IOException
 	{
-		this.bufferedStructureArray.close( );
+		bufferedStructureArray.close( );
 	}
 
 	public int getAggregationCount( )
 	{
-		return this.aggregationRsFromCube.getAggregationCount( );
+		return 0;
 	}
 
 	public int getAggregationDataType( int aggregationIndex )
 			throws IOException
 	{
-		return this.aggregationRsFromCube.getAggregationDataType( aggregationIndex );
+		return 0;
 	}
 
 	public int[] getAggregationDataType( )
 	{
-		return this.aggregationRsFromCube.getAggregationDataType( );
+		return null;
 	}
 
 	public AggregationDefinition getAggregationDefinition( )
 	{
-		return this.aggregationRsFromCube.getAggregationDefinition( );
+		return null;
 	}
 
 	public int getAggregationIndex( String name ) throws IOException
 	{
-		return this.aggregationRsFromCube.getAggregationIndex( name );
+		return 0;
 	}
 
 	public String getAggregationName( int index )
 	{
-		return this.aggregationRsFromCube.getAggregationName( index );
+		return null;
 	}
 
 	public Object getAggregationValue( int aggregationIndex )
 			throws IOException
 	{
-		return this.resultObject.getAggregationValues( )[aggregationIndex];
+		return null;
 	}
 
 	public DimLevel[] getAllLevels( )
 	{
-		return this.dimLevel;
+		return metaResultSet.getAllLevels( );
 	}
 
 	public String[][] getAttributeNames( )
 	{
-		return this.aggregationRsFromCube.getAttributeNames( );
+		return metaResultSet.getAttributeNames( );
 	}
 
 	public IAggregationResultRow getCurrentRow( ) throws IOException
@@ -425,20 +413,19 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 
 	public String[][] getKeyNames( )
 	{
-		return this.aggregationRsFromCube.getKeyNames( );
+		return metaResultSet.getKeyNames( );
 	}
 
 	public DimLevel getLevel( int levelIndex )
 	{
-		return this.aggregationRsFromCube.getLevel( levelIndex );
+		return metaResultSet.getLevel( levelIndex );
 	}
 
 	public Object getLevelAttribute( int levelIndex, int attributeIndex )
 	{
 		if ( resultObject.getLevelMembers( ) == null
 				|| levelIndex < 0
-				|| levelIndex > resultObject.getLevelMembers( ).length - 1
-				|| resultObject.getLevelMembers( )[levelIndex] == null )
+				|| levelIndex > resultObject.getLevelMembers( ).length - 1 )
 		{
 			return null;
 		}
@@ -447,97 +434,98 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 
 	public int getLevelAttributeColCount( int levelIndex )
 	{
-		return this.aggregationRsFromCube.getLevelAttributeColCount( levelIndex );
+		return metaResultSet.getLevelAttributeColCount( levelIndex );
 	}
 
 	public int getLevelAttributeDataType( DimLevel level, String attributeName )
 	{
-		return this.aggregationRsFromCube.getLevelAttributeDataType( level, attributeName );
+		int levelIndex = getLevelIndex( level );
+		if ( attributeDataTypes == null || attributeDataTypes[levelIndex] == null )
+		{
+			return DataType.UNKNOWN_TYPE;
+		}
+		return this.attributeDataTypes[levelIndex][getLevelAttributeIndex( level,
+				attributeName )];
 	}
 
 	public int getLevelAttributeDataType( int levelIndex, String attributeName )
 	{
-		return this.aggregationRsFromCube.getLevelAttributeDataType( levelIndex, attributeName );
+		return metaResultSet.getLevelAttributeDataType( levelIndex, attributeName );
 	}
 
 	public int[][] getLevelAttributeDataType( )
 	{
-		return this.aggregationRsFromCube.getLevelAttributeDataType( );
+		return this.attributeDataTypes;
 	}
 
 	public int getLevelAttributeIndex( int levelIndex, String attributeName )
 	{
-		return this.aggregationRsFromCube.getLevelAttributeIndex( levelIndex, attributeName );
+		return metaResultSet.getLevelAttributeIndex( levelIndex, attributeName );
 	}
 
 	public int getLevelAttributeIndex( DimLevel level, String attributeName )
 	{
-		return this.aggregationRsFromCube.getLevelAttributeIndex( level, attributeName );
+		return metaResultSet.getLevelAttributeIndex( level, attributeName );
 	}
 
 	public String[] getLevelAttributes( int levelIndex )
 	{
-		return this.aggregationRsFromCube.getLevelAttributes( levelIndex );
+		return metaResultSet.getLevelAttributes( levelIndex );
 	}
 
 	public String[][] getLevelAttributes( )
 	{
-		return this.aggregationRsFromCube.getLevelAttributes( );
-	}
-
-	public Object[] getLevelAttributesValue( int levelIndex )
-	{
-		return this.aggregationRsFromCube.getLevelAttributesValue( levelIndex );
+		return metaResultSet.getAttributeNames( );
 	}
 
 	public int getLevelCount( )
 	{
-		return this.aggregationRsFromCube.getLevelCount( );
+		return this.levelCount;
 	}
 
 	public int getLevelIndex( DimLevel level )
 	{
-		return this.aggregationRsFromCube.getLevelIndex( level );
+		return metaResultSet.getLevelIndex( level );
 	}
 
 	public int getLevelKeyColCount( int levelIndex )
 	{
-		return this.aggregationRsFromCube.getLevelKeyColCount( levelIndex );
+		return metaResultSet.getLevelKeyColCount( levelIndex );
 	}
 
 	public int getLevelKeyDataType( DimLevel level, String keyName )
 	{
-		return this.aggregationRsFromCube.getLevelKeyDataType( level, keyName );
+		return metaResultSet.getLevelKeyDataType( level, keyName );
 	}
 
 	public int getLevelKeyDataType( int levelIndex, String keyName )
 	{
-		return this.aggregationRsFromCube.getLevelKeyDataType( levelIndex, keyName );
+		return metaResultSet.getLevelKeyDataType( levelIndex, keyName );
 	}
 
 	public int[][] getLevelKeyDataType( )
 	{
-		return this.aggregationRsFromCube.getLevelKeyDataType( );
+		return metaResultSet.getLevelKeyDataType( );
 	}
 
 	public int getLevelKeyIndex( int levelIndex, String keyName )
 	{
-		return this.aggregationRsFromCube.getLevelKeyIndex( levelIndex, keyName );
+		return metaResultSet.getLevelKeyIndex( levelIndex, keyName );
 	}
 
 	public int getLevelKeyIndex( DimLevel level, String keyName )
 	{
-		return this.aggregationRsFromCube.getLevelKeyIndex( level, keyName );
+		return metaResultSet.getLevelKeyIndex( level, keyName );
 	}
 
 	public String getLevelKeyName( int levelIndex, int keyIndex )
 	{
-		return this.aggregationRsFromCube.getLevelKeyName( levelIndex, keyIndex );
+		return metaResultSet.getLevelKeyName( levelIndex, keyIndex );
 	}
 
 	public Object[] getLevelKeyValue( int levelIndex )
 	{
-		if ( resultObject.getLevelMembers( )[levelIndex] == null
+		if ( resultObject.getLevelMembers( ) == null
 				|| levelIndex < 0
 				|| levelIndex > resultObject.getLevelMembers( ).length - 1 )
 		{
@@ -548,22 +536,22 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 
 	public String[][] getLevelKeys( )
 	{
-		return this.aggregationRsFromCube.getLevelKeys( );
+		return metaResultSet.getLevelKeys( );
 	}
 
 	public int getPosition( )
 	{
-		return this.currentPosition;
+		return currentPosition;
 	}
 
 	public int getSortType( int levelIndex )
 	{
-		return this.aggregationRsFromCube.getSortType( levelIndex );
+		return metaResultSet.getSortType( levelIndex );
 	}
 
 	public int[] getSortType( )
 	{
-		return this.aggregationRsFromCube.getSortType( );
+		return metaResultSet.getSortType( );
 	}
 
 	public int length( )
@@ -580,6 +568,11 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 		}
 		currentPosition = index;
 		resultObject = (IAggregationResultRow) bufferedStructureArray.get( index );
+	}
+
+	public Object[] getLevelAttributesValue( int levelIndex )
+	{
+		return metaResultSet.getLevelAttributesValue( levelIndex );
 	}
 
 }

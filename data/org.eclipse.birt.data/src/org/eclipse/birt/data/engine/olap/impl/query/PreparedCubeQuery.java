@@ -204,15 +204,4 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 		}
 		return false;
 	}
-
-	
-	public boolean isFromDataMart( )
-	{
-		return false;
-	}
-
-	
-	public void setFromDataMart( boolean isFromDataMart )
-	{
-	}
 }

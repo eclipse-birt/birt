@@ -37,8 +37,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.ICallBackNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
@@ -48,7 +48,6 @@ import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.framework.PlatformConfig;
 
 /**
  * The selector of interactivity charts in Swing JPanel. Note: Use an extra
@@ -77,7 +76,7 @@ public final class SwingToggleVisibilityViewer extends JPanel
 	private Map contextMap;
 
 	/**
-	 * Constructs the layout with a container for displaying chart and a control
+	 * Contructs the layout with a container for displaying chart and a control
 	 * panel for selecting interactivity.
 	 * 
 	 * @param args
@@ -127,10 +126,8 @@ public final class SwingToggleVisibilityViewer extends JPanel
 	SwingToggleVisibilityViewer( )
 	{
 		contextMap = new HashMap( );
-		PlatformConfig config = new PlatformConfig( );
-		config.setProperty( PluginSettings.PROP_STANDALONE, "true" ); //$NON-NLS-1$
-		final PluginSettings ps = PluginSettings.instance( );
 
+		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
 			idr = ps.getDevice( "dv.SWING" );//$NON-NLS-1$
@@ -161,7 +158,6 @@ public final class SwingToggleVisibilityViewer extends JPanel
 	 */
 	public void repaintChart( )
 	{
-		updateBuffer( );
 		repaint( );
 	}
 
@@ -285,7 +281,11 @@ public final class SwingToggleVisibilityViewer extends JPanel
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 */
 	public void paint( Graphics g )
 	{
 		super.paint( g );

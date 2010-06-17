@@ -20,12 +20,11 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -37,6 +36,7 @@ import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -136,11 +136,22 @@ public class DataAdapterUtil
 					}
 					else
 					{
-						ExpressionHandle handle = modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER );
-						dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
-						paramBindingCandidates.put( modelParam.getName( ),
-								adapter.adaptExpression( (Expression) handle.getValue( ),
-										modelParam.getDataType( ) ) );
+						if ( ExpressionType.CONSTANT.equals( modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER )
+								.getType( ) ) )
+						{
+							defaultValueExpr = JavascriptEvalUtil.transformToJsExpression( modelParam.getDefaultValue( ) );
+							dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
+							paramBindingCandidates.put( modelParam.getName( ),
+									adapter.adaptExpression( defaultValueExpr, modelParam.getDataType( )));
+						}
+						else
+						{
+							ExpressionHandle handle = modelParam.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER );
+							dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
+							paramBindingCandidates.put( modelParam.getName( ),
+									adapter.adaptExpression( (Expression)handle.getValue( ), modelParam.getDataType( )));
+						
+						}
 					}
 				}
 				else
@@ -173,9 +184,9 @@ public class DataAdapterUtil
 			{
 				Object paramName = elmtIter.next( );
 				assert ( paramName != null && paramName instanceof String );
-				IScriptExpression expression = ( IScriptExpression ) paramBindingCandidates
+				ExpressionAdapter expression = ( ExpressionAdapter ) paramBindingCandidates
 						.get( paramName );
-				dteDataSet.addInputParamBinding( new InputParameterBinding( (String) paramName,
+				dteDataSet.addInputParamBinding( new InputParamBindingAdapter( (String) paramName,
 						expression ) );
 			}
 		}

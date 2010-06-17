@@ -401,7 +401,9 @@ public class DataEngineSession
 			{
 				return;
 			}
-			if ( session.getEngineContext( ).getDocWriter( ) != null )
+			final int mode = session.getEngineContext( ).getMode( );
+			if ( mode == DataEngineContext.MODE_GENERATION
+					|| mode == DataEngineContext.MODE_UPDATE )
 			{
 				try
 				{

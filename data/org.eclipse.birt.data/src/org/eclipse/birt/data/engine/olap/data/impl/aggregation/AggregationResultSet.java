@@ -85,9 +85,6 @@ public class AggregationResultSet implements IAggregationResultSet
 
 			for ( int i = 0; i < resultObject.getLevelMembers().length; i++ )
 			{
-				//only for drill operation, the member key value will be null
-				if ( resultObject.getLevelMembers( )[i] == null )
-					continue;
 				keyDataTypes[i] = new int[resultObject.getLevelMembers()[i].getKeyValues().length];
 				for ( int j = 0; j < resultObject.getLevelMembers()[i].getKeyValues().length; j++ )
 				{
@@ -330,8 +327,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	{
 		if ( resultObject.getLevelMembers( ) == null
 				|| levelIndex < 0
-				|| levelIndex > resultObject.getLevelMembers( ).length - 1
-				|| resultObject.getLevelMembers( )[levelIndex] == null )
+				|| levelIndex > resultObject.getLevelMembers( ).length - 1 )
 		{
 			return null;
 		}
