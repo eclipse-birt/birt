@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt"
       label="%featureName"
-      version="2.6.0.qualifier"
+      version="2.6.1.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt"
       image="eclipse_update_120.jpg">
@@ -122,14 +122,14 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.chart.examples.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.chart.device.extension"
          download-size="0"
@@ -277,7 +277,12 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin id="org.apache.batik.pdf" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+   <plugin
+         id="org.apache.batik.pdf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.apache.commons.codec"
@@ -701,5 +706,4 @@
          version="0.0.0"
          unpack="false"/>
 
-	<!-- PLACEHOLDER FOR org.w3c.dom.events -->
 </feature>
