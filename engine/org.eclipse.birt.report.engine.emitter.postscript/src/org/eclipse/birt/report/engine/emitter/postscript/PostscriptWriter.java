@@ -938,12 +938,10 @@ public class PostscriptWriter
 		out.println( " translate" );
 	}
 
-	public void startRenderer( String paperSize, int paperTrayCode,
-			String duplex, int copies, boolean collate, int resolution,
-			boolean gray, int scale ) throws IOException
+	public void startRenderer( ) throws IOException
 	{
-		startRenderer( null, null, paperSize, paperTrayCode, duplex, copies,
-				collate, resolution, gray, scale );
+		startRenderer( null, null, null, IPostscriptRenderOption.TRAYCODE_AUTO,
+				null, 1, false, 600, false, 100 );
 	}
 
 	/*
