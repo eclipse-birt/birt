@@ -67,6 +67,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.TemplateParameterDefinitionHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -774,6 +775,17 @@ public final class ChartReportItemImpl extends ReportItem implements
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemImpl.log.validate" ) ); //$NON-NLS-1$
 		List<SemanticException> list = new ArrayList<SemanticException>( );
+		// Ignore the validation for templates
+		DesignElementHandle container = handle.getContainer( );
+		do
+		{
+			if ( container instanceof TemplateParameterDefinitionHandle )
+			{
+				return list;
+			}
+			container = container.getContainer( );
+		} while ( container != null );
+		
 		if ( cm != null )
 		{
 			if ( ChartItemUtil.getBindingDataSet( handle ) == null
@@ -921,7 +933,6 @@ public final class ChartReportItemImpl extends ReportItem implements
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#updateRowExpressions(java.util.Map)
 	 */
-	@SuppressWarnings("unchecked")
 	public void updateRowExpressions( Map newExpressions )
 	{
 		CompatibleExpressionUpdater.update( cm, newExpressions );
