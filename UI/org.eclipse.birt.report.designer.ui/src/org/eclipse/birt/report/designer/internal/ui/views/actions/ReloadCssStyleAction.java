@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -68,9 +69,9 @@ public class ReloadCssStyleAction extends AbstractViewAction
 			return ((ReportDesignHandle)selection).getAllCssStyleSheets( ).size( ) > 0 ? true : false;
 		}	
 		else
-		if(selection instanceof ThemeHandle)
+		if(selection instanceof AbstractThemeHandle)
 		{
-			return ((ThemeHandle)selection).getAllCssStyleSheets( ).size( ) > 0 ? true : false;
+			return ((AbstractThemeHandle)selection).getAllCssStyleSheets( ).size( ) > 0 ? true : false;
 		}
 		return false;
 	}

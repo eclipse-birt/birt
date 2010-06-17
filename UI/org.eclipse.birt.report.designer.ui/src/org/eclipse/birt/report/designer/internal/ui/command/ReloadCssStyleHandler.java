@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -56,7 +56,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 			container = ( (CssStyleSheetHandle) obj ).getContainerHandle( );
 		}
 		else if ( obj instanceof ReportDesignHandle
-				|| obj instanceof ThemeHandle )
+				|| obj instanceof AbstractThemeHandle )
 		{
 			container = obj;
 			obj = null;
@@ -93,9 +93,9 @@ public class ReloadCssStyleHandler extends SelectionHandler
 				}
 
 			}
-			else if ( container instanceof ThemeHandle )
+			else if ( container instanceof AbstractThemeHandle )
 			{
-				cssStyleSheet = ( (ThemeHandle) container ).getAllCssStyleSheets( );
+				cssStyleSheet = ( (AbstractThemeHandle) container ).getAllCssStyleSheets( );
 				if ( cssStyleSheet == null )
 				{
 					return true;
@@ -104,7 +104,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 				{
 					try
 					{
-						( (ThemeHandle) container ).reloadCss( (CssStyleSheetHandle) cssStyleSheet.get( i ) );
+						( (AbstractThemeHandle) container ).reloadCss( (CssStyleSheetHandle) cssStyleSheet.get( i ) );
 					}
 					catch ( SemanticException e )
 					{
@@ -129,11 +129,11 @@ public class ReloadCssStyleHandler extends SelectionHandler
 					return false;
 				}
 			}
-			else if ( container instanceof ThemeHandle )
+			else if ( container instanceof AbstractThemeHandle )
 			{
 				try
 				{
-					( (ThemeHandle) container ).reloadCss( cssCtyleSheetHandle );
+					( (AbstractThemeHandle) container ).reloadCss( cssCtyleSheetHandle );
 				}
 				catch ( SemanticException e )
 				{
