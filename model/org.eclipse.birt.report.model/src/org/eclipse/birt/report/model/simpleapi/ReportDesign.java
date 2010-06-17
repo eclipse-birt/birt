@@ -14,8 +14,9 @@ package org.eclipse.birt.report.model.simpleapi;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -67,7 +68,7 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 
 	public static final String CLASS_NAME = "ReportDesign"; //$NON-NLS-1$
 
-	private InternalReportDesign report;
+	final private InternalReportDesign report;
 
 	/**
 	 * Constructor.
@@ -351,32 +352,51 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	private void initFunctions( )
 	{
 		Method[] tmpMethods = this.getClass( ).getDeclaredMethods( );
-		Set<String> tmpNames = new HashSet<String>( );
+		HashMap<String, Method> methods = new LinkedHashMap<String, Method>( );
 		for ( int i = 0; i < tmpMethods.length; i++ )
 		{
 			Method tmpMethod = tmpMethods[i];
-
+			String methodName = tmpMethod.getName( );
+			// must handle special case with long parameter or polymiorphism
+			if ( "getReportElementByID".equals( methodName ) //$NON-NLS-1$
+					|| "setUserProperty".equals( methodName ) ) //$NON-NLS-1$
+				continue;
 			if ( ( tmpMethod.getModifiers( ) & Modifier.PUBLIC ) != 0 )
-				tmpNames.add( tmpMethod.getName( ) );
+				methods.put( methodName, tmpMethod );
 		}
 
-		// must handle special case with long parameter or polymiorphism
-
-		tmpNames.remove( "getReportElementByID" ); //$NON-NLS-1$
-		tmpNames.remove( "setUserProperty" ); //$NON-NLS-1$
-
-		String[] tmpArray = new String[tmpNames.size( )];
-		tmpNames.toArray( tmpArray );
 		ContextFactory.getGlobal( ).enterContext( );
 		try
 		{
-			this.defineFunctionProperties( tmpArray, this.getClass( ), DONTENUM );
+			for ( final Entry<String, Method> entry : methods.entrySet( ) )
+			{
+				this.defineProperty( entry.getKey( ), new BaseFunction( ) {
+
+					public Object call( Context cx, Scriptable scope,
+							Scriptable thisObj, Object[] args )
+					{
+						Object[] convertedArgs = JavascriptEvalUtil
+								.convertToJavaObjects( args );
+						try
+						{
+							Method method = entry.getValue( );
+							return method.invoke( ReportDesign.this,
+									convertedArgs );
+						}
+						catch ( Exception e )
+						{
+							throw new WrappedException( e );
+						}
+					}
+
+				}, DONTENUM );
+			}
 		}
 		finally
 		{
 			Context.exit( );
 		}
-		
+
 		this.defineProperty( "getReportElementByID", //$NON-NLS-1$
 				new Function_getReportElementByID( ), DONTENUM );
 		this.defineProperty( "setUserProperty", //$NON-NLS-1$
@@ -386,17 +406,7 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	private class Function_getReportElementByID extends BaseFunction
 	{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
-
-		/**
-		 * 
-		 */
-		Function_getReportElementByID( )
-		{
-		}
 
 		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
 				java.lang.Object[] args )
@@ -411,17 +421,7 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	private class Function_setUserProperty extends BaseFunction
 	{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
-
-		/**
-		 * 
-		 */
-		Function_setUserProperty( )
-		{
-		}
 
 		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
 				java.lang.Object[] args )
