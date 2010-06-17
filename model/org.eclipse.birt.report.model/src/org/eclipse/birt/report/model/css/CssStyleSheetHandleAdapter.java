@@ -25,9 +25,9 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleShe
 import org.eclipse.birt.report.model.command.CssCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 
@@ -275,11 +275,13 @@ public class CssStyleSheetHandleAdapter
 			propName = IReportDesignModel.CSSES_PROP;
 
 		}
-		else if ( element instanceof Theme )
+		else if ( element instanceof AbstractTheme )
 		{
 
 			propName = IAbstractThemeModel.CSSES_PROP;
 		}
+
+		assert propName != null;
 
 		PropertyHandle propHandle = element.getHandle( module )
 				.getPropertyHandle( propName );

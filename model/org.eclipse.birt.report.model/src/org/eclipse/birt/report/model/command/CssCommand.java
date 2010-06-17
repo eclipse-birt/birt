@@ -30,7 +30,10 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -73,7 +76,7 @@ public class CssCommand extends AbstractElementCommand
 	 * @param fileName
 	 *            css file name
 	 * @throws SemanticException
-	 *             if failed to add <code>CssStyleSheet</code> strcutre
+	 *             if failed to add <code>CssStyleSheet</code> structure
 	 */
 
 	public void addCss( String fileName ) throws SemanticException
@@ -156,8 +159,10 @@ public class CssCommand extends AbstractElementCommand
 	{
 		assert css != null;
 
-		ElementPropertyDefn propDefn = element
-				.getPropertyDefn( IReportDesignModel.CSSES_PROP );
+		String propName = getCssPropertyName( );
+		assert propName != null;
+
+		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 		ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
 				module, element );
 		if ( posn == APPEND_POS )
@@ -256,6 +261,22 @@ public class CssCommand extends AbstractElementCommand
 
 	}
 
+	private String getCssPropertyName( )
+	{
+		if ( element instanceof ReportDesign )
+		{
+			return IReportDesignModel.CSSES_PROP;
+
+		}
+		else if ( element instanceof AbstractTheme )
+		{
+
+			return IAbstractThemeModel.CSSES_PROP;
+		}
+
+		return null;
+	}
+
 	/**
 	 * Drop one css file.
 	 * 
@@ -268,8 +289,9 @@ public class CssCommand extends AbstractElementCommand
 	private void removeIncludeCss( IncludedCssStyleSheet css )
 			throws SemanticException
 	{
-		ElementPropertyDefn propDefn = element
-				.getPropertyDefn( IReportDesignModel.CSSES_PROP );
+		String propName = getCssPropertyName( );
+		assert propName != null;
+		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 		ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
 				module, element );
 		propCommand.removeItem(
@@ -321,8 +343,9 @@ public class CssCommand extends AbstractElementCommand
 
 		if ( position == -1 )
 			return null;
-		List<Object> cssStructs = element.getListProperty( module,
-				IReportDesignModel.CSSES_PROP );
+		String propName = getCssPropertyName( );
+		assert propName != null;
+		List<Object> cssStructs = element.getListProperty( module, propName );
 
 		return (IncludedCssStyleSheet) cssStructs.get( position );
 	}
@@ -401,8 +424,9 @@ public class CssCommand extends AbstractElementCommand
 
 	private int findIncludedCssStyleSheetPosition( CssStyleSheet sheet )
 	{
-		List<Object> includedCss = element.getListProperty( module,
-				IReportDesignModel.CSSES_PROP );
+		String propName = getCssPropertyName( );
+		assert propName != null;
+		List<Object> includedCss = element.getListProperty( module, propName );
 		for ( int i = 0; i < includedCss.size( ); i++ )
 		{
 			IncludedCssStyleSheet oneCss = (IncludedCssStyleSheet) includedCss
@@ -423,8 +447,9 @@ public class CssCommand extends AbstractElementCommand
 	 */
 	private IncludedCssStyleSheet findIncludedCssStyleSheet( CssStyleSheet sheet )
 	{
-		List<Object> includedCss = element.getListProperty( module,
-				IReportDesignModel.CSSES_PROP );
+		String propName = getCssPropertyName( );
+		assert propName != null;
+		List<Object> includedCss = element.getListProperty( module, propName );
 		int posn = findIncludedCssStyleSheetPosition( sheet );
 		if ( posn == APPEND_POS )
 			return null;
@@ -439,8 +464,9 @@ public class CssCommand extends AbstractElementCommand
 
 	private int findIncludedCssStyleSheetPosition( String fileName )
 	{
-		List<Object> includedCss = element.getListProperty( module,
-				IReportDesignModel.CSSES_PROP );
+		String propName = getCssPropertyName( );
+		assert propName != null;
+		List<Object> includedCss = element.getListProperty( module, propName );
 		for ( int i = 0; i < includedCss.size( ); i++ )
 		{
 			IncludedCssStyleSheet oneCss = (IncludedCssStyleSheet) includedCss
