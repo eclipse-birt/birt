@@ -93,7 +93,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
 	public int maxDataObjectRows = -1;
-	public int memoryCacheSize = -1;
+	public long memoryCacheSize = 0;
 	
 	/**
 	 * 
@@ -698,10 +698,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( new CubeDimensionReader( cube ),
 				dataSet4Aggregation,
 				aggregations );
-		if( maxDataObjectRows != -1 )
-			aggregationCalculatorExecutor.setMaxDataObjectRows( maxDataObjectRows );
-		if( memoryCacheSize != -1 )
-			aggregationCalculatorExecutor.setMemoryCacheSize( memoryCacheSize );
+		
+		aggregationCalculatorExecutor.setMaxDataObjectRows( maxDataObjectRows );
+		aggregationCalculatorExecutor.setMemoryCacheSize( memoryCacheSize );
+		
 		return aggregationCalculatorExecutor.execute( stopSign );
 	}
 	
@@ -856,12 +856,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		return maxDataObjectRows;
 	}
 	
-	public void setMemoryCacheSize( int memoryCacheSize )
+	public void setMemoryCacheSize( long memoryCacheSize )
 	{
 		this.memoryCacheSize = memoryCacheSize;
 	}
 	
-	public int getMemoryCacheSize( int memoryCacheSize )
+	public long getMemoryCacheSize( )
 	{
 		return memoryCacheSize;
 	}

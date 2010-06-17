@@ -68,7 +68,7 @@ public class CacheUtil
 	{
 		//here a simple assumption, that 1M memory can accommodate 2000 rows
 		if ( appContext == null )
-			return 10*1024*1024;
+			return 0;
 		if ( appContext.get( TEST_MEM_BUFFER_SIZE )!= null )
 		{
 			//For unit test.The unit is 1 byte.
@@ -102,15 +102,15 @@ public class CacheUtil
 	private static long populateMemBufferSize( Object propValue )
 	{
 		String targetBufferSize =  propValue == null
-				? "10" : propValue
+				? "0" : propValue
 						.toString( );
 		
-		long memoryCacheSize = 10; 
+		long memoryCacheSize = 0; 
 		
 		if ( targetBufferSize != null )
 			memoryCacheSize = Long.parseLong( targetBufferSize );
 
-		return memoryCacheSize == 0?1:memoryCacheSize;
+		return memoryCacheSize;
 	}
 	
 	// ------------------------service for DiskCache-------------------------

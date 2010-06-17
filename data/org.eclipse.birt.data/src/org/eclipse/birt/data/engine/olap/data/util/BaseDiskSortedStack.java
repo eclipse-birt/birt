@@ -35,6 +35,8 @@ abstract public class BaseDiskSortedStack
 	private boolean forceDistinct = false;
 	private Object lastPopObject = null;
 	private int size = 0;
+	
+	private boolean useMemoryOnly = false;
 
 	/**
 	 * 
@@ -71,6 +73,20 @@ abstract public class BaseDiskSortedStack
 		this.size = 0;
 	}
 
+	public void setBufferSize( int bufferSize )
+	{
+		buffer = new Object[bufferSize];
+	}
+	
+	/**
+	 * 
+	 * @param useMemoryOnly
+	 */
+	public void setUseMemoryOnly( boolean useMemoryOnly )
+	{
+		this.useMemoryOnly = useMemoryOnly;
+	}
+	
 	/**
 	 * 
 	 * @param isAscending
@@ -113,6 +129,14 @@ abstract public class BaseDiskSortedStack
 	{
 		if ( bufferPos < buffer.length )
 		{
+			buffer[bufferPos] = o;
+			bufferPos++;
+		}
+		else if( useMemoryOnly )
+		{
+			Object tempBuffer[] = new Object[buffer.length*2];
+			System.arraycopy( buffer, 0, tempBuffer, 0, buffer.length );
+			buffer = tempBuffer;
 			buffer[bufferPos] = o;
 			bufferPos++;
 		}

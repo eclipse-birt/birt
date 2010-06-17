@@ -15,8 +15,8 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
 import java.io.IOException;
-import java.util.Arrays;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -101,12 +101,14 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 						.getHierarchy( )
 						.getLevels( )[levelIndex];
 				int columnIndex = -1;
+				int dataType = DataType.UNKNOWN_TYPE;
 				boolean isKey = false;
 				for ( int i = 0; i < levelInfo.getKeyNames( ).length; i++ )
 				{
 					if ( levelInfo.getKeyNames( )[i].equals( columnName ) )
 					{
 						columnIndex = i;
+						dataType = levelInfo.getKeyDataType( columnName );
 						isKey = true;
 						break;
 					}
@@ -118,6 +120,7 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 						if ( levelInfo.getAttributeNames( )[i].equals( columnName ) )
 						{
 							columnIndex = i;
+							dataType = levelInfo.getAttributeDataType( columnName );
 							break;
 						}
 					}
@@ -136,6 +139,7 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 				return new ColumnInfo( dimIndex,
 						levelIndex,
 						columnIndex,
+						dataType,
 						isKey );
 			}
 

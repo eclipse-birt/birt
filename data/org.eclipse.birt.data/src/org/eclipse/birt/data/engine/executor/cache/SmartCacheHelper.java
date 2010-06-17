@@ -314,7 +314,7 @@ class SmartCacheHelper
 
 		while ( ( odaObject = rowResultSet.next( ) ) != null && !session.getStopSign( ).isStopped( ) )
 		{
-			if ( usedMemorySize < memoryCacheSize )
+			if ( memoryCacheSize == 0 || usedMemorySize < memoryCacheSize )
 			{
 				dataCount++;
 				if( maxRows > 0 && dataCount > maxRows )
@@ -334,12 +334,14 @@ class SmartCacheHelper
 					}
 					ResultObject temp = new ResultObject( rsMeta, obs );
 					resultObjectsList.add( temp );
-					usedMemorySize += sizeOfUtil.sizeOf( temp );
+					if( memoryCacheSize != 0 )
+						usedMemorySize += sizeOfUtil.sizeOf( temp );
 				}
 				else
 				{
 					resultObjectsList.add( odaObject );
-					usedMemorySize += sizeOfUtil.sizeOf( odaObject );
+					if( memoryCacheSize != 0 )
+						usedMemorySize += sizeOfUtil.sizeOf( odaObject );
 				}
 				
 			}

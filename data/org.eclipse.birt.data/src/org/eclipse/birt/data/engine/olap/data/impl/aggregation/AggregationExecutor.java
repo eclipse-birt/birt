@@ -19,15 +19,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
+import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
@@ -55,7 +57,7 @@ public class AggregationExecutor
 	protected static Logger logger = Logger.getLogger( AggregationExecutor.class.getName( ) );
 
 	public int maxDataObjectRows = -1;
-	public int memoryCacheSize = -1;
+	public long memoryCacheSize = 0;
 	
 	/**
 	 * 
@@ -290,12 +292,16 @@ public class AggregationExecutor
 	
 
 	/**
+	 * @throws IOException 
+	 * @throws DataException 
 	 * 
 	 *
 	 */
-	private void prepareSortedStacks( )
+	private void prepareSortedStacks( ) throws DataException, IOException
 	{
 		allSortedFactRows = new ArrayList( );
+		int levelSize = 0;
+		int measureSize = 0;
 		while ( true )
 		{
 			int maxLevelCount = 0;
@@ -317,12 +323,30 @@ public class AggregationExecutor
 			{
 				break;
 			}
+			if ( memoryCacheSize != 0 )
+			{
+				if( levelSize == 0 )
+					levelSize = getLevelSize( aggregationCalculators[aggregationIndex].aggregation.getLevels( ) );
+				else
+					levelSize += getArraySize( aggregationCalculators[aggregationIndex].aggregation.getLevels( ).length );
+				
+				if( measureSize == 0 )
+					measureSize = getMeasureSize( );
+				else
+					measureSize += getArraySize( dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( ).length );
+			}
 
 			Comparator comparator = new Row4AggregationComparator( levelSortType );
-			DiskSortedStack diskSortedStack = new DiskSortedStack( Constants.FACT_TABLE_BUFFER_SIZE,
+			DiskSortedStack diskSortedStack = new DiskSortedStack( 100,
 					false,
 					comparator,
 					Row4Aggregation.getCreator( ) );
+			if ( memoryCacheSize == 0 )
+			{
+				diskSortedStack.setBufferSize( 10000 );
+				diskSortedStack.setUseMemoryOnly( true );
+			}
+				
 			DiskSortedStackWrapper diskSortedStackReader = new DiskSortedStackWrapper( diskSortedStack,
 					levelIndex[aggregationIndex] );
 			this.allSortedFactRows.add( diskSortedStackReader );
@@ -337,6 +361,66 @@ public class AggregationExecutor
 				}
 			}
 		}
+		
+		if ( memoryCacheSize > 0 )
+		{
+			int rowSize = 16 + ( 4 + ( levelSize + measureSize ) - 1 ) / 8 * 8;
+			int bufferSize = (int) (this.memoryCacheSize / rowSize);
+
+			for (int i = 0; i < allSortedFactRows.size( ); i++)
+			{
+				DiskSortedStackWrapper diskSortedStackReader = (DiskSortedStackWrapper) allSortedFactRows
+						.get(i);
+				diskSortedStackReader.getDiskSortedStack().setBufferSize( bufferSize );
+			}
+		}
+	}
+	
+	private int getMeasureSize( ) throws IOException
+	{
+		MeasureInfo[] measureInfo = dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( );
+		int[] dataType = new int[measureInfo.length];
+		for( int i = 0; i < measureInfo.length; i++ )
+		{
+			dataType[i] = measureInfo[i].getDataType( );
+		}
+		return getObjectSize( dataType);
+	}
+
+	private static int getObjectSize( int[] dataType) {
+		int size = 0;
+		for( int i = 0; i < dataType.length; i++ )
+		{
+			if( dataType[i] == DataType.STRING_TYPE )
+			{
+				size += 40 + ( ( 20 + 1 ) / 4 ) * 8; //We can assume String values to average 20 characters each.
+			}
+			else
+			{
+				size += SizeOfUtil.sizeOf( dataType[i] );
+			}
+		}
+		size += getArraySize( dataType.length );
+		
+		return size;
+	}
+	
+	private static int getArraySize( int length )
+	{
+		return 16 + ( 4 + length * 4 - 1 ) / 8 * 8;
+	}
+	
+	private int getLevelSize( DimLevel[] dimLevel ) throws DataException
+	{
+		int[] dataType = new int[dimLevel.length];
+		for( int i = 0; i < dimLevel.length; i++ )
+		{
+			DimColumn dimColumn = new DimColumn( 
+					dimLevel[i].getDimensionName( ), dimLevel[i].getLevelName( ), dimLevel[i].getLevelName( ) );
+			ColumnInfo columnInfo = ( dataSet4Aggregation.getMetaInfo( ) ).getColumnInfo( dimColumn ); 
+			dataType[i] = columnInfo.getDataType( );
+		}
+		return getObjectSize( dataType);
 	}
 
 	/**
@@ -466,7 +550,7 @@ public class AggregationExecutor
 		return maxDataObjectRows;
 	}
 	
-	public void setMemoryCacheSize( int memoryCacheSize )
+	public void setMemoryCacheSize( long memoryCacheSize )
 	{
 		this.memoryCacheSize = memoryCacheSize;
 	}
@@ -563,6 +647,11 @@ class DiskSortedStackWrapper
 		this.levelIndex = levelIndex;
 	}
 
+	DiskSortedStack getDiskSortedStack( )
+	{
+		return this.diskSortedStack;
+	}
+	
 	/**
 	 * 
 	 * @return

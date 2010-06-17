@@ -20,14 +20,16 @@ public class ColumnInfo
 	private int dimIndex;
 	private int levelIndex;
 	private int columnIndex;
+	private int dataType;
 	private boolean isKey;
 	
 	
-	public ColumnInfo(int dimIndex, int levelIndex, int columnIndex,  boolean isKey)
+	public ColumnInfo(int dimIndex, int levelIndex, int columnIndex, int dataType, boolean isKey)
 	{
 		this.dimIndex = dimIndex;
 		this.levelIndex = levelIndex;
 		this.columnIndex = columnIndex;
+		this.dataType = dataType;
 		this.isKey = isKey;
 		
 	}
@@ -45,6 +47,11 @@ public class ColumnInfo
 	int getColumnIndex( )
 	{
 		return columnIndex;
+	}
+	
+	int getDataType( )
+	{
+		return dataType;
 	}
 	
 	boolean isKey( )

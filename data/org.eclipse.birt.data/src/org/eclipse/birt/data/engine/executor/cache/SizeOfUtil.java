@@ -15,6 +15,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -157,6 +158,32 @@ public class SizeOfUtil
 		int fieldsSize = 16 + ( 4 + fieldCount * 4 - 1 ) / 8 * 8;
 		returnValue += 16 + ( 4 + fieldsSize - 1 ) / 8 * 8;
 		return returnValue;
+	}
+	
+	public static int sizeOf( int dataType )
+	{
+		if ( dataType == DataType.INTEGER_TYPE )
+		{
+			return SizeOfUtil.INTEGER_SIZE;
+		}
+		else if ( dataType == DataType.DOUBLE_TYPE )
+		{
+			return SizeOfUtil.DOUBLE_SIZE;
+		}
+		else if ( dataType == DataType.SQL_TIME_TYPE )
+		{
+			return SizeOfUtil.TIME_SIZE;
+		}
+		else if ( dataType == DataType.DATE_TYPE )
+		{
+			return SizeOfUtil.TIMESTAMP_SIZE;
+		}
+		else if ( dataType == DataType.SQL_DATE_TYPE )
+		{
+			return SizeOfUtil.SQL_DATE_SIZE;
+		}
+		// Normally followed lines will never be arrived.
+		return 0;
 	}
 
 	/**

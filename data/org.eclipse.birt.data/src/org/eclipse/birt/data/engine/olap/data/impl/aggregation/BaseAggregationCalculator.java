@@ -155,15 +155,20 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 				paraColumn.getLevelName( ) ) );
 		int columnIndex = this.aggrResultSet.getLevelKeyIndex( levelIndex,
 				paraColumn.getColumnName( ) );
+		int dataType = -1;
 		if ( columnIndex == -1 )
 		{
 			columnIndex = this.aggrResultSet.getLevelAttributeIndex( levelIndex,
 					paraColumn.getColumnName( ) );
-			paraInfo = new ColumnInfo( -1, levelIndex, columnIndex, false );
+			dataType = this.aggrResultSet.getLevelAttributeDataType( levelIndex,
+					paraColumn.getColumnName( ) );
+			paraInfo = new ColumnInfo( -1, levelIndex, columnIndex, dataType, false );
 		}
 		else
 		{
-			paraInfo = new ColumnInfo( -1, levelIndex, columnIndex, true );
+			dataType = this.aggrResultSet.getLevelKeyDataType( levelIndex,
+					paraColumn.getColumnName( ) );
+			paraInfo = new ColumnInfo( -1, levelIndex, columnIndex, dataType, true );
 		}
 		return paraInfo;
 	}
