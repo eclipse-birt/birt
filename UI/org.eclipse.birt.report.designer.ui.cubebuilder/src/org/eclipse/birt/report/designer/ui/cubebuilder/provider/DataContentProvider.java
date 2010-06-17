@@ -13,12 +13,14 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -34,6 +36,19 @@ import org.eclipse.jface.viewers.Viewer;
 public class DataContentProvider implements ITreeContentProvider
 {
 
+	class CustomComparator implements Comparator
+	{
+
+		public int compare( Object arg0, Object arg1 )
+		{
+			String name1 = OlapUtil.getDataFieldDisplayName( (ResultSetColumnHandle) arg0 );
+			String name2 = OlapUtil.getDataFieldDisplayName( (ResultSetColumnHandle) arg1 );
+			if(name1 == null)
+				return -1;
+			else return name1.compareTo( name2 );
+		}
+	}
+
 	public Object[] getChildren( Object parentElement )
 	{
 		if ( parentElement instanceof Object[] )
@@ -42,7 +57,9 @@ public class DataContentProvider implements ITreeContentProvider
 		}
 		if ( parentElement instanceof DataSetHandle )
 		{
-			return OlapUtil.getDataFields( (DataSetHandle) parentElement );
+			ResultSetColumnHandle[] children = OlapUtil.getDataFields( (DataSetHandle) parentElement );
+			Arrays.sort( children, new CustomComparator( ) );
+			return children;
 		}
 		if ( parentElement instanceof TabularCubeHandle )
 		{
