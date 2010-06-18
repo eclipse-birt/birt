@@ -328,12 +328,18 @@ public class AggregationExecutor
 				if( levelSize == 0 )
 					levelSize = getLevelSize( aggregationCalculators[aggregationIndex].aggregation.getLevels( ) );
 				else
-					levelSize += getArraySize( aggregationCalculators[aggregationIndex].aggregation.getLevels( ).length );
+				{
+					if( aggregationCalculators[aggregationIndex].aggregation.getLevels( ) != null )
+						levelSize += getArraySize( aggregationCalculators[aggregationIndex].aggregation.getLevels( ).length );
+				}
 				
 				if( measureSize == 0 )
 					measureSize = getMeasureSize( );
 				else
-					measureSize += getArraySize( dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( ).length );
+				{
+					if( dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( ) != null )
+						measureSize += getArraySize( dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( ).length );
+				}
 			}
 
 			Comparator comparator = new Row4AggregationComparator( levelSortType );
@@ -379,6 +385,8 @@ public class AggregationExecutor
 	private int getMeasureSize( ) throws IOException
 	{
 		MeasureInfo[] measureInfo = dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( );
+		if( measureInfo == null || measureInfo.length == 0 )
+			return 0;
 		int[] dataType = new int[measureInfo.length];
 		for( int i = 0; i < measureInfo.length; i++ )
 		{
@@ -407,11 +415,17 @@ public class AggregationExecutor
 	
 	private static int getArraySize( int length )
 	{
+		if( length == 0 )
+			return 0;
 		return 16 + ( 4 + length * 4 - 1 ) / 8 * 8;
 	}
 	
 	private int getLevelSize( DimLevel[] dimLevel ) throws DataException
 	{
+		if( dimLevel == null || dimLevel.length == 0 )
+		{
+			return 0;
+		}
 		int[] dataType = new int[dimLevel.length];
 		for( int i = 0; i < dimLevel.length; i++ )
 		{
