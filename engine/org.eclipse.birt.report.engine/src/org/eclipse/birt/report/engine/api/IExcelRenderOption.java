@@ -33,7 +33,7 @@ public interface IExcelRenderOption extends IRenderOption
 	/**
 	 * This is the option to decide in which office version will you output the excel file
 	 */
-	public static final String OPTION_ENABLE_MULTIPLE_SHEET = "excelRenderOption.enableMultipleSheet";
+	public static final String OPTION_MULTIPLE_SHEET = "excelRenderOption.multipleSheet";
 	
 	/**
 	 * 

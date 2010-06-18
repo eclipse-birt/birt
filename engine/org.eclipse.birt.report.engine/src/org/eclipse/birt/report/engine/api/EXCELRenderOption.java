@@ -90,12 +90,12 @@ public class EXCELRenderOption extends RenderOption implements IExcelRenderOptio
 
 	public boolean isEnableMultipleSheet( )
 	{
-		return getBooleanOption( OPTION_ENABLE_MULTIPLE_SHEET, false );
+		return getBooleanOption( OPTION_MULTIPLE_SHEET, false );
 	}
 
 	public void setEnableMultipleSheet( boolean enableMultipleSheet )
 	{
-		setOption( OPTION_ENABLE_MULTIPLE_SHEET, enableMultipleSheet );
+		setOption( OPTION_MULTIPLE_SHEET, enableMultipleSheet );
 	}
 
 }
