@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
@@ -31,6 +32,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
@@ -107,13 +109,17 @@ abstract class AbstractReportParameterAdapter
 
 		// should not convert report parameter name here.
 
-		String defaultValue = dataSetParam.getDefaultValue( );
+		ExpressionHandle defaultExpr = dataSetParam
+				.getExpressionProperty( OdaDataSetParameter.DEFAULT_VALUE_MEMBER );
 		String paramName = dataSetParam.getParamName( );
 
+		String defaultValue = defaultExpr.getStringExpression( );
+		String defaultType = defaultExpr.getType( );
+		
 		if ( !StringUtil.isBlank( defaultValue )
 				&& StringUtil.isBlank( paramName ) )
 		{
-			setROMDefaultValue( reportParam, defaultValue );
+			setROMDefaultValue( reportParam, defaultValue, defaultType );
 		}
 
 		if ( StringUtil.isBlank( paramName ) )
@@ -133,9 +139,9 @@ abstract class AbstractReportParameterAdapter
 	 */
 
 	private void setROMDefaultValue( AbstractScalarParameterHandle setParam,
-			String value ) throws SemanticException
+			String value, String type ) throws SemanticException
 	{
-		String literalValue = getROMDefaultValueLiteral( setParam, value );
+		String literalValue = getROMDefaultValueLiteral( setParam, value, type );
 
 		if ( literalValue != null )
 		{
@@ -160,7 +166,7 @@ abstract class AbstractReportParameterAdapter
 	 *         no default value.
 	 */
 	protected String getROMDefaultValueLiteral(
-			AbstractScalarParameterHandle setParam, String value )
+			AbstractScalarParameterHandle setParam, String value, String type )
 	{
 		String literalValue = value;
 
@@ -251,7 +257,8 @@ abstract class AbstractReportParameterAdapter
 			ParameterDefinition paramDefn, ParameterDefinition cachedParamDefn,
 			OdaDataSetHandle setHandle ) throws SemanticException
 	{
-		updateDataElementAttrsToReportParam( paramDefn.getAttributes( ),
+		updateDataElementAttrsToReportParam(
+				paramDefn.getAttributes( ),
 				cachedParamDefn == null ? null : cachedParamDefn
 						.getAttributes( ), reportParam );
 
@@ -423,11 +430,10 @@ abstract class AbstractReportParameterAdapter
 			}
 		}
 
-		updateInputElementAttrsToReportParam( inputParamAttrs
-				.getElementAttributes( ), cachedInputParamAttrs == null
-				? null
-				: cachedInputParamAttrs.getElementAttributes( ), reportParam,
-				setHandle );
+		updateInputElementAttrsToReportParam(
+				inputParamAttrs.getElementAttributes( ),
+				cachedInputParamAttrs == null ? null : cachedInputParamAttrs
+						.getElementAttributes( ), reportParam, setHandle );
 	}
 
 	/**
@@ -467,13 +473,15 @@ abstract class AbstractReportParameterAdapter
 					isOptional.booleanValue( ) );
 
 		// update selection choices
-		updateROMSelectionList( elementAttrs.getStaticValueChoices( ),
+		updateROMSelectionList(
+				elementAttrs.getStaticValueChoices( ),
 				cachedElementAttrs == null ? null : cachedElementAttrs
 						.getStaticValueChoices( ), reportParam );
 
 		// update dynamic list
 		DynamicValuesQuery valueQuery = elementAttrs.getDynamicValueChoices( );
-		AdapterUtil.updateROMDyanmicList( valueQuery,
+		AdapterUtil.updateROMDyanmicList(
+				valueQuery,
 				cachedElementAttrs == null ? null : cachedElementAttrs
 						.getDynamicValueChoices( ), reportParam, setHandle );
 
@@ -588,11 +596,11 @@ abstract class AbstractReportParameterAdapter
 		if ( paramDefn == null )
 			return null;
 
-		paramDefn.setAttributes( updateDataElementAttrs( paramDefn
-				.getAttributes( ), paramHandle ) );
+		paramDefn.setAttributes( updateDataElementAttrs(
+				paramDefn.getAttributes( ), paramHandle ) );
 
-		paramDefn.setInputAttributes( updateInputElementAttrs( paramDefn
-				.getInputAttributes( ), paramHandle, dataSetDesign ) );
+		paramDefn.setInputAttributes( updateInputElementAttrs(
+				paramDefn.getInputAttributes( ), paramHandle, dataSetDesign ) );
 		return paramDefn;
 	}
 
@@ -798,8 +806,24 @@ abstract class AbstractReportParameterAdapter
 			{
 				if ( newValues == null )
 					newValues = designFactory.createStaticValues( );
-				newValues.add( ParameterValueUtil.toODAValue( tmpValues.get( i )
-						.getStringExpression( ), paramHandle.getDataType( ) ) );
+
+				Expression tmpExpr = tmpValues.get( i );
+				String odaValue = null;
+
+				// for the constant, there is no need to remove quotes
+				if ( ExpressionType.CONSTANT.equalsIgnoreCase( tmpExpr
+						.getType( ) ) )
+				{
+					odaValue = tmpExpr.getStringExpression( );
+				}
+				else
+				{
+					odaValue = ParameterValueUtil
+							.toODAValue( tmpValues.get( i )
+									.getStringExpression( ), paramHandle
+									.getDataType( ) );
+				}
+				newValues.add( odaValue );
 			}
 		}
 		inputAttrs.setDefaultValues( newValues );

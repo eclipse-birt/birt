@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -97,9 +98,9 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 			matchedParam = getValidParameterDefinition( dataSetParam,
 					dataSetDesign.getParameters( ) );
 
-			dataType = DataSetParameterAdapter.getROMDataType( dataSetDesign
-					.getOdaExtensionDataSourceId( ), dataSetDesign
-					.getOdaExtensionDataSetId( ),
+			dataType = DataSetParameterAdapter.getROMDataType(
+					dataSetDesign.getOdaExtensionDataSourceId( ),
+					dataSetDesign.getOdaExtensionDataSetId( ),
 					(OdaDataSetParameter) dataSetParam.getStructure( ),
 					setHandle == null ? null : setHandle.parametersIterator( ) );
 		}
@@ -111,9 +112,9 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		try
 		{
 			if ( matchedParam != null )
-				updateLinkedReportParameter( reportParam, matchedParam,
-						null, dataType, (OdaDataSetHandle) dataSetParam
-								.getElementHandle( ) );
+				updateLinkedReportParameter( reportParam, matchedParam, null,
+						dataType,
+						(OdaDataSetHandle) dataSetParam.getElementHandle( ) );
 
 			updateLinkedReportParameterFromROMParameter( reportParam,
 					dataSetParam );
@@ -175,8 +176,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 			String newPromptText = dataUiHints.getDisplayName( );
 			String newHelpText = dataUiHints.getDescription( );
 
-			if ( !CompareUtil.isEquals( newPromptText, reportParam
-					.getPromptText( ) ) )
+			if ( !CompareUtil.isEquals( newPromptText,
+					reportParam.getPromptText( ) ) )
 				return false;
 
 			if ( !CompareUtil
@@ -298,8 +299,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		inputAttrs.setMasksValue( scalarParam.isConcealValue( ) );
 
 		InputElementUIHints uiHints = designFactory.createInputElementUIHints( );
-		uiHints.setPromptStyle( AdapterUtil.newPromptStyle( scalarParam
-				.getControlType( ), scalarParam.isMustMatch( ) ) );
+		uiHints.setPromptStyle( AdapterUtil.newPromptStyle(
+				scalarParam.getControlType( ), scalarParam.isMustMatch( ) ) );
 
 		// not set the ROM default value on ODA objects.
 
@@ -366,13 +367,15 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 	 *         no default value.
 	 */
 	protected String getROMDefaultValueLiteral(
-			AbstractScalarParameterHandle setParam, String value )
+			AbstractScalarParameterHandle setParam, String value, String type )
 	{
 		assert setParam instanceof ScalarParameterHandle;
 
-		String literalValue = super.getROMDefaultValueLiteral( setParam, value );
+		String literalValue = super.getROMDefaultValueLiteral( setParam, value,
+				type );
 
 		if ( literalValue != null
+				&& !ExpressionType.CONSTANT.equalsIgnoreCase( type )
 				&& AdapterUtil
 						.needsQuoteDelimiters( ( (ScalarParameterHandle) setParam )
 								.getDataType( ) ) )

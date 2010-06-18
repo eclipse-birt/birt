@@ -375,13 +375,14 @@ class ResultSetsAdapter
 		{
 			FormatValue format = (FormatValue) newHint.getProperty( null,
 					ColumnHint.VALUE_FORMAT_MEMBER );
-			if ( format == null )
+			if ( format == null && newValue != null )
 			{
 				format = StructureFactory.newFormatValue( );
 				newHint.setProperty( ColumnHint.VALUE_FORMAT_MEMBER, format );
 			}
 
-			format.setPattern( (String) newValue );
+			if (format != null)
+				format.setPattern( (String) newValue );
 		}
 
 		// not support display length
