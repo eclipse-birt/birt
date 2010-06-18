@@ -24,7 +24,15 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=适合大小
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=输出多页
 OptionDisplayValue.ENLARGE_PAGE_SIZE=扩大页面大小
 OptionDisplayValue.FontSubstitution=字体替代
+OptionDisplayValue.Copies=Number of copies
+OptionDisplayValue.Collate=Collate
+OptionDisplayValue.Duplex=Duplex
+OptionDisplayValue.PaperSize=Paper size
+OptionDisplayValue.PaperTray=Paper tray
 OptionDisplayValue.ChartDpi=图表 DPI
+OptionDisplayValue.Resolution=Resolution
+OptionDisplayValue.Scale=Scale
+OptionDisplayValue.Color=Color
 
 ###########################################################
 #Option Description
@@ -32,4 +40,12 @@ OptionDescription.BidiProcessing=已使用 BIDI 处理。
 OptionDescription.TextWrapping=文本应自动换行。
 OptionDescription.PageOverFlow=控制如何输出内容。
 OptionDescription.FontSubstitution=需要检查所选字体中是否存在字符。
+OptionDescription.Copies=Number of copies.
+OptionDescription.Collate=Collate.
+OptionDescription.Duplex=Duplex.
+OptionDescription.PaperSize=Paper size.
+OptionDescription.PaperTray=Paper tray.
 OptionDescription.ChartDpi=DPI 用于生成图表。
+OptionDescription.Resolution=Resolution.
+OptionDescription.Scale=Scale.
+OptionDescription.Color=Color.
