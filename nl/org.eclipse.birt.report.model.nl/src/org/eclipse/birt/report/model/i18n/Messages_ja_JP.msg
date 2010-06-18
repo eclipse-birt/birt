@@ -291,7 +291,7 @@ Choices.fontFamily.monospace=固定ピッチフォント
 
 #31.fontStyle
 Choices.fontStyle.normal=標準
-Choices.fontStyle.italic=斜体
+Choices.fontStyle.italic=イタリック体
 Choices.fontStyle.oblique=斜体
 
 #32.fontVariant
