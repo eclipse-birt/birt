@@ -25,20 +25,19 @@
                     <property name="columnName">name</property>
                     <property name="alias">user name</property>
                     <property name="analysis">dimension</property>
-                    <property name="format">new format for column 1</property>
+                    <property name="format">##.###</property>
                     <text-property name="displayName">new display name for column 1</text-property>
                     <text-property name="helpText" key="message.column-hint.help">new help text for column 1</text-property>
-                    <property name="onColumnLayout">false</property>
-                    <property name="displayLength">0</property>                    
+                    <property name="onColumnLayout">false</property>                            
                 </structure>
                 <structure>
                     <property name="columnName">date</property>
-                    <property name="format">new format for column 2</property>
                     <text-property name="displayName">new display name for column 2</text-property>
                     <text-property name="helpText">new help text for column 2</text-property>
-                    <property name="displayLength">-1</property>
                     <property name="horizontalAlign">justify</property>
-                    <property name="wordWrap">false</property>                    
+                    <structure name="valueFormat">
+                    	<property name="pattern">new format for column 2</property>
+                    </structure>         
                 </structure>
             </list-property>
             <property name="dataSource">myDataSource1</property>

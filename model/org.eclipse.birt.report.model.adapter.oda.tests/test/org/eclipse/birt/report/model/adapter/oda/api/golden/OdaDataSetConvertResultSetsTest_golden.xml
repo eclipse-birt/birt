@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21"
-	id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
 	<data-sources>
-		<oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc"
-			name="myDataSource1" id="2">
+		<oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="myDataSource1" id="2">
 			<text-property name="displayName">My Data Source One</text-property>
 			<list-property name="privateDriverProperties">
 				<ex-property>
@@ -20,9 +18,7 @@
 		</oda-data-source>
 	</data-sources>
 	<data-sets>
-		<oda-data-set
-			extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"
-			name="myDataSet1" id="3">
+		<oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet1" id="3">
 			<text-property name="displayName">My Data Set One</text-property>
 			<list-property name="columnHints">
 				<structure>
@@ -30,20 +26,15 @@
 					<property name="alias">user name</property>
 					<property name="analysis">dimension</property>
 					<property name="format">##.###</property>
-					<text-property name="displayName">new display name for column 1
-					</text-property>
-					<text-property name="helpText" key="message.column-hint.help">new help text for
-						column 1</text-property>
+					<text-property name="displayName">new display name for column 1</text-property>
+					<text-property name="helpText" key="message.column-hint.help">new help text for column 1</text-property>
 					<property name="onColumnLayout">false</property>
-					<property name="horizontalAlign">justify</property>
-					<structure name="valueFormat" />
+					<property name="horizontalAlign">justify</property>					
 				</structure>
 				<structure>
 					<property name="columnName">date</property>
-					<text-property name="displayName">new display name for column 2
-					</text-property>
-					<text-property name="helpText">new help text for column 2
-					</text-property>
+					<text-property name="displayName">new display name for column 2</text-property>
+					<text-property name="helpText">new help text for column 2</text-property>
 					<property name="horizontalAlign">justify</property>
 					<structure name="valueFormat">
 						<property name="pattern">new format for column 2</property>
@@ -75,9 +66,7 @@
 			</list-property>
 			<property name="queryTimeOut">30000</property>
 		</oda-data-set>
-		<oda-data-set
-			extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"
-			name="myDataSet2" id="4">
+		<oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet2" id="4">
 			<property name="dataSource">myDataSource1</property>
 		</oda-data-set>
 	</data-sets>
