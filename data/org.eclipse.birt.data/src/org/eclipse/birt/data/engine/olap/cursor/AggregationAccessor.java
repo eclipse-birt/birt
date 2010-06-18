@@ -65,6 +65,9 @@ public class AggregationAccessor extends Accessor
 	private ComparableObject[] rowCursorObjs;
 	private ComparableObject[] columnCursorObjs;
 	private ComparableObject[] pageCursorObjs;
+	private boolean dimensionPrepared = false;
+	private Map dimensionCursorMap;
+
 	
 	/**
 	 * 
@@ -79,6 +82,8 @@ public class AggregationAccessor extends Accessor
 		this.resultSet = result;
 		this.view = view;
 		this.relationMap = relationMap;
+		this.dimensionPrepared = false;
+		this.dimensionCursorMap = new HashMap( );
 
 		if ( result == null || result.getMeasureResult( ) == null )
 			return;
@@ -142,18 +147,6 @@ public class AggregationAccessor extends Accessor
 				maxRelationship = relation;
 			}
 		}
-		if ( this.view.getRowEdgeView( ) != null )
-		{
-			rowEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getRowEdgeView( ) ).getEdgeCursor( );
-		}
-		if ( this.view.getColumnEdgeView( ) != null )
-		{
-			columnEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getColumnEdgeView( ) ).getEdgeCursor( );
-		}
-		if ( this.view.getPageEdgeView( ) != null )
-		{
-			pageEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getPageEdgeView( ) ).getEdgeCursor( );
-		}
 		DimLevel[] measureLevels = new DimLevel[0];
 		if ( maxAggregationResultSet != null )
 		{
@@ -190,6 +183,49 @@ public class AggregationAccessor extends Accessor
 			{
 				if ( level.equals( measureLevels[j] ) )
 					pageLevelIndexs[i] = j;
+			}
+		}
+	}
+
+	private void prepareDimensionCursor( ) throws OLAPException
+	{
+		if ( this.view.getRowEdgeView( ) != null )
+		{
+			rowEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getRowEdgeView( ) ).getEdgeCursor( );
+			if( rowEdgeCursor!= null )
+			{
+				Iterator cursorIter = rowEdgeCursor.getDimensionCursor( ).iterator( );
+				while ( cursorIter.hasNext( ) )
+				{
+					DimensionCursor cursor = (DimensionCursor) cursorIter.next( );
+					dimensionCursorMap.put( cursor.getName( ), cursor );
+				}				
+			}
+		}
+		if ( this.view.getColumnEdgeView( ) != null )
+		{
+			columnEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getColumnEdgeView( ) ).getEdgeCursor( );
+			if( columnEdgeCursor!= null )
+			{
+				Iterator cursorIter = columnEdgeCursor.getDimensionCursor( ).iterator( );
+				while ( cursorIter.hasNext( ) )
+				{
+					DimensionCursor cursor = (DimensionCursor) cursorIter.next( );
+					dimensionCursorMap.put( cursor.getName( ), cursor );
+				}				
+			}
+		}
+		if ( this.view.getPageEdgeView( ) != null )
+		{
+			pageEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getPageEdgeView( ) ).getEdgeCursor( );
+			if( pageEdgeCursor!= null )
+			{				
+				Iterator cursorIter = pageEdgeCursor.getDimensionCursor( ).iterator( );
+				while ( cursorIter.hasNext( ) )
+				{
+					DimensionCursor cursor = (DimensionCursor) cursorIter.next( );
+					dimensionCursorMap.put( cursor.getName( ), cursor );
+				}				
 			}
 		}
 	}
@@ -431,35 +467,18 @@ public class AggregationAccessor extends Accessor
 	
 	private Map getCurrentValueOnEdge( String aggrName ) throws OLAPException
 	{
-
-		EdgeCursor rowEdgeCursor = null, columnEdgeCursor = null, pageEdgeCursor = null;
-		List columnDimList = null, rowDimList = null, pageDimList = null;
-		if ( this.view.getRowEdgeView( ) != null )
+		if ( !this.dimensionPrepared )
 		{
-			rowEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getRowEdgeView( ) ).getEdgeCursor( );
-			if ( rowEdgeCursor != null )
-				rowDimList = rowEdgeCursor.getDimensionCursor( );
+			this.prepareDimensionCursor( );
+			this.dimensionPrepared = true;
 		}
-		if ( this.view.getColumnEdgeView( ) != null )
-		{
-			columnEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getColumnEdgeView( ) ).getEdgeCursor( );
-			if ( columnEdgeCursor != null )
-				columnDimList = columnEdgeCursor.getDimensionCursor( );
-		}
-		if ( this.view.getPageEdgeView( ) != null )
-		{
-			pageEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getPageEdgeView( ) ).getEdgeCursor( );
-			if ( pageEdgeCursor != null )
-				pageDimList = pageEdgeCursor.getDimensionCursor( );
-		}
-
+		
 		Relationship relation = (Relationship) this.relationMap.get( aggrName );
 		List pageLevelList = relation.getLevelListOnPage( );
 		List columnLevelList = relation.getLevelListOnColumn( );
 		List rowLevelList = relation.getLevelListOnRow( );
 
 		Map valueMap = new HashMap( );
-
 		if ( columnLevelList.isEmpty( )
 				&& rowLevelList.isEmpty( ) && pageLevelList.isEmpty( ) )
 			return null;
@@ -467,7 +486,8 @@ public class AggregationAccessor extends Accessor
 		for ( int index = 0; index < pageLevelList.size( ); index++ )
 		{
 			DimLevel level = (DimLevel) pageLevelList.get( index );
-			DimensionCursor cursor = (DimensionCursor) pageDimList.get( index );
+			DimensionCursor cursor = (DimensionCursor) dimensionCursorMap.get( UniqueNamingUtil.getUniqueName( level.getDimensionName( ),
+					level.getLevelName( ) ) );
 			Object value = cursor.getObject( level.getLevelName( ) );
 			valueMap.put( level, value );
 		}
@@ -475,14 +495,17 @@ public class AggregationAccessor extends Accessor
 		for ( int i = 0; i < columnLevelList.size( ); i++ )
 		{
 			DimLevel level = (DimLevel) columnLevelList.get( i );
-			DimensionCursor cursor = (DimensionCursor) columnDimList.get( i );
+			DimensionCursor cursor = (DimensionCursor) dimensionCursorMap.get( UniqueNamingUtil.getUniqueName( level.getDimensionName( ),
+					level.getLevelName( ) ) );
 			Object value = cursor.getObject( level.getLevelName( ) );
 			valueMap.put( level, value );
 		}
+
 		for ( int i = 0; i < rowLevelList.size( ); i++ )
 		{
 			DimLevel level = (DimLevel) rowLevelList.get( i );
-			DimensionCursor cursor = (DimensionCursor) rowDimList.get( i );
+			DimensionCursor cursor = (DimensionCursor) dimensionCursorMap.get( UniqueNamingUtil.getUniqueName( level.getDimensionName( ),
+					level.getLevelName( ) ) );
 			Object value = cursor.getObject( level.getLevelName( ) );
 			valueMap.put( level, value );
 		}

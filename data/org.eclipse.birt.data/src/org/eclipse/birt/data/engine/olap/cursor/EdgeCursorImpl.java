@@ -30,7 +30,7 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor
 {
 
 	private CubeCursor pageOwner, ordinateOwner;
-	private List dimensionCursorList = new ArrayList( );
+	private List<DimensionCursorImpl> dimensionCursorList ;
 
 	
 	EdgeCursorImpl( BirtEdgeView view, boolean isPage, IEdgeAxis axis,
@@ -42,11 +42,25 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor
 		else
 			ordinateOwner = cursor;
 		view.setEdgeCursor( this );
+		dimensionCursorList = new ArrayList<DimensionCursorImpl>( );
 		for ( int i = view.getPageEndingIndex( ) + 1; i < axis.getAllDimensionAxis( ).length; i++ )
 		{
-			dimensionCursorList.add( new DimensionCursorImpl( this,
+			DimensionCursorImpl dimCursor = new DimensionCursorImpl( this,
 					axis.getDimensionAxis( i ),
-					new DimensionNavigator( axis.getDimensionAxis( i ) ) ) );
+					new DimensionNavigator( axis.getDimensionAxis( i ) ) );
+			if ( axis.getDimensionAxis( i ).getLevelDefinition( ) != null )
+			{
+				String uniqueName = UniqueNamingUtil.getUniqueName( axis.getDimensionAxis( i )
+						.getLevelDefinition( )
+						.getHierarchy( )
+						.getDimension( )
+						.getName( ),
+						axis.getDimensionAxis( i )
+								.getLevelDefinition( )
+								.getName( ) );
+				dimCursor.setName( uniqueName );
+			}
+			dimensionCursorList.add( dimCursor );
 		}
 	}
 

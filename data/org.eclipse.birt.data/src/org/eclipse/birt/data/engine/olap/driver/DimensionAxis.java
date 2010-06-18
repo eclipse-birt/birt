@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.olap.OLAPException;
 import javax.olap.cursor.RowDataMetaData;
 
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataMetaDataImpl;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -32,6 +33,7 @@ public class DimensionAxis
 	private IAggregationResultSet rs;
 	private int dimAxisIndex, levelIndex;
 	private IRowDataAccessor accessor;
+	private ILevelDefinition levelDefintion;
 
 	/**
 	 * 
@@ -319,5 +321,15 @@ public class DimensionAxis
 	public void setEdgeInfo( IRowDataAccessor accessor )
 	{
 		this.accessor = accessor;
+	}
+
+	public void setLevelDefinition( ILevelDefinition level )
+	{
+		this.levelDefintion = level;
+	}
+	
+	public ILevelDefinition getLevelDefinition( )
+	{
+		return this.levelDefintion;
 	}
 }

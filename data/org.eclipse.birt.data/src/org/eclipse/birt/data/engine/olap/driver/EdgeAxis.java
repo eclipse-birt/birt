@@ -124,8 +124,11 @@ public class EdgeAxis implements IEdgeAxis
 				while ( levelIter.hasNext( ) )
 				{
 					ILevelDefinition level = (ILevelDefinition) levelIter.next( );
-					DimensionAxis axis = null;
-					axis = new DimensionAxis( this, rs, index, levelIndex );
+					DimensionAxis axis = new DimensionAxis( this,
+							rs,
+							index,
+							levelIndex );
+					axis.setLevelDefinition( level );
 					index++;
 					levelIndex++;
 					dimensionAxisList.add( axis );
