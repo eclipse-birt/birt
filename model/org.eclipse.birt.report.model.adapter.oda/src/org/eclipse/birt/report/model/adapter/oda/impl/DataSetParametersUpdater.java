@@ -36,14 +36,6 @@ class DataSetParametersUpdater
 {
 
 	/**
-	 * The constant that indicates the value is a BIRT defined java script
-	 * expression.
-	 * 
-	 */
-
-	static final String BIRT_JS_EXPR = "JS_EXPR"; //$NON-NLS-1$
-
-	/**
 	 * The data set handle defined parameters.
 	 */
 

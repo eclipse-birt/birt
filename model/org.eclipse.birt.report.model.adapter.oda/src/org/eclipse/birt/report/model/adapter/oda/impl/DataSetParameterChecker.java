@@ -18,15 +18,14 @@ import org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
-import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
+import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 
 /**
  * Checks one design parameter with oda data set parameter handle and linked
@@ -185,30 +184,21 @@ class DataSetParameterChecker
 		boolean withLinkedParameter = !StringUtil.isBlank( paramHandle
 				.getParamName( ) );
 
-		String newValue = attrs.getDefaultScalarValue( );
 		if ( !withLinkedParameter )
 		{
-			if ( !DataSetParameterUpdater.BIRT_JS_EXPR
-					.equalsIgnoreCase( (String) newValue ) )
-			{
+			StaticValues defaultValue = attrs.getDefaultValues( );
+			Object newValue = null;
+			if ( defaultValue != null && !defaultValue.isEmpty( ) )
+				newValue = defaultValue.getValues( ).get( 0 );
 
-				String newDefaultValue = AdapterUtil.getROMDefaultValue(
-						(DataSetParameter) paramHandle.getStructure( ),
-						newValue );
-				Expression oldDefaultExpr = (Expression) getLocalValue( OdaDataSetParameter.DEFAULT_VALUE_MEMBER );
-				if ( IExpressionType.CONSTANT.equalsIgnoreCase( oldDefaultExpr
-						.getType( ) ) )
-				{
-					String oldDefaultValue = oldDefaultExpr
-							.getStringExpression( );
-					if ( !CompareUtil.isEquals( newDefaultValue,
-							oldDefaultValue ) )
-					{
-						ambiguousList.add( new AmbiguousAttribute(
-								OdaDataSetParameter.DEFAULT_VALUE_MEMBER,
-								oldDefaultExpr, newDefaultValue, false ) );
-					}
-				}
+			Expression newDefaultValue = AdapterUtil
+					.createExpression( newValue );
+			Expression oldDefaultExpr = (Expression) getLocalValue( OdaDataSetParameter.DEFAULT_VALUE_MEMBER );
+			if ( !CompareUtil.isEquals( newDefaultValue, oldDefaultExpr ) )
+			{
+				ambiguousList.add( new AmbiguousAttribute(
+						OdaDataSetParameter.DEFAULT_VALUE_MEMBER,
+						oldDefaultExpr, newDefaultValue, false ) );
 			}
 		}
 

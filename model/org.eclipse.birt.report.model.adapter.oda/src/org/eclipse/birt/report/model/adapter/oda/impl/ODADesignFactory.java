@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.adapter.oda.impl;
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.AndExpression;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
+import org.eclipse.datatools.connectivity.oda.design.CustomData;
 import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.DataAccessDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
@@ -488,5 +489,17 @@ class ODADesignFactory implements IODADesignFactory
 	public SortSpecification createSortSpecification( )
 	{
 		return designFactory.createSortSpecification( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createCustomData
+	 * ()
+	 */
+	public CustomData createCustomData( )
+	{
+		return designFactory.createCustomData( );
 	}
 }

@@ -12,7 +12,7 @@
       <design:inputAttributes>
         <design:elementAttributes>
           <design:defaultValues>
-            <design:values>JS_EXPR</design:values>
+            <design:values>CustomData value: expression, displayValue: null</design:values>
           </design:defaultValues>
           <design:optional>false</design:optional>
         </design:elementAttributes>
@@ -28,7 +28,7 @@
       <design:inputAttributes>
         <design:elementAttributes>
           <design:defaultValues>
-            <design:values>JS_EXPR</design:values>
+            <design:values>CustomData value: date time expression, displayValue: null</design:values>
           </design:defaultValues>
           <design:optional>false</design:optional>
         </design:elementAttributes>
@@ -44,7 +44,7 @@
       <design:inputAttributes>
         <design:elementAttributes>
           <design:defaultValues>
-            <design:values>JS_EXPR</design:values>
+            <design:values>CustomData value: 225, displayValue: null</design:values>
           </design:defaultValues>
           <design:optional>false</design:optional>
         </design:elementAttributes>

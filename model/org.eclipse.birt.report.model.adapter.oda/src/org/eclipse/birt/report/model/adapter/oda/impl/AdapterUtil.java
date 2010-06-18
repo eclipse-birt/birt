@@ -17,24 +17,22 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
+import org.eclipse.datatools.connectivity.oda.design.CustomData;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
@@ -199,39 +197,6 @@ public class AdapterUtil
 	}
 
 	/**
-	 * Sets the default value for ROM data set parameter. Should add quotes for
-	 * the value if the data type is string.
-	 * 
-	 * @param setParam
-	 *            the ROM data set parameter
-	 * @param literalValue
-	 *            the value
-	 * @return
-	 */
-
-	static String getROMDefaultValue( DataSetParameter setParam,
-			String literalValue )
-	{
-		if ( DataSetParameterUpdater.BIRT_JS_EXPR
-				.equalsIgnoreCase( literalValue ) )
-		{
-			return null;
-		}
-
-		String originalValue = setParam.getDefaultValue( );
-		String quotataionMark = null;
-		if ( ParameterValueUtil.isQuoted( originalValue ) )
-		{
-			quotataionMark = originalValue.substring( 0, 1 );
-		}
-
-		String romDefaultValue = needsQuoteDelimiters( setParam
-				.getParameterDataType( ) ) ? ParameterValueUtil.toJsExprValue(
-				literalValue, quotataionMark ) : literalValue;
-		return romDefaultValue;
-	}
-
-	/**
 	 * Updates the static values to report parameter handle.
 	 * 
 	 * @param defaultValues
@@ -246,24 +211,14 @@ public class AdapterUtil
 			return;
 
 		List<Expression> newValues = null;
-
-		if ( defaultValues != null )
+		if ( defaultValues != null && !defaultValues.isEmpty( ) )
 		{
 			newValues = new ArrayList<Expression>( );
-			List<Object> tmpValues = defaultValues.getValues( );
-
-			for ( int i = 0; i < tmpValues.size( ); i++ )
+			for ( Object tmpValue : defaultValues.getValues( ) )
 			{
-				String tmpValue = (String) tmpValues.get( i );
-
-				// only update when the value is not internal value.
-
-				if ( !DataSetParameterAdapter.BIRT_JS_EXPR.equals( tmpValue ) )
-					newValues.add( new Expression( tmpValue,
-							ExpressionType.CONSTANT ) );
+				newValues.add( AdapterUtil.createExpression( tmpValue ) );
 			}
 		}
-
 		reportParam.setDefaultValueList( newValues );
 	}
 
@@ -598,7 +553,8 @@ public class AdapterUtil
 			{
 				try
 				{
-					columnName = ExpressionUtil.getColumnBindingName( columnExpr );
+					columnName = ExpressionUtil
+							.getColumnBindingName( columnExpr );
 				}
 				catch ( BirtException e )
 				{
@@ -608,4 +564,44 @@ public class AdapterUtil
 		return columnName;
 	}
 
+	/**
+	 * Creates expression value from ODA value
+	 * 
+	 * @param value
+	 *            the ODA value
+	 * @return the expression created
+	 */
+	static Expression createExpression( Object value )
+	{
+		String exprType = null;
+		if ( value instanceof String )
+			exprType = IExpressionType.CONSTANT;
+
+		if ( value instanceof CustomData )
+		{
+			CustomData customData = (CustomData) value;
+			if ( DataSetParameterAdapter.PROVIDER_ID.equals( customData
+					.getProviderId( ) )
+					&& customData.getValue( ) != null )
+			{
+				exprType = IExpressionType.JAVASCRIPT;
+				value = customData.getValue( );
+			}
+		}
+
+		if ( exprType != null )
+			return new Expression( value, exprType );
+
+		return null;
+	}
+
+	static boolean isNullExpression( Object value )
+	{
+		if ( value == null )
+			return true;
+		if ( value instanceof Expression
+				&& ( (Expression) value ).getExpression( ) == null )
+			return true;
+		return false;
+	}
 }

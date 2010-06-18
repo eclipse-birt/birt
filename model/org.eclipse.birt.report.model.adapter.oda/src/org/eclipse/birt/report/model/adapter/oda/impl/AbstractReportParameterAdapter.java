@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
@@ -109,22 +108,14 @@ abstract class AbstractReportParameterAdapter
 
 		// should not convert report parameter name here.
 
-		ExpressionHandle defaultExpr = dataSetParam
-				.getExpressionProperty( OdaDataSetParameter.DEFAULT_VALUE_MEMBER );
+		Object defaultValue = dataSetParam.getExpressionProperty(
+				OdaDataSetParameter.DEFAULT_VALUE_MEMBER ).getValue( );
 		String paramName = dataSetParam.getParamName( );
-
-		String defaultValue = defaultExpr.getStringExpression( );
-		String defaultType = defaultExpr.getType( );
-		
-		if ( !StringUtil.isBlank( defaultValue )
-				&& StringUtil.isBlank( paramName ) )
-		{
-			setROMDefaultValue( reportParam, defaultValue, defaultType );
-		}
 
 		if ( StringUtil.isBlank( paramName ) )
 		{
 			dataSetParam.setParamName( reportParam.getName( ) );
+			setROMDefaultValue( reportParam, defaultValue );
 		}
 
 	}
@@ -139,51 +130,18 @@ abstract class AbstractReportParameterAdapter
 	 */
 
 	private void setROMDefaultValue( AbstractScalarParameterHandle setParam,
-			String value, String type ) throws SemanticException
+			Object value ) throws SemanticException
 	{
-		String literalValue = getROMDefaultValueLiteral( setParam, value, type );
-
-		if ( literalValue != null )
+		List<Expression> newValues = null;
+		if ( !AdapterUtil.isNullExpression( value ) )
 		{
-			List<Expression> newValues = new ArrayList<Expression>( );
-			newValues.add( new Expression( literalValue,
-					ExpressionType.CONSTANT ) );
-
-			setParam.setDefaultValueList( newValues );
+			assert value instanceof Expression;
+			newValues = new ArrayList<Expression>( );
+			newValues.add( new Expression( ( (Expression) value )
+					.getExpression( ), ( (Expression) value )
+					.getUserDefinedType( ) ) );
 		}
-	}
-
-	/**
-	 * Returns the literal default value for ROM data set parameter.
-	 * 
-	 * @param setParam
-	 *            the ROM data set parameter
-	 * @param value
-	 * @param literalValue
-	 *            the value
-	 * 
-	 * @return the literal default value for ROM data set parameter, or null if
-	 *         no default value.
-	 */
-	protected String getROMDefaultValueLiteral(
-			AbstractScalarParameterHandle setParam, String value, String type )
-	{
-		String literalValue = value;
-
-		if ( literalValue != null )
-		{
-			boolean match = ExpressionUtil
-					.isScalarParamReference( literalValue );
-			if ( match )
-				return null;
-		}
-
-		if ( DataSetParameterAdapter.BIRT_JS_EXPR
-				.equalsIgnoreCase( literalValue ) )
-		{
-			return null;
-		}
-		return literalValue;
+		setParam.setDefaultValueList( newValues );
 	}
 
 	/**
@@ -257,8 +215,7 @@ abstract class AbstractReportParameterAdapter
 			ParameterDefinition paramDefn, ParameterDefinition cachedParamDefn,
 			OdaDataSetHandle setHandle ) throws SemanticException
 	{
-		updateDataElementAttrsToReportParam(
-				paramDefn.getAttributes( ),
+		updateDataElementAttrsToReportParam( paramDefn.getAttributes( ),
 				cachedParamDefn == null ? null : cachedParamDefn
 						.getAttributes( ), reportParam );
 
@@ -430,10 +387,11 @@ abstract class AbstractReportParameterAdapter
 			}
 		}
 
-		updateInputElementAttrsToReportParam(
-				inputParamAttrs.getElementAttributes( ),
-				cachedInputParamAttrs == null ? null : cachedInputParamAttrs
-						.getElementAttributes( ), reportParam, setHandle );
+		updateInputElementAttrsToReportParam( inputParamAttrs
+				.getElementAttributes( ), cachedInputParamAttrs == null
+				? null
+				: cachedInputParamAttrs.getElementAttributes( ), reportParam,
+				setHandle );
 	}
 
 	/**
@@ -473,15 +431,13 @@ abstract class AbstractReportParameterAdapter
 					isOptional.booleanValue( ) );
 
 		// update selection choices
-		updateROMSelectionList(
-				elementAttrs.getStaticValueChoices( ),
+		updateROMSelectionList( elementAttrs.getStaticValueChoices( ),
 				cachedElementAttrs == null ? null : cachedElementAttrs
 						.getStaticValueChoices( ), reportParam );
 
 		// update dynamic list
 		DynamicValuesQuery valueQuery = elementAttrs.getDynamicValueChoices( );
-		AdapterUtil.updateROMDyanmicList(
-				valueQuery,
+		AdapterUtil.updateROMDyanmicList( valueQuery,
 				cachedElementAttrs == null ? null : cachedElementAttrs
 						.getDynamicValueChoices( ), reportParam, setHandle );
 
@@ -596,11 +552,11 @@ abstract class AbstractReportParameterAdapter
 		if ( paramDefn == null )
 			return null;
 
-		paramDefn.setAttributes( updateDataElementAttrs(
-				paramDefn.getAttributes( ), paramHandle ) );
+		paramDefn.setAttributes( updateDataElementAttrs( paramDefn
+				.getAttributes( ), paramHandle ) );
 
-		paramDefn.setInputAttributes( updateInputElementAttrs(
-				paramDefn.getInputAttributes( ), paramHandle, dataSetDesign ) );
+		paramDefn.setInputAttributes( updateInputElementAttrs( paramDefn
+				.getInputAttributes( ), paramHandle, dataSetDesign ) );
 		return paramDefn;
 	}
 

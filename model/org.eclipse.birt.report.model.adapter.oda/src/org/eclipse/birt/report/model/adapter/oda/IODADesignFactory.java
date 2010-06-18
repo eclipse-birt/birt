@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.adapter.oda;
 
 import org.eclipse.datatools.connectivity.oda.design.AndExpression;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
+import org.eclipse.datatools.connectivity.oda.design.CustomData;
 import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.DataAccessDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
@@ -132,4 +133,6 @@ public interface IODADesignFactory
     DynamicFilterExpression createDynamicFilterExpression();
     
     ExpressionArguments createExpressionArguments();
+    
+    CustomData createCustomData();
 }

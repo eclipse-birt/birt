@@ -30,6 +30,7 @@ import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
+import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 
 /**
  * Updates the specified oda data set parameter handle with the given data set
@@ -37,14 +38,6 @@ import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
  */
 class DataSetParameterUpdater
 {
-
-	/**
-	 * The constant that indicates the value is a BIRT defined java script
-	 * expression.
-	 * 
-	 */
-
-	static final String BIRT_JS_EXPR = "JS_EXPR"; //$NON-NLS-1$
 
 	/**
 	 * The data set handle defined parameters.
@@ -214,34 +207,30 @@ class DataSetParameterUpdater
 		boolean withLinkedParameter = !StringUtil.isBlank( newParam
 				.getParamName( ) );
 
-		Object newValue = attrs.getDefaultScalarValue( );
+		StaticValues newValues = attrs.getDefaultValues( );
+		Object newValue = null;
+		if ( newValues != null && !newValues.isEmpty( ) )
+			newValue = newValues.getValues( ).get( 0 );
+
 		if ( !withLinkedParameter )
-			setROMDefaultValue( newParam, (String) newValue );
+			setROMDefaultValue( newParam, newValue );
 
 		newParam.setIsOptional( Boolean.valueOf( attrs.isOptional( ) ) );
 	}
 
 	/**
-	 * Sets the default value for ROM data set parameter. Should add quotes for
-	 * the value if the data type is string.
+	 * Sets the default value for ROM data set parameter.
 	 * 
 	 * @param setParam
 	 *            the ROM data set parameter
-	 * @param literalValue
-	 *            the value
+	 * @param newValue
+	 *            the new value
 	 */
 
-	private void setROMDefaultValue( DataSetParameter setParam,
-			String literalValue )
+	private void setROMDefaultValue( DataSetParameter setParam, Object newValue )
 	{
-		if ( BIRT_JS_EXPR.equalsIgnoreCase( literalValue ) )
-		{
-			return;
-		}
-
-		String romDefaultValue = AdapterUtil.getROMDefaultValue( setParam,
-				literalValue );
-		setParam.setDefaultValue( romDefaultValue );
+		setParam.setExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER,
+				AdapterUtil.createExpression( newValue ) );
 	}
 
 	/**

@@ -9,8 +9,8 @@
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataSetName">myDataSet2</property>
-			<expression name="valueExpr" type="javascript">dataSetRow["value column"]</expression>
-            <expression name="labelExpr" type="javascript">dataSetRow["label column"]</expression>            
+            <expression name="valueExpr" type="javascript">dataSetRow["value column"]</expression>
+            <expression name="labelExpr" type="javascript">dataSetRow["label column"]</expression>
             <property name="dataType">decimal</property>
             <simple-property-list name="defaultValue">
                 <value type="constant">not updated default value</value>
@@ -43,6 +43,9 @@
             <expression name="valueExpr" type="javascript">dataSetRow["test"]</expression>
             <expression name="labelExpr" type="javascript">dataSetRow["test column"]</expression>
             <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="javascript">param["Param 2"]</value>
+            </simple-property-list>
             <property name="concealValue">false</property>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
@@ -57,6 +60,9 @@
             <expression name="valueExpr" type="javascript">dataSetRow["test"]</expression>
             <expression name="labelExpr" type="javascript">dataSetRow["test column"]</expression>
             <property name="dataType">string</property>
+            <simple-property-list name="defaultValue">
+                <value type="javascript">data set param default value 3</value>
+            </simple-property-list>
             <property name="concealValue">false</property>
             <property name="controlType">list-box</property>
             <property name="autoSuggestThreshold">1</property>
@@ -162,7 +168,7 @@
       <design:inputAttributes>
         <design:elementAttributes>
           <design:defaultValues>
-            <design:values>JS_EXPR</design:values>
+            <design:values>CustomData value: param[&amp;quot;Param 2&amp;quot;], displayValue: null</design:values>
           </design:defaultValues>
           <design:optional>true</design:optional>
           <design:masksValue>false</design:masksValue>
@@ -188,7 +194,7 @@
       <design:inputAttributes>
         <design:elementAttributes>
           <design:defaultValues>
-            <design:values>JS_EXPR</design:values>
+            <design:values>CustomData value: data set param default value 3, displayValue: null</design:values>
           </design:defaultValues>
           <design:optional>true</design:optional>
           <design:masksValue>false</design:masksValue>

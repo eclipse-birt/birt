@@ -354,42 +354,6 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		return super.getReportParamAllowMumble( param, propName );
 	}
 
-	/**
-	 * Returns the literal default value for ROM data set parameter.Should add
-	 * quotes for the value if the data type is string.
-	 * 
-	 * @param setParam
-	 *            the ROM data set parameter
-	 * @param literalValue
-	 *            the value
-	 * 
-	 * @return the literal default value for ROM data set parameter, or null if
-	 *         no default value.
-	 */
-	protected String getROMDefaultValueLiteral(
-			AbstractScalarParameterHandle setParam, String value, String type )
-	{
-		assert setParam instanceof ScalarParameterHandle;
-
-		String literalValue = super.getROMDefaultValueLiteral( setParam, value,
-				type );
-
-		if ( literalValue != null
-				&& !ExpressionType.CONSTANT.equalsIgnoreCase( type )
-				&& AdapterUtil
-						.needsQuoteDelimiters( ( (ScalarParameterHandle) setParam )
-								.getDataType( ) ) )
-		{
-			if ( ParameterValueUtil.isQuoted( value ) )
-			{
-				literalValue = ParameterValueUtil.toLiteralValue( value );
-			}
-			else
-				literalValue = null;
-		}
-		return literalValue;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

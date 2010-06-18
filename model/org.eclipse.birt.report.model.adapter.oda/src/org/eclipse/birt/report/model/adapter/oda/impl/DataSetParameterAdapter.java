@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.datatools.connectivity.oda.design.CustomData;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -66,12 +67,9 @@ class DataSetParameterAdapter
 {
 
 	/**
-	 * The constant that indicates the value is a BIRT defined java script
-	 * expression.
-	 * 
+	 * ODA Provider id.
 	 */
-
-	static final String BIRT_JS_EXPR = "JS_EXPR"; //$NON-NLS-1$
+	static final String PROVIDER_ID = "org.eclipse.birt.report.model.adapter.oda"; //$NON-NLS-1$
 
 	/**
 	 * The data set handle.
@@ -498,23 +496,32 @@ class DataSetParameterAdapter
 		if ( elementAttrs == null )
 			return;
 
-		Object oldValue = cachedElementAttrs == null
-				? null
-				: cachedElementAttrs.getDefaultScalarValue( );
-		Object newValue = elementAttrs.getDefaultScalarValue( );
+		Object oldValue = null;
+		if ( cachedElementAttrs != null )
+		{
+			StaticValues cachedDefaultValue = cachedElementAttrs
+					.getDefaultValues( );
+			if ( cachedDefaultValue != null && !cachedDefaultValue.isEmpty( ) )
+				oldValue = cachedDefaultValue.getValues( ).get( 0 );
+		}
+
+		Object newValue = null;
+		StaticValues defaultValue = elementAttrs.getDefaultValues( );
+		if ( defaultValue != null && !defaultValue.isEmpty( ) )
+			newValue = defaultValue.getValues( ).get( 0 );
 
 		boolean withLinkedParameter = !StringUtil.isBlank( setParam
 				.getParamName( ) );
 
-		if ( !CompareUtil.isEquals( (String) oldValue, (String) newValue )
+		if ( !CompareUtil.isEquals( oldValue, newValue )
 				&& !withLinkedParameter )
-			setROMDefaultValue( setParam, (String) newValue );
+			setROMDefaultValue( setParam, newValue );
 
 		oldValue = cachedElementAttrs == null ? null : Boolean
 				.valueOf( cachedElementAttrs.isOptional( ) );
 		newValue = Boolean.valueOf( elementAttrs.isOptional( ) );
 
-		if ( !CompareUtil.isEquals( (Boolean) oldValue, (Boolean) newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 			setParam.setIsOptional( ( (Boolean) newValue ).booleanValue( ) );
 	}
 
@@ -1187,30 +1194,20 @@ class DataSetParameterAdapter
 	 * 
 	 * @param setParam
 	 *            the ROM data set parameter
-	 * @param literalValue
+	 * @param newValue
 	 *            the value
 	 */
 
-	private void setROMDefaultValue( DataSetParameter setParam,
-			String literalValue )
+	private void setROMDefaultValue( DataSetParameter setParam, Object newValue )
 	{
-		if ( BIRT_JS_EXPR.equalsIgnoreCase( literalValue ) )
-		{
-			return;
-		}
-
-		Expression romDefaultValue = null;
-		if ( literalValue != null )
-			romDefaultValue = new Expression( literalValue,
-					IExpressionType.CONSTANT );
 		setParam.setExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER,
-				romDefaultValue );
+				AdapterUtil.createExpression( newValue ) );
 	}
 
 	/**
 	 * Sets the default value for ODA default scalar value. If the value is
 	 * quoted, removed it and set it. Otherwise, the default value is treated as
-	 * js expression and set the constant BIRT_JS_EXPR as value
+	 * js expression and set it as a CustomData
 	 * 
 	 * @param elementAttrs
 	 *            the input element attributes
@@ -1224,24 +1221,31 @@ class DataSetParameterAdapter
 			String dataType, Object value )
 	{
 		Object defaultValue = null;
-		if ( value != null )
+		if ( !AdapterUtil.isNullExpression( value ) )
 		{
 			assert value instanceof Expression;
 			Expression expr = (Expression) value;
-			if ( IExpressionType.CONSTANT.equals( expr.getType( ) )
-					|| expr.getExpression( ) == null )
+			if ( IExpressionType.CONSTANT.equals( expr.getType( ) ) )
 			{
 				defaultValue = expr.getExpression( );
 			}
 			else
 			{
-				defaultValue = BIRT_JS_EXPR;
-				if ( AdapterUtil.needsQuoteDelimiters( dataType ) )
+				if ( IExpressionType.JAVASCRIPT.equals( expr.getType( ) )
+						&& AdapterUtil.needsQuoteDelimiters( dataType ) )
 				{
 					String literalValue = expr.getStringExpression( );
 					if ( ParameterValueUtil.isQuoted( literalValue ) )
 						defaultValue = ParameterValueUtil
 								.toLiteralValue( literalValue );
+				}
+				if ( defaultValue == null )
+				{
+					// ODA cannot process this expression
+					defaultValue = designFactory.createCustomData( );
+					( (CustomData) defaultValue ).setProviderId( PROVIDER_ID );
+					( (CustomData) defaultValue ).setValue( expr
+							.getExpression( ) );
 				}
 			}
 		}
