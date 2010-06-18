@@ -219,18 +219,8 @@ public class SVGInteractiveRenderer
 					{
 						idTemp = id + "@" + components.size( ); //$NON-NLS-1$
 					}
-					
-					// Bugzilla#312531
-					// Here does not add identifier of 'g' element as the
-					// accessible interactivity element, it just adds identifier of
-					// the child element 'path' of 'g' as accessible interactivity
-					// element. The reason is that it seems the 'g' element has
-					// no whole function to support dynamic changing style
-					// attributes. When the 'highlight' action is set on chart,
-					// changing styles of 'g' element has no effect. So during
-					// svg rending, an additional 'path' element will be added
-					// into 'g' element and inherit the style of 'g'.  
-					components.add( idTemp + ISVGConstants.PATH_FLAG_SUFFIX); //$NON-NLS-1$
+
+					components.add( idTemp );
 
 					// Create group element that will contain the drawing
 					// instructions that corresponds to the event

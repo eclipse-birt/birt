@@ -62,7 +62,6 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * This class provides the graphic context to draw primitive svg drawing
@@ -168,32 +167,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 		currentElement = createGeneralPath( shape );
 		appendChild( currentElement );
 		setStrokeStyle( currentElement );
-		copyParentStyles( currentElement );
 	}
 
-	/**
-	 * Copies the parent styles of specified element.
-	 * 
-	 * @param elm
-	 */
-	private void copyParentStyles( Element elm )
-	{
-		if ( elm == null
-				|| ( elm.getAttribute( "style" ) != null && !"".equals( elm.getAttribute( "style" ) ) ) ) //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$ 
-		{
-			return;
-		}
-		Node parent = elm.getParentNode( );
-		if ( ( parent instanceof Element )
-				&& "g".equalsIgnoreCase( parent.getNodeName( ) ) ) //$NON-NLS-1$
-		{
-			elm.setAttribute( "id", ( (Element) parent ).getAttribute( "id" ) //$NON-NLS-1$  //$NON-NLS-2$
-					+ ISVGConstants.PATH_FLAG_SUFFIX );
-			elm.setAttribute( "style", //$NON-NLS-1$
-					( (Element) parent ).getAttribute( "style" ) ); //$NON-NLS-1$
-		}
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -337,7 +312,6 @@ public class SVGGraphics2D extends ChartGraphics2D
 		{
 			deferStrokColor = tempDeferred;
 		}
-		copyParentStyles( currentElement );
 	}
 
 	/*
@@ -350,7 +324,6 @@ public class SVGGraphics2D extends ChartGraphics2D
 		currentElement = createGeneralPath( shape );
 		appendChild( currentElement );
 		setFillColor( currentElement );
-		copyParentStyles( currentElement );
 	}
 
 	/*
@@ -1266,6 +1239,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 			clipPath.appendChild( createGeneralPath( clip ) );
 			definitions.appendChild( clipPath );
 		}
+
 	}
 
 	/**

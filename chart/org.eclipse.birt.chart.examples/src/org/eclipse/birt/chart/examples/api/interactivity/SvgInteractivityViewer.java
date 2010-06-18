@@ -124,7 +124,7 @@ public class SvgInteractivityViewer extends Composite implements
 			switch ( i )
 			{
 				case 0 :
-					cm = InteractivityCharts.createHSChart( );
+					cm = InteractivityCharts.createSVGHSChart( );
 					break;
 				case 1 :
 					cm = InteractivityCharts.createSTChart( );

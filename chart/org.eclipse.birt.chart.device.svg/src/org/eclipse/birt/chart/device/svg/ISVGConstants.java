@@ -38,8 +38,4 @@ public interface ISVGConstants {
 	 * A property name that determines if the generated SVG should contain embedded javascript code.
 	 */
 	public static final String ENABLE_SCRIPT = "enable.scriptable"; //$NON-NLS-1$
-	
-	/** The suffix to be used in id of path element.*/
-	public static final String PATH_FLAG_SUFFIX = "_p"; //$NON-NLS-1$
-	
 }
