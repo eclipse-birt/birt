@@ -71,9 +71,9 @@ public interface IPostscriptRenderOption extends IRenderOption
 
 	boolean getCollate( );
 
-	void setResolution( int resolution );
+	void setResolution( String resolution );
 	
-	int getResolution( );
+	String getResolution( );
 
 	void setColor( boolean color );
 

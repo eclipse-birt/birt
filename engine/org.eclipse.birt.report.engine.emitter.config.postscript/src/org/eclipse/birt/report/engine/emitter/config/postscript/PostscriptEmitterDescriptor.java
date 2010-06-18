@@ -184,7 +184,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 				.setDisplayName( getMessage( "OptionDisplayValue.Resolution" ) ); //$NON-NLS-1$
 		resolution.setDataType( IConfigurableOption.DataType.STRING );
 		resolution.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		resolution.setDefaultValue( "600*600" );
+		resolution.setDefaultValue( "600 X 600" );
 		resolution.setToolTip( null );
 		resolution
 				.setDescription( getMessage( "OptionDescription.Resolution" ) ); //$NON-NLS-1$

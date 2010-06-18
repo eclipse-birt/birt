@@ -50,8 +50,8 @@ public class PostscriptPageDevice implements IPageDevice
 				PostscriptRenderOption.OPTION_COPIES, 1 );
 		boolean collate = renderOption.getBooleanOption(
 				PostscriptRenderOption.OPTION_COLLATE, false );
-		int resolution = renderOption.getIntOption(
-				IPostscriptRenderOption.OPTION_RESOLUTION, 0 );
+		String resolution = renderOption
+				.getStringOption( IPostscriptRenderOption.OPTION_RESOLUTION );
 		boolean color = renderOption.getBooleanOption(
 				IPostscriptRenderOption.OPTION_COLOR, true );
 		int scale = renderOption

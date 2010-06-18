@@ -941,7 +941,7 @@ public class PostscriptWriter
 	public void startRenderer( ) throws IOException
 	{
 		startRenderer( null, null, null, IPostscriptRenderOption.TRAYCODE_AUTO,
-				null, 1, false, 600, false, 100 );
+				null, 1, false, "600 X 600", false, 100 );
 	}
 
 	/*
@@ -951,7 +951,7 @@ public class PostscriptWriter
 	 */
 	public void startRenderer( String author, String description,
 			String paperSize, int paperTrayCode, String duplex, int copies,
-			boolean collate, int resolution, boolean color, int scale )
+			boolean collate, String resolution, boolean color, int scale )
 			throws IOException
 	{
 		if ( author != null )
@@ -1053,17 +1053,32 @@ public class PostscriptWriter
 		}
 	}
 
-	private void setResolution( int resolution )
+	private void setResolution( String resolution )
 	{
-		if ( resolution > 0 )
+		if ( resolution != null && resolution.length( ) > 0 )
 		{
-			out.println( "%%BeginFeature: *Resolution " + resolution + "x"
-					+ resolution + "dpi" );
-			out.println( " << /HWResolution [" + resolution + " " + resolution
-					+ "]" );
-			out.println( "  /Policies << /HWResolution 2 >>" );
-			out.println( " >> setpagedevice" );
-			out.println( "%%EndFeature" );
+			int split = resolution.indexOf( "x" );
+			if ( split == -1 )
+			{
+				split = resolution.indexOf( "X" );
+			}
+			if ( split != -1 )
+			{
+				int xResolution = new Integer( resolution.substring( 0, split )
+						.trim( ) );
+				int yResolution = new Integer( resolution.substring( split + 1,
+						resolution.length( ) ).trim( ) );
+				if ( xResolution > 0 && yResolution > 0 )
+				{
+					out.println( "%%BeginFeature: *Resolution " + xResolution
+							+ "x" + yResolution + "dpi" );
+					out.println( " << /HWResolution [" + xResolution + " "
+							+ yResolution + "]" );
+					out.println( "  /Policies << /HWResolution 2 >>" );
+					out.println( " >> setpagedevice" );
+					out.println( "%%EndFeature" );
+				}
+			}
 		}
 	}
 
