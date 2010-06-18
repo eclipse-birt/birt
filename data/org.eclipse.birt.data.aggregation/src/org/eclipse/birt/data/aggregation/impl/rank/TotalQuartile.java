@@ -77,7 +77,7 @@ public class TotalQuartile extends AggrFunction
 						true,
 						SupportedDataTypes.CALCULATABLE,
 						"" ), //$NON-NLS-1$
-				new ParameterDefn( "quart", Messages.getString( "TotalQuartile.param.quart" ), true, false, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				new ParameterDefn( "quart", Messages.getString( "TotalQuartile.param.quart" ), false, false, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		};
 	}
 
