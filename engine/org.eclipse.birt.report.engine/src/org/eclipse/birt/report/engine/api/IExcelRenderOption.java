@@ -31,6 +31,11 @@ public interface IExcelRenderOption extends IRenderOption
 	public static final String HIDE_GRIDLINES = "excelRenderOption.hideGridlines";
 
 	/**
+	 * This is the option to decide in which office version will you output the excel file
+	 */
+	public static final String OPTION_ENABLE_MULTIPLE_SHEET = "excelRenderOption.enableMultipleSheet";
+	
+	/**
 	 * 
 	 * @param wrappingText
 	 */
@@ -53,4 +58,8 @@ public interface IExcelRenderOption extends IRenderOption
 	 * @return officeVersion
 	 */
 	public String getOfficeVersion();
+
+	public boolean isEnableMultipleSheet( );
+	
+	public void setEnableMultipleSheet( boolean enableMultipleSheet );
 }

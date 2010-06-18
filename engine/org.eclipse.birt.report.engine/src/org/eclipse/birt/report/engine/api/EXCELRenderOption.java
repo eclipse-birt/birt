@@ -88,4 +88,14 @@ public class EXCELRenderOption extends RenderOption implements IExcelRenderOptio
 		return getBooleanOption(HIDE_GRIDLINES,false);
 	}
 
+	public boolean isEnableMultipleSheet( )
+	{
+		return getBooleanOption( OPTION_ENABLE_MULTIPLE_SHEET, false );
+	}
+
+	public void setEnableMultipleSheet( boolean enableMultipleSheet )
+	{
+		setOption( OPTION_ENABLE_MULTIPLE_SHEET, enableMultipleSheet );
+	}
+
 }
