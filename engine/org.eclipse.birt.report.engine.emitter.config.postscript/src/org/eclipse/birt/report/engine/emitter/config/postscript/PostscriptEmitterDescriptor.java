@@ -163,9 +163,9 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		ConfigurableOption paperTray = new ConfigurableOption(
 				PostscriptRenderOption.OPTION_PAPER_TRAY );
 		paperTray.setDisplayName( getMessage( "OptionDisplayValue.PaperTray" ) ); //$NON-NLS-1$
-		paperTray.setDataType( IConfigurableOption.DataType.STRING );
+		paperTray.setDataType( IConfigurableOption.DataType.INTEGER );
 		paperTray.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		paperTray.setDefaultValue( null );
+		paperTray.setDefaultValue( new Integer( 0 ) );
 		paperTray.setToolTip( null );
 		paperTray.setDescription( getMessage( "OptionDescription.PaperTray" ) ); //$NON-NLS-1$
 
