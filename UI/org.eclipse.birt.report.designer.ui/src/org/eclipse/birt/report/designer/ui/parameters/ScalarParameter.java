@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.parameters;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
@@ -129,6 +132,17 @@ public abstract class ScalarParameter implements IParameter
 			else
 			{
 				return null;
+			}
+		}
+		if (obj instanceof Date)
+		{
+			try
+			{
+				return DataTypeUtil.toString( obj );
+			}
+			catch ( BirtException e )
+			{
+				//return toString
 			}
 		}
 		return obj.toString( );
