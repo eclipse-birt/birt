@@ -113,7 +113,7 @@ public final class GanttDataSetProcessorImpl extends DataSetAdapter
 		{
 			for ( int i = 0; i < obja.length - 1; i++ )
 			{
-				if ( !( obja[i] instanceof CDateTime ) )
+				if ( obja[i] != null && !( obja[i] instanceof CDateTime ) )
 				{
 					valid = false;
 					break;
