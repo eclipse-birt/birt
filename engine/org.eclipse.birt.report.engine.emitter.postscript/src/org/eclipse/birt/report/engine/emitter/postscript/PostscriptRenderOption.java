@@ -89,14 +89,14 @@ public class PostscriptRenderOption extends RenderOption
 		return getBooleanOption( OPTION_COLLATE, false );
 	}
 
-	public void setResolution( int resolution )
+	public void setResolution( String resolution )
 	{
 		options.put( OPTION_RESOLUTION, resolution );
 	}
 
-	public int getResolution( )
+	public String getResolution( )
 	{
-		return getIntOption( OPTION_RESOLUTION, 600 );
+		return getStringOption( OPTION_RESOLUTION );
 	}
 
 	public void setColor( boolean color )
