@@ -96,17 +96,17 @@ public class PostscriptRenderOption extends RenderOption
 
 	public int getResolution( )
 	{
-		return getIntOption( OPTION_RESOLUTION, 0 );
+		return getIntOption( OPTION_RESOLUTION, 600 );
 	}
 
-	public void setGray( boolean gray )
+	public void setColor( boolean color )
 	{
-		options.put( OPTION_GRAY, gray );
+		options.put( OPTION_COLOR, color );
 	}
 
-	public boolean getGray( )
+	public boolean getColor( )
 	{
-		return getBooleanOption( OPTION_GRAY, false );
+		return getBooleanOption( OPTION_COLOR, true );
 	}
 
 	public void setScale( int scale )

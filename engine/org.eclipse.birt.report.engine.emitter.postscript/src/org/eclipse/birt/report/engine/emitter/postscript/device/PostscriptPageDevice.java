@@ -52,13 +52,12 @@ public class PostscriptPageDevice implements IPageDevice
 				PostscriptRenderOption.OPTION_COLLATE, false );
 		int resolution = renderOption.getIntOption(
 				IPostscriptRenderOption.OPTION_RESOLUTION, 0 );
-		boolean gray = renderOption.getBooleanOption(
-				IPostscriptRenderOption.OPTION_GRAY, false );
+		boolean color = renderOption.getBooleanOption(
+				IPostscriptRenderOption.OPTION_COLOR, true );
 		int scale = renderOption
 				.getIntOption( IPostscriptRenderOption.OPTION_SCALE, 100 );
 		writer.startRenderer( author, description, paperSize, paperTrayCode,
-								duplex, copies, collate, resolution, gray,
-								scale );
+				duplex, copies, collate, resolution, color, scale );
 	}
 
 	/*

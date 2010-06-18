@@ -951,7 +951,7 @@ public class PostscriptWriter
 	 */
 	public void startRenderer( String author, String description,
 			String paperSize, int paperTrayCode, String duplex, int copies,
-			boolean collate, int resolution, boolean gray, int scale )
+			boolean collate, int resolution, boolean color, int scale )
 			throws IOException
 	{
 		if ( author != null )
@@ -970,7 +970,7 @@ public class PostscriptWriter
 		setPaperTray( paperTrayCode );
 		setDuplex( duplex );
 		setResolution( resolution );
-		setGray( gray );
+		setGray( color );
 		FileUtil.load(
 				"org/eclipse/birt/report/engine/emitter/postscript/header.ps",
 				out );
@@ -1067,9 +1067,9 @@ public class PostscriptWriter
 		}
 	}
 
-	private void setGray( boolean gray )
+	private void setGray( boolean color )
 	{
-		if ( gray )
+		if ( !color )
 		{
 			out.println( "%%BeginFeature: *HPColorAsGray true" );
 			out.println( "<</ProcessColorModel /DeviceGray>> setpagedevice" );

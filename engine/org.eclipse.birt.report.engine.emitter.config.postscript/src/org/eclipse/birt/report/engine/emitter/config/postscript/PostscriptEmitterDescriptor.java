@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.emitter.config.IConfigurableOptionObserver
 import org.eclipse.birt.report.engine.emitter.config.IOptionValue;
 import org.eclipse.birt.report.engine.emitter.config.OptionValue;
 import org.eclipse.birt.report.engine.emitter.config.postscript.i18n.Messages;
+import org.eclipse.birt.report.engine.emitter.postscript.PostscriptRenderOption;
 
 /**
  * This class is a descriptor of postscript emitter.
@@ -118,6 +119,85 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		pageOverFlow
 				.setDescription( getMessage( "OptionDescription.PageOverFlow" ) ); //$NON-NLS-1$
 
+		// Initializes the option for copies.
+		ConfigurableOption copies = new ConfigurableOption(
+				PostscriptRenderOption.OPTION_COPIES );
+		copies.setDisplayName( getMessage( "OptionDisplayValue.Copies" ) ); //$NON-NLS-1$
+		copies.setDataType( IConfigurableOption.DataType.INTEGER );
+		copies.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		copies.setDefaultValue( 1 );
+		copies.setToolTip( null );
+		copies.setDescription( getMessage( "OptionDescription.Copies" ) ); //$NON-NLS-1$
+
+		// Initializes the option for collate.
+		ConfigurableOption collate = new ConfigurableOption(
+				PostscriptRenderOption.OPTION_COLLATE );
+		collate.setDisplayName( getMessage( "OptionDisplayValue.Collate" ) ); //$NON-NLS-1$
+		collate.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		collate.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		collate.setDefaultValue( Boolean.FALSE );
+		collate.setToolTip( null );
+		collate.setDescription( getMessage( "OptionDescription.Collate" ) ); //$NON-NLS-1$
+
+		// Initializes the option for duplex.
+		ConfigurableOption duplex = new ConfigurableOption(
+				PostscriptRenderOption.OPTION_DUPLEX );
+		duplex.setDisplayName( getMessage( "OptionDisplayValue.Duplex" ) ); //$NON-NLS-1$
+		duplex.setDataType( IConfigurableOption.DataType.STRING );
+		duplex.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		duplex.setDefaultValue( null );
+		duplex.setToolTip( null );
+		duplex.setDescription( getMessage( "OptionDescription.Duplex" ) ); //$NON-NLS-1$
+
+		// Initializes the option for paperSize.
+		ConfigurableOption paperSize = new ConfigurableOption(
+				PostscriptRenderOption.OPTION_PAPER_SIZE );
+		paperSize.setDisplayName( getMessage( "OptionDisplayValue.PaperSize" ) ); //$NON-NLS-1$
+		paperSize.setDataType( IConfigurableOption.DataType.STRING );
+		paperSize.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		paperSize.setDefaultValue( "A4" );
+		paperSize.setToolTip( null );
+		paperSize.setDescription( getMessage( "OptionDescription.PaperSize" ) ); //$NON-NLS-1$
+
+		// Initializes the option for paperTray.
+		ConfigurableOption paperTray = new ConfigurableOption(
+				PostscriptRenderOption.OPTION_PAPER_TRAY );
+		paperTray.setDisplayName( getMessage( "OptionDisplayValue.PaperTray" ) ); //$NON-NLS-1$
+		paperTray.setDataType( IConfigurableOption.DataType.STRING );
+		paperTray.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		paperTray.setDefaultValue( null );
+		paperTray.setToolTip( null );
+		paperTray.setDescription( getMessage( "OptionDescription.PaperTray" ) ); //$NON-NLS-1$
+
+		ConfigurableOption scale = new ConfigurableOption(
+				PostscriptRenderOption.OPTION_SCALE );
+		scale.setDisplayName( getMessage( "OptionDisplayValue.Scale" ) ); //$NON-NLS-1$
+		scale.setDataType( IConfigurableOption.DataType.INTEGER );
+		scale.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		scale.setDefaultValue( new Integer( 100 ) );
+		scale.setToolTip( null );
+		scale.setDescription( getMessage( "OptionDescription.Scale" ) ); //$NON-NLS-1$
+
+		ConfigurableOption resolution = new ConfigurableOption(
+				PostscriptRenderOption.OPTION_RESOLUTION );
+		resolution
+				.setDisplayName( getMessage( "OptionDisplayValue.Resolution" ) ); //$NON-NLS-1$
+		resolution.setDataType( IConfigurableOption.DataType.INTEGER );
+		resolution.setDisplayType( IConfigurableOption.DisplayType.TEXT );
+		resolution.setDefaultValue( new Integer( 600 ) );
+		resolution.setToolTip( null );
+		resolution
+				.setDescription( getMessage( "OptionDescription.Resolution" ) ); //$NON-NLS-1$
+
+		ConfigurableOption color = new ConfigurableOption(
+				PostscriptRenderOption.OPTION_COLOR );
+		color.setDisplayName( getMessage( "OptionDisplayValue.Color" ) ); //$NON-NLS-1$
+		color.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		color.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		color.setDefaultValue( Boolean.TRUE );
+		color.setToolTip( null );
+		color.setDescription( getMessage( "OptionDescription.Color" ) ); //$NON-NLS-1$
+
 		// Initializes the option for chart DPI.
 		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
 		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
@@ -130,7 +210,8 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow, chartDpi};
+				fontSubstitution, pageOverFlow, copies, collate, duplex,
+				paperSize, paperTray, scale, resolution, color, chartDpi};
 	}
 
 	private String getMessage( String key )
