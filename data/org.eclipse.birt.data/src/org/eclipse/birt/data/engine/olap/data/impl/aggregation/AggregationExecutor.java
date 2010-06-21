@@ -304,7 +304,7 @@ public class AggregationExecutor
 		int measureSize = 0;
 		while ( true )
 		{
-			int maxLevelCount = 0;
+			int maxLevelCount = -1;
 			int aggregationIndex = -1;
 			int[] levelSortType = null;
 			for ( int i = 0; i < aggregationCalculators.length; i++ )
@@ -312,10 +312,14 @@ public class AggregationExecutor
 				if ( sortedFactRows[i] == null &&
 						( ( aggregationCalculators[i].aggregation.getLevels( ) != null 
 							&& aggregationCalculators[i].aggregation.getLevels( ).length > maxLevelCount ) 
-								|| aggregationCalculators[i].aggregation.getLevels( ) == null ) )
+							|| ( aggregationCalculators[i].aggregation.getLevels( ) == null && 
+									maxLevelCount == -1 ) ) )
 				{
 					aggregationIndex = i;
-					maxLevelCount = levelIndex[i].length;
+					if( aggregationCalculators[i].aggregation.getLevels( ) != null )
+						maxLevelCount = aggregationCalculators[i].aggregation.getLevels( ).length;
+					else
+						maxLevelCount = 0;
 					levelSortType = aggregationCalculators[i].aggregation.getSortTypes( );
 				}
 			}
