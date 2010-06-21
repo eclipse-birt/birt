@@ -992,7 +992,7 @@ GanttSeriesAttributeComposite.Lbl.End=Ende:
 GanttSeriesAttributeComposite.Lbl.Bars=Balken
 GanttSeriesAttributeComposite.Lbl.Outline=Umriss
 GanttSeriesAttributeComposite.Lbl.OutlineFill=Umriss-Füllung
-GanttSeriesAttributeComposite.Lbl.LinePalette=&Palette für Datenreihe als Linienfarbe verwenden
+GanttSeriesAttributeComposite.Lbl.BarPalette=Use Series &Palette As Bar Color
 
 DecorationSheet.Label.DecorationLabels=Beschriftungen für Aufgaben
 

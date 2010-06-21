@@ -992,7 +992,7 @@ GanttSeriesAttributeComposite.Lbl.End=끝:
 GanttSeriesAttributeComposite.Lbl.Bars=막대
 GanttSeriesAttributeComposite.Lbl.Outline=윤곽선
 GanttSeriesAttributeComposite.Lbl.OutlineFill=윤곽선 채우기:
-GanttSeriesAttributeComposite.Lbl.LinePalette=선 색으로 계열 색상표 사용(&P)
+GanttSeriesAttributeComposite.Lbl.BarPalette=Use Series &Palette As Bar Color
 
 DecorationSheet.Label.DecorationLabels=작업 레이블
 
