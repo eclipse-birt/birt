@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -168,7 +168,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 			List<IAggregationResultRow> aggregationRows ) throws DataException,
 			IOException
 	{
-		Set<Integer> duplicatedIndex = new HashSet<Integer>( );
+		Set<Integer> duplicatedIndex = new LinkedHashSet<Integer>( );
 		for ( int i = 0; i < aggregationRows.size( ); i++ )
 		{
 			this.calculator.start( );
