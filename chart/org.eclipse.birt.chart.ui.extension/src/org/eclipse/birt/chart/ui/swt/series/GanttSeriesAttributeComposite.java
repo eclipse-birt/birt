@@ -167,7 +167,7 @@ public class GanttSeriesAttributeComposite extends Composite
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 4;
 			btnPalette.setLayoutData( gd );
-			btnPalette.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+			btnPalette.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.BarPalette" ) ); //$NON-NLS-1$
 			btnPalette.setSelection( series.isPaletteLineColor( ) );
 			btnPalette.addSelectionListener( this );
 		}
