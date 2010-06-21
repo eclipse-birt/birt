@@ -225,8 +225,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		{
 			return bindingMap.values( ).iterator( );
 		}
-		else
-			return list.iterator( );
+		return list.iterator( );
 
 	}
 
@@ -1204,10 +1203,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		{
 			return getChartReferenceItemHandleImpl( (ExtendedItemHandle) chartHandle.getDataBindingReference( ) );
 		}
-		else
-		{
-			return chartHandle;
-		}
+		return chartHandle;
 	}
 
 	/**
@@ -1269,15 +1265,19 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 						DEFAULT_CHART_BLOCK_WIDTH,
 						DEFAULT_AXIS_CHART_BLOCK_SIZE );
 			}
-			else
-			{
-				return BoundsImpl.create( 0,
-						0,
-						DEFAULT_AXIS_CHART_BLOCK_SIZE,
-						DEFAULT_CHART_BLOCK_HEIGHT );
-			}
+			return BoundsImpl.create( 0,
+					0,
+					DEFAULT_AXIS_CHART_BLOCK_SIZE,
+					DEFAULT_CHART_BLOCK_HEIGHT );
 		}
 		// Plot or ordinary chart case
+		else if (ChartCubeUtil.isPlotChart( eih ))
+		{
+			return BoundsImpl.create( 0,
+					0,
+					ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( ),
+					ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( ) );
+		}
 		else
 		{
 			return BoundsImpl.create( 0,
