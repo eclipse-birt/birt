@@ -64,4 +64,9 @@ public interface IMeasureModel
 	 */
 	static final String FORMAT_PROP = "format"; //$NON-NLS-1$
 
+	/**
+	 * Name of the alignment property.
+	 */
+	static final String ALIGNMENT_PROP = "alignment"; //$NON-NLS-1$
+
 }

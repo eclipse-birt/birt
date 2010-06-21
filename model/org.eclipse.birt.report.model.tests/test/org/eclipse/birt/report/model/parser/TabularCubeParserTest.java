@@ -63,6 +63,7 @@ public class TabularCubeParserTest extends BaseTestCase
 	private final String FILE_NAME_EXTENDS = "CubeParserTest_3.xml"; //$NON-NLS-1$
 
 	private final String PARSE_TEST_FILE = "CubeParserTest_5.xml"; //$NON-NLS-1$
+
 	/**
 	 * 
 	 * @throws Exception
@@ -222,9 +223,9 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		ActionHandle action = level.getActionHandle( );
 		assertEquals( "http://localhost:8080/bluehero", action.getURI( ) ); //$NON-NLS-1$
-		
+
 		FormatValueHandle format = level.getFormat( );
-		assertNotNull(format);
+		assertNotNull( format );
 		assertEquals( "testLevelFormatCategory", format.getCategory( ) ); //$NON-NLS-1$
 		assertEquals( "testLevelFormatPattern", format.getPattern( ) ); //$NON-NLS-1$
 		assertEquals( TEST_LOCALE, format.getLocale( ) );
@@ -240,7 +241,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( measureGroup, cube.getContent(
 				TabularCubeHandle.MEASURE_GROUPS_PROP, 0 ) );
 		assertEquals( "testMeasureGroup", measureGroup.getName( ) ); //$NON-NLS-1$
-		
+
 		propHandle = measureGroup
 				.getPropertyHandle( MeasureGroupHandle.MEASURES_PROP );
 
@@ -262,10 +263,15 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( "http://localhost:8080/bluehero", action.getURI( ) ); //$NON-NLS-1$
 
 		format = measure.getFormat( );
-		assertNotNull(format);
+		assertNotNull( format );
 		assertEquals( "testMeasureFormatCategory", format.getCategory( ) ); //$NON-NLS-1$
 		assertEquals( "testMeasureFormatPattern", format.getPattern( ) ); //$NON-NLS-1$
 		assertNull( format.getLocale( ) );
+
+		// test alignment
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY, level.getAlignment( ) );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY, measure.getAlignment( ) );
+
 	}
 
 	/**
@@ -343,8 +349,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		level.setName( namePrix + level.getName( ) );
 		level.setColumnName( valuePrix + level.getColumnName( ) );
 		level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
-		level
-				.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER );
+		level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER );
 		level.setDateTimeFormat( "mm" ); //$NON-NLS-1$
 		// level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
 		level.setIntervalRange( 5 );
@@ -375,12 +380,12 @@ public class TabularCubeParserTest extends BaseTestCase
 		Action action = StructureFactory.createAction( );
 		level.setAction( action );
 
-		FormatValue levelFormat = StructureFactory.newFormatValue();
+		FormatValue levelFormat = StructureFactory.newFormatValue( );
 		levelFormat.setCategory( "testLevelFormatCategory" ); //$NON-NLS-1$
 		levelFormat.setPattern( "testLevelFormatPattern" ); //$NON-NLS-1$
 		levelFormat.setLocale( TEST_LOCALE );
 		level.setFormat( levelFormat );
-		
+
 		// measure group
 		cube.add( TabularCubeHandle.MEASURE_GROUPS_PROP, factory
 				.newTabularMeasureGroup( null ) );
@@ -406,12 +411,16 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		action = StructureFactory.createAction( );
 		measure.setAction( action );
-		
-		FormatValue measureFormat = StructureFactory.newFormatValue();
+
+		FormatValue measureFormat = StructureFactory.newFormatValue( );
 		measureFormat.setCategory( "testMeasureFormatCategory" ); //$NON-NLS-1$
 		measureFormat.setPattern( "testMeasureFormatPattern" ); //$NON-NLS-1$
 		measureFormat.setLocale( TEST_LOCALE );
 		measure.setFormat( measureFormat );
+
+		// test alignment
+		level.setAlignment( DesignChoiceConstants.TEXT_ALIGN_CENTER );
+		measure.setAlignment( DesignChoiceConstants.TEXT_ALIGN_CENTER );
 
 		save( );
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$
@@ -445,7 +454,6 @@ public class TabularCubeParserTest extends BaseTestCase
 		designHandle.getSlot( IReportDesignModel.CUBE_SLOT ).add(
 				clonedCube.getHandle( design ) );
 
-		
 		// save
 
 		save( );

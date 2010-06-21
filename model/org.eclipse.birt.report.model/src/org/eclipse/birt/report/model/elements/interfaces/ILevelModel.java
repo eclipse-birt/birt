@@ -106,4 +106,9 @@ public interface ILevelModel
 	 * Name of the format property, which saves the format of the level.
 	 */
 	String FORMAT_PROP = "format"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the alignment property.
+	 */
+	String ALIGNMENT_PROP = "alignment"; //$NON-NLS-1$
 }

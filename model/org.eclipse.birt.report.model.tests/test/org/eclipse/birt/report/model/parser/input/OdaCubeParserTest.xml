@@ -40,6 +40,7 @@
                 					<property name="intervalBase">Jan</property>
                 					<property name="levelType">dynamic</property>
                 					<expression name="defaultValue">2</expression>
+                					<property name="alignment">justify</property>                					
     								<list-property name="staticValues">
     									<structure>
             								<property name="ruleExpre">rule expression</property>
@@ -77,6 +78,7 @@
     						<property name="function">min</property>
     						<property name="measureExpression">column</property>
     						<property name="isCalculated">false</property>
+    						<property name="alignment">justify</property>
     					</oda-measure>
     				</property>
     			</oda-measure-group>

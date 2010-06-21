@@ -137,7 +137,7 @@ public class OdaCubeParseTest extends BaseTestCase
 		assertEquals( measureGroup, cube.getContent(
 				OdaCubeHandle.MEASURE_GROUPS_PROP, 0 ) );
 		assertEquals( "testMeasureGroup", measureGroup.getName( ) ); //$NON-NLS-1$
-		
+
 		propHandle = measureGroup
 				.getPropertyHandle( MeasureGroupHandle.MEASURES_PROP );
 
@@ -148,6 +148,10 @@ public class OdaCubeParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.MEASURE_FUNCTION_MIN, measure
 				.getFunction( ) );
 		assertFalse( measure.isCalculated( ) );
+
+		// test alignment
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY, level.getAlignment( ) );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY, measure.getAlignment( ) );
 
 	}
 
@@ -195,6 +199,7 @@ public class OdaCubeParseTest extends BaseTestCase
 		level.setDefaultValue( "10" ); //$NON-NLS-1$
 		level.setIntervalBase( valuePrix + level.getIntervalBase( ) );
 		level.setLevelType( DesignChoiceConstants.LEVEL_TYPE_MIRRORED );
+
 		PropertyHandle propHandle = level
 				.getPropertyHandle( LevelHandle.STATIC_VALUES_PROP );
 		propHandle.removeItem( 0 );
@@ -230,6 +235,10 @@ public class OdaCubeParseTest extends BaseTestCase
 				+ measure.getMeasureExpression( ) );
 		measure.setFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
 		measure.setCalculated( true );
+
+		// test alignment
+		level.setAlignment( DesignChoiceConstants.TEXT_ALIGN_CENTER );
+		measure.setAlignment( DesignChoiceConstants.TEXT_ALIGN_CENTER );
 
 		save( );
 		assertTrue( compareFile( "OdaCubeParserTest_golden.xml" ) ); //$NON-NLS-1$

@@ -255,4 +255,42 @@ public abstract class MeasureHandle extends ReportElementHandle
 	{
 		setProperty( FORMAT_PROP, format );
 	}
+
+	/**
+	 * Gets the alignment of the measure. The returned value may be one of the
+	 * following constants defined in <code>DesignChoiceConstants<code>:
+	 * 
+	 * <ul>
+	 * <li>TEXT_ALIGN_LEFT
+	 * <li>TEXT_ALIGN_CENTER
+	 * <li>TEXT_ALIGN_RIGHT
+	 * <li>TEXT_ALIGN_JUSTIFY
+	 * </ul>
+	 * 
+	 * @return the alignment of the measure.
+	 */
+	public String getAlignment( )
+	{
+		return getStringProperty( ALIGNMENT_PROP );
+	}
+
+	/**
+	 * Sets the alignment of the measure. The value to set should be one of the
+	 * following constants defined in <code>DesignChoiceConstants<code>:
+	 * 
+	 * <ul>
+	 * <li>TEXT_ALIGN_LEFT
+	 * <li>TEXT_ALIGN_CENTER
+	 * <li>TEXT_ALIGN_RIGHT
+	 * <li>TEXT_ALIGN_JUSTIFY
+	 * </ul>
+	 * 
+	 * @param alignment
+	 *            the new alignment to set.
+	 * @throws SemanticException
+	 */
+	public void setAlignment( String alignment ) throws SemanticException
+	{
+		setStringProperty( ALIGNMENT_PROP, alignment );
+	}
 }

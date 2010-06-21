@@ -36,6 +36,7 @@
                                     <property name="intervalRange">5.0</property>
                                     <property name="levelType">mirrored</property>
                                     <expression name="defaultValue">10</expression>
+									<property name="alignment">center</property>	
                                     <list-property name="staticValues">
                                         <structure>
                                             <expression name="ruleExpre">new rule expression</expression>
@@ -80,6 +81,7 @@
                             <property name="function">count</property>
                             <property name="isCalculated">true</property>
                             <expression name="measureExpression">updated column</expression>
+                            <property name="alignment">center</property>
                         </oda-measure>
                         <oda-measure name="NewOdaMeasure" id="15"/>
                     </property>

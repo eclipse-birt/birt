@@ -96,6 +96,7 @@
                 					<property name="levelType">dynamic</property>
                 					<expression name="ACLExpression" type="javascript">ACL expression</expression>
                 					<expression name="memberACLExpression" type="javascript">member ACL expression</expression>
+                					<property name="alignment">justify</property>
     								<list-property name="staticValues">
     									<structure>
             								<property name="ruleExpre">rule expression</property>
@@ -139,6 +140,7 @@
     						<property name="isCalculated">false</property>
     						<property name="dataType">string</property>
     						<expression name="ACLExpression" type="javascript">ACL expression</expression>
+    						<property name="alignment">justify</property>
     						<structure name="action">
                         		<expression name="uri">http://localhost:8080/bluehero</expression>
                     		</structure> 

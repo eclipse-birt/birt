@@ -2884,7 +2884,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		if ( tag != null )
 			writer.conditionalStartElement( tag );
 
-		// 
+		//
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, containerInfor
 				.getPropertyName( ) );
 
@@ -3901,6 +3901,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ILevelModel.DEFAULT_VALUE_PROP );
 		property( obj, ILevelModel.ACL_EXPRESSION_PROP );
 		property( obj, ILevelModel.MEMBER_ACL_EXPRESSION_PROP );
+		property( obj, ILevelModel.ALIGNMENT_PROP );
 
 		writeStructureList( obj, ILevelModel.STATIC_VALUES_PROP );
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
@@ -3941,6 +3942,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IMeasureModel.MEASURE_EXPRESSION_PROP );
 		property( obj, IMeasureModel.DATA_TYPE_PROP );
 		property( obj, IMeasureModel.ACL_EXPRESSION_PROP );
+		property( obj, IMeasureModel.ALIGNMENT_PROP );
 
 		writeActions( obj, IMeasureModel.ACTION_PROP );
 		writeStructure( obj, IMeasureModel.FORMAT_PROP );
