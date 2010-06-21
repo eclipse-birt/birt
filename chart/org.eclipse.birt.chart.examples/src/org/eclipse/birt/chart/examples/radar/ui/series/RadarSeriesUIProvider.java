@@ -78,7 +78,7 @@ public class RadarSeriesUIProvider extends DefaultSeriesUIProvider
 		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
 		{
 			return new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
-					sTitle,
+					ChartUIConstants.QUERY_VALUE,
 					seriesDefn,
 					ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 					context,
