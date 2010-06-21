@@ -1757,21 +1757,24 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				}
 				set.clear( );
 			}
-			
+
 			if ( defaultValueList != null )
 			{
 				for ( Iterator iter = defaultValueList.iterator( ); iter.hasNext( ); )
 				{
 					Expression expression = (Expression) iter.next( );
-					if ( isValidValue( expression.getStringExpression( ) ) != null
-							|| set.contains( validateValue( expression.getStringExpression( ) ) ) )
+					if ( isValidValue( expression.getStringExpression( ),
+							expression.getType( ) ) != null
+							|| set.contains( validateValue( expression.getStringExpression( ),
+									expression.getType( ) ) ) )
 					{
 						iter.remove( );
 						change = true;
 					}
 					else
 					{
-						set.add( validateValue( expression.getStringExpression( ) ) );
+						set.add( validateValue( expression.getStringExpression( ),
+								expression.getType( ) ) );
 					}
 				}
 			}
