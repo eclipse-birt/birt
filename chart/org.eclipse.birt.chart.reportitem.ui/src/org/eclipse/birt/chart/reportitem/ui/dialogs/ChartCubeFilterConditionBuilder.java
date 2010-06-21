@@ -680,6 +680,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		{
 			operator.add( OPERATOR[i][0] );
 		}
+		operator.setVisibleItemCount( 30 );
 		operator.addSelectionListener( operatorSelectionListener );
 
 		create2ValueComposite( condition );
