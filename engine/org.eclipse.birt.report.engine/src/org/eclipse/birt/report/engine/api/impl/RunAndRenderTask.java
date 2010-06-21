@@ -17,8 +17,10 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IProgressMonitor;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -122,11 +124,20 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			// if we need do the paginate, do the paginate.
 			String format = executionContext.getOutputFormat( );
 			
-			
 			boolean paginate = true;
-			HTMLRenderOption htmlOption = new HTMLRenderOption( renderOptions );
-			paginate = htmlOption.getHtmlPagination( );
-			
+			if ( FORMAT_HTML.equalsIgnoreCase( format )
+			        || FORMAT_XHTML.equalsIgnoreCase( format ) ) //$NON-NLS-1$
+			{
+				HTMLRenderOption htmlOption = new HTMLRenderOption(
+				        renderOptions );
+				paginate = htmlOption.getHtmlPagination( );
+			}
+			else
+			{
+				RenderOption taskOption = new RenderOption( renderOptions );
+				paginate = taskOption
+				        .getBooleanOption( IRenderOption.HTML_PAGINATION, true );
+			}
 			if ( ExtensionManager.NO_PAGINATION.equals( pagination ) )
 			{
 				paginate = false;
