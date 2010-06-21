@@ -3254,6 +3254,7 @@ Element.Level.ACLExpression=Ausdruck 'ACL'
 Element.Level.MemberACLExpression=Mitgliedsausdruck 'ACL'
 Element.Level.action=Aktion
 Element.Level.format=Format
+Element.Level.alignment=Ausrichtung
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Funktion
@@ -3263,6 +3264,7 @@ Element.Measure.dataType=Datentyp
 Element.Measure.ACLExpression=Ausdruck 'ACL'
 Element.Measure.action=Aktion
 Element.Measure.format=Format
+Element.Measure.alignment=Ausrichtung
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Einheiten

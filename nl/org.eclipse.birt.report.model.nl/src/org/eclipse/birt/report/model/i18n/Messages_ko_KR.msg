@@ -3254,6 +3254,7 @@ Element.Level.ACLExpression=ACL 식
 Element.Level.MemberACLExpression=구성원 ACL 식
 Element.Level.action=작업
 Element.Level.format=형식
+Element.Level.alignment=맞춤
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
@@ -3263,6 +3264,7 @@ Element.Measure.dataType=데이터 형식
 Element.Measure.ACLExpression=ACL 식
 Element.Measure.action=작업
 Element.Measure.format=형식
+Element.Measure.alignment=맞춤
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값

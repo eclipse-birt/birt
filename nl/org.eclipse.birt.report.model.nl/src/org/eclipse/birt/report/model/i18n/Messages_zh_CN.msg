@@ -3254,6 +3254,7 @@ Element.Level.ACLExpression=ACL 表达式
 Element.Level.MemberACLExpression=成员 ACL 表达式
 Element.Level.action=操作
 Element.Level.format=格式
+Element.Level.alignment=对齐
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=函数
@@ -3263,6 +3264,7 @@ Element.Measure.dataType=数据类型
 Element.Measure.ACLExpression=ACL 表达式
 Element.Measure.action=操作
 Element.Measure.format=格式
+Element.Measure.alignment=对齐
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=度量

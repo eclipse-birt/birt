@@ -3254,6 +3254,7 @@ Element.Level.ACLExpression=ACL 式
 Element.Level.MemberACLExpression=メンバの ACL 式
 Element.Level.action=アクション
 Element.Level.format=書式
+Element.Level.alignment=配置
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数
@@ -3263,6 +3264,7 @@ Element.Measure.dataType=データ型
 Element.Measure.ACLExpression=ACL 式
 Element.Measure.action=アクション
 Element.Measure.format=書式
+Element.Measure.alignment=配置
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=メジャー
