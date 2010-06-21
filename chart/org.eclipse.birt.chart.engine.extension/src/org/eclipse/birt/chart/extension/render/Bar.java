@@ -1192,7 +1192,7 @@ public final class Bar extends AxesRenderer
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT,
 					dpha[i] );
 
-			if ( dHeight != 0 || bShowOutside )
+			if ( isTransposed( ) ? dWidth != 0 : dHeight != 0 || bShowOutside )
 			{
 				// Do not render the bar when height is 0. Still keep the label.
 				if ( bRendering3D )
