@@ -63,7 +63,6 @@ fragment@org.eclipse.datatools.enablement.sybase.nl1=HEAD,:ext:xgu@dev.eclipse.o
 fragment@org.eclipse.datatools.enablement.sybase.asa.nl1=HEAD,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sybase.asa.nl
 fragment@org.eclipse.datatools.enablement.sybase.asa.models.nl1=HEAD,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sybase.asa.models.nl
 fragment@org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl1=HEAD,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl
-fragment@org.eclipse.datatools.enablement.sybase.ase.profile.nl1=HEAD,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sybase.ase.profile.nl
 
 !***************DATATOOLS SQLTOOLS NL*****************
 fragment@org.eclipse.datatools.sqltools.common.ui.nl1=HEAD,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.sqltools/nl/org.eclipse.datatools.sqltools.common.ui.nl
