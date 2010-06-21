@@ -21,6 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -28,21 +29,15 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.data.ui.actions.IDataSetPreviewer;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExecutorHelper;
-import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
-import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage;
-import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.impl.ReportEngine;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -51,14 +46,10 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
@@ -424,65 +415,23 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 
 				if ( resultSetTable != null && !resultSetTable.isDisposed( ) )
 				{
-
-					// Set thread context class loader so Rhino can find POJOs
-					// in
-					// workspace
-					// projects
-					ClassLoader oldContextLoader = Thread.currentThread( )
-							.getContextClassLoader( );
-					ClassLoader parentLoader = oldContextLoader;
-					if ( parentLoader == null )
-						parentLoader = this.getClass( ).getClassLoader( );
-					
-					ModuleHandle handle;
+					ModuleHandle handle = null;
 					DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
 					handle = dsHandle.getModuleHandle( );
-
+					IDataSetPreviewer previewer = DataSetPreviewerFactory.createPreviewer( 
+							dsHandle.getQualifiedName( ), getMaxRowPreference( ), handle );
 					Map dataSetBindingMap = new HashMap( );
 					Map dataSourceBindingMap = new HashMap( );
 					try
 					{
-						if ( handle instanceof ReportDesignHandle )
+						clearProperyBindingMap( 
+								dataSetBindingMap,
+								dataSourceBindingMap );
+						if ( previewer != null )
 						{
-							ReportDesignHandle copiedReport = (ReportDesignHandle) ( handle.copy( ).getHandle( null ) );
-
-							ClassLoader newContextLoader = DataSetProvider.getCustomScriptClassLoader( parentLoader,
-									copiedReport );
-							Thread.currentThread( )
-									.setContextClassLoader( newContextLoader );
-							
-							EngineConfig ec = new EngineConfig( );
-							ec.getAppContext( )
-									.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-											newContextLoader );
-							ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
-							clearProperyBindingMap( 
-									dataSetBindingMap,
-									dataSourceBindingMap );
-
-							DummyEngineTask engineTask = new DummyEngineTask( engine,
-									new ReportEngineHelper( engine ).openReportDesign( copiedReport ),
-									copiedReport );
-							
-							Map appContext = new HashMap( );
-							appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-									new Integer( ( (DataSetHandle) getContainer( ).getModel( ) ).getRowFetchLimit( ) ) );
-
-							engineTask.setAppContext( appContext );
-							engineTask.run( );
-							
-							DataRequestSession session = engineTask.getDataSession( );
-							session.getDataSessionContext( )
-									.getAppContext( )
-									.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-											DTPUtil.getInstance( )
-													.createResourceIdentifiers( ) );
-							
-							IQueryResults resultSet = executeProcess( session, engineTask.getExecutionContext( ) );
-							populateRecords( resultSet );
-							engineTask.close( );
-							engine.destroy( );
+							previewer.open( );
+							populateRecords( previewer.preview( ) );
+							previewer.close( );
 							monitor.done( );
 						}
 						else
@@ -505,13 +454,13 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							}
 							context.setAppContext( appContext );
 							IQueryResults resultSet = executeProcess( session, null );
-							populateRecords( resultSet );
+							populateRecords( resultSet.getResultIterator( ) );
 							session.shutdown( );
 						}
 					}
 					catch ( BirtException e )
 					{
-						ExceptionHandler.handle( e );
+						throw new InvocationTargetException( e );
 					}
 					finally
 					{
@@ -519,10 +468,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 								dataSetBindingMap,
 								dataSourceBindingMap );
 					}		
-
-					// Restore old thread context class loader
-					Thread.currentThread( )
-							.setContextClassLoader( oldContextLoader );
 				}
 			}
 		};
@@ -542,7 +487,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		}
 		catch ( InvocationTargetException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionHandler.handle( e.getCause( ) );
 		}
 		catch ( InterruptedException e )
 		{
@@ -551,6 +496,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		
 		updateResultSetTableUI( );
 	}
+	
 
 	/**
 	 * Populate records to be retrieved when re-render resultSetTable
@@ -559,36 +505,33 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 	 * @param query
 	 * @throws BirtException
 	 */
-	private void populateRecords( IQueryResults actualResultSet )
+	private void populateRecords( IResultIterator iter )
 	{
 		try
 		{
-			if ( actualResultSet != null )
+			if ( iter != null )
 			{
-				IResultIterator iter = actualResultSet.getResultIterator( );
-				if ( columnCount > 0 )
+				IResultMetaData meta = iter.getResultMetaData( );
+				while ( iter.next( ) )
 				{
-					while ( iter.next( ) )
+					CellValue[] record = new CellValue[meta.getColumnCount( )];
+					for ( int n = 0; n < record.length; n++ )
 					{
-						CellValue[] record = new CellValue[columnCount];
-						for ( int n = 0; n < columnCount; n++ )
-						{
-							CellValue cv = new CellValue( );
-							Object value = iter.getValue( columnBindingNames[n] );
-							String disp = null;
-							if( value instanceof Number )
-								disp = value.toString( );
-							else
-								disp = iter.getString( columnBindingNames[n] );
-							cv.setDisplayValue( disp );
-							cv.setRealValue( value );
-							record[n] = cv;
-						}
-						recordList.add( record );
+						CellValue cv = new CellValue( );
+						Object value = iter.getValue( meta.getColumnName( n+1 ) );
+						String disp = null;
+						if( value instanceof Number )
+							disp = value.toString( );
+						else
+							disp = iter.getString( meta.getColumnName( n+1 )  );
+						cv.setDisplayValue( disp );
+						cv.setRealValue( value );
+						record[n] = cv;
 					}
+					recordList.add( record );
 				}
 				setPromptLabelText( );
-				actualResultSet.close( );
+				iter.close( );
 			}
 		}
 		catch ( RuntimeException e )
@@ -643,6 +586,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		}
 		else
 		{
+			metaData = ( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( );
 			if ( metaData != null )
 				createColumns( metaData );
 			insertRecords( );
