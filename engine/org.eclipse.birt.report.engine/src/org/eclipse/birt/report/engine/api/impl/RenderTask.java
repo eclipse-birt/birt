@@ -532,6 +532,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			PageRangeIterator iter = new PageRangeIterator(
 					physicalPageSequences );
 
+			initializeContentEmitter( emitter );
 			boolean paged = needPagedExecutor( physicalPageSequences );
 
 			//prepare the executor and emitter
@@ -542,7 +543,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 			executor = new SuppressDuplciateReportExecutor( executor );
 			executor = new LocalizedReportExecutor( executionContext, executor );
 			executionContext.setExecutor( executor );
-			initializeContentEmitter( emitter, executor );
 
 			//prepare the layout engine
 			IReportLayoutEngine layoutEngine = createReportLayoutEngine(
@@ -569,7 +569,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				pdfEmitter.setPageHandler( layoutPageHandler );
 				
 				emitter = pdfEmitter;
-				initializeContentEmitter( emitter, executor );
+				initializeContentEmitter( emitter );
 			}
 			else
 			{
@@ -697,7 +697,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			executor = new SuppressDuplciateReportExecutor( executor );
 			executor = new LocalizedReportExecutor( executionContext, executor );
 			executionContext.setExecutor( executor );
-			initializeContentEmitter( emitter, executor );
+			initializeContentEmitter( emitter );
 			IReportLayoutEngine layoutEngine = createReportLayoutEngine(
 					pagination, renderOptions );
 			layoutEngine.setPageHandler( new LayoutPageHandler(

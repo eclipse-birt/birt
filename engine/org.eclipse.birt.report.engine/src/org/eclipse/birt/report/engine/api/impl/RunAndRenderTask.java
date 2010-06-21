@@ -117,7 +117,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				pdfLayoutEmitter.setPageHandler( layoutHandler );
 				emitter = pdfLayoutEmitter;
 			}
-			initializeContentEmitter( emitter, executor );
+			initializeContentEmitter( emitter );
 
 			// if we need do the paginate, do the paginate.
 			String format = executionContext.getOutputFormat( );

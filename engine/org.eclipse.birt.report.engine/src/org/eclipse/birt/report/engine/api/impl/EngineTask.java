@@ -72,8 +72,8 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
-import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.Expression.Script;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -2011,8 +2011,8 @@ public abstract class EngineTask implements IEngineTask
 		}
 	}
 
-	protected void initializeContentEmitter( IContentEmitter emitter,
-			IReportExecutor executor ) throws BirtException
+	protected void initializeContentEmitter( IContentEmitter emitter )
+	        throws BirtException
 	{
 		// create the emitter services object that is needed in the emitters.
 		HashMap configs = engine.getConfig( ).getEmitterConfigs( );

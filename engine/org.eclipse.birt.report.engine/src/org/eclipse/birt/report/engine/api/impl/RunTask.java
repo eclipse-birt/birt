@@ -249,7 +249,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				}				
 				executionContext.setExecutor( executor );
 				
-				initializeContentEmitter( emitter, executor );
+				initializeContentEmitter( emitter );
 				documentBuilder.build( );
 			}
 						
