@@ -53,7 +53,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -82,6 +81,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
+	@Override
 	public String getName( )
 	{
 		return Radar.TYPE_LITERAL;
@@ -92,6 +92,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
 	 */
+	@Override
 	public Image getImage( )
 	{
 		return UIHelper.getImage( "icons/obj16/Radar16.gif" ); //$NON-NLS-1$
@@ -102,6 +103,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getHelp()
 	 */
+	@Override
 	public IHelpContent getHelp( )
 	{
 		return new HelpContentImpl( Radar.TYPE_LITERAL,
@@ -115,6 +117,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
 	 * java.lang.String)
 	 */
+	@Override
 	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
 	{
@@ -154,6 +157,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
 	 * .String, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public Chart getModel( String sSubType, Orientation orientation,
 			String sDimension, Chart currentChart )
 	{
@@ -240,7 +244,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	private Chart getConvertedChart( Chart currentChart, String sNewSubType,
 			String sNewDimension )
 	{
-		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		Chart helperModel = currentChart.copyInstance( );
 		helperModel.eAdapters( ).addAll( currentChart.eAdapters( ) );
 		// Cache series to keep attributes during conversion
 		ChartCacheManager.getInstance( )
@@ -431,6 +435,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions
 	 * ()
 	 */
+	@Override
 	public String[] getSupportedDimensions( )
 	{
 		return saDimensions;
@@ -442,6 +447,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
+	@Override
 	public String getDefaultDimension( )
 	{
 		return saDimensions[0];
@@ -454,6 +460,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
 	 * ()
 	 */
+	@Override
 	public boolean supportsTransposition( )
 	{
 		return false;
@@ -464,6 +471,7 @@ public class RadarChart extends DefaultChartTypeImpl
 		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 	}
 
+	@Override
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
 			String sTitle )
@@ -482,6 +490,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName( )
 	{
 		return Messages.getString( "RadarChart.Txt.DisplayName" ); //$NON-NLS-1$
@@ -492,6 +501,7 @@ public class RadarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
+	@Override
 	public Series getSeries( )
 	{
 		return RadarSeriesImpl.create( );
