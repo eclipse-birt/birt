@@ -877,9 +877,12 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 					if ( ChartExpressionUtil.isDimensionExpresion( expr ) )
 					{
 						String[] levels = ChartExpressionUtil.getLevelNameFromDimensionExpression( expr );
-						return cube.getDimension( levels[0] )
-								.getDefaultHierarchy( )
-								.getLevel( levels[1] );
+						if ( cube.getDimension( levels[0] ) != null )
+						{
+							return cube.getDimension( levels[0] )
+									.getDefaultHierarchy( )
+									.getLevel( levels[1] );
+						}
 					}
 					break;
 				}
