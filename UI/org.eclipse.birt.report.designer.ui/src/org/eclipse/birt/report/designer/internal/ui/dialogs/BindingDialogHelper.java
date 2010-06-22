@@ -917,6 +917,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		cmbGroup = new Combo( aggOnComposite, SWT.BORDER | SWT.READ_ONLY );
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbGroup.setVisibleItemCount( 30 );
+		cmbGroup.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				modifyDialogContent( );
+			}
+		} );
 		cmbFunction.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
