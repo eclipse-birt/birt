@@ -13,12 +13,17 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.parameters.AbstractParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.CascadingParameterGroup;
@@ -31,9 +36,13 @@ import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.parameters.RadioParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ScalarParameter;
 import org.eclipse.birt.report.designer.ui.parameters.StaticTextParameter;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
+import org.eclipse.birt.report.model.api.FormatValueHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -57,6 +66,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * The dialog for inputting report parameter values when previewing report in
@@ -328,7 +339,7 @@ public class InputParameterDialog extends BaseDialog
 
 			if ( value != null )
 			{
-				input.setText( value );
+				input.setText( formatString( value, param ));
 			}
 		}
 		else if ( param instanceof RadioParameter )
@@ -1023,5 +1034,85 @@ public class InputParameterDialog extends BaseDialog
 		for ( IParameterAdapter adapter : this.paramAdatpers )
 			this.paramValues.put( adapter.getName( ), adapter.getValue( ) );
 		return this.paramValues;
+	}
+	
+	private String formatString(String str, ScalarParameter para)
+	{
+		ScalarParameterHandle paraHandle = para.getHandle( );
+		String formatCategroy = paraHandle.getCategory( );
+		String formatPattern = paraHandle.getPattern( );
+		ULocale formatLocale = null;
+		Object formatValue = paraHandle.getProperty( IScalarParameterModel.FORMAT_PROP );
+		if ( formatValue instanceof FormatValue )
+		{
+			PropertyHandle propHandle = paraHandle.getPropertyHandle( IScalarParameterModel.FORMAT_PROP );
+			FormatValue formatValueToSet = (FormatValue) formatValue;
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
+			formatLocale = formatHandle.getLocale( );
+		}
+		if (formatLocale == null)
+		{
+			formatLocale = ULocale.getDefault( );
+		}
+		String type = paraHandle.getDataType( );
+		formatPattern = isCustom(formatCategroy ) ? formatPattern : formatCategroy;
+		if (formatPattern == null )
+		{
+			return str;
+		}
+		String formatStr = ""; //$NON-NLS-1$
+		try
+		{
+			if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
+			{
+				formatStr = new StringFormatter( formatPattern, formatLocale ).format( str );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
+			{
+				formatPattern = formatPattern.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
+						: formatPattern;
+				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date)para.converToDataType(str) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+			{
+				formatPattern = formatPattern.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
+						: formatPattern;
+				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date)para.converToDataType(str) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+			{
+				formatPattern = formatPattern.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
+						: formatPattern;
+				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date)para.converToDataType(str) );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
+					|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+			{
+				double value = Double.parseDouble( str );
+				formatStr = new NumberFormatter( formatPattern, formatLocale ).format( value );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+			{
+				int value = Integer.parseInt( str );
+				formatStr = new NumberFormatter( formatPattern, formatLocale ).format( value );
+			}
+		}
+		catch (Exception e) {
+			formatStr = str;
+		}
+		return  UIUtil.convertToGUIString( formatStr ) ;
+	}
+	private boolean isCustom( String formatCategroy)
+	{
+		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( formatCategroy ) )
+		{
+			return true;
+		}
+		return false;
 	}
 }
