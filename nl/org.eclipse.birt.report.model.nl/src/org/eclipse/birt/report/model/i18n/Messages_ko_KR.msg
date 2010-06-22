@@ -721,6 +721,10 @@ Choices.nullsOrdering.nullsLowest=널(Null) 최하위
 Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=널(Null) 제외
 
+#92 filterConditionType
+Choices.filterConditionType.slicer=Slicer
+Choices.filterConditionType.simple=단순
+
 ###########################################################
 # Classes
 
@@ -1997,6 +2001,7 @@ Structure.FilterCondition.extensionName=확장 이름
 Structure.FilterCondition.extensionExprId=확장 식 ID
 Structure.FilterCondition.pushDown=아래로 밀어내기
 Structure.FilterCondition.dynamicFilterParameter=동적 필터 매개 변수
+Structure.FilterCondition.type=형식
 
 #10. PropertyMask
 Structure.PropertyMask.name=이름

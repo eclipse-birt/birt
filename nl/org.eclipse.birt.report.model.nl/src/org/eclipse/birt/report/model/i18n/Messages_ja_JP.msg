@@ -721,6 +721,10 @@ Choices.nullsOrdering.nullsLowest=Null (最低)
 Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=Null を除外する
 
+#92 filterConditionType
+Choices.filterConditionType.slicer=Slicer
+Choices.filterConditionType.simple=簡易
+
 ###########################################################
 # Classes
 
@@ -1997,6 +2001,7 @@ Structure.FilterCondition.extensionName=拡張子名
 Structure.FilterCondition.extensionExprId=拡張式 ID
 Structure.FilterCondition.pushDown=プッシュ (下へ)
 Structure.FilterCondition.dynamicFilterParameter=動的フィルタパラメタ
+Structure.FilterCondition.type=種類
 
 #10. PropertyMask
 Structure.PropertyMask.name=名前

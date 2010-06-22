@@ -721,6 +721,10 @@ Choices.nullsOrdering.nullsLowest=空值下限
 Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=排除空值
 
+#92 filterConditionType
+Choices.filterConditionType.slicer=Slicer
+Choices.filterConditionType.simple=简单
+
 ###########################################################
 # Classes
 
@@ -1997,6 +2001,7 @@ Structure.FilterCondition.extensionName=扩展名
 Structure.FilterCondition.extensionExprId=扩展表达式 Id
 Structure.FilterCondition.pushDown=下推
 Structure.FilterCondition.dynamicFilterParameter=动态筛选器参数
+Structure.FilterCondition.type=类型
 
 #10. PropertyMask
 Structure.PropertyMask.name=名称

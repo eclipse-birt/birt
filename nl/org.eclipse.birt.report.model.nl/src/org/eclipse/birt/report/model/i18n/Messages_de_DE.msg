@@ -721,6 +721,10 @@ Choices.nullsOrdering.nullsLowest=Niedrigste Nullwerte
 Choices.nullsOrdering.nullsHighest=Nulls Highest
 Choices.nullsOrdering.excludeNulls=Nullwerte ausschlieﬂen
 
+#92 filterConditionType
+Choices.filterConditionType.slicer=Slicer
+Choices.filterConditionType.simple=Einfach
+
 ###########################################################
 # Classes
 
@@ -1997,6 +2001,7 @@ Structure.FilterCondition.extensionName=Name der Erweiterung
 Structure.FilterCondition.extensionExprId=Erweiterungsausdruck-ID
 Structure.FilterCondition.pushDown=Push Down
 Structure.FilterCondition.dynamicFilterParameter=Dynamischer Filterparameter
+Structure.FilterCondition.type=Typ
 
 #10. PropertyMask
 Structure.PropertyMask.name=Name
