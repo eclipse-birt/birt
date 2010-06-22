@@ -1050,5 +1050,9 @@ public interface DesignChoiceConstants
 	public static final String NULLS_ORDERING_NULLS_LOWEST = "nulls lowest"; //$NON-NLS-1$
 	public static final String NULLS_ORDERING_NULLS_HIGHEST = "nulls highest"; //$NON-NLS-1$
 	public static final String NULLS_ORDERING_EXCLUDE_NULLS = "exclude nulls"; //$NON-NLS-1$
+	
+	public static final String CHOICE_FILTER_CONDITION_TYPE = "filterConditionType"; //$NON-NLS-1$
+	public static final String FILTER_CONDITION_TYPE_SLICER="slicer"; //$NON-NLS-1$
+	public static final String FILTER_CONDITION_TYPE_SIMPLE="simple"; //$NON-NLS-1$
 
 }

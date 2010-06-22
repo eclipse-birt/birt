@@ -125,6 +125,8 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertTrue( filterHandle.pushDown( ) );
 		assertEquals(
 				"DynamicFilterParam", filterHandle.getDynamicFilterParameter( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.FILTER_CONDITION_TYPE_SLICER,
+				filterHandle.getType( ) );
 
 	}
 
@@ -202,6 +204,8 @@ public class FilterAndSortParseTest extends BaseTestCase
 		filterHandle.setPushDown( false );
 		filterHandle.setDynamicFilterParameter( valuePrefix
 				+ filterHandle.getDynamicFilterParameter( ) );
+		filterHandle
+				.setType( DesignChoiceConstants.FILTER_CONDITION_TYPE_SIMPLE );
 
 		filterHandle = iter1.next( );
 		List<Expression> tmpList = new ArrayList<Expression>( );

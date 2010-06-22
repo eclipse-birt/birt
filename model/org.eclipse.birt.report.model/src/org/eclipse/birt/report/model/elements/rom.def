@@ -659,7 +659,11 @@
   	<Choice displayNameID="Choices.nullsOrdering.nullsLowest" name="nulls lowest"/>
   	<Choice displayNameID="Choices.nullsOrdering.nullsHighest" name="nulls highest"/>
   	<Choice displayNameID="Choices.nullsOrdering.excludeNulls" name="exclude nulls"/>
-  </ChoiceType>   
+  </ChoiceType>
+  <ChoiceType name="filterConditionType">
+  	<Choice displayNameID="Choices.filterConditionType.slicer" name="slicer"/>
+  	<Choice displayNameID="Choices.filterConditionType.simple" name="simple"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -1372,7 +1376,8 @@
     <Member displayNameID="Structure.FilterCondition.pushDown" name="pushDown" runtimeSettable="false" since="2.5" type="boolean">
     	<Default>false</Default>
     </Member>
-    <Member displayNameID="Structure.FilterCondition.dynamicFilterParameter" name="dynamicFilterParameter" runtimeSettable="false" since="2.5" type="string"/>    
+    <Member displayNameID="Structure.FilterCondition.dynamicFilterParameter" name="dynamicFilterParameter" runtimeSettable="false" since="2.5" type="string"/>
+    <Member detailType="filterConditionType" displayNameID="Structure.FilterCondition.type" name="type" runtimeSettable="false" since="2.6" type="choice"/>    
   </Structure>
   <Structure displayNameID="Structure.HideRule" name="HideRule" since="1.0">
     <Member detailType="formatType" displayNameID="Structure.HideRule.format" isIntrinsic="true" name="format" since="1.0" type="string">

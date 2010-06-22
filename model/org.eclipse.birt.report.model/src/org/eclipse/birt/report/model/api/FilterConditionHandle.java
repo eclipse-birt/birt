@@ -479,40 +479,41 @@ public class FilterConditionHandle extends StructureHandle
 		setPropertySilently( FilterCondition.IS_OPTIONAL_MEMBER, Boolean
 				.valueOf( isOptional ) );
 	}
-	
+
 	/**
-	 * Returns the unique id of an org.eclipse.datatools.connectivity.oda.filterExpressions
-	 * extension to whose custom expressions are defined to map to a BIRT filter operator.
-	 *  
+	 * Returns the unique id of an
+	 * org.eclipse.datatools.connectivity.oda.filterExpressions extension to
+	 * whose custom expressions are defined to map to a BIRT filter operator.
+	 * 
 	 * @return the extension name
 	 */
 	public String getExtensionName( )
 	{
 		return getStringProperty( FilterCondition.EXTENSION_NAME_MEMBER );
 	}
-	
+
 	/**
-	 * Returns the id of a custom filter expression contributed and defined by the extension
-	 * identified in the consumerExpressionMapping. 
+	 * Returns the id of a custom filter expression contributed and defined by
+	 * the extension identified in the consumerExpressionMapping.
 	 * 
 	 * @return the extension expression id
 	 */
-	
+
 	public String getExtensionExprId( )
 	{
 		return getStringProperty( FilterCondition.EXTENSION_EXPR_ID_MEMBER );
 	}
-	
+
 	/**
-	 * Indicate if the current filter condition will be pushed down to the database. Default 
-	 * value is false. Only the oda extension provider supported operators can be pushed down
-	 * to database. For those only BIRT supported operators even this property is set to true,
-	 * will be ignored.
-	 *  	
-	 * @return true if the current filter condition will be pushed down to the database, 
-	 * otherwise false.
+	 * Indicate if the current filter condition will be pushed down to the
+	 * database. Default value is false. Only the oda extension provider
+	 * supported operators can be pushed down to database. For those only BIRT
+	 * supported operators even this property is set to true, will be ignored.
+	 * 
+	 * @return true if the current filter condition will be pushed down to the
+	 *         database, otherwise false.
 	 */
-	 
+
 	public boolean pushDown( )
 	{
 		Boolean pushDown = (Boolean) getProperty( FilterCondition.PUSH_DOWN_MEMBER );
@@ -520,67 +521,112 @@ public class FilterConditionHandle extends StructureHandle
 		{
 			return false;
 		}
-		return pushDown.booleanValue( ); 
+		return pushDown.booleanValue( );
 	}
-	
+
 	/**
-	 * Returns the name of the dynamic filter parameter to reference when the filter condition
-	 * is dynamic.
+	 * Returns the name of the dynamic filter parameter to reference when the
+	 * filter condition is dynamic.
 	 * 
 	 * @return the name to the dynamic filter parameter to reference.
 	 */
-	
+
 	public String getDynamicFilterParameter( )
 	{
 		return getStringProperty( FilterCondition.DYNAMIC_FILTER_PARAMETER_MEMBER );
 	}
-	
+
 	/**
-	 * Sets the unique id of an org.eclipse.datatools.connectivity.oda.filterExpressions 
-	 * extension to whose custom expressions are defined to map to a BIRT filter operator.  
+	 * Sets the unique id of an
+	 * org.eclipse.datatools.connectivity.oda.filterExpressions extension to
+	 * whose custom expressions are defined to map to a BIRT filter operator.
 	 * 
-	 * @param extensionName 
-	 * 				the extension name to set
+	 * @param extensionName
+	 *            the extension name to set
 	 */
-	
+
 	public void setExtensionName( String extensionName )
 	{
-		setPropertySilently( FilterCondition.EXTENSION_NAME_MEMBER, extensionName );
+		setPropertySilently( FilterCondition.EXTENSION_NAME_MEMBER,
+				extensionName );
 	}
-	
+
 	/**
-	 * Sets the id of a custom filter expression contributed and defined by the extension
-	 * identified in the consumerExpressionMapping.
-	 *   
-	 * @param extensionExprId the id to set
+	 * Sets the id of a custom filter expression contributed and defined by the
+	 * extension identified in the consumerExpressionMapping.
+	 * 
+	 * @param extensionExprId
+	 *            the id to set
 	 */
-	
+
 	public void setExtensionExprId( String extensionExprId )
 	{
-		setPropertySilently( FilterCondition.EXTENSION_EXPR_ID_MEMBER, extensionExprId );
+		setPropertySilently( FilterCondition.EXTENSION_EXPR_ID_MEMBER,
+				extensionExprId );
 	}
-	
+
 	/**
 	 * Sets the push down status for this filter condition
 	 * 
-	 * @param pushDown 
-	 * 				true if the current filter condition will be pushed down to the database, 
-	 * 				otherwise false.
+	 * @param pushDown
+	 *            true if the current filter condition will be pushed down to
+	 *            the database, otherwise false.
 	 */
-	public void setPushDown( boolean pushDown)
+	public void setPushDown( boolean pushDown )
 	{
-		setPropertySilently( FilterCondition.PUSH_DOWN_MEMBER, Boolean.valueOf( pushDown ) );
+		setPropertySilently( FilterCondition.PUSH_DOWN_MEMBER, Boolean
+				.valueOf( pushDown ) );
 	}
-	
+
 	/**
 	 * Sets the name of the dynamic filter parameter to reference.
 	 * 
 	 * @param parameterName
-	 * 				the name of the dynamic filter parameter to set
+	 *            the name of the dynamic filter parameter to set
 	 */
-		
+
 	public void setDynamicFilterParameter( String parameterName )
 	{
-		setPropertySilently( FilterCondition.DYNAMIC_FILTER_PARAMETER_MEMBER, parameterName );
+		setPropertySilently( FilterCondition.DYNAMIC_FILTER_PARAMETER_MEMBER,
+				parameterName );
+	}
+
+	/**
+	 * Returns the type of this filter condition. The possible values are
+	 * defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li><code>FILTER_CONDITION_TYPE_SLICER</code>
+	 * <li><code>FILTER_CONDITION_TYPE_SIMPLE</code>
+	 * </ul>
+	 * 
+	 * @return the operator of this filter condition
+	 */
+
+	public String getType( )
+	{
+		return getStringProperty( FilterCondition.TYPE_MEMBER );
+	}
+
+	/**
+	 * Sets the type of this filter condition. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li><code>FILTER_CONDITION_TYPE_SLICER</code>
+	 * <li><code>FILTER_CONDITION_TYPE_SIMPLE</code>
+	 * </ul>
+	 * 
+	 * @param type
+	 *            the type to set
+	 * @throws SemanticException
+	 *             if type is not in the choice list.
+	 */
+
+	public void setType( String type ) throws SemanticException
+	{
+
+		setProperty( FilterCondition.TYPE_MEMBER, type );
 	}
 }

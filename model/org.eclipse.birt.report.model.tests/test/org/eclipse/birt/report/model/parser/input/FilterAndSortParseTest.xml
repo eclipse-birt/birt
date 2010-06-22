@@ -95,6 +95,7 @@
                     <property name="extensionExprId">ext id</property>
                     <property name="pushDown">true</property>
                     <property name="dynamicFilterParameter">DynamicFilterParam</property>
+                    <property name="type">slicer</property>
                 </structure>
                 <structure>
                     <property name="operator">gt</property>

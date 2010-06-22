@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -129,6 +130,14 @@ public class FilterCondition extends PropertyStructure
 	 */
 
 	public static final String DYNAMIC_FILTER_PARAMETER_MEMBER = "dynamicFilterParameter";//$NON-NLS-1$
+
+	/**
+	 * Name of the member that indicates the type of this filter condition. We
+	 * define some choices for it.
+	 * 
+	 * @see DesignChoiceConstants#CHOICE_FILTER_CONDITION_TYPE
+	 */
+	public static final String TYPE_MEMBER = "type"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -654,5 +663,39 @@ public class FilterCondition extends PropertyStructure
 	public void setDynamicFilterParameter( String parameterName )
 	{
 		setProperty( DYNAMIC_FILTER_PARAMETER_MEMBER, parameterName );
+	}
+
+	/**
+	 * Returns the type. The possible values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li><code>FILTER_CONDITION_TYPE_SLICER</code>
+	 * <li><code>FILTER_CONDITION_TYPE_SIMPLE</code>
+	 * </ul>
+	 * 
+	 * @return the operator
+	 */
+
+	public String getType( )
+	{
+		return getStringProperty( null, TYPE_MEMBER );
+	}
+
+	/**
+	 * Sets the type. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li><code>FILTER_CONDITION_TYPE_SLICER</code>
+	 * <li><code>FILTER_CONDITION_TYPE_SIMPLE</code>
+	 * </ul>
+	 * 
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType( String type )
+	{
+		setProperty( TYPE_MEMBER, type );
 	}
 }
