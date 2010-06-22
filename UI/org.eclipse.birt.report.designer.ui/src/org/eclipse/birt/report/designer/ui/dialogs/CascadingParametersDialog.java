@@ -67,7 +67,6 @@ import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -790,7 +789,7 @@ public class CascadingParametersDialog extends BaseDialog
 						List valueLisit = parameter.getDefaultValueList( );
 						if ( valueLisit != null && valueLisit.size( ) > 0 )
 						{
-							Expression expression = getFirstDefaultValue( );
+							Object expression = valueLisit.get( 0 );
 							valueLisit.clear( );
 							valueLisit.add( expression );
 						}
@@ -2166,6 +2165,10 @@ public class CascadingParametersDialog extends BaseDialog
 		else if ( defaultValue != null )
 		{
 			defaultValueChooser.setText( defaultValue );
+		}
+		else
+		{
+			defaultValueChooser.setText( "" );
 		}
 
 		helpTextEditor.setText( UIUtil.convertToGUIString( selectedParameter.getHelpText( ) ) );
