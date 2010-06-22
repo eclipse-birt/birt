@@ -870,8 +870,11 @@ public final class ChartReportItemImpl extends ReportItem implements
 				list.add( extendedException );
 			}
 		}
-		else
+		else if ( !ChartCubeUtil.isAxisChart( handle ) )
 		{
+			// If chart is axis chart type and model is null, the validation
+			// here should pass, since the plot chart model may be not loaded in
+			// some cases such as in multi-view #27455
 			list.add( new SemanticError( handle.getElement( ),
 					SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT ) );
 		}
