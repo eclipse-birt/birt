@@ -67,6 +67,7 @@ public class SerializableDataSetNumberIndex<T> implements IIndexSerializer
 			keyList.addAll( this.numberAndIndex.keySet( ) );
 			if ( keyList.size( ) == 0 )
 			{
+				IOUtil.writeInt( output, 0 );
 				output.close( );
 				return;
 			}
