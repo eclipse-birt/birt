@@ -604,8 +604,7 @@ public abstract class BoundColumnsMgr
 		for ( int i = 0; i < actions.size( ); i++ )
 		{
 			Action action = (Action) actions.get( i );
-			String value = (String) action.getProperty( module,
-					Action.URI_MEMBER );
+			String value = action.getStringProperty( module, Action.URI_MEMBER );
 			if ( value != null )
 				handleBoundsForValue( element, module, value );
 			value = action.getStringProperty( module,

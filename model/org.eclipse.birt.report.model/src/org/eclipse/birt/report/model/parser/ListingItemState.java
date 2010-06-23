@@ -293,6 +293,8 @@ public abstract class ListingItemState extends ReportItemState
 
 			ComputedColumn foundColumn = DataColumnNameValidator.getColumn(
 					columns, resultSetColumn );
+			if ( foundColumn == null )
+				continue;
 
 			foundColumn = checkMatchedBoundColumnForGroup( columns, foundColumn
 					.getExpression( ), (String) group.getLocalProperty(
@@ -300,6 +302,8 @@ public abstract class ListingItemState extends ReportItemState
 					ExpressionUtil
 							.hasAggregation( foundColumn.getExpression( ) ) );
 
+			if ( foundColumn == null )
+				continue;
 			item.setProperty( DataItem.RESULT_SET_COLUMN_PROP, foundColumn
 					.getName( ) );
 		}

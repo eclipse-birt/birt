@@ -118,6 +118,9 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			// do nothing
 		}
 
+		if ( newExprs == null || newExprs.isEmpty( ) )
+			return;
+
 		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
 				element, module );
 
@@ -358,9 +361,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 				// set the property for the result set column property of
 				// DataItem.
 
-				obj
-						.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP,
-								newName );
+				obj.setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, newName );
 
 				return;
 			}

@@ -301,4 +301,17 @@ public class ActionParseTest extends BaseTestCase
 
 	}
 
+	/**
+	 * Tests the ClassCastException for method dealAction in BoundColumnsMgr.
+	 * TED 27597.
+	 * 
+	 * @throws Exception
+	 */
+	public void testDealAction( ) throws Exception
+	{
+		openDesign( "action_test_2.xml" ); //$NON-NLS-1$
+
+		save( );
+	}
+
 }
