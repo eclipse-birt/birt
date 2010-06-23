@@ -3336,6 +3336,7 @@ Element.FilterConditionElement.extensionName=Šg’£Žq–¼
 Element.FilterConditionElement.extensionExprId=Šg’£Ž® ID
 Element.FilterConditionElement.pushDown=ƒvƒbƒVƒ… (‰º‚Ö)
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
+Element.FilterConditionElement.type=Ží—Þ
 
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )

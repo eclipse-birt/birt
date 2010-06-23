@@ -3336,6 +3336,7 @@ Element.FilterConditionElement.extensionName=Nombre de extensión
 Element.FilterConditionElement.extensionExprId=ID de la expresión de extensión
 Element.FilterConditionElement.pushDown=Oprimir
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
+Element.FilterConditionElement.type=Tipo
 
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )

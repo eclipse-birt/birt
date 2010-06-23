@@ -3336,6 +3336,7 @@ Element.FilterConditionElement.extensionName=확장 이름
 Element.FilterConditionElement.extensionExprId=확장 식 ID
 Element.FilterConditionElement.pushDown=아래로 밀어내기
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
+Element.FilterConditionElement.type=형식
 
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )

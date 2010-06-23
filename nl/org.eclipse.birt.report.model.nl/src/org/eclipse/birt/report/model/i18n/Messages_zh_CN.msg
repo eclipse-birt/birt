@@ -3336,6 +3336,7 @@ Element.FilterConditionElement.extensionName=扩展名
 Element.FilterConditionElement.extensionExprId=扩展表达式 Id
 Element.FilterConditionElement.pushDown=下推
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
+Element.FilterConditionElement.type=类型
 
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
