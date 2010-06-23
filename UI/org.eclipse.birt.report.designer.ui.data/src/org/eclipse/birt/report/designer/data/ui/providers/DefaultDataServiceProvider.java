@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.designer.data.ui.providers;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction;
+import org.eclipse.birt.report.designer.data.ui.dataset.AppContextPopulator;
 import org.eclipse.birt.report.designer.data.ui.dataset.ExternalUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.data.IDataServiceProvider;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -65,19 +67,27 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 	public void registerSession( DataSetHandle handle,
 			DataRequestSession session ) throws BirtException
 	{
-		ExternalUIUtil.populateApplicationContext( handle, session );
+		AppContextPopulator.populateApplicationContext( handle, session );
 	}
 	
 	public void registerSession ( CubeHandle handle,
 			DataRequestSession session ) throws BirtException
 	{
-		ExternalUIUtil.populateApplicationContext( handle, session );
+		if ( session.getDataSessionContext( ).getAppContext( ) == null )
+		{
+			session.getDataSessionContext( ).setAppContext( new HashMap( ) );
+		}
+		AppContextPopulator.populateApplicationContext( handle, session.getDataSessionContext( ).getAppContext( ) );
 	}
 	
 	public void registerSession ( DataSourceHandle handle,
 			DataRequestSession session ) throws BirtException
 	{
-		ExternalUIUtil.populateApplicationContext( handle, session );
+		if ( session.getDataSessionContext( ).getAppContext( ) == null )
+		{
+			session.getDataSessionContext( ).setAppContext( new HashMap( ) );
+		}
+		AppContextPopulator.populateApplicationContext( handle, session.getDataSessionContext( ).getAppContext( ) );
 	}
 	
 	public void updateColumnCache( DataSetHandle dataSetHandle,

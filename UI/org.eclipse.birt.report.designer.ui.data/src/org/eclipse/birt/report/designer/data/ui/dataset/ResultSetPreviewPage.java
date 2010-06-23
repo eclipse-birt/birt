@@ -323,7 +323,8 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 				needCache = true;
 			}
 			DataSetExecutorHelper helper = new DataSetExecutorHelper( );
-			ExternalUIUtil.populateApplicationContext( ( (DataSetEditor) getContainer( ) ).getHandle( ), session );
+			AppContextPopulator.populateApplicationContext( ((DataSetEditor) getContainer( ) ).getHandle( ), 
+				session );
 			IQueryResults resultSet = helper.execute( ( (DataSetEditor) getContainer( ) ).getHandle( ),
 					query,
 					true,
@@ -429,7 +430,9 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 								dataSourceBindingMap );
 						if ( previewer != null )
 						{
-							previewer.open( );
+							Map appContext = new HashMap( );
+							AppContextPopulator.populateApplicationContext( dsHandle, appContext );
+							previewer.open( appContext );
 							populateRecords( previewer.preview( ) );
 							previewer.close( );
 							monitor.done( );

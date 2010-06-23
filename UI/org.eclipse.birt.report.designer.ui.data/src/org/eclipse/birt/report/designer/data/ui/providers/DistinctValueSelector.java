@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.data.ui.dataset.ExternalUIUtil;
+import org.eclipse.birt.report.designer.data.ui.dataset.AppContextPopulator;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.data.ui.util.ExpressionUtility;
@@ -128,8 +128,7 @@ public class DistinctValueSelector
 			handle.setExpression( ExpressionUtil.createJSDataSetRowExpression( dataSetColumnName ) );
 			handle.setName( columnName );
 			bindingList.add( handle );
-			
-			ExternalUIUtil.populateApplicationContext( dataSetHandle, session );
+			AppContextPopulator.populateApplicationContext( dataSetHandle, session );
 
 			Collection result = session.getColumnValueSet( dataSetHandle,
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
@@ -228,7 +227,8 @@ public class DistinctValueSelector
 					copy );
 
 			session = engineTask.getDataSession( );
-			ExternalUIUtil.populateApplicationContext( dataSetHandle, session );
+
+			AppContextPopulator.populateApplicationContext( dataSetHandle, session );
 			
 			engineTask.run( );
 			result = session.getColumnValueSet( dataSetHandle,
@@ -248,7 +248,8 @@ public class DistinctValueSelector
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 					dataSetHandle == null ? null
 							: dataSetHandle.getModuleHandle( ) ) );
-			ExternalUIUtil.populateApplicationContext( dataSetHandle, session );
+
+			AppContextPopulator.populateApplicationContext( dataSetHandle, session );
 
 			result = session.getColumnValueSet( dataSetHandle,
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
