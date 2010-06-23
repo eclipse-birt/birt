@@ -29,10 +29,10 @@ public class PostscriptPage extends AbstractPage
 	private boolean isDisposed;
 
 	public PostscriptPage( int pageWidth, int pageHeight, Color color,
-			PostscriptWriter writer )
+			PostscriptWriter writer, String orientation )
 	{
 		super( pageWidth, pageHeight );
-		writer.startPage( this.pageWidth, this.pageHeight );
+		writer.startPage( this.pageWidth, this.pageHeight, orientation );
 		writer.fillPage( color );
 		this.writer = writer;
 		this.isDisposed = false;

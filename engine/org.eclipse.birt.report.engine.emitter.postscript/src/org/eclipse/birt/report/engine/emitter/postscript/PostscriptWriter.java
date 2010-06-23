@@ -578,6 +578,10 @@ public class PostscriptWriter
 
 	private Map<File, ITrueTypeWriter> trueTypeFontWriters = new HashMap<File, ITrueTypeWriter>( );
 
+	private String orientation;
+
+	private int scale;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -954,6 +958,7 @@ public class PostscriptWriter
 			boolean collate, String resolution, boolean color, int scale )
 			throws IOException
 	{
+		this.scale = scale;
 		if ( author != null )
 		{
 			out.println("%%Creator: " + author);
@@ -974,7 +979,6 @@ public class PostscriptWriter
 		FileUtil.load(
 				"org/eclipse/birt/report/engine/emitter/postscript/header.ps",
 				out );
-		setScale( height, scale );
 		out.println( "%%EndResource" );
 		out.println( "%%EndSetup" );
 	}
@@ -1164,13 +1168,23 @@ public class PostscriptWriter
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#startPage(float,
 	 *      float)
 	 */
-	public void startPage( float pageWidth, float pageHeight )
+	public void startPage( float pageWidth, float pageHeight, String orientation )
 	{
+		this.orientation = orientation;
 		this.pageHeight = pageHeight;
 		out.println( "%%Page: " + pageIndex + " " + pageIndex );
 		out.println( "%%PageBoundingBox: 0 0 " + (int) Math.round( pageWidth )
 				+ " " + (int) Math.round( pageHeight ) );
 		out.println( "%%BeginPage" );
+		if ( orientation != null && orientation.equalsIgnoreCase( "Landscape" ) )
+		{
+			gSave( );
+			out.println( "90 rotate" );
+			out.println( "1 -1 scale" );
+			out.print( "[1 0 0 -1 0 " );
+			out.println( pageHeight + "] concat" );
+		}
+		setScale( (int) pageHeight, scale );
 		++pageIndex;
 	}
 
@@ -1181,6 +1195,10 @@ public class PostscriptWriter
 	 */
 	public void endPage( )
 	{
+		if ( orientation != null && orientation.equalsIgnoreCase( "Landscape" ) )
+		{
+			gRestore( );
+		}
 		out.println( "showpage" );
 		out.println( "%%PageTrailer" );
 		out.println( "%%EndPage" );

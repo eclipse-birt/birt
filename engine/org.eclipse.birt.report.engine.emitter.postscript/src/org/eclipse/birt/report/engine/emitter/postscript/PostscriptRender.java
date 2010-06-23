@@ -18,12 +18,15 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.postscript.device.PostscriptPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
+import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 
@@ -83,5 +86,23 @@ public class PostscriptRender extends PageDeviceRender
 
 		this.context = services.getReportContext( );
 		this.output = EmitterUtil.getOuputStream( services, "report.ps" );
+	}
+
+	protected void newPage( IContainerArea page )
+	{
+		String orientation = null;
+		if ( page instanceof ContainerArea )
+		{
+			ContainerArea pageContainer = (ContainerArea) page;
+			if ( pageContainer.getContent( ) instanceof IPageContent )
+			{
+				IPageContent pageContent = (IPageContent) ( (ContainerArea) page )
+						.getContent( );
+				orientation = pageContent.getOrientation( );
+				( (PostscriptPageDevice) pageDevice )
+						.setOrientation( orientation );
+			}
+		}
+		super.newPage( page );
 	}
 }
