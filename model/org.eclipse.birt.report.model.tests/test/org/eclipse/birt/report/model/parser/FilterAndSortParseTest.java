@@ -67,6 +67,8 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( "ext id", filter.getExtensionExprId( ) ); //$NON-NLS-1$
 		assertTrue( filter.pushDown( ) );
 		assertEquals( "DynamicFilterParam", filter.getDynamicFilterParameter( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.FILTER_CONDITION_TYPE_SLICER,
+				filter.getType( ) );
 
 		// test member value in filter
 		MemberValueHandle memberValue = filter.getMember( );
@@ -158,6 +160,7 @@ public class FilterAndSortParseTest extends BaseTestCase
 		filter.setPushDown( false );
 		filter.setDynamicFilterParameter( valuePrefix
 				+ filter.getDynamicFilterParameter( ) );
+		filter.setType( DesignChoiceConstants.FILTER_CONDITION_TYPE_SIMPLE );
 
 		// test member value in filter
 		MemberValueHandle memberValue = filter.getMember( );

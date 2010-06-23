@@ -38,6 +38,7 @@
                     <property name="extensionExprId">new ext id</property>
                     <property name="pushDown">false</property>
                     <property name="dynamicFilterParameter">new DynamicFilterParam</property>
+                    <property name="type">simple</property>
                     <property name="member">
                         <member-value>
                             <property name="value">new value_1</property>

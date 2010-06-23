@@ -59,32 +59,40 @@ public interface IFilterConditionElementModel
 	 */
 
 	String IS_OPTIONAL_PROP = "isOptional"; //$NON-NLS-1$
-	
+
 	/**
-	 * Name of the property that indicates the extension name defined to map to a
-	 * BIRT filter operator.
+	 * Name of the property that indicates the extension name defined to map to
+	 * a BIRT filter operator.
 	 */
 
 	String EXTENSION_NAME_PROP = "extensionName"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates the unique id of a custom filter expression
-	 * contributed and defined by the extension.
+	 * Name of the property that indicates the unique id of a custom filter
+	 * expression contributed and defined by the extension.
 	 */
-	
+
 	String EXTENSION_EXPR_ID_PROP = "extensionExprId"; //$NON-NLS-1$
-	
+
 	/**
-	 * Name of the property that indicates if the current filter condition will be pushed
-	 * down to the database.
+	 * Name of the property that indicates if the current filter condition will
+	 * be pushed down to the database.
 	 */
-	
+
 	String PUSH_DOWN_PROP = "pushDown"; //$NON-NLS-1$
-	
+
 	/**
-	 * Name of the property that indicates the name of the dynamic filter parameter to reference.  
+	 * Name of the property that indicates the name of the dynamic filter
+	 * parameter to reference.
 	 */
-	
+
 	String DYNAMIC_FILTER_PARAMETER_PROP = "dynamicFilterParameter";//$NON-NLS-1$
+
+	/**
+	 * Name of the property that indicates the type of this filter condition. We
+	 * defines some choices for it.
+	 */
+
+	String TYPE_PROP = "type"; //$NON-NLS-1$
 
 }

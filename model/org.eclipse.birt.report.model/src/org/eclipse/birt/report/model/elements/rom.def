@@ -3764,6 +3764,7 @@
     	<Default>false</Default>
     </Property>
     <Property displayNameID="Element.FilterConditionElement.dynamicFilterParameter" name="dynamicFilterParameter" runtimeSettable="false" since="2.5" type="string"/>
+    <Property detailType="filterConditionType" displayNameID="Element.FilterConditionElement.type" name="type" runtimeSettable="false" since="2.6" type="choice"/>  
     <Property detailType="UserProperty" displayNameID="Element.DesignElement.userProperties" isList="true" name="userProperties" runtimeSettable="false" since="reserved" type="structure"/>
     <PropertyVisibility name="userProperties" visibility="hide"/>
   </Element>    	

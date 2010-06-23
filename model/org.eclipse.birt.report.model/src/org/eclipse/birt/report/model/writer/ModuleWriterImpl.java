@@ -4187,6 +4187,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IFilterConditionElementModel.PUSH_DOWN_PROP );
 		property( obj,
 				IFilterConditionElementModel.DYNAMIC_FILTER_PARAMETER_PROP );
+		property( obj, IFilterConditionElementModel.TYPE_PROP );
 
 		// write user property definition and values
 		writeUserPropertyDefns( obj );
