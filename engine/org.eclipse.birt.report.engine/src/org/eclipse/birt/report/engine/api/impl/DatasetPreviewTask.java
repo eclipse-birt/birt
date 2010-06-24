@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.api.IExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IRunnable;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -241,6 +242,11 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 
 	}
 	
-	
+	protected void validateStringParameter( String paramName,
+			Object paramValue, AbstractScalarParameterHandle paramHandle )
+			throws ParameterValidationException
+	{
+		//do not check length of parameter value even when parameter value is required
+	}
 
 }

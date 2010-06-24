@@ -887,16 +887,7 @@ public abstract class EngineTask implements IEngineTask
 						MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 						new String[]{paramName, type,
 								paramValue.getClass( ).getName( )} );
-			if ( paramHandle.isRequired( ) ) //$NON-NLS-1$
-			{
-				String value = paramValue.toString( ).trim( );
-				if ( value.length( ) == 0 )
-				{
-					throw new ParameterValidationException(
-							MessageConstants.PARAMETER_IS_BLANK_EXCEPTION,
-							new String[]{paramName} );
-				}
-			}
+			validateStringParameter( paramName, paramValue, paramHandle );
 			return true;
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
@@ -910,6 +901,22 @@ public abstract class EngineTask implements IEngineTask
 		return true;
 	}
 
+	protected void validateStringParameter( String paramName,
+			Object paramValue, AbstractScalarParameterHandle paramHandle )
+			throws ParameterValidationException
+	{
+		if ( paramHandle.isRequired( ) ) //$NON-NLS-1$
+		{
+			String value = paramValue.toString( ).trim( );
+			if ( value.length( ) == 0 )
+			{
+				throw new ParameterValidationException(
+						MessageConstants.PARAMETER_IS_BLANK_EXCEPTION,
+						new String[]{paramName} );
+			}
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
