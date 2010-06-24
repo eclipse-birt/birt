@@ -129,12 +129,13 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			        || FORMAT_XHTML.equalsIgnoreCase( format ) ) //$NON-NLS-1$
 			{
 				HTMLRenderOption htmlOption = new HTMLRenderOption(
-				        renderOptions );
+				        executionContext.getRenderOption( ) );
 				paginate = htmlOption.getHtmlPagination( );
 			}
 			else
 			{
-				RenderOption taskOption = new RenderOption( renderOptions );
+				RenderOption taskOption = new RenderOption(
+				        executionContext.getRenderOption( ) );
 				paginate = taskOption
 				        .getBooleanOption( IRenderOption.HTML_PAGINATION, true );
 			}
