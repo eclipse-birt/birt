@@ -43,7 +43,6 @@ import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.style.BaseStyleProcessor;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.SimpleStyle;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.format.DateFormatter;
@@ -873,10 +872,10 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 				ComputedColumnHandle cc = bindings.next( );
 				if ( cc.getName( ).equals( bindingName ) )
 				{
-					String expr = cc.getExpression( );
-					if ( ChartExpressionUtil.isDimensionExpresion( expr ) )
+					ChartReportItemUtil.loadExpression( exprCodec, cc );
+					if ( exprCodec.isDimensionExpresion( ) )
 					{
-						String[] levels = ChartExpressionUtil.getLevelNameFromDimensionExpression( expr );
+						String[] levels = exprCodec.getLevelNames( );
 						if ( cube.getDimension( levels[0] ) != null )
 						{
 							return cube.getDimension( levels[0] )
@@ -905,10 +904,10 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 				ComputedColumnHandle cc = bindings.next( );
 				if ( cc.getName( ).equals( bindingName ) )
 				{
-					String expr = cc.getExpression( );
-					if ( ChartExpressionUtil.isMeasureExpresion( expr ) )
+					ChartReportItemUtil.loadExpression( exprCodec, cc );
+					if ( exprCodec.isMeasureExpresion( ) )
 					{
-						return cube.getMeasure( ChartExpressionUtil.getMeasureName( expr ) );
+						return cube.getMeasure( exprCodec.getMeasureName( ) );
 					}
 					break;
 				}

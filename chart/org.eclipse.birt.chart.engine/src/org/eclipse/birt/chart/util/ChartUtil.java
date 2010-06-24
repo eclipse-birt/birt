@@ -156,7 +156,7 @@ public class ChartUtil
 	 * @param v1
 	 * @param v2
 	 * @param isBigNumber
-	 * @return
+	 * @return equal or not
 	 * @since 2.6
 	 */
 	public static final boolean mathEqual( double v1, double v2, boolean isBigNumber )
@@ -663,7 +663,7 @@ public class ChartUtil
 	 * Checks precise of big number. 
 	 * 
 	 * @param bdValue
-	 * @return
+	 * @return precise or not
 	 * @since 2.6
 	 */
 	public static boolean checkBigNumberPrecise( BigDecimal bdValue )
@@ -875,7 +875,9 @@ public class ChartUtil
 			throws ChartException
 	{
 		String str = orthQuery.getDefinition( );
-		if ( ChartExpressionUtil.isCubeBinding( str, true ) )
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		if ( exprCodec.isCubeBinding( str, true ) )
 		{
 			return str;
 		}
@@ -904,11 +906,11 @@ public class ChartUtil
 		exprCodec.decode( returnExpr );
 		returnExpr = exprCodec.getExpression( );
 
-		if ( ChartExpressionUtil.isCubeBinding( returnExpr, true ) )
+		if ( exprCodec.isCubeBinding( returnExpr, true ) )
 		{
-			if ( ChartExpressionUtil.isCubeBinding( returnExpr, false ) )
+			if ( exprCodec.isCubeBinding( false ) )
 			{
-				return ChartExpressionUtil.getCubeBindingName( returnExpr, false );
+				return exprCodec.getCubeBindingName( false );
 			}
 			return escapeSpecialCharacters( returnExpr );
 		}
@@ -1445,7 +1447,7 @@ public class ChartUtil
 	 * Check if Y optional expression is specified.
 	 * 
 	 * @param cm
-	 * @return
+	 * @return specified or not
 	 * @since 2.5.3
 	 */
 	public static boolean isSpecifiedYOptionalExpression( Chart cm )
@@ -2047,12 +2049,13 @@ public class ChartUtil
 	 * Check if sorting is set on series definition.
 	 * 
 	 * @param seriesDefinition
-	 * @return
+	 * @return series has sorting or not
 	 * @since 2.5.3
 	 */
-	public static boolean hasSorting(SeriesDefinition seriesDefinition )
+	public static boolean hasSorting( SeriesDefinition seriesDefinition )
 	{
-		return ( SortOption.ASCENDING_LITERAL == seriesDefinition.getSorting( ) ) || ( SortOption.DESCENDING_LITERAL == seriesDefinition.getSorting( ) );
+		return ( SortOption.ASCENDING_LITERAL == seriesDefinition.getSorting( ) )
+				|| ( SortOption.DESCENDING_LITERAL == seriesDefinition.getSorting( ) );
 	}
 	
 	private static NumberFormat initDefaultNumberFormat( )

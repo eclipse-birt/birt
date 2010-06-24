@@ -53,6 +53,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
@@ -60,7 +61,7 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
@@ -111,6 +112,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	private Bounds boundsRuntime = null;
+	
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
 
 	static
 	{
@@ -614,7 +618,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				Query queryValue = sdValue.getDesignTimeSeries( )
 						.getDataDefinition( )
 						.get( 0 );
-				String bindingValue = ChartExpressionUtil.getCubeBindingName( queryValue.getDefinition( ),
+				String bindingValue = exprCodec.getCubeBindingName( queryValue.getDefinition( ),
 						false );
 				String maxBindingName = NAME_QUERY_MAX + bindingValue;
 				String minBindingName = NAME_QUERY_MIN + bindingValue;

@@ -30,7 +30,6 @@ import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -341,7 +340,9 @@ public class ChartReportItemUtil extends ChartItemUtil
 	public static void copyAndInsertBindingFromContainer(
 			ISubqueryDefinition query, String expr ) throws DataException
 	{
-		String bindingName = ChartExpressionUtil.getRowBindingName( expr, false );
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		String bindingName = exprCodec.getRowBindingName( expr, false );
 		if ( bindingName != null
 				&& !query.getBindings( ).containsKey( bindingName )
 				&& query.getParentQuery( )

@@ -146,7 +146,7 @@ public class ChartExpressionUtil
 	 * @param hasOperation
 	 *            indicates if operation can be allowed in expression
 	 */
-	public static String getRowBindingName( String expr, boolean hasOperation )
+	private static String getRowBindingName( String expr, boolean hasOperation )
 	{
 		return getBindingName( ExpressionUtil.ROW_INDICATOR, expr, hasOperation );
 	}
@@ -159,7 +159,7 @@ public class ChartExpressionUtil
 	 * @param hasOperation
 	 *            indicates if operation can be allowed in expression
 	 */
-	public static String getCubeBindingName( String expr, boolean hasOperation )
+	private static String getCubeBindingName( String expr, boolean hasOperation )
 	{
 		return getBindingName( ExpressionUtil.DATA_INDICATOR,
 				expr,
@@ -174,7 +174,7 @@ public class ChartExpressionUtil
 	 * @param hasOperation
 	 *            indicates if operation can be allowed in expression
 	 */
-	public static boolean isRowBinding( String expr, boolean hasOperation )
+	private static boolean isRowBinding( String expr, boolean hasOperation )
 	{
 		return isBinding( ExpressionUtil.ROW_INDICATOR, expr, hasOperation );
 	}
@@ -187,7 +187,7 @@ public class ChartExpressionUtil
 	 * @param hasOperation
 	 *            indicates if operation can be allowed in expression
 	 */
-	public static boolean isCubeBinding( String expr, boolean hasOperation )
+	private static boolean isCubeBinding( String expr, boolean hasOperation )
 	{
 		return isBinding( ExpressionUtil.DATA_INDICATOR, expr, hasOperation );
 	}
@@ -200,46 +200,16 @@ public class ChartExpressionUtil
 	 *            expression
 	 * @return binding name list or empty list
 	 */
-	public static List<String> getCubeBindingNameList( String expr )
+	private static List<String> getCubeBindingNameList( String expr )
 	{
 		return getBindingNameList( ExpressionUtil.DATA_INDICATOR, expr );
 	}
 
-	public static Set<String> getRowBindingNameSet( String expr )
+	private static Set<String> getRowBindingNameSet( String expr )
 	{
 		Set<String> names = new HashSet<String>( );
 		fillBindingNameCollection( names, ExpressionUtil.ROW_INDICATOR, expr );
 		return names;
-	}
-
-	/**
-	 * Returns a full binding name for cube or row expression, no matter if
-	 * expression is complex or simple. If expression is complex, will create a
-	 * new binding name with special characters escaped.
-	 * 
-	 * @param expr
-	 *            expression
-	 * @return binding name
-	 */
-	public static String getFullBindingName( String expr )
-	{
-		if ( isRowBinding( expr, true ) )
-		{
-			if ( isRowBinding( expr, false ) )
-			{
-				return getRowBindingName( expr, false );
-			}
-			return escapeSpecialCharacters( expr );
-		}
-		else if ( isCubeBinding( expr, true ) )
-		{
-			if ( isCubeBinding( expr, false ) )
-			{
-				return getCubeBindingName( expr, false );
-			}
-			return escapeSpecialCharacters( expr );
-		}
-		return expr;
 	}
 
 	/**
@@ -248,7 +218,7 @@ public class ChartExpressionUtil
 	 * @param expression
 	 * @since 2.3
 	 */
-	public static boolean isMeasureExpresion( String expression )
+	private static boolean isMeasureExpresion( String expression )
 	{
 		if ( expression != null
 				&& expression.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) ) //$NON-NLS-1$
@@ -266,7 +236,7 @@ public class ChartExpressionUtil
 	 * @return measure name
 	 * @since 2.3
 	 */
-	public static String getMeasureName( String expr )
+	private static String getMeasureName( String expr )
 	{
 		if ( isMeasureExpresion( expr ) )
 		{
@@ -288,7 +258,7 @@ public class ChartExpressionUtil
 	 * @param expression
 	 * @since 2.3
 	 */
-	public static boolean isDimensionExpresion( String expression )
+	private static boolean isDimensionExpresion( String expression )
 	{
 		if ( expression != null
 				&& expression.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) ) //$NON-NLS-1$
@@ -309,7 +279,7 @@ public class ChartExpressionUtil
 	 * @return String[]
 	 * @since 2.3
 	 */
-	public static String[] getLevelNameFromDimensionExpression( String expr )
+	private static String[] getLevelNameFromDimensionExpression( String expr )
 	{
 		if ( ChartExpressionUtil.isDimensionExpresion( expr ) )
 		{
@@ -624,9 +594,11 @@ public class ChartExpressionUtil
 		}
 
 		/**
+		 * Checks if current expression is a binding expression.
 		 * 
 		 * @param hasOperation
-		 * @return
+		 *            true means complex expression allowed
+		 * @return if current expression is a binding expression
 		 */
 		public boolean isBinding( boolean hasOperation )
 		{
@@ -638,10 +610,13 @@ public class ChartExpressionUtil
 		}
 
 		/**
+		 * Checks if current expression is a binding expression.
 		 * 
 		 * @param expr
+		 *            expression
 		 * @param hasOperation
-		 * @return
+		 *            true means complex expression allowed
+		 * @return if current expression is a binding expression
 		 */
 		public boolean isBinding( String expr, boolean hasOperation )
 		{

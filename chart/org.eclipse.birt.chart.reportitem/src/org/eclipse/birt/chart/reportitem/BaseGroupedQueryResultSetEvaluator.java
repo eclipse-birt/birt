@@ -543,7 +543,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			// First to check if the expression is a grouping expression.
 			IGroupDefinition gd = groupDefinitions.get( i );
 			String exprGroupKey = gd.getKeyExpression( );
-			Set<String> grpBindings = ChartExpressionUtil.getRowBindingNameSet( exprGroupKey );
+			Set<String> grpBindings = exprCodec.getRowBindingNameSet( exprGroupKey );
 
 			for ( String grpBinding : grpBindings )
 			{

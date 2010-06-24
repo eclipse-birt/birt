@@ -20,10 +20,11 @@ import java.util.Map;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
@@ -33,7 +34,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 
 /**
@@ -95,6 +95,9 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 		{
 			return true;
 		}
+		
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
 
 		String categoryDimension = null;
 		String yOptionDimension = null;
@@ -132,10 +135,8 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 				return true;
 			}
 
-			categoryBindName = ChartExpressionUtil.getCubeBindingName( categoryExpr,
-					true );
-			yOptionBindName = ChartExpressionUtil.getCubeBindingName( expression,
-					true );
+			categoryBindName = exprCodec.getCubeBindingName( categoryExpr, true );
+			yOptionBindName = exprCodec.getCubeBindingName( expression, true );
 		}
 		else if ( ChartUIConstants.QUERY_CATEGORY.equals( checkType ) )
 		{
@@ -150,10 +151,8 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 				return true;
 			}
 
-			categoryBindName = ChartExpressionUtil.getCubeBindingName( expression,
-					true );
-			yOptionBindName = ChartExpressionUtil.getCubeBindingName( yOptionExpr,
-					true );
+			categoryBindName = exprCodec.getCubeBindingName( expression, true );
+			yOptionBindName = exprCodec.getCubeBindingName( yOptionExpr, true );
 		}
 
 		if ( columnBindings == null )
@@ -164,21 +163,21 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle columnHandle = columnBindings.next( );
+			ChartReportItemUtil.loadExpression( exprCodec, columnHandle );
 			String bindName = columnHandle.getName( );
-			String expr = columnHandle.getExpression( );
-			if ( !ChartExpressionUtil.isDimensionExpresion( expr ) )
+			if ( !exprCodec.isDimensionExpresion( ) )
 			{
 				continue;
 			}
 
 			if ( bindName.equals( categoryBindName ) )
 			{
-				categoryDimension = ChartExpressionUtil.getLevelNameFromDimensionExpression( expr )[0];
+				categoryDimension = exprCodec.getLevelNames( )[0];
 			}
 
 			if ( bindName.equals( yOptionBindName ) )
 			{
-				yOptionDimension = ChartExpressionUtil.getLevelNameFromDimensionExpression( expr )[0];
+				yOptionDimension = exprCodec.getLevelNames( )[0];
 			}
 		}
 
@@ -206,14 +205,14 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 	 * @param useFullName
 	 *            indicates if the level names should use full name or simple
 	 *            name.
-	 * @return
+	 * @return level name array
 	 * @throws BirtException
 	 *             if the format of specified cube binding expression is
 	 *             illegal.
 	 * @since 2.5.2
 	 */
 	@SuppressWarnings({
-			"unchecked", "static-access"
+			"unchecked"
 	})
 	public static List<String> getLevelNamesInDimension( String cubeBinding,
 			CubeHandle cube, boolean includeSelf, boolean useFullName )

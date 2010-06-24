@@ -34,10 +34,9 @@ import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
-import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionSet;
+import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -464,7 +463,7 @@ public class ChartCubeQueryHelper
 		Query queryValue = sdValue.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( 0 );
-		String bindingValue = ChartExpressionUtil.getCubeBindingName( queryValue.getDefinition( ),
+		String bindingValue = exprCodec.getCubeBindingName( queryValue.getDefinition( ),
 				false );
 		String maxBindingName = ChartReportItemConstants.NAME_QUERY_MAX
 				+ bindingValue;

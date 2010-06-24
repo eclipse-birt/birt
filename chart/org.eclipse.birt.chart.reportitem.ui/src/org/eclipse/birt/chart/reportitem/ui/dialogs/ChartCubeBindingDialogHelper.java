@@ -21,18 +21,19 @@ import java.util.StringTokenizer;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
@@ -49,6 +50,7 @@ import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -117,6 +119,8 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 	private CLabel messageLine;
 	private Label lbName, lbDisplayNameID;
 	private Object container;
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
+			.createExpressionCodec( );
 
 	public void createContent( Composite parent )
 	{
@@ -313,50 +317,47 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 		SeriesDefinition category = ChartUIUtil.getBaseSeriesDefinitions( chart )
 				.get( 0 );
-		String catName = ChartExpressionUtil.getCubeBindingName( ChartUIUtil.getDataQuery( category,
+		String catName = exprCodec.getCubeBindingName( ChartUIUtil.getDataQuery( category,
 				0 )
 				.getDefinition( ),
 				true );
 		if ( catName != null )
 		{
-			for ( int i = 0; i < handle.getColumnBindings( )
-					.getListValue( )
-					.size( ); i++ )
+			for ( Iterator<ComputedColumnHandle> bindings = handle.getColumnBindings( )
+					.iterator( ); bindings.hasNext( ); )
 			{
-				ComputedColumnHandle bindingHandle = (ComputedColumnHandle) handle.getColumnBindings( )
-						.getAt( i );
+				ComputedColumnHandle bindingHandle = bindings.next( );
 				if ( bindingHandle.getName( ).equalsIgnoreCase( catName ) )
 				{
-					catExpr = bindingHandle.getExpression( );
+					ChartReportItemUtil.loadExpression( exprCodec,
+							bindingHandle );
+					String[] cat = exprCodec.getLevelNames( );
+					catExpr = cat[0] + "/" + cat[1]; //$NON-NLS-1$
+					aggOnList.add( catExpr );
 				}
 			}
-			String[] cat = ChartExpressionUtil.getLevelNameFromDimensionExpression( catExpr );
-			catExpr = cat[0] + "/" + cat[1]; //$NON-NLS-1$
-			aggOnList.add( catExpr );
 		}
 
 		SeriesDefinition yopgrouping = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
 				0 )
 				.get( 0 );
-		String yopName = ChartExpressionUtil.getCubeBindingName( yopgrouping.getQuery( )
-				.getDefinition( ),
-				true );
+		String yopName = exprCodec.getCubeBindingName( yopgrouping.getQuery( )
+				.getDefinition( ), true );
 		if ( yopName != null )
 		{
-			for ( int i = 0; i < handle.getColumnBindings( )
-					.getListValue( )
-					.size( ); i++ )
+			for ( Iterator<ComputedColumnHandle> bindings = handle.getColumnBindings( )
+					.iterator( ); bindings.hasNext( ); )
 			{
-				ComputedColumnHandle bindingHandle = (ComputedColumnHandle) handle.getColumnBindings( )
-						.getAt( i );
+				ComputedColumnHandle bindingHandle = bindings.next( );
 				if ( bindingHandle.getName( ).equalsIgnoreCase( yopName ) )
 				{
-					yopExpr = bindingHandle.getExpression( );
+					ChartReportItemUtil.loadExpression( exprCodec,
+							bindingHandle );
+					String[] yop = exprCodec.getLevelNames( );
+					yopExpr = yop[0] + "/" + yop[1]; //$NON-NLS-1$
+					aggOnList.add( yopExpr );
 				}
 			}
-			String[] yop = ChartExpressionUtil.getLevelNameFromDimensionExpression( yopExpr );
-			yopExpr = yop[0] + "/" + yop[1]; //$NON-NLS-1$
-			aggOnList.add( yopExpr );
 		}
 
 		if ( catName != null && yopName != null )
@@ -999,7 +1000,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 			for ( Iterator<String> iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
 			{
-				String arg = (String) iterator.next( );
+				String arg = iterator.next( );
 				String value = getControlValue( paramsMap.get( arg ) );
 				if ( value != null )
 				{
@@ -1084,10 +1085,8 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			for ( int i = 0; i < baseNames.length; i++ )
 			{
-				URL url = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findResource( baseNames[i],
-								IResourceLocator.MESSAGE_FILE );
+				URL url = getModuleHandle( ).findResource( baseNames[i],
+						IResourceLocator.MESSAGE_FILE );
 				if ( url != null )
 					urls.add( url );
 			}
@@ -1097,9 +1096,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String[] getBaseNames( )
 	{
-		List<String> resources = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getIncludeResources( );
+		List<String> resources = getModuleHandle( ).getIncludeResources( );
 		if ( resources == null )
 			return null;
 		else
@@ -1116,13 +1113,16 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			URL[] urls = new URL[baseNames.length];
 			for ( int i = 0; i < baseNames.length; i++ )
 			{
-				urls[i] = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findResource( baseNames[i],
-								IResourceLocator.MESSAGE_FILE );
+				urls[i] = getModuleHandle( ).findResource( baseNames[i],
+						IResourceLocator.MESSAGE_FILE );
 			}
 			return urls;
 		}
+	}
+	
+	protected ModuleHandle getModuleHandle( )
+	{
+		return bindingHolder.getModuleHandle( );
 	}
 
 }
