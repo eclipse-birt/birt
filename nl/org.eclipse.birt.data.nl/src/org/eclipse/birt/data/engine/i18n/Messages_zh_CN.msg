@@ -147,7 +147,7 @@ data.engine.BirtException=发生 BIRT 异常：{0}。查看下一个异常以了解更多信息。
 # data set cache error
 data.engine.datasetcache.save.error=保存数据源缓存的文件时出错。
 data.engine.datasetcache.load.error=加载数据源缓存的文件时出错。
-data.engine.exceed.max.data.object.row=Query can't be processed. To run the query, they need to either increase the result set buffer size or narrow down the query.
+data.engine.exceed.max.data.object.row=查询无法处理。 要运行查询，需要增大结果集缓冲区大小或缩小查询范围。
 
 # error related with data engine context
 data.engine.InvalidMode=数据引擎上下文的模式值 {0} 无效。
@@ -428,4 +428,4 @@ data.derivedDataSet.calculatorNotExist=计算器未定义或无法找到。
 data.derivedDataSet.invalidQueryText=无效查询文本。
 
 #data mart data source
-data.datamart.failLoadDataSet = Failed to load Data Object data set "{0}".
+data.datamart.failLoadDataSet = 无法加载数据对象数据集“{0}”。

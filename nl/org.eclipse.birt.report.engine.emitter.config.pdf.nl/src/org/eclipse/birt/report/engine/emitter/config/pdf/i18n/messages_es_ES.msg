@@ -26,7 +26,7 @@ OptionDisplayValue.ENLARGE_PAGE_SIZE=Aumentar tamaño de página
 OptionDisplayValue.FontSubstitution=Sustitución de fuente
 OptionDisplayValue.EmbeddedFont=Fuente incrustada
 OptionDisplayValue.ChartDpi=Diagrama DPI 
-OptionDisplayValue.RenderChartInSVG=Render chart in vector graphics
+OptionDisplayValue.RenderChartInSVG=Procesar diagrama en los gráficos vectoriales
 
 ###########################################################
 #Option Description
@@ -36,4 +36,4 @@ OptionDescription.PageOverFlow=Controle cómo se va a mostrar el contenido.
 OptionDescription.FontSubstitution=Seleccionar fuentes automáticamente si la fuente especificada no puede mostrar el carácter.
 OptionDescription.EmbeddedFont=La fuente de tipo true debe estar incrustada en el archivo PDF generado.
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
-OptionDescription.RenderChartInSVG=Render chart in vector graphics.
+OptionDescription.RenderChartInSVG=Procesar diagrama en los gráficos vectoriales.

@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=Rasterthema
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=Niedrigste Nullwerte
-Choices.nullsOrdering.nullsHighest=Nulls Highest
+Choices.nullsOrdering.nullsHighest=Höchste Nullwerte
 Choices.nullsOrdering.excludeNulls=Nullwerte ausschließen
 
 #92 filterConditionType
@@ -2056,7 +2056,7 @@ Structure.ColumnHint.descriptionID=Beschreibungs-Ressourcenschlüssel
 Structure.ColumnHint.action=Aktion
 Structure.ColumnHint.ACLExpression=Ausdruck 'ACL'	
 Structure.ColumnHint.analysisColumn=Analysespalte
-Structure.ColumnHint.valueFormat=Value Format
+Structure.ColumnHint.valueFormat=Werteformat
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Auswahl
@@ -2381,7 +2381,7 @@ Element.DataMartDataSet=Datenobjekt-Datensatz
 Element.DataMartCube=Datenobjektquader
 Element.TimeDimension=Zeitliche Dimension
 Element.ReportItemTheme=Berichtobjektthema
-Element.AbstractTheme=Abstract Theme
+Element.AbstractTheme=Abstraktes Thema
 
 ###########################################################
 # Element property names
@@ -2724,7 +2724,7 @@ Element.ReportItem.ACLExpression=Ausdruck 'ACL'
 Element.ReportItem.cascadeACL=Verschachtelung 'ACL'
 Element.ReportItem.allowExport=Export zulassen
 Element.ReportItem.pushDown=Push Down
-Element.ReportItem.theme=Design
+Element.ReportItem.theme=Thema
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Inhalt

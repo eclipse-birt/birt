@@ -651,7 +651,7 @@ DataSetFiltersPage.toolTipText.New=Neuer Filter.
 DataSetFiltersPage.toolTipText.Edit=Filter bearbeiten.
 DataSetFiltersPage.title.FilterInputDialog=Filter
 DataSetFiltersPage.messages.selectVauleUnavailable=Wertliste mit angegebenem Ausdruck nicht verfügbar.
-DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=The linked dynamic parameter "{0}" of the dynamic filter does not exist!
+DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=Der verknüpfte dynamische Parameter '{0}' des dynamischen Filters ist nicht vorhanden.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -671,8 +671,8 @@ DataSetParameterBindingInputDialog.Title.NewParameter=Neuer Parameter
 DataSetParameterBindingInputDialog.Title.EditParameter=Parameter bearbeiten
 DataSetParameterBindingInputDialog.Label.DataType=Datentyp:
 DataSetParameterBindingInputDialog.Label.Value=&Wert:
-DataSetParametersPage.ParameterButton.Tooltip.Edit=Edit Report Parameter
-DataSetParametersPage.ParameterButton.Tooltip.New=New Report Parameter
+DataSetParametersPage.ParameterButton.Tooltip.Edit=Berichtparameter bearbeiten
+DataSetParametersPage.ParameterButton.Tooltip.New=Neuer Berichtparameter
 DataSetParametersPage.Prompt.new=<New param here...>
 DataSetParametersPage.default.None=n.a.
 DataSetParametersPage.reportParam.None=Ohne
@@ -4228,9 +4228,9 @@ DataSetColumnBindingsFormPage.Button.RemoveUnused=Nicht verwendete Spalte entfer
 
 ###########################################################
 #DataSetSettingsPage
-DataSetSettingsPage.DataGroup.Title=BIRT Engine settings for comparing data set column values
-DataSetSettingsPage.Locale.Label=&Locale of character string values:
-DataSetSettingsPage.NullValueOrdering.Label=&Ordering of Null values:
+DataSetSettingsPage.DataGroup.Title=BIRT-Engine-Einstellungen zum Vergleichen von Datensatzspaltenwerten
+DataSetSettingsPage.Locale.Label=&Gebietsschema der Zeichenfolgewerte:
+DataSetSettingsPage.NullValueOrdering.Label=Reihenf&olge der Nullwerte:
 
 ###########################################################
 #ResourceSelectionValidator
@@ -4789,5 +4789,5 @@ VariableDropAdapter.TranasctionName=Datumsobjekt aus Variablen erstellen
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank.
-RenameInputDialog.Message.DuplicateName=Duplicate name exists.
+RenameInputDialog.Message.BlankName=Der Name darf nicht leer sein.
+RenameInputDialog.Message.DuplicateName=Der Name ist bereits vorhanden.

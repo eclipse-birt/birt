@@ -147,7 +147,7 @@ data.engine.BirtException=Se ha producido una excepción BIRT: {0}. Consulte la s
 # data set cache error
 data.engine.datasetcache.save.error=Hay un error al guardar los archivos de la caché de datos.
 data.engine.datasetcache.load.error=Hay un error al cargar los archivos de la caché de datos.
-data.engine.exceed.max.data.object.row=Query can't be processed. To run the query, they need to either increase the result set buffer size or narrow down the query.
+data.engine.exceed.max.data.object.row=No se puede procesar la consulta. Para ejecutar la query, necesitan incrementar el tamaño del búfer del conjunto de resultados o restringir la consulta.
 
 # error related with data engine context
 data.engine.InvalidMode=El valor de modo {0} del contexto del motor de datos no es válido.
@@ -428,4 +428,4 @@ data.derivedDataSet.calculatorNotExist=No se ha definido la calculadora o no pue
 data.derivedDataSet.invalidQueryText=Texto de consulta no válido.
 
 #data mart data source
-data.datamart.failLoadDataSet = Failed to load Data Object data set "{0}".
+data.datamart.failLoadDataSet = Error al cargar el conjunto de datos de objeto de datos "{0}".

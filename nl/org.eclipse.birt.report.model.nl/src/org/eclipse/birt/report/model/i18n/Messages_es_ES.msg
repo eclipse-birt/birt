@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=Tema de cuadrícula
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=Nulos más bajos
-Choices.nullsOrdering.nullsHighest=Nulls Highest
+Choices.nullsOrdering.nullsHighest=Nulos más altos
 Choices.nullsOrdering.excludeNulls=Excluir nulos
 
 #92 filterConditionType
@@ -2056,7 +2056,7 @@ Structure.ColumnHint.descriptionID=Clave de recursos de descripción
 Structure.ColumnHint.action=Acción
 Structure.ColumnHint.ACLExpression=Expresión ACL	
 Structure.ColumnHint.analysisColumn=Columna de análisis
-Structure.ColumnHint.valueFormat=Value Format
+Structure.ColumnHint.valueFormat=Formato del valor
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Opciones de selección
@@ -2381,7 +2381,7 @@ Element.DataMartDataSet=Conjunto de datos de objeto de datos
 Element.DataMartCube=Cubo de objeto de datos
 Element.TimeDimension=Dimensión de tiempo
 Element.ReportItemTheme=Tema de elemento de informe
-Element.AbstractTheme=Abstract Theme
+Element.AbstractTheme=Tema abstracto
 
 ###########################################################
 # Element property names
@@ -3424,7 +3424,7 @@ Element.ReportItemTheme.slot.styles=Estilos
 Element.ReportItemTheme.type=Tipo
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
-Element.AbstractTheme.cssStyleSheets=Hoja de estilos CSS
+Element.AbstractTheme.cssStyleSheets=Hojas de estilos CSS
 
 ###########################################################
 # Predefined style

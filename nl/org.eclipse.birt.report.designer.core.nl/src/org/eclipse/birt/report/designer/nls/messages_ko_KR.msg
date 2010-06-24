@@ -651,7 +651,7 @@ DataSetFiltersPage.toolTipText.New=필터 새로 만들기
 DataSetFiltersPage.toolTipText.Edit=필터 편집
 DataSetFiltersPage.title.FilterInputDialog=필터
 DataSetFiltersPage.messages.selectVauleUnavailable=지정한 식으로 값 목록을 사용할 수 없습니다.
-DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=The linked dynamic parameter "{0}" of the dynamic filter does not exist!
+DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=동적 필터의 연결된 동적 매개 변수 "{0}"이(가) 없습니다.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -671,8 +671,8 @@ DataSetParameterBindingInputDialog.Title.NewParameter=새 매개 변수
 DataSetParameterBindingInputDialog.Title.EditParameter=매개 변수 편집
 DataSetParameterBindingInputDialog.Label.DataType=데이터 형식:
 DataSetParameterBindingInputDialog.Label.Value=값(&V):
-DataSetParametersPage.ParameterButton.Tooltip.Edit=Edit Report Parameter
-DataSetParametersPage.ParameterButton.Tooltip.New=New Report Parameter
+DataSetParametersPage.ParameterButton.Tooltip.Edit=보고서 매개 변수 편집
+DataSetParametersPage.ParameterButton.Tooltip.New=새 보고서 매개 변수
 DataSetParametersPage.Prompt.new=<여기에 새 매개 변수 입력>
 DataSetParametersPage.default.None=해당 없음
 DataSetParametersPage.reportParam.None=없음
@@ -4228,9 +4228,9 @@ DataSetColumnBindingsFormPage.Button.RemoveUnused=사용하지 않는 열 제거
 
 ###########################################################
 #DataSetSettingsPage
-DataSetSettingsPage.DataGroup.Title=BIRT Engine settings for comparing data set column values
-DataSetSettingsPage.Locale.Label=&Locale of character string values:
-DataSetSettingsPage.NullValueOrdering.Label=&Ordering of Null values:
+DataSetSettingsPage.DataGroup.Title=데이터 집합 열 값을 비교하기 위한 BIRT 엔진 설정
+DataSetSettingsPage.Locale.Label=문자열 값 로케일(&L):
+DataSetSettingsPage.NullValueOrdering.Label=널(null) 값 순서(&O):
 
 ###########################################################
 #ResourceSelectionValidator
@@ -4789,5 +4789,5 @@ VariableDropAdapter.TranasctionName=변수에서 데이터 항목 생성
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank.
-RenameInputDialog.Message.DuplicateName=Duplicate name exists.
+RenameInputDialog.Message.BlankName=이름은 비워둘 수 없습니다.
+RenameInputDialog.Message.DuplicateName=중복된 이름이 있습니다.

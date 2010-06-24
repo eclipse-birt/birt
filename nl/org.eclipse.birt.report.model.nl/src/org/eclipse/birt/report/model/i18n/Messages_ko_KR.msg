@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=눈금 테마
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=널(Null) 최하위
-Choices.nullsOrdering.nullsHighest=Nulls Highest
+Choices.nullsOrdering.nullsHighest=널(null) 최상위
 Choices.nullsOrdering.excludeNulls=널(Null) 제외
 
 #92 filterConditionType
@@ -2056,7 +2056,7 @@ Structure.ColumnHint.descriptionID=설명 리소스 키
 Structure.ColumnHint.action=작업
 Structure.ColumnHint.ACLExpression=ACL 식	
 Structure.ColumnHint.analysisColumn=분석 열
-Structure.ColumnHint.valueFormat=Value Format
+Structure.ColumnHint.valueFormat=값 형식
 
 #12. SelectionList Choice
 Structure.SelectionChoice=선택 영역 선택
@@ -2381,7 +2381,7 @@ Element.DataMartDataSet=데이터 개체 데이터 집합
 Element.DataMartCube=데이터 개체 큐브
 Element.TimeDimension=시간 차원
 Element.ReportItemTheme=보고서 항목 테마
-Element.AbstractTheme=Abstract Theme
+Element.AbstractTheme=추상적 테마
 
 ###########################################################
 # Element property names

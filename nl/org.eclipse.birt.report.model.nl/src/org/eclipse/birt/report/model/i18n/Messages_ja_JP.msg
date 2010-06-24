@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=グリッドテーマ
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=Null (最低)
-Choices.nullsOrdering.nullsHighest=Nulls Highest
+Choices.nullsOrdering.nullsHighest=Null (最高)
 Choices.nullsOrdering.excludeNulls=Null を除外する
 
 #92 filterConditionType
@@ -2056,7 +2056,7 @@ Structure.ColumnHint.descriptionID=説明リソースキー
 Structure.ColumnHint.action=実行
 Structure.ColumnHint.ACLExpression=ACL 式	
 Structure.ColumnHint.analysisColumn=分析列
-Structure.ColumnHint.valueFormat=Value Format
+Structure.ColumnHint.valueFormat=値の書式
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目
@@ -2381,7 +2381,7 @@ Element.DataMartDataSet=データオブジェクトのデータセット
 Element.DataMartCube=データオブジェクトキューブ
 Element.TimeDimension=時間のディメンジョン
 Element.ReportItemTheme=レポート項目テーマ
-Element.AbstractTheme=Abstract Theme
+Element.AbstractTheme=抽象テーマ
 
 ###########################################################
 # Element property names

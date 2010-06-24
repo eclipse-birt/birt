@@ -147,7 +147,7 @@ data.engine.BirtException=BIRT ‚Å—áŠO {0} ‚ª”­¶‚µ‚Ü‚µ‚½BÚ‚µ‚­‚ÍAŸ‚Ì—áŠO‚ğQ
 # data set cache error
 data.engine.datasetcache.save.error=ƒf[ƒ^ƒZƒbƒgƒLƒƒƒbƒVƒ…‚Ìƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚Å‚«‚Ü‚¹‚ñB
 data.engine.datasetcache.load.error=ƒf[ƒ^ƒZƒbƒgƒLƒƒƒbƒVƒ…‚Ìƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB
-data.engine.exceed.max.data.object.row=Query can't be processed. To run the query, they need to either increase the result set buffer size or narrow down the query.
+data.engine.exceed.max.data.object.row=ƒNƒGƒŠ‚ğˆ—‚Å‚«‚Ü‚¹‚ñB ƒNƒGƒŠ‚ğÀs‚·‚é‚É‚ÍAŒ‹‰ÊƒZƒbƒg‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ğ‘‚â‚·‚©AƒNƒGƒŠ‚ği‚è‚Ş•K—v‚ª‚ ‚è‚Ü‚·B
 
 # error related with data engine context
 data.engine.InvalidMode=ƒf[ƒ^ƒGƒ“ƒWƒ“ƒRƒ“ƒeƒLƒXƒg‚Ìƒ‚[ƒh‚Ì’l {0} ‚ª–³Œø‚Å‚·B
@@ -428,4 +428,4 @@ data.derivedDataSet.calculatorNotExist=ŒvZ‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚©AŒ©‚Â‚©‚è‚Ü‚¹‚ñ
 data.derivedDataSet.invalidQueryText=ƒNƒGƒŠƒeƒLƒXƒg‚ª–³Œø‚Å‚·B
 
 #data mart data source
-data.datamart.failLoadDataSet = Failed to load Data Object data set "{0}".
+data.datamart.failLoadDataSet = ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒZƒbƒg "{0}" ‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB

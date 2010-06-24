@@ -1,7 +1,7 @@
 exception.base.orthogonal.null.datadefinition=指定したデータ定義の式は無効です。
 exception.dataset.stockseries=株価系列にバインドされているデータエントリが不完全です。データエントリには、最高値、最低値、始値、終値の 4 つの値が必要です。 
 exception.dataset.null.stockentry=このデータエントリには、無効な null 値または数値以外の値が含まれています。 
-exception.dataset.invalid.ganttentry=The data entry has a value of invalid type.
+exception.dataset.invalid.ganttentry=このデータエントリには無効な値が含まれています。
 exception.empty.dataset=空のデータセットが見つかりました。
 exception.empty.palette=系列 {0} に関連付けられているパレットが空です。
 exception.null.values=プロットには、'all null' 値を指定できません。

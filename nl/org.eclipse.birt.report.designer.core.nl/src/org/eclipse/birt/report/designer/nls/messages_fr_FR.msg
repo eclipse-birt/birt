@@ -651,7 +651,7 @@ DataSetFiltersPage.toolTipText.New=Nouveau filtre.
 DataSetFiltersPage.toolTipText.Edit=Modifier le filtre.
 DataSetFiltersPage.title.FilterInputDialog=Filtre
 DataSetFiltersPage.messages.selectVauleUnavailable=Liste de valeurs non disponible avec l'expression spécifiée.
-DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=The linked dynamic parameter "{0}" of the dynamic filter does not exist!
+DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=Le paramètre dynamique lié "{0}" du filtre dynamique n'existe pas.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -671,8 +671,8 @@ DataSetParameterBindingInputDialog.Title.NewParameter=Nouveau paramètre
 DataSetParameterBindingInputDialog.Title.EditParameter=Modifier le paramètre
 DataSetParameterBindingInputDialog.Label.DataType=Type de données :
 DataSetParameterBindingInputDialog.Label.Value=&Valeur :
-DataSetParametersPage.ParameterButton.Tooltip.Edit=Edit Report Parameter
-DataSetParametersPage.ParameterButton.Tooltip.New=New Report Parameter
+DataSetParametersPage.ParameterButton.Tooltip.Edit=Modifier le paramètre d'état
+DataSetParametersPage.ParameterButton.Tooltip.New=Nouveau paramètre d'état
 DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Aucun
@@ -4228,9 +4228,9 @@ DataSetColumnBindingsFormPage.Button.RemoveUnused=Supprimer une colonne inutilis
 
 ###########################################################
 #DataSetSettingsPage
-DataSetSettingsPage.DataGroup.Title=BIRT Engine settings for comparing data set column values
-DataSetSettingsPage.Locale.Label=&Locale of character string values:
-DataSetSettingsPage.NullValueOrdering.Label=&Ordering of Null values:
+DataSetSettingsPage.DataGroup.Title=Paramètres du moteur BIRT pour comparer les valeurs de la colonne de jeu de données
+DataSetSettingsPage.Locale.Label=Informations &locales des valeurs de chaîne de caractères :
+DataSetSettingsPage.NullValueOrdering.Label=&Classement des valeurs nulles :
 
 ###########################################################
 #ResourceSelectionValidator
@@ -4789,5 +4789,5 @@ VariableDropAdapter.TranasctionName=Créer l'élément Date à partir de la variable
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank.
-RenameInputDialog.Message.DuplicateName=Duplicate name exists.
+RenameInputDialog.Message.BlankName=Le nom doit être spécifié.
+RenameInputDialog.Message.DuplicateName=Un doublon existe déjà.

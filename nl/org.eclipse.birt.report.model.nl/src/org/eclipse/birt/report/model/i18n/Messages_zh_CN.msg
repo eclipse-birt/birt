@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=网格主题
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=空值下限
-Choices.nullsOrdering.nullsHighest=Nulls Highest
+Choices.nullsOrdering.nullsHighest=空值上限
 Choices.nullsOrdering.excludeNulls=排除空值
 
 #92 filterConditionType
@@ -2056,7 +2056,7 @@ Structure.ColumnHint.descriptionID=说明资源关键字
 Structure.ColumnHint.action=操作
 Structure.ColumnHint.ACLExpression=ACL 表达式	
 Structure.ColumnHint.analysisColumn=分析列
-Structure.ColumnHint.valueFormat=Value Format
+Structure.ColumnHint.valueFormat=值格式
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项
@@ -2381,7 +2381,7 @@ Element.DataMartDataSet=数据对象数据集
 Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=时间维
 Element.ReportItemTheme=报表项主题
-Element.AbstractTheme=Abstract Theme
+Element.AbstractTheme=抽象主题
 
 ###########################################################
 # Element property names

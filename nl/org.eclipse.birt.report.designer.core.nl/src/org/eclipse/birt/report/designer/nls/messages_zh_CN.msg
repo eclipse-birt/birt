@@ -651,7 +651,7 @@ DataSetFiltersPage.toolTipText.New=新建筛选器。
 DataSetFiltersPage.toolTipText.Edit=编辑筛选器。
 DataSetFiltersPage.title.FilterInputDialog=筛选器
 DataSetFiltersPage.messages.selectVauleUnavailable=值列表对给定的表达式不可用。
-DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=The linked dynamic parameter "{0}" of the dynamic filter does not exist!
+DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=动态筛选器的链接动态参数“{0}”不存在!
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -671,8 +671,8 @@ DataSetParameterBindingInputDialog.Title.NewParameter=新建参数
 DataSetParameterBindingInputDialog.Title.EditParameter=编辑参数
 DataSetParameterBindingInputDialog.Label.DataType=数据类型:
 DataSetParameterBindingInputDialog.Label.Value=值(&V):
-DataSetParametersPage.ParameterButton.Tooltip.Edit=Edit Report Parameter
-DataSetParametersPage.ParameterButton.Tooltip.New=New Report Parameter
+DataSetParametersPage.ParameterButton.Tooltip.Edit=编辑报表参数
+DataSetParametersPage.ParameterButton.Tooltip.New=新建报表参数
 DataSetParametersPage.Prompt.new=<此处为新参数...>
 DataSetParametersPage.default.None=不适用
 DataSetParametersPage.reportParam.None=无
@@ -4228,9 +4228,9 @@ DataSetColumnBindingsFormPage.Button.RemoveUnused=删除未使用的列
 
 ###########################################################
 #DataSetSettingsPage
-DataSetSettingsPage.DataGroup.Title=BIRT Engine settings for comparing data set column values
-DataSetSettingsPage.Locale.Label=&Locale of character string values:
-DataSetSettingsPage.NullValueOrdering.Label=&Ordering of Null values:
+DataSetSettingsPage.DataGroup.Title=用于比较数据集列值的 BIRT 引擎
+DataSetSettingsPage.Locale.Label=字符串值的区域设置(&L):
+DataSetSettingsPage.NullValueOrdering.Label=空值的顺序(&O):
 
 ###########################################################
 #ResourceSelectionValidator
@@ -4789,5 +4789,5 @@ VariableDropAdapter.TranasctionName=使用变量创建数据项
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank.
-RenameInputDialog.Message.DuplicateName=Duplicate name exists.
+RenameInputDialog.Message.BlankName=名称不能为空白。
+RenameInputDialog.Message.DuplicateName=存在重复名称。

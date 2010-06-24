@@ -26,5 +26,5 @@ datasource.property.username=&Nombre de usuario
 datasource.property.password=Cont&raseña
 datasource.property.jdbcURL=UR&L del controlador JDBC
 datasource.property.driverClass=&Clase del controlador JDBC
-datasource.property.jarlist=Lista de rutas &Jar del controlador JDBC con separador ';'
+datasource.property.jarlist=Controlador JDBC y lista de archivos &jar
 datasource.property.databasename=&Base de datos

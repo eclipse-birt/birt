@@ -26,7 +26,7 @@ OptionDisplayValue.ENLARGE_PAGE_SIZE=Agrandir la taille de la page
 OptionDisplayValue.FontSubstitution=Changement de police
 OptionDisplayValue.EmbeddedFont=Police intégrée
 OptionDisplayValue.ChartDpi=DPI de graphique 
-OptionDisplayValue.RenderChartInSVG=Render chart in vector graphics
+OptionDisplayValue.RenderChartInSVG=Afficher le graphique en image vectorielle
 
 ###########################################################
 #Option Description
@@ -36,4 +36,4 @@ OptionDescription.PageOverFlow=Vérifiez comment répartir le contenu.
 OptionDescription.FontSubstitution=Sélectionnez des polices automatiquement si la police spécifiée ne peut pas afficher le caractère.
 OptionDescription.EmbeddedFont=La police TrueType devrait être intégrée au fichier PDF généré.
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
-OptionDescription.RenderChartInSVG=Render chart in vector graphics.
+OptionDescription.RenderChartInSVG=Afficher le graphique en image vectorielle.

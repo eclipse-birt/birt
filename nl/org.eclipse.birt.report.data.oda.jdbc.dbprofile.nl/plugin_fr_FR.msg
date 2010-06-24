@@ -26,5 +26,5 @@ datasource.property.username=&Nom d'utilisateur
 datasource.property.password=&Mot de passe
 datasource.property.jdbcURL=U&RL de pilote JDBC
 datasource.property.driverClass=&Classe de pilote JDBC
-datasource.property.jarlist=Liste &JAR de pilote JDBC utilisant le séparateur ';'
+datasource.property.jarlist=Liste &JAR de pilote JDBC
 datasource.property.databasename=&Base de données

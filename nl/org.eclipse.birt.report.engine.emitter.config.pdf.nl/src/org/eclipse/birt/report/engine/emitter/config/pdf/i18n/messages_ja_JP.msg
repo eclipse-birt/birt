@@ -26,7 +26,7 @@ OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
 OptionDisplayValue.FontSubstitution=フォントの置き換え
 OptionDisplayValue.EmbeddedFont=埋め込みフォント
 OptionDisplayValue.ChartDpi=グラフの DPI 
-OptionDisplayValue.RenderChartInSVG=Render chart in vector graphics
+OptionDisplayValue.RenderChartInSVG=ベクターグラフィックでグラフをレンダリング
 
 ###########################################################
 #Option Description
@@ -36,4 +36,4 @@ OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
 OptionDescription.FontSubstitution=指定されたフォントで表示できない文字がある場合は、フォントを自動的に選択します。
 OptionDescription.EmbeddedFont=生成される PDF ファイルには、TrueType フォントを埋め込んでください。
 OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
-OptionDescription.RenderChartInSVG=Render chart in vector graphics.
+OptionDescription.RenderChartInSVG=ベクターグラフィックでグラフをレンダリングします。

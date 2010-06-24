@@ -651,7 +651,7 @@ DataSetFiltersPage.toolTipText.New=新しいフィルタを作成します。
 DataSetFiltersPage.toolTipText.Edit=フィルタを編集します。
 DataSetFiltersPage.title.FilterInputDialog=フィルタ
 DataSetFiltersPage.messages.selectVauleUnavailable=この式では値リストを使用できません。
-DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=The linked dynamic parameter "{0}" of the dynamic filter does not exist!
+DataSetFiltersPage.DynamicFilter.DynamicParameter.NotFound=動的フィルタのリンクされた動的パラメタ "{0}" が存在しません。
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -671,8 +671,8 @@ DataSetParameterBindingInputDialog.Title.NewParameter=パラメタの新規作成
 DataSetParameterBindingInputDialog.Title.EditParameter=パラメタの編集
 DataSetParameterBindingInputDialog.Label.DataType=データ型 :
 DataSetParameterBindingInputDialog.Label.Value=値(&V) :
-DataSetParametersPage.ParameterButton.Tooltip.Edit=Edit Report Parameter
-DataSetParametersPage.ParameterButton.Tooltip.New=New Report Parameter
+DataSetParametersPage.ParameterButton.Tooltip.Edit=レポートパラメタを編集
+DataSetParametersPage.ParameterButton.Tooltip.New=レポートパラメタの新規作成
 DataSetParametersPage.Prompt.new=<ここに新しいパラメタを入力してください...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=なし
@@ -4228,9 +4228,9 @@ DataSetColumnBindingsFormPage.Button.RemoveUnused=未使用のカラムの削除
 
 ###########################################################
 #DataSetSettingsPage
-DataSetSettingsPage.DataGroup.Title=BIRT Engine settings for comparing data set column values
-DataSetSettingsPage.Locale.Label=&Locale of character string values:
-DataSetSettingsPage.NullValueOrdering.Label=&Ordering of Null values:
+DataSetSettingsPage.DataGroup.Title=BIRT Engine を設定してデータセット列の値を比較する
+DataSetSettingsPage.Locale.Label=文字列の値のロケール(&L) :
+DataSetSettingsPage.NullValueOrdering.Label=Null 値の順序(&O) :
 
 ###########################################################
 #ResourceSelectionValidator
@@ -4789,5 +4789,5 @@ VariableDropAdapter.TranasctionName=変数から日付項目を作成
 
 ###########################################################
 #RenameInputDialog
-RenameInputDialog.Message.BlankName=Name cannot be blank.
-RenameInputDialog.Message.DuplicateName=Duplicate name exists.
+RenameInputDialog.Message.BlankName=名前は空白にできません。
+RenameInputDialog.Message.DuplicateName=重複する名前が存在します。

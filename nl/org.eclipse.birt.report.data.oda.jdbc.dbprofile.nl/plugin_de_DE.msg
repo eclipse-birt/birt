@@ -26,5 +26,5 @@ datasource.property.username=Benutzer&name
 datasource.property.password=Kenn&wort
 datasource.property.jdbcURL=JDBC-Treiber-&URL
 datasource.property.driverClass=JDBC-Treiber&klasse
-datasource.property.jarlist=&JAR-Liste für JDBC-Treiber mit ';' als Trennzeichen
+datasource.property.jarlist=&JAR-Liste für JDBC-Treiber
 datasource.property.databasename=&Datenbank

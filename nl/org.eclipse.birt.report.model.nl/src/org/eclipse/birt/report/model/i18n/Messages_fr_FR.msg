@@ -718,7 +718,7 @@ Choices.reportItemThemeType.Grid=Thème de grille
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=Valeurs nulles les plus basses
-Choices.nullsOrdering.nullsHighest=Nulls Highest
+Choices.nullsOrdering.nullsHighest=Valeurs nulles les plus élevées
 Choices.nullsOrdering.excludeNulls=Exclure les valeurs nulles
 
 #92 filterConditionType
@@ -2056,7 +2056,7 @@ Structure.ColumnHint.descriptionID=Clé de ressource de la description
 Structure.ColumnHint.action=Action
 Structure.ColumnHint.ACLExpression=Expression ACL	
 Structure.ColumnHint.analysisColumn=Colonne Analyse
-Structure.ColumnHint.valueFormat=Value Format
+Structure.ColumnHint.valueFormat=Format de la valeur
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Choix de sélection
@@ -2381,7 +2381,7 @@ Element.DataMartDataSet=Jeu de données de l'objet de données
 Element.DataMartCube=Cube de l'objet de données
 Element.TimeDimension=Dimension de temps
 Element.ReportItemTheme=Thème d'élément d'état
-Element.AbstractTheme=Abstract Theme
+Element.AbstractTheme=Thème abstrait
 
 ###########################################################
 # Element property names

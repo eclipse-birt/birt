@@ -1,7 +1,7 @@
 exception.base.orthogonal.null.datadefinition=지정한 데이터 정의 식이 잘못되었습니다.
 exception.dataset.stockseries=주식형 계열에 바인딩된 데이터 항목이 불완전합니다. 이 항목에는 높음, 낮음, 열기 및 닫기 값이 있어야 합니다. 
 exception.dataset.null.stockentry=데이터 항목에 잘못된 널(null) 값이 있거나 숫자가 아닌 값이 있습니다. 
-exception.dataset.invalid.ganttentry=The data entry has a value of invalid type.
+exception.dataset.invalid.ganttentry=데이터 항목에 잘못된 형식의 값이 있습니다.
 exception.empty.dataset=빈 데이터 집합이 있습니다.
 exception.empty.palette=계열 {0}과(와) 연결된 색상표가 비어 있습니다.
 exception.null.values=플롯에서 '모든 널(null)' 값을 정의할 수 없습니다.

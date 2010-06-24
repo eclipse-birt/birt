@@ -147,7 +147,7 @@ data.engine.BirtException=Une exception BIRT est survenue : {0}. Voir l''excepti
 # data set cache error
 data.engine.datasetcache.save.error=Une erreur est survenue lors de l'enregistrement de fichiers du cache des jeux de données.
 data.engine.datasetcache.load.error=Une erreur est survenue lors du chargement de fichiers du cache des jeux de données.
-data.engine.exceed.max.data.object.row=Query can't be processed. To run the query, they need to either increase the result set buffer size or narrow down the query.
+data.engine.exceed.max.data.object.row=Impossible de traiter la requête. Pour exécuter la requête, la taille du tampon du jeu de résultats doit être augmentée ou la requête doit être limitée.
 
 # error related with data engine context
 data.engine.InvalidMode=La valeur de mode {0} pour le contexte du moteur de données n''est pas valide.
@@ -428,4 +428,4 @@ data.derivedDataSet.calculatorNotExist=Le calcul n'est pas défini ou est introuv
 data.derivedDataSet.invalidQueryText=Texte de la requête incorrect.
 
 #data mart data source
-data.datamart.failLoadDataSet = Failed to load Data Object data set "{0}".
+data.datamart.failLoadDataSet = Impossible de charger le jeu de données de l'Objet de données "{0}".
