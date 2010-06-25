@@ -2677,7 +2677,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				.iterator( ); iter.hasNext( ); )
 		{
 			ComputedColumnHandle cch = iter.next( );
-			ChartReportItemUtil.loadExpression( exprCodec, cch );
+			ChartItemUtil.loadExpression( exprCodec, cch );
 			if ( exprCodec.isDimensionExpresion( ) )
 			{
 				dimensionExprs.add( cch.getName( ) );
@@ -2709,7 +2709,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		{
 			ComputedColumnHandle cch = iter.next( );
 			String dataExpr = ExpressionUtil.createJSDataExpression( cch.getName( ) );
-			ChartReportItemUtil.loadExpression( exprCodec, cch );
+			ChartItemUtil.loadExpression( exprCodec, cch );
 			if ( exprCodec.isDimensionExpresion( ) )
 			{
 				dimensionExprs.add( cch.getName( ) );

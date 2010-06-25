@@ -872,7 +872,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 				ComputedColumnHandle cc = bindings.next( );
 				if ( cc.getName( ).equals( bindingName ) )
 				{
-					ChartReportItemUtil.loadExpression( exprCodec, cc );
+					ChartItemUtil.loadExpression( exprCodec, cc );
 					if ( exprCodec.isDimensionExpresion( ) )
 					{
 						String[] levels = exprCodec.getLevelNames( );
@@ -904,7 +904,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 				ComputedColumnHandle cc = bindings.next( );
 				if ( cc.getName( ).equals( bindingName ) )
 				{
-					ChartReportItemUtil.loadExpression( exprCodec, cc );
+					ChartItemUtil.loadExpression( exprCodec, cc );
 					if ( exprCodec.isMeasureExpresion( ) )
 					{
 						return cube.getMeasure( exprCodec.getMeasureName( ) );

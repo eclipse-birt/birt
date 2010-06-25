@@ -241,7 +241,7 @@ public class ChartCubeUtil extends ChartItemUtil
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle cc = columnBindings.next( );
-			ChartReportItemUtil.loadExpression( exprCodec, cc );
+			ChartItemUtil.loadExpression( exprCodec, cc );
 			if ( exprCodec.isDimensionExpresion( ) )
 			{
 				bindings.add( cc.getName( ) );
@@ -267,7 +267,7 @@ public class ChartCubeUtil extends ChartItemUtil
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle cc = columnBindings.next( );
-			ChartReportItemUtil.loadExpression( exprCodec, cc );
+			ChartItemUtil.loadExpression( exprCodec, cc );
 			if ( !exprCodec.isDimensionExpresion( ) )
 			{
 				bindings.add( cc.getName( ) );
@@ -569,7 +569,7 @@ public class ChartCubeUtil extends ChartItemUtil
 			for ( Iterator<ComputedColumnHandle> bindings = getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 			{
 				ComputedColumnHandle cch = bindings.next( );
-				ChartReportItemUtil.loadExpression( exprCodec, cch );
+				ChartItemUtil.loadExpression( exprCodec, cch );
 				String[] levelNames = exprCodec.getLevelNames( );
 				if ( levelNames != null
 						&& dimensionName.equals( levelNames[0] )
@@ -592,7 +592,7 @@ public class ChartCubeUtil extends ChartItemUtil
 			for ( Iterator<ComputedColumnHandle> bindings = getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 			{
 				ComputedColumnHandle cch = bindings.next( );
-				ChartReportItemUtil.loadExpression( exprCodec, cch );
+				ChartItemUtil.loadExpression( exprCodec, cch );
 				String[] levelNames = exprCodec.getLevelNames( );
 				if ( levelNames != null
 						&& dimensionName.equals( levelNames[0] )
@@ -618,7 +618,7 @@ public class ChartCubeUtil extends ChartItemUtil
 			for ( Iterator<ComputedColumnHandle> bindings = getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 			{
 				ComputedColumnHandle cch = bindings.next( );
-				ChartReportItemUtil.loadExpression( exprCodec, cch );
+				ChartItemUtil.loadExpression( exprCodec, cch );
 				String name = exprCodec.getMeasureName( );
 				if ( name != null && measureName.equals( name ) )
 				{
@@ -933,7 +933,7 @@ public class ChartCubeUtil extends ChartItemUtil
 				.createExpressionCodec( );
 		for ( ComputedColumnHandle cch : bindings )
 		{
-			ChartReportItemUtil.loadExpression( exprCodec, cch );
+			ChartItemUtil.loadExpression( exprCodec, cch );
 			String[] levelNames = exprCodec.getLevelNames( );
 			if ( levelNames != null
 					&& levelNames[0].equals( dimName )
@@ -1586,7 +1586,7 @@ public class ChartCubeUtil extends ChartItemUtil
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle cc = columnBindings.next( );
-			ChartReportItemUtil.loadExpression( exprCodec, cc );
+			ChartItemUtil.loadExpression( exprCodec, cc );
 
 			if ( !containDimension && exprCodec.isDimensionExpresion( ) )
 			{

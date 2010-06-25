@@ -329,7 +329,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 				ComputedColumnHandle bindingHandle = bindings.next( );
 				if ( bindingHandle.getName( ).equalsIgnoreCase( catName ) )
 				{
-					ChartReportItemUtil.loadExpression( exprCodec,
+					ChartItemUtil.loadExpression( exprCodec,
 							bindingHandle );
 					String[] cat = exprCodec.getLevelNames( );
 					catExpr = cat[0] + "/" + cat[1]; //$NON-NLS-1$

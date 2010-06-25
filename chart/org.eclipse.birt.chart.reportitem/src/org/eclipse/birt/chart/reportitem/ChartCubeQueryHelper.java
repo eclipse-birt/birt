@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
@@ -514,7 +515,7 @@ public class ChartCubeQueryHelper
 			binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 					: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
 
-			ChartReportItemUtil.loadExpression( exprCodec, column );
+			ChartItemUtil.loadExpression( exprCodec, column );
 			// Even if expression is null, create the script expression
 			binding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
 					modelAdapter,

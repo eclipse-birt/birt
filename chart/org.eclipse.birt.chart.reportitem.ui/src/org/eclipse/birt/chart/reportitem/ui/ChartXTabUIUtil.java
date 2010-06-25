@@ -21,8 +21,8 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -163,7 +163,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle columnHandle = columnBindings.next( );
-			ChartReportItemUtil.loadExpression( exprCodec, columnHandle );
+			ChartItemUtil.loadExpression( exprCodec, columnHandle );
 			String bindName = columnHandle.getName( );
 			if ( !exprCodec.isDimensionExpresion( ) )
 			{

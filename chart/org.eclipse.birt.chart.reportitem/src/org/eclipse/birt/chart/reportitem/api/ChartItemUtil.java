@@ -43,12 +43,20 @@ import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
@@ -57,6 +65,8 @@ import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
@@ -1355,5 +1365,76 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Loads the expression from a ComputedColumnHandle into the
+	 * ExpressionCodec.
+	 * 
+	 * @param exprCodec
+	 * @param handle
+	 * @return True if succeeds.
+	 */
+	public static boolean loadExpression( ExpressionCodec exprCodec,
+			ComputedColumnHandle cch )
+	{
+		if ( exprCodec != null )
+		{
+			ExpressionHandle eh = getAggregationExpression( cch );
+			return loadExpressionFromHandle( exprCodec, eh );
+		}
+		return false;
+	}
+	
+	private static ExpressionHandle getAggregationExpression(
+			ComputedColumnHandle bindingColumn )
+	{
+		if ( bindingColumn.getExpression( ) != null )
+		{
+			return bindingColumn.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+		}
+		String functionName = bindingColumn.getAggregateFunction( );
+		try
+		{
+			IAggrFunction function = AggregationManager.getInstance( )
+					.getAggregation( functionName );
+			for ( IParameterDefn param : function.getParameterDefn( ) )
+			{
+				if ( param.isDataField( ) )
+				{
+					for ( Iterator<AggregationArgumentHandle> iterator = bindingColumn.argumentsIterator( ); iterator.hasNext( ); )
+					{
+						AggregationArgumentHandle arg = iterator.next( );
+						if ( arg.getName( ).equals( param.getName( ) ) )
+						{
+							return arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+						}
+					}
+				}
+			}
+		}
+		catch ( BirtException e )
+		{
+			logger.log( e );
+		}
+		return null;
+
+	}
+	
+	protected static boolean loadExpressionFromHandle( ExpressionCodec exprCodec,
+			ExpressionHandle eh )
+	{
+		if ( eh != null && eh.getValue( ) != null )
+		{
+			Expression expression = (Expression) eh.getValue( );
+			exprCodec.setExpression( expression.getStringExpression( ) );
+			exprCodec.setType( expression.getType( ) );
+			return true;
+		}
+		else
+		{
+			exprCodec.setExpression( null );
+			return false;
+		}
 	}
 }
