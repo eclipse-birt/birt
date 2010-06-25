@@ -8,13 +8,11 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
@@ -24,7 +22,6 @@ import org.eclipse.birt.report.engine.api.IRunnable;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -61,6 +58,10 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		this.maxRow = maxRow;
 	}
 	
+	protected void checkRequiredParamenter(String paramName, String value) throws ParameterValidationException
+	{
+		
+	}
 
 	public void execute( IExtractionOption options ) throws EngineException
 	{
@@ -180,29 +181,19 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			throws BirtException
 	{
 		QueryDefinition newQuery = constructQuery( dataset );
-
 		DataRequestSession session = getDataRequestSession( );
-		IModelAdapter adapter = session.getModelAdaptor( );
-		if ( adapter != null )
-		{
-			DataSourceHandle datasource = dataset.getDataSource( );
-			BaseDataSourceDesign datasourceDesign = adapter
-					.adaptDataSource( datasource );
-			session.defineDataSource( datasourceDesign );
-			BaseDataSetDesign datasetDesign = adapter.adaptDataSet( dataset );
-			session.defineDataSet( datasetDesign );
-			
-			session.registerQueries( new IQueryDefinition[]{newQuery} );
-
-			IBasePreparedQuery preparedQuery = session.prepare( newQuery );
-			IQueryResults result = (IQueryResults) session.execute( preparedQuery,
-					null, executionContext.getScriptContext( ) );
-			ResultMetaData metadata = new ResultMetaData( result.getResultMetaData( ) );
-			return new ExtractionResults( result, metadata,
-					null, 0, maxRow );
-		}
-		return null;
+		ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
+				executionContext );
+		apiAdapter.defineDataSet( dataset, dteSession );
+		session.registerQueries( new IQueryDefinition[]{newQuery} );
+		IBasePreparedQuery preparedQuery = session.prepare( newQuery );
+		IQueryResults result = (IQueryResults) session.execute( preparedQuery,
+				null, executionContext.getScriptContext( ) );
+		ResultMetaData metadata = new ResultMetaData(
+				result.getResultMetaData( ) );
+		return new ExtractionResults( result, metadata, null, 0, maxRow );
 	}
+
 	
 	
 	
