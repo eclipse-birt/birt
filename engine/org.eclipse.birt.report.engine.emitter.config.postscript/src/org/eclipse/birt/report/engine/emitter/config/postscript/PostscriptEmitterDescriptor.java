@@ -155,7 +155,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		paperSize.setDisplayName( getMessage( "OptionDisplayValue.PaperSize" ) ); //$NON-NLS-1$
 		paperSize.setDataType( IConfigurableOption.DataType.STRING );
 		paperSize.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		paperSize.setDefaultValue( "A4" );
+		paperSize.setDefaultValue( null );
 		paperSize.setToolTip( null );
 		paperSize.setDescription( getMessage( "OptionDescription.PaperSize" ) ); //$NON-NLS-1$
 

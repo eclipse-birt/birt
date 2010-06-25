@@ -969,9 +969,12 @@ public class PostscriptWriter
 		setCollate( collate );
 		setCopies( copies );
 		int[] pageSize = getPaperSize( paperSize );
-		int width = pageSize[0];
-		int height = pageSize[1];
-		setPaperSize( paperSize, width, height );
+		if ( pageSize != null )
+		{
+			int width = pageSize[0];
+			int height = pageSize[1];
+			setPaperSize( paperSize, width, height );
+		}
 		setPaperTray( paperTrayCode );
 		setDuplex( duplex );
 		setResolution( resolution );
@@ -1110,6 +1113,8 @@ public class PostscriptWriter
 
 	private int[] getPaperSize( String paperSize )
 	{
+		if ( paperSize == null || paperSize.trim( ).length( ) == 0 )
+			return null;
 		int width = 595;
 		int height = 842;
 		if ( "Letter".equalsIgnoreCase( paperSize ) )
