@@ -43,7 +43,6 @@ import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.SecurityUtil;
-import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;

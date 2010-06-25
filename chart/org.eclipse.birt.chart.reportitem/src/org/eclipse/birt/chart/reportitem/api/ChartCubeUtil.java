@@ -26,12 +26,10 @@ import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
-import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
-import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -41,7 +39,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -240,7 +237,7 @@ public class ChartCubeUtil extends ChartItemUtil
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle cc = columnBindings.next( );
-			ChartItemUtil.loadExpression( exprCodec, cc );
+			ChartReportItemUtil.loadExpression( exprCodec, cc );
 			if ( exprCodec.isDimensionExpresion( ) )
 			{
 				bindings.add( cc.getName( ) );
@@ -266,7 +263,7 @@ public class ChartCubeUtil extends ChartItemUtil
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle cc = columnBindings.next( );
-			ChartItemUtil.loadExpression( exprCodec, cc );
+			ChartReportItemUtil.loadExpression( exprCodec, cc );
 			if ( !exprCodec.isDimensionExpresion( ) )
 			{
 				bindings.add( cc.getName( ) );
@@ -275,50 +272,6 @@ public class ChartCubeUtil extends ChartItemUtil
 		return bindings;
 	}
 
-	/**
-	 * This method is used for back-forward compatible. For the new DTE api
-	 * store the original ComputedColumnHandle expression as a parameter value
-	 * now, we should retrieve expression value from ComputedColumnHandle's
-	 * expression(old) or argument value.
-	 * 
-	 * @param bindingColumn
-	 */
-	@SuppressWarnings("unchecked")
-	private static String getAggregationExpression(
-			ComputedColumnHandle bindingColumn )
-	{
-		if ( bindingColumn.getExpression( ) != null )
-		{
-			return bindingColumn.getExpression( );
-		}
-		String functionName = bindingColumn.getAggregateFunction( );
-		try
-		{
-			IAggrFunction function = AggregationManager.getInstance( )
-					.getAggregation( functionName );
-			for ( IParameterDefn param : function.getParameterDefn( ) )
-			{
-				if ( param.isDataField( ) )
-				{
-					for ( Iterator<AggregationArgumentHandle> iterator = bindingColumn.argumentsIterator( ); iterator.hasNext( ); )
-					{
-						AggregationArgumentHandle arg = iterator.next( );
-						if ( arg.getName( ).equals( param.getName( ) ) )
-						{
-							return arg.getValue( );
-						}
-					}
-				}
-			}
-		}
-		catch ( BirtException e )
-		{
-			logger.log( e );
-		}
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
 	public static Object getFirstContent( CrosstabCellHandle cell )
 	{
 		if ( cell != null )
@@ -568,7 +521,7 @@ public class ChartCubeUtil extends ChartItemUtil
 			for ( Iterator<ComputedColumnHandle> bindings = getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 			{
 				ComputedColumnHandle cch = bindings.next( );
-				ChartItemUtil.loadExpression( exprCodec, cch );
+				ChartReportItemUtil.loadExpression( exprCodec, cch );
 				String[] levelNames = exprCodec.getLevelNames( );
 				if ( levelNames != null
 						&& dimensionName.equals( levelNames[0] )
@@ -591,7 +544,7 @@ public class ChartCubeUtil extends ChartItemUtil
 			for ( Iterator<ComputedColumnHandle> bindings = getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 			{
 				ComputedColumnHandle cch = bindings.next( );
-				ChartItemUtil.loadExpression( exprCodec, cch );
+				ChartReportItemUtil.loadExpression( exprCodec, cch );
 				String[] levelNames = exprCodec.getLevelNames( );
 				if ( levelNames != null
 						&& dimensionName.equals( levelNames[0] )
@@ -617,7 +570,7 @@ public class ChartCubeUtil extends ChartItemUtil
 			for ( Iterator<ComputedColumnHandle> bindings = getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 			{
 				ComputedColumnHandle cch = bindings.next( );
-				ChartItemUtil.loadExpression( exprCodec, cch );
+				ChartReportItemUtil.loadExpression( exprCodec, cch );
 				String name = exprCodec.getMeasureName( );
 				if ( name != null && measureName.equals( name ) )
 				{
@@ -932,7 +885,7 @@ public class ChartCubeUtil extends ChartItemUtil
 				.createExpressionCodec( );
 		for ( ComputedColumnHandle cch : bindings )
 		{
-			ChartItemUtil.loadExpression( exprCodec, cch );
+			ChartReportItemUtil.loadExpression( exprCodec, cch );
 			String[] levelNames = exprCodec.getLevelNames( );
 			if ( levelNames != null
 					&& levelNames[0].equals( dimName )
@@ -1585,7 +1538,7 @@ public class ChartCubeUtil extends ChartItemUtil
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle cc = columnBindings.next( );
-			ChartItemUtil.loadExpression( exprCodec, cc );
+			ChartReportItemUtil.loadExpression( exprCodec, cc );
 
 			if ( !containDimension && exprCodec.isDimensionExpresion( ) )
 			{
