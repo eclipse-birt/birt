@@ -35,9 +35,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
-import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
-import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
-import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -55,7 +52,6 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -64,7 +60,6 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.runtime.IAdapterManager;
@@ -667,17 +662,6 @@ public class ChartReportItemUtil extends ChartItemUtil
 				bCube ? ExpressionLocation.CUBE : ExpressionLocation.TABLE );
 	}
 
-	public static boolean loadExpression( ExpressionCodec exprCodec,
-			FilterConditionElementHandle fceh )
-	{
-		if ( exprCodec != null )
-		{
-			ExpressionHandle eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
-			return loadExpressionFromHandle( exprCodec, eh );
-		}
-		return false;
-	}
-
 	public static Expression getExpression( GroupHandle gh )
 	{
 		ExpressionHandle eh = gh.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP );
@@ -687,21 +671,4 @@ public class ChartReportItemUtil extends ChartItemUtil
 		}
 		return null;
 	}
-
-	/**
-	 * Loads the expression from a ComputedColumnHandle into the
-	 * ExpressionCodec.
-	 * 
-	 * @param exprCodec
-	 * @param handle
-	 */
-	public static void loadExpression( ExpressionCodec exprCodec, GroupHandle gh )
-	{
-		if ( exprCodec != null )
-		{
-			ExpressionHandle eh = gh.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP );
-			loadExpressionFromHandle( exprCodec, eh );
-		}
-	}
-
 }

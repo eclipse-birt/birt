@@ -23,8 +23,8 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil;
 import org.eclipse.birt.chart.reportitem.ui.ChartReportItemUIUtil;
@@ -1676,7 +1676,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	 */
 	protected void syncViewProperties( )
 	{
-		ChartReportItemUtil.loadExpression( exprCodec, inputHandle );
+		ChartItemUtil.loadExpression( exprCodec, inputHandle );
 
 		expButton.setExpression( exprCodec.encode( ) );
 		operator.select( getIndexForOperatorValue( inputHandle.getOperator( ) ) );

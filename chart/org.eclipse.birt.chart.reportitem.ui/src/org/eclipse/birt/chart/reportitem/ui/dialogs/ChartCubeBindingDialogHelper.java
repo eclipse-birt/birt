@@ -22,7 +22,6 @@ import java.util.StringTokenizer;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -351,7 +350,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 				ComputedColumnHandle bindingHandle = bindings.next( );
 				if ( bindingHandle.getName( ).equalsIgnoreCase( yopName ) )
 				{
-					ChartReportItemUtil.loadExpression( exprCodec,
+					ChartItemUtil.loadExpression( exprCodec,
 							bindingHandle );
 					String[] yop = exprCodec.getLevelNames( );
 					yopExpr = yop[0] + "/" + yop[1]; //$NON-NLS-1$

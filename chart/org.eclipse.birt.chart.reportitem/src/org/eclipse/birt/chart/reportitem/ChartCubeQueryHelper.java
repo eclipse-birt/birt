@@ -892,7 +892,7 @@ public class ChartCubeQueryHelper
 
 			ConditionalExpression filterCondExpr;
 
-			ChartReportItemUtil.loadExpression( exprCodec, filterCon );
+			ChartItemUtil.loadExpression( exprCodec, filterCon );
 			String filterQuery = exprCodec.encode( );
 			if ( exprCodec.isCubeBinding( filterQuery, true ) )
 			{

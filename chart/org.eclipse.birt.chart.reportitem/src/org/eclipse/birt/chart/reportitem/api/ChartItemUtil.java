@@ -58,6 +58,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -67,9 +69,11 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -1435,6 +1439,33 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		{
 			exprCodec.setExpression( null );
 			return false;
+		}
+	}
+	
+	public static boolean loadExpression( ExpressionCodec exprCodec,
+			FilterConditionElementHandle fceh )
+	{
+		if ( exprCodec != null )
+		{
+			ExpressionHandle eh = fceh.getExpressionProperty( FilterCondition.EXPR_MEMBER );
+			return loadExpressionFromHandle( exprCodec, eh );
+		}
+		return false;
+	}
+
+	/**
+	 * Loads the expression from a ComputedColumnHandle into the
+	 * ExpressionCodec.
+	 * 
+	 * @param exprCodec
+	 * @param handle
+	 */
+	public static void loadExpression( ExpressionCodec exprCodec, GroupHandle gh )
+	{
+		if ( exprCodec != null )
+		{
+			ExpressionHandle eh = gh.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP );
+			loadExpressionFromHandle( exprCodec, eh );
 		}
 	}
 }
