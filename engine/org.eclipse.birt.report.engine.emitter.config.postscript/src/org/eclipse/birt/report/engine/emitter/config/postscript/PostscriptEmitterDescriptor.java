@@ -165,7 +165,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		paperTray.setDisplayName( getMessage( "OptionDisplayValue.PaperTray" ) ); //$NON-NLS-1$
 		paperTray.setDataType( IConfigurableOption.DataType.INTEGER );
 		paperTray.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		paperTray.setDefaultValue( new Integer( 0 ) );
+		paperTray.setDefaultValue( null );
 		paperTray.setToolTip( null );
 		paperTray.setDescription( getMessage( "OptionDescription.PaperTray" ) ); //$NON-NLS-1$
 
@@ -184,7 +184,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 				.setDisplayName( getMessage( "OptionDisplayValue.Resolution" ) ); //$NON-NLS-1$
 		resolution.setDataType( IConfigurableOption.DataType.STRING );
 		resolution.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		resolution.setDefaultValue( "600 X 600" );
+		resolution.setDefaultValue( null );
 		resolution.setToolTip( null );
 		resolution
 				.setDescription( getMessage( "OptionDescription.Resolution" ) ); //$NON-NLS-1$
