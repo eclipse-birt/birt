@@ -863,6 +863,10 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 						aggrReferences.add( o );
 					}else
 					{
+						if ( this.getBinding( ( (IColumnBinding) usedRowReferences.get( i ) ).getResultSetColumnName( ) ) == null )
+						{
+							return false;
+						}
 						result = result || popAggrRefFromBaseExpr( aggrReferences,
 								this.getBinding( ( (IColumnBinding) usedRowReferences.get( i ) ).getResultSetColumnName( ) )
 										.getExpression( ),
