@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -529,8 +530,8 @@ public final class ExpressionUtil
 
 		return true;
 	}
-
-	private String getTextFromScript( Expression expr )
+	
+	private IScriptExpression adapterExpression(Expression expr)
 	{
 		if ( expr instanceof Expression.Script
 				&& "bre".equals( ( (Expression.Script) expr ).getLanguage( ) ) )
@@ -546,27 +547,43 @@ public final class ExpressionUtil
 			{
 
 			}
-			return scriptExpr.getText( );
+			return new ScriptExpression( scriptExpr.getText( ) );
 		}
-		return expr.getScriptText( );
-	}
+		else
+		{
 
+			if ( expr.getType( ) == Expression.CONSTANT )
+			{
+				ScriptExpression jsExpr = new ScriptExpression(
+						JavascriptEvalUtil.transformToJsExpression( expr
+								.getScriptText( ) ) );
+				jsExpr.setConstant( true );
+				return jsExpr;
+			}
+			else
+			{
+				return new ScriptExpression( expr.getScriptText( ) );
+			}
+
+		}
+	}
+	
 	public IConditionalExpression createConditionalExpression(
 			Expression testExpression, String operator, Expression value1,
 			Expression value2 )
 	{
-		String expr = null, tempV1 = null, tempV2 = null;
+		IScriptExpression expr = null, tempV1 = null, tempV2 = null;
 		if ( testExpression != null )
 		{
-			expr = getTextFromScript( testExpression );
+			expr = adapterExpression( testExpression );
 		}
 		if ( value1 != null )
 		{
-			tempV1 = getTextFromScript( value1 );
+			tempV1 = adapterExpression( value1 );
 		}
 		if ( value2 != null )
 		{
-			tempV2 = getTextFromScript( value2 );
+			tempV2 = adapterExpression( value2 );
 		}
 		ConditionalExpression expression = new ConditionalExpression( expr,
 				DataAdapterUtil.adaptModelFilterOperator( operator ), tempV1,
@@ -578,15 +595,15 @@ public final class ExpressionUtil
 			Expression testExpression, String operator,
 			List<Expression> valueList )
 	{
-		ArrayList<String> values = new ArrayList<String>( valueList.size( ) );
+		ArrayList<IScriptExpression> values = new ArrayList<IScriptExpression>( valueList.size( ) );
 		for ( Expression expr : valueList )
 		{
-			values.add( getTextFromScript( expr ) );
+			values.add( adapterExpression( expr ) );
 		}
-		String expr = null;
+		IScriptExpression expr = null;
 		if ( testExpression != null )
 		{
-			expr = getTextFromScript( testExpression );
+			expr = adapterExpression( testExpression );
 		}
 		ConditionalExpression expression = new ConditionalExpression( expr,
 				DataAdapterUtil.adaptModelFilterOperator( operator ), values );
