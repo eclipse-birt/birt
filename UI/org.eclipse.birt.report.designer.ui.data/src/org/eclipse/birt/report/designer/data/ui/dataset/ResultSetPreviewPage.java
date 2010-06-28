@@ -457,7 +457,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							}
 							context.setAppContext( appContext );
 							IQueryResults resultSet = executeProcess( session, null );
-							populateRecords( resultSet.getResultIterator( ) );
+							populateRecords( resultSet == null ? null : resultSet.getResultIterator( ) );
 							session.shutdown( );
 						}
 					}
