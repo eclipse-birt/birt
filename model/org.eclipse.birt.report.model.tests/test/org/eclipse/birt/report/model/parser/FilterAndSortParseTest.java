@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -55,14 +56,14 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( 2, valueList.size( ) );
 		FilterConditionElementHandle filter = (FilterConditionElementHandle) valueList
 				.get( 0 );
-		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT, filter
-				.getOperator( ) );
+		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT,
+				filter.getOperator( ) );
 		assertTrue( filter.isOptional( ) );
 		assertEquals( "filter expression", filter.getExpr( ) ); //$NON-NLS-1$
 		assertEquals( "value1 expression", filter.getValue1( ) ); //$NON-NLS-1$
 		assertEquals( "value2 expression", filter.getValue2( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.FILTER_TARGET_RESULT_SET, filter
-				.getFilterTarget( ) );
+		assertEquals( DesignChoiceConstants.FILTER_TARGET_RESULT_SET,
+				filter.getFilterTarget( ) );
 		assertEquals( "ext name", filter.getExtensionName( ) ); //$NON-NLS-1$
 		assertEquals( "ext id", filter.getExtensionExprId( ) ); //$NON-NLS-1$
 		assertTrue( filter.pushDown( ) );
@@ -92,8 +93,8 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( 2, valueList.size( ) );
 		SortElementHandle sort = (SortElementHandle) valueList.get( 0 );
 		assertEquals( "key_1", sort.getKey( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC, sort
-				.getDirection( ) );
+		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC,
+				sort.getDirection( ) );
 		assertEquals( 8, sort.getStrength( ) );
 		assertEquals( ULocale.GERMAN, sort.getLocale( ) );
 
@@ -117,8 +118,8 @@ public class FilterAndSortParseTest extends BaseTestCase
 		FilterConditionHandle filterHandle = (FilterConditionHandle) table
 				.filtersIterator( ).next( );
 
-		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT, filterHandle
-				.getOperator( ) );
+		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT,
+				filterHandle.getOperator( ) );
 		assertEquals( "filter expression", filterHandle.getExpr( ) ); //$NON-NLS-1$
 		assertEquals( "value1 expression", filterHandle.getValue1( ) ); //$NON-NLS-1$
 		assertEquals( "value2 expression", filterHandle.getValue2( ) ); //$NON-NLS-1$
@@ -255,5 +256,25 @@ public class FilterAndSortParseTest extends BaseTestCase
 		// save and test writer
 		save( );
 		assertTrue( compareFile( "FilterAndSortParseTest_golden_1.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * @throws Exception
+	 */
+
+	public void testPropertyHandleIterator( ) throws Exception
+	{
+		openDesign( FILE_NAME );
+		DesignElementHandle testTable = designHandle.findElement( "testTable" ); //$NON-NLS-1$
+		assertNotNull( testTable );
+
+		PropertyHandle propHandle = testTable.getPropertyHandle( "filter" ); //$NON-NLS-1$
+		Iterator filters = propHandle.iterator( );
+		assertTrue( filters.hasNext( ) );
+		assertTrue( filters.next( ) instanceof FilterConditionElementHandle );
+		assertTrue( filters.hasNext( ) );
+		assertTrue( filters.next( ) instanceof FilterConditionElementHandle );
+		
+		assertFalse( filters.hasNext( ) );
 	}
 }

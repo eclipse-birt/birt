@@ -286,9 +286,9 @@ public abstract class SimpleValueHandle extends ValueHandle
 				else if ( o instanceof String )
 				{
 					String stringValue = (String) o;
-					ElementRefValue value = new ElementRefValue( StringUtil
-							.extractNamespace( stringValue ), StringUtil
-							.extractName( stringValue ) );
+					ElementRefValue value = new ElementRefValue(
+							StringUtil.extractNamespace( stringValue ),
+							StringUtil.extractName( stringValue ) );
 					ElementRefPropertyType type = new ElementRefPropertyType( );
 					type.resolve( getModule( ), getElement( ), defn, value );
 					return values.indexOf( value );
@@ -333,7 +333,11 @@ public abstract class SimpleValueHandle extends ValueHandle
 		{
 			return new StructureIterator( this );
 		}
-		else if ( getTypeCode( ) == IPropertyType.LIST_TYPE )
+
+		int typeCode = getTypeCode( );
+		if ( typeCode == IPropertyType.LIST_TYPE
+				|| ( typeCode == IPropertyType.CONTENT_ELEMENT_TYPE && getDefn( )
+						.isList( ) ) )
 		{
 			return new SimpleIterator( this );
 		}
@@ -541,8 +545,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * 
 	 * @param item
 	 *            The new item to add.
-	 * @return a handle to the newly added structure��return null if the
-	 *         item is null.
+	 * @return a handle to the newly added structure��return null if the item is
+	 *         null.
 	 * @throws SemanticException
 	 *             If the property is not a list property, or if the the value
 	 *             of the item is incorrect.
