@@ -94,9 +94,7 @@ public class ParameterHelper
 			this.comparator = new DistinctComparatorDecorator( choiceComparator,
 					distinct );
 		}
-		this.converter = new ReportParameterConverter( pattern,
-				ulocale,
-				timezone );
+		this.converter = new ReportParameterConverter( null, ulocale, timezone );
 	}
 	
 	public CascadingParameterSelectionChoice createCascadingParameterSelectionChoice(
@@ -151,9 +149,11 @@ public class ParameterHelper
 	public String getLabel( IResultIterator resultIterator )
 			throws BirtException
 	{
-		String name = labelColumnName != null ? labelColumnName
-				: valueColumnName;
-		Object value = resultIterator.getValue( name );
+		if ( labelColumnName == null )
+		{
+			return null;
+		}
+		Object value = resultIterator.getValue( labelColumnName );
 		return converter.format( value );
 	}
 	

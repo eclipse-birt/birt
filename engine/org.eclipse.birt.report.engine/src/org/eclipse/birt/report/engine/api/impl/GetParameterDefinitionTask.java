@@ -36,7 +36,6 @@ import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Expression;
@@ -339,17 +338,13 @@ public class GetParameterDefinitionTask extends EngineTask
 					return null;
 
 				ArrayList choices = new ArrayList( );
-				String pattern = parameter.getPattern( );
-				ReportParameterConverter converter = new ReportParameterConverter( pattern,
-						ulocale );
 				if ( result instanceof Collection )
 				{
 					Iterator iter = ( (Collection) result ).iterator( );
 					while ( iter.hasNext( ) )
 					{
 						Object value = convertToType( iter.next( ), dataType );
-						String label = converter.format( value );
-						choices.add( new SelectionChoice( label, value ) );
+						choices.add( new SelectionChoice( null, value ) );
 					}
 				}
 				else if ( result.getClass( ).isArray( ) )
@@ -360,21 +355,19 @@ public class GetParameterDefinitionTask extends EngineTask
 					{
 						Object origValue = Array.get( result, index );
 						Object value = convertToType( origValue, dataType );
-						String label = converter.format( value );
-						choices.add( new SelectionChoice( label, value ) );
+						choices.add( new SelectionChoice( null, value ) );
 					}
 				}
 				else
 				{
 					// the result is a simple object
 					Object value = convertToType( result, dataType );
-					String label = converter.format( value );
-					choices.add( new SelectionChoice( label, value ) );
+					choices.add( new SelectionChoice( null, value ) );
 					return choices;
 				}
 				if ( !fixedOrder )
 					Collections.sort( choices, new SelectionChoiceComparator(
-							sortByLabel, pattern,
+							sortByLabel, parameter.getPattern( ),
 							sortDirectionValue, ulocale ) );
 				return choices;
 			}
@@ -485,14 +478,6 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 			Iterator iter = parameter.choiceIterator( );
 			ArrayList choices = new ArrayList( );
-			String pattern = null;
-			if ( parameter instanceof ScalarParameterHandle )
-			{
-				ScalarParameterHandle tmpParam = (ScalarParameterHandle) parameter;
-				pattern = tmpParam.getPattern( );
-			}
-			ReportParameterConverter converter = new ReportParameterConverter( pattern,
-					ulocale );
 			while ( iter.hasNext( ) )
 			{
 
@@ -506,18 +491,19 @@ public class GetParameterDefinitionTask extends EngineTask
 					label = choice.getLabel( );
 				}
 				Object value = convertToType( choice.getValue( ), dataType );
-				if ( label == null )
-				{
-					label = converter.format( value );
-				}
 				choices.add( new SelectionChoice( label, value ) );
 			}
-			
+			String pattern = null;
 			String sortBy = parameter.getSortBy( );
 			boolean sortByLabel = DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
 					.equalsIgnoreCase( parameter.getSortBy( ) );
 			boolean sortDirectionValue = DesignChoiceConstants.SORT_DIRECTION_ASC
 					.equalsIgnoreCase( parameter.getSortDirection( ) );
+			if ( parameter instanceof ScalarParameterHandle )
+			{
+				ScalarParameterHandle tmpParam = (ScalarParameterHandle) parameter;
+				pattern = tmpParam.getPattern( );
+			}
 			if ( sortBy != null )
 				Collections.sort( choices, new SelectionChoiceComparator(
 						sortByLabel, pattern, sortDirectionValue, ulocale ) );
