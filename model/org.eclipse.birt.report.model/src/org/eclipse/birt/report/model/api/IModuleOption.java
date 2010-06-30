@@ -71,4 +71,11 @@ public interface IModuleOption
 	 * read-only and can not do any changes.
 	 */
 	String READ_ONLY_MODULE_PROPERTIES = "readOnlyModuleProperties"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate that the design should be update to the latest report
+	 * version when creates.
+	 */
+
+	String TO_LATEST_VERSION = "toLatestVersion"; //$NON-NLS-1$
 }

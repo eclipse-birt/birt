@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignReader;
+import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.LibraryUtil;
@@ -648,6 +649,11 @@ public class DesignSessionImpl
 			addExtensionDefaultStyles( design, false );
 		}
 
+		if ( toLatestVersion( options ) )
+		{
+			design.getVersionManager( ).setVersion(
+					DesignSchemaConstants.REPORT_VERSION );
+		}
 		design.setValid( true );
 		designs.add( design );
 		return design;
@@ -669,6 +675,20 @@ public class DesignSessionImpl
 		if ( isSimpleCreation != null && isSimpleCreation.booleanValue( ) )
 			return true;
 		return false;
+	}
+
+	/**
+	 * 
+	 * @param options
+	 * @return
+	 */
+
+	private boolean toLatestVersion( ModuleOption options )
+	{
+		if ( options == null )
+			return false;
+
+		return options.toLatestVersion( );
 	}
 
 	/**
@@ -801,8 +821,9 @@ public class DesignSessionImpl
 				design.add( tmpStyle, ReportDesign.STYLE_SLOT );
 				tmpStyle.setID( design.getNextID( ) );
 				design.addElementID( tmpStyle );
-				design.getNameHelper( ).getNameSpace(
-						ReportDesign.STYLE_NAME_SPACE ).insert( tmpStyle );
+				design.getNameHelper( )
+						.getNameSpace( ReportDesign.STYLE_NAME_SPACE )
+						.insert( tmpStyle );
 			}
 		}
 
@@ -1202,8 +1223,8 @@ public class DesignSessionImpl
 					|| module.getLibraryByLocation( path,
 							IAccessControl.ARBITARY_LEVEL ) != null )
 			{
-				LibraryChangeEvent event = new LibraryChangeEvent( ev
-						.getChangedResourcePath( ) );
+				LibraryChangeEvent event = new LibraryChangeEvent(
+						ev.getChangedResourcePath( ) );
 				event.setTarget( module );
 				event.setDeliveryPath( ev.getDeliveryPath( ) );
 				module.broadcastResourceChangeEvent( event );

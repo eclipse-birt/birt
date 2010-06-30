@@ -76,8 +76,8 @@ public class ModuleOption implements IModuleOption
 
 	public void setSemanticCheck( boolean useSemanticCheck )
 	{
-		options.put( PARSER_SEMANTIC_CHECK_KEY, Boolean
-				.valueOf( useSemanticCheck ) );
+		options.put( PARSER_SEMANTIC_CHECK_KEY,
+				Boolean.valueOf( useSemanticCheck ) );
 	}
 
 	/**
@@ -219,6 +219,38 @@ public class ModuleOption implements IModuleOption
 	{
 		if ( locale != null )
 			options.put( LOCALE_KEY, locale );
+	}
+
+	/**
+	 * Sets the flag that is used to update the design to the latest version
+	 * when creates.
+	 * 
+	 * @param toSet
+	 */
+
+	public void setToLatestVersion( boolean toSet )
+	{
+		if ( toSet )
+			options.put( TO_LATEST_VERSION, Boolean.TRUE );
+	}
+
+	/**
+	 * Returns the flag that indicates whether the report should be updated to
+	 * the latest version when creates.
+	 * 
+	 * @return 
+	 */
+
+	public boolean toLatestVersion( )
+	{
+		Object retValue = options.get( TO_LATEST_VERSION );
+		if ( retValue == null )
+			return false;
+
+		if ( !( retValue instanceof Boolean ) )
+			return false;
+
+		return ( (Boolean) retValue ).booleanValue( );
 	}
 
 	/**
