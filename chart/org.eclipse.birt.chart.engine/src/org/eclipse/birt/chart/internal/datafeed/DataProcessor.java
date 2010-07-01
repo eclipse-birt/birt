@@ -1520,16 +1520,9 @@ public class DataProcessor
 				if ( obj instanceof CDateTime )
 				{
 					baseReference = (CDateTime) obj;
+					baseReference.clearBelow( cunit );
+					oaTuple[iBaseColumnIndex] = baseReference;
 				}
-				else
-				{
-					// set as the smallest Date.
-					baseReference = new CDateTime( 0 );
-				}
-				
-				baseReference.clearBelow( cunit );
-				
-				oaTuple[iBaseColumnIndex] = baseReference;
 			}
 		}
 	}
