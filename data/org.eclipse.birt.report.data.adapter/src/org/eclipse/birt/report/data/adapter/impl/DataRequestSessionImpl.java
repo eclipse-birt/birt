@@ -494,6 +494,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 			}
 		}
+		DataSessionFinalizeUtil.finalize( this );
 		dataEngine.shutdown( );
 		dataEngine = null;
 	}
