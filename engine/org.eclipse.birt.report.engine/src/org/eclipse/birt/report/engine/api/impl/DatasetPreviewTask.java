@@ -4,14 +4,12 @@ import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -21,11 +19,9 @@ import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunnable;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.Expression.Script;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -39,8 +35,6 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected DataSetHandle dataset;
 
 	protected int maxRow;
-	
-	protected DataRequestSession dteSession;
 	
 	protected DatasetPreviewTask( ReportEngine engine )
 	{
@@ -179,10 +173,10 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			throws BirtException
 	{
 		QueryDefinition newQuery = constructQuery( dataset );
-		DataRequestSession session = getDataRequestSession( );
+		DataRequestSession session = executionContext.getDataEngine( ).getDTESession( );
 		ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
 				executionContext );
-		apiAdapter.defineDataSet( dataset, dteSession );
+		apiAdapter.defineDataSet( dataset, session );
 		session.registerQueries( new IQueryDefinition[]{newQuery} );
 		IBasePreparedQuery preparedQuery = session.prepare( newQuery );
 		IQueryResults result = (IQueryResults) session.execute( preparedQuery,
@@ -197,28 +191,6 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		return dataset.getModuleHandle( );
 	}
 	
-	
-	protected DataRequestSession getDataRequestSession( ) throws BirtException
-	{
-		if ( dteSession == null )
-		{
-			DataSessionContext dteSessionContext = new DataSessionContext(
-					DataSessionContext.MODE_DIRECT_PRESENTATION, getModuleHandle( ),
-					executionContext.getScriptContext( ), executionContext
-							.getApplicationClassLoader( ) );
-			dteSessionContext.setAppContext( executionContext.getAppContext( ) );
-			DataEngineContext dteEngineContext = dteSessionContext
-					.getDataEngineContext( );
-			dteEngineContext.setLocale( executionContext.getLocale( ) );
-			dteEngineContext.setTimeZone( executionContext.getTimeZone( ) );
-			dteEngineContext.setTmpdir( engine.getConfig( ).getTempDir( ) );
-
-			dteSession = DataRequestSession.newSession( dteSessionContext );
-		}
-		return dteSession;
-	}
-
-
 	protected QueryDefinition constructQuery( DataSetHandle dataset )
 			throws DataException
 	{
