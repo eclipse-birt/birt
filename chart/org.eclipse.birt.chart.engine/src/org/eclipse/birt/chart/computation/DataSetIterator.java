@@ -67,6 +67,8 @@ public final class DataSetIterator implements Iterator
 	private boolean isReverse = false;
 
 	private BigNumber[] cnda;
+	
+	private Number[] nda;
 
 	/**
 	 * 
@@ -141,6 +143,11 @@ public final class DataSetIterator implements Iterator
 			{
 				iContentType = IConstants.BIG_NUMBER_PRIMITIVE_ARRAY;
 				cnda = (BigNumber[])oContent;
+			}
+			else if ( oContent instanceof Number[])
+			{
+				iContentType = IConstants.NUMBER_PRIMITIVE_ARRAY;
+				nda = (Number[])oContent;
 			}
 		}
 		else if ( iDataType == IConstants.DATE_TIME )
@@ -250,6 +257,11 @@ public final class DataSetIterator implements Iterator
 			{
 				iContentType = IConstants.BIG_NUMBER_PRIMITIVE_ARRAY;
 				cnda = (BigNumber[])oContent;
+			}
+			else if ( oContent instanceof Number[])
+			{
+				iContentType = IConstants.NUMBER_PRIMITIVE_ARRAY;
+				nda = (Number[])oContent;
 			}
 		}
 		else if ( ds instanceof DateTimeDataSet )
@@ -364,6 +376,10 @@ public final class DataSetIterator implements Iterator
 			{
 				return cnda.length;
 			}
+			else if ( iContentType == IConstants.NUMBER_PRIMITIVE_ARRAY )
+			{
+				return nda.length;
+			}
 		}
 		else if ( iDataType == IConstants.DATE_TIME )
 		{
@@ -416,6 +432,16 @@ public final class DataSetIterator implements Iterator
 			return (BigNumber) it.next( );
 		}
 		return cnda[getIndex( )];
+	}
+	
+	public final Number nextNumber( )
+	{
+		if ( it != null )
+		{
+			iCursor++;
+			return (Number) it.next( );
+		}
+		return nda[getIndex( )];	
 	}
 	
 	/**
@@ -510,6 +536,10 @@ public final class DataSetIterator implements Iterator
 			else if ( iContentType == IConstants.BIG_NUMBER_PRIMITIVE_ARRAY )
 			{
 				return nextBigNumber( );
+			}
+			else if ( iContentType == IConstants.NUMBER_PRIMITIVE_ARRAY )
+			{
+				return nextNumber( );
 			}
 		}
 		else if ( iDataType == IConstants.DATE_TIME )

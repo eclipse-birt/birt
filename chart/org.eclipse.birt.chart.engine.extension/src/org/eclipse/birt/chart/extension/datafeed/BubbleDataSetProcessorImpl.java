@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.NumberUtil;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.SimpleDateFormat;
 
 /**
@@ -78,7 +79,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 		BubbleEntry bde;
 		CDateTime cMax = null;
 		double dMax = -Double.MAX_VALUE;
-		BigNumber bnMax = null;
+		Number bnMax = null;
 		for ( int i = 0; dsi.hasNext( ); i++ )
 		{
 			bde = (BubbleEntry) dsi.next( );
@@ -95,7 +96,33 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 					}
 					else
 					{
-						bnMax = bnMax.max( bnValue );
+						bnMax = ( (BigNumber) bnMax ).max( bnValue );
+					}
+				}
+				else if ( oValue instanceof BigDecimal )
+				{
+					BigDecimal bnValue = (BigDecimal)oValue;
+					bnValue = bnValue.add(  (BigDecimal) bde.getSizeNumber( ) );
+					if ( i == 0 )
+					{
+						bnMax = bnValue;
+					}
+					else
+					{
+						bnMax = ( (BigDecimal) bnMax ).max( bnValue );
+					}
+				}
+				else if ( oValue instanceof java.math.BigDecimal )
+				{
+					java.math.BigDecimal bnValue = (java.math.BigDecimal)oValue;
+					bnValue = bnValue.add(  (java.math.BigDecimal) bde.getSizeNumber( ) );
+					if ( i == 0 )
+					{
+						bnMax = bnValue;
+					}
+					else
+					{
+						bnMax = ( (java.math.BigDecimal) bnMax ).max( bnValue );
 					}
 				}
 				else if ( oValue instanceof Number )
@@ -165,7 +192,7 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 		BubbleEntry bde;
 		CDateTime cMin = null;
 		double dMin = Double.MAX_VALUE;
-		BigNumber bnMin = null;
+		Number bnMin = null;
 		for ( int i = 0; dsi.hasNext( ); i++ )
 		{
 			bde = (BubbleEntry) dsi.next( );
@@ -182,7 +209,33 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 					}
 					else
 					{
-						bnMin = bnMin.min( bnValue );
+						bnMin = ( (BigNumber) bnMin ).min( bnValue );
+					}
+				}
+				else if ( oValue instanceof BigDecimal )
+				{
+					BigDecimal bnValue = (BigDecimal)oValue;
+					bnValue = bnValue.subtract(  (BigDecimal) bde.getSizeNumber( ) );
+					if ( i == 0 )
+					{
+						bnMin = bnValue;
+					}
+					else
+					{
+						bnMin = ( (BigDecimal) bnMin ).min( bnValue );
+					}
+				}
+				else if ( oValue instanceof java.math.BigDecimal )
+				{
+					java.math.BigDecimal bnValue = (java.math.BigDecimal)oValue;
+					bnValue = bnValue.subtract(  (java.math.BigDecimal) bde.getSizeNumber( ) );
+					if ( i == 0 )
+					{
+						bnMin = bnValue;
+					}
+					else
+					{
+						bnMin = ( (java.math.BigDecimal) bnMin ).min( bnValue );
 					}
 				}
 				else if ( oValue instanceof Number )
@@ -249,17 +302,15 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 			boolean isBigDecimal = false;
 			int i = 0;
 			final BubbleEntry[] bea = new BubbleEntry[(int) lRowCount];
-			Object[][] values = new Object[(int) lRowCount][2];
 			
 			if ( dataType == IConstants.NUMERICAL )
 			{
 				while ( rsds.hasNext( ) )
 				{
 					Object[] o = rsds.next( );
-					Object[] newO = new Object[2];
-					newO[0] = o[0];
-					newO[1] = o[1];
-					values[i++] = newO;
+					validateBubbleEntryData( o );
+					bea[i++] = new BubbleEntry( NumberUtil.convertNumber( o[0] ),
+							NumberUtil.convertNumber( o[1] ) );
 					if ( !isBigDecimal
 							&& NumberUtil.isBigDecimal( o[0] )
 							|| NumberUtil.isBigDecimal( o[1] ) )
@@ -273,38 +324,10 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 				while ( rsds.hasNext( ) )
 				{
 					Object[] o = rsds.next( );
-					Object[] newO = new Object[2];
-					newO[0] = o[0];
-					newO[1] = o[1];
-					values[i++] = newO;
-				}
-			}
-
-			if ( isBigDecimal )
-			{
-				i = 0;
-				for ( Object[] o : values )
-				{
 					validateBubbleEntryData( o );
 					Object value = o[0];
 					Object size = o[1];
-					bea[i++] = new BubbleEntry( NumberUtil.asBigNumber( (Number) value,
-							null ),
-							NumberUtil.asBigNumber( (Number) size, null ) );
-				}
-			}
-			else
-			{
-				for ( i = 0; i<values.length; i++ )
-				{
-					validateBubbleEntryData( values[i] );
-					Object value = values[i][0];
-					Object size = values[i][1];
-					if ( dataType == IConstants.NUMERICAL )
-					{
-						bea[i] = new BubbleEntry( value, size );
-					}
-					else if ( dataType == IConstants.DATE_TIME )
+					if ( dataType == IConstants.DATE_TIME )
 					{
 						bea[i] = new BubbleEntry( value == null ? null : value,
 								size );
@@ -314,8 +337,10 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 						// For category type
 						bea[i] = new BubbleEntry( value, size, i + 1 );
 					}
+					i++;
 				}
 			}
+
 			if ( ds == null )
 			{
 				ds = BubbleDataSetImpl.create( bea );

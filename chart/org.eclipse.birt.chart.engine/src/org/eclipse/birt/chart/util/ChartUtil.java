@@ -2186,10 +2186,12 @@ public class ChartUtil
 				for ( Series series : seriesArray )
 				{
 					DataSet ds = series.getDataSet( );
+					((DataSetImpl)ds).setIsBigNumber( false );
+					
 					idsp = PluginSettings.instance( )
 							.getDataSetProcessor( series.getClass( ) );
 
-					if ( ds.getValues( ) instanceof BigNumber[] )
+					if ( ds.getValues( ) instanceof Number[] )
 					{
 						doaDataSet = (Number[]) ds.getValues( );
 						Number[] newDoaDataSet = new Double[doaDataSet.length];

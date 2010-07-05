@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin;
 import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.NumberUtil;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.util.StringTokenizer;
 
 /**
@@ -58,58 +59,24 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter
 						Messages.getResourceBundle( getULocale( ) ) );
 			}
 
-			
-			
 			// Checks the big decimal case.
 			boolean isBigDecimal = false;
-			Object[][] values = new Object[(int)lRowCount][2];
 			int i = 0;
+			final DifferenceEntry[] sea = new DifferenceEntry[(int) lRowCount];
 			while ( rsds.hasNext( ) )
 			{
-				Object[] o = rsds.next( );
-				Object[] newO = new Object[2];
-				newO[0] = o[0];
-				newO[1]= o[1];
-				values[i++] = newO;
-				if ( !isBigDecimal && NumberUtil.isBigDecimal( o[0] )
-						|| NumberUtil.isBigDecimal( o[1] ) )
+				Object[] oTwoComponents = rsds.next( );
+				validateDifferenceEntryData( oTwoComponents );
+				oTwoComponents[0] = NumberUtil.convertNumber( oTwoComponents[0] );
+				oTwoComponents[1] = NumberUtil.convertNumber( oTwoComponents[1] );
+				sea[i++] = new DifferenceEntry( oTwoComponents );
+				if ( !isBigDecimal && NumberUtil.isBigDecimal( oTwoComponents[0] )
+						|| NumberUtil.isBigDecimal( oTwoComponents[1] ) )
 				{
 					isBigDecimal = true;
 				}
 			}
 			
-			Number[][] newValues = new BigNumber[values.length][2];
-			i = 0;
-			if ( isBigDecimal )
-			{
-				for ( Object[] o: values )
-				{
-					if ( o[0] instanceof Number )
-					{
-						
-						newValues[i][0]= NumberUtil.asBigNumber( (Number)o[0], null );
-						newValues[i++][1] = NumberUtil.asBigNumber( (Number)o[1], null );
-					}
-					else
-					{
-						newValues[i][0] = NumberUtil.asBigNumber( Double.NaN, null );
-						newValues[i++][1] = NumberUtil.asBigNumber( Double.NaN, null );
-					}
-				}
-				values = newValues;
-			}
-	
-
-			i = 0;
-			final DifferenceEntry[] sea = new DifferenceEntry[(int) lRowCount];
-			for ( Object[] value : values )
-			{
-				Object[] oTwoComponents = value;
-
-				validateDifferenceEntryData( oTwoComponents );
-
-				sea[i++] = new DifferenceEntry( oTwoComponents );
-			}
 			if ( ds == null )
 			{
 				ds = DifferenceDataSetImpl.create( sea );
@@ -191,7 +158,7 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter
 
 		Number[] da = new Number[2];
 		double dMin = Double.MAX_VALUE;
-		BigNumber bnMin = null;
+		Number bnMin = null;
 		while ( dsi.hasNext( ) )
 		{
 			dde = (DifferenceEntry) dsi.next( );
@@ -206,10 +173,28 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter
 					{
 						if ( bnMin == null )
 						{
-							bnMin = (BigNumber) da[j];
+							bnMin = da[j];
 							continue;
 						}
-						bnMin = bnMin.min( (BigNumber) da[j] );
+						bnMin = ( (BigNumber) bnMin ).min( (BigNumber) da[j] );
+					}
+					else if ( da[j] instanceof BigDecimal )
+					{
+						if ( bnMin == null )
+						{
+							bnMin = da[j];
+							continue;
+						}
+						bnMin = ( (BigDecimal) bnMin ).min( (BigDecimal) da[j] );
+					}
+					else if ( da[j] instanceof java.math.BigDecimal )
+					{
+						if ( bnMin == null )
+						{
+							bnMin = da[j];
+							continue;
+						}
+						bnMin = ( (java.math.BigDecimal) bnMin ).min( (java.math.BigDecimal) da[j] );
 					}
 					else
 					{
@@ -255,7 +240,7 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter
 
 		Number[] da = new Number[2];
 		double dMax = -Double.MAX_VALUE;
-		BigNumber bnMax = null;
+		Number bnMax = null;
 		while ( dsi.hasNext( ) )
 		{
 			dde = (DifferenceEntry) dsi.next( );
@@ -270,10 +255,28 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter
 					{
 						if ( bnMax == null )
 						{
-							bnMax = (BigNumber) da[j];
+							bnMax = da[j];
 							continue;
 						}
-						bnMax = bnMax.max( (BigNumber) da[j] );
+						bnMax = ( (BigNumber) bnMax ).max( (BigNumber) da[j] );
+					}
+					else if ( da[j] instanceof BigDecimal )
+					{
+						if ( bnMax == null )
+						{
+							bnMax = da[j];
+							continue;
+						}
+						bnMax = ( (BigDecimal) bnMax ).max( (BigDecimal) da[j] );
+					}
+					else if ( da[j] instanceof java.math.BigDecimal )
+					{
+						if ( bnMax == null )
+						{
+							bnMax = da[j];
+							continue;
+						}
+						bnMax = ( (java.math.BigDecimal) bnMax ).max( (java.math.BigDecimal) da[j] );
 					}
 					else
 					{

@@ -40,7 +40,11 @@ public final class BubbleEntry extends NumberDataPointEntry
 	
 	private BigNumber bnSize;
 	
+	private Number bdSize;
+	
 	private boolean bIsBigNumber = false;
+	
+	private boolean bIsBigDecimal = false;
 		
 	private BigDecimal divisor;
 	
@@ -87,6 +91,11 @@ public final class BubbleEntry extends NumberDataPointEntry
 			bIsBigNumber = true;
 			divisor = ((BigNumber)value).getDivisor( );
 			bnSize = (BigNumber) size;
+		}
+		else if( NumberUtil.isBigDecimal( value ))
+		{
+			bIsBigDecimal = true;
+			bdSize = (Number) size;
 		}
 		
 		this.oValue = value;
@@ -151,7 +160,15 @@ public final class BubbleEntry extends NumberDataPointEntry
 
 	public final Number getSizeNumber( )
 	{
-		return bIsBigNumber ? bnSize : Double.valueOf( dSize );
+		if ( bIsBigNumber )
+		{
+			return bnSize;
+		}
+		else if ( bIsBigDecimal )
+		{
+			return bdSize;
+		}
+		return Double.valueOf( dSize );
 	}
 	
 	/**
@@ -302,6 +319,14 @@ public final class BubbleEntry extends NumberDataPointEntry
 		if ( bIsBigNumber )
 		{
 			return new BigNumber[]{(BigNumber) oValue, bnSize};
+		}
+		else if ( bIsBigDecimal )
+		{
+			if ( oValue instanceof BigDecimal )
+			{
+				return new BigDecimal[]{ (BigDecimal) oValue, (BigDecimal) bdSize };
+			}
+			return new java.math.BigDecimal[]{ (java.math.BigDecimal) oValue, (java.math.BigDecimal) bdSize };
 		}
 		
 		if ( oValue instanceof Number )

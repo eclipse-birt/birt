@@ -156,6 +156,8 @@ public interface IConstants
 	public final int NON_PRIMITIVE_ARRAY = 3;
 	
 	public final int BIG_NUMBER_PRIMITIVE_ARRAY = 4;
+	
+	public final int NUMBER_PRIMITIVE_ARRAY = 5;
 
 	public static final String EMPTY_STRING = ""; //$NON-NLS-1$
 

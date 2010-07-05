@@ -164,6 +164,38 @@ public class NumberUtil
 	}
 	
 	/**
+	 * This method convert number to Double or BigDecimal types.
+	 * 
+	 * @param n
+	 * @return
+	 */
+	public static Number convertNumber( Object n )
+	{
+		if ( n == null )
+		{
+			return null;
+		}
+		else if ( n instanceof Double )
+		{
+			return (Double)n;
+		}
+		else if ( n instanceof BigDecimal )
+		{
+			return (BigDecimal)n;
+		}
+		else if ( n instanceof java.math.BigDecimal )
+		{
+			return  (java.math.BigDecimal)n;
+		}
+		else if ( n instanceof BigInteger )
+		{
+			return new BigDecimal((BigInteger)n); 
+		}
+
+		return Methods.asDouble( n );
+	}
+	
+	/**
 	 * This method wraps number as big decimal.
 	 * 
 	 * @param n
@@ -206,10 +238,6 @@ public class NumberUtil
 		else if ( n instanceof Double )
 		{
 			return (Double) n;
-		}
-		else if ( n instanceof BigDecimal )
-		{
-			return new Double( ((BigDecimal)n).doubleValue( ) );
 		}
 		else if ( n instanceof BigNumber )
 		{

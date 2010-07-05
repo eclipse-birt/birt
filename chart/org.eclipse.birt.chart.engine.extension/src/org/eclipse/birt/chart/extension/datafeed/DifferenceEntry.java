@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.util.BigNumber;
+import org.eclipse.birt.chart.util.NumberUtil;
 
 import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.util.ULocale;
@@ -38,6 +39,12 @@ public final class DifferenceEntry extends NumberDataPointEntry
 	private boolean isBigNumber = false;
 	
 	private BigDecimal divisor;
+
+	private boolean isBigDecimal = false;
+
+	private Number bdPosValue;
+
+	private Number bdNegValue;;
 	
 	/**
 	 * The constructor.
@@ -46,11 +53,6 @@ public final class DifferenceEntry extends NumberDataPointEntry
 	{
 		this.dPosValue = dPositiveValue;
 		this.dNegValue = dNegativeValue;
-	}
-
-	public DifferenceEntry( BigNumber bnPositiveValue, BigNumber bnNegativeValue )
-	{
-		init( bnPositiveValue, bnNegativeValue );
 	}
 
 	/**
@@ -66,6 +68,12 @@ public final class DifferenceEntry extends NumberDataPointEntry
 		{
 			init( (BigNumber) oaTwoComponents[0],
 					(BigNumber) oaTwoComponents[1] );
+		}
+		else if ( NumberUtil.isBigDecimal( oaTwoComponents[0] ) )
+		{
+			isBigDecimal = true;
+			init( (Number) oaTwoComponents[0],
+					(Number) oaTwoComponents[1] );
 		}
 		else
 		{
@@ -92,6 +100,16 @@ public final class DifferenceEntry extends NumberDataPointEntry
 		dNegValue = bnNegValue.doubleValue( );
 	}
 	
+	protected void init( Number bdPositiveValue, Number bdNegativeValue )
+	{
+		if ( isBigDecimal  )
+		{
+			bdPosValue = bdPositiveValue;
+			bdNegValue = bdNegativeValue;
+			dPosValue = bdPosValue.doubleValue( );
+			dNegValue = bdNegValue.doubleValue( );
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -115,6 +133,10 @@ public final class DifferenceEntry extends NumberDataPointEntry
 		if ( isBigNumber )
 		{
 			return bnPosValue;
+		}
+		else if ( isBigDecimal )
+		{
+			return bdPosValue;
 		}
 		return Double.valueOf( dPosValue );
 	}
@@ -150,6 +172,10 @@ public final class DifferenceEntry extends NumberDataPointEntry
 		if ( isBigNumber )
 		{
 			return bnNegValue;
+		}
+		else if ( isBigDecimal )
+		{
+			return bdNegValue;
 		}
 		return Double.valueOf( dNegValue ); 
 	}
@@ -276,7 +302,19 @@ public final class DifferenceEntry extends NumberDataPointEntry
 		{
 			return new BigNumber[]{bnPosValue, bnNegValue};
 		}
-		
+		else if ( isBigDecimal )
+		{
+			if ( bdPosValue instanceof BigDecimal )
+			{
+				return new BigDecimal[]{
+						(BigDecimal) bdPosValue, (BigDecimal) bdNegValue
+				};
+			}
+			return new java.math.BigDecimal[]{
+					(java.math.BigDecimal) bdPosValue,
+					(java.math.BigDecimal) bdNegValue
+			};
+		}
 		return new Double[]{
 				Double.valueOf( dPosValue ), Double.valueOf( dNegValue )
 		};

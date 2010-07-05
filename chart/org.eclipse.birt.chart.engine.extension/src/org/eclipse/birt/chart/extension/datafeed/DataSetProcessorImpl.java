@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin;
 import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.NumberUtil;
 
+import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
@@ -89,7 +90,8 @@ public class DataSetProcessorImpl extends DataSetAdapter
 			boolean bAnyNonNull = false;
 			Object o;
 			double d, dMax = 0;
-			BigNumber bnMax = null;
+			Number bnMax = null;
+			
 			while ( dsi.hasNext( ) )
 			{
 				o = dsi.next( );
@@ -107,7 +109,31 @@ public class DataSetProcessorImpl extends DataSetAdapter
 					}
 					else
 					{
-						bnMax = bnMax.max( (BigNumber) o );
+						bnMax = ((BigNumber)bnMax).max( (BigNumber) o );
+					}
+				}
+				else if ( o instanceof BigDecimal )
+				{
+					if ( !bAnyNonNull )
+					{
+						bnMax = (BigDecimal) o;
+						bAnyNonNull = true;
+					}
+					else
+					{
+						bnMax = ((BigDecimal)bnMax).max( (BigDecimal) o );
+					}
+				}
+				else if ( o instanceof java.math.BigDecimal )
+				{
+					if ( !bAnyNonNull )
+					{
+						bnMax = (java.math.BigDecimal) o;
+						bAnyNonNull = true;
+					}
+					else
+					{
+						bnMax = ((java.math.BigDecimal)bnMax).max( (java.math.BigDecimal) o );
 					}
 				}
 				else
@@ -207,7 +233,7 @@ public class DataSetProcessorImpl extends DataSetAdapter
 			boolean bAnyNonNull = false;
 			Object o;
 			double d, dMin = 0;
-			BigNumber bnMin = null;
+			Number bnMin = null;
 			while ( dsi.hasNext( ) )
 			{
 				o = dsi.next( );
@@ -224,7 +250,31 @@ public class DataSetProcessorImpl extends DataSetAdapter
 					}
 					else
 					{
-						bnMin = bnMin.min( (BigNumber) o );
+						bnMin = ((BigNumber)bnMin).min( (BigNumber) o );
+					}
+				}
+				else if ( o instanceof BigDecimal )
+				{
+					if ( !bAnyNonNull )
+					{
+						bnMin = (BigDecimal) o;
+						bAnyNonNull = true;
+					}
+					else
+					{
+						bnMin = ((BigDecimal)bnMin).min( (BigDecimal) o );
+					}
+				}
+				else if ( o instanceof java.math.BigDecimal )
+				{
+					if ( !bAnyNonNull )
+					{
+						bnMin = (java.math.BigDecimal) o;
+						bAnyNonNull = true;
+					}
+					else
+					{
+						bnMin = ((java.math.BigDecimal)bnMin).min( (java.math.BigDecimal) o );
 					}
 				}
 				else
@@ -343,7 +393,7 @@ public class DataSetProcessorImpl extends DataSetAdapter
 						Object next = rsds.next( )[0];
 						if ( next instanceof Number || next == null)
 						{
-							doaDataSet[i] = NumberUtil.transformNumber( next );
+							doaDataSet[i] = NumberUtil.convertNumber( next );
 							if ( !isBigDecimal && NumberUtil.isBigDecimal( doaDataSet[i] ) )
 							{
 								isBigDecimal = true;
@@ -356,26 +406,6 @@ public class DataSetProcessorImpl extends DataSetAdapter
 									"The type of received data type should be numerical.",
 									Messages.getResourceBundle( getULocale( ) ) );
 						}
-					}
-					
-					// Convert all value as big decimal or double.
-					if ( isBigDecimal )
-					{
-						Number[] da = new BigNumber[doaDataSet.length];
-						for ( int j = 0; j < doaDataSet.length; j++ )
-						{
-							da[j] = NumberUtil.asBigNumber( doaDataSet[j], null );
-						}
-						doaDataSet = da;
-					}
-					else
-					{
-						Double[] da = new Double[doaDataSet.length];
-						for ( int j = 0; j < doaDataSet.length; j++ )
-						{
-							da[j] = (Double) doaDataSet[j];
-						}
-						doaDataSet = da;
 					}
 					
 					if ( ds == null )
