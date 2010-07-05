@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
-import org.eclipse.birt.data.engine.core.security.ThreadSecurity;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
@@ -88,10 +87,42 @@ class DataSource implements IDataSource
     	
     	public void dataEngineShutdown( )
 		{
-    		Thread thread = ThreadSecurity.createThread( new ConnectionReleaser( this.session) );
-    		thread.start( );
+    		releaseConnection( session );
 		}
 	}
+    
+    private static void releaseConnection( DataEngineSession session )
+    {
+		try
+		{
+			synchronized ( DataSource.dataEngineLevelConnectionPool )
+			{
+				Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.remove( session );
+				if ( odaConnectionsMap == null )
+					return;
+
+				for ( Set<CacheConnection> set : odaConnectionsMap.values( ) )
+				{
+					for ( CacheConnection conn : set )
+					{
+						try
+						{
+							conn.odaConn.close( );
+						}
+						catch ( DataException e )
+						{
+							logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+						}
+					}
+				}
+			}
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+		}
+    }
+    
     
     private Set<CacheConnection> getOdaConnections( boolean populateToCache )
 	{
@@ -324,10 +355,76 @@ class DataSource implements IDataSource
      */
     public void close( )
 	{
-		Thread thread = ThreadSecurity.createThread( new DataSourceReleaser(
-				this ) );
-		thread.start( );
+    	releaseDataSource( );
 	}
+    
+    private void releaseDataSource( )
+    {
+		try
+		{
+			// in normal case, canClose needs to be called to make sure there is no
+			// statement which is under use. but in the end of service of data
+			// engine, all
+			// statemens or connections needs to be forced to close.
+			if ( statementMap.size( ) > 0 )
+			{
+				Iterator keySet = statementMap.keySet( ).iterator( );
+				while ( keySet.hasNext( ) )
+				{
+					PreparedStatement stmt = (PreparedStatement) keySet.next( );
+					try
+					{
+						stmt.close( );
+					}
+					catch ( Exception e )
+					{
+						logger.logp( Level.FINE,
+								className,
+								"close",
+								"Exception at PreparedStatement.close()",
+								e );
+					}
+				}
+
+				statementMap.clear( );
+			}
+
+			// Close all open connections
+			Set<CacheConnection> it = getOdaConnections( false );
+
+			if ( it.size( ) > 1 )
+			{
+				CacheConnection conn = it.iterator( ).next( );
+				conn.currentStatements = 0;
+
+				it.remove( conn );
+				for ( CacheConnection connections : it )
+				{
+					try
+					{
+						connections.odaConn.close( );
+					}
+					catch ( Exception e )
+					{
+						logger.logp( Level.FINE,
+								className,
+								"close",
+								"Exception at Connection.close()",
+								e );
+					}
+				}
+
+				it.clear( );
+				it.add( conn );
+			}
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+		}
+
+	}
+	
     
     /*
 	 * @see java.lang.Object#finalize()
@@ -340,130 +437,7 @@ class DataSource implements IDataSource
 			close( );
 		}
 	}
-    
-    private static final class DataSourceReleaser implements Runnable
-    {
-    	private DataSource source = null;
-    	    	
-    	public DataSourceReleaser( DataSource st )
-    	{
-    		source = st;
-    	}
-    
-    	public void run( )
-		{
-			try
-			{
-				// in normal case, canClose needs to be called to make sure there is no
-				// statement which is under use. but in the end of service of data
-				// engine, all
-				// statemens or connections needs to be forced to close.
-				if ( source.statementMap.size( ) > 0 )
-				{
-					Iterator keySet = source.statementMap.keySet( ).iterator( );
-					while ( keySet.hasNext( ) )
-					{
-						PreparedStatement stmt = (PreparedStatement) keySet.next( );
-						try
-						{
-							stmt.close( );
-						}
-						catch ( Exception e )
-						{
-							logger.logp( Level.FINE,
-									className,
-									"close",
-									"Exception at PreparedStatement.close()",
-									e );
-						}
-					}
 
-					source.statementMap.clear( );
-				}
-
-				// Close all open connections
-				Set<CacheConnection> it = source.getOdaConnections( false );
-
-				if ( it.size( ) > 1 )
-				{
-					CacheConnection conn = it.iterator( ).next( );
-					conn.currentStatements = 0;
-
-					it.remove( conn );
-					for ( CacheConnection connections : it )
-					{
-						try
-						{
-							connections.odaConn.close( );
-						}
-						catch ( Exception e )
-						{
-							logger.logp( Level.FINE,
-									className,
-									"close",
-									"Exception at Connection.close()",
-									e );
-						}
-					}
-
-					it.clear( );
-					it.add( conn );
-				}
-			}
-			catch ( Exception e )
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace( );
-			}
-
-		}
-    	
-    	
-    }
-    
-    private static final class ConnectionReleaser implements Runnable
-    {
-    	private DataEngineSession session = null;
-    	    	
-    	public ConnectionReleaser( DataEngineSession st )
-    	{
-    		session = st;
-    	}
-    
-		public void run( )
-		{
-			try
-			{
-				synchronized ( DataSource.dataEngineLevelConnectionPool )
-				{
-					Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.remove( session );
-					if ( odaConnectionsMap == null )
-						return;
-
-					for ( Set<CacheConnection> set : odaConnectionsMap.values( ) )
-					{
-						for ( CacheConnection conn : set )
-						{
-							try
-							{
-								conn.odaConn.close( );
-							}
-							catch ( DataException e )
-							{
-								// TODO Auto-generated catch block
-								e.printStackTrace( );
-							}
-						}
-					}
-				}
-			}
-			catch ( Exception e )
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace( );
-			}
-		}
-	}
 
     // Information about an open oda connection
 	static private final class CacheConnection
