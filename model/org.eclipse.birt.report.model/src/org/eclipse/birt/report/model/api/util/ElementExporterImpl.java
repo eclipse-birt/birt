@@ -446,8 +446,9 @@ class ElementExporterImpl
 
 	private boolean isOLAPElement( DesignElement element )
 	{
-		if ( element instanceof Cube || element instanceof Dimension
-				|| element instanceof Hierarchy || element instanceof Level
+		if ( element instanceof Dimension
+				|| element instanceof Hierarchy
+				|| element instanceof Level
 				|| element instanceof MeasureGroup
 				|| element instanceof Measure )
 			return true;
