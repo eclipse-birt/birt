@@ -205,7 +205,7 @@ public class BirtCubeView
 		}
 		catch ( BirtException e )
 		{
-			throw new OLAPException( e.getLocalizedMessage( ), e );
+			throw DataException.wrap( e );
 		}
 		CubeCursor cubeCursor;
 		Map referedLevel = getReferencedLevels( );
