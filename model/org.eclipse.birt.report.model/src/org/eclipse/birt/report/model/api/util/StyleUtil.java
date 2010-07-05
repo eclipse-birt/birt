@@ -127,24 +127,33 @@ public class StyleUtil
 			if ( !propDefn.isStyleProperty( ) )
 				continue;
 
+			ElementPropertyDefn sourcePropDefn = sourceElement
+					.getPropertyDefn( propDefn.getName( ) );
+			ElementPropertyDefn targetPropDefn = copiedElement
+					.getPropertyDefn( propDefn.getName( ) );
+
+			if ( sourcePropDefn == null || targetPropDefn == null )
+				continue;
+
 			Object value = null;
 			if ( isLocal )
 			{
-				value = sourceElement.getLocalProperty( module, propDefn );
+				value = sourceElement.getLocalProperty( module, sourcePropDefn );
 			}
 			else if ( isCascaded )
 			{
-				value = sourceElement.getProperty( module, propDefn );
+				value = sourceElement.getProperty( module, sourcePropDefn );
 			}
 			else
 			{
-				value = sourceElement.getFactoryProperty( module, propDefn );
+				value = sourceElement.getFactoryProperty( module,
+						sourcePropDefn );
 			}
 
 			// set the value to the copied one
 			if ( value != null )
 			{
-				copiedElement.setProperty( propDefn, value );
+				copiedElement.setProperty( targetPropDefn, value );
 			}
 		}
 
@@ -153,8 +162,8 @@ public class StyleUtil
 
 	/**
 	 * Adds selectors for extended elements to the report design. This action
-	 * will be non-undoable, that is, once the selectors are inserted to the design
-	 * handle, it will not be removed by undo action.
+	 * will be non-undoable, that is, once the selectors are inserted to the
+	 * design handle, it will not be removed by undo action.
 	 * 
 	 * @param designHandle
 	 */
