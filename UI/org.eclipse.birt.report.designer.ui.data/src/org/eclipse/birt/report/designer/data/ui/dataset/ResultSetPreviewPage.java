@@ -195,7 +195,15 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 
 			public String getColumnText( Object element, int columnIndex )
 			{
-				return ( (CellValue[]) element )[columnIndex].getDisplayValue( );
+				if ( ( element instanceof CellValue[] )
+						&& ( ( (CellValue[]) element ).length > 0 ) )
+				{
+					return ( (CellValue[]) element )[columnIndex].getDisplayValue( );
+				}
+				else
+				{
+					return null;
+				}
 			}
 
 			public void addListener( ILabelProviderListener listener )
