@@ -286,14 +286,17 @@ public class HTMLEmitterUtil
 	public static void buildOverflowStyle( StringBuffer buf, IStyle style,
 			boolean outputHidden )
 	{
-		String overflow = style.getOverflow( );
-		if ( outputHidden
-				|| ( overflow != null && !CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE.equals( overflow ) ) )
+		if ( style != null )
 		{
-			buf.append( " overflow:" );
-			buf.append( overflow != null ? overflow
-					: CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE );
-			buf.append( ";" );
+			String overflow = style.getOverflow( );
+			if ( outputHidden
+					|| ( overflow != null && !CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE.equals( overflow ) ) )
+			{
+				buf.append( " overflow:" );
+				buf.append( overflow != null ? overflow
+						: CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE );
+				buf.append( ";" );
+			}
 		}
 	}
 }

@@ -366,6 +366,11 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		// The method getStyle( ) will never return a null value;
 		IStyle style = cell.getStyle( );
 		
+		if ( style == null )
+		{
+			return;
+		}
+		
 		// implement the cell's clip.
 		if ( fixedReport )
 		{
