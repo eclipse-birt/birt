@@ -1961,8 +1961,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( referredHandle != null && !isChartCubeReference )
 		{
 			// If it is 'sharing' case, include sharing crosstab and multiple
-			// view, we just invokes referred crosstab handle to create query.
+			// view, we just invokes referred crosstab handle to create
+			// query.
 			ExtendedItemHandle bindingHandle = (ExtendedItemHandle) referredHandle;
+			boolean disableFilter = false;
+			if ( referredHandle.getContainer( ) instanceof ReportItemHandle )
+			{
+				// If the shared xtab has container, here ignores filter while creating
+				// cube query, since the shared xtab might use _outer reference
+				// from container, but the _outer reference in design time is
+				// unavailable, it will cause exception on executing query.
+				disableFilter = true;
+			}
 			qd = CrosstabQueryUtil.createCubeQuery( (CrosstabReportItemHandle) bindingHandle.getReportItem( ),
 					null,
 					true,
@@ -1970,7 +1980,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					true,
 					true,
 					true,
-					true );
+					!disableFilter );
 
 			ICubeQueryDefinition queryDef = (ICubeQueryDefinition) qd;
 
