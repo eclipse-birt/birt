@@ -795,7 +795,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			TabularDimensionHandle dim = (TabularDimensionHandle) cubeHandle.getDimension( dimensions[i].getName( ) );
 			TabularHierarchyHandle hier = (TabularHierarchyHandle) dim.getDefaultHierarchy( );
-			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null )
+			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null || isDateTimelDimension( hier ) )
 			{
 
 				String[] keyNames = dimensions[i].getHierarchy().getLevels()[dimensions[i]
@@ -930,6 +930,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 							metaMap.get( cubeHandle ),
 							appContext ),
 					this.toStringArray( measureNames ),
+					computeMemoryBufferSize( appContext ),
 					dataEngine.getSession( ).getStopSign( ) );
 		}
 		catch ( Exception e )
@@ -940,6 +941,35 @@ public class DataRequestSessionImpl extends DataRequestSession
 		appContext.clear( );
 		appContext.putAll( backupAppContext );
 		
+	}
+	
+	public static long computeMemoryBufferSize( Map appContext )
+	{
+		//here a simple assumption, that 1M memory can accommodate 2000 rows
+		if ( appContext == null )
+			return 0;
+		
+		//The unit is 1M.
+		return populateMemBufferSize( appContext.get( DataEngine.MEMORY_BUFFER_SIZE )) * 1024 * 1024;
+	}
+	
+	/**
+	 * 
+	 * @param propValue
+	 * @return
+	 */
+	private static long populateMemBufferSize( Object propValue )
+	{
+		String targetBufferSize =  propValue == null
+				? "0" : propValue
+						.toString( );
+		
+		long memoryCacheSize = 0; 
+		
+		if ( targetBufferSize != null )
+			memoryCacheSize = Long.parseLong( targetBufferSize );
+
+		return memoryCacheSize;
 	}
 	
 	private String getLevelName( TabularHierarchyHandle hierhandle, String columnName )
@@ -1675,12 +1705,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws BirtException 
 	 */
 	private void prepareLevels( QueryDefinition query,
-			TabularHierarchyHandle hierHandle, List metaList, String dimName )
+			TabularHierarchyHandle hierHandle, List metaList, String dimName, String levelColumnName )
 			throws BirtException
 	{
 		try
 		{
-			Set<String> columnNamesForLevels = new HashSet<String>( );
 			// Use same data set as cube fact table
 			List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
 	
@@ -1690,8 +1719,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
 	
 				DataSetIterator.ColumnMeta temp = null;
-				columnNamesForLevels.add( level.getColumnName( ) );
-				String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
+				String exprString = ExpressionUtil.createJSDataSetRowExpression( levelColumnName == null ? level.getColumnName( ):levelColumnName );
 	
 				int type = DataAdapterUtil.adaptModelDataType( level.getDataType( ) );
 				if ( type == DataType.UNKNOWN_TYPE || type == DataType.ANY_TYPE )
@@ -1769,7 +1797,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 						processor = new DataSetIterator.DateTimeAttributeProcessor( level.getDateTimeLevelType( ),
 								this.sessionContext.getDataEngineContext( )
 										.getLocale( ), sessionContext.getDataEngineContext( ).getTimeZone( ) );
-						bindingExpr = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName() ) ;
+						bindingExpr = ExpressionUtil.createJSDataSetRowExpression( levelColumnName == null ? level.getColumnName( ):levelColumnName ) ;
 					}else
 					{
 						bindingExpr = ExpressionUtil.createJSDataSetRowExpression( levelAttr.getName() ) ;
@@ -1928,6 +1956,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 	}
 
+	 private boolean isDateTimelDimension( TabularHierarchyHandle hierHandle )
+	 {
+		 List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
+			
+		for ( int j = 0; j < levels.size( ); j++ )
+		{
+			TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
+			if ( level.getDateTimeLevelType( ) == null )
+				return false;
+		}
+		 return true;
+	 }
 	/**
 	 * 
 	 * @param session
@@ -1963,8 +2003,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				TabularDimensionHandle dimension = (TabularDimensionHandle) dimensions.get( i );
 				List hiers = dimension.getContents( DimensionHandle.HIERARCHIES_PROP );
 	
-				//By now we only support one hierarchy per dimension.
-				assert hiers.size( ) == 1;
+				//By now we only support one hierarchy per;
 	
 				TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) hiers.get( 0 );
 	
@@ -1976,7 +2015,32 @@ public class DataRequestSessionImpl extends DataRequestSession
 					prepareLevels( query,
 							hierHandle,
 							metaList,
-							dimension.getName());
+							dimension.getName(), null );
+				}
+				else if( isDateTimelDimension( hierHandle ) )
+				{
+					String cubeKey = null;
+					Iterator it = cubeHandle.joinConditionsIterator( );
+					while ( it.hasNext( ) )
+					{
+						DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
+	
+						if ( dimCondHandle.getHierarchy( ).getName( ).equals( hierHandle.getName( ) ) )
+						{
+							Iterator conditionIt = dimCondHandle.getJoinConditions( ).iterator( );
+							while ( conditionIt.hasNext( ) )
+							{
+								DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
+								cubeKey = joinCondition.getCubeKey( );
+								if( cubeKey != null )
+									break;
+							}
+						}
+					}
+					prepareLevels( query,
+							hierHandle,
+							metaList,
+							dimension.getName(), cubeKey );
 				}
 				else
 				{
@@ -2118,7 +2182,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		query.setName( cubeName );
 		
 		prepareLevels( query,
-				hierHandle, metaList, null );
+				hierHandle, metaList, null, null );
 		
 		DataRequestSessionImpl.popualteFilter( session, DataRequestSessionImpl.getFilterIterator( hierHandle ), query );
 		return query;
