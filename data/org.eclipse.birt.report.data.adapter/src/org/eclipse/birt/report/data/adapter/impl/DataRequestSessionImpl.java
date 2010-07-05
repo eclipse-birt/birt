@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -124,7 +126,7 @@ import org.mozilla.javascript.Scriptable;
  */
 public class DataRequestSessionImpl extends DataRequestSession
 {
-
+	private static Logger logger = Logger.getLogger( DataRequestSessionImpl.class.getName( ) );
 	//
 	private DataEngineImpl dataEngine;
 	private IModelAdapter modelAdaptor;
@@ -492,9 +494,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			catch ( IOException e )
 			{
+				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
 			}
 		}
 		DataSessionFinalizeUtil.finalize( this );
+		try
+		{
+			AppContextResourceReleaser.release( this.getDataSessionContext( ).getAppContext( ) );
+		}
+		catch ( BirtException e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+		}
 		dataEngine.shutdown( );
 		dataEngine = null;
 	}
