@@ -788,14 +788,13 @@ class DimensionDivider
 			}
 			else
 			{
-				this.memberArray = new DimensionKey[Math.min( Constants.MAX_DIMENSION_LENGTH,
-						members.size( ) )];
+				this.memberArray = new DimensionKey[members.size( )];
 			}
 			for ( int i = 0; i < memberArray.length; i++ )
 			{
 				memberArray[i] = (DimensionKey) members.get( i );
 			}
-			if ( members.size( ) > Constants.MAX_DIMENSION_LENGTH )
+			if ( members.size( ) > memberArray.length )
 			{
 				this.diskMemberArray = members;
 				this.diskPostion = memberArray.length;
@@ -806,7 +805,7 @@ class DimensionDivider
 		private IDiskArray getSortedDimensionKeys( IDiskArray members )
 				throws IOException
 		{
-			DiskSortedStack sortedStack = new DiskSortedStack( Constants.FACT_TABLE_BUFFER_SIZE,
+			DiskSortedStack sortedStack = new DiskSortedStack( members.size( ),
 					true,
 					false,
 					DimensionKey.getCreator( ) );
@@ -815,7 +814,7 @@ class DimensionDivider
 				sortedStack.push( members.get( i ) );
 			}
 			IDiskArray resultArray = new BufferedStructureArray( DimensionKey.getCreator( ),
-					Math.min( Constants.MAX_LIST_BUFFER_SIZE, sortedStack.size( ) ) );
+					sortedStack.size( ) );
 			Object key = sortedStack.pop( );
 			while( key != null )
 			{

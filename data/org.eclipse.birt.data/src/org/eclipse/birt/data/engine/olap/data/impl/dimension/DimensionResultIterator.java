@@ -70,7 +70,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 				dimensionPosition = dimension.findAll( );
 			}
 			dimensionRows = dimension.getDimensionRowByPositions( dimensionPosition, new StopSign( ) );
-			if( dimension.length( ) < Constants.MAX_DIMENSION_LENGTH )
+//			if( dimension.length( ) < Constants.MAX_DIMENSION_LENGTH )
 			{
 				memoryDimensionPosition = new int[dimensionPosition.size( )];
 				for( int i = 0; i < dimensionPosition.size( ); i++ )
