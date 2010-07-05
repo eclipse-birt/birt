@@ -757,6 +757,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			}
 
 			cmpStack.layout( );
+			ChartWizard.removeException( ChartWizard.StaChartDSh_dPreview_ID );
 			return;
 		}
 		
