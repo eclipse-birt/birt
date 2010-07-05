@@ -1687,38 +1687,41 @@ public abstract class EngineTask implements IEngineTask
 			}
 		}
 	}
+	
+	protected void loadScript(Iterator iter)
+	{
+		while ( iter.hasNext( ) )
+		{
+			IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
+					.next( );
+			String language = Script.SCRIPT_JAVASCRIPT;
+			String fileName = includeScript.getFileName( );
+			executionContext.loadScript( language, fileName );
+		}
+	}
 
 	protected void loadDesign( )
 	{
 		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable != null )
 		{
-			ReportDesignHandle reportDesign = executionContext.getReportDesign( );
-			// execute scripts defined in include-script element of the libraries
-			Iterator iter = reportDesign.includeLibraryScriptsIterator( );
-			while ( iter.hasNext( ) )
+			ReportDesignHandle reportDesign = executionContext
+					.getReportDesign( );
+			if ( reportDesign != null )
 			{
-				IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
-						.next( );
-				String language = Script.SCRIPT_JAVASCRIPT;
-				String fileName = includeScript.getFileName( );
-				executionContext.loadScript( language, fileName );
-			}
-				
-			// execute scripts defined in include-script element of this report
-			iter = reportDesign.includeScriptsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
-						.next( );
-				String language = Script.SCRIPT_JAVASCRIPT;
-				String fileName = includeScript.getFileName( );
-				executionContext.loadScript( language, fileName );
-			}
+				// execute scripts defined in include-script element of the
+				// libraries
+				Iterator iter = reportDesign.includeLibraryScriptsIterator( );
+				loadScript( iter );
+				// execute scripts defined in include-script element of this
+				// report
+				iter = reportDesign.includeScriptsIterator( );
+				loadScript( iter );
 
-			// Intialize the report
-			ReportScriptExecutor.handleInitialize( reportDesign,
-					executionContext );
+				// Intialize the report
+				ReportScriptExecutor.handleInitialize( reportDesign,
+						executionContext );
+			}
 		}
 	}
 
@@ -1728,20 +1731,23 @@ public abstract class EngineTask implements IEngineTask
 		if( !runnable.prepared)
 		{
 			ReportDesignHandle reportDesign = executionContext.getReportDesign( );
-			ScriptedDesignSearcher searcher = new ScriptedDesignSearcher(
-					reportDesign );
-			searcher.apply( reportDesign );
-			boolean hasOnprepare = searcher.hasOnPrepareScript( );			
-			if ( hasOnprepare)
+			if ( reportDesign != null )
 			{
-				ReportRunnable newRunnable = executionContext.getRunnable( )
-						.cloneRunnable( );
-				executionContext.updateRunnable( newRunnable );
-				ReportDesignHandle newDesign = newRunnable.getReport( );
-				ScriptedDesignVisitor visitor = new ScriptedDesignHandler(
-						newDesign, executionContext );
-				visitor.apply( newDesign.getRoot( ) );
-				newRunnable.setPrepared( true );
+				ScriptedDesignSearcher searcher = new ScriptedDesignSearcher(
+						reportDesign );
+				searcher.apply( reportDesign );
+				boolean hasOnprepare = searcher.hasOnPrepareScript( );			
+				if ( hasOnprepare)
+				{
+					ReportRunnable newRunnable = executionContext.getRunnable( )
+							.cloneRunnable( );
+					executionContext.updateRunnable( newRunnable );
+					ReportDesignHandle newDesign = newRunnable.getReport( );
+					ScriptedDesignVisitor visitor = new ScriptedDesignHandler(
+							newDesign, executionContext );
+					visitor.apply( newDesign.getRoot( ) );
+					newRunnable.setPrepared( true );
+				}
 			}
 		}
 	}
@@ -1749,15 +1755,21 @@ public abstract class EngineTask implements IEngineTask
 	protected void startFactory( )
 	{
 		ReportDesignHandle reportDesign = executionContext.getReportDesign( );
-		ReportScriptExecutor.handleBeforeFactory( reportDesign,
-				executionContext );
+		if ( reportDesign != null )
+		{
+			ReportScriptExecutor.handleBeforeFactory( reportDesign,
+					executionContext );
+		}
 	}
 
 	protected void closeFactory( )
 	{
 		ReportDesignHandle reportDesign = executionContext.getReportDesign( );
-		ReportScriptExecutor
-				.handleAfterFactory( reportDesign, executionContext );
+		if ( reportDesign != null )
+		{
+			ReportScriptExecutor
+					.handleAfterFactory( reportDesign, executionContext );
+		}
 
 	}
 

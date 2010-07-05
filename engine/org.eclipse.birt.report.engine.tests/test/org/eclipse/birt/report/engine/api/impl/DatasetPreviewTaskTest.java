@@ -11,48 +11,17 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_BETWEEN;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_BOTTOM_N;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_BOTTOM_PERCENT;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_EQ;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_FALSE;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_GE;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_GT;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_IN;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_LE;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_LIKE;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_LT;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_MATCH;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NE;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_BETWEEN;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_IN;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_LIKE;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_MATCH;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NOT_NULL;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_NULL;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_TOP_N;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_TOP_PERCENT;
-import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_TRUE;
-
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
-import org.eclipse.birt.data.engine.api.IFilterDefinition;
-import org.eclipse.birt.data.engine.api.ISortDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
@@ -63,12 +32,20 @@ import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
-import org.eclipse.birt.report.engine.api.IResultSetItem;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.parser.ReportParser;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.SessionHandle;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * in the report design, we define four listing elements: 219: table with query.
@@ -78,6 +55,8 @@ public class DatasetPreviewTaskTest extends EngineCase
 {
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestDataExtractionTask.xml";
+	static final String REPORT_LIBRARY_RESOURCE = "org/eclipse/birt/report/engine/api/impl/library.xml";
+	static final String REPORT_DATADESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/datadesign.xml";
 
 	IReportDocument document;
 	IDatasetPreviewTask previewTask;
@@ -86,28 +65,92 @@ public class DatasetPreviewTaskTest extends EngineCase
 	{
 		super.setUp( );
 		removeFile( REPORT_DESIGN );
-		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
-		previewTask = engine.createDatasetPreviewTask( );
+		
 	}
 
 	public void tearDown( )
 	{
+		
+	}
+	
+	protected ModuleHandle getHandle(String fileName) throws Exception
+	{
+		ModuleHandle designHandle;
+		// Create new design session
+		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( ULocale.getDefault( ) );
+		designHandle = sessionHandle.openModule( fileName );
+		return designHandle;
+	}
+	
+	public void testPreviewDatasetInDataDesign( ) throws Exception
+	{		
+		copyResource( REPORT_DATADESIGN_RESOURCE, REPORT_DESIGN );
+		previewTask = engine.createDatasetPreviewTask( );
+		ModuleHandle muduleHandle = getHandle(REPORT_DESIGN );
+		List ds = muduleHandle.getAllDataSets( );
+		for ( Object obj : ds )
+		{
+			DataSetHandle dataset = (DataSetHandle) obj;
+			if ( dataset.getName( ).equals( "Data Set" ) )
+			{
+				previewTask.setDataSet( dataset );
+			}
+		}
+
+		previewTask.setMaxRow( 25 );
+		IExtractionResults results = previewTask.execute( );
+		int rowCount = checkExtractionResults( results );
+		assertTrue( rowCount == 23 );
+		previewTask.close( );
+		removeFile( REPORT_DESIGN );
+	}
+	
+	public void testPreviewDatasetInLib( ) throws Exception
+	{		
+		copyResource( REPORT_LIBRARY_RESOURCE, REPORT_DESIGN );
+		previewTask = engine.createDatasetPreviewTask( );
+		ModuleHandle muduleHandle = getHandle(REPORT_DESIGN );
+		List ds = muduleHandle.getAllDataSets( );
+		for ( Object obj : ds )
+		{
+			DataSetHandle dataset = (DataSetHandle) obj;
+			if ( dataset.getName( ).equals( "Data Set" ) )
+			{
+				previewTask.setDataSet( dataset );
+			}
+		}
+
+		previewTask.setMaxRow( 20 );
+		IExtractionResults results = previewTask.execute( );
+		int rowCount = checkExtractionResults( results );
+		assertTrue( rowCount == 20 );
 		previewTask.close( );
 		removeFile( REPORT_DESIGN );
 	}
 
-	public void testPreviewDataset( ) throws Exception
-	{
+	public void testPreviewDatasetInReport( ) throws Exception
+	{		
+		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
+		previewTask = engine.createDatasetPreviewTask( );
 		IReportRunnable reportDesign = engine.openReportDesign( REPORT_DESIGN );
-		// get the instance id
-		// open the document in the archive.
-		// create an RenderTask using the report document
-		previewTask.setRunnable( reportDesign );
-		previewTask.setDataSet( "DataSet" );
+		List ds = reportDesign.getDesignHandle( ).getModuleHandle( )
+				.getAllDataSets( );
+		for ( Object obj : ds )
+		{
+			DataSetHandle dataset = (DataSetHandle) obj;
+			if ( dataset.getName( ).equals( "DataSet" ) )
+			{
+				previewTask.setDataSet( dataset );
+			}
+		}
+
 		previewTask.setMaxRow( 5 );
 		IExtractionResults results = previewTask.execute( );
 		int rowCount = checkExtractionResults( results );
-		assertTrue(rowCount==5);
+		assertTrue( rowCount == 5 );
+		previewTask.close( );
+		removeFile( REPORT_DESIGN );
 	}
 
 	/**
@@ -133,8 +176,10 @@ public class DatasetPreviewTaskTest extends EngineCase
 							.getColumnName( i ) );
 					String type = resultMeta.getColumnTypeName( i );
 					assertTrue( type != null );
+					System.out.print(obj + " ");
 				}
 				rowCount++;
+				System.out.println();
 			}
 			dataIter.close( );
 		}

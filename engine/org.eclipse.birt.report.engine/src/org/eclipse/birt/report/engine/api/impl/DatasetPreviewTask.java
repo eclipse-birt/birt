@@ -1,6 +1,6 @@
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.util.List;
+import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -18,10 +18,14 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
 import org.eclipse.birt.report.engine.api.IExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunnable;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Expression.Script;
+import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -31,9 +35,9 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 {
 	
 	protected IRunnable runnable;
-
-	protected String datasetName;
 	
+	protected DataSetHandle dataset;
+
 	protected int maxRow;
 	
 	protected DataRequestSession dteSession;
@@ -45,10 +49,10 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 
 	public IExtractionResults execute( ) throws EngineException
 	{
-		if ( datasetName == null || datasetName.length( ) == 0 )
+		if ( dataset == null )
 		{
 			throw new IllegalArgumentException(
-					"datasetName can not be null or emtpy!" );
+					"dataset can not be null" );
 		}
 		return runDataset( );
 	}
@@ -77,14 +81,17 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 
 	}
 
-	public void setDataSet( String dataset )
+	public void setDataSet( DataSetHandle dataset )
 	{
-		if ( dataset == null || dataset.length( ) == 0 )
+		if ( dataset == null )
 		{
 			throw new IllegalArgumentException(
-					"datasetName can not be null or emtpy!" );
+					"dataset can not be null!" );
 		}
-		this.datasetName = dataset;
+		this.dataset = dataset;
+		ModuleHandle mh = dataset.getModuleHandle( );
+		runnable = new ReportRunnable(engine, mh);
+		setReportRunnable( (ReportRunnable)runnable );
 	}
 
 	public void setRunnable( IRunnable runnable )
@@ -138,16 +145,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		{
 
 			executionContext.openDataEngine( );
-			ModuleHandle handle = getHandle( );
-			List ds = handle.getAllDataSets( );
-			for ( Object obj : ds )
-			{
-				DataSetHandle dataset = (DataSetHandle) obj;
-				if ( datasetName.equals( dataset.getQualifiedName( ) ) )
-				{
-					result = extractQuery( dataset );
-				}
-			}
+			result = extractQuery( dataset );
 
 			// executionContext.closeDataEngine( );
 		}
@@ -194,7 +192,10 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		return new ExtractionResults( result, metadata, null, 0, maxRow );
 	}
 
-	
+	protected ModuleHandle getModuleHandle( )
+	{
+		return dataset.getModuleHandle( );
+	}
 	
 	
 	protected DataRequestSession getDataRequestSession( ) throws BirtException
@@ -202,7 +203,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		if ( dteSession == null )
 		{
 			DataSessionContext dteSessionContext = new DataSessionContext(
-					DataSessionContext.MODE_DIRECT_PRESENTATION, ((ReportRunnable)runnable).getModuleHandle( ),
+					DataSessionContext.MODE_DIRECT_PRESENTATION, getModuleHandle( ),
 					executionContext.getScriptContext( ), executionContext
 							.getApplicationClassLoader( ) );
 			dteSessionContext.setAppContext( executionContext.getAppContext( ) );
@@ -239,5 +240,47 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	{
 		//do not check length of parameter value even when parameter value is required
 	}
+	
+	protected void loadDesign( )
+	{
+
+		IReportRunnable runnable = executionContext.getRunnable( );
+		if ( runnable != null )
+		{
+			ReportDesignHandle reportDesign = executionContext
+					.getReportDesign( );
+			if ( reportDesign != null )
+			{
+				// execute scripts defined in include-script element of the
+				// libraries
+				Iterator iter = reportDesign.includeLibraryScriptsIterator( );
+				loadScript( iter );
+				// execute scripts defined in include-script element of this
+				// report
+				iter = reportDesign.includeScriptsIterator( );
+				loadScript( iter );
+
+				// Intialize the report
+				ReportScriptExecutor.handleInitialize( reportDesign,
+						executionContext );
+			}
+			else
+			{
+				if ( dataset != null )
+				{
+					ModuleHandle moduleHandle = dataset.getModuleHandle( );
+					Iterator iter = moduleHandle.includeScriptsIterator( );
+					loadScript( iter );
+
+					// Intialize the report
+					ReportScriptExecutor.handleInitialize( moduleHandle,
+							executionContext );
+
+				}
+			}
+		}
+
+	}
+
 
 }

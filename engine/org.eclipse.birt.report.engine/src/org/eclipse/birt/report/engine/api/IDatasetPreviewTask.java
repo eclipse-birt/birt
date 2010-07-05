@@ -1,14 +1,14 @@
 package org.eclipse.birt.report.engine.api;
 
+import org.eclipse.birt.report.model.api.DataSetHandle;
+
 
 public interface IDatasetPreviewTask extends IEngineTask
 {
 
-	/** set the runnable which contains the dataset design */
-	public void setRunnable( IRunnable runnable );
 
 	/** select which data set should be executed */
-	public void setDataSet( String dataset );
+	public void setDataSet( DataSetHandle dataset );
 
 	/** execute the query and return the result set */
 	public IExtractionResults execute( ) throws EngineException;;
