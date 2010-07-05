@@ -12,41 +12,26 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
-import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.data.ui.actions.IDataSetPreviewer;
-import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
-import org.eclipse.birt.report.designer.data.ui.util.DataSetExecutorHelper;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage;
-import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
@@ -54,7 +39,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -277,109 +261,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		}
 		
 	}
-
-	/**
-	 * Get resultSet
-	 * 
-	 * @return
-	 */
-	private IQueryResults executeProcess( DataRequestSession session, ExecutionContext context )
-	{
-		errorList = new ArrayList( );
-		try
-		{
-			
-			metaData = ( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( );
-			columnCount = metaData == null ? 0 : metaData.length;
-
-			// Create a new Report Query definition for retrieving the
-			// columns
-			QueryDefinition query = new QueryDefinition( );
-
-			
-			query.setDataSetName( ( (DataSetEditor) getContainer( ) ).getHandle( ).getQualifiedName( ) );
-
-			int maxRow = getMaxRowPreference( );
-			query.setMaxRows( maxRow );
-			registerParameterBinding( query,
-					( (DataSetEditor) getContainer( ) ).getHandle( ), session );
-
-			columnBindingNames = new String[columnCount];
-			ScriptExpression[] expressions = new ScriptExpression[columnCount];
-
-			for ( int n = 0; n < columnCount; n++ )
-			{
-				columnBindingNames[n] = metaData[n].getName( );
-				expressions[n] = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( metaData[n].getName( ) ) );
-				expressions[n].setDataType( metaData[n].getDataType( ) );
-				query.addResultSetExpression( columnBindingNames[n],
-						expressions[n] );
-			}
-
-			boolean needCache = false;
-			if ( this.previousMaxRow != maxRow )
-			{
-				this.previousMaxRow = maxRow;
-				needCache = true;
-			}
-			DataSetExecutorHelper helper = new DataSetExecutorHelper( );
-			AppContextPopulator.populateApplicationContext( ((DataSetEditor) getContainer( ) ).getHandle( ), 
-				session );
-			IQueryResults resultSet = helper.execute( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-					query,
-					true,
-					true,
-					needCache,
-					context,
-					session );
-			return resultSet;
-		}
-		catch ( BirtException e )
-		{
-			errorList.add( e );
-			return null;
-		}
-	}
-
-	private void registerParameterBinding( QueryDefinition query, DataSetHandle dsHandle, DataRequestSession session )
-			throws BirtException, DesignFileException
-	{
-		PropertyHandle handle = dsHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
-
-		if ( handle != null )
-		{
-			Iterator paramIter = handle.iterator( );
-			while ( paramIter.hasNext( ) )
-			{
-				Expression value = null;
-				DataSetParameterHandle paramDefn = (DataSetParameterHandle) paramIter.next( );
-				if ( paramDefn.isInput( ) )
-				{
-					if ( paramDefn instanceof OdaDataSetParameterHandle
-							&& ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) != null )
-					{
-						// get the value from report parameter
-						value = this.getParameterValueExpression( dsHandle,
-								(OdaDataSetParameterHandle) paramDefn );
-					}
-					if ( value != null )
-					{
-						InputParameterBinding binding = new InputParameterBinding( paramDefn.getName( ),
-								session.getModelAdaptor( )
-										.adaptExpression( value ) );
-						query.addInputParamBinding( binding );
-					}
-				}
-			}
-		}
-	}
-	
-	private Expression getParameterValueExpression( DataSetHandle dsHandle,
-			OdaDataSetParameterHandle paramDefn ) throws BirtException
-	{
-		Expression value = ExternalUIUtil.getParamValueExpression( dsHandle, paramDefn );
-		return value;
-	}
 		
 	private int getMaxRowPreference( )
 	{
@@ -419,8 +300,8 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 					ModuleHandle handle = null;
 					DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
 					handle = dsHandle.getModuleHandle( );
-					IDataSetPreviewer previewer = DataSetPreviewerFactory.createPreviewer( 
-							dsHandle.getQualifiedName( ), getMaxRowPreference( ), handle );
+					DataSetPreviewer previewer = new DataSetPreviewer(
+							dsHandle, getMaxRowPreference( ));
 					Map dataSetBindingMap = new HashMap( );
 					Map dataSourceBindingMap = new HashMap( );
 					try
@@ -428,38 +309,12 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 						clearProperyBindingMap( 
 								dataSetBindingMap,
 								dataSourceBindingMap );
-						if ( previewer != null )
-						{
-							Map appContext = new HashMap( );
-							AppContextPopulator.populateApplicationContext( dsHandle, appContext );
-							previewer.open( appContext );
-							populateRecords( previewer.preview( ) );
-							previewer.close( );
-							monitor.done( );
-						}
-						else
-						{
-							DataSessionContext context;
-							context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-									( (DataSetEditor) getContainer( ) ).getHandle( )
-											.getModuleHandle( ) );
-							
-							DataRequestSession session = DataRequestSession.newSession( context );
-
-							Map appContext = new HashMap( );
-							appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-									new Integer( ( (DataSetHandle) getContainer( ).getModel( ) ).getRowFetchLimit( ) ) );
-							appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS, 
-									DTPUtil.getInstance( ).createResourceIdentifiers( ));
-							if ( context.getAppContext( ) != null )
-							{
-								appContext.putAll( context.getAppContext( ) );
-							}
-							context.setAppContext( appContext );
-							IQueryResults resultSet = executeProcess( session, null );
-							populateRecords( resultSet == null ? null : resultSet.getResultIterator( ) );
-							session.shutdown( );
-						}
+						Map appContext = new HashMap( );
+						AppContextPopulator.populateApplicationContext( dsHandle, appContext );
+						previewer.open( appContext, getEngineConfig( handle ) );
+						populateRecords( previewer.preview( ) );
+						previewer.close( );
+						monitor.done( );
 					}
 					catch ( BirtException e )
 					{
@@ -500,6 +355,19 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		updateResultSetTableUI( );
 	}
 	
+	private EngineConfig getEngineConfig( ModuleHandle handle )
+	{
+		EngineConfig ec = new EngineConfig( );
+		ClassLoader parent = Thread.currentThread( ).getContextClassLoader( );
+		if ( parent == null )
+		{
+			parent = this.getClass( ).getClassLoader( );
+		}
+		ClassLoader customClassLoader = DataSetProvider.getCustomScriptClassLoader( parent, handle );
+		ec.getAppContext( ).put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+				customClassLoader );
+		return ec;
+	}
 
 	/**
 	 * Populate records to be retrieved when re-render resultSetTable

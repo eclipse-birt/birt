@@ -32,7 +32,6 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -45,7 +44,6 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
 
@@ -115,8 +113,7 @@ public class ExternalUIUtil
 		else
 		{
 			DataSessionContext context = new DataSessionContext( DataEngineContext.DIRECT_PRESENTATION,
-					dataSetHandle.getRoot( ),
-					null );
+					dataSetHandle.getRoot( ));
 			Map appContext = new HashMap( );
 
 			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,

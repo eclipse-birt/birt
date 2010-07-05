@@ -86,7 +86,7 @@ public class DataSessionContext
 	 */
 	public DataSessionContext( int mode )	throws BirtException
 	{
-		this(mode, null, null);
+		this(mode, null);
 	}
 	
 	/**
