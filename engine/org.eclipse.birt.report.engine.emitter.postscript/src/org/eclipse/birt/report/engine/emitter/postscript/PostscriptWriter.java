@@ -1051,7 +1051,7 @@ public class PostscriptWriter
 			else if ( "VERTICAL".equalsIgnoreCase( duplex ) )
 			{
 				duplexValue = "DuplexNoTumble";
-				duplexValue = "false";
+				tumbleValue = "false";
 			}
 			out.println( "%%BeginFeature: *Duplex " + duplexValue );
 			out.println( "<</Duplex true /Tumble " + tumbleValue
