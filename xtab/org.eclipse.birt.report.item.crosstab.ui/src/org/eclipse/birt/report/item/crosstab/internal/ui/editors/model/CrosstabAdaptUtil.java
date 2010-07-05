@@ -549,7 +549,8 @@ public class CrosstabAdaptUtil
 		}
 		String type = levelHandle.getDataType( );
 		Object value = levelHandle.getProperty( org.eclipse.birt.report.model.elements.olap.Level.FORMAT_PROP );
-		formatDataItem(type, value, dataHandle);
+		String aliment = levelHandle.getAlignment( );
+		formatDataItem(type, value, aliment, dataHandle);
 	}
 	
 	public static void formatDataItem(MeasureHandle measureHandle, DataItemHandle dataHandle)
@@ -560,16 +561,29 @@ public class CrosstabAdaptUtil
 		}
 		String type = measureHandle.getDataType( );
 		Object value = measureHandle.getProperty( org.eclipse.birt.report.model.elements.olap.Level.FORMAT_PROP );
-		formatDataItem(type, value, dataHandle);
+		String aliment = measureHandle.getAlignment( );
+		formatDataItem(type, value, aliment, dataHandle);
 	}
 	
-	private static void formatDataItem(String type,Object value, DataItemHandle dataHandle)
+	private static void formatDataItem(String type,Object value,String aliment, DataItemHandle dataHandle)
 	{
+		StyleHandle styleHandle = dataHandle.getPrivateStyle( );
+		if (aliment != null)
+		{
+			try
+			{
+				styleHandle.setTextAlign( aliment );
+			}
+			catch ( SemanticException e )
+			{
+				//do nothing now
+			}
+		}
 		if (value == null && !(value instanceof FormatValue))
 		{
 			return;
 		}
-		StyleHandle styleHandle = dataHandle.getPrivateStyle( );
+		
 		FormatValue formartValue = (FormatValue)value;
 		try
 		{
@@ -620,6 +634,7 @@ public class CrosstabAdaptUtil
 					styleHandle.setStringFormatCategory( formartValue.getCategory( ) );
 				}
 			}
+			
 		}
 		catch ( SemanticException e )
 		{
