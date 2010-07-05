@@ -556,7 +556,7 @@ public class ImportValueDialog extends BaseDialog
 			{
 				java.util.List modelValueList = SelectValueFetcher.getSelectValueList( queryExpr,
 						getDataSetHandle( ),
-						false );
+						true );
 
 				if ( modelValueList != null )
 				{
