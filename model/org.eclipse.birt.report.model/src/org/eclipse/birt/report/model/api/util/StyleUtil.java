@@ -127,6 +127,9 @@ public class StyleUtil
 			if ( !propDefn.isStyleProperty( ) )
 				continue;
 
+			// must get the property definition by element itself, for the
+			// element may be extended-item or it defines override attribute for
+			// this property definition
 			ElementPropertyDefn sourcePropDefn = sourceElement
 					.getPropertyDefn( propDefn.getName( ) );
 			ElementPropertyDefn targetPropDefn = copiedElement
