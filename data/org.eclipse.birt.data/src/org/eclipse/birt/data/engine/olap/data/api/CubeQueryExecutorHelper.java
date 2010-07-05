@@ -304,6 +304,11 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		simpleLevelFilters.add( simpleLevelFilter );
 	}
 	
+	public void addSimpleLevelFilter( List<SimpleLevelFilter> simpleLevelFilter )
+	{		
+		simpleLevelFilters.addAll( simpleLevelFilter );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.ICubeQueryExcutorHelper#clear()
@@ -443,9 +448,30 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			getFiltedDistinctDiemensionRow( sourceDimension, levels, aggregations.getSortTypes( ), stopSign );
 		
 		IAggregationResultSet resultSet = 
-			new AggregationResultSet( aggregations, dimensionrow, getKeyColumnName( aggregations ) ,null );
+			new AggregationResultSet( aggregations, dimensionrow, getKeyColumnName( aggregations ) 
+					,getAttributeColumnName( aggregations, sourceDimension ) );
 		
 		return resultSet;
+	}
+	
+	private static String[][] getAttributeColumnName( AggregationDefinition aggregation, Dimension dimension )
+	{
+		DimLevel[] levels = aggregation.getLevels( );
+		String[][] result = new String[levels.length][1];
+		for( int i = 0; i < levels.length; i++ )
+		{
+			result[i][0] = levels[i].getLevelName( );
+			ILevel[] dimLevels = dimension.getHierarchy( ).getLevels( );
+			for( int j = 0; j < dimLevels.length; j++ )
+			{
+				if( dimLevels[j].getName( ).equals( levels[i].getLevelName( ) ) )
+				{
+					result[i] = dimLevels[j].getAttributeNames( );
+					break;
+				}
+			}
+		}
+		return result;
 	}
 	
 	private static String[][] getKeyColumnName( AggregationDefinition aggregation )
