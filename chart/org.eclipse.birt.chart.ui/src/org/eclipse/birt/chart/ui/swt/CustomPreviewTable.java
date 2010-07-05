@@ -912,6 +912,11 @@ public class CustomPreviewTable extends Composite implements
 			{
 				throw new IllegalArgumentException( Messages.getString( "CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly", new Object[]{String.valueOf( iColumn ), String.valueOf( cells.length )} ) ); //$NON-NLS-1$
 			}
+			if ( sText != null && sText.indexOf( '\n' ) > -1 )
+			{
+				sText = sText.replaceAll( "\n", " " ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+
 			cells[iColumn].add( sText );
 			if ( cells[iColumn].size( ) > iMaxRowIndex )
 			{
