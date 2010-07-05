@@ -858,6 +858,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		gd.horizontalSpan = 2;
 		txtFilter.setLayoutData( gd );
 
+		txtFilter.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent arg0 )
+			{
+				modifyDialogContent( );
+				validate( );
+			}
+		} );
 		createExpressionButton( composite, txtFilter );
 
 		Label lblAggOn = new Label( composite, SWT.NONE );
