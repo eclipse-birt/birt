@@ -176,9 +176,21 @@ class ContextCopiedElement implements IElementCopy, Cloneable
 
 	/**
 	 * Gets the list of property bindings of the element
+	 * 
+	 * @return the list of property bindings.
 	 */
 	List<PropertyBinding> getPropertyBindings( )
 	{
 		return bindings;
+	}
+
+	/**
+	 * Gets the xpath of the copied element.
+	 * 
+	 * @return the xpath
+	 */
+	String getXPath( )
+	{
+		return xpath;
 	}
 }
