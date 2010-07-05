@@ -301,6 +301,7 @@ public class EngineLogger
 			// In BIRT log, we should always use the simple format.
 			logFileHandler.setFormatter( new SimpleFormatter( ) );
 			logFileHandler.setLevel( Level.FINEST );
+			logFileHandler.setEncoding( "utf-8" );
 			Logger logger = Logger.getAnonymousLogger( );
 			logger.addHandler( logFileHandler );
 			return logger;
