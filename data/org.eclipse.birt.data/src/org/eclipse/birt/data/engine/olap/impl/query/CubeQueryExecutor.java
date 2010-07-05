@@ -20,15 +20,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
@@ -38,6 +43,9 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
+import org.eclipse.birt.data.engine.olap.data.api.ISelection;
+import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.data.util.TempPathManager;
 import org.eclipse.birt.data.engine.olap.util.ComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
@@ -49,6 +57,7 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelpe
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -66,6 +75,7 @@ public class CubeQueryExecutor
 	private IBaseQueryResults outResults;
 	
 	private List<IJSFilterHelper> dimensionFilterEvalHelpers;
+	private List<SimpleLevelFilter> dimensionSimpleFilter;
 	private List<IAggrMeasureFilterEvalHelper> aggrMeasureFilterEvalHelpers;
 	private List<IJSFacttableFilterEvalHelper> advancedFacttableBasedFilterEvalHelper;
 	
@@ -91,6 +101,7 @@ public class CubeQueryExecutor
 		TempPathManager.setTempPath( session.getTempDir( ) );
 		this.outResults = outResults;
 		this.dimensionFilterEvalHelpers = new ArrayList<IJSFilterHelper> ();
+		this.dimensionSimpleFilter = new ArrayList<SimpleLevelFilter> ();
 		this.aggrMeasureFilterEvalHelpers = new ArrayList<IAggrMeasureFilterEvalHelper>();
 		this.advancedFacttableBasedFilterEvalHelper = new ArrayList<IJSFacttableFilterEvalHelper>();
 		if ( !(context.getMode( ) == DataEngineContext.MODE_PRESENTATION
@@ -101,6 +112,98 @@ public class CubeQueryExecutor
 			populateFilterHelpers();
 		}
 	}
+	
+	private SimpleLevelFilter createSimpleLevelFilter( IFilterDefinition filter, List bindings )
+	{
+		if( ! ( filter instanceof CubeFilterDefinition ) )
+			return null;
+			
+		IBaseExpression expr = (( CubeFilterDefinition )filter).getExpression( );
+		if( !( expr instanceof IConditionalExpression ) )
+			return null;
+		IConditionalExpression condExpr = (IConditionalExpression) (( CubeFilterDefinition )filter).getExpression( );
+		
+		Set refDimLevel;
+		try
+		{
+			refDimLevel = OlapExpressionCompiler.getReferencedDimLevel( condExpr.getExpression(), bindings );
+		
+			if( refDimLevel.size( ) != 1 )
+				return null;
+			DimLevel dimlevel = (DimLevel) refDimLevel.iterator( ).next();
+			if( dimlevel.getAttrName() != null )
+				return null;
+			if( !( condExpr.getOperand1( ) instanceof IExpressionCollection ))
+			{
+				Object Op1 = ScriptEvalUtil.evalExpr( (IScriptExpression) condExpr.getOperand1( ),
+						session.getEngineContext( ).getScriptContext( ).newContext( scope ),
+						ScriptExpression.defaultID,
+						0 );
+				if( Op1 == null )
+					return null;
+				ISelection[] selction = new ISelection[1];
+				if( condExpr.getOperator( ) == IConditionalExpression.OP_EQ || condExpr.getOperator( ) == IConditionalExpression.OP_IN )
+				{
+					selction[0] = SelectionFactory.createOneKeySelection( new Object[]{Op1} );
+				}
+				else if( condExpr.getOperator( ) == IConditionalExpression.OP_GT )
+				{
+					selction[0] = SelectionFactory.createRangeSelection( new Object[]{Op1}, null, false, false );
+				}
+				else if( condExpr.getOperator( ) == IConditionalExpression.OP_GE )
+				{
+					selction[0] = SelectionFactory.createRangeSelection( new Object[]{Op1}, null, true, false );
+				}
+				else if( condExpr.getOperator( ) == IConditionalExpression.OP_LT )
+				{
+					selction[0] = SelectionFactory.createRangeSelection( null, new Object[]{Op1}, false, false );
+				}
+				else if( condExpr.getOperator( ) == IConditionalExpression.OP_LE )
+				{
+					selction[0] = SelectionFactory.createRangeSelection( null, new Object[]{Op1}, false, true );
+				}
+				else
+					return null;
+				
+				return new SimpleLevelFilter( dimlevel, selction );
+			}
+			else if( condExpr.getOperator( ) == IConditionalExpression.OP_IN )
+			{
+				IExpressionCollection combinedExpr = (IExpressionCollection) ( (IConditionalExpression) expr ).getOperand1( );
+				Object[] exprs = combinedExpr.getExpressions( )
+						.toArray( );
+
+				Object[] opValues = new Object[exprs.length];
+				boolean existValue = false;
+				for ( int i = 0; i < opValues.length; i++ )
+				{
+					opValues[i] = ScriptEvalUtil.evalExpr( (IBaseExpression) exprs[i],
+							session.getEngineContext( ).getScriptContext( ).newContext( scope ),
+							ScriptExpression.defaultID,
+							0 );
+					if( opValues[i] != null )
+					{
+						existValue = true;
+					}
+				}
+				ISelection[] selction = new ISelection[1];
+				Object[][] keyValues = new Object[opValues.length][1];
+				for( int i = 0; i < opValues.length; i++ )
+				{
+					keyValues[i][0] = opValues[i];
+				}
+				selction[0] = SelectionFactory.createMutiKeySelection( keyValues );
+				return new SimpleLevelFilter( dimlevel, selction );
+			}
+			return null;
+		}
+		catch (DataException e)
+		{
+			return null;
+		}
+	}
+	
+	
 	
 	private void populateFilterHelpers( ) throws DataException
 	{
@@ -114,10 +217,33 @@ public class CubeQueryExecutor
 			{ 
 				case CubeQueryExecutor.DIMENSION_FILTER:
 				{
-					this.dimensionFilterEvalHelpers.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.outResults, this.scope,
+					SimpleLevelFilter simpleLevelfilter = createSimpleLevelFilter( filter, defn.getBindings( ) );
+					if( simpleLevelfilter == null )
+					{
+						this.dimensionFilterEvalHelpers.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.outResults, this.scope,
 							defn,
 							filter,
 							this.session.getEngineContext( ).getScriptContext( )) );
+					}
+					else
+					{
+						boolean existLevelFilter = false;
+						for( int j = 0; j < this.dimensionSimpleFilter.size( ); j++ )
+						{
+							if( dimensionSimpleFilter.get( j ).getDimensionName( ).equals( simpleLevelfilter.getDimensionName( ) )
+									&& dimensionSimpleFilter.get( j ).getLevelName( ).equals( simpleLevelfilter.getLevelName( ) ))
+							{
+								this.dimensionFilterEvalHelpers.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.outResults, this.scope,
+										defn,
+										filter,
+										this.session.getEngineContext( ).getScriptContext( )) );
+								existLevelFilter = true;
+								break;
+							}
+						}
+						if( !existLevelFilter )
+							this.dimensionSimpleFilter.add( simpleLevelfilter );
+					}
 					break;
 				}
 				case CubeQueryExecutor.AGGR_MEASURE_FILTER:
@@ -228,6 +354,11 @@ public class CubeQueryExecutor
 		return this.dimensionFilterEvalHelpers;
 	}
 
+	public List<SimpleLevelFilter> getdimensionSimpleFilter( ) throws DataException
+	{
+		return this.dimensionSimpleFilter;
+	} 
+	
 	/**
 	 * 
 	 * @return
