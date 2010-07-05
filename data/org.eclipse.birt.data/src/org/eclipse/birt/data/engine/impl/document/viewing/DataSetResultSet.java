@@ -241,6 +241,8 @@ public class DataSetResultSet implements IDataSetPopulator
 				dis.close( );
 				bis.close( );
 			}
+			if( disRowLensStream != null )
+				disRowLensStream.close( );
 		}
 		catch ( IOException e )
 		{
