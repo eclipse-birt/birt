@@ -69,6 +69,29 @@ public class Cube implements ICube
 	 */
 	public void create( String[][] keyColumnNames, IDimension[] dimension,
 			IDatasetIterator iterator, String[] measureColumnName,
+			long cacheSize, StopSign stopSign ) throws IOException, BirtException
+	{
+		create( keyColumnNames,
+				keyColumnNames,
+				dimension,
+				iterator,
+				measureColumnName,
+				cacheSize,
+				stopSign );
+	}
+	
+	/**
+	 * 
+	 * @param keyColumnNames
+	 * @param dimension
+	 * @param iterator
+	 * @param measureColumnName
+	 * @param stopSign
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public void create( String[][] keyColumnNames, IDimension[] dimension,
+			IDatasetIterator iterator, String[] measureColumnName,
 			StopSign stopSign ) throws IOException, BirtException
 	{
 		create( keyColumnNames,
@@ -76,8 +99,10 @@ public class Cube implements ICube
 				dimension,
 				iterator,
 				measureColumnName,
+				0,
 				stopSign );
 	}
+	
 	/**
 	 * 
 	 * @param factTableJointColumnNames
@@ -92,7 +117,7 @@ public class Cube implements ICube
 	public void create( String[][] factTableJointColumnNames,
 			String[][] DimJointColumnNames, IDimension[] dimension,
 			IDatasetIterator iterator, String[] measureColumnName,
-			StopSign stopSign ) throws IOException, BirtException
+			long cacheSize, StopSign stopSign ) throws IOException, BirtException
 	{
 		IDocumentObject documentObject = documentManager.createDocumentObject( NamingUtil.getCubeDocName( name ) );
 		documentObject.writeString( name );
@@ -108,6 +133,7 @@ public class Cube implements ICube
 			tDimensions[i] = (Dimension) dimension[i];
 		}
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
+		factTableConstructor.setMemoryCacheSize( cacheSize );
 		factTable = factTableConstructor.saveFactTable( name,
 				factTableJointColumnNames,
 				DimJointColumnNames,

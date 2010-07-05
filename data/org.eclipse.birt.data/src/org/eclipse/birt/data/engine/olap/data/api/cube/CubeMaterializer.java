@@ -179,7 +179,7 @@ public class CubeMaterializer
 	 */
 	public void createCube( String name, String[][] keyColumnNames, IDimension[] dimensions, IDatasetIterator factTable, String[] measureColumns, StopSign stopSign ) throws IOException, BirtException
 	{
-		createCube( name, keyColumnNames, keyColumnNames, dimensions, factTable, measureColumns, stopSign );
+		createCube( name, keyColumnNames, keyColumnNames, dimensions, factTable, measureColumns, 0, stopSign );
 	}
 	
 	/**
@@ -197,14 +197,15 @@ public class CubeMaterializer
 	public void createCube( String name, String[][] factTableJointColumnNames,
 			String[][] DimJointColumnNames, IDimension[] dimensions,
 			IDatasetIterator factTable, String[] measureColumns,
-			StopSign stopSign ) throws IOException, BirtException
+			long cacheSize, StopSign stopSign ) throws IOException, BirtException
 	{
 		if( dimensions.length == 0 )
 		{
 			throw new DataException( ResourceConstants.MISSING_DIMENSION_IN_CUBE, name );
 		}
 		Cube cube = new Cube( name, documentManager );
-		cube.create( factTableJointColumnNames, DimJointColumnNames, dimensions, factTable, measureColumns, stopSign );
+		cube.create(factTableJointColumnNames, DimJointColumnNames, dimensions,
+				factTable, measureColumns, cacheSize, stopSign);
 		cube.close( );
 		documentManager.flush( );
 	}

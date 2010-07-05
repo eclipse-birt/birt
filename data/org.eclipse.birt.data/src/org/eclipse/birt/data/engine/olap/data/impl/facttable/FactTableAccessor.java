@@ -20,9 +20,11 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
@@ -53,6 +55,7 @@ public class FactTableAccessor
 {
 	private IDocumentManager documentManager =null;
 	private static Logger logger = Logger.getLogger( FactTableAccessor.class.getName( ) );
+	private long memoryCacheSize = 0;
 	
 	public FactTableAccessor( IDocumentManager documentManager )
 	{
@@ -351,7 +354,37 @@ public class FactTableAccessor
 		documentObject.writeInt( segmentNumber );
 		documentObject.close( );
 	}
+	
+	public void setMemoryCacheSize( long memoryCacheSize )
+	{
+		this.memoryCacheSize = memoryCacheSize;
+	}
 
+	private static int getObjectSize( int[] dataType) {
+		int size = 0;
+		for( int i = 0; i < dataType.length; i++ )
+		{
+			if( dataType[i] == DataType.STRING_TYPE )
+			{
+				size += 40 + ( ( 20 + 1 ) / 4 ) * 8; //We can assume String values to average 20 characters each.
+			}
+			else
+			{
+				size += SizeOfUtil.sizeOf( dataType[i] );
+			}
+		}
+		size += getArraySize( dataType.length );
+		
+		return size;
+	}
+	
+	private static int getArraySize( int length )
+	{
+		if( length == 0 )
+			return 0;
+		return 16 + ( 4 + length * 4 - 1 ) / 8 * 8;
+	}
+	
 	/**
 	 * 
 	 * @param iterator
@@ -362,18 +395,30 @@ public class FactTableAccessor
 	 * @throws BirtException
 	 * @throws IOException
 	 */
-	private static DiskSortedStack getSortedFactTableRows( IDatasetIterator iterator,
+	private DiskSortedStack getSortedFactTableRows( IDatasetIterator iterator,
 			String[][] keyColumnNames, String[] measureColumnNames, StopSign stopSign )
 			throws BirtException, IOException
 	{
-		DiskSortedStack result = new DiskSortedStack( Constants.FACT_TABLE_BUFFER_SIZE,
+		DiskSortedStack result = null;
+		if( this.memoryCacheSize != 0 )
+		{
+			int bufferSize = caculateBufferSize( iterator, keyColumnNames, measureColumnNames );
+			result = new DiskSortedStack( bufferSize,
 				true,
 				false,
 				FactTableRow.getCreator( ) );
+		}
+		else
+		{
+			result = new DiskSortedStack( 10000,
+					true,
+					false,
+					FactTableRow.getCreator( ) );
+			result.setUseMemoryOnly( true );
+		}
 
 		int[][] levelKeyColumnIndex = new int[keyColumnNames.length][];
 		int[] measureColumnIndex = new int[measureColumnNames.length];
-
 		for ( int i = 0; i < keyColumnNames.length; i++ )
 		{
 			levelKeyColumnIndex[i] = new int[keyColumnNames[i].length];
@@ -386,7 +431,6 @@ public class FactTableAccessor
 		{
 			measureColumnIndex[i] = iterator.getFieldIndex( measureColumnNames[i] );
 		}
-
 		while ( iterator.next( ) && !stopSign.isStopped( ) )
 		{
 			FactTableRow factTableRow = new FactTableRow( );
@@ -413,6 +457,36 @@ public class FactTableAccessor
 			result.push( factTableRow );
 		}
 		return result;
+	}
+
+	private int caculateBufferSize(IDatasetIterator iterator,
+			String[][] keyColumnNames, String[] measureColumnNames)
+			throws BirtException
+	{
+		int[][] levelKeyColumnDataType = new int[keyColumnNames.length][];
+		int[] measureColumnType = new int[measureColumnNames.length];
+
+		for ( int i = 0; i < keyColumnNames.length; i++ )
+		{
+			levelKeyColumnDataType[i] = new int[keyColumnNames[i].length];
+			for ( int j = 0; j < keyColumnNames[i].length; j++ )
+			{
+				levelKeyColumnDataType[i][j] = iterator.getFieldType( keyColumnNames[i][j] );
+			}
+		}
+		for ( int i = 0; i < measureColumnType.length; i++ )
+		{
+			measureColumnType[i] = iterator.getFieldType( measureColumnNames[i] );
+		}
+		int levelSize = 0;
+		for( int i = 0; i < levelKeyColumnDataType.length; i++ )
+		{
+			levelSize += getObjectSize( levelKeyColumnDataType[i] );
+		}
+		int measureSize = getObjectSize( measureColumnType );
+		
+		int rowSize = 16 + ( 4 + ( levelSize + measureSize ) - 1 ) / 8 * 8;
+		return (int) ( memoryCacheSize / rowSize );
 	}
 
 	/**
