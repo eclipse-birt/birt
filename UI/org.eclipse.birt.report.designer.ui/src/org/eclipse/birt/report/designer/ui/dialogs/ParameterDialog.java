@@ -2400,8 +2400,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionContextFactory getExpressionContextFactory( )
 			{
+				Map<String, Object> extras = new HashMap<String, Object>( );
+				DataSetHandle dataSetHandle = inputParameter.getModuleHandle( )
+						.findDataSet( dataSetChooser.getText( ) );
+				extras.put( ExpressionProvider.DATASETS, dataSetHandle );
+
 				return new ExpressionContextFactoryImpl( getContextObject( ),
-						getExpressionProvider( ) );
+						getExpressionProvider( ),
+						extras );
 			}
 		};
 

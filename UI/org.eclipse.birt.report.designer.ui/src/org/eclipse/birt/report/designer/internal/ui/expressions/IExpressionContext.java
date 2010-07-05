@@ -18,4 +18,8 @@ public interface IExpressionContext
 {
 
 	Object getContextObject( );
+
+	Object getExtra( String key );
+
+	void putExtra( String key, Object value );
 }

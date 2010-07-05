@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.expressions;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,15 +24,16 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.ExpressionType;
 
 /**
- * 
+ * ExpressionContextFactoryImpl
  */
-
 public class ExpressionContextFactoryImpl implements IExpressionContextFactory
 {
 
 	private Map<String, IExpressionContext> contexts;
 
 	private List<ExpressionFilter> filters;
+
+	private Map<String, Object> extras = new HashMap<String, Object>( );
 
 	public ExpressionContextFactoryImpl( Object contextObj,
 			IExpressionProvider javaScriptExpressionProvider )
@@ -48,10 +50,27 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory
 		}
 	}
 
+	public ExpressionContextFactoryImpl( Object contextObj,
+			IExpressionProvider javaScriptExpressionProvider,
+			Map<String, Object> extras )
+	{
+		this( contextObj, javaScriptExpressionProvider );
+		this.extras.putAll( extras );
+	}
+
 	public ExpressionContextFactoryImpl(
 			Map<String, IExpressionContext> contexts )
 	{
 		this.contexts = contexts;
+		if ( contexts != null
+				&& contexts.get( ExpressionType.JAVASCRIPT ) instanceof JSExpressionContext )
+		{
+			IExpressionProvider provider = ( (JSExpressionContext) contexts.get( ExpressionType.JAVASCRIPT ) ).getExpressionProvider( );
+			if ( provider instanceof IExpressionFilterSupport )
+			{
+				filters = ( (IExpressionFilterSupport) provider ).getFilters( );
+			}
+		}
 	}
 
 	public IExpressionContext getContext( String expressionType,
@@ -71,10 +90,8 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory
 				{
 					( (IExpressionFilterSupport) cxt ).setFilters( filters );
 				}
-				else
-				{
-					return cxt;
-				}
+
+				return cxt;
 			}
 		}
 
@@ -83,6 +100,14 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory
 		{
 			DefaultExpressionContext defaultCxt = new DefaultExpressionContext( contextObj );
 			defaultCxt.setFilters( filters );
+
+			Iterator iter = extras.keySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				String key = (String) iter.next( );
+				defaultCxt.putExtra( key, extras.get( key ) );
+			}
+			
 			return defaultCxt;
 		}
 		else

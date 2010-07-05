@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.expressions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.designer.ui.expressions.IExpressionFilterSupport;
@@ -27,6 +29,8 @@ public class DefaultExpressionContext implements
 	private Object contextObject;
 
 	private List<ExpressionFilter> filters;
+
+	private Map<String, Object> extras = new HashMap<String, Object>( );
 
 	public DefaultExpressionContext( Object contextObject )
 	{
@@ -46,5 +50,15 @@ public class DefaultExpressionContext implements
 	public java.util.List<ExpressionFilter> getFilters( )
 	{
 		return filters;
-	};
+	}
+
+	public Object getExtra( String key )
+	{
+		return extras.get( key );
+	}
+
+	public void putExtra( String key, Object value )
+	{
+		extras.put( key, value );
+	}
 }
