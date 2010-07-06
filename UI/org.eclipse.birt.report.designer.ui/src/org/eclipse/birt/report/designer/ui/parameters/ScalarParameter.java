@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.parameters;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -48,6 +47,7 @@ public abstract class ScalarParameter implements IParameter
 	 * engine task.
 	 */
 	protected IEngineTask engineTask;
+	private Object oriDefaultValue;
 
 	/**
 	 * Constructor
@@ -107,6 +107,10 @@ public abstract class ScalarParameter implements IParameter
 		return group;
 	}
 
+	public Object getDefaultObject()
+	{
+		return oriDefaultValue;
+	}
 	/**
 	 * Gets default value.
 	 * 
@@ -127,6 +131,7 @@ public abstract class ScalarParameter implements IParameter
 			Object[] objs = (Object[])obj;
 			if (objs.length > 0)
 			{
+				oriDefaultValue = objs[0];
 				return objs[0].toString( );
 			}
 			else
@@ -134,6 +139,7 @@ public abstract class ScalarParameter implements IParameter
 				return null;
 			}
 		}
+		oriDefaultValue = obj;
 		if (obj instanceof Date)
 		{
 			try

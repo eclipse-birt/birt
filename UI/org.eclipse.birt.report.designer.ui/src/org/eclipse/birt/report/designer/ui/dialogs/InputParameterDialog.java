@@ -463,7 +463,7 @@ public class InputParameterDialog extends BaseDialog
 		return container;
 	}
 
-	private void checkParam( final Object defaultValue, List list )
+	private void checkParam( final String defaultValueLabel, final Object defaultValue, List list )
 	{
 		if ( !performed )
 		{
@@ -493,7 +493,7 @@ public class InputParameterDialog extends BaseDialog
 
 					public String getLabel( )
 					{
-						return defaultValue.toString( );
+						return defaultValueLabel;
 					}
 
 					public Object getValue( )
@@ -546,14 +546,9 @@ public class InputParameterDialog extends BaseDialog
 			list.add( blankValueChoice );
 		}
 		list.addAll( listParam.getValueList( ) );
-		try
-		{
-			checkParam( listParam.converToDataType(listParam.getDefaultValue( )),list );
-		}
-		catch ( BirtException e1 )
-		{
-			//do nothing
-		}
+		
+		checkParam( formatString( listParam.getDefaultValue( ), listParam),listParam.getDefaultObject( ), list );
+		
 		if ( !isRequired )
 		{
 			boolean hasNull = false;
@@ -604,6 +599,7 @@ public class InputParameterDialog extends BaseDialog
 		else
 		{
 			boolean found = false;
+			value = listParam.getDefaultObject( );
 			for ( int i = 0; i < combo.getItemCount( ); i++ )
 			{
 				if ( value.equals( combo.getData( combo.getItem( i ) ) ))
@@ -747,14 +743,8 @@ public class InputParameterDialog extends BaseDialog
 			list.add( blankValueChoice );
 		}
 		list.addAll( listParam.getValueList( ) );
-		try
-		{
-			checkParam( listParam.converToDataType(listParam.getDefaultValue( )),list );
-		}
-		catch ( BirtException e1 )
-		{
-			//do nothing
-		}
+		checkParam( formatString( listParam.getDefaultValue( ), listParam),listParam.getDefaultObject( ), list );
+		
 		if ( !isRequired )
 		{
 			list.add( InputParameterDialog.nullValueChoice );
