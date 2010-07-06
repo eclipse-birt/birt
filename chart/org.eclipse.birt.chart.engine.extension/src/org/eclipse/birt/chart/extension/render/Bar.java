@@ -1110,6 +1110,7 @@ public final class Bar extends AxesRenderer
 					}
 					else
 					{
+						boolean isConeOrTriangle = (rt.getValue( ) == RiserType.TRIANGLE || rt.getValue( ) == RiserType.CONE );
 						final InteractionEvent iev = createEvent( iSource,
 								elTriggers,
 								ipr );
@@ -1139,13 +1140,27 @@ public final class Bar extends AxesRenderer
 							}
 							else
 							{
-								if ( hotspotLoa[1].getY( )
-										- hotspotLoa[0].getY( ) < MIN_HEIGHT )
+								if ( isConeOrTriangle )
 								{
-									hotspotLoa[0].setY( hotspotLoa[1].getY( )
-											- MIN_HEIGHT );
-									hotspotLoa[3].setY( hotspotLoa[2].getY( )
-											- MIN_HEIGHT );
+									if ( hotspotLoa[0].getY( )
+											- hotspotLoa[1].getY( ) < MIN_HEIGHT )
+									{
+										hotspotLoa[1].setY( hotspotLoa[0].getY( )
+												- MIN_HEIGHT );
+										hotspotLoa[2].setY( hotspotLoa[3].getY( )
+												- MIN_HEIGHT );
+									}
+								}
+								else
+								{
+									if ( hotspotLoa[1].getY( )
+											- hotspotLoa[0].getY( ) < MIN_HEIGHT )
+									{
+										hotspotLoa[0].setY( hotspotLoa[1].getY( )
+												- MIN_HEIGHT );
+										hotspotLoa[3].setY( hotspotLoa[2].getY( )
+												- MIN_HEIGHT );
+									}
 								}
 							}
 						}
