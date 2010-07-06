@@ -81,7 +81,10 @@ public class ErrorsManager
 	public void removeErrors( )
 	{
 		this.errorMessage = null;
-		wizard.getDialog( ).setErrorMessage( null );
+		if ( !wizard.isDisposed( ) )
+		{
+			wizard.getDialog( ).setErrorMessage( null );
+		}
 	}
 
 	public String getErrors( )

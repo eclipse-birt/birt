@@ -64,6 +64,11 @@ public class WizardBase implements IRegistrationListener
 	boolean bEnterClosed = true;
 
 	/**
+	 * Indicates if wizard is disposed or not.
+	 */
+	boolean isDisposed = false;
+
+	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and
 	 * the specified task sets as the 'Active' task.
 	 * 
@@ -520,11 +525,17 @@ public class WizardBase implements IRegistrationListener
 
 	public void dispose( )
 	{
+		isDisposed = true;
 		Iterator<ITask> tasks = availableTasks.values( ).iterator( );
 		while ( tasks.hasNext( ) )
 		{
 			tasks.next( ).dispose( );
 		}
+	}
+
+	public boolean isDisposed( )
+	{
+		return isDisposed;
 	}
 
 	protected BirtTitleAreaDialog getDialog( )
