@@ -21,8 +21,12 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
@@ -698,6 +702,42 @@ public final class ContainerContext
 	public boolean isROMSlot( )
 	{
 		return isSlot;
+	}
+	
+	public static boolean isValidContainerment( Module module,
+			DesignElement containerElement, ReportItem item, DataSet dataSet,
+			Cube cube )
+	{
+		if ( dataSet != null || cube != null )
+		{
+			DesignElement container = containerElement;
+			while ( container != null )
+			{
+				if ( container instanceof ReportItem )
+				{
+					ReportItem containerItem = (ReportItem) container;
+					DataSet containerDataSet = (DataSet) containerItem
+							.getDataSetElement( module );
+					Cube containerCube = (Cube) containerItem
+							.getCubeElement( module );
+					if ( ( containerDataSet != null && dataSet != null && containerDataSet != dataSet )
+							|| ( containerCube != null && cube != null && containerCube != cube ) )
+					{
+						// if any of its container defines different
+						// data object and multi-view, then it is
+						// invalid containerment
+						if ( containerItem.getProperty( module,
+								IReportItemModel.MULTI_VIEWS_PROP ) != null )
+						{
+							return false;
+						}
+					}
+				}
+				container = container.getContainer( );
+			}
+		}
+
+		return true;
 	}
 
 }

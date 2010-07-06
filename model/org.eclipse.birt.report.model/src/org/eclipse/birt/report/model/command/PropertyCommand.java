@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ContentElement;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
@@ -70,6 +71,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.OdaLevel;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
@@ -298,6 +300,33 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 				attrCmd.doSetProperty( prop, value );
 				return;
+			}
+		}
+
+		if ( element instanceof ReportItem
+				&& ( IReportItemModel.DATA_SET_PROP.equals( propName ) || IReportItemModel.CUBE_PROP
+						.equals( propName ) ) )
+		{
+			DesignElement container = element.getContainer( );
+			DataSet dataSet = null;
+			Cube cube = null;
+			if ( IReportItemModel.DATA_SET_PROP.equals( propName ) )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
+				if ( refValue != null )
+					dataSet = (DataSet) refValue.getElement( );
+			}
+			else if ( IReportItemModel.CUBE_PROP.equals( propName ) )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
+				if ( refValue != null )
+					cube = (Cube) refValue.getElement( );
+			}
+			if ( !ContainerContext.isValidContainerment( module, container,
+					(ReportItem) element, dataSet, cube ) )
+			{
+				throw new SemanticError( element,
+						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_PAGE_SIZE );
 			}
 		}
 
