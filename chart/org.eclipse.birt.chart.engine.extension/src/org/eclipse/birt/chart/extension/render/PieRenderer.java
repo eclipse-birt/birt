@@ -301,7 +301,7 @@ public final class PieRenderer
 
 				if ( Math.abs( da[i] ) >= Math.abs( dAbsoluteMinSlice ) )
 				{
-					pieSliceList.add( new PieSlice( da[i], dpha[i], i ) );
+					pieSliceList.add( new PieSlice( da[i], dpha[i], i, false ) );
 				}
 				else
 				{
@@ -350,7 +350,7 @@ public final class PieRenderer
 				// neg and pos "other" slice share the same palette color
 				pieSliceList.add( new PieSlice( residualPos,
 						dphPos,
-						orginalSliceCount ) );
+						orginalSliceCount, true ) );
 				bMinSliceApplied = true;
 			}
 			if ( dphNeg != null )
@@ -359,7 +359,7 @@ public final class PieRenderer
 				dphNeg.setIndex( orginalSliceCount );
 				pieSliceList.add( new PieSlice( residualNeg,
 						dphNeg,
-						orginalSliceCount ) );
+						orginalSliceCount, true ) );
 				bMinSliceApplied = true;
 			}
 		}
@@ -372,7 +372,7 @@ public final class PieRenderer
 				{
 					continue;
 				}
-				pieSliceList.add( new PieSlice( da[i], dpha[i], i ) );
+				pieSliceList.add( new PieSlice( da[i], dpha[i], i, false ) );
 			}
 		}
 
@@ -2919,14 +2919,22 @@ public final class PieRenderer
 		private double w, h, xc, yc;
 		
 		private double xDock, yDock;
+		
+		private boolean bMinSlice;
 
 		PieSlice( double primitiveValue, DataPointHints dataPointHints,
-				int categroyIndex ) throws ChartException
+				int categroyIndex, boolean bMinSlice ) throws ChartException
 		{
 			this.primitiveValue = primitiveValue;
 			this.dataPointHints = dataPointHints;
 			this.categoryIndex = categroyIndex;
+			this.bMinSlice = bMinSlice;
 			createSliceLabel();
+		}
+		
+		public boolean isMinSlice()
+		{
+			return bMinSlice;
 		}
 		
 		public void createSliceLabel( ) throws ChartException
@@ -2993,6 +3001,7 @@ public final class PieRenderer
 			slice.setBounds( bounds );
 			slice.labelBounding = labelBounding;
 			slice.quadrant = quadrant;
+			slice.bMinSlice = bMinSlice;
 		}
 
 		public double getPrimitiveValue( )
@@ -3284,7 +3293,7 @@ public final class PieRenderer
 					idr.drawArc( are );
 				}
 
-				if ( pie.isInteractivityEnabled( ) )
+				if ( pie.isInteractivityEnabled( )&&!bMinSlice )
 				{
 					final EList<Trigger> elTriggers = ps.getTriggers( );
 					if ( !elTriggers.isEmpty( ) )
