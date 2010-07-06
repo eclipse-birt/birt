@@ -59,10 +59,10 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
-import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionSet;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -3203,7 +3203,53 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 		}
+		else if ( ChartUIConstants.UPDATE_CUBE_BINDINGS.equals( type ) )
+		{
+			isUpdated = updateCubeBindings( );
+		}
 		return isUpdated;
+	}
+
+	/**
+	 * Updates cube bindings due to the change of cube set.
+	 *
+	 * @return
+	 */
+	protected boolean updateCubeBindings( )
+	{
+		boolean updated = false;
+		try
+		{
+			CubeHandle cubeHandle = itemHandle.getCube( );
+			if ( cubeHandle != null )
+			{
+				List<ComputedColumn> columnList = generateComputedColumns( cubeHandle );
+				if ( columnList.size( ) > 0 )
+				{
+					List<String> bindingNameList = new ArrayList<String>( );
+					for ( Iterator<ComputedColumnHandle> iter = itemHandle.columnBindingsIterator( ); iter.hasNext( ); )
+					{
+						ComputedColumnHandle cch = iter.next( );
+						bindingNameList.add( cch.getName( ) );
+					}
+					for ( Iterator<ComputedColumn> iter = columnList.iterator( ); iter.hasNext( ); )
+					{
+						ComputedColumn cc = iter.next( );
+						if ( !bindingNameList.contains( cc.getName( ) ) )
+						{
+							DEUtil.addColumn( itemHandle, cc, false );
+							updated = true;
+						}
+					}
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			ChartWizard.showException( ChartWizard.RepDSProvider_Cube_ID,
+					e.getLocalizedMessage( ) );
+		}
+		return updated;
 	}
 
 	/**

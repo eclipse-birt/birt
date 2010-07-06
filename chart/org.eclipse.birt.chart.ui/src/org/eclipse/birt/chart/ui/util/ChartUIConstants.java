@@ -118,4 +118,6 @@ public interface ChartUIConstants
 	public static final String TYPE_METER = "Meter Chart"; //$NON-NLS-1$
 	
 	public static final String COPY_SERIES_DEFINITION= "CopySeriesDefinition"; //$NON-NLS-1$
+	
+	public static final String UPDATE_CUBE_BINDINGS = "UpdateCubeBindings";
 }

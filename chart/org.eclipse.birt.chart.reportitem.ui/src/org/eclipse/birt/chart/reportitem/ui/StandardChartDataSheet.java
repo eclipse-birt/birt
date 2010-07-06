@@ -2897,6 +2897,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 //				}
 				else
 				{
+					// Updates cube bindings before updating available bindings for chart.
+					getDataServiceProvider( ).update( ChartUIConstants.UPDATE_CUBE_BINDINGS, null );
+					
 					Iterator<ComputedColumnHandle> columnBindings = ChartItemUtil.getAllColumnBindingsIterator( itemHandle );
 					List<String> levels = ChartCubeUtil.getAllLevelsBindingName( columnBindings );
 					String[] exprs = levels.toArray( new String[levels.size( )] );
