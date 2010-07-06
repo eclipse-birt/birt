@@ -12,13 +12,10 @@
 package org.eclipse.birt.report.engine.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
@@ -53,7 +50,7 @@ public class SvgFile
 		return isSvg;
 	}
 
-	public static byte[] transSvgToArray( String uri ) throws IOException
+	public static byte[] transSvgToArray( String uri ) throws Exception
 	{
 		InputStream in = new URL( uri ).openStream( );
 		try
@@ -67,7 +64,7 @@ public class SvgFile
 	}
 
 	public static byte[] transSvgToArray( InputStream inputStream )
-			throws IOException
+			throws Exception
 	{
 		JPEGTranscoder transcoder = new JPEGTranscoder( );
 		// set the transcoding hints
@@ -78,14 +75,7 @@ public class SvgFile
 		// create the transcoder output
 		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
 		TranscoderOutput output = new TranscoderOutput( ostream );
-		try
-		{
-			transcoder.transcode( input, output );
-		}
-		catch ( TranscoderException e )
-		{
-			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
-		}
+		transcoder.transcode( input, output );
 		// flush the stream
 		ostream.flush( );
 		// use the output stream as Image input stream.

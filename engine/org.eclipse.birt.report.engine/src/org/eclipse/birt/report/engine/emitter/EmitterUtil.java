@@ -318,7 +318,14 @@ public class EmitterUtil
 		byte[] imageData = null;
 		if ( SvgFile.isSvg( imageURI ) )
 		{
-			imageData = SvgFile.transSvgToArray( imageURI );
+			try
+			{
+				imageData = SvgFile.transSvgToArray( imageURI );
+			}
+			catch ( Exception e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+			}
 		}
 		else
 		{
@@ -415,7 +422,14 @@ public class EmitterUtil
 					{
 						if ( SvgFile.isSvg( uri ) )
 						{
-							data = SvgFile.transSvgToArray( uri );
+							try
+							{
+								data = SvgFile.transSvgToArray( uri );
+							}
+							catch ( Exception e )
+							{
+								logger.log( Level.WARNING, e.getMessage( ) );
+							}
 						}
 						else
 						{
@@ -430,7 +444,14 @@ public class EmitterUtil
 							&& null != data )
 					{
 						in = new ByteArrayInputStream( data );
-						data = SvgFile.transSvgToArray( in );
+						try
+						{
+							data = SvgFile.transSvgToArray( in );
+						}
+						catch ( Exception e )
+						{
+							logger.log( Level.WARNING, e.getMessage( ) );
+						}
 					}
 					break;
 			}

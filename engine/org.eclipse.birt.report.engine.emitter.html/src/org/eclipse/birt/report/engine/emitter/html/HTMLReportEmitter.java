@@ -3410,14 +3410,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		uri = url.toExternalForm( );
 		Image image = null;
-		if ( isBackground && SvgFile.isSvg( uri ) )
+		if ( isBackground )
 		{
 			try
 			{
 				byte[] buffer = SvgFile.transSvgToArray( uri );
 				image = new Image( buffer, uri, ".jpg" );
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				image = new Image( uri );
 			}

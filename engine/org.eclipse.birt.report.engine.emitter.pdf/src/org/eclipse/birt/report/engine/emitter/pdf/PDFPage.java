@@ -142,20 +142,19 @@ public class PDFPage extends AbstractPage
 			}
 			catch ( IOException e )
 			{
-				if ( SvgFile.isSvg( imageUrl ) )
+				try
 				{
-					try
-					{
-						img = Image.getInstance( SvgFile
-								.transSvgToArray( imageUrl ) );
-					}
-					catch ( IOException ex )
-					{
-						throw ex;
-					}
+					img = Image
+							.getInstance( SvgFile.transSvgToArray( imageUrl ) );
 				}
-				else
+				catch ( IOException ex )
 				{
+					throw ex;
+				}
+				catch ( Exception te )
+				{
+					// throw the IOException here. because the image is not
+					// necessary to be a SVG.
 					throw e;
 				}
 			}

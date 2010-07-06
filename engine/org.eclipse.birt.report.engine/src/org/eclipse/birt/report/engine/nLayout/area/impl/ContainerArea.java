@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -355,21 +356,22 @@ public abstract class ContainerArea extends AbstractArea
 			}
 			catch ( Exception e )
 			{
-				if ( SvgFile.isSvg( imageUrl ) )
+				try
 				{
-					try
-					{
-						img = Image.getInstance( SvgFile
-								.transSvgToArray( imageUrl ) );
-					}
-					catch ( Exception ex )
-					{
-						logger.log( Level.WARNING, ex.getMessage( ), ex );
-					}
+					img = Image
+							.getInstance( SvgFile.transSvgToArray( imageUrl ) );
 				}
-				else
+				catch ( IOException ex )
 				{
+					logger.log( Level.WARNING, ex.getMessage( ), ex );
+					return;
+				}
+				catch ( Exception te )
+				{
+					// log the IOException here. because the image is not
+					// necessary to be a SVG.
 					logger.log( Level.WARNING, e.getMessage( ), e );
+					return;
 				}
 			}
 			if ( img != null )

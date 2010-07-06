@@ -201,7 +201,16 @@ public class ImageReader
 		{
 			if ( objectType == TYPE_SVG_OBJECT )
 			{
-				buffer = SvgFile.transSvgToArray( in );
+				try
+				{
+					buffer = SvgFile.transSvgToArray( in );
+				}
+				catch ( Exception e )
+				{
+					buffer = null;
+					status = UNSUPPORTED_OBJECTS;
+					return;
+				}
 				objectType = TYPE_CONVERTED_SVG_OBJECT;
 				status = OBJECT_LOADED_SUCCESSFULLY;
 			}
@@ -230,9 +239,25 @@ public class ImageReader
 		{
 			if ( objectType == TYPE_SVG_OBJECT )
 			{
-				InputStream in = new ByteArrayInputStream( data );
-				buffer = SvgFile.transSvgToArray( in );
-				in.close( );
+				InputStream in = null;
+				try
+				{
+					in = new ByteArrayInputStream( data );
+					buffer = SvgFile.transSvgToArray( in );
+				}
+				catch ( Exception e )
+				{
+					buffer = null;
+					status = UNSUPPORTED_OBJECTS;
+					return;
+				}
+				finally
+				{
+					if ( in != null )
+					{
+						in.close( );
+					}
+				}
 				objectType = TYPE_CONVERTED_SVG_OBJECT;
 				status = OBJECT_LOADED_SUCCESSFULLY;
 			}
