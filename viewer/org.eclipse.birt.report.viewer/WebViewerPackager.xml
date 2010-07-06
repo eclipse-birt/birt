@@ -432,6 +432,7 @@
 			<include name="org.eclipse.datatools.connectivity.sqm.core_*.jar" />
 		    <include name="org.eclipse.datatools.modelbase.dbdefinition_*.jar" />
 		    <include name="org.eclipse.datatools.modelbase.sql_*.jar"/>
+			<include name="org.eclipse.datatools.modelbase.sql.query_*.jar"/>
 		    <include name="org.eclipse.datatools.connectivity.apache.derby_*.jar" />
 		    <include name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition_*.jar" />
 		    <include name="org.eclipse.datatools.modelbase.derby_*.jar" />
