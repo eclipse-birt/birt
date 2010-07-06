@@ -28,3 +28,7 @@ OptionDisplayValue.HideGridlines=隐藏网络线
 OptionDescription.WrappingText=表示文本是否可自动换行。
 OptionDescription.ChartDpi=DPI 用于生成图表。
 OptionDescription.HideGridlines=隐藏网络线。
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

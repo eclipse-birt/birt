@@ -28,3 +28,7 @@ OptionDisplayValue.HideGridlines=Ocultar líneas de cuadrícula
 OptionDescription.WrappingText=Indica si el texto se puede autoajustar.
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
 OptionDescription.HideGridlines=Ocultar líneas de cuadrícula.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

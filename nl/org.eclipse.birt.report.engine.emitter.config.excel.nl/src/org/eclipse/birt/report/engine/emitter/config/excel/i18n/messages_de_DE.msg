@@ -28,3 +28,7 @@ OptionDisplayValue.HideGridlines=Rasterlinien ausblenden
 OptionDescription.WrappingText=Gibt an, ob der Text Zeilenumbrüche enthält.
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
 OptionDescription.HideGridlines=Rasterlinien ausblenden.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

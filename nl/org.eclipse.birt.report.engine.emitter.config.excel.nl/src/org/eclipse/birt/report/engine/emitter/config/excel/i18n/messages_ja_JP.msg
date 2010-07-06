@@ -28,3 +28,7 @@ OptionDisplayValue.HideGridlines=罫線を非表示
 OptionDescription.WrappingText=文字列を折り返すかどうかを示します。
 OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
 OptionDescription.HideGridlines=罫線を非表示にします。
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

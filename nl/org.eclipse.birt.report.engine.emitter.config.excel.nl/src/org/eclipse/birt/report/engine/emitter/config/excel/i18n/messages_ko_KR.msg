@@ -28,3 +28,7 @@ OptionDisplayValue.HideGridlines=눈금선 숨기기
 OptionDescription.WrappingText=텍스트 줄 바꿈 가능 여부를 나타냅니다.
 OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
 OptionDescription.HideGridlines=눈금선을 숨깁니다.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

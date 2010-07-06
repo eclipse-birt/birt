@@ -28,3 +28,7 @@ OptionDisplayValue.HideGridlines=Cacher les lignes de la grille
 OptionDescription.WrappingText=Indique si le retour à la ligne est autorisé pour le texte.
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
 OptionDescription.HideGridlines=Cacher les lignes de la grille.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
