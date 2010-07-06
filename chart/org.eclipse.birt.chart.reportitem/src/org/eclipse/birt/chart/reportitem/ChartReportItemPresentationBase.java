@@ -956,7 +956,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	{
 		final Bounds bo = computeBounds( );
 
-		initializeRuntimeContext( rowAdapter );
+		initializeRuntimeContext( rowAdapter, bo );
 
 		GeneratedChartState gcs = Generator.instance( )
 				.build( idr.getDisplayServer( ),
@@ -1063,7 +1063,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	}
 
 	private void initializeRuntimeContext(
-			IDataRowExpressionEvaluator rowAdapter )
+			IDataRowExpressionEvaluator rowAdapter, Bounds bo )
 	{
 		rtc.setActionRenderer( ChartReportItemUtil.instanceActionRenderer( modelHandle,
 				this.ah,
@@ -1078,9 +1078,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		rtc.setRightToLeft( crii.isLayoutDirectionRTL( ) );
 		rtc.setResourceFinder( crii );
 		rtc.setExternalizer( crii );
+		
+		if (rtc.getSharedScale( )!=null)
+		{
+			rtc.getSharedScale( ).updateBounds( bo );
+		}
 	}
 
-	private void prepareDeviceRenderer( ) throws ChartException
+	protected void prepareDeviceRenderer( ) throws ChartException
 	{
 		idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
 				+ sExtension.toUpperCase( Locale.US ) );

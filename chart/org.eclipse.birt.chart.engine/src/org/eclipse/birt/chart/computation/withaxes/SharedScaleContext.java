@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.util.NumberUtil;
 
 import com.ibm.icu.math.BigDecimal;
@@ -32,6 +33,8 @@ public final class SharedScaleContext
 
 	private ScaleContext scaleContext;
 	private List<Object> alMinmax = new ArrayList<Object>( 2 );
+	private long width=-1;
+	private long height=-1;
 	private boolean bShared = false;
 
 	public SharedScaleContext( ScaleContext scaleContext, Object realMin,
@@ -41,6 +44,25 @@ public final class SharedScaleContext
 		this.scaleContext = scaleContext;
 		alMinmax.add( realMin );
 		alMinmax.add( realMax );
+	}
+
+	/**
+	 * update the bounds info, shared scale should be recalculated when bounds
+	 * changed.
+	 * 
+	 * @param bo
+	 */
+	public void updateBounds( Bounds bo )
+	{
+		long widthNew = Math.round( bo.getWidth( ) );
+		long heightNew = Math.round( bo.getHeight( ) );
+
+		if ( width != widthNew || height != heightNew )
+		{
+			width = widthNew;
+			height = heightNew;
+			bShared = false;
+		}
 	}
 
 	/**
@@ -154,9 +176,6 @@ public final class SharedScaleContext
 			}
 			return new DataSetIterator( minmax, iDataType );
 		}
-		else
-		{
-			return createDataSetIterator( iDataType );
-		}
+		return createDataSetIterator( iDataType );
 	}
 }
