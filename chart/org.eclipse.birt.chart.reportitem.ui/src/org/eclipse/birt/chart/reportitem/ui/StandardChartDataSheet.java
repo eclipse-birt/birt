@@ -1167,7 +1167,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		// Make all bindings under share binding case read-only.
 		( (ChartColumnBindingDialog) page ).setReadOnly( getDataServiceProvider( ).isSharedBinding( )
-				|| getDataServiceProvider( ).isInheritanceOnly( ) );
+				|| getDataServiceProvider( ).isInheritanceOnly( )
+				|| getDataServiceProvider( ).checkState( IDataServiceProvider.HAS_CUBE ) );
 
 		int openStatus = page.open( );
 		if ( openStatus == Window.OK )

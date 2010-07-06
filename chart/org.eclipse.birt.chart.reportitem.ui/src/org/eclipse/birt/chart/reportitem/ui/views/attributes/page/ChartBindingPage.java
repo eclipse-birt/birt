@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ID
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BindingGroupSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SortingFormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.AggregateOnBindingsFormDescriptor;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
@@ -56,29 +57,40 @@ public class ChartBindingPage extends BindingPage
 	 */
 	protected AggregateOnBindingsFormHandleProvider createDataSetFormProvider()
 	{
-		if ( input == null ) 
-		{
-			return  new AggregateOnBindingsFormHandleProvider( );
-		}
-		
-		final ReportItemHandle rih;
-		if ( input instanceof List ) {
-			rih = (ExtendedItemHandle) ( (List) input ).get( 0 );
-		} else {
-			rih = (ExtendedItemHandle) input;
-		}
-		
-		if ( ChartReportItemUtil.isChildOfMultiViewsHandle( rih ) )
-		{
-			return new ChartShareBindingsFormHandlerProvider( );
-		}
-		
 		return new AggregateOnBindingsFormHandleProvider( ) {
 
 			@Override
 			public boolean isEditable( )
 			{
-				return !ChartItemUtil.isChartInheritGroups( rih )
+				if ( input == null )
+				{
+					return super.isEditable( );
+				}
+				
+				final ReportItemHandle rih;
+				if ( input instanceof List ) {
+					rih = (ExtendedItemHandle) ( (List) input ).get( 0 );
+				} else {
+					rih = (ExtendedItemHandle) input;
+				}
+				
+				// Multi-view case
+				// Don't allow to edit bindings in chart property page when chart is in multi-views, so return false.
+				if ( ChartReportItemUtil.isChildOfMultiViewsHandle( rih ) )
+				{
+						return false;
+				}
+				
+				// Sharing, Cube, Inheriting and x-chart cases.
+				boolean isSharing = false;
+				if ( ChartItemUtil.getReportItemReference( rih ) != null )
+				{
+					isSharing = true;
+				}
+				boolean useCube = ( rih.getCube( ) != null );
+				return !isSharing
+						&&(!useCube)
+						&& !ChartItemUtil.isChartInheritGroups( rih )
 						&& !ChartCubeUtil.isAxisChart( rih )
 						&& !ChartCubeUtil.isPlotChart( rih );
 			}

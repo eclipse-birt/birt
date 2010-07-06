@@ -16,11 +16,13 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ag
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
-
 /**
  * The class is used for chart sharing bindings with table/crosstab.
+ * <p>
+ * This class is deprecated since 2.6, this is not a appropriate implementation.
  * 
  * @since 2.3
+ * @deprecated
  */
 public class ChartShareBindingsFormHandlerProvider extends
 	AggregateOnBindingsFormHandleProvider
