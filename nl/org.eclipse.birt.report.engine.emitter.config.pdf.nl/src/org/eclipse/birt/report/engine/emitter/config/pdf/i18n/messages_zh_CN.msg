@@ -37,3 +37,7 @@ OptionDescription.FontSubstitution=如果指定的字体无法显示字符，将自动选择字体。
 OptionDescription.EmbeddedFont=true-type 字体应嵌入到生成的 PDF 文件中。
 OptionDescription.ChartDpi=DPI 用于生成图表。
 OptionDescription.RenderChartInSVG=以向量图形呈现图表。
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

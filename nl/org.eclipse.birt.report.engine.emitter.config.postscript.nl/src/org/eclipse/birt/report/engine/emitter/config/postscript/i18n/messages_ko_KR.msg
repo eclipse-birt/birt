@@ -49,3 +49,7 @@ OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
 OptionDescription.Resolution=Resolution.
 OptionDescription.Scale=Scale.
 OptionDescription.Color=Color.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

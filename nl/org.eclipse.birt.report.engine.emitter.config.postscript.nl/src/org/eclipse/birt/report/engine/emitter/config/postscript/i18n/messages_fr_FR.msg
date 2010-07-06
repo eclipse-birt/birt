@@ -49,3 +49,7 @@ OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
 OptionDescription.Resolution=Resolution.
 OptionDescription.Scale=Scale.
 OptionDescription.Color=Color.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

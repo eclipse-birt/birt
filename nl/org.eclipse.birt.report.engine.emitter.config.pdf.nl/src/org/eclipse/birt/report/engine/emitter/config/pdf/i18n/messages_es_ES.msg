@@ -37,3 +37,7 @@ OptionDescription.FontSubstitution=Seleccionar fuentes automáticamente si la fue
 OptionDescription.EmbeddedFont=La fuente de tipo true debe estar incrustada en el archivo PDF generado.
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
 OptionDescription.RenderChartInSVG=Procesar diagrama en los gráficos vectoriales.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

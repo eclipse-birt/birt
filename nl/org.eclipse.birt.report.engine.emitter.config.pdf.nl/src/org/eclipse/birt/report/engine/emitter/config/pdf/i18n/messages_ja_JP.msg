@@ -37,3 +37,7 @@ OptionDescription.FontSubstitution=w’è‚³‚ê‚½ƒtƒHƒ“ƒg‚Å•\¦‚Å‚«‚È‚¢•¶š‚ª‚ ‚éê
 OptionDescription.EmbeddedFont=¶¬‚³‚ê‚é PDF ƒtƒ@ƒCƒ‹‚É‚ÍATrueType ƒtƒHƒ“ƒg‚ğ–„‚ß‚ñ‚Å‚­‚¾‚³‚¢B
 OptionDescription.ChartDpi=ƒOƒ‰ƒt‚Ì¶¬‚Ég—p‚·‚é DPI ‚Å‚·B
 OptionDescription.RenderChartInSVG=ƒxƒNƒ^[ƒOƒ‰ƒtƒBƒbƒN‚ÅƒOƒ‰ƒt‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO‚µ‚Ü‚·B
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

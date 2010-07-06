@@ -37,3 +37,7 @@ OptionDescription.FontSubstitution=Sélectionnez des polices automatiquement si l
 OptionDescription.EmbeddedFont=La police TrueType devrait être intégrée au fichier PDF généré.
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
 OptionDescription.RenderChartInSVG=Afficher le graphique en image vectorielle.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

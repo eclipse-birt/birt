@@ -37,3 +37,7 @@ OptionDescription.FontSubstitution=Schriftarten automatisch wählen, wenn die ang
 OptionDescription.EmbeddedFont=Die TrueType-Schrift muss in die erstellte PDF-Datei eingebettet werden.
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
 OptionDescription.RenderChartInSVG=Diagramm in Vektorgrafiken rendern.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
