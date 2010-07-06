@@ -62,8 +62,7 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
 		chartDpi.setDisplayType( IConfigurableOption.DisplayType.TEXT );
 		chartDpi.setDefaultValue( new Integer( 192 ) );
-		chartDpi
-				.setToolTip( "The DPI which chart engine uses to generate charts. For example, 192." );
+		chartDpi.setToolTip( getMessage( "Tooltip.ChartDpi" ) );
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
 		ConfigurableOption hideGridlines = new ConfigurableOption(
