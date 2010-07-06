@@ -2408,7 +2408,6 @@ Element.Library.slot.pageSetup=페이지 설정
 Element.Library.slot.components=구성 요소
 Element.Library.slot.themes=테마
 Element.Library.slot.cubes=큐브
-Element.Library.slot.reportItemThemes=보고서 항목 테마
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=새로 고침 빈도

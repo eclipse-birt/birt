@@ -2408,7 +2408,6 @@ Element.Library.slot.pageSetup=页面设置
 Element.Library.slot.components=组件
 Element.Library.slot.themes=主题
 Element.Library.slot.cubes=多维数据集
-Element.Library.slot.reportItemThemes=报表项主题
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=刷新比率
