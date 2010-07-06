@@ -33,3 +33,7 @@ OptionDescription.TextWrapping=Text muss Zeilenumbrüche enthalten.
 OptionDescription.PageOverFlow=Legen Sie fest, wie der Inhalt ausgegeben wird.
 OptionDescription.FontSubstitution=Überprüfung erforderlich, ob die ausgewählte Schriftart das Zeichen unterstützt.
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

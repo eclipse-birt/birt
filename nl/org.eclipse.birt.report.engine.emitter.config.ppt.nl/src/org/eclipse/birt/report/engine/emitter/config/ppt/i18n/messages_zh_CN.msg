@@ -33,3 +33,7 @@ OptionDescription.TextWrapping=文本应自动换行。
 OptionDescription.PageOverFlow=控制如何输出内容。
 OptionDescription.FontSubstitution=需要检查所选字体中是否存在字符。
 OptionDescription.ChartDpi=DPI 用于生成图表。
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

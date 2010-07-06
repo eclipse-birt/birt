@@ -33,3 +33,7 @@ OptionDescription.TextWrapping=Un retour à la ligne est nécessaire.
 OptionDescription.PageOverFlow=Vérifiez comment répartir le contenu.
 OptionDescription.FontSubstitution=Vérification nécessaire pour savoir si le caractère existe dans la police sélectionnée.
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

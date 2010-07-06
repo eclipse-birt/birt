@@ -33,3 +33,7 @@ OptionDescription.TextWrapping=El texto debe autoajustarse.
 OptionDescription.PageOverFlow=Controle cómo se va a mostrar el contenido.
 OptionDescription.FontSubstitution=Debe comprobar si el carácter existe en la fuente seleccionada.
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

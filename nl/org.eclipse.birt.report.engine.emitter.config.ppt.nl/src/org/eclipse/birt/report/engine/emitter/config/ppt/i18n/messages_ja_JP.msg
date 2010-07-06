@@ -33,3 +33,7 @@ OptionDescription.TextWrapping=テキストを折り返す必要があります。
 OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
 OptionDescription.FontSubstitution=選択したフォントにその文字が存在しているかどうかを確認する必要があります。
 OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
