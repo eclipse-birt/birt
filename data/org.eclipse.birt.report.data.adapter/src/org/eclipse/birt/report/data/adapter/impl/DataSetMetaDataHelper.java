@@ -43,7 +43,7 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.CompatibilityUtil;
-
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 
 /**
  * One note is the relationship between resultSet, columnHints and
@@ -150,8 +150,9 @@ public class DataSetMetaDataHelper
 			clearUnusedData( dataSetHandle, metaData );
 		return metaData;
 	}
-	
-	private IResultMetaData getRuntimeMetaData( DataSetHandle dataSetHandle ) throws BirtException
+
+	private IResultMetaData getRuntimeMetaData( DataSetHandle dataSetHandle )
+			throws BirtException
 	{
 		QueryDefinition query = new QueryDefinition( );
 		query.setDataSetName( dataSetHandle.getQualifiedName( ) );
@@ -164,6 +165,7 @@ public class DataSetMetaDataHelper
 				false,
 				this.session ).executeQuery( query ).getResultMetaData( );
 		addResultSetColumn( dataSetHandle, metaData );
+
 		if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
 		{
 			metaData = new QueryExecutionHelper( dataEngine,
@@ -174,18 +176,18 @@ public class DataSetMetaDataHelper
 		}
 		return metaData;
 	}
-	
+
 	/**
 	 * 
 	 * @param meta
-	 * @throws BirtException 
+	 * @throws BirtException
 	 */
 	private void addResultSetColumn( DataSetHandle dataSetHandle,
 			IResultMetaData meta ) throws BirtException
 	{
 		if ( meta == null || !( dataSetHandle instanceof OdaDataSetHandle ) )
 			return;
-		
+
 		Set computedColumnNameSet = new HashSet( );
 		Iterator computedIter = dataSetHandle.computedColumnsIterator( );
 		while ( computedIter.hasNext( ) )
@@ -193,7 +195,7 @@ public class DataSetMetaDataHelper
 			ComputedColumnHandle handle = (ComputedColumnHandle) computedIter.next( );
 			computedColumnNameSet.add( handle.getName( ) );
 		}
-		
+
 		List columnList = new ArrayList( );
 		HashSet orgColumnNameSet = new HashSet( );
 		HashSet uniqueColumnNameSet = new HashSet( );
@@ -202,7 +204,7 @@ public class DataSetMetaDataHelper
 			OdaResultSetColumn rsColumn = new OdaResultSetColumn( );
 
 			String uniqueName;
-			
+
 			if ( !computedColumnNameSet.contains( meta.getColumnName( i ) ) )
 			{
 				uniqueName = MetaDataPopulator.getUniqueName( orgColumnNameSet,
@@ -224,22 +226,23 @@ public class DataSetMetaDataHelper
 		// holdEvent
 		CompatibilityUtil.addResultSetColumn( dataSetHandle, columnList );
 	}
-	
+
 	/**
 	 * 
 	 * @param dataSetHandle
 	 * @param metaData
-	 * @throws BirtException 
+	 * @throws BirtException
 	 */
-    private final void clearUnusedData( DataSetHandle dataSetHandle,
+	private final void clearUnusedData( DataSetHandle dataSetHandle,
 			IResultMetaData metaData ) throws BirtException
 	{
 		clearUnusedColumnHints( dataSetHandle, metaData );
 	}
-    
-    /**
+
+	/**
 	 * clear unused column hints
-     * @throws BirtException 
+	 * 
+	 * @throws BirtException
 	 * 
 	 */
 	private final void clearUnusedColumnHints( DataSetHandle dataSetHandle,
@@ -279,7 +282,7 @@ public class DataSetMetaDataHelper
 			}
 		}
 	}
-    
+
 	/**
 	 * 
 	 * @param hint
@@ -305,8 +308,8 @@ public class DataSetMetaDataHelper
 				&& ( helpText == null || helpText.trim( ).length( ) == 0 ) && ( analysis == null || analysis.trim( )
 				.length( ) == 0 ) );
 	}
-    
-    /**
+
+	/**
 	 * 
 	 * @param dataSetHandle
 	 * @return
@@ -334,7 +337,7 @@ public class DataSetMetaDataHelper
 		}
 		catch ( BirtException e1 )
 		{
-			//clear cache meta data
+			// clear cache meta data
 			if ( holdEvent || !dataSetHandle.canEdit( ) )
 			{
 				CompatibilityUtil.updateResultSetinCachedMetaData( dataSetHandle,
@@ -360,7 +363,20 @@ public class DataSetMetaDataHelper
 				for ( int i = 1; i <= rsMeta.getColumnCount( ); i++ )
 				{
 					ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
-					rsc.setColumnName( getColumnName( rsMeta, i ) );
+					String columnName = getColumnName( rsMeta, i );
+					if ( columnName == null
+							|| columnName.trim( ).length( ) == 0 )
+					{
+						//in some store procedure cases, column name is just empty,
+						//then, we just use column name already saved in datasetHandle
+						List list = dataSetHandle.getListProperty( IDataSetModel.RESULT_SET_PROP );
+						ResultSetColumn column = (ResultSetColumn) list.get( i - 1 );
+						rsc.setColumnName( column.getColumnName( ) );
+					}
+					else
+					{
+						rsc.setColumnName( columnName );
+					}
 					if ( rsMeta.getColumnType( i ) != DataType.ANY_TYPE )
 						rsc.setDataType( DataAdapterUtil.adapterToModelDataType( rsMeta.getColumnType( i ) ) );
 					rsc.setPosition( new Integer( i ) );
@@ -380,33 +396,41 @@ public class DataSetMetaDataHelper
 				{
 					List resultSetColumnHandles = getResultSetColumnHandles( dataSetHandle.getCachedMetaDataHandle( ) );
 					int i = 0;
-					for ( ; i<columnList.size( ); i++ )
+					for ( ; i < columnList.size( ); i++ )
 					{
-						ResultSetColumn rsc = (ResultSetColumn)columnList.get( i );
+						ResultSetColumn rsc = (ResultSetColumn) columnList.get( i );
 						if ( i < resultSetColumnHandles.size( ) )
 						{
-							//update if needed, avoid writing "any" type to Model if old report contains "any" type
-							ResultSetColumnHandle rsh = (ResultSetColumnHandle)resultSetColumnHandles.get( i );
-							if ( !rsh.getColumnName( ).equals( rsc.getColumnName( ) ) )
+							// update if needed, avoid writing "any" type to
+							// Model if old report contains "any" type
+							ResultSetColumnHandle rsh = (ResultSetColumnHandle) resultSetColumnHandles.get( i );
+							if ( !rsh.getColumnName( )
+									.equals( rsc.getColumnName( ) ) )
 							{
 								rsh.setColumnName( rsc.getColumnName( ) );
 							}
-							if ( !rsh.getDataType( ).equals( rsc.getDataType( ) ))
+							if ( !rsh.getDataType( )
+									.equals( rsc.getDataType( ) ) )
 							{
 								rsh.setDataType( rsc.getDataType( ) );
 							}
 						}
 						else
 						{
-							//some columns are to be added
-							dataSetHandle.getCachedMetaDataHandle( ).getResultSet( ).addItem( rsc );
+							// some columns are to be added
+							dataSetHandle.getCachedMetaDataHandle( )
+									.getResultSet( )
+									.addItem( rsc );
 						}
 					}
 					if ( i < resultSetColumnHandles.size( ) )
 					{
-						//some columns are to be removed
-						List toRemoved =  resultSetColumnHandles.subList( i, resultSetColumnHandles.size( ) );
-						dataSetHandle.getCachedMetaDataHandle( ).getResultSet( ).removeItems( toRemoved );
+						// some columns are to be removed
+						List toRemoved = resultSetColumnHandles.subList( i,
+								resultSetColumnHandles.size( ) );
+						dataSetHandle.getCachedMetaDataHandle( )
+								.getResultSet( )
+								.removeItems( toRemoved );
 					}
 				}
 				else
@@ -459,20 +483,17 @@ public class DataSetMetaDataHelper
 
 		return false;
 	}
-	
+
 	private List getResultSetColumnHandles( CachedMetaDataHandle cmdh )
 	{
-		
+
 		List list = new ArrayList( );
-		for ( Iterator iter = cmdh
-				.getResultSet( )
-				.iterator( ); iter.hasNext( ); )
+		for ( Iterator iter = cmdh.getResultSet( ).iterator( ); iter.hasNext( ); )
 		{
 			list.add( iter.next( ) );
 		}
 		return list;
 	}
-
 
 	/**
 	 * 
