@@ -21,3 +21,7 @@ OptionDisplayValue.ChartDpi=차트 DPI
 ###########################################################
 #Option Description
 OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.

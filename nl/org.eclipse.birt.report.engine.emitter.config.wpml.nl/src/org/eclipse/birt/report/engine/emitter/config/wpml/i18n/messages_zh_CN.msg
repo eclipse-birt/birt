@@ -21,3 +21,7 @@ OptionDisplayValue.ChartDpi=图表 DPI
 ###########################################################
 #Option Description
 OptionDescription.ChartDpi=DPI 用于生成图表。
+
+###########################################################
+#tooltip
+Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
