@@ -15,8 +15,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
@@ -26,12 +24,9 @@ import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
 /**
@@ -250,118 +245,6 @@ public final class DataSetUIUtil
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT;
 		
 		return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
-	}
-
-	/**
-	 * clear the property binding in dataset to disable it when run the query
-	 * 
-	 * @param dsHandle
-	 * @param dataSetMap
-	 * @param dataSourceMap
-	 * @throws SemanticException
-	 */
-	public static void clearPropertyBindingMap( DataSetHandle dsHandle,
-			Map dataSetMap, Map dataSourceMap ) throws SemanticException
-	{
-		if( dsHandle.getExtends( ) != null )
-		{
-			return;
-		}
-		if ( dsHandle instanceof JointDataSetHandle )
-		{
-			Iterator iter = ( (JointDataSetHandle) dsHandle ).dataSetsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				DataSetHandle ds = (DataSetHandle) iter.next( );
-				if ( dsHandle != null )
-				{
-					clearPropertyBindingMap( ds, dataSetMap, dataSourceMap );
-				}
-			}
-		}
-		else if ( dsHandle instanceof OdaDataSetHandle )
-		{
-			List dataSetBindingList = dsHandle.getPropertyBindings( );
-			List dataSourceBindingList = dsHandle.getDataSource( )
-					.getPropertyBindings( );
-
-			if ( !dataSetBindingList.isEmpty( ) )
-				dataSetMap.put( dsHandle.getName( ), dataSetBindingList );
-			if ( !dataSourceBindingList.isEmpty( ) )
-				dataSourceMap.put( dsHandle.getDataSource( ).getName( ),
-						dataSourceBindingList );
-
-			for ( int i = 0; i < dataSetBindingList.size( ); i++ )
-			{
-				PropertyBinding binding = (PropertyBinding) dataSetBindingList.get( i );
-				dsHandle.setPropertyBinding( binding.getName( ),
-						(Expression) null );
-			}
-			for ( int i = 0; i < dataSourceBindingList.size( ); i++ )
-			{
-				PropertyBinding binding = (PropertyBinding) dataSourceBindingList.get( i );
-				dsHandle.getDataSource( )
-						.setPropertyBinding( binding.getName( ),
-								(Expression) null );
-			}
-		}
-	}
-	
-	/**
-	 * reset the property binding in dataset.
-	 * @param dsHandle
-	 * @param dataSetMap
-	 * @param dataSourceMap
-	 * @throws SemanticException
-	 */
-	public static void resetPropertyBinding( DataSetHandle dsHandle, Map dataSetMap,
-			Map dataSourceMap ) throws SemanticException
-	{
-		if ( dsHandle.getExtends( ) != null )
-		{
-			return;
-		}
-		if ( dsHandle instanceof JointDataSetHandle )
-		{
-			Iterator iter = ( (JointDataSetHandle) dsHandle ).dataSetsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				DataSetHandle ds = (DataSetHandle) iter.next( );
-				if ( dsHandle != null )
-				{
-					resetPropertyBinding( ds, dataSetMap, dataSourceMap );
-				}
-			}
-		}
-		else
-		{
-			if ( dsHandle instanceof OdaDataSetHandle )
-			{
-				if ( dataSetMap.get( dsHandle.getName( ) ) != null )
-				{
-					List pList = (List) dataSetMap.get( dsHandle.getName( ) );
-					
-					for ( int i = 0; i < pList.size( ); i++ )
-					{
-						PropertyBinding binding = (PropertyBinding) pList.get( i );
-						dsHandle.setPropertyBinding( binding.getName( ),
-								binding.getValue( ) );
-					}
-				}
-				if ( dataSourceMap.get( dsHandle.getDataSource( ).getName( ) ) != null )
-				{
-					List pList = (List) dataSourceMap.get( dsHandle.getDataSource( )
-							.getName( ) );
-					for ( int i = 0; i < pList.size( ); i++ )
-					{
-						PropertyBinding binding = (PropertyBinding) pList.get( i );
-						dsHandle.getDataSource( )
-								.setPropertyBinding( binding.getName( ),
-										binding.getValue( ) );
-					}
-				}
-			}
-		}
 	}
 
 }

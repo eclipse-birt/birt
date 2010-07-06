@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.data.adapter.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.data.DataType;
@@ -32,14 +34,18 @@ import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.CompatibilityUtil;
@@ -154,27 +160,54 @@ public class DataSetMetaDataHelper
 	private IResultMetaData getRuntimeMetaData( DataSetHandle dataSetHandle )
 			throws BirtException
 	{
-		QueryDefinition query = new QueryDefinition( );
-		query.setDataSetName( dataSetHandle.getQualifiedName( ) );
-		query.setMaxRows( 1 );
-		query.setAutoBinding( true );
-
-		IResultMetaData metaData = new QueryExecutionHelper( dataEngine,
-				modelAdaptor,
-				sessionContext,
-				false,
-				this.session ).executeQuery( query ).getResultMetaData( );
-		addResultSetColumn( dataSetHandle, metaData );
-
-		if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
+		Map dataSetBindingMap = new HashMap( );
+		Map dataSourceBindingMap = new HashMap( );
+		DataSetHandle handle = null; 
+		if ( sessionContext.getModuleHandle( ) != null 
+				&& sessionContext.getModuleHandle( ).getAllDataSets( ) != null )
 		{
-			metaData = new QueryExecutionHelper( dataEngine,
+			for ( Object o : sessionContext.getModuleHandle( ).getAllDataSets( ) )
+			{
+				DataSetHandle dsh = (DataSetHandle)o;
+				if ( dsh.getQualifiedName( ).equals( dataSetHandle.getQualifiedName( ) ))
+				{
+					handle = dsh;
+					break;
+				}
+			}
+		}
+		
+		//First clear all property bindings so that the data set can be executed against design time properties
+		clearPropertyBindingMap( handle, dataSetBindingMap, dataSourceBindingMap );
+		try 
+		{
+			QueryDefinition query = new QueryDefinition( );
+			query.setDataSetName( dataSetHandle.getQualifiedName( ) );
+			query.setMaxRows( 1 );
+			query.setAutoBinding( true );
+	
+			IResultMetaData metaData = new QueryExecutionHelper( dataEngine,
 					modelAdaptor,
 					sessionContext,
-					true,
+					false,
 					this.session ).executeQuery( query ).getResultMetaData( );
+			addResultSetColumn( dataSetHandle, metaData );
+	
+			if ( MetaDataPopulator.needsUseResultHint( dataSetHandle, metaData ) )
+			{
+				metaData = new QueryExecutionHelper( dataEngine,
+						modelAdaptor,
+						sessionContext,
+						true,
+						this.session ).executeQuery( query ).getResultMetaData( );
+			}
+			return metaData;
 		}
-		return metaData;
+		finally
+		{
+			//restore property bindings
+			resetPropertyBinding( handle, dataSetBindingMap, dataSourceBindingMap );
+		}
 	}
 
 	/**
@@ -509,5 +542,125 @@ public class DataSetMetaDataHelper
 				.trim( )
 				.length( ) == 0 ) ? rsMeta.getColumnName( index )
 				: rsMeta.getColumnAlias( index );
+	}
+	
+	/**
+	 * clear the property binding in dataset to disable it when run the query
+	 * 
+	 * @param dsHandle
+	 * @param dataSetMap
+	 * @param dataSourceMap
+	 * @throws SemanticException
+	 */
+	public static void clearPropertyBindingMap( DataSetHandle dsHandle,
+			Map dataSetMap, Map dataSourceMap ) throws SemanticException
+	{
+		if ( dsHandle == null )
+		{
+			return;
+		}
+		if( dsHandle.getExtends( ) != null )
+		{
+			return;
+		}
+		if ( dsHandle instanceof JointDataSetHandle )
+		{
+			Iterator iter = ( (JointDataSetHandle) dsHandle ).dataSetsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DataSetHandle ds = (DataSetHandle) iter.next( );
+				if ( dsHandle != null )
+				{
+					clearPropertyBindingMap( ds, dataSetMap, dataSourceMap );
+				}
+			}
+		}
+		else if ( dsHandle instanceof OdaDataSetHandle )
+		{
+			List dataSetBindingList = dsHandle.getPropertyBindings( );
+			List dataSourceBindingList = dsHandle.getDataSource( )
+					.getPropertyBindings( );
+
+			if ( !dataSetBindingList.isEmpty( ) )
+				dataSetMap.put( dsHandle.getName( ), dataSetBindingList );
+			if ( !dataSourceBindingList.isEmpty( ) )
+				dataSourceMap.put( dsHandle.getDataSource( ).getName( ),
+						dataSourceBindingList );
+
+			for ( int i = 0; i < dataSetBindingList.size( ); i++ )
+			{
+				PropertyBinding binding = (PropertyBinding) dataSetBindingList.get( i );
+				dsHandle.setPropertyBinding( binding.getName( ),
+						(Expression) null );
+			}
+			for ( int i = 0; i < dataSourceBindingList.size( ); i++ )
+			{
+				PropertyBinding binding = (PropertyBinding) dataSourceBindingList.get( i );
+				dsHandle.getDataSource( )
+						.setPropertyBinding( binding.getName( ),
+								(Expression) null );
+			}
+		}
+	}
+	
+	/**
+	 * reset the property binding in dataset.
+	 * @param dsHandle
+	 * @param dataSetMap
+	 * @param dataSourceMap
+	 * @throws SemanticException
+	 */
+	public static void resetPropertyBinding( DataSetHandle dsHandle, Map dataSetMap,
+			Map dataSourceMap ) throws SemanticException
+	{
+		if ( dsHandle == null )
+		{
+			return;
+		}
+		if ( dsHandle.getExtends( ) != null )
+		{
+			return;
+		}
+		if ( dsHandle instanceof JointDataSetHandle )
+		{
+			Iterator iter = ( (JointDataSetHandle) dsHandle ).dataSetsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DataSetHandle ds = (DataSetHandle) iter.next( );
+				if ( dsHandle != null )
+				{
+					resetPropertyBinding( ds, dataSetMap, dataSourceMap );
+				}
+			}
+		}
+		else
+		{
+			if ( dsHandle instanceof OdaDataSetHandle )
+			{
+				if ( dataSetMap.get( dsHandle.getName( ) ) != null )
+				{
+					List pList = (List) dataSetMap.get( dsHandle.getName( ) );
+					
+					for ( int i = 0; i < pList.size( ); i++ )
+					{
+						PropertyBinding binding = (PropertyBinding) pList.get( i );
+						dsHandle.setPropertyBinding( binding.getName( ),
+								binding.getValue( ) );
+					}
+				}
+				if ( dataSourceMap.get( dsHandle.getDataSource( ).getName( ) ) != null )
+				{
+					List pList = (List) dataSourceMap.get( dsHandle.getDataSource( )
+							.getName( ) );
+					for ( int i = 0; i < pList.size( ); i++ )
+					{
+						PropertyBinding binding = (PropertyBinding) pList.get( i );
+						dsHandle.getDataSource( )
+								.setPropertyBinding( binding.getName( ),
+										binding.getValue( ) );
+					}
+				}
+			}
+		}
 	}
 }

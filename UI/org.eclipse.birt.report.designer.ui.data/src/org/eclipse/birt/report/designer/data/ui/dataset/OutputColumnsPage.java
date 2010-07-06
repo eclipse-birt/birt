@@ -22,6 +22,7 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.impl.DataSetMetaDataHelper;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.data.ui.util.ControlProvider;
@@ -347,7 +348,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 						.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 								newContextLoader );
 				ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
-				DataSetUIUtil.clearPropertyBindingMap( ( (DataSetEditor) getContainer( ) ).getHandle( ),
+				DataSetMetaDataHelper.clearPropertyBindingMap( ( (DataSetEditor) getContainer( ) ).getHandle( ),
 						dataSetMap,
 						dataSourceMap );
 
@@ -398,7 +399,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			}
 			finally
 			{
-				DataSetUIUtil.resetPropertyBinding( ( (DataSetEditor) getContainer( ) ).getHandle( ),
+				DataSetMetaDataHelper.resetPropertyBinding( ( (DataSetEditor) getContainer( ) ).getHandle( ),
 						dataSetMap,
 						dataSourceMap );
 			}

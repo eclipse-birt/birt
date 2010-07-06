@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.birt.report.data.adapter.impl.DataSetMetaDataHelper;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -630,7 +631,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 				try
 				{
 					DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
-					DataSetUIUtil.resetPropertyBinding( dsHandle,
+					DataSetMetaDataHelper.resetPropertyBinding( dsHandle,
 							dataSetBindingMap,
 							dataSourceBindingMap );
 				}
@@ -652,7 +653,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 				DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
 				try
 				{
-					DataSetUIUtil.clearPropertyBindingMap( dsHandle,
+					DataSetMetaDataHelper.clearPropertyBindingMap( dsHandle,
 							dataSetBindingMap,
 							dataSourceBindingMap );
 				}
