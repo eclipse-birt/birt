@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
@@ -167,12 +168,18 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		this.dstyle = dstyle;
 		this.dpi = dpi;
 	}
+	
+	private static final Pattern ptnWrappingQuotes = Pattern.compile( "\".*\"" ); //$NON-NLS-1$
+	private String removeQuotes(String fontName)
+	{
+		if (ptnWrappingQuotes.matcher( fontName ).matches( ))
+		{
+			return fontName.substring( 1, fontName.length( ) );
+		}
+		return fontName;
+	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.style.IStyleProcessor#getStyle(org.eclipse.birt.chart.model.attribute.StyledComponent)
-	 */
+	@Override
 	public IStyle getStyle( Chart model, StyledComponent name )
 	{
 		SimpleStyle ss = null;
@@ -183,8 +190,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 
 			ss = new SimpleStyle( );
 
-			String fname = style.getFontFamilyHandle( ).getStringValue( );
-
+			String fname = removeQuotes(style.getFontFamilyHandle( ).getStringValue( ));
 			int fsize = getFontSizeIntValue( handle );
 			boolean fbold = getFontWeight( style.getFontWeight( ) ) >= 700;
 			boolean fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( style.getFontStyle( ) );
@@ -535,10 +541,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			{
 				return 1;
 			}
-			else
-			{
-				return size;
-			}
+			return size;
 		}
 		else if ( fontSizeValue instanceof String )
 		{
