@@ -235,44 +235,14 @@ public class PieChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = ChartWithoutAxesImpl.create( );
-			currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
+			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( getName( ) );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
-			// Copy generic chart properties from the old chart
-			currentChart.setBlock( helperModel.getBlock( ) );
-			currentChart.setDescription( helperModel.getDescription( ) );
-			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-
-			if ( helperModel.getInteractivity( ) != null )
-			{
-				currentChart.getInteractivity( )
-						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
-				currentChart.getInteractivity( )
-						.setLegendBehavior( helperModel.getInteractivity( )
-								.getLegendBehavior( ) );
-			}
-
-			currentChart.setSampleData( helperModel.getSampleData( ) );
-			currentChart.setScript( helperModel.getScript( ) );
-
-			if ( helperModel.isSetSeriesThickness( ) )
-			{
-				currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
-			}
-			else
+			if ( !helperModel.isSetSeriesThickness( ) )
 			{
 				currentChart.setSeriesThickness( 15 );
-			}
-			currentChart.setUnits( helperModel.getUnits( ) );
-			if ( helperModel.getGridColumnCount( ) > 0 )
-			{
-				currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-			}
-			else
-			{
-				currentChart.setGridColumnCount( 0 );
 			}
 
 			// Copy series definitions from old chart
@@ -340,29 +310,10 @@ public class PieChart extends DefaultChartTypeImpl
 				// Create a new instance of the correct type and set initial
 				// properties
 				currentChart = ChartWithoutAxesImpl.create( );
-				currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
+				copyChartProperties( helperModel, currentChart );
 				currentChart.setType( getName( ) );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
-
-				// Copy generic chart properties from the old chart
-				currentChart.setBlock( helperModel.getBlock( ) );
-				currentChart.setDescription( helperModel.getDescription( ) );
-				currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-				currentChart.setSampleData( helperModel.getSampleData( ) );
-				currentChart.setScript( helperModel.getScript( ) );
-				currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
-				currentChart.setUnits( helperModel.getUnits( ) );
-
-				if ( helperModel.getInteractivity( ) != null )
-				{
-					currentChart.getInteractivity( )
-							.setEnable( helperModel.getInteractivity( )
-									.isEnable( ) );
-					currentChart.getInteractivity( )
-							.setLegendBehavior( helperModel.getInteractivity( )
-									.getLegendBehavior( ) );
-				}
 
 				// Clear existing series definitions
 				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )

@@ -246,38 +246,11 @@ public class MeterChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = DialChartImpl.create( );
-			currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
+			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 			( (DialChart) currentChart ).setDialSuperimposition( false );
-
-			// Copy generic chart properties from the old chart
-			currentChart.setBlock( helperModel.getBlock( ) );
-			currentChart.setDescription( helperModel.getDescription( ) );
-			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-
-			if ( helperModel.getInteractivity( ) != null )
-			{
-				currentChart.getInteractivity( )
-						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
-				currentChart.getInteractivity( )
-						.setLegendBehavior( helperModel.getInteractivity( )
-								.getLegendBehavior( ) );
-			}
-
-			currentChart.setSampleData( helperModel.getSampleData( ) );
-
-			currentChart.setScript( helperModel.getScript( ) );
-			currentChart.setUnits( helperModel.getUnits( ) );
-			if ( helperModel.getGridColumnCount( ) > 0 )
-			{
-				currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-			}
-			else
-			{
-				currentChart.setGridColumnCount( 0 );
-			}
 
 			// Copy series definitions from old chart
 			( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
@@ -338,30 +311,12 @@ public class MeterChart extends DefaultChartTypeImpl
 				// Create a new instance of the correct type and set initial
 				// properties
 				currentChart = DialChartImpl.create( );
-				currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
+				copyChartProperties( helperModel, currentChart );
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
 				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL ) );
-
-				// Copy generic chart properties from the old chart
-				currentChart.setBlock( helperModel.getBlock( ) );
-				currentChart.setDescription( helperModel.getDescription( ) );
-				currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-				currentChart.setSampleData( helperModel.getSampleData( ) );
-				currentChart.setScript( helperModel.getScript( ) );
-				currentChart.setUnits( helperModel.getUnits( ) );
-
-				if ( helperModel.getInteractivity( ) != null )
-				{
-					currentChart.getInteractivity( )
-							.setEnable( helperModel.getInteractivity( )
-									.isEnable( ) );
-					currentChart.getInteractivity( )
-							.setLegendBehavior( helperModel.getInteractivity( )
-									.getLegendBehavior( ) );
-				}
 
 				// Clear existing series definitions
 				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )

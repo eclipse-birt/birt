@@ -369,4 +369,40 @@ public class DefaultChartTypeImpl implements IChartType
 	{
 		return false;
 	}
+	
+	/**
+	 * Copies generic chart properties
+	 * 
+	 * @param oldChart
+	 *            chart model as copy source
+	 * @param newChart
+	 *            chart model as copy target
+	 */
+	protected void copyChartProperties( Chart oldChart, Chart newChart )
+	{
+		// Copy generic chart properties from the old chart
+		newChart.setBlock( oldChart.getBlock( ) );
+		newChart.setDescription( oldChart.getDescription( ) );
+		newChart.setGridColumnCount( oldChart.getGridColumnCount( ) );
+		newChart.setSampleData( oldChart.getSampleData( ) );
+		newChart.setScript( oldChart.getScript( ) );
+		newChart.setUnits( oldChart.getUnits( ) );
+		if ( oldChart.isSetSeriesThickness( ) )
+		{
+			newChart.setSeriesThickness( oldChart.getSeriesThickness( ) );
+		}
+
+		newChart.getExtendedProperties( ).clear( );
+		newChart.getExtendedProperties( )
+				.addAll( oldChart.getExtendedProperties( ) );
+
+		if ( oldChart.getInteractivity( ) != null )
+		{
+			newChart.getInteractivity( ).setEnable( oldChart.getInteractivity( )
+					.isEnable( ) );
+			newChart.getInteractivity( )
+					.setLegendBehavior( oldChart.getInteractivity( )
+							.getLegendBehavior( ) );
+		}
+	}
 }

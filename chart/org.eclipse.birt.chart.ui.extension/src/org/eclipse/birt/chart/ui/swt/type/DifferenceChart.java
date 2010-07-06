@@ -316,7 +316,7 @@ public class DifferenceChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = ChartWithAxesImpl.create( );
-			currentChart.eAdapters( ).addAll( helperModel.eAdapters( ) );
+			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
@@ -330,24 +330,6 @@ public class DifferenceChart extends DefaultChartTypeImpl
 			Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
 			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
 			yAxis.setType( AxisType.LINEAR_LITERAL );
-
-			// Copy generic chart properties from the old chart
-			currentChart.setBlock( helperModel.getBlock( ) );
-			currentChart.setDescription( helperModel.getDescription( ) );
-			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-			currentChart.setSampleData( helperModel.getSampleData( ) );
-			currentChart.setScript( helperModel.getScript( ) );
-			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
-			currentChart.setUnits( helperModel.getUnits( ) );
-
-			if ( helperModel.getInteractivity( ) != null )
-			{
-				currentChart.getInteractivity( )
-						.setEnable( helperModel.getInteractivity( ).isEnable( ) );
-				currentChart.getInteractivity( )
-						.setLegendBehavior( helperModel.getInteractivity( )
-								.getLegendBehavior( ) );
-			}
 
 			{
 				// Clear existing series definitions
