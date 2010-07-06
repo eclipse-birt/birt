@@ -1082,6 +1082,21 @@ public class DataProcessor
 				}
 				ds.setValues( bigNumberBuffer );
 			}
+			else if ( oContent instanceof Number[] )
+			{
+				Number[] na = (Number[]) oContent;
+
+				Number[] numberBuffer = new Number[indexArray.length];
+				for ( int i = 0; i < na.length; i++ )
+				{
+					int idx = indexArray[i];
+					if ( idx != -1 )
+					{
+						numberBuffer[idx] = na[i];
+					}
+				}
+				ds.setValues( numberBuffer );
+			}
 		}
 		else if ( ds instanceof DateTimeDataSet )
 		{
