@@ -182,7 +182,7 @@ warn.unspecified.sorting=未为 {0} 指定排序。
 # !!if that changes, this must be updated accordingly.
 #
 SeriesImpl.displayName=简单系列
-AreaSeriesImpl.displayName=区域系列
+AreaSeriesImpl.displayName=面积图系列
 BarSeriesImpl.displayName=条形图系列
 BarSeriesImpl.coneDisplayName=锥形系列
 BarSeriesImpl.tubeDisplayName=管形系列
