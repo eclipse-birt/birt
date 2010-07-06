@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -58,7 +60,7 @@ public class DataSetInMemoryStringIndex extends HashMap
 		}
 	}
 
-	public List<Integer> getKeyIndex( Object key, int searchType )
+	public Set<Integer> getKeyIndex( Object key, int searchType )
 			throws DataException
 	{
 		if ( searchType != IConditionalExpression.OP_EQ
@@ -69,7 +71,7 @@ public class DataSetInMemoryStringIndex extends HashMap
 		else
 		{
 			List candidate = (List) key;
-			List<Integer> result = new ArrayList<Integer>( );
+			Set<Integer> result = new HashSet<Integer>( );
 			for ( Object eachKey : candidate )
 			{
 				result.addAll( getKeyIndex( eachKey ) );
@@ -78,11 +80,11 @@ public class DataSetInMemoryStringIndex extends HashMap
 		}
 	}
 
-	private List<Integer> getKeyIndex( Object key ) throws DataException
+	private Set<Integer> getKeyIndex( Object key ) throws DataException
 	{
 		Object result = getWrappedKey( key );
 		if ( result == null )
-			return new ArrayList( );
+			return new HashSet( );
 		else
 			return ( (WrapperedValue) result ).getIndex( );
 	}
@@ -139,23 +141,23 @@ public class DataSetInMemoryStringIndex extends HashMap
 
 		private long keyOffset;
 		private RAInputStream keyStream;
-		private List index;
+		private Set index = new HashSet();
 		private Object keyValue;
 
 		WrapperedValue( RAInputStream keyStream, List index, long keyOffset )
 		{
 			this.keyOffset = keyOffset;
 			this.keyStream = keyStream;
-			this.index = index;
+			this.index.addAll( index );
 		}
 
 		WrapperedValue( String keyValue, List index )
 		{
 			this.keyValue = keyValue;
-			this.index = index;
+			this.index.addAll( index );
 		}
 
-		public List getIndex( )
+		public Set getIndex( )
 		{
 			return this.index;
 		}

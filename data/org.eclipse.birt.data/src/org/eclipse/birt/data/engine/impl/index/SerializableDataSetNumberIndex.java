@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 public class SerializableDataSetNumberIndex<T> implements IIndexSerializer
@@ -30,11 +30,12 @@ public class SerializableDataSetNumberIndex<T> implements IIndexSerializer
 
 	private static int BLOCKNUMBER = 5000;
 	private Map<T, List<Integer>> numberAndIndex = new HashMap<T, List<Integer>>( );
-	private RAOutputStream output;
-
-	public SerializableDataSetNumberIndex( RAOutputStream stream )
+	private String fileName = null;
+	private StreamManager manager = null;
+	public SerializableDataSetNumberIndex( String fileName, StreamManager manager )
 	{
-		this.output = stream;
+		this.fileName = fileName;
+		this.manager = manager;
 	}
 
 	/**
@@ -63,15 +64,13 @@ public class SerializableDataSetNumberIndex<T> implements IIndexSerializer
 	{
 		try
 		{
-			List<T> keyList = new LinkedList<T>( );
+			List<T> keyList = new ArrayList<T>( );
 			keyList.addAll( this.numberAndIndex.keySet( ) );
 			if ( keyList.size( ) == 0 )
 			{
-				IOUtil.writeInt( output, 0 );
-				output.close( );
 				return;
 			}
-
+			RAOutputStream output = manager.getOutStream( fileName );
 			Collections.sort( keyList, new NumberComparator<T>( ) );
 			int segs = ( keyList.size( ) - 1 ) / BLOCKNUMBER + 1;
 			IOUtil.writeInt( output, segs );

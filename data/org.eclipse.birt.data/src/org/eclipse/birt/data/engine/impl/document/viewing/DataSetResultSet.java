@@ -15,8 +15,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -56,7 +58,10 @@ public class DataSetResultSet implements IDataSetPopulator
 	 * @param inputStream
 	 * @throws DataException 
 	 */
-	public DataSetResultSet( RAInputStream inputStream, RAInputStream lensStream, IResultClass rsMetaData, List<Integer> prefilteredRowIds, Map index, int version ) throws DataException
+	public DataSetResultSet( RAInputStream inputStream,
+			RAInputStream lensStream, IResultClass rsMetaData,
+			Set<Integer> prefilteredRows, Map index, int version )
+			throws DataException
 	{
 		assert inputStream != null;
 		assert rsMetaData != null;
@@ -80,14 +85,20 @@ public class DataSetResultSet implements IDataSetPopulator
 		this.rsMetaData = populateResultClass(rsMetaData);
 		//Notice we should use column count in original metadata
 		this.colCount = rsMetaData.getFieldCount( );
-		this.prefilteredRowIds = prefilteredRowIds;
-		if( this.prefilteredRowIds!= null )
+		
+		if( prefilteredRows != null )
+		{
+			this.prefilteredRowIds = new LinkedList<Integer>();
+			this.prefilteredRowIds.addAll( prefilteredRows );
+		}
+		if ( this.prefilteredRowIds != null )
 			Collections.sort( this.prefilteredRowIds );
 		this.index = index;
 		this.initLoad( );
 	}
-	
-	private IResultClass populateResultClass( IResultClass meta ) throws DataException
+
+	private IResultClass populateResultClass( IResultClass meta )
+			throws DataException
 	{
 		List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>( );
 		for ( int i = 1; i <= meta.getFieldCount( ); i++ )
@@ -104,29 +115,30 @@ public class DataSetResultSet implements IDataSetPopulator
 		list.add( rfm );
 		return new ResultClass( list );
 	}
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getRowCount()
+	public int getRowCount( )
 	{
 		return this.rowCount;
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
 	public IResultObject next( ) throws DataException
 	{
-		if ( this.prefilteredRowIds!= null )
+		if ( this.prefilteredRowIds != null )
 		{
-			if( this.prefilteredRowIds.isEmpty( ))
+			if ( this.prefilteredRowIds.isEmpty( ) )
 				return null;
 			this.skipTo( this.prefilteredRowIds.get( 0 ) );
 			this.prefilteredRowIds.remove( 0 );
 			return this.getResultObject( );
 		}
-		
+
 		if ( this.rowIndex < this.rowCount - 1 || this.rowCount == -1 )
 		{
 			try
@@ -136,7 +148,8 @@ public class DataSetResultSet implements IDataSetPopulator
 						rsMetaData,
 						colCount,
 						this.index );
-				this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME, this.getCurrentIndex( ) );
+				this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
+						this.getCurrentIndex( ) );
 			}
 			catch ( Exception e )
 			{
@@ -151,17 +164,17 @@ public class DataSetResultSet implements IDataSetPopulator
 		}
 		return this.currentObject;
 	}
-	
-	public IResultObject getResultObject()
+
+	public IResultObject getResultObject( )
 	{
 		return this.currentObject;
 	}
-	
-	public int getCurrentIndex()
+
+	public int getCurrentIndex( )
 	{
 		return rowIndex;
 	}
-	
+
 	public void skipTo( int index ) throws DataException
 	{
 		try
@@ -181,7 +194,7 @@ public class DataSetResultSet implements IDataSetPopulator
 					this.currentObject = ResultSetUtil.readResultObject( dis,
 							rsMetaData,
 							colCount,
-							this.index);
+							this.index );
 					this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
 							this.getCurrentIndex( ) );
 					return;
@@ -193,10 +206,11 @@ public class DataSetResultSet implements IDataSetPopulator
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
 		/*
-		while( this.rowIndex - 1 < index && this.rowIndex < this.rowCount )
-			this.next( );*/
+		 * while( this.rowIndex - 1 < index && this.rowIndex < this.rowCount )
+		 * this.next( );
+		 */
 	}
-	
+
 	/**
 	 * @throws DataException
 	 */
@@ -209,7 +223,7 @@ public class DataSetResultSet implements IDataSetPopulator
 			{
 				dis = new DataInputStream( bis );
 				this.rowCount = IOUtil.readInt( dis );
-			//	this.initPos = inputStream.getOffset( );
+				// this.initPos = inputStream.getOffset( );
 			}
 			catch ( IOException e )
 			{
@@ -224,11 +238,11 @@ public class DataSetResultSet implements IDataSetPopulator
 	 * 
 	 * @return
 	 */
-	public IResultClass getResultClass()
+	public IResultClass getResultClass( )
 	{
 		return this.rsMetaData;
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICustomDataSet#close()
 	 */
@@ -249,5 +263,5 @@ public class DataSetResultSet implements IDataSetPopulator
 			// ignore throw new DataException( "error in close" );
 		}
 	}
-	
+
 }

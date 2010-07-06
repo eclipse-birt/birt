@@ -15,8 +15,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -60,9 +62,9 @@ public class DataSetNumberIndex implements IDataSetIndex
 
 	}
 
-	public List<Integer> seekG( Object target, boolean incEqual) throws DataException
+	public Set<Integer> seekG( Object target, boolean incEqual) throws DataException
 	{
-		List<Integer> result = new ArrayList<Integer>();
+		Set<Integer> result = new HashSet<Integer>();
 		int primaryIndex = binarySearch( target, this.boundaryStartingValues, IConditionalExpression.OP_LE );
 		
 		if( primaryIndex < 0 || primaryIndex >= this.boundaryStartingValues.size( ))
@@ -75,9 +77,9 @@ public class DataSetNumberIndex implements IDataSetIndex
 		return result;
 	}
 	
-	public List<Integer> seekL( Object target, boolean incEqual ) throws DataException
+	public Set<Integer> seekL( Object target, boolean incEqual ) throws DataException
 	{
-		List<Integer> result = new ArrayList<Integer>();
+		Set<Integer> result = new HashSet<Integer>();
 		int primaryIndex = binarySearch( target, this.boundaryStartingValues, IConditionalExpression.OP_LE );
 		
 		if( primaryIndex < 0 || primaryIndex >= this.boundaryStartingValues.size( ))
@@ -90,18 +92,18 @@ public class DataSetNumberIndex implements IDataSetIndex
 		return result;
 	}
 	
-	public List<Integer> seekEQ( Object target ) throws DataException
+	public Set<Integer> seekEQ( Object target ) throws DataException
 	{
-		List<Integer> result = new ArrayList<Integer>();
+		Set<Integer> result = new HashSet<Integer>();
 		int primaryIndex = binarySearch( target, this.boundaryStartingValues, IConditionalExpression.OP_LE );
 		if( primaryIndex < 0 || primaryIndex >= this.boundaryStartingValues.size( ))
 			return result;
 		return segs[primaryIndex].seek( target );
 	}
 
-	public List<Integer> seekBetween( Object target1, Object target2 ) throws DataException
+	public Set<Integer> seekBetween( Object target1, Object target2 ) throws DataException
 	{
-		List<Integer> result = new ArrayList<Integer>( );
+		Set<Integer> result = new HashSet<Integer>( );
 		int primaryIndex1 = binarySearch( target1,
 				this.boundaryStartingValues,
 				IConditionalExpression.OP_LE );
@@ -225,7 +227,7 @@ public class DataSetNumberIndex implements IDataSetIndex
 	{
 
 		private SoftReference<List> keys = new SoftReference( null );
-		private SoftReference<List<List<Integer>>> indexs = new SoftReference( null );
+		private SoftReference<List<Set<Integer>>> indexs = new SoftReference( null );
 		private RAInputStream raIn;
 		private long offset;
 
@@ -241,11 +243,11 @@ public class DataSetNumberIndex implements IDataSetIndex
 			return this.keys.get( ).size( );
 		}
 
-		public List<Integer> seekAll( ) throws DataException
+		public Set<Integer> seekAll( ) throws DataException
 		{
 			init( );
-			List<List<Integer>> indexList = this.indexs.get( );
-			List<Integer> result = new ArrayList<Integer>( );
+			List<Set<Integer>> indexList = this.indexs.get( );
+			Set<Integer> result = new HashSet<Integer>( );
 			for ( int i = 0; i < indexList.size( ); i++ )
 			{
 				result.addAll( indexList.get( i ) );
@@ -253,17 +255,17 @@ public class DataSetNumberIndex implements IDataSetIndex
 			return result;
 		}
 
-		public List<Integer> seekG( Object value, boolean incEqual )
+		public Set<Integer> seekG( Object value, boolean incEqual )
 				throws DataException
 		{
 			init( );
 			List keyList = this.keys.get( );
-			List<List<Integer>> indexList = this.indexs.get( );
+			List<Set<Integer>> indexList = this.indexs.get( );
 			int threshHold = binarySearch( value, keyList, incEqual
 					? IConditionalExpression.OP_GE : IConditionalExpression.OP_GT );
 			if ( threshHold < 0 || threshHold >= keyList.size( ) )
-				return new ArrayList( );
-			List<Integer> result = new ArrayList<Integer>( );
+				return new HashSet( );
+			Set<Integer> result = new HashSet<Integer>( );
 
 			for ( int i = threshHold; i < keyList.size( ); i++ )
 			{
@@ -272,17 +274,17 @@ public class DataSetNumberIndex implements IDataSetIndex
 			return result;
 		}
 
-		public List<Integer> seekL( Object value, boolean incEqual )
+		public Set<Integer> seekL( Object value, boolean incEqual )
 				throws DataException
 		{
 			init( );
 			List keyList = this.keys.get( );
-			List<List<Integer>> indexList = this.indexs.get( );
+			List<Set<Integer>> indexList = this.indexs.get( );
 			int threshHold = binarySearch( value, keyList, incEqual
 					? IConditionalExpression.OP_LE : IConditionalExpression.OP_LT );
 			if ( threshHold < 0 || threshHold >= keyList.size( ) )
-				return new ArrayList( );
-			List<Integer> result = new ArrayList<Integer>( );
+				return new HashSet( );
+			Set<Integer> result = new HashSet<Integer>( );
 
 			for ( int i = 0; i <= threshHold; i++ )
 			{
@@ -291,18 +293,18 @@ public class DataSetNumberIndex implements IDataSetIndex
 			return result;
 		}
 
-		public List<Integer> seekBetween( Object value1, Object value2 )
+		public Set<Integer> seekBetween( Object value1, Object value2 )
 				throws DataException
 		{
 			init( );
 			List keyList = this.keys.get( );
-			List<List<Integer>> indexList = this.indexs.get( );
+			List<Set<Integer>> indexList = this.indexs.get( );
 			int threshHold1 = binarySearch( value1, keyList, IConditionalExpression.OP_GE );
 			int threshHold2 = binarySearch( value2, keyList, IConditionalExpression.OP_LE );
 			if ( threshHold1 > threshHold2 )
-				return new ArrayList( );
+				return new HashSet( );
 
-			List<Integer> result = new ArrayList<Integer>( );
+			Set<Integer> result = new HashSet<Integer>( );
 
 			for ( int i = threshHold1; i <= threshHold2; i++ )
 			{
@@ -311,19 +313,15 @@ public class DataSetNumberIndex implements IDataSetIndex
 			return result;
 		}
 
-		public List<Integer> seek( Object value ) throws DataException
+		public Set<Integer> seek( Object value ) throws DataException
 		{
 			init( );
 			List keyList = this.keys.get( );
-			List<List<Integer>> indexList = this.indexs.get( );
+			List<Set<Integer>> indexList = this.indexs.get( );
 			int threshHold = binarySearch( value, keyList, IConditionalExpression.OP_EQ );
 			if ( threshHold < 0 || threshHold >= keyList.size( ) )
-				return new ArrayList( );
-			List<Integer> result = new ArrayList<Integer>( );
-			result.addAll( indexList.get( threshHold ) );
-		
-			return result;
-
+				return new HashSet( );
+			return indexList.get( threshHold );
 		}
 
 		private void init( ) throws DataException
@@ -353,7 +351,7 @@ public class DataSetNumberIndex implements IDataSetIndex
 		}
 	}
 
-	public List<Integer> getKeyIndex( Object key, int searchType ) throws DataException
+	public Set<Integer> getKeyIndex( Object key, int searchType ) throws DataException
 	{
 		if( searchType == IConditionalExpression.OP_EQ )
 		{

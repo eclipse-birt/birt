@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -214,7 +215,7 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	public DataSetResultSet loadDataSetData( List<Integer> preFilteredRowIds, Map index ) throws DataException
+	public DataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds, Map index ) throws DataException
 	{
 		if( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM,

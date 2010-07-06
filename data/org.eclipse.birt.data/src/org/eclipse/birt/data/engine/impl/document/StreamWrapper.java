@@ -112,58 +112,65 @@ public class StreamWrapper
 		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
 		{
 			int anaType = resultClass.getAnalysisType( i );
-			if ( anaType == -1 || anaType == IColumnDefinition.ANALYSIS_ATTRIBUTE )
+			if ( anaType == -1
+					|| anaType == IColumnDefinition.ANALYSIS_ATTRIBUTE )
 				continue;
 			Class dataType = resultClass.getFieldValueClass( i );
-			if (  dataType == String.class )
-			{	
-				String fieldName = resultClass.getFieldName( i );
-				result.put( fieldName,
-						new SerializableBirtHash( this.manager.getOutStream( "Index/"
-								+ fieldName + "/index"  ), this.manager.getOutStream( "Index/"
-										+ fieldName + "/value" )));
-			}
-			else if ( dataType == BigDecimal.class )
+			String fieldName = resultClass.getFieldName( i );
+			if ( dataType == String.class )
 			{
-				String fieldName = resultClass.getFieldName( i );
-				result.put( fieldName, new SerializableDataSetNumberIndex<BigDecimal>(this.manager.getOutStream( "Index/"
-						+ fieldName + "/numberIndex" )) );
+				result.put( fieldName, new SerializableBirtHash( "Index/"
+						+ fieldName + "/index",
+						"Index/" + fieldName + "/value",
+						manager ) );
 			}
-			else if ( dataType == Integer.class )
+			else
 			{
-				String fieldName = resultClass.getFieldName( i );
-				result.put( fieldName, new SerializableDataSetNumberIndex<Integer>(this.manager.getOutStream( "Index/"
-						+ fieldName + "/numberIndex" )) );
-			}
-			else if ( dataType == Double.class )
-			{
-				String fieldName = resultClass.getFieldName( i );
-				result.put( fieldName, new SerializableDataSetNumberIndex<Double>(this.manager.getOutStream( "Index/"
-						+ fieldName + "/numberIndex" )) );
-			}
-			else if ( dataType == java.util.Date.class )
-			{
-				String fieldName = resultClass.getFieldName( i );
-				result.put( fieldName, new SerializableDataSetNumberIndex<java.util.Date>(this.manager.getOutStream( "Index/"
-						+ fieldName + "/numberIndex" )) );
-			}
-			else if ( dataType == java.sql.Date.class )
-			{
-				String fieldName = resultClass.getFieldName( i );
-				result.put( fieldName, new SerializableDataSetNumberIndex<java.sql.Date>(this.manager.getOutStream( "Index/"
-						+ fieldName + "/numberIndex" )) );
-			}
-			else if ( dataType == Time.class )
-			{
-				String fieldName = resultClass.getFieldName( i );
-				result.put( fieldName, new SerializableDataSetNumberIndex<Time>(this.manager.getOutStream( "Index/"
-						+ fieldName + "/numberIndex" )) );
-			}
-			else if ( dataType == Timestamp.class )
-			{
-				String fieldName = resultClass.getFieldName( i );
-				result.put( fieldName, new SerializableDataSetNumberIndex<Timestamp>(this.manager.getOutStream( "Index/"
-						+ fieldName + "/numberIndex" )) );
+				String indexFileName = "Index/"
+						+ resultClass.getFieldName( i ) + "/numberIndex";
+				if ( dataType == BigDecimal.class )
+				{
+
+					result.put( fieldName,
+							new SerializableDataSetNumberIndex<BigDecimal>( indexFileName,
+									this.manager ) );
+				}
+				else if ( dataType == Integer.class )
+				{
+					result.put( fieldName,
+							new SerializableDataSetNumberIndex<Integer>( indexFileName,
+									this.manager ) );
+				}
+				else if ( dataType == Double.class )
+				{
+					result.put( fieldName,
+							new SerializableDataSetNumberIndex<Double>( indexFileName,
+									this.manager ) );
+				}
+				else if ( dataType == java.util.Date.class )
+				{
+					result.put( fieldName,
+							new SerializableDataSetNumberIndex<java.util.Date>( indexFileName,
+									this.manager ) );
+				}
+				else if ( dataType == java.sql.Date.class )
+				{
+					result.put( fieldName,
+							new SerializableDataSetNumberIndex<java.sql.Date>( indexFileName,
+									this.manager ) );
+				}
+				else if ( dataType == Time.class )
+				{
+					result.put( fieldName,
+							new SerializableDataSetNumberIndex<Time>( indexFileName,
+									this.manager ) );
+				}
+				else if ( dataType == Timestamp.class )
+				{
+					result.put( fieldName,
+							new SerializableDataSetNumberIndex<Timestamp>( indexFileName,
+									this.manager ) );
+				}
 			}
 		}
 		this.cachedIndex.put( resultClass, result );

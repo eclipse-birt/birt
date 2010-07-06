@@ -21,22 +21,25 @@ import java.util.List;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
 public class SerializableBirtHash extends HashMap implements IIndexSerializer
 {
 
 	public static int NULL_VALUE_OFFSET = -2;
 	public static int NOT_HASH_VALUE_OFFSET = -3;
-	private RAOutputStream indexStream;
-	private RAOutputStream valueStream;
-	private HashSet valueSet = new HashSet( );
 
-	public SerializableBirtHash( RAOutputStream indexStream,
-			RAOutputStream valueStream )
+	private boolean closed = false;
+	private HashSet valueSet = new HashSet( );
+	private StreamManager manager;
+	private String indexName;
+	private String valueName;
+	public SerializableBirtHash( String indexName, String valueName, StreamManager manager )
 	{
 		super( );
-		this.indexStream = indexStream;
-		this.valueStream = valueStream;
+		this.indexName = indexName;
+		this.valueName = valueName;
+		this.manager = manager;
 	}
 
 	public Object put( Object key, Object value )
@@ -69,30 +72,22 @@ public class SerializableBirtHash extends HashMap implements IIndexSerializer
 
 	public void close( ) throws DataException
 	{
-		try
-		{
-			if ( this.indexStream != null )
-			{
-				this.doSave( );
-				this.indexStream.close( );
-				this.indexStream = null;
-			}
-			if ( this.valueStream != null )
-			{
-				this.valueStream.close( );
-				this.valueStream = null;
-			}
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( e.getLocalizedMessage( ), e );
-		}
+		if ( closed )
+			return;
+		this.closed = true;
+
+		this.doSave( );
+
 	}
 
 	private void doSave( ) throws DataException
 	{
 		try
 		{
+			if( this.keySet( ).size( ) == 0 )
+				return;
+			RAOutputStream indexStream = this.manager.getOutStream( indexName  );
+			RAOutputStream valueStream = this.manager.getOutStream( valueName );
 			DataOutputStream dis = new DataOutputStream( indexStream );
 			DataOutputStream dvs = new DataOutputStream( valueStream );
 			IOUtil.writeInt( dis, this.keySet( ).size( ) );
@@ -122,6 +117,8 @@ public class SerializableBirtHash extends HashMap implements IIndexSerializer
 					IOUtil.writeList( dis, (List) this.get( key ) );
 				}
 			}
+			indexStream.close( );
+			valueStream.close( );
 		}
 		catch ( IOException e )
 		{
