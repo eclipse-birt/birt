@@ -19,6 +19,7 @@ import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.chart.device.g2d.G2dRendererBase;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Cursor;
@@ -54,7 +55,7 @@ public final class ShapedAction
 	ShapedAction( StructureSource oSource, Location[] loa, Shape clipping )
 	{
 		_oSource = oSource;
-		final int[][] i2a = SwingRendererImpl.getCoordinatesAsInts( loa );
+		final int[][] i2a = G2dRendererBase.getCoordinatesAsInts( loa );
 		if ( clipping != null )
 		{
 			Area ar1 = new Area( clipping );

@@ -7,6 +7,7 @@ Bundle-Activator: org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugi
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.device.extension.i18n,
+ org.eclipse.birt.chart.device.g2d,
  org.eclipse.birt.chart.device.image,
  org.eclipse.birt.chart.device.plugin,
  org.eclipse.birt.chart.device.swing,

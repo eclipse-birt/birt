@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.device.swing;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -19,42 +18,31 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
-import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.net.URL;
-import java.util.Map;
 
-import org.eclipse.birt.chart.device.DisplayAdapter;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
+import org.eclipse.birt.chart.device.g2d.G2dDisplayServerBase;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.SecurityUtil;
 
 /**
  * 
  */
-public class SwingDisplayServer extends DisplayAdapter
+public class SwingDisplayServer extends G2dDisplayServerBase
 {
 
 	private transient BufferedImage _bufferedImage = null;
 
-	private transient Graphics2D _g2d = null;
-
 	private transient SwingImageCache _imageCache = null;
-
-	/**
-	 * dpi resolution
-	 */
-	private int iDpiResolution = 0;
 
 	private int userResolution;
 
@@ -75,6 +63,7 @@ public class SwingDisplayServer extends DisplayAdapter
 		_imageCache = new SwingImageCache( this );
 	}
 	
+	@Override
 	public void dispose( )
 	{
 		if ( _bufferedImage != null )
@@ -85,51 +74,6 @@ public class SwingDisplayServer extends DisplayAdapter
 			this._bufferedImage = null;
 		}
 		super.dispose( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.devices.IDisplayServer#createFont(org.eclipse.birt.chart.attribute.FontDefinition)
-	 */
-	public final Object createFont( FontDefinition fontDef )
-	{
-		//final Map<? extends AttributedCharacterIterator.Attribute,?> fontAttribs = new HashMap<?  extends AttributedCharacterIterator.Attribute,Object>( );
-		final Map<TextAttribute, Object> fontAttribs = ChartUtil.newHashMap( );
-		fontAttribs.put( TextAttribute.FAMILY, fontDef.getName( ) );
-		// Although the fonts is set in points, we need to apply the dpi ratio manually
-		// java always assumes 72dpi for fonts, see this link:
-		// http://java.sun.com/products/java-media/2D/reference/faqs/index.html#Q_Why_does_eg_a_10_pt_font_in_Ja
-		
-		fontAttribs.put( TextAttribute.SIZE, new Float( fontDef.getSize( ) * getDpiResolution() / 72d) );
-		if ( fontDef.isItalic( ) )
-		{
-			fontAttribs.put( TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE );
-		}
-		if ( fontDef.isBold( ) )
-		{
-			fontAttribs.put( TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD );
-		}
-		if ( fontDef.isUnderline( ) )
-		{
-			fontAttribs.put( TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON );
-		}
-		if ( fontDef.isStrikethrough( ) )
-		{
-			fontAttribs.put( TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON );
-		}
-		return new Font( fontAttribs );
-	}
-
-	/**
-	 * Returns a color instance from given color definition
-	 */
-	public final Object getColor( ColorDefinition colorDef )
-	{
-		return new Color( colorDef.getRed( ),
-				colorDef.getGreen( ),
-				colorDef.getBlue( ),
-				colorDef.getTransparency( ) );
 	}
 
 	/*
@@ -150,17 +94,11 @@ public class SwingDisplayServer extends DisplayAdapter
 			// RETURN OS SPECIFIC DEFAULTS
 			return super.getDpiResolution( );
 		}
-		else
-		{
-			return Toolkit.getDefaultToolkit( )
-					.getScreenResolution( );
-		}
+		return Toolkit.getDefaultToolkit( )
+				.getScreenResolution( );
 	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.devices.IDisplayServer#getDpiResolution()
-	 */
+
+	@Override
 	public final int getDpiResolution( )
 	{
 
@@ -223,34 +161,20 @@ public class SwingDisplayServer extends DisplayAdapter
 
 	}
 	
-
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.DisplayAdapter#setDpiResolution(int)
-	 */
+	@Override
 	public final void setDpiResolution( int dpi )
 	{
 		userResolution = dpi;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.devices.IDisplayServer#loadImage(java.lang.String)
-	 */
+	@Override
 	public Object loadImage( URL url ) throws ChartException
 	{
 		URL urlFound = findResource( url );
 		return _imageCache.loadImage( urlFound );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.devices.IDisplayServer#getSize(java.lang.Object)
-	 */
+	@Override
 	public final Size getSize( Object oImage )
 	{
 		final Image img = (Image) oImage;
@@ -258,16 +182,13 @@ public class SwingDisplayServer extends DisplayAdapter
 		return SizeImpl.create( img.getWidth( io ), img.getHeight( io ) );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.devices.IDisplayServer#getObserver()
-	 */
+	@Override
 	public final Object getObserver( )
 	{
 		return _imageCache.getObserver( );
 	}
 
+	@Override
 	public ITextMetrics getTextMetrics( Label label, boolean autoReuse )
 	{
 		return new SwingTextMetrics( this,
@@ -286,8 +207,7 @@ public class SwingDisplayServer extends DisplayAdapter
 		return _imageCache;
 	}
 
-
-	
+	@Override
 	public void setGraphicsContext( Object g2d )
 	{
 		// User g2d will replace the one instantiated by the display server if any

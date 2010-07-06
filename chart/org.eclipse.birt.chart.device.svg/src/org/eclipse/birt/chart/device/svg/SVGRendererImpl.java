@@ -535,7 +535,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 							acre.getHeight( ),
 							acre.getStartAngle( ),
 							acre.getAngleExtent( ),
-							toSwingArcType( acre.getStyle( ) ) );
+							toG2dArcType( acre.getStyle( ) ) );
 					gp.append( a2d, true );
 				}
 				else if ( subPre instanceof LineRenderEvent )
@@ -607,31 +607,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 						are.getHeight( ),
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
-						toSwingArcType( are.getStyle( ) ) ) );
+						toG2dArcType( are.getStyle( ) ) ) );
 			}
 
 		}
 
 		ivRenderer.prepareInteractiveEvent( elm, ie, triggers );
-	}
-
-	/**
-	 * 
-	 * @param iArcStyle
-	 * @return
-	 */
-	private static final int toSwingArcType( int iArcStyle )
-	{
-		switch ( iArcStyle )
-		{
-			case ArcRenderEvent.OPEN :
-				return Arc2D.OPEN;
-			case ArcRenderEvent.CLOSED :
-				return Arc2D.CHORD;
-			case ArcRenderEvent.SECTOR :
-				return Arc2D.PIE;
-		}
-		return -1;
 	}
 
 	@Override
