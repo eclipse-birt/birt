@@ -452,7 +452,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			IBaseQueryDefinition query, IModelAdapter modelAdapter )
 	{
 		GroupDefinition groupDefn = new GroupDefinition( handle.getName( ) );
-		groupDefn.setKeyExpression( handle.getKeyExpr( ) );
+		groupDefn.setKeyExpression( modelAdapter.adaptExpression( ChartReportItemUtil.getExpression( handle ) ) );
 		String interval = handle.getInterval( );
 		if ( interval != null )
 		{
