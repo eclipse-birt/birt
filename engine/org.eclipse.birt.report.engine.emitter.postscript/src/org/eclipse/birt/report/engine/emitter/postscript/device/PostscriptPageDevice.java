@@ -42,9 +42,8 @@ public class PostscriptPageDevice implements IPageDevice
 		
 		String paperSize = renderOption
 				.getStringOption( PostscriptRenderOption.OPTION_PAPER_SIZE );
-		int paperTrayCode = renderOption.getIntOption(
-				PostscriptRenderOption.OPTION_PAPER_TRAY,
-				IPostscriptRenderOption.TRAYCODE_AUTO );
+		String paperTray = renderOption
+				.getStringOption( PostscriptRenderOption.OPTION_PAPER_TRAY );
 		String duplex = renderOption
 				.getStringOption( PostscriptRenderOption.OPTION_DUPLEX );
 		int copies = renderOption.getIntOption(
@@ -57,7 +56,7 @@ public class PostscriptPageDevice implements IPageDevice
 				IPostscriptRenderOption.OPTION_COLOR, true );
 		int scale = renderOption
 				.getIntOption( IPostscriptRenderOption.OPTION_SCALE, 100 );
-		writer.startRenderer( author, description, paperSize, paperTrayCode,
+		writer.startRenderer( author, description, paperSize, paperTray,
 				duplex, copies, collate, resolution, color, scale );
 	}
 

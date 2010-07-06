@@ -44,7 +44,6 @@ import java.util.zip.DeflaterOutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import org.eclipse.birt.report.engine.api.IPostscriptRenderOption;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.ITrueTypeWriter;
@@ -111,6 +110,8 @@ public class PostscriptWriter
 	/** This is a possible value of a base 14 type 1 font */
 	public static final String ZAPFDINGBATS = BaseFont.ZAPFDINGBATS;
 
+	public static final int TRAYCODE_AUTO = -1;
+	public static final int TRAYCODE_MANUAL = 41;
 	/**
 	 * Default page height.
 	 */
@@ -944,8 +945,7 @@ public class PostscriptWriter
 
 	public void startRenderer( ) throws IOException
 	{
-		startRenderer( null, null, null, IPostscriptRenderOption.TRAYCODE_AUTO,
-				null, 1, false, "600 X 600", false, 100 );
+		startRenderer( null, null, null, null, null, 1, false, null, false, 100 );
 	}
 
 	/*
@@ -954,7 +954,7 @@ public class PostscriptWriter
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#startRenderer()
 	 */
 	public void startRenderer( String author, String description,
-			String paperSize, int paperTrayCode, String duplex, int copies,
+			String paperSize, String paperTray, String duplex, int copies,
 			boolean collate, String resolution, boolean color, int scale )
 			throws IOException
 	{
@@ -975,7 +975,7 @@ public class PostscriptWriter
 			int height = pageSize[1];
 			setPaperSize( paperSize, width, height );
 		}
-		setPaperTray( paperTrayCode );
+		setPaperTray( paperTray );
 		setDuplex( duplex );
 		setResolution( resolution );
 		setGray( color );
@@ -986,25 +986,47 @@ public class PostscriptWriter
 		out.println( "%%EndSetup" );
 	}
 
-	private void setPaperTray( int paperTrayCode )
+	private void setPaperTray( String paperTray )
 	{
-		out.println( "%%BeginFeature: *InputSlot tray1" );
-		out.print( "<</ManualFeed " );
+		String trayString = getPaperTrayCode( paperTray );
+		if ( trayString != null )
+		{
+			out.println( "%%BeginFeature: *InputSlot tray1" );
+			out.println( trayString );
+			out.println( "%%EndFeature" );
+		}
+	}
 
-		if ( paperTrayCode == IPostscriptRenderOption.TRAYCODE_MANUAL )
+	private String getPaperTrayCode( String paperTray )
+	{
+		if ( paperTray == null )
 		{
-			out.println( "true /TraySwitch false>>setpagedevice" );
+			return null;
 		}
-		else if ( paperTrayCode == IPostscriptRenderOption.TRAYCODE_AUTO )
+		try
 		{
-			out.println( "false /MediaPosition 41 /TraySwitch true>>setpagedevice" );
+			int code = Integer.parseInt( paperTray );
+			return getPaperTray( code );
 		}
-		else
+		catch ( NumberFormatException e )
 		{
-			out.println( "false /MediaPosition " + paperTrayCode
-					+ " /TraySwitch false>>setpagedevice" );
+			return paperTray;
 		}
-		out.println( "%%EndFeature" );
+	}
+
+	private String getPaperTray( int code )
+	{
+		switch ( code )
+		{
+			case TRAYCODE_MANUAL :
+				return "<</ManualFeed true /TraySwitch false>>setpagedevice";
+
+			case TRAYCODE_AUTO :
+				return "<</ManualFeed false /MediaPosition 41 /TraySwitch true>>setpagedevice";
+			default :
+				return "<</ManualFeed false /MediaPosition " + code
+						+ " /TraySwitch false>>setpagedevice";
+		}
 	}
 
 	private void setPaperSize( String paperSize, int width, int height )

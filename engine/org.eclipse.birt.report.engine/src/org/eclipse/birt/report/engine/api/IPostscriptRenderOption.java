@@ -32,13 +32,6 @@ public interface IPostscriptRenderOption extends IRenderOption
 
 	public static final String OPTION_SCALE = "OptionScale";
 
-	public static final int TRAYCODE_TRAY1 = 0;
-	public static final int TRAYCODE_TRAY2 = 1;
-	public static final int TRAYCODE_TRAY3 = 2;
-	public static final int TRAYCODE_TRAY4 = 3;
-	public static final int TRAYCODE_AUTO = -1;
-	public static final int TRAYCODE_MANUAL = -2;
-
 	/**
 	 * Sets postscript level.
 	 * 
@@ -55,9 +48,9 @@ public interface IPostscriptRenderOption extends IRenderOption
 
 	String getPaperSize( );
 
-	void setPaperTray( int paperTrayCode );
+	void setPaperTray( String paperTray );
 
-	int getPaperTray( );
+	String getPaperTray( );
 
 	void setDuplex( String duplex );
 
