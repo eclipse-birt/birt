@@ -499,10 +499,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 		{
 			final Bounds boEllipse = ( (OvalRenderEvent) pre ).getBounds( );
 
-			elm = svggc.createOval( boEllipse.getLeft( ),
-					boEllipse.getTop( ),
-					boEllipse.getWidth( ),
-					boEllipse.getHeight( ) );
+			elm = svggc.createOval( boEllipse.getLeft( )
+					+ boEllipse.getWidth( )
+					/ 2,
+					boEllipse.getTop( ) + boEllipse.getHeight( ) / 2,
+					boEllipse.getWidth( ) / 2,
+					boEllipse.getHeight( ) / 2 );
 		}
 		else if ( pre instanceof RectangleRenderEvent )
 		{
