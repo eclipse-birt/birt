@@ -14,7 +14,9 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.EdgeCursor;
@@ -25,9 +27,11 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
@@ -93,28 +97,41 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 		fColInnerLevelIndex = -1;
 		if ( queryDefintion instanceof ICubeQueryDefinition )
 		{
-			List rowLevelNames = Collections.EMPTY_LIST;
-			List colLevelNames = Collections.EMPTY_LIST;
+			List<String> rowLevelNames = Collections.emptyList( );
+			List<String> colLevelNames = Collections.emptyList( );
 
 			String[] categoryExprs = ChartUtil.getCategoryExpressions( cm );
 
 			ICubeQueryDefinition cqd = (ICubeQueryDefinition) queryDefintion;
 			IEdgeDefinition rowED = cqd.getEdge( ICubeQueryDefinition.ROW_EDGE );
 			IEdgeDefinition colED = cqd.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
+			
+			// Gets cube binding expressions map.
+			Map<String, String> cubeBindingMap = new HashMap<String, String>();
+			List bindingList = cqd.getBindings( );
+			for ( int i = 0; i < bindingList.size( ); i++  )
+			{
+				Binding b = (Binding) bindingList.get( i );
+				if ( b.getExpression( ) instanceof IScriptExpression )
+				{
+					cubeBindingMap.put( b.getBindingName( ), ((IScriptExpression)b.getExpression( )).getText( ) );
+				}
+			}
+			
 			if ( rowED != null )
 			{
 				rowLevelNames = getLevelNames( rowED );
 				if ( categoryExprs != null && categoryExprs.length > 0 )
 				{
 					fRowInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
-							rowLevelNames );
+							rowLevelNames, cubeBindingMap );
 					if ( fRowInnerLevelIndex < 0 && colED != null )
 					{
 						// Row level isn't find on row edge, find it on column
 						// edge.
 						rowLevelNames = getLevelNames( colED );
 						fRowInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
-								rowLevelNames );
+								rowLevelNames, cubeBindingMap );
 						fIsColEdgeAsMainCursor = true;
 						return;
 					}
@@ -131,7 +148,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 					if ( categoryExprs != null && categoryExprs.length > 0 )
 					{
 						fRowInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
-								rowLevelNames );
+								rowLevelNames, cubeBindingMap );
 						fIsColEdgeAsMainCursor = true;
 					}
 				}
@@ -142,7 +159,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 					if ( yOptionalExprs != null && yOptionalExprs.length > 0 )
 					{
 						fColInnerLevelIndex = findInnerLevelIndex( yOptionalExprs[0],
-								colLevelNames );
+								colLevelNames, cubeBindingMap );
 					}
 				}
 			}
@@ -154,9 +171,11 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	 * Find the inner level index from specified expression.
 	 * 
 	 * @param expr
+	 * @param levelNames
+	 * @param cubeBindingMap
 	 * @return
 	 */
-	private int findInnerLevelIndex( String expr, List<String> levelNames )
+	private int findInnerLevelIndex( String expr, List<String> levelNames, Map<String, String> cubeBindingMap )
 	{
 		int index = -1;
 		if ( ChartUtil.isEmpty( expr ) )
@@ -167,13 +186,21 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 		ExpressionCodec exprCodec = ChartModelHelper.instance( )
 				.createExpressionCodec( );
 		Collection<String> bindingNames = exprCodec.getBindingNames( expr );
-
 		for ( String bindName : bindingNames )
 		{
-			int levelIndex = levelNames.indexOf( bindName );
-			if ( levelIndex > index )
+			String cubeBindingExpr = cubeBindingMap.get( bindName );
+			if( cubeBindingExpr == null )
 			{
-				index = levelIndex;
+				continue;
+			}
+			String[] lNames = exprCodec.getLevelNames( cubeBindingExpr );
+			for ( int i = 1; i < lNames.length; i++ )
+			{
+				int levelIndex = levelNames.indexOf( lNames[i] );
+				if ( levelIndex > index )
+				{
+					index = levelIndex;
+				}
 			}
 		}
 
@@ -186,9 +213,9 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	 * @param ed
 	 * @return
 	 */
-	private List getLevelNames( IEdgeDefinition ed )
+	private List<String> getLevelNames( IEdgeDefinition ed )
 	{
-		List levelNames = new ArrayList( );
+		List<String> levelNames = new ArrayList<String>( );
 		List<IDimensionDefinition> dimensions = ed.getDimensions( );
 		for ( IDimensionDefinition d : dimensions )
 		{
