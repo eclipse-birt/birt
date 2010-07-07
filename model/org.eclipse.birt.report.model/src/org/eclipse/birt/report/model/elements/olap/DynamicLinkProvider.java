@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
+import org.eclipse.birt.report.model.core.namespace.DimensionNameHelper;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -116,6 +117,11 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider
 	{
 		// clear the late one
 		infor = null;
+		if ( element instanceof Dimension )
+		{
+			( (Dimension) element ).nameHelper = new DimensionNameHelper(
+					(Dimension) element );
+		}
 
 		DesignElement target = getTargetElement( module );
 		if ( target != null && isValidTarget( target ) )

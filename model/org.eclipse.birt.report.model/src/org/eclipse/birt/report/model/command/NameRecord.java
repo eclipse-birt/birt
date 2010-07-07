@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
@@ -74,6 +78,10 @@ public class NameRecord extends SimpleRecord
 	protected void perform( boolean undo )
 	{
 		element.setName( undo ? oldName : newName );
+
+		// if container is share dimension, then send the content event to all
+		// the client tabular dimension
+		updateSharedDimension( element.getRoot( ), element );
 	}
 
 	/*
@@ -100,6 +108,27 @@ public class NameRecord extends SimpleRecord
 	public NotificationEvent getEvent( )
 	{
 		return new NameEvent( element, oldName, newName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
+	 */
+
+	protected List<RecordTask> getPostTasks( )
+	{
+		List<RecordTask> retValue = new ArrayList<RecordTask>( );
+		retValue.addAll( super.getPostTasks( ) );
+
+		NotificationEvent event = new NameEvent( element, oldName, newName );
+
+		// if container is share dimension, then send the content event to all
+		// the client tabular dimension
+		DesignElement e = element;
+		sendEventToSharedDimension( e, retValue, event );
+
+		return retValue;
 	}
 
 }

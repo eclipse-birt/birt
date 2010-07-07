@@ -271,6 +271,9 @@ public class ContentRecord extends SimpleRecord
 		{
 			( (TabularDimension) content ).updateLayout( module );
 		}
+
+		DesignElement container = containerInfo.getElement( );
+		updateSharedDimension( module, container );
 	}
 
 	private void adjustReferenceClients( IReferencableElement referred )
@@ -454,6 +457,11 @@ public class ContentRecord extends SimpleRecord
 			event.setSender( sender );
 
 		retValue.add( new NotificationRecordTask( container, event ) );
+
+		// if container is share dimension, then send the content event to all
+		// the client tabular dimension
+		DesignElement e = container;
+		sendEventToSharedDimension( e, retValue, event );
 
 		// If the content was added, then send an element added
 		// event to the content.

@@ -15,8 +15,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.command.ContentElementInfo;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Hierarchy;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 
 /**
  * Convenience class to automate routine records that work directly with a
@@ -35,9 +43,9 @@ public abstract class SimpleRecord extends AbstractElementRecord
 {
 
 	/**
-	 * The destination of the event. 
+	 * The destination of the event.
 	 */
-	
+
 	protected ContentElementInfo eventTarget;
 
 	/*
@@ -124,6 +132,88 @@ public abstract class SimpleRecord extends AbstractElementRecord
 	public void setEventTarget( ContentElementInfo eventTarget )
 	{
 		this.eventTarget = eventTarget;
+	}
+
+	protected void updateSharedDimension( Module module, DesignElement target )
+	{
+		DesignElement container = target;
+		if ( container instanceof Dimension || container instanceof Hierarchy
+				|| container instanceof Level )
+		{
+			while ( container != null )
+			{
+				if ( !( container instanceof Dimension ) )
+				{
+					container = container.getContainer( );
+					continue;
+				}
+
+				Dimension dimension = (Dimension) container;
+				if ( dimension.getContainer( ) instanceof Module )
+				{
+					List<BackRef> refList = dimension.getClientList( );
+					if ( refList != null )
+					{
+						for ( BackRef ref : refList )
+						{
+							DesignElement client = ref.getElement( );
+							String propName = ref.getPropertyName( );
+							if ( client instanceof TabularDimension
+									&& ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP
+											.equals( propName ) )
+							{
+								( (TabularDimension) client )
+										.updateLayout( module );
+							}
+						}
+					}
+				}
+
+				break;
+
+			}
+		}
+	}
+
+	protected void sendEventToSharedDimension( DesignElement target,
+			List<RecordTask> retValue, NotificationEvent event )
+	{
+		DesignElement e = target;
+		if ( e instanceof Dimension || e instanceof Hierarchy
+				|| e instanceof Level )
+		{
+			while ( e != null )
+			{
+				if ( !( e instanceof Dimension ) )
+				{
+					e = e.getContainer( );
+					continue;
+				}
+
+				Dimension shareDimension = (Dimension) e;
+				if ( shareDimension.getContainer( ) instanceof Module )
+				{
+					List<BackRef> refList = shareDimension.getClientList( );
+					if ( refList != null )
+					{
+						for ( BackRef ref : refList )
+						{
+							DesignElement client = ref.getElement( );
+							String propName = ref.getPropertyName( );
+							if ( client instanceof TabularDimension
+									&& ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP
+											.equals( propName ) )
+							{
+								retValue.add( new NotificationRecordTask(
+										client, event ) );
+							}
+						}
+					}
+				}
+				break;
+
+			}
+		}
 	}
 
 }
