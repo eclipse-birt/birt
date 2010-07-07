@@ -77,7 +77,8 @@ public class DrillOperationExecutor
 			List<IEdgeDrillFilter[]> drillFilters ) throws IOException, DataException
 	{
 		if ( aggregationRsFromCube.getAllLevels( ) == null
-				|| aggregationRsFromCube.getAllLevels( ).length == 0 )
+				|| aggregationRsFromCube.getAllLevels( ).length == 0
+				|| aggregationRsFromCube.length( ) == 0 )
 			return aggregationRsFromCube;
 		DrilledAggregateResultSet rs = new DrilledAggregateResultSet( aggregationRsFromCube,
 				drillFilters );
