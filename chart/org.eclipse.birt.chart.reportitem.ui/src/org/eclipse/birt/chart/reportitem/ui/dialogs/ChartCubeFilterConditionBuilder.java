@@ -40,9 +40,9 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -50,6 +50,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -122,14 +123,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	protected static final Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
 	
-	protected transient String[] popupItems = null;
-	
 	protected ChartWizardContext context = null;
 
-	private static String[] actions = new String[]{
-			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
-			Messages.getString( "ExpressionValueCellEditor.buildExpressionAction" ), //$NON-NLS-1$
-	};
+	private static String CHOICE_SELECT_VALUE = Messages.getString( "ExpressionValueCellEditor.selectValueAction" );//$NON-NLS-1$
 
 	protected final String NULL_STRING = null;
 	protected Composite dummy1, dummy2;
@@ -145,8 +141,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	protected static final String[][] OPERATOR;
 
 	private ParamBindingHandle[] bindingParams = null;
-
-	private boolean refreshItems = true;
 
 	protected ReportElementHandle currentItem = null;
 
@@ -269,14 +263,14 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			exprCodec.setBindingName( ChartCubeUtil.createLevelBindingName( lh ),
 					true );
 			String expr = adaptExpr( exprCodec );
-			exprMap.put( exprCodec.getBindingName( ), expr ); //$NON-NLS-1$
+			exprMap.put( exprCodec.getBindingName( ), expr );
 		}
 		for ( MeasureHandle mh : ChartCubeUtil.getAllMeasures( handle.getCube( ) ) )
 		{
 			exprCodec.setBindingName( ChartCubeUtil.createMeasureBindingName( mh ),
 					true );
 			String expr = adaptExpr( exprCodec );
-			exprMap.put( exprCodec.getBindingName( ), expr ); //$NON-NLS-1$
+			exprMap.put( exprCodec.getBindingName( ), expr );
 		}
 		
 		return exprMap;
@@ -411,7 +405,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		}
 		catch ( Exception e )
 		{
-			WidgetUtil.processError( getShell( ), e );
+			ExceptionUtil.handle( e );
 		}
 
 		super.okPressed( );
@@ -622,7 +616,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 180;
 		condition.setLayoutData( gd );
-		glayout = new GridLayout( 4, false );
+		glayout = new GridLayout( 5, false );
 		condition.setLayout( glayout );
 
 		expression = new Combo( condition, SWT.NONE );
@@ -722,7 +716,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			{
 				return;
 			}
-			String value = popupItems[selectionIndex];
+			String value = thisCombo.getItem( selectionIndex );
 
 			boolean isAddClick = false;
 			if ( tableViewer != null
@@ -751,7 +745,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			if ( value != null )
 			{
 				String newValues[] = new String[1];
-				if ( value.equals( ( actions[0] ) ) )
+				if ( CHOICE_SELECT_VALUE.equals( value ) )
 				{
 					if ( bindingName != null )
 					{
@@ -802,32 +796,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
 								org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr" ) ); //$NON-NLS-1$
 					}
-				}
-				else if ( value.equals( actions[1] ) )
-				{
-					ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ),
-							thisCombo.getText( ) );
-
-					if ( expressionProvider == null )
-					{
-						IExpressionProvider exprProvider = new ChartCubeFilterExpressionProvider( designHandle,
-								fExprMap.values( ).toArray( new String[]{} ) );
-						dialog.setExpressionProvider( exprProvider );
-					}
-					else
-						dialog.setExpressionProvider( expressionProvider );
-
-					if ( dialog.open( ) == IDialogConstants.OK_ID )
-					{
-						returnValue = true;
-						newValues[0] = dialog.getResult( );
-					}
-				}
-				else if ( selectionIndex > 3 )
-				{
-					newValues[0] = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				
 				if(returnValue)
@@ -887,21 +855,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		GridData expgd = new GridData( );
 		expgd.widthHint = 100;
 
-		expressionValue1 = new Combo( condition, SWT.NONE );
+		expressionValue1 = createExpressionValue( condition );
 		expressionValue1.setLayoutData( expgd );
-		expressionValue1.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				updateButtons( );
-			}
-		} );
-
-		expressionValue1.addListener( SWT.Verify, expValueVerifyListener );
-		expressionValue1.addListener( SWT.Selection, expValueSelectionListener );
-
-		refreshList( );
-		expressionValue1.setItems( popupItems );
+		expressionValue1.add( CHOICE_SELECT_VALUE );
 
 		dummy1 = createDummy( condition, 3 );
 
@@ -912,20 +868,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		dummy2 = createDummy( condition, 3 );
 
-		expressionValue2 = new Combo( condition, SWT.NONE );
+		expressionValue2 = createExpressionValue( condition );
 		expressionValue2.setLayoutData( expgd );
-		expressionValue2.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				updateButtons( );
-			}
-		} );
-
-		expressionValue2.addListener( SWT.Verify, expValueVerifyListener );
-		expressionValue2.addListener( SWT.Selection, expValueSelectionListener );
-
-		expressionValue2.setItems( popupItems );
+		expressionValue2.add( CHOICE_SELECT_VALUE );
 
 		// expressionValue2.setVisible( false );
 
@@ -939,6 +884,28 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		return 1;
 	}
 
+	private Combo createExpressionValue( Composite parent )
+	{
+		Combo expressionValue = new Combo( parent, SWT.None );
+		expressionValue.addListener( SWT.Verify, expValueVerifyListener );
+		expressionValue.addListener( SWT.Selection, expValueSelectionListener );
+		Listener listener = new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				updateButtons( );
+			}
+
+		};
+		expressionValue.addListener( SWT.Modify, listener );
+		ExpressionButtonUtil.createExpressionButton( parent,
+				expressionValue,
+				expressionProvider,
+				designHandle,
+				listener );
+		return expressionValue;
+	}
+
 	private int createValueListComposite( Composite parent )
 	{
 
@@ -949,12 +916,18 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		if ( expressionValue1 != null && !expressionValue1.isDisposed( ) )
 		{
+			ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+					.getControl( )
+					.dispose( );
 			expressionValue1.dispose( );
 			expressionValue1 = null;
 
 			dummy1.dispose( );
 			dummy1 = null;
 
+			ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+					.getControl( )
+					.dispose( );
 			expressionValue2.dispose( );
 			expressionValue2 = null;
 
@@ -982,7 +955,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		data.grabExcessHorizontalSpace = true;
 		group.setLayoutData( data );
 		layout = new GridLayout( );
-		layout.numColumns = 4;
+		layout.numColumns = 5;
 		group.setLayout( layout );
 
 		new Label( group, SWT.NONE ).setText( Messages.getString( "FilterConditionBuilder.label.value" ) ); //$NON-NLS-1$
@@ -990,7 +963,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		GridData expgd = new GridData( );
 		expgd.widthHint = 100;
 
-		addExpressionValue = new Combo( group, SWT.NONE );
+		addExpressionValue = createExpressionValue( group );
 		addExpressionValue.setLayoutData( expgd );
 
 		addBtn = new Button( group, SWT.PUSH );
@@ -1272,11 +1245,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			}
 		} );
 
-		addExpressionValue.addListener( SWT.Verify, expValueVerifyListener );
-		addExpressionValue.addListener( SWT.Selection,
-				expValueSelectionListener );
-		refreshList( );
-		addExpressionValue.setItems( popupItems );
+		addExpressionValue.add( CHOICE_SELECT_VALUE );
 
 		parent.getParent( ).layout( true, true );
 		return 1;
@@ -1382,19 +1351,37 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			if ( valueVisible == 0 )
 			{
 				expressionValue1.setVisible( false );
+				ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+						.getControl( )
+						.setVisible( false );
 				expressionValue2.setVisible( false );
+				ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+						.getControl( )
+						.setVisible( false );
 				andLable.setVisible( false );
 			}
 			else if ( valueVisible == 1 )
 			{
 				expressionValue1.setVisible( true );
+				ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+						.getControl( )
+						.setVisible( true );
 				expressionValue2.setVisible( false );
+				ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+						.getControl( )
+						.setVisible( false );
 				andLable.setVisible( false );
 			}
 			else if ( valueVisible == 2 )
 			{
 				expressionValue1.setVisible( true );
+				ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+						.getControl( )
+						.setVisible( true );
 				expressionValue2.setVisible( true );
+				ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+						.getControl( )
+						.setVisible( true );
 				andLable.setVisible( true );
 				andLable.setEnabled( true );
 			}
@@ -1497,9 +1484,21 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		if ( valueVisible != 3 )
 		{
 			if ( expressionValue1 != null )
+			{
 				expressionValue1.setEnabled( val );
+				ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+						.getControl( )
+						.setEnabled( val );
+			}
+
 			if ( expressionValue2 != null )
+			{
 				expressionValue2.setEnabled( val );
+				ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+						.getControl( )
+						.setEnabled( val );
+			}
+
 			if ( andLable != null )
 			{
 				andLable.setEnabled( val );
@@ -1786,25 +1785,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			this.inputHandle = null;
 		}
 
-	}
-
-	private void refreshList( )
-	{
-		if ( refreshItems )
-		{
-			ArrayList<String> finalItems = new ArrayList<String>( 10 );
-			for ( int n = 0; n < actions.length; n++ )
-			{
-				finalItems.add( actions[n] );
-			}
-
-			if ( currentItem != null )
-			{
-				// addParamterItems( finalItems );
-			}
-			popupItems =  finalItems.toArray( EMPTY_ARRAY );
-		}
-		refreshItems = false;
 	}
 
 	private transient boolean needRefreshList = true;
