@@ -2190,10 +2190,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					for ( int i = 0; i < importValues.length; i++ )
 					{
 						SelectionChoice choice = StructureFactory.createSelectionChoice( );
-						choice.setValue( UIUtil.convertToModelString( importValues[i],
-								false ) );
-						if ( labelMap.get( UIUtil.convertToModelString( importValues[i],
-								false ) ) != null )
+						choice.setValue( importValues[i] );
+						if ( labelMap.get( importValues[i] ) != null )
 						{
 							choice.setLabel( (String) labelMap.get( importValues[i] ) );
 						}
