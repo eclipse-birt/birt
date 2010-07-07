@@ -561,7 +561,7 @@ dataset.editor.inputDialog.columnName=열 이름(&C)
 dataset.editor.inputDialog.dataType=데이터 형식(&T):
 dataset.editor.inputDialog.expression=식(&E)
 dataset.editor.inputDialog.aggrArgu=인수(&R)
-dataset.editor.inputDialog.aggrFunc=A&ggregation
+dataset.editor.inputDialog.aggrFunc=집계(&G)
 dataset.editor.inputDialog.filter=필터(&F)
 dataset.editor.inputDialog.value1=값 &1
 dataset.editor.inputDialog.value2=값 &2
@@ -907,7 +907,7 @@ designer.preview.preference.bidiOrientation.auto=자동
 designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
 designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
 designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=&Always prompt for confirmation when updating result set/parameter design attributes.
+designer.preview.preference.updateParameter.confirmButton=결과 집합/매개 변수 디자인 특성을 업데이트할 때마다 항상 확인합니다(&A).
 
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기
@@ -1651,7 +1651,7 @@ FormatDateTimeAttributePage.Trans.SetDateTimeFormat = 날짜 시간 형식을 설정합니�
 ###########################################################
 #FormatDateTimePage properties
 
-FormatDateTimePage.label.custom.settings.label=Example format&s (Click one to copy below, then modify):
+FormatDateTimePage.label.custom.settings.label=예 형식(하나를 클릭하여 아래 복사한 다음 수정)(&S):
 FormatDateTimePage.label.custom.settings=사용자 지정 설정
 FormatDateTimePage.label.format.code=형식 코드(&C):
 FormatDateTimePage.label.format.page=다음으로 형식 지정(&F):
@@ -1690,7 +1690,7 @@ FormatNumberPage.currency.symbol.none=기호 없음
 FormatNumberPage.label.currency.settings=통화 설정
 FormatNumberPage.label.custom.preview.group=미리 보기
 FormatNumberPage.label.custom.preview.label=형식 미리 보기:
-FormatNumberPage.label.custom.settings.lable=Example format&s (Click one to copy below, then modify):
+FormatNumberPage.label.custom.settings.lable=예 형식(하나를 클릭하여 아래 복사한 다음 수정)(&S):
 FormatNumberPage.label.custom.settings=사용자 지정 설정
 FormatNumberPage.label.decimal.places=소수 자릿수(&D): 
 FormatNumberPage.label.rounding.mode=반올림 모드(&R):
@@ -1744,7 +1744,7 @@ FormatStringAttributePage.Trans.SetStringFormat = 문자열 형식을 설정합니다.
 
 FormatStringPage.default.preview.text=내 문자열
 FormatStringPage.label.custom.preview.label=형식 미리 보기:
-FormatStringPage.label.custom.settings.label=Example format&s (Click one to copy below, then modify):
+FormatStringPage.label.custom.settings.label=예 형식(하나를 클릭하여 아래 복사한 다음 수정)(&S):
 FormatStringPage.label.customSettings=사용자 지정 설정
 FormatStringPage.label.format.code=형식 코드(&C):
 FormatStringPage.label.formatStringAs=다음으로 형식 지정(&F):
@@ -2621,7 +2621,7 @@ MasterPagePaletteFactory.paletteDrawerName.autoText=AutoText
 MasterPagePaletteFactory.ToolTip.Grid=눈금 보고서 항목
 MasterPagePaletteFactory.ToolTip.Text=텍스트 보고서 항목
 MasterPagePaletteFactory.Autotext.Variable=변수
-MasterPagePaletteFactory.AutotextTooltip.Variable=Variable Item
+MasterPagePaletteFactory.AutotextTooltip.Variable=변수 항목
 
 ###########################################################
 #MasterPageProcess properties
