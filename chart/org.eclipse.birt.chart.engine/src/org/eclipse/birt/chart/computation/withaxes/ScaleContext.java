@@ -264,7 +264,7 @@ public class ScaleContext extends Methods
 		final double dMinReal, dMaxReal;
 		// These min/max is the value that displays on axis after
 		// considering the fixed value
-		final double dMinValue, dMaxValue;
+		double dMinValue, dMaxValue;
 		double dMargin = 0;
 		if ( bMargin )
 		{
@@ -279,6 +279,19 @@ public class ScaleContext extends Methods
 				: dMinReal;
 		dMaxValue = bMaximumFixed ? asDouble( oMaxFixed ).doubleValue( )
 				: dMaxReal;
+		
+		if ( dMaxValue < dMinValue )
+		{
+			if ( bMaximumFixed && dMaxValue >= 0 )
+			{
+				dMinValue = 0;
+			}
+
+			if ( bMinimumFixed && dMinValue <= 0 )
+			{
+				dMaxValue = 0;
+			}
+		}
 
 		// These min/max is the value after auto adjusting
 		double dMinAxis = dMinValue;
