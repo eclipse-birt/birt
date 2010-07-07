@@ -48,11 +48,12 @@ public abstract class ChartPreviewPainterBase implements IChartPreviewPainter
 	protected ChartPreviewPainterBase( ChartWizardContext wizardContext )
 	{
 		this.wizardContext = wizardContext;
-		this.chart = wizardContext.getModel( );
-		if ( this.chart != null )
-		{
-			chart = chart.copyInstance( );
-		}
+		// Do not need design time chart model.
+		// this.chart = wizardContext.getModel( );
+		// if ( this.chart != null )
+		// {
+		// chart = chart.copyInstance( );
+		// }
 	}
 
 	public void dispose( )
