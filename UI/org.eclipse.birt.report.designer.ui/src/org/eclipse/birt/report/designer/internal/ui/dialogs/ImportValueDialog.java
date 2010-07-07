@@ -600,10 +600,6 @@ public class ImportValueDialog extends BaseDialog
 						{
 							resultList.add( result );
 						}
-						if ( !resultList.contains( "" ) )
-						{
-							resultList.add( "" );
-						}
 					}
 				}
 				filteValues( );
