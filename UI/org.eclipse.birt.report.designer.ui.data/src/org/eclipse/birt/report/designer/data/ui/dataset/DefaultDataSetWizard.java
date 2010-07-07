@@ -9,6 +9,9 @@
 
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -105,7 +108,17 @@ public class DefaultDataSetWizard extends Wizard
 					if ( swtException.code == SWT.ERROR_WIDGET_DISPOSED )
 						Utility.log( e );
 				}
-				ExceptionHandler.handle( e );
+				
+				Throwable cause = e.getCause( );
+				if ( cause != null && ( cause instanceof org.eclipse.birt.data.engine.core.DataException ) )
+				{
+					Logger logger = Logger.getLogger( DefaultDataSetWizard.class.getName( ) );
+					logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+				}
+				else
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
 		}
 		else
