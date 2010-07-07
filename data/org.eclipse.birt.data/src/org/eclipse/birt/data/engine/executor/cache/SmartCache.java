@@ -205,22 +205,6 @@ public class SmartCache implements ResultSetCache
 		this.resultSetCache.doSave( outputStream, rowLensStream, index, cacheRequestMap );
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#finalize()
-	 */
-	public void finalize()
-	{
-		try
-		{
-			close();
-		}
-		catch ( DataException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * 

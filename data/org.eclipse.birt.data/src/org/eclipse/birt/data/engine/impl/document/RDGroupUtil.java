@@ -622,18 +622,5 @@ public final class RDGroupUtil
 		{
 			throw new UnsupportedOperationException( );
 		}
-		
-		public void finalize( )
-		{
-			try
-			{
-				this.dataSource.close( );
-			}
-			catch ( IOException e )
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 }
