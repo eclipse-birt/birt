@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
@@ -134,7 +135,7 @@ public class DteAdapter
 			}
 		}
 
-		session.defineDataSet( baseDS );
+		new ModelDteApiAdapter().defineDataSet( handle, session );
 	}
 	
 	/**
