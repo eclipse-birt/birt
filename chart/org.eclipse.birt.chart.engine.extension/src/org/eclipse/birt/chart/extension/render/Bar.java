@@ -2533,19 +2533,28 @@ public final class Bar extends AxesRenderer
 
 		// COMPUTE THE FRONT FACE ONLY
 		Location[] loaFrontFace = null;
+		double dSeriesThickness = 0;
 		switch ( bs.getRiser( ).getValue( ) )
 		{
 			case RiserType.RECTANGLE :
+				if (getModel( ).getDimension( )!=ChartDimension.TWO_DIMENSIONAL_LITERAL)
+				{
+					dSeriesThickness = 3 * getDeviceScale( );
+				}
 			case RiserType.TUBE :
+				if (bs.getRiser( ).getValue( ) == RiserType.TUBE )
+				{
+					dSeriesThickness = 2 * getDeviceScale( );
+				}
 				loaFrontFace = new Location[4];
 				loaFrontFace[0] = goFactory.createLocation( bo.getLeft( ),
-						bo.getTop( ) );
+						bo.getTop( ) + dSeriesThickness );
 				loaFrontFace[1] = goFactory.createLocation( bo.getLeft( ),
 						bo.getTop( ) + bo.getHeight( ) );
 				loaFrontFace[2] = goFactory.createLocation( bo.getLeft( )
 						+ bo.getWidth( ), bo.getTop( ) + bo.getHeight( ) );
 				loaFrontFace[3] = goFactory.createLocation( bo.getLeft( )
-						+ bo.getWidth( ), bo.getTop( ) );
+						+ bo.getWidth( ), bo.getTop( ) + dSeriesThickness );
 				break;
 			case RiserType.TRIANGLE :
 			case RiserType.CONE :
