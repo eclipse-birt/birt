@@ -79,7 +79,10 @@ public class ParameterHelper
 			parameterType = SCALAR_PARAMETER;
 			ScalarParameterHandle parameter = (ScalarParameterHandle) param;
 			this.fixedOrder = parameter.isFixedOrder( );
-			pattern = parameter.getPattern( );
+			if ( param.getLabelExpr( ) == null )
+			{ // if no label expression was set, apply pattern to value column
+				pattern = parameter.getPattern( );
+			}
 		}
 		else
 		{
