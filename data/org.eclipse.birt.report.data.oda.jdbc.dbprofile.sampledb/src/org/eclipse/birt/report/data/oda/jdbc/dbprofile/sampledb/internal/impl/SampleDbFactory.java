@@ -42,7 +42,7 @@ import org.osgi.framework.Bundle;
  */
 public class SampleDbFactory implements IExecutableExtension
 {
-    private static final String PLUGIN_ID = "org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb"; //$NON-NLS-1$
+    static final String PLUGIN_ID = "org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb"; //$NON-NLS-1$
     private static final String SAMPLEDB_PLUGIN_ID = "org.eclipse.birt.report.data.oda.sampledb"; //$NON-NLS-1$
     private static final String SAMPLE_DB_HOME_SUBDIR = "db"; //$NON-NLS-1$
     private static final String SAMPLE_DB_NAME = "BirtSample"; //$NON-NLS-1$

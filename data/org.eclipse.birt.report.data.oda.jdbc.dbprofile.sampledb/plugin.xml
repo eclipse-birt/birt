@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+   
+   <extension
+         point="org.eclipse.datatools.connectivity.driverExtension">
+      <driverTemplate
+            createDefault="false"
+            defaultDefinitionName="%driver.definition.name"
+            emptyJarListIsOK="false"
+            id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverTemplate"
+            jarList="derby.jar"
+            name="%driver.template.name"
+            parentCategory="org.eclipse.datatools.connectivity.db.derby.10_2.driverCategory"
+            valuesProvider="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.internal.impl.SampleDbValuesProvider">
+         <properties>
+            <property
+                  generated="false"
+                  id="org.eclipse.datatools.connectivity.db.driverClass"
+                  name="%driver.template.property.class"
+                  value="org.apache.derby.jdbc.EmbeddedDriver"
+                  required="true"
+                  visible="false"/>
+            <property
+                  generated="false"
+                  id="org.eclipse.datatools.connectivity.db.vendor"
+                  name="%driver.template.property.vendor"
+                  value="Derby"
+                  required="true"
+                  visible="true"/>
+            <property
+                  generated="false"
+                  id="org.eclipse.datatools.connectivity.db.version"
+                  name="%driver.template.property.version"
+                  value="10.5"
+                  required="true"
+                  visible="true"/>   
+            <property
+                  generated="false"
+                  id="org.eclipse.datatools.connectivity.db.databaseName"
+                  name="%driver.template.property.dbname"
+                  value="BirtSample"
+                  required="true"
+                  visible="true"/>                             
+            <property
+                  generated="false"
+                  id="org.eclipse.datatools.connectivity.db.URL"
+                  name="%driver.template.property.connection.url"
+                  value="jdbc:derby:Plugin_State_Location/db/BirtSample"
+                  required="true"
+                  visible="true"/>
+            <property
+                  generated="false"
+                  id="org.eclipse.datatools.connectivity.db.username"
+                  name="%driver.template.property.user"
+                  value="ClassicModels"
+                  required="false"
+                  visible="false"/>
+            <property
+                  generated="false"
+                  id="org.eclipse.datatools.connectivity.db.password"
+                  name="%driver.template.property.password"
+                  required="false"
+                  visible="false"/>
+         </properties>
+      </driverTemplate>
+   </extension>
    <extension
          point="org.eclipse.datatools.connectivity.ProfileManagerInitializationProvider">
       <connection
@@ -8,7 +72,7 @@
             connectionProfileID="org.eclipse.datatools.connectivity.db.derby.embedded.connectionProfile"
             connectionProfileName="%connection.profile.name"
             driverDefinitionName="%driver.definition.name"
-            driverTemplateID="org.eclipse.datatools.connectivity.db.derby.genericDriverTemplate">
+            driverTemplateID="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverTemplate">
          <property
                id="org.eclipse.datatools.connectivity.db.URL"
                value="jdbc:derby:Plugin_State_Location/db/BirtSample">
