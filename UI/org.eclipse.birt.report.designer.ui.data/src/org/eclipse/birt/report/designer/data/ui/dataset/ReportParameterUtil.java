@@ -36,12 +36,24 @@ public class ReportParameterUtil
 			if ( parameterObject instanceof ScalarParameterHandle )
 			{
 				ScalarParameterHandle parameterHandle = (ScalarParameterHandle) parameterObject;
-				if ( parameterHandle.getDefaultValueList( ) == null || parameterHandle.getDefaultValueList( ).size( ) == 0)
+
+				if ( parameterHandle.getDefaultValueList( ) == null
+						|| parameterHandle.getDefaultValueList( ).size( ) == 0 )
 				{
-					//no default value in handle
-					engineTask.setParameter( parameterHandle.getName( ),
-							getDummyDefaultValue( parameterHandle ),
-							parameterHandle.getDisplayName( ) );
+					String paramType = parameterHandle.getParamType( );
+					if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( paramType ) )
+					{
+						engineTask.setParameter( parameterHandle.getName( ),
+								new Object[]{
+									getDummyDefaultValue( parameterHandle )
+								},
+								parameterHandle.getDisplayName( ) );
+					}
+					else
+						// no default value in handle
+						engineTask.setParameter( parameterHandle.getName( ),
+								getDummyDefaultValue( parameterHandle ),
+								parameterHandle.getDisplayName( ) );
 				}
 			}
 			else if ( parameterObject instanceof DynamicFilterParameterHandle )
