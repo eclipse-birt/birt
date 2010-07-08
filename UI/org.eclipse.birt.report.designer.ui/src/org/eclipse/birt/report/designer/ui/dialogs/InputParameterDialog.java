@@ -348,12 +348,16 @@ public class InputParameterDialog extends BaseDialog
 			Object value = null;
 			dataTypeCheckList.add( radioParameter );
 
-			try
+//			try
+//			{
+//				value = radioParameter.converToDataType( radioParameter.getDefaultValue( ) );
+//			}
+//			catch ( BirtException e )
+//			{
+//			}
+			if (radioParameter.getDefaultValue( ) != null)
 			{
-				value = radioParameter.converToDataType( radioParameter.getDefaultValue( ) );
-			}
-			catch ( BirtException e )
-			{
+				value = radioParameter.getDefaultObject( );
 			}
 
 			if ( paramValues.containsKey( radioParameter.getHandle( ).getName( ) ) )
