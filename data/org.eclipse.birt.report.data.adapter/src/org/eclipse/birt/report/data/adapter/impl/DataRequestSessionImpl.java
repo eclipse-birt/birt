@@ -1284,13 +1284,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			//create leaf level
 			if ( levelInHier.size( ) >= 1 )
 			{
-				if ( levelInHier.size( ) > 1 && isDateTimeDimension(hierhandle) )
-				{
-					levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
-							leafLevelKeyColumn.toArray( new String[0] ),
-						    new String[0] ));
-				}
-				else if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
+				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
 				{
 					if ( !Arrays.deepEquals( jointHierarchyKeys, new String[]{
 							((TabularLevelHandle)levels.get( levels.size( ) - 1 )).getColumnName( )
@@ -1299,6 +1293,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 						//need to append joint keys as leaf level
 						levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
 								getDummyLevelNamesForJointHierarchyKeys( jointHierarchyKeys ),
+							    new String[0] ));
+					}
+					else if ( levelInHier.size( ) > 1 && isDateTimeDimension(hierhandle) )
+					{
+						levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
+								leafLevelKeyColumn.toArray( new String[0] ),
 							    new String[0] ));
 					}
 				}
