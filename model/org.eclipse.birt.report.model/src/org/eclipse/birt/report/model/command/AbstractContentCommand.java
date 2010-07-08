@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -25,6 +26,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.MultiViews;
+import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
@@ -365,6 +368,35 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 				false );
 		dropRecord.setEventTarget( eventTarget );
 		stack.execute( dropRecord );
+
+		// if the container is multi-views, and now it is empty, then delete the
+		// multi-views
+		try
+		{
+			if ( this.focus.getElement( ) instanceof MultiViews )
+			{
+				DesignElement multiViews = focus.getElement( );
+				ContainerContext context = multiViews.getContainerInfo( );
+				if ( context != null )
+				{
+					List views = multiViews.getListProperty( module,
+							IMultiViewsModel.VIEWS_PROP );
+					if ( views == null || views.isEmpty( ) )
+					{
+						ContentCommand cmd = new ContentCommand( module,
+								context );
+						cmd.remove( multiViews );
+					}
+				}
+			}
+
+		}
+		catch ( SemanticException ex )
+		{
+			stack.rollback( );
+			throw ex;
+		}
+
 		stack.commit( );
 	}
 
