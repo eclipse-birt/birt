@@ -269,8 +269,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				boolean disabled = getDataServiceProvider( ).isInXTabAggrCell( )
 						|| getDataServiceProvider( ).isInXTabMeasureCell( );
 				btnFilters.setEnabled( !disabled
-						&& !getDataServiceProvider( ).isInheritColumnsGroups( ) );
-				btnBinding.setEnabled( !getDataServiceProvider( ).isInheritColumnsGroups( )
+						&& ( getDataServiceProvider( ).checkState( IDataServiceProvider.HAS_CUBE ) || !getDataServiceProvider( ).isInheritColumnsGroups( ) ) );
+				btnBinding.setEnabled( ( getDataServiceProvider( ).checkState( IDataServiceProvider.HAS_CUBE ) || !getDataServiceProvider( ).isInheritColumnsGroups( ) )
 						&& getDataServiceProvider( ).isInvokingSupported( )
 						|| getDataServiceProvider( ).isSharedBinding( ) );
 			}
