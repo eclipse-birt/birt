@@ -99,7 +99,6 @@ import com.ibm.icu.util.ULocale;
  */
 public class ExecutionContext
 {
-
 	/**
 	 * how many errors or exceptions will be registered.
 	 */
@@ -2288,6 +2287,12 @@ public class ExecutionContext
 		if ( var != null )
 		{
 			var.setValue( value );
+		}
+		// lazy add special page variables
+		else if ( IReportContext.PAGE_VAR_PAGE_LABEL.equals( name ) )
+		{
+			addPageVariable( new PageVariable( IReportContext.PAGE_VAR_PAGE_LABEL,
+					PageVariable.SCOPE_PAGE, value ) );
 		}
 	}
 

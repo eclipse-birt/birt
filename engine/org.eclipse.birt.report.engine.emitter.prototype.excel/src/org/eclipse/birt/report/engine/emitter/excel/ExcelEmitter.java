@@ -98,6 +98,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	protected int contentwidth;
 
 	protected int reportDpi;
+	
+	protected IReportContext reportContext;
 
 	public String getOutputFormat( )
 	{
@@ -126,6 +128,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			else
 				context.setLocale( ULocale.getDefault( ) );
 		}
+		this.reportContext = reportContext;
 	}
 
 	protected ExcelContext createContext( )
@@ -539,7 +542,16 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	 * 
 	 */
 	public void outputCacheData( ) throws IOException
-	{
+	{		
+		// update sheet name to page label, if necessary		
+		Object pageLabelObj = reportContext.getPageVariable( IReportContext.PAGE_VAR_PAGE_LABEL );
+		if ( pageLabelObj instanceof String )
+		{
+			String pageLabel = (String)pageLabelObj;
+			pageLabel = ExcelUtil.getValidSheetName( pageLabel );
+			sheetName = pageLabel;
+		}
+		
 		writer.startSheet( engine.getCoordinates( ), pageHeader, pageFooter,
 				sheetName );
 		sheetName = DEFAULT_SHEET_NAME + sheetIndex;

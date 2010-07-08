@@ -31,6 +31,7 @@ import com.ibm.icu.util.TimeZone;
  */
 public interface IReportContext
 {
+	static final String PAGE_VAR_PAGE_LABEL = "pageLabel";	
 
 	/**
 	 * return the report runnable used to create/render this report
