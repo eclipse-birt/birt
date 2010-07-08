@@ -84,6 +84,10 @@ public class QueryUtil
 	{
 		Report design = report.getDesign( );
 		ArrayList<QueryTask> plan = createPlan( design, instanceID );
+		if ( plan == null )
+		{
+			return null;
+		}
 		StringBuilder sb = new StringBuilder( );
 		ExecutionContext executionContext = report.getExecutionContext( );
 		try
