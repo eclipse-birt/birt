@@ -1328,14 +1328,17 @@ public class SVGGraphics2D extends ChartGraphics2D
 			iw.dispose( );
 		}
 		
+		Element elemG = dom.createElement( "g" ); //$NON-NLS-1$
+		elemG.setAttribute( "id", "img_" + img.hashCode( ) ); //$NON-NLS-1$//$NON-NLS-2$
 		Element elem = dom.createElement( "image" ); //$NON-NLS-1$
-		elem.setAttribute( "id", "img_" + img.hashCode( ) ); //$NON-NLS-1$//$NON-NLS-2$
 		elem.setAttribute( "x", "0" ); //$NON-NLS-1$//$NON-NLS-2$
 		elem.setAttribute( "y", "0" ); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.setAttribute( "width", Integer.toString( width ) ); //$NON-NLS-1$
 		elem.setAttribute( "height", Integer.toString( height ) ); //$NON-NLS-1$
 		elem.setAttribute( "xlink:href", sUrl ); //$NON-NLS-1$
-		return elem;
+		elemG.appendChild( elem );
+		
+		return elemG;
 	}
 
 	/**
@@ -1443,21 +1446,21 @@ public class SVGGraphics2D extends ChartGraphics2D
 	{
 		Element elem = dom.createElement( "pattern" ); //$NON-NLS-1$
 		if ( highlight )
-			elem.setAttribute( "id", getTextureId( paint ) + "h" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			elem.setAttribute( "id", getTextureId( paint ) + "h" ); //$NON-NLS-1$ //$NON-NLS-2$
 		else
-			elem.setAttribute( "id", getTextureId( paint ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			elem.setAttribute( "id", getTextureId( paint ) ); //$NON-NLS-1$
 		
 		BufferedImage img = paint.getImage( );
 		int width = img.getWidth( );
 		int height = img.getHeight( );
-		elem.setAttribute( "patternUnits", "userSpaceOnUse" );
-		elem.setAttribute( "width", Integer.toString( width ) );
-		elem.setAttribute( "height", Integer.toString( height ) );
+		elem.setAttribute( "patternUnits", "userSpaceOnUse" );  //$NON-NLS-1$//$NON-NLS-2$
+		elem.setAttribute( "width", Integer.toString( width ) ); //$NON-NLS-1$
+		elem.setAttribute( "height", Integer.toString( height ) ); //$NON-NLS-1$
 
-		Element elemUse = dom.createElement( "use" );
-		elemUse.setAttribute( "x", "0" );
-		elemUse.setAttribute( "y", "0" );
-		elemUse.setAttribute( "xlink:href", "#" + imgId );
+		Element elemUse = dom.createElement( "use" ); //$NON-NLS-1$
+		elemUse.setAttribute( "x", "0" );  //$NON-NLS-1$//$NON-NLS-2$
+		elemUse.setAttribute( "y", "0" );  //$NON-NLS-1$//$NON-NLS-2$
+		elemUse.setAttribute( "xlink:href", "#" + imgId );  //$NON-NLS-1$//$NON-NLS-2$
 		
 		elem.appendChild( elemUse );
 		return elem;
