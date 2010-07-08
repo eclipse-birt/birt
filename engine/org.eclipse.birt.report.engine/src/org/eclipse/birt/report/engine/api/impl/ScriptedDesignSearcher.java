@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.RowHandle;
 public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 {
 
+	
 	protected boolean hasOnPrepareScript = false;
 
 	ScriptedDesignSearcher( ReportDesignHandle handle )
@@ -41,6 +42,20 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 		}
 	}
 
+	public void visitReportDesign( ReportDesignHandle handle )
+	{
+		if ( handle.getInitialize( ) != null
+				&& handle.getInitialize( ).length( ) > 0
+				|| handle.getBeforeFactory( ) != null
+				&& handle.getBeforeFactory( ).length( ) > 0
+				|| handle.getEventHandlerClass( ) != null
+				&& handle.getEventHandlerClass( ).length( ) > 0 )
+		{
+			throw new StopException( );
+		}
+		super.visitReportDesign( handle );
+	}
+
 	public boolean hasOnPrepareScript( )
 	{
 		return hasOnPrepareScript;
@@ -48,11 +63,10 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 
 	protected void handleOnPrepare( ReportItemHandle handle )
 	{
-		boolean hasJavaScript = ( handle.getOnPrepare( ) != null )
-				&& ( handle.getOnPrepare( ).length( ) != 0 );
-		boolean hasJavaCode = ( handle.getEventHandlerClass( ) != null )
-				&& ( handle.getEventHandlerClass( ).length( ) != 0 );
-		if ( hasJavaScript || hasJavaCode )
+		if ( ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 )
+				|| ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 ) )
 		{
 			throw new StopException( );
 		}
@@ -61,11 +75,10 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 
 	protected void handleOnPrepare( CellHandle handle )
 	{
-		boolean hasJavaScript = ( handle.getOnPrepare( ) != null )
-				&& ( handle.getOnPrepare( ).length( ) != 0 );
-		boolean hasJavaCode = ( handle.getEventHandlerClass( ) != null )
-				&& ( handle.getEventHandlerClass( ).length( ) != 0 );
-		if ( hasJavaScript || hasJavaCode )
+		if ( ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 )
+				|| ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 ) )
 		{
 			throw new StopException( );
 		}
@@ -74,11 +87,10 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 
 	protected void handleOnPrepare( GroupHandle handle )
 	{
-		boolean hasJavaScript = ( handle.getOnPrepare( ) != null )
-				&& ( handle.getOnPrepare( ).length( ) != 0 );
-		boolean hasJavaCode = ( handle.getEventHandlerClass( ) != null )
-				&& ( handle.getEventHandlerClass( ).length( ) != 0 );
-		if ( hasJavaScript || hasJavaCode )
+		if ( ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 )
+				|| ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 ) )
 		{
 			throw new StopException( );
 		}
@@ -87,17 +99,16 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 
 	protected void handleOnPrepare( RowHandle handle )
 	{
-		boolean hasJavaScript = ( handle.getOnPrepare( ) != null )
-				&& ( handle.getOnPrepare( ).length( ) != 0 );
-		boolean hasJavaCode = ( handle.getEventHandlerClass( ) != null )
-				&& ( handle.getEventHandlerClass( ).length( ) != 0 );
-		if ( hasJavaScript || hasJavaCode )
+		if ( ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 )
+				|| ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 ) )
 		{
 			throw new StopException( );
 		}
 
 	}
-	
+
 	protected void visitExtendedItem( ExtendedItemHandle handle )
 	{
 		hasOnPrepareScript = true;
