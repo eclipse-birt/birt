@@ -205,8 +205,12 @@ VirtualField.SharedDimensions=共享维
 
 MeasureDialog.Label.Format=格式为(&O):
 MeasureDialog.Button.Format.Edit=更改(&G)...
+MeasureDialog.Label.Alignment=Al&ignment:
+
 LevelPropertyDialog.Label.Format=格式为(&F):
 LevelPropertyDialog.Button.Format.Edit=更改(&G)...
 LevelStaticAttributeDialog.Error.Message=成员不能为空白
 LevelStaticAttributeDialog.Label.Expression=条件和表达式:
 LevelStaticAttributeDialog.Label.Member=成员(&M):
+
+LevelPropertyDialog.Label.Alignment=Al&ignment:

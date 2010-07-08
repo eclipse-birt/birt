@@ -205,8 +205,12 @@ VirtualField.SharedDimensions=Gemeinsame Dimensionen
 
 MeasureDialog.Label.Format=F&ormatieren als:
 MeasureDialog.Button.Format.Edit=&Ändern...
+MeasureDialog.Label.Alignment=Al&ignment:
+
 LevelPropertyDialog.Label.Format=&Formatieren als:
 LevelPropertyDialog.Button.Format.Edit=&Ändern...
 LevelStaticAttributeDialog.Error.Message=Mitglied darf nicht leer sein.
 LevelStaticAttributeDialog.Label.Expression=B&edingungsausdruck:
 LevelStaticAttributeDialog.Label.Member=&Mitglied:
+
+LevelPropertyDialog.Label.Alignment=Al&ignment:

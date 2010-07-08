@@ -205,8 +205,12 @@ VirtualField.SharedDimensions=共有ディメンジョン
 
 MeasureDialog.Label.Format=書式設定(&O) :
 MeasureDialog.Button.Format.Edit=変更(&G)...
+MeasureDialog.Label.Alignment=Al&ignment:
+
 LevelPropertyDialog.Label.Format=書式設定(&F) :
 LevelPropertyDialog.Button.Format.Edit=変更(&G)...
 LevelStaticAttributeDialog.Error.Message=メンバは空白にできません。
 LevelStaticAttributeDialog.Label.Expression=条件式(&E) :
 LevelStaticAttributeDialog.Label.Member=メンバ(&M) :
+
+LevelPropertyDialog.Label.Alignment=Al&ignment:

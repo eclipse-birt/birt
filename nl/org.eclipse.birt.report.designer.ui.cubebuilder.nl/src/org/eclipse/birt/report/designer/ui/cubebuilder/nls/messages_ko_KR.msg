@@ -205,8 +205,12 @@ VirtualField.SharedDimensions=공유 차원
 
 MeasureDialog.Label.Format=다음으로 형식 지정(&O):
 MeasureDialog.Button.Format.Edit=변경(&G)...
+MeasureDialog.Label.Alignment=Al&ignment:
+
 LevelPropertyDialog.Label.Format=다음으로 형식 지정(&F):
 LevelPropertyDialog.Button.Format.Edit=변경(&G)...
 LevelStaticAttributeDialog.Error.Message=구성원은 비워둘 수 없습니다.
 LevelStaticAttributeDialog.Label.Expression=조건식(&E):
 LevelStaticAttributeDialog.Label.Member=구성원(&M):
+
+LevelPropertyDialog.Label.Alignment=Al&ignment:
