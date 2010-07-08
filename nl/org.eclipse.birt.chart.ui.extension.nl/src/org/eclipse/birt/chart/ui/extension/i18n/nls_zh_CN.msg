@@ -992,7 +992,7 @@ GanttSeriesAttributeComposite.Lbl.End=结束:
 GanttSeriesAttributeComposite.Lbl.Bars=条
 GanttSeriesAttributeComposite.Lbl.Outline=边框
 GanttSeriesAttributeComposite.Lbl.OutlineFill=边框填充:
-GanttSeriesAttributeComposite.Lbl.BarPalette=Use Series &Palette As Bar Color
+GanttSeriesAttributeComposite.Lbl.BarPalette=在确定条形颜色时使用系列调色板(&P)
 
 DecorationSheet.Label.DecorationLabels=任务标签
 

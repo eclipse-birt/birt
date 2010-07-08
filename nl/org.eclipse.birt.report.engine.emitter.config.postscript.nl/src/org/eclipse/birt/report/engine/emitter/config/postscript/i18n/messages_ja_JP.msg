@@ -24,15 +24,15 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=ページサイズに合わせる
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=複数ページに出力
 OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
 OptionDisplayValue.FontSubstitution=フォントの置き換え
-OptionDisplayValue.Copies=Number of copies
-OptionDisplayValue.Collate=Collate
-OptionDisplayValue.Duplex=Duplex
-OptionDisplayValue.PaperSize=Paper size
-OptionDisplayValue.PaperTray=Paper tray
+OptionDisplayValue.Copies=部数
+OptionDisplayValue.Collate=部単位で印刷
+OptionDisplayValue.Duplex=両面印刷
+OptionDisplayValue.PaperSize=用紙サイズ
+OptionDisplayValue.PaperTray=用紙トレイ
 OptionDisplayValue.ChartDpi=グラフの DPI
-OptionDisplayValue.Resolution=Resolution
-OptionDisplayValue.Scale=Scale
-OptionDisplayValue.Color=Color
+OptionDisplayValue.Resolution=解像度
+OptionDisplayValue.Scale=スケール
+OptionDisplayValue.Color=カラー
 
 ###########################################################
 #Option Description
@@ -40,15 +40,15 @@ OptionDescription.BidiProcessing=双方向テキストの処理が使用されています。
 OptionDescription.TextWrapping=テキストを折り返す必要があります。
 OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
 OptionDescription.FontSubstitution=選択したフォントにその文字が存在しているかどうかを確認する必要があります。
-OptionDescription.Copies=Number of copies.
-OptionDescription.Collate=Collate.
-OptionDescription.Duplex=Duplex.
-OptionDescription.PaperSize=Paper size.
-OptionDescription.PaperTray=Paper tray.
+OptionDescription.Copies=部数。
+OptionDescription.Collate=部単位で印刷。
+OptionDescription.Duplex=両面印刷。
+OptionDescription.PaperSize=用紙サイズ。
+OptionDescription.PaperTray=用紙トレイ。
 OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
-OptionDescription.Resolution=Resolution.
-OptionDescription.Scale=Scale.
-OptionDescription.Color=Color.
+OptionDescription.Resolution=解像度。
+OptionDescription.Scale=スケール。
+OptionDescription.Color=カラー。
 
 ###########################################################
 #tooltip

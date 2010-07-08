@@ -722,7 +722,7 @@ Choices.nullsOrdering.nullsHighest=Null (最高)
 Choices.nullsOrdering.excludeNulls=Null を除外する
 
 #92 filterConditionType
-Choices.filterConditionType.slicer=Slicer
+Choices.filterConditionType.slicer=スライサ
 Choices.filterConditionType.simple=簡易
 
 ###########################################################

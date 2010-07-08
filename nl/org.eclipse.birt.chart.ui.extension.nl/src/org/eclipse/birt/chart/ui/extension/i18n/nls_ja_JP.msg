@@ -992,7 +992,7 @@ GanttSeriesAttributeComposite.Lbl.End=終了 :
 GanttSeriesAttributeComposite.Lbl.Bars=棒
 GanttSeriesAttributeComposite.Lbl.Outline=外枠
 GanttSeriesAttributeComposite.Lbl.OutlineFill=外枠の塗りつぶし :
-GanttSeriesAttributeComposite.Lbl.BarPalette=Use Series &Palette As Bar Color
+GanttSeriesAttributeComposite.Lbl.BarPalette=系列パレットを棒の色として使用する(&P)
 
 DecorationSheet.Label.DecorationLabels=タスクラベル
 

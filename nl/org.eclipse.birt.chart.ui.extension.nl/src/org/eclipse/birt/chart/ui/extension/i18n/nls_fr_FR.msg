@@ -992,7 +992,7 @@ GanttSeriesAttributeComposite.Lbl.End=Fin :
 GanttSeriesAttributeComposite.Lbl.Bars=Barres
 GanttSeriesAttributeComposite.Lbl.Outline=Contour
 GanttSeriesAttributeComposite.Lbl.OutlineFill=Remplissage du contour :
-GanttSeriesAttributeComposite.Lbl.BarPalette=Use Series &Palette As Bar Color
+GanttSeriesAttributeComposite.Lbl.BarPalette=Utiliser la &palette de séries pour la couleur de barre
 
 DecorationSheet.Label.DecorationLabels=Etiquettes de tâches
 

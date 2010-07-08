@@ -722,7 +722,7 @@ Choices.nullsOrdering.nullsHighest=Valeurs nulles les plus élevées
 Choices.nullsOrdering.excludeNulls=Exclure les valeurs nulles
 
 #92 filterConditionType
-Choices.filterConditionType.slicer=Slicer
+Choices.filterConditionType.slicer=Trancheuse
 Choices.filterConditionType.simple=Simple
 
 ###########################################################

@@ -722,8 +722,8 @@ Choices.nullsOrdering.nullsHighest=널(null) 최상위
 Choices.nullsOrdering.excludeNulls=널(Null) 제외
 
 #92 filterConditionType
-Choices.filterConditionType.slicer=Slicer
-Choices.filterConditionType.simple=단순
+Choices.filterConditionType.slicer=슬라이서
+Choices.filterConditionType.simple=기본
 
 ###########################################################
 # Classes

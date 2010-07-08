@@ -24,15 +24,15 @@ OptionDisplayValue.FIT_TO_PAGE_SIZE=Adapter à la taille de la page
 OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Répartir sur plusieurs pages
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Agrandir la taille de la page
 OptionDisplayValue.FontSubstitution=Changement de police
-OptionDisplayValue.Copies=Number of copies
-OptionDisplayValue.Collate=Collate
-OptionDisplayValue.Duplex=Duplex
-OptionDisplayValue.PaperSize=Paper size
-OptionDisplayValue.PaperTray=Paper tray
+OptionDisplayValue.Copies=Nombre de copies
+OptionDisplayValue.Collate=Assembler
+OptionDisplayValue.Duplex=Recto verso
+OptionDisplayValue.PaperSize=Taille de papier
+OptionDisplayValue.PaperTray=Alimentation papier
 OptionDisplayValue.ChartDpi=DPI de graphique
-OptionDisplayValue.Resolution=Resolution
-OptionDisplayValue.Scale=Scale
-OptionDisplayValue.Color=Color
+OptionDisplayValue.Resolution=Résolution
+OptionDisplayValue.Scale=Echelle
+OptionDisplayValue.Color=Couleur
 
 ###########################################################
 #Option Description
@@ -40,15 +40,15 @@ OptionDescription.BidiProcessing=Traitement BIDI utilisé.
 OptionDescription.TextWrapping=Un retour à la ligne est nécessaire.
 OptionDescription.PageOverFlow=Vérifiez comment répartir le contenu.
 OptionDescription.FontSubstitution=Vérification nécessaire pour savoir si le caractère existe dans la police sélectionnée.
-OptionDescription.Copies=Number of copies.
-OptionDescription.Collate=Collate.
-OptionDescription.Duplex=Duplex.
-OptionDescription.PaperSize=Paper size.
-OptionDescription.PaperTray=Paper tray.
+OptionDescription.Copies=Nombre de copies.
+OptionDescription.Collate=Assembler.
+OptionDescription.Duplex=Recto verso.
+OptionDescription.PaperSize=Taille de papier.
+OptionDescription.PaperTray=Alimentation papier.
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
-OptionDescription.Resolution=Resolution.
-OptionDescription.Scale=Scale.
-OptionDescription.Color=Color.
+OptionDescription.Resolution=Résolution.
+OptionDescription.Scale=Echelle.
+OptionDescription.Color=Couleur.
 
 ###########################################################
 #tooltip

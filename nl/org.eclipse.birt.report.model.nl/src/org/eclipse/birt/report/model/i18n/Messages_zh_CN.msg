@@ -722,7 +722,7 @@ Choices.nullsOrdering.nullsHighest=空值上限
 Choices.nullsOrdering.excludeNulls=排除空值
 
 #92 filterConditionType
-Choices.filterConditionType.slicer=Slicer
+Choices.filterConditionType.slicer=限制器
 Choices.filterConditionType.simple=简单
 
 ###########################################################
