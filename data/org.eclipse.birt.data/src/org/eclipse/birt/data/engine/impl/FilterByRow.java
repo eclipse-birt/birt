@@ -342,13 +342,15 @@ public class FilterByRow implements IResultObjectEvent
 									dataSet.getSession( )
 											.getEngineContext( )
 											.getScriptContext( ),
-									compareHints );
+									compareHints,
+									dataSet );
 						else
 							result = ExprEvaluateUtil.evaluateRawExpression2( expr,
 									dataSet.getScriptScope( ),
 									dataSet.getSession( )
 											.getEngineContext( )
-											.getScriptContext( ) );
+											.getScriptContext( ),
+									dataSet);
 					}
 					catch ( BirtException e2 )
 					{

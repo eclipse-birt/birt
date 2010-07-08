@@ -245,5 +245,15 @@ public class JSResultSetRow extends ScriptableObject
 	{
 		throw new IllegalArgumentException( "Put value on result set row is not supported." );
 	}
+	
+	public IResultIterator getOdiResult( )
+	{
+		return odiResult;
+	}
+	
+	public IBinding getBinding( String name ) throws DataException
+	{
+		return exprManager.getBinding( name );
+	}
 
 }

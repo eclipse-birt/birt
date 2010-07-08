@@ -755,7 +755,7 @@ public class ScriptEvalUtil
 				if ( handle instanceof NEvaluator )
 				{
 					result = Boolean.valueOf( ( (NEvaluator) handle ).evaluate( cx,
-							( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx ) ) );
+							( (IDataScriptEngine) cx.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( cx ), null ) );
 				}
 				else
 				{

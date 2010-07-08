@@ -21,14 +21,17 @@ import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.script.JSResultSetRow;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.NEvaluator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -239,9 +242,9 @@ public class ExprEvaluateUtil
 	 * @throws BirtException
 	 */
 	public static Object evaluateRawExpression2( IBaseExpression dataExpr,
-			Scriptable scope, ScriptContext cx ) throws BirtException
+			Scriptable scope, ScriptContext cx, DataSetRuntime dataSet ) throws BirtException
 	{
-		return doEvaluateRawExpression( dataExpr, scope, true, cx );
+		return doEvaluateRawExpression( dataExpr, scope, true, cx, dataSet );
 	}
 	
 	/**
@@ -305,6 +308,102 @@ public class ExprEvaluateUtil
 			return null;
 		}
 	}
+	
+	/**
+	 * 
+	 * @param dataExpr
+	 * @param cx
+	 * @param isRow true:row["xxx"]; false:dataSetRow["xxx"]
+	 * @return
+	 */
+	private static String extractDirectColumn( IBaseExpression dataExpr,
+			ScriptContext cx, 
+			boolean isRow )
+	{
+		if ( dataExpr instanceof IScriptExpression )
+		{
+			String exprText = ((IScriptExpression)dataExpr).getText( );
+			ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
+			expressionCompiler.setDataSetMode( isRow );
+			CompiledExpression ce = expressionCompiler.compile( exprText, null, cx );
+			if ( ce instanceof ColumnReferenceExpression )
+			{
+				return ((ColumnReferenceExpression)ce).getColumnName( );
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @param dataExpr
+	 * @param scope
+	 * @return
+	 * @throws BirtException
+	 */
+	private static Object doEvaluateRawExpression( IBaseExpression dataExpr,
+			Scriptable scope, boolean javaType, ScriptContext cx,
+			DataSetRuntime dataSet )
+			throws BirtException
+	{
+		if ( dataSet == null )
+		{
+			return doEvaluateRawExpression( dataExpr, scope, javaType, cx );
+		}
+		String dataSetColumn = extractDirectColumn( dataExpr, cx, false );
+		if ( dataSetColumn != null )
+		{
+			if ( dataSet.getCurrentRow( ) != null 
+					&& dataSet.getCurrentRow( ).getResultClass( ).getFieldIndex( dataSetColumn ) >= 0 )
+			{
+				Object value = dataSet.getCurrentRow( ).getFieldValue( dataSetColumn );
+				return DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+			}
+		}
+		
+		String rowName = extractDirectColumn( dataExpr, cx, true );
+		if ( rowName != null )
+		{
+			Scriptable scriptable = dataSet.getJSResultRowObject( );
+			if ( scriptable instanceof JSResultSetRow )
+			{
+				JSResultSetRow resultSetRow = (JSResultSetRow)scriptable;
+				if ( resultSetRow.getOdiResult( ).getCurrentResult( ).getResultClass( ).getFieldIndex( rowName ) >= 0 )
+				{
+					//row["xxx"] is already evaluated
+					Object value = resultSetRow.getOdiResult( ).getCurrentResult( ).getFieldValue( rowName );
+					return DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+				}
+				IBinding b = resultSetRow.getBinding( rowName );
+				if ( b != null && b.getAggrFunction( ) == null )
+				{
+					IBaseExpression expr = b.getExpression( );
+					dataSetColumn = extractDirectColumn( expr, cx, false );
+					if ( dataSetColumn != null )
+					{
+						//binding "xxx" expression is just dataSetRow["xxx"]
+						if ( dataSet.getCurrentRow( ) != null 
+								&& dataSet.getCurrentRow( ).getResultClass( ).getFieldIndex( dataSetColumn ) >= 0 )
+						{
+							Object value = dataSet.getCurrentRow( ).getFieldValue( dataSetColumn );
+							return DataTypeUtil.convert( value, b.getDataType( ) );
+						}
+					}
+				}
+			}
+			else
+			{
+				//row["xxx"] is added on data set level
+				if ( dataSet.getCurrentRow( ) != null 
+						&& dataSet.getCurrentRow( ).getResultClass( ).getFieldIndex( rowName ) >= 0 )
+				{
+					Object value = dataSet.getCurrentRow( ).getFieldValue( rowName );
+					return DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+				}
+			}
+		}
+		
+		return doEvaluateRawExpression( dataExpr, scope, javaType, cx );
+	}
 
 	/**
 	 * 
@@ -323,7 +422,7 @@ public class ExprEvaluateUtil
 	{
 		if ( dataExpr.getHandle( ) != null )
 			return new Boolean( ( (NEvaluator) dataExpr.getHandle( ) ).evaluate( cx,
-					scope ) );
+					scope, null ) );
 
 		IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
 		int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
@@ -359,6 +458,58 @@ public class ExprEvaluateUtil
 					oper,
 					doEvaluateRawExpression( operand1, scope, javaType, cx ),
 					doEvaluateRawExpression( operand2, scope, javaType, cx ),
+					filterHints );
+		}
+	}
+	
+	
+	public static Object evaluateConditionExpression(
+			IConditionalExpression dataExpr, Scriptable scope,
+			boolean javaType, ScriptContext cx, CompareHints filterHints,
+			DataSetRuntime dataSet)
+			throws DataException, BirtException
+	{
+		if ( dataExpr.getHandle( ) != null )
+			return new Boolean( ( (NEvaluator) dataExpr.getHandle( ) ).evaluate( cx,
+					scope, dataSet ) );
+
+		IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
+		int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
+		IBaseExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );
+		IBaseExpression operand2 = ( (IConditionalExpression) dataExpr ).getOperand2( );
+
+		if ( operand1 instanceof IExpressionCollection )
+		{
+			Object[] expr = ( (IExpressionCollection) operand1 ).getExpressions( )
+					.toArray( );
+			Object[] result = new Object[expr.length];
+			for ( int i = 0; i < result.length; i++ )
+			{
+				result[i] = doEvaluateRawExpression( (IBaseExpression) expr[i],
+						scope,
+						javaType,
+						cx,
+						dataSet);
+			}
+			return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
+					scope,
+					javaType,
+					cx,
+					dataSet),
+					oper,
+					flatternMultipleValues( result ),
+					filterHints );
+		}
+		else
+		{
+			return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
+					scope,
+					javaType,
+					cx,
+					dataSet),
+					oper,
+					doEvaluateRawExpression( operand1, scope, javaType, cx, dataSet ),
+					doEvaluateRawExpression( operand2, scope, javaType, cx, dataSet ),
 					filterHints );
 		}
 	}
