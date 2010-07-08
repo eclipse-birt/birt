@@ -53,4 +53,8 @@ public class BuilderConstants
 	public static final String FORMAT_VALUE = "Format Value";//$NON-NLS-1$
 	public static final String FORMAT_VALUE_TYPE = "Format Value Type";//$NON-NLS-1$
 	public static final String FORMAT_VALUE_RESULT = "Format Value Result";//$NON-NLS-1$
+
+	public static final String ALIGNMENT_HELPER_KEY = "Alignment Helper";//$NON-NLS-1$
+	public static final String ALIGNMENT_LABEL = "Alignment Label"; //$NON-NLS-1$
+	public static final String ALIGNMENT_VALUE = "Alignment Value";//$NON-NLS-1$
 }

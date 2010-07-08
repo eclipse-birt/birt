@@ -41,6 +41,7 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -668,6 +669,11 @@ public class CubeGroupContent extends Composite implements Listener
 											UIUtil.getDefaultScriptType( ) );
 									measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
 											expression );
+									ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+									if ( column != null )
+									{
+										measure.setAlignment( column.getHorizontalAlign( ) );
+									}
 
 									initMeasure( dataField, measure );
 									( (MeasureHandle) element ).getContainer( )
@@ -720,6 +726,12 @@ public class CubeGroupContent extends Composite implements Listener
 											.add( IHierarchyModel.LEVELS_PROP,
 													level,
 													index );
+									ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+									if ( column != null )
+									{
+										level.setAlignment( column.getHorizontalAlign( ) );
+									}
+									
 									if ( !isValidName )
 									{
 										LevelPropertyDialog dialog = new LevelPropertyDialog( true );
@@ -761,6 +773,11 @@ public class CubeGroupContent extends Composite implements Listener
 											UIUtil.getDefaultScriptType( ) );
 									measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
 											expression );
+									ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+									if ( column != null )
+									{
+										measure.setAlignment( column.getHorizontalAlign( ) );
+									}
 									initMeasure( dataField, measure );
 									( (MeasureHandle) element ).getContainer( )
 											.add( IMeasureGroupModel.MEASURES_PROP,
@@ -829,6 +846,11 @@ public class CubeGroupContent extends Composite implements Listener
 											UIUtil.getDefaultScriptType( ) );
 									measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
 											expression );
+									ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+									if ( column != null )
+									{
+										measure.setAlignment( column.getHorizontalAlign( ) );
+									}
 									initMeasure( dataField, measure );
 									measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
@@ -887,6 +909,11 @@ public class CubeGroupContent extends Composite implements Listener
 													OlapUtil.getDataFieldDisplayName( dataField ) );
 									level.setColumnName( dataField.getColumnName( ) );
 									level.setDataType( dataField.getDataType( ) );
+									ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+									if ( column != null )
+									{
+										level.setAlignment( column.getHorizontalAlign( ) );
+									}
 									( (LevelHandle) element ).getContainer( )
 											.add( IHierarchyModel.LEVELS_PROP,
 													level,
@@ -1011,6 +1038,11 @@ public class CubeGroupContent extends Composite implements Listener
 														OlapUtil.getDataFieldDisplayName( dataField ) );
 										level.setColumnName( dataField.getColumnName( ) );
 										level.setDataType( dataField.getDataType( ) );
+										ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+										if ( column != null )
+										{
+											level.setAlignment( column.getHorizontalAlign( ) );
+										}
 										hierarchy.add( IHierarchyModel.LEVELS_PROP,
 												level );
 										if ( !isValidName )
@@ -1151,14 +1183,14 @@ public class CubeGroupContent extends Composite implements Listener
 		removeButton.setToolTipText( Messages.getString( "GroupsPage.ArrowButton.Remove.Tooltip" ) );//$NON-NLS-1$
 		GridData gd = new GridData( );
 		gd.grabExcessVerticalSpace = true;
-		gd.widthHint = Math.max( 25, addButton.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ).x );
+		gd.widthHint = Math.max( 25,
+				addButton.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x );
 		gd.verticalAlignment = SWT.BOTTOM;
 		addButton.setLayoutData( gd );
 
 		gd = new GridData( );
-		gd.widthHint = Math.max( 25, removeButton.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ).x );
+		gd.widthHint = Math.max( 25,
+				removeButton.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x );
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = SWT.TOP;
 		removeButton.setLayoutData( gd );
@@ -1868,6 +1900,11 @@ public class CubeGroupContent extends Composite implements Listener
 								.add( IHierarchyModel.LEVELS_PROP,
 										level,
 										( (TabularLevelHandle) obj ).getIndex( ) + 1 );
+						ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+						if ( column != null )
+						{
+							level.setAlignment( column.getHorizontalAlign( ) );
+						}
 					}
 					catch ( SemanticException e )
 					{
@@ -2019,6 +2056,11 @@ public class CubeGroupContent extends Composite implements Listener
 											OlapUtil.getDataFieldDisplayName( dataField ) );
 							level.setColumnName( dataField.getColumnName( ) );
 							level.setDataType( dataField.getDataType( ) );
+							ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+							if ( column != null )
+							{
+								level.setAlignment( column.getHorizontalAlign( ) );
+							}
 							hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
 							if ( !isValidName )
 							{
@@ -2107,6 +2149,11 @@ public class CubeGroupContent extends Composite implements Listener
 										UIUtil.getDefaultScriptType( ) );
 								measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
 										expression );
+								ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+								if ( column != null )
+								{
+									measure.setAlignment( column.getHorizontalAlign( ) );
+								}
 							}
 							initMeasure( dataField, measure );
 							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
@@ -2154,6 +2201,11 @@ public class CubeGroupContent extends Composite implements Listener
 										UIUtil.getDefaultScriptType( ) );
 								measure.setExpressionProperty( MeasureHandle.MEASURE_EXPRESSION_PROP,
 										expression );
+								ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+								if ( column != null )
+								{
+									measure.setAlignment( column.getHorizontalAlign( ) );
+								}
 							}
 							initMeasure( dataField, measure );
 							( (MeasureHandle) obj ).getContainer( )

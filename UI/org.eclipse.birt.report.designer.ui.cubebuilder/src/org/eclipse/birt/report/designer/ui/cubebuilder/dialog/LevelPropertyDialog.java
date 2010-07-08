@@ -204,6 +204,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	{
 		if ( input != null )
 		{
+			if ( input.getLevelType( ) == null )
 			{
 				try
 				{
@@ -366,6 +367,17 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					ExceptionUtil.handle( e );
 				}
 			}
+			if ( dynamicAlignmentHelper != null )
+			{
+				try
+				{
+					input.setAlignment( (String) dynamicAlignmentHelper.getProperty( BuilderConstants.ALIGNMENT_VALUE ) );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionUtil.handle( e );
+				}
+			}
 			formatHelper = dynamicFormatHelper;
 		}
 		else if ( staticButton.getSelection( ) )
@@ -414,7 +426,17 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					ExceptionUtil.handle( e );
 				}
 			}
-
+			if ( staticAlignmentHelper != null )
+			{
+				try
+				{
+					input.setAlignment( (String) staticAlignmentHelper.getProperty( BuilderConstants.ALIGNMENT_VALUE ) );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionUtil.handle( e );
+				}
+			}
 			ActionHandle handle = getActionHandle( );
 			if ( handle != null )
 			{
@@ -929,6 +951,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		dynamicMemberHelper = createMemberSecurityPart( groupGroup );
 		createHyperLinkPart( groupGroup );
 		dynamicFormatHelper = createFormatPart( groupGroup );
+		dynamicAlignmentHelper = createAlignmentPart( groupGroup );
 
 		dynamicTable = new Table( contents, SWT.SINGLE
 				| SWT.FULL_SELECTION
@@ -952,7 +975,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 			}
 		} );
-		
+
 		dynamicTable.addMouseListener( new MouseAdapter( ) {
 
 			public void mouseDoubleClick( MouseEvent e )
@@ -960,7 +983,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				handleDynamicTableEditEvent( );
 			}
 		} );
-		
+
 		dynamicViewer = new TableViewer( dynamicTable );
 		String[] columns = new String[]{
 				" ", Messages.getString( "LevelPropertyDialog.Label.Attribute" ) //$NON-NLS-1$ //$NON-NLS-2$
@@ -986,7 +1009,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		dynamicViewer.setLabelProvider( dynamicLabelProvider );
 
 		Button dynamicAddButton = new Button( contents, SWT.PUSH );
-		dynamicAddButton.setText( Messages.getString("LevelPropertyDialog.DynamicTable.Button.Add") ); //$NON-NLS-1$
+		dynamicAddButton.setText( Messages.getString( "LevelPropertyDialog.DynamicTable.Button.Add" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_VERTICAL );
 		gd.verticalAlignment = SWT.END;
 		gd.horizontalAlignment = SWT.FILL;
@@ -998,7 +1021,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				resetEditorItems( );
-				LevelDynamicAttributeDialog dialog = new LevelDynamicAttributeDialog( Messages.getString("LevelPropertyDialog.DynamicAttributeDialog.Title.New") ); //$NON-NLS-1$
+				LevelDynamicAttributeDialog dialog = new LevelDynamicAttributeDialog( Messages.getString( "LevelPropertyDialog.DynamicAttributeDialog.Title.New" ) ); //$NON-NLS-1$
 				dialog.setInput( dynamicMemeberItems );
 				if ( dialog.open( ) == Window.OK )
 				{
@@ -1031,7 +1054,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		} );
 
 		dynamicEditButton = new Button( contents, SWT.PUSH );
-		dynamicEditButton.setText( Messages.getString("LevelPropertyDialog.DynamicTable.Button.Edit") ); //$NON-NLS-1$
+		dynamicEditButton.setText( Messages.getString( "LevelPropertyDialog.DynamicTable.Button.Edit" ) ); //$NON-NLS-1$
 		gd = new GridData( );
 		gd.horizontalAlignment = SWT.FILL;
 		dynamicEditButton.setLayoutData( gd );
@@ -1046,7 +1069,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		} );
 
 		dynamicRemoveButton = new Button( contents, SWT.PUSH );
-		dynamicRemoveButton.setText( Messages.getString("LevelPropertyDialog.DynamicTable.Button.Remove") ); //$NON-NLS-1$
+		dynamicRemoveButton.setText( Messages.getString( "LevelPropertyDialog.DynamicTable.Button.Remove" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_VERTICAL );
 		gd.horizontalAlignment = SWT.FILL;
 		gd.verticalAlignment = SWT.BEGINNING;
@@ -1229,6 +1252,58 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		return null;
 	}
 
+	private IDialogHelper createAlignmentPart( Composite parent )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
+				IDialogHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
+				if ( helperProvider != null )
+				{
+					IDialogHelper alignmentHelper = helperProvider.createHelper( this,
+							BuilderConstants.ALIGNMENT_HELPER_KEY );
+					if ( alignmentHelper != null )
+					{
+						alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_LABEL,
+								Messages.getString( "LevelPropertyDialog.Label.Alignment" ) ); //$NON-NLS-1$
+						if ( input.getAlignment( ) != null )
+						{
+							alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_VALUE,
+									input.getAlignment( ) );
+						}
+						else if ( input.getDataType( ) != null )
+						{
+							if ( isNumber( input.getDataType( ) ) )
+							{
+								alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_VALUE,
+										DesignChoiceConstants.TEXT_ALIGN_RIGHT );
+							}
+							else
+							{
+								alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_VALUE,
+										DesignChoiceConstants.TEXT_ALIGN_LEFT );
+							}
+						}
+
+						alignmentHelper.createContent( parent );
+						alignmentHelper.update( true );
+						return alignmentHelper;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private boolean isNumber( String dataType )
+	{
+		return ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) || DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType ) );
+	}
+	
 	String[] attributeItems = new String[0];
 
 	private void resetEditorItems( )
@@ -1435,6 +1510,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	private IDialogHelper staticMemberHelper;
 	private IDialogHelper dynamicFormatHelper;
 	private IDialogHelper staticFormatHelper;
+	private IDialogHelper dynamicAlignmentHelper;
+	private IDialogHelper staticAlignmentHelper;
 	private Table staticTable;
 	private Button staticEditButton;
 	private Button staticRemoveButton;
@@ -1486,6 +1563,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		staticLevelHelper = createLevelSecurityPart( properties );
 		staticMemberHelper = createMemberSecurityPart( properties );
 		staticFormatHelper = createFormatPart( properties );
+		staticAlignmentHelper = createAlignmentPart( properties );
+
 		Group contents = new Group( container, SWT.NONE );
 		layout = new GridLayout( );
 		layout.numColumns = 2;
@@ -1569,7 +1648,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		staticViewer.setLabelProvider( staticLabelProvider );
 
 		Button staticAddButton = new Button( contents, SWT.PUSH );
-		staticAddButton.setText( Messages.getString("LevelPropertyDialog.StaticTable.Button.Add") ); //$NON-NLS-1$
+		staticAddButton.setText( Messages.getString( "LevelPropertyDialog.StaticTable.Button.Add" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_VERTICAL );
 		gd.verticalAlignment = SWT.END;
 		gd.horizontalAlignment = SWT.FILL;
@@ -1580,7 +1659,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				LevelStaticAttributeDialog dialog = new LevelStaticAttributeDialog( Messages.getString("LevelPropertyDialog.StaticAttributeDialog.Title.New") ); //$NON-NLS-1$
+				LevelStaticAttributeDialog dialog = new LevelStaticAttributeDialog( Messages.getString( "LevelPropertyDialog.StaticAttributeDialog.Title.New" ) ); //$NON-NLS-1$
 				dialog.setInput( input );
 				if ( dialog.open( ) == Window.OK )
 				{
@@ -1596,7 +1675,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		} );
 
 		staticEditButton = new Button( contents, SWT.PUSH );
-		staticEditButton.setText( Messages.getString("LevelPropertyDialog.StaticTable.Button.Edit") ); //$NON-NLS-1$
+		staticEditButton.setText( Messages.getString( "LevelPropertyDialog.StaticTable.Button.Edit" ) ); //$NON-NLS-1$
 		gd = new GridData( );
 		gd.horizontalAlignment = SWT.FILL;
 		staticEditButton.setLayoutData( gd );
@@ -1611,7 +1690,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		} );
 
 		staticRemoveButton = new Button( contents, SWT.PUSH );
-		staticRemoveButton.setText( Messages.getString("LevelPropertyDialog.StaticTable.Button.Remove") ); //$NON-NLS-1$
+		staticRemoveButton.setText( Messages.getString( "LevelPropertyDialog.StaticTable.Button.Remove" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_VERTICAL );
 		gd.horizontalAlignment = SWT.FILL;
 		gd.verticalAlignment = SWT.BEGINNING;
@@ -1761,7 +1840,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		if ( dynamicButton.getSelection( ) )
 		{
-			if ( nameText.getText( ) == null || nameText.getText( ).trim( ).equals( "" ) )//$NON-NLS-1$
+			if ( nameText.getText( ) == null
+					|| nameText.getText( ).trim( ).equals( "" ) )//$NON-NLS-1$
 				setErrorMessage( Messages.getString( "LevelPropertyDialog.Message.BlankName" ) ); //$NON-NLS-1$
 			else if ( !UIUtil.validateDimensionName( nameText.getText( ) ) )
 				setErrorMessage( Messages.getString( "LevelPropertyDialog.Message.NumericName" ) ); //$NON-NLS-1$
@@ -1779,7 +1859,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		}
 		else
 		{
-			if ( staticNameText.getText( ) == null || staticNameText.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
+			if ( staticNameText.getText( ) == null
+					|| staticNameText.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 				setErrorMessage( Messages.getString( "LevelPropertyDialog.Message.BlankName" ) ); //$NON-NLS-1$
 			else if ( !UIUtil.validateDimensionName( staticNameText.getText( ) ) )
 				setErrorMessage( Messages.getString( "LevelPropertyDialog.Message.NumericName" ) ); //$NON-NLS-1$
@@ -1874,7 +1955,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		if ( ( (StructuredSelection) staticViewer.getSelection( ) ).getFirstElement( ) instanceof RuleHandle )
 		{
 			staticSelectIndex = staticTable.getSelectionIndex( );
-			LevelStaticAttributeDialog dialog = new LevelStaticAttributeDialog( Messages.getString("LevelPropertyDialog.StaticAttributeDialog.Title.Edit") ); //$NON-NLS-1$
+			LevelStaticAttributeDialog dialog = new LevelStaticAttributeDialog( Messages.getString( "LevelPropertyDialog.StaticAttributeDialog.Title.Edit" ) ); //$NON-NLS-1$
 			dialog.setInput( input,
 					(RuleHandle) ( (StructuredSelection) staticViewer.getSelection( ) ).getFirstElement( ) );
 			if ( dialog.open( ) == Window.OK )
@@ -1894,7 +1975,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			LevelAttributeHandle handle = (LevelAttributeHandle) ( (StructuredSelection) dynamicViewer.getSelection( ) ).getFirstElement( );
 			resetEditorItems( handle.getName( ) );
 			dynamicSelectIndex = dynamicTable.getSelectionIndex( );
-			LevelDynamicAttributeDialog dialog = new LevelDynamicAttributeDialog( Messages.getString("LevelPropertyDialog.DynamicAttributeDialog.Title.Edit") ); //$NON-NLS-1$
+			LevelDynamicAttributeDialog dialog = new LevelDynamicAttributeDialog( Messages.getString( "LevelPropertyDialog.DynamicAttributeDialog.Title.Edit" ) ); //$NON-NLS-1$
 			dialog.setInput( dynamicMemeberItems, handle.getName( ) );
 			if ( dialog.open( ) == Window.OK )
 			{

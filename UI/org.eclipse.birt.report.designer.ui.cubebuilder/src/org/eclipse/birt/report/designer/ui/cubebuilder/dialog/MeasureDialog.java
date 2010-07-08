@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -86,6 +87,7 @@ public class MeasureDialog extends TitleAreaDialog
 	private Object result;
 	private IDialogHelper securityHelper;
 	private IDialogHelper formatHelper;
+	private IDialogHelper alignmentHelper;
 
 	public MeasureDialog( boolean newOrEdit )
 	{
@@ -277,7 +279,34 @@ public class MeasureDialog extends TitleAreaDialog
 			}
 			formatHelper.update( true );
 		}
+		if ( alignmentHelper != null )
+		{
+			if ( input.getAlignment( ) != null )
+			{
+				alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_VALUE,
+						input.getAlignment( ) );
+			}
+			else if ( input.getDataType( ) != null )
+			{
+				if ( isNumber( input.getDataType( ) ) )
+				{
+					alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_VALUE,
+							DesignChoiceConstants.TEXT_ALIGN_RIGHT );
+				}
+				else
+				{
+					alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_VALUE,
+							DesignChoiceConstants.TEXT_ALIGN_LEFT );
+				}
+			}
+			alignmentHelper.update( true );
+		}
+	}
 
+	private boolean isNumber( String dataType )
+	{
+		return ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) || DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType ) );
 	}
 
 	public Object getResult( )
@@ -313,6 +342,10 @@ public class MeasureDialog extends TitleAreaDialog
 				{
 					measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
 							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
+				if ( alignmentHelper != null )
+				{
+					measure.setAlignment( (String) alignmentHelper.getProperty( BuilderConstants.ALIGNMENT_VALUE ) );
 				}
 				if ( formatHelper != null
 						&& formatHelper.getProperty( BuilderConstants.FORMAT_VALUE_RESULT ) instanceof Object[] )
@@ -358,6 +391,10 @@ public class MeasureDialog extends TitleAreaDialog
 				{
 					input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
 							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+				}
+				if ( alignmentHelper != null )
+				{
+					input.setAlignment( (String) alignmentHelper.getProperty( BuilderConstants.ALIGNMENT_VALUE ) );
 				}
 				if ( formatHelper != null
 						&& formatHelper.getProperty( BuilderConstants.FORMAT_VALUE_RESULT ) instanceof Object[] )
@@ -493,6 +530,7 @@ public class MeasureDialog extends TitleAreaDialog
 		createSecurityPart( group );
 		createHyperLinkPart( group );
 		createFormatPart( group );
+		createAlignmentPart( group );
 		return group;
 	}
 
@@ -568,6 +606,35 @@ public class MeasureDialog extends TitleAreaDialog
 						formatHelper.createContent( parent );
 						formatHelper.update( true );
 						return formatHelper;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private IDialogHelper createAlignmentPart( Composite parent )
+	{
+		Object[] helperProviders = ElementAdapterManager.getAdapters( input,
+				IDialogHelperProvider.class );
+		if ( helperProviders != null )
+		{
+			for ( int i = 0; i < helperProviders.length; i++ )
+			{
+				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
+				if ( helperProvider != null )
+				{
+					alignmentHelper = helperProvider.createHelper( this,
+							BuilderConstants.ALIGNMENT_HELPER_KEY );
+					if ( alignmentHelper != null )
+					{
+						alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_LABEL,
+								Messages.getString( "MeasureDialog.Label.Alignment" ) ); //$NON-NLS-1$
+						alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_VALUE,
+								input.getAlignment( ) );
+						alignmentHelper.createContent( parent );
+						alignmentHelper.update( true );
+						return alignmentHelper;
 					}
 				}
 			}
