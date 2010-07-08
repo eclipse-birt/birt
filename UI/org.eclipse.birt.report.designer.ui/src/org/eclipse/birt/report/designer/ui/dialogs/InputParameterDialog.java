@@ -1094,6 +1094,10 @@ public class InputParameterDialog extends BaseDialog
 		catch (Exception e) {
 			formatStr = str;
 		}
+		if (formatStr == null)
+		{
+			return str;
+		}
 		return  UIUtil.convertToGUIString( formatStr ) ;
 	}
 	private boolean isCustom( String formatCategroy)
