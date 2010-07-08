@@ -1363,7 +1363,7 @@ public final class DNDUtil
 				if ( childHandle instanceof LevelHandle )
 					return CONTAIN_NO;
 				// If class type is same
-				return CONTAIN_PARENT;
+				//return CONTAIN_PARENT;
 			}
 
 			if ( targetHandle.getContainerSlotHandle( ) != null )
