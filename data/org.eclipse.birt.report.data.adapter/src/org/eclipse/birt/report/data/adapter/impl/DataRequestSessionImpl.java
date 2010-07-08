@@ -806,7 +806,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			TabularDimensionHandle dim = (TabularDimensionHandle) cubeHandle.getDimension( dimensions[i].getName( ) );
 			TabularHierarchyHandle hier = (TabularHierarchyHandle) dim.getDefaultHierarchy( );
-			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null || isDateTimeDimension( hier ) )
+			DimensionJoinConditionHandle condition = getFacttableJointKey(cubeHandle,
+					hier);
+			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null 
+					|| ( isDateTimeDimension( hier ) && existColumnName( hier, condition.getHierarchyKey( ) ) ) )
 			{
 
 				String[] keyNames = dimensions[i].getHierarchy().getLevels()[dimensions[i]
@@ -2033,57 +2036,41 @@ public class DataRequestSessionImpl extends DataRequestSession
 							hierHandle,
 							metaList,
 							dimension.getName(), null );
+					continue;
 				}
-				else if( isDateTimeDimension( hierHandle ) )
+				DimensionJoinConditionHandle condition = getFacttableJointKey(cubeHandle,
+						hierHandle);
+				if( isDateTimeDimension( hierHandle ) && existColumnName( hierHandle, condition.getHierarchyKey( ) ) )
 				{
-					String cubeKey = null;
-					Iterator it = cubeHandle.joinConditionsIterator( );
-					while ( it.hasNext( ) )
-					{
-						DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
-	
-						if ( dimCondHandle.getHierarchy( ).getName( ).equals( hierHandle.getName( ) ) )
-						{
-							Iterator conditionIt = dimCondHandle.getJoinConditions( ).iterator( );
-							while ( conditionIt.hasNext( ) )
-							{
-								DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
-								cubeKey = joinCondition.getCubeKey( );
-								if( cubeKey != null )
-									break;
-							}
-						}
-					}
 					prepareLevels( query,
 							hierHandle,
 							metaList,
-							dimension.getName(), cubeKey );
+							dimension.getName(), condition.getCubeKey( ) );
+					continue;
 				}
-				else
+				
+				Iterator it = cubeHandle.joinConditionsIterator( );
+				while ( it.hasNext( ) )
 				{
-					Iterator it = cubeHandle.joinConditionsIterator( );
-					while ( it.hasNext( ) )
-					{
-						DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
-	
+					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
 						if ( dimCondHandle.getHierarchy( ).getName( ).equals( hierHandle.getName( ) ) )
+					{
+						Iterator conditionIt = dimCondHandle.getJoinConditions( )
+								.iterator( );
+						while ( conditionIt.hasNext( ) )
 						{
-							Iterator conditionIt = dimCondHandle.getJoinConditions( )
-									.iterator( );
-							while ( conditionIt.hasNext( ) )
-							{
-								DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
-								String cubeKey = joinCondition.getCubeKey( );
-								String cubeKeyWithDimIdentifier = OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
-										cubeKey );
-								DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( cubeKeyWithDimIdentifier,
-										null,
-										DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-								temp.setDataType( getColumnDataType( cubeHandle.getDataSet( ), cubeKey ) );
-								metaList.add( temp );
-								query.addBinding( new Binding( cubeKeyWithDimIdentifier,
-										new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) ) );
-								GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
+							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
+							String cubeKey = joinCondition.getCubeKey( );
+							String cubeKeyWithDimIdentifier = OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
+									cubeKey );
+							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( cubeKeyWithDimIdentifier,
+									null,
+									DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
+							temp.setDataType( getColumnDataType( cubeHandle.getDataSet( ), cubeKey ) );
+							metaList.add( temp );
+							query.addBinding( new Binding( cubeKeyWithDimIdentifier,
+									new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) ) );
+							GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
 									.size( ) ) );
 								//dataSetRow["xxx"] evaluation faster than row["xxx"] since its value are just from data set result set rather than Rhino 
 								gd.setKeyExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) );
@@ -2091,13 +2078,46 @@ public class DataRequestSessionImpl extends DataRequestSession
 							}
 						}
 					}
-				}
 			}
 		}
 	
 		session.prepareMeasure( cubeHandle, query, metaList );
 		DataRequestSessionImpl.popualteFilter( session, cubeHandle.filtersIterator( ), query );
 		return query;
+	}
+
+	private boolean existColumnName( TabularHierarchyHandle hierHandle, String name )
+	{
+		List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
+		
+		for ( int j = 0; j < levels.size( ); j++ )
+		{
+			TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
+			if ( level.getColumnName( ).equals( name ) )
+				return true;
+		}
+		return false;
+	}
+	
+	private DimensionJoinConditionHandle getFacttableJointKey(TabularCubeHandle cubeHandle,
+			TabularHierarchyHandle hierHandle)
+	{
+		Iterator it = cubeHandle.joinConditionsIterator( );
+		while ( it.hasNext( ) )
+		{
+			DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
+
+			if ( dimCondHandle.getHierarchy( ).getName( ).equals( hierHandle.getName( ) ) )
+			{
+				Iterator conditionIt = dimCondHandle.getJoinConditions( ).iterator( );
+				while ( conditionIt.hasNext( ) )
+				{
+					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
+					return joinCondition;
+				}
+			}
+		}
+		return null;
 	}
 	
 	/**
