@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.datatools.connectivity.ui.driverUIContributor">
+      <driverUIContributor
+            class="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui.impl.SampleDbDriverUIContributor"
+            driverTemplateID="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverTemplate"
+            id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverUIContributor">
+      </driverUIContributor>
+   </extension>
+   <extension
+         point="org.eclipse.datatools.connectivity.ui.driverPropertyEditor">
+      <propertyEditor
+               customPropertyDescriptor="org.eclipse.datatools.connectivity.ui.PasswordTextPropertyDescriptor"
+               driverPropertyID="org.eclipse.datatools.connectivity.db.password"
+               driverTemplateID="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverTemplate"
+               id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverTemplate.password">
+      </propertyEditor>
+   </extension>
+
+</plugin>
