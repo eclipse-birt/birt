@@ -806,7 +806,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			TabularDimensionHandle dim = (TabularDimensionHandle) cubeHandle.getDimension( dimensions[i].getName( ) );
 			TabularHierarchyHandle hier = (TabularHierarchyHandle) dim.getDefaultHierarchy( );
-			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null || isDateTimelDimension( hier ) )
+			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null || isDateTimeDimension( hier ) )
 			{
 
 				String[] keyNames = dimensions[i].getHierarchy().getLevels()[dimensions[i]
@@ -1281,7 +1281,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 			//create leaf level
 			if ( levelInHier.size( ) >= 1 )
 			{
-				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
+				if ( levelInHier.size( ) > 1 && isDateTimeDimension(hierhandle) )
+				{
+					levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
+							leafLevelKeyColumn.toArray( new String[0] ),
+						    new String[0] ));
+				}
+				else if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
 				{
 					if ( !Arrays.deepEquals( jointHierarchyKeys, new String[]{
 							((TabularLevelHandle)levels.get( levels.size( ) - 1 )).getColumnName( )
@@ -1967,7 +1973,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 	}
 
-	 private boolean isDateTimelDimension( TabularHierarchyHandle hierHandle )
+	 private boolean isDateTimeDimension( TabularHierarchyHandle hierHandle )
 	 {
 		 List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
 			
@@ -2028,7 +2034,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 							metaList,
 							dimension.getName(), null );
 				}
-				else if( isDateTimelDimension( hierHandle ) )
+				else if( isDateTimeDimension( hierHandle ) )
 				{
 					String cubeKey = null;
 					Iterator it = cubeHandle.joinConditionsIterator( );
