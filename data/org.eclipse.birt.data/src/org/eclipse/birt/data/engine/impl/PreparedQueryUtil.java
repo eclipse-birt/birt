@@ -63,6 +63,8 @@ import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultClass;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 import com.ibm.icu.util.ULocale;
 
@@ -309,15 +311,36 @@ public class PreparedQueryUtil
 					for ( String bindingName : bindingNames )
 					{
 						IBinding binding = (IBinding)queryDefn.getBindings( ).get( bindingName );
-						if ( binding != null && binding.getAggrFunction( ) != null )
+						if ( binding != null )
 						{
 							//sort key expression can't base on Aggregation
-							throw new DataException( ResourceConstants.SORT_ON_AGGR, bindingName );
+							if( binding.getAggrFunction( ) != null )
+								throw new DataException( ResourceConstants.SORT_ON_AGGR, bindingName );
+							
+							List refBindingName = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ), ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );
+							if( refBindingName.size( ) > 0 )
+							{
+								if( existAggregationBinding( refBindingName, queryDefn.getBindings( ) ) )
+									throw new DataException( ResourceConstants.SORT_ON_AGGR, bindingName );
+							}
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	private static boolean existAggregationBinding( List bindingName, Map bindings ) throws DataException
+	{
+		for( int i = 0; i < bindingName.size( ); i++ )
+		{
+			Object binding = bindings.get( bindingName.get( i ) );
+			if( binding != null && OlapExpressionUtil.isAggregationBinding( ( IBinding )binding ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
