@@ -1274,7 +1274,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 							alignmentHelper.setProperty( BuilderConstants.ALIGNMENT_VALUE,
 									input.getAlignment( ) );
 						}
-						else if ( input.getDataType( ) != null )
+						else if ( isNew && input.getDataType( ) != null )
 						{
 							if ( isNumber( input.getDataType( ) ) )
 							{
