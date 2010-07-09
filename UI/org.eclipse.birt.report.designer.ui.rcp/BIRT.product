@@ -229,7 +229,7 @@
       <plugin id="org.eclipse.update.ui"/>
       <plugin id="org.mortbay.jetty.server"/>
       <plugin id="org.mortbay.jetty.util"/>
-      <plugin id="org.mozilla.rhino"/>
+      <plugin id="org.mozilla.javascript"/>
       <plugin id="org.w3c.css.sac"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
