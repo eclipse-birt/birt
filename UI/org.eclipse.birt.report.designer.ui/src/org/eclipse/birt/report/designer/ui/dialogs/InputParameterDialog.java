@@ -677,9 +677,11 @@ public class InputParameterDialog extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				Combo combo = (Combo) e.getSource( );
-				paramValues.put( listParam.getHandle( ).getName( ),
-						combo.getData( combo.getItem( combo.getSelectionIndex( ) ) ) );
-
+				if ( combo.getSelectionIndex( ) != -1 )
+				{
+					paramValues.put( listParam.getHandle( ).getName( ),
+							combo.getData( combo.getItem( combo.getSelectionIndex( ) ) ) );
+				}
 				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
 				{
 					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
