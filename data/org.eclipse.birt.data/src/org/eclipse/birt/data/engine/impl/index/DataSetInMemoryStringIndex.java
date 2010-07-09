@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.impl.index;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -179,9 +178,23 @@ public class DataSetInMemoryStringIndex extends HashMap
 				}
 				if ( keyStream == null )
 					return null;
-
-				this.keyStream.seek( this.keyOffset );
-				this.keyValue = new SoftReference<String>( IOUtil.readString( new DataInputStream( this.keyStream ) ) );
+				synchronized ( this.keyStream )
+				{
+					if ( keyValue != null )
+					{
+						if ( keyValue instanceof String )
+							return (String) this.keyValue;
+						if ( keyValue instanceof SoftReference )
+						{
+							String result = ( (SoftReference<String>) keyValue ).get( );
+							if ( result != null )
+								return result;
+						}
+					}
+					this.keyStream.seek( this.keyOffset );
+					this.keyValue = new SoftReference<String>( IOUtil.readString( new DataInputStream( this.keyStream ) ) );
+				}
+				
 				return ( (SoftReference<String>) this.keyValue ).get( );
 			}
 			catch ( IOException e )
