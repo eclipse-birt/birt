@@ -721,7 +721,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		}
 		// Extract result set to render and check for null data
 		IBaseResultSet resultSet = getDataToRender( baseResultSet );
-		boolean bAutoHide = ( cm != null && !cm.getEmptyMessage( ).isVisible( ) );
 
 		// Display alt text if binding is not complete
 		if ( resultSet == null
@@ -739,7 +738,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		boolean bEmpty = false;
 		if ( ChartReportItemUtil.isEmpty( resultSet ) )
 		{
-			if ( bAutoHide )
+			if ( isAutoHide( ) )
 			{
 				// Returns null for engine to display empty when the result set
 				// is empty.
@@ -802,7 +801,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			updateChartModel( );
 
 			// Bind Data to series
-			if ( !bindData( rowAdapter, evaluator ) && bAutoHide )
+			if ( !bindData( rowAdapter, evaluator ) && isAutoHide( ) )
 			{
 				// if auto hide and data empty
 				return null;
@@ -1152,5 +1151,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				}
 			}
 		}
+	}
+	
+	protected boolean isAutoHide( )
+	{
+		return cm != null && !cm.getEmptyMessage( ).isVisible( );
 	}
 }
