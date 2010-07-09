@@ -126,7 +126,7 @@ public class AreaEditPart extends ReportElementEditPart
 		if ( ( (SlotHandle) getModel( ) ).getSlotID( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
 		{
 			if ( mphandle.getPropertyHandle(
-					SimpleMasterPageHandle.HEADER_HEIGHT_PROP ).isSet( ) )
+					SimpleMasterPageHandle.HEADER_HEIGHT_PROP ).isSet( ) || DEUtil.isFixLayout( getParent( ).getModel( ) ))
 			{
 				DimensionHandle handle = mphandle.getHeaderHeight( );
 
@@ -136,7 +136,7 @@ public class AreaEditPart extends ReportElementEditPart
 		else
 		{
 			if ( mphandle.getPropertyHandle(
-					SimpleMasterPageHandle.FOOTER_HEIGHT_PROP ).isSet( ) )
+					SimpleMasterPageHandle.FOOTER_HEIGHT_PROP ).isSet( ) || DEUtil.isFixLayout( getParent( ).getModel( ) ))
 			{
 				DimensionHandle handle = mphandle.getFooterHeight( );
 
