@@ -146,7 +146,7 @@
 			<include name="org.eclipse.birt.chart_*/**" />
 			<include name="org.eclipse.birt.core_*.jar" />
 			<include name="org.eclipse.birt.core.ui_*.jar" />
-			<include name="org.mozilla.rhino*/**" />
+			<include name="org.mozilla.javascript*/**" />
 			<include name="org.apache.commons.codec_*.jar" />
 			<!--
 			<include name="org.eclipse.birt.doc_*/**" />
@@ -181,7 +181,7 @@
 	        <exclude name="com.lowagie.itext_*/**"/>
 	        <exclude name="org.apache.commons.codec_*/**"/>
 	        <exclude name="org.w3c.sac_*/**"/>
-	        <exclude name="org.mozilla.rhino_*/**"/>
+	        <exclude name="org.mozilla.javascript*/**"/>
 	        <exclude name="org.apache.derby.core_*/**"/>
             <exclude name="org.eclipse.birt.chart.runtime*/**"/>
             <exclude name="org.eclipse.birt.crosstab*/**"/>
@@ -1195,8 +1195,6 @@
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.birt.chart*/*" />
-				<include name="org.mozilla.rhino*/*" />
-				<include name="org.apache.commons.codec*/*" />
 				<exclude name="*.source*/*" />
 			</zipfileset>
 		</zip>
