@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2008 Actuate Corporation.
+# Copyright (c) 2008, 2010 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -13,4 +13,13 @@
 #
 plugin.name=BIRT Sample Database Connection Profile Plug-in
 connection.profile.name=BIRT Classic Models 샘플 데이터베이스
+driver.template.name=BIRT SampleDb Derby Embedded JDBC Driver
 driver.definition.name=BIRT SampleDb Derby 임베디드 드라이버
+#
+driver.template.property.class = Driver class
+driver.template.property.vendor = Vendor
+driver.template.property.version = Version
+driver.template.property.dbname = Database
+driver.template.property.connection.url = Connection URL
+driver.template.property.user = User name
+driver.template.property.password = Password
