@@ -21,7 +21,7 @@ public class ExportManifestUtils
 		"engineapi.jar", 
 		"emitterconfig.jar",
 		"flute.jar", 
-		"org.mozilla.script_.*.jar",
+		"org.mozilla.javascript_.*.jar",
 		"modelapi.jar", 
 		"crosstabcoreapi.jar",
 		"dataextraction.jar",
