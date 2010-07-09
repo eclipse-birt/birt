@@ -32,9 +32,9 @@
                   generated="false"
                   id="org.eclipse.datatools.connectivity.db.version"
                   name="%driver.template.property.version"
-                  value="10.5"
+                  value="10.2"
                   required="true"
-                  visible="true"/>   
+                  visible="false"/>   
             <property
                   generated="false"
                   id="org.eclipse.datatools.connectivity.db.databaseName"
