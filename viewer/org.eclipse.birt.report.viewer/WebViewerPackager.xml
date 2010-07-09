@@ -91,7 +91,6 @@
 	<!-- Component locations -->
 	<property name="viewer.model.dir" location="../org.eclipse.birt.report.model" />
 	<property name="core.dir" location="../org.eclipse.birt.core" />
-	<property name="js.dir" location="../org.mozilla.rhino" />
 	<property name="data.dir" location="../org.eclipse.birt.data" />
 	<property name="oda.dir" location="../org.eclipse.birt.data.oda" />
 	<property name="oda-adapter.dir" location="../org.eclipse.birt.data.oda.adapter.dtp" />
@@ -304,6 +303,7 @@
 				<include name="javax.xml.soap_*/lib/*.jar"/>
 				<include name="org.apache.commons.discovery_*/lib/*.jar"/>		
 				<include name="org.apache.commons.codec*.jar" />
+				<include name="org.mozilla.script*.jar"/>
 			</fileset>
 			<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
 				<include name="*.jar" />
@@ -311,7 +311,6 @@
 			<fileset dir="${data-adapter-api.dir}">
 				<include name="*.jar" />
 			</fileset>
-			<pathelement path="${js.dir}/lib/js.jar" />
 		</classpath>
 		<src path="${birt.dir}/WEB-INF/classes/" />
 	</javac>
@@ -496,7 +495,7 @@
 			<!-- 3rd party bundles -->
 			<include name="org.apache.derby.core_*/**" />
 			<include name="org.w3c.sac_*/**" />
-			<include name="org.mozilla.rhino_*/**" />
+			<include name="org.mozilla.script*/**" />
 			<include name="com.lowagie.text_*/**" />
 			<!-- birt bundles -->
 			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
@@ -591,12 +590,6 @@
         <fileset dir="../org.eclipse.birt.chart.examples.core">
             <include name="chartexamplescoreapi.jar" />
         </fileset>
-		<fileset dir="../org.mozilla.rhino/lib">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="../org.w3c.sac/lib">
-			<include name="*.jar" />
-		</fileset>
 		<!-- Export Chart Engine -->
 		<fileset dir="${baseLocation.emf}/plugins/">
 			<include name="org.eclipse.emf.common_*.jar" />
@@ -617,6 +610,7 @@
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.w3c.css.sac_*.jar"/>
+				<include name="org.mozilla.script_*.jar"/>
 				<include name="org.apache.commons.codec_*.jar"/>
 			</fileset>
 		</copy>
