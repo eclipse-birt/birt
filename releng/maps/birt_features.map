@@ -40,5 +40,4 @@ feature@org.eclipse.birt.dtp.sybase.nl=v200911041343,:ext:xgu@dev.eclipse.org:/c
 
 !***************** Third Party Jars ******************
 plugin@org.apache.derby.core=v20100129,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
-plugin@org.mozilla.rhino=v20090608,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 plugin@org.w3c.sac=v20070710,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac

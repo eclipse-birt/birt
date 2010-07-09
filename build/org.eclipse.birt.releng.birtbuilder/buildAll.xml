@@ -573,10 +573,11 @@
 		-->
 	</target>
 	
+	<!--
 	<target name="useBatik1_7" if="update.batik">
         <ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="updateBatik" />
 	</target>
-	
+	-->
 	<target name="prepareSrc" if="prepare.src.flag">
 		
   		<antcall target="logger">
@@ -610,6 +611,7 @@
 				<exclude name="org.eclipse.birt.releng.util/**" />
 				<exclude name="org.eclipse.birt.releng.birtbuilder/**" />
 				<exclude name="org.apache.commons.codec/**"/>
+				<exclude name="org.mozilla.rhino/**"/>
 				<exclude name="org.eclipse.birt.converters/**"/>
 				<exclude name="tutorials/**" />
 				<exclude name="*.itext/**" />

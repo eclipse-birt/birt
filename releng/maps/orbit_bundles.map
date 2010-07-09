@@ -76,4 +76,4 @@ plugin@com.lowagie.text,2.1.7=GET,http://qa-build/BIRTOutput/platform/orbit-S201
 
 plugin@org.w3c.dom.events,3.0.0=GET,http://qa-build/BIRTOutput/platform/orbit-S20100519200754-Helios/bundles/org.w3c.dom.events_3.0.0.draft20060413_v200905140418.jar,usetimestamp=true
 
-plugin@org.mozilla.javascript_1.7.2=GET,http://qa-build/BIRTOutput/platform/orbit-S20100519200754-Helios/bundles/org.mozilla.javascript_1.7.2.v201005080400.jar,usetimestamp=true
+plugin@org.mozilla.javascript,1.7.2=GET,http://qa-build/BIRTOutput/platform/orbit-S20100519200754-Helios/bundles/org.mozilla.javascript_1.7.2.v201005080400.jar,usetimestamp=true
