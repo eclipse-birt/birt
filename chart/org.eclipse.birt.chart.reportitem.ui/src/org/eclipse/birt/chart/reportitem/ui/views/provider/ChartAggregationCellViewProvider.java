@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -105,6 +106,13 @@ public class ChartAggregationCellViewProvider extends
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
 			reportItem.setModel( cm );
 			cell.addContent( chartHandle, 0 );
+			
+			// Set default bounds for chart model and handle
+			Bounds bounds = ChartItemUtil.createDefaultChartBounds( chartHandle,
+					cm );
+			cm.getBlock( ).setBounds( bounds );
+			chartHandle.setWidth( bounds.getWidth( ) + "pt" ); //$NON-NLS-1$
+			chartHandle.setHeight( bounds.getHeight( ) + "pt" ); //$NON-NLS-1$
 
 			// Update xtab direction for multiple measure case
 			ChartCubeUtil.updateXTabDirection( cell.getCrosstab( ),

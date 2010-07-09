@@ -1256,6 +1256,7 @@ public class ChartCubeUtil extends ChartItemUtil
 					null,
 					null );
 		}
+		initCellSize( grandTotalAggCell );
 		if ( bNewGrandTotol )
 		{
 			// Only delete data item in grand total when it's created by chart
@@ -1281,6 +1282,21 @@ public class ChartCubeUtil extends ChartItemUtil
 				hostChartHandle,
 				!ChartInXTabStatusManager.hasGrandItem( hostChartHandle ) );
 	}
+	
+	private static void initCellSize( AggregationCellHandle cell )
+			throws BirtException
+	{
+		if ( cell.getWidth( ) != null || cell.getWidth( ).getMeasure( ) == 0 )
+		{
+			// Set a default width to avoid null size issue in fixed layout
+			cell.getCrosstab( ).setColumnWidth( cell, DEFAULT_COLUMN_WIDTH );
+		}
+		if ( cell.getHeight( ) != null || cell.getHeight( ).getMeasure( ) == 0 )
+		{
+			// Set a default height to avoid clipping issue in fixed layout
+			cell.getCrosstab( ).setRowHeight( cell, DEFAULT_ROW_HEIGHT );
+		}
+	}
 
 	/**
 	 * Updates cells that contains axis chart
@@ -1295,11 +1311,7 @@ public class ChartCubeUtil extends ChartItemUtil
 	private static boolean updateAxisChartCells( AggregationCellHandle cell,
 			ChartWithAxes cwa ) throws BirtException
 	{
-		if ( cell.getWidth( ) != null || cell.getWidth( ).getMeasure( ) == 0 )
-		{
-			// Set a default width to avoid null size issue in fixed layout
-			cell.getCrosstab( ).setColumnWidth( cell, DEFAULT_COLUMN_WIDTH );
-		}
+		initCellSize( cell );
 		
 		boolean bTransposed = cwa.isTransposed( );
 		if ( bTransposed )
