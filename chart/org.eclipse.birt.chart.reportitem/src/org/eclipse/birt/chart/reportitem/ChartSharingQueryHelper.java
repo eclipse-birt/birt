@@ -163,11 +163,14 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 			}
 			if ( table != null )
 			{
+				// Copy aggregation bindings and row bindings from container.
 				Iterator<ComputedColumnHandle> iterator = table.columnBindingsIterator( );
 				while ( iterator.hasNext( ) )
 				{
 					ComputedColumnHandle binding = iterator.next( );
-					if ( binding.getAggregateFunction( ) != null )
+					if ( binding.getAggregateFunction( ) != null
+							|| exprCodec.getRowBindingNameSet( binding.getExpression( ) )
+									.size( ) > 0 )
 					{
 						try
 						{
