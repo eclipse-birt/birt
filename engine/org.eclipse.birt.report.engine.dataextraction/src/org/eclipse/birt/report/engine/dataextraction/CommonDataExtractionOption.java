@@ -162,4 +162,28 @@ public class CommonDataExtractionOption extends DataExtractionOption
 		setOption( USER_PARAMETERS, map );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.dataextraction.ICommonDataExtractionOption
+	 * #setExportColumnHeader(boolean)
+	 */
+	public void setExportColumnHeader( boolean isExportColumnHeader )
+	{
+		setOption( OUTPUT_EXPORT_COLUMN_HEADER,
+				Boolean.valueOf( isExportColumnHeader ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.dataextraction.ICommonDataExtractionOption
+	 * #isExportColumnHeader()
+	 */
+	public boolean isExportColumnHeader( )
+	{
+		return getBooleanOption( OUTPUT_EXPORT_COLUMN_HEADER, true );
+	}
 }

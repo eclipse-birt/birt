@@ -48,6 +48,11 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	 * indicates whether export data type
 	 */
 	public static final String OUTPUT_EXPORT_DATA_TYPE = "ExportDataType"; //$NON-NLS-1$
+	
+	/**
+	 * indicates whether to export column header
+	 */
+	public static final String OUTPUT_EXPORT_COLUMN_HEADER = "ExportColumnHeader"; //$NON-NLS-1$
 
 	/**
 	 * indicates whether export the locale neutral format value
@@ -149,6 +154,20 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	 */
 	boolean isExportDataType( );
 
+	/**
+	 * Sets the flag that indicates whether export column header.
+	 * 
+	 * @param isExportDataType
+	 */
+	void setExportColumnHeader( boolean isExportColumnHeader );
+
+	/**
+	 * Returns the flag that indicates whether export column header.
+	 * 
+	 * @return boolean
+	 */
+	boolean isExportColumnHeader( );
+	
 	/**
 	 * Sets the flag that indicates whether export the locale neutral format
 	 * value.

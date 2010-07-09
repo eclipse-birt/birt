@@ -41,6 +41,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 	private String encoding;
 	private String sep;
 	private boolean isExportDataType;
+	private boolean isExportColumnHeader;
 	private String[] selectedColumnNames;
 	
 	/**
@@ -94,6 +95,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 		}
 		
 		isExportDataType = csvOptions.isExportDataType( );
+		isExportColumnHeader = csvOptions.isExportColumnHeader( );
 		selectedColumnNames = csvOptions.getSelectedColumns( );
 	}
 
@@ -124,7 +126,10 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 				iData = results.nextResultIterator( );
 				if ( iData != null && columnNames.length > 0 )
 				{
-					output( CSVUtil.makeCSVRow( columnNames, sep ) );
+					if ( isExportColumnHeader )
+					{
+						output( CSVUtil.makeCSVRow( columnNames, sep ) );
+					}
 
 					int[] columnTypes = getColumnTypes( columnNames, results );
 					// Column data type
