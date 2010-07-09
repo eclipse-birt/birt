@@ -170,6 +170,16 @@ public class MoveContentRecord extends SimpleRecord
 				from.add( module, content, oldPosn );
 			}
 		}
+
+		DesignElement fromElement = from.getElement( );
+		DesignElement toElement = to.getElement( );
+		if ( fromElement == toElement )
+			updateSharedDimension( module, fromElement );
+		else
+		{
+			updateSharedDimension( module, fromElement );
+			updateSharedDimension( module, toElement );
+		}
 	}
 
 	/*
@@ -252,6 +262,9 @@ public class MoveContentRecord extends SimpleRecord
 			}
 			retValue.add( new NotificationRecordTask( getTarget( ), event ) );
 
+			// send event to cube dimension if the share dimension is changed
+			sendEventToSharedDimension( getTarget( ), retValue, event );
+
 			if ( !( content instanceof TableGroup
 					|| content instanceof TableRow || content instanceof Cell ) )
 				return retValue;
@@ -277,13 +290,11 @@ public class MoveContentRecord extends SimpleRecord
 			NotificationEvent event = new PropertyEvent( eventTarget
 					.getElement( ), eventTarget.getPropName( ) );
 
-			retValue
-					.add( new NotificationRecordTask( from.getElement( ), event ) );
+			retValue.add( new NotificationRecordTask( from.getElement( ), event ) );
 
 			// TODO: the eventTarget is calculated for from, it is wrong, we
 			// should get event target for 'to'
-			retValue
-					.add( new NotificationRecordTask( to.getElement( ), event ) );
+			retValue.add( new NotificationRecordTask( to.getElement( ), event ) );
 
 			return retValue;
 		}
