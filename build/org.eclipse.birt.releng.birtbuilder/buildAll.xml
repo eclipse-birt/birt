@@ -590,7 +590,9 @@
 			</fileset>
 		</delete>
 
-		<cvs command="export -d source" cvsRoot="${mapCvsRoot}" dest="${buildDirectory}" 
+		<property name="birt.url.newvalue" value="${mapCvsRoot}"/>
+			
+		<cvs command="export -d source" cvsRoot="${birt.url.newvalue}" dest="${buildDirectory}" 
 		package="source" tag="${mapVersionTag}" taskname="CVS - source"/>
 	
   		<antcall target="logger">
