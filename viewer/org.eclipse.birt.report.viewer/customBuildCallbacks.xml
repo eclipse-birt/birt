@@ -36,7 +36,6 @@
 		<property name="plugin.tomcat" value="org.eclipse.tomcat" />
 		<property name="baseLocation" value="${user.dir}" />
 		<!-- plugins used -->
-		<property name="js.dir" location="../org.mozilla.rhino" />
 		<property name="core.dir" location="../org.eclipse.birt.core" />
 		<property name="dataextraction.dir" location="../org.eclipse.birt.report.engine.dataextraction" />
 		<property name="viewer.model.dir" location="../org.eclipse.birt.report.model" />
@@ -86,7 +85,8 @@
 	                <include name="org.apache.axis_*/lib/*.jar"/>
 	                <include name="javax.xml.rpc_*/lib/*.jar"/>
 	                <include name="javax.xml.soap_*/lib/*.jar"/>
-	                <include name="org.apache.commons.discovery_*/lib/*.jar"/>  
+	                <include name="org.apache.commons.discovery_*/lib/*.jar"/>
+					<include name="org.mozilla.javascript_*.jar"/>
 				</fileset>
 				
 				<pathelement path="${viewer.model.dir}/@dot" />
@@ -99,7 +99,6 @@
 				<pathelement path="${core.dir}/bin" />
 				<pathelement path="${dataextraction.dir}/@dot" />
 				<pathelement path="${dataextraction.dir}/bin" />
-				<pathelement path="${js.dir}/lib/js.jar" />
 				<pathelement path="${data-adapter-api.dir}/@dot" />
 				<pathelement path="${data-adapter-api.dir}/bin" />
 			</classpath>
