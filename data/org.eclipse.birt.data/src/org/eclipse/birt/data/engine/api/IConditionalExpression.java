@@ -152,6 +152,11 @@ public interface IConditionalExpression extends IBaseExpression
 	public static final int OP_NOT_IN = 23;
 	
 	/**
+	 * Internal filter condition. Not suppose to be used by Data Engine Client.
+	 */
+	public static final int OP_JOINT = -100;
+	
+	/**
 	 * Gets the main expression
 	 */
 	public IScriptExpression getExpression();

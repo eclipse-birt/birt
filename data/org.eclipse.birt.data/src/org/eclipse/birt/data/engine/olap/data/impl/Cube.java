@@ -77,7 +77,7 @@ public class Cube implements ICube
 				iterator,
 				measureColumnName,
 				cacheSize,
-				stopSign );
+				stopSign, false );
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class Cube implements ICube
 				iterator,
 				measureColumnName,
 				0,
-				stopSign );
+				stopSign, false );
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class Cube implements ICube
 	public void create( String[][] factTableJointColumnNames,
 			String[][] DimJointColumnNames, IDimension[] dimension,
 			IDatasetIterator iterator, String[] measureColumnName,
-			long cacheSize, StopSign stopSign ) throws IOException, BirtException
+			long cacheSize, StopSign stopSign, boolean suppressInvalidFacttableRow ) throws IOException, BirtException
 	{
 		IDocumentObject documentObject = documentManager.createDocumentObject( NamingUtil.getCubeDocName( name ) );
 		documentObject.writeString( name );
@@ -140,7 +140,7 @@ public class Cube implements ICube
 				iterator,
 				tDimensions,
 				measureColumnName,
-				stopSign );
+				stopSign, suppressInvalidFacttableRow );
 		documentObject.close( );
 		documentManager.flush( );
 	}

@@ -25,8 +25,12 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.group.ICalculator;
@@ -78,6 +82,7 @@ public class DataSetIterator implements IDatasetIterator
 					.getDataEngineContext( )
 					.getLocale( ) );
 			ScriptableObject.putProperty( scope, tt.getClassName( ), tt );
+
 			this.it = session.prepare( query, appContext ).execute( scope ).getResultIterator( );
 		}
 		catch ( BirtException e )
@@ -95,7 +100,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @throws BirtException
 	 */
 	public DataSetIterator( DataRequestSessionImpl session,
-			IQueryDefinition query, List<ColumnMeta> meta, Map appContext ) throws BirtException
+			IQueryDefinition query, List<ColumnMeta> meta, Map appContext, SecurityListener listener, String dimensionName ) throws BirtException
 	{
 		this.calendar = Calendar.getInstance( session.getDataSessionContext( )
 				.getDataEngineContext( )
@@ -106,15 +111,20 @@ public class DataSetIterator implements IDatasetIterator
 		this.calendar.set( 0, 0, 1, 0, 0, 0 );
 		this.nullTime = this.calendar.getTimeInMillis( );
 		this.calendar.clear( );
+		this.securityListener = listener;
+		this.dimName = dimensionName;
+		if ( this.securityListener != null )
+		{
+			List<IFilterDefinition> additionalFilters4TransientProcessing = this.securityListener.populateSecurityFilter( this.dimName,
+						appContext );
+			if ( additionalFilters4TransientProcessing != null )
+					query.getFilters( )
+							.addAll( additionalFilters4TransientProcessing );
+		}
+
 		executeQuery( session, query, appContext );
 		this.metadata = new ResultMeta( meta );
-
-	}
-
-	public void initSecurityListenerAndDimension( String dimName, SecurityListener listener )
-	{
-		this.securityListener = listener;
-		this.dimName = dimName;
+		
 	}
 	
 	public static String createLevelACLName( String levelName )

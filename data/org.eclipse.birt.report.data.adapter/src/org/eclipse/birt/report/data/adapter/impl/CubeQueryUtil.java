@@ -874,7 +874,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	{
 		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>( );
 		IQueryDefinition defn = sessionImpl.createQuery( sessionImpl, hierHandle, metaList, cubeName );
-		return new DataSetIterator( this.sessionImpl, defn, metaList, appContext );
+		return new DataSetIterator( this.sessionImpl, defn, metaList, appContext, null, null );
 		
 	}
 	/**

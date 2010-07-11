@@ -268,6 +268,9 @@ public class ScriptEvalUtil
 			case IConditionalExpression.OP_NOT_IN :
 				result = !in( resultObject, resultOp );
 				break;
+			case IConditionalExpression.OP_JOINT :
+				result = joint( resultObject, resultOp[0] );
+				break;
 			default :
 				throw new DataException(
 						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, new Integer(operator) );
@@ -718,6 +721,22 @@ public class ScriptEvalUtil
 				return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param resultObj
+	 * @return
+	 * @throws DataException
+	 */
+	private static boolean joint( Object target, Object resultObj )
+			throws DataException
+	{
+		if ( resultObj == null || target == null )
+			return false;
+		return !java.util.Collections.disjoint( Arrays.asList( target.toString( )
+				.split( "," )),
+				Arrays.asList( resultObj.toString( ).split( "," ) ) ) ;
 	}
 
 	/**

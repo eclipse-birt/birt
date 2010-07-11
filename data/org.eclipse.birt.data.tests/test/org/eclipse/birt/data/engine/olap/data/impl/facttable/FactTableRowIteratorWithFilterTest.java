@@ -135,7 +135,7 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 				factTableIterator,
 				dimensions,
 				measureColumnName,
-				new StopSign( ) );
+				new StopSign( ), false );
 		assertEquals(factTable.getSegmentCount( ), 1);
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "threeDimensions" ),
 				new StopSign( ) );
