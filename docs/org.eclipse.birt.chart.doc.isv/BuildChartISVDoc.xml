@@ -100,9 +100,6 @@
 			<include name="com.ibm.icu_*.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
 		</fileset>
-		<fileset dir="../org.mozilla.rhino">
-				<include name="**/*.jar"/>
-		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="${emf.common.dir}_*/runtime/common.jar"/>
 			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
@@ -110,6 +107,9 @@
 			<include name="org.eclipse.emf.common_*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar"/>
 			<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
+		</fileset>
+		<fileset dir="../">
+			<include name="org.mozilla.javascript_*.jar"/>
 		</fileset>
 		<pathelement path="${core.dir}/@dot"/>
 		<pathelement path="${core.ui.dir}/@dot"/>

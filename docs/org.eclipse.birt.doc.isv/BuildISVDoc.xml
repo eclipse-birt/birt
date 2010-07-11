@@ -107,22 +107,17 @@
 			<include name="com.ibm.icu_*.jar"/>
             <include name="org.eclipse.datatools.connectivity*.jar"/>
             <include name="org.eclipse.datatools.connectivity*/*.jar"/>
-			<include name="org.apache.commons.codec_*.jar"/>
-			<include name="org.w3c.css.sac_*.jar"/>
 		</fileset>
-		<fileset dir="../org.mozilla.rhino">
-				<include name="**/*.jar"/>
-		</fileset>	
+
 		<fileset dir="../org.w3c.sac">
 			<include name="**/*.jar"/>
 		</fileset>
-		<!--
-		<fileset dir="../org.apache.commons.codec">
-			<include name="**/*.jar"/>
-		</fileset>
-		-->
+
 		<fileset dir="../">
 			<include name="com.lowagie.text_*.jar"/>
+			<include name="org.apache.commons.codec_*.jar"/>
+			<include name="org.w3c.css.sac_*.jar"/>
+			<include name="org.mozilla.javascript_*.jar"/>
 		</fileset>
 		<fileset dir="../org.apache.derby.core">
 			<include name="**/*.jar"/>
