@@ -298,4 +298,33 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 		}
 		stack.commit( );
 	}
+
+	/**
+	 * Determines whether this report item can add a view with the specified
+	 * extension type or not.
+	 * 
+	 * @return
+	 */
+	public boolean canAddView( String extensionType )
+	{
+		if ( propertyName == null )
+			return false;
+
+		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element
+				.getProperty( propertyName );
+		ModuleHandle module = element.getModuleHandle( );
+
+		if ( multiView == null )
+		{
+			multiView = module.getElementFactory( ).newMultiView( );
+			return element.canContain( propertyName, multiView );
+		}
+
+		ExtendedItemHandle itemHandle = module.getElementFactory( )
+				.newExtendedItem( null, extensionType );
+		if ( itemHandle == null )
+			return false;
+		return multiView.canContain( IMultiViewsModel.VIEWS_PROP, itemHandle );
+
+	}
 }

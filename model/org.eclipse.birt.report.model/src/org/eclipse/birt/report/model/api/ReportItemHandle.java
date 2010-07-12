@@ -1308,6 +1308,20 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
+	 * Determines whether this report item can add a view with the specified
+	 * extension type or not.
+	 * 
+	 * @return
+	 */
+	public boolean canAddView( String extensionType )
+	{
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider( this,
+				MULTI_VIEWS_PROP );
+
+		return provider.canAddView( extensionType );
+	}
+
+	/**
 	 * Returns the ACL expression associated with the report element instance.
 	 * 
 	 * @return the expression in string
