@@ -175,4 +175,11 @@ public final class ChartReportItemPresentationPlotImpl extends
 		return ChartItemUtil.convertToPoints( xtabHandle.getRowHeight( rowCell ),
 				dpi );
 	}
+
+	@Override
+	protected boolean canUpdateScale( )
+	{
+		// only plot chart can update scale
+		return true;
+	}
 }

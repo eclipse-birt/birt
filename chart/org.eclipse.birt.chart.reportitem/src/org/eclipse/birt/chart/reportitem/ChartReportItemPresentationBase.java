@@ -1078,7 +1078,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		rtc.setResourceFinder( crii );
 		rtc.setExternalizer( crii );
 		
-		if (rtc.getSharedScale( )!=null)
+		if ( rtc.getSharedScale( ) != null && canUpdateScale( ) )
 		{
 			rtc.getSharedScale( ).updateBounds( bo );
 		}
@@ -1156,5 +1156,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	protected boolean isAutoHide( )
 	{
 		return cm != null && !cm.getEmptyMessage( ).isVisible( );
+	}
+	
+	/**
+	 * Indicates whether shared scale can be updated.
+	 * @return
+	 */
+	protected boolean canUpdateScale()
+	{
+		return false;
 	}
 }
