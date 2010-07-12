@@ -1305,7 +1305,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		int width = img.getWidth( );
 		int height = img.getHeight( );
 		ImageWriter iw = ImageWriterFactory.instance( )
-				.createByFormatName( "gif" ); //$NON-NLS-1$
+				.createByFormatName( "png" ); //$NON-NLS-1$
 		ByteArrayOutputStream baos = new ByteArrayOutputStream( 8192*2 );
 		String sUrl = null;
 		try
