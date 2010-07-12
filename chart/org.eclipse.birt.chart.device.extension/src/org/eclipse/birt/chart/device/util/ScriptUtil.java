@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.LegendItemHints;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.util.Calendar;
 
@@ -94,11 +95,11 @@ public class ScriptUtil
 		}
 		else if ( oValue instanceof Calendar )
 		{
-			return "'" + ( (Calendar) oValue ).getTime( ).toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
+			return "'" + ChartUtil.stringValue( oValue ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
 		}
 		else if ( oValue instanceof DateTimeDataElement )
 		{
-			return "'" + ( (DateTimeDataElement) oValue ).getValueAsCalendar( ).toString( ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
+			return "'" + ChartUtil.stringValue( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) ) + "'";//$NON-NLS-1$ //$NON-NLS-2$
 		}
 		else if ( oValue == null )
 		{

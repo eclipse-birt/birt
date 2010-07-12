@@ -73,7 +73,9 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
@@ -382,7 +384,18 @@ public class ChartUtil
 		{
 			return null;
 		}
-		
+		if ( value instanceof Calendar )
+		{
+			// Convert to use locale neutral format
+			value = ( (Calendar) value ).getTime( );
+		}
+		try
+		{
+			return DataTypeUtil.toLocaleNeutralString( value );
+		}
+		catch ( BirtException e )
+		{
+		}
 		return String.valueOf( value );
 	}
 

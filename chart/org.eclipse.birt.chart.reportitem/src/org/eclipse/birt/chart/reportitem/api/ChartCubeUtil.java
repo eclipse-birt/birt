@@ -444,6 +444,28 @@ public class ChartCubeUtil extends ChartItemUtil
 				.getContainer( )
 				.getName( ), level.getName( ) );
 	}
+	
+	/**
+	 * Creates the dimension expression according to level attribute
+	 * 
+	 * @param level
+	 *            level handle
+	 * @param attributeName
+	 *            level attribute name
+	 * @return the dimension expression or null
+	 * @since 2.6
+	 */
+	public static String createDimensionExpression( LevelHandle level,
+			String attributeName )
+	{
+		if ( level == null )
+		{
+			return null;
+		}
+		return ExpressionUtil.createJSDimensionExpression( level.getContainer( )
+				.getContainer( )
+				.getName( ), level.getName( ), attributeName );
+	}
 
 	/**
 	 * Creates the measure expression according to measure
