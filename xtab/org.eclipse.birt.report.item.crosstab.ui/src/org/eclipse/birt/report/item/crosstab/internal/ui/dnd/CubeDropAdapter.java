@@ -39,6 +39,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -47,7 +48,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
@@ -57,7 +57,6 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -93,6 +92,36 @@ public class CubeDropAdapter implements IDropAdapter
 			}
 			else
 			{
+				//If the target is crosstab,and create chart view, maybe the container cann't contain the cube
+				if (target instanceof CrosstabCellEditPart)
+				{
+					Object model = DNDUtil.unwrapToModel( ((CrosstabCellEditPart)target).getModel( ) );
+					if (model == null)
+					{
+						return DNDService.LOGIC_FALSE;
+					}
+					ExtendedItemHandle handle = null;
+					String name = ReportPlugin.getDefault( )
+							.getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
+
+					try
+					{
+						handle = CrosstabExtendedItemFactory.createCrosstabReportItem( SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( ),
+								null,
+								name );
+						handle.setProperty( IReportItemModel.CUBE_PROP, (CubeHandle)transfer );
+						int flag = DNDUtil.handleValidateTargetCanContain(model, handle, false);
+						if (flag == DNDUtil.CONTAIN_NO)
+						{
+							return DNDService.LOGIC_FALSE;
+						}
+					}
+					catch ( Exception e )
+					{
+						return DNDService.LOGIC_FALSE;
+					}
+				}
 				// fix for 233149
 				IStructuredSelection models = InsertInLayoutUtil.editPart2Model( new StructuredSelection( target ) );
 				if ( !models.isEmpty( ) )
@@ -107,6 +136,7 @@ public class CubeDropAdapter implements IDropAdapter
 					}
 				}
 			}
+			
 
 		}
 		return DNDService.LOGIC_UNKNOW;
