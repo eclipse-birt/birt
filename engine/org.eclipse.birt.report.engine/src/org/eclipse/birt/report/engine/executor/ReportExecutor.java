@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,10 +24,9 @@ import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
-import org.eclipse.birt.report.engine.ir.PageVariableDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
@@ -104,7 +102,7 @@ public class ReportExecutor implements IReportExecutor
 		}
 		catch ( IOException ex )
 		{
-			context.addException( new EngineException( "failed to create TOC",
+			context.addException( new EngineException( MessageConstants.FAILED_TO_CREATE_TOC_EXCEPTION,
 					ex ) );
 		}
 

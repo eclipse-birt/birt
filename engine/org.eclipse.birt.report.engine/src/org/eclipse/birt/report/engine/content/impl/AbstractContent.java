@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -778,7 +779,7 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		else
 		{
-			throw new IOException( "Unknown content version " + version );
+			throw new IOException( MessageConstants.UNKNOWN_CONTENT_VERSION + version );
 		}
 	}
 

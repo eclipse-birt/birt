@@ -124,6 +124,20 @@ public class MessageConstants
     public static final String  REPORT_ITEM_NOT_SUPPORTED_PROMPT = "Error.ReportItemNotSupported";
     public static final String  RESOURCE_UNREACHABLE_PROMPT = "Error.ResourceUnreachable";
     public static final String  UPDATE_USER_AGENT_PROMPT = "Error.UpdateUserAgent";
+    
+    //Appendix
+    public static final String  REPORT_RUNNABLE_NOT_SET_EXCEPTION = "Error.ReportRunnableNotSet";
+    public static final String  FAILED_TO_LOAD_TOC_TREE_EXCEPTION = "Error.FailedToLoadTOCTree";
+    public static final String  BOOKMARK_FETCHING_EXCEPTION = "Error.ExceptionOnFetchingBookmarks";
+    public static final String  SAVE_DESIGN_ERROR = "Error.FailedToSaveDesign";
+    public static final String  COPY_ARCHIVES_EXCEPTION = "Error.ExceptionOnCopyingArchives";
+    public static final String  UNSUPPORTED_CORE_STREAM_VERSION = "Error.UnsupportedCoreStreamVersion";
+    public static final String  UNSUPPORTED_ENGINE_EXTENSION = "Error.UnsupportedEngineExtension";
+    public static final String  CANNOT_CREATE_DATA_ENGINE = "Error.FailToCreateDataEngine";
+    public static final String  FAILED_TO_CREATE_TOC_EXCEPTION = "Error.FailedToCreateTOC";
+    public static final String  UNSPPORTED_EXPRESSION_TYPE = "Error.UnsupportedExprssionType";
+    public static final String  UNKNOWN_CONTENT_VERSION = "Error.UnknownContentVersion"; 
+    public static final String  UNKNOWN_FIELD_ID = "Error.UnknownFieldID";
 }
 
 

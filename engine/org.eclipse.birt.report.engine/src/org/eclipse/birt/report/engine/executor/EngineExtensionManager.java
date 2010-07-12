@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.extension.engine.IRenderExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.internal.RenderContext;
 import org.eclipse.birt.report.engine.extension.internal.RunContext;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 public class EngineExtensionManager
 {
@@ -46,7 +47,7 @@ public class EngineExtensionManager
 			IReportEngineExtension ext = engine.getEngineExtension( name );
 			if ( ext == null )
 			{
-				throw new EngineException( "Unsupported engine extension {0} ",
+				throw new EngineException( MessageConstants.UNSUPPORTED_ENGINE_EXTENSION,
 						new Object[]{name} );
 			}
 			return ext;

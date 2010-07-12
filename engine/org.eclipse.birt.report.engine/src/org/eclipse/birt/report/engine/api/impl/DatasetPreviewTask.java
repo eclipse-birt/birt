@@ -108,7 +108,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			changeStatusToRunning( );
 			if ( runnable == null )
 			{
-				throw new EngineException( "report runnable is not set" ); //$NON-NLS-1$
+				throw new EngineException( MessageConstants.REPORT_RUNNABLE_NOT_SET_EXCEPTION ); //$NON-NLS-1$
 			}
 			resultset = doRun( );
 		}

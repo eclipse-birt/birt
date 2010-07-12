@@ -844,7 +844,7 @@ public class ExecutionContext
 			}
 			catch ( Exception e )
 			{
-				throw new EngineException( "can't create data engine", e );
+				throw new EngineException( MessageConstants.CANNOT_CREATE_DATA_ENGINE, e );
 			}
 		}
 	}

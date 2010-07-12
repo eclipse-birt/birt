@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.compound.IArchiveFile;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -35,7 +36,7 @@ public class DocumentUtil
 		}
 		catch ( IOException ex )
 		{
-			throw new EngineException( "exception when copying archives", ex );
+			throw new EngineException( MessageConstants.COPY_ARCHIVES_EXCEPTION, ex );
 		}
 
 		if ( runnable != null )

@@ -274,7 +274,7 @@ public class ReportDocumentReader
 		}
 		else
 		{
-			throw new IOException( "unsupported core stream version: "
+			throw new IOException( MessageConstants.UNSUPPORTED_CORE_STREAM_VERSION
 					+ coreVersion );
 		}
 	}
@@ -1212,7 +1212,7 @@ public class ReportDocumentReader
 			}
 			catch ( IOException ex )
 			{
-				throw new EngineException( "exception when fetching bookmarks",
+				throw new EngineException( MessageConstants.BOOKMARK_FETCHING_EXCEPTION,
 						ex );
 			}
 		}
@@ -1805,7 +1805,7 @@ public class ReportDocumentReader
 		}
 		catch ( IOException ex )
 		{
-			throw new EngineException( "failed to load toc tree", ex );
+			throw new EngineException( MessageConstants.FAILED_TO_LOAD_TOC_TREE_EXCEPTION, ex );
 		}
 	}
 
@@ -1823,7 +1823,7 @@ public class ReportDocumentReader
 		}
 		catch ( IOException ex )
 		{
-			throw new EngineException( "failed to load toc tree", ex );
+			throw new EngineException( MessageConstants.FAILED_TO_LOAD_TOC_TREE_EXCEPTION, ex );
 		}
 	}
 

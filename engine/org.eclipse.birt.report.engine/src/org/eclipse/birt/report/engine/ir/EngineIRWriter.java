@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
@@ -1453,7 +1454,7 @@ public class EngineIRWriter implements IOConstants
 				IOUtil.writeString( out, sc.getScriptText( ) );
 				break;
 			default :
-				throw new IOException( "Unsupported Exprssion Type" );
+				throw new IOException( MessageConstants.UNSPPORTED_EXPRESSION_TYPE );
 		}
 	}
 

@@ -806,7 +806,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				}
 				catch ( IOException e )
 				{
-					throw new EngineException( "Failed to read TOC tree.", e );
+					throw new EngineException( MessageConstants.FAILED_TO_LOAD_TOC_TREE_EXCEPTION, e );
 				}
 			}
 			if ( tocTree != null )

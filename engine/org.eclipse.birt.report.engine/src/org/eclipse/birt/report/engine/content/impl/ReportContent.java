@@ -47,6 +47,7 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TOCView;
@@ -392,7 +393,7 @@ public class ReportContent implements IReportContent
 				extProperties = (Map<String, Object>) IOUtil.readMap( in );
 				break;
 			default :
-				throw new IOException( "Unknown field id:" + fieldId );
+				throw new IOException( MessageConstants.UNKNOWN_FIELD_ID + fieldId );
 		}
 	}
 

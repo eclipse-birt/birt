@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.index.DocumentIndexWriter;
 import org.eclipse.birt.report.engine.ir.EngineIRWriter;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -192,7 +193,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		catch ( Exception ex )
 		{
 			logger.log( Level.SEVERE, "Failed to save design!", ex );
-			throw new EngineException( "Failed to save design!", ex );
+			throw new EngineException( MessageConstants.SAVE_DESIGN_ERROR, ex );
 		}
 		finally
 		{
