@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -137,6 +139,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
+import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.resources.IProject;
@@ -186,9 +189,28 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle )
 	{
-		super( );
 		this.itemHandle = itemHandle;
 		project = UIUtil.getCurrentProject( );
+	}
+	
+	private ExtendedItemHandle flattenReportDesign( ExtendedItemHandle handle )
+			throws ChartException
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		long id = handle.getID( );
+		try
+		{
+			ReportDesignHandle newDesign = DocumentUtil.serialize( (ReportDesignHandle) handle.getModule( )
+					.getHandle( handle.getModule( ) ),
+					out );
+			return (ExtendedItemHandle) newDesign.getElementByID( id );
+		}
+		catch ( IOException ioe )
+		{
+			throw new ChartException( ChartReportItemUIActivator.ID,
+					ChartException.DATA_BINDING,
+					ioe );
+		}
 	}
 	
 	/**
@@ -202,6 +224,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			if ( isReportDesignHandle( ) )
 			{
+				itemHandle =flattenReportDesign( itemHandle );
 				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
 
 				engineTask = new ChartDummyEngineTask( engine,
@@ -2015,6 +2038,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			DataService.getInstance( ).registerSession( cube, session );
 			session.defineCube( cube );	
+			
 		}
 		
 		// Always cube query returned
