@@ -96,11 +96,11 @@ Error.RenderTaskNotFinishedError = 呈现任务未完成。
 Error.RenderOptionError = 必须指定呈现选项才能呈现报表。
 Error.ReportArchiveError = 运行报表时未指定报表存档。
 Error.ReportDocNameNotSpecifiedError = 运行报表时未指定报表文档名称。
-Error.ReportRunError = 运行报表时出错
+Error.ReportRunError = Error happened while running the report.
 Error.ReportDocmentOpenError = 打开报表文档失败。
 Error.ReportArchiveOpenError = 无法打开报表存档。
 Error.SkipError = 跨过时出错。
-Error.ResultsetExtractError = 未找到结果集
+Error.ResultsetExtractError = Result set not found.
 Error.FailedToInitializeEmitter = 初始化发射器失败。
 
 ###########################################################
@@ -111,3 +111,17 @@ Error.FlashObjectNotSupported = 此报表格式不支持 Flash 对象报表项。
 Error.ReportItemNotSupported = 此报表格式不支持当前报表项。
 Error.ResourceUnreachable = 此报表项的资源不可访问。
 Error.UpdateUserAgent = 启用 Flash 支持或下载较新的 Adobe Reader 版本以查看 PDF 文件中的 Flash 内容。
+
+###########################################################
+Error.ReportRunnableNotSet = Report runnable is not set.
+Error.FailedToLoadTOCTree = Failed to load TOC tree.
+Error.ExceptionOnFetchingBookmarks = Exception when fetching bookmarks.
+Error.FailedToSaveDesign = Failed to save design.
+Error.ExceptionOnCopyingArchives = Exception when copying archives.
+Error.UnsupportedCoreStreamVersion = Unsupported core stream version: {0}.
+Error.UnsupportedEngineExtension = Unsupported engine extension {0}.
+Error.FailToCreateDataEngine = Can't create data engine.
+Error.FailedToCreateTOC = Failed to create TOC.
+Error.UnsupportedExprssionType = Unsupported expression type.
+Error.UnknownContentVersion = Unknown content version.
+Error.UnknownFieldID = Unknown field id: {0}.

@@ -96,11 +96,11 @@ Error.RenderTaskNotFinishedError = Rendern noch nicht abgeschlossen.
 Error.RenderOptionError = Zum Rendern eines Berichts müssen Renderoptionen angegeben werden.
 Error.ReportArchiveError = Berichtarchiv ist bei der Ausführung eines Berichts nicht angegeben.
 Error.ReportDocNameNotSpecifiedError = Berichtdokumentname ist bei der Ausführung eines Berichts nicht angegeben.
-Error.ReportRunError = Fehler bei der Ausführung des Berichts.
+Error.ReportRunError = Error happened while running the report.
 Error.ReportDocmentOpenError = Berichtdokument konnte nicht geöffnet werden.
 Error.ReportArchiveOpenError = Berichtarchiv kann nicht geöffnet werden.
 Error.SkipError = Fehler beim Ignorieren.
-Error.ResultsetExtractError = Ergebnis nicht gefunden.
+Error.ResultsetExtractError = Result set not found.
 Error.FailedToInitializeEmitter = Emitter konnte nicht initialisiert werden.
 
 ###########################################################
@@ -111,3 +111,17 @@ Error.FlashObjectNotSupported = Berichtobjekte aus Flash-Objekten werden in dies
 Error.ReportItemNotSupported = Das aktuelle Berichtobjekt wird in diesem Berichtformat nicht unterstützt.
 Error.ResourceUnreachable = Die Ressource dieses Berichtobjekts ist nicht erreichbar.
 Error.UpdateUserAgent = Aktivieren Sie die Flash-Unterstützung, oder laden Sie eine neuere Version des Adobe Readers herunter, um Flash-Inhalte in PDF-Dateien anzuzeigen.
+
+###########################################################
+Error.ReportRunnableNotSet = Report runnable is not set.
+Error.FailedToLoadTOCTree = Failed to load TOC tree.
+Error.ExceptionOnFetchingBookmarks = Exception when fetching bookmarks.
+Error.FailedToSaveDesign = Failed to save design.
+Error.ExceptionOnCopyingArchives = Exception when copying archives.
+Error.UnsupportedCoreStreamVersion = Unsupported core stream version: {0}.
+Error.UnsupportedEngineExtension = Unsupported engine extension {0}.
+Error.FailToCreateDataEngine = Can't create data engine.
+Error.FailedToCreateTOC = Failed to create TOC.
+Error.UnsupportedExprssionType = Unsupported expression type.
+Error.UnknownContentVersion = Unknown content version.
+Error.UnknownFieldID = Unknown field id: {0}.

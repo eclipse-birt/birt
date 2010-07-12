@@ -96,11 +96,11 @@ Error.RenderTaskNotFinishedError = レンダリングタスクが完了していません。
 Error.RenderOptionError = レポートをレンダリングするには、レンダリングオプションを指定する必要があります。
 Error.ReportArchiveError = レポート実行時のレポートアーカイブが指定されていません。
 Error.ReportDocNameNotSpecifiedError = レポート実行時のレポート文書名が指定されていません。
-Error.ReportRunError = レポートの実行中にエラーが発生しました。
+Error.ReportRunError = Error happened while running the report.
 Error.ReportDocmentOpenError = レポート文書を開けません。
 Error.ReportArchiveOpenError = レポートアーカイブを開けません。
 Error.SkipError = 省略中にエラーが発生しました。
-Error.ResultsetExtractError = 結果セットが見つかりません。
+Error.ResultsetExtractError = Result set not found.
 Error.FailedToInitializeEmitter = エミッターを初期化できませんでした。
 
 ###########################################################
@@ -111,3 +111,17 @@ Error.FlashObjectNotSupported = Flash オブジェクトのレポート項目は、このレポート
 Error.ReportItemNotSupported = 現在のレポート項目は、このレポート形式ではサポートされていません。
 Error.ResourceUnreachable = このレポート項目のリソースにアクセスできません。
 Error.UpdateUserAgent = Flash サポートを有効にするか、新しいバージョンの Adobe Reader をダウンロードして PDF ファイル内の Flash コンテンツを表示してください。
+
+###########################################################
+Error.ReportRunnableNotSet = Report runnable is not set.
+Error.FailedToLoadTOCTree = Failed to load TOC tree.
+Error.ExceptionOnFetchingBookmarks = Exception when fetching bookmarks.
+Error.FailedToSaveDesign = Failed to save design.
+Error.ExceptionOnCopyingArchives = Exception when copying archives.
+Error.UnsupportedCoreStreamVersion = Unsupported core stream version: {0}.
+Error.UnsupportedEngineExtension = Unsupported engine extension {0}.
+Error.FailToCreateDataEngine = Can't create data engine.
+Error.FailedToCreateTOC = Failed to create TOC.
+Error.UnsupportedExprssionType = Unsupported expression type.
+Error.UnknownContentVersion = Unknown content version.
+Error.UnknownFieldID = Unknown field id: {0}.

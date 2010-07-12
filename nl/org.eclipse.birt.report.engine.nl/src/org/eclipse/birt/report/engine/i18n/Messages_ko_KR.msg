@@ -96,11 +96,11 @@ Error.RenderTaskNotFinishedError = 렌더링 작업이 완료되지 않았습니다.
 Error.RenderOptionError = 보고서를 렌더링하려면 렌더링 옵션을 지정해야 합니다.
 Error.ReportArchiveError = 보고서를 실행하는 동안 보고서 보관을 지정하지 않았습니다.
 Error.ReportDocNameNotSpecifiedError = 보고서를 실행하는 동안 보고서 문서 이름을 지정하지 않았습니다.
-Error.ReportRunError = 보고서를 실행하는 동안 오류가 발생했습니다.
+Error.ReportRunError = Error happened while running the report.
 Error.ReportDocmentOpenError = 보고서 문서를 열지 못했습니다.
 Error.ReportArchiveOpenError = 보고서 보관을 열지 못했습니다.
 Error.SkipError = 건너뛰는 중 오류가 발생했습니다.
-Error.ResultsetExtractError = 결과 집합을 찾을 수 없음
+Error.ResultsetExtractError = Result set not found.
 Error.FailedToInitializeEmitter = 이미터를 초기화하지 못했습니다.
 
 ###########################################################
@@ -111,3 +111,17 @@ Error.FlashObjectNotSupported = 플래시 개체 보고서 항목은 이 보고서 형식에서 지�
 Error.ReportItemNotSupported = 현재 보고서 항목은 이 보고서 형식에서 지원되지 않습니다.
 Error.ResourceUnreachable = 이 리포트 항목의 리소스에 연결할 수 없습니다.
 Error.UpdateUserAgent = PDF 파일에서 플래시 콘텐츠를 보려면 플래시 지원을 활성화하거나 최신 버전의 Adobe Reader를 다운로드하십시오.
+
+###########################################################
+Error.ReportRunnableNotSet = Report runnable is not set.
+Error.FailedToLoadTOCTree = Failed to load TOC tree.
+Error.ExceptionOnFetchingBookmarks = Exception when fetching bookmarks.
+Error.FailedToSaveDesign = Failed to save design.
+Error.ExceptionOnCopyingArchives = Exception when copying archives.
+Error.UnsupportedCoreStreamVersion = Unsupported core stream version: {0}.
+Error.UnsupportedEngineExtension = Unsupported engine extension {0}.
+Error.FailToCreateDataEngine = Can't create data engine.
+Error.FailedToCreateTOC = Failed to create TOC.
+Error.UnsupportedExprssionType = Unsupported expression type.
+Error.UnknownContentVersion = Unknown content version.
+Error.UnknownFieldID = Unknown field id: {0}.

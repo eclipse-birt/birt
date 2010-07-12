@@ -96,11 +96,11 @@ Error.RenderTaskNotFinishedError = La tarea de procesamiento no se ha finalizado
 Error.RenderOptionError = Se deben especificar las opciones de procesamiento para procesar un informe.
 Error.ReportArchiveError = El archivo de informes no se especifica al ejecutar un informe.
 Error.ReportDocNameNotSpecifiedError = El nombre del documento de informe no se especifica al ejecutar un informe.
-Error.ReportRunError = Se ha producido un error al ejecutar el informe.
+Error.ReportRunError = Error happened while running the report.
 Error.ReportDocmentOpenError = Error al abrir el documento del informe.
 Error.ReportArchiveOpenError = No se puede abrir el archivo del informe.
 Error.SkipError = Se ha producido un error al omitir.
-Error.ResultsetExtractError = No se ha encontrado el conjunto de resultados
+Error.ResultsetExtractError = Result set not found.
 Error.FailedToInitializeEmitter = Error al iniciar el emisor.
 
 ###########################################################
@@ -111,3 +111,17 @@ Error.FlashObjectNotSupported = Este formato de informe no admite los elementos 
 Error.ReportItemNotSupported = El elemento de informe actual no es compatible con este formato de informe.
 Error.ResourceUnreachable = No se puede alcanzar el recurso de este elemento de informe.
 Error.UpdateUserAgent = Active la compatibilidad con Flash o descargue una versión más reciente de Adobe Reader para ver el contenido Flash en archivos PDF.
+
+###########################################################
+Error.ReportRunnableNotSet = Report runnable is not set.
+Error.FailedToLoadTOCTree = Failed to load TOC tree.
+Error.ExceptionOnFetchingBookmarks = Exception when fetching bookmarks.
+Error.FailedToSaveDesign = Failed to save design.
+Error.ExceptionOnCopyingArchives = Exception when copying archives.
+Error.UnsupportedCoreStreamVersion = Unsupported core stream version: {0}.
+Error.UnsupportedEngineExtension = Unsupported engine extension {0}.
+Error.FailToCreateDataEngine = Can't create data engine.
+Error.FailedToCreateTOC = Failed to create TOC.
+Error.UnsupportedExprssionType = Unsupported expression type.
+Error.UnknownContentVersion = Unknown content version.
+Error.UnknownFieldID = Unknown field id: {0}.
