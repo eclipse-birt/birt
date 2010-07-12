@@ -34,9 +34,13 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TemplateElement;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ContentIterator;
@@ -275,6 +279,35 @@ class ContainerContextProviderImpl
 			{
 				errors.addAll( exceptions );
 				return errors;
+			}
+
+		}
+
+		// CAN NOT insert a cube into report design or library, if it contains
+		// any dimension that shares another dimension
+		if ( element instanceof Cube && module instanceof LayoutModule )
+		{
+			List dimensions = element.getListProperty( module,
+					ICubeModel.DIMENSIONS_PROP );
+			if ( dimensions != null )
+			{
+				for ( int i = 0; i < dimensions.size( ); i++ )
+				{
+					Dimension dimension = (Dimension) dimensions.get( i );
+					if ( dimension
+							.getProperty(
+									module,
+									ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP ) != null )
+					{
+						List hierarchies = dimension.getListProperty( module,
+								IDimensionModel.HIERARCHIES_PROP );
+						if ( hierarchies == null || hierarchies.isEmpty( ) )
+						{
+							errors.add( e );
+							return errors;
+						}
+					}
+				}
 			}
 
 		}
