@@ -74,7 +74,7 @@ public class CreateChartAction extends ContextSelectionAction
 		{
 			return false;
 		}
-		if ( ( (ReportItemHandle) model ).getViews( ).size( ) != 0 )
+		if ( ( (ReportItemHandle) model ).getViews( ).size( ) != 0 || !( (ReportItemHandle) model ).canAddView( "Chart" ))//$NON-NLS-1$
 		{
 			return false;
 		}
