@@ -590,6 +590,9 @@
         <fileset dir="../org.eclipse.birt.chart.examples.core">
             <include name="chartexamplescoreapi.jar" />
         </fileset>
+		<fileset dir="../org.w3c.sac/lib">
+			<include name="*.jar" />
+		</fileset>
 		<!-- Export Chart Engine -->
 		<fileset dir="${baseLocation.emf}/plugins/">
 			<include name="org.eclipse.emf.common_*.jar" />
