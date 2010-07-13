@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.archive.compound;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,6 +21,8 @@ import java.util.List;
 import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class ArchiveReader implements IDocArchiveReader
 {
@@ -37,19 +40,14 @@ public class ArchiveReader implements IDocArchiveReader
 	{
 		if ( archiveName == null || archiveName.length( ) == 0 )
 		{
-			throw new IOException(
-					"The file archive name is null or empty string." );
+			throw new IllegalArgumentException( archiveName );
 		}
 
 		File fd = new File( archiveName );
-		if ( !fd.isFile( ) )
+		if ( !fd.isFile( ) || !fd.exists( ) )
 		{
-			throw new IOException(
-					"The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name." );
-		}
-		if ( !fd.exists( ) )
-		{
-			throw new IOException( "The specified file do not exist." );
+			throw new FileNotFoundException( Messages.getFormattedString(
+					ResourceConstants.INVALID_ARCHIVE_NAME, archiveName ) );
 		}
 
 		archiveName = fd.getCanonicalPath( ); // make sure the file name is an

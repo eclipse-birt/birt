@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 import com.ibm.icu.util.TimeZone;
 
@@ -222,7 +224,8 @@ public class ScriptContext implements IScriptContext
 				.getScriptEngineFactory( scriptName );
 		if ( factory == null )
 		{
-			throw new BirtException( "No such script extension : " + scriptName );
+			throw new CoreException(
+					ResourceConstants.NO_SUCH_SCRIPT_EXTENSION, scriptName );
 		}
 		return createEngine( factory );
 	}

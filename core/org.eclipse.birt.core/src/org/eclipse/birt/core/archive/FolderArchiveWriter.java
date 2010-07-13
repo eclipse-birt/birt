@@ -12,11 +12,15 @@
 package org.eclipse.birt.core.archive;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class FolderArchiveWriter implements IDocArchiveWriter
 {
@@ -35,7 +39,8 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	public FolderArchiveWriter( String folderName ) throws IOException
 	{
 		if ( folderName == null || folderName.length( ) == 0 )
-			throw new IOException( "The folder name is null or empty string." );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FOLDER_NAME_IS_NULL ) );
 
 		File fd = new File( folderName );
 		if ( !fd.exists( ) )
@@ -108,7 +113,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 					file );
 			return in;
 		}
-		throw new IOException( relativePath + " doesn't exit" );
+		throw new FileNotFoundException( relativePath );
 	}
 
 	/**

@@ -18,6 +18,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.util.IOUtil;
 
 /**
@@ -92,15 +94,17 @@ class ArchiveHeader implements ArchiveConstants
 		long magicTag = in.readLong( );
 		if ( magicTag != DOCUMENT_TAG )
 		{
-			throw new IOException( "Not a compound file, the magic code is "
-					+ magicTag );
+			throw new IOException(
+					Messages.getFormattedString(
+							ResourceConstants.NOT_COMPOUND_FILE,
+							new Object[]{magicTag} ) );
 		}
 		long version = in.readLong( );
-		if ( version != DOCUMENT_VERSION_0
-				&& version != DOCUMENT_VERSION_1 )
+		if ( version != DOCUMENT_VERSION_0 && version != DOCUMENT_VERSION_1 )
 		{
-			throw new IOException( "Unsupported compound archive version "
-					+ version );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.UNSUPPORTED_ARCHIVE_VERSION,
+					new Object[]{version} ) );
 		}
 
 		header.fileStatus = in.readInt( );
@@ -148,9 +152,9 @@ class ArchiveHeader implements ArchiveConstants
 		byte[] b = buffer.toByteArray( );
 		if ( b.length > DEFAULT_BLOCK_SIZE )
 		{
-			throw new IOException(
-					"The size of archive header can not be larger than: "
-							+ DEFAULT_BLOCK_SIZE );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.EXCEED_MAX_BLOCK_SIZE,
+					new Object[]{DEFAULT_BLOCK_SIZE} ) );
 		}
 		af.write( 0, 0, b, 0, b.length );
 	}

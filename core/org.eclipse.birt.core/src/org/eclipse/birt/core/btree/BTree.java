@@ -26,6 +26,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 /**
  * 
  * 
@@ -253,7 +256,9 @@ public class BTree<K, V> implements BTreeConstants
 					return insertEntry;
 				}
 
-				throw new IOException( "unexpected node type:" + nodeType );
+				throw new IOException( Messages.getFormattedString(
+						ResourceConstants.UNEXPECTED_NODE_TYPE,
+						new Object[]{nodeType} ) );
 			}
 			finally
 			{
@@ -356,7 +361,7 @@ public class BTree<K, V> implements BTreeConstants
 		if ( readOnly )
 		{
 			throw new IOException(
-					"can not insert a entry into a read only tree" );
+					Messages.getString( ResourceConstants.READ_ONLY_TREE ) );
 		}
 		insertEntry( k, v );
 	}
@@ -455,7 +460,8 @@ public class BTree<K, V> implements BTreeConstants
 
 		if ( file == null )
 		{
-			throw new IOException( "can not load node " + nodeId );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.CANNOT_LOAD_NODE, new Object[]{nodeId} ) );
 		}
 
 		NodeInputStream in = new NodeInputStream( file, nodeId );
@@ -475,8 +481,9 @@ public class BTree<K, V> implements BTreeConstants
 					node = new ValueNode<K, V>( this, nodeId );
 					break;
 				default :
-					throw new IOException( "unexpected node type:" + nodeType
-							+ " for node " + nodeId );
+					throw new IOException( Messages.getFormattedString(
+							ResourceConstants.UNEXPECTED_NODE_TYPE,
+							new Object[]{nodeType, nodeId} ) );
 			}
 			node.read( input );
 			node.setUsedBlocks( in.getUsedBlocks( ) );
@@ -500,7 +507,9 @@ public class BTree<K, V> implements BTreeConstants
 			return indexNode;
 		}
 		node.unlock( );
-		throw new IOException( "unexpected node type:" + node.getNodeType( ) );
+		throw new IOException( Messages.getFormattedString(
+				ResourceConstants.UNEXPECTED_NODE_TYPE,
+				new Object[]{node.getNodeType( ), node.getNodeId( )} ) );
 	}
 
 	LeafNode<K, V> loadLeafNode( int nodeId ) throws IOException
@@ -512,7 +521,9 @@ public class BTree<K, V> implements BTreeConstants
 			return leafNode;
 		}
 		node.unlock( );
-		throw new IOException( "unexpected node type:" + node.getNodeType( ) );
+		throw new IOException( Messages.getFormattedString(
+				ResourceConstants.UNEXPECTED_NODE_TYPE,
+				new Object[]{node.getNodeType( ), node.getNodeId( )} ) );
 	}
 
 	ValueNode<K, V> loadValueNode( int nodeId ) throws IOException
@@ -523,7 +534,9 @@ public class BTree<K, V> implements BTreeConstants
 			return (ValueNode<K, V>) node;
 		}
 		node.unlock( );
-		throw new IOException( "unexpected node type:" + node.getNodeType( ) );
+		throw new IOException( Messages.getFormattedString(
+				ResourceConstants.UNEXPECTED_NODE_TYPE,
+				new Object[]{node.getNodeType( ), node.getNodeId( )} ) );
 	}
 
 	protected int allocBlock( ) throws IOException
@@ -590,8 +603,9 @@ public class BTree<K, V> implements BTreeConstants
 		int keySize = getKeySize( );
 		if ( keySize != 0 && keySize != keyBytes.length )
 		{
-			throw new IOException( "the key size is " + keyBytes.length
-					+ " instead of " + keySize );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.KEY_SIZE_ERROR, new Object[]{
+							keyBytes.length, keySize} ) );
 		}
 		return new BTreeValue<K>( key, keyBytes );
 	}
@@ -625,7 +639,8 @@ public class BTree<K, V> implements BTreeConstants
 		int keySize = getKeySize( );
 		if ( keySize != 0 && keySize != bytes.length )
 		{
-			throw new IOException( "mismatch key length for fixed length key" );
+			throw new IOException(
+					Messages.getString( ResourceConstants.MISMATCH_KEY_LENGTH ) );
 		}
 		if ( keySize == 0 )
 		{
@@ -678,8 +693,9 @@ public class BTree<K, V> implements BTreeConstants
 		int valueSize = getValueSize( );
 		if ( valueSize != 0 && valueSize != valueBytes.length )
 		{
-			throw new IOException( "the value size is " + valueBytes.length
-					+ " instead of " + valueSize );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.Value_SIZE_ERROR, new Object[]{
+							valueBytes.length, valueSize} ) );
 		}
 		return new BTreeValue<V>( value, valueBytes );
 
@@ -691,7 +707,7 @@ public class BTree<K, V> implements BTreeConstants
 		if ( valueSize != 0 && valueSize != bytes.length )
 		{
 			throw new IOException(
-					"mismatch value length for fixed length value" );
+					Messages.getString( ResourceConstants.MISMATCH_VALUE_LENGTH ) );
 		}
 		if ( valueSize == 0 )
 		{
@@ -834,13 +850,16 @@ public class BTree<K, V> implements BTreeConstants
 		long tag = in.readLong( );
 		if ( tag != MAGIC_TAG )
 		{
-			throw new IOException( "Invalid magic tag:"
-					+ Long.toHexString( tag ) );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.INVALID_MAGIC_TAG,
+					new Object[]{Long.toHexString( tag )} ) );
 		}
 		version = in.readInt( );
 		if ( version != BTREE_VERSION_0 )
 		{
-			throw new IOException( "Unsupported version:" + version );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.UNSUPPORTED_VERSION,
+					new Object[]{version} ) );
 		}
 		readV0( in );
 	}

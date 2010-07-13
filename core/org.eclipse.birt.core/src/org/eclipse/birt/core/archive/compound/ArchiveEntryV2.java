@@ -13,6 +13,9 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 {
 
@@ -214,7 +217,8 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 			cachedBlock = af.loadBlock( fileBlockId );
 			return cachedBlock;
 		}
-		throw new IOException( "invalid index at " + blockId );
+		throw new IOException( Messages.getFormattedString(
+				ResourceConstants.INVALID_INDEX, new Object[]{blockId} ) );
 	}
 
 }

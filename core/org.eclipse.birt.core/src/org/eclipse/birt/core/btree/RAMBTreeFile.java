@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 public class RAMBTreeFile implements NodeFile
 {
 
@@ -48,8 +51,9 @@ public class RAMBTreeFile implements NodeFile
 
 		if ( blockId >= blocks.size( ) )
 		{
-			throw new EOFException( blockId + " exceed the max block in RAM "
-					+ blocks.size( ) );
+			throw new EOFException( Messages.getFormattedString(
+					ResourceConstants.EXCEED_MAX_BLOCK, new Object[]{blockId,
+							blocks.size( )} ) );
 		}
 
 		byte[] block = blocks.get( blockId );

@@ -28,6 +28,8 @@ import org.eclipse.birt.core.archive.cache.CacheListener;
 import org.eclipse.birt.core.archive.cache.Cacheable;
 import org.eclipse.birt.core.archive.cache.FileCacheManager;
 import org.eclipse.birt.core.archive.cache.SystemCacheManager;
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
  * 
@@ -132,7 +134,8 @@ public class Ext2FileSystem
 			createFileSystem( );
 			return;
 		}
-		throw new IOException( "unsupported file mode:" + mode );
+		throw new IOException( Messages.getFormattedString(
+				ResourceConstants.UNSUPPORTED_FILE_MODE, new Object[]{mode} ) );
 	}
 
 	private void openFileSystem( ) throws IOException
@@ -246,7 +249,8 @@ public class Ext2FileSystem
 		{
 			if ( readOnly )
 			{
-				throw new IOException( "file is opened as read only" );
+				throw new IOException(
+						Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 			}
 
 			ensureFileOpened( );
@@ -304,7 +308,8 @@ public class Ext2FileSystem
 	{
 		if ( readOnly )
 		{
-			throw new IOException( "the file is opened in read only mode" );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 		}
 		Ext2Entry entry = entryTable.getEntry( name );
 		if ( entry == null )
@@ -349,7 +354,8 @@ public class Ext2FileSystem
 	{
 		if ( readOnly )
 		{
-			throw new IOException( "The file is opend in read only mode" );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 		}
 		// check if there are any opened stream links with the name,
 		if ( !openedFiles.isEmpty( ) )
@@ -418,19 +424,23 @@ public class Ext2FileSystem
 		long magicTag = in.readLong( );
 		if ( magicTag != EXT2_MAGIC_TAG )
 		{
-			throw new IOException( "Not a Ext2 archive, the magic code is "
-					+ magicTag );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.NOT_EXT2_ARCHIVE, new Object[]{magicTag} ) );
 		}
 		int version = in.readInt( );
 		if ( version != EXT2_VERSION_0 )
 		{
-			throw new IOException( "Unsupported archive version " + version );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.UNSUPPORTED_ARCHIVE_VERSION,
+					new Object[]{version} ) );
 		}
 
 		int blockSize = in.readInt( );
 		if ( blockSize != BLOCK_SIZE )
 		{
-			throw new IOException( "unsupported block size" );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.UNSUPPORTED_BLOCK_SIZE,
+					new Object[]{blockSize} ) );
 		}
 	}
 

@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.eclipse.birt.core.archive.cache.SystemCacheManager;
 import org.eclipse.birt.core.archive.compound.v3.Ext2FileSystem;
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
  * change the default format to ext2.
@@ -55,7 +57,8 @@ public class ArchiveFile implements IArchiveFile
 			throws IOException
 	{
 		if ( fileName == null || fileName.length( ) == 0 )
-			throw new IOException( "The file name is null or empty string." );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_NAME_IS_NULL ) );
 
 		File fd = new File( fileName );
 		// make sure the file name is an absolute path
@@ -287,7 +290,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					"The archive file has been closed. System ID: " + systemId );
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -314,7 +317,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					"The archive file has been closed. System ID: " + systemId );
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -327,7 +330,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					"The archive file has been closed. System ID: " + systemId );
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -349,9 +352,8 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			throw new IOException( "Can not get entry named " + name
-					+ " because the archive file has been closed. System ID: "
-					+ systemId );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -376,9 +378,8 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			throw new IOException( "Can not create entry named " + name
-					+ "because the archive file has been closed. System ID: "
-					+ systemId );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -390,9 +391,8 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			throw new IOException( "Can not remove entry named " + name
-					+ " because the archive file has been closed. System ID: "
-					+ systemId );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -410,7 +410,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					"The archive file has been closed. System ID: " + systemId );
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 

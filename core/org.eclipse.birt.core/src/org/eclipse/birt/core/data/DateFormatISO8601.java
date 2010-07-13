@@ -12,16 +12,14 @@
 package org.eclipse.birt.core.data;
 
 import java.text.ParseException;
-
-import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.text.SimpleDateFormat;
-import com.ibm.icu.util.TimeZone;
-
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.i18n.ResourceConstants;
+
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.TimeZone;
 
 /**
  * DateFormatISO8601 is a utility class for formatting and parsing dates
@@ -73,8 +71,8 @@ public class DateFormatISO8601
 		// for the String can not be parsed, throws a BirtException
 		if ( resultDate == null )
 		{
-			throw new ParseException( "an not convert the value of " + source,
-					0 );
+			throw new CoreException( ResourceConstants.CONVERT_FAILS,
+					new Object[]{source.toString( ), "Date"} );
 		}
 
 		// never access here

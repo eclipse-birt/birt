@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class ArchiveFileV1 implements IArchiveFile
 {
@@ -131,7 +133,8 @@ public class ArchiveFileV1 implements IArchiveFile
 	public synchronized ArchiveEntry createEntry( String name )
 			throws IOException
 	{
-		throw new IOException( "read only archive" );
+		throw new IOException(
+				Messages.getString( ResourceConstants.READ_ONLY_ARCHIVE ) );
 	}
 
 	/*
@@ -148,7 +151,8 @@ public class ArchiveFileV1 implements IArchiveFile
 
 	public void flush( ) throws IOException
 	{
-		throw new IOException( "read only archive" );
+		throw new IOException(
+				Messages.getString( ResourceConstants.READ_ONLY_ARCHIVE ) );
 	}
 
 	public ArchiveEntry openEntry( String name ) throws IOException
@@ -182,7 +186,8 @@ public class ArchiveFileV1 implements IArchiveFile
 
 	public synchronized boolean removeEntry( String name ) throws IOException
 	{
-		throw new IOException( "read only archive" );
+		throw new IOException(
+				Messages.getString( ResourceConstants.READ_ONLY_ARCHIVE ) );
 	}
 
 	public Object lockEntry( String stream ) throws IOException
@@ -199,7 +204,8 @@ public class ArchiveFileV1 implements IArchiveFile
 	{
 		if ( !( locker instanceof ArchiveEntryV1 ) )
 		{
-			throw new IOException( "Invalide lock type:" + locker );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.INVALID_LOCK_TYPE, new Object[]{locker} ) );
 		}
 	}
 
@@ -213,11 +219,13 @@ public class ArchiveFileV1 implements IArchiveFile
 	synchronized void write( long pos, byte[] b, int off, int len )
 			throws IOException
 	{
-		throw new IOException( "read only archive" );
+		throw new IOException(
+				Messages.getString( ResourceConstants.READ_ONLY_ARCHIVE ) );
 	}
 
 	public synchronized void save( ) throws IOException
 	{
-		throw new IOException( "read only archive" );
+		throw new IOException(
+				Messages.getString( ResourceConstants.READ_ONLY_ARCHIVE ) );
 	}
 }

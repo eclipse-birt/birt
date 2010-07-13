@@ -13,6 +13,9 @@ package org.eclipse.birt.core.archive.compound.v3;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 /**
  * there are two kinds of caches in the file object:
  * 
@@ -138,12 +141,14 @@ public class Ext2File
 	{
 		if ( fs == null )
 		{
-			throw new IOException( "The archive file has been closed." );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 
 		if ( fs.isReadOnly( ) )
 		{
-			throw new IOException( "the file is opened in read only mode" );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 		}
 		node.setLength( length );
 		if ( position >= length )
@@ -166,7 +171,8 @@ public class Ext2File
 	{
 		if ( fs == null )
 		{
-			throw new IOException( "The archive file has been closed." );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 
 		assert buffer != null;
@@ -289,11 +295,13 @@ public class Ext2File
 	{
 		if ( fs == null )
 		{
-			throw new IOException( "The archive file has been closed." );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 		if ( fs.isReadOnly( ) )
 		{
-			throw new IOException( "the file is opened in read only mode" );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 		}
 
 		assert buffer != null;

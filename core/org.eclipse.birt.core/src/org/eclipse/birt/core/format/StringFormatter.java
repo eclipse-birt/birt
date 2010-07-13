@@ -15,6 +15,9 @@ import java.text.ParseException;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.util.ULocale;
 
@@ -389,10 +392,11 @@ public class StringFormatter
 				
 				for(int k=lenFormatStr; k<lenPattern; k++)
 				{
-					if(fstr.charAt(k)!='&')
+					if ( fstr.charAt( k ) != '&' )
 					{
-						throw new ParseException("Unparseable string: \"" + orig.toString() + "\"",
-								k);
+						throw new ParseException( Messages.getFormattedString(
+								ResourceConstants.UNPARSEABLE_STRING,
+								new Object[]{orig.toString( )} ), k );
 					}
 					orig.append(" "); //$NON-NLS-1$
 				}
@@ -403,8 +407,9 @@ public class StringFormatter
 				{
 					if(fstr.charAt(lenPattern-lenFormatStr-k-1)!='&')
 					{
-						throw new ParseException("Unparseable string: \"" + orig.toString() + "\"",
-								0);
+						throw new ParseException( Messages.getFormattedString(
+								ResourceConstants.UNPARSEABLE_STRING,
+								new Object[]{orig.toString( )} ), 0 );
 					}
 					orig.insert(0, " "); //$NON-NLS-1$
 				}
@@ -457,8 +462,9 @@ public class StringFormatter
 				default :
 					if(orig.charAt(index)!=fstr.charAt(i))
 					{
-						throw new ParseException("Unparseable string: \"" + orig.toString() + "\"",
-								index);
+						throw new ParseException( Messages.getFormattedString(
+								ResourceConstants.UNPARSEABLE_STRING,
+								new Object[]{orig.toString( )} ), index );
 					}
 					index++;
 					break;

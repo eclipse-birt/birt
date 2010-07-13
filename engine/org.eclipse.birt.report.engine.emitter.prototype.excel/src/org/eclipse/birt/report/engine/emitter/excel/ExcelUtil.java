@@ -17,7 +17,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -28,7 +27,6 @@ import java.util.regex.Pattern;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
@@ -48,7 +46,6 @@ public class ExcelUtil
 	private static final double SECONDS_PER_DAY = 86400.0;
 	private static final double SECONDS_PER_MINUTE = 60.0;
 	private static final double SECONDS_PER_HOUR = 3600.0;
-	protected static final Logger log = Logger.getLogger( ExcelUtil.class.getName( ) );
 	protected static final BigDecimal MAX_DOUBLE = new BigDecimal( Double.MAX_VALUE );
 	protected static final BigDecimal MIN_DOUBLE = MAX_DOUBLE.negate( ).subtract(
 			BigDecimal.ONE );
@@ -566,7 +563,7 @@ public class ExcelUtil
 		}
 		catch ( Exception e )
 		{
-			log.log(Level.WARNING, "unknown size: " + size);
+			logger.log( Level.WARNING, "unknown size: " + size );
 //			e.printStackTrace( );
 			return 0;
 		}
@@ -670,49 +667,6 @@ public class ExcelUtil
 				.lastIndexOf( "]" ) + 1 );
 	}
 	private static final int max_formula_length = 512;
-
-	public static String createFormula( String txt, String exp, List positions )
-	{
-		exp = getFormulaName( exp );
-		StringBuffer sb = new StringBuffer( exp + "(" );
-		for ( int i = 0; i < positions.size( ); i++ )
-		{
-			Position p = (Position) positions.get( i );
-			sb.append( "R" + p.row + "C" + p.column + "," );
-		}
-		sb.setCharAt( sb.length( ) - 1, ')' );
-
-		if ( sb.length( ) > max_formula_length || positions.size( ) == 0 )
-		{
-			return txt;
-		}
-		return sb.toString( );
-	}
-
-	private static String getFormulaName( String expression )
-	{
-		if ( expression.startsWith( "Total.sum" ) )
-		{
-			return "=SUM";
-		}
-		else if ( expression.startsWith( "Total.ave" ) )
-		{
-			return "=AVERAGE";
-		}
-		else if ( expression.startsWith( "Total.max" ) )
-		{
-			return "=MAX";
-		}
-		else if ( expression.startsWith( "Total.min" ) )
-		{
-			return "=MIN";
-		}
-		else if ( expression.startsWith( "Total.count" ) )
-		{
-			return "=COUNT";
-		}
-		throw new RuntimeException( "Cannot parse the expression" + expression );
-	}
 
 	private static final String reg1 = "Total." + "(count|ave|sum|max|min)"
 			+ "\\(", reg2 = "\\)", reg3 = "\\[", reg4 = "\\]";

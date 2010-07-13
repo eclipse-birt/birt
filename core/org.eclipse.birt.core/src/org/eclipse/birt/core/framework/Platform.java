@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.osgi.OSGILauncher;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -89,8 +90,7 @@ public class Platform
 			{
 				platform = null;
 				throw new BirtException( "org.eclipse.birt.core",
-						"Can not startup the OSGI framework",
-						new Object[]{}, ex );
+						ResourceConstants.CANNOT_STARTUP_OSGI_PLATFORM, ex );
 			}
 		}
 	}

@@ -15,6 +15,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 class BTreeHead implements BTreeConstants
 {
 
@@ -46,13 +49,16 @@ class BTreeHead implements BTreeConstants
 		long tag = in.readLong( );
 		if ( tag != MAGIC_TAG )
 		{
-			throw new IOException( "Invalid magic tag:"
-					+ Long.toHexString( tag ) );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.INVALID_MAGIC_TAG,
+					new Object[]{Long.toHexString( tag )} ) );
 		}
 		version = in.readInt( );
 		if ( version != BTREE_VERSION_0 )
 		{
-			throw new IOException( "Unsupported version:" + version );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.UNSUPPORTED_VERSION,
+					new Object[]{version} ) );
 		}
 		readV0( in );
 	}

@@ -17,6 +17,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamClass;
@@ -34,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.NativeJavaObject;
@@ -670,9 +673,8 @@ public class IOUtil
 		if ( typeIndex == -1 )
 		{
 			writeInt( dos, TYPE_NULL );
-			throw new IOException( "Data type of "
-					+ obValue.getClass( ).toString( )
-					+ " is not supported to be serialized" );
+			throw new NotSerializableException(
+					Messages.getString( ResourceConstants.NOT_SERIALIZABLE ) );
 		}
 
 		writeInt( dos, typeIndex );
@@ -1202,11 +1204,13 @@ public class IOUtil
 					count += 2;
 					if ( count > utflen )
 						throw new UTFDataFormatException(
-								"Malformed input: partial character at end" );
+								Messages.getString( ResourceConstants.MALFORMED_INPUT_ERROR ) );
 					char2 = (int) bytearr[count - 1];
 					if ( ( char2 & 0xC0 ) != 0x80 )
 						throw new UTFDataFormatException(
-								"Malformed input around byte " + count );
+								Messages.getFormattedString(
+										ResourceConstants.MALFORMED_INPUT_AROUND_BYTE,
+										new Object[]{count} ) );
 					chararr[chararr_count++] = (char) ( ( ( c & 0x1F ) << 6 ) | ( char2 & 0x3F ) );
 					break;
 				case 14 :
@@ -1214,20 +1218,24 @@ public class IOUtil
 					count += 3;
 					if ( count > utflen )
 						throw new UTFDataFormatException(
-								"Malformed input: partial character at end" );
+								Messages.getString( ResourceConstants.MALFORMED_INPUT_ERROR ) );
 					char2 = (int) bytearr[count - 2];
 					char3 = (int) bytearr[count - 1];
 					if ( ( ( char2 & 0xC0 ) != 0x80 )
 							|| ( ( char3 & 0xC0 ) != 0x80 ) )
 						throw new UTFDataFormatException(
-								"Malformed input around byte " + ( count - 1 ) );
+								Messages.getFormattedString(
+										ResourceConstants.MALFORMED_INPUT_AROUND_BYTE,
+										new Object[]{count - 1} ) );
 					chararr[chararr_count++] = (char) ( ( ( c & 0x0F ) << 12 )
 							| ( ( char2 & 0x3F ) << 6 ) | ( ( char3 & 0x3F ) << 0 ) );
 					break;
 				default :
 					// 10xx xxxx, 1111 xxxx
 					throw new UTFDataFormatException(
-							"Malformed input around byte " + count );
+							Messages.getFormattedString(
+									ResourceConstants.MALFORMED_INPUT_AROUND_BYTE,
+									new Object[]{count} ) );
 			}
 		}
 		return chararr_count;

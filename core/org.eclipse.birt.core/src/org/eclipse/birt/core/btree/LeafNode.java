@@ -15,6 +15,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 /**
  * 
  * the node structure is:
@@ -398,7 +401,9 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 					externalValues.read( in );
 					return externalValues;
 				}
-				throw new IOException( "unknown values type :" + type );
+				throw new IOException( Messages.getFormattedString(
+						ResourceConstants.UNKNOWN_VALUE_TYPE,
+						new Object[]{type} ) );
 			}
 			SingleValueList<K, V> singleValues = new SingleValueList<K, V>(
 					btree );

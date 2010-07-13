@@ -15,6 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 {
 	private String folderName;
@@ -28,7 +31,8 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	public FolderArchive( String folderName ) throws IOException
 	{
 		if ( folderName == null || folderName.length( ) == 0 )
-			throw new IOException( "The folder name is null or empty string." );
+			throw new IOException(
+					Messages.getString( ResourceConstants.FOLDER_NAME_IS_NULL ) );
 
 		this.folderName = new File( folderName ).getCanonicalPath( );
 

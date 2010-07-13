@@ -14,6 +14,9 @@ package org.eclipse.birt.core.preference;
 import java.io.NotSerializableException;
 import java.util.prefs.Preferences;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 public class PreferenceChangeEvent extends java.util.EventObject
 {
 
@@ -103,7 +106,8 @@ public class PreferenceChangeEvent extends java.util.EventObject
 	private void writeObject( java.io.ObjectOutputStream out )
 			throws NotSerializableException
 	{
-		throw new NotSerializableException( "Not serializable." );
+		throw new NotSerializableException(
+				Messages.getString( ResourceConstants.NOT_SERIALIZABLE ) );
 	}
 
 	/**
@@ -113,6 +117,7 @@ public class PreferenceChangeEvent extends java.util.EventObject
 	private void readObject( java.io.ObjectInputStream in )
 			throws NotSerializableException
 	{
-		throw new NotSerializableException( "Not serializable." );
+		throw new NotSerializableException(
+				Messages.getString( ResourceConstants.NOT_SERIALIZABLE ) );
 	}
 }

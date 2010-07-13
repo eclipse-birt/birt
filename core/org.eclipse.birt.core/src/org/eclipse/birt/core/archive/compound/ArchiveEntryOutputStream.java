@@ -15,6 +15,8 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.RAOutputStream;
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
  * An OutputStream wraper for RandomAccessStreamImpl.
@@ -65,7 +67,9 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 	{
 		if ( localPos < 0 )
 		{
-			throw new IOException( "Invalid seek offset " + localPos );
+			throw new IOException( Messages.getFormattedString(
+					ResourceConstants.INVALID_SEEK_OFFSET,
+					new Object[]{localPos} ) );
 		}
 		if ( localPos > entry.getLength( ) )
 		{

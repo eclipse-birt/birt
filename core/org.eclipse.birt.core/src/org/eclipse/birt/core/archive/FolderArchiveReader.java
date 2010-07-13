@@ -12,12 +12,16 @@
 package org.eclipse.birt.core.archive;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class FolderArchiveReader implements IDocArchiveReader
 {
@@ -35,15 +39,14 @@ public class FolderArchiveReader implements IDocArchiveReader
 	{
 		if ( folderName == null || folderName.length( ) == 0 )
 		{
-			throw new IOException(
-					"The folder archive name is null or empty string." );
+			throw new IllegalArgumentException( folderName );
 		}
 
 		File fd = new File( folderName );
-		if ( !fd.isDirectory( ) )
+		if ( !fd.exists( ) || !fd.isDirectory( ) )
 		{
-			throw new IOException(
-					"The specified name is not a folder name. The FolderArchiveReader is expecting a valid folder archive name." );
+			throw new FileNotFoundException( Messages.getFormattedString(
+					ResourceConstants.INVALID_ARCHIVE_NAME, folderName ) );
 		}
 		// make sure the folder name is an absolute path
 		this.folderName = fd.getCanonicalPath( );
@@ -120,7 +123,7 @@ public class FolderArchiveReader implements IDocArchiveReader
 		{
 			return new RAFolderInputStream( inputStreams, file );
 		}
-		throw new IOException( relativePath + " doesn't exit" );
+		throw new FileNotFoundException( relativePath );
 	}
 	
 	public RAInputStream getInputStream( String relativePath )

@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
+
 public class BTreeCursor<K, V>
 {
 
@@ -182,7 +185,8 @@ public class BTreeCursor<K, V>
 	{
 		if ( entry == null )
 		{
-			throw new IOException( "Invalid cursor position" );
+			throw new IOException(
+					Messages.getString( ResourceConstants.INVALID_CURSOR ) );
 		}
 		return btree.getKey( entry.getKey( ) );
 	}
@@ -214,7 +218,8 @@ public class BTreeCursor<K, V>
 			}
 			return list;
 		}
-		throw new IOException( "must initialize the cursor first" );
+		throw new IOException(
+				Messages.getString( ResourceConstants.CURSOR_NOT_INITIALIZED ) );
 	}
 
 	/**
