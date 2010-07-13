@@ -606,6 +606,12 @@
 			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
 		</copy>
 	
+		<copy todir="${export.dir}/lib">
+			<fileset dir="${buildDirectory}/plugins" />
+			<mapper type="regexp"  from="org.mozilla.javascript_.*.jar" to="js.jar"/>
+		</copy>
+	
+	
 		<copy todir="${export.dir}/lib">			
 			<!-- copy javax.servlet jar for generate birt.api fragment -->
 			<fileset dir="${baseLocation}/plugins" >
@@ -613,7 +619,6 @@
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.w3c.css.sac_*.jar"/>
-				<include name="org.mozilla.javascript_*.jar"/>
 				<include name="org.apache.commons.codec_*.jar"/>
 			</fileset>
 		</copy>
