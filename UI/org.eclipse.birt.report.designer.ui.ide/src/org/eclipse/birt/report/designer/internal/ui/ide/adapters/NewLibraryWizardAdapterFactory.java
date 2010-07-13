@@ -116,6 +116,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 			IStructuredSelection selection )
 	{
 		super( pageName, selection );
+		super.setFileExtension( fileExtension );
 	}
 
 	protected void createAdvancedControls( Composite parent )

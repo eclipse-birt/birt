@@ -61,7 +61,7 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 			IStructuredSelection selection, String fileType )
 	{
 		this( pageName, selection );
-
+		super.setFileExtension( fileType );
 		fileExtension = fileType;
 	}
 
