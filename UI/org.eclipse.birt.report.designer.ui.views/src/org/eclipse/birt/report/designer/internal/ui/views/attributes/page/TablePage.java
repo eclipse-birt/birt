@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.SWT;
 
 /**
@@ -160,6 +161,19 @@ public class TablePage extends GeneralPage
 		addSection( PageSectionId.TABLE_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_STYLE, styleSection ); //$NON-NLS-1$
+
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		displayProvider.enableReset( true );
+		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
+				container,
+				true );
+		displaySection.setProvider( displayProvider );
+		displaySection.setLayoutNum( 4 );
+		displaySection.setGridPlaceholder( 2, true );
+		displaySection.setWidth( 200 );
+		addSection( PageSectionId.TABLE_DISPLAY, displaySection );
+
 		addSection( PageSectionId.TABLE_CAN_SHRINK, canShrinkSection ); //$NON-NLS-1$
 
 		Section seperatorSection1 = new SeperatorSection( container,
@@ -191,9 +205,8 @@ public class TablePage extends GeneralPage
 								true );
 						if ( section instanceof SimpleComboSection )
 							( (SimpleComboSection) section ).setWidth( 200 );
-						section.setLayoutNum( 6 );
-						section.setGridPlaceholder( 4, true );
-						addSectionAfter( PageSectionId.TABLE_THEME,
+						section.setLayoutNum( 2 );
+						addSectionBefore( PageSectionId.TABLE_THEME,
 								section,
 								PageSectionId.TABLE_CAN_SHRINK );
 					}

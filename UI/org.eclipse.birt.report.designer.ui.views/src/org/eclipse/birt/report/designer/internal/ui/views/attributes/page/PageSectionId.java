@@ -57,6 +57,7 @@ public class PageSectionId
 	public final static String DATA_FONT_STYLE = "DATA_FONT_STYLE"; //$NON-NLS-1$
 	public final static String DATA_SEPERATOR_1 = "DATA_SEPERATOR_1"; //$NON-NLS-1$
 	public final static String DATA_STYLE = "DATA_STYLE"; //$NON-NLS-1$
+	public final static String DATA_DISPLAY = "DATA_DISPLAY"; //$NON-NLS-1$
 	public final static String DATA_THEME = "DATA_THEME"; //$NON-NLS-1$
 
 	public static final String DATASET_LIBRARY = "DATASET_LIBRARY"; //$NON-NLS-1$
@@ -282,6 +283,8 @@ public class PageSectionId
 	public static final String SCALAR_PARAMETER_ELEMENT_ID = "SCALAR_PARAMETER_ELEMENT_ID"; //$NON-NLS-1$
 
 	public static final String TABLE_SEPERATOR1 = "TABLE_SEPERATOR1"; //$NON-NLS-1$
+	
+	public static final String TABLE_DISPLAY = "TABLE_DISPLAY"; //$NON-NLS-1$
 
 	public static final String LIST_SEPERATOR = "LIST_SEPERATOR"; //$NON-NLS-1$
 

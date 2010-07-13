@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.swt.SWT;
 
 /**
@@ -42,8 +43,6 @@ import org.eclipse.swt.SWT;
  */
 public class DataPage extends GeneralPage
 {
-
-	private SimpleComboSection styleSection;
 
 	/*
 	 * (non-Javadoc)
@@ -111,7 +110,7 @@ public class DataPage extends GeneralPage
 		Section seperator2Section = new SeperatorSection( container,
 				SWT.HORIZONTAL );
 
-		styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
+		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
 				container,
 				true );
 
@@ -143,7 +142,7 @@ public class DataPage extends GeneralPage
 		colorSection.setLayoutNum( 2 );
 		bgColorSection.setLayoutNum( 4 );
 		fontStyleSection.setLayoutNum( 6 );
-		styleSection.setLayoutNum( 6 );
+		styleSection.setLayoutNum( 2 );
 
 		// Sets fill grid num.
 
@@ -153,7 +152,6 @@ public class DataPage extends GeneralPage
 		colorSection.setGridPlaceholder( 0, true );
 		bgColorSection.setGridPlaceholder( 2, true );
 		fontStyleSection.setGridPlaceholder( 3, true );
-		styleSection.setGridPlaceholder( 4, true );
 
 		// Adds sections into this page.
 
@@ -165,10 +163,21 @@ public class DataPage extends GeneralPage
 				true );
 		elementIdSection.setProvider( elementIdProvider );
 		elementIdSection.setWidth( 200 );
-		elementIdSection.setLayoutNum( 4 );
-		elementIdSection.setGridPlaceholder( 2, true );
+		elementIdSection.setLayoutNum( 2 );
 		addSection( PageSectionId.DATA_ELEMENT_ID, elementIdSection );
 
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		displayProvider.enableReset( true );
+		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
+				container,
+				true );
+		displaySection.setProvider( displayProvider );
+		displaySection.setLayoutNum( 4 );
+		displaySection.setGridPlaceholder( 2, true );
+		displaySection.setWidth( 200 );
+		
+		
 		addSection( PageSectionId.DATA_SEPERATOR, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_FAMILY, fontFamilySection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_SIZE, fontSizeSection ); //$NON-NLS-1$
@@ -177,6 +186,7 @@ public class DataPage extends GeneralPage
 		addSection( PageSectionId.DATA_FONT_STYLE, fontStyleSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_SEPERATOR_1, seperator2Section ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_STYLE, styleSection ); //$NON-NLS-1$
+		addSection( PageSectionId.DATA_DISPLAY, displaySection );
 
 	}
 
@@ -240,14 +250,11 @@ public class DataPage extends GeneralPage
 								true );
 						if ( section instanceof SimpleComboSection )
 							( (SimpleComboSection) section ).setWidth( 200 );
-						section.setLayoutNum( 4 );
-						section.setGridPlaceholder( 2, true );
+						section.setLayoutNum( 6 );
+						section.setGridPlaceholder( 4, true );
 						addSectionAfter( PageSectionId.DATA_THEME,
 								section,
-								PageSectionId.DATA_STYLE );
-						
-						styleSection.setLayoutNum( 2 );
-						styleSection.setGridPlaceholder( 0, false );
+								PageSectionId.DATA_DISPLAY );
 					}
 				}
 			}
