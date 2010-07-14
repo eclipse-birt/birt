@@ -927,7 +927,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			preCopy = mr.getRenderArea( );
 		}
 
-		if ( this.isInteractivityEnabled( ) && dph != null )
+		// Only render interactivity for data points here
+		if ( this.isInteractivityEnabled( )
+				&& dph != null
+				&& !( oParent instanceof Legend ) )
 		{
 			final Location panningOffset = this.getPanningOffset( );
 			final Engine3D engine3d = get3DEngine( );
@@ -941,10 +944,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				final EList<Trigger> elTriggers = se.getTriggers( );
 				if ( !elTriggers.isEmpty( ) )
 				{
-					final StructureSource iSource = ( oParent instanceof Legend )
-							? ( StructureSource.createSeries( se ) )
-							: ( WrappedStructureSource.createSeriesDataPoint( se,
-									dph ) );
+					final StructureSource iSource = ( WrappedStructureSource.createSeriesDataPoint( se,
+							dph ) );
 					final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( iSource,
 							InteractionEvent.class );
 					iev.setCursor( se.getCursor( ) );
@@ -1412,6 +1413,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * 
 	 * @throws ChartException
 	 */
+	@SuppressWarnings("deprecation")
 	protected final void renderLegendItem( IPrimitiveRenderer ipr, Legend lg,
 			Label la, Label valueLa, LegendItemHints lih, double dX, double dY,
 			double dItemHeight, double dColumnWidth, double dLeftInset,
