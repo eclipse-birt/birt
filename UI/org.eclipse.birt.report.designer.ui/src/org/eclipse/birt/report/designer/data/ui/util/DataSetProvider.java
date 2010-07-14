@@ -672,6 +672,7 @@ public final class DataSetProvider
 				columns[n].setTextFormat( hint.getTextFormat( ) );
 				columns[n].setDescription( hint.getDescription( ) );
 				columns[n].setWordWrap( hint.wordWrap( ) );
+				columns[n].setFormatValue( hint.getValueFormat( ) );
 			}
 
 			// Update the column in Model if necessary

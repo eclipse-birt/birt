@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -399,8 +400,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		displayNameKeyColumn.setWidth( 100 );
 	}
 	
-	protected void addNewDefn( ColumnDefn defn ) throws SemanticException
+	protected ColumnHintHandle addNewDefn( ColumnDefn defn )
+			throws SemanticException
 	{
+		ColumnHintHandle column = null;
 		String name = defn.getColumnName( );
 		if ( rsColumnMap != null )
 		{
@@ -413,12 +416,13 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			if ( rsColumns != null && columnHints != null )
 			{
 				rsColumns.addItem( defn.getResultSetColumn( ) );
-				columnHints.addItem( defn.getColumnHint( ) );
+				column = (ColumnHintHandle) columnHints.addItem( defn.getColumnHint( ) );
 
 				rsColumnMap.put( name, defn.getResultSetColumn( ) );
 				columnHintMap.put( name, defn.getColumnHint( ) );
 			}
 		}
+		return column;
 	}
 
 	protected void updateColumnDefMap( String oldName, ColumnDefn column )
@@ -948,7 +952,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		 * 
 		 * @return
 		 */
-		public String getAnalysis( )
+		public String getAnalysisType( )
 		{
 			if ( this.columnHintHandle != null )
 				return columnHintHandle.getAnalysis( );
@@ -970,6 +974,36 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				columnHintHandle.setAnalysis( analysis );
 			else
 				columnHint.setProperty( ColumnHint.ANALYSIS_MEMBER, analysis );
+		}
+		
+		/**
+		 * Gets the analysis column
+		 * 
+		 * @return
+		 */
+		public String getAnalysisColumn( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.getAnalysisColumn( );
+			else
+				return (String) columnHint.getProperty( null,
+						ColumnHint.ANALYSIS_COLUMN_MEMBER );
+		}
+		
+		/**
+		 * Sets the analysis column
+		 * 
+		 * @param analysisColumn
+		 * @throws SemanticException
+		 */
+		public void setAnalysisColumn( String analysisColumn )
+				throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setAnalysisColumn( analysisColumn );
+			else
+				columnHint.setProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER,
+						analysisColumn );
 		}
 
 		/**
@@ -1000,10 +1034,10 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		 */
 		public String getDataType( )
 		{
-			if(this.rsColumnHandle!=null)
-				return this.rsColumnHandle.getDataType();
-			else 
-				return this.rsColumn.getDataType();
+			if ( this.rsColumnHandle != null )
+				return this.rsColumnHandle.getDataType( );
+			else
+				return this.rsColumn.getDataType( );
 		}
 
 		/**
@@ -1216,6 +1250,35 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			else
 				return (String) columnHint.getProperty( null,
 						ColumnHint.TEXT_FORMAT_MEMBER );
+		}
+		
+		/**
+		 * 
+		 * 
+		 * @return
+		 */
+		public FormatValue getFormatValue( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.getValueFormat( );
+			else
+				return (FormatValue) columnHint.getProperty( null,
+						ColumnHint.VALUE_FORMAT_MEMBER );
+		}
+
+		/**
+		 * 
+		 * 
+		 * @param format
+		 * @throws SemanticException
+		 */
+		public void setFormatValue( FormatValue format )
+				throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setValueFormat( format );
+			else
+				columnHint.setProperty( ColumnHint.VALUE_FORMAT_MEMBER, format );
 		}
 
 		/**

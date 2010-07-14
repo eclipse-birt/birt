@@ -13,6 +13,7 @@ import java.sql.Types;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 
@@ -70,6 +71,8 @@ public class DataSetViewData
 	private transient String externalizedName = null;
 
 	private transient String analysisColumn = null;
+	
+	private FormatValue formatValue = null;
 
 	
 	public String getAnalysisColumn( )
@@ -434,5 +437,17 @@ public class DataSetViewData
 	public boolean isWordWrap( )
 	{
 		return wordWrap;
+	}
+
+
+	public void setFormatValue( FormatValue formatValue )
+	{
+		this.formatValue = formatValue;
+	}
+
+
+	public FormatValue getFormatValue( )
+	{
+		return formatValue;
 	}
 }

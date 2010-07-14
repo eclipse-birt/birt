@@ -93,7 +93,8 @@ public class ResultSetColumnPage extends Composite
 	{
 
 		protected String columnName;
-		protected String analysis;
+		protected String analysisType;
+		protected String analysisCoumn;
 		protected String alias;
 		//default type is "string"
 		protected int dataType = getTypeIndex( DesignChoiceConstants.PARAM_TYPE_STRING );
@@ -121,11 +122,11 @@ public class ResultSetColumnPage extends Composite
 	}
 
 	protected static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
-		.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-		.getMember( ComputedColumn.DATA_TYPE_MEMBER )
-		.getAllowedChoices( )
-		.getChoices( ); 
-	
+			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
+			.getAllowedChoices( )
+			.getChoices( );
+
 	protected static String COLUMN_NAME = Messages.getString( "dataset.editor.title.name" ); //$NON-NLS-1$
 	protected static String COLUMN_DATA_TYPE = Messages.getString( "dataset.editor.title.type" ); //$NON-NLS-1$
 	protected static String COLUMN_ALIAS = Messages.getString( "dataset.editor.title.alias" ); //$NON-NLS-1$
@@ -348,7 +349,7 @@ public class ResultSetColumnPage extends Composite
 		composite.setLayout( layout );
 
 		add = new Button( composite, SWT.NONE );
-		add.setText( Messages.getString( "ResultSetColumnPage.button.add" ) );
+		add.setText( Messages.getString( "ResultSetColumnPage.button.add" ) ); //$NON-NLS-1$
 		add.setEnabled( true );
 		add.addSelectionListener( new SelectionAdapter( ) {
 
@@ -360,7 +361,7 @@ public class ResultSetColumnPage extends Composite
 		} );
 		
 		edit = new Button( composite, SWT.NONE );
-		edit.setText( Messages.getString( "ResultSetColumnPage.button.edit" ) );
+		edit.setText( Messages.getString( "ResultSetColumnPage.button.edit" ) ); //$NON-NLS-1$
 		edit.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -371,7 +372,7 @@ public class ResultSetColumnPage extends Composite
 		} );
 		
 		delete = new Button( composite, SWT.NONE );
-		delete.setText( Messages.getString( "ResultSetColumnPage.button.delete" ) );
+		delete.setText( Messages.getString( "ResultSetColumnPage.button.delete" ) ); //$NON-NLS-1$
 		delete.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -542,7 +543,7 @@ public class ResultSetColumnPage extends Composite
 	protected void updateColumnHintProperties( ResultSetColumnModel model,
 			ColumnHintHandle columnHintHandle ) throws SemanticException
 	{
-		columnHintHandle.setAnalysis( model.analysis );
+		columnHintHandle.setAnalysis( model.analysisType );
 		columnHintHandle.setAlias( model.alias );
 		columnHintHandle.setDisplayName( model.displayName );
 		columnHintHandle.setHelpText( model.helpText );
