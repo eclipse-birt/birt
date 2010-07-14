@@ -24,7 +24,7 @@ public class CoreMessages
 {
 
 	/** The resource bundle name. */
-	private static final String BUNDLE_NAME = "org.eclipse.birt.core.i18n.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.eclipse.birt.core.i18n.Messages"; //$NON-NLS-1$
 
 	/** The resource bundle. */
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
