@@ -438,8 +438,7 @@ public class Radar extends BaseRenderer
 		}
 	}
 
-	private void renderAxes( IDeviceRenderer idr, PolarCoordinate pc,
-			Series se, double magnitude )
+	private void renderAxes( IDeviceRenderer idr, PolarCoordinate pc, double magnitude )
 	{
 		Location center = pc.getCenter( );
 		int iSeriesCount = getSeriesCount( ) - 1;
@@ -461,10 +460,13 @@ public class Radar extends BaseRenderer
 		{
 			lia = wlia;
 		}
-		final LineRenderEvent lre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
+		
+		StructureSource ss = StructureSource.createPlot( getModel( ).getPlot( ));
+		
+		final LineRenderEvent lre = ( (EventObjectCache) idr ).getEventObject( ss,
 				LineRenderEvent.class );
 
-		final OvalRenderEvent ore = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
+		final OvalRenderEvent ore = ( (EventObjectCache) idr ).getEventObject( ss,
 				OvalRenderEvent.class );
 
 		lre.setLineAttributes( lia );
@@ -666,7 +668,6 @@ public class Radar extends BaseRenderer
 	
 	private final void drawSeriesLabel( IDeviceRenderer idr,
 			PolarCoordinate pc, DataPointHints dph, Location lo )
-			throws ChartException
 	{
 		if ( se.getLabel( ).isVisible( ) )
 		{
@@ -842,7 +843,7 @@ public class Radar extends BaseRenderer
 			if ( se.getWebLineAttributes( ) != null
 					&& se.getWebLineAttributes( ).isVisible( ) )
 			{
-				renderAxes( idr, pc, se, mag );
+				renderAxes( idr, pc, mag );
 			}
 
 			RadarSeries rsd = getFirstSeries( );
