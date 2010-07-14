@@ -272,24 +272,32 @@ public class BIRTCubeResultSetEvaluator extends
 		if ( cubeCursor == null )
 		{
 			cubeCursor = getCubeCursor( );
+			initCursors( );
+		}
+	}
 
-			List<EdgeCursor> edges = cubeCursor.getOrdinateEdge( );
-			if ( edges.size( ) == 0 )
-			{
-				throw new ChartException( ChartReportItemPlugin.ID,
-						ChartException.DATA_BINDING,
-						Messages.getString( "exception.no.cube.edge" ) ); //$NON-NLS-1$
-			}
-			else if ( edges.size( ) == 1 )
-			{
-				this.mainEdgeCursor = edges.get( 0 );
-				this.subEdgeCursor = null;
-			}
-			else
-			{
-				this.mainEdgeCursor = edges.get( 0 );
-				this.subEdgeCursor = edges.get( 1 );;
-			}
+	/**
+	 * @throws OLAPException
+	 * @throws ChartException
+	 */
+	protected void initCursors( ) throws OLAPException, ChartException
+	{
+		List<EdgeCursor> edges = cubeCursor.getOrdinateEdge( );
+		if ( edges.size( ) == 0 )
+		{
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.DATA_BINDING,
+					Messages.getString( "exception.no.cube.edge" ) ); //$NON-NLS-1$
+		}
+		else if ( edges.size( ) == 1 )
+		{
+			this.mainEdgeCursor = edges.get( 0 );
+			this.subEdgeCursor = null;
+		}
+		else
+		{
+			this.mainEdgeCursor = edges.get( 0 );
+			this.subEdgeCursor = edges.get( 1 );;
 		}
 	}
 

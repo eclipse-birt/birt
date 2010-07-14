@@ -272,34 +272,7 @@ public class ChartCubeQueryHelper
 
 		List<SeriesDefinition> sdList = getAllSeriesDefinitions( cm );
 
-		ExpressionSet exprSet = new ExpressionSet( );
-
-		// Add measures and dimensions
-		for ( int i = 0; i < sdList.size( ); i++ )
-		{
-			SeriesDefinition sd = sdList.get( i );
-			List<Query> queryList = sd.getDesignTimeSeries( )
-					.getDataDefinition( );
-			for ( int j = 0; j < queryList.size( ); j++ )
-			{
-				Query query = queryList.get( j );
-				// Add measures or dimensions for data definition, and update
-				// query expression
-				exprSet.add( query.getDefinition( ) );
-			}
-
-			// Add measures or dimensions for optional grouping, and update
-			// query expression
-			exprSet.add( sd.getQuery( ).getDefinition( ) );
-		}
-
-		if ( expressions != null )
-		{
-			for ( String expr : expressions )
-			{
-				exprSet.add( expr );
-			}
-		}
+		ExpressionSet exprSet = getExpressions( expressions, sdList );
 
 		for ( String expr : exprSet )
 		{
@@ -333,6 +306,45 @@ public class ChartCubeQueryHelper
 		addAggregateOnToMeasures( levelsInOrder );
 
 		return cubeQuery;
+	}
+
+	/**
+	 * @param expressions
+	 * @param sdList
+	 * @return
+	 */
+	protected ExpressionSet getExpressions( String[] expressions,
+			List<SeriesDefinition> sdList )
+	{
+		ExpressionSet exprSet = new ExpressionSet( );
+
+		// Add measures and dimensions
+		for ( int i = 0; i < sdList.size( ); i++ )
+		{
+			SeriesDefinition sd = sdList.get( i );
+			List<Query> queryList = sd.getDesignTimeSeries( )
+					.getDataDefinition( );
+			for ( int j = 0; j < queryList.size( ); j++ )
+			{
+				Query query = queryList.get( j );
+				// Add measures or dimensions for data definition, and update
+				// query expression
+				exprSet.add( query.getDefinition( ) );
+			}
+
+			// Add measures or dimensions for optional grouping, and update
+			// query expression
+			exprSet.add( sd.getQuery( ).getDefinition( ) );
+		}
+
+		if ( expressions != null )
+		{
+			for ( String expr : expressions )
+			{
+				exprSet.add( expr );
+			}
+		}
+		return exprSet;
 	}
 
 	protected CubeHandle getCubeHandle( )
@@ -687,46 +699,7 @@ public class ChartCubeQueryHelper
 		}
 		else if ( exprCodec.isDimensionExpresion( ) )
 		{
-			if ( registeredLevels.containsKey( bindingName ) )
-			{
-				return;
-			}
-
-			// Add row/column edge
-			String[] levels = exprCodec.getLevelNames( );
-			String dimensionName = levels[0];
-			final int edgeType = getEdgeType( dimensionName );
-			IEdgeDefinition edge = cubeQuery.getEdge( edgeType );
-			IHierarchyDefinition hieDef = null;
-			if ( edge == null )
-			{
-				// Only create one edge/dimension/hierarchy in one
-				// direction
-				edge = cubeQuery.createEdge( edgeType );
-				IDimensionDefinition dimDef = edge.createDimension( dimensionName );
-				// Do not use qualified name since it may be from
-				// library
-				hieDef = dimDef.createHierarchy( cube.getDimension( dimDef.getName( ) )
-						.getDefaultHierarchy( )
-						.getName( ) );
-			}
-			else
-			{
-				hieDef = edge.getDimensions( ).get( 0 ).getHierarchy( ).get( 0 );
-			}
-
-			// Create level
-			ILevelDefinition levelDef = hieDef.createLevel( levels[1] );
-
-			registeredLevels.put( bindingName, levelDef );
-
-			LevelHandle levelHandle = handle.getModuleHandle( )
-					.findLevel( levelDef.getHierarchy( )
-							.getDimension( )
-							.getName( )
-							+ "/" + levelDef.getName( ) ); //$NON-NLS-1$
-
-			registeredLevelHandles.put( levelHandle, levelDef );
+			registerDimensionLevel( cubeQuery, cube, bindingName );
 		}
 		else if ( exprCodec.isCubeBinding( true ) )
 		{
@@ -735,6 +708,56 @@ public class ChartCubeQueryHelper
 			return;
 		}
 
+	}
+
+	/**
+	 * @param cubeQuery
+	 * @param cube
+	 * @param bindingName
+	 */
+	protected void registerDimensionLevel( ICubeQueryDefinition cubeQuery,
+			CubeHandle cube, String bindingName )
+	{
+		if ( registeredLevels.containsKey( bindingName ) )
+		{
+			return;
+		}
+
+		// Add row/column edge
+		String[] levels = exprCodec.getLevelNames( );
+		String dimensionName = levels[0];
+		final int edgeType = getEdgeType( dimensionName );
+		IEdgeDefinition edge = cubeQuery.getEdge( edgeType );
+		IHierarchyDefinition hieDef = null;
+		if ( edge == null )
+		{
+			// Only create one edge/dimension/hierarchy in one
+			// direction
+			edge = cubeQuery.createEdge( edgeType );
+			IDimensionDefinition dimDef = edge.createDimension( dimensionName );
+			// Do not use qualified name since it may be from
+			// library
+			hieDef = dimDef.createHierarchy( cube.getDimension( dimDef.getName( ) )
+					.getDefaultHierarchy( )
+					.getName( ) );
+		}
+		else
+		{
+			hieDef = edge.getDimensions( ).get( 0 ).getHierarchy( ).get( 0 );
+		}
+
+		// Create level
+		ILevelDefinition levelDef = hieDef.createLevel( levels[1] );
+
+		registeredLevels.put( bindingName, levelDef );
+
+		LevelHandle levelHandle = handle.getModuleHandle( )
+				.findLevel( levelDef.getHierarchy( )
+						.getDimension( )
+						.getName( )
+						+ "/" + levelDef.getName( ) ); //$NON-NLS-1$
+
+		registeredLevelHandles.put( levelHandle, levelDef );
 	}
 
 	/**
@@ -1115,7 +1138,7 @@ public class ChartCubeQueryHelper
 		return levelValues;
 	}
 
-	private int getEdgeType( String dimensionName )
+	protected int getEdgeType( String dimensionName )
 	{
 		if ( this.rowEdgeDimension == null )
 		{
@@ -1148,12 +1171,19 @@ public class ChartCubeQueryHelper
 								: -1;
 					}
 				}
-
+				
+				String dimB = b.getHierarchy( ).getDimension( ).getName( );
 				// If the level index is bigger, it should be latter.
 				HierarchyHandle hh = cubeHandle.getDimension( dimA )
 						.getDefaultHierarchy( );
+				HierarchyHandle hb = hh;
+				if ( !dimB.equals( dimA ) )
+				{
+					hb = cubeHandle.getDimension( dimB ).getDefaultHierarchy( );
+				}
+
 				return hh.getLevel( a.getName( ) ).getIndex( )
-						- hh.getLevel( b.getName( ) ).getIndex( );
+						- hb.getLevel( b.getName( ) ).getIndex( );
 			}
 		};
 	}
