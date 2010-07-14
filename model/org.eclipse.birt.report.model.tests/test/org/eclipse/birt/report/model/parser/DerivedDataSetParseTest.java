@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -38,12 +40,13 @@ public class DerivedDataSetParseTest extends BaseTestCase
 		}
 		catch ( PropertyNameException e )
 		{
-			assertEquals( PropertyNameException.DESIGN_EXCEPTION_PROPERTY_NAME_INVALID,
+			assertEquals(
+					PropertyNameException.DESIGN_EXCEPTION_PROPERTY_NAME_INVALID,
 					e.getErrorCode( ) );
 		}
 
 	}
-	
+
 	/**
 	 * Tests the parser and get APIs for derived data set.
 	 * 
@@ -74,7 +77,7 @@ public class DerivedDataSetParseTest extends BaseTestCase
 	public void testWriter( ) throws Exception
 	{
 		openDesign( fileName );
-		
+
 		DerivedDataSetHandle derivedDataSetHandle = (DerivedDataSetHandle) designHandle
 				.findDataSet( "derivedDataSet" ); //$NON-NLS-1$
 
@@ -90,8 +93,32 @@ public class DerivedDataSetParseTest extends BaseTestCase
 		derivedDataSetHandle.addInputDataSets( "DataSet1" ); //$NON-NLS-1$
 		designHandle.getDataSets( ).add( derivedDataSetHandle );
 
-		
 		save( );
 		assertTrue( compareFile( "DerivedDataSetParseTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	public void testCommand( ) throws Exception
+	{
+		openDesign( fileName );
+
+		DerivedDataSetHandle derivedDataSetHandle = (DerivedDataSetHandle) designHandle
+				.findDataSet( "derivedDataSet" ); //$NON-NLS-1$
+
+		DerivedDataSetHandle newDerivedHandle = (DerivedDataSetHandle) derivedDataSetHandle
+				.copy( ).getHandle( design );
+		designHandle.rename( newDerivedHandle );
+		designHandle.getDataSets( ).add( newDerivedHandle );
+		newDerivedHandle.addInputDataSets( derivedDataSetHandle.getName( ) );
+		
+		// circular reference
+		try
+		{
+			derivedDataSetHandle.addInputDataSets( newDerivedHandle.getName( ) );
+			fail();
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode( ) );
+		}
 	}
 }

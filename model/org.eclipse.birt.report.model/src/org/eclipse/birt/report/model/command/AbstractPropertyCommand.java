@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -548,6 +549,36 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		// throw new SemanticError( element,
 		// SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF );
 		// }
+
+		if ( result instanceof ElementRefValue
+				&& element instanceof ReferenceableElement )
+		{
+			ElementRefValue refValue = (ElementRefValue) result;
+			if ( refValue.isResolved( ) )
+			{
+				ReferenceableElement target = (ReferenceableElement) refValue
+						.getTargetElement( );
+				assert target != null;
+
+				List<BackRef> clients = ( (ReferenceableElement) element )
+						.getClientList( );
+				if ( clients != null )
+				{
+					for ( BackRef client : clients )
+					{
+						// circular reference
+						if ( client.getElement( ) == target )
+						{
+							throw new PropertyValueException(
+									target.getIdentifier( ),
+									PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+									IPropertyType.ELEMENT_REF_TYPE );
+						}
+					}
+				}
+
+			}
+		}
 		return result;
 
 	}
