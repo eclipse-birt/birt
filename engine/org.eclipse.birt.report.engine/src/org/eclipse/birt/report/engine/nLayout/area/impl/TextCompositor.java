@@ -57,6 +57,9 @@ public class TextCompositor
 	
 	private boolean isNewLine = true;
 	
+	// for no wrap text, the first exceed word should also been add into text area.
+	private boolean insertFirstExceedWord = false;
+	
 	//three possible line break collapse status
 	private static int LINE_BREAK_COLLAPSE_FREE = 0;
 	private static int LINE_BREAK_COLLAPSE_STANDING_BY = 1;
@@ -98,6 +101,10 @@ public class TextCompositor
 	public void setNewLineStatus( boolean status )
 	{
 		isNewLine = status;
+		if ( isNewLine && !textWrapping )
+		{
+			insertFirstExceedWord = true;
+		}
 	}
 
 	public TextArea getNextArea( int maxLineWidth )
@@ -271,6 +278,13 @@ public class TextCompositor
 		}
 		else
 		{
+			// for no wrap text, the first exceed word should also been add into text area.
+			if ( !textWrapping && insertFirstExceedWord )
+			{
+				addWord( textArea, textLength, wordWidth );
+				wordVestige = null;
+				insertFirstExceedWord = false;
+			}
 			if ( isNewLine && textArea.isEmpty( ) )
 			{
 				if ( context.isEnableHyphenation( ) )
