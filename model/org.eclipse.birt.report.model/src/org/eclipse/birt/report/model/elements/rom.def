@@ -1528,6 +1528,7 @@
     <Member displayNameID="Structure.ColumnHint.ACLExpression" name="ACLExpression" runtimeSettable="false" since="2.5.2" type="expression"/>
 	<Member displayNameID="Structure.ColumnHint.analysisColumn" name="analysisColumn" runtimeSettable="false" since="2.6" type="string"/>	
 	<Member detailType="FormatValue" displayNameID="Structure.ColumnHint.valueFormat" name="valueFormat" runtimeSettable="false" since="2.6" type="structure"/>
+	<Member displayNameID="Structure.ColumnHint.indexColumn" name="indexColumn" runtimeSettable="false" since="2.6.1" type="boolean"/> 
   </Structure>
   <Structure displayNameID="Structure.SortHint" name="SortHint" since="2.5">
   	<Member displayNameID="Structure.SortHint.columnName" name="columnName" since="2.5" type="string" />

@@ -279,7 +279,7 @@ public class ColumnHintHandle extends StructureHandle
 	 * 
 	 * @param format
 	 *            the format option to set
-	 * @deprecated            
+	 * @deprecated
 	 */
 
 	public void setFormat( String format )
@@ -330,8 +330,7 @@ public class ColumnHintHandle extends StructureHandle
 
 	public void setHelpTextKey( String helpTextResourceKey )
 	{
-		setPropertySilently( ColumnHint.HELP_TEXT_ID_MEMBER,
-				helpTextResourceKey );
+		setPropertySilently( ColumnHint.HELP_TEXT_ID_MEMBER, helpTextResourceKey );
 	}
 
 	/**
@@ -420,8 +419,7 @@ public class ColumnHintHandle extends StructureHandle
 	 *            column.
 	 * @throws SemanticException
 	 */
-	public void setOnColumnLayout( boolean onColumnLayout )
-			throws SemanticException
+	public void setOnColumnLayout( boolean onColumnLayout ) throws SemanticException
 	{
 		setProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, onColumnLayout );
 	}
@@ -753,10 +751,38 @@ public class ColumnHintHandle extends StructureHandle
 	 *            the value format to set
 	 * @throws SemanticException
 	 */
-	public void setValueFormat( FormatValue format )
-			throws SemanticException
+	public void setValueFormat( FormatValue format ) throws SemanticException
 	{
 		setProperty( ColumnHint.VALUE_FORMAT_MEMBER, format );
-	}	
+	}
 
+	/**
+	 * Gets the flag which indicates whether the column should be generated with
+	 * index.
+	 * 
+	 * @return true if the column should be generated with index, otherwise
+	 *         false
+	 */
+	public boolean isIndexColumn( )
+	{
+		Boolean indexColumn = (Boolean) getProperty( ColumnHint.INDEX_COLUMN_MEMBER );
+		if ( indexColumn != null )
+		{
+			return indexColumn.booleanValue( );
+		}
+		return false;
+	}
+
+	/**
+	 * Sets the flag which indicates whether the column should be generated with
+	 * index.
+	 * 
+	 * @param indexColumn
+	 *            the new flag to set
+	 * @throws SemanticException
+	 */
+	public void setIndexColumn( boolean indexColumn ) throws SemanticException
+	{
+		setProperty( ColumnHint.INDEX_COLUMN_MEMBER, indexColumn );
+	}
 }

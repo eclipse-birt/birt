@@ -49,11 +49,12 @@
                     <property name="textFormat">&lt;</property>
                     <text-property name="description" key="newDescriptionKey">New Description</text-property>
                     <expression name="ACLExpression" type="javascript">ACL expression</expression>
-                    <property name="analysisColumn">new analysis column</property>
+                    <property name="analysisColumn">new analysis column</property>                    
 					<structure name="valueFormat">
                         <property name="category">Custom</property>
                         <property name="pattern">test number pattern</property>
-                    </structure>                                
+                    </structure>
+                    <property name="indexColumn">false</property>                                
                 </structure>
             </list-property>
             <list-property name="filter">

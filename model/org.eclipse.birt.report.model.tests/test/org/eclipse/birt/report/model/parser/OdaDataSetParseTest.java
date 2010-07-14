@@ -39,8 +39,6 @@ import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
-import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
@@ -48,8 +46,6 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
-import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
@@ -265,6 +261,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		columnHintHandle.setDescriptionKey( "newDescriptionKey" ); //$NON-NLS-1$
 
 		columnHintHandle.setAnalysisColumn( "new analysis column" ); //$NON-NLS-1$
+		columnHintHandle.setIndexColumn( false );
 
 		NumberFormatValue numberFormat = new NumberFormatValue( );
 		numberFormat
@@ -497,6 +494,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		assertEquals( "string pattern", columnHintHandle.getValueFormat( )
 				.getPattern( ) );
 
+		assertTrue( columnHintHandle.isIndexColumn( ) );
 		// Test "filter" on DataSet
 
 		ArrayList filters = (ArrayList) dataSet
