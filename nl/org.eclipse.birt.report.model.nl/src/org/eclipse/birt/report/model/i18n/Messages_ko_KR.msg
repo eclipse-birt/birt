@@ -2057,6 +2057,7 @@ Structure.ColumnHint.action=작업
 Structure.ColumnHint.ACLExpression=ACL 식	
 Structure.ColumnHint.analysisColumn=분석 열
 Structure.ColumnHint.valueFormat=값 형식
+Structure.ColumnHint.indexColumn=Index Column
 
 #12. SelectionList Choice
 Structure.SelectionChoice=선택 영역 선택

@@ -2057,6 +2057,7 @@ Structure.ColumnHint.action=Às
 Structure.ColumnHint.ACLExpression=ACL ®	
 Structure.ColumnHint.analysisColumn=•ªÍ—ñ
 Structure.ColumnHint.valueFormat=’l‚Ì‘®
+Structure.ColumnHint.indexColumn=Index Column
 
 #12. SelectionList Choice
 Structure.SelectionChoice=‘I‘ğ€–Ú

@@ -2057,6 +2057,7 @@ Structure.ColumnHint.action=操作
 Structure.ColumnHint.ACLExpression=ACL 表达式	
 Structure.ColumnHint.analysisColumn=分析列
 Structure.ColumnHint.valueFormat=值格式
+Structure.ColumnHint.indexColumn=Index Column
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项

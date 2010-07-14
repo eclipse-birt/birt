@@ -2057,6 +2057,7 @@ Structure.ColumnHint.action=Action
 Structure.ColumnHint.ACLExpression=Expression ACL	
 Structure.ColumnHint.analysisColumn=Colonne Analyse
 Structure.ColumnHint.valueFormat=Format de la valeur
+Structure.ColumnHint.indexColumn=Index Column
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Choix de sélection
