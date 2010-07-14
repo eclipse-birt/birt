@@ -479,7 +479,13 @@ public final class SwingChartViewerSelector extends JPanel implements
 
 			if ( cm instanceof ChartWithAxes )
 			{
-				jcbTransposed.setEnabled( true );
+				boolean bStockChart = i==7;
+				jcbTransposed.setEnabled( !bStockChart ); // stock charts does not support transpose
+				if (bStockChart)
+				{
+					jcbTransposed.setSelected( false );
+				}
+				
 				jcbLogarithmic.setEnabled( true );
 				jcbPercent.setEnabled( true );
 
