@@ -1312,7 +1312,9 @@
     <Member detailType="textAlign" displayNameID="Structure.HighlightRule.format.number.align" name="numberAlign" since="1.0" type="choice"/>
     <Member detailType="StringFormatValue" displayNameID="Structure.HighlightRule.format.string" name="stringFormat" since="1.0" type="structure"/>
     <Member detailType="fontFamily" displayNameID="Structure.HighlightRule.font.family" name="fontFamily" since="1.0" type="string"/>
-    <Member detailType="fontSize" displayNameID="Structure.HighlightRule.font.size" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator"/>
+    <Member detailType="fontSize" displayNameID="Structure.HighlightRule.font.size" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator">    	
+    	<Default>10pt</Default>
+    </Member>
     <Member detailType="fontStyle" displayNameID="Structure.HighlightRule.font.style" name="fontStyle" since="1.0" type="choice"/>
     <Member detailType="fontWeight" displayNameID="Structure.HighlightRule.font.weight" name="fontWeight" since="1.0" type="choice"/>
     <Member detailType="fontVariant" displayNameID="Structure.HighlightRule.font.variant" name="fontVariant" since="1.0" type="choice"/>
@@ -1623,7 +1625,9 @@
     <Member detailType="textAlign" displayNameID="Structure.TOC.format.number.align" name="numberAlign" since="1.0" type="choice"/>
     <Member detailType="StringFormatValue" displayNameID="Structure.TOC.format.string" name="stringFormat" since="1.0" type="structure"/>
     <Member detailType="fontFamily" displayNameID="Structure.TOC.font.family" name="fontFamily" since="1.0" type="string"/>
-    <Member detailType="fontSize" displayNameID="Structure.TOC.font.size" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator"/>
+    <Member detailType="fontSize" displayNameID="Structure.TOC.font.size" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator">
+    	<Default>10pt</Default>
+    </Member>
     <Member detailType="fontStyle" displayNameID="Structure.TOC.font.style" name="fontStyle" since="1.0" type="choice"/>
     <Member detailType="fontWeight" displayNameID="Structure.TOC.font.weight" name="fontWeight" since="1.0" type="choice"/>
     <Member detailType="fontVariant" displayNameID="Structure.TOC.font.variant" name="fontVariant" since="1.0" type="choice"/>
@@ -2171,7 +2175,7 @@
       </Property>
       <Property detailType="fontSize" displayNameID="Element.Style.font.size" isStyleProperty="true" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator">
 		<DefaultUnit>pt</DefaultUnit>      
-        <Default>medium</Default>        
+        <Default>10pt</Default>        
       </Property>
       <Property detailType="fontStyle" displayNameID="Element.Style.font.style" isStyleProperty="true" name="fontStyle" since="1.0" type="choice">
         <Default>normal</Default>

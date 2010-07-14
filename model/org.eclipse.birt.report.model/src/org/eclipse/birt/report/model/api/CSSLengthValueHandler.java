@@ -71,8 +71,8 @@ class CSSLengthValueHandler
 			Object defaultValue = fontSizePropDefn.getDefault( );
 			if ( defaultValue instanceof DimensionValue )
 				defaultFontSizeValue = (DimensionValue) defaultValue;
-
-			defaultFontSizeValue = provider.getValueOf( (String) defaultValue );
+			else
+				defaultFontSizeValue = provider.getValueOf( (String) defaultValue );
 		}
 		return defaultFontSizeValue;
 	}

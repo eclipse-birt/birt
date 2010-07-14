@@ -17,13 +17,17 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.strategy.CellPropSearchStrategy;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * This class represents a cell element. Each grid row or table row contains
@@ -206,4 +210,33 @@ public class Cell extends StyledElement implements ICellModel
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+	public Object getProperty( Module module, ElementPropertyDefn prop )
+	{
+		if ( IStyleModel.TEXT_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) ) )
+		{
+			Object value = cachedPropStrategy.getPropertyExceptRomDefault( module,
+					this, prop );
+			if ( value == null )
+			{
+				DesignElement row = getContainer( );
+				if ( row instanceof TableRow
+						&& row.getContainer( ) instanceof TableItem
+						&& row.getContainerInfo( ).getSlotID( ) == IListingElementModel.HEADER_SLOT )
+				{
+					return DesignChoiceConstants.TEXT_ALIGN_CENTER;
+				}
+				return prop.getDefault( );
+			}
+			return value;
+		}
+		return super.getProperty( module, prop );
+	}
 }

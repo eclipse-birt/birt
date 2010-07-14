@@ -266,8 +266,7 @@ public class DimensionHandleTest extends BaseTestCase
 		// not defined in the design file and with the default value.
 
 		dimensionHandle = styleHandle.getFontSize( );
-		assertEquals( DesignChoiceConstants.FONT_SIZE_MEDIUM, dimensionHandle
-				.getStringValue( ) );
+		assertEquals( "10pt", dimensionHandle.getStringValue( ) ); //$NON-NLS-1$
 	}
 
 	/**

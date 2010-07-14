@@ -70,88 +70,93 @@
         </style>
     </styles>
     <body>
-        <free-form name="form1" id="5">
-            <property name="fontSize">12px</property>
-            <property name="textIndent">3em</property>
-            <property name="x">12in</property>
-            <property name="y">0in</property>
+        <free-form id="5">
+            <property name="fontSize">medium</property>
             <report-items>
-                <text name="text1" id="6">
-                    <property name="fontSize">15px</property>
-                </text>
-            </report-items>
-        </free-form>
-        <free-form name="form2" id="7">
-            <property name="fontSize">12px</property>
-            <report-items>
-                <text name="text2" id="8">
-                    <property name="fontSize">15px</property>
+                <free-form name="form1" id="6">
+                    <property name="fontSize">12px</property>
                     <property name="textIndent">3em</property>
-                </text>
-            </report-items>
-        </free-form>
-        <free-form name="form3" id="9">
-            <property name="style">My-Style</property>
-            <property name="textIndent">3em</property>
-            <report-items>
-                <text name="text3" id="10">
-                    <property name="textIndent">5em</property>
-                </text>
-            </report-items>
-        </free-form>
-        <free-form name="form4" id="11">
-            <property name="textIndent">3em</property>
-            <report-items>
-                <text name="text4" id="12"/>
-            </report-items>
-        </free-form>
-        <free-form name="form5" id="13">
-            <property name="fontSize">20px</property>
-            <property name="textIndent">3em</property>
-            <report-items>
-                <text name="text5" id="14">
-                    <property name="fontSize">15px</property>
-                </text>
-            </report-items>
-        </free-form>
-        <free-form name="form6" id="15">
-            <property name="fontSize">19px</property>
-            <report-items>
-                <free-form name="innerForm6" id="16">
-                    <property name="backgroundPositionX">2em</property>
-                    <property name="textIndent">3em</property>
+                    <property name="x">12in</property>
+                    <property name="y">0in</property>
                     <report-items>
-                        <text name="text6" id="17">
+                        <text name="text1" id="7">
                             <property name="fontSize">15px</property>
                         </text>
                     </report-items>
                 </free-form>
-            </report-items>
-        </free-form>
-        <free-form name="form7" id="18">
-            <property name="fontSize">12px</property>
-            <property name="textIndent">3ex</property>
-            <report-items>
-                <text name="text7" id="19">
-                    <property name="fontSize">15px</property>
-                </text>
-            </report-items>
-        </free-form>
-        <free-form name="form8" id="20">
-            <report-items>
-                <text name="text8" id="21"/>
-            </report-items>
-        </free-form>
-        <free-form name="form9" id="22">
-            <property name="fontSize">20px</property>
-            <report-items>
-                <free-form name="innerForm9" id="23">
-                    <property name="fontSize">larger</property>
-                    <property name="textIndent">3ex</property>
+                <free-form name="form2" id="8">
+                    <property name="fontSize">12px</property>
                     <report-items>
-                        <text name="text9" id="24">
+                        <text name="text2" id="9">
+                            <property name="fontSize">15px</property>
+                            <property name="textIndent">3em</property>
+                        </text>
+                    </report-items>
+                </free-form>
+                <free-form name="form3" id="10">
+                    <property name="style">My-Style</property>
+                    <property name="textIndent">3em</property>
+                    <report-items>
+                        <text name="text3" id="11">
+                            <property name="textIndent">5em</property>
+                        </text>
+                    </report-items>
+                </free-form>
+                <free-form name="form4" id="12">
+                    <property name="textIndent">3em</property>
+                    <report-items>
+                        <text name="text4" id="13"/>
+                    </report-items>
+                </free-form>
+                <free-form name="form5" id="14">
+                    <property name="fontSize">20px</property>
+                    <property name="textIndent">3em</property>
+                    <report-items>
+                        <text name="text5" id="15">
                             <property name="fontSize">15px</property>
                         </text>
+                    </report-items>
+                </free-form>
+                <free-form name="form6" id="16">
+                    <property name="fontSize">19px</property>
+                    <report-items>
+                        <free-form name="innerForm6" id="17">
+                            <property name="backgroundPositionX">2em</property>
+                            <property name="textIndent">3em</property>
+                            <report-items>
+                                <text name="text6" id="18">
+                                    <property name="fontSize">15px</property>
+                                </text>
+                            </report-items>
+                        </free-form>
+                    </report-items>
+                </free-form>
+                <free-form name="form7" id="19">
+                    <property name="fontSize">12px</property>
+                    <property name="textIndent">3ex</property>
+                    <report-items>
+                        <text name="text7" id="20">
+                            <property name="fontSize">15px</property>
+                        </text>
+                    </report-items>
+                </free-form>
+                <free-form name="form8" id="21">
+                    <report-items>
+                        <text name="text8" id="22"/>
+                    </report-items>
+                </free-form>
+                <free-form name="form9" id="23">
+                    <property name="fontSize">20px</property>
+                    <report-items>
+                        <free-form name="innerForm9" id="24">
+                            <property name="fontSize">larger</property>
+                            <property name="textIndent">3ex</property>
+                            <report-items>
+                                <text name="text9" id="25">
+                                    <property name="fontSize">15px</property>
+                                </text>
+                            </report-items>
+                        </free-form>
                     </report-items>
                 </free-form>
             </report-items>
