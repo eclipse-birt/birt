@@ -272,10 +272,10 @@ public class ComplexUnit extends Canvas
 	 */
 	protected void fireValueChanged( )
 	{
-		if ( !verify( text.getText( ) ) )
-		{
-			return;
-		}
+//		if ( !verify( text.getText( ) ) )
+//		{
+//			return;
+//		}
 		for ( int i = 0; i < valueChangedlisteners.size( ); i++ )
 		{
 			String value = text.getText( ).trim( );
