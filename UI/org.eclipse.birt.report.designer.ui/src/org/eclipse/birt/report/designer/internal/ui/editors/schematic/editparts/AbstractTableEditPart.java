@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableBorderLayer;
 import org.eclipse.birt.report.designer.internal.ui.layout.FixTableLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
@@ -31,6 +32,8 @@ import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Display;
 
 /**
  *Abstract class for the table editpart. 
@@ -140,11 +143,24 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 			{
 				if (((ReportItemHandle)getModel()).getViews( ).size( ) > 0)
 				{
+					final Object tempModel = getModel( );
+					final DeferredGraphicalViewer viewer = (DeferredGraphicalViewer)getViewer( );
 					markDirty( true );
 					EditPart part = getParent( );
 					((ReportElementEditPart)getParent( )).removeChild( this );
 					part.refresh( );
 					removeGuideFeedBack( );
+					Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+						public void run( )
+						{
+							Object part = viewer.getEditPartRegistry( ).get( tempModel );
+							if (part != null)
+							{
+								viewer.setSelection( new StructuredSelection( part ) );
+							}
+						}
+					} );
 					return;
 				}
 				else
