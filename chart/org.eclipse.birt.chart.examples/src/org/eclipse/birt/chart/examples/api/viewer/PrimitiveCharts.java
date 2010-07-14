@@ -239,7 +239,6 @@ public final class PrimitiveCharts
 
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getTitle( ).setVisible( true );
 
 		// Y-Axis
@@ -334,7 +333,6 @@ public final class PrimitiveCharts
 		
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getTitle( ).setVisible( true );
 		
 		// Add triggers and cursor to X axis.
@@ -448,7 +446,6 @@ public final class PrimitiveCharts
 		xAxisPrimary.setTitlePosition( Position.BELOW_LITERAL );
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.setLabelPosition( Position.BELOW_LITERAL );
 
 		// Y-Axis
@@ -523,7 +520,6 @@ public final class PrimitiveCharts
 		Axis xAxisPrimary = cwaLine.getPrimaryBaseAxes( )[0];
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getTitle( ).setVisible( true );
 
 		// Y-Axis
@@ -590,7 +586,6 @@ public final class PrimitiveCharts
 		Axis xAxisPrimary = cwaLine.getPrimaryBaseAxes( )[0];
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getTitle( ).setVisible( true );
 
 		// Y-Axis
@@ -840,7 +835,6 @@ public final class PrimitiveCharts
 				.setShadowColor( ColorDefinitionImpl.create( 225, 225, 225 ) );
 		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 25 );
 
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.setTitlePosition( Position.BELOW_LITERAL );
 		xAxisPrimary.setLabelPosition( Position.BELOW_LITERAL );
 
@@ -1069,7 +1063,6 @@ public final class PrimitiveCharts
 				.setColor( ColorDefinitionImpl.GREY( ) );
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 
 		// Y-Axis
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaScatter ).getPrimaryOrthogonalAxis( xAxisPrimary );
@@ -1179,8 +1172,6 @@ public final class PrimitiveCharts
 				.getLineAttributes( )
 				.setColor( ColorDefinitionImpl.GREY( ) );
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
-
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 
 		// Y-Axis
 		Axis yAxisPrimary = cwa.getPrimaryOrthogonalAxis( xAxisPrimary );
@@ -1300,7 +1291,6 @@ public final class PrimitiveCharts
 		xAxisPrimary.setLabelPosition( Position.ABOVE_LITERAL );
 
 		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
 
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.ABOVE_LITERAL );
 		xAxisPrimary.getMajorGrid( )
@@ -2318,7 +2308,6 @@ public final class PrimitiveCharts
 
 		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getTitle( ).setVisible( true );
 
 		// Y-Axis
