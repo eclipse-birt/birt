@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.page;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartBindingGroupDescriptorProvider;
-import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartShareBindingsFormHandlerProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AggregateOnBindingsFormHandleProvider;
@@ -29,6 +31,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.Aggr
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 public class ChartBindingPage extends BindingPage
 {
@@ -39,7 +44,16 @@ public class ChartBindingPage extends BindingPage
 		bindingProvider.setRefrenceSection( ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ) );
 		( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).setProvider( bindingProvider );
 		AggregateOnBindingsFormHandleProvider dataSetFormProvider = createDataSetFormProvider();
-		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) );
+		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setCustomForm( new AggregateOnBindingsFormDescriptor( true ) {
+
+			@Override
+			public void setInput( Object object )
+			{
+				super.setInput( object );
+				// always enable refresh button
+				btnRefresh.setEnabled( true );
+			}
+		} );
 		( (SortingFormSection) getSection( PageSectionId.BINDING_DATASET_FORM ) ).setProvider( dataSetFormProvider );
 		if ( ( (BindingGroupSection) getSection( PageSectionId.BINDING_GROUP ) ).getProvider( ) != null )
 		{
@@ -93,6 +107,49 @@ public class ChartBindingPage extends BindingPage
 						&& !ChartItemUtil.isChartInheritGroups( rih )
 						&& !ChartCubeUtil.isAxisChart( rih )
 						&& !ChartCubeUtil.isPlotChart( rih );
+			}
+
+			@Override
+			public void generateAllBindingColumns( )
+			{
+				// for cube binding refresh
+				super.generateAllBindingColumns( );
+				if ( getBindingObject( ) != null )
+				{
+					CubeHandle cube = null;
+					if ( getBindingObject( ) instanceof ExtendedItemHandle )
+					{
+						cube = ( (ExtendedItemHandle) getBindingObject( ) ).getCube( );
+					}
+					if ( cube != null )
+					{
+						try
+						{
+							ExtendedItemHandle inputElement = (ExtendedItemHandle) getBindingObject( );
+							List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
+							inputElement.getColumnBindings( ).clearValue( );
+
+							columnList = ChartXTabUIUtil.generateComputedColumns( inputElement,
+									cube );
+
+							if ( columnList.size( ) > 0 )
+							{
+								for ( Iterator<ComputedColumn> iter = columnList.iterator( ); iter.hasNext( ); )
+								{
+									DEUtil.addColumn( inputElement,
+											iter.next( ),
+											false );
+								}
+							}
+						}
+						catch ( SemanticException e )
+						{
+							// do nothing
+						}
+						
+					}
+				}
+
 			}
 
 		};

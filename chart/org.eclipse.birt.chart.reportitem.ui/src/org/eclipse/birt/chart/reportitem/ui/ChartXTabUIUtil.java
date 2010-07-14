@@ -28,12 +28,21 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 
 /**
@@ -274,6 +283,67 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 
 				return levelNames;
 			}
+		}
+		return Collections.emptyList( );
+	}
+
+	public static List<ComputedColumn> generateComputedColumns(
+			ExtendedItemHandle itemHandle, CubeHandle cubeHandle )
+	{
+		if ( cubeHandle != null )
+		{
+			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
+
+			String exprType = UIUtil.getDefaultScriptType( );
+			IExpressionConverter exprConverter = ExpressionUtility.getExpressionConverter( exprType );
+			// Add levels
+			for ( LevelHandle levelHandle : ChartCubeUtil.getAllLevels( cubeHandle ) )
+			{
+				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
+						ChartCubeUtil.createLevelBindingName( levelHandle ) );
+				column.setDataType( levelHandle.getDataType( ) );
+				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+						new Expression( exprConverter.getDimensionExpression( levelHandle.getContainer( )
+								.getContainer( )
+								.getName( ),
+								levelHandle.getName( ),
+								null ),
+								exprType ) );
+				columnList.add( column );
+
+				// Add LevelAttributes
+				Iterator itLevelAttr = levelHandle.attributesIterator( );
+				while ( itLevelAttr.hasNext( ) )
+				{
+					LevelAttributeHandle laHandle = (LevelAttributeHandle) itLevelAttr.next( );
+					ComputedColumn columnLA = StructureFactory.newComputedColumn( itemHandle,
+							ChartCubeUtil.createLevelAttrBindingName( levelHandle,
+									laHandle ) );
+					columnLA.setDataType( laHandle.getDataType( ) );
+					columnLA.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+							new Expression( exprConverter.getDimensionExpression( levelHandle.getContainer( )
+									.getContainer( )
+									.getName( ),
+									levelHandle.getName( ),
+									laHandle.getName( ) ),
+									exprType ) );
+					columnList.add( columnLA );
+				}
+
+			}
+			// Add measures
+			for ( MeasureHandle measureHandle : ChartCubeUtil.getAllMeasures( cubeHandle ) )
+			{
+				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
+						ChartCubeUtil.createMeasureBindingName( measureHandle ) );
+				column.setDataType( measureHandle.getDataType( ) );
+				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+						new Expression( exprConverter.getMeasureExpression( measureHandle.getName( ) ),
+								exprType ) );
+				column.setAggregateFunction( measureHandle.getFunction( ) );
+				columnList.add( column );
+			}
+			return columnList;
 		}
 		return Collections.emptyList( );
 	}

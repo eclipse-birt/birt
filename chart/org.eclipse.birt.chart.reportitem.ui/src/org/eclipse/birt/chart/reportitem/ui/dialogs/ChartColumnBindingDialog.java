@@ -17,10 +17,10 @@ import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -30,14 +30,13 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -142,7 +141,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 			btnEdit.setEnabled( false );
 			btnDel.setEnabled( false );
 			getAggregationButton( ).setEnabled( false );
-			btnRefresh.setEnabled( false );
+			// btnRefresh.setEnabled( false );
 		}
 	}
 
@@ -212,29 +211,14 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 							// dimension or measure to current report item as
 							// bindings.
 							
-							// Add levels
-							List<LevelHandle> levels = ChartCubeUtil.getAllLevels( cubeHandle );
-							for ( Iterator<LevelHandle> iter = levels.iterator( ); iter.hasNext( ); )
-							{
-								LevelHandle levelHandle = iter.next( );
-								ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
-										ChartCubeUtil.createLevelBindingName( levelHandle ) );
-								column.setDataType( levelHandle.getDataType( ) );
-								column.setExpression( ChartCubeUtil.createDimensionExpression( levelHandle ) );
-								columnList.add( column );
-							}
-							// Add measures
-							List<MeasureHandle> measures = ChartCubeUtil.getAllMeasures( cubeHandle );
-							for ( Iterator<MeasureHandle> iter = measures.iterator( ); iter.hasNext( ); )
-							{
-								MeasureHandle measureHandle = iter.next( );
-								ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
-										ChartCubeUtil.createMeasureBindingName( measureHandle ) );
-								column.setDataType( measureHandle.getDataType( ) );
-								column.setExpression( ExpressionUtil.createJSMeasureExpression( measureHandle.getName( ) ) );
-								column.setAggregateFunction( measureHandle.getFunction( ) );
-								columnList.add( column );
-							}
+							// since chart's cube binding is not editable, so
+							// there's no newly added column binding on chart
+							// item, we could clear the bindings first
+							// this can help remove the bindings which not exist
+							inputElement.getColumnBindings( ).clearValue( );
+
+							columnList = ChartXTabUIUtil.generateComputedColumns( (ExtendedItemHandle) inputElement,
+									cubeHandle );
 
 							if ( columnList.size( ) > 0 )
 							{

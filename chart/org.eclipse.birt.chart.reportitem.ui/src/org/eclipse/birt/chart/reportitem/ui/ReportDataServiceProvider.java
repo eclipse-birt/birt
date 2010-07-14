@@ -89,7 +89,6 @@ import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
-import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -114,7 +113,6 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -134,8 +132,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -353,7 +349,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					itemHandle.setCube( cubeHandle );
 					// Clear parameters and filters, binding if dataset changed
 					clearBindings( );
-					generateBindings( generateComputedColumns( cubeHandle ) );
+					generateBindings( ChartXTabUIUtil.generateComputedColumns( itemHandle,
+							cubeHandle ) );
 				}
 			}
 			ChartWizard.removeException( ChartWizard.RepDSProvider_Cube_ID );
@@ -987,65 +984,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				column.setDataType( resultSetColumn.getDataType( ) );
 				ExpressionUtility.setBindingColumnExpression( resultSetColumn,
 						column );
-				columnList.add( column );
-			}
-			return columnList;
-		}
-		return Collections.emptyList( );
-	}
-
-	private List<ComputedColumn> generateComputedColumns( CubeHandle cubeHandle )
-	{
-		if ( cubeHandle != null )
-		{
-			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
-
-			String exprType = UIUtil.getDefaultScriptType( );
-			IExpressionConverter exprConverter = ExpressionUtility.getExpressionConverter( exprType );
-			// Add levels
-			for ( LevelHandle levelHandle : ChartCubeUtil.getAllLevels( cubeHandle ) )
-			{
-				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
-						ChartCubeUtil.createLevelBindingName( levelHandle ) );
-				column.setDataType( levelHandle.getDataType( ) );
-				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
-						new Expression( exprConverter.getDimensionExpression( levelHandle.getContainer( )
-								.getContainer( )
-								.getName( ),
-								levelHandle.getName( ),
-								null ),
-								exprType ) );
-				columnList.add( column );
-				
-				// Add LevelAttributes
-				Iterator itLevelAttr = levelHandle.attributesIterator( );
-				while (itLevelAttr.hasNext( ))
-				{
-					LevelAttributeHandle laHandle = (LevelAttributeHandle)itLevelAttr.next( );
-					ComputedColumn columnLA = StructureFactory.newComputedColumn( itemHandle,
-							ChartCubeUtil.createLevelAttrBindingName(levelHandle, laHandle ) );
-					columnLA.setDataType( laHandle.getDataType( ) );
-					columnLA.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
-							new Expression( exprConverter.getDimensionExpression( levelHandle.getContainer( )
-									.getContainer( )
-									.getName( ),
-									levelHandle.getName( ),
-									laHandle.getName( ) ),
-									exprType ) );
-					columnList.add( columnLA );
-				}
-				
-			}
-			// Add measures
-			for ( MeasureHandle measureHandle : ChartCubeUtil.getAllMeasures( cubeHandle ) )
-			{
-				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
-						ChartCubeUtil.createMeasureBindingName( measureHandle ) );
-				column.setDataType( measureHandle.getDataType( ) );
-				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
-						new Expression( exprConverter.getMeasureExpression( measureHandle.getName( ) ),
-								exprType ) );
-				column.setAggregateFunction( measureHandle.getFunction( ) );
 				columnList.add( column );
 			}
 			return columnList;
@@ -3223,7 +3161,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			CubeHandle cubeHandle = itemHandle.getCube( );
 			if ( cubeHandle != null )
 			{
-				List<ComputedColumn> columnList = generateComputedColumns( cubeHandle );
+				List<ComputedColumn> columnList = ChartXTabUIUtil.generateComputedColumns( itemHandle,
+						cubeHandle );
 				if ( columnList.size( ) > 0 )
 				{
 					List<String> bindingNameList = new ArrayList<String>( );
