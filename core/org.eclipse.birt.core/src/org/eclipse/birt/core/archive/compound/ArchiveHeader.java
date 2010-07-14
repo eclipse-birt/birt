@@ -18,7 +18,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.util.IOUtil;
 
@@ -95,14 +95,14 @@ class ArchiveHeader implements ArchiveConstants
 		if ( magicTag != DOCUMENT_TAG )
 		{
 			throw new IOException(
-					Messages.getFormattedString(
+					CoreMessages.getFormattedString(
 							ResourceConstants.NOT_COMPOUND_FILE,
 							new Object[]{magicTag} ) );
 		}
 		long version = in.readLong( );
 		if ( version != DOCUMENT_VERSION_0 && version != DOCUMENT_VERSION_1 )
 		{
-			throw new IOException( Messages.getFormattedString(
+			throw new IOException( CoreMessages.getFormattedString(
 					ResourceConstants.UNSUPPORTED_ARCHIVE_VERSION,
 					new Object[]{version} ) );
 		}
@@ -152,7 +152,7 @@ class ArchiveHeader implements ArchiveConstants
 		byte[] b = buffer.toByteArray( );
 		if ( b.length > DEFAULT_BLOCK_SIZE )
 		{
-			throw new IOException( Messages.getFormattedString(
+			throw new IOException( CoreMessages.getFormattedString(
 					ResourceConstants.EXCEED_MAX_BLOCK_SIZE,
 					new Object[]{DEFAULT_BLOCK_SIZE} ) );
 		}

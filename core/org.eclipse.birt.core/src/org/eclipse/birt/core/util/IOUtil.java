@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.mozilla.javascript.IdScriptableObject;
@@ -674,7 +674,7 @@ public class IOUtil
 		{
 			writeInt( dos, TYPE_NULL );
 			throw new NotSerializableException(
-					Messages.getString( ResourceConstants.NOT_SERIALIZABLE ) );
+					CoreMessages.getString( ResourceConstants.NOT_SERIALIZABLE ) );
 		}
 
 		writeInt( dos, typeIndex );
@@ -1204,11 +1204,11 @@ public class IOUtil
 					count += 2;
 					if ( count > utflen )
 						throw new UTFDataFormatException(
-								Messages.getString( ResourceConstants.MALFORMED_INPUT_ERROR ) );
+								CoreMessages.getString( ResourceConstants.MALFORMED_INPUT_ERROR ) );
 					char2 = (int) bytearr[count - 1];
 					if ( ( char2 & 0xC0 ) != 0x80 )
 						throw new UTFDataFormatException(
-								Messages.getFormattedString(
+								CoreMessages.getFormattedString(
 										ResourceConstants.MALFORMED_INPUT_AROUND_BYTE,
 										new Object[]{count} ) );
 					chararr[chararr_count++] = (char) ( ( ( c & 0x1F ) << 6 ) | ( char2 & 0x3F ) );
@@ -1218,13 +1218,13 @@ public class IOUtil
 					count += 3;
 					if ( count > utflen )
 						throw new UTFDataFormatException(
-								Messages.getString( ResourceConstants.MALFORMED_INPUT_ERROR ) );
+								CoreMessages.getString( ResourceConstants.MALFORMED_INPUT_ERROR ) );
 					char2 = (int) bytearr[count - 2];
 					char3 = (int) bytearr[count - 1];
 					if ( ( ( char2 & 0xC0 ) != 0x80 )
 							|| ( ( char3 & 0xC0 ) != 0x80 ) )
 						throw new UTFDataFormatException(
-								Messages.getFormattedString(
+								CoreMessages.getFormattedString(
 										ResourceConstants.MALFORMED_INPUT_AROUND_BYTE,
 										new Object[]{count - 1} ) );
 					chararr[chararr_count++] = (char) ( ( ( c & 0x0F ) << 12 )
@@ -1233,7 +1233,7 @@ public class IOUtil
 				default :
 					// 10xx xxxx, 1111 xxxx
 					throw new UTFDataFormatException(
-							Messages.getFormattedString(
+							CoreMessages.getFormattedString(
 									ResourceConstants.MALFORMED_INPUT_AROUND_BYTE,
 									new Object[]{count} ) );
 			}

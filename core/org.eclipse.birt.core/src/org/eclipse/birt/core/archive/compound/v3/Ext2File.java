@@ -13,7 +13,7 @@ package org.eclipse.birt.core.archive.compound.v3;
 
 import java.io.IOException;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
@@ -142,13 +142,13 @@ public class Ext2File
 		if ( fs == null )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 
 		if ( fs.isReadOnly( ) )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
+					CoreMessages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 		}
 		node.setLength( length );
 		if ( position >= length )
@@ -172,7 +172,7 @@ public class Ext2File
 		if ( fs == null )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 
 		assert buffer != null;
@@ -296,12 +296,12 @@ public class Ext2File
 		if ( fs == null )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 		if ( fs.isReadOnly( ) )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
+					CoreMessages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 		}
 
 		assert buffer != null;

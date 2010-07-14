@@ -28,7 +28,7 @@ import org.eclipse.birt.core.archive.cache.CacheListener;
 import org.eclipse.birt.core.archive.cache.Cacheable;
 import org.eclipse.birt.core.archive.cache.FileCacheManager;
 import org.eclipse.birt.core.archive.cache.SystemCacheManager;
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
@@ -134,7 +134,7 @@ public class Ext2FileSystem
 			createFileSystem( );
 			return;
 		}
-		throw new IOException( Messages.getFormattedString(
+		throw new IOException( CoreMessages.getFormattedString(
 				ResourceConstants.UNSUPPORTED_FILE_MODE, new Object[]{mode} ) );
 	}
 
@@ -250,7 +250,7 @@ public class Ext2FileSystem
 			if ( readOnly )
 			{
 				throw new IOException(
-						Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
+						CoreMessages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 			}
 
 			ensureFileOpened( );
@@ -309,7 +309,7 @@ public class Ext2FileSystem
 		if ( readOnly )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
+					CoreMessages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 		}
 		Ext2Entry entry = entryTable.getEntry( name );
 		if ( entry == null )
@@ -355,7 +355,7 @@ public class Ext2FileSystem
 		if ( readOnly )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
+					CoreMessages.getString( ResourceConstants.FILE_IN_READONLY_MODE ) );
 		}
 		// check if there are any opened stream links with the name,
 		if ( !openedFiles.isEmpty( ) )
@@ -424,13 +424,13 @@ public class Ext2FileSystem
 		long magicTag = in.readLong( );
 		if ( magicTag != EXT2_MAGIC_TAG )
 		{
-			throw new IOException( Messages.getFormattedString(
+			throw new IOException( CoreMessages.getFormattedString(
 					ResourceConstants.NOT_EXT2_ARCHIVE, new Object[]{magicTag} ) );
 		}
 		int version = in.readInt( );
 		if ( version != EXT2_VERSION_0 )
 		{
-			throw new IOException( Messages.getFormattedString(
+			throw new IOException( CoreMessages.getFormattedString(
 					ResourceConstants.UNSUPPORTED_ARCHIVE_VERSION,
 					new Object[]{version} ) );
 		}
@@ -438,7 +438,7 @@ public class Ext2FileSystem
 		int blockSize = in.readInt( );
 		if ( blockSize != BLOCK_SIZE )
 		{
-			throw new IOException( Messages.getFormattedString(
+			throw new IOException( CoreMessages.getFormattedString(
 					ResourceConstants.UNSUPPORTED_BLOCK_SIZE,
 					new Object[]{blockSize} ) );
 		}

@@ -13,7 +13,7 @@ package org.eclipse.birt.core.archive.compound.v3;
 
 import java.io.IOException;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class DataBlock extends Ext2Block
@@ -111,7 +111,7 @@ public class DataBlock extends Ext2Block
 				throws IOException
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.CANNOT_CHANGE_READONLY_BUFFER ) );
+					CoreMessages.getString( ResourceConstants.CANNOT_CHANGE_READONLY_BUFFER ) );
 		}
 
 		public int read( int src, byte b[], int off, int len )

@@ -25,7 +25,7 @@ import java.util.List;
 import org.eclipse.birt.core.archive.cache.CacheListener;
 import org.eclipse.birt.core.archive.cache.Cacheable;
 import org.eclipse.birt.core.archive.cache.FileCacheManager;
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
@@ -203,7 +203,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	{
 		if ( fileName == null || fileName.length( ) == 0 )
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_NAME_IS_NULL ) );
+					CoreMessages.getString( ResourceConstants.FILE_NAME_IS_NULL ) );
 
 		// make sure the file name is an absolute path
 		File fd = new File( fileName );
@@ -555,7 +555,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		assertOpen( );
 		if ( !( locker instanceof NameEntry ) )
 		{
-			throw new IOException( Messages.getFormattedString(
+			throw new IOException( CoreMessages.getFormattedString(
 					ResourceConstants.INVALID_LOCK_TYPE, new Object[]{locker} ) );
 		}
 	}
@@ -582,7 +582,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		assertOpen( );
 		if ( !isWritable )
 		{
-			throw new IOException( Messages.getFormattedString(
+			throw new IOException( CoreMessages.getFormattedString(
 					ResourceConstants.ARCHIVE_OPEN_FOR_WRITE,
 					new Object[]{systemId} ) );
 		}
@@ -593,7 +593,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		if ( isClosed )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 

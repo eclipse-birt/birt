@@ -15,7 +15,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
@@ -401,7 +401,7 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 					externalValues.read( in );
 					return externalValues;
 				}
-				throw new IOException( Messages.getFormattedString(
+				throw new IOException( CoreMessages.getFormattedString(
 						ResourceConstants.UNKNOWN_VALUE_TYPE,
 						new Object[]{type} ) );
 			}

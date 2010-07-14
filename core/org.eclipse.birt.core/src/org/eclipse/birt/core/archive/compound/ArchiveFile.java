@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.archive.cache.SystemCacheManager;
 import org.eclipse.birt.core.archive.compound.v3.Ext2FileSystem;
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
@@ -58,7 +58,7 @@ public class ArchiveFile implements IArchiveFile
 	{
 		if ( fileName == null || fileName.length( ) == 0 )
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_NAME_IS_NULL ) );
+					CoreMessages.getString( ResourceConstants.FILE_NAME_IS_NULL ) );
 
 		File fd = new File( fileName );
 		// make sure the file name is an absolute path
@@ -290,7 +290,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -317,7 +317,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -330,7 +330,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -353,7 +353,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -379,7 +379,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -392,7 +392,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 
@@ -410,7 +410,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
+					CoreMessages.getString( ResourceConstants.FILE_HAS_BEEN_CLOSED ) );
 		}
 	}
 

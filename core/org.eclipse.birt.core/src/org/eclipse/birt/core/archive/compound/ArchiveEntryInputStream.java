@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.RAInputStream;
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
@@ -212,7 +212,7 @@ public class ArchiveEntryInputStream extends RAInputStream
 	{
 		if ( localPos < 0 )
 		{
-			throw new IOException( Messages.getFormattedString(
+			throw new IOException( CoreMessages.getFormattedString(
 					ResourceConstants.INVALID_SEEK_OFFSET,
 					new Object[]{localPos} ) );
 		}
@@ -220,7 +220,7 @@ public class ArchiveEntryInputStream extends RAInputStream
 		if ( localPos >= entry.getLength( ) )
 		{
 			throw new EOFException(
-					Messages.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
+					CoreMessages.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
 		}
 		
 		if ( localPos < offset || localPos > offset + buffer_size )

@@ -36,7 +36,7 @@ import java.util.zip.ZipOutputStream;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.archive.compound.IArchiveFile;
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class ArchiveUtil
@@ -366,7 +366,7 @@ public class ArchiveUtil
 		if ( inArchive == null || outArchive == null )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.NULL_SOURCE ) );
+					CoreMessages.getString( ResourceConstants.NULL_SOURCE ) );
 		}
 
 		copy( new ArchiveReader( inArchive ), new ArchiveWriter( outArchive ) );

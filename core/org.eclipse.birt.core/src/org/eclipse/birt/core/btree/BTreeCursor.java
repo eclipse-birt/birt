@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class BTreeCursor<K, V>
@@ -186,7 +186,7 @@ public class BTreeCursor<K, V>
 		if ( entry == null )
 		{
 			throw new IOException(
-					Messages.getString( ResourceConstants.INVALID_CURSOR ) );
+					CoreMessages.getString( ResourceConstants.INVALID_CURSOR ) );
 		}
 		return btree.getKey( entry.getKey( ) );
 	}
@@ -219,7 +219,7 @@ public class BTreeCursor<K, V>
 			return list;
 		}
 		throw new IOException(
-				Messages.getString( ResourceConstants.CURSOR_NOT_INITIALIZED ) );
+				CoreMessages.getString( ResourceConstants.CURSOR_NOT_INITIALIZED ) );
 	}
 
 	/**

@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
@@ -32,7 +32,7 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	{
 		if ( folderName == null || folderName.length( ) == 0 )
 			throw new IOException(
-					Messages.getString( ResourceConstants.FOLDER_NAME_IS_NULL ) );
+					CoreMessages.getString( ResourceConstants.FOLDER_NAME_IS_NULL ) );
 
 		this.folderName = new File( folderName ).getCanonicalPath( );
 

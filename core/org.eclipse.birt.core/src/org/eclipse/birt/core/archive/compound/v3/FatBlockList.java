@@ -14,7 +14,7 @@ package org.eclipse.birt.core.archive.compound.v3;
 import java.io.EOFException;
 import java.io.IOException;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class FatBlockList
@@ -106,7 +106,7 @@ public class FatBlockList
 			return getIndirectBlock3( index );
 		}
 		throw new EOFException(
-				Messages.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
+				CoreMessages.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
 	}
 
 	public void setFileBlock( int index, int fileBlockId ) throws IOException
@@ -135,7 +135,7 @@ public class FatBlockList
 			return;
 		}
 		throw new EOFException(
-				Messages.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
+				CoreMessages.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
 	}
 
 	private void setIndirectBlock1( int index, int blockId ) throws IOException

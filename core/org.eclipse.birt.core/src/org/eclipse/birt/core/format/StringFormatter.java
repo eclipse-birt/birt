@@ -15,7 +15,7 @@ import java.text.ParseException;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 import com.ibm.icu.lang.UCharacter;
@@ -394,7 +394,7 @@ public class StringFormatter
 				{
 					if ( fstr.charAt( k ) != '&' )
 					{
-						throw new ParseException( Messages.getFormattedString(
+						throw new ParseException( CoreMessages.getFormattedString(
 								ResourceConstants.UNPARSEABLE_STRING,
 								new Object[]{orig.toString( )} ), k );
 					}
@@ -407,7 +407,7 @@ public class StringFormatter
 				{
 					if(fstr.charAt(lenPattern-lenFormatStr-k-1)!='&')
 					{
-						throw new ParseException( Messages.getFormattedString(
+						throw new ParseException( CoreMessages.getFormattedString(
 								ResourceConstants.UNPARSEABLE_STRING,
 								new Object[]{orig.toString( )} ), 0 );
 					}
@@ -462,7 +462,7 @@ public class StringFormatter
 				default :
 					if(orig.charAt(index)!=fstr.charAt(i))
 					{
-						throw new ParseException( Messages.getFormattedString(
+						throw new ParseException( CoreMessages.getFormattedString(
 								ResourceConstants.UNPARSEABLE_STRING,
 								new Object[]{orig.toString( )} ), index );
 					}

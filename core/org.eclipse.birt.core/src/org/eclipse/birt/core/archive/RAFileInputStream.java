@@ -15,7 +15,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.util.IOUtil;
 
@@ -255,7 +255,7 @@ public class RAFileInputStream extends RAInputStream
 	{
 		if ( localPosToGlobalPos(localPos) >= endPos )
 			throw new IOException(
-					Messages.getString( ResourceConstants.OUT_OF_RANGE ) ); //$NON-NLS-1$
+					CoreMessages.getString( ResourceConstants.OUT_OF_RANGE ) ); //$NON-NLS-1$
 
 		if ( localPos < cur - bufLen || localPos > cur)
 		{

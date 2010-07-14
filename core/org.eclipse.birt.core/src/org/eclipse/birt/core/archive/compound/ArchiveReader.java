@@ -21,7 +21,7 @@ import java.util.List;
 import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class ArchiveReader implements IDocArchiveReader
@@ -46,7 +46,7 @@ public class ArchiveReader implements IDocArchiveReader
 		File fd = new File( archiveName );
 		if ( !fd.isFile( ) || !fd.exists( ) )
 		{
-			throw new FileNotFoundException( Messages.getFormattedString(
+			throw new FileNotFoundException( CoreMessages.getFormattedString(
 					ResourceConstants.INVALID_ARCHIVE_NAME, archiveName ) );
 		}
 

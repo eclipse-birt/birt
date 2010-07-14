@@ -15,7 +15,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import org.eclipse.birt.core.i18n.Messages;
+import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
@@ -135,7 +135,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 				{
 					return ( (LeafNode<K, V>) node ).find( key );
 				}
-				throw new IOException( Messages.getFormattedString(
+				throw new IOException( CoreMessages.getFormattedString(
 						ResourceConstants.UNEXPECTED_NODE_TYPE, new Object[]{
 								node.getNodeType( ), node.getNodeId( )} ) );
 			}
@@ -216,7 +216,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 					}
 					return insertEntry;
 				}
-				throw new IOException( Messages.getFormattedString(
+				throw new IOException( CoreMessages.getFormattedString(
 						ResourceConstants.UNEXPECTED_NODE_TYPE, new Object[]{
 								node.getNodeType( ), childNodeId} ) );
 			}
@@ -278,7 +278,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 			if ( result == 0 )
 			{
 				throw new IOException(
-						Messages.getString( ResourceConstants.UNEXPECTED_EQUAL_KEYS ) );
+						CoreMessages.getString( ResourceConstants.UNEXPECTED_EQUAL_KEYS ) );
 			}
 			if ( result > 0 )
 			{
