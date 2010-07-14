@@ -354,11 +354,13 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		}
 		catch ( InvocationTargetException e )
 		{
-			ExceptionHandler.handle( e.getCause( ) );
+			//this ExceptionHandler can show exception stacktrace
+			org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler.showException( resultSetTable.getShell( ), Messages.getString( "CssErrDialog.Error" ), e.getCause( ).getLocalizedMessage( ), e.getCause( ) );
 		}
 		catch ( InterruptedException e )
 		{
-			ExceptionHandler.handle( e );
+			//this ExceptionHandler can show exception stacktrace
+			org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler.showException( resultSetTable.getShell( ), Messages.getString( "CssErrDialog.Error" ), e.getLocalizedMessage( ), e );
 		}
 		
 		updateResultSetTableUI( );

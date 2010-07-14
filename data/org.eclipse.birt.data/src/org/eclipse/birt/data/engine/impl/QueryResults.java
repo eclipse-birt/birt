@@ -126,11 +126,24 @@ public class QueryResults implements IQueryResults, IQueryService
 		
 		try
 		{
-			return queryService.getResultMetaData( );
+			IResultMetaData metaData = queryService.getResultMetaData( );
+			if ( metaData == null )
+			{
+				//Failed to get metadata during query preparation, then execute query first and fetch metadata later
+				return getResultIterator( ).getResultMetaData( );
+			}
+			else
+			{
+				return metaData;
+			}
 		}
 		catch ( DataException e )
 		{
 			throw e;
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
 		}
 	}
 	

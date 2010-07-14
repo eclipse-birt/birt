@@ -983,6 +983,11 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		if ( needAutoBinding( ) == false )
 			return;
 		IResultClass metaData = queryExecutor.getOdiResultClass( );
+		if ( metaData == null )
+		{
+			//Failed to fetch meta data during query preparation
+			return;
+		}
 		int columnCount = metaData.getFieldCount( );
 		for ( int i = 0; i < columnCount; i++ )
 		{
