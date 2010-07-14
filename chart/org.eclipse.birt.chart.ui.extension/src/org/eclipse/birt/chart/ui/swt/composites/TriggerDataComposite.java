@@ -760,6 +760,7 @@ public class TriggerDataComposite extends Composite implements
 		// Initializes the cursor type list.
 		updateCursorTypeItems( );
 		updateImageButtonState( );
+		updateCursorArea( );
 	}
 
 	/**
@@ -1166,6 +1167,8 @@ public class TriggerDataComposite extends Composite implements
 					c );
 			idlg.open( );
 		}
+		
+		updateCursorArea( );
 	}
 
 	private void updateImageButtonState( )
@@ -1231,6 +1234,8 @@ public class TriggerDataComposite extends Composite implements
 			triggersList.add( newTrigger );
 		}
 		triggersMap.put( triggerType, newTrigger );
+
+		updateCursorArea( );
 	}
 
 	private String getAdvancedButtonText( boolean bAdvanced )
@@ -1304,5 +1309,13 @@ public class TriggerDataComposite extends Composite implements
 		}
 
 		c.setType( type );
+	}
+	
+	private void updateCursorArea()
+	{
+		boolean enableCursor = ( this.triggersList.size( ) > 0 )
+				|| ( cmbActionType.getSelectionIndex( ) > 0 );
+		cmbCursorType.setEnabled( enableCursor );
+		btnCursorImage.setEnabled( btnCursorImage.isEnabled( ) && enableCursor );
 	}
 }
