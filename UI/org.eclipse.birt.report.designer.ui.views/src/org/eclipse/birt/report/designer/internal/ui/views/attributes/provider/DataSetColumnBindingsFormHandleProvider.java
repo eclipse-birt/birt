@@ -515,6 +515,11 @@ public class DataSetColumnBindingsFormHandleProvider extends
 						ExpressionUtility.setBindingColumnExpression( element,
 								bindingColumn );
 
+						bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( element ) );
+						String displayKey = UIUtil.getColumnDisplayNameKey( element );
+						if ( displayKey != null )
+							bindingColumn.setDisplayNameID( displayKey );
+						
 						if ( bindingObject instanceof ReportItemHandle )
 						{
 							( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
