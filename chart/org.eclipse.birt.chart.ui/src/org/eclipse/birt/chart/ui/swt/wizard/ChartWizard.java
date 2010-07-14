@@ -162,8 +162,14 @@ public class ChartWizard extends WizardBase
 		return ( (ChartWizardContext) context ).getModel( );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase#dispose()
+	 */
 	public void dispose( )
 	{
+		removeException( );
+		clearExceptions( );
+		
 		if ( getContext( ) != null )
 		{
 			// Dispose data sheet
