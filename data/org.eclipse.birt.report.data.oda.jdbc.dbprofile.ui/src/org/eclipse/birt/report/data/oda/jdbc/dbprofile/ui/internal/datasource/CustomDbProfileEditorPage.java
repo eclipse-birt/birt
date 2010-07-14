@@ -25,7 +25,6 @@ import org.eclipse.datatools.connectivity.oda.design.ui.profile.db.wizards.DbPro
  *  Extends ODA UI framework property page class for this custom ODA designer.
  *  @since 2.5.2
  */
-@SuppressWarnings("restriction")
 public class CustomDbProfileEditorPage extends DbProfileEditorPage
 {
 

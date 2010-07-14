@@ -32,7 +32,6 @@ import org.eclipse.datatools.connectivity.oda.profile.internal.OdaProfileFactory
 /**
  * Extends the behavior of the oda.jdbc runtime driver to use a database connection profile.
  */
-@SuppressWarnings("restriction")
 public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection 
     implements IConnection
 {

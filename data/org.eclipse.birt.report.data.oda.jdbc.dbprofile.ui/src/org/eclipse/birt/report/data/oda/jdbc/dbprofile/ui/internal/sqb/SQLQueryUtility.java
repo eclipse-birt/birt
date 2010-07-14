@@ -67,7 +67,6 @@ import org.eclipse.ui.PlatformUI;
 /**
  * An internal utility class to process the metadata of a SQL query statement.
  */
-@SuppressWarnings("restriction")
 public class SQLQueryUtility
 {
 
