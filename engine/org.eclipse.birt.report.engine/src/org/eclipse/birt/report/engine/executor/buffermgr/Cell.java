@@ -97,11 +97,29 @@ public class Cell
 
 	public int getRowId( )
 	{
+		if ( status == CELL_SPANED )
+		{
+			Cell cell = getCell( );
+			if ( cell != null )
+			{
+				return cell.getRowId( );
+
+			}
+		}
 		return rowId;
 	}
 
 	public int getColId( )
 	{
+		if ( status == CELL_SPANED )
+		{
+			Cell cell = getCell( );
+			if ( cell != null )
+			{
+				return cell.getColId( );
+
+			}
+		}
 		return colId;
 	}
 
