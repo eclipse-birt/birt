@@ -104,6 +104,8 @@ public interface MessageConstants
 	public static final String CONTENT_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED = "Error.ContentException.CONTENT_NOT_ALLOWED_PASTED"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_CONTENT_ALREADY_INSERTED = "Error.ContentException.CONTENT_ALREADY_INSERTED"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_INVALID_POSITION = "Error.ContentException.INVALID_POSITION"; //$NON-NLS-1$
+	public static final String CONTENT_EXCEPTION_SHARE_DIMENSION_NOT_EXIST = "Error.ContentException.SHARE_DIMENSION_NOT_EXIST"; //$NON-NLS-1$
+
 
 	// CustomMsgException
 	public static final String CUSTOM_MSG_EXCEPTION_RESOURCE_KEY_REQUIRED = "Error.CustomMsgException.RESOURCE_KEY_REQUIRED"; //$NON-NLS-1$
@@ -358,5 +360,6 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$	
 
+	
 	
 }

@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.model.util.copy;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
+import org.eclipse.birt.report.model.api.util.IPasteStatus;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -130,19 +133,42 @@ class ContextCopyPasteBasePolicy
 	 *         <code>false</code>.
 	 */
 
-	public boolean isValidCopy( ContainerContext context, Module module,
+	public IPasteStatus isValidCopy( ContainerContext context, Module module,
 			IElementCopy copy )
 	{
+		PasteStatus status = new PasteStatus( );
 		if ( !( copy instanceof ContextCopiedElement ) )
-			return false;
+		{
+			status.setPaste( false );
+			status.setErrors( null );
+			return status;
+		}
 
 		DesignElement copied = ( (ContextCopiedElement) copy )
 				.getLocalizedCopy( );
 
 		if ( copied == null )
-			return false;
+		{
+			status.setPaste( false );
+			status.setErrors( null );
+			return status;
+		}
 
-		return context.canContain( module, copied );
+		List<SemanticException> errors = context.checkContainmentContext(
+				module, copied );
+		if ( ( errors == null || errors.isEmpty( ) )
+				&& ( module == null || !module.isReadOnly( ) ) )
+		{
+			status.setPaste( true );
+			status.setErrors( null );
+		}
+		else
+		{
+			status.setPaste( false );
+			status.setErrors( errors );
+		}
+
+		return status;
 	}
 
 	/**

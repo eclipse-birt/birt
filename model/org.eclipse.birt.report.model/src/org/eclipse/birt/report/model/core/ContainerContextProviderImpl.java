@@ -294,16 +294,25 @@ class ContainerContextProviderImpl
 				for ( int i = 0; i < dimensions.size( ); i++ )
 				{
 					Dimension dimension = (Dimension) dimensions.get( i );
-					if ( dimension
-							.getProperty(
+
+					String dimensionName = dimension
+							.getStringProperty(
 									module,
-									ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP ) != null )
+									ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP );
+					if ( dimensionName != null )
 					{
 						List hierarchies = dimension.getListProperty( module,
 								IDimensionModel.HIERARCHIES_PROP );
 						if ( hierarchies == null || hierarchies.isEmpty( ) )
 						{
-							errors.add( e );
+							// special exception for this case
+							ContentException exception = new ContentException(
+									focus.getElement( ),
+									focus.getSlotID( ),
+									element,
+									ContentException.DESIGN_EXCEPTION_SHARE_DIMENSION_NOT_EXIST,
+									new String[]{dimensionName} );
+							errors.add( exception );
 							return errors;
 						}
 					}

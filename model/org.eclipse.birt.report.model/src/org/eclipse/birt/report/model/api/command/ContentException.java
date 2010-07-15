@@ -170,6 +170,12 @@ public class ContentException extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_POSITION = MessageConstants.CONTENT_EXCEPTION_INVALID_POSITION;
 
 	/**
+	 * Error code that indicates that the shared dimension can not be inserted
+	 * to report design and library.
+	 */
+	public static final String DESIGN_EXCEPTION_SHARE_DIMENSION_NOT_EXIST = MessageConstants.CONTENT_EXCEPTION_SHARE_DIMENSION_NOT_EXIST;
+
+	/**
 	 * Constructs the exception with container element, slot id, and error code.
 	 * 
 	 * @param element
@@ -204,6 +210,28 @@ public class ContentException extends SemanticException
 			DesignElement content, String errCode )
 	{
 		super( element, errCode );
+		slot = slotID;
+		this.content = content;
+	}
+
+	/**
+	 * Constructs the exception with container element slot id, content element
+	 * and error code.
+	 * 
+	 * @param element
+	 *            The container element.
+	 * @param slotID
+	 *            The slot within the container.
+	 * @param content
+	 *            The content in the container element.
+	 * @param errCode
+	 *            What went wrong.
+	 */
+
+	public ContentException( DesignElement element, int slotID,
+			DesignElement content, String errCode, String[] args )
+	{
+		super( element, args, errCode );
 		slot = slotID;
 		this.content = content;
 	}
@@ -338,6 +366,12 @@ public class ContentException extends SemanticException
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( element ), getElementName( content ),
 					getContainerName( )} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_SHARE_DIMENSION_NOT_EXIST )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					getElementName( content ),
+					(String) this.oaMessageArguments[0]} );
 		}
 
 		return ModelMessages.getMessage( sResourceKey );

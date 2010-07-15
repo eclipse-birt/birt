@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.copy.ContextCopyPastePolicy;
+import org.eclipse.birt.report.model.util.copy.PasteStatus;
 
 /**
  * The utility class for copy/paste. It is for the UI usage. Other uses should
@@ -79,7 +80,7 @@ public class CopyUtil
 		ContainerContext context = new ContainerContext(
 				container.getElement( ), slotID );
 		Module root = container.getModule( );
-		if ( !canPaste( copy, container, slotID ) )
+		if ( !canPaste( copy, container, slotID ).canPaste( ) )
 			throw ContentExceptionFactory
 					.createContentException(
 							context,
@@ -93,7 +94,7 @@ public class CopyUtil
 
 		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
-		container.getSlot( slotID ).add( target );		
+		container.getSlot( slotID ).add( target );
 		copyPastePolicy.copyPropertyBindings( copy, target );
 		return checkPostPasteErrors( target.getElement( ), root );
 	}
@@ -123,7 +124,7 @@ public class CopyUtil
 
 		Module root = container.getModule( );
 
-		if ( !canPaste( copy, container, slotID ) )
+		if ( !canPaste( copy, container, slotID ).canPaste( ) )
 			throw ContentExceptionFactory
 					.createContentException(
 							context,
@@ -137,8 +138,8 @@ public class CopyUtil
 
 		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
-		container.getSlot( slotID ).add( target, newPos );		
-		copyPastePolicy.copyPropertyBindings( copy, target );		
+		container.getSlot( slotID ).add( target, newPos );
+		copyPastePolicy.copyPropertyBindings( copy, target );
 		return checkPostPasteErrors( target.getElement( ), root );
 	}
 
@@ -166,7 +167,7 @@ public class CopyUtil
 
 		Module root = container.getModule( );
 
-		if ( !canPaste( copy, container, propName ) )
+		if ( !canPaste( copy, container, propName ).canPaste( ) )
 			throw ContentExceptionFactory
 					.createContentException(
 							context,
@@ -211,7 +212,7 @@ public class CopyUtil
 
 		Module root = container.getModule( );
 
-		if ( !canPaste( copy, container, propName ) )
+		if ( !canPaste( copy, container, propName ).canPaste( ) )
 			throw ContentExceptionFactory
 					.createContentException(
 							context,
@@ -244,14 +245,18 @@ public class CopyUtil
 	 *         <code>false</code>.
 	 */
 
-	public static boolean canPaste( IElementCopy copy,
+	public static IPasteStatus canPaste( IElementCopy copy,
 			DesignElementHandle container, int slotID )
 	{
 		int tmpIndex = container.getElement( ).getSlotIndex( slotID );
 
 		// no such slot ID
 		if ( tmpIndex == -1 )
-			return false;
+		{
+			PasteStatus status = new PasteStatus( );
+			status.setPaste( false );
+			return status;
+		}
 
 		return copyPastePolicy.isValidCopy( new ContainerContext( container
 				.getElement( ), slotID ), container.getModule( ), copy );
@@ -272,17 +277,19 @@ public class CopyUtil
 	 *         <code>false</code>.
 	 */
 
-	public static boolean canPaste( IElementCopy copy,
+	public static IPasteStatus canPaste( IElementCopy copy,
 			DesignElementHandle container, String propName )
 	{
 		ElementPropertyDefn propDefn = (ElementPropertyDefn) container
 				.getPropertyDefn( propName );
-		if ( propDefn == null )
-			return false;
 
 		// both element type and content element type can be pasted
-		if ( !propDefn.isElementType( ) )
-			return false;
+		if ( propDefn == null || !propDefn.isElementType( ) )
+		{
+			PasteStatus status = new PasteStatus( );
+			status.setPaste( false );
+			return status;
+		}
 
 		return copyPastePolicy.isValidCopy( new ContainerContext( container
 				.getElement( ), propName ), container.getModule( ), copy );
