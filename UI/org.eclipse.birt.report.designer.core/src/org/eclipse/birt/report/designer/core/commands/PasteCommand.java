@@ -418,7 +418,7 @@ public class PasteCommand extends Command
 		if ( newContainer instanceof PropertyHandle && cloneElement instanceof IElementCopy && newContainer instanceof DesignElementHandle)
 		{
 			PropertyHandle targetHandle = (PropertyHandle) newContainer;
-			return CopyUtil.canPaste( (IElementCopy) cloneElement, (DesignElementHandle)newContainer, targetHandle.getPropertyDefn( ).getName( ) );
+			return CopyUtil.canPaste( (IElementCopy) cloneElement, (DesignElementHandle)newContainer, targetHandle.getPropertyDefn( ).getName( ) ).canPaste( );
 		}
 		DesignElementHandle childHandle = sourceHandle;
 		if ( childHandle == null )

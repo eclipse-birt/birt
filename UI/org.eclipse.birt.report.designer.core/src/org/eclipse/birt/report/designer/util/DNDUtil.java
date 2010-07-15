@@ -1113,7 +1113,7 @@ public final class DNDUtil
 					SlotHandle targetHandle = (SlotHandle) targetObj;
 					return CopyUtil.canPaste( (IElementCopy) transferData,
 							targetHandle.getElementHandle( ),
-							targetHandle.getSlotID( ) ) ? CONTAIN_THIS
+							targetHandle.getSlotID( ) ).canPaste( ) ? CONTAIN_THIS
 							: CONTAIN_NO;
 				}
 
@@ -1122,7 +1122,7 @@ public final class DNDUtil
 					PropertyHandle targetHandle = (PropertyHandle) targetObj;
 					return CopyUtil.canPaste( (IElementCopy) transferData,
 							targetHandle.getElementHandle( ),
-							targetHandle.getPropertyDefn( ).getName( ) ) ? CONTAIN_THIS
+							targetHandle.getPropertyDefn( ).getName( ) ).canPaste( ) ? CONTAIN_THIS
 							: CONTAIN_NO;
 				}
 
