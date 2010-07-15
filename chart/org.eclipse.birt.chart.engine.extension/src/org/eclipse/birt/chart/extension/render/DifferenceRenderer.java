@@ -23,8 +23,8 @@ import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.LineRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
+import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.extension.datafeed.DifferenceEntry;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -450,7 +450,7 @@ public final class DifferenceRenderer
 	public static void renderDifferencePolygon( AxesRenderer renderer,
 			IPrimitiveRenderer ipr, DataPointHints[] dpha, Location[] loaP,
 			Location[] loaN, LineAttributes liaP, LineAttributes liaN,
-			Fill paletteEntry ) throws ChartException
+			Fill paletteEntry )
 	{
 		CPoint.bPrecise = false;
 
@@ -526,7 +526,7 @@ public final class DifferenceRenderer
 				{
 					renderPolygon( points.getPoints( ),
 							pre,
-							ipr,
+							dc,
 							pStart.compareY( nStart ) >= 0 ? fillColorP
 									: fillColorN,
 							renderer.getSeries( ) );
@@ -546,7 +546,7 @@ public final class DifferenceRenderer
 				{
 					renderPolygon( points.getPoints( ),
 							pre,
-							ipr,
+							dc,
 							pEnd.compareY( nEnd ) >= 0 ? fillColorP
 									: fillColorN,
 							renderer.getSeries( ) );
@@ -562,8 +562,7 @@ public final class DifferenceRenderer
 	}
 
 	static void renderPolygon( List<CPoint> points, PolygonRenderEvent pre,
-			IPrimitiveRenderer ipr, Fill fillColor, Series as )
-			throws ChartException
+			DeferredCache dc, Fill fillColor, Series as )
 	{
 		Location[] pa = new Location[points.size( )];
 		Iterator<CPoint> it = points.iterator( );
@@ -575,11 +574,11 @@ public final class DifferenceRenderer
 		pre.setPoints( pa );
 		pre.setBackground( fillColor );
 		pre.setSourceObject( StructureSource.createSeries( as ) );
-		ipr.fillPolygon( pre );
+		dc.addPlane( pre, PrimitiveRenderEvent.FILL );
 	}
 
 	static void renderLine( CLine line, LineRenderEvent lre, DeferredCache dc,
-			LineAttributes lia ) throws ChartException
+			LineAttributes lia )
 	{
 		if ( lia.isVisible( ) )
 		{
@@ -670,7 +669,7 @@ public final class DifferenceRenderer
 	public static void renderDifferenceCurve( AxesRenderer renderer,
 			IPrimitiveRenderer ipr, DataPointHints[] dpha, Location[] loaP,
 			Location[] loaN, LineAttributes liaP, LineAttributes liaN,
-			Fill paletteEntry ) throws ChartException
+			Fill paletteEntry )
 	{
 		CPoint.bPrecise = true;
 
@@ -762,7 +761,7 @@ public final class DifferenceRenderer
 				// pIndex++;
 				renderPolygon( points.getPoints( ),
 						pre,
-						ipr,
+						dc,
 						pStart.compareY( nStart ) >= 0 ? fillColorP
 								: fillColorN,
 						renderer.getSeries( ) );
@@ -804,7 +803,7 @@ public final class DifferenceRenderer
 			{
 				renderPolygon( points.getPoints( ),
 						pre,
-						ipr,
+						dc,
 						pStart.compareY( nStart ) >= 0 ? fillColorP
 								: fillColorN,
 						renderer.getSeries( ) );
