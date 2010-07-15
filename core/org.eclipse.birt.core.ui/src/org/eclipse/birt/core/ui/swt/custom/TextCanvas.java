@@ -19,6 +19,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
@@ -27,6 +28,12 @@ import org.eclipse.swt.widgets.Composite;
  */
 class TextCanvas extends Canvas implements PaintListener, FocusListener
 {
+
+	private static final int DEFAULT_MARGIN = 3;
+	private int leftMargin = DEFAULT_MARGIN;
+	private int topMargin = DEFAULT_MARGIN;
+	private int rightMargin = DEFAULT_MARGIN;
+	private int bottomMargin = DEFAULT_MARGIN;
 
 	private String text;
 
@@ -116,5 +123,48 @@ class TextCanvas extends Canvas implements PaintListener, FocusListener
 	public void focusLost( FocusEvent e )
 	{
 		isFocusIn = false;
+	}
+
+	public Point computeSize( int wHint, int hHint, boolean changed )
+	{
+		checkWidget( );
+		Point e = getTotalSize( text );
+		if ( wHint == SWT.DEFAULT )
+		{
+			e.x += leftMargin + rightMargin;
+		}
+		else
+		{
+			e.x = wHint;
+		}
+		if ( hHint == SWT.DEFAULT )
+		{
+			e.y += topMargin + bottomMargin;
+		}
+		else
+		{
+			e.y = hHint;
+		}
+		return e;
+	}
+
+	private Point getTotalSize( String text )
+	{
+		Point size = new Point( 0, 0 );
+
+		GC gc = new GC( this );
+		if ( text != null && text.length( ) > 0 )
+		{
+			Point e = gc.textExtent( text );
+			size.x += e.x;
+			size.y = Math.max( size.y, e.y );
+		}
+		else
+		{
+			size.y = Math.max( size.y, gc.getFontMetrics( ).getHeight( ) );
+		}
+		gc.dispose( );
+
+		return size;
 	}
 }

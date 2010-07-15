@@ -295,7 +295,6 @@ public abstract class CustomChooserComposite extends Composite
 		{
 			ICustomChoice cnv = createChoice( cmpDropDown, items[iC] );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.heightHint = itemHeight;
 			cnv.setLayoutData( gd );
 			cnv.addListener( SWT.MouseDown, canvasListener );
 			cnv.addListener( SWT.MouseEnter, canvasListener );
@@ -308,7 +307,23 @@ public abstract class CustomChooserComposite extends Composite
 				popupSelection = cnv;
 			}
 		}
-		shell.setSize( shellWidth, itemHeight * items.length );
+
+		int width = 0;
+		int height = 0;
+
+		Control[] children = shell.getChildren( );
+		for ( int i = 0; i < children.length; i++ )
+		{
+			Point point = children[i].computeSize( SWT.DEFAULT, SWT.DEFAULT );
+			width = point.x > width ? point.x : width;
+			height += point.y;
+		}
+
+		width = getSize( ).x > width ? getSize( ).x : width;
+		height = 18 > height ? 18 : height;
+
+		shell.setSize( width, height );
+
 		shell.layout( );
 		shell.open( );
 	}

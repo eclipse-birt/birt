@@ -33,8 +33,7 @@ public class TextCombo extends CustomChooserComposite
 
 	private HashMap choiceMarkerMap = new HashMap( 10 );
 
-	private class TextComboChoice extends TextCanvas implements
-			ICustomChoice
+	private class TextComboChoice extends TextCanvas implements ICustomChoice
 	{
 
 		TextComboChoice( Composite parent, int iStyle, String comboText )
@@ -50,7 +49,7 @@ public class TextCombo extends CustomChooserComposite
 		public void setValue( Object value )
 		{
 			super.setText( (String) value );
-			
+
 			if ( choiceMarkerMap.containsKey( value ) )
 			{
 				setTextFont( fontBold );
@@ -66,11 +65,10 @@ public class TextCombo extends CustomChooserComposite
 	public TextCombo( Composite parent, int style )
 	{
 		super( parent, style );
-		if ( Display.getCurrent( ).getHighContrast( ) )
-		{
-			GC gc = new GC( this );
-			itemHeight = gc.getFontMetrics( ).getHeight( ) + 2;
-		}
+
+		GC gc = new GC( this );
+		itemHeight = gc.getFontMetrics( ).getHeight( ) + 2;
+
 		addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )

@@ -19,6 +19,8 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
@@ -126,5 +128,16 @@ public class HeadStyleCanvas extends Canvas
 	public void focusLost( FocusEvent e )
 	{
 		isFocusIn = false;
+	}
+	
+	public Point computeSize( int wHint, int hHint, boolean changed )
+	{
+		Point size = new Point( 100, 20 );
+		if ( wHint != SWT.DEFAULT )
+			size.x = wHint;
+		if ( hHint != SWT.DEFAULT )
+			size.y = hHint;
+		Rectangle trim = computeTrim( 0, 0, size.x, size.y );
+		return new Point( trim.width, trim.height );
 	}
 }
