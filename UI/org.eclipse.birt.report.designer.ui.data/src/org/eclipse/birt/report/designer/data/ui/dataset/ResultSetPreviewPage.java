@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.impl.DataSetMetaDataHelper;
+import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -40,6 +41,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -319,6 +321,13 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 								dataSetBindingMap,
 								dataSourceBindingMap );
 						Map appContext = new HashMap( );
+						
+						ResourceIdentifiers identifiers = new ResourceIdentifiers( );
+						String resouceIDs = ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS;					
+						identifiers.setApplResourceBaseURI( DTPUtil.getInstance( ).getBIRTResourcePath( ) );
+						identifiers.setDesignResourceBaseURI( DTPUtil.getInstance( ).getReportDesignPath( ) );
+						appContext.put( resouceIDs,identifiers);
+					
 						AppContextPopulator.populateApplicationContext( dsHandle, appContext );
 						previewer.open( appContext, getEngineConfig( handle ) );
 						populateRecords( previewer.preview( ) );
