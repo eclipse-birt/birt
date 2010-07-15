@@ -11,11 +11,16 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
  * 
@@ -33,13 +38,72 @@ public class DeleteHandler extends SelectionHandler
 	{
 		super.execute( event );
 
-		boolean hasExecuted = UIUtil.canDelete( getElementHandles( ) );
+		List list = convertDeleteList( getElementHandles() );
+		List deletes = new ArrayList();
+		for (int i=0; i<list.size( ); i++)
+		{
+			Object obj = list.get( i );
+			if (obj instanceof SlotHandle)
+			{
+				List objs = ((SlotHandle)obj).getContents( );
+				for (int j=0; j<objs.size( ); j++)
+				{
+					if (UIUtil.canDelete( objs.get( j ) ))
+					{
+						deletes.add( objs.get( j ) );
+					}
+				}
+			}
+			else
+			{
+				if (UIUtil.canDelete( obj ))
+				{
+					deletes.add( obj );
+				}
+			}
+		}
+			
+		//boolean hasExecuted = UIUtil.canDelete( getElementHandles( ) );
+		boolean hasExecuted = !deletes.isEmpty( );
 		if ( hasExecuted )
 		{
-			createDeleteCommand( getElementHandles( ).toArray( ) ).execute( );
+			createDeleteCommand( deletes.toArray( ) ).execute( );
 		}
 
 		return Boolean.valueOf( hasExecuted );
+	}
+	
+	private List convertDeleteList(List list)
+	{
+		List retValue = new ArrayList();
+		for (int i=0; i<list.size( ); i++)
+		{
+			Object obj = list.get( i );
+			if (obj instanceof IStructuredSelection)
+			{
+				List objs = ((IStructuredSelection)obj).toList( );
+				for (int j=0; j<objs.size( ); j++)
+				{
+					if (objs.get( j ) instanceof SlotHandle)
+					{
+						List temsps = ((SlotHandle)objs.get( j )).getContents( );
+						for (int k=0; k<temsps.size( ); k++)
+						{
+							retValue.add( temsps.get( k ) );	
+						}
+					}
+					else
+					{
+						retValue.add( objs.get( j ) );
+					}
+				}
+			}
+			else
+			{
+				retValue.add( obj );
+			}
+		}
+		return retValue;
 	}
 
 	protected Command createDeleteCommand( Object objects )
