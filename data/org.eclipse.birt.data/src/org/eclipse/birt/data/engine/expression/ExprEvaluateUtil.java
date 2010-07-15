@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ICompiledScript;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -315,20 +316,22 @@ public class ExprEvaluateUtil
 	 * @param cx
 	 * @param isRow true:row["xxx"]; false:dataSetRow["xxx"]
 	 * @return
+	 * @throws BirtException 
 	 */
 	private static String extractDirectColumn( IBaseExpression dataExpr,
 			ScriptContext cx, 
-			boolean isRow )
+			boolean isRow ) throws BirtException
 	{
 		if ( dataExpr instanceof IScriptExpression )
 		{
 			String exprText = ((IScriptExpression)dataExpr).getText( );
-			ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
-			expressionCompiler.setDataSetMode( isRow );
-			CompiledExpression ce = expressionCompiler.compile( exprText, null, cx );
-			if ( ce instanceof ColumnReferenceExpression )
+			if ( isRow )
 			{
-				return ((ColumnReferenceExpression)ce).getColumnName( );
+				return ExpressionUtil.getColumnBindingName( exprText );
+			}
+			else
+			{
+				return ExpressionUtil.getColumnName( exprText );
 			}
 		}
 		return null;
