@@ -10,9 +10,12 @@
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -23,13 +26,27 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExecutorHelper;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
+import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.impl.DatasetPreviewTask;
+import org.eclipse.birt.report.engine.api.impl.ReportEngine;
+import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
+import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
+import org.eclipse.birt.report.engine.api.impl.RunAndRenderTask;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
@@ -202,10 +219,37 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage
 		DataRequestSession session = null;
 		try
 		{
-			DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					( (DataSetEditor) getContainer( ) ).getHandle( )
-							.getModuleHandle( ) );
-			session = DataRequestSession.newSession( context );
+			
+			ModuleHandle handle = null;
+			DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
+			handle = dsHandle.getModuleHandle( );
+			EngineConfig ec = new EngineConfig( );
+			ClassLoader parent = Thread.currentThread( ).getContextClassLoader( );
+			if ( parent == null )
+			{
+				parent = this.getClass( ).getClassLoader( );
+			}
+			ClassLoader customClassLoader = DataSetProvider.getCustomScriptClassLoader( parent, handle );
+			ec.getAppContext( ).put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+					customClassLoader );
+			
+			ReportDesignHandle copiedReport = (ReportDesignHandle) ( handle.copy( ).getHandle( null ) );
+			
+			ReportEngine engine = (ReportEngine)new ReportEngineFactory( ).createReportEngine( ec );
+			
+			DummyEngineTask engineTask = new DummyEngineTask( engine,
+					new ReportEngineHelper( engine ).openReportDesign( copiedReport ),
+					copiedReport );
+			
+			Map appContext = new HashMap( );
+			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
+					new Integer( ( (DataSetHandle) getContainer( ).getModel( ) ).getRowFetchLimit( ) ) );
+
+			engineTask.setAppContext( appContext );
+			engineTask.run( );
+			
+			session = engineTask.getDataSession( );
+			
 			// query defintion
 			QueryDefinition query = new QueryDefinition( );
 			query.setDataSetName( ( (DataSetEditor) getContainer( ) ).getHandle( )
