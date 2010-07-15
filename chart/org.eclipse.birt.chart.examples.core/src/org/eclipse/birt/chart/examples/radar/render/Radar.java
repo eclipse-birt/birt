@@ -130,8 +130,8 @@ public class Radar extends BaseRenderer
 			{
 				iDSP = ps.getDataSetProcessor( sea[i].getClass( ) );
 				dst = sea[i].getDataSet( );
-				Double min = (Double) iDSP.getMinimum( dst );
-				Double max = (Double) iDSP.getMaximum( dst );
+				Double min = (Double) ((Number)iDSP.getMinimum( dst )).doubleValue( );
+				Double max = (Double) ((Number)iDSP.getMaximum( dst )).doubleValue( );
 
 				if ( min != null && min < axisMin )
 				{
@@ -776,7 +776,7 @@ public class Radar extends BaseRenderer
 				continue;
 			}
 
-			double currval = ( (Double) dph.getOrthogonalValue( ) ).doubleValue( );
+			double currval =  ((Number)dph.getOrthogonalValue( )).doubleValue( );
 
 			if ( currval < 0 )
 			{
