@@ -234,12 +234,14 @@ public final class DataSetProvider
 					else
 					{
 						items[i].setAnalysisColumn( null );
+						items[i].setIndexColumn( hint.isIndexColumn( ) );
 					}
 				}
 				else
 				{
 					items[i].setAnalysis( hint.getAnalysis( ) );
 					items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
+					items[i].setIndexColumn( hint.isIndexColumn( ) );
 				}
 				items[i].setACLExpression( hint.getACLExpression( ) );
 				items[i].setFormat( hint.getFormat( ) );
@@ -357,6 +359,7 @@ public final class DataSetProvider
 					else
 					{
 						items[i].setAnalysisColumn( null );
+						items[i].setIndexColumn( hint.isIndexColumn( ) );
 					}
 				}
 				else
@@ -673,6 +676,7 @@ public final class DataSetProvider
 				columns[n].setDescription( hint.getDescription( ) );
 				columns[n].setWordWrap( hint.wordWrap( ) );
 				columns[n].setFormatValue( hint.getValueFormat( ) );
+				columns[n].setIndexColumn( hint.isIndexColumn( ) );
 			}
 
 			// Update the column in Model if necessary
@@ -931,6 +935,7 @@ public final class DataSetProvider
 						else
 						{
 							columns[n].setAnalysisColumn( null );
+							columns[n].setIndexColumn( hint.isIndexColumn( ) );
 						}
 						columns[n].setAnalysisColumn( hint.getAnalysisColumn( ) );
 						columns[n].setACLExpression( hint.getACLExpression( ) );

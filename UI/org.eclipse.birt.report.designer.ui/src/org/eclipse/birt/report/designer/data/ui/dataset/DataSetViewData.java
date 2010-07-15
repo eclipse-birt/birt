@@ -73,6 +73,8 @@ public class DataSetViewData
 	private transient String analysisColumn = null;
 	
 	private FormatValue formatValue = null;
+	
+	private transient boolean isIndexColumn = false;
 
 	
 	public String getAnalysisColumn( )
@@ -449,5 +451,23 @@ public class DataSetViewData
 	public FormatValue getFormatValue( )
 	{
 		return formatValue;
+	}
+
+
+	/**
+	 * @param isColumnIndex the isColumnIndex to set
+	 */
+	public void setIndexColumn( boolean isIndexColumn )
+	{
+		this.isIndexColumn = isIndexColumn;
+	}
+
+
+	/**
+	 * @return the isColumnIndex
+	 */
+	public boolean isIndexColumn( )
+	{
+		return isIndexColumn;
 	}
 }
