@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
@@ -46,6 +47,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 public class DteAdapter
 {
+	private ExecutionContext executionContext;
 	
 	/**
 	 * Set related data set on specified session.
@@ -135,7 +137,15 @@ public class DteAdapter
 			}
 		}
 
-		new ModelDteApiAdapter().defineDataSet( handle, session );
+		if ( executionContext == null )
+		{
+			new ModelDteApiAdapter( ).defineDataSet( handle, session );
+		}
+		else
+		{
+			new ModelDteApiAdapter( executionContext ).defineDataSet( handle,
+					session );
+		}
 	}
 	
 	/**
@@ -209,6 +219,11 @@ public class DteAdapter
 			DataRequestSession session ) throws BirtException
 	{
 		// Not implemented here, just used for override.
+	}
+	
+	public void setExecutionContext(ExecutionContext context )
+	{
+		this.executionContext = context;
 	}
 	
 	/**

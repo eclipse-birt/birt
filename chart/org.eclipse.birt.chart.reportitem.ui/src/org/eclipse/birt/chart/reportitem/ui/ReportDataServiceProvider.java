@@ -209,6 +209,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 				session = engineTask.getDataSession( );
 				engineTask.run( );
+				dteAdapter.setExecutionContext( engineTask.getExecutionContext( ) );
 			}
 			else
 			{
