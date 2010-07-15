@@ -3371,7 +3371,9 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		// Flush all deferred caches to avoid clipping error.
 		getDeferredCacheManager( ).flushOptions( DeferredCache.FLUSH_LINE
-				| DeferredCache.FLUSH_PLANE | DeferredCache.FLUSH_PLANE_SHADOW );
+				| DeferredCache.FLUSH_PLANE
+				| DeferredCache.FLUSH_PLANE_SHADOW
+				| DeferredCache.FLUSH_MARKER );
 	}
 	
 	/**
