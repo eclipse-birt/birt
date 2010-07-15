@@ -646,7 +646,8 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		ExpressionProvider ep = new ChartExpressionProvider( designHandle,
 				context,
 				ChartReportItemUIUtil.getExpressionBuilderStyle( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS ) );
-
+		expressionProvider = ep;
+		
 		expButton = ChartExpressionButtonUtil.createExpressionButton( condition,
 				expression,
 				(ExtendedItemHandle) designHandle,
@@ -898,11 +899,13 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		};
 		expressionValue.addListener( SWT.Modify, listener );
-		ExpressionButtonUtil.createExpressionButton( parent,
+		
+		IExpressionButton ceb = ChartExpressionButtonUtil.createExpressionButton( parent,
 				expressionValue,
-				expressionProvider,
-				designHandle,
-				listener );
+				(ExtendedItemHandle) designHandle,
+				expressionProvider );
+		ceb.addListener( listener );
+
 		return expressionValue;
 	}
 

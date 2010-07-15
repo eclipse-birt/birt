@@ -72,8 +72,10 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -81,6 +83,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -1902,15 +1905,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// view, we just invokes referred crosstab handle to create
 			// query.
 			ExtendedItemHandle bindingHandle = (ExtendedItemHandle) referredHandle;
-			boolean disableFilter = false;
-			if ( referredHandle.getContainer( ) instanceof ReportItemHandle )
-			{
-				// If the shared xtab has container, here ignores filter while creating
-				// cube query, since the shared xtab might use _outer reference
-				// from container, but the _outer reference in design time is
-				// unavailable, it will cause exception on executing query.
-				disableFilter = true;
-			}
 			qd = CrosstabQueryUtil.createCubeQuery( (CrosstabReportItemHandle) bindingHandle.getReportItem( ),
 					null,
 					true,
@@ -1918,7 +1912,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					true,
 					true,
 					true,
-					!disableFilter );
+					true );
 
 			ICubeQueryDefinition queryDef = (ICubeQueryDefinition) qd;
 
@@ -1947,8 +1941,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					cm,
 					session.getModelAdaptor( ) ).createCubeQuery( null,
 					columnExpression.toArray( new String[columnExpression.size( )] ) );
-		}
 
+		}
+		
+		resetCubeQuery( qd );
+		
 		if ( needDefineCube( cube ) )
 		{
 			DataService.getInstance( ).registerSession( cube, session );
@@ -1966,6 +1963,26 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		return new BIRTCubeResultSetEvaluator( cqr );
+	}
+
+	/**
+	 * @param qd
+	 */
+	protected void resetCubeQuery( IBaseCubeQueryDefinition qd )
+	{
+		// Remove special filters that contain _outer expression, live
+		// preview doesn't support it.
+		ICubeQueryDefinition cqd = (ICubeQueryDefinition) qd;
+		for (Iterator iter = cqd.getFilters( ).iterator( ); iter.hasNext(); )
+		{
+			ICubeFilterDefinition cfd = (ICubeFilterDefinition) iter.next( );
+			ConditionalExpression ce = (ConditionalExpression) cfd.getExpression( );
+			if ( ( ce.getOperand1( ) != null && ((IScriptExpression)ce.getOperand1( )).getText( ) != null && ((IScriptExpression)ce.getOperand1( )).getText( ).indexOf( "._outer" ) >= 0 ) ||
+					( ce.getOperand2( ) != null && ((IScriptExpression)ce.getOperand2( )).getText( ) != null && ((IScriptExpression)ce.getOperand2( )).getText( ).indexOf( "._outer" ) >= 0 ) )
+			{
+				iter.remove( );
+			}
+		}
 	}
 
 	/**
