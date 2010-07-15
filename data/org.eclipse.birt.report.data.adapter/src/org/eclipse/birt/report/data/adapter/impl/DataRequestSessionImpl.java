@@ -1870,13 +1870,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 						new ScriptExpression( exprString, type )));
 				GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
 				
-				if ( ExpressionUtil.getColumnName( exprString ) != null )
-				{
-					//if exprString is just dataSetRow["xxx"]
-					//dataSetRow["xxx"] evaluation faster than row["xxx"] since its value are just from data set result set rather than Rhino 
-					gd.setKeyExpression( exprString );
-				}
-				else
+//				if ( ExpressionUtil.getColumnName( exprString ) != null )
+//				{
+//					//if exprString is just dataSetRow["xxx"]
+//					//dataSetRow["xxx"] evaluation faster than row["xxx"] since its value are just from data set result set rather than Rhino 
+//					gd.setKeyExpression( exprString );
+//				}
+//				else
 				{
 					gd.setKeyExpression( ExpressionUtil.createJSRowExpression( levelName ) );
 				}
