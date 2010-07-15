@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.script;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -158,6 +159,25 @@ public class ScriptEvalUtil
 		for ( int i = 0; i < ops.length; i++ )
 		{
 			resultOp[i] = opTextAndValue[i].value;
+			if ( operator != IConditionalExpression.OP_IN 
+					&& operator != IConditionalExpression.OP_NOT_IN )
+			{
+				if ( opTextAndValue[i].value != null 
+						&& opTextAndValue[i].value.getClass( ).isArray( ))
+				{
+					//For case multi-value type report parameter is involved in signle-value-required filters and
+					//only one value is provided for multi-value parameter
+					if ( Array.getLength( opTextAndValue[i].value ) == 0 )
+					{
+						resultOp[i] = null;
+					}
+					else if ( Array.getLength( opTextAndValue[i].value ) == 1 )
+					{
+						resultOp[i] = Array.get( opTextAndValue[i].value, 0 );
+					}
+					opTextAndValue[i].value = resultOp[i];
+				}
+			}
 		}
 
 		Object[] obArray = MiscUtil.isComparable( obj, operator, opTextAndValue );
@@ -415,13 +435,27 @@ public class ScriptEvalUtil
 				}
 			}
 			else
-				throw new DataException( ResourceConstants.INVALID_TYPE_IN_EXPR );
+				throw new DataException( ResourceConstants.BAD_COMPARE_EXPR,
+						new Object[]{toString( obj1), toString(obj2)});
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			throw DataException.wrap( e );
 		}
 
+	}
+	
+	private static String toString( Object o )
+	{
+		if ( o == null )
+		{
+			return null;
+		}
+		if ( o.getClass( ).isArray( ) )
+		{
+			return "An array:" + o.toString( );
+		}
+		return o.toString( );
 	}
 
 	private static int CompareNullValue( Object obj1, Object obj2,
