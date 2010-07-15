@@ -906,7 +906,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 							.createSeriesGrouping( ) );
 				}
 				query.getGrouping( ).setGroupType( type );
-				if ( type == DataType.DATE_TIME_LITERAL )
+				if ( type == DataType.DATE_TIME_LITERAL
+						&& context.getDataServiceProvider( )
+								.checkState( IDataServiceProvider.HAS_DATA_SET ) )
 				{
 					query.getGrouping( )
 							.setGroupingUnit( GroupingUnitType.YEARS_LITERAL );
@@ -1112,11 +1114,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			return null;
 		}
 
-		/**
-		 * 
-		 * @param aggrName
-		 * @return
-		 */
 		public String getChartAggr( String aggrName )
 		{
 			ColumnBindingInfo cbi = mapBinding.get( aggrName );
@@ -1127,11 +1124,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			return null;
 		}
 
-		/**
-		 * 
-		 * @param expr
-		 * @return
-		 */
 		public String translateToBindingName( String expr, String name )
 		{
 			if ( expr != null && expr.length( ) > 0 )
@@ -1147,11 +1139,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			return expr;
 		}
 
-		/**
-		 * 
-		 * @param expr
-		 * @return
-		 */
 		public String translateFromBindingName( String expr )
 		{
 			if ( expr != null && expr.length( ) > 0 )
