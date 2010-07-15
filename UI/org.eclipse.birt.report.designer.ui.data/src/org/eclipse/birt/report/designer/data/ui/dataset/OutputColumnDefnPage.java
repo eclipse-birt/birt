@@ -1370,10 +1370,29 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 				columnHintHandle.setExpressionProperty( ColumnHint.ACL_EXPRESSION_MEMBER,
 						expr );
 			else
-				columnHint.setExpressionProperty( ColumnHint.ACL_EXPRESSION_MEMBER,
+				columnHint.setProperty( ColumnHint.ACL_EXPRESSION_MEMBER,
 						expr );
 		}
 		
+		public boolean isIndexColumn( )
+		{
+			if ( this.columnHintHandle != null )
+				return columnHintHandle.isIndexColumn( );
+			else
+				return (Boolean) columnHint.getProperty( null,
+						ColumnHint.INDEX_COLUMN_MEMBER );
+		}
+
+		public void setIndexColumn( boolean indexColumn )
+				throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setIndexColumn( indexColumn );
+			else
+				columnHint.setProperty( ColumnHint.INDEX_COLUMN_MEMBER,
+						indexColumn );
+		}
+
 		public void setProperty( Object property, Object value )
 		{
 			if ( property.equals( NAME ) )
@@ -1422,6 +1441,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			}
 			return null;
 		}
+
 	}
 	
 	protected class OutputColumnTableViewer

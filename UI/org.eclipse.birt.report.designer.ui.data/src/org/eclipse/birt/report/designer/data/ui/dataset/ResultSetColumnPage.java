@@ -95,6 +95,8 @@ public class ResultSetColumnPage extends Composite
 		protected String columnName;
 		protected String analysisType;
 		protected String analysisCoumn;
+		protected boolean isIndexColumn;
+		
 		protected String alias;
 		//default type is "string"
 		protected int dataType = getTypeIndex( DesignChoiceConstants.PARAM_TYPE_STRING );
