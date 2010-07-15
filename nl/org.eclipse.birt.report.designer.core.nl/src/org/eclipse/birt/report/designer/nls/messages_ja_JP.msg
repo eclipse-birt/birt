@@ -2644,7 +2644,7 @@ MultiPageEditorContributor.menuText.editorMenu=エディタメニュー(&M)
 
 NewLibraryWizard.choicePageTitle.report=ライブラリ
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
-NewLibraryWizard.displayName.NewReportFileNamePrefix=新規_ライブラリ
+NewLibraryWizard.displayName.NewReportFileNamePrefix=新規ライブラリ
 NewLibraryWizard.error.NoProject=ワークスペースには開いているプロジェクトがありません。[ファイル]→[新規作成]→[プロジェクト] を選択して新しいプロジェクトを作成するか、既存のプロジェクトを開いてください。
 NewLibraryWizard.pageDescription.createNewReport=新しいライブラリを作成します。
 NewLibraryWizard.taskName.openFileForEdit=ファイルを編集モードで開く...
@@ -2687,7 +2687,7 @@ NewReportProjectWizard.windowTitle=新規レポートプロジェクト
 
 NewReportWizard.choicePageTitle.report=レポート
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
-NewReportWizard.displayName.NewReportFileNamePrefix=新規_レポート
+NewReportWizard.displayName.NewReportFileNamePrefix=新規レポート
 NewReportWizard.error.NoProject=ワークスペースには開いているプロジェクトがありません。[ファイル]→[新規作成]→[プロジェクト] を選択して新しいプロジェクトを作成するか、既存のプロジェクトを開いてください。
 NewReportWizard.pageDescription.createNewReport=新しいレポートを作成します。
 NewReportWizard.pageDescription.selectReportTemplate=作成するレポートの種類を選択してください。
@@ -2760,7 +2760,7 @@ NewSectionDialog.Title=要素の挿入
 ###########################################################
 #NewTemplateWizard properties
 
-NewTemplateWizard.displayName.NewReportFileNamePrefix=新規_テンプレート
+NewTemplateWizard.displayName.NewReportFileNamePrefix=新規テンプレート
 NewTemplateWizard.pageDescription.createNewTemplate=新しいレポートテンプレートを作成します。
 NewTemplateWizard.text.CreateReport=新しいテンプレートを作成します。
 NewTemplateWizard.text.Creating=作成中
