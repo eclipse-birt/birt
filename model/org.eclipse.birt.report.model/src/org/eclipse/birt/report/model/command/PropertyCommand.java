@@ -32,9 +32,11 @@ import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.OdaLevelAttribute;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -60,6 +62,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -70,11 +73,17 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularHierarchyModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularLevelModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.OdaLevel;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
+import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
 import org.eclipse.birt.report.model.elements.olap.TabularLevel;
 import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
@@ -545,8 +554,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 				if ( element instanceof TabularLevel )
 				{
 					LevelAttribute attibute = new LevelAttribute( );
-					attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
-					attibute.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+					attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );					
+					attibute.setDataType( getDataType( (TabularLevel) element ) );
 					struct = attibute;
 				}
 				else if ( element instanceof OdaLevel )
@@ -657,6 +666,62 @@ public class PropertyCommand extends AbstractPropertyCommand
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Gets the data type of the level 
+	 * @return
+	 */
+	private String getDataType( TabularLevel level )
+	{		
+		String columnName = level.getStringProperty( module,
+				ITabularLevelModel.COLUMN_NAME_PROP );
+		if ( !StringUtil.isBlank( columnName ) )
+		{
+			DesignElement container = element.getContainer( );
+			DataSet dataSet = null;
+			if ( container instanceof TabularHierarchy )
+				dataSet = (DataSet) container.getReferenceProperty(
+						module, ITabularHierarchyModel.DATA_SET_PROP );
+			if ( dataSet == null )
+			{
+				container = container.getContainer( );
+				if ( container instanceof Dimension )
+					container = container.getContainer( );
+				if ( container instanceof TabularCube )
+					dataSet = (DataSet) container.getReferenceProperty(
+							module, ITabularCubeModel.DATA_SET_PROP );
+			}
+			if ( dataSet != null )
+			{
+				CachedMetaData metaData = (CachedMetaData) dataSet
+						.getProperty( module,
+								IDataSetModel.CACHED_METADATA_PROP );
+				if ( metaData != null )
+				{
+					List<ResultSetColumn> resultSet = (List<ResultSetColumn>) metaData
+							.getProperty( module,
+									CachedMetaData.RESULT_SET_MEMBER );
+					if ( resultSet != null )
+					{
+						for ( ResultSetColumn column : resultSet )
+						{
+							if ( columnName.equals( column
+									.getStringProperty( module,
+											ResultSetColumn.NAME_MEMBER ) ) )
+							{
+								String dataType = column.getStringProperty( module,
+										ResultSetColumn.DATA_TYPE_MEMBER );
+								if ( dataType != null )
+									return dataType;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
 	}
 
 	/**
