@@ -68,7 +68,7 @@ public class ListBandRenderFigure extends Figure
 								IFigure tablePane = ( (LayeredPane) ( (LayeredPane) ( (TableFigure) child ).getContents( ) ).getLayer( LayerConstants.PRINTABLE_LAYERS ) ).getLayer( LayerConstants.PRIMARY_LAYER );
 								LayoutManager layoutManager = tablePane.getLayoutManager( );
 
-								if ( layoutManager instanceof TableLayout )
+								if ( layoutManager instanceof TableLayout && !(getParent().getParent().getParent() instanceof ListBandRenderFigure))
 								{
 									( (ListFigure) grandFigure ).markDirty( false );
 									( (TableLayout) layoutManager ).markDirty( );
