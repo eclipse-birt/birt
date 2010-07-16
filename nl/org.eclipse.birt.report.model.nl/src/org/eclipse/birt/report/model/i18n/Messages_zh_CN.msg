@@ -2344,7 +2344,7 @@ Element.ScriptDataSet=脚本数据集
 Element.Listing=列表
 Element.OdaDataSet=ODA 数据集
 Element.OdaDataSource=ODA 数据源
-Element.Theme=主题
+Element.Theme=布景主题
 Element.TemplateParameterDefinition=模板参数定义
 Element.TemplateElement=模板元素
 Element.TemplateReportItem=模板报表项
@@ -2420,7 +2420,7 @@ Element.Library.slot.dataSources=数据源
 Element.Library.slot.dataSets=数据集
 Element.Library.slot.pageSetup=页面设置
 Element.Library.slot.components=组件
-Element.Library.slot.themes=主题
+Element.Library.slot.themes=布景主题
 Element.Library.slot.cubes=多维数据集
 
 #1. Report Design ( Prefix = Element.ReportDesign )
@@ -2725,7 +2725,7 @@ Element.ReportItem.ACLExpression=ACL 表达式
 Element.ReportItem.cascadeACL=层叠 ACL
 Element.ReportItem.allowExport=允许导出
 Element.ReportItem.pushDown=下推
-Element.ReportItem.theme=主题
+Element.ReportItem.theme=布景主题
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容
