@@ -52,4 +52,4 @@ OptionDescription.Color=색입니다.
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
+Tooltip.ChartDpi=차트 엔진에서 차트를 생성하는 데 사용하는 DPI입니다. 예: 192.

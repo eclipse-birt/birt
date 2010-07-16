@@ -31,4 +31,4 @@ OptionDescription.HideGridlines=Rasterlinien ausblenden.
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
+Tooltip.ChartDpi=Von der Diagramm-Engine zum Erstellen von Diagrammen verwendete DPI. Zum Beispiel 192.

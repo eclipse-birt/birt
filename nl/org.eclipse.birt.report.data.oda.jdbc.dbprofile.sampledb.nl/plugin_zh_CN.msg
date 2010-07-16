@@ -13,13 +13,13 @@
 #
 plugin.name=BIRT Sample Database Connection Profile Plug-in
 connection.profile.name=BIRT Classic Models 示例数据库
-driver.template.name=BIRT SampleDb Derby Embedded JDBC Driver
+driver.template.name=BIRT SampleDb Derby 嵌入式 JDBC 驱动程序
 driver.definition.name=BIRT SampleDb Derby 嵌入式驱动程序
 #
-driver.template.property.class = Driver class
-driver.template.property.vendor = Vendor
-driver.template.property.version = Version
-driver.template.property.dbname = Database
-driver.template.property.connection.url = Connection URL
-driver.template.property.user = User name
-driver.template.property.password = Password
+driver.template.property.class = 驱动程序类
+driver.template.property.vendor = 供应商
+driver.template.property.version = 版本
+driver.template.property.dbname = 数据库
+driver.template.property.connection.url = 连接 URL
+driver.template.property.user = 用户名
+driver.template.property.password = 密码

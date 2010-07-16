@@ -40,4 +40,4 @@ OptionDescription.RenderChartInSVG=ƒxƒNƒ^[ƒOƒ‰ƒtƒBƒbƒN‚ÅƒOƒ‰ƒt‚ğƒŒƒ“ƒ_ƒŠƒ“ƒO‚µ‚
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
+Tooltip.ChartDpi=ƒOƒ‰ƒtƒGƒ“ƒWƒ“‚ªƒOƒ‰ƒt‚Ì¶¬‚Ég—p‚·‚é DPI ‚Å‚·B —á : 192

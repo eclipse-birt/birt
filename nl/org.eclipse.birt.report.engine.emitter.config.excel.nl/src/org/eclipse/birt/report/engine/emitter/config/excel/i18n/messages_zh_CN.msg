@@ -31,4 +31,4 @@ OptionDescription.HideGridlines=隐藏网络线。
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
+Tooltip.ChartDpi=图表引擎用于生成图表的 DPI。 例如，192。

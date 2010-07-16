@@ -125,8 +125,8 @@ LevelPropertyDialog.Member.Access.Control.List.Expression=成员访问控制列表表达式
 LevelPropertyDialog.Message=选择要作为动态或静态对象的组级别并填写必填字段
 LevelPropertyDialog.Message.NumericName=属性名称不能为纯数。
 LevelPropertyDialog.Message.BlankName=属性名称不能为空白
-LevelPropertyDialog.Message.BlankKeyField=Key field cannot be blank
-LevelPropertyDialog.Message.BlankDataType=Data Type field cannot be blank
+LevelPropertyDialog.Message.BlankKeyField=键字段不能为空白
+LevelPropertyDialog.Message.BlankDataType=数据类型字段不能为空白
 LevelPropertyDialog.None=无
 LevelPropertyDialog.GroupBy=分组依据:
 LevelPropertyDialog.Name=名称(&N):
@@ -205,7 +205,7 @@ VirtualField.SharedDimensions=共享维
 
 MeasureDialog.Label.Format=格式为(&O):
 MeasureDialog.Button.Format.Edit=更改(&G)...
-MeasureDialog.Label.Alignment=Al&ignment:
+MeasureDialog.Label.Alignment=对齐(&I):
 
 LevelPropertyDialog.Label.Format=格式为(&F):
 LevelPropertyDialog.Button.Format.Edit=更改(&G)...
@@ -213,4 +213,4 @@ LevelStaticAttributeDialog.Error.Message=成员不能为空白
 LevelStaticAttributeDialog.Label.Expression=条件和表达式:
 LevelStaticAttributeDialog.Label.Member=成员(&M):
 
-LevelPropertyDialog.Label.Alignment=Al&ignment:
+LevelPropertyDialog.Label.Alignment=对齐(&I):

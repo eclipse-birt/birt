@@ -40,4 +40,4 @@ OptionDescription.RenderChartInSVG=Afficher le graphique en image vectorielle.
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
+Tooltip.ChartDpi=DPI utilisé par le moteur de graphique pour générer des graphiques. Par exemple, 192.

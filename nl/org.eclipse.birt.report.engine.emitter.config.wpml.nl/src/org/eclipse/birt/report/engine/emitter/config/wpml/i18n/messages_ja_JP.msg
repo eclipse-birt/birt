@@ -24,4 +24,4 @@ OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
 
 ###########################################################
 #tooltip
-Tooltip.ChartDpi=The DPI which chart engine uses to generate charts. For example, 192.
+Tooltip.ChartDpi=グラフエンジンがグラフの生成に使用する DPI です。 例 : 192

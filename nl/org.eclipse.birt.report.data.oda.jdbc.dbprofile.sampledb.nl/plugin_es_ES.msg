@@ -13,13 +13,13 @@
 #
 plugin.name=BIRT Sample Database Connection Profile Plug-in
 connection.profile.name=Base de datos de muestra BIRT Classic Models
-driver.template.name=BIRT SampleDb Derby Embedded JDBC Driver
+driver.template.name=Controlador JDBC incrustado BIRT SampleDb Derby
 driver.definition.name=Controlador incrustado BIRT SampleDb Derby
 #
-driver.template.property.class = Driver class
-driver.template.property.vendor = Vendor
-driver.template.property.version = Version
-driver.template.property.dbname = Database
-driver.template.property.connection.url = Connection URL
-driver.template.property.user = User name
-driver.template.property.password = Password
+driver.template.property.class = Clase de controlador
+driver.template.property.vendor = Proveedor
+driver.template.property.version = Versión
+driver.template.property.dbname = Base de datos
+driver.template.property.connection.url = URL de conexión
+driver.template.property.user = Nombre de usuario
+driver.template.property.password = Contraseña

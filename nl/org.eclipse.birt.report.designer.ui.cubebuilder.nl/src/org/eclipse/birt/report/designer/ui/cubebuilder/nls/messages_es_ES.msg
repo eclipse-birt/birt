@@ -125,8 +125,8 @@ LevelPropertyDialog.Member.Access.Control.List.Expression=Ex&presión de lista de
 LevelPropertyDialog.Message=Seleccionar el nivel de grupo dinámico o estático y rellenar los campos necesarios
 LevelPropertyDialog.Message.NumericName=El nombre de propiedad no puede ser un número puro
 LevelPropertyDialog.Message.BlankName=El nombre de propiedad no puede estar en blanco
-LevelPropertyDialog.Message.BlankKeyField=Key field cannot be blank
-LevelPropertyDialog.Message.BlankDataType=Data Type field cannot be blank
+LevelPropertyDialog.Message.BlankKeyField=El campo de clave no puede estar en blanco
+LevelPropertyDialog.Message.BlankDataType=El campo de tipo de datos no puede estar en blanco
 LevelPropertyDialog.None=Ninguno
 LevelPropertyDialog.GroupBy=Agrupar por:
 LevelPropertyDialog.Name=&Nombre:
@@ -205,7 +205,7 @@ VirtualField.SharedDimensions=Dimensiones compartidas
 
 MeasureDialog.Label.Format=F&ormato como:
 MeasureDialog.Button.Format.Edit=Camb&iar...
-MeasureDialog.Label.Alignment=Al&ignment:
+MeasureDialog.Label.Alignment=Al&ineación:
 
 LevelPropertyDialog.Label.Format=&Formato como:
 LevelPropertyDialog.Button.Format.Edit=Camb&iar...
@@ -213,4 +213,4 @@ LevelStaticAttributeDialog.Error.Message=El miembro no puede estar en blanco
 LevelStaticAttributeDialog.Label.Expression=Expresión &condicional:
 LevelStaticAttributeDialog.Label.Member=&Miembro:
 
-LevelPropertyDialog.Label.Alignment=Al&ignment:
+LevelPropertyDialog.Label.Alignment=Al&ineación:

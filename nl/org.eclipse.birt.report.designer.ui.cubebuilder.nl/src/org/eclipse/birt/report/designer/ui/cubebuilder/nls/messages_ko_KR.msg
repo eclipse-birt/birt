@@ -125,8 +125,8 @@ LevelPropertyDialog.Member.Access.Control.List.Expression=구성원 액세스 제어 목�
 LevelPropertyDialog.Message=그룹 수준을 동적 또는 정적으로 선택하고 필수 필드를 채우십시오.
 LevelPropertyDialog.Message.NumericName=속성 이름에 숫자만 입력하면 안 됩니다.
 LevelPropertyDialog.Message.BlankName=속성 이름은 비워 둘 수 없습니다.
-LevelPropertyDialog.Message.BlankKeyField=Key field cannot be blank
-LevelPropertyDialog.Message.BlankDataType=Data Type field cannot be blank
+LevelPropertyDialog.Message.BlankKeyField=키 필드는 비워둘 수 없습니다.
+LevelPropertyDialog.Message.BlankDataType=데이터 형식 필드는 비워둘 수 없습니다.
 LevelPropertyDialog.None=없음
 LevelPropertyDialog.GroupBy=묶는 방법:
 LevelPropertyDialog.Name=이름(&N):
@@ -205,7 +205,7 @@ VirtualField.SharedDimensions=공유 차원
 
 MeasureDialog.Label.Format=다음으로 형식 지정(&O):
 MeasureDialog.Button.Format.Edit=변경(&G)...
-MeasureDialog.Label.Alignment=Al&ignment:
+MeasureDialog.Label.Alignment=맞춤(&I):
 
 LevelPropertyDialog.Label.Format=다음으로 형식 지정(&F):
 LevelPropertyDialog.Button.Format.Edit=변경(&G)...
@@ -213,4 +213,4 @@ LevelStaticAttributeDialog.Error.Message=구성원은 비워둘 수 없습니다.
 LevelStaticAttributeDialog.Label.Expression=조건식(&E):
 LevelStaticAttributeDialog.Label.Member=구성원(&M):
 
-LevelPropertyDialog.Label.Alignment=Al&ignment:
+LevelPropertyDialog.Label.Alignment=맞춤(&I):
