@@ -865,7 +865,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		andLable = new Label( condition, SWT.NONE );
 		andLable.setText( Messages.getString( "FilterConditionBuilder.text.AND" ) ); //$NON-NLS-1$
 		andLable.setEnabled( false );
-		// andLable.setVisible( false );
+		andLable.setVisible( false );
 
 		dummy2 = createDummy( condition, 3 );
 
@@ -873,7 +873,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		expressionValue2.setLayoutData( expgd );
 		expressionValue2.add( CHOICE_SELECT_VALUE );
 
-		// expressionValue2.setVisible( false );
+		expressionValue2.setVisible( false );
 
 		if ( operator.getItemCount( ) > 0
 				&& operator.getSelectionIndex( ) == -1 )
@@ -1599,7 +1599,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			assert ( !expressionValue1.isDisposed( ) );
 			assert ( !expressionValue2.isDisposed( ) );
 
-			if ( expressionValue1.getVisible( ) )
+			if (expressionValue1!=null && expressionValue1.getVisible( ) )
 			{
 				if ( expressionValue1.getText( ) == null
 						|| expressionValue1.getText( ).trim( ).length( ) == 0 )
@@ -1608,7 +1608,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				}
 			}
 
-			if ( expressionValue2.getVisible( ) )
+			if ( expressionValue2 != null && expressionValue2.getVisible( ) )
 			{
 				if ( expressionValue2.getText( ) == null
 						|| expressionValue2.getText( ).trim( ).length( ) == 0 )
@@ -1623,7 +1623,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	protected void checkAddButtonStatus( )
 	{
-		if ( addExpressionValue != null )
+		if ( addExpressionValue != null && !addExpressionValue.isDisposed( ) )
 		{
 			String value = addExpressionValue.getText( );
 			if ( value == null
@@ -1650,7 +1650,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	protected void checkEditDelButtonStatus( )
 	{
-		if ( tableViewer == null )
+		if ( tableViewer == null || table.isDisposed( ) )
 		{
 			return;
 		}
@@ -1700,20 +1700,38 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		if ( valueVisible == 0 )
 		{
 			expressionValue1.setVisible( false );
+			ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+					.getControl( )
+					.setVisible( false );
 			expressionValue2.setVisible( false );
+			ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+					.getControl( )
+					.setVisible( false );
 			andLable.setVisible( false );
 		}
 		else if ( valueVisible == 1 )
 		{
 			expressionValue1.setVisible( true );
+			ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+					.getControl( )
+					.setVisible( true );
 			expressionValue2.setVisible( false );
+			ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+					.getControl( )
+					.setVisible( false );
 
 			andLable.setVisible( false );
 		}
 		else if ( valueVisible == 2 )
 		{
 			expressionValue1.setVisible( true );
+			ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+					.getControl( )
+					.setVisible( true );
 			expressionValue2.setVisible( true );;
+			ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+					.getControl( )
+					.setVisible( true );
 			andLable.setVisible( true );
 			andLable.setEnabled( true );
 		}
