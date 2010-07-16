@@ -11,12 +11,17 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.gef.ui.actions.Clipboard;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -67,8 +72,30 @@ public class PasteAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-		if ( !canPaste( ) )
+		List infoList = new ArrayList();
+		if ( !canPaste( infoList ) )
+		{
+			String message = null;
+			if (infoList.size( ) != 0)
+			{
+				message = ((SemanticException)infoList.get( 0 )).getLocalizedMessage( );
+				if (message != null)
+				{
+					MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+							Messages.getString("PasteAction.dlg.title"), //$NON-NLS-1$
+							null,
+							message,
+							MessageDialog.INFORMATION,
+							new String[]{
+									Messages.getString("PasteAction.ok")  //$NON-NLS-1$
+							},
+							0 );
+					prefDialog.open( );
+				}
+			}
 			return;
+		}
+		
 		try
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.pasteAction", null ); //$NON-NLS-1$
@@ -95,10 +122,10 @@ public class PasteAction extends AbstractViewAction
 		return true;
 	}
 
-	private boolean canPaste( )
+	private boolean canPaste( List info)
 	{
 		return DNDUtil.handleValidateTargetCanContain( getSelection( ),
-				getClipBoardContents( ) )
+				getClipBoardContents( ), info )
 				&& DNDUtil.handleValidateTargetCanContainMore( getSelection( ),
 						DNDUtil.getObjectLength( getClipBoardContents( ) ) );
 	}

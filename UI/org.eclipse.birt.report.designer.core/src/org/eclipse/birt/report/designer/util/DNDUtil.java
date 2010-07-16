@@ -70,6 +70,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.CopyUtil;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
+import org.eclipse.birt.report.model.api.util.IPasteStatus;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -1015,11 +1016,22 @@ public final class DNDUtil
 	 * @return if target elements can be dropped
 	 */
 	public static boolean handleValidateTargetCanContain( Object targetObj,
+			Object transferData, List infoList)
+	{
+		return handleValidateTargetCanContain( targetObj, transferData, true, infoList ) != CONTAIN_NO;
+	}
+	
+	public static boolean handleValidateTargetCanContain( Object targetObj,
 			Object transferData )
 	{
-		return handleValidateTargetCanContain( targetObj, transferData, true ) != CONTAIN_NO;
+		return handleValidateTargetCanContain( targetObj, transferData, new ArrayList() );
 	}
 
+	public static int handleValidateTargetCanContain( Object targetObj,
+			Object transferData, boolean validateContainer )
+	{
+		return  handleValidateTargetCanContain(targetObj, transferData,validateContainer, new ArrayList());
+	}
 	/**
 	 * Validates target elements can contain transfer data.
 	 * <p>
@@ -1038,7 +1050,7 @@ public final class DNDUtil
 	 *         If target's container can be dropped, return CONTAIN_PARENT
 	 */
 	public static int handleValidateTargetCanContain( Object targetObj,
-			Object transferData, boolean validateContainer )
+			Object transferData, boolean validateContainer,  List infoList)
 	{
 		if ( targetObj == null || transferData == null )
 			return CONTAIN_NO;
@@ -1047,7 +1059,7 @@ public final class DNDUtil
 		{
 			return handleValidateTargetCanContain( targetObj,
 					( (StructuredSelection) transferData ).toArray( ),
-					validateContainer );
+					validateContainer, infoList );
 		}
 		else if ( transferData instanceof Object[] )
 		{
@@ -1056,14 +1068,14 @@ public final class DNDUtil
 			{
 				return handleValidateTargetCanContain( targetObj,
 						array[0],
-						validateContainer );
+						validateContainer,infoList );
 			}
 			int canContainAll = CONTAIN_NO;
 			for ( int i = 0; i < array.length; i++ )
 			{
 				int canContain = handleValidateTargetCanContain( targetObj,
 						array[i],
-						validateContainer );
+						validateContainer,infoList );
 				if ( i == 0 )
 				{
 					canContainAll = canContain;
@@ -1111,18 +1123,22 @@ public final class DNDUtil
 				if ( targetObj instanceof SlotHandle )
 				{
 					SlotHandle targetHandle = (SlotHandle) targetObj;
-					return CopyUtil.canPaste( (IElementCopy) transferData,
+					IPasteStatus status = CopyUtil.canPaste( (IElementCopy) transferData,
 							targetHandle.getElementHandle( ),
-							targetHandle.getSlotID( ) ).canPaste( ) ? CONTAIN_THIS
+							targetHandle.getSlotID( ) );
+					infoList.addAll( status.getErrors( ) );
+					return status.canPaste( ) ? CONTAIN_THIS
 							: CONTAIN_NO;
 				}
 
 				if ( targetObj instanceof PropertyHandle )
 				{
 					PropertyHandle targetHandle = (PropertyHandle) targetObj;
-					return CopyUtil.canPaste( (IElementCopy) transferData,
+					IPasteStatus status =  CopyUtil.canPaste( (IElementCopy) transferData,
 							targetHandle.getElementHandle( ),
-							targetHandle.getPropertyDefn( ).getName( ) ).canPaste( ) ? CONTAIN_THIS
+							targetHandle.getPropertyDefn( ).getName( ) );
+					infoList.addAll( status.getErrors( ) );
+					return status.canPaste( ) ? CONTAIN_THIS
 							: CONTAIN_NO;
 				}
 
