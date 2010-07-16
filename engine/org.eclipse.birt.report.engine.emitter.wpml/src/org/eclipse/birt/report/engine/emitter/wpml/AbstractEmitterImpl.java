@@ -173,7 +173,7 @@ public abstract class AbstractEmitterImpl
 
 	private boolean fixedLayout;
 
-	private int reportDpi;
+	protected int reportDpi;
 
 	public void initialize( IEmitterServices service ) throws EngineException
 	{

@@ -160,11 +160,13 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 				wordWriter.insertHiddenParagraph( );
 			}
 
-			wordWriter.startTable( foreign.getComputedStyle( ), context
-					.getCurrentWidth( ) );
+			int width = WordUtil.convertTo( foreign.getWidth( ),
+					context.getCurrentWidth( ), reportDpi );
+			width = Math.min( width, context.getCurrentWidth( ) );
+			wordWriter.startTable( foreign.getComputedStyle( ), width );
 			wordWriter.startTableRow( -1 );
-			wordWriter.startTableCell( context.getCurrentWidth( ), foreign
-					.getComputedStyle( ), null );
+			wordWriter
+					.startTableCell( width, foreign.getComputedStyle( ), null );
 			writeToc( foreign );
 			contentVisitor.visitChildren( foreign, null );
 
