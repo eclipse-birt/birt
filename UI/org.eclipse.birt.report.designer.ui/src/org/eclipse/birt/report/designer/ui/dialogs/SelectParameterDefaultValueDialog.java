@@ -126,7 +126,6 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 			}
 		} );
 
-
 		PlatformUI.getWorkbench( ).getDisplay( ).asyncExec( new Runnable( ) {
 
 			public void run( )
@@ -174,7 +173,8 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		{
 			if ( this.getShell( ) == null || this.getShell( ).isDisposed( ) )
 				return;
-			if ( this.getOkButton( ) != null && !this.getOkButton( ).isDisposed( ) )
+			if ( this.getOkButton( ) != null
+					&& !this.getOkButton( ).isDisposed( ) )
 				getOkButton( ).setEnabled( false );
 
 			table.removeAll( );
@@ -225,7 +225,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				}
 				else
 				{
-					exprValues[i] = String.valueOf( selectedItems[i] );
+					exprValues[i] = getDataText( selectedItems[i] );
 				}
 			}
 		}
@@ -302,12 +302,14 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		{
 		}
 
-		public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
+		public void inputChanged( Viewer viewer, Object oldInput,
+				Object newInput )
 		{
 		}
 	}
 
-	public class TableLabelProvider extends LabelProvider implements ITableLabelProvider
+	public class TableLabelProvider extends LabelProvider implements
+			ITableLabelProvider
 	{
 
 		public String getColumnText( Object element, int columnIndex )

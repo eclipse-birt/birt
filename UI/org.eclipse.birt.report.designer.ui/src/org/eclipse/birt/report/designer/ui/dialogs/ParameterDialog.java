@@ -1746,7 +1746,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						if ( isValidValue( choice.getValue( ) ) != null
 								|| set.contains( validateValue( choice.getValue( ) ) ) )
 						{
-							iter.remove( );
+							if ( enableAllowMultiValueVisible( ) )
+							{
+								iter.remove( );
+							}
 							change = true;
 						}
 						else
@@ -1768,7 +1771,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 							|| set.contains( validateValue( expression.getStringExpression( ),
 									expression.getType( ) ) ) )
 					{
-						iter.remove( );
+						if ( enableAllowMultiValueVisible( ) )
+						{
+							iter.remove( );
+						}
 						change = true;
 					}
 					else
@@ -3425,7 +3431,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				boolean change = makeUniqueAndValid( );
 				if ( change )
 				{
-					refreshStaticValueTable( );
+					if ( isStatic( ) )
+					{
+						refreshStaticValueTable( );
+					}
+					else
+					{
+						refreshDynamicValueTable( );
+					}
 				}
 			}
 			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
