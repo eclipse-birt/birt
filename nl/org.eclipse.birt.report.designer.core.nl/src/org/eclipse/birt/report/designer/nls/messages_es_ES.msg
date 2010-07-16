@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<Nuevo parámetro aquí...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Ninguno
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=El parámetro del informe vinculado "{0}" del parámetro del conjunto de datos "{1}" ya no existe.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=El parámetro del conjunto de datos "{0}" no debería enlazar con un parámetro de informe del tipo de valor múltiple.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
 DataSetParameterPage.cell.linkToSalarParameter=&Vinculado a parámetro de informe
 DataSetParameterPage.title.ParameterInputDialog=Parámetro
 DataSetParameterPage.toolTipText.New=Nuevo parámetro
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=Subrayado
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=¿Desea eliminarlo?
+DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=Va a eliminar un grupo de parámetros. Si elimina el grupo de parámetros, eliminará todos los parámetros incluidos en el grupo. ¿Desea continuar?
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=Confirmar eliminación de grupo de parámetros
 DefaultNodeProvider.Tree.Body=Texto
-DefaultNodeProvider.Tree.Clients=\\ tiene los clientes siguientes
+DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
 DefaultNodeProvider.Tree.ColumnHedings=Encabezados de columna
 DefaultNodeProvider.Tree.Components = Elementos de informe
 DefaultNodeProvider.Tree.DataSets=Conjuntos de datos
@@ -822,7 +822,7 @@ DefaultNodeProvider.Tree.Invalid=Nodo no válido
 DefaultNodeProvider.Tree.MasterPages=Páginas maestras
 DefaultNodeProvider.Tree.PageSetup=Configurar página
 DefaultNodeProvider.Tree.Parameters=Parámetros de informe
-DefaultNodeProvider.Tree.Reference=Se ha encontrado la referencia
+DefaultNodeProvider.Tree.Reference=Advertencia
 DefaultNodeProvider.Tree.Scratch=Bloc de notas
 DefaultNodeProvider.Tree.Styles=Estilos
 DefaultNodeProvider.Tree.Themes=Temas
@@ -3046,6 +3046,8 @@ ParametersOutlineProcess.text.Show=muestra la página del editor de conjunto de d
 ###########################################################
 #PasteAction properties
 
+PasteAction.dlg.title=Infomation
+PasteAction.ok=Aceptar
 PasteAction.text=&Pegar
 
 ###########################################################

@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<New param here...>
 DataSetParametersPage.default.None=n.a.
 DataSetParametersPage.reportParam.None=Ohne
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=Der verknüpfte Berichtparameter "{0}" des Datensatzparameters "{1}" ist nicht vorhanden.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Datensatzparameter '{0}' darf nicht mit einem Berichtparameter des Typs 'Mehrere Werte' verknüpft sein.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
 DataSetParameterPage.cell.linkToSalarParameter=Mit Berichtparameter &verknüpft
 DataSetParameterPage.title.ParameterInputDialog=Parameter
 DataSetParameterPage.toolTipText.New=Neuer Parameter
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=Unterstreichen
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=Möchten Sie das Element wirklich löschen?
+DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=Sie sind im Begriff, eine Parametergruppe zu löschen. Wenn Sie diese Parametergruppe löschen, werden alle Parameter innerhalb der Gruppe gelöscht. Möchten Sie fortfahren?
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=Löschen der Parametergruppe bestätigen
 DefaultNodeProvider.Tree.Body=Hauptteil
-DefaultNodeProvider.Tree.Clients=\\ hat folgende Clients
+DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
 DefaultNodeProvider.Tree.ColumnHedings=Spaltenüberschriften
 DefaultNodeProvider.Tree.Components = Berichtobjekte
 DefaultNodeProvider.Tree.DataSets=Datensätze
@@ -822,7 +822,7 @@ DefaultNodeProvider.Tree.Invalid=Ungültiger Knoten
 DefaultNodeProvider.Tree.MasterPages=Master-Seiten
 DefaultNodeProvider.Tree.PageSetup=Seite einrichten
 DefaultNodeProvider.Tree.Parameters=Berichtparameter
-DefaultNodeProvider.Tree.Reference=Verweis gefunden
+DefaultNodeProvider.Tree.Reference=Warnung
 DefaultNodeProvider.Tree.Scratch=Skizzenblock
 DefaultNodeProvider.Tree.Styles=Stile
 DefaultNodeProvider.Tree.Themes=Themen
@@ -3046,6 +3046,8 @@ ParametersOutlineProcess.text.Show=Blendet die Datensatzeditor-Seite für den Dat
 ###########################################################
 #PasteAction properties
 
+PasteAction.dlg.title=Infomation
+PasteAction.ok=OK
 PasteAction.text=&Einfügen
 
 ###########################################################

@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Aucun
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=Le paramètre d'état lié "{0}" du paramètre du jeu de données "{1}" n'existe pas actuellement.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Le paramètre du jeu de données "{0}" ne doit pas être lié à un paramètre d'état de valeurs multiples.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
 DataSetParameterPage.cell.linkToSalarParameter=&Lié au paramètre d'état
 DataSetParameterPage.title.ParameterInputDialog=Paramètre
 DataSetParameterPage.toolTipText.New=Nouveau paramètre
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=Soulignement
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=Voulez-vous vraiment supprimer cet élément ?
+DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=Vous êtes sur le point de supprimer un groupe de paramètres. Si vous confirmez la suppression, tous les paramètres du groupe seront supprimés. Voulez-vous continuer ?
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=Confirmer la suppression du groupe de paramètres
 DefaultNodeProvider.Tree.Body=Corps
-DefaultNodeProvider.Tree.Clients=\\ a les clients suivants
+DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
 DefaultNodeProvider.Tree.ColumnHedings=En-têtes de colonnes
 DefaultNodeProvider.Tree.Components = Eléments d'état
 DefaultNodeProvider.Tree.DataSets=Jeux de données
@@ -822,7 +822,7 @@ DefaultNodeProvider.Tree.Invalid=Noeud non valide
 DefaultNodeProvider.Tree.MasterPages=MasterPages
 DefaultNodeProvider.Tree.PageSetup=Mise en page
 DefaultNodeProvider.Tree.Parameters=Paramètres de l'état
-DefaultNodeProvider.Tree.Reference=Référence trouvée
+DefaultNodeProvider.Tree.Reference=Avertissement
 DefaultNodeProvider.Tree.Scratch=Zone de travail
 DefaultNodeProvider.Tree.Styles=Styles
 DefaultNodeProvider.Tree.Themes=Thèmes
@@ -3046,6 +3046,8 @@ ParametersOutlineProcess.text.Show=affiche la page de l'éditeur de jeu de donnée
 ###########################################################
 #PasteAction properties
 
+PasteAction.dlg.title=Infomation
+PasteAction.ok=OK
 PasteAction.text=&Coller
 
 ###########################################################

@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<‚±‚±‚ÉV‚µ‚¢ƒpƒ‰ƒƒ^‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=‚È‚µ
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^ "{1}" ‚ÌƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚éƒŒƒ|[ƒgƒpƒ‰ƒƒ^ "{0}" ‚Í‘¶İ‚µ‚Ü‚¹‚ñB
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^ "{0}" ‚ğ•¡”‚Ìí—Ş‚ÌƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ÉƒŠƒ“ƒN‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
 DataSetParameterPage.cell.linkToSalarParameter=ƒŠƒ“ƒNæ‚ÌƒŒƒ|[ƒgƒpƒ‰ƒƒ^(&L)
 DataSetParameterPage.title.ParameterInputDialog=ƒpƒ‰ƒƒ^
 DataSetParameterPage.toolTipText.New=ƒpƒ‰ƒƒ^‚ÌV‹Kì¬
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=‰ºü
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=íœ‚µ‚Ü‚·‚© ?
+DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=ƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ğíœ‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·Bƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ğíœ‚·‚é‚ÆA‚»‚ÌƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚é‚·‚×‚Ä‚Ìƒpƒ‰ƒƒ^‚ªíœ‚³‚ê‚Ü‚·B‘±s‚µ‚Ü‚·‚© ?
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=ƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ÌíœŠm”F
 DefaultNodeProvider.Tree.Body=–{•¶
-DefaultNodeProvider.Tree.Clients=\\ ‚É‚ÍŸ‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚ª‚ ‚è‚Ü‚·B
+DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
 DefaultNodeProvider.Tree.ColumnHedings=—ñŒ©o‚µ
 DefaultNodeProvider.Tree.Components = ƒŒƒ|[ƒg€–Ú
 DefaultNodeProvider.Tree.DataSets=ƒf[ƒ^ƒZƒbƒg
@@ -822,7 +822,7 @@ DefaultNodeProvider.Tree.Invalid=ƒm[ƒh‚ª–³Œø‚Å‚·
 DefaultNodeProvider.Tree.MasterPages=ƒ}ƒXƒ^ƒy[ƒW
 DefaultNodeProvider.Tree.PageSetup=ƒy[ƒWİ’è
 DefaultNodeProvider.Tree.Parameters=ƒŒƒ|[ƒgƒpƒ‰ƒƒ^
-DefaultNodeProvider.Tree.Reference=QÆ‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½B
+DefaultNodeProvider.Tree.Reference=Œx
 DefaultNodeProvider.Tree.Scratch=ƒXƒNƒ‰ƒbƒ`ƒpƒbƒh
 DefaultNodeProvider.Tree.Styles=ƒXƒ^ƒCƒ‹
 DefaultNodeProvider.Tree.Themes=ƒe[ƒ}
@@ -3046,6 +3046,8 @@ ParametersOutlineProcess.text.Show=‚±‚Ìƒf[ƒ^ƒZƒbƒg‚ÌƒGƒfƒBƒ^ƒy[ƒW‚ğ•\¦‚µ‚Ü‚·
 ###########################################################
 #PasteAction properties
 
+PasteAction.dlg.title=Infomation
+PasteAction.ok=OK
 PasteAction.text=“\‚è•t‚¯(&P)
 
 ###########################################################

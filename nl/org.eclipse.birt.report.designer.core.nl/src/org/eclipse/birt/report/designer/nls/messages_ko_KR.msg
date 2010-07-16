@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<여기에 새 매개 변수 입력>
 DataSetParametersPage.default.None=해당 없음
 DataSetParametersPage.reportParam.None=없음
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=현재 데이터 집합 매개 변수 "{1}"의 연결된 보고서 매개 변수 "{0}"이(가) 없습니다.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=데이터 집합 매개 변수 "{0}"을(를) 복수 값 형식 보고서 매개 변수에 연결하면 안 됩니다.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
 DataSetParameterPage.cell.linkToSalarParameter=보고서 매개 변수에 연결됨(&L)
 DataSetParameterPage.title.ParameterInputDialog=매개 변수
 DataSetParameterPage.toolTipText.New=새 매개 변수
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=밑줄
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=삭제하시겠습니까?
+DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=매개 변수 그룹을 삭제하려고 합니다. 매개 변수 그룹을 삭제할 경우 그룹 내 모든 매개 변수가 삭제됩니다. 계속하시겠습니까?
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=매개 변수 그룹 삭제 확인
 DefaultNodeProvider.Tree.Body=본문
-DefaultNodeProvider.Tree.Clients=\\ 다음 클라이언트가 있습니다.
+DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
 DefaultNodeProvider.Tree.ColumnHedings=열 머리글
 DefaultNodeProvider.Tree.Components = 보고서 항목
 DefaultNodeProvider.Tree.DataSets=데이터 집합
@@ -822,7 +822,7 @@ DefaultNodeProvider.Tree.Invalid=잘못된 노드
 DefaultNodeProvider.Tree.MasterPages=MasterPages
 DefaultNodeProvider.Tree.PageSetup=페이지 설정
 DefaultNodeProvider.Tree.Parameters=보고서 매개 변수
-DefaultNodeProvider.Tree.Reference=참조 있음
+DefaultNodeProvider.Tree.Reference=경고
 DefaultNodeProvider.Tree.Scratch=스크래치 패드
 DefaultNodeProvider.Tree.Styles=스타일
 DefaultNodeProvider.Tree.Themes=테마
@@ -3046,6 +3046,8 @@ ParametersOutlineProcess.text.Show=데이터 집합에 대한 데이터 집합 편집기 페이지�
 ###########################################################
 #PasteAction properties
 
+PasteAction.dlg.title=Infomation
+PasteAction.ok=확인
 PasteAction.text=붙여넣기(&P)
 
 ###########################################################
