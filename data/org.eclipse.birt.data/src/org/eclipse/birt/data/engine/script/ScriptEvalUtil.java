@@ -453,7 +453,21 @@ public class ScriptEvalUtil
 		}
 		if ( o.getClass( ).isArray( ) )
 		{
-			return "An array:" + o.toString( );
+			StringBuilder buf = new StringBuilder("Array:");
+			if ( Array.getLength( o ) == 0 )
+			{
+				return buf.append( "[]" ).toString( );
+			}
+	        buf.append( '[' );
+	        buf.append( Array.get( o, 0 ));
+	 
+	        for (int i = 1; i < Array.getLength( o ); i++) {
+	            buf.append(", ");
+	            buf.append(Array.get( o, i ));
+	        }
+	 
+	        buf.append("]");
+	        return buf.toString();
 		}
 		return o.toString( );
 	}
