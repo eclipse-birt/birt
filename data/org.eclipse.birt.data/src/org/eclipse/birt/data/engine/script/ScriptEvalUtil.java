@@ -165,8 +165,15 @@ public class ScriptEvalUtil
 				if ( opTextAndValue[i].value != null 
 						&& opTextAndValue[i].value.getClass( ).isArray( ))
 				{
-					//For case multi-value type report parameter is involved in signle-value-required filters and
-					//only one value is provided for multi-value parameter
+					//For case multi-value type report parameter is involved in signle-value-required filters 
+					
+					//more than 1 values are provided for multi-value parameter
+					if ( Array.getLength( opTextAndValue[i].value ) > 1 )
+					{
+						throw new DataException(
+								ResourceConstants.BAD_COMPARE_SINGLE_WITH_MULITI, toStringForMultiValues( opTextAndValue[i].value ) );
+					}
+					//no or only one value is provided for multi-value parameter
 					if ( Array.getLength( opTextAndValue[i].value ) == 0 )
 					{
 						resultOp[i] = null;
@@ -436,7 +443,7 @@ public class ScriptEvalUtil
 			}
 			else
 				throw new DataException( ResourceConstants.BAD_COMPARE_EXPR,
-						new Object[]{toString( obj1), toString(obj2)});
+						new Object[]{obj1, obj2});
 		}
 		catch ( BirtException e )
 		{
@@ -445,29 +452,20 @@ public class ScriptEvalUtil
 
 	}
 	
-	private static String toString( Object o )
+	private static String toStringForMultiValues( Object o )
 	{
 		if ( o == null )
 		{
 			return null;
 		}
-		if ( o.getClass( ).isArray( ) )
+		if ( o.getClass( ).isArray( ) && Array.getLength( o ) > 1 )
 		{
-			StringBuilder buf = new StringBuilder("Array:");
-			if ( Array.getLength( o ) == 0 )
-			{
-				return buf.append( "[]" ).toString( );
-			}
-	        buf.append( '[' );
-	        buf.append( Array.get( o, 0 ));
-	 
-	        for (int i = 1; i < Array.getLength( o ); i++) {
-	            buf.append(", ");
-	            buf.append(Array.get( o, i ));
-	        }
-	 
-	        buf.append("]");
-	        return buf.toString();
+			StringBuilder buf = new StringBuilder( );
+			buf.append(Array.get( o, 0 ));
+			buf.append(", ");
+			buf.append(Array.get( o, 1));
+			buf.append( "...");
+			return buf.toString( );
 		}
 		return o.toString( );
 	}

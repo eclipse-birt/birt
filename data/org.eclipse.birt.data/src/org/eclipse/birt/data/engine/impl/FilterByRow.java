@@ -355,17 +355,7 @@ public class FilterByRow implements IResultObjectEvent
 					catch ( BirtException e2 )
 					{
 						DataException dataEx = DataException.wrap( e2 );
-
-						Object info = null;
-						if ( expr instanceof IConditionalExpression )
-							info = ( (IConditionalExpression) expr ).getExpression( )
-									.getText( );
-						else
-							info = expr;
-
-						throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
-								dataEx,
-								info );
+						throw dataEx;
 					}
 
 					if ( result == null )

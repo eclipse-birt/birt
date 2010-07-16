@@ -149,6 +149,7 @@ public class ResourceConstants
 	// wrapped error
 	public final static String DATATYPEUTIL_ERROR = "data.engine.DataConversionError";
 	public final static String BAD_COMPARE_EXPR = "data.engine.BadCompareExpr";
+	public final static String BAD_COMPARE_SINGLE_WITH_MULITI = "data.engine.BadCompareSingleValueWithMultiValues";
 	public final static String WRAPPED_BIRT_EXCEPTION = "data.engine.BirtException";
 	
 	// data set cache error
