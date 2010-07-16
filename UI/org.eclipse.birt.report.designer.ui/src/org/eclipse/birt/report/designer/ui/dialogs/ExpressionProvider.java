@@ -118,7 +118,7 @@ public class ExpressionProvider implements
 
 	/** Arithmetic operators and their descriptions */
 	protected static final Operator[] OPERATORS_ASSIGNMENT = new Operator[]{
-			new Operator( "=", Messages.getString( "ExpressionProvider.Operator.Assign" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+	new Operator( "=", Messages.getString( "ExpressionProvider.Operator.Assign" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "+=", Messages.getString( "ExpressionProvider.Operator.AddTo" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "-=", Messages.getString( "ExpressionProvider.Operator.SubFrom" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "*=", Messages.getString( "ExpressionProvider.Operator.MultTo" ) ), //$NON-NLS-1$ //$NON-NLS-2$
@@ -127,7 +127,7 @@ public class ExpressionProvider implements
 
 	/** Comparison operators and their descriptions */
 	protected static Operator[] OPERATORS_COMPARISON = new Operator[]{
-			new Operator( "==", Messages.getString( "ExpressionProvider.Operator.Equals" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+	new Operator( "==", Messages.getString( "ExpressionProvider.Operator.Equals" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "<", Messages.getString( "ExpressionProvider.Operator.Less" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "<=", Messages.getString( "ExpressionProvider.Operator.LessEqual" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
 			new Operator( "!=", Messages.getString( "ExpressionProvider.Operator.NotEqual" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
@@ -138,7 +138,7 @@ public class ExpressionProvider implements
 
 	/** Computational operators and their descriptions */
 	protected static final Operator[] OPERATORS_COMPUTATIONAL = new Operator[]{
-			new Operator( "+", Messages.getString( "ExpressionProvider.Operator.Add" ) ), //$NON-NLS-1$ //$NON-NLS-2$
+	new Operator( "+", Messages.getString( "ExpressionProvider.Operator.Add" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "-", Messages.getString( "ExpressionProvider.Operator.Sub" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "*", Messages.getString( "ExpressionProvider.Operator.Mult" ) ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "/", Messages.getString( "ExpressionProvider.Operator.Divides" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
@@ -148,14 +148,14 @@ public class ExpressionProvider implements
 
 	/** Logical operators and their descriptions */
 	protected static final Operator[] OPERATORS_LOGICAL = new Operator[]{
-			new Operator( "&&", Messages.getString( "ExpressionProvider.Operator.And" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
+	new Operator( "&&", Messages.getString( "ExpressionProvider.Operator.And" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
 			new Operator( "||", Messages.getString( "ExpressionProvider.Operator.Or" ) ), //$NON-NLS-1$ //$NON-NLS-2$ 
 
 	};
 
 	/** Default operators on the operator bar */
 	protected static final Operator[] OPERATORS_ON_BAR = new Operator[]{
-			OPERATORS_COMPUTATIONAL[0],
+	OPERATORS_COMPUTATIONAL[0],
 			OPERATORS_COMPUTATIONAL[1],
 			OPERATORS_COMPUTATIONAL[2],
 			OPERATORS_COMPUTATIONAL[3],
@@ -738,7 +738,7 @@ public class ExpressionProvider implements
 				childrenList.add( rowNum );
 			}
 			// add edit option
-			addEditBindingsItem( childrenList, 
+			addEditBindingsItem( childrenList,
 					Messages.getString( "ExpressionProvider.EditBindings" ), parent ); //$NON-NLS-1$
 		}
 		else
@@ -773,13 +773,14 @@ public class ExpressionProvider implements
 	 * @param parent
 	 * @since 2.6
 	 */
-	protected void addEditBindingsItem( ArrayList<Object> childrenList, String itemText, Object parent )
+	protected void addEditBindingsItem( ArrayList<Object> childrenList,
+			String itemText, Object parent )
 	{
 		childrenList.add( new Object[]{
 				itemText, parent
-		} ); 
+		} );
 	}
-	
+
 	/**
 	 * Check overload method signature
 	 * 
@@ -1253,12 +1254,13 @@ public class ExpressionProvider implements
 		}
 		else if ( element instanceof ComputedColumnHandle )
 		{
-			return DEUtil.getBindingexpression( elementHandle,
+			return DEUtil.getBindingexpression( ( (ComputedColumnHandle) element ).getElementHandle( ),
 					(ComputedColumnHandle) element );
 		}
 		else if ( element instanceof InheritedComputedColumnHandle )
 		{
-			return DEUtil.getBindingexpression( elementHandle,
+			return DEUtil.getBindingexpression( ( (InheritedComputedColumnHandle) element ).getHandle( )
+					.getElementHandle( ),
 					( (InheritedComputedColumnHandle) element ).getHandle( ),
 					false );
 		}
