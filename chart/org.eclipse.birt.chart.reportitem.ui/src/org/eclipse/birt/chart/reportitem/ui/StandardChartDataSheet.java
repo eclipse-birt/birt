@@ -749,6 +749,14 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				stackLayout.topControl = cmpColumnsList;
 				refreshDataPreviewPane( );
 			}
+			else if ( getDataServiceProvider( ).checkState( IDataServiceProvider.INHERIT_CUBE ) )
+			{// inheritance
+				stackLayout.topControl = cmpColumnsList;
+				getContext( ).setShowingDataPreview( Boolean.FALSE );
+				btnShowDataPreviewB.setSelection( false );
+				btnShowDataPreviewB.setEnabled( false );
+				refreshDataPreviewPane( );
+			}
 			else
 			{
 				stackLayout.topControl = cmpCubeTree;
