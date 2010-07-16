@@ -179,6 +179,13 @@ public interface IResultClass
 	public int getAnalysisType( int index ) throws DataException;
 	
 	/**
+	 * Return whether the column should be generated with index. 
+	 * @return
+	 * @throws DataException
+	 */
+	public boolean isIndexColumn( int index ) throws DataException;
+	
+	/**
 	 * Indicate whether the column with given index is of Any type when the
 	 * result class is firstly set.
 	 * @param index

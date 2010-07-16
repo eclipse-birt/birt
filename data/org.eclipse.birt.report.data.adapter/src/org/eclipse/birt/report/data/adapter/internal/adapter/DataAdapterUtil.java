@@ -324,6 +324,7 @@ public class DataAdapterUtil
 				modelColumnHint.getColumnName( ) );
 		dteColumn.setAlias( modelColumnHint.getAlias( ) );
 		dteColumn.setAnalysisType( ColumnAdapter.acquireAnalysisType( modelColumnHint.getAnalysis( ) ) );
+		dteColumn.setIndexColumn( modelColumnHint.isIndexColumn( ) );
  		String exportConstant = modelColumnHint.getExport( );
 		if ( exportConstant != null )
 		{

@@ -170,14 +170,19 @@ public class ResultClass implements IResultClass
 				boolean bool = IOUtil.readBool( dis );
 				String dpdpName = IOUtil.readString( dis );
 				int analysistype = -1;
+				boolean indexColumn = false;
 				if( version >= VersionManager.VERSION_2_5_2_0 )
+				{
 					analysistype = IOUtil.readInt( dis );
+					indexColumn = IOUtil.readBool( dis );
+				}
 				ResultFieldMetadata metaData = new ResultFieldMetadata( driverPos,
 						name,
 						lable,
 						Class.forName( dtName ),
 						ntName,
-						bool, analysistype );
+						bool, analysistype,
+						indexColumn );
 				metaData.setAnalysisType( analysistype );
 				metaData.setAlias( alias );
 				if ( dpdpName != null )
@@ -260,7 +265,10 @@ public class ResultClass implements IResultClass
 						IOUtil.writeString( dos,
 								column.getDriverProvidedDataType( ).getName( ) );
 					if( version >= VersionManager.VERSION_2_5_2_0 )
+					{
 						IOUtil.writeInt( dos, column.getAnalysisType( ) );
+						IOUtil.writeBool( dos, column.isIndexColumn( ) );
+					}
 					writeCount++;
 				}
 			}
@@ -501,6 +509,15 @@ public class ResultClass implements IResultClass
 	public int getAnalysisType( int index ) throws DataException
 	{
 		return this.projectedCols[index-1].getAnalysisType( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultClass#isIndexColumn(int)
+	 */
+	public boolean isIndexColumn( int index ) throws DataException
+	{
+		return this.projectedCols[index-1].isIndexColumn( );
 	}
 	
 }

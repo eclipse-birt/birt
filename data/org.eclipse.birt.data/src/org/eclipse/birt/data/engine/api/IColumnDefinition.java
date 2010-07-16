@@ -68,6 +68,13 @@ public interface IColumnDefinition
 	 * @return
 	 */
 	public int getAnalysisType();
+	
+	/**
+	 * Return whether the column should be generated with index. 
+	 * @return
+	 */
+	public boolean isIndexColumn( );
+	
     /**
      * Gets the column's native data type as defined by the underlying data source.
      * The native data type code value is implementation-specific.

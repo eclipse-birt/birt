@@ -234,7 +234,8 @@ public class CachedResultSet implements IResultIterator
 				ResultFieldMetadata rfMeta = new ResultFieldMetadata(i, meta
 						.getFieldName(i + 1), meta.getFieldLabel(i + 1), meta
 						.getFieldValueClass(i + 1), meta
-						.getFieldNativeTypeName(i + 1), false, meta.getAnalysisType( i+1 ));
+						.getFieldNativeTypeName(i + 1), false, meta.getAnalysisType( i+1 ),
+						meta.isIndexColumn( i ) );
 				rfMeta.setAlias( meta.getFieldAlias( i+1 ) );
 				projectedColumns.add( rfMeta );
 			}

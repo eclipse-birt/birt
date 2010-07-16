@@ -450,7 +450,8 @@ class ResultSetProcessUtil extends RowProcessUtil
 						meta.getFieldValueClass( i ),
 						meta.getFieldNativeTypeName( i ),
 						meta.isCustomField( i ),
-						meta.getAnalysisType( i ));
+						meta.getAnalysisType( i ),
+						meta.isIndexColumn( i ) );
 				field.setAlias( meta.getFieldAlias( i ) );
 
 				projectedColumns.add( field );

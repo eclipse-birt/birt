@@ -331,14 +331,14 @@ public class DataSetNumberIndex implements IDataSetIndex
 				if ( this.keys.get( ) == null || this.indexs.get( ) == null )
 				{
 					List keyList = new LinkedList( );
-					List<List<Integer>> indexList = new LinkedList<List<Integer>>( );
+					List<Set<Integer>> indexList = new LinkedList<Set<Integer>>( );
 					this.raIn.seek( offset );
 					DataInputStream din = new DataInputStream( this.raIn );
 					int size = IOUtil.readInt( this.raIn );
 					for ( int i = 0; i < size; i++ )
 					{
 						keyList.add( IOUtil.readObject( din ) );
-						indexList.add( IOUtil.readList( din ) );
+						indexList.add( toSet( IOUtil.readList( din ) ) );
 					}
 					this.keys = new SoftReference( keyList );
 					this.indexs = new SoftReference( indexList );
@@ -349,6 +349,13 @@ public class DataSetNumberIndex implements IDataSetIndex
 				throw new DataException( e.getLocalizedMessage( ), e );
 			}
 		}
+	}
+	
+	private static Set toSet( List list )
+	{
+		Set set = new HashSet( );
+		set.addAll( list );
+		return set;
 	}
 
 	public Set<Integer> getKeyIndex( Object key, int searchType ) throws DataException

@@ -139,7 +139,8 @@ public class ResultSetUtil
 			{
 				obs[i] = IOUtil.readObject( dis,
 						DataEngineSession.getCurrentClassLoader( ) );
-				if ( rsMeta.getAnalysisType( i + 1 ) == IColumnDefinition.ANALYSIS_DIMENSION )
+//				if ( rsMeta.getAnalysisType( i + 1 ) == IColumnDefinition.ANALYSIS_DIMENSION )
+				if( rsMeta.isIndexColumn( i + 1 ) )
 				{
 					if ( index.containsKey( rsMeta.getFieldName( i + 1 ) ) )
 					{

@@ -111,9 +111,7 @@ public class StreamWrapper
 
 		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
 		{
-			int anaType = resultClass.getAnalysisType( i );
-			if ( anaType == -1
-					|| anaType == IColumnDefinition.ANALYSIS_ATTRIBUTE )
+			if ( !resultClass.isIndexColumn( i ))
 				continue;
 			Class dataType = resultClass.getFieldValueClass( i );
 			String fieldName = resultClass.getFieldName( i );

@@ -29,6 +29,8 @@ public class ColumnDefinition implements IColumnDefinition
 	private int			searchHint = NOT_SEARCHABLE;
 	private int 		exportHint = DONOT_EXPORT;
 	private int         analysisType = -1;
+	private boolean		indexColumn;
+	
 	/**
 	 * Construct a Column definition for a named column
 	 */
@@ -168,5 +170,15 @@ public class ColumnDefinition implements IColumnDefinition
 	public void setAnalysisType( int analysisType )
 	{
 		this.analysisType = analysisType;
+	}
+	
+	public boolean isIndexColumn( )
+	{
+		return indexColumn;
+	}
+
+	public void setIndexColumn( boolean indexColumn )
+	{
+		this.indexColumn = indexColumn;
 	}
 }

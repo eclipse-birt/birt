@@ -171,7 +171,8 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 							columnDefn.getColumnName( ),
 							DataType.getClass( columnDefn.getDataType( ) ),
 							null /* nativeTypeName */,
-							true, columnDefn.getAnalysisType( ) );
+							true, columnDefn.getAnalysisType( ),
+							columnDefn.isIndexColumn( ) );
 					columnsList.add( columnMetaData );
 					columnMetaData.setAlias( columnDefn.getAlias( ) );
 				}
