@@ -3722,6 +3722,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element '{0}' gibt Berichtobjekte
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=Die Kopie kann nicht in Feld {1} von {0} eingefügt werden, weil sie ungültig ist.
 Error.ContentException.CONTENT_ALREADY_INSERTED=Element '{0}' kann nicht zu ({2}) von '{1}' hinzugefügt werden, da es sich bereits in der Designstruktur befindet.
 Error.ContentException.INVALID_POSITION=Die Position befindet sich außerhalb des zulässigen Bereichs und ist daher ungültig.
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Can not insert element [{0}] in the report/library, because share dimension [{1}] doesn''t exist.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Der Ressourcenschlüssel der Übersetzung muss bereitgestellt werden.

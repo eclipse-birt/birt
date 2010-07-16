@@ -3722,6 +3722,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=要素 "{0}" には共有のレポート項目
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=コピーはできないため、{0} のスロット {1} に貼り付けられません。
 Error.ContentException.CONTENT_ALREADY_INSERTED=要素 "{0}" はすでにデザインツリーに存在するため "{1}" の ({2}) に追加できません。
 Error.ContentException.INVALID_POSITION=位置が範囲外か無効です。
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Can not insert element [{0}] in the report/library, because share dimension [{1}] doesn''t exist.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=変換情報のリソースキーが必要です。

@@ -3722,6 +3722,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=元素“{0}”具有报表项共享，不能添
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=复制内容不允许粘贴到 {0} 的属性框 {1}，因为它无效。
 Error.ContentException.CONTENT_ALREADY_INSERTED=不允许将元素“{0}”添加到“{1}”的 ({2})，因为它已经在设计树中。
 Error.ContentException.INVALID_POSITION=位置超出范围且无效。
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Can not insert element [{0}] in the report/library, because share dimension [{1}] doesn''t exist.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=必须提供转换的资源关键字。

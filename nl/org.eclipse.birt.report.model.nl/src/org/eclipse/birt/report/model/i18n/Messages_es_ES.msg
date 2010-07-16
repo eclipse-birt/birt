@@ -3722,6 +3722,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=El elemento "{0}" tiene elementos
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=La copia no se puede pegar en el slot {1} de {0} porque no es válida.
 Error.ContentException.CONTENT_ALREADY_INSERTED=No se permite añadir el elemento "{0}" al ({2}) de "{1}", ya está en el diseño de árbol.
 Error.ContentException.INVALID_POSITION=La posición está fuera de alcance y no es válida.
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Can not insert element [{0}] in the report/library, because share dimension [{1}] doesn''t exist.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Hay que proporcionar la clave de recursos de conversión.

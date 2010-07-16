@@ -3722,6 +3722,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=요소 "{0}"은(는) 보고서 항목을 공
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=복사본이 잘못되어 {0}의 슬롯 {1}에 붙여 넣을 수 없습니다.
 Error.ContentException.CONTENT_ALREADY_INSERTED="{0}" 요소가 이미 디자인 트리에 있으므로 "{1}"의 ({2})에 추가할 수 없습니다.
 Error.ContentException.INVALID_POSITION=위치가 범위를 벗어났으며 잘못되었습니다.
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Can not insert element [{0}] in the report/library, because share dimension [{1}] doesn''t exist.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=변환 리소스 키를 제공해야 합니다.
