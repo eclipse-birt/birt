@@ -17,8 +17,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
@@ -1745,6 +1745,10 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void convertSampleData( Axis axis, AxisType axisType )
 	{
+		if(chartModel.getSampleData( ) == null)
+		{
+			return;
+		}
 		if ( ( axis.getAssociatedAxes( ) != null )
 				&& ( axis.getAssociatedAxes( ).size( ) != 0 ) )
 		{

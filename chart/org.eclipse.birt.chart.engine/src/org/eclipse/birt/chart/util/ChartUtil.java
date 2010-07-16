@@ -1109,7 +1109,8 @@ public class ChartUtil
 			// Check if series aggregate is running aggregate.
 			IAggregateFunction aFunc = PluginSettings.instance( )
 					.getAggregateFunction( strOrthoAgg );
-			if ( aFunc.getType( ) != IAggregateFunction.RUNNING_AGGR )
+			if ( aFunc != null
+					&& aFunc.getType( ) != IAggregateFunction.RUNNING_AGGR )
 			{
 				strOrthoAgg = null;
 			}
