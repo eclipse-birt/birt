@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,22 +23,31 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.StringFormatSpecifierImpl;
+import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.ActionImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
@@ -53,13 +63,18 @@ import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ColorHandle;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -792,7 +807,138 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			processCubeStyle( cm, category, measure, yoption );
 		}
 	}
+
+	public void applyDefaultHyperlink( Chart chart )
+	{
+		String category = ChartUtil.getBaseSeriesDefinitions( chart )
+				.get( 0 )
+				.getDesignTimeSeries( )
+				.getDataDefinition( )
+				.get( 0 )
+				.getDefinition( );
+		Trigger categorytrigger = getDefaultHyperlink( (ExtendedItemHandle) handle,
+				category );
+		if ( chart instanceof ChartWithAxes )
+		{
+			// a-axis
+			addHyperlink( ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.getTriggers( ), categorytrigger );
+
+			// y-axis
+			for ( Axis axis : ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( ) )
+			{
+				String value = axis.getSeriesDefinitions( )
+						.get( 0 )
+						.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.get( 0 )
+						.getDefinition( );
+				Trigger valuetrigger = getDefaultHyperlink( (ExtendedItemHandle) handle,
+						value );
+				addHyperlink( axis.getTriggers( ), valuetrigger );
+
+			}
+
+		}
+
+		// data points
+		ActionHandle actionHandle = getDefaultAction( (ExtendedItemHandle) handle,
+				category );
+		if ( actionHandle != null )
+		{
+
+			// copy the default action
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( actionHandle.getLinkType( ) )
+					|| DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( actionHandle.getLinkType( ) ) )
+			{
+				try
+				{
+					String baseURI = ModuleUtil.serializeAction( actionHandle );
+					// create url
+					URLValue uv = URLValueImpl.create( baseURI, "", //$NON-NLS-1$
+							"", //$NON-NLS-1$
+							"", //$NON-NLS-1$
+							"" ); //$NON-NLS-1$
+					Trigger trigger = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
+							ActionImpl.create( ActionType.URL_REDIRECT_LITERAL,
+									uv ) );
+
+					for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( chart ) )
+					{
+						Series series = sd.getDesignTimeSeries( );
+						addHyperlink( series.getTriggers( ),
+								trigger.copyInstance( ) );
+					}
+				}
+				catch ( IOException e )
+				{
+
+				}
+			}
+
+		}
+
+		// legend
+		if ( chart.getLegend( ).getItemType( ) == LegendItemType.CATEGORIES_LITERAL )
+		{
+			if ( categorytrigger != null )
+			{
+				addHyperlink( chart.getLegend( ).getTriggers( ),
+					categorytrigger.copyInstance( ) );
+			}
+
+		}
+		else
+		{
+			String[] optional = ChartUtil.getYOptoinalExpressions( chart );
+			if ( optional.length > 0 )
+			{
+				Trigger optionaltrigger = getDefaultHyperlink( (ExtendedItemHandle) handle,
+						optional[0] );
+				addHyperlink( chart.getLegend( ).getTriggers( ),
+						optionaltrigger );
+			}
+		}
+	}
 	
+	protected void addHyperlink( List<Trigger> triggers, Trigger trig )
+	{
+		if ( trig != null )
+		{
+			Trigger old = null;
+			for ( Trigger t : triggers )
+			{
+				if ( trig.getCondition( ) == t.getCondition( ) )
+				{
+					old = t;
+					break;
+				}
+			}
+
+			if ( old == null )
+			{
+				triggers.add( trig );
+			}
+			else
+			{
+				if ( old.getAction( ).getValue( ) instanceof MultiURLValues )
+				{
+					MultiURLValues mu = (MultiURLValues) old.getAction( )
+							.getValue( );
+					if ( mu.getURLValues( ).size( ) == 0 )
+					{
+						mu.getURLValues( ).add( (URLValue) trig.getAction( )
+								.getValue( ) );
+					}
+				}
+			}
+
+		}
+	}
+
 	protected void processCubeStyle( Chart cm, LevelHandle category,
 			MeasureHandle measure, LevelHandle yoption )
 	{
@@ -963,5 +1109,92 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Get the default hyperlink predefined in data source. Only convert the
+	 * hyperlink type action.
+	 * 
+	 * @param handle
+	 * @param expression
+	 * @return trigger
+	 */
+	private Trigger getDefaultHyperlink( ExtendedItemHandle handle,
+			String expression )
+	{
+		Trigger trigger = null;
+		ActionHandle actionHandle = getDefaultAction( handle, expression );
+		if ( actionHandle != null )
+		{
+			// copy the default action
+			if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equals( actionHandle.getLinkType( ) ) )
+			{
+				try
+				{
+					String baseURI = ModuleUtil.serializeAction( actionHandle );
+					// create url
+					URLValue uv = URLValueImpl.create( baseURI, "", //$NON-NLS-1$
+							"", //$NON-NLS-1$
+							"", //$NON-NLS-1$
+							"" ); //$NON-NLS-1$
+					trigger = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
+							ActionImpl.create( ActionType.URL_REDIRECT_LITERAL,
+									uv ) );
+				}
+				catch ( IOException e )
+				{
+
+				}
+
+			}
+		}
+		return trigger;
+	}
+
+	protected ActionHandle getDefaultAction( ExtendedItemHandle handle,
+			String expression )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		String bindingname = exprCodec.getBindingName( expression );
+		if ( bindingname == null )
+		{
+			return null;
+		}
+
+		CubeHandle cube = handle.getCube( );
+		DataSetHandle dataset = handle.getDataSet( );
+		if ( cube != null )
+		{
+			for ( LevelHandle lh : ChartCubeUtil.getAllLevels( cube ) )
+			{
+				if ( bindingname.equals( ChartCubeUtil.createLevelBindingName( lh ) ) )
+				{
+					return lh.getActionHandle( );
+				}
+			}
+			for ( MeasureHandle mh : ChartCubeUtil.getAllMeasures( cube ) )
+			{
+				if ( bindingname.equals( ChartCubeUtil.createMeasureBindingName( mh ) ) )
+				{
+					return mh.getActionHandle( );
+				}
+			}
+		}
+		else if ( dataset != null )
+		{
+			for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+					.iterator( ); iter.hasNext( ); )
+			{
+				ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+				if ( element.getColumnName( ).equals( bindingname )
+						|| bindingname.equals( element.getAlias( ) ) )
+				{
+					return element.getActionHandle( );
+				}
+			}
+		}
+
+		return null;
+	}
+
 }

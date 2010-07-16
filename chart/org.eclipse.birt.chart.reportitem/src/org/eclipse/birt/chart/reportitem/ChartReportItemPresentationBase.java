@@ -61,6 +61,7 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -800,6 +801,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			// Update chart model if needed
 			updateChartModel( );
 
+			ChartReportStyleProcessor styleProcessor = new ChartReportStyleProcessor( modelHandle,
+					true,
+					this.style,
+					this.dpi );
+
+			styleProcessor.applyDefaultHyperlink( this.cm );
+
 			// Bind Data to series
 			if ( !bindData( rowAdapter, evaluator ) && isAutoHide( ) )
 			{
@@ -810,7 +818,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			// Render chart
 			Object renderObject = generateRenderObject( rowAdapter,
 					externalContext,
-					bEmpty );
+					bEmpty,
+					styleProcessor );
 
 			// Close the dataRow evaluator. It needs to stay opened until the
 			// chart is fully rendered.
@@ -842,11 +851,34 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			BIRTExternalContext externalContext, boolean bEmpty )
 			throws ChartException
 	{
+		return generateRenderObject( rowAdapter,
+				externalContext,
+				bEmpty,
+				new ChartReportStyleProcessor( modelHandle,
+						true,
+						this.style,
+						this.dpi ) );
+	}
+
+	protected Object generateRenderObject(
+			IDataRowExpressionEvaluator rowAdapter,
+			BIRTExternalContext externalContext, boolean bEmpty,
+			IStyleProcessor externalProcessor ) throws ChartException
+	{
+		if ( externalProcessor == null )
+		{
+			externalProcessor = new ChartReportStyleProcessor( modelHandle,
+					true,
+					this.style,
+					this.dpi );
+		}
 		// Prepare Device Renderer
 		prepareDeviceRenderer( );
 
 		// Build the chart
-		GeneratedChartState gcs = buildChart( rowAdapter, externalContext );
+		GeneratedChartState gcs = buildChart( rowAdapter,
+				externalContext,
+				externalProcessor );
 
 		// Render the chart
 		renderToImageFile( gcs );
@@ -951,7 +983,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	protected GeneratedChartState buildChart(
 			IDataRowExpressionEvaluator rowAdapter,
-			BIRTExternalContext externalContext ) throws ChartException
+			BIRTExternalContext externalContext,
+			IStyleProcessor externalProcessor ) throws ChartException
 	{
 		final Bounds bo = computeBounds( );
 
@@ -963,10 +996,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 						bo,
 						externalContext,
 						rtc,
-						new ChartReportStyleProcessor( modelHandle,
-								true,
-								this.style,
-								this.dpi ) );
+						externalProcessor );
 		boundsRuntime = gcs.getChartModel( ).getBlock( ).getBounds( );
 		return gcs;
 	}
