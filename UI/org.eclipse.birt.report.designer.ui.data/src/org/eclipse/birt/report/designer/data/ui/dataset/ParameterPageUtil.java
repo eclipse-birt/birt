@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 
@@ -174,7 +173,9 @@ public final class ParameterPageUtil
 		{
 			ReportElementHandle handle = (ReportElementHandle) linkedToParamList.get( i );
 			if ( handle instanceof ScalarParameterHandle
-					&& !( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( ( (ScalarParameterHandle) handle ).getParamType( ) ) ) )
+					//now multi-value type report parameter can also be linked with data set parameter now
+					//at runtime, only the first provided value is passed into data set 
+					/*&& !( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( ( (ScalarParameterHandle) handle ).getParamType( ) ) )*/ )
 			{
 				nameList.add( handle.getQualifiedName( ) );
 			}

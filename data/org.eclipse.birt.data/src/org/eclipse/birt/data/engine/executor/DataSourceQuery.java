@@ -13,6 +13,7 @@
  */ 
 package org.eclipse.birt.data.engine.executor;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -566,9 +567,25 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
                                     dataSource.getDriverName(), queryType );
         
         Object inputValue = parameterHint.getDefaultInputValue( );
+        if ( inputValue != null )
+        {
+        	if ( inputValue.getClass( ).isArray( ) )
+        	{
+        		//if multi-value type report parameter is linked with data set parameter
+        		//only take the first provided value to pass it to data set
+        		if ( Array.getLength( inputValue ) == 0 )
+        		{
+        			inputValue = null;
+        		}
+        		else
+        		{
+        			inputValue = Array.get( inputValue, 0 );
+        		}
+        	}
+        }
         // neither IBlob nor IClob will be converted
         if ( paramHintDataType != IBlob.class && paramHintDataType != IClob.class )
-            inputValue = convertToValue( parameterHint.getDefaultInputValue( ),
+            inputValue = convertToValue( inputValue,
                                         paramHintDataType );
         return inputValue;
     }

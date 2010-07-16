@@ -506,7 +506,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 								new Object[]{
 									handle.getName( )
 								} ),
-								IMessageProvider.ERROR );
+								IMessageProvider.WARNING );
 					}
 				}
 				else
