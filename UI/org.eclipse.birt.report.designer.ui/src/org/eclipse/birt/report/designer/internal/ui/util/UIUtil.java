@@ -2340,9 +2340,9 @@ public class UIUtil
 						.getActiveShell( ),
 						DLG_REFERENCE_FOUND_TITLE,
 						referenceList );
-				dialog.setPreString( DEUtil.getDisplayLabel( handle )
-						+ DLG_HAS_FOLLOWING_CLIENTS_MSG );
-				dialog.setSufString( DLG_CONFIRM_MSG );
+				dialog.setPreString( Messages.getFormattedString( "DefaultNodeProvider.Tree.Clients", new Object[]{DEUtil.getDisplayLabel( handle )} ) );//$NON-NLS-1$
+				
+				dialog.setSufString( Messages.getFormattedString( "DefaultNodeProvider.Dlg.Confirm", new Object[]{DEUtil.getDisplayLabel( handle )} ) );//$NON-NLS-1$
 				return dialog.open( ) != Dialog.CANCEL;
 			}
 			return true;
