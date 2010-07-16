@@ -16,10 +16,7 @@ import java.util.List;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
-import org.eclipse.birt.chart.reportitem.ui.ChartFilterFactory;
-import org.eclipse.birt.chart.reportitem.ui.ChartReportItemUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.ChartPageGenerator;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
@@ -27,12 +24,13 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ID
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
@@ -288,24 +286,16 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 			{
 				// Sharing crosstab/multi-view
 				ReportItemHandle ref = ChartReportItemUtil.getReportItemReference( (ReportItemHandle) handle );
-				try
+				if ( ref != null
+						&& ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( ( (ExtendedItemHandle) ref ).getExtensionName( ) ) )
 				{
-					ChartFilterFactory cff = ChartReportItemUIUtil.createChartFilterFactory( handle );
+					currentProvider = new ChartShareCrosstabFiltersHandleProvider( );
+				}
+				else
+				{
+					currentProvider = new ChartShareCubeFiltersHandleProvider( new FilterHandleProvider( ) );
+				}
 
-					if ( cff.isChartHandle( ref ) )
-					{
-						currentProvider = new ChartShareCubeFiltersHandleProvider( new FilterHandleProvider( ) );
-					}
-					else
-					{
-						currentProvider = new ChartShareCrosstabFiltersHandleProvider( );
-					}
-				}
-				catch ( ExtendedElementException e )
-				{
-					ChartWizard.displayException( e );
-					currentProvider = new ChartCubeFilterHandleProvider( new FilterHandleProvider( ) );
-				}
 			}
 			else
 			{

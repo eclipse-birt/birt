@@ -108,6 +108,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
@@ -1366,7 +1367,16 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		List<String> itemsWithName = new ArrayList<String>( );
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			String qualfiedName = referenceList.get( i ).getQualifiedName( );
+			ReportItemHandle itemhandle = referenceList.get( i );
+			if ( itemhandle.getCube( ) != null )
+			{
+				if ( !ChartItemUtil.isChartHandle( itemhandle )
+						&& !ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( ( (ExtendedItemHandle) itemhandle ).getExtensionName( ) ) )
+				{
+					continue;
+				}
+			}
+			String qualfiedName = itemhandle.getQualifiedName( );
 			if ( qualfiedName != null && qualfiedName.length( ) > 0 )
 			{
 				itemsWithName.add( qualfiedName );
@@ -1862,8 +1872,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		IBaseCubeQueryDefinition qd = null;
 
 		ReportItemHandle referredHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
-		boolean isChartCubeReference = isChartReportItemHandle( referredHandle );
-		if ( referredHandle != null && !isChartCubeReference )
+		boolean isCrosstabReference = referredHandle != null
+				&& ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( ( (ExtendedItemHandle) referredHandle ).getExtensionName( ) );
+		if ( referredHandle != null && isCrosstabReference )
 		{
 			// If it is 'sharing' case, include sharing crosstab and multiple
 			// view, we just invokes referred crosstab handle to create
@@ -1921,7 +1932,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ICubeQueryResults cqr = dteAdapter.executeQuery( session,
 				(ICubeQueryDefinition) qd );
 		// Sharing case
-		if ( referredHandle != null && !isChartCubeReference )
+		if ( referredHandle != null && !isCrosstabReference )
 		{
 			return new SharedCubeResultSetEvaluator( cqr, qd, cm );
 		}
