@@ -114,7 +114,7 @@ data.engine.ComputedColumnCycle=La columna procesada "{0}" tiene ciclo de depend
 data.engine.SortOnAggregation=Existe una ordenación no válida cuya clave de ordenación hace referencia a una agregación "{0}".
 
 data.engine.BadFilterExpr=La expresión de filtro "{0}" no es válida.
-data.engine.BadFilterDefn=La definición de filtro mediante la expresión "{0}" no es válida.
+data.engine.BadFilterDefn=Failed to evaluate the filter which is based on expression "{0}".
 
 #clob and blob error
 data.engine.opencloberror=Error de apertura de secuencia de caracteres CLOB.
@@ -141,7 +141,7 @@ load.factory.error=Hay un error al cargar la fábrica del motor de datos.
 
 # Wrapped Error
 data.engine.DataConversionError=Se ha producido un error en la conversión del tipo de datos.
-data.engine.BadDataTypeCondExpr=Se ha encontrado un tipo de datos no válido en la expresión condicional.
+data.engine.BadCompareSingleValueWithMultiValues=Failed to apply filter due to invalid filter condition of comparing a single value with multiple values of [{0}].Please set only one value for this filter.
 data.engine.BirtException=Se ha producido una excepción BIRT: {0}. Consulte la siguiente excepción para obtener más información.
 
 # data set cache error

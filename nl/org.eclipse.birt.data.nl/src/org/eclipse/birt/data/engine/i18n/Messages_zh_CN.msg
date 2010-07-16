@@ -114,7 +114,7 @@ data.engine.ComputedColumnCycle=计算列“{0}”具有相关性循环。
 data.engine.SortOnAggregation=存在排序关键字引用了聚合“{0}”的无效排序。
 
 data.engine.BadFilterExpr=筛选表达式 "{0}" 无效。
-data.engine.BadFilterDefn=使用表达式“{0}”的筛选定义无效。
+data.engine.BadFilterDefn=Failed to evaluate the filter which is based on expression "{0}".
 
 #clob and blob error
 data.engine.opencloberror=打开 CLOB 字符流时出错。
@@ -141,7 +141,7 @@ load.factory.error=加载数据引擎工厂时出错。
 
 # Wrapped Error
 data.engine.DataConversionError=转换数据类型时出错。
-data.engine.BadDataTypeCondExpr=在条件表达式中发现了无效数据类型。
+data.engine.BadCompareSingleValueWithMultiValues=Failed to apply filter due to invalid filter condition of comparing a single value with multiple values of [{0}].Please set only one value for this filter.
 data.engine.BirtException=发生 BIRT 异常：{0}。查看下一个异常以了解更多信息。
 
 # data set cache error

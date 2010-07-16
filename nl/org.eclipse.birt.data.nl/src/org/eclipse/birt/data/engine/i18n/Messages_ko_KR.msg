@@ -114,7 +114,7 @@ data.engine.ComputedColumnCycle=계산 열 "{0}"에 종속 사이클이 형성되어 있습니다.
 data.engine.SortOnAggregation=정렬 키가 집계 "{0}"을(를) 참조하는 잘못된 정렬이 있습니다.
 
 data.engine.BadFilterExpr=필터 식 "{0}"이(가) 잘못되었습니다.
-data.engine.BadFilterDefn=식 "{0}"을(를) 사용한 필터 정의가 잘못되었습니다.
+data.engine.BadFilterDefn=Failed to evaluate the filter which is based on expression "{0}".
 
 #clob and blob error
 data.engine.opencloberror=CLOB 문자 스트림 열기 오류입니다.
@@ -141,7 +141,7 @@ load.factory.error=데이터 엔진 팩토리 로드 중 오류가 발생했습니다.
 
 # Wrapped Error
 data.engine.DataConversionError=데이터 형식을 변환하는 중 오류가 발생했습니다.
-data.engine.BadDataTypeCondExpr=조건식에 잘못된 데이터 형식이 있습니다.
+data.engine.BadCompareSingleValueWithMultiValues=Failed to apply filter due to invalid filter condition of comparing a single value with multiple values of [{0}].Please set only one value for this filter.
 data.engine.BirtException=BIRT 예외 {0}이(가) 발생했습니다. 자세한 내용은 다음 예외를 참조하십시오.
 
 # data set cache error

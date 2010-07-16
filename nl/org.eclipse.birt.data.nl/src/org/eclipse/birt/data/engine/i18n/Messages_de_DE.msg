@@ -114,7 +114,7 @@ data.engine.ComputedColumnCycle=Berechnete Spalte "{0}" hat einen Abhängigkeitsz
 data.engine.SortOnAggregation=Ungültige Sortierung vorhanden, deren Sortierschlüssel auf Aggregat '{0}' verweist.
 
 data.engine.BadFilterExpr=Der Filterausdruck "{0}" ist ungültig.
-data.engine.BadFilterDefn=Die Filterdefinition mit dem Ausdruck "{0}" ist ungültig.
+data.engine.BadFilterDefn=Failed to evaluate the filter which is based on expression "{0}".
 
 #clob and blob error
 data.engine.opencloberror=Fehler beim Öffnen eines CLOB-Zeichenstroms.
@@ -141,7 +141,7 @@ load.factory.error=Beim Laden der Factory der Datenengine tritt ein Fehler auf.
 
 # Wrapped Error
 data.engine.DataConversionError=Bei der Datentypkonversion ist ein Fehler aufgetreten.
-data.engine.BadDataTypeCondExpr=Ungültiger Datentyp in bedingtem Ausdruck gefunden.
+data.engine.BadCompareSingleValueWithMultiValues=Failed to apply filter due to invalid filter condition of comparing a single value with multiple values of [{0}].Please set only one value for this filter.
 data.engine.BirtException=In BIRT ist ein Ausnahmefehler aufgetreten: {0}. Weitere Informationen können Sie dem nächsten Ausnahmefehler entnehmen.
 
 # data set cache error
