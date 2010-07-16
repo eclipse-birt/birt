@@ -918,6 +918,32 @@ public class ChartCubeUtil extends ChartItemUtil
 		}
 		return bindingNames;
 	}
+	
+	/**
+	 * Returns the first binding whose dimension expressions equal with
+	 * specified expression.
+	 * 
+	 * @param dimExpr
+	 * @param values
+	 * @return binding name list
+	 */
+	public static ComputedColumnHandle findDimensionBinding(
+			ExpressionCodec exprCodec, String dimName, String levelName,
+			Collection<ComputedColumnHandle> bindings )
+	{
+		for ( ComputedColumnHandle cch : bindings )
+		{
+			ChartReportItemUtil.loadExpression( exprCodec, cch );
+			String[] levelNames = exprCodec.getLevelNames( );
+			if ( levelNames != null
+					&& levelNames[0].equals( dimName )
+					&& levelNames[1].equals( levelName ) )
+			{
+				return cch;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Finds the reference chart from plot chart or axis chart.

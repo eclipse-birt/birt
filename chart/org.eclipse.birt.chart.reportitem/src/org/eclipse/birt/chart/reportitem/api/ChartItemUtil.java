@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
@@ -1466,5 +1467,67 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			ExpressionHandle eh = gh.getExpressionProperty( IGroupElementModel.KEY_EXPR_PROP );
 			loadExpressionFromHandle( exprCodec, eh );
 		}
+	}
+
+	/**
+	 * Converts data type defined in {@link DesignChoiceConstants} to
+	 * {@link DataType}
+	 * 
+	 * @param dataType
+	 *            data type in design engine
+	 * @return data type in chart model. Value may be null if data type is null
+	 *         or equal to {@link DesignChoiceConstants#COLUMN_DATA_TYPE_ANY}
+	 */
+	public static DataType convertToDataType( String dataType )
+	{
+		if ( dataType == null )
+		{
+			return null;
+		}
+		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB ) )
+		{
+			return DataType.TEXT_LITERAL;
+		}
+		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
+		{
+			return DataType.NUMERIC_LITERAL;
+		}
+		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
+		{
+			return DataType.DATE_TIME_LITERAL;
+		}
+		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+		{
+			return null;
+		}
+		return DataType.TEXT_LITERAL;
+	}
+	
+	/**
+	 * Converts data type defined in {@link DesignChoiceConstants} to axis type in
+	 * {@link AxisType}
+	 * 
+	 * @param dataType
+	 *            data type in design engine
+	 * @return axis type in chart model
+	 */
+	public static AxisType convertToAxisType( String dataType )
+	{
+		DataType type = convertToDataType( dataType );
+		if ( type == DataType.NUMERIC_LITERAL )
+		{
+			return AxisType.LINEAR_LITERAL;
+		}
+		if ( type == DataType.DATE_TIME_LITERAL )
+		{
+			return AxisType.DATE_TIME_LITERAL;
+		}
+		return AxisType.TEXT_LITERAL;
 	}
 }

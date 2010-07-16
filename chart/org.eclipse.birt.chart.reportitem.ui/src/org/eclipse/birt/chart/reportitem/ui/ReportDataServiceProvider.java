@@ -32,7 +32,9 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -131,7 +133,6 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -366,7 +367,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 	}
 
-	@SuppressWarnings("static-access")
 	public final String[] getPreviewHeader( )
 	{
 		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
@@ -474,7 +474,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
-	@SuppressWarnings("static-access")
 	public final ColumnBindingInfo[] getPreviewHeadersInfo( )
 			throws ChartException
 	{
@@ -683,9 +682,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				String returnValue = DataTypeUtil.toString( Double.valueOf( value.substring( 0,
 						index ) ),
 						locale )
-						+ "E";
+						+ "E"; //$NON-NLS-1$
 				String exponent = value.substring( index + 1 );
-				if ( exponent.matches( "[\\+-]+[1-9]{1}[0-9]*" ) )
+				if ( exponent.matches( "[\\+-]+[1-9]{1}[0-9]*" ) ) //$NON-NLS-1$
 				{
 					returnValue += exponent.substring( 0, 1 )
 							+ DataTypeUtil.toString( Integer.valueOf( exponent.substring( 1 ) ),
@@ -716,7 +715,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 *            the item handle contains groups.
 	 */
 	@SuppressWarnings({
-			"static-access", "unchecked"
+		"unchecked"
 	})
 	private void handleGroup( QueryDefinition queryDefn,
 			ExtendedItemHandle reportItemHandle, IModelAdapter modelAdapter )
@@ -925,7 +924,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 	}
 
-	@SuppressWarnings("static-access")
 	private void clearBindings( ) throws SemanticException
 	{
 		clearProperty( itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP ) );
@@ -1276,15 +1274,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return null;
 	}
 
-	private String getQueryStringForProcessing( String expression )
-	{
-		if ( expression.indexOf( "[\"" ) > 0 ) //$NON-NLS-1$
-		{
-			return expression.substring( expression.indexOf( "[\"" ) + 2, expression.indexOf( "\"]" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		}
-		return null;
-	}
-
 	/**
 	 * Find data type of expression from specified item handle.
 	 * 
@@ -1361,36 +1350,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				{
 					continue;
 				}
-				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB ) )
-				{
-					returnObj[0] = Boolean.TRUE;
-					returnObj[1] = DataType.TEXT_LITERAL;
-					break;
-				}
-				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
-				{
-					returnObj[0] = Boolean.TRUE;
-					returnObj[1] = DataType.NUMERIC_LITERAL;
-					break;
-				}
-				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
-						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
-				{
-					returnObj[0] = Boolean.TRUE;
-					returnObj[1] = DataType.DATE_TIME_LITERAL;
-					break;
-				}
-				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
-				{
-					returnObj[0] = Boolean.TRUE;
-					returnObj[1] = null;
-					break;
-				}
+				returnObj[0] = Boolean.TRUE;
+				returnObj[1] = ChartItemUtil.convertToDataType( dataType );
 			}
 		}
 		return returnObj;
@@ -1889,7 +1850,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @throws BirtException
 	 */
-	@SuppressWarnings("static-access")
 	protected IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
 			final Chart cm, List<String> columnExpression )
 			throws BirtException
@@ -2525,7 +2485,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws DataException
 		 * @throws ChartException
 		 */
-		@SuppressWarnings("static-access")
 		private IDataRowExpressionEvaluator createShareBindingEvaluator(
 				Chart cm, List<String> columnExpression )
 				throws BirtException,
@@ -2683,7 +2642,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws ChartException
 		 * @since BIRT 2.3
 		 */
-		@SuppressWarnings("static-access")
 		private final ColumnBindingInfo[] getPreviewHeadersInfo(
 				List<ComputedColumnHandle> columnList ) throws ChartException
 		{
@@ -3067,36 +3025,44 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( aggOnList.size( ) > 0 )
 			{
 				String[] levelNames = CubeUtil.splitLevelName( aggOnList.get( 0 ) );
-				List<String> names = ChartCubeUtil.findDimensionBindingNames( levelNames[0],
+				ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+						levelNames[0],
 						levelNames[1],
 						bindingMap.values( ) );
 				// Set category.
-				if ( names.size( ) > 0 )
+				if ( cch != null )
 				{
 					Query query = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
 							.get( 0 )
 							.getDesignTimeSeries( )
 							.getDataDefinition( )
 							.get( 0 );
-					exprCodec.setBindingName( names.get( 0 ), true, exprType );
+					exprCodec.setBindingName( cch.getName( ), true, exprType );
 					query.setDefinition( exprCodec.encode( ) );
+					
+					// Update X axis type in chart with axes
+					if ( context.getModel( ) instanceof ChartWithAxes )
+					{
+						Axis xAxis = ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) context.getModel( ) );
+						xAxis.setType( ChartItemUtil.convertToAxisType( cch.getDataType( ) ) );
+					}
 				}
 			}
 
 			if ( aggOnList.size( ) > 1 )
 			{
 				String[] levelNames = CubeUtil.splitLevelName( aggOnList.get( 1 ) );
-				List<String> names = ChartCubeUtil.findDimensionBindingNames( levelNames[0],
+				ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+						levelNames[0],
 						levelNames[1],
 						bindingMap.values( ) );
 				// Set Y optional.
-				int size = names.size( );
-				if ( size > 0 )
+				if ( cch != null )
 				{
 					for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
 							.iterator( ); iter.hasNext( ); )
 					{
-						exprCodec.setBindingName( names.get( 0 ),
+						exprCodec.setBindingName( cch.getName( ),
 								true,
 								exprType );
 						Query query = iter.next( ).getQuery( );
@@ -3486,7 +3452,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @param target
 	 * @since 2.5.1
 	 */
-	@SuppressWarnings("static-access")
 	protected void copySeriesDefinition( Object target )
 	{
 		Chart targetCM = context.getModel( );
@@ -3498,7 +3463,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( refHandle != null )
 		{
 			ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
-					(Chart) targetCM );
+					targetCM );
 		}
 	}
 	
