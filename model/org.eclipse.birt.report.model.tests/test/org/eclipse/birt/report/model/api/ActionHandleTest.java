@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -21,6 +23,8 @@ import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 
 /**
  * TestCases for ActionHandle class. ActionHandle should be got from the
@@ -334,7 +338,9 @@ public class ActionHandleTest extends BaseTestCase
 				ParamBinding.EXPRESSION_MEMBER );
 
 		p.setProperty( nameProp, "ParamX" ); //$NON-NLS-1$
-		p.setProperty( exprProp, "ExprX" ); //$NON-NLS-1$
+		List values = new ArrayList( );
+		values.add( "ExprX" );//$NON-NLS-1$
+		p.setProperty( exprProp, values );
 
 		// PropertyHandle paramHandle = actionHandle.getParamBindings();
 
@@ -667,7 +673,9 @@ public class ActionHandleTest extends BaseTestCase
 				ParamBinding.EXPRESSION_MEMBER );
 
 		p.setProperty( nameProp, "ParamX" ); //$NON-NLS-1$
-		p.setProperty( exprProp, "ExprX" ); //$NON-NLS-1$
+		List values = new ArrayList( );
+		values.add( "ExprX" );//$NON-NLS-1$
+		p.setProperty( exprProp, values );
 
 		// PropertyHandle paramHandle = actionHandle.getParamBindings();
 

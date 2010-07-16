@@ -342,9 +342,30 @@ public class ListPropertyState extends AbstractPropertyState
 	private void handleBinding( Structure binding, String memberName )
 	{
 		assert binding != null;
-		Expression exprObj = binding.getExpressionProperty( memberName );
-		if ( exprObj != null )
+		PropertyDefn propDefn = (PropertyDefn) binding
+				.getMemberDefn( memberName );
+		Object value = binding.getProperty( handler.module, propDefn );
+		if ( value == null )
+			return;
+
+		List<Expression> expressions = new ArrayList<Expression>( );
+		boolean isExpressionType = propDefn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE;
+		if ( isExpressionType )
 		{
+			expressions.add( (Expression) value );
+		}
+		else
+		{
+			expressions.addAll( (List<Expression>) value );
+		}
+
+		List<Expression> newExpressions = new ArrayList<Expression>( );
+		newExpressions.addAll( expressions );
+		if ( !isExpressionType )
+			binding.setProperty( propDefn, newExpressions );
+		for ( int index = 0; index < expressions.size( ); index++ )
+		{
+			Expression exprObj = expressions.get( index );
 			if ( IExpressionType.JAVASCRIPT.equals( exprObj.getType( ) ) )
 			{
 				String expression = exprObj.getStringExpression( );
@@ -389,8 +410,12 @@ public class ListPropertyState extends AbstractPropertyState
 										Expression newExprObj = new Expression(
 												newExpression,
 												IExpressionType.JAVASCRIPT );
-										binding.setExpressionProperty(
-												memberName, newExprObj );
+										if ( isExpressionType )
+											binding.setExpressionProperty(
+													memberName, newExprObj );
+										else
+											newExpressions.set( index,
+													newExprObj );
 									}
 								}
 							}
@@ -403,6 +428,7 @@ public class ListPropertyState extends AbstractPropertyState
 				}
 			}
 		}
+
 	}
 
 	/*

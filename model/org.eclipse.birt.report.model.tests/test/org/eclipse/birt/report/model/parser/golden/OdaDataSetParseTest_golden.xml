@@ -130,11 +130,15 @@
             <list-property name="paramBindings">
                 <structure>
                     <property name="paramName">new param1</property>
-                    <expression name="expression">new value1</expression>
+                    <simple-property-list name="expression">
+                    	<value>new value1</value>
+                    </simple-property-list>                    
                 </structure>
                 <structure>
                     <property name="paramName">new param2</property>
-                    <expression name="expression">new value2</expression>
+                    <simple-property-list name="expression">
+                    	<value>new value2</value>
+                    </simple-property-list>    
                 </structure>
             </list-property>
             <property name="dataSource">extendedDataSource</property>

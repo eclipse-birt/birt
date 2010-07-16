@@ -73,7 +73,7 @@ public class ParamBinding extends Structure
 	 * The parameter expression expression.
 	 */
 
-	private Expression expression = null;
+	private List<Expression> expressions = null;
 
 	/*
 	 * (non-Javadoc)
@@ -99,7 +99,7 @@ public class ParamBinding extends Structure
 		if ( PARAM_NAME_MEMBER.equals( propName ) )
 			return paramName;
 		if ( EXPRESSION_MEMBER.equals( propName ) )
-			return expression;
+			return expressions;
 
 		assert false;
 		return null;
@@ -119,7 +119,7 @@ public class ParamBinding extends Structure
 			paramName = (String) value;
 		else if ( EXPRESSION_MEMBER.equals( propName ) )
 		{
-			expression = (Expression) value;
+			expressions = (List) value;
 		}
 		else
 			assert false;
@@ -153,11 +153,25 @@ public class ParamBinding extends Structure
 	 * Returns the binding expression.
 	 * 
 	 * @return the binding expression
+	 * @deprecated replaced by {@link #getExpressionList()}
 	 */
 
 	public String getExpression( )
 	{
-		return getStringProperty( null, EXPRESSION_MEMBER );
+		List<Expression> values = getExpressionList( );
+		if ( values == null || values.isEmpty( ) )
+			return null;
+		return values.get( 0 ).getStringExpression( );
+	}
+
+	/**
+	 * Returns the list of the expressions.
+	 * 
+	 * @return
+	 */
+	public List<Expression> getExpressionList( )
+	{
+		return (List<Expression>) getProperty( null, EXPRESSION_MEMBER );
 	}
 
 	/**
@@ -165,11 +179,32 @@ public class ParamBinding extends Structure
 	 * 
 	 * @param expression
 	 *            the expression to set
+	 * @deprecated by {@link #setExpression(List)}
 	 */
 
 	public void setExpression( String expression )
 	{
-		setProperty( EXPRESSION_MEMBER, expression );
+		if ( expression == null )
+		{
+			setProperty( EXPRESSION_MEMBER, null );
+			return;
+		}
+
+		List<String> values = new ArrayList<String>( );
+		values.add( expression );
+		setProperty( EXPRESSION_MEMBER, values );
+	}
+
+	/**
+	 * Sets the binding expression list.
+	 * 
+	 * @param values
+	 *            the list of expressions to set
+	 */
+
+	public void setExpression( List<Expression> values )
+	{
+		setProperty( EXPRESSION_MEMBER, values );
 	}
 
 	/*

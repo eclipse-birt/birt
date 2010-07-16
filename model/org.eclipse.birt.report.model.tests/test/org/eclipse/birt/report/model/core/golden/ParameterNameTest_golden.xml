@@ -10,11 +10,15 @@
             <list-property name="paramBindings">
                 <structure>
                     <property name="paramName">param1</property>
-                    <expression name="expression" type="javascript">params["param11"]</expression>
+                    <simple-property-list name="expression">
+                    	 <value type="javascript">params["param11"]</value>
+                    </simple-property-list>                   
                 </structure>
                 <structure>
                     <property name="paramName">param2</property>
-                    <expression name="expression">2*2=6</expression>
+                    <simple-property-list name="expression">
+                    	 <value>2*2=6</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
         </script-data-set>
@@ -24,11 +28,15 @@
             <list-property name="paramBindings">
                 <structure>
                     <property name="paramName">param1</property>
-                    <expression name="expression" type="javascript">params["param11"]</expression>
+                    <simple-property-list name="expression">
+                    	 <value type="javascript">params["param11"]</value>
+                    </simple-property-list>                    
                 </structure>
                 <structure>
                     <property name="paramName">param2</property>
-                    <expression name="expression">2*2=6</expression>
+                    <simple-property-list name="expression">
+                    	 <value>2*2=6</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
             <list-property name="boundDataColumns">
@@ -64,11 +72,15 @@
 	                <list-property name="paramBindings">
 	                    <structure>
 	                        <property name="paramName">param1</property>
-	                        <expression name="expression" type="javascript">params["param11"]</expression>
+	                        <simple-property-list name="expression">
+                    	 		<value type="javascript">params["param11"]</value>
+                    		</simple-property-list>	                        
 	                    </structure>
 	                    <structure>
 	                        <property name="paramName">param2</property>
-	                        <expression name="expression">2*2=6</expression>
+	                        <simple-property-list name="expression">
+                    	 		<value>2*2=6</value>
+                    		</simple-property-list>
 	                    </structure>
 	                </list-property>
 	            </structure>

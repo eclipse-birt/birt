@@ -90,7 +90,9 @@
                                                 <list-property name="paramBindings">
                                                     <structure>
                                                         <property name="paramName">param1</property>
-                                                        <expression name="expression">row["PRODUCTLINE"]</expression>
+                                                        <simple-property-list name="expression">
+                                                        	<value>row["PRODUCTLINE"]</value>
+                                                        </simple-property-list>                                                        
                                                     </structure>
                                                 </list-property>
                                             </extended-item>

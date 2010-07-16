@@ -4,7 +4,9 @@
     <list-property name="paramBindings">
         <structure>
             <property name="paramName">param0</property>
-            <expression name="expression">exp0</expression>
+            <simple-property-list name="expression">
+            	<value>exp0</value>
+            </simple-property-list>
         </structure>
     </list-property>
     <list-property name="search">

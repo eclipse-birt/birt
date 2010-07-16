@@ -247,7 +247,7 @@ public class ReportItemParseTest extends BaseTestCase
 		memberHandle = structHandle.getMember( ParamBinding.PARAM_NAME_MEMBER );
 		assertEquals( "param1", memberHandle.getValue( ) ); //$NON-NLS-1$
 		memberHandle = structHandle.getMember( ParamBinding.EXPRESSION_MEMBER );
-		assertEquals( "value1", memberHandle.getValue( ) ); //$NON-NLS-1$
+		assertEquals( "value1", memberHandle.getStringValue( ) ); //$NON-NLS-1$
 
 		structHandle = (StructureHandle) bindings.next( );
 		assertNotNull( structHandle );
@@ -255,7 +255,7 @@ public class ReportItemParseTest extends BaseTestCase
 		memberHandle = structHandle.getMember( ParamBinding.PARAM_NAME_MEMBER );
 		assertEquals( "param2", memberHandle.getValue( ) ); //$NON-NLS-1$
 		memberHandle = structHandle.getMember( ParamBinding.EXPRESSION_MEMBER );
-		assertEquals( "value2", memberHandle.getValue( ) ); //$NON-NLS-1$
+		assertEquals( "value2", memberHandle.getStringValue( ) ); //$NON-NLS-1$
 
 		structHandle = (StructureHandle) bindings.next( );
 		assertNull( structHandle );

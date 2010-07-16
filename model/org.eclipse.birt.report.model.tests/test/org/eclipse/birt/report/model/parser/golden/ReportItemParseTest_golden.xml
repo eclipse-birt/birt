@@ -114,11 +114,15 @@
             <list-property name="paramBindings">
                 <structure>
                     <property name="paramName">no paramter 1</property>
-                    <expression name="expression">setting value 1</expression>
+                    <simple-property-list name="expression">
+                    	 <value>setting value 1</value>
+                    </simple-property-list>
                 </structure>
                 <structure>
                     <property name="paramName">no paramter 2</property>
-                    <expression name="expression">setting value 2</expression>
+                    <simple-property-list name="expression">
+                    	 <value>setting value 2</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
             <method name="onCreate"><![CDATA[my new data on create]]></method>

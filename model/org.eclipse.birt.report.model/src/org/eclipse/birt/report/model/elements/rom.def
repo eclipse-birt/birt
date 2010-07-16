@@ -1468,7 +1468,7 @@
   </Structure>
   <Structure displayNameID="Structure.ParamBinding" name="ParamBinding" since="1.0">
     <Member displayNameID="Structure.ParamBinding.paramName" isIntrinsic="true" name="paramName" since="1.0" type="name"/>
-    <Member displayNameID="Structure.ParamBinding.expression" isIntrinsic="true" name="expression" returnType="any" since="1.0" type="expression"/>
+    <Member displayNameID="Structure.ParamBinding.expression" isIntrinsic="true" name="expression" returnType="any" since="1.0" subType="expression" type="list"/>
   </Structure>
   <Structure displayNameID="Structure.ResultSetColumn" name="ResultSetColumn" since="1.0">
     <Member displayNameID="Structure.ResultSetColumn.position" isIntrinsic="true" name="position" runtimeSettable="false" since="1.0" type="integer"/>

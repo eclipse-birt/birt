@@ -88,7 +88,9 @@
                             <list-property name="paramBindings">
                                 <structure>
                                     <property name="paramName">binding1</property>
-                                    <expression name="expression">row["value1"]</expression>
+                                    <simple-property-list name="expression">
+                                    	<value>row["value1"]</value>
+                                    </simple-property-list>                                    
                                 </structure>
                             </list-property>
                             <list-property name="boundDataColumns">

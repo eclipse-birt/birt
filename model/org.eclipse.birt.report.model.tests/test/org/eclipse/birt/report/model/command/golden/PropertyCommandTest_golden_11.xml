@@ -61,7 +61,9 @@
 	                        <list-property name="paramBindings">
 	                            <structure>
 	                                <property name="paramName">param1</property>
-	                                <expression name="expression">expr1</expression>
+	                                <simple-property-list name="expression">
+	                                	<value>expr1</value>
+	                                </simple-property-list>	                                
 	                            </structure>
 	                        </list-property>
 	                        <list-property name="search">

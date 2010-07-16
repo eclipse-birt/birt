@@ -29,11 +29,15 @@
 	                <list-property name="paramBindings">
 	                    <structure>
 	                        <property name="paramName">param1</property>
-	                        <expression name="expression">1+1=3</expression>
+	                        <simple-property-list name="expression">
+                    	 		<value>1+1=3</value>
+                    		</simple-property-list>
 	                    </structure>
 	                    <structure>
 	                        <property name="paramName">param2</property>
-	                        <expression name="expression">2*2=6</expression>
+	                        <simple-property-list name="expression">
+                    	 		<value>2*2=6</value>
+                    		</simple-property-list>
 	                    </structure>
 	                </list-property>
 	            </structure>

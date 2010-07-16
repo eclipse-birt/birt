@@ -615,11 +615,15 @@ public class OdaDataSetParseTest extends BaseTestCase
 		i = 0;
 		ParamBinding binding = (ParamBinding) bindings.get( i++ );
 		binding.setProperty( nameDefn, "new param1" ); //$NON-NLS-1$
-		binding.setProperty( valueDefn, "new value1" ); //$NON-NLS-1$
+		List values = new ArrayList( );
+		values.add( "new value1" ); //$NON-NLS-1$
+		binding.setProperty( valueDefn, values );
 
 		binding = (ParamBinding) bindings.get( i++ );
 		binding.setProperty( nameDefn, "new param2" ); //$NON-NLS-1$
-		binding.setProperty( valueDefn, "new value2" ); //$NON-NLS-1$
+		values = new ArrayList( );
+		values.add( "new value2" ); //$NON-NLS-1$
+		binding.setProperty( valueDefn, values );
 
 		// Change "result-set" on DataSet
 

@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.util.StructureContextUtil;
 
 /**
  * Represents the handle of parameter binding. The parameter binding binds data
@@ -27,7 +30,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
  * <dt><strong>Expression </strong></dt>
  * <dd>associated an expression with a named input parameter.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class ParamBindingHandle extends StructureHandle
@@ -55,7 +58,10 @@ public class ParamBindingHandle extends StructureHandle
 
 	public String getExpression( )
 	{
-		return getStringProperty( ParamBinding.EXPRESSION_MEMBER );
+		List<Expression> values = (List<Expression>) getProperty( ParamBinding.EXPRESSION_MEMBER );
+		if ( values == null || values.isEmpty( ) )
+			return null;
+		return values.get( 0 ).getStringExpression( );
 	}
 
 	/**
@@ -68,6 +74,17 @@ public class ParamBindingHandle extends StructureHandle
 	public void setExpression( String expression )
 	{
 		setPropertySilently( ParamBinding.EXPRESSION_MEMBER, expression );
+	}
+
+	/**
+	 * Gets the expression list of this parameter binding. * @return the value1
+	 * expression list handle of this filter condition.
+	 */
+
+	public ExpressionListHandle getExpressionListHandle( )
+	{
+		return new ExpressionListHandle( elementHandle, StructureContextUtil
+				.createStructureContext( this, ParamBinding.EXPRESSION_MEMBER ) );
 	}
 
 	/**

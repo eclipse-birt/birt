@@ -19,11 +19,15 @@
                 	<list-property name="paramBindings">
                     	<structure>
                         	<property name="paramName">param1</property>
-                        	<expression name="expression">exp1</expression>
+                        	<simple-property-list name="expression">
+                        		<value>exp1</value>
+                        	</simple-property-list>
                     	</structure>
                     	<structure>
                         	<property name="paramName">param2</property>
-                        	<expression name="expression">exp2</expression>
+                        	<simple-property-list name="expression">
+                        		<value>exp2</value>
+                        	</simple-property-list>
                     	</structure>
                 	</list-property>
                 	<list-property name="search">

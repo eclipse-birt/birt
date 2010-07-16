@@ -229,7 +229,9 @@
                     <list-property name="paramBindings">
                         <structure>
                             <property name="paramName">param1</property>
-                            <expression name="expression">row["param1Value"]</expression>
+                            <simple-property-list name="expression">
+                    	 		<value>row["param1Value"]</value>
+                    		</simple-property-list>
                         </structure>
                     </list-property>
                     <property name="pageBreakInterval">50</property>
@@ -246,7 +248,9 @@
                         <list-property name="paramBindings">
                             <structure>
                                 <property name="paramName">param1</property>
-                                <expression name="expression">row["param1Value"]</expression>
+                                <simple-property-list name="expression">
+                    	 			<value>row["param1Value"]</value>
+                    			</simple-property-list>
                             </structure>
                         </list-property>
                         <property name="pageBreakInterval">50</property>
@@ -268,7 +272,9 @@
                         <list-property name="paramBindings">
                             <structure>
                                 <property name="paramName">param1</property>
-                                <expression name="expression">row["param1Value"]</expression>
+                                <simple-property-list name="expression">
+                    	 			<value>row["param1Value"]</value>
+                    			</simple-property-list>
                             </structure>
                         </list-property>
                         <property name="pageBreakInterval">50</property>

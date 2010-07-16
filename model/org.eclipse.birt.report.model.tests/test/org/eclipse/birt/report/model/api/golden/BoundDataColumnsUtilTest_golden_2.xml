@@ -74,7 +74,9 @@
                             <list-property name="paramBindings">
                                 <structure>
                                     <property name="paramName">param1</property>
-                                    <expression name="expression">row["COLUMN_1"]</expression>
+                                    <simple-property-list name="expression">
+                                    	<value>row["COLUMN_1"]</value>
+                                    </simple-property-list>                                    
                                 </structure>
                             </list-property>
                         </table>
