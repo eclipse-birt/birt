@@ -69,8 +69,11 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -1938,14 +1941,53 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			ICubeFilterDefinition cfd = (ICubeFilterDefinition) iter.next( );
 			ConditionalExpression ce = (ConditionalExpression) cfd.getExpression( );
-			if ( ( ce.getOperand1( ) != null && ((IScriptExpression)ce.getOperand1( )).getText( ) != null && ((IScriptExpression)ce.getOperand1( )).getText( ).indexOf( "._outer" ) >= 0 ) ||
-					( ce.getOperand2( ) != null && ((IScriptExpression)ce.getOperand2( )).getText( ) != null && ((IScriptExpression)ce.getOperand2( )).getText( ).indexOf( "._outer" ) >= 0 ) )
+			if ( hasOuterExpr( ce ) )
 			{
 				iter.remove( );
 			}
 		}
 	}
-
+	
+	/**
+	 * Check if specified base expression contains .outer expression.
+	 * 
+	 * @param be
+	 * @return
+	 */
+	private boolean hasOuterExpr( IBaseExpression be )
+	{
+		if ( be == null )
+		{
+			return false;
+		}
+		if ( be instanceof IScriptExpression )
+		{
+			IScriptExpression se = (IScriptExpression) be;
+			return ( se.getText( ) != null && se.getText( ).indexOf( "._outer" ) >= 0 ); //$NLS-NON-1$
+		}
+		else if ( be instanceof IExpressionCollection )
+		{
+			IExpressionCollection ec = (IExpressionCollection) be;
+			for ( Object expr : ec.getExpressions( ) )
+			{
+				if ( expr instanceof IBaseExpression )
+				{
+					if ( hasOuterExpr( (IBaseExpression) expr ) )
+					{
+						return true;
+					}
+				}
+			}
+		}
+		else if ( be instanceof IConditionalExpression )
+		{
+			IConditionalExpression ce = (IConditionalExpression) be;
+			return hasOuterExpr( ce.getExpression( ) )
+					|| hasOuterExpr( ce.getOperand1( ) )
+					|| hasOuterExpr( ce.getOperand2( ) );
+		}
+		return false;
+	}
 	/**
 	 * The class is responsible to create query definition.
 	 * 
