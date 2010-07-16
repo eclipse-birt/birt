@@ -272,8 +272,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			if ( innerRender == null )
 			{
-				innerRender = new PageRangeRender( new long[]{1,
-						reportDocument.getPageCount( )} );
+				innerRender = new PageRangeRender( new long[]{
+						1, getTotalPage( )
+				} );
 			}
 
 			innerRender.render( );
@@ -591,6 +592,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 						layoutEngine.setLayoutPageHint( getPageHint(
 								pagesExecutor, pageNumber ) );
 					}
+					setFilteredPageNumber( filteredTotalPage,
+							totalPage,
+							pageNumber );
 					layoutEngine.layout( executor, report, emitter, true );
 				}
 				else
@@ -606,12 +610,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 								.getNextChild( );
 						if ( pageExecutor != null )
 						{
-							if ( filteredTotalPage != totalPage )
-							{
-								long filteredPageNumber = getLogicalPageNumber( pageNumber );
-								executionContext
-										.setFilteredPageNumber( filteredPageNumber );
-							}
+							setFilteredPageNumber( filteredTotalPage,
+									totalPage,
+									pageNumber );
 							IReportExecutor pExecutor = new ReportExecutorWrapper(
 									pageExecutor, executor );
 							layoutEngine.layout( pExecutor, report, emitter,
@@ -631,7 +632,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 						layoutEngine.setLayoutPageHint( getPageHint(
 								pagesExecutor, pageNumber ) );
 					}
-
+					setFilteredPageNumber( filteredTotalPage,
+							totalPage,
+							pageNumber );
 					layoutEngine.layout( executor, report, emitter, false );
 				}
 				else
@@ -647,12 +650,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 								.getNextChild( );
 						if ( pageExecutor != null )
 						{
-							if ( filteredTotalPage != totalPage )
-							{
-								long filteredPageNumber = getLogicalPageNumber( pageNumber );
-								executionContext
-										.setFilteredPageNumber( filteredPageNumber );
-							}
+							setFilteredPageNumber( filteredTotalPage,
+									totalPage,
+									pageNumber );
 							IReportExecutor pExecutor = new ReportExecutorWrapper(
 									pageExecutor, executor );
 							layoutEngine.layout( pExecutor, report, emitter,
@@ -672,6 +672,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 			closeRender( );
 			executor.close( );
 
+		}
+
+		private void setFilteredPageNumber( long filteredTotalPage,
+				long totalPage, long pageNumber ) throws EngineException
+		{
+			if ( filteredTotalPage != totalPage )
+			{
+				long filteredPageNumber = getLogicalPageNumber( pageNumber );
+				executionContext.setFilteredPageNumber( filteredPageNumber );
+			}
 		}
 	}
 
