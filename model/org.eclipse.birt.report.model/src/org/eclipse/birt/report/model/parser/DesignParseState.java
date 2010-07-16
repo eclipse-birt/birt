@@ -156,14 +156,12 @@ public abstract class DesignParseState extends AbstractParseState
 				long id = Long.parseLong( theID );
 				if ( id <= 0 )
 				{
-					handler
-							.getErrorHandler( )
+					handler.getErrorHandler( )
 							.semanticError(
 									new DesignParserException(
 											new String[]{
 													element.getIdentifier( ),
-													attrs
-															.getValue( DesignSchemaConstants.ID_ATTRIB )},
+													attrs.getValue( DesignSchemaConstants.ID_ATTRIB )},
 											DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
 				}
 				element.setID( id );
@@ -178,14 +176,12 @@ public abstract class DesignParseState extends AbstractParseState
 		}
 		catch ( NumberFormatException e )
 		{
-			handler
-					.getErrorHandler( )
+			handler.getErrorHandler( )
 					.semanticError(
 							new DesignParserException(
 									new String[]{
 											element.getIdentifier( ),
-											attrs
-													.getValue( DesignSchemaConstants.ID_ATTRIB )},
+											attrs.getValue( DesignSchemaConstants.ID_ATTRIB )},
 									DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
 		}
 	}
@@ -217,14 +213,18 @@ public abstract class DesignParseState extends AbstractParseState
 				module.addElementID( content );
 			else
 			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
+				// fire a semantic warning and make a unique id for it
+				handler.getErrorHandler( )
+						.semanticWarning(
 								new DesignParserException(
 										new String[]{content.getIdentifier( ),
 												element.getIdentifier( )},
 										DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID ) );
-				return false;
+
+				// reset id to 0 and add it to unhandled id map
+				content.setID( 0 );
+				handler.unhandleIDElements.add( content );
+				return true;
 			}
 		}
 		return true;

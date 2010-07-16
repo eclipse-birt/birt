@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">    
+    <page-setup>
+        <simple-master-page name="My Page" id="1"/>
+    </page-setup>
+    <body>
+    	<label name="label_1" id="12"/>
+    	<label name="label_2" id="12"/>
+    	<label name="label_3" id="13"/>
+    </body>
+</report>

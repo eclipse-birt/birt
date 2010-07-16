@@ -474,8 +474,8 @@ public class ReloadLibraryTest extends BaseTestCase
 	 * should be false.
 	 * 
 	 * <ul>
-	 * <li>reload error library and throw out exception</li> <li>isDirty not
-	 * changed</li>
+	 * <li>reload error library and throw out exception</li>
+	 * <li>isDirty not changed</li>
 	 * 
 	 * </ul>
 	 * 
@@ -512,7 +512,7 @@ public class ReloadLibraryTest extends BaseTestCase
 		raf.seek( 906 );
 
 		// Append to the end
-		raf.writeBytes( "<label id=\"21\"/>" );//$NON-NLS-1$
+		raf.writeBytes( "<label name=\"NewLabel1\"/>" );//$NON-NLS-1$
 		raf.close( );
 
 		// reloadlibrary

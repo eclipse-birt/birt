@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="14">
+    <page-setup>
+        <simple-master-page name="My Page" id="1"/>
+    </page-setup>
+    <body>
+        <label name="label_1" id="12"/>
+        <label name="label_2" id="15"/>
+        <label name="label_3" id="13"/>
+    </body>
+</report>

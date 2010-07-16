@@ -1029,4 +1029,24 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals( LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND,
 				( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
 	}
+
+	/**
+	 * Tests the case that the report design can be opended if there is
+	 * duplicate element id. TED 28431.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testDuplicateID( ) throws Exception
+	{
+		openDesign( "ReportDesignParseTest_3.xml" ); //$NON-NLS-1$
+		List<ErrorDetail> errors = design.getAllErrors( );
+		assertEquals( 1, errors.size( ) );
+		assertEquals(
+				DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID,
+				errors.get( 0 ).getErrorCode( ) );
+
+		save( );
+		assertTrue( compareFile( "ReportDesignParseTest_golden_1.xml" ) ); //$NON-NLS-1$
+	}
 }
