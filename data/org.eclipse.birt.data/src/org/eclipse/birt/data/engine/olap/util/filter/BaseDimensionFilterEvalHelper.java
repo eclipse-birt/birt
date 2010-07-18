@@ -161,7 +161,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 				if ( aggrs.size( ) == 0 )
 				{
 					if ( OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
-							ScriptConstants.DIMENSION_SCRIPTABLE ) != null )//$NON-NLS-1$
+							ScriptConstants.DIMENSION_SCRIPTABLE ) != null )
 						return null;
 					// get all level names in the query definition
 					List levelList = new ArrayList( );

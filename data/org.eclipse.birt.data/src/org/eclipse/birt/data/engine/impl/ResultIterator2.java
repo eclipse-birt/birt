@@ -162,7 +162,10 @@ class ResultIterator2 extends ResultIterator
 				IOUtil.writeBool( dos, false );
 				IOUtil.writeString( dos, null );
 				if( streamManager.getVersion( ) >= VersionManager.VERSION_2_5_2_0 )
+				{
 					IOUtil.writeInt( dos, -1 );
+					IOUtil.writeBool( dos, false );
+				}
 			}
 
 			dos.close( );

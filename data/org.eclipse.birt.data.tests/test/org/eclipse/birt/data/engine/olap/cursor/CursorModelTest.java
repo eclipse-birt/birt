@@ -781,7 +781,7 @@ public class CursorModelTest extends BaseTestCase
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,
 				de.getSession( ),
 				this.scope,
-				de.getContext( ) ),cube, appContext );
+				de.getContext( ) ),cube, appContext, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
@@ -852,7 +852,7 @@ public class CursorModelTest extends BaseTestCase
 				cqd,
 				de.getSession( ),
 				this.scope,
-				de.getContext( ) ), cube, null );
+				de.getContext( ) ), cube, null, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
@@ -922,7 +922,7 @@ public class CursorModelTest extends BaseTestCase
 				cqd,
 				de.getSession( ),
 				this.scope,
-				de.getContext( ) ), cube, null );
+				de.getContext( ) ), cube, null, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 

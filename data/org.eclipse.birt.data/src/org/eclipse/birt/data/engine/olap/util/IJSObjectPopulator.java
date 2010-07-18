@@ -324,7 +324,8 @@ public interface IJSObjectPopulator
 		private Scriptable scope;
 		private Scriptable outResultsScriptable;
 		private ScriptContext cx;
-		public DummyJSDataAccessor( IBaseQueryResults outResults, List bindings, Scriptable scope, ScriptContext cx )
+		private DummyJSAggregationAccessor aggrAccessor;
+		public DummyJSDataAccessor( IBaseQueryResults outResults, List bindings, Scriptable scope, ScriptContext cx, DummyJSAggregationAccessor aggrAccessor )
 				throws DataException
 		{
 			this.bindingMap = new HashMap( );
@@ -335,6 +336,7 @@ public interface IJSObjectPopulator
 						bindings.get( i ) );
 			}
 			this.scope = scope;
+			this.aggrAccessor = aggrAccessor;
 			if ( outResults != null )
 			{
 				if ( outResults instanceof ICubeQueryResults )
@@ -371,7 +373,15 @@ public interface IJSObjectPopulator
 					}
 					return null;
 				}
-
+				
+				Object o = aggrAccessor.get( aggrName, scope );
+				if( o != null )
+				{
+					if ( o instanceof DataException )
+						return null;
+					else
+						return o;
+				}
 				Object result = ScriptEvalUtil.evalExpr( ( (IBinding) this.bindingMap.get( aggrName ) ).getExpression( ),
 						cx.newContext( this.scope ),
 						ScriptExpression.defaultID,

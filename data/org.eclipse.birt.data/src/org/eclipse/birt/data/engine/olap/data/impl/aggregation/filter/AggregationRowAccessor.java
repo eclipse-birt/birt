@@ -12,10 +12,13 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
 /**
@@ -27,14 +30,17 @@ public class AggregationRowAccessor extends AbstractRowAccessor
 {
 
 	private IAggregationResultSet resultSet;
-
+	private IBindingValueFetcher fetcher;
+	private Map<String, Object> currentAxisValue;
 	/**
 	 * 
 	 * @param resultSet
 	 */
-	public AggregationRowAccessor( IAggregationResultSet resultSet )
+	public AggregationRowAccessor( IAggregationResultSet resultSet, IBindingValueFetcher fetcher )
 	{
 		this.resultSet = resultSet;
+		this.fetcher = fetcher;
+		this.currentAxisValue = new HashMap<String, Object>();
 		populateFieldIndexMap( );
 	}
 
@@ -82,6 +88,8 @@ public class AggregationRowAccessor extends AbstractRowAccessor
 		try
 		{
 			int aggrIndex = resultSet.getAggregationIndex( aggrName );
+			if( aggrIndex == -1 )
+				return this.getFieldValue( aggrName );
 			return resultSet.getAggregationValue( aggrIndex );
 		}
 		catch ( IOException e )
@@ -98,7 +106,13 @@ public class AggregationRowAccessor extends AbstractRowAccessor
 	public Object getFieldValue( String fieldName ) throws DataException
 	{
 		FieldIndex index = (FieldIndex) fieldIndexMap.get( fieldName );
-		return index != null ? index.getValue( ) : null;
+		if ( index!= null )
+			return index.getValue( );
+		if ( this.currentAxisValue.containsKey( fieldName ))
+			return this.currentAxisValue.get( fieldName );
+		if ( fetcher != null )
+		    return fetcher.getValue( fieldName, this, this.resultSet.getPosition( ) );
+		return null;
 	}
 
 	/**
@@ -158,5 +172,18 @@ public class AggregationRowAccessor extends AbstractRowAccessor
 	public boolean isTimeDimensionRow( )
 	{
 		return false;
+	}
+	
+	public boolean isAxisLevel( String name )
+	{
+		return this.currentAxisValue.containsKey( name );
+	}
+	
+	public void setCurrentAxisValue( Map<String, Object> currentAxisValue )
+	{
+		if( currentAxisValue!= null )
+			this.currentAxisValue = currentAxisValue;
+		else
+			this.currentAxisValue.clear( );
 	}
 }

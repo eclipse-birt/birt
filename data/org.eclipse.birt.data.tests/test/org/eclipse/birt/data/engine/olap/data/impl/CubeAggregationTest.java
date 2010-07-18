@@ -324,7 +324,7 @@ public class CubeAggregationTest extends BaseTestCase
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
-				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ), new ComputedMeasureHelper( ));
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ), new ComputedMeasureHelper( ), null );
 		ISelection[][] filter = new ISelection[1][1];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
 				 new Object[]{"3"},

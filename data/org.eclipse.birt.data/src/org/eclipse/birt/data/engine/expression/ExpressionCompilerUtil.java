@@ -82,9 +82,8 @@ public class ExpressionCompilerUtil
 	public static List extractColumnExpression( IBaseExpression expression, String indicator )
 			throws DataException
 	{
-		if ( expression == null )
-			return new ArrayList( );
-		List columnList = null;
+		List columnList = new ArrayList();
+		
 		if ( expression instanceof IScriptExpression )
 		{
 			columnList = extractColumnExpression( (IScriptExpression) expression, indicator );

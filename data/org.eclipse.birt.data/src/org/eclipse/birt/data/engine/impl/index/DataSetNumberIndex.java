@@ -13,10 +13,8 @@ package org.eclipse.birt.data.engine.impl.index;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -226,8 +224,8 @@ public class DataSetNumberIndex implements IDataSetIndex
 	private class Seg
 	{
 
-		private SoftReference<List> keys = new SoftReference( null );
-		private SoftReference<List<Set<Integer>>> indexs = new SoftReference( null );
+		private List keys;
+		private List<Set<Integer>> indexs;
 		private RAInputStream raIn;
 		private long offset;
 
@@ -240,13 +238,13 @@ public class DataSetNumberIndex implements IDataSetIndex
 		public int getSize( ) throws DataException
 		{
 			init( );
-			return this.keys.get( ).size( );
+			return this.keys.size( );
 		}
 
 		public Set<Integer> seekAll( ) throws DataException
 		{
 			init( );
-			List<Set<Integer>> indexList = this.indexs.get( );
+			List<Set<Integer>> indexList = this.indexs;
 			Set<Integer> result = new HashSet<Integer>( );
 			for ( int i = 0; i < indexList.size( ); i++ )
 			{
@@ -259,8 +257,8 @@ public class DataSetNumberIndex implements IDataSetIndex
 				throws DataException
 		{
 			init( );
-			List keyList = this.keys.get( );
-			List<Set<Integer>> indexList = this.indexs.get( );
+			List keyList = this.keys;
+			List<Set<Integer>> indexList = this.indexs;
 			int threshHold = binarySearch( value, keyList, incEqual
 					? IConditionalExpression.OP_GE : IConditionalExpression.OP_GT );
 			if ( threshHold < 0 || threshHold >= keyList.size( ) )
@@ -278,8 +276,8 @@ public class DataSetNumberIndex implements IDataSetIndex
 				throws DataException
 		{
 			init( );
-			List keyList = this.keys.get( );
-			List<Set<Integer>> indexList = this.indexs.get( );
+			List keyList = this.keys;
+			List<Set<Integer>> indexList = this.indexs;
 			int threshHold = binarySearch( value, keyList, incEqual
 					? IConditionalExpression.OP_LE : IConditionalExpression.OP_LT );
 			if ( threshHold < 0 || threshHold >= keyList.size( ) )
@@ -297,8 +295,8 @@ public class DataSetNumberIndex implements IDataSetIndex
 				throws DataException
 		{
 			init( );
-			List keyList = this.keys.get( );
-			List<Set<Integer>> indexList = this.indexs.get( );
+			List keyList = this.keys;
+			List<Set<Integer>> indexList = this.indexs;
 			int threshHold1 = binarySearch( value1, keyList, IConditionalExpression.OP_GE );
 			int threshHold2 = binarySearch( value2, keyList, IConditionalExpression.OP_LE );
 			if ( threshHold1 > threshHold2 )
@@ -316,8 +314,8 @@ public class DataSetNumberIndex implements IDataSetIndex
 		public Set<Integer> seek( Object value ) throws DataException
 		{
 			init( );
-			List keyList = this.keys.get( );
-			List<Set<Integer>> indexList = this.indexs.get( );
+			List keyList = this.keys;
+			List<Set<Integer>> indexList = this.indexs;
 			int threshHold = binarySearch( value, keyList, IConditionalExpression.OP_EQ );
 			if ( threshHold < 0 || threshHold >= keyList.size( ) )
 				return new HashSet( );
@@ -328,20 +326,20 @@ public class DataSetNumberIndex implements IDataSetIndex
 		{
 			try
 			{
-				if ( this.keys.get( ) == null || this.indexs.get( ) == null )
+				if ( this.keys == null || this.indexs == null )
 				{
-					List keyList = new LinkedList( );
-					List<Set<Integer>> indexList = new LinkedList<Set<Integer>>( );
+					List keyList = new ArrayList( );
+					List<Set<Integer>> indexList = new ArrayList<Set<Integer>>( );
 					this.raIn.seek( offset );
 					DataInputStream din = new DataInputStream( this.raIn );
 					int size = IOUtil.readInt( this.raIn );
 					for ( int i = 0; i < size; i++ )
 					{
 						keyList.add( IOUtil.readObject( din ) );
-						indexList.add( toSet( IOUtil.readList( din ) ) );
+						indexList.add( new HashSet(IOUtil.readList( din )) );
 					}
-					this.keys = new SoftReference( keyList );
-					this.indexs = new SoftReference( indexList );
+					this.keys = keyList;
+					this.indexs = indexList;
 				}
 			}
 			catch ( Exception e )
@@ -349,13 +347,6 @@ public class DataSetNumberIndex implements IDataSetIndex
 				throw new DataException( e.getLocalizedMessage( ), e );
 			}
 		}
-	}
-	
-	private static Set toSet( List list )
-	{
-		Set set = new HashSet( );
-		set.addAll( list );
-		return set;
 	}
 
 	public Set<Integer> getKeyIndex( Object key, int searchType ) throws DataException

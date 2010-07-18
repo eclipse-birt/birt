@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
@@ -52,14 +53,16 @@ public class AggregationFilterHelper
 	private List aggrFilters;
 	private List topbottomFilters;
 	private boolean isEmptyXtab;
-
+	private IBindingValueFetcher fetcher;
+	
 	/**
 	 * 
 	 * @param cube
 	 * @param jsFilterHelpers
 	 */
-	public AggregationFilterHelper( Cube cube, List jsFilterHelpers )
+	public AggregationFilterHelper( Cube cube, List jsFilterHelpers, IBindingValueFetcher bindingValueFetcher )
 	{
+		this.fetcher = bindingValueFetcher;
 		populateDimensionLevels( cube );
 		// populate the filter helpers to aggrFilters and topbottomFilters
 		populateFilters( jsFilterHelpers );
@@ -199,7 +202,7 @@ public class AggregationFilterHelper
 		// previous aggregation result's target level
 		Member[] preMembers = null;
 		IJSDimensionFilterHelper filterHelper = (IJSDimensionFilterHelper) filter.getFilterHelper( );
-		AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet );
+		AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet, fetcher );
 		for ( int k = 0; k < resultSet.length( ); k++ )
 		{
 			resultSet.seek( k );
@@ -430,7 +433,7 @@ public class AggregationFilterHelper
 		String dimensionName = filter.getTargetLevel( ).getDimensionName( );
 		try
 		{
-			AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet );
+			AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet, fetcher );
 			for ( int k = 0; k < resultSet.length( ); k++ )
 			{
 				resultSet.seek( k );

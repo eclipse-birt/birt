@@ -66,10 +66,10 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 		{
 			this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE,//$NON-NLS-1$
 					this.scope,
-					new DummyJSDataAccessor( this.outResults, bindings, this.scope, this.cx ) );
+					new DummyJSDataAccessor( this.outResults, bindings, this.scope, this.cx, this.dataObj ) );
 			this.scope.put( ScriptConstants.DATA_SET_BINDING_SCRIPTABLE,//$NON-NLS-1$
 					this.scope,
-					new DummyJSDataAccessor( this.outResults, bindings, this.scope, this.cx ) );
+					new DummyJSDataAccessor( this.outResults, bindings, this.scope, this.cx, this.dataObj ) );
 		}
 
 	}

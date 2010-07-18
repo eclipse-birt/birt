@@ -88,7 +88,7 @@ public class AggrMeasureFilterHelper
 				{
 					if ( resultSet[i].length( ) == 0 )
 						return null;
-					AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet[i] );
+					AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet[i], null );
 					for ( int j = 0; j < jsMeasureEvalFilterHelper.size( ); j++ )
 					{
 						if ( resultSet[i].getAggregationIndex( aggregationNames[j] ) >= 0 )
@@ -300,7 +300,7 @@ public class AggrMeasureFilterHelper
 			String[] aggregationNames ) throws DataException, IOException
 	{
 		IDiskArray result = new BufferedPrimitiveDiskArray( );
-		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet );
+		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, null );
 		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<IAggrMeasureFilterEvalHelper>();
 
 		FilterPassController filterPassController = new FilterPassController();

@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.data.engine.olap.util.sort;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
@@ -18,13 +21,15 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationRowAccessor;
 import org.eclipse.birt.data.engine.olap.util.DataJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -38,7 +43,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 
 	protected ICubeSortDefinition sortDefinition;
 	private DimLevel targetLevel;
-
+	private Map<String, Object> axisDimValueMap;
 	public DimensionSortEvalHelper( IBaseQueryResults outResults, Scriptable parentScope,
 			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition, ScriptContext cx )
 			throws DataException
@@ -61,6 +66,13 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	{
 		super.init( outResults, parentScope, queryDefn, cx, sortDefinition.getExpression( ) );
 		this.sortDefinition = sortDefinition;
+		this.axisDimValueMap = new HashMap<String, Object>();
+		for( int i = 0; i < this.sortDefinition.getAxisQualifierLevels( ).length; i++ )
+		{
+			ILevelDefinition lvl = this.sortDefinition.getAxisQualifierLevels( )[i];
+			String lvlName = OlapExpressionUtil.getAttrReference( lvl.getHierarchy( ).getDimension( ).getName( ), lvl.getName( ), lvl.getName( ));
+			this.axisDimValueMap.put( lvlName, this.sortDefinition.getAxisQualifierValues( )[i] );
+		}
 	}
 
 	/**
@@ -69,7 +81,10 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	public Object evaluate( IResultRow resultRow ) throws DataException
 	{
 		super.setData( resultRow );
-
+		if( resultRow instanceof AggregationRowAccessor )
+		{
+			((AggregationRowAccessor)resultRow).setCurrentAxisValue( this.axisDimValueMap );
+		}
 		try
 		{
 			return ScriptEvalUtil.evalExpr( expr, cx.newContext( scope ), ScriptExpression.defaultID, 0 );

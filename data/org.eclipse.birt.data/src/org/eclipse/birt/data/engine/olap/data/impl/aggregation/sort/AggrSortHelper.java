@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 
@@ -35,7 +36,7 @@ public class AggrSortHelper
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public static void sort( List sorts, IAggregationResultSet[] resultSet )
+	public static void sort( List sorts, IAggregationResultSet[] resultSet, IBindingValueFetcher fetcher )
 			throws DataException
 	{
 		assert sorts != null && sorts.size( ) > 1;
@@ -71,7 +72,7 @@ public class AggrSortHelper
 			}
 			IAggregationResultSet result = AggregationSortHelper.sort( resultSet[baseIndex],
 					targetSorts,
-					targetResultSet );
+					targetResultSet, fetcher );
 			resultSet[baseIndex].close( );
 			resultSet[baseIndex] = result;
 		}

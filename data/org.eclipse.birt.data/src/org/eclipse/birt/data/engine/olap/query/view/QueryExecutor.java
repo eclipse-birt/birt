@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
@@ -73,7 +74,7 @@ public class QueryExecutor
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public IResultSet execute( BirtCubeView view, StopSign stopSign, ICube cube )
+	public IResultSet execute( BirtCubeView view, StopSign stopSign, ICube cube, IBindingValueFetcher fetcher )
 			throws IOException, BirtException
 	{
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
@@ -90,7 +91,7 @@ public class QueryExecutor
 		CubeQueryValidator.validateCubeQueryDefinition( view,
 				cube );
 		cubeQueryExecutorHelper = new CubeQueryExecutorHelper( cube,
-				executor.getComputedMeasureHelper( ) );
+				executor.getComputedMeasureHelper( ), fetcher );
 		
 		cubeQueryExecutorHelper.setMemoryCacheSize( CacheUtil.computeMemoryBufferSize( view.getAppContext( ) ) );
 		cubeQueryExecutorHelper.setMaxDataObjectRows( CacheUtil.getMaxRows( view.getAppContext( ) ) );
@@ -388,9 +389,10 @@ public class QueryExecutor
 			ICubeQueryDefinition queryDefn = executor.getCubeQueryDefinition( );
 			String expr = cubeSort.getExpression( ).getText( );
 			ITargetSort targetSort =  null;
-			if ( cubeSort.getAxisQualifierLevels( ).length == 0
-					&& ( OlapExpressionUtil.isComplexDimensionExpr( expr ) || OlapExpressionUtil.isReferenceToAttribute( cubeSort.getExpression( ),
-							queryDefn.getBindings( ) ) ) )
+			if ( ( cubeSort.getAxisQualifierLevels( ).length == 0 && ( OlapExpressionUtil.isComplexDimensionExpr( expr ) || OlapExpressionUtil.isReferenceToAttribute( cubeSort.getExpression( ),
+					queryDefn.getBindings( ) ) ) )
+					|| ( !OlapExpressionUtil.isDirectRerenrence( cubeSort.getExpression( ),
+							executor.getCubeQueryDefinition( ).getBindings( ) ) ) )
 			{
 				Scriptable scope = executor.getSession( ).getSharedScope( );
 				targetSort = new DimensionSortEvalHelper( executor.getOuterResults( ),

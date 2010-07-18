@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -21,10 +22,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IDimLevel;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
@@ -48,6 +52,7 @@ public class OlapExpressionUtil
 {
 
 	private static Logger logger = Logger.getLogger( OlapExpressionUtil.class.getName( ) );
+
 	/**
 	 * get the attribute reference name.
 	 * 
@@ -60,6 +65,118 @@ public class OlapExpressionUtil
 			String attrName )
 	{
 		return dimName + '/' + levelName + '/' + attrName;
+	}
+
+	public static Set<IDimLevel> getAggregateOnLevel( IBinding targetBinding,
+			List<IBinding> bindings ) throws DataException
+	{
+		Set<String> visited = new HashSet<String>( );
+		Set<IDimLevel> valid = new HashSet<IDimLevel>( );
+		try
+		{
+			getBindings( visited, valid, targetBinding, bindings );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+
+		return valid;
+	}
+
+	public static Set<IDimLevel> getAggregateOnLevel( String bindingName,
+			List<IBinding> bindings ) throws DataException
+	{
+		return getAggregateOnLevel( getBinding( bindingName, bindings ), bindings );
+	}
+	
+	public static Set<IDimLevel> getAggregateOnLevel( IBaseExpression expr,
+			List<IBinding> bindings ) throws DataException
+	{
+		Set<String> visited = new HashSet<String>( );
+		Set<IDimLevel> valid = new HashSet<IDimLevel>( );
+		try
+		{
+			getBindings( visited, valid, expr, bindings );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+		return valid;
+	}
+
+	private static void getBindings( Set<String> visited, Set<IDimLevel> aggOn,
+			IBaseExpression expr, List<IBinding> bindings )
+			throws DataException, CoreException
+	{
+		if ( expr == null )
+			return;
+		List<String> currentVisitBindings = ExpressionCompilerUtil.extractColumnExpression( expr,
+				ExpressionUtil.DATA_INDICATOR );
+		currentVisitBindings.removeAll( visited );
+
+		if ( expr instanceof IScriptExpression )
+		{
+			aggOn.addAll( ExpressionUtil.getReferencedDimLevel( ( (IScriptExpression) expr ).getText( ) ) );
+
+			for ( String bindingName : currentVisitBindings )
+			{
+				getBindings( visited,
+						aggOn,
+						getBinding( bindingName, bindings ),
+						bindings );
+			}
+		}
+		else if ( expr instanceof IConditionalExpression )
+		{
+			IConditionalExpression cond = (IConditionalExpression) expr;
+			getBindings( visited, aggOn, cond.getExpression( ), bindings );
+			getBindings( visited, aggOn, cond.getOperand1( ), bindings );
+			getBindings( visited, aggOn, cond.getOperand2( ), bindings );
+		}
+	}
+
+	private static void getBindings( Set<String> visited, Set<IDimLevel> aggOn,
+			IBinding binding, List<IBinding> bindings ) throws DataException,
+			CoreException
+	{
+		if ( visited.contains( binding.getBindingName( ) ) )
+		{
+			return;
+		}
+
+		List<String> currentVisitBindings = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+				ExpressionUtil.DATA_INDICATOR );
+		currentVisitBindings.removeAll( visited );
+
+		for ( String expr : ( (List<String>) binding.getAggregatOns( ) ) )
+		{
+
+			aggOn.addAll( ExpressionUtil.getReferencedDimLevel( expr ) );
+		}
+
+		aggOn.addAll( ExpressionUtil.getReferencedDimLevel( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ) );
+
+		visited.add( binding.getBindingName( ) );
+		for ( String bindingName : currentVisitBindings )
+		{
+			getBindings( visited,
+					aggOn,
+					getBinding( bindingName, bindings ),
+					bindings );
+		}
+	}
+
+	private static IBinding getBinding( String bindingName,
+			List<IBinding> bindings ) throws DataException
+	{
+		for ( int i = 0; i < bindings.size( ); i++ )
+		{
+			if ( bindings.get( i ).getBindingName( ).equals( bindingName ) )
+				return bindings.get( i );
+		}
+		return null;
 	}
 
 	/**
@@ -84,7 +201,6 @@ public class OlapExpressionUtil
 			return false;
 		return expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" );
 	}
-
 
 	/**
 	 * This method is used to get the dimension,level,attributes name that
@@ -150,17 +266,17 @@ public class OlapExpressionUtil
 	public static DimLevel getTargetDimLevel( String expr )
 			throws DataException
 	{
-		if ( expr != null && expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+		if ( expr != null
+				&& expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
 		{
-			Set<DimLevel> s = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expr ), 
-				Collections.EMPTY_LIST );
+			Set<DimLevel> s = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expr ),
+					Collections.EMPTY_LIST );
 			if ( s != null && s.size( ) == 1 )
 			{
 				return s.iterator( ).next( );
 			}
 		}
-		throw new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
-					expr );
+		throw new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND, expr );
 	}
 
 	/**
@@ -196,9 +312,10 @@ public class OlapExpressionUtil
 
 		if ( !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
 			return null;
-        try
+		try
 		{
-			List<String> result = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expr ) , "measure" );
+			List<String> result = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expr ),
+					"measure" );
 			if ( result != null && result.size( ) == 1 )
 			{
 				return result.get( 0 );
@@ -244,7 +361,7 @@ public class OlapExpressionUtil
 		String expr = ( (IScriptExpression) expression ).getText( );
 		if ( expr == null )
 			return false;
-		if ( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )// dimension
+		if ( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) || expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )// dimension
 			return true;
 		else if ( expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )// measure
 			return true;
@@ -275,9 +392,10 @@ public class OlapExpressionUtil
 			return null;
 		if ( !expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )
 			return null;
-        try
+		try
 		{
-			List<String> result = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expr ) , "data" );
+			List<String> result = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expr ),
+					"data" );
 			if ( result != null && result.size( ) == 1 )
 			{
 				return result.get( 0 );
@@ -420,8 +538,7 @@ public class OlapExpressionUtil
 								null,
 								binding.getFilter( ),
 								getFullLevelsForRunningAggregation( binding,
-										based ),
-								binding.getArguments( ) ) );
+										based ), binding.getArguments( ) ) );
 					}
 				}
 
@@ -470,6 +587,21 @@ public class OlapExpressionUtil
 		return binding.getAggrFunction( ) != null;
 	}
 
+	public static Set<String> getDerivedMeasureNames ( List<IBinding> bindings ) throws DataException
+	{
+		Set<String> directRef = new HashSet<String>();
+		Set<String> all = new HashSet<String>();
+		for( IBinding binding : bindings )
+		{
+			all.add( binding.getBindingName( ) );
+			if( isDirectRerenrence( binding.getExpression( ), bindings ))
+			{
+				directRef.add( binding.getBindingName( ) );
+			}
+		}
+		all.removeAll( directRef );
+		return all;
+	}
 	/**
 	 * 
 	 * @param expr

@@ -95,26 +95,28 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	public int maxDataObjectRows = -1;
 	public long memoryCacheSize = 0;
 	
+	private IBindingValueFetcher fetcher;
 	/**
 	 * 
 	 * @param cube
 	 */
 	public CubeQueryExecutorHelper( ICube cube ) throws DataException
 	{
-		this(cube, null);
+		this(cube, null, null);
 	}
 	
 	/**
 	 * 
 	 * @param cube
 	 */
-	public CubeQueryExecutorHelper( ICube cube, IComputedMeasureHelper computedMeasureHelper ) throws DataException
+	public CubeQueryExecutorHelper( ICube cube, IComputedMeasureHelper computedMeasureHelper, IBindingValueFetcher fetcher ) throws DataException
 	{
 		Object[] params = {cube, computedMeasureHelper};
 		logger.entering( CubeQueryExecutorHelper.class.getName( ),
 				"CubeQueryExecutorHelper",//$NON-NLS-1$
 				params );
 		this.cube = (Cube) cube;
+		this.fetcher = fetcher;
 		this.computedMeasureHelper = computedMeasureHelper;
 		if (this.computedMeasureHelper != null) 
 		{
@@ -564,12 +566,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		if ( !this.columnSort.isEmpty( ) )
 		{
-			AggrSortHelper.sort( this.columnSort, resultSet );
+			AggrSortHelper.sort( this.columnSort, resultSet, fetcher );
 			closeSortHelpers( columnSort );
 		}
 		if ( !this.rowSort.isEmpty( ) )
 		{
-			AggrSortHelper.sort( this.rowSort, resultSet );
+			AggrSortHelper.sort( this.rowSort, resultSet, fetcher );
 			closeSortHelpers( rowSort );
 		}
 	}
@@ -624,7 +626,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		if ( !aggrFilterHelpers.isEmpty( ) )
 		{
 			AggregationFilterHelper filterHelper = new AggregationFilterHelper( cube,
-					aggrFilterHelpers );
+					aggrFilterHelpers, fetcher );
 			// add new filters for another aggregation computation
 			List newFilters = filterHelper.generateLevelFilters( aggregations,
 					resultSet );

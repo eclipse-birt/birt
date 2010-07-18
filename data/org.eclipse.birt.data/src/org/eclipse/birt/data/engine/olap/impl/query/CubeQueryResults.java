@@ -12,29 +12,42 @@
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IDimLevel;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.document.CubeRADocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.BindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
 import org.eclipse.birt.data.engine.olap.script.JSMeasureAccessor;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
@@ -85,37 +98,78 @@ public class CubeQueryResults implements ICubeQueryResults
 			return this.cubeCursor;
 		try
 		{
-			stopSign.start( );
-			CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, cubeQueryDefinition, this.session,
-					this.scope,
-					this.context );
-			executor.getFacttableBasedFilterHelpers( ).addAll( this.preparedQuery.getInternalFilters( ) );
-			
-			IDocumentManager documentManager = getDocumentManager( executor );
-			ICube cube = loadCube( documentManager, executor );
-			
-			BirtCubeView bcv = new BirtCubeView( executor, cube, appContext );		
-			CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube );		
-			cube.close( );
-			
-			String newResultSetId = executor.getQueryResultsId( );
-			if ( newResultSetId != null )
+			if ( this.session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
 			{
-				this.queryResultsId = newResultSetId;
+				this.cubeCursor = createCursor( null );
+				return this.cubeCursor;
 			}
-			this.scope.put( ScriptConstants.MEASURE_SCRIPTABLE,
-					this.scope,
-					new JSMeasureAccessor( cubeCursor, bcv.getMeasureMapping( ) ) );
-			this.scope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
-					this.scope,
-					new JSLevelAccessor( this.cubeQueryDefinition, bcv ) );
 
-			this.cubeCursor = new CubeCursorImpl( outResults,
-					cubeCursor,
-					this.scope,
-					session.getEngineContext( ).getScriptContext( ),
-					cubeQueryDefinition,
-					bcv );
+			stopSign.start( );
+			Set<String> involvedDerivedMeasure = new HashSet<String>( );
+			Set<String> derivedMeasureNames = OlapExpressionUtil.getDerivedMeasureNames( this.cubeQueryDefinition.getBindings( ) );
+			List<IFilterDefinition> derivedMeasureFilters = new ArrayList<IFilterDefinition>( );
+			if ( !this.cubeQueryDefinition.getFilters( ).isEmpty( ) )
+			{
+				for ( IFilterDefinition filter : (List<IFilterDefinition>) this.cubeQueryDefinition.getFilters( ) )
+				{
+					IBaseExpression expr = filter.getExpression( );
+					Set<String> temp = this.getInvolvedDerivedMeasure( expr,
+							derivedMeasureNames );
+					if ( temp.size( ) > 0 )
+						derivedMeasureFilters.add( filter );
+					involvedDerivedMeasure.addAll( temp );
+				}
+			}
+
+			if ( !this.cubeQueryDefinition.getSorts( ).isEmpty( ) )
+			{
+				for ( ISortDefinition sort : (List<ISortDefinition>) this.cubeQueryDefinition.getSorts( ) )
+				{
+					IBaseExpression expr = sort.getExpression( );
+					involvedDerivedMeasure.addAll( this.getInvolvedDerivedMeasure( expr,
+							derivedMeasureNames ) );
+				}
+			}
+
+			if ( involvedDerivedMeasure.isEmpty( ) )
+			{
+				this.cubeCursor = createCursor( null );
+			}
+			else
+			{
+				List<String> candidateBindingOfInteresting = new ArrayList<String>( );
+				candidateBindingOfInteresting.addAll( involvedDerivedMeasure );
+				List<Set<String>> bindingDimLevels = new ArrayList<Set<String>>();
+				for( String bindingName: candidateBindingOfInteresting )
+				{
+					Set<IDimLevel> dimLevels = OlapExpressionUtil.getAggregateOnLevel( bindingName,
+							this.cubeQueryDefinition.getBindings( ) );
+					Set<String> temp = new HashSet<String>( );
+					for( IDimLevel dl : dimLevels )
+					{
+						temp.add( OlapExpressionUtil.getAttrReference( dl.getDimensionName( ),
+								dl.getLevelName( ),
+								dl.getLevelName( ) ) );
+					}
+					bindingDimLevels.add( temp );
+				}
+				List<IFilterDefinition> filterTemp = new ArrayList<IFilterDefinition>( );
+				List<ISortDefinition> sortTemp = new ArrayList<ISortDefinition>( );
+				filterTemp.addAll( this.cubeQueryDefinition.getFilters( ) );
+				sortTemp.addAll( this.cubeQueryDefinition.getSorts( ) );
+				this.cubeQueryDefinition.getFilters( )
+						.removeAll( derivedMeasureFilters );
+				this.cubeQueryDefinition.getSorts( ).clear( );
+				this.cubeCursor = createCursor( null );
+				this.cubeQueryDefinition.getFilters( ).clear( );
+				this.cubeQueryDefinition.getFilters( ).addAll( filterTemp );
+				this.cubeQueryDefinition.getSorts( ).addAll( sortTemp );
+				BindingValueFetcher fetcher = new BindingValueFetcher( this.cubeCursor,
+						this.cubeQueryDefinition,
+						candidateBindingOfInteresting,
+						bindingDimLevels );
+				this.cubeCursor = createCursor( fetcher );
+			}
 			return this.cubeCursor;
 
 		}
@@ -127,6 +181,64 @@ public class CubeQueryResults implements ICubeQueryResults
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
+	}
+
+	private Set<String> getInvolvedDerivedMeasure( IBaseExpression expr, Set<String> derivedMeasureNames ) throws DataException
+	{
+		Set<String> result = new HashSet<String>();
+		if(!OlapExpressionUtil.isDirectRerenrence( expr, this.cubeQueryDefinition.getBindings( ) ))
+		{
+			if( !OlapExpressionUtil.getAggregateOnLevel( expr, this.cubeQueryDefinition.getBindings( ) ).isEmpty( ))
+			{
+				List<String> involvedMeasureNames = ExpressionCompilerUtil.extractColumnExpression( expr,
+						ExpressionUtil.DATA_INDICATOR );
+				for( String candidate : involvedMeasureNames )
+				{
+					if( derivedMeasureNames.contains( candidate ))
+					{
+						result.add( candidate );
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
+	private ICubeCursor createCursor( IBindingValueFetcher fetcher ) throws DataException, IOException,
+			OLAPException
+	{
+		ICubeCursor cursor;
+		CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, cubeQueryDefinition, this.session,
+				this.scope,
+				this.context );
+		executor.getFacttableBasedFilterHelpers( ).addAll( this.preparedQuery.getInternalFilters( ) );
+		
+		IDocumentManager documentManager = getDocumentManager( executor );
+		ICube cube = loadCube( documentManager, executor );
+		
+		BirtCubeView bcv = new BirtCubeView( executor, cube, appContext, fetcher );		
+		CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube );		
+		cube.close( );
+		
+		String newResultSetId = executor.getQueryResultsId( );
+		if ( newResultSetId != null )
+		{
+			this.queryResultsId = newResultSetId;
+		}
+		this.scope.put( ScriptConstants.MEASURE_SCRIPTABLE,
+				this.scope,
+				new JSMeasureAccessor( cubeCursor, bcv.getMeasureMapping( ) ) );
+		this.scope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
+				this.scope,
+				new JSLevelAccessor( this.cubeQueryDefinition, bcv ) );
+
+		cursor = new CubeCursorImpl( outResults,
+				cubeCursor,
+				this.scope,
+				session.getEngineContext( ).getScriptContext( ),
+				cubeQueryDefinition,
+				bcv );
+		return cursor;
 	}
 	
 	/**

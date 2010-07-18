@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
@@ -50,13 +51,13 @@ public class AggregationSortHelper
 	 * @return
 	 */
 	public static IAggregationResultSet sort( IAggregationResultSet base,
-			ITargetSort[] targetSorts, IAggregationResultSet[] targetResultSets )
+			ITargetSort[] targetSorts, IAggregationResultSet[] targetResultSets, IBindingValueFetcher fetcher )
 			throws IOException, DataException
 	{
 		IDiskArray baseDiskArray = getRowsFromBaseResultSet( base );
 		IDiskArray[] keyDiskArrays = populateKeyDiskArray( base,
 				targetSorts,
-				targetResultSets );
+				targetResultSets, fetcher );
 		CompareUtil.sort( new WrapperedDiskArray( baseDiskArray, keyDiskArrays ),
 				new AggrResultRowComparator( base, targetSorts ),
 				AggregationResultRow.getCreator( ) );
@@ -117,7 +118,7 @@ public class AggregationSortHelper
 	 */
 	private static IDiskArray[] populateKeyDiskArray(
 			IAggregationResultSet base, ITargetSort[] targetSorts,
-			IAggregationResultSet[] targetResultSets ) throws DataException,
+			IAggregationResultSet[] targetResultSets, IBindingValueFetcher fetcher ) throws DataException,
 			IOException
 	{
 		IDiskArray[] keyDiskArrays = new IDiskArray[targetSorts.length];
@@ -168,7 +169,8 @@ public class AggregationSortHelper
 			populateExprKeyDiskArray( base,
 					targetSorts,
 					sortIndex,
-					keyDiskArrays );
+					keyDiskArrays,
+					fetcher );
 		}
 		return keyDiskArrays;
 	}
@@ -414,9 +416,9 @@ public class AggregationSortHelper
 	 */
 	private static void populateExprKeyDiskArray( IAggregationResultSet base,
 			ITargetSort[] targetSorts, int[] sortHelperIndex,
-			IDiskArray[] keyDiskArrays ) throws IOException, DataException
+			IDiskArray[] keyDiskArrays, IBindingValueFetcher fetcher ) throws IOException, DataException
 	{
-		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( base );
+		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( base, fetcher );
 		for ( int i = 0; i < base.length( ); i++ )
 		{
 			base.seek( i );

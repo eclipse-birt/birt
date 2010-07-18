@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.CubeCursorImpl;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationFactory;
@@ -63,7 +64,7 @@ public class BirtCubeView
 	private IPreparedCubeOperation[] preparedCubeOperations;
 	private CubeCursor cubeCursor;
 	private ICube cube;
-
+	private IBindingValueFetcher fetcher;
 	private BirtCubeView( )
 	{
 	}
@@ -74,11 +75,11 @@ public class BirtCubeView
 	 * @param queryExecutor
 	 * @throws DataException
 	 */
-	public BirtCubeView( CubeQueryExecutor queryExecutor, ICube cube, Map appContext ) throws DataException
+	public BirtCubeView( CubeQueryExecutor queryExecutor, ICube cube, Map appContext, IBindingValueFetcher fetcher ) throws DataException
 	{
 		this.executor = queryExecutor;
 		this.cube = cube;
-
+		this.fetcher = fetcher;
 		pageEdgeView = createBirtEdgeView( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.PAGE_EDGE ), ICubeQueryDefinition.PAGE_EDGE );
 		columnEdgeView = createBirtEdgeView( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.COLUMN_EDGE ), ICubeQueryDefinition.COLUMN_EDGE );
 		rowEdgeView = createBirtEdgeView( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.ROW_EDGE ), ICubeQueryDefinition.ROW_EDGE );
@@ -164,7 +165,7 @@ public class BirtCubeView
 	 */
 	public BirtCubeView( CubeQueryExecutor queryExecutor ) throws DataException
 	{
-		this( queryExecutor, null, null );
+		this( queryExecutor, null, null, null );
 	}
 
 	/**
@@ -197,7 +198,7 @@ public class BirtCubeView
 		queryExecutor = new QueryExecutor( );
 		try
 		{
-			parentResultSet = queryExecutor.execute( this, stopSign, cube );
+			parentResultSet = queryExecutor.execute( this, stopSign, cube, this.fetcher );
 		}
 		catch ( IOException e )
 		{

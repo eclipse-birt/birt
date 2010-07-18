@@ -79,7 +79,7 @@ public class DateTimeCursorTest extends BaseTestCase
 				cqd,
 				de.getSession( ),
 				this.scope,
-				de.getContext( ) ), cube, null );
+				de.getContext( ) ), cube, null, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
@@ -122,7 +122,7 @@ public class DateTimeCursorTest extends BaseTestCase
 				cqd,
 				de.getSession( ),
 				this.scope,
-				de.getContext( ) ), cube, null );
+				de.getContext( ) ), cube, null, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
@@ -165,7 +165,7 @@ public class DateTimeCursorTest extends BaseTestCase
 				cqd,
 				de.getSession( ),
 				this.scope,
-				de.getContext( ) ), cube, null );
+				de.getContext( ) ), cube, null, null );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
 
