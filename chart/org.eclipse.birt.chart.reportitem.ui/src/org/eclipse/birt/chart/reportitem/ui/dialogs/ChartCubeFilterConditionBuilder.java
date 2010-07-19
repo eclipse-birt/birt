@@ -346,7 +346,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 					assert ( !expressionValue2.isDisposed( ) );
 					if ( expressionValue1.getVisible( ) )
 					{
-						filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+						List valueList = new ArrayList( );
+						valueList.add( ExpressionButtonUtil.getExpression( expressionValue1 ) );
+						filter.setValue1( valueList );
 					}
 					else
 					{
@@ -355,7 +357,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 					if ( expressionValue2.getVisible( ) )
 					{
-						filter.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
+						ExpressionButtonUtil.saveExpressionButtonControl( expressionValue2,
+								filter,
+								FilterCondition.VALUE2_MEMBER );
 					}
 					else
 					{
@@ -380,7 +384,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 					assert ( !expressionValue2.isDisposed( ) );
 					if ( expressionValue1.getVisible( ) )
 					{
-						inputHandle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+						List valueList = new ArrayList( );
+						valueList.add( ExpressionButtonUtil.getExpression( expressionValue1 ) );
+						inputHandle.setValue1( valueList );
 					}
 					else
 					{
@@ -389,7 +395,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 					if ( expressionValue2.getVisible( ) )
 					{
-						inputHandle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
+						ExpressionButtonUtil.saveExpressionButtonControl( expressionValue2,
+								inputHandle,
+								FilterCondition.VALUE2_MEMBER );
 					}
 					else
 					{
@@ -858,7 +866,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		expressionValue1 = createExpressionValue( condition );
 		expressionValue1.setLayoutData( expgd );
-		expressionValue1.add( CHOICE_SELECT_VALUE );
 
 		dummy1 = createDummy( condition, 3 );
 
@@ -871,7 +878,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		expressionValue2 = createExpressionValue( condition );
 		expressionValue2.setLayoutData( expgd );
-		expressionValue2.add( CHOICE_SELECT_VALUE );
 
 		expressionValue2.setVisible( false );
 
@@ -905,6 +911,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				(ExtendedItemHandle) designHandle,
 				expressionProvider );
 		ceb.addListener( listener );
+		ceb.setPredefinedQuery( new String[]{
+			CHOICE_SELECT_VALUE
+		} );
 
 		return expressionValue;
 	}
@@ -1247,8 +1256,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				updateButtons( );
 			}
 		} );
-
-		addExpressionValue.add( CHOICE_SELECT_VALUE );
 
 		parent.getParent( ).layout( true, true );
 		return 1;
@@ -1693,8 +1700,22 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		else
 		{
 			create2ValueComposite( operator.getParent( ) );
-			expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
-			expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
+			if ( inputHandle != null )
+			{
+				if ( inputHandle.getValue1ExpressionList( ).getListValue( ) != null
+						&& inputHandle.getValue1ExpressionList( )
+								.getListValue( )
+								.size( ) > 0 )
+				{
+					ExpressionButtonUtil.initExpressionButtonControl( expressionValue1,
+							inputHandle.getValue1ExpressionList( )
+									.getListValue( )
+									.get( 0 ) );
+				}
+				ExpressionButtonUtil.initExpressionButtonControl( expressionValue2,
+						inputHandle,
+						FilterCondition.VALUE2_MEMBER );
+			}
 		}
 
 		if ( valueVisible == 0 )
