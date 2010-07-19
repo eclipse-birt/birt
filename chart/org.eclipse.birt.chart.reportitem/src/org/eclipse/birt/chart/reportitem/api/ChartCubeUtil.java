@@ -126,7 +126,7 @@ public class ChartCubeUtil extends ChartItemUtil
 		if ( cube.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) > 0 )
 		{
 			List<MeasureHandle> measures = new ArrayList<MeasureHandle>( );
-			Iterator measureGroups = cube.getContents( ICubeModel.MEASURE_GROUPS_PROP )
+			Iterator<?> measureGroups = cube.getContents( ICubeModel.MEASURE_GROUPS_PROP )
 					.iterator( );
 			while ( measureGroups.hasNext( ) )
 			{
@@ -276,7 +276,7 @@ public class ChartCubeUtil extends ChartItemUtil
 	{
 		if ( cell != null )
 		{
-			List contents = cell.getContents( );
+			List<?> contents = cell.getContents( );
 			if ( contents != null && contents.size( ) >= 1 )
 			{
 				return contents.get( 0 );
@@ -1334,12 +1334,12 @@ public class ChartCubeUtil extends ChartItemUtil
 	private static void initCellSize( AggregationCellHandle cell )
 			throws BirtException
 	{
-		if ( cell.getWidth( ) != null || cell.getWidth( ).getMeasure( ) == 0 )
+		if ( cell.getWidth( ) == null || cell.getWidth( ).getMeasure( ) == 0 )
 		{
 			// Set a default width to avoid null size issue in fixed layout
 			cell.getCrosstab( ).setColumnWidth( cell, DEFAULT_COLUMN_WIDTH );
 		}
-		if ( cell.getHeight( ) != null || cell.getHeight( ).getMeasure( ) == 0 )
+		if ( cell.getHeight( ) == null || cell.getHeight( ).getMeasure( ) == 0 )
 		{
 			// Set a default height to avoid clipping issue in fixed layout
 			cell.getCrosstab( ).setRowHeight( cell, DEFAULT_ROW_HEIGHT );
