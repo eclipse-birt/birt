@@ -25,7 +25,6 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -36,6 +35,7 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -156,8 +156,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		{
 
 			// The report item has a data set definition, must create a query
-			// for
-			// it.
+			// for it.
 			query = new QueryDefinition( parentQuery );
 			( (QueryDefinition) query ).setDataSetName( dsHandle.getQualifiedName( ) );
 
@@ -315,34 +314,16 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			while ( iter.hasNext( ) )
 			{
 				ParamBindingHandle modelParamBinding = iter.next( );
-				IInputParameterBinding binding = createParamBinding( modelParamBinding );
-				if ( binding != null )
+				List<ScriptExpression> exprs = ChartReportItemUtil.newExpression( modelAdapter,
+						modelParamBinding );
+				for ( ScriptExpression expr : exprs )
 				{
-					list.add( binding );
+					list.add( new InputParameterBinding( expr.getText( ), expr ) );
 				}
 			}
 		}
 		return list;
 	}
-
-	/**
-	 * create input parameter binding
-	 * 
-	 * @param handle
-	 * @return
-	 * @throws ChartException 
-	 */
-	protected IInputParameterBinding createParamBinding(
-			ParamBindingHandle handle ) throws ChartException
-	{
-		if ( handle.getExpression( ) == null )
-			return null; // no expression is bound
-		IBaseExpression expr = ChartReportItemUtil.newExpression( modelAdapter,
-				handle );
-		// model provides binding by name only
-		return new InputParameterBinding( handle.getParamName( ), expr );
-	}
-
 	
 	private String getExpressionOfValueSeries( )
 	{

@@ -51,16 +51,15 @@ import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionListHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
@@ -618,32 +617,39 @@ public class ChartReportItemUtil extends ChartItemUtil
 		}
 	}
 
-	public static ExpressionHandle getScriptExpression( StructureHandle binding )
-	{
-		if ( binding instanceof ComputedColumnHandle )
-		{
-			return binding.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
-		}
-		if ( binding instanceof AggregationArgumentHandle )
-		{
-			return binding.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
-		}
-		if ( binding instanceof ParamBindingHandle )
-		{
-			return binding.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
-		}
-		return null;
-	}
-
 	public static ScriptExpression newExpression( IModelAdapter adapter,
-			StructureHandle binding )
+			ComputedColumnHandle binding )
 	{
-		ExpressionHandle eh = getScriptExpression( binding );
+		ExpressionHandle eh = binding.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
 		if ( eh == null || eh.getValue( ) == null )
 		{
 			return null;
 		}
 		return adapter.adaptExpression( (Expression) eh.getValue( ) );
+	}
+	
+	public static ScriptExpression newExpression( IModelAdapter adapter,
+			AggregationArgumentHandle binding )
+	{
+		ExpressionHandle eh = binding.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+		if ( eh == null || eh.getValue( ) == null )
+		{
+			return null;
+		}
+		return adapter.adaptExpression( (Expression) eh.getValue( ) );
+	}
+	
+	public static List<ScriptExpression> newExpression( IModelAdapter adapter,
+			ParamBindingHandle binding )
+	{
+		ExpressionListHandle eh = binding.getExpressionListHandle( );
+		List<Expression> exprs = eh.getListValue( );
+		List<ScriptExpression> ses = new ArrayList<ScriptExpression>( exprs.size( ) );
+		for ( Expression expr : exprs )
+		{
+			ses.add( adapter.adaptExpression( expr ) );
+		}
+		return ses;
 	}
 	
 	public static ScriptExpression newExpression( IModelAdapter adapter,

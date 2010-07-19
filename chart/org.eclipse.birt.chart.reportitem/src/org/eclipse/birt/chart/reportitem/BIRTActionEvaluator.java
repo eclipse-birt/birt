@@ -32,13 +32,14 @@ import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.ExpressionListHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.SearchKeyHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 
 /**
  * A BIRT action evaluator implementation.
@@ -76,7 +77,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 			}
 			if ( expList.size( ) > 0 )
 			{
-				return (String[]) expList.toArray( new String[expList.size( )] );
+				return expList.toArray( new String[expList.size( )] );
 			}
 		}
 		else if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
@@ -99,7 +100,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 			
 			if ( expList.size( ) > 0 )
 			{
-				return (String[]) expList.toArray( new String[expList.size( )] );
+				return expList.toArray( new String[expList.size( )] );
 			}
 		}
 		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
@@ -187,14 +188,16 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 				for ( Iterator<?> itr = handle.getParamBindings( ).iterator( ); itr.hasNext( ); )
 				{
 					ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-					exprHandle = pbh.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
-					exprCodec.setExpression( exprHandle.getStringValue( ) );
-					exprCodec.setType( exprHandle.getType( ) );
-					exp = exprCodec.encode( );
-
-					if ( !expList.contains( exp ) )
+					ExpressionListHandle exprListHandle = pbh.getExpressionListHandle( );
+					for ( Expression expr : exprListHandle.getListValue( ) )
 					{
-						expList.add( exp );
+						exprCodec.setExpression( expr.getStringExpression( ) );
+						exprCodec.setType( expr.getType( ) );
+						exp = exprCodec.encode( );
+						if ( !expList.contains( exp ) )
+						{
+							expList.add( exp );
+						}
 					}
 				}
 
