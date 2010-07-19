@@ -176,8 +176,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		String propName = prop.getName( );
 		if ( ( IReportItemModel.TOC_PROP.equals( propName ) || IGroupElementModel.TOC_PROP
-				.equals( propName ) )
-				&& ( value instanceof String ) )
+				.equals( propName ) ) && ( value instanceof String ) )
 		{
 			Structure oldValue = (Structure) element.getLocalProperty( module,
 					prop );
@@ -283,6 +282,38 @@ public class PropertyCommand extends AbstractPropertyCommand
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
 		}
 
+		// for the list/table, repeatHeader=true and ACLExpression cannot be set
+		// at the same time. should throw exception.
+
+		if ( element instanceof ListingElement )
+		{
+			String strConflict = null;
+			String toCheckProp = null;
+			if ( IListingElementModel.REPEAT_HEADER_PROP
+					.equalsIgnoreCase( propName )
+					&& ( value == null || ( (Boolean) value ).booleanValue( ) ) )
+			{
+				toCheckProp = IReportItemModel.ACL_EXPRESSION_PROP;
+				strConflict = element.getStringProperty( module, toCheckProp );
+			}
+			else if ( value != null
+					&& IReportItemModel.ACL_EXPRESSION_PROP
+							.equalsIgnoreCase( propName ) )
+			{
+				toCheckProp = IListingElementModel.REPEAT_HEADER_PROP;
+				Boolean conflictValue = element.getBooleanProperty( module,
+						toCheckProp );
+				if ( conflictValue.booleanValue( ) )
+					strConflict = conflictValue.toString( );
+			}
+
+			if ( strConflict != null )
+				throw new SemanticError( element, new String[]{
+						value == null ? null : value.toString( ), propName,
+						strConflict, toCheckProp},
+						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_VALUE );
+		}
+
 		// Set the property.
 
 		if ( prop.isIntrinsic( ) )
@@ -291,8 +322,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			return;
 		}
 		if ( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
-				.getName( ) )
-				&& value == null )
+				.getName( ) ) && value == null )
 		{
 			clearRefTemplateParameterProp( prop, null );
 			return;
@@ -303,8 +333,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( !( (ContentElement) element ).isLocal( ) )
 			{
 				ContentElementCommand attrCmd = new ContentElementCommand(
-						module, element, ( (ContentElement) element )
-								.getValueContainer( ) );
+						module, element,
+						( (ContentElement) element ).getValueContainer( ) );
 
 				attrCmd.doSetProperty( prop, value );
 				return;
@@ -323,8 +353,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 	private void setElementTypeProperty( ElementPropertyDefn prop, Object value )
 			throws SemanticException
 	{
-		ContainerContext context = new ContainerContext( element, prop
-				.getName( ) );
+		ContainerContext context = new ContainerContext( element,
+				prop.getName( ) );
 		CommandStack stack = getActivityStack( );
 		PropertyRecord record = new PropertyRecord( element, prop, value );
 		stack.startTrans( record.getLabel( ) );
@@ -779,8 +809,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		int size = Math.min( listingGroups.size( ), targetGroups.size( ) );
 		for ( int i = 0; i < size; i++ )
 		{
-			recoverReferredReportItem( listingGroups.get( i ), targetGroups
-					.get( i ) );
+			recoverReferredReportItem( listingGroups.get( i ),
+					targetGroups.get( i ) );
 		}
 	}
 
@@ -1167,8 +1197,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( IReportItemModel.DATA_BINDING_REF_PROP
 				.equals( propDefn.getName( ) )
 				&& refValue.isResolved( )
-				&& ModelUtil.checkContainerOrContent( element, refValue
-						.getElement( ) ) )
+				&& ModelUtil.checkContainerOrContent( element,
+						refValue.getElement( ) ) )
 			throw new SemanticError( element, new String[]{element.getName( ),
 					refValue.getName( )},
 					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
@@ -1296,8 +1326,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 				// string/dimension -> string/dimension/expression
 
-				retValue = doValidateCompatibleObject( propDefn, propDefn
-						.getType( ), value );
+				retValue = doValidateCompatibleObject( propDefn,
+						propDefn.getType( ), value );
 
 				break;
 			case IPropertyType.LIST_TYPE :

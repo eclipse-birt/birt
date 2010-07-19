@@ -383,6 +383,12 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_TABLE_COLUMN_ILLEGAL_PERCENTAGE = MessageConstants.SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE;
 
 	/**
+	 * The possible value cannot be specified because of other property values.
+	 */
+
+	public static final String DESIGN_EXCEPTION_CANNOT_SPECIFY_VALUE = MessageConstants.SEMANTIC_ERROR_CANNOT_SPECIFY_VALUE;
+
+	/**
 	 * The constant for the semantic error.
 	 */
 
@@ -480,17 +486,18 @@ public class SemanticError extends SemanticException
 		if ( sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT
 				|| sResourceKey == DESIGN_EXCEPTION_MISSING_EXTENSION )
 		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{element
-					.getElementName( )} );
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{element.getElementName( )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_REF
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_STRUCTURE_REF )
 		{
 			assert oaMessageArguments != null;
 
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					element.getIdentifier( ), (String) oaMessageArguments[0],
-					(String) oaMessageArguments[1]} );
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{element.getIdentifier( ),
+							(String) oaMessageArguments[0],
+							(String) oaMessageArguments[1]} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_DUPLICATE_GROUP_NAME
 				|| sResourceKey == DESIGN_EXCEPTION_EXTENSION_NOT_FOUND
@@ -498,8 +505,9 @@ public class SemanticError extends SemanticException
 		{
 			assert oaMessageArguments != null;
 
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					element.getIdentifier( ), (String) oaMessageArguments[0]} );
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{element.getIdentifier( ),
+							(String) oaMessageArguments[0]} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_NAME
@@ -548,16 +556,32 @@ public class SemanticError extends SemanticException
 		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_PROPERTY_BINDING_ID )
 		{
 			assert oaMessageArguments.length == 1;
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					element.getIdentifier( ), (String) oaMessageArguments[0]} );
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{element.getIdentifier( ),
+							(String) oaMessageArguments[0]} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_CANNOT_SPECIFY_VALUE )
+		{
+			int newArgsLen = 0;
+
+			if ( oaMessageArguments != null )
+			{
+				newArgsLen = oaMessageArguments.length;
+			}
+
+			String[] newArgs = new String[newArgsLen + 1];
+			newArgs[0] = element.getIdentifier( );
+			System.arraycopy( oaMessageArguments, 0, newArgs, 1, newArgsLen );
+
+			return ModelMessages.getMessage( sResourceKey, newArgs );
 		}
 		else if ( oaMessageArguments != null )
 		{
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
 		}
 
-		return ModelMessages.getMessage( sResourceKey, new String[]{element
-				.getIdentifier( )} );
+		return ModelMessages.getMessage( sResourceKey,
+				new String[]{element.getIdentifier( )} );
 	}
 
 	/**

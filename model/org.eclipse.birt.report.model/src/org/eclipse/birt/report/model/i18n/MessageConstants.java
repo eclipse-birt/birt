@@ -219,7 +219,8 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_DATA_SET_MISSED_IN_JOINT_DATA_SET = "Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_COLUMN_BINDING = "Error.SemanticError.MISSING_COLUMN_BINDING"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_COLUMN_INSERT_FORBIDDEN = "Error.SemanticError.COLUMN_INSERT_FORBIDDEN"; //$NON-NLS-1$
-
+	public static final String SEMANTIC_ERROR_CANNOT_SPECIFY_VALUE = "Error.SemanticError.CANNOT_SPECIFY_VALUE"; //$NON-NLS-1$
+	
 	public static final String SEMANTIC_ERROR_ROW_COPY_FORBIDDEN = "Error.SemanticError.ROW_COPY_FORBIDDEN";//$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_ROW_PASTE_FORBIDDEN = "Error.SemanticError.ROW_PASTE_FORBIDDEN";//$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_ROW_INSERT_FORBIDDEN = "Error.SemanticError.ROW_INSERT_FORBIDDEN";//$NON-NLS-1$
