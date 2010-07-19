@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
-import java.util.Set;
-
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.RepeatHeaderDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
@@ -27,8 +25,9 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -37,7 +36,7 @@ import org.eclipse.swt.widgets.Composite;
 public class ListingSectionPage extends ResetAttributePage
 {
 
-	private Button repeatHeaderButton;
+	private CheckSection repeatHeaderSection;
 
 	public void buildUI( Composite parent )
 	{
@@ -148,7 +147,7 @@ public class ListingSectionPage extends ResetAttributePage
 		// 1,
 		// true );
 		RepeatHeaderDescriptorProvider repeatHeaderProvider = new RepeatHeaderDescriptorProvider( );
-		CheckSection repeatHeaderSection = new CheckSection( container, true );
+		repeatHeaderSection = new CheckSection( container, true );
 		repeatHeaderSection.setProvider( repeatHeaderProvider );
 		repeatHeaderSection.setLayoutNum( 4 );
 		repeatHeaderSection.setGridPlaceholder( 2, true );
@@ -177,21 +176,40 @@ public class ListingSectionPage extends ResetAttributePage
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
-	 * AttributePage#refreshValues(java.util.Set)
-	 */
-	protected void refreshValues( Set propertiesSet )
+	public void refresh( )
 	{
 		super.refresh( );
-		if ( DEUtil.getInputSize( input ) == 1
+		if ( repeatHeaderSection != null
+				&& !repeatHeaderSection.getCheckControl( )
+						.getControl( )
+						.isDisposed( )
+				&& DEUtil.getInputSize( input ) == 1
 				&& DEUtil.getInputFirstElement( input ) instanceof ListingHandle )
 		{
 			ListingHandle listingHandle = (ListingHandle) DEUtil.getInputFirstElement( input );
-			repeatHeaderButton.setSelection( listingHandle.repeatHeader( ) );
+
+			if ( !Boolean.valueOf( listingHandle.cascadeACL( ) )
+					.equals( listingHandle.getPropertyHandle( IReportItemModel.CASCADE_ACL_PROP )
+							.getPropertyDefn( )
+							.getDefault( ) )
+					|| listingHandle.getPropertyHandle( IReportDesignModel.ACL_EXPRESSION_PROP )
+							.isLocal( ) )
+			{
+				repeatHeaderSection.getCheckControl( )
+						.getControl( )
+						.setEnabled( false );
+			}
+			else
+			{
+				repeatHeaderSection.getCheckControl( )
+						.getControl( )
+						.setEnabled( true );
+			}
 		}
 	}
 
+	public void postElementEvent( )
+	{
+		refresh( );
+	}
 }
