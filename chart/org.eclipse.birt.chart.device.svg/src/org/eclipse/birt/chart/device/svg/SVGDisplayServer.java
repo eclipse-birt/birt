@@ -12,10 +12,14 @@
 package org.eclipse.birt.chart.device.svg;
 
 import java.awt.Image;
+import java.awt.font.FontRenderContext;
 import java.net.URL;
+import java.text.AttributedCharacterIterator.Attribute;
+import java.util.Map;
 
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.device.swing.SwingDisplayServer;
+import org.eclipse.birt.chart.device.util.ChartTextLayout;
 import org.eclipse.birt.chart.device.util.ChartTextMetrics;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.component.Label;
@@ -40,6 +44,15 @@ public class SVGDisplayServer extends SwingDisplayServer
 	
 	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
 	{
-		return new ChartTextMetrics( this, la, autoReuse );
+		ChartTextMetrics tm = new ChartTextMetrics( this, la, autoReuse );
+		tm.setTextLayoutFactory( this );
+		return tm;
+	}
+
+	@Override
+	public ChartTextLayout createTextLayout( String value,
+			Map<? extends Attribute, ?> fontAttributes, FontRenderContext frc )
+	{
+		return new SVGTextLayout( value, fontAttributes, frc );
 	}
 }

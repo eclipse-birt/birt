@@ -37,10 +37,6 @@ import org.eclipse.birt.chart.model.component.Label;
 public final class SwingTextMetrics extends TextAdapter
 {
 
-	//
-	public static int iCount = 0;
-	//
-
 	private int iLineCount = 0;
 
 	private Object oText = null;
@@ -122,14 +118,6 @@ public final class SwingTextMetrics extends TextAdapter
 	 */
 	public final void reuse( Label la, double forceWrappingSize )
 	{
-		//
-//		 System.out.println( "reuse["
-//		 + ( ++iCount )
-//		 + "]: "
-//		 + la.getCaption( ).getValue( )
-//		 + ", wrapping: "
-//		 + forceWrappingSize );
-		//
 
 		final Font f = (Font) xs.createFont( la.getCaption( ).getFont( ) );
 		fm = g2d.getFontMetrics( f );

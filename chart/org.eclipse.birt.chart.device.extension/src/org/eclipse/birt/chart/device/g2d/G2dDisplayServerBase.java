@@ -14,10 +14,12 @@ package org.eclipse.birt.chart.device.g2d;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
 import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +28,9 @@ import javax.imageio.ImageIO;
 import org.eclipse.birt.chart.device.DisplayAdapter;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
+import org.eclipse.birt.chart.device.util.ChartTextLayout;
 import org.eclipse.birt.chart.device.util.ChartTextMetrics;
+import org.eclipse.birt.chart.device.util.ITextLayoutFactory;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -40,7 +44,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
  * The base class of all display servers which bases on java.awt.Graphics2D.
  */
 
-public class G2dDisplayServerBase extends DisplayAdapter
+public class G2dDisplayServerBase extends DisplayAdapter implements ITextLayoutFactory
 {
 
 	protected Graphics2D _g2d;
@@ -112,7 +116,9 @@ public class G2dDisplayServerBase extends DisplayAdapter
 	@Override
 	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
 	{
-		return new ChartTextMetrics( this, la, autoReuse );
+		ChartTextMetrics tm = new ChartTextMetrics( this, la, autoReuse );
+		tm.setTextLayoutFactory( this );
+		return tm;
 	}
 
 	@Override
@@ -155,6 +161,12 @@ public class G2dDisplayServerBase extends DisplayAdapter
 			}
 		}
 		return size;
+	}
+
+	public ChartTextLayout createTextLayout( String value,
+			Map<? extends Attribute, ?> fontAttributes, FontRenderContext frc )
+	{
+		return new ChartTextLayout( value, fontAttributes, frc );
 	}
 
 }

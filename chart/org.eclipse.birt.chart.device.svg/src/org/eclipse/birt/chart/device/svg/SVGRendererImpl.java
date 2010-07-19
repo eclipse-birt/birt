@@ -138,8 +138,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
-			_ids = ps.getDisplayServer( "ds.SVG" ); //$NON-NLS-1$
-			_tr = new SVGTextRenderer( _ids );
+			SVGDisplayServer ids = (SVGDisplayServer)ps.getDisplayServer( "ds.SVG" ); //$NON-NLS-1$
+			SVGTextRenderer tr = new SVGTextRenderer(ids);
+			tr.setTextLayoutFactory( ids );
+			_ids = ids;
+			_tr = tr;
 			ivRenderer = new SVGInteractiveRenderer( getULocale( ) );
 		}
 		catch ( ChartException pex )

@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 
 public class ChartTextRenderer extends TextRendererAdapter
 {
+	protected ITextLayoutFactory textLayoutFactory; 
 
 	/**
 	 * 
@@ -53,6 +54,11 @@ public class ChartTextRenderer extends TextRendererAdapter
 	public ChartTextRenderer( IDisplayServer dispServer )
 	{
 		super( dispServer );
+	}
+	
+	public void setTextLayoutFactory(ITextLayoutFactory textLayoutFactory)
+	{
+		this.textLayoutFactory = textLayoutFactory;
 	}
 
 	/**
@@ -1813,7 +1819,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < textMetrics.getLineCount( ); i++ )
 						{
-							textLayout = new ChartTextLayout( textMetrics.getLine( lineCount
+							textLayout = textLayoutFactory.createTextLayout( textMetrics.getLine( lineCount
 									- i
 									- 1 ),
 									g2d.getFont( ).getAttributes( ),

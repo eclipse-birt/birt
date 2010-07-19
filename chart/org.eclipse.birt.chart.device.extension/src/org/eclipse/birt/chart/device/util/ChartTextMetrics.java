@@ -56,6 +56,8 @@ public final class ChartTextMetrics extends TextAdapter
 	private final IDisplayServer xs;
 
 	private Insets ins = null;
+	
+	private ITextLayoutFactory textLayoutFactory;
 
 	/**
 	 * The constructor initializes a tiny image that provides a graphics context
@@ -90,6 +92,11 @@ public final class ChartTextMetrics extends TextAdapter
 	public ChartTextMetrics( IDisplayServer _xs, Label _la )
 	{
 		this( _xs, _la, true );
+	}
+	
+	public void setTextLayoutFactory(ITextLayoutFactory textLayoutFactory)
+	{
+		this.textLayoutFactory = textLayoutFactory;
 	}
 
 	/**
@@ -149,7 +156,7 @@ public final class ChartTextMetrics extends TextAdapter
 			oText = s;
 			tla = new ChartTextLayout[1];
 			fsa = new String[1];
-			tla[0] = new ChartTextLayout( s, f.getAttributes( ), frc );
+			tla[0] = textLayoutFactory.createTextLayout( s, f.getAttributes( ), frc );
 			fsa[0] = s;
 		}
 		else
@@ -160,7 +167,7 @@ public final class ChartTextMetrics extends TextAdapter
 			fsa = new String[iLineCount];
 			for ( int i = 0; i < iLineCount; i++ )
 			{
-				tla[i] = new ChartTextLayout( sa[i], f.getAttributes( ), frc );
+				tla[i] = textLayoutFactory.createTextLayout( sa[i], f.getAttributes( ), frc );
 				fsa[i] = sa[i];
 			}
 		}
