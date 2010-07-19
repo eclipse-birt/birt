@@ -1838,7 +1838,8 @@ public class DEUtil
 	 * @param comparator
 	 * @return return styles list sortted with given comparator.
 	 */
-	public static Iterator getStyles( AbstractThemeHandle theme, Comparator comparator )
+	public static Iterator getStyles( AbstractThemeHandle theme,
+			Comparator comparator )
 	{
 		List styles = new ArrayList( );
 
@@ -2641,7 +2642,7 @@ public class DEUtil
 			ComputedColumnHandle column, boolean checkOutLevel )
 	{
 		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
-		if ( isBindingCube( baseElement ) )
+		if ( isBindingCube( column.getElementHandle( ) ) )
 		{
 			exp = ExpressionUtil.DATA_INDICATOR;
 		}

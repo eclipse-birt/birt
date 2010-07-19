@@ -1254,13 +1254,12 @@ public class ExpressionProvider implements
 		}
 		else if ( element instanceof ComputedColumnHandle )
 		{
-			return DEUtil.getBindingexpression( ( (ComputedColumnHandle) element ).getElementHandle( ),
+			return DEUtil.getBindingexpression( elementHandle,
 					(ComputedColumnHandle) element );
 		}
 		else if ( element instanceof InheritedComputedColumnHandle )
 		{
-			return DEUtil.getBindingexpression( ( (InheritedComputedColumnHandle) element ).getHandle( )
-					.getElementHandle( ),
+			return DEUtil.getBindingexpression( elementHandle,
 					( (InheritedComputedColumnHandle) element ).getHandle( ),
 					false );
 		}
