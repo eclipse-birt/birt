@@ -34,7 +34,8 @@
   </item>
   <item href="/org.eclipse.birt.doc/birt/crosstab.17.7.html"
   		title="Add a cross tab to the report" skip="true">
-  	 <description>- Drag group fields from the data cube into row and column cells in the cross tab.<br/>
+  	 <description>- In the layout editor, double-click the template cross-tab element to enable editing.<br/>
+         - Drag group fields from the data cube into row and column cells in the cross tab.<br/>
          - Drag summary fields from the data cube into the fields to be summarized cell in the cross tab.
          </description>
    </item>
