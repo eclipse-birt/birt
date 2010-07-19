@@ -49,7 +49,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			.getName( ) );
 	
 	protected IReportEngine engine;
-	private IDocArchiveWriter archive;
+	protected IDocArchiveWriter archive;
 	private String designName;
 	private String extensions;
 	private HashMap paramters = new HashMap( );

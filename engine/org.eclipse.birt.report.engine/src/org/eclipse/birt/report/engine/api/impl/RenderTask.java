@@ -75,11 +75,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 	protected IReportDocument reportDocument;
 	protected IReportRunnable reportRunnable;
 	protected InnerRender innerRender;
-	private long outputPageCount;
+	protected long outputPageCount;
 
-	private ITOCReader tocReader;
-	private boolean designLoaded = false;
-	private boolean variablesLoaded = false;
+	protected ITOCReader tocReader;
+	protected boolean designLoaded = false;
+	protected boolean variablesLoaded = false;
 
 	/**
 	 * @param engine
@@ -106,7 +106,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 		super( engine, IEngineTask.TASK_RENDER );
 		this.reportDocument = reportDoc;
 		this.reportRunnable = runnable;
-
+		initRenderTask();
+	}
+	
+	protected void initRenderTask()
+	{
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
 
@@ -114,7 +118,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		assert ( reportDocument instanceof IInternalReportDocument );
 		IInternalReportDocument internalReportDoc = (IInternalReportDocument) reportDocument;
-		if ( reportRunnable == null )
+		if ( reportDocument != null && reportRunnable == null )
 		{
 			// load the report runnable from the document
 			IReportRunnable documentRunnable = getOnPreparedRunnable( reportDocument );
