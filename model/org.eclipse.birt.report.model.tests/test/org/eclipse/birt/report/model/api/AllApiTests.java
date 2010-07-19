@@ -90,6 +90,7 @@ public class AllApiTests
 		test.addTestSuite( HighlightRuleHandleTest.class );
 		test.addTestSuite( ExpressionTest.class );
 		test.addTestSuite( ColumnHandleTest.class );
+		test.addTestSuite( StyleUtilTest.class );
 		
 		return test;
 	}

@@ -281,6 +281,25 @@ public abstract class StyledElement extends DesignElement
 	{
 		super.clearAllProperties( );
 		this.style = null;
-	}
+	}	
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty(java.lang.String, java.lang.Object)
+	 */
+	protected void setIntrinsicProperty( String propName, Object value )
+	{
+		if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
+		{
+			if ( value instanceof StyleElement )
+				setStyle( (StyleElement)value );
+			else if ( value instanceof String )
+				setStyleName( (String)value );
+			else
+				assert false;
+		}
+		else
+			super.setIntrinsicProperty( propName, value );
+	}
+	
 }

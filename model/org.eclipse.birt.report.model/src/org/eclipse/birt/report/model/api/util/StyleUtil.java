@@ -5,15 +5,18 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Utility class to provide some methods about the style element, styled element
@@ -156,6 +159,23 @@ public class StyleUtil
 			// set the value to the copied one
 			if ( value != null )
 			{
+				boolean needCopy = false;
+				if ( value instanceof IStructure )
+					needCopy = true;
+				else if ( value instanceof List )
+				{
+					needCopy = !( (List) value ).isEmpty( );
+					for ( Object item : (List) value )
+					{
+						if ( !( item instanceof Structure ) )
+						{
+							needCopy = false;
+							break;
+						}
+					}
+				}
+				if ( needCopy )
+					value = ModelUtil.copyValue( targetPropDefn, value );
 				copiedElement.setProperty( targetPropDefn, value );
 			}
 		}
