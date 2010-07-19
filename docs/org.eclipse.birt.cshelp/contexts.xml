@@ -777,7 +777,7 @@ BIRT supports two types of parameters, report and data set. You typically define
 Type a name for the data set parameter and select a data type.
 Select the direction of the parameter, Input, Input/Output, or Output.
 Type a default value or provide an expression for the default value.
-Select an existing report parameter or create a new report parameter to provide a value to the data set parameter   when the report runs.
+Select an existing report parameter or create a new report parameter to provide a value to the data set parameter when the report runs.
 </description>
 </context>
 
@@ -837,12 +837,20 @@ Select a thumbnail in the resource folder. The thumbnail appears in the New Repo
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/SharedWorking.19.7.html" label="How to publish a template"/>
 </context>
 
-<context id="SelectionChoiceDialog_ID" title="">
-<!--  SEQUENCE: right-click Report Parameters in Data Explorer and choose New Parameter. In Display Type, choose list box, combo box, or radio button. Choose New. khahn 20090605 updated 20090613 -->
+<context id="SelectionChoiceDialog_ID" title="New Selection Choice">
+<!--  SEQUENCE: right-click Report Parameters in Data Explorer and choose New Parameter. In Display Type, choose list box, combo box, or radio button. Select Static. Choose New. khahn 20090605 updated 20090613 -->
 <description>
 Specify the display text and value of the parameter.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/parameter.12.4.html" label="How to specify static report parameter values"/> 
+</context>
+
+<context id="SelectParameterDefaultValueDialog_ID" title="Select Value">
+<!--  SEQUENCE: right-click Report Parameters in Data Explorer and choose New Parameter. In Display Type, choose list box, combo box, or radio button. Select Dynamic. In Default value, select Select value. JAHT 20100719 -->
+<description>
+Select the default value of the parameter. To change the order of the list of available values from ascending to descending, click Select Value.
+</description>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/parameter.12.3.html" label="Providing the user with a list of values"/>
 </context>
 
 <context id="CubeBuilderDataSetSelectionPage_ID" title="Data Set Selection Page">
