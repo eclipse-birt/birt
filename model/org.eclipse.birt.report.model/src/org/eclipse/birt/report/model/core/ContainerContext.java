@@ -703,41 +703,4 @@ public final class ContainerContext
 	{
 		return isSlot;
 	}
-	
-	public static boolean isValidContainerment( Module module,
-			DesignElement containerElement, ReportItem item, DataSet dataSet,
-			Cube cube )
-	{
-		if ( dataSet != null || cube != null )
-		{
-			DesignElement container = containerElement;
-			while ( container != null )
-			{
-				if ( container instanceof ReportItem )
-				{
-					ReportItem containerItem = (ReportItem) container;
-					DataSet containerDataSet = (DataSet) containerItem
-							.getDataSetElement( module );
-					Cube containerCube = (Cube) containerItem
-							.getCubeElement( module );
-					if ( ( containerDataSet != null && dataSet != null && containerDataSet != dataSet )
-							|| ( containerCube != null && cube != null && containerCube != cube ) )
-					{
-						// if any of its container defines different
-						// data object and multi-view, then it is
-						// invalid containerment
-						if ( containerItem.getProperty( module,
-								IReportItemModel.MULTI_VIEWS_PROP ) != null )
-						{
-							return false;
-						}
-					}
-				}
-				container = container.getContainer( );
-			}
-		}
-
-		return true;
-	}
-
 }

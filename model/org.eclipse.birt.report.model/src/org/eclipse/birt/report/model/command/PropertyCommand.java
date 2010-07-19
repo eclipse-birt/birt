@@ -77,7 +77,6 @@ import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularLevelModel;
-import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.OdaLevel;
@@ -312,33 +311,6 @@ public class PropertyCommand extends AbstractPropertyCommand
 			}
 		}
 
-		if ( element instanceof ReportItem
-				&& ( IReportItemModel.DATA_SET_PROP.equals( propName ) || IReportItemModel.CUBE_PROP
-						.equals( propName ) ) )
-		{
-			DesignElement container = element.getContainer( );
-			DataSet dataSet = null;
-			Cube cube = null;
-			if ( IReportItemModel.DATA_SET_PROP.equals( propName ) )
-			{
-				ElementRefValue refValue = (ElementRefValue) value;
-				if ( refValue != null )
-					dataSet = (DataSet) refValue.getElement( );
-			}
-			else if ( IReportItemModel.CUBE_PROP.equals( propName ) )
-			{
-				ElementRefValue refValue = (ElementRefValue) value;
-				if ( refValue != null )
-					cube = (Cube) refValue.getElement( );
-			}
-			if ( !ContainerContext.isValidContainerment( module, container,
-					(ReportItem) element, dataSet, cube ) )
-			{
-				throw new SemanticError( element,
-						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_PAGE_SIZE );
-			}
-		}
-
 		doSetProperty( prop, value );
 	}
 
@@ -554,7 +526,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 				if ( element instanceof TabularLevel )
 				{
 					LevelAttribute attibute = new LevelAttribute( );
-					attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );					
+					attibute.setName( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME );
 					attibute.setDataType( getDataType( (TabularLevel) element ) );
 					struct = attibute;
 				}
@@ -669,11 +641,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 	}
 
 	/**
-	 * Gets the data type of the level 
+	 * Gets the data type of the level
+	 * 
 	 * @return
 	 */
 	private String getDataType( TabularLevel level )
-	{		
+	{
 		String columnName = level.getStringProperty( module,
 				ITabularLevelModel.COLUMN_NAME_PROP );
 		if ( !StringUtil.isBlank( columnName ) )
@@ -681,22 +654,21 @@ public class PropertyCommand extends AbstractPropertyCommand
 			DesignElement container = element.getContainer( );
 			DataSet dataSet = null;
 			if ( container instanceof TabularHierarchy )
-				dataSet = (DataSet) container.getReferenceProperty(
-						module, ITabularHierarchyModel.DATA_SET_PROP );
+				dataSet = (DataSet) container.getReferenceProperty( module,
+						ITabularHierarchyModel.DATA_SET_PROP );
 			if ( dataSet == null )
 			{
 				container = container.getContainer( );
 				if ( container instanceof Dimension )
 					container = container.getContainer( );
 				if ( container instanceof TabularCube )
-					dataSet = (DataSet) container.getReferenceProperty(
-							module, ITabularCubeModel.DATA_SET_PROP );
+					dataSet = (DataSet) container.getReferenceProperty( module,
+							ITabularCubeModel.DATA_SET_PROP );
 			}
 			if ( dataSet != null )
 			{
-				CachedMetaData metaData = (CachedMetaData) dataSet
-						.getProperty( module,
-								IDataSetModel.CACHED_METADATA_PROP );
+				CachedMetaData metaData = (CachedMetaData) dataSet.getProperty(
+						module, IDataSetModel.CACHED_METADATA_PROP );
 				if ( metaData != null )
 				{
 					List<ResultSetColumn> resultSet = (List<ResultSetColumn>) metaData
@@ -706,11 +678,11 @@ public class PropertyCommand extends AbstractPropertyCommand
 					{
 						for ( ResultSetColumn column : resultSet )
 						{
-							if ( columnName.equals( column
-									.getStringProperty( module,
-											ResultSetColumn.NAME_MEMBER ) ) )
+							if ( columnName.equals( column.getStringProperty(
+									module, ResultSetColumn.NAME_MEMBER ) ) )
 							{
-								String dataType = column.getStringProperty( module,
+								String dataType = column.getStringProperty(
+										module,
 										ResultSetColumn.DATA_TYPE_MEMBER );
 								if ( dataType != null )
 									return dataType;
