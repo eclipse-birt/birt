@@ -164,7 +164,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			( (QueryDefinition) query ).getInputParamBindings( )
 					.addAll( createParamBindings( fReportItemHandle.paramBindingsIterator( ) ) );
 
-			Iterator iter = fReportItemHandle.columnBindingsIterator( );
+			Iterator<?> iter = fReportItemHandle.columnBindingsIterator( );
 			while ( iter.hasNext( ) )
 			{
 				ComputedColumnHandle binding = (ComputedColumnHandle) iter.next( );
@@ -318,7 +318,8 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 						modelParamBinding );
 				for ( ScriptExpression expr : exprs )
 				{
-					list.add( new InputParameterBinding( expr.getText( ), expr ) );
+					list.add( new InputParameterBinding( modelParamBinding.getParamName( ),
+							expr ) );
 				}
 			}
 		}
