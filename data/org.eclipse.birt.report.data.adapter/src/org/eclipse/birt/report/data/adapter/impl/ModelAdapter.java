@@ -438,6 +438,7 @@ public class ModelAdapter implements IModelAdapter
 		{
 			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
 			jsExpr.setConstant( true );
+			jsExpr.setConstantValue( expr.getExpression( ) );
 			return jsExpr;
 		}
 		else
