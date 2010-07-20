@@ -13,13 +13,13 @@
  */ 
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
-import org.eclipse.birt.core.data.DataType;
+import java.util.List;
+
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
-import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 
 /**
  * Adaptor for Input Parameter Binding
@@ -34,17 +34,18 @@ public class InputParamBindingAdapter extends InputParameterBinding
 	{
 		this( adapter,
 				modelHandle.getParamName( ),
-				modelHandle.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER ) );
+				modelHandle.getExpressionListHandle( ).getListValue( ) );
 	}
 	
 	/**
 	 * Constructs instance based on param name and expression 
 	 * @throws AdapterException 
 	 */
-	public InputParamBindingAdapter( IModelAdapter adapter, String paramName, ExpressionHandle bindingExpr ) throws AdapterException
+	public InputParamBindingAdapter( IModelAdapter adapter, String paramName,
+			List<Expression> expr ) throws AdapterException
 	{
-		super( paramName, 
-				adapter.adaptExpression( DataAdapterUtil.getExpression( bindingExpr )) );
+		super( paramName, expr.size( ) > 0
+				? adapter.adaptExpression( expr.get( 0 ) ) : null );
 	}
 
 	/**

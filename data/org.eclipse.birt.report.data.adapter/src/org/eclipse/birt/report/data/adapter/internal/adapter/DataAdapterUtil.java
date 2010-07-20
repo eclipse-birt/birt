@@ -161,7 +161,9 @@ public class DataAdapterUtil
 				// replace default value of the same parameter, if defined
 				if ( modelParamBinding.getExpression( ) != null )
 					paramBindingCandidates.put( modelParamBinding.getParamName( ),
-							adapter.adaptExpression( (Expression)modelParamBinding.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER ).getValue( )));
+							adapter.adaptExpression( modelParamBinding.getExpressionListHandle( )
+									.getListValue( )
+									.get( 0 ) ) );
 			}
 		}
 

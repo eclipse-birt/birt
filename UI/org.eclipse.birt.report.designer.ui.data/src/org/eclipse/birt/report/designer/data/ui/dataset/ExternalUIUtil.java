@@ -222,29 +222,4 @@ public class ExternalUIUtil
 	{
 		return true;
 	}
-
-	public static Expression getParamValueExpression( DataSetHandle dataSet,
-			OdaDataSetParameterHandle paramDefn ) throws BirtException
-	{
-		String linkedReportParam = ( (OdaDataSetParameterHandle) paramDefn ).getParamName( );
-		if ( linkedReportParam != null )
-		{
-			ParameterHandle ph = dataSet.getModuleHandle( )
-					.findParameter( linkedReportParam );
-			if ( ph instanceof ScalarParameterHandle )
-			{
-				if ( ( (ScalarParameterHandle) ph ).getParamType( )
-						.equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE ) )
-				{
-					throw new BirtException( Messages.getFormattedString( "dataset.editor.error.invalidLinkedParameter",
-							new String[]{
-								linkedReportParam
-							} ),
-							null );
-				}
-			}
-		}
-		return new Expression( DataUtil.getParamValue( dataSet, paramDefn ),
-				ExpressionType.JAVASCRIPT );
-	}
 }
