@@ -294,7 +294,11 @@ public class DataEngineSession
 	public void cancel( )
 	{
 		this.stopSign.stop( );
-		this.stopSign = new StopSign( );
+	}
+	
+	public void restart( )
+	{
+		this.stopSign.start( );
 	}
 	
 	/**
