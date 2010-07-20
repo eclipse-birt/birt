@@ -318,6 +318,8 @@ public class ExecutionContext
 	private boolean isFixedLayout = false;
 
 	private IDesignElement element = null;
+	
+	private boolean refreshData = false;
 
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -2337,5 +2339,15 @@ public class ExecutionContext
 			result = result.getParent( );
 		}
 		return result;
+	}
+	
+	public boolean needRefreshData()
+	{
+		return this.refreshData;
+	}
+	
+	public void setRefreshData(boolean refreshData)
+	{
+		this.refreshData = refreshData;
 	}
 }

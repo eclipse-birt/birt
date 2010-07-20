@@ -261,7 +261,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		{
 			parentQueryResults = parentResult.getQueryResults( );
 		}
-
+		
 		String resultSetID = loadResultSetID( parentResult, queryID );
 		// in update mode, resultsetid isn't a must
 		/*
@@ -271,7 +271,10 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 		*/
 		// Interactive do not support CUBE?
-		((QueryDefinition)query).setQueryResultsID( resultSetID );
+		if ( !context.needRefreshData( ) )
+		{
+			( (QueryDefinition) query ).setQueryResultsID( resultSetID );
+		}
 		// invoke the engine extension to process the queries
 		processQueryExtensions( query );
 
@@ -389,7 +392,14 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 
 		// Interactive do not support CUBE?
-		query.setQueryResultsID( resultSetID );
+		if(!context.needRefreshData( ))
+		{
+			query.setQueryResultsID( resultSetID );
+		}
+		else
+		{
+			query.setQueryResultsID( null );
+		}
 		IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
 
 		String pRsetId = null; // id of the parent query restuls
