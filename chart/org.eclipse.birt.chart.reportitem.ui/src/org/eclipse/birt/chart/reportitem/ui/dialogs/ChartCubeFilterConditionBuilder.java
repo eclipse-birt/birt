@@ -685,6 +685,12 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		}
 		operator.setVisibleItemCount( 30 );
 		operator.addSelectionListener( operatorSelectionListener );
+		
+		if ( operator.getItemCount( ) > 0
+				&& operator.getSelectionIndex( ) == -1 )
+		{
+			operator.select( getIndexForOperatorValue( "eq" ) ); //$NON-NLS-1$
+		}
 
 		create2ValueComposite( condition );
 
@@ -880,12 +886,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		expressionValue2.setLayoutData( expgd );
 
 		expressionValue2.setVisible( false );
-
-		if ( operator.getItemCount( ) > 0
-				&& operator.getSelectionIndex( ) == -1 )
-		{
-			operator.select( 0 );
-		}
+		ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+				.getControl( )
+				.setVisible( false );
 
 		condition.getParent( ).layout( true, true );
 		return 1;
@@ -894,6 +897,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	private Combo createExpressionValue( Composite parent )
 	{
 		Combo expressionValue = new Combo( parent, SWT.None );
+		expressionValue.add( CHOICE_SELECT_VALUE );
 		expressionValue.addListener( SWT.Verify, expValueVerifyListener );
 		expressionValue.addListener( SWT.Selection, expValueSelectionListener );
 		Listener listener = new Listener( ) {
@@ -911,9 +915,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				(ExtendedItemHandle) designHandle,
 				expressionProvider );
 		ceb.addListener( listener );
-		ceb.setPredefinedQuery( new String[]{
-			CHOICE_SELECT_VALUE
-		} );
 
 		return expressionValue;
 	}

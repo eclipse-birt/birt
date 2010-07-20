@@ -650,7 +650,15 @@ public class ChartExpressionButtonUtil
 				for ( String oldItem : itemsOld )
 				{
 					IExpressionDescriptor desc = (IExpressionDescriptor) cp.getData( oldItem );
-					addComboItem( cp, desc );
+					if ( desc != null )
+					{
+						addComboItem( cp, desc );
+					}
+					else
+					{
+						// do not contain predefined query but only string
+						cp.add( oldItem );
+					}
 				}
 
 				cp.setText( userExpr );
