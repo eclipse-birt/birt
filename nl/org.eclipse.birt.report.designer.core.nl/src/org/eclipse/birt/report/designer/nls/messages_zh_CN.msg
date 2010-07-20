@@ -130,7 +130,7 @@ ApplyStyleAction.stackMsg.applyStyle=应用样式
 #ApplyThemeAction properties
 
 ApplyThemeAction.actionLabel.none=无
-ApplyThemeAction.stackMsg.applyStyle=应用主题
+ApplyThemeAction.stackMsg.applyStyle=应用布景主题
 
 ###########################################################
 #AttributesBuilder properties
@@ -3495,10 +3495,10 @@ SchematicContextMenuProvider.Menu.Show=显示
 SchematicContextMenuProvider.Menu.Style=样式(&Y)
 SchematicContextMenuProvider.Menu.Style.Apply=应用样式(&P)
 SchematicContextMenuProvider.Menu.Theme=布景主题(&M)
-SchematicContextMenuProvider.Menu.Theme.Apply=应用主题(&P)
+SchematicContextMenuProvider.Menu.Theme.Apply=应用布景主题(&P)
 SchematicContextMenuProvider.Menu.Layout=布局首选项(&A)
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
-#SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
+#SchematicContextMenuProvider.menutitle.applythemerule=应用布景主题(&A)
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
 #SchematicContextMenuProvider.menutitle.insert=Insert
 #SchematicContextMenuProvider.menutitle.list=List
@@ -3572,11 +3572,11 @@ UseCssInReportDialog.Error.Already.Include=已包括 {0}
 UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=查看时包括 CSS 文件(仅适用于 HTML 格式)(&I)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=CSS 文件的查看时间位置:
 UseCssInReportDialog.Dialog.Label.example=e.g. http://mydomain/test.css, myfolder/test/css
-UseCssInReportDialog.Dialog.Label.Theme.Text=主题(&T):
+UseCssInReportDialog.Dialog.Label.Theme.Text=布景主题(&T):
 UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
-UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的主题。
+UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的布景主题。
 CssStyleSheetNodeProvider.Tooltip.URI=(查看时应用)
 
 
@@ -3920,9 +3920,9 @@ AutoTextPageGenerator.List.Visibility=可见性
 ###########################################################
 #ThemesNodeProvider properties
 
-ThemesNodeProvider.action.New=新建主题(&N)...
-ThemesNodeProvider.Failed=新建主题失败
-NewThemeDialog.DialogTitle=新主题
+ThemesNodeProvider.action.New=新建布景主题(&N)...
+ThemesNodeProvider.Failed=新建布景主题失败
+NewThemeDialog.DialogTitle=新布景主题
 NewThemeDialog.DialogMessage=请输入名称
 
 ###########################################################
@@ -4135,7 +4135,7 @@ WizardSaveAsPage.ContainerGroup=\ 输入或选择父文件夹(&E):
 Library.DND.messages.outofsync = 报表中使用的库可能已被更改，请关闭并重新打开此报表以使用更新的库。
 NamedExpressionsHandleProvier.Column.Name=名称
 NamedExpressionsHandleProvier.Column.DefaultValue=默认值
-Library.DND.messages.cannotApplyTheme=主题无法应用。
+Library.DND.messages.cannotApplyTheme=布景主题无法应用。
 
 JarFileFormProvider.Column.Name=名称
 JsFileFormProvider.Column.Name=名称
@@ -4717,9 +4717,9 @@ ExportElementToLibraryAction.waringMsg=元素没有名称，但不能为其设置名称。
 
 ###########################################################
 #ExportStyleDialog
-ExportStyleDialog.Label.Text=主题(&T):
-ExportStyleDialog.Message=在库中选择要导出的主题。
-ExportStyleDialog.Title=选择主题
+ExportStyleDialog.Label.Text=布景主题(&T):
+ExportStyleDialog.Message=在库中选择要导出的布景主题。
+ExportStyleDialog.Title=选择布景主题
 
 ###########################################################
 #UIUtil

@@ -712,9 +712,9 @@ Choices.windowStatus.normal=正常
 Choices.windowStatus.maximized=已最大化
 
 #90 reportItemThemeType
-Choices.reportItemThemeType.Table=表主题
-Choices.reportItemThemeType.List=列表主题
-Choices.reportItemThemeType.Grid=网格主题
+Choices.reportItemThemeType.Table=表布景主题
+Choices.reportItemThemeType.List=列表布景主题
+Choices.reportItemThemeType.Grid=网格布景主题
 
 #91 nullsOrdering
 Choices.nullsOrdering.nullsLowest=空值下限
@@ -2381,8 +2381,8 @@ Element.DataMartDataSource=数据对象数据源
 Element.DataMartDataSet=数据对象数据集
 Element.DataMartCube=数据对象多维数据集
 Element.TimeDimension=时间维
-Element.ReportItemTheme=报表项主题
-Element.AbstractTheme=抽象主题
+Element.ReportItemTheme=报表项布景主题
+Element.AbstractTheme=抽象布景主题
 
 ###########################################################
 # Element property names
@@ -2409,7 +2409,7 @@ Element.LayoutModule.images=图像
 Element.LayoutModule.libraries=库
 Element.LayoutModule.base=基本
 Element.LayoutModule.units=单位
-Element.LayoutModule.theme=主题
+Element.LayoutModule.theme=布景主题
 Element.LayoutModule.propertyBindings=属性绑定
 
 
@@ -3610,7 +3610,7 @@ Message.AddItem=添加项
 Message.InsertItem=插入项
 Message.RemoveItem=删除项
 Message.ReplaceElement=替换元素
-Message.SetTheme=设置主题
+Message.SetTheme=设置布景主题
 Message.ChangePropertyEncryption=更改属性的加密:{0}
 Message.RenameCSSFile=重命名 CSS 文件
 Message.ImportCSSStyles=导入 CSS 样式 
@@ -3674,7 +3674,7 @@ New.OdaDataSet=新ODA数据集
 New.TemplateParameterDefinition=新模板参数定义
 New.TemplateDataSet=新模板数据集
 New.TemplateReportItem=新模板报表项
-New.Theme=新主题
+New.Theme=新布景主题
 New.AutoText=NewAutoText
 New.TabularCube=多维数据集
 New.TabularDimension=组
@@ -3860,8 +3860,8 @@ Error.StyleException.FORBIDDEN={0} 不得具有样式。
 Error.StyleException.NOT_FOUND=未找到 {1} 使用的样式 "{0}"。
     
 #ThemeException
-Error.ThemeException.NOT_FOUND=未找到 {1} 使用的主题“{0}”。
-Error.ThemeException.WRONG_TYPE={1} 使用的主题“{0}”是错误类型报表项主题。    
+Error.ThemeException.NOT_FOUND=未找到 {1} 使用的布景主题“{0}”。
+Error.ThemeException.WRONG_TYPE={1} 使用的布景主题“{0}”是错误类型报表项布景主题。
     
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=未找到文件 "{0}"。
