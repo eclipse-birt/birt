@@ -589,7 +589,22 @@
                   name="Image">
             </elementType>
             <elementType
+                  name="Grid">
+            </elementType>
+            <elementType
                   name="TextData">
+            </elementType>
+            <elementType
+                  name="List">
+            </elementType>
+            <elementType
+                  name="Table">
+            </elementType>
+            <elementType
+                  name="FreeForm">
+            </elementType>
+            <elementType
+                  name="ExtendedItem">
             </elementType>
          </property>
          <style

@@ -25,6 +25,8 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
@@ -175,6 +177,29 @@ class ContainerContextProviderImpl
 			containerInfo = container.getContainerInfo( );
 		}
 
+		// diable xtab with nested xtab, grid, table and list
+		String xtabDefnName = "crosstab"; //$NON-NLS-1$ 
+		//String chartDefnName = "chart"; //$NON-NLS-1$ 
+		String defnName = defn.getName( );
+		if ( xtabDefnName.equalsIgnoreCase( defnName )
+				|| ReportDesignConstants.TABLE_ITEM.equals( defnName )
+				|| ReportDesignConstants.LIST_ITEM.equals( defnName )
+				|| ReportDesignConstants.GRID_ITEM.equals( defnName ) )
+		{
+			DesignElement e = focus.getElement( );
+			while ( e != null )
+			{
+				if ( e instanceof ExtendedItem
+						&& xtabDefnName.equalsIgnoreCase( e.getDefn( )
+								.getName( ) ) )
+				{
+					return false;
+				}
+
+				e = e.getContainer( );
+			}
+		}
+
 		return retValue;
 	}
 
@@ -246,6 +271,32 @@ class ContainerContextProviderImpl
 		{
 			errors.add( e );
 			return errors;
+		}
+
+		// disable xtab with nested xtab, gird, table and list
+		String xtabDefnName = "crosstab"; //$NON-NLS-1$
+		//String chartDefnName = "chart"; //$NON-NLS-1$
+		String defnName = element.getDefn( ).getName( );
+		if ( ( element instanceof ExtendedItem && xtabDefnName
+				.equalsIgnoreCase( defnName ) )
+				|| element instanceof GridItem
+				|| element instanceof ListingElement )
+		{
+
+			DesignElement container = focus.getElement( );
+			while ( container != null )
+			{
+				if ( container instanceof ExtendedItem
+						&& xtabDefnName.equalsIgnoreCase( container.getDefn( )
+								.getName( ) ) )
+				{
+					errors.add( e );
+					return errors;
+				}
+
+				container = container.getContainer( );
+			}
+
 		}
 
 		if ( focus.getElement( ) instanceof ReportItemTheme )
