@@ -117,7 +117,6 @@ public class G2dDisplayServerBase extends DisplayAdapter implements ITextLayoutF
 	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
 	{
 		ChartTextMetrics tm = new ChartTextMetrics( this, la, autoReuse );
-		tm.setTextLayoutFactory( this );
 		return tm;
 	}
 

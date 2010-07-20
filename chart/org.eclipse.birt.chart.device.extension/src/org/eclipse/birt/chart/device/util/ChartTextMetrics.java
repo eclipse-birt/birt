@@ -27,6 +27,7 @@ import java.util.List;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.TextAdapter;
+import org.eclipse.birt.chart.device.g2d.G2dDisplayServerBase;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.component.Label;
@@ -67,7 +68,7 @@ public final class ChartTextMetrics extends TextAdapter
 	 * @param _la
 	 * @param autoReuse
 	 */
-	public ChartTextMetrics( IDisplayServer _xs, Label _la, boolean autoReuse )
+	public ChartTextMetrics( G2dDisplayServerBase _xs, Label _la, boolean autoReuse )
 	{
 
 		bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
@@ -80,6 +81,7 @@ public final class ChartTextMetrics extends TextAdapter
 
 		xs = _xs;
 		la = _la;
+		textLayoutFactory = _xs;
 
 		computeTextAntialiasing( );
 
@@ -89,7 +91,7 @@ public final class ChartTextMetrics extends TextAdapter
 		}
 	}
 
-	public ChartTextMetrics( IDisplayServer _xs, Label _la )
+	public ChartTextMetrics( G2dDisplayServerBase _xs, Label _la )
 	{
 		this( _xs, _la, true );
 	}

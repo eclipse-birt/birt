@@ -45,7 +45,6 @@ public class SVGDisplayServer extends SwingDisplayServer
 	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
 	{
 		ChartTextMetrics tm = new ChartTextMetrics( this, la, autoReuse );
-		tm.setTextLayoutFactory( this );
 		return tm;
 	}
 
