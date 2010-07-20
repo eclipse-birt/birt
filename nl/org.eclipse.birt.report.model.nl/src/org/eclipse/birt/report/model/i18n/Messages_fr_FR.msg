@@ -3834,6 +3834,7 @@ Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT=La table ou la liste
 Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET = Le jeu de données "{1}" est manquant dans le jeu de données joint "{0}".
 Error.SemanticError.MISSING_COLUMN_BINDING = La liaison de colonnes des données "{0}" avec le nom de colonne "{1}", n"est pas définie.
 Error.SemanticError.COLUMN_INSERT_FORBIDDEN=L''opération d''insertion sur l''élément "{0}" est interdite.
+Error.SemanticError.CANNOT_SPECIFY_VALUE=The element "{0}" cannot specify the value \"{1}\" for the property \"{2}\" because of the value \"{3}\" of the \"{4}\".
 
 Error.SemanticError.ROW_COPY_FORBIDDEN=L'opération de copie sur l'élément "{0}" n'est pas autorisée.
 Error.SemanticError.ROW_PASTE_FORBIDDEN=L'opération de collage sur l'élément "{0}" n'est pas autorisée.

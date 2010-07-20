@@ -3834,6 +3834,7 @@ Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT=Ö÷Ò³ "{0}" ÄÚ²¿²»ÔÊÐ
 Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET = Áª½ÓÊý¾Ý¼¯¡°{0}¡±ÖÐÈ±ÉÙÊý¾Ý¼¯¡°{1}¡±¡£
 Error.SemanticError.MISSING_COLUMN_BINDING = Î´¶¨ÒåÊý¾Ý¡°{0}¡±ÓëÁÐÃû³Æ¡°{1}¡±µÄÁÐ°ó¶¨¡£
 Error.SemanticError.COLUMN_INSERT_FORBIDDEN=½ûÖ¹¶ÔÔªËØ¡°{0}¡±Ö´ÐÐ²åÈë²Ù×÷¡£
+Error.SemanticError.CANNOT_SPECIFY_VALUE=The element "{0}" cannot specify the value \"{1}\" for the property \"{2}\" because of the value \"{3}\" of the \"{4}\".
 
 Error.SemanticError.ROW_COPY_FORBIDDEN=½ûÖ¹¶ÔÔªËØ¡°{0}¡±Ö´ÐÐ¸´ÖÆ²Ù×÷¡£
 Error.SemanticError.ROW_PASTE_FORBIDDEN=½ûÖ¹¶ÔÔªËØ¡°{0}¡±Ö´ÐÐÕ³Ìù²Ù×÷¡£

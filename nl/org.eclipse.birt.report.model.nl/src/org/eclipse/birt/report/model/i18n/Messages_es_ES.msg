@@ -3834,6 +3834,7 @@ Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT=No está permitido in
 Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET = En el conjunto de datos de combinación "{0}" falta el conjunto de datos "{1}".
 Error.SemanticError.MISSING_COLUMN_BINDING = El enlace de columna para el dato "{0}" con el nombre de columna "{1}" no está definido.
 Error.SemanticError.COLUMN_INSERT_FORBIDDEN=Está prohibida la operación insertar en el elemento "{0}".
+Error.SemanticError.CANNOT_SPECIFY_VALUE=The element "{0}" cannot specify the value \"{1}\" for the property \"{2}\" because of the value \"{3}\" of the \"{4}\".
 
 Error.SemanticError.ROW_COPY_FORBIDDEN=Está prohibida la operación copiar en el elemento "{0}".
 Error.SemanticError.ROW_PASTE_FORBIDDEN=Está prohibida la operación pegar en el elemento "{0}".
