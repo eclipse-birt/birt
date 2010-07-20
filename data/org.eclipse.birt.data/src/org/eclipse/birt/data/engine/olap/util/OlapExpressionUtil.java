@@ -141,7 +141,7 @@ public class OlapExpressionUtil
 			IBinding binding, List<IBinding> bindings ) throws DataException,
 			CoreException
 	{
-		if ( visited.contains( binding.getBindingName( ) ) )
+		if ( binding == null || visited.contains( binding.getBindingName( ) ) )
 		{
 			return;
 		}
