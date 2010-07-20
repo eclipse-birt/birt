@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IMetadataFilter;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -25,30 +27,24 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
 import org.eclipse.birt.report.engine.emitter.HTMLWriter;
-import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.internal.util.HTMLUtil;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
-import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 
@@ -439,6 +435,29 @@ public class MetadataEmitter
 						if ( groupId != null )
 						{
 							writer.attribute( HTMLTags.ATTR_GOURP_ID, groupId );
+						}
+					}
+				}
+				else if ( keyStr == IMetadataFilter.KEY_OUTPUT_REAL_DATA )
+				{
+					if ( element instanceof IDataContent )
+					{
+						Object value = ( (IDataContent) element ).getValue( );
+						if ( value != null )
+						{
+							String realData = null;
+							try
+							{
+								realData = DataTypeUtil.toLocaleNeutralString( value );
+							}
+							catch ( BirtException e )
+							{
+							}
+							if ( realData == null )
+							{
+								realData = value.toString( );
+							}
+							writer.attribute( HTMLTags.ATTR_REAL_DATA, realData );
 						}
 					}
 				}
