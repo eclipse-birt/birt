@@ -304,7 +304,7 @@ public class HyperlinkBuilder extends BaseDialog
 			Object value = null;
 			if ( COLUMN_VALUE.equals( property ) )
 			{
-				value = paramBinding.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
+				value = getParamBindingExpression( paramBinding );
 				if ( value == null )
 				{
 					value = ""; //$NON-NLS-1$
@@ -344,8 +344,9 @@ public class HyperlinkBuilder extends BaseDialog
 			ParamBinding paramBinding = ( (ParamBinding) element );
 			if ( COLUMN_VALUE.equals( property ) )
 			{
-				paramBinding.setExpressionProperty( ParamBinding.EXPRESSION_MEMBER,
-						(Expression) value );
+				List<Expression> expressions = new ArrayList<Expression>( );
+				expressions.add( (Expression) value );
+				paramBinding.setExpression( expressions );
 			}
 			else if ( COLUMN_PARAMETER.equals( property ) )
 			{
@@ -433,7 +434,8 @@ public class HyperlinkBuilder extends BaseDialog
 		this( parentShell, isIDE, false );
 	}
 
-	public HyperlinkBuilder( Shell parentShell, boolean isIDE, boolean isRelativeToProjectRoot )
+	public HyperlinkBuilder( Shell parentShell, boolean isIDE,
+			boolean isRelativeToProjectRoot )
 	{
 		super( parentShell, TITLE );
 		this.isIDE = isIDE;
@@ -1143,7 +1145,7 @@ public class HyperlinkBuilder extends BaseDialog
 				else
 				{
 					projectMode = true;
-					
+
 					ProjectFileDialog dialog;
 					if ( needFilter )
 					{
@@ -1154,13 +1156,13 @@ public class HyperlinkBuilder extends BaseDialog
 					{
 						dialog = new ProjectFileDialog( getProjectFolder( ) );
 					}
-					
+
 					if ( dialog.open( ) == Window.OK )
 					{
 						filename = dialog.getPath( );
 					}
 				}
-				
+
 				try
 				{
 					if ( filename != null )
@@ -1188,7 +1190,7 @@ public class HyperlinkBuilder extends BaseDialog
 						{
 							filename = URIUtil.getRelativePath( getProjectFolder( ),
 									filename );
-							
+
 							// force to absolute path syntax
 							if ( !filename.startsWith( "/" ) ) //$NON-NLS-1$
 							{
@@ -2209,7 +2211,14 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 
 		return choice.getDisplayName( );
+	}
 
+	private Expression getParamBindingExpression( ParamBinding param )
+	{
+		List<Expression> expressions = param.getExpressionList( );
+		if ( expressions == null || expressions.isEmpty( ) )
+			return null;
+		return expressions.get( 0 );
 	}
 
 }

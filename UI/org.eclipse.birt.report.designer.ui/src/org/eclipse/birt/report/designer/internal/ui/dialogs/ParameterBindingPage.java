@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -549,10 +548,10 @@ public class ParameterBindingPage extends Composite implements Listener
 	private boolean doEdit( Object element )
 	{
 		ParamBindingHandle bindingParameter = (ParamBindingHandle) ( (Object[]) element )[1];
-		ExpressionHandle value = null;
+		Expression value = null;
 		if ( bindingParameter != null )
 		{
-			value = bindingParameter.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
+			value = getParamBindingExpression( bindingParameter );
 		}
 		DataSetParameterBindingInputDialog dialog = new DataSetParameterBindingInputDialog( (DataSetParameterHandle) ( (Object[]) element )[0],
 				new JSExpressionContext( new ExpressionProvider( getReportItemHandle( ).getContainer( ) ),
@@ -590,8 +589,12 @@ public class ParameterBindingPage extends Composite implements Listener
 						DataSetParameterHandle parameter = (DataSetParameterHandle) ( (Object[]) element )[0];
 						bindingParameter = createBindingHandle( parameter.getName( ) );
 					}
-					bindingParameter.setExpressionProperty( ParamBinding.EXPRESSION_MEMBER,
-							result );
+
+					List<Expression> expressions = new ArrayList<Expression>( );
+					expressions.add( result );
+					bindingParameter.getExpressionListHandle( )
+							.setListValue( expressions );
+
 				}
 				catch ( SemanticException e )
 				{
@@ -604,5 +607,14 @@ public class ParameterBindingPage extends Composite implements Listener
 			}
 		}
 		return false;
+	}
+
+	public Expression getParamBindingExpression( ParamBindingHandle param )
+	{
+		List<Expression> expressions = param.getExpressionListHandle( )
+				.getListValue( );
+		if ( expressions == null || expressions.isEmpty( ) )
+			return null;
+		return expressions.get( 0 );
 	}
 }

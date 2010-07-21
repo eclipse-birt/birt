@@ -17,11 +17,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -53,7 +51,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 
 	private Label nameLabel, typeLabel;
 	private Text valueEditor;
-	private ExpressionHandle value;
+	private Expression value;
 	private DataSetParameterHandle handle;
 	private JSExpressionContext provider;
 
@@ -134,7 +132,7 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		super.okPressed( );
 	}
 
-	public void setValue( ExpressionHandle value )
+	public void setValue( Expression value )
 	{
 		this.value = value;
 	}
