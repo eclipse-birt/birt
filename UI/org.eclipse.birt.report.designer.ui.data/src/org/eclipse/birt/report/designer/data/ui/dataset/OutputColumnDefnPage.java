@@ -1377,10 +1377,19 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		public boolean isIndexColumn( )
 		{
 			if ( this.columnHintHandle != null )
+			{
 				return columnHintHandle.isIndexColumn( );
+			}
 			else
-				return (Boolean) columnHint.getProperty( null,
-						ColumnHint.INDEX_COLUMN_MEMBER );
+			{
+				if ( columnHint.getProperty( null,
+						ColumnHint.INDEX_COLUMN_MEMBER ) instanceof Boolean )
+				{
+					return (Boolean) columnHint.getProperty( null,
+							ColumnHint.INDEX_COLUMN_MEMBER );
+				}
+				return false;
+			}
 		}
 
 		public void setIndexColumn( boolean indexColumn )
