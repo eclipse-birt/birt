@@ -836,29 +836,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 					ex );
 		}
 	}
-	
-	/**
-	 * Renders chart and returns the drawable object in emitter
-	 * 
-	 * @param rowAdapter
-	 * @param externalContext
-	 * @param bEmpty
-	 * @return drawable object
-	 * @throws ChartException
-	 */
-	protected Object generateRenderObject(
-			IDataRowExpressionEvaluator rowAdapter,
-			BIRTExternalContext externalContext, boolean bEmpty )
-			throws ChartException
-	{
-		return generateRenderObject( rowAdapter,
-				externalContext,
-				bEmpty,
-				new ChartReportStyleProcessor( modelHandle,
-						true,
-						this.style,
-						this.dpi ) );
-	}
 
 	protected Object generateRenderObject(
 			IDataRowExpressionEvaluator rowAdapter,
