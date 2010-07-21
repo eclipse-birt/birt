@@ -134,8 +134,8 @@ public final class ResultSetWrapper
 		workingResultSet = new ArrayList( );
 		workingResultSet.addAll( rawResultSet );
 
-		Collection stExpressionKeys = hmLookup.getExpressions( );
-		saExpressionKeys = (String[]) stExpressionKeys.toArray( new String[stExpressionKeys.size( )] );
+		Collection<String> stExpressionKeys = hmLookup.getExpressions( );
+		saExpressionKeys = stExpressionKeys.toArray( new String[stExpressionKeys.size( )] );
 
 		iaDataTypes = new int[saExpressionKeys.length];
 
@@ -1498,13 +1498,13 @@ public final class ResultSetWrapper
 		ResultSetDataSet rsd;
 
 		final List baseValue = new ArrayList( );
-		List idx;
+		List<Integer> idx;
 
 		for ( int k = 0; k < groupCount; k++ )
 		{
 			rsd = getSubset( k, iColumnIndex );
 
-			idx = new ArrayList( );
+			idx = new ArrayList<Integer>( );
 
 			if ( k == 0 )
 			{
@@ -1589,7 +1589,7 @@ public final class ResultSetWrapper
 							// adjust current group index and add new position.
 							for ( int i = 0; i < idx.size( ); i++ )
 							{
-								int x = ( (Integer) idx.get( i ) ).intValue( );
+								int x = idx.get( i );
 
 								if ( x >= insertPoint )
 								{
@@ -1702,7 +1702,7 @@ public final class ResultSetWrapper
 
 		final int iColumnIndex = newGroupKey.getKeyIndex( );
 
-		final ArrayList alBreaks = new ArrayList( 8 );
+		final List<Integer> alBreaks = new ArrayList<Integer>( 8 );
 		boolean bFirst = true;
 		Object oValue, oPreviousValue = null;
 		int iRowIndex = 0;
@@ -1721,6 +1721,10 @@ public final class ResultSetWrapper
 			while ( it.hasNext( ) )
 			{
 				oValue = ( (Object[]) it.next( ) )[iColumnIndex];
+				if ( oValue == null )
+				{
+					continue;
+				}
 
 				iRowIndex++;
 				if ( bFirst )
@@ -1825,7 +1829,7 @@ public final class ResultSetWrapper
 		final int[] ia = new int[alBreaks.size( )];
 		for ( int i = 0; i < alBreaks.size( ); i++ )
 		{
-			ia[i] = ( (Integer) alBreaks.get( i ) ).intValue( );
+			ia[i] = alBreaks.get( i ).intValue( );
 		}
 		return ia;
 	}
