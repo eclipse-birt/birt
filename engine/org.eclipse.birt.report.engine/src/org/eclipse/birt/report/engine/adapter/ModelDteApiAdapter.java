@@ -79,6 +79,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
@@ -274,6 +275,24 @@ public class ModelDteApiAdapter
 				}
 			}
 
+		}
+		else if ( dataSet instanceof DerivedDataSetHandle )
+		{
+			DerivedDataSetHandle handle = (DerivedDataSetHandle) dataSet;
+			Iterator iter = handle.getInputDataSets( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
+				if ( childDataSet != null )
+				{
+					DataSourceHandle childDataSource = childDataSet.getDataSource( );
+					if ( childDataSource != null )
+					{
+						doDefineDataSource( childDataSource );
+					}
+					doDefineDataSet( childDataSet );
+				}
+			}
 		}
 		dteSession.defineDataSet( this.appendRuntimeInfoToDataSet( dataSet,dteSession.getModelAdaptor( ).adaptDataSet( dataSet ) ));
 	}
