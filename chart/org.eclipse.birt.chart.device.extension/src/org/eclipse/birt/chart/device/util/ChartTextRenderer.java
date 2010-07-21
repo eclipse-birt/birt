@@ -28,8 +28,8 @@ import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.device.TextRendererAdapter;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
+import org.eclipse.birt.chart.device.g2d.G2dRendererBase;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
-import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -2580,7 +2580,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 			Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
 			Stroke sPrevious = null;
 			final ColorDefinition cd = lineAttribs.getColor( );
-			final Stroke sCurrent = ( (SwingRendererImpl) renderer ).getCachedStroke( lineAttribs );
+			final Stroke sCurrent = ( (G2dRendererBase) renderer ).getCachedStroke( lineAttribs );
 			if ( sCurrent != null ) // SOME STROKE DEFINED?
 			{
 				sPrevious = g2d.getStroke( );
