@@ -16,7 +16,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+
 import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -407,8 +412,24 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			String dataType = measureView.getDataType( );
 			column.setDataType( dataType );
 			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+			String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 			column.setAggregateFunction( function != null ? function
-					: getDefaultMeasureAggregationFunction( measureView ) );
+					:  defaultFunction);
+			
+			//When the function is not null,set the column set the correct data type
+			if (function != null && !function.equals( defaultFunction ))
+			{
+				try
+				{
+					column.setDataType( DataAdapterUtil.adapterToModelDataType( getAggregationManager( )
+							.getAggregation( column.getAggregateFunction( ) )
+							.getDataType( ) ) ) ;
+				}
+				catch ( BirtException e )
+				{
+					//do nothing;
+				}
+			}
 			if ( rowLevel != null )
 			{
 				column.addAggregateOn( rowLevel );
@@ -440,6 +461,20 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				dataItem.setResultSetColumn( columnHandle.getName( ) );
 			}
 		}
+	}
+	private static AggregationManager manager;
+
+	public static AggregationManager getAggregationManager( )
+			throws BirtException
+	{
+		if ( manager == null )
+		{
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			manager = session.getAggregationManager( );
+			session.shutdown( );
+		}
+
+		return manager;
 	}
 
 	/**
