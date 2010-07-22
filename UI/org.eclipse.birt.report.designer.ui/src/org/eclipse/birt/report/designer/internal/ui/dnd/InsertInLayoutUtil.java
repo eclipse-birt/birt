@@ -289,15 +289,15 @@ public class InsertInLayoutUtil
 			return positions;
 		}
 
-		protected TableHandle getTableHandle( CellHandle firstCell )
+		protected ReportItemHandle getTableHandle( CellHandle firstCell )
 		{
 			DesignElementHandle tableContainer = firstCell.getContainer( )
 					.getContainer( );
-			if ( tableContainer instanceof TableHandle )
+			if ( tableContainer instanceof ReportItemHandle )
 			{
-				return (TableHandle) tableContainer;
+				return (ReportItemHandle) tableContainer;
 			}
-			return (TableHandle) tableContainer.getContainer( );
+			return (ReportItemHandle) tableContainer.getContainer( );
 		}
 
 		/**
