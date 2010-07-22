@@ -176,10 +176,13 @@ public class ListingSectionPage extends ResetAttributePage
 		}
 	}
 
-	public void refresh( )
+	public void postElementEvent( )
 	{
-		super.refresh( );
+		super.postElementEvent( );
+
 		if ( repeatHeaderSection != null
+				&& repeatHeaderSection.getCheckControl( ) != null
+				&& repeatHeaderSection.getCheckControl( ).getControl( ) != null
 				&& !repeatHeaderSection.getCheckControl( )
 						.getControl( )
 						.isDisposed( )
@@ -206,10 +209,5 @@ public class ListingSectionPage extends ResetAttributePage
 						.setEnabled( true );
 			}
 		}
-	}
-
-	public void postElementEvent( )
-	{
-		refresh( );
 	}
 }
