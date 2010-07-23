@@ -66,7 +66,7 @@ public class RDAggrUtil
 					valueStream = new DataInputStream( new WrapperedRAInputStream( manager.getInStream( DataEngineContext.AGGR_VALUE_STREAM,
 							StreamManager.ROOT_STREAM,
 							StreamManager.SELF_SCOPE ),
-							offset + 1,
+							offset,
 							-1 ) );
 				}
 			}

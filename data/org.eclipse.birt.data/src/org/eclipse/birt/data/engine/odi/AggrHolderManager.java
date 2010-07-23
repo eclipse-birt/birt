@@ -19,11 +19,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.document.stream.DummyOutputStream;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * 
@@ -72,8 +72,6 @@ public class AggrHolderManager
 	{
 		try
 		{
-			assert aggrIndexStream instanceof DummyOutputStream;
-			assert aggrStream instanceof DummyOutputStream;
 			DataOutputStream aggrIndexDos = new DataOutputStream( aggrIndexStream );
 			DataOutputStream aggrDos = new DataOutputStream( aggrStream );
 
@@ -105,7 +103,7 @@ public class AggrHolderManager
 					}
 					// Finally write the offset to aggr index stream
 					IOUtil.writeLong( aggrIndexDos,
-							( (DummyOutputStream) aggrStream ).getOffset( ) );
+							( (RAOutputStream) aggrStream ).getOffset( ) );
 				}
 			}
 			aggrIndexStream.close( );

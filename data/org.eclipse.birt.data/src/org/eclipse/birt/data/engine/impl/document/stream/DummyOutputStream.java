@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * This DummyOutputStream is used to cache user output to Memory.  
+ * @deprecated
  */
 public class DummyOutputStream extends OutputStream
 {
@@ -68,31 +69,33 @@ public class DummyOutputStream extends OutputStream
 			this.write( b );
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public byte[] toByteArray()
+	public byte[] toByteArray( )
 	{
-		byte[] result = new byte[this.currentListIndex*BUFF_SIZE + this.nextArrayIndex];
-		for( int i = 0; i < this.cachedByteArray.size( ); i++ )
+		byte[] result = new byte[this.currentListIndex
+				* BUFF_SIZE + this.nextArrayIndex];
+		for ( int i = 0; i < this.cachedByteArray.size( ); i++ )
 		{
-			byte[] temp = (byte[])this.cachedByteArray.get( i );
+			byte[] temp = (byte[]) this.cachedByteArray.get( i );
 			int count = BUFF_SIZE;
-			if ( i == this.cachedByteArray.size( )-1)
+			if ( i == this.cachedByteArray.size( ) - 1 )
 				count = this.nextArrayIndex;
-			for( int j = 0; j < count; j++ )
+			for ( int j = 0; j < count; j++ )
 			{
-				result[i*BUFF_SIZE+j] = temp[j];
+				result[i * BUFF_SIZE + j] = temp[j];
 			}
 		}
 		return result;
 	}
 	
-	public long getOffset()
+	public long getOffset( )
 	{
-		return BUFF_SIZE*(cachedByteArray.size( ) - 1)+this.nextArrayIndex-1;
+		return BUFF_SIZE
+				* ( cachedByteArray.size( ) - 1 ) + this.nextArrayIndex - 1;
 	}
 	
 	/*

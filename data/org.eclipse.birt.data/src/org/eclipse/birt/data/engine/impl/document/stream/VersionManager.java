@@ -59,6 +59,9 @@ public class VersionManager
 	//In version 2_5_2_0 the dimension index is added
 	public final static int VERSION_2_5_2_0 = 130;
 	
+	//In version 2_5_2_1 the temp stream is removed.
+	public final static int VERSION_2_5_2_1 = 140;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -132,7 +135,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_5_2_0;
+		return VERSION_2_5_2_1;
 	}
 
 }

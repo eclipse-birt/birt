@@ -183,6 +183,8 @@ public class StreamManager
 			RAOutputStream outputStream = context.getOutputStream( streamID.getStartStream( ),
 					streamID.getSubQueryStream( ),
 					streamType );
+			if ( this.version >= VersionManager.VERSION_2_5_2_1 )
+				return outputStream;
 			if( streamType == DataEngineContext.DATASET_DATA_STREAM && this.version >= VersionManager.VERSION_2_2_0 )
 			{
 				try
@@ -265,6 +267,10 @@ public class StreamManager
 			RAInputStream stream = (RAInputStream) context.getInputStream( streamID.getStartStream( ),
 					streamID.getSubQueryStream( ),
 					streamType );
+			if( this.version >= VersionManager.VERSION_2_5_2_1 )
+			{
+				return stream;
+			}
 			if( streamType == DataEngineContext.DATASET_DATA_STREAM && this.version >= VersionManager.VERSION_2_2_0 )
 			{
 				try
@@ -498,7 +504,7 @@ public class StreamManager
 	 */
 	private boolean useTempStream( int streamType )
 	{
-		if( this.version < VersionManager.VERSION_2_2 )
+		if( this.version < VersionManager.VERSION_2_2 || this.version >= VersionManager.VERSION_2_5_2_1 )
 			return false;
 		
 		switch ( streamType )
