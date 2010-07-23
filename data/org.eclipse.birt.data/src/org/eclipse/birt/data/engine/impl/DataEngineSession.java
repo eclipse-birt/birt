@@ -99,9 +99,6 @@ public class DataEngineSession
 
 		this.dataSetCacheManager = new DataSetCacheManager( this );
 		this.cancelManager = new CancelManager( );
-		this.currentTimer = new Timer( );
-		this.currentTimer.schedule( cancelManager, 1000, 1000 );
-		
 		classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );
 		engine.addShutdownListener( new IShutdownListener(){
 
@@ -114,8 +111,6 @@ public class DataEngineSession
 			}} );
 		
 		engine.addShutdownListener( new ReportDocumentShutdownListener( this ) );
-		
-		this.cancelManager.register( new StopSignCancellable( stopSign ) );
 
 		this.queryResultIDUtil = new QueryResultIDUtil();
 		this.loadGeneralACL( );
@@ -213,32 +208,6 @@ public class DataEngineSession
 		}
 
 	}
-	private class StopSignCancellable implements ICancellable
-	{
-		private StopSign stopSign;
-		
-		StopSignCancellable( StopSign stopSign )
-		{
-			assert stopSign!= null;
-			this.stopSign = stopSign;
-		}
-
-		public void cancel( )
-		{
-			this.stopSign.stop( );			
-		}
-
-		public DataException collectException( )
-		{
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public boolean doCancel( )
-		{
-			return this.stopSign.isStopped( );
-		}
-	}
 	
 	/**
 	 * 
@@ -294,6 +263,15 @@ public class DataEngineSession
 	public void cancel( )
 	{
 		this.stopSign.stop( );
+		cancelManager.doCancel( );
+		synchronized ( currentTimer )
+		{
+			if ( currentTimer == null )
+			{
+				this.currentTimer = new Timer( );
+				this.currentTimer.schedule( cancelManager, 1000, 1000 );
+			}
+		}
 	}
 	
 	public void restart( )
@@ -377,7 +355,11 @@ public class DataEngineSession
 		{
 			cancelManager.cancel( );
 			cancelManager = null;
-			this.currentTimer.cancel();
+		}
+		if ( currentTimer != null )
+		{
+			currentTimer.cancel();
+			currentTimer = null;
 		}
 	}
 	

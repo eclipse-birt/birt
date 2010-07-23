@@ -62,6 +62,11 @@ public class CancelManager extends TimerTask
 	 */
 	public void run( )
 	{
+		doCancel( );
+	}
+	
+	public void doCancel( )
+	{
 		synchronized ( cancellableList )
 		{
 			for ( ICancellable cancellable : cancellableList )

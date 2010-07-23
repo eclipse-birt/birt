@@ -54,7 +54,6 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
-import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification.ParameterIdentifier;
 
 /**
  *	Structure to hold info of a custom field. 

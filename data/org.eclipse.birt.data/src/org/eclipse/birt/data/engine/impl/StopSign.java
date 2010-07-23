@@ -30,7 +30,7 @@ public class StopSign
 	 * 
 	 *
 	 */
-	public void start( )
+	public synchronized void start( )
 	{
 		isStopped = false;
 	}
@@ -39,7 +39,7 @@ public class StopSign
 	 * 
 	 *
 	 */
-	public void stop( )
+	public synchronized void stop( )
 	{
 		isStopped = true;
 	}
@@ -48,7 +48,7 @@ public class StopSign
 	 * 
 	 * @return
 	 */
-	public boolean isStopped()
+	public synchronized boolean isStopped()
 	{
 		return isStopped;
 	}
