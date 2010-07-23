@@ -96,11 +96,11 @@ Error.RenderTaskNotFinishedError = 렌더링 작업이 완료되지 않았습니다.
 Error.RenderOptionError = 보고서를 렌더링하려면 렌더링 옵션을 지정해야 합니다.
 Error.ReportArchiveError = 보고서를 실행하는 동안 보고서 보관을 지정하지 않았습니다.
 Error.ReportDocNameNotSpecifiedError = 보고서를 실행하는 동안 보고서 문서 이름을 지정하지 않았습니다.
-Error.ReportRunError = Error happened while running the report.
+Error.ReportRunError = 보고서를 실행하는 동안 오류가 발생했습니다.
 Error.ReportDocmentOpenError = 보고서 문서를 열지 못했습니다.
 Error.ReportArchiveOpenError = 보고서 보관을 열지 못했습니다.
 Error.SkipError = 건너뛰는 중 오류가 발생했습니다.
-Error.ResultsetExtractError = Result set not found.
+Error.ResultsetExtractError = 결과 집합을 찾을 수 없습니다.
 Error.FailedToInitializeEmitter = 이미터를 초기화하지 못했습니다.
 
 ###########################################################
@@ -113,15 +113,15 @@ Error.ResourceUnreachable = 이 리포트 항목의 리소스에 연결할 수 없습니다.
 Error.UpdateUserAgent = PDF 파일에서 플래시 콘텐츠를 보려면 플래시 지원을 활성화하거나 최신 버전의 Adobe Reader를 다운로드하십시오.
 
 ###########################################################
-Error.ReportRunnableNotSet = Report runnable is not set.
-Error.FailedToLoadTOCTree = Failed to load TOC tree.
-Error.ExceptionOnFetchingBookmarks = Exception when fetching bookmarks.
-Error.FailedToSaveDesign = Failed to save design.
-Error.ExceptionOnCopyingArchives = Exception when copying archives.
-Error.UnsupportedCoreStreamVersion = Unsupported core stream version: {0}.
-Error.UnsupportedEngineExtension = Unsupported engine extension {0}.
-Error.FailToCreateDataEngine = Can't create data engine.
-Error.FailedToCreateTOC = Failed to create TOC.
-Error.UnsupportedExprssionType = Unsupported expression type.
-Error.UnknownContentVersion = Unknown content version.
-Error.UnknownFieldID = Unknown field id: {0}.
+Error.ReportRunnableNotSet = 실행 가능한 보고서가 설정되지 않았습니다.
+Error.FailedToLoadTOCTree = TOC 트리를 로드하지 못했습니다.
+Error.ExceptionOnFetchingBookmarks = 책갈피를 가져오는 도중 예외가 발생했습니다.
+Error.FailedToSaveDesign = 디자인을 저장하지 못했습니다.
+Error.ExceptionOnCopyingArchives = 아카이브를 복사하는 동안 예외가 발생했습니다.
+Error.UnsupportedCoreStreamVersion = 지원되지 않는 코어 스트림 버전입니다: {0}.
+Error.UnsupportedEngineExtension = 지원되지 않는 엔진 확장명 {0}입니다.
+Error.FailToCreateDataEngine = 데이터 엔진을 생성할 수 없습니다.
+Error.FailedToCreateTOC = TOC를 생성하지 못했습니다.
+Error.UnsupportedExprssionType = 지원되지 않는 식 형식입니다.
+Error.UnknownContentVersion = 알 수 없는 콘텐츠 버전입니다.
+Error.UnknownFieldID = 알 수 없는 필드 ID입니다: {0}.

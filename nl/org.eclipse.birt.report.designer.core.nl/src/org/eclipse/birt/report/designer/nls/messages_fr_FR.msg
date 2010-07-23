@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<Nouveau paramètre ici...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=Aucun
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=Le paramètre d'état lié "{0}" du paramètre du jeu de données "{1}" n'existe pas actuellement.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Le paramètre du jeu de données "{0}" acceptant une seule valeur est lié à un paramètre d'état à valeurs multiples. \r\nSi l'utilisateur définit plusieurs valeurs pour le paramètre d'état, seule la première valeur sera définie comme paramètre du jeu de données.
 DataSetParameterPage.cell.linkToSalarParameter=&Lié au paramètre d'état
 DataSetParameterPage.title.ParameterInputDialog=Paramètre
 DataSetParameterPage.toolTipText.New=Nouveau paramètre
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=Soulignement
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
+DefaultNodeProvider.Dlg.Confirm=Cliquez sur Oui si vous souhaitez supprimer le {0}. Dans le cas contraire, cliquez sur Non
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=Vous êtes sur le point de supprimer un groupe de paramètres. Si vous confirmez la suppression, tous les paramètres du groupe seront supprimés. Voulez-vous continuer ?
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=Confirmer la suppression du groupe de paramètres
 DefaultNodeProvider.Tree.Body=Corps
-DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
+DefaultNodeProvider.Tree.Clients=Le {0} est utilisé par les éléments suivants
 DefaultNodeProvider.Tree.ColumnHedings=En-têtes de colonnes
 DefaultNodeProvider.Tree.Components = Eléments d'état
 DefaultNodeProvider.Tree.DataSets=Jeux de données
@@ -3046,7 +3046,7 @@ ParametersOutlineProcess.text.Show=affiche la page de l'éditeur de jeu de donnée
 ###########################################################
 #PasteAction properties
 
-PasteAction.dlg.title=Infomation
+PasteAction.dlg.title=Informations
 PasteAction.ok=OK
 PasteAction.text=&Coller
 

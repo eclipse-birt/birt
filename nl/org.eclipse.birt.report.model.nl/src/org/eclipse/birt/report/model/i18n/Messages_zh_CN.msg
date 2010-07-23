@@ -2057,7 +2057,7 @@ Structure.ColumnHint.action=操作
 Structure.ColumnHint.ACLExpression=ACL 表达式	
 Structure.ColumnHint.analysisColumn=分析列
 Structure.ColumnHint.valueFormat=值格式
-Structure.ColumnHint.indexColumn=Index Column
+Structure.ColumnHint.indexColumn=索引列
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项
@@ -3722,7 +3722,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=元素“{0}”具有报表项共享，不能添
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=复制内容不允许粘贴到 {0} 的属性框 {1}，因为它无效。
 Error.ContentException.CONTENT_ALREADY_INSERTED=不允许将元素“{0}”添加到“{1}”的 ({2})，因为它已经在设计树中。
 Error.ContentException.INVALID_POSITION=位置超出范围且无效。
-Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Can not insert element [{0}] in the report/library, because share dimension [{1}] doesn''t exist.
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=无法在报表/库中插入元素 [{0}]，因为共享维 [{1}] 不存在。
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=必须提供转换的资源关键字。

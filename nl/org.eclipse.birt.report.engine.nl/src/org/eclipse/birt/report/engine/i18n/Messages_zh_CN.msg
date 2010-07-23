@@ -96,11 +96,11 @@ Error.RenderTaskNotFinishedError = 呈现任务未完成。
 Error.RenderOptionError = 必须指定呈现选项才能呈现报表。
 Error.ReportArchiveError = 运行报表时未指定报表存档。
 Error.ReportDocNameNotSpecifiedError = 运行报表时未指定报表文档名称。
-Error.ReportRunError = Error happened while running the report.
+Error.ReportRunError = 运行报表时出错。
 Error.ReportDocmentOpenError = 打开报表文档失败。
 Error.ReportArchiveOpenError = 无法打开报表存档。
 Error.SkipError = 跨过时出错。
-Error.ResultsetExtractError = Result set not found.
+Error.ResultsetExtractError = 找不到结果集。
 Error.FailedToInitializeEmitter = 初始化发射器失败。
 
 ###########################################################
@@ -113,15 +113,15 @@ Error.ResourceUnreachable = 此报表项的资源不可访问。
 Error.UpdateUserAgent = 启用 Flash 支持或下载较新的 Adobe Reader 版本以查看 PDF 文件中的 Flash 内容。
 
 ###########################################################
-Error.ReportRunnableNotSet = Report runnable is not set.
-Error.FailedToLoadTOCTree = Failed to load TOC tree.
-Error.ExceptionOnFetchingBookmarks = Exception when fetching bookmarks.
-Error.FailedToSaveDesign = Failed to save design.
-Error.ExceptionOnCopyingArchives = Exception when copying archives.
-Error.UnsupportedCoreStreamVersion = Unsupported core stream version: {0}.
-Error.UnsupportedEngineExtension = Unsupported engine extension {0}.
-Error.FailToCreateDataEngine = Can't create data engine.
-Error.FailedToCreateTOC = Failed to create TOC.
-Error.UnsupportedExprssionType = Unsupported expression type.
-Error.UnknownContentVersion = Unknown content version.
-Error.UnknownFieldID = Unknown field id: {0}.
+Error.ReportRunnableNotSet = 未设置报表可运行。
+Error.FailedToLoadTOCTree = 无法加载目录树。
+Error.ExceptionOnFetchingBookmarks = 获取书签时出现异常。
+Error.FailedToSaveDesign = 无法保存设计。
+Error.ExceptionOnCopyingArchives = 复制存档时出现异常。
+Error.UnsupportedCoreStreamVersion = 不支持的核心流版本: {0}。
+Error.UnsupportedEngineExtension = 不支持的引擎扩展 {0}。
+Error.FailToCreateDataEngine = 无法创建数据引擎。
+Error.FailedToCreateTOC = 无法创建目录。
+Error.UnsupportedExprssionType = 不支持的表达式类型。
+Error.UnknownContentVersion = 未知内容版本。
+Error.UnknownFieldID = 未知字段 id: {0}。

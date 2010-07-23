@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<New param here...>
 DataSetParametersPage.default.None=n.a.
 DataSetParametersPage.reportParam.None=Ohne
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=Der verknüpfte Berichtparameter "{0}" des Datensatzparameters "{1}" ist nicht vorhanden.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=Der Datensatzparameter '{0}', der nur einen Wert zulässt, ist mit einem Berichtparameter verknüpft, der mehrere Werte enthält. \r\nWurden vom Benutzer mehrere Werte für den Berichtparameter angegeben, wird nur der erste Wert mit dem Datensatzparameter verknüpft.
 DataSetParameterPage.cell.linkToSalarParameter=Mit Berichtparameter &verknüpft
 DataSetParameterPage.title.ParameterInputDialog=Parameter
 DataSetParameterPage.toolTipText.New=Neuer Parameter
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=Unterstreichen
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
+DefaultNodeProvider.Dlg.Confirm=Klicken Sie auf 'Ja', um fortzufahren und den {0} zu löschen. Klicken Sie andernfalls auf 'Nein'.
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=Sie sind im Begriff, eine Parametergruppe zu löschen. Wenn Sie diese Parametergruppe löschen, werden alle Parameter innerhalb der Gruppe gelöscht. Möchten Sie fortfahren?
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=Löschen der Parametergruppe bestätigen
 DefaultNodeProvider.Tree.Body=Hauptteil
-DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
+DefaultNodeProvider.Tree.Clients={0} wird von folgenden Elementen verwendet
 DefaultNodeProvider.Tree.ColumnHedings=Spaltenüberschriften
 DefaultNodeProvider.Tree.Components = Berichtobjekte
 DefaultNodeProvider.Tree.DataSets=Datensätze
@@ -3046,7 +3046,7 @@ ParametersOutlineProcess.text.Show=Blendet die Datensatzeditor-Seite für den Dat
 ###########################################################
 #PasteAction properties
 
-PasteAction.dlg.title=Infomation
+PasteAction.dlg.title=Information
 PasteAction.ok=OK
 PasteAction.text=&Einfügen
 

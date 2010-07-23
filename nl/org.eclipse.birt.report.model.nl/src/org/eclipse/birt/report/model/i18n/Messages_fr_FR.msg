@@ -2057,7 +2057,7 @@ Structure.ColumnHint.action=Action
 Structure.ColumnHint.ACLExpression=Expression ACL	
 Structure.ColumnHint.analysisColumn=Colonne Analyse
 Structure.ColumnHint.valueFormat=Format de la valeur
-Structure.ColumnHint.indexColumn=Index Column
+Structure.ColumnHint.indexColumn=Colonne de l'index
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Choix de sélection
@@ -3722,7 +3722,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=L''élément "{0}" partage un éléme
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=Vous n'êtes pas autorisé à coller la copie à l'emplacement {1} du {0} car la copie n'est pas valide.
 Error.ContentException.CONTENT_ALREADY_INSERTED=L'élément "{0}" ne peut pas être ajouté dans ({2}) de "{1}" car il se trouve déjà dans l'arborescence du modèle.
 Error.ContentException.INVALID_POSITION=La position est hors plage ou non valide.
-Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Can not insert element [{0}] in the report/library, because share dimension [{1}] doesn''t exist.
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Impossible d'insérer l'élément [{0}] dans l'état/bibliothèque, car la dimension partagée [{1}] n'existe pas.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=La clé de ressource de la conversion doit être fournie.

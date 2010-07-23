@@ -2057,7 +2057,7 @@ Structure.ColumnHint.action=実行
 Structure.ColumnHint.ACLExpression=ACL 式	
 Structure.ColumnHint.analysisColumn=分析列
 Structure.ColumnHint.valueFormat=値の書式
-Structure.ColumnHint.indexColumn=Index Column
+Structure.ColumnHint.indexColumn=インデックス列
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目
@@ -3722,7 +3722,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=要素 "{0}" には共有のレポート項目
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=コピーはできないため、{0} のスロット {1} に貼り付けられません。
 Error.ContentException.CONTENT_ALREADY_INSERTED=要素 "{0}" はすでにデザインツリーに存在するため "{1}" の ({2}) に追加できません。
 Error.ContentException.INVALID_POSITION=位置が範囲外か無効です。
-Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Can not insert element [{0}] in the report/library, because share dimension [{1}] doesn''t exist.
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=レポート / ライブラリに要素 [{0}] を挿入できません。共有ディメンジョン [{1}] が存在しません。
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=変換情報のリソースキーが必要です。

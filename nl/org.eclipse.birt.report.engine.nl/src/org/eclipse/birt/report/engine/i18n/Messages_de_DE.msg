@@ -96,11 +96,11 @@ Error.RenderTaskNotFinishedError = Rendern noch nicht abgeschlossen.
 Error.RenderOptionError = Zum Rendern eines Berichts müssen Renderoptionen angegeben werden.
 Error.ReportArchiveError = Berichtarchiv ist bei der Ausführung eines Berichts nicht angegeben.
 Error.ReportDocNameNotSpecifiedError = Berichtdokumentname ist bei der Ausführung eines Berichts nicht angegeben.
-Error.ReportRunError = Error happened while running the report.
+Error.ReportRunError = Fehler bei der Ausführung des Berichts.
 Error.ReportDocmentOpenError = Berichtdokument konnte nicht geöffnet werden.
 Error.ReportArchiveOpenError = Berichtarchiv kann nicht geöffnet werden.
 Error.SkipError = Fehler beim Ignorieren.
-Error.ResultsetExtractError = Result set not found.
+Error.ResultsetExtractError = Ergebnis nicht gefunden.
 Error.FailedToInitializeEmitter = Emitter konnte nicht initialisiert werden.
 
 ###########################################################
@@ -113,15 +113,15 @@ Error.ResourceUnreachable = Die Ressource dieses Berichtobjekts ist nicht erreic
 Error.UpdateUserAgent = Aktivieren Sie die Flash-Unterstützung, oder laden Sie eine neuere Version des Adobe Readers herunter, um Flash-Inhalte in PDF-Dateien anzuzeigen.
 
 ###########################################################
-Error.ReportRunnableNotSet = Report runnable is not set.
-Error.FailedToLoadTOCTree = Failed to load TOC tree.
-Error.ExceptionOnFetchingBookmarks = Exception when fetching bookmarks.
-Error.FailedToSaveDesign = Failed to save design.
-Error.ExceptionOnCopyingArchives = Exception when copying archives.
-Error.UnsupportedCoreStreamVersion = Unsupported core stream version: {0}.
-Error.UnsupportedEngineExtension = Unsupported engine extension {0}.
-Error.FailToCreateDataEngine = Can't create data engine.
-Error.FailedToCreateTOC = Failed to create TOC.
-Error.UnsupportedExprssionType = Unsupported expression type.
-Error.UnknownContentVersion = Unknown content version.
-Error.UnknownFieldID = Unknown field id: {0}.
+Error.ReportRunnableNotSet = Auszuführender Bericht wurde nicht festgelegt.
+Error.FailedToLoadTOCTree = TOC-Struktur konnte nicht geladen werden.
+Error.ExceptionOnFetchingBookmarks = Fehler beim Abrufen der Lesezeichen.
+Error.FailedToSaveDesign = Fehler beim Speichern des Designs.
+Error.ExceptionOnCopyingArchives = Ausnahme beim Kopieren der Archive.
+Error.UnsupportedCoreStreamVersion = Nicht unterstützte Core-Stream-Version: {0}.
+Error.UnsupportedEngineExtension = Nicht unterstützte Engine-Erweiterung {0}.
+Error.FailToCreateDataEngine = Daten-Engine kann nicht erstellt werden.
+Error.FailedToCreateTOC = TOC konnte nicht erstellt werden.
+Error.UnsupportedExprssionType = Unerwarteter Ausdruckstyp.
+Error.UnknownContentVersion = Unbekannte Inhaltsversion.
+Error.UnknownFieldID = Unbekannte Feld-ID: {0}.

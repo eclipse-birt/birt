@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<‚±‚±‚ÉV‚µ‚¢ƒpƒ‰ƒƒ^‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...>
 DataSetParametersPage.default.None=N/A
 DataSetParametersPage.reportParam.None=‚È‚µ
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^ "{1}" ‚ÌƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚éƒŒƒ|[ƒgƒpƒ‰ƒƒ^ "{0}" ‚Í‘¶İ‚µ‚Ü‚¹‚ñB
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=’l‚ğ 1 ‚Â‚¾‚¯w’è‚Å‚«‚éƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^ "{0}" ‚ªA•¡”’l‚ÌƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ÉƒŠƒ“ƒN‚³‚ê‚Ä‚¢‚Ü‚·B \r\nƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚É•¡”‚Ì’l‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡AÅ‰‚Ì’l‚¾‚¯‚ªƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚Éİ’è‚³‚ê‚Ü‚·B
 DataSetParameterPage.cell.linkToSalarParameter=ƒŠƒ“ƒNæ‚ÌƒŒƒ|[ƒgƒpƒ‰ƒƒ^(&L)
 DataSetParameterPage.title.ParameterInputDialog=ƒpƒ‰ƒƒ^
 DataSetParameterPage.toolTipText.New=ƒpƒ‰ƒƒ^‚ÌV‹Kì¬
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=‰ºü
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
+DefaultNodeProvider.Dlg.Confirm={0} ‚ğíœ‚µ‚ÄŸ‚Éi‚Ş‚É‚ÍA[‚Í‚¢] ‚ğƒNƒŠƒbƒN‚µ‚Ä‚­‚¾‚³‚¢B ‚»‚êˆÈŠO‚Ìê‡‚Í [‚¢‚¢‚¦] ‚ğƒNƒŠƒbƒN‚µ‚Ä‚­‚¾‚³‚¢B
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=ƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ğíœ‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·Bƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ğíœ‚·‚é‚ÆA‚»‚ÌƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚é‚·‚×‚Ä‚Ìƒpƒ‰ƒƒ^‚ªíœ‚³‚ê‚Ü‚·B‘±s‚µ‚Ü‚·‚© ?
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=ƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ÌíœŠm”F
 DefaultNodeProvider.Tree.Body=–{•¶
-DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
+DefaultNodeProvider.Tree.Clients={0} ‚ÍŸ‚Ì—v‘f‚Åg—p‚³‚ê‚Ä‚¢‚Ü‚·B
 DefaultNodeProvider.Tree.ColumnHedings=—ñŒ©o‚µ
 DefaultNodeProvider.Tree.Components = ƒŒƒ|[ƒg€–Ú
 DefaultNodeProvider.Tree.DataSets=ƒf[ƒ^ƒZƒbƒg
@@ -3046,7 +3046,7 @@ ParametersOutlineProcess.text.Show=‚±‚Ìƒf[ƒ^ƒZƒbƒg‚ÌƒGƒfƒBƒ^ƒy[ƒW‚ğ•\¦‚µ‚Ü‚·
 ###########################################################
 #PasteAction properties
 
-PasteAction.dlg.title=Infomation
+PasteAction.dlg.title=î•ñ
 PasteAction.ok=OK
 PasteAction.text=“\‚è•t‚¯(&P)
 

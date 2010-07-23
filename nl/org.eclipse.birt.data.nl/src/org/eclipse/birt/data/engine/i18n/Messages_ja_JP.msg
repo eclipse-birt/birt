@@ -114,7 +114,7 @@ data.engine.ComputedColumnCycle=ŒvZ—ñ "{0}" ‚ÌˆË‘¶ŠÖŒW‚ªzŠÂQÆ‚É‚È‚Á‚Ä‚¢‚Ü‚·
 data.engine.SortOnAggregation=ƒ\[ƒgƒL[‚ªWŒv "{0}" ‚ğQÆ‚·‚é‚æ‚¤‚È–³Œø‚Èƒ\[ƒg‚ª‘¶İ‚µ‚Ä‚¢‚Ü‚·B
 
 data.engine.BadFilterExpr=ƒtƒBƒ‹ƒ^® "{0}" ‚ª–³Œø‚Å‚·B
-data.engine.BadFilterDefn=Failed to evaluate the filter which is based on expression "{0}".
+data.engine.BadFilterDefn=® "{0}" ‚ÉŠî‚Ã‚­ƒtƒBƒ‹ƒ^‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñB
 
 #clob and blob error
 data.engine.opencloberror=CLOB •¶šƒXƒgƒŠ[ƒ€‚ğŠJ‚­‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
@@ -141,7 +141,7 @@ load.factory.error=ƒf[ƒ^ƒGƒ“ƒWƒ“‚Ìƒtƒ@ƒNƒgƒŠ‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB
 
 # Wrapped Error
 data.engine.DataConversionError=ƒf[ƒ^Œ^‚ğ•ÏŠ·’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
-data.engine.BadCompareSingleValueWithMultiValues=Failed to apply filter due to invalid filter condition of comparing a single value with multiple values of [{0}].Please set only one value for this filter.
+data.engine.BadCompareSingleValueWithMultiValues=1 ‚Â‚Ì’l‚ğ [{0}] ‚Ì•¡”‚Ì’l‚Æ”äŠr‚·‚éƒtƒBƒ‹ƒ^ğŒ‚ª–³Œø‚Å‚ ‚é‚½‚ßAƒtƒBƒ‹ƒ^‚ğ“K—p‚Å‚«‚Ü‚¹‚ñB‚±‚ÌƒtƒBƒ‹ƒ^‚Å‚Í’l‚ğ 1 ‚Â‚¾‚¯İ’è‚µ‚Ä‚­‚¾‚³‚¢B
 data.engine.BirtException=BIRT ‚Å—áŠO {0} ‚ª”­¶‚µ‚Ü‚µ‚½BÚ‚µ‚­‚ÍAŸ‚Ì—áŠO‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B
 
 # data set cache error

@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<여기에 새 매개 변수 입력>
 DataSetParametersPage.default.None=해당 없음
 DataSetParametersPage.reportParam.None=없음
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=현재 데이터 집합 매개 변수 "{1}"의 연결된 보고서 매개 변수 "{0}"이(가) 없습니다.
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=하나의 값만 허용하는 데이터 집합 매개 변수 "{0}"이(가) 여러 값 보고서 매개 변수에 연결되어 있습니다. \r\n사용자가 보고서 매개 변수를 위해 여러 값을 설정하는 경우 첫 번째 값만 데이터 집합 매개 변수로 설정됩니다.
 DataSetParameterPage.cell.linkToSalarParameter=보고서 매개 변수에 연결됨(&L)
 DataSetParameterPage.title.ParameterInputDialog=매개 변수
 DataSetParameterPage.toolTipText.New=새 매개 변수
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=밑줄
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
+DefaultNodeProvider.Dlg.Confirm={0} 삭제를 계속하려면 '예'를 클릭하십시오. 그렇지 않은 경우 '아니요'를 클릭하십시오.
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=매개 변수 그룹을 삭제하려고 합니다. 매개 변수 그룹을 삭제할 경우 그룹 내 모든 매개 변수가 삭제됩니다. 계속하시겠습니까?
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=매개 변수 그룹 삭제 확인
 DefaultNodeProvider.Tree.Body=본문
-DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
+DefaultNodeProvider.Tree.Clients={0}은(는) 다음 요소에서 사용됩니다.
 DefaultNodeProvider.Tree.ColumnHedings=열 머리글
 DefaultNodeProvider.Tree.Components = 보고서 항목
 DefaultNodeProvider.Tree.DataSets=데이터 집합
@@ -3046,7 +3046,7 @@ ParametersOutlineProcess.text.Show=데이터 집합에 대한 데이터 집합 편집기 페이지�
 ###########################################################
 #PasteAction properties
 
-PasteAction.dlg.title=Infomation
+PasteAction.dlg.title=정보
 PasteAction.ok=확인
 PasteAction.text=붙여넣기(&P)
 

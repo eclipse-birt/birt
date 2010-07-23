@@ -2057,7 +2057,7 @@ Structure.ColumnHint.action=Acción
 Structure.ColumnHint.ACLExpression=Expresión ACL	
 Structure.ColumnHint.analysisColumn=Columna de análisis
 Structure.ColumnHint.valueFormat=Formato del valor
-Structure.ColumnHint.indexColumn=Index Column
+Structure.ColumnHint.indexColumn=Columna Índice
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Opciones de selección
@@ -3722,7 +3722,7 @@ Error.ContentException.GROUPS_CHANGE_FORBIDDEN=El elemento "{0}" tiene elementos
 Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=La copia no se puede pegar en el slot {1} de {0} porque no es válida.
 Error.ContentException.CONTENT_ALREADY_INSERTED=No se permite añadir el elemento "{0}" al ({2}) de "{1}", ya está en el diseño de árbol.
 Error.ContentException.INVALID_POSITION=La posición está fuera de alcance y no es válida.
-Error.ContentException.SHARE_DIMENSION_NOT_EXIST=Can not insert element [{0}] in the report/library, because share dimension [{1}] doesn''t exist.
+Error.ContentException.SHARE_DIMENSION_NOT_EXIST=No se puede insertar el elemento [{0}] en el informe/librería porque la dimensión compartida [{1}] no existe.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Hay que proporcionar la clave de recursos de conversión.

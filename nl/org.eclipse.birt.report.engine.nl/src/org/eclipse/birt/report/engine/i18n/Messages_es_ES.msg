@@ -96,11 +96,11 @@ Error.RenderTaskNotFinishedError = La tarea de procesamiento no se ha finalizado
 Error.RenderOptionError = Se deben especificar las opciones de procesamiento para procesar un informe.
 Error.ReportArchiveError = El archivo de informes no se especifica al ejecutar un informe.
 Error.ReportDocNameNotSpecifiedError = El nombre del documento de informe no se especifica al ejecutar un informe.
-Error.ReportRunError = Error happened while running the report.
+Error.ReportRunError = Se ha producido un error al ejecutar el informe.
 Error.ReportDocmentOpenError = Error al abrir el documento del informe.
 Error.ReportArchiveOpenError = No se puede abrir el archivo del informe.
 Error.SkipError = Se ha producido un error al omitir.
-Error.ResultsetExtractError = Result set not found.
+Error.ResultsetExtractError = No se ha encontrado el conjunto de resultados.
 Error.FailedToInitializeEmitter = Error al iniciar el emisor.
 
 ###########################################################
@@ -113,15 +113,15 @@ Error.ResourceUnreachable = No se puede alcanzar el recurso de este elemento de 
 Error.UpdateUserAgent = Active la compatibilidad con Flash o descargue una versión más reciente de Adobe Reader para ver el contenido Flash en archivos PDF.
 
 ###########################################################
-Error.ReportRunnableNotSet = Report runnable is not set.
-Error.FailedToLoadTOCTree = Failed to load TOC tree.
-Error.ExceptionOnFetchingBookmarks = Exception when fetching bookmarks.
-Error.FailedToSaveDesign = Failed to save design.
-Error.ExceptionOnCopyingArchives = Exception when copying archives.
-Error.UnsupportedCoreStreamVersion = Unsupported core stream version: {0}.
-Error.UnsupportedEngineExtension = Unsupported engine extension {0}.
-Error.FailToCreateDataEngine = Can't create data engine.
-Error.FailedToCreateTOC = Failed to create TOC.
-Error.UnsupportedExprssionType = Unsupported expression type.
-Error.UnknownContentVersion = Unknown content version.
-Error.UnknownFieldID = Unknown field id: {0}.
+Error.ReportRunnableNotSet = No se ha establecido el informe ejecutable.
+Error.FailedToLoadTOCTree = Error al cargar el árbol TDC.
+Error.ExceptionOnFetchingBookmarks = Se ha producido una excepción al recuperar los favoritos.
+Error.FailedToSaveDesign = Error al guardar diseño.
+Error.ExceptionOnCopyingArchives = Se ha producido una excepción al copiar los archivos.
+Error.UnsupportedCoreStreamVersion = Versión de secuencia principal de no admitida: {0}.
+Error.UnsupportedEngineExtension = Extensión de motor no admitida {0}.
+Error.FailToCreateDataEngine = No se puede crear el motor de datos.
+Error.FailedToCreateTOC = Error al crear TDC.
+Error.UnsupportedExprssionType = Tipo de expresión no admitido.
+Error.UnknownContentVersion = Versión de contenido desconocida.
+Error.UnknownFieldID = ID de campo desconocida: {0}.

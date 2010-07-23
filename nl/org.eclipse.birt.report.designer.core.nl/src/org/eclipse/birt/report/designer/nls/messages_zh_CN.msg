@@ -677,7 +677,7 @@ DataSetParametersPage.Prompt.new=<此处为新参数...>
 DataSetParametersPage.default.None=不适用
 DataSetParametersPage.reportParam.None=无
 DataSetParametersPage.errorMessage.LinkedReportParamNotFound=数据集参数“{1}”的链接报表参数“{0}”现在不存在。
-DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=The data set parameter "{0}" that accepts only one value is linked with a multi-value report parameter. \r\nIf user sets multiple values for the report parameter, only the first value will be set to the data set parameter.
+DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam=只接受一个值的数据集参数“{0}”与一个多值报表参数链接。 \r\n如果用户为该报表参数设置多个值，将只有第一个值设置为数据集参数。
 DataSetParameterPage.cell.linkToSalarParameter=链接到报表参数(&L)
 DataSetParameterPage.title.ParameterInputDialog=参数
 DataSetParameterPage.toolTipText.New=新建参数
@@ -804,11 +804,11 @@ DecorationFieldEditor.text.Underline=下划线
 ###########################################################
 #DefaultNodeProvider properties
 
-DefaultNodeProvider.Dlg.Confirm=Click Yes to proceed to delete the {0}. Otherwise, click on No
+DefaultNodeProvider.Dlg.Confirm=单击“是”继续删除 {0}。 否则，单击“否”
 DefaultNodeProvider.ParameterGroup.ConfirmMessage=您即将删除参数组。如果您要删除参数组，将会删除该组内的所有参数。是否继续？
 DefaultNodeProvider.ParameterGroup.ConfirmTitle=确认参数组删除
 DefaultNodeProvider.Tree.Body=正文
-DefaultNodeProvider.Tree.Clients=The {0} is used by following elements
+DefaultNodeProvider.Tree.Clients={0} 被以下元素使用
 DefaultNodeProvider.Tree.ColumnHedings=列标题
 DefaultNodeProvider.Tree.Components = 报表项
 DefaultNodeProvider.Tree.DataSets=数据集
@@ -3046,7 +3046,7 @@ ParametersOutlineProcess.text.Show=显示数据集的数据集编辑器页
 ###########################################################
 #PasteAction properties
 
-PasteAction.dlg.title=Infomation
+PasteAction.dlg.title=信息
 PasteAction.ok=确定
 PasteAction.text=粘贴(&P)
 
