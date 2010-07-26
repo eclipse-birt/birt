@@ -33,14 +33,16 @@ public class DataGenerationEngine extends DteDataEngine
 	/**
 	 * output stream used to save the resultset relations
 	 */
-	private DataOutputStream dos;
+	protected DataOutputStream dos;
+	
+	protected IDocArchiveWriter writer;
 
 	public DataGenerationEngine( DataEngineFactory factory,
 			ExecutionContext context, IDocArchiveWriter writer )
 			throws Exception
 	{
 		super( factory, context, writer );
-
+		this.writer = writer;
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
 				DataSessionContext.MODE_GENERATION, context.getDesign( ), context
@@ -60,12 +62,16 @@ public class DataGenerationEngine extends DteDataEngine
 
 		dteSession = DataRequestSession.newSession( dteSessionContext );
 
+		initialize();
+	}
+	
+	protected void initialize() throws Exception
+	{
 		dos = new DataOutputStream(
 				writer
 						.createRandomAccessStream( ReportDocumentConstants.DATA_META_STREAM ) );
 
 		DteMetaInfoIOUtil.startMetaInfo( dos );
-
 	}
 
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,

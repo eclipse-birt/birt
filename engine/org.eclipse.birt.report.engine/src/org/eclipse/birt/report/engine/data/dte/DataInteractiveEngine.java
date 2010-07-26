@@ -53,11 +53,11 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	/**
 	 * output stream used to save the resultset relations
 	 */
-	private DataOutputStream dos;
+	protected DataOutputStream dos;
 	
-	private List<String[]> newMetaInfo = new ArrayList<String[]>();
+	protected List<String[]> newMetaInfo = new ArrayList<String[]>();
 	
-	private List<String[]> metaInfo;
+	protected List<String[]> metaInfo;
 	
 	/**
 	 * store relations of various query ResultSet. Such as relations between
@@ -70,12 +70,17 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	protected ResultSetIndex rsetIndex = new ResultSetIndex( );
 	
 	protected IBaseResultSet[] reportletResults;
+	
+	protected IDocArchiveWriter writer;
+	protected IDocArchiveReader reader;
 
 	public DataInteractiveEngine( DataEngineFactory factory,
 			ExecutionContext context, IDocArchiveReader reader,
 			IDocArchiveWriter writer ) throws Exception
 	{
 		super( factory, context );
+		this.writer = writer;
+		this.reader = reader;
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
 				DataSessionContext.MODE_UPDATE, null, context
@@ -95,7 +100,12 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 
 		dteSession = DataRequestSession.newSession( dteSessionContext );
-
+		initialize();
+		
+	}
+	
+	protected void initialize() throws Exception
+	{
 		loadDteMetaInfo( reader );
 
 		if ( writer != null && dos == null )
@@ -126,6 +136,8 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			String[] info = metaInfo.get( i );
 			storeDteMetaInfo( info[0], info[1], info[2], info[3], info[4] );
 		}
+		newMetaInfo.clear( );
+		metaInfo.clear( );
 	}
 	
 	protected void removeMetaInfo( String parentId, String queryId )
@@ -209,7 +221,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 	}
 	
-	private void loadDteMetaInfo( IDocArchiveReader reader ) throws IOException
+	protected void loadDteMetaInfo( IDocArchiveReader reader ) throws IOException
 	{
 		metaInfo = DteMetaInfoIOUtil.loadDteMetaInfo( reader );
 		if ( metaInfo != null )
