@@ -195,7 +195,7 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 
 			// handle empty value mapping, this is done by adding an extra
 			// mapping rule to related data item.
-			if ( emptyVlaue != null && handle instanceof DataItemHandle )
+			if ( handle instanceof DataItemHandle )
 			{
 				DataItemHandle dataHandle = (DataItemHandle) handle;
 
@@ -224,22 +224,25 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 					}
 				}
 
-				MapRule rule = StructureFactory.createMapRule( );
-
-				rule.setTestExpression( AUTO_EMPTY_VALUE_EXPR_PREFIX
-						+ ExpressionUtil.createJSDataExpression( dataHandle.getResultSetColumn( ) ) );
-				rule.setOperator( DesignChoiceConstants.MAP_OPERATOR_NULL );
-				rule.setDisplay( emptyVlaue );
-
-				try
+				if ( emptyVlaue != null )
 				{
-					mapHandle.addItem( rule );
-				}
-				catch ( SemanticException e )
-				{
-					logger.log( Level.SEVERE,
-							Messages.getString( "CrosstabReportItemQuery.error.register.empty.cell.value" ), //$NON-NLS-1$
-							e );
+					MapRule rule = StructureFactory.createMapRule( );
+
+					rule.setTestExpression( AUTO_EMPTY_VALUE_EXPR_PREFIX
+							+ ExpressionUtil.createJSDataExpression( dataHandle.getResultSetColumn( ) ) );
+					rule.setOperator( DesignChoiceConstants.MAP_OPERATOR_NULL );
+					rule.setDisplay( emptyVlaue );
+
+					try
+					{
+						mapHandle.addItem( rule );
+					}
+					catch ( SemanticException e )
+					{
+						logger.log( Level.SEVERE,
+								Messages.getString( "CrosstabReportItemQuery.error.register.empty.cell.value" ), //$NON-NLS-1$
+								e );
+					}
 				}
 			}
 		}
