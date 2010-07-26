@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 
@@ -417,23 +418,29 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					:  defaultFunction);
 			
 			//When the function is not null,set the column set the correct data type
-			if (function != null && !function.equals( defaultFunction ))
+			if ( function != null && !function.equals( defaultFunction ) )
 			{
 				try
 				{
-					column.setDataType( DataAdapterUtil.adapterToModelDataType( getAggregationManager( )
-							.getAggregation( column.getAggregateFunction( ) )
-							.getDataType( ) ) ) ;
+					String targetType = DataAdapterUtil.adapterToModelDataType( getAggregationManager( ).getAggregation( column.getAggregateFunction( ) )
+							.getDataType( ) );
+
+					if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+					{
+						column.setDataType( targetType );
+					}
 				}
 				catch ( BirtException e )
 				{
-					//do nothing;
+					// do nothing;
 				}
 			}
+			
 			if ( rowLevel != null )
 			{
 				column.addAggregateOn( rowLevel );
 			}
+			
 			if ( colLevel != null )
 			{
 				column.addAggregateOn( colLevel );
