@@ -52,6 +52,8 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 public class CrosstabModelUtil implements ICrosstabConstants
 {
 
+	private static AggregationManager manager;
+	
 	private static ThreadLocal<ICrosstabModelListener> modelListener = new ThreadLocal<ICrosstabModelListener>( );
 
 	public static void setCrosstabModelListener( ICrosstabModelListener listener )
@@ -422,6 +424,8 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			{
 				try
 				{
+					// reset the data type to default by the aggregatino function
+					
 					String targetType = DataAdapterUtil.adapterToModelDataType( getAggregationManager( ).getAggregation( column.getAggregateFunction( ) )
 							.getDataType( ) );
 
@@ -469,11 +473,12 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			}
 		}
 	}
-	private static AggregationManager manager;
 
-	public static AggregationManager getAggregationManager( )
+	private static AggregationManager getAggregationManager( )
 			throws BirtException
 	{
+		//TODO do we need release this?
+		
 		if ( manager == null )
 		{
 			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
@@ -609,7 +614,30 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				String columnName = ( (DataItemHandle) content ).getResultSetColumn( );
 				ComputedColumnHandle columnHandle = crosstabModel.findColumnBinding( columnName );
 				if ( columnHandle != null )
+				{
 					columnHandle.setAggregateFunction( function );
+					
+					try
+					{
+						// reset the data type to default by the aggregatino function
+						
+						// TODO these binding creation/modification logic should
+						// be delegated to the caller context instead of
+						// hard-coded here.
+						
+						String targetType = DataAdapterUtil.adapterToModelDataType( getAggregationManager( ).getAggregation( function )
+								.getDataType( ) );
+
+						if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+						{
+							columnHandle.setDataType( targetType );
+						}
+					}
+					catch ( BirtException e )
+					{
+						// do nothing;
+					}
+				}
 			}
 		}
 	}
