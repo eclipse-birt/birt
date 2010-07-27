@@ -24,6 +24,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.stream.DummyOutputStream;
 
 /**
  * 
@@ -101,9 +102,18 @@ public class AggrHolderManager
 					{
 						IOUtil.writeObject( aggrDos, values.get( i ) );
 					}
+
 					// Finally write the offset to aggr index stream
-					IOUtil.writeLong( aggrIndexDos,
-							( (RAOutputStream) aggrStream ).getOffset( ) );
+					if ( aggrStream instanceof DummyOutputStream )
+					{
+						IOUtil.writeLong( aggrIndexDos,
+								( (DummyOutputStream) aggrStream ).getOffset( ) );
+					}
+					else
+					{
+						IOUtil.writeLong( aggrIndexDos,
+								( (RAOutputStream) aggrStream ).getOffset( ) );
+					}
 				}
 			}
 			aggrIndexStream.close( );

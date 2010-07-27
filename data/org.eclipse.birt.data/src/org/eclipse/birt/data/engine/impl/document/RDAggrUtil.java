@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.stream.WrapperedRAInputStream;
 
 /**
@@ -63,11 +64,23 @@ public class RDAggrUtil
 				if ( i < aggrSize - 1 )
 				{
 					long offset = IOUtil.readLong( aggrIndexDis );
-					valueStream = new DataInputStream( new WrapperedRAInputStream( manager.getInStream( DataEngineContext.AGGR_VALUE_STREAM,
-							StreamManager.ROOT_STREAM,
-							StreamManager.SELF_SCOPE ),
-							offset,
-							-1 ) );
+					//for backward compatibilty issue
+					if( manager.getVersion( ) >= VersionManager.VERSION_2_5_2_1 )
+					{
+						valueStream = new DataInputStream( new WrapperedRAInputStream( manager.getInStream( DataEngineContext.AGGR_VALUE_STREAM,
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE ),
+								offset,
+								-1 ) );						
+					}
+					else
+					{
+						valueStream = new DataInputStream( new WrapperedRAInputStream( manager.getInStream( DataEngineContext.AGGR_VALUE_STREAM,
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE ),
+								offset + 1,
+								-1 ) );
+					}
 				}
 			}
 		}
