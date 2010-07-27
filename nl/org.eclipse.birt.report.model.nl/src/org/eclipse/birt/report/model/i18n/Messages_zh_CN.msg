@@ -3698,7 +3698,7 @@ New.ReportItemTheme=NewReportItemTheme
 
 ###########################################################
 #Default theme name.
-Theme.defaultThemeName=defaultTheme
+Theme.defaultThemeName=默认布景主题
 
 ###########################################################
 # Error Messages

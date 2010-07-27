@@ -3698,7 +3698,7 @@ New.ReportItemTheme=NeuesBerichtobjektthema
 
 ###########################################################
 #Default theme name.
-Theme.defaultThemeName=defaultTheme
+Theme.defaultThemeName=Standardthema
 
 ###########################################################
 # Error Messages

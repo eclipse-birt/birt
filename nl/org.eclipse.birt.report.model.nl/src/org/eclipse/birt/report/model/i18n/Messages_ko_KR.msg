@@ -3698,7 +3698,7 @@ New.ReportItemTheme=새 보고서 항목 테마
 
 ###########################################################
 #Default theme name.
-Theme.defaultThemeName=defaultTheme
+Theme.defaultThemeName=기본 테마
 
 ###########################################################
 # Error Messages

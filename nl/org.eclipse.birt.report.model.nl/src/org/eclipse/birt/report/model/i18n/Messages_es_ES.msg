@@ -3698,7 +3698,7 @@ New.ReportItemTheme=NuevoTemaElementoInforme
 
 ###########################################################
 #Default theme name.
-Theme.defaultThemeName=defaultTheme
+Theme.defaultThemeName=Tema predeterminado
 
 ###########################################################
 # Error Messages
