@@ -57,7 +57,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	
 	protected List<String[]> newMetaInfo = new ArrayList<String[]>();
 	
-	protected List<String[]> metaInfo;
+	protected List<String[]> metaInfo = new ArrayList<String[]>( );
 	
 	/**
 	 * store relations of various query ResultSet. Such as relations between
