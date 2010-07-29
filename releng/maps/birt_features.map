@@ -32,7 +32,7 @@ plugin@org.eclipse.birt.tests=v20100224,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,
 
 
 !*************** NL features ***********
-feature@org.eclipse.birt.nl=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl.feature
+feature@org.eclipse.birt.nl=v20100729,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl.feature
 feature@org.eclipse.birt.dtp.nl=v200911041343,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.build/R1.6_Feature_Projects/org.eclipse.birt.dtp.nl.feature
 feature@org.eclipse.birt.rcp.nl=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.rcp.nl.feature
 feature@org.eclipse.birt.dtp.sybase.nl=v200911041343,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.build/R1.6_Feature_Projects/org.eclipse.birt.dtp.sybase.nl.feature

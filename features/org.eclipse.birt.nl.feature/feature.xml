@@ -335,6 +335,14 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.birt.chart.examples.core.nl1"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.birt.report.engine.dataextraction.csv.nl1"
          download-size="0"
          install-size="0"
