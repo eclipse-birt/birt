@@ -99,7 +99,7 @@ data.engine.InvalidGroupKey={1} 그룹의 "{0}" 그룹 키를 하위 그룹에 정의된 열 바�
 data.engine.ColumnBindingNotExist=열 바인딩 "{0}"이(가) 없습니다.
 data.engine.ColumnBindingCycle="{0}" 바인딩에 종속 사이클이 형성되어 있습니다. 
 data.engine.ColumnBindingReferToInexistColumn=열 바인딩 "{0}"이(가) 존재하지 않는 바인딩 "{1}"을(를) 참조합니다.
-data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
+data.engine.ColumnBindingReferToInexistBinding=열 바인딩 "{0}"이(가) 존재하지 않는 데이터 집합 열 "{1}"을(를) 참조합니다.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=열 바인딩"{0}"이 잘못되었습니다:집계를 포함한 부모 쿼리 열 바인딩은 하위 쿼리 열 바인딩에 사용될 수 없습니다.
 data.engine.ReadColumnValueFromDocumentError=열 값을 읽는 도중 오류가 발생했습니다: {0}. 바인딩 식 평가 시 런타임 오류(예: 0으로 나누기 오류)가 발생했기 때문일 수 있습니다.
 data.engine.NoOuterResultsExist=외부 쿼리 결과가 없습니다. 부모 쿼리가 없는 쿼리에서 "_outer"를 참조했기 때문일 수 있습니다.
@@ -141,7 +141,7 @@ load.factory.error=데이터 엔진 팩토리 로드 중 오류가 발생했습니다.
 
 # Wrapped Error
 data.engine.DataConversionError=데이터 형식을 변환하는 중 오류가 발생했습니다.
-data.engine.BadCompareSingleValueWithMultiValues=[{0}]의 단일 값과 여러 값을 비교하는 필터 조건이 잘못되어 필터를 적용하지 못했습니다.이 필터에 하나의 값만 설정하십시오.
+data.engine.BadCompareSingleValueWithMultiValues=[{0}]의 단일 값과 복수 값을 비교하는 잘못된 필터 조건으로 인해 필터를 적용할 수 없습니다.\n이 필터에 대해 하나의 값만 설정하십시오.
 data.engine.BirtException=BIRT 예외 {0}이(가) 발생했습니다. 자세한 내용은 다음 예외를 참조하십시오.
 
 # data set cache error

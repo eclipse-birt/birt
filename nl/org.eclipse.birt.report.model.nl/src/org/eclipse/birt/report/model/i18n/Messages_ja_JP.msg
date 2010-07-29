@@ -3834,7 +3834,7 @@ Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT=マスターページ "{0}"
 Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET = ジョイントデータセット "{0}" にデータセット "{1}" がありません。
 Error.SemanticError.MISSING_COLUMN_BINDING = カラム名 "{1}" のデータ "{0}" のカラムバインドが定義されていません。
 Error.SemanticError.COLUMN_INSERT_FORBIDDEN=要素 "{0}" を挿入することはできません。
-Error.SemanticError.CANNOT_SPECIFY_VALUE=The element "{0}" cannot specify the value \"{1}\" for the property \"{2}\" because of the value \"{3}\" of the \"{4}\".
+Error.SemanticError.CANNOT_SPECIFY_VALUE=\"{4}\" の値 \"{3}\" が原因で、要素 "{0}"は値 \"{1}\" をプロパティ \"{2}\" に指定できません。
 
 Error.SemanticError.ROW_COPY_FORBIDDEN=要素 "{0}" をコピーすることはできません。
 Error.SemanticError.ROW_PASTE_FORBIDDEN=要素 "{0}" を貼り付けることはできません。

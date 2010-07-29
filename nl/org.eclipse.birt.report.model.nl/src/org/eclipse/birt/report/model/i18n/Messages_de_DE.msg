@@ -3834,7 +3834,7 @@ Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT=Tabelle oder Liste i
 Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET = Der Datensatz "{1}" fehlt im Verknüpfungsdatensatz "{0}".
 Error.SemanticError.MISSING_COLUMN_BINDING = Die Spaltenbindung für die Daten "{0}" mit dem Spaltennamen "{1}" ist nicht definiert.
 Error.SemanticError.COLUMN_INSERT_FORBIDDEN=Das Einfügen beim Element "{0}" ist unzulässig.
-Error.SemanticError.CANNOT_SPECIFY_VALUE=The element "{0}" cannot specify the value \"{1}\" for the property \"{2}\" because of the value \"{3}\" of the \"{4}\".
+Error.SemanticError.CANNOT_SPECIFY_VALUE=Das Element "{0}" kann den Wert \"{1}\" für die Eigenschaft \"{2}\" aufgrund des Werts \"{3}\" von \"{4}\" nicht angeben.
 
 Error.SemanticError.ROW_COPY_FORBIDDEN=Das Kopieren beim Element "{0}" ist unzulässig.
 Error.SemanticError.ROW_PASTE_FORBIDDEN=Das Einfügen beim Element "{0}" ist unzulässig.

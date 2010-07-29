@@ -99,7 +99,7 @@ data.engine.InvalidGroupKey=组 {1} 中的组关键字“{0}”不能依赖于在低于自身的组中
 data.engine.ColumnBindingNotExist=列绑定“{0}”不存在。
 data.engine.ColumnBindingCycle=绑定“{0}”具有相关性循环。 
 data.engine.ColumnBindingReferToInexistColumn=列绑定“{0}”引用了一个不存在的绑定“{1}”。
-data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
+data.engine.ColumnBindingReferToInexistBinding=列绑定“{0}”引用了一个不存在的数据集列“{1}”。
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列绑定“{0}”不正确: 包含聚合的父查询列绑定不能用于子查询的列绑定。
 data.engine.ReadColumnValueFromDocumentError=尝试读取列 {0} 的值时出错。这可能由绑定表达式的判定中的运行时错误(即除数为 0 错误)引起。
 data.engine.NoOuterResultsExist=外部查询结果不存在。这可能是由没有父查询的查询中的“_outer”引用引起的。
@@ -141,7 +141,7 @@ load.factory.error=加载数据引擎工厂时出错。
 
 # Wrapped Error
 data.engine.DataConversionError=转换数据类型时出错。
-data.engine.BadCompareSingleValueWithMultiValues=由于将单个值与 [{0}] 的多个值比较的筛选条件无效，无法应用筛选器。请为此筛选器只设置一个值。
+data.engine.BadCompareSingleValueWithMultiValues=由于将单个值与 [{0}] 的多个值比较的筛选条件无效，无法应用筛选器。\n请为此筛选器只设置一个值。
 data.engine.BirtException=发生 BIRT 异常：{0}。查看下一个异常以了解更多信息。
 
 # data set cache error

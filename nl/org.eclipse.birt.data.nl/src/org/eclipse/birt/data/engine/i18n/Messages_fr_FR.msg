@@ -99,7 +99,7 @@ data.engine.InvalidGroupKey=La clé de groupe "{0}" du groupe {1} ne peut pas dép
 data.engine.ColumnBindingNotExist=La liaison de colonne "{0}" n'existe pas.
 data.engine.ColumnBindingCycle=La liaison "{0}" possède un cycle de dépendance. 
 data.engine.ColumnBindingReferToInexistColumn=La liaison de colonne "{0}" a renvoyé vers une liaison "{1}" qui n'existe pas.
-data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
+data.engine.ColumnBindingReferToInexistBinding=La liaison de colonne "{0}" a renvoyé vers une colonne de jeu de données "{1}" qui n'existe pas.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=La liaison de colonne "{0}" est incorrecte : les liaisons de colonne de requête parent qui incluent des agrégations ne peuvent pas être utilisées dans les liaisons de colonne d'une sous-requête.
 data.engine.ReadColumnValueFromDocumentError=Une erreur s'est produite lors de la tentative de lecture de la valeur de la colonne : {0}. Une erreur d'exécution s'est peut-être produite lors de l'évaluation d'une expression de liaison, c'est-à-dire une erreur causée par une division par 0.
 data.engine.NoOuterResultsExist=Les résultats de la requête externe sont introuvables. Cela peut être dû à la présence d'une référence externe dans une requête sans requête parent.
@@ -141,7 +141,7 @@ load.factory.error=Une erreur s'est produite lors du chargement de la génération
 
 # Wrapped Error
 data.engine.DataConversionError=Une erreur s'est produite lors de la conversion du type de données.
-data.engine.BadCompareSingleValueWithMultiValues=Echec de l'application du filtre à cause de la condition de filtre non valide comparant une valeur unique avec des valeurs multiples de [{0}]. Ne définissez qu'une seule valeur pour ce filtre.
+data.engine.BadCompareSingleValueWithMultiValues=Echec de l'application du filtre, car la condition de filtre est incorrecte (une valeur unique est comparée avec des valeurs multiples de [{0}]).\nNe définissez qu'une seule valeur pour ce filtre.
 data.engine.BirtException=Une exception BIRT est survenue : {0}. Voir l''exception suivante pour plus d''informations.
 
 # data set cache error

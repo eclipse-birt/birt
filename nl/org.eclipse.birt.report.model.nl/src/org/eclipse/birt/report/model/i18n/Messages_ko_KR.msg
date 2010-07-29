@@ -3834,7 +3834,7 @@ Error.SemanticError.INVALID_MASTER_PAGE_CONTEXT_CONTAINMENT=테이블 또는 목록은 �
 Error.SemanticError.DATA_SET_MISSED_IN_JOINT_DATA_SET = 조인 데이터 집합 "{0}"에 데이터 집합 "{1}"이(가) 누락되었습니다.
 Error.SemanticError.MISSING_COLUMN_BINDING = "{1}" 열 이름의 "{0}" 데이터에 대한 열 바인딩이 정의되지 않았습니다.
 Error.SemanticError.COLUMN_INSERT_FORBIDDEN=요소 "{0}"에 대한 삽입 작업은 금지되었습니다.
-Error.SemanticError.CANNOT_SPECIFY_VALUE=The element "{0}" cannot specify the value \"{1}\" for the property \"{2}\" because of the value \"{3}\" of the \"{4}\".
+Error.SemanticError.CANNOT_SPECIFY_VALUE=\"{4}\"의 값 \"{3}\"(으)로 인해 요소 "{0}"이(가) 속성 \"{2}\"의 값 \"{1}\"을(를) 지정할 수 없습니다.
 
 Error.SemanticError.ROW_COPY_FORBIDDEN=요소 "{0}"을(를) 복사하는 것은 금지되어 있습니다.
 Error.SemanticError.ROW_PASTE_FORBIDDEN=요소 "{0}"을(를) 붙여넣는 것은 금지되어 있습니다.

@@ -99,7 +99,7 @@ data.engine.InvalidGroupKey=La clave de grupo "{0}" del grupo {1} no puede depen
 data.engine.ColumnBindingNotExist=El enlace de columna "{0}" no existe.
 data.engine.ColumnBindingCycle=El enlace "{0}" tiene ciclo de dependencia. 
 data.engine.ColumnBindingReferToInexistColumn=El enlace de columna "{0}" hace referencia a un enlace "{1}" que no existe.
-data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
+data.engine.ColumnBindingReferToInexistBinding=El enlace de columna "{0}" hace referencia a una columna de conjunto de datos "{1}" que no existe.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=El enlace de columna "{0}" es incorrecto: los enlaces de la columna de consulta principal que incluyen agregaciones no pueden utilizarse en enlaces de columnas de subconsulta.
 data.engine.ReadColumnValueFromDocumentError=Se produce un error al intentar leer un valor de la columna: {0}. Esto puede deberse a un error del tiempo de ejecución en la evaluación de una expresión de enlace, como pueda ser un error de división por 0.
 data.engine.NoOuterResultsExist=No existen resultados de consulta externa. Puede deberse a que una referencia "_externa" en una consulta no tiene una consulta principal.
@@ -141,7 +141,7 @@ load.factory.error=Hay un error al cargar la fábrica del motor de datos.
 
 # Wrapped Error
 data.engine.DataConversionError=Se ha producido un error en la conversión del tipo de datos.
-data.engine.BadCompareSingleValueWithMultiValues=Error al aplicar el filtro debido a una condición de filtro no válido de comparación de un solo valor con múltiples valores de [{0}]. Establezca sólo un valor para este filtro.
+data.engine.BadCompareSingleValueWithMultiValues=Error al aplicar el filtro debido a una condición de filtro no válido de comparación de un solo valor con múltiples valores de [{0}].\nEstablezca sólo un valor para este filtro.
 data.engine.BirtException=Se ha producido una excepción BIRT: {0}. Consulte la siguiente excepción para obtener más información.
 
 # data set cache error

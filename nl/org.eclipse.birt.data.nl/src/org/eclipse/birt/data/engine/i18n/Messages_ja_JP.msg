@@ -99,7 +99,7 @@ data.engine.InvalidGroupKey=グループ {1} のグループキー "{0}" は、それより下位の
 data.engine.ColumnBindingNotExist=列バインド "{0}" は存在しません。
 data.engine.ColumnBindingCycle=バインド "{0}" の依存関係が循環参照になっています。 
 data.engine.ColumnBindingReferToInexistColumn=列バインド "{0}" は、存在しないバインド "{1}" を参照しています。
-data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
+data.engine.ColumnBindingReferToInexistBinding=列バインド "{0}" は、存在しないデータセット列 "{1}" を参照しています。
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列バインド "{0}" が正しくありません。親クエリの列バインドに集計が含まれていますが、サブクエリの列バインドには使用できません。
 data.engine.ReadColumnValueFromDocumentError=列 {0} の値を読み取り中にエラーが発生しました。バインドの式 (ゼロ除算エラー) を評価中に実行時エラーが発生した可能性があります。
 data.engine.NoOuterResultsExist=外部クエリの結果が存在しません。これは、クエリで "_outer" が参照されているのに親クエリがないことが原因と考えられます。
@@ -141,7 +141,7 @@ load.factory.error=データエンジンのファクトリを読み込めません。
 
 # Wrapped Error
 data.engine.DataConversionError=データ型を変換中にエラーが発生しました。
-data.engine.BadCompareSingleValueWithMultiValues=1 つの値を [{0}] の複数の値と比較するフィルタ条件が無効であるため、フィルタを適用できません。このフィルタでは値を 1 つだけ設定してください。
+data.engine.BadCompareSingleValueWithMultiValues=1 つの値を [{0}] の複数の値と比較するフィルタ条件が無効であるため、フィルタを適用できません。\nこのフィルタでは値を 1 つだけ設定してください。
 data.engine.BirtException=BIRT で例外 {0} が発生しました。詳しくは、次の例外を参照してください。
 
 # data set cache error

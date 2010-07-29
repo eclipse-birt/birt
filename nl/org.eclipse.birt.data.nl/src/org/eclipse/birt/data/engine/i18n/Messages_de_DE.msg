@@ -99,7 +99,7 @@ data.engine.InvalidGroupKey=Gruppenschlüssel "{0}" in Gruppe {1} darf nicht von 
 data.engine.ColumnBindingNotExist=Die Spaltenbindung "{0}" existiert nicht.
 data.engine.ColumnBindingCycle=Bindung "{0}" hat einen Abhängigkeitszyklus. 
 data.engine.ColumnBindingReferToInexistColumn=Spaltenbindung "{0}" hat auf eine Bindung "{1}" verwiesen, die nicht existiert.
-data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
+data.engine.ColumnBindingReferToInexistBinding=Spaltenbindung "{0}" hat auf eine Datensatzspalte "{1}" verwiesen, die nicht existiert.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Die Spaltenbindung "{0}" ist nicht korrekt: die übergeordneten Abfragespaltenbindungen, zu denen Aggregate gehören, können nicht als Spaltenbindung von Teilabfragen verwendet werden.
 data.engine.ReadColumnValueFromDocumentError=Der Fehler tritt beim Lesen von Spaltenwert {0} auf. Der Grund ist möglicherweise ein Laufzeitfehler bei der Auswertung des Bindungsausdrucks, also ein 'Division-durch-0'-Fehler.
 data.engine.NoOuterResultsExist=Die äußeren Abfrageergebnisse existieren nicht. Der Grund hierfür ist möglicherweise ein Außenverweis in einer Abfrage ohne übergeordnete Abfrage.
@@ -141,7 +141,7 @@ load.factory.error=Beim Laden der Factory der Datenengine tritt ein Fehler auf.
 
 # Wrapped Error
 data.engine.DataConversionError=Bei der Datentypkonversion ist ein Fehler aufgetreten.
-data.engine.BadCompareSingleValueWithMultiValues=Der Filter konnte nicht angewendet werden, da die Filterbedingung ungültig ist. Ein einzelner Wert kann nicht mit mehreren Werten von [{0}] verglichen werden. Geben Sie nur einen Wert für diesen Filter an.
+data.engine.BadCompareSingleValueWithMultiValues=Der Filter konnte nicht angewendet werden, da die Filterbedingung ungültig ist. Ein einzelner Wert kann nicht mit mehreren Werten von [{0}] verglichen werden.\nGeben Sie nur einen Wert für diesen Filter an.
 data.engine.BirtException=In BIRT ist ein Ausnahmefehler aufgetreten: {0}. Weitere Informationen können Sie dem nächsten Ausnahmefehler entnehmen.
 
 # data set cache error
