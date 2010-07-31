@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.ICloseListener;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -532,6 +533,20 @@ public class DataEngineImpl extends DataEngine
 	public void shutdown( )
 	{
 		logger.entering( "DataEngineImpl", "shutdown" );
+		
+		List<ICloseListener> closeListener = DataEngineThreadLocal.getInstance( ).getCloseListener( );
+		for( int i = 0; i < closeListener.size( ); i++ )
+		{
+			try
+			{
+				closeListener.get( i ).close( );
+			}
+			catch (IOException e)
+			{
+			}
+		}
+		DataEngineThreadLocal.getInstance( ).removeCloseListener( );
+		
 		if ( dataSources == null )
 		{
 			// Already shutdown
@@ -607,6 +622,8 @@ public class DataEngineImpl extends DataEngine
 			{
 			}
 		}
+		
+		
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
 	
@@ -810,6 +827,11 @@ public class DataEngineImpl extends DataEngine
 	public void cancel( )
 	{
 		this.session.cancel( );
+	}
+	
+	public void restart( )
+	{
+		this.session.restart( );
 	}
 	
 	public ValidationContext getValidationContext( DataSourceRuntime dataSource, IOdaDataSetDesign dataSet )

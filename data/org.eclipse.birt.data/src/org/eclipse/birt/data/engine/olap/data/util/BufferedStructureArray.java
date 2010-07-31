@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
+
 /**
  * 
  */
@@ -41,6 +43,7 @@ public class BufferedStructureArray implements IDiskArray
 			buffer = new Object[bufferSize];
 		}
 		this.creator = creator;
+		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 
 	/*

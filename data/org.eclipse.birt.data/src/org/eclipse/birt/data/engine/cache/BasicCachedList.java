@@ -28,16 +28,18 @@ import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.ICloseListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 
 /**
  * A List class providing the service of reading/writing objects from one file
  * when cache is not enough . It makes the reading/writing objects transparent.
  */
 
-public class BasicCachedList implements List
+public class BasicCachedList implements List, ICloseListener
 {
 	protected static final int NULL_VALUE = Integer.MAX_VALUE;
 	protected static final int OBJECT_VALUE = 1;
@@ -70,6 +72,7 @@ public class BasicCachedList implements List
 		setFileNamePrefix( );
 		this.currentCache = new ArrayList( );
 		this.loader = loader;
+		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 	
 	/**
@@ -597,7 +600,13 @@ public class BasicCachedList implements List
 	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize( )
+//	public void finalize( )
+//	{
+//		clearTempDir( );
+//	}
+	
+	
+	public void close( )
 	{
 		clearTempDir( );
 	}

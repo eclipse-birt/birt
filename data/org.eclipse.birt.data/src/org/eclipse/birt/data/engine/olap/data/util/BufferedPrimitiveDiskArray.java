@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.cache.Constants;
+import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 
 /**
  * 
@@ -44,6 +45,7 @@ public class BufferedPrimitiveDiskArray implements IDiskArray
 		{
 			buffer = new Object[bufferSize];
 		}
+		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 
 	/*
@@ -72,6 +74,8 @@ public class BufferedPrimitiveDiskArray implements IDiskArray
 	 */
 	public void close( ) throws IOException
 	{
+		if( delegate != null )
+			delegate.close( );
 		clearDiskFile( );
 	}
 

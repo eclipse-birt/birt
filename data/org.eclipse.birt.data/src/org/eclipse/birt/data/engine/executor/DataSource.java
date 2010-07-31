@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
@@ -429,14 +430,14 @@ class DataSource implements IDataSource
     /*
 	 * @see java.lang.Object#finalize()
 	 */
-    public void finalize( )
-	{
-		// Makes sure no connection is leaked
-		if ( isOpen( ) )
-		{
-			close( );
-		}
-	}
+//    public void finalize( )
+//	{
+//		// Makes sure no connection is leaked
+//		if ( isOpen( ) )
+//		{
+//			close( );
+//		}
+//	}
 
 
     // Information about an open oda connection

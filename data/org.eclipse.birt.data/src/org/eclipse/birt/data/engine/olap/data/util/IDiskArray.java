@@ -13,11 +13,13 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.api.ICloseListener;
+
 /**
  * A disk based array. 
  */
 
-public interface IDiskArray
+public interface IDiskArray extends ICloseListener
 {
 	/**
 	 * Add one element to this array.
