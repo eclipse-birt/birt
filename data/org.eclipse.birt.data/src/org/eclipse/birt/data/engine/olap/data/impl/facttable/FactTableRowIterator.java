@@ -304,11 +304,25 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	/**
 	 * 
 	 * @throws DataException
+	 * @throws IOException 
 	 */
-	public void close() throws DataException
+	public void close() throws DataException, IOException
 	{
 		if ( this.computedMeasureHelper!= null )
 			this.computedMeasureHelper.cleanUp( );
+		if( allCubeDimensionResultIterators != null )
+		{
+			for( int i = 0; i < allCubeDimensionResultIterators.length; i++ )
+			try
+			{
+				if( allCubeDimensionResultIterators[i] != null )
+					allCubeDimensionResultIterators[i].close( );
+			}
+			catch (BirtException e)
+			{
+				throw DataException.wrap( e );
+			}
+		}
 	}
 	
 	/**

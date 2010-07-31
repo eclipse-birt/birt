@@ -177,7 +177,7 @@ public class FactTableRowIteratorWithFilter implements IFactTableRowIterator
 		return facttableRowIterator.getMeasureInfos( );
 	}
 
-	public void close( ) throws DataException
+	public void close( ) throws DataException, IOException
 	{
 		facttableRowIterator.close( );
 	}

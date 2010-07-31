@@ -85,6 +85,6 @@ public interface IFactTableRowIterator
 	/**
 	 * @throws IOException
 	 */
-	public void close() throws DataException;
+	public void close() throws DataException, IOException;
 	
 }
