@@ -187,10 +187,23 @@ public class CubeQueryExecutor
 					}
 				}
 				ISelection[] selction = new ISelection[1];
-				Object[][] keyValues = new Object[opValues.length][1];
-				for( int i = 0; i < opValues.length; i++ )
+				Object[][] keyValues = null;
+				if( opValues.length == 1 && opValues[0] instanceof Object[] )
 				{
-					keyValues[i][0] = opValues[i];
+					Object[] mulValue = ( Object[] ) opValues[0];
+					keyValues = new Object[mulValue.length][1];
+					for( int i = 0; i < mulValue.length; i++ )
+					{
+						keyValues[i][0] = mulValue[i];
+					}
+				}
+				else
+				{
+					keyValues = new Object[opValues.length][1];
+					for( int i = 0; i < opValues.length; i++ )
+					{
+						keyValues[i][0] = opValues[i];
+					}
 				}
 				selction[0] = SelectionFactory.createMutiKeySelection( keyValues );
 				return new SimpleLevelFilter( dimlevel, selction );
