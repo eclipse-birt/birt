@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
+import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
@@ -310,13 +311,18 @@ public class CachedResultSet implements IResultIterator
 				if ( streamsWrapper.getStreamForDataSet( ) != null )
 				{
 					Map<String, IIndexSerializer> index = streamsWrapper.getStreamForIndex( this.getResultClass( ) );
+					Map<String, StringTable> stringTables = streamsWrapper.getOutputStringTable( this.getResultClass( ) );
 					this.resultSetPopulator.getCache( )
 								.doSave( streamsWrapper.getStreamForDataSet( ),
 										streamsWrapper.getStreamForDataSetRowLens( ),
+										stringTables,
 										index,
 										resultSetPopulator.getEventHandler( )
 												.getAllColumnBindings( ) );
-					
+					for( StringTable stringTable : stringTables.values( ))
+					{
+						stringTable.close( );
+					}
 					for( IIndexSerializer ind: index.values( ))
 					{
 						ind.close( );

@@ -24,12 +24,12 @@ import java.util.Set;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.index.DataSetInMemoryStringIndex;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.impl.index.SerializableBirtHash;
@@ -53,8 +53,8 @@ public class ResultSetUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public static int writeResultObject( DataOutputStream dos,
-			IResultObject resultObject, int count, Set nameSet, Map<String, IIndexSerializer> index, int rowIndex)
+	public static int writeResultObject( DataOutputStream dos, IResultObject resultObject, int count, 
+			Set nameSet, Map<String, StringTable> stringTableMap, Map<String, IIndexSerializer> index, int rowIndex)
 			throws DataException, IOException
 	{
 		if ( resultObject.getResultClass( ) == null )
@@ -100,7 +100,16 @@ public class ResultSetUtil
 				}
 				else
 				{
-					IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
+					StringTable table = null;
+					if( stringTableMap != null )
+						table = stringTableMap.get( resultObject.getResultClass( ).getFieldName( i ) );
+					if( table != null )
+					{
+						int stringIndex = table.getIndex( (String) resultObject.getFieldValue( i ) );
+						IOUtil.writeObject( tempDos, stringIndex );
+					}
+					else
+						IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
 				}
 			}
 		}
@@ -128,6 +137,7 @@ public class ResultSetUtil
 	 */
 	public static IResultObject readResultObject( DataInputStream dis,
 			IResultClass rsMeta, int count,
+			Map<String, StringTable> stringTableMap,
 			Map<String, DataSetInMemoryStringIndex> index ) throws DataException
 	{
 		int i = 0;
@@ -146,6 +156,18 @@ public class ResultSetUtil
 					{
 						obs[i] = index.get( rsMeta.getFieldName( i + 1 ) )
 								.getKeyValue( obs[i] );
+					}
+				}
+				else if( rsMeta.getFieldMetaData( i + 1 ).getDataType( ) == String.class )
+				{
+					StringTable stringTable = null;
+					if( stringTableMap != null )
+					{
+						stringTable = stringTableMap.get( rsMeta.getFieldName( i + 1 ) );
+					}
+					if( stringTable != null && obs[i] != null )
+					{
+						obs[i] = stringTable.getStringValue( (Integer) obs[i] );
 					}
 				}
 

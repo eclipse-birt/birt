@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.QueryDefinitionUtil;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
+import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.util.ExprDataResultSet1;
@@ -118,7 +119,7 @@ public class RDLoad
 				version,
 				streamManager.isSecondRD( ),
 				( streamManager.isSubquery( ) || this.version < VersionManager.VERSION_2_2_1_3 )
-						? null : this.loadDataSetData( null, new HashMap() ), streamManager.isSubquery( ) ? rowIdStartingIndex:0,
+						? null : this.loadDataSetData( null, null, new HashMap() ), streamManager.isSubquery( ) ? rowIdStartingIndex:0,
 								qd );
 	}
 	
@@ -145,7 +146,7 @@ public class RDLoad
 					StreamManager.BASE_SCOPE ),
 					exprMetas,
 					version,
-					(isSummary || version < VersionManager.VERSION_2_2_1_3)?null:this.loadDataSetData( null, new HashMap() ));
+					(isSummary || version < VersionManager.VERSION_2_2_1_3)?null:this.loadDataSetData( null, null, new HashMap() ));
 		else
 			exprDataResultSet = new ExprDataResultSet2( tempDir,
 					streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
@@ -157,7 +158,7 @@ public class RDLoad
 					streamManager.getInStream( DataEngineContext.ROW_INDEX_STREAM,
 							StreamManager.ROOT_STREAM,
 							StreamManager.PARENT_SCOPE ),
-					exprMetas, version, version < VersionManager.VERSION_2_2_1_3?null:this.loadDataSetData( null, new HashMap() ) );
+					exprMetas, version, version < VersionManager.VERSION_2_2_1_3?null:this.loadDataSetData( null, null, new HashMap() ) );
 
 		return exprDataResultSet;
 	}
@@ -189,7 +190,7 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	private IResultClass loadResultClass( ) throws DataException
+	public IResultClass loadResultClass( ) throws DataException
 	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_META_STREAM,
 				StreamManager.ROOT_STREAM,
@@ -215,7 +216,7 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	public DataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds, Map index ) throws DataException
+	public DataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds, Map<String, StringTable> stringTableMap, Map index ) throws DataException
 	{
 		if( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM,
@@ -232,7 +233,7 @@ public class RDLoad
 				StreamManager.BASE_SCOPE );
 		
 		DataSetResultSet populator = new DataSetResultSet( stream, lensStream, 
-				this.loadResultClass( ), preFilteredRowIds, index, version );
+				this.loadResultClass( ), preFilteredRowIds, stringTableMap, index, version );
 
 		return populator;
 	}

@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -53,6 +54,7 @@ public class DataSetResultSet implements IDataSetPopulator
 	private long initPos;
 	private List<Integer> prefilteredRowIds;
 	private Map index;
+	private Map<String, StringTable> stringTableMap;
 
 	/**
 	 * @param inputStream
@@ -60,7 +62,7 @@ public class DataSetResultSet implements IDataSetPopulator
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			Set<Integer> prefilteredRows, Map index, int version )
+			Set<Integer> prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
 			throws DataException
 	{
 		assert inputStream != null;
@@ -94,6 +96,7 @@ public class DataSetResultSet implements IDataSetPopulator
 		if ( this.prefilteredRowIds != null )
 			Collections.sort( this.prefilteredRowIds );
 		this.index = index;
+		this.stringTableMap = stringTableMap;
 		this.initLoad( );
 	}
 
@@ -147,6 +150,7 @@ public class DataSetResultSet implements IDataSetPopulator
 				this.currentObject = ResultSetUtil.readResultObject( dis,
 						rsMetaData,
 						colCount,
+						this.stringTableMap,
 						this.index );
 				this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
 						this.getCurrentIndex( ) );
@@ -194,6 +198,7 @@ public class DataSetResultSet implements IDataSetPopulator
 					this.currentObject = ResultSetUtil.readResultObject( dis,
 							rsMetaData,
 							colCount,
+							this.stringTableMap,
 							this.index );
 					this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
 							this.getCurrentIndex( ) );

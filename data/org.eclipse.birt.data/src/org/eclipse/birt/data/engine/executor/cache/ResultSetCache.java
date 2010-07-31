@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -92,7 +93,7 @@ public interface ResultSetCache
 	 * 
 	 * @param outputStream
 	 */
-	public void doSave( DataOutputStream outputStream, DataOutputStream lensStream, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMapping )
+	public void doSave( DataOutputStream outputStream, DataOutputStream lensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMapping )
 			throws DataException;
 	
 	/**

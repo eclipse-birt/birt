@@ -582,7 +582,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			return new GroupComputedColumn( groupName,
 					expr,
-					QueryExecutorUtil.getTempComputedColumnType( interval ),
+					dataType == DataType.DECIMAL_TYPE ? dataType : QueryExecutorUtil.getTempComputedColumnType( interval ),
 					GroupCalculatorFactory.getGroupCalculator( src.getInterval( ),
 							src.getIntervalStart( ),
 							src.getIntervalRange( ),
@@ -813,7 +813,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			return DataType.UNKNOWN_TYPE;
 		}
-		int dataType = ( (IBinding) baseExpr ).getExpression( ).getDataType( );
+		int dataType = ( (IBinding) baseExpr ).getDataType( );
 		if( dataType == DataType.UNKNOWN_TYPE )
 			return DataType.ANY_TYPE;
 		return dataType;

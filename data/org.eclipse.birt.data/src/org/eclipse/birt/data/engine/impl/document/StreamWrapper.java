@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.impl.index.SerializableBirtHash;
@@ -42,6 +42,7 @@ public class StreamWrapper
 	private StreamManager manager;
 	private boolean enableIndexStream;
 	private Map<IResultClass, Map<String, IIndexSerializer>> cachedIndex = new HashMap<IResultClass, Map<String, IIndexSerializer>>( );
+	private Map<IResultClass, Map<String, StringTable>> cachedStringTable = new HashMap<IResultClass, Map<String, StringTable>>( );
 	/**
 	 * @param streamForResultClass
 	 * @param streamForDataSet
@@ -97,6 +98,32 @@ public class StreamWrapper
 		}
 		return this.streamForDataSet;
 	}
+	
+	public Map<String, StringTable> getOutputStringTable(
+			IResultClass resultClass ) throws DataException
+	{
+		if ( !this.enableIndexStream )
+			return new HashMap<String, StringTable>();
+		if( cachedStringTable.containsKey( resultClass ) )
+			return cachedStringTable.get( resultClass );
+		Map<String, StringTable> result = new HashMap<String, StringTable>( );
+		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
+		{
+			if ( resultClass.isIndexColumn( i ))
+				continue;
+			Class dataType = resultClass.getFieldValueClass( i );
+			String fieldName = resultClass.getFieldName( i );
+			if ( dataType == String.class )
+			{
+				StringTable stringTable = new StringTable( );
+				stringTable.setStreamManager( manager, fieldName );
+				result.put( fieldName, stringTable );
+			}
+		}
+		cachedStringTable.put( resultClass, result );
+		return result;
+	}
+	
 	
 	public Map<String, IIndexSerializer> getStreamForIndex(
 			IResultClass resultClass ) throws DataException

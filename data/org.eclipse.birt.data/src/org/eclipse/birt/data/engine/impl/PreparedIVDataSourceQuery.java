@@ -277,7 +277,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						.getTempDir( ),
 						getEngineContext( ),
 						new QueryResultInfo( realBasedQueryID, null, -1 ) );
-				DataSetResultSet dataSetResult = rdLoad.loadDataSetData( null, new HashMap() );
+				DataSetResultSet dataSetResult = rdLoad.loadDataSetData( null, null, new HashMap() );
 				StreamManager manager = new StreamManager( getEngineContext( ),
 						new QueryResultInfo( queryDefn.getQueryResultsID( ),
 								null,
@@ -301,7 +301,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 											null,
 											-1 ) );
 
-							dataSetResult = rdLoad.loadDataSetData( null, null );
+							dataSetResult = rdLoad.loadDataSetData( null, null, null );
 						}
 						else
 						{
@@ -401,6 +401,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 
 			cache.doSave( dataSetDataStream,
 					rowLensStream,
+					null,
 					new HashMap(),
 					eventHandler.getAllColumnBindings( ) );
 			dataSetDataStream.flush( );

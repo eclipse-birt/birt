@@ -34,10 +34,10 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.executor.cache.RowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.SmartCacheRequest;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
+import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
-import org.eclipse.birt.data.engine.impl.index.SerializableBirtHash;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -128,6 +128,11 @@ public class SimpleResultSet implements IResultIterator
 					{
 						hash.close( );
 					}
+				}
+				Map<String, StringTable> stringTables = this.streamsWrapper.getOutputStringTable( this.getResultClass( ) );
+				for( StringTable stringTable : stringTables.values( ))
+				{
+					stringTable.close( );
 				}
 				if ( this.streamsWrapper.getStreamManager( )
 						.hasOutStream( DataEngineContext.EXPR_VALUE_STREAM,
@@ -364,7 +369,9 @@ public class SimpleResultSet implements IResultIterator
 					offset += ResultSetUtil.writeResultObject( new DataOutputStream( dataSetStream ),
 							currResultObj,
 							colCount,
-							resultSetNameSet, streamsWrapper.getStreamForIndex( this.currResultObj.getResultClass( ) ), this.rowCount-1 );
+							resultSetNameSet,
+							streamsWrapper.getOutputStringTable( this.currResultObj.getResultClass( ) ),
+							streamsWrapper.getStreamForIndex( this.currResultObj.getResultClass( ) ), this.rowCount-1 );
 				}
 			}
 			catch ( IOException e )
