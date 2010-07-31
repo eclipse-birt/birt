@@ -557,6 +557,11 @@ public abstract class DataRequestSession
 	public abstract void cancel( );
 	
 	/**
+	 * 
+	 */
+	public abstract void restart( );
+	
+	/**
 	 * Shuts down this session, and releases all associated resources.
 	 */
 	public abstract void shutdown( );

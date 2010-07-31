@@ -1626,6 +1626,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#restart()
+	 */
+	public void restart( )
+	{
+		this.dataEngine.restart();
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getQueryDefinitionCopyUtil()
 	 */
 	public IQueryDefinitionUtil getQueryDefinitionUtil( )
