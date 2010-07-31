@@ -376,7 +376,7 @@ public class LevelFilterHelper
 			}
 			if ( isSelectedByAll )
 			{
-				selectedPositions.add( new Integer( i ) );
+				selectedPositions.add( (Integer) dimPosition.get( i ) );
 			}
 		}
 		return selectedPositions;
