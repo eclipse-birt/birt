@@ -225,6 +225,9 @@ public class ResourceConstants
 	
 	public final static String DATASET_NOT_ACCESSIBLE = "data.engine.acl.dataSetCannotBeAccessed";
 	public final static String DATASET_COLUMN_CANNOT_ACCESS = "data.engine.acl.dataSetColumnCannotBeAccessed";
+	public final static String CUBE_CANNOT_ACCESS = "data.engine.acl.cubeCannotBeAccessed";
+	public final static String CUBE_LEVEL_CANNOT_ACCESS = "data.engine.acl.cubeLevelCannotBeAccessed";
+	public final static String CUBE_MEASURE_CANNOT_ACCESS = "data.engine.acl.cubeMeasureCannotBeAccessed";
 	
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
