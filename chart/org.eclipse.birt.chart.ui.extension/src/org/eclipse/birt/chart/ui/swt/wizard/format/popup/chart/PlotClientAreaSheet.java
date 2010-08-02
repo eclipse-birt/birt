@@ -372,7 +372,15 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		{
 			if ( txtHeight.isSetValue( ) )
 			{
-				getBlockForProcessing( ).setHeightHint( txtHeight.getValue( ) );
+				double height = txtHeight.getValue( );
+				double max = getChart( ).getBlock( ).getBounds( ).getHeight( );
+				max = max > 0 ? max : 130; // 130 is the default chart height
+				height = height > max ? max : height;
+				getBlockForProcessing( ).setHeightHint( height );
+				if ( height != txtHeight.getValue( ) )
+				{
+					txtHeight.setValue( height );
+				}
 			}
 			else
 			{
@@ -383,7 +391,15 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		{
 			if ( txtWidth.isSetValue( ) )
 			{
-				getBlockForProcessing( ).setWidthHint( txtWidth.getValue( ) );
+				double width = txtWidth.getValue( );
+				double max = getChart( ).getBlock( ).getBounds( ).getWidth( );
+				max = max > 0 ? max : 220;
+				width = width > max ? max : width;
+				getBlockForProcessing( ).setWidthHint( width );
+				if ( width != txtWidth.getValue( ) )
+				{
+					txtWidth.setValue( width );
+				}
 			}
 			else
 			{
