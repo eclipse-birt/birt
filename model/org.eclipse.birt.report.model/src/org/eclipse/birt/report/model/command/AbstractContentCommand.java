@@ -376,16 +376,21 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			if ( this.focus.getElement( ) instanceof MultiViews )
 			{
 				DesignElement multiViews = focus.getElement( );
-				ContainerContext context = multiViews.getContainerInfo( );
-				if ( context != null )
+
+				// if not virtual element, then do delete
+				if ( !multiViews.isVirtualElement( ) )
 				{
-					List views = multiViews.getListProperty( module,
-							IMultiViewsModel.VIEWS_PROP );
-					if ( views == null || views.isEmpty( ) )
+					ContainerContext context = multiViews.getContainerInfo( );
+					if ( context != null )
 					{
-						ContentCommand cmd = new ContentCommand( module,
-								context );
-						cmd.remove( multiViews );
+						List views = multiViews.getListProperty( module,
+								IMultiViewsModel.VIEWS_PROP );
+						if ( views == null || views.isEmpty( ) )
+						{
+							ContentCommand cmd = new ContentCommand( module,
+									context );
+							cmd.remove( multiViews );
+						}
 					}
 				}
 			}
