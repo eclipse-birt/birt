@@ -890,12 +890,17 @@ public class ChartUtil
 		String str = orthQuery.getDefinition( );
 		ExpressionCodec exprCodec = ChartModelHelper.instance( )
 				.createExpressionCodec( );
-		if ( exprCodec.isCubeBinding( str, true ) )
+		exprCodec.decode( str );
+		// Cube binding does not need aggregation suffix.
+		if ( exprCodec.isCubeBinding( true ) && !exprCodec.isRowBinding( true ) )
 		{
 			return str;
 		}
 
-		return getValueSeriesRowFullExpression( orthQuery, orthSD, categorySD );
+		return getValueSeriesRowFullExpression( exprCodec,
+				orthQuery,
+				orthSD,
+				categorySD );
 	}
 	
 	/**
@@ -947,7 +952,8 @@ public class ChartUtil
 	 * @since 2.3
 	 * 
 	 */
-	public static String getValueSeriesRowFullExpression( Query orthQuery,
+	private static String getValueSeriesRowFullExpression(
+			ExpressionCodec exprCodec, Query orthQuery,
 			SeriesDefinition orthoSD, SeriesDefinition categorySD )
 			throws ChartException
 	{
@@ -961,8 +967,6 @@ public class ChartUtil
 		}
 		else
 		{
-			ExpressionCodec exprCodec = ChartModelHelper.instance( )
-					.createExpressionCodec( );
 			exprCodec.decode( orthQuery.getDefinition( ) );
 			String expr = exprCodec.getExpression( );
 			return ExpressionUtil.createRowExpression( escapeSpecialCharacters( ( expr
