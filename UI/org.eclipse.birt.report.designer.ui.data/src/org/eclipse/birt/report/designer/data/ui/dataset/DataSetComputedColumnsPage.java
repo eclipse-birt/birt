@@ -397,7 +397,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 
 	private void doNew( )
 	{
-		doEdit( new ComputedColumn( ) );
+		doEdit( new ComputedColumn( ) , true );
 	}
 
 	private void doEdit( )
@@ -411,12 +411,12 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 				.getItem( index )
 				.getData( );
 
-		doEdit( handle );
+		doEdit( handle , false );
 	}
 
-	protected void doEdit( Object structureOrHandle )
+	protected void doEdit( Object structureOrHandle , boolean applyAnalysis )
 	{
-		ComputedColumnInputDialog dlg = new ComputedColumnInputDialog( structureOrHandle );
+		ComputedColumnInputDialog dlg = new ComputedColumnInputDialog( structureOrHandle , applyAnalysis );
 
 		if ( dlg.open( ) == Window.OK )
 		{
@@ -920,7 +920,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 		 * 
 		 * @param structureOrHandle
 		 */
-		private ComputedColumnInputDialog( Object structureOrHandle )
+		private ComputedColumnInputDialog( Object structureOrHandle , boolean applyAnalysis)
 		{
 			super( structureOrHandle );
 			populateFunctions( );
