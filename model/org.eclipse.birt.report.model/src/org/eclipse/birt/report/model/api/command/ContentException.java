@@ -301,7 +301,7 @@ public class ContentException extends SemanticException
 			return containerProp;
 		}
 
-		return element.getDefn( ).getSlot( slot ).getName( );
+		return element.getDefn( ).getSlot( slot ).getDisplayName( );
 
 	}
 

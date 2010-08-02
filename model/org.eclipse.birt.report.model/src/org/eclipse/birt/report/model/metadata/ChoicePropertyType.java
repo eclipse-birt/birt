@@ -79,7 +79,7 @@ public class ChoicePropertyType extends PropertyType
 			return validateInputString( module, element, defn, (String) value );
 		}
 
-		logger.log( Level.SEVERE, "Invalid choice value type:" + value ); //$NON-NLS-1$
+		logger.log( Level.WARNING, "Invalid choice value type:" + value ); //$NON-NLS-1$
 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
@@ -135,7 +135,7 @@ public class ChoicePropertyType extends PropertyType
 					getTypeCode( ) );
 		}
 
-		logger.log( Level.SEVERE, "Not found choice: " + tmpValue ); //$NON-NLS-1$
+		logger.log( Level.WARNING, "Not found choice: " + tmpValue ); //$NON-NLS-1$
 
 		throw new PropertyValueException( tmpValue,
 				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
@@ -282,7 +282,7 @@ public class ChoicePropertyType extends PropertyType
 					getTypeCode( ) );
 		}
 
-		logger.log( Level.SEVERE, "Invalid choice:" + name ); //$NON-NLS-1$
+		logger.log( Level.WARNING, "Invalid choice:" + name ); //$NON-NLS-1$
 
 		throw new PropertyValueException( name,
 				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,

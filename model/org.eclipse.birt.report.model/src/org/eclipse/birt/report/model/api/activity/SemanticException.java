@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -301,7 +302,11 @@ public class SemanticException extends ModelException
 
 	protected static String getElementName( DesignElement element )
 	{
-		return element.getIdentifier( );
+		// if it is not library/report, returns the identifier.
+		if ( !( element instanceof Module ) )
+			return element.getIdentifier( );
+		
+		return element.getDefn( ).getDisplayName( );
 	}
 
 	/*
