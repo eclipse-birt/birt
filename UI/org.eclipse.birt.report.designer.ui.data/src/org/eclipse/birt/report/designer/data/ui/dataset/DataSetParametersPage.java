@@ -41,7 +41,6 @@ import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -224,6 +223,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
 			column.setText( cellLabels[5] );
 			column.setWidth( 180 );
+			
+			column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
+			column.setText( cellLabels[6] );
+			column.setWidth( 600 );
 		}
 		else
 		{
@@ -251,6 +254,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 						SWT.LEFT );
 				column.setText( ParameterPageUtil.odaCellLabels[5] );
 				column.setWidth( 180 );
+				
+				column = new TableColumn( viewer.getViewer( ).getTable( ),
+						SWT.LEFT );
+				column.setText( ParameterPageUtil.odaCellLabels[6] );
+				column.setWidth( 600 );
 			}
 		}
 	}
@@ -498,18 +506,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				}
 				ScalarParameterHandle reportParam = ParameterPageUtil.getScalarParameter( handle.getParamName( ),
 						true );
-				if ( reportParam != null )
-				{
-					if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( reportParam.getParamType( ) ) )
-					{
-						getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam", //$NON-NLS-1$
-								new Object[]{
-									handle.getName( )
-								} ),
-								IMessageProvider.WARNING );
-					}
-				}
-				else
+				if ( reportParam == null )
 				{
 					getContainer( ).setMessage( Messages.getFormattedString( "DataSetParametersPage.errorMessage.LinkedReportParamNotFound", //$NON-NLS-1$
 							new Object[]{
@@ -627,13 +624,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		if ( viewer != null && this.modelChanged )
 		{
 			modelChanged = false;
-			List invalidReportParam = getMultipleValueReportParameter( parameters );
-			if ( !invalidReportParam.isEmpty( ) )
-			{
-				getContainer( ).setMessage( Messages.getFormattedString( "dataset.editor.error.invalidLinkedParameter", //$NON-NLS-1$
-						invalidReportParam.toArray( ) ),
-						IMessageProvider.ERROR );
-			}
 			adjustParameterOnPosition( parameters );
 			viewer.getViewer( ).refresh( );
 		}
@@ -1089,43 +1079,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		return true;
 	}
 
-	private List getMultipleValueReportParameter( PropertyHandle parameters )
-	{
-		List multipleValueList = new ArrayList( );
-		if ( parameters == null )
-		{
-			parameters = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
-		}
-		if ( parameters != null
-				&& (DataSetHandle) getContainer( ).getModel( ) instanceof OdaDataSetHandle )
-		{
-			Iterator iter = parameters.iterator( );
-			String paramName = null;
-			if ( iter != null )
-			{
-				boolean needsRefresh = true;
-				while ( iter.hasNext( ) )
-				{
-					DataSetParameterHandle parameter = (DataSetParameterHandle) iter.next( );
-					paramName = ( (OdaDataSetParameterHandle) parameter ).getParamName( );
-					if ( paramName != null )
-					{
-						ScalarParameterHandle handle = ParameterPageUtil.getScalarParameter( paramName,
-								needsRefresh );
-						needsRefresh = false;
-						if ( handle != null
-								&& handle.getQualifiedName( )
-										.equals( paramName )
-								&& ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( ( (ScalarParameterHandle) handle ).getParamType( ) ) ) )
-						{
-							multipleValueList.add( paramName );
-						}
-					}
-				}
-			}
-		}
-		return multipleValueList;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -1558,10 +1511,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			{
 				if ( parameter instanceof OdaDataSetParameter )
 				{
-					String linkedParamName = ( (OdaDataSetParameter) parameter ).getParamName( );
-					if ( linkedParamName != null
-							&& linkedParamName.trim( ).length( ) > 0 )
-						return NONE_DEFAULT_VALUE;
+					return getDefaultValue( (OdaDataSetParameter) parameter );
 				}
 				return parameter.getDefaultValue( );
 			}
@@ -1570,10 +1520,18 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				String value = null;
 				if ( parameter instanceof OdaDataSetParameter )
 				{
-					value = ( (OdaDataSetParameter) parameter ).getParamName( );
+					value = getLinkedReportParameterLabel( (OdaDataSetParameter) parameter );
 				}
 				return value == null || value.trim( ).length( ) == 0 ? UNLINKED_REPORT_PARAM
 						: value;
+			}
+			if ( columnIndex == 6 )
+			{
+				if ( parameter instanceof OdaDataSetParameter )
+				{
+					return getWarning( (OdaDataSetParameter)parameter );
+				}
+				return "";
 			}
 			return getParametersValue( parameter, columnIndex );
 		}
@@ -1679,18 +1637,17 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				}
 				case 5 :
 				{
-					if ( parameter.getParamName( ) == null
-							|| parameter.getParamName( ).trim( ).length( ) == 0 )
-						value = parameter.getDefaultValue( );
-					else
-						value = NONE_DEFAULT_VALUE;
+					value = getDefaultValue( parameter );
 					break;
 				}
 				case 6 :
 				{
-					value = parameter.getParamName( );
-					if ( value == null || value.trim( ).length( ) == 0 )
-						value = UNLINKED_REPORT_PARAM;
+					value = getLinkedReportParameterLabel( parameter );
+					break;
+				}
+				case 7 :
+				{
+					value = getWarning( parameter );
 					break;
 				}
 			}
@@ -1698,6 +1655,60 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		}
 	}
 
+	private String getDefaultValue( OdaDataSetParameter parameter )
+	{
+		String value = null;
+		if ( parameter.getParamName( ) == null
+				|| parameter.getParamName( ).trim( ).length( ) == 0 )
+			value = parameter.getDefaultValue( );
+		else
+			value = NONE_DEFAULT_VALUE;
+		return value;
+	}
+	
+	private String getLinkedReportParameterLabel( OdaDataSetParameter parameter )
+	{
+		String value = parameter.getParamName( );
+		if ( value != null )
+		{
+			ScalarParameterHandle reportParam = ParameterPageUtil.getScalarParameter( parameter.getParamName( ),
+					true );
+			if ( reportParam != null )
+			{
+				if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( reportParam.getParamType( ) ) )
+				{
+					value += (" (" + Messages.getString("DataSetParameterPage.multiValuesType") + ")");
+				}
+			}
+		}
+		if ( value == null || value.trim( ).length( ) == 0 )
+			value = UNLINKED_REPORT_PARAM;
+		return value;
+	}
+	
+	private String getWarning( OdaDataSetParameter parameter )
+	{
+		String value = "";
+		if ( parameter.getParamName( ) != null )
+		{
+			ScalarParameterHandle reportParam = ParameterPageUtil.getScalarParameter( parameter.getParamName( ),
+					true );
+			if ( reportParam != null )
+			{
+				if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( reportParam.getParamType( ) ) )
+				{
+					value = Messages.getString( "DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam" );
+				}
+				else if ( parameter.getDataType() != null 
+						&& !parameter.getDataType().equalsIgnoreCase(reportParam.getDataType()))
+				{
+					value = Messages.getString( "DataSetParameterPage.warning.UnmatchedParamDataType" ); 
+				}
+			}
+		}
+		return value;
+	}
+	
 	private class ParameterInputDialog extends PropertyHandleInputDialog
 	{
 
@@ -2139,29 +2150,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			if ( isBlankProperty( dataSetParamName.getText( ) ) )
 				return getBlankPropertyStatus( ParameterPageUtil.dialogLabels[0] );
 
-			// LinkedTo report parameter data type check
-			if ( checkParamDataType( ) )
-			{
-				return getMiscStatus( IStatus.WARNING,
-						Messages.getString( "DataSetParameterPage.warning.UnmatchedParamDataType" ) );//$NON-NLS-1$ 
-			}
-
 			return getOKStatus( );
 		}
 
-		/**
-		 * Indicates whether the linked report parameter data type should be
-		 * checked
-		 * 
-		 * @return
-		 */
-		private boolean checkParamDataType( )
-		{
-			return linkToSalarParameter != null
-					&& linkToSalarParameter.isEnabled( )
-					&& linkToSalarParameter.getSelectionIndex( ) > 0
-					&& !isMatchedParamDataType( );
-		}
+
 
 		/**
 		 * Checks whether the linked report parameter's data type matches the

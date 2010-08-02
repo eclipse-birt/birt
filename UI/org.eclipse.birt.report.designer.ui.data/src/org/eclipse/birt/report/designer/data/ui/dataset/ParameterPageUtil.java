@@ -68,7 +68,8 @@ public final class ParameterPageUtil
 			Messages.getString( "dataset.editor.title.dataType" ), //$NON-NLS-1$
 			Messages.getString( "dataset.editor.title.direction" ), //$NON-NLS-1$
 			Messages.getString( "dataset.editor.title.defaultValue" ), //$NON-NLS-1$
-			Messages.getString( "DataSetParameterPage.editor.title.linkToSalarParameter" ) //$NON-NLS-1$
+			Messages.getString( "DataSetParameterPage.editor.title.linkToSalarParameter" ), //$NON-NLS-1$
+			Messages.getString( "DefaultNodeProvider.WarningDialog.Title" ),
 	};
 
 	static String[] odaDialogLabels = new String[]{
