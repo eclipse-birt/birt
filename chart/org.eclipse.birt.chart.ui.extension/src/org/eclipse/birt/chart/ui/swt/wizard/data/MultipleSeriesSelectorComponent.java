@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
@@ -34,7 +35,7 @@ import org.eclipse.swt.widgets.Label;
 public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 {
 
-	private EList<?>[] seriesDefnsArray;
+	private EList<SeriesDefinition>[] seriesDefnsArray;
 
 	private ChartWizardContext wizardContext = null;
 
@@ -48,7 +49,8 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 
 	private String areaTitle = Messages.getString( "SelectDataChartWithAxisUI.Label.ValueYSeries" ); //$NON-NLS-1$
 
-	public MultipleSeriesSelectorComponent( EList<?>[] seriesDefnsArray,
+	public MultipleSeriesSelectorComponent(
+			EList<SeriesDefinition>[] seriesDefnsArray,
 			ChartWizardContext wizardContext, String sTitle,
 			ISelectDataCustomizeUI selectDataUI )
 	{
@@ -60,9 +62,9 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 	}
 	
 	protected DataDefinitionSelector createDataDefinitionSelector(
-			int axisIndex, EList<?> seriesDefns,
-			ChartWizardContext wizardContext,
-			String sTitle, ISelectDataCustomizeUI selectDataUI )
+			int axisIndex, EList<SeriesDefinition> seriesDefns,
+			ChartWizardContext wizardContext, String sTitle,
+			ISelectDataCustomizeUI selectDataUI )
 	{
 		return new DataDefinitionSelector( axisIndex,
 				seriesDefns,

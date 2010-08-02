@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
@@ -111,7 +112,8 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	 * @param sTitle
 	 * @param selectDataUI
 	 */
-	public DataDefinitionSelector( int axisIndex, EList seriesDefns,
+	public DataDefinitionSelector( int axisIndex,
+			EList<SeriesDefinition> seriesDefns,
 			ChartWizardContext wizardContext, String sTitle,
 			ISelectDataCustomizeUI selectDataUI )
 	{
@@ -299,11 +301,15 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 				sdTmp.getSeriesPalette( ).getEntries( ).add( i,
 						pa.getEntries( ).get( index ).copyInstance( ) );
 			}
-			sdTmp.getSeriesPalette( ).getEntries( ).remove( pa.getEntries( )
-					.size( ) );
-			sdTmp.getSeries( ).add( seriesDefns.get( 0 )
+			sdTmp.getSeriesPalette( )
+					.getEntries( )
+					.remove( pa.getEntries( ).size( ) );
+			Series newSeries = seriesDefns.get( 0 )
 					.getDesignTimeSeries( )
-					.copyInstance( ) );
+					.copyInstance( );
+			newSeries.getTriggers( ).clear( );
+			sdTmp.getSeries( ).add( newSeries );
+
 			// Add grouping query of the first series definition
 			sdTmp.setQuery( seriesDefns.get( 0 ).getQuery( ).copyInstance( ) );
 			cleanDataDefinition( sdTmp );
