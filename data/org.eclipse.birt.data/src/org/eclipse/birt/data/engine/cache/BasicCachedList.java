@@ -72,7 +72,7 @@ public class BasicCachedList implements List, ICloseListener
 		setFileNamePrefix( );
 		this.currentCache = new ArrayList( );
 		this.loader = loader;
-		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
+//		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 	
 	/**
@@ -600,10 +600,10 @@ public class BasicCachedList implements List, ICloseListener
 	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-//	public void finalize( )
-//	{
-//		clearTempDir( );
-//	}
+	public void finalize( )
+	{
+		clearTempDir( );
+	}
 	
 	
 	public void close( )

@@ -43,7 +43,7 @@ public class BufferedStructureArray implements IDiskArray
 			buffer = new Object[bufferSize];
 		}
 		this.creator = creator;
-		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
+//		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 
 	/*

@@ -45,7 +45,7 @@ public class BufferedPrimitiveDiskArray implements IDiskArray
 		{
 			buffer = new Object[bufferSize];
 		}
-		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
+//		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 
 	/*
