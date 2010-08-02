@@ -18,8 +18,8 @@ import org.eclipse.birt.report.designer.core.model.views.data.ReportDataHandle;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.IReportPageBookViewPage;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportEventRunnable;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportEventRunnable;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.DataViewEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameListener;
@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDr
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -216,6 +217,21 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	{
 		if ( item != null )
 		{
+			Object[] tooltipProviders = ElementAdapterManager.getAdapters( this,
+					IDataViewerTooltipProvider.class );
+			if ( tooltipProviders != null )
+			{
+				for ( int i = 0; i < tooltipProviders.length; i++ )
+				{
+					IDataViewerTooltipProvider tooltipProvider = (IDataViewerTooltipProvider) tooltipProviders[i];
+					if ( tooltipProvider != null )
+					{
+						String tooltip = tooltipProvider.getNodeTooltip( item );
+						if ( tooltip != null )
+							return tooltip;
+					}
+				}
+			}
 			Object object = item.getData( );
 			if ( object instanceof DataSourceHandle
 					|| object instanceof ParameterGroupHandle )
