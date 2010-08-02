@@ -14,10 +14,12 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -44,6 +46,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Presents a list of values from dataset, allows user to select to define
  * default value for dynamic parameter
@@ -60,16 +64,21 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 	private int sortDir = SWT.UP;
 	private java.util.List<Object> columnValueList = new ArrayList<Object>( );
 	private final String nullValueDispaly = Messages.getString( "SelectValueDialog.SelectValue.NullValue" ); //$NON-NLS-1$
+	private int expectedColumnDataType;
+
+	private static DateFormatter formatter = new DateFormatter( ULocale.US );
 
 	public SelectParameterDefaultValueDialog( Shell parentShell, String title )
 	{
 		super( parentShell, title );
 	}
 
-	public void setColumnValueList( Collection valueList )
+	public void setColumnValueList( Collection valueList, String dateType )
 	{
 		columnValueList.clear( );
 		columnValueList.addAll( valueList );
+		expectedColumnDataType = DataAdapterUtil.modelDataTypeToCoreDataType( dateType );
+
 	}
 
 	/*
@@ -258,7 +267,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				{
 					return ( (BigDecimal) e1 ).compareTo( (BigDecimal) e2 );
 				}
-				else
+				else if ( getDataText( e1 ) != null )
 				{
 					return getDataText( e1 ).compareTo( getDataText( e2 ) );
 				}
@@ -277,7 +286,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				{
 					return ( (BigDecimal) e2 ).compareTo( (BigDecimal) e1 );
 				}
-				else
+				else if ( getDataText( e2 ) != null )
 				{
 					return getDataText( e2 ).compareTo( getDataText( e1 ) );
 				}
@@ -334,14 +343,29 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 	{
 		if ( element != null )
 		{
-			try
+			if ( expectedColumnDataType == DataType.SQL_DATE_TYPE
+					&& element instanceof Date )
 			{
-				return DataTypeUtil.toLocaleNeutralString( element );
+				formatter.applyPattern( "yyyy-MM-dd" ); //$NON-NLS-1$
+				return formatter.format( (Date) element );
 			}
-			catch ( BirtException e )
+			else if ( expectedColumnDataType == DataType.SQL_TIME_TYPE
+					&& element instanceof Date )
 			{
-				ExceptionHandler.handle( e );
+				formatter.applyPattern( "HH:mm:ss.SSS" ); //$NON-NLS-1$
+				return formatter.format( (Date) element );
 			}
+			else if ( expectedColumnDataType == DataType.DATE_TYPE
+					&& element instanceof Date )
+			{
+				formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" ); //$NON-NLS-1$
+				return formatter.format( (Date) element );
+			}
+			else
+			{
+				return String.valueOf( element );
+			}
+
 		}
 		return null;
 	}

@@ -2862,7 +2862,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					SelectParameterDefaultValueDialog dialog = new SelectParameterDefaultValueDialog( Display.getCurrent( )
 							.getActiveShell( ),
 							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) ); //$NON-NLS-1$
-					dialog.setColumnValueList( columnValueList );
+					dialog.setColumnValueList( columnValueList,
+							getSelectedDataType( ) );
 					int status = dialog.open( );
 					if ( status == Window.OK )
 					{
