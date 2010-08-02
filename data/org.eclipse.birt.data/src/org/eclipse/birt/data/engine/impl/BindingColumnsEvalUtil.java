@@ -25,7 +25,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -312,10 +311,6 @@ class BindingColumnsEvalUtil
 			this.baseExpr = baseExpr;
 			this.isAggregation = isAggregation;
 			this.type = type;
-			if ( this.baseExpr instanceof ScriptExpression )
-			{
-				( (ScriptExpression) this.baseExpr ).setDataType( type );
-			}
 		}
 	}
 	
