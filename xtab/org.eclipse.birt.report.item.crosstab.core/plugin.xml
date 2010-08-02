@@ -234,6 +234,20 @@
                name="crosstab-column-sub-total"
                type="Crosstab">
          </style>
+         <property
+               canInherit="false"
+               displayNameID="Element.RowPageBreakInterval"
+               isEncryptable="false"
+               name="rowPageBreakInterval"
+               type="integer">
+         </property>
+         <property
+               canInherit="false"
+               displayNameID="Element.ColumnPageBreakInterval"
+               isEncryptable="false"
+               name="columnPageBreakInterval"
+               type="integer">
+         </property>
          <!--method
                context="presentation"
                displayNameID="Method.onPageBreak"

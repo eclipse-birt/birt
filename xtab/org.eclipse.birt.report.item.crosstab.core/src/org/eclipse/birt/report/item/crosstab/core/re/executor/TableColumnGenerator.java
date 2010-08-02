@@ -50,7 +50,7 @@ public class TableColumnGenerator implements ICrosstabConstants
 	// private IBaseResultSet resultSet;
 
 	private EdgeCursor columnCursor;
-	private List groupCursors;
+	private List<DimensionCursor> groupCursors;
 	private List<EdgeGroup> columnGroups;
 
 	private int[] pageBreakBeforeInts, pageBreakAfterInts;
@@ -60,6 +60,8 @@ public class TableColumnGenerator implements ICrosstabConstants
 	private int[] columnLevelPageBreakIntervals;
 	private long[] lastColumnLevelState;
 	private long[] checkedColumnLevelState;
+
+	private final int forcedColumnLevelPageBreakInterval;
 
 	private int lastMeasureIndex;
 	private int firstGrandTotalMeasureIndex;
@@ -83,6 +85,8 @@ public class TableColumnGenerator implements ICrosstabConstants
 		this.columnLevelPageBreakIntervals = GroupUtil.getLevelPageBreakIntervals( crosstabItem,
 				columnGroups,
 				COLUMN_AXIS_TYPE );
+
+		this.forcedColumnLevelPageBreakInterval = crosstabItem.getColumnPageBreakInterval( );
 
 		this.columnCursor = columnCursor;
 		this.columnGroups = columnGroups;
@@ -380,6 +384,10 @@ public class TableColumnGenerator implements ICrosstabConstants
 
 		int i = 0;
 
+		int[] checkPoint = new int[]{
+			-1
+		};
+
 		// TODO fix potential issue for only have one global notify flag. May
 		// need a flag stack.
 		notifyNextPageBreak = -1;
@@ -395,9 +403,35 @@ public class TableColumnGenerator implements ICrosstabConstants
 				IColumn col = table.getColumn( i );
 
 				handleColumnPageBreak( ce, col );
+
+				if ( forcedColumnLevelPageBreakInterval > 0 )
+				{
+					// TODO watch out here the events must be contineous to
+					// ensure the positions are contineous after
+					// skipped the row header events.
+					handleForcedColumnPageBreak( checkPoint, i, col );
+				}
 			}
 
 			i++;
+		}
+	}
+
+	private void handleForcedColumnPageBreak( int[] checkPoint, int position,
+			IColumn col )
+	{
+		// handle forced page break interval
+		if ( checkPoint[0] == -1 )
+		{
+			// record the current position only
+			checkPoint[0] = position;
+		}
+		else if ( position - checkPoint[0] >= forcedColumnLevelPageBreakInterval )
+		{
+			col.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+					IStyle.ALWAYS_VALUE );
+
+			checkPoint[0] = position;
 		}
 	}
 
@@ -418,7 +452,8 @@ public class TableColumnGenerator implements ICrosstabConstants
 				if ( event.measureIndex == -1
 						|| event.measureIndex == firstTotalMeasureIndex[currentGroupIndex] )
 				{
-					boolean isFirst = ( (DimensionCursor) groupCursors.get( currentGroupIndex ) ).isFirst( );
+					boolean isFirst = groupCursors.get( currentGroupIndex )
+							.isFirst( );
 
 					// process page_break_before and
 					// page_break_before_excluding_first
@@ -457,7 +492,8 @@ public class TableColumnGenerator implements ICrosstabConstants
 					}
 					else if ( pageBreakAfterInts[currentGroupIndex] == 2 )
 					{
-						boolean isLast = ( (DimensionCursor) groupCursors.get( currentGroupIndex ) ).isLast( );
+						boolean isLast = groupCursors.get( currentGroupIndex )
+								.isLast( );
 
 						if ( !isLast )
 						{
@@ -498,7 +534,7 @@ public class TableColumnGenerator implements ICrosstabConstants
 						}
 						else if ( pageBreakBeforeInts[i] == 2 )
 						{
-							boolean isFirst = ( (DimensionCursor) groupCursors.get( i ) ).isFirst( );
+							boolean isFirst = groupCursors.get( i ).isFirst( );
 
 							if ( !isFirst )
 							{
@@ -547,7 +583,7 @@ public class TableColumnGenerator implements ICrosstabConstants
 						}
 						else if ( pageBreakAfterInts[i] == 2 )
 						{
-							boolean isLast = ( (DimensionCursor) groupCursors.get( i ) ).isLast( );
+							boolean isLast = groupCursors.get( i ).isLast( );
 
 							if ( !isLast )
 							{

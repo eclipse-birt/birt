@@ -114,6 +114,20 @@ public interface ICrosstabConstants
 	String PAGE_LAYOUT_OVER_THEN_DOWN = "over then down"; //$NON-NLS-1$
 
 	/**
+	 * Name of the row area page break interval property.
+	 * 
+	 * @since 2.6.1
+	 */
+	String ROW_PAGE_BREAK_INTERVAL_PROP = "rowPageBreakInterval"; //$NON-NLS-1$
+
+	/**
+	 * Name of the column area page break interval property.
+	 * 
+	 * @since 2.6.1
+	 */
+	String COLUMN_PAGE_BREAK_INTERVAL_PROP = "columnPageBreakInterval"; //$NON-NLS-1$
+
+	/**
 	 * Aggregation location constants.
 	 */
 	String AGGREGATION_HEADER_LOCATION_BEFORE = "before"; //$NON-NLS-1$
@@ -131,8 +145,8 @@ public interface ICrosstabConstants
 	String CROSSTAB_DETAIL_SELECTOR = "crosstab-detail"; //$NON-NLS-1$
 	String CROSSTAB_COLUMN_HEADER_SELECTOR = "crosstab-column-header"; //$NON-NLS-1$
 	String CROSSTAB_ROW_HEADER_SELECTOR = "crosstab-row-header"; //$NON-NLS-1$
-	String CROSSTAB_COLUMN_GRAND_TOTAL_SELECTOR = "crosstab-column-grand-total";	 //$NON-NLS-1$
-	String CROSSTAB_ROW_GRAND_TOTAL_SELECTOR = "crosstab-row-grand-total";	 //$NON-NLS-1$
+	String CROSSTAB_COLUMN_GRAND_TOTAL_SELECTOR = "crosstab-column-grand-total"; //$NON-NLS-1$
+	String CROSSTAB_ROW_GRAND_TOTAL_SELECTOR = "crosstab-row-grand-total"; //$NON-NLS-1$
 	String CROSSTAB_COLUMN_SUB_TOTAL_SELECTOR = "crosstab-column-sub-total"; //$NON-NLS-1$
 	String CROSSTAB_ROW_SUB_TOTAL_SELECTOR = "crosstab-row-sub-total"; //$NON-NLS-1$
 

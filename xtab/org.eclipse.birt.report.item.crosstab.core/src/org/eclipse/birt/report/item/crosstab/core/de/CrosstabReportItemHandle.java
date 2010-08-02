@@ -479,7 +479,6 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 * 
 	 * @return the empty cell value
 	 */
-
 	public String getEmptyCellValue( )
 	{
 		return handle.getStringProperty( EMPTY_CELL_VALUE_PROP );
@@ -488,10 +487,56 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	/**
 	 * Sets the empty cell value of this crosstab.
 	 */
-
 	public void setEmptyCellValue( String value ) throws SemanticException
 	{
 		handle.setStringProperty( EMPTY_CELL_VALUE_PROP, value );
+	}
+
+	/**
+	 * @return Returns the page break internval for row area.
+	 * 
+	 * @since 2.6.1
+	 */
+	public int getRowPageBreakInterval( )
+	{
+		return handle.getIntProperty( ROW_PAGE_BREAK_INTERVAL_PROP );
+	}
+
+	/**
+	 * Sets the page break interval for row area.
+	 * 
+	 * @param value
+	 * @throws SemanticException
+	 * 
+	 * @since 2.6.1
+	 */
+	public void setRowPageBreakInterval( int value ) throws SemanticException
+	{
+		handle.setIntProperty( ROW_PAGE_BREAK_INTERVAL_PROP, value );
+	}
+
+	/**
+	 * @return Returns the page break internval for column area.
+	 * 
+	 * @since 2.6.1
+	 */
+	public int getColumnPageBreakInterval( )
+	{
+		return handle.getIntProperty( COLUMN_PAGE_BREAK_INTERVAL_PROP );
+	}
+
+	/**
+	 * Sets the page break interval for column area.
+	 * 
+	 * @param value
+	 * @throws SemanticException
+	 * 
+	 * @since 2.6.1
+	 */
+	public void setColumnPageBreakInterval( int value )
+			throws SemanticException
+	{
+		handle.setIntProperty( COLUMN_PAGE_BREAK_INTERVAL_PROP, value );
 	}
 
 	/**

@@ -156,4 +156,25 @@ public class CrosstabImpl extends SimpleRowItem implements ICrosstab
 		crh.setRepeatRowHeader( value );
 	}
 
+	public int getRowPageBreakInterval( )
+	{
+		return crh.getRowPageBreakInterval( );
+	}
+
+	public void setRowPageBreakInterval( int value ) throws SemanticException
+	{
+		crh.setRowPageBreakInterval( value );
+	}
+
+	public int getColumnPageBreakInterval( )
+	{
+		return crh.getColumnPageBreakInterval( );
+	}
+
+	public void setColumnPageBreakInterval( int value )
+			throws SemanticException
+	{
+		crh.setColumnPageBreakInterval( value );
+	}
+
 }

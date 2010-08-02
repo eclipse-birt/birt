@@ -46,6 +46,8 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 
 		processRowHeight( findGrandTotalRowCell( rowIndex ) );
 
+		processRowLevelPageBreak( content, true );
+
 		prepareChildren( );
 
 		return content;
@@ -108,7 +110,8 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 					case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 						nextExecutor = new CrosstabCellExecutor( this,
-								crosstabItem.getMeasure( rowIndex ).getHeader( null ),
+								crosstabItem.getMeasure( rowIndex )
+										.getHeader( null ),
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
@@ -272,7 +275,8 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 					nextExecutor = new CrosstabCellExecutor( this,
-							crosstabItem.getMeasure( rowIndex ).getHeader( null ),
+							crosstabItem.getMeasure( rowIndex )
+									.getHeader( null ),
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
@@ -294,10 +298,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 				nextExecutor = new CrosstabCellExecutor( this,
 						getRowGrandTotalCell( lastDimensionIndex,
 								lastLevelIndex,
-								mx ),
-						rowSpan,
-						colSpan,
-						currentColIndex - colSpan + 1 );
+								mx ), rowSpan, colSpan, currentColIndex
+								- colSpan
+								+ 1 );
 
 				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 
@@ -310,10 +313,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 				nextExecutor = new CrosstabCellExecutor( this,
 						getRowGrandTotalCell( lastDimensionIndex,
 								lastLevelIndex,
-								mx ),
-						rowSpan,
-						colSpan,
-						currentColIndex - colSpan + 1 );
+								mx ), rowSpan, colSpan, currentColIndex
+								- colSpan
+								+ 1 );
 
 				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 
@@ -326,10 +328,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 				nextExecutor = new CrosstabCellExecutor( this,
 						getRowGrandTotalCell( lastDimensionIndex,
 								lastLevelIndex,
-								mx ),
-						rowSpan,
-						colSpan,
-						currentColIndex - colSpan + 1 );
+								mx ), rowSpan, colSpan, currentColIndex
+								- colSpan
+								+ 1 );
 
 				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 

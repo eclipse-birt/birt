@@ -58,7 +58,7 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 
 		processRowHeight( findDetailRowCell( rowIndex ) );
 
-		processRowLevelPageBreak( content );
+		processRowLevelPageBreak( content, false );
 
 		prepareChildren( );
 
@@ -601,10 +601,9 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 				nextExecutor = new CrosstabCellExecutor( this,
 						getRowSubTotalCell( lastDimensionIndex,
 								lastLevelIndex,
-								mx ),
-						rowSpan,
-						colSpan,
-						currentColIndex - colSpan + 1 );
+								mx ), rowSpan, colSpan, currentColIndex
+								- colSpan
+								+ 1 );
 
 				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 
@@ -617,10 +616,9 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 				nextExecutor = new CrosstabCellExecutor( this,
 						getRowSubTotalCell( lastDimensionIndex,
 								lastLevelIndex,
-								mx ),
-						rowSpan,
-						colSpan,
-						currentColIndex - colSpan + 1 );
+								mx ), rowSpan, colSpan, currentColIndex
+								- colSpan
+								+ 1 );
 
 				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 

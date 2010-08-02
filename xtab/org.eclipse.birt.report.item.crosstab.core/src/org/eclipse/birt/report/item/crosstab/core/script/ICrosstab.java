@@ -56,4 +56,12 @@ public interface ICrosstab extends IReportItem, ICrosstabConstants
 	String getEmptyCellValue( );
 
 	void setEmptyCellValue( String value ) throws SemanticException;
+
+	int getRowPageBreakInterval( );
+
+	void setRowPageBreakInterval( int value ) throws SemanticException;
+
+	int getColumnPageBreakInterval( );
+
+	void setColumnPageBreakInterval( int value ) throws SemanticException;
 }

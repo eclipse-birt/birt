@@ -132,6 +132,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 				rowLevelPageBreakIntervals = GroupUtil.getLevelPageBreakIntervals( crosstabItem,
 						rowGroups,
 						ROW_AXIS_TYPE );
+				
+				forcedRowLevelPageBreakInterval = crosstabItem.getRowPageBreakInterval( );
 
 				walker = new CachedColumnWalker( crosstabItem,
 						getColumnEdgeCursor( ) );

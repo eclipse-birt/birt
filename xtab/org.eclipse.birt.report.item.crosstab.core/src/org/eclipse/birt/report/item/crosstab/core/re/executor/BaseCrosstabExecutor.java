@@ -70,6 +70,9 @@ public abstract class BaseCrosstabExecutor implements
 	protected List rowGroups, columnGroups;
 	protected int[] rowLevelPageBreakIntervals;
 
+	protected int forcedRowLevelPageBreakInterval;
+	protected int[] forcedRowCounter;
+
 	private Object modelHandle;
 	private IReportItemExecutor parentExecutor;
 
@@ -78,6 +81,9 @@ public abstract class BaseCrosstabExecutor implements
 		this.rowCounter = new int[1];
 		this.lastRowLevelState = new long[1][];
 		this.checkedRowLevelState = new long[1][];
+		this.forcedRowCounter = new int[]{
+			-1
+		};
 	}
 
 	protected BaseCrosstabExecutor( IExecutorContext context,
@@ -101,6 +107,8 @@ public abstract class BaseCrosstabExecutor implements
 		this.styleCache = parent.styleCache;
 
 		this.rowLevelPageBreakIntervals = parent.rowLevelPageBreakIntervals;
+		this.forcedRowLevelPageBreakInterval = parent.forcedRowLevelPageBreakInterval;
+		this.forcedRowCounter = parent.forcedRowCounter;
 		this.lastRowLevelState = parent.lastRowLevelState;
 		this.checkedRowLevelState = parent.checkedRowLevelState;
 	}
@@ -246,11 +254,37 @@ public abstract class BaseCrosstabExecutor implements
 		}
 	}
 
-	protected void processRowLevelPageBreak( IRowContent rowContent )
+	protected void processRowLevelPageBreak( IRowContent rowContent,
+			boolean forceCheckOnly )
 	{
-		if ( rowContent == null || rowLevelPageBreakIntervals == null )
+		if ( rowContent == null )
 		{
-			// if invalid content or no effective row level page break interval
+			// if invalid content, just return
+			return;
+		}
+
+		if ( forcedRowLevelPageBreakInterval > 0 )
+		{
+			// handle forced page break interval
+			if ( forcedRowCounter[0] == -1 )
+			{
+				// record the current position only, note this position is (real
+				// position + 1);
+				forcedRowCounter[0] = rowCounter[0];
+			}
+			else if ( rowCounter[0] - forcedRowCounter[0] >= forcedRowLevelPageBreakInterval )
+			{
+				rowContent.getStyle( )
+						.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+								IStyle.ALWAYS_VALUE );
+
+				forcedRowCounter[0] = rowCounter[0];
+			}
+		}
+
+		if ( rowLevelPageBreakIntervals == null || forceCheckOnly )
+		{
+			// if no effective row level page break interval
 			// setting, just return
 			return;
 		}
