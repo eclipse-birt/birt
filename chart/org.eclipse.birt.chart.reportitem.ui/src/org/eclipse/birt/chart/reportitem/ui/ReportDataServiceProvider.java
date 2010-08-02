@@ -2927,7 +2927,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							{
 								// Bugzilla#190229, to get string with localized
 								// format
-								record[n] = DataTypeUtil.toString( iter.getValue( columns.get( n ) ) );
+								record[n] = valueAsString( iter.getValue( columns.get( n ) ) );
 							}
 							dataList.add( record );
 						}
