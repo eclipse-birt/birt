@@ -95,6 +95,7 @@ public class MessageConstants
     public static final String  DATA_SOURCE_ERROR = "Error.DataSourceError";
     public static final String  UNSUPPORTED_QUERY_DEFINITION_ERROR = "Error.UnsupportedQueryDefinitionError";
     public static final String  REPORT_QUERY_LOADING_ERROR = "Error.ReportQueryLoadingError";
+    public static final String  REPORT_QUERY_LOADING_ERROR2 = "Error.ReportQueryLoadingError2";
     public static final String  EXTENTION_ID_MISSING_ERROR = "Error.ExtentionIDMissingError";
     public static final String  DATA_EXPORTION_ERROR = "Error.DataExportionError";
     public static final String  UNSUPPORTED_DOCUMENT_VERSION_ERROR = "Error.UnsupportedDocumentVersionError";

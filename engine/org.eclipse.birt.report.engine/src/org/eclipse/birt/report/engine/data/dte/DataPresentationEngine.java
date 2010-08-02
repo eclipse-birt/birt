@@ -36,6 +36,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 public class DataPresentationEngine extends AbstractDataEngine
 {
@@ -154,7 +155,19 @@ public class DataPresentationEngine extends AbstractDataEngine
 		String resultSetID = loadResultSetID( parentResult, queryID );
 		if ( resultSetID == null )
 		{
-			throw new EngineException(MessageConstants.REPORT_QUERY_LOADING_ERROR , queryID );
+			if ( queryOwner instanceof DesignElementHandle )
+			{
+				throw new EngineException( MessageConstants.REPORT_QUERY_LOADING_ERROR2,
+						new Object[]{
+								queryID,
+								( (DesignElementHandle) queryOwner ).getID( )
+						} );
+			}
+			else
+			{
+				throw new EngineException( MessageConstants.REPORT_QUERY_LOADING_ERROR,
+						queryID );
+			}
 		}
 
 		((QueryDefinition)query).setQueryResultsID( resultSetID );
