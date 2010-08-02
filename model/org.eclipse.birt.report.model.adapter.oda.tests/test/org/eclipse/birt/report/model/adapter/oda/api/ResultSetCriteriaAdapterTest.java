@@ -323,7 +323,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		assertNotNull( filterCondition.getDynamicFilterParameter( ) );
 		DynamicFilterParameterHandle parameter = (DynamicFilterParameterHandle) designHandle
 				.findParameter( filterCondition.getDynamicFilterParameter( ) );
-		assertEquals( setHandle.getName( ), parameter.getDataSetName( ) );
+		
 		assertEquals( COLUMNS[position], parameter.getColumn( ) );
 		assertEquals( TYPES[position], parameter.getNativeDataType( ) );
 		assertEquals( ROM_TYPES[position], parameter.getDataType( ) );
@@ -402,8 +402,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );
 		values.setResultSets( setDesign.getResultSets( ) );
 		saveDesignValuesToFile( values );
-
-		saveOutputFile( GOLDEN_FILE_REPORT );
+		
 		assertTrue( compareTextFile( GOLDEN_FILE_REPORT ) );
 	}
 
