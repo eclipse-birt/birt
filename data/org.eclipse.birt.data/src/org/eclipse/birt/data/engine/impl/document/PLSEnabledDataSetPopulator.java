@@ -92,8 +92,11 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 				.getExprResultSet( )
 				.getDataSetResultSet( )
 				.getResultObject( );
-
-		assert curr!= null;
+		
+		if ( curr == null )
+		{
+			return null;
+		}
 		
 		for ( int i = 0; i < curr.getResultClass( ).getFieldCount( ); i++ )
 		{
