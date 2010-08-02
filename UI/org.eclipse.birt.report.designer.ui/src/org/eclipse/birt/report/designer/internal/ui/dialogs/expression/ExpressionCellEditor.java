@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConte
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.core.runtime.Assert;
@@ -385,19 +386,19 @@ public class ExpressionCellEditor extends CellEditor
 		{
 			if ( value instanceof Expression )
 			{
-				editor.setText( ( (Expression) value ).getStringExpression( ) );
+				editor.setText( DEUtil.resolveNull( ( (Expression) value ).getStringExpression( ) ) );
 				button.setData( ExpressionButtonUtil.EXPR_TYPE,
 						( (Expression) value ).getType( ) );
 			}
 			else if ( value instanceof ExpressionHandle )
 			{
-				editor.setText( ( (ExpressionHandle) value ).getStringExpression( ) );
+				editor.setText( DEUtil.resolveNull( ( (ExpressionHandle) value ).getStringExpression( ) ) );
 				button.setData( ExpressionButtonUtil.EXPR_TYPE,
 						( (ExpressionHandle) value ).getType( ) );
 			}
 			else
 			{
-				editor.setText( value.toString( ) );
+				editor.setText( value == null ? "" : value.toString( ) );
 				button.setData( ExpressionButtonUtil.EXPR_TYPE,
 						UIUtil.getDefaultScriptType( ) );
 			}
