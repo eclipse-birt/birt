@@ -817,13 +817,13 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	{
 		if ( name == null )
 		{
-			throw new CrosstabException( "name is required for ComputedMeasure." ); //$NON-NLS-1$
+			throw new CrosstabException( Messages.getString( "CrosstabReportItemHandle.exception.name.blank" ) ); //$NON-NLS-1$
 		}
 
 		// check duplicate name
 		if ( getMeasure( name ) != null )
 		{
-			throw new CrosstabException( "the measure name specified is already used and cant not duplicate." ); //$NON-NLS-1$
+			throw new CrosstabException( Messages.getString( "CrosstabReportItemHandle.exception.name.duplicate" ) ); //$NON-NLS-1$
 		}
 
 		CommandStack stack = getCommandStack( );
