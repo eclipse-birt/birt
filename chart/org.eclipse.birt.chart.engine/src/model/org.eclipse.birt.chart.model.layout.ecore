@@ -538,6 +538,16 @@
       <details key="name" value="TitleBlock"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="auto" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        defaultValueLiteral="false" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Attribute &quot;Auto&quot; of type boolean specifies whether the  text of the TitleBlock &#xD;&#xA;could be automatically determined by the system."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Auto"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="TitlePercentType" instanceClassName="double">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

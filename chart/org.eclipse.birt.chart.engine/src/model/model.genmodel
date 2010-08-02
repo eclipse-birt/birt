@@ -856,7 +856,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//Plot/verticalSpacing"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.layout.ecore#//Plot/clientArea"/>
     </genClasses>
-    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//TitleBlock"/>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.layout.ecore#//TitleBlock">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.layout.ecore#//TitleBlock/auto"/>
+    </genClasses>
   </genPackages>
   <genPackages prefix="Model" basePackage="org.eclipse.birt.chart" resource="XML"
       disposableProviderFactory="true" ecorePackage="org.eclipse.birt.chart.model.ecore#/">

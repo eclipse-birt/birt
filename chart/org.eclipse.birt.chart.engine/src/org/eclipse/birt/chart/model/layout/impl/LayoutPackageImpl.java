@@ -684,6 +684,16 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getTitleBlock_Auto( )
+	{
+		return (EAttribute) titleBlockEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getEllipsisType( )
 	{
 		return ellipsisTypeEDataType;
@@ -804,6 +814,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		createEReference( plotEClass, PLOT__CLIENT_AREA );
 
 		titleBlockEClass = createEClass( TITLE_BLOCK );
+		createEAttribute( titleBlockEClass, TITLE_BLOCK__AUTO );
 
 		// Create data types
 		ellipsisTypeEDataType = createEDataType( ELLIPSIS_TYPE );
@@ -1030,6 +1041,9 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		initEClass( titleBlockEClass,
 				TitleBlock.class,
 				"TitleBlock", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getTitleBlock_Auto( ),
+				theXMLTypePackage.getBoolean( ),
+				"auto", "false", 1, 1, TitleBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Initialize data types
 		initEDataType( ellipsisTypeEDataType,
@@ -1275,6 +1289,10 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		addAnnotation( titleBlockEClass, source, new String[]{
 				"name", "TitleBlock", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getTitleBlock_Auto( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Auto" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( titlePercentTypeEDataType, source, new String[]{
 				"name", "TitlePercent_._type", //$NON-NLS-1$ //$NON-NLS-2$

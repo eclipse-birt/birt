@@ -305,7 +305,13 @@ convenient method: Chart.getTitle( );
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="LabelBlock">
-				<xsd:sequence/>
+				<xsd:sequence>
+					<xsd:element name="Auto" type="xsd:boolean" default="false">
+						<xsd:annotation>
+							<xsd:documentation>Attribute "Auto" of type boolean specifies whether the  text of the TitleBlock 
+could be automatically determined by the system.</xsd:documentation>
+						</xsd:annotation></xsd:element>
+				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

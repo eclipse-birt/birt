@@ -1139,12 +1139,21 @@ public interface LayoutPackage extends EPackage
 	int TITLE_BLOCK__LABEL = LABEL_BLOCK__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Auto</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TITLE_BLOCK__AUTO = LABEL_BLOCK_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Title Block</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TITLE_BLOCK_FEATURE_COUNT = LABEL_BLOCK_FEATURE_COUNT + 0;
+	int TITLE_BLOCK_FEATURE_COUNT = LABEL_BLOCK_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '<em>Ellipsis Type</em>' data type.
@@ -1707,6 +1716,17 @@ public interface LayoutPackage extends EPackage
 	EClass getTitleBlock( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.TitleBlock#isAuto <em>Auto</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Auto</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.TitleBlock#isAuto()
+	 * @see #getTitleBlock()
+	 * @generated
+	 */
+	EAttribute getTitleBlock_Auto( );
+
+	/**
 	 * Returns the meta object for data type '<em>Ellipsis Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2195,6 +2215,14 @@ public interface LayoutPackage extends EPackage
 		 * @generated
 		 */
 		EClass TITLE_BLOCK = eINSTANCE.getTitleBlock( );
+
+		/**
+		 * The meta object literal for the '<em><b>Auto</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TITLE_BLOCK__AUTO = eINSTANCE.getTitleBlock_Auto( );
 
 		/**
 		 * The meta object literal for the '<em>Ellipsis Type</em>' data type.
