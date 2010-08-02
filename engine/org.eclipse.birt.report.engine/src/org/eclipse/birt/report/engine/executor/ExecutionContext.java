@@ -1846,8 +1846,9 @@ public class ExecutionContext
 		return isCancelled;
 	}
 	
-	public void restart(  )
+	public void restart(  ) throws  EngineException
 	{
+		getDataEngine( ).getDTESession( ).restart( );
 		this.isCancelled = false;
 	}
 
