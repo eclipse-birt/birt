@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
+import org.eclipse.birt.chart.model.data.BigNumberDataElement;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -390,10 +391,7 @@ public final class AutoScale extends Methods implements Cloneable
 								setStep( new Double( iaLogarithmicDeltas[i - 1] ) );
 								return true;
 							}
-							else
-							{
-								return false;
-							}
+							return false;
 						}
 					}
 					return false;
@@ -669,10 +667,7 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			return ValueFormatter.getNumericPattern( dMinValue );
 		}
-		else
-		{
-			return ValueFormatter.getNumericPattern( dStep );
-		}
+		return ValueFormatter.getNumericPattern( dStep );
 	}
 
 	public final int getType( )
@@ -1970,7 +1965,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					continue;
 				}
-				dValue = ( (Double) oValue ).doubleValue( );
+				dValue = ( (Number) oValue ).doubleValue( );
 				if ( dValue < dMinValue )
 					dMinValue = dValue;
 				if ( dValue > dMaxValue )
@@ -3513,7 +3508,7 @@ public final class AutoScale extends Methods implements Cloneable
 						}
 						else
 						{
-							sText = ValueFormatter.format( (Number) bdAxisValue,
+							sText = ValueFormatter.format( bdAxisValue,
 									info.fs,
 									info.rtc.getULocale( ),
 									df );
@@ -4170,6 +4165,12 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.setMinimum( new Double( ( (NumberDataElement) oMinimum ).getValue( ) ) );
 			sc.info.bMinimumFixed( true );
 		}
+		else if (oMinimum instanceof BigNumberDataElement)
+		{
+			BigDecimal bd = NumberUtil.asBigDecimal( ((BigNumberDataElement)oMinimum).getValue( ) );
+			sc.setMinimum( new BigNumber( bd, sc.bigNumberDivisor ) );
+			sc.info.bMinimumFixed( true );
+		}
 
 		// OVERRIDE MAXIMUM IF SPECIFIED
 		if ( oMaximum instanceof NumberDataElement )
@@ -4177,11 +4178,31 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.setMaximum( Double.valueOf( ( (NumberDataElement) oMaximum ).getValue( ) ) );
 			sc.info.bMaximumFixed( true );
 		}
+		else if (oMaximum instanceof BigNumberDataElement)
+		{
+			BigDecimal bd = NumberUtil.asBigDecimal( ((BigNumberDataElement)oMaximum).getValue( ) );
+			sc.setMaximum( new BigNumber( bd, sc.bigNumberDivisor ) );
+			sc.info.bMaximumFixed( true );
+		}
 
 		// VALIDATE OVERRIDDEN MIN/MAX
 		if ( sc.info.bMaximumFixed && sc.info.bMinimumFixed )
 		{
-			if ( ( (Double) sc.getMinimum( ) ).doubleValue( ) > ( (Double) sc.getMaximum( ) ).doubleValue( ) )
+			boolean bInValid = false;
+			
+			Object oMin = sc.getMinimum( );
+			Object oMax = sc.getMaximum( );
+			
+			if (oMin instanceof Double && oMax instanceof Double)
+			{
+				bInValid =( (Double) oMin ).doubleValue( ) > ( (Double) oMax ).doubleValue( );
+			}
+			else
+			{
+				bInValid = ( (BigNumber) oMin ).compareTo( oMax ) > 0;
+			}
+			
+			if ( bInValid )
 			{
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.GENERATION,

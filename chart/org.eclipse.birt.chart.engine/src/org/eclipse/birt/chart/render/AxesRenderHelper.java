@@ -519,7 +519,9 @@ public final class AxesRenderHelper
 			
 			if ( sc.isBigNumber( ) )
 			{
-				bdAxisValue = BigDecimal.valueOf( dAxisValue );
+				bdAxisValue = BigDecimal.valueOf( dAxisValue )
+						.multiply( sc.getBigNumberDivisor( ),
+								NumberUtil.DEFAULT_MATHCONTEXT );
 				bdAxisStep = BigDecimal.valueOf( dAxisStep );
 				if ( axModel.getFormatSpecifier( ) == null )
 				{

@@ -2110,28 +2110,15 @@ public class ChartUtil
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
 			final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
-			EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
-			final SeriesDefinition sdBase = elSD.get( 0 );
-			final Series seBaseRuntimeSeries = sdBase.getRunTimeSeries( )
-					.get( 0 );
-			adjustDataSets( new Series[]{
-				seBaseRuntimeSeries
-			} );
+			
+			adjustDataSets( cwa.getPrimaryBaseAxes( )[0] );
 
 			final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase,
 					true );
 
 			for ( int i = 0; i < axaOrthogonal.length; i++ ) // FOR EACH AXIS
 			{
-				List<Series> seriesList = new ArrayList<Series>( );
-				elSD = axaOrthogonal[i].getSeriesDefinitions( );
-				for ( int j = 0; j < elSD.size( ); j++ )
-				{
-					SeriesDefinition sdOrthogonal = elSD.get( j );
-					seriesList.addAll( sdOrthogonal.getRunTimeSeries( ) );
-				}
-
-				adjustDataSets( seriesList.toArray( new Series[]{} ) );
+				adjustDataSets( axaOrthogonal[i] );
 			}
 		}
 		else if ( cm instanceof ChartWithoutAxes )
@@ -2142,26 +2129,44 @@ public class ChartUtil
 			final SeriesDefinition sdBase = elSD.get( 0 );
 			final Series seBaseRuntimeSeries = sdBase.getRunTimeSeries( ).get( 0 );
 			adjustDataSets( new Series[]{
-					seBaseRuntimeSeries
-				} );
+				seBaseRuntimeSeries
+			}, null, null );
 			
 			elSD = sdBase.getSeriesDefinitions( );
 			for ( int j = 0; j < elSD.size( ); j++ ) // FOR EACH ORTHOGONAL
 			// SERIES DEFINITION
 			{
 				SeriesDefinition sdOrthogonal = elSD.get( j );
-				adjustDataSets( sdOrthogonal.getRunTimeSeries( ).toArray( new Series[]{} ) );
+				adjustDataSets( sdOrthogonal.getRunTimeSeries( )
+						.toArray( new Series[]{} ),
+						null,
+						null );
 			}
 		}
 	}
+	
+	private static void adjustDataSets( Axis ax ) throws ChartException
+	{
+		List<Series> seriesList = new ArrayList<Series>( );
+		for ( SeriesDefinition sd: ax.getSeriesDefinitions( ) )
+		{
+			seriesList.addAll( sd.getRunTimeSeries( ) );
+		}
+		
+		BigDecimal bnMin = NumberUtil.asBigDecimal( NumberUtil.convertNumber( ax.getScale( ).getMin( )) );
+		BigDecimal bnMax = NumberUtil.asBigDecimal( NumberUtil.convertNumber( ax.getScale( ).getMax( )) );
+		adjustDataSets( seriesList.toArray( new Series[]{} ), bnMin, bnMax );
+	}
 
-	private static void adjustDataSets( Series[] seriesArray ) throws ChartException
+
+	private static void adjustDataSets( Series[] seriesArray, BigDecimal bnMinFixed,
+			BigDecimal bnMaxFixed ) throws ChartException
 	{
 		IDataSetProcessor idsp;
 		boolean hasBigNumber = false;
+		Number[] doaDataSet = null;
 		BigDecimal bnMin = null;
 		BigDecimal bnMax = null;
-		Number[] doaDataSet = null;
 
 		// Check if related series contains big number.
 		for ( Series series : seriesArray )
@@ -2183,17 +2188,21 @@ public class ChartUtil
 				DataSet ds = series.getDataSet( );
 				idsp = PluginSettings.instance( )
 						.getDataSetProcessor( series.getClass( ) );
+				
 				if ( bnMin == null )
 				{
 					bnMin = NumberUtil.asBigDecimal( (Number) idsp.getMinimum( ds ) );
 					bnMax = NumberUtil.asBigDecimal( (Number) idsp.getMaximum( ds ) );
 					continue;
 				}
-
+				
 				bnMin = bnMin.min( NumberUtil.asBigDecimal( (Number) idsp.getMinimum( ds ) ) );
 				bnMax = bnMax.max( NumberUtil.asBigDecimal( (Number) idsp.getMaximum( ds ) ) );
 			}
 
+			bnMin = bnMinFixed!=null ? bnMinFixed : bnMin;
+			bnMax = bnMaxFixed!=null ? bnMaxFixed : bnMax;
+			
 			BigDecimal absMax = bnMax.abs( );
 			BigDecimal absMin = bnMin.abs( );
 			if ( absMin.compareTo( NumberUtil.DOUBLE_MIN ) >= 0

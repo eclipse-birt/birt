@@ -15,6 +15,8 @@ package org.eclipse.birt.chart.util;
 import java.math.BigInteger;
 
 import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.model.data.BigNumberDataElement;
+import org.eclipse.birt.chart.model.data.NumberDataElement;
 
 import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.math.MathContext;
@@ -190,6 +192,14 @@ public class NumberUtil
 		else if ( n instanceof BigInteger )
 		{
 			return new BigDecimal((BigInteger)n); 
+		}
+		else if (n instanceof NumberDataElement)
+		{
+			return ( (NumberDataElement) n ).getValue( );
+		}
+		else if (n instanceof BigNumberDataElement)
+		{
+			return ( (BigNumberDataElement) n ).getValue( );
 		}
 
 		return Methods.asDouble( n );
