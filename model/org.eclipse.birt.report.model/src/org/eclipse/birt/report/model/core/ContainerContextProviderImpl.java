@@ -25,11 +25,14 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.MultiViews;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TemplateElement;
@@ -369,7 +372,6 @@ class ContainerContextProviderImpl
 		}
 
 		// special cases check table header containment.
-
 		ContainerContext containerInfor = focus;
 		// DesignElement tmpContainer = this.focus;
 		while ( containerInfor != null )
@@ -385,13 +387,91 @@ class ContainerContextProviderImpl
 					|| container instanceof MasterPage )
 			{
 				errors = container.checkContent( module, this.focus, element );
-
-				return errors;
+				if ( errors != null && !errors.isEmpty( ) )
+					return errors;
 			}
 			containerInfor = container.getContainerInfo( );
 		}
 
+		// when add multiviews for this element: check the case that is not
+		// allowed: this element defines its data object(data set or cube) and
+		// any of its children defines another different data object
+		if ( focus.getElement( ) instanceof MultiViews
+				|| element instanceof MultiViews )
+		{
+			if ( !checkMutliViews( module, element ) )
+			{
+				errors.add( e );
+				return errors;
+			}
+
+		}
+
+		if ( element instanceof ReportItem )
+		{
+			ReportItem item = (ReportItem) element;
+			DataSet dataSet = (DataSet) item.getDataSetElement( module );
+			Cube cube = (Cube) item.getCubeElement( module );
+			if ( !ContainerContext.isValidContainerment( module, focus
+					.getElement( ), item, dataSet, cube ) )
+			{
+				errors.add( e );
+				return errors;
+			}
+
+		}
+
 		return Collections.emptyList( );
+	}
+
+	private boolean checkMutliViews( Module module, DesignElement element )
+	{
+		DesignElement targetReportItem = null;
+		if ( element instanceof MultiViews )
+		{
+			targetReportItem = focus.getElement( );
+		}
+		else
+		{
+			targetReportItem = focus.getElement( ).getContainer( );
+		}
+
+		if ( targetReportItem instanceof ReportItem )
+		{
+			ReportItem item = (ReportItem) targetReportItem;
+			DataSet dataSet = (DataSet) item.getDataSetElement( module );
+			Cube cube = (Cube) item.getCubeElement( module );
+
+			// if the container defines its data object, then check whether
+			// any of its children defines different data object
+			if ( dataSet != null || cube != null )
+			{
+				ContentIterator iter = new ContentIterator( module, item );
+				while ( iter.hasNext( ) )
+				{
+					DesignElement child = iter.next( );
+					if ( child instanceof ReportItem )
+					{
+						ReportItem childItem = (ReportItem) child;
+						DataSet childDataSet = (DataSet) childItem
+								.getDataSetElement( module );
+						Cube childCube = (Cube) childItem
+								.getCubeElement( module );
+
+						// if any of its children defines different data
+						// object, then invalid container context
+						if ( ( childDataSet != dataSet )
+								|| ( childCube != cube ) )
+						{
+
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 
 	/**

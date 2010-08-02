@@ -77,6 +77,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularLevelModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.OdaLevel;
@@ -176,7 +177,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		String propName = prop.getName( );
 		if ( ( IReportItemModel.TOC_PROP.equals( propName ) || IGroupElementModel.TOC_PROP
-				.equals( propName ) ) && ( value instanceof String ) )
+				.equals( propName ) )
+				&& ( value instanceof String ) )
 		{
 			Structure oldValue = (Structure) element.getLocalProperty( module,
 					prop );
@@ -322,7 +324,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			return;
 		}
 		if ( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
-				.getName( ) ) && value == null )
+				.getName( ) )
+				&& value == null )
 		{
 			clearRefTemplateParameterProp( prop, null );
 			return;
@@ -333,11 +336,39 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( !( (ContentElement) element ).isLocal( ) )
 			{
 				ContentElementCommand attrCmd = new ContentElementCommand(
-						module, element,
-						( (ContentElement) element ).getValueContainer( ) );
+						module, element, ( (ContentElement) element )
+								.getValueContainer( ) );
 
 				attrCmd.doSetProperty( prop, value );
 				return;
+			}
+		}
+
+		if ( element instanceof ReportItem
+				&& ( IReportItemModel.DATA_SET_PROP.equals( propName ) || IReportItemModel.CUBE_PROP
+						.equals( propName ) ) )
+		{
+			DesignElement container = element.getContainer( );
+			DataSet dataSet = null;
+			Cube cube = null;
+			if ( IReportItemModel.DATA_SET_PROP.equals( propName ) )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
+				if ( refValue != null )
+					dataSet = (DataSet) refValue.getElement( );
+			}
+			else if ( IReportItemModel.CUBE_PROP.equals( propName ) )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
+				if ( refValue != null )
+					cube = (Cube) refValue.getElement( );
+			}
+			if ( !ContainerContext.isValidContainerment( module, container,
+					(ReportItem) element, dataSet, cube ) )
+			{
+				throw new SemanticError(
+						element,
+						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_DATA_OBJECT );
 			}
 		}
 
@@ -353,8 +384,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 	private void setElementTypeProperty( ElementPropertyDefn prop, Object value )
 			throws SemanticException
 	{
-		ContainerContext context = new ContainerContext( element,
-				prop.getName( ) );
+		ContainerContext context = new ContainerContext( element, prop
+				.getName( ) );
 		CommandStack stack = getActivityStack( );
 		PropertyRecord record = new PropertyRecord( element, prop, value );
 		stack.startTrans( record.getLabel( ) );
@@ -809,8 +840,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		int size = Math.min( listingGroups.size( ), targetGroups.size( ) );
 		for ( int i = 0; i < size; i++ )
 		{
-			recoverReferredReportItem( listingGroups.get( i ),
-					targetGroups.get( i ) );
+			recoverReferredReportItem( listingGroups.get( i ), targetGroups
+					.get( i ) );
 		}
 	}
 
@@ -1197,8 +1228,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		if ( IReportItemModel.DATA_BINDING_REF_PROP
 				.equals( propDefn.getName( ) )
 				&& refValue.isResolved( )
-				&& ModelUtil.checkContainerOrContent( element,
-						refValue.getElement( ) ) )
+				&& ModelUtil.checkContainerOrContent( element, refValue
+						.getElement( ) ) )
 			throw new SemanticError( element, new String[]{element.getName( ),
 					refValue.getName( )},
 					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF );
@@ -1326,8 +1357,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 				// string/dimension -> string/dimension/expression
 
-				retValue = doValidateCompatibleObject( propDefn,
-						propDefn.getType( ), value );
+				retValue = doValidateCompatibleObject( propDefn, propDefn
+						.getType( ), value );
 
 				break;
 			case IPropertyType.LIST_TYPE :

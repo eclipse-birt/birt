@@ -236,6 +236,8 @@ public interface MessageConstants
 	public static final String SEMANTIC_EXCEPTION_EXPORT_ELEMENT_FAIL = "Error.SemanticException.EXPORT_ELEMENT_FAIL"; //$NON-NLS-1$
 
 	public static final String SEMANTIC_ERROR_VALUE_FORBIDDEN = "Error.SemanticError.VALUE_FORBIDDEN"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_CANNOT_SPECIFY_DATA_OBJECT = "Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT"; //$NON-NLS-1$
+
 
 	// ThemeException
 
@@ -359,8 +361,6 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_WITH_NO_WIDTH = "Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT"; //$NON-NLS-1$	
-	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$	
-
-	
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$		
 	
 }

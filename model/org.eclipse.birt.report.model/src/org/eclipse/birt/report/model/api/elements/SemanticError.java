@@ -387,6 +387,12 @@ public class SemanticError extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_CANNOT_SPECIFY_VALUE = MessageConstants.SEMANTIC_ERROR_CANNOT_SPECIFY_VALUE;
+	
+	/**
+	 * Error code indicating that the cube or data set can not be specified for the multiview.
+	 */
+
+	public static final String DESIGN_EXCEPTION_CANNOT_SPECIFY_DATA_OBJECT = MessageConstants.SEMANTIC_ERROR_CANNOT_SPECIFY_DATA_OBJECT;
 
 	/**
 	 * The constant for the semantic error.
