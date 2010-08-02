@@ -96,7 +96,7 @@ public class TOCStyleUtil
 
 	private String getDimension( DimensionHandle dimension )
 	{
-		if ( dimension != null )
+		if ( dimension != null && dimension.isSet( ) )
 		{
 			return dimension.getStringValue( );
 		}
