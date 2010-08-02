@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -491,16 +490,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		}
 
 		// CHECK FOR UNDEFINED SERIES QUERIES (DO NOT NEED THE RUNTIME CONTEXT)
-		final QueryUIHelper.SeriesQueries[] qsqa = new QueryUIHelper( ).getSeriesQueryDefinitions( cm );
-		Collection<String> co;
-		for ( int i = 0; i < qsqa.length; i++ )
-		{
-			co = qsqa[i].validate( );
-			if ( co != null )
-			{
-				alProblems.addAll( co );
-			}
-		}
+		QueryUIHelper helper = new QueryUIHelper( cm );
+		helper.enableDataTypeValidator( wizardContext.getDataServiceProvider( ) );
+		alProblems.addAll( helper.validate( ) );
 
 		return alProblems.toArray( new String[alProblems.size( )] );
 	}
@@ -511,7 +503,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getRegisteredKeys()
 	 */
 	@SuppressWarnings("unchecked")
-	public final List getRegisteredKeys( )
+	public final List<String> getRegisteredKeys( )
 	{
 		return extendedHandle.getModuleHandle( ).getMessageKeys( );
 	}
