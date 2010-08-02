@@ -131,6 +131,11 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					// TODO check visibility?
 					MeasureViewHandle mv = crosstabItem.getMeasure( i );
 
+					// add measure filters
+					addFactTableOrMeasureFilter( mv.filtersIterator( ),
+							cubeQuery,
+							modelAdapter );
+
 					if ( mv instanceof ComputedMeasureViewHandle )
 					{
 						continue;
@@ -147,11 +152,6 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					mDef.setAggrFunction( mv.getCubeMeasure( ).getFunction( ) == null ? null
 							: DataAdapterUtil.getRollUpAggregationName( mv.getCubeMeasure( )
 									.getFunction( ) ) );
-
-					// add measure filters
-					addFactTableOrMeasureFilter( mv.filtersIterator( ),
-							cubeQuery,
-							modelAdapter );
 				}
 			}
 
