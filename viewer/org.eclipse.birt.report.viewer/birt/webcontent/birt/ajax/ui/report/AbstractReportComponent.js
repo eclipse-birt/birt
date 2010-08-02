@@ -84,7 +84,16 @@ AbstractReportComponent.prototype =
 		    {	    	
 			    //  Internet Explorer has a funky execScript method that makes this easy
 			    if ( window.execScript )
+			    {
 			        window.execScript( scripts[i].innerHTML );
+			    }
+			    else if ( window.eval && ( BrowserUtility.__isSafari() || BrowserUtility.__isOpera() ) )
+			    {
+			    	with( window )
+			    	{
+			    		window.eval( scripts[i].innerHTML );
+			    	}
+			    }
 		    }
 		}
 
