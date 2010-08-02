@@ -74,10 +74,19 @@ public final class ChartTextMetrics extends TextAdapter
 		bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
 		g2d = (Graphics2D) ( (BufferedImage) bi ).getGraphics( );
 
-		g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
-				RenderingHints.VALUE_FRACTIONALMETRICS_ON );
 		g2d.setRenderingHint( RenderingHints.KEY_RENDERING,
 				RenderingHints.VALUE_RENDER_QUALITY );
+		
+		if ( _xs.getDpiResolution( ) >= 192 )
+		{
+			g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
+					RenderingHints.VALUE_FRACTIONALMETRICS_ON );
+		}
+		else
+		{
+			g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
+					RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
+		}
 
 		xs = _xs;
 		la = _la;
@@ -228,15 +237,9 @@ public final class ChartTextMetrics extends TextAdapter
 			double dWidth, dMaxWidth = 0;
 			for ( int i = 0; i < iLineCount; i++ )
 			{
-				/**
-				 * //r2d = tla[i].getBounds( );
-				 * 
-				 * Not use the textLayout.getBounds(), this is not correct when
-				 * the string contains full pitch characters.
-				 */
-				r2d = fm.getStringBounds( fsa[0], g2d );
-
+				r2d = tla[i].getBounds( );
 				dWidth = r2d.getWidth( );
+				
 				if ( dWidth > dMaxWidth )
 				{
 					dMaxWidth = dWidth;
