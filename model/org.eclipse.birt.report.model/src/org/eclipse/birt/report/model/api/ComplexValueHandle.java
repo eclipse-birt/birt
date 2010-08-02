@@ -280,7 +280,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 			return handle.isSet( );
 		}
 
-		Object value = memberContext.getValue( getModule( ) );
+		Object value = memberContext.getLocalValue( getModule( ) );
 		return ( value != null );
 	}
 }
