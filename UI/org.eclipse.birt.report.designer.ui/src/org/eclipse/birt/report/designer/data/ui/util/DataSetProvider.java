@@ -447,7 +447,19 @@ public final class DataSetProvider
 				return hint;
 			}
 		}
-		return null;
+		if ( hint == null && ( handle instanceof DerivedDataSetHandle ) )
+		{
+			List<DataSetHandle> inputDataSets = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
+			for ( int i = 0; i < inputDataSets.size( ); i++ )
+			{
+				hint = findColumnHint( inputDataSets.get( i ), columnName );
+				if ( hint != null )
+				{
+					return hint;
+				}
+			}
+		}
+		return hint;
 	}
 
 	/**
