@@ -87,6 +87,8 @@ public interface IRowDataAccessor
 	public int getEdgeStart( int dimAxisIndex );
 
 	public int getEdgeEnd( int dimAxisIndex );
+	
+	public int getExtend( int dimAxisIndex );
 
 	public void setFetchSize( int fetchSize );
 	

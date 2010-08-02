@@ -260,7 +260,7 @@ public class DimensionAxis
 	 */
 	public long getExtend( )
 	{
-		return 0;
+		return this.accessor.getExtend( dimAxisIndex );
 	}
 
 	/**

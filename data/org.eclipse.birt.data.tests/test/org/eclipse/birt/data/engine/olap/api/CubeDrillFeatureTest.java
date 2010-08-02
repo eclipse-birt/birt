@@ -738,6 +738,158 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		engine.shutdown( );
 	}
 	
+	/**
+	 * Test the getExtend from dimension cursor.
+	 * @throws Exception
+	 */
+	public void testDimensionExtend( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "COUNTRY" );
+		hier1.createLevel( "STATE" );
+		hier1.createLevel( "CITY" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "YEAR" );
+		hier2.createLevel( "QUARTER" );
+		hier2.createLevel( "MONTH" );
+
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition dim3 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
+		hier3.createLevel( "PRODUCTLINE" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "binding1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"COUNTRY\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "binding2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"STATE\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "binding3" );
+
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"CITY\"]" ) );
+		cqd.addBinding( binding3 );
+		
+		IBinding binding4 = new Binding( "binding4" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"YEAR\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "binding5" );
+
+		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"QUARTER\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IBinding binding6 = new Binding( "binding6" );
+
+		binding6.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"MONTH\"]" ) );
+		cqd.addBinding( binding6 );
+
+		IBinding binding7 = new Binding( "binding7" );
+		binding7.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"PRODUCTLINE\"]" ) );
+		cqd.addBinding( binding7 );
+
+		IBinding binding8 = new Binding( "measure1" );
+		binding8.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding8 );
+		
+		IBinding binding9 = new Binding( "total1" );
+		binding9.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding9.addAggregateOn( "dimension[\"dimension1\"][\"COUNTRY\"]");
+		binding9.addAggregateOn( "dimension[\"dimension1\"][\"STATE\"]");
+		binding9.addAggregateOn( "dimension[\"dimension1\"][\"CITY\"]");
+		binding9.addAggregateOn( "dimension[\"dimension2\"][\"YEAR\"]");
+		binding9.addAggregateOn( "dimension[\"dimension2\"][\"QUARTER\"]");
+		binding9.addAggregateOn( "dimension[\"dimension2\"][\"MONTH\"]");
+		binding9.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		cqd.addBinding( binding9 );
+		
+		IBinding binding10 = new Binding( "total2" );
+		binding10.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding10.addAggregateOn( "dimension[\"dimension3\"][\"PRODUCTLINE\"]");
+		binding10.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		cqd.addBinding( binding10 );
+		
+		IBinding binding11 = new Binding( "grandTotal1" );
+		binding11.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding11.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		cqd.addBinding( binding11 );
+		
+		IEdgeDrillFilter filter1 = rowEdge.createDrillFilter( "drill2" );
+		filter1.setTargetHierarchy( hier1 );
+		filter1.setTargetLevelName( "COUNTRY" );
+		List memberList = new ArrayList( );
+		memberList.add( new Object[]{
+			"USA","CHINA"
+		} );
+		filter1.setTuple( memberList );
+		
+		IEdgeDrillFilter filter = rowEdge.createDrillFilter( "drill1" );
+		filter.setTargetHierarchy( hier2 );
+		filter.setTargetLevelName( "YEAR" );
+		memberList = new ArrayList( );
+		memberList.add( new Object[]{
+			"2003"
+		} );
+		memberList.add( null );
+		memberList.add( null );
+		filter.setTuple( memberList );
+				
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
+		
+		DrilledCube cube = new DrilledCube( );
+		cube.createCube( engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "binding1" );
+		rowEdgeBindingNames.add( "binding2" );
+		rowEdgeBindingNames.add( "binding3" );
+		rowEdgeBindingNames.add( "binding4" );
+		rowEdgeBindingNames.add( "binding5" );
+		rowEdgeBindingNames.add( "binding6" );
+
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "binding7" );
+		
+		List edgeCursors = cursor.getOrdinateEdge( );
+		StringBuffer strBuffer = new StringBuffer( );
+		for ( int i = 0; i < edgeCursors.size( ); i++ )
+		{
+			EdgeCursor eCursor = (EdgeCursor) edgeCursors.get( i );
+			strBuffer.append( "Edge Cursor " + i + "\n" );
+			List dCursor = eCursor.getDimensionCursor( );
+			while ( eCursor.next( ) )
+			{
+				for ( int k = 0; k < dCursor.size( ); k++ )
+				{
+					DimensionCursor dimCursor = (DimensionCursor) dCursor.get( k );
+					strBuffer.append( dimCursor.getExtent( ) );
+					strBuffer.append( "  " );
+				}
+				strBuffer.append( "\n" );			
+			}
+			strBuffer.append( "\n" );
+		}
+
+		this.testPrint( strBuffer.toString( ) );
+		this.checkOutputFile( );
+		close( cursor );
+		engine.shutdown( );
+	}
+	
 	private DataEngineContext createPresentationContext( ) throws BirtException
 	{
 		DataEngineContext context =  DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,

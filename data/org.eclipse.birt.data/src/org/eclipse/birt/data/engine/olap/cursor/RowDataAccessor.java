@@ -611,4 +611,9 @@ public class RowDataAccessor implements IRowDataAccessor
 	{
 		return this.service;
 	}
+
+	public int getExtend( int dimAxisIndex )
+	{
+		return this.dimTraverse.getExtend( dimAxisIndex );
+	}
 }

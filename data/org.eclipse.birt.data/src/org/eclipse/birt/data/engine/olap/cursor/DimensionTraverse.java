@@ -624,4 +624,17 @@ class DimensionTraverse
 		return range;
 	}
 
+	/**
+	 * -1 indicate that this is a drilled member
+	 * @param dimAxisIndex
+	 * @return
+	 */
+	public int getExtend( int dimAxisIndex )
+	{
+		EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
+		if ( edgeInfo.isNull == 0 )
+			return -1;
+		else
+			return 0;
+	}
 }

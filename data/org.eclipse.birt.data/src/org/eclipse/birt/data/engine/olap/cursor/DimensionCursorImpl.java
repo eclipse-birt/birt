@@ -70,6 +70,14 @@ class DimensionCursorImpl extends AbstractCursorSupport
 		return dimensionAxis.getEdgeStart( );
 
 	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.AbstractCursorSupport#getExtent()
+	 */
+	public long getExtent( ) throws OLAPException
+	{
+		return dimensionAxis.getExtend( );
+	}
 
 	/*
 	 * @see javax.olap.cursor.DimensionCursor#setEdgeCursor(javax.olap.cursor.EdgeCursor)
