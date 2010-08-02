@@ -613,7 +613,11 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			{
 				String columnName = ( (DataItemHandle) content ).getResultSetColumn( );
 				ComputedColumnHandle columnHandle = crosstabModel.findColumnBinding( columnName );
-				if ( columnHandle != null )
+				
+				// TODO only update bindings already having a function. this is
+				// still bad, logic should be moved outside here.
+				
+				if ( columnHandle != null && columnHandle.getAggregateFunction( ) != null)
 				{
 					columnHandle.setAggregateFunction( function );
 					
