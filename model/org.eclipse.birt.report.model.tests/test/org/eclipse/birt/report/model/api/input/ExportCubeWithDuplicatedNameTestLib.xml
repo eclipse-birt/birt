@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21">
+    <property name="units">in</property>
+    <property name="theme">defaultTheme</property>
+    <cubes>
+        <tabular-cube name="Cube">
+            <property name="dimensions">
+                <tabular-dimension name="Group">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">Hierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="Hierarchy">
+                            <property name="levels">
+                                <tabular-level name="Year">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">year</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">REQUIREDDATE</property>
+                                </tabular-level>
+                                <tabular-level name="Quarter">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">quarter</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">REQUIREDDATE</property>
+                                </tabular-level>                                                                
+                                <tabular-level name="Month">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">REQUIREDDATE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group1">
+                    <property name="defaultHierarchy">Hierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="Hierarchy1">
+                            <property name="levels">
+                                <tabular-level name="PRODUCTCODE">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">PRODUCTCODE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary">
+                    <property name="measures">
+                        <tabular-measure name="QUANTITYORDERED">
+                            <expression name="measureExpression" type="javascript">dataSetRow["QUANTITYORDERED"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Data Set</property>
+        </tabular-cube>
+    </cubes>
+    <themes>
+        <theme name="defaultTheme"/>
+    </themes>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage"/>
+    </page-setup>
+</library>

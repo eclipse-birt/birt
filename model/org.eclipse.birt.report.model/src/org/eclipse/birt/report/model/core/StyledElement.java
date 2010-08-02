@@ -291,7 +291,7 @@ public abstract class StyledElement extends DesignElement
 	{
 		if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
 		{
-			if ( value instanceof StyleElement )
+			if ( value instanceof StyleElement || value == null )
 				setStyle( (StyleElement)value );
 			else if ( value instanceof String )
 				setStyleName( (String)value );

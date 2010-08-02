@@ -1093,6 +1093,44 @@ public class ElementExporterTest extends BaseTestCase
 			assertEquals(
 					"Duplicated element name in target library, the element NewMeasure View1 can not be exported. Please rename the exported element name.", e.getLocalizedMessage( ) ); //$NON-NLS-1$
 		}
+	}
+	
+	public void testExportCubeWithDuplicatedName( ) throws Exception
+	{
+		openDesign( "ExportCubeWithDuplicatedNameTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ExportCubeWithDuplicatedNameTestLib.xml" ); //$NON-NLS-1$
+		
+		DesignElementHandle cube = designHandle.findCube( "Cube" ); //$NON-NLS-1$
+		assertTrue( ElementExportUtil.canExport( cube, libraryHandle, true ) );
+		assertFalse( ElementExportUtil.canExport( cube, libraryHandle, false ) );
 
+		ElementExportUtil.exportElement( cube, libraryHandle, true );
+		save( libraryHandle );
+		assertTrue( compareFile( "ExportCubeWithDuplicatedNameTestLib_golden.xml" ) ); //$NON-NLS-1$
+	}
+	
+	public void testExportCubeWithDuplicatedDimensionName( ) throws Exception
+	{
+		openDesign( "ExportCubeWithDuplicatedNameTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ExportCubeWithDuplicatedNameTestLib_1.xml" ); //$NON-NLS-1$
+		
+		DesignElementHandle cube = designHandle.findCube( "Cube" ); //$NON-NLS-1$
+		assertTrue( ElementExportUtil.canExport( cube, libraryHandle, true ) );
+		assertFalse( ElementExportUtil.canExport( cube, libraryHandle, false ) );
+
+		assertTrue( ElementExportUtil.canExport( cube, libraryHandle, true ) );
+		assertFalse( ElementExportUtil.canExport( cube, libraryHandle, false ) );		
+
+		ElementExportUtil.exportElement( cube, libraryHandle, true );
+		save( libraryHandle );
+		assertTrue( compareFile( "ExportCubeWithDuplicatedNameTestLib_1_golden.xml" ) ); //$NON-NLS-1$
+		
+		openLibrary( "ExportCubeWithDuplicatedNameTestLib_2.xml" ); //$NON-NLS-1$
+		assertTrue( ElementExportUtil.canExport( cube, libraryHandle, true ) );
+		assertFalse( ElementExportUtil.canExport( cube, libraryHandle, false ) );
+		
+		ElementExportUtil.exportElement( cube, libraryHandle, true );
+		save( libraryHandle );
+		assertTrue( compareFile( "ExportCubeWithDuplicatedNameTestLib_2_golden.xml" ) ); //$NON-NLS-1$		
 	}
 }

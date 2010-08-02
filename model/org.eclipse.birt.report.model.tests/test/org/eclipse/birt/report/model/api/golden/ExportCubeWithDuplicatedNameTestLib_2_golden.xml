@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+    <property name="units">in</property>
+    <property name="theme">defaultTheme</property>
+    <cubes>
+        <tabular-cube name="Cube 1" id="2">
+            <property name="dimensions">
+                <tabular-dimension name="Group" id="3">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">Hierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="Hierarchy" id="4">
+                            <property name="levels">
+                                <tabular-level name="Year" id="5">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">year</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">REQUIREDDATE</property>
+                                </tabular-level>
+                                <tabular-level name="Quarter" id="6">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">quarter</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">REQUIREDDATE</property>
+                                </tabular-level>
+                                <tabular-level name="Month" id="7">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">REQUIREDDATE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary" id="8">
+                    <property name="measures">
+                        <tabular-measure name="QUANTITYORDERED" id="9">
+                            <expression name="measureExpression" type="javascript">dataSetRow["QUANTITYORDERED"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Data Set</property>
+        </tabular-cube>
+        <tabular-cube name="Cube" id="12">
+            <property name="dimensions">
+                <tabular-dimension name="Group1" id="13">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">Hierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="Hierarchy1" id="14">
+                            <property name="levels">
+                                <tabular-level name="Year" id="15">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">year</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">ORDERDATE</property>
+                                </tabular-level>
+                                <tabular-level name="Month" id="16">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">ORDERDATE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group11" id="17">
+                    <property name="defaultHierarchy">Hierarchy11</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="Hierarchy11" id="18">
+                            <property name="levels">
+                                <tabular-level name="PRODUCTLINE" id="19">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">PRODUCTLINE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary1" id="20">
+                    <property name="measures">
+                        <tabular-measure name="QUANTITYORDERED1" id="21">
+                            <expression name="measureExpression" type="javascript">dataSetRow["QUANTITYORDERED"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Data Set</property>
+        </tabular-cube>
+    </cubes>
+    <themes>
+        <theme name="defaultTheme" id="10"/>
+    </themes>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="11"/>
+    </page-setup>
+</library>

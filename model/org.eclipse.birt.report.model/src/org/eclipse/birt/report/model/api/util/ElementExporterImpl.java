@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.namespace.AbstractNameHelper;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
@@ -53,7 +54,6 @@ import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
-import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
@@ -369,6 +369,9 @@ class ElementExporterImpl
 	protected void findAndDropDuplicatedElement( DesignElementHandle handle )
 			throws SemanticException
 	{
+		if ( handle.getName( ) != null && dropDuplicatedElement( handle.getElement( ) ) )
+			return;
+
 		ContentIterator iter = new ContentIterator( handle.getModule( ), handle
 				.getElement( ) );
 
@@ -379,10 +382,6 @@ class ElementExporterImpl
 				continue;
 			dropDuplicatedElement( element );
 		}
-
-		if ( handle.getName( ) == null )
-			return;
-		dropDuplicatedElement( handle.getElement( ) );
 	}
 
 	/**
@@ -390,9 +389,10 @@ class ElementExporterImpl
 	 * 
 	 * @param handle
 	 *            the design element
+	 * @return true if the duplicated element is dropped, otherwise false.          
 	 * @throws SemanticException
 	 */
-	protected final void dropDuplicatedElement( DesignElement element )
+	protected final boolean dropDuplicatedElement( DesignElement element )
 			throws SemanticException
 	{
 
@@ -401,15 +401,23 @@ class ElementExporterImpl
 		NameSpace nameSpace = targetModule.getNameHelper( ).getNameSpace(
 				nameSpaceID );
 
-		DesignElement duplicateElement = nameSpace.getElement( element
-				.getName( ) );
+		DesignElement duplicateElement = nameSpace.getElement( element.getName( ) );
 
 		if ( duplicateElement == null )
-			return;
+		{
+			if ( isOLAPElement( element ) )
+			{
+				nameSpace = ( (AbstractNameHelper) targetModule.getNameHelper( ) )
+						.getCachedNameSpace( nameSpaceID );
+				duplicateElement = nameSpace.getElement( element.getName( ) );
+			}
+			else
+				return false;
+		}
 
 		DesignElement targetElement = getDropTarget( duplicateElement );
 		if ( targetElement == null )
-			return;
+			return false;
 
 		// for OLAP element, rename it
 		if ( isOLAPElement( targetElement ) )
@@ -429,19 +437,18 @@ class ElementExporterImpl
 				}
 
 			}
-			return;
+			return false;
 		}
 
 		// check this element with duplicate name can be dropped or not
 		if ( !canDropInContext( targetElement ) )
 		{
-			throw new SemanticException( element, new String[]{element
-					.getName( )},
+			throw new SemanticException( element, new String[]{element.getName( )},
 					SemanticException.DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL );
 		}
 
 		targetElement.getHandle( targetModuleHandle.getModule( ) ).drop( );
-
+		return true;
 	}
 
 	private boolean isOLAPElement( DesignElement element )
