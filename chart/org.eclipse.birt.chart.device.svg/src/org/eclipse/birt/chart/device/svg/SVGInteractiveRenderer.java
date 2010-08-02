@@ -850,6 +850,9 @@ public class SVGInteractiveRenderer
 		else if ( av instanceof MultiURLValues )
 		{
 			MultiURLValues muv = (MultiURLValues) av;
+
+			setTooltipForURLRedirect( elm, src, muv.getTooltip( ) );
+
 			List<URLValue> validURLValues = MultiActionValuesScriptGenerator.getValidURLValues( muv );
 			int size = validURLValues.size( );
 			if ( size == 1 )
@@ -869,9 +872,6 @@ public class SVGInteractiveRenderer
 						bDblClick );
 			}
 			
-			setTooltipForURLRedirect( elm,
-					src,
-					muv.getTooltip( ) );
 		}
 	}
 	/**
@@ -1034,6 +1034,8 @@ public class SVGInteractiveRenderer
 	private void setURLValueAttributes( URLValue urlValue, Element elm,
 			StructureSource src, String scriptEvent, boolean bDblClick )
 	{
+		setTooltipForURLRedirect( elm, src, urlValue );
+
 		String url = ""; //$NON-NLS-1$
 		if ( urlValue.getBaseUrl( ).startsWith( "#" ) ) { //$NON-NLS-1$
 			url = "top.document.location.hash='" //$NON-NLS-1$
@@ -1069,7 +1071,6 @@ public class SVGInteractiveRenderer
 		elm.setAttribute( scriptEvent,
 				wrapJS( bDblClick, url ));
 		
-		setTooltipForURLRedirect( elm, src, urlValue );
 	}
 
 	/**
