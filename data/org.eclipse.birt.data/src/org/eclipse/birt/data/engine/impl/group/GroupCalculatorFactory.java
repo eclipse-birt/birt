@@ -74,8 +74,16 @@ public class GroupCalculatorFactory
 							intervalRange, locale, timeZone );
 
 				case IGroupDefinition.NUMERIC_INTERVAL :
-					return new NumericGroupCalculator( intervalStart,
+					if( dataType == DataType.DECIMAL_TYPE )
+					{
+						return new DecimalGroupCalculator( intervalStart,
 							intervalRange );
+					}
+					else
+					{
+						return new NumericGroupCalculator( intervalStart,
+								intervalRange );
+					}
 
 				case IGroupDefinition.STRING_PREFIX_INTERVAL :
 					return new StringGroupCalculator( intervalStart,
