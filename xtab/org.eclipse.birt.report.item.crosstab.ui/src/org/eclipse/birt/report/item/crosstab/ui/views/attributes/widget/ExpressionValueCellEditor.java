@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellEditor;
@@ -62,7 +61,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.22 $ $Date: 2010/03/19 05:40:48 $
+ * @version $Revision: 1.23 $ $Date: 2010/04/06 04:06:42 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -405,29 +404,23 @@ public class ExpressionValueCellEditor extends CellEditor
 		this.referencedLevelList = referencedLevelList;
 	}
 
-	private TabularCubeHandle getCubeHandle( )
+	private CubeHandle getCubeHandle( )
 	{
-		TabularCubeHandle tabularCube = null;
 		CrosstabReportItemHandle crosstab = null;
 		if ( currentItem != null )
 		{
 			try
 			{
 				crosstab = (CrosstabReportItemHandle) currentItem.getReportItem( );
-				CubeHandle cube = crosstab.getCube( );
-				if ( cube != null && cube instanceof TabularCubeHandle )
-				{
-					tabularCube = (TabularCubeHandle) cube;
-				}
+				return crosstab.getCube( );
 			}
 			catch ( Exception e )
 			{
 				// TODO Auto-generated catch block
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
-
 		}
-		return tabularCube;
+		return null;
 	}
 
 	private List getExistValueList( )
@@ -452,7 +445,7 @@ public class ExpressionValueCellEditor extends CellEditor
 	private List getSelectMemberValueList( )
 	{
 		// get CubeHandle
-		TabularCubeHandle tabularCube = getCubeHandle( );
+		CubeHandle cube = getCubeHandle( );
 
 		// getValueList
 		List valueList = new ArrayList( );
@@ -513,7 +506,7 @@ public class ExpressionValueCellEditor extends CellEditor
 				levelName );
 
 		// validate value
-		if ( tabularCube == null
+		if ( cube == null
 				|| ( targetLevel == null || targetLevel.length( ) == 0 ) )
 		{
 			return new ArrayList( );
@@ -525,14 +518,11 @@ public class ExpressionValueCellEditor extends CellEditor
 		try
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			DataService.getInstance( )
-					.registerSession( ( (TabularCubeHandle) tabularCube ).getDataSet( ),
-							session );
-			iter = session.getCubeQueryUtil( )
-					.getMemberValueIterator( tabularCube,
-							targetLevel,
-							levelDens,
-							values );
+			DataService.getInstance( ).registerSession( cube, session );
+			iter = session.getCubeQueryUtil( ).getMemberValueIterator( cube,
+					targetLevel,
+					levelDens,
+					values );
 		}
 		catch ( Exception e )
 		{
