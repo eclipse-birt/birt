@@ -2384,12 +2384,6 @@
     <PropertyVisibility name="canShrink" visibility="hide"/>                    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.MasterPage" extends="ReportElement" hasStyle="true" isAbstract="true" isNameRequired="true" name="MasterPage" nameSpace="masterPage" selector="page" since="1.0">
-    <Property detailType="pageSize" displayNameID="Element.MasterPage.type" name="type" since="1.0" type="string">
-      <Default>us-letter</Default>
-	  <Trigger preRequisite="true" validator="MasterPageTypeValidator"/>
-	  <Trigger validator="MasterPageSizeValidator"/>
-	  <Trigger validator="MasterPageMultiColumnValidator"/>
-    </Property>
     <Property displayNameID="Element.MasterPage.height" name="height" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator">
       <AllowedUnits>in,cm,mm,pt,pc,em,ex,px</AllowedUnits>
 	  <Trigger preRequisite="true" validator="MasterPageTypeValidator"/>
@@ -2401,7 +2395,13 @@
 	  <Trigger preRequisite="true" validator="MasterPageTypeValidator"/>
 	  <Trigger validator="MasterPageSizeValidator"/>
 	  <Trigger validator="MasterPageMultiColumnValidator"/>
-	</Property>		
+	</Property>
+    <Property detailType="pageSize" displayNameID="Element.MasterPage.type" name="type" since="1.0" type="string">
+      <Default>us-letter</Default>
+	  <Trigger preRequisite="true" validator="MasterPageTypeValidator"/>
+	  <Trigger validator="MasterPageSizeValidator"/>
+	  <Trigger validator="MasterPageMultiColumnValidator"/>
+    </Property>			
     <Property detailType="pageOrientation" displayNameID="Element.MasterPage.orientation" name="orientation" runtimeSettable="false" since="1.0" type="string">
       <Default>auto</Default>
     </Property>
