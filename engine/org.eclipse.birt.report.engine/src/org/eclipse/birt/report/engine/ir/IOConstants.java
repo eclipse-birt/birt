@@ -214,5 +214,10 @@ public interface IOConstants
 	 * version 7: support script expression. 
 	 */
 	static final long ENGINE_IR_VERSION_7 = 7L;
-	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_7;
+	
+	/**
+	 * version 8: support expression list parameter binding.
+	 */
+	static final long ENGINE_IR_VERSION_8 = 8L;
+	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_8;
 }

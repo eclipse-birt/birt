@@ -2051,19 +2051,18 @@ public class EngineIRVisitor extends DesignVisitor
 			drillThrough
 					.setBookmarkType( !DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC
 							.equals( handle.getTargetBookmarkType( ) ) );
-			Map<String, Expression> params = new HashMap<String, Expression>( );
+			Map<String, List<Expression>> params = new HashMap<String, List<Expression>>( );
 			Iterator paramIte = handle.paramBindingsIterator( );
 			while ( paramIte.hasNext( ) )
 			{
 				ParamBindingHandle member = (ParamBindingHandle) paramIte
 						.next( );
-				String name = member.getParamName( );
-				ExpressionHandle exprHandle = member
-						.getExpressionProperty( ParamBinding.EXPRESSION_MEMBER );
-				Expression expr = createExpression( exprHandle );
-				if ( expr != null )
+				String name = member.getParamName( ); 
+				ExpressionListHandle listHandle = member.getExpressionListHandle( );
+				List<Expression> exprs = createExpression( listHandle );
+				if ( exprs != null )
 				{
-					params.put( name, expr );
+					params.put( name, exprs );
 				}
 			}
 			drillThrough.setParameters( params );

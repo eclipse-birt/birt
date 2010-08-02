@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -119,7 +120,7 @@ public interface IHyperlinkAction
 			String target, String format );
 	
 	public void setDrillThrough( String bookmark, boolean isBookmark,
-			String reportName, Map<String, Object> parameterBindings,
+			String reportName, Map<String, List<Object>> parameterBindings,
 			Map searchCriteria,
 			String target, String format, String targetFileType );
 	

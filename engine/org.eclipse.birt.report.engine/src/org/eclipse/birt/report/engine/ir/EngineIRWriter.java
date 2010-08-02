@@ -1745,7 +1745,7 @@ public class EngineIRWriter implements IOConstants
 	{
 		Expression reportName = drillThrough.getReportName( );
 		String fileType = drillThrough.getTargetFileType( );
-		Map<String, Expression> parameters = drillThrough.getParameters( );
+		Map<String, List<Expression>> parameters = drillThrough.getParameters( );
 		Map search = drillThrough.getSearch( );
 		String format = drillThrough.getFormat( );
 		boolean bookmarkType = drillThrough.getBookmarkType( );
@@ -1753,7 +1753,7 @@ public class EngineIRWriter implements IOConstants
 
 		writeExpression( out, reportName );
 		IOUtil.writeString( out, fileType );
-		writeExprMap( out, parameters );
+		writeDrillThroughExprMap( out, parameters );
 		IOUtil.writeMap( out, search );
 		IOUtil.writeString( out, format );
 		IOUtil.writeBool( out, bookmarkType );
@@ -1778,6 +1778,32 @@ public class EngineIRWriter implements IOConstants
 				Expression expr = entry.getValue( );
 				IOUtil.writeString( dos, name );
 				writeExpression( dos, expr );
+			}
+		}
+	}
+	
+	private void writeDrillThroughExprMap( DataOutputStream dos,
+			Map<String, List<Expression>> exprs ) throws IOException
+	{
+		// named expression
+
+		if ( exprs == null )
+		{
+			IOUtil.writeInt( dos, 0 );
+		}
+		else
+		{
+			IOUtil.writeInt( dos, exprs.size( ) );
+			for ( Map.Entry<String, List<Expression>> entry : exprs.entrySet( ) )
+			{
+				String name = entry.getKey( );
+				IOUtil.writeString( dos, name );
+				List<Expression> exprList = entry.getValue( );
+				IOUtil.writeInt( dos, exprList.size( ) );
+				for( Expression expr: exprList )
+				{
+					writeExpression( dos, expr );	
+				}
 			}
 		}
 	}

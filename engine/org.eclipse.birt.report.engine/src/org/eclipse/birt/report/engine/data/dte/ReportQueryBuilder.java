@@ -1890,15 +1890,18 @@ public class ReportQueryBuilder
 							drillThrough
 									.setBookmark( (Expression) newExpressions
 											.get( expressionIndex++ ) );
-							Map<String, Expression> params = drillThrough
+							Map<String, List<Expression>> params = drillThrough
 									.getParameters( );
 							if ( params != null )
 							{
-								for ( Map.Entry<String, Expression> entry : params
+								for ( Map.Entry<String, List<Expression>> entry : params
 										.entrySet( ) )
 								{
-									entry.setValue( (Expression) newExpressions
-											.get( expressionIndex++ ) );
+									Expression expr = (Expression) newExpressions
+											.get( expressionIndex++ );
+									ArrayList<Expression> exprList = new ArrayList<Expression>( );
+									exprList.add( expr );
+									entry.setValue( exprList );
 								}
 							}
 						}
@@ -1999,12 +2002,16 @@ public class ReportQueryBuilder
 						if ( drillThrough != null )
 						{
 							expressions.add( drillThrough.getBookmark( ) );
-							Map<String, Expression> params = drillThrough.getParameters( ); 
+							Map<String, List<Expression>> params = drillThrough.getParameters( ); 
 							if ( params != null )
 							{
-								for (Map.Entry<String, Expression> entry : params.entrySet( ))
+								for (Map.Entry<String, List<Expression>> entry : params.entrySet( ))
 								{
-									expressions.add( entry.getValue( ) );
+									List<Expression> exprs = entry.getValue( );
+									for( Expression expression : exprs )
+									{
+										expressions.add( expression );
+									}
 								}
 							}
 						}

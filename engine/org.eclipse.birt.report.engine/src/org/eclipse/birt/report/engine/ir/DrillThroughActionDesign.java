@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,7 +30,7 @@ public class DrillThroughActionDesign
 	protected boolean bookmarkType;
 	protected String format;
 
-	protected Map<String, Expression> parameters;
+	protected Map<String, List<Expression>> parameters;
 	protected Map search;
 
 	/**
@@ -69,7 +70,7 @@ public class DrillThroughActionDesign
 	/**
 	 * @return Returns the parameters.
 	 */
-	public Map<String, Expression> getParameters( )
+	public Map<String, List<Expression>> getParameters( )
 	{
 		return parameters;
 	}
@@ -78,7 +79,7 @@ public class DrillThroughActionDesign
 	 * @param parameters
 	 *            The parameters to set.
 	 */
-	public void setParameters( Map<String, Expression> parameters )
+	public void setParameters( Map<String, List<Expression>> parameters )
 	{
 		this.parameters = parameters;
 	}

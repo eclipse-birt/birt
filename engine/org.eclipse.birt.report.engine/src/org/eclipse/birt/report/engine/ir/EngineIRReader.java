@@ -67,7 +67,7 @@ public class EngineIRReader implements IOConstants
 		DataInputStream dis = new DataInputStream( in );
 		// read the version
 		long version = IOUtil.readLong( dis );
-		if ( version == ENGINE_IR_VERSION_7
+		if ( version == ENGINE_IR_VERSION_7 || version == ENGINE_IR_VERSION_8
 				|| ( version >= ENGINE_IR_VERSION_0 && version <= ENGINE_IR_VERSION_4 ) )
 		{
 			reader = new EngineIRReaderImpl( dis, checkDesignVersion );

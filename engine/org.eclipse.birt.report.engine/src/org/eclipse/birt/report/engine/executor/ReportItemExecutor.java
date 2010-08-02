@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -423,19 +425,24 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					DrillThroughActionDesign drill = action.getDrillThrough( );
 					bookmark = evaluateString( drill.getBookmark( ) );
 					boolean isBookmark = drill.getBookmarkType( );
-					Map<String, Object> paramsVal = new HashMap<String, Object>( );
-					Map<String, Expression> params = drill.getParameters( );
+					Map<String, List<Object>> paramsVal = new HashMap<String, List<Object>>( );
+					Map<String, List<Expression>> params = drill.getParameters( );
 					if ( params != null )
 					{
-						Set<Map.Entry<String, Expression>> entries = params
+						Set<Map.Entry<String, List<Expression>>> entries = params
 								.entrySet( );
-						for ( Map.Entry<String, Expression> entry : entries )
+						for ( Map.Entry<String, List<Expression>> entry : entries )
 						{
-							Expression valueExpr = entry.getValue( );
-							if ( valueExpr != null )
+							List<Expression> ExprList = entry.getValue( );
+							if ( ExprList != null  && !ExprList.isEmpty( ) )
 							{
-								Object paramValue = evaluate( valueExpr );
-								paramsVal.put( entry.getKey( ), paramValue );
+								ArrayList<Object> valueList = new ArrayList<Object>( );
+								for( Expression valueExpr: ExprList )
+								{
+									Object paramValue = evaluate( valueExpr );
+									valueList.add( paramValue );
+								}
+								paramsVal.put( entry.getKey( ), valueList );
 							}
 						}
 					}

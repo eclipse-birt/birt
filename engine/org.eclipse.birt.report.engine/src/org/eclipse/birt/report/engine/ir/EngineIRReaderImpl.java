@@ -1669,7 +1669,7 @@ public class EngineIRReaderImpl implements IOConstants
 		{
 			fileType = IOUtil.readString( in );
 		}
-		Map<String, Expression> parameters = readExprMap( in );
+		Map<String, List<Expression>> parameters = readDrillThroughExprMap( in );
 		Map search = IOUtil.readMap( in );
 		String format = IOUtil.readString( in );
 		boolean bookmarkType = IOUtil.readBool( in );
@@ -1709,6 +1709,53 @@ public class EngineIRReaderImpl implements IOConstants
 				String name = IOUtil.readString( dis );
 				Expression expr = readExpression( dis );
 				exprs.put( name, expr );
+			}
+		}
+		return exprs;
+	}
+	
+	private Map<String, List<Expression>> readDrillThroughExprMap( DataInputStream dis )
+			throws IOException
+	{
+		HashMap<String, List<Expression>> exprs = new HashMap<String, List<Expression>>( );
+		if ( version < ENGINE_IR_VERSION_7 )
+		{
+			Map<String, String> map = IOUtil.readMap( dis );
+			for ( Map.Entry<String, String> entry : map.entrySet( ) )
+			{
+				String name = entry.getKey( );
+				Expression expr = Expression.newScript( entry.getValue( ) );
+				ArrayList<Expression> exprList = new ArrayList<Expression>( 1 );
+				exprList.add( expr );
+				exprs.put( name, exprList );
+			}
+		}
+		else if ( version < ENGINE_IR_VERSION_8 )
+		{
+			int size = IOUtil.readInt( dis );
+			for ( int i = 0; i < size; i++ )
+			{
+				String name = IOUtil.readString( dis );
+				Expression expr = readExpression( dis );
+				ArrayList<Expression> exprList = new ArrayList<Expression>( 1 );
+				exprList.add( expr );
+				exprs.put( name, exprList );
+			}
+		}
+		else
+		{
+			int size = IOUtil.readInt( dis );
+			for ( int i = 0; i < size; i++ )
+			{
+				String name = IOUtil.readString( dis );
+				int exprSize = IOUtil.readInt( dis );
+				ArrayList<Expression> exprList = new ArrayList<Expression>( exprSize );
+				for ( int j = 0; j< exprSize; j++ )
+				{
+					Expression expr = readExpression( dis );
+					exprList.add( expr );
+				}
+				exprs.put( name, exprList );
 			}
 		}
 		return exprs;
