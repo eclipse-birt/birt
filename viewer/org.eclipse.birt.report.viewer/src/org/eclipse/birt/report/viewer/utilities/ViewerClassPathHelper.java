@@ -186,28 +186,35 @@ public class ViewerClassPathHelper
 	{
 		ArrayList<URL> urls = new ArrayList<URL>( );
 
-		IReportClasspathResolver provider = ReportPlugin.getDefault( )
-				.getReportClasspathResolverService( );
-
-		if ( provider != null )
+		try
 		{
-			String[] classpaths = provider.resolveClasspath( reportFilePath );
+			IReportClasspathResolver provider = ReportPlugin.getDefault( )
+					.getReportClasspathResolverService( );
 
-			if ( classpaths != null && classpaths.length != 0 )
+			if ( provider != null )
 			{
-				for ( int j = 0; j < classpaths.length; j++ )
+				String[] classpaths = provider.resolveClasspath( reportFilePath );
+
+				if ( classpaths != null && classpaths.length != 0 )
 				{
-					File file = new File( classpaths[j] );
-					try
+					for ( int j = 0; j < classpaths.length; j++ )
 					{
-						urls.add( file.toURI( ).toURL( ) );
-					}
-					catch ( MalformedURLException e )
-					{
-						e.printStackTrace( );
+						File file = new File( classpaths[j] );
+						try
+						{
+							urls.add( file.toURI( ).toURL( ) );
+						}
+						catch ( MalformedURLException e )
+						{
+							e.printStackTrace( );
+						}
 					}
 				}
 			}
+		}
+		catch ( Exception e )
+		{
+			// TODO consider logging here
 		}
 
 		return urls.toArray( new URL[urls.size( )] );
