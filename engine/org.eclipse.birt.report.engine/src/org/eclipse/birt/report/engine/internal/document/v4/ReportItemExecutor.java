@@ -577,7 +577,8 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 		if ( a != null && b != null )
 		{
-			if ( a.getUniqueID( ) == b.getUniqueID( ) )
+			if ( a.getComponentID( ) == b.getComponentID( )
+			        && a.getUniqueID( ) == b.getUniqueID( ) )
 			{
 				return true;
 			}
