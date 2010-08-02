@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 import org.eclipse.birt.report.engine.api.script.instance.IAbstractTextInstance;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
 public abstract class ForeignTextInstance extends ReportItemInstance implements
 		IAbstractTextInstance
@@ -41,11 +42,21 @@ public abstract class ForeignTextInstance extends ReportItemInstance implements
 		String type = fc.getRawType( );
 		if ( IForeignContent.TEMPLATE_TYPE.equals( type ) )
 		{
+			String text = null;
 			Object[] rawValue = (Object[]) fc.getRawValue( );
 			if ( rawValue[0] != null )
 			{
-				return (String) rawValue[0];
+				text = (String) rawValue[0];
 			}
+			if ( text == null )
+			{
+				if ( fc.getGenerateBy( ) instanceof TextItemDesign )
+				{
+					TextItemDesign design = (TextItemDesign) fc.getGenerateBy( );
+					text = design.getText( );
+				}
+			}
+			return text;
 		}
 		else if ( IForeignContent.HTML_TYPE.equals( type )
 				|| IForeignContent.TEXT_TYPE.equals( type ) )
