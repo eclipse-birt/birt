@@ -871,6 +871,6 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			data = NumberDataElementImpl.create( 0 );
 		}
-		return new NumberDataElementComposite( parent, (NumberDataElement) data );
+		return new NumberDataElementComposite( parent, data );
 	}
 }

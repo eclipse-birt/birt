@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.ParseException;
 
+import org.eclipse.birt.chart.model.data.BigNumberDataElement;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
+import org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -33,7 +37,7 @@ public class NumberDataElementComposite extends TextEditorComposite implements
 		IDataElementComposite
 {
 
-	public NumberDataElementComposite( Composite parent, NumberDataElement data )
+	public NumberDataElementComposite( Composite parent, DataElement data )
 	{
 		super( parent,
 				SWT.BORDER | SWT.SINGLE,
@@ -51,8 +55,13 @@ public class NumberDataElementComposite extends TextEditorComposite implements
 		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
 		try
 		{
-			Number numberElement = nf.parse( getText( ) );
-			return NumberDataElementImpl.create( numberElement.doubleValue( ) );
+			Number number = nf.parse( getText( ) );
+			if (number instanceof BigInteger)
+			{
+				BigInteger biNumber = (BigInteger)number;
+				return BigNumberDataElementImpl.create( new BigDecimal( biNumber ).stripTrailingZeros( ) );
+			}
+			return NumberDataElementImpl.create( number.doubleValue( ) );
 		}
 		catch ( ParseException e1 )
 		{
@@ -71,6 +80,13 @@ public class NumberDataElementComposite extends TextEditorComposite implements
 
 	public void setDataElement( DataElement data )
 	{
+		if (data instanceof BigNumberDataElement)
+		{
+			this.setText( ( (BigNumberDataElement) data ).getValue( )
+					.stripTrailingZeros( )
+					.toString( ) );
+		}
+		
 		if ( data == null || data instanceof NumberDataElement )
 		{
 			this.setText( data == null ? "" : ChartUIUtil.getDefaultNumberFormatInstance( ) //$NON-NLS-1$

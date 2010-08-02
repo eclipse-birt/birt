@@ -1103,8 +1103,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		{
 			try
 			{
-				picker = new NumberDataElementComposite( parent,
-						(NumberDataElement) data );
+				picker = new NumberDataElementComposite( parent, data );
 			}
 			catch ( Exception e )
 			{

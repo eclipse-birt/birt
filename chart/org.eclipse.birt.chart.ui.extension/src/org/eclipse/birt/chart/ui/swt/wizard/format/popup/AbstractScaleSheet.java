@@ -348,8 +348,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		{
 			try
 			{
-				picker = new NumberDataElementComposite( parent,
-						(NumberDataElement) data );
+				picker = new NumberDataElementComposite( parent, data );
 			}
 			catch ( Exception e )
 			{
