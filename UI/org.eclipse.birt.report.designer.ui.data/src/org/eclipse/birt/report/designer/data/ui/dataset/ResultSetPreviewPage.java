@@ -331,7 +331,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 						AppContextPopulator.populateApplicationContext( dsHandle, appContext );
 						previewer.open( appContext, getEngineConfig( handle ) );
 						populateRecords( previewer.preview( ) );
-						previewer.close( );
 						monitor.done( );
 					}
 					catch ( BirtException e )
@@ -340,6 +339,11 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 					}
 					finally
 					{
+						try {
+							previewer.close( );
+						} catch (BirtException e) {
+							e.printStackTrace();
+						}
 						resetPropertyBinding(
 								dataSetBindingMap,
 								dataSourceBindingMap );
