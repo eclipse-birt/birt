@@ -182,7 +182,7 @@ public final class CurveRenderer
 		bTranslucent = _bTranslucent;
 		oSource = StructureSource.createSeries( _render.getSeries( ) );
 		
-		dc = _render.getDeferredCacheManager( ).getLastDeferredCache( );
+		dc = _render.getDeferredCache( );
 		this.iRender = _render;
 		loStart = goFactory.createLocation( 0, 0 );
 		loEnd = goFactory.createLocation( 0, 0 );
