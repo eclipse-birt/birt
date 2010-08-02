@@ -18,7 +18,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This type defines the physical size and position of an element.
+ * Bounds represents the physical size and position of an element.
  * <!-- end-model-doc -->
  *
  * <p>

@@ -18,8 +18,8 @@ import org.eclipse.birt.chart.model.IChartObject;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents an extended property stored as a name-value pair that is created to hold data for minor extensions to a chart.
+ * ExtendedProperty is a name-value pair which is specialized for representing an extended property 
+ * entry that is created to hold data for minor extensions to a chart.
  * 			
  * <!-- end-model-doc -->
  *
@@ -43,8 +43,7 @@ public interface ExtendedProperty extends IChartObject
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 					Specifies the unique name for the property.
+	 * Attribute "Name" specifies the unique name for the property entry.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
@@ -69,8 +68,7 @@ public interface ExtendedProperty extends IChartObject
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 					Defines the value for the property.
+	 * Attribute "Value" specifies the value for the property entry.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Value</em>' attribute.

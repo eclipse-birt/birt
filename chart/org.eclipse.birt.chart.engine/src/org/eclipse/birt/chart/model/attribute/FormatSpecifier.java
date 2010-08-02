@@ -18,9 +18,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type holds properties to be used to format displayed labels.
- * 			
+ * FormatSpecifier specifies how to format the output text of a value.
  * <!-- end-model-doc -->
  *
  *

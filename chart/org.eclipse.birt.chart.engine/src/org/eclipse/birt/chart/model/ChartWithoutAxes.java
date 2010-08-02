@@ -20,7 +20,11 @@ import org.eclipse.emf.common.util.EList;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This is a chart without axes...(e.g. Pie Chart, Donut Chart, etc).  
+ * ChartWithoutAxes represents a chart without any axis. (e.g. Pie Chart, Dial Chart, etc).  
+ * <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ * To create an instance use the factory method:<br/>
+ * ChartWithoutAxesImpl.create( );
+ * </p>
  * 			
  * <!-- end-model-doc -->
  *
@@ -64,9 +68,14 @@ public interface ChartWithoutAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Defines the minimum value of a slice
-	 * 							
+	 * The concept "min slice" is used for Pie-like charts, by which 
+	 * datapoints are displayed as slices of a whole graph, the size 
+	 * of the slices corresponds the value's percentage of the 
+	 * summary.  The attribute "MinSlice" of type double specifies 
+	 * the threshold value of slices. A separate slice will be created 
+	 * for each datapoint whose value is greater than this threshold, 
+	 * and all values less than the threshold will be aggregated into 
+	 * one single slice called "min slice".							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Min Slice</em>' attribute.
 	 * @see #isSetMinSlice()
@@ -119,9 +128,8 @@ public interface ChartWithoutAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Defines if the MinSlice value is a
-	 * 								percentage value
+	 * The boolean attribute indicates whether the MinSlice value is 
+	 * defined as a percentage.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Min Slice Percent</em>' attribute.
@@ -175,8 +183,8 @@ public interface ChartWithoutAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Defines the label for MinSlice
+	 * The string attribute "MinSliceLabel" specifies the label text 
+	 * of the MinSlice.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Min Slice Label</em>' attribute.
@@ -203,11 +211,9 @@ public interface ChartWithoutAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 *                         		Specifies the percentage of size that the chart 
-	 *                         		graphics (pie or dial) in client area. By default 
-	 *                         		it's not set, which means the size will be auto 
-	 *                         		adjusted.
+	 * Attribute "Coverage" specifies the percentage of size that the chart 
+	 * graphics (pie or dial) takes from the client area of the plot. By default 
+	 * it's not set, which means the size will be auto adjusted.
 	 *                         	
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Coverage</em>' attribute.

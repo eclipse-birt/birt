@@ -15,7 +15,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 			This type holds the style values for component.
+ * Style provides a holder for all properties that can be styled.
  * <!-- end-model-doc -->
  *
  * <p>

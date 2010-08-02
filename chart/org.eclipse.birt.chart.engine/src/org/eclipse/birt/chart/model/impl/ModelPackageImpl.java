@@ -138,29 +138,29 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		// Obtain or create and register interdependencies
 		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+				: ComponentPackage.eINSTANCE );
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
 		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
-				: ComponentPackage.eINSTANCE );
 		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theModelPackage.createPackageContents( );
 		theAttributePackage.createPackageContents( );
+		theComponentPackage.createPackageContents( );
 		theDataPackage.createPackageContents( );
 		theTypePackage.createPackageContents( );
-		theComponentPackage.createPackageContents( );
 		theLayoutPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theModelPackage.initializePackageContents( );
 		theAttributePackage.initializePackageContents( );
+		theComponentPackage.initializePackageContents( );
 		theDataPackage.initializePackageContents( );
 		theTypePackage.initializePackageContents( );
-		theComponentPackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
 
 		// Register package validator

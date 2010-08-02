@@ -19,8 +19,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- * 
- * 			The TriggerFlow defines whether it reacts to the capturing or bubbling sequence 
+ * The TriggerFlow defines whether it reacts to the capturing or bubbling sequence 
  * Capture: the trigger’s action will be triggered in the capturing phase
  * Bubble (default): the trigger’s action will be triggered in the bubbling phase
  * BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, and will stop the bubbling flow.

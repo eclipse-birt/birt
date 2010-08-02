@@ -18,8 +18,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type holds all font-related information.
+ * FontDefinition holds all information about a certain font used by chart.
  * 			
  * <!-- end-model-doc -->
  *

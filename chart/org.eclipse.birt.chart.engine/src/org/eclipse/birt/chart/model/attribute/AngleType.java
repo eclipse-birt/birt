@@ -19,8 +19,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the angle type of an Angle3D
+ * This type defines the angle type of an Angle3D
  * <!-- end-model-doc -->
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAngleType()
  * @model extendedMetaData="name='AngleType'"

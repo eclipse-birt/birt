@@ -29,9 +29,9 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Chart</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This is the basic type from which all charts should be extended. It defines the basic elements that are 
- * expected to be present for all charts.
- * 			
+ * Chart is the basic type from which all charts should be extended. It defines the basic elements that are 
+ * expected to be present for all charts. Class Chart is de facto abstract - never instantiate the class Chart, 
+ * instantiate one of its extended class ChartWithAxes, ChartWithoutAxes or DialChart instead.
  * <!-- end-model-doc -->
  *
  * <p>
@@ -498,9 +498,7 @@ public interface Chart extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 						Holds a collection of style maps for use by the
-	 * 						chart.
+	 * Element "Styles" holds a collection of style maps for use by the chart.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Styles</em>' containment reference list.
@@ -516,8 +514,7 @@ public interface Chart extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 						Holds the settings for interacive features.
+	 * Element "Interactivity" holds the settings for interactive features.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Interactivity</em>' containment reference.
@@ -544,12 +541,10 @@ public interface Chart extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 						Provides the message text to be displayed in the place
-	 * 						of plot area when the chart contains no data. By default,
-	 * 						it's visible is faulse, which indicates if the chart contains
-	 * 						no data, the whole chart will be hide.
-	 * 					
+	 * Element "EmptyMessage" provides the message text to be displayed 
+	 * in the place of plot area when the chart contains no data. By default,
+	 * it's visibility is false, which indicates if the chart contains 	no data, the 
+	 * whole chart will be hidden, and no label will be shown.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Empty Message</em>' containment reference.
 	 * @see #setEmptyMessage(Label)

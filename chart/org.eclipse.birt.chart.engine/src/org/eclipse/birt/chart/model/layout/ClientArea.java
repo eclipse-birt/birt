@@ -151,7 +151,7 @@ public interface ClientArea extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies whether client area is visible
+	 * Attribute "Visible" specifies whether client area is visible.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Visible</em>' attribute.
 	 * @see #isSetVisible()

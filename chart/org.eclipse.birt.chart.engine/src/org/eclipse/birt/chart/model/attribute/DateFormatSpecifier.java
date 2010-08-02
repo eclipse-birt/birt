@@ -21,8 +21,8 @@ import com.ibm.icu.util.ULocale;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type holds the format specifier properties for a date label.
+ * DateFormatSpecifier extends the type FormatSpecifier to devote 
+ * itself to formating text output of a date/time value.
  * 			
  * <!-- end-model-doc -->
  *

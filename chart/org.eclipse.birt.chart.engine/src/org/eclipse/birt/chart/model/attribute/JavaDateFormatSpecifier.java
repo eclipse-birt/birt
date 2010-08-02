@@ -21,8 +21,8 @@ import com.ibm.icu.util.ULocale;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type holds the java pattern for DateFormat.
+ * JavaDateFormatSpecifier extends FormatSpecifier specialized to 
+ * represent a java DateFormat instance.
  * 			
  * <!-- end-model-doc -->
  *
@@ -44,8 +44,8 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier
 	 * Returns the value of the '<em><b>Pattern</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							Specifies the format pattern.
+	 * Attribute "Pattern" specifies the pattern string used for establishing 
+	 * a DateFormat instance.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Pattern</em>' attribute.

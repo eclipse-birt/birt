@@ -2,13 +2,14 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: PatternImageImpl.java,v 1.1 2010/03/30 10:26:11 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.PatternImage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -98,7 +99,6 @@ public class PatternImageImpl extends ImageImpl implements PatternImage
 		backColor = ColorDefinitionImpl.WHITE( );
 		foreColor = ColorDefinitionImpl.BLACK( );
 	}
-
 
 	/**
 	 * <!-- begin-user-doc -->

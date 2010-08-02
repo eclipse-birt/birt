@@ -12,8 +12,7 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the value for a 'CallBack' action.
+ * CallBackValue extends the type ActionValue specific for callbacks.
  * 		
  * <!-- end-model-doc -->
  *
@@ -36,7 +35,7 @@ public interface CallBackValue extends ActionValue
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specify a call back identifier to be used in the call back routine.
+	 * Attribute "Identifier" specify a call back identifier to be used in the call back routine.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Identifier</em>' attribute.
 	 * @see #setIdentifier(String)

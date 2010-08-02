@@ -17,8 +17,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Text</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type is intended to encapsulate a string to be displayed on the chart.
+ * Text is intended to encapsulate a string to be displayed on the chart.
  * 			
  * <!-- end-model-doc -->
  *

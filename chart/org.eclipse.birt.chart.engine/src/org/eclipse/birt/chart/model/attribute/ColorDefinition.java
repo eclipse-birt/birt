@@ -16,9 +16,7 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents a color.
- * 			
+ * ColorDefinition extends the type Fill to devote itself to representing a ARGB color. 
  * <!-- end-model-doc -->
  *
  * <p>

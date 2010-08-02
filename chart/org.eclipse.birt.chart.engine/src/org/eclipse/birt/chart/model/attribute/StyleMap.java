@@ -17,8 +17,8 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Style Map</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents the style map for the chart. It includes a list of supported chart components and the styles associated with them.
+ * StyleMap represents the style map for the chart.  It includes a list of supported chart 
+ * components and the styles associated with them.
  * 			
  * <!-- end-model-doc -->
  *

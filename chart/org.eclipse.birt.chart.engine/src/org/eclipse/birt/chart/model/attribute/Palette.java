@@ -18,8 +18,7 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Palette</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents a palette of Fills.
+ * Palette  represents a palette of Fills.
  * 			
  * <!-- end-model-doc -->
  *
@@ -43,8 +42,7 @@ public interface Palette extends IChartObject
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 					Specifies the name that uniquely identifies this palette.
+	 * Attribute "Name" specifies the name that uniquely identifies this palette.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.

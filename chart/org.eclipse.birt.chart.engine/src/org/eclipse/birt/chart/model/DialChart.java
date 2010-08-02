@@ -17,7 +17,11 @@ package org.eclipse.birt.chart.model;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This is a special type of ChartWithoutAxes class that contains information specific to dials.
+ * DialChart represent a special type of ChartWithoutAxes class that contains information specific to dials.
+ * <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ * To create an instance use the factory method:<br/>
+ * DialChartImpl.create( );
+ * </p>		
  * <!-- end-model-doc -->
  *
  * <p>
@@ -40,7 +44,8 @@ public interface DialChart extends ChartWithoutAxes
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * If true, all dials are superimposed, otherwise they are rendered next to each other.
+	 * The boolean attribute "DialSuperimposition" specifies whether all 
+	 * dials are superimposed on one another, or laid out in separate cells.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Dial Superimposition</em>' attribute.
 	 * @see #isSetDialSuperimposition()

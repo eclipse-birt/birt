@@ -34,7 +34,25 @@ import org.eclipse.emf.common.util.EList;
  * <em><b>Block</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This type defines a modular area of a chart that can be positioned within the chart bounds.			
+ * Block is the most important component to layout the contents of a chart.
+ * It represents a rectangular area that bounds an individual chart element, which is used
+ * to determine the layout of the chart.  The user can define its Bounds, Insets, Outline and 
+ * Background among other properties. A Block can also contain other Blocks as its children. 
+ * Use Block.getChildren( ) which returns a list of type Block to navigate through 
+ * the children hierarchy of Blocks.
+ * <p xmlns="http://www.birt.eclipse.org/ChartModelLayout">
+ * The most important block is the chart's block, all contents of a chart 
+ * are rendered inside this block, we can get the instance of a chart's block using:<br/>
+ * Chart.getBlock( );
+ * </p>
+ * A chart graphically consists of 3 parts, TitleBlock, Plot and Legend, which are 
+ * also sub-type of Block and organized as children of the chart's Block.  Besides the general 
+ * approach of using Chart.getBlock( ).getChildren( ) we can also access them using the 
+ * convenient methods:<br xmlns="http://www.birt.eclipse.org/ChartModelLayout"/>
+ * Chart.getTitle( );<br xmlns="http://www.birt.eclipse.org/ChartModelLayout"/>
+ * Chart.getPlot( );<br xmlns="http://www.birt.eclipse.org/ChartModelLayout"/>
+ * Chart.getLegend( );<br xmlns="http://www.birt.eclipse.org/ChartModelLayout"/>
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
@@ -73,11 +91,6 @@ public interface Block extends IChartObject
 	 * The list contents are of type {@link org.eclipse.birt.chart.model.layout.Block}.
 	 * <!-- begin-user-doc
 	 * --> Gets the blocks contained within this block. <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * 
-	 * 						Specifies the block's children.
-	 * 					
-	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getBlock_Children()
 	 * @model containment="true" required="true"
@@ -614,8 +627,7 @@ public interface Block extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 						Specifies a hinted width for the block.
+	 * WidthHint specifies a hinted width for the block.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Width Hint</em>' attribute.
@@ -670,8 +682,7 @@ public interface Block extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 						Specifies a hinted height for the block.
+	 * HeightHint pecifies a hinted height for the block.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Height Hint</em>' attribute.
@@ -725,7 +736,7 @@ public interface Block extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The element represents cursor for the block.
+	 * Element "Cursor" represents cursor for the block.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Cursor</em>' containment reference.
 	 * @see #setCursor(Cursor)

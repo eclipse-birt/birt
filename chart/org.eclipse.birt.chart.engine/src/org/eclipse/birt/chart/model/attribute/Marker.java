@@ -18,8 +18,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents the value marker for a line or scatter series.
+ * Marker represents the value marker for a line or scatter series.
  * 			
  * <!-- end-model-doc -->
  *
@@ -49,8 +48,8 @@ public interface Marker extends IChartObject
 	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.MarkerType}.
 	 * <!-- begin-user-doc --> Gets the type of marker. <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 						Specifies the type of marker.
+	 * Attribute "Type" specifies the type of marker, e.g. Crosshair, 
+	 * Triangle, Box... etc.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Type</em>' attribute.
@@ -263,7 +262,7 @@ public interface Marker extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The element is used for outline of marker.
+	 * Element "Outline" specifies the outline of marker.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Outline</em>' containment reference.
 	 * @see #setOutline(LineAttributes)

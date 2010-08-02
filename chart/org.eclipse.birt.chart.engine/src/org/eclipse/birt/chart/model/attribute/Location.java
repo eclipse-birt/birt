@@ -17,8 +17,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Location</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the location of an element.
+ * Location represents a 2D coordinate point within the chart.
  * 			
  * <!-- end-model-doc -->
  *
@@ -42,6 +41,9 @@ public interface Location extends IChartObject
 	 * Returns the value of the '<em><b>X</b></em>' attribute.
 	 * <!-- begin-user-doc --> Returns the 'X' co-ordinate
 	 * component of the location. <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Attribute "x" specifies the x coordinate of the location.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>X</em>' attribute.
 	 * @see #isSetX()
 	 * @see #unsetX()
@@ -91,6 +93,9 @@ public interface Location extends IChartObject
 	 * Returns the value of the '<em><b>Y</b></em>' attribute.
 	 * <!-- begin-user-doc --> Returns the 'Y' co-ordinate
 	 * component of the location. <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Attribute "y" specifies the y coordinate of the location.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Y</em>' attribute.
 	 * @see #isSetY()
 	 * @see #unsetY()

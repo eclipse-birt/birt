@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: CursorType.java,v 1.1 2009/01/04 10:05:02 heli Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -19,7 +19,8 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- * The cursor type defines standard cursor types which are supported by all devices, including SWT, Swing, SVG and HTML/Image.
+ * The cursor type defines standard cursor types which are supported by all devices, 
+ * including SWT, Swing, SVG and HTML/Image.
  * <!-- end-model-doc -->
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getCursorType()
  * @model extendedMetaData="name='CursorType'"

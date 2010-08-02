@@ -15,9 +15,8 @@ import com.ibm.icu.util.ULocale;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- *     			This type holds the format specifier properties for a
- *     			string label.
+ * StringFormatSpecifier extends type FormatSpecifier to devote 
+ * itself to formatting a string value.
  *     		
  * <!-- end-model-doc -->
  *
@@ -40,8 +39,7 @@ public interface StringFormatSpecifier extends FormatSpecifier
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 			Specifies the format pattern.
+	 * Attribute "Pattern" specifies the format pattern.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Pattern</em>' attribute.
 	 * @see #setPattern(String)

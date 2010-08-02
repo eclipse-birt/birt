@@ -46,6 +46,15 @@ public interface DataFactory extends EFactory
 	BaseSampleData createBaseSampleData( );
 
 	/**
+	 * Returns a new object of class '<em>Big Number Data Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Big Number Data Element</em>'.
+	 * @generated
+	 */
+	BigNumberDataElement createBigNumberDataElement( );
+
+	/**
 	 * Returns a new object of class '<em>Bubble Data Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

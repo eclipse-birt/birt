@@ -20,8 +20,8 @@ import com.ibm.icu.util.ULocale;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type holds the java pattern for NumberFormat.
+ * JavaNumberFormatSpecifier extends FormatSpecifier devotedly 
+ * to represent an instance of  NumberFormat.
  * 			
  * <!-- end-model-doc -->
  *
@@ -44,8 +44,8 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier
 	 * Returns the value of the '<em><b>Pattern</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							Specifies the format pattern.
+	 * Attribute "Pattern" specifies the pattern string used to establish an instance 
+	 * of NumberFormat.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Pattern</em>' attribute.
@@ -145,7 +145,7 @@ public interface JavaNumberFormatSpecifier extends FormatSpecifier
 	 * @since 2.6
 	 */
 	String format( Number number, ULocale lo );
-	
+
 	/**
 	 * @generated
 	 */

@@ -18,8 +18,8 @@ import org.eclipse.birt.chart.model.IChartObject;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines a line.
+ * LineAttributes represents a holder of all settings for rendering 
+ * a line in the chart graphic.
  * 			
  * <!-- end-model-doc -->
  *

@@ -17,8 +17,7 @@ import org.eclipse.birt.chart.model.component.Label;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>URL Value</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the value for a 'URL_Redirect' action.
+ * URLValue extends type ActionValue to devote itself to 'URL_Redirect' actions.
  * 			
  * <!-- end-model-doc -->
  *

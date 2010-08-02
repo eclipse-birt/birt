@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.util.NumberUtil;
 import org.eclipse.emf.common.notify.Notification;
@@ -324,23 +325,23 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 		Number n = NumberUtil.transformNumber( number );
 		if ( n instanceof Double )
 		{
-			return format( ((Double)n).doubleValue( ), lo);
+			return format( ( (Double) n ).doubleValue( ), lo );
 		}
-		
+
 		// Format big decimal
-		BigDecimal bdNum = (BigDecimal)n;
+		BigDecimal bdNum = (BigDecimal) n;
 		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
 		String vPattern = NumberUtil.adjustBigNumberFormatPattern( getPattern( ) );
 		if ( vPattern.indexOf( 'E' ) < 0 )
 		{
-			vPattern = vPattern +  NumberUtil.BIG_DECIMAL_FORMAT_SUFFIX;
+			vPattern = vPattern + NumberUtil.BIG_DECIMAL_FORMAT_SUFFIX;
 		}
 		df.applyPattern( vPattern );
 		return isSetMultiplier( ) ? df.format( bdNum.multiply( BigDecimal.valueOf( getMultiplier( ) ),
 				NumberUtil.DEFAULT_MATHCONTEXT ) )
 				: df.format( bdNum );
 	}
-	
+
 	public String format( double dValue, Locale lo )
 	{
 		return format( dValue, ULocale.forLocale( lo ) );

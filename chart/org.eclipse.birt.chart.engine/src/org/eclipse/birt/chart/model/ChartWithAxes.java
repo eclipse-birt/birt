@@ -23,9 +23,36 @@ import org.eclipse.emf.common.util.EList;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This is a chart with axes...(e.g. Bar Chart, Line Chart, etc).  It contains one base axis and one or more 
- * orthoganal axes.
- * 			
+ * ChartWithAxes represents a chart with axes. (e.g. Bar Chart, Line Chart, etc).  
+ * <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ * To create an instance use the factory method:<br/>
+ * ChartWithAxesImpl.create( );
+ * </p>
+ * At the moment only charts with one single base axis are supported, while one or 
+ * more orthogonal axes can be associated with the base axis.  In case of 3D charts, 
+ * the z-axis is defined as an ancillary axis of the base axis. 
+ * <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ * Following examples show the ways to retrieve the base axis of an 
+ * instance of ChartWithAxes :<br/>
+ * ChartWithAxes cwa...<br/>
+ * Axis axBase = cwa.getAxes( ).get( 0 );<br/>
+ * or<br/>
+ * Axis axBase = cwa.getAxes( ).getPrimaryBaseAxes( )[0];
+ * </p>
+ * <p xmlns="http://www.birt.eclipse.org/ChartModel">
+ * To retrieve the primary orthogonal axis associated with the base axis use:<br/>
+ * <br/>
+ * Axis axOrth = getPrimaryOrthogonalAxis( axBase );<br/>
+ * <br/>
+ * To retireve all the orthogonal axes associated with the base axis use in/exclude 
+ * the primary one use:<br/>
+ * <br/>
+ * Axis[] axOrths =  getOrthogonalAxes( axBase, bIncludePrimary );
+ * <br/>
+ * To retrieve the z-axis use:
+ * Axis axAnci = getAncillaryBaseAxis( axBase );
+ * </p>
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
@@ -233,10 +260,17 @@ public interface ChartWithAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Specifies the rotation angle by three
-	 * 								directions for the chart.
-	 * 							
+	 * Element "Rotation" of type Rotation3D is used for 3D charts, 
+	 * it specifies how many degrees the chart graphic is rotated 
+	 * around each of the three axes.<br xmlns="http://www.birt.eclipse.org/ChartModel"/>
+	 * The following example will set a 3D chart to be rotated -20 degrees 
+	 * around x-axis, 45 degrees around y-axis and 0 degrees around 
+	 * z-axis:
+	 * <p xmlns="http://www.birt.eclipse.org/ChartModel">
+	 * ChartWithAxes cwa = ...<br/>
+	 * Angle3D a3D = cwa .getRotation( ).getAngles( )	.get( 0 );<br/>
+	 * a3D.set( -20, 45, 0 );<br/>
+	 * </p>							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Rotation</em>' containment reference.
 	 * @see #setRotation(Rotation3D)
@@ -263,9 +297,8 @@ public interface ChartWithAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Specifies if the categories are in
-	 * 								reverse order
+	 * The boolean attribute "ReverseCategory" specifies if the 
+	 * categories are in reverse order. 
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Reverse Category</em>' attribute.
@@ -319,7 +352,8 @@ public interface ChartWithAxes extends Chart
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * The field indicates if the layout of multiple Y axes is like Study Chart.
+	 * The boolean attribute "StudyLayout" specifies whether multiple Y 
+	 * axes are laid out as a Study Chart.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Study Layout</em>' attribute.
 	 * @see #isSetStudyLayout()

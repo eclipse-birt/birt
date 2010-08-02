@@ -14,8 +14,7 @@ import org.eclipse.birt.chart.computation.Vector;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the location of an element using a 3D coordinate.
+ * Location3D represents a 3D point with its coordinates.
  * <!-- end-model-doc -->
  *
  * <p>

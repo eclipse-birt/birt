@@ -39,8 +39,7 @@ public interface ScriptValue extends ActionValue
 	 * Returns the value of the '<em><b>Script</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							Holds the actual script string to be invoked.
+	 * Attribute "Script" specifies the actual script string to be invoked.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Script</em>' attribute.

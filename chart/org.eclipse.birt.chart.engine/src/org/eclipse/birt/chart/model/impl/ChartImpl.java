@@ -1433,7 +1433,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 		// 6. SETUP ALTTEXT
 		setEmptyMessage( newEmptyMessage( ) );
-		
+
 		// 7. Setup default extended properties
 		ChartModelHelper.instance( )
 				.updateExtendedProperties( getExtendedProperties( ) );

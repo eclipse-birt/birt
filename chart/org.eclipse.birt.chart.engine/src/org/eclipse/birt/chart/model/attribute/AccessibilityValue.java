@@ -17,7 +17,7 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- *                                                 This type defines the value for a 'Accessibility' action.
+ * AccessibilityValue extends the type ActionValue specific for accessibilities.
  * <!-- end-model-doc -->
  *
  * <p>
@@ -40,7 +40,7 @@ public interface AccessibilityValue extends ActionValue
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Short Description
+	 * Attribute "Text" provides a short description of the accessibility.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Text</em>' attribute.
 	 * @see #setText(String)
@@ -66,7 +66,8 @@ public interface AccessibilityValue extends ActionValue
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Full Description
+	 * Attribute "Accessibility" provides a full description of the accessibility.
+	 * 
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Accessibility</em>' attribute.
 	 * @see #setAccessibility(String)

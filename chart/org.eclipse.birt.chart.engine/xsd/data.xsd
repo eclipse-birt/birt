@@ -430,4 +430,17 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+
+	<xsd:complexType name="BigNumberDataElement">
+        <xsd:annotation>
+        	<xsd:documentation>Element BigNUmberDataElement represents a DataElement which BigDecimal value.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+			<xsd:extension base="DataElement">
+				<xsd:sequence>
+					<xsd:element name="Value" type="xsd:decimal"></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 </xsd:schema>

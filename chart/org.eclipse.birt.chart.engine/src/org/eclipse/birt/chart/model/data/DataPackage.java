@@ -133,7 +133,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDataElement()
 	 * @generated
 	 */
-	int DATA_ELEMENT = 3;
+	int DATA_ELEMENT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.DataSetImpl <em>Set</em>}' class.
@@ -142,7 +142,53 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDataSet()
 	 * @generated
 	 */
-	int DATA_SET = 4;
+	int DATA_SET = 5;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.BubbleDataSetImpl <em>Bubble Data Set</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.data.impl.BubbleDataSetImpl
+	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getBubbleDataSet()
+	 * @generated
+	 */
+	int BUBBLE_DATA_SET = 3;
+
+	/**
+	 * The number of structural features of the '<em>Element</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DATA_ELEMENT_FEATURE_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl <em>Big Number Data Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl
+	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getBigNumberDataElement()
+	 * @generated
+	 */
+	int BIG_NUMBER_DATA_ELEMENT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIG_NUMBER_DATA_ELEMENT__VALUE = DATA_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Big Number Data Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BIG_NUMBER_DATA_ELEMENT_FEATURE_COUNT = DATA_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute. <!--
@@ -160,16 +206,6 @@ public interface DataPackage extends EPackage
 	 * @ordered
 	 */
 	int DATA_SET_FEATURE_COUNT = 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.BubbleDataSetImpl <em>Bubble Data Set</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.data.impl.BubbleDataSetImpl
-	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getBubbleDataSet()
-	 * @generated
-	 */
-	int BUBBLE_DATA_SET = 2;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute.
@@ -190,21 +226,13 @@ public interface DataPackage extends EPackage
 	int BUBBLE_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Element</em>' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DATA_ELEMENT_FEATURE_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl <em>Date Time Data Element</em>}' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDateTimeDataElement()
 	 * @generated
 	 */
-	int DATE_TIME_DATA_ELEMENT = 5;
+	int DATE_TIME_DATA_ELEMENT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute. <!--
@@ -231,7 +259,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDateTimeDataSet()
 	 * @generated
 	 */
-	int DATE_TIME_DATA_SET = 6;
+	int DATE_TIME_DATA_SET = 7;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute. <!--
@@ -259,7 +287,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDifferenceDataSet()
 	 * @generated
 	 */
-	int DIFFERENCE_DATA_SET = 7;
+	int DIFFERENCE_DATA_SET = 8;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute.
@@ -287,7 +315,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getGanttDataSet()
 	 * @generated
 	 */
-	int GANTT_DATA_SET = 8;
+	int GANTT_DATA_SET = 9;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute.
@@ -315,7 +343,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getMultipleActions()
 	 * @generated
 	 */
-	int MULTIPLE_ACTIONS = 9;
+	int MULTIPLE_ACTIONS = 10;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -370,7 +398,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNullDataSet()
 	 * @generated
 	 */
-	int NULL_DATA_SET = 10;
+	int NULL_DATA_SET = 11;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute.
@@ -397,7 +425,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNumberDataElement()
 	 * @generated
 	 */
-	int NUMBER_DATA_ELEMENT = 11;
+	int NUMBER_DATA_ELEMENT = 12;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute. <!--
@@ -424,7 +452,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNumberDataSet()
 	 * @generated
 	 */
-	int NUMBER_DATA_SET = 12;
+	int NUMBER_DATA_SET = 13;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute. <!--
@@ -450,7 +478,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getOrthogonalSampleData()
 	 * @generated
 	 */
-	int ORTHOGONAL_SAMPLE_DATA = 13;
+	int ORTHOGONAL_SAMPLE_DATA = 14;
 
 	/**
 	 * The feature id for the '<em><b>Data Set Representation</b></em>' attribute.
@@ -484,7 +512,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getQuery()
 	 * @generated
 	 */
-	int QUERY = 14;
+	int QUERY = 15;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' attribute. <!--
@@ -527,7 +555,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getRule()
 	 * @generated
 	 */
-	int RULE = 15;
+	int RULE = 16;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
@@ -562,7 +590,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSampleData()
 	 * @generated
 	 */
-	int SAMPLE_DATA = 16;
+	int SAMPLE_DATA = 17;
 
 	/**
 	 * The feature id for the '<em><b>Base Sample Data</b></em>' containment reference list.
@@ -604,7 +632,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSeriesDefinition()
 	 * @generated
 	 */
-	int SERIES_DEFINITION = 17;
+	int SERIES_DEFINITION = 18;
 
 	/**
 	 * The feature id for the '<em><b>Query</b></em>' containment reference.
@@ -714,7 +742,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSeriesGrouping()
 	 * @generated
 	 */
-	int SERIES_GROUPING = 18;
+	int SERIES_GROUPING = 19;
 
 	/**
 	 * The feature id for the '<em><b>Enabled</b></em>' attribute. <!--
@@ -790,7 +818,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getStockDataSet()
 	 * @generated
 	 */
-	int STOCK_DATA_SET = 19;
+	int STOCK_DATA_SET = 20;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute. <!--
@@ -816,7 +844,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getTextDataSet()
 	 * @generated
 	 */
-	int TEXT_DATA_SET = 20;
+	int TEXT_DATA_SET = 21;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute. <!--
@@ -842,7 +870,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getTrigger()
 	 * @generated
 	 */
-	int TRIGGER = 21;
+	int TRIGGER = 22;
 
 	/**
 	 * The feature id for the '<em><b>Condition</b></em>' attribute. <!--
@@ -886,7 +914,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getData()
 	 * @generated
 	 */
-	int DATA = 22;
+	int DATA = 23;
 
 	/**
 	 * Returns the meta object for class '
@@ -937,6 +965,27 @@ public interface DataPackage extends EPackage
 	 * @generated
 	 */
 	EAttribute getBaseSampleData_DataSetRepresentation( );
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.BigNumberDataElement <em>Big Number Data Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Big Number Data Element</em>'.
+	 * @see org.eclipse.birt.chart.model.data.BigNumberDataElement
+	 * @generated
+	 */
+	EClass getBigNumberDataElement( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.BigNumberDataElement#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see org.eclipse.birt.chart.model.data.BigNumberDataElement#getValue()
+	 * @see #getBigNumberDataElement()
+	 * @generated
+	 */
+	EAttribute getBigNumberDataElement_Value( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.BubbleDataSet <em>Bubble Data Set</em>}'.
@@ -1578,6 +1627,24 @@ public interface DataPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION = eINSTANCE.getBaseSampleData_DataSetRepresentation( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl <em>Big Number Data Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getBigNumberDataElement()
+		 * @generated
+		 */
+		EClass BIG_NUMBER_DATA_ELEMENT = eINSTANCE.getBigNumberDataElement( );
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BIG_NUMBER_DATA_ELEMENT__VALUE = eINSTANCE.getBigNumberDataElement_Value( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.BubbleDataSetImpl <em>Bubble Data Set</em>}' class.

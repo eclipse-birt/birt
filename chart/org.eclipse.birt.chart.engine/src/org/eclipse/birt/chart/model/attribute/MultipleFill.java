@@ -19,8 +19,11 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents a list of fill object.
+ * MultipleFill extends type Fill to represent a pre-defined series 
+ * of possible Fills, one of which will be selected to fill an chart 
+ * element due to a certain condition. For example, the color of 
+ * the increasing datapoints in a Stock Chart is different with the 
+ * decreasing ones.
  * <!-- end-model-doc -->
  *
  * <p>
@@ -46,6 +49,9 @@ public interface MultipleFill extends Fill
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The list element "Fills" represent the pre-defined candidates of Fill.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Fills</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMultipleFill_Fills()
 	 * @model containment="true"

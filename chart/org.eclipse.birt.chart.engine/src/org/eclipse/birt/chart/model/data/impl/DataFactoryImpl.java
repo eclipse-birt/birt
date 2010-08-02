@@ -99,6 +99,8 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 				return (EObject) createAction( );
 			case DataPackage.BASE_SAMPLE_DATA :
 				return (EObject) createBaseSampleData( );
+			case DataPackage.BIG_NUMBER_DATA_ELEMENT :
+				return (EObject) createBigNumberDataElement( );
 			case DataPackage.BUBBLE_DATA_SET :
 				return (EObject) createBubbleDataSet( );
 			case DataPackage.DATA_ELEMENT :
@@ -196,6 +198,17 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
 	{
 		BaseSampleDataImpl baseSampleData = new BaseSampleDataImpl( );
 		return baseSampleData;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BigNumberDataElement createBigNumberDataElement( )
+	{
+		BigNumberDataElementImpl bigNumberDataElement = new BigNumberDataElementImpl( );
+		return bigNumberDataElement;
 	}
 
 	/**

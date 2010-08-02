@@ -18,8 +18,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type holds dimensions.
+ * Size represents the 2D dimension of a chart element.
  * 			
  * <!-- end-model-doc -->
  *

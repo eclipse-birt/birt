@@ -662,6 +662,9 @@
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//BaseSampleData">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//BaseSampleData/dataSetRepresentation"/>
     </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//BigNumberDataElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//BigNumberDataElement/value"/>
+    </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//BubbleDataSet"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DataElement"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//DataSet">

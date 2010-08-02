@@ -16,8 +16,7 @@ import org.eclipse.emf.common.util.EList;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the list of rotated angles.
+ * Rotation3D represents how a 3D object is rotated from its initial attitude.
  * <!-- end-model-doc -->
  *
  * <p>
@@ -44,6 +43,12 @@ public interface Rotation3D extends IChartObject
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The list element "Angles" provides a series of Angle3D, each of 
+	 * which represents a rotation action, with the angle values indicate 
+	 * how many degrees the object will be rotated around the 
+	 * corresponding axis.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Angles</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRotation3D_Angles()
 	 * @model containment="true"

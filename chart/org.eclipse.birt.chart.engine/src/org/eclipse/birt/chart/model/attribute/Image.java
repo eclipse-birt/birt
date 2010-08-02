@@ -15,8 +15,7 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Image</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents an image.
+ * Image extends Fill specialized to represent an image.
  * 			
  * <!-- end-model-doc -->
  *

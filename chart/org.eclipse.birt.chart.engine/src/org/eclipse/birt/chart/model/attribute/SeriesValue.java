@@ -39,8 +39,7 @@ public interface SeriesValue extends ActionValue
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							Holds the name for the series definition.
+	 * Attribute "Name" specifies the name for the series definition.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.

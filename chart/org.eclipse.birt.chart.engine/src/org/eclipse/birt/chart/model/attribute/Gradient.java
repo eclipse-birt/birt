@@ -15,8 +15,7 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Gradient</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents a two-color gradient.
+ * Gradient extends type Fill specialized to represent a two-color gradient.
  * 			
  * <!-- end-model-doc -->
  *
@@ -145,8 +144,7 @@ public interface Gradient extends Fill
 	 * Returns the value of the '<em><b>Cyclic</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							Indicates whether the gradient is cyclic or linear.
+	 * Attribute "Cyclic" specifies whether the gradient is cyclic or linear.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Cyclic</em>' attribute.

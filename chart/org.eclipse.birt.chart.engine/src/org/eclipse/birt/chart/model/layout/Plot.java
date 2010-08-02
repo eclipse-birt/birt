@@ -15,9 +15,14 @@ package org.eclipse.birt.chart.model.layout;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Plot</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This is the area of the center of the chart, extending to but not including the axes.  
- * For charts without axes, this area includes the data points and data labels, but not the title or legend.
- * 			
+ * Plot represent the rectangular area in a chart, inside where the graph of its datapoints is displayed. 
+ * It extends to the client area of a chart's block excluding the title and legend.  Plot is a sub-type of Block, 
+ * and exists as a child block of the chart's block in a chart's model.  
+ * <p xmlns="http://www.birt.eclipse.org/ChartModelLayout">
+ * Besides the general approach of using Chart.getBlock( ).getChildren( ) we can also access it using the 
+ * convenient method: Chart.getPlot( );
+ * </p>
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
@@ -147,8 +152,15 @@ public interface Plot extends Block
 	 * <!-- begin-user-doc --> Gets
 	 * the client area for the plot. This is the region in which the data values will be plotted. <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							The area of the plot within which the series elements will be displayed.
+	 * Element "ClientArea" represents the valid rectangular area of a plot 
+	 * block to lay out its content.  It extends the whole block excluding the 
+	 * margin of the block, which is defined by "Insets".  It also holds a group of 
+	 * properties to specify how this area will be rendered, including its background, 
+	 * outline, visibility... and so on.
+	 * <p xmlns="http://www.birt.eclipse.org/ChartModelLayout">
+	 * For chart with axes it represents the area within axes. <br/> 
+	 * For chart without axes it will be split into cells, with each cell for one single series.
+	 * </p>
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Client Area</em>' containment reference.

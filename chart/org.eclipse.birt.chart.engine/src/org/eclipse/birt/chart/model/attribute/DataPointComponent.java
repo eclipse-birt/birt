@@ -18,8 +18,8 @@ import org.eclipse.birt.chart.model.IChartObject;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents the data value being displayed in the plot area for each data value.
+ * DataPointComponent represents the data value being used for 
+ * establishing the label text of a series' datapoint.
  * 			
  * <!-- end-model-doc -->
  *
@@ -126,7 +126,8 @@ public interface DataPointComponent extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies the orthogonal type of data point component. Only valid when Type is orthogonal_value.
+	 * Attribute OrthogonalType specifies the orthogonal type of data 
+	 * point component, it's only valid when Type is OrthogonalValue.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Orthogonal Type</em>' attribute.
 	 * @see #isSetOrthogonalType()

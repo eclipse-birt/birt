@@ -13,8 +13,8 @@ package org.eclipse.birt.chart.model.attribute;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents an embedded image.
+ * EmbeddedImage extends type Image to devote itself to representing 
+ * an embedded image, by which the image data will be encoded into a string.
  * 			
  * <!-- end-model-doc -->
  *
@@ -37,7 +37,7 @@ public interface EmbeddedImage extends Image
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies the encoded image data for the image.
+	 * The string attribute "Data" provides the encoded image data for the image.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Data</em>' attribute.
 	 * @see #setData(String)

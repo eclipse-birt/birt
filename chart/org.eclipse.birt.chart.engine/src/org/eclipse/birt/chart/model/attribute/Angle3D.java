@@ -14,8 +14,8 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the angle of three directions.		
+ * Angle3D represents the angle in 3D coordinate system, it's composed 
+ * of 3 angle values, each of which coresponds to an axis. 
  * <!-- end-model-doc -->
  *
  * <p>
@@ -205,6 +205,12 @@ public interface Angle3D extends IChartObject
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Attribute "Type" specifies how will the angle values be used. It can be 
+	 * X, Y, Z or None, which indicate that the angle value is devoted to 
+	 * representing an angle corresponding to x,y or z axis or a 3D angle.
+	 * 
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.AngleType
 	 * @see #isSetType()

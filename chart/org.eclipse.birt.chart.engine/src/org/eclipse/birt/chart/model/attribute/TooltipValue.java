@@ -40,8 +40,7 @@ public interface TooltipValue extends ActionValue
 	 * Returns the value of the '<em><b>Text</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							Holds the text for the tooltip.
+	 * Attribute "Text" specifies the tooltip text.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Text</em>' attribute.
@@ -66,8 +65,7 @@ public interface TooltipValue extends ActionValue
 	 * Returns the value of the '<em><b>Delay</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							Specifies the delay afer which the tooltip is to be shown.
+	 * Attribute "Delay" specifies the delay in milliseconds afer which the tooltip is to be shown.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Delay</em>' attribute.

@@ -25,8 +25,14 @@ import org.eclipse.birt.chart.model.component.Label;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Legend</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This type defines a legend in the chart, including the legend text, size and position.  
+ * Legend represents the rectangular area in chart, where its legends are displayed.  It holds also a 
+ * group of attributes and elements to specify how the legend items are laid out and displayed. 
  * The legend items usually describe either the series or categories, depeding on the chart type.
+ * Legend is a sub-type of Block, and exists as a child block of the chart's block in a chart's model.  
+ * <p xmlns="http://www.birt.eclipse.org/ChartModelLayout">
+ * Besides the general approach of using Chart.getBlock( ).getChildren( ) we can also access it using the 
+ * convenient method: Chart.getLegend( );
+ * </p>
  * 			
  * <!-- end-model-doc -->
  *
@@ -474,9 +480,8 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								A label instance to hold attributes for
-	 * 								legend title.
+	 * Element "Title" of type Label specifies the content and graphical 
+	 * properties of the title of the legend block.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Title</em>' containment reference.
@@ -504,9 +509,9 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Specifies where the title for the legend
-	 * 								should be displayed.
+	 * Attribute "TitlePosition" specifies the position of the legend title 
+	 * inside the legend block.  It can be Above, Below, Left and Right - 
+	 * by default it's Above.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Title Position</em>' attribute.
@@ -562,8 +567,9 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Specifies if show legend item value.
+	 * The boolean attribute "ShowValue" specifies whether a descriptive value of 
+	 * the related series will be displayed under the legend item, normally this value 
+	 * will be the first value in the series.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Show Value</em>' attribute.
@@ -617,10 +623,7 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Specifies if show legend item value as
-	 * 								percentile.
-	 * 							
+	 * This attribute is not currently used.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Show Percent</em>' attribute.
 	 * @see #isSetShowPercent()
@@ -673,10 +676,7 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Specifies if show legend item value
-	 * 								total.
-	 * 							
+	 * This attribute is not currently used.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Show Total</em>' attribute.
 	 * @see #isSetShowTotal()
@@ -729,12 +729,11 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								Specifies the maximum string size for
-	 * 								each legend item. If the string size is
-	 * 								greater than this, it will be wrapped.
-	 * 								Zero means no wrap.
-	 * 							
+	 * Attribute "WrappingSize" specifies the behavior of automatically wrapping the 
+	 * legend items text into multiple lines when lacking in display space. Value zero 
+	 * means this feature is disabled, a positive value represents the maximal width 
+	 * of the text in points. 
+	 * 	
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Wrapping Size</em>' attribute.
 	 * @see #isSetWrappingSize()
@@ -788,9 +787,10 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 								The maximal percent of space which the
-	 * 								legend can take from the chart block.
+	 * Attribute "MaxPercent" specifies the maximal percent of space which the
+	 * legend can take from the whole chart block. By default, it's 0.33333333,
+	 * which means the legend block will either be dropped or occupy less than 
+	 * 33.3% space of the whole chart block.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Max Percent</em>' attribute.
@@ -845,10 +845,11 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
+	 * Attribute "TitlePercent" specifies the maximal percent of space which the
+	 * legend title can take from the whole legend block. By default, it's 0.6, 
+	 * which means the legend title will either be dropped or occupy less than 
+	 * 60% space of the whole legend block.
 	 * 
-	 * 								The maximal percent of space which the
-	 * 								legend title can take from the legend
-	 * 								block. By default, it's 0.6.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Title Percent</em>' attribute.
@@ -903,10 +904,12 @@ public interface Legend extends Block
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 *                         		Specifies the min count of characters before 
-	 *                         		ellipsis. 0 means ellipsis won't be used. 
-	 *                         		Default value is 1.
+	 * Int attribute "Ellipsis" specifies the behavior of shortening the legend item's 
+	 * text with ellipsis if there is not enough space to display the whole text. Value
+	 * 0 indicates that the feature is disabled, and the legend item will either be displayed 
+	 * with whole text or be dropped. A positive value n represents the minimal count 
+	 * of characters to be displayed before the ellipsis, which means the legend item 
+	 * will either be dropped or be displayed with at least n characters.
 	 *                         	
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Ellipsis</em>' attribute.
@@ -963,6 +966,9 @@ public interface Legend extends Block
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Element "FormatSpecifier" specifies how the legend item text will be formated.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #setFormatSpecifier(FormatSpecifier)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_FormatSpecifier()

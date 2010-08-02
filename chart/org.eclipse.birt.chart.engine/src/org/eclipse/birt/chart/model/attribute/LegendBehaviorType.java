@@ -19,8 +19,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the allowed values for Legend behaviors.
+ * This type defines the allowed values for Legend behaviors.
  * <!-- end-model-doc -->
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLegendBehaviorType()
  * @model extendedMetaData="name='LegendBehaviorType'"

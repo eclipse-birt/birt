@@ -17,8 +17,8 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Insets</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the insets for an element.
+ * Insets represents a reserved blank area between the edges and 
+ * the client area of a chart element (e.g. Block, Label... etc.).
  * 			
  * <!-- end-model-doc -->
  *
@@ -94,9 +94,8 @@ public interface Insets extends IChartObject
 	 * Returns the value of the '<em><b>Left</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
+	 * Attribute "Left" specifies the distance in points of the client area from the left edge.
 	 * 
-	 * 					Specifies the left component of the insets.
-	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Left</em>' attribute.
 	 * @see #isSetLeft()
@@ -145,9 +144,8 @@ public interface Insets extends IChartObject
 	 * Returns the value of the '<em><b>Bottom</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
+	 * Attribute "Bottom" specifies the distance in points of the client area from the bottom edge.
 	 * 
-	 * 					Specifies the bottom component of the insets.
-	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Bottom</em>' attribute.
 	 * @see #isSetBottom()
@@ -198,9 +196,8 @@ public interface Insets extends IChartObject
 	 * Returns the value of the '<em><b>Right</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
+	 * Attribute "Right" specifies the distance in points of the client area from the right edge.
 	 * 
-	 * 					Specifies the right component of the insets.
-	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Right</em>' attribute.
 	 * @see #isSetRight()

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MultiURLValues.java,v 1.2 2009/03/12 09:24:17 ywang1 Exp $
+ * $Id: MultiURLValues.java,v 1.3 2009/06/08 05:35:28 ywang1 Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -16,7 +16,9 @@ import org.eclipse.emf.common.util.EMap;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * The type is defined to store multiple hyperlink values for 'url_redirection' action, it enables multiple options for an 'url-redirection' action.
+ * MultiURLValues extends ActionValue to devote itself to providing 
+ * multiple hyperlink values for 'url_redirection' action, it enables 
+ * multiple options for an 'url-redirection' action.
  * <!-- end-model-doc -->
  *
  * <p>

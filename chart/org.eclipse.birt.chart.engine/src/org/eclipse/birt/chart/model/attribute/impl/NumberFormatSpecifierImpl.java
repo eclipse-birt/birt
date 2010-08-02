@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.util.NumberUtil;
 import org.eclipse.emf.common.notify.Notification;
@@ -498,9 +499,9 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 		Number n = NumberUtil.transformNumber( number );
 		if ( n instanceof Double )
 		{
-			return format( ((Double)number).doubleValue( ), lo);
+			return format( ( (Double) number ).doubleValue( ), lo );
 		}
-		
+
 		// Format big decimal.
 		BigDecimal bdNum = (BigDecimal) n;
 		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
@@ -512,10 +513,10 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 		String pattern = NumberUtil.adjustBigNumberFormatPattern( df.toLocalizedPattern( ) );
 		if ( pattern.indexOf( 'E' ) < 0 )
 		{
-			pattern = pattern +  NumberUtil.BIG_DECIMAL_FORMAT_SUFFIX;
+			pattern = pattern + NumberUtil.BIG_DECIMAL_FORMAT_SUFFIX;
 		}
-		
-		df.applyLocalizedPattern( pattern);
+
+		df.applyLocalizedPattern( pattern );
 
 		final StringBuffer sb = new StringBuffer( );
 		if ( getPrefix( ) != null )
@@ -532,7 +533,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 		return sb.toString( );
 	}
-	
+
 	/**
 	 * @generated
 	 */

@@ -8,7 +8,7 @@
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="Block">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines a modular area of a chart that can be positioned within the chart bounds.&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Block is the most important component to layout the contents of a chart.&#xD;&#xA;It represents a rectangular area that bounds an individual chart element, which is used&#xD;&#xA;to determine the layout of the chart.  The user can define its Bounds, Insets, Outline and &#xD;&#xA;Background among other properties. A Block can also contain other Blocks as its children. &#xD;&#xA;Use Block.getChildren( ) which returns a list of type Block to navigate through &#xD;&#xA;the children hierarchy of Blocks.&#xD;&#xA;&lt;p xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;>&#xD;&#xA;The most important block is the chart's block, all contents of a chart &#xD;&#xA;are rendered inside this block, we can get the instance of a chart's block using:&lt;br/>&#xD;&#xA;Chart.getBlock( );&#xD;&#xA;&lt;/p>&#xD;&#xA;A chart graphically consists of 3 parts, TitleBlock, Plot and Legend, which are &#xD;&#xA;also sub-type of Block and organized as children of the chart's Block.  Besides the general &#xD;&#xA;approach of using Chart.getBlock( ).getChildren( ) we can also access them using the &#xD;&#xA;convenient methods:&lt;br xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;/>&#xD;&#xA;Chart.getTitle( );&lt;br xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;/>&#xD;&#xA;Chart.getPlot( );&lt;br xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;/>&#xD;&#xA;Chart.getLegend( );&lt;br xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;/>&#xD;&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Block"/>
@@ -16,9 +16,6 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" lowerBound="1"
         upperBound="-1" eType="#//Block" containment="true" resolveProxies="false">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the block's children.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
-      </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="Children"/>
@@ -27,7 +24,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="bounds" eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Bounds"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the position and size of the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(These will usually be relative to the top left&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;corner of the container block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Bounds&quot; represents the size of a block and the its position insides its container."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -37,7 +34,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="anchor" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Anchor"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies where the content of the block is&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;anchored.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Aattribute &quot;Anchor&quot; specifies the position of the block inside its container.  "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -47,7 +44,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="stretch" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Stretch"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies how the content of the block fills up&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;available space.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Stretch&quot; specifies how the content of the block fills up available space."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -57,7 +54,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="insets" eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Insets"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the insets to be used for this block's&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;contents.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Insets&quot; represents the size of the margin between the block's edge and its client area."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -67,7 +64,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="row" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         defaultValueLiteral="-1" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the row index for the block, by&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;default it's -1.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Row&quot; represents the row index for the block, by default it's -1."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -78,7 +75,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" defaultValueLiteral="-1"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the column index for the block, by&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;default it's -1.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Column&quot; the column index for the block, by default it's -1."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -89,7 +86,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" defaultValueLiteral="-1"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the rowspan value for the block, by&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;default it's -1.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Rowspan&quot; represents the rowspan value for the block, by default it's -1."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -100,7 +97,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" defaultValueLiteral="-1"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the columnspan value for the block, by&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;default it's -1.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Columnspan&quot; represents the columnspan value for the block, by&#x9;default it's -1."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -111,7 +108,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Size" containment="true"
         resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the minimum size for the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;MinSize&quot; represents the minimum size for the block."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -122,7 +119,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines the outline for the chart element.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;outline&quot; of type LineAttributes specifies how to render the block's outline."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -132,7 +129,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="background" eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Fill"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Background for the Block...Can be transparent, a&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;solid color, a gradient OR image&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;background&quot; of type Fill specifies how to render the background of the Block. &#xD;&#xA;Can be transparent, a solid color, a gradient or image"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -143,7 +140,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether the block is visible, by default&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;it's true.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;Visible&quot; specifies whether the block is visible.  By default it's true."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -154,7 +151,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.data.ecore#//Trigger" containment="true"
         resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the actions for the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -164,7 +161,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="widthHint" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         defaultValueLiteral="-1" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies a hinted width for the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="WidthHint specifies a hinted width for the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -174,7 +171,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="heightHint" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         defaultValueLiteral="-1" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies a hinted height for the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="HeightHint pecifies a hinted height for the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -184,7 +181,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="cursor" eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Cursor"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The element represents cursor for the block."/>
+        <details key="documentation" value="Element &quot;Cursor&quot; represents cursor for the block."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -194,7 +191,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClientArea">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines an modular area of a chart that can be positioned (and resized ?) during rendering / output.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="ClientArea holds a group of graphical properties for Plot and Legend to specify how to render &#xD;&#xA;their client area, the properties include background, outline, visible... and so on.&#xD;&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ClientArea"/>
@@ -204,7 +201,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Fill" containment="true"
         resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the background for the client area.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;background&quot; of type Fill specifies how to render the background of the client area. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -215,7 +212,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the outline information for the client area.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Outline&quot; of type LineAttributes specifies how to render the outline of the client area.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -226,7 +223,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//ColorDefinition"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the shadow color for the client area.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;ShadowColor&quot; of type ColorDefinition specifies the shadow color for the client area.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -237,7 +234,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Insets"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the insets for the client area.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Insets&quot; represents the size of the margin between the client area's edge and its client area.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -248,7 +245,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Specifies whether client area is visible"/>
+        <details key="documentation" value="Attribute &quot;Visible&quot; specifies whether client area is visible."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -271,7 +268,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LabelBlock" eSuperTypes="#//Block">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines a text block in the chart, including the block's text, size and position.&#x9;&#x9;"/>
+      <details key="documentation" value="LabelBlock is a sub-type of Block, which is specialized for laying out a text  &#xD;&#xA;in the chart for general purpose. It contains a Label, which holds the content &#xD;&#xA;and graphical properties of the text to be rendered.  Following example shows&#xD;&#xA;how to add a arbitrary text &quot;Sample Text&quot; to a chart: &#xD;&#xA;&lt;p xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;>&#xD;&#xA;&#x9;&#x9;Chart cm = ....&lt;br/>&#xD;&#xA;&#x9;&#x9;LabelBlock lbBlock = (LabelBlock) LabelBlockImpl.create( );&lt;br/>&#xD;&#xA;&#x9;&#x9;lbBlock.getBounds( ).set( 50, 50, 100, 100 );&lt;br/>&#xD;&#xA;&#x9;&#x9;lbBlock.getLabel( ).getCaption( ).setValue( &quot;Sample Text&quot; );&lt;br/>&#xD;&#xA;&#x9;&#x9;cm.getBlock( ).getChildren( ).add( lbBlock );&#xD;&#xA;&lt;/p>&#xD;&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LabelBlock"/>
@@ -280,7 +277,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Label"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The actual text content of the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Label&quot; of type Label specifies the content and graphical &#xD;&#xA;properties of the text to be laid out and rendered within the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -290,7 +287,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Legend" eSuperTypes="#//Block">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines a legend in the chart, including the legend text, size and position.  &#xD;&#xA;The legend items usually describe either the series or categories, depeding on the chart type.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Legend represents the rectangular area in chart, where its legends are displayed.  It holds also a &#xD;&#xA;group of attributes and elements to specify how the legend items are laid out and displayed. &#xD;&#xA;The legend items usually describe either the series or categories, depeding on the chart type.&#xD;&#xA;Legend is a sub-type of Block, and exists as a child block of the chart's block in a chart's model.  &#xD;&#xA;&lt;p xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;>&#xD;&#xA;Besides the general approach of using Chart.getBlock( ).getChildren( ) we can also access it using the &#xD;&#xA;convenient method: Chart.getLegend( );&#xD;&#xA;&lt;/p>&#xD;&#xA;&#x9;&#x9;&#x9;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Legend"/>
@@ -299,7 +296,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="horizontalSpacing" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The horizontal spacing between elements&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;in the legend.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;HorizontalSpacing&quot; represents the horizontal spacing &#xD;&#xA;in points between elements in the legend, namely legend items.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -309,7 +306,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="verticalSpacing" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The vertical spacing between elements in&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;the legend.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;VerticalSpacing&quot; represents the vertical spacing in&#xD;&#xA;points between elements in the legend, namely legend items.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -319,7 +316,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="clientArea" lowerBound="1"
         eType="#//ClientArea" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The area of the legend block within&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;which the legend items are displayed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;ClientArea&quot; represents the valid rectangular area of a legend &#xD;&#xA;block to lay out legned items, it extends the whole block excluding the &#xD;&#xA;margin of the block, which is defined by &quot;Insets&quot;. It also holds a group of &#xD;&#xA;properties to specify how this area will be rendered, including its background, &#xD;&#xA;outline, visibility... and so on.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -329,7 +326,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="text" lowerBound="1" eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//Text"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The actual text content of the block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Text&quot; of Legend holds the Font and Color properties for all legend items.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -340,7 +337,7 @@
         eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Orientation"
         defaultValueLiteral="Vertical" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The orientation of elements in the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;legend, by default it's Vertical.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;orientation&quot; specifies the layout orientation of legend &#xD;&#xA;items inside one legend group.  It can be Vertical or Horizontal, which &#xD;&#xA;means the legend items will be laid out in top-down or left-right &#xD;&#xA;direction respectively.&#xD;&#xA;&lt;p xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;>&#xD;&#xA;In case of colored by series, all legend items related with the same &#xD;&#xA;designtime series belong to the same group, therefore if no y-optional &#xD;&#xA;grouping is defined each group contains only one legend item, otherwise &#xD;&#xA;more than one legned items.&lt;br/>&#xD;&#xA;In case of colored by category, all legend items belong to one group.&#xD;&#xA;&lt;/p>&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -351,7 +348,7 @@
         eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Direction"
         defaultValueLiteral="Top_Bottom" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The direction in which the entries are&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;added to the legend, by default it's TopBottom.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;direction&quot; specifies the layout direction of legend groups if &#xD;&#xA;there are more than one legend groups.  It can be Left_Right or &#xD;&#xA;Top_Bottom, which means the legend groups will be laid out in left-right &#xD;&#xA;or top-down direction respectively.&#xD;&#xA;&lt;p xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;>&#xD;&#xA;In case of colored by series, all legend items related with the same &#xD;&#xA;designtime series belong to the same group, therefore if no y-optional &#xD;&#xA;grouping is defined each group contains only one legend item, otherwise &#xD;&#xA;more than one legned items.&lt;br/>&#xD;&#xA;In case of colored by category, all legend items belong to one group.&#xD;&#xA;&lt;/p>&#xD;&#xA;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -362,7 +359,7 @@
         eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//LineAttributes"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The line attributes to be used for the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;line separating groups of entries in the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;legend.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Separator&quot; specifies the graphical attributes of the seperate line between legend groups. &#xD;&#xA;&lt;p xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;>&#xD;&#xA;In case of colored by series, all legend items related with the same &#xD;&#xA;designtime series belong to the same group, therefore if no y-optional &#xD;&#xA;grouping is defined each group contains only one legend item, otherwise &#xD;&#xA;more than one legned items.&lt;br/>&#xD;&#xA;In case of colored by category, all legend items belong to one group.&#xD;&#xA;&lt;/p>&#xD;&#xA;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -373,7 +370,7 @@
         eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         defaultValueLiteral="Right" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The position of the legend, by&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;default it's Right.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;position&quot; specifies the position of the legend relative to the plot block &#xD;&#xA;of the chart, it can be Above, Below, Left, Right and Inside. If Inside is selected, &#xD;&#xA;the legend block will be displayed in the middel of the plot block and overlapped &#xD;&#xA;with it.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -384,7 +381,7 @@
         eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//LegendItemType"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The form rendering of series should take&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(by Series or by Categories).&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;ItemType&quot; specifies whether the datapoints and the legend items are &#xD;&#xA;colored by category or series pallet.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -394,7 +391,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="title" eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Label"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;A label instance to hold attributes for&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;legend title.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;Title&quot; of type Label specifies the content and graphical &#xD;&#xA;properties of the title of the legend block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -404,7 +401,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="titlePosition" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies where the title for the legend&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;should be displayed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;TitlePosition&quot; specifies the position of the legend title &#xD;&#xA;inside the legend block.  It can be Above, Below, Left and Right - &#xD;&#xA;by default it's Above.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -414,7 +411,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="showValue" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies if show legend item value.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="The boolean attribute &quot;ShowValue&quot; specifies whether a descriptive value of &#xD;&#xA;the related series will be displayed under the legend item, normally this value &#xD;&#xA;will be the first value in the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -424,7 +421,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="showPercent" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies if show legend item value as&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;percentile.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="This attribute is not currently used."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -434,7 +431,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="showTotal" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies if show legend item value&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;total.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="This attribute is not currently used."/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -444,7 +441,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="wrappingSize" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the maximum string size for&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;each legend item. If the string size is&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;greater than this, it will be wrapped.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Zero means no wrap.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;WrappingSize&quot; specifies the behavior of automatically wrapping the &#xD;&#xA;legend items text into multiple lines when lacking in display space. Value zero &#xD;&#xA;means this feature is disabled, a positive value represents the maximal width &#xD;&#xA;of the text in points. &#xD;&#xA;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -454,7 +451,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxPercent" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
         defaultValueLiteral="0.33333333" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The maximal percent of space which the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;legend can take from the chart block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;MaxPercent&quot; specifies the maximal percent of space which the&#xD;&#xA;legend can take from the whole chart block. By default, it's 0.33333333,&#xD;&#xA;which means the legend block will either be dropped or occupy less than &#xD;&#xA;33.3% space of the whole chart block.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -464,7 +461,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="titlePercent" lowerBound="1"
         eType="#//TitlePercentType" defaultValueLiteral="0.6" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The maximal percent of space which the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;legend title can take from the legend&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;block. By default, it's 0.6.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;TitlePercent&quot; specifies the maximal percent of space which the&#xD;&#xA;legend title can take from the whole legend block. By default, it's 0.6, &#xD;&#xA;which means the legend title will either be dropped or occupy less than &#xD;&#xA;60% space of the whole legend block.&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -474,7 +471,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ellipsis" lowerBound="1"
         eType="#//EllipsisType" defaultValueLiteral="1" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;                        &#x9;&#x9;Specifies the min count of characters before &#xD;&#xA;                        &#x9;&#x9;ellipsis. 0 means ellipsis won't be used. &#xD;&#xA;                        &#x9;&#x9;Default value is 1.&#xD;&#xA;                        &#x9;"/>
+        <details key="documentation" value="Int attribute &quot;Ellipsis&quot; specifies the behavior of shortening the legend item's &#xD;&#xA;text with ellipsis if there is not enough space to display the whole text. Value&#xD;&#xA;0 indicates that the feature is disabled, and the legend item will either be displayed &#xD;&#xA;with whole text or be dropped. A positive value n represents the minimal count &#xD;&#xA;of characters to be displayed before the ellipsis, which means the legend item &#xD;&#xA;will either be dropped or be displayed with at least n characters.&#xD;&#xA;                        &#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -483,6 +480,9 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="formatSpecifier" eType="ecore:EClass org.eclipse.birt.chart.model.attribute.ecore#//FormatSpecifier"
         containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Element &quot;FormatSpecifier&quot; specifies how the legend item text will be formated."/>
+      </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="FormatSpecifier"/>
@@ -491,7 +491,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Plot" eSuperTypes="#//Block">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This is the area of the center of the chart, extending to but not including the axes.  &#xD;&#xA;For charts without axes, this area includes the data points and data labels, but not the title or legend.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="Plot represent the rectangular area in a chart, inside where the graph of its datapoints is displayed. &#xD;&#xA;It extends to the client area of a chart's block excluding the title and legend.  Plot is a sub-type of Block, &#xD;&#xA;and exists as a child block of the chart's block in a chart's model.  &#xD;&#xA;&lt;p xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;>&#xD;&#xA;Besides the general approach of using Chart.getBlock( ).getChildren( ) we can also access it using the &#xD;&#xA;convenient method: Chart.getPlot( );&#xD;&#xA;&lt;/p>&#xD;&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Plot"/>
@@ -501,7 +501,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" defaultValueLiteral="5"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The horizontal spacing between elements in the plot.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;VerticalSpacing&quot; specifies the vertical spacing between elements in the plot.  &#xD;&#xA;For chart with axes, it represents the space in points between the horizontal axes and the graph &#xD;&#xA;of the datapoints.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -512,7 +512,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" defaultValueLiteral="5"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The vertical spacing between elements in the plot.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Attribute &quot;VerticalSpacing&quot; specifies the vertical spacing between elements in the plot.  &#xD;&#xA;For chart with axes, it represents the space in points between the vertical axes and the graph &#xD;&#xA;of the datapoints.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -522,7 +522,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="clientArea" lowerBound="1"
         eType="#//ClientArea" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The area of the plot within which the series elements will be displayed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="Element &quot;ClientArea&quot; represents the valid rectangular area of a plot &#xD;&#xA;block to lay out its content.  It extends the whole block excluding the &#xD;&#xA;margin of the block, which is defined by &quot;Insets&quot;.  It also holds a group of &#xD;&#xA;properties to specify how this area will be rendered, including its background, &#xD;&#xA;outline, visibility... and so on.&#xD;&#xA;&lt;p xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;>&#xD;&#xA;For chart with axes it represents the area within axes. &lt;br/> &#xD;&#xA;For chart without axes it will be split into cells, with each cell for one single series.&#xD;&#xA;&lt;/p>&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -532,7 +532,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TitleBlock" eSuperTypes="#//LabelBlock">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This type defines the Title in a chart, including the title's text, location, and bounds.  The title is optional and may be hidden.&#x9;&#x9;&#x9;"/>
+      <details key="documentation" value="TitleBlock is a special sub-type of LabelBlock, which devotes itself to representing the title of the chart.&#xD;&#xA;&lt;p xmlns=&quot;http://www.birt.eclipse.org/ChartModelLayout&quot;>&#xD;&#xA;Besides the general approach of using Chart.getBlock( ).getChildren( ) we can also access it using the &#xD;&#xA;convenient method: Chart.getTitle( );&#xD;&#xA;&lt;/p>&#xD;&#xA;"/>
     </eAnnotations>
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TitleBlock"/>

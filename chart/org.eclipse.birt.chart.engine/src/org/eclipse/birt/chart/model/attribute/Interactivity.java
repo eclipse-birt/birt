@@ -15,8 +15,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type defines the interactiviy settings for the chart.
+ * Interactivity represents the interactivity settings for the chart.
  * <!-- end-model-doc -->
  *
  * <p>
@@ -41,7 +40,8 @@ public interface Interactivity extends IChartObject
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Enable/Disable all interactive features, true by default
+	 * Attribute "Enable" specifies whether all interactive features are 
+	 * enabled, by default it's true.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Enable</em>' attribute.
 	 * @see #isSetEnable()

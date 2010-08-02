@@ -17,8 +17,7 @@ import org.eclipse.birt.chart.model.IChartObject;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Fill</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type holds background information for a chart element.
+ * Fill represents the information about how to fill a graphic element in a chart.
  * 			
  * <!-- end-model-doc -->
  *

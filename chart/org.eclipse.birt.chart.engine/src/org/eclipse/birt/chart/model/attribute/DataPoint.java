@@ -18,8 +18,7 @@ import org.eclipse.emf.common.util.EList;
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Data Point</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type represents the data value being displayed in the plot area for each data value.
+ * DataPoint holds the settings for establishing the label text of a series' datapoints.
  * 			
  * <!-- end-model-doc -->
  *
@@ -62,8 +61,7 @@ public interface DataPoint extends IChartObject
 	 * Returns the value of the '<em><b>Prefix</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 					Specifies the prefix for the data label.
+	 * Attribute "Prefix" specifies the prefix of the label text.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Prefix</em>' attribute.
@@ -88,8 +86,7 @@ public interface DataPoint extends IChartObject
 	 * Returns the value of the '<em><b>Suffix</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 					Specifies the suffix for the data label.
+	 * Attribute "Suffix" specifies the prefix of the label text.
 	 * 					
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Suffix</em>' attribute.

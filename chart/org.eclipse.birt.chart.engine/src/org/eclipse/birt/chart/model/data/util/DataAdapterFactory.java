@@ -107,6 +107,12 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 		}
 
 		@Override
+		public Adapter caseBigNumberDataElement( BigNumberDataElement object )
+		{
+			return createBigNumberDataElementAdapter( );
+		}
+
+		@Override
 		public Adapter caseBubbleDataSet( BubbleDataSet object )
 		{
 			return createBubbleDataSetAdapter( );
@@ -269,6 +275,21 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createBaseSampleDataAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.data.BigNumberDataElement <em>Big Number Data Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.data.BigNumberDataElement
+	 * @generated
+	 */
+	public Adapter createBigNumberDataElementAdapter( )
 	{
 		return null;
 	}

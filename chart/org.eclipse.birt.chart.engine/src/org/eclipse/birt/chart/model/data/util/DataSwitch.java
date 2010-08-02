@@ -124,6 +124,16 @@ public class DataSwitch<T>
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case DataPackage.BIG_NUMBER_DATA_ELEMENT :
+			{
+				BigNumberDataElement bigNumberDataElement = (BigNumberDataElement) theEObject;
+				T result = caseBigNumberDataElement( bigNumberDataElement );
+				if ( result == null )
+					result = caseDataElement( bigNumberDataElement );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case DataPackage.BUBBLE_DATA_SET :
 			{
 				BubbleDataSet bubbleDataSet = (BubbleDataSet) theEObject;
@@ -337,6 +347,22 @@ public class DataSwitch<T>
 	 * @generated
 	 */
 	public T caseBaseSampleData( BaseSampleData object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Big Number Data Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Big Number Data Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBigNumberDataElement( BigNumberDataElement object )
 	{
 		return null;
 	}

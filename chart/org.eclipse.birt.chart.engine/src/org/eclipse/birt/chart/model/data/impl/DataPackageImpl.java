@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.BigNumberDataElement;
 import org.eclipse.birt.chart.model.data.BubbleDataSet;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DataFactory;
@@ -72,6 +73,13 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	 * @generated
 	 */
 	private EClass baseSampleDataEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass bigNumberDataElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -335,6 +343,27 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	public EAttribute getBaseSampleData_DataSetRepresentation( )
 	{
 		return (EAttribute) baseSampleDataEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBigNumberDataElement( )
+	{
+		return bigNumberDataElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBigNumberDataElement_Value( )
+	{
+		return (EAttribute) bigNumberDataElementEClass.getEStructuralFeatures( )
 				.get( 0 );
 	}
 
@@ -928,6 +957,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		createEAttribute( baseSampleDataEClass,
 				BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION );
 
+		bigNumberDataElementEClass = createEClass( BIG_NUMBER_DATA_ELEMENT );
+		createEAttribute( bigNumberDataElementEClass,
+				BIG_NUMBER_DATA_ELEMENT__VALUE );
+
 		bubbleDataSetEClass = createEClass( BUBBLE_DATA_SET );
 
 		dataElementEClass = createEClass( DATA_ELEMENT );
@@ -1055,6 +1088,8 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		bigNumberDataElementEClass.getESuperTypes( )
+				.add( this.getDataElement( ) );
 		bubbleDataSetEClass.getESuperTypes( ).add( this.getDataSet( ) );
 		dateTimeDataElementEClass.getESuperTypes( )
 				.add( this.getDataElement( ) );
@@ -1086,6 +1121,13 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		initEAttribute( getBaseSampleData_DataSetRepresentation( ),
 				theXMLTypePackage.getString( ),
 				"dataSetRepresentation", null, 1, 1, BaseSampleData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( bigNumberDataElementEClass,
+				BigNumberDataElement.class,
+				"BigNumberDataElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getBigNumberDataElement_Value( ),
+				theXMLTypePackage.getDecimal( ),
+				"value", null, 1, 1, BigNumberDataElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( bubbleDataSetEClass,
 				BubbleDataSet.class,
@@ -1336,6 +1378,14 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 						"name", "DataSetRepresentation" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
+		addAnnotation( bigNumberDataElementEClass, source, new String[]{
+				"name", "BigNumberDataElement", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getBigNumberDataElement_Value( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( bubbleDataSetEClass, source, new String[]{
 				"name", "BubbleDataSet", //$NON-NLS-1$ //$NON-NLS-2$
 				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$

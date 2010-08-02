@@ -20,8 +20,8 @@ import com.ibm.icu.util.ULocale;
  * end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type holds the format specifier properties for a numeric label.
+ * NumberFormatSpecifier extends FormatSpecifier specially for 
+ * formatting numeric values.
  * 			
  * <!-- end-model-doc -->
  *
@@ -46,8 +46,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * Returns the value of the '<em><b>Prefix</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							Specifies the prefix to be added to label.
+	 * Attribute "Prefix" specifies the prefix of the output text.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Prefix</em>' attribute.
@@ -75,8 +74,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * Returns the value of the '<em><b>Suffix</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * 							Specifies the suffix to be added to label.
+	 * Attribute "Suffix" specifies the suffix of the output text.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Suffix</em>' attribute.
@@ -229,7 +227,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * @since 2.6
 	 */
 	String format( Number number, ULocale lo );
-	
+
 	/**
 	 * @generated
 	 */

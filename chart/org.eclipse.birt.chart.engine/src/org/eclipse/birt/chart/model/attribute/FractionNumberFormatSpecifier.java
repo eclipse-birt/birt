@@ -17,8 +17,8 @@ import com.ibm.icu.util.ULocale;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * 
- * 			This type holds the fraction format specifier properties for a numeric label.
+ * FractionNumberFormatSpecifier extends type FormatSpecifier 
+ * and is specialized for displaying nummeric value as fraction number.
  * 			
  * <!-- end-model-doc -->
  *
@@ -46,7 +46,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies if the fraction result is precise with the decimal
+	 * Attribute "Precies" specifies if the fraction result is precise with the decimal.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Precise</em>' attribute.
 	 * @see #isSetPrecise()
@@ -99,8 +99,8 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
-	 * Specifies the fixed length of the denominator when in imprecise mode.
+	 * Attribute "FractionDigits" specifies the fixed length of the 
+	 * denominator when in imprecise mode.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Fraction Digits</em>' attribute.
 	 * @see #isSetFractionDigits()
@@ -153,7 +153,9 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies a fixed numerator for the fraction result when in imprecise mode. Zero means no effect. This setting will take the precedence than the FractionDigits setting.
+	 * Attribute "Numerator" specifies a fixed numerator for the fraction 
+	 * result when in imprecise mode. Zero means no effect. This setting 
+	 * will take the precedence than the FractionDigits setting.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Numerator</em>' attribute.
 	 * @see #isSetNumerator()
@@ -206,7 +208,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies the prefix of the result.
+	 * Attribute "Prefix" specifies the prefix of the result.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Prefix</em>' attribute.
 	 * @see #setPrefix(String)
@@ -232,7 +234,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies the suffix of the result.
+	 * Attribute "Suffix" specifies the suffix of the result.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Suffix</em>' attribute.
 	 * @see #setSuffix(String)
@@ -259,7 +261,7 @@ public interface FractionNumberFormatSpecifier extends FormatSpecifier
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies the string as the fraction stroke. Default is "/".
+	 * Attribute "Delimiter" specifies the string as the fraction stroke, by default it'is "/".
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Delimiter</em>' attribute.
 	 * @see #isSetDelimiter()
