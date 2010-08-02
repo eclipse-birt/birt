@@ -130,6 +130,7 @@ import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -2496,11 +2497,16 @@ public class EngineIRVisitor extends DesignVisitor
 		// }
 	}
 
-	String getMemberProperty( StructureHandle handle, String name )
+	String getMemberProperty( Module module, StructureHandle handle, String name )
 	{
 		MemberHandle prop = handle.getMember( name );
 		if ( prop != null )
 		{
+			Object value = prop.getContext( ).getLocalValue( module );
+			if ( value == null )
+			{
+				return null;
+			}
 			return prop.getStringValue( );
 		}
 		return null;
@@ -2586,10 +2592,10 @@ public class EngineIRVisitor extends DesignVisitor
 	private void populateHighlightStyle( StyledElementDesign design,
 			StructureHandle highlight, IStyle style, String propertyName )
 	{
-		String property = getMemberProperty( highlight, propertyName );
+		Module module = design.getHandle( ).getModule( );
+		String property = getMemberProperty( module, highlight, propertyName );
 		populateStyle( design, style, propertyName, property );
 	}
-
 	
 	
 	protected DimensionType createDimension( DimensionHandle handle, boolean useDefault )
