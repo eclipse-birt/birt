@@ -302,6 +302,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
 
+	private static final int DEFAULT_PREVIEW_INTEGER = 123456;
+
 	private ScalarParameterHandle inputParameter;
 
 	private boolean loading = true;
@@ -3930,8 +3932,25 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						locale ).format( defaultValue == null ? Messages.getString( "FormatStringPage.default.preview.text" ) //$NON-NLS-1$
 						: defaultValue );
 			}
-			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER )
-					|| type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
+			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER ) )
+			{
+				int intValue = DEFAULT_PREVIEW_INTEGER;
+
+				if ( defaultValue != null )
+				{
+					try
+					{
+						intValue = java.lang.Integer.parseInt( defaultValue );
+					}
+					catch ( NumberFormatException e )
+					{
+					}
+				}
+				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
+						: formatCategroy,
+						locale ).format( intValue );
+			}
+			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
 					|| type.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT ) )
 			{
 				double doulbeValue = DEFAULT_PREVIEW_NUMBER;
@@ -3944,7 +3963,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					}
 					catch ( NumberFormatException e )
 					{
-
 					}
 				}
 				previewString = new NumberFormatter( ( ParameterUtil.isCustomCategory( formatCategroy ) || ( isNumberFormat( formatCategroy ) ) ) ? formatPattern
