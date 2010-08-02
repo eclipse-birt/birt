@@ -555,6 +555,9 @@ BirtChartActionsMenu.remove = function() {
 
 BirtChartActionsMenu.show = function (evt, source, menuInfo ) {
 	
+	if ( menuInfo.menuItemNames.length == 0 ) {
+		BirtChartActionsMenu.remove();
+	} else {
 	this.menuInfo = menuInfo;
 	this.menuLayout = new MenuLayout();
 
@@ -672,7 +675,7 @@ BirtChartActionsMenu.show = function (evt, source, menuInfo ) {
 					+ (transformX / scl) + ', ' + (transformY / scl) + ')');
 		}
 	}
-
+	}
 	SVGChartUtil.stopBubble(evt);
 	SVGChartUtil.stopDefault(evt);
 };

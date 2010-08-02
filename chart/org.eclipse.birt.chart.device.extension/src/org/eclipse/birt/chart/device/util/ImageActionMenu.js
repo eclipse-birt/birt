@@ -141,6 +141,10 @@ BirtChartMenuHelper.reset = function() {
 
 BirtChartMenuHelper.createPopupMenu = function(evt, menuInfo) {
 	this.reset();
+	if ( menuInfo.menuItemNames.length == 0 )
+	{
+		return null;
+	}
 
 	// Create 'div' menu.
 	var bcm = new BirtChartMenu(menuInfo);

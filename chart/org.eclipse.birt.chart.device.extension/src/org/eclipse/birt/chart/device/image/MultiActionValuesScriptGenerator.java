@@ -61,7 +61,7 @@ public class MultiActionValuesScriptGenerator
 		StringBuilder sb = getJSContext( values );
 		
 		sb.append( "var popMenu = BirtChartMenuHelper.createPopupMenu(evt, menuInfo);\n");//$NON-NLS-1$
-		sb.append( "popMenu.show();\n");//$NON-NLS-1$
+		sb.append( "if ( popMenu && popMenu != null ) popMenu.show();\n");//$NON-NLS-1$
 		return sb.toString( );
 	}
 
@@ -70,7 +70,7 @@ public class MultiActionValuesScriptGenerator
 		StringBuilder sb = getJSContext( actions );
 		
 		sb.append( "var popMenu = BirtChartMenuHelper.createPopupMenu(evt, menuInfo);\n");//$NON-NLS-1$
-		sb.append( "popMenu.show();\n");//$NON-NLS-1$
+		sb.append( "if ( popMenu && popMenu != null ) popMenu.show();\n");//$NON-NLS-1$
 		return sb.toString( );
 	}
 	
