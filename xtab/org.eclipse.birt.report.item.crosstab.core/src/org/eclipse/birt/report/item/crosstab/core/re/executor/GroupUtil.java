@@ -452,8 +452,11 @@ public class GroupUtil implements ICrosstabConstants
 	public static boolean isDummyGroup( DimensionCursor dc )
 			throws OLAPException
 	{
-		// check special edge start/end value for dummy group
-		return dc.getEdgeStart( ) == -1 && dc.getEdgeEnd( ) == -1;
+		// // check special edge start/end value for dummy group
+		// return dc.getEdgeStart( ) == -1 && dc.getEdgeEnd( ) == -1;
+
+		// now use 'extent' to determine if this is a dummy group
+		return dc.getExtent( ) == -1;
 	}
 
 	/**
