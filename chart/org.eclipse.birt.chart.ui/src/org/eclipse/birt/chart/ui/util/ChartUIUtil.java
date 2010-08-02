@@ -750,10 +750,8 @@ public class ChartUIUtil
 		// --------------------------Begin
 
 		// Create a clone of the existing Y Axis
-		Axis yAxis = chartModel.getAxes( )
-				.get( 0 )
-				.getAssociatedAxes( )
-				.get( 0 );
+		Axis xAxis = chartModel.getAxes( ).get( 0 );
+		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
 		Axis overlayAxis = yAxis.copyInstance( );
 		// Now update overlay axis to set the properties that are
 		// different from
@@ -789,6 +787,10 @@ public class ChartUIUtil
 		{
 			dds.get( i ).setDefinition( "" ); //$NON-NLS-1$
 		}
+		
+		// Shift the color in palette so that new axis can look different
+		sdOverlay.getSeriesPalette( )
+				.shift( -xAxis.getAssociatedAxes( ).size( ) );
 
 		// Update the sample values for the new overlay series
 		SampleData sd = chartModel.getSampleData( );
