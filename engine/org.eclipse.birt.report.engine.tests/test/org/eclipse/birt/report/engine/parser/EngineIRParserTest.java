@@ -272,10 +272,10 @@ public class EngineIRParserTest extends TestCase
 		assertEquals( true, drill.getBookmarkType( ) );
 		assertExpression( "bookmark-expr", drill.getBookmark( ) );
 		assertEquals( "xls", drill.getFormat( ) );
-		Map<String, Expression> exprs = drill.getParameters( );
+		Map<String, List<Expression>> exprs = drill.getParameters( );
 		assertEquals( 2, exprs.size( ) );
-		assertExpression( "param-expr", exprs.get( "param-expr" ) );
-		assertConstant( "param-value", exprs.get( "param-value" ) );
+		assertExpression( "param-expr", exprs.get( "param-expr" ).get( 0 ) );
+		assertConstant( "param-value", exprs.get( "param-value" ).get( 0 ) );
 
 		action = report.getContent( 5 ).getAction( );
 		assertEquals( ActionDesign.ACTION_DRILLTHROUGH, action.getActionType( ) );
