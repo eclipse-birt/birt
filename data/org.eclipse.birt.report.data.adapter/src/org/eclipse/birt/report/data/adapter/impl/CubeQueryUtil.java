@@ -705,7 +705,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 				DefineDataSourceSetUtil.defineDataSourceAndDataSet( hierHandle.getDataSet( ),
 						this.sessionImpl );
 			else
-				DefineDataSourceSetUtil.defineDataSourceAndDataSet( (DataSetHandle) cubeHandle.getProperty( ITabularCubeModel.DATA_SET_PROP ),
+				DefineDataSourceSetUtil.defineDataSourceAndDataSet( (DataSetHandle) cubeHandle.getElementProperty( ITabularCubeModel.DATA_SET_PROP ),
 						this.sessionImpl );
 			Map levelValueMap = new HashMap( );
 			if ( dimensionLevels != null )
