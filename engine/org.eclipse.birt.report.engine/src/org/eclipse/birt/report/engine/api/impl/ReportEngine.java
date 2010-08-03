@@ -205,7 +205,7 @@ public class ReportEngine implements IReportEngine
 		Logger logger = null;
 		String dest = null;
 		String file = null;
-		Level level = Level.WARNING;
+		Level level = null;
 		int rollingSize = 0;
 		int maxBackupIndex = 1;
 		if ( config != null )
@@ -217,14 +217,9 @@ public class ReportEngine implements IReportEngine
 			rollingSize = config.getLogRollingSize( );
 			maxBackupIndex = config.getLogMaxBackupIndex( );
 		}
-		EngineLogger.startEngineLogging( logger,
-				dest,
-				file,
-				level,
-				rollingSize,
-				maxBackupIndex );
+		EngineLogger.startEngineLogging( logger, dest, file, level,
+				rollingSize, maxBackupIndex );
 	}
-	
 
 	/**
 	 * get the root scope used by the engine
