@@ -19,19 +19,21 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IDimLevel;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -40,6 +42,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -51,6 +54,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.command.LibraryCommand;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -830,14 +834,15 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private void localizeReportItemTheme( StyledElement target,
 			StyledElement source )
 	{
-		DesignElement e = source;
+		DesignElement element = source;
 		AbstractTheme reportItemTheme = null;
 		boolean hasSetTheme = false;
-		while ( e != null )
+		int level = 0;
+		while ( element != null )
 		{
-			if ( e instanceof ReportItem && e instanceof ISupportThemeElement )
+			if ( element instanceof ReportItem && element instanceof ISupportThemeElement )
 			{
-				ReportItem item = (ReportItem) e;
+				ReportItem item = (ReportItem) element;
 				if ( item.getLocalProperty( item.getRoot( ),
 						IReportItemModel.THEME_PROP ) != null )
 				{
@@ -850,11 +855,56 @@ class ReportDesignSerializerImpl extends ElementVisitor
 				}
 			}
 
-			e = e.getContainer( );
+			element = element.getContainer( );
+			level++;
 		}
 
 		if ( !hasSetTheme || reportItemTheme == null )
 			return;
+		
+		if ( reportItemTheme.getRoot( ) != target.getRoot( ) )
+		{
+			// Do not flatten report item theme in library
+			if ( reportItemTheme.getRoot( ) instanceof Library )
+			{
+				Library library = (Library) reportItemTheme.getRoot( );
+				LibraryCommand cmd = null;
+				String namespace = library.getNamespace( );
+				if ( targetDesign.getLibraryWithNamespace( namespace ) == null )
+				{
+					List<IncludedLibrary> libraries = (List) sourceDesign
+							.getProperty( sourceDesign, IModuleModel.LIBRARIES_PROP );
+					for ( IncludedLibrary lib : libraries )
+					{
+						if ( lib.getNamespace( ).equals( namespace ) )
+						{
+							if ( cmd == null)
+								cmd = new LibraryCommand( targetDesign );
+							
+							try
+							{
+								cmd.addLibrary( lib.getFileName( ), namespace );
+							}
+							catch ( DesignFileException e )
+							{  //Not expected
+								assert false;
+							}
+							catch ( SemanticException e )
+							{ //Not expected
+								assert false;
+							}
+							break;
+						}
+					}
+				}
+				DesignElement elementWithTheme = target;
+				for ( int i = 0; i < level; i++ )
+					elementWithTheme = elementWithTheme.getContainer( );
+				elementWithTheme.setProperty( IReportItemModel.THEME_PROP,
+						new ElementRefValue( namespace, reportItemTheme ) );
+			}
+			return;
+		}
 
 		List<IElementPropertyDefn> propDefns = source.getDefn( )
 				.getProperties( );
