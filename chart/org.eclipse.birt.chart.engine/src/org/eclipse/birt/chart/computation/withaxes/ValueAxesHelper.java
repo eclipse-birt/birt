@@ -89,6 +89,9 @@ class ValueAxesHelper
 	}
 
 	/**
+	 * Adjusts the range of all orthogonal axes according to the computed
+	 * thickness of category axis.
+	 * 
 	 * @param plotWithAxes
 	 * @param aax
 	 * @param plotBounds
@@ -157,7 +160,7 @@ class ValueAxesHelper
 	 * 
 	 * @return
 	 */
-	public OneAxis[] getValueAxes( )
+	OneAxis[] getValueAxes( )
 	{
 		return fAllValueAxes;
 	}
@@ -168,7 +171,7 @@ class ValueAxesHelper
 	 * @param valueAxisIndex
 	 * @return
 	 */
-	public double getStart( int valueAxisIndex )
+	double getStart( int valueAxisIndex )
 	{
 		double start = 0;
 		double d = ( fCrossingIndex == 0 && fCrossingIndex == valueAxisIndex ) ? fBaseAxisThickness : 0d; 
@@ -199,7 +202,7 @@ class ValueAxesHelper
 	 * @param valueAxisIndex
 	 * @return
 	 */
-	public double getEnd( int valueAxisIndex )
+	double getEnd( int valueAxisIndex )
 	{
 		double end = 0;
 		double d = ( fCrossingIndex == ( fAllValueAxes.length - 1) && fCrossingIndex == valueAxisIndex ) ? fBaseAxisThickness : 0d; 

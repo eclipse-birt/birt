@@ -64,7 +64,6 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 	public void adjust( ) throws ChartException
 	{
 		AutoScale scX = fHorizontalAxis.getScale( );
-		boolean isBackward = ( scX.getDirection( ) == PlotWithAxes.BACKWARD );
 
 		List<VerticalAxisAdjuster> values = new ArrayList<VerticalAxisAdjuster>( );
 		List<VerticalAxisAdjuster> min = new ArrayList<VerticalAxisAdjuster>( );
@@ -92,177 +91,135 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 			}
 		}
 
-		// 1. Adjusts value origin axes, computes axis location, axis left edge
-		// and axis right edge
+		// 1. Adjusts value origin axes, divides left/right/cross cases of axes place. 
 		double x = Double.NaN;
 		double left = Double.NaN;
 		double right = Double.NaN;
 
-		double[] endPoints = fHorizontalAxis.getScale( ).getEndPoints( );
-		fHorizontalAxis.getScale( ).resetShifts( );
+		double[] endPoints = scX.getEndPoints( );
 
 		for ( int i = 0; i < values.size( ); i++ )
 		{
-			values.get( i ).adjust( );
-
-			double locationDelta = Math.abs( AxesAdjuster.getLocationDelta( fHorizontalAxis.getScale( ),
-					values.get( i ).getVerticalAxis( ).getIntersectionValue( ) ) );
-			if ( Double.isNaN( x ) )
-			{
-				x = values.get( i ).getAxisX( );
-				if ( !isBackward )
-				{
-					x = x - locationDelta;
-					left = values.get( i ).getAxisLeftEdge( );
-					if ( x < left )
-					{
-						left = x;
-					}
-					right = x;
-				}
-				else
-				{
-					x = x + locationDelta;
-					left = x;
-					right = values.get( i ).getAxisRightEdge( );
-					if ( x > right )
-					{
-						right = x;
-					}
-				}
-			}
-			else
-			{
-				double deltaX1 = x - left;
-				double deltaX2 = right - x;
-				double newX = values.get( i ).getAxisX( );
-				if ( !isBackward )
-				{
-					newX -= locationDelta;
-				}
-				else
-				{
-					newX += locationDelta;
-				}
-
-				if ( !isBackward )
-				{
-					if ( newX > x )
-					{
-						x = newX;
-					}
-					left = x
-							- Math.max( deltaX1, x
-									- values.get( i ).getAxisLeftEdge( ) );
-					right = x;
-				}
-				else
-				{
-					if ( newX < x )
-					{
-						x = newX;
-					}
-					left = x;
-					right = x
-							+ Math.max( deltaX2, values.get( i )
-									.getAxisRightEdge( )
-									- x );
-				}
-			}
-
+			// Reset start and end of horizontal axis.
 			scX.setEndPoints( endPoints[0], endPoints[1] );
+			scX.resetShifts( );
+			// Computes the locations of vertical axis.
+			VerticalAxisAdjuster vaa = values.get( i );
+			vaa.adjust( );
+
+			double locationDelta = AxesAdjuster.getLocationDelta( scX,
+					vaa.getVerticalAxis( ).getIntersectionValue( ) );
+			if ( locationDelta <= 0 || vaa.getAxisLeftEdge( ) <= endPoints[0] )
+			{
+				// The axis should be added into Min set and computed in Min
+				// set.
+				min.add( vaa );
+			}
+			else if ( vaa.getAxisRightEdge( ) >= endPoints[1] )
+			{
+				// The axis should be added into Max set and computed in Max
+				// set.
+				max.add( vaa );
+			}
 		}
 
-		// 2. Adjusts min origin axes, computes axis location, axis left edge
+		// 2. Adjusts min/vaue origin axes, computes axis location, axis left edge
 		// and axis right edge.
-		scX.setEndPoints( endPoints[0], endPoints[1] );
-		scX.resetShifts( );
 		for ( int i = 0; i < min.size( ); i++ )
 		{
-			min.get( i ).adjust( );
+			scX.setEndPoints( endPoints[0], endPoints[1] );
+			scX.resetShifts( );
+			VerticalAxisAdjuster vaa = min.get( i );
+			vaa.adjust( );
 
+			boolean isMinOrigin = ( vaa.getVerticalAxis( )
+					.getIntersectionValue( )
+					.getType( ) == IConstants.MIN );
 			if ( Double.isNaN( x ) )
 			{
-				x = min.get( i ).getAxisX( );
-				left = min.get( i ).getAxisLeftEdge( );
-				right = min.get( i ).getAxisRightEdge( );
+				if ( isMinOrigin )
+				{
+					x = vaa.getAxisX( );
+					left = vaa.getAxisLeftEdge( );
+					right = vaa.getAxisRightEdge( );
+				}
+				else
+				{
+					// It is Value origin type.
+					if ( vaa.getLeftWidth( ) <= scX.getStart( ) )
+					{
+						x = vaa.getAxisX( );	
+					}
+					else
+					{
+						x = scX.getStart( );
+					}
+					left = vaa.getAxisLeftEdge( ) < x ? vaa.getAxisLeftEdge( )
+							: x;
+					right = x;
+				}
 			}
 			else
 			{
 				double deltaX1 = x - left;
 				double deltaX2 = right - x;
 
-				if ( min.get( i ).getAxisX( ) > x )
+				if ( isMinOrigin )
 				{
-					x = min.get( i ).getAxisX( );
-
+					if ( vaa.getAxisX( ) > x )
+					{
+						x = vaa.getAxisX( );
+					}
+					left = x
+							- Math.max( deltaX1,
+									vaa.getAxisX( ) - vaa.getAxisLeftEdge( ) );
+					right = x
+							+ Math.max( deltaX2,
+									vaa.getAxisRightEdge( ) - vaa.getAxisX( ) );
 				}
-				left = x
-						- Math.max( deltaX1, min.get( i ).getAxisX( )
-								- min.get( i ).getAxisLeftEdge( ) );
-				right = x
-						+ Math.max( deltaX2, min.get( i ).getAxisRightEdge( )
-								- min.get( i ).getAxisX( ) );
+				else
+				{
+					// It is Value origin type.
+					if ( scX.getEndPoints( )[0] > x )
+					{
+						x = scX.getEndPoints( )[0];
+					}
+					left = x
+							- Math.max( deltaX1,
+									scX.getEndPoints( )[0]
+											- vaa.getAxisLeftEdge( ) );
+					right = x + deltaX2;
+				}
 			}
-
-			scX.setEndPoints( endPoints[0], endPoints[1] );
 		}
 
 		// 3. Adjusts horizontal axis positions according to the positions of
 		// min origin & value origin axes.
 		scX.setEndPoints( endPoints[0], endPoints[1] );
-		double[] positions = adjustOrthogonalAxis( IConstants.MIN,
-				fHorizontalAxis,
-				x,
-				left,
-				right );
-		x = positions[0];
-		left = positions[1];
-		right = positions[2];
-
-		// 4.
-		// 4.1 Sets value origin axes coordinate and title coordinate according
-		// to the axis location, left edge and right edge.
-		for ( int i = 0; i < values.size( ); i++ )
+		scX.resetShifts( );
+		if ( !Double.isNaN( x ) )
 		{
-			OneAxis oa = values.get( i ).getVerticalAxis( );
-			double iYTitleLocation = oa.getTitlePosition( );
-
-			double axisCoordinate = 0;
-			double locationDelta = Math.abs( AxesAdjuster.getLocationDelta( fHorizontalAxis.getScale( ),
-					values.get( i ).getVerticalAxis( ).getIntersectionValue( ) ) );
-			if ( !isBackward )
-			{
-				axisCoordinate = scX.getEndPoints( )[0];
-				axisCoordinate += locationDelta;
-			}
-			else
-			{
-				axisCoordinate = scX.getEndPoints( )[1];
-				axisCoordinate -= locationDelta;
-			}
-
-			double axisTitleCoordinate = ( iYTitleLocation == PlotWithAxes.LEFT ) ? left
-					- 1
-					+ locationDelta
-					: axisCoordinate
-							+ 1
-							+ ( ( oa.getLabelPosition( ) == PlotWithAxes.LEFT ) ? 0
-									: values.get( i ).getAxisLabelThickness( ) );
-
-			oa.setAxisCoordinate( axisCoordinate );
-			oa.setTitleCoordinate( axisTitleCoordinate );
+			double[] positions = adjustAcrossAxis( IConstants.MIN,
+					fHorizontalAxis,
+					x,
+					left,
+					right );
+			x = positions[0];
+			left = positions[1];
+			right = positions[2];
 		}
 
-		// 4.2 4. Sets min origin axes coordinate and title coordinate according
+		// 4. Sets min origin axes coordinate and title coordinate according
 		// to the axis location, left edge and right edge.
 		for ( int i = 0; i < min.size( ); i++ )
 		{
-			OneAxis oa = min.get( i ).getVerticalAxis( );
-			double iYTitleLocation = oa.getTitlePosition( );
-			oa.setTitleCoordinate( ( iYTitleLocation == PlotWithAxes.LEFT ) ? left - 1
-					: right + 1 - min.get( i ).getAxisTitleThickness( ) );
+			VerticalAxisAdjuster vaa = min.get( i );
+			OneAxis oa = vaa.getVerticalAxis( );
 			oa.setAxisCoordinate( x );
+			double iYTitleLocation = oa.getTitlePosition( );
+			oa.setTitleCoordinate( ( iYTitleLocation == PlotWithAxes.LEFT ) ? x
+					- vaa.getLeftWidth( )
+					- 1	: x + vaa.getRightWidth( ) - vaa.getAxisTitleThickness( ) + 1 );
 		}
 
 		// 5. Adjusts max origin axes, computes x location, axis left edge and
@@ -271,36 +228,36 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 		left = Double.NaN;
 		right = Double.NaN;
 		endPoints = scX.getEndPoints( );
-		scX.resetShifts( );
 		for ( int i = 0; i < max.size( ); i++ )
 		{
-			max.get( i ).adjust( );
+			scX.setEndPoints( endPoints[0], endPoints[1] );
+			scX.resetShifts( );
+			VerticalAxisAdjuster vaa = max.get( i );
+			vaa.adjust( );
 
 			if ( Double.isNaN( x ) )
 			{
-				x = max.get( i ).getAxisX( );
-				left = max.get( i ).getAxisLeftEdge( );
-				right = max.get( i ).getAxisRightEdge( );
+				x = vaa.getAxisX( );
+				left = vaa.getAxisLeftEdge( );
+				right = vaa.getAxisRightEdge( );
 			}
 			else
 			{
 				double deltaX1 = x - left;
 				double deltaX2 = right - x;
 
-				if ( max.get( i ).getAxisX( ) < x )
+				if ( vaa.getAxisX( ) < x )
 				{
-					x = max.get( i ).getAxisX( );
+					x = vaa.getAxisX( );
 					left = x
 							- Math.max( deltaX1, x
-									- max.get( i ).getAxisLeftEdge( ) );
+									- vaa.getAxisLeftEdge( ) );
 					right = x
-							+ Math.max( deltaX2, max.get( i )
+							+ Math.max( deltaX2, vaa
 									.getAxisRightEdge( )
 									- x );
 				}
 			}
-
-			scX.setEndPoints( endPoints[0], endPoints[1] );
 		}
 
 		// 6. Adjusts horizontal axis position according to the position of max
@@ -308,7 +265,8 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 		if ( !Double.isNaN( x ) )
 		{
 			scX.setEndPoints( endPoints[0], endPoints[1] );
-			positions = adjustOrthogonalAxis( IConstants.MAX,
+			scX.resetShifts( );
+			double[] positions = adjustAcrossAxis( IConstants.MAX,
 					fHorizontalAxis,
 					x,
 					left,
@@ -321,14 +279,39 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 		// 7. Sets axis coordinate and title coordinate of max origin axes.
 		for ( int i = 0; i < max.size( ); i++ )
 		{
-			OneAxis oa = max.get( i ).getVerticalAxis( );
+			VerticalAxisAdjuster vaa = max.get( i );
+			OneAxis oa = vaa.getVerticalAxis( );
 			double iYTitleLocation = oa.getTitlePosition( );
-			oa.setTitleCoordinate( ( iYTitleLocation == PlotWithAxes.LEFT ) ? left - 1
-					: right + 1 - max.get( i ).getAxisTitleThickness( ) );
+			oa.setTitleCoordinate( ( iYTitleLocation == PlotWithAxes.LEFT ) ? x - vaa.getLeftWidth( ) - 1 
+					: x + vaa.getRightWidth( ) - vaa.getAxisTitleThickness( ) + 1 );
 			oa.setAxisCoordinate( x );
 		}
 
-		// 8. Recomputes the ticks according to new start and end of horizontal
+		// 8 Sets value origin axes coordinate and title coordinate according
+		// to the axis location, left edge and right edge.
+		for ( int i = 0; i < values.size( ); i++ )
+		{
+			VerticalAxisAdjuster vaa = values.get( i );
+			OneAxis oa = vaa.getVerticalAxis( );
+			double iYTitleLocation = oa.getTitlePosition( );
+			double axisCoordinate = 0;
+			double locationDelta = AxesAdjuster.getLocationDelta( scX,
+					vaa.getVerticalAxis( ).getIntersectionValue( ) );
+			axisCoordinate = scX.getEndPoints( )[0] + locationDelta;
+
+			double axisTitleCoordinate = ( iYTitleLocation == PlotWithAxes.LEFT ) ? axisCoordinate
+					- ( vaa.getAxisX( ) - vaa.getAxisLeftEdge( ) )
+					- 1
+					: axisCoordinate
+							+ 1
+							+ ( ( oa.getLabelPosition( ) == PlotWithAxes.LEFT ) ? 0
+									: vaa.getAxisLabelThickness( ) );
+
+			oa.setAxisCoordinate( axisCoordinate );
+			oa.setTitleCoordinate( axisTitleCoordinate );
+		}
+		
+		// 9. Recomputes the ticks according to new start and end of horizontal
 		// axis.
 		scX.computeTicks( fPlotWithAxes.getDisplayServer( ),
 				fHorizontalAxis.getLabel( ),
@@ -343,24 +326,24 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 	}
 
 	/**
-	 * Adjusts start and end of orthogonal axis, and returns axis coordinates.
+	 * Adjusts start and end of across axis, and returns axis coordinates.
 	 * 
-	 * @param orthogonalAxis
+	 * @param acrossAxis
 	 * @param dX
 	 * @param dLeftEdge
 	 * @param dRightEdge
 	 * @return
 	 * @throws ChartException
 	 */
-	public double[] adjustOrthogonalAxis( int iv, OneAxis orthogonalAxis,
+	double[] adjustAcrossAxis( int iv, OneAxis acrossAxis,
 			double dX, double dLeftEdge, double dRightEdge )
 			throws ChartException
 	{
 		IDisplayServer ids = fPlotWithAxes.getDisplayServer( );
-		AutoScale scX = orthogonalAxis.getScale( );
+		AutoScale scX = acrossAxis.getScale( );
 		AllAxes aax = fPlotWithAxes.getAxes( );
-		Label laXAxisLabels = orthogonalAxis.getLabel( );
-		int iXLabelLocation = orthogonalAxis.getLabelPosition( );
+		Label laXAxisLabels = acrossAxis.getLabel( );
+		int iXLabelLocation = acrossAxis.getLabelPosition( );
 
 		double dYAxisThickness = dRightEdge - dLeftEdge;
 		double dStart;
@@ -382,31 +365,17 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 
 			if ( scX.getDirection( ) == PlotWithAxes.BACKWARD )
 			{
-				if ( dYAxisThickness > scX.getEndShift( ) )
-				{
-					// Reduce scX's startpoint to fit the Y-axis on the left
-					dEnd = dRightEdge;
-					startEndChanged = true;
-				}
-				else
-				{
-					dEnd = scX.getEnd( );
-				}
+				// Reduce scX's startpoint to fit the Y-axis on the left
+				dEnd = dRightEdge;
 				dStart = scX.getStart( );
+				startEndChanged = true;
 			}
 			else
 			{
-				if ( dYAxisThickness > scX.getStartShift( ) )
-				{
-					// Reduce scX's startpoint to fit the Y-axis on the left.
-					dStart = dRightEdge;
-					startEndChanged = true;
-				}
-				else
-				{
-					dStart = scX.getStart( );
-				}
+				// Reduce scX's startpoint to fit the Y-axis on the left.
+				dStart = dRightEdge;
 				dEnd = scX.getEnd( );
+				startEndChanged = true;
 			}
 
 			scX.resetShifts( );

@@ -51,11 +51,11 @@ public class AxisTickCoordinates implements Cloneable
 		this.dEnd = dEnd;
 		if ( isTickBetweenCategory )
 		{
-			this.dStep = ( dEnd - dStart ) / size;
+			this.dStep = ( dEnd - dStart ) / ( size - 1);
 		}
 		else
 		{
-			this.dStep = ( dEnd - dStart ) / ( size - 1 );
+			this.dStep = ( dEnd - dStart ) / ( size - 2 );
 		}
 	}
 

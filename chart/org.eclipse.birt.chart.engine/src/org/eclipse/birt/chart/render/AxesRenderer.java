@@ -2196,8 +2196,11 @@ public abstract class AxesRenderer extends BaseRenderer
 					double dOrigin = Methods.getLocation( aax.getPrimaryBase( )
 							.getScale( ), iv.getValue( ) );
 					oaxa[i + 2].setAxisCoordinate( dOrigin );
-					oaxa[i + 2].setTitleCoordinate( dOrigin
+					if ( !ChartUtil.isStudyLayout( cm ) )
+					{
+						oaxa[i + 2].setTitleCoordinate( dOrigin
 							+ oaxa[i + 2].getTitleCoordinate( ) );
+					}
 				}
 			}
 

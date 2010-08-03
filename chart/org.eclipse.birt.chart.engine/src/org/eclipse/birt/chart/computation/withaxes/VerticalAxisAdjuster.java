@@ -102,6 +102,9 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 
 	private IntersectionValue iv;
 
+	private double dLeftWidth;
+	
+	private double dRightWidth;
 
 	/**
 	 * Constructor.
@@ -126,7 +129,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 	 * 
 	 * @return
 	 */
-	public OneAxis getVerticalAxis( )
+	OneAxis getVerticalAxis( )
 	{
 		return fVerticalAxis;
 	}
@@ -135,7 +138,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 	 * Returns the x of axis.
 	 * @return
 	 */
-	public double getAxisX( )
+	double getAxisX( )
 	{
 		return fAxisX;
 	}
@@ -145,7 +148,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 	 * 
 	 * @return
 	 */
-	public double getAxisLeftEdge( )
+	double getAxisLeftEdge( )
 	{
 		return fAxisLeftEdge;
 	}
@@ -155,7 +158,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 	 * 
 	 * @return
 	 */
-	public double getAxisRightEdge( )
+	double getAxisRightEdge( )
 	{
 		return fAxisRightEdge;
 	}
@@ -165,7 +168,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 	 * 
 	 * @return
 	 */
-	public double getAxisLabelThickness( )
+	double getAxisLabelThickness( )
 	{
 
 		return dYAxisLabelsThickness;
@@ -176,9 +179,8 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 	 * 
 	 * @return
 	 */
-	public double getAxisTitleThickness( )
+	double getAxisTitleThickness( )
 	{
-
 		return dYAxisTitleThickness;
 	}
 	
@@ -231,7 +233,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 				PlotWithAxes.VERTICAL,
 				dStart,
 				dEnd,
-				true,
+				false,
 				aax );
 		if ( !scY.isStepFixed( ) )
 		{
@@ -249,7 +251,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 						PlotWithAxes.VERTICAL,
 						dStart,
 						dEnd,
-						true,
+						false,
 						aax );
 				if ( scY.getUnit( ) != null
 						&& PlotWithAxes.asInteger( scY.getUnit( ) ) == Calendar.YEAR
@@ -392,6 +394,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		// Computes x, xLeft, xRight.
 		double dX1;
 		double dX2;
+		double dW2Delta = 0;
 		if ( scX.getDirection( ) == PlotWithAxes.BACKWARD )
 		{
 			// switch if scale is backward.
@@ -430,8 +433,10 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 			dW1 = dDecorationThickness[0];
 			// IF LABELS ARE RIGHT, THEN RIGHT SPACING IS
 			// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS, HORZ_SPACING)
-			dW2 = Math.max( ( bTicksRight ? fPlotWithAxes.getTickSize( ) : 0 )
+			double dAcutalW2 = Math.max( ( bTicksRight ? fPlotWithAxes.getTickSize( ) : 0 )
 					+ dYAxisLabelsThickness, dAppliedYAxisPlotSpacing );
+			dW2 = Math.max( bTicksRight ? fPlotWithAxes.getTickSize( ) : 0, dAppliedYAxisPlotSpacing );
+			dW2Delta = dAcutalW2 - dW2;
 		}
 
 		if ( dW1 + dW2 <= dWTotal )
@@ -452,7 +457,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		}
 		else if ( iYTitleLocation == PlotWithAxes.RIGHT )
 		{
-			dX2 += dYAxisTitleThickness;
+			dW2Delta += dYAxisTitleThickness;
 		}
 
 		// Ensure that we don't go behind the left plot block edge.
@@ -468,6 +473,9 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		fAxisX = dX;
 		fAxisLeftEdge = dX1;
 		fAxisRightEdge = dX2;
+		
+		dLeftWidth = dX - dX1;
+		dRightWidth = dX2 - dX + dW2Delta;
 	}
 
 	private void computeXLocationWithMaxOrigin( ) throws ChartException,
@@ -476,6 +484,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		// Computes x, xLeft, xRight.
 		double dX1;
 		double dX2;
+		double dW1Delta = 0;
 		if ( scX.getDirection( ) == PlotWithAxes.BACKWARD )
 		{
 			// switch if scale is backward.
@@ -502,9 +511,11 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		}
 		else if ( iYLabelLocation == PlotWithAxes.LEFT )
 		{
-			dW1 = Math.max( ( bTicksLeft ? fPlotWithAxes.getTickSize( ) : 0 )
+			double dActualW1 = Math.max( ( bTicksLeft ? fPlotWithAxes.getTickSize( ) : 0 )
 					+ Math.max( dYAxisLabelsThickness, dDecorationThickness[0] ),
 					dAppliedYAxisPlotSpacing );
+			dW1 = Math.max( bTicksLeft ? fPlotWithAxes.getTickSize( ) : 0, dAppliedYAxisPlotSpacing );
+			dW1Delta = dActualW1 - dW1;
 			dW2 = dDecorationThickness[1];
 		}
 
@@ -526,7 +537,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		}
 		else if ( iYTitleLocation == PlotWithAxes.LEFT )
 		{
-			dX1 -= dYAxisTitleThickness;
+			dW1Delta += dYAxisTitleThickness;
 		}
 
 		// Ensure that we don't do ahead of the right plot block edge.
@@ -543,6 +554,9 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		fAxisX = dX;
 		fAxisLeftEdge = dX1;
 		fAxisRightEdge = dX2;
+		
+		dLeftWidth = dX - dX1 + dW1Delta;
+		dRightWidth = dX2 - dX1;
 	}
 
 	private void computeXLocatoinWithValueOrigin( ) throws ChartException
@@ -847,7 +861,15 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 			{
 				// Loop that auto-resizes Y-axis and re-computes Y-axis
 				// labels if overlaps occur
-				dStart = scX.getStart( );
+				double delta = dBlockX - dX1;
+				if ( dX1 < dBlockX && ( dX2 + delta ) < (dBlockX + dBlockWidth) )
+				{
+					dStart = scX.getStart( ) + delta;
+				}
+				else
+				{
+					dStart = scX.getStart( );
+				}
 				dEnd = scX.getEnd( );
 				scX.setEndPoints( dStart, dEnd );
 				scX.computeTicks( ids,
@@ -902,5 +924,18 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		fAxisX = dX;
 		fAxisLeftEdge = dX1;
 		fAxisRightEdge = dX2;
+		
+		dLeftWidth = dX - dX1;
+		dRightWidth = dX2 - dX;
+	}
+	
+	double getLeftWidth()
+	{
+		return dLeftWidth;
+	}
+	
+	double getRightWidth()
+	{
+		return dRightWidth;
 	}
 }

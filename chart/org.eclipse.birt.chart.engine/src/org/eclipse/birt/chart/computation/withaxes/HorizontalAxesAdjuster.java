@@ -92,120 +92,100 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 			}
 		}
 
+		boolean onlyValueOrigin = ( values.size( ) > 0 && min.size( ) == 0 && max.size( ) == 0 );
 		// 1. Adjusts value origin axes, computes the axis y location, axis top
 		// edge and axis bottom edge.
 		double y = Double.NaN;
 		double bottom = Double.NaN;
 		double top = Double.NaN;
 
-		double[] endPoints = fVerticalAxis.getScale( ).getEndPoints( );
-		fVerticalAxis.getScale( ).resetShifts( );
+		double[] endPoints = scY.getEndPoints( );
+		scY.resetShifts( );
 
 		for ( int i = 0; i < values.size( ); i++ )
 		{
-			values.get( i ).adjust( );
-
-			double locationDelta = Math.abs( AxesAdjuster.getLocationDelta( fVerticalAxis.getScale( ),
-					values.get( i ).getHorizontalAxis( ).getIntersectionValue( ) ) );
-			if ( Double.isNaN( y ) )
-			{
-				y = values.get( i ).getAxisY( );
-				if ( !isForward )
-				{
-					y = y + locationDelta;
-					bottom = values.get( i ).getAxisBottomEdge( );
-					if ( y > bottom )
-					{
-						bottom = y;
-					}
-					top = y;
-				}
-				else
-				{
-					y = y - locationDelta;
-					bottom = y;
-					top = values.get( i ).getAxisTopEdge( );
-					if ( y < top )
-					{
-						top = y;
-					}
-				}
-			}
-			else
-			{
-				double deltaY1 = bottom - y;
-				double deltaY2 = y - top;
-				double newY = values.get( i ).getAxisY( );
-				if ( !isForward )
-				{
-					newY += locationDelta;
-				}
-				else
-				{
-					newY -= locationDelta;
-				}
-
-				if ( !isForward )
-				{
-					if ( newY < y )
-					{
-						y = newY;
-					}
-					bottom = y
-							+ Math.max( deltaY1, values.get( i )
-									.getAxisBottomEdge( )
-									- y );
-					top = y;
-				}
-				else
-				{
-					if ( newY > y )
-					{
-						y = newY;
-					}
-					bottom = y;
-					top = y
-							- +Math.max( deltaY2, y
-									- values.get( i ).getAxisTopEdge( ) );
-				}
-			}
-
 			scY.setEndPoints( endPoints[0], endPoints[1] );
+			HorizontalAxisAdjuster haa = values.get( i );
+			haa.adjust( );
+
+			double locationDelta = AxesAdjuster.getLocationDelta( scY,
+					haa.getHorizontalAxis( ).getIntersectionValue( ) );
+			if ( locationDelta >= 0 || haa.getAxisBottomEdge( ) >= endPoints[0] )
+			{
+				min.add( haa );
+			}
+			else if ( haa.getAxisTopEdge( ) <= endPoints[1])
+			{
+				max.add( haa );
+			}
 		}
 
 		// 2. Adjusts min origin axes, computes the axis y location, axis top
 		// edge and axis bottom edge.
-		scY.setEndPoints( endPoints[0], endPoints[1] );
 		scY.resetShifts( );
 		for ( int i = 0; i < min.size( ); i++ )
 		{
-			min.get( i ).adjust( );
+			scY.setEndPoints( endPoints[0], endPoints[1] );
+			HorizontalAxisAdjuster haa = min.get( i );
+			haa.adjust( );
 
+			boolean isMinOrigin = ( haa.getHorizontalAxis( )
+					.getIntersectionValue( )
+					.getType( ) == IConstants.MIN );
 			if ( Double.isNaN( y ) )
 			{
-				y = min.get( i ).getAxisY( );
-				bottom = min.get( i ).getAxisBottomEdge( );
-				top = min.get( i ).getAxisTopEdge( );
+				if ( isMinOrigin )
+				{
+					y = haa.getAxisY( );
+					bottom = haa.getAxisBottomEdge( );
+					top = haa.getAxisTopEdge( );
+				}
+				else
+				{
+					if ( haa.getAxisBottomEdge( ) >= scY.getStart( ) )
+					{
+						y = haa.getAxisY( );
+					}
+					else
+					{
+						y = scY.getStart( );
+					}
+					bottom = haa.getAxisBottomEdge( ) > y ? haa.getAxisBottomEdge( ) : y;
+					top = y;
+				}
 			}
 			else
 			{
 				double deltaY1 = bottom - y;
 				double deltaY2 = y - top;
 
-				if ( min.get( i ).getAxisY( ) < y )
+				if ( isMinOrigin )
 				{
-					y = min.get( i ).getAxisY( );
-
+					if ( haa.getAxisY( ) < y )
+					{
+						y = haa.getAxisY( );
+					}
+					bottom = y
+							+ Math.max( deltaY1, haa
+									.getAxisBottomEdge( )
+									- haa.getAxisY( ) );
+					top = y
+							- Math.max( deltaY2, haa.getAxisY( )
+									- haa.getAxisTopEdge( ) );
 				}
-				bottom = y
-						+ Math.max( deltaY1, min.get( i ).getAxisBottomEdge( )
-								- min.get( i ).getAxisY( ) );
-				top = y
-						- Math.max( deltaY2, min.get( i ).getAxisY( )
-								- min.get( i ).getAxisTopEdge( ) );
+				else
+				{
+					if( scY.getEndPoints( )[0] < haa.getAxisY( ) )
+					{
+						y = scY.getEndPoints( )[0];
+					}
+					bottom = y
+							+ Math.max( deltaY1,
+									haa.getAxisBottomEdge( )
+											- scY.getEndPoints( )[0] );
+					top = y - deltaY2;
+				}
 			}
-
-			scY.setEndPoints( endPoints[0], endPoints[1] );
 		}
 
 		// 3. Adjusts vertical axis positions according to the positions of
@@ -213,7 +193,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 		scY.setEndPoints( endPoints[0], endPoints[1] );
 		if ( !Double.isNaN( y ) )
 		{
-			double[] positions = adjustOrthogonalAxis( IConstants.MIN,
+			double[] positions = adjustAcrossAxis( onlyValueOrigin ? IConstants.VALUE : IConstants.MIN,
 					fVerticalAxis,
 					y,
 					bottom,
@@ -223,52 +203,18 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 			bottom = positions[2];
 		}
 
-		// 4
-		// 4.1 Set value origin axis coordinate and title coordinate according
-		// to the axis y location, axis top edge and axis bottom edge.
-		for ( int i = 0; i < values.size( ); i++ )
-		{
-			OneAxis oa = values.get( i ).getHorizontalAxis( );
-			double iXTitleLocation = oa.getTitlePosition( );
-
-			double axisCoordinate = 0;
-			double locationDelta = Math.abs( AxesAdjuster.getLocationDelta( fVerticalAxis.getScale( ),
-					values.get( i ).getHorizontalAxis( ).getIntersectionValue( ) ) );
-			if ( !isForward )
-			{
-				axisCoordinate = scY.getEndPoints( )[0];
-				axisCoordinate -= locationDelta;
-			}
-			else
-			{
-				axisCoordinate = scY.getEndPoints( )[1];
-				axisCoordinate += locationDelta;
-			}
-
-			double axisTitleCoordinate = ( iXTitleLocation == PlotWithAxes.BELOW ) ? bottom
-					- 1
-					- locationDelta
-					- values.get( i ).getAxisTitleThickness( )
-					: axisCoordinate
-							- values.get( i ).getAxisTitleThickness( )
-							+ 1
-							- ( ( oa.getLabelPosition( ) == PlotWithAxes.BELOW ) ? 0
-									: values.get( i ).getAxisLabelThickness( ) );
-
-			oa.setAxisCoordinate( axisCoordinate );
-			oa.setTitleCoordinate( axisTitleCoordinate );
-		}
-
-		// 4.2 Set min origin axis coordinate and title coordinate according to
+		// 4 Set min origin axis coordinate and title coordinate according to
 		// the axis y location, axis top edge and axis bottom edge.
 		for ( int i = 0; i < min.size( ); i++ )
 		{
-			OneAxis oa = min.get( i ).getHorizontalAxis( );
+			HorizontalAxisAdjuster haa = min.get( i );
+			OneAxis oa = haa.getHorizontalAxis( );
 			double iXTitleLocation = oa.getTitlePosition( );
-			oa.setTitleCoordinate( ( iXTitleLocation == PlotWithAxes.BELOW ) ? bottom
+			oa.setTitleCoordinate( ( iXTitleLocation == PlotWithAxes.BELOW ) ? y
+					+ haa.getBottomHeight( )
+					- haa.getAxisTitleThickness( )
 					- 1
-					- min.get( i ).getAxisTitleThickness( )
-					: top + 1 );
+					: y - haa.getTopHeight( ) + 1 );
 			oa.setAxisCoordinate( y );
 		}
 
@@ -281,33 +227,34 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 		scY.resetShifts( );
 		for ( int i = 0; i < max.size( ); i++ )
 		{
-			max.get( i ).adjust( );
+			scY.setEndPoints( endPoints[0], endPoints[1] );
+			HorizontalAxisAdjuster haa = max.get( i );
+			haa.adjust( );
 
 			if ( Double.isNaN( y ) )
 			{
-				y = max.get( i ).getAxisY( );
-				bottom = max.get( i ).getAxisBottomEdge( );
-				top = max.get( i ).getAxisTopEdge( );
+				y = haa.getAxisY( );
+				bottom = haa.getAxisBottomEdge( );
+				top = haa.getAxisTopEdge( );
 			}
 			else
 			{
 				double deltaY1 = bottom - y;
 				double deltaY2 = y - top;
 
-				if ( max.get( i ).getAxisY( ) > y )
+				if ( haa.getAxisY( ) > y )
 				{
-					y = max.get( i ).getAxisY( );
+					y = haa.getAxisY( );
 					bottom = y
-							+ Math.max( deltaY1, max.get( i )
+							+ Math.max( deltaY1, haa
 									.getAxisBottomEdge( )
 									- y );
 					top = y
 							- Math.max( deltaY2, y
-									- max.get( i ).getAxisTopEdge( ) );
+									- haa.getAxisTopEdge( ) );
 				}
 			}
 
-			scY.setEndPoints( endPoints[0], endPoints[1] );
 		}
 
 		// 6. Adjusts horizontal axis position according to the position of max
@@ -315,7 +262,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 		if ( !Double.isNaN( y ) )
 		{
 			scY.setEndPoints( endPoints[0], endPoints[1] );
-			double[] positions = adjustOrthogonalAxis( IConstants.MAX,
+			double[] positions = adjustAcrossAxis( onlyValueOrigin ? IConstants.VALUE : IConstants.MAX,
 					fVerticalAxis,
 					y,
 					bottom,
@@ -329,16 +276,51 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 		// axis y location, axis top edge and axis bottom edge.
 		for ( int i = 0; i < max.size( ); i++ )
 		{
-			OneAxis oa = max.get( i ).getHorizontalAxis( );
+			HorizontalAxisAdjuster haa = max.get( i );
+			OneAxis oa = haa.getHorizontalAxis( );
 			double iXTitleLocation = oa.getTitlePosition( );
-			oa.setTitleCoordinate( ( iXTitleLocation == PlotWithAxes.BELOW ) ? bottom
+			oa.setTitleCoordinate( ( iXTitleLocation == PlotWithAxes.BELOW ) ? y
+					+ haa.getBottomHeight( )
+					- haa.getAxisTitleThickness( )
 					- 1
-					- max.get( i ).getAxisTitleThickness( )
-					: top + 1 );
+					: y - haa.getTopHeight( ) + 1 );
 			oa.setAxisCoordinate( y );
 		}
+		
+		// 8. Set value origin axis coordinate and title coordinate according
+		// to the axis y location, axis top edge and axis bottom edge.
+		for ( int i = 0; i < values.size( ); i++ )
+		{
+			HorizontalAxisAdjuster haa = values.get(i);
+			OneAxis oa = haa.getHorizontalAxis( );
+			double iXTitleLocation = oa.getTitlePosition( );
 
-		// 8. Recomputes ticks according to new start and end of vertical axis.
+			double axisCoordinate = 0;
+			double locationDelta = AxesAdjuster.getLocationDelta( scY,
+					haa.getHorizontalAxis( ).getIntersectionValue( ) );
+			if ( !isForward )
+			{
+				axisCoordinate = scY.getEndPoints( )[0] + locationDelta;
+			}
+			else
+			{
+				axisCoordinate = scY.getEndPoints( )[1] + locationDelta;
+			}
+
+			double axisTitleCoordinate = ( iXTitleLocation == PlotWithAxes.BELOW ) ? axisCoordinate
+					+ 1
+					+ ( ( oa.getLabelPosition( ) == PlotWithAxes.BELOW ) ? haa.getAxisLabelThickness( ) : 0 )
+					: axisCoordinate
+							- haa.getAxisTitleThickness( )
+							- 1
+							- ( ( oa.getLabelPosition( ) == PlotWithAxes.BELOW ) ? 0
+									: haa.getAxisLabelThickness( ) );
+
+			oa.setAxisCoordinate( axisCoordinate );
+			oa.setTitleCoordinate( axisTitleCoordinate );
+		}
+
+		// 9. Recomputes ticks according to new start and end of vertical axis.
 		scY.computeTicks( fPlotWithAxes.getDisplayServer( ),
 				fVerticalAxis.getLabel( ),
 				fVerticalAxis.getLabelPosition( ),
@@ -351,7 +333,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 	}
 
 	/**
-	 * Adjusts start and end of orthogonal axis, and returns axis coordinates.
+	 * Adjusts start and end of across axis, and returns axis coordinates.
 	 * 
 	 * @param iv
 	 * @param orthogonalAxis
@@ -361,7 +343,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 	 * @return
 	 * @throws ChartException
 	 */
-	public double[] adjustOrthogonalAxis( int iv, OneAxis orthogonalAxis,
+	double[] adjustAcrossAxis( int iv, OneAxis orthogonalAxis,
 			double dY, double dBottom, double dTop ) throws ChartException
 	{
 		IDisplayServer ids = fPlotWithAxes.getDisplayServer( );
@@ -456,6 +438,90 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 				// REDUCE scY's STARTPOINT TO FIT THE X-AXIS AT THE TOP
 				double dStart = dTop + scY.getStartShift( );
 				double dEnd = scY.getEnd( );
+
+				if ( bForwardScale )
+				{
+					dStart = scY.getStart( );
+					dEnd = dTop + scY.getEndShift( );
+				}
+				scY.resetShifts( );
+
+				if ( dStart < dEnd + 1 )
+				{
+					dStart = dEnd + 1;
+					startEndChanged = true;
+				}
+
+				// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS
+				// IF OVERLAPS OCCUR
+				scY.setEndPoints( dStart, dEnd );
+				scY.computeTicks( ids,
+						laYAxisLabels,
+						iYLabelLocation,
+						PlotWithAxes.VERTICAL,
+						dStart,
+						dEnd,
+						startEndChanged,
+						false,
+						aax );
+				if ( !scY.isStepFixed( ) )
+				{
+					final Object[] oaMinMax = scY.getMinMax( );
+					while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
+					{
+						if ( !scY.zoomOut( ) )
+						{
+							break;
+						}
+						double dOldStep = ( (Number) scY.getStep( ) ).doubleValue( );
+						scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+						int tickCount = scY.computeTicks( ids,
+								laYAxisLabels,
+								iYLabelLocation,
+								PlotWithAxes.VERTICAL,
+								dStart,
+								dEnd,
+								startEndChanged,
+								false,
+								aax );
+						double dNewStep = ( (Number) scY.getStep( ) ).doubleValue( );
+						if ( dNewStep < dOldStep )
+						{
+							break;
+						}
+
+						if ( scY.getUnit( ) != null
+								&& PlotWithAxes.asInteger( scY.getUnit( ) ) == Calendar.YEAR
+								&& tickCount <= 3
+								|| fPlotWithAxes.isSharedScale( ) )
+						{
+							break;
+						}
+					}
+				}
+			}
+
+			// 3. Get final y, yAbove, yBelow. set title coordinate.
+			// MOVE THE BAND DOWNWARDS BY INSETS.BOTTOM
+			dY += fPlotWithAxes.getPlotInsets( ).getBottom( );
+			dTop = dY - dDeltaY1;
+			dBottom = dY + dDeltaY2;
+		}
+		else
+		{
+			// CHECK IF X-AXIS THICKNESS REQUIRES A PLOT HEIGHT RESIZE AT THE
+			// LOWER END
+			if ( ( bForwardScale && dXAxisThickness > scY.getEndShift( ) )
+					|| ( !bForwardScale && dXAxisThickness > scY.getStartShift( ) ) )
+			{
+				// REDUCE scY's STARTPOINT TO FIT THE X-AXIS AT THE TOP
+				double dStart = dY;
+				double dEnd = scY.getEnd( );
+				if ( dY <= scY.getEnd( ) )
+				{
+					dStart = scY.getStart( );
+					dEnd = dY;
+				}
 
 				if ( bForwardScale )
 				{

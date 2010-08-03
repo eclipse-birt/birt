@@ -83,6 +83,10 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 	private double dAppliedXAxisPlotSpacing;
 
 	private double dHTotal;
+	
+	private double dTopHeight;
+
+	private double dBottomHeight;
 
 	public HorizontalAxisAdjuster( OneAxis horizontalAxis,
 			OneAxis verticalAxis, PlotWithAxes plotWithAxes, Bounds boPlot )
@@ -93,17 +97,17 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 		fPlotBounds = boPlot;
 	}
 
-	public double getAxisY( )
+	double getAxisY( )
 	{
 		return fAxisY;
 	}
 	
-	public double getAxisTopEdge()
+	double getAxisTopEdge()
 	{
 		return fAxisTop;
 	}
 	
-	public double getAxisBottomEdge( )
+	double getAxisBottomEdge( )
 	{
 		return fAxisBottom;
 	}
@@ -112,7 +116,8 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 	{
 		init( );
 
-		boolean bForwardScale = fHorizontalAxis.getScale( ).getDirection( ) == PlotWithAxes.FORWARD;
+		boolean bForwardScale = ( fHorizontalAxis.getScale( ).getDirection( ) == IConstants.AUTO
+				|| fHorizontalAxis.getScale( ).getDirection( ) == PlotWithAxes.FORWARD );
 		IntersectionValue iv = fHorizontalAxis.getIntersectionValue( );
 		if ( ( bForwardScale && iv.iType == IConstants.MIN )
 				|| ( !bForwardScale && iv.iType == IConstants.MAX ) )
@@ -164,7 +169,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 				PlotWithAxes.HORIZONTAL,
 				dStart,
 				dEnd,
-				true,
+				false,
 				aax );
 		if ( !scX.isStepFixed( ) )
 		{
@@ -182,7 +187,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 						PlotWithAxes.HORIZONTAL,
 						dStart,
 						dEnd,
-						true,
+						false,
 						aax );
 				if ( scX.getUnit( ) != null
 						&& PlotWithAxes.asInteger( scX.getUnit( ) ) == Calendar.YEAR
@@ -285,6 +290,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 		double dY = PlotWithAxes.getLocation( fVerticalAxis.getScale( ), iv );
 		double dY1 = dY;
 		double dY2 = dY;
+		double dY1Delta = 0;
 		// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
 
 		dY -= dAppliedXAxisPlotSpacing;
@@ -310,7 +316,9 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 
 		if ( iXLabelLocation == PlotWithAxes.ABOVE )
 		{
-			dH1 = Math.max( dXAxisLabelsThickness, dDecorationThickness[0] );
+			double delta = Math.max( dXAxisLabelsThickness, dDecorationThickness[0] );
+			dY1Delta = delta - dH1;
+			
 			dH2 = Math.max( bTicksBelow ? fPlotWithAxes.getTickSize( ) : 0,
 					dAppliedXAxisPlotSpacing );
 		}
@@ -319,6 +327,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 			dH1 = dDecorationThickness[0];
 			dH2 += Math.max( ( bTicksBelow ? fPlotWithAxes.getTickSize( ) : 0 )
 					+ dXAxisLabelsThickness, dAppliedXAxisPlotSpacing );
+			
 		}
 
 		if ( dH1 + dH2 <= dHTotal )
@@ -334,7 +343,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 
 		if ( iXTitleLocation == PlotWithAxes.ABOVE )
 		{
-			dY1 -= dXAxisTitleThickness;
+			dY1Delta += dXAxisTitleThickness;
 		}
 		else if ( iXTitleLocation == PlotWithAxes.BELOW )
 		{
@@ -342,13 +351,13 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 		}
 
 		// ENSURE THAT WE DON'T GO ABOVE THE UPPER PLOT BLOCK EDGE
-		double dBlockY = fPlotBounds.getTop( );
-		if ( dY1 < dBlockY )
+		double dBlockY = fPlotBounds.getTop( ) + fPlotBounds.getHeight( );
+		if ( dY2 > dBlockY )
 		{
-			final double dDelta = ( dBlockY - dY1 );
-			dY1 = dBlockY;
-			dY += dDelta;
-			dY2 += dDelta;
+			final double dDelta = ( dY2 - dBlockY  );
+			dY2 = dBlockY;
+			dY -= dDelta;
+			dY1 -= dDelta;
 		}
 
 		// 2. Compute and set endpoints of orthogonal axis.
@@ -367,6 +376,9 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 		fAxisY = dY;
 		fAxisTop = dY1;
 		fAxisBottom = dY2;
+		
+		dTopHeight = dY - dY1 + dY1Delta;
+		dBottomHeight = dY2 - dY;
 	}
 
 	private void computeYLocationWithMaxOrigin( ) throws ChartException, IllegalArgumentException
@@ -376,6 +388,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 		double dY = PlotWithAxes.getLocation( fVerticalAxis.getScale( ), iv );
 		double dY1 = dY;
 		double dY2 = dY;
+		double dY2Delta = 0;
 		// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MAX'
 
 		dY += dAppliedXAxisPlotSpacing;
@@ -415,8 +428,9 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 		}
 		else if ( iXLabelLocation == PlotWithAxes.BELOW )
 		{
-			double dXLabelHeight = Math.max( dXAxisLabelsThickness,
-					dDecorationThickness[1] );
+			double dXLabelHeight = 0;
+			dY2Delta = Math.max( dXAxisLabelsThickness,
+					dDecorationThickness[1] ) - dXLabelHeight;
 			double dHt1 = Math.max( bTicksAbove ? dTickSize : 0,
 					dAppliedXAxisPlotSpacing );
 			if ( dXLabelHeight + dHt1 <= dHTotal )
@@ -437,18 +451,17 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 		}
 		else if ( iXTitleLocation == PlotWithAxes.BELOW )
 		{
-			dY2 += dXAxisTitleThickness;
+			dY2Delta += dXAxisTitleThickness;
 		}
 
 		// ENSURE THAT WE DON'T GO BELOW THE LOWER PLOT BLOCK EDGE
 		double dBlockY = fPlotBounds.getTop( );
-		double dBlockHeight = fPlotBounds.getHeight( );
-		if ( dY2 > dBlockY + dBlockHeight )
+		if ( dY1 < dBlockY  )
 		{
-			final double dDelta = ( dY2 - ( dBlockY + dBlockHeight ) );
-			dY2 = dBlockY + dBlockHeight;
-			dY -= dDelta;
-			dY1 -= dDelta;
+			final double dDelta = ( dBlockY - dY1 );
+			dY1 = dBlockY;
+			dY += dDelta;
+			dY2 += dDelta;
 		}
 
 		// 2. Compute and set endpoints of orthogonal axis.
@@ -466,6 +479,9 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 		fAxisY = dY;
 		fAxisTop = dY1;
 		fAxisBottom = dY2;
+
+		dTopHeight = dY - dY1;
+		dBottomHeight = dY2 - dY + dY2Delta;
 	}
 
 	private void computeYLocatoinWithValueOrigin( ) throws ChartException, IllegalArgumentException
@@ -510,7 +526,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 			dDeltaY1 = dY - dY1;
 			dDeltaY2 = dY2 - dY;
 
-			// CHECK IF UPPER EDGE OF X-AXIS BAND GOES ABOVE PLOT UPPER EDGE
+     		// CHECK IF UPPER EDGE OF X-AXIS BAND GOES ABOVE PLOT UPPER EDGE
 			if ( dY1 < dBlockY )
 			{
 				final Object[] oaMinMax = scY.getMinMax( );
@@ -762,9 +778,20 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 			}
 		}
 
+		if ( dY2 > ( dBlockY + dBlockHeight ) )
+		{
+			final double dDelta = ( dY2 - dBlockY - dBlockHeight );
+			dY2 = dBlockY + dBlockHeight ;
+			dY -= dDelta;
+			dY1 -= dDelta;
+		}
+		
 		fAxisY = dY;
 		fAxisTop = dY1;
 		fAxisBottom = dY2;
+		
+		dTopHeight = dY - dY1;
+		dBottomHeight = dY2 - dY;
 	}
 
 	/**
@@ -772,7 +799,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 	 * 
 	 * @return
 	 */
-	public OneAxis getHorizontalAxis( )
+	OneAxis getHorizontalAxis( )
 	{
 		return fHorizontalAxis;
 	}
@@ -782,7 +809,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 	 * 
 	 * @return
 	 */
-	public double getAxisLabelThickness( )
+	double getAxisLabelThickness( )
 	{
 		return dXAxisLabelsThickness;
 	}
@@ -792,9 +819,18 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 	 * 
 	 * @return
 	 */
-	public double getAxisTitleThickness( )
+	double getAxisTitleThickness( )
 	{
 		return dXAxisTitleThickness;
 	}
 
+	double getTopHeight( )
+	{
+		return dTopHeight;
+	}
+	
+	double getBottomHeight( )
+	{
+		return dBottomHeight;
+	}
 }

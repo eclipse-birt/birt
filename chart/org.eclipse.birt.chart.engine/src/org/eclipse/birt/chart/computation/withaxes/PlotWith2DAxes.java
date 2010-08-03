@@ -832,8 +832,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			return;
 		}
 		
-		if ( ChartUtil.hasMultipleYAxes( getModel( ) )
-				&& getModel( ).isStudyLayout( ) )
+		if ( ChartUtil.isStudyLayout( getModel( ) ) )
 		{
 			computeWithStudyLayout( );
 		}
@@ -2604,13 +2603,16 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			double dEnd)
 			throws ChartException
 	{
+		boolean isPrimaryOrthogonal = ( aax.getPrimaryOrthogonal( ) == oax );
 		AutoScale scValueAxis = AutoScale.computeScale( ids,
 				oax,
 				dsi,
 				iAxisType,
 				dStart,
 				dEnd,
-				oax.getModelAxis( ).getOrigin( ),
+				isPrimaryOrthogonal ? aax.getPrimaryBase( )
+						.getModelAxis( )
+						.getOrigin( ) : oax.getModelAxis( ).getOrigin( ),
 				rtc,
 				AUTO,
 				1,

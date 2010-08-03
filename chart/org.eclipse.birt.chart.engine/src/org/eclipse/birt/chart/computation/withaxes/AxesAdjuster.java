@@ -134,7 +134,7 @@ public class AxesAdjuster implements IAxisAdjuster, IConstants
 
 			for ( int i = 0; i < da.size( ); i++ )
 			{
-				if ( cdt.after( cdtValue ) )
+				if ( cdt.after( cdtValue )  )
 				{
 					if ( cdtPrev == null )
 					{
@@ -153,13 +153,30 @@ public class AxesAdjuster implements IAxisAdjuster, IConstants
 					double dUnitSize = da.getStep( );
 
 					double dOffset = ( dUnitSize / ( l2 - l1 ) ) * ( l - l1 );
-					return dOffset;
+					return dUnitSize * ( i - 1 ) + dOffset;
 
 				}
 				cdtPrev = cdt;
 				cdt = cdt.forward( iUnit, iStep );
 			}
-			return 0;
+			double distance = da.getStep( ) * da.size();
+			double axisDisc = sc.getEnd( ) - sc.getStart( );
+			if ( da.getStep( ) > 0 )
+			{
+				if ( distance > axisDisc )
+				{
+					distance = axisDisc;
+				}
+			}
+			else
+			{
+				if( distance < axisDisc )
+				{
+					distance = axisDisc;
+				}
+			}
+			return distance;
+				
 		}
 		else if ( ( sc.getType( ) & LOGARITHMIC ) == LOGARITHMIC )
 		{
@@ -196,7 +213,7 @@ public class AxesAdjuster implements IAxisAdjuster, IConstants
 			}
 			else
 			{
-				return ( ( ( dValue - dMinimum ) / ( dMaximum - dMinimum ) ) * ( ea[0] - ea[1] ) );
+				return  ( ( ( dValue - dMinimum ) / ( dMaximum - dMinimum ) ) * ( ea[1] - ea[0] ) );
 			}
 		}
 	}
