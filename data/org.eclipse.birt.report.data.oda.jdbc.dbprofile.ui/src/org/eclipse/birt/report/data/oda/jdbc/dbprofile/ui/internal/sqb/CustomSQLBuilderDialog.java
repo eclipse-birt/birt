@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2008, 2009 Actuate Corporation.
+ * Copyright (c) 2008, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,10 +13,13 @@
  */
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 
+import org.eclipse.birt.report.data.oda.jdbc.dbprofile.model.CustomQuerySourceFormat;
+import org.eclipse.datatools.connectivity.sqm.core.definition.DatabaseDefinition;
 import org.eclipse.datatools.modelbase.sql.query.QueryStatement;
 import org.eclipse.datatools.sqltools.sqlbuilder.IContentChangeListener;
 import org.eclipse.datatools.sqltools.sqlbuilder.SQLBuilder;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInput;
+import org.eclipse.datatools.sqltools.sqlbuilder.model.SQLDomainModel;
 import org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog;
 import org.eclipse.datatools.sqltools.sqlbuilder.views.source.SQLSourceViewer;
 import org.eclipse.swt.widgets.Composite;
@@ -80,7 +83,10 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
 	{
 	    try
         {
-            return super.setInput( editorInput );
+            boolean isInputLoaded = super.setInput( editorInput );
+            if( isInputLoaded )
+                setDbDefinitionInSqlSourceFormat( getSQLBuilder().getDomainModel() );
+            return isInputLoaded;
         }
         catch( RuntimeException ex )
         {
@@ -90,6 +96,24 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
         }
 	}
 
+	private void setDbDefinitionInSqlSourceFormat( SQLDomainModel sqm )
+	{
+        if( sqm == null )
+            return;     // nothing to set
+        DatabaseDefinition dbDefn = sqm.getDatabaseDefinition();
+        if( dbDefn == null )
+            return;     // nothing to set
+
+        // replace the query's SQLQuerySourceFormat with custom one
+        CustomQuerySourceFormat extendedSourceFormat =
+            new CustomQuerySourceFormat( sqm.getSqlSourceFormat(), dbDefn );
+        
+        sqm.setSqlSourceFormat( extendedSourceFormat );                
+
+        QueryStatement queryStmt = sqm.getSQLStatement();
+        queryStmt.getSourceInfo().setSqlFormat( extendedSourceFormat );
+	}
+	
 	SQLBuilderDesignState getSavedSQBState()
     {
         return m_savedSQBState;
