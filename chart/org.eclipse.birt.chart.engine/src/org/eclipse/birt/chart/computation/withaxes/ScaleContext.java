@@ -410,6 +410,11 @@ public class ScaleContext extends Methods
 							dMaxAxis += dStep;
 						}
 					}
+					
+					if ( dMaxAxis - dMaxValue < ( dMaxAxis - dMinAxis ) / 30 )
+					{
+						dMaxAxis += dStep;
+					}
 				}
 
 				if ( dMinValue < 0 && dMaxValue < 0 )
@@ -426,6 +431,12 @@ public class ScaleContext extends Methods
 						dMinAxis -= 2 * dStep;
 					}
 				}
+				
+				if ( dMaxAxis - dMaxValue < ( dMaxAxis - dMinAxis ) / 50 )
+				{
+					dMaxAxis += dStep;
+				}
+				
 			}
 
 		}

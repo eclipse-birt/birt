@@ -3241,26 +3241,24 @@ public abstract class AxesRenderer extends BaseRenderer
 					dpha[i].markOutside( );
 					continue;
 				}
+				
+				// Only set the location for non-null data
+				if ( bTransposed )
+				{
+					if ( !Double.isNaN( faY[i] ) )
+					{
+						faY[i] = iXOutside == 1 ? boClientArea.getTop( )
+								+ boClientArea.getHeight( ) - deltaValue
+								: boClientArea.getTop( ) + deltaValue;
+					}
+				}
 				else
 				{
-					// Only set the location for non-null data
-					if ( bTransposed )
+					if ( !Double.isNaN( faX[i] ) )
 					{
-						if ( !Double.isNaN( faY[i] ) )
-						{
-							faY[i] = iXOutside == 1 ? boClientArea.getTop( )
-									+ boClientArea.getHeight( ) - deltaValue
-									: boClientArea.getTop( ) + deltaValue;
-						}
-					}
-					else
-					{
-						if ( !Double.isNaN( faX[i] ) )
-						{
-							faX[i] = iXOutside == 1 ? boClientArea.getLeft( ) + deltaValue
-									:  boClientArea.getLeft( )
-											+ boClientArea.getWidth( ) - deltaValue;
-						}
+						faX[i] = iXOutside == 1 ? boClientArea.getLeft( ) + deltaValue
+								:  boClientArea.getLeft( )
+										+ boClientArea.getWidth( ) - deltaValue;
 					}
 				}
 			}
@@ -3272,26 +3270,23 @@ public abstract class AxesRenderer extends BaseRenderer
 					dpha[i].markOutside( );
 					continue;
 				}
+				// Only set the location for non-null data
+				if ( bTransposed )
+				{
+					if ( !Double.isNaN( faX[i] ) )
+					{
+						faX[i] = iYOutside == 1 ? boClientArea.getLeft( ) + deltaValue
+								: boClientArea.getLeft( )
+										+ boClientArea.getWidth( ) - deltaValue;
+					}
+				}
 				else
 				{
-					// Only set the location for non-null data
-					if ( bTransposed )
+					if ( !Double.isNaN( faY[i] ) )
 					{
-						if ( !Double.isNaN( faX[i] ) )
-						{
-							faX[i] = iYOutside == 1 ? boClientArea.getLeft( ) + deltaValue
-									: boClientArea.getLeft( )
-											+ boClientArea.getWidth( ) - deltaValue;
-						}
-					}
-					else
-					{
-						if ( !Double.isNaN( faY[i] ) )
-						{
-							faY[i] = iYOutside == 1 ? boClientArea.getTop( ) 
-									+ boClientArea.getHeight( ) - deltaValue
-									: boClientArea.getTop( ) + deltaValue;
-						}
+						faY[i] = iYOutside == 1 ? boClientArea.getTop( ) 
+								+ boClientArea.getHeight( ) - deltaValue
+								: boClientArea.getTop( ) + deltaValue;
 					}
 				}
 			}
@@ -3313,22 +3308,17 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( bFirstInSequence && !isDimension3D( )
 				&& ( !isShowOutside( ) || !baseIsShowOutside( ) ) )
 		{
-			//Bugzilla #202875 Enlarge clipping area for curve lines
-			final int DIFF = 5;
 			ClipRenderEvent clip = new ClipRenderEvent( this );
 			Location[] locations = new Location[4];
-			locations[0] = goFactory.createLocation( boClientArea.getLeft( )
-					- DIFF,
-					boClientArea.getTop( ) - DIFF );
-			locations[1] = goFactory.createLocation( boClientArea.getLeft( )
-					- DIFF,
-					boClientArea.getTop( ) + boClientArea.getHeight( ) + DIFF );
+			locations[0] = goFactory.createLocation( boClientArea.getLeft( ),
+					boClientArea.getTop( ) );
+			locations[1] = goFactory.createLocation( boClientArea.getLeft( ),
+					boClientArea.getTop( ) + boClientArea.getHeight( ) );
 			locations[2] = goFactory.createLocation( boClientArea.getLeft( )
-					+ boClientArea.getWidth( ) + DIFF, boClientArea.getTop( )
-					+ boClientArea.getHeight( ) + DIFF );
+					+ boClientArea.getWidth( ), boClientArea.getTop( )
+					+ boClientArea.getHeight( ) );
 			locations[3] = goFactory.createLocation( boClientArea.getLeft( )
-					+ boClientArea.getWidth( ) + DIFF, boClientArea.getTop( )
-					- DIFF );
+					+ boClientArea.getWidth( ), boClientArea.getTop( ) );
 			clip.setVertices( locations );
 			ipr.setClip( clip );
 		}
