@@ -190,9 +190,10 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 
 		// 3. Adjusts vertical axis positions according to the positions of
 		// min origin & value origin axes.
-		scY.setEndPoints( endPoints[0], endPoints[1] );
 		if ( !Double.isNaN( y ) )
 		{
+			scY.setEndPoints( endPoints[0], endPoints[1]  );
+			scY.resetShifts( );
 			double[] positions = adjustAcrossAxis( onlyValueOrigin ? IConstants.VALUE : IConstants.MIN,
 					fVerticalAxis,
 					y,
@@ -515,11 +516,16 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 					|| ( !bForwardScale && dXAxisThickness > scY.getStartShift( ) ) )
 			{
 				// REDUCE scY's STARTPOINT TO FIT THE X-AXIS AT THE TOP
-				double dStart = dY;
+				double dStart = scY.getStart( );
 				double dEnd = scY.getEnd( );
-				if ( dY <= scY.getEnd( ) )
+				if ( dBottom >= scY.getStart() )
 				{
-					dStart = scY.getStart( );
+					// It uses the bottom space, the dStart should be adjusted.
+					dStart = dY;
+				}
+				else if ( dY <= scY.getEnd( ) )
+				{
+					// It uses the top space, the dEnd should be adjusted.
 					dEnd = dY;
 				}
 

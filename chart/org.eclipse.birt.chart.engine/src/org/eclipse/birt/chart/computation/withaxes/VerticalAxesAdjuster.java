@@ -90,7 +90,8 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 					values.add( vaa );
 			}
 		}
-
+		
+		boolean onlyValueOrigin = ( values.size( ) > 0 && min.size( ) == 0 && max.size( ) == 0 );
 		// 1. Adjusts value origin axes, divides left/right/cross cases of axes place. 
 		double x = Double.NaN;
 		double left = Double.NaN;
@@ -195,11 +196,11 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 
 		// 3. Adjusts horizontal axis positions according to the positions of
 		// min origin & value origin axes.
-		scX.setEndPoints( endPoints[0], endPoints[1] );
-		scX.resetShifts( );
 		if ( !Double.isNaN( x ) )
 		{
-			double[] positions = adjustAcrossAxis( IConstants.MIN,
+			scX.setEndPoints( x, endPoints[1] );
+			scX.resetShifts( );
+			double[] positions = adjustAcrossAxis( onlyValueOrigin ? IConstants.VALUE : IConstants.MIN,
 					fHorizontalAxis,
 					x,
 					left,
@@ -266,7 +267,7 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 		{
 			scX.setEndPoints( endPoints[0], endPoints[1] );
 			scX.resetShifts( );
-			double[] positions = adjustAcrossAxis( IConstants.MAX,
+			double[] positions = adjustAcrossAxis( onlyValueOrigin ? IConstants.VALUE : IConstants.MAX,
 					fHorizontalAxis,
 					x,
 					left,
@@ -580,6 +581,106 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 			// 3. Get final x, xLeft, xRight. Set title coordinate.
 
 			dX += fPlotWithAxes.getPlotInsets( ).getRight( );
+			dRightEdge = dX + dDeltaX2;
+			dLeftEdge = dX - dDeltaX1;
+		}
+		else
+		{
+			// Check if X-axis thickness requires a plot width resize at the
+			// upper end
+			scX.computeAxisStartEndShifts( ids,
+					laXAxisLabels,
+					PlotWithAxes.HORIZONTAL,
+					iXLabelLocation,
+					aax );
+
+			boolean startEndChanged = false;
+
+			// Reduce scX's startpoint to fit the Y-axis on the left.
+			dStart = scX.getStart( );
+			dEnd = scX.getEnd( );
+			if ( dLeftEdge <= scX.getStart( ) )
+			{
+				// It uses left space, the dStart should be adjusted.
+				dStart = dX;
+				startEndChanged = true;
+			}
+			else if ( dX >= scX.getEnd( ) )
+			{
+				// It used right space, the dEnd should be adjusted.
+				dEnd = dX;
+				startEndChanged = true;
+			}
+			scX.resetShifts( );
+
+			// Reset the X axis end points by the Y axis location.
+			scX.setEndPoints( dStart, dEnd );
+
+			// Loop that auto-resizes Y-axis and re-computes Y-axis labels if
+			// overlaps occur.
+			boolean considerStartLabel = false;
+			boolean considerEndLabel = false;
+			if ( scX.getDirection( ) == PlotWithAxes.BACKWARD )
+			{
+				considerEndLabel = !startEndChanged;
+			}
+			else
+			{
+				considerStartLabel = !startEndChanged;
+			}
+
+			scX.computeTicks( ids,
+					laXAxisLabels,
+					iXLabelLocation,
+					PlotWithAxes.HORIZONTAL,
+					dStart,
+					dEnd,
+					considerStartLabel,
+					considerEndLabel,
+					aax );
+
+			if ( !scX.isStepFixed( ) )
+			{
+				final Object[] oaMinMax = scX.getMinMax( );
+
+				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
+				{
+					if ( !scX.zoomOut( ) )
+					{
+						break;
+					}
+					scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+
+					int tickCount = scX.computeTicks( ids,
+							laXAxisLabels,
+							iXLabelLocation,
+							PlotWithAxes.HORIZONTAL,
+							dStart,
+							dEnd,
+							considerStartLabel,
+							considerEndLabel,
+							aax );
+
+					if ( scX.getUnit( ) != null
+							&& PlotWithAxes.asInteger( scX.getUnit( ) ) == Calendar.YEAR
+							&& tickCount <= 3
+							|| fPlotWithAxes.isSharedScale( ) )
+					{
+						break;
+					}
+				}
+			}
+
+			// Move the Y-axis to the left edge of the plot if slack space
+			// exists or scale is recomputed
+			if ( dYAxisThickness < scX.getStartShift( ) )
+			{
+				dX = scX.getStart( ) - ( dRightEdge - dX );
+			}
+
+			// 3. Get final x, xLeft, xRight. Set title coordinate.
+
+			dX -= fPlotWithAxes.getPlotInsets( ).getLeft( );
 			dRightEdge = dX + dDeltaX2;
 			dLeftEdge = dX - dDeltaX1;
 		}
