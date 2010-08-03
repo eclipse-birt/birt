@@ -720,18 +720,19 @@ public final class ContainerContext
 							.getDataSetElement( module );
 					Cube containerCube = (Cube) containerItem
 							.getCubeElement( module );
-					if ( ( containerDataSet != dataSet )
-							|| ( containerCube != cube ) )
+
+					if ( ( ( dataSet == null && containerDataSet == null ) || ( dataSet != null && dataSet == containerDataSet ) )
+							&& ( ( cube == null && containerCube == null ) || ( cube != null && cube == containerCube ) ) )
+						continue;
+
+					// if any of its container defines different data object and
+					// multi-view, then it is invalid containement
+					if ( containerItem.getProperty( module,
+							IReportItemModel.MULTI_VIEWS_PROP ) != null )
 					{
-						// if any of its container defines different
-						// data object and multi-view, then it is
-						// invalid containement
-						if ( containerItem.getProperty( module,
-								IReportItemModel.MULTI_VIEWS_PROP ) != null )
-						{
-							return false;
-						}
+						return false;
 					}
+
 				}
 				container = container.getContainer( );
 			}

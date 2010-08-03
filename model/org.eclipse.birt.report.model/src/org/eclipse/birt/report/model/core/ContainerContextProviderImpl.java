@@ -458,10 +458,13 @@ class ContainerContextProviderImpl
 						Cube childCube = (Cube) childItem
 								.getCubeElement( module );
 
+						if ( childDataSet == null && childCube == null )
+							continue;
+
 						// if any of its children defines different data
 						// object, then invalid container context
-						if ( ( childDataSet != dataSet )
-								|| ( childCube != cube ) )
+						if ( ( childDataSet != dataSet && childDataSet != null )
+								|| ( childCube != cube && childCube != null ) )
 						{
 
 							return false;
