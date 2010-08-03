@@ -609,12 +609,21 @@ public class LocalizedContentVisitor
 		if ( IForeignContent.HTML_TYPE.equals( rawFormat ) )
 		{
 			String key = foreignContent.getRawKey( );
-			if (key != null)
+			if ( key != null )
 			{
-				String text = localize( foreignContent, key, null);
-				if (text != null)
+				String text = localize( foreignContent, key, null );
+				if ( text != null )
 				{
-					foreignContent.setRawValue(  text );
+					foreignContent.setRawValue( text );
+				}
+			}
+			else
+			{
+				Object value = foreignContent.getRawValue( );
+				String text = format( value, foreignContent.getComputedStyle( ) );
+				if ( text != null )
+				{
+					foreignContent.setRawValue( text );
 				}
 			}
 			return foreignContent;
