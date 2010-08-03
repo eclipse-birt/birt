@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import org.eclipse.birt.report.engine.emitter.excel.layout.Rule;
 
@@ -51,33 +52,71 @@ public class Data implements Serializable, Cloneable
 		this.isTxtData = false;
 	}
     
-	public String getText()
-    {
-       if (txt == null) 
-       {
-          return " "; 
-       }
-       else if (datatype.equals( Data.DATE )) 
-       { 
-    	  return ExcelUtil.formatDate( txt );
-       }
-       else if(datatype.equals( Data.NUMBER))
-       {
-    	  //Number length must be less than 31 in Excel  
-    	  if(txt.toString( ).length( ) > 31) 
-    	  { 
-    		  return ExcelUtil.formatNumber( txt );
-    	  }
-    	  else {
-    		  return txt.toString( );
-    	  }
-       }
-       else
-       {
-    	   return txt.toString( );
-       }
-    }
+	public String getText( )
+	{
+		if ( txt == null )
+			return " ";
+		return txt.toString( );
+	}
+
+	public void formatTxt( )
+	{
+		if ( txt == null )
+		{
+			return;
+		}
+		else if ( datatype.equals( Data.DATE ) )
+		{
+			txt = ExcelUtil.formatDate( txt );
+		}
+		else if ( datatype.equals( Data.NUMBER ) )
+		{
+			// Number length must be less than 31 in Excel
+			Number number = (Number) txt;
+			if ( ExcelUtil.isBigNumber( number ) )
+			{
+				txt = ExcelUtil.formatNumberAsScienceNotation( number );
+			}
+			else if ( number.toString( ).length( ) > 31 )
+			{
+				if ( ExcelUtil.displayedAsScientific( number ) )
+				{
+					txt = ExcelUtil.formatNumberAsScienceNotation( number );
+				}
+				else
+				{
+					txt = ExcelUtil.formatNumberAsDecimal( number );
+				}
+			}
+		}
+	}
 	
+	public boolean isBigNumber()
+	{
+		if(txt==null)
+		{
+			return false;
+		}
+		else if(datatype.equals( Data.NUMBER ))
+		{
+			return ExcelUtil.isBigNumber( txt );
+		}
+		return false;
+	}
+	
+	public boolean isInfility()
+	{
+		if(txt==null)
+		{
+			return false;
+		}
+		else if(datatype.equals( Data.NUMBER ))
+		{
+			return ExcelUtil.isInfinity( txt );
+		}
+		return false;
+	}
+		
 	public int hashCode( )
 	{
 		return id;

@@ -19,6 +19,8 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
 public class ExcelWriter
 {
 
+	private static double temp=Double.NaN;
+	private static String NAN_STRING=String.valueOf( temp );
 	private XMLWriterXLS writer = new XMLWriterXLS( );
 
 	private class XMLWriterXLS extends XMLWriter
@@ -91,10 +93,16 @@ public class ExcelWriter
 	{
 		writer.openTag( "Data" );
 
-		if ( d.getDatatype( ).equals( Data.NUMBER )
-				&& ExcelUtil.isNumber( d.getText( ) ) )
-		{
-			writer.attribute( "ss:Type", "Number" );
+		if ( d.getDatatype( ).equals( Data.NUMBER ) )
+		{	
+			if(d.getText( ).equals(NAN_STRING )||d.isBigNumber( )||d.isInfility( ) )
+			{
+				writer.attribute( "ss:Type", "String" );
+			}
+			else
+			{
+				writer.attribute( "ss:Type", "Number" );
+			}
 		}
 		else if ( d.getDatatype( ).equals( Data.DATE ) )
 		{
@@ -105,7 +113,10 @@ public class ExcelWriter
 			writer.attribute( "ss:Type", "String" );
 		}
 
-		writer.text( d.getText( ) );
+		d.formatTxt( );
+		String txt = d.getText( );
+
+		writer.text( txt);
 
 		writer.closeTag( "Data" );	
 		

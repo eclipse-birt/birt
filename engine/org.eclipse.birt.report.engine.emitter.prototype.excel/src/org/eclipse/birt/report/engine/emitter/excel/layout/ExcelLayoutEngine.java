@@ -419,9 +419,11 @@ public class ExcelLayoutEngine
 				int styleid = engine.getStyleID( d.getStyleEntry( ) );
 				d.setStyleId( styleid );
 				Rule rule = d.getRule( );
-				int start = axis.getCoordinate( rule.getStart( ) );
-				int end = axis.getCoordinate( rule.getEnd( ) );
-				Span span = new Span( start, end - start - 1 );
+				int start = axis.getCoordinate( rule.getStart( ) )+1;
+				int end = axis.getCoordinate( rule.getEnd( ) )+1;
+				end = Math.min( end, MAX_COLUMN );
+				int scount = Math.max( 0, end - start - 1 );
+				Span span = new Span( start, scount );
 
 				HyperlinkDef link = d.getHyperlinkDef( );
 
