@@ -50,7 +50,10 @@ public class AggregationResultRow implements IAggregationResultRow
 		Object[][] objectArrays = new Object[memberLength + 1][];
 		for ( int i = 0; i < memberLength; i++ )
 		{
-			objectArrays[i] = levelMembers[i].getFieldValues( );
+			if ( levelMembers[i] == null )
+				objectArrays[i] = null;
+			else
+				objectArrays[i] = levelMembers[i].getFieldValues( );
 		}
 		if ( getAggregationValues() != null )
 		{
@@ -161,7 +164,10 @@ class AggregationResultObjectCreator implements IStructureCreator
 		result.setLevelMembers( new Member[objectArrays.length - 1] );
 		for ( int i = 0; i < result.getLevelMembers().length; i++ )
 		{
-			result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
+			if ( objectArrays[i] == null )
+				result.getLevelMembers( )[i] = null;
+			else
+				result.getLevelMembers( )[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
 		}
 		if ( objectArrays[objectArrays.length - 1][0].equals( new Integer( 1 ) ) )
 		{
