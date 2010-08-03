@@ -20,6 +20,8 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -27,6 +29,12 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.BIRTActionEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
@@ -381,6 +389,57 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		{
 			ChartModelHelper.instance( )
 					.updateExtendedProperties( cm.getExtendedProperties( ) );
+		}
+		if ( cm.getSampleData( ) == null )
+		{
+			// add sample data for charts of old version
+			SampleData sampleData = DataFactory.eINSTANCE.createSampleData( );
+			sampleData.getBaseSampleData( ).clear( );
+			sampleData.getOrthogonalSampleData( ).clear( );
+
+			if ( cm instanceof ChartWithoutAxes )
+			{
+				BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+				sdBase.setDataSetRepresentation( ChartUtil.getNewSampleData( AxisType.TEXT_LITERAL,
+						0 ) );
+				sampleData.getBaseSampleData( ).add( sdBase );
+
+				for ( int i = 0; i < ChartUtil.getAllOrthogonalSeriesDefinitions( cm )
+						.size( ); i++ )
+				{
+					OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+					oSample.setDataSetRepresentation( ChartUtil.getNewSampleData( AxisType.LINEAR_LITERAL,
+							i ) );
+					oSample.setSeriesDefinitionIndex( i );
+					sampleData.getOrthogonalSampleData( ).add( oSample );
+				}
+			}
+			else if(cm instanceof ChartWithAxes)
+			{
+				ChartWithAxes chart = (ChartWithAxes) cm;
+				BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+				sdBase.setDataSetRepresentation( ChartUtil.getNewSampleData( ChartUIUtil.getAxisXForProcessing( chart )
+						.getType( ),
+						0 ) );
+				sampleData.getBaseSampleData( ).add( sdBase );
+
+				int i = 0;
+				for ( Axis axis : ChartUIUtil.getAxisXForProcessing( chart )
+						.getAssociatedAxes( ) )
+				{
+					for(SeriesDefinition sd : axis.getSeriesDefinitions( ))
+					{
+						OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+						oSample.setDataSetRepresentation( ChartUtil.getNewSampleData( axis.getType( ),
+								i ) );
+						oSample.setSeriesDefinitionIndex( i );
+						sampleData.getOrthogonalSampleData( ).add( oSample );
+						i++;
+					}
+				}
+			}
+
+			cm.setSampleData( sampleData );
 		}
 	}
 
