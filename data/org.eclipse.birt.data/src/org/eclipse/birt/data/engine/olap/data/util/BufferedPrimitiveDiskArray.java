@@ -96,18 +96,18 @@ public class BufferedPrimitiveDiskArray implements IDiskArray
 	 * (non-Javadoc)
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize( )
-	{
-		try
-		{
-			clearDiskFile( );
-		}
-		catch ( IOException e )
-		{
-			// TODO Auto-generated catch block
-			logger.log( Level.FINE, e.getMessage( ), e );
-		}
-	}
+//	public void finalize( )
+//	{
+//		try
+//		{
+//			clearDiskFile( );
+//		}
+//		catch ( IOException e )
+//		{
+//			// TODO Auto-generated catch block
+//			logger.log( Level.FINE, e.getMessage( ), e );
+//		}
+//	}
 
 	/*
 	 * (non-Javadoc)

@@ -247,17 +247,17 @@ abstract class BaseDiskArray implements IDiskArray
 		}
 	}
 
-	public void finalize( )
-	{
-		try
-		{
-			clearDiskFile( );
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.SEVERE, e.toString( ), e );
-		}
-	}
+//	public void finalize( )
+//	{
+//		try
+//		{
+//			clearDiskFile( );
+//		}
+//		catch ( IOException e )
+//		{
+//			logger.log( Level.SEVERE, e.toString( ), e );
+//		}
+//	}
 
 	public void clear( ) throws IOException
 	{

@@ -600,10 +600,10 @@ public class BasicCachedList implements List, ICloseListener
 	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-	public void finalize( )
-	{
-		clearTempDir( );
-	}
+//	public void finalize( )
+//	{
+//		clearTempDir( );
+//	}
 	
 	
 	public void close( )
