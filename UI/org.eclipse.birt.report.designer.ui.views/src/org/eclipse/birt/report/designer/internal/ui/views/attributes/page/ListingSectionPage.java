@@ -147,7 +147,29 @@ public class ListingSectionPage extends ResetAttributePage
 		// 1,
 		// true );
 		RepeatHeaderDescriptorProvider repeatHeaderProvider = new RepeatHeaderDescriptorProvider( );
-		repeatHeaderSection = new CheckSection( container, true );
+		repeatHeaderSection = new CheckSection( container, true ) {
+
+			public void load( )
+			{
+				super.load( );
+				
+				ListingHandle listingHandle = (ListingHandle) DEUtil.getInputFirstElement( input );
+
+				if ( !Boolean.valueOf( listingHandle.cascadeACL( ) )
+						.equals( listingHandle.getPropertyHandle( IReportItemModel.CASCADE_ACL_PROP )
+								.getPropertyDefn( )
+								.getDefault( ) )
+						|| listingHandle.getPropertyHandle( IReportDesignModel.ACL_EXPRESSION_PROP )
+								.isLocal( ) )
+				{
+					getCheckControl( ).getControl( ).setEnabled( false );
+				}
+				else
+				{
+					getCheckControl( ).getControl( ).setEnabled( true );
+				}
+			}
+		};
 		repeatHeaderSection.setProvider( repeatHeaderProvider );
 		repeatHeaderSection.setLayoutNum( 4 );
 		repeatHeaderSection.setGridPlaceholder( 2, true );
