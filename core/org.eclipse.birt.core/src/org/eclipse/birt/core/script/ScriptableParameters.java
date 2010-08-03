@@ -13,6 +13,8 @@ package org.eclipse.birt.core.script;
 
 import java.util.Map;
 
+import org.eclipse.birt.core.i18n.CoreMessages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
@@ -34,8 +36,8 @@ public class ScriptableParameters extends BaseScriptable
 		Object result = getScriptableParameter( name );
 		if ( result == null )
 		{
-			String errorMessage = "Report parameter \"" + name
-					+ "\" does not exist";
+			String errorMessage = CoreMessages.getFormattedString( ResourceConstants.JAVASCRIPT_PARAMETER_NOT_EXIST,
+					name );
 			throw new JavaScriptException( errorMessage, "<unknown>", -1 );
 		}
 		return result;

@@ -13,6 +13,8 @@ package org.eclipse.birt.core.script;
 
 import java.util.Map;
 
+import org.eclipse.birt.core.i18n.CoreMessages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
@@ -68,7 +70,9 @@ public class NativeJavaMap extends NativeJavaObject
 		{
 			return ( (Map) javaObject ).get( name );
 		}
-		throw new JavaScriptException( name + " not found", "<unknown>", -1 );
+		String errorMessage = CoreMessages.getFormattedString( ResourceConstants.JAVASCRIPT_NATIVE_NOT_FOUND,
+				name );
+		throw new JavaScriptException( errorMessage, "<unknown>", -1 ); //$NON-NLS-1$
 	}
 
 	/*
@@ -107,8 +111,9 @@ public class NativeJavaMap extends NativeJavaObject
 		{
 			return ( (Map) javaObject ).get( new Integer( index ).toString( ) );
 		}
-		throw new JavaScriptException( index + " not found", "<unknown>", -1 ); //$NON-NLS-1$
-
+		String errorMessage = CoreMessages.getFormattedString( ResourceConstants.JAVASCRIPT_NATIVE_NOT_FOUND,
+				index );
+		throw new JavaScriptException( errorMessage, "<unknown>", -1 ); //$NON-NLS-1$
 	}
 
 	public void put( int index, Scriptable start, Object value )

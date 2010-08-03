@@ -22,6 +22,9 @@ public class ResourceConstants
 	public final static String CONVERT_FAILS = "CONVERT_FAILS";
 	public final static String JAVASCRIPT_ERROR = "birt.core.JavascriptError";
 	public final static String JAVASCRIPT_COMMON_ERROR = "birt.core.JavascriptCommonError";
+	public final static String JAVASCRIPT_PARAMETER_NOT_EXIST = "birt.core.Javascript.parameterNotExist";
+	public final static String JAVASCRIPT_VARIABLE_NOT_EXIST = "birt.core.Javascript.variableNotExist";
+	public final static String JAVASCRIPT_NATIVE_NOT_FOUND = "birt.core.Javascript.nativeNotFound";
 	public final static String CREATE_EXTENSION_FAIL = "CREATE_EXTENSION_FAIL";
 	public final static String INVALID_REGULAR_EXPRESSION = "birt.core.BirtComp.invalidRegularExpression";
 
