@@ -65,11 +65,6 @@ public class ApplyThemeAction extends Action
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
-		if ( moduleHandle == null
-				|| ( !( moduleHandle instanceof ReportDesignHandle ) ) )
-		{
-			return false;
-		}
 
 		if ( element == null || ( !( element instanceof ThemeHandle ) ) )
 		{
@@ -80,11 +75,27 @@ public class ApplyThemeAction extends Action
 		{
 			return false;
 		}
+		
+		if ( moduleHandle == null
+				|| ( !( moduleHandle instanceof ReportDesignHandle ) ) )
+		{
+			if (moduleHandle instanceof LibraryHandle )
+			{
+				if (( (ThemeHandle) element ).getRoot( ).getFileName( ).equals( moduleHandle.getFileName( )))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
 
 		ThemeHandle themeInReport = UIUtil.themeInModuleHandle( (ThemeHandle) element,
 				moduleHandle );
-		ReportDesignHandle report = (ReportDesignHandle) moduleHandle;
-		if ( themeInReport != null && report.getTheme( ) == themeInReport ) // already
+		//ReportDesignHandle report = (ReportDesignHandle) moduleHandle;
+		if ( themeInReport != null && moduleHandle.getTheme( ) == themeInReport ) // already
 		// exists
 		// in
 		// the

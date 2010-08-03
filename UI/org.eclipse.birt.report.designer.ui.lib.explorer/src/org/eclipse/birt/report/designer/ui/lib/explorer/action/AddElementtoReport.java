@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -144,6 +145,14 @@ public class AddElementtoReport extends Action
 				|| transfer instanceof MasterPageHandle )
 			return true;
 
+		if (target instanceof LibraryHandle && transfer instanceof EmbeddedImageHandle)
+		{
+			EmbeddedImageHandle imageHandle = (EmbeddedImageHandle)transfer;
+			if (imageHandle.getModule( ) instanceof Library && !imageHandle.getModule( ).getFileName( ).equals( ((LibraryHandle)target).getFileName( )))
+			{
+				return true;
+			}
+		}
 		if ( DNDUtil.handleValidateTargetCanContainMore( target,
 				DNDUtil.getObjectLength( transfer ) ) )
 		{
