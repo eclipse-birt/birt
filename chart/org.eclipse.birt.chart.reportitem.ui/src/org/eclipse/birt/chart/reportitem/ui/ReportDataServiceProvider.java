@@ -135,7 +135,6 @@ import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
@@ -2442,7 +2441,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				DesignElementHandle reh =  itemHandle;
 				while( reh != null )
 				{
-					if ( reh.getContainer( ) instanceof TableGroupHandle )
+					if ( reh.getContainer( ) instanceof GroupHandle )
 					{
 						reh = reh.getContainer( );
 						
@@ -2456,7 +2455,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						}
 						break;
 					}
-					else if ( reh.getContainer( ) instanceof RowHandle && reh.getContainer( ) != null && !( reh.getContainer( ).getContainer( ) instanceof TableGroupHandle ) )
+					else if ( reh.getContainer( ) instanceof RowHandle
+							&& reh.getContainer( ) != null
+							&& !( reh.getContainer( ).getContainer( ) instanceof GroupHandle ) )
 					{
 						DesignElementHandle deh = reh;
 						while( deh != null )
