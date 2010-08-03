@@ -303,7 +303,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 				// {
 				// break;
 				// }
-				//					
+				//
 				// }
 				// test code -- end --
 
@@ -351,7 +351,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 					// {
 					// break;
 					// }
-					//						
+					//
 					// }
 					// test code -- end --
 
@@ -389,7 +389,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 					// {
 					// break;
 					// }
-					//						
+					//
 					// }
 					// test code -- end --
 
@@ -574,7 +574,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 				{
 					return false;
 				}
-				
+
 				if ( ExpressionFilter.CATEGORY.equals( parentElement )
 						&& ExpressionProvider.MEASURE.equals( element ) )
 				{
@@ -768,7 +768,9 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			}
 			else if ( columnIndex == 1 )
 			{
-				return ( (MemberValueHandle) element ).getLevel( ).getName( );
+				if ( ( (MemberValueHandle) element ).getLevel( ) != null )
+					return ( (MemberValueHandle) element ).getLevel( )
+							.getName( );
 			}
 			else if ( columnIndex == 2 )
 			{
