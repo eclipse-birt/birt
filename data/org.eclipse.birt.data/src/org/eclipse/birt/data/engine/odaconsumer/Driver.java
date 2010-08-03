@@ -84,14 +84,17 @@ class Driver
 	// gets the consumer manager helper for this driver
 	IDriver getDriverHelper() throws DataException
 	{	
-		final String methodName = "getDriverHelper"; //$NON-NLS-1$
-		if( m_driverHelper != null )
-            return m_driverHelper;
-        
-		try
-		{		
-            m_driverHelper = new OdaDriver( getExtensionConfig() );
-            return m_driverHelper;
+		if( m_driverHelper == null )
+            m_driverHelper = createNewDriverHelper();
+        return m_driverHelper;
+	}
+
+	IDriver createNewDriverHelper() throws DataException
+	{
+        final String methodName = "createNewDriverHelper"; //$NON-NLS-1$
+        try
+        {       
+            return new OdaDriver( getExtensionConfig() );
 		}
 		catch( OdaException ex )
 		{

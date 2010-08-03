@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,7 +34,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 public class DriverManager
 {
 	private static DriverManager sm_driverManager = null;
-	private Hashtable m_loadedDrivers;
+	private Hashtable<String,Driver> m_loadedDrivers;
 	
 	// trace logging variables
 	private static final String sm_className = DriverManager.class.getName();
@@ -91,16 +91,29 @@ public class DriverManager
 	public IDriver getDriverHelper( String dataSourceElementId )
 		throws DataException
 	{
-		final String methodName = "getDriverHelper"; //$NON-NLS-1$
-		getLogger().entering( sm_className, methodName, dataSourceElementId );
-
-		Driver driver = getDriver( dataSourceElementId );
-		IDriver ret = driver.getDriverHelper();
-		
-		getLogger().exiting( sm_className, methodName, ret );
-		return ret;
+        return getDriverHelper( dataSourceElementId, true );
 	}
+    
+	IDriver getNewDriverHelper( String dataSourceElementId )
+        throws DataException
+    {
+        return getDriverHelper( dataSourceElementId, false );
+    }
 
+	private IDriver getDriverHelper( String dataSourceElementId, boolean reuseExisting )
+        throws DataException
+    {
+        final String methodName = "getDriverHelper(String,boolean)"; //$NON-NLS-1$
+        getLogger().entering( sm_className, methodName, 
+                new Object[] {dataSourceElementId, Boolean.valueOf( reuseExisting )} );
+    
+        Driver driver = getDriver( dataSourceElementId );
+        IDriver ret = reuseExisting ? driver.getDriverHelper() : driver.createNewDriverHelper();
+        
+        getLogger().exiting( sm_className, methodName, ret );
+        return ret;	    
+    }
+	
 	/**
 	 * Returns the id of the type of ODA data source for use as an argument to 
 	 * <code>IDriver.getConnection</code>.
@@ -127,7 +140,7 @@ public class DriverManager
 	{
 		assert( dataSourceElementId != null && dataSourceElementId.length() != 0 );
 		
-		Driver driver = (Driver) getLoadedDrivers().get( dataSourceElementId );
+		Driver driver = getLoadedDrivers().get( dataSourceElementId );
 		if( driver == null )
 		{
 			driver = new Driver( dataSourceElementId );
@@ -137,11 +150,13 @@ public class DriverManager
 		return driver;
 	}
 	
-	Hashtable getLoadedDrivers()
+	@SuppressWarnings("unchecked")
+    Hashtable<String,Driver> getLoadedDrivers()
 	{
 		if( m_loadedDrivers == null )
 			m_loadedDrivers = PropertySecurity.createHashtable( );
 		
 		return m_loadedDrivers;
 	}
+
 }

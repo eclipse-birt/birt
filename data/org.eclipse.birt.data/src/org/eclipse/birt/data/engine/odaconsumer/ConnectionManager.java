@@ -143,21 +143,24 @@ public class ConnectionManager
 		{
             DriverManager driverMgr = DriverManager.getInstance();
 
-            // gets the driver's connection to open
-            IDriver driverHelper = 
+            // gets the driver helper to get a connection to open;
+            // a driver helper instance for the same dataSourceElementId can normally be shared,
+            // except when appContext exists, in which case a dedicated driver helper would be needed
+            IDriver driverHelper = (appContext != null && ! appContext.isEmpty() ) ?
+                driverMgr.getNewDriverHelper( dataSourceElementId ) :
                 driverMgr.getDriverHelper( dataSourceElementId );
-			String dataSourceId = 
-                driverMgr.getExtensionDataSourceId( dataSourceElementId );          
 
             // specifies default connection profile property provider service
             appContext = addProfileProviderService( appContext );
 
 			// before calling getConnection, passes application context
-			// to the oda driver, which in turn takes care of 
+			// to the oda driver helper, which in turn takes care of 
 			// passing thru to the driver's connection(s) and quer(ies);
             // locale setting in appContext is handled by DTP ODA consumer component during #open
 			driverHelper.setAppContext( appContext );
 			
+            String dataSourceId = 
+                driverMgr.getExtensionDataSourceId( dataSourceElementId );          
 			IConnection connection = driverHelper.getConnection( dataSourceId );
 			connection.open( connectionProperties );
 			
@@ -194,6 +197,7 @@ public class ConnectionManager
      * @return          updated application context object for passing thru
      *                  to the DTP oda.consumer 
      */
+    @SuppressWarnings("unchecked")
     static Map addProfileProviderService( Map appContext )
     {
         Map providerAppContext = appContext;
