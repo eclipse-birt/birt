@@ -2172,4 +2172,23 @@ public class ChartUIUtil
 
 		return false;
 	}
+
+	/**
+	 * Check for if current aggregation function supports datetime data or not.
+	 * 
+	 * @param aggFunc
+	 * @return
+	 */
+	public static boolean isDataTimeSupportedAgg( String aggFunc )
+	{
+		return PluginSettings.DefaultAggregations.AVERAGE.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.FIRST.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.LAST.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.MIN.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.MAX.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.MEDIAN.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.MODE.equals( aggFunc )
+				|| ChartUtil.isMagicAggregate( aggFunc );
+
+	}
 }

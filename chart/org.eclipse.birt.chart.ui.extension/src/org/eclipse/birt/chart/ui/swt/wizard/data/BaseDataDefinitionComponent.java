@@ -51,9 +51,9 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
-import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -827,16 +827,28 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			{
 				if ( context.getDataServiceProvider( ).getDataType( expression ) == DataType.DATE_TIME_LITERAL )
 				{
-					ChartAdapter.beginIgnoreNotifications( );
-					if ( query.getGrouping( ) == null )
+					SeriesGrouping basegrouping = ChartUtil.getBaseSeriesDefinitions( context.getModel( ) )
+							.get( 0 )
+							.getGrouping( );
+					if ( basegrouping != null
+							&& basegrouping.isEnabled( )
+							&& !ChartUIUtil.isDataTimeSupportedAgg( basegrouping.getAggregateExpression( ) ) )
 					{
-						query.setGrouping( DataFactoryImpl.init( )
-								.createSeriesGrouping( ) );
+						ChartAdapter.beginIgnoreNotifications( );
+						if ( query.getGrouping( ) == null )
+						{
+							query.setGrouping( DataFactoryImpl.init( )
+									.createSeriesGrouping( ) );
+						}
+						SeriesGrouping group = query.getGrouping( );
+						group.setEnabled( true );
+						if ( !ChartUIUtil.isDataTimeSupportedAgg( group.getAggregateExpression( ) ) )
+						{
+							group.setAggregateExpression( "First" ); //$NON-NLS-1$
+						}
+						ChartAdapter.endIgnoreNotifications( );
 					}
-					SeriesGrouping group = query.getGrouping( );
-					group.setEnabled( true );
-					group.setAggregateExpression( "First" ); //$NON-NLS-1$
-					ChartAdapter.endIgnoreNotifications( );
+
 				}
 			}
 
