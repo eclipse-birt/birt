@@ -34,7 +34,6 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.BIRTActionEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
@@ -213,6 +212,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			livePreviewThread = new ChartLivePreviewThread( dataProvider );
 			livePreviewThread.start( );
 			context.setLivePreviewThread( livePreviewThread );
+			context.setUIFactory( uiFactory );
 			
 			dataProvider.setWizardContext( context );
 			if ( dataProvider.checkState( IDataServiceProvider.PART_CHART ) )
@@ -368,7 +368,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	{
 		// Revise chart version to current.
 		ChartUtil.reviseVersion( cm );
-		
+
 		// Make it compatible with old model
 		if ( cm.getInteractivity( ) == null )
 		{
@@ -414,7 +414,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					sampleData.getOrthogonalSampleData( ).add( oSample );
 				}
 			}
-			else if(cm instanceof ChartWithAxes)
+			else if ( cm instanceof ChartWithAxes )
 			{
 				ChartWithAxes chart = (ChartWithAxes) cm;
 				BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
@@ -423,18 +423,16 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						0 ) );
 				sampleData.getBaseSampleData( ).add( sdBase );
 
-				int i = 0;
 				for ( Axis axis : ChartUIUtil.getAxisXForProcessing( chart )
 						.getAssociatedAxes( ) )
 				{
-					for(SeriesDefinition sd : axis.getSeriesDefinitions( ))
+					for ( int i = 0; i < axis.getSeriesDefinitions( ).size( ); i++ )
 					{
 						OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
 						oSample.setDataSetRepresentation( ChartUtil.getNewSampleData( axis.getType( ),
 								i ) );
 						oSample.setSeriesDefinitionIndex( i );
 						sampleData.getOrthogonalSampleData( ).add( oSample );
-						i++;
 					}
 				}
 			}

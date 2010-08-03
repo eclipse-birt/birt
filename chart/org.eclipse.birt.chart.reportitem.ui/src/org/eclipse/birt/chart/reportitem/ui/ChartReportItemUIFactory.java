@@ -12,21 +12,18 @@
 package org.eclipse.birt.chart.reportitem.ui;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.ui.integrate.ChartUIFactoryBase;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
  * 
  */
 
-public class ChartReportItemUIFactory
+public class ChartReportItemUIFactory extends ChartUIFactoryBase
 {
 
 	private static ChartReportItemUIFactory instance = new ChartReportItemUIFactory( );
@@ -58,8 +55,10 @@ public class ChartReportItemUIFactory
 	{
 		return new ChartWizardContext( cm, uiProvider, dataProvider, dataSheet );
 	}
-	
-	public DteAdapter createDteAdapter( )  {
-		return new DteAdapter();
+
+	public DteAdapter createDteAdapter( )
+	{
+		return new DteAdapter( );
 	}
+
 }
