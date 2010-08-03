@@ -99,16 +99,15 @@ public class MemberValueHandle extends ContentElementHandle
 			setStringProperty( LEVEL_PROP, null );
 		else
 		{
-			ModuleHandle moduleHandle = levelHandle.getRoot( );
-			String valueToSet = levelHandle.getElement( ).getFullName( );
-			if ( moduleHandle instanceof LibraryHandle )
-			{
-				String namespace = ( (LibraryHandle) moduleHandle )
-						.getNamespace( );
-				valueToSet = StringUtil.buildQualifiedReference( namespace,
-						valueToSet );
-			}
-			setStringProperty( LEVEL_PROP, valueToSet );
+			/*
+			 * ModuleHandle moduleHandle = levelHandle.getRoot( ); String
+			 * valueToSet = levelHandle.getElement( ).getFullName( ); if (
+			 * moduleHandle instanceof LibraryHandle ) { String namespace = (
+			 * (LibraryHandle) moduleHandle ) .getNamespace( ); valueToSet =
+			 * StringUtil.buildQualifiedReference( namespace, valueToSet ); }
+			 * setStringProperty( LEVEL_PROP, valueToSet );
+			 */
+			setProperty( LEVEL_PROP, levelHandle );
 		}
 	}
 
