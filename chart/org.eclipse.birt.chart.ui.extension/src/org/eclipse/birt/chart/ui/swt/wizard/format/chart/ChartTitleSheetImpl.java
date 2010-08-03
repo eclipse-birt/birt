@@ -43,17 +43,15 @@ import org.eclipse.swt.widgets.Listener;
  * Title subtask
  * 
  */
-public class ChartTitleSheetImpl extends SubtaskSheetImpl
-		implements
-			SelectionListener,
-			Listener
+public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
+		SelectionListener,
+		Listener
 {
 
 	private ExternalizedTextEditorComposite txtTitle = null;
-
 	private FontDefinitionComposite fdcFont;
-
 	private Button btnVisible;
+	private Button btnAuto;
 
 	public void createControl( Composite parent )
 	{
@@ -70,7 +68,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 
 		Composite cmpBasic = new Composite( cmpContent, SWT.NONE );
 		{
-			cmpBasic.setLayout( new GridLayout( 3, false ) );
+			cmpBasic.setLayout( new GridLayout( 4, false ) );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpBasic.setLayoutData( gd );
 		}
@@ -91,15 +89,12 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 				-1,
 				keys,
 				getContext( ).getUIServiceProvider( ),
-				getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( ) );
+				getTitleText( ) );
 		{
 			GridData gdTXTTitle = new GridData( );
 			gdTXTTitle.widthHint = 200;
 			txtTitle.setLayoutData( gdTXTTitle );
-			if ( !getChart( ).getTitle( ).isVisible( ) )
-			{
-				txtTitle.setEnabled( false );
-			}
+			txtTitle.setEnabled( isTitleEnabled( ) );
 			txtTitle.addListener( this );
 		}
 
@@ -108,6 +103,17 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 			btnVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 			btnVisible.setSelection( getChart( ).getTitle( ).isVisible( ) );
 			btnVisible.addSelectionListener( this );
+		}
+
+		btnAuto = new Button( cmpBasic, SWT.CHECK );
+		{
+			btnAuto.setText( Messages.getString( "ChartTitleSheetImpl.Text.Auto" ) ); //$NON-NLS-1$
+			btnAuto.setSelection( getChart( ).getTitle( ).isAuto( ) );
+			btnAuto.addSelectionListener( this );
+			btnAuto.setEnabled( isAutoEnabled( ) );
+			btnAuto.setVisible( getContext( ).getUIFactory( )
+					.createUIHelper( )
+					.isDefaultTitleSupported( ) );
 		}
 
 		Label lblFont = new Label( cmpBasic, SWT.NONE );
@@ -127,13 +133,13 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 		fdcFont.addListener( this );
 
 		// new Label( cmpBasic, SWT.NONE );
-		//		
+		//
 		// Label lblTooltip = new Label( cmpBasic, SWT.NONE );
 		// {
 		// lblTooltip.setText( Messages.getString(
 		// "ChartTitleSheetImpl.Label.Tooltip" ) ); //$NON-NLS-1$
 		// }
-		//		
+		//
 		// btnTooltip = new Button( cmpBasic, SWT.PUSH );
 		// {
 		// btnTooltip.setImage( UIHelper.getImage( "icons/obj16/tooltip.gif" )
@@ -203,11 +209,6 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 		btnInteractivity.addSelectionListener( this );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-	 */
 	public void handleEvent( Event event )
 	{
 		if ( event.widget.equals( txtTitle ) )
@@ -250,7 +251,8 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 		if ( e.widget.equals( btnVisible ) )
 		{
 			getChart( ).getTitle( ).setVisible( btnVisible.getSelection( ) );
-			txtTitle.setEnabled( btnVisible.getSelection( ) );
+			txtTitle.setEnabled( isTitleEnabled( ) );
+			btnAuto.setEnabled( isAutoEnabled( ) );
 			setToggleButtonEnabled( BUTTON_TEXT, btnVisible.getSelection( ) );
 			setToggleButtonEnabled( BUTTON_LAYOUT, btnVisible.getSelection( ) );
 
@@ -259,6 +261,12 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 			{
 				detachPopup( );
 			}
+		}
+		else if ( e.widget.equals( btnAuto ) )
+		{
+			getChart( ).getTitle( ).setAuto( btnAuto.getSelection( ) );
+			txtTitle.setEnabled( isTitleEnabled( ) );
+			txtTitle.setText( getTitleText( ) );
 		}
 		// else if ( e.widget.equals( btnTooltip ) )
 		// {
@@ -274,6 +282,31 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	private boolean isAutoEnabled( )
+	{
+		return getContext( ).getUIFactory( )
+				.createUIHelper( )
+				.isDefaultTitleEnabled( getContext( ) )
+				&& getChart( ).getTitle( ).isVisible( );
+	}
+
+	private boolean isTitleEnabled( )
+	{
+		return getChart( ).getTitle( ).isVisible( )
+				&& !getChart( ).getTitle( ).isAuto( );
+	}
+
+	private String getTitleText( )
+	{
+		if ( getChart( ).getTitle( ).isAuto( ) )
+		{
+			return getContext( ).getUIFactory( )
+					.createUIHelper( )
+					.getDefaultTitle( getContext( ) );
+		}
+		return getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( );
 	}
 
 }

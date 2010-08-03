@@ -22,8 +22,10 @@ import org.eclipse.birt.chart.factory.IExternalizer;
 import org.eclipse.birt.chart.factory.IResourceFinder;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.style.IStyleProcessor;
+import org.eclipse.birt.chart.ui.integrate.ChartUIFactoryBase;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -61,6 +63,9 @@ public class ChartWizardContext implements IChartWizardContext
 	 */
 	private Thread livePreviewThread = null;
 	
+	// Default implementation of UI factory
+	private IChartUIFactory uiFactory = new ChartUIFactoryBase( );
+	
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
 	{
@@ -85,7 +90,7 @@ public class ChartWizardContext implements IChartWizardContext
 	/**
 	 * Returns reference of live preview thread.
 	 * 
-	 * @return
+	 * @return thread
 	 * @since 2.5.2
 	 */
 	public Thread getLivePreviewThread()
@@ -415,5 +420,27 @@ public class ChartWizardContext implements IChartWizardContext
 	public IActionEvaluator getActionEvaluator( )
 	{
 		return actionEvaluator;
+	}
+	
+	/**
+	 * Returns current UI factory class. The default UI factory is
+	 * <code>ChartUIFactoryBase</code>.
+	 * 
+	 * @return UI factory
+	 */
+	public IChartUIFactory getUIFactory( )
+	{
+		return uiFactory;
+	}
+
+	/**
+	 * Sets the new UI factory.
+	 * 
+	 * @param factory
+	 *            UI factory
+	 */
+	public void setUIFactory( IChartUIFactory factory )
+	{
+		this.uiFactory = factory;
 	}
 }

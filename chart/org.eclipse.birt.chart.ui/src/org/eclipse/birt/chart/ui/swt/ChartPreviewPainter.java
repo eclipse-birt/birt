@@ -175,6 +175,10 @@ public class ChartPreviewPainter extends ChartPreviewPainterBase implements
 			rtc.setResourceFinder( wizardContext.getResourceFinder( ) );
 			rtc.setExternalizer( wizardContext.getExternalizer( ) );
 
+			wizardContext.getUIFactory( )
+					.createUIHelper( )
+					.updateDefaultTitle( (Chart) chart,
+							wizardContext.getExtendedItem( ) );
 			gcs = gr.build( deviceRenderer.getDisplayServer( ),
 					(Chart) chart,
 					bo,
