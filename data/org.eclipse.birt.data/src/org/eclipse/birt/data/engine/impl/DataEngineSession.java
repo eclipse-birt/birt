@@ -264,13 +264,10 @@ public class DataEngineSession
 	{
 		this.stopSign.stop( );
 		cancelManager.doCancel( );
-		synchronized ( currentTimer )
+		if ( currentTimer == null )
 		{
-			if ( currentTimer == null )
-			{
-				this.currentTimer = new Timer( );
-				this.currentTimer.schedule( cancelManager, 1000, 1000 );
-			}
+			this.currentTimer = new Timer( );
+			this.currentTimer.schedule( cancelManager, 1000, 1000 );
 		}
 	}
 	
