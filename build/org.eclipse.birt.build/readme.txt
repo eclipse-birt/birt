@@ -10,7 +10,7 @@ How to compile this tools
 1.Checkout project org.eclipse.birt.build using anonymous account.
 2.Switch to command mode, change current dir to org.eclipse.birt.build
 3.Download dom4j jars from: 
-  http://dom4j.org/download.html 
+  http://sourceforge.net/projects/dom4j/files/ 
   Copy the dom4j jars to org.eclipse.birt.build/lib
 4.Running ant command to start the auto build: ant jar
   Result folder 'bin' and zipped jar file will generated under org.eclipse.birt.build
