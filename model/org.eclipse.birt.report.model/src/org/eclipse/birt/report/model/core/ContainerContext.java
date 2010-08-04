@@ -723,7 +723,10 @@ public final class ContainerContext
 
 					if ( ( ( dataSet == null && containerDataSet == null ) || ( dataSet != null && dataSet == containerDataSet ) )
 							&& ( ( cube == null && containerCube == null ) || ( cube != null && cube == containerCube ) ) )
+					{
+						container = container.getContainer( ); 
 						continue;
+					}
 
 					// if any of its container defines different data object and
 					// multi-view, then it is invalid containement
