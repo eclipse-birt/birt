@@ -2205,8 +2205,7 @@ public class ChartUtil
 			
 			BigDecimal absMax = bnMax.abs( );
 			BigDecimal absMin = bnMin.abs( );
-			if ( absMin.compareTo( NumberUtil.DOUBLE_MIN ) >= 0
-					&& absMax.compareTo( NumberUtil.DOUBLE_MAX ) <= 0 )
+			if ( absMax.compareTo( NumberUtil.DOUBLE_MAX ) <= 0 )
 			{
 				// All data in data set are less than Double_MAX, use double
 				// always.
