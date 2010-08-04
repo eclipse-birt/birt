@@ -37,8 +37,11 @@ public class ReportParameterUtil
 			{
 				ScalarParameterHandle parameterHandle = (ScalarParameterHandle) parameterObject;
 
-				if ( parameterHandle.getDefaultValueList( ) == null
-						|| parameterHandle.getDefaultValueList( ).size( ) == 0 )
+				if ( ( parameterHandle.getDefaultValueList( ) == null
+						|| parameterHandle.getDefaultValueList( ).size( ) == 0)
+						&& 
+						( parameterHandle.getDefaultValueListMethod( ) == null 
+						|| parameterHandle.getDefaultValueListMethod( ).trim( ).length( ) == 0 ))
 				{
 					String paramType = parameterHandle.getParamType( );
 					if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( paramType ) )
