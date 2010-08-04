@@ -25,6 +25,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
+import org.eclipse.birt.report.designer.data.ui.util.CubeValueSelector;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
@@ -583,8 +584,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( parent, SWT.NONE );
-		rightPart.setLayoutData( GridDataFactory.swtDefaults( ).grab( true,
-				true ).create( ) );
+		rightPart.setLayoutData( GridDataFactory.swtDefaults( )
+				.grab( true, true )
+				.create( ) );
 		GridLayout layout = new GridLayout( );
 		layout.makeColumnsEqualWidth = true;
 		rightPart.setLayout( layout );
@@ -885,8 +887,10 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 		groupGroupLevel = new CCombo( groupContainer, SWT.READ_ONLY
 				| SWT.BORDER );
-		groupGroupLevel.setLayoutData( GridDataFactory.swtDefaults( ).span( 2,
-				1 ).hint( 200, SWT.DEFAULT ).create( ) );
+		groupGroupLevel.setLayoutData( GridDataFactory.swtDefaults( )
+				.span( 2, 1 )
+				.hint( 200, SWT.DEFAULT )
+				.create( ) );
 		groupGroupLevel.setVisibleItemCount( 30 );
 		groupGroupLevel.addListener( SWT.Modify, groupLeveModify );
 
@@ -940,10 +944,13 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		new Label( parentControl, SWT.NONE );
 
 		valuesComposite = new Composite( parentControl, SWT.NONE );
-		valuesComposite.setLayoutData( GridDataFactory.swtDefaults( ).span( 3,
-				1 ).create( ) );
-		valuesComposite.setLayout( GridLayoutFactory.swtDefaults( ).margins( 0,
-				0 ).numColumns( 4 ).create( ) );
+		valuesComposite.setLayoutData( GridDataFactory.swtDefaults( )
+				.span( 3, 1 )
+				.create( ) );
+		valuesComposite.setLayout( GridLayoutFactory.swtDefaults( )
+				.margins( 0, 0 )
+				.numColumns( 4 )
+				.create( ) );
 		create2ValueComposite( valuesComposite );
 
 		memberValueGroup = new Composite( parentControl, SWT.NONE );
@@ -2078,7 +2085,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 			ReportDesignHandle copy = (ReportDesignHandle) ( designHandle.getModuleHandle( )
 					.copy( ).getHandle( null ) );
-			
+
 			EngineConfig config = new EngineConfig( );
 
 			config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -2091,16 +2098,17 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
 					copy );
 			session = engineTask.getDataSession( );
-			
+
 			engineTask.run( );
-			
+
 			DataService.getInstance( ).registerSession( cube, session );
 
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
 
 			Map context = session.getDataSessionContext( ).getAppContext( );
 
-			iter = session.getCubeQueryUtil( ).getMemberValueIterator( cube,
+			iter = CubeValueSelector.getMemberValueIterator( session,
+					cube,
 					expression,
 					cubeQueryDefn,
 					context );
@@ -2168,6 +2176,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			MeasureViewHandle measure = crossTab.getMeasure( i );
 			if ( measure instanceof ComputedMeasureViewHandle )
+				continue;
+			if ( measure.getCubeMeasure( ) == null )
 				continue;
 			measureList.add( measure );
 			measureNameList.add( measure.getCubeMeasure( ).getFullName( ) );

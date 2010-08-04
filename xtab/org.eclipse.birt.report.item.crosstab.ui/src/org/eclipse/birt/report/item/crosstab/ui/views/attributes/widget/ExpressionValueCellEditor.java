@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.DimensionLevel;
+import org.eclipse.birt.report.designer.data.ui.util.CubeValueSelector;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
@@ -61,7 +62,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.23 $ $Date: 2010/04/06 04:06:42 $
+ * @version $Revision: 1.24 $ $Date: 2010/08/02 09:22:22 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -519,7 +520,8 @@ public class ExpressionValueCellEditor extends CellEditor
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			DataService.getInstance( ).registerSession( cube, session );
-			iter = session.getCubeQueryUtil( ).getMemberValueIterator( cube,
+			iter = CubeValueSelector.getMemberValueIterator( session,
+					cube,
 					targetLevel,
 					levelDens,
 					values );

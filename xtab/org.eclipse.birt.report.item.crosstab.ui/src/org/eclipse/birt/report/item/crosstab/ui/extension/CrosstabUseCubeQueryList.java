@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.data.ui.util.CubeValueSelector;
 import org.eclipse.birt.report.designer.internal.ui.extension.IUseCubeQueryList;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
@@ -40,7 +41,7 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 
 	public List getQueryList( String expression, ExtendedItemHandle extendedItem )
 	{
-		// TODO Auto-generated method stub			
+		// TODO Auto-generated method stub
 		CrosstabReportItemHandle crosstab = null;
 		CubeHandle cube = null;
 		try
@@ -74,16 +75,16 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			
+
 		}
-		
+
 		if ( cube == null
 				|| ( !( cube instanceof TabularCubeHandle ) )
 				|| expression.length( ) == 0 )
 		{
 			return new ArrayList( );
 		}
-		
+
 		Iterator iter = null;
 
 		// get cubeQueryDefn
@@ -93,10 +94,10 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-			iter = session.getCubeQueryUtil( )
-					.getMemberValueIterator( (TabularCubeHandle) cube,
-							expression,
-							cubeQueryDefn );
+			iter = CubeValueSelector.getMemberValueIterator( session,
+					cube,
+					expression,
+					cubeQueryDefn );
 		}
 		catch ( Exception e )
 		{
@@ -126,13 +127,13 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 			}
 
 		}
-		
-		if (session != null)
+
+		if ( session != null )
 		{
 			session.shutdown( );
 		}
 		return valueList;
-		
+
 	}
 
 }
