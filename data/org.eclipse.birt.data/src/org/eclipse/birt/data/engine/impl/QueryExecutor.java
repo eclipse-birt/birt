@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
@@ -624,10 +625,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 				{
 					sortKey = getColumnRefExpression( sortKey );
 				}
-
+				String dataSetExpr = getDataSetExpr(sortKey);
 				temporaryComputedColumns.add( new ComputedColumn( "_{$TEMP_SORT_"
 						+ i + "$}_",
-						sortKey,
+						dataSetExpr == null ? sortKey : dataSetExpr,
 						getExpressionDataType( sortKey ) ) );
 				sortIndex = -1;
 				sortKey = String.valueOf( "_{$TEMP_SORT_" + i + "$}_" );
@@ -644,6 +645,29 @@ public abstract class QueryExecutor implements IQueryExecutor
 				sortSpecs[i] = dest;
 			}
 			odiQuery.setOrdering( Arrays.asList( sortSpecs ) );
+		}
+	}
+
+	private String getDataSetExpr(String sortKey) throws DataException
+	{
+		String dataSetExpr = null ;
+		try
+		{
+			String bindingName = ExpressionUtil.getColumnBindingName( sortKey );
+			Object binding = this.baseQueryDefn.getBindings( ).get( bindingName );
+			if( binding != null )
+			{
+				IBaseExpression expr = ( (IBinding) binding ).getExpression( );
+				if( expr != null && expr instanceof IScriptExpression )
+				{
+					dataSetExpr = ( ( IScriptExpression )expr ).getText( );
+				}
+			}
+			return dataSetExpr;
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
 		}
 	}
 

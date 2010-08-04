@@ -915,7 +915,12 @@ public class ScriptEvalUtil
 				}
 				else
 				{
-					if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
+					if( jsExpr.isConstant( ) )
+					{
+						result = JavascriptEvalUtil.evaluateJsConstants( jsExpr.getText( ) );
+						jsExpr.setConstantValue( result );
+					}
+					else if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
 					{
 						if ( jsExpr.getHandle( ) instanceof ICompiledScript )
 						{
@@ -935,10 +940,7 @@ public class ScriptEvalUtil
 								source,
 								lineNo );
 					}
-					if( jsExpr.isConstant( ) )
-					{
-						jsExpr.setConstantValue( result );
-					}
+					
 				}
 			}
 			

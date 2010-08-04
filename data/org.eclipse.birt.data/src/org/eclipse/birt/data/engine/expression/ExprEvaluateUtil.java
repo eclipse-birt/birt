@@ -271,11 +271,7 @@ public class ExprEvaluateUtil
 				value = ( (IScriptExpression) dataExpr ).getConstantValue( );
 				if ( value == null )
 				{
-					value = ScriptEvalUtil.evaluateJSAsExpr( cx,
-							scope,
-							( (IScriptExpression) dataExpr ).getText( ),
-							null,
-							0 );
+					value = JavascriptEvalUtil.evaluateJsConstants( ( (IScriptExpression) dataExpr ).getText( ) );
 					( (IScriptExpression) dataExpr ).setConstantValue( value );
 				}
 			}
