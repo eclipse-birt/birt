@@ -169,7 +169,7 @@ public class TaskSelectType extends SimpleTask implements
 	private Label lblSeriesType = null;
 	private Combo cbSeriesType = null;
 
-	private Combo cbDimension = null;
+	protected Combo cbDimension = null;
 
 	private SashForm foSashForm;
 
@@ -857,7 +857,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		else if ( oSelected.equals( cbDimension ) )
 		{
-			String newDimension = cbDimension.getItem( cbDimension.getSelectionIndex( ) );
+			String newDimension = ( (String[]) cbDimension.getData( ) )[cbDimension.getSelectionIndex( )];
 			if ( !newDimension.equals( sDimension ) )
 			{
 				sDimension = newDimension;
@@ -937,7 +937,7 @@ public class TaskSelectType extends SimpleTask implements
 	 *            Chart type
 	 * @return whether the dimension is changed after updating
 	 */
-	private boolean updateDimensionCombo( String sSelectedType )
+	protected boolean updateDimensionCombo( String sSelectedType )
 	{
 		// Remember last selection
 		boolean isOldExist = false;
@@ -975,6 +975,7 @@ public class TaskSelectType extends SimpleTask implements
 				isOldExist = isSupported;
 			}
 		}
+		cbDimension.setData( cbDimension.getItems( ) );
 		
 		String cache = ChartCacheManager.getInstance( )
 				.getDimension( sSelectedType );
