@@ -751,7 +751,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	
     private boolean isBoldFont(CSSValue value)
     {
-    	if(value instanceof StringValue && value!=null)
+		if ( value instanceof StringValue )
         {
     		String weight = ((StringValue)value).getStringValue();
     		if("bold".equals(weight.toLowerCase()) || "bolder".equals(weight.toLowerCase()) //$NON-NLS-1$ //$NON-NLS-2$
@@ -789,13 +789,17 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 				.getDesignTimeSeries( )
 				.getDataDefinition( );
 		List<SeriesDefinition> vsds = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
-		SeriesDefinition vsd = vsds.get( 0 );
+		SeriesDefinition vsd = vsds.isEmpty( ) ? null : vsds.get( 0 );
 
 		LevelHandle category = bsQuery.size( ) == 0 ? null
 				: findLevelHandle( cube, exprCodec, bsQuery.get( 0 ) );
-		LevelHandle yoption = findLevelHandle( cube, exprCodec, vsd.getQuery( ) );
+		LevelHandle yoption = vsd == null ? null : findLevelHandle( cube,
+				exprCodec,
+				vsd.getQuery( ) );
+
 		Query query = null;
-		if ( vsd.getDesignTimeSeries( ).getDataDefinition( ).size( ) > 0 )
+		if ( vsd != null
+				&& vsd.getDesignTimeSeries( ).getDataDefinition( ).size( ) > 0 )
 		{
 			query = vsd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
 		}
@@ -1182,7 +1186,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		}
 		else if ( dataset != null )
 		{
-			for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+			for ( Iterator<?> iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
 					.iterator( ); iter.hasNext( ); )
 			{
 				ColumnHintHandle element = (ColumnHintHandle) iter.next( );
