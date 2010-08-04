@@ -372,4 +372,58 @@ public class JavascriptEvalUtil
 		return s == null ? s : "\"" + transformToJsConstants( s ) + "\"";
 	}
 	
+	public static String evaluateJsConstants( String js )
+	{
+		if( js == null )
+			return null;
+		String result = js.substring( 1, js.length( ) - 1 );
+		StringBuffer buffer = new StringBuffer( );
+		int length = result.length( );
+		int index = 0;
+		while( index < length )
+		{
+			char c = result.charAt( index );
+			if( c == '\\' )
+			{
+				index++;
+				if( index < length )
+				{
+					char nc = result.charAt( index );
+					switch ( nc )
+					{
+						case '\\' :
+							buffer.append( '\\' );
+							break;
+						case 'b' :
+							buffer.append( '\b' );
+							break;
+						case 't' :
+							buffer.append( '\t' );
+							break;
+						case 'n' :
+							buffer.append( '\n' );
+							break;
+						case 'f' :
+							buffer.append( '\f' );
+							break;
+						case 'r' :
+							buffer.append( '\r' );
+							break;
+						case '"' :
+							buffer.append( '\"' );
+							break;
+						default :
+							buffer.append( c );
+					}
+				}
+			}
+			else
+			{
+				buffer.append( c );
+			}
+			index++;
+		}
+		return buffer.toString( );
+	}
+	
 }
