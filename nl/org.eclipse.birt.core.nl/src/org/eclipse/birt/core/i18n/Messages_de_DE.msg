@@ -9,6 +9,9 @@ CONVERT_FAILS=Wert von "{0}" kann nicht in Typ "{1}" umgewandelt werden.
 
 birt.core.JavascriptCommonError=Fehler beim Auswerten von Skript '{0}':\n{1}.
 birt.core.JavascriptError=Beim Evaluieren des Javascript-Ausdrucks ist ein Fehler aufgetreten. Skript-Engine-Fehler: {0}\n Skriptquelle: {1}, Zeile: {2}, Text:\n{3}
+birt.core.Javascript.parameterNotExist=Report parameter "{0}" does not exist.
+birt.core.Javascript.variableNotExist=Report variable "{0}" does not exist.
+birt.core.Javascript.nativeNotFound={0} not found.
 birt.core.BirtComp.invalidRegularExpression=Invalid regular expression.
 
 error.NoSuchScriptExtension = Skript-Erweiterung nicht vorhanden: {0}.
