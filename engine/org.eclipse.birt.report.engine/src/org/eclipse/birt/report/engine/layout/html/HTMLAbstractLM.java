@@ -283,7 +283,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		CSSValue pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
 		if ( IStyle.ALWAYS_VALUE == pageBreak ||
 				IStyle.RIGHT_VALUE == pageBreak ||
-				IStyle.LEFT_VALUE == pageBreak )
+				IStyle.LEFT_VALUE == pageBreak ||
+				IStyle.SOFT_VALUE == pageBreak )
 		{
 			// style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
 			// IStyle.AUTO_VALUE );

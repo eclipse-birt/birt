@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.w3c.dom.css.CSSValue;
@@ -40,23 +41,8 @@ public class TableBandExecutor extends StyledItemExecutor
 		
 		initializeContent( bandDesign, bandContent );
 		int type = bandDesign.getBandType( );
-		if ( ( type == TableBandDesign.BAND_DETAIL || type == TableBandDesign.GROUP_HEADER )
-				&& tableExecutor.needSoftBreakBefore( ) )
-		{
-			IStyle style = content.getStyle( );
-			if ( style != null )
-			{
-				CSSValue pageBreak = style
-						.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-				if ( pageBreak == null || IStyle.AUTO_VALUE.equals( pageBreak ) )
-				{
-					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-							IStyle.SOFT_VALUE );
-				}
-			}
-		}
 		startTOCEntry( bandContent );
-		
+		handlePageBreakInterval( );
 		// prepare to execute the row in the band
 		currentRow = 0;
 
@@ -64,6 +50,32 @@ public class TableBandExecutor extends StyledItemExecutor
 				tableExecutor.rowId );
 		
 		return content;
+	}
+	
+	protected void handlePageBreakInterval()
+	{
+		if ( tableExecutor.breakOnDetailBand )
+		{
+			BandDesign band = (BandDesign) design;
+			if(band.getBandType( )==BandDesign.BAND_DETAIL)
+			{
+				tableExecutor.next( );
+				if(tableExecutor.needSoftBreakAfter( ))
+				{
+					IStyle style = content.getStyle( );
+					if ( style != null )
+					{
+						CSSValue pageBreak = style
+								.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
+						if ( pageBreak == null || IStyle.AUTO_VALUE.equals( pageBreak ) )
+						{
+							style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+									IStyle.SOFT_VALUE );
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void close( ) throws BirtException

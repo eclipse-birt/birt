@@ -40,7 +40,7 @@ public class ListGroupExecutor extends GroupExecutor
 		handlePageBreakAfterOfGroup( );		
 		handlePageBreakAfterOfPreviousGroup( );
 		handlePageBreakBefore();
-		
+		handlePageBreakInterval();
 		if ( context.isInFactory( ) )
 		{
 			handleOnCreate( groupContent );

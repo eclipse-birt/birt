@@ -41,6 +41,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	
 	protected int pageBreakInterval = -1;
 	
+	protected int pageBreakLevel = -1;
+	
+	protected boolean breakOnDetailBand = false;
+	
 	/**
 	 * @param context
 	 *            execution context
@@ -56,14 +60,42 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			IContent content )
 	{
 		super.initializeContent( design, content );
-		if ( isPageBreakIntervalValid( (ListingDesign) design ) )
+		pageBreakInterval = ( (ListingDesign) design )
+				.getPageBreakInterval( );
+		pageBreakLevel = getPageBreakIntervalGroup();
+		breakOnDetailBand = pageBreakIntervalOnDetail( );
+		if ( pageBreakInterval > 0 )
 		{
-			pageBreakInterval = ( (ListingDesign) design )
-					.getPageBreakInterval( );
-			if ( pageBreakInterval > 0 )
+			context.addPageBreakListener( this );
+		}
+	}
+	
+	protected int getPageBreakIntervalGroup()
+	{
+		ListingDesign listing = (ListingDesign) design ;
+		int groupCount = listing.getGroupCount( );
+		if ( groupCount > 0 )
+		{
+			for ( int i = 0; i < groupCount; i++ )
 			{
-				context.addPageBreakListener( this );
+				if ( listing.getGroup( i ).getHideDetail( ) )
+				{
+					return i ;
+				}
 			}
+			if ( design instanceof TableItemDesign )
+			{
+				TableHandle handle = (TableHandle) design.getHandle( );
+				if ( handle.isSummaryTable( ) )
+				{
+					return groupCount-1;
+				}
+			}
+			return groupCount;
+		}
+		else
+		{
+			return -1;
 		}
 	}
 
@@ -129,20 +161,37 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		// band to be executed
 		currentElement = 0;
 		endOfListing = false;
+		breakOnDetailBand = false;
+		pageBreakLevel = -1;
 		super.close( );
 	}
 	
-	void nextRow()
+	void next( )
 	{
-		if(pageBreakInterval>0)
+		if ( pageBreakInterval > 0 )
 		{
 			pageRowCount++;
 		}
 	}
 	
-	boolean needSoftBreakBefore()
+	boolean needSoftBreakAfter( )
 	{
-		return (pageBreakInterval>0) && (pageBreakInterval<=pageRowCount);
+		return ( pageBreakInterval > 0 )
+				&& ( pageBreakInterval <= pageRowCount );
+	}
+	
+	boolean pageBreakIntervalOnDetail()
+	{
+		if ( pageBreakInterval > 0 )
+		{
+			ListingDesign listing = (ListingDesign) design;
+			int groupCount = listing.getGroupCount( );
+			if ( groupCount == pageBreakLevel || groupCount == 0 )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public boolean hasNextChild( )
@@ -175,7 +224,6 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				}
 				if ( rset.next( ) )
 				{
-					nextRow( );
 					collectExecutableElements( );
 					if ( currentElement < totalElements )
 					{

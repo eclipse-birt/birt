@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.w3c.dom.css.CSSValue;
 
 abstract public class GroupExecutor extends ReportItemExecutor
 {
@@ -84,7 +85,6 @@ abstract public class GroupExecutor extends ReportItemExecutor
 				}
 				if ( rset.next( ) )
 				{
-					listingExecutor.nextRow( );
 					collectExecutableElements( );
 					if ( currentElement < totalElements )
 					{
@@ -346,6 +346,30 @@ abstract public class GroupExecutor extends ReportItemExecutor
 				content.getStyle( ).setProperty(
 						IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE );
 				pList.needPageBreak = false;
+			}
+		}
+	}
+	
+	protected void handlePageBreakInterval( )
+	{
+		GroupDesign groupDesign = (GroupDesign) design;
+		if ( groupDesign.getGroupLevel( ) == listingExecutor.pageBreakLevel )
+		{
+			listingExecutor.next( );
+			if ( listingExecutor.needSoftBreakAfter( ) )
+			{
+				IStyle style = content.getStyle( );
+				if ( style != null )
+				{
+					CSSValue pageBreak = style
+							.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
+					if ( pageBreak == null
+							|| IStyle.AUTO_VALUE.equals( pageBreak ) )
+					{
+						style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+								IStyle.SOFT_VALUE );
+					}
+				}
 			}
 		}
 	}

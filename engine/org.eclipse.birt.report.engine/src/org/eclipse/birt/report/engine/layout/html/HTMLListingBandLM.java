@@ -116,6 +116,10 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 			{
 				return true;
 			}
+			if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_AFTER ) ))
+			{
+				return true;
+			}
 			IElement listContent = band.getParent( );
 			if ( listContent instanceof IListContent )
 			{
@@ -129,6 +133,10 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 		else if ( type == IBandContent.BAND_GROUP_HEADER )
 		{
 			if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ))
+			{
+				return true;
+			}
+			if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_AFTER ) ))
 			{
 				return true;
 			}

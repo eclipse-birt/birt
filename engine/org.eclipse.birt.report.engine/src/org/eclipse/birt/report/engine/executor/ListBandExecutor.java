@@ -38,28 +38,40 @@ public class ListBandExecutor extends StyledItemExecutor
 		initializeContent( bandDesign, bandContent );
 
 		int type = bandDesign.getBandType( );
-		if ( ( type == BandDesign.BAND_DETAIL || type == BandDesign.GROUP_HEADER )
-				&& listExecutor.needSoftBreakBefore( ) )
-		{
-			IStyle style = content.getStyle( );
-			if ( style != null )
-			{
-				CSSValue pageBreak = style
-						.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-				if ( pageBreak == null || IStyle.AUTO_VALUE.equals( pageBreak ) )
-				{
-					style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-							IStyle.SOFT_VALUE );
-				}
-			}
-		}
-
+		
 		startTOCEntry( bandContent );
-
+		handlePageBreakInterval( );
 		// prepare to execute the children
 		currentItem = 0;
 
 		return bandContent;
+	}
+	
+	protected void handlePageBreakInterval( )
+	{
+		if ( listExecutor.breakOnDetailBand )
+		{
+			BandDesign band = (BandDesign) design;
+			if ( band.getBandType( ) == BandDesign.BAND_DETAIL )
+			{
+				listExecutor.next( );
+				if ( listExecutor.needSoftBreakAfter( ) )
+				{
+					IStyle style = content.getStyle( );
+					if ( style != null )
+					{
+						CSSValue pageBreak = style
+								.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
+						if ( pageBreak == null
+								|| IStyle.AUTO_VALUE.equals( pageBreak ) )
+						{
+							style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+									IStyle.SOFT_VALUE );
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void close( ) throws BirtException
