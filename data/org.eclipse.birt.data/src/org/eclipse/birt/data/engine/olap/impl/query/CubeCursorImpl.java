@@ -43,6 +43,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -334,11 +335,22 @@ public class CubeCursorImpl implements ICubeCursor
 		
 		if ( !validBindingSet.contains( arg0 ) )
 		{
-			if ( arg0.equals( ScriptConstants.OUTER_RESULT_KEYWORD ) && this.outerResults!= null )
-				return this.outerResults;
-			
-			throw new OLAPException( ResourceConstants.NO_OUTER_RESULTS_EXIST );
-
+			if ( arg0.equals( ScriptConstants.OUTER_RESULT_KEYWORD ) )
+			{
+				if ( this.outerResults != null )
+				{
+					return this.outerResults;
+				}
+				else
+				{
+					throw new OLAPException( ResourceConstants.NO_OUTER_RESULTS_EXIST );
+				}
+			}
+			else
+			{
+				throw new OLAPException( DataResourceHandle.getInstance( ).getMessage( 
+						ResourceConstants.COLUMN_BINDING_NOT_EXIST, new String[]{arg0} ));
+			}
 		}
 		else
 		{
