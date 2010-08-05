@@ -3851,7 +3851,9 @@ Error.SemanticError.TABLE_NO_COLUMN_FOUND = 열을 찾을 수 없으므로 테이블의 너비�
 Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = 인덱스 {0}에 열의 너비가 정의되지 않았으므로 테이블의 너비를 계산할 수 없습니다.
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = 테이블에 백분율이 아닌 절대 단위 및 상대 단위를 사용한 열이 다수 포함되어 있으므로 테이블의 너비를 계산할 수 없습니다.
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = 테이블에 서로 다른 상대 단위를 사용한 열이 다수 포함되어 있으므로 테이블의 너비를 계산할 수 없습니다.
-Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = 백분율을 사용한 열의 너비 합이 100% 이상이므로 테이블의 너비를 계산할 수 없습니다. 
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%.
+Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=The report item "{0}" cannot specify cube or data set since outer report item may define different cube or data set and multi-view. 
+
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=대상 라이브러리에 중복된 요소 이름이 있습니다. 요소 {0}을(를) 내보낼 수 없습니다. 내보낸 요소 이름을 변경하십시오.
 

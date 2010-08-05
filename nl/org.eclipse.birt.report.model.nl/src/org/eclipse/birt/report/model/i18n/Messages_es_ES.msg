@@ -3851,7 +3851,9 @@ Error.SemanticError.TABLE_NO_COLUMN_FOUND = El ancho de la tabla no se puede cal
 Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = El ancho de la tabla no se puede calcular porque el ancho de la columna del índice {0} no está definido.
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = El ancho de la tabla no se puede calcular porque contiene varias columnas con unidades absolutas y relativas distintas del porcentaje.
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = El ancho de la tabla no se puede calcular porque contiene varias columnas con distintas unidades relativas.
-Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = El ancho de la tabla no se puede calcular porque la suma del ancho de las columnas en valores de porcentaje es superior o igual a 100%. 
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%.
+Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=The report item "{0}" cannot specify cube or data set since outer report item may define different cube or data set and multi-view. 
+
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Nombre de elemento duplicado en la librería de destino, no es posible exportar el elemento {0}. Cambie el nombre del elemento exportado.
 

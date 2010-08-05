@@ -3851,7 +3851,9 @@ Error.SemanticError.TABLE_NO_COLUMN_FOUND = 列が見つからないため、テーブルの幅を
 Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = インデックス {0} の列の幅が定義されていないため、テーブルの幅を計算できません。
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = テーブルに、割合以外の絶対単位および相対単位の複数の列が含まれているため、幅を計算できません。
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = テーブルに、異なる相対単位の複数の列が含まれているため、幅を計算できません。
-Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = 列幅の割合の合計が 100% 以上であるため、テーブルの幅を計算できません。 
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%.
+Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=The report item "{0}" cannot specify cube or data set since outer report item may define different cube or data set and multi-view. 
+
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=ターゲットライブラリで要素名が重複しています。要素 {0} をエクスポートできません。エクスポートされた要素名を変更してください。
 
