@@ -341,7 +341,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				ArrayList choices = new ArrayList( );
 				String pattern = parameter.getPattern( );
 				ReportParameterConverter converter = new ReportParameterConverter( pattern,
-						ulocale );
+						ulocale,
+						timeZone );
 				if ( result instanceof Collection )
 				{
 					Iterator iter = ( (Collection) result ).iterator( );
@@ -492,7 +493,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				pattern = tmpParam.getPattern( );
 			}
 			ReportParameterConverter converter = new ReportParameterConverter( pattern,
-					ulocale );
+					ulocale,
+					timeZone );
 			while ( iter.hasNext( ) )
 			{
 
