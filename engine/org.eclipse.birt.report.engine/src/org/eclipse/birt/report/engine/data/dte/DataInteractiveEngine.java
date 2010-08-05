@@ -129,7 +129,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			String queryId = info[2];
 			String rsetId = info[3];
 			String rowId = info[4];
-			removeMetaInfo( pRsetId, queryId );
+			removeMetaInfo( pRsetId, queryId, rsetId );
 		}
 		for ( int i = 0; i < metaInfo.size( ); i++ )
 		{
@@ -138,6 +138,39 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 		newMetaInfo.clear( );
 		metaInfo.clear( );
+	}
+	
+	protected void removeMetaInfo(String parendId, String queryId, String rsetId)
+	{
+		Iterator<String[]> iter = metaInfo.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String[] info = iter.next( );
+			String pId = info[0];
+			String qId = info[2];
+			String rsId = info[3];
+			if ( queryId.equals( qId )
+					&& rsetId.equals( rsId ) && equals(parendId, pId) )
+			{
+				iter.remove( );
+			}
+		}
+	}
+	
+	protected boolean equals( String orginal, String destination )
+	{
+		if ( orginal == null )
+		{
+			if ( destination == null )
+			{
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			return orginal.equals( destination );
+		}
 	}
 	
 	protected void removeMetaInfo( String parentId, String queryId )
