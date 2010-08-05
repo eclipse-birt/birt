@@ -55,6 +55,7 @@
                         <property name="pattern">test number pattern</property>
                     </structure>
                     <property name="indexColumn">false</property>                                
+                    <property name="compressed">false</property>
                 </structure>
             </list-property>
             <list-property name="filter">

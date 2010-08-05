@@ -281,6 +281,12 @@ public class ColumnHint extends PropertyStructure
 	 * Name of the member that indicates whether the column should be generated with index.
 	 */
 	public static final String INDEX_COLUMN_MEMBER = "indexColumn"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the member that indicates whether the column needs to be compressed.  
+	 */
+	public static final String COMPRESSED_MEMBER = "compressed" ; //$NON-NLS-1$
+	
 	/*
 	 * (non-Javadoc)
 	 * 

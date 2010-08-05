@@ -785,4 +785,31 @@ public class ColumnHintHandle extends StructureHandle
 	{
 		setProperty( ColumnHint.INDEX_COLUMN_MEMBER, indexColumn );
 	}
+
+	/**
+	 * Gets the flag which indicates whether the column needs to be compressed.
+	 * 
+	 * @return true if the column needs to be compressed, otherwise false.
+	 */
+	public boolean isCompressed( )
+	{
+		Boolean compressed = (Boolean) getProperty( ColumnHint.COMPRESSED_MEMBER );
+		if ( compressed != null )
+		{
+			return compressed.booleanValue( );
+		}
+		return false;
+	}
+
+	/**
+	 * Sets the flag which indicates whether the column needs to be compressed.
+	 * 
+	 * @param compressed
+	 *            the new flag to set
+	 * @throws SemanticException
+	 */
+	public void setCompresssed( boolean compressed ) throws SemanticException
+	{
+		setProperty( ColumnHint.COMPRESSED_MEMBER, compressed );
+	}
 }

@@ -262,6 +262,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 
 		columnHintHandle.setAnalysisColumn( "new analysis column" ); //$NON-NLS-1$
 		columnHintHandle.setIndexColumn( false );
+		columnHintHandle.setCompresssed( false );
 
 		NumberFormatValue numberFormat = new NumberFormatValue( );
 		numberFormat
@@ -495,6 +496,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 				.getPattern( ) );
 
 		assertTrue( columnHintHandle.isIndexColumn( ) );
+		assertTrue( columnHintHandle.isCompressed( ) );
 		// Test "filter" on DataSet
 
 		ArrayList filters = (ArrayList) dataSet
