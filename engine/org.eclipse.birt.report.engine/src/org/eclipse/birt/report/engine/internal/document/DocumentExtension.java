@@ -219,7 +219,7 @@ public class DocumentExtension
 			}
 			current = current.next;
 			
-		} while ( current.next != null );
+		} while ( current != null );
 
 		// add a new segment after current segment.
 		assert ( ext.contentId > current.endId + 1 );
