@@ -903,4 +903,23 @@ class SessionHandleImpl
 		return null;
 	}
 
+	/**
+	 * Returns the provider instance which provides the absolute dimension value
+	 * of predefined font size choice.
+	 * <ul>
+	 * <li><code>FONT_SIZE_XX_SMALL</code>
+	 * <li><code>FONT_SIZE_X_SMALL</code>
+	 * <li><code>FONT_SIZE_SMALL</code>
+	 * <li><code>FONT_SIZE_MEDIUM</code>
+	 * <li><code>FONT_SIZE_LARGE</code>
+	 * <li><code>FONT_SIZE_X_LARGE</code>
+	 * <li><code>FONT_SIZE_XX_LARGE</code>
+	 * </ul>
+	 * 
+	 * @return the instance of <code>IAbsoluteFontSizeValueProvider</code>
+	 */
+	public IAbsoluteFontSizeValueProvider getPredefinedFontSizeProvider( )
+	{
+		return session.getPredefinedFontSizeProvider( );
+	}
 }

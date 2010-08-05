@@ -36,7 +36,7 @@ public class DefaultAbsoluteFontSizeValueProvider
 
 	private static DefaultAbsoluteFontSizeValueProvider instance = new DefaultAbsoluteFontSizeValueProvider( );
 
-	private static final DimensionValue xxSmall = new DimensionValue( 6,
+	private static final DimensionValue xxSmall = new DimensionValue( 7,
 			DesignChoiceConstants.UNITS_PX );
 	private static final DimensionValue xSmall = new DimensionValue( 8,
 			DesignChoiceConstants.UNITS_PX );
@@ -46,9 +46,9 @@ public class DefaultAbsoluteFontSizeValueProvider
 			DesignChoiceConstants.UNITS_PX );
 	private static final DimensionValue large = new DimensionValue( 14,
 			DesignChoiceConstants.UNITS_PX );
-	private static final DimensionValue xLarge = new DimensionValue( 16,
+	private static final DimensionValue xLarge = new DimensionValue( 17,
 			DesignChoiceConstants.UNITS_PX );
-	private static final DimensionValue xxLarge = new DimensionValue( 18,
+	private static final DimensionValue xxLarge = new DimensionValue( 20,
 			DesignChoiceConstants.UNITS_PX );
 
 	/**
