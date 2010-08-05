@@ -3498,6 +3498,7 @@ SchematicContextMenuProvider.Menu.Theme=布景主题(&M)
 SchematicContextMenuProvider.Menu.Theme.Apply=应用布景主题(&P)
 SchematicContextMenuProvider.Menu.Layout=布局首选项(&A)
 #SchematicContextMenuProvider.menutitle.applystylerule=Apply Style
+#SchematicContextMenuProvider.menutitle.applythemerule=&Apply Theme
 #SchematicContextMenuProvider.menutitle.editgroup=Edit Group
 #SchematicContextMenuProvider.menutitle.insert=Insert
 #SchematicContextMenuProvider.menutitle.list=List
