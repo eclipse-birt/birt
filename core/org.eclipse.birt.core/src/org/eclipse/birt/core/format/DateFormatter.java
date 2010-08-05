@@ -426,12 +426,11 @@ public class DateFormatter
 			{
 				this.dateTimeFormat.setTimeZone( timeZone );
 			}
-			/*
+			
 			if ( this.timeFormat != null )
 			{
 				this.timeFormat.setTimeZone( timeZone );
 			}
-			*/
 		}
 	}
 	
