@@ -40,6 +40,8 @@ Element.Direction.Horizontal=水平
 Element.Direction.Vertical=垂直
 Element.choice.before=之前
 Element.choice.after=之后
+Element.RowPageBreakInterval=Row page break interval
+Element.ColumnPageBreakInterval=Column page break interval
 
 Method.onPrepare=准备时
 Method.onCreate=创建时
@@ -114,6 +116,8 @@ CrosstabReportItemHandle.error.set.column.width=设置交叉表列宽时出错
 CrosstabReportItemHandle.error.set.row.height=设置交叉表行高时出错
 CrosstabReportItemHandle.msg.change.measure.direction=更改度量方向
 CrosstabReportItemHandle.msg.insert.measure=插入度量
+CrosstabReportItemHandle.exception.name.blank=Name is required for ComputedMeasure.
+CrosstabReportItemHandle.exception.name.duplicate=The measure name specified is already used and can not duplicate.
 
 MeasureViewHandle.info.aggregation.already.exist=请求的聚合已存在。
 MeasureViewHandle.msg.add.aggregation=添加聚合

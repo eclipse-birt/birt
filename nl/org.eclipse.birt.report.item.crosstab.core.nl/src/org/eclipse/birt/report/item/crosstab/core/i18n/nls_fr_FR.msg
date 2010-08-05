@@ -40,6 +40,8 @@ Element.Direction.Horizontal=Horizontal
 Element.Direction.Vertical=Vertical
 Element.choice.before=Avant
 Element.choice.after=Après
+Element.RowPageBreakInterval=Row page break interval
+Element.ColumnPageBreakInterval=Column page break interval
 
 Method.onPrepare=A la préparation
 Method.onCreate=A la création
@@ -114,6 +116,8 @@ CrosstabReportItemHandle.error.set.column.width=Erreur lors de la définition de 
 CrosstabReportItemHandle.error.set.row.height=Erreur lors de la définition de la hauteur des lignes du tableau croisé
 CrosstabReportItemHandle.msg.change.measure.direction=Modifier la direction de la mesure
 CrosstabReportItemHandle.msg.insert.measure=Insérer une mesure
+CrosstabReportItemHandle.exception.name.blank=Name is required for ComputedMeasure.
+CrosstabReportItemHandle.exception.name.duplicate=The measure name specified is already used and can not duplicate.
 
 MeasureViewHandle.info.aggregation.already.exist=L'agrégation requise existe déjà.
 MeasureViewHandle.msg.add.aggregation=Ajouter l'agrégation

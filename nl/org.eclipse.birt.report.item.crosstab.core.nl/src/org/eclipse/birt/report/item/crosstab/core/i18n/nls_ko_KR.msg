@@ -40,6 +40,8 @@ Element.Direction.Horizontal=가로
 Element.Direction.Vertical=세로
 Element.choice.before=이전
 Element.choice.after=이후
+Element.RowPageBreakInterval=Row page break interval
+Element.ColumnPageBreakInterval=Column page break interval
 
 Method.onPrepare=준비 시
 Method.onCreate=생성 시
@@ -114,6 +116,8 @@ CrosstabReportItemHandle.error.set.column.width=크로스 탭 열 너비 설정 중 오류 �
 CrosstabReportItemHandle.error.set.row.height=크로스 탭 행 높이 설정 중 오류 발생
 CrosstabReportItemHandle.msg.change.measure.direction=측정값 방향 변경
 CrosstabReportItemHandle.msg.insert.measure=측정값 삽입
+CrosstabReportItemHandle.exception.name.blank=Name is required for ComputedMeasure.
+CrosstabReportItemHandle.exception.name.duplicate=The measure name specified is already used and can not duplicate.
 
 MeasureViewHandle.info.aggregation.already.exist=요청된 집계가 이미 있습니다.
 MeasureViewHandle.msg.add.aggregation=집계 추가
