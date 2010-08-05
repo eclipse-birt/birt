@@ -132,21 +132,6 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		fdcFont.setLayoutData( gdFDCFont );
 		fdcFont.addListener( this );
 
-		// new Label( cmpBasic, SWT.NONE );
-		//
-		// Label lblTooltip = new Label( cmpBasic, SWT.NONE );
-		// {
-		// lblTooltip.setText( Messages.getString(
-		// "ChartTitleSheetImpl.Label.Tooltip" ) ); //$NON-NLS-1$
-		// }
-		//
-		// btnTooltip = new Button( cmpBasic, SWT.PUSH );
-		// {
-		// btnTooltip.setImage( UIHelper.getImage( "icons/obj16/tooltip.gif" )
-		// ); //$NON-NLS-1$
-		// btnTooltip.addSelectionListener( this );
-		// }
-
 		createButtonGroup( cmpContent );
 	}
 
@@ -158,6 +143,13 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 			Interactivity interactivity = InteractivityImpl.create( );
 			interactivity.eAdapters( ).addAll( getChart( ).eAdapters( ) );
 			getChart( ).setInteractivity( interactivity );
+		}
+
+		// If auto title is not supported, it should be set non-auto so title
+		// can be editable.
+		if ( !isAutoEnabled( ) && getChart( ).getTitle( ).isAuto( ) )
+		{
+			getChart( ).getTitle( ).setAuto( false );
 		}
 	}
 
@@ -268,14 +260,6 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 			txtTitle.setEnabled( isTitleEnabled( ) );
 			txtTitle.setText( getTitleText( ) );
 		}
-		// else if ( e.widget.equals( btnTooltip ) )
-		// {
-		// new TooltipDialog( cmpContent.getShell( ),
-		// getChart( ).getTitle( ).getTriggers( ),
-		// getContext( ),
-		// Messages.getString( "ChartTitleSheetImpl.Title.Tooltip" ), false,
-		// true ).open( ); //$NON-NLS-1$
-		// }
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
