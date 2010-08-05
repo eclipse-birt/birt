@@ -841,6 +841,7 @@ ChartLegendSheetImpl.Label.ShowValue=値の表示(&H)
 ChartPlotSheetImpl.Label.Background=背景 (&K):
 ChartPlotSheetImpl.Label.Background2=背景(&G) :
 ChartPlotSheetImpl.Label.ClientArea=クライアント領域
+ChartTitleSheetImpl.Text.Auto=自動(&A)
 ChartTitleSheetImpl.Text.TitleLayout=タイトルのレイアウト
 ChartTitleSheetImpl.Text.Layout&=レイアウト(&L)
 ChartTitleSheetImpl.Text.TitleText=タイトルテキスト

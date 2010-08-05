@@ -841,6 +841,7 @@ ChartLegendSheetImpl.Label.ShowValue=Wert an&zeigen
 ChartPlotSheetImpl.Label.Background=&Hintergrund:
 ChartPlotSheetImpl.Label.Background2=Hinter&grund:
 ChartPlotSheetImpl.Label.ClientArea=Client-Fläche
+ChartTitleSheetImpl.Text.Auto=&Auto
 ChartTitleSheetImpl.Text.TitleLayout=Titellayout
 ChartTitleSheetImpl.Text.Layout&=&Layout
 ChartTitleSheetImpl.Text.TitleText=Titeltext

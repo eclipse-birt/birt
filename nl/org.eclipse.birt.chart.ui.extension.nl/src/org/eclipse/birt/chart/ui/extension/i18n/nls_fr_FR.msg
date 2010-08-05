@@ -841,6 +841,7 @@ ChartLegendSheetImpl.Label.ShowValue=Affic&her la valeur
 ChartPlotSheetImpl.Label.Background=A&rrière-plan :
 ChartPlotSheetImpl.Label.Background2=Arrière-p&lan :
 ChartPlotSheetImpl.Label.ClientArea=Zone client
+ChartTitleSheetImpl.Text.Auto=&Automatique
 ChartTitleSheetImpl.Text.TitleLayout=Mise en page du titre
 ChartTitleSheetImpl.Text.Layout&=&Mise en page
 ChartTitleSheetImpl.Text.TitleText=Texte du titre

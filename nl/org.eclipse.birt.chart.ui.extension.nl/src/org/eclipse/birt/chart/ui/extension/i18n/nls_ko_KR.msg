@@ -841,6 +841,7 @@ ChartLegendSheetImpl.Label.ShowValue=값 표시(&H)
 ChartPlotSheetImpl.Label.Background=배경(&K):
 ChartPlotSheetImpl.Label.Background2=배경(&G):
 ChartPlotSheetImpl.Label.ClientArea=클라이언트 영역
+ChartTitleSheetImpl.Text.Auto=자동(&A)
 ChartTitleSheetImpl.Text.TitleLayout=제목 레이아웃
 ChartTitleSheetImpl.Text.Layout&=레이아웃(&L)
 ChartTitleSheetImpl.Text.TitleText=제목 텍스트

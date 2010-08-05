@@ -841,6 +841,7 @@ ChartLegendSheetImpl.Label.ShowValue=显示值(&H)
 ChartPlotSheetImpl.Label.Background=背景(&K):
 ChartPlotSheetImpl.Label.Background2=背景(&G):
 ChartPlotSheetImpl.Label.ClientArea=客户区域
+ChartTitleSheetImpl.Text.Auto=自动(&A)
 ChartTitleSheetImpl.Text.TitleLayout=标题布局
 ChartTitleSheetImpl.Text.Layout&=布局(&L)
 ChartTitleSheetImpl.Text.TitleText=标题文本
