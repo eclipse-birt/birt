@@ -141,6 +141,7 @@ load.factory.error=データエンジンのファクトリを読み込めません。
 
 # Wrapped Error
 data.engine.DataConversionError=データ型を変換中にエラーが発生しました。
+data.engine.BadCompareExpr=Can not compare "{0}" with "{1}".
 data.engine.BadCompareSingleValueWithMultiValues=1 つの値を [{0}] の複数の値と比較するフィルタ条件が無効であるため、フィルタを適用できません。\nこのフィルタでは値を 1 つだけ設定してください。
 data.engine.BirtException=BIRT で例外 {0} が発生しました。詳しくは、次の例外を参照してください。
 

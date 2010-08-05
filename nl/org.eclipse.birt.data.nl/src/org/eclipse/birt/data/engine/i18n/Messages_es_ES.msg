@@ -141,6 +141,7 @@ load.factory.error=Hay un error al cargar la fábrica del motor de datos.
 
 # Wrapped Error
 data.engine.DataConversionError=Se ha producido un error en la conversión del tipo de datos.
+data.engine.BadCompareExpr=Can not compare "{0}" with "{1}".
 data.engine.BadCompareSingleValueWithMultiValues=Error al aplicar el filtro debido a una condición de filtro no válido de comparación de un solo valor con múltiples valores de [{0}].\nEstablezca sólo un valor para este filtro.
 data.engine.BirtException=Se ha producido una excepción BIRT: {0}. Consulte la siguiente excepción para obtener más información.
 

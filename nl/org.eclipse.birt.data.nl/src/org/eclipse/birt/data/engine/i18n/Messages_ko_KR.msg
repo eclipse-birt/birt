@@ -141,6 +141,7 @@ load.factory.error=데이터 엔진 팩토리 로드 중 오류가 발생했습니다.
 
 # Wrapped Error
 data.engine.DataConversionError=데이터 형식을 변환하는 중 오류가 발생했습니다.
+data.engine.BadCompareExpr=Can not compare "{0}" with "{1}".
 data.engine.BadCompareSingleValueWithMultiValues=[{0}]의 단일 값과 복수 값을 비교하는 잘못된 필터 조건으로 인해 필터를 적용할 수 없습니다.\n이 필터에 대해 하나의 값만 설정하십시오.
 data.engine.BirtException=BIRT 예외 {0}이(가) 발생했습니다. 자세한 내용은 다음 예외를 참조하십시오.
 

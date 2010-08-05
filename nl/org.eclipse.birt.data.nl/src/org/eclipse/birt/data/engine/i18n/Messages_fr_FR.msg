@@ -141,6 +141,7 @@ load.factory.error=Une erreur s'est produite lors du chargement de la génération
 
 # Wrapped Error
 data.engine.DataConversionError=Une erreur s'est produite lors de la conversion du type de données.
+data.engine.BadCompareExpr=Can not compare "{0}" with "{1}".
 data.engine.BadCompareSingleValueWithMultiValues=Echec de l'application du filtre, car la condition de filtre est incorrecte (une valeur unique est comparée avec des valeurs multiples de [{0}]).\nNe définissez qu'une seule valeur pour ce filtre.
 data.engine.BirtException=Une exception BIRT est survenue : {0}. Voir l''exception suivante pour plus d''informations.
 

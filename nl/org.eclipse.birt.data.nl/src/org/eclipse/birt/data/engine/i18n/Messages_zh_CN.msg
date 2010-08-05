@@ -141,6 +141,7 @@ load.factory.error=加载数据引擎工厂时出错。
 
 # Wrapped Error
 data.engine.DataConversionError=转换数据类型时出错。
+data.engine.BadCompareExpr=Can not compare "{0}" with "{1}".
 data.engine.BadCompareSingleValueWithMultiValues=由于将单个值与 [{0}] 的多个值比较的筛选条件无效，无法应用筛选器。\n请为此筛选器只设置一个值。
 data.engine.BirtException=发生 BIRT 异常：{0}。查看下一个异常以了解更多信息。
 
