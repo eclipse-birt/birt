@@ -96,7 +96,7 @@ data.engine.LinkedReportParamAllowMultiValues=ÔÊĞí¶à¸öÖµµÄ±¨±í²ÎÊı¡°{0}¡±²»ÄÜÓÃÓ
 data.engine.EmptyBindingName=°ó¶¨Ãû³Æ²»ÄÜÎª¿Õ¡£ 
 data.engine.InvalidBoundColumnName=ÎŞĞ§µÄ°ó¶¨ÁĞÃû³Æ: {0}¡£
 data.engine.InvalidGroupKey=×é {1} ÖĞµÄ×é¹Ø¼ü×Ö¡°{0}¡±²»ÄÜÒÀÀµÓÚÔÚµÍÓÚ×ÔÉíµÄ×éÖĞ¶¨ÒåµÄÁĞ°ó¶¨¡£ 
-data.engine.ColumnBindingNotExist=ÁĞ°ó¶¨¡°{0}¡±²»´æÔÚ¡£
+data.engine.ColumnBindingNotExist=Binding "{0}" does not exist.
 data.engine.ColumnBindingCycle=°ó¶¨¡°{0}¡±¾ßÓĞÏà¹ØĞÔÑ­»·¡£ 
 data.engine.ColumnBindingReferToInexistColumn=ÁĞ°ó¶¨¡°{0}¡±ÒıÓÃÁËÒ»¸ö²»´æÔÚµÄ°ó¶¨¡°{1}¡±¡£
 data.engine.ColumnBindingReferToInexistBinding=ÁĞ°ó¶¨¡°{0}¡±ÒıÓÃÁËÒ»¸ö²»´æÔÚµÄÊı¾İ¼¯ÁĞ¡°{1}¡±¡£
@@ -220,7 +220,11 @@ data.engine.errorHappenWhenRetrieveResultSet=·ÃÎÊ½á¹û¼¯¡°{0}¡±Ê±³ö´í¡£Ö¸¶¨µÄ½á¹û
 data.engine.invalidAggregationBindingForPLSReport=ÆôÓÃÒ³Ãæ¼¶±ğ°²È«Ê±£¬¾ÛºÏ°ó¶¨¡°{0}¡±ÎŞĞ§¡£
 
 data.engine.acl.dataSetCannotBeAccessed=ÎŞ·¨·ÃÎÊÊı¾İ¼¯¡°{0}¡±¡£
-data.engine.acl.dataSetColumnCannotBeAccessed=ÎŞ·¨·ÃÎÊÄ³Ğ©Êı¾İ¼¯¡£
+data.engine.acl.dataSetColumnCannotBeAccessed=Data set column "{0}" cannot be accessed.
+data.engine.acl.cubeCannotBeAccessed=User does not have permission to access this cube "{0}"
+data.engine.acl.cubeLevelCannotBeAccessed=User does not have permission to access this level "{0}"
+data.engine.acl.cubeMeasureCannotBeAccessed=User does not have permission to access this measure "{0}"
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=ÁĞÃû³Æ²»ÄÜÎª¿Õ»ò null¡£
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

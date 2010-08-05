@@ -96,7 +96,7 @@ data.engine.LinkedReportParamAllowMultiValues=Der Berichtparameter "{0}", der me
 data.engine.EmptyBindingName=Bindungsname darf nicht Null oder leer sein. 
 data.engine.InvalidBoundColumnName=Ungültiger Name für gebundene Spalte: {0}.
 data.engine.InvalidGroupKey=Gruppenschlüssel "{0}" in Gruppe {1} darf nicht von Spaltenbindungen abhängen, die in einer geringeren Gruppe als der eigenen Gruppe definiert wurden. 
-data.engine.ColumnBindingNotExist=Die Spaltenbindung "{0}" existiert nicht.
+data.engine.ColumnBindingNotExist=Binding "{0}" does not exist.
 data.engine.ColumnBindingCycle=Bindung "{0}" hat einen Abhängigkeitszyklus. 
 data.engine.ColumnBindingReferToInexistColumn=Spaltenbindung "{0}" hat auf eine Bindung "{1}" verwiesen, die nicht existiert.
 data.engine.ColumnBindingReferToInexistBinding=Spaltenbindung "{0}" hat auf eine Datensatzspalte "{1}" verwiesen, die nicht existiert.
@@ -220,7 +220,11 @@ data.engine.errorHappenWhenRetrieveResultSet=Fehler beim Abrufen von Ergebnis "{
 data.engine.invalidAggregationBindingForPLSReport=Aggregatsbindung '{0}' ist bei aktivierter Seitenebenensicherheit ungültig.
 
 data.engine.acl.dataSetCannotBeAccessed=Zugriff auf Datensatz '{0}' nicht möglich.
-data.engine.acl.dataSetColumnCannotBeAccessed=Zugriff auf einige Datensatzspalten nicht möglich.
+data.engine.acl.dataSetColumnCannotBeAccessed=Data set column "{0}" cannot be accessed.
+data.engine.acl.cubeCannotBeAccessed=User does not have permission to access this cube "{0}"
+data.engine.acl.cubeLevelCannotBeAccessed=User does not have permission to access this level "{0}"
+data.engine.acl.cubeMeasureCannotBeAccessed=User does not have permission to access this measure "{0}"
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

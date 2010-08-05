@@ -96,7 +96,7 @@ data.engine.LinkedReportParamAllowMultiValues=복수 값을 허용하는 보고서 매개 변�
 data.engine.EmptyBindingName=바인딩 이름은 널(null)이거나 비워 둘 수 없습니다. 
 data.engine.InvalidBoundColumnName=잘못된 바인딩된 열 이름: {0}.
 data.engine.InvalidGroupKey={1} 그룹의 "{0}" 그룹 키를 하위 그룹에 정의된 열 바인딩에 종속시킬 수 없습니다. 
-data.engine.ColumnBindingNotExist=열 바인딩 "{0}"이(가) 없습니다.
+data.engine.ColumnBindingNotExist=Binding "{0}" does not exist.
 data.engine.ColumnBindingCycle="{0}" 바인딩에 종속 사이클이 형성되어 있습니다. 
 data.engine.ColumnBindingReferToInexistColumn=열 바인딩 "{0}"이(가) 존재하지 않는 바인딩 "{1}"을(를) 참조합니다.
 data.engine.ColumnBindingReferToInexistBinding=열 바인딩 "{0}"이(가) 존재하지 않는 데이터 집합 열 "{1}"을(를) 참조합니다.
@@ -220,7 +220,11 @@ data.engine.errorHappenWhenRetrieveResultSet=결과 집합 "{0}"을(를) 확인하는 중에
 data.engine.invalidAggregationBindingForPLSReport=페이지 수준 보안을 사용하는 경우 집계 바인딩 "{0}"을(를) 사용할 수 없습니다.
 
 data.engine.acl.dataSetCannotBeAccessed=데이터 집합 "{0}"에 액세스할 수 없습니다.
-data.engine.acl.dataSetColumnCannotBeAccessed=일부 데이터 집합 열에 액세스할 수 없습니다.
+data.engine.acl.dataSetColumnCannotBeAccessed=Data set column "{0}" cannot be accessed.
+data.engine.acl.cubeCannotBeAccessed=User does not have permission to access this cube "{0}"
+data.engine.acl.cubeLevelCannotBeAccessed=User does not have permission to access this level "{0}"
+data.engine.acl.cubeMeasureCannotBeAccessed=User does not have permission to access this measure "{0}"
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
