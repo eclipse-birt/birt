@@ -38,9 +38,10 @@ QueryHelper.Text.CategroySeries=Serie de categoría
 QueryHelper.Text.ValueSeries=Serie del valor
 QueryHelper.Text.XSeries=Serie X
 QueryHelper.Text.YSeries=Serie Y
-
-SeriesQueries.NoDataDefinitionFor=No existen entradas de definición de datos para {0}
-SeriesQueries.dataDefnUndefined=No se ha definido una entrada de definición de datos para {0}.
+QueryHelper.NoDataDefinitionFor=No existen entradas de definición de datos para {0}
+QueryHelper.dataDefnUndefined=No se ha definido una entrada de definición de datos para {0}.
+QueryHelper.InconsitentDataTypesForAxis=All data definitions in the same Y axis should be the same data type.
+QueryHelper.InconsitentDataTypesForValueSeries=All data definitions in value series should be the same data type.
 
 ChartElementCommandImpl.editChart=Editar diagrama
 ChartElementCommandImpl.setProperty.chart.dimension=Establecer dimensión

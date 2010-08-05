@@ -38,9 +38,10 @@ QueryHelper.Text.CategroySeries=범주 계열
 QueryHelper.Text.ValueSeries=값 계열
 QueryHelper.Text.XSeries=X 계열
 QueryHelper.Text.YSeries=Y 계열
-
-SeriesQueries.NoDataDefinitionFor={0}에 대한 데이터 정의 항목이 없습니다.
-SeriesQueries.dataDefnUndefined={0}에 대한 데이터 정의 항목이 정의되지 않았습니다.
+QueryHelper.NoDataDefinitionFor={0}에 대한 데이터 정의 항목이 없습니다.
+QueryHelper.dataDefnUndefined={0}에 대한 데이터 정의 항목이 정의되지 않았습니다.
+QueryHelper.InconsitentDataTypesForAxis=All data definitions in the same Y axis should be the same data type.
+QueryHelper.InconsitentDataTypesForValueSeries=All data definitions in value series should be the same data type.
 
 ChartElementCommandImpl.editChart=차트 편집
 ChartElementCommandImpl.setProperty.chart.dimension=차원 설정

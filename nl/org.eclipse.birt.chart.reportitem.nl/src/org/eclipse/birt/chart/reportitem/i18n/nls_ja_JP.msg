@@ -38,9 +38,10 @@ QueryHelper.Text.CategroySeries=カテゴリ系列
 QueryHelper.Text.ValueSeries=値系列
 QueryHelper.Text.XSeries=X 系列
 QueryHelper.Text.YSeries=Y 系列
-
-SeriesQueries.NoDataDefinitionFor={0} には、データ定義エントリがありません。
-SeriesQueries.dataDefnUndefined={0} のデータ定義エントリが指定されていません。
+QueryHelper.NoDataDefinitionFor={0} には、データ定義エントリがありません。
+QueryHelper.dataDefnUndefined={0} のデータ定義エントリが指定されていません。
+QueryHelper.InconsitentDataTypesForAxis=All data definitions in the same Y axis should be the same data type.
+QueryHelper.InconsitentDataTypesForValueSeries=All data definitions in value series should be the same data type.
 
 ChartElementCommandImpl.editChart=グラフの編集
 ChartElementCommandImpl.setProperty.chart.dimension=ディメンジョンの設定
