@@ -84,7 +84,6 @@ public class InputParameterDialog extends BaseDialog
 	private List params;
 	private Map paramValues = new HashMap( );
 	private List<IParameterAdapter> paramAdatpers = new ArrayList( );
-	private Map dynamicParamValues = new HashMap( );
 	private List isRequiredParameters = new ArrayList( );
 	private List dataTypeCheckList = new ArrayList( );
 
@@ -339,7 +338,7 @@ public class InputParameterDialog extends BaseDialog
 
 			if ( value != null )
 			{
-				input.setText( formatString( value, param ));
+				input.setText( formatString( value, param ) );
 			}
 		}
 		else if ( param instanceof RadioParameter )
@@ -348,14 +347,15 @@ public class InputParameterDialog extends BaseDialog
 			Object value = null;
 			dataTypeCheckList.add( radioParameter );
 
-//			try
-//			{
-//				value = radioParameter.converToDataType( radioParameter.getDefaultValue( ) );
-//			}
-//			catch ( BirtException e )
-//			{
-//			}
-			if (radioParameter.getDefaultValue( ) != null)
+			// try
+			// {
+			// value = radioParameter.converToDataType(
+			// radioParameter.getDefaultValue( ) );
+			// }
+			// catch ( BirtException e )
+			// {
+			// }
+			if ( radioParameter.getDefaultValue( ) != null )
 			{
 				value = radioParameter.getDefaultObject( );
 			}
@@ -467,7 +467,8 @@ public class InputParameterDialog extends BaseDialog
 		return container;
 	}
 
-	private void checkParam( final String defaultValueLabel, final Object defaultValue, List list )
+	private void checkParam( final String defaultValueLabel,
+			final Object defaultValue, List list )
 	{
 		if ( !performed )
 		{
@@ -476,12 +477,12 @@ public class InputParameterDialog extends BaseDialog
 			{
 				try
 				{
-					Object obj =  ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( );
-					if (obj == null)
+					Object obj = ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( );
+					if ( obj == null )
 					{
 						continue;
 					}
-					if (obj.equals( defaultValue ) )
+					if ( obj.equals( defaultValue ) )
 					{
 						contains = true;
 						break;
@@ -550,9 +551,11 @@ public class InputParameterDialog extends BaseDialog
 			list.add( blankValueChoice );
 		}
 		list.addAll( listParam.getValueList( ) );
-		
-		checkParam( formatString( listParam.getDefaultValue( ), listParam),listParam.getDefaultObject( ), list );
-		
+
+		checkParam( formatString( listParam.getDefaultValue( ), listParam ),
+				listParam.getDefaultObject( ),
+				list );
+
 		if ( !isRequired )
 		{
 			boolean hasNull = false;
@@ -606,7 +609,7 @@ public class InputParameterDialog extends BaseDialog
 			value = listParam.getDefaultObject( );
 			for ( int i = 0; i < combo.getItemCount( ); i++ )
 			{
-				if ( value.equals( combo.getData( combo.getItem( i ) ) ))
+				if ( value.equals( combo.getData( combo.getItem( i ) ) ) )
 				{
 					combo.select( i );
 					paramValues.put( listParam.getHandle( ).getName( ),
@@ -749,8 +752,10 @@ public class InputParameterDialog extends BaseDialog
 			list.add( blankValueChoice );
 		}
 		list.addAll( listParam.getValueList( ) );
-		checkParam( formatString( listParam.getDefaultValue( ), listParam),listParam.getDefaultObject( ), list );
-		
+		checkParam( formatString( listParam.getDefaultValue( ), listParam ),
+				listParam.getDefaultObject( ),
+				list );
+
 		if ( !isRequired )
 		{
 			list.add( InputParameterDialog.nullValueChoice );
@@ -870,7 +875,7 @@ public class InputParameterDialog extends BaseDialog
 	private void cascadingParamValueChanged( CascadingParameterGroup group,
 			ListingParameter listParam )
 	{
-		
+
 		clearPostParamList( group, listParam );
 		if ( postParamLists.containsKey( listParam )
 				&& paramValues.containsKey( listParam.getHandle( ).getName( ) ) )
@@ -878,16 +883,16 @@ public class InputParameterDialog extends BaseDialog
 			Object value = paramValues.get( listParam.getHandle( ).getName( ) );
 			listParam.setSelectionValue( value );
 			ListingParameter postParam = (ListingParameter) group.getPostParameter( listParam );
-			if (postParam == null)
+			if ( postParam == null )
 			{
 				return;
 			}
 			Control control = postParamLists.get( listParam );
-			setControlItems( control, new String[0] );
+			setControlItems( control, new String[0], true );
 			for ( Iterator iterator = postParam.getValueList( ).iterator( ); iterator.hasNext( ); )
 			{
 				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
-				if (choice.getValue( ) == null)
+				if ( choice.getValue( ) == null )
 				{
 					continue;
 				}
@@ -897,24 +902,53 @@ public class InputParameterDialog extends BaseDialog
 				{
 					addControlItem( control, label );
 					control.setData( label, choice.getValue( ) );
-				}	
+				}
 			}
-			
+
 			processPostParator( postParam, control );
-			
+
 			cascadingParamValueChanged( group, postParam );
 		}
 	}
 
-	private void setControlItems( Control control, String[] items )
+	private void setControlItems( Control control, String[] items,
+			boolean copyEmptyValues )
 	{
+
+		List list = new ArrayList( );
+		list.addAll( Arrays.asList( items ) );
+
 		if ( control instanceof Combo )
 		{
-			( (Combo) control ).setItems( items );
+			Combo combo = (Combo) control;
+			if ( copyEmptyValues )
+			{
+				if ( combo.indexOf( NULL_VALUE_STR ) > -1 )
+				{
+					list.add( 0, NULL_VALUE_STR );
+				}
+				if ( combo.indexOf( blankValueChoice.getLabel( ) ) > -1 )
+				{
+					list.add( 0, blankValueChoice.getLabel( ) );
+				}
+			}
+			( (Combo) control ).setItems( (String[]) list.toArray( new String[0] ) );
 		}
 		if ( control instanceof org.eclipse.swt.widgets.List )
 		{
-			( (org.eclipse.swt.widgets.List) control ).setItems( items );
+			org.eclipse.swt.widgets.List listControl = (org.eclipse.swt.widgets.List) control;
+			if ( copyEmptyValues )
+			{
+				if ( listControl.indexOf( NULL_VALUE_STR ) > -1 )
+				{
+					list.add( 0, NULL_VALUE_STR );
+				}
+				if ( listControl.indexOf( blankValueChoice.getLabel( ) ) > -1 )
+				{
+					list.add( 0, blankValueChoice.getLabel( ) );
+				}
+			}
+			( (org.eclipse.swt.widgets.List) control ).setItems( (String[]) list.toArray( new String[0] ) );
 		}
 	}
 
@@ -929,21 +963,21 @@ public class InputParameterDialog extends BaseDialog
 			( (org.eclipse.swt.widgets.List) control ).add( item );
 		}
 	}
-	
-	private void processPostParator(ListingParameter listParam,  Control control )
+
+	private void processPostParator( ListingParameter listParam, Control control )
 	{
 		Object value = paramValues.get( listParam.getHandle( ).getName( ) );
-		if (value == null)
+		if ( value == null )
 		{
 			return;
 		}
 		boolean found = false;
 		if ( control instanceof Combo )
 		{
-			Combo combo = (Combo)control;
+			Combo combo = (Combo) control;
 			for ( int i = 0; i < combo.getItemCount( ); i++ )
 			{
-				if ( value.equals( combo.getData( combo.getItem( i ) ) ))
+				if ( value.equals( combo.getData( combo.getItem( i ) ) ) )
 				{
 					combo.select( i );
 					paramValues.put( listParam.getHandle( ).getName( ),
@@ -953,15 +987,16 @@ public class InputParameterDialog extends BaseDialog
 					break;
 				}
 			}
-			if (!found)
+			if ( !found )
 			{
 				try
 				{
-					Object obj = listParam.converToDataType(listParam.getDefaultValue( ));
-					if (obj == null)
+					Object obj = listParam.converToDataType( listParam.getDefaultValue( ) );
+					if ( obj == null )
 					{
 						listParam.setSelectionValue( null );
-						paramValues.put( listParam.getHandle( ).getName( ), null );
+						paramValues.put( listParam.getHandle( ).getName( ),
+								null );
 					}
 					else
 					{
@@ -975,12 +1010,12 @@ public class InputParameterDialog extends BaseDialog
 				{
 					//
 				}
-			
+
 			}
 		}
 		if ( control instanceof org.eclipse.swt.widgets.List )
 		{
-			org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List)control;
+			org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) control;
 			List newValueList = new ArrayList( );
 			List oldvalueList = new ArrayList( );
 
@@ -995,8 +1030,7 @@ public class InputParameterDialog extends BaseDialog
 
 			for ( int i = 0; i < list.getItemCount( ); i++ )
 			{
-				Object item = list
-						.getData( list.getItem( i ) );
+				Object item = list.getData( list.getItem( i ) );
 				if ( oldvalueList.indexOf( item ) >= 0 )
 				{
 					list.select( i );
@@ -1006,8 +1040,7 @@ public class InputParameterDialog extends BaseDialog
 					// .getData( listViewer.getList( )
 					// .getItem( i ) )
 					// } );
-					newValueList.add( list
-							.getData( list.getItem( i ) ) );
+					newValueList.add( list.getData( list.getItem( i ) ) );
 				}
 			}
 			paramValues.put( listParam.getHandle( ).getName( ),
@@ -1020,7 +1053,7 @@ public class InputParameterDialog extends BaseDialog
 	{
 		if ( postParamLists.containsKey( param ) )
 		{
-			setControlItems( postParamLists.get( param ), new String[0] );
+			setControlItems( postParamLists.get( param ), new String[0], true );
 			clearPostParamList( group, group.getPostParameter( param ) );
 		}
 	}
@@ -1031,8 +1064,8 @@ public class InputParameterDialog extends BaseDialog
 			this.paramValues.put( adapter.getName( ), adapter.getValue( ) );
 		return this.paramValues;
 	}
-	
-	private String formatString(String str, ScalarParameter para)
+
+	private String formatString( String str, ScalarParameter para )
 	{
 		ScalarParameterHandle paraHandle = para.getHandle( );
 		String formatCategroy = paraHandle.getCategory( );
@@ -1046,13 +1079,14 @@ public class InputParameterDialog extends BaseDialog
 			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle( propHandle );
 			formatLocale = formatHandle.getLocale( );
 		}
-		if (formatLocale == null)
+		if ( formatLocale == null )
 		{
 			formatLocale = ULocale.getDefault( );
 		}
 		String type = paraHandle.getDataType( );
-		formatPattern = isCustom(formatCategroy ) ? formatPattern : formatCategroy;
-		if (formatPattern == null )
+		formatPattern = isCustom( formatCategroy ) ? formatPattern
+				: formatCategroy;
+		if ( formatPattern == null )
 		{
 			return str;
 		}
@@ -1067,19 +1101,19 @@ public class InputParameterDialog extends BaseDialog
 			{
 				formatPattern = formatPattern.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
 						: formatPattern;
-				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date)para.converToDataType(str) );
+				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date) para.converToDataType( str ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
 			{
 				formatPattern = formatPattern.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
 						: formatPattern;
-				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date)para.converToDataType(str) );
+				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date) para.converToDataType( str ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 			{
 				formatPattern = formatPattern.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
 						: formatPattern;
-				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date)para.converToDataType(str) );
+				formatStr = new DateFormatter( formatPattern, formatLocale ).format( (Date) para.converToDataType( str ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
 					|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
@@ -1093,16 +1127,18 @@ public class InputParameterDialog extends BaseDialog
 				formatStr = new NumberFormatter( formatPattern, formatLocale ).format( value );
 			}
 		}
-		catch (Exception e) {
+		catch ( Exception e )
+		{
 			formatStr = str;
 		}
-		if (formatStr == null)
+		if ( formatStr == null )
 		{
 			return str;
 		}
-		return  UIUtil.convertToGUIString( formatStr ) ;
+		return UIUtil.convertToGUIString( formatStr );
 	}
-	private boolean isCustom( String formatCategroy)
+
+	private boolean isCustom( String formatCategroy )
 	{
 		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
