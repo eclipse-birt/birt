@@ -60,6 +60,7 @@ public class DataSetIterator implements IDatasetIterator
 	private IResultIterator it;
 	private ResultMeta metadata;
 	private Calendar calendar;
+	private Calendar gmtCalendar;
 	private SecurityListener securityListener;
 	private long nullTime;
 	private String dimName;
@@ -611,7 +612,15 @@ public class DataSetIterator implements IDatasetIterator
 			}
 			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ) )
 			{
-				int month = getCalendar( d ).get( Calendar.MONTH );
+				int month = -1;
+				if( d instanceof java.sql.Date )
+				{
+					month = ((java.sql.Date) d).getMonth( );
+				}
+				else
+				{
+					month = getCalendar( d ).get( Calendar.MONTH );
+				}
 				int quarter = -1;
 				switch ( month )
 				{
