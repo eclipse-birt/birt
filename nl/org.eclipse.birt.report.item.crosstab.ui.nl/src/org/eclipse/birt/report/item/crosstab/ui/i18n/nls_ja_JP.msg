@@ -96,9 +96,9 @@ CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=ターゲット
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=グループレベル(&G) :
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを起動するには、ここをクリックしてしてください
 SortkeyBuilder.DialogTitle.Label.Direction=方向(&D) :
-SortkeyBuilder.Label.Locale=&Locale:
-SortkeyBuilder.Label.Strength=&Strength:
-SortkeyBuilder.Locale.Auto=Auto
+SortkeyBuilder.Label.Locale=ロケール(&L) :
+SortkeyBuilder.Label.Strength=優先順位(&S) : 
+SortkeyBuilder.Locale.Auto=自動
 
 ###########################################################
 #GrossTabPageGenerator properties

@@ -96,9 +96,9 @@ CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=目标
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=组级别(&G):
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=单击以调用表达式生成器
 SortkeyBuilder.DialogTitle.Label.Direction=方向(&D):
-SortkeyBuilder.Label.Locale=&Locale:
-SortkeyBuilder.Label.Strength=&Strength:
-SortkeyBuilder.Locale.Auto=Auto
+SortkeyBuilder.Label.Locale=区域设置(&L):
+SortkeyBuilder.Label.Strength=强度(&S):
+SortkeyBuilder.Locale.Auto=自动
 
 ###########################################################
 #GrossTabPageGenerator properties

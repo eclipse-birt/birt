@@ -96,8 +96,8 @@ CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Cible
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Niveau de &groupe :
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Cliquez ici pour appeler le Générateur d'expression
 SortkeyBuilder.DialogTitle.Label.Direction=&Direction :
-SortkeyBuilder.Label.Locale=&Locale:
-SortkeyBuilder.Label.Strength=&Strength:
+SortkeyBuilder.Label.Locale=&Local :
+SortkeyBuilder.Label.Strength=&Intensité :
 SortkeyBuilder.Locale.Auto=Auto
 
 ###########################################################
