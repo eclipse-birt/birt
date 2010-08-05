@@ -96,6 +96,15 @@ public class TOCStyleUtil
 
 	private String getDimension( DimensionHandle dimension )
 	{
+		if ( dimension != null )
+		{
+			return dimension.getStringValue( );
+		}
+		return null;
+	}
+	
+	private String getDimensionIfSet( DimensionHandle dimension )
+	{
 		if ( dimension != null && dimension.isSet( ) )
 		{
 			return dimension.getStringValue( );
@@ -155,7 +164,7 @@ public class TOCStyleUtil
 
 		style.setFontFamily( getFontFamily( handle.getFontFamilyHandle( ) ) );
 		style.setColor( getColor( handle.getColor( ) ) );
-		style.setFontSize( getDimension( handle.getFontSize( ) ) );
+		style.setFontSize( getDimensionIfSet( handle.getFontSize( ) ) );
 		style.setFontStyle( handle.getFontStyle( ) );
 		style.setFontWeight( handle.getFontWeight( ) );
 		style.setFontVariant( handle.getFontVariant( ) );
@@ -229,7 +238,7 @@ public class TOCStyleUtil
 
 		style.setFontFamily( getFontFamily( handle.getFontFamily( ) ) );
 		style.setColor( getColor( handle.getColor( ) ) );
-		style.setFontSize( getDimension( handle.getFontSize( ) ) );
+		style.setFontSize( getDimensionIfSet( handle.getFontSize( ) ) );
 		style.setFontStyle( handle.getFontStyle( ) );
 		style.setFontWeight( handle.getFontWeight( ) );
 		style.setFontVariant( handle.getFontVariant( ) );
