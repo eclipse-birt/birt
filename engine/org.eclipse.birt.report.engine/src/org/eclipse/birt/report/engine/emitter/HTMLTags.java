@@ -111,6 +111,7 @@ public class HTMLTags
     public static final String ATTR_COLUMN = "column" ; //$NON-NLS-1$
     public static final String ATTR_SUMMARY = "summary";//$NON-NLS-1$
     public static final String ATTR_REL = "rel";//$NON-NLS-1$
+	public static final String ATTR_RAW_DATA = "raw_data";//$NON-NLS-1$
 
     //tags in html
     public static final String TAG_IMAGE = "img" ; //$NON-NLS-1$

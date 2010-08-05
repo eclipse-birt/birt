@@ -55,6 +55,12 @@ public interface IMetadataFilter
 	 * "group-id" exists, the HTML emitter will output the group-id.
 	 */
 	public static final String KEY_OUTPUT_GOURP_ID = "group-id";
+	
+	/**
+	 * Output the raw_data or not. Only use the key, not the value. If the key
+	 * "raw_data" exists, the HTML emitter will output the raw_data.
+	 */
+	public static final String KEY_OUTPUT_RAW_DATA = "raw_data";
 
 	/**
 	 * It is used to judge what metadata properties need to be output.
