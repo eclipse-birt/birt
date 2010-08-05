@@ -158,7 +158,8 @@ public class ResultSetUtil
 								.getKeyValue( obs[i] );
 					}
 				}
-				else if( rsMeta.getFieldMetaData( i + 1 ).getDataType( ) == String.class )
+				else if( rsMeta.getFieldMetaData( i + 1 ).getDataType( ) == String.class
+						&& rsMeta.isCompressedColumn( i + 1 ) )
 				{
 					StringTable stringTable = null;
 					if( stringTableMap != null )

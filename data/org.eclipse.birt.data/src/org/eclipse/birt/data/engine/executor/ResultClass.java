@@ -171,10 +171,12 @@ public class ResultClass implements IResultClass
 				String dpdpName = IOUtil.readString( dis );
 				int analysistype = -1;
 				boolean indexColumn = false;
+				boolean isCompressedColumn = false;
 				if( version >= VersionManager.VERSION_2_5_2_0 )
 				{
 					analysistype = IOUtil.readInt( dis );
 					indexColumn = IOUtil.readBool( dis );
+					isCompressedColumn = IOUtil.readBool( dis );
 				}
 				ResultFieldMetadata metaData = new ResultFieldMetadata( driverPos,
 						name,
@@ -182,7 +184,8 @@ public class ResultClass implements IResultClass
 						Class.forName( dtName ),
 						ntName,
 						bool, analysistype,
-						indexColumn );
+						indexColumn,
+						isCompressedColumn );
 				metaData.setAnalysisType( analysistype );
 				metaData.setAlias( alias );
 				if ( dpdpName != null )
@@ -268,6 +271,7 @@ public class ResultClass implements IResultClass
 					{
 						IOUtil.writeInt( dos, column.getAnalysisType( ) );
 						IOUtil.writeBool( dos, column.isIndexColumn( ) );
+						IOUtil.writeBool( dos, column.isCompressedColumn( ) );
 					}
 					writeCount++;
 				}
@@ -518,6 +522,15 @@ public class ResultClass implements IResultClass
 	public boolean isIndexColumn( int index ) throws DataException
 	{
 		return this.projectedCols[index-1].isIndexColumn( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultClass#isCompressedColumn(int)
+	 */
+	public boolean isCompressedColumn(int index) throws DataException
+	{
+		return this.projectedCols[index-1].isCompressedColumn( );
 	}
 	
 }

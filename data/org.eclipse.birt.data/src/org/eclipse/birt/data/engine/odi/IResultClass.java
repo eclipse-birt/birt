@@ -186,6 +186,14 @@ public interface IResultClass
 	public boolean isIndexColumn( int index ) throws DataException;
 	
 	/**
+	 * Return whether the column should be compressed with string table.
+	 * @param index
+	 * @return
+	 * @throws DataException
+	 */
+	public boolean isCompressedColumn( int index ) throws DataException;
+	
+	/**
 	 * Indicate whether the column with given index is of Any type when the
 	 * result class is firstly set.
 	 * @param index

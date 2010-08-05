@@ -75,6 +75,12 @@ public interface IColumnDefinition
 	 */
 	public boolean isIndexColumn( );
 	
+	/**
+	 * Return whether this column need to be compressed.
+	 * @return
+	 */
+	public boolean isCompressedColumn( );
+	
     /**
      * Gets the column's native data type as defined by the underlying data source.
      * The native data type code value is implementation-specific.

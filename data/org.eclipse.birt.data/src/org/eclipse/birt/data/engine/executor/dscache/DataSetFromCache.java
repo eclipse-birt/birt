@@ -172,7 +172,8 @@ public class DataSetFromCache
 						rsMeta.getFieldNativeTypeName( i + 1 ),
 						rsMeta.isCustomField( i + 1 ),
 						rsMeta.getAnalysisType( i+1 ),
-						rsMeta.isIndexColumn( i + 1 ));
+						rsMeta.isIndexColumn( i + 1 ),
+						rsMeta.isCompressedColumn( i + 1 ) );
 				metadata.setAlias( rsMeta.getFieldAlias( i + 1 ) );
 				metadataList.add( metadata );
 				realColumnCount++;

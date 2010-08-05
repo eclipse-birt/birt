@@ -109,12 +109,12 @@ public class StreamWrapper
 		Map<String, StringTable> result = new HashMap<String, StringTable>( );
 		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
 		{
-			if ( resultClass.isIndexColumn( i ))
+			if ( resultClass.isIndexColumn( i ) || !resultClass.isCompressedColumn( i ) )
 				continue;
 			Class dataType = resultClass.getFieldValueClass( i );
-			String fieldName = resultClass.getFieldName( i );
 			if ( dataType == String.class )
 			{
+				String fieldName = resultClass.getFieldName( i );
 				StringTable stringTable = new StringTable( );
 				stringTable.setStreamManager( manager, fieldName );
 				result.put( fieldName, stringTable );

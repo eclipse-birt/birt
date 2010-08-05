@@ -30,6 +30,7 @@ public class ColumnDefinition implements IColumnDefinition
 	private int 		exportHint = DONOT_EXPORT;
 	private int         analysisType = -1;
 	private boolean		indexColumn;
+	private boolean		compressedColumn;
 	
 	/**
 	 * Construct a Column definition for a named column
@@ -180,5 +181,15 @@ public class ColumnDefinition implements IColumnDefinition
 	public void setIndexColumn( boolean indexColumn )
 	{
 		this.indexColumn = indexColumn;
+	}
+
+	public boolean isCompressedColumn()
+	{
+		return this.compressedColumn;
+	}
+	
+	public void setCompressedColumn( boolean compressedColumn )
+	{
+		this.compressedColumn = compressedColumn;
 	}
 }

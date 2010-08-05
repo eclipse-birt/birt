@@ -448,6 +448,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 							resultFieldMetadata.setAlias( columnDefinition.getAlias( ) );
 							resultFieldMetadata.setAnalysisType( columnDefinition.getAnalysisType( ) );
 							resultFieldMetadata.setIndexColumn( columnDefinition.isIndexColumn( ) );
+							resultFieldMetadata.setCompressedColumn( columnDefinition.isCompressedColumn( ) );
 							break;
 						}
 					}
@@ -493,7 +494,8 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						meta.getFieldValueClass( i ),
 						meta.getFieldNativeTypeName( i ),
 						false, meta.getAnalysisType( i ),
-						meta.isIndexColumn( i ) );
+						meta.isIndexColumn( i ),
+						meta.isCompressedColumn( i ) );
 				rfm.setAlias( meta.getFieldAlias( i ) );
 				projectedColumns.add( rfm );
 			}
