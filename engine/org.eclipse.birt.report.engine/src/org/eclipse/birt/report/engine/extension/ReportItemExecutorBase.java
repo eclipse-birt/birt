@@ -10,17 +10,17 @@ public abstract class ReportItemExecutorBase implements IReportItemExecutor
 	/**
 	 * IExecutorContext
 	 */
-	IExecutorContext executorContext;
+	protected IExecutorContext executorContext;
 
 	/**
 	 * model handle
 	 */
-	Object handle;
+	protected Object handle;
 
 	/**
 	 * parent executor
 	 */
-	IReportItemExecutor parent;
+	protected IReportItemExecutor parent;
 
 	public void setContext( IExecutorContext context )
 	{

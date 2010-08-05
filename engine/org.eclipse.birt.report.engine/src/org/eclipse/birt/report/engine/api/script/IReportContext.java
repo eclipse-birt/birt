@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.util.TimeZone;
@@ -256,6 +257,15 @@ public interface IReportContext
 	 * @throws BirtException
 	 */
 	Object evaluate( String language, String script ) throws BirtException;
+
+	/**
+	 * Evaluate the script.
+	 * 
+	 * @param script
+	 * @return
+	 * @throws BirtException
+	 */
+	Object evaluate( Expression script ) throws BirtException;
 
 	/**
 	 * get the application classLoader of the current report context

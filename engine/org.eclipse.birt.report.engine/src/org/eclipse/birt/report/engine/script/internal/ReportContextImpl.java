@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.text.MessageFormat;
@@ -241,5 +242,10 @@ public class ReportContextImpl implements IReportContext
 	public ClassLoader getApplicationClassLoader( )
 	{
 		return context.getApplicationClassLoader( );
+	}
+
+	public Object evaluate( Expression script ) throws BirtException
+	{
+		return context.evaluate( script );
 	}
 }
