@@ -99,15 +99,15 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			{
 					DesignChoiceConstants.FONT_SIZE_X_SMALL, "8"}, //$NON-NLS-1$ 
 			{
-					DesignChoiceConstants.FONT_SIZE_SMALL, "9"}, //$NON-NLS-1$ 
+					DesignChoiceConstants.FONT_SIZE_SMALL, "10"}, //$NON-NLS-1$ 
 			{
-					DesignChoiceConstants.FONT_SIZE_MEDIUM, "10"}, //$NON-NLS-1$  
+					DesignChoiceConstants.FONT_SIZE_MEDIUM, "12"}, //$NON-NLS-1$  
 			{
-					DesignChoiceConstants.FONT_SIZE_LARGE, "11"}, //$NON-NLS-1$  
+					DesignChoiceConstants.FONT_SIZE_LARGE, "14"}, //$NON-NLS-1$  
 			{
-					DesignChoiceConstants.FONT_SIZE_X_LARGE, "12"}, //$NON-NLS-1$ 
+					DesignChoiceConstants.FONT_SIZE_X_LARGE, "17"}, //$NON-NLS-1$ 
 			{
-					DesignChoiceConstants.FONT_SIZE_XX_LARGE, "13"}, //$NON-NLS-1$ 
+					DesignChoiceConstants.FONT_SIZE_XX_LARGE, "20"}, //$NON-NLS-1$ 
 	};
 
 	protected DesignElementHandle handle;
