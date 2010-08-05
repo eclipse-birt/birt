@@ -282,39 +282,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( !isGroupNameValidInContext( (String) value ) )
 				throw new NameException( element, (String) value,
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
-		}
-
-		// for the list/table, repeatHeader=true and ACLExpression cannot be set
-		// at the same time. should throw exception.
-
-		if ( element instanceof ListingElement )
-		{
-			String strConflict = null;
-			String toCheckProp = null;
-			if ( IListingElementModel.REPEAT_HEADER_PROP
-					.equalsIgnoreCase( propName )
-					&& ( value == null || ( (Boolean) value ).booleanValue( ) ) )
-			{
-				toCheckProp = IReportItemModel.ACL_EXPRESSION_PROP;
-				strConflict = element.getStringProperty( module, toCheckProp );
-			}
-			else if ( value != null
-					&& IReportItemModel.ACL_EXPRESSION_PROP
-							.equalsIgnoreCase( propName ) )
-			{
-				toCheckProp = IListingElementModel.REPEAT_HEADER_PROP;
-				Boolean conflictValue = element.getBooleanProperty( module,
-						toCheckProp );
-				if ( conflictValue.booleanValue( ) )
-					strConflict = conflictValue.toString( );
-			}
-
-			if ( strConflict != null )
-				throw new SemanticError( element, new String[]{
-						value == null ? null : value.toString( ), propName,
-						strConflict, toCheckProp},
-						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_VALUE );
-		}
+		}		
 
 		// Set the property.
 

@@ -2948,6 +2948,7 @@
     <PropertyVisibility name="viewAction" visibility="hide"/>
     <PropertyVisibility name="cascadeACL" visibility="hide"/>
     <PropertyVisibility name="ACLExpression" visibility="hide"/>  
+    <PropertyVisibility name="repeatHeader" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Listing" extends="ReportItem" isAbstract="true" name="Listing" nameSpace="none" since="1.0">
     <Property detailType="SortKey" displayNameID="Element.Listing.sorting" isList="true" name="sort" runtimeSettable="false" since="1.0" type="structure"/>
