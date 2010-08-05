@@ -82,6 +82,7 @@ Error.BindDataRetrivingError = 检索绑定数据错误。
 Error.DataSourceError = 数据集的数据源不能为空。
 Error.UnsupportedQueryDefinitionError = 不支持的查询定义 {0}。
 Error.ReportQueryLoadingError = 无法加载报表查询: {0}。
+Error.ReportQueryLoadingError2 = Can not load the report query: {0}. Errors occurred when generating the report document for the report element with ID {1}.
 Error.ExtentionIDMissingError = 数据源定义 {0} 中缺少扩展 ID。
 Error.DataExportionError = 未能按实例 ID 导出数据: {0}。
 Error.UnsupportedDocumentVersionError = 不支持的文档版本: {0}。

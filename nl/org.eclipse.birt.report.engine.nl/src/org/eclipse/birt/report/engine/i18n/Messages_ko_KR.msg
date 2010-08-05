@@ -82,6 +82,7 @@ Error.BindDataRetrivingError = 바인딩 데이터 검색 오류
 Error.DataSourceError = 데이터 집합의 데이터 원본은 널(null)일 수 없습니다.
 Error.UnsupportedQueryDefinitionError = 지원되지 않는 쿼리 정의 {0}
 Error.ReportQueryLoadingError = 보고서 쿼리를 로드할 수 없습니다: {0}.
+Error.ReportQueryLoadingError2 = Can not load the report query: {0}. Errors occurred when generating the report document for the report element with ID {1}.
 Error.ExtentionIDMissingError = 데이터 원본 정의 {0}에서 확장 ID가 누락되었습니다.
 Error.DataExportionError = 인스턴스 ID로 데이터를 내보내지 못했습니다: {0}.
 Error.UnsupportedDocumentVersionError = 지원되지 않는 문서 버전: {0}.

@@ -82,6 +82,7 @@ Error.BindDataRetrivingError = バインドデータの取得中にエラーが発生しました。
 Error.DataSourceError = データセットのデータソースは null にできません。
 Error.UnsupportedQueryDefinitionError = クエリ定義 {0} が無効です。
 Error.ReportQueryLoadingError = レポートクエリ {0} を読み込めません。
+Error.ReportQueryLoadingError2 = Can not load the report query: {0}. Errors occurred when generating the report document for the report element with ID {1}.
 Error.ExtentionIDMissingError = データソース {0} に拡張 ID が定義されていません。
 Error.DataExportionError = インスタンス ID {0} のデータをエクスポートできません。
 Error.UnsupportedDocumentVersionError = 文書のバージョン {0} がサポートされていません。

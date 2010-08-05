@@ -82,6 +82,7 @@ Error.BindDataRetrivingError = Récupération de l'erreur de liaison de données.
 Error.DataSourceError = La source de données du jeu de données ne peut pas être nulle.
 Error.UnsupportedQueryDefinitionError = Définition de requête non prise en charge {0}.
 Error.ReportQueryLoadingError = Impossible de charger la requête d'état : {0}.
+Error.ReportQueryLoadingError2 = Can not load the report query: {0}. Errors occurred when generating the report document for the report element with ID {1}.
 Error.ExtentionIDMissingError = ID d'extension manquant dans la définition de la source de données {0}.
 Error.DataExportionError = Echec de l'exportation des données par ID d'instance : {0}.
 Error.UnsupportedDocumentVersionError = N° de version du document non pris en charge : {0}.

@@ -82,6 +82,7 @@ Error.BindDataRetrivingError = Recuperando error de datos de enlace.
 Error.DataSourceError = La fuente de datos de un conjunto de datos no puede ser nula.
 Error.UnsupportedQueryDefinitionError = Definición de consulta no admitida {0}.
 Error.ReportQueryLoadingError = No se puede cargar la consulta de informe: {0}.
+Error.ReportQueryLoadingError2 = Can not load the report query: {0}. Errors occurred when generating the report document for the report element with ID {1}.
 Error.ExtentionIDMissingError = Falta el ID de extensión en la definición de la fuente de datos {0}.
 Error.DataExportionError = Error al exportar datos mediante ID de instancia: {0}.
 Error.UnsupportedDocumentVersionError = Versión de documento no admitida: {0}.
