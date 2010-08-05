@@ -4265,8 +4265,15 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 	}
 
+	private final static BigDecimal UPER_LIMIT = new BigDecimal( "1E9" ); //$NON-NLS-1$
 	public final DecimalFormat computeDecimalFormat( BigDecimal bdAxisValue, BigDecimal bdAxisStep)
 	{
+		if ( bdAxisValue.abs( ).compareTo( UPER_LIMIT ) >= 0
+				|| bdAxisStep.abs( ).compareTo( UPER_LIMIT ) >= 0 )
+		{
+			return info.cacheNumFormat.get( "0.0E0" ); //$NON-NLS-1$
+		}
+		
 		// Use a more precise pattern
 		String valuePattern;
 		String stepPattern;
