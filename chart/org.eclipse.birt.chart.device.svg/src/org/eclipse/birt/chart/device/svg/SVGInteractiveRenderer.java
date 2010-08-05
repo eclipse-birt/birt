@@ -942,6 +942,9 @@ public class SVGInteractiveRenderer
 				case ActionType.HIGHLIGHT :
 					sb = MultiActionValuesScriptGenerator.getVisualJS( sb, i, subAction.getValue( ), "BirtChartInteractivityActions.HIGHLIGHT" ); //$NON-NLS-1$ 
 					break;
+				case ActionType.SHOW_TOOLTIP :
+					sb = MultiActionValuesScriptGenerator.getVisualJS( sb, i, subAction.getValue( ), "BirtChartInteractivityActions.SHOW_TOOLTIP"); //$NON-NLS-1$ 
+					break;
 			}
 			i++;		
 		}

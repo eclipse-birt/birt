@@ -688,7 +688,9 @@ BirtChartActionsMenu.createMenu = function(evt, group, xOff, yOff, scl) {
 		height : 1,
 		width : 1,
 		fill : 'white',
-		transform : 'scale(' + (1 / scl) + ',' + (1 / scl) + ')'
+		transform : 'scale(' + (1 / scl) + ',' + (1 / scl) + ')',
+		onmouseover : 'BirtChartActionsMenu.onMouseOver( evt )',
+		onmouseout : 'BirtChartActionsMenu.onMouseOut( evt )'
 	});
 
 	rectangle.addToParent(group.element);
@@ -707,8 +709,8 @@ BirtChartActionsMenu.createMenuItem = function(evt, group, xOff, yOff, scl,
 		transform : 'scale(' + (1 / scl) + ',' + (1 / scl) + ')',
 		fill : 'white',
 		stroke : 'none',
-		onmouseover : 'BirtChartActionsMenu.onMouseOver(evt)',
-		onmouseout : 'BirtChartActionsMenu.onMouseOut(evt)',
+		onmouseover : 'BirtChartActionsMenu.onMouseOver( evt, ' + identify + ');',
+		onmouseout : 'BirtChartActionsMenu.onMouseOut( evt, ' + identify + ');',
 		onclick : 'BirtChartActionsMenu.executeMenuAction( evt, ' + identify + ');'
 	});
 
@@ -727,9 +729,9 @@ BirtChartActionsMenu.createTextItem = function(evt, group, xOff, yOff, scl,
 		y : yOff,
 		transform : 'scale(' + (1 / scl) + ',' + (1 / scl) + ')',
 		style : 'text-anchor:start; fill:black',
-		onmouseover : 'BirtChartActionsMenu.onMouseOver(evt)',
-		onmouseout : 'BirtChartActionsMenu.onMouseOut(evt)',
-		onclick : 'BirtChartActionsMenu.executeMenuAction(' + identify + ');'
+		onmouseover : 'BirtChartActionsMenu.onMouseOver( evt, ' + identify + ');',
+		onmouseout : 'BirtChartActionsMenu.onMouseOut( evt, ' + identify + ');',
+		onclick : 'BirtChartActionsMenu.executeMenuAction( evt, ' + identify + ');'
 	});
 
 	textObj.addToParent(group.element);
@@ -862,10 +864,13 @@ BirtChartActionsMenu.invokeScripts = function( scripts, evt, categoryData, value
 	eval( scripts );
 };
 
-BirtChartActionsMenu.onMouseOver = function(evt){
+BirtChartActionsMenu.onMouseOver = function(evt, identify){
     var target = evt.currentTarget;
-    if (target == null) 
-        return;
+    if (target == null) return;
+	try { window.clearTimeout(this.hideTimer); } catch (e) {};
+    if ( typeof identify == 'undefined' ) return;
+    var menuItemInfo = this.menuInfo.menuItems[identify];
+    if ( menuItemInfo.isTooltipItem( ) ) return;
     var id = target.id;
     if (id.substr(0, 'text_'.length) == 'text_') {
         var mainSvg = evt.target.ownerDocument;
@@ -874,8 +879,7 @@ BirtChartActionsMenu.onMouseOver = function(evt){
         var textStyle = BirtChartActionsMenu.getTextStyles(this.menuInfo.mouseOverStyles);
         SVGChartUtil.setStyles(target, textStyle);
         SVGChartUtil.setStyles(target.childNodes.item(0), textStyle);
-    }
-    else {
+    } else {
         var mainSvg = evt.target.ownerDocument;
         var menuComp = mainSvg.getElementById(id);
         var textComp = mainSvg.getElementById('text_' + id);
@@ -885,18 +889,17 @@ BirtChartActionsMenu.onMouseOver = function(evt){
         SVGChartUtil.setStyles(textComp.childNodes.item(0), textStyle);
     }
     BirtChartActionsMenu.showTooltip(evt);
-    try {
-        window.clearTimeout(this.hideTimer);
-    } 
-    catch (e) {
-    };
 };
 
-BirtChartActionsMenu.onMouseOut = function(evt){
+BirtChartActionsMenu.onMouseOut = function(evt, identify ){
     var target = evt.currentTarget;
-    if (target == null) 
-        return;
+    if (target == null) return;
+    try { TM.remove(); } catch (e) {};
+    this.hideTimer = window.setTimeout('BirtChartActionsMenu.remove();', 300);
+    if ( typeof identify == 'undefined' ) return;
     var id = target.id;
+    var menuItemInfo = this.menuInfo.menuItems[identify];
+    if ( menuItemInfo.isTooltipItem( ) ) return;
     if (id.substr(0, 'text_'.length) == 'text_') {
         var mainSvg = evt.target.ownerDocument;
         var menuComp = mainSvg.getElementById(id.substring('text_'.length, id.length));
@@ -904,8 +907,7 @@ BirtChartActionsMenu.onMouseOut = function(evt){
         var textStyle = BirtChartActionsMenu.getTextStyles(this.menuInfo.mouseOutStyles);
         SVGChartUtil.setStyles(target, textStyle);
         SVGChartUtil.setStyles(target.childNodes.item(0), textStyle);
-    }
-    else {
+    } else {
         var mainSvg = evt.target.ownerDocument;
         var menuComp = mainSvg.getElementById(id);
         var textComp = mainSvg.getElementById('text_' + id);
@@ -914,12 +916,6 @@ BirtChartActionsMenu.onMouseOut = function(evt){
         SVGChartUtil.setStyles(textComp, textStyle);
         SVGChartUtil.setStyles(textComp.childNodes.item(0), textStyle);
     }
-    try {
-        TM.remove();
-    } 
-    catch (e) {
-    };
-    this.hideTimer = window.setTimeout('BirtChartActionsMenu.remove();', 300);
 };
 
 BirtChartActionsMenu.getTextStyles = function(styles) {
@@ -1108,7 +1104,11 @@ BirtChartMenuItemInfo = function() {
 	this.actionType = undefined;
 	this.actionValue = undefined;
 };
+
 BirtChartMenuItemInfo.prototype = new Object();
+BirtChartMenuItemInfo.prototype.isTooltipItem = function() {
+	return ( this.actionType == BirtChartInteractivityActions.SHOW_TOOLTIP );
+}
 
 BirtChartInteractivityActions = function () {};
 BirtChartInteractivityActions.prototype = new Object();
@@ -1118,3 +1118,4 @@ BirtChartInteractivityActions.INVOKE_SCRIPTS = 2;
 BirtChartInteractivityActions.HIGHLIGHT = 3;
 BirtChartInteractivityActions.TOGGLE_VISIBILITY = 4;
 BirtChartInteractivityActions.TOGGLE_DATA_POINT_VISIBILITY = 5;
+BirtChartInteractivityActions.SHOW_TOOLTIP = 6;

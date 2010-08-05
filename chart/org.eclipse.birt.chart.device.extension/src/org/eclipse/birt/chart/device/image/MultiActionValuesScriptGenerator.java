@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.MenuStylesKeyType;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
+import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.MultipleActions;
@@ -155,6 +156,13 @@ public class MultiActionValuesScriptGenerator
 			{
 				sb = getScriptValueJS( sb, i, (ScriptValue) av );
 			}
+			else if ( av instanceof TooltipValue )
+			{
+				sb = getVisualJS( sb,
+						i,
+						av,
+						"BirtChartInteractivityActions.SHOW_TOOLTIP" ); //$NON-NLS-1$ 
+			}
 			i++;
 		}
 
@@ -196,8 +204,13 @@ public class MultiActionValuesScriptGenerator
 		{
 			sb.append( "\t mii = new BirtChartMenuItemInfo();" );//$NON-NLS-1$
 		}
-
-		sb.append( "\t mii.text = '" + av.getLabel( ).getCaption( ).getValue( ) + "';\n" );//$NON-NLS-1$//$NON-NLS-2$
+		
+		String text = av.getLabel( ).getCaption( ).getValue( );
+		if ( av instanceof TooltipValue )
+		{
+			text = ((TooltipValue)av).getText( );
+		}
+		sb.append( "\t mii.text = '" + text + "';\n" );//$NON-NLS-1$//$NON-NLS-2$
 		sb.append( "\t mii.actionType = " + scriptActionType + ";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		sb.append( "\t menuInfo.addItemInfo(mii);\n" ); //$NON-NLS-1$

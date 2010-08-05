@@ -245,13 +245,22 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		{
 			for ( Action subAction : ( (MultipleActions) action ).getActions( ) )
 			{
-				if ( subAction.getValue( ) instanceof URLValue )
-				{
-					generateURLValue( source, (URLValue) subAction.getValue( ) );
-				}
+				processActionImpl( subAction, source );
 			}
 		}
-		else if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
+		else
+		{
+			processActionImpl( action, source );
+		}
+	}
+
+	/**
+	 * @param action
+	 * @param source
+	 */
+	private void processActionImpl( Action action, StructureSource source )
+	{
+		if ( ActionType.URL_REDIRECT_LITERAL.equals( action.getType( ) ) )
 		{
 			if ( action.getValue( ) instanceof URLValue )
 			{
