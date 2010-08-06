@@ -40,6 +40,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -188,7 +189,7 @@ public class CubeDropAdapter implements IDropAdapter
 
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
-		stack.startTrans( "Create crosstab from Cube" ); //$NON-NLS-1$
+		stack.startTrans( Messages.getString( "InsertCubeInLayoutAction.action.message" ) ); //$NON-NLS-1$
 		CubeHandle cube = (CubeHandle) transfer;
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
