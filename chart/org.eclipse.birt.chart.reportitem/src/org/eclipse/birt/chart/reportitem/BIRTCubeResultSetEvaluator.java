@@ -104,13 +104,7 @@ public class BIRTCubeResultSetEvaluator extends
 		return breaks;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java
-	 * .lang.String)
-	 */
+	@Override
 	public Object evaluate( String expression )
 	{
 		Object result = null;
@@ -142,11 +136,11 @@ public class BIRTCubeResultSetEvaluator extends
 		}
 		catch ( OLAPException e )
 		{
-			logger.log( e );
+			result = e;
 		}
 		catch ( BirtException e )
 		{
-			logger.log( e );
+			result = e;
 		}
 		catch ( RuntimeException e )
 		{
@@ -155,27 +149,18 @@ public class BIRTCubeResultSetEvaluator extends
 			// Shared scale can be used to draw an axis. Runtime exception
 			// should be caught here to avoid stopping later rendering.
 			logger.log( e );
+			result = e;
 		}
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal
-	 * (java.lang.String)
-	 */
+	@Override
 	public Object evaluateGlobal( String expression )
 	{
 		return evaluate( expression );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
-	 */
+	@Override
 	public boolean next( )
 	{
 		iIndex++;
@@ -195,10 +180,7 @@ public class BIRTCubeResultSetEvaluator extends
 				subEdgeCursor.first( );
 				return mainEdgeCursor.next( );
 			}
-			else
-			{
-				return mainEdgeCursor.next( );
-			}
+			return mainEdgeCursor.next( );
 		}
 		catch ( OLAPException e )
 		{
@@ -207,11 +189,7 @@ public class BIRTCubeResultSetEvaluator extends
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
-	 */
+	@Override
 	public void close( )
 	{
 		if ( rs != null )
@@ -231,11 +209,7 @@ public class BIRTCubeResultSetEvaluator extends
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
-	 */
+	@Override
 	public boolean first( )
 	{
 		try
@@ -266,7 +240,6 @@ public class BIRTCubeResultSetEvaluator extends
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void initCubeCursor( ) throws OLAPException, BirtException
 	{
 		if ( cubeCursor == null )
@@ -297,7 +270,7 @@ public class BIRTCubeResultSetEvaluator extends
 		else
 		{
 			this.mainEdgeCursor = edges.get( 0 );
-			this.subEdgeCursor = edges.get( 1 );;
+			this.subEdgeCursor = edges.get( 1 );
 		}
 	}
 
@@ -312,10 +285,7 @@ public class BIRTCubeResultSetEvaluator extends
 		{
 			return (ICubeCursor) rs.getCubeCursor( );
 		}
-		else
-		{
-			return qr.getCubeCursor( );
-		}
+		return qr.getCubeCursor( );
 	}
 
 	public boolean needCategoryGrouping( )
