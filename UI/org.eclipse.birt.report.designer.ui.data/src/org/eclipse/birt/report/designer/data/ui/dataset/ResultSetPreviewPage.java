@@ -92,9 +92,8 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 	private transient Table resultSetTable = null;
 	private boolean modelChanged = true;
 	private boolean needsUpdateUI = true;
-	private int columnCount = -1;
 	private List recordList = null;
-	private DataSetViewData[] metaData;
+	private IResultMetaData metaData;
 	
 	private List errorList = new ArrayList();
 	private String[] columnBindingNames;
@@ -330,11 +329,14 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 					
 						AppContextPopulator.populateApplicationContext( dsHandle, appContext );
 						previewer.open( appContext, getEngineConfig( handle ) );
-						populateRecords( previewer.preview( ) );
+						IResultIterator itr = previewer.preview( ) ;
+						metaData = itr.getResultMetaData( );
+						populateRecords( itr );
 						monitor.done( );
 					}
 					catch ( BirtException e )
 					{
+						metaData = null;
 						throw new InvocationTargetException( e );
 					}
 					finally
@@ -481,24 +483,30 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		}
 		else
 		{
-			metaData = ( (DataSetEditor) this.getContainer( ) ).getCurrentItemModel( );
 			if ( metaData != null )
 				createColumns( metaData );
 			insertRecords( );
 		}
 	}
 
-	private void createColumns( DataSetViewData[] rsMd )
+	private void createColumns( IResultMetaData rsMd )
 	{
-		DataSetViewData[] columnsModel = rsMd;
 		TableColumn column = null;
 		TableLayout layout = new TableLayout( );
 
-		for ( int n = 0; n < rsMd.length; n++ )
+		for ( int n = 1; n <= rsMd.getColumnCount( ); n++ )
 		{
 			column = new TableColumn( resultSetTable, SWT.LEFT );
 
-			column.setText( getColumnDisplayName( columnsModel, n ) );
+			try
+			{
+				column.setText( rsMd.getColumnLabel( n ) );
+			}
+			catch ( BirtException e )
+			{
+				//this ExceptionHandler can show exception stacktrace
+				org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler.showException( resultSetTable.getShell( ), Messages.getString( "CssErrDialog.Error" ), e.getLocalizedMessage( ), e );
+			}
 			column.setResizable( true );
 			layout.addColumnData( new ColumnPixelData( 120, true ) );
 			addColumnSortListener( column, n );
