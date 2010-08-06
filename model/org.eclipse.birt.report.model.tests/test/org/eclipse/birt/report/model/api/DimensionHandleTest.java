@@ -508,9 +508,9 @@ public class DimensionHandleTest extends BaseTestCase
 		TextItemHandle textHandle3 = (TextItemHandle) designHandle
 				.findElement( "text3" ); //$NON-NLS-1$
 
-		assertEquals( "14px", freeFormHandle3.getDimensionProperty( //$NON-NLS-1$
+		assertEquals( "14pt", freeFormHandle3.getDimensionProperty( //$NON-NLS-1$
 				Style.FONT_SIZE_PROP ).getAbsoluteValue( ).toString( ) );
-		assertEquals( "70px", textHandle3.getDimensionProperty( //$NON-NLS-1$
+		assertEquals( "70pt", textHandle3.getDimensionProperty( //$NON-NLS-1$
 				Style.TEXT_INDENT_PROP ).getAbsoluteValue( ).toString( ) );
 
 		// textIndent is computed with the font size from default
@@ -520,9 +520,9 @@ public class DimensionHandleTest extends BaseTestCase
 		TextItemHandle textHandle4 = (TextItemHandle) designHandle
 				.findElement( "text4" ); //$NON-NLS-1$
 
-		assertEquals( "12px", freeFormHandle4.getDimensionProperty( //$NON-NLS-1$
+		assertEquals( "12pt", freeFormHandle4.getDimensionProperty( //$NON-NLS-1$
 				Style.FONT_SIZE_PROP ).getAbsoluteValue( ).toString( ) );
-		assertEquals( "36px", textHandle4.getDimensionProperty( //$NON-NLS-1$
+		assertEquals( "36pt", textHandle4.getDimensionProperty( //$NON-NLS-1$
 				Style.TEXT_INDENT_PROP ).getAbsoluteValue( ).toString( ) );
 
 		// textIndent is computed with the font size from form5
@@ -602,7 +602,7 @@ public class DimensionHandleTest extends BaseTestCase
 		fontSizeOnText.setStringValue( DesignChoiceConstants.FONT_SIZE_SMALL );
 		assertEquals( DesignChoiceConstants.FONT_SIZE_SMALL, fontSizeOnText
 				.getValue( ).toString( ) );
-		assertEquals( "10px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "10pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		// The absolute font size in container
 		fontSizeOnForm.setStringValue( "12px" ); //$NON-NLS-1$
@@ -624,58 +624,58 @@ public class DimensionHandleTest extends BaseTestCase
 		// The relative font size in container
 
 		fontSizeOnForm.setStringValue( "2em" ); //$NON-NLS-1$
-		assertEquals( "24px", fontSizeOnForm.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "24pt", fontSizeOnForm.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 		assertEquals( "2em", fontSizeOnForm.getValue( ).toString( ) ); //$NON-NLS-1$
 
 		fontSizeOnText.setStringValue( "2em" ); //$NON-NLS-1$
 		assertEquals( "2em", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
-		assertEquals( "48px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "48pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		fontSizeOnText.setStringValue( "3ex" ); //$NON-NLS-1$
 		assertEquals( "3ex", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
-		assertEquals( "36px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "36pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		fontSizeOnText.setStringValue( "50%" ); //$NON-NLS-1$
 		assertEquals( "50%", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
-		assertEquals( "12px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "12pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		// The no font size in container
 
 		fontSizeOnForm.setStringValue( null );
-		assertEquals( "12px", fontSizeOnForm.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "12pt", fontSizeOnForm.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FONT_SIZE_MEDIUM, fontSizeOnForm
 				.getValue( ).toString( ) );
 
 		fontSizeOnText.setStringValue( "2em" ); //$NON-NLS-1$
 		assertEquals( "2em", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
-		assertEquals( "24px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "24pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		fontSizeOnText.setStringValue( "3ex" ); //$NON-NLS-1$
 		assertEquals( "3ex", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
-		assertEquals( "18px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "18pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		fontSizeOnText.setStringValue( "50%" ); //$NON-NLS-1$
 		assertEquals( "50%", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
-		assertEquals( "6px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "6pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		// The font size constant in container
 
 		fontSizeOnForm.setStringValue( DesignChoiceConstants.FONT_SIZE_LARGE );
-		assertEquals( "14px", fontSizeOnForm.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "14pt", fontSizeOnForm.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FONT_SIZE_LARGE, fontSizeOnForm
 				.getValue( ).toString( ) );
 
 		fontSizeOnText.setStringValue( "2em" ); //$NON-NLS-1$
 		assertEquals( "2em", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
-		assertEquals( "28px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "28pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		fontSizeOnText.setStringValue( "3ex" ); //$NON-NLS-1$
 		assertEquals( "3ex", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
-		assertEquals( "21px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "21pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 		fontSizeOnText.setStringValue( "50%" ); //$NON-NLS-1$
 		assertEquals( "50%", fontSizeOnText.getValue( ).toString( ) ); //$NON-NLS-1$
-		assertEquals( "7px", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
+		assertEquals( "7pt", fontSizeOnText.getAbsoluteValue( ).toString( ) ); //$NON-NLS-1$
 
 	}
 

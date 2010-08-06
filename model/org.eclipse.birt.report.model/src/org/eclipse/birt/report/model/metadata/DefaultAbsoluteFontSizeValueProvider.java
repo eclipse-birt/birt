@@ -19,13 +19,13 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
  * Represents the default implementation for
  * <code>IAbsoluteFontSizeValueProvider</code>. This provider defines
  * <ul>
- * <li>xx-small = 6px
- * <li>x-small = 8px
- * <li>small = 10px
- * <li>medium = 12px
- * <li>large = 14px
- * <li>x-large = 16px
- * <li>xx-large = 18px
+ * <li>xx-small = 7pt
+ * <li>x-small = 8pt
+ * <li>small = 10pt
+ * <li>medium = 12pt
+ * <li>large = 14pt
+ * <li>x-large = 17pt
+ * <li>xx-large = 20pt
  * </ul>
  **/
 
@@ -37,19 +37,19 @@ public class DefaultAbsoluteFontSizeValueProvider
 	private static DefaultAbsoluteFontSizeValueProvider instance = new DefaultAbsoluteFontSizeValueProvider( );
 
 	private static final DimensionValue xxSmall = new DimensionValue( 7,
-			DesignChoiceConstants.UNITS_PX );
+			DesignChoiceConstants.UNITS_PT );
 	private static final DimensionValue xSmall = new DimensionValue( 8,
-			DesignChoiceConstants.UNITS_PX );
+			DesignChoiceConstants.UNITS_PT );
 	private static final DimensionValue small = new DimensionValue( 10,
-			DesignChoiceConstants.UNITS_PX );
+			DesignChoiceConstants.UNITS_PT );
 	private static final DimensionValue medium = new DimensionValue( 12,
-			DesignChoiceConstants.UNITS_PX );
+			DesignChoiceConstants.UNITS_PT );
 	private static final DimensionValue large = new DimensionValue( 14,
-			DesignChoiceConstants.UNITS_PX );
+			DesignChoiceConstants.UNITS_PT );
 	private static final DimensionValue xLarge = new DimensionValue( 17,
-			DesignChoiceConstants.UNITS_PX );
+			DesignChoiceConstants.UNITS_PT );
 	private static final DimensionValue xxLarge = new DimensionValue( 20,
-			DesignChoiceConstants.UNITS_PX );
+			DesignChoiceConstants.UNITS_PT );
 
 	/**
 	 * Returns the instance.
