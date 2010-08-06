@@ -2058,6 +2058,7 @@ Structure.ColumnHint.ACLExpression=Expresión ACL
 Structure.ColumnHint.analysisColumn=Columna de análisis
 Structure.ColumnHint.valueFormat=Formato del valor
 Structure.ColumnHint.indexColumn=Columna Índice
+Structure.ColumnHint.compressed=Compressed
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Opciones de selección
@@ -2714,7 +2715,7 @@ Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=Altura
 Element.ReportItem.width=Ancho
-Element.ReportItem.visibility=Visibilidad  
+Element.ReportItem.visibility=Visibilidad
 Element.ReportItem.paramBindings=Enlaces de parámetro  
 Element.ReportItem.refTemplateParameter=Definición de parámetro de plantilla a la que se hace referencia
 Element.ReportItem.boundDataColumns=Columnas de datos enlazados

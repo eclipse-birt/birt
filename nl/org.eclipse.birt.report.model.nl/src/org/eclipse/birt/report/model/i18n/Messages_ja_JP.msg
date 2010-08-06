@@ -2058,6 +2058,7 @@ Structure.ColumnHint.ACLExpression=ACL 式
 Structure.ColumnHint.analysisColumn=分析列
 Structure.ColumnHint.valueFormat=値の書式
 Structure.ColumnHint.indexColumn=インデックス列
+Structure.ColumnHint.compressed=Compressed
 
 #12. SelectionList Choice
 Structure.SelectionChoice=選択項目
@@ -2714,7 +2715,7 @@ Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=高さ
 Element.ReportItem.width=幅
-Element.ReportItem.visibility=可視性  
+Element.ReportItem.visibility=可視性
 Element.ReportItem.paramBindings=パラメタバインド  
 Element.ReportItem.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.ReportItem.boundDataColumns=バインドされたデータカラム

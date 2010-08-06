@@ -2058,6 +2058,7 @@ Structure.ColumnHint.ACLExpression=ACL 表达式
 Structure.ColumnHint.analysisColumn=分析列
 Structure.ColumnHint.valueFormat=值格式
 Structure.ColumnHint.indexColumn=索引列
+Structure.ColumnHint.compressed=Compressed
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项
@@ -2714,7 +2715,7 @@ Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=高度
 Element.ReportItem.width=宽度
-Element.ReportItem.visibility=可见性  
+Element.ReportItem.visibility=可见性
 Element.ReportItem.paramBindings=参数绑定  
 Element.ReportItem.refTemplateParameter=参考模板参数定义
 Element.ReportItem.boundDataColumns=绑定的数据列

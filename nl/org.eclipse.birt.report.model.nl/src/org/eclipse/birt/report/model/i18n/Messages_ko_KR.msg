@@ -2058,6 +2058,7 @@ Structure.ColumnHint.ACLExpression=ACL 식
 Structure.ColumnHint.analysisColumn=분석 열
 Structure.ColumnHint.valueFormat=값 형식
 Structure.ColumnHint.indexColumn=인덱스 열
+Structure.ColumnHint.compressed=Compressed
 
 #12. SelectionList Choice
 Structure.SelectionChoice=선택 영역 선택
@@ -2714,7 +2715,7 @@ Element.ReportItem.x=X
 Element.ReportItem.y=Y
 Element.ReportItem.height=높이
 Element.ReportItem.width=너비
-Element.ReportItem.visibility=표시 유형  
+Element.ReportItem.visibility=표시 유형
 Element.ReportItem.paramBindings=매개 변수 바인딩  
 Element.ReportItem.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.ReportItem.boundDataColumns=바인딩된 데이터 열
