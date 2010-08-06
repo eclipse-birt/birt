@@ -526,13 +526,11 @@ public class CallStatement implements IAdvancedQuery
 			if ( paramMetaData != null
 					&& paramMetaData.getParameterCount( ) >= i )
 				return paramMetaData.getParameterType( i );
-			else
-				return parameterDefn.getParameterType( i );
 		}
-		catch ( OdaException ex )
+		catch ( Exception ex )
 		{
-			return parameterDefn.getParameterType( i );
 		}
+		return parameterDefn.getParameterType( i );
 	}
 	
 	/**
@@ -1126,7 +1124,7 @@ public class CallStatement implements IAdvancedQuery
 		assertNotNull( callStat );
 		try
 		{
-			if ( this.getParameterMetaData( ) != null )
+			if ( this.parameterDefn != null )
 			{
 				this.callStat.setNull( parameterId, getParameterType( parameterId ) );
 			}
