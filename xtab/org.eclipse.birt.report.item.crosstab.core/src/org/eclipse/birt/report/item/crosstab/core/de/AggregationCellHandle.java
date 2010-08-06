@@ -296,24 +296,45 @@ public class AggregationCellHandle extends CrosstabCellHandle
 					.getName( );
 			if ( IMeasureViewConstants.AGGREGATIONS_PROP.equals( propName ) )
 			{
+				CrosstabReportItemHandle crosstab = getCrosstab( );
 				LevelHandle column = getAggregationOnColumn( );
 				LevelHandle row = getAggregationOnRow( );
 				if ( row == null )
 				{
-					styles.add( CROSSTAB_ROW_GRAND_TOTAL_SELECTOR );
+					if ( crosstab.getDimensionCount( ROW_AXIS_TYPE ) > 0 )
+						styles.add( CROSSTAB_ROW_GRAND_TOTAL_SELECTOR );
 				}
 				else
 				{
-					styles.add( CROSSTAB_ROW_SUB_TOTAL_SELECTOR );
+					DimensionViewHandle dimensionView = getDimensionView( ROW_AXIS_TYPE );
+					LevelViewHandle levelView = getLevelView( ROW_AXIS_TYPE );
+					if ( dimensionView != null && levelView != null )
+					{
+						int index = dimensionView.getIndex( );
+						if ( !( index == crosstab
+								.getDimensionCount( ROW_AXIS_TYPE ) - 1 && levelView
+								.getIndex( ) == dimensionView.getLevelCount( ) - 1 ) )
+							styles.add( CROSSTAB_ROW_SUB_TOTAL_SELECTOR );
+					}
 				}
 
 				if ( column == null )
 				{
-					styles.add( CROSSTAB_COLUMN_GRAND_TOTAL_SELECTOR );
+					if ( crosstab.getDimensionCount( COLUMN_AXIS_TYPE ) > 0 )
+						styles.add( CROSSTAB_COLUMN_GRAND_TOTAL_SELECTOR );
 				}
 				else
 				{
-					styles.add( CROSSTAB_COLUMN_SUB_TOTAL_SELECTOR );
+					DimensionViewHandle dimensionView = getDimensionView( COLUMN_AXIS_TYPE );
+					LevelViewHandle levelView = getLevelView( COLUMN_AXIS_TYPE );
+					if ( dimensionView != null && levelView != null )
+					{
+						int index = dimensionView.getIndex( );
+						if ( !( index == crosstab
+								.getDimensionCount( COLUMN_AXIS_TYPE ) - 1 && levelView
+								.getIndex( ) == dimensionView.getLevelCount( ) - 1 ) )
+							styles.add( CROSSTAB_COLUMN_SUB_TOTAL_SELECTOR );
+					}
 				}
 			}
 		}
