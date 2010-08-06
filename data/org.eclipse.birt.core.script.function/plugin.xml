@@ -7,27 +7,27 @@
          point="org.eclipse.birt.core.ScriptFunctionService">
    <Category factoryclass="org.eclipse.birt.core.script.function.bre.BirtStrFunctionFactory" name="BirtStr" desc="Provides String operation functions.">
    	<Function
-          desc="Returns the number of characters in string."
+          desc="%FunctionDesc.charLength"
           name="charLength">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
    		<DataType value="%dataType.Integer"></DataType></Function>
    	<Function
-          desc="Returns a string concatenated by all the given strings."
+          desc="%FunctionDesc.concat"
           name="concat"
           variableArguments="true">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Searches for target in the string source and returns the index of first occurrence of pattern. &#xa;Search starts at position start. All index values are 0-based.&#xa;If start is omitted, a value of 0 is assumed. &#xa;String search is case sensitive."
+          desc="%FunctionDesc.indexOf"
           name="indexOf">
    		<Argument name="target"></Argument>
    		<Argument name="source"></Argument>
    		<Argument isOptional="true" name="start"></Argument>
    		<DataType value="%dataType.Integer"></DataType></Function>
    	<Function
-          desc="Returns the first n characters of the string str. &#xa;If n is 0, an empty string is returned. &#xa;If n is greater than the length of str, the entire string is returned. &#xa;If n is omitted, a value of 1 is used."
+          desc="%FunctionDesc.left"
           name="left">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
@@ -35,7 +35,7 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Returns the last n characters of the string str. &#xa;If n is 0, an empty string is returned. If n is greater than the length of str, the entire string is returned. &#xa;If n is omitted, a value of 1 is used."
+          desc="%FunctionDesc.right"
           name="right">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
@@ -43,7 +43,7 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Similar to indexOf function, except that: &#xa;(1) string comparison is case-insensitive &#xa;(2) pattern string can contain wildcard characters: &#xa;* matches any sequence of characters (including empty); &#xa;? matches any single character. "
+          desc="%FunctionDesc.search"
           name="search">
    		<Argument name="pattern">
    			<DataType value="%dataType.String"></DataType></Argument>
@@ -53,13 +53,13 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    		<DataType value="%dataType.Integer"></DataType></Function>
    	<Function
-          desc="Converts all of the characters in the String source to lower case."
+          desc="%FunctionDesc.toLower"
           name="toLower">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Converts all of the characters in the String source to upper case."
+          desc="%FunctionDesc.toUpper"
           name="toUpper">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType>
@@ -67,26 +67,26 @@
    		<DataType value="%dataType.String"></DataType>
    	</Function>
    	<Function
-          desc="Removes all leading and trailing blank characters (space, TAB etc.).&#xa;Also, all consecutive blank characters are consolidated into one. "
+          desc="%FunctionDesc.trim"
           name="trim">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Removes all leading blanks. Trailing blanks and blanks between words are not removed."
+          desc="%FunctionDesc.trimLeft"
           name="trimLeft">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function>
    	<Function
-          desc="Removes all trailing blanks. Leading blanks and blanks between words are not removed."
+          desc="%FunctionDesc.trimRight"
           name="trimRight">
    		<Argument name="source">
    			<DataType value="%dataType.String"></DataType></Argument>
    		<DataType value="%dataType.String"></DataType></Function></Category>
    <Category factoryclass="org.eclipse.birt.core.script.function.bre.BirtCompFunctionFactory" name="BirtComp" desc="Provide comparion functions.">
    	<Function
-          desc="source is in the target range"
+          desc="%FunctionDesc.anyOf"
           name="anyOf"
           variableArguments="true">
    		<DataType value="Boolean"></DataType>
@@ -96,7 +96,7 @@
    			<DataType value="%dataType.Any"></DataType></Argument>
    	</Function>
    	<Function
-          desc="TRUE if source is between target1 and target2. FALSE otherwise"
+          desc="%FunctionDesc.between"
           name="between">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -106,7 +106,7 @@
    		<Argument name="target2">
    			<DataType value="%dataType.Any"></DataType></Argument></Function>
    	<Function
-          desc="TRUE if source is not between target1 and target2. FALSE otherwise"
+          desc="%FunctionDesc.notBetween"
           name="notBetween">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -116,7 +116,7 @@
    		<Argument name="target2">
    			<DataType value="%dataType.Any"></DataType></Argument></Function>
    	<Function
-          desc="source is equal to target"
+          desc="%FunctionDesc.equalTo"
           name="equalTo">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -124,7 +124,7 @@
    		<Argument name="target">
    			<DataType value="%dataType.Any"></DataType></Argument></Function>
    	<Function
-          desc="source is greater than target"
+          desc="%FunctionDesc.greaterThan"
           name="greaterThan">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -133,7 +133,7 @@
    			<DataType value="%dataType.Any"></DataType></Argument>
    	</Function>
    	<Function
-          desc="source is less than target"
+          desc="%FunctionDesc.lessThan"
           name="lessThan">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -142,7 +142,7 @@
    			<DataType value="%dataType.Any"></DataType></Argument>
    	</Function>
    	<Function
-          desc="source is greater than or equal to target"
+          desc="%FunctionDesc.greaterOrEqual"
           name="greaterOrEqual">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -151,7 +151,7 @@
    			<DataType value="%dataType.Any"></DataType></Argument>
    	</Function>
    	<Function
-          desc="source is less than or equal to target"
+          desc="%FunctionDesc.lessOrEqual"
           name="lessOrEqual">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -160,7 +160,7 @@
    			<DataType value="%dataType.Any"></DataType></Argument>
    	</Function>
    	<Function
-          desc="source is not equal to target"
+          desc="%FunctionDesc.notEqual"
           name="notEqual">
    		<DataType value="Boolean"></DataType>
             <Argument
@@ -176,7 +176,7 @@
                </DataType>
             </Argument></Function>
    	<Function
-          desc="source matches SQL pattern target"
+          desc="%FunctionDesc.like"
           name="like">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -185,7 +185,7 @@
    			<DataType value="%dataType.Any"></DataType></Argument>
    	</Function>
    	<Function
-          desc="source does not  match SQL pattern target"
+          desc="%FunctionDesc.notLike"
           name="notLike">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -194,7 +194,7 @@
    			<DataType value="%dataType.Any"></DataType></Argument>
    	</Function>
    	<Function
-          desc="source matches Javascript pattern target"
+          desc="%FunctionDesc.match"
           name="match">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source">
@@ -203,7 +203,7 @@
    			<DataType value="%dataType.Any"></DataType></Argument>
    	</Function>
    	<Function
-          desc="compare the two strings by the specified conditions"
+          desc="%FunctionDesc.compareString"
           name="compareString">
    		<DataType value="Boolean"></DataType>
    		<Argument name="source1">
@@ -221,7 +221,7 @@
    	factoryclass="org.eclipse.birt.core.script.function.bre.BirtMathFunctionFactory"
    	name="BirtMath" desc="Provide math functions.">
    	<Function
-          desc="Sum of the two numbers n1 and n2."
+          desc="%FunctionDesc.add"
           name="add">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="n1">
@@ -230,7 +230,7 @@
    		<Argument name="n2">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="n1 subtracts n2"
+          desc="%FunctionDesc.substract"
           name="subtract">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="n1">
@@ -239,12 +239,12 @@
    		<Argument name="n2">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
          <Function
-               desc="n1 multiplies n2. This function is only used for the backward compatibility of the function &quot;multiply&quot;."
+               desc="%FunctionDesc.multiple"
                isVisible="false"
                name="multiple">
          </Function>
    	<Function
-          desc="n1 multiplies n2"
+          desc="%FunctionDesc.multiply"
           name="multiply">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="n1">
@@ -254,7 +254,7 @@
            name="n2">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="dividend is divided by divisor"
+          desc="%FunctionDesc.divide"
           name="divide">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="dividend">
@@ -263,7 +263,7 @@
    		<Argument name="divisor">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="Rounds a number to the specified number of digits. &#xa;dec is an integer and can be negative. &#xa;Default value for dec is 0 when omitted"
+          desc="%FunctionDesc.round"
           name="round">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="number">
@@ -273,7 +273,7 @@
    			<DataType value="%dataType.Number"></DataType>
    		</Argument></Function>
    	<Function
-          desc="Rounds a number up, away from 0, to the specified number of digits. &#xa;Default for dec is 0."
+          desc="%FunctionDesc.roundUp"
           name="roundUp">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="number">
@@ -283,7 +283,7 @@
    			<DataType value="%dataType.Number"></DataType>
    		</Argument></Function>
    	<Function
-          desc="Rounds a number down, away from 0, to the specified number of digits. &#xa;Default for dec is 0."
+          desc="%FunctionDesc.roundDown"
           name="roundDown">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="n">
@@ -293,7 +293,7 @@
    			<DataType value="%dataType.Number"></DataType>
    		</Argument></Function>
    	<Function
-          desc="Rounds a number up, away from zero, to the nearest multiple of significance."
+          desc="%FunctionDesc.ceiling"
           name="ceiling">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="n">
@@ -301,7 +301,7 @@
    		<Argument name="significance">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="Remainder after number is divided by divisor. The result has the same sign as the divisor."
+          desc="%FunctionDesc.mod"
           name="mod">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="number">
@@ -309,7 +309,7 @@
    		<Argument name="divisor">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="If the result from the dividend divided by the divisor is not zero or infinite then returns the result. &#xa;Otherwise returns the given ifZero."
+          desc="%FunctionDesc.safeDivide"
           name="safeDivide">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="dividend">
@@ -324,19 +324,19 @@
    	factoryclass="org.eclipse.birt.core.script.function.bre.BirtDateTimeFunctionFactory"
    	name="BirtDateTime" desc="Provide DateTime operation functions.">
    	<Function
-          desc="4-digit year number of the given date/time value"
+          desc="%FunctionDesc.year"
           name="year">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Quarter number (1 to 4) of the given date/time value"
+          desc="%FunctionDesc.quarter"
           name="quarter">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Month of date/time value. Option is an integer value:&#xa;1 (default): return month number (1-12);&#xa;2: return full month name as per user locale (e.g., January to December for English locale);&#xa;3: return short month name as per user locale (e.g., Jan to Dec for English locale)"
+          desc="%FunctionDesc.month"
           name="month">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date">
@@ -349,19 +349,19 @@
          </DataType>
       </Argument></Function>
    	<Function
-          desc="Week number of the year (1 to 52) of date/time value d."
+          desc="%FunctionDesc.week"
           name="week">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Day number of the month(1 to 31)."
+          desc="%FunctionDesc.day"
           name="day">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Day the week. Option is an integer value:&#xa;1: return a number 1 (Sunday) to 7 (Saturday);&#xa;2: return a number 1 (Monday) to 7 (Sunday);&#xa;3: return a number 0 (Monday) to 6 (Sunday);&#xa;4: return the weekday name as per user locale (e.g., Sunday – Saturday for English);&#xa;5: return the abbreviated weekday name as per user locale (e.g., Sun – Sat for English)"
+          desc="%FunctionDesc.weekDay"
           name="weekDay">
    		<DataType value="%dataType.String"></DataType>
    		<Argument name="date">
@@ -374,17 +374,17 @@
          </DataType>
      </Argument></Function>
    	<Function
-          desc="Returns a timestamp value which is midnight of the current date."
+          desc="%FunctionDesc.today"
           name="today">
             <DataType
                   value="%dataType.DateTime">
             </DataType></Function>
    	<Function
-          desc="Returns the current timestamp."
+          desc="%FunctionDesc.now"
           name="now">
    		<DataType value="%dataType.DateTime"></DataType></Function>
    	<Function
-          desc="Return difference in number of years."
+          desc="%FunctionDesc.diffYear"
           name="diffYear">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date1">
@@ -393,7 +393,7 @@
    		<Argument name="date2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Return difference in number of months."
+          desc="%FunctionDesc.diffMonth"
           name="diffMonth">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date1">
@@ -402,7 +402,7 @@
    		<Argument name="date2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Return difference in number of quarters."
+          desc="%FunctionDesc.diffQuarter"
           name="diffQuarter">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date1">
@@ -411,7 +411,7 @@
    		<Argument name="date2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Return difference in number of weeks."
+          desc="%FunctionDesc.diffWeek"
           name="diffWeek">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date1">
@@ -420,7 +420,7 @@
    		<Argument name="date2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Return difference in number of days"
+          desc="%FunctionDesc.diffDay"
           name="diffDay">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date1">
@@ -429,7 +429,7 @@
    		<Argument name="date2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Return difference in number of hours."
+          desc="%FunctionDesc.diffHour"
           name="diffHour">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date1">
@@ -438,7 +438,7 @@
    		<Argument name="date2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Return difference in number of minutes."
+          desc="%FunctionDesc.diffMinute"
           name="diffMinute">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date1">
@@ -447,7 +447,7 @@
    		<Argument name="date2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Return difference in number of seconds."
+          desc="%FunctionDesc.diffSecond"
           name="diffSecond">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="date1">
@@ -456,7 +456,7 @@
    		<Argument name="date2">
    			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    	<Function
-          desc="Add n year(s) to the date"
+          desc="%FunctionDesc.addYear"
           name="addYear">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="date">
@@ -464,7 +464,7 @@
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="Add n month(s) to the date"
+          desc="%FunctionDesc.addMonth"
           name="addMonth">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="date">
@@ -473,7 +473,7 @@
    			<DataType value="%dataType.Number"></DataType></Argument>
    	</Function>
    	<Function
-          desc="Add n quarter(s) to the date"
+          desc="%FunctionDesc.addQuarter"
           name="addQuarter">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="date">
@@ -481,7 +481,7 @@
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="Add n week(s) to the date"
+          desc="%FunctionDesc.addWeek"
           name="addWeek">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="date">
@@ -489,7 +489,7 @@
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="Add n day(s) to the date"
+          desc="%FunctionDesc.addDay"
           name="addDay">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="date">
@@ -497,7 +497,7 @@
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="Add n hour(s) to the date"
+          desc="%FunctionDesc.addHour"
           name="addHour">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="date">
@@ -505,7 +505,7 @@
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="Add n minute(s) to the date"
+          desc="%FunctionDesc.addMinute"
           name="addMinute">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="date">
@@ -513,7 +513,7 @@
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
    	<Function
-          desc="Add n second(s) to the date"
+          desc="%FunctionDesc.addSecond"
           name="addSecond">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="date">
@@ -525,7 +525,7 @@
    	factoryclass="org.eclipse.birt.core.script.function.general.BirtFinanceFunctionFactory"
    	name="Finance">
    	<Function
-          desc="The depreciation of an asset for a given , single period using the double-declining balance method Remarks"
+          desc="%FunctionDesc.ddb"
           name="ddb">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="cost">
@@ -542,7 +542,7 @@
    		</Argument>
    	</Function>
    	   	<Function
-              desc="the future value of an annuity based on periodic , constant payments, and on an unvarying interest rate."
+              desc="%FunctionDesc.fv"
               name="fv">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
@@ -563,7 +563,7 @@
    	</Function>
   
    	   	<Function
-              desc="The interest payment for a given period of an annuity, &#xa;based on periodic , constant payments, and on an unvarying interest rate."
+              desc="%FunctionDesc.ipmt"
               name="ipmt">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
@@ -586,7 +586,7 @@
    		</Argument>
    	</Function>
    	 	<Function
-            desc="Internal rate of return of a series of periodic cash flows, payments and receipts, in an existing array"
+            desc="%FunctionDesc.irr"
             name="irr">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="cash">
@@ -597,7 +597,7 @@
    		</Argument>
    	</Function>
    	   	 	<Function
-                desc="The modified rate of return for a series of periodic cash flows (payments and receipts) in an existing array."
+                desc="%FunctionDesc.mirr"
                 name="mirr">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="arptr">
@@ -611,7 +611,7 @@
    		</Argument>
    	   	 	</Function>
    	   	   	<Function
-                  desc="Number of periods for an annuity based on periodic, constant payments, and on an unvarying interest rate."
+                  desc="%FunctionDesc.nper"
                   name="nper">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
@@ -631,7 +631,7 @@
    		</Argument>
    	</Function>
    	   	 	<Function
-                desc="The net present value of a varying series of periodic cash flows, both positive and negative, at a given interest rate."
+                desc="%FunctionDesc.npv"
                 name="npv">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
@@ -642,7 +642,7 @@
    		</Argument>
    	</Function>
    	   	   	   	<Function
-                      desc="Computes the percentage of the two numbers"
+                      desc="%FunctionDesc.percent"
                       name="percent">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="denom">
@@ -656,7 +656,7 @@
    		</Argument>
    	   	   	   	</Function>
    	   	   	   	<Function
-                      desc="The payment for an annuity, based on periodic , constant payments, and on an unvarying interest rate."
+                      desc="%FunctionDesc.pmt"
                       name="pmt">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
@@ -676,7 +676,7 @@
    		</Argument>
    	</Function>
    	 	<Function
-            desc="The principal payment for a given period of an annuity, based on"
+            desc="%FunctionDesc.ppmt"
             name="ppmt">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
@@ -699,7 +699,7 @@
    		</Argument>
    	</Function>
    	 	<Function
-            desc="The present value of an annuity based on periodic, constant payments to be paid in the future,and on an unvarying interest rate."
+            desc="%FunctionDesc.pv"
             name="pv">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
@@ -719,7 +719,7 @@
    		</Argument>
    	</Function>
    		<Function
-           desc="The interest rate per period for an annuity."
+           desc="%FunctionDesc.rate"
            name="rate">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="nper">
@@ -742,7 +742,7 @@
    		</Argument>
    	</Function>
    	   	   	   	<Function
-                      desc="Straight-line depreciation of an asset for a single period."
+                      desc="%FunctionDesc.sln"
                       name="sln">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="cost">
@@ -756,7 +756,7 @@
    		</Argument>
    	</Function>
    	<Function
-          desc="Sum-of-years&apos;-digits depreciation of an asset for a specified period Remark"
+          desc="%FunctionDesc.syd"
           name="syd">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="cost">
@@ -777,7 +777,7 @@
    	factoryclass="org.eclipse.birt.core.script.function.general.BirtDateTimeSpanFunctionFactory"
    	name="DateTimeSpan" isVisible="false">
    	<Function
-   		desc="Returns a date that results from adding the years, months, and days to the start date."
+   		desc="%FunctionDesc.addDate"
    		name="addDate">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="startDate">
@@ -794,7 +794,7 @@
    		</Argument>
    	</Function>
    	<Function
-              desc="Returns a date that results adding the hours, minutes, seconds to the start date."
+              desc="%FunctionDesc.addTime"
               name="addTime">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="startDate">
@@ -807,7 +807,7 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="Returns a date that results from subtract the years, months, and days from the start date."
+              desc="%FunctionDesc.subDate"
               name="subDate">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="startDate">
@@ -820,7 +820,7 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    	</Function>
    	<Function
-          desc="Returns a date that results subtracting the hours, minutes, seconds from the start date."
+          desc="%FunctionDesc.subTime"
           name="subTime">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="startDate">
@@ -833,7 +833,7 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    	</Function>
    	<Function
-          desc="The number of the days between two dates"
+          desc="%FunctionDesc.days"
           name="days">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="startDate">
@@ -842,7 +842,7 @@
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="The number of the hours between two dates"
+              desc="%FunctionDesc.hours"
               name="hours">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="startDate">
@@ -851,7 +851,7 @@
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="The number of the minutes between two dates"
+              desc="%FunctionDesc.minutes"
               name="minutes">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="startDate">
@@ -860,7 +860,7 @@
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="The number of the months between two dates"
+              desc="%FunctionDesc.months"
               name="months">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="startDate">
@@ -869,7 +869,7 @@
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="The number of the seconds between two dates"
+              desc="%FunctionDesc.seconds"
               name="seconds">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="startDate">
@@ -878,7 +878,7 @@
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    	</Function>
    	   	   	<Function
-                  desc="The number of the years between two dates"
+                  desc="%FunctionDesc.years"
                   name="years">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="startDate">
@@ -891,49 +891,49 @@
    	factoryclass="org.eclipse.birt.core.script.function.bre.BirtDurationFunctionFactory"
    	name="BirtDuration">
    	<Function
-          desc="Obtains the value of the YEARS field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is the duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+          desc="%FunctionDesc.duration.year"
           name="year">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="lexicalDuration">
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="Obtains the value of the MONTHS field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S ) "
+              desc="%FunctionDesc.duration.month"
               name="month">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="lexicalDuration">
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="Obtains the value of the DAYS field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+              desc="%FunctionDesc.duration.day"
               name="day">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="lexicalDuration">
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    	<Function
-          desc="Obtains the value of the HOURS field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+          desc="%FunctionDesc.duration.hour"
           name="hour">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="lexicalDuration">
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    	<Function
-          desc="Obtains the value of the MINUTES field as an integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+          desc="%FunctionDesc.duration.minute"
           name="minute">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="lexicalDuration">
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="Obtains the value of the SECONDS field as integer value,* or 0 if not present.&#xa;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )"
+              desc="%FunctionDesc.duration.second"
               name="second">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="lexicalDuration">
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="Returns the length of the duration in milli-seconds.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              desc="%FunctionDesc.duration.timeInMills"
               name="timeInMills">
    		<DataType value="%dataType.Number"></DataType>
    		<Argument name="lexicalDuration">
@@ -942,7 +942,7 @@
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="Checks if this lexicalDuration1 is strictly longer than another lexicalDuration2.&#xa;For example, &quot;P1D&quot;(one day) &gt; &quot;PT12H&quot;(12 hours) and &quot;P2Y&quot; (two years) &gt; &quot;P23M&quot; (23 months)"
+              desc="%FunctionDesc.duration.isLongerThan"
               name="isLongerThan">
    		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="lexicalDuration1">
@@ -951,7 +951,7 @@
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    	   	<Function
-              desc="Checks if lexicalDuration1 is strictly shorter than another lexicalDuration2.&#xa;For example,&quot;PT12H&quot;(12 hours) &lt; &quot;P1D&quot;(one day). "
+              desc="%FunctionDesc.duration.isShorterThan"
               name="isShorterThan">
    		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="lexicalDuration1">
@@ -960,7 +960,7 @@
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    		<Function
-              desc="Computes a new duration whose value is lexicalDuration1+lexicalDuration2.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              desc="%FunctionDesc.duration.add"
               name="add">
    		<DataType value="%dataType.String"></DataType>
    		<Argument name="lexicalDuration1">
@@ -969,7 +969,7 @@
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    		<Function
-              desc="Computes a new duration whose value is lexicalDuration1-lexicalDuration2.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              desc="%FunctionDesc.duration.substract"
               name="subtract">
    		<DataType value="%dataType.String"></DataType>
    		<Argument name="lexicalDuration1">
@@ -978,7 +978,7 @@
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    		<Function
-              desc="Computes a new duration whose value is factor times longer than the value of lexicalDuration.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              desc="%FunctionDesc.duration.multiply"
               name="multiply">
    		<DataType value="%dataType.String"></DataType>
    		<Argument name="lexicalDuration">
@@ -987,21 +987,21 @@
    			<DataType value="%dataType.Integer"></DataType></Argument>
    	</Function>
    		<Function
-              desc="Returns a new Duration object whose value is -lexicalDuration.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              desc="%FunctionDesc.duration.negate"
               name="negate">
    		<DataType value="%dataType.String"></DataType>
    		<Argument name="lexicalDuration">
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    		<Function
-              desc="Returns the sign of this duration in -1,0, or 1.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              desc="%FunctionDesc.duration.getSign"
               name="getSign">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="lexicalDuration">
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    		<Function
-              desc="Partial order relation between lexicalDuration1 and lexicalDuration2.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              desc="%FunctionDesc.duration.compare"
               name="compare">
    		<DataType value="%dataType.Integer"></DataType>
    		<Argument name="lexicalDuration1">
@@ -1010,7 +1010,7 @@
    			<DataType value="%dataType.String"></DataType></Argument>
    	</Function>
    		<Function
-              desc="Adds this duration to a Date object.&#xa;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#xa;The startDate argument is used to disambiguate this variance"
+              desc="%FunctionDesc.duration.addTo"
               name="addTo">
    		<DataType value="%dataType.DateTime"></DataType>
    		<Argument name="lexicalDuration">
