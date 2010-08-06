@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -164,6 +163,7 @@ class ResultIterator2 extends ResultIterator
 				if( streamManager.getVersion( ) >= VersionManager.VERSION_2_5_2_0 )
 				{
 					IOUtil.writeInt( dos, -1 );
+					IOUtil.writeBool( dos, false );
 					IOUtil.writeBool( dos, false );
 				}
 			}
