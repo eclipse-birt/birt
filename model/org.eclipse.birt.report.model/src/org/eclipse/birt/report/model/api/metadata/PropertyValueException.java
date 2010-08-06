@@ -162,6 +162,11 @@ public class PropertyValueException extends SemanticException
 	 */
 
 	protected String propertyTypeName = null;
+	
+	/**
+	 * The display name of the property being set.
+	 */
+	protected String propertyDisplayName = null;
 
 	/**
 	 * Constructs an exception given an invalid value, error code and the
@@ -208,6 +213,7 @@ public class PropertyValueException extends SemanticException
 		PropertyDefn propDefn = element.getPropertyDefn( propertyName );
 		assert propDefn != null;
 		this.propertyTypeName = propDefn.getType( ).getName( );
+		this.propertyDisplayName = propDefn.getDisplayName( );
 
 	}
 
@@ -236,6 +242,7 @@ public class PropertyValueException extends SemanticException
 		this.propertyName = propDefn.getName( );
 		this.propertyTypeName = ( (PropertyDefn) propDefn ).getType( )
 				.getName( );
+		this.propertyDisplayName = propDefn.getDisplayName( );
 	}
 
 	/**
@@ -267,6 +274,7 @@ public class PropertyValueException extends SemanticException
 		this.memberName = memberDefn.getName( );
 		this.propertyTypeName = ( (PropertyDefn) propDefn ).getType( )
 				.getName( );
+		this.propertyDisplayName = propDefn.getDisplayName( );
 	}
 
 	/**
@@ -329,7 +337,7 @@ public class PropertyValueException extends SemanticException
 	{
 		return propertyName;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -352,7 +360,7 @@ public class PropertyValueException extends SemanticException
 				|| sResourceKey == DESIGN_EXCEPTION_NON_POSITIVE_VALUE )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{value,
-					this.propertyName} );
+					this.propertyDisplayName} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_CHOICE_NOT_FOUND
 				|| sResourceKey == DESIGN_EXCEPTION_VALUE_EXISTS
@@ -367,7 +375,7 @@ public class PropertyValueException extends SemanticException
 				|| sResourceKey == DESIGN_EXCEPTION_ITEM_NOT_FOUND )
 		{
 			return ModelMessages.getMessage( sResourceKey,
-					new String[]{propertyName} );
+					new String[]{propertyDisplayName} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_ITEM_TYPE )
 		{
@@ -390,13 +398,13 @@ public class PropertyValueException extends SemanticException
 		else if ( sResourceKey == DESIGN_EXCEPTION_UNIT_NOT_ALLOWED )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{value,
-					propertyName} );
+					propertyDisplayName} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN
 				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
-					propertyName, element.getFullName( )} );
+					propertyDisplayName, element.getFullName( )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_DOT_FORBIDDEN )
 		{
