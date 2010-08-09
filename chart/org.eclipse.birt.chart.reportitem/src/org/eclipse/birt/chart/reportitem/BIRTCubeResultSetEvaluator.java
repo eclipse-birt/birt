@@ -48,8 +48,16 @@ public class BIRTCubeResultSetEvaluator extends
 
 	protected ICubeCursor cubeCursor;
 
+	/**
+	 * If there is Y optional expression, the cursor is related to Y optional
+	 * expression. Otherwise, it is related to category expression.
+	 */
 	protected EdgeCursor mainEdgeCursor;
 
+	/**
+	 * The there is Y optional expression, the cursor is related to category
+	 * expression. Otherwise it should be null.
+	 */
 	protected EdgeCursor subEdgeCursor;
 
 	protected List<Integer> lstBreaks = new ArrayList<Integer>( );
