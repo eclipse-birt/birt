@@ -127,6 +127,16 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			}
 			else
 				context.setLocale( ULocale.getDefault( ) );
+
+			TimeZone timeZone = reportContext.getTimeZone( );
+			if ( timeZone != null )
+			{
+				context.setTimeZone( timeZone );
+			}
+			else
+			{
+				context.setTimeZone( TimeZone.getDefault( ) );
+			}
 		}
 		this.reportContext = reportContext;
 	}

@@ -207,10 +207,9 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "DocumentProperties" );
 	}
 
-	private void writeText( int type, Object value,
-			StyleEntry style )
+	private void writeText( int type, Object value, StyleEntry style )
 	{
-		String txt = ExcelUtil.format( value, type );
+		String txt = ExcelUtil.format( value, type, context.getTimeZone( ) );
 		writer.openTag( "Data" );
 		if ( type == SheetData.NUMBER )
 		{

@@ -17,7 +17,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +30,6 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 import com.ibm.icu.text.NumberFormat;
-import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.TimeZone;
@@ -182,15 +180,16 @@ public class ExcelUtil
 		return true;
 	}
 	
-	public static String formatDate( Object data )
+	public static String formatDate( Object data, TimeZone timeZone )
 	{
-		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH );
+		DateFormatter dateFormat = new DateFormatter( "yyyy-MM-dd'T'HH:mm:ss",
+				ULocale.ENGLISH, timeZone );
 		Date date = getDate( data );
-		if(date == null) {
+		if ( date == null )
+		{
 			return null;
 		}
-		return  dateFormat.format( date );        
+		return dateFormat.format( date );
 	}
 
 	public static Date getDate( Object data )
@@ -1229,7 +1228,7 @@ public class ExcelUtil
 		}
 	}
 
-	public static String format( Object value, int dataType )
+	public static String format( Object value, int dataType, TimeZone timeZone )
 	{
 		if ( value == null )
 		{
@@ -1237,7 +1236,7 @@ public class ExcelUtil
 		}
 		else if ( dataType == SheetData.DATE )
 		{
-			return formatDate( value );
+			return formatDate( value, timeZone );
 		}
 		else if ( dataType == SheetData.NUMBER )
 		{

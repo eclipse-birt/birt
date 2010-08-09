@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 
@@ -23,6 +24,8 @@ public class ExcelContext
 	private String tempFileDir;
 
 	private ULocale locale;
+	
+	private TimeZone timeZone;
 
 	private Boolean hideGridlines;
 	
@@ -64,6 +67,24 @@ public class ExcelContext
 	public void setLocale( ULocale locale )
 	{
 		this.locale = locale;
+	}
+
+	
+	/**
+	 * @return the timeZone
+	 */
+	public TimeZone getTimeZone( )
+	{
+		return timeZone;
+	}
+
+	/**
+	 * @param timeZone
+	 *            the timeZone to set
+	 */
+	public void setTimeZone( TimeZone timeZone )
+	{
+		this.timeZone = timeZone;
 	}
 
 	public boolean getHideGridlines( )
