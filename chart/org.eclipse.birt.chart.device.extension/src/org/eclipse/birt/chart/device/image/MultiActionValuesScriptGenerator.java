@@ -156,13 +156,6 @@ public class MultiActionValuesScriptGenerator
 			{
 				sb = getScriptValueJS( sb, i, (ScriptValue) av );
 			}
-			else if ( av instanceof TooltipValue )
-			{
-				sb = getVisualJS( sb,
-						i,
-						av,
-						"BirtChartInteractivityActions.SHOW_TOOLTIP" ); //$NON-NLS-1$ 
-			}
 			i++;
 		}
 
