@@ -1266,7 +1266,15 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static Calendar getCalendar( Date d )
 	{
-		Calendar c = Calendar.getInstance( timeZone );
+		Calendar c = Calendar.getInstance( defaultLocale );
+		if( d instanceof java.sql.Date )
+		{
+			c.setTimeZone( TimeZone.getDefault( ) );
+		}
+		else
+		{
+			c.setTimeZone( timeZone );
+		}
 		if ( d == null )
 		{
 			c.clear( );

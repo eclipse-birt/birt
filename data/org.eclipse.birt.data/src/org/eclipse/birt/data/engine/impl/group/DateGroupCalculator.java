@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl.group;
 import java.util.Date;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.data.DateTimeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 
 import com.ibm.icu.util.Calendar;

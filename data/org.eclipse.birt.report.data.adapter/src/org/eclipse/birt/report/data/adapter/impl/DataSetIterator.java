@@ -60,6 +60,7 @@ public class DataSetIterator implements IDatasetIterator
 	private IResultIterator it;
 	private ResultMeta metadata;
 	private Calendar calendar;
+	private Calendar defaultCalendar;
 	private Calendar gmtCalendar;
 	private SecurityListener securityListener;
 	private long nullTime;
@@ -103,12 +104,21 @@ public class DataSetIterator implements IDatasetIterator
 	public DataSetIterator( DataRequestSessionImpl session,
 			IQueryDefinition query, List<ColumnMeta> meta, Map appContext, SecurityListener listener, String dimensionName ) throws BirtException
 	{
+		this.defaultCalendar = Calendar.getInstance( session.getDataSessionContext( )
+				.getDataEngineContext( )
+				.getLocale( ) ); 
+		this.defaultCalendar.setTimeZone( TimeZone.getDefault( ) );
+		this.defaultCalendar.clear( );
+		
 		this.calendar = Calendar.getInstance( session.getDataSessionContext( )
 				.getDataEngineContext( )
 				.getLocale( ) ); 
 		this.calendar.setTimeZone( session.getDataSessionContext( )
 				.getDataEngineContext( ).getTimeZone( ) );
 		this.calendar.clear( );
+		
+		
+		
 		this.calendar.set( 0, 0, 1, 0, 0, 0 );
 		this.nullTime = this.calendar.getTimeInMillis( );
 		this.calendar.clear( );
@@ -292,6 +302,11 @@ public class DataSetIterator implements IDatasetIterator
 		Date date;
 		try
 		{
+			if( d instanceof java.sql.Date )
+			{
+				defaultCalendar.setTime( ( Date ) d );
+				return this.defaultCalendar;
+			}
 			date = DataTypeUtil.toDate( d );
 			this.calendar.setTime( date );
 			return this.calendar;
@@ -613,14 +628,7 @@ public class DataSetIterator implements IDatasetIterator
 			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( timeType ) )
 			{
 				int month = -1;
-				if( d instanceof java.sql.Date )
-				{
-					month = ((java.sql.Date) d).getMonth( );
-				}
-				else
-				{
-					month = getCalendar( d ).get( Calendar.MONTH );
-				}
+				month = getCalendar( d ).get( Calendar.MONTH );
 				int quarter = -1;
 				switch ( month )
 				{
