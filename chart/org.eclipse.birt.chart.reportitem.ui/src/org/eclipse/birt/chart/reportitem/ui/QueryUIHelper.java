@@ -325,6 +325,11 @@ public final class QueryUIHelper
 						dataType = dataProvider.getDataType( queries.get( i )
 								.getDefinition( ) );
 					}
+					// Ignore the computed expression
+					if ( dataType == null )
+					{
+						continue;
+					}
 					if ( firstDataType == null )
 					{
 						firstDataType = dataType;
