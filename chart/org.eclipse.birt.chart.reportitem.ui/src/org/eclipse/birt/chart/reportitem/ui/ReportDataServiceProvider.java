@@ -1931,7 +1931,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ICubeQueryResults cqr = dteAdapter.executeQuery( session,
 				(ICubeQueryDefinition) qd );
 		// Sharing case
-		if ( referredHandle != null && !isCrosstabReference )
+		if ( referredHandle != null && isCrosstabReference )
 		{
 			return new SharedCubeResultSetEvaluator( cqr, qd, cm );
 		}

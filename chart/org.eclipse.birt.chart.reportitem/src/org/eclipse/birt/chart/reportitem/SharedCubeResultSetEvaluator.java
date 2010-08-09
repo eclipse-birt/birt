@@ -49,12 +49,12 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 {
 
-	private int fRowInnerLevelIndex;
-	private int fColInnerLevelIndex;
+	private int fCategoryInnerLevelIndex;
+	private int fYOptionalInnerLevelIndex;
 
 	private CursorPositionNode fMainPositionNodes;
 	private CursorPositionNode fSubPositionNodes;
-	private boolean fIsColEdgeAsMainCursor;
+	private boolean fIsColEdgeAsCategoryCursor;
 
 	/**
 	 * Constructor.
@@ -93,8 +93,8 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	private void parseLevelIndex( IBaseCubeQueryDefinition queryDefintion,
 			Chart cm )
 	{
-		fRowInnerLevelIndex = -1;
-		fColInnerLevelIndex = -1;
+		fCategoryInnerLevelIndex = -1;
+		fYOptionalInnerLevelIndex = -1;
 		if ( queryDefintion instanceof ICubeQueryDefinition )
 		{
 			List<String> rowLevelNames = Collections.emptyList( );
@@ -118,49 +118,47 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 				}
 			}
 			
-			if ( rowED != null )
+			if ( categoryExprs != null && categoryExprs.length > 0 )
 			{
-				rowLevelNames = getLevelNames( rowED );
-				if ( categoryExprs != null && categoryExprs.length > 0 )
+				if ( rowED != null )
 				{
-					fRowInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
+					rowLevelNames = getLevelNames( rowED );
+					fCategoryInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
 							rowLevelNames, cubeBindingMap );
-					if ( fRowInnerLevelIndex < 0 && colED != null )
-					{
+				}
+				
+				if ( fCategoryInnerLevelIndex < 0 && colED != null )
+				{
 						// Row level isn't find on row edge, find it on column
 						// edge.
 						rowLevelNames = getLevelNames( colED );
-						fRowInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
+						fCategoryInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
 								rowLevelNames, cubeBindingMap );
-						fIsColEdgeAsMainCursor = true;
-						return;
-					}
+						fIsColEdgeAsCategoryCursor = true;
 				}
 			}
-
-			if ( colED != null )
+			
+			// If category level index is less than zero, it means no valid
+			// edges for this chart.
+			if ( fCategoryInnerLevelIndex < 0 )
 			{
-				if ( rowED == null && fRowInnerLevelIndex < 0 )
+				return;
+			}
+
+			String[] yOptionalExprs = ChartUtil.getYOptoinalExpressions( cm );
+			if ( yOptionalExprs != null && yOptionalExprs.length > 0 )
+			{
+				if ( fIsColEdgeAsCategoryCursor && rowED != null )
 				{
-					// Only column edge is defined on xtab, find row level index
-					// on column edge.
-					rowLevelNames = getLevelNames( colED );
-					if ( categoryExprs != null && categoryExprs.length > 0 )
-					{
-						fRowInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
-								rowLevelNames, cubeBindingMap );
-						fIsColEdgeAsMainCursor = true;
-					}
+					colLevelNames = getLevelNames( rowED );
+					fYOptionalInnerLevelIndex = findInnerLevelIndex( yOptionalExprs[0],
+							colLevelNames, cubeBindingMap );
 				}
-				else
+				else if ( colED != null )
 				{
 					colLevelNames = getLevelNames( colED );
-					String[] yOptionalExprs = ChartUtil.getYOptoinalExpressions( cm );
-					if ( yOptionalExprs != null && yOptionalExprs.length > 0 )
-					{
-						fColInnerLevelIndex = findInnerLevelIndex( yOptionalExprs[0],
-								colLevelNames, cubeBindingMap );
-					}
+					fYOptionalInnerLevelIndex = findInnerLevelIndex( yOptionalExprs[0],
+							colLevelNames, cubeBindingMap );
 				}
 			}
 		}
@@ -257,26 +255,35 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			}
 			else
 			{
-				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
-				this.subEdgeCursor = (EdgeCursor) edges.get( 1 );
+				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 ); // It returns column edge cursor.
+				this.subEdgeCursor = (EdgeCursor) edges.get( 1 ); // It returns row edge cursor.
 			}
 		}
 
 		// It means the shared xtab has defined row and column edges, but chart
 		// just select row or column edge. The edge cursor should be adjusted
 		// for chart to evaluate expressions.
-		if ( fRowInnerLevelIndex >= 0
-				&& fColInnerLevelIndex < 0
+		if ( fCategoryInnerLevelIndex >= 0
+				&& fYOptionalInnerLevelIndex < 0
 				&& subEdgeCursor != null )
 		{
-			if ( !fIsColEdgeAsMainCursor )
+			if ( !fIsColEdgeAsCategoryCursor )
 			{
-				// Row edge is not used by chart, set subEdgeCursor(column edge)
+				// Row edge is used by chart, set subEdgeCursor(row edge)
 				// to mainEdgeCursor.
 				mainEdgeCursor = subEdgeCursor;
 			}
 
 			subEdgeCursor = null;
+		}
+		else if ( fCategoryInnerLevelIndex >= 0
+				&& fYOptionalInnerLevelIndex >= 0
+				&& fIsColEdgeAsCategoryCursor )
+		{
+			// It should use row edge as main edge cursor.
+			EdgeCursor tmp = mainEdgeCursor;
+			mainEdgeCursor = subEdgeCursor;
+			subEdgeCursor = tmp;
 		}
 
 		// Map dimension cursor, find out the right row dimension cursor and
@@ -284,30 +291,30 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 		if ( subEdgeCursor == null )
 		{
 			List dimCursors = mainEdgeCursor.getDimensionCursor( );
-			if ( fRowInnerLevelIndex >= 0 )
+			if ( fCategoryInnerLevelIndex >= 0 )
 			{
 				fMainPositionNodes = initCursorPositionsNodes( dimCursors,
-						fRowInnerLevelIndex );
+						fCategoryInnerLevelIndex );
 			}
-			else if ( fColInnerLevelIndex >= 0 )
+			else if ( fYOptionalInnerLevelIndex >= 0 )
 			{
 				fMainPositionNodes = initCursorPositionsNodes( dimCursors,
-						fColInnerLevelIndex );
+						fYOptionalInnerLevelIndex );
 			}
 		}
 		else
 		{
-			if ( fRowInnerLevelIndex >= 0 )
+			if ( fCategoryInnerLevelIndex >= 0 )
 			{
 				List dimCursors = subEdgeCursor.getDimensionCursor( );
 				fSubPositionNodes = initCursorPositionsNodes( dimCursors,
-						fRowInnerLevelIndex );
+						fCategoryInnerLevelIndex );
 			}
-			if ( fColInnerLevelIndex >= 0 )
+			if ( fYOptionalInnerLevelIndex >= 0 )
 			{
 				List dimCursors = mainEdgeCursor.getDimensionCursor( );
 				fMainPositionNodes = initCursorPositionsNodes( dimCursors,
-						fColInnerLevelIndex );
+						fYOptionalInnerLevelIndex );
 			}
 		}
 	}
