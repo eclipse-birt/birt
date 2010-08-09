@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -45,6 +46,38 @@ public class ObjectSecurity
 				public ObjectInputStream run( ) throws IOException
 				{
 					return new ObjectInputStream( is );
+				}
+			} );
+		}
+		catch ( PrivilegedActionException e )
+		{
+			Exception typedException = e.getException( );
+			if ( typedException instanceof IOException )
+			{
+				throw (IOException) typedException;
+			}
+			throw new DataException( e.getMessage( ) );
+		}
+	}
+	
+	public static ObjectInputStream createObjectInputStream(
+			final InputStream is, final ClassLoader classLoader ) throws IOException, DataException
+	{
+		try
+		{
+			return AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectInputStream>( ) {
+
+				public ObjectInputStream run( ) throws IOException
+				{
+					return  new ObjectInputStream( is ) {
+
+						protected Class resolveClass( ObjectStreamClass desc )
+								throws IOException, ClassNotFoundException
+						{
+							return Class.forName( desc.getName( ), false,
+									classLoader );
+						}
+					};
 				}
 			} );
 		}

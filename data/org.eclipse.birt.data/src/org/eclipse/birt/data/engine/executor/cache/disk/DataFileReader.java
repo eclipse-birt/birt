@@ -101,7 +101,7 @@ class DataFileReader
 			isOpen = true;
 		}
 
-		return resultObjectUtil.readData( bis, length );
+		return resultObjectUtil.readData( bis, null, length );
 	}
 
 	/**

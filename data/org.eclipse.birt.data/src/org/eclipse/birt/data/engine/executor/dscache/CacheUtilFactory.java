@@ -419,7 +419,7 @@ class CacheUtilFactory
 				if ( currIndex == rowCount - 1 )
 					return null;
 				currIndex++;
-				return roUtil.readData( bis, 1 )[0];
+				return roUtil.readData( bis, null, 1 )[0];
 			}
 			catch ( IOException e )
 			{
@@ -549,7 +549,7 @@ class CacheUtilFactory
 					return null;
 				
 				currIndex++;
-				return roUtil.readData( bis, 1 )[0];
+				return roUtil.readData( bis, this.session.getEngineContext( ).getClassLoader( ), 1 )[0];
 			}
 			catch ( IOException e )
 			{

@@ -129,7 +129,7 @@ public class ResultObjectUtil
 	 * @throws IOException
 	 * @throws DataException 
 	 */
-	public IResultObject[] readData( InputStream bis, int length )
+	public IResultObject[] readData( InputStream bis, ClassLoader classLoader, int length )
 			throws IOException, DataException
 	{
 		ResultObject[] rowDatas = new ResultObject[length];
@@ -205,7 +205,15 @@ public class ResultObjectUtil
 				}
 				else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
 				{
-					ObjectInputStream ois = ObjectSecurity.createObjectInputStream( dis );
+					ObjectInputStream ois = null;
+					if( classLoader != null )
+					{
+						ois = ObjectSecurity.createObjectInputStream( dis, classLoader );
+					}
+					else
+					{
+						ois = ObjectSecurity.createObjectInputStream( dis );
+					}
 					try
 					{
 						obs[j] = ObjectSecurity.readObject( ois );

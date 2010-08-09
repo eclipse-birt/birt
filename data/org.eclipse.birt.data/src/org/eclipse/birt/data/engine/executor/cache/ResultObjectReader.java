@@ -29,6 +29,7 @@ public class ResultObjectReader
 
 	private int dataCount;
 	private int curIndex;
+	private ClassLoader loader;
 
 	/**
 	 * @param rsMetaData
@@ -49,6 +50,7 @@ public class ResultObjectReader
 		roReader.roUtil = ResultObjectUtil.newInstance( rsMetaData, session );
 		roReader.dataCount = dataCount;
 		roReader.curIndex = 0;
+		roReader.loader = session.getEngineContext( ).getClassLoader( );
 
 		return roReader;
 	}
@@ -71,7 +73,7 @@ public class ResultObjectReader
 			try
 			{
 				curIndex++;
-				return roUtil.readData( intputStream, 1 )[0];
+				return roUtil.readData( intputStream, this.loader, 1 )[0];
 			}
 			catch ( IOException e )
 			{
