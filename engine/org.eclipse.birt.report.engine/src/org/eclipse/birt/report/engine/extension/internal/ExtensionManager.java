@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
@@ -54,6 +55,7 @@ public class ExtensionManager
 	public final static String EXTENSION_POINT_PREPARATION = "org.eclipse.birt.report.engine.reportItemPreparation"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_DATAEXTRACTION = "org.eclipse.birt.report.engine.dataExtraction"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_EXTENDED_ITEM_FACTORY = "org.eclipse.birt.report.engine.extendedItemFactory"; //$NON-NLS-1$
+	public final static String emitterFormatPattern = "[$_a-zA-Z][$_a-zA-Z0-9]*";
 	
 	/**
 	 * the singleton isntance
@@ -622,17 +624,28 @@ public class ExtensionManager
 						.getAttribute( "isHidden" ) );
 				boolean needOutputResultSet = Boolean.valueOf( configs[j]
 						.getAttribute( "needOutputResultSet" ) );
-				EmitterInfo emitterInfo = new EmitterInfo( format, id,
-						pagination, mimeType, icon, namespace, fileExtension,
-						outDisplayNone, isHidden, supportedImageFormats,
-						needOutputResultSet, configs[j] );
-				emitterInfo.setOverridePriority( priority );
-				emitterExtensions.add( emitterInfo );
-				assert ( format != null );
-				formats.put( format, emitterInfo );
-				emitters.put( id, emitterInfo );
-				logger.log( Level.FINE,
-						"Load {0} emitter {1}", new String[]{format, id} ); //$NON-NLS-1$
+				if ( !Pattern.matches( emitterFormatPattern, format ) )
+				{
+					logger.log( Level.SEVERE,
+					            "\""
+					                    + format
+					                    + "\" is an invalid format. A valid format must begin with a letter, the dollar sign \"$\", or the underscore character \"_\". Subsequent characters may be letters, digits, dollar signs, or underscore characters." );
+				}
+				else
+				{
+					EmitterInfo emitterInfo = new EmitterInfo( format, id,
+					        pagination, mimeType, icon, namespace,
+					        fileExtension, outDisplayNone, isHidden,
+					        supportedImageFormats, needOutputResultSet,
+					        configs[j] );
+					emitterInfo.setOverridePriority( priority );
+					emitterExtensions.add( emitterInfo );
+					assert ( format != null );
+					formats.put( format, emitterInfo );
+					emitters.put( id, emitterInfo );
+					logger.log( Level.FINE,
+					            "Load {0} emitter {1}", new String[]{format, id} ); //$NON-NLS-1$
+				}
 			}
 		}
 	}
