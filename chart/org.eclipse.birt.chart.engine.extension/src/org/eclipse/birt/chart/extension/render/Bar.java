@@ -52,6 +52,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -2529,6 +2530,11 @@ public final class Bar extends AxesRenderer
 		if ( fPaletteEntry == null ) // TEMPORARY PATCH: WILL BE REMOVED SOON
 		{
 			fPaletteEntry = goFactory.RED( );
+		}
+		else if (fPaletteEntry instanceof MultipleFill)
+		{
+			fPaletteEntry = ( (MultipleFill) fPaletteEntry ).getFills( )
+					.get( 0 );
 		}
 
 		// COMPUTE THE FRONT FACE ONLY
