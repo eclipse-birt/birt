@@ -39,8 +39,6 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
@@ -222,7 +220,7 @@ public class CubeQueryExecutor
 	{
 		List filters = defn.getFilters( );
 		List results = new ArrayList( );
-		Set<DimLevel> dimLevelInCubeQuery = this.getDimLevelsDefinedInCubeQuery( );
+		Set<String> dimLevelInCubeQuery = this.getDimensionDefinedInCubeQuery( );
 		for ( int i = 0; i < filters.size( ); i++ )
 		{
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
@@ -278,7 +276,7 @@ public class CubeQueryExecutor
 		}		
 	}
 
-	private int getFilterType( IFilterDefinition filter, Set<DimLevel> dimLevelInCubeQuery ) throws DataException
+	private int getFilterType( IFilterDefinition filter, Set<String> dimNamesInCubeQuery ) throws DataException
 	{
 		if(! (filter instanceof ICubeFilterDefinition))
 		{
@@ -323,8 +321,11 @@ public class CubeQueryExecutor
 			}
 			else
 			{
-				List dimensionName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DIMENSION_SCRIPTABLE );
-				if( dimensionName.size( ) > 1 )
+				List dimensionName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ),
+						ScriptConstants.DIMENSION_SCRIPTABLE );
+				
+				if ( dimensionName.size( ) > 1
+						|| !dimNamesInCubeQuery.containsAll( dimensionName ) )
 				{
 					return FACTTABLE_FILTER;
 				}
@@ -392,29 +393,25 @@ public class CubeQueryExecutor
 		return this.advancedFacttableBasedFilterEvalHelper;
 	}
 
-	private Set<DimLevel> getDimLevelsDefinedInCubeQuery( )
+	private Set<String> getDimensionDefinedInCubeQuery( )
 	{
-		Set<DimLevel> dimLevelDefinedInCube = new HashSet<DimLevel>();
-		populateDimLevelInEdge( dimLevelDefinedInCube, ICubeQueryDefinition.COLUMN_EDGE );
-		populateDimLevelInEdge( dimLevelDefinedInCube, ICubeQueryDefinition.ROW_EDGE );
-		populateDimLevelInEdge( dimLevelDefinedInCube, ICubeQueryDefinition.PAGE_EDGE );
-		return dimLevelDefinedInCube;
+		Set<String> dimensionName = new HashSet<String>();
+		populateDimNameInEdge( dimensionName, ICubeQueryDefinition.COLUMN_EDGE );
+		populateDimNameInEdge( dimensionName, ICubeQueryDefinition.ROW_EDGE );
+		populateDimNameInEdge( dimensionName, ICubeQueryDefinition.PAGE_EDGE );
+		return dimensionName;
 	}
 
-	private void populateDimLevelInEdge( Set<DimLevel> dimLevelDefinedInCube,
+	private void populateDimNameInEdge( Set<String> dimensionName,
 			int i )
 	{
 		IEdgeDefinition edge = defn.getEdge( i );
-		if( edge == null )
+		if ( edge == null )
 			return;
 		List<IDimensionDefinition> dims = edge.getDimensions( );
-		for( IDimensionDefinition dim: dims )
+		for ( IDimensionDefinition dim : dims )
 		{
-			List<ILevelDefinition> levels = ((IHierarchyDefinition) dim.getHierarchy( ).get( 0 )).getLevels( );
-			for( ILevelDefinition level: levels )
-			{
-				dimLevelDefinedInCube.add( new DimLevel( dim.getName( ), level.getName( ) ) );
-			}
+			dimensionName.add( dim.getName( ) );
 		}
 	}
 
