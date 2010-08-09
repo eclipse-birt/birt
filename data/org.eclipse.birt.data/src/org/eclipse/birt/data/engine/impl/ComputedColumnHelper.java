@@ -197,6 +197,15 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		return result;
 	}
 
+	public void removeAvailableComputedColumn( IComputedColumn ccol )
+	{
+		getComputedColumnList( ).remove( ccol );
+		if ( this.getCurrentInstance( ) == null )
+		{
+			this.dataSetInstance.remove( ccol.getName( ) );
+		}
+	}
+	
 	/**
 	 * 
 	 * @param dataSetCCList
@@ -318,6 +327,7 @@ class ComputedColumnHelperInstance
 	
 	// computed column list passed from external caller
 	private List ccList;
+	private List<String> removedCCName;
 
 	// computed column array which will be evaluated
 	private IComputedColumn[] computedColumn;
@@ -340,6 +350,7 @@ class ComputedColumnHelperInstance
 		// Do not change the assignment of array
 		// TODO enhance.
 		this.ccList = new ArrayList( );
+		this.removedCCName = new ArrayList( );
 		for ( int i = 0; i < computedColumns.size( ); i++ )
 			this.ccList.add( computedColumns.get( i ) );
 		this.isPrepared = false;
@@ -347,12 +358,27 @@ class ComputedColumnHelperInstance
 		this.mode = mode;
 		this.cx = cx.newContext( this.dataSet.getScriptScope( ) );
 	}
+	
+	void remove( String colName )
+	{
+		this.removedCCName.add( colName );
+	}
 
 	public List getComputedColumnList( )
 	{
 		return this.ccList;
 	}
 
+	public boolean isRemoved( String colName )
+	{
+		for( int i = 0; i < removedCCName.size( ); i++ )
+		{
+			if( colName.equals(  removedCCName.get( i ) ) )
+				return true;
+		}
+		return false;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject)
 	 */
@@ -388,6 +414,10 @@ class ComputedColumnHelperInstance
 			for ( int i = 0; i < computedColumn.length; i++ )
 			{
 				if( isAggrComputedColumn( computedColumn[i] ))
+				{
+					continue;
+				}
+				if( isRemoved( computedColumn[i].getName( ) ) )
 				{
 					continue;
 				}

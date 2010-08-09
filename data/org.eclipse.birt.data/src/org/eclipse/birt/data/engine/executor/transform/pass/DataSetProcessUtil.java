@@ -311,8 +311,7 @@ class DataSetProcessUtil extends RowProcessUtil
 							ComputedColumnHelper helper = (ComputedColumnHelper) this.populator.getQuery( )
 									.getFetchEvents( )
 									.get( k );
-							helper.getComputedColumnList( )
-									.remove( iccState.getComputedColumn( i ) );
+							helper.removeAvailableComputedColumn( iccState.getComputedColumn( i ) );
 							break;
 						}
 					}
