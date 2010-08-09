@@ -380,6 +380,34 @@ public class OlapExpressionUtil
 		return false;
 	}
 
+	public static IBinding getDirectMeasureBinding( IBinding binding,
+			List<IBinding> bindings ) throws DataException
+	{
+		if ( binding == null )
+			return null;
+		if ( !( binding.getExpression( ) instanceof IScriptExpression ) )
+			return null;
+		String expr = ( (IScriptExpression) binding.getExpression( ) ).getText( );
+		if ( expr == null )
+			return null;
+		else if ( expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )// measure
+		{
+			return binding;
+		}
+		else if ( expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )// data binding
+		{
+			String bindingName = getBindingName( expr );
+			for ( IBinding b : bindings )
+			{
+				if ( b.getBindingName( ).equals( bindingName ) )
+				{
+					return getDirectMeasureBinding( b, bindings );
+				}
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Return the binding name of data["binding"]
 	 * 

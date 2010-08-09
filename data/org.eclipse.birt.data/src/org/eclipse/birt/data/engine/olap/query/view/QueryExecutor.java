@@ -428,6 +428,16 @@ public class QueryExecutor
 						continue;
 					
 					String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ), ScriptConstants.MEASURE_SCRIPTABLE);
+					if ( measureName == null )
+					{
+						IBinding referBinding = OlapExpressionUtil.getDirectMeasureBinding( binding,
+								bindings );
+						if( referBinding != null )
+						{
+							measureName = OlapExpressionUtil.getMeasure( referBinding.getExpression( ) );
+							bindingName = referBinding.getBindingName( );							
+						}
+					}
 					if ( measureName != null )
 					{
 						List measureAggrOns = CubeQueryDefinitionUtil.populateMeasureAggrOns( queryDefn );
