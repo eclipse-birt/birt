@@ -358,18 +358,26 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			listingExecutor.next( );
 			if ( listingExecutor.needSoftBreakAfter( ) )
 			{
+				listingExecutor.softBreakBefore = true;
+				listingExecutor.pageRowCount = 0;
+			}
+			else if(listingExecutor.softBreakBefore)
+			{
 				IStyle style = content.getStyle( );
 				if ( style != null )
 				{
 					CSSValue pageBreak = style
-							.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
+							.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
 					if ( pageBreak == null
 							|| IStyle.AUTO_VALUE.equals( pageBreak ) )
 					{
-						style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+						style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
 								IStyle.SOFT_VALUE );
 					}
 				}
+				listingExecutor.softBreakBefore = false;
+				listingExecutor.previous( );
+				listingExecutor.addAfterBreak = true;
 			}
 		}
 	}

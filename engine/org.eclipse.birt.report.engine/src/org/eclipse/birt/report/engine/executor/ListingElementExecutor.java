@@ -45,6 +45,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	
 	protected boolean breakOnDetailBand = false;
 	
+	protected boolean softBreakBefore = false;
+	
+	protected boolean addAfterBreak = false;
+	
 	/**
 	 * @param context
 	 *            execution context
@@ -163,6 +167,8 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		endOfListing = false;
 		breakOnDetailBand = false;
 		pageBreakLevel = -1;
+		softBreakBefore = false;
+		addAfterBreak = false;
 		super.close( );
 	}
 	
@@ -171,6 +177,14 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		if ( pageBreakInterval > 0 )
 		{
 			pageRowCount++;
+		}
+	}
+	
+	void previous()
+	{
+		if ( pageBreakInterval > 0 )
+		{
+			pageRowCount--;
 		}
 	}
 	
@@ -346,5 +360,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	public void onPageBreak( )
 	{
 		pageRowCount = 0;
+		if ( addAfterBreak )
+		{
+			next( );
+			addAfterBreak = false;
+		}
 	}
 }

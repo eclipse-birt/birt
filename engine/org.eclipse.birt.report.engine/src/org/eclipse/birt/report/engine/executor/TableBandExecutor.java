@@ -60,19 +60,28 @@ public class TableBandExecutor extends StyledItemExecutor
 			if(band.getBandType( )==BandDesign.BAND_DETAIL)
 			{
 				tableExecutor.next( );
-				if(tableExecutor.needSoftBreakAfter( ))
+				if ( tableExecutor.needSoftBreakAfter( ) )
+				{
+					tableExecutor.softBreakBefore = true;
+					tableExecutor.pageRowCount = 0;
+				}
+				else if(tableExecutor.softBreakBefore)
 				{
 					IStyle style = content.getStyle( );
 					if ( style != null )
 					{
 						CSSValue pageBreak = style
-								.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
-						if ( pageBreak == null || IStyle.AUTO_VALUE.equals( pageBreak ) )
+								.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
+						if ( pageBreak == null
+								|| IStyle.AUTO_VALUE.equals( pageBreak ) )
 						{
-							style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+							style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
 									IStyle.SOFT_VALUE );
 						}
 					}
+					tableExecutor.softBreakBefore = false;
+					tableExecutor.previous( );
+					tableExecutor.addAfterBreak = true;
 				}
 			}
 		}

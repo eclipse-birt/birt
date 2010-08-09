@@ -57,18 +57,26 @@ public class ListBandExecutor extends StyledItemExecutor
 				listExecutor.next( );
 				if ( listExecutor.needSoftBreakAfter( ) )
 				{
+					listExecutor.softBreakBefore = true;
+					listExecutor.pageRowCount = 0;
+				}
+				else if(listExecutor.softBreakBefore)
+				{
 					IStyle style = content.getStyle( );
 					if ( style != null )
 					{
 						CSSValue pageBreak = style
-								.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
+								.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
 						if ( pageBreak == null
 								|| IStyle.AUTO_VALUE.equals( pageBreak ) )
 						{
-							style.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+							style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
 									IStyle.SOFT_VALUE );
 						}
 					}
+					listExecutor.softBreakBefore = false;
+					listExecutor.previous( );
+					listExecutor.addAfterBreak = true;
 				}
 			}
 		}
