@@ -40,6 +40,9 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
+import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -54,6 +57,11 @@ import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.impl.ReportEngine;
+import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
+import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
@@ -62,6 +70,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -1857,9 +1866,25 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		IBaseCubeQueryDefinition cubeQueryDefn = null;
 		try
 		{
-			DataRequestSession session = getDteSession( );
+			ReportDesignHandle copy = (ReportDesignHandle) ( designHandle.getModuleHandle( )
+					.copy( ).getHandle( null ) );
 
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			EngineConfig config = new EngineConfig( );
+
+			config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+					DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
+							.getContextClassLoader( ),
+							copy ) );
+			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
+
+			DummyEngineTask engineTask = new DummyEngineTask( engine,
+					new ReportEngineHelper( engine ).openReportDesign( copy ),
+					copy );
+			session = engineTask.getDataSession( );
+
+			engineTask.run( );
+
+			DataService.getInstance( ).registerSession( cube, session );
 
 			IReportItem item = ( (ExtendedItemHandle) designHandle ).getReportItem( );
 			Chart cm = getChartModel( item );
