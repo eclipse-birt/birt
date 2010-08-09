@@ -153,13 +153,15 @@ public final class ChartReportItemPresentationAxisImpl extends
 
 			public Object evaluate( String expression )
 			{
-				return evaluator.evaluate( expression );
+				// Always return null since shared scale will be used to render
+				// axis chart
+				return null;
 			}
 
 			@SuppressWarnings("deprecation")
 			public Object evaluateGlobal( String expression )
 			{
-				return evaluator.evaluateGlobal( expression );
+				return null;
 			}
 
 			public boolean first( )
