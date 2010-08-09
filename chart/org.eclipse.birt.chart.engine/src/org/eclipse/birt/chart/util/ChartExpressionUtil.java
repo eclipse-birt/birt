@@ -434,7 +434,7 @@ public class ChartExpressionUtil
 
 		public void decode( String sExpr )
 		{
-			this.sExpr = sExpr;
+			setExpression( sExpr );
 		}
 
 		public String getType( )
@@ -454,7 +454,13 @@ public class ChartExpressionUtil
 
 		public void setExpression( String sExpr )
 		{
-			this.sExpr = sExpr;
+			if ( sExpr == null )
+			{
+				this.sExpr = null;
+				return;
+			}
+
+			this.sExpr = sExpr.trim( );
 		}
 
 		public boolean isCubeBinding( boolean hasOperation )
