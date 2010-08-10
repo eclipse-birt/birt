@@ -548,7 +548,7 @@ public class PreparedQueryUtil
 	{
 		Set<String> nameSet = new HashSet<String>( );
 
-		for ( int i = 1; i < rsMeta.getFieldCount( ); i++ )
+		for ( int i = 1; i <= rsMeta.getFieldCount( ); i++ )
 		{
 			nameSet.add( rsMeta.getFieldName( i ) );
 		}
