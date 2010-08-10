@@ -1100,6 +1100,11 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 						|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType )
 						|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
 				{
+					if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER.equals( format.getCategory( ) ) )
+					{
+						// Treated as unformatted
+						return null;
+					}
 					return JavaNumberFormatSpecifierImpl.create( new NumberFormatter( format.getPattern( ) ).getFormatCode( ) );
 				}
 				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType )
