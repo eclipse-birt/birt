@@ -154,4 +154,19 @@ public class DataExtractionOption extends TaskOption
 	{
 		setOption( INSTANCE_ID, iid );
 	}
+
+	public void setFormatter( Map formatters )
+	{
+		setOption( OPTION_FORMATTER, formatters );
+	}
+
+	public Map getFormatter( )
+	{
+		Object formatter = getOption( OPTION_FORMATTER );
+		if ( formatter instanceof Map )
+		{
+			return (Map) formatter;
+		}
+		return null;
+	}
 }
