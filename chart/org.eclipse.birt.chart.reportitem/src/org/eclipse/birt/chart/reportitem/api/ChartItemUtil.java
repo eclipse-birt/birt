@@ -1530,4 +1530,30 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		}
 		return AxisType.TEXT_LITERAL;
 	}
+	
+	/**
+	 * Checks if current bindings of chart's refer to other item.
+	 * 
+	 * @param itemHandle
+	 * @return
+	 * @since 2.6.1
+	 */
+	public boolean isReportItemReference( ReportItemHandle itemHandle )
+	{
+		return getReportItemReference( itemHandle ) != null;
+	}
+
+	/**
+	 * Checks if current bindings of chart's refer to the data set or cube
+	 * directly.
+	 * 
+	 * @param itemHandle
+	 * @return
+	 * @since 2.6.1
+	 */
+	public boolean isDirectBinding( ReportItemHandle itemHandle )
+	{
+		return ( itemHandle.getDataSet( ) != null || itemHandle.getCube( ) != null )
+				&& !isReportItemReference( itemHandle );
+	}
 }
