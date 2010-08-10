@@ -176,15 +176,15 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 
 	protected void end( boolean finished ) throws BirtException
 	{
-		if ( !finished )
-		{
-			context.getPageHintManager( ).resetRowHint( );
-		}
 		if ( emitter != null )
 		{
 			context.getPageBufferManager( ).endContainer( pageContent,
 					finished, emitter, true );
 			context.getBufferFactory( ).close( );
+		}
+		if ( !finished )
+		{
+			context.getPageHintManager( ).resetRowHint( );
 		}
 		context.setEmptyPage( false );
 	}

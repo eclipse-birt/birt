@@ -82,28 +82,31 @@ public class HTMLLayoutPageHintManager
 		layoutHint.clear( );
 	}
 	
-	protected HashMap<String, UnresolvedRowHint> lastPageUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
-	protected HashMap<String, UnresolvedRowHint> currentPageUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
-	protected HashMap<String, UnresolvedRowHint> parallelPagesUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
+	//page hints for last parallel pages.
+	protected HashMap<String, UnresolvedRowHint> currentHints = new HashMap<String, UnresolvedRowHint>( );
+	//page hints for current parallel pages.
+	protected HashMap<String, UnresolvedRowHint> hints = new HashMap<String, UnresolvedRowHint>( );
+	//page hint for last single page, which should be flush to document immediately.
+	protected HashMap<String, UnresolvedRowHint> pageRowHint = new HashMap<String, UnresolvedRowHint>( );
 	
 	public void generatePageRowHints(Collection<String> keys )
 	{
-		lastPageUnresolvedRowHints.clear( );
+		pageRowHint.clear( );
 		Iterator<String> iter = keys.iterator( );
 		while(iter.hasNext( ))
 		{
 			String key = iter.next( );
-			UnresolvedRowHint hint = parallelPagesUnresolvedRowHints.get( key );
+			UnresolvedRowHint hint = hints.get( key );
 			if ( hint != null )
 			{
-				lastPageUnresolvedRowHints.put( key, hint );
+				pageRowHint.put( key, hint );
 			}
 		}
 	}
 	
 	public HashMap<String, UnresolvedRowHint> getUnresolvedRowHints( )
 	{
-		return lastPageUnresolvedRowHints;
+		return pageRowHint;
 	}
 	
 	protected ArrayList columnHints = new ArrayList( );
@@ -125,16 +128,16 @@ public class HTMLLayoutPageHintManager
 
 	public UnresolvedRowHint getUnresolvedRowHint( String key )
 	{
-		if ( parallelPagesUnresolvedRowHints.size( ) > 0 )
+		if ( hints.size( ) > 0 )
 		{
-			return parallelPagesUnresolvedRowHints.get( key );
+			return hints.get( key );
 		}
 		return null;
 	}
 
 	public void addUnresolvedRowHint(String key, UnresolvedRowHint hint )
 	{
-		currentPageUnresolvedRowHints.put( key, hint );
+		currentHints.put( key, hint );
 	}
 
 	public void clearPageHint( )
@@ -147,9 +150,9 @@ public class HTMLLayoutPageHintManager
 	{
 		if ( !context.emptyPage )
 		{
-			parallelPagesUnresolvedRowHints.clear( );
-			parallelPagesUnresolvedRowHints.putAll( currentPageUnresolvedRowHints );
-			currentPageUnresolvedRowHints.clear( );
+			hints.clear( );
+			hints.putAll( currentHints );
+			currentHints.clear( );
 		}
 	}
 	
@@ -173,7 +176,7 @@ public class HTMLLayoutPageHintManager
 				{
 					UnresolvedRowHint hint = pageHint.getUnresolvedRowHint( i );
 					String key = getHintMapKey(hint.getTableId( ));
-					parallelPagesUnresolvedRowHints.put( key, hint );
+					hints.put( key, hint );
 				}
 			}
 			// size based page break hints
