@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.io.File;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,6 +72,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.URLClassLoader;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -100,9 +104,12 @@ import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.IReportClasspathResolver;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
@@ -194,6 +201,37 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		project = UIUtil.getCurrentProject( );
 	}
 	
+	private URL[] getDesignWorkspaceClasspath()
+	{
+		IReportClasspathResolver provider = ReportPlugin.getDefault( )
+				.getReportClasspathResolverService( );
+		if ( provider != null )
+		{
+			String designPath = ( (ReportDesignHandle) itemHandle.getModuleHandle( ) ).getFileName( );
+			String[] classpaths = provider.resolveClasspath( designPath );
+
+			if ( classpaths != null )
+			{
+				List<URL> list = new ArrayList<URL>( );
+				for ( String path : classpaths )
+				{
+					try
+					{
+						
+						list.add( new File( path ).toURI( ).toURL( ) );
+					}
+					catch ( MalformedURLException e )
+					{
+						// do nothing
+					}
+				}
+				return list.toArray( new URL[list.size( )] );
+			}
+		}
+
+		return null;
+	}
+	
 	/**
 	 * Initializes some instance handles for query execution.
 	 * 
@@ -205,7 +243,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			if ( isReportDesignHandle( ) )
 			{
-				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( new EngineConfig( ) );
+				EngineConfig config = new EngineConfig( );
+				HashMap<Object, Object> appContext = new HashMap<Object, Object>( );
+				ClassLoader cl = new URLClassLoader( getDesignWorkspaceClasspath( ) );
+				appContext.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, cl );
+				config.setAppContext( appContext );
+				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
 
 				engineTask = new ChartDummyEngineTask( engine,
 						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) itemHandle.getModuleHandle( ) ),
