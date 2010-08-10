@@ -17,6 +17,7 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,6 +42,7 @@ import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -54,6 +56,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -101,13 +104,35 @@ public class CubeCursorImpl implements ICubeCursor
 			if ( binding.getAggrFunction( ) == null )
 			{
 				this.bindingMap.put( bindingName, expr );
-				OLAPExpressionCompiler.compile( cx.newContext( this.scope ), expr );
+				if( expr instanceof IScriptExpression )
+				{
+					if( ! isSimpleDimensionExpression( ( ( IScriptExpression )expr).getText( ) ) )
+						OLAPExpressionCompiler.compile( cx.newContext( this.scope ), expr );	
+				}
+				else
+					OLAPExpressionCompiler.compile( cx.newContext( this.scope ), expr );
 			}
 			dataTypeMap.put( bindingName, new Integer( binding.getDataType( ) ) );
 		}
 		
 		this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE, this.scope, new JSCubeBindingObject( this ));
 		this.scope.put( ScriptConstants.DATA_SET_BINDING_SCRIPTABLE, this.scope, new JSCubeBindingObject( this ));
+	}
+	
+	private static boolean isSimpleDimensionExpression( String expr ) throws DataException
+	{
+		if ( expr != null
+				&& expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+		{
+			Set<DimLevel> s = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expr ),
+					Collections.EMPTY_LIST );
+			if ( s.size( ) > 1 )
+			{
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean nextMeasure( ) throws OLAPException, IOException
