@@ -459,7 +459,7 @@ public final class DataSetProvider
 				}
 			}
 		}
-		return hint;
+		return null;
 	}
 
 	/**
