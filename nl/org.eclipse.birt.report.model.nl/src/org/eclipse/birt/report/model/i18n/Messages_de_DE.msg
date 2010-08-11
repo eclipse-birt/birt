@@ -3784,6 +3784,7 @@ Error.PropertyValueException.NEGATIVE_VALUE=Wert "{0}" für die Eigenschaft "{1}"
 Error.PropertyValueException.NON_POSITIVE_VALUE=Wert "{0}" für die Eigenschaft "{1}" ist ungültig, es muss sich um einen Positivwert handeln.
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=Die Eigenschaft "{0}" von erweitertem Element "{1}" darf nicht von Befehlen festgelegt werden.
 Error.PropertyValueException.DOT_FORBIDDEN=Der Name "{0}" ist unzulässig, da er das Zeichen "." enthält.
+Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=The report item theme type "{0}" is not supported.
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=Die Tabelle "{0}" weist eine nicht gleich bleibende Spaltenanzahl auf.

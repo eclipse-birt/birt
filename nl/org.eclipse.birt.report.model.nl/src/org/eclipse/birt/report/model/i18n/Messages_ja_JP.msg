@@ -3784,6 +3784,7 @@ Error.PropertyValueException.NEGATIVE_VALUE=プロパティ "{1}" の値 "{0}" が無効で
 Error.PropertyValueException.NON_POSITIVE_VALUE=プロパティ "{1}" の値 "{0}" が無効です。正の値を指定する必要があります。
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=拡張項目 "{1}" のプロパティ "{0}" は、コマンドによって指定することはできません。
 Error.PropertyValueException.DOT_FORBIDDEN="{0}" は無効な名前です。名前には "." (ピリオド) を使用できません。
+Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=The report item theme type "{0}" is not supported.
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=テーブル "{0}" の列数に不整合があります。

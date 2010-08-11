@@ -3784,6 +3784,7 @@ Error.PropertyValueException.NEGATIVE_VALUE=属性 "{1}" 的值 "{0}" 无效，该值不能
 Error.PropertyValueException.NON_POSITIVE_VALUE=属性 "{1}" 的值 "{0}" 无效，该值应为正值。
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=ExtendedItem“{1}”的属性“{0}”禁止通过命令设置。
 Error.PropertyValueException.DOT_FORBIDDEN=名称 "{0}" 无效，因为它包含字符 "."。
+Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=The report item theme type "{0}" is not supported.
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=表 "{0}" 的列计数不一致。

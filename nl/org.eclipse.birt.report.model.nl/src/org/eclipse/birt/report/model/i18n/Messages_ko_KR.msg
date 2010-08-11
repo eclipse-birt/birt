@@ -3784,6 +3784,7 @@ Error.PropertyValueException.NEGATIVE_VALUE=속성 "{1}"에 대한 값 "{0}"이(가) 잘�
 Error.PropertyValueException.NON_POSITIVE_VALUE=속성 "{1}"에 대한 값 "{0}"이(가) 잘못되었습니다. 값은 양수여야 합니다.
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=확장 항목 "{1}"의 속성 "{0}"이(가) 명령으로 설정 금지되었습니다.
 Error.PropertyValueException.DOT_FORBIDDEN="." 문자를 포함하므로 "{0}" 이름이 잘못되었습니다.
+Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=The report item theme type "{0}" is not supported.
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=테이블 "{0}"에 일치하지 않는 열 수가 있습니다.
