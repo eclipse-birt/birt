@@ -15,6 +15,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.presentation.TableColumnHint;
@@ -127,15 +129,24 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 	{
 		this.isRepeated = isRepeated;
 	}
-
-	protected void updatePageNumber( )
+		
+	protected void updatePageContent( ) throws BirtException
 	{
 		if ( page != null )
 		{
 			IPageContent pc = (IPageContent) page.getContent( );
 			pc.setPageNumber( context.getPageNumber( ) );
+			if ( context.needLayoutPageContent( ) )
+			{
+				IPageContent pageContent = ReportExecutorUtil
+						.executeMasterPage( context.getReportExecutor( ),
+								context.getPageNumber( ),
+								(MasterPageDesign) pc.getGenerateBy( ) );
+				page.content = pageContent;
+			}
 		}
 	}
+	
 	public void flush( ) throws BirtException
 	{
 		// current node should be page node
@@ -143,7 +154,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 		{
 			context.getPageHintManager( ).addTableColumnHints( columnHints );
 			context.getPageHintManager( ).generatePageRowHints( getTableKeys() );
-			updatePageNumber();
+			updatePageContent();
 			page.flush( );
 			pageBreakEvent( );
 			if ( !page.finished )

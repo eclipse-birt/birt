@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 import org.eclipse.birt.report.engine.layout.html.buffer.PageBufferFactory;
 
@@ -82,6 +83,11 @@ public class HTMLLayoutContext
 	public boolean needLayoutPageContent( )
 	{
 		return needLayoutPageContent;
+	}
+	
+	public IReportExecutor getReportExecutor( )
+	{
+		return this.engine.executor;
 	}
 
 	public HTMLReportLayoutEngine getLayoutEngine( )

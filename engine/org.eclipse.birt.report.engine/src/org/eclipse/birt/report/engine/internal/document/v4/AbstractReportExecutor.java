@@ -117,6 +117,11 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 			throw ex;
 		}
 	}
+	
+	public PageHintReader getPageHintReader()
+	{
+		return this.hintsReader;
+	}
 
 	public void close( )
 	{
