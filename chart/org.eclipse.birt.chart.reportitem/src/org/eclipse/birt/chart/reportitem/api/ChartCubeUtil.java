@@ -284,6 +284,27 @@ public class ChartCubeUtil extends ChartItemUtil
 		}
 		return null;
 	}
+	
+	public static ExtendedItemHandle findAxisChartInCell( CrosstabCellHandle cell )
+	{
+		if ( cell != null )
+		{
+			List<?> contents = cell.getContents( );
+			if ( contents != null && contents.size( ) >= 1 )
+			{
+				for ( int i = 0; i < contents.size( ); i++ )
+				{
+					Object obj = contents.get( i );
+					if ( obj instanceof ExtendedItemHandle
+							&& isAxisChart( (ExtendedItemHandle) obj ) )
+					{
+						return (ExtendedItemHandle) obj;
+					}
+				}
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Gets the level by index of all levels
@@ -1187,10 +1208,10 @@ public class ChartCubeUtil extends ChartItemUtil
 		if ( grandTotalAggCell != null
 				&& grandTotalAggCell.getContents( ).size( ) > 0 )
 		{
-			Object content = getFirstContent( grandTotalAggCell );
-			if ( isAxisChart( (DesignElementHandle) content ) )
+			ExtendedItemHandle axisChart = findAxisChartInCell( grandTotalAggCell );
+			if ( axisChart != null )
 			{
-				( (DesignElementHandle) content ).dropAndClear( );
+				axisChart.dropAndClear( );
 			}
 
 			if ( isEmptyInAllGrandTotalCells( cell.getCrosstab( ), bTransposed ) )

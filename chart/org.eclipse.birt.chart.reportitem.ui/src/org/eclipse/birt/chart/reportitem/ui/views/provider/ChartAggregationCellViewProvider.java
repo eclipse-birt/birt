@@ -588,8 +588,7 @@ public class ChartAggregationCellViewProvider extends
 
 			// If axis chart in total cell, don't allow to switch it to Chart
 			// view.
-			Object content = ChartCubeUtil.getFirstContent( cell );
-			if ( ChartCubeUtil.isAxisChart( ( (DesignElementHandle) content ) ) )
+			if ( ChartCubeUtil.findAxisChartInCell( cell ) != null )
 			{
 				return false;
 			}
