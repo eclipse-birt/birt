@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">    
+    <page-setup>
+        <simple-master-page name="My Page"/>
+    </page-setup>
+    <data-sources>
+    	<script-data-source name="testDataSource"/>
+    </data-sources>
+    <data-sets>
+    	<script-data-set name="testDataSet">
+    		<property name="dataSource">testDataSource</property>
+    	</script-data-set>
+    </data-sets>
+    <body>
+        <table name="My table">			
+        	<property name="dataSet">testDataSet</property>
+            <header>
+                <row>
+                	<property name="repeatable">false</property>
+                    <expression name="bookmark">This is bookmark for section.</expression>
+                    <list-property name="visibility">
+                        <structure>
+                            <property name="format">my/format</property>
+                            <expression name="valueExpr">pdf, 10 people</expression>
+                        </structure>
+                        <structure>
+                            <property name="format">all</property>
+                            <expression name="valueExpr">excel, 10 people</expression>
+                        </structure>
+                    </list-property>
+                </row>
+            </header>
+    	</table>
+    </body>
+</report>

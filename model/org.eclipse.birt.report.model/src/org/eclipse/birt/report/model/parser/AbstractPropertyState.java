@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
@@ -448,6 +449,15 @@ public class AbstractPropertyState extends AbstractParseState
 				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
 						.equalsIgnoreCase( errorCode ) )
 			return true;
+
+		if ( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE
+				.equals( errorCode )
+				&& ( this.struct != null && struct instanceof HideRule && HideRule.FORMAT_MEMBER
+						.equals( propDefn.getName( ) ) )
+				&& handler.versionNumber < VersionUtil.VERSION_3_2_22 )
+		{
+			return true;
+		}
 
 		// choice 'any' is removed from column-data-type since 3.2.17(design
 		// file version)/2.3.2(birt release version)

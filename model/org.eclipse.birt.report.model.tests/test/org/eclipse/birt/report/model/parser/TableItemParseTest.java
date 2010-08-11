@@ -26,12 +26,14 @@ import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -270,7 +272,7 @@ public class TableItemParseTest extends ParserTestCase
 		// check bookmark and its display name
 		assertEquals( "Row Bookmark", row.getBookmark( ) ); //$NON-NLS-1
 		assertEquals( "Row Bookmark Display Name", row.getBookmarkDisplayName( ) ); //$NON-NLS-1
-		
+
 		// checks event handler
 		assertEquals( "birt.js.myDetailRowHandler", row //$NON-NLS-1$
 				.getEventHandlerClass( ) );
@@ -308,8 +310,9 @@ public class TableItemParseTest extends ParserTestCase
 
 		// check bookmark and its display name
 		assertEquals( "Cell Bookmark", cell.getBookmark( ) ); //$NON-NLS-1$
-		assertEquals( "Cell Bookmark Display Name", cell.getBookmarkDisplayName( ) ); //$NON-NLS-1$
-		
+		assertEquals(
+				"Cell Bookmark Display Name", cell.getBookmarkDisplayName( ) ); //$NON-NLS-1$
+
 		// checks event handler
 
 		assertEquals( "birt.js.myDetailCellHandler", cell //$NON-NLS-1$
@@ -337,13 +340,14 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "desc", group.getSortDirection( ) ); //$NON-NLS-1$
 		assertEquals( "[Country]", group.getKeyExpr( ) ); //$NON-NLS-1$
 		assertEquals( "toc Country", group.getTOC( ).getExpression( ) ); //$NON-NLS-1$
-				
+
 		assertEquals( "acl expression test", group.getACLExpression( ) ); //$NON-NLS-1$
 		assertFalse( group.cascadeACL( ) );
 
 		// check bookmark and its display name
 		assertEquals( "Group Bookmark", group.getBookmark( ) ); //$NON-NLS-1
-		assertEquals( "Group Bookmark Display Name", group.getBookmarkDisplayName( ) ); //$NON-NLS-1
+		assertEquals(
+				"Group Bookmark Display Name", group.getBookmarkDisplayName( ) ); //$NON-NLS-1
 
 		// checks event handler
 		assertEquals( "birt.js.myGroup1Handler", group //$NON-NLS-1$
@@ -568,7 +572,7 @@ public class TableItemParseTest extends ParserTestCase
 
 		row.setBookmark( "row bookmark" ); //$NON-NLS-1$
 		row.setBookmarkDisplayName( "row bookmark display name" ); //$NON-NLS-1$
-		
+
 		SlotHandle cells = row.getCells( );
 		assertNotNull( cells );
 		assertEquals( 1, cells.getCount( ) );
@@ -668,13 +672,47 @@ public class TableItemParseTest extends ParserTestCase
 		openDesign( summaryFileName );
 		TableHandle tableHandle = (TableHandle) designHandle
 				.findElement( "My table" ); //$NON-NLS-1$
-		
+
 		assertTrue( tableHandle.isSummaryTable( ) );
-		
-		tableHandle.setIsSummaryTable( false );		
-		save();
-		
+
+		tableHandle.setIsSummaryTable( false );
+		save( );
+
 		assertTrue( compareFile( summaryGoldenFileName ) );
+	}
+
+	public void testHideRuleFormatCompatibility( ) throws Exception
+	{
+		openDesign( "TableItemParseTest_3.xml" ); //$NON-NLS-1$
+
+		List<ErrorDetail> errors = design.getAllErrors( );
+		assertEquals( 1, errors.size( ) );
+		assertEquals( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				errors.get( 0 ).getErrorCode( ) );
+
+		TableHandle tableHandle = (TableHandle) designHandle
+				.findElement( "My table" ); //$NON-NLS-1$
+		RowHandle rowHandle = (RowHandle) tableHandle.getHeader( ).get( 0 );
+
+		Iterator rules = rowHandle.visibilityRulesIterator( );
+		assertNotNull( rules );
+		HideRuleHandle handle = (HideRuleHandle) rules.next( );
+		assertEquals( "my/format", handle.getFormat( ) ); //$NON-NLS-1$
+		handle = (HideRuleHandle) rules.next( );
+		assertEquals( DesignChoiceConstants.FORMAT_TYPE_ALL, handle.getFormat( ) );
+
+		// can not set a illegal format string
+		try
+		{
+			handle.setFormat( "wrong foramt" ); //$NON-NLS-1$
+			fail( );
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
+		}
 	}
 
 }

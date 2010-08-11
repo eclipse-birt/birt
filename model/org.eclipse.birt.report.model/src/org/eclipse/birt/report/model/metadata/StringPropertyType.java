@@ -11,7 +11,13 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.util.regex.Pattern;
+
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -34,6 +40,10 @@ public class StringPropertyType extends TextualPropertyType
 	 */
 
 	private static final String DISPLAY_NAME_KEY = "Property.string"; //$NON-NLS-1$
+
+	private static final String HIDE_RULE_FORMAT_PATTERN = "[$_a-zA-Z][$_a-zA-Z0-9]*"; //$NON-NLS-1$
+	private static final Pattern hideRuleFormatPattern = Pattern.compile(
+			HIDE_RULE_FORMAT_PATTERN, Pattern.CASE_INSENSITIVE );
 
 	/**
 	 * Constructor.
@@ -68,7 +78,42 @@ public class StringPropertyType extends TextualPropertyType
 			return StyleUtil.handleFontFamily( defn, stringValue );
 		}
 
+		if ( HideRule.FORMAT_MEMBER.equals( defn.getName( ) ) )
+		{
+			IStructureDefn hideRuleStruct = MetaDataDictionary.getInstance( )
+					.getStructure( HideRule.STRUCTURE_NAME );
+			IPropertyDefn formatProperty = null;
+			if ( hideRuleStruct != null )
+				formatProperty = hideRuleStruct
+						.getMember( HideRule.FORMAT_MEMBER );
+			if ( defn == formatProperty )
+			{
+				return validateHideRuleFormat( stringValue );
+			}
+		}
+
 		return stringValue;
+	}
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @throws PropertyValueException
+	 */
+	private Object validateHideRuleFormat( String value )
+			throws PropertyValueException
+	{
+		if ( StringUtil.isBlank( value ) )
+		{
+			return value;
+		}
+
+		if ( !hideRuleFormatPattern.matcher( value ).matches( ) )
+			throw new PropertyValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					getTypeCode( ) );
+		return value;
 	}
 
 	/*

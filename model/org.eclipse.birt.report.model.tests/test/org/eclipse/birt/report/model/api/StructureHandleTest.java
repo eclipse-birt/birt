@@ -439,8 +439,8 @@ public class StructureHandleTest extends BaseTestCase
 				.getFormat( ) );
 		assertEquals( "new expression", structureHandle.getExpression( ) ); //$NON-NLS-1$
 
-		structureHandle.setFormat( "user defined format" ); //$NON-NLS-1$
-		assertEquals( "user defined format", structureHandle.getFormat( ) ); //$NON-NLS-1$
+		structureHandle.setFormat( "user_defined_format" ); //$NON-NLS-1$
+		assertEquals( "user_defined_format", structureHandle.getFormat( ) ); //$NON-NLS-1$
 	}
 
 	/**
