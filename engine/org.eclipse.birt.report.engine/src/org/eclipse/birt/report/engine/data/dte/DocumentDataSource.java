@@ -38,6 +38,11 @@ public class DocumentDataSource
 			this.iid = iid;
 		}
 	}
+	
+	public boolean isReportletDocument()
+	{
+		return bookmark!=null && iid!=null;
+	}
 
 	public void open( ) throws IOException
 	{

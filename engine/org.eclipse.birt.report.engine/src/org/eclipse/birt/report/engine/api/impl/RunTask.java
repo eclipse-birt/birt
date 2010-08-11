@@ -161,7 +161,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			writer = new ReportDocumentWriter( engine, archiveWriter, exts );
 			executionContext.setReportDocWriter( writer );
 			DocumentDataSource ds = executionContext.getDataSource( );
-			if ( ds != null )
+			if ( ds != null && ds.isReportletDocument( ) )
 			{
 				writer.saveReportletDocument( ds.getBookmark( ), ds
 						.getInstanceID( ) );
