@@ -365,6 +365,15 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		return "UNKNOWN";
 	}
 	
+	public void removeReportletDoucment( )
+	{
+		if ( archive.exists( REPORTLET_DOCUMENT_STREAM ) )
+		{
+			archive.dropStream( REPORTLET_DOCUMENT_STREAM );
+		}
+	}
+	
+	
 	public void saveReportletDocument( String bookmark, InstanceID iid )
 			throws IOException
 	{
