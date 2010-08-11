@@ -169,7 +169,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 				PlotWithAxes.HORIZONTAL,
 				dStart,
 				dEnd,
-				false,
+				true,
 				aax );
 		if ( !scX.isStepFixed( ) )
 		{
@@ -187,7 +187,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 						PlotWithAxes.HORIZONTAL,
 						dStart,
 						dEnd,
-						false,
+						true,
 						aax );
 				if ( scX.getUnit( ) != null
 						&& PlotWithAxes.asInteger( scX.getUnit( ) ) == Calendar.YEAR
