@@ -355,13 +355,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		GroupDesign groupDesign = (GroupDesign) design;
 		if ( groupDesign.getGroupLevel( ) == listingExecutor.pageBreakLevel )
 		{
-			listingExecutor.next( );
-			if ( listingExecutor.needSoftBreakAfter( ) )
-			{
-				listingExecutor.softBreakBefore = true;
-				listingExecutor.pageRowCount = 0;
-			}
-			else if(listingExecutor.softBreakBefore)
+			if ( listingExecutor.softBreakBefore )
 			{
 				IStyle style = content.getStyle( );
 				if ( style != null )
@@ -376,8 +370,13 @@ abstract public class GroupExecutor extends ReportItemExecutor
 					}
 				}
 				listingExecutor.softBreakBefore = false;
-				listingExecutor.previous( );
 				listingExecutor.addAfterBreak = true;
+				listingExecutor.pageRowCount = 0;
+			}
+			listingExecutor.next( );
+			if ( listingExecutor.needSoftBreakAfter( ) )
+			{
+				listingExecutor.softBreakBefore = true;
 			}
 		}
 	}

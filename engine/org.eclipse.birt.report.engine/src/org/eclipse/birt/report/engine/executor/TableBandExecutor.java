@@ -57,15 +57,9 @@ public class TableBandExecutor extends StyledItemExecutor
 		if ( tableExecutor.breakOnDetailBand )
 		{
 			BandDesign band = (BandDesign) design;
-			if(band.getBandType( )==BandDesign.BAND_DETAIL)
+			if ( band.getBandType( ) == BandDesign.BAND_DETAIL )
 			{
-				tableExecutor.next( );
-				if ( tableExecutor.needSoftBreakAfter( ) )
-				{
-					tableExecutor.softBreakBefore = true;
-					tableExecutor.pageRowCount = 0;
-				}
-				else if(tableExecutor.softBreakBefore)
+				if ( tableExecutor.softBreakBefore )
 				{
 					IStyle style = content.getStyle( );
 					if ( style != null )
@@ -80,8 +74,13 @@ public class TableBandExecutor extends StyledItemExecutor
 						}
 					}
 					tableExecutor.softBreakBefore = false;
-					tableExecutor.previous( );
 					tableExecutor.addAfterBreak = true;
+					tableExecutor.pageRowCount = 0;
+				}
+				tableExecutor.next( );
+				if ( tableExecutor.needSoftBreakAfter( ) )
+				{
+					tableExecutor.softBreakBefore = true;
 				}
 			}
 		}
