@@ -134,10 +134,17 @@ public class PropertyValueException extends SemanticException
 
 	/**
 	 * The character "." is forbidden to NamePropertyType.
+	 * 
 	 * @deprecated
 	 */
 
 	public static final String DESIGN_EXCEPTION_DOT_FORBIDDEN = MessageConstants.PROPERTY_VALUE_EXCEPTION_DOT_FORBIDDEN;
+
+	/**
+	 * Error codes that indicates that the report item theme type is not
+	 * supported yet.
+	 */
+	public static final String DESIGN_EXCEPTION_NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE = MessageConstants.PROPERTY_VALUE_EXCEPTION_NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE;
 
 	/**
 	 * The invalid value.
@@ -162,7 +169,7 @@ public class PropertyValueException extends SemanticException
 	 */
 
 	protected String propertyTypeName = null;
-	
+
 	/**
 	 * The display name of the property being set.
 	 */
@@ -337,7 +344,7 @@ public class PropertyValueException extends SemanticException
 	{
 		return propertyName;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -349,7 +356,7 @@ public class PropertyValueException extends SemanticException
 		String value = ""; //$NON-NLS-1$
 
 		if ( invalidValue != null )
-			value = invalidValue.toString( ); 
+			value = invalidValue.toString( );
 
 		if ( sResourceKey == DESIGN_EXCEPTION_INVALID_VALUE )
 		{
@@ -365,7 +372,8 @@ public class PropertyValueException extends SemanticException
 		else if ( sResourceKey == DESIGN_EXCEPTION_CHOICE_NOT_FOUND
 				|| sResourceKey == DESIGN_EXCEPTION_VALUE_EXISTS
 				|| sResourceKey == DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
-				|| sResourceKey == DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE )
+				|| sResourceKey == DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE
+				|| sResourceKey == DESIGN_EXCEPTION_NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{value} );
 		}
@@ -380,7 +388,7 @@ public class PropertyValueException extends SemanticException
 		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_ITEM_TYPE )
 		{
 			PropertyDefn propDefn = element.getPropertyDefn( propertyName );
-			
+
 			if ( memberName != null )
 			{
 				propDefn = (PropertyDefn) propDefn.getStructDefn( ).getMember(

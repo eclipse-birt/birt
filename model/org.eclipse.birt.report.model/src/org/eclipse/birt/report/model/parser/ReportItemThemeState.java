@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -98,9 +97,10 @@ class ReportItemThemeState extends ReportElementState
 					.dealInvalidPropertyValue(
 							handler,
 							new PropertyValueException(
+									element,
+									IReportItemThemeModel.TYPE_PROP,
 									type,
-									PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-									IPropertyType.STRING_TYPE ) );
+									PropertyValueException.DESIGN_EXCEPTION_NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE ) );
 		}
 		setProperty( IReportItemThemeModel.TYPE_PROP, type );
 

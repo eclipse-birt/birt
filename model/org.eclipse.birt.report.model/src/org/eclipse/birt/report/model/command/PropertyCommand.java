@@ -59,6 +59,7 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
@@ -70,6 +71,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
@@ -337,6 +339,19 @@ public class PropertyCommand extends AbstractPropertyCommand
 				throw new SemanticError(
 						element,
 						SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_DATA_OBJECT );
+			}
+		}
+
+		if ( element instanceof ReportItemTheme
+				&& IReportItemThemeModel.TYPE_PROP.equals( propName ) )
+		{
+			if ( !ReportItemTheme.isValidType( (String) value ) )
+			{
+				throw new PropertyValueException(
+						element,
+						IReportItemThemeModel.TYPE_PROP,
+						value,
+						PropertyValueException.DESIGN_EXCEPTION_NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE );
 			}
 		}
 

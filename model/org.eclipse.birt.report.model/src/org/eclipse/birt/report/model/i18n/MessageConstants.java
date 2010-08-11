@@ -166,6 +166,7 @@ public interface MessageConstants
 	public static final String PROPERTY_VALUE_EXCEPTION_NEGATIVE_VALUE = "Error.PropertyValueException.NEGATIVE_VALUE"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_NON_POSITIVE_VALUE = "Error.PropertyValueException.NON_POSITIVE_VALUE"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_DOT_FORBIDDEN = "Error.PropertyValueException.DOT_FORBIDDEN"; //$NON-NLS-1$
+	public static final String PROPERTY_VALUE_EXCEPTION_NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE = "Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE"; //$NON-NLS-1$
 
 	// SemanticError
 	public static final String SEMANTIC_ERROR_INCONSISTENT_TABLE_COL_COUNT = "Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT"; //$NON-NLS-1$
@@ -361,6 +362,6 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_WITH_NO_WIDTH = "Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT"; //$NON-NLS-1$	
-	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$		
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$			
 	
 }
