@@ -48,14 +48,15 @@ import org.eclipse.birt.chart.model.data.BigNumberDataElement;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
+import org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.util.NumberUtil;
 import org.eclipse.birt.chart.util.ChartUtil.CacheDateFormat;
 import org.eclipse.birt.chart.util.ChartUtil.CacheDecimalFormat;
+import org.eclipse.birt.chart.util.NumberUtil;
 
 import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.DecimalFormat;
@@ -204,6 +205,168 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			this.bStepFixed = bStepFixed;
 			return this;
+		}
+	}
+	
+	/**
+	 * This class computes and provides the tick values of axis.
+	 */
+	private static class AxisValueProvider
+	{
+		double dAxisValue;
+		double dAxisStep;
+		BigDecimal bdAxisValue;
+		BigDecimal bdAxisStep;
+		DecimalFormat df = null;
+		private AutoScale as;
+		private BigDecimal bdStep;
+		private ScaleInfo si;
+		
+		AxisValueProvider(double dAxisValue, double dAxisStep, AutoScale as, ScaleInfo si )
+		{
+			this.dAxisValue = dAxisValue;
+			this.dAxisStep = dAxisStep;
+			this.as = as;
+			this.si = si;
+			if ( as.isBigNumber( ) )
+			{
+				this.bdAxisValue = BigDecimal.valueOf( dAxisValue ).multiply( as.getBigNumberDivisor( ),
+						NumberUtil.DEFAULT_MATHCONTEXT );
+				this.bdAxisStep = BigDecimal.valueOf( dAxisStep );
+				this.bdStep = bdAxisStep.multiply( as.getBigNumberDivisor( ),
+						NumberUtil.DEFAULT_MATHCONTEXT );
+			}	
+		}
+		
+		/**
+		 * Return tick value object.
+		 * 
+		 * @param nde
+		 * @return
+		 */
+		Object getValue( NumberDataElement nde )
+		{
+			if ( this.as.isBigNumber( )  )
+			{
+				return this.bdAxisValue;
+			}
+			else
+			{
+				nde.setValue( this.dAxisValue );
+				return nde;
+			}
+		}
+		
+		/**
+		 * This is invoked to compute the next tick value under LINEAR case.
+		 */
+		void addStep()
+		{
+			if ( !this.as.isBigNumber( ) )
+			{
+				dAxisValue += dAxisStep;
+			}
+			else
+			{
+				bdAxisValue = bdAxisValue.add( bdStep );
+			}
+		}
+		
+		/**
+		 * This is called to compute the next tick value under LOGARITHMIC case.
+		 */
+		void mutltiplyStep()
+		{
+			if ( !this.as.isBigNumber( ) )
+			{
+				dAxisValue *= dAxisStep;
+			}
+			else
+			{
+				bdAxisValue = bdAxisValue.multiply( this.bdAxisStep,
+						NumberUtil.DEFAULT_MATHCONTEXT );
+			}
+		}
+		
+		DecimalFormat getDecimalFormat()
+		{
+			if ( this.si.fs == null ) // CREATE IF FORMAT SPECIFIER IS UNDEFINED
+			{
+				if ( !as.isBigNumber( ) )
+				{
+					this.df = as.computeDecimalFormat( dAxisValue, dAxisStep );
+				}
+				else
+				{
+
+					this.df = as.computeDecimalFormat( bdAxisValue.multiply( as.getBigNumberDivisor( ),
+							NumberUtil.DEFAULT_MATHCONTEXT ), bdStep);
+				}
+			}
+			return this.df;
+		}
+		
+		/**
+		 * Formats specified value according to specified formatter.
+		 * 
+		 * @param oValue
+		 * @param fs
+		 * @param lcl
+		 * @param oCachedJavaFormatter
+		 * @param logger
+		 * @return
+		 */
+		static String format( Object oValue, FormatSpecifier fs,
+				ULocale lcl, Object oCachedJavaFormatter, ILogger logger)
+		{
+			String sText = NULL_STRING;
+			try
+			{
+				sText = ValueFormatter.format( oValue,
+						fs,
+						lcl,
+						oCachedJavaFormatter );
+			}
+			catch ( ChartException dfex )
+			{
+				logger.log( dfex );
+			}
+			return sText;
+		}
+
+		/**
+		 * Returns an actual value object according to current argument and
+		 * contenxt.
+		 * 
+		 * @param originValue
+		 * @param divisor the divisor used for big number case.
+		 * @return
+		 */
+		static Object getValue(Object originValue, BigDecimal divisor )
+		{
+			if ( originValue instanceof Number )
+			{
+				if ( divisor != null )
+				{
+					return NumberUtil.asBigDecimal( (Number) originValue )
+							.multiply( divisor, NumberUtil.DEFAULT_MATHCONTEXT );
+				}
+				return ( (Number) originValue ).doubleValue( );
+			}
+			else if ( originValue instanceof NumberDataElement )
+			{
+				Double d = new Double( ( (NumberDataElement) originValue ).getValue( ) );
+				if ( divisor != null )
+				{
+					return NumberUtil.asBigDecimal( (Number) d ).multiply( divisor, NumberUtil.DEFAULT_MATHCONTEXT );
+				}
+				return d;
+			}
+			else if ( originValue instanceof BigNumberDataElementImpl )
+			{
+				return ((BigNumberDataElementImpl)originValue).getValue( );
+			}
+			return originValue;
 		}
 	}
 
@@ -660,14 +823,14 @@ public final class AutoScale extends Methods implements Cloneable
 			return "0.00"; //$NON-NLS-1$
 		}
 
-		double dMinValue = asDouble( context.getMin( ) ).doubleValue( );
-		double dStep = asDouble( oStep ).doubleValue( );
+		Number nMinValue = (Number) context.getMin( );
+		Number nStep =  (Number) oStep;
 
 		if ( ( info.type & LOGARITHMIC ) == LOGARITHMIC )
 		{
-			return ValueFormatter.getNumericPattern( dMinValue );
+			return ValueFormatter.getNumericPattern( nMinValue );
 		}
-		return ValueFormatter.getNumericPattern( dStep );
+		return ValueFormatter.getNumericPattern( nStep );
 	}
 
 	public final int getType( )
@@ -1282,27 +1445,17 @@ public final class AutoScale extends Methods implements Cloneable
 			final double dAxisStep = asDouble( getStep( ) ).doubleValue( );
 			String sText;
 			DecimalFormat df = null;
-			if ( info.fs == null ) // CREATE IF FORMAT SPECIFIER IS UNDEFINED
-			{
-				df = computeDecimalFormat( dAxisValue, dAxisStep );
-			}
+			AxisValueProvider avi = new AxisValueProvider( dAxisValue, dAxisStep, this, info );
 			final NumberDataElement nde = NumberDataElementImpl.create( 0 );
-
 			for ( int i = 0; i < da.size( ); i++ )
 			{
-				nde.setValue( dAxisValue );
-				try
-				{
-					sText = ValueFormatter.format( nde,
-							info.fs,
-							info.rtc.getULocale( ),
-							df );
-				}
-				catch ( ChartException dfex )
-				{
-					logger.log( dfex );
-					sText = NULL_STRING;
-				}
+				df = avi.getDecimalFormat( );
+				Object value = avi.getValue( nde );
+				sText = AxisValueProvider.format( value,
+						info.fs,
+						info.rtc.getULocale( ),
+						df,
+						logger );
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
@@ -1361,7 +1514,8 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					rrPrev = rr;
 				}
-				dAxisValue += dAxisStep;
+				
+				avi.addStep( );
 			}
 		}
 		else if ( ( info.type & ( NUMERICAL | LOGARITHMIC ) ) == ( NUMERICAL | LOGARITHMIC ) )
@@ -1371,26 +1525,16 @@ public final class AutoScale extends Methods implements Cloneable
 			String sText;
 			NumberDataElement nde = NumberDataElementImpl.create( 0 );
 			DecimalFormat df = null;
-
+			AxisValueProvider avi = new AxisValueProvider( dAxisValue, dAxisStep, this, info );
 			for ( int i = 0; i < da.size( ) - 1; i++ )
 			{
-				try
-				{
-					if ( info.fs == null )
-					{
-						df = computeDecimalFormat( dAxisValue, dAxisStep );
-					}
-					nde.setValue( dAxisValue );
-					sText = ValueFormatter.format( nde,
-								info.fs,
-								info.rtc.getULocale( ),
-								df );
-				}
-				catch ( ChartException dfex )
-				{
-					logger.log( dfex );
-					sText = NULL_STRING;
-				}
+				df = avi.getDecimalFormat( );
+				Object value = avi.getValue( nde );
+				sText = AxisValueProvider.format( value,
+						info.fs,
+						info.rtc.getULocale( ),
+						df,
+						logger );
 
 				if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
 				{
@@ -1433,7 +1577,8 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					rrPrev = rr;
 				}
-				dAxisValue *= dAxisStep;
+				
+				avi.mutltiplyStep( );
 			}
 		}
 		else if ( info.type == DATE_TIME )
@@ -2773,7 +2918,8 @@ public final class AutoScale extends Methods implements Cloneable
 				double dStepSize = asDouble( context.getStep( ) ).doubleValue( );
 				dTickGap = Math.min( Math.abs( dStepSize
 						/ ( dMax - dMin )
-						* dLength ), dLength )
+						* dLength ),
+						dLength )
 						* iDirection;
 			}
 		}
@@ -3114,16 +3260,25 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				// ADJUST THE START POSITION
 				DecimalFormat df = null;
+				Object value = AxisValueProvider.getValue( getMinimum( ),
+						isBigNumber( ) ? this.getBigNumberDivisor( ) : null );
 				if ( info.fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT
 				// SPECIFIER
 				// ISN'T DEFINED
 				{
-					df = new DecimalFormat( getNumericPattern( ) );
+					if ( !isBigNumber()  )
+					{
+						df = new DecimalFormat( getNumericPattern( ) );
+					}
+					else
+					{
+						df = new DecimalFormat( ValueFormatter.getNumericPattern( (Number)value ) );
+					}
 				}
 				String sValue = null;
 				try
 				{
-					sValue = ValueFormatter.format( getMinimum( ),
+					sValue = ValueFormatter.format( value,
 							info.fs,
 							info.rtc.getULocale( ),
 							df );
@@ -3147,9 +3302,17 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				// ADJUST THE END POSITION
+				value = AxisValueProvider.getValue( getMaximum( ),
+						isBigNumber( ) ? this.getBigNumberDivisor( ) : null );
+				if ( info.fs == null )
+					// ONLY COMPUTE INTERNALLY (DIFFERENT FROM
+					// MINIMUM) IF FORMAT SPECIFIER ISN'T DEFINED
+				{
+					df = new DecimalFormat( ValueFormatter.getNumericPattern( (Number) value ) );
+				}
 				try
 				{
-					sValue = ValueFormatter.format( getMaximum( ),
+					sValue = ValueFormatter.format( value,
 							info.fs,
 							info.rtc.getULocale( ),
 							df );
@@ -3176,18 +3339,19 @@ public final class AutoScale extends Methods implements Cloneable
 			else if ( ( info.type & LOGARITHMIC ) == LOGARITHMIC )
 			{
 				// ADJUST THE START POSITION
-				final double dMinimum = asDouble( getMinimum( ) ).doubleValue( );
 				DecimalFormat df = null;
+				Object value = AxisValueProvider.getValue( getMinimum( ),
+							isBigNumber( ) ? this.getBigNumberDivisor( ) : null );
 				if ( info.fs == null )
 				// ONLY COMPUTE INTERNALLY IF FORMAT
 				// SPECIFIER ISN'T DEFINED
 				{
-					df = new DecimalFormat( ValueFormatter.getNumericPattern( dMinimum ) );
+					df = new DecimalFormat( ValueFormatter.getNumericPattern( (Number)value ) );
 				}
 				String sValue = null;
 				try
 				{
-					sValue = ValueFormatter.format( getMinimum( ),
+					sValue = ValueFormatter.format( value,
 							info.fs,
 							info.rtc.getULocale( ),
 							df );
@@ -3213,15 +3377,17 @@ public final class AutoScale extends Methods implements Cloneable
 
 				// ADJUST THE END POSITION
 				final double dMaximum = asDouble( getMaximum( ) ).doubleValue( );
+				value = AxisValueProvider.getValue( getMaximum( ),
+						isBigNumber( ) ? this.getBigNumberDivisor( ) : null ) ;
 				if ( info.fs == null )
 				// ONLY COMPUTE INTERNALLY (DIFFERENT FROM
 				// MINIMUM) IF FORMAT SPECIFIER ISN'T DEFINED
 				{
-					df = new DecimalFormat( ValueFormatter.getNumericPattern( dMaximum ) );
+					df = new DecimalFormat( ValueFormatter.getNumericPattern( (Number) value ) );
 				}
 				try
 				{
-					sValue = ValueFormatter.format( getMaximum( ),
+					sValue = ValueFormatter.format( value,
 							info.fs,
 							info.rtc.getULocale( ),
 							df );
@@ -3390,56 +3556,15 @@ public final class AutoScale extends Methods implements Cloneable
 				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
-				DecimalFormat df = null;
-				boolean isbignumber = isBigNumber();
-				BigDecimal bdAxisValue = null;
-				BigDecimal bdAxisStep = null;
-				if ( isbignumber )
-				{
-					bdAxisValue = BigDecimal.valueOf( dAxisValue );
-					bdAxisStep = BigDecimal.valueOf( dAxisStep );
-				}
-				
-				if ( info.fs == null )
-				{
-					if ( !isbignumber )
-					{
-						df = computeDecimalFormat( dAxisValue, dAxisStep );
-					}
-					else
-					{
-						df = computeDecimalFormat( bdAxisValue,
-								bdAxisStep.multiply( getBigNumberDivisor( ),
-										NumberUtil.DEFAULT_MATHCONTEXT ) );
-						
-					}
-				}
+				AxisValueProvider avi = new AxisValueProvider( dAxisValue, dAxisStep, this, info );
+				DecimalFormat df = avi.getDecimalFormat( );
 				for ( int i = 0; i < da.size( ); i++ )
 				{
-					
-					try
-					{
-						if ( !isbignumber )
-						{
-							nde.setValue( dAxisValue );
-							sText = ValueFormatter.format( nde,
+					Object value = avi.getValue( nde );
+					sText = AxisValueProvider.format( value,
 									info.fs,
 									info.rtc.getULocale( ),
-									df );
-						}
-						else
-						{
-							sText = ValueFormatter.format( bdAxisValue,
-									info.fs,
-									info.rtc.getULocale( ),
-									df );
-						}
-					}
-					catch ( ChartException dfex )
-					{
-						logger.log( dfex );
-						sText = IConstants.NULL_STRING;
-					}
+									df, logger );
 					la.getCaption( ).setValue( sText );
 					dW = info.cComp.computeWidth( xs, la );
 
@@ -3451,17 +3576,8 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						dMaxW = dW;
 					}
-					if ( !isbignumber )
-					{
-						dAxisValue += dAxisStep;
-					}
-					else
-					{
-						bdAxisValue = bdAxisValue.add( bdAxisStep,
-								NumberUtil.DEFAULT_MATHCONTEXT )
-								.multiply( getBigNumberDivisor( ),
-										NumberUtil.DEFAULT_MATHCONTEXT );
-					}
+					
+					avi.addStep( );
 				}
 			}
 			else if ( ( getType( ) & LOGARITHMIC ) == LOGARITHMIC )
@@ -3471,54 +3587,18 @@ public final class AutoScale extends Methods implements Cloneable
 				
 				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
 				
-				BigDecimal bdAxisValue = null;
-				BigDecimal bdAxisStep = null;
-				boolean isbignumber = isBigNumber();
-				if ( isbignumber )
-				{
-					bdAxisValue = BigDecimal.valueOf( dAxisValue )
-							.multiply( bigNumberDivisor,
-									NumberUtil.DEFAULT_MATHCONTEXT );
-					bdAxisStep = BigDecimal.valueOf( dAxisStep );
-				}
+				AxisValueProvider avi = new AxisValueProvider( dAxisValue, dAxisStep, this, info );
 				DecimalFormat df = null;
 				for ( int i = 0; i < da.size( ); i++ )
 				{
-					if ( info.fs == null )
-					{
-						if ( !isbignumber )
-						{
-							df = computeDecimalFormat( dAxisValue, dAxisStep );
-						}
-						else
-						{
-							df = computeDecimalFormat( bdAxisValue, bdAxisStep );
-						}
-					}
-					
-					try
-					{
-						if ( !isbignumber )
-						{
-							nde.setValue( dAxisValue );
-							sText = ValueFormatter.format( nde,
-									info.fs,
-									info.rtc.getULocale( ),
-									df );
-						}
-						else
-						{
-							sText = ValueFormatter.format( bdAxisValue,
-									info.fs,
-									info.rtc.getULocale( ),
-									df );
-						}
-					}
-					catch ( ChartException dfex )
-					{
-						logger.log( dfex );
-						sText = IConstants.NULL_STRING;
-					}
+					df = avi.getDecimalFormat( );
+					Object value = avi.getValue( nde );
+					sText = AxisValueProvider.format( value,
+							info.fs,
+							info.rtc.getULocale( ),
+							df,
+							logger );
+
 					la.getCaption( ).setValue( sText );
 					dW = info.cComp.computeWidth( xs, la );
 					if ( isAxisLabelStaggered( ) && isTickLabelStaggered( i ) )
@@ -3530,15 +3610,7 @@ public final class AutoScale extends Methods implements Cloneable
 						dMaxW = dW;
 					}
 				
-					if ( isBigNumber( ) )
-					{
-						bdAxisValue = bdAxisValue.multiply( bdAxisStep,
-								NumberUtil.DEFAULT_MATHCONTEXT );
-					}
-					else
-					{
-						dAxisValue *= dAxisStep;
-					}
+					avi.mutltiplyStep( );
 				}
 			}
 			else if ( ( getType( ) & DATE_TIME ) == DATE_TIME )
@@ -3795,26 +3867,17 @@ public final class AutoScale extends Methods implements Cloneable
 				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
-				DecimalFormat df = null;
-				if ( info.fs == null )
-				{
-					df = computeDecimalFormat( dAxisValue, dAxisStep );
-				}
+				AxisValueProvider avi = new AxisValueProvider( dAxisValue, dAxisStep, this, info);
+				DecimalFormat df = avi.getDecimalFormat( );
 				for ( int i = 0; i < da.size( ); i++ )
 				{
-					nde.setValue( dAxisValue );
-					try
-					{
-						sText = ValueFormatter.format( nde,
-								info.fs,
-								info.rtc.getULocale( ),
-								df );
-					}
-					catch ( ChartException dfex )
-					{
-						logger.log( dfex );
-						sText = IConstants.NULL_STRING;
-					}
+					Object value = avi.getValue( nde );
+					sText = AxisValueProvider.format( value,
+							info.fs,
+							info.rtc.getULocale( ),
+							df,
+							logger );
+
 					la.getCaption( ).setValue( sText );
 
 					if ( !isTickLabelStaggered( i ) )
@@ -3826,7 +3889,7 @@ public final class AutoScale extends Methods implements Cloneable
 							dMaxW = dW;
 						}
 					}
-					dAxisValue += dAxisStep;
+					avi.addStep( );
 				}
 			}
 			else if ( ( getType( ) & LOGARITHMIC ) == LOGARITHMIC )
@@ -3834,26 +3897,17 @@ public final class AutoScale extends Methods implements Cloneable
 				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
+				AxisValueProvider avi = new AxisValueProvider( dAxisValue, dAxisStep, this, info);
 				DecimalFormat df = null;
 				for ( int i = 0; i < da.size( ); i++ )
 				{
-					if ( info.fs == null )
-					{
-						df = computeDecimalFormat( dAxisValue, dAxisStep );
-					}
-					nde.setValue( dAxisValue );
-					try
-					{
-						sText = ValueFormatter.format( nde,
-								info.fs,
-								info.rtc.getULocale( ),
-								df );
-					}
-					catch ( ChartException dfex )
-					{
-						logger.log( dfex );
-						sText = IConstants.NULL_STRING;
-					}
+					df = avi.getDecimalFormat( );
+					Object value = avi.getValue( nde );
+					sText = AxisValueProvider.format( value,
+							info.fs,
+							info.rtc.getULocale( ),
+							df,
+							logger );
 					la.getCaption( ).setValue( sText );
 
 					if ( !isTickLabelStaggered( i ) )
@@ -3865,7 +3919,7 @@ public final class AutoScale extends Methods implements Cloneable
 							dMaxW = dW;
 						}
 					}
-					dAxisValue *= dAxisStep;
+					avi.mutltiplyStep( );
 				}
 			}
 			else if ( ( getType( ) & DATE_TIME ) == DATE_TIME )
@@ -3943,26 +3997,16 @@ public final class AutoScale extends Methods implements Cloneable
 				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				final double dAxisStep = asDouble( getStep( ) ).doubleValue( );
-				DecimalFormat df = null;
-				if ( info.fs == null )
-				{
-					df = computeDecimalFormat( dAxisValue, dAxisStep );
-				}
+				AxisValueProvider avi = new AxisValueProvider( dAxisValue, dAxisStep, this, info);
+				DecimalFormat df = avi.getDecimalFormat( );
 				for ( int i = 0; i < da.size( ); i++ )
 				{
-					nde.setValue( dAxisValue );
-					try
-					{
-						sText = ValueFormatter.format( nde,
-								info.fs,
-								info.rtc.getULocale( ),
-								df );
-					}
-					catch ( ChartException dfex )
-					{
-						logger.log( dfex );
-						sText = IConstants.NULL_STRING;
-					}
+					Object value = avi.getValue( nde );
+					sText = AxisValueProvider.format( value,
+							info.fs,
+							info.rtc.getULocale( ),
+							df,
+							logger );
 					la.getCaption( ).setValue( sText );
 
 					if ( !isTickLabelStaggered( i ) )
@@ -3974,7 +4018,7 @@ public final class AutoScale extends Methods implements Cloneable
 							dMaxH = dH;
 						}
 					}
-					dAxisValue += dAxisStep;
+					avi.addStep( );
 				}
 			}
 			else if ( ( getType( ) & LOGARITHMIC ) == LOGARITHMIC )
@@ -3982,26 +4026,17 @@ public final class AutoScale extends Methods implements Cloneable
 				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
 				final double dAxisStep = asDouble( getStep( ) ).doubleValue( );
+				AxisValueProvider avi = new AxisValueProvider( dAxisValue, dAxisStep, this, info);
 				DecimalFormat df = null;
 				for ( int i = 0; i < da.size( ); i++ )
 				{
-					if ( info.fs == null )
-					{
-						df = computeDecimalFormat( dAxisValue, dAxisStep );
-					}
-					nde.setValue( dAxisValue );
-					try
-					{
-						sText = ValueFormatter.format( nde,
-								info.fs,
-								info.rtc.getULocale( ),
-								df );
-					}
-					catch ( ChartException dfex )
-					{
-						logger.log( dfex );
-						sText = IConstants.NULL_STRING;
-					}
+					df = avi.getDecimalFormat( );
+					Object value = avi.getValue( nde );
+					sText = AxisValueProvider.format( value,
+							info.fs,
+							info.rtc.getULocale( ),
+							df,
+							logger );
 					la.getCaption( ).setValue( sText );
 
 					if ( !isTickLabelStaggered( i ) )

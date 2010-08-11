@@ -2204,8 +2204,53 @@ public class ChartUtil
 			bnMax = bnMaxFixed!=null ? bnMaxFixed : bnMax;
 			
 			BigDecimal absMax = bnMax.abs( );
-			BigDecimal absMin = bnMin.abs( );
-			if ( absMax.compareTo( NumberUtil.DOUBLE_MAX ) <= 0 )
+			if ( absMax.compareTo( NumberUtil.DOUBLE_MIN ) < 0 )
+			{
+				// If max value is less than the limit of min double, it should use a
+				// very little value as the divisor to make the double part of
+				// big number is useable.
+				BigDecimal divisor = BigDecimal.ONE.divide( NumberUtil.HUNDRED.divide( bnMin,
+						NumberUtil.DEFAULT_MATHCONTEXT ),
+						NumberUtil.DEFAULT_MATHCONTEXT );
+
+				for ( Series series : seriesArray )
+				{
+					DataSet ds = series.getDataSet( );
+					idsp = PluginSettings.instance( )
+							.getDataSetProcessor( series.getClass( ) );
+					if ( ds.getValues( ) instanceof Number[] )
+					{
+						doaDataSet = (Number[]) ds.getValues( );
+
+						Number[] numbers = new BigNumber[doaDataSet.length];
+						for ( int j = 0; j < doaDataSet.length; j++ )
+						{
+							numbers[j] = NumberUtil.asBigNumber( doaDataSet[j],
+									divisor );
+						}
+						ds.setValues( numbers );
+					}
+					else if ( ds.getValues( ) instanceof NumberDataPointEntry[] )
+					{
+						NumberDataPointEntry[] ndpe = (NumberDataPointEntry[]) ds.getValues( );
+						for ( int j = 0; j < ndpe.length; j++ )
+						{
+							Number[] nums = ndpe[j].getNumberData( );
+							if (  nums == null || nums.length == 0 )
+							{
+								continue;
+							}
+							Number[] newNums = new BigNumber[nums.length];
+							for ( int k = 0; k < nums.length; k++ )
+							{
+								newNums[k] = NumberUtil.asBigNumber( nums[k], divisor );
+							}
+							ndpe[j].setNumberData( newNums );
+						}
+					}
+				}
+			}
+			else if ( absMax.compareTo( NumberUtil.DOUBLE_MAX ) <= 0 )
 			{
 				// All data in data set are less than Double_MAX, use double
 				// always.
@@ -2248,54 +2293,11 @@ public class ChartUtil
 				}
 
 			}
-			else if ( absMax.compareTo( NumberUtil.DOUBLE_MIN ) < 0 )
-			{
-				BigDecimal divisor = BigDecimal.ONE.divide( NumberUtil.DEFAULT_MULTIPLIER.divide( bnMin,
-						NumberUtil.DEFAULT_MATHCONTEXT ),
-						NumberUtil.DEFAULT_MATHCONTEXT );
-
-				for ( Series series : seriesArray )
-				{
-					DataSet ds = series.getDataSet( );
-					idsp = PluginSettings.instance( )
-							.getDataSetProcessor( series.getClass( ) );
-					if ( ds.getValues( ) instanceof Number[] )
-					{
-						doaDataSet = (Number[]) ds.getValues( );
-
-						Number[] numbers = new BigNumber[doaDataSet.length];
-						for ( int j = 0; j < doaDataSet.length; j++ )
-						{
-							numbers[j] = NumberUtil.asBigNumber( doaDataSet[j],
-									divisor );
-						}
-						ds.setValues( numbers );
-					}
-					else if ( ds.getValues( ) instanceof NumberDataPointEntry[] )
-					{
-						NumberDataPointEntry[] ndpe = (NumberDataPointEntry[]) ds.getValues( );
-						for ( int j = 0; j < ndpe.length; j++ )
-						{
-							Number[] nums = ndpe[j].getNumberData( );
-							if (  nums == null || nums.length == 0 )
-							{
-								continue;
-							}
-							Number[] newNums = new BigNumber[nums.length];
-							for ( int k = 0; k < nums.length; k++ )
-							{
-								newNums[k] = NumberUtil.asBigNumber( nums[k], divisor );
-							}
-							ndpe[j].setNumberData( newNums );
-						}
-					}
-				}
-			}
 			else
 			{
+				// Should use big decimal to compute.
 				BigDecimal divisor = bnMax.divide( NumberUtil.DEFAULT_DIVISOR,
 						NumberUtil.DEFAULT_MATHCONTEXT );
-
 				for ( Series series : seriesArray )
 				{
 					DataSet ds = series.getDataSet( );
