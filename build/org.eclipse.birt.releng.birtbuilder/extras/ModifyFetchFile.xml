@@ -50,6 +50,11 @@
      </for>
    </target>
    
+   <target name="replaceCvsAddress">
+   	 <echo message="start replace CVS Address"/>
+   	 <replace dir="${buildDirectory}" includes="fetch*" summary="true" token="192.168.218.218" value="dev.eclipse.org"/>
+   </target>
+	
    <target name="FetchFromCVS">
      <cvs cvsRoot="${cvsRoot}" package="${module}" dest="${destinationFolder}" command="checkout" tag="${tag}" quiet="${quiet}" taskname="CVS - ${module}"  failonerror="yes" />
      <echo message="tag name is ${tag.name}"/>
