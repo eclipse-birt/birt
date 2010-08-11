@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -111,10 +112,13 @@ public class ThemeReferenceValidator extends AbstractElementValidator
 		}
 		else
 		{
+			String matchedType = MetaDataDictionary.getInstance( )
+					.getThemeType( element.getDefn( ) );
+
 			ReportItemTheme theme = (ReportItemTheme) element.getTheme( module );
 			if ( theme != null
-					&& !element.getDefn( ).getName( ).equals(
-							theme.getType( theme.getRoot( ) ) ) )
+					&& ( matchedType == null || !matchedType.equals( theme
+							.getType( theme.getRoot( ) ) ) ) )
 			{
 				list.add( new ThemeException( element, themeName,
 						ThemeException.DESIGN_EXCEPTION_WRONG_TYPE ) );

@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
@@ -88,8 +89,9 @@ public class ThemeCommand extends AbstractElementCommand
 
 		String name = null;
 		if ( theme != null )
-			name = ReferenceValueUtil.needTheNamespacePrefix( theme
-					.getElement( ), theme.getModule( ), element.getRoot( ) );
+			name = ReferenceValueUtil
+					.needTheNamespacePrefix( theme.getElement( ),
+							theme.getModule( ), element.getRoot( ) );
 
 		Object retValue = doValidateValue( name );
 
@@ -180,9 +182,13 @@ public class ThemeCommand extends AbstractElementCommand
 
 			// can not set theme in report item to a wrong type
 			AbstractTheme theme = (AbstractTheme) newThemeValue.getElement( );
+			String matchedType = MetaDataDictionary.getInstance( )
+					.getThemeType( element.getDefn( ) );
+
 			if ( theme instanceof ReportItemTheme
-					&& !element.getDefn( ).getName( ).equals(
-							( (ReportItemTheme) theme ).getType( module ) ) )
+					&& ( matchedType == null || !matchedType
+							.equals( ( (ReportItemTheme) theme )
+									.getType( module ) ) ) )
 			{
 				throw new ThemeException( element, name,
 						ThemeException.DESIGN_EXCEPTION_WRONG_TYPE );

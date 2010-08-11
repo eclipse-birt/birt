@@ -188,6 +188,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	private HashMap<String, List<IPredefinedStyle>> predefinedStyleTypes = new HashMap<String, List<IPredefinedStyle>>( );
 
 	/**
+	 * The map to store the element internal name and corresponding theme type.
+	 * The key is the internal name of the element. Value is the report item
+	 * theme type that can apply on the element.
+	 */
+	private HashMap<String, String> themeTypes = new HashMap<String, String>( );
+
+	/**
 	 * Map of property value validators, holding the validator name as key. Each
 	 * of this map is the instance of <code>IValueValidator</code>.
 	 */
@@ -595,6 +602,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			{
 				styles = new ArrayList<IPredefinedStyle>( );
 				predefinedStyleTypes.put( type, styles );
+
+				// from ROM defined elements. The theme type is the internal
+				// element name.
+				if ( elementNameMap.get( type ) != null )
+				{
+					themeTypes.put( type, type );
+				}
 			}
 			if ( !styles.contains( style ) )
 				styles.add( style );
@@ -1177,6 +1191,34 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		List<String> types = new ArrayList<String>( );
 		types.addAll( predefinedStyleTypes.keySet( ) );
 		return types;
+	}
 
+	/**
+	 * Adds a theme type for a given element.
+	 * 
+	 * @param elementDefn
+	 * @param themeType
+	 * 
+	 */
+
+	void addThemeType( ElementDefn elementDefn, String themeType )
+	{
+		if ( StringUtil.isBlank( themeType ) )
+			return;
+
+		themeTypes.put( elementDefn.getName( ), themeType );
+	}
+
+	/**
+	 * Gets a theme type for a given element.
+	 * 
+	 * @param elementDefn
+	 * @param themeType
+	 * 
+	 */
+
+	public String getThemeType( IElementDefn elementDefn )
+	{
+		return themeTypes.get( elementDefn.getName( ) );
 	}
 }

@@ -8,6 +8,7 @@
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
             defaultStyle="crosstab"
+            themeType="Crosstab"
             displayNameID="Element.Crosstab"
             extendsFrom="ReportItem"
             extensionName="Crosstab"

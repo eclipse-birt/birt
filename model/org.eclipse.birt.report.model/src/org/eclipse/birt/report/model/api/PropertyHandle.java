@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.PropertyHandleHelper;
 
 /**
@@ -241,9 +242,13 @@ public class PropertyHandle extends SimpleValueHandle
 		else if ( ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT
 				.equals( elementDefn.getName( ) ) )
 		{
+			String matchedType = MetaDataDictionary.getInstance( )
+					.getThemeType( elementHandle.getDefn( ) );
+			if ( matchedType == null )
+				return list;
+
 			return moduleHandle.getVisibleReportItemThemes(
-					IAccessControl.DIRECTLY_INCLUDED_LEVEL, elementHandle
-							.getDefn( ).getName( ) );
+					IAccessControl.DIRECTLY_INCLUDED_LEVEL, matchedType );
 		}
 
 		return list;
@@ -607,8 +612,8 @@ public class PropertyHandle extends SimpleValueHandle
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
 				new ContainerContext( getElement( ), propDefn.getName( ) ) );
-		cmd.move( content.getElement( ), new ContainerContext( newContainer
-				.getElement( ), propName ) );
+		cmd.move( content.getElement( ),
+				new ContainerContext( newContainer.getElement( ), propName ) );
 	}
 
 	/**
@@ -639,8 +644,9 @@ public class PropertyHandle extends SimpleValueHandle
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
 				new ContainerContext( getElement( ), propDefn.getName( ) ) );
-		cmd.move( content.getElement( ), new ContainerContext( newContainer
-				.getElement( ), propName ), newPos );
+		cmd.move( content.getElement( ),
+				new ContainerContext( newContainer.getElement( ), propName ),
+				newPos );
 	}
 
 	/**

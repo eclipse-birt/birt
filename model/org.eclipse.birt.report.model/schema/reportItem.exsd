@@ -112,6 +112,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="themeType" type="string">
+            <annotation>
+               <documentation>
+                  Defines the report item theme type.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

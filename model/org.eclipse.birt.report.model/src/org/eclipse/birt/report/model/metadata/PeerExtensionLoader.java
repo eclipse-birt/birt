@@ -161,6 +161,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
 		private static final String ALLOW_EXPRESSION_ATTRIB = "allowExpression"; //$NON-NLS-1$
 
+		private static final String THEME_TYPE_ATTRIB = "themeType"; //$NON-NLS-1$
+		
 		/**
 		 * List of the property types that are allowed for the extensions.
 		 */
@@ -209,7 +211,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String extendsFrom = elementTag.getAttribute( EXTENDS_FROM_ATTRIB );
 			if ( StringUtil.isBlank( extendsFrom ) )
 				extendsFrom = ReportDesignConstants.EXTENDED_ITEM;
-
+			
 			IReportItemFactory factory = null;
 			PeerExtensionElementDefn elementDefn = null;
 			try
@@ -346,6 +348,9 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 				}
 			}
+			
+			String themeType = elementTag.getAttribute( THEME_TYPE_ATTRIB );
+			MetaDataDictionary.getInstance( ).addThemeType( elementDefn, themeType );
 		}
 
 		/**
