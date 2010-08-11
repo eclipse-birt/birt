@@ -1377,7 +1377,7 @@ public class ChartCubeUtil extends ChartItemUtil
 	 * @return if cell is updated completely
 	 * @throws BirtException
 	 */
-	private static boolean updateAxisChartCells( AggregationCellHandle cell,
+	public static boolean updateAxisChartCells( AggregationCellHandle cell,
 			ChartWithAxes cwa ) throws BirtException
 	{
 		initCellSize( cell );
