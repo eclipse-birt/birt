@@ -217,8 +217,8 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 
 		// Compute the thickness of the axis including axis label bounds and
 		// axis-plot spacing.
-		bTicksLeft = ( iYTickStyle & PlotWithAxes.TICK_LEFT ) == PlotWithAxes.TICK_LEFT;
-		bTicksRight = ( iYTickStyle & PlotWithAxes.TICK_RIGHT ) == PlotWithAxes.TICK_RIGHT;
+		bTicksLeft = ( iYTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT;
+		bTicksRight = ( iYTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT;
 		// If axis labels should be within axes, do not set default spacing, so
 		// value axis labels can be aligned with category axis.
 		dAppliedYAxisPlotSpacing = ( iv.iType == IConstants.MAX || iv.iType == IConstants.MIN )
@@ -230,10 +230,10 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		scY.computeTicks( ids,
 				laYAxisLabels,
 				iYLabelLocation,
-				PlotWithAxes.VERTICAL,
+				IConstants.VERTICAL,
 				dStart,
 				dEnd,
-				false,
+				true,
 				aax );
 		if ( !scY.isStepFixed( ) )
 		{
@@ -248,10 +248,10 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 				int tickCount = scY.computeTicks( ids,
 						laYAxisLabels,
 						iYLabelLocation,
-						PlotWithAxes.VERTICAL,
+						IConstants.VERTICAL,
 						dStart,
 						dEnd,
-						false,
+						true,
 						aax );
 				if ( scY.getUnit( ) != null
 						&& PlotWithAxes.asInteger( scY.getUnit( ) ) == Calendar.YEAR
@@ -265,7 +265,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 
 		dYAxisLabelsThickness = scY.computeAxisLabelThickness( ids,
 				axPV.getLabel( ),
-				PlotWithAxes.VERTICAL );
+				IConstants.VERTICAL );
 
 		Series[] sea = fPlotWithAxes.getModel( )
 				.getSeries( IConstants.ORTHOGONAL );
