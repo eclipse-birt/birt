@@ -393,6 +393,13 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		if( dimJSFilterMap.size( ) > 1 ||
 				( dimJSFilterMap.size( ) == 1 && dimJSFilterMap.get( levels[0].getDimensionName()) == null) )
 			return false;
+		
+		for( int i = 0; i < simpleLevelFilters.size( ); i++ )
+		{
+			if( ! levels[0].getDimensionName( ).equals( 
+					( ( SimpleLevelFilter ) simpleLevelFilters.get( i ) ).getDimensionName( ) ) )
+				return false;
+		}
 				
 		return true;
 	}
