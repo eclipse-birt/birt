@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -38,6 +39,12 @@ public class ReportletItemExecutor extends ReportItemExecutor
 		}
 		reportletQuery = new ReportletQuery( context, instanceID2 );
 	}
+	
+	//Since ReportletItemExecutor is a virtual parent executor, so the InstanceID should return as null.(T30410)
+	protected InstanceID getInstanceID( )
+	{
+		return null;
+	}
 
 	public void close( ) throws BirtException
 	{
@@ -56,6 +63,11 @@ public class ReportletItemExecutor extends ReportItemExecutor
 	{
 		return reportletQuery.getQueryResults( );
 	}
+	
+	/*protected InstanceID getInstanceID( )
+	{
+		return null;
+	}*/
 	
 	public IContent execute( )
 	{
