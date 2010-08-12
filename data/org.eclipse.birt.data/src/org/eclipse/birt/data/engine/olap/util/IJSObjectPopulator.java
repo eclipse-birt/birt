@@ -363,15 +363,11 @@ public interface IJSObjectPopulator
 		{
 			try
 			{
-				if ( !this.bindingMap.containsKey( aggrName ) )
+				if( aggrName.equals( ScriptConstants.OUTER_RESULT_KEYWORD )  )
 				{
-					if( aggrName.equals( ScriptConstants.OUTER_RESULT_KEYWORD )  )
-					{
-						if ( this.outResultsScriptable == null )
-							throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
-						return this.outResultsScriptable;
-					}
-					return null;
+					if ( this.outResultsScriptable == null )
+						throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
+					return this.outResultsScriptable;
 				}
 				
 				Object o = aggrAccessor.get( aggrName, scope );
@@ -382,6 +378,10 @@ public interface IJSObjectPopulator
 					else
 						return o;
 				}
+				if ( !this.bindingMap.containsKey( aggrName ) )
+				{
+					return null;
+				}	
 				Object result = ScriptEvalUtil.evalExpr( ( (IBinding) this.bindingMap.get( aggrName ) ).getExpression( ),
 						cx.newContext( this.scope ),
 						ScriptExpression.defaultID,

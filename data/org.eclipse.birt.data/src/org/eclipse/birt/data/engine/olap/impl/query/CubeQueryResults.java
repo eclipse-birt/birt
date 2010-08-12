@@ -27,6 +27,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -107,6 +108,18 @@ public class CubeQueryResults implements ICubeQueryResults
 			stopSign.start( );
 			Set<String> involvedDerivedMeasure = new HashSet<String>( );
 			Set<String> derivedMeasureNames = OlapExpressionUtil.getDerivedMeasureNames( this.cubeQueryDefinition.getBindings( ) );
+			List<IBinding> bindingSet = new ArrayList<IBinding>();
+			bindingSet.addAll( this.cubeQueryDefinition.getBindings( ) );
+			if( this.cubeQueryDefinition instanceof PreparedCubeQueryDefinition )
+			{
+				Set<IBinding> binding4NestedAggr = ((PreparedCubeQueryDefinition) this.cubeQueryDefinition).getBindingsForNestAggregation( );
+				for( IBinding binding: binding4NestedAggr )
+				{
+					derivedMeasureNames.add( binding.getBindingName( ) );
+				}
+				bindingSet.addAll( binding4NestedAggr );
+				
+			}
 			List<IFilterDefinition> derivedMeasureFilters = new ArrayList<IFilterDefinition>( );
 			if ( !this.cubeQueryDefinition.getFilters( ).isEmpty( ) )
 			{
@@ -114,7 +127,7 @@ public class CubeQueryResults implements ICubeQueryResults
 				{
 					IBaseExpression expr = filter.getExpression( );
 					Set<String> temp = this.getInvolvedDerivedMeasure( expr,
-							derivedMeasureNames );
+							derivedMeasureNames, this.cubeQueryDefinition.getBindings( ) );
 					if ( temp.size( ) > 0 )
 						derivedMeasureFilters.add( filter );
 					involvedDerivedMeasure.addAll( temp );
@@ -127,7 +140,7 @@ public class CubeQueryResults implements ICubeQueryResults
 				{
 					IBaseExpression expr = sort.getExpression( );
 					involvedDerivedMeasure.addAll( this.getInvolvedDerivedMeasure( expr,
-							derivedMeasureNames ) );
+							derivedMeasureNames, this.cubeQueryDefinition.getBindings( ) ) );
 				}
 			}
 
@@ -143,7 +156,7 @@ public class CubeQueryResults implements ICubeQueryResults
 				for( String bindingName: candidateBindingOfInteresting )
 				{
 					Set<IDimLevel> dimLevels = OlapExpressionUtil.getAggregateOnLevel( bindingName,
-							this.cubeQueryDefinition.getBindings( ) );
+							bindingSet );
 					Set<String> temp = new HashSet<String>( );
 					for( IDimLevel dl : dimLevels )
 					{
@@ -183,14 +196,12 @@ public class CubeQueryResults implements ICubeQueryResults
 		}
 	}
 
-	private Set<String> getInvolvedDerivedMeasure( IBaseExpression expr, Set<String> derivedMeasureNames ) throws DataException
+	private Set<String> getInvolvedDerivedMeasure( IBaseExpression expr, Set<String> derivedMeasureNames, List<IBinding> bindings ) throws DataException
 	{
 		Set<String> result = new HashSet<String>();
-		if(!OlapExpressionUtil.isDirectRerenrence( expr, this.cubeQueryDefinition.getBindings( ) ))
+		if(!OlapExpressionUtil.isDirectRerenrence( expr, bindings ))
 		{
-			if( !OlapExpressionUtil.getAggregateOnLevel( expr, this.cubeQueryDefinition.getBindings( ) ).isEmpty( ))
-			{
-				List<String> involvedMeasureNames = ExpressionCompilerUtil.extractColumnExpression( expr,
+			List<String> involvedMeasureNames = ExpressionCompilerUtil.extractColumnExpression( expr,
 						ExpressionUtil.DATA_INDICATOR );
 				for( String candidate : involvedMeasureNames )
 				{
@@ -199,7 +210,6 @@ public class CubeQueryResults implements ICubeQueryResults
 						result.add( candidate );
 					}
 				}
-			}
 		}
 		return result;
 	}

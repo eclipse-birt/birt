@@ -199,6 +199,11 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		return cqd.getComputedMeasures( );
 	}
 
+	public Set<IBinding> getBindingsForNestAggregation( )
+	{
+		return this.bindingsForNestAggregation;
+	}
+	
 	public ICubeOperation[] getCubeOperations( )
 	{
 		return realCubeOperations;
