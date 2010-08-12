@@ -104,6 +104,12 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 	 */
 	public void output( IExtractionResults results ) throws BirtException
 	{
+		if ( results == null )
+		{
+			throw new BirtException( PLUGIN_ID,
+					Messages.getString( "exception.dataextraction.no_extraction_result_error" ), //$NON-NLS-1$
+					(ResourceBundle) null );
+		}
 		try
 		{
 			String[] columnNames = selectedColumnNames;
