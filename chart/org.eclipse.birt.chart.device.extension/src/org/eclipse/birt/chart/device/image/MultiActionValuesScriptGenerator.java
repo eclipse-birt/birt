@@ -70,8 +70,12 @@ public class MultiActionValuesScriptGenerator
 	{
 		StringBuilder sb = getJSContext( actions );
 		
-		sb.append( "var popMenu = BirtChartMenuHelper.createPopupMenu(evt, menuInfo);\n");//$NON-NLS-1$
-		sb.append( "if ( popMenu && popMenu != null ) popMenu.show();\n");//$NON-NLS-1$
+		sb.append( "if ( menuInfo.menuItemNames.length == 1 ) {\n" );//$NON-NLS-1$
+		sb.append( "	BirtChartMenuHelper.executeMenuAction( evt, menuInfo.menuItems[0], menuInfo );\n" );//$NON-NLS-1$
+		sb.append( "} else { \n" );//$NON-NLS-1$
+		sb.append( "	var popMenu = BirtChartMenuHelper.createPopupMenu(evt, menuInfo);\n");//$NON-NLS-1$
+		sb.append( "	if ( popMenu && popMenu != null ) popMenu.show();\n");//$NON-NLS-1$
+		sb.append( "}");//$NON-NLS-1$
 		return sb.toString( );
 	}
 	

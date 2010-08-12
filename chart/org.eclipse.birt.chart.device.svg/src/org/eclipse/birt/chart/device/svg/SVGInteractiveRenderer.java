@@ -952,7 +952,11 @@ public class SVGInteractiveRenderer
 		MultiActionValuesScriptGenerator.appendInteractivityVariables( sb );
 
 		sb.append( "\n"); //$NON-NLS-1$
+		sb.append( "if ( menuInfo.menuItemNames.length == 1 ) {\n" );//$NON-NLS-1$
+		sb.append( "	BirtChartActionsMenu.executeMenuActionImpl( evt, menuInfo.menuItems[0], menuInfo );\n" );//$NON-NLS-1$
+		sb.append( "} else { \n" );//$NON-NLS-1$
 		sb.append( "  BirtChartActionsMenu.show( evt, source, menuInfo ); "); //$NON-NLS-1$
+		sb.append( "}\n" );//$NON-NLS-1$
 		
 		return sb.toString( );
 	}

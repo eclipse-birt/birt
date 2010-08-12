@@ -108,6 +108,20 @@ TM.getText = function (elem) {
 	return "";
 };
 
+TM.hideTimer = undefined;
+TM.registerHideTimer = function(time) {
+	if (this.hideTimer != undefined)
+		this.unregisterHideTimer();
+	this.hideTimer = setTimeout('TM.remove();',
+			time);
+};
+TM.unregisterHideTimer = function() {
+	try {
+		if (this.hideTimer != undefined)
+			clearTimeout(TM.hideTimer);
+	} catch (e) { }
+};
+
 TM.remove = function () {
 	if (typeof this.group != 'undefined') {
 		this.group.removeNode();
@@ -115,7 +129,7 @@ TM.remove = function () {
 	}
 };
 
-TM.show = function (evt, id, title) {
+TM.show = function (evt, id, title, tooltipText) {
 	if (id != null && typeof id != 'undefined') {
 		var mainSvg = evt.target.ownerDocument;
 		var comp = mainSvg.getElementById(id);
@@ -126,6 +140,7 @@ TM.show = function (evt, id, title) {
 			return;
 	}
 	var text = TM.getText(TM.getTitleElement(evt));
+	if ( tooltipText ) text = tooltipText;
 	if (title)
 		text = TM.getText(title);
 	var x = evt.clientX;
@@ -205,6 +220,8 @@ TM.show = function (evt, id, title) {
 		this.rectangle.element.setAttributeNS(null, "width", tooltipWidth);
 		this.rectangle.element.setAttributeNS(null, "height", tooltipHeight);
 	}
+	SVGChartUtil.stopBubble(evt);
+	SVGChartUtil.stopDefault(evt);
 };
 
 TM.toggleToolTip = function (evt) {
@@ -813,31 +830,36 @@ BirtChartActionsMenu.executeMenuAction = function(evt, identify){
 	} catch (e) {
 	};
 	BirtChartActionsMenu.remove();
-	
     var menuItemInfo = this.menuInfo.menuItems[identify];
-    switch (menuItemInfo.actionType) {
+    BirtChartActionsMenu.executeMenuActionImpl( evt, menuItemInfo, this.menuInfo );
+};
+
+BirtChartActionsMenu.executeMenuActionImpl = function(evt, menuItemInfo, menuInfo ){
+ 	switch (menuItemInfo.actionType) {
         case BirtChartInteractivityActions.HYPER_LINK:
             BirtChartActionsMenu.redirect(menuItemInfo.actionValue, menuItemInfo.target);
             break;
-            
         case BirtChartInteractivityActions.INVOKE_SCRIPTS:
 			var scripts = menuItemInfo.actionValue;
 			if (scripts != undefined) {
-				BirtChartActionsMenu.invokeScripts( scripts, evt, this.menuInfo.categoryData, this.menuInfo.valueData, this.menuInfo.valueSeriesName, this.menuInfo.legendItemText, this.menuInfo.legendItemValue, this.menuInfo.axisLabel );
+				BirtChartActionsMenu.invokeScripts( scripts, evt, menuInfo.categoryData, menuInfo.valueData, menuInfo.valueSeriesName, menuInfo.legendItemText, menuInfo.legendItemValue, menuInfo.axisLabel );
 			}
             break;
-            
         case BirtChartInteractivityActions.HIGHLIGHT:
-            highlight(evt, this.menuInfo.id2, this.menuInfo.compList);
+            highlight(evt, menuInfo.id2, menuInfo.compList);
             break;
         case BirtChartInteractivityActions.TOGGLE_VISIBILITY:
-            toggleVisibility(evt, this.menuInfo.id2, this.menuInfo.compList, this.menuInfo.labelList);
+            toggleVisibility(evt, menuInfo.id2, menuInfo.compList, menuInfo.labelList);
             break;
         case BirtChartInteractivityActions.TOGGLE_DATA_POINT_VISIBILITY:
-            toggleLabelsVisibility(evt, this.menuInfo.id2, this.menuInfo.labelList);
+            toggleLabelsVisibility(evt, menuInfo.id2, menuInfo.labelList);
             break;
-    }
-};
+        case BirtChartInteractivityActions.SHOW_TOOLTIP:
+            TM.show( evt, null, null, menuItemInfo.text );
+            TM.registerHideTimer(1000);
+            break;
+ 	}
+}
 
 BirtChartActionsMenu.redirect = function(url, urlTarget){
 
