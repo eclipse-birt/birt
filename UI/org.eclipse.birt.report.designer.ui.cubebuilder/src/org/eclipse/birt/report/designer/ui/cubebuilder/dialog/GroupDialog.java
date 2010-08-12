@@ -332,6 +332,7 @@ public class GroupDialog extends TitleAreaDialog
 		{
 			try
 			{
+				helper.validate( );
 				dimension.setExpressionProperty( DimensionHandle.ACL_EXPRESSION_PROP,
 						(Expression) helper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
 			}

@@ -347,6 +347,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				try
 				{
+					dynamicLevelHelper.validate( );
 					input.setExpressionProperty( LevelHandle.ACL_EXPRESSION_PROP,
 							(Expression) dynamicLevelHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
 				}
@@ -359,6 +360,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				try
 				{
+					dynamicMemberHelper.validate( );
 					input.setExpressionProperty( LevelHandle.MEMBER_ACL_EXPRESSION_PROP,
 							(Expression) dynamicMemberHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
 				}
@@ -406,6 +408,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				try
 				{
+					staticLevelHelper.validate( );
 					input.setExpressionProperty( LevelHandle.ACL_EXPRESSION_PROP,
 							(Expression) staticLevelHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
 				}
@@ -418,6 +421,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				try
 				{
+					staticMemberHelper.validate( );
 					input.setExpressionProperty( LevelHandle.MEMBER_ACL_EXPRESSION_PROP,
 							(Expression) staticMemberHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
 				}

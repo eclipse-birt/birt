@@ -340,6 +340,7 @@ public class MeasureDialog extends TitleAreaDialog
 				}
 				if ( securityHelper != null )
 				{
+					securityHelper.validate( );
 					measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
 							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
 				}
@@ -389,6 +390,7 @@ public class MeasureDialog extends TitleAreaDialog
 					input.setMeasureExpression( null );
 				if ( securityHelper != null )
 				{
+					securityHelper.validate( );
 					input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
 							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
 				}

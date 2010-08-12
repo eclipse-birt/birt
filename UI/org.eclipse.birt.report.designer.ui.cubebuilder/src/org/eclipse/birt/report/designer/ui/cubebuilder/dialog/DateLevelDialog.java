@@ -510,6 +510,7 @@ public class DateLevelDialog extends TitleAreaDialog
 			}
 			if ( helper != null )
 			{
+				helper.validate( );
 				input.setExpressionProperty( LevelHandle.ACL_EXPRESSION_PROP,
 						(Expression) helper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
 			}
