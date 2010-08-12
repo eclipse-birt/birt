@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
@@ -262,13 +261,7 @@ public class FunctionProviderImpl implements IFunctionProvider
 					String element = files.nextElement( ).toString( );
 					if ( element.toLowerCase( ).endsWith( suffix ) )
 					{
-						try
-						{
-							libs.add( new URL( url, element ) );
-						}
-						catch ( MalformedURLException e1 )
-						{
-						}
+						libs.add( bundle.getEntry( element ) );
 					}
 				}
 			}
