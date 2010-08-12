@@ -687,6 +687,9 @@ DataSetParameterPage.toolTipText.Down=Parameter nach unten verschieben
 DataSetParameterPage.WarningMessage.updatePosition=Einige oder alle Datensatzparameter besitzen ungültige Positionswerte. Die Positionen werden auf Grundlage der Folgen aktualisiert.
 DataSetParameterPage.warning.UnmatchedParamDataType=Parametertyp des Datensatzes stimmt nicht mit Parametertyp des verknüpften Berichts überein.
 DataSetParameterPage.multiValuesType=Multiple Values Type
+DataSetParameterPage.updateReportParameter.title=Report Parameter Update Setting
+DataSetParameterPage.updateReportParameter.message=Are you sure to update the report parameter's value with the data set parameter's value?
+DataSetParameterPage.updateReportParameter.propmtText=Always update the value and do not ask me again.
 
 PromptParameterDialog.title=Confirm Update Design Attributes
 PromptParameterDialog.okButton.text=Apply
