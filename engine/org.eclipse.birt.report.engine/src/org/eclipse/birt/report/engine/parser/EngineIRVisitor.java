@@ -124,7 +124,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
-import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -2502,11 +2501,26 @@ public class EngineIRVisitor extends DesignVisitor
 		if ( prop != null )
 		{
 			Object value = prop.getContext( ).getLocalValue( module );
-			if ( value == null )
+			if ( value != null )
+				return prop.getStringValue( );
+
+			// for highlight rule, reutrn the referred style local value
+			if ( handle instanceof HighlightRuleHandle )
+			{
+				StyleHandle styleHandle = ( (HighlightRuleHandle) handle )
+						.getStyle( );
+				if ( styleHandle == null )
+					return null;
+				FactoryPropertyHandle propHandle = styleHandle
+						.getFactoryPropertyHandle( name );
+				if ( propHandle == null )
+					return null;
+				return propHandle.getStringValue( );
+			}
+			else
 			{
 				return null;
 			}
-			return prop.getStringValue( );
 		}
 		return null;
 	}
