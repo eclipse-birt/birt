@@ -37,6 +37,12 @@ public class EngineConstants {
 	 */
 	public final static String PROPERTY_EXTENDED_ITEM_MAX_ROW = "EXTENDED_ITEM_MAX_ROW"; //$NON-NLS-1$
 	
+	/**
+	 * This property is a key for putting max variable size of extended item in app
+	 * context or global variables.
+	 */
+	public final static String PROPERTY_EXTENDED_ITEM_MAX_VARIABLE_SIZE = "EXTENDED_ITEM_MAX_VARIABLE_SIZE"; //$NON-NLS-1$
+	
 	//used by ScriptExecutor
 	public static final String PROPERTYSEPARATOR = File.pathSeparator;
 	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath"; //$NON-NLS-1$
