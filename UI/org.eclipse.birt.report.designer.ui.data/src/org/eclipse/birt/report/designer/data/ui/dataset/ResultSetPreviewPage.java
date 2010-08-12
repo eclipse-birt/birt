@@ -546,13 +546,14 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 	 */
 	private void addColumnSortListener( TableColumn column, final int index )
 	{
+		assert index > 0;
 		column.addSelectionListener( new SelectionListener( ) {
 
 			private boolean asc = false;
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				sort( index, asc );
+				sort( index - 1, asc );
 				asc = !asc;
 			}
 
