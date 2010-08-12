@@ -1919,7 +1919,7 @@ HightlightRuleBuilder.label.value=值(&V):
 HightlightRuleBuilder.list.item1=值
 HightlightRuleBuilder.MsgDlg.Msg=警告
 HightlightRuleBuilder.MsgDlg.Title=值不能为空。
-HightlightRuleBuilder.text.AND=且
+HightlightRuleBuilder.text.AND=与
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=此数据项的值
 HighlightRuleBuilderDialog.text.AND=与
@@ -2495,7 +2495,7 @@ MapRuleBuilder.label.value=值(&V):
 MapRuleBuilder.list.item1=值
 MapRuleBuilder.MsgDlg.Msg=警告
 MapRuleBuilder.MsgDlg.Title=值不能为空。
-MapRuleBuilder.text.AND=且
+MapRuleBuilder.text.AND=与
 
 MapRuleBuilderDialog.text.Between=介于
 MapRuleBuilderDialog.text.Condition=如果以下条件为真(&I): 
