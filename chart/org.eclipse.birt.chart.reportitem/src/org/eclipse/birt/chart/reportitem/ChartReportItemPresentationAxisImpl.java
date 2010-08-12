@@ -32,6 +32,38 @@ public final class ChartReportItemPresentationAxisImpl extends
 		ChartReportItemPresentationBase
 {
 
+	private static IDataRowExpressionEvaluator DUMMY_AXIS_CHART_EVALUATOR = new IDataRowExpressionEvaluator( ) {
+
+		public void close( )
+		{
+
+		}
+
+		public Object evaluate( String expression )
+		{
+			// Always return null since shared scale will be used to render axis
+			// chart
+			return null;
+		}
+
+		@SuppressWarnings("deprecation")
+		public Object evaluateGlobal( String expression )
+		{
+			return null;
+		}
+
+		public boolean first( )
+		{
+			// Only one row of null data
+			return true;
+		}
+
+		public boolean next( )
+		{
+			return false;
+		}
+	};
+
 	@Override
 	public void setModelObject( ExtendedItemHandle eih )
 	{
@@ -88,7 +120,8 @@ public final class ChartReportItemPresentationAxisImpl extends
 					{
 						bounds.setWidth( dWidth );
 					}
-					else if ( !bounds.isSetWidth( ) || ChartUtil.mathEqual( bounds.getWidth( ), 0 ) )
+					else if ( !bounds.isSetWidth( )
+							|| ChartUtil.mathEqual( bounds.getWidth( ), 0 ) )
 					{
 						bounds.setWidth( ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( ) );
 					}
@@ -107,7 +140,8 @@ public final class ChartReportItemPresentationAxisImpl extends
 					{
 						bounds.setHeight( dHeight );
 					}
-					else if ( !bounds.isSetHeight( ) || ChartUtil.mathEqual( bounds.getHeight( ), 0 ) )
+					else if ( !bounds.isSetHeight( )
+							|| ChartUtil.mathEqual( bounds.getHeight( ), 0 ) )
 					{
 						bounds.setHeight( ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( ) );
 					}
@@ -135,45 +169,8 @@ public final class ChartReportItemPresentationAxisImpl extends
 	protected IDataRowExpressionEvaluator createEvaluator( IBaseResultSet set )
 			throws ChartException
 	{
-		final IDataRowExpressionEvaluator evaluator = super.createEvaluator( set );
-		
-		// If no shared scale, to get evaluator from query.
-		if ( rtc.getSharedScale( ) == null || !rtc.getSharedScale( ).isShared( ) )
-		{
-			return evaluator;
-		}
-
 		// Return a dummy data set since axis chart can render without data
-		return new IDataRowExpressionEvaluator( ) {
-
-			public void close( )
-			{
-
-			}
-
-			public Object evaluate( String expression )
-			{
-				// Always return null since shared scale will be used to render
-				// axis chart
-				return null;
-			}
-
-			@SuppressWarnings("deprecation")
-			public Object evaluateGlobal( String expression )
-			{
-				return null;
-			}
-
-			public boolean first( )
-			{
-				return evaluator.first( );
-			}
-
-			public boolean next( )
-			{
-				return false;
-			}
-		};
+		return DUMMY_AXIS_CHART_EVALUATOR;
 	}
 
 }
