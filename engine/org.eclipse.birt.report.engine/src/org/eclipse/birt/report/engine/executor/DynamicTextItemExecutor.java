@@ -91,7 +91,7 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 		Object content = evaluate( textDesign.getContent( ) );
 		if ( content != null )
 		{
-			if ( IOUtil.getTypeIndex( content ) == -1 )
+			if ( IOUtil.getScriptObjectType( content ) == -1 )
 			{
 				content = content.toString( );
 			}

@@ -460,13 +460,35 @@ public class IOUtil
 				new Integer( TYPE_JSObject ) );
 	}
 
+	public static int getScriptObjectType( Object obValue )
+	{
+		if ( obValue instanceof Scriptable )
+		{
+			if ( obValue instanceof IdScriptableObject )
+			{
+				IdScriptableObject jsObject = ( (IdScriptableObject) obValue );
+				if ( jsObject.getClassName( ).equals( "Date" ) )
+				{
+					return TYPE_JSObject;
+				}
+				return -1;
+			}
+			else if ( obValue instanceof NativeJavaObject )
+			{
+				return TYPE_JSObject;
+			}
+			return -1;
+		}
+		return getTypeIndex( obValue );
+	}
+
 	/**
 	 * from object class to its type index value
 	 * 
 	 * @param obValue
 	 * @return
 	 */
-	public static int getTypeIndex( Object obValue )
+	private static int getTypeIndex( Object obValue )
 	{
 		if ( obValue == null )
 			return TYPE_NULL;
@@ -496,20 +518,7 @@ public class IOUtil
 			}
 			if ( obValue instanceof Scriptable )
 			{
-				if ( obValue instanceof IdScriptableObject )
-				{
-					IdScriptableObject jsObject = ( (IdScriptableObject) obValue );
-					if ( jsObject.getClassName( ).equals( "Date" ) )
-					{
-						return TYPE_JSObject;
-					}
-					return -1;
-				}
-				else if ( obValue instanceof NativeJavaObject )
-				{
-					return TYPE_JSObject;
-				}
-				return -1;
+				return TYPE_JSObject;
 			}
 			if ( Timestamp.class.isAssignableFrom( obValue.getClass( ) ) )
 			{
