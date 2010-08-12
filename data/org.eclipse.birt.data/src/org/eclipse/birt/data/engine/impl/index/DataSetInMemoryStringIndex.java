@@ -41,19 +41,19 @@ public class DataSetInMemoryStringIndex extends HashMap
 			if ( SerializableBirtHash.NULL_VALUE_OFFSET == offset )
 			{
 				super.put( null, new WrapperedValue( null,
-						IOUtil.readList( dis ) ) );
+						IOUtil.readIntList( dis ) ) );
 			}
 			else if ( SerializableBirtHash.NOT_HASH_VALUE_OFFSET == offset )
 			{
 				String keyValue = IOUtil.readString( dis );
 				super.put( keyValue, new WrapperedValue( keyValue,
-						IOUtil.readList( dis ) ) );
+						IOUtil.readIntList( dis ) ) );
 			}
 			else
 			{
 				Integer keyValue = IOUtil.readInt( dis );
 				super.put( keyValue, new WrapperedValue( valueStream,
-						IOUtil.readList( dis ),
+						IOUtil.readIntList( dis ),
 						offset ) );
 			}
 		}

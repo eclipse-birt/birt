@@ -935,6 +935,21 @@ public class IOUtil
 
 		return dataList;
 	}
+	
+	public final static List readIntList( DataInputStream dis ) throws IOException
+	{
+		// read map size
+		List dataList = new ArrayList( );
+		int size = readInt( dis );
+		if ( size == 0 )
+			return dataList;
+
+		// write real data
+		for ( int i = 0; i < size; i++ )
+			dataList.add( readInt( dis ) );
+
+		return dataList;
+	}
 
 	/**
 	 * Write a list to an output stream
@@ -966,6 +981,24 @@ public class IOUtil
 		// write real data
 		for ( int i = 0; i < size; i++ )
 			writeObject( dos, list.get( i ) );
+	}
+	
+	public final static void writeIntList(DataOutputStream dos, List list)
+			throws IOException
+	{
+		if (list == null || list.size( ) == 0 )
+		{
+			writeInt(dos, 0 );
+			return;
+		}
+		
+		// write map size
+		int size = list.size();
+		writeInt(dos, size);
+		
+		// write real data
+		for (int i = 0; i < size; i++)
+			writeInt(dos, ( Integer )list.get(i) );
 	}
 
 	/**

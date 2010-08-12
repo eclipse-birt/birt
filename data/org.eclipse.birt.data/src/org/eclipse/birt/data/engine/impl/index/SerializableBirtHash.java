@@ -99,7 +99,7 @@ public class SerializableBirtHash extends HashMap implements IIndexSerializer
 				if ( key == null )
 				{
 					IOUtil.writeLong( dis, NULL_VALUE_OFFSET );
-					IOUtil.writeList( dis, (List) this.get( key ) );
+					IOUtil.writeIntList( dis, (List) this.get( key ) );
 					continue;
 				}
 				int hash = key == null ? 0 : key.hashCode( );
@@ -107,14 +107,14 @@ public class SerializableBirtHash extends HashMap implements IIndexSerializer
 				{
 					IOUtil.writeLong( dis, valueStream.getOffset( ) );
 					IOUtil.writeInt( dis, hash );
-					IOUtil.writeList( dis, (List) this.get( key ) );
+					IOUtil.writeIntList( dis, (List) this.get( key ) );
 					IOUtil.writeString( dvs, key.toString( ) );
 				}
 				else
 				{
 					IOUtil.writeLong( dis, NOT_HASH_VALUE_OFFSET );
 					IOUtil.writeString( dis, key.toString( ) );
-					IOUtil.writeList( dis, (List) this.get( key ) );
+					IOUtil.writeIntList( dis, (List) this.get( key ) );
 				}
 			}
 			indexStream.close( );

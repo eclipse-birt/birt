@@ -106,7 +106,8 @@ public class ResultSetUtil
 					if( table != null )
 					{
 						int stringIndex = table.getIndex( (String) resultObject.getFieldValue( i ) );
-						IOUtil.writeObject( tempDos, stringIndex );
+//						IOUtil.writeObject( tempDos, stringIndex );
+						IOUtil.writeInt( tempDos, stringIndex );
 					}
 					else
 						IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
@@ -147,11 +148,11 @@ public class ResultSetUtil
 
 			for ( i = 0; i < count; i++ )
 			{
-				obs[i] = IOUtil.readObject( dis,
-						DataEngineSession.getCurrentClassLoader( ) );
 //				if ( rsMeta.getAnalysisType( i + 1 ) == IColumnDefinition.ANALYSIS_DIMENSION )
 				if( rsMeta.isIndexColumn( i + 1 ) )
 				{
+					obs[i] = IOUtil.readObject( dis,
+							DataEngineSession.getCurrentClassLoader( ) );
 					if ( index.containsKey( rsMeta.getFieldName( i + 1 ) ) )
 					{
 						obs[i] = index.get( rsMeta.getFieldName( i + 1 ) )
@@ -166,12 +167,18 @@ public class ResultSetUtil
 					{
 						stringTable = stringTableMap.get( rsMeta.getFieldName( i + 1 ) );
 					}
-					if( stringTable != null && obs[i] != null )
+					if( stringTable != null )
 					{
-						obs[i] = stringTable.getStringValue( (Integer) obs[i] );
+						obs[i] = stringTable.getStringValue( IOUtil.readInt( dis ) );
+					}
+					else
+					{
+						obs[i] = IOUtil.readObject( dis,
+								DataEngineSession.getCurrentClassLoader( ) );
 					}
 				}
-
+				obs[i] = IOUtil.readObject( dis,
+						DataEngineSession.getCurrentClassLoader( ) );
 			}
 			return new ResultObject( rsMeta, obs );
 		}
