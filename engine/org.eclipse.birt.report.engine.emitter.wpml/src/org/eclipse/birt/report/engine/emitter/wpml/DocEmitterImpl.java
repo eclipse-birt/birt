@@ -214,10 +214,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			{
 				context.startInline( );
 				inlineFlag = InlineFlag.FIRST_INLINE;
-				if ( !styles.isEmpty( ) )
-				{
-					computedStyle = styles.peek( );
-				}
+				computedStyle = computeStyle( computedStyle );
 			}
 			else
 				inlineFlag = InlineFlag.MIDDLE_INLINE;
