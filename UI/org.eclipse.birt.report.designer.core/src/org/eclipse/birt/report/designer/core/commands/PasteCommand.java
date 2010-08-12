@@ -335,10 +335,19 @@ public class PasteCommand extends Command
 		}
 
 		if ( afterHandle != null )
-		{
-			position = DEUtil.findInsertPosition( container,
-					afterHandle,
-					slotID );
+		{			
+			if (slotID == -1)
+			{
+				position = DEUtil.findInsertPosition( container,
+						afterHandle,
+						contentString );
+			} 
+			else
+			{
+				position = DEUtil.findInsertPosition( container,
+						afterHandle,
+						slotID );
+			}
 		}
 		else if ( position > -1
 				&& isCut
