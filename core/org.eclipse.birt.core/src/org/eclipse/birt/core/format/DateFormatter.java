@@ -30,7 +30,7 @@ import com.ibm.icu.util.ULocale;
  * future
  * 
  */
-public class DateFormatter
+public class DateFormatter implements IFormatter
 {
 
 	private static final String UNFORMATTED = "Unformatted";
@@ -653,5 +653,11 @@ public class DateFormatter
 			}
 			throw ex;
 		}
+	}
+
+	public String formatValue( Object value )
+	{
+		assert value instanceof Date;
+		return format( (Date) value );
 	}
 }

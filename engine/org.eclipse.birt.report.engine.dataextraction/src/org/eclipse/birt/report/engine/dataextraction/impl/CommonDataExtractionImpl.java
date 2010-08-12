@@ -10,14 +10,18 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.dataextraction.impl;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.format.AutoFormatter;
 import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.IFormatter;
+import org.eclipse.birt.core.format.IFormatter.DefaultFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
@@ -42,29 +46,30 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 	private IReportContext context;
 	private IDataExtractionOption options;
 	private DateFormatter dateFormatter = null;
-	private NumberFormatter numberFormatter = null;
 	private ULocale locale = null;
 	private TimeZone timeZone = null;
 	private boolean isLocaleNeutral;
 
-	private Map<Object, DateFormatter> columnFormatterMap;
+	private IFormatter[] valueFormatters;
+
+	private Map formatterMap;
 
 	/**
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initialize(org.eclipse.birt.report.engine.api.script.IReportContext, org.eclipse.birt.report.engine.api.IDataExtractionOption)
 	 */
-	public void initialize( IReportContext context, IDataExtractionOption options )
-			throws BirtException
+	public void initialize( IReportContext context,
+			IDataExtractionOption options ) throws BirtException
 	{
 		this.context = context;
 		this.options = options;
-		
+
 		if ( options.getOutputStream( ) == null )
-		{	
+		{
 			throw new BirtException( PLUGIN_ID,
 					Messages.getString( "exception.dataextraction.options.outputstream_required" ), null ); //$NON-NLS-1$
 		}
-		
-		initCommonOptions(context, options);
+
+		initCommonOptions( context, options );
 	}
 
 	/**
@@ -79,28 +84,28 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 			IDataExtractionOption options )
 	{
 		String dateFormat = null;
-		ICommonDataExtractionOption commonOptions;		
+		ICommonDataExtractionOption commonOptions;
 		if ( options instanceof ICommonDataExtractionOption )
 		{
-			commonOptions = (ICommonDataExtractionOption)options;
+			commonOptions = (ICommonDataExtractionOption) options;
 		}
 		else
 		{
-			commonOptions = new CommonDataExtractionOption(options.getOptions( ));
+			commonOptions = new CommonDataExtractionOption( options.getOptions( ) );
 		}
-		
+
 		this.isLocaleNeutral = commonOptions.isLocaleNeutralFormat( );
 
 		dateFormat = commonOptions.getDateFormat( );
 		// get locale info
 		Locale aLocale = null;
-		if ( context.getLocale( ) != null )
+		if ( commonOptions.getLocale( ) != null )
 		{
-			aLocale = context.getLocale( );
+			aLocale = commonOptions.getLocale( );
 		}
 		else
 		{
-			aLocale = commonOptions.getLocale( );
+			aLocale = context.getLocale( );
 		}
 		if ( aLocale == null )
 		{
@@ -111,45 +116,23 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 			this.locale = ULocale.forLocale( aLocale );
 		}
 
-		if ( context.getTimeZone( ) != null )
+		java.util.TimeZone javaTimeZone = commonOptions.getTimeZone( );
+		if ( javaTimeZone != null )
 		{
-			timeZone = context.getTimeZone( );
+			// convert java time zone to ICU time zone
+			this.timeZone = TimeZone.getTimeZone( javaTimeZone.getID( ) );
 		}
 		else
 		{
-			java.util.TimeZone javaTimeZone = commonOptions.getTimeZone( );
-			if ( javaTimeZone != null )
-			{
-				// convert java time zone to ICU time zone
-				this.timeZone = TimeZone.getTimeZone( javaTimeZone.getID( ) );
-			}
-			else
-			{
-				this.timeZone = null;
-			}
-		}
-			
-		if ( !isLocaleNeutral )
-		{
-			dateFormatter = createDateFormatter( dateFormat, this.locale, this.timeZone );
-			numberFormatter = new NumberFormatter( this.locale );
+			timeZone = context.getTimeZone( );
 		}
 
-		Map formatters = commonOptions.getFormatter( );
-		if ( formatters != null && !formatters.isEmpty( ) )
+		if ( !isLocaleNeutral )
 		{
-			columnFormatterMap = new HashMap<Object, DateFormatter>( );
-			for ( Object key : formatters.keySet( ) )
-			{
-				String format = (String) formatters.get( key );
-				if ( format != null )
-				{
-					DateFormatter columnDateFormatter = createDateFormatter( format,
-							this.locale,
-							this.timeZone );
-					columnFormatterMap.put( key, columnDateFormatter );
-				}
-			}
+			dateFormatter = createDateFormatter( dateFormat,
+					this.locale,
+					this.timeZone );
+			formatterMap = commonOptions.getFormatter( );
 		}
 	}
 
@@ -158,7 +141,7 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 	 * been initialized.
 	 * @return report context instance
 	 */
-	public IReportContext getReportContext()
+	public IReportContext getReportContext( )
 	{
 		return context;
 	}
@@ -168,22 +151,89 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 	 * has been initialized
 	 * @return instance of IDataExtractionOption
 	 */
-	public IDataExtractionOption getOptions()
+	public IDataExtractionOption getOptions( )
 	{
 		return this.options;
-	}
-	
-	/**
-	 * Must be implemented by subclass.
-	 */
-	public void output( IExtractionResults results ) throws BirtException	
-	{
-		throw new BirtException( PLUGIN_ID,
-				Messages.getString( "exception.dataextraction.missing_implementation" ), null ); //$NON-NLS-1$
 	}
 
 	/**
 	 * Must be implemented by subclass.
+	 */
+	public void output( IExtractionResults results ) throws BirtException
+	{
+		throw new BirtException( PLUGIN_ID,
+				Messages.getString( "exception.dataextraction.missing_implementation" ), null ); //$NON-NLS-1$
+	}
+	
+	protected void createFormatters( String[] columnNames, int[] columnTypes )
+	{
+		int length = columnNames.length;
+		valueFormatters = new IFormatter[length];
+		String[] patterns = getPatterns( columnNames );
+		for ( int i = 0; i < length; i++ )
+		{
+			switch ( columnTypes[i] )
+			{
+				case DataType.ANY_TYPE :
+				case DataType.UNKNOWN_TYPE :
+				case DataType.JAVA_OBJECT_TYPE :
+					// auto-format at runtime
+					valueFormatters[i] = new AutoFormatter( patterns[i],
+							this.locale,
+							this.timeZone );
+					break;
+				case DataType.DATE_TYPE :
+				case DataType.SQL_DATE_TYPE :
+				case DataType.SQL_TIME_TYPE :
+					if ( patterns[i] != null )
+					{
+						valueFormatters[i] = createDateFormatter( patterns[i],
+								this.locale,
+								this.timeZone );
+					}
+					else
+					{
+						valueFormatters[i] = dateFormatter;
+					}
+					break;
+				case DataType.DECIMAL_TYPE :
+				case DataType.DOUBLE_TYPE :
+				case DataType.INTEGER_TYPE :
+					valueFormatters[i] = new NumberFormatter( patterns[i],
+							this.locale );
+					break;
+				case DataType.STRING_TYPE :
+					valueFormatters[i] = new StringFormatter( patterns[i],
+							this.locale );
+					break;
+				default :
+					valueFormatters[i] = new DefaultFormatter( this.locale );
+					break;
+			}
+		}
+	}
+
+	private String[] getPatterns( String[] columnNames )
+	{
+		String[] patterns = new String[columnNames.length];
+		if ( formatterMap != null && !formatterMap.isEmpty( ) )
+		{
+			for ( int i = 0; i < columnNames.length; i++ )
+			{
+				String pattern = (String) formatterMap.get( i + 1 );
+				if ( pattern == null )
+				{
+					pattern = (String) formatterMap.get( columnNames[i] );
+				}
+				patterns[i] = pattern;
+			}
+		}
+		return patterns;
+	}
+
+	/**
+	 * Must be implemented by subclass.
+	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#release()
 	 */
 	public void release( )
@@ -193,18 +243,19 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 	/**
 	 * Creates a localized date formatter.
 	 * 
-	 * @param dateFormat
-	 * 		date format string or null for default
+	 * @param pattern
+	 *            date format string or null for default
 	 */
-	private DateFormatter createDateFormatter( String dateFormat,
+	protected DateFormatter createDateFormatter( String pattern,
 			ULocale locale, TimeZone timeZone )
 	{
-		return new DateFormatter( dateFormat, locale, timeZone );
+		return new DateFormatter( pattern, locale, timeZone );
 	}
 
 	/**
 	 * Returns the string value by object, according the the isLocaleNeutral
-	 * option and the specified date format, if available.
+	 * option and the user specified formats(date format, number format, string
+	 * format), if available.
 	 * 
 	 * @param dataIterator
 	 * 
@@ -225,33 +276,7 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 		}
 		else
 		{
-			// implicitly includes its child classes java.sql.Date,
-			// java.sql.Time and java.sql.Timestamp
-			if ( obj instanceof java.util.Date )
-			{
-				DateFormatter formatter =null;
-				if ( columnFormatterMap != null )
-				{
-					formatter = columnFormatterMap.get( index + 1 );
-					if ( formatter == null )
-					{
-						formatter = columnFormatterMap.get( columnNames[index] );
-					}
-				}
-				if ( formatter == null )
-				{
-					formatter = dateFormatter;
-				}
-				value = formatter.format( (java.util.Date) obj );
-			}
-			else if ( obj instanceof Number )
-			{
-				value = numberFormatter.format( (Number) obj );
-			}
-			else
-			{
-				value = DataTypeUtil.toString( obj, locale );
-			}
+			value = valueFormatters[index].formatValue( obj );
 		}
 
 		return value;

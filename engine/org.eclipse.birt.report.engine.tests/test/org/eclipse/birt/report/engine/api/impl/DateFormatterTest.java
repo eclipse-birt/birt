@@ -55,21 +55,23 @@ public class DateFormatterTest extends EngineCase
 	{
 		dataExTask.selectResultSet( "ELEMENT_69" );
 		String[] columnNames = new String[]{
-				"CUSTOMERNUMBER", "PAYMENTDATE","now","now"
+				"CUSTOMERNUMBER", "CHECKNUMBER", "PAYMENTDATE", "now", "now"
 		};
-		dataExTask.setTimeZone( TimeZone.getTimeZone( "GMT+2" ) );
+		dataExTask.setTimeZone( TimeZone.getTimeZone( "GMT+8" ) );
 		dataExTask.selectColumns( columnNames );
-		dataExTask.setLocale( ULocale.ENGLISH );
+		dataExTask.setLocale( ULocale.CHINESE );
 		ByteArrayOutputStream out = new ByteArrayOutputStream( );
 		CSVDataExtractionOption option = new CSVDataExtractionOption( );
 		option.setTimeZone( java.util.TimeZone.getTimeZone( "GMT+5" ) );
-		option.setLocale( Locale.CHINESE );
+		option.setLocale( Locale.ENGLISH );
 		option.setOutputFormat( "csv" );
 		option.setOutputStream( out );
 		Map<Object, String> formatters = new HashMap<Object, String>( );
-		formatters.put( 2, "yyy-MM-dd" );
+		formatters.put( 1, "Fixed" );
+		formatters.put( 2, "<" );
+		formatters.put( 3, "yyyy-MM-dd" );
 		formatters.put( "now", "yyyy-MM-dd HH:mm:ss.sss ZZZ" );
-		formatters.put( 4, "Long Date" );
+		formatters.put( 5, "Long Date" );
 		option.setFormatter( formatters );
 		dataExTask.extract( option );
 		String result = new String( out.toByteArray( ) );

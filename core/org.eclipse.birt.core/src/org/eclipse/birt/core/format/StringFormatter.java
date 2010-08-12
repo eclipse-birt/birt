@@ -28,7 +28,7 @@ import com.ibm.icu.util.ULocale;
  * formatting, locale is irrelevant in string formatting
  *  
  */
-public class StringFormatter
+public class StringFormatter implements IFormatter
 {
 
 	/**
@@ -479,5 +479,11 @@ public class StringFormatter
 	public void setTrim( boolean trim )
 	{
 		this.trim = trim;
+	}
+
+	public String formatValue( Object value )
+	{
+		assert value instanceof String;
+		return format( (String) value );
 	}
 }

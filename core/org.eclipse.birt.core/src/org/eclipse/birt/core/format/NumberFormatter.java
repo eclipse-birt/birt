@@ -32,7 +32,7 @@ import com.ibm.icu.util.ULocale;
  * which does the following: a. Format number using Java format string b. Do
  * some post-processing, i.e., e or E, minus sign handling, etc.
  */
-public class NumberFormatter
+public class NumberFormatter implements IFormatter
 {
 
 	private static final String DIGIT_SUBSTITUTION = "DigitSubstitution";
@@ -665,5 +665,11 @@ public class NumberFormatter
 		}
 		
 		return precision;
+	}
+
+	public String formatValue( Object value )
+	{
+		assert value instanceof Number;
+		return format( (Number) value );
 	}
 }

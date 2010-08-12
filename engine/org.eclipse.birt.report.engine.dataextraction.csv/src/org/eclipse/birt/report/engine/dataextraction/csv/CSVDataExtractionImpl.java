@@ -140,6 +140,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 					
 					// Data
 					String[] values = new String[columnNames.length];
+					createFormatters( columnNames, columnTypes );
 					while ( iData.next( ) )
 					{
 						for ( int i = 0; i < columnNames.length; i++ )
