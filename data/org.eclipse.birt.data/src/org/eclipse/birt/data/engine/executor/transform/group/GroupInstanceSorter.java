@@ -14,9 +14,14 @@ package org.eclipse.birt.data.engine.executor.transform.group;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
@@ -147,11 +152,23 @@ class GroupInstanceSorter
 		this.populator.getResultIterator( ).last( groupPosition + 1 );
 		for ( int l = 0; l < sortKeys.length; l++ )
 		{
-			sortKeys[l] = ScriptEvalUtil.evalExpr( ( (ISortDefinition) this.populator.getQuery( )
-					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getExpression( ),
-					cx.newContext( this.groupProcessor.getExpressionProcessor( ).getScope( ) ),
-					ScriptExpression.defaultID,
-					0 );
+			IScriptExpression sortExpr =( (ISortDefinition) this.populator.getQuery( )
+					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getExpression( );
+			if( sortExpr != null )
+			{
+				String datasetName = getDataSetName( sortExpr.getText(), this.populator.getQuery( ).getQueryDefinition( ) );
+				if( datasetName != null )
+				{
+					sortKeys[l] = this.populator.getResultIterator( ).getCurrentResult( ).getFieldValue( datasetName );
+				}
+				else
+				{
+					sortKeys[l] = ScriptEvalUtil.evalExpr( sortExpr,
+						cx.newContext( this.groupProcessor.getExpressionProcessor( ).getScope( ) ),
+						ScriptExpression.defaultID,
+						0 );
+				}
+			}			
 			sortDirections[l] = ( (ISortDefinition) this.populator.getQuery( )
 					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getSortDirection( ) == ISortDefinition.SORT_ASC
 					? true : false;
@@ -168,4 +185,26 @@ class GroupInstanceSorter
 		this.populator.getResultIterator( ).next( );
 	}
 
+	private static String getDataSetName( String rowExpr, IBaseQueryDefinition baseQueryDefn ) throws DataException
+	{
+		String dataSetName = null ;
+		try
+		{
+			String bindingName = ExpressionUtil.getColumnBindingName( rowExpr );
+			Object binding = baseQueryDefn.getBindings( ).get( bindingName );
+			if( binding != null )
+			{
+				IBaseExpression expr = ( (IBinding) binding ).getExpression( );
+				if( expr != null && expr instanceof IScriptExpression )
+				{
+					dataSetName =  ExpressionUtil.getColumnName( ( ( IScriptExpression )expr ).getText( ) );
+				}
+			}
+			return dataSetName;
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+	}
 }

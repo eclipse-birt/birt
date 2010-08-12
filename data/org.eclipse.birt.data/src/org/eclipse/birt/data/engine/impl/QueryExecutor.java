@@ -484,10 +484,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 
 				validateGroupExpression( src );
 
-				String expr = getGroupKeyExpression( src );
+				String expr = getDataSetGroupKeyExpression( src );
 				
 				String groupName = populateGroupName( i, expr );
-				int dataType = getColumnDataType( cx, expr );
+				int dataType = getColumnDataType( cx, getGroupKeyExpression( src ) );
 				
 				IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 						src,
@@ -648,12 +648,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 	}
 
-	private String getDataSetExpr(String sortKey) throws DataException
+	private String getDataSetExpr( String rowExpr ) throws DataException
 	{
 		String dataSetExpr = null ;
 		try
 		{
-			String bindingName = ExpressionUtil.getColumnBindingName( sortKey );
+			String bindingName = ExpressionUtil.getColumnBindingName( rowExpr );
 			Object binding = this.baseQueryDefn.getBindings( ).get( bindingName );
 			if( binding != null )
 			{
@@ -846,9 +846,34 @@ public abstract class QueryExecutor implements IQueryExecutor
 	/**
 	 * @param src
 	 * @return
+	 * @throws DataException 
 	 */
-	private String getGroupKeyExpression( IGroupDefinition src )
+	private String getDataSetGroupKeyExpression( IGroupDefinition src )
 	{
+		String expr = getGroupKeyExpression(src);
+		String dataSetExpr;
+		try
+		{
+			dataSetExpr = getDataSetExpr( expr );
+		}
+		catch (DataException e)
+		{
+			dataSetExpr = null;
+		}
+		try
+		{
+			if( "dataSetRow._rowPosition".equals( dataSetExpr ) )
+				return expr;
+			if( dataSetExpr != null && ExpressionUtil.getColumnName( dataSetExpr ) != null )
+				return dataSetExpr;
+		}
+		catch (BirtException e)
+		{
+		}
+		return expr;
+	}
+
+	private String getGroupKeyExpression(IGroupDefinition src) {
 		String expr = src.getKeyColumn( );
 		if ( expr == null )
 		{
