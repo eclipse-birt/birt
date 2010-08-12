@@ -95,6 +95,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -155,7 +156,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	protected static final String[] EMPTY_ARRAY = new String[]{};
 
-	protected List<String> columnList;
+	protected List<String> columnList, measureList;
 
 	protected int valueVisible;
 
@@ -265,7 +266,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			ExtendedItemHandle handle ) throws ExtendedElementException
 	{
 		Map<String, String> exprMap = new LinkedHashMap<String, String>( );
-		
+		measureList = new ArrayList<String>( );
 		
 		for ( LevelHandle lh : ChartCubeUtil.getAllLevels( handle.getCube( ) ) )
 		{
@@ -280,6 +281,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 					true );
 			String expr = adaptExpr( exprCodec );
 			exprMap.put( exprCodec.getBindingName( ), expr );
+			measureList.add( exprCodec.getBindingName( ) );
 		}
 		
 		return exprMap;
@@ -574,7 +576,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	protected Button addBtn, editBtn, delBtn, delAllBtn;
 
-	protected Combo expressionValue1, expressionValue2, addExpressionValue;
+	protected CCombo expressionValue1, expressionValue2, addExpressionValue;
 
 	protected Composite valueListComposite;
 
@@ -717,7 +719,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		public void handleEvent( Event event )
 		{
-			Combo thisCombo = (Combo) event.widget;
+			CCombo thisCombo = (CCombo) event.widget;
 			String text = event.text;
 			if ( text != null && thisCombo.indexOf( text ) >= 0 )
 			{
@@ -734,7 +736,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		public void handleEvent( Event event )
 		{
-			Combo thisCombo = (Combo) event.widget;
+			CCombo thisCombo = (CCombo) event.widget;
 			int selectionIndex = thisCombo.getSelectionIndex( );
 			if ( selectionIndex < 0 )
 			{
@@ -903,9 +905,9 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		return 1;
 	}
 
-	private Combo createExpressionValue( Composite parent )
+	private CCombo createExpressionValue( Composite parent )
 	{
-		Combo expressionValue = new Combo( parent, SWT.None );
+		final CCombo expressionValue = new CCombo( parent, SWT.BORDER );
 		expressionValue.add( CHOICE_SELECT_VALUE );
 		expressionValue.addListener( SWT.Verify, expValueVerifyListener );
 		expressionValue.addListener( SWT.Selection, expValueSelectionListener );
@@ -918,6 +920,28 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 		};
 		expressionValue.addListener( SWT.Modify, listener );
+		expressionValue.addListener( SWT.MouseDown, new Listener( ) {
+
+			public void handleEvent( Event arg0 )
+			{
+				if ( isMeasureSelected( ) )
+				{
+					if ( expressionValue.getItemCount( ) > 0 )
+					{
+						expressionValue.remove( 0 );
+					}
+					expressionValue.setVisibleItemCount( 0 );
+				}
+				else
+				{
+					if ( expressionValue.getItemCount( ) == 0 )
+					{
+						expressionValue.add( CHOICE_SELECT_VALUE );
+					}
+					expressionValue.setVisibleItemCount( 1 );
+				}
+			}
+		} );
 		
 		IExpressionButton ceb = ChartExpressionButtonUtil.createExpressionButton( parent,
 				expressionValue,
@@ -1791,6 +1815,10 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		{
 			initValue = ( (Combo) control ).getText( );
 		}
+		else if ( control instanceof CCombo )
+		{
+			initValue = ( (CCombo) control ).getText( );
+		}
 		ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
 				initValue );
 
@@ -1816,6 +1844,10 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			else if ( control instanceof Combo )
 			{
 				( (Combo) control ).setText( result );
+			}
+			else if ( control instanceof CCombo )
+			{
+				( (CCombo) control ).setText( result );
 			}
 		}
 		updateButtons( );
@@ -1976,5 +2008,13 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	{
 		shutDownDteSession( );
 		return super.close( );
+	}
+
+	private boolean isMeasureSelected( )
+	{
+		exprCodec.setExpression( expression.getText( ) );
+		exprCodec.setType( expButton.getExpressionType( ) );
+		String bindingName = exprCodec.getBindingName( );
+		return measureList.contains( bindingName );
 	}
 }
