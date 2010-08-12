@@ -62,6 +62,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -88,6 +89,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.internal.UIPlugin;
+import org.eclipse.ui.internal.Workbench;
 
 /**
  * Property page to define dataset parameters. If they could be retrieved from
@@ -451,6 +454,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		if ( dlg.open( ) == Window.OK )
 		{
 			viewer.getViewer( ).refresh( );
+			updateReportParameter( position );
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
 			stack.commit( );
@@ -460,7 +464,71 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			stack.rollback( );
 		}
 	}
+	
+	private void updateReportParameterValue( int index )
+	{
+		OdaDataSetParameterHandle datasetParameter = (OdaDataSetParameterHandle) viewer.getViewer( )
+				.getTable( )
+				.getItem( index )
+				.getData( );
 
+		assert datasetParameter != null;
+		
+		if ( datasetParameter.getParamName( ) == null )
+			return;
+		ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( datasetParameter.getParamName( ),
+				false );
+
+		if ( reportParameter != null )
+		{
+			try
+			{
+				reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
+			}
+			catch ( SemanticException e )
+			{
+			}
+		}
+	}
+
+	private void updateReportParameter( int index )
+	{
+		String setting = UIPlugin.getDefault( )
+				.getPreferenceStore( )
+				.getString( "DataSetParameterPage.updateReportParameter" );
+
+		if ( MessageDialogWithToggle.ALWAYS.equals( setting ) )
+		{
+			updateReportParameterValue( index );
+		}
+		else
+		{
+			OdaDataSetParameterHandle datasetParameter = (OdaDataSetParameterHandle) viewer.getViewer( )
+					.getTable( )
+					.getItem( index )
+					.getData( );
+
+			if ( datasetParameter != null
+					&& datasetParameter.getParamName( ) != null )
+			{
+				MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion( Workbench.getInstance( )
+						.getDisplay( )
+						.getActiveShell( ),
+						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
+						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
+						Messages.getString( "DataSetParameterPage.updateReportParameter.propmtText" ),
+						false,
+						UIPlugin.getDefault( ).getPreferenceStore( ),
+						"DataSetParameterPage.updateReportParameter" );
+
+				if ( dialog.getReturnCode( ) == MessageDialogWithToggle.INFORMATION )
+				{
+					updateReportParameterValue( index );
+				}
+			}
+		}
+	}
+	
 	private void doEdit( )
 	{
 		int index = viewer.getViewer( ).getTable( ).getSelectionIndex( );
@@ -482,6 +550,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		if ( dlg.open( ) == Window.OK )
 		{
 			viewer.getViewer( ).refresh( );
+			updateReportParameter( index );
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
 			stack.commit( );
@@ -504,6 +573,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				{
 					continue;
 				}
+				
 				ScalarParameterHandle reportParam = ParameterPageUtil.getScalarParameter( handle.getParamName( ),
 						true );
 				if ( reportParam == null )
@@ -2248,7 +2318,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				enableComposite( defaultValueComposite, false );
 				defaultValueText.setText( NONE_DEFAULT_VALUE );
 			}
-
+			
 			checkParameterButtonTooltip( );
 		}
 
@@ -2322,4 +2392,5 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 	}
 
+   
 }
