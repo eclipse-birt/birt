@@ -302,6 +302,7 @@ public class RowArea extends ContainerArea
 							cell.updateChildrenPosition( );
 							cell.setRowSpan( rowSpan );
 							cell.setParent( this );
+							cell.isDummy = true;
 							addChildByColumnId( cell );
 						}
 						else
