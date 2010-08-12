@@ -3386,17 +3386,17 @@ public final class Bar extends AxesRenderer
 				fP = fDarker;
 			}
 			pre.setBackground( fP );
-			if ( bDeferred )
-			{
-				alModel.add( pre.copy( ) );
-			}
-			else
-			{
-				ipr.fillPolygon( pre );
-			}
 
 			if ( i == nSides )
 			{
+				if ( bDeferred )
+				{
+					alModel.add( pre.copy( ) );
+				}
+				else
+				{
+					ipr.fillPolygon( pre );
+				}
 			}
 			else if ( i == iSmallestYIndex )
 			{
