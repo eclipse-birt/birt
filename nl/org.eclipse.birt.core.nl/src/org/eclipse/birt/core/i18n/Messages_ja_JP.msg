@@ -9,9 +9,9 @@ CONVERT_FAILS={0} の値を {1} 型に変換できません。
 
 birt.core.JavascriptCommonError=スクリプト "{0}" の評価中にエラーが発生しました : \n{1}
 birt.core.JavascriptError=JavaScript 式の評価エラーが発生しました。 スクリプトエンジンエラー : {0}\n スクリプトのソース : {1}, 行 : {2}, テキスト :\n{3}
-birt.core.Javascript.parameterNotExist=Report parameter "{0}" does not exist.
-birt.core.Javascript.variableNotExist=Report variable "{0}" does not exist.
-birt.core.Javascript.nativeNotFound={0} not found.
+birt.core.Javascript.parameterNotExist=レポートパラメタ "{0}" は存在しません。
+birt.core.Javascript.variableNotExist=レポート変数 "{0}" は存在しません。
+birt.core.Javascript.nativeNotFound={0} が見つかりません。
 birt.core.BirtComp.invalidRegularExpression=Invalid regular expression.
 
 error.NoSuchScriptExtension = スクリプト拡張 {0} が見つかりません。

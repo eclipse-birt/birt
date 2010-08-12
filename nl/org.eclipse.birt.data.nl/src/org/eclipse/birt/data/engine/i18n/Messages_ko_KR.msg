@@ -96,7 +96,7 @@ data.engine.LinkedReportParamAllowMultiValues=복수 값을 허용하는 보고서 매개 변�
 data.engine.EmptyBindingName=바인딩 이름은 널(null)이거나 비워 둘 수 없습니다. 
 data.engine.InvalidBoundColumnName=잘못된 바인딩된 열 이름: {0}.
 data.engine.InvalidGroupKey={1} 그룹의 "{0}" 그룹 키를 하위 그룹에 정의된 열 바인딩에 종속시킬 수 없습니다. 
-data.engine.ColumnBindingNotExist=Binding "{0}" does not exist.
+data.engine.ColumnBindingNotExist=바인딩 "{0}"이(가) 없습니다.
 data.engine.ColumnBindingCycle="{0}" 바인딩에 종속 사이클이 형성되어 있습니다. 
 data.engine.ColumnBindingReferToInexistColumn=열 바인딩 "{0}"이(가) 존재하지 않는 바인딩 "{1}"을(를) 참조합니다.
 data.engine.ColumnBindingReferToInexistBinding=열 바인딩 "{0}"이(가) 존재하지 않는 데이터 집합 열 "{1}"을(를) 참조합니다.
@@ -141,7 +141,7 @@ load.factory.error=데이터 엔진 팩토리 로드 중 오류가 발생했습니다.
 
 # Wrapped Error
 data.engine.DataConversionError=데이터 형식을 변환하는 중 오류가 발생했습니다.
-data.engine.BadCompareExpr=Can not compare "{0}" with "{1}".
+data.engine.BadCompareExpr="{0}"을(를) "{1}"과(와) 비교할 수 없습니다.
 data.engine.BadCompareSingleValueWithMultiValues=[{0}]의 단일 값과 복수 값을 비교하는 잘못된 필터 조건으로 인해 필터를 적용할 수 없습니다.\n이 필터에 대해 하나의 값만 설정하십시오.
 data.engine.BirtException=BIRT 예외 {0}이(가) 발생했습니다. 자세한 내용은 다음 예외를 참조하십시오.
 
@@ -221,10 +221,10 @@ data.engine.errorHappenWhenRetrieveResultSet=결과 집합 "{0}"을(를) 확인하는 중에
 data.engine.invalidAggregationBindingForPLSReport=페이지 수준 보안을 사용하는 경우 집계 바인딩 "{0}"을(를) 사용할 수 없습니다.
 
 data.engine.acl.dataSetCannotBeAccessed=데이터 집합 "{0}"에 액세스할 수 없습니다.
-data.engine.acl.dataSetColumnCannotBeAccessed=Data set column "{0}" cannot be accessed.
-data.engine.acl.cubeCannotBeAccessed=User does not have permission to access this cube "{0}"
-data.engine.acl.cubeLevelCannotBeAccessed=User does not have permission to access this level "{0}"
-data.engine.acl.cubeMeasureCannotBeAccessed=User does not have permission to access this measure "{0}"
+data.engine.acl.dataSetColumnCannotBeAccessed=데이터 집합 열 "{0}"에 액세스할 수 없습니다.
+data.engine.acl.cubeCannotBeAccessed=사용자에게 이 큐브 "{0}"에 대한 액세스 권한이 없습니다.
+data.engine.acl.cubeLevelCannotBeAccessed=사용자에게 이 수준 "{0}"에 대한 액세스 권한이 없습니다.
+data.engine.acl.cubeMeasureCannotBeAccessed=사용자에게 이 측정값 "{0}"에 대한 액세스 권한이 없습니다.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.

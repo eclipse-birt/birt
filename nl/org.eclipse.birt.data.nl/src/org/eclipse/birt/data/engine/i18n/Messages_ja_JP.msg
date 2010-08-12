@@ -96,7 +96,7 @@ data.engine.LinkedReportParamAllowMultiValues=複数の値を使用できるレポートパラメ
 data.engine.EmptyBindingName=バインド名は null または空白にできません。 
 data.engine.InvalidBoundColumnName=バインドされたカラムの名前が無効です : {0}
 data.engine.InvalidGroupKey=グループ {1} のグループキー "{0}" は、それより下位のグループで定義されているカラムバインドに依存させることはできません。 
-data.engine.ColumnBindingNotExist=Binding "{0}" does not exist.
+data.engine.ColumnBindingNotExist=バインド "{0}" は存在しません。
 data.engine.ColumnBindingCycle=バインド "{0}" の依存関係が循環参照になっています。 
 data.engine.ColumnBindingReferToInexistColumn=列バインド "{0}" は、存在しないバインド "{1}" を参照しています。
 data.engine.ColumnBindingReferToInexistBinding=列バインド "{0}" は、存在しないデータセット列 "{1}" を参照しています。
@@ -141,7 +141,7 @@ load.factory.error=データエンジンのファクトリを読み込めません。
 
 # Wrapped Error
 data.engine.DataConversionError=データ型を変換中にエラーが発生しました。
-data.engine.BadCompareExpr=Can not compare "{0}" with "{1}".
+data.engine.BadCompareExpr="{0}" を "{1}" と比較できません。
 data.engine.BadCompareSingleValueWithMultiValues=1 つの値を [{0}] の複数の値と比較するフィルタ条件が無効であるため、フィルタを適用できません。\nこのフィルタでは値を 1 つだけ設定してください。
 data.engine.BirtException=BIRT で例外 {0} が発生しました。詳しくは、次の例外を参照してください。
 
@@ -221,10 +221,10 @@ data.engine.errorHappenWhenRetrieveResultSet=結果セット "{0}" の表示中にエラーが
 data.engine.invalidAggregationBindingForPLSReport=ページレベルセキュリティが有効な場合、集計バインド "{0}" は無効です。
 
 data.engine.acl.dataSetCannotBeAccessed=データセット "{0}" にアクセスできません。
-data.engine.acl.dataSetColumnCannotBeAccessed=Data set column "{0}" cannot be accessed.
-data.engine.acl.cubeCannotBeAccessed=User does not have permission to access this cube "{0}"
-data.engine.acl.cubeLevelCannotBeAccessed=User does not have permission to access this level "{0}"
-data.engine.acl.cubeMeasureCannotBeAccessed=User does not have permission to access this measure "{0}"
+data.engine.acl.dataSetColumnCannotBeAccessed=データセット列 "{0}" にアクセスできません。
+data.engine.acl.cubeCannotBeAccessed=ユーザにはキューブ "{0}" にアクセスする権限がありません。
+data.engine.acl.cubeLevelCannotBeAccessed=ユーザにはレベル "{0}" にアクセスする権限がありません。
+data.engine.acl.cubeMeasureCannotBeAccessed=ユーザにはメジャー "{0}" にアクセスする権限がありません。
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。

@@ -2058,7 +2058,7 @@ Structure.ColumnHint.ACLExpression=Expresión ACL
 Structure.ColumnHint.analysisColumn=Columna de análisis
 Structure.ColumnHint.valueFormat=Formato del valor
 Structure.ColumnHint.indexColumn=Columna Índice
-Structure.ColumnHint.compressed=Compressed
+Structure.ColumnHint.compressed=Comprimido
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Opciones de selección
@@ -3853,8 +3853,8 @@ Error.SemanticError.TABLE_NO_COLUMN_FOUND = El ancho de la tabla no se puede cal
 Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = El ancho de la tabla no se puede calcular porque el ancho de la columna del índice {0} no está definido.
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = El ancho de la tabla no se puede calcular porque contiene varias columnas con unidades absolutas y relativas distintas del porcentaje.
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = El ancho de la tabla no se puede calcular porque contiene varias columnas con distintas unidades relativas.
-Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%.
-Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=The report item "{0}" cannot specify cube or data set since outer report item may define different cube or data set and multi-view. 
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = El ancho de la tabla no se puede calcular porque la suma del ancho de las columnas en valores de porcentaje es superior o igual a 100%.
+Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=El elemento de informe "{0}" no puede especificar conjuntos de cubos o datos ya que el elemento de informe externo puede definir diferentes conjuntos de cubos o datos y vistas múltiples. 
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Nombre de elemento duplicado en la librería de destino, no es posible exportar el elemento {0}. Cambie el nombre del elemento exportado.

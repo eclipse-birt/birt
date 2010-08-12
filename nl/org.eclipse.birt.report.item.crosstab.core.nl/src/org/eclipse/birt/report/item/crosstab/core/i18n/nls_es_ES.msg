@@ -40,8 +40,8 @@ Element.Direction.Horizontal=Horizontal
 Element.Direction.Vertical=Vertical
 Element.choice.before=Antes
 Element.choice.after=Después
-Element.RowPageBreakInterval=Row page break interval
-Element.ColumnPageBreakInterval=Column page break interval
+Element.RowPageBreakInterval=Intervalo de salto de página en fila
+Element.ColumnPageBreakInterval=Intervalo de salto de página en columna
 
 Method.onPrepare=Al preparar
 Method.onCreate=Al crear
@@ -116,8 +116,8 @@ CrosstabReportItemHandle.error.set.column.width=Error al establecer la anchura d
 CrosstabReportItemHandle.error.set.row.height=Error al establecer la altura de fila de la tabla de referencias cruzadas
 CrosstabReportItemHandle.msg.change.measure.direction=Cambiar dirección de medidas
 CrosstabReportItemHandle.msg.insert.measure=Insertar medida
-CrosstabReportItemHandle.exception.name.blank=Name is required for ComputedMeasure.
-CrosstabReportItemHandle.exception.name.duplicate=The measure name specified is already used and can not duplicate.
+CrosstabReportItemHandle.exception.name.blank=Es necesario el nombre para ComputedMeasure.
+CrosstabReportItemHandle.exception.name.duplicate=El nombre de medida especificado ya está en uso y no se puede duplicar.
 
 MeasureViewHandle.info.aggregation.already.exist=La agregación solicitada ya existe.
 MeasureViewHandle.msg.add.aggregation=Añadir agregación

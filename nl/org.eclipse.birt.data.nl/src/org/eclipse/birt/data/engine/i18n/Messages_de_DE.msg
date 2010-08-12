@@ -96,7 +96,7 @@ data.engine.LinkedReportParamAllowMultiValues=Der Berichtparameter "{0}", der me
 data.engine.EmptyBindingName=Bindungsname darf nicht Null oder leer sein. 
 data.engine.InvalidBoundColumnName=Ungültiger Name für gebundene Spalte: {0}.
 data.engine.InvalidGroupKey=Gruppenschlüssel "{0}" in Gruppe {1} darf nicht von Spaltenbindungen abhängen, die in einer geringeren Gruppe als der eigenen Gruppe definiert wurden. 
-data.engine.ColumnBindingNotExist=Binding "{0}" does not exist.
+data.engine.ColumnBindingNotExist=Die Bindung '{0}' existiert nicht.
 data.engine.ColumnBindingCycle=Bindung "{0}" hat einen Abhängigkeitszyklus. 
 data.engine.ColumnBindingReferToInexistColumn=Spaltenbindung "{0}" hat auf eine Bindung "{1}" verwiesen, die nicht existiert.
 data.engine.ColumnBindingReferToInexistBinding=Spaltenbindung "{0}" hat auf eine Datensatzspalte "{1}" verwiesen, die nicht existiert.
@@ -141,7 +141,7 @@ load.factory.error=Beim Laden der Factory der Datenengine tritt ein Fehler auf.
 
 # Wrapped Error
 data.engine.DataConversionError=Bei der Datentypkonversion ist ein Fehler aufgetreten.
-data.engine.BadCompareExpr=Can not compare "{0}" with "{1}".
+data.engine.BadCompareExpr='{0}' kann nicht mit '{1}' verglichen werden.
 data.engine.BadCompareSingleValueWithMultiValues=Der Filter konnte nicht angewendet werden, da die Filterbedingung ungültig ist. Ein einzelner Wert kann nicht mit mehreren Werten von [{0}] verglichen werden.\nGeben Sie nur einen Wert für diesen Filter an.
 data.engine.BirtException=In BIRT ist ein Ausnahmefehler aufgetreten: {0}. Weitere Informationen können Sie dem nächsten Ausnahmefehler entnehmen.
 
@@ -221,10 +221,10 @@ data.engine.errorHappenWhenRetrieveResultSet=Fehler beim Abrufen von Ergebnis "{
 data.engine.invalidAggregationBindingForPLSReport=Aggregatsbindung '{0}' ist bei aktivierter Seitenebenensicherheit ungültig.
 
 data.engine.acl.dataSetCannotBeAccessed=Zugriff auf Datensatz '{0}' nicht möglich.
-data.engine.acl.dataSetColumnCannotBeAccessed=Data set column "{0}" cannot be accessed.
-data.engine.acl.cubeCannotBeAccessed=User does not have permission to access this cube "{0}"
-data.engine.acl.cubeLevelCannotBeAccessed=User does not have permission to access this level "{0}"
-data.engine.acl.cubeMeasureCannotBeAccessed=User does not have permission to access this measure "{0}"
+data.engine.acl.dataSetColumnCannotBeAccessed=Zugriff auf Datensatzspalte '{0}' nicht möglich.
+data.engine.acl.cubeCannotBeAccessed=Benutzer hat keine Berechtigung für den Zugriff auf diesen Quader '{0}'
+data.engine.acl.cubeLevelCannotBeAccessed=Benutzer hat keine Berechtigung für den Zugriff auf diese Ebene '{0}'
+data.engine.acl.cubeMeasureCannotBeAccessed=Benutzer hat keine Berechtigung für den Zugriff auf diese Einheit '{0}'
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.

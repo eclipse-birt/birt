@@ -40,8 +40,8 @@ QueryHelper.Text.XSeries=X 系列
 QueryHelper.Text.YSeries=Y 系列
 QueryHelper.NoDataDefinitionFor={0} 没有数据定义条目
 QueryHelper.dataDefnUndefined=未定义 {0} 的数据定义条目。
-QueryHelper.InconsitentDataTypesForAxis=All data definitions in the same Y axis should be the same data type.
-QueryHelper.InconsitentDataTypesForValueSeries=All data definitions in value series should be the same data type.
+QueryHelper.InconsitentDataTypesForAxis=同一 Y 轴中所有数据定义的数据类型应该相同。
+QueryHelper.InconsitentDataTypesForValueSeries=值系列中所有数据定义的数据类型应该相同。
 
 ChartElementCommandImpl.editChart=编辑图表
 ChartElementCommandImpl.setProperty.chart.dimension=设置维

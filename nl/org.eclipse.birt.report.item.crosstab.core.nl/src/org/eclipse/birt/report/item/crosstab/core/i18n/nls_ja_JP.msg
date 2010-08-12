@@ -40,8 +40,8 @@ Element.Direction.Horizontal=横
 Element.Direction.Vertical=縦
 Element.choice.before=要素前
 Element.choice.after=要素後
-Element.RowPageBreakInterval=Row page break interval
-Element.ColumnPageBreakInterval=Column page break interval
+Element.RowPageBreakInterval=行の改ページの間隔
+Element.ColumnPageBreakInterval=列の改ページの間隔
 
 Method.onPrepare=準備時
 Method.onCreate=作成時
@@ -116,8 +116,8 @@ CrosstabReportItemHandle.error.set.column.width=クロスタブカラムの幅を設定中にエ
 CrosstabReportItemHandle.error.set.row.height=クロスタブロウの高さを設定中にエラーが発生しました。
 CrosstabReportItemHandle.msg.change.measure.direction=メジャーの方向を変更
 CrosstabReportItemHandle.msg.insert.measure=メジャーの挿入
-CrosstabReportItemHandle.exception.name.blank=Name is required for ComputedMeasure.
-CrosstabReportItemHandle.exception.name.duplicate=The measure name specified is already used and can not duplicate.
+CrosstabReportItemHandle.exception.name.blank=メジャー値の名前を指定してください。
+CrosstabReportItemHandle.exception.name.duplicate=指定したメジャー名はすでに使用されており、重複できません。
 
 MeasureViewHandle.info.aggregation.already.exist=指定された集計はすでに存在します。
 MeasureViewHandle.msg.add.aggregation=集計の追加

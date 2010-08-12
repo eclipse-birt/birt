@@ -9,9 +9,9 @@ CONVERT_FAILS={0} 값을 {1} 형식으로변환할 수 없습니다.
 
 birt.core.JavascriptCommonError=스크립트 "{0}"을(를) 평가하는 도중 오류가 발생했습니다.\n{1}
 birt.core.JavascriptError=Javascript 식을 평가하는 도중 오류가 발생했습니다. 스크립트 엔진 오류: {0}\n 스크립트 원본: {1}, 줄: {2}, 텍스트:\n{3}
-birt.core.Javascript.parameterNotExist=Report parameter "{0}" does not exist.
-birt.core.Javascript.variableNotExist=Report variable "{0}" does not exist.
-birt.core.Javascript.nativeNotFound={0} not found.
+birt.core.Javascript.parameterNotExist=보고서 매개 변수 "{0}"이(가) 없습니다.
+birt.core.Javascript.variableNotExist=보고서 변수 "{0}"이(가) 없습니다.
+birt.core.Javascript.nativeNotFound={0}을(를) 찾을 수 없습니다.
 birt.core.BirtComp.invalidRegularExpression=Invalid regular expression.
 
 error.NoSuchScriptExtension = 스크립트 확장명이 없습니다: {0}.

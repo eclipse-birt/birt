@@ -9,9 +9,9 @@ CONVERT_FAILS=No se puede convertir el valor de {0} al tipo {1}.
 
 birt.core.JavascriptCommonError=Han ocurrido errores durante la evaluación del script "{0}":\n{1}
 birt.core.JavascriptError=Error al evaluar la expresión Javascript. Error de motor de script: {0}\n Fuente de script: {1}, línea: {2}, texto:\n{3}
-birt.core.Javascript.parameterNotExist=Report parameter "{0}" does not exist.
-birt.core.Javascript.variableNotExist=Report variable "{0}" does not exist.
-birt.core.Javascript.nativeNotFound={0} not found.
+birt.core.Javascript.parameterNotExist=El parámetro de informe "{0}" no existe.
+birt.core.Javascript.variableNotExist=La variable de informe "{0}" no existe.
+birt.core.Javascript.nativeNotFound=No se ha encontrado {0}.
 birt.core.BirtComp.invalidRegularExpression=Invalid regular expression.
 
 error.NoSuchScriptExtension = No existe la extensión del script: {0}.

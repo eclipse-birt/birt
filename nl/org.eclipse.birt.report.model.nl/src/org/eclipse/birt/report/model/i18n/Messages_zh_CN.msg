@@ -2058,7 +2058,7 @@ Structure.ColumnHint.ACLExpression=ACL 表达式
 Structure.ColumnHint.analysisColumn=分析列
 Structure.ColumnHint.valueFormat=值格式
 Structure.ColumnHint.indexColumn=索引列
-Structure.ColumnHint.compressed=Compressed
+Structure.ColumnHint.compressed=压缩
 
 #12. SelectionList Choice
 Structure.SelectionChoice=选择选项
@@ -3853,8 +3853,8 @@ Error.SemanticError.TABLE_NO_COLUMN_FOUND = 无法计算表格宽度，因为没有找到任何列
 Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = 无法计算表格宽度，因为索引 {0} 处的列宽未定义。
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = 无法计算表格宽度，因为它包含使用绝对单位和相对单位的多列，而不是百分比。
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = 无法计算表格宽度，因为它包含使用不同相对单位的多列。
-Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%.
-Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=The report item "{0}" cannot specify cube or data set since outer report item may define different cube or data set and multi-view. 
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = 无法计算表格宽度，因为使用百分比的列宽总和大于或等于 100%。
+Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=报表项目“{0}”无法指定多维数据集或数据集，因为外部报表项目可能会定义不同的多维数据集或数据集和多个视图。 
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=目标库中元素名称重复，元素 {0} 无法导出。请重命名导出的元素名称。
