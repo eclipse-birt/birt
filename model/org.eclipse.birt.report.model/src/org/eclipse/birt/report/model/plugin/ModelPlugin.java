@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.plugin;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
 import org.eclipse.birt.report.model.api.BundleFactory;
+import org.eclipse.birt.report.model.api.filterExtension.ODAFilterExprProvider;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.extension.oda.OdaExtensionLoaderFactory;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -36,9 +37,9 @@ public class ModelPlugin extends BIRTPlugin
 		super.start( context );
 
 		ODAProviderFactory.initeTheFactory( new ODABaseProviderFactory( ) );
+		ODAProviderFactory.initFilterExprFactory( ODAFilterExprProvider.getInstance( ) );
 		
 		OdaExtensionLoaderFactory.initeFactory( new OdaBaseExtensionLoaderFactory() );
-
 		BundleFactory.setBundleFactory( new PlatformBundleFactory( ) );
 	}
 

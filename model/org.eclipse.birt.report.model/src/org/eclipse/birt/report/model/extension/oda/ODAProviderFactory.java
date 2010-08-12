@@ -11,16 +11,22 @@
 
 package org.eclipse.birt.report.model.extension.oda;
 
+import java.util.List;
+
+import org.eclipse.birt.report.model.api.filterExtension.IODAFilterExprProvider;
 import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
  * This class is used to wrap the ODA code. The
  * <code>ODABaseProviderFactory</code> is the real object cached in the this
- * class to create the <code>ODAProvider</code>. This class must be
- * initialized firstly to set the <code>baseFactory</code>.
+ * class to create the <code>ODAProvider</code>. This class must be initialized
+ * firstly to set the <code>baseFactory</code>.
  */
-public class ODAProviderFactory implements IODAProviderFactory
+public class ODAProviderFactory
+		implements
+			IODAProviderFactory,
+			IODAFilterExprProvider
 {
 
 	/**
@@ -32,6 +38,8 @@ public class ODAProviderFactory implements IODAProviderFactory
 	 * The only one ODAProviderFactory instance.
 	 */
 	private static ODAProviderFactory instance = null;
+
+	private static IODAFilterExprProvider filterProvider = null;
 
 	/**
 	 * Returns the ODAProviderFactory instance.
@@ -68,8 +76,8 @@ public class ODAProviderFactory implements IODAProviderFactory
 	public IFilterExprDefinition createFilterExprDefinition( )
 	{
 		if ( baseFactory != null )
-			return baseFactory.createFilterExprDefinition();
-		
+			return baseFactory.createFilterExprDefinition( );
+
 		return null;
 	}
 
@@ -77,11 +85,11 @@ public class ODAProviderFactory implements IODAProviderFactory
 			String birtFilterExpr )
 	{
 		if ( baseFactory != null )
-			return baseFactory.createFilterExprDefinition(birtFilterExpr);
-		
+			return baseFactory.createFilterExprDefinition( birtFilterExpr );
+
 		return null;
 	}
-	
+
 	/**
 	 * Set the base factory for this class. This method should be called before
 	 * any other operation.
@@ -97,13 +105,70 @@ public class ODAProviderFactory implements IODAProviderFactory
 
 		baseFactory = base;
 	}
-	
+
 	/**
-     * Singleton instance release method.
-     */
-    public static void releaseInstance()
-    {
-        baseFactory = null;
-        instance = null;
-    }
+	 * Set the base factory for this class. This method should be called before
+	 * any other operation.
+	 * 
+	 * @param base
+	 *            The real factory class used to create the ODA provider.
+	 */
+
+	public synchronized static void initFilterExprFactory(
+			IODAFilterExprProvider filterProvider )
+	{
+		if ( ODAProviderFactory.filterProvider != null )
+			return;
+
+		ODAProviderFactory.filterProvider = filterProvider;
+	}
+
+	/**
+	 * Singleton instance release method.
+	 */
+	public static void releaseInstance( )
+	{
+		baseFactory = null;
+		instance = null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.filterExtension.IODAFilterExprProvider
+	 * #getMappedFilterExprDefinitions(java.lang.String, java.lang.String)
+	 */
+	public List<IFilterExprDefinition> getMappedFilterExprDefinitions(
+			String odaDatasetExtensionId, String odaDataSourceExtensionId )
+	{
+		return filterProvider.getMappedFilterExprDefinitions(
+				odaDatasetExtensionId, odaDataSourceExtensionId );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.filterExtension.IODAFilterExprProvider
+	 * #supportOdaExtensionFilters()
+	 */
+	public boolean supportOdaExtensionFilters( )
+	{
+		return filterProvider.supportOdaExtensionFilters( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.filterExtension.IODAFilterExprProvider
+	 * #supportODAFilterPushDown(java.lang.String, java.lang.String)
+	 */
+	public boolean supportODAFilterPushDown( String dataSourceExtId,
+			String dataSetExtId )
+	{
+		return filterProvider.supportODAFilterPushDown( dataSourceExtId,
+				dataSetExtId );
+	}
 }
