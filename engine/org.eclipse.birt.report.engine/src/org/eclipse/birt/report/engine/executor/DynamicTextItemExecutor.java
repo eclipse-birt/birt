@@ -18,6 +18,9 @@ import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.mozilla.javascript.IdScriptableObject;
+import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * MultiLine Item Executor
@@ -91,7 +94,7 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 		Object content = evaluate( textDesign.getContent( ) );
 		if ( content != null )
 		{
-			if ( IOUtil.getScriptObjectType( content ) == -1 )
+			if ( !isSupportedType( content ) )
 			{
 				content = content.toString( );
 			}
@@ -116,6 +119,28 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 		return textContent;
 	}
 	
+	private boolean isSupportedType( Object obValue )
+	{
+		if ( obValue instanceof Scriptable )
+		{
+			if ( obValue instanceof IdScriptableObject )
+			{
+				IdScriptableObject jsObject = ( (IdScriptableObject) obValue );
+				if ( jsObject.getClassName( ).equals( "Date" ) )
+				{
+					return true;
+				}
+				return false;
+			}
+			else if ( obValue instanceof NativeJavaObject )
+			{
+				return true;
+			}
+			return false;
+		}
+		return IOUtil.getTypeIndex( obValue ) != -1;
+	}
+
 	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );
