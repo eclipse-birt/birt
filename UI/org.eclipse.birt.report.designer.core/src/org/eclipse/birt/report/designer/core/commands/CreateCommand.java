@@ -23,11 +23,14 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.gef.commands.Command;
 
@@ -114,6 +117,24 @@ public class CreateCommand extends Command
 				SessionHandleAdapter.getInstance( )
 						.getMediator( )
 						.notifyRequest( r );
+			}
+			else if (parent instanceof CellHandle && newObject instanceof TableGroupHandle)
+			{
+				DesignElementHandle cellHandle = (CellHandle)parent;
+				TableHandle tableHandle = null;
+				while(cellHandle.getContainer( ) != null)
+				{
+					cellHandle = cellHandle.getContainer( );
+					if (cellHandle instanceof TableHandle)
+					{
+						tableHandle = (TableHandle)cellHandle;
+						break;
+					}
+				}
+				if (tableHandle != null)
+				{
+					tableHandle.getGroups( ).add( newObject, tableHandle.getGroups( ).getCount( ) );
+				}
 			}
 			else if ( DEUtil.getDefaultSlotID( parent ) != -1 )
 			{

@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -977,7 +978,25 @@ public final class DNDUtil
 			return;
 		}
 		container = unwrapToModel( container );
-		if ( container instanceof DesignElementHandle )
+		if (container instanceof CellHandle && handle instanceof TableGroupHandle)
+		{
+			DesignElementHandle cellHandle = (CellHandle)container;
+			TableHandle tableHandle = null;
+			while(cellHandle.getContainer( ) != null)
+			{
+				cellHandle = cellHandle.getContainer( );
+				if (cellHandle instanceof TableHandle)
+				{
+					tableHandle = (TableHandle)cellHandle;
+					break;
+				}
+			}
+			if (tableHandle != null)
+			{
+				tableHandle.getGroups( ).add( handle, tableHandle.getGroups( ).getCount( ) );
+			}
+		}
+		else if ( container instanceof DesignElementHandle )
 		{
 			( (DesignElementHandle) container ).addElement( handle,
 					DEUtil.getDefaultSlotID( container ) );

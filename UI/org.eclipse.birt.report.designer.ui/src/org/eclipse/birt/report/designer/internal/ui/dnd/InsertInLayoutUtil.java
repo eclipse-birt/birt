@@ -686,7 +686,7 @@ public class InsertInLayoutUtil
 							ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ) );
 					groupHandle.addTOC( toc );
 
-					slotHandle.add( groupHandle, slotHandle.getCount( ) );
+					//slotHandle.add( groupHandle, slotHandle.getCount( ) );
 
 					RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
 							.get( 0 ) );
