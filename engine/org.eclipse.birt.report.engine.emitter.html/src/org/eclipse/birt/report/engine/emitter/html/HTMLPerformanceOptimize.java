@@ -229,6 +229,9 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		if ( null != value )
 		{
 			styleBuffer.append( " text-align:" );
+			styleBuffer.append( "-moz-" );
+			styleBuffer.append( value );
+			styleBuffer.append( " !important; text-align:" );
 			styleBuffer.append( value );
 			styleBuffer.append( ";" );
 		}
