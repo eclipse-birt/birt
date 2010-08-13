@@ -148,6 +148,8 @@ public class DateSetPreferencePage extends PreferencePage implements
 	protected void performDefaults( )
 	{
 		maxRowEditor.setStringValue( String.valueOf( DEFAULT_MAX_ROW ) );
+		promptButton.setSelection( false );
+		
 		super.performDefaults( );
 	}
 

@@ -281,6 +281,7 @@ public class DateSetPreferencePage extends PreferencePage
 		maxDisplaySchemaEditor.setStringValue( String.valueOf( DEFAULT_MAX_NUM_OF_SCHEMA ));
 		maxDisplayTableEditor.setStringValue( String.valueOf( DEFAULT_MAX_NUM_OF_TABLE_EACH_SCHEMA));
 		enableCodeAssistCheckbox.setSelection( true );
+		schemasPrefetchConfigCheckbox.setSelection( true );
 		timeOutLimitEditor.setStringValue( String.valueOf( DEFAULT_TIMEOUT_LIMIT ) );
 		super.performDefaults( );
 	}
