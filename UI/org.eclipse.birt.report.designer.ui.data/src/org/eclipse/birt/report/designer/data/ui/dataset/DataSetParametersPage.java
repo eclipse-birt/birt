@@ -483,9 +483,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		{
 			try
 			{
-				reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
+				ReportParameterAdapter adapter = new ReportParameterAdapter( );
+				adapter.updateLinkedReportParameter( reportParameter,
+						datasetParameter,
+						( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
 			}
 			catch ( SemanticException e )
+			{
+			}
+			catch ( OdaException ex )
 			{
 			}
 		}
@@ -495,7 +501,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	{
 		String setting = UIPlugin.getDefault( )
 				.getPreferenceStore( )
-				.getString( "DataSetParameterPage.updateReportParameter" );
+				.getString( "DataSetParameterPage.updateReportParameters" );
 
 		if ( MessageDialogWithToggle.ALWAYS.equals( setting ) )
 		{
@@ -519,7 +525,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 						Messages.getString( "DataSetParameterPage.updateReportParameter.propmtText" ),
 						false,
 						UIPlugin.getDefault( ).getPreferenceStore( ),
-						"DataSetParameterPage.updateReportParameter" );
+						"DataSetParameterPage.updateReportParameters" );
 
 				if ( dialog.getReturnCode( ) == MessageDialogWithToggle.INFORMATION )
 				{
