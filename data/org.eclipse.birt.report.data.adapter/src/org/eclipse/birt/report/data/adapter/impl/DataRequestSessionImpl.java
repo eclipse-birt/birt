@@ -133,6 +133,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private DataSessionContext sessionContext;
 	private Map cubeHandleMap;
 	
+	private Map<ReportElementHandle, QueryDefinition> cubeQueryMap = new HashMap<ReportElementHandle, QueryDefinition>();
+	private Map<ReportElementHandle, List<ColumnMeta>> cubeMetaMap = new HashMap<ReportElementHandle, List<ColumnMeta>>();
 	//Used to avoid creating same dimension repeatedly when a dimension is shared by multiple cubes
 	private Map<String, IDimension> createdDimensions;
 
@@ -700,6 +702,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			this.cubeHandleMap.put( cubeHandle.getQualifiedName( ), cubeHandle );
 		}
+		
+		prepareForCubeGeneration( (TabularCubeHandle)cubeHandle );
 	}
 	
 	/**
@@ -777,11 +781,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		
 		backupAppContext.putAll( appContext );
 
-		Map<ReportElementHandle, QueryDefinition> queryMap = new HashMap<ReportElementHandle, QueryDefinition>();
-		Map<ReportElementHandle, List<ColumnMeta>> metaMap = new HashMap<ReportElementHandle, List<ColumnMeta>>();
-		
-		prepareForCubeGeneration( cubeHandle, queryMap, metaMap );
-		
 		List measureNames = new ArrayList( );
 		List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 		for ( int i = 0; i < measureGroups.size( ); i++ )
@@ -798,7 +797,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		IDimension[] dimensions = populateDimensions( cubeMaterializer,
 				cubeHandle,
 				appContext, 
-				queryMap, metaMap, sl );
+				sl );
 		String[][] factTableKey = new String[dimensions.length][];
 		String[][] dimensionKey = new String[dimensions.length][];
 		boolean fromJoin = false;
@@ -886,10 +885,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 		if ( cubeHandle.autoPrimaryKey( ) )
 		{
-			QueryDefinition qd = queryMap.get( cubeHandle );
+			QueryDefinition qd = cubeQueryMap.get( cubeHandle );
 			if ( !fromJoin )
 			{
-				List<ColumnMeta> metas = metaMap.get( cubeHandle );
+				List<ColumnMeta> metas = cubeMetaMap.get( cubeHandle );
 				//append binding in fact table query for temp PK
 				IBinding tempPKBinding = new Binding( DataSetIterator.createLevelName(
 						getCubeTempPKDimensionName( cubeHandle ),
@@ -940,8 +939,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 					dimensionKey,
 					dimensions,
 					new DataSetIterator( this,
-							queryMap.get( cubeHandle ),
-							metaMap.get( cubeHandle ),
+							cubeQueryMap.get( cubeHandle ),
+							cubeMetaMap.get( cubeHandle ),
 							appContext, null, null ),
 					this.toStringArray( measureNames ),
 					computeMemoryBufferSize( appContext ),
@@ -1009,11 +1008,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param cubeHandle
 	 * @throws BirtException 
 	 */
-	private void prepareForCubeGeneration( TabularCubeHandle cubeHandle,
-			Map<ReportElementHandle, QueryDefinition> queryMap,
-			Map<ReportElementHandle, List<ColumnMeta>> metaMap )
+	private void prepareForCubeGeneration( CubeHandle cHandle )
 			throws BirtException
 	{
+		TabularCubeHandle cubeHandle = null;
+		if( cHandle instanceof TabularCubeHandle )
+		{
+			cubeHandle = (TabularCubeHandle)cHandle;
+		}
 		List<IQueryDefinition> queryDefns = new ArrayList<IQueryDefinition>();
 		
 		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>();
@@ -1033,8 +1035,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			query.getGroups( ).clear( );
 		}
 		queryDefns.add( query );
-		queryMap.put( cubeHandle, query );
-		metaMap.put( cubeHandle, metaList );
+		cubeQueryMap.put( cubeHandle, query );
+		cubeMetaMap.put( cubeHandle, metaList );
 		
 		List<DimensionHandle> dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		for ( DimensionHandle dim:dimHandles )
@@ -1087,8 +1089,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 					query.getGroups( ).clear( );
 				}
 				queryDefns.add( query );
-				queryMap.put( hier, query );
-				metaMap.put( hier, metaList );
+				cubeQueryMap.put( hier, query );
+				cubeMetaMap.put( hier, metaList );
 			}
 		}
 		
@@ -1190,8 +1192,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	private IDimension[] populateDimensions( CubeMaterializer cubeMaterializer,
 			TabularCubeHandle cubeHandle, Map appContext,
-			Map<ReportElementHandle, QueryDefinition> queryMap,
-			Map<ReportElementHandle, List<ColumnMeta>> metaMap, SecurityListener sl ) throws AdapterException
+			SecurityListener sl ) throws AdapterException
 	{
 		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		List result = new ArrayList( );
@@ -1204,9 +1205,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				dim = populateDimension( cubeMaterializer,
 						dh,
 						cubeHandle,
-						appContext,
-						queryMap,
-						metaMap, sl );
+						appContext, sl );
 				createdDimensions.put( dh.getName( ), dim );
 			}
 			result.add( dim);
@@ -1233,9 +1232,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 */
 	private IDimension populateDimension( CubeMaterializer cubeMaterializer,
-			DimensionHandle dim, TabularCubeHandle cubeHandle, Map appContext,
-			Map<ReportElementHandle, QueryDefinition> queryMap,
-			Map<ReportElementHandle, List<ColumnMeta>> metaMap, SecurityListener sl )
+			DimensionHandle dim, TabularCubeHandle cubeHandle, Map appContext,SecurityListener sl )
 			throws AdapterException
 	{
 		List hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
@@ -1333,8 +1330,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 				if( !CubeHandleUtil.isTimeDimension( dim ) )
 				{
 					valueIt = new DataSetIterator( this,
-						queryMap.get( hierhandle ),
-						metaMap.get( hierhandle ),
+						cubeQueryMap.get( hierhandle ),
+						cubeMetaMap.get( hierhandle ),
 						appContext, sl, dim.getName( ) );
 				}
 				else
