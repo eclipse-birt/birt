@@ -284,7 +284,15 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				final DataPointHints dph = (DataPointHints) source.getSource( );
 				if ( !dph.isVirtual( ) )
 				{
-					tv.setText( ChartUtil.stringValue( dph.getUserValue( tv.getText( ) ) ) );
+					Object value = dph.getUserValue( tv.getText( ) );
+					if ( value instanceof Number )
+					{
+						tv.setText( ChartUtil.getDefaultNumberFormat( ).format( value ) );
+					}
+					else
+					{
+						tv.setText( ChartUtil.stringValue( value ) );
+					}
 				}
 				else
 				{
