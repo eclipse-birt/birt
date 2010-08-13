@@ -620,9 +620,17 @@ public class CubeQueryDefinitionUtil
 	{
 		for ( int i = 0; i < queryDefn.getBindings( ).size( ); i++ )
 		{
-			createRelationalMeasures( queryDefn,
+			List measureList = createRelationalMeasures( queryDefn,
 					(IBaseExpression) ( (IBinding) queryDefn.getBindings( )
 							.get( i ) ).getExpression( ), cx );
+			String functionName = ( (IBinding) queryDefn.getBindings( ).get( i ) ).getAggrFunction( );
+			if( functionName != null )
+			{
+				for( int j = 0; j < measureList.size( ); j++ )
+				{
+					( ( IMeasureDefinition ) measureList.get( j ) ).setAggrFunction( functionName );
+				}
+			}
 		}
 	}
 
