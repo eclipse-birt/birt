@@ -234,7 +234,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 					styleBuffer.append( " width: 1px;" );
 				}
 				// build the table-layout
-				styleBuffer.append( " table-layout:fixed;" );
+				styleBuffer.append( " overflow:hidden; table-layout:fixed;" );
 			}
 		}
 		
