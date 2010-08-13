@@ -131,7 +131,7 @@ public class PropertyPageWrapper extends AbstractPropertyPage
 					ExceptionHandler.handle( e );
 				}
 			}
-			return okToLeave;
+			return true;
 		}
         
         if ( propertyPage instanceof DataSourceEditorPage )
