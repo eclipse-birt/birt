@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 public class EngineExecutionHints implements IEngineExecutionHints
 {
 	private Set cachedDataSetNames;
-	
+	private List<IDataQueryDefinition> queryDefns = new ArrayList<IDataQueryDefinition>();
 	/**
 	 * 
 	 */
@@ -46,16 +47,17 @@ public class EngineExecutionHints implements IEngineExecutionHints
 	 * @param queryDefns
 	 * @throws DataException
 	 */
-	void populateCachedDataSets( DataEngineImpl dataEngine, IDataQueryDefinition[] queryDefns ) throws DataException
+	void populateCachedDataSets( DataEngineImpl dataEngine, IDataQueryDefinition[] qds ) throws DataException
 	{
-		if( queryDefns!= null )
+		if( qds!= null )
 		{
+			queryDefns.addAll( Arrays.asList( qds ) );
 			List temp = new ArrayList();
-			for( int i = 0; i < queryDefns.length; i++ )
+			for( IDataQueryDefinition query: queryDefns )
 			{
-				if( queryDefns[i] instanceof IQueryDefinition )
+				if( query instanceof IQueryDefinition )
 				{
-					IQueryDefinition qd = (IQueryDefinition )queryDefns[i];
+					IQueryDefinition qd = (IQueryDefinition )query;
 					String dataSetName = qd.getDataSetName( );
 					if( dataSetName != null )
 					{
@@ -66,7 +68,7 @@ public class EngineExecutionHints implements IEngineExecutionHints
 					}
 				} 
 			}
-			
+			this.cachedDataSetNames.clear( );
 			Set tempSet = new HashSet();
 			for( int i = 0; i < temp.size( ); i++ )
 			{
