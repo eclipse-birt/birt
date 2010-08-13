@@ -203,8 +203,15 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 							this.locale );
 					break;
 				case DataType.STRING_TYPE :
-					valueFormatters[i] = new StringFormatter( patterns[i],
-							this.locale );
+					if ( patterns[i] != null )
+					{
+						valueFormatters[i] = new StringFormatter( patterns[i],
+								this.locale );
+					}
+					else
+					{
+						valueFormatters[i] = new DefaultFormatter( this.locale );
+					}
 					break;
 				default :
 					valueFormatters[i] = new DefaultFormatter( this.locale );
@@ -274,7 +281,7 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 		{
 			value = DataTypeUtil.toLocaleNeutralString( obj );
 		}
-		else
+		else if ( obj != null )
 		{
 			value = valueFormatters[index].formatValue( obj );
 		}

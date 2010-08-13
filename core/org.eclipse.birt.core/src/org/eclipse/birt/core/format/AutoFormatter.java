@@ -58,7 +58,7 @@ public class AutoFormatter implements IFormatter
 			{
 				directFormatter = new NumberFormatter( pattern, this.locale );
 			}
-			else if ( value instanceof String )
+			else if ( pattern != null && value instanceof String )
 			{
 				directFormatter = new StringFormatter( pattern, this.locale );
 			}
