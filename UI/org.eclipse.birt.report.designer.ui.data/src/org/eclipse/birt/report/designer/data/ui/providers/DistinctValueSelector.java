@@ -33,9 +33,12 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 
@@ -127,6 +130,11 @@ public class DistinctValueSelector
 			String columnName = "TEMP_" + expression.getStringExpression( );
 			handle.setExpression( ExpressionUtil.createJSDataSetRowExpression( dataSetColumnName ) );
 			handle.setName( columnName );
+			String dataType = findColumnDataType( dataSetHandle,
+					dataSetColumnName );
+			if ( dataType != null )
+				handle.setDataType( dataType );
+
 			bindingList.add( handle );
 			AppContextPopulator.populateApplicationContext( dataSetHandle, session );
 
@@ -272,5 +280,27 @@ public class DistinctValueSelector
 			return Collections.EMPTY_LIST;
 
 		return new ArrayList( result );
+	}
+	
+	private static String findColumnDataType( DataSetHandle handle,
+			String columnName )
+	{
+		if ( handle.getCachedMetaDataHandle( ) != null )
+		{
+			CachedMetaDataHandle metaDataHandle = handle.getCachedMetaDataHandle( );
+			if ( metaDataHandle == null )
+				return null;
+			MemberHandle memberHandle = metaDataHandle.getResultSet( );
+			if ( memberHandle == null )
+				return null;
+			Iterator iterator = memberHandle.iterator( );
+			while ( iterator.hasNext( ) )
+			{
+				ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iterator.next( );
+				if ( columnHandle.getColumnName( ).equals( columnName ) )
+					return columnHandle.getDataType( );
+			}
+		}
+		return null;
 	}
 }
