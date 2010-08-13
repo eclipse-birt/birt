@@ -538,6 +538,14 @@ public class DataExtractionTaskV0 extends EngineTask
 		{
 			return extractByInstanceID( instanceId);
 		}
+		// if no rsetName or instanceId was specified, returned the first result
+		// set in the report document
+		prepareMetaData( );
+		if ( !resultMetaList.isEmpty( ) )
+		{
+			IResultSetItem resultItem = (IResultSetItem) resultMetaList.get( 0 );
+			return extractByResultSetName( resultItem.getResultSetName( ) );
+		}
 		return null;
 	}
 

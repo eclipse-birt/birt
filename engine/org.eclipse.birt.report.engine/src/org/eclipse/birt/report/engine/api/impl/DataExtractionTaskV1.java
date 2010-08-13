@@ -36,7 +36,6 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
@@ -618,6 +617,14 @@ public class DataExtractionTaskV1 extends EngineTask
 				{
 					results = extractByInstanceID( instanceId );
 				}
+			}
+			
+			// if no rsetName or instanceId was specified, returned the first
+			// result set in the report document
+			if ( results == null && !resultMetaList.isEmpty( ) )
+			{
+				IResultSetItem resultItem = (IResultSetItem) resultMetaList.get( 0 );
+				results = extractByResultSetName( resultItem.getResultSetName( ) );
 			}
 			return results;
 		}
