@@ -2058,7 +2058,7 @@ Structure.ColumnHint.ACLExpression=Expression ACL
 Structure.ColumnHint.analysisColumn=Colonne Analyse
 Structure.ColumnHint.valueFormat=Format de la valeur
 Structure.ColumnHint.indexColumn=Colonne de l'index
-Structure.ColumnHint.compressed=Compressed
+Structure.ColumnHint.compressed=Compressé
 
 #12. SelectionList Choice
 Structure.SelectionChoice=Choix de sélection
@@ -3853,8 +3853,8 @@ Error.SemanticError.TABLE_NO_COLUMN_FOUND = Impossible de calculer la largeur du
 Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH = Impossible de calculer la largeur du tableau, car la largeur de colonne à l'index {0} n'est pas définie.
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = Impossible de calculer la largeur du tableau, car ce dernier contient plusieurs colonnes de valeurs absolues et relatives qui ne sont pas exprimées en pourcentage.
 Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = Impossible de calculer la largeur du tableau, car ce dernier contient plusieurs colonnes dont les valeurs relatives sont différentes.
-Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = The width of the table cannot be calculated because the sum of the widths of columns in percentage is larger than or equal to 100%.
-Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=The report item "{0}" cannot specify cube or data set since outer report item may define different cube or data set and multi-view. 
+Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE = Impossible de calculer la largeur du tableau, car la somme des largeurs des colonnes exprimée en pourcentage est supérieure ou égale à 100 %.
+Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT=L'élément d'état "{0}" ne peut pas définir le cube ni l'ensemble de données car l'élément d'état externe peut définir un cube ou un ensemble de données différent, ainsi qu'un affichage multiple. 
 
 #SemanticException
 Error.SemanticException.EXPORT_ELEMENT_FAIL=Nom d'élément dupliqué dans la bibliothèque cible, l'élément {0} ne peut pas être exporté. Veuillez renommer l'élément exporté.

@@ -96,7 +96,7 @@ data.engine.LinkedReportParamAllowMultiValues=Le paramètre d'état "{0}" qui auto
 data.engine.EmptyBindingName=Le nom de liaison ne peut être ni nul ni vide. 
 data.engine.InvalidBoundColumnName=Nom de colonne liée incorrecte : {0}.
 data.engine.InvalidGroupKey=La clé de groupe "{0}" du groupe {1} ne peut pas dépendre des liaisons de colonne du groupe inférieur. 
-data.engine.ColumnBindingNotExist=Binding "{0}" does not exist.
+data.engine.ColumnBindingNotExist=La liaison "{0}" n'existe pas.
 data.engine.ColumnBindingCycle=La liaison "{0}" possède un cycle de dépendance. 
 data.engine.ColumnBindingReferToInexistColumn=La liaison de colonne "{0}" a renvoyé vers une liaison "{1}" qui n'existe pas.
 data.engine.ColumnBindingReferToInexistBinding=La liaison de colonne "{0}" a renvoyé vers une colonne de jeu de données "{1}" qui n'existe pas.
@@ -141,7 +141,7 @@ load.factory.error=Une erreur s'est produite lors du chargement de la génération
 
 # Wrapped Error
 data.engine.DataConversionError=Une erreur s'est produite lors de la conversion du type de données.
-data.engine.BadCompareExpr=Can not compare "{0}" with "{1}".
+data.engine.BadCompareExpr=Impossible de comparer "{0}" avec "{1}".
 data.engine.BadCompareSingleValueWithMultiValues=Echec de l'application du filtre, car la condition de filtre est incorrecte (une valeur unique est comparée avec des valeurs multiples de [{0}]).\nNe définissez qu'une seule valeur pour ce filtre.
 data.engine.BirtException=Une exception BIRT est survenue : {0}. Voir l''exception suivante pour plus d''informations.
 
@@ -221,10 +221,10 @@ data.engine.errorHappenWhenRetrieveResultSet=Une erreur s'est produite lorsque v
 data.engine.invalidAggregationBindingForPLSReport=La liaison d'agrégation "{0}" est incorrecte lorsque la sécurité de niveau de page est activée.
 
 data.engine.acl.dataSetCannotBeAccessed=Impossible d'accéder au jeu de données "{0}".
-data.engine.acl.dataSetColumnCannotBeAccessed=Data set column "{0}" cannot be accessed.
-data.engine.acl.cubeCannotBeAccessed=User does not have permission to access this cube "{0}"
-data.engine.acl.cubeLevelCannotBeAccessed=User does not have permission to access this level "{0}"
-data.engine.acl.cubeMeasureCannotBeAccessed=User does not have permission to access this measure "{0}"
+data.engine.acl.dataSetColumnCannotBeAccessed=Impossible d'accéder à la colonne d'ensemble de données "{0}".
+data.engine.acl.cubeCannotBeAccessed=L'utilisateur ne dispose pas des autorisations d'accès à ce cube {0}.
+data.engine.acl.cubeLevelCannotBeAccessed=L'utilisateur ne dispose pas des autorisations d'accès à ce niveau {0}.
+data.engine.acl.cubeMeasureCannotBeAccessed=L'utilisateur ne dispose pas des autorisations d'accès à cette mesure {0}.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
