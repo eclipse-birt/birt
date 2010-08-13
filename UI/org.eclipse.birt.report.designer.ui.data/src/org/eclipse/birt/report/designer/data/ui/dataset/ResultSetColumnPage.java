@@ -96,6 +96,7 @@ public class ResultSetColumnPage extends Composite
 		protected String analysisType;
 		protected String analysisCoumn;
 		protected boolean isIndexColumn;
+		protected boolean removeDuplicatedValue;
 		
 		protected String alias;
 		//default type is "string"

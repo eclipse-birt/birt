@@ -75,6 +75,8 @@ public class DataSetViewData
 	private FormatValue formatValue = null;
 	
 	private transient boolean isIndexColumn = false;
+	
+	private boolean removeDuplicateValues = false;
 
 	
 	public String getAnalysisColumn( )
@@ -469,5 +471,23 @@ public class DataSetViewData
 	public boolean isIndexColumn( )
 	{
 		return isIndexColumn;
+	}
+
+
+	/**
+	 * @param removeDuplicateValues the removeDuplicateColumn to set
+	 */
+	public void setRemoveDuplicateValues( boolean removeDuplicateValues )
+	{
+		this.removeDuplicateValues = removeDuplicateValues;
+	}
+
+
+	/**
+	 * @return the removeDuplicateColumn
+	 */
+	public boolean removeDuplicateValues( )
+	{
+		return removeDuplicateValues;
 	}
 }

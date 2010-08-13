@@ -100,7 +100,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	protected OutputColumnTableViewer viewer;
 	private static Logger logger = Logger.getLogger( OutputColumnDefnPage.class.getName( ) );
 
-	private static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
+	protected static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( )
@@ -1400,6 +1400,34 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			else
 				columnHint.setProperty( ColumnHint.INDEX_COLUMN_MEMBER,
 						indexColumn );
+		}
+
+		public boolean removeDuplicatedValues( )
+		{
+			if ( this.columnHintHandle != null )
+			{
+				return columnHintHandle.isCompressed( );
+			}
+			else
+			{
+				if ( columnHint.getProperty( null,
+						ColumnHint.COMPRESSED_MEMBER ) instanceof Boolean )
+				{
+					return (Boolean) columnHint.getProperty( null,
+							ColumnHint.COMPRESSED_MEMBER );
+				}
+				return false;
+			}
+		}
+		
+		public void setRemoveDuplicatedValues(
+				boolean shouldRemoveDuplicatedColumn ) throws SemanticException
+		{
+			if ( this.columnHintHandle != null )
+				columnHintHandle.setCompresssed( shouldRemoveDuplicatedColumn );
+			else
+				columnHint.setProperty( ColumnHint.COMPRESSED_MEMBER,
+						shouldRemoveDuplicatedColumn );
 		}
 
 		public void setProperty( Object property, Object value )

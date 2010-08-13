@@ -252,6 +252,7 @@ public final class DataSetProvider
 				items[i].setTextFormat( hint.getTextFormat( ) );
 				items[i].setDescription( hint.getDescription( ) );
 				items[i].setWordWrap( hint.wordWrap( ) );
+				items[i].setRemoveDuplicateValues( hint.isCompressed( ) );
 			}
 			else
 			{
@@ -359,7 +360,6 @@ public final class DataSetProvider
 					else
 					{
 						items[i].setAnalysisColumn( null );
-						items[i].setIndexColumn( hint.isIndexColumn( ) );
 					}
 				}
 				else
@@ -376,6 +376,8 @@ public final class DataSetProvider
 				items[i].setTextFormat( hint.getTextFormat( ) );
 				items[i].setDescription( hint.getDescription( ) );
 				items[i].setWordWrap( hint.wordWrap( ) );
+				items[i].setIndexColumn( hint.isIndexColumn( ) );
+				items[i].setRemoveDuplicateValues( hint.isCompressed( ) );
 			}
 			else
 			{
@@ -689,6 +691,7 @@ public final class DataSetProvider
 				columns[n].setWordWrap( hint.wordWrap( ) );
 				columns[n].setFormatValue( hint.getValueFormat( ) );
 				columns[n].setIndexColumn( hint.isIndexColumn( ) );
+				columns[n].setRemoveDuplicateValues( hint.isCompressed( ) );
 			}
 
 			// Update the column in Model if necessary
@@ -947,10 +950,11 @@ public final class DataSetProvider
 						else
 						{
 							columns[n].setAnalysisColumn( null );
-							columns[n].setIndexColumn( hint.isIndexColumn( ) );
 						}
 						columns[n].setAnalysisColumn( hint.getAnalysisColumn( ) );
 						columns[n].setACLExpression( hint.getACLExpression( ) );
+						columns[n].setIndexColumn( hint.isIndexColumn( ) );
+						columns[n].setRemoveDuplicateValues( hint.isCompressed( ) );
 						break;
 					}
 				}
