@@ -3849,9 +3849,9 @@
   <Style displayNameID="Style.TableHeader" name="table-header" reference="Table Header" type="Table" />
   <Style displayNameID="Style.TableFooter" name="table-footer" reference="Table Footer" type="Table" />
   <Style displayNameID="Style.TableDetail" name="table-detail" reference="Table Detail" type="Table" />
-  <Style displayNameID="Style.TableHeaderCell" name="table-header-cell" reference="Table Header Cell" />
-  <Style displayNameID="Style.TableFooterCell" name="table-footer-cell" reference="Table Footer Cell" />
-  <Style displayNameID="Style.TableDetailCell" name="table-detail-cell" reference="Table Detail Cell" />
+  <Style displayNameID="Style.TableHeaderCell" name="table-header-cell" reference="Table Header Cell"  type="Table" />
+  <Style displayNameID="Style.TableFooterCell" name="table-footer-cell" reference="Table Footer Cell"  type="Table" />
+  <Style displayNameID="Style.TableDetailCell" name="table-detail-cell" reference="Table Detail Cell"  type="Table" />
   <Style displayNameID="Style.Label" name="label" reference="Label item" type="Label"/>
   <Style displayNameID="Style.Text" name="text" reference="Text item" type="Text"/>
   <Style displayNameID="Style.Grid" name="grid" reference="Grid item" type="Grid" />
