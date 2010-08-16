@@ -8,6 +8,9 @@ plugin@org.eclipse.birt=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source
 feature@org.eclipse.birt.osgi.runtime=v20100709,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime
 feature@org.eclipse.birt.osgi.runtime.sdk=v20100617a,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime.sdk
 
+feature@org.eclipse.birt.chart.osgi.runtime=v20100816,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.osgi.runtime
+feature@org.eclipse.birt.chart.osgi.runtime.sdk=v20100816,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.osgi.runtime.sdk
+
 feature@org.eclipse.birt.chart=v20100709,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
