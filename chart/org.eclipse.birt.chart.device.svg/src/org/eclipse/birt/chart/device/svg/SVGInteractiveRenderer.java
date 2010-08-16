@@ -514,28 +514,25 @@ public class SVGInteractiveRenderer
 			{
 				setCursorAttribute( elm, cursor, defaultCursor );
 			}
-			
-			// Need to check if we have a url redirect trigger. We handle the
-			// interaction differently
-			boolean redirect = false;
+
 			for ( int x = 0; x < triggers.length; x++ )
 			{
 				Trigger tg = triggers[x];
-				redirect =  MultiActionValuesScriptGenerator.containsRedirection( tg.getAction( ) );
+				// redirect =
+				// MultiActionValuesScriptGenerator.containsRedirection(
+				// tg.getAction( ) );
 			}
-			if ( redirect )
-			{
-				Element aLink = svg_g2d.createElement( "a" ); //$NON-NLS-1$
-				Element group = svg_g2d.createElement( "g" ); //$NON-NLS-1$
-				group.appendChild( elm );
-				// Create empty href
-				aLink.setAttribute( "xlink:href", "" ); //$NON-NLS-1$ //$NON-NLS-2$
-				aLink.appendChild( group );
-				elm = group;
-				hotspotLayer.appendChild( aLink );
-			}
-			else
-				hotspotLayer.appendChild( elm );
+
+			// now we always use an empty href element to wrap the event action
+			// so the hand cursor can be shown on hot spots.
+			Element aLink = svg_g2d.createElement( "a" ); //$NON-NLS-1$
+			Element group = svg_g2d.createElement( "g" ); //$NON-NLS-1$
+			group.appendChild( elm );
+			// Create empty href
+			aLink.setAttribute( "xlink:href", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			aLink.appendChild( group );
+			elm = group;
+			hotspotLayer.appendChild( aLink );
 
 			for ( int x = 0; x < triggers.length; x++ )
 			{
@@ -552,9 +549,9 @@ public class SVGInteractiveRenderer
 						scriptEvent = "onclick";//$NON-NLS-1$
 						bDblClick = true;
 					}
-					
+
 					Action action = tg.getAction( );
-					
+
 					if ( action instanceof MultipleActions )
 					{
 						addMultiActionsJSCode( elm,
@@ -563,7 +560,7 @@ public class SVGInteractiveRenderer
 								scriptEvent,
 								bDblClick,
 								(MultipleActions) action );
-						
+
 					}
 					else
 					{
