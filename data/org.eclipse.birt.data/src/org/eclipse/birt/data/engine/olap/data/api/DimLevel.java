@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.olap.data.api;
 
+import org.eclipse.birt.core.data.IDimLevel;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
@@ -24,7 +25,7 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
  * 
  * 
  */
-public class DimLevel implements Comparable
+public class DimLevel implements Comparable, IDimLevel
 {
 
 	private String dimensionName;

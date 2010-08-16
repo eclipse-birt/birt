@@ -37,7 +37,12 @@ import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
@@ -153,10 +158,12 @@ public class CubeQueryResults implements ICubeQueryResults
 				List<String> candidateBindingOfInteresting = new ArrayList<String>( );
 				candidateBindingOfInteresting.addAll( involvedDerivedMeasure );
 				List<Set<String>> bindingDimLevels = new ArrayList<Set<String>>();
+				Set<IDimLevel> mostDetailedMeasureDimLevel = new HashSet<IDimLevel>();
+				
 				for( String bindingName: candidateBindingOfInteresting )
 				{
 					Set<IDimLevel> dimLevels = OlapExpressionUtil.getAggregateOnLevel( bindingName,
-							bindingSet );
+							bindingSet, getMeasureDimLevel() );
 					Set<String> temp = new HashSet<String>( );
 					for( IDimLevel dl : dimLevels )
 					{
@@ -194,6 +201,39 @@ public class CubeQueryResults implements ICubeQueryResults
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
+	}
+	
+	private Set<IDimLevel> getMeasureDimLevel( )
+	{
+		Set<IDimLevel> result = getDimLevels( ICubeQueryDefinition.COLUMN_EDGE );
+		result.addAll( getDimLevels(ICubeQueryDefinition.ROW_EDGE) );
+		return result;
+	}
+	
+	private Set<IDimLevel> getDimLevels( int edge )
+	{
+		Set<IDimLevel> result = new HashSet<IDimLevel>( );
+		IEdgeDefinition edgeDefn = this.cubeQueryDefinition.getEdge( edge );
+		if ( edgeDefn != null )
+		{
+			List<IDimensionDefinition> dimDefns = edgeDefn.getDimensions( );
+			for ( IDimensionDefinition dim : dimDefns )
+			{
+				List<IHierarchyDefinition> hier = dim.getHierarchy( );
+				if ( hier.size( ) == 1 )
+				{
+					List<ILevelDefinition> levels = dim.getHierarchy( )
+							.get( 0 )
+							.getLevels( );
+					for ( ILevelDefinition level : levels )
+					{
+						result.add( new DimLevel( dim.getName( ),
+								level.getName( ) ) );
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 	private Set<String> getInvolvedDerivedMeasure( IBaseExpression expr, Set<String> derivedMeasureNames, List<IBinding> bindings ) throws DataException

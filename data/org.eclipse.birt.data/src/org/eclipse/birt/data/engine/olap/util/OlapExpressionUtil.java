@@ -68,13 +68,13 @@ public class OlapExpressionUtil
 	}
 
 	public static Set<IDimLevel> getAggregateOnLevel( IBinding targetBinding,
-			List<IBinding> bindings ) throws DataException
+			List<IBinding> bindings, Set<IDimLevel> mostDetailed ) throws DataException
 	{
 		Set<String> visited = new HashSet<String>( );
 		Set<IDimLevel> valid = new HashSet<IDimLevel>( );
 		try
 		{
-			getBindings( visited, valid, targetBinding, bindings );
+			getBindings( visited, valid, targetBinding, bindings, mostDetailed );
 		}
 		catch ( BirtException e )
 		{
@@ -85,19 +85,19 @@ public class OlapExpressionUtil
 	}
 
 	public static Set<IDimLevel> getAggregateOnLevel( String bindingName,
-			List<IBinding> bindings ) throws DataException
+			List<IBinding> bindings, Set<IDimLevel> mostDetailed ) throws DataException
 	{
-		return getAggregateOnLevel( getBinding( bindingName, bindings ), bindings );
+		return getAggregateOnLevel( getBinding( bindingName, bindings ), bindings, mostDetailed );
 	}
 	
 	public static Set<IDimLevel> getAggregateOnLevel( IBaseExpression expr,
-			List<IBinding> bindings ) throws DataException
+			List<IBinding> bindings, Set<IDimLevel> mostDetailed ) throws DataException
 	{
 		Set<String> visited = new HashSet<String>( );
 		Set<IDimLevel> valid = new HashSet<IDimLevel>( );
 		try
 		{
-			getBindings( visited, valid, expr, bindings );
+			getBindings( visited, valid, expr, bindings, mostDetailed );
 		}
 		catch ( BirtException e )
 		{
@@ -107,7 +107,7 @@ public class OlapExpressionUtil
 	}
 
 	private static void getBindings( Set<String> visited, Set<IDimLevel> aggOn,
-			IBaseExpression expr, List<IBinding> bindings )
+			IBaseExpression expr, List<IBinding> bindings, Set<IDimLevel> mostDetailed )
 			throws DataException, CoreException
 	{
 		if ( expr == null )
@@ -125,20 +125,20 @@ public class OlapExpressionUtil
 				getBindings( visited,
 						aggOn,
 						getBinding( bindingName, bindings ),
-						bindings );
+						bindings, mostDetailed);
 			}
 		}
 		else if ( expr instanceof IConditionalExpression )
 		{
 			IConditionalExpression cond = (IConditionalExpression) expr;
-			getBindings( visited, aggOn, cond.getExpression( ), bindings );
-			getBindings( visited, aggOn, cond.getOperand1( ), bindings );
-			getBindings( visited, aggOn, cond.getOperand2( ), bindings );
+			getBindings( visited, aggOn, cond.getExpression( ), bindings, mostDetailed );
+			getBindings( visited, aggOn, cond.getOperand1( ), bindings, mostDetailed );
+			getBindings( visited, aggOn, cond.getOperand2( ), bindings, mostDetailed );
 		}
 	}
 
 	private static void getBindings( Set<String> visited, Set<IDimLevel> aggOn,
-			IBinding binding, List<IBinding> bindings ) throws DataException,
+			IBinding binding, List<IBinding> bindings, Set<IDimLevel> mostDetailed ) throws DataException,
 			CoreException
 	{
 		if ( binding == null || visited.contains( binding.getBindingName( ) ) )
@@ -152,19 +152,30 @@ public class OlapExpressionUtil
 
 		for ( String expr : ( (List<String>) binding.getAggregatOns( ) ) )
 		{
-
 			aggOn.addAll( ExpressionUtil.getReferencedDimLevel( expr ) );
 		}
+		
+		String text = ( (IScriptExpression) binding.getExpression( ) ).getText( );
+		aggOn.addAll( ExpressionUtil.getReferencedDimLevel( text ) );
 
-		aggOn.addAll( ExpressionUtil.getReferencedDimLevel( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ) );
-
+		//If a binding have no aggregate definition, and refer to measure script object,
+		//we should treat its aggregateOn level as that of measure.
+		if ( binding.getAggregatOns( ).isEmpty( ) &&  binding.getAggrFunction( ) == null )
+		{
+			List<String> result = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+			"measure" );
+			if( result!= null && result.size( ) > 0 )
+			{
+				aggOn.addAll( mostDetailed );
+			}
+		}
 		visited.add( binding.getBindingName( ) );
 		for ( String bindingName : currentVisitBindings )
 		{
 			getBindings( visited,
 					aggOn,
 					getBinding( bindingName, bindings ),
-					bindings );
+					bindings, mostDetailed );
 		}
 	}
 
@@ -363,7 +374,7 @@ public class OlapExpressionUtil
 			return false;
 		if ( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) || expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )// dimension
 			return true;
-		else if ( expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )// measure
+		else if ( findMeasure( expr ) != null )// measure
 			return true;
 		else if ( expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )// data binding
 		{
