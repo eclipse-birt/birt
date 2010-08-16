@@ -40,6 +40,7 @@
 		<antcall target="prepareSrc" />
 		<antcall target="buildBirtFeature"/>
 		<antcall target="buildBirtOSGI"/>
+		<antcall target="buildBirtChartOSGI"/>
 		<antcall target="fetchBirtWtpFeature"/>
 		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
@@ -158,7 +159,19 @@
 			<param name="message" value="BIRT OSGI sdk feature build finished"/>
 		</antcall>
 	</target>
-		
+	
+	<target name="buildBirtChartOSGI" unless="skip.build.OSGI">
+		<antcall target="logger">
+			<param name="message" value="BIRT Chart OSGI sdk feature build started"/>
+		</antcall>
+		<ant antfile="build.xml" dir="${basedir}">
+			<property name="component" value="${eclipse.build.configs}/birt.chart.osgi" />
+		</ant>		
+		<antcall target="logger">
+			<param name="message" value="BIRT Chart OSGI sdk feature build finished"/>
+		</antcall>
+	</target>
+	
 	<target name="createGenReport" unless="HQ.BIRT.skip">
 		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">
 			<arg line="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
