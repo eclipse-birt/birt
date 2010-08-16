@@ -515,14 +515,6 @@ public class SVGInteractiveRenderer
 				setCursorAttribute( elm, cursor, defaultCursor );
 			}
 
-			for ( int x = 0; x < triggers.length; x++ )
-			{
-				Trigger tg = triggers[x];
-				// redirect =
-				// MultiActionValuesScriptGenerator.containsRedirection(
-				// tg.getAction( ) );
-			}
-
 			// now we always use an empty href element to wrap the event action
 			// so the hand cursor can be shown on hot spots.
 			Element aLink = svg_g2d.createElement( "a" ); //$NON-NLS-1$
