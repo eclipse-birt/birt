@@ -108,15 +108,10 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			executor = new LocalizedReportExecutor(
 					executionContext, executor );
 			executionContext.setExecutor( executor );
-			CompositeLayoutPageHandler layoutHandler = new CompositeLayoutPageHandler( );
-			layoutHandler.addPageHandler( new ContextPageBreakHandler(
-					executionContext ) );
-			layoutHandler.addPageHandler( new LayoutPageHandler( ) );
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
 				LayoutEngine pdfLayoutEmitter = new LayoutEngine( executor,
 						emitter, renderOptions, executionContext, 0l );
-				pdfLayoutEmitter.setPageHandler( layoutHandler );
 				emitter = pdfLayoutEmitter;
 			}
 			initializeContentEmitter( emitter );
@@ -165,10 +160,15 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 						executionContext ) );
 				if ( !ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 				{
-					layoutPageHandler.addPageHandler( layoutHandler );
+					layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
+					layoutEngine.setPageHandler( layoutPageHandler );
+				}
+				else
+				{
+					((LayoutEngine)emitter).setPageHandler( layoutPageHandler );
 				}
 
-				layoutEngine.setPageHandler( layoutPageHandler );
+				
 
 				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 						format );
