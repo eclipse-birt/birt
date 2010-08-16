@@ -336,7 +336,7 @@ public class TableBreakBuffer implements IPageBuffer
 				{
 					if ( pageBreakIndexs.length - 1 != currentIndex )
 					{
-						for ( int i = currentIndex; i < pageBreakIndexs.length; i++ )
+						for ( int i = currentIndex+1; i < pageBreakIndexs.length; i++ )
 						{
 							currentIndex = i;
 							currentBuffer = buffers[currentIndex];
