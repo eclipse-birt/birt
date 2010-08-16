@@ -453,8 +453,7 @@ public class AbstractPropertyState extends AbstractParseState
 		if ( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE
 				.equals( errorCode )
 				&& ( this.struct != null && struct instanceof HideRule && HideRule.FORMAT_MEMBER
-						.equals( propDefn.getName( ) ) )
-				&& handler.versionNumber < VersionUtil.VERSION_3_2_22 )
+						.equals( propDefn.getName( ) ) ) )
 		{
 			return true;
 		}
