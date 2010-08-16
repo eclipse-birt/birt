@@ -2191,15 +2191,29 @@ public class ChartUtil
 				
 				if ( bnMin == null )
 				{
-					bnMin = NumberUtil.asBigDecimal( (Number) idsp.getMinimum( ds ) );
-					bnMax = NumberUtil.asBigDecimal( (Number) idsp.getMaximum( ds ) );
+					Object tmp = idsp.getMinimum( ds );
+					if ( tmp != null )
+						bnMin = NumberUtil.asBigDecimal( (Number) tmp );
+					tmp = idsp.getMaximum( ds );
+					if ( tmp != null )
+						bnMax = NumberUtil.asBigDecimal( (Number) tmp );
 					continue;
 				}
-				
-				bnMin = bnMin.min( NumberUtil.asBigDecimal( (Number) idsp.getMinimum( ds ) ) );
-				bnMax = bnMax.max( NumberUtil.asBigDecimal( (Number) idsp.getMaximum( ds ) ) );
+				Object tmp = idsp.getMinimum( ds );
+				if ( tmp != null )
+					bnMin = bnMin.min( NumberUtil.asBigDecimal( (Number)tmp  ) );
+				tmp = idsp.getMaximum( ds );
+				if ( tmp != null )
+					bnMax = bnMax.max( NumberUtil.asBigDecimal( (Number) tmp ) );
 			}
 
+			// If bnMin or bnMax is null, it means all related data sets of
+			// series just have null values, directly return.
+			if ( bnMin == null || bnMax == null )
+			{
+				return;
+			}
+			
 			bnMin = bnMinFixed!=null ? bnMinFixed : bnMin;
 			bnMax = bnMaxFixed!=null ? bnMaxFixed : bnMax;
 			
