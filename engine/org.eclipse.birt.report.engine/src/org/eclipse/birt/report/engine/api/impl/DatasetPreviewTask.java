@@ -11,10 +11,8 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
-import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
-import org.eclipse.birt.report.engine.api.IExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunnable;
@@ -59,20 +57,6 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected void checkRequiredParamenter(String paramName, String value) throws ParameterValidationException
 	{
 		
-	}
-
-	public void execute( IExtractionOption options ) throws EngineException
-	{
-		DataExtractionOption option = null;
-		if ( options == null )
-		{
-			option = new DataExtractionOption( );
-		}
-		else
-		{
-			option = new DataExtractionOption( options.getOptions( ) );
-		}
-
 	}
 
 	public void setDataSet( DataSetHandle dataset )
@@ -131,7 +115,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	{
 		IExtractionResults result = null;
 		doValidateParameters( );
-		ReportDesignHandle design = executionContext.getReportDesign( );
+		initReportVariable( );
 		loadDesign( );
 		prepareDesign( );
 		startFactory( );
