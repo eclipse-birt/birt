@@ -28,12 +28,20 @@ public class AutoFormatter implements IFormatter
 	private TimeZone timeZone;
 
 	private IFormatter directFormatter = null;
+	private DateFormatter defaultDateFormatter;
 
 	public AutoFormatter( String pattern, ULocale locale, TimeZone timeZone )
 	{
 		this.pattern = pattern;
 		this.locale = locale;
 		this.timeZone = timeZone;
+	}
+
+	public AutoFormatter( String pattern, ULocale locale, TimeZone timeZone,
+			DateFormatter defaultDateFormatter )
+	{
+		this( pattern, locale, timeZone );
+		this.defaultDateFormatter = defaultDateFormatter;
 	}
 
 	/*
@@ -50,9 +58,16 @@ public class AutoFormatter implements IFormatter
 			// java.sql.Time and java.sql.Timestamp
 			if ( value instanceof java.util.Date )
 			{
-				directFormatter = new DateFormatter( pattern,
-						this.locale,
-						this.timeZone );
+				if ( pattern != null || defaultDateFormatter == null )
+				{
+					directFormatter = new DateFormatter( pattern,
+							this.locale,
+							this.timeZone );
+				}
+				else
+				{
+					directFormatter = defaultDateFormatter;
+				}
 			}
 			else if ( value instanceof Number )
 			{

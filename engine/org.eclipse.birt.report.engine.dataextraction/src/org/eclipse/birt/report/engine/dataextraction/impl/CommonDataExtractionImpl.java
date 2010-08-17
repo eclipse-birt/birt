@@ -180,7 +180,8 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 					// auto-format at runtime
 					valueFormatters[i] = new AutoFormatter( patterns[i],
 							this.locale,
-							this.timeZone );
+							this.timeZone,
+							dateFormatter );
 					break;
 				case DataType.DATE_TYPE :
 				case DataType.SQL_DATE_TYPE :
