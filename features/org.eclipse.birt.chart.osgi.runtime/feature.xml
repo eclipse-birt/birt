@@ -25,15 +25,15 @@
 
    <requires>
       <import plugin="org.eclipse.osgi"/>
-      <import plugin="com.ibm.icu" version="3.4.4" match="compatible"/>
-      <import plugin="org.eclipse.swt" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.ui" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.jface" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.2.0" match="compatible"/>
-      <import plugin="org.eclipse.emf.ecore.xmi" version="2.2.0" match="compatible"/>
-      <import plugin="org.eclipse.emf.common" version="2.2.0" match="compatible"/>
-      <import plugin="org.eclipse.draw2d" version="3.2.0" match="compatible"/>
+      <import plugin="com.ibm.icu"/>
+      <import plugin="org.eclipse.swt" version="3.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui" version="3.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface" version="3.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore" version="2.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecore.xmi" version="2.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.common" version="2.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.draw2d" version="3.2.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
