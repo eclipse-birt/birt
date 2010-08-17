@@ -1897,8 +1897,11 @@ public class ReportQueryBuilder
 								for ( Map.Entry<String, List<Expression>> entry : params
 										.entrySet( ) )
 								{
-									Expression expr = (Expression) newExpressions
-											.get( expressionIndex++ );
+									if ( expressionIndex >= newExpressions.size( ) )
+									{
+										break;
+									}
+									Expression expr = (Expression) newExpressions.get( expressionIndex++ );
 									ArrayList<Expression> exprList = new ArrayList<Expression>( );
 									exprList.add( expr );
 									entry.setValue( exprList );
