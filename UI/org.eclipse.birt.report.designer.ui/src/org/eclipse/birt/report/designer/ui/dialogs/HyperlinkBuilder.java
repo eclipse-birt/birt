@@ -1800,24 +1800,27 @@ public class HyperlinkBuilder extends BaseDialog
 		anchorChooser.removeAll( );
 		if ( handle instanceof ReportDesignHandle )
 		{
+			List chooserItems = new ArrayList( );
 			if ( isToc )
 			{
-				List chooserItems = ( (ReportDesignHandle) handle ).getAllTocs( );
-				chooserItems.add( 0, "---" ); //$NON-NLS-1$
-				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
-				// handle ).getAllTocs( )
-				// .toArray( new String[0] ) );
-				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
+				chooserItems.addAll( ( (ReportDesignHandle) handle ).getAllTocs( ) );
+
 			}
 			else
 			{
-				List chooserItems = ( (ReportDesignHandle) handle ).getAllBookmarks( );
-				chooserItems.add( 0, "---" ); //$NON-NLS-1$
-				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
-				// handle ).getAllBookmarks( )
-				// .toArray( new String[0] ) );
-				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
+				chooserItems.addAll( ( (ReportDesignHandle) handle ).getAllBookmarks( ) );
 			}
+
+			List displayItems = new ArrayList( );
+			displayItems.add( 0, "---" ); //$NON-NLS-1$
+			for ( int i = 0; i < chooserItems.size( ); i++ )
+			{
+				displayItems.add( DEUtil.resolveNull( (String) chooserItems.get( i ) ) );
+			}
+			// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
+			// handle ).getAllTocs( )
+			// .toArray( new String[0] ) );
+			anchorChooser.setItems( (String[]) displayItems.toArray( new String[0] ) );
 		}
 		else if ( handle instanceof IReportDocument )
 		{
