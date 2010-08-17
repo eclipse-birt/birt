@@ -351,8 +351,8 @@ public class Hierarchy implements IHierarchy
 			{
 				indexKey = new IndexKey( );
 				indexKey.setKey( levelMembers[i].getKeyValues() );
-				indexKey.setOffset( (int) documentObj.getFilePointer( ) );
-				indexKey.setDimensionPos( currentIndex );
+				indexKey.setOffset( new int[]{(int) documentObj.getFilePointer( ) } );
+				indexKey.setDimensionPos( new int[]{ currentIndex } );
 				indexKeyLists[i].add( indexKey );
 			}
 			// write row offset

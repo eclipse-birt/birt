@@ -21,8 +21,8 @@ public class IndexKey implements IComparableStructure
 {
 
 	private Object[] key;
-	private int offset;
-	private int dimensionPos;
+	private int[] offset;
+	private int[] dimensionPos;
 
 	public IndexKey( )
 	{
@@ -31,13 +31,20 @@ public class IndexKey implements IComparableStructure
 
 	public Object[] getFieldValues( )
 	{
-		Object[] fields = null;
-		fields = new Object[getKey().length+2];
-		System.arraycopy( getKey(), 0, fields, 0, getKey().length );
-		fields[fields.length-2] = new Integer( getOffset() );
-		fields[fields.length-1] = new Integer( getDimensionPos() );
+		Object[][] objectArrays = new Object[3][];
+		objectArrays[0] = key;
+		objectArrays[1] = new Integer[offset.length];
+		for( int i = 0; i < offset.length; i++ )
+		{
+			objectArrays[1][i] = new Integer( offset[i] );
+		}
+		objectArrays[2] = new Integer[dimensionPos.length];
+		for( int i = 0; i < dimensionPos.length; i++ )
+		{
+			objectArrays[2][i] = new Integer( dimensionPos[i] );
+		}
 		
-		return fields;
+		return ObjectArrayUtil.convert( objectArrays );
 	}
 
 	public int compareTo( Object o )
@@ -87,13 +94,20 @@ public class IndexKey implements IComparableStructure
 
 			public int compare( Object obj1, Object obj2 )
 			{
-				int index1 = ( (IndexKey) obj1 ).getDimensionPos();
-				int index2 = ( (IndexKey) obj2 ).getDimensionPos();
-				if ( index1 < index2 )
+				int[] index1 = ( (IndexKey) obj1 ).getDimensionPos();
+				int[] index2 = ( (IndexKey) obj2 ).getDimensionPos();
+				for( int i = 0; i < Math.min( index1.length, index2.length); i++ )
+				{
+					if(index1[i] < index2[i])
+						return -1;
+					else if(index1[i] > index2[i])
+						return 1;
+				}
+				if ( index1.length < index2.length )
 				{
 					return -1;
 				}
-				if ( index1 == index2 )
+				if ( index1.length == index2.length )
 				{
 					return 0;
 				}
@@ -126,7 +140,7 @@ public class IndexKey implements IComparableStructure
 	/**
 	 * @param offset the offset to set
 	 */
-	public void setOffset( int offset )
+	public void setOffset( int[] offset )
 	{
 		this.offset = offset;
 	}
@@ -134,7 +148,7 @@ public class IndexKey implements IComparableStructure
 	/**
 	 * @return the offset
 	 */
-	public int getOffset( )
+	public int[] getOffset( )
 	{
 		return offset;
 	}
@@ -142,7 +156,7 @@ public class IndexKey implements IComparableStructure
 	/**
 	 * @param dimensionPos the dimensionPos to set
 	 */
-	public void setDimensionPos( int dimensionPos )
+	public void setDimensionPos( int dimensionPos[] )
 	{
 		this.dimensionPos = dimensionPos;
 	}
@@ -150,7 +164,7 @@ public class IndexKey implements IComparableStructure
 	/**
 	 * @return the dimensionPos
 	 */
-	public int getDimensionPos( )
+	public int[] getDimensionPos( )
 	{
 		return dimensionPos;
 	}
@@ -162,11 +176,22 @@ class IndexKeyObjectCreator implements IStructureCreator
 
 	public IStructure createInstance( Object[] fields )
 	{
+		Object[][] objectArrays = ObjectArrayUtil.convert( fields );
 		IndexKey obj = new IndexKey( );
-		obj.setKey( new Object[fields.length - 2] );
-		System.arraycopy( fields, 0, obj.getKey(), 0, obj.getKey().length );
-		obj.setOffset( ( (Integer) fields[fields.length-2] ).intValue( ) );
-		obj.setDimensionPos( ( (Integer) fields[fields.length-1] ).intValue( ) );
+		obj.setKey( objectArrays[0] );
+		int[] offset = new int[objectArrays[1].length];
+		for( int i = 0; i < offset.length; i++ )
+		{
+			offset[i] = ( (Integer) objectArrays[1][i] ).intValue( );
+		}
+		obj.setOffset( offset );
+		int[] dimensionPos = new int[objectArrays[2].length];
+		for( int i = 0; i < dimensionPos.length; i++ )
+		{
+			dimensionPos[i] = ( (Integer) objectArrays[2][i] ).intValue( );
+		}
+		obj.setDimensionPos( dimensionPos );
+		
 		
 		return obj;
 	}

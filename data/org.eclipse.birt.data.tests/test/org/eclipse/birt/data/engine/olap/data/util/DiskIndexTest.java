@@ -61,8 +61,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{getBytes( i )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset( new int[]{ i * 4 } );
 			keyList.add( key );
 		}
 		DiskIndex indexTree = DiskIndex.createIndex( DocumentManagerFactory.createFileDocumentManager( ),
@@ -75,13 +75,13 @@ public class DiskIndexTest extends TestCase
 			// System.out.println( i );
 			key = indexTree.findFirst(  new Object[]{getBytes( i )} );
 			assertEquals( key.getKey()[0], getBytes( i ) );
-			assertEquals( key.getDimensionPos(), i );
-			assertEquals( key.getOffset(), i * 4 );
+			assertEquals( key.getDimensionPos()[0], i );
+			assertEquals( key.getOffset()[0], i * 4 );
 			int iValue = (int) ( Math.random( ) * keyNumber );
 			key = indexTree.findFirst(  new Object[]{getBytes( iValue )} );
 			assertEquals( key.getKey()[0], getBytes( iValue ) );
-			assertEquals( key.getDimensionPos(), iValue );
-			assertEquals( key.getOffset(), iValue * 4 );
+			assertEquals( key.getDimensionPos()[0], iValue );
+			assertEquals( key.getOffset()[0], iValue * 4 );
 		}
 		assertEquals( indexTree.findFirst(  new Object[]{getBytes( 120 )} ), null );
 		keyList.clear( );
@@ -115,8 +115,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{new Date( i )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset(new int[]{  i * 4 } );
 			keyList.add( key );
 		}
 		DiskIndex indexTree = DiskIndex.createIndex( DocumentManagerFactory.createFileDocumentManager( ),
@@ -129,13 +129,13 @@ public class DiskIndexTest extends TestCase
 		{
 			key = indexTree.findFirst(  new Object[]{new Date( i )} );
 			assertEquals( key.getKey()[0], new Date( i ) );
-			assertEquals( key.getDimensionPos(), i );
-			assertEquals( key.getOffset(), i * 4 );
+			assertEquals( key.getDimensionPos()[0], i );
+			assertEquals( key.getOffset()[0], i * 4 );
 			int iValue = (int) ( Math.random( ) * keyNumber );
 			key = indexTree.findFirst(  new Object[]{new Date( iValue )} );
 			assertEquals( key.getKey()[0], new Date( iValue ) );
-			assertEquals( key.getDimensionPos(), iValue );
-			assertEquals( key.getOffset(), iValue * 4 );
+			assertEquals( key.getDimensionPos()[0], iValue );
+			assertEquals( key.getOffset()[0], iValue * 4 );
 		}
 		assertEquals( indexTree.findFirst(  new Object[]{new Date( -200 )} ), null );
 		assertEquals( indexTree.findFirst(  new Object[]{new Date( keyNumber )} ), null );
@@ -154,8 +154,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{new Integer( i )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset(new int[]{  i * 4 } );
 			keyList.add( key );
 		}
 		System.out.println( "create index running  :"
@@ -174,13 +174,13 @@ public class DiskIndexTest extends TestCase
 			// System.out.println( i );
 			key = indexTree.findFirst(  new Object[]{new Integer( i )} );
 			assertEquals( key.getKey()[0], new Integer( i ) );
-			assertEquals( key.getDimensionPos(), i );
-			assertEquals( key.getOffset(), i * 4 );
+			assertEquals( key.getDimensionPos()[0], i );
+			assertEquals( key.getOffset()[0], i * 4 );
 			int iValue = (int) ( Math.random( ) * keyNumber );
 			key = indexTree.findFirst(  new Object[]{new Integer( iValue )} );
 			assertEquals( key.getKey()[0], new Integer( iValue ) );
-			assertEquals( key.getDimensionPos(), iValue );
-			assertEquals( key.getOffset(), iValue * 4 );
+			assertEquals( key.getDimensionPos()[0], iValue );
+			assertEquals( key.getOffset()[0], iValue * 4 );
 		}
 		assertEquals( indexTree.findFirst(  new Object[]{new Integer( -200 )} ), null );
 		assertEquals( indexTree.findFirst(  new Object[]{new Integer( keyNumber + 200 )} ), null );
@@ -211,8 +211,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{new Integer( i )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset(new int[]{  i * 4 } );
 			keyList.add( key );
 		}
 		DiskIndex indexTree = DiskIndex.createIndex( DocumentManagerFactory.createFileDocumentManager( ),
@@ -225,13 +225,13 @@ public class DiskIndexTest extends TestCase
 			// System.out.println( i );
 			key = indexTree.findFirst(  new Object[]{new Integer( i )} );
 			assertEquals( key.getKey()[0], new Integer( i ) );
-			assertEquals( key.getDimensionPos(), i );
-			assertEquals( key.getOffset(), i * 4 );
+			assertEquals( key.getDimensionPos()[0], i );
+			assertEquals( key.getOffset()[0], i * 4 );
 			int iValue = (int) ( Math.random( ) * keyNumber );
 			key = indexTree.findFirst(  new Object[]{new Integer( iValue )} );
 			assertEquals( key.getKey()[0], new Integer( iValue ) );
-			assertEquals( key.getDimensionPos(), iValue );
-			assertEquals( key.getOffset(), iValue * 4 );
+			assertEquals( key.getDimensionPos()[0], iValue );
+			assertEquals( key.getOffset()[0], iValue * 4 );
 		}
 		assertEquals( indexTree.findFirst(  new Object[]{new Integer( -100 )} ), null );
 		assertEquals( indexTree.findFirst(  new Object[]{new Integer( keyNumber )} ), null );
@@ -249,8 +249,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{new Integer( i )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset(new int[]{  i * 4 } );
 			keyList.add( key );
 		}
 		System.out.println( "create index running  :"
@@ -275,8 +275,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = (IndexKey) list.get( i );
 			assertEquals( key.getKey()[0], new Integer( i + 1 ) );
-			assertEquals( key.getDimensionPos(), i + 1 );
-			assertEquals( key.getOffset(), ( i + 1 ) * 4 );
+			assertEquals( key.getDimensionPos()[0], i + 1 );
+			assertEquals( key.getOffset()[0], ( i + 1 ) * 4 );
 		}
 		
 		selections[0] = SelectionFactory.createRangeSelection(  new Object[]{new Integer( -1000 )},
@@ -289,8 +289,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = (IndexKey) list.get( i );
 			assertEquals( key.getKey()[0], new Integer( i-100 ) );
-			assertEquals( key.getDimensionPos(), i-100 );
-			assertEquals( key.getOffset(), ( i-100 ) * 4 );
+			assertEquals( key.getDimensionPos()[0], i-100 );
+			assertEquals( key.getOffset()[0], ( i-100 ) * 4 );
 		}
 		
 		selections[0] = SelectionFactory.createRangeSelection( null,
@@ -303,8 +303,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = (IndexKey) list.get( i );
 			assertEquals( key.getKey()[0], new Integer( i-100 ) );
-			assertEquals( key.getDimensionPos(), i-100 );
-			assertEquals( key.getOffset(), ( i-100 ) * 4 );
+			assertEquals( key.getDimensionPos()[0], i-100 );
+			assertEquals( key.getOffset()[0], ( i-100 ) * 4 );
 		}
 		
 		selections[0] = SelectionFactory.createRangeSelection(  new Object[]{new Integer( keyNumber + 1 )},
@@ -330,8 +330,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{new Integer( i )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset(new int[]{  i * 4 } );
 			keyList.add( key );
 		}
 		System.out.println( "create index running  :"
@@ -372,8 +372,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = (IndexKey) list.get( i );
 			assertEquals( key.getKey()[0], new Integer( resultObjs[i] ) );
-			assertEquals( key.getDimensionPos(), resultObjs[i] );
-			assertEquals( key.getOffset(), ( resultObjs[i] ) * 4 );
+			assertEquals( key.getDimensionPos()[0], resultObjs[i] );
+			assertEquals( key.getOffset()[0], ( resultObjs[i] ) * 4 );
 		}
 		list.clear( );
 		list.close( );
@@ -393,8 +393,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{new Integer( i )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset(new int[]{  i * 4 } );
 			keyList.add( key );
 		}
 		System.out.println( "create index running  :"
@@ -458,40 +458,40 @@ public class DiskIndexTest extends TestCase
 		{
 			key = (IndexKey) list.get( i );
 			assertEquals( key.getKey()[0], new Integer( resultObjs1[i] ) );
-			assertEquals( key.getDimensionPos(), resultObjs1[i] );
-			assertEquals( key.getOffset(), ( resultObjs1[i] ) * 4 );
+			assertEquals( key.getDimensionPos()[0], resultObjs1[i] );
+			assertEquals( key.getOffset()[0], ( resultObjs1[i] ) * 4 );
 		}
 		
 		for ( int i = 0; i < 101; i++ )
 		{
 			key = (IndexKey) list.get( resultObjs1.length + i );
 			assertEquals( key.getKey()[0], new Integer( 1000 + i ) );
-			assertEquals( key.getDimensionPos(), 1000 + i );
-			assertEquals( key.getOffset(), ( 1000 + i ) * 4 );
+			assertEquals( key.getDimensionPos()[0], 1000 + i );
+			assertEquals( key.getOffset()[0], ( 1000 + i ) * 4 );
 		}
 		
 		for ( int i = 0; i < 900; i++ )
 		{
 			key = (IndexKey) list.get( resultObjs1.length + 101 + i );
 			assertEquals( key.getKey()[0], new Integer( 1102 + i ) );
-			assertEquals( key.getDimensionPos(), 1102 + i );
-			assertEquals( key.getOffset(), ( 1102 + i ) * 4 );
+			assertEquals( key.getDimensionPos()[0], 1102 + i );
+			assertEquals( key.getOffset()[0], ( 1102 + i ) * 4 );
 		}
 		
 		for ( int i = 0; i < 2001; i++ )
 		{
 			key = (IndexKey) list.get( resultObjs1.length + 101 + 900 + i );
 			assertEquals( key.getKey()[0], new Integer( 10000 + i ) );
-			assertEquals( key.getDimensionPos(), 10000 + i );
-			assertEquals( key.getOffset(), ( 10000 + i ) * 4 );
+			assertEquals( key.getDimensionPos()[0], 10000 + i );
+			assertEquals( key.getOffset()[0], ( 10000 + i ) * 4 );
 		}
 		
 		for ( int i = 0; i < resultObjs2.length; i++ )
 		{
 			key = (IndexKey) list.get( resultObjs1.length + 101 + 900 + 2001 + i );
 			assertEquals( key.getKey()[0], new Integer( resultObjs2[i] ) );
-			assertEquals( key.getDimensionPos(), resultObjs2[i] );
-			assertEquals( key.getOffset(), ( resultObjs2[i] ) * 4 );
+			assertEquals( key.getDimensionPos()[0], resultObjs2[i] );
+			assertEquals( key.getOffset()[0], ( resultObjs2[i] ) * 4 );
 		}
 		list.clear( );
 		list.close( );
@@ -509,14 +509,14 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{new Integer( i )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset(new int[]{  i * 4 } );
 			keyList.add( key );
 		}
 		key = new IndexKey( );
 		key.setKey( new Object[]{new Integer( 81 )} );
-		key.setDimensionPos( keyNumber );
-		key.setOffset( keyNumber * 4 );
+		key.setDimensionPos( new int[]{ keyNumber } );
+		key.setOffset( new int[]{ keyNumber * 4 } );
 		keyList.add( key );
 		DiskIndex indexTree = DiskIndex.createIndex( DocumentManagerFactory.createFileDocumentManager( ),
 				"student_index",
@@ -552,16 +552,16 @@ public class DiskIndexTest extends TestCase
 		
 		key = (IndexKey) list.get( 0 );
 		assertEquals( key.getKey()[0], new Integer( 0 ) );
-		assertEquals( key.getDimensionPos(), 0 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 0 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		key = (IndexKey) list.get( 1 );
 		assertEquals( key.getKey()[0], new Integer( 81 ) );
-		assertEquals( key.getDimensionPos(), 81 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
-		key = (IndexKey) list.get( 2 );
+		assertEquals( key.getDimensionPos()[0], 81 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
+		key = (IndexKey) list.get( 1 );
 		assertEquals( key.getKey()[0], new Integer( 81 ) );
-		assertEquals( key.getDimensionPos(), keyNumber );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[1], keyNumber );
+		assertEquals( key.getOffset()[1], ( key.getDimensionPos()[1] ) * 4 );
 		list.clear( );
 		list.close( );
 		keyList.clear( );
@@ -578,14 +578,14 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{new Integer( i )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset(new int[]{  i * 4 } );
 			keyList.add( key );
 		}
 		key = new IndexKey( );
 		key.setKey( new Object[]{new Integer( 1001 )} );
-		key.setDimensionPos( 1001 );
-		key.setOffset( 1001 * 4 );
+		key.setDimensionPos( new int[]{ 1001 } );
+		key.setOffset( new int[]{ 1001 * 4 } );
 		keyList.add( key );
 		DiskIndex indexTree = DiskIndex.createIndex( DocumentManagerFactory.createFileDocumentManager( ),
 				"student_index",
@@ -599,71 +599,71 @@ public class DiskIndexTest extends TestCase
 		assertEquals( list.size( ), 1 );
 		key = (IndexKey) list.get( 0 );
 		assertEquals( key.getKey()[0], new Integer( 1001 ) );
-		assertEquals( key.getDimensionPos(), 1001 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 1001 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		
 		list = indexTree.topN( 3 );
 		assertEquals( list.size( ), 3 );
 		key = (IndexKey) list.get( 0 );
 		assertEquals( key.getKey()[0], new Integer( 998 ) );
-		assertEquals( key.getDimensionPos(), 998 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 998 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		key = (IndexKey) list.get( 1 );
 		assertEquals( key.getKey()[0], new Integer( 999 ) );
-		assertEquals( key.getDimensionPos(), 999 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 999 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		key = (IndexKey) list.get( 2 );
 		assertEquals( key.getKey()[0], new Integer( 1001 ) );
-		assertEquals( key.getDimensionPos(), 1001 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 1001 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		
 		list = indexTree.topPercent( 0.003 );
 		
 		assertEquals( list.size( ), 3 );
 		key = (IndexKey) list.get( 0 );
 		assertEquals( key.getKey()[0], new Integer( 998 ) );
-		assertEquals( key.getDimensionPos(), 998 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 998 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		key = (IndexKey) list.get( 1 );
 		assertEquals( key.getKey()[0], new Integer( 999 ) );
-		assertEquals( key.getDimensionPos(), 999 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 999 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		key = (IndexKey) list.get( 2 );
 		assertEquals( key.getKey()[0], new Integer( 1001 ) );
-		assertEquals( key.getDimensionPos(), 1001 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 1001 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		
 		list = indexTree.bottomN( 3 );
 		
 		assertEquals( list.size( ), 3 );
 		key = (IndexKey) list.get( 0 );
 		assertEquals( key.getKey()[0], new Integer( 0 ) );
-		assertEquals( key.getDimensionPos(), 0 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 0 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		key = (IndexKey) list.get( 1 );
 		assertEquals( key.getKey()[0], new Integer( 1 ) );
-		assertEquals( key.getDimensionPos(), 1 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 1 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		key = (IndexKey) list.get( 2 );
 		assertEquals( key.getKey()[0], new Integer( 2 ) );
-		assertEquals( key.getDimensionPos(), 2 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 2 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		
 		list = indexTree.bottomPercent( 0.003 );
 		
 		assertEquals( list.size( ), 3 );
 		key = (IndexKey) list.get( 0 );
 		assertEquals( key.getKey()[0], new Integer( 0 ) );
-		assertEquals( key.getDimensionPos(), 0 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 0 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		key = (IndexKey) list.get( 1 );
 		assertEquals( key.getKey()[0], new Integer( 1 ) );
-		assertEquals( key.getDimensionPos(), 1 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 1 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		key = (IndexKey) list.get( 2 );
 		assertEquals( key.getKey()[0], new Integer( 2 ) );
-		assertEquals( key.getDimensionPos(), 2 );
-		assertEquals( key.getOffset(), ( key.getDimensionPos() ) * 4 );
+		assertEquals( key.getDimensionPos()[0], 2 );
+		assertEquals( key.getOffset()[0], ( key.getDimensionPos()[0] ) * 4 );
 		list.clear( );
 		list.close( );
 		keyList.clear( );
@@ -682,8 +682,8 @@ public class DiskIndexTest extends TestCase
 		{
 			key = new IndexKey( );
 			key.setKey( new Object[]{"abcdefghijklmno" + new Integer( i ).toString( )} );
-			key.setDimensionPos( i );
-			key.setOffset( i * 4 );
+			key.setDimensionPos( new int[]{ i } );
+			key.setOffset(new int[]{  i * 4 } );
 			keyList.add( key );
 		}
 		System.out.println( "create index running  :"
@@ -748,23 +748,23 @@ public class DiskIndexTest extends TestCase
 		{
 			key = (IndexKey) list.get( i );
 			assertEquals( key.getKey()[0], "abcdefghijklmno" + new Integer( resultObjs1[i] ).toString( ) );
-			assertEquals( key.getDimensionPos(), resultObjs1[i] );
-			assertEquals( key.getOffset(), ( resultObjs1[i] ) * 4 );
+			assertEquals( key.getDimensionPos()[0], resultObjs1[i] );
+			assertEquals( key.getOffset()[0], ( resultObjs1[i] ) * 4 );
 		}
 		
 		for ( int i = 0; i < 101; i++ )
 		{
 			key = (IndexKey) list.get( resultObjs1.length + i );
-			assertEquals( key.getDimensionPos(), new Integer( key.getKey()[0].toString( ).substring( 15 ) ).intValue( ) );
-			assertEquals( key.getOffset(), ( new Integer( key.getKey()[0].toString( ).substring( 15 ) ).intValue( ) ) * 4 );
+			assertEquals( key.getDimensionPos()[0], new Integer( key.getKey()[0].toString( ).substring( 15 ) ).intValue( ) );
+			assertEquals( key.getOffset()[0], ( new Integer( key.getKey()[0].toString( ).substring( 15 ) ).intValue( ) ) * 4 );
 		}
 		
 		for ( int i = 0; i < resultObjs2.length; i++ )
 		{
 			key = (IndexKey) list.get( list.size( ) - resultObjs2.length + i );
 			assertEquals( key.getKey()[0], "abcdefghijklmno" + new Integer( resultObjs2[i] ).toString( ) );
-			assertEquals( key.getDimensionPos(), resultObjs2[i] );
-			assertEquals( key.getOffset(), ( resultObjs2[i] ) * 4 );
+			assertEquals( key.getDimensionPos()[0], resultObjs2[i] );
+			assertEquals( key.getOffset()[0], ( resultObjs2[i] ) * 4 );
 		}
 		list.clear( );
 		list.close( );

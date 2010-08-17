@@ -58,7 +58,14 @@ public class StructureDiskArray extends BaseDiskArray
 		}
 		for ( int i = 0; i < objects.length; i++ )
 		{
-			fieldWriters[i].write( randomAccessFile, objects[i] );
+			if( i >= fieldWriters.length )
+			{
+				fieldWriters[fieldWriters.length-1].write( randomAccessFile, objects[i] );
+			}
+			else
+			{
+				fieldWriters[i].write( randomAccessFile, objects[i] );
+			}
 		}
 	}
 
@@ -94,7 +101,14 @@ public class StructureDiskArray extends BaseDiskArray
 		{
 			if ( fieldReaders[i].getDataType( ) != fieldWriters[i].getDataType( ) )
 				fieldReaders[i].setDataType( fieldWriters[i].getDataType( ) );
-			objects[i] = fieldReaders[i].read( randomAccessFile );
+			if( i >= fieldReaders.length )
+			{
+				objects[i] = fieldReaders[fieldReaders.length-1].read( randomAccessFile );
+			}
+			else
+			{
+				objects[i] = fieldReaders[i].read( randomAccessFile );
+			}
 		}
 		return creator.createInstance( objects );
 	}

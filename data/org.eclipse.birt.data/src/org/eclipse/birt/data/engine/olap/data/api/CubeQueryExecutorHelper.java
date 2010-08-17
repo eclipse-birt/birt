@@ -55,6 +55,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
@@ -503,24 +504,35 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				levelFilters );
 		IDiskArray filtedPosition = filterHelper.getJSFilterResult( jsFilters, isBreakHierarchy );
 		IDiskArray filtedRow = null;
+		int levelIndex[] = new int[levels.length];
+		for( int i = 0; i < levels.length; i++ )
+		{
+			levelIndex[i] = getLevelIndex( dimension, levels[i] );
+		}
+		
 		if( filtedPosition != null )
 		{
 			filtedRow = dimension.getDimensionRowByPositions( filtedPosition, stopSign );
 		}
 		else
 		{
-			filtedRow = dimension.getAllRows( stopSign );
+			int levelSize = dimension.getHierarchy( ).getLevels( ).length;
+			if( levels.length == 1 && levelIndex[0] < ( levelSize - 1 ) && ( levelSize == 2 
+					|| ( levelIndex[0] < ( levelSize - 2 ) && levelSize > 2 ) ) )
+			{
+				Level targetLevel = (Level) dimension.getHierarchy( ).getLevels( )[levelIndex[0]];
+				filtedRow = dimension.getDimensionRowByPositions( targetLevel.getAllPosition( ), stopSign );
+			}
+			else
+			{
+				filtedRow = dimension.getAllRows( stopSign );
+			}
 		}
 		
 		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
 		DimensionRow dimensionRow = null;
 		Member[] members = null;
 		
-		int levelIndex[] = new int[levels.length];
-		for( int i = 0; i < levels.length; i++ )
-		{
-			levelIndex[i] = getLevelIndex( dimension, levels[i] );
-		}
 		boolean isAscending = true;
 		if( sortType[0] == IDimensionSortDefn.SORT_DESC )
 			isAscending = false;

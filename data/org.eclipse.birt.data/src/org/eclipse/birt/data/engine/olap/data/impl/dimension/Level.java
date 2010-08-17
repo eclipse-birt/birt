@@ -14,12 +14,16 @@ package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.DiskIndex;
+import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
 
 /**
  * Describes a level. A level is composed of memeber located at this level.
@@ -254,6 +258,19 @@ public class Level implements ILevel
 	DiskIndex getDiskIndex( )
 	{
 		return diskIndex;
+	}
+	
+	public IDiskArray getAllPosition( ) throws DataException, IOException
+	{
+		IDiskArray indexKeyArray = diskIndex.findAll(  );
+		IDiskArray result = new BufferedPrimitiveDiskArray( Math.min( indexKeyArray.size( ),
+				Constants.MAX_LIST_BUFFER_SIZE ) );
+		for ( int i = 0; i < indexKeyArray.size( ); i++ )
+		{
+			IndexKey key = (IndexKey) indexKeyArray.get( i );
+			result.add( new Integer( key.getDimensionPos( )[0] ) );
+		}
+		return result;
 	}
 
 	void setLevelType( String levelType )

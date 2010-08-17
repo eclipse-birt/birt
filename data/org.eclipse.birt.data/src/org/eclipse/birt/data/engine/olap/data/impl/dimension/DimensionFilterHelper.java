@@ -74,7 +74,11 @@ public class DimensionFilterHelper
 			for ( int i = 0; i < indexKeyArray.size( ); i++ )
 			{
 				IndexKey key = (IndexKey) indexKeyArray.get( i );
-				resultStack.push( new Integer( key.getDimensionPos( ) ) );
+				int[] pos = key.getDimensionPos( );
+				for( int j = 0; j < pos.length; j++ )
+				{
+					resultStack.push( new Integer( pos[j] ) );
+				}
 			}
 			return resultStack;
 		}

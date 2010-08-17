@@ -224,7 +224,11 @@ public class Dimension implements IDimension
 		for ( int i = 0; i < indexKeyArray.size( ); i++ )
 		{
 			IndexKey key = (IndexKey) indexKeyArray.get( i );
-			result.add( new Integer( key.getDimensionPos( ) ) );
+			int[] pos = key.getDimensionPos( );
+			for( int j = 0; j < pos.length; j++ )
+			{
+				result.add( new Integer( pos[j] ) );
+			}
 		}
 		return result;
 	}

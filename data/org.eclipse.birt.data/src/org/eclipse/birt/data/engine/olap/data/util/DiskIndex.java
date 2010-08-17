@@ -12,6 +12,8 @@
 package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -181,14 +183,15 @@ public class DiskIndex
 		{
 			keyDataType[i] = DataType.getDataType( ( (IndexKey) keyList.get( 0 ) ).getKey()[i].getClass( ) );
 		}
-		keyCount = keyList.size( );
-		int rootOffsetPos = saveIndexHeader( ) - 6;
+		
 		IDiskArray sortedKeyArray = null;
 		if ( !isSorted )
 			sortedKeyArray = sortKeys( keyList );
 		else
 			sortedKeyArray = keyList;
-
+		keyCount = sortedKeyArray.size( );
+		
+		int rootOffsetPos = saveIndexHeader( ) - 6;
 		IDiskArray sonStartOffset = writeLeafNode( sortedKeyArray, degree );
 
 		numberOfLevel = 1;
@@ -386,14 +389,22 @@ public class DiskIndex
 	 */
 	private void writeKeyObject( IndexKey keyObject ) throws IOException, DataException
 	{
-		documentObject.writeInt( keyObject.getDimensionPos() );
+		documentObject.writeInt( keyObject.getDimensionPos( ).length );
+		for( int i = 0; i < keyObject.getDimensionPos().length; i++ )
+		{
+			documentObject.writeInt( keyObject.getDimensionPos( )[i] );
+		}
 		for ( int i = 0; i < keyDataType.length; i++ )
 		{
 			DocumentObjectUtil.writeValue( documentObject,
 					keyDataType[i],
 					keyObject.getKey()[i] );
 		}
-		documentObject.writeInt( keyObject.getOffset() );
+		documentObject.writeInt( keyObject.getOffset().length );
+		for( int i = 0; i < keyObject.getOffset().length; i++ )
+		{
+			documentObject.writeInt( keyObject.getOffset( )[i] );
+		}
 	}
 
 	/**
@@ -421,11 +432,22 @@ public class DiskIndex
 	private IndexKey readKeyObject( ) throws IOException
 	{
 		IndexKey keyObject = new IndexKey( );
-		keyObject.setDimensionPos( documentObject.readInt( ) );
+		int[] dimensionPos = new int[documentObject.readInt( )];
+		for( int i = 0; i < dimensionPos.length; i++ )
+		{
+			dimensionPos[i] = documentObject.readInt( );
+		}
+		keyObject.setDimensionPos( dimensionPos );
 		
 		keyObject.setKey( DocumentObjectUtil.readValue( documentObject,
 				keyDataType ) );
-		keyObject.setOffset( documentObject.readInt( ) );
+		
+		int[] offset = new int[documentObject.readInt( )];
+		for( int i = 0; i < offset.length; i++ )
+		{
+			offset[i] = documentObject.readInt( );
+		}
+		keyObject.setOffset( offset );
 		
 		return keyObject;
 	}
@@ -473,11 +495,52 @@ public class DiskIndex
 		}
 		BufferedStructureArray reList = new BufferedStructureArray( IndexKey.getCreator( ),
 				Math.min( keyList.size( ), Constants.MAX_LIST_BUFFER_SIZE ) );
+		IndexKey curIndexKey = null;
+		List<Integer> dimPos = new ArrayList<Integer>( );
+		List<Integer> dimOffset = new ArrayList<Integer>( );
 		for ( int i = 0; i < keyList.size( ); i++ )
 		{
-			reList.add( sortStack.pop( ) );
+			IndexKey indexKey = ( IndexKey ) sortStack.pop( );
+			if( curIndexKey == null )
+			{
+				curIndexKey = indexKey;
+				dimPos.add( new Integer( curIndexKey.getDimensionPos()[0] ) );
+				dimOffset.add( new Integer( curIndexKey.getOffset( )[0] ) );
+			}
+			else if( indexKey.compareTo( curIndexKey) == 0 )
+			{
+				dimPos.add( new Integer( indexKey.getDimensionPos()[0] ) );
+				dimOffset.add( new Integer( indexKey.getOffset( )[0] ) );
+			}
+			else
+			{
+				addIndex(reList, curIndexKey, dimPos, dimOffset);
+				curIndexKey = indexKey;
+				dimPos.clear( );
+				dimPos.add( new Integer( curIndexKey.getDimensionPos()[0] ) );
+				dimOffset.clear( );
+				dimOffset.add( new Integer( curIndexKey.getOffset( )[0] ) );
+			}
 		}
+		addIndex(reList, curIndexKey, dimPos, dimOffset);
 		return reList;
+	}
+
+	private void addIndex(BufferedStructureArray reList, IndexKey curIndexKey,
+			List<Integer> dimPos, List<Integer> dimOffset) throws IOException {
+		int[] iDimPos = new int[dimPos.size( )];
+		for( int j = 0; j < iDimPos.length; j++ )
+		{
+			iDimPos[j] = dimPos.get( j );
+		}
+		int[] iDimOffset = new int[dimOffset.size( )];
+		for( int j = 0; j < iDimOffset.length; j++ )
+		{
+			iDimOffset[j] = dimOffset.get( j );
+		}
+		curIndexKey.setDimensionPos( iDimPos );
+		curIndexKey.setOffset( iDimOffset );
+		reList.add( curIndexKey );
 	}
 
 	/**
@@ -569,6 +632,11 @@ public class DiskIndex
 		{
 			return true;
 		}
+	}
+	
+	public IDiskArray findAll( ) throws IOException, DataException
+	{
+		return topN( this.keyCount );
 	}
 
 	/**

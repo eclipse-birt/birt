@@ -98,9 +98,9 @@ public class DimensionTest extends TestCase
 					 new Object[]{new Integer( OneLevelDataset.IDCol[i] )} );
 			assertEquals( indexKey.getKey()[0],
 					new Integer( OneLevelDataset.IDCol[i] ) );
-			assertEquals( indexKey.getDimensionPos(), i );
+			assertEquals( indexKey.getDimensionPos()[0], i );
 			Member levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[0];
+					indexKey.getDimensionPos()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0],
 					new Integer( OneLevelDataset.IDCol[i] ) );
 			assertEquals( levelMember.getAttributes()[0], OneLevelDataset.NameCol[i] );
@@ -108,7 +108,7 @@ public class DimensionTest extends TestCase
 					OneLevelDataset.AgeCol[i] );
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[0];
+					indexKey.getOffset()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0],
 					new Integer( OneLevelDataset.IDCol[i] ) );
 			assertEquals( levelMember.getAttributes()[0], OneLevelDataset.NameCol[i] );
@@ -137,9 +137,9 @@ public class DimensionTest extends TestCase
 					 new Object[]{new Integer( OneLevelDataset.IDCol[i] )} );
 			assertEquals( indexKey.getKey()[0],
 					new Integer( OneLevelDataset.IDCol[i] ) );
-			assertEquals( indexKey.getDimensionPos(), i );
+			assertEquals( indexKey.getDimensionPos()[0], i );
 			Member levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[0];
+					indexKey.getDimensionPos()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0],
 					new Integer( OneLevelDataset.IDCol[i] ) );
 			assertEquals( levelMember.getAttributes()[0], OneLevelDataset.NameCol[i] );
@@ -147,7 +147,7 @@ public class DimensionTest extends TestCase
 					OneLevelDataset.AgeCol[i] );
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[0];
+					indexKey.getOffset()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0],
 					new Integer( OneLevelDataset.IDCol[i] ) );
 			assertEquals( levelMember.getAttributes()[0], OneLevelDataset.NameCol[i] );
@@ -204,14 +204,14 @@ public class DimensionTest extends TestCase
 					 new Object[]{IDs[i]} );
 			assertEquals( indexKey.getKey()[0],
 					IDs[i] );
-			assertEquals( indexKey.getDimensionPos(), i );
+			assertEquals( indexKey.getDimensionPos()[0], i );
 			Member levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[0];
+					indexKey.getDimensionPos()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0],
 					IDs[i] );
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[0];
+					indexKey.getOffset()[0]).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0],
 					IDs[i] );
 		}
@@ -229,14 +229,14 @@ public class DimensionTest extends TestCase
 					 new Object[]{IDs[i]} );
 			assertEquals( indexKey.getKey()[0],
 					IDs[i] );
-			assertEquals( indexKey.getDimensionPos(), i );
+			assertEquals( indexKey.getDimensionPos()[0], i );
 			Member levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[0];
+					indexKey.getDimensionPos()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0],
 					IDs[i] );
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[0];
+					indexKey.getOffset()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0],
 					IDs[i] );
 		}
@@ -290,19 +290,19 @@ public class DimensionTest extends TestCase
 					 new Object[]{ThreeLevelDataset.Level1Col[i]} );
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level1Col[i] );
 			if ( i < 5 )
-				assertEquals( indexKey.getDimensionPos(), 0 );
+				assertEquals( indexKey.getDimensionPos()[0], 0 );
 			if ( i >= 5 && i < 12 )
-				assertEquals( indexKey.getDimensionPos(), 5 );
+				assertEquals( indexKey.getDimensionPos()[0], 5 );
 			if ( i >= 12 )
-				assertEquals( indexKey.getDimensionPos(), 12 );
+				assertEquals( indexKey.getDimensionPos()[0], 12 );
 
 			Member levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[0];
+					indexKey.getDimensionPos()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[0];
+					indexKey.getOffset()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 
@@ -312,12 +312,12 @@ public class DimensionTest extends TestCase
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level2Col[i] );
 
 			levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[1];
+					indexKey.getDimensionPos()[0] ).getMembers()[1];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level2Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[1];
+					indexKey.getOffset()[0] ).getMembers()[1];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level2Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 
@@ -325,14 +325,14 @@ public class DimensionTest extends TestCase
 			indexKey = realDimension.findFirst( (Level) level[2],
 					 new Object[]{ThreeLevelDataset.Level3Col[i]} );
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level3Col[i] );
-			assertEquals( indexKey.getDimensionPos(), i );
+			assertEquals( indexKey.getDimensionPos()[0], i );
 
 			levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[2];
+					indexKey.getDimensionPos()[0] ).getMembers()[2];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level3Col[i] );
 			
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[2];
+					indexKey.getOffset()[0] ).getMembers()[2];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level3Col[i] );
 			
 		}
@@ -370,19 +370,19 @@ public class DimensionTest extends TestCase
 					 new Object[]{ThreeLevelDataset.Level1Col[i]} );
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level1Col[i] );
 			if ( i < 5 )
-				assertEquals( indexKey.getDimensionPos(), 0 );
+				assertEquals( indexKey.getDimensionPos()[0], 0 );
 			if ( i >= 5 && i < 12 )
-				assertEquals( indexKey.getDimensionPos(), 5 );
+				assertEquals( indexKey.getDimensionPos()[0], 5 );
 			if ( i >= 12 )
-				assertEquals( indexKey.getDimensionPos(), 12 );
+				assertEquals( indexKey.getDimensionPos()[0], 12 );
 
 			Member levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[0];
+					indexKey.getDimensionPos()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[0];
+					indexKey.getOffset()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 
@@ -392,11 +392,11 @@ public class DimensionTest extends TestCase
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level2Col[i] );
 			
 			levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[1];
+					indexKey.getDimensionPos()[0] ).getMembers()[1];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level2Col[i] );
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[1];
+					indexKey.getOffset()[0] ).getMembers()[1];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level2Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 
@@ -404,14 +404,14 @@ public class DimensionTest extends TestCase
 			indexKey = realDimension.findFirst( (Level) level[2],
 					 new Object[]{ThreeLevelDataset.Level3Col[i]} );
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level3Col[i] );
-			assertEquals( indexKey.getDimensionPos(), i );
+			assertEquals( indexKey.getDimensionPos()[0], i );
 
 			levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[2];
+					indexKey.getDimensionPos()[0] ).getMembers()[2];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level3Col[i] );
 			
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[2];
+					indexKey.getOffset()[0] ).getMembers()[2];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level3Col[i] );
 		}
 	}
@@ -460,13 +460,13 @@ public class DimensionTest extends TestCase
 					 new Object[]{ThreeLevelDataset.Level1Col[i]} );
 
 			Member levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[0];
+					indexKey.getDimensionPos()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 			
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[0];
+					indexKey.getOffset()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i] );
 			
 			// level 1
@@ -475,13 +475,13 @@ public class DimensionTest extends TestCase
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level2Col[i] );
 			
 			levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[1];
+					indexKey.getDimensionPos()[0] ).getMembers()[1];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level2Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 			
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[1];
+					indexKey.getOffset()[0] ).getMembers()[1];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level2Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 
@@ -490,10 +490,10 @@ public class DimensionTest extends TestCase
 			indexKey = realDimension.findFirst( (Level) level[2],
 					 new Object[]{ThreeLevelDataset.Level3Col[i]} );
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level3Col[i] );
-			assertEquals( indexKey.getDimensionPos(), i );
+			assertEquals( indexKey.getDimensionPos()[0], i );
 
 			levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[2];
+					indexKey.getDimensionPos()[0] ).getMembers()[2];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level3Col[i] );
 			assertEquals( levelMember.getAttributes().length, 1 );
 			assertEquals( levelMember.getAttributes()[0],
@@ -501,7 +501,7 @@ public class DimensionTest extends TestCase
 
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[2];
+					indexKey.getOffset()[0] ).getMembers()[2];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level3Col[i] );
 			assertEquals( levelMember.getAttributes().length, 1 );
 			assertEquals( levelMember.getAttributes()[0],
@@ -540,13 +540,13 @@ public class DimensionTest extends TestCase
 					 new Object[]{ThreeLevelDataset.Level1Col[i]} );
 
 			Member levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[0];
+					indexKey.getDimensionPos()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 			
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[0];
+					indexKey.getOffset()[0] ).getMembers()[0];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level1Col[i] );
 			
 
@@ -556,13 +556,13 @@ public class DimensionTest extends TestCase
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level2Col[i] );
 			
 			levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[1];
+					indexKey.getDimensionPos()[0] ).getMembers()[1];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level2Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 			
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[1];
+					indexKey.getOffset()[0] ).getMembers()[1];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level2Col[i] );
 			assertTrue( levelMember.getAttributes() == null );
 
@@ -571,10 +571,10 @@ public class DimensionTest extends TestCase
 			indexKey = realDimension.findFirst( (Level) level[2],
 					 new Object[]{ThreeLevelDataset.Level3Col[i]} );
 			assertEquals( indexKey.getKey()[0], ThreeLevelDataset.Level3Col[i] );
-			assertEquals( indexKey.getDimensionPos(), i );
+			assertEquals( indexKey.getDimensionPos()[0], i );
 
 			levelMember = realDimension.getRowByPosition(
-					indexKey.getDimensionPos() ).getMembers()[2];
+					indexKey.getDimensionPos()[0] ).getMembers()[2];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level3Col[i] );
 			assertEquals( levelMember.getAttributes().length, 1 );
 			assertEquals( levelMember.getAttributes()[0],
@@ -582,7 +582,7 @@ public class DimensionTest extends TestCase
 			
 
 			levelMember = realDimension.getDimensionRowByOffset(
-					indexKey.getOffset() ).getMembers()[2];
+					indexKey.getOffset()[0] ).getMembers()[2];
 			assertEquals( levelMember.getKeyValues()[0], ThreeLevelDataset.Level3Col[i] );
 			assertEquals( levelMember.getAttributes().length, 1 );
 			assertEquals( levelMember.getAttributes()[0],
@@ -631,56 +631,56 @@ public class DimensionTest extends TestCase
 		IndexKey indexKey = realDimension.findFirst( (Level) level[0],  new Object[]{"1"} );
 
 		Member levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[0];
+				indexKey.getOffset()[0] ).getMembers()[0];
 		assertEquals( levelMember.getKeyValues()[0], "1" );
 		
 
 		indexKey = realDimension.findFirst( (Level) level[0],  new Object[]{"2"} );
 
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[0];
+				indexKey.getOffset()[0] ).getMembers()[0];
 		assertEquals( levelMember.getKeyValues()[0], "2" );
 		
 
 		indexKey = realDimension.findFirst( (Level) level[0],  new Object[]{"3"} );
 
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[0];
+				indexKey.getOffset()[0] ).getMembers()[0];
 		assertEquals( levelMember.getKeyValues()[0], "3" );
 		
 
 		// level 1
 		indexKey = realDimension.findFirst( (Level) level[1],  new Object[]{"11"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[1];
+				indexKey.getOffset()[0] ).getMembers()[1];
 		assertEquals( levelMember.getKeyValues()[0], "11" );
 		
 
 		indexKey = realDimension.findFirst( (Level) level[1],  new Object[]{"31"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[1];
+				indexKey.getOffset()[0] ).getMembers()[1];
 		assertEquals( levelMember.getKeyValues()[0], "31" );
 		
 
 		indexKey = realDimension.findFirst( (Level) level[1],  new Object[]{"32"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[1];
+				indexKey.getOffset()[0] ).getMembers()[1];
 		assertEquals( levelMember.getKeyValues()[0], "32" );
 		
 		// level 2
 		indexKey = realDimension.findFirst( (Level) level[2],  new Object[]{"111"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[2];
+				indexKey.getOffset()[0] ).getMembers()[2];
 		assertEquals( levelMember.getKeyValues()[0], "111" );
 
 		indexKey = realDimension.findFirst( (Level) level[2],  new Object[]{"311"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[2];
+				indexKey.getOffset()[0] ).getMembers()[2];
 		assertEquals( levelMember.getKeyValues()[0], "311" );
 
 		indexKey = realDimension.findFirst( (Level) level[2],  new Object[]{"321"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[2];
+				indexKey.getOffset()[0] ).getMembers()[2];
 		assertEquals( levelMember.getKeyValues()[0], "321" );
 
 
@@ -742,77 +742,77 @@ public class DimensionTest extends TestCase
 		IndexKey indexKey = realDimension.findFirst( (Level) level[0],  new Object[]{"1"} );
 
 		Member levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[0];
+				indexKey.getOffset()[0] ).getMembers()[0];
 		assertEquals( levelMember.getKeyValues()[0], "1" );
 		
 
 		indexKey = realDimension.findFirst( (Level) level[0],  new Object[]{"2"} );
 
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[0];
+				indexKey.getOffset()[0] ).getMembers()[0];
 		assertEquals( levelMember.getKeyValues()[0], "2" );
 		
 		indexKey = realDimension.findFirst( (Level) level[0],  new Object[]{"3"} );
 
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[0];
+				indexKey.getOffset()[0] ).getMembers()[0];
 		assertEquals( levelMember.getKeyValues()[0], "3" );
 		
 		// level 1
 		indexKey = realDimension.findFirst( (Level) level[1],  new Object[]{"11"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[1];
+				indexKey.getOffset()[0] ).getMembers()[1];
 		assertEquals( levelMember.getKeyValues()[0], "11" );
 		
 		indexKey = realDimension.findFirst( (Level) level[1],  new Object[]{"31"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[1];
+				indexKey.getOffset()[0] ).getMembers()[1];
 		assertEquals( levelMember.getKeyValues()[0], "31" );
 		
 		indexKey = realDimension.findFirst( (Level) level[1],  new Object[]{"32"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[1];
+				indexKey.getOffset()[0] ).getMembers()[1];
 		assertEquals( levelMember.getKeyValues()[0], "32" );
 		
 
 		// level 2
 		indexKey = realDimension.findFirst( (Level) level[2],  new Object[]{"111"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[2];
+				indexKey.getOffset()[0] ).getMembers()[2];
 		assertEquals( levelMember.getKeyValues()[0], "111" );
 		
 
 		indexKey = realDimension.findFirst( (Level) level[2],  new Object[]{"311"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[2];
+				indexKey.getOffset()[0] ).getMembers()[2];
 		assertEquals( levelMember.getKeyValues()[0], "311" );
 		
 
 		indexKey = realDimension.findFirst( (Level) level[2],  new Object[]{"321"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[2];
+				indexKey.getOffset()[0] ).getMembers()[2];
 		assertEquals( levelMember.getKeyValues()[0], "321" );
 		
 
 		// level 3
 		indexKey = realDimension.findFirst( (Level) level[3],  new Object[]{"1111"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[3];
+				indexKey.getOffset()[0] ).getMembers()[3];
 		assertEquals( levelMember.getKeyValues()[0], "1111" );
 
 		indexKey = realDimension.findFirst( (Level) level[3],  new Object[]{"3111"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[3];
+				indexKey.getOffset()[0] ).getMembers()[3];
 		assertEquals( levelMember.getKeyValues()[0], "3111" );
 
 		indexKey = realDimension.findFirst( (Level) level[3],  new Object[]{"3211"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[3];
+				indexKey.getOffset()[0] ).getMembers()[3];
 		assertEquals( levelMember.getKeyValues()[0], "3211" );
 		
 		indexKey = realDimension.findFirst( (Level) level[3],  new Object[]{"3212"} );
 		levelMember = realDimension.getDimensionRowByOffset(
-				indexKey.getOffset() ).getMembers()[3];
+				indexKey.getOffset()[0] ).getMembers()[3];
 		assertEquals( levelMember.getKeyValues()[0], "3212" );
 		
 	}

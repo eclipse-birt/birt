@@ -114,7 +114,8 @@ public class TestTimeDimension extends TestCase
 				.createFileDocumentManager(engine.getSession().getTempDir());
 		DocManagerMap.getDocManagerMap( )
 				.set( String.valueOf( engine.hashCode( ) ),
-						engine.getSession( ).getTempDir( ) + cubeName,
+						engine.getSession( ).getTempDir( )
+								+ engine.getSession( ).getEngine( ).hashCode( ),
 						documentManager );
 		engine.addShutdownListener( new DocManagerReleaser( engine ) );
 		createCube( documentManager );
