@@ -152,22 +152,8 @@ public class ListingSectionPage extends ResetAttributePage
 			public void load( )
 			{
 				super.load( );
-				
-				ListingHandle listingHandle = (ListingHandle) DEUtil.getInputFirstElement( input );
 
-				if ( !Boolean.valueOf( listingHandle.cascadeACL( ) )
-						.equals( listingHandle.getPropertyHandle( IReportItemModel.CASCADE_ACL_PROP )
-								.getPropertyDefn( )
-								.getDefault( ) )
-						|| listingHandle.getPropertyHandle( IReportDesignModel.ACL_EXPRESSION_PROP )
-								.isLocal( ) )
-				{
-					getCheckControl( ).getControl( ).setEnabled( false );
-				}
-				else
-				{
-					getCheckControl( ).getControl( ).setEnabled( true );
-				}
+				checkRepeatHeaderStatus( );
 			}
 		};
 		repeatHeaderSection.setProvider( repeatHeaderProvider );
@@ -202,6 +188,11 @@ public class ListingSectionPage extends ResetAttributePage
 	{
 		super.postElementEvent( );
 
+		checkRepeatHeaderStatus( );
+	}
+
+	private void checkRepeatHeaderStatus( )
+	{
 		if ( repeatHeaderSection != null
 				&& repeatHeaderSection.getCheckControl( ) != null
 				&& repeatHeaderSection.getCheckControl( ).getControl( ) != null
