@@ -40,7 +40,7 @@
 		<antcall target="prepareSrc" />
 		<antcall target="buildBirtFeature"/>
 		<antcall target="buildBirtOSGI"/>
-		<antcall target="buildBirtChartOSGI"/>
+		<!--antcall target="buildBirtChartOSGI"/-->
 		<antcall target="fetchBirtWtpFeature"/>
 		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
@@ -905,9 +905,10 @@
 	    <exec executable="unzip" dir="${buildDirectory}/${buildId}">
 	        <arg line="-o -q birt-osgi-${package.version}.zip -d ${tmpsite}" />
 	    </exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+		<!--exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-chart-osgi-${package.version}.zip -d ${tmpsite}" />
-	    </exec>
+	    </exec-->
+		
 		<!-- BIRT third party -->
 		<!--
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
