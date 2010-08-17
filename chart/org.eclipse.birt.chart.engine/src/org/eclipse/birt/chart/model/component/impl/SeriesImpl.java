@@ -1337,4 +1337,12 @@ public class SeriesImpl extends EObjectImpl implements Series
 		return LiteralHelper.directionPositionSet;
 	}
 
+	public int[] getDefinedDataDefinitionIndex( )
+	{
+		// Default data definition has only one query, which must be defined.
+		return new int[]{
+			0
+		};
+	}
+
 } // SeriesImpl

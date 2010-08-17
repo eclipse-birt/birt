@@ -623,13 +623,13 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 			( (ChartWithAxes) chart ).getAxes( )
 					.get( 0 )
 					.setCategoryAxis( true );
-			EList axes = ( (ChartWithAxes) chart ).getAxes( )
+			EList<Axis> axes = ( (ChartWithAxes) chart ).getAxes( )
 					.get( 0 )
 					.getAssociatedAxes( );
 			for ( int i = 0; i < axes.size( ); i++ )
 			{
-				( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
-				( (Axis) axes.get( i ) ).setPercent( false );
+				axes.get( i ).setType( AxisType.LINEAR_LITERAL );
+				axes.get( i ).setPercent( false );
 			}
 		}
 		else
@@ -667,12 +667,12 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		// currentSampleData.getBaseSampleData( ).addAll( vNewBaseSampleData );
 
 		// Convert orthogonal sample data
-		EList osdList = currentSampleData.getOrthogonalSampleData( );
+		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData( );
 		for ( int i = 0; i < osdList.size( ); i++ )
 		{
 			if ( i == iSeriesDefinitionIndex )
 			{
-				OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
+				OrthogonalSampleData osd = osdList.get( i );
 				osd.setDataSetRepresentation( getConvertedOrthogonalSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
 				currentSampleData.getOrthogonalSampleData( ).set( i, osd );
 			}
@@ -858,6 +858,14 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 		stickLengthESet = src.isSetStickLength( );
 
+	}
+	
+	@Override
+	public int[] getDefinedDataDefinitionIndex( )
+	{
+		return new int[]{
+				0, 1, 2, 3
+		};
 	}
 
 } // StockSeriesImpl

@@ -110,9 +110,7 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	 */
 	public int[] validationIndex( Series series )
 	{
-		return new int[]{
-			0
-		};
+		return series.getDefinedDataDefinitionIndex( );
 	}
 
 }

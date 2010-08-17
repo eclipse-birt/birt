@@ -423,5 +423,13 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	{
 		return LiteralHelper.notOutPositionSet;
 	}
+	
+	@Override
+	public int[] getDefinedDataDefinitionIndex( )
+	{
+		return new int[]{
+				0, 1
+		};
+	}
 
 } // BubbleSeriesImpl

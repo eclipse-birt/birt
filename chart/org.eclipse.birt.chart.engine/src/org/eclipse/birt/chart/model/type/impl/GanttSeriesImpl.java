@@ -1313,5 +1313,14 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 	{
 		return LiteralHelper.notOutPositionSet;
 	}
+	
+	@Override
+	public int[] getDefinedDataDefinitionIndex( )
+	{
+		// Task label can be undefined
+		return new int[]{
+				0, 1
+		};
+	}
 
 } // GanttSeriesImpl

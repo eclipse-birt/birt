@@ -31,7 +31,6 @@ import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings.DefaultAggregations;
 import org.eclipse.emf.common.util.EList;
@@ -99,7 +98,7 @@ public final class QueryUIHelper
 		// PROJECT THE QUERY ASSOCIATED WITH THE BASE SERIES EXPRESSION
 		final Series seBase = bsd.getDesignTimeSeries( );
 		EList<Query> elBaseSeries = seBase.getDataDefinition( );
-		int[] bDataIndex = getValidationIndex( seBase );
+		int[] bDataIndex = seBase.getDefinedDataDefinitionIndex( );
 		Query[] qua = new Query[bDataIndex.length];
 		QueryDefineValidator sqd = new QueryDefineValidator( X_SERIES, qua );
 		for ( int i = 0; i < bDataIndex.length; i++ )
@@ -129,7 +128,7 @@ public final class QueryUIHelper
 				SeriesDefinition vsd = elSD.get( k );
 				Series seOrthogonal = vsd.getDesignTimeSeries( );
 				EList<Query> elOrthogonalSeries = seOrthogonal.getDataDefinition( );
-				int[] oDataIndex = getValidationIndex( seOrthogonal );
+				int[] oDataIndex = seOrthogonal.getDefinedDataDefinitionIndex( );
 				qua = new Query[oDataIndex.length];
 				sqd = new QueryDefineValidator( Y_SERIES, qua );
 				for ( int i = 0; i < oDataIndex.length; i++ )
@@ -178,7 +177,7 @@ public final class QueryUIHelper
 		// PROJECT THE QUERY ASSOCIATED WITH THE BASE SERIES EXPRESSION
 		final Series seBase = bsd.getDesignTimeSeries( );
 		EList<Query> elBaseSeries = seBase.getDataDefinition( );
-		int[] bDataIndex = getValidationIndex( seBase );
+		int[] bDataIndex = seBase.getDefinedDataDefinitionIndex( );
 		Query[] qua = new Query[bDataIndex.length];
 		QueryDefineValidator sqd = new QueryDefineValidator( BASE_SERIES, qua );
 		for ( int i = 0; i < bDataIndex.length; i++ )
@@ -203,7 +202,7 @@ public final class QueryUIHelper
 			SeriesDefinition vsd = elSD.get( k );
 			Series seOrthogonal = vsd.getDesignTimeSeries( );
 			EList<Query> elOrthogonalSeries = seOrthogonal.getDataDefinition( );
-			int[] oDataIndex = getValidationIndex( seOrthogonal );
+			int[] oDataIndex = seOrthogonal.getDefinedDataDefinitionIndex( );
 			qua = new Query[oDataIndex.length];
 			sqd = new QueryDefineValidator( ORTHOGONAL_SERIES, qua );
 			for ( int i = 0; i < oDataIndex.length; i++ )
@@ -343,12 +342,6 @@ public final class QueryUIHelper
 				}
 			}
 		}
-	}
-
-	private int[] getValidationIndex( Series series )
-	{
-		return ChartUIUtil.getSeriesUIProvider( series )
-				.validationIndex( series );
 	}
 
 	/**

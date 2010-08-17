@@ -14,7 +14,6 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
-import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
@@ -284,7 +283,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return series instance
 	 */
 	public static final Series create( )
 	{
@@ -368,6 +367,14 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 					.copyInstance( ) );
 		}
 
+	}
+	
+	@Override
+	public int[] getDefinedDataDefinitionIndex( )
+	{
+		return new int[]{
+				0, 1
+		};
 	}
 
 } // DifferenceSeriesImpl

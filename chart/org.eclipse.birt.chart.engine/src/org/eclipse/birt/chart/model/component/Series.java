@@ -570,6 +570,17 @@ public interface Series extends IChartObject
 	 *         each series.
 	 */
 	boolean isSingleCache( );
+	
+	/**
+	 * Returns the index array of data definitions which must be defined. For
+	 * instance, if there are two data definitions in series, and the first one
+	 * can be not defined, this method will return 1 in integer array; if two of
+	 * them must be defined, this method will return 0 and 1 in integer array.
+	 * 
+	 * @return index array
+	 * @since 2.6.1
+	 */
+	int[] getDefinedDataDefinitionIndex( );
 
 	/**
 	 * @generated

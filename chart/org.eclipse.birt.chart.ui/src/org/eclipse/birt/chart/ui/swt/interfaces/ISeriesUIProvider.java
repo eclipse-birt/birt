@@ -112,8 +112,10 @@ public interface ISeriesUIProvider
 	/**
 	 * 
 	 * @param series
-	 * @return An array containing the index of all data definitions not allowed to be null. 
-	 * @since 2.2
+	 * @return An array containing the index of all data definitions not allowed
+	 *         to be null.
+	 * @deprecated to use {@link Series#getDefinedDataDefinitionIndex()}
+	 *             instead.
 	 */
 	public int[] validationIndex( Series series );
 }

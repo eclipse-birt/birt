@@ -805,10 +805,10 @@ public final class ChartReportItemImpl extends ReportItem implements
 			{
 				ExtendedElementException exception = new ExtendedElementException( getHandle( ).getElement( ),
 						ChartReportItemPlugin.ID,
-						"SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+						"QueryHelper.dataDefnUndefined",//$NON-NLS-1$
 						Messages.getResourceBundle( ) );
 				exception.setProperty( ExtendedElementException.LOCALIZED_MESSAGE,
-						Messages.getString( "SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+						Messages.getString( "QueryHelper.dataDefnUndefined",//$NON-NLS-1$
 								Messages.getString( cm instanceof ChartWithAxes ? "QueryHelper.Text.XSeries"//$NON-NLS-1$
 										: "QueryHelper.Text.CategroySeries" ) ) );//$NON-NLS-1$
 				list.add( exception );
@@ -816,10 +816,10 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 			ExtendedElementException yException = new ExtendedElementException( getHandle( ).getElement( ),
 					ChartReportItemPlugin.ID,
-					"SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+					"QueryHelper.dataDefnUndefined",//$NON-NLS-1$
 					Messages.getResourceBundle( ) );
 			yException.setProperty( ExtendedElementException.LOCALIZED_MESSAGE,
-					Messages.getString( "SeriesQueries.dataDefnUndefined",//$NON-NLS-1$
+					Messages.getString( "QueryHelper.dataDefnUndefined",//$NON-NLS-1$
 							Messages.getString( cm instanceof ChartWithAxes ? "QueryHelper.Text.YSeries"//$NON-NLS-1$
 									: "QueryHelper.Text.ValueSeries" ) ) );//$NON-NLS-1$
 			List<SeriesDefinition> ysds = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
@@ -837,10 +837,20 @@ public final class ChartReportItemImpl extends ReportItem implements
 						list.add( yException );
 						break SD;
 					}
-					for ( Query query : series.getDataDefinition( ) )
+					int[] validQueryIndex = series.getDefinedDataDefinitionIndex( );
+					List<Query> dataDefinitions = series.getDataDefinition( );					
+					if ( validQueryIndex[validQueryIndex.length - 1] >= dataDefinitions.size( ) )
 					{
-						if ( !query.isDefined( ) )
+						// Avoid null data definition
+						list.add( yException );
+						break SD;
+					}
+					for ( int i = 0; i < validQueryIndex.length; i++ )
+					{
+						if ( !dataDefinitions.get( validQueryIndex[i] )
+								.isDefined( ) )
 						{
+							// If must-defined query is undefined
 							list.add( yException );
 							break SD;
 						}
