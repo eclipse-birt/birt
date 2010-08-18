@@ -79,6 +79,6 @@ property.label.chart.plot.transposed=转置
 property.script=脚本
 property.onRender=绘制时
 
-exception.no.cube.edge=多维数据集光标中未定义边缘。请检查查询表达式是否正确。
+exception.no.cube.edge=多维数据集游标没有边。请检查查询表达式是否正确。
 exception.script.syntaxError=脚本语法错误: {0}
 
