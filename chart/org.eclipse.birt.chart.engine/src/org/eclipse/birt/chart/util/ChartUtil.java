@@ -2216,16 +2216,22 @@ public class ChartUtil
 			
 			bnMin = bnMinFixed!=null ? bnMinFixed : bnMin;
 			bnMax = bnMaxFixed!=null ? bnMaxFixed : bnMax;
-			
 			BigDecimal absMax = bnMax.abs( );
-			if ( absMax.compareTo( NumberUtil.DOUBLE_MIN ) < 0 )
+			BigDecimal absMin = bnMin.abs( );
+			if ( absMin.compareTo( absMax ) > 0 )
 			{
-				// If max value is less than the limit of min double, it should use a
+				absMax = absMin;
+			}
+			
+			if ( absMax.compareTo( BigDecimal.ZERO ) > 0
+					&& absMax.compareTo( NumberUtil.DOUBLE_MIN ) < 0 )
+			{
+				// The values are vary small, use big decimal.
+				
+				// If max value is less than the limit of double Min, it should compute a
 				// very little value as the divisor to make the double part of
 				// big number is useable.
-				BigDecimal divisor = BigDecimal.ONE.divide( NumberUtil.HUNDRED.divide( bnMin,
-						NumberUtil.DEFAULT_MATHCONTEXT ),
-						NumberUtil.DEFAULT_MATHCONTEXT );
+				BigDecimal divisor = absMax.divide( NumberUtil.DOUBLE_MAX, NumberUtil.DEFAULT_MATHCONTEXT );
 
 				for ( Series series : seriesArray )
 				{
@@ -2266,6 +2272,8 @@ public class ChartUtil
 			}
 			else if ( absMax.compareTo( NumberUtil.DOUBLE_MAX ) <= 0 )
 			{
+				// The values are in the valid range of double, use double always.
+				
 				// All data in data set are less than Double_MAX, use double
 				// always.
 				for ( Series series : seriesArray )
@@ -2309,8 +2317,10 @@ public class ChartUtil
 			}
 			else
 			{
+				// The values are very bigger than the limit of double, use big decimal.
+				
 				// Should use big decimal to compute.
-				BigDecimal divisor = bnMax.divide( NumberUtil.DEFAULT_DIVISOR,
+				BigDecimal divisor = absMax.divide( NumberUtil.DEFAULT_DIVISOR,
 						NumberUtil.DEFAULT_MATHCONTEXT );
 				for ( Series series : seriesArray )
 				{

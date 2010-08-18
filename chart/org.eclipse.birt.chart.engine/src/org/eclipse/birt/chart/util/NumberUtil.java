@@ -42,8 +42,7 @@ public class NumberUtil
 	 * The default multiplier of big number.
 	 */
 	public static final BigDecimal DEFAULT_MULTIPLIER = new BigDecimal("1E-300"); //$NON-NLS-1$
-	
-	public static final BigDecimal HUNDRED = new BigDecimal("100");//$NON-NLS-1$
+
 	/**
 	 * This value is used for the computation of big number.
 	 */
