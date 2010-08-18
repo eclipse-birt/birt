@@ -320,6 +320,13 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		{
 			( (QueryDefinition) query ).setQueryResultsID( resultSetID );
 		}
+		else
+		{
+			//should remove the original meta info
+			removeMetaInfo( parentQueryResults == null
+					? null
+					: parentQueryResults.getID( ), queryID, resultSetID );
+		}
 		// invoke the engine extension to process the queries
 		processQueryExtensions( query );
 
@@ -433,7 +440,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 		else
 		{
-			query.setQueryResultsID( null );
+			query.setQueryResultsID( null );			
 		}
 
 		// Interactive do not support CUBE?
@@ -444,6 +451,10 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		else
 		{
 			query.setQueryResultsID( null );
+			//should remove the original meta info
+			removeMetaInfo( parentQueryResults == null
+					? null
+					: parentQueryResults.getID( ), queryID, resultSetID );
 		}
 		IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
 
