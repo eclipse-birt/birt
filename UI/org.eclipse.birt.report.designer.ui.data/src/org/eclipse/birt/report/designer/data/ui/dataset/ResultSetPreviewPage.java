@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.birt.report.data.adapter.impl.AppContextResourceReleaser;
 import org.eclipse.birt.report.data.adapter.impl.DataSetMetaDataHelper;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
@@ -314,12 +315,12 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							dsHandle, getMaxRowPreference( ));
 					Map dataSetBindingMap = new HashMap( );
 					Map dataSourceBindingMap = new HashMap( );
+					Map appContext = new HashMap( );
 					try
 					{
 						clearProperyBindingMap( 
 								dataSetBindingMap,
 								dataSourceBindingMap );
-						Map appContext = new HashMap( );
 						
 						ResourceIdentifiers identifiers = new ResourceIdentifiers( );
 						String resouceIDs = ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS;					
@@ -341,10 +342,14 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 					}
 					finally
 					{
-						try {
+						try
+						{
+							AppContextResourceReleaser.release( appContext );
 							previewer.close( );
-						} catch (BirtException e) {
-							e.printStackTrace();
+						}
+						catch ( BirtException e )
+						{
+							e.printStackTrace( );
 						}
 						resetPropertyBinding(
 								dataSetBindingMap,
