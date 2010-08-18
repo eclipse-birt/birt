@@ -426,13 +426,15 @@ class ResultSetsAdapter
 		switch ( tmpAlign.getValue( ) )
 		{
 			case HorizontalAlignment.AUTOMATIC :
-				return DesignChoiceConstants.TEXT_ALIGN_JUSTIFY;
+				return null;
 			case HorizontalAlignment.CENTER :
 				return DesignChoiceConstants.TEXT_ALIGN_CENTER;
 			case HorizontalAlignment.LEFT :
 				return DesignChoiceConstants.TEXT_ALIGN_LEFT;
 			case HorizontalAlignment.RIGHT :
 				return DesignChoiceConstants.TEXT_ALIGN_RIGHT;
+			case HorizontalAlignment.LEFT_AND_RIGHT:
+				return DesignChoiceConstants.TEXT_ALIGN_JUSTIFY;
 		}
 
 		return null;
@@ -442,11 +444,11 @@ class ResultSetsAdapter
 			String tmpAlign )
 	{
 		if ( tmpAlign == null )
-			return null;
+			return HorizontalAlignment.get( HorizontalAlignment.AUTOMATIC );
 
 		if ( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY
 				.equalsIgnoreCase( tmpAlign ) )
-			return HorizontalAlignment.get( HorizontalAlignment.AUTOMATIC );
+			return HorizontalAlignment.get( HorizontalAlignment.LEFT_AND_RIGHT );
 
 		if ( DesignChoiceConstants.TEXT_ALIGN_CENTER
 				.equalsIgnoreCase( tmpAlign ) )
