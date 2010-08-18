@@ -61,7 +61,8 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 
 	private final static String INPUT_FILE_ODA = "OdaDataSetCovertFilterExpression.xml"; //$NON-NLS-1$		
 	private final static String GOLDEN_FILE_ODA = "OdaDataSetCovertFilterExpression_golden.xml"; //$NON-NLS-1$
-
+	private final static String GOLDEN_FILE1_ODA = "OdaDataSetCovertFilterExpression_golden_1.xml"; //$NON-NLS-1$
+	
 	private final static String INPUT_FILE_REPORT = "OdaDataSetCovertFilterCondition.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE_REPORT = "OdaDataSetCovertFilterCondition_golden.xml"; //$NON-NLS-1$
 
@@ -311,7 +312,7 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		adapter.updateROMSortAndFilter( );
 
 		save( );
-		assertTrue( compareTextFile( GOLDEN_FILE_ODA ) );
+		assertTrue( compareTextFile( GOLDEN_FILE1_ODA ) );
 	}
 
 	private void checkDynamicFilter( OdaDataSetHandle setHandle,
