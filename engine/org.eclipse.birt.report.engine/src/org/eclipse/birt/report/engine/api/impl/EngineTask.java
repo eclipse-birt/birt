@@ -1650,11 +1650,9 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void initReportVariable( )
 	{
-		IReportRunnable runnable = executionContext.getRunnable( );
-		if ( runnable != null )
+		ReportDesignHandle reportDesign = executionContext.getReportDesign( );
+		if ( reportDesign != null )
 		{
-			ReportDesignHandle reportDesign = executionContext
-					.getReportDesign( );
 			// register the report variables
 			List<VariableElementHandle> varElements = reportDesign
 					.getPageVariables( );
