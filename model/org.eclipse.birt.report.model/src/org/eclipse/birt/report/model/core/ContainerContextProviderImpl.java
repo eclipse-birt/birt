@@ -458,8 +458,10 @@ class ContainerContextProviderImpl
 				|| ReportDesignConstants.TEMPLATE_ELEMENT.equals( name ) )
 			return true;
 
+		// can not add multiple view, now only support single in GUI
 		if ( focus.getContentCount( focus.getElement( ).getRoot( ) ) > 0
-				&& !focus.isContainerMultipleCardinality( ) )
+				&& ( !focus.isContainerMultipleCardinality( ) || focus
+						.getElement( ) instanceof MultiViews ) )
 			return false;
 
 		return true;
