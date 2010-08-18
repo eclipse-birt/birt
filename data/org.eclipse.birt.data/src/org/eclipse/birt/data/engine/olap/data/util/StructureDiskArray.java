@@ -99,7 +99,7 @@ public class StructureDiskArray extends BaseDiskArray
 		Object[] objects = new Object[fieldCount];
 		for ( int i = 0; i < objects.length; i++ )
 		{
-			if ( fieldReaders[i].getDataType( ) != fieldWriters[i].getDataType( ) )
+			if ( i < fieldReaders.length && fieldReaders[i].getDataType( ) != fieldWriters[i].getDataType( ) )
 				fieldReaders[i].setDataType( fieldWriters[i].getDataType( ) );
 			if( i >= fieldReaders.length )
 			{

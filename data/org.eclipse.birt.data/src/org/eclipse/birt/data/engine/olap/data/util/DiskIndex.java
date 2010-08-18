@@ -31,7 +31,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.OneKeySelection;
 
 public class DiskIndex
 {
-	
+	private static final int VERSION = 10000;
 	private String name;
 	private int degree;
 	private IDocumentObject documentObject = null;
@@ -41,6 +41,7 @@ public class DiskIndex
 	private int keyCount;
 	private int rootNodeOffset;
 	private int numberOfLevel;
+	private int currentVersion = 1;
 
 	/**
 	 * 
@@ -151,6 +152,10 @@ public class DiskIndex
 		}
 		keyCount = documentObject.readInt( );
 		degree = documentObject.readInt( );
+		if( degree > 10000 )
+		{
+			this.currentVersion = degree / 10000;
+		}
 		rootNodeOffset = documentObject.readInt( );
 		numberOfLevel = documentObject.readShort( );
 		if ( numberOfLevel < 1 || numberOfLevel > 1000 ||Math.pow( degree, numberOfLevel ) < keyCount )
@@ -274,7 +279,7 @@ public class DiskIndex
 			documentObject.writeInt( keyDataType[i] );
 		}
 		documentObject.writeInt( keyCount );
-		documentObject.writeInt( degree );
+		documentObject.writeInt( degree + VERSION );
 //		documentObject.skipBytes( 6 );
 		byte[] b = new byte[6];
 		documentObject.write( b, 0, 6 );
@@ -432,23 +437,43 @@ public class DiskIndex
 	private IndexKey readKeyObject( ) throws IOException
 	{
 		IndexKey keyObject = new IndexKey( );
-		int[] dimensionPos = new int[documentObject.readInt( )];
-		for( int i = 0; i < dimensionPos.length; i++ )
+		int[] dimensionPos = null;
+		if( currentVersion > 0 )
 		{
-			dimensionPos[i] = documentObject.readInt( );
+			dimensionPos = new int[documentObject.readInt( )];
+			for( int i = 0; i < dimensionPos.length; i++ )
+			{
+				dimensionPos[i] = documentObject.readInt( );
+			}
+			keyObject.setDimensionPos( dimensionPos );
 		}
-		keyObject.setDimensionPos( dimensionPos );
+		else
+		{
+			dimensionPos = new int[1];
+			dimensionPos[0] = documentObject.readInt( );
+			keyObject.setDimensionPos( dimensionPos );
+		}
 		
 		keyObject.setKey( DocumentObjectUtil.readValue( documentObject,
 				keyDataType ) );
 		
-		int[] offset = new int[documentObject.readInt( )];
-		for( int i = 0; i < offset.length; i++ )
-		{
-			offset[i] = documentObject.readInt( );
-		}
-		keyObject.setOffset( offset );
+		int[] offset = null;
 		
+		if( currentVersion > 0 )
+		{
+			offset = new int[documentObject.readInt( )];
+			for( int i = 0; i < offset.length; i++ )
+			{
+				offset[i] = documentObject.readInt( );
+			}
+			keyObject.setOffset( offset );
+		}
+		else
+		{
+			offset = new int[1];
+			offset[0] = documentObject.readInt( );
+			keyObject.setOffset( offset );
+		}
 		return keyObject;
 	}
 
