@@ -590,15 +590,15 @@ public class ResultSetCriteriaAdapter
 			{
 				DynamicFilter dynamicFilter = (DynamicFilter) filter;
 
-				if ( dynamicFilter.defaultType != null )
-				{
-					filterConditionHandle
-							.setExtensionName( dynamicFilter.defaultType
-									.getDeclaringExtensionId( ) );
-					filterConditionHandle
-							.setExtensionExprId( dynamicFilter.defaultType
-									.getId( ) );
-				}
+				// if ( dynamicFilter.defaultType != null )
+				// {
+				// filterConditionHandle
+				// .setExtensionName( dynamicFilter.defaultType
+				// .getDeclaringExtensionId( ) );
+				// filterConditionHandle
+				// .setExtensionExprId( dynamicFilter.defaultType
+				// .getId( ) );
+				// }
 
 				// creates new dynamic filter parameter
 				DynamicFilterParameterHandle dynamicFilterParamHandle = setHandle
