@@ -156,6 +156,10 @@ public class DiskIndex
 		{
 			this.currentVersion = degree / 10000;
 		}
+		else
+		{
+			this.currentVersion = 0;
+		}
 		rootNodeOffset = documentObject.readInt( );
 		numberOfLevel = documentObject.readShort( );
 		if ( numberOfLevel < 1 || numberOfLevel > 1000 ||Math.pow( degree, numberOfLevel ) < keyCount )
