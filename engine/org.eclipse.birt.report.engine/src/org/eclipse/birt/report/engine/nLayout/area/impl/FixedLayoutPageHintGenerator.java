@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
 import org.eclipse.birt.report.engine.internal.content.wrap.AbstractContentWrapper;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
+import org.eclipse.birt.report.engine.layout.html.HTMLLayoutPageHintManager;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
@@ -109,14 +110,16 @@ public class FixedLayoutPageHintGenerator
 		if ( pageArea != null )
 		{
 			reset( );
-			htmlUnresolvedRowHints = htmlLayoutContext.getPageHintManager( )
-					.getUnresolvedRowHints( );
 			for ( Iterator<IArea> i = pageArea.getBody( ).getChildren( ); i
 					.hasNext( ); )
 			{
 				IArea child = i.next( );
 				traverse( child );
 			}
+			HTMLLayoutPageHintManager pm = htmlLayoutContext
+					.getPageHintManager( );
+			pm.generatePageRowHints( getTableKeys( ) );
+			htmlUnresolvedRowHints = pm.getUnresolvedRowHints( );
 		}
 		if ( startContent != null )
 		{
