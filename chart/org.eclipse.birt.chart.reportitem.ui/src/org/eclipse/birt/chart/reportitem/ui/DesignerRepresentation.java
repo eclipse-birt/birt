@@ -543,6 +543,10 @@ public final class DesignerRepresentation extends ReportElementFigure
 		try
 		{
 			Chart cmRunTime = cm.copyInstance( );
+			// Update auto title
+			ChartReportItemUIFactory.instance( )
+					.createUIHelper( )
+					.updateDefaultTitle( cmRunTime, crii.getHandle( ) );
 			removeScaleInfoForSample( cmRunTime );
 
 			RunTimeContext rtc = new RunTimeContext( );

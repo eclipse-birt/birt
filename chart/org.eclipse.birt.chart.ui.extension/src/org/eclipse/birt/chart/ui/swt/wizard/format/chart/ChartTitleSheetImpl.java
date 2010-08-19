@@ -144,13 +144,6 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 			interactivity.eAdapters( ).addAll( getChart( ).eAdapters( ) );
 			getChart( ).setInteractivity( interactivity );
 		}
-
-		// If auto title is not supported, it should be set non-auto so title
-		// can be editable.
-		if ( !isAutoEnabled( ) && getChart( ).getTitle( ).isAuto( ) )
-		{
-			getChart( ).getTitle( ).setAuto( false );
-		}
 	}
 
 	private void createButtonGroup( Composite parent )
@@ -270,10 +263,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 	private boolean isAutoEnabled( )
 	{
-		return getContext( ).getUIFactory( )
-				.createUIHelper( )
-				.isDefaultTitleEnabled( getContext( ) )
-				&& getChart( ).getTitle( ).isVisible( );
+		return getChart( ).getTitle( ).isVisible( );
 	}
 
 	private boolean isTitleEnabled( )

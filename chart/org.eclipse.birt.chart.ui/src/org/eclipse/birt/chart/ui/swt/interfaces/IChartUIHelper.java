@@ -30,15 +30,6 @@ public interface IChartUIHelper
 	boolean isDefaultTitleSupported( );
 
 	/**
-	 * Returns if default title should be enabled in title UI section.
-	 * 
-	 * @param context
-	 *            wizard context
-	 * @return true means enabled in title UI section.
-	 */
-	boolean isDefaultTitleEnabled( ChartWizardContext context );
-
-	/**
 	 * Returns current value of default title.
 	 * 
 	 * @param context

@@ -27,11 +27,6 @@ public class ChartUIHelperBase implements IChartUIHelper
 		return false;
 	}
 
-	public boolean isDefaultTitleEnabled( ChartWizardContext context )
-	{
-		return false;
-	}
-
 	public String getDefaultTitle( ChartWizardContext context )
 	{
 		return ""; //$NON-NLS-1$
