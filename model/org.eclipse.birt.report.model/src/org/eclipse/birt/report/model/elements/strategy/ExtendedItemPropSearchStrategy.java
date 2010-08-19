@@ -323,7 +323,14 @@ public class ExtendedItemPropSearchStrategy
 		if ( grandContainer == null )
 			return super.getPropertyFromSelf( module, element, prop );
 
-		return grandContainer.getProperty( module, prop );
+		// the 'filter' property may be different type, one is structure list
+		// and another is content element list
+		ElementPropertyDefn grandPropDefn = grandContainer
+				.getPropertyDefn( prop.getName( ) );
+		if ( grandPropDefn != null
+				&& prop.getTypeCode( ) == grandPropDefn.getTypeCode( ) )
+			return grandContainer.getProperty( module, grandPropDefn );
+		return super.getPropertyFromSelf( module, element, prop );
 	}
 
 	/**
