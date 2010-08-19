@@ -28,14 +28,12 @@
 					<property name="format">##.###</property>
 					<text-property name="displayName">new display name for column 1</text-property>
 					<text-property name="helpText" key="message.column-hint.help">new help text for column 1</text-property>
-					<property name="onColumnLayout">false</property>
-					<property name="horizontalAlign">justify</property>					
+					<property name="onColumnLayout">false</property>					
 				</structure>
 				<structure>
 					<property name="columnName">date</property>
 					<text-property name="displayName">new display name for column 2</text-property>
 					<text-property name="helpText">new help text for column 2</text-property>
-					<property name="horizontalAlign">justify</property>
 					<structure name="valueFormat">
 						<property name="pattern">new format for column 2</property>
 					</structure>
