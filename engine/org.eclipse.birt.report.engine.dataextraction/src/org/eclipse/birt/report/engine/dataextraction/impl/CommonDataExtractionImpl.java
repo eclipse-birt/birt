@@ -14,12 +14,12 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.AutoFormatter;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.IFormatter;
 import org.eclipse.birt.core.format.IFormatter.DefaultFormatter;
+import org.eclipse.birt.core.format.LocaleNeutralFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
@@ -132,8 +132,8 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 			dateFormatter = createDateFormatter( dateFormat,
 					this.locale,
 					this.timeZone );
-			formatterMap = commonOptions.getFormatter( );
 		}
+		formatterMap = commonOptions.getFormatter( );
 	}
 
 	/**
@@ -172,49 +172,56 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 		String[] patterns = getPatterns( columnNames );
 		for ( int i = 0; i < length; i++ )
 		{
-			switch ( columnTypes[i] )
+			if ( patterns[i] == null && isLocaleNeutral )
 			{
-				case DataType.ANY_TYPE :
-				case DataType.UNKNOWN_TYPE :
-				case DataType.JAVA_OBJECT_TYPE :
-					// auto-format at runtime
-					valueFormatters[i] = new AutoFormatter( patterns[i],
-							this.locale,
-							this.timeZone,
-							dateFormatter );
-					break;
-				case DataType.DATE_TYPE :
-				case DataType.SQL_DATE_TYPE :
-				case DataType.SQL_TIME_TYPE :
-					if ( patterns[i] != null )
-					{
-						valueFormatters[i] = createDateFormatter( patterns[i],
+				valueFormatters[i] = new LocaleNeutralFormatter( );
+			}
+			else
+			{
+				switch ( columnTypes[i] )
+				{
+					case DataType.ANY_TYPE :
+					case DataType.UNKNOWN_TYPE :
+					case DataType.JAVA_OBJECT_TYPE :
+						// auto-format at runtime
+						valueFormatters[i] = new AutoFormatter( patterns[i],
 								this.locale,
-								this.timeZone );
-					}
-					else
-					{
-						valueFormatters[i] = dateFormatter;
-					}
-					break;
-				case DataType.DECIMAL_TYPE :
-				case DataType.DOUBLE_TYPE :
-				case DataType.INTEGER_TYPE :
-					valueFormatters[i] = new NumberFormatter( patterns[i],
-							this.locale );
-					break;
-				case DataType.STRING_TYPE :
-					StringFormatter strFormatter = new StringFormatter( patterns[i],
-							this.locale );
-					if ( patterns[i] == null )
-					{
-						strFormatter.setTrim( false );
-					}
-					valueFormatters[i] = strFormatter;
-					break;
-				default :
-					valueFormatters[i] = new DefaultFormatter( this.locale );
-					break;
+								this.timeZone,
+								dateFormatter );
+						break;
+					case DataType.DATE_TYPE :
+					case DataType.SQL_DATE_TYPE :
+					case DataType.SQL_TIME_TYPE :
+						if ( patterns[i] != null )
+						{
+							valueFormatters[i] = createDateFormatter( patterns[i],
+									this.locale,
+									this.timeZone );
+						}
+						else
+						{
+							valueFormatters[i] = dateFormatter;
+						}
+						break;
+					case DataType.DECIMAL_TYPE :
+					case DataType.DOUBLE_TYPE :
+					case DataType.INTEGER_TYPE :
+						valueFormatters[i] = new NumberFormatter( patterns[i],
+								this.locale );
+						break;
+					case DataType.STRING_TYPE :
+						StringFormatter strFormatter = new StringFormatter( patterns[i],
+								this.locale );
+						if ( patterns[i] == null )
+						{
+							strFormatter.setTrim( false );
+						}
+						valueFormatters[i] = strFormatter;
+						break;
+					default :
+						valueFormatters[i] = new DefaultFormatter( this.locale );
+						break;
+				}
 			}
 		}
 	}
@@ -275,17 +282,7 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 	{
 		Object obj = dataIterator.getValue( columnNames[index] );
 
-		String value = null;
-		if ( isLocaleNeutral )
-		{
-			value = DataTypeUtil.toLocaleNeutralString( obj );
-		}
-		else if ( obj != null )
-		{
-			value = valueFormatters[index].formatValue( obj );
-		}
-
-		return value;
+		return obj != null ? valueFormatters[index].formatValue( obj ) : null;
 	}
 
 }
