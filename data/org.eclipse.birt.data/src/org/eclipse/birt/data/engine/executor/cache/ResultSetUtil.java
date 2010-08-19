@@ -148,7 +148,6 @@ public class ResultSetUtil
 
 			for ( i = 0; i < count; i++ )
 			{
-//				if ( rsMeta.getAnalysisType( i + 1 ) == IColumnDefinition.ANALYSIS_DIMENSION )
 				if( rsMeta.isIndexColumn( i + 1 ) )
 				{
 					obs[i] = IOUtil.readObject( dis,
@@ -177,8 +176,11 @@ public class ResultSetUtil
 								DataEngineSession.getCurrentClassLoader( ) );
 					}
 				}
-				obs[i] = IOUtil.readObject( dis,
-						DataEngineSession.getCurrentClassLoader( ) );
+				else
+				{
+					obs[i] = IOUtil.readObject( dis,
+							DataEngineSession.getCurrentClassLoader( ) );
+				}
 			}
 			return new ResultObject( rsMeta, obs );
 		}
