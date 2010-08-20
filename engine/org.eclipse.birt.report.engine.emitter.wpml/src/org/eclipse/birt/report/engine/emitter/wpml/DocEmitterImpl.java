@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.css.dom.CompositeStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -214,7 +215,11 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			{
 				context.startInline( );
 				inlineFlag = InlineFlag.FIRST_INLINE;
-				computedStyle = computeStyle( computedStyle );
+				if ( !styles.isEmpty( ) )
+				{
+					computedStyle = new CompositeStyle( styles.peek( ),
+					        content.getStyle( ) );
+				}
 			}
 			else
 				inlineFlag = InlineFlag.MIDDLE_INLINE;
