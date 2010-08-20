@@ -80,7 +80,7 @@ public class FactTableAccessor
 	public FactTable saveFactTable( String factTableName,
 			String[][] factTableJointColumnNames, String[][] DimJointColumnNames,
 			IDatasetIterator iterator, Dimension[] dimensions,
-			String[] measureColumnName, StopSign stopSign, boolean suppressInvalidFacttableRow )
+			String[] measureColumnName, StopSign stopSign )
 			throws BirtException, IOException
 	{
 		DiskSortedStack sortedFactTableRows = getSortedFactTableRows( iterator,
@@ -117,7 +117,7 @@ public class FactTableAccessor
 		
 		FTSUNameSaveHelper saveHelper = new FTSUNameSaveHelper( documentManager, factTableName );
 		Object popObject = sortedFactTableRows.pop( );
-		start: while ( popObject != null && !stopSign.isStopped( ) )
+		while ( popObject != null && !stopSign.isStopped( ) )
 		{
 			currentRow = (FactTableRow) popObject;
 			if ( lastRow != null && currentRow.equals( lastRow ) )
@@ -127,25 +127,18 @@ public class FactTableAccessor
 			}
 			for ( int i = 0; i < dimensionPosition.length; i++ )
 			{
-				dimensionPosition[i] = dimensionSeekers[i].find( currentRow.getDimensionKeys( )[i] );
+				dimensionPosition[i] = dimensionSeekers[i].find( currentRow.getDimensionKeys()[i] );
 				if ( dimensionPosition[i] < 0 )
 				{
-					if ( suppressInvalidFacttableRow )
-					{
-						popObject = sortedFactTableRows.pop( );
-						lastRow = currentRow;
-						continue start;
-					}
 					String[] args = new String[4];
 					args[0] = factTableName;
 					args[1] = Arrays.toString( factTableJointColumnNames[i] );
-					args[2] = currentRow.getDimensionKeys( )[i].toString( );
+					args[2] = currentRow.getDimensionKeys()[i].toString( );
 					args[3] = dimensions[i].getName( );
 					throw new DataException( ResourceConstants.INVALID_DIMENSIONPOSITION_OF_FACTTABLEROW,
 							args );
 				}
 			}
-
 			int[] subDimensionIndex = getSubDimensionIndex( dimensionPosition,
 					subDimensions );
 			String FTSUDocName = FTSUDocumentObjectNamingUtil.getDocumentObjectName( 

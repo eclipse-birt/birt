@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
@@ -27,7 +26,7 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 public class SecurityListener
 {
 
-	public SecurityListener( DataRequestSessionImpl session, boolean isTransient )
+	public SecurityListener( DataRequestSessionImpl session )
 	{
 
 	}

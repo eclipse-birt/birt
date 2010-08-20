@@ -273,7 +273,7 @@ public class FactTableHelperTest extends TestCase
 				factTableIterator,
 				dimensions,
 				measureColumnName,
-				new StopSign( ), false );
+				new StopSign( ) );
 		assertEquals(factTable.getSegmentCount( ), 1);
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "threeDimensions" ),
 				new StopSign( ) );
@@ -384,7 +384,7 @@ public class FactTableHelperTest extends TestCase
 				factTableIterator,
 				dimensions,
 				measureColumnName,
-				new StopSign( ), false );
+				new StopSign( ) );
 		assertEquals( factTable.getSegmentCount( ), 1 );
 		factTable = factTableConstructor.load(
 				NamingUtil.getFactTableName( "threeDimensions" ),
@@ -519,7 +519,7 @@ public class FactTableHelperTest extends TestCase
 				facttableIterator,
 				dimensions,
 				measureColumnName,
-				new StopSign( ), false );
+				new StopSign( ) );
 		// assertEquals(factTable.getSegmentNumber( ), 1);
 		System.out.println( "Save fact table, finished... time: "
 				+ ( System.currentTimeMillis( ) - startTime ) / 1000 );

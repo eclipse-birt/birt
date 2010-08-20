@@ -590,7 +590,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				if ( this.cubeHandleMap.get( queryName ) != null )
 				{
 					this.materializeCube( (CubeHandle) this.cubeHandleMap.get( queryName ),
-							this.sessionContext.getAppContext( ), false );
+							this.sessionContext.getAppContext( ) );
 					this.cubeHandleMap.remove( queryName );
 				}
 
@@ -624,7 +624,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				if ( this.cubeHandleMap.get( queryName ) != null )
 				{
 					this.materializeCube( (CubeHandle) this.cubeHandleMap.get( queryName ),
-							this.sessionContext.getAppContext( ), false );
+							this.sessionContext.getAppContext( ) );
 					this.cubeHandleMap.remove( queryName );
 				}
 
@@ -713,7 +713,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param stopSign
 	 * @throws BirtException
 	 */
-	void materializeCube( CubeHandle cubeHandle, Map appContext, boolean isTransient ) throws BirtException
+	void materializeCube( CubeHandle cubeHandle, Map appContext ) throws BirtException
 	{
 		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
 		try
@@ -738,12 +738,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 				CubeMaterializer cm = getCubeMaterializer( size );
 				createCube( (TabularCubeHandle) cubeHandle,
 						cm,
-						appContext, isTransient );
+						appContext );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
 				CubeMaterializer cm = getCubeMaterializer( 0 );
-				createCube(  (TabularCubeHandle)cubeHandle, cm, appContext, isTransient );
+				createCube(  (TabularCubeHandle)cubeHandle, cm, appContext );
 				cm.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
 						this.dataEngine.getSession( ).getStopSign( ) );
@@ -766,9 +766,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 */
 	private void createCube( TabularCubeHandle cubeHandle,
-			CubeMaterializer cubeMaterializer, Map appContext, boolean isTransient ) throws BirtException
+			CubeMaterializer cubeMaterializer, Map appContext ) throws BirtException
 	{
-		SecurityListener sl = new SecurityListener( this, isTransient );
+		SecurityListener sl = new SecurityListener( this );
 		sl.start( cubeHandle );
 		
 		
@@ -941,11 +941,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 					new DataSetIterator( this,
 							cubeQueryMap.get( cubeHandle ),
 							cubeMetaMap.get( cubeHandle ),
-							appContext, null, null ),
+							appContext ),
 					this.toStringArray( measureNames ),
 					computeMemoryBufferSize( appContext ),
-					dataEngine.getSession( ).getStopSign( ),
-					isTransient );
+					dataEngine.getSession( ).getStopSign( ) );
 		}
 		catch ( Exception e )
 		{
@@ -1332,7 +1331,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 					valueIt = new DataSetIterator( this,
 						cubeQueryMap.get( hierhandle ),
 						cubeMetaMap.get( hierhandle ),
-						appContext, sl, dim.getName( ) );
+						appContext );
+					( ( DataSetIterator )valueIt ).initSecurityListenerAndDimension( dim.getName( ), sl );
 				}
 				else
 				{

@@ -178,7 +178,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				factTable1,
 				dimensions,
 				measureColumnName,
-				new StopSign( ), false );
+				new StopSign( ) );
 		// assertEquals(factTable.getSegmentNumber( ), 1);
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "bigThreeDimensions" ),
 				new StopSign( ) );
@@ -330,7 +330,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				factTable2,
 				dimensions,
 				measureColumnName,
-				new StopSign( ), false );
+				new StopSign( ) );
 		// assertEquals(factTable.getSegmentNumber( ), 1);
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "bigThreeDimensions" ),
 				new StopSign( ) );
@@ -466,7 +466,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				factTable2,
 				dimensions,
 				measureColumnName,
-				new StopSign( ), false );
+				new StopSign( ) );
 		// assertEquals(factTable.getSegmentNumber( ), 1);
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "bigThreeDimensions" ),
 				new StopSign( ) );
@@ -964,7 +964,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				factTable2,
 				dimensions,
 				measureColumnName,
-				new StopSign( ), false );
+				new StopSign( ) );
 		// assertEquals(factTable.getSegmentNumber( ), 1);
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "bigThreeDimensions" ),
 				new StopSign( ) );
@@ -1097,7 +1097,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 				factTable2,
 				dimensions,
 				measureColumnName,
-				new StopSign( ), false );
+				new StopSign( ) );
 		// assertEquals(factTable.getSegmentNumber( ), 1);
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "bigThreeDimensions" ),
 				new StopSign( ) );

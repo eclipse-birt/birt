@@ -25,12 +25,8 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IFilterDefinition;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.group.ICalculator;
@@ -102,7 +98,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @throws BirtException
 	 */
 	public DataSetIterator( DataRequestSessionImpl session,
-			IQueryDefinition query, List<ColumnMeta> meta, Map appContext, SecurityListener listener, String dimensionName ) throws BirtException
+			IQueryDefinition query, List<ColumnMeta> meta, Map appContext ) throws BirtException
 	{
 		this.defaultCalendar = Calendar.getInstance( session.getDataSessionContext( )
 				.getDataEngineContext( )
@@ -122,17 +118,6 @@ public class DataSetIterator implements IDatasetIterator
 		this.calendar.set( 0, 0, 1, 0, 0, 0 );
 		this.nullTime = this.calendar.getTimeInMillis( );
 		this.calendar.clear( );
-		this.securityListener = listener;
-		this.dimName = dimensionName;
-		if ( this.securityListener != null )
-		{
-			List<IFilterDefinition> additionalFilters4TransientProcessing = this.securityListener.populateSecurityFilter( this.dimName,
-						appContext );
-			if ( additionalFilters4TransientProcessing != null )
-					query.getFilters( )
-							.addAll( additionalFilters4TransientProcessing );
-		}
-
 		executeQuery( session, query, appContext );
 		this.metadata = new ResultMeta( meta );
 		
@@ -142,6 +127,14 @@ public class DataSetIterator implements IDatasetIterator
 	{
 		return "_$ACL$_" + levelName;
 	}
+	
+
+	public void initSecurityListenerAndDimension( String dimName, SecurityListener listener )
+	{
+		this.securityListener = listener;
+		this.dimName = dimName;
+	}
+		
 	static int getDefaultStartValue( String timeType, String value ) throws AdapterException
 	{
 		if( value != null && Double.valueOf( value ).doubleValue( )!= 0 )
