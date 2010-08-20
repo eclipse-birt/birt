@@ -244,14 +244,14 @@ public class ChartCubeQueryHelper
 			if ( parent instanceof ICubeQueryDefinition )
 			{
 				ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
+				if ( ChartCubeUtil.isPlotChart( handle ) )
+				{
+					// Adds min and max binding to parent query definition
+					// for shared scale. Only added for plot chart
+					addMinMaxBinding( (ICubeQueryDefinition) parent );
+				}
 				if ( subQuery != null )
 				{
-					if ( ChartCubeUtil.isPlotChart( handle ) )
-					{
-						// Adds min and max binding to parent query definition
-						// for shared scale. Only added for plot chart
-						addMinMaxBinding( (ICubeQueryDefinition) parent );
-					}
 					return subQuery;
 				}
 
