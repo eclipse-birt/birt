@@ -687,9 +687,9 @@ DataSetParameterPage.toolTipText.Down=Déplacer le paramètre vers le bas
 DataSetParameterPage.WarningMessage.updatePosition=Les valeurs de position de la totalité ou d'une partie des paramètres du jeu de données sont incorrectes. Mise à jour de leurs positions selon leur séquence.
 DataSetParameterPage.warning.UnmatchedParamDataType=Le type de paramètre du jeu de données ne correspond pas au type de paramètre d'état lié.
 DataSetParameterPage.multiValuesType=Type de valeurs multiples
-DataSetParameterPage.updateReportParameter.title=Report Parameter Update Setting
-DataSetParameterPage.updateReportParameter.message=Are you sure to update the report parameter's value with the data set parameter's value?
-DataSetParameterPage.updateReportParameter.propmtText=Always update the value and do not ask me again.
+DataSetParameterPage.updateReportParameter.title=Configuration de la mise à jour du paramètre d'état
+DataSetParameterPage.updateReportParameter.message=Voulez-vous vraiment mettre à jour la valeur du paramètre d'état avec la valeur du paramètre du jeu de données ?
+DataSetParameterPage.updateReportParameter.propmtText=Toujours mettre à jour la valeur sans me demander confirmation.
 
 PromptParameterDialog.title=Confirm Update Design Attributes
 PromptParameterDialog.okButton.text=Apply

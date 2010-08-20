@@ -687,9 +687,9 @@ DataSetParameterPage.toolTipText.Down=参数下移
 DataSetParameterPage.WarningMessage.updatePosition=某些或所有数据集参数具有无效的位置值。正在根据其序列更新其位置。
 DataSetParameterPage.warning.UnmatchedParamDataType=数据集类型与链接的报表参数类型不匹配。
 DataSetParameterPage.multiValuesType=多值类型
-DataSetParameterPage.updateReportParameter.title=Report Parameter Update Setting
-DataSetParameterPage.updateReportParameter.message=Are you sure to update the report parameter's value with the data set parameter's value?
-DataSetParameterPage.updateReportParameter.propmtText=Always update the value and do not ask me again.
+DataSetParameterPage.updateReportParameter.title=报表参数更新设置
+DataSetParameterPage.updateReportParameter.message=是否确定要使用数据集参数的值来更新报表参数的值?
+DataSetParameterPage.updateReportParameter.propmtText=始终更新该值，不要再询问。
 
 PromptParameterDialog.title=Confirm Update Design Attributes
 PromptParameterDialog.okButton.text=Apply

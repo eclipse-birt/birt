@@ -687,9 +687,9 @@ DataSetParameterPage.toolTipText.Down=매개 변수를 아래로 이동
 DataSetParameterPage.WarningMessage.updatePosition=일부 또는 모든 데이터 집합 매개 변수에 잘못된 위치값이 지정되었습니다. 순서를 기준으로 위치를 업데이트하고 있습니다.
 DataSetParameterPage.warning.UnmatchedParamDataType=데이터 집합 매개 변수 형식이 연결된 보고서 매개 변수 형식과 일치하지 않습니다.
 DataSetParameterPage.multiValuesType=여러 값 유형
-DataSetParameterPage.updateReportParameter.title=Report Parameter Update Setting
-DataSetParameterPage.updateReportParameter.message=Are you sure to update the report parameter's value with the data set parameter's value?
-DataSetParameterPage.updateReportParameter.propmtText=Always update the value and do not ask me again.
+DataSetParameterPage.updateReportParameter.title=보고서 매개 변수 업데이트 설정
+DataSetParameterPage.updateReportParameter.message=보고서 매개 변수 값을 데이터 집합 매개 변수 값으로 업데이트하시겠습니까?
+DataSetParameterPage.updateReportParameter.propmtText=항상 값을 업데이트하고 이 메시지를 다시 표시 안 함
 
 PromptParameterDialog.title=Confirm Update Design Attributes
 PromptParameterDialog.okButton.text=Apply

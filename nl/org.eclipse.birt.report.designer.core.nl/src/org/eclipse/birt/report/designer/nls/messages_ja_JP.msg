@@ -687,9 +687,9 @@ DataSetParameterPage.toolTipText.Down=パラメタを下に移動
 DataSetParameterPage.WarningMessage.updatePosition=一部またはすべてのデータセットパラメタの位置の値が無効です。パラメタの順序に従って位置を更新しています。
 DataSetParameterPage.warning.UnmatchedParamDataType=データセットパラメタの型が、リンクされているレポートパラメタの型と一致しません。
 DataSetParameterPage.multiValuesType=複数の値の型
-DataSetParameterPage.updateReportParameter.title=Report Parameter Update Setting
-DataSetParameterPage.updateReportParameter.message=Are you sure to update the report parameter's value with the data set parameter's value?
-DataSetParameterPage.updateReportParameter.propmtText=Always update the value and do not ask me again.
+DataSetParameterPage.updateReportParameter.title=レポートパラメタ更新の設定
+DataSetParameterPage.updateReportParameter.message=レポートパラメタの値をデータセットパラメタの値で更新しますか ?
+DataSetParameterPage.updateReportParameter.propmtText=常に更新し、今後このメッセージを表示しない。
 
 PromptParameterDialog.title=Confirm Update Design Attributes
 PromptParameterDialog.okButton.text=Apply

@@ -2480,7 +2480,7 @@ Element.ReportDesign.initialize=Initialiser
 Element.ReportDesign.initialize.toolTip=Commande appelée au début de l'exécution de l'état.
 Element.ReportDesign.initialize.reportContext=Contexte d'état
 Element.ReportDesign.cssStyleSheets=Feuilles de style CSS
-Element.ReportDesign.enableACL=Activer ACL
+Element.ReportDesign.enableACL=Activer la sécurisation des données
 Element.ReportDesign.ACLExpression=Expression ACL
 Element.ReportDesign.cascadeACL=Cascade ACL
 Element.ReportDesign.imageDPI=DPI de l'image
@@ -3784,7 +3784,7 @@ Error.PropertyValueException.NEGATIVE_VALUE=La valeur "{0}" pour la propriété "{
 Error.PropertyValueException.NON_POSITIVE_VALUE=La valeur "{0}" pour la propriété "{1}" est incorrecte, la valeur doit être positive.
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=La propriété "{0}" de l''élément étendu "{1}" ne peut pas être définie par des commandes.
 Error.PropertyValueException.DOT_FORBIDDEN=Le nom "{0}" n''est pas valide car il contient le caractère ".".
-Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=The report item theme type "{0}" is not supported.
+Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=Le thème d'élément d'état "{0}" n'est pas pris en charge.
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=La table "{0}" comporte un nombre de colonnes incohérent.

@@ -2480,7 +2480,7 @@ Element.ReportDesign.initialize=初期化
 Element.ReportDesign.initialize.toolTip=レポートの実行を開始する際に呼び出されます。
 Element.ReportDesign.initialize.reportContext=レポートのコンテキスト
 Element.ReportDesign.cssStyleSheets=CSS スタイルシート
-Element.ReportDesign.enableACL=ACLを有効にする
+Element.ReportDesign.enableACL=データセキュリティの有効化
 Element.ReportDesign.ACLExpression=ACL 式
 Element.ReportDesign.cascadeACL=ACL を重ねて表示
 Element.ReportDesign.imageDPI=イメージの DPI
@@ -3784,7 +3784,7 @@ Error.PropertyValueException.NEGATIVE_VALUE=プロパティ "{1}" の値 "{0}" が無効で
 Error.PropertyValueException.NON_POSITIVE_VALUE=プロパティ "{1}" の値 "{0}" が無効です。正の値を指定する必要があります。
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=拡張項目 "{1}" のプロパティ "{0}" は、コマンドによって指定することはできません。
 Error.PropertyValueException.DOT_FORBIDDEN="{0}" は無効な名前です。名前には "." (ピリオド) を使用できません。
-Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=The report item theme type "{0}" is not supported.
+Error.PropertyValueException.NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE=レポート項目テーマの型 "{0}" はサポートされていません。
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=テーブル "{0}" の列数に不整合があります。
