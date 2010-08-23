@@ -535,11 +535,11 @@ public class QueryUtil
 			Map appContext = executionContext.getAppContext( );
 			dataSession.getDataSessionContext( ).setAppContext( appContext );
 			ScriptContext scriptContext = executionContext.getScriptContext( );
-			processQueryExtensions( query, executionContext );
 			if ( query instanceof QueryDefinition )
 			{
 				QueryDefinition tmpQuery = (QueryDefinition) query;
 				tmpQuery.setQueryResultsID( rset );
+				processQueryExtensions( query, executionContext );
 				IPreparedQuery pQuery = dataSession.prepare( tmpQuery );
 				if ( pQuery == null )
 					return null;
@@ -549,6 +549,7 @@ public class QueryUtil
 			{
 				ICubeQueryDefinition cubeQuery = (ICubeQueryDefinition) query;
 				cubeQuery.setQueryResultsID( rset );
+				processQueryExtensions( query, executionContext );
 				IPreparedCubeQuery pQuery = dataSession.prepare( cubeQuery );
 				if ( pQuery == null )
 					return null;

@@ -723,7 +723,6 @@ public class DataExtractionTaskV1 extends EngineTask
 			}
 			// execute query
 			ScriptContext scriptContext = executionContext.getScriptContext( );
-			processQueryExtensions( newQuery, executionContext );
 			if ( dataSession == null )
 			{
 				return null;
@@ -843,7 +842,6 @@ public class DataExtractionTaskV1 extends EngineTask
 				return null;
 			}
 			ScriptContext scriptContext = executionContext.getScriptContext( );
-			processQueryExtensions( newQuery, executionContext );
 			IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
 			if( preparedQuery == null )
 			{
