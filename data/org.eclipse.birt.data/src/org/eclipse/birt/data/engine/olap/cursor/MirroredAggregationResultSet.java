@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
+import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
 
 /**
  * This class is a wrapper class of AggregationResultSet in the case of using
@@ -104,24 +105,41 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 	 * @param levelIndex
 	 * @return
 	 */
-	private AggrSortDefinition findAggregationSort( int levelIndex )
+	private int findAggregationSort( int levelIndex )
 	{
-		AggrSortDefinition aggrSortDefn = null;
+		int sortType = IDimensionSortDefn.SORT_UNDEFINED;
 
 		if ( this.sortList != null )
 		{
 			DimLevel level = this.rs.getLevel( levelIndex );
 			for ( int i = 0; i < this.sortList.size( ); i++ )
 			{
-				AggrSortDefinition defn = (AggrSortDefinition) sortList.get( i );
-				if ( level.equals( defn.getTargetLevel( ) ) )
+				if ( sortList.get( i ) instanceof AggrSortDefinition )
 				{
-					aggrSortDefn = defn;
-					break;
+					AggrSortDefinition defn = (AggrSortDefinition) sortList.get( i );
+					if ( level.equals( defn.getTargetLevel( ) ) )
+					{
+						if ( defn.getAxisQualifierLevel( ).length == 0 )
+							sortType = defn.getSortDirection( );
+						else
+							sortType = IDimensionSortDefn.SORT_UNDEFINED;
+						return sortType;
+					}
+				}
+				else if ( sortList.get( i ) instanceof DimensionSortEvalHelper )
+				{
+					DimensionSortEvalHelper dimSort = (DimensionSortEvalHelper) sortList.get( i );
+					if ( dimSort.getTargetLevel( ).equals( level ) )
+					{
+						return IDimensionSortDefn.SORT_UNDEFINED;
+					}
 				}
 			}
 		}
-		return aggrSortDefn;
+		sortType = this.rs.getSortType( levelIndex );
+		if ( sortType == IDimensionSortDefn.SORT_UNDEFINED )
+			sortType = IDimensionSortDefn.SORT_ASC;
+		return sortType;
 	}
 
 	private void populateTimeMirror( )
@@ -429,23 +447,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 	
 	private int getSortTypeOnMirroredLevel( int level )
 	{
-		AggrSortDefinition aggrSort = this.findAggregationSort( level );
-		int sortType;
-
-		if ( aggrSort != null )
-		{
-			if ( aggrSort.getAxisQualifierLevel( ).length == 0 )
-				sortType = aggrSort.getSortDirection( );
-			else
-				sortType = IDimensionSortDefn.SORT_UNDEFINED;
-		}
-		else
-		{
-			sortType = this.rs.getSortType( level );
-			if ( sortType == IDimensionSortDefn.SORT_UNDEFINED )
-				sortType = IDimensionSortDefn.SORT_ASC;
-		}
-		return sortType;
+		return this.findAggregationSort( level );
 	}
 
 	private int getLength( MemberTreeNode node )
