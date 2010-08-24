@@ -1515,6 +1515,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 						case SELECT_DATA_CUBE :
 							getDataServiceProvider( ).setDataCube( cmbDataItems.getText( ) );
 							currentData = cmbDataItems.getText( );
+							// Since cube has no group, it needs to clear group
+							// flag in category and optional Y of chart model.
+							clearGrouping( );
 							updateDragDataSource( );
 							setEnabledForButtons( );
 							// Update preview via event
@@ -1646,6 +1649,24 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				ChartWizard.showException( ChartWizard.StaChartDSh_switch_ID,
 						e1.getLocalizedMessage( ) );
 			}
+		}
+	}
+
+	/**
+	 * This method clears the flag of category grouping and optional Y grouping.
+	 */
+	private void clearGrouping( )
+	{
+		SeriesDefinition sd = ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
+				.get( 0 );
+		if ( sd.getGrouping( ) != null && sd.getGrouping( ).isEnabled( ) )
+			sd.getGrouping( ).unsetEnabled( );
+		for ( SeriesDefinition s : ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChartModel( ) ) )
+		{
+			if ( s.getQuery( ) != null
+					&& s.getQuery( ).getGrouping( ) != null
+					&& s.getQuery( ).getGrouping( ).isEnabled( ) )
+				s.getQuery( ).getGrouping( ).unsetEnabled( );
 		}
 	}
 
