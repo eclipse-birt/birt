@@ -28,7 +28,7 @@ public class SizeOfUtil
 {
 	private final static int INTEGER_SIZE = 16;
 	private final static int DOUBLE_SIZE = 16;
-	private static int BIGDECIMAL_SIZE = 80;
+	private static int BIGDECIMAL_SIZE = 200;
 	private final static int DATE_SIZE = 24;
 	private final static int TIME_SIZE = 24;
 	private final static int SQL_DATE_SIZE = 24;
@@ -42,7 +42,7 @@ public class SizeOfUtil
 	static {
 		if(System.getProperty( "java.version" ).startsWith( "1.5" ))
 		{
-			BIGDECIMAL_SIZE = 96;
+			BIGDECIMAL_SIZE = 200;
 			TIMESTAMP_SIZE = 32;
 		}
 	}
@@ -181,6 +181,10 @@ public class SizeOfUtil
 		else if ( dataType == DataType.SQL_DATE_TYPE )
 		{
 			return SizeOfUtil.SQL_DATE_SIZE;
+		}
+		else if ( dataType == DataType.DECIMAL_TYPE )
+		{
+			return SizeOfUtil.BIGDECIMAL_SIZE;
 		}
 		// Normally followed lines will never be arrived.
 		return 0;
