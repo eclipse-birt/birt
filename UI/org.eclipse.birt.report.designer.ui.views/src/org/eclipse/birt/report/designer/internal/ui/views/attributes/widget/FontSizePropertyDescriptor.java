@@ -40,7 +40,9 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#resetUIData()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#resetUIData()
 	 */
 	void refresh( String value )
 	{
@@ -62,7 +64,9 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
 	public Control getControl( )
 	{
@@ -95,6 +99,11 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 
 		String sizeValue = builder.getFontSizeValue( );
 
+		if ( oldValue != null && oldValue.equals( sizeValue ) )
+		{
+			return;
+		}
+
 		try
 		{
 			save( sizeValue );
@@ -104,6 +113,11 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 			WidgetUtil.processError( builder.getShell( ), e );
 			builder.setFontSizeValue( oldValue );
 			return;
+		}
+		if ( sizeValue == null )
+		{
+			String fontSize = getDescriptorProvider( ).load( ).toString( );
+			builder.setFontSizeValue( fontSize );
 		}
 	}
 
