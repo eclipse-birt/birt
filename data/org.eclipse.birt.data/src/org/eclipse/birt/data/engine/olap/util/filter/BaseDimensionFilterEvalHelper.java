@@ -242,6 +242,8 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	 */
 	public boolean isAggregationFilter( )
 	{
+		if( this.isAxisFilter )
+			return true;
 		return this.dimName == null;
 	}
 
