@@ -278,9 +278,9 @@ public class OlapExpressionUtil
 			throws DataException
 	{
 		if ( expr != null
-				&& expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+		        && expr.trim( ).matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
 		{
-			Set<DimLevel> s = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expr ),
+			Set<DimLevel> s = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expr.trim( ) ),
 					Collections.EMPTY_LIST );
 			if ( s != null && s.size( ) == 1 )
 			{
