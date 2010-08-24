@@ -40,16 +40,26 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 	private int lastLevelIndex;
 
 	private int totalMeasureCount;
-	
+
 	private long currentEdgePosition;
 
 	private boolean hasColumnGroups;
 	private boolean blankStarted;
 	private boolean hasLast;
 
+	private boolean isFirst;
+	private IReportItemExecutor nextExecutor;
+
 	public CrosstabMeasureHeaderRowExecutor( BaseCrosstabExecutor parent )
 	{
 		super( parent );
+	}
+
+	public void close( )
+	{
+		super.close( );
+
+		nextExecutor = null;
 	}
 
 	public IContent execute( )
@@ -67,6 +77,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 
 	private void prepareChildren( )
 	{
+		isFirst = true;
+
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
 		currentColIndex = -1;
 
@@ -74,7 +86,7 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 
 		blankStarted = false;
 		hasColumnGroups = columnGroups != null && columnGroups.size( ) > 0;
-		
+
 		totalMeasureCount = crosstabItem.getMeasureCount( );
 
 		rowSpan = 1;
@@ -106,10 +118,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 		return null;
 	}
 
-	public IReportItemExecutor getNextChild( )
+	private void advance( )
 	{
-		IReportItemExecutor nextExecutor = null;
-
 		try
 		{
 			while ( walker.hasNext( ) )
@@ -211,7 +221,7 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 
 				if ( nextExecutor != null )
 				{
-					return nextExecutor;
+					return;
 				}
 			}
 
@@ -285,23 +295,29 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 					break;
 			}
 		}
+	}
 
-		return nextExecutor;
+	public IReportItemExecutor getNextChild( )
+	{
+		IReportItemExecutor childExecutor = nextExecutor;
+
+		nextExecutor = null;
+
+		advance( );
+
+		return childExecutor;
 	}
 
 	public boolean hasNextChild( )
 	{
-		try
+		if ( isFirst )
 		{
-			return walker.hasNext( ) || hasLast;
+			isFirst = false;
+
+			advance( );
 		}
-		catch ( OLAPException e )
-		{
-			logger.log( Level.SEVERE,
-					Messages.getString( "CrosstabMeasureHeaderRowExecutor.error.check.child.executor" ), //$NON-NLS-1$
-					e );
-		}
-		return false;
+
+		return nextExecutor != null;
 	}
 
 }
