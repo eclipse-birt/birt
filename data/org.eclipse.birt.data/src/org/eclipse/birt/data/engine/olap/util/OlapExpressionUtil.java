@@ -210,7 +210,7 @@ public class OlapExpressionUtil
 	{
 		if ( expr == null )
 			return false;
-		return expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" );
+		return expr.trim( ).matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" );
 	}
 
 	/**

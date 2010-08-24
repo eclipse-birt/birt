@@ -394,7 +394,7 @@ public class CubeQueryDefinitionUtil
 		String bindingName = OlapExpressionUtil.getBindingName( expr );
 		DimLevel dimLevel = getDimLevelByBindingName( bindingName, bindings );
 		if( dimLevel != null )
-			return null;
+			return dimLevel;
 		if ( OlapExpressionUtil.isReferenceToDimLevel( expr ) == false )
 			return null;
 		else 
