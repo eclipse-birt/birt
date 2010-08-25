@@ -50,7 +50,13 @@ public class DimensionFilterHelper
 				stackResults,
 				0,
 				stackResults.length );
-		IDiskArray AndFilterResults = SetUtil.getIntersection( stackResults );
+		int maxLen = 0;
+		for( int i = 0; i < stackResults.length; i++ )
+		{
+			if( maxLen < stackResults[i].size( ) )
+				maxLen = stackResults[i].size( );
+		}
+		IDiskArray AndFilterResults = SetUtil.getIntersection( stackResults, maxLen );
 		return AndFilterResults;
 	}
 	
@@ -67,8 +73,13 @@ public class DimensionFilterHelper
 		IDiskArray indexKeyArray = level.getDiskIndex().find( filter );
 		if ( indexKeyArray != null )
 		{
-			PrimitiveDiskSortedStack resultStack = new PrimitiveDiskSortedStack( Math.min( indexKeyArray.size( ),
-					Constants.MAX_LIST_BUFFER_SIZE ),
+			int len = 0;
+			for ( int i = 0; i < indexKeyArray.size( ); i++ )
+			{
+				IndexKey key = (IndexKey) indexKeyArray.get( i );
+				len += key.getDimensionPos().length;
+			}
+			PrimitiveDiskSortedStack resultStack = new PrimitiveDiskSortedStack( len,
 					true,
 					true );
 			for ( int i = 0; i < indexKeyArray.size( ); i++ )

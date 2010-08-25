@@ -29,7 +29,16 @@ public class SetUtil
 	 */
 	public static IDiskArray getIntersection( PrimitiveDiskSortedStack[] stacks ) throws IOException
 	{
-		int bufferSize = Constants.MAX_LIST_BUFFER_SIZE;
+		return getIntersection( stacks, Constants.MAX_LIST_BUFFER_SIZE );
+	}
+	/**
+	 * Get intersection from stacks.
+	 * @param stacks
+	 * @return
+	 * @throws IOException
+	 */
+	public static IDiskArray getIntersection( PrimitiveDiskSortedStack[] stacks, int bufferSize ) throws IOException
+	{
 		if ( stacks == null || stacks.length < 1 )
 		{
 			bufferSize = 0;

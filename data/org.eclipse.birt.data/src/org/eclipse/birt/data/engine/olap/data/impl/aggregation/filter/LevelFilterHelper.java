@@ -117,8 +117,7 @@ public class LevelFilterHelper
 	private IDiskArray getDimFilterPositions( List dimFilterList )
 			throws IOException, DataException
 	{
-		IDiskArray result = new BufferedPrimitiveDiskArray( Math.min( dimPosition.size( ),
-				Constants.LIST_BUFFER_SIZE ) );
+		IDiskArray result = new BufferedPrimitiveDiskArray( dimPosition.size( ) );
 		for ( int i = 0; i < dimPosition.size( ); i++ )
 		{
 			Integer pos = (Integer) dimPosition.get( i );

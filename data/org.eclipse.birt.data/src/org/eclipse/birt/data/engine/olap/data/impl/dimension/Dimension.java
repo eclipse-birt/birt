@@ -219,8 +219,13 @@ public class Dimension implements IDimension
 			throws IOException, DataException
 	{
 		IDiskArray indexKeyArray = find( level, keyValue );
-		IDiskArray result = new BufferedPrimitiveDiskArray( Math.min( indexKeyArray.size( ),
-				Constants.MAX_LIST_BUFFER_SIZE ) );
+		int len = 0;
+		for ( int i = 0; i < indexKeyArray.size( ); i++ )
+		{
+			IndexKey key = (IndexKey) indexKeyArray.get( i );
+			len += key.getDimensionPos( ).length;
+		}
+		IDiskArray result = new BufferedPrimitiveDiskArray( len );
 		for ( int i = 0; i < indexKeyArray.size( ); i++ )
 		{
 			IndexKey key = (IndexKey) indexKeyArray.get( i );

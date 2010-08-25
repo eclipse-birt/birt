@@ -240,8 +240,8 @@ public class AggregationExecutor
 					aggregationRow.setParameterValues( getParameterValues( ) );
 					diskSortedStackWrapper.diskSortedStack.push( aggregationRow );
 				}
-				
-				if( maxDataObjectRows >0 && factRowCount++ > maxDataObjectRows )
+				factRowCount++;
+				if( maxDataObjectRows >0 && factRowCount > maxDataObjectRows )
 					throw new DataException( ResourceConstants.EXCEED_MAX_DATA_OBJECT_ROWS );
 			}
 		}

@@ -246,7 +246,7 @@ public class FactTableAccessor
 	private static IDiskArray getDimCombinatedKey( int[][] columnIndex , IDiskArray dimRowArray ) throws IOException
 	{
 		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionKey.getCreator( ),
-				Math.min( dimRowArray.size( ), Constants.MAX_LIST_BUFFER_SIZE ) );
+				dimRowArray.size( ) );
 		for ( int i = 0; i < dimRowArray.size( ); i++ )
 		{
 			DimensionRow dimRow = (DimensionRow)dimRowArray.get( i );
