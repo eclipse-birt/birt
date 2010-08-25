@@ -662,7 +662,7 @@ Choices.dynamicFilterChoice.simple=简单
 Choices.dynamicFilterChoice.advanced=高级
 
 #81 variableType
-Choices.variableType.report=报告变量
+Choices.variableType.report=报表变量
 Choices.variableType.page=页面变量
 
 #82 nullValueOrderingType
