@@ -691,13 +691,13 @@ DataSetParameterPage.updateReportParameter.title=보고서 매개 변수 업데이트 설정
 DataSetParameterPage.updateReportParameter.message=보고서 매개 변수 값을 데이터 집합 매개 변수 값으로 업데이트하시겠습니까?
 DataSetParameterPage.updateReportParameter.propmtText=항상 값을 업데이트하고 이 메시지를 다시 표시 안 함
 
-PromptParameterDialog.title=Confirm Update Design Attributes
-PromptParameterDialog.okButton.text=Apply
-PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
-PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.title=디자인 특성 업데이트 확인
+PromptParameterDialog.okButton.text=적용
+PromptParameterDialog.parameterGroup.title=매개 변수 디자인 특성
+PromptParameterDialog.parameterGroup.label=편집된 데이터 집합 디자인에서 수정한 특성 값으로 선택한 매개 변수를 업데이트합니다.
 PromptParameterDialog.parameterGroup.nameColumn=이름
-PromptParameterDialog.parameterGroup.previousValue=Previous Value
-PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+PromptParameterDialog.parameterGroup.previousValue=이전 값
+PromptParameterDialog.parameterGroup.revisedValue=수정된 값
 
 ###########################################################
 #PropertyBindingpage properties
@@ -909,8 +909,8 @@ designer.preview.preference.bidiOrientation.label=양방향(&B):
 designer.preview.preference.bidiOrientation.auto=자동
 designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
 designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
-designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=결과 집합/매개 변수 디자인 특성을 업데이트할 때마다 항상 확인합니다(&A).
+designer.preview.preference.updateParameter.confirmMessage=업데이트 실행 확인
+designer.preview.preference.updateParameter.confirmButton=결과 집합/매개 변수 디자인 특성을 업데이트할 때마다 항상 확인합니다.
 
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기

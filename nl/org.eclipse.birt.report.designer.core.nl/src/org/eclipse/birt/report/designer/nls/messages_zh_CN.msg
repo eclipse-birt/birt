@@ -691,13 +691,13 @@ DataSetParameterPage.updateReportParameter.title=报表参数更新设置
 DataSetParameterPage.updateReportParameter.message=是否确定要使用数据集参数的值来更新报表参数的值?
 DataSetParameterPage.updateReportParameter.propmtText=始终更新该值，不要再询问。
 
-PromptParameterDialog.title=Confirm Update Design Attributes
-PromptParameterDialog.okButton.text=Apply
-PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
-PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.title=确认更新设计属性
+PromptParameterDialog.okButton.text=应用
+PromptParameterDialog.parameterGroup.title=参数设计属性
+PromptParameterDialog.parameterGroup.label=使用已编辑数据集设计修订后的属性值更新所选参数。
 PromptParameterDialog.parameterGroup.nameColumn=名称
-PromptParameterDialog.parameterGroup.previousValue=Previous Value
-PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+PromptParameterDialog.parameterGroup.previousValue=以前的值
+PromptParameterDialog.parameterGroup.revisedValue=修订后的值
 
 ###########################################################
 #PropertyBindingpage properties
@@ -909,8 +909,8 @@ designer.preview.preference.bidiOrientation.label=双向(&B):
 designer.preview.preference.bidiOrientation.auto=自动
 designer.preview.preference.bidiOrientation.ltr=从左到右
 designer.preview.preference.bidiOrientation.rtl=从右到左
-designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=更新结果集/参数设计属性时始终提示确认(&A)。
+designer.preview.preference.updateParameter.confirmMessage=确认更新
+designer.preview.preference.updateParameter.confirmButton=更新结果集/参数设计属性时，始终提示确认。
 
 designer.preview.previewaction.label.webviewer=在 Web 查看器中查看报表
 designer.preview.previewaction.label=以 {0} 格式查看报表

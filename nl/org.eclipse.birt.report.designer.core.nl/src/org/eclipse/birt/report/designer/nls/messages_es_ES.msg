@@ -691,13 +691,13 @@ DataSetParameterPage.updateReportParameter.title=Ajuste de actualización de pará
 DataSetParameterPage.updateReportParameter.message=¿Está seguro de que desea actualizar el valor de parámetro de informe con el valor de parámetro de conjunto de datos?
 DataSetParameterPage.updateReportParameter.propmtText=Actualizar siempre el valor y no volver a preguntarme.
 
-PromptParameterDialog.title=Confirm Update Design Attributes
-PromptParameterDialog.okButton.text=Apply
-PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
-PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.title=Confirmar atributos de diseño de actualización
+PromptParameterDialog.okButton.text=Aplicar
+PromptParameterDialog.parameterGroup.title=Atributos de diseño de parámetro
+PromptParameterDialog.parameterGroup.label=Actualizar los parámetros seleccionados con los valores de atributo revisados por el diseño del conjunto de datos editado.
 PromptParameterDialog.parameterGroup.nameColumn=Nombre
-PromptParameterDialog.parameterGroup.previousValue=Previous Value
-PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+PromptParameterDialog.parameterGroup.previousValue=Valor anterior
+PromptParameterDialog.parameterGroup.revisedValue=Valor revisado
 
 ###########################################################
 #PropertyBindingpage properties
@@ -909,8 +909,8 @@ designer.preview.preference.bidiOrientation.label=&Orientación bidimensional:
 designer.preview.preference.bidiOrientation.auto=Automático
 designer.preview.preference.bidiOrientation.ltr=De izquierda a derecha
 designer.preview.preference.bidiOrientation.rtl=De derecha a izquierda
-designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=Solicit&ar siempre confirmación antes de actualizar los atributos de diseño de parámetros/conjunto de resultados.
+designer.preview.preference.updateParameter.confirmMessage=Confirmar actualización
+designer.preview.preference.updateParameter.confirmButton=Solicitar siempre confirmación antes de actualizar los atributos de diseño de parámetros/conjunto de resultados.
 
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}

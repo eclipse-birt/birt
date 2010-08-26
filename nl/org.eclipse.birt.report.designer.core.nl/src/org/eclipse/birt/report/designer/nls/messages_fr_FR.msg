@@ -691,13 +691,13 @@ DataSetParameterPage.updateReportParameter.title=Configuration de la mise à jour
 DataSetParameterPage.updateReportParameter.message=Voulez-vous vraiment mettre à jour la valeur du paramètre d'état avec la valeur du paramètre du jeu de données ?
 DataSetParameterPage.updateReportParameter.propmtText=Toujours mettre à jour la valeur sans me demander confirmation.
 
-PromptParameterDialog.title=Confirm Update Design Attributes
-PromptParameterDialog.okButton.text=Apply
-PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
-PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.title=Confirmer la mise à jour des attributs de modèle
+PromptParameterDialog.okButton.text=Appliquer
+PromptParameterDialog.parameterGroup.title=Attributs des modèles de paramètres
+PromptParameterDialog.parameterGroup.label=Mettre à jour les paramètres sélectionnés avec la ou les valeurs d'attributs révisées par le modèle du jeu de données édité.
 PromptParameterDialog.parameterGroup.nameColumn=Nom
-PromptParameterDialog.parameterGroup.previousValue=Previous Value
-PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+PromptParameterDialog.parameterGroup.previousValue=Valeur précédente
+PromptParameterDialog.parameterGroup.revisedValue=Valeur révisée
 
 ###########################################################
 #PropertyBindingpage properties
@@ -909,8 +909,8 @@ designer.preview.preference.bidiOrientation.label=Orientation &Bidi :
 designer.preview.preference.bidiOrientation.auto=Auto
 designer.preview.preference.bidiOrientation.ltr=Gauche à droite
 designer.preview.preference.bidiOrientation.rtl=Droite à gauche
-designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=&Toujours demander la confirmation lors de la mise à jour des attributs du modèle de jeux / paramètres de résultats.
+designer.preview.preference.updateParameter.confirmMessage=Confirmer la mise à jour
+designer.preview.preference.updateParameter.confirmButton=Toujours demander la confirmation lors de la mise à jour des attributs du modèle de jeux / paramètres de résultats.
 
 designer.preview.previewaction.label.webviewer=Afficher l'état dans le visualiseur Web
 designer.preview.previewaction.label=Afficher l''état au format {0}

@@ -691,13 +691,13 @@ DataSetParameterPage.updateReportParameter.title=レポートパラメタ更新の設定
 DataSetParameterPage.updateReportParameter.message=レポートパラメタの値をデータセットパラメタの値で更新しますか ?
 DataSetParameterPage.updateReportParameter.propmtText=常に更新し、今後このメッセージを表示しない。
 
-PromptParameterDialog.title=Confirm Update Design Attributes
-PromptParameterDialog.okButton.text=Apply
-PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
-PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.title=デザイン属性の更新の確認
+PromptParameterDialog.okButton.text=適用
+PromptParameterDialog.parameterGroup.title=パラメタのデザイン属性
+PromptParameterDialog.parameterGroup.label=編集されたデータセットのデザインによって変更された属性の値を使用して、選択したパラメタを更新します。
 PromptParameterDialog.parameterGroup.nameColumn=名前
-PromptParameterDialog.parameterGroup.previousValue=Previous Value
-PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+PromptParameterDialog.parameterGroup.previousValue=以前の値
+PromptParameterDialog.parameterGroup.revisedValue=修正後の値
 
 ###########################################################
 #PropertyBindingpage properties
@@ -909,8 +909,8 @@ designer.preview.preference.bidiOrientation.label=双方向の向き(&B) :
 designer.preview.preference.bidiOrientation.auto=自動
 designer.preview.preference.bidiOrientation.ltr=左から右
 designer.preview.preference.bidiOrientation.rtl=右から左
-designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=結果セットまたはパラメタのデザイン属性を更新する際に、常に確認メッセージを表示する(&A)
+designer.preview.preference.updateParameter.confirmMessage=更新の確認
+designer.preview.preference.updateParameter.confirmButton=結果セットまたはパラメタのデザイン属性を更新する際に、常に確認メッセージを表示します。
 
 designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
 designer.preview.previewaction.label=レポートを {0} として表示する

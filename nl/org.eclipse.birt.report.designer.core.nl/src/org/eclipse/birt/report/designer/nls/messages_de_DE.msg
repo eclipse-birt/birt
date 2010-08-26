@@ -691,13 +691,13 @@ DataSetParameterPage.updateReportParameter.title=Einstellung zur Aktualisierung 
 DataSetParameterPage.updateReportParameter.message=Sind Sie sicher, dass Sie den Wert des Berichtsparameters mit dem Wert des Datensatzparameters aktualisieren möchten?
 DataSetParameterPage.updateReportParameter.propmtText=Immer den Wert aktualisieren und nicht mehr nachfragen.
 
-PromptParameterDialog.title=Confirm Update Design Attributes
-PromptParameterDialog.okButton.text=Apply
-PromptParameterDialog.parameterGroup.title=Parameter Design Attributes
-PromptParameterDialog.parameterGroup.label=Update the selected parameters with attribute value(s) revised by edited data set design.
+PromptParameterDialog.title=Aktualisierung von Designattributen bestätigen
+PromptParameterDialog.okButton.text=Übernehmen
+PromptParameterDialog.parameterGroup.title=Parameterdesignattribute
+PromptParameterDialog.parameterGroup.label=Ausgewählte Parameter mit Attributwert(en) aktualisieren, die durch bearbeitete Datensatzdesigns überarbeitet wurden.
 PromptParameterDialog.parameterGroup.nameColumn=Name
-PromptParameterDialog.parameterGroup.previousValue=Previous Value
-PromptParameterDialog.parameterGroup.revisedValue=Revised Value
+PromptParameterDialog.parameterGroup.previousValue=Vorheriger Wert
+PromptParameterDialog.parameterGroup.revisedValue=Überarbeiteter Wert
 
 ###########################################################
 #PropertyBindingpage properties
@@ -909,8 +909,8 @@ designer.preview.preference.bidiOrientation.label=&Bidirektionale Ausrichtung:
 designer.preview.preference.bidiOrientation.auto=Automatisch
 designer.preview.preference.bidiOrientation.ltr=Von links nach rechts
 designer.preview.preference.bidiOrientation.rtl=Von rechts nach links
-designer.preview.preference.updateParameter.confirmMessage=Confirm updating
-designer.preview.preference.updateParameter.confirmButton=Bei &Aktualisierung von Ergebnis-/Parameterdesignattributen immer nach Bestätigung fragen.
+designer.preview.preference.updateParameter.confirmMessage=Aktualisierung bestätigen
+designer.preview.preference.updateParameter.confirmButton=Bei Aktualisierung von Ergebnis-/Parameterdesignattributen immer nach Bestätigung fragen
 
 designer.preview.previewaction.label.webviewer=Bericht in Web Viewer anzeigen
 designer.preview.previewaction.label=Bericht als {0} anzeigen
