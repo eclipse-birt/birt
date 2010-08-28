@@ -229,6 +229,7 @@ public class OlapExpressionUtil
 	{
 		if ( expr == null )
 			return null;
+		expr = expr.trim( );
 		if ( !( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) || expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) ) )
 		{
 			String bindingName = getBindingName( expr );
@@ -321,7 +322,7 @@ public class OlapExpressionUtil
 		if ( expr == null )
 			return null;
 
-		if ( !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
+		if ( !expr.trim( ).matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
 			return null;
 		try
 		{
@@ -372,6 +373,7 @@ public class OlapExpressionUtil
 		String expr = ( (IScriptExpression) expression ).getText( );
 		if ( expr == null )
 			return false;
+		expr = expr.trim( );
 		if ( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) || expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )// dimension
 			return true;
 		else if ( findMeasure( expr ) != null )// measure
@@ -401,11 +403,11 @@ public class OlapExpressionUtil
 		String expr = ( (IScriptExpression) binding.getExpression( ) ).getText( );
 		if ( expr == null )
 			return null;
-		else if ( expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )// measure
+		else if ( expr.trim( ).matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )// measure
 		{
 			return binding;
 		}
-		else if ( expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )// data binding
+		else if ( expr.trim( ).matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )// data binding
 		{
 			String bindingName = getBindingName( expr );
 			for ( IBinding b : bindings )
@@ -429,7 +431,7 @@ public class OlapExpressionUtil
 	{
 		if ( expr == null )
 			return null;
-		if ( !expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )
+		if ( !expr.trim( ).matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )
 			return null;
 		try
 		{
@@ -720,8 +722,8 @@ public class OlapExpressionUtil
 	{
 		if ( expr == null )
 			return false;
-		if ( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
-				|| expr.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+		if ( expr.trim( ).matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
+				|| expr.trim( ).matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
 			return true;
 		return false;
 	}
