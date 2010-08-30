@@ -12,15 +12,18 @@
 package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -46,7 +49,6 @@ public final class ChartReportItemPresentationAxisImpl extends
 			return null;
 		}
 
-		@SuppressWarnings("deprecation")
 		public Object evaluateGlobal( String expression )
 		{
 			return null;
@@ -171,6 +173,24 @@ public final class ChartReportItemPresentationAxisImpl extends
 	{
 		// Return a dummy data set since axis chart can render without data
 		return DUMMY_AXIS_CHART_EVALUATOR;
+	}
+
+	@Override
+	protected GeneratedChartState buildChart(
+			IDataRowExpressionEvaluator rowAdapter,
+			BIRTExternalContext externalContext,
+			IStyleProcessor externalProcessor ) throws ChartException
+	{
+		GeneratedChartState gcs = super.buildChart( rowAdapter, externalContext, externalProcessor );
+		return gcs;
+	}
+
+	@Override
+	public Size getSize( )
+	{
+		Size sz = super.getSize( );
+		sz.setWidth( sz.getWidth( ) + 10 );
+		return sz;
 	}
 
 }
