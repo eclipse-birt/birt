@@ -228,14 +228,19 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		String value = style.getTextAlign( );
 		if ( null != value )
 		{
-			styleBuffer.append( " text-align:" );
-			styleBuffer.append( "-moz-" );
-			styleBuffer.append( value );
-			styleBuffer.append( " !important; text-align:" );
+			if ( IStyle.INLINE_VALUE == display
+					|| IStyle.INLINE_BLOCK_VALUE == display )
+			{
+				styleBuffer.append( " text-align:" );
+				styleBuffer.append( "-moz-" );
+				styleBuffer.append( value );
+				styleBuffer.append( " !important;" );
+			}
+			styleBuffer.append( "text-align:" );
 			styleBuffer.append( value );
 			styleBuffer.append( ";" );
 		}
-		// Table doesn��t support vertical-align.
+		// Table doesn't support vertical-align.
 
 		style = getElementStyle( table );
 		if ( style == null )
