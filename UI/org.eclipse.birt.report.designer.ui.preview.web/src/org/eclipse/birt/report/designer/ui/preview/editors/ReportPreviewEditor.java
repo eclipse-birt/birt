@@ -41,6 +41,8 @@ import org.eclipse.swt.browser.WindowEvent;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
@@ -194,30 +196,37 @@ public abstract class ReportPreviewEditor extends EditorPart
 
 		} );
 
+		final IPropertyChangeListener prefListener = new IPropertyChangeListener( ) {
+
+			public void propertyChange( PropertyChangeEvent event )
+			{
+				if ( note != null
+						&& !note.isDisposed( )
+						&& WebViewer.PREVIEW_MAXROW.equals( event.getProperty( ) ) )
+				{
+					note.setText( getDisplayInfoText( ViewerPlugin.getDefault( )
+							.getPluginPreferences( )
+							.getString( WebViewer.PREVIEW_MAXROW ) ),//$NON-NLS-1$
+							true,
+							true );
+					buttonTray.layout( );
+				}
+			}
+		};
+
+		note.addDisposeListener( new DisposeListener( ) {
+
+			public void widgetDisposed( DisposeEvent e )
+			{
+				ViewerPlugin.getDefault( )
+						.getPluginPreferences( )
+						.removePropertyChangeListener( prefListener );
+			}
+		} );
+
 		ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
-				.addPropertyChangeListener( new IPropertyChangeListener( ) {
-
-					public void propertyChange( PropertyChangeEvent event )
-					{
-						if ( note == null || note.isDisposed( ) )
-						{
-							ViewerPlugin.getDefault( )
-									.getPluginPreferences( )
-									.removePropertyChangeListener( this );
-							return;
-						}
-						if ( WebViewer.PREVIEW_MAXROW.equals( event.getProperty( ) ) )
-						{
-							note.setText( getDisplayInfoText( ViewerPlugin.getDefault( )
-									.getPluginPreferences( )
-									.getString( WebViewer.PREVIEW_MAXROW ) ),//$NON-NLS-1$
-									true,
-									true );
-							buttonTray.layout( );
-						}
-					}
-				} );
+				.addPropertyChangeListener( prefListener );
 
 		progressBar = new ProgressBar( mainPane, SWT.INDETERMINATE );
 		gd = new GridData( GridData.END, GridData.CENTER, false, false );

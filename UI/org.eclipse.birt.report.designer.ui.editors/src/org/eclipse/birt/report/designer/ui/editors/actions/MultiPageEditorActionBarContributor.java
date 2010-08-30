@@ -15,12 +15,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager;
-import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager.EditorContributor;
+import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
@@ -117,6 +116,8 @@ public abstract class MultiPageEditorActionBarContributor extends
 		{
 			subActionBar.deactivate( );
 			subActionBar.dispose( );
+
+			actionBarContrubutor.dispose( );
 		}
 	}
 
@@ -179,14 +180,19 @@ public abstract class MultiPageEditorActionBarContributor extends
 					if ( contributor != null )
 					{
 						FormPageDef pageDef = contributor.getPage( page.getId( ) );
-						if ( pageDef != null
-								&& pageDef.actionBarContributor != null )
+						if ( pageDef != null )
 						{
-							currentActionBarDef = new SubActionBarDef( rootBar,
-									pageDef.actionBarContributor );
-							currentActionBarDef.init( getPage( ) );
-							// subBarMap.put( page.getId( ), currentActionBarDef
-							// );
+							IEditorActionBarContributor actionBarContributor = pageDef.createActionBarContributor( );
+
+							if ( actionBarContributor != null )
+							{
+								currentActionBarDef = new SubActionBarDef( rootBar,
+										actionBarContributor );
+								currentActionBarDef.init( getPage( ) );
+								// subBarMap.put( page.getId( ),
+								// currentActionBarDef
+								// );
+							}
 						}
 					}
 				}

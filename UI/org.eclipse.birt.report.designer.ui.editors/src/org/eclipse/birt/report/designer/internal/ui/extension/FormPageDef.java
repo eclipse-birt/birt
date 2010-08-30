@@ -36,7 +36,6 @@ public class FormPageDef implements IExtensionConstants
 	public String relative;
 	public int position;
 	public IAction pageAction;
-	public IEditorActionBarContributor actionBarContributor;
 	public int priority;
 
 	FormPageDef( IConfigurationElement element )
@@ -58,8 +57,6 @@ public class FormPageDef implements IExtensionConstants
 		{
 			pageAction = new PageSetAction( displayName, id );
 		}
-		actionBarContributor = (IEditorActionBarContributor) loadClass( element,
-				ATTRIBUTE_ACTION_BAR_CONTRIBUTOR );
 	}
 
 	private int loadPriority( IConfigurationElement element,
@@ -135,6 +132,16 @@ public class FormPageDef implements IExtensionConstants
 		if ( def instanceof IReportEditorPage )
 		{
 			return (IReportEditorPage) def;
+		}
+		return null;
+	}
+	
+	public IEditorActionBarContributor createActionBarContributor( )
+	{
+		Object def = loadClass( element, ATTRIBUTE_ACTION_BAR_CONTRIBUTOR );
+		if ( def instanceof IEditorActionBarContributor )
+		{
+			return (IEditorActionBarContributor) def;
 		}
 		return null;
 	}

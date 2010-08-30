@@ -67,6 +67,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
@@ -894,6 +895,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	public void dispose( )
 	{
 		super.dispose( );
+		( (MultiPageEditorSite) getSite( ) ).dispose( );
+		
 		reportXMLEditor.dispose( );
 		reportXMLEditor = null;
 		
