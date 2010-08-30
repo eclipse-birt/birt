@@ -348,16 +348,18 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		stack.startFilterEventTrans( CommandLabelFactory
+		stack.startTrans( CommandLabelFactory
 				.getCommandLabel( MessageConstants.DROP_ELEMENT_MESSAGE ) );
+		
+		stack.startFilterEventTrans( "Drop elements" ); //$NON-NLS-1$
 
 		try
 		{
-			doDelectAction( content );
-
+			doDelectAction( content );			
 		}
 		catch ( SemanticException ex )
 		{
+			stack.rollback( );
 			stack.rollback( );
 			throw ex;
 		}
@@ -368,38 +370,41 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 				false );
 		dropRecord.setEventTarget( eventTarget );
 		stack.execute( dropRecord );
-
+		
+		stack.commit( );
+				
 		// if the container is multi-views, and now it is empty, then delete the
 		// multi-views
-		try
+		if ( this.focus.getElement( ) instanceof MultiViews )
 		{
-			if ( this.focus.getElement( ) instanceof MultiViews )
+			DesignElement multiViews = focus.getElement( );
+			// if not virtual element, then do delete
+			if ( !multiViews.isVirtualElement( ) )
 			{
-				DesignElement multiViews = focus.getElement( );
-
-				// if not virtual element, then do delete
-				if ( !multiViews.isVirtualElement( ) )
+				ContainerContext context = multiViews.getContainerInfo( );
+				if ( context != null )
 				{
-					ContainerContext context = multiViews.getContainerInfo( );
-					if ( context != null )
-					{
-						List views = multiViews.getListProperty( module,
-								IMultiViewsModel.VIEWS_PROP );
-						if ( views == null || views.isEmpty( ) )
+					List views = multiViews.getListProperty( module,
+							IMultiViewsModel.VIEWS_PROP );
+					if ( views == null || views.isEmpty( ) )
+					{							
+						stack.startTrans( "Drop multiView" ); //$NON-NLS-1$
+						try 
 						{
 							ContentCommand cmd = new ContentCommand( module,
 									context );
 							cmd.remove( multiViews );
+							stack.commit( );
+						}
+						catch ( SemanticException ex )
+						{
+							stack.rollback( );
+							stack.rollback( );
+							throw ex;
 						}
 					}
 				}
 			}
-
-		}
-		catch ( SemanticException ex )
-		{
-			stack.rollback( );
-			throw ex;
 		}
 
 		stack.commit( );

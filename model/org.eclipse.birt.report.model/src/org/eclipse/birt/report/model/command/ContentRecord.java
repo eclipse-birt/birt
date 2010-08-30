@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.GridItem;
+import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.ReportItem;
@@ -432,8 +433,8 @@ public class ContentRecord extends SimpleRecord
 			return retValue;
 		}
 
-		if ( container instanceof TableItem || container instanceof GridItem
-				|| container instanceof TableGroup
+		if ( ( container instanceof TableItem && !( content instanceof MultiViews ) )
+				|| container instanceof GridItem || container instanceof TableGroup
 				|| container instanceof TableRow )
 		{
 			ReportItem compoundElement = LayoutUtil
