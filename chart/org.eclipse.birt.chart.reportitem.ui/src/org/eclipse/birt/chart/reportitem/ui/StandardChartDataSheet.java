@@ -335,7 +335,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				description.setLayoutData( gd );
-				description.setText( Messages.getString( "StandardChartDataSheet.Label.DragCube" ) ); //$NON-NLS-1$
+				description.setText( getCubeTreeViewNote( ) ); 
 			}
 		}
 
@@ -453,6 +453,16 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 
 		updateDragDataSource( );
 		return cmpStack;
+	}
+
+	/**
+	 * Returns a note for cube tree view.
+	 * 
+	 * @return
+	 */
+	protected String getCubeTreeViewNote( )
+	{
+		return Messages.getString( "StandardChartDataSheet.Label.DragCube" );
 	}
 
 	private void createColumnsViewerArea( Composite parent )
