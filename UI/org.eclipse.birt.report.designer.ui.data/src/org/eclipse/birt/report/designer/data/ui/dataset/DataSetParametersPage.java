@@ -454,10 +454,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		if ( dlg.open( ) == Window.OK )
 		{
 			viewer.getViewer( ).refresh( );
-			updateReportParameter( position );
+			
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
 			stack.commit( );
+			updateReportParameter( position , Messages.getString( "DataSetParametersPage.reportParam.None" ));
 		}
 		else
 		{
@@ -465,7 +466,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		}
 	}
 	
-	private void updateReportParameterValue( int index )
+	private void updateReportParameterValue( int index , String bindedReportParameterName )
 	{
 		OdaDataSetParameterHandle datasetParameter = (OdaDataSetParameterHandle) viewer.getViewer( )
 				.getTable( )
@@ -474,30 +475,49 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 		assert datasetParameter != null;
 		
-		if ( datasetParameter.getParamName( ) == null )
-			return;
-		ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( datasetParameter.getParamName( ),
-				false );
-
-		if ( reportParameter != null )
+		if ( datasetParameter.getParamName( ) != null )
 		{
-			try
+			ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( datasetParameter.getParamName( ),
+					false );
+
+			if ( reportParameter != null )
 			{
-				ReportParameterAdapter adapter = new ReportParameterAdapter( );
-				adapter.updateLinkedReportParameter( reportParameter,
-						datasetParameter,
-						( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
+				try
+				{
+					ReportParameterAdapter adapter = new ReportParameterAdapter( );
+					adapter.updateLinkedReportParameter( reportParameter,
+							datasetParameter,
+							( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
+				}
+				catch ( SemanticException e )
+				{
+				}
+				catch ( OdaException ex )
+				{
+				}
 			}
-			catch ( SemanticException e )
+		}
+		else
+		{
+			ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( bindedReportParameterName,
+					false );
+
+			if ( reportParameter != null )
 			{
-			}
-			catch ( OdaException ex )
-			{
+				try
+				{
+					reportParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
+					reportParameter.setControlType( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX );
+					reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
+				}
+				catch ( SemanticException e )
+				{
+				}
 			}
 		}
 	}
 
-	private void updateReportParameter( int index )
+	private void updateReportParameter( int index , String bindedReportParameterName )
 	{
 		String setting = UIPlugin.getDefault( )
 				.getPreferenceStore( )
@@ -505,7 +525,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 		if ( MessageDialogWithToggle.ALWAYS.equals( setting ) )
 		{
-			updateReportParameterValue( index );
+			updateReportParameterValue( index , bindedReportParameterName );
 		}
 		else
 		{
@@ -529,7 +549,39 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 				if ( dialog.getReturnCode( ) == MessageDialogWithToggle.INFORMATION )
 				{
-					updateReportParameterValue( index );
+					updateReportParameterValue( index , bindedReportParameterName );
+				}
+			}
+			else if ( datasetParameter.getParamName( ) == null
+					&& ( !bindedReportParameterName.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) ) )
+			{
+				MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion( Workbench.getInstance( )
+						.getDisplay( )
+						.getActiveShell( ),
+						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
+						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
+						Messages.getString( "DataSetParameterPage.updateReportParameter.propmtText" ),
+						false,
+						UIPlugin.getDefault( ).getPreferenceStore( ),
+						"DataSetParameterPage.updateReportParameters" );
+
+				if ( dialog.getReturnCode( ) == MessageDialogWithToggle.INFORMATION )
+				{
+					ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( bindedReportParameterName,
+							false );
+
+					if ( reportParameter != null )
+					{
+						try
+						{
+							reportParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
+							reportParameter.setControlType( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX );
+							reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
+						}
+						catch ( SemanticException e )
+						{
+						}
+					}
 				}
 			}
 		}
@@ -556,9 +608,12 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		if ( dlg.open( ) == Window.OK )
 		{
 			viewer.getViewer( ).refresh( );
-			updateReportParameter( index );
+			
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
+			
+			String bindedReportParameterName = dlg.bindedReportParameterName;
+			updateReportParameter( index , bindedReportParameterName);
 			stack.commit( );
 		}
 		else
@@ -1801,6 +1856,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		private boolean inputChanged = modelChanged,
 				isOdaDataSetHandle = false;
 		private Button parameterButton;
+		
+		public String bindedReportParameterName = null;
 
 		protected ParameterInputDialog( Object structureOrHandle,
 				boolean isOdaDataSetHandle )
@@ -2101,6 +2158,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			parameterButton.addSelectionListener( listener );
 
 			checkParameterButtonTooltip( );
+			
+			bindedReportParameterName = linkToSalarParameter.getText( );
 		}
 
 		/*
