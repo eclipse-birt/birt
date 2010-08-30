@@ -484,6 +484,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			{
 				try
 				{
+					reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
 					ReportParameterAdapter adapter = new ReportParameterAdapter( );
 					adapter.updateLinkedReportParameter( reportParameter,
 							datasetParameter,
