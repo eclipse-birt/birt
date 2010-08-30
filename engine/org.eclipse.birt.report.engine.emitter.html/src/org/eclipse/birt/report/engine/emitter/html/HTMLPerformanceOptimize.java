@@ -217,7 +217,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 				{
 					// In Firefox, if a table hasn't a width, the
 					// " table-layout:fixed;"
-					styleBuffer.append( " width: 1px;" );
+					styleBuffer.append( " width: auto;" );
 				}
 				// build the table-layout
 				styleBuffer.append( " overflow:hidden; table-layout:fixed;" );

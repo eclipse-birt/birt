@@ -231,7 +231,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 				{
 					// In Firefox, if a table hasn't a width, the
 					// " table-layout:fixed;"
-					styleBuffer.append( " width: 1px;" );
+					styleBuffer.append( " width: auto;" );
 				}
 				// build the table-layout
 				styleBuffer.append( " overflow:hidden; table-layout:fixed;" );
@@ -240,7 +240,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		
 		// Table's text-align property will be handled at the row content
 		// with the ComputedStyle.
-		// Table doesn��t support vertical-align.
+		// Table doesn't support vertical-align.
 
 		style = getElementStyle( table );
 		if ( style == null )
