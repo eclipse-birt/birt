@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionPr
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -84,7 +85,7 @@ public class LevelStaticAttributeDialog extends BaseDialog
 		container.setLayout( layout );
 
 		Label nameLabel = new Label( container, SWT.WRAP );
-		nameLabel.setText( Messages.getString("LevelStaticAttributeDialog.Label.Member") ); //$NON-NLS-1$
+		nameLabel.setText( Messages.getString( "LevelStaticAttributeDialog.Label.Member" ) ); //$NON-NLS-1$
 		nameLabel.setLayoutData( new GridData( ) );
 		nameLabel.setFont( parent.getFont( ) );
 
@@ -104,7 +105,7 @@ public class LevelStaticAttributeDialog extends BaseDialog
 		} );
 
 		Label expressionLabel = new Label( container, SWT.WRAP );
-		expressionLabel.setText( Messages.getString("LevelStaticAttributeDialog.Label.Expression") ); //$NON-NLS-1$
+		expressionLabel.setText( Messages.getString( "LevelStaticAttributeDialog.Label.Expression" ) ); //$NON-NLS-1$
 		expressionLabel.setLayoutData( new GridData( ) );
 		expressionLabel.setFont( parent.getFont( ) );
 
@@ -142,8 +143,8 @@ public class LevelStaticAttributeDialog extends BaseDialog
 	{
 		if ( rule != null )
 		{
-			nameText.setText( rule.getDisplayExpression( ) );
-			expressionText.setText( rule.getRuleExpression( ) );
+			nameText.setText( DEUtil.resolveNull( rule.getDisplayExpression( ) ) );
+			expressionText.setText( DEUtil.resolveNull( rule.getRuleExpression( ) ) );
 		}
 		return super.initDialog( );
 	}
@@ -163,7 +164,7 @@ public class LevelStaticAttributeDialog extends BaseDialog
 			if ( getButton( IDialogConstants.OK_ID ) != null )
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
-				setErrorMessage( Messages.getString("LevelStaticAttributeDialog.Error.Message") ); //$NON-NLS-1$
+				setErrorMessage( Messages.getString( "LevelStaticAttributeDialog.Error.Message" ) ); //$NON-NLS-1$
 			}
 		}
 		else
