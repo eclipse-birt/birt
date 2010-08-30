@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.command.LibraryException;
@@ -35,6 +37,13 @@ public class IncludedLibrariesStructureListState
 		extends
 			CompatibleListPropertyState
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger
+			.getLogger( IncludedLibrariesStructureListState.class.getName( ) );
 
 	/**
 	 * Default constructor.
@@ -128,6 +137,7 @@ public class IncludedLibrariesStructureListState
 					handler.getErrorHandler( ).semanticWarning( ex );
 				else
 					handler.getErrorHandler( ).semanticError( ex );
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
 
 				return;
 			}
