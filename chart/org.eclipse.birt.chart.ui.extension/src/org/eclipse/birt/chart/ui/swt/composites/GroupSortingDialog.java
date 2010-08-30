@@ -480,10 +480,8 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			}
 			return predefinedQuery;
 		}
-		else
-		{
-			return exprSet.toArray( new String[exprSet.size( )] );
-		}
+		
+		return exprSet.toArray( new String[exprSet.size( )] );
 	}
 
 	protected void populateSortKeyList( )
@@ -515,9 +513,11 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			else if ( !exprSet.isEmpty( ) )
 			{
 				cmbSortExpr.select( 0 );
+				Event event = new Event( );
+				event.type = SWT.Selection;
+				event.widget = cmbSortExpr;
+				cmbSortExpr.notifyListeners( SWT.Selection, event );
 			}
-
-
 		}
 
 		setSortKeyInModel( );
@@ -583,7 +583,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 				Integer sValue = STRENGTH_MAP.get( cmbSortStrength.getText( ) );
 				if ( sValue == null )
 				{
-					getSeriesDefinitionForProcessing().setSortStrength( this.ASCII_SORT_STRENGTH );
+					getSeriesDefinitionForProcessing().setSortStrength( ASCII_SORT_STRENGTH );
 				}
 				else
 				{
@@ -710,7 +710,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 				EList<Query> elBaseSeries = seBase.getDataDefinition( );
 				if ( elBaseSeries != null && elBaseSeries.size( ) >= 1 )
 				{
-					String baseSeriesExpression = ( (Query) elBaseSeries.get( 0 ) ).getDefinition( );
+					String baseSeriesExpression = elBaseSeries.get( 0 ).getDefinition( );
 					exprList.add( baseSeriesExpression );
 				}
 			}
@@ -721,7 +721,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			for ( int i = 0; i < lstSDs.size( ); i++ )
 			{
 				// Add base expression.
-				SeriesDefinition sd = (SeriesDefinition) lstSDs.get( i );
+				SeriesDefinition sd = lstSDs.get( i );
 				Series series = sd.getDesignTimeSeries( );
 				for ( Query qSeries : series.getDataDefinition( ) )
 				{
