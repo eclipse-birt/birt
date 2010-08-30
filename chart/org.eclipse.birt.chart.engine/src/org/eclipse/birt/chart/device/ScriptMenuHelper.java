@@ -12,6 +12,8 @@
 package org.eclipse.birt.chart.device;
 
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
+import org.eclipse.birt.chart.render.IActionRenderer;
+import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 
@@ -54,9 +56,22 @@ public class ScriptMenuHelper implements IScriptMenuHelper
 		sb.append( "\t mii.text = '" + sv.getLabel( ).getCaption( ).getValue( ) + "';\n" );//$NON-NLS-1$//$NON-NLS-2$
 		sb.append( "\t mii.actionType = BirtChartInteractivityActions.INVOKE_SCRIPTS;\n" ); //$NON-NLS-1$
 		String script = sv.getScript( );
-		sb.append( "\t mii.actionValue = " + JavascriptEvalUtil.transformToJsExpression( script ) + ";\n" ); //$NON-NLS-1$//$NON-NLS-2$
+		sb.append( "\t mii.actionValue = \"" + wrapScriptsAsFunction( script ) + "\"\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		sb.append( "\t\t menuInfo.addItemInfo(mii);\n" ); //$NON-NLS-1$
 
 		return sb.toString( );
+	}
+	
+	/**
+	 * Wraps specified script into a function for the calling by using eval
+	 * function.
+	 * 
+	 * @param script
+	 * @return
+	 */
+	public static String wrapScriptsAsFunction( String script )
+	{
+		String f = "var _callScripts=function(evt, " + ScriptHandler.BASE_VALUE + ", " + ScriptHandler.ORTHOGONAL_VALUE + ", " + ScriptHandler.SERIES_VALUE + ", " + IActionRenderer.LEGEND_ITEM_TEXT + ", " + IActionRenderer.LEGEND_ITEM_VALUE + ", " + IActionRenderer.AXIS_LABEL + ", menuInfo) {" + JavascriptEvalUtil.transformToJsConstants( script ) + "}; _callScripts(evt, " + ScriptHandler.BASE_VALUE + ", " + ScriptHandler.ORTHOGONAL_VALUE + ", " + ScriptHandler.SERIES_VALUE + ", " + IActionRenderer.LEGEND_ITEM_TEXT + ", " + IActionRenderer.LEGEND_ITEM_VALUE + ", " + IActionRenderer.AXIS_LABEL + ", menuInfo);"; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$//$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$//$NON-NLS-9$ //$NON-NLS-10$//$NON-NLS-11$ //$NON-NLS-12$//$NON-NLS-13$ //$NON-NLS-14$  
+		return f;
 	}
 }
