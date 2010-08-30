@@ -15,9 +15,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -48,6 +50,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 	private IAggregationResultRow resultObject;
 	private IAggregationResultSet aggregationRsFromCube;
 	private int currentPosition;
+	private Map<IEdgeDrillFilter, List<DimLevel>> drillFilterTargetLevels;
 
 	public DrilledAggregateResultSet(
 			IAggregationResultSet aggregationRsFromCube,
@@ -65,6 +68,16 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 			calculator =  new DrilledAggregationCalculator( aggr );
 		}
 
+		drillFilterTargetLevels = new HashMap<IEdgeDrillFilter, List<DimLevel>>( );
+		for ( int i = 0; i < drillFilters.size( ); i++ )
+		{
+			IEdgeDrillFilter[] filters = drillFilters.get( i );
+			for ( int t = 0; t < filters.length; t++ )
+			{
+				drillFilterTargetLevels.put( filters[t],
+						CubeQueryDefinitionUtil.getDrilledTargetLevels( filters[t] ) );
+			}
+		}
 		for ( int k = 0; k < aggregationRsFromCube.length( ); k++ )
 		{
 			aggregationRsFromCube.seek( k );
@@ -250,8 +263,9 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 				}
 				else
 				{
-					List comparableLevels = CubeQueryDefinitionUtil.getDrilledTargetLevels( targetDrill );
-					if ( comparableLevels.contains( this.dimLevel[i] ) )
+					List comparableLevels = this.drillFilterTargetLevels.get( targetDrill );
+					if ( comparableLevels != null
+							&& comparableLevels.contains( this.dimLevel[i] ) )
 					{
 						drillMember[i] = aggregationRow.getLevelMembers( )[i];
 					}
@@ -333,7 +347,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 	private boolean isDrilledElement( IAggregationResultRow row,
 			IEdgeDrillFilter drill )
 	{
-		List comparableLevels = CubeQueryDefinitionUtil.getDrilledTargetLevels( drill );
+		List comparableLevels = drillFilterTargetLevels.get( drill );
 
 		boolean matched = true;
 		Object[] tuple = drill.getTuple( ).toArray( );
