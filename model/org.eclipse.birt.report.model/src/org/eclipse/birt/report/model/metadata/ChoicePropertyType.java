@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -134,8 +135,8 @@ public class ChoicePropertyType extends PropertyType
 					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED,
 					getTypeCode( ) );
 		}
-
-		logger.log( Level.WARNING, "Not found choice: " + tmpValue ); //$NON-NLS-1$
+		if ( !isDataTypeAny( propChoices, tmpValue ) )
+			logger.log( Level.WARNING, "Not found choice: " + tmpValue ); //$NON-NLS-1$
 
 		throw new PropertyValueException( tmpValue,
 				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
@@ -282,11 +283,22 @@ public class ChoicePropertyType extends PropertyType
 					getTypeCode( ) );
 		}
 
-		logger.log( Level.WARNING, "Invalid choice:" + name ); //$NON-NLS-1$
+		if ( !isDataTypeAny( propChoices, name ) )
+			logger.log( Level.WARNING, "Invalid choice:" + name ); //$NON-NLS-1$
 
 		throw new PropertyValueException( name,
 				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
 				getTypeCode( ) );
 
+	}
+	
+	public static boolean isDataTypeAny( IChoiceSet choiceSet, Object value )
+	{
+		if ( choiceSet != null
+				&& DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE.equals( choiceSet
+						.getName( ) )
+				&& DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( value ) )
+			return true;
+		return false;
 	}
 }

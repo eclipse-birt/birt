@@ -97,19 +97,21 @@ import com.ibm.icu.util.ULocale;
 public class OdaDataSetParseTest extends BaseTestCase
 {
 
-	String fileName = "OdaDataSetParseTest.xml"; //$NON-NLS-1$
-	String goldenFileName = "OdaDataSetParseTest_golden.xml"; //$NON-NLS-1$
+	static final String fileName = "OdaDataSetParseTest.xml"; //$NON-NLS-1$
+	static final String goldenFileName = "OdaDataSetParseTest_golden.xml"; //$NON-NLS-1$
 
-	String queryTextInputFileName = "OdaDataSetParseTest_1.xml";//$NON-NLS-1$
-	String queryTextGoldenFileName = "OdaDataSetQueryTextParseTest_golden.xml";//$NON-NLS-1$
+	static final String queryTextInputFileName = "OdaDataSetParseTest_1.xml";//$NON-NLS-1$
+	static final String queryTextGoldenFileName = "OdaDataSetQueryTextParseTest_golden.xml";//$NON-NLS-1$
 
-	String obsoleteFileName = "OdaDataSetParseTest_obsolete.xml"; //$NON-NLS-1$
-	String obsoleteGoldenFileName = "OdaDataSetParseTest_obsolete_golden.xml";//$NON-NLS-1$
+	static final String obsoleteFileName = "OdaDataSetParseTest_obsolete.xml"; //$NON-NLS-1$
+	static final String obsoleteGoldenFileName = "OdaDataSetParseTest_obsolete_golden.xml";//$NON-NLS-1$
 
-	String queryTextInputFileName2 = "OdaDataSetParseTest_3.xml";//$NON-NLS-1$
-	String queryTextGoldenFileName2 = "OdaDataSetParseTest_golden_3.xml";//$NON-NLS-1$
+	static final String queryTextInputFileName2 = "OdaDataSetParseTest_3.xml";//$NON-NLS-1$
+	static final String queryTextGoldenFileName2 = "OdaDataSetParseTest_golden_3.xml";//$NON-NLS-1$
 
-	String extendedPropertyInput = "OdaDataSetParseTest_4.xml";//$NON-NLS-1$
+	static final String extendedPropertyInput = "OdaDataSetParseTest_4.xml";//$NON-NLS-1$
+	
+	static final String anyDataTypeInput = "OdaDataSetParseTest_5.xml";//$NON-NLS-1$
 
 	/*
 	 * @see BaseTestCase#setUp()
@@ -1130,5 +1132,12 @@ public class OdaDataSetParseTest extends BaseTestCase
 		Iterator<ExtendedPropertyHandle> iter1 = tmpSet
 				.privateDriverPropertiesIterator( );
 		assertNotNull( iter1.next( ) );
+	}
+	
+	public void testAnyDataType( ) throws Exception
+	{
+		openDesign( anyDataTypeInput );
+		assertTrue( designHandle.getWarningList( ).isEmpty( ) );
+		assertTrue( designHandle.getErrorList( ).isEmpty( ) ) ;
 	}
 }

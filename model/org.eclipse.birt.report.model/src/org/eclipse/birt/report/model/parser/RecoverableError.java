@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.metadata.ChoicePropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
 /**
@@ -34,8 +35,8 @@ class RecoverableError
 	 *            the exception thrown by the parser
 	 */
 
-	protected static void dealInvalidPropertyValue(
-			ModuleParserHandler handler, PropertyValueException valueException )
+	protected static void dealInvalidPropertyValue( ModuleParserHandler handler,
+			PropertyValueException valueException )
 	{
 		Object retValue = valueException.getInvalidValue( );
 
@@ -43,6 +44,13 @@ class RecoverableError
 		String propName = valueException.getPropertyName( );
 
 		element.setProperty( propName, retValue );
+
+		if ( valueException.getErrorCode( ).equals(
+				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND )
+				&& ChoicePropertyType.isDataTypeAny(
+						element.getPropertyDefn( propName ).getChoices( ), retValue ) )
+			return;
+
 		handler.getErrorHandler( ).semanticWarning( valueException );
 	}
 
@@ -68,6 +76,13 @@ class RecoverableError
 
 		Object retValue = valueException.getInvalidValue( );
 		structre.setProperty( memberDefn, retValue );
+
+		if ( valueException.getErrorCode( ).equals(
+				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND )
+				&& ChoicePropertyType.isDataTypeAny( memberDefn.getChoices( ),
+						retValue ) )
+			return;
+
 		handler.getErrorHandler( ).semanticWarning( valueException );
 	}
 
@@ -95,8 +110,8 @@ class RecoverableError
 	 *            the exception thrown by the parser
 	 */
 
-	protected static void dealMissingInvalidExtension(
-			ModuleParserHandler handler, SemanticError exception )
+	protected static void dealMissingInvalidExtension( ModuleParserHandler handler,
+			SemanticError exception )
 	{
 		handler.getErrorHandler( ).semanticWarning( exception );
 	}
