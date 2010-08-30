@@ -23,7 +23,6 @@ import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -57,7 +56,7 @@ public class SetConstraintCommand extends Command
 		super( Command_Label_Resize );
 	}
 
-	private static final String Command_Label_Resize = "Resize Command"; //$NON-NLS-1$
+	private static final String Command_Label_Resize = Messages.getString( "SetConstraintCommand.commandLabel.ResizeCommand" ); //$NON-NLS-1$
 
 	private Dimension newSize;
 
