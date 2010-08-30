@@ -427,7 +427,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		{
 			if ( !query.getBindings( ).containsKey( bindingName ) )
 			{
-				IBinding colBinding = new Binding( bindingName );
+				IBinding colBinding = new Binding( ChartUtil.escapeSpecialCharacters( bindingName ) );
 				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 				colBinding.setExportable( false );
 				colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,

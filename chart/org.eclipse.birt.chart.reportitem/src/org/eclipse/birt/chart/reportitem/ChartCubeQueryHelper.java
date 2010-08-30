@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionSet;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -221,6 +222,7 @@ public class ChartCubeQueryHelper
 	 * @throws BirtException
 	 * @since 2.5.2
 	 */
+	@SuppressWarnings("unchecked")
 	public IBaseCubeQueryDefinition createCubeQuery(
 			IDataQueryDefinition parent, String[] expressions )
 			throws BirtException
@@ -514,6 +516,7 @@ public class ChartCubeQueryHelper
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initBindings( ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
@@ -788,8 +791,7 @@ public class ChartCubeQueryHelper
 			else
 			{
 				// Complex expression case
-				// bindingName = ChartUtil.escapeSpecialCharacters( expr );
-				bindingName = exprCodec.getExpression( );
+				bindingName = ChartUtil.escapeSpecialCharacters( exprCodec.getExpression( ) );
 
 				// Create new binding
 				colBinding = new Binding( bindingName );
@@ -919,34 +921,39 @@ public class ChartCubeQueryHelper
 			String filterQuery = exprCodec.encode( );
 			if ( exprCodec.isCubeBinding( filterQuery, true ) )
 			{
-				String filterBindingName = exprCodec.getCubeBindingName( filterQuery,
-						true );
-				if ( filterBindingName != null
-						&& !registeredLevels.containsKey( filterBindingName )
-						&& !registeredMeasures.containsKey( filterBindingName ) )
+				List<String> bindingNames = exprCodec.getCubeBindingNameList( );
+				// Replace inexistent data query with expression one by one
+				for ( String filterBindingName : bindingNames )
 				{
-					String operator = filterCon.getOperator( );
-					if ( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N.equals( operator )
-							|| DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT.equals( operator )
-							|| DesignChoiceConstants.FILTER_OPERATOR_TOP_N.equals( operator )
-							|| DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT.equals( operator ) )
+					if ( filterBindingName != null
+							&& !registeredLevels.containsKey( filterBindingName )
+							&& !registeredMeasures.containsKey( filterBindingName ) )
 					{
-						// Top and Bottom are not supported in fact table of
-						// data engine
-						break;
-					}
-					
-					// If filter expression is not used as dimension or measure,
-					// should set dimension/measure expression as filter
-					// directly
-					String newExpr = registeredQueries.get( filterBindingName );
-					if ( newExpr != null )
-					{
-						// Replace all data expressions with dimension/measure
-						// expressions in complex expression
-						exprCodec.setBindingName( filterBindingName, true );
-						filterQuery = filterQuery.replace( exprCodec.encode( ),
-								newExpr );
+						String operator = filterCon.getOperator( );
+						if ( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N.equals( operator )
+								|| DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT.equals( operator )
+								|| DesignChoiceConstants.FILTER_OPERATOR_TOP_N.equals( operator )
+								|| DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT.equals( operator ) )
+						{
+							// Top and Bottom are not supported in fact table of
+							// data engine
+							break;
+						}
+
+						// If filter expression is not used as dimension or
+						// measure,
+						// should set dimension/measure expression as filter
+						// directly
+						String newExpr = registeredQueries.get( filterBindingName );
+						if ( newExpr != null )
+						{
+							// Replace all data expressions with
+							// dimension/measure
+							// expressions in complex expression
+							exprCodec.setBindingName( filterBindingName, true );
+							filterQuery = filterQuery.replace( exprCodec.encode( ),
+									newExpr );
+						}
 					}
 				}
 			}
@@ -986,18 +993,22 @@ public class ChartCubeQueryHelper
 				levelDefinition = registeredLevelHandles.get( filterCon.getMember( )
 						.getLevel( ) );
 			}
-			else
+			 else
 			{
-				String levelName = exprCodec.getCubeBindingName( filterCondExpr.getExpression( )
-						.getText( ),
-						true );
-				if ( levelName != null
-						&& exprCodec.getCubeBindingNameList( ).size( ) > 1 )
-				{
-					// In multiple dimensions case, do not set target level.
-					levelName = null;
-				}
-				levelDefinition = registeredLevels.get( levelName );
+				// Do not need to set target level for dimension filter due to
+				// DTE support
+				 
+				// String levelName = exprCodec.getCubeBindingName(
+				// filterCondExpr.getExpression( )
+				// .getText( ),
+				// true );
+				// if ( levelName != null
+				// && exprCodec.getCubeBindingNameList( ).size( ) > 1 )
+				// {
+				// // In multiple dimensions case, do not set target level.
+				// levelName = null;
+				// }
+				// levelDefinition = registeredLevels.get( levelName );
 			}
 
 			ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,

@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
@@ -137,7 +138,7 @@ public class BIRTCubeResultSetEvaluator extends
 				else
 				{
 					// Directly use the binding created in query definition
-					bindingName = exprCodec.getExpression( );
+					bindingName = ChartUtil.escapeSpecialCharacters( exprCodec.getExpression( ) );
 				}
 				result = cubeCursor.getObject( bindingName );
 			}
@@ -261,6 +262,7 @@ public class BIRTCubeResultSetEvaluator extends
 	 * @throws OLAPException
 	 * @throws ChartException
 	 */
+	@SuppressWarnings("unchecked")
 	protected void initCursors( ) throws OLAPException, ChartException
 	{
 		List<EdgeCursor> edges = cubeCursor.getOrdinateEdge( );
