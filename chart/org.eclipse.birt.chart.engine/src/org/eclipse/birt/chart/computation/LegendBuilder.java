@@ -908,7 +908,6 @@ public final class LegendBuilder implements IConstants
 			WAIT_SD, WAIT_SERIES;
 		}
 
-		private final boolean bShowValue;
 		private final boolean bSeparator;
 		private List<SeriesDefinition> alSed = null;
 		private Iterator<SeriesDefinition> itSed = null;
@@ -925,7 +924,6 @@ public final class LegendBuilder implements IConstants
 			this.bSeparator = lg.getSeparator( ) == null
 					|| lg.getSeparator( ).isVisible( );
 			this.alSed = Arrays.asList( lgData.seda );
-			this.bShowValue = lg.isShowValue( );
 			this.itSed = new InvertibleIterator<SeriesDefinition>( alSed,
 					bNeedInvert );
 			this.status = Status.WAIT_SD;
@@ -978,8 +976,7 @@ public final class LegendBuilder implements IConstants
 			{
 				Series se = itSeries.next( );
 				String sItem = formatItemText( se.getSeriesIdentifier( ) );
-				String sValue = bShowValue ? getValueText( se )
-						: null;
+				String sValue = getValueText( se );
 				return LegendItemHints.newEntry( sItem,
 						sValue,
 						sed,
@@ -998,7 +995,6 @@ public final class LegendBuilder implements IConstants
 					return visitSed( );
 				}
 			}
-
 		}
 
 		/**
@@ -1013,34 +1009,31 @@ public final class LegendBuilder implements IConstants
 		{
 			String strValueText = null;
 
-			if ( lgData.cm.getLegend( ).isShowValue( ) )
+			DataSetIterator dsiBase = createDataSetIterator( se, lgData.cm );
+
+			// Use first value for each series.
+			if ( dsiBase.hasNext( ) )
 			{
-				DataSetIterator dsiBase = createDataSetIterator( se, lgData.cm );
+				Object obj = dsiBase.next( );
 
-				// Use first value for each series.
-				if ( dsiBase.hasNext( ) )
+				// Skip invalid data
+				while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
 				{
-					Object obj = dsiBase.next( );
-
-					// Skip invalid data
-					while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
-					{
-						obj = dsiBase.next( );
-					}
-
-					try
-					{
-						strValueText = ValueFormatter.format( obj,
-								null,
-								lgData.rtc.getULocale( ),
-								null );
-					}
-					catch ( ChartException ex )
-					{
-						strValueText = String.valueOf( obj );
-					}
-
+					obj = dsiBase.next( );
 				}
+
+				try
+				{
+					strValueText = ValueFormatter.format( obj,
+							null,
+							lgData.rtc.getULocale( ),
+							null );
+				}
+				catch ( ChartException ex )
+				{
+					strValueText = String.valueOf( obj );
+				}
+
 			}
 
 			return strValueText;
