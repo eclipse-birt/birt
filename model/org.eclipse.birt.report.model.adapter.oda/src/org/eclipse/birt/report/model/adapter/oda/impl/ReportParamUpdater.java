@@ -245,17 +245,12 @@ class ReportParamUpdater
 				setHandle );
 
 		// update value type
-		if ( valueQuery == null )
-			valueQuery = designFactory.createDynamicValuesQuery( );
-
-		boolean isEnabled = valueQuery.isEnabled( );
-		if ( isEnabled )
-			reportParam
-					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
-		else
-			reportParam
-					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
-
+		String valueType = DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC;
+		if ( valueQuery != null && valueQuery.isEnabled( ) )
+			valueType = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC;
+				
+		reportParam	.setValueType( valueType );
+		
 		InputElementUIHints inputElementUIHints = attrs.getUiHints( );
 		processInputElementUIHints( inputElementUIHints );
 	}

@@ -1677,12 +1677,19 @@ class DataSetParameterAdapter
 		{
 			ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
 			DataSetHandle dataSetHandle = scalarParamHandle.getDataSet( );
-			if ( !( dataSetHandle instanceof OdaDataSetHandle )
-					|| dataSetHandle == setHandle )
-				return;
+			String valueColumn = AdapterUtil.convertToODAColumn( scalarParamHandle
+					.getExpressionProperty(
+							IAbstractScalarParameterModel.VALUE_EXPR_PROP )
+					.getExpression( ) );
 
-			DynamicValuesQuery query = inputElementAttrs
-					.getDynamicValueChoices( );
+			if ( !( dataSetHandle instanceof OdaDataSetHandle )
+					|| dataSetHandle == setHandle || valueColumn == null )
+			{
+				inputElementAttrs.setDynamicValueChoices( null );
+				return;
+			}
+
+			DynamicValuesQuery query = inputElementAttrs.getDynamicValueChoices( );
 			if ( query == null )
 			{
 				query = designFactory.createDynamicValuesQuery( );
@@ -1697,20 +1704,13 @@ class DataSetParameterAdapter
 			else
 			{
 				DataSetAdapter.getInstance( ).updateDataSetDesign(
-						(OdaDataSetHandle) dataSetHandle,
-						query.getDataSetDesign( ) );
+						(OdaDataSetHandle) dataSetHandle, query.getDataSetDesign( ) );
 			}
-			String valueColumn = AdapterUtil
-					.convertToODAColumn( scalarParamHandle
-							.getExpressionProperty(
-									IAbstractScalarParameterModel.VALUE_EXPR_PROP )
-							.getExpression( ) );
 			boolean enabled = !StringUtil.isBlank( valueColumn );
 			query.setValueColumn( valueColumn );
 			query.setDisplayNameColumn( AdapterUtil
-					.convertToODAColumn( scalarParamHandle
-							.getExpressionProperty(
-									IAbstractScalarParameterModel.LABEL_EXPR_PROP )
+					.convertToODAColumn( scalarParamHandle.getExpressionProperty(
+							IAbstractScalarParameterModel.LABEL_EXPR_PROP )
 							.getExpression( ) ) );
 			query.setEnabled( enabled
 					&& DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
