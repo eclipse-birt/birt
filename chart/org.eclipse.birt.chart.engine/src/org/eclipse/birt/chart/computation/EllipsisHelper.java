@@ -60,7 +60,7 @@ public class EllipsisHelper
 
 	public static String ellipsisString( String str, int iVisChar )
 	{
-		if ( iVisChar > 0 )
+		if ( iVisChar > 0 && iVisChar < str.length( ) )
 		{
 			return str.substring( 0, iVisChar ) + ELLIPSIS_STRING;
 		}
