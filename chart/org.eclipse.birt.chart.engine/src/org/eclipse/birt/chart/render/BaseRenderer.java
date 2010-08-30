@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +108,7 @@ import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.MultipleActionsImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -1241,8 +1241,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 			}
 		}
-
+		
 		// 2. redering items
+		handelLegendBehavior( lg );
 		renderAllLegendItems( ipr, lg, lilh, htRenderers, bo, dBaseX, dBaseY );
 
 		// Render legend title if defined.
@@ -1391,6 +1392,86 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 
 		return rt;
+	}
+	
+	private boolean checkActionType(Action action, ActionType actionType )
+	{
+		if (action instanceof MultipleActions)
+		{
+			for (Action ac : ((MultipleActions)action).getActions( ))
+			{
+				if (ac.getType( )==actionType)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		return (action!=null &&action.getType( )==actionType);
+	}
+	
+	private void handelLegendBehavior( Legend lg )
+	{
+		if ( isInteractivityEnabled( ) )
+		{
+			ActionType actionType = null;
+			switch ( cm.getInteractivity( ).getLegendBehavior( ).getValue( ) )
+			{
+				case LegendBehaviorType.HIGHLIGHT_SERIE :
+					actionType = ActionType.HIGHLIGHT_LITERAL;
+					break;
+				case LegendBehaviorType.TOGGLE_SERIE_VISIBILITY :
+					actionType = ActionType.TOGGLE_VISIBILITY_LITERAL;
+					break;
+			}
+
+			if ( actionType == null )
+			{
+				return;
+			}
+
+			Trigger tgOnClick = null;
+			boolean customed = false;
+
+			for ( Trigger trigger : lg.getTriggers( ) )
+			{
+				if ( trigger.getCondition( ) == TriggerCondition.ONCLICK_LITERAL )
+				{
+					tgOnClick = trigger;
+					customed = checkActionType( trigger.getAction( ),
+							actionType );
+					break;
+				}
+			}
+
+			if ( !customed )
+			{
+				Action action = goFactory.createAction( actionType,
+						goFactory.createSeriesValue( String.valueOf( se.getSeriesIdentifier( ) ) ) );
+				if ( tgOnClick == null )
+				{
+					tgOnClick = goFactory.createTrigger( TriggerCondition.ONCLICK_LITERAL,
+							action );
+				}
+				else
+				{
+					Action oldAction = tgOnClick.getAction( );
+					if ( oldAction instanceof MultipleActions )
+					{
+						( (MultipleActions) oldAction ).getActions( )
+								.add( action );
+					}
+					else
+					{
+						MultipleActions ma = MultipleActionsImpl.create( );
+						ma.getActions( ).add( action );
+						ma.getActions( ).add( oldAction );
+						tgOnClick.setAction( ma );
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -1596,54 +1677,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					+ dExtraHeight
 					- 1 );
 
-			Trigger buildinTg = null;
-
-			if ( cm.getInteractivity( ) != null )
-			{
-				boolean customed = false;
-
-				switch ( cm.getInteractivity( ).getLegendBehavior( ).getValue( ) )
-				{
-					case LegendBehaviorType.HIGHLIGHT_SERIE :
-						for ( Iterator<Trigger> itr = elTriggers.iterator( ); itr.hasNext( ); )
-						{
-							tg = itr.next( );
-							if ( tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL
-									|| tg.getAction( ).getType( ) == ActionType.HIGHLIGHT_LITERAL )
-							{
-								customed = true;
-							}
-						}
-						if ( !customed )
-						{
-							buildinTg = goFactory.createTrigger( TriggerCondition.ONCLICK_LITERAL,
-									goFactory.createAction( ActionType.HIGHLIGHT_LITERAL,
-											goFactory.createSeriesValue( String.valueOf( se.getSeriesIdentifier( ) ) ) ) );
-						}
-						break;
-					case LegendBehaviorType.TOGGLE_SERIE_VISIBILITY :
-						for ( Iterator<Trigger> itr = elTriggers.iterator( ); itr.hasNext( ); )
-						{
-							tg = itr.next( );
-							if ( tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL
-									|| tg.getAction( ).getType( ) == ActionType.TOGGLE_VISIBILITY_LITERAL )
-							{
-								customed = true;
-							}
-						}
-						if ( !customed )
-						{
-							buildinTg = goFactory.createTrigger( TriggerCondition.ONCLICK_LITERAL,
-									goFactory.createAction( ActionType.TOGGLE_VISIBILITY_LITERAL,
-											goFactory.createSeriesValue( String.valueOf( se.getSeriesIdentifier( ) ) ) ) );
-						}
-						break;
-					case LegendBehaviorType.NONE :
-						break;
-				}
-			}
-
-			if ( !elTriggers.isEmpty( ) || buildinTg != null )
+			if ( !elTriggers.isEmpty( ) )
 			{			
 				StructureSource source;
 				if ( this.cm.getLegend( ).getItemType( ) == LegendItemType.CATEGORIES_LITERAL )
@@ -1685,13 +1719,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					processTrigger( tg,
 							WrappedStructureSource.createLegendEntry( lg, lih ) );
 					iev.addTrigger( tg );
-				}
-
-				if ( buildinTg != null )
-				{
-					processTrigger( buildinTg,
-							WrappedStructureSource.createLegendEntry( lg, lih ) );
-					iev.addTrigger( buildinTg );
 				}
 
 				final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( source,
