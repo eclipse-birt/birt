@@ -1272,6 +1272,7 @@ public class ChartCubeUtil extends ChartItemUtil
 	 * @param cwa
 	 * @param chartHandle
 	 * @param bNewTotalJustAdded
+	 *            the flag indicates if grand total is just added
 	 * @throws BirtException
 	 * 
 	 */
@@ -1305,10 +1306,6 @@ public class ChartCubeUtil extends ChartItemUtil
 			cell.getCrosstab( ).addGrandTotal( axisType );
 			deleteGrandTotalItems( cell.getCrosstab( ), bTransposed );
 		}
-		// Create axis chart handle which references to host chart
-		ExtendedItemHandle axisChartHandle = createChartHandle( cell.getModelHandle( ),
-				ChartReportItemConstants.TYPE_AXIS_CHART,
-				hostChartHandle );
 
 		AggregationCellHandle grandTotalAggCell;
 		if ( bTransposed )
@@ -1335,8 +1332,20 @@ public class ChartCubeUtil extends ChartItemUtil
 				( (DesignElementHandle) content ).dropAndClear( );
 			}
 		}
+		
+		// If axis chart exists in grand total cell, should not add another axis
+		// chart again
+		if ( findAxisChartInCell( grandTotalAggCell ) != null )
+		{
+			return bNewTotalJustAdded;
+		}
+		
 		if ( grandTotalAggCell != null )
 		{
+			// Create axis chart handle which references to host chart
+			ExtendedItemHandle axisChartHandle = createChartHandle( cell.getModelHandle( ),
+					ChartReportItemConstants.TYPE_AXIS_CHART,
+					hostChartHandle );
 			grandTotalAggCell.addContent( axisChartHandle, 0 );
 		}
 		return bNewGrandTotol;
