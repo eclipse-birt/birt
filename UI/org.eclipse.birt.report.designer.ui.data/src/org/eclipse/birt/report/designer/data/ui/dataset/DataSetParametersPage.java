@@ -1742,7 +1742,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		return value;
 	}
 	
-	private String getLinkedReportParameterLabel( OdaDataSetParameter parameter )
+	protected String getLinkedReportParameterLabel( OdaDataSetParameter parameter )
 	{
 		String value = parameter.getParamName( );
 		if ( value != null )
@@ -1762,7 +1762,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		return value;
 	}
 	
-	private String getWarning( OdaDataSetParameter parameter )
+	protected String getWarning( OdaDataSetParameter parameter )
 	{
 		String value = "";
 		if ( parameter.getParamName( ) != null )
