@@ -798,15 +798,15 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			// Prepare data processor for hyperlinks/tooltips
 			IActionEvaluator evaluator = new BIRTActionEvaluator( );
 			
-			// Update chart model if needed
-			updateChartModel( );
-
 			ChartReportStyleProcessor styleProcessor = new ChartReportStyleProcessor( modelHandle,
 					true,
 					this.style,
 					this.dpi );
 
 			styleProcessor.applyDefaultHyperlink( this.cm );
+
+			// Update chart model if needed
+			updateChartModel( );
 
 			// Bind Data to series
 			if ( !bindData( rowAdapter, evaluator ) && isAutoHide( ) )
