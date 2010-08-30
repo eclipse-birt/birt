@@ -256,6 +256,15 @@ public class DataEngineContext
 	{
 		return mode;
 	}
+	
+	/**
+	 * 
+	 * @param mode
+	 */
+	public void setMode( int mode )
+	{
+		this.mode = mode;
+	}
 
 	/**
 	 * @return current top scope
