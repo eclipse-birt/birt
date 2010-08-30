@@ -178,7 +178,7 @@
                displayNameID="Element.EmptyCellValue"
                isEncryptable="false"
                name="emptyCellValue"
-               type="string">
+               type="literalString">
          </property>
          <property
                defaultValue="false"
