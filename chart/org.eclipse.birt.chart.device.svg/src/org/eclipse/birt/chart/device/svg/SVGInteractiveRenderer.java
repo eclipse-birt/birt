@@ -521,7 +521,7 @@ public class SVGInteractiveRenderer
 			Element group = svg_g2d.createElement( "g" ); //$NON-NLS-1$
 			group.appendChild( elm );
 			// Create empty href
-			aLink.setAttribute( "xlink:href", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			aLink.setAttribute( "xlink:href", "javascript:void(0);" ); //$NON-NLS-1$ //$NON-NLS-2$
 			aLink.appendChild( group );
 			elm = group;
 			hotspotLayer.appendChild( aLink );
