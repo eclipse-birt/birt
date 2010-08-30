@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.CascadingParameterSelectionChoice;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.AbstractScalarParameter;
 
 import com.ibm.icu.util.TimeZone;
@@ -68,10 +69,8 @@ public class ParameterHelper
 		this.alreadySorted = param.getSortByColumn( ) != null;
 		this.distinct = param.distinct( );
 		
-		boolean sortDirectionValue = "asc".equalsIgnoreCase( param
-				.getSortDirection( ) );
-		boolean sortByLabel = "label".equalsIgnoreCase( param
-				.getSortBy( ) );
+		String sortDirection = param.getSortDirection( );
+		boolean sortByLabel = "label".equalsIgnoreCase( param.getSortBy( ) );
 		String pattern = null;
 		
 		if ( param instanceof ScalarParameterHandle )
@@ -90,10 +89,13 @@ public class ParameterHelper
 		}
 
 		if ( !( parameterType == SCALAR_PARAMETER && fixedOrder )
-				&& !alreadySorted )
+				&& !alreadySorted && sortDirection != null )
 		{
-			Comparator choiceComparator = new SelectionChoiceComparator(
-					sortByLabel, pattern, sortDirectionValue, ulocale );
+			boolean sortDirectionValue = DesignChoiceConstants.SORT_DIRECTION_ASC.equalsIgnoreCase( sortDirection );
+			Comparator choiceComparator = new SelectionChoiceComparator( sortByLabel,
+					pattern,
+					sortDirectionValue,
+					ulocale );
 			this.comparator = new DistinctComparatorDecorator( choiceComparator,
 					distinct );
 		}
@@ -127,7 +129,7 @@ public class ParameterHelper
 	public Collection createSelectionCollection( )
 	{
 		if ( ( parameterType == SCALAR_PARAMETER && fixedOrder )
-				|| alreadySorted )
+				|| alreadySorted || comparator == null )
 		{
 			if ( !distinct )
 			{
@@ -203,20 +205,19 @@ public class ParameterHelper
 		String sortBy = parameter.getSortByColumn( );
 		if ( sortBy != null )
 		{
-			org.eclipse.birt.report.model.api.Expression mexpr = (org.eclipse.birt.report.model.api.Expression) parameter
-					.getExpressionProperty(
-							AbstractScalarParameter.SORT_BY_COLUMN_PROP )
-					.getValue( );
-			ScriptExpression dexpr = adapter.adaptExpression( mexpr );
-			SortDefinition sort = new SortDefinition( );
-			sort.setExpression( dexpr );
-			boolean direction = "asc".equalsIgnoreCase( parameter
-					.getSortDirection( ) );
-			sort.setSortDirection( direction
-					? ISortDefinition.SORT_ASC
-					: ISortDefinition.SORT_DESC );
-
-			queryDefn.addSort( sort );
+			String sortDirection = parameter.getSortDirection( );
+			if ( sortDirection != null )
+			{
+				org.eclipse.birt.report.model.api.Expression mexpr = (org.eclipse.birt.report.model.api.Expression) parameter.getExpressionProperty( AbstractScalarParameter.SORT_BY_COLUMN_PROP )
+						.getValue( );
+				ScriptExpression dexpr = adapter.adaptExpression( mexpr );
+				SortDefinition sort = new SortDefinition( );
+				sort.setExpression( dexpr );
+				boolean direction = DesignChoiceConstants.SORT_DIRECTION_ASC.equalsIgnoreCase( sortDirection );
+				sort.setSortDirection( direction ? ISortDefinition.SORT_ASC
+						: ISortDefinition.SORT_DESC );
+				queryDefn.addSort( sort );
+			}
 		}
 	}
 

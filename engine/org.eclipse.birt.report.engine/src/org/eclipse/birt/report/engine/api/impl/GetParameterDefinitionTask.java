@@ -326,8 +326,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		String dataType = parameter.getDataType( );
 		boolean fixedOrder = parameter.isFixedOrder( );
 		boolean sortByLabel = "label".equalsIgnoreCase( parameter.getSortBy( ) );
-		boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter
-				.getSortDirection( ) );
+		String sortDirection = parameter.getSortDirection( );
 
 		String selectionMethod = parameter.getSelectionValueListMethod( );
 		if ( selectionMethod != null )
@@ -373,10 +372,15 @@ public class GetParameterDefinitionTask extends EngineTask
 					choices.add( new SelectionChoice( label, value ) );
 					return choices;
 				}
-				if ( !fixedOrder )
-					Collections.sort( choices, new SelectionChoiceComparator(
-							sortByLabel, pattern,
-							sortDirectionValue, ulocale ) );
+				if ( !fixedOrder && sortDirection != null )
+				{
+					boolean sortDirectionValue = DesignChoiceConstants.SORT_DIRECTION_ASC.equals( sortDirection );
+					Collections.sort( choices,
+							new SelectionChoiceComparator( sortByLabel,
+									pattern,
+									sortDirectionValue,
+									ulocale ) );
+				}
 				return choices;
 			}
 			catch ( BirtException e )
@@ -487,10 +491,12 @@ public class GetParameterDefinitionTask extends EngineTask
 			Iterator iter = parameter.choiceIterator( );
 			ArrayList choices = new ArrayList( );
 			String pattern = null;
+			boolean isFixedOrder = false;
 			if ( parameter instanceof ScalarParameterHandle )
 			{
 				ScalarParameterHandle tmpParam = (ScalarParameterHandle) parameter;
 				pattern = tmpParam.getPattern( );
+				isFixedOrder = tmpParam.isFixedOrder( );
 			}
 			ReportParameterConverter converter = new ReportParameterConverter( pattern,
 					ulocale,
@@ -518,11 +524,17 @@ public class GetParameterDefinitionTask extends EngineTask
 			String sortBy = parameter.getSortBy( );
 			boolean sortByLabel = DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
 					.equalsIgnoreCase( parameter.getSortBy( ) );
-			boolean sortDirectionValue = DesignChoiceConstants.SORT_DIRECTION_ASC
-					.equalsIgnoreCase( parameter.getSortDirection( ) );
-			if ( sortBy != null )
-				Collections.sort( choices, new SelectionChoiceComparator(
-						sortByLabel, pattern, sortDirectionValue, ulocale ) );
+			String sortDirection = parameter.getSortDirection( );
+			
+			if ( !isFixedOrder && sortBy != null && sortDirection != null )
+			{
+				boolean sortDirectionValue = DesignChoiceConstants.SORT_DIRECTION_ASC.equalsIgnoreCase( sortDirection );
+				Collections.sort( choices,
+						new SelectionChoiceComparator( sortByLabel,
+								pattern,
+								sortDirectionValue,
+								ulocale ) );
+			}
 			return choices;
 		}
 		return Collections.EMPTY_LIST;
