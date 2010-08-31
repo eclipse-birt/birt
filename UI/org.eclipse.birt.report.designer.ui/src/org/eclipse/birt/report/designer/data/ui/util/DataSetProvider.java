@@ -248,6 +248,7 @@ public final class DataSetProvider
 				items[i].setDisplayLength( hint.getDisplayLength( ) );
 				items[i].setHeading( hint.getHeading( ) );
 				items[i].setHelpText( hint.getHelpText( ) );
+				items[i].setFormatValue( hint.getValueFormat( ) );
 				items[i].setHorizontalAlign( hint.getHorizontalAlign( ) );
 				items[i].setTextFormat( hint.getTextFormat( ) );
 				items[i].setDescription( hint.getDescription( ) );
@@ -373,6 +374,7 @@ public final class DataSetProvider
 				items[i].setHeading( hint.getHeading( ) );
 				items[i].setHelpText( hint.getHelpText( ) );
 				items[i].setHorizontalAlign( hint.getHorizontalAlign( ) );
+				items[i].setFormatValue( hint.getValueFormat( ) );
 				items[i].setTextFormat( hint.getTextFormat( ) );
 				items[i].setDescription( hint.getDescription( ) );
 				items[i].setWordWrap( hint.wordWrap( ) );
