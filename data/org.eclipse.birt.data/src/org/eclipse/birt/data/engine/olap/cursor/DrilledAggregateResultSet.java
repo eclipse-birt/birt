@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
@@ -35,6 +36,7 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
+import org.eclipse.birt.data.engine.olap.query.view.DrillOnDimensionHierarchy;
 
 /**
  * 
@@ -46,7 +48,6 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 
 	private IDiskArray bufferedStructureArray;
 	private DimLevel[] dimLevel;
-	private DrilledAggregationCalculator calculator;
 	private IAggregationResultRow resultObject;
 	private IAggregationResultSet aggregationRsFromCube;
 	private int currentPosition;
@@ -54,30 +55,35 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 
 	public DrilledAggregateResultSet(
 			IAggregationResultSet aggregationRsFromCube,
-			List<IEdgeDrillFilter[]> drillFilters ) throws IOException, DataException
+			IAggregationResultSet[] aggregationRsFromDrill,
+			List<DrillOnDimensionHierarchy> drillFilters )
+			throws IOException, DataException
 	{
 		bufferedStructureArray = new BufferedStructureArray( AggregationResultRow.getCreator( ),
 				2000 );
 
 		this.dimLevel = aggregationRsFromCube.getAllLevels( );
 		this.aggregationRsFromCube = aggregationRsFromCube;
-		
-		if ( aggregationRsFromCube.getAggregationCount( ) > 0 )
-		{
-			AggregationDefinition aggr = aggregationRsFromCube.getAggregationDefinition( );
-			calculator =  new DrilledAggregationCalculator( aggr );
-		}
 
 		drillFilterTargetLevels = new HashMap<IEdgeDrillFilter, List<DimLevel>>( );
 		for ( int i = 0; i < drillFilters.size( ); i++ )
 		{
-			IEdgeDrillFilter[] filters = drillFilters.get( i );
+			IEdgeDrillFilter[] filters = drillFilters.get( i ).getDrillByDimension( );
 			for ( int t = 0; t < filters.length; t++ )
 			{
 				drillFilterTargetLevels.put( filters[t],
 						CubeQueryDefinitionUtil.getDrilledTargetLevels( filters[t] ) );
 			}
 		}
+		// initial the drilled aggregation result
+		if ( aggregationRsFromDrill != null )
+		{
+			for ( int i = 0; i < aggregationRsFromDrill.length; i++ )
+			{
+				aggregationRsFromDrill[i].seek( 0 );
+			}
+		}
+
 		for ( int k = 0; k < aggregationRsFromCube.length( ); k++ )
 		{
 			aggregationRsFromCube.seek( k );
@@ -102,12 +108,12 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 						drills );
 			}
 			
-			if ( this.calculator == null )
+			if ( aggregationRsFromCube.getAggregationCount( ) == 0 )
 			{
 				removeDuplictedRow( tempBufferArray );
 			}
 			else
-				recalculateAggregation( tempBufferArray );
+				recalculateAggregation( tempBufferArray, aggregationRsFromDrill );
 			
 			sortAggregationRow( tempBufferArray );
 
@@ -178,22 +184,25 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 	}
 
 	private void recalculateAggregation(
-			List<IAggregationResultRow> aggregationRows ) throws DataException,
+			List<IAggregationResultRow> aggregationRows, IAggregationResultSet[] aggregationRsFromDrill ) throws DataException,
 			IOException
 	{
 		Set<Integer> duplicatedIndex = new LinkedHashSet<Integer>( );
 		for ( int i = 0; i < aggregationRows.size( ); i++ )
 		{
-			this.calculator.start( );
 			List<Integer> positions = getRowsPositionInAggregationRows( i,
 					aggregationRows );
+			Object[] aggregationValues = null;
+			
 			for ( int k = 0; k < positions.size( ); k++ )
 			{
-				this.calculator.onRow( aggregationRows.get( positions.get( k ) ) );
-				if ( k != 0 )
+				if ( k == 0 )
+					aggregationValues = findAggregationValue( aggregationRows.get( positions.get( k ) ),
+							aggregationRsFromDrill );
+				else
 					duplicatedIndex.add( positions.get( k ) );
 			}
-			this.calculator.finish( aggregationRows.get( i ) );
+			aggregationRows.get( i ).setAggregationValues( aggregationValues );
 			
 			int baseIndex = 0;
 			Iterator<Integer> iter = duplicatedIndex.iterator( );
@@ -207,6 +216,164 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 		}
 	}
 
+	private Object[] findAggregationValue(
+			IAggregationResultRow iAggregationResultRow,
+			IAggregationResultSet[] aggregationRsFromDrill ) throws IOException
+	{
+		Map<DimLevel, Object> targetValueMap = new HashMap<DimLevel, Object>( );
+		List<DimLevel> levels = new ArrayList<DimLevel>( );
+		for ( int i = 0; i < this.dimLevel.length; i++ )
+		{
+			if ( iAggregationResultRow.getLevelMembers( )[i] != null
+					&& iAggregationResultRow.getLevelMembers( )[i].getKeyValues( ) != null )
+			{
+				targetValueMap.put( this.dimLevel[i],
+						iAggregationResultRow.getLevelMembers( )[i].getKeyValues( )[0] );
+				levels.add( this.dimLevel[i] );
+			}
+		}
+		IAggregationResultSet targetRs = null;
+		for ( int i = 0; i < aggregationRsFromDrill.length; i++ )
+		{
+			if ( aggregationRsFromDrill[i].getAllLevels( ).length != targetValueMap.keySet( ).size( ) )
+				continue;
+			DimLevel[] dimLevels = aggregationRsFromDrill[i].getAllLevels( );
+			for ( int j = 0; j < dimLevels.length; j++ )
+			{
+				if ( !targetValueMap.keySet( ).contains( dimLevels[j] ) )
+					break;
+				if ( j == dimLevels.length - 1 )
+				{
+					targetRs = aggregationRsFromDrill[i];
+					break;
+				}
+			}
+			if ( targetRs != null )
+				break;
+		}
+		if ( targetRs == null )
+			return iAggregationResultRow.getAggregationValues( );
+		if ( findValueMatcher( targetRs, targetValueMap, levels ) )
+		{
+			Object[] value = new Object[aggregationRsFromCube.getAggregationCount( )];
+			for ( int i = 0; i < value.length; i++ )
+			{
+				String name = aggregationRsFromCube.getAggregationDefinition( )
+						.getAggregationFunctions( )[i].getName( );
+				int index = targetRs.getAggregationIndex( name );
+				value[i] = targetRs.getAggregationValue( index );
+			}
+			return value;
+		}
+		else
+			return null;
+	}
+	
+	/**
+	 * The same lookup logic with AggregationAccessor
+	 * @param targetRs
+	 * @param targetLevelValue
+	 * @param levels
+	 * @return
+	 */
+	private boolean findValueMatcher( IAggregationResultSet targetRs,
+			Map<DimLevel, Object> targetLevelValue, List levels )
+	{
+		if ( targetLevelValue.isEmpty( ) )
+			return true;
+		int start = 0, state = 0;
+		boolean find = false;
+
+		int position = targetRs.getPosition( );
+		for ( ; start < levels.size( ); )
+		{
+			DimLevel level = (DimLevel) levels.get( start );
+
+			Object value1 = targetLevelValue.get( level );
+			Object value2 = null;
+			int index = targetRs.getLevelIndex( level );
+			Object[] keyValues = targetRs.getLevelKeyValue( index );
+			if ( keyValues != null )
+				value2 = keyValues[targetRs.getLevelKeyColCount( index ) - 1];
+			int sortType = targetRs.getSortType( index ) == IDimensionSortDefn.SORT_DESC
+					? -1 : 1;
+			int direction = sortType * compare( value1, value2 ) < 0 ? -1
+					: compare( value1, value2 ) == 0 ? 0 : 1;
+			if ( direction < 0
+					&& position > 0 && ( state == 0 || state == direction ) )
+			{
+				state = direction;
+				try
+				{
+					targetRs.seek( --position );
+				}
+				catch ( IOException e )
+				{
+					find = false;
+				}
+				start = 0;
+				continue;
+			}
+			else if ( direction > 0
+					&& position < targetRs.length( ) - 1
+					&& ( state == 0 || state == direction ) )
+			{
+				state = direction;
+				try
+				{
+					targetRs.seek( ++position );
+				}
+				catch ( IOException e )
+				{
+					find = false;
+				}
+				start = 0;
+				continue;
+			}
+			else if ( direction == 0 )
+			{
+				if ( start == levels.size( ) - 1 )
+				{
+					find = true;
+					break;
+				}
+				else
+				{
+					start++;
+					continue;
+				}
+			}
+			else if ( position < 0 || position >= targetRs.length( ) )
+			{
+				return false;
+			}
+			else
+				return false;
+		}
+		return find;
+	}
+
+	static int compare( Object value1, Object value2 )
+	{
+		if ( value1 == value2 )
+		{
+			return 0;
+		}
+		if ( value1 == null )
+		{
+			return -1;
+		}
+		if ( value2 == null )
+		{
+			return 1;
+		}
+		if ( value1 instanceof Comparable )
+		{
+			return ( (Comparable) value1 ).compareTo( value2 );
+		}
+		return value1.toString( ).compareTo( value2.toString( ) );
+	}
+	
 	private List<Integer> getRowsPositionInAggregationRows( int index,
 			List<IAggregationResultRow> aggregationRows )
 	{
@@ -310,16 +477,22 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 	}
 
 	private IEdgeDrillFilter getTargetDrillOperation(
-			IAggregationResultRow row, List<IEdgeDrillFilter[]> drillFilters )
+			IAggregationResultRow row,
+			List<DrillOnDimensionHierarchy> drillFilters )
 	{
 		for ( int i = 0; i < drillFilters.size( ); i++ )
 		{
-			IEdgeDrillFilter[] filters = drillFilters.get( i );
-			for ( int t = 0; t < filters.length; t++ )
+			DrillOnDimensionHierarchy filters = drillFilters.get( i );
+			Iterator<List<IEdgeDrillFilter>> iter = filters.getDrillFilterIterator( );
+			while ( iter.hasNext( ) )
 			{
-				if ( isDrilledElement( row, filters[t] ) )
+				List<IEdgeDrillFilter> drills = iter.next( );
+				for ( int j = 0; j < drills.size( ); j++ )
 				{
-					return filters[t];
+					if ( isDrilledElement( row, drills.get( j ) ) )
+					{
+						return drills.get( j );
+					}
 				}
 			}
 		}
@@ -327,19 +500,16 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 	}
 
 	private List<IEdgeDrillFilter[]> getRemainingDrillOperation(
-			IEdgeDrillFilter targetDrill, List<IEdgeDrillFilter[]> drillFilters )
+			IEdgeDrillFilter targetDrill,
+			List<DrillOnDimensionHierarchy> drillFilters )
 	{
 		List list = new ArrayList( );
 		for ( int i = 0; i < drillFilters.size( ); i++ )
 		{
-			IEdgeDrillFilter[] filters = drillFilters.get( i );
-			for ( int t = 0; t < filters.length; t++ )
-			{
-				if ( !targetDrill.equals( filters[t] ) )
-				{
-					list.add( filters );
-				}
-			}
+			DrillOnDimensionHierarchy filters = drillFilters.get( i );
+			if ( filters.contains( targetDrill ) )
+				continue;
+			list.add( filters.getDrillByDimension( ) );
 		}
 		return list;
 	}

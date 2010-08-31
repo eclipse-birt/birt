@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
@@ -41,6 +42,8 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.CachedAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregation;
+import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.SortedAggregationRowArray;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
@@ -80,8 +83,31 @@ public class QueryExecutor
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		AggregationDefinition[] aggrDefns = prepareCube( executor.getCubeQueryDefinition( ),
 				view.getAggregationRegisterTable( ).getCalculatedMembersFromQuery( ) );
+		
 		if ( aggrDefns == null || aggrDefns.length == 0 )
 			return null;
+		
+		DrilledAggregationDefinition[] drillAggrDefns = preparedDrillAggregation( executor.getCubeQueryDefinition( ),
+				aggrDefns );
+		int size = aggrDefns.length + drillAggrDefns.length;
+		AggregationDefinition[] finalAggregation = new AggregationDefinition[size];
+		if ( drillAggrDefns.length > 0 )
+		{
+			System.arraycopy( aggrDefns,
+					0,
+					finalAggregation,
+					0,
+					aggrDefns.length );
+			System.arraycopy( drillAggrDefns,
+					0,
+					finalAggregation,
+					aggrDefns.length,
+					drillAggrDefns.length );
+		}
+		else
+		{
+			finalAggregation = aggrDefns;
+		}
 		String cubeName = executor.getCubeQueryDefinition( ).getName( );
 		if ( cubeName == null || cubeName.trim( ).length( ) == 0 )
 		{
@@ -114,18 +140,19 @@ public class QueryExecutor
 		{
 			case DataEngineContext.MODE_GENERATION:
 			{
-				rs = populateRs( view, aggrDefns, cubeQueryExecutorHelper, 
-						stopSign, true );
-				rs = processOperationOnQuery( view, stopSign, rs );
+				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
+						stopSign,
+						true );
+				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 				
 				break;
 			}
 			case DataEngineContext.DIRECT_PRESENTATION:
 			{
-				rs = populateRs( view, aggrDefns, cubeQueryExecutorHelper, 
+				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign, false );
 				
-				rs = processOperationOnQuery( view, stopSign, rs );
+				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 
 				break;
 			}
@@ -138,15 +165,21 @@ public class QueryExecutor
 							.getQueryResultsID( ),
 							executor.getContext( ).getDocReader( ),
 							new VersionManager( executor.getContext( ) ).getVersion( ) );
-					initLoadedAggregationResultSets( rs, aggrDefns );
-					
-					rs = processOperationOnQuery( view, stopSign, rs );
+					initLoadedAggregationResultSets( rs, finalAggregation );
+
+					rs = processOperationOnQuery( view,
+							stopSign,
+							rs,
+							aggrDefns );
 					break;
 				}
 				else
 				{
-					rs = cubeQueryExecutorHelper.execute( aggrDefns, stopSign );
-					rs = processOperationOnQuery( view, stopSign, rs );
+					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
+					rs = processOperationOnQuery( view,
+							stopSign,
+							rs,
+							aggrDefns );
 					break;
 				}
 			}
@@ -170,7 +203,7 @@ public class QueryExecutor
 				)
 				{
 					//need to re-execute the query.
-					rs = cubeQueryExecutorHelper.execute( aggrDefns, stopSign );
+					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
 				}
 				else
 				{
@@ -180,7 +213,7 @@ public class QueryExecutor
 							new VersionManager( executor.getContext( ) ).getVersion( ) );
 					
 					//Restore{@code AggregationDefinition} info first which are lost during saving aggregation result sets
-					initLoadedAggregationResultSets( rs, aggrDefns );
+					initLoadedAggregationResultSets( rs, finalAggregation );
 					
 					incrementExecute( rs, ieh );
 				}
@@ -200,17 +233,169 @@ public class QueryExecutor
 							executor.getContext( ).getDocWriter( ) );
 					executor.setQueryResultsId( id );
 				}
-				
-				rs = processOperationOnQuery( view, stopSign, rs );
+
+				rs = processOperationOnQuery( view,
+						stopSign,
+						rs,
+						aggrDefns );
 			}
 		}
 		
 		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
 	}
 
+	private DrilledAggregationDefinition[] preparedDrillAggregation(
+			ICubeQueryDefinition cubeQueryDefinition,
+			AggregationDefinition[] aggrDefns )
+	{
+		IEdgeDefinition columnEdge = cubeQueryDefinition.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cubeQueryDefinition.getEdge( ICubeQueryDefinition.ROW_EDGE );
+		List<DrillOnDimensionHierarchy> columnDrill = CubeQueryDefinitionUtil.flatternDrillFilter( columnEdge );
+		List<DrillOnDimensionHierarchy> rowDrill = CubeQueryDefinitionUtil.flatternDrillFilter( rowEdge );
+		List<DrillOnDimensionHierarchy> combinedDrill = new ArrayList<DrillOnDimensionHierarchy>( );
+		combinedDrill.addAll( rowDrill );
+		combinedDrill.addAll( columnDrill );
+
+		if ( combinedDrill.isEmpty( ) )
+			return new DrilledAggregationDefinition[0];
+
+		List<DrilledAggregation> aggregation = new ArrayList<DrilledAggregation>();
+		for ( int i = 0; i < aggrDefns.length; i++ )
+		{
+			if ( aggrDefns[i].getAggregationFunctions( ) == null )
+				continue;
+			DimLevel[] levels = aggrDefns[i].getLevels( );
+			if ( levels == null )
+				continue;
+
+			List<List<DimLevel>> groupByDimension = new ArrayList<List<DimLevel>>( );
+			String dimensionName = null;
+			List<DimLevel> list = null;
+			for ( int j = 0; j < levels.length - 1; j++ )
+			{
+				if ( dimensionName != null
+						&& dimensionName.equals( levels[j].getDimensionName( ) ) )
+				{
+					if ( isDrilledLevel( levels[j], combinedDrill ) )
+						list.add( levels[j] );
+				}
+				else
+				{
+					list = new ArrayList<DimLevel>( );
+					if ( isDrilledLevel( levels[j], combinedDrill ) )
+						list.add( levels[j] );
+					dimensionName = levels[j].getDimensionName( );
+					groupByDimension.add( list );
+				}
+			}
+			if ( groupByDimension.isEmpty( ) )
+				continue;
+
+			List<DimLevel[]> tagetLevels = new ArrayList<DimLevel[]>( );
+			tagetLevels.add( levels );
+
+			buildAggregationDimLevel( tagetLevels, groupByDimension, 0 );
+
+			for ( int k = 1; k < tagetLevels.size( ); k++ )
+			{
+				boolean exist = false;
+				for ( int t = 0; t < aggregation.size( ); t++ )
+				{
+					if ( aggregation.get( t )
+							.matchTargetlevels( tagetLevels.get( k ) ) )
+					{
+						aggregation.get( t )
+								.addOriginalAggregation( aggrDefns[i] );
+						exist = true;
+						break;
+					}
+				}
+				if ( exist )
+					continue;
+				DrilledAggregation aggr = new DrilledAggregation( tagetLevels.get( k ), cubeQueryDefinition );
+				aggr.addOriginalAggregation( aggrDefns[i] );
+				aggregation.add( aggr );
+			}
+		}
+
+		DrilledAggregationDefinition[] a = new DrilledAggregationDefinition[aggregation.size( )];
+		for ( int i = 0; i < aggregation.size( ); i++ )
+		{
+			a[i] = new DrilledAggregationDefinition( aggregation.get( i ),
+					aggregation.get( i ).getSortType( ),
+					aggregation.get( i ).getAggregationFunctionDefinition( ) );
+		}
+		return a;
+	}
+
+	private void buildAggregationDimLevel( List<DimLevel[]> tagetLevels,
+			List<List<DimLevel>> groupByDimension, int dimIndex )
+	{
+		List<DimLevel> l = (List<DimLevel>) groupByDimension.get( dimIndex );
+		List<DimLevel[]> temp = new ArrayList<DimLevel[]>( );
+		for ( int t = 0; t < l.size( ); t++ )
+		{
+			DimLevel dimLevel = l.get( t );
+			for ( int i = 0; i < tagetLevels.size( ); i++ )
+				temp.add( getDrilledDimLevel( dimLevel, tagetLevels.get( i ) ) );
+		}
+		tagetLevels.addAll( temp );
+		dimIndex++;
+		if ( dimIndex < groupByDimension.size( ) )
+		{
+			buildAggregationDimLevel( tagetLevels, groupByDimension, dimIndex );
+		}
+	}
+
+	private DimLevel[] getDrilledDimLevel( DimLevel dimLevel, DimLevel[] levels )
+	{
+		boolean find = false;
+		List<DimLevel> d = new ArrayList<DimLevel>( );
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			if ( !dimLevel.getDimensionName( )
+					.equals( levels[i].getDimensionName( ) ) )
+			{
+				d.add( levels[i] );
+			}
+			else
+			{
+				if ( dimLevel.equals( levels[i] ) )
+				{
+					find = true;
+					d.add( levels[i] );
+				}
+				if ( !find )
+					d.add( levels[i] );
+			}
+		}
+		DimLevel[] dim = new DimLevel[d.size( )];
+		for( int i=0; i< dim.length; i++ )
+		{
+			dim[i] = d.get( i );
+		}
+		return dim;
+	}
+
+	private boolean isDrilledLevel( DimLevel levels,
+			List<DrillOnDimensionHierarchy> combinedDrill )
+	{
+		for( int i=0; i< combinedDrill.size( ); i++ )
+		{
+			DrillOnDimensionHierarchy dim = combinedDrill.get( i );
+			List<IEdgeDrillFilter> filters = dim.getDrillFilterByLevel( levels );
+			if( filters!= null&& !filters.isEmpty( ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private IAggregationResultSet[] processOperationOnQuery( BirtCubeView view,
-			StopSign stopSign, IAggregationResultSet[] rs )
-			throws DataException, IOException, BirtException
+			StopSign stopSign, IAggregationResultSet[] rs,
+			AggregationDefinition[] aggrDefns ) throws DataException,
+			IOException, BirtException
 	{
 		//process mirror operation
 		MirrorOperationExecutor moe = new MirrorOperationExecutor( );
@@ -218,8 +403,20 @@ public class QueryExecutor
 
 		//process drill operation
 		DrillOperationExecutor drillOp = new DrillOperationExecutor( );
-		rs = drillOp.execute( rs, view.getCubeQueryDefinition( ) );
-		
+		IAggregationResultSet[] baseRs = new IAggregationResultSet[aggrDefns.length];
+		System.arraycopy( rs, 0, baseRs, 0, aggrDefns.length );
+
+		IAggregationResultSet[] drillRs = new IAggregationResultSet[rs.length
+				- aggrDefns.length];
+		System.arraycopy( rs,
+				aggrDefns.length,
+				drillRs,
+				0,
+				drillRs.length );
+		rs = drillOp.execute( baseRs,
+				drillRs,
+				view.getCubeQueryDefinition( ) );
+
 		//process derived measure/nested aggregation
 		CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
 				view.getPreparedCubeOperations( ),

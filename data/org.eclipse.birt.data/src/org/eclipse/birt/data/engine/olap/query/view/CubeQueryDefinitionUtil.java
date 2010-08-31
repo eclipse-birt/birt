@@ -95,7 +95,6 @@ public class CubeQueryDefinitionUtil
 				cx );
 
 		return uniteCalculatedMember( calculatedMembers1, calculatedMembers2 );
-		
 	}
 
 	private static CalculatedMember[] extractMeasure(
@@ -190,20 +189,21 @@ public class CubeQueryDefinitionUtil
 		return af != null && af.getType( ) == IAggrFunction.RUNNING_AGGR;
 	}
 	
-	public static List<IEdgeDrillFilter[]> flatternDrillFilter(
+	public static List<DrillOnDimensionHierarchy> flatternDrillFilter(
 			IEdgeDefinition edge )
 	{
 		if ( edge == null || edge.getDrillFilter( ).isEmpty( ) )
 			return Collections.EMPTY_LIST;
 
 		List<IDimensionDefinition> dimensionList = edge.getDimensions( );
-		List<IEdgeDrillFilter[]> drillOnDimension = new ArrayList<IEdgeDrillFilter[]>( );
+		List<DrillOnDimensionHierarchy> drillOnDimension = new ArrayList<DrillOnDimensionHierarchy>( );
 		for ( int i = 0; i < dimensionList.size( ); i++ )
 		{
 			IDimensionDefinition dimension = dimensionList.get( i );
 			IEdgeDrillFilter[] drill = edge.getDrillFilter( dimension );
 			if ( drill.length > 0 )
-				drillOnDimension.add( drill );
+				drillOnDimension.add( new DrillOnDimensionHierarchy( dimension,
+						drill ) );
 		}
 		return drillOnDimension;
 	}

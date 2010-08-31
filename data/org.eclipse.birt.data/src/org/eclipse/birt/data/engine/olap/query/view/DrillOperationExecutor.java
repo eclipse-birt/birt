@@ -17,24 +17,23 @@ import java.util.List;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.cursor.DrilledAggregateResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-
+import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregationDefinition;
 
 public class DrillOperationExecutor
 {
 
 	public IAggregationResultSet[] execute(
 			IAggregationResultSet[] aggregationRsFromCube,
-			ICubeQueryDefinition iCubeQueryDefinition ) throws DataException,
-			IOException
+			IAggregationResultSet[] aggregationRsForDrill,
+			ICubeQueryDefinition iCubeQueryDefinition ) throws IOException, DataException
 	{
 		IEdgeDefinition columnEdge = iCubeQueryDefinition.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = iCubeQueryDefinition.getEdge( ICubeQueryDefinition.ROW_EDGE );
-		List<IEdgeDrillFilter[]> columnDrill = CubeQueryDefinitionUtil.flatternDrillFilter( columnEdge );
-		List<IEdgeDrillFilter[]> rowDrill = CubeQueryDefinitionUtil.flatternDrillFilter( rowEdge );
-		List<IEdgeDrillFilter[]> combinedDrill = new ArrayList<IEdgeDrillFilter[]>( );
+		List<DrillOnDimensionHierarchy> columnDrill = CubeQueryDefinitionUtil.flatternDrillFilter( columnEdge );
+		List<DrillOnDimensionHierarchy> rowDrill = CubeQueryDefinitionUtil.flatternDrillFilter( rowEdge );
+		List<DrillOnDimensionHierarchy> combinedDrill = new ArrayList<DrillOnDimensionHierarchy>( );
 		combinedDrill.addAll( rowDrill );
 		combinedDrill.addAll( columnDrill );
 
@@ -51,20 +50,35 @@ public class DrillOperationExecutor
 		}
 		if ( rowEdge != null )
 		{
-			if( !rowEdge.getDrillFilter( ).isEmpty( ) )
+			if ( !rowEdge.getDrillFilter( ).isEmpty( ) )
 			{
 				IAggregationResultSet rs = populateResultSet( aggregationRsFromCube[index],
 						rowDrill );
-				aggregationRsFromCube[index] = rs;				
+				aggregationRsFromCube[index] = rs;
 			}
 			index++;
 		}
 
-		for ( int i = index; i < aggregationRsFromCube.length; i++ )
+		if ( !combinedDrill.isEmpty( ) )
 		{
-			if ( !combinedDrill.isEmpty( ) )
+			for ( int i = index; i < aggregationRsFromCube.length; i++ )
 			{
+				List<IAggregationResultSet> drillRs = new ArrayList<IAggregationResultSet>( );
+				for ( int j = 0; j < aggregationRsForDrill.length; j++ )
+				{
+					if ( ( (DrilledAggregationDefinition) aggregationRsForDrill[j].getAggregationDefinition( ) ) != null
+							&& ( (DrilledAggregationDefinition) aggregationRsForDrill[j].getAggregationDefinition( ) ).useByAggregation( aggregationRsFromCube[i].getAggregationDefinition( ) ) )
+					{
+						drillRs.add( aggregationRsForDrill[j] );
+					}
+				}
+				IAggregationResultSet[] drilledAggregationResult = new IAggregationResultSet[drillRs.size( )];
+				for ( int k = 0; k < drillRs.size( ); k++ )
+				{
+					drilledAggregationResult[k] = (IAggregationResultSet) drillRs.get( k );
+				}
 				IAggregationResultSet rs = populateResultSet( aggregationRsFromCube[i],
+						drilledAggregationResult,
 						combinedDrill );
 				aggregationRsFromCube[i] = rs;
 			}
@@ -74,14 +88,27 @@ public class DrillOperationExecutor
 
 	private IAggregationResultSet populateResultSet(
 			IAggregationResultSet aggregationRsFromCube,
-			List<IEdgeDrillFilter[]> drillFilters ) throws IOException, DataException
+			IAggregationResultSet[] aggregationRsFromDrill,
+			List<DrillOnDimensionHierarchy> drillFilters )
+			throws IOException, DataException
 	{
 		if ( aggregationRsFromCube.getAllLevels( ) == null
 				|| aggregationRsFromCube.getAllLevels( ).length == 0
 				|| aggregationRsFromCube.length( ) == 0 )
 			return aggregationRsFromCube;
 		DrilledAggregateResultSet rs = new DrilledAggregateResultSet( aggregationRsFromCube,
+				aggregationRsFromDrill,
 				drillFilters );
 		return rs;
+	}
+
+	private IAggregationResultSet populateResultSet(
+			IAggregationResultSet aggregationRsFromCube,
+			List<DrillOnDimensionHierarchy> drillFilters ) throws IOException,
+			DataException
+	{
+		return populateResultSet( aggregationRsFromCube,
+				null,
+				drillFilters );
 	}
 }
