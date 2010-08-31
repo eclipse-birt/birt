@@ -1956,8 +1956,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			qd = new ChartCubeQueryHelper( itemHandle,
 					cm,
-					session.getModelAdaptor( ) ).createCubeQuery( null,
-					columnExpression.toArray( new String[columnExpression.size( )] ) );
+					session.getModelAdaptor( ) ).createCubeQuery( null );
 
 		}
 		

@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.AbstractGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -95,6 +96,8 @@ public class GroupingLookupHelper
 	}
 
 	private final ValueSeriesExprBuilder valueSeriesExprBuilder;
+	
+	private final IDataRowExpressionEvaluator idre;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/trace" ); //$NON-NLS-1$
 
@@ -133,6 +136,7 @@ public class GroupingLookupHelper
 			throws ChartException
 	{
 		this.locale = rtc.getULocale( );
+		this.idre = idre;
 		if ( idre instanceof AbstractGroupedDataRowExpressionEvaluator
 				&& !rtc.isSharingQuery( ) )
 		{
@@ -166,6 +170,7 @@ public class GroupingLookupHelper
 			Collection<String> aggExps )
 	{
 		this.valueSeriesExprBuilder = ValueSeriesExprBuilder.OLDER_STYLE;
+		this.idre = null;
 		Iterator<String> dataIterator = dataExps.iterator( );
 		Iterator<String> aggIterator = aggExps.iterator( );
 		while ( dataIterator.hasNext( ) && aggIterator.hasNext( ) )
@@ -188,6 +193,16 @@ public class GroupingLookupHelper
 	public List<String> getExpressions( )
 	{
 		return lstAll;
+	}
+	
+	/**
+	 * Indicates if evaluated expressions include sort keys
+	 * 
+	 * @return true means sort keys needed
+	 */
+	private boolean needSortKeys( )
+	{
+		return !( idre instanceof IGroupedDataRowExpressionEvaluator );
 	}
 
 	private String generateKey( String dataExp, String aggExp )
@@ -415,7 +430,10 @@ public class GroupingLookupHelper
 							.trim( )
 							.length( ) > 0 )
 			{
-				addDataExp( ySortKey, "" ); //$NON-NLS-1$
+				if ( needSortKeys( ) )
+				{
+					addDataExp( ySortKey, "" ); //$NON-NLS-1$
+				}
 				fYSortExprIndex = findIndexOfBaseSeries( ySortKey );
 			}
 
@@ -512,7 +530,10 @@ public class GroupingLookupHelper
 			String sortExpr = getSortKey( baseSD );
 			if ( sortExpr != null )
 			{
-				addDataExp( sortExpr, "" ); //$NON-NLS-1$
+				if ( needSortKeys( ) )
+				{
+					addDataExp( sortExpr, "" ); //$NON-NLS-1$
+				}
 				fBaseSortExprIndex = findIndexOfBaseSeries( sortExpr );
 			}
 		}
