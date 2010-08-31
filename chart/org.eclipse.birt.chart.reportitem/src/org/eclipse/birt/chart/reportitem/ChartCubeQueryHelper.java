@@ -337,6 +337,12 @@ public class ChartCubeQueryHelper
 			// Add measures or dimensions for optional grouping, and update
 			// query expression
 			exprSet.add( sd.getQuery( ).getDefinition( ) );
+			
+			// Add sort key even if it's not used in edges
+			if ( sd.getSortKey( ) != null )
+			{
+				exprSet.add( sd.getSortKey( ).getDefinition( ) );
+			}
 		}
 
 		if ( expressions != null )
