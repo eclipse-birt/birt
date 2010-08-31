@@ -16,7 +16,9 @@ import java.util.List;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.computation.PlotComputation;
 import org.eclipse.birt.chart.computation.withaxes.AxisSubUnit;
+import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
 import org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints;
 import org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints3D;
 import org.eclipse.birt.chart.computation.withaxes.StackedSeriesLookup;
@@ -38,6 +40,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.extension.render.Line.DataPointsRenderer.Context;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
@@ -50,6 +53,7 @@ import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.Legend;
@@ -1889,6 +1893,35 @@ public class Line extends AxesRenderer
 
 		}
 
+	}
+	
+	private boolean isMarkerVisible( LineSeries ls, SeriesDefinition sd )
+	{
+		if ( ls.getMarkers( ).size( ) > 0 )
+		{
+			int iThisSeriesIndex = sd.getRunTimeSeries( ).indexOf( ls );
+			Marker m = ls.getMarkers( ).get( iThisSeriesIndex
+					% ls.getMarkers( ).size( ) );
+			return m.isVisible( );
+		}
+		return false;
+	}
+
+	@Override
+	public void set( Chart _cm, PlotComputation _o, Series _se, Axis _ax,
+			SeriesDefinition _sd )
+	{
+		super.set( _cm, _o, _se, _ax, _sd );
+
+		if ( _o instanceof PlotWith2DAxes )
+		{
+			PlotWith2DAxes pwa = (PlotWith2DAxes) _o;
+			if ( isMarkerVisible( (LineSeries) _se, _sd ) )
+			{
+				// Add 20% of client area for markers
+				pwa.addMargin( 20 );
+			}
+		}
 	}
 
 }
