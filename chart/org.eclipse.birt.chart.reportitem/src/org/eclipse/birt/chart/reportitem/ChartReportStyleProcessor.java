@@ -189,7 +189,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	{
 		if (ptnWrappingQuotes.matcher( fontName ).matches( ))
 		{
-			return fontName.substring( 1, fontName.length( ) );
+			return fontName.substring( 1, fontName.length( ) - 1 );
 		}
 		return fontName;
 	}
