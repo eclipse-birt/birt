@@ -143,6 +143,10 @@ public class QueryExecutor
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign,
 						true );
+				//process mirror operation
+				MirrorOperationExecutor moe = new MirrorOperationExecutor( );
+				rs = moe.execute( rs, view, cubeQueryExecutorHelper );
+				
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 				
 				break;
@@ -151,6 +155,10 @@ public class QueryExecutor
 			{
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign, false );
+				
+				//process mirror operation
+				MirrorOperationExecutor moe = new MirrorOperationExecutor( );
+				rs = moe.execute( rs, view, cubeQueryExecutorHelper );
 				
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 
@@ -176,6 +184,10 @@ public class QueryExecutor
 				else
 				{
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
+					//process mirror operation
+					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
+					rs = moe.execute( rs, view, cubeQueryExecutorHelper );
+					
 					rs = processOperationOnQuery( view,
 							stopSign,
 							rs,
@@ -204,6 +216,9 @@ public class QueryExecutor
 				{
 					//need to re-execute the query.
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
+					//process mirror operation
+					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
+					rs = moe.execute( rs, view, cubeQueryExecutorHelper );
 				}
 				else
 				{
@@ -397,10 +412,6 @@ public class QueryExecutor
 			AggregationDefinition[] aggrDefns ) throws DataException,
 			IOException, BirtException
 	{
-		//process mirror operation
-		MirrorOperationExecutor moe = new MirrorOperationExecutor( );
-		rs = moe.execute( rs, view, cubeQueryExecutorHelper );
-
 		//process drill operation
 		DrillOperationExecutor drillOp = new DrillOperationExecutor( );
 		IAggregationResultSet[] baseRs = new IAggregationResultSet[aggrDefns.length];

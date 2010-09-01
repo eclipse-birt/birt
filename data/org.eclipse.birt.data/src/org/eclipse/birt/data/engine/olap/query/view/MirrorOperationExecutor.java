@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -24,7 +23,6 @@ import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.SortedAggregationRowArray;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 
 /**
  * Execute mirror operation on aggregate result set
@@ -65,46 +63,6 @@ public class MirrorOperationExecutor
 					cubeQueryExecutorHelper.getRowSort( ) );
 		}
 		
-		if ( rowMirror != null || columnMirror != null )
-		{
-			boolean hasAggregationSort = false;
-			List sort = cubeQueryExecutorHelper.getColumnSort( );
-			for ( int i = 0; i < sort.size( ); i++ )
-			{
-				if ( sort.get( i ) instanceof AggrSortDefinition
-						&& ( (AggrSortDefinition) sort.get( i ) ).getAxisQualifierLevel( ).length > 0 )
-				{
-					hasAggregationSort = true;
-					break;
-				}
-			}
-			if ( !hasAggregationSort )
-			{
-				sort = cubeQueryExecutorHelper.getRowSort( );
-				for ( int i = 0; i < sort.size( ); i++ )
-				{
-					if ( sort.get( i ) instanceof AggrSortDefinition
-							&& ( (AggrSortDefinition) sort.get( i ) ).getAxisQualifierLevel( ).length > 0 )
-					{
-						hasAggregationSort = true;
-						break;
-					}
-				}
-			}
-			if ( hasAggregationSort )
-			{
-				// Make sure all edge aggregation result sets are already sorted
-				for ( int i = 0; i < rs.length; i++ )
-				{
-					if ( rs[i].getAggregationCount( ) == 0 ) // edge aggregation
-																// result set
-					{
-						rs[i] = sortAggregationResultSet( rs[i] );
-					}
-				}
-				cubeQueryExecutorHelper.applyAggrSort( rs );
-			}
-		}
 		return rs;
 	}
 
