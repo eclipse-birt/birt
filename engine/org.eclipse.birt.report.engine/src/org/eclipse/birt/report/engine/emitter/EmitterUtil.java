@@ -482,6 +482,23 @@ public class EmitterUtil
 		}
 		return imageInfo;
 	}
+	
+	public static org.eclipse.birt.report.engine.layout.emitter.Image parseImage(
+			byte[] imageData, String mimeType, String extension )
+			throws IOException
+	{
+		if ( imageData != null )
+		{
+			org.eclipse.birt.report.engine.layout.emitter.Image imageInfo = new org.eclipse.birt.report.engine.layout.emitter.Image( );
+			imageInfo.setInput( imageData );
+			if ( !imageInfo.check( ) )
+			{
+				imageInfo.setData( null );
+			}
+			return imageInfo;
+		}
+		return null;
+	}
 
 	public static String getHyperlinkUrl( IHyperlinkAction linkAction,
 			IReportRunnable reportRunnable, IHTMLActionHandler actionHandler,

@@ -30,10 +30,8 @@ import java.util.logging.Logger;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.net.QuotedPrintableCodec;
-import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.ppt.util.PPTUtil.HyperlinkDef;
-import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -685,11 +683,11 @@ public class PPTWriter
 	 * @param yMode
 	 *            whether the vertical position is a percentage value or not
 	 */
-	public void drawBackgroundImage( String imageURI, float x, float y,
+	public void drawBackgroundImage( String imageURI, byte[] imageData, float x, float y,
 			float width, float height, float iWidth, float iHeight,
 			float positionX, float positionY, int repeat )
 	{
-		if ( imageURI == null || imageURI.length( ) == 0 )
+		if ( imageData == null || imageData.length == 0 )
 		{
 			return;
 		}
@@ -698,9 +696,9 @@ public class PPTWriter
 		String extension = getImageExtension( imageURI );
 		try
 		{
-			Image image = EmitterUtil.parseImage( null,
-					IImageContent.IMAGE_URL, imageURI, null, extension );
-			byte[] imageData = image.getData( );
+			org.eclipse.birt.report.engine.layout.emitter.Image image = EmitterUtil
+					.parseImage( imageData, null, null );
+			imageData = image.getData( );
 			if ( imageWidth == 0 || imageHeight == 0 )
 			{
 				imageWidth = image.getWidth( );

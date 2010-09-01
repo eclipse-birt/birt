@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,7 +32,6 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
-import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSPrimitiveValue;
@@ -349,31 +347,7 @@ public abstract class ContainerArea extends AbstractArea
 		Image img = null;
 		if ( bgi != null )
 		{
-			String imageUrl = bgi.getUrl( );
-			try
-			{
-				img = Image.getInstance( new URL( bgi.getUrl( ) ) );
-			}
-			catch ( Exception e )
-			{
-				try
-				{
-					img = Image
-							.getInstance( SvgFile.transSvgToArray( imageUrl ) );
-				}
-				catch ( IOException ex )
-				{
-					logger.log( Level.WARNING, ex.getMessage( ), ex );
-					return;
-				}
-				catch ( Exception te )
-				{
-					// log the IOException here. because the image is not
-					// necessary to be a SVG.
-					logger.log( Level.WARNING, e.getMessage( ), e );
-					return;
-				}
-			}
+			img = bgi.getImageInstance( );
 			if ( img != null )
 			{
 				int resolutionX = img.getDpiX( );

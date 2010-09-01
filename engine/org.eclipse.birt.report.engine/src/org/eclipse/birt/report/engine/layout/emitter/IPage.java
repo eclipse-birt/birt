@@ -99,6 +99,6 @@ public interface IPage
 	void drawBackgroundColor( Color color, int x, int y, int width, int height );
 
 	void drawBackgroundImage( int x, int y, int width, int height,
-			int imageWidth, int imageHeight, int repeat, String imageUrl,
+			int imageWidth, int imageHeight, int repeat, String imageUrl, byte[] imageData,
 			int absPosX, int absPosY ) throws IOException;
 }

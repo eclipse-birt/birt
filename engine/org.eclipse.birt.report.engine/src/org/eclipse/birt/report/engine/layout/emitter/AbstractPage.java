@@ -55,13 +55,17 @@ public abstract class AbstractPage implements IPage
 	}
 
 	public void drawBackgroundImage( int x, int y, int width, int height,
-			int imageWidth, int imageHeight, int repeat, String imageUrl,
+			int imageWidth, int imageHeight, int repeat, String imageUrl, byte[] imageData,
 			int absPosX, int absPosY ) throws IOException
 	{
+		if ( imageData == null || imageData.length == 0 )
+		{
+			return;
+		}
 		drawBackgroundImage( convertToPoint( x ), convertToPoint( y ),
 				convertToPoint( width ), convertToPoint( height ),
 				convertToPoint( imageWidth ), convertToPoint( imageHeight ),
-				repeat, imageUrl, convertToPoint( absPosX ),
+				repeat, imageUrl, imageData, convertToPoint( absPosX ),
 				convertToPoint( absPosY ) );
 	}
 
@@ -142,7 +146,7 @@ public abstract class AbstractPage implements IPage
 
 	protected abstract void drawBackgroundImage( float x, float y, float width,
 			float height, float imageWidth, float imageHeight, int repeat,
-			String imageUrl, float absPosX, float absPosY ) throws IOException;
+			String imageUrl, byte[] imageData, float absPosX, float absPosY ) throws IOException;
 
 	protected abstract void drawImage( String imageId, byte[] imageData,
 			String extension, float imageX, float imageY, float height,

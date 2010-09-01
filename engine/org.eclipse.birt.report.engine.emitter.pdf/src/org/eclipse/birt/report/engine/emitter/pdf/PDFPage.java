@@ -128,36 +128,13 @@ public class PDFPage extends AbstractPage
 
 	protected void drawBackgroundImage( float x, float y, float width,
 			float height, float iWidth, float iHeight, int repeat,
-			String imageUrl, float absPosX, float absPosY ) throws IOException
+			String imageUrl, byte[] imageData, float absPosX, float absPosY ) throws IOException
 	{
 		y = transformY( y );
 		contentByte.saveState( );
 		try
 		{
-			Image img = null;
-
-			try
-			{
-				img = Image.getInstance( new URL( imageUrl ) );
-			}
-			catch ( IOException e )
-			{
-				try
-				{
-					img = Image
-							.getInstance( SvgFile.transSvgToArray( imageUrl ) );
-				}
-				catch ( IOException ex )
-				{
-					throw ex;
-				}
-				catch ( Exception te )
-				{
-					// throw the IOException here. because the image is not
-					// necessary to be a SVG.
-					throw e;
-				}
-			}
+			Image img = Image.getInstance( imageData );
 			float imageWidth = iWidth;
 			float imageHeight = iHeight;
 			if ( imageHeight == 0 || imageWidth == 0 )

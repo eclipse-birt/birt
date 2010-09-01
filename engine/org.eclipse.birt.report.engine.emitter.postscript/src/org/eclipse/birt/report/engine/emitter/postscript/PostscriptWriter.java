@@ -440,8 +440,6 @@ public class PostscriptWriter
 	 * </tr>
 	 * </table>
 	 * 
-	 * @param imageURI
-	 *            the uri of the background image.
 	 * @param x
 	 *            the x coordinate of the rectangle area.
 	 * @param y
@@ -458,18 +456,18 @@ public class PostscriptWriter
 	 *            the repeat mode.
 	 * @throws Exception 
 	 */
-	public void drawBackgroundImage( String imageURI, float x, float y,
+	public void drawBackgroundImage( String imageURI, byte[] imageData, float x, float y,
 			float width, float height, float imageWidth, float imageHeight,
 			float positionX, float positionY, int repeat ) throws IOException
 	{
-		if ( imageURI == null || imageURI.length( ) == 0 )
+		if ( imageData == null || imageData.length == 0 )
 		{
 			return;
 		}
 		org.eclipse.birt.report.engine.layout.emitter.Image image = EmitterUtil
-				.parseImage( null, IImageContent.IMAGE_URL, imageURI, null,
-						null );
-		byte[] imageData = image.getData( );
+				.parseImage( imageData, null, null );
+		imageData = image.getData( );
+
 		if ( imageWidth == 0 || imageHeight == 0 )
 		{
 			int resolutionX = image.getPhysicalWidthDpi( );

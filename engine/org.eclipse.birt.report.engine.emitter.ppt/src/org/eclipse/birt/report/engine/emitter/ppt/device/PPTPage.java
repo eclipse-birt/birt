@@ -70,9 +70,9 @@ public class PPTPage extends AbstractPage
 
 	protected void drawBackgroundImage( float x, float y, float width,
 			float height, float imageWidth, float imageHeight, int repeat,
-			String imageUrl, float absPosX, float absPosY ) throws IOException
+			String imageUrl, byte[] imageData, float absPosX, float absPosY ) throws IOException
 	{
-		writer.drawBackgroundImage( imageUrl, x, y, width, height, imageWidth,
+		writer.drawBackgroundImage( imageUrl, imageData, x, y, width, height, imageWidth,
 				imageHeight, absPosX, absPosY, repeat );
 	}
 
