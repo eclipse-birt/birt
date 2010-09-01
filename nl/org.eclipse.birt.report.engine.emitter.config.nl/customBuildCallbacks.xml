@@ -40,6 +40,10 @@
 					  dest="${dir.src}" 
 					  ext=".properties"
 					  includes="**/*_ko_KR.msg"/>
+		<copy todir="src/">
+		    <fileset dir="org.eclipse.birt.report.engine.emitter.config/src"/>
+		    <globmapper from="*.properties" to="*_en.properties"/>
+		</copy>		
 		<copy todir=".">
 			<fileset dir="src" includes="org/**"/>
 	    </copy>
