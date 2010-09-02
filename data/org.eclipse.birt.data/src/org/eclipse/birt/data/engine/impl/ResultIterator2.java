@@ -83,7 +83,21 @@ class ResultIterator2 extends ResultIterator
 
 		this.lowestGroupLevel = rService.getQueryDefn( ).getGroups( ).size( );
 		this.currRowIndex = -1;
-		this.cachedRowId = 0;
+		
+		if ( rowIDUtil == null )
+			rowIDUtil = new RowIDUtil( );
+
+		if ( this.rowIDUtil.getMode( this.odiResult ) == RowIDUtil.MODE_NORMAL )
+			cachedRowId = this.odiResult.getCurrentResultIndex( );
+		else
+		{
+			IResultObject ob = this.odiResult.getCurrentResult( );
+			if ( ob == null )
+				cachedRowId = -1;
+			else
+				cachedRowId = ( (Integer) ob.getFieldValue( rowIDUtil.getRowIdPos( ) ) ).intValue( );
+		}
+		
 		this.isSummary = ( rService.getQueryDefn( ) instanceof IQueryDefinition )
 				? ( (IQueryDefinition) rService.getQueryDefn( ) ).isSummaryQuery( )
 				: false;
