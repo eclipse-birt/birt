@@ -3517,7 +3517,7 @@ SchematicContextMenuProvider.Menu.NewStyle=新样式(&Y)
 #ApplyLayoutPreferenceAction properties
 
 ApplyLayoutPreferenceAction.autoLayout=自动布局(&A)
-ApplyLayoutPreferenceAction.fixedLayout=混合布局(&F)
+ApplyLayoutPreferenceAction.fixedLayout=固定布局(&F)
 
 ###########################################################
 #SectionProcess properties

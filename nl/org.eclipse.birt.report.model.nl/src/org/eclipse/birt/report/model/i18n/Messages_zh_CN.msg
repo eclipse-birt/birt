@@ -622,7 +622,7 @@ Choices.paramSortValues.value=值
 Choices.paramSortValues.label=显示文本
 
 #74. reportLayoutPreference
-Choices.reportLayoutPreference.fixedLayout=混合布局
+Choices.reportLayoutPreference.fixedLayout=固定布局
 Choices.reportLayoutPreference.autoLayout=自动布局
 
 #75. dateTimeLevelType
