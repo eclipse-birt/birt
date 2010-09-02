@@ -1413,7 +1413,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	
 	private void handelLegendBehavior( Legend lg )
 	{
-		if ( isInteractivityEnabled( ) )
+		if ( isInteractivityEnabled( ) && cm.getInteractivity( ) != null )
 		{
 			ActionType actionType = null;
 			switch ( cm.getInteractivity( ).getLegendBehavior( ).getValue( ) )
