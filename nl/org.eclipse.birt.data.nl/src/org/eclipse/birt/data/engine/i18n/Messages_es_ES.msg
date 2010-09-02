@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Error al procesar el valor p
 data.engine.ScriptResult.WrongSystemComputedColumn=Error al procesar el valor de la expresión de filtro, grupo u orden.
 data.engine.ComputedColumnCycle=La columna procesada "{0}" tiene ciclo de dependencia.
 
-data.engine.SortOnAggregation=Existe una ordenación no válida cuya clave de ordenación hace referencia a una agregación "{0}".
+data.engine.SortOnAggregation=Ordenar según la agregación no agrupada o la columna procesada que hace referencia a la agregación sin grupo "{0}" no es compatible.
 
 data.engine.BadFilterExpr=La expresión de filtro "{0}" no es válida.
 data.engine.BadFilterDefn=Error al evaluar el filtro basado en la expresión "{0}".
@@ -195,7 +195,7 @@ data.engine.NoRowUpdate=La fila de datos no se puede actualizar en este momento.
 data.engine.BadDataType=No se admite el tipo de datos{0}.
 data.engine.NotSerializableClass=No se admite la clase {0} para serializarla.
 data.engine.BadDataExpression=La expresión de datos no debe ser nula.
-data.engine.aggregation.InvalidBindingExpression=Expresión no aceptada para el enlace de agregación "{0}".
+data.engine.aggregation.InvalidBindingExpression=No se puede aceptar la medida procesada para el enlace de agregación "{0}".
 data.engine.InvalidExpression=Expresión no válida"{0}".
 
 data.engine.cacheFunctionWrongMode=La función de caché sólo funciona para el modo DIRECT_PRESENTATION.

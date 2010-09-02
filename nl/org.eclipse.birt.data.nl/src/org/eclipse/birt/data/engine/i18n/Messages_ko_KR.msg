@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=계산된 열 "{0}"에 대한 값을 
 data.engine.ScriptResult.WrongSystemComputedColumn=정렬, 그룹 또는 필터 식에서 값을 계산하지 못했습니다.
 data.engine.ComputedColumnCycle=계산 열 "{0}"에 종속 사이클이 형성되어 있습니다.
 
-data.engine.SortOnAggregation=정렬 키가 집계 "{0}"을(를) 참조하는 잘못된 정렬이 있습니다.
+data.engine.SortOnAggregation=비그룹 집계 또는 비그룹 집계 "{0}"을(를) 참조하는 계산 열에서 정렬이 지원되지 않습니다.
 
 data.engine.BadFilterExpr=필터 식 "{0}"이(가) 잘못되었습니다.
 data.engine.BadFilterDefn=식 "{0}" 기반 필터를 계산하지 못했습니다.
@@ -195,7 +195,7 @@ data.engine.NoRowUpdate=지금은 데이터 행을 업데이트할 수 없습니다.
 data.engine.BadDataType=데이터 형식이 지원되지 않습니다{0}.
 data.engine.NotSerializableClass=클래스 {0}은(는) 직렬화를 지원하지 않습니다.
 data.engine.BadDataExpression=데이터 식은 널(null)이 아니어야 합니다.
-data.engine.aggregation.InvalidBindingExpression=집계 바인딩 "{0}"에 대한 식이 지원되지 않습니다.
+data.engine.aggregation.InvalidBindingExpression=계산된 측정값은 집계 바인딩 "{0}"에서 사용할 수 없습니다.
 data.engine.InvalidExpression=식 "{0}"이(가) 잘못되었습니다.
 
 data.engine.cacheFunctionWrongMode=캐시 기능은 DIRECT_PRESENTATION 모드용으로만 사용됩니다.

@@ -3601,7 +3601,7 @@ SelectValueDialog.SelectValue.NullValue=<Null-Wert>
 
 SetConstraintCommand.Error.SetConstraintError=An error occured when setting a constraint to the model.
 SetConstraintCommand.transLabel.setConstraint=Einschränkung festlegen
-SetConstraintCommand.commandLabel.ResizeCommand=Resize
+SetConstraintCommand.commandLabel.ResizeCommand=Größe anpassen
 ###########################################################
 #ProjectFilterAction properties
 

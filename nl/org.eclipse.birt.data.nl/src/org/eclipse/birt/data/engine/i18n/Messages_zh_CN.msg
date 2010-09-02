@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Î´ÄÜÎªÒÑ¼ÆËãµÄÁĞ¡°{0}¡±¼ÆËãÖ
 data.engine.ScriptResult.WrongSystemComputedColumn=Î´ÄÜ¸ù¾İÅÅĞò¡¢×é»òÉ¸Ñ¡±í´ïÊ½¼ÆËãÖµ¡£
 data.engine.ComputedColumnCycle=¼ÆËãÁĞ¡°{0}¡±¾ßÓĞÏà¹ØĞÔÑ­»·¡£
 
-data.engine.SortOnAggregation=´æÔÚÅÅĞò¹Ø¼ü×ÖÒıÓÃÁË¾ÛºÏ¡°{0}¡±µÄÎŞĞ§ÅÅĞò¡£
+data.engine.SortOnAggregation=²»Ö§³Ö¸ù¾İ·Ç·Ö×é¾ÛºÏ»òÒıÓÃ·Ç·Ö×é¾ÛºÏ¡°{0}¡±µÄ¼ÆËãÁĞÅÅĞò¡£
 
 data.engine.BadFilterExpr=É¸Ñ¡±í´ïÊ½ "{0}" ÎŞĞ§¡£
 data.engine.BadFilterDefn=ÎŞ·¨ÆÀ¹À»ùÓÚ±í´ïÊ½¡°{0}¡±µÄÉ¸Ñ¡Æ÷¡£
@@ -195,7 +195,7 @@ data.engine.NoRowUpdate=´ËÊ±ÎŞ·¨¸üĞÂÊı¾İĞĞ¡£
 data.engine.BadDataType=Êı¾İÀàĞÍ²»ÊÜÖ§³Ö {0}¡£
 data.engine.NotSerializableClass=²»Ö§³Ö¶ÔÀà {0} ½øĞĞ´®ĞĞ»¯¡£
 data.engine.BadDataExpression=Êı¾İ±í´ïÊ½²»ÄÜÎª¿Õ¡£
-data.engine.aggregation.InvalidBindingExpression=¾ÛºÏ°ó¶¨¡°{0}¡±µÄ²»¿É½ÓÊÜµÄ±í´ïÊ½¡£
+data.engine.aggregation.InvalidBindingExpression=¾ÛºÏ°ó¶¨¡°{0}¡±²»½ÓÊÜ¼ÆËã¶ÈÁ¿¡£
 data.engine.InvalidExpression=ÎŞĞ§±í´ïÊ½¡°{0}¡±¡£
 
 data.engine.cacheFunctionWrongMode=»º´æ¹¦ÄÜ½öÊÊÓÃÓÚ DIRECT_PRESENTATION Ä£Ê½¡£

@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Echec du calcul de la valeur
 data.engine.ScriptResult.WrongSystemComputedColumn=Echec du calcul de la valeur à partir d'une expression de filtre, de groupe ou de tri.
 data.engine.ComputedColumnCycle=La colonne de calcul "{0}" possède un cycle de dépendance.
 
-data.engine.SortOnAggregation=Il existe un tri incorrect dont la clé de tri fait référence à une agrégation "{0}".
+data.engine.SortOnAggregation=Le tri selon l'agrégation de non-regroupement ou la colonne de calcul référencée par l'agrégation de non-regroupement "{0}" n'est pas pris en charge.
 
 data.engine.BadFilterExpr=L''expression de filtre "{0}" n''est pas valide.
 data.engine.BadFilterDefn=Echec de l'évaluation du filtre basé sur l'expression "{0}".
@@ -195,7 +195,7 @@ data.engine.NoRowUpdate=Impossible de mettre à jour la ligne de données pour le 
 data.engine.BadDataType=Le type de données n'est pas pris en charge{0}.
 data.engine.NotSerializableClass=La classe {0} n'est pas prise en charge pour une sérialisation.
 data.engine.BadDataExpression=L'expression de données ne doit pas être nulle.
-data.engine.aggregation.InvalidBindingExpression=Expression non autorisée pour la liaison d'agrégation "{0}".
+data.engine.aggregation.InvalidBindingExpression=La mesure calculée n'est pas correcte pour la liaison d'agrégation "{0}".
 data.engine.InvalidExpression=Expression "{0}" non valide.
 
 data.engine.cacheFunctionWrongMode=de création de pdf en cache ne fonctionne qu'en mode DIRECT_PRESENTATION.

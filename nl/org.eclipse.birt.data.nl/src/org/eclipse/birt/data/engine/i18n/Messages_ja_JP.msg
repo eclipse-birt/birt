@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=ŒvZ—ñ "{0}" ‚Ì’l‚ğŒvZ‚Å‚«‚
 data.engine.ScriptResult.WrongSystemComputedColumn=ƒ\[ƒg®AƒOƒ‹[ƒv®A‚Ü‚½‚ÍƒtƒBƒ‹ƒ^®‚Ì’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 data.engine.ComputedColumnCycle=ŒvZ—ñ "{0}" ‚ÌˆË‘¶ŠÖŒW‚ªzŠÂQÆ‚É‚È‚Á‚Ä‚¢‚Ü‚·B
 
-data.engine.SortOnAggregation=ƒ\[ƒgƒL[‚ªWŒv "{0}" ‚ğQÆ‚·‚é‚æ‚¤‚È–³Œø‚Èƒ\[ƒg‚ª‘¶İ‚µ‚Ä‚¢‚Ü‚·B
+data.engine.SortOnAggregation=ƒOƒ‹[ƒv‰»‚³‚ê‚Ä‚¢‚È‚¢WŒv‚ğg—p‚·‚éƒ\[ƒgA‚Ü‚½‚ÍƒOƒ‹[ƒv‰»‚³‚ê‚Ä‚¢‚È‚¢WŒv "{0}" ‚ğQÆ‚·‚éŒvZ®‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 
 data.engine.BadFilterExpr=ƒtƒBƒ‹ƒ^® "{0}" ‚ª–³Œø‚Å‚·B
 data.engine.BadFilterDefn=® "{0}" ‚ÉŠî‚Ã‚­ƒtƒBƒ‹ƒ^‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñB
@@ -195,7 +195,7 @@ data.engine.NoRowUpdate=Œ»“_‚Íƒf[ƒ^s‚ğXV‚Å‚«‚Ü‚¹‚ñB
 data.engine.BadDataType=‚±‚Ìƒf[ƒ^Œ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ {0}B
 data.engine.NotSerializableClass=ƒNƒ‰ƒX {0} ‚ÍƒVƒŠƒAƒ‰ƒCƒY‚Å‚«‚Ü‚¹‚ñB
 data.engine.BadDataExpression=ƒf[ƒ^®‚Í null ‚É‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
-data.engine.aggregation.InvalidBindingExpression=WŒvƒoƒCƒ“ƒh "{0}" ‚Ì®‚ª–³Œø‚Å‚·B
+data.engine.aggregation.InvalidBindingExpression=ƒƒWƒƒ[’l‚ÍAWŒv‚ÌƒoƒCƒ“ƒh "{0}" ‚É‚Íg—p‚Å‚«‚Ü‚¹‚ñB
 data.engine.InvalidExpression=® "{0}" ‚ª–³Œø‚Å‚·B
 
 data.engine.cacheFunctionWrongMode=ƒLƒƒƒbƒVƒ…‹@”\‚ÍADIRECT_PRESENTATION ƒ‚[ƒh‚Å‚µ‚©g—p‚Å‚«‚Ü‚¹‚ñB

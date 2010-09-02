@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Wert für berechnete Spalte "
 data.engine.ScriptResult.WrongSystemComputedColumn=Wert aus Sortierungs-, Gruppen- oder Filterausdruck konnte nicht berechnet werden.
 data.engine.ComputedColumnCycle=Berechnete Spalte "{0}" hat einen Abhängigkeitszyklus.
 
-data.engine.SortOnAggregation=Ungültige Sortierung vorhanden, deren Sortierschlüssel auf Aggregat '{0}' verweist.
+data.engine.SortOnAggregation=Sortieren nach nicht-gruppierendem Aggregat oder berechneter Spalte für nicht-gruppierendes Aggregat '{0}' wird nicht unterstützt.
 
 data.engine.BadFilterExpr=Der Filterausdruck "{0}" ist ungültig.
 data.engine.BadFilterDefn=Der auf dem Ausdruck '{0}' basierende Filter konnte nicht evaluiert werden.
@@ -195,7 +195,7 @@ data.engine.NoRowUpdate=Die Datenzeile kann momentan nicht aktualisiert werden.
 data.engine.BadDataType=Datentyp wird nicht unterstützt: {0}.
 data.engine.NotSerializableClass=Serialisierung der Klasse {0} wird nicht unterstützt.
 data.engine.BadDataExpression=Der Datenausdruck darf nicht null sein.
-data.engine.aggregation.InvalidBindingExpression=Nicht akzeptabler Ausdruck für Aggregatsbindung "{0}".
+data.engine.aggregation.InvalidBindingExpression=Berechnete Maßeinheit ist nicht akzeptabel für die Aggregatsbindung '{0}'.
 data.engine.InvalidExpression=Ungültiger Ausdruck "{0}".
 
 data.engine.cacheFunctionWrongMode=Die Cache-Funktion funktioniert nur im Modus ''DIRECT_PRESENTATION''.
