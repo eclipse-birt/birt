@@ -299,19 +299,19 @@ public class DataSetMetaDataHelper
 					{
 						found = columnName.equals( metaData.getColumnName( m + 1 ) );
 					}
+					if ( !found )
+					{
+						try
+						{
+							// remove the item
+							handle.removeItem( hint );
+						}
+						catch ( PropertyValueException e )
+						{
+						}
+					}
 				}
 
-				if ( !found )
-				{
-					try
-					{
-						// remove the item
-						handle.removeItem( hint );
-					}
-					catch ( PropertyValueException e )
-					{
-					}
-				}
 			}
 		}
 	}

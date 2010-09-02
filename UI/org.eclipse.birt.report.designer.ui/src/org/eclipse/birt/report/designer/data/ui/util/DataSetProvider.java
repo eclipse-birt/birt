@@ -234,14 +234,12 @@ public final class DataSetProvider
 					else
 					{
 						items[i].setAnalysisColumn( null );
-						items[i].setIndexColumn( hint.isIndexColumn( ) );
 					}
 				}
 				else
 				{
 					items[i].setAnalysis( hint.getAnalysis( ) );
 					items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
-					items[i].setIndexColumn( hint.isIndexColumn( ) );
 				}
 				items[i].setACLExpression( hint.getACLExpression( ) );
 				items[i].setFormat( hint.getFormat( ) );
@@ -253,6 +251,7 @@ public final class DataSetProvider
 				items[i].setTextFormat( hint.getTextFormat( ) );
 				items[i].setDescription( hint.getDescription( ) );
 				items[i].setWordWrap( hint.wordWrap( ) );
+				items[i].setIndexColumn( hint.isIndexColumn( ) );
 				items[i].setRemoveDuplicateValues( hint.isCompressed( ) );
 			}
 			else
