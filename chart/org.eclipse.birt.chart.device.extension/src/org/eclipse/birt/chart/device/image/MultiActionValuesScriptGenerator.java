@@ -38,6 +38,8 @@ import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.emf.common.util.EMap;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The class generates JavaScript contents for multiple URL values.
  * 
@@ -51,11 +53,11 @@ public class MultiActionValuesScriptGenerator
 	private static String MENU_JS_CODE;
 	
 	private static IScriptMenuHelper SCRIPT_MENU_HELPER = ScriptMenuHelper.instance( );
-	
+
 	/**
 	 * Returns javascript content.
 	 * 
-	 * @return
+	 * @return js content
 	 */
 	public static String getJSContent( ActionValue values )
 	{
@@ -66,9 +68,9 @@ public class MultiActionValuesScriptGenerator
 		return sb.toString( );
 	}
 
-	public static String getJSContent( MultipleActions actions )
+	public static String getJSContent( MultipleActions actions, ULocale locale )
 	{
-		StringBuilder sb = getJSContext( actions );
+		StringBuilder sb = getJSContext( actions, locale );
 		
 		sb.append( "if ( menuInfo.menuItemNames.length == 1 ) {\n" );//$NON-NLS-1$
 		sb.append( "	BirtChartMenuHelper.executeMenuAction( evt, menuInfo.menuItems[0], menuInfo );\n" );//$NON-NLS-1$
@@ -78,20 +80,20 @@ public class MultiActionValuesScriptGenerator
 		sb.append( "}");//$NON-NLS-1$
 		return sb.toString( );
 	}
-	
+
 	/**
 	 * Returns javascript key for current URL values.
 	 * 
-	 * @return
+	 * @return js key
 	 */
 	public static String getJSKey( ActionValue values )
 	{
 		return getJSContext( values ).toString( );
 	}
 	
-	public static String getJSKey( MultipleActions actions )
+	public static String getJSKey( MultipleActions actions, ULocale locale )
 	{
-		return getJSContext( actions ).toString( );
+		return getJSContext( actions, locale ).toString( );
 	}
 	
 	private static StringBuilder getJSContext( ActionValue values  )
@@ -140,7 +142,8 @@ public class MultiActionValuesScriptGenerator
 		return sb;
 	}
 	
-	private static StringBuilder getJSContext( MultipleActions actions )
+	private static StringBuilder getJSContext( MultipleActions actions,
+			ULocale locale )
 	{
 		StringBuilder sb = new StringBuilder( );
 		sb.append( "\n\t var menuInfo = new BirtChartMenuInfo();\n" ); //$NON-NLS-1$
@@ -158,7 +161,7 @@ public class MultiActionValuesScriptGenerator
 			}
 			else if ( av instanceof ScriptValue )
 			{
-				sb = getScriptValueJS( sb, i, (ScriptValue) av );
+				sb = getScriptValueJS( sb, i, (ScriptValue) av, locale );
 			}
 			i++;
 		}
@@ -170,9 +173,10 @@ public class MultiActionValuesScriptGenerator
 
 	/**
 	 * @param sv
-	 * @return
+	 * @return sb script value js
 	 */
-	public static StringBuilder getScriptValueJS( StringBuilder sb, int index, ScriptValue sv )
+	public static StringBuilder getScriptValueJS( StringBuilder sb, int index,
+			ScriptValue sv, ULocale locale )
 	{
 		if ( index == 0 )
 		{
@@ -183,13 +187,13 @@ public class MultiActionValuesScriptGenerator
 			sb.append( "\t mii = new BirtChartMenuItemInfo();\n" );//$NON-NLS-1$
 		}
 
-		sb.append( SCRIPT_MENU_HELPER.getScriptValueJS( index, sv ) );
+		sb.append( SCRIPT_MENU_HELPER.getScriptValueJS( index, sv, locale ) );
 		return sb;
 	}
-	 
+
 	/**
 	 * @param sv
-	 * @return
+	 * @return visual js
 	 */
 	public static StringBuilder getVisualJS( StringBuilder sb, int index, ActionValue av, String scriptActionType )
 	{
@@ -214,11 +218,11 @@ public class MultiActionValuesScriptGenerator
 
 		return sb;
 	}
-	
+
 	/**
 	 * @param index
 	 * @param uv
-	 * @return
+	 * @return sb url value js
 	 */
 	public static StringBuilder getURLValueJS( StringBuilder sb, int index, URLValue uv, ICharacterEncoderAdapter transferAdapter )
 	{
@@ -299,7 +303,7 @@ public class MultiActionValuesScriptGenerator
 
 	/**
 	 * @param multiUrlValue
-	 * @return
+	 * @return list valid url values
 	 */
 	public static List<URLValue> getValidURLValues( MultiURLValues multiUrlValue )
 	{
@@ -330,7 +334,7 @@ public class MultiActionValuesScriptGenerator
 	 * Check if the specified action contains redirection items.
 	 * 
 	 * @param action
-	 * @return
+	 * @return boolean
 	 * @since 2.5.2
 	 */
 	public static boolean containsRedirection( Action action )
@@ -355,10 +359,10 @@ public class MultiActionValuesScriptGenerator
 
 		return false;
 	}
-	
+
 	/**
 	 * @param multiActions
-	 * @return
+	 * @return list valid actions
 	 */
 	public static List<Action> getValidActions( MultipleActions multiActions )
 	{

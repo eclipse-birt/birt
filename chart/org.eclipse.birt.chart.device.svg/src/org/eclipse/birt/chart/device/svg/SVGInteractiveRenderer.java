@@ -920,7 +920,10 @@ public class SVGInteractiveRenderer
 					sb = MultiActionValuesScriptGenerator.getURLValueJS( sb, i, (URLValue) subAction.getValue( ), SVGEncoderAdapter.getInstance( ) );
 					break;
 				case ActionType.INVOKE_SCRIPT:
-					sb = MultiActionValuesScriptGenerator.getScriptValueJS( sb, i, (ScriptValue) subAction.getValue( ) );
+					sb = MultiActionValuesScriptGenerator.getScriptValueJS( sb,
+							i,
+							(ScriptValue) subAction.getValue( ),
+							getULocale( ) );
 					break;
 				case ActionType.TOGGLE_VISIBILITY :
 					sb = MultiActionValuesScriptGenerator.getVisualJS( sb, i, subAction.getValue( ), "BirtChartInteractivityActions.TOGGLE_VISIBILITY" ); //$NON-NLS-1$ 

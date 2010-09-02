@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
+import com.ibm.icu.util.ULocale;
 
 /**
  * The helper class is used to generate scripts for Action Value of chart model.
@@ -40,7 +41,7 @@ public class ScriptMenuHelper implements IScriptMenuHelper
 	/**
 	 * Returns instance of this object.
 	 * 
-	 * @return
+	 * @return IScriptMenuHelper instance
 	 */
 	public static IScriptMenuHelper instance( )
 	{
@@ -50,7 +51,7 @@ public class ScriptMenuHelper implements IScriptMenuHelper
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.device.IScriptMenuHelper#getScriptValueJS(int, org.eclipse.birt.chart.model.attribute.ScriptValue)
 	 */
-	public String getScriptValueJS( int index, ScriptValue sv )
+	public String getScriptValueJS( int index, ScriptValue sv, ULocale locale )
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append( "\t mii.text = '" + sv.getLabel( ).getCaption( ).getValue( ) + "';\n" );//$NON-NLS-1$//$NON-NLS-2$
@@ -61,13 +62,13 @@ public class ScriptMenuHelper implements IScriptMenuHelper
 
 		return sb.toString( );
 	}
-	
+
 	/**
 	 * Wraps specified script into a function for the calling by using eval
 	 * function.
 	 * 
 	 * @param script
-	 * @return
+	 * @return string script
 	 */
 	public static String wrapScriptsAsFunction( String script )
 	{

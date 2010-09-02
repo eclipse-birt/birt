@@ -1019,7 +1019,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			}
 			
 			// Generate a unique JS key for multiple URL values.
-			return MultiActionValuesScriptGenerator.getJSKey( (MultipleActions)ac ) + this.hashCode( );
+			return MultiActionValuesScriptGenerator.getJSKey( (MultipleActions) ac,
+					getULocale( ) )
+					+ this.hashCode( );
 		}
 		else if ( ac.getValue( ) instanceof MultiURLValues )
 		{
@@ -1063,7 +1065,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					{
 						// Return multiple menu javascript.
 						hasMultipleMenu = true;
-						return MultiActionValuesScriptGenerator.getJSContent( (MultipleActions) ac );
+					return MultiActionValuesScriptGenerator.getJSContent( (MultipleActions) ac,
+							getULocale( ) );
 					}
 			}
 			else if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
