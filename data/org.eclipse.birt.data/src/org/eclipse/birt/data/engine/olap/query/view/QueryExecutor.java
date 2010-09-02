@@ -143,9 +143,6 @@ public class QueryExecutor
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign,
 						true );
-				//process mirror operation
-				MirrorOperationExecutor moe = new MirrorOperationExecutor( );
-				rs = moe.execute( rs, view, cubeQueryExecutorHelper );
 				
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 				
@@ -155,10 +152,6 @@ public class QueryExecutor
 			{
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign, false );
-				
-				//process mirror operation
-				MirrorOperationExecutor moe = new MirrorOperationExecutor( );
-				rs = moe.execute( rs, view, cubeQueryExecutorHelper );
 				
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 
@@ -492,7 +485,11 @@ public class QueryExecutor
 		//If not load from local dir
 		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
 		{
-			rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );			
+			rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
+			//process mirror operation
+			MirrorOperationExecutor moe = new MirrorOperationExecutor( );
+			rs = moe.execute( rs, view, cubeQueryExecutorHelper );
+			
 			//If need save to local dir
 			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 			{
