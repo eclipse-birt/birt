@@ -870,21 +870,30 @@ public class ReportDocumentReader
 		{
 			reportRunnable = loadReportRunnable( systemId,
 					ORIGINAL_DESIGN_STREAM );
-			if ( reportRunnable == null )
+			if ( reportRunnable != null )
+			{
+				reportRunnable.setPrepared( false );
+			}
+			else
 			{
 				reportRunnable = getOnPreparedRunnable( );
 			}
 		}
-		return reportRunnable.cloneRunnable( );
+		if ( reportRunnable != null )
+		{
+			return reportRunnable.cloneRunnable( );
+		}
+		return null;
 	}
 
 	public synchronized IReportRunnable getPreparedRunnable( )
 	{
-		if ( preparedRunnable == null )
+		ReportRunnable runnable = getOnPreparedRunnable( );
+		if ( runnable != null )
 		{
-			preparedRunnable = loadReportRunnable( systemId, DESIGN_STREAM );
+			return runnable.cloneRunnable( );
 		}
-		return preparedRunnable.cloneRunnable( );
+		return null;
 	}
 
 	public ReportRunnable getOnPreparedRunnable( )
@@ -892,6 +901,10 @@ public class ReportDocumentReader
 		if ( preparedRunnable == null )
 		{
 			preparedRunnable = loadReportRunnable( systemId, DESIGN_STREAM );
+			if ( preparedRunnable != null )
+			{
+				preparedRunnable.setPrepared( true );
+			}
 		}
 		return preparedRunnable;
 	}
