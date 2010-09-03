@@ -182,8 +182,9 @@ class BindingColumnsEvalUtil
 				valueMap.put( bindingColumn.columnName, exprValue );
 			}
 		}
-		
-		if( ExprMetaUtil.isBasedOnRD( this.odiResult.getResultClass( ) ))
+
+		if ( ExprMetaUtil.isBasedOnRD( this.odiResult.getResultClass( ) )
+				&& !saveHelper.isSummaryQuery( ) )
 		{
 			if ( this.odiResult.getCurrentResult( ) != null )
 			{
@@ -193,7 +194,7 @@ class BindingColumnsEvalUtil
 			}
 			else
 			{
-				//For dummy query case.
+				// For dummy query case.
 				valueMap.put( ExprMetaUtil.POS_NAME, -1 );
 			}
 		}

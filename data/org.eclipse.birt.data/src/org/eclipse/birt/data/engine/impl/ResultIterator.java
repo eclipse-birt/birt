@@ -43,6 +43,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -62,7 +63,6 @@ import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
-import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -1333,6 +1333,13 @@ public class ResultIterator implements IResultIterator
 								1,
 								odiResult.getCurrentResultIndex( ),
 								IDInfo.getSpecialSubQueryInfo( odiResult.getRowCount( ) ) ) ) );
+		}
+		
+		public boolean isSummaryQuery( )
+		{
+			return ( this.queryDefn instanceof IQueryDefinition )
+					? ( (IQueryDefinition) this.queryDefn ).isSummaryQuery( )
+					: false;
 		}
 	}
 
