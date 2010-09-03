@@ -899,11 +899,8 @@ public class ReportDocumentReader
 
 	public synchronized IReportRunnable getReportRunnable( )
 	{
-		if ( reportRunnable == null )
-		{
-			reportRunnable = getReportRunnable( true, systemId );
-		}
-		return reportRunnable.cloneRunnable( );
+		//since the report document only contains a copy of prepared runnable, now we always return the prepared runnable. 
+		return getPreparedRunnable();
 	}
 
 	public synchronized IReportRunnable getPreparedRunnable( )
