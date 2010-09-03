@@ -194,6 +194,9 @@ public class BindingValueFetcher implements IBindingValueFetcher
 		{
 			if ( o == DUMMYOBJ )
 				return true;
+			//is drilled element
+			if( this.value == null )
+				return true;
 			return ScriptEvalUtil.compare( this.value, o ) == 0;
 		}
 		
