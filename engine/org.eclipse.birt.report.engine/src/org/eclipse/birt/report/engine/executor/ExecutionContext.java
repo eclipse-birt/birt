@@ -254,13 +254,6 @@ public class ExecutionContext
 	private long filteredPageNumber;
 
 	/**
-	 * A list of script errors found in onPrepare. These will be added to the
-	 * IReportContent, when one is available
-	 * 
-	 */
-	private List onPrepareErrors = new ArrayList( );
-
-	/**
 	 * Flag to indicate whether task is canceled.
 	 */
 	private boolean isCancelled = false;
@@ -507,7 +500,7 @@ public class ExecutionContext
 		content = null;
 		rsets = null;
 		reportHandles = null;
-		onPrepareErrors = null;
+		errors = null;
 		stringFormatters = null;
 		numberFormatters = null;
 		dateFormatters = null;
@@ -1008,7 +1001,7 @@ public class ExecutionContext
 	{
 		this.reportContent = content;
 		content.setReportContext( reportContext );
-		content.getErrors( ).addAll( onPrepareErrors );
+		content.setErrors( errors );
 	}
 
 	/**
@@ -1163,7 +1156,14 @@ public class ExecutionContext
 		addException( handle, ex );
 	}
 
-	protected HashMap elementExceptions = new HashMap( );
+	/**
+	 * A list of errors in time order, it is also shared by the report content
+	 */
+	private List<EngineException> errors = new ArrayList<EngineException>( );
+	/**
+	 * The exception list grouped by the element
+	 */
+	protected HashMap<DesignElementHandle, ElementExceptionInfo> elementExceptions = new HashMap<DesignElementHandle, ElementExceptionInfo>( );
 
 	public void addException( ReportElementDesign design, BirtException ex )
 	{
@@ -1177,30 +1177,15 @@ public class ExecutionContext
 
 	public void addException( DesignElementHandle element, BirtException ex )
 	{
-		ElementExceptionInfo exInfo = (ElementExceptionInfo) elementExceptions
-				.get( element );
-		if ( exInfo == null )
+		if ( errors.size( ) >= ERROR_TOTAL_COUNT )
 		{
-			exInfo = new ElementExceptionInfo( element );
-			if ( reportContent != null )
+			if ( cancelOnError && task != null )
 			{
-				if ( reportContent.getErrors( ).size( ) < ERROR_TOTAL_COUNT )
-				{
-					reportContent.getErrors( ).add( exInfo );
-				}
+				task.cancel( );
 			}
-			else
-			{
-				if ( onPrepareErrors.size( ) < ERROR_TOTAL_COUNT )
-				{
-					onPrepareErrors.add( exInfo );
-				}
-			}
-			if ( elementExceptions.size( ) < ERROR_TOTAL_COUNT )
-			{
-				elementExceptions.put( element, exInfo );
-			}
+			return;
 		}
+
 		EngineException engineEx = null;
 		if ( ex instanceof EngineException )
 		{
@@ -1211,7 +1196,18 @@ public class ExecutionContext
 			engineEx = new EngineException( ex );
 		}
 		if ( element != null )
+		{
 			engineEx.setElementID( element.getID( ) );
+		}
+		errors.add( engineEx );
+
+		ElementExceptionInfo exInfo = (ElementExceptionInfo) elementExceptions
+				.get( element );
+		if ( exInfo == null )
+		{
+			exInfo = new ElementExceptionInfo( element );
+			elementExceptions.put( element, exInfo );
+		}
 		exInfo.addException( engineEx );
 
 		if ( cancelOnError && task != null )
@@ -2011,15 +2007,6 @@ public class ExecutionContext
 	 */
 	public List getAllErrors( )
 	{
-		List errors = new ArrayList( );
-		Iterator entries = elementExceptions.entrySet( ).iterator( );
-		while ( entries.hasNext( ) )
-		{
-			Map.Entry entry = (Map.Entry) entries.next( );
-			List elementExceptions = ( (ElementExceptionInfo) entry.getValue( ) )
-					.getErrorList( );
-			errors.addAll( elementExceptions );
-		}
 		return errors;
 	}
 

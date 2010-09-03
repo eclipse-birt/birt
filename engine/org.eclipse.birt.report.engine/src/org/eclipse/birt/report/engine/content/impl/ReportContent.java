@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
@@ -73,7 +74,7 @@ public class ReportContent implements IReportContent
 	/**
 	 * errors occured in the generation.
 	 */
-	private ArrayList errors = new ArrayList( );
+	private List<EngineException> errors = new ArrayList<EngineException>( );
 
 	/**
 	 * toc of this report
@@ -288,9 +289,21 @@ public class ReportContent implements IReportContent
 		return new ObjectContent( this );
 	}
 
-	public List getErrors( )
+	public List<EngineException> getErrors( )
 	{
 		return errors;
+	}
+
+	public void setErrors( List<EngineException> errors )
+	{
+		if ( errors != null )
+		{
+			this.errors = errors;
+		}
+		else
+		{
+			this.errors = new ArrayList<EngineException>( );
+		}
 	}
 
 	public ITOCTree getTOCTree( String format, ULocale locale )
