@@ -183,7 +183,8 @@ class ResultSetsAdapter
 
 		updateColumnHintFromDataAttrs( columnDefn.getAttributes( ),
 				cachedDataAttrs, newHint );
-		updateColumnHintFromUsageHints( outputAttrs,
+		updateColumnHintFromUsageHints(
+				outputAttrs,
 				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
 						.getUsageHints( ), newHint );
 		updateColumnHintFromAxisAttrs(
@@ -261,7 +262,7 @@ class ResultSetsAdapter
 		Object oldValue = cachedDataAttrs == null ? null : cachedDataAttrs
 				.getName( );
 		Object newValue = dataAttrs.getName( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, newValue );
 
 		DataElementUIHints dataUIHints = dataAttrs.getUiHints( );
@@ -274,7 +275,7 @@ class ResultSetsAdapter
 		oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
 				.getDisplayName( );
 		newValue = dataUIHints.getDisplayName( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty( ColumnHint.DISPLAY_NAME_MEMBER, newValue );
 		}
@@ -282,7 +283,7 @@ class ResultSetsAdapter
 		oldValue = cachedDataUIHints == null ? null : cachedDataUIHints
 				.getDisplayNameKey( );
 		newValue = dataUIHints.getDisplayNameKey( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty( ColumnHint.DISPLAY_NAME_ID_MEMBER, newValue );
 		}
@@ -326,7 +327,7 @@ class ResultSetsAdapter
 		Object oldValue = cachedOutputAttrs == null ? null : cachedOutputAttrs
 				.getHelpText( );
 		Object newValue = outputAttrs.getHelpText( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty( ColumnHint.HELP_TEXT_MEMBER, newValue );
 		}
@@ -334,7 +335,7 @@ class ResultSetsAdapter
 		oldValue = cachedOutputAttrs == null ? null : cachedOutputAttrs
 				.getHelpTextKey( );
 		newValue = outputAttrs.getHelpTextKey( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty( ColumnHint.HELP_TEXT_ID_MEMBER, newValue );
 		}
@@ -344,7 +345,7 @@ class ResultSetsAdapter
 		oldValue = cachedOutputAttrs == null ? null : cachedOutputAttrs
 				.getLabel( );
 		newValue = outputAttrs.getLabel( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty( ColumnHint.HEADING_MEMBER, newValue );
 		}
@@ -352,7 +353,7 @@ class ResultSetsAdapter
 		oldValue = cachedOutputAttrs == null ? null : cachedOutputAttrs
 				.getLabelKey( );
 		newValue = outputAttrs.getLabelKey( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty( ColumnHint.HEADING_ID_MEMBER, newValue );
 		}
@@ -371,7 +372,7 @@ class ResultSetsAdapter
 
 		// convert display format in oda to pattern part of value-format member
 		newValue = formatHints.getDisplayFormat( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			FormatValue format = (FormatValue) newHint.getProperty( null,
 					ColumnHint.VALUE_FORMAT_MEMBER );
@@ -381,7 +382,7 @@ class ResultSetsAdapter
 				newHint.setProperty( ColumnHint.VALUE_FORMAT_MEMBER, format );
 			}
 
-			if (format != null)
+			if ( format != null )
 				format.setPattern( (String) newValue );
 		}
 
@@ -396,7 +397,7 @@ class ResultSetsAdapter
 		newValue = formatHints.getHorizontalAlignment( );
 		oldValue = cachedFormatHints == null ? null : cachedFormatHints
 				.getHorizontalAlignment( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty(
 					ColumnHint.HORIZONTAL_ALIGN_MEMBER,
@@ -433,7 +434,7 @@ class ResultSetsAdapter
 				return DesignChoiceConstants.TEXT_ALIGN_LEFT;
 			case HorizontalAlignment.RIGHT :
 				return DesignChoiceConstants.TEXT_ALIGN_RIGHT;
-			case HorizontalAlignment.LEFT_AND_RIGHT:
+			case HorizontalAlignment.LEFT_AND_RIGHT :
 				return DesignChoiceConstants.TEXT_ALIGN_JUSTIFY;
 		}
 
@@ -508,7 +509,7 @@ class ResultSetsAdapter
 		Object oldValue = cachedAxisAttributes == null
 				? null
 				: cachedAxisAttributes.getAxisType( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty( ColumnHint.ANALYSIS_MEMBER,
 					convertAxisTypeToAnalysisType( (AxisType) newValue ) );
@@ -517,7 +518,7 @@ class ResultSetsAdapter
 		newValue = axisAttributes.isOnColumnLayout( );
 		oldValue = cachedAxisAttributes == null ? null : cachedAxisAttributes
 				.isOnColumnLayout( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, newValue );
 		}
@@ -568,7 +569,8 @@ class ResultSetsAdapter
 		if ( columnDefn == null )
 			return;
 
-		updateResultSetColumnFromDataAttrs( columnDefn.getAttributes( ),
+		updateResultSetColumnFromDataAttrs(
+				columnDefn.getAttributes( ),
 				cachedColumnDefn == null ? null : cachedColumnDefn
 						.getAttributes( ), setColumn, dataSourceId, dataSetId );
 	}
@@ -603,7 +605,7 @@ class ResultSetsAdapter
 		Object oldValue = cachedDataAttrs == null ? null : cachedDataAttrs
 				.getName( );
 		Object newValue = dataAttrs.getName( );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			// if the native name is just empty, treat it as null
 
@@ -617,7 +619,7 @@ class ResultSetsAdapter
 		oldValue = cachedDataAttrs == null ? null : Integer
 				.valueOf( cachedDataAttrs.getPosition( ) );
 		newValue = Integer.valueOf( dataAttrs.getPosition( ) );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newColumn.setPosition( (Integer) newValue );
 		}
@@ -625,7 +627,7 @@ class ResultSetsAdapter
 		oldValue = cachedDataAttrs == null ? null : Integer
 				.valueOf( cachedDataAttrs.getNativeDataTypeCode( ) );
 		newValue = Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) );
-		if ( oldValue == null || !oldValue.equals( newValue )
+		if ( !CompareUtil.isEquals( oldValue, newValue )
 				|| newColumn.getNativeDataType( ) == null )
 		{
 			newColumn.setNativeDataType( (Integer) newValue );
@@ -823,9 +825,9 @@ class ResultSetsAdapter
 				cachedColumnDefn = findColumnDefinition( cachedSetColumns,
 						nativeName, position );
 
-				oldColumn = findOdaResultSetColumn( setDefinedResults
-						.iterator( ), nativeName, position, Integer
-						.valueOf( dataAttrs.getNativeDataTypeCode( ) ) );
+				oldColumn = findOdaResultSetColumn(
+						setDefinedResults.iterator( ), nativeName, position,
+						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ) );
 			}
 
 			OdaResultSetColumn newColumn = null;
@@ -845,9 +847,9 @@ class ResultSetsAdapter
 						.copy( );
 
 			updateROMOdaResultSetColumnFromColumnDefinition( columnDefn,
-					cachedColumnDefn, newColumn, setDesign
-							.getOdaExtensionDataSourceId( ), setDesign
-							.getOdaExtensionDataSetId( ) );
+					cachedColumnDefn, newColumn,
+					setDesign.getOdaExtensionDataSourceId( ),
+					setDesign.getOdaExtensionDataSetId( ) );
 
 			ColumnHint oldHint = null;
 			ColumnHintHandle oldHintHandle = AdapterUtil.findColumnHint(
@@ -856,8 +858,8 @@ class ResultSetsAdapter
 				oldHint = (ColumnHint) oldHintHandle.getStructure( );
 
 			ColumnHint newHint = newROMColumnHintFromColumnDefinition(
-					columnDefn, cachedColumnDefn, oldHint, newColumn
-							.getColumnName( ) );
+					columnDefn, cachedColumnDefn, oldHint,
+					newColumn.getColumnName( ) );
 
 			setInfo = new ResultSetColumnInfo( newColumn, newHint );
 			retList.add( setInfo );
@@ -1129,9 +1131,9 @@ class ResultSetsAdapter
 			if ( column == null )
 				continue;
 
-			ColumnDefinition odaColumn = findColumnDefinition( columnDefns
-					.getResultSetColumns( ), column.getNativeName( ), column
-					.getPosition( ) );
+			ColumnDefinition odaColumn = findColumnDefinition(
+					columnDefns.getResultSetColumns( ),
+					column.getNativeName( ), column.getPosition( ) );
 
 			if ( odaColumn == null )
 				continue;
