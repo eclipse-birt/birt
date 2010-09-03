@@ -345,6 +345,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		tablescomposite.setLayoutData( data );
 
 		createDBObjectTree( tablescomposite );
+		createObjectTreeMenu();
 
 		createSchemaFilterComposite( supportsSchema,
 				supportsProcedure,
@@ -388,7 +389,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				if ( availableDbObjectsTree.getSelectionCount( ) > 0 )
 				{
 					TreeItem item = availableDbObjectsTree.getSelection( )[0];
-					if ( item.getParentItem( ) != null )
+					if ( item.getParentItem( ) != null && treeMenu!=null )
 					{
 						treeMenu.setLocation( e.x, e.y );
 						return;
