@@ -228,11 +228,13 @@ public class DataSetNumberIndex implements IDataSetIndex
 		private List<Set<Integer>> indexs;
 		private RAInputStream raIn;
 		private long offset;
+		private boolean initialized;
 
 		public Seg( RAInputStream raIn, long offset )
 		{
 			this.raIn = raIn;
 			this.offset = offset;
+			this.initialized = false;
 		}
 
 		public int getSize( ) throws DataException
@@ -326,20 +328,27 @@ public class DataSetNumberIndex implements IDataSetIndex
 		{
 			try
 			{
-				if ( this.keys == null || this.indexs == null )
+				if ( !initialized )
 				{
-					List keyList = new ArrayList( );
-					List<Set<Integer>> indexList = new ArrayList<Set<Integer>>( );
-					this.raIn.seek( offset );
-					DataInputStream din = new DataInputStream( this.raIn );
-					int size = IOUtil.readInt( this.raIn );
-					for ( int i = 0; i < size; i++ )
+					synchronized( this )
 					{
-						keyList.add( IOUtil.readObject( din ) );
-						indexList.add( new HashSet(IOUtil.readList( din )) );
+						if ( !initialized )
+						{
+							List keyList = new ArrayList( );
+							List<Set<Integer>> indexList = new ArrayList<Set<Integer>>( );
+							this.raIn.seek( offset );
+							DataInputStream din = new DataInputStream( this.raIn );
+							int size = IOUtil.readInt( this.raIn );
+							for ( int i = 0; i < size; i++ )
+							{
+								keyList.add( IOUtil.readObject( din ) );
+								indexList.add( new HashSet(IOUtil.readList( din )) );
+							}
+							this.keys = keyList;
+							this.indexs = indexList;
+							this.initialized = true;
+						}
 					}
-					this.keys = keyList;
-					this.indexs = indexList;
 				}
 			}
 			catch ( Exception e )
