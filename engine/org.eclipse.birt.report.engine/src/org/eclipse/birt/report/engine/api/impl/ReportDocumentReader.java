@@ -814,24 +814,11 @@ public class ReportDocumentReader
 		}
 	}
 
-	public InputStream getOriginalDesignStream( )
+	public InputStream getDesignStream( )
 	{
 		try
 		{
-			return archive.getStream( ORIGINAL_DESIGN_STREAM );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to open the design!", ex ); //$NON-NLS-1$
-			return null;
-		}
-	}
-
-	public InputStream getDesignStream( boolean isOriginal )
-	{
-		try
-		{
-			if ( isOriginal && archive.exists( ORIGINAL_DESIGN_STREAM ) )
+			if ( archive.exists( ORIGINAL_DESIGN_STREAM ) )
 			{
 				return archive.getStream( ORIGINAL_DESIGN_STREAM );
 			}
@@ -844,72 +831,69 @@ public class ReportDocumentReader
 		}
 	}
 
-	private ReportRunnable getReportRunnable( boolean isOriginal,
-			String systemId )
+	private ReportRunnable loadReportRunnable( String systemId,
+			String streamName )
 	{
-		if ( !isOriginal && preparedRunnable != null )
+
+		try
 		{
-			return preparedRunnable;
-		}
-		ReportRunnable reportRunnable = null;
-		String name = null;
-		if ( systemId == null )
-		{
-			name = archive.getName( );
-		}
-		else
-		{
-			name = systemId;
-		}
-		InputStream stream = getDesignStream( isOriginal );
-		if ( stream != null )
-		{
-			try
+			if ( archive.exists( streamName ) )
 			{
-				reportRunnable = (ReportRunnable) engine.openReportDesign(
-						name, stream, moduleOptions );
-				reportRunnable.setPrepared( !isOriginal );
-				stream.close( );
-			}
-			catch ( Exception ex )
-			{
-				logger.log( Level.SEVERE, "Failed to get the report runnable", //$NON-NLS-1$
-						ex );
-			}
-			finally
-			{
+				InputStream stream = archive.getStream( streamName );
 				try
 				{
-					if ( stream != null )
+					String name = systemId;
+					if ( name == null )
 					{
-						stream.close( );
+						name = archive.getName( );
 					}
+					ReportRunnable reportRunnable = (ReportRunnable) engine
+							.openReportDesign( name, stream, moduleOptions );
+					return reportRunnable;
 				}
-				catch ( IOException ex )
+				finally
 				{
+					stream.close( );
 				}
 			}
 		}
-		if ( !isOriginal && preparedRunnable == null )
+		catch ( Exception ex )
 		{
-			preparedRunnable = reportRunnable;
+			logger.log( Level.SEVERE, "Failed to open the design!", ex ); //$NON-NLS-1$
 		}
-		return reportRunnable;
+		return null;
 	}
 
 	public synchronized IReportRunnable getReportRunnable( )
 	{
-		//since the report document only contains a copy of prepared runnable, now we always return the prepared runnable. 
-		return getPreparedRunnable();
+		if ( reportRunnable == null )
+		{
+			reportRunnable = loadReportRunnable( systemId,
+					ORIGINAL_DESIGN_STREAM );
+			if ( reportRunnable == null )
+			{
+				reportRunnable = getOnPreparedRunnable( );
+			}
+		}
+		return reportRunnable.cloneRunnable( );
 	}
 
 	public synchronized IReportRunnable getPreparedRunnable( )
 	{
 		if ( preparedRunnable == null )
 		{
-			preparedRunnable = getReportRunnable( false, systemId );
+			preparedRunnable = loadReportRunnable( systemId, DESIGN_STREAM );
 		}
 		return preparedRunnable.cloneRunnable( );
+	}
+
+	public ReportRunnable getOnPreparedRunnable( )
+	{
+		if ( preparedRunnable == null )
+		{
+			preparedRunnable = loadReportRunnable( systemId, DESIGN_STREAM );
+		}
+		return preparedRunnable;
 	}
 
 	/**
@@ -1621,16 +1605,6 @@ public class ReportDocumentReader
 			}
 		}
 		return null;
-	}
-
-	public IReportRunnable getOnPreparedRunnable( )
-	{
-		return getReportRunnable( false, systemId );
-	}
-
-	public InputStream getDesignStream( )
-	{
-		return getDesignStream( true );
 	}
 
 	private InstanceID loadInstanceID( ReportContentReaderV3 reader, long offset )
