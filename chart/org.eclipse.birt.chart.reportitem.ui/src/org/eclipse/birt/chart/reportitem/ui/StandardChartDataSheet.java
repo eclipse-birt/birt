@@ -839,10 +839,36 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	}
 
 	/**
+	 * Check if chart is direct consuming cube, should exclude sharing
+	 * cube/inheriting cube/xtab-chart with cube/multiview with cube cases.
+	 * 
+	 * @return
+	 */
+	private boolean isDriectCubeReference( )
+	{
+		boolean bCube = ChartCubeUtil.getBindingCube( itemHandle ) != null;
+		if ( bCube )
+		{
+			int selectedIndex = cmbDataItems.getSelectionIndex( );
+			if ( selectedIndex < 0 )
+			{
+				return false;
+			}
+			Integer selectState = selectDataTypes.get( selectedIndex );
+			return selectState.intValue( ) == SELECT_DATA_CUBE;
+		}
+		return false;
+	}
+	
+	/**
 	 * 
 	 */
 	private void refreshDataPreviewPane( )
 	{
+		if ( isDriectCubeReference() )
+		{
+			return;
+		}
 		if ( getContext().isShowingDataPreview( ) )
 		{
 			refreshTablePreview( );
