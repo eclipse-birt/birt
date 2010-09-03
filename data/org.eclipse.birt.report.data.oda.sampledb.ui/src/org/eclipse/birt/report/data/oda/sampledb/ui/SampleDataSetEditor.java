@@ -24,7 +24,8 @@ import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -72,15 +73,22 @@ public class SampleDataSetEditor extends DataSetWizardPage
 		// create the composite to hold the widgets
 		Composite content = new Composite( parent, SWT.NONE );
 
-		FillLayout layout = new FillLayout( );
+		GridLayout layout = new GridLayout( );
 		content.setLayout( layout );
+		content.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		Label txt = new Label( content, SWT.LEFT );
-		txt.setText( Messages.formatMessage( "datasource.upgrade.msg",
-				new Object[]{
+		txt.setText( Messages.formatMessage( "datasource.upgrade.msg.firstLine", new Object[]{ //$NON-NLS-1$
 					dataSourceDesign.getName( )
 				} ) );
 
+		Label nextLineLabel = new Label( content, SWT.LEFT );
+		nextLineLabel.setText( Messages.formatMessage( "datasource.upgrade.msg.secondLine", new Object[]{ //$NON-NLS-1$
+					dataSourceDesign.getName( )
+				} ) );
+
+		Label thirdLineLabel = new Label( content, SWT.LEFT );
+		thirdLineLabel.setText( Messages.getMessage( "datasource.upgrade.msg.thirdLine" ) ); //$NON-NLS-1$
 		return content;
 	}
 
