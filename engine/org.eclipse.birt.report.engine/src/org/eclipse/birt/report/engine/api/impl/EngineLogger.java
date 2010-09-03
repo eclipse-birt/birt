@@ -103,12 +103,12 @@ public class EngineLogger
 			logMaxBackupIndex = maxBackupIndex;
 			if ( logLevel != Level.OFF )
 			{
-				Handler fileHandler = createFileLogger( logFileName,
+				FileHandler fileHandler = createFileLogger( logFileName,
 						logRollingSize, logMaxBackupIndex );
 				if ( fileHandler != null )
 				{
 					AdapterHandler adapter = getAdapterHandler( );
-					adapter.setUserLogger( logger );
+					adapter.setFileHandler( fileHandler );
 				}
 			}
 		}
