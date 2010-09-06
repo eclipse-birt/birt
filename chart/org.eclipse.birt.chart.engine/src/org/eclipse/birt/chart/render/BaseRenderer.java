@@ -1453,6 +1453,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				{
 					tgOnClick = goFactory.createTrigger( TriggerCondition.ONCLICK_LITERAL,
 							action );
+					lg.getTriggers( ).add( tgOnClick );
 				}
 				else
 				{
