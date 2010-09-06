@@ -450,7 +450,7 @@ public final class DataSetProvider
 				return hint;
 			}
 		}
-		if ( hint == null && ( handle instanceof DerivedDataSetHandle ) )
+		if ( handle instanceof DerivedDataSetHandle )
 		{
 			List<DataSetHandle> inputDataSets = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
 			for ( int i = 0; i < inputDataSets.size( ); i++ )
