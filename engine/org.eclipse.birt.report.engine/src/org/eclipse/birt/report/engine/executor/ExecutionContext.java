@@ -500,7 +500,7 @@ public class ExecutionContext
 		content = null;
 		rsets = null;
 		reportHandles = null;
-		errors = null;
+		errors.clear();
 		stringFormatters = null;
 		numberFormatters = null;
 		dateFormatters = null;
