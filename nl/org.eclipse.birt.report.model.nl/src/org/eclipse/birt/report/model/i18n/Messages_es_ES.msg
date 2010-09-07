@@ -3398,7 +3398,7 @@ Element.DataMart.slot.dataSets=Conjuntos de datos
 Element.DataMart.slot.cubes=Cubos
 Element.DataMart.slot.parameters=Parámetros
 Element.DataMart.slot.dimensions=Dimensiones compartidas
-Element.DataMart.enableACL=Activar ACL
+Element.DataMart.enableACL=Activar seguridad de datos
 Element.DataMart.ACLExpression=Expresión ACL
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
