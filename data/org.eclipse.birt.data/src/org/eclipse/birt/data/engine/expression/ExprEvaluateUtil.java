@@ -263,7 +263,8 @@ public class ExprEvaluateUtil
 
 		if ( dataExpr instanceof IScriptExpression )
 		{
-			if ( ( (IScriptExpression) dataExpr ).getText( ) == null )
+			if ( ( (IScriptExpression) dataExpr ).getText( ) == null
+					&& !( (IScriptExpression) dataExpr ).isConstant( ) )
 				throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 			Object value = null;
 			if ( ( (IScriptExpression) dataExpr ).isConstant( ) )
