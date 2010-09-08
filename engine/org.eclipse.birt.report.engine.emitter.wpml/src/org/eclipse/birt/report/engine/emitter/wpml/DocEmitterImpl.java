@@ -150,7 +150,20 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			// store the inline state before the HTML foreign.
 			boolean inlineBrother = !context.isFirstInline( );
 			// the inline state needs be recalculated in the HTML foreign.
-			context.endInline( );
+			
+			// if the foreign itself is not inline
+			if ( !"inline".equalsIgnoreCase( foreign.getComputedStyle( ) //$NON-NLS-1$
+					.getDisplay( ) ) )
+			{
+				// stop the inline mode completely
+				adjustInline();
+				inlineBrother = false;
+			}
+			else
+			{
+				// only store the state to restore it later
+				context.endInline( );
+			}
 
 			HTML2Content.html2Content( foreign );
 
