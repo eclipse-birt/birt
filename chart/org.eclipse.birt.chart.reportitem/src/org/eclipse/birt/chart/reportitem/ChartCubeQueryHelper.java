@@ -967,9 +967,10 @@ public class ChartCubeQueryHelper
 				{
 					valueList.add( modelAdapter.adaptExpression( value ) );
 				}
-				filterCondExpr = new ConditionalExpression( ChartReportItemUtil.newExpression( modelAdapter,
-						exprCodec,
-						filterQuery ),
+				exprCodec.decode( filterQuery );
+				filterCondExpr = new ConditionalExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+						modelAdapter,
+						true ),
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
 						valueList );
 			}
@@ -977,9 +978,10 @@ public class ChartCubeQueryHelper
 			{
 				Object value2 = filterCon.getExpressionProperty( FilterConditionElementHandle.VALUE2_PROP )
 						.getValue( );
-				filterCondExpr = new ConditionalExpression( ChartReportItemUtil.newExpression( modelAdapter,
-						exprCodec,
-						filterQuery ),
+				exprCodec.decode( filterQuery );
+				filterCondExpr = new ConditionalExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+						modelAdapter,
+						true ),
 						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
 						value1 == null ? null
 								: modelAdapter.adaptExpression( value1.get( 0 ) ),
