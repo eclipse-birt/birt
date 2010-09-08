@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	<extension 
+		point="org.eclipse.birt.report.engine.emitters"
+	 	name = "OpenDocument Text Emitters">
+
+        <emitter
+              class="org.eclipse.birt.report.engine.emitter.odt.OdtEmitter"
+              format="odt"
+              id="org.eclipse.birt.report.engine.emitter.odt"
+              pagination="page-break-pagination"
+              mimeType="application/vnd.oasis.opendocument.text"/>
+  	</extension>  
+</plugin>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+     <extension 
+	 	point="org.eclipse.birt.report.engine.emitter.config"
+	 	name = "OpenDocument Spreadsheet Emitter Descriptor">
+
+        <descriptor
+              class="org.eclipse.birt.report.engine.emitter.config.ods.OdsEmitterDescriptor"
+              id="org.eclipse.birt.report.engine.emitter.prototype.ods">
+        </descriptor>
+  </extension>  
+</plugin>
