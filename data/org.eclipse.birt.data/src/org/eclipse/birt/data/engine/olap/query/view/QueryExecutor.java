@@ -640,10 +640,20 @@ public class QueryExecutor
 						if( referBinding != null )
 						{
 							measureName = OlapExpressionUtil.getMeasure( referBinding.getExpression( ) );
-							bindingName = referBinding.getBindingName( );							
+							bindingName = referBinding.getBindingName( );
+							aggrOns = referBinding.getAggregatOns( );
 						}
 					}
-					if ( measureName != null )
+					if ( aggrOns != null && aggrOns.size( ) > 0 )
+					{
+						aggrOnLevels = new DimLevel[aggrOns.size( )];
+						for ( int j = 0; j < aggrOnLevels.length; j++ )
+						{
+							aggrOnLevels[j] = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j )
+									.toString( ) );
+						}
+					}
+					else if ( measureName != null )
 					{
 						List measureAggrOns = CubeQueryDefinitionUtil.populateMeasureAggrOns( queryDefn );
 						aggrOnLevels = new DimLevel[measureAggrOns.size( )];
