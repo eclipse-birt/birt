@@ -430,7 +430,7 @@ public class ModelAdapter implements IModelAdapter
 	public ScriptExpression adaptExpression( Expression expr,
 			ExpressionLocation el )
 	{
-		if ( expr == null || expr.getStringExpression( ) == null )
+		if ( expr == null )
 			return null;
 
 		ScriptExpression jsExpr = null;
@@ -442,7 +442,11 @@ public class ModelAdapter implements IModelAdapter
 			return jsExpr;
 		}
 		else
+		{
+			if ( expr.getStringExpression( ) == null )
+				return null;
 			jsExpr = new ExpressionAdapter( expr, el );
+		}
 
 		return jsExpr;
 	}
