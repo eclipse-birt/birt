@@ -71,8 +71,11 @@ public class DateFormatWrapperFactory
 				df = new CommonDateFormatWrapper( new SimpleDateFormat( "yyyy", //$NON-NLS-1$
 						locale ) );
 				break;
-			case Calendar.MONTH :
 			case CDateTime.QUARTER :
+				df = new CommonDateFormatWrapper( new SimpleDateFormat( "yyyy QQQ", //$NON-NLS-1$
+						locale ) );
+				break;
+			case Calendar.MONTH :
 				df = new MonthDateFormat( locale );
 				break;
 			case Calendar.DATE :
