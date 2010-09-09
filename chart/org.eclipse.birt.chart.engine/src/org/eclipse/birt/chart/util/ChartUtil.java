@@ -2040,6 +2040,8 @@ public class ChartUtil
 					fs = JavaDateFormatSpecifierImpl.create( "yyyy" ); //$NON-NLS-1$
 					break;
 				case GroupingUnitType.QUARTERS :
+					fs = JavaDateFormatSpecifierImpl.create( "yyyy QQQ" ); //$NON-NLS-1$
+					break;
 				case GroupingUnitType.MONTHS :
 					fs = JavaDateFormatSpecifierImpl.create( "MMM yyyy" ); //$NON-NLS-1$
 					break;
