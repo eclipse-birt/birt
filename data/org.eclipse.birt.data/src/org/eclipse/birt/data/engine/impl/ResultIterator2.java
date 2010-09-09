@@ -17,18 +17,21 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -111,14 +114,14 @@ class ResultIterator2 extends ResultIterator
 								.getID( ), null, 0 ) );
 				try
 				{
-					bindings = new ArrayList( rService.getQueryDefn( )
+					bindings = findSavedBinding( rService.getQueryDefn( )
 							.getBindings( )
-							.values( ) );
+							.values( )
+							.iterator( ) );
 					this.doSaveResultClass( streamManager.getOutStream( DataEngineContext.DATASET_META_STREAM,
 							StreamManager.ROOT_STREAM,
 							StreamManager.SELF_SCOPE ),
-							bindings,
-							this.getResultMetaData( ) );
+							bindings );
 
 					raDataSet = (RAOutputStream) streamManager.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
 							StreamManager.ROOT_STREAM,
@@ -139,9 +142,47 @@ class ResultIterator2 extends ResultIterator
 		logger.exiting( ResultIterator2.class.getName( ), "ResultIterator2" );
 	}
 
+	private List<IBinding> findSavedBinding( Iterator<IBinding> bindingIt )
+	{
+		List<IBinding> bindingList = new ArrayList<IBinding>( );
+		while ( bindingIt.hasNext( ) )
+		{
+			IBinding binding = bindingIt.next( );
+
+			List<String> referencedBindings = new ArrayList<String>( );
+			try
+			{
+				IBaseExpression expr = binding.getExpression( );
+				if ( expr != null )
+				{
+					referencedBindings = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+							ExpressionUtil.DATASET_ROW_INDICATOR );
+				}
+				if ( referencedBindings.isEmpty( )
+						&& binding.getAggrFunction( ) != null )
+				{
+					for ( IBaseExpression argExpr : (List<IBaseExpression>) binding.getArguments( ) )
+					{
+						referencedBindings = ExpressionCompilerUtil.extractColumnExpression( argExpr,
+								ExpressionUtil.DATASET_ROW_INDICATOR );
+						if ( !referencedBindings.isEmpty( ) )
+							break;
+					}
+				}
+				if ( !referencedBindings.isEmpty( ) )
+				{
+					bindingList.add( binding );
+				}
+			}
+			catch ( DataException e )
+			{
+			}
+		}
+		return bindingList;
+	}
+
 	private void doSaveResultClass( OutputStream outputStream,
-			List<IBinding> requestColumnMap, IResultMetaData rClass )
-			throws BirtException
+			List<IBinding> requestColumnMap ) throws BirtException
 	{
 		assert outputStream != null;
 
