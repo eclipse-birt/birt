@@ -184,8 +184,12 @@ public class ModelAdapter implements IModelAdapter
 		if( expr == null || expr.getStringExpression( ) == null )
 			return null;
 		ScriptExpression jsExpr = new ExpressionAdapter( expr, dataType );
-		if( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+		{
+			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
 			jsExpr.setConstant( true );
+			jsExpr.setConstantValue( expr.getExpression( ) );
+		}
 		return jsExpr;
 	}
 	
