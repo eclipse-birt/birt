@@ -60,6 +60,8 @@ public class ParameterHelper
 	static final int SCALAR_PARAMETER = 1;
 	static final int FILTER_PARAMETER = 2;
 
+	private String pattern = null;
+
 	public ParameterHelper( AbstractScalarParameterHandle param,
 			ULocale ulocale, TimeZone timezone )
 	{
@@ -71,8 +73,6 @@ public class ParameterHelper
 		
 		String sortDirection = param.getSortDirection( );
 		boolean sortByLabel = "label".equalsIgnoreCase( param.getSortBy( ) );
-		String pattern = null;
-		
 		if ( param instanceof ScalarParameterHandle )
 		{
 			parameterType = SCALAR_PARAMETER;
@@ -156,10 +156,17 @@ public class ParameterHelper
 	public String getLabel( IResultIterator resultIterator )
 			throws BirtException
 	{
-		String name = labelColumnName != null ? labelColumnName
-				: valueColumnName;
-		Object value = resultIterator.getValue( name );
-		return converter.format( value );
+		if ( labelColumnName == null && pattern == null )
+		{
+			return null;
+		}
+		else
+		{
+			String name = labelColumnName != null ? labelColumnName
+					: valueColumnName;
+			Object value = resultIterator.getValue( name );
+			return converter.format( value );
+		}
 	}
 	
 	public Object getValue( IResultIterator resultIterator )

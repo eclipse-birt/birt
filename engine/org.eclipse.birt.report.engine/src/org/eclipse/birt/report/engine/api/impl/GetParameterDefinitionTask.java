@@ -339,16 +339,21 @@ public class GetParameterDefinitionTask extends EngineTask
 
 				ArrayList choices = new ArrayList( );
 				String pattern = parameter.getPattern( );
-				ReportParameterConverter converter = new ReportParameterConverter( pattern,
-						ulocale,
-						timeZone );
+				ReportParameterConverter converter = null;
+				if ( pattern != null )
+				{
+					converter = new ReportParameterConverter( pattern,
+							ulocale,
+							timeZone );
+				}
 				if ( result instanceof Collection )
 				{
 					Iterator iter = ( (Collection) result ).iterator( );
 					while ( iter.hasNext( ) )
 					{
 						Object value = convertToType( iter.next( ), dataType );
-						String label = converter.format( value );
+						String label = converter != null
+								? converter.format( value ) : null;
 						choices.add( new SelectionChoice( label, value ) );
 					}
 				}
@@ -360,7 +365,8 @@ public class GetParameterDefinitionTask extends EngineTask
 					{
 						Object origValue = Array.get( result, index );
 						Object value = convertToType( origValue, dataType );
-						String label = converter.format( value );
+						String label = converter != null
+								? converter.format( value ) : null;
 						choices.add( new SelectionChoice( label, value ) );
 					}
 				}
@@ -368,7 +374,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				{
 					// the result is a simple object
 					Object value = convertToType( result, dataType );
-					String label = converter.format( value );
+					String label = converter != null ? converter.format( value )
+							: null;
 					choices.add( new SelectionChoice( label, value ) );
 					return choices;
 				}
@@ -514,7 +521,7 @@ public class GetParameterDefinitionTask extends EngineTask
 					label = choice.getLabel( );
 				}
 				Object value = convertToType( choice.getValue( ), dataType );
-				if ( label == null )
+				if ( label == null && pattern != null )
 				{
 					label = converter.format( value );
 				}
