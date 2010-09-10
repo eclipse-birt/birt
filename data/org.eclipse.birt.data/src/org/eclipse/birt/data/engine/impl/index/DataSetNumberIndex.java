@@ -236,7 +236,13 @@ public class DataSetNumberIndex implements IDataSetIndex
 			this.offset = offset;
 			this.initialized = false;
 		}
-
+		
+		public List getKeys( ) throws DataException
+		{
+			init( );
+			return this.keys;
+		}
+		
 		public int getSize( ) throws DataException
 		{
 			init( );
@@ -402,5 +408,18 @@ public class DataSetNumberIndex implements IDataSetIndex
 				&& filterType != IConditionalExpression.OP_GT )
 			return false;
 		return true;
+	}
+
+	/**
+	 * 
+	 */
+	public Object[] getAllKeyValues() throws DataException
+	{
+		List keys = new ArrayList( );
+		for( int i = 0; i < segs.length; i++ )
+		{
+			keys.addAll( segs[i].getKeys( ) );
+		}
+		return keys.toArray( );
 	}
 }

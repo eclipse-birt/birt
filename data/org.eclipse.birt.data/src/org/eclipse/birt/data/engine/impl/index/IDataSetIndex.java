@@ -21,4 +21,6 @@ public interface IDataSetIndex
 	public Set<Integer> getKeyIndex( Object key, int filterType ) throws DataException;
 	
 	public boolean supportFilter( int filterType ) throws DataException;
+	
+	public Object[] getAllKeyValues( ) throws DataException;
 }

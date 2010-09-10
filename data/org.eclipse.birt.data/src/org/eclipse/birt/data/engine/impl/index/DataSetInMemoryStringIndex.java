@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl.index;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -218,5 +219,16 @@ public class DataSetInMemoryStringIndex extends HashMap
 			return false;
 		}
 		return true;
+	}
+
+	public Object[] getAllKeyValues() throws DataException
+	{
+		Object[] values = this.values( ).toArray( );
+		Object[] keys = new Object[values.length];
+		for( int i = 0; i < values.length; i++ )
+		{
+			keys[i] = ( ( WrapperedValue )values[i] ).getKeyValue( );
+		}
+		return keys;
 	}
 }
