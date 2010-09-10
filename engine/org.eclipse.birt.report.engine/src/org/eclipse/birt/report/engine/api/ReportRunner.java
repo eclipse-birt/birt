@@ -433,7 +433,7 @@ public class ReportRunner
 		System.out.println( "\tlogDir         the directory where logs are generated" );
 		System.out.println( "\tlogLevel       log level, see java.util.Level" );
 		System.out.println( "\tlogFile        the log file" );
-		System.out.println( "\tscriptPath     the directory where to find scripts" );
+		System.out.println( "\tscriptPath     the class path where to find scripts" );
 	}
 	
 	protected void printRenderOptionUsage( )
