@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Î´ÄÜÎªÒÑ¼ÆËãµÄÁĞ¡°{0}¡±¼ÆËãÖ
 data.engine.ScriptResult.WrongSystemComputedColumn=Î´ÄÜ¸ù¾İÅÅĞò¡¢×é»òÉ¸Ñ¡±í´ïÊ½¼ÆËãÖµ¡£
 data.engine.ComputedColumnCycle=¼ÆËãÁĞ¡°{0}¡±¾ßÓĞÏà¹ØĞÔÑ­»·¡£
 
-data.engine.SortOnAggregation=²»Ö§³Ö¸ù¾İ·Ç·Ö×é¾ÛºÏ»òÒıÓÃ·Ç·Ö×é¾ÛºÏ¡°{0}¡±µÄ¼ÆËãÁĞÅÅĞò¡£
+data.engine.SortOnAggregation=²»Ö§³Ö¸ù¾İ·Ç·Ö×é¾ÛºÏ»òÒıÓÃ¾ÛºÏ¡°{0}¡±µÄ¼ÆËãÁĞÅÅĞò¡£
 
 data.engine.BadFilterExpr=É¸Ñ¡±í´ïÊ½ "{0}" ÎŞĞ§¡£
 data.engine.BadFilterDefn=ÎŞ·¨ÆÀ¹À»ùÓÚ±í´ïÊ½¡°{0}¡±µÄÉ¸Ñ¡Æ÷¡£

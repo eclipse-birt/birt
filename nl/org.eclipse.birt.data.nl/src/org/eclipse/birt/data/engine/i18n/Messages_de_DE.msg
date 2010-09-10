@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Wert für berechnete Spalte "
 data.engine.ScriptResult.WrongSystemComputedColumn=Wert aus Sortierungs-, Gruppen- oder Filterausdruck konnte nicht berechnet werden.
 data.engine.ComputedColumnCycle=Berechnete Spalte "{0}" hat einen Abhängigkeitszyklus.
 
-data.engine.SortOnAggregation=Sortieren nach nicht-gruppierendem Aggregat oder berechneter Spalte für nicht-gruppierendes Aggregat '{0}' wird nicht unterstützt.
+data.engine.SortOnAggregation=Sortieren nach nicht-gruppierendem Aggregat oder berechneter Spalte für Aggregat '{0}' wird nicht unterstützt.
 
 data.engine.BadFilterExpr=Der Filterausdruck "{0}" ist ungültig.
 data.engine.BadFilterDefn=Der auf dem Ausdruck '{0}' basierende Filter konnte nicht evaluiert werden.

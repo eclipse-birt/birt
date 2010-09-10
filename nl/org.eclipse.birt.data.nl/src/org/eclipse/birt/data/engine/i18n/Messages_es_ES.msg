@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=Error al procesar el valor p
 data.engine.ScriptResult.WrongSystemComputedColumn=Error al procesar el valor de la expresión de filtro, grupo u orden.
 data.engine.ComputedColumnCycle=La columna procesada "{0}" tiene ciclo de dependencia.
 
-data.engine.SortOnAggregation=Ordenar según la agregación no agrupada o la columna procesada que hace referencia a la agregación sin grupo "{0}" no es compatible.
+data.engine.SortOnAggregation=El orden en la agregación sin agrupación o en la columna procesada que se refiere a la agregación "{0}" no es compatible.
 
 data.engine.BadFilterExpr=La expresión de filtro "{0}" no es válida.
 data.engine.BadFilterDefn=Error al evaluar el filtro basado en la expresión "{0}".

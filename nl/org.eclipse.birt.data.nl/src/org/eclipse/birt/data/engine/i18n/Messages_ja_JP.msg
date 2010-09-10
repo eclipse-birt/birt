@@ -111,7 +111,7 @@ data.engine.CompCol.FailRetrieveValueComputedColumn=ŒvZ—ñ "{0}" ‚Ì’l‚ğŒvZ‚Å‚«‚
 data.engine.ScriptResult.WrongSystemComputedColumn=ƒ\[ƒg®AƒOƒ‹[ƒv®A‚Ü‚½‚ÍƒtƒBƒ‹ƒ^®‚Ì’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 data.engine.ComputedColumnCycle=ŒvZ—ñ "{0}" ‚ÌˆË‘¶ŠÖŒW‚ªzŠÂQÆ‚É‚È‚Á‚Ä‚¢‚Ü‚·B
 
-data.engine.SortOnAggregation=ƒOƒ‹[ƒv‰»‚³‚ê‚Ä‚¢‚È‚¢WŒv‚ğg—p‚·‚éƒ\[ƒgA‚Ü‚½‚ÍƒOƒ‹[ƒv‰»‚³‚ê‚Ä‚¢‚È‚¢WŒv "{0}" ‚ğQÆ‚·‚éŒvZ®‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
+data.engine.SortOnAggregation=ƒOƒ‹[ƒv‰»‚³‚ê‚Ä‚¢‚È‚¢WŒv‚ğg—p‚·‚éƒ\[ƒgA‚Ü‚½‚ÍWŒv "{0}" ‚ğQÆ‚·‚éŒvZ®‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 
 data.engine.BadFilterExpr=ƒtƒBƒ‹ƒ^® "{0}" ‚ª–³Œø‚Å‚·B
 data.engine.BadFilterDefn=® "{0}" ‚ÉŠî‚Ã‚­ƒtƒBƒ‹ƒ^‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñB
