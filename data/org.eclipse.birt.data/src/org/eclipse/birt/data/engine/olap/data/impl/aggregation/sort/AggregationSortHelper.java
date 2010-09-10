@@ -280,7 +280,10 @@ public class AggregationSortHelper
 			Object[] values = new Object[levelIndex.length];
 			for ( int j = 0; j < levelIndex.length; j++ )
 			{
-				values[j] = targetResultSet.getLevelKeyValue( levelIndex[j] )[0];
+				if ( levelIndex[j] == -1 )
+					values[j] = axisQualifierValue[j];
+				else
+					values[j] = targetResultSet.getLevelKeyValue( levelIndex[j] )[0];
 			}
 
 			if ( CompareUtil.compare( values, axisQualifierValue ) == 0 )
