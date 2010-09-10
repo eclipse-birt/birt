@@ -185,7 +185,11 @@ public class ModelAdapter implements IModelAdapter
 			return null;
 		ScriptExpression jsExpr = new ExpressionAdapter( expr, dataType );
 		if( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+		{
+			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
 			jsExpr.setConstant( true );
+			jsExpr.setConstantValue( expr.getExpression( ) );
+		}
 		return jsExpr;
 	}
 	
