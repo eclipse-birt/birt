@@ -15,6 +15,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -243,6 +244,12 @@ public class DataSetNumberIndex implements IDataSetIndex
 			return this.keys;
 		}
 		
+		public List<Set<Integer>>  getIndexs( ) throws DataException
+		{
+			init( );
+			return this.indexs;
+		}
+		
 		public int getSize( ) throws DataException
 		{
 			init( );
@@ -421,5 +428,20 @@ public class DataSetNumberIndex implements IDataSetIndex
 			keys.addAll( segs[i].getKeys( ) );
 		}
 		return keys.toArray( );
+	}
+	
+	public Set<Integer> getAllKeyRows( ) throws DataException
+	{
+		Set<Integer> rowID = new HashSet<Integer>();
+		for( int i = 0; i < segs.length; i++ )
+		{
+			List<Set<Integer>> index = segs[i].getIndexs( );
+			for( int j = 0; j < index.size( ); j++ )
+			{
+				Iterator rowIDiterator = index.get( j ).iterator();
+				rowID.add( (Integer) rowIDiterator.next( ) );
+			}
+		}
+		return rowID;
 	}
 }

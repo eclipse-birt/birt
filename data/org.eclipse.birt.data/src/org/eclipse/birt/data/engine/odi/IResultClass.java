@@ -179,6 +179,15 @@ public interface IResultClass
 	public int getAnalysisType( int index ) throws DataException;
 	
 	/**
+	 * Return the analysis column.
+	 * 
+	 * @param name
+	 * @return
+	 * @throws DataException
+	 */
+	public String getAnalysisColumn( int index ) throws DataException;
+	
+	/**
 	 * Return whether the column should be generated with index. 
 	 * @return
 	 * @throws DataException

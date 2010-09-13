@@ -70,6 +70,13 @@ public interface IColumnDefinition
 	public int getAnalysisType();
 	
 	/**
+	 * Get the data analysis name.
+	 * 
+	 * @return
+	 */
+	public String getAnalysisColumn();
+	
+	/**
 	 * Return whether the column should be generated with index. 
 	 * @return
 	 */

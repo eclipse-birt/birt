@@ -29,6 +29,7 @@ public class ColumnDefinition implements IColumnDefinition
 	private int			searchHint = NOT_SEARCHABLE;
 	private int 		exportHint = DONOT_EXPORT;
 	private int         analysisType = -1;
+	private String         analysisColumn;
 	private boolean		indexColumn;
 	private boolean		compressedColumn;
 	
@@ -104,6 +105,21 @@ public class ColumnDefinition implements IColumnDefinition
 	{
 		return this.analysisType;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IColumnDefinition#getAnalysisName()
+	 */
+	public String getAnalysisColumn()
+	{
+		return this.analysisColumn;
+	}
+	
+	public void setAnalysisColumn( String columnName )
+	{
+		this.analysisColumn = columnName;
+	}
+	
 	/**
 	 * Gets the export hint for the column
 	 */
