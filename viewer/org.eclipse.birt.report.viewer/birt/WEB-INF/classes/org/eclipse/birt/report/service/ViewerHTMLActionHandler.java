@@ -17,6 +17,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -600,6 +601,18 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 						Object valueObj = entry.getValue( );
 						if ( valueObj != null )
 						{
+							if ( valueObj instanceof List )
+							{
+								if ( ( (List) valueObj ).size( ) == 1 )
+								{
+									valueObj = ( (List) valueObj ).get( 0 );
+								}
+								else
+								{
+									valueObj = ( (List) valueObj ).toArray( );
+								}
+							}
+							
 							Object[] values;
 							if ( valueObj instanceof Object[] )
 							{
