@@ -33,6 +33,7 @@ public class ResultFieldMetadata
 	private boolean m_isCustom;
 	private Class m_driverProvidedDataType;
 	private int m_analysisType = -1;
+	private String m_analysisColumn;
 	private boolean m_indexColumn;
 	private boolean m_compressedColumn;
 
@@ -61,10 +62,11 @@ public class ResultFieldMetadata
 	
 	public ResultFieldMetadata( int driverPosition, String name, 
 	 		String label, Class dataType,
-			String nativeTypeName, boolean isCustom, int analysisType, boolean indexColumn, boolean compressedColumn )
+			String nativeTypeName, boolean isCustom, int analysisType, String analysisColumn, boolean indexColumn, boolean compressedColumn )
 	{
 		this( driverPosition, name, label, dataType, nativeTypeName, isCustom );
 		this.m_analysisType = analysisType;
+		this.m_analysisColumn = analysisColumn;
 		this.m_indexColumn = indexColumn;
 		this.m_compressedColumn = compressedColumn;
 	}
@@ -78,6 +80,17 @@ public class ResultFieldMetadata
 	{
 		this.m_analysisType = type;
 	}
+	
+	public String getAnalysisColumn( )
+	{
+		return this.m_analysisColumn;
+	}
+	
+	public void setAnalysisColumn( String columnName )
+	{
+		this.m_analysisColumn = columnName;
+	}
+	
 	
 	public boolean isIndexColumn( )
 	{

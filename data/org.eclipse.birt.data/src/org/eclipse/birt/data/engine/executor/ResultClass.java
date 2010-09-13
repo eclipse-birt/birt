@@ -170,11 +170,13 @@ public class ResultClass implements IResultClass
 				boolean bool = IOUtil.readBool( dis );
 				String dpdpName = IOUtil.readString( dis );
 				int analysistype = -1;
+				String analysisColumn = null;
 				boolean indexColumn = false;
 				boolean isCompressedColumn = false;
 				if( version >= VersionManager.VERSION_2_5_2_0 )
 				{
 					analysistype = IOUtil.readInt( dis );
+					analysisColumn = IOUtil.readString( dis );
 					indexColumn = IOUtil.readBool( dis );
 					isCompressedColumn = IOUtil.readBool( dis );
 				}
@@ -184,6 +186,7 @@ public class ResultClass implements IResultClass
 						Class.forName( dtName ),
 						ntName,
 						bool, analysistype,
+						analysisColumn,
 						indexColumn,
 						isCompressedColumn );
 				metaData.setAnalysisType( analysistype );
@@ -270,6 +273,7 @@ public class ResultClass implements IResultClass
 					if( version >= VersionManager.VERSION_2_5_2_0 )
 					{
 						IOUtil.writeInt( dos, column.getAnalysisType( ) );
+						IOUtil.writeString( dos, column.getAnalysisColumn( ) );
 						IOUtil.writeBool( dos, column.isIndexColumn( ) );
 						IOUtil.writeBool( dos, column.isCompressedColumn( ) );
 					}
@@ -513,6 +517,15 @@ public class ResultClass implements IResultClass
 	public int getAnalysisType( int index ) throws DataException
 	{
 		return this.projectedCols[index-1].getAnalysisType( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultClass#getAnalysisColumn(int)
+	 */
+	public String getAnalysisColumn( int index ) throws DataException
+	{
+		return this.projectedCols[index-1].getAnalysisColumn( );
 	}
 	
 	/*

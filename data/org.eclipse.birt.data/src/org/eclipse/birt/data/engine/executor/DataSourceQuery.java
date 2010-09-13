@@ -416,6 +416,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 					{
 						resultFieldMetadata.setAlias( columnDefinition.getAlias( ) );
 						resultFieldMetadata.setAnalysisType( columnDefinition.getAnalysisType( ) );
+						resultFieldMetadata.setAnalysisColumn( columnDefinition.getAnalysisColumn( ) );
 						resultFieldMetadata.setIndexColumn( columnDefinition.isIndexColumn( ) );
 						resultFieldMetadata.setCompressedColumn( columnDefinition.isCompressedColumn( ) );
 						break;

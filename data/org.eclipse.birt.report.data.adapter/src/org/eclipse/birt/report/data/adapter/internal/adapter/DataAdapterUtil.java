@@ -47,7 +47,6 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
-import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 
 /**
@@ -326,6 +325,7 @@ public class DataAdapterUtil
 				modelColumnHint.getColumnName( ) );
 		dteColumn.setAlias( modelColumnHint.getAlias( ) );
 		dteColumn.setAnalysisType( ColumnAdapter.acquireAnalysisType( modelColumnHint.getAnalysis( ) ) );
+		dteColumn.setAnalysisColumn( modelColumnHint.getAnalysisColumn( ) );
 		dteColumn.setIndexColumn( modelColumnHint.isIndexColumn( ) );
 		dteColumn.setCompressedColumn( modelColumnHint.isCompressed( ) );
  		String exportConstant = modelColumnHint.getExport( );

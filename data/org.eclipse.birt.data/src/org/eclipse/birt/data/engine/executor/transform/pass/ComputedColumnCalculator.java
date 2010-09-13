@@ -160,6 +160,7 @@ class ComputedColumnCalculator
 					returnToOriginalValue ? true : ( PassUtil.isTemporaryResultSetComputedColumn(meta.getFieldName( i ))
 							 ? true
 							: false ), meta.getAnalysisType( i ),
+							meta.getAnalysisColumn( i ),
 							meta.isIndexColumn( i ),
 							meta.isCompressedColumn( i ) ) );
 		}
