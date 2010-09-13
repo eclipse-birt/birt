@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.data.engine.binding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -26,6 +30,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpressionUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
@@ -690,6 +695,67 @@ public class FilterByRowTest extends APITestCase
 		assertEquals( rowIndex, 8);
 		ri.close();
 		qr.close();
+	}
+	
+	public void testConstantWithNull() throws BirtException
+	{
+		// Create script data set and data source
+		ScriptDataSourceDesign dsource = new ScriptDataSourceDesign( "JUST as place folder" );
+		ScriptDataSetDesign dset = newDataSet( );
+		dset.setDataSource( dsource.getName( ) );
+
+		dataEngine.defineDataSource( dsource );
+		dataEngine.defineDataSet( dset );
+		
+		QueryDefinition rqDefn = new QueryDefinition();
+		rqDefn.setDataSetName("test");
+		
+		String bindingNameFilter = "ROW_CH";
+		ScriptExpression bindingExprFilter = new ScriptExpression( "dataSetRow.CH",
+				0 );
+		ConditionalExpression expr = new ConditionalExpression( ScriptExpressionUtil.createJavaScriptExpression( "row.ROW_CH" ),
+				IConditionalExpression.OP_EQ,
+				ScriptExpressionUtil.createConstantExpression( null ),
+				null );
+		FilterDefinition filterDefn = new FilterDefinition( expr );
+
+		rqDefn.addResultSetExpression( bindingNameFilter, bindingExprFilter );
+		rqDefn.getFilters( ).add( filterDefn );		
+		IPreparedQuery pq = dataEngine.prepare( rqDefn );
+		IQueryResults qr = pq.execute( jsScope );
+		IResultIterator ri = qr.getResultIterator( );
+
+		int rowIndex = 0;
+		while ( ri.next( ) )
+		{
+			rowIndex++;
+		}
+		
+		assertEquals( rowIndex, 2 );
+		
+		rqDefn.getFilters().clear();
+		
+		List expression = new ArrayList();
+		expression.add( ScriptExpressionUtil.createConstantExpression( null ) );
+		expr = new ConditionalExpression( ScriptExpressionUtil.createJavaScriptExpression( "row.ROW_CH" ),
+				IConditionalExpression.OP_IN,
+				expression );
+		FilterDefinition filterDefn2 = new FilterDefinition( expr );
+		rqDefn.getFilters( ).add( filterDefn2 );
+		
+		pq = dataEngine.prepare( rqDefn );
+		qr = pq.execute( jsScope );
+		ri = qr.getResultIterator( );
+
+		rowIndex = 0;
+		while ( ri.next( ) )
+		{
+			rowIndex++;
+		}
+
+		assertEquals( rowIndex, 2 );
+		ri.close( );
+		qr.close( );
 	}
 	
 	private ScriptDataSetDesign newDataSet( )

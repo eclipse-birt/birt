@@ -62,9 +62,13 @@ public class OLAPExpressionCompiler
 			return;
 		if ( expr1 instanceof IScriptExpression )
 		{
-			String exprText = ( (IScriptExpression) expr1 ).getText( );
-			if( expr1.getHandle( ) == null )
-				expr1.setHandle( new OLAPExpressionHandler( cx.compile( expr1.getScriptId(), null, 0, exprText ) ) );
+				String exprText = ( (IScriptExpression) expr1 ).getText( );
+				if ( expr1.getHandle( ) == null
+						&& !( (IScriptExpression) expr1 ).isConstant( ) )
+					expr1.setHandle( new OLAPExpressionHandler( cx.compile( expr1.getScriptId( ),
+							null,
+							0,
+							exprText ) ) );
 		}
 		else if ( expr1 instanceof IExpressionCollection )
 		{

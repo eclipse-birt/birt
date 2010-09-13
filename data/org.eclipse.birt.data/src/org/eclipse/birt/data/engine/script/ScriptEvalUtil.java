@@ -1255,9 +1255,13 @@ public class ScriptEvalUtil
 		 * @param ise
 		 * @return
 		 */
-		private static IScriptExpression constructValidScriptExpression ( IScriptExpression ise)
+		private static IScriptExpression constructValidScriptExpression(
+				IScriptExpression ise )
 		{
-		    return ise!=null && ise.getText().trim().length() > 0 ? ise : new ScriptExpression("null");
+			return ise != null
+					&& ise.getText( ) != null
+					&& ise.getText( ).trim( ).length( ) > 0 ? ise
+					: new ScriptExpression( "null" );
 		}
 		
 		/**
