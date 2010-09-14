@@ -425,11 +425,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		applyAggrFilters( aggregations, resultSet, stopSign );
 		
 		applyAggrSort( resultSet );
-		long endTime = System.currentTimeMillis( );
-		
-		FileOutputStream outputStream = new FileOutputStream("D:\\work\\time");
-		outputStream.write( ( "time : " + ( endTime - startTime ) ).getBytes( ) );
-		outputStream.close( );
+
 		return resultSet;
 	}
 	
