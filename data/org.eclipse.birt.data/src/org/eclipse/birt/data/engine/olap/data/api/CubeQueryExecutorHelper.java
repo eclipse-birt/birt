@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.olap.data.api;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -418,7 +417,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			AggregationDefinition[] aggregations, StopSign stopSign )
 			throws IOException, BirtException
 	{
-		long startTime = System.currentTimeMillis( );
 		IAggregationResultSet[] resultSet = onePassExecute( aggregations,
 				stopSign );
 		
