@@ -189,14 +189,18 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 				{
 					ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
 					ExpressionListHandle exprListHandle = pbh.getExpressionListHandle( );
-					for ( Expression expr : exprListHandle.getListValue( ) )
+					List<Expression> listValue = exprListHandle.getListValue( );
+					if ( listValue != null )
 					{
-						exprCodec.setExpression( expr.getStringExpression( ) );
-						exprCodec.setType( expr.getType( ) );
-						exp = exprCodec.encode( );
-						if ( !expList.contains( exp ) )
+						for ( Expression expr : listValue )
 						{
-							expList.add( exp );
+							exprCodec.setExpression( expr.getStringExpression( ) );
+							exprCodec.setType( expr.getType( ) );
+							exp = exprCodec.encode( );
+							if ( !expList.contains( exp ) )
+							{
+								expList.add( exp );
+							}
 						}
 					}
 				}
