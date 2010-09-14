@@ -1001,7 +1001,6 @@ public class ExecutionContext
 	{
 		this.reportContent = content;
 		content.setReportContext( reportContext );
-		content.setErrors( errors );
 	}
 
 	/**
@@ -1207,6 +1206,7 @@ public class ExecutionContext
 		{
 			exInfo = new ElementExceptionInfo( element );
 			elementExceptions.put( element, exInfo );
+			reportContent.getErrors( ).add( exInfo );
 		}
 		exInfo.addException( engineEx );
 

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
@@ -48,6 +47,7 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
@@ -74,7 +74,7 @@ public class ReportContent implements IReportContent
 	/**
 	 * errors occured in the generation.
 	 */
-	private List<EngineException> errors = new ArrayList<EngineException>( );
+	private List<ElementExceptionInfo> errors = new ArrayList<ElementExceptionInfo>( );
 
 	/**
 	 * toc of this report
@@ -289,12 +289,12 @@ public class ReportContent implements IReportContent
 		return new ObjectContent( this );
 	}
 
-	public List<EngineException> getErrors( )
+	public List<ElementExceptionInfo> getErrors( )
 	{
 		return errors;
 	}
 
-	public void setErrors( List<EngineException> errors )
+	public void setErrors( List<ElementExceptionInfo> errors )
 	{
 		if ( errors != null )
 		{
@@ -302,7 +302,7 @@ public class ReportContent implements IReportContent
 		}
 		else
 		{
-			this.errors = new ArrayList<EngineException>( );
+			this.errors = new ArrayList<ElementExceptionInfo>( );
 		}
 	}
 
