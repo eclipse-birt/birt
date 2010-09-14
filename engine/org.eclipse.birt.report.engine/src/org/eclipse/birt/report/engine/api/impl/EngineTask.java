@@ -86,8 +86,10 @@ import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -2111,6 +2113,20 @@ public abstract class EngineTask implements IEngineTask
 			SecurityUtil.setContextClassLoader( contextClassLoader );
 		}
 	}
+	
+	protected IResourceLocator getResourceLocator( )
+	{
+		ModuleHandle handle = executionContext.getDesign( );
+		if ( handle != null )
+		{
+			ModuleOption opts = handle.getModule( ).getOptions( );
+			if ( opts != null )
+			{
+				return opts.getResourceLocator( );
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * 
@@ -2127,9 +2143,14 @@ public abstract class EngineTask implements IEngineTask
 		// try to open the dataSource as report document
 		try
 		{
-			ReportDocumentReader document = new ReportDocumentReader( engine,
-					dataSource, true );
-
+			HashMap options = new HashMap( );
+			IResourceLocator resourceLocator = getResourceLocator( );
+			if ( resourceLocator != null )
+			{
+				options.put( ModuleOption.RESOURCE_LOCATOR_KEY, resourceLocator );
+			}
+			ReportDocumentReader document = new ReportDocumentReader( null,
+					engine, dataSource, true, options );
 			try
 			{
 				// load the parameter values from report document
