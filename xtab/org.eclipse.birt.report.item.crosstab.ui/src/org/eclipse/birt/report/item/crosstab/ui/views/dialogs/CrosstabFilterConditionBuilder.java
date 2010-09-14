@@ -3065,6 +3065,12 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		}
 	}
 
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		updateButtons( );
+	}
+
 	protected void updateButtons( )
 	{
 		enableInput( isExpressionOK( ) );
