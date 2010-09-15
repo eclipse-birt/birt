@@ -195,7 +195,7 @@ class BindingColumnsEvalUtil
 			else
 			{
 				// For dummy query case.
-				valueMap.put( ExprMetaUtil.POS_NAME, -1 );
+				valueMap.put( ExprMetaUtil.POS_NAME, 0 );
 			}
 		}
 		saveHelper.doSaveExpr( valueMap );

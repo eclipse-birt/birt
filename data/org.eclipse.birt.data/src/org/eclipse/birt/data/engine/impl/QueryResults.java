@@ -531,6 +531,11 @@ public class QueryResults implements IQueryResults, IQueryService
 			}
 		}
 		
+		public int getRowId( ) throws BirtException
+		{
+			return getRowIndex( );
+		}
+		
 		public void close() throws BirtException
 		{
 			super.close( );
