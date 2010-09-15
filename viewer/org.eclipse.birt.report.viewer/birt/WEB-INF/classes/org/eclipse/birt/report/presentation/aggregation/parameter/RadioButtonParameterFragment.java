@@ -59,6 +59,8 @@ public class RadioButtonParameterFragment extends ScalarParameterFragment
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
+		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
 
 		Collection selectionList = service.getParameterSelectionList( attrBean
 				.getReportDesignHandle( request ), options, parameterBean

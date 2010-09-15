@@ -75,6 +75,8 @@ public class BirtGetCascadeParameterActionHandler
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
 		IViewerReportDesignHandle designHandle = attrBean
 				.getReportDesignHandle( context.getRequest( ) );
 

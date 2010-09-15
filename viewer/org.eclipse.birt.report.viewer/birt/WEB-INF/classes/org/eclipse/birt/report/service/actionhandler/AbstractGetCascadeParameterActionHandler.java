@@ -69,6 +69,8 @@ public abstract class AbstractGetCascadeParameterActionHandler
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
 		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
 				null, reportDesignName );
 		Map cascParamMap = getParameterSelectionLists( designHandle, paramMap,
