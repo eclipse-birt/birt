@@ -1206,7 +1206,10 @@ public class ExecutionContext
 		{
 			exInfo = new ElementExceptionInfo( element );
 			elementExceptions.put( element, exInfo );
-			reportContent.getErrors( ).add( exInfo );
+			if( reportContent!=null )
+			{
+				reportContent.getErrors( ).add( exInfo );
+			}
 		}
 		exInfo.addException( engineEx );
 
