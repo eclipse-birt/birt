@@ -117,6 +117,8 @@ public class FactTableAccessor
 		
 		FTSUNameSaveHelper saveHelper = new FTSUNameSaveHelper( documentManager, factTableName );
 		Object popObject = sortedFactTableRows.pop( );
+		boolean invalidDimensionKey = false;
+		int invalidRowNumber = 0;
 		while ( popObject != null && !stopSign.isStopped( ) )
 		{
 			currentRow = (FactTableRow) popObject;
@@ -125,19 +127,28 @@ public class FactTableAccessor
 				throw new DataException( ResourceConstants.FACTTABLE_ROW_NOT_DISTINCT,
 						currentRow.toString( ) );
 			}
+			invalidDimensionKey = false;
 			for ( int i = 0; i < dimensionPosition.length; i++ )
 			{
 				dimensionPosition[i] = dimensionSeekers[i].find( currentRow.getDimensionKeys()[i] );
 				if ( dimensionPosition[i] < 0 )
 				{
-					String[] args = new String[4];
-					args[0] = factTableName;
-					args[1] = Arrays.toString( factTableJointColumnNames[i] );
-					args[2] = currentRow.getDimensionKeys()[i].toString( );
-					args[3] = dimensions[i].getName( );
-					throw new DataException( ResourceConstants.INVALID_DIMENSIONPOSITION_OF_FACTTABLEROW,
-							args );
+					invalidDimensionKey = true;
+					logger.fine( "The fact table of cube " 
+							+ factTableName + 
+							" has an invalid data row where the value of dimension key " + 
+							Arrays.toString( factTableJointColumnNames[i] ) + " is " + 
+							currentRow.getDimensionKeys()[i].toString( ) + 
+							" which however does not exist in dimension "+ 
+							dimensions[i].getName( ) +"." );
 				}
+			}
+			if( invalidDimensionKey )
+			{
+				popObject = sortedFactTableRows.pop( );
+				lastRow = currentRow;
+				invalidRowNumber ++;
+				continue;
 			}
 			int[] subDimensionIndex = getSubDimensionIndex( dimensionPosition,
 					subDimensions );
@@ -159,6 +170,13 @@ public class FactTableAccessor
 			lastRow = currentRow;
 		}
 		saveHelper.save( );
+		if( invalidRowNumber > 0 )
+		{
+			logger.warning("The fact table of cube "
+				+ factTableName
+				+ " has " + invalidRowNumber 
+				+ "invalid rows where the value of dimension key does not exist in dimension.");
+		}
 		documentObjectManager.closeAll( );
 		documentManager.flush( );
 		return new FactTable( factTableName,
