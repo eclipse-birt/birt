@@ -1,5 +1,5 @@
 !**************** BIRT DATA ********************
-plugin@org.eclipse.birt.data=v20100914,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
+plugin@org.eclipse.birt.data=v20100915,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
 plugin@org.eclipse.birt.data.aggregation=v20100909,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.aggregation
 plugin@org.eclipse.birt.report.data.adapter=v20100913,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
 plugin@org.eclipse.birt.core.script.function=v20100909,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.script.function
