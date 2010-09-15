@@ -1,6 +1,0 @@
-dateColumn,stringColumn,integerColumn
-DateTime,String,Integer
-2008-08-08 10:30:00.000+0100,myString1,5
-,,-12
-2007-01-01 15:30:00.000+0100,"my,str;in	g|3",
-,ü你ßé,0
