@@ -69,6 +69,8 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
+		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
+		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
 
 		Collection<ParameterSelectionChoice> selectionList = null;
 		ParameterDefinition paramDef = parameterBean.getParameter( );
