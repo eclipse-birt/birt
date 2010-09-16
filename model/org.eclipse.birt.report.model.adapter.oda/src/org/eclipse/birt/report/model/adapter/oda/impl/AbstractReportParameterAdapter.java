@@ -441,34 +441,26 @@ abstract class AbstractReportParameterAdapter
 				cachedElementAttrs == null ? null : cachedElementAttrs
 						.getDynamicValueChoices( ), reportParam, setHandle );
 
-		// for both dynamic and static parameter, the flag is in
-		// DynamicValuesQuery
+		// for dynamic parameter, the flag is in DynamicValuesQuery is true
+		// for static parameter, the DynamicValuesQuery is null or the flag is false
 
 		DynamicValuesQuery cachedValueQuery = cachedElementAttrs == null
 				? null
 				: cachedElementAttrs.getDynamicValueChoices( );
 
-		if ( valueQuery == null && cachedValueQuery == null )
-			return;
-
-		// please note that new dynamic values query's isEnabled flag is true
-
-		if ( valueQuery == null )
-			valueQuery = designFactory.createDynamicValuesQuery( );
-
-		boolean isEnabled = valueQuery.isEnabled( );
-		boolean cachedIsEnabled = cachedValueQuery == null
+		boolean isEnabled = ( valueQuery == null )
 				? false
-				: cachedValueQuery.isEnabled( );
-		if ( ( cachedValueQuery == null || cachedIsEnabled != isEnabled )
-				&& isEnabled )
-			reportParam
-					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
-		else if ( ( cachedValueQuery == null || cachedIsEnabled != isEnabled )
-				&& !isEnabled )
-			reportParam
-					.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
-
+				: valueQuery.isEnabled( );
+				
+		if ( cachedValueQuery == null || cachedValueQuery.isEnabled( ) != isEnabled )
+		{
+			if ( isEnabled )
+				reportParam
+						.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
+			else 
+				reportParam
+						.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
+		}
 	}
 
 	/**
