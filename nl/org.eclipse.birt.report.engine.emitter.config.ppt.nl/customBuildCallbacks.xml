@@ -40,7 +40,7 @@
 					  dest="." 
 					  ext=".properties"
 					  includes="**/*_ko_KR.msg"/>
-		<copy todir="src/">
+		<copy todir="src/" failonerror="false">
 		    <fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.engine.emitter.config.ppt/src"/>
 		    <globmapper from="*.properties" to="*_en.properties"/>
 		</copy>	
