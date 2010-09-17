@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.adapter.oda.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.adapter.oda.IConstants;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -91,8 +93,75 @@ class DataSetAdapter extends AbstractDataAdapter
 			return null;
 
 		DataSetDesign setDesign = designFactory.createDataSetDesign( );
-		updateDataSetDesign( setHandle, setDesign );
+		doCreateDataSetDesign( setHandle, setDesign );
 		return setDesign;
+	}
+
+	/**
+	 * @param setHandle
+	 * @param setDesign
+	 */
+
+	private void doCreateDataSetDesign( OdaDataSetHandle setHandle,
+			DataSetDesign setDesign )
+	{
+		// properties on ReportElement, like name, displayNames, etc.
+
+		setDesign.setName( setHandle.getName( ) );
+
+		String displayName = setHandle.getDisplayName( );
+		String displayNameKey = setHandle.getDisplayNameKey( );
+
+		if ( displayName != null || displayNameKey != null )
+		{
+			setDesign.setDisplayName( displayName );
+			setDesign.setDisplayNameKey( displayNameKey );
+		}
+
+		// properties such as comments, extends, etc are kept in
+		// DataSourceHandle, not DataSourceDesign.
+
+		// scripts of DataSource are kept in
+		// DataSourceHandle, not DataSourceDesign.
+
+		setDesign.setOdaExtensionDataSetId( setHandle.getExtensionID( ) );
+
+		setDesign.setPublicProperties( newOdaPublicProperties(
+				setHandle.getExtensionPropertyDefinitionList( ), setHandle ) );
+
+		setDesign.setPrivateProperties( newOdaPrivateProperties( setHandle
+				.privateDriverPropertiesIterator( ) ) );
+
+		setDesign.setPrimaryResultSetName( setHandle.getResultSetName( ) );
+
+		setDesign.setQueryText( setHandle.getQueryText( ) );
+
+		// create a new data source design for this set design.
+
+		OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle
+				.getDataSource( );
+
+		if ( sourceHandle != null )
+			setDesign.setDataSourceDesign( new DataSourceAdapter( )
+					.createDataSourceDesign( sourceHandle ) );
+
+		DataSetParameterAdapter dataParamAdapter = new DataSetParameterAdapter(
+				setHandle, setDesign );
+
+		Iterator<OdaDataSetParameterHandle> tmpParams = setHandle
+				.parametersIterator( );
+		List<OdaDataSetParameterHandle> setDefinedParams = new ArrayList<OdaDataSetParameterHandle>( );
+		while ( tmpParams.hasNext( ) )
+			setDefinedParams.add( tmpParams.next( ) );
+
+		setDesign.setParameters( dataParamAdapter
+				.newOdaDataSetParams( setDefinedParams ) );
+
+		new ResultSetsAdapter( setHandle, setDesign )
+				.updateOdaResultSetDefinition( );
+
+		updateODAMessageFile( setDesign.getDataSourceDesign( ),
+				setHandle.getModuleHandle( ) );
 	}
 
 	/**
@@ -124,8 +193,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 		setDesign.setOdaExtensionDataSetId( setHandle.getExtensionID( ) );
 
-		setDesign.setPublicProperties( newOdaPublicProperties( setHandle
-				.getExtensionPropertyDefinitionList( ), setHandle ) );
+		setDesign.setPublicProperties( newOdaPublicProperties(
+				setHandle.getExtensionPropertyDefinitionList( ), setHandle ) );
 
 		setDesign.setPrivateProperties( newOdaPrivateProperties( setHandle
 				.privateDriverPropertiesIterator( ) ) );
@@ -204,8 +273,8 @@ class DataSetAdapter extends AbstractDataAdapter
 		new ResultSetsAdapter( setHandle, setDesign )
 				.updateOdaResultSetDefinition( );
 
-		updateODAMessageFile( setDesign.getDataSourceDesign( ), setHandle
-				.getModuleHandle( ) );
+		updateODAMessageFile( setDesign.getDataSourceDesign( ),
+				setHandle.getModuleHandle( ) );
 	}
 
 	/**
@@ -294,8 +363,8 @@ class DataSetAdapter extends AbstractDataAdapter
 			new ResultSetCriteriaAdapter( setHandle, setDesign )
 					.updateODAResultSetCriteria( );
 
-		updateODAMessageFile( setDesign.getDataSourceDesign( ), setHandle
-				.getModuleHandle( ) );
+		updateODAMessageFile( setDesign.getDataSourceDesign( ),
+				setHandle.getModuleHandle( ) );
 	}
 
 	/**
@@ -575,8 +644,8 @@ class DataSetAdapter extends AbstractDataAdapter
 		setHandle.getElement( ).setProperty(
 				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues );
 
-		updateROMMessageFile( setDesign.getDataSourceDesign( ), setHandle
-				.getModuleHandle( ) );
+		updateROMMessageFile( setDesign.getDataSourceDesign( ),
+				setHandle.getModuleHandle( ) );
 	}
 
 	/**
@@ -683,8 +752,8 @@ class DataSetAdapter extends AbstractDataAdapter
 				for ( int i = 0; i < propList.size( ); i++ )
 				{
 					Property prop = (Property) propList.get( i );
-					setHandle.setPrivateDriverProperty( prop.getName( ), prop
-							.getValue( ) );
+					setHandle.setPrivateDriverProperty( prop.getName( ),
+							prop.getValue( ) );
 				}
 			}
 
@@ -827,8 +896,8 @@ class DataSetAdapter extends AbstractDataAdapter
 				for ( int i = 0; i < propList.size( ); i++ )
 				{
 					Property prop = (Property) propList.get( i );
-					setHandle.setPrivateDriverProperty( prop.getName( ), prop
-							.getValue( ) );
+					setHandle.setPrivateDriverProperty( prop.getName( ),
+							prop.getValue( ) );
 				}
 			}
 
@@ -951,8 +1020,9 @@ class DataSetAdapter extends AbstractDataAdapter
 		else
 		{
 			List resultList = DataSetParameterAdapter
-					.getDriverDefinedParameters( setDefinedParams
-							.getParameterDefinitions( ), userDefinedList );
+					.getDriverDefinedParameters(
+							setDefinedParams.getParameterDefinitions( ),
+							userDefinedList );
 
 			if ( resultList.size( ) > 0 )
 			{
@@ -969,8 +1039,8 @@ class DataSetAdapter extends AbstractDataAdapter
 				params.clear( );
 				params.addAll( resultList );
 
-				clearReportParameterRelatedValues( params, setHandle
-						.getModuleHandle( ) );
+				clearReportParameterRelatedValues( params,
+						setHandle.getModuleHandle( ) );
 			}
 		}
 
