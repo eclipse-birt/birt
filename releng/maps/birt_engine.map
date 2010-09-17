@@ -21,4 +21,4 @@ plugin@org.eclipse.birt.report.engine.emitter.prototype.excel=v20100812,:ext:xgu
 plugin@org.eclipse.birt.report.engine.emitter.ppt=v20100909,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.ppt
 
 plugin@org.eclipse.birt.report.engine.dataextraction=v20100826,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.dataextraction
-plugin@org.eclipse.birt.report.engine.dataextraction.csv=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.dataextraction.csv
+plugin@org.eclipse.birt.report.engine.dataextraction.csv=v20100917,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.dataextraction.csv
