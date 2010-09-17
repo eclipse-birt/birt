@@ -211,13 +211,20 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 					.getColumnType( i );
 			typesMap.put( colName, colType );
 		}
-		
+
 		int[] types = new int[columnNames.length];
 		for ( int i = 0; i < columnNames.length; i++ )
 		{
-			types[i] = typesMap.get( columnNames[i] ).intValue( );
+			Integer colType = typesMap.get( columnNames[i] );
+			if ( colType == null )
+			{
+				throw new BirtException( "The specified column \""
+						+ columnNames[i]
+						+ "\" does not exist in the result set!" );
+			}
+			types[i] = colType.intValue( );
 		}
-		return types;		
+		return types;
 	}
 
 	/**
