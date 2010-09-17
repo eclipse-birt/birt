@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.data.ui.dataset.AdvancedDataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSourceSelectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -94,6 +95,8 @@ public class EditDataSetAction extends AbstractElementAction
 			}
 			catch ( SemanticException e )
 			{
+				ExceptionHandler.handle( e );
+				return false;
 			}
 		}
 		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
