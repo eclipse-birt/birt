@@ -368,7 +368,7 @@ Specify the location from which to select the image.
 <context id="TableOptionDialog_ID" title="Insert Table">
 <!--  SEQUENCE: Drag a table element from the palette to the layout. updated 20090606 linked khahn 20090605 -->
 <description>
-Insert a Table element, specifying the data set from which to retrieve tabular data. Specify the number of rows between the header and footer rows.
+Insert a Table element, specifying the data set from which to retrieve data. Specify the number of columns and detail rows.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.8.html" label="Lay out the report"/>
 </context>
@@ -433,7 +433,14 @@ First, specify the condition for formatting a report element. Next, specify the 
 <context id="Preference_BIRT_ExpressionSyntax_ID" title="Preferences - Expression Syntax page">
 <!--  Sequence Window->Preferences->Report Design->Expression Syntax  Created, no relevant link JAHT 20100601 -->
 <description>
-Select the default expression syntax to use in the expression builder. BIRT Report Designer includes a JavaScript parser. JavaScript Syntax is the only option unless your BIRT environment provides a custom parser.
+Select the default expression syntax to use in the expression builder.
+</description>
+</context>
+
+<context id="Preference_Bidi_JDBC_ID" title="Preferences - Bidirectional Properties - JDBC Data Source page">
+<!--  Added dpeh 20100830 -->
+<description>
+Specify the bidirectional format attributes for data retrieved from a JDBC data source.
 </description>
 </context>
 
@@ -503,6 +510,12 @@ Specify the BIRT server and port values. The default Tomcat server runs under Ec
 <context id="Preference_BIRT_CommentTemplate_ID" title="Preferences - Comment Template">
 <!--  no relevant link, Diana  20090605 -->
 <description>Add a boilerplate comment to every report design you create. The comment appears in a report's Comments page under Properties in Property Editor.
+</description>
+</context>
+
+<context id="Preference_Classpath_ID" title="Preferences - Classpath">
+<!-- Added dpeh 20100830 -->
+<description>If your report uses classes or JAR files, add these objects to the classpath.
 </description>
 </context>
 
@@ -801,7 +814,7 @@ Type a name for the computed column and select a data type. Specify how to compu
 <context id="AddEditSortkey_ID" title="Sort Key">
 <!-- SEQUENCE: Select a table. Choose the Sorting tab, choose Add. linked khahn 20090605 updated 20090612 -->
 <description>
-Create or edit a sort key for this report item. In Key, select a data field on which to sort. Alternatively, open expression builder and create a sorting condition. Specify the sorting direction, ascending or descending.
+Create or edit a sort key for this report element. In Key, select a data field on which to sort. Alternatively, open expression builder and create a sorting condition. Specify the sorting direction, the locale, and sort strength or type.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.9.html" label="Sort the data"/>
 </context>
@@ -926,10 +939,10 @@ Add a subtotal to a row or column in a cross tab, or edit an existing subtotal. 
 
 <context id="AddEditGrandTotal_ID" title="Grand Total">
 <!-- SEQUENCE: Select the cross tab. Choose Row Area in Property Editor. Choose Grand Totals. Select Data Field. Choose Edit. linked khahn 20090605 updated 20090613 -->
+<!-- Updated dpeh 20100827 TED 27837. Removed link to topic because it was showing a different version of the dialog -->
 <description>
-Add a grand total to a row or column in a cross tab, or edit an existing grand total. Specify a data field and an aggregate function.
+Add a grand total to a row or column in a cross tab, or edit an existing grand total. Specify a data field whose values to sum.
 </description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.8.html" label="Add grand totals"/> 
 </context>
 
 <context id="AddEditPageBreakDialog_ID" title="Page Break">
@@ -964,10 +977,11 @@ Select a value from the list to filter the cross tab group.
 
 </context>
 
-<context id="CrossTabShowSummaryFieldDialog_ID" title="Show Summary Field">
+<context id="CrossTabShowSummaryFieldDialog_ID" title="Show/Hide Measures">
 <!--  SEQUENCE: Cannot find this topic. linked khahn 20090605 -->
+<!-- Updated per TED 25210 dpeh 20100827 -->
 <description>
-Show or hide a summary field on a crosstab's group level.
+Show or hide measures in the crosstab. You can display a measure as a chart or as text.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/crosstab.17.6.html" label="Set up data for the cross tab"/> 
 </context>
@@ -1076,6 +1090,12 @@ For more information about using variables, use a web browser to go to:
 <description>
 Type a new name for the element. Use any alphanumeric, space, and punctuation  characters, except any of the following characters:
 Backslash (\) Comma (,) Exclamation point (!) Period (.) Semicolon (;) Slash (/)
+</description>
+</context>
+
+<context id="NewTheme_ID" title="New Theme">
+<!--  Added dpeh 20100830 TED 29901 -->
+<description>Specify a name for the theme. A theme is a collection of styles.
 </description>
 </context>
 
