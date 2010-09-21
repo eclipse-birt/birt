@@ -76,6 +76,8 @@ public class QueryDefnIOUtil
 			// misc property: max row, use details
 			IOUtil.writeInt( outputStream, queryDefn.getMaxRows( ) );
 			IOUtil.writeBool( outputStream, queryDefn.usesDetails( ) );
+			if ( version >= VersionManager.VERSION_2_5_2_1 )
+				IOUtil.writeBool( outputStream, queryDefn.cacheQueryResults( ) );
 			
 			// sub query name
 			saveSubQuery( outputStream, queryDefn.getSubqueries( ), version );
@@ -269,7 +271,9 @@ public class QueryDefnIOUtil
 			// misc property: max row, use details
 			queryDefn.setMaxRows( IOUtil.readInt( inputStream ) );
 			queryDefn.setUsesDetails( IOUtil.readBool( inputStream ) );
-			
+			if ( version >= VersionManager.VERSION_2_5_2_1 )
+				queryDefn.setCacheQueryResults( IOUtil.readBool( inputStream ) );
+
 			// sub query name
 			queryDefn.getSubqueries( ).addAll( loadSubQuery( inputStream, queryDefn, version) );
 			
