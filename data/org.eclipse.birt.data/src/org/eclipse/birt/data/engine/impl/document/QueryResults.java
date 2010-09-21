@@ -242,7 +242,8 @@ public class QueryResults implements IQueryResults, IQueryService
 							queryResultID,
 							queryDefn.getGroups( ).size( ), true, queryDefn );
 				}
-				else if ( queryDefn.usesDetails( ) == true )
+				else if ( queryDefn.usesDetails( ) == true
+						|| queryDefn.cacheQueryResults( ) )
 				{
 					if ( this.targetGroups != null
 							&& this.targetGroups.size( ) > 0 )
