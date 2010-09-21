@@ -1046,10 +1046,11 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			if ( module.findDataSet( setName ) != null )
 			{
-				query.setDataSetDesign( null );
-				query.setDisplayNameColumn( null );
-				query.setValueColumn( null );
-				query.setEnabled( false );
+				elementAttrs.setDynamicValueChoices( null );
+				// query.setDataSetDesign( null );
+				// query.setDisplayNameColumn( null );
+				// query.setValueColumn( null );
+				// query.setEnabled( false );
 			}
 		}
 	}
