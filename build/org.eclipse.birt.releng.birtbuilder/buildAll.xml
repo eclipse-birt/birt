@@ -850,7 +850,7 @@
 	
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="DTP_1_8_1_Branch" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
@@ -864,7 +864,7 @@
 		
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.sybase.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="DTP_1_8_1_Branch" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
