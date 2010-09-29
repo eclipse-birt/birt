@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.excel.BlankData;
+import org.eclipse.birt.report.engine.emitter.excel.BlankData.Type;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
@@ -46,7 +47,6 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
-import org.eclipse.birt.report.engine.emitter.excel.BlankData.Type;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
@@ -410,7 +410,9 @@ public class ExcelLayoutEngine
 			SheetData upstair = cache.getColumnLastData( currentColumnIndex );
 			if ( rowspan > 0 )
 			{
-				if ( upstair != null && canSpan( upstair, rowContainer ) )
+				if ( upstair != null
+						&& canSpan( upstair, rowContainer, currentColumnIndex,
+								endColumnIndex ) )
 				{
 					Type blankType = Type.VERTICAL;
 					if ( upstair.isBlank( ) )
@@ -512,14 +514,36 @@ public class ExcelLayoutEngine
 		return 0;
 	}
 
-	private boolean canSpan( SheetData data, XlsContainer rowContainer )
+	private boolean canSpan( SheetData data, XlsContainer rowContainer,
+			int currentColumn, int lastColumn )
 	{
-		SheetData realData = getRealData(data);
+		SheetData realData = getRealData( data );
 		if ( realData == null )
 			return false;
-		if ( isInContainer( realData, rowContainer ) )
+		if ( !isInContainer( realData, rowContainer ) )
 		{
-			return true;
+			return false;
+		}
+
+		// Data can only span if the span doesn't conflict with some other
+		// items.
+		for ( int i = currentColumn + 1; i < lastColumn; i++ )
+		{
+			SheetData lastData = getColumnLastData( i );
+			SheetData lastRealData = getRealData( lastData );
+
+			// If there is some item under current data and would be
+			// overridden if current data span rows, then current data can't
+			// span.
+			if ( lastRealData == null
+					|| lastRealData.getRowIndex( ) <= realData.getRowIndex( ) )
+			{
+				continue;
+			}
+			if ( realData.getStartX( ) > lastRealData.getStartX( ) )
+			{
+				return false;
+			}
 		}
 		return realData.getRowSpanInDesign( ) > 0;
 	}
