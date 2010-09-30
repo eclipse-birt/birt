@@ -537,6 +537,7 @@
 			<include name="org.eclipse.birt.report.engine.dataextraction_*.jar" />
 			<include name="org.eclipse.birt.report.engine.dataextraction.csv_*.jar" />
 			<include name="org.eclipse.birt.core.script.function_*.jar" />
+			<exclude name="*.source_*/**"/>
 		</fileset>
 	</copy>
 
