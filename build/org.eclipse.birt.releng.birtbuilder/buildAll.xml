@@ -844,6 +844,20 @@
   		<antcall target="logger">
 			<param name="message" value="BIRT RCP feature build finished"/>
 		</antcall>
+		
+  		<antcall target="logger">
+			<param name="message" value="BIRT WTP nl feature build started"/>
+		</antcall>
+		<ant antfile="build.xml" dir="${basedir}">
+			<property name="component" value="${eclipse.build.configs}/birt.wtp.nl" />
+        	<property name="fetchTag" value="BIRT_2_6_1_Branch" />
+        	<property name="forceContextQualifier" value="${buildId}"/>
+    		<property name="generateFeatureVersionSuffix" value="false"/>
+		</ant>
+  		<antcall target="logger">
+			<param name="message" value="BIRT WTP feature build finished"/>
+		</antcall>
+		
   		<antcall target="logger">
 			<param name="message" value="DTP nl feature build started"/>
 		</antcall>
@@ -878,6 +892,7 @@
 		<unzip src="${buildDirectory}/${buildId}/birt-dtp-nl-${package.version}.zip" dest="${NLtmpsite}"/>
 		<unzip src="${buildDirectory}/${buildId}/birt-rcp-nl-${package.version}.zip" dest="${NLtmpsite}"/>
 		<unzip src="${buildDirectory}/${buildId}/birt-dtp-sybase-nl-${package.version}.zip" dest="${NLtmpsite}"/>
+		<unzip src="${buildDirectory}/${buildId}/birt-wtp-nl-${package.version}.zip" dest="${NLtmpsite}"/>
 			
 		<unpackUpdateJars site="${NLtmpsite}/eclipse" output="${NLtmpsite}/new/eclipse"/>
 		<zip destfile="${buildDirectory}/${buildId}/birt-all-nl-${package.version}.zip">
