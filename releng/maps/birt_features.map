@@ -39,7 +39,7 @@ feature@org.eclipse.birt.nl=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/bir
 feature@org.eclipse.birt.dtp.nl=v200911041343,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.build/R1.6_Feature_Projects/org.eclipse.birt.dtp.nl.feature
 feature@org.eclipse.birt.rcp.nl=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.rcp.nl.feature
 feature@org.eclipse.birt.dtp.sybase.nl=v200911041343,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.build/R1.6_Feature_Projects/org.eclipse.birt.dtp.sybase.nl.feature
-
+feature@org.eclipse.birt.wtp.nl=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.wtp.nl.feature
 
 !***************** Third Party Jars ******************
 plugin@org.apache.derby.core=v20100129,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
