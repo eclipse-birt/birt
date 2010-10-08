@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt"
       label="%featureName"
-      version="2.6.1.qualifier"
+      version="2.6.2.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt"
       image="eclipse_update_120.jpg">
@@ -707,10 +707,11 @@
          version="0.0.0"
          unpack="false"/>
 
-	<plugin
-		id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui"
-		download-size="0"
-		install-size="0"
-		version="0.0.0"
-		unpack="false"/>
+   <plugin
+         id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
