@@ -1,43 +1,43 @@
 !***************  FEATURE CONTRIBUTION  ******************************************************
-feature@org.eclipse.birt.sdk=v20100617a,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
+feature@org.eclipse.birt.sdk=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
 plugin@org.eclipse.birt.sdk=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
-feature@org.eclipse.birt=v20100709a,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
+feature@org.eclipse.birt=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
 plugin@org.eclipse.birt=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
-feature@org.eclipse.birt.osgi.runtime=v20100709,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime
-feature@org.eclipse.birt.osgi.runtime.sdk=v20100617a,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime.sdk
+feature@org.eclipse.birt.osgi.runtime=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime
+feature@org.eclipse.birt.osgi.runtime.sdk=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime.sdk
 
 feature@org.eclipse.birt.chart.osgi.runtime=v20100816,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.osgi.runtime
 feature@org.eclipse.birt.chart.osgi.runtime.sdk=v20100816,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.osgi.runtime.sdk
 
-feature@org.eclipse.birt.chart=v20100709,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
+feature@org.eclipse.birt.chart=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
-feature@org.eclipse.birt.report.designer.editor.xml.wtp=v20100709,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
+feature@org.eclipse.birt.report.designer.editor.xml.wtp=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
 
-feature@org.eclipse.birt.integration.wtp=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.feature
-feature@org.eclipse.birt.chart.integration.wtp=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.integration.wtp.feature
-feature@org.eclipse.birt.integration.wtp.sdk=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.sdk.feature
+feature@org.eclipse.birt.integration.wtp=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.feature
+feature@org.eclipse.birt.chart.integration.wtp=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.integration.wtp.feature
+feature@org.eclipse.birt.integration.wtp.sdk=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.sdk.feature
 
 !*************** DOC ***********
-feature@org.eclipse.birt.chart.cshelp=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.cshelp.feature
-feature@org.eclipse.birt.chart.doc.isv=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.doc.isv.feature
-feature@org.eclipse.birt.cshelp=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.cshelp.feature
-feature@org.eclipse.birt.doc.isv=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.isv.feature
-feature@org.eclipse.birt.doc=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
-feature@org.eclipse.birt.example=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
+feature@org.eclipse.birt.chart.cshelp=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.cshelp.feature
+feature@org.eclipse.birt.chart.doc.isv=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.doc.isv.feature
+feature@org.eclipse.birt.cshelp=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.cshelp.feature
+feature@org.eclipse.birt.doc.isv=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.isv.feature
+feature@org.eclipse.birt.doc=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
+feature@org.eclipse.birt.example=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
 
 !*************** BIRT  TEST ***********
-feature@org.eclipse.birt.testhelper=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.testhelper.feature
-feature@org.eclipse.birt.tests=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.tests.feature
+feature@org.eclipse.birt.testhelper=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.testhelper.feature
+feature@org.eclipse.birt.tests=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.tests.feature
 plugin@org.eclipse.birt.tests=v20100224,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
 
 !*************** NL features ***********
-feature@org.eclipse.birt.nl=v20100729,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl.feature
+feature@org.eclipse.birt.nl=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl.feature
 feature@org.eclipse.birt.dtp.nl=v200911041343,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.build/R1.6_Feature_Projects/org.eclipse.birt.dtp.nl.feature
-feature@org.eclipse.birt.rcp.nl=v20100618,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.rcp.nl.feature
+feature@org.eclipse.birt.rcp.nl=r262_v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.rcp.nl.feature
 feature@org.eclipse.birt.dtp.sybase.nl=v200911041343,:ext:xgu@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.build/R1.6_Feature_Projects/org.eclipse.birt.dtp.sybase.nl.feature
 
 
