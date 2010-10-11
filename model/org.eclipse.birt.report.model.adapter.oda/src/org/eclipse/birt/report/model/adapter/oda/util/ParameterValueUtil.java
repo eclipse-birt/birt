@@ -222,7 +222,7 @@ public class ParameterValueUtil
 				|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( parameterType )
 				|| DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( parameterType ) )
 		{
-			if ( isQuoted( originalValue, DOUBLE_QUOTE_CHAR ) )
+			if ( isQuoted( originalValue ) )
 				return originalValue.substring( 1, originalValue.length( ) - 1 );
 		}
 		return originalValue;
