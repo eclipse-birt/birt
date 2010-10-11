@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CSV data extraction tests fragment
 Bundle-SymbolicName: org.eclipse.birt.report.engine.dataextraction.csv.tests
-Bundle-Version: 2.6.1
+Bundle-Version: 4.0.0
 Fragment-Host: org.eclipse.birt.report.engine.dataextraction.csv
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.junit;bundle-version="[3.8.1,4.0.0)";resolution:=optional;visibility:=reexport
