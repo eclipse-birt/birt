@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.model.adapter.oda.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -33,6 +35,9 @@ import org.eclipse.datatools.connectivity.oda.design.InputElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputPromptControlStyle;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
+import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
+import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
+import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -213,8 +218,45 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 
 		InputParameterAttributes tmpParamDefn1 = designFactory
 				.createInputParameterAttributes( );
-
+				
 		updateInputElementAttrs( tmpParamDefn1, reportParam, null );
+		
+		// Add the default value to parameter's static list if it is not dynamic and does not contain such value.
+		if ( reportParam.getValueExpr( ) == null )
+		{
+			ScalarValueChoices staticChoices =  tmpParamDefn1.getElementAttributes( ).getStaticValueChoices( );
+			StaticValues defaultStaticValues = tmpParamDefn1.getElementAttributes( ).getDefaultValues( );
+			if ( staticChoices != null && defaultStaticValues != null )
+			{
+				List defaultValues = new ArrayList();
+				for ( Object defaultValue : defaultStaticValues.getValues( ) )
+					defaultValues.add( defaultValue );
+			
+				for ( ScalarValueDefinition choice : staticChoices.getScalarValues( ) )
+					defaultValues.remove( choice.getValue( ) );
+
+				if ( !defaultValues.isEmpty( ) )
+				{
+					for ( Object value:defaultValues )
+					{
+						if ( value instanceof String )
+						{
+							ScalarValueDefinition newChoice = designFactory.createScalarValueDefinition( );
+							newChoice.setValue( ParameterValueUtil.toODAValue( value.toString( ), reportParam.getDataType( ) ) );
+							staticChoices.getScalarValues( ).add( newChoice );
+						}
+					}
+					try
+					{
+						AdapterUtil.updateROMSelectionList( staticChoices, null, reportParam );
+					}
+					catch ( SemanticException e )
+					{
+						return true;
+					}
+				}
+			}
+		}
 		if ( tmpParamDefn1.getUiHints( ) != null )
 		{
 			tmpParamDefn1.setUiHints( null );
@@ -234,16 +276,45 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		return EcoreUtil.equals( tmpParamDefn, tmpParamDefn1 );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
-	 * #
-	 * updateLinkedReportParameterFromROMParameter(org.eclipse.birt.report.model
-	 * .api.AbstractScalarParameterHandle,
-	 * org.eclipse.birt.report.model.api.OdaDataSetParameterHandle)
-	 */
+//	/*
+//	 * (non-Javadoc)
+//	 * 
+//	 * @see
+//	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
+//	 * #
+//	 * updateLinkedReportParameterFromROMParameter(org.eclipse.birt.report.model
+//	 * .api.AbstractScalarParameterHandle,
+//	 * org.eclipse.birt.report.model.api.OdaDataSetParameterHandle)
+//	 */
+//
+//	private void updateSelectionChoice( ParameterDefinition odaParam,
+//			ScalarParameterHandle reportParam )
+//	{
+//		
+//		if ( setParam.getValueExpr( ) == null
+//				&& newValue.getType( ).equals( IExpressionType.CONSTANT ) )
+//		{
+//			boolean found = false;
+//			String defualtValue = newValue.getStringExpression( );
+//			Iterator<SelectionChoiceHandle> iterator = setParam.choiceIterator( );
+//			while ( iterator.hasNext( ) )
+//			{
+//				SelectionChoiceHandle choice = iterator.next( );
+//				if ( defualtValue.equals( choice.getValue( ) ) )
+//				{
+//					found = true;
+//					break;
+//				}
+//			}
+//			if ( !found )
+//			{
+//				SelectionChoice newChoice = StructureFactory.createSelectionChoice( );
+//				newChoice.setValue( defualtValue );
+//				PropertyHandle propHandle = setParam.getPropertyHandle( AbstractScalarParameterHandle.SELECTION_LIST_PROP );
+//				propHandle.addItem( newChoice );
+//			}
+//		}		
+//	}
 
 	protected void updateLinkedReportParameterFromROMParameter(
 			AbstractScalarParameterHandle reportParam,
