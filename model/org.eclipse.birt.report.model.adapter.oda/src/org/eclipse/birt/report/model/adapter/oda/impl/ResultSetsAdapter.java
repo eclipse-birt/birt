@@ -144,10 +144,12 @@ class ResultSetsAdapter
 
 	static ColumnHint newROMColumnHintFromColumnDefinition(
 			ColumnDefinition columnDefn, ColumnDefinition cachedColumnDefn,
-			ColumnHint oldHint, String columnName )
+			ColumnHint oldHint, OdaResultSetColumn resultSetColumn )
 	{
 		if ( columnDefn == null )
 			return null;
+		String columnName = resultSetColumn == null ? null : resultSetColumn
+				.getColumnName( );
 
 		DataElementAttributes dataAttrs = columnDefn.getAttributes( );
 		if ( dataAttrs == null )
@@ -183,10 +185,9 @@ class ResultSetsAdapter
 
 		updateColumnHintFromDataAttrs( columnDefn.getAttributes( ),
 				cachedDataAttrs, newHint );
-		updateColumnHintFromUsageHints(
-				outputAttrs,
+		updateColumnHintFromUsageHints( outputAttrs,
 				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
-						.getUsageHints( ), newHint );
+						.getUsageHints( ), newHint, resultSetColumn );
 		updateColumnHintFromAxisAttrs(
 				columnDefn.getMultiDimensionAttributes( ),
 				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
@@ -317,7 +318,8 @@ class ResultSetsAdapter
 
 	private static void updateColumnHintFromUsageHints(
 			OutputElementAttributes outputAttrs,
-			OutputElementAttributes cachedOutputAttrs, ColumnHint newHint )
+			OutputElementAttributes cachedOutputAttrs, ColumnHint newHint,
+			OdaResultSetColumn column )
 	{
 		if ( outputAttrs == null )
 			return;
@@ -382,6 +384,15 @@ class ResultSetsAdapter
 				newHint.setProperty( ColumnHint.VALUE_FORMAT_MEMBER, format );
 			}
 
+			// add logic to fix 32742: if the column is date-time, then do some
+			// special handle for the format string in IO
+			if ( newValue != null
+					&& ( column != null && DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME
+							.equals( column.getDataType( ) ) ) )
+			{
+				String formatValue = (String) newValue;
+				newValue = formatValue.replaceFirst( "mm/", "MM/" ); //$NON-NLS-1$//$NON-NLS-2$
+			}
 			if ( format != null )
 				format.setPattern( (String) newValue );
 		}
@@ -569,8 +580,7 @@ class ResultSetsAdapter
 		if ( columnDefn == null )
 			return;
 
-		updateResultSetColumnFromDataAttrs(
-				columnDefn.getAttributes( ),
+		updateResultSetColumnFromDataAttrs( columnDefn.getAttributes( ),
 				cachedColumnDefn == null ? null : cachedColumnDefn
 						.getAttributes( ), setColumn, dataSourceId, dataSetId );
 	}
@@ -825,9 +835,9 @@ class ResultSetsAdapter
 				cachedColumnDefn = findColumnDefinition( cachedSetColumns,
 						nativeName, position );
 
-				oldColumn = findOdaResultSetColumn(
-						setDefinedResults.iterator( ), nativeName, position,
-						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ) );
+				oldColumn = findOdaResultSetColumn( setDefinedResults
+						.iterator( ), nativeName, position, Integer
+						.valueOf( dataAttrs.getNativeDataTypeCode( ) ) );
 			}
 
 			OdaResultSetColumn newColumn = null;
@@ -847,9 +857,9 @@ class ResultSetsAdapter
 						.copy( );
 
 			updateROMOdaResultSetColumnFromColumnDefinition( columnDefn,
-					cachedColumnDefn, newColumn,
-					setDesign.getOdaExtensionDataSourceId( ),
-					setDesign.getOdaExtensionDataSetId( ) );
+					cachedColumnDefn, newColumn, setDesign
+							.getOdaExtensionDataSourceId( ), setDesign
+							.getOdaExtensionDataSetId( ) );
 
 			ColumnHint oldHint = null;
 			ColumnHintHandle oldHintHandle = AdapterUtil.findColumnHint(
@@ -858,8 +868,7 @@ class ResultSetsAdapter
 				oldHint = (ColumnHint) oldHintHandle.getStructure( );
 
 			ColumnHint newHint = newROMColumnHintFromColumnDefinition(
-					columnDefn, cachedColumnDefn, oldHint,
-					newColumn.getColumnName( ) );
+					columnDefn, cachedColumnDefn, oldHint, newColumn );
 
 			setInfo = new ResultSetColumnInfo( newColumn, newHint );
 			retList.add( setInfo );
@@ -1131,9 +1140,9 @@ class ResultSetsAdapter
 			if ( column == null )
 				continue;
 
-			ColumnDefinition odaColumn = findColumnDefinition(
-					columnDefns.getResultSetColumns( ),
-					column.getNativeName( ), column.getPosition( ) );
+			ColumnDefinition odaColumn = findColumnDefinition( columnDefns
+					.getResultSetColumns( ), column.getNativeName( ), column
+					.getPosition( ) );
 
 			if ( odaColumn == null )
 				continue;

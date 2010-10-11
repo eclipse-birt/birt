@@ -72,7 +72,7 @@ class ResultSetColumnUpdater
 
 		ColumnHint newHint = ResultSetsAdapter
 				.newROMColumnHintFromColumnDefinition( columnDefn, null,
-						oldHint, newColumn.getColumnName( ) );
+						oldHint, newColumn );
 
 		return newHint;
 	}
