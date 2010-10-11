@@ -776,12 +776,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 						MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME ) );
 				return null;
 			}
-			if ( displayNameID == null )
-			{
-				handleError( new ExtensionException( new String[]{},
-						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
-				return null;
-			}
 
 			// Note that here ROM supports overloadding, while JavaScript not.
 			// finds the method info if it has been parsed.
