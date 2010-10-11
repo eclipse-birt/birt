@@ -1,9 +1,9 @@
 !***************  FEATURE CONTRIBUTION  ******************************************************
 feature@org.eclipse.birt.sdk=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
-plugin@org.eclipse.birt.sdk=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
+plugin@org.eclipse.birt.sdk=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
 feature@org.eclipse.birt=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
-plugin@org.eclipse.birt=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
+plugin@org.eclipse.birt=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
 feature@org.eclipse.birt.osgi.runtime=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime
 feature@org.eclipse.birt.osgi.runtime.sdk=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.osgi.runtime.sdk
@@ -12,7 +12,7 @@ feature@org.eclipse.birt.chart.osgi.runtime=v20100816,:ext:xgu@dev.eclipse.org:/
 feature@org.eclipse.birt.chart.osgi.runtime.sdk=v20100816,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.osgi.runtime.sdk
 
 feature@org.eclipse.birt.chart=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
-plugin@org.eclipse.birt.chart=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
+plugin@org.eclipse.birt.chart=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
 feature@org.eclipse.birt.report.designer.editor.xml.wtp=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
 
@@ -42,5 +42,5 @@ feature@org.eclipse.birt.dtp.sybase.nl=v200911041343,:ext:xgu@dev.eclipse.org:/c
 feature@org.eclipse.birt.wtp.nl=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.wtp.nl.feature
 
 !***************** Third Party Jars ******************
-plugin@org.apache.derby.core=v20100129,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
-plugin@org.w3c.sac=v20070710,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
+plugin@org.apache.derby.core=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
+plugin@org.w3c.sac=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
