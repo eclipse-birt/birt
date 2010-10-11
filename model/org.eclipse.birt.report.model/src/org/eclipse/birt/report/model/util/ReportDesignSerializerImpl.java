@@ -1962,8 +1962,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	{
 		Iterator<UserPropertyDefn> iter = null;
 		DesignElement current = element;
-		if ( current.isVirtualElement( ) )
-			return;
 
 		do
 		{
@@ -1980,7 +1978,11 @@ class ReportDesignSerializerImpl extends ElementVisitor
 				}
 			}
 
-			current = current.getExtendsElement( );
+			if ( current.isVirtualElement( ) )
+				current = current.getVirtualParent( );
+			else
+				current = current.getExtendsElement( );
+			
 		} while ( current != null );
 
 	}
