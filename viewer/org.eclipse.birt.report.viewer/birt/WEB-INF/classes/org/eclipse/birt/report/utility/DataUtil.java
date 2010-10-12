@@ -361,7 +361,7 @@ public class DataUtil
 				// Make the consistent with designer
 				try
 				{
-					if ( timeZone != null && value instanceof String )
+					if ( timeZone != null )
 					{
 						obj = DataTypeUtil.toDate( value, BirtUtility.toICUTimeZone( timeZone ) );
 					}
