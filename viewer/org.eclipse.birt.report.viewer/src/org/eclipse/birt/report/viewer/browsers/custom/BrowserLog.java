@@ -61,7 +61,7 @@ public class BrowserLog
 	/**
 	 * Obtains singleton
 	 */
-	private static BrowserLog getInstance( )
+	private static synchronized BrowserLog getInstance( )
 	{
 		if ( instance == null )
 		{

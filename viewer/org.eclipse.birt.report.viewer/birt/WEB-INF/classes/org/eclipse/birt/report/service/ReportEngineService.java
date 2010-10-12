@@ -179,18 +179,26 @@ public class ReportEngineService
 			getAllJarFiles( dir, jarFileList );
 		}
 
-		String scriptlibClassPath = ""; //$NON-NLS-1$
+		StringBuffer scriptlibClassPath = new StringBuffer( );
 		for ( int i = 0; i < jarFileList.size( ); i++ )
-			scriptlibClassPath += EngineConstants.PROPERTYSEPARATOR
-					+ ( (File) jarFileList.get( i ) ).getAbsolutePath( );
+		{
+			String p = ( (File) jarFileList.get( i ) ).getAbsolutePath( );
 
-		if ( scriptlibClassPath.startsWith( EngineConstants.PROPERTYSEPARATOR ) )
-			scriptlibClassPath = scriptlibClassPath.substring( EngineConstants.PROPERTYSEPARATOR.length( ) );
+			if ( p != null && p.length( ) > 0 )
+			{
+				if ( scriptlibClassPath.length( ) > 0 )
+				{
+					scriptlibClassPath.append( EngineConstants.PROPERTYSEPARATOR );
+				}
+
+				scriptlibClassPath.append( p );
+			}
+		}
 
 		Map appContext = new HashMap( );
 
 		appContext.put( EngineConstants.WEBAPP_CLASSPATH_KEY,
-				scriptlibClassPath );
+				scriptlibClassPath.toString( ) );
 
 		// Set appcontext classloader to Engine config
 		ClassLoader appClassLoader = BirtUtility.getAppClassLoader( );
