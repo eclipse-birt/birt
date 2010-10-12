@@ -85,12 +85,12 @@ public abstract class DataViewPage extends Page implements
 				TreeItem item = (TreeItem) event.item;
 
 				INodeProvider provider = null;
-				if ( event.item != null && event.item.getData( ) != null )
+				if ( item != null && item.getData( ) != null )
 				{
-					provider = ProviderFactory.createProvider( event.item.getData( ) );
+					provider = ProviderFactory.createProvider( item.getData( ) );
 				}
-				if ( provider != null
-						&& provider.isReadOnly( event.item.getData( ) ) )
+				if ( provider != null && item != null
+						&& provider.isReadOnly( item.getData( ) ) )
 				{
 					Color gray = Display.getCurrent( )
 							.getSystemColor( SWT.COLOR_DARK_GRAY );
@@ -102,7 +102,7 @@ public abstract class DataViewPage extends Page implements
 				else
 				{
 					Color black = ReportColorConstants.ReportForeground;
-					if ( !item.getForeground( ).equals( black ) )
+					if (item != null && !black.equals( item.getForeground( ) ) )
 					{
 						item.setForeground( black );
 					}
