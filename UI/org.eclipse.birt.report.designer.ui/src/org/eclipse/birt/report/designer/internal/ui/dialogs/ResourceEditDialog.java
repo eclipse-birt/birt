@@ -853,7 +853,7 @@ public class ResourceEditDialog extends BaseDialog
 		return listChanged;
 	}
 
-	private class GlobalProperty
+	private static class GlobalProperty
 	{
 
 		private String key;

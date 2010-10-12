@@ -72,7 +72,7 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 		private ContentModelEventInfo( DesignElementHandle focus, NotificationEvent ev )
 		{	
 			super(focus, ev);
-			assert ev instanceof ContentEvent;
+			//assert ev instanceof ContentEvent;
 			setTarget( focus );
 			setType( ev.getEventType( ) );
 			if (ev instanceof ContentEvent)

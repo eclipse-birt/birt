@@ -39,7 +39,7 @@ import org.eclipse.core.expressions.IEvaluationContext;
 public class InsertGroupHanlder extends SelectionHandler
 {
 
-	private Object currentModel;
+	//private Object currentModel;
 
 	private static final String STACK_MSG_ADD_GROUP = Messages.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
 
@@ -53,7 +53,7 @@ public class InsertGroupHanlder extends SelectionHandler
 		super.execute( event );
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		currentModel = context.getVariable( ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME );
+		//currentModel = context.getVariable( ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME );
 
 		int position = 0;
 		Object obj = context.getVariable(ICommandParameterNameContants.INSERT_GROUP_POSITION);
@@ -106,7 +106,7 @@ public class InsertGroupHanlder extends SelectionHandler
 			Object obj = list.get( i );
 			if ( i == 0 && obj instanceof ReportElementEditPart )
 			{
-				currentModel = ( (ReportElementEditPart) obj ).getModel( );
+				//currentModel = ( (ReportElementEditPart) obj ).getModel( );
 			}
 
 			ReportElementEditPart currentEditPart = null;
@@ -155,7 +155,7 @@ public class InsertGroupHanlder extends SelectionHandler
 			Object obj = list.get( i );
 			if ( i == 0 && obj instanceof ReportElementEditPart )
 			{
-				currentModel = ( (ReportElementEditPart) obj ).getModel( );
+				//currentModel = ( (ReportElementEditPart) obj ).getModel( );
 			}
 
 			TableEditPart currentEditPart = null;
@@ -207,7 +207,7 @@ public class InsertGroupHanlder extends SelectionHandler
 			Object obj = list.get( i );
 			if ( i == 0 && obj instanceof ReportElementEditPart )
 			{
-				currentModel = ( (ReportElementEditPart) obj ).getModel( );
+				//currentModel = ( (ReportElementEditPart) obj ).getModel( );
 			}
 
 			ListEditPart currentEditPart = null;

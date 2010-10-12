@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -123,7 +124,7 @@ public class FilePathEntry extends BaseResourceEntity
 			this.url = file.toURL( );
 			this.isFile = file.isFile( );
 		}
-		catch ( Exception e )
+		catch ( MalformedURLException e )
 		{
 		}
 	}

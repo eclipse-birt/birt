@@ -141,8 +141,10 @@ public class ExtensionPointManager
 					}
 				}
 			}
+			
+			return reportItemUIMap;
 		}
-		return reportItemUIMap;
+		
 	}
 
 	private Map<String, IMenuBuilder> getMenuBuilderMap( )
@@ -178,8 +180,9 @@ public class ExtensionPointManager
 					}
 				}
 			}
+			return menuBuilderMap;
 		}
-		return menuBuilderMap;
+		
 	}
 
 	private Map<String, IProviderFactory> getProviderFactoryMap( )
@@ -215,8 +218,9 @@ public class ExtensionPointManager
 					}
 				}
 			}
+			return providerFactoryMap;
 		}
-		return providerFactoryMap;
+		
 	}
 
 	private List<IExtension> getExtensionElements( String id )

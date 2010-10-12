@@ -84,11 +84,11 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 						.getSessionHandle( )
 						.openLibrary( url );
 
-				if ( !( handle instanceof LibraryHandle ) )
-				{
-					action.setEnabled( false );
-					return;
-				}
+//				if ( !( handle instanceof LibraryHandle ) )
+//				{
+//					action.setEnabled( false );
+//					return;
+//				}
 
 				String filePath = handle.getFileName( );
 				if ( filePath != null && filePath.length( ) != 0 )

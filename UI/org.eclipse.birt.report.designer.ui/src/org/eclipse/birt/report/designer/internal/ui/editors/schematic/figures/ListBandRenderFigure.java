@@ -63,7 +63,7 @@ public class ListBandRenderFigure extends Figure
 
 						if ( width != oldWidth || height != oldHeight )
 						{
-							if ( child instanceof TableFigure )
+							//if ( child instanceof TableFigure )
 							{
 								IFigure tablePane = ( (LayeredPane) ( (LayeredPane) ( (TableFigure) child ).getContents( ) ).getLayer( LayerConstants.PRINTABLE_LAYERS ) ).getLayer( LayerConstants.PRIMARY_LAYER );
 								LayoutManager layoutManager = tablePane.getLayoutManager( );

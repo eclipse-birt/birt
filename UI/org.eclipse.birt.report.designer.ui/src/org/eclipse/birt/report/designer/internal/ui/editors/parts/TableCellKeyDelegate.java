@@ -48,7 +48,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 	 * Positive - East.
 	 */
 	private int lastHDir;
-	private ActionRegistry actionRegistry;
+	//private ActionRegistry actionRegistry;
 
 	/**
 	 * Records last vertical movement direction. 0 - None. Negative - North.
@@ -72,7 +72,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 	public TableCellKeyDelegate( GraphicalViewer viewer,ActionRegistry actionRegistry  )
 	{
 		super( viewer );
-		this.actionRegistry = actionRegistry;
+		//this.actionRegistry = actionRegistry;
 		put( KeyStroke.getPressed('r', 114, SWT.ALT|SWT.SHIFT  ),
 				actionRegistry.getAction( SelectRowAction.ID) );
 		put( KeyStroke.getPressed('R', 114, SWT.ALT|SWT.SHIFT  ),

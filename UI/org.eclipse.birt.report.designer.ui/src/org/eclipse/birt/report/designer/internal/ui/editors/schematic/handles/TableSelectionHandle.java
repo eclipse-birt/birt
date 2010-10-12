@@ -24,7 +24,7 @@ import org.eclipse.gef.handles.SquareHandle;
 public class TableSelectionHandle extends SquareHandle
 {
 
-	GraphicalEditPart editpart;
+	//GraphicalEditPart editpart;
 
 	/*
 	 * (non-Javadoc)
