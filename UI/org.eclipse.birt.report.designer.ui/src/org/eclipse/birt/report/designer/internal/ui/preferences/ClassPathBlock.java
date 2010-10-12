@@ -271,7 +271,7 @@ public class ClassPathBlock extends OptionsConfigurationBlock
 	private void removeEntry( )
 	{
 		List selElements = fLibrariesList.getSelectedElements( );
-		HashMap containerEntriesToUpdate = new HashMap( );
+		//HashMap containerEntriesToUpdate = new HashMap( );
 
 		if ( selElements.isEmpty( ) )
 		{
@@ -495,7 +495,7 @@ public class ClassPathBlock extends OptionsConfigurationBlock
 
 	private static List readClassPathEntry( String value )
 	{
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
+		//IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
 		List retValue = new ArrayList( );
 
 		if ( value == null || value.length( ) == 0 )
@@ -524,7 +524,8 @@ public class ClassPathBlock extends OptionsConfigurationBlock
 	@Override
 	public boolean performApply( )
 	{
-		String value = ""; //$NON-NLS-1$
+		//String value = ""; //$NON-NLS-1$
+		StringBuffer buffer = new StringBuffer( );
 		List list = fLibrariesList.getElements( );
 
 		for ( int i = 0; i < list.size( ); i++ )
@@ -537,9 +538,9 @@ public class ClassPathBlock extends OptionsConfigurationBlock
 			{
 				entryScript.append( ENTRY_SEPARATOR );
 			}
-			value = value + entryScript.toString( );
+			buffer.append( entryScript.toString( ));
 		}
-
+		String value = buffer.toString( );
 		setValue( PREF_CLASSPATH, value );
 		return super.performApply( );
 	}
@@ -608,7 +609,7 @@ public class ClassPathBlock extends OptionsConfigurationBlock
 		{
 			return null;
 		}
-		lastUsedPath = dialog.getFilterPath( );
+		//lastUsedPath = dialog.getFilterPath( );
 
 		return Path.fromOSString( res ).makeAbsolute( );
 	}

@@ -2044,14 +2044,15 @@ public class CascadingParametersDialog extends BaseDialog
 
 		private String getDummyText( Object element )
 		{
-			String dummyText = ""; //$NON-NLS-1$
+			//String dummyText = ""; //$NON-NLS-1$
+			StringBuffer buffer = new StringBuffer( );
 			int index = getTableIndex( element );
 			for ( int i = 0; i < index; i++ )
 			{
-				dummyText += "    "; //$NON-NLS-1$
+				buffer.append( "    " ); //$NON-NLS-1$
 			}
 
-			return dummyText;
+			return buffer.toString( );
 		}
 
 		public void addListener( ILabelProviderListener listener )

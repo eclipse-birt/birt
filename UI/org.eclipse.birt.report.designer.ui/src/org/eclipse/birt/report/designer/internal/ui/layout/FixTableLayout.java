@@ -297,7 +297,7 @@ public class FixTableLayout extends TableLayout
 	private void initRowMergeMinsize( List children )
 	{
 		int size = children.size( );
-		Map map = getOwner( ).getViewer( ).getVisualPartMap( );
+		//Map map = getOwner( ).getViewer( ).getVisualPartMap( );
 		List list = new ArrayList( );
 		List adjustRow = new ArrayList( );
 
@@ -335,7 +335,7 @@ public class FixTableLayout extends TableLayout
 		
 		List hasAdjust = new ArrayList();
 		size = data.rowHeights.length;
-		int dxRows[] = new int[size];
+		//int dxRows[] = new int[size];
 
 		for ( int i = 0; i < size; i++ )
 		{
@@ -357,7 +357,7 @@ public class FixTableLayout extends TableLayout
 			return;
 		}
 		int size = figures.size( );
-		Map map = getOwner( ).getViewer( ).getVisualPartMap( );
+		//Map map = getOwner( ).getViewer( ).getVisualPartMap( );
 		int adjustMax = 0;
 		int trueAdjustMax = 0;
 		int adjustMaxNumber = 0;
@@ -469,7 +469,7 @@ public class FixTableLayout extends TableLayout
 	private void initRowMinSize( List children )
 	{
 		int size = children.size( );
-		Map map = getOwner( ).getViewer( ).getVisualPartMap( );
+		//Map map = getOwner( ).getViewer( ).getVisualPartMap( );
 
 		for ( int i = 0; i < size; i++ )
 		{

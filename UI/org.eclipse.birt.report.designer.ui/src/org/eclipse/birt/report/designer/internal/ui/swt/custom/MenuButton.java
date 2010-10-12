@@ -293,9 +293,11 @@ public class MenuButton extends Composite
 	public void removeSelectionListener( SelectionListener listener )
 	{
 		if ( listeners != null )
+		{
 			listeners.remove( listener );
-		if ( listeners.size( ) == 0 )
-			listeners = null;
+			if ( listeners.size( ) == 0 )
+				listeners = null;
+		}
 	}
 
 	protected void paintControl( PaintEvent e )

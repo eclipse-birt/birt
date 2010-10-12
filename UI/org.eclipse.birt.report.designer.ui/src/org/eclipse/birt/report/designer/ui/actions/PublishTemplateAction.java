@@ -90,11 +90,11 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 							.getSessionHandle( )
 							.openDesign( url );
 
-					if ( !( handle instanceof ReportDesignHandle ) )
-					{
-						action.setEnabled( false );
-						return;
-					}
+//					if ( !( handle instanceof ReportDesignHandle ) )
+//					{
+//						action.setEnabled( false );
+//						return;
+//					}
 
 					WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
 							new PublishTemplateWizard( (ReportDesignHandle) handle ) );

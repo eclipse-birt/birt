@@ -58,7 +58,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 	private Button cusStyle;
 
-	private int selectedType = -1;
+	//private int selectedType = -1;
 
 	private static final int TYPE_PREDEFINED = 0;
 
@@ -173,7 +173,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				{
 					preName.select( 0 );
 				}
-				selectedType = TYPE_PREDEFINED;
+				//selectedType = TYPE_PREDEFINED;
 				checkPageValid( );
 			}
 		} );
@@ -227,7 +227,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				}
 				setPredefinedStyle( false );
 				cusName.setFocus( );
-				selectedType = TYPE_CUSTOM;
+				//selectedType = TYPE_CUSTOM;
 				checkPageValid( );
 			}
 		} );

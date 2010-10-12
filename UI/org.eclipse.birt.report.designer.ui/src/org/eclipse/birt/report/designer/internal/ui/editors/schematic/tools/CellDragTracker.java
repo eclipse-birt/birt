@@ -267,9 +267,13 @@ public class CellDragTracker extends DragEditPartsTracker implements
 
 			nlst.add( slst.get( 0 ) );
 		}
-		else
+		else if (slst != null)
 		{
 			nlst = new ArrayList( slst );
+		}
+		else
+		{
+			nlst = new ArrayList();
 		}
 
 		Rectangle constraint = TableCellSelectionHelper.getSelectionRectangle( (AbstractCellEditPart) getSourceEditPart( ),

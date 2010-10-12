@@ -1319,13 +1319,15 @@ public class TextEditor extends BaseDialog
 				// following the front tag.
 				if ( !tag.getAttributes( ).isEmpty( ) )
 				{
-					String text = " "; //$NON-NLS-1$
+					//String text = " "; //$NON-NLS-1$
+					StringBuffer buffer = new StringBuffer( );
 					for ( Iterator<String> iter = tag.getAttributes( )
 							.iterator( ); iter.hasNext( ); )
 					{
-						text = text + iter.next( ) + "=\"\" "; //$NON-NLS-1$
+						//text = text + iter.next( ) + "=\"\" "; //$NON-NLS-1$
+						buffer.append( iter.next( ) + "=\"\" " );//$NON-NLS-1$
 					}
-					frontTag = tag.getName( ).replaceFirst( ">", text + ">" ); //$NON-NLS-1$ //$NON-NLS-2$					
+					frontTag = tag.getName( ).replaceFirst( ">", buffer.toString( ) + ">" ); //$NON-NLS-1$ //$NON-NLS-2$					
 				}
 
 				// start: the start offset of selected text.

@@ -1162,10 +1162,10 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 				addBtn.setEnabled( false );
 				return;
 			}
-			if ( value != null )
-			{
-				value = value.trim( );
-			}
+//			if ( value != null )
+//			{
+//				value = value.trim( );
+//			}
 			if ( valueList.indexOf( ExpressionButtonUtil.getExpression( addExpressionValue ) ) < 0 )
 			{
 				addBtn.setEnabled( true );

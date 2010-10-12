@@ -260,7 +260,7 @@ public class BasePaletteFactory
 	public static class ImageToolExtends extends AbstractToolHandleExtends
 	{
 
-		private List dataSetList = new ArrayList( );
+		//private List dataSetList = new ArrayList( );
 
 		/*
 		 * get target design element handle

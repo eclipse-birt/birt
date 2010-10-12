@@ -175,7 +175,7 @@ public class EditorRulerProvider extends RulerProvider
 	public Command getMoveGuideCommand( Object obj, int pDelta )
 	{
 		EditorGuide guide = (EditorGuide) obj;
-		String propertyName = guide.getPropertyName( );
+		//String propertyName = guide.getPropertyName( );
 		pDelta = getMarginValue( obj, pDelta );
 
 		return new MoveGuideCommand( pDelta, guide.getPropertyName( ) );

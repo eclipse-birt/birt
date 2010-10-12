@@ -1269,8 +1269,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 			else
 			{
 				create2ValueComposite( operator.getParent( ) );
-				if ( handle != null )
-				{
+//				if ( handle != null )
+//				{
 					if ( handle != null )
 					{
 						if ( handle.getValue1ExpressionList( ) != null
@@ -1285,7 +1285,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 								handle,
 								StyleRule.VALUE2_MEMBER );
 					}
-				}
+				//}
 
 			}
 
@@ -2195,10 +2195,10 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 				addBtn.setEnabled( false );
 				return;
 			}
-			if ( value != null )
-			{
-				value = value.trim( );
-			}
+//			if ( value != null )
+//			{
+//				value = value.trim( );
+//			}
 			if ( valueList.indexOf( ExpressionButtonUtil.getExpression( addExpressionValue ) ) < 0 )
 			{
 				addBtn.setEnabled( true );

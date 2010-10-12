@@ -2483,7 +2483,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		Composite exprArea = new Composite( valueArea, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
-		layout.marginWidth = layout.marginWidth = 0;
+		layout.marginWidth = 0;
 		exprArea.setLayout( layout );
 		exprArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		return exprArea;

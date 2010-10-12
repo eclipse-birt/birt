@@ -132,14 +132,14 @@ public class NewStyleHandler extends SelectionHandler
 	{
 		Object elements = getElementHandles( );
 		List handles = new ArrayList( );
-		if ( elements instanceof List )
-		{
+//		if ( elements instanceof List )
+//		{
 			handles = (List) elements;
-		}
-		else
-		{
-			handles.add( elements );
-		}
+//		}
+//		else
+//		{
+//			handles.add( elements );
+//		}
 		for ( int i = 0; i < handles.size( ); i++ )
 		{
 			try

@@ -183,7 +183,7 @@ public class ResetImageOriginalSizeAction extends Action
 		int width = image.getBounds( ).width;
 
 		int height = image.getBounds( ).height;
-		String url = imageHandle.getURI( );
+		//String url = imageHandle.getURI( );
 		try
 		{
 			if ( type == BYORIGINAL )

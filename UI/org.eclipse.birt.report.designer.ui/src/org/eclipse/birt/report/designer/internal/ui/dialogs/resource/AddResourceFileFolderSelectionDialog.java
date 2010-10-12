@@ -78,21 +78,26 @@ public class AddResourceFileFolderSelectionDialog extends
 		} );
 		setAllowMultiple( true );
 
-		String fileSuf = "";
+		//String fileSuf = "";
+		StringBuffer buffer = new StringBuffer( );
 		for ( int i = 0; i < FILENAME_SUFFIX.length; i++ )
 		{
 			if ( i == FILENAME_SUFFIX.length - 1 && FILENAME_SUFFIX.length >= 2 )
 			{
-				fileSuf = fileSuf
-						+ " "
-						+ Messages.getString( "AddJarResourceFileFolderSelectionDialog.Message.Or" );
+//				fileSuf = fileSuf
+//						+ " "
+//						+ Messages.getString( "AddJarResourceFileFolderSelectionDialog.Message.Or" );
+				buffer.append(" " + Messages.getString( "AddJarResourceFileFolderSelectionDialog.Message.Or" ) );
 			}
 			if ( i != 0 )
 			{
-				fileSuf = fileSuf + " ";
+				//fileSuf = fileSuf + " ";
+				buffer.append( " " );
 			}
-			fileSuf = fileSuf + FILENAME_SUFFIX[i];
+			//fileSuf = fileSuf + FILENAME_SUFFIX[i];
+			buffer.append( FILENAME_SUFFIX[i] );
 		}
+		String fileSuf = buffer.toString( );
 		setTitle( Messages.getFormattedString( "ModulePage.Resourcefile.Dialog.Title", new String[]{fileSuf} ) ); //$NON-NLS-1$
 		setMessage( Messages.getFormattedString( "AddJarResourceFileFolderSelectionDialog.Message", new String[]{fileSuf} ) ); //$NON-NLS-1$
 	}

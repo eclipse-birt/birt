@@ -501,6 +501,7 @@ public class UIUtil
 		}
 		catch ( Exception e )
 		{
+			//do nothing
 		}
 		if ( shell == null )
 		{

@@ -44,7 +44,7 @@ public class ReloadCssStyleHandler extends SelectionHandler
 
 		Object obj = getElementHandles( );
 
-		if ( obj instanceof List )
+		//if ( obj instanceof List )
 		{
 			List tmpList = (List) obj;
 			if ( tmpList.size( ) < 1 )

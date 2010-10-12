@@ -486,22 +486,22 @@ public class TableGridLayer extends GridLayer
 		}
 	}
 
-	/**
-	 * Sorter to be used to sort the rows with row number
-	 * 
-	 */
-	public static class NumberComparator implements Comparator
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-		 */
-		public int compare( Object o1, Object o2 )
-		{
-			// TODO: sort the row with row number
-			return 0;
-		}
-	}
+//	/**
+//	 * Sorter to be used to sort the rows with row number
+//	 * 
+//	 */
+//	public static class NumberComparator implements Comparator
+//	{
+//
+//		/*
+//		 * (non-Javadoc)
+//		 * 
+//		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+//		 */
+//		public int compare( Object o1, Object o2 )
+//		{
+//			// TODO: sort the row with row number
+//			return 0;
+//		}
+//	}
 }

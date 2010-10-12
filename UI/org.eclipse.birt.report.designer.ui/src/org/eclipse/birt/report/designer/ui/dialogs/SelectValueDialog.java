@@ -479,7 +479,7 @@ public class SelectValueDialog extends BaseDialog
 		}
 	}
 
-	public class ContentProvider implements IStructuredContentProvider
+	public static class ContentProvider implements IStructuredContentProvider
 	{
 
 		public Object[] getElements( Object inputElement )

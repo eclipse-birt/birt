@@ -43,7 +43,7 @@ public class RefreshLibraryHandler extends SelectionHandler
 		super.execute( event );
 
 		Object obj = getElementHandles( );
-		if ( obj instanceof List )
+		//if ( obj instanceof List )
 		{
 			obj = ( (List) obj ).get( 0 );
 		}

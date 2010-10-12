@@ -117,8 +117,8 @@ public class ReportItemConstraint extends Rectangle
 	{
 		if ( display.equals( DesignChoiceConstants.DISPLAY_INLINE ) )
 			m_display = INLINE;
-		else if ( display.equals( DesignChoiceConstants.DISPLAY_BLOCK ) )
-			m_display = BLOCK;
+//		else if ( display.equals( DesignChoiceConstants.DISPLAY_BLOCK ) )
+//			m_display = BLOCK;
 		else 
 			m_display = BLOCK;
 	}

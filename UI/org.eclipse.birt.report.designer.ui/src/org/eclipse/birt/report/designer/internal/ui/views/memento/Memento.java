@@ -221,7 +221,7 @@ public class Memento implements IMemento
 	public Boolean getBoolean( String key )
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return Boolean.FALSE;
 	}
 
 

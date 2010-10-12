@@ -92,11 +92,11 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 			Messages.getString( "ExportElementDialog.ErrorMessageInvalid" ), //$NON-NLS-1$
 			null );
 
-	private Status ErrorStatusDuplicate = new Status( IStatus.ERROR,
-			ReportPlugin.REPORT_UI,
-			IStatus.ERROR,
-			Messages.getString( "ExportElementDialog.ErrorMessageDuplicate" ), //$NON-NLS-1$
-			null );
+//	private Status ErrorStatusDuplicate = new Status( IStatus.ERROR,
+//			ReportPlugin.REPORT_UI,
+//			IStatus.ERROR,
+//			Messages.getString( "ExportElementDialog.ErrorMessageDuplicate" ), //$NON-NLS-1$
+//			null );
 
 	private Status ErrorStatusCanNotExport = new Status( IStatus.ERROR,
 			ReportPlugin.REPORT_UI,
