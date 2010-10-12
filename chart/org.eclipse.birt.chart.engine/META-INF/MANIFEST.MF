@@ -46,7 +46,7 @@ Export-Package: org.eclipse.birt.chart.aggregate,
  org.eclipse.birt.chart.util
 Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
- org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)";visibility:=reexport
+ org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEnginePlugin
