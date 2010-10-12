@@ -507,19 +507,20 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		catch ( DesignFileException e )
 		{
 			// close handle
-			try
-			{
-				if ( handle != null )
-				{
-					handle.close( );
-				}
-			}
-			catch ( Exception e1 )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
-			}
+//			try
+//			{
+//				if ( handle != null )
+//				{
+//					handle.close( );
+//				}
+//			}
+//			catch ( Exception e1 )
+//			{
+//				logger.log( Level.SEVERE, e.getMessage( ), e );
+//			}
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
-
+		
 		return configVars;
 	}
 
