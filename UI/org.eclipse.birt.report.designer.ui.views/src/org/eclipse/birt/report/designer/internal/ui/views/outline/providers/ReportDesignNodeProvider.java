@@ -56,8 +56,8 @@ public class ReportDesignNodeProvider extends DefaultNodeProvider
 
 		list.add( handle.getParameters( ) );
 		
-		if(handle instanceof ReportDesignHandle)
-			list.add( ((ReportDesignHandle)handle).getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP ) );
+		
+		list.add( ((ReportDesignHandle)handle).getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP ) );
 
 		// Add the children handle - Body
 		list.add( handle.getBody( ) );

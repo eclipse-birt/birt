@@ -169,22 +169,29 @@ public class DataViewEventProcessor extends AbstractModelEventProcessor implemen
 				NotificationEvent ev )
 		{
 			super( focus, ev );
-			assert ev instanceof ContentEvent;
+			//assert ev instanceof ContentEvent;
 			switch ( ev.getEventType( ) )
 			{
 				case NotificationEvent.CONTENT_EVENT :
 				{
 					setVariableName( focus.getName( ) );
+					break;
 				}
 				case NotificationEvent.NAME_EVENT :
 				{
 					if ( ev instanceof NameEvent )
+					{
 						setVariableName( ( (NameEvent) ev ).getOldName( ) );
+						break;
+					}
 				}
 				case NotificationEvent.PROPERTY_EVENT :
 				{
 					setVariableName( focus.getName( ) );
+					break;
 				}
+				default:
+					break;
 			}
 		}
 

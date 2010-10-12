@@ -37,7 +37,7 @@ public class EmbeddedImageNodeProvider extends DefaultNodeProvider
 	public String getIconName( Object model )
 	{
 		assert(model instanceof EmbeddedImageHandle);
-		EmbeddedImageHandle image = (EmbeddedImageHandle)model;
+		//EmbeddedImageHandle image = (EmbeddedImageHandle)model;
 		
 		return IReportGraphicConstants.ICON_ELEMENT_IMAGE;
 		
