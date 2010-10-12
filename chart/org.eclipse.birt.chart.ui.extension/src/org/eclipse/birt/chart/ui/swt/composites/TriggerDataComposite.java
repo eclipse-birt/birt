@@ -1163,7 +1163,6 @@ public class TriggerDataComposite extends Composite implements
 			Cursor c = getMouseCursor( );
 
 			CursorImageDialog idlg = new CursorImageDialog( this.getShell( ),
-					wizardContext,
 					c );
 			idlg.open( );
 		}

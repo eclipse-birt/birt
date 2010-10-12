@@ -1579,25 +1579,28 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final TextRenderEvent tre = ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				TextRenderEvent.class );
 
-		double dLaAngle = la.getCaption( ).getFont( ).getRotation( );
-		if ( isRightToLeft( ) )
-		{
-			dLaAngle = -dLaAngle;
-		}
 		double dDeltaHeight = 0;
-		if ( dLaAngle > 0 && dLaAngle < 90 )
+		if ( la != null )
 		{
-			dDeltaHeight = ( bo.getHeight( ) + dFullHeight - dItemHeight ) / 2;
-		}
-		else if ( dLaAngle < 0 && dLaAngle > -90 )
-		{
-			dDeltaHeight = ( bo.getHeight( ) - dFullHeight + dItemHeight ) / 2;
-		}
-		else if ( dLaAngle == 0 || dLaAngle == 90 || dLaAngle == -90 )
-		{
-			dDeltaHeight = bo.getHeight( ) / 2;
-		}
+			double dLaAngle = la.getCaption( ).getFont( ).getRotation( );
+			if ( isRightToLeft( ) )
+			{
+				dLaAngle = -dLaAngle;
+			}
 
+			if ( dLaAngle > 0 && dLaAngle < 90 )
+			{
+				dDeltaHeight = ( bo.getHeight( ) + dFullHeight - dItemHeight ) / 2;
+			}
+			else if ( dLaAngle < 0 && dLaAngle > -90 )
+			{
+				dDeltaHeight = ( bo.getHeight( ) - dFullHeight + dItemHeight ) / 2;
+			}
+			else if ( dLaAngle == 0 || dLaAngle == 90 || dLaAngle == -90 )
+			{
+				dDeltaHeight = bo.getHeight( ) / 2;
+			}
+		}
 		if ( isRightToLeft( ) )
 		{
 			tre.setLocation( goFactory.createLocation( dX
@@ -1617,7 +1620,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					+ dHorizontalSpacing, bo.getTop( ) + dDeltaHeight ) );
 			tre.setTextPosition( TextRenderEvent.RIGHT );
 		}
-		if ( la.isVisible( ) )
+		if ( la != null && la.isVisible( ) )
 		{
 			tre.setLabel( la );
 			tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
@@ -1656,7 +1659,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 
 		// restore the label caption changed due to ellipsis
-		la.getCaption( ).setValue( lih.getItemText( ) );
+		if ( la != null )
+		{
+			la.getCaption( ).setValue( lih.getItemText( ) );
+		}
 
 		if ( isInteractivityEnabled( ) )
 		{
@@ -1681,7 +1687,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			if ( !elTriggers.isEmpty( ) )
 			{			
 				StructureSource source;
-				if ( this.cm.getLegend( ).getItemType( ) == LegendItemType.CATEGORIES_LITERAL )
+				if ( this.cm.getLegend( ).getItemType( ) == LegendItemType.CATEGORIES_LITERAL
+						&& la != null )
 				{
 					final DataPointHints dph = new DataPointHints( la.getCaption( )
 							.getValue( ),

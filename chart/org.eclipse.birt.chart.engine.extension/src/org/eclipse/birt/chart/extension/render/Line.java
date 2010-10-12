@@ -1312,7 +1312,7 @@ public class Line extends AxesRenderer
 		@Override
 		public void reset( )
 		{
-			index = findex - 1;
+			index = -1;
 		}
 
 	}
@@ -1728,7 +1728,7 @@ public class Line extends AxesRenderer
 	{
 
 		private final LineAttributes liaShadow;
-		private final double deltaY = 3;
+		private static final double deltaY = 3;
 		private final Location loStart = goFactory.createLocation( 0, 0 );
 		private final Location loEnd = goFactory.createLocation( 0, 0 );
 

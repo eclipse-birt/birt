@@ -272,7 +272,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		String[] aggOns = getAggOns( handle );
 		cmbAggOn.setItems( aggOns );
 
-		String aggstr = ""; //$NON-NLS-1$
+		StringBuffer aggstr = new StringBuffer( );
 		if ( getBinding( ) != null )
 		{
 			List aggOnList = getBinding( ).getAggregateOnList( );
@@ -280,16 +280,16 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			for ( Iterator iterator = aggOnList.iterator( ); iterator.hasNext( ); )
 			{
 				if ( i > 0 )
-					aggstr += ","; //$NON-NLS-1$
+					aggstr.append( "," ); //$NON-NLS-1$
 				String name = (String) iterator.next( );
-				aggstr += name;
+				aggstr.append( name );
 				i++;
 			}
 		}
 
 		for ( int j = 0; j < aggOns.length; j++ )
 		{
-			if ( aggOns[j].equals( aggstr ) )
+			if ( aggOns[j].equals( aggstr.toString( ) ) )
 			{
 				cmbAggOn.select( j );
 				return;

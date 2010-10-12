@@ -1059,7 +1059,7 @@ public final class LegendBuilder implements IConstants
 					|| alSed.size( ) <= 1
 					|| sed.getQuery( ) == null
 					|| sed.getQuery( ).getDefinition( ) == null
-					|| sed.getQuery( ).getDefinition( ).trim( ) == "" ) //$NON-NLS-1$
+					|| sed.getQuery( ).getDefinition( ).trim( ).length( ) == 0 )
 			{
 				return false;
 			}

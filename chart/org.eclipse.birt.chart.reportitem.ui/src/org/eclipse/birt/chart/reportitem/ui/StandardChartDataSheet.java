@@ -193,9 +193,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
 			.createExpressionCodec( );
 	
-	private final String HEAD_INFO = "HeaderInfo"; //$NON-NLS-1$
+	private static final String HEAD_INFO = "HeaderInfo"; //$NON-NLS-1$
 	
-	private final String DATA_LIST = "DataList"; //$NON-NLS-1$
+	private static final String DATA_LIST = "DataList"; //$NON-NLS-1$
 	
 	private Composite parentComposite;
 
@@ -1467,7 +1467,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 					getDataServiceProvider( ).setReportItemReference( null );
 					getDataServiceProvider( ).setDataCube( null );
 					getDataServiceProvider( ).setDataSet( null );
-					switchDataSet( null );
+					switchDataSet( );
 
 					cmbDataItems.select( 0 );
 					currentData = null;
@@ -1544,7 +1544,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 							}
 							getDataServiceProvider( ).setDataSet( cmbDataItems.getText( ) );
 							currentData = cmbDataItems.getText( );
-							switchDataSet( cmbDataItems.getText( ) );
+							switchDataSet( );
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
@@ -1728,7 +1728,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				boolean isCube = true;
 				IExpressionDescriptor desc = ExpressionDescriptor.getInstance( valueExprs[0],
 						isCube );
-				if ( desc != null && dataProvider != null )
+				if ( desc != null )
 				{
 					String expr = desc.getExpression( );
 					query.setDefinition( expr );
@@ -1775,7 +1775,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 		tablePreview.layout( );
 	}
 
-	private void switchDataSet( String datasetName ) throws ChartException
+	private void switchDataSet( ) throws ChartException
 	{
 		if ( isCubeMode( ) )
 		{
@@ -1787,17 +1787,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			tablePreview.clearContents( );
 			tableViewerColumns.setInput( null );
 
-			// Try to get report data set
-			if ( datasetName == null )
-			{
-				datasetName = getDataServiceProvider( ).getInheritedDataSet( );
-			}
-
-			// do not need to update here. updateGragDataSource
-			// if ( datasetName != null )
-			// {
-			// switchDataTable( );
-			// }
 			tablePreview.createDummyTable( );
 			tablePreview.layout( );
 		}

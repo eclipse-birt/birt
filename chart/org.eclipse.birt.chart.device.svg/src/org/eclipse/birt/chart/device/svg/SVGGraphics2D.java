@@ -829,12 +829,12 @@ public class SVGGraphics2D extends ChartGraphics2D
 				style += "stroke-width:" + bs.getLineWidth( ) + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 			if ( bs.getDashArray( ) != null )
 			{
-				String dashArrayStr = ""; //$NON-NLS-1$
+				StringBuffer dashArrayStr = new StringBuffer( );
 				for ( int x = 0; x < bs.getDashArray( ).length; x++ )
 				{
-					dashArrayStr += " " + bs.getDashArray( )[x]; //$NON-NLS-1$
+					dashArrayStr.append( " " ).append( bs.getDashArray( )[x] ); //$NON-NLS-1$
 				}
-				if ( !( dashArrayStr.equals( "" ) ) ) //$NON-NLS-1$
+				if ( !( dashArrayStr.toString( ).equals( "" ) ) ) //$NON-NLS-1$
 					style += "stroke-dasharray:" + dashArrayStr + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			style += "stroke-miterlimit:" + bs.getMiterLimit( ) + ";"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -1505,7 +1505,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	protected Element createShape( Shape shape )
 	{
 		PathIterator pathIter = shape.getPathIterator( null );
-		String pathStr = ""; //$NON-NLS-1$
+		StringBuffer pathStr = new StringBuffer( );
 		while ( !pathIter.isDone( ) )
 		{
 			double[] points = new double[6];
@@ -1513,25 +1513,25 @@ public class SVGGraphics2D extends ChartGraphics2D
 			switch ( TYPE )
 			{
 				case PathIterator.SEG_CLOSE :
-					pathStr += " Z"; //$NON-NLS-1$
+					pathStr.append( " Z" ); //$NON-NLS-1$
 					break;
 				case PathIterator.SEG_LINETO :
-					pathStr += " L" + toString( points, 2, ' ' ); //$NON-NLS-1$ 
+					pathStr.append( " L" ).append( toString( points, 2, ' ' ) ); //$NON-NLS-1$ 
 					break;
 				case PathIterator.SEG_QUADTO :
-					pathStr += " Q" + toString( points, 4, ' ' ); //$NON-NLS-1$ 
+					pathStr.append( " Q" ).append( toString( points, 4, ' ' ) ); //$NON-NLS-1$ 
 					break;
 				case PathIterator.SEG_CUBICTO :
-					pathStr += " C" + toString( points, 6, ' ' ); //$NON-NLS-1$ 
+					pathStr.append( " C" ).append( toString( points, 6, ' ' ) ); //$NON-NLS-1$ 
 					break;
 				case PathIterator.SEG_MOVETO :
-					pathStr += " M" + toString( points, 2, ' ' ); //$NON-NLS-1$ 
+					pathStr.append( " M" ).append( toString( points, 2, ' ' ) ); //$NON-NLS-1$ 
 					break;
 			}
 			pathIter.next( );
 		}
 		Element elem = dom.createElement( "path" ); //$NON-NLS-1$
-		elem.setAttribute( "d", pathStr ); //$NON-NLS-1$
+		elem.setAttribute( "d", pathStr.toString( ) ); //$NON-NLS-1$
 		return elem;
 	}
 
