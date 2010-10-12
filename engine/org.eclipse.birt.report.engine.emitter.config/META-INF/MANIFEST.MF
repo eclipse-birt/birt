@@ -6,7 +6,7 @@ Bundle-Version: 4.0.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.birt.report.engine;bundle-version="2.5.0"
+Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[2.5.0,5.0.0)"
 Export-Package: org.eclipse.birt.report.engine.emitter.config,
  org.eclipse.birt.report.engine.emitter.config.i18n,
  org.eclipse.birt.report.engine.emitter.config.impl
