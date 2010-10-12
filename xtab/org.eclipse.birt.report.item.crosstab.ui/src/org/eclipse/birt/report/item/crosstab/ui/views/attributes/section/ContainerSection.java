@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Group;
 public class ContainerSection extends Section
 {
 
-	CheckPropertyDescriptor columnCheck;
+	//CheckPropertyDescriptor columnCheck;
 
 	public Group group;
 
