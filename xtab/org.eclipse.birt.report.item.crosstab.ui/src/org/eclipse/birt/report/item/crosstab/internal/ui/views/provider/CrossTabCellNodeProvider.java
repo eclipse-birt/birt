@@ -211,7 +211,7 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider
 					DNDUtil.handleValidateTargetCanContain( model,
 							elementHandle,
 							true ) );
-			if ( pos > 0 && position == InsertAction.ABOVE )
+			if ( pos > 0 && position.equals( InsertAction.ABOVE) )
 			{
 				pos--;
 			}

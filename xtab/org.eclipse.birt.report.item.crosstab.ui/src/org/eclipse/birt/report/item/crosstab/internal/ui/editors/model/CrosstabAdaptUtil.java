@@ -579,7 +579,7 @@ public class CrosstabAdaptUtil
 				//do nothing now
 			}
 		}
-		if (value == null && !(value instanceof FormatValue))
+		if (value == null || !(value instanceof FormatValue))
 		{
 			return;
 		}

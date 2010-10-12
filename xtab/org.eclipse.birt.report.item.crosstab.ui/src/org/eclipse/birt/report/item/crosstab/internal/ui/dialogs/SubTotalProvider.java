@@ -50,7 +50,7 @@ public class SubTotalProvider extends TotalProvider implements
 		IStructuredContentProvider,
 		ICellModifier
 {
-	private int axis;
+	//private int axis;
 	private CellEditor[] cellEditor;
 	TableViewer viewer;
 	
@@ -122,7 +122,7 @@ public class SubTotalProvider extends TotalProvider implements
 	{
 		this.viewer = viewer;
 		this.crosstab = crosstab;
-		this.axis = axis;
+		//this.axis = axis;
 
 		cellProviderWrapper = new AggregationCellProviderWrapper(crosstab);
 	}

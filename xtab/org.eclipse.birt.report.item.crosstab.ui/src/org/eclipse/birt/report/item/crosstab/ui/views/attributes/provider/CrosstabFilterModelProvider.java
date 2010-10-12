@@ -141,7 +141,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 		}
 		TargetFilterConditionHandle targetfilterKeyHandle = (TargetFilterConditionHandle) Arrays.asList( levelArray )
 				.get( pos );
-		Object target = targetfilterKeyHandle.getTarget( );
+		//Object target = targetfilterKeyHandle.getTarget( );
 		// PropertyHandle propertyHandle = level.getModelHandle( )
 		// .getPropertyHandle( ILevelViewConstants.FILTER_PROP );
 		FilterConditionElementHandle filterCondition = targetfilterKeyHandle.getfilterConditionHandle( );

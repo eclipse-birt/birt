@@ -45,7 +45,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 	 * type.
 	 */
 	private int type = -1;
-	private DimensionHandle dimensionHandle;
+	//private DimensionHandle dimensionHandle;
 	private Object after = null;
 	private LevelHandle[] levelHandles;
 	private DimensionHandle[] dimensionHandles;
