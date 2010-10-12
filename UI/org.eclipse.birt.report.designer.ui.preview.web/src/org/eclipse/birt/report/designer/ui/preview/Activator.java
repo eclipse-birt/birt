@@ -43,8 +43,8 @@ public class Activator extends AbstractUIPlugin
 	{
 		super.start( context );
 
-		// ensure viewer plugin already started
-		//ViewerPlugin dummy = ViewerPlugin.getDefault( );
+		//!! ensure viewer plugin already started, this call is required
+		ViewerPlugin.getDefault( );
 
 		// set the URI root path to ImageManager
 		String appRootPath = System.getProperty( ViewerPlugin.BIRT_VIEWER_ROOT_PATH );
