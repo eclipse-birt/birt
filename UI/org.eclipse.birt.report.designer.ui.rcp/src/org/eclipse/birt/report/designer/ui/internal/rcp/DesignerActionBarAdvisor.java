@@ -107,9 +107,9 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 	private IWorkbenchAction quitAction;
 
 	// IDE-specific actions
-	private IWorkbenchAction quickStartAction;
+	//private IWorkbenchAction quickStartAction;
 
-	private IWorkbenchAction tipsAndTricksAction;
+	//private IWorkbenchAction tipsAndTricksAction;
 
 	private IWorkbenchAction introAction;
 
@@ -335,12 +335,12 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		// See if a welcome or intro page is specified
 		if ( introAction != null )
 			menu.add( introAction );
-		else if ( quickStartAction != null )
-			menu.add( quickStartAction );
+//		else if ( quickStartAction != null )
+//			menu.add( quickStartAction );
 		menu.add( helpContentsAction );
 
-		if ( tipsAndTricksAction != null )
-			menu.add( tipsAndTricksAction );
+//		if ( tipsAndTricksAction != null )
+//			menu.add( tipsAndTricksAction );
 
 		menu.add( new GroupMarker( "group.tutorials" ) ); //$NON-NLS-1$
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
@@ -393,8 +393,8 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 		selectAllAction = null;
 		findAction = null;
 		quitAction = null;
-		quickStartAction = null;
-		tipsAndTricksAction = null;
+		//quickStartAction = null;
+		//tipsAndTricksAction = null;
 		pinEditorContributionItem = null;
 		introAction = null;
 
