@@ -9,7 +9,13 @@ plugin@org.eclipse.birt.report.engine.emitter.pdf.config=v20101011,:ext:xgu@dev.
 plugin@org.eclipse.birt.report.engine.emitter.postscript.config=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.config.postscript
 plugin@org.eclipse.birt.report.engine.emitter.ppt.config=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.config.ppt
 plugin@org.eclipse.birt.report.engine.emitter.wpml.config=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.config.wpml
-
+plugin@org.eclipse.birt.report.engine.emitter.odp.config=v20101013,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.config.odp
+plugin@org.eclipse.birt.report.engine.emitter.ods.config=v20101013,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.config.ods
+plugin@org.eclipse.birt.report.engine.emitter.odt.config=v20101013,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.config.odt
+plugin@org.eclipse.birt.report.engine.emitter.odp=v20101013,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.odp
+plugin@org.eclipse.birt.report.engine.emitter.ods=v20101013,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.ods
+plugin@org.eclipse.birt.report.engine.emitter.odt=v20101013,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.odt
+plugin@org.eclipse.birt.report.engine.odf=v20101013,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.odf
 
 plugin@org.eclipse.birt.report.engine.emitter.html=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html
 plugin@org.eclipse.birt.report.engine.emitter.pdf=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf
