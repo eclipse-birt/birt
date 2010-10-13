@@ -38,9 +38,17 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 			return;
 		}
 
-		// fix bug 235947, ensure engine script context is initialized at this
-		// moment
-		context.evaluate( "1" ); //$NON-NLS-1$
+		ExtendedItemHandle modelHandle = (ExtendedItemHandle) crosstab.getModelHandle( );
+		String javaClass = modelHandle.getEventHandlerClass( );
+		String script = modelHandle.getOnPrepare( );
+
+		if ( ( javaClass != null && javaClass.trim( ).length( ) > 0 )
+				|| ( script != null && script.trim( ).length( ) > 0 ) )
+		{
+			// fix bug 235947, ensure engine script context is initialized at
+			// this moment
+			context.evaluate( "1" ); //$NON-NLS-1$
+		}
 
 		new CrosstabPreparationHandler( crosstab, context ).handle( );
 	}
