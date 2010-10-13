@@ -1023,13 +1023,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			//need no groups in query definition for generating fact table
 			//Instead we sort fact tables directly
-			for ( Object o : query.getGroups( ) )
-			{
-				IGroupDefinition gd = (IGroupDefinition)o;
-				SortDefinition sd = new SortDefinition( );
-				sd.setExpression( gd.getKeyExpression( ) );
-				query.getSorts( ).add( sd );
-			}
 			query.setUsesDetails( true );
 			query.getGroups( ).clear( );
 		}
@@ -1076,14 +1069,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					}
 					
 					//need no groups in query definition for generating dimension table
-					//Instead we sort dimension table directly
-					for ( Object o : query.getGroups( ) )
-					{
-						IGroupDefinition gd = (IGroupDefinition)o;
-						SortDefinition sd = new SortDefinition( );
-						sd.setExpression( gd.getKeyExpression( ) );
-						query.getSorts( ).add( sd );
-					}
+					
 					query.setUsesDetails( true );
 					query.getGroups( ).clear( );
 				}
