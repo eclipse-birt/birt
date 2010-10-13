@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.config;
 
+import java.util.List;
+
 import org.eclipse.birt.report.engine.api.IRenderOption;
 
 /**
@@ -37,6 +39,16 @@ public interface IConfigurableOptionObserver
 	 */
 	boolean update( IOptionValue... values );
 
+	/**
+	 * It should be called before updating the values to check whether the input
+	 * values are valid. If non of the values are invalid, the returned list is
+	 * empty;otherwise, error message list will be returned.
+	 * 
+	 * @param values
+	 * @return
+	 */
+	List validate( IOptionValue... values );
+	
 	/**
 	 * @return Returns the option values based on current state.
 	 */
