@@ -44,11 +44,6 @@ public class GroupRenameDialog extends BaseDialog
 {
 
 	/**
-	 * The title of the dialog.
-	 */
-	private String title;
-
-	/**
 	 * The message to display, or <code>null</code> if none.
 	 */
 	private String message;
@@ -78,22 +73,6 @@ public class GroupRenameDialog extends BaseDialog
 		super( dialogTitle );
 		// this.title = dialogTitle;
 		message = dialogMessage;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets
-	 * .Shell)
-	 */
-	protected void configureShell( Shell shell )
-	{
-		super.configureShell( shell );
-		if ( title != null )
-		{
-			shell.setText( title );
-		}
 	}
 
 	public void setInput( DimensionHandle dimension )

@@ -58,12 +58,10 @@ public class OutputPropertyDescriptorProvider extends
 			}
 			else
 			{
-				if ( !expression.equals( hideHandle.getExpression( ) )
-						&& ( !expression.equals( "" ) || hideHandle.getExpression( ) != null ) ) //$NON-NLS-1$
-				{
-					hideHandle.setExpressionProperty( HideRule.VALUE_EXPR_MEMBER,
-							expression );
-				}
+
+				hideHandle.setExpressionProperty( HideRule.VALUE_EXPR_MEMBER,
+						expression );
+
 			}
 		}
 		else

@@ -184,7 +184,7 @@ public class LevelStaticAttributeDialog extends BaseDialog
 
 		if ( expression.open( ) == OK )
 		{
-			if ( expression.getResult( ) != null && expressionText != null )
+			if ( expression.getResult( ) != null )
 				expressionText.setText( expression.getResult( ) );
 		}
 	}

@@ -66,7 +66,7 @@ public class CubeExpressionProvider extends ExpressionProvider
 		}
 		else if ( handle instanceof MeasureGroupHandle )
 		{
-			Object parent = (TabularCubeHandle) ( (MeasureGroupHandle) handle ).getContainer( )
+			Object parent = ( (MeasureGroupHandle) handle ).getContainer( )
 					.getContainer( );
 			if ( parent instanceof TabularCubeHandle )
 			{

@@ -83,7 +83,8 @@ public abstract class DataViewPage extends Page implements
 			{
 				// Fix bug 192094
 				TreeItem item = (TreeItem) event.item;
-
+				if ( item == null )
+					return;
 				INodeProvider provider = null;
 				if ( item != null && item.getData( ) != null )
 				{

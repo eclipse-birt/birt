@@ -377,18 +377,21 @@ public class CubeGroupContent extends Composite implements Listener
 						Color gray = Display.getCurrent( )
 								.getSystemColor( SWT.COLOR_DARK_GRAY );
 
-						if ( item != null && item.getData( ) != null )
+						if ( item != null )
 						{
-							if ( checkSharedDimension( item.getData( ) )
-									&& item.getData( ) instanceof LevelHandle )
-								item.setForeground( gray );
+							if ( item.getData( ) != null )
+							{
+								if ( checkSharedDimension( item.getData( ) )
+										&& item.getData( ) instanceof LevelHandle )
+									item.setForeground( gray );
+								else
+									item.setForeground( item.getParent( )
+											.getForeground( ) );
+							}
 							else
 								item.setForeground( item.getParent( )
 										.getForeground( ) );
 						}
-						else
-							item.setForeground( item.getParent( )
-									.getForeground( ) );
 					}
 				} );
 		final DragSource fieldsSource = new DragSource( groupViewer.getTree( ),
@@ -731,7 +734,7 @@ public class CubeGroupContent extends Composite implements Listener
 									{
 										level.setAlignment( column.getHorizontalAlign( ) );
 									}
-									
+
 									if ( !isValidName )
 									{
 										LevelPropertyDialog dialog = new LevelPropertyDialog( true );
