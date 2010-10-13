@@ -714,4 +714,53 @@
          version="0.0.0"
          unpack="false"/>
 
+	<plugin
+		id="org.eclipse.birt.report.engine.emitter.odp.config"
+		download-size="0"
+		install-size="0"
+		version="0.0.0"
+		unpack="false"/>
+		
+	<plugin
+		id="org.eclipse.birt.report.engine.emitter.ods.config"
+		download-size="0"
+		install-size="0"
+		version="0.0.0"
+		unpack="false"/>
+	
+	<plugin
+		id="org.eclipse.birt.report.engine.emitter.odt.config"
+		download-size="0"
+		install-size="0"
+		version="0.0.0"
+		unpack="false"/>
+    
+    <plugin
+		id="org.eclipse.birt.report.engine.emitter.odp"
+		download-size="0"
+		install-size="0"
+		version="0.0.0"
+		unpack="false"/>
+	
+	<plugin
+		id="org.eclipse.birt.report.engine.emitter.ods"
+		download-size="0"
+		install-size="0"
+		version="0.0.0"
+		unpack="false"/>
+	
+	<plugin
+		id="org.eclipse.birt.report.engine.emitter.odt"
+		download-size="0"
+		install-size="0"
+		version="0.0.0"
+		unpack="false"/>
+	
+	<plugin
+		id="org.eclipse.birt.report.engine.odf"
+		download-size="0"
+		install-size="0"
+		version="0.0.0"
+		unpack="false"/>
+		
 </feature>

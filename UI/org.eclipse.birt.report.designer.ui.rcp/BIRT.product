@@ -125,6 +125,13 @@
       <plugin id="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.wpml"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.wpml.config"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.odp.config" />
+	  <plugin id="org.eclipse.birt.report.engine.emitter.ods.config" />
+	  <plugin id="org.eclipse.birt.report.engine.emitter.odt.config" />
+      <plugin id="org.eclipse.birt.report.engine.emitter.odp" />	
+	  <plugin id="org.eclipse.birt.report.engine.emitter.ods" />
+      <plugin id="org.eclipse.birt.report.engine.emitter.odt" />
+      <plugin id="org.eclipse.birt.report.engine.odf" />
       <plugin id="org.eclipse.birt.report.engine.fonts"/>
       <plugin id="org.eclipse.birt.report.engine.script.javascript"/>
       <plugin id="org.eclipse.birt.report.item.crosstab.core"/>
