@@ -146,7 +146,10 @@ public final class UIHelper
 		if ( image == null )
 		{
 			image = createImage( bundle, sPluginRelativePath, force );
-			registry.put( imgKey, image );
+			if ( image != null )
+			{
+				registry.put( imgKey, image );
+			}
 		}
 		return image;
 	}
