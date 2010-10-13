@@ -263,7 +263,6 @@ public class AbstractOdfWriter implements IOdfWriter
 		writer.closeTag( baseType + ":a" );
 	}	
 
-	@Override
 	public void close( ) throws IOException
 	{	
 		writer.close( );

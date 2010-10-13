@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.chart.engine,
  org.eclipse.birt.chart.engine.extension,
  org.eclipse.birt.chart.reportitem,
- org.eclipse.birt.report.engine.odf;bundle-version="2.6.0"
+ org.eclipse.birt.report.engine.odf;bundle-version="[2.6.0,5.0.0)"
 Bundle-Vendor: Eclipse.org
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.ods.plugin.OdsEmitterPlugin
