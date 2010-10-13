@@ -552,6 +552,9 @@ public abstract class ReportPreviewEditor extends EditorPart
 				this.options.remove( WebViewer.SHOW_PARAMETER_PAGE_KEY );
 			}
 
+			System.clearProperty( IPreviewConstants.SID );
+			System.clearProperty( IPreviewConstants.DSID );
+
 			System.setProperty( IPreviewConstants.MAX_DATASET_ROWS,
 					ViewerPlugin.getDefault( )
 							.getPluginPreferences( )
