@@ -1963,7 +1963,7 @@ abstract public class AbstractStyle implements IStyle
 			if ( index == -1 )
 			{
 				String propertyCssText = IOUtil.readString( in );
-				if ( IStyle.BIRT_DATE_TIME_FORMAT_PROPERTY
+				if ( IStyle.BIRT_STRING_FORMAT_PROPERTY
 						.equalsIgnoreCase( propertyName ) )
 				{
 					this.setStringFormat( propertyCssText );
