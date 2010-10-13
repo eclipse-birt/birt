@@ -9,78 +9,24 @@
 
 package org.eclipse.birt.report.designer.ui.actions;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
-import org.eclipse.birt.report.designer.internal.ui.util.UIHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
-import org.eclipse.birt.report.designer.ui.preview.Activator;
-import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
-import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.ReportEngine;
-import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowPulldownDelegate;
-import org.eclipse.ui.forms.editor.FormEditor;
 
-public class PreviewToolbarMenuAction implements
+/**
+ * PreviewToolbarMenuAction
+ */
+public class PreviewToolbarMenuAction extends PreviewSupport implements
 		IWorkbenchWindowPulldownDelegate
 {
-
-	private static Map<String, String> typeMap = new HashMap<String, String>( );
-
-	public static final String TYPE_DOC = "doc"; //$NON-NLS-1$
-	public static final String TYPE_HTML = "html"; //$NON-NLS-1$
-	public static final String TYPE_PDF = "pdf"; //$NON-NLS-1$
-	public static final String TYPE_PPT = "ppt"; //$NON-NLS-1$
-	public static final String TYPE_PS = "postscript"; //$NON-NLS-1$
-	public static final String TYPE_XLS = "xls"; //$NON-NLS-1$
-	public static final String TYPE_DOCX = "docx"; //$NON-NLS-1$
-	public static final String TYPE_PPTX = "pptx"; //$NON-NLS-1$
-	public static final String TYPE_XHTML = "xhtml"; //$NON-NLS-1$
-	//public static final String TYPE_XLSX = "xlsx"; //$NON-NLS-1$
-	public static final String IMG_FILE_DEFAULT = "icons/etool16/preview.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_WEB = "icons/etool16/preview.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_DOC = "icons/etool16/preview_doc.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_HTML = "icons/etool16/preview_html.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_PDF = "icons/etool16/preview_pdf.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_PPT = "icons/etool16/preview_ppt.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_PS = "icons/etool16/preview_ps.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_XLS = "icons/etool16/preview_xls.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_DOCX = "icons/etool16/preview_docx.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_PPTX = "icons/etool16/preview_pptx.gif"; //$NON-NLS-1$
-	public static final String IMG_FILE_XHTML = "icons/etool16/preview_xhtml.gif"; //$NON-NLS-1$
-	//public static final String IMG_FILE_XLSX = "icons/etool16/preview_xlsx.gif"; //$NON-NLS-1$
-
-	static
-	{
-		typeMap.put( TYPE_DOC, IMG_FILE_DOC );
-		typeMap.put( TYPE_HTML, IMG_FILE_HTML );
-		typeMap.put( TYPE_PDF, IMG_FILE_PDF );
-		typeMap.put( TYPE_PPT, IMG_FILE_PPT );
-		typeMap.put( TYPE_PS, IMG_FILE_PS );
-		typeMap.put( TYPE_XLS, IMG_FILE_XLS );
-		typeMap.put( TYPE_DOCX, IMG_FILE_DOCX );
-		typeMap.put( TYPE_PPTX, IMG_FILE_PPTX );
-		typeMap.put( TYPE_XHTML, IMG_FILE_XHTML );
-		// typeMap.put( TYPE_XLSX, IMG_FILE_XLSX );
-	}
 
 	/**
 	 * The constructor.
@@ -99,55 +45,7 @@ public class PreviewToolbarMenuAction implements
 	 */
 	public Menu getMenu( Control parent )
 	{
-		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
-		String[] supportedFormats = engine.getSupportedFormats( );
-		java.util.Arrays.sort( supportedFormats );
-
-		Menu menu = new Menu( parent );
-		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
-		previewWebViewer.setText( "&1 " + Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		previewWebViewer.setImage( UIHelper.getImage( Activator.getDefault( )
-				.getBundle( ), IMG_FILE_WEB ) );
-		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				preview( TYPE_HTML, true );
-			}
-		} );
-
-		for ( int i = 0; i < supportedFormats.length; i++ )
-		{
-			final String format = supportedFormats[i];
-			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			String indexPrefix = i > 7 ? " " : "&" + ( i + 2 ); //$NON-NLS-1$ //$NON-NLS-2$ 
-			previewOption.setText( indexPrefix
-					+ " " + Messages.getFormattedString( "designer.preview.previewaction.label", //$NON-NLS-1$ //$NON-NLS-2$
-							new Object[]{
-								format.toUpperCase( )
-							} ) );
-			if ( typeMap.containsKey( format ) )
-			{
-				previewOption.setImage( UIHelper.getImage( Activator.getDefault( )
-						.getBundle( ),
-						typeMap.get( format ) ) );
-			}
-			else
-			{
-				previewOption.setImage( UIHelper.getImage( Activator.getDefault( )
-						.getBundle( ),
-						IMG_FILE_DEFAULT ) );
-			}
-			previewOption.addSelectionListener( new SelectionAdapter( ) {
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					preview( format, false );
-				}
-			} );
-		}
-
-		return menu;
+		return getPreviewMenu( parent, true );
 	}
 
 	/**
@@ -184,52 +82,6 @@ public class PreviewToolbarMenuAction implements
 	public void selectionChanged( IAction action, ISelection selection )
 	{
 		action.setEnabled( isEnable( ) );
-	}
-
-	protected boolean prePreview( )
-	{
-		System.clearProperty( IPreviewConstants.SID );
-		System.clearProperty( IPreviewConstants.DSID );
-		System.clearProperty( IPreviewConstants.MAX_DATASET_ROWS );
-		System.clearProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS );
-		System.clearProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS );
-		return true;
-	}
-
-	protected void preview( String format, boolean allowPage )
-	{
-		if ( !prePreview( ) )
-		{
-			return;
-		}
-
-		FormEditor editor = UIUtil.getActiveReportEditor( false );
-		ModuleHandle model = null;
-		if (model == null )
-		{
-			if (editor instanceof MultiPageReportEditor)
-			{
-				model = ((MultiPageReportEditor)editor).getModel( );
-			}
-		}
-
-		if ( !UIUtil.canPreviewWithErrors( model ) )
-			return;
-
-		if ( editor != null )
-		{
-			if ( model.needsSave( ) )
-			{
-				editor.doSave( null );
-			}
-		}
-		Map options = new HashMap( );
-		options.put( WebViewer.FORMAT_KEY, format );
-		options.put( WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf( allowPage ) );
-		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
-				.getResourceFolder( ) );
-
-		WebViewer.display( model.getFileName( ), options );
 	}
 
 	private boolean isEnable( )

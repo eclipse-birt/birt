@@ -67,7 +67,8 @@ public final class UIHelper
 		return url;
 	}
 
-	private static Image createImage( Bundle bundle, String sPluginRelativePath )
+	private static Image createImage( Bundle bundle,
+			String sPluginRelativePath, boolean force )
 	{
 		Image img = null;
 		try
@@ -89,11 +90,11 @@ public final class UIHelper
 		}
 		catch ( IOException e )
 		{
-			ExceptionHandler.handle( e );
+			ExceptionHandler.handle( e, true );
 		}
 
-		// If still can't load, return a dummy image.
-		if ( img == null )
+		// If still can't load and force, return a dummy image.
+		if ( img == null && force )
 		{
 			img = new Image( Display.getCurrent( ), 1, 1 );
 		}
@@ -108,9 +109,30 @@ public final class UIHelper
 	 * @param sPluginRelativePath
 	 *            The URL for the imgIcon.
 	 * @return The imgIcon represented by the given URL.
+	 * 
 	 * @see #setImageCached(boolean )
 	 */
 	public static Image getImage( Bundle bundle, String sPluginRelativePath )
+	{
+		return getImage( bundle, sPluginRelativePath, true );
+	}
+
+	/**
+	 * This is a convenience method to get an imgIcon from a URL.
+	 * 
+	 * @param bundle
+	 *            The target bundle
+	 * @param sPluginRelativePath
+	 *            The URL for the imgIcon.
+	 * @param force
+	 *            If True, still returns a dummy image if the path cannot be
+	 *            loaded.
+	 * @return The imgIcon represented by the given URL.
+	 * 
+	 * @see #setImageCached(boolean )
+	 */
+	public static Image getImage( Bundle bundle, String sPluginRelativePath,
+			boolean force )
 	{
 		ImageRegistry registry = JFaceResources.getImageRegistry( );
 
@@ -123,9 +145,10 @@ public final class UIHelper
 		Image image = registry.get( imgKey );
 		if ( image == null )
 		{
-			image = createImage( bundle, sPluginRelativePath );
+			image = createImage( bundle, sPluginRelativePath, force );
 			registry.put( imgKey, image );
 		}
 		return image;
 	}
+
 }
