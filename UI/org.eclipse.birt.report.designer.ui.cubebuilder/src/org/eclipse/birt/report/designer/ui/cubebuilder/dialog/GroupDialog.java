@@ -726,12 +726,6 @@ public class GroupDialog extends TitleAreaDialog
 	{
 		if ( hierarchy == null || dataField == null )
 			return null;
-		DataSetHandle dataset = hierarchy.getDataSet( );
-		if ( dataset == null )
-		{
-			dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
-					.getContainer( ) ).getDataSet( );
-		}
 		String dataType = dataField.getDataType( );
 		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
 			return OlapUtil.getDateTimeLevelTypeChoices( );

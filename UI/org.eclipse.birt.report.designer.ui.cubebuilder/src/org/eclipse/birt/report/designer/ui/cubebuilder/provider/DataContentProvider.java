@@ -36,7 +36,7 @@ import org.eclipse.jface.viewers.Viewer;
 public class DataContentProvider implements ITreeContentProvider
 {
 
-	class CustomComparator implements Comparator
+	static class CustomComparator implements Comparator
 	{
 
 		public int compare( Object arg0, Object arg1 )
