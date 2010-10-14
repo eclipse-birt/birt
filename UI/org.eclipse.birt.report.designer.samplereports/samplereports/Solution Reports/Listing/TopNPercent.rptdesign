@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
     <property name="author">Mark Coggins</property>
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050601-0809></property>
-    <property name="units">in</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.v20101012-0605 Build &lt;2.6.2.v20101012-0605></property>
     <text-property name="title">Top Classic Models Inc. Customers by Revenue</text-property>
+    <property name="units">in</property>
+    <property name="layoutPreference">auto layout</property>
     <list-property name="configVars">
         <structure>
             <property name="name">Top Count</property>
@@ -18,24 +18,33 @@
     <parameters>
         <scalar-parameter name="Top Count" id="87">
             <text-property name="helpText">Enter the number of customers you wish included in the top "N" graph of the report</text-property>
+            <text-property name="promptText">Number of Customers for Top "N" Chart</text-property>
             <property name="valueType">static</property>
+            <property name="isRequired">true</property>
             <property name="dataType">decimal</property>
-            <property name="promptText">Number of Customers for Top "N" Chart</property>
-            <property name="allowBlank">false</property>
-            <property name="allowNull">false</property>
-            <property name="format">Unformatted</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">5</value>
+            </simple-property-list>
             <property name="controlType">text-box</property>
-            <property name="defaultValue">5</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+                <property name="pattern">Unformatted</property>
+            </structure>
         </scalar-parameter>
         <scalar-parameter name="Top Percentage" id="88">
             <text-property name="helpText">Enter the percentage of customers you wish included in the top N% listing of the report</text-property>
+            <text-property name="promptText">Percentage of Customers for Top N% Listing</text-property>
             <property name="valueType">static</property>
+            <property name="isRequired">true</property>
             <property name="dataType">decimal</property>
-            <property name="promptText">Percentage of Customers for Top N% Listing</property>
-            <property name="allowBlank">false</property>
-            <property name="format">Unformatted</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">25</value>
+            </simple-property-list>
             <property name="controlType">text-box</property>
-            <property name="defaultValue">25</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+                <property name="pattern">Unformatted</property>
+            </structure>
         </scalar-parameter>
     </parameters>
     <data-sources>
@@ -47,8 +56,47 @@
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Customer Sales" id="60">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CUSTOMERTOTAL</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
             <property name="dataSource">Classic Models</property>
-            <property name="queryText">select CUSTOMERS.CUSTOMERNAME,
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNAME</property>
+                    <property name="nativeName">CUSTOMERNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="nativeName">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CUSTOMERTOTAL</property>
+                    <property name="nativeName">CUSTOMERTOTAL</property>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select CUSTOMERS.CUSTOMERNAME,
        CUSTOMERS.CUSTOMERNUMBER,
        sum(ORDERDETAILS.QUANTITYORDERED *
        ORDERDETAILS.PRICEEACH) as CUSTOMERTOTAL
@@ -56,7 +104,7 @@ from CUSTOMERS, ORDERS, ORDERDETAILS
 where CUSTOMERS.CUSTOMERNUMBER = ORDERS.CUSTOMERNUMBER
 and ORDERS.ORDERNUMBER = ORDERDETAILS.ORDERNUMBER
 group by CUSTOMERS.CUSTOMERNAME, CUSTOMERS.CUSTOMERNUMBER
-order by CUSTOMERTOTAL</property>
+order by CUSTOMERTOTAL]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -72,6 +120,10 @@ order by CUSTOMERTOTAL</property>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="8">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <grid id="141">
                     <property name="width">100%</property>
@@ -138,6 +190,7 @@ order by CUSTOMERTOTAL</property>
                         <property name="borderTopColor">#808080</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="source">embed</property>
                         <property name="imageName">C:\Documents and Settings\pclenahan\My Documents\ClassicModels\logos\Classic-Models-Full-M.jpg</property>
                     </image>
                 </cell>
@@ -196,1093 +249,192 @@ order by CUSTOMERTOTAL</property>
             <row id="30">
                 <cell id="31">
                     <extended-item extensionName="Chart" id="32">
-                        <property name="height">250pt</property>
-                        <property name="width">400pt</property>
-                        <property name="dataSet">Customer Sales</property>
-                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
-  <Type>Bar Chart</Type>
-  <SubType>Side-by-side</SubType>
-  <Description>
-    <Value></Value>
-    <Font>
-      <Alignment/>
-    </Font>
-  </Description>
-  <Block>
-    <Children xsi:type="layout:TitleBlock">
-      <Bounds>
-        <Left>0.0</Left>
-        <Top>0.0</Top>
-        <Width>0.0</Width>
-        <Height>0.0</Height>
-      </Bounds>
-      <Insets>
-        <Top>3.0</Top>
-        <Left>3.0</Left>
-        <Bottom>3.0</Bottom>
-        <Right>3.0</Right>
-      </Insets>
-      <Row>-1</Row>
-      <Column>-1</Column>
-      <Rowspan>-1</Rowspan>
-      <Columnspan>-1</Columnspan>
-      <Outline>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Color>
-        <Visible>false</Visible>
-      </Outline>
-      <Visible>false</Visible>
-      <Label>
-        <Caption>
-          <Value>Bar Chart Title</Value>
-          <Font>
-            <Name>SansSerif</Name>
-            <Size>24.0</Size>
-            <Bold>false</Bold>
-            <Italic>false</Italic>
-            <Strikethrough>false</Strikethrough>
-            <Underline>false</Underline>
-            <Alignment>
-              <horizontalAlignment>Left</horizontalAlignment>
-              <verticalAlignment>Top</verticalAlignment>
-            </Alignment>
-            <Rotation>0.0</Rotation>
-          </Font>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </Color>
-        </Caption>
-        <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
-        </Background>
-        <Outline>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </Color>
-        </Outline>
-        <Insets>
-          <Top>0.0</Top>
-          <Left>2.0</Left>
-          <Bottom>0.0</Bottom>
-          <Right>3.0</Right>
-        </Insets>
-        <Visible>true</Visible>
-      </Label>
-    </Children>
-    <Children xsi:type="layout:Plot">
-      <Bounds>
-        <Left>0.0</Left>
-        <Top>0.0</Top>
-        <Width>0.0</Width>
-        <Height>0.0</Height>
-      </Bounds>
-      <Insets>
-        <Top>3.0</Top>
-        <Left>3.0</Left>
-        <Bottom>3.0</Bottom>
-        <Right>3.0</Right>
-      </Insets>
-      <Row>-1</Row>
-      <Column>-1</Column>
-      <Rowspan>-1</Rowspan>
-      <Columnspan>-1</Columnspan>
-      <Outline>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Color>
-        <Visible>false</Visible>
-      </Outline>
-      <Visible>true</Visible>
-      <HorizontalSpacing>5</HorizontalSpacing>
-      <VerticalSpacing>5</VerticalSpacing>
-      <ClientArea>
-        <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
-        </Background>
-        <Outline>
-          <Style>Solid</Style>
-          <Thickness>0</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </Color>
-          <Visible>false</Visible>
-        </Outline>
-        <Insets>
-          <Top>0.0</Top>
-          <Left>0.0</Left>
-          <Bottom>0.0</Bottom>
-          <Right>0.0</Right>
-        </Insets>
-      </ClientArea>
-    </Children>
-    <Children xsi:type="layout:Legend">
-      <Bounds>
-        <Left>0.0</Left>
-        <Top>0.0</Top>
-        <Width>0.0</Width>
-        <Height>0.0</Height>
-      </Bounds>
-      <Insets>
-        <Top>3.0</Top>
-        <Left>3.0</Left>
-        <Bottom>3.0</Bottom>
-        <Right>3.0</Right>
-      </Insets>
-      <Row>-1</Row>
-      <Column>-1</Column>
-      <Rowspan>-1</Rowspan>
-      <Columnspan>-1</Columnspan>
-      <Outline>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Color>
-        <Visible>false</Visible>
-      </Outline>
-      <Visible>false</Visible>
-      <ClientArea>
-        <Outline>
-          <Style>Solid</Style>
-          <Thickness>0</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </Color>
-          <Visible>false</Visible>
-        </Outline>
-        <Insets>
-          <Top>2.0</Top>
-          <Left>2.0</Left>
-          <Bottom>2.0</Bottom>
-          <Right>2.0</Right>
-        </Insets>
-      </ClientArea>
-      <Text>
-        <Value>&lt;undefined></Value>
-        <Font>
-          <Name>SansSerif</Name>
-          <Size>12.0</Size>
-          <Bold>false</Bold>
-          <Italic>false</Italic>
-          <Strikethrough>false</Strikethrough>
-          <Underline>false</Underline>
-          <Alignment>
-            <horizontalAlignment>Left</horizontalAlignment>
-            <verticalAlignment>Top</verticalAlignment>
-          </Alignment>
-          <Rotation>0.0</Rotation>
-        </Font>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Color>
-      </Text>
-      <Orientation>Vertical</Orientation>
-      <Direction>Top_Bottom</Direction>
-      <Position>Right</Position>
-      <ItemType>Series</ItemType>
-      <Title>
-        <Caption>
-          <Value>&lt;undefined></Value>
-          <Font>
-            <Alignment/>
-          </Font>
-        </Caption>
-        <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
-        </Background>
-        <Outline>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </Color>
-        </Outline>
-        <Insets>
-          <Top>0.0</Top>
-          <Left>2.0</Left>
-          <Bottom>0.0</Bottom>
-          <Right>3.0</Right>
-        </Insets>
-        <Visible>false</Visible>
-      </Title>
-      <ShowValue>false</ShowValue>
-    </Children>
-    <Bounds>
-      <Left>0.0</Left>
-      <Top>0.0</Top>
-      <Width>399.75</Width>
-      <Height>249.75</Height>
-    </Bounds>
-    <Insets>
-      <Top>3.0</Top>
-      <Left>3.0</Left>
-      <Bottom>3.0</Bottom>
-      <Right>3.0</Right>
-    </Insets>
-    <Row>-1</Row>
-    <Column>-1</Column>
-    <Rowspan>-1</Rowspan>
-    <Columnspan>-1</Columnspan>
-    <Outline>
-      <Style>Solid</Style>
-      <Thickness>1</Thickness>
-      <Color>
-        <Transparency>255</Transparency>
-        <Red>0</Red>
-        <Green>0</Green>
-        <Blue>0</Blue>
-      </Color>
-      <Visible>false</Visible>
-    </Outline>
-    <Background xsi:type="attribute:ColorDefinition">
-      <Transparency>255</Transparency>
-      <Red>255</Red>
-      <Green>255</Green>
-      <Blue>255</Blue>
-    </Background>
-    <Visible>true</Visible>
-  </Block>
-  <Dimension>Two_Dimensional</Dimension>
-  <Units>Points</Units>
-  <SeriesThickness>10.0</SeriesThickness>
-  <GridColumnCount>1</GridColumnCount>
-  <SampleData>
-    <BaseSampleData>
-      <DataSetRepresentation>'6.0','7.0','8.0'</DataSetRepresentation>
-    </BaseSampleData>
-    <OrthogonalSampleData>
-      <DataSetRepresentation>5.0,4.0,12.0</DataSetRepresentation>
-      <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
-    </OrthogonalSampleData>
-    <AncillarySampleData>
-      <DataSetRepresentation>Series 1</DataSetRepresentation>
-    </AncillarySampleData>
-  </SampleData>
-  <Interactivity>
-    <Enable>true</Enable>
-    <LegendBehavior>None</LegendBehavior>
-  </Interactivity>
-  <Axes>
-    <Type>Text</Type>
-    <Title>
-      <Caption>
-        <Value>X-Axis Title</Value>
-        <Font>
-          <Size>14.0</Size>
-          <Bold>true</Bold>
-          <Alignment>
-            <horizontalAlignment>Center</horizontalAlignment>
-            <verticalAlignment>Center</verticalAlignment>
-          </Alignment>
-        </Font>
-      </Caption>
-      <Background xsi:type="attribute:ColorDefinition">
-        <Transparency>0</Transparency>
-        <Red>255</Red>
-        <Green>255</Green>
-        <Blue>255</Blue>
-      </Background>
-      <Outline>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Color>
-      </Outline>
-      <Insets>
-        <Top>0.0</Top>
-        <Left>2.0</Left>
-        <Bottom>0.0</Bottom>
-        <Right>3.0</Right>
-      </Insets>
-      <Visible>false</Visible>
-    </Title>
-    <TitlePosition>Below</TitlePosition>
-    <AssociatedAxes>
-      <Type>Linear</Type>
-      <Title>
-        <Caption>
-          <Value>Y-Axis Title</Value>
-          <Font>
-            <Size>14.0</Size>
-            <Bold>true</Bold>
-            <Alignment>
-              <horizontalAlignment>Center</horizontalAlignment>
-              <verticalAlignment>Center</verticalAlignment>
-            </Alignment>
-            <Rotation>90.0</Rotation>
-          </Font>
-        </Caption>
-        <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
-        </Background>
-        <Outline>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </Color>
-        </Outline>
-        <Insets>
-          <Top>0.0</Top>
-          <Left>2.0</Left>
-          <Bottom>0.0</Bottom>
-          <Right>3.0</Right>
-        </Insets>
-        <Visible>false</Visible>
-      </Title>
-      <TitlePosition>Left</TitlePosition>
-      <SeriesDefinitions>
-        <Query>
-          <Definition></Definition>
-        </Query>
-        <SeriesPalette>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>75</Red>
-            <Green>105</Green>
-            <Blue>135</Blue>
-          </Entries>
-        </SeriesPalette>
-        <FormatSpecifier xsi:type="attribute:NumberFormatSpecifier">
-          <Prefix></Prefix>
-          <Suffix></Suffix>
-          <FractionDigits>0</FractionDigits>
-        </FormatSpecifier>
-        <Series xsi:type="type:BarSeries">
-          <Visible>true</Visible>
-          <Label>
-            <Caption>
-              <Value>&lt;undefined></Value>
-              <Font>
-                <Name>SansSerif</Name>
-                <Size>12.0</Size>
-                <Bold>false</Bold>
-                <Italic>false</Italic>
-                <Strikethrough>false</Strikethrough>
-                <Underline>false</Underline>
-                <Alignment>
-                  <horizontalAlignment>Left</horizontalAlignment>
-                  <verticalAlignment>Top</verticalAlignment>
-                </Alignment>
-                <Rotation>0.0</Rotation>
-              </Font>
-              <Color>
-                <Transparency>255</Transparency>
-                <Red>0</Red>
-                <Green>0</Green>
-                <Blue>0</Blue>
-              </Color>
-            </Caption>
-            <Background xsi:type="attribute:ColorDefinition">
-              <Transparency>0</Transparency>
-              <Red>255</Red>
-              <Green>255</Green>
-              <Blue>255</Blue>
-            </Background>
-            <Outline>
-              <Style>Solid</Style>
-              <Thickness>1</Thickness>
-              <Color>
-                <Transparency>255</Transparency>
-                <Red>0</Red>
-                <Green>0</Green>
-                <Blue>0</Blue>
-              </Color>
-              <Visible>false</Visible>
-            </Outline>
-            <Insets>
-              <Top>0.0</Top>
-              <Left>2.0</Left>
-              <Bottom>0.0</Bottom>
-              <Right>3.0</Right>
-            </Insets>
-            <Visible>true</Visible>
-          </Label>
-          <DataDefinition>
-            <Definition>row[&quot;CUSTOMERTOTAL&quot;]</Definition>
-          </DataDefinition>
-          <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
-          <DataPoint>
-            <Components>
-              <Type>Orthogonal_Value</Type>
-            </Components>
-            <Separator>, </Separator>
-          </DataPoint>
-          <LabelPosition>Outside</LabelPosition>
-          <Stacked>false</Stacked>
-          <Riser>Rectangle</Riser>
-          <RiserOutline>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </RiserOutline>
-        </Series>
-        <Grouping>
-          <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
-          <GroupType>Text</GroupType>
-          <AggregateExpression>Sum</AggregateExpression>
-        </Grouping>
-      </SeriesDefinitions>
-      <Orientation>Vertical</Orientation>
-      <LineAttributes>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Color>
-        <Visible>true</Visible>
-      </LineAttributes>
-      <Label>
-        <Caption>
-          <Value>&lt;undefined></Value>
-          <Font>
-            <Alignment/>
-          </Font>
-        </Caption>
-        <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
-        </Background>
-        <Outline>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </Color>
-        </Outline>
-        <Insets>
-          <Top>0.0</Top>
-          <Left>2.0</Left>
-          <Bottom>0.0</Bottom>
-          <Right>3.0</Right>
-        </Insets>
-        <Visible>true</Visible>
-      </Label>
-      <LabelPosition>Left</LabelPosition>
-      <MajorGrid>
-        <LineAttributes>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>196</Red>
-            <Green>196</Green>
-            <Blue>196</Blue>
-          </Color>
-          <Visible>false</Visible>
-        </LineAttributes>
-        <TickStyle>Across</TickStyle>
-        <TickAttributes>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>196</Red>
-            <Green>196</Green>
-            <Blue>196</Blue>
-          </Color>
-          <Visible>true</Visible>
-        </TickAttributes>
-      </MajorGrid>
-      <MinorGrid>
-        <LineAttributes>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>225</Red>
-            <Green>225</Green>
-            <Blue>225</Blue>
-          </Color>
-          <Visible>false</Visible>
-        </LineAttributes>
-        <TickStyle>Across</TickStyle>
-        <TickAttributes>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>225</Red>
-            <Green>225</Green>
-            <Blue>225</Blue>
-          </Color>
-          <Visible>false</Visible>
-        </TickAttributes>
-      </MinorGrid>
-      <Scale>
-        <MinorGridsPerUnit>5</MinorGridsPerUnit>
-      </Scale>
-      <Origin>
-        <Type>Min</Type>
-        <Value xsi:type="data:NumberDataElement">
-          <Value>0.0</Value>
-        </Value>
-      </Origin>
-      <PrimaryAxis>true</PrimaryAxis>
-      <Percent>false</Percent>
-    </AssociatedAxes>
-    <AncillaryAxes>
-      <Type>Text</Type>
-      <Title>
-        <Caption>
-          <Value>Z-Axis Title</Value>
-          <Font>
-            <Size>14.0</Size>
-            <Bold>true</Bold>
-            <Alignment>
-              <horizontalAlignment>Center</horizontalAlignment>
-              <verticalAlignment>Center</verticalAlignment>
-            </Alignment>
-          </Font>
-        </Caption>
-        <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
-        </Background>
-        <Outline>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </Color>
-        </Outline>
-        <Insets>
-          <Top>0.0</Top>
-          <Left>2.0</Left>
-          <Bottom>0.0</Bottom>
-          <Right>3.0</Right>
-        </Insets>
-        <Visible>false</Visible>
-      </Title>
-      <TitlePosition>Below</TitlePosition>
-      <SeriesDefinitions>
-        <Query>
-          <Definition></Definition>
-        </Query>
-        <SeriesPalette>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>80</Red>
-            <Green>166</Green>
-            <Blue>218</Blue>
-          </Entries>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>242</Red>
-            <Green>88</Green>
-            <Blue>106</Blue>
-          </Entries>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>232</Red>
-            <Green>172</Green>
-            <Blue>57</Blue>
-          </Entries>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>128</Red>
-            <Green>255</Green>
-            <Blue>128</Blue>
-          </Entries>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>64</Red>
-            <Green>128</Green>
-            <Blue>128</Blue>
-          </Entries>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>128</Red>
-            <Green>128</Green>
-            <Blue>192</Blue>
-          </Entries>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>170</Red>
-            <Green>85</Green>
-            <Blue>85</Blue>
-          </Entries>
-          <Entries xsi:type="attribute:ColorDefinition">
-            <Transparency>255</Transparency>
-            <Red>128</Red>
-            <Green>128</Green>
-            <Blue>0</Blue>
-          </Entries>
-        </SeriesPalette>
-        <Series>
-          <Visible>true</Visible>
-          <Label>
-            <Caption>
-              <Value>&lt;undefined></Value>
-              <Font>
-                <Alignment/>
-              </Font>
-            </Caption>
-            <Background xsi:type="attribute:ColorDefinition">
-              <Transparency>0</Transparency>
-              <Red>255</Red>
-              <Green>255</Green>
-              <Blue>255</Blue>
-            </Background>
-            <Outline>
-              <Style>Solid</Style>
-              <Thickness>1</Thickness>
-              <Color>
-                <Transparency>255</Transparency>
-                <Red>0</Red>
-                <Green>0</Green>
-                <Blue>0</Blue>
-              </Color>
-              <Visible>false</Visible>
-            </Outline>
-            <Insets>
-              <Top>0.0</Top>
-              <Left>2.0</Left>
-              <Bottom>0.0</Bottom>
-              <Right>3.0</Right>
-            </Insets>
-            <Visible>false</Visible>
-          </Label>
-          <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
-          <DataPoint>
-            <Components>
-              <Type>Orthogonal_Value</Type>
-            </Components>
-            <Separator>, </Separator>
-          </DataPoint>
-          <LabelPosition>Outside</LabelPosition>
-          <Stacked>false</Stacked>
-        </Series>
-        <Grouping>
-          <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
-          <GroupType>Text</GroupType>
-          <AggregateExpression>Sum</AggregateExpression>
-        </Grouping>
-      </SeriesDefinitions>
-      <Orientation>Horizontal</Orientation>
-      <LineAttributes>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Color>
-        <Visible>true</Visible>
-      </LineAttributes>
-      <Label>
-        <Caption>
-          <Value>&lt;undefined></Value>
-          <Font>
-            <Alignment/>
-          </Font>
-        </Caption>
-        <Background xsi:type="attribute:ColorDefinition">
-          <Transparency>0</Transparency>
-          <Red>255</Red>
-          <Green>255</Green>
-          <Blue>255</Blue>
-        </Background>
-        <Outline>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>0</Red>
-            <Green>0</Green>
-            <Blue>0</Blue>
-          </Color>
-        </Outline>
-        <Insets>
-          <Top>0.0</Top>
-          <Left>2.0</Left>
-          <Bottom>0.0</Bottom>
-          <Right>3.0</Right>
-        </Insets>
-        <Visible>true</Visible>
-      </Label>
-      <LabelPosition>Below</LabelPosition>
-      <MajorGrid>
-        <LineAttributes>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>196</Red>
-            <Green>196</Green>
-            <Blue>196</Blue>
-          </Color>
-          <Visible>false</Visible>
-        </LineAttributes>
-        <TickStyle>Across</TickStyle>
-        <TickAttributes>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>196</Red>
-            <Green>196</Green>
-            <Blue>196</Blue>
-          </Color>
-          <Visible>true</Visible>
-        </TickAttributes>
-      </MajorGrid>
-      <MinorGrid>
-        <LineAttributes>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>225</Red>
-            <Green>225</Green>
-            <Blue>225</Blue>
-          </Color>
-          <Visible>false</Visible>
-        </LineAttributes>
-        <TickStyle>Across</TickStyle>
-        <TickAttributes>
-          <Style>Solid</Style>
-          <Thickness>1</Thickness>
-          <Color>
-            <Transparency>255</Transparency>
-            <Red>225</Red>
-            <Green>225</Green>
-            <Blue>225</Blue>
-          </Color>
-          <Visible>false</Visible>
-        </TickAttributes>
-      </MinorGrid>
-      <Scale>
-        <MinorGridsPerUnit>5</MinorGridsPerUnit>
-      </Scale>
-      <Origin>
-        <Type>Min</Type>
-        <Value xsi:type="data:NumberDataElement">
-          <Value>0.0</Value>
-        </Value>
-      </Origin>
-      <PrimaryAxis>true</PrimaryAxis>
-      <Percent>false</Percent>
-    </AncillaryAxes>
-    <SeriesDefinitions>
-      <Query>
-        <Definition>Base Series</Definition>
-      </Query>
-      <SeriesPalette>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>254</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>128</Red>
-          <Green>0</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>254</Red>
-          <Green>204</Green>
-          <Blue>0</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>254</Green>
-          <Blue>0</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>128</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>254</Red>
-          <Green>102</Green>
-          <Blue>0</Blue>
-        </Entries>
-        <Entries xsi:type="attribute:ColorDefinition">
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>204</Green>
-          <Blue>254</Blue>
-        </Entries>
-      </SeriesPalette>
-      <Series>
-        <Visible>true</Visible>
-        <Label>
-          <Caption>
-            <Value>&lt;undefined></Value>
-            <Font>
-              <Name>SansSerif</Name>
-              <Size>12.0</Size>
-              <Bold>false</Bold>
-              <Italic>false</Italic>
-              <Strikethrough>false</Strikethrough>
-              <Underline>false</Underline>
-              <Alignment>
-                <horizontalAlignment>Left</horizontalAlignment>
-                <verticalAlignment>Top</verticalAlignment>
-              </Alignment>
-              <Rotation>0.0</Rotation>
-            </Font>
-            <Color>
-              <Transparency>255</Transparency>
-              <Red>0</Red>
-              <Green>0</Green>
-              <Blue>0</Blue>
-            </Color>
-          </Caption>
-          <Background xsi:type="attribute:ColorDefinition">
-            <Transparency>0</Transparency>
-            <Red>255</Red>
-            <Green>255</Green>
-            <Blue>255</Blue>
-          </Background>
-          <Outline>
-            <Style>Solid</Style>
-            <Thickness>1</Thickness>
-            <Color>
-              <Transparency>255</Transparency>
-              <Red>0</Red>
-              <Green>0</Green>
-              <Blue>0</Blue>
-            </Color>
-            <Visible>false</Visible>
-          </Outline>
-          <Insets>
-            <Top>0.0</Top>
-            <Left>2.0</Left>
-            <Bottom>0.0</Bottom>
-            <Right>3.0</Right>
-          </Insets>
-          <Visible>false</Visible>
-        </Label>
-        <DataDefinition>
-          <Definition>row[&quot;CUSTOMERNAME&quot;]</Definition>
-        </DataDefinition>
-        <SeriesIdentifier>&lt;undefined></SeriesIdentifier>
-        <DataPoint>
-          <Components>
-            <Type>Orthogonal_Value</Type>
-          </Components>
-          <Separator>, </Separator>
-        </DataPoint>
-        <LabelPosition>Outside</LabelPosition>
-        <Stacked>false</Stacked>
-      </Series>
-      <Grouping>
-        <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
-        <GroupType>Text</GroupType>
-        <AggregateExpression>Sum</AggregateExpression>
-      </Grouping>
-    </SeriesDefinitions>
-    <Orientation>Horizontal</Orientation>
-    <LineAttributes>
-      <Style>Solid</Style>
-      <Thickness>1</Thickness>
-      <Color>
-        <Transparency>255</Transparency>
-        <Red>0</Red>
-        <Green>0</Green>
-        <Blue>0</Blue>
-      </Color>
-      <Visible>true</Visible>
-    </LineAttributes>
-    <Label>
-      <Caption>
-        <Value>&lt;undefined></Value>
-        <Font>
-          <Alignment/>
-        </Font>
-      </Caption>
-      <Background xsi:type="attribute:ColorDefinition">
-        <Transparency>0</Transparency>
-        <Red>255</Red>
-        <Green>255</Green>
-        <Blue>255</Blue>
-      </Background>
-      <Outline>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>0</Red>
-          <Green>0</Green>
-          <Blue>0</Blue>
-        </Color>
-      </Outline>
-      <Insets>
-        <Top>0.0</Top>
-        <Left>2.0</Left>
-        <Bottom>0.0</Bottom>
-        <Right>3.0</Right>
-      </Insets>
-      <Visible>true</Visible>
-    </Label>
-    <LabelPosition>Below</LabelPosition>
-    <MajorGrid>
-      <LineAttributes>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>196</Red>
-          <Green>196</Green>
-          <Blue>196</Blue>
-        </Color>
-        <Visible>false</Visible>
-      </LineAttributes>
-      <TickStyle>Across</TickStyle>
-      <TickAttributes>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>196</Red>
-          <Green>196</Green>
-          <Blue>196</Blue>
-        </Color>
-        <Visible>true</Visible>
-      </TickAttributes>
-    </MajorGrid>
-    <MinorGrid>
-      <LineAttributes>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>225</Red>
-          <Green>225</Green>
-          <Blue>225</Blue>
-        </Color>
-        <Visible>false</Visible>
-      </LineAttributes>
-      <TickStyle>Across</TickStyle>
-      <TickAttributes>
-        <Style>Solid</Style>
-        <Thickness>1</Thickness>
-        <Color>
-          <Transparency>255</Transparency>
-          <Red>225</Red>
-          <Green>225</Green>
-          <Blue>225</Blue>
-        </Color>
-        <Visible>false</Visible>
-      </TickAttributes>
-    </MinorGrid>
-    <Scale>
-      <MinorGridsPerUnit>5</MinorGridsPerUnit>
-    </Scale>
-    <Origin>
-      <Type>Min</Type>
-      <Value xsi:type="data:NumberDataElement">
-        <Value>0.0</Value>
-      </Value>
-    </Origin>
-    <PrimaryAxis>true</PrimaryAxis>
-    <CategoryAxis>true</CategoryAxis>
-    <Percent>false</Percent>
-  </Axes>
-  <Orientation>Horizontal</Orientation>
-  <UnitSpacing>50.0</UnitSpacing>
-  <Rotation>
-    <Angles>
-      <XAngle>-20.0</XAngle>
-      <YAngle>45.0</YAngle>
-      <ZAngle>0.0</ZAngle>
-      <Type>None</Type>
-    </Angles>
-  </Rotation>
-</model:ChartWithAxes>
+                        <xml-property name="xmlRepresentation"><![CDATA[<ActuateChart version="1.0">
+ <ChartWithAxes type="Bar Chart" subType="Side-by-side" units="Points" gridColumnCount="1" orientation="0">
+  <description value="">
+   <font>
+    <alignment/>
+   </font>
+  </description>
+  <block>
+   <children _type="TitleBlock" visible="false">
+    <label>
+     <caption value="Bar Chart Title">
+      <font name="SansSerif" size="24.0" bold="false" italic="false" strikethrough="false" underline="false" rotation="0.0">
+       <alignment _body="0,0"/>
+      </font>
+      <color _body=",255,0,0,0"/>
+     </caption>
+    </label>
+   </children>
+   <children _type="Plot">
+    <clientArea>
+     <background _body=",255,255,255,255"/>
+    </clientArea>
+   </children>
+   <children _type="Legend" visible="false">
+    <text value="&lt;undefined&gt;">
+     <font name="SansSerif" size="12.0" bold="false" italic="false" strikethrough="false" underline="false" rotation="0.0">
+      <alignment _body="0,"/>
+     </font>
+     <color _body=",255,0,0,0"/>
+    </text>
+    <separator _nil="1"/>
+    <title>
+     <caption value="&lt;undefined&gt;"/>
+    </title>
+   </children>
+   <bounds _body=",,400.0,250.0"/>
+   <background _body=",255,255,255,255"/>
+  </block>
+  <sampleData>
+   <baseSampleData dataSetRepresentation="&#039;6.0&#039;,&#039;7.0&#039;,&#039;8.0&#039;"/>
+   <orthogonalSampleData dataSetRepresentation="5.0,4.0,12.0"/>
+   <ancillarySampleData dataSetRepresentation="Series 1"/>
+  </sampleData>
+  <emptyMessage>
+   <caption value="">
+    <font>
+     <alignment _body=",0"/>
+    </font>
+   </caption>
+   <background _body=",0,255,255,255"/>
+   <outline visible="false">
+    <color _body=",255,0,0,0"/>
+   </outline>
+   <insets _body="0.0,2.0,0.0,3.0"/>
+  </emptyMessage>
+  <axes>
+   <title>
+    <caption value="X-Axis Title">
+     <font size="14.0" bold="true">
+      <alignment _body="1,"/>
+     </font>
+    </caption>
+   </title>
+   <associatedAxes>
+    <title>
+     <caption value="Y-Axis Title">
+      <font size="14.0" bold="true" rotation="90.0">
+       <alignment _body="1,"/>
+      </font>
+     </caption>
+    </title>
+    <seriesDefinitions>
+     <query definition=""/>
+     <seriesPalette>
+      <entries _body=",,75,105,135"/>
+     </seriesPalette>
+     <formatSpecifier _type="NumberFormatSpecifier" prefix="" suffix="" fractionDigits="0"/>
+     <series _type="BarSeries" seriesIdentifier="&lt;undefined&gt;">
+      <label visible="true">
+       <caption value="&lt;undefined&gt;">
+        <font name="SansSerif" size="12.0" bold="false" italic="false" strikethrough="false" underline="false" rotation="0.0">
+         <alignment _body="0,"/>
+        </font>
+        <color _body=",255,0,0,0"/>
+       </caption>
+      </label>
+      <dataDefinition definition="row[&quot;CUSTOMERTOTAL&quot;]"/>
+      <dataPoint separator=", ">
+       <components type="1"/>
+      </dataPoint>
+      <riserOutline _body=",255,0,0,0"/>
+     </series>
+     <grouping groupingInterval="2.0"/>
+    </seriesDefinitions>
+    <label>
+     <caption value="&lt;undefined&gt;"/>
+    </label>
+   </associatedAxes>
+   <ancillaryAxes type="2" titlePosition="1" orientation="0" labelPosition="1">
+    <title>
+     <caption value="Z-Axis Title">
+      <font size="14.0" bold="true">
+       <alignment _body="1,"/>
+      </font>
+     </caption>
+    </title>
+    <seriesDefinitions>
+     <query definition=""/>
+     <seriesPalette>
+      <entries _id="7"/>
+     </seriesPalette>
+     <series seriesIdentifier="&lt;undefined&gt;">
+      <label>
+       <caption value="&lt;undefined&gt;"/>
+      </label>
+      <dataPoint separator=", ">
+       <components type="1"/>
+      </dataPoint>
+     </series>
+     <grouping groupingInterval="2.0"/>
+    </seriesDefinitions>
+    <label>
+     <caption value="&lt;undefined&gt;"/>
+    </label>
+   </ancillaryAxes>
+   <seriesDefinitions>
+    <query definition="Base Series"/>
+    <seriesPalette>
+     <entries _body=",,128,0,0"/>
+     <entries _body=",,0,0,254"/>
+     <entries _body=",,128,0,128"/>
+     <entries _body=",,254,204,0"/>
+     <entries _body=",,0,254,0"/>
+     <entries _body=",,0,0,128"/>
+     <entries _body=",,254,102,0"/>
+     <entries _body=",,0,204,254"/>
+    </seriesPalette>
+    <series seriesIdentifier="&lt;undefined&gt;">
+     <label>
+      <caption value="&lt;undefined&gt;">
+       <font name="SansSerif" size="12.0" bold="false" italic="false" strikethrough="false" underline="false" rotation="0.0">
+        <alignment _body="0,"/>
+       </font>
+       <color _body=",255,0,0,0"/>
+      </caption>
+     </label>
+     <dataDefinition definition="row[&quot;CUSTOMERNAME&quot;]"/>
+     <dataPoint separator=", ">
+      <components type="1"/>
+     </dataPoint>
+    </series>
+    <grouping groupingInterval="2.0"/>
+   </seriesDefinitions>
+   <label>
+    <caption value="&lt;undefined&gt;"/>
+   </label>
+  </axes>
+  <rotation>
+   <angles xAngle="-20.0" yAngle="45.0"/>
+  </rotation>
+ </ChartWithAxes>
+</ActuateChart>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
                         <list-property name="filter">
                             <structure>
                                 <property name="operator">top-n</property>
                                 <expression name="expr">row["CUSTOMERTOTAL"]</expression>
-                                <expression name="value1">params["Top Count"]</expression>
+                                <simple-property-list name="value1">
+                                    <value>params["Top Count"]</value>
+                                </simple-property-list>
+                            </structure>
+                        </list-property>
+                        <property name="dataSet">Customer Sales</property>
+                        <property name="height">250pt</property>
+                        <property name="width">400pt</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERTOTAL</property>
+                                <expression name="expression">dataSetRow["CUSTOMERTOTAL"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
                             </structure>
                         </list-property>
                     </extended-item>
@@ -1322,6 +474,24 @@ order by CUSTOMERTOTAL</property>
                         <property name="pageBreakBefore">auto</property>
                         <property name="width">100%</property>
                         <property name="dataSet">Customer Sales</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">CUSTOMERNAME</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERTOTAL</property>
+                                <expression name="expression">dataSetRow["CUSTOMERTOTAL"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                            <structure>
+                                <property name="name">CUSTOMERNUMBER</property>
+                                <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                        </list-property>
+                        <property name="pageBreakInterval">50</property>
                         <list-property name="sort">
                             <structure>
                                 <expression name="key">row["CUSTOMERNAME"]</expression>
@@ -1331,7 +501,9 @@ order by CUSTOMERTOTAL</property>
                             <structure>
                                 <property name="operator">top-percent</property>
                                 <expression name="expr">row["CUSTOMERTOTAL"]</expression>
-                                <expression name="value1">params["Top Percentage"]</expression>
+                                <simple-property-list name="value1">
+                                    <value>params["Top Percentage"]</value>
+                                </simple-property-list>
                             </structure>
                         </list-property>
                         <column id="71">
@@ -1348,7 +520,7 @@ order by CUSTOMERTOTAL</property>
                                 <property name="style">BackgroundYellow</property>
                                 <cell id="63">
                                     <label id="74">
-                                        <property name="fontFamily">SansSerif</property>
+                                        <property name="fontFamily">"SansSerif"</property>
                                         <property name="fontWeight">bold</property>
                                         <property name="paddingLeft">0pt</property>
                                         <text-property name="text">Customer Name</text-property>
@@ -1356,7 +528,7 @@ order by CUSTOMERTOTAL</property>
                                 </cell>
                                 <cell id="155">
                                     <label id="158">
-                                        <property name="fontFamily">SansSerif</property>
+                                        <property name="fontFamily">"SansSerif"</property>
                                         <property name="fontWeight">bold</property>
                                         <property name="paddingLeft">0pt</property>
                                         <property name="textAlign">right</property>
@@ -1365,7 +537,7 @@ order by CUSTOMERTOTAL</property>
                                 </cell>
                                 <cell id="64">
                                     <label id="76">
-                                        <property name="fontFamily">SansSerif</property>
+                                        <property name="fontFamily">"SansSerif"</property>
                                         <property name="fontWeight">bold</property>
                                         <property name="paddingRight">0pt</property>
                                         <property name="textAlign">right</property>
@@ -1390,7 +562,7 @@ order by CUSTOMERTOTAL</property>
                                         <property name="paddingLeft">5pt</property>
                                         <property name="textAlign">left</property>
                                         <property name="pageBreakBefore">auto</property>
-                                        <expression name="valueExpr">row["CUSTOMERNAME"]</expression>
+                                        <property name="resultSetColumn">CUSTOMERNAME</property>
                                     </data>
                                 </cell>
                                 <cell id="156">
@@ -1404,7 +576,7 @@ order by CUSTOMERTOTAL</property>
                                     <data id="159">
                                         <property name="paddingRight">5pt</property>
                                         <property name="textAlign">right</property>
-                                        <expression name="valueExpr">row["CUSTOMERNUMBER"]</expression>
+                                        <property name="resultSetColumn">CUSTOMERNUMBER</property>
                                     </data>
                                 </cell>
                                 <cell id="67">
@@ -1426,7 +598,7 @@ order by CUSTOMERTOTAL</property>
                                             <property name="pattern">$#,##0.00</property>
                                         </structure>
                                         <property name="textAlign">right</property>
-                                        <expression name="valueExpr">row["CUSTOMERTOTAL"]</expression>
+                                        <property name="resultSetColumn">CUSTOMERTOTAL</property>
                                     </data>
                                 </cell>
                             </row>

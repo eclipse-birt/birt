@@ -316,17 +316,17 @@ from orderdetails
                 <structure>
                     <property name="name">data item</property>
                     <expression name="expression">BirtComp.between(dataSetRow["QUANTITYORDERED"], 30, 50)</expression>
-                    <property name="dataType">any</property>
+                    <property name="dataType">boolean</property>
                 </structure>
                 <structure>
                     <property name="name">data item_1</property>
                     <expression name="expression">BirtComp.equalTo(row["QUANTITYORDERED"], 20)</expression>
-                    <property name="dataType">any</property>
+                    <property name="dataType">boolean</property>
                 </structure>
                 <structure>
                     <property name="name">data item_2</property>
                     <expression name="expression">BirtComp.anyOf(dataSetRow["QUANTITYORDERED"], 20, 30)</expression>
-                    <property name="dataType">any</property>
+                    <property name="dataType">boolean</property>
                 </structure>
                 <structure>
                     <property name="name">data item_3</property>
@@ -336,7 +336,7 @@ myarr[1] = "Charlie";
 myarr[2] = "Beta";
 myarr.sort()
 myarr[0];</expression>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">data item_4</property>
@@ -349,12 +349,12 @@ if( check ){
  }else{
     expval="No Match";
 }</expression>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">data item_5</property>
                     <expression name="expression">dataSetRow["PRODUCTCODE"].replace(/S18/g, "R18A");</expression>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">data item_6</property>
@@ -362,7 +362,7 @@ if( check ){
 var varB = "Varaible B";
 var varC = 5;
 eval( params["VariableName"].value );</expression>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                 </structure>
             </list-property>
             <list-property name="sort">

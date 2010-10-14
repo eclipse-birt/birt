@@ -217,10 +217,12 @@ where creditlimit > 0</property>
                 <structure>
                     <property name="name">by100</property>
                     <expression name="expression">Total.OptimisticSum(row["CREDITLIMIT"],100)</expression>
+                    <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="name">by1000</property>
                     <expression name="expression">Total.OptimisticSum(row["CREDITLIMIT"],1000)</expression>
+                    <property name="dataType">decimal</property>
                 </structure>
             </list-property>
             <column id="97"/>

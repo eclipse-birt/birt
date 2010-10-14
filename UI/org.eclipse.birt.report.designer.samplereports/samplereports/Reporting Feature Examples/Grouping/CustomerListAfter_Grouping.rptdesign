@@ -648,7 +648,7 @@ South San Francisco, CA 94080]]></text-property>
                 <structure>
                     <property name="name">customercountrycount</property>
                     <expression name="expression">"Customers in this Country: " + Total.countDistinct(row["CUSTOMERNUMBER"])</expression>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                     <property name="aggregateOn">customercountry</property>
                 </structure>
             </list-property>
