@@ -1625,7 +1625,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 							.getReferableMeasureBindings( targetString,
 									cubeQueryDefn );
 				}
-				if ( retList.size( ) > 0 )
+				if ( retList != null && retList.size( ) > 0 )
 				{
 					IBindingMetaInfo meta = (IBindingMetaInfo) retList.get( 0 );
 					IExpressionConverter converter = ExpressionButtonUtil.getCurrentExpressionConverter( expressionCCombo );
@@ -2056,8 +2056,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			}
 
 		}
-		if ( cube == null
-				|| expressionCCombo.getText( ).length( ) == 0 )
+		if ( cube == null || expressionCCombo.getText( ).length( ) == 0 )
 		{
 			return new ArrayList( );
 		}
@@ -2271,10 +2270,10 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				addBtn.setEnabled( false );
 				return;
 			}
-//			if ( value != null )
-//			{
-//				value = value.trim( );
-//			}
+			// if ( value != null )
+			// {
+			// value = value.trim( );
+			// }
 			if ( valueList.indexOf( ExpressionButtonUtil.getExpression( addExpressionValue ) ) < 0 )
 			{
 				addBtn.setEnabled( true );
