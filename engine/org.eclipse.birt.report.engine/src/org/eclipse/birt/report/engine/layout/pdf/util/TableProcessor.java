@@ -121,7 +121,7 @@ public class TableProcessor implements HTMLConstants
 				ActionContent action )
 		{
 			this.element = element;
-			this.cssStyles = cssStyles;
+			this.cssStyles = cssStyles;	
 			this.action = action;
 		}
 
@@ -269,7 +269,10 @@ public class TableProcessor implements HTMLConstants
 			for ( Node node = ele.getFirstChild( ); node != null; node = node
 					.getNextSibling( ) )
 			{
-				assert ( node.getNodeType( ) == Node.ELEMENT_NODE );
+				if ( node.getNodeType( ) != Node.ELEMENT_NODE )
+				{
+					continue;
+				}
 				Element element = (Element) node;
 				String tagName = element.getTagName( );
 				if ( "tr".equals( tagName ) )
