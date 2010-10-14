@@ -52,7 +52,6 @@ public class MultipleLayout extends AbstractHintLayout
 		}
 		
 		Figure child = (Figure)list.get( 0 );
-		Dimension dim = new Dimension();
 		
 		wHint = Math.max( -1, wHint - container.getInsets( ).getWidth( ) );
 		hHint = Math.max( -1, hHint - container.getInsets( ).getHeight( ) );
@@ -75,7 +74,7 @@ public class MultipleLayout extends AbstractHintLayout
 			needlayout = false;
 		}
 		
-		dim = child.getPreferredSize(wHint, hHint ).expand( container.getInsets( ).getWidth( ), container.getInsets( ).getHeight( ) );
+		Dimension dim = child.getPreferredSize(wHint, hHint ).expand( container.getInsets( ).getWidth( ), container.getInsets( ).getHeight( ) );
 
 		return dim;
 	}

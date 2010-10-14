@@ -23,7 +23,7 @@ public class ReportDebugger implements IApplication
 
 	public Object start( IApplicationContext context ) throws Exception
 	{
-		String[] appArgs = null;
+		String[] appArgs = new String[0];
 
 		if ( context.getArguments( ) != null )
 		{

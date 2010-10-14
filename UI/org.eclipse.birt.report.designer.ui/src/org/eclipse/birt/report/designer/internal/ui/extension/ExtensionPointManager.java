@@ -49,7 +49,7 @@ public class ExtensionPointManager
 
 	private Map<String, IProviderFactory> providerFactoryMap = null;
 
-	private static ExtensionPointManager instance = null;
+	private volatile static ExtensionPointManager instance = null;
 
 	private ExtensionPointManager( )
 	{

@@ -154,18 +154,17 @@ public class ReportDocumentEditor extends EditorPart
 		try
 		{
 			document = engine.openReportDocument( getFileName( ) );
-			Label nameScript = createScriptgLabel( continer,
+			createScriptgLabel( continer,
 					Messages.getString( "ReportDocumentEditor.3" ) ); //$NON-NLS-1$
-			Label name = createScriptgLabel( continer, document.getName( ) );
+			createScriptgLabel( continer, document.getName( ) );
 
-			Label versionScript = createScriptgLabel( continer,
+			createScriptgLabel( continer,
 					Messages.getString( "ReportDocumentEditor.4" ) ); //$NON-NLS-1$
-			Label version = createScriptgLabel( continer, document.getVersion( ) );
+			createScriptgLabel( continer, document.getVersion( ) );
 
-			Label pageCountScript = createScriptgLabel( continer,
+			createScriptgLabel( continer,
 					Messages.getString( "ReportDocumentEditor.5" ) ); //$NON-NLS-1$
-			Label pageCount = createScriptgLabel( continer,
-					"" + document.getPageCount( ) ); //$NON-NLS-1$
+			createScriptgLabel( continer, "" + document.getPageCount( ) ); //$NON-NLS-1$
 
 		}
 		catch ( EngineException e )
