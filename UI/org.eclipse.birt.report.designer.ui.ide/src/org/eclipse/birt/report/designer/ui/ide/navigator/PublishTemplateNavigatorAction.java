@@ -61,11 +61,11 @@ public class PublishTemplateNavigatorAction implements IViewActionDelegate
 						.getSessionHandle( )
 						.openDesign( url );
 
-//				if ( !( handle instanceof ReportDesignHandle ) )
-//				{
-//					action.setEnabled( false );
-//					return;
-//				}
+				if ( handle == null )
+				{
+					action.setEnabled( false );
+					return;
+				}
 
 				WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
 						new PublishTemplateWizard( (ReportDesignHandle) handle ) );

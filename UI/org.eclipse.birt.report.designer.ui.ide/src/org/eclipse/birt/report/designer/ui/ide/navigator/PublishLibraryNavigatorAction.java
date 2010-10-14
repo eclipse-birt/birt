@@ -76,11 +76,11 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 					.getSessionHandle( )
 					.openLibrary( url );
 
-//			if ( !( handle instanceof LibraryHandle ) )
-//			{
-//				action.setEnabled( false );
-//				return;
-//			}
+			if ( handle == null )
+			{
+				action.setEnabled( false );
+				return;
+			}
 
 			String filePath = handle.getFileName( );
 			String fileName = null;

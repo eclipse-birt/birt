@@ -271,7 +271,7 @@ public class ClassFinder
 		{
 			return null;
 		}
-		IType[] types = new IType[0];
+		IType[] types = null;
 		try
 		{
 			// fix for 66922 Wrong radio behaviour when switching
