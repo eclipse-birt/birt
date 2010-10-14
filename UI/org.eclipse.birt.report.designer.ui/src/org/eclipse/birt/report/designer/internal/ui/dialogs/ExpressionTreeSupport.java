@@ -198,6 +198,8 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	private static final String TREE_ITEM_NATIVE_OBJECTS = Messages.getString( "ExpressionProvider.Category.NativeObjects" ); //$NON-NLS-1$
 
+	private static final String TREE_ITEM_VARIABLES = Messages.getString( "ExpressionProvider.Category.Variables" ); //$NON-NLS-1$
+
 	private static final String TREE_ITEM_LOGICAL = Messages.getString( "ExpressionProvider.Operators.Logical" ); //$NON-NLS-1$
 
 	private static final String TREE_ITEM_COMPUTATIONAL = Messages.getString( "ExpressionProvider.Operators.Computational" ); //$NON-NLS-1$
@@ -559,7 +561,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		if ( variablesItem == null || variablesItem.isDisposed( ) )
 		{
 			int idx = getIndex( contextItem );
-			variablesItem = createTopTreeItem( tree, "Variables", idx );
+			variablesItem = createTopTreeItem( tree, TREE_ITEM_VARIABLES, idx );
 		}
 		buildVariableTree( );
 	}
