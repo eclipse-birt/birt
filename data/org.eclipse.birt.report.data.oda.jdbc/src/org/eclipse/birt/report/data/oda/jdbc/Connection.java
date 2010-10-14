@@ -159,7 +159,7 @@ public class Connection implements IConnection
 			}
 			connectByUrl( url, connProperties );
 		}
-		logger.log(Level.WARNING, "JDBC connection: " + jdbcConn + " is opened");
+		logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is opened");
 		updateAppContext (connProperties);
 	}
 	
@@ -443,11 +443,11 @@ public class Connection implements IConnection
 			if ( jdbcConn.isClosed( ) == false )
 			{
 				jdbcConn.close( );
-				logger.log(Level.WARNING, "JDBC connection: " + jdbcConn + " is closed");
+				logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is closed");
 			}
 			else
 			{
-				logger.log(Level.WARNING, "JDBC connection: " + jdbcConn + " is already closed outside of JDBC ODA driver");
+				logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is already closed outside of JDBC ODA driver");
 			}
 		}
 		catch ( SQLException e )
