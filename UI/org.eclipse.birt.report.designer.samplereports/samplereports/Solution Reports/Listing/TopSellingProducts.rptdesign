@@ -790,10 +790,12 @@ San Francisco, CA 94107<BR>
                             <structure>
                                 <property name="name">PRODUCTLINE</property>
                                 <expression name="expression">dataSetRow["PRODUCTLINE"]</expression>
+                                <property name="dataType">string</property>
                             </structure>
                             <structure>
                                 <property name="name">TOTALREVENUE</property>
                                 <expression name="expression">dataSetRow["TOTALREVENUE"]</expression>
+                                <property name="dataType">float</property>
                             </structure>
                         </list-property>
                     </extended-item>
@@ -837,10 +839,12 @@ San Francisco, CA 94107<BR>
                             <structure>
                                 <property name="name">TOTALREVENUE</property>
                                 <expression name="expression">dataSetRow["TOTALREVENUE"]</expression>
+                                <property name="dataType">float</property>
                             </structure>
                             <structure>
                                 <property name="name">PRODUCTNAME</property>
                                 <expression name="expression">dataSetRow["PRODUCTNAME"]</expression>
+                                <property name="dataType">string</property>
                             </structure>
                         </list-property>
                         <property name="pageBreakInterval">50</property>

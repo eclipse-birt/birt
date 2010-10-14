@@ -669,7 +669,7 @@ South San Francisco, CA 94080]]></text-property>
                             <structure>
                                 <property name="name">data item</property>
                                 <expression name="expression">"OFFICE CODE: " + row["OFFICECODE"]</expression>
-                                <property name="dataType">any</property>
+                                <property name="dataType">string</property>
                             </structure>
                         </list-property>
                         <list-property name="filter">
@@ -859,7 +859,7 @@ South San Francisco, CA 94080]]></text-property>
                             <structure>
                                 <property name="name">data item</property>
                                 <expression name="expression">"OFFICE CODE: " + row["OFFICECODE"]</expression>
-                                <property name="dataType">any</property>
+                                <property name="dataType">string</property>
                             </structure>
                         </list-property>
                         <list-property name="filter">

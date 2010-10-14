@@ -295,34 +295,42 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">PRODUCTCODE</property>
                     <expression name="expression">dataSetRow["PRODUCTCODE"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">PRODUCTNAME</property>
                     <expression name="expression">dataSetRow["PRODUCTNAME"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">QUANTITYORDERED</property>
                     <expression name="expression">dataSetRow["QUANTITYORDERED"]</expression>
+                    <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="name">MSRP</property>
                     <expression name="expression">dataSetRow["MSRP"]</expression>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="name">PRICEEACH</property>
                     <expression name="expression">dataSetRow["PRICEEACH"]</expression>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="name">(row["MSRP"] - row["PRICEEACH"]) / row["MSRP"]</property>
                     <expression name="expression">(row["MSRP"] - row["PRICEEACH"]) / row["MSRP"]</expression>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="name">row["QUANTITYORDERED"] * row["PRICEEACH"]</property>
                     <expression name="expression">row["QUANTITYORDERED"] * row["PRICEEACH"]</expression>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="name">ORDERNUMBER</property>
                     <expression name="expression">dataSetRow["ORDERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -330,6 +338,7 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">CUSTOMERNAME</property>
                     <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -337,6 +346,7 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">CONTACTFIRSTNAME</property>
                     <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -344,6 +354,7 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">CONTACTLASTNAME</property>
                     <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -351,6 +362,7 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">row["CONTACTFIRSTNAME"] + " " + row["CONTACTLASTNAME"]</property>
                     <expression name="expression">row["CONTACTFIRSTNAME"] + " " + row["CONTACTLASTNAME"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -358,6 +370,7 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">ADDRESSLINE1</property>
                     <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -365,6 +378,7 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">ADDRESSLINE2</property>
                     <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -372,6 +386,7 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">CITY</property>
                     <expression name="expression">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -379,6 +394,7 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">STATE</property>
                     <expression name="expression">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -386,6 +402,7 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">POSTALCODE</property>
                     <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -395,6 +412,7 @@ San Francisco, CA 94107<BR>
 row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", "")</property>
                     <expression name="expression">(row["CITY"] + ", " + row["STATE"] + " " +
 row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", "")</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -402,6 +420,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">COUNTRY</property>
                     <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -409,6 +428,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">CUSTOMERNUMBER</property>
                     <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -416,6 +436,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">ORDERDATE</property>
                     <expression name="expression">dataSetRow["ORDERDATE"]</expression>
+                    <property name="dataType">date</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -423,6 +444,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">SHIPPEDDATE</property>
                     <expression name="expression">dataSetRow["SHIPPEDDATE"]</expression>
+                    <property name="dataType">date</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -430,6 +452,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">OFFICE_CITY</property>
                     <expression name="expression">dataSetRow["OFFICE_CITY"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -437,6 +460,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">FIRSTNAME</property>
                     <expression name="expression">dataSetRow["FIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -444,6 +468,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">LASTNAME</property>
                     <expression name="expression">dataSetRow["LASTNAME"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -451,6 +476,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">row["FIRSTNAME"] + " " + row["LASTNAME"]</property>
                     <expression name="expression">row["FIRSTNAME"] + " " + row["LASTNAME"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -458,6 +484,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">QUANTITYORDERED_1</property>
                     <expression name="expression">dataSetRow["QUANTITYORDERED"]</expression>
+                    <property name="dataType">integer</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -465,6 +492,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">PRICEEACH_1</property>
                     <expression name="expression">dataSetRow["PRICEEACH"]</expression>
+                    <property name="dataType">float</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>
@@ -472,6 +500,7 @@ row["POSTALCODE"]).replace("null, ", "").replace("null ", "").replace("null", ""
                 <structure>
                     <property name="name">Total.sum(row["QUANTITYORDERED"]*row["PRICEEACH"])</property>
                     <expression name="expression">Total.sum(row["QUANTITYORDERED"]*row["PRICEEACH"])</expression>
+                    <property name="dataType">float</property>
                     <simple-property-list name="aggregateOn">
                         <value>Order Group</value>
                     </simple-property-list>

@@ -194,26 +194,32 @@ San Francisco, CA 94107<BR>
                 <structure>
                     <property name="name">PRODUCTNAME</property>
                     <expression name="expression">dataSetRow["PRODUCTNAME"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">PRODUCTSCALE</property>
                     <expression name="expression">dataSetRow["PRODUCTSCALE"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">"Scale: " + row["PRODUCTSCALE"]</property>
                     <expression name="expression">"Scale: " + row["PRODUCTSCALE"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">MSRP</property>
                     <expression name="expression">dataSetRow["MSRP"]</expression>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="name">PRODUCTDESCRIPTION</property>
                     <expression name="expression">dataSetRow["PRODUCTDESCRIPTION"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">PRODUCTLINE</property>
                     <expression name="expression">dataSetRow["PRODUCTLINE"]</expression>
+                    <property name="dataType">string</property>
                     <simple-property-list name="aggregateOn">
                         <value>Product Line</value>
                     </simple-property-list>
