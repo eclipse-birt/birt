@@ -11,7 +11,6 @@
               format="pdf"
               pagination="paper-size-pagination"
               id="org.eclipse.birt.report.engine.emitter.pdf"
-              icon="resource/preview_pdf.gif"
               mimeType="application/pdf"
               supportedImageFormats="PNG;GIF;JPG;BMP;SVG" />
   </extension>  
