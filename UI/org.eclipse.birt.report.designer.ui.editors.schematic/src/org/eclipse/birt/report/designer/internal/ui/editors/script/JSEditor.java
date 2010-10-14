@@ -1337,7 +1337,7 @@ public class JSEditor extends EditorPart implements IColleague
 			return selection;
 		}
 
-		DesignElementHandle model = (DesignElementHandle) getModel( );
+		//DesignElementHandle model = (DesignElementHandle) getModel( );
 		if ( !( selection instanceof IStructuredSelection ) )
 		{
 			return selection;
