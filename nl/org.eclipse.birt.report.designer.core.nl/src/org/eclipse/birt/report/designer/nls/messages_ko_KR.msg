@@ -1527,6 +1527,7 @@ ExpressionProvider.Category.ColumnBinding=사용 가능한 열 바인딩
 ExpressionProvider.Category.Operators=연산자
 ExpressionProvider.Category.Parameters=보고서 매개 변수
 ExpressionProvider.Category.DataCubes=현재 데이터 큐브
+ExpressionProvider.Category.Variables=변수
 ExpressionProvider.Label.All=---모두---
 ExpressionProvider.Operator.Add=두 값을 함께 추가합니다.
 ExpressionProvider.Operator.AddTo=바로 가기(현재 값에 추가).

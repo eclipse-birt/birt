@@ -1527,6 +1527,7 @@ ExpressionProvider.Category.ColumnBinding=Liaisons de colonnes disponibles
 ExpressionProvider.Category.Operators=Opérateurs
 ExpressionProvider.Category.Parameters=Paramètres de l'état
 ExpressionProvider.Category.DataCubes=Cube de données actuel
+ExpressionProvider.Category.Variables=Variables
 ExpressionProvider.Label.All=---Tout---
 ExpressionProvider.Operator.Add=Ajoute deux valeurs ensemble.
 ExpressionProvider.Operator.AddTo=Raccourci pour ajouter à la valeur actuelle.

@@ -1527,6 +1527,7 @@ ExpressionProvider.Category.ColumnBinding=可用列绑定
 ExpressionProvider.Category.Operators=运算符
 ExpressionProvider.Category.Parameters=报表参数
 ExpressionProvider.Category.DataCubes=当前多维数据集
+ExpressionProvider.Category.Variables=变量
 ExpressionProvider.Label.All=---全部---
 ExpressionProvider.Operator.Add=将两个值相加。
 ExpressionProvider.Operator.AddTo=在当前值上加值的快捷方式。
