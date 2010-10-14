@@ -225,6 +225,7 @@ public class ImageManager
 		}
 		catch ( Exception e )
 		{
+			//do nothing now
 		}
 		finally
 		{
@@ -446,9 +447,6 @@ public class ImageManager
 		{
 			return null;
 		}
-		
-		String key = url.toString( );
-		
 		
 		Image image = null;
 		try

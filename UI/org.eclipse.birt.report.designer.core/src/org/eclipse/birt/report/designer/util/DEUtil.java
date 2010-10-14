@@ -2641,21 +2641,25 @@ public class DEUtil
 	public static String getBindingexpression( DesignElementHandle baseElement,
 			ComputedColumnHandle column, boolean checkOutLevel )
 	{
-		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
+		//String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
+		StringBuffer buffer = new StringBuffer( );
 		if ( isBindingCube( column.getElementHandle( ) ) )
 		{
-			exp = ExpressionUtil.DATA_INDICATOR;
+			//exp = ExpressionUtil.DATA_INDICATOR;
+			buffer.append( ExpressionUtil.DATA_INDICATOR );
 		}
 		if ( checkOutLevel )
 		{
 			for ( int i = 0; i < getBindingLevel( column.getElementHandle( ),
 					baseElement ); i++ )
 			{
-				exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
+				//exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
+				buffer.append( IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX );
 			}
 		}
-		exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
-		return exp;
+		//exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+		buffer.append("[\"" + DEUtil.escape( column.getName( ) ) + "\"]");//$NON-NLS-1$ //$NON-NLS-2$
+		return buffer.toString( );
 	}
 
 	public static boolean isBindingCube( DesignElementHandle element )
@@ -3022,14 +3026,18 @@ public class DEUtil
 	public static String getAggregateOn( ComputedColumnHandle element )
 	{
 		List aggregateOnList = element.getAggregateOnList( );
-		String value = ""; //$NON-NLS-1$
+		//String value = ""; //$NON-NLS-1$
+		StringBuffer buffer = new StringBuffer( );
 		int i = 0;
 		for ( Iterator iterator = aggregateOnList.iterator( ); iterator.hasNext( ); i++ )
 		{
 			if ( i > 0 )
-				value += ","; //$NON-NLS-1$
-			value += (String) iterator.next( );
+				//value += ","; //$NON-NLS-1$
+				buffer.append( "," );
+			//value += (String) iterator.next( );
+			buffer.append( (String) iterator.next( ) );
 		}
+		String value = buffer.toString( );
 		if ( value.equals( "" ) ) //$NON-NLS-1$
 			return null;
 		else
