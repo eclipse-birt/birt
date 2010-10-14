@@ -208,7 +208,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 					fixWidthAmt = fixWidthAmt + tableWidthValues[i];
 				}
 				else if ( definedWidthValues[i] == null
-						| "".equalsIgnoreCase( definedWidthValues[i] ) ) //$NON-NLS-1$
+						|| "".equalsIgnoreCase( definedWidthValues[i] ) ) //$NON-NLS-1$
 				{
 					tableWidthValues[i] = 0;
 					fixWidthAmt = fixWidthAmt + tableWidthValues[i];

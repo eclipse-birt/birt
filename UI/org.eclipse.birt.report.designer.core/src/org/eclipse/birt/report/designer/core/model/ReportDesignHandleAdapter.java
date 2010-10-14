@@ -196,7 +196,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 			size = new Dimension( width, height );
 		}
 
-		if ( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE.equalsIgnoreCase( masterPage.getOrientation( ) ) )
+		if ( masterPage != null && DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE.equalsIgnoreCase( masterPage.getOrientation( ) ) )
 		{
 			int width = (int) DEUtil.convertoToPixel( masterPage.getWidth( ) );
 			int height = (int) DEUtil.convertoToPixel( masterPage.getHeight( ) );
