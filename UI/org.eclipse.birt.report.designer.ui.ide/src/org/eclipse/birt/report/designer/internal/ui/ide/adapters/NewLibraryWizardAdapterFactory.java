@@ -271,6 +271,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		}
 		catch ( Exception e )
 		{
+			//Do nothing now
 		}
 		// to refresh this project, or file does not exist will be told, though
 		// it's created.

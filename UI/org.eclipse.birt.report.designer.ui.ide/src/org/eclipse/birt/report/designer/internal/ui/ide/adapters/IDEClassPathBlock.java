@@ -63,7 +63,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 	private static Key PREF_CLASSPATH;
 	private final TreeListDialogField fLibrariesList;
 
-	private Control fSWTControl;
+	//private Control fSWTControl;
 
 	private static final int IDX_ADDJAR = 0;
 	private static final int IDX_ADDEXT = 1;
@@ -94,7 +94,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 	{
 
 		super( context, ReportPlugin.getDefault( ), project );
-		fSWTControl = null;
+		//fSWTControl = null;
 		PREF_CLASSPATH = getReportKey( ReportPlugin.CLASSPATH_PREFERENCE );
 		String[] buttonLabels = new String[]{
 				Messages.getString("IDEClassPathBlock.button_addJar"), Messages.getString("IDEClassPathBlock.button_addEXTJar"), Messages.getString("IDEClassPathBlock.button_addVar"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -155,7 +155,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 		int buttonBarWidth = converter.convertWidthInCharsToPixels( 24 );
 		fLibrariesList.setButtonsMinWidth( buttonBarWidth );
 
-		fSWTControl = composite;
+		//fSWTControl = composite;
 
 		return composite;
 	}
@@ -330,7 +330,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 	private void removeEntry( )
 	{
 		List selElements = fLibrariesList.getSelectedElements( );
-		HashMap containerEntriesToUpdate = new HashMap( );
+		//HashMap containerEntriesToUpdate = new HashMap( );
 
 		if ( selElements.isEmpty( ) )
 		{
