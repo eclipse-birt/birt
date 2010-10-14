@@ -318,6 +318,12 @@ public class CubeQueryExecutor
 			{
 				if( existAggregationBinding( bindingName, this.defn.getBindings( ) ) )
 					return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+			
+				Set targetDimLevel = OlapExpressionCompiler.getReferencedDimLevel( filter.getExpression( ), this.defn.getBindings( ) );
+				if( !targetDimLevel.isEmpty( )&& targetDimLevel.size() == 1 )
+				{
+					return CubeQueryExecutor.DIMENSION_FILTER;
+				}
 		
 				return CubeQueryExecutor.FACTTABLE_FILTER;
 			}
