@@ -11,7 +11,6 @@
 	  		format="html"
 	  		pagination="page-break-pagination"
             outputDisplayNone="true"
-	  		icon="resource/preview_html.gif"
 	  		mimeType="text/html"
 	  		supportedImageFormats="PNG;GIF;JPG;BMP;SWF;SVG" >
 	 	</emitter>
