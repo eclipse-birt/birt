@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.util.Iterator;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.NumberFormatter;
@@ -19,6 +20,8 @@ import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
+import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEmitterAdapter;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
@@ -151,18 +154,20 @@ public class RootArea extends BlockContainerArea
 		}
 		else
 		{
-			IPageContent pageContent = createPageContent( htmlPageContent,
-					context.getPageNumber( ), context.getTotalPage( ) );
-			pageContent.setPageNumber( context.getPageNumber( ) );
+			IPageContent pageContent = htmlPageContent;
+			try
+			{
+				pageContent = ReportExecutorUtil.executeMasterPage( context
+						.getHtmlLayoutContext( ).getReportExecutor( ), context
+						.getPageNumber( ), (MasterPageDesign) pageContent
+						.getGenerateBy( ) );
+			}
+			catch ( BirtException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
 			return pageContent;
 		}
-	}
-
-	protected IPageContent createPageContent( IPageContent pageContent,
-			long pageNumber, long totalPageNumber )
-	{
-		return (IPageContent) cloneContent( (IContent)pageContent.getParent( ), pageContent, pageNumber,
-				totalPageNumber );
 	}
 
 	protected IContent cloneContent( IContent parent, IContent content, long pageNumber,
