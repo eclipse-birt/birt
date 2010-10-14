@@ -130,7 +130,7 @@ public class DEUtil
 
 	private static List<String> non_scalable_system_fonts = null;
 
-	private static String[] sorted_system_fonts = null;
+	private static volatile String[] sorted_system_fonts = null;
 
 	private static final DesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
 

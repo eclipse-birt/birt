@@ -350,7 +350,8 @@ public class DeleteCommand extends Command
 			SlotHandle slot = (SlotHandle) source;
 			DesignElementHandle handle = slot.getElementHandle( );
 			return slot.getContents( ).size( ) > 0
-					&& ( ( handle != null && ( (DesignElementHandle) handle ).canDrop( ) ) )
+					&& handle != null
+					&& handle.canDrop( )
 					&& canDrop( slot.getContents( ) );
 		}
 		if ( source instanceof EmbeddedImageHandle )

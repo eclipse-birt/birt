@@ -51,16 +51,15 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 	public String[] resolveClasspath( Object adaptable )
 	{
 		IProject project = adaptProject( adaptable );
-		List<String> strs = new ArrayList<String>();
 		
-		//IWorkspace space = ResourcesPlugin.getWorkspace( );
-		//IWorkspaceRoot root = space.getRoot( );
+//		IWorkspace space = ResourcesPlugin.getWorkspace( );
+//		IWorkspaceRoot root = space.getRoot( );
 		String value = PreferenceFactory.getInstance( )
 			.getPreferences( ReportPlugin.getDefault( ), project )
 				.getString( ReportPlugin.CLASSPATH_PREFERENCE );
 		
 		List<IClasspathEntry> list = IDEClassPathBlock.getEntries( value );
-		strs = getAllClassPathFromEntries( list );
+		List<String> strs = getAllClassPathFromEntries( list );
 		
 		try
 		{
