@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -245,7 +247,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				EngineConfig config = new EngineConfig( );
 				HashMap<Object, Object> appContext = new HashMap<Object, Object>( );
-				ClassLoader cl = new URLClassLoader( getDesignWorkspaceClasspath( ) );
+				ClassLoader cl = AccessController.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+
+					public ClassLoader run( )
+					{
+						return new URLClassLoader( getDesignWorkspaceClasspath( ) );
+					}
+				} );
 				appContext.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, cl );
 				config.setAppContext( appContext );
 				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );

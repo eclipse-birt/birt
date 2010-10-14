@@ -545,9 +545,9 @@ public class WizardBase implements IRegistrationListener
 
 	protected void setTitle( String wizardTitle )
 	{
-		dialog.wizardTitle = wizardTitle;
 		if ( dialog != null )
 		{
+			dialog.wizardTitle = wizardTitle;
 			dialog.setTitle( wizardTitle );
 		}
 	}

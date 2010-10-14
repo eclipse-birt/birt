@@ -91,7 +91,11 @@ public class TasksManager
 				{
 					String sID = elements[i].getAttribute( "wizardID" ); //$NON-NLS-1$
 					String sTaskList = elements[i].getAttribute( "tasklist" ); //$NON-NLS-1$
-					String[] sTasks = sTaskList.split( "," ); //$NON-NLS-1$
+					String[] sTasks = new String[0];
+					if ( sTaskList != null )
+					{
+						sTasks = sTaskList.split( "," ); //$NON-NLS-1$
+					}
 					if ( registeredWizards.containsKey( sID ) )
 					{
 						String sInsertionKey = elements[i].getAttribute( "positionBefore" ); //$NON-NLS-1$

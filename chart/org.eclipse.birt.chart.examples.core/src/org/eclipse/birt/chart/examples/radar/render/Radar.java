@@ -369,7 +369,7 @@ public class Radar extends BaseRenderer
 					ls.getLineAttributes( ),
 					fPaletteEntry,
 					null,
-					new Integer( markerSize ),
+					Integer.valueOf( markerSize ),
 					false,
 					false );
 		}

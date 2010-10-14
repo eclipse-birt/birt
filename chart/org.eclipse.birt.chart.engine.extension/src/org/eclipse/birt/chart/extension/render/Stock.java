@@ -33,7 +33,6 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -43,7 +42,6 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.type.StockSeries;
@@ -485,7 +483,7 @@ public final class Stock extends AxesRenderer
 		{
 			return;
 		}
-		final ClientArea ca = lg.getClientArea( );
+		// final ClientArea ca = lg.getClientArea( );
 		final StockSeries ss = (StockSeries) getSeries( );
 		final LineAttributes lia = ss.getLineAttributes( );
 		if ( !lia.isVisible( ) )

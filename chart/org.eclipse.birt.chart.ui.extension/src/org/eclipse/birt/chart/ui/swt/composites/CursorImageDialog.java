@@ -16,7 +16,6 @@ import java.net.URI;
 import org.eclipse.birt.chart.model.attribute.Cursor;
 import org.eclipse.birt.chart.model.attribute.impl.ImageImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
@@ -53,17 +52,14 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener
 	private Cursor cursor;
 
 	private Label title;
-
-	private ChartWizardContext context;
 	/**
 	 * The constructor.
 	 * 
 	 * @param parentShell
 	 */
-	public CursorImageDialog( Shell parentShell, ChartWizardContext context, Cursor cursor )
+	public CursorImageDialog( Shell parentShell, Cursor cursor )
 	{
 		super( parentShell );
-		this.context = context;
 		this.cursor = cursor;
 	}
 	

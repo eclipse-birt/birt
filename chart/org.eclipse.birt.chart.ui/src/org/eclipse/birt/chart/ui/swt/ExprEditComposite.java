@@ -52,7 +52,11 @@ public class ExprEditComposite extends Composite
 
 	public void bindModel( EObject eObj, EAttribute eAttr )
 	{
-		if ( btnBuilder != null && eObj != null && eAttr != null )
+		if ( btnBuilder == null )
+		{
+			return;
+		}
+		if ( eObj != null && eAttr != null )
 		{
 			btnBuilder.setAccessor( new EAttributeAccessor<String>( eObj, eAttr ) );
 		}

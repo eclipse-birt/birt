@@ -57,10 +57,12 @@ public class CSSHelper
 			return null;
 		}
 		
-		String value = CSSHelper.CURSOR_STYLE_PREFIX + " "; //$NON-NLS-1$
+		StringBuffer value = new StringBuffer( CSSHelper.CURSOR_STYLE_PREFIX );
+		value.append( " " );//$NON-NLS-1$
 		if ( cursor.getType( ) != CursorType.CUSTOM )
 		{
-			value += CSSHelper.CSS_CURSOR_MAP.get( cursor.getType( ) ) + ";";	 //$NON-NLS-1$
+			value.append( CSSHelper.CSS_CURSOR_MAP.get( cursor.getType( ) ) )
+					.append( ";" ); //$NON-NLS-1$
 		}
 		else
 		{
@@ -86,30 +88,30 @@ public class CSSHelper
 				
 				if ( i != 0 )
 				{
-					value += ","; //$NON-NLS-1$
+					value.append( "," ); //$NON-NLS-1$
 				}
 				
-				value += "url(" + sUri + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+				value.append( "url(" ).append( sUri ).append( ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 				i++;
 			}
 			if ( cursorImages.size( ) > 0 )
 			{
-				value += ",auto;"; //$NON-NLS-1$
+				value.append( ",auto;" ); //$NON-NLS-1$
 			}
 			else
 			{
-				value += "auto;"; //$NON-NLS-1$
+				value.append( "auto;" ); //$NON-NLS-1$
 			}
 		}
 
-		return value ;
+		return value.toString( );
 	}
-	
+
 	/**
 	 * Converts CSS properties to hyphen format.
 	 * 
 	 * @param cssProperties
-	 * @return
+	 * @return string format
 	 * @since 2.5.1
 	 */
 	public static String getStylingHyphenFormat( String cssProperties )
@@ -180,7 +182,7 @@ public class CSSHelper
 	 * Converts CSS properties to non-hyphen format.
 	 * 
 	 * @param cssProperties
-	 * @return
+	 * @return string format
 	 * @since 2.5.1
 	 */
 	public static String getStylingNonHyphenFormat( String cssProperties )

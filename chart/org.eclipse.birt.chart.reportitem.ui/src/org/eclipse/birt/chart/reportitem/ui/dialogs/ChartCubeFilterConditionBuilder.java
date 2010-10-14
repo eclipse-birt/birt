@@ -156,7 +156,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	protected static final String[] EMPTY_ARRAY = new String[]{};
 
-	protected List<String> columnList, measureList;
+	protected List<String> columnList, measureList = new ArrayList<String>( );
 
 	protected int valueVisible;
 
@@ -1635,12 +1635,12 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				return true;
 			}
 		}
-		else
+		else if ( expressionValue1 != null && expressionValue2 != null )
 		{
 			assert ( !expressionValue1.isDisposed( ) );
 			assert ( !expressionValue2.isDisposed( ) );
 
-			if (expressionValue1!=null && expressionValue1.getVisible( ) )
+			if ( expressionValue1.getVisible( ) )
 			{
 				if ( expressionValue1.getText( ) == null
 						|| expressionValue1.getText( ).trim( ).length( ) == 0 )
@@ -1649,7 +1649,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				}
 			}
 
-			if ( expressionValue2 != null && expressionValue2.getVisible( ) )
+			if ( expressionValue2.getVisible( ) )
 			{
 				if ( expressionValue2.getText( ) == null
 						|| expressionValue2.getText( ).trim( ).length( ) == 0 )

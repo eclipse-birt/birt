@@ -148,10 +148,6 @@ public class ImageViewer extends Canvas {
         if (image == null)
             return;
 
-        Rectangle rect = image.getBounds();
-        Rectangle client = getClientArea();
-        int hPage = rect.width - client.width;
-        int vPage = rect.height - client.height;
         redraw();
     }
 

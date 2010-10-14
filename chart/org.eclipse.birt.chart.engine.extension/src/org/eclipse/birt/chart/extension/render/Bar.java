@@ -2543,11 +2543,12 @@ public final class Bar extends AxesRenderer
 		switch ( bs.getRiser( ).getValue( ) )
 		{
 			case RiserType.RECTANGLE :
-				if (getModel( ).getDimension( )!=ChartDimension.TWO_DIMENSIONAL_LITERAL)
+			case RiserType.TUBE :
+				if ( bs.getRiser( ).getValue( ) == RiserType.RECTANGLE
+						&& getModel( ).getDimension( ) != ChartDimension.TWO_DIMENSIONAL_LITERAL )
 				{
 					dSeriesThickness = 3 * getDeviceScale( );
 				}
-			case RiserType.TUBE :
 				if (bs.getRiser( ).getValue( ) == RiserType.TUBE )
 				{
 					dSeriesThickness = 2 * getDeviceScale( );

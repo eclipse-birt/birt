@@ -141,9 +141,9 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor
 		values = provider.getValues( );
 		
 		oldValue = provider.load( ).toString( );
-		boolean stateFlag = ( ( oldValue == null ) == combo.getEnabled( ) );
+		boolean stateFlag = ( ( oldValue.trim( ).length( ) == 0 ) == combo.getEnabled( ) );
 		if ( stateFlag )
-			combo.setEnabled( oldValue != null );
+			combo.setEnabled( oldValue.trim( ).length( ) != 0 );
 
 		if ( provider.isReadOnly( ) )
 		{

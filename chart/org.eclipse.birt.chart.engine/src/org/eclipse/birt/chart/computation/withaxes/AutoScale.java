@@ -358,7 +358,8 @@ public final class AutoScale extends Methods implements Cloneable
 				Double d = new Double( ( (NumberDataElement) originValue ).getValue( ) );
 				if ( divisor != null )
 				{
-					return NumberUtil.asBigDecimal( (Number) d ).multiply( divisor, NumberUtil.DEFAULT_MATHCONTEXT );
+					return NumberUtil.asBigDecimal( d ).multiply( divisor,
+							NumberUtil.DEFAULT_MATHCONTEXT );
 				}
 				return d;
 			}
@@ -510,7 +511,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.atcTickCoordinates = atcTickCoordinates;
 		sc.labelVisHelper = labelVisHelper;
 		sc.staggeredHelper = staggeredHelper;
-		sc.hmComputedLabelText = sc.hmComputedLabelText;
+		sc.hmComputedLabelText = hmComputedLabelText;
 		sc.tmpSC = tmpSC;
 		sc.setBigNubmerDivisor( getBigNumberDivisor( ) );
 
@@ -3376,7 +3377,8 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				// ADJUST THE END POSITION
-				final double dMaximum = asDouble( getMaximum( ) ).doubleValue( );
+				// final double dMaximum = asDouble( getMaximum( )
+				// ).doubleValue( );
 				value = AxisValueProvider.getValue( getMaximum( ),
 						isBigNumber( ) ? this.getBigNumberDivisor( ) : null ) ;
 				if ( info.fs == null )
@@ -4635,22 +4637,22 @@ public final class AutoScale extends Methods implements Cloneable
 			this.bigNumberDivisor = divisor;
 		}
 	}
-	
+
 	/**
 	 * Checks if the axis scale represents big number.
 	 * 
-	 * @return
+	 * @return boolean
 	 * @since 2.6
 	 */
 	public boolean isBigNumber()
 	{
 		return this.bIsBigNumber;
 	}
-	
+
 	/**
 	 * Returns big number divisor of axis scale.
 	 * 
-	 * @return
+	 * @return big number divisor
 	 * @since 2.6
 	 */
 	public BigDecimal getBigNumberDivisor()

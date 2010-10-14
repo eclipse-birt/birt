@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.page;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -126,10 +125,9 @@ public class ChartBindingPage extends BindingPage
 						try
 						{
 							ExtendedItemHandle inputElement = (ExtendedItemHandle) getBindingObject( );
-							List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
 							inputElement.getColumnBindings( ).clearValue( );
 
-							columnList = ChartXTabUIUtil.generateComputedColumns( inputElement,
+							List<ComputedColumn> columnList = ChartXTabUIUtil.generateComputedColumns( inputElement,
 									cube );
 
 							if ( columnList.size( ) > 0 )

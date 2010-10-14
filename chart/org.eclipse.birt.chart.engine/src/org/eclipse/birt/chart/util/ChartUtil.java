@@ -1017,16 +1017,16 @@ public class ChartUtil
 			return null;
 		}
 		
-		String expr = aggrFunc;
+		StringBuffer expr = new StringBuffer( aggrFunc );
 		IAggregateFunction aFunc = PluginSettings.instance( )
 				.getAggregateFunction( aggrFunc );
 		for ( int i = 0; i < aggrParameters.length
 				&& i < aFunc.getParametersCount( ); i++ )
 		{
 			String param = ( aggrParameters[i] ) == null ? "" : (String) aggrParameters[i]; //$NON-NLS-1$
-			expr = expr + "_" + param; //$NON-NLS-1$
+			expr.append( "_" ).append( param ); //$NON-NLS-1$
 		}
-		return expr;
+		return expr.toString( );
 	}
 	
 	/**
