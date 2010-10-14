@@ -327,6 +327,7 @@ abstract class PreviewSupport
 
 		Map<String, Object> options = new HashMap<String, Object>( );
 		options.put( WebViewer.EMITTER_ID_KEY, ei.getID( ) );
+		options.put( WebViewer.FORMAT_KEY, ei.getFormat( ) );
 		options.put( WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf( false ) );
 		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
 				.getResourceFolder( ) );
