@@ -1527,6 +1527,7 @@ ExpressionProvider.Category.ColumnBinding=使用可能なカラムバインド
 ExpressionProvider.Category.Operators=演算子
 ExpressionProvider.Category.Parameters=レポートパラメタ
 ExpressionProvider.Category.DataCubes=現在のデータキューブ
+ExpressionProvider.Category.Variables=変数
 ExpressionProvider.Label.All=---すべて---
 ExpressionProvider.Operator.Add=2 つの値を加算します。
 ExpressionProvider.Operator.AddTo=現在の値に加算するショートカットです。

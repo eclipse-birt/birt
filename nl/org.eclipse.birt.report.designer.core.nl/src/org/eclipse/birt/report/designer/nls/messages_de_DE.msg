@@ -1527,6 +1527,7 @@ ExpressionProvider.Category.ColumnBinding=Verfügbare Spaltenbindungen
 ExpressionProvider.Category.Operators=Operatoren
 ExpressionProvider.Category.Parameters=Berichtparameter
 ExpressionProvider.Category.DataCubes=Aktueller Datenquader
+ExpressionProvider.Category.Variables=Variablen
 ExpressionProvider.Label.All=---Alle---
 ExpressionProvider.Operator.Add=Fügt zwei Werte zusammen.
 ExpressionProvider.Operator.AddTo=Verknüpfung zum Hinzufügen zum aktuellen Wert.
