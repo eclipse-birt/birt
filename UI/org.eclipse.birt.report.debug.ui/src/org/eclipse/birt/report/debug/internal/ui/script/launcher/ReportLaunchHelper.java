@@ -65,7 +65,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 	String tempFolder;
 	String targetFormat;
 	boolean isOpenTargetFile;
-	boolean useDefaultEngineHome;
+//	boolean useDefaultEngineHome;
 	int debugType;
 	int taskType;
 	int listenPort;

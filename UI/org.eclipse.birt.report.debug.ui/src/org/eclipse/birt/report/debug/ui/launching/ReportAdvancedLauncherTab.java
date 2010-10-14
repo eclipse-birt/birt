@@ -177,7 +177,6 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	{
 		fNumExternalChecked = 0;
 		fNumWorkspaceChecked = 0;
-		fShowFeatures = true;
 		fShowFeatures = showFeatures;
 		PDEPlugin.getDefault( ).getLabelProvider( ).connect( this );
 		fImage = PDEPluginImages.DESC_REQ_PLUGINS_OBJ.createImage( );

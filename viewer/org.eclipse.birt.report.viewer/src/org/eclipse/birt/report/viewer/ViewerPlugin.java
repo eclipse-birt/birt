@@ -156,7 +156,7 @@ public class ViewerPlugin extends Plugin
 		System.setProperty( BIRT_IS_DESIGNER, "true" ); //$NON-NLS-1$
 
 		// check web app adatper, ensure the adapter plugin has been started.
-		IWebAppInfo dummy = WebViewer.getCurrentWebApp( );
+		WebViewer.getCurrentWebApp( );
 	}
 
 	/**

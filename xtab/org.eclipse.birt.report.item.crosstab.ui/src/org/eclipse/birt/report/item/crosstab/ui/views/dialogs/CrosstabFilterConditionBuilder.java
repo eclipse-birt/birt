@@ -2057,7 +2057,6 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 		}
 		if ( cube == null
-				|| ( !( cube instanceof CubeHandle ) )
 				|| expressionCCombo.getText( ).length( ) == 0 )
 		{
 			return new ArrayList( );

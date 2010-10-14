@@ -92,14 +92,6 @@ public class ScriptWatchExpressionDelegate implements IWatchExpressionDelegate
 			}
 		};
 
-		if ( frame == null )
-		{
-			fListener.watchEvaluationFinished( watchResult );
-		}
-		else
-		{
-			fListener.watchEvaluationFinished( watchResult );
-
-		}
+		fListener.watchEvaluationFinished( watchResult );
 	}
 }

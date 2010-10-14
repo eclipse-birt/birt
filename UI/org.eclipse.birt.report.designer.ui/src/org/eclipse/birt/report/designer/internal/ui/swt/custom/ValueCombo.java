@@ -100,10 +100,11 @@ public class ValueCombo extends Combo
 							index,
 							comboText );
 				}
-				else if ( action instanceof ISelection )
+				else
 				{
 					text = action.doSelection( oldValue );
 				}
+				
 				if ( text != null )
 				{
 					oldValue = text;
