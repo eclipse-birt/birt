@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ExtendElementAction;
@@ -117,7 +118,7 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 					Messages.getString( "NewThemeDialog.DialogMessage" ), //$NON-NLS-1$
 					theme.getName( ),
 					ChoiceSetFactory.getThemes( ),
-					null );
+					IHelpContextIds.NEW_THEME_DIALOG_ID );
 
 			inputDialog.create( );
 
