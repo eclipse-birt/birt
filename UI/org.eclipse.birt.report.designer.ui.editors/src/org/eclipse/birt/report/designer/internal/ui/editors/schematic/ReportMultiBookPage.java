@@ -192,11 +192,11 @@ public class ReportMultiBookPage extends Page implements
 			page = getEmptyPage( );
 		}
 
-		if ( previousPage instanceof IReportPageBookViewPage )
-		{
-			( (IReportPageBookViewPage) previousPage ).getSelectionProvider( )
-					.removeSelectionChangedListener( selectionChangedListener );
-		}
+//		if ( previousPage instanceof IReportPageBookViewPage )
+//		{
+//			( (IReportPageBookViewPage) previousPage ).getSelectionProvider( )
+//					.removeSelectionChangedListener( selectionChangedListener );
+//		}
 
 		if ( currentPage != null
 				&& currentPage != getEmptyPage( )
