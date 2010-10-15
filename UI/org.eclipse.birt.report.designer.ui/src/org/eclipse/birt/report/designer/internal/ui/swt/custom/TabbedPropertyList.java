@@ -585,7 +585,7 @@ public class TabbedPropertyList extends Canvas
 	 */
 	protected void computeTabsThatFitInComposite( )
 	{
-		tabsThatFitInComposite = Math.round( ( getSize( ).y - 22 )
+		tabsThatFitInComposite = Math.round( ( (float) ( getSize( ).y - 22 ) )
 				/ getTabHeight( ) );
 		if ( tabsThatFitInComposite <= 0 )
 		{
