@@ -151,6 +151,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = table.getStyle( );
 		
+		boolean isInline = false;
 		// output the display
 		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
 		if ( IStyle.NONE_VALUE == display )
@@ -159,6 +160,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		}
 		else if ( IStyle.INLINE_VALUE == display || IStyle.INLINE_BLOCK_VALUE == display )
 		{
+			isInline = true;
 			// implement the inline table for old version browser
 			if ( !reportEmitter.browserSupportsInlineBlock )
 			{
@@ -231,7 +233,14 @@ public class HTMLVisionOptimize extends HTMLEmitter
 				{
 					// In Firefox, if a table hasn't a width, the
 					// " table-layout:fixed;"
-					styleBuffer.append( " width: auto;" );
+					if ( isInline )
+					{
+						styleBuffer.append( " width: auto;" );
+					}
+					else
+					{
+						styleBuffer.append( " width: 1px;" );
+					}
 				}
 				// build the table-layout
 				styleBuffer.append( " overflow:hidden; table-layout:fixed;" );
