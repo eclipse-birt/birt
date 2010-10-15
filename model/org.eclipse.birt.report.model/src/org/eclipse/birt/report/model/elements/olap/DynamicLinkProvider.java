@@ -248,7 +248,7 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider
 		return null;
 	}
 
-	public class LayoutInfor
+	public static class LayoutInfor
 	{
 
 		/**

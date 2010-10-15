@@ -147,7 +147,7 @@ public class CompatibleOdaDataSourcePropertyState extends PropertyState
 
 	static boolean isOldOdaDriverProperty( String propertyName )
 	{
-		return propertyName != getNewOdaDriverProperty( propertyName );
+		return !propertyName.equals( getNewOdaDriverProperty( propertyName ) );
 	}
 
 	static boolean isOdaDriverModelProperty( String propertyName )

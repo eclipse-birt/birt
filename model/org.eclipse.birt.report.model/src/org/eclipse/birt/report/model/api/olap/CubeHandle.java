@@ -118,8 +118,7 @@ public abstract class CubeHandle extends ReportElementHandle
 	public DimensionHandle getLocalDimension( String dimensionName )
 	{
 		DesignElement dimension = module.findDimension( dimensionName );
-		if ( dimension instanceof Dimension
-				&& dimension.isContentOf( getElement( ) ) )
+		if ( dimension != null && dimension.isContentOf( getElement( ) ) )
 			return (DimensionHandle) dimension.getHandle( module );
 
 		// find the dimension according to the name in the parent cube.

@@ -12,7 +12,7 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 	/**
 	 * oad extension loader instance.
 	 */
-	private static OdaExtensionLoaderFactory instance = null;
+	private static volatile OdaExtensionLoaderFactory instance = null;
 
 	/**
 	 * Initializes the factory to set the base factory whcih can return teh real

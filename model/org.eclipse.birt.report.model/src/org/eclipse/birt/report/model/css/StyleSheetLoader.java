@@ -118,7 +118,7 @@ public final class StyleSheetLoader
 	 * 
 	 */
 
-	public void Reinit( )
+	public void reInit( )
 	{
 		parser = new CssParser( );
 		this.module = null;

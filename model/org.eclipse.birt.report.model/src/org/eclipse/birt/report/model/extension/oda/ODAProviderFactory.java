@@ -37,7 +37,7 @@ public class ODAProviderFactory
 	/**
 	 * The only one ODAProviderFactory instance.
 	 */
-	private static ODAProviderFactory instance = null;
+	private static volatile ODAProviderFactory instance = null;
 
 	private static IODAFilterExprProvider filterProvider = null;
 
