@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.api.ExpressionType;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -123,17 +124,26 @@ public class ExpressionButtonProvider implements IExpressionButtonProvider
 
 			if ( builder != null )
 			{
-				input.openExpressionBuilder( builder, exprType );
+				if ( Window.OK == input.openExpressionBuilder( builder,
+						exprType ) )
+				{
+					input.notifyExpressionChangeEvent( sOldExpr,
+							input.getExpression( ) );
+				}
 			}
 			else
 			{
 				input.setExpressionType( exprType );
+				input.notifyExpressionChangeEvent( sOldExpr,
+						input.getExpression( ) );
 			}
 		}
-		else{
+		else
+		{
 			input.setExpressionType( exprType );
+			input.notifyExpressionChangeEvent( sOldExpr, input.getExpression( ) );
 		}
-		input.notifyExpressionChangeEvent( sOldExpr, input.getExpression( ) );
+
 	}
 
 	public IExpressionSupport getExpressionSupport( String exprType )

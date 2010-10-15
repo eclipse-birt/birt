@@ -1284,7 +1284,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	}
 
 	private void createMultiValueExpressionButton( Composite parent,
-			final CCombo CCombo )
+			final CCombo combo )
 	{
 		Listener listener = new Listener( ) {
 
@@ -1294,7 +1294,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 				boolean change = false;
 
-				Expression expression = ExpressionButtonUtil.getExpression( CCombo );
+				Expression expression = ExpressionButtonUtil.getExpression( combo );
 				if ( valueList.indexOf( expression ) < 0 )
 				{
 					valueList.add( expression );
@@ -1305,13 +1305,14 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				{
 					tableViewer.refresh( );
 					updateButtons( );
-					CCombo.setFocus( );
+					combo.setFocus( );
+					combo.setText( "" );
 				}
 			}
 		};
 
 		ExpressionButtonUtil.createExpressionButton( parent,
-				CCombo,
+				combo,
 				getCrosstabExpressionProvider( ),
 				designHandle,
 				listener );

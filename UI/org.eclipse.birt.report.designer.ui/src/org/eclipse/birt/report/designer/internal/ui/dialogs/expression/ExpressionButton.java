@@ -132,7 +132,7 @@ public class ExpressionButton
 			helper.setExpression( expression );
 	}
 
-	protected void openExpressionBuilder( IExpressionBuilder builder,
+	protected int openExpressionBuilder( IExpressionBuilder builder,
 			String expressionType )
 	{
 		builder.setExpression( getExpression( ) );
@@ -154,7 +154,10 @@ public class ExpressionButton
 						: result.toString( );
 				helper.setExpression( newExpression );
 			}
+
+			return Window.OK;
 		}
+		return Window.CANCEL;
 	}
 
 	public void notifyExpressionChangeEvent( String oldExpression,
