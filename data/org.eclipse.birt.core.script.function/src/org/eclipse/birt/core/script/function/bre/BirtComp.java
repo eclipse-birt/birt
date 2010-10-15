@@ -346,85 +346,86 @@ public class BirtComp implements IScriptFunctionExecutor
 	 * @throws BirtException
 	 * @throws DataException
 	 */
-	private static boolean like( Object obj1, Object obj2 )
+	private static boolean like( Object source, Object pattern, boolean ignorecase ) throws BirtException
 	{
-		if ( obj2 == null )
+		String sourceStr = null;
+		sourceStr = (source == null)? "": DataTypeUtil.toLocaleNeutralString( source );
+		String patternStr;
+		patternStr = ( pattern == null )? "" : DataTypeUtil.toLocaleNeutralString( pattern );
+		
+		// As per Bugzilla 115940, LIKE operator's pattern syntax is SQL-like: it
+		// recognizes '_' and '%'. Backslash '\' escapes the next character.
+		
+		// Construct a Java RegExp pattern based on input. We need to translate 
+		// unescaped '%' to '.*', and '_' to '.'
+		// Also need to escape any RegExp metacharacter in the source pattern.
+		
+		final String reservedChars = "([{^$|)?*+.";
+		int patternLen = patternStr.length();
+		StringBuffer buffer = new StringBuffer( patternLen * 2 );
+		
+		for ( int i = 0; i < patternLen; i++)
 		{
-			return false;
-		}
-		if ( obj1 == null )
-		{
-			return false;
-		}
-		String str = obj1.toString( );
-		String pattern = toPatternString( obj2.toString( ) );
-		return str.matches( pattern );
-	}
-	
-	/**
-	 * Transfers the user-input string to the Pattern regular expression
-	 * 
-	 * @param regex
-	 * @return
-	 */
-	private static String toPatternString( String regex )
-	{
-		String pattern = "";
-		boolean preserveFlag = false;
-		for( int i = 0; i < regex.length( ); i++ )
-		{
-			char c = regex.charAt( i );
+			char c = patternStr.charAt(i);
 			if ( c == '\\' )
 			{
-				pattern = handlePreservedString( preserveFlag, pattern );
-				preserveFlag = false;
-				pattern += c;
-				i++;
-				if ( i < regex.length( ) )
+				// Escape char; copy next character to new pattern if 
+				// it is '\', '%' or '_'
+				++i;
+				if ( i < patternLen )
 				{
-					pattern += regex.charAt( i );
-				}
-			}
-			else if ( c == '%' )
-			{
-				pattern = handlePreservedString( preserveFlag, pattern );
-				preserveFlag = false;
-				pattern += ".*";
-			}
-			else if ( c == '_' )
-			{
-				pattern = handlePreservedString( preserveFlag, pattern );
-				preserveFlag = false;
-				pattern += ".";
-			}
-			else
-			{
-				if( preserveFlag )
-				{
-					pattern += c;
+					c = patternStr.charAt( i );
+					if ( c == '%' || c == '_' )
+						buffer.append( c );
+					else if ( c == '\\' )
+						buffer.append( "\\\\");		// Need to escape \
 				}
 				else
 				{
-					pattern = pattern + "\\Q" + c;
-					preserveFlag = true;
+					buffer.append( "\\\\" );  	// Leave last \ and escape it
 				}
 			}
+			else if ( c == '%')
+			{
+				buffer.append(".*");
+			}
+			else if ( c == '_')
+			{
+				buffer.append(".");
+			}
+			else
+			{
+				// Copy this char to target, escape if it is a metacharacter
+				if ( reservedChars.indexOf(c) >= 0 )
+				{
+					buffer.append('\\');
+				}
+				buffer.append(c);
+			}
 		}
-		if( preserveFlag )
+		
+		try
 		{
-			pattern += "\\E";
+			String newPatternStr = buffer.toString( );
+			Pattern p = null;
+			if( !ignorecase )
+			{
+				p = Pattern.compile( newPatternStr );
+			}
+			else
+			{
+				p = Pattern.compile( newPatternStr, Pattern.CASE_INSENSITIVE );
+			}
+			Matcher m = p.matcher( sourceStr.toString( ) );
+			return m.matches( );
 		}
-		return pattern;		
+		catch ( PatternSyntaxException e )
+		{
+			throw new BirtException( e.getMessage( ) );
+		}
 	}
 	
-	private static String handlePreservedString( boolean preserveFlag, String pattern )
-	{
-		if( preserveFlag )
-		{
-			pattern += "\\E";
-		}
-		return pattern;
-	}
+	
 
 	private class Function_AnyOf implements IScriptFunctionExecutor
 	{
@@ -634,7 +635,7 @@ public class BirtComp implements IScriptFunctionExecutor
 						return compareString( args[0], args[1], false, false ) == 0;
 					}
 				}
-				if ( args == null || args.length != 2 )
+				if ( args == null || ( args.length != 2 && this.mode != MODE_LIKE ) )
 				{
 					throwException( );
 				}
@@ -654,11 +655,18 @@ public class BirtComp implements IScriptFunctionExecutor
 					case MODE_LESSOREQUAL :
 						return new Boolean( compare( args[0], args[1] ) <= 0 );
 					case MODE_LIKE :
-						return new Boolean( like( args[0], args[1] ) );
+						if( args.length == 2 )
+						{
+							return new Boolean( like( args[0], args[1], false ) );
+						}
+						else
+						{
+							return new Boolean( like( args[0], args[1], DataTypeUtil.toBoolean( args[2] ) ) );
+						}
 					case MODE_MATCH :
 						return new Boolean( match( args[0], args[1] ) );
 					case MODE_NOT_LIKE :
-						return new Boolean( !like( args[0], args[1] ) );
+						return new Boolean( !like( args[0], args[1], false ) );
 					default :
 						return null;
 				}

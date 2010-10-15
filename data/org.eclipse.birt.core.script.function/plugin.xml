@@ -183,6 +183,8 @@
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
    			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="ignoreCase" isOptional="true">
+   			<DataType value="Boolean"></DataType></Argument>
    	</Function>
    	<Function
           desc="%FunctionDesc.notLike"
