@@ -75,8 +75,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
@@ -142,8 +140,6 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected IChartPreviewPainter previewPainter = null;
 	private Canvas previewCanvas = null;
-
-	private RowData rowData = new RowData( 80, 80 );
 
 	protected String sSubType = null;
 
@@ -545,6 +541,7 @@ public class TaskSelectType extends SimpleTask implements
 		cmpSubTypes.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartSubtypes" ) ); //$NON-NLS-1$
 		cmpSubTypes.setLayout( new GridLayout( ) );
 		cmpSubTypes.setVisible( true );
+		cmpSubTypes.layout( true );
 	}
 
 	/**
@@ -560,12 +557,13 @@ public class TaskSelectType extends SimpleTask implements
 			cmpTypeButtons.dispose( );
 		}
 		cmpTypeButtons = new Composite( cmpSubTypes, SWT.NONE );
-		RowLayout rowLayout = new RowLayout( );
+		cmpTypeButtons.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		GridLayout rowLayout = new GridLayout( vSubTypes.size( ), false );
 		rowLayout.marginTop = 0;
 		rowLayout.marginLeft = 0;
 		rowLayout.marginBottom = 12;
 		rowLayout.marginRight = 12;
-		rowLayout.spacing = 4;
+		rowLayout.horizontalSpacing = 4;
 		cmpTypeButtons.setLayout( rowLayout );
 
 		// Add new buttons for this type
@@ -573,15 +571,17 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			IChartSubType subType = vSubTypes.get( iC );
 			vSubTypeNames.add( subType.getName( ) );
-			Button btnType = new Button( cmpTypeButtons, SWT.TOGGLE );
+			Button btnType = new Button( cmpTypeButtons, SWT.TOGGLE | SWT.FLAT );
 			btnType.setData( subType.getName( ) );
 			btnType.setImage( subType.getImage( ) );
-			btnType.setLayoutData( rowData );
+			GridData gd = new GridData( );
+			gd.widthHint = 80;
+			gd.heightHint = 80;
+			btnType.setLayoutData( gd );
 			btnType.addSelectionListener( this );
 			btnType.setToolTipText( subType.getDescription( ) );
 			btnType.getImage( ).setBackground( btnType.getBackground( ) );
 			btnType.setVisible( true );
-			cmpTypeButtons.layout( true );
 			
 			if ( getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART ) )
 			{
@@ -589,8 +589,7 @@ public class TaskSelectType extends SimpleTask implements
 				break;
 			}
 		}
-		cmpTypeButtons.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		cmpSubTypes.layout( true );
+
 	}
 
 	private void populateSeriesTypes( Collection<IChartType> allChartType,
