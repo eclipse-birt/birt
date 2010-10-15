@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 import java.util.Comparator;
 
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
 /**
@@ -23,10 +24,12 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 public class AggregationResultRowComparator implements Comparator<IAggregationResultRow>
 {
 	private int[] keyLevelIndexs;
+	private int[] sortTypes;
 	
-	AggregationResultRowComparator( int[] keyLevelIndexs )
+	AggregationResultRowComparator( int[] keyLevelIndexs, int[] sortTypes )
 	{
 		this.keyLevelIndexs = keyLevelIndexs;
+		this.sortTypes = sortTypes;
 	}
 
 	/*
@@ -47,6 +50,8 @@ public class AggregationResultRowComparator implements Comparator<IAggregationRe
 				continue;
 			}
 			int result = ( member1[keyLevelIndexs[i]] ).compareTo( member2[keyLevelIndexs[i]] );
+			if( sortTypes != null && sortTypes[i] == IDimensionSortDefn.SORT_DESC )
+				result = result * -1;
 			if ( result < 0 )
 			{
 				return result;

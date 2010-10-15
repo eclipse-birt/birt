@@ -30,11 +30,12 @@ public class SortedAggregationRowArray
 {
 	IAggregationResultSet aggregationResultSet;
 	private IDiskArray sortedRows = null;
+	int[] sortTypes = null;
 	
-	public SortedAggregationRowArray( IAggregationResultSet aggregationResultSet, DimLevel[] keyLevels ) throws IOException
+	public SortedAggregationRowArray( IAggregationResultSet aggregationResultSet, DimLevel[] keyLevels, int[] sortTypes ) throws IOException
 	{
 		this.aggregationResultSet = aggregationResultSet;
-		
+		this.sortTypes = sortTypes;
 		if( keyLevels != null && needReSort( keyLevels ) )
 		{
 			sort( keyLevels );
@@ -57,7 +58,7 @@ public class SortedAggregationRowArray
 	{
 		int[] keyLevelIndexes = getKeyLevelIndexs( keyLevels );
 		
-		Comparator<IAggregationResultRow> comparator = new AggregationResultRowComparator( keyLevelIndexes );
+		Comparator<IAggregationResultRow> comparator = new AggregationResultRowComparator( keyLevelIndexes, sortTypes );
 		DiskSortedStack diskSortedStack = new DiskSortedStack( Constants.FACT_TABLE_BUFFER_SIZE,
 				false,
 				comparator,
