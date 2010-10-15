@@ -2911,6 +2911,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				{
 					setFirstDefaultValue( modelValue, type );
 				}
+				else
+				{
+					updateMessageLine( );
+					updateFormatField( );
+				}
 				if ( isStatic( ) )
 				{
 					refreshStaticValueTable( );
