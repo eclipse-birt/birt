@@ -40,6 +40,7 @@ public class SimpleFunctionCalculator extends BaseAggregationCalculator
 			keyLevelIndex = null;
 		}
 		facttableRow = new FacttableRow( getMeasureInfo( ), null, null );
+		this.sortTypes = aggregation.getSortTypes( );
 	}
 	
 	/*
@@ -51,9 +52,9 @@ public class SimpleFunctionCalculator extends BaseAggregationCalculator
 		AggregationResultRowComparator comparator = null;
 		if( keyLevelIndex != null )
 		{
-			comparator = new AggregationResultRowComparator( keyLevelIndex );
+			comparator = new AggregationResultRowComparator( keyLevelIndex, sortTypes );
 		}
-		SortedAggregationRowArray sortedRows = new SortedAggregationRowArray( aggrResultSet, aggregation.getLevels( ) );
+		SortedAggregationRowArray sortedRows = new SortedAggregationRowArray( aggrResultSet, aggregation.getLevels( ), sortTypes );
 		
 		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
 		if( aggrResultSet.length( ) <= 0 )

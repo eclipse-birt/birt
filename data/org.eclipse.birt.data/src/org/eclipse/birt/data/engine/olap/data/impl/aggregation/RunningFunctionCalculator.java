@@ -49,6 +49,7 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator
 		}
 		facttableRow = new FacttableRow( getMeasureInfo( ), null, null );
 		needMultiplePass = needMultiplePass( aggregation );
+		this.sortTypes = aggregation.getSortTypes( );
 	}
 	
 	/**
@@ -95,9 +96,9 @@ public class RunningFunctionCalculator extends BaseAggregationCalculator
 		AggregationResultRowComparator comparator = null;
 		if( aggregation.getLevels( ) != null )
 		{
-			comparator = new AggregationResultRowComparator( getKeyLevelIndexs( aggregation.getLevels( ) ) );
+			comparator = new AggregationResultRowComparator( getKeyLevelIndexs( aggregation.getLevels( ) ), sortTypes );
 		}
-		SortedAggregationRowArray sortedRows = new SortedAggregationRowArray( aggrResultSet, aggregation.getLevels( ) );
+		SortedAggregationRowArray sortedRows = new SortedAggregationRowArray( aggrResultSet, aggregation.getLevels( ), sortTypes );
 		
 		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
 		

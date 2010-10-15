@@ -44,6 +44,7 @@ public abstract class BaseAggregationCalculator implements IAggregationCalculato
 	protected IAggregationResultSet aggrResultSet;
 	protected AggregationDefinition aggregation;
 	protected ColumnInfo[] paraInfo;
+	protected int[] sortTypes;
 	
 	BaseAggregationCalculator( AggregationDefinition aggregation, IAggregationResultSet aggrResultSet ) throws DataException, IOException
 	{
