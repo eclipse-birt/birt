@@ -2890,6 +2890,16 @@ public final class AutoScale extends Methods implements Cloneable
 
 			setTickCordinates( atc );
 			checkTickLabelsVisibility( xs, la, iLabelLocation );
+			
+			// If the factor is set, the max value that axis can display will
+			// depend on the length of axis, so here must adjust the maximum
+			// once axis's Start or End are changed.
+			double length = Math.abs( this.dEnd - this.dStart );
+			double valueLength = length * getFactor( );
+			double dMaxValue = ( (Number) this.getMinimum( ) ).doubleValue( )
+					+ valueLength;
+			this.setMaximum( Double.valueOf( dMaxValue ) );
+			
 			return stepNum + 1;
 		}
 
