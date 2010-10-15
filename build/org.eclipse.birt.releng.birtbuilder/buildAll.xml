@@ -850,7 +850,7 @@
 		</antcall>
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.wtp.nl" />
-        	<property name="fetchTag" value="BIRT_2_6_1_Branch" />
+        	<property name="fetchTag" value="HEAD" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
 		</ant>
