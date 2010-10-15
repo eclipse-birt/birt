@@ -9,7 +9,7 @@ fragment@org.eclipse.birt.report.engine.testhelper=v20101014,:ext:xgu@dev.eclips
 plugin@org.eclipse.birt.report.engine.emitter.html.tests=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html.tests
 plugin@org.eclipse.birt.report.engine.emitter.pdf.tests=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf.tests
 plugin@org.eclipse.birt.report.engine.emitter.postscript.tests=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.postscript.tests
-plugin@org.eclipse.birt.report.engine.emitter.prototype.excel.tests=v20101011,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel.tests
+plugin@org.eclipse.birt.report.engine.emitter.prototype.excel.tests=v20101015,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel.tests
 
 !**************** model test  *******************
 plugin@org.eclipse.birt.report.model.tests=v20101014,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.tests
