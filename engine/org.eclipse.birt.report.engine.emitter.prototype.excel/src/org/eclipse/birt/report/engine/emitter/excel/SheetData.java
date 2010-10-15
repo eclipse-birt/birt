@@ -28,9 +28,9 @@ public abstract class SheetData
 
 	protected int rowIndex;
 
-	private int startX;
+	protected int startX;
 
-	private int endX;
+	protected int endX;
 
 	protected int dataType = STRING;
 
