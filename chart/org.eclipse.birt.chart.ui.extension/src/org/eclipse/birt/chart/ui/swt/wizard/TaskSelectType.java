@@ -541,7 +541,6 @@ public class TaskSelectType extends SimpleTask implements
 		cmpSubTypes.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartSubtypes" ) ); //$NON-NLS-1$
 		cmpSubTypes.setLayout( new GridLayout( ) );
 		cmpSubTypes.setVisible( true );
-		cmpSubTypes.layout( true );
 	}
 
 	/**
@@ -582,6 +581,7 @@ public class TaskSelectType extends SimpleTask implements
 			btnType.setToolTipText( subType.getDescription( ) );
 			btnType.getImage( ).setBackground( btnType.getBackground( ) );
 			btnType.setVisible( true );
+			cmpTypeButtons.layout( true );
 			
 			if ( getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART ) )
 			{
@@ -589,7 +589,7 @@ public class TaskSelectType extends SimpleTask implements
 				break;
 			}
 		}
-
+		cmpSubTypes.layout( true );
 	}
 
 	private void populateSeriesTypes( Collection<IChartType> allChartType,
