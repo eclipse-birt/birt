@@ -869,7 +869,7 @@ public class LegacySpecParser extends HtmlDocReader
 				break;
 			choice.name = value;
 			descrip = getCell( prop, descrip, false );
-			if ( value == null )
+			if ( descrip == null )
 				break;
 			choice.description = descrip;
 			prop.addChoice( choice );

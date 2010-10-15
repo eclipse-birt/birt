@@ -282,7 +282,7 @@ public class LibraryHandle extends LayoutModuleHandle implements ILibraryModel
 					// Copy CssStyle to Style
 
 					SharedStyleHandle newStyle = StyleUtil
-							.TransferCssStyleToSharedStyle( module, style );
+							.transferCssStyleToSharedStyle( module, style );
 
 					if ( newStyle == null )
 						continue;

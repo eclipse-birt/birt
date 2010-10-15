@@ -466,7 +466,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 			{
 				// Copy CssStyle to Style
 				SharedStyleHandle newStyle = StyleUtil
-						.TransferCssStyleToSharedStyle( module, style );
+						.transferCssStyleToSharedStyle( module, style );
 				if ( newStyle == null )
 					continue;
 				module.makeUniqueName( newStyle.getElement( ) );

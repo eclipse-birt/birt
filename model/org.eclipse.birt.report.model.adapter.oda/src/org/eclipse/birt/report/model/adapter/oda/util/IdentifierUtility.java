@@ -47,28 +47,32 @@ public class IdentifierUtility
 	public static String getUniqueColumnName( Set orgColumnNameSet,
 			Set newColumnNameSet, String columnNativeName, int index )
 	{
-		String newColumnName;
+		String newColumnName = null;
 		if ( columnNativeName == null
 				|| columnNativeName.trim( ).length( ) == 0
 				|| newColumnNameSet.contains( columnNativeName ) )
 		{
 			// name conflict or no name,give this column a unique name
-
+			StringBuffer columnName = new StringBuffer( );
+			
 			if ( columnNativeName == null
 					|| columnNativeName.trim( ).length( ) == 0 )
-				newColumnName = UNNAME_PREFIX + RENAME_SEPARATOR
-						+ String.valueOf( index + 1 );
+				columnName.append( UNNAME_PREFIX );
 			else
-				newColumnName = columnNativeName + RENAME_SEPARATOR
-						+ String.valueOf( index + 1 );
+				columnName.append( columnNativeName );
 
+			
+			columnName.append( RENAME_SEPARATOR	);
+			columnName.append( index + 1 );
+			
 			int i = 1;
 			while ( orgColumnNameSet.contains( newColumnName )
 					|| newColumnNameSet.contains( newColumnName ) )
 			{
-				newColumnName += String.valueOf( RENAME_SEPARATOR ) + i;
+				columnName.append( String.valueOf( RENAME_SEPARATOR ) + i );
 				i++;
 			}
+			newColumnName = columnName.toString( );
 		}
 		else
 		{

@@ -106,11 +106,12 @@ class ContextCopyPasteBasePolicy
 			assert false;
 		}
 
-		ContextCopiedElement retValue = new ContextCopiedElement( destination,
-				localized, xpath, location, libLocation, extendsElementID, root
-						.getPropertyBindings( source ) );
+		List<PropertyBinding> propertyBindings = null;
+		if ( root != null )
+			propertyBindings = root.getPropertyBindings( source );
 
-		return retValue;
+		return new ContextCopiedElement( destination, localized, xpath, location,
+				libLocation, extendsElementID, propertyBindings );
 	}
 
 	/**

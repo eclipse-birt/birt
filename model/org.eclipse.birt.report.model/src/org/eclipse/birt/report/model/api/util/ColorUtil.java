@@ -436,7 +436,7 @@ public class ColorUtil
 		String[] numbers = subStr1.split( "," ); //$NON-NLS-1$
 
 		// #FF0000
-		String colorValue = "#"; //$NON-NLS-1$
+		StringBuilder colorValue = new StringBuilder( "#" ); //$NON-NLS-1$
 
 		// parse String( base 10 ) into String( base 16 )
 
@@ -471,10 +471,10 @@ public class ColorUtil
 			String strValue = "0" + Integer.toHexString( intValue ); //$NON-NLS-1$
 			strValue = strValue.substring( strValue.length( ) - 2 );
 
-			colorValue = colorValue + strValue;
+			colorValue.append( strValue );
 		}
 
-		return Integer.decode( colorValue ).intValue( );
+		return Integer.decode( colorValue.toString( ) ).intValue( );
 
 	}
 

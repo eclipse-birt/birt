@@ -58,16 +58,15 @@ public class StyleUtil
 				values.add( "\"" + family + "\"" ); //$NON-NLS-1$//$NON-NLS-2$
 			}
 		}
-		String result = ""; //$NON-NLS-1$
+		StringBuilder result = new StringBuilder( ); 
 		for ( int i = 0; i < values.size( ); i++ )
 		{
-			if ( i == 0 )
-				result += values.get( i );
-			else
-				result = result + splitter + " " + values.get( i ); //$NON-NLS-1$
+			if ( i != 0 )
+				result.append( splitter ).append( " " );
+			result.append( values.get( i ) );
 		}
 
-		return result;
+		return result.toString( );
 	}
 
 	/**
@@ -77,7 +76,7 @@ public class StyleUtil
 	 * @param cssStyleHandle
 	 * @return the shared style handle from the css style handle
 	 */
-	public static SharedStyleHandle TransferCssStyleToSharedStyle(
+	public static SharedStyleHandle transferCssStyleToSharedStyle(
 			Module module, SharedStyleHandle cssStyleHandle )
 	{
 		if ( cssStyleHandle == null )

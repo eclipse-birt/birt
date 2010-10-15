@@ -606,8 +606,6 @@ public class ElementStructureUtil
 			DesignElement virtualParent = parentIter.next( );
 			DesignElement virtualChild = childIter.next( );
 
-			assert virtualChild.getDefn( ).getName( ) == virtualChild.getDefn( )
-					.getName( );
 			assert virtualParent.getID( ) > 0;
 
 			idMap.put( Long.valueOf( virtualParent.getID( ) ), virtualChild );
