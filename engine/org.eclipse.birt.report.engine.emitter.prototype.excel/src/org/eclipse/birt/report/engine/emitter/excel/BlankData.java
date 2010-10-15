@@ -32,10 +32,6 @@ public class BlankData extends Data
 		this.data = data;
 	}
 
-	public BlankData( )
-	{
-	}
-
 	public boolean isBlank()
 	{
 		return true;
@@ -48,52 +44,42 @@ public class BlankData extends Data
 
     public int getRowSpan( )
     {
-    	if ( data != null )
-    	{
-    		return data.getRowSpan( );
-    	}
-    	return 0;
+		return data.getRowSpan( );
     }
     
     public void setRowSpan( int rowSpan )
     {
-    	if ( data != null )
-    	{
-    		data.setRowSpan( rowSpan );
-    	}
+		data.setRowSpan( rowSpan );
     }
+
     public int getRowSpanInDesign( )
     {
-    	if ( data != null )
-    	{
-    		return data.getRowSpanInDesign( );
-    	}
-    	return 0;
+		return data.getRowSpanInDesign( );
     }
     
 	public void decreasRowSpanInDesign( )
 	{
-		if ( data != null )
-		{
-			data.decreasRowSpanInDesign( );
-		}
+		data.decreasRowSpanInDesign( );
 	}
 
 	public float getHeight( )
 	{
-		if ( data != null )
-		{
-			return data.getHeight( );
-		}
-		return super.getHeight( );
+		return data.getHeight( );
 	}
 
 	public void setHeight( float height )
 	{
-		if ( data != null )
-		{
-			data.setHeight( height );
-		}
+		data.setHeight( height );
+	}
+
+	public int getStartX( )
+	{
+		return data.getStartX( );
+	}
+
+	public int getEndX( )
+	{
+		return data.getEndX( );
 	}
 
 	public Type getType( )
