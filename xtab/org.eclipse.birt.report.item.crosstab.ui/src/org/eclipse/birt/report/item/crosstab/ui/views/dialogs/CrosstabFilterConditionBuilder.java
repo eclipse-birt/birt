@@ -1295,6 +1295,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				boolean change = false;
 
 				Expression expression = ExpressionButtonUtil.getExpression( combo );
+				if ( expression == null
+						|| expression.getStringExpression( ).trim( ).length( ) == 0 )
+					return;
 				if ( valueList.indexOf( expression ) < 0 )
 				{
 					valueList.add( expression );
