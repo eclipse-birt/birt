@@ -636,16 +636,25 @@ public abstract class QueryExecutor implements IQueryExecutor
 				IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
 						sortKey,
 						src.getSortDirection( ) == ISortDefinition.SORT_ASC,
-						src.getSortStrength( ) == -1
-								? null
-								: Collator.getInstance( src.getSortLocale( ) == null
-										? session.getEngineContext( )
-												.getLocale( )
-										: src.getSortLocale( ) ) );
+						createCollator( src )
+					 );
 				sortSpecs[i] = dest;
 			}
 			odiQuery.setOrdering( Arrays.asList( sortSpecs ) );
 		}
+	}
+	
+	private Collator createCollator( ISortDefinition sd )
+	{
+		if ( sd.getSortStrength( ) != -1 )
+		{
+			Collator c = Collator.getInstance( sd.getSortLocale( ) == null
+							? session.getEngineContext( ).getLocale( )
+									: sd.getSortLocale( ) );
+			c.setStrength( sd.getSortStrength( ) );
+			return c;
+		}
+		return null;
 	}
 
 	private String getDataSetExpr( String rowExpr ) throws DataException
