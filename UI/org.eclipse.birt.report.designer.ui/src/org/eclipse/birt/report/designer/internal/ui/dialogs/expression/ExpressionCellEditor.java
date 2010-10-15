@@ -381,9 +381,9 @@ public class ExpressionCellEditor extends CellEditor
 
 	protected void doSetValue( Object value )
 	{
-		editor.removeModifyListener( getModifyListener( ) );
-		if ( editor != null && value != null )
+		if ( editor != null )
 		{
+			editor.removeModifyListener( getModifyListener( ) );
 			if ( value instanceof Expression )
 			{
 				editor.setText( DEUtil.resolveNull( ( (Expression) value ).getStringExpression( ) ) );
@@ -403,8 +403,8 @@ public class ExpressionCellEditor extends CellEditor
 						UIUtil.getDefaultScriptType( ) );
 			}
 			refresh( );
+			editor.addModifyListener( getModifyListener( ) );
 		}
-		editor.addModifyListener( getModifyListener( ) );
 	}
 
 	protected void setExpressionType( String exprType )
