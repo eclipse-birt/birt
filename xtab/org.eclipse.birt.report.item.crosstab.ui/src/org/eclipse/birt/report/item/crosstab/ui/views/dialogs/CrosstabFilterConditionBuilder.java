@@ -78,6 +78,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
@@ -2085,7 +2086,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 								IExpressionConverter.EXPRESSION_CLASS_CUBE );
 			}
 
-			ReportDesignHandle copy = (ReportDesignHandle) ( designHandle.getModuleHandle( )
+			ModuleHandle copy = (ModuleHandle)( designHandle.getModuleHandle( )
 					.copy( ).getHandle( null ) );
 
 			EngineConfig config = new EngineConfig( );
