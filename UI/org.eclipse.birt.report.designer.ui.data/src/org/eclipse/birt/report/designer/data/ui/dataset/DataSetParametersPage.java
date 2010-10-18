@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.model.adapter.oda.ReportParameterAdapter;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -484,11 +485,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			{
 				try
 				{
-					reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
 					ReportParameterAdapter adapter = new ReportParameterAdapter( );
 					adapter.updateLinkedReportParameter( reportParameter,
 							datasetParameter,
 							( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
+					if ( reportParameter.getContainer( ) != null
+							&& reportParameter.getContainer( ) instanceof CascadingParameterGroupHandle )
+						reportParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
+					reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
 				}
 				catch ( SemanticException e )
 				{
