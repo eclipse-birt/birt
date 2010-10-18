@@ -65,6 +65,24 @@ holds the value for each data point in the line.  When rendered, a line connects
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element default="true" minOccurs="0"
+						name="ShowCatLabels" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation>
+								Specifies whether to show the category
+								grid labels.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>					
+					<xsd:element name="RadarAutoScale"
+						type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation>
+								Indicates if use the series should automatically scale 
+								or use scale min max settings.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>					
 					<xsd:element name="WebLabelMax" type="xsd:double"
 						default="100">
 						<xsd:annotation>
@@ -110,10 +128,22 @@ holds the value for each data point in the line.  When rendered, a line connects
 						type="component:Label">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-								Holds the properties for a series title.
+								Holds the properties for web labels.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="CatLabel"
+						type="component:Label">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+								Holds the properties for category labels.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>	
+					<xsd:element name="WebLabelFormatSpecifier"
+				type="attribute:FormatSpecifier" />
+					<xsd:element name="CatLabelFormatSpecifier"
+				type="attribute:FormatSpecifier" />				
 					<xsd:element name="PlotSteps" type="xsd:integer"
 						default="5">
 						<xsd:annotation>

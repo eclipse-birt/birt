@@ -11,12 +11,12 @@
 
 package org.eclipse.birt.chart.examples.radar.render;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withoutaxes.SeriesRenderingHints;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -71,6 +72,7 @@ import org.eclipse.emf.common.util.EList;
  */
 public class Radar extends BaseRenderer
 {
+
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
@@ -81,6 +83,10 @@ public class Radar extends BaseRenderer
 	public static final String SPIDER_SUBTYPE_LITERAL = "Spider Radar Chart"; //$NON-NLS-1$
 
 	public static final String BULLSEYE_SUBTYPE_LITERAL = "Bullseye Radar Chart"; //$NON-NLS-1$
+	
+	public static final String SCRIPT_KEY_WEB = "Web"; //$NON-NLS-1$
+	
+	public static final String SCRIPT_KEY_CATEGORY = "Category"; //$NON-NLS-1$
 
 	static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.examples/render" ); //$NON-NLS-1$
 
@@ -93,15 +99,32 @@ public class Radar extends BaseRenderer
 
 	private double axisMin = Double.MAX_VALUE;
 	private double axisMax = Double.MIN_VALUE;
+	private boolean autoscale = false;
 
 	double getAxisMin( )
 	{
-		return axisMin;
+		if ( autoscale )
+		{
+			double nmin = axisMin - ( axisMin * ( 1.0 / ( scaleCount * 5 ) ) );
+			return nmin;
+		}
+		else
+		{
+			return axisMin;
+		}
 	}
 
 	double getAxisMax( )
 	{
-		return axisMax;
+		if ( autoscale )
+		{
+			double nmax = axisMax + ( axisMax * ( 1.0 / ( scaleCount * 5 ) ) );
+			return nmax;
+		}
+		else
+		{
+			return axisMax;
+		}
 	}
 
 	public Radar( )
@@ -111,6 +134,24 @@ public class Radar extends BaseRenderer
 
 	private void getDsMinMax( )
 	{
+		double calcMin = Double.MAX_VALUE;
+		double calcMax = Double.MIN_VALUE;
+
+		// Auto Scale
+		if ( !getFirstSeries( ).isSetRadarAutoScale( )
+				|| getFirstSeries( ).isRadarAutoScale( ) )
+		{
+			autoscale = true;
+		}
+		else
+		{
+			double taxisMin = getFirstSeries( ).getWebLabelMin( );
+			double taxisMax = getFirstSeries( ).getWebLabelMax( );
+			if ( ( taxisMax - taxisMin ) == 0.0 )
+			{
+				autoscale = true;
+			}
+		}
 
 		PluginSettings ps = PluginSettings.instance( );
 		IDataSetProcessor iDSP = null;
@@ -130,16 +171,16 @@ public class Radar extends BaseRenderer
 			{
 				iDSP = ps.getDataSetProcessor( sea[i].getClass( ) );
 				dst = sea[i].getDataSet( );
-				Double min = (Double) ((Number)iDSP.getMinimum( dst )).doubleValue( );
-				Double max = (Double) ((Number)iDSP.getMaximum( dst )).doubleValue( );
+				Double min = (Double) iDSP.getMinimum( dst );
+				Double max = (Double) iDSP.getMaximum( dst );
 
-				if ( min != null && min < axisMin )
+				if ( min != null && min < calcMin )
 				{
-					this.axisMin = min;
+					calcMin = min;
 				}
-				if ( max != null && max > axisMax )
+				if ( max != null && max > calcMax )
 				{
-					this.axisMax = max;
+					calcMax = max;
 				}
 			}
 			catch ( Exception e )
@@ -147,6 +188,34 @@ public class Radar extends BaseRenderer
 				e.printStackTrace( );
 			}
 		}
+		if ( autoscale )
+		{
+			this.axisMin = calcMin;
+			this.axisMax = calcMax;
+		}
+		else
+		{
+			// manual, but will clip if data entered is to small for max or to
+			// large for min
+			if ( getFirstSeries( ).getWebLabelMin( ) > calcMin )
+			{
+				this.axisMin = calcMin;
+			}
+			else
+			{
+				this.axisMin = getFirstSeries( ).getWebLabelMin( );
+			}
+			if ( getFirstSeries( ).getWebLabelMax( ) < calcMax )
+			{
+				this.axisMax = calcMax;
+			}
+			else
+			{
+				this.axisMax = getFirstSeries( ).getWebLabelMax( );
+			}
+
+		}
+
 	}
 
 	/*
@@ -257,7 +326,7 @@ public class Radar extends BaseRenderer
 						+ iSeriesCount );
 
 		getDsMinMax( );
-			
+
 		render( getDevice( ),
 				srh.getClientAreaBounds( true ),
 				(RadarSeries) getSeries( ),
@@ -314,7 +383,7 @@ public class Radar extends BaseRenderer
 					&& ( ls.isSetPaletteLineColor( ) && ls.isPaletteLineColor( ) ) )
 			{
 				liaMarker = goFactory.copyOf( liaMarker );
-				liaMarker.setColor( goFactory.copyOf( FillUtil.getColor( fPaletteEntry )) );
+				liaMarker.setColor( goFactory.copyOf( FillUtil.getColor( fPaletteEntry ) ) );
 			}
 
 			lre.setLineAttributes( liaMarker );
@@ -369,7 +438,7 @@ public class Radar extends BaseRenderer
 					ls.getLineAttributes( ),
 					fPaletteEntry,
 					null,
-					Integer.valueOf( markerSize ),
+					new Integer( markerSize ),
 					false,
 					false );
 		}
@@ -401,13 +470,19 @@ public class Radar extends BaseRenderer
 			}
 		}
 		// Disconnected Lines
-		if ( !( (RadarSeries) se ).isConnectEndpoints( ) )
+		if ( !( (RadarSeries) se ).isFillPolys( ) )
 		{
 			lre.setLineAttributes( llia );
 			for ( int i = 0; i < ( prelo.length - 1 ); i++ )
 			{
+				if ( prelo[i] == null || prelo[i + 1] == null )
+				{
+					continue;
+				}
+
 				lre.setStart( prelo[i] );
 				lre.setEnd( prelo[i + 1] );
+
 				try
 				{
 					idr.drawLine( lre );
@@ -415,6 +490,23 @@ public class Radar extends BaseRenderer
 				catch ( Exception e )
 				{
 					e.printStackTrace( );
+				}
+			}
+			if ( ( (RadarSeries) se ).isConnectEndpoints( ) )
+			{
+				if ( prelo[0] != null && prelo[prelo.length - 1] != null )
+				{
+					lre.setStart( prelo[0] );
+					lre.setEnd( prelo[prelo.length - 1] );
+					try
+					{
+						idr.drawLine( lre );
+					}
+					catch ( Exception e )
+					{
+						e.printStackTrace( );
+					}
+
 				}
 			}
 		}
@@ -426,10 +518,7 @@ public class Radar extends BaseRenderer
 			try
 			{
 				idr.drawPolygon( pre );
-				if ( ( (RadarSeries) se ).isFillPolys( ) )
-				{
-					idr.fillPolygon( pre );
-				}
+				idr.fillPolygon( pre );
 			}
 			catch ( Exception e )
 			{
@@ -438,11 +527,12 @@ public class Radar extends BaseRenderer
 		}
 	}
 
-	private void renderAxes( IDeviceRenderer idr, PolarCoordinate pc, double magnitude )
+	private void renderAxes( IDeviceRenderer idr, PolarCoordinate pc,
+			Series se, double magnitude )
 	{
 		Location center = pc.getCenter( );
-		int iSeriesCount = getSeriesCount( ) - 1;
-		int iCount = pc.getCount( ) * iSeriesCount;
+		// int iSeriesCount = getSeriesCount( ) - 1;
+		int iCount = pc.getCount( );// * iSeriesCount;
 		pc = new PolarCoordinate( center, iCount, 1, 0 );
 		Location lo = center.copyInstance( );
 
@@ -460,13 +550,10 @@ public class Radar extends BaseRenderer
 		{
 			lia = wlia;
 		}
-		
-		StructureSource ss = StructureSource.createPlot( getModel( ).getPlot( ));
-		
-		final LineRenderEvent lre = ( (EventObjectCache) idr ).getEventObject( ss,
+		final LineRenderEvent lre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
 				LineRenderEvent.class );
 
-		final OvalRenderEvent ore = ( (EventObjectCache) idr ).getEventObject( ss,
+		final OvalRenderEvent ore = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
 				OvalRenderEvent.class );
 
 		lre.setLineAttributes( lia );
@@ -480,6 +567,14 @@ public class Radar extends BaseRenderer
 				pc.computeLocation( lo, i, magnitude );
 				lre.setEnd( lo );
 				idr.drawLine( lre );
+
+				DataPointHints dph = dpha[i];
+				if ( ( rsd.isSetShowCatLabels( ) && rsd.isShowCatLabels( ) )
+						|| ( !rsd.isSetShowCatLabels( ) ) )
+				{
+
+					drawAxisRadialLabel( idr, pc, lo, i, dph.getBaseValue( ) );
+				}
 			}
 
 			String subType = getModel( ).getSubType( );
@@ -589,8 +684,8 @@ public class Radar extends BaseRenderer
 	{
 
 		private final Location center;
-		private final int iSeriesCount;
-		private final int iSeriesIndex;
+		// private final int iSeriesCount;
+		// private final int iSeriesIndex;
 		private final int iCount;
 		private final double delta;
 
@@ -598,8 +693,8 @@ public class Radar extends BaseRenderer
 				int iSeriesIndex )
 		{
 			this.center = center;
-			this.iSeriesCount = iSeriesCount;
-			this.iSeriesIndex = iSeriesIndex;
+			// this.iSeriesCount = iSeriesCount;
+			// this.iSeriesIndex = iSeriesIndex;
 			this.iCount = iCount;
 			delta = 2 * Math.PI / iCount;
 		}
@@ -613,23 +708,25 @@ public class Radar extends BaseRenderer
 		{
 			return iCount;
 		}
-		
+
 		public double getAngle( int index, int iSeriesIndex )
 		{
-			return index * delta + iSeriesIndex * delta / iSeriesCount;
+			return ( index * delta ) * ( -1.0 ) + Math.PI / 2; // + iSeriesIndex
+																// * delta /
+																// iSeriesCount;
 		}
 
 		public double getAngle( int index )
 		{
-			return getAngle( index, iSeriesIndex );
+			return getAngle( index, 0/* iSeriesIndex */);
 		}
 
 		public int getDegree( int index )
 		{
-			double degree =Math.toDegrees( getAngle( index ) )%360;
-			if (degree<0)
+			double degree = Math.toDegrees( getAngle( index ) ) % 360;
+			if ( degree < 0 )
 			{
-				degree+=360;
+				degree += 360;
 			}
 			if ( degree > 180 )
 			{
@@ -641,7 +738,7 @@ public class Radar extends BaseRenderer
 		public Location computeLocation( Location lo, int index,
 				double magnitude )
 		{
-			double angle = getAngle( index, iSeriesIndex );
+			double angle = getAngle( index, 0/* iSeriesIndex */);
 			double x = Math.cos( angle ) * magnitude;
 			double y = Math.sin( angle ) * magnitude;
 			lo.set( center.getX( ) + x, center.getY( ) - y );
@@ -665,23 +762,133 @@ public class Radar extends BaseRenderer
 			return bo;
 		}
 	}
-	
-	private final void drawSeriesLabel( IDeviceRenderer idr,
-			PolarCoordinate pc, DataPointHints dph, Location lo )
+
+	private final void drawAxisRadialLabel( IDeviceRenderer idr,
+			PolarCoordinate pc, Location lo, int cindex, Object lab )
+			throws ChartException
 	{
+		final AbstractScriptHandler<?> sh = getRunTimeContext( ).getScriptHandler( );
+		double space = dSafeSpacing / 2;
+		Label la = null;
+		if ( getFirstSeries( ).getCatLabel( ) != null )
+		{
+			la = goFactory.copyOf( getFirstSeries( ).getCatLabel( ) );
+		}
+		else
+		{
+			la = goFactory.copyOf( getFirstSeries( ).getLabel( ) );
+			la.setVisible( true );
+		}
+		if ( lab == null )
+		{
+			lab = "null"; //$NON-NLS-1$
+		}
+		if ( getFirstSeries( ).getCatLabelFormatSpecifier( ) != null )
+		{
+			FormatSpecifier fs = getFirstSeries( ).getCatLabelFormatSpecifier( );
+
+			String catlabel = ValueFormatter.format( lab,
+					fs,
+					rtc.getULocale( ),
+					null );
+			la.getCaption( ).setValue( catlabel );
+
+		}
+		else
+		{
+			la.getCaption( ).setValue( lab.toString( ) );
+		}
+
+		Location loLabel = lo.copyInstance( );
+
+		final TextRenderEvent tre = ( (EventObjectCache) idr ).getEventObject( WrappedStructureSource.createAxisLabel( null,
+				la ),
+				TextRenderEvent.class );
+		tre.setLabel( la );
+
+		ScriptHandler.callFunction( sh,
+				ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
+				SCRIPT_KEY_CATEGORY,
+				la,
+				getRunTimeContext( ).getScriptContext( ) );
+		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
+				la );
+
+		tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+
+		int degree = pc.getDegree( cindex );
+
+		if ( Math.abs( degree ) > 90 )
+		{
+			tre.setTextPosition( TextRenderEvent.LEFT );
+		}
+		else
+		{
+			tre.setTextPosition( TextRenderEvent.RIGHT );
+		}
+		if ( Math.abs( degree ) == 90 )
+		{
+			tre.setTextPosition( TextRenderEvent.ABOVE );
+		}
+		if ( degree == -90 )
+		{
+			tre.setTextPosition( TextRenderEvent.BELOW );
+		}
+		double dX = -Math.signum( Math.abs( degree ) - 90 ) * space;
+		double dY = -Math.signum( degree ) * space;
+		if ( degree == 0 || degree == 180 || degree == -180 )
+		{
+			dY = 0;
+		}
+		if ( degree == 90 || degree == -90 || degree == 270 || degree == -270 )
+		{
+			dX = 0;
+		}
+
+		loLabel.translate( dX, dY );
+
+		tre.setLocation( loLabel );
+
+		// Text render event must be either cached or copied here for correct
+		// interactivity.
+		dc.addLabel( tre );
+		ScriptHandler.callFunction( sh,
+				ScriptHandler.AFTER_DRAW_AXIS_LABEL,
+				SCRIPT_KEY_CATEGORY,
+				la,
+				getRunTimeContext( ).getScriptContext( ) );
+		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
+				la );
+
+	}
+
+	private final void drawSeriesLabel( IDeviceRenderer idr,
+			PolarCoordinate pc, DataPointHints dph, Location lopt )
+			throws ChartException
+	{
+		final AbstractScriptHandler<?> sh = getRunTimeContext( ).getScriptHandler( );
 		if ( se.getLabel( ).isVisible( ) )
 		{
 			double space = dSafeSpacing / 2;
 			Label la = goFactory.copyOf( se.getLabel( ) );
 			la.getCaption( ).setValue( dph.getDisplayValue( ) );
-			Location loLabel = lo;
+			Location loLabel = lopt.copyInstance( );
 
 			final TextRenderEvent tre = ( (EventObjectCache) idr ).getEventObject( WrappedStructureSource.createSeriesDataPoint( se,
 					dph ),
 					TextRenderEvent.class );
 			tre.setLabel( la );
+
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.BEFORE_DRAW_DATA_POINT_LABEL,
+					dph,
+					la,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT_LABEL,
+					la );
+
 			tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-			
+
 			int degree = pc.getDegree( dph.getIndex( ) );
 
 			if ( Math.abs( degree ) > 90 )
@@ -692,16 +899,31 @@ public class Radar extends BaseRenderer
 			{
 				tre.setTextPosition( TextRenderEvent.RIGHT );
 			}
-
+			if ( Math.abs( degree ) == 90 )
+			{
+				tre.setTextPosition( TextRenderEvent.ABOVE );
+			}
+			if ( degree == -90 )
+			{
+				tre.setTextPosition( TextRenderEvent.BELOW );
+			}
 			double dX = -Math.signum( Math.abs( degree ) - 90 ) * space;
 			double dY = -Math.signum( degree ) * space;
 			loLabel.translate( dX, dY );
 			tre.setLocation( loLabel );
 
-			// Text render event must be either cached or copied here for correct interactivity.
+			// Text render event must be either cached or copied here for
+			// correct interactivity.
 			dc.addLabel( tre );
+			ScriptHandler.callFunction( sh,
+					ScriptHandler.AFTER_DRAW_DATA_POINT_LABEL,
+					dph,
+					la,
+					getRunTimeContext( ).getScriptContext( ) );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT_LABEL,
+					la );
 		}
-		
+
 	}
 
 	/**
@@ -773,19 +995,29 @@ public class Radar extends BaseRenderer
 
 			if ( isNaN( dph.getOrthogonalValue( ) ) )
 			{
+				if ( !se.isFillPolys( ) )
+				{
+					loList.add( null );
+				}
 				continue;
 			}
 
-			double currval =  ((Number)dph.getOrthogonalValue( )).doubleValue( );
+			double currval = ( (Double) dph.getOrthogonalValue( ) ).doubleValue( );
 
 			if ( currval < 0 )
 			{
+				if ( !se.isFillPolys( ) )
+				{
+					loList.add( null );
+				}
 				continue;
 			}
 
+			// Need to do something to give some space at top and center
 			pc.computeLocation( loAxis, index, mag );
-			Location lo = pc.createLocation( index, mag
-					* ( currval / getAxisMax( ) ) );
+			Location lo = pc.createLocation( index,
+					mag
+							* ( 1 - ( ( getAxisMax( ) - currval ) / ( getAxisMax( ) - getAxisMin( ) ) ) ) );
 			loList.add( lo );
 
 			if ( bPaletteByCategory )
@@ -829,7 +1061,7 @@ public class Radar extends BaseRenderer
 						dph );
 			}
 
-			drawSeriesLabel( idr, pc, dph, loAxis );
+			drawSeriesLabel( idr, pc, dph, lo );
 		}
 
 		renderPolys( idr,
@@ -843,7 +1075,7 @@ public class Radar extends BaseRenderer
 			if ( se.getWebLineAttributes( ) != null
 					&& se.getWebLineAttributes( ).isVisible( ) )
 			{
-				renderAxes( idr, pc, mag );
+				renderAxes( idr, pc, se, mag );
 			}
 
 			RadarSeries rsd = getFirstSeries( );
@@ -854,23 +1086,75 @@ public class Radar extends BaseRenderer
 				{
 					final TextRenderEvent stre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
 							TextRenderEvent.class );
-					Label la = goFactory.copyOf( rsd.getLabel( ) );
+
+					Label la = null;
+					if ( rsd.getWebLabel( ) != null )
+					{
+						la = goFactory.copyOf( rsd.getWebLabel( ) );
+					}
+					else
+					{
+						la = goFactory.copyOf( rsd.getLabel( ) );
+					}
+
 					la.setVisible( true );
 					stre.setTextPosition( TextRenderEvent.RIGHT );
 					// use this to set the direction rsd.getLabelPosition();
-					double lblperc = ( (double) sc / scaleCount ) * 100;
-					DecimalFormat decform = new DecimalFormat( "#.##" ); //$NON-NLS-1$
-					lblperc = Double.valueOf( decform.format( lblperc ) );
+					double lblperc;
+					if ( sc == 0 )
+					{
+						lblperc = getAxisMin( );
+					}
+					else if ( sc == ( scaleCount ) )
+					{
+						lblperc = getAxisMax( );
+					}
+					else
+					{
+						lblperc = ( ( (double) sc / scaleCount ) * ( getAxisMax( ) - getAxisMin( ) ) )
+								+ getAxisMin( );
+					}
 
-					la.getCaption( ).setValue( lblperc + "%" ); //$NON-NLS-1$
+					if ( rsd.getWebLabelFormatSpecifier( ) != null )
+					{
+						FormatSpecifier fs = rsd.getWebLabelFormatSpecifier( );
+
+						String weblabel = ValueFormatter.format( lblperc,
+								fs,
+								rtc.getULocale( ),
+								null );
+						la.getCaption( ).setValue( weblabel );
+					}
+					else
+					{
+						la.getCaption( ).setValue( Double.toString( lblperc ) );
+					}
+
+					ScriptHandler.callFunction( sh,
+							ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
+							SCRIPT_KEY_WEB,
+							la,
+							getRunTimeContext( ).getScriptContext( ) );
+					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
+							la );
+
 					stre.setLabel( la );
 					stre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 					double ycord = mag * sc / scaleCount;
 					ycord = Math.round( centrePointY - ycord );
-					double xcord = Math.round( centrePointX - 10 );
+					double xcord = Math.round( centrePointX - ( mag * 0.25 ) );
 					loLabel.set( xcord, ycord );
 					stre.setLocation( loLabel );
 					dc.addLabel( stre );
+
+					ScriptHandler.callFunction( sh,
+							ScriptHandler.AFTER_DRAW_AXIS_LABEL,
+							SCRIPT_KEY_WEB,
+							la,
+							getRunTimeContext( ).getScriptContext( ) );
+					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL,
+							la );
+
 				}
 			}
 

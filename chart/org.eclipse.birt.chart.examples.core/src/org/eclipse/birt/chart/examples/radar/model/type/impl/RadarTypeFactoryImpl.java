@@ -1,9 +1,13 @@
-/**
- * <copyright>
- * </copyright>
+/***********************************************************************
+ * Copyright (c) 2010 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.chart.examples.radar.model.type.impl;
 
@@ -24,30 +28,24 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  * @generated
  */
 public class RadarTypeFactoryImpl extends EFactoryImpl implements
-		RadarTypeFactory
-{
-
+		RadarTypeFactory {
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static RadarTypeFactory init( )
-	{
-		try
-		{
-			RadarTypeFactory theRadarTypeFactory = (RadarTypeFactory) EPackage.Registry.INSTANCE.getEFactory( "http://www.birt.eclipse.org/RadarChartModelType" );
-			if ( theRadarTypeFactory != null )
-			{
+	public static RadarTypeFactory init() {
+		try {
+			RadarTypeFactory theRadarTypeFactory = (RadarTypeFactory) EPackage.Registry.INSTANCE
+					.getEFactory("http://www.birt.eclipse.org/RadarChartModelType");
+			if (theRadarTypeFactory != null) {
 				return theRadarTypeFactory;
 			}
+		} catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
 		}
-		catch ( Exception exception )
-		{
-			EcorePlugin.INSTANCE.log( exception );
-		}
-		return new RadarTypeFactoryImpl( );
+		return new RadarTypeFactoryImpl();
 	}
 
 	/**
@@ -56,9 +54,8 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RadarTypeFactoryImpl( )
-	{
-		super( );
+	public RadarTypeFactoryImpl() {
+		super();
 	}
 
 	/**
@@ -67,16 +64,13 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements
 	 * @generated
 	 */
 	@Override
-	public EObject create( EClass eClass )
-	{
-		switch ( eClass.getClassifierID( ) )
-		{
-			case RadarTypePackage.RADAR_SERIES :
-				return (EObject) createRadarSeries( );
-			default :
-				throw new IllegalArgumentException( "The class '"
-						+ eClass.getName( )
-						+ "' is not a valid classifier" );
+	public EObject create(EClass eClass) {
+		switch (eClass.getClassifierID()) {
+		case RadarTypePackage.RADAR_SERIES:
+			return (EObject) createRadarSeries();
+		default:
+			throw new IllegalArgumentException("The class '" + eClass.getName()
+					+ "' is not a valid classifier");
 		}
 	}
 
@@ -85,9 +79,8 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RadarSeries createRadarSeries( )
-	{
-		RadarSeriesImpl radarSeries = new RadarSeriesImpl( );
+	public RadarSeries createRadarSeries() {
+		RadarSeriesImpl radarSeries = new RadarSeriesImpl();
 		return radarSeries;
 	}
 
@@ -96,9 +89,8 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RadarTypePackage getRadarTypePackage( )
-	{
-		return (RadarTypePackage) getEPackage( );
+	public RadarTypePackage getRadarTypePackage() {
+		return (RadarTypePackage) getEPackage();
 	}
 
 	/**
@@ -108,8 +100,7 @@ public class RadarTypeFactoryImpl extends EFactoryImpl implements
 	 * @generated
 	 */
 	@Deprecated
-	public static RadarTypePackage getPackage( )
-	{
+	public static RadarTypePackage getPackage() {
 		return RadarTypePackage.eINSTANCE;
 	}
 
