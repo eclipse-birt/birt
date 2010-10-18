@@ -61,6 +61,7 @@ import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
+import org.eclipse.birt.report.engine.api.script.IFormatter;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -78,6 +79,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
+import org.eclipse.birt.report.engine.script.internal.FormatterImpl;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -374,6 +376,7 @@ public class ExecutionContext
 		if ( reportContext != null )
 		{
 			scriptContext.setAttribute( "reportContext", reportContext );
+			scriptContext.setAttribute( "formatter", new FormatterImpl(this) );
 		}
 		scriptContext.setAttribute( "pageNumber", new Long( pageNumber ) );
 		scriptContext.setAttribute( "totalPage", new Long( totalPage ) );
@@ -1474,6 +1477,14 @@ public class ExecutionContext
 		if ( scriptContext != null )
 		{
 			getRootContext( ).setAttribute( "reportContext", reportContext );
+		}
+	}
+	
+	public void setFormatter(IFormatter formatter)
+	{
+		if ( scriptContext != null )
+		{
+			getRootContext( ).setAttribute( "formatter", formatter );
 		}
 	}
 
