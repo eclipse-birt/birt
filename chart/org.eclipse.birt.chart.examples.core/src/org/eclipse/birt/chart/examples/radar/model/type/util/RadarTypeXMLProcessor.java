@@ -1,35 +1,36 @@
-/**
- * <copyright>
- * </copyright>
+/***********************************************************************
+ * Copyright (c) 2010 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id$
- */
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.chart.examples.radar.model.type.util;
 
 import java.util.Map;
 
 import org.eclipse.birt.chart.examples.radar.model.type.RadarTypePackage;
-
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.resource.Resource;
-
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 
 /**
  * This class contains helper methods to serialize and deserialize XML documents
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class RadarTypeXMLProcessor extends XMLProcessor
 {
 
 	/**
-	 * Public constructor to instantiate the helper.
-	 * <!-- begin-user-doc -->
+	 * Public constructor to instantiate the helper. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RadarTypeXMLProcessor( )
@@ -39,9 +40,10 @@ public class RadarTypeXMLProcessor extends XMLProcessor
 	}
 
 	/**
-	 * Register for "*" and "xml" file extensions the RadarTypeResourceFactoryImpl factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Register for "*" and "xml" file extensions the
+	 * RadarTypeResourceFactoryImpl factory. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -58,4 +60,4 @@ public class RadarTypeXMLProcessor extends XMLProcessor
 		return registrations;
 	}
 
-} //RadarTypeXMLProcessor
+} // RadarTypeXMLProcessor

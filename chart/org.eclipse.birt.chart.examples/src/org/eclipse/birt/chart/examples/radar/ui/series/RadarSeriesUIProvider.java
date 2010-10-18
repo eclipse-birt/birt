@@ -11,20 +11,27 @@
 
 package org.eclipse.birt.chart.examples.radar.ui.series;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.birt.chart.examples.radar.i18n.Messages;
+import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.ui.integrate.SimpleSeriesButtonEntry;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesButtonEntry;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.YOptionalDataDefinitionComponent;
@@ -122,4 +129,41 @@ public class RadarSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 	}
 
+	public List<ISeriesButtonEntry> getCustomButtons(
+			ChartWizardContext context, SeriesDefinition sd )
+	{
+		List<ISeriesButtonEntry> list = new ArrayList<ISeriesButtonEntry>( 3 );
+		// Only the first series can set advanced settings
+		if ( ( (ChartWithoutAxes) context.getModel( ) ).getSeriesDefinitions( )
+				.get( 0 )
+				.getSeriesDefinitions( )
+				.get( 0 ) == sd )
+		{
+			RadarSeries series = (RadarSeries) sd.getDesignTimeSeries( );
+			ISeriesButtonEntry radarLineEntry = new SimpleSeriesButtonEntry( ".RadarLine", //$NON-NLS-1$
+					Messages.getString( "RadarSeriesUIProvider.Label.RadarLine" ), //$NON-NLS-1$
+					new RadarLineSheet( Messages.getString( "RadarSeriesUIProvider..Title.RadarLine" ), context, false, series ), //$NON-NLS-1$
+					true );
+			list.add( radarLineEntry );
+
+			ISeriesButtonEntry webLabelEntry = new SimpleSeriesButtonEntry( ".RadarWebLabels", //$NON-NLS-1$
+					Messages.getString( "RadarSeriesUIProvider.Label.WebLabels" ), //$NON-NLS-1$
+					new RadarWebLabelSheet( Messages.getString( "RadarSeriesUIProvider.Title.WebLabels" ), //$NON-NLS-1$
+							context,
+							false,
+							series ),
+					true );
+			list.add( webLabelEntry );
+
+			ISeriesButtonEntry categoryLabelEntry = new SimpleSeriesButtonEntry( ".RadarCategoryLabels", //$NON-NLS-1$
+					Messages.getString( "RadarSeriesUIProvider.Label.CategoryLabels" ), //$NON-NLS-1$
+					new RadarCategoryLabelSheet( Messages.getString( "RadarSeriesUIProvider.Title.CategoryLabels" ), //$NON-NLS-1$
+							context,
+							false,
+							series ),
+					true );
+			list.add( categoryLabelEntry );
+		}
+		return list;
+	}
 }

@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
@@ -26,6 +25,7 @@ import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesButtonEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -155,6 +155,8 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 
 		// For Meter series and other non-Stock series
 		ITaskPopupSheet popup;
+		SeriesDefinition sd = getSeriesDefinitionForProcessing( );
+		Series series = sd.getDesignTimeSeries( );
 
 		if ( isMeterSeries( ) )
 		{
@@ -241,8 +243,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		}
 
 		// Markers for Line/Area/Scatter series
-		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof LineSeries
-				&& !isDifferenceSeries( ) )
+		if ( series instanceof LineSeries && !isDifferenceSeries( ) )
 		{
 			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 					getContext( ),
@@ -279,7 +280,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		}
 
 		// Decoration Label for Gantt series
-		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof GanttSeries )
+		if ( series instanceof GanttSeries )
 		{
 			popup = new DecorationSheet( Messages.getString( "SeriesYSheetImpl.Label.Decoration" ), //$NON-NLS-1$
 					getContext( ),
@@ -323,6 +324,17 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 					popup,
 					getChart( ).getInteractivity( ).isEnable( ) );
 			btnInteractivity.addSelectionListener( this );
+		}
+		
+		for ( ISeriesButtonEntry buttonEntry : ChartUIUtil.getSeriesUIProvider( series )
+				.getCustomButtons( getContext( ), sd ) )
+		{
+			Button button = createToggleButton( cmp,
+					buttonEntry.getButtonId( ),
+					buttonEntry.getPopupName( ),
+					buttonEntry.getPopupSheet( ),
+					buttonEntry.isEnabled( ) );
+			button.addSelectionListener( this );
 		}
 	}
 
@@ -436,14 +448,19 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		{
 			int iAxis = getParentAxisIndex( getIndex( ) );
 			int iAxisSeries = getSeriesIndexWithinAxis( getIndex( ) );
-			sd = ( (SeriesDefinition) ( (Axis) ( (Axis) ( (ChartWithAxes) getChart( ) ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( iAxis ) ).getSeriesDefinitions( )
-					.get( iAxisSeries ) );
+			sd = ( (ChartWithAxes) getChart( ) ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( )
+					.get( iAxis )
+					.getSeriesDefinitions( )
+					.get( iAxisSeries );
 		}
 		else if ( getChart( ) instanceof ChartWithoutAxes )
 		{
-			sd = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( getIndex( ) );
+			sd = ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.get( getIndex( ) );
 		}
 		return sd;
 	}
@@ -451,12 +468,17 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 	private int getParentAxisIndex( int iSeriesDefinitionIndex )
 	{
 		int iTmp = 0;
-		int iAxisCount = ( (Axis) ( (ChartWithAxes) getChart( ) ).getAxes( )
-				.get( 0 ) ).getAssociatedAxes( ).size( );
+		int iAxisCount = ( (ChartWithAxes) getChart( ) ).getAxes( )
+				.get( 0 )
+				.getAssociatedAxes( )
+				.size( );
 		for ( int i = 0; i < iAxisCount; i++ )
 		{
-			iTmp += ( (Axis) ( (Axis) ( (ChartWithAxes) getChart( ) ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( i ) ).getSeriesDefinitions( )
+			iTmp += ( (ChartWithAxes) getChart( ) ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( )
+					.get( i )
+					.getSeriesDefinitions( )
 					.size( );
 			if ( iTmp - 1 >= iSeriesDefinitionIndex )
 			{
@@ -469,13 +491,18 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 	private int getSeriesIndexWithinAxis( int iSeriesDefinitionIndex )
 	{
 		int iTotalDefinitions = 0;
-		int iAxisCount = ( (Axis) ( (ChartWithAxes) getChart( ) ).getAxes( )
-				.get( 0 ) ).getAssociatedAxes( ).size( );
+		int iAxisCount = ( (ChartWithAxes) getChart( ) ).getAxes( )
+				.get( 0 )
+				.getAssociatedAxes( )
+				.size( );
 		for ( int i = 0; i < iAxisCount; i++ )
 		{
 			int iOldTotal = iTotalDefinitions;
-			iTotalDefinitions += ( (Axis) ( (Axis) ( (ChartWithAxes) getChart( ) ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( i ) ).getSeriesDefinitions( )
+			iTotalDefinitions += ( (ChartWithAxes) getChart( ) ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( )
+					.get( i )
+					.getSeriesDefinitions( )
 					.size( );
 			if ( iTotalDefinitions - 1 >= iSeriesDefinitionIndex )
 			{

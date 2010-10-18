@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,12 +11,16 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesButtonEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -69,8 +73,9 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#
+	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
 	public void validateSeriesBindingType( Series series,
 			IDataServiceProvider idsp ) throws ChartException
@@ -96,7 +101,8 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#
+	 * getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
 	 */
 	public AxisType[] getCompatibleAxisType( Series series )
 	{
@@ -106,11 +112,19 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#validationIndex(org.eclipse.birt.chart.model.component.Series)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#validationIndex
+	 * (org.eclipse.birt.chart.model.component.Series)
 	 */
 	public int[] validationIndex( Series series )
 	{
 		return series.getDefinedDataDefinitionIndex( );
+	}
+
+	public List<ISeriesButtonEntry> getCustomButtons(
+			ChartWizardContext context, SeriesDefinition sd )
+	{
+		return Collections.emptyList( );
 	}
 
 }

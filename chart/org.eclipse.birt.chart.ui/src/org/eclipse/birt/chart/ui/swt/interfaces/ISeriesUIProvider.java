@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import java.util.List;
+
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Series;
@@ -48,6 +50,17 @@ public interface ISeriesUIProvider
 	 */
 	public Composite getSeriesAttributeSheet( Composite parent, Series series,
 			ChartWizardContext context );
+	
+	/**
+	 * Gets custom buttons to add after built-in buttons.
+	 * 
+	 * @param context
+	 *            wizard context
+	 * @param sd
+	 *            value series definition
+	 * @since 2.6.2
+	 */
+	public List<ISeriesButtonEntry> getCustomButtons( ChartWizardContext context, SeriesDefinition sd );
 
 	/**
 	 * Fetches the composite used to set data properties for a series.
