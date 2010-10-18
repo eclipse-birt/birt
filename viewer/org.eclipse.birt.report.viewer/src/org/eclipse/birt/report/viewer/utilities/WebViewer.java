@@ -226,20 +226,10 @@ public class WebViewer
 			for ( int i = 0; i < locales.length; i++ )
 			{
 				Locale locale = locales[i];
-				if ( locale != null )
+				if ( locale != null && locale.getCountry( ).length( ) != 0 )
 				{
-					if ( locale.getCountry( ).length( ) == 0 )
-					{
-						LOCALE_TABLE.put( locale.getDisplayName( ),
-								locale.getLanguage( ) );
-					}
-					else
-					{
-						LOCALE_TABLE.put( locale.getDisplayName( ),
-								locale.getLanguage( )
-										+ "_" + locale.getCountry( ) ); //$NON-NLS-1$	
-					}
-
+					LOCALE_TABLE.put( locale.getDisplayName( ),
+							locale.getLanguage( ) + "_" + locale.getCountry( ) ); //$NON-NLS-1$
 				}
 			}
 		}
