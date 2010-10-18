@@ -50,6 +50,8 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 	private Control control;
 
 	private int staleType;
+	
+	private boolean alreadyShow = false;
 
 	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
 
@@ -178,12 +180,13 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 				.getPreferenceStore( )
 				.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE );
 
-		if ( prompt == null
+		if ( !alreadyShow && (prompt == null
 				|| ( !ReportPlugin.getDefault( )
 						.getPreferenceStore( )
 						.getString( ReportPlugin.LIBRARY_WARNING_PREFERENCE )
-						.equals( MessageDialogWithToggle.NEVER ) ) )
+						.equals( MessageDialogWithToggle.NEVER ) ) ))
 		{
+			alreadyShow = true;
 			MessageDialogWithToggle dialog = MessageDialogWithToggle.openInformation( UIUtil.getDefaultShell( ),
 					Messages.getString( "LibraryLayoutEditorFormPage.warning.title" ), //$NON-NLS-1$
 					Messages.getString( "LibraryLayoutEditorFormPage.warning.message" ), //$NON-NLS-1$
