@@ -867,10 +867,11 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 						{
 							return false;
 						}
-						result = result || popAggrRefFromBaseExpr( aggrReferences,
+						result = popAggrRefFromBaseExpr( aggrReferences,
 								this.getBinding( ( (IColumnBinding) usedRowReferences.get( i ) ).getResultSetColumnName( ) )
 										.getExpression( ),
-								aggrMap );
+								aggrMap )
+								|| result;
 					}
 				}
 				return result;
