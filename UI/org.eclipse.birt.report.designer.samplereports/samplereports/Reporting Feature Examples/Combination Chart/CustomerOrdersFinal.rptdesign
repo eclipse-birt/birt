@@ -1816,19 +1816,6 @@ and CUSTOMERS.CUSTOMERNUMBER = paymentsums.CUSTOMERNUMBER</property>
                                     <cell id="75">
                                         <data id="89">
                                             <property name="resultSetColumn">ORDERNUMBER</property>
-                                            <structure name="action">
-                                                <property name="formatType">html</property>
-                                                <property name="linkType">drill-through</property>
-                                                <property name="reportName">detail.rptdesign</property>
-                                                <property name="targetWindow">_blank</property>
-                                                <property name="targetFileType">report-design</property>
-                                                <list-property name="paramBindings">
-                                                    <structure>
-                                                        <property name="paramName">rptParamOrderNumber</property>
-                                                        <expression name="expression">row["ORDERNUMBER"]</expression>
-                                                    </structure>
-                                                </list-property>
-                                            </structure>
                                         </data>
                                     </cell>
                                     <cell id="76"/>
