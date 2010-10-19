@@ -896,12 +896,15 @@ public class DataExtractionTaskV1 extends EngineTask
 			Map bindings = srcQuery.getBindings( );
 			if ( bindings != null )
 			{
+				Set<String> existColumns = new HashSet<String>( );
 				for ( int index = 0; index < selectedColumns.length; index++ )
 				{
-					IBinding binding = (IBinding) bindings.get( selectedColumns[index] );
-					if ( binding != null )
+					String colName = selectedColumns[index];
+					IBinding binding = (IBinding) bindings.get( colName );
+					if ( binding != null && !existColumns.contains( colName ) )
 					{
 						addQueryBinding( query, binding );
+						existColumns.add( colName );
 					}
 				}
 			}
