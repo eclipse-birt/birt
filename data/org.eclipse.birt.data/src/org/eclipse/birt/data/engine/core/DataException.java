@@ -22,7 +22,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * Implementation of BirtException in DtE project.
  */
-public class DataException extends BirtException
+public class DataException extends BirtException  
 {
 
 	private static ULocale currentLocale;
@@ -116,7 +116,7 @@ public class DataException extends BirtException
 		if ( e instanceof DataException )
 			return (DataException) e;
 		return new DataException( ResourceConstants.WRAPPED_BIRT_EXCEPTION,  
-				e, e.getMessage() );
+				e );
 	}
 	
 	/**
