@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements.strategy;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -265,5 +266,51 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 			return false;
 		return getDataBindingPropertiesNameHash( element ).contains(
 				Integer.valueOf( propName.hashCode( ) ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#
+	 * getPropertyExceptRomDefault(org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+	public Object getPropertyExceptRomDefault( Module module,
+			DesignElement element, ElementPropertyDefn prop )
+	{
+		if ( IListingElementModel.REPEAT_HEADER_PROP.equals( prop.getName( ) )
+				&& element instanceof ListingElement )
+		{
+			Object value = super.getPropertyExceptRomDefault( module, element,
+					prop );
+
+			// if report-header is FALSE, return it
+			if ( Boolean.FALSE.equals( value ) )
+				return value;
+
+			// if cascadeACL is false, return
+			Object cascadeACL = element.getProperty( module,
+					IReportItemModel.CASCADE_ACL_PROP );
+			if ( Boolean.FALSE.equals( cascadeACL ) )
+				return value;
+
+			// cascadeACL is true, then check all the groups: if any group
+			// element defines ACLExpression, then return FALSE
+			ListingElement listingElement = (ListingElement) element;
+			List<DesignElement> groups = listingElement.getGroups( );
+			for ( DesignElement group : groups )
+			{
+				Object aclExpr = group.getProperty( module,
+						IReportItemModel.ACL_EXPRESSION_PROP );
+				if ( aclExpr != null )
+					return Boolean.FALSE;
+			}
+
+			return value;
+
+		}
+
+		return super.getPropertyExceptRomDefault( module, element, prop );
 	}
 }

@@ -208,7 +208,7 @@ public class TableItemParseTest extends ParserTestCase
 
 		assertEquals( "prepare on the table", table.getOnPrepare( ) ); //$NON-NLS-1$
 
-		assertTrue( table.repeatHeader( ) );
+		assertFalse( table.repeatHeader( ) );
 
 		assertEquals( "bluehero", table.getCaption( ) ); //$NON-NLS-1$
 
