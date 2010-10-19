@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.model.Chart;
@@ -54,6 +55,116 @@ public class ChartWizardLauncher implements ChartUIConstants
 
 	public void launch( String filePath )
 	{
+		try
+		{
+			// add radar type
+			Class<?> claexten = Class.forName( "org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl" ); //$NON-NLS-1$
+			Field saTypes = claexten.getDeclaredField( "saTypes" ); //$NON-NLS-1$
+			saTypes.setAccessible( true );
+			saTypes.set( null,
+					new String[]{
+							"org.eclipse.birt.chart.ui.swt.type.BarChart", "org.eclipse.birt.chart.ui.swt.type.LineChart", //$NON-NLS-1$ //$NON-NLS-2$
+							"org.eclipse.birt.chart.ui.swt.type.AreaChart", "org.eclipse.birt.chart.ui.swt.type.PieChart",//$NON-NLS-1$ //$NON-NLS-2$
+							"org.eclipse.birt.chart.ui.swt.type.MeterChart", "org.eclipse.birt.chart.ui.swt.type.ScatterChart",//$NON-NLS-1$ //$NON-NLS-2$ 
+							"org.eclipse.birt.chart.ui.swt.type.StockChart", "org.eclipse.birt.chart.ui.swt.type.GanttChart",//$NON-NLS-1$ //$NON-NLS-2$ 
+							"org.eclipse.birt.chart.ui.swt.type.BubbleChart", "org.eclipse.birt.chart.ui.swt.type.DifferenceChart", //$NON-NLS-1$ //$NON-NLS-2$ 
+							"org.eclipse.birt.chart.ui.swt.type.TubeChart", "org.eclipse.birt.chart.ui.swt.type.ConeChart",//$NON-NLS-1$ //$NON-NLS-2$
+							"org.eclipse.birt.chart.ui.swt.type.PyramidChart",//$NON-NLS-1$
+							"org.eclipse.birt.chart.examples.radar.ui.type.RadarChart"//$NON-NLS-1$
+					} );
+			// add ui provider
+			Field saSeriesUI = claexten.getDeclaredField( "saSeriesUI" );//$NON-NLS-1$
+			saSeriesUI.setAccessible( true );
+			saSeriesUI.set( null,
+					new String[]{
+							"org.eclipse.birt.chart.ui.swt.series.SeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.AreaSeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.BarSeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.LineSeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.MeterSeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.PieSeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.ScatterSeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.StockSeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.GanttSeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.BubbleSeriesUIProvider", //$NON-NLS-1$
+							"org.eclipse.birt.chart.ui.swt.series.DifferenceSeriesUIProvider",//$NON-NLS-1$
+							"org.eclipse.birt.chart.examples.radar.ui.series.RadarSeriesUIProvider"//$NON-NLS-1$
+					} );
+
+			// plugin settings
+			Class<?> claps = Class.forName( "org.eclipse.birt.chart.util.PluginSettings" );//$NON-NLS-1$
+			Field saDataSetProcessors = claps.getDeclaredField( "saDataSetProcessors" );//$NON-NLS-1$
+			saDataSetProcessors.setAccessible( true );
+			saDataSetProcessors.set( null,
+					new String[]{
+							"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$ 
+							"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.StockDataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.BubbleDataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.GanttDataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.DifferenceDataSetProcessorImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+					} );
+
+			Field saRenderers = claps.getDeclaredField( "saRenderers" );//$NON-NLS-1$
+			saRenderers.setAccessible( true );
+			saRenderers.set( null, new String[]{
+					null, "org.eclipse.birt.chart.extension.render.Area", //$NON-NLS-1$ 
+					"org.eclipse.birt.chart.extension.render.Bar", //$NON-NLS-1$ 
+					"org.eclipse.birt.chart.extension.render.Dial", //$NON-NLS-1$
+					"org.eclipse.birt.chart.extension.render.Line", //$NON-NLS-1$
+					"org.eclipse.birt.chart.extension.render.Pie", //$NON-NLS-1$ 
+					"org.eclipse.birt.chart.extension.render.Stock", //$NON-NLS-1$
+					"org.eclipse.birt.chart.extension.render.Scatter", //$NON-NLS-1$
+					"org.eclipse.birt.chart.extension.render.Bubble", //$NON-NLS-1$
+					"org.eclipse.birt.chart.extension.render.Gantt", //$NON-NLS-1$
+					"org.eclipse.birt.chart.extension.render.Difference", //$NON-NLS-1$
+					"org.eclipse.birt.chart.examples.radar.render.Radar"//$NON-NLS-1$
+			} );
+
+			Field saSeries = claps.getDeclaredField( "saSeries" );//$NON-NLS-1$
+			saSeries.setAccessible( true );
+			saSeries.set( null,
+					new String[]{
+							"org.eclipse.birt.chart.model.component.impl.SeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.BarSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.DialSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.LineSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.PieSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.StockSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl", //$NON-NLS-1$
+							"org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl" //$NON-NLS-1$
+					} );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			e.printStackTrace( );
+		}
+		catch ( SecurityException e )
+		{
+			e.printStackTrace( );
+		}
+		catch ( NoSuchFieldException e )
+		{
+			e.printStackTrace( );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			e.printStackTrace( );
+		}
+		catch ( IllegalAccessException e )
+		{
+			e.printStackTrace( );
+		}
 
 		// Create display
 		Display.getDefault( );

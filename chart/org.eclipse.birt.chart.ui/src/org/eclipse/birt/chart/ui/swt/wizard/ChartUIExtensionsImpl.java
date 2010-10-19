@@ -68,7 +68,7 @@ public class ChartUIExtensionsImpl
 			"27/Chart.Legend/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl", //$NON-NLS-1$	
 	};
 
-	private static final String[] saTypes = new String[]{
+	private static String[] saTypes = new String[]{
 			"org.eclipse.birt.chart.ui.swt.type.BarChart", "org.eclipse.birt.chart.ui.swt.type.LineChart", //$NON-NLS-1$ //$NON-NLS-2$
 			"org.eclipse.birt.chart.ui.swt.type.AreaChart", "org.eclipse.birt.chart.ui.swt.type.PieChart",//$NON-NLS-1$ //$NON-NLS-2$
 			"org.eclipse.birt.chart.ui.swt.type.MeterChart", "org.eclipse.birt.chart.ui.swt.type.ScatterChart",//$NON-NLS-1$ //$NON-NLS-2$ 
@@ -82,7 +82,7 @@ public class ChartUIExtensionsImpl
 		"org.eclipse.birt.chart.ui.event.ChangeListenerImpl" //$NON-NLS-1$
 	};
 
-	private static final String[] saSeriesUI = new String[]{
+	private static String[] saSeriesUI = new String[]{
 			"org.eclipse.birt.chart.ui.swt.series.SeriesUIProvider", //$NON-NLS-1$
 			"org.eclipse.birt.chart.ui.swt.series.AreaSeriesUIProvider", //$NON-NLS-1$
 			"org.eclipse.birt.chart.ui.swt.series.BarSeriesUIProvider", //$NON-NLS-1$
