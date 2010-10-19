@@ -88,6 +88,10 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 			return;
 		}
 
+		if (command.getLabel( ) == null)
+		{
+			command.setLabel( "" ); //$NON-NLS-1$
+		}
 		ar.startTrans( command.getLabel( ) );
 		command.execute( );
 		ar.commit( );
