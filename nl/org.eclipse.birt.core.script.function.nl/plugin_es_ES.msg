@@ -1,13 +1,13 @@
 #Properties file for org.eclipse.birt.core.script.bre
 Bundle-Name.0 = Complemento de la función
 dataType.String=String
-dataType.Any=Cualquiera
-dataType.DateTime=Fecha/Hora
-dataType.Integer=Entero
-dataType.Double=Doble
-dataType.Number=Número 
-dataType.Boolean=Booleano
-dataType.DoubleArray=Doble[]
+dataType.Any=Any
+dataType.DateTime=DateTime
+dataType.Integer=Integer
+dataType.Double=Double
+dataType.Number=Number 
+dataType.Boolean=Boolean
+dataType.DoubleArray=Double[]
 
 FunctionDesc.charLength=Devuelve el número de caracteres del string.
 FunctionDesc.concat=Devuelve un string concatenado por todos los strings indicados.
@@ -77,7 +77,7 @@ FunctionDesc.nper=Número de períodos de una anualidad basado en pagos periódicos
 FunctionDesc.npv=Valor neto actual de una serie distinta de flujos de efectivo periódicos, positivos y negativos, con un tipo de interés concreto.
 FunctionDesc.percent=Procesa el porcentaje de los dos números
 FunctionDesc.pmt=El pago de una anualidad basado en pagos periódicos y constantes y en un tipo de interés invariable.
-FunctionDesc.ppmt=El pago principal de un período concreto de una anualidad según
+FunctionDesc.ppmt=The principal payment for a given period of an annuity, based on an interest rate and a constant payment schedule.
 FunctionDesc.pv=Valor actual de una anualidad basado en pagos periódicos y constantes que se van a realizar en el futuro y en un tipo de interés invariable.
 FunctionDesc.rate=Tipo de interés por período de una anualidad.
 FunctionDesc.sln=Depreciación por método directo de un activo durante un único período.

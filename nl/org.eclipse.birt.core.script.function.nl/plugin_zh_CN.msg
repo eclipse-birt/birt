@@ -1,13 +1,13 @@
 #Properties file for org.eclipse.birt.core.script.bre
 Bundle-Name.0 = 函数插件
-dataType.String=字符串
-dataType.Any=任何
-dataType.DateTime=日期时间
-dataType.Integer=整数
-dataType.Double=双精度浮点
-dataType.Number=数值 
-dataType.Boolean=布尔
-dataType.DoubleArray=双精度浮点[]
+dataType.String=String
+dataType.Any=Any
+dataType.DateTime=DateTime
+dataType.Integer=Integer
+dataType.Double=Double
+dataType.Number=Number 
+dataType.Boolean=Boolean
+dataType.DoubleArray=Double[]
 
 FunctionDesc.charLength=返回字符串中的字符数。
 FunctionDesc.concat=返回所有给定字符串连接的字符串。
@@ -77,7 +77,7 @@ FunctionDesc.nper=根据固定利率和等额分期付款方法计算的年金期数。
 FunctionDesc.npv=一系列定期现金流（正和负）按指定利率计算的净现值。
 FunctionDesc.percent=计算两个数的百分比
 FunctionDesc.pmt=根据固定利率和等额分期付款方法计算的年金付款。
-FunctionDesc.ppmt=年金在指定期间内的本金，基于
+FunctionDesc.ppmt=The principal payment for a given period of an annuity, based on an interest rate and a constant payment schedule.
 FunctionDesc.pv=根据固定利率和等额分期未来付款方法计算的年金现值。
 FunctionDesc.rate=年金按期间平均的利率。
 FunctionDesc.sln=某项资产在单个期间内的直线折旧。

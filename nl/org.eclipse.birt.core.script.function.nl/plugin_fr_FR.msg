@@ -1,12 +1,12 @@
 #Properties file for org.eclipse.birt.core.script.bre
 Bundle-Name.0 = Plug-in de la fonction
-dataType.String=Chaîne
-dataType.Any=Indifférent
-dataType.DateTime=DateHeure
-dataType.Integer=Entier
+dataType.String=String
+dataType.Any=Any
+dataType.DateTime=DateTime
+dataType.Integer=Integer
 dataType.Double=Double
-dataType.Number=Numéro 
-dataType.Boolean=Booléen
+dataType.Number=Number 
+dataType.Boolean=Boolean
 dataType.DoubleArray=Double[]
 
 FunctionDesc.charLength=Renvoie le nombre de caractères de la chaîne.
@@ -77,7 +77,7 @@ FunctionDesc.nper=Nombre de périodes d'une annuité, basée sur des paiements péri
 FunctionDesc.npv=Valeur actualisée nette d'une série variable de flux de trésorerie, positifs et négatifs, à un taux d'intérêt donné.
 FunctionDesc.percent=Calcule le pourcentage des deux nombres
 FunctionDesc.pmt=Remboursement pour une annuité, basé sur des paiements périodiques et constants et sur un taux d'intérêt constant.
-FunctionDesc.ppmt=Remboursement principal pour une période donnée d'une annuité, basé sur
+FunctionDesc.ppmt=The principal payment for a given period of an annuity, based on an interest rate and a constant payment schedule.
 FunctionDesc.pv=Valeur actualisée d'une annuité basée sur des remboursements futurs périodiques et constants et sur un taux d'intérêt constant.
 FunctionDesc.rate=Taux d'intérêt par période pour une annuité.
 FunctionDesc.sln=Dépréciation linéaire d'un bien sur une période simple.
