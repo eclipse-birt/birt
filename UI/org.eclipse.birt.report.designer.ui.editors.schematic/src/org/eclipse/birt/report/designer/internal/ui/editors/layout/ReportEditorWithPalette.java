@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
-import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.ReportViewerKeyHandler;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
@@ -92,7 +91,9 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -651,9 +652,13 @@ abstract public class ReportEditorWithPalette extends
 		{
 			return;
 		}
-
+		
 		final List list = request.getSelectionModelList( );
 		if ( list.size( ) != 1 )
+		{
+			return;
+		}
+		if (request.getSource( ) instanceof ParameterHandle && list.get( 0 ) instanceof DataItemHandle)
 		{
 			return;
 		}

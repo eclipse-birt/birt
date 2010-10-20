@@ -123,7 +123,7 @@ public class InsertInLayoutAction extends AbstractViewAction
 			if ( newElement != null )
 				runCreate( newElement, targetPart.getModel( ) );
 			stack.commit( );
-			fireCreateRequest(newElement);
+			fireCreateRequest(newElement, getSelection( ));
 		}
 		catch ( SemanticException e )
 		{
@@ -132,11 +132,11 @@ public class InsertInLayoutAction extends AbstractViewAction
 		}
 	}
 
-	private void fireCreateRequest(Object newElement )
+	private void fireCreateRequest(Object newElement, Object source )
 	{
 		List list = new ArrayList();
 		list.add(newElement);
-		ReportRequest r = new ReportRequest();
+		ReportRequest r = new ReportRequest(source);
 		r.setType(ReportRequest.CREATE_ELEMENT);
 		
 		r.setSelectionObject(list);
