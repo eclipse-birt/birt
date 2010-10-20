@@ -33,6 +33,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.i18n.CoreMessages;
@@ -56,6 +58,9 @@ public class IOUtil
 	public static final int RA_STREAM_BUFFER_LENGTH = 8192;
 
 	public static final int MAX_NUMBER_OF_STREAM_BUFFER = 128;
+	
+	protected static Logger logger = Logger.getLogger( IOUtil.class
+			.getName( ) );
 
 	public final static <T> T read( DataInputStream inputStream, Class<T> clazz )
 			throws IOException
@@ -754,6 +759,10 @@ public class IOUtil
 					{
 						// other data types are not supported yet.
 						writeObject( dos, null );
+						logger.log(
+								Level.WARNING,
+								CoreMessages
+										.getString( ResourceConstants.UNSUPPORTED_DATA_TYPE ) );
 					}
 				}
 				else if ( obValue instanceof NativeJavaObject )
@@ -766,6 +775,10 @@ public class IOUtil
 				{
 					// other data types are not supported yet.
 					writeObject( dos, null );
+					logger.log(
+							Level.WARNING,
+							CoreMessages
+									.getString( ResourceConstants.UNSUPPORTED_DATA_TYPE ) );
 				}
 				break;
 			default :
