@@ -154,19 +154,32 @@ public class RootArea extends BlockContainerArea
 		}
 		else
 		{
-			IPageContent pageContent = htmlPageContent;
-			try
+			if ( context.getEngineTaskType( ) == IEngineTask.TASK_RUNANDRENDER )
 			{
-				pageContent = ReportExecutorUtil.executeMasterPage( context
-						.getHtmlLayoutContext( ).getReportExecutor( ), context
-						.getPageNumber( ), (MasterPageDesign) pageContent
-						.getGenerateBy( ) );
+
+				IPageContent pageContent = (IPageContent) cloneContent(
+						(IContent) htmlPageContent.getParent( ),
+						htmlPageContent, context.getPageNumber( ),
+						context.getTotalPage( ) );
+				pageContent.setPageNumber( context.getPageNumber( ) );
+				return pageContent;
 			}
-			catch ( BirtException e )
+			else
 			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+				IPageContent pageContent = htmlPageContent;
+				try
+				{
+					pageContent = ReportExecutorUtil.executeMasterPage( context
+							.getHtmlLayoutContext( ).getReportExecutor( ),
+							context.getPageNumber( ),
+							(MasterPageDesign) pageContent.getGenerateBy( ) );
+				}
+				catch ( BirtException e )
+				{
+					logger.log( Level.WARNING, e.getMessage( ), e );
+				}
+				return pageContent;
 			}
-			return pageContent;
 		}
 	}
 
