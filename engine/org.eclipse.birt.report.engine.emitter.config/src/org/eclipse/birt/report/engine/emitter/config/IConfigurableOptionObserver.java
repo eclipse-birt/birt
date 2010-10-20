@@ -42,7 +42,7 @@ public interface IConfigurableOptionObserver
 	/**
 	 * It should be called before updating the values to check whether the input
 	 * values are valid. If non of the values are invalid, the returned list is
-	 * empty;otherwise, error message list will be returned.
+	 * empty;otherwise, error BirtException list will be returned.
 	 * 
 	 * @param values
 	 * @return
