@@ -47,6 +47,7 @@ public class ResourceConstants
 	public final static String NOT_COMPOUND_FILE = "error.NotCompoundFile";
 	public final static String UNEXPECTED_NODE_TYPE = "error.UnsupportedNodeType";
 	public final static String NOT_SERIALIZABLE = "error.NotSerializable";
+	public final static String UNSUPPORTED_DATA_TYPE = "error.UnsupportedDataType";
 	public final static String INVALID_LOCK_TYPE = "error.InvalidLockType";
 	public final static String ARCHIVE_OPEN_FOR_WRITE = "error.ArchiveOpenForWrite";
 	public final static String EXCEED_MAX_BLOCK_SIZE = "error.ExceedMaxBlockSize";
