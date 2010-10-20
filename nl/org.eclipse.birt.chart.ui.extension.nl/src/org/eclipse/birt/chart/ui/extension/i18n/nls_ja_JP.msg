@@ -724,7 +724,7 @@ TaskSelectType.Label.SelectSubtype=サブタイプの選択
 TaskSelectType.Exception.CannotSupportAxes=ChartWithoutAxes では軸を使用できません。
 TaskSelectType.Exception.NotSupportedForMultipleAxes=\ は、複数軸には使用できません。\!
 TaskSelectType.Label.ChartTypes=グラフの種類
-TaskSelectType.Label.Dimension=ディメンジョン(&D) :
+TaskSelectType.Label.Dimension=次元(&D) :
 TaskSelectType.Label.ChartSubtypes=グラフのサブタイプ
 
 TaskSelectData.TaskExp=データの選択
