@@ -33,6 +33,7 @@ error.UnsupportedBlockSize = Nicht unterstützte Blockgröße.
 error.InvalidIndex = Ungültiger Index bei Block {0}. 
 error.UnsupportedNodeType = Unerwarteter Knotentyp: {0} für Knoten {1}. 
 error.NotSerializable = Nicht serialisierbar.
+error.UnsupportedDataType = This data type is not supported yet or not serializable.
 error.InvalidLockType = Ungültiger Sperrtyp: {0}.
 error.ArchiveOpenForWrite = Archiv muss zum Schreiben geöffnet werden. System-ID: {0}.
 error.ExceedMaxBlockSize = Die Größe der Archivkopfzeile darf folgenden Wert nicht überschreiten: {0}.
