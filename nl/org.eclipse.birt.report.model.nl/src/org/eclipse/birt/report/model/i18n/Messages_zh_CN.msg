@@ -232,6 +232,7 @@ Choices.imageType.image/jpeg=image/jpeg
 Choices.imageType.image/ico=image/ico
 Choices.imageType.image/tiff=image/tiff
 Choices.imageType.image/svg+xml=image/svg+xml
+Choices.imageType.image/x-icon=image/x-icon
   
 #23.lineSpacing
 Choices.lineSpacing.lines=ÏßÌõ
