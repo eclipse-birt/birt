@@ -6,7 +6,7 @@ dataType.DateTime=DateTime
 dataType.Integer=Integer
 dataType.Double=Double
 dataType.Number=Number 
-dataType.Boolean=Boolesch
+dataType.Boolean=Boolean
 dataType.DoubleArray=Double[]
 
 FunctionDesc.charLength=Gibt die Anzahl der Zeichen in der Zeichenfolge zurück.
@@ -77,7 +77,7 @@ FunctionDesc.nper=Anzahl der Perioden für eine Annuität auf der Grundlage regelm
 FunctionDesc.npv=Derzeitiger Nettowert einer veränderlichen Reihe von Finanzströmen (sowohl positiv als auch negativ) zu einem bestimmten Zinssatz.
 FunctionDesc.percent=Berechnet das prozentuale Verhältnis zweier Zahlen.
 FunctionDesc.pmt=Zahlung für eine Annuität auf der Grundlage regelmäßiger, gleich bleibender Zahlungen und eines unveränderlichen Zinssatzes.
-FunctionDesc.ppmt=Kapitalzahlung für einen bestimmten Zeitraum einer Annuität auf der Grundlage von
+FunctionDesc.ppmt=The principal payment for a given period of an annuity, based on an interest rate and a constant payment schedule.
 FunctionDesc.pv=Derzeitiger Wert einer Annuität auf der Grundlage regelmäßiger, gleich bleibender, in der Zukunft zu leistenden Zahlungen und eines unveränderlichen Zinssatzes.
 FunctionDesc.rate=Zinssatz pro Periode für eine Annuität.
 FunctionDesc.sln=Lineare Abschreibung eines Wirtschaftsguts über einen einzelnen Zeitraum.
