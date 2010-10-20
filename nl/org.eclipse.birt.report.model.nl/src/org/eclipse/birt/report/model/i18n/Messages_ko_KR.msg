@@ -232,6 +232,7 @@ Choices.imageType.image/jpeg=image/jpeg
 Choices.imageType.image/ico=이미지/ico
 Choices.imageType.image/tiff=이미지/tiff
 Choices.imageType.image/svg+xml=이미지/svg+xml
+Choices.imageType.image/x-icon=image/x-icon
   
 #23.lineSpacing
 Choices.lineSpacing.lines=줄
@@ -3398,7 +3399,7 @@ Element.DataMart.slot.dataSets=데이터 집합
 Element.DataMart.slot.cubes=큐브
 Element.DataMart.slot.parameters=매개 변수
 Element.DataMart.slot.dimensions=공유 차원
-Element.DataMart.enableACL=ACL 사용
+Element.DataMart.enableACL=데이터 보안 설정 사용
 Element.DataMart.ACLExpression=ACL 식
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )

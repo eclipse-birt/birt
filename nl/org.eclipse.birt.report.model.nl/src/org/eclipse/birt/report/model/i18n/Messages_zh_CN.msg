@@ -232,6 +232,7 @@ Choices.imageType.image/jpeg=image/jpeg
 Choices.imageType.image/ico=image/ico
 Choices.imageType.image/tiff=image/tiff
 Choices.imageType.image/svg+xml=image/svg+xml
+Choices.imageType.image/x-icon=image/x-icon
   
 #23.lineSpacing
 Choices.lineSpacing.lines=线条
@@ -3398,7 +3399,7 @@ Element.DataMart.slot.dataSets=数据集
 Element.DataMart.slot.cubes=多维数据集
 Element.DataMart.slot.parameters=参数
 Element.DataMart.slot.dimensions=共享维
-Element.DataMart.enableACL=启用 ACL
+Element.DataMart.enableACL=启用数据安全性
 Element.DataMart.ACLExpression=ACL 表达式
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )

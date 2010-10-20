@@ -232,6 +232,7 @@ Choices.imageType.image/jpeg=image/jpeg
 Choices.imageType.image/ico=Bild (ico)
 Choices.imageType.image/tiff=Bild (tiff)
 Choices.imageType.image/svg+xml=Bild (svg+xml)
+Choices.imageType.image/x-icon=image/x-icon
   
 #23.lineSpacing
 Choices.lineSpacing.lines=Zeilen
@@ -3398,7 +3399,7 @@ Element.DataMart.slot.dataSets=Datensätze
 Element.DataMart.slot.cubes=Quader
 Element.DataMart.slot.parameters=Parameter
 Element.DataMart.slot.dimensions=Gemeinsame Dimensionen
-Element.DataMart.enableACL=ACL aktivieren
+Element.DataMart.enableACL=Datensicherheit aktivieren
 Element.DataMart.ACLExpression=Ausdruck 'ACL'
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )

@@ -232,6 +232,7 @@ Choices.imageType.image/jpeg=image/jpeg
 Choices.imageType.image/ico=イメージ/ico
 Choices.imageType.image/tiff=イメージ/tiff
 Choices.imageType.image/svg+xml=イメージ/svg+xml
+Choices.imageType.image/x-icon=image/x-icon
   
 #23.lineSpacing
 Choices.lineSpacing.lines=線
@@ -3398,7 +3399,7 @@ Element.DataMart.slot.dataSets=データセット
 Element.DataMart.slot.cubes=キューブ
 Element.DataMart.slot.parameters=パラメタ
 Element.DataMart.slot.dimensions=共有ディメンジョン
-Element.DataMart.enableACL=ACL を有効にする
+Element.DataMart.enableACL=データセキュリティの有効化
 Element.DataMart.ACLExpression=ACL 式
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )

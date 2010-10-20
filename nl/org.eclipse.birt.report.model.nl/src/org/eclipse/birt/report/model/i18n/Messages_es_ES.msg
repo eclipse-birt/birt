@@ -232,6 +232,7 @@ Choices.imageType.image/jpeg=image/jpeg
 Choices.imageType.image/ico=imagen/ico
 Choices.imageType.image/tiff=imagen/tiff
 Choices.imageType.image/svg+xml=imagen/svg+xml
+Choices.imageType.image/x-icon=image/x-icon
   
 #23.lineSpacing
 Choices.lineSpacing.lines=Líneas
@@ -3398,7 +3399,7 @@ Element.DataMart.slot.dataSets=Conjuntos de datos
 Element.DataMart.slot.cubes=Cubos
 Element.DataMart.slot.parameters=Parámetros
 Element.DataMart.slot.dimensions=Dimensiones compartidas
-Element.DataMart.enableACL=Activar ACL
+Element.DataMart.enableACL=Activar seguridad de datos
 Element.DataMart.ACLExpression=Expresión ACL
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
