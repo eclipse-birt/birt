@@ -315,6 +315,7 @@
     <Choice displayNameID="Choices.imageType.image/ico" name="image/ico"/>
     <Choice displayNameID="Choices.imageType.image/tiff" name="image/tiff"/>
     <Choice displayNameID="Choices.imageType.image/svg+xml" name="image/svg+xml"/>
+    <Choice displayNameID="Choices.imageType.image/x-icon" name="image/x-icon"/>
   </ChoiceType>
   <ChoiceType name="actionLinkType">
     <Choice displayNameID="Choices.actionLinkType.none" name="none"/>
