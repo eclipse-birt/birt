@@ -2641,25 +2641,21 @@ public class DEUtil
 	public static String getBindingexpression( DesignElementHandle baseElement,
 			ComputedColumnHandle column, boolean checkOutLevel )
 	{
-		//String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
-		StringBuffer buffer = new StringBuffer( );
+		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
 		if ( isBindingCube( column.getElementHandle( ) ) )
 		{
-			//exp = ExpressionUtil.DATA_INDICATOR;
-			buffer.append( ExpressionUtil.DATA_INDICATOR );
+			exp = ExpressionUtil.DATA_INDICATOR;
 		}
 		if ( checkOutLevel )
 		{
 			for ( int i = 0; i < getBindingLevel( column.getElementHandle( ),
 					baseElement ); i++ )
 			{
-				//exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
-				buffer.append( IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX );
+				exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
 			}
 		}
-		//exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
-		buffer.append("[\"" + DEUtil.escape( column.getName( ) ) + "\"]");//$NON-NLS-1$ //$NON-NLS-2$
-		return buffer.toString( );
+		exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+		return exp;
 	}
 
 	public static boolean isBindingCube( DesignElementHandle element )
