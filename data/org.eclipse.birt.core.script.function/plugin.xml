@@ -89,7 +89,7 @@
           desc="%FunctionDesc.anyOf"
           name="anyOf"
           variableArguments="true">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
@@ -98,7 +98,7 @@
    	<Function
           desc="%FunctionDesc.between"
           name="between">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target1">
@@ -108,7 +108,7 @@
    	<Function
           desc="%FunctionDesc.notBetween"
           name="notBetween">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target1">
@@ -118,7 +118,7 @@
    	<Function
           desc="%FunctionDesc.equalTo"
           name="equalTo">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
@@ -126,7 +126,7 @@
    	<Function
           desc="%FunctionDesc.greaterThan"
           name="greaterThan">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
@@ -135,7 +135,7 @@
    	<Function
           desc="%FunctionDesc.lessThan"
           name="lessThan">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
@@ -144,7 +144,7 @@
    	<Function
           desc="%FunctionDesc.greaterOrEqual"
           name="greaterOrEqual">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
@@ -153,7 +153,7 @@
    	<Function
           desc="%FunctionDesc.lessOrEqual"
           name="lessOrEqual">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
@@ -162,23 +162,23 @@
    	<Function
           desc="%FunctionDesc.notEqual"
           name="notEqual">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
             <Argument
                   name="source">
                <DataType
-                     value="Any">
+                     value="%dataType.Any">
                </DataType>
             </Argument>
             <Argument
                   name="target">
                <DataType
-                     value="Any">
+                     value="%dataType.Any">
                </DataType>
             </Argument></Function>
    	<Function
           desc="%FunctionDesc.like"
           name="like">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
@@ -189,7 +189,7 @@
    	<Function
           desc="%FunctionDesc.notLike"
           name="notLike">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
@@ -198,7 +198,7 @@
    	<Function
           desc="%FunctionDesc.match"
           name="match">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source">
    			<DataType value="%dataType.Any"></DataType></Argument>
    		<Argument name="target">
@@ -207,7 +207,7 @@
    	<Function
           desc="%FunctionDesc.compareString"
           name="compareString">
-   		<DataType value="Boolean"></DataType>
+   		<DataType value="%dataType.Boolean"></DataType>
    		<Argument name="source1">
    			<DataType value="%dataType.String"></DataType>
    		</Argument>
@@ -215,9 +215,9 @@
    			<DataType value="%dataType.String"></DataType>
    		</Argument>
    		<Argument name="ignoreCase" isOptional="true">
-   			<DataType value="Boolean"></DataType></Argument>
+   			<DataType value="%dataType.Boolean"></DataType></Argument>
    		<Argument name="trim" isOptional="true">
-   			<DataType value="Boolean"></DataType></Argument></Function>
+   			<DataType value="%dataType.Boolean"></DataType></Argument></Function>
    </Category>
    <Category
    	factoryclass="org.eclipse.birt.core.script.function.bre.BirtMathFunctionFactory"
