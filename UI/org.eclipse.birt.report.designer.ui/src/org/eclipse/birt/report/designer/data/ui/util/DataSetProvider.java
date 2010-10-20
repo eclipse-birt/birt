@@ -74,6 +74,7 @@ public final class DataSetProvider
 	private static final String BIRT_SCRIPTLIB = "/birt/scriptlib";
 	private static final String BIRT_CLASSES = "/birt/WEB-INF/classes/";
 	private static final String VIEWER_NAMESPACE = "org.eclipse.birt.report.viewer";
+	private static final String DERIVED_SEPERATOR = "::";
 
 	private static DataSetProvider instance = null;
 
@@ -452,6 +453,7 @@ public final class DataSetProvider
 		}
 		if ( handle instanceof DerivedDataSetHandle )
 		{
+			String[] splits = columnName.split( DERIVED_SEPERATOR );
 			List<DataSetHandle> inputDataSets = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
 			for ( int i = 0; i < inputDataSets.size( ); i++ )
 			{
@@ -459,6 +461,17 @@ public final class DataSetProvider
 				if ( hint != null )
 				{
 					return hint;
+				}
+				if ( splits.length > 1 )
+				{
+					if ( splits[0].equals( inputDataSets.get( i ).getName( ) ) )
+					{
+						columnName = columnName.substring( columnName.indexOf( DERIVED_SEPERATOR )
+								+ DERIVED_SEPERATOR.length( ) );
+
+						return findColumnHint( inputDataSets.get( i ),
+								columnName );
+					}
 				}
 			}
 		}
