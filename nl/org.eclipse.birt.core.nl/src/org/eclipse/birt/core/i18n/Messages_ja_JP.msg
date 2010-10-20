@@ -33,6 +33,7 @@ error.UnsupportedBlockSize = このブロックサイズはサポートされていません。
 error.InvalidIndex = ブロック {0} のインデックスが無効です。 
 error.UnsupportedNodeType = ノード {1} ではノード型 {0} を使用できません。 
 error.NotSerializable = 直列化できません。
+error.UnsupportedDataType = This data type is not supported yet or not serializable.
 error.InvalidLockType = ロックの種類 {0} は無効です。
 error.ArchiveOpenForWrite = アーカイブは書き込み用に開いてください。 システム ID : {0}。
 error.ExceedMaxBlockSize = アーカイブヘッダのサイズの上限は {0} です。
