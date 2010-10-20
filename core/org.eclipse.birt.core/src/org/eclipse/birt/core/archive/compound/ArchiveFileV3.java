@@ -178,7 +178,7 @@ public class ArchiveFileV3 implements IArchiveFile
 
 	synchronized public void unlockEntry( Object locker ) throws IOException
 	{
-		assert ( locker instanceof Ext2Node );
+		assert ( locker instanceof Ext2Entry );
 	}
 
 	private static class ArchiveEntryV3 extends ArchiveEntry
