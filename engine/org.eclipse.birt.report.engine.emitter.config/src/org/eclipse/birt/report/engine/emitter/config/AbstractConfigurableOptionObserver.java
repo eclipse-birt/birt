@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter.config;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.emitter.config.i18n.Messages;
 
@@ -51,7 +52,7 @@ public abstract class AbstractConfigurableOptionObserver implements
 
 	public List validate( IOptionValue... values )
 	{
-		List<String> messages = new LinkedList<String>( );
+		List<BirtException> errors = new LinkedList<BirtException>( );
 		for ( IOptionValue option : values )
 		{
 			if ( CHART_DPI.equals( option.getName( ) ) )
@@ -72,17 +73,17 @@ public abstract class AbstractConfigurableOptionObserver implements
 						}
 						catch ( NumberFormatException ex )
 						{
-							messages.add( Messages.getString( "INVALID_CHART_DPI" ) ); //$NON-NLS-1$
+							errors.add( new BirtException( Messages.getString( "INVALID_CHART_DPI" ) ) ); //$NON-NLS-1$
 							continue;
 						}
 					}
 					if ( resolution < 96 )
 					{
-						messages.add( Messages.getString( "TOO_SMALL_CHART_DPI" ) ); //$NON-NLS-1$
+						errors.add( new BirtException( Messages.getString( "TOO_SMALL_CHART_DPI" ) ) ); //$NON-NLS-1$
 					}
 				}
 			}
 		}
-		return messages;
+		return errors;
 	}
 }
