@@ -40,7 +40,7 @@
 		<antcall target="prepareSrc" />
 		<antcall target="buildBirtFeature"/>
 		<antcall target="buildBirtOSGI"/>
-		<!--antcall target="buildBirtChartOSGI"/-->
+		<antcall target="buildBirtChartOSGI"/>
 		<antcall target="fetchBirtWtpFeature"/>
 		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
