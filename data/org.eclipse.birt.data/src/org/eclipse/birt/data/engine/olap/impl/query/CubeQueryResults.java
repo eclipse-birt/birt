@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
@@ -32,6 +34,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
@@ -75,6 +78,8 @@ public class CubeQueryResults implements ICubeQueryResults
 	protected ICubeCursor cubeCursor;
 	private String name;
 	private PreparedCubeQuery preparedQuery;
+	
+	protected static Logger logger = Logger.getLogger( CubeQueryResults.class.getName( ) );
 	
 	/**
 	 * 
@@ -201,6 +206,16 @@ public class CubeQueryResults implements ICubeQueryResults
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
+		catch ( DataException e )
+		{
+			//if fail to load cube, return a NULL result cursor.
+			if ( e.getErrorCode( ) == ResourceConstants.FAIL_LOAD_CUBE )
+			{
+				logger.log( Level.SEVERE, e.getMessage( ) );
+				return null;				
+			}
+			throw e;
+		}
 	}
 	
 	private Set<IDimLevel> getMeasureDimLevel( )
@@ -264,8 +279,16 @@ public class CubeQueryResults implements ICubeQueryResults
 		executor.getFacttableBasedFilterHelpers( ).addAll( this.preparedQuery.getInternalFilters( ) );
 		
 		IDocumentManager documentManager = getDocumentManager( executor );
-		ICube cube = loadCube( documentManager, executor );
-		
+		ICube cube = null;
+		try
+		{
+			cube = loadCube( documentManager, executor );
+		}
+		catch ( Exception ex )
+		{
+			throw new DataException( ResourceConstants.FAIL_LOAD_CUBE, ex );
+		}
+
 		BirtCubeView bcv = new BirtCubeView( executor, cube, appContext, fetcher );		
 		CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube );		
 		cube.close( );
