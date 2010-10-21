@@ -9,5 +9,5 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 
-TOO_SMALL_CHART_DPI=The chart DPI should not be less than 96, otherwise the chart will be processed with the render DPI in the execution context.
-INVALID_CHART_DPI=The chart DPI can not be recognized\!
+TOO_SMALL_CHART_DPI=차트 DPI는 96 이상이 되어야 합니다. 그렇지 않을 경우 차트가 실행 컨텍스트에서 렌더링 DPI로 처리됩니다.
+INVALID_CHART_DPI=차트 DPI를 인식할 수 없습니다\!
