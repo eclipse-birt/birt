@@ -95,11 +95,14 @@ public class UserDataSetHints
 	{
 		for ( int i = 0; i < keys.length; i++ )
 		{
-			Object val = dsis[i].next( );
-			if ( dph != null )
-			{
-				dph.setUserValue( keys[i], val );
-			}
+			 if ( dsis[i].hasNext( ) )
+			 {
+				Object val = dsis[i].next( );
+				if ( dph != null )
+				{
+					dph.setUserValue( keys[i], val );
+				}
+			 }
 		}
 	}
 }
