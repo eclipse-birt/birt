@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -118,6 +119,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	protected static String UNLINKED_REPORT_PARAM = Messages.getString( "DataSetParametersPage.reportParam.None" );//$NON-NLS-1$
 	protected static final char RENAME_SEPARATOR = '_';
 	protected static final String PARAM_PREFIX = "param" + RENAME_SEPARATOR; //$NON-NLS-1$
+	
+	protected int yesCode = 256;
 
 	/**
 	 * constructor
@@ -433,6 +436,33 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				.addSelectionChangedListener( new ViewerSelectionListener( ) );
 	}
 
+	private String[] getAllScalarParamName()
+	{
+		List names = new ArrayList();
+		String[] paramNames = null;
+		List allNames = Utility.getAllParameters( );
+		
+		names.add( Messages.getString( "DataSetParametersPage.reportParam.None" ) );
+		for ( int i = 0; i < allNames.size( ); i++ )
+		{
+			ReportElementHandle handle = (ReportElementHandle) allNames.get( i );
+			if ( handle instanceof ScalarParameterHandle
+					//now multi-value type report parameter can also be linked with data set parameter now
+					//at runtime, only the first provided value is passed into data set 
+					/*&& !( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( ( (ScalarParameterHandle) handle ).getParamType( ) ) )*/ )
+			{
+				names.add( handle.getQualifiedName( ) );
+			}
+		}
+		
+		paramNames = new String[names.size( )];
+		for ( int i = 0; i < names.size( ); i++ )
+		{
+			paramNames[i] = names.get( i ).toString( );
+		}
+		return paramNames;
+	}
+	
 	private void doNew( )
 	{
 		DataSetParameter newParam = null;
@@ -449,6 +479,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		CommandStack stack = Utility.getCommandStack( );
 		stack.startTrans( Messages.getString( "DataSetParameterBindingInputDialog.Title.NewParameter" ) ); //$NON-NLS-1$
 
+		String[] paramNames = getAllScalarParamName( );
+		
 		ParameterInputDialog dlg = new ParameterInputDialog( newParam,
 				isOdaDataSetHandle );
 
@@ -459,7 +491,21 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
 			stack.commit( );
-			updateReportParameter( position , Messages.getString( "DataSetParametersPage.reportParam.None" ));
+			
+			String bindedReportParameterName = dlg.bindedReportParameterName;
+			boolean newParams = true;
+
+			for ( int i = 0; i < paramNames.length; i++ )
+			{
+				if ( paramNames[i].equals( bindedReportParameterName ) )
+				{
+					newParams = false;
+					break;
+				}
+			}
+
+			if ( !newParams )
+				updateReportParameter( position , Messages.getString( "DataSetParametersPage.reportParam.None" ));
 		}
 		else
 		{
@@ -526,11 +572,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	{
 		String setting = UIPlugin.getDefault( )
 				.getPreferenceStore( )
-				.getString( "DataSetParameterPage.updateReportParameters" );
+				.getString( "DataSetParameterPage.updateReportParameterSettings" );
 
 		if ( MessageDialogWithToggle.ALWAYS.equals( setting ) )
 		{
-			updateReportParameterValue( index , bindedReportParameterName );
+			return;
 		}
 		else
 		{
@@ -541,36 +587,58 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 			if ( datasetParameter != null
 					&& datasetParameter.getParamName( ) != null )
-			{
-				MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion( Workbench.getInstance( )
+			{				
+				MessageDialogWithToggle dialog = new MessageDialogWithToggle( Workbench.getInstance( )
 						.getDisplay( )
 						.getActiveShell( ),
 						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
+						null,
 						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
+						MessageDialog.INFORMATION,
+						new String[]{
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
+						},
+						1,
 						Messages.getString( "DataSetParameterPage.updateReportParameter.propmtText" ),
-						false,
-						UIPlugin.getDefault( ).getPreferenceStore( ),
-						"DataSetParameterPage.updateReportParameters" );
-
-				if ( dialog.getReturnCode( ) == MessageDialogWithToggle.INFORMATION )
+						false );
+				
+				dialog.open( );
+				
+				if ( dialog.getReturnCode( ) == yesCode )
 				{
 					updateReportParameterValue( index , bindedReportParameterName );
+				}
+				
+				if ( dialog.getToggleState( ) )
+				{
+					UIPlugin.getDefault( )
+							.getPreferenceStore( )
+							.putValue( "DataSetParameterPage.updateReportParameterSettings",
+									MessageDialogWithToggle.ALWAYS );
 				}
 			}
 			else if ( datasetParameter.getParamName( ) == null
 					&& ( !bindedReportParameterName.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) ) )
 			{
-				MessageDialogWithToggle dialog = MessageDialogWithToggle.openYesNoQuestion( Workbench.getInstance( )
+				MessageDialogWithToggle dialog = new MessageDialogWithToggle( Workbench.getInstance( )
 						.getDisplay( )
 						.getActiveShell( ),
 						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
+						null,
 						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
+						MessageDialog.INFORMATION,
+						new String[]{
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
+						},
+						1,
 						Messages.getString( "DataSetParameterPage.updateReportParameter.propmtText" ),
-						false,
-						UIPlugin.getDefault( ).getPreferenceStore( ),
-						"DataSetParameterPage.updateReportParameters" );
+						false );
 
-				if ( dialog.getReturnCode( ) == MessageDialogWithToggle.INFORMATION )
+				dialog.open( );
+
+				if ( dialog.getReturnCode( ) == yesCode )
 				{
 					ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( bindedReportParameterName,
 							false );
@@ -587,6 +655,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 						{
 						}
 					}
+				}
+				
+				if ( dialog.getToggleState( ) )
+				{
+					UIPlugin.getDefault( )
+							.getPreferenceStore( )
+							.putValue( "DataSetParameterPage.updateReportParameterSettings",
+									MessageDialogWithToggle.ALWAYS );
 				}
 			}
 		}
@@ -607,18 +683,32 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		CommandStack stack = Utility.getCommandStack( );
 		stack.startTrans( Messages.getString( "DataSetParameterBindingInputDialog.Title.EditParameter" ) ); //$NON-NLS-1$
 
+		String[] paramNames = getAllScalarParamName( );
 		ParameterInputDialog dlg = new ParameterInputDialog( handle,
 				isOdaDataSetHandle );
 
 		if ( dlg.open( ) == Window.OK )
 		{
 			viewer.getViewer( ).refresh( );
-			
+
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
-			
+
 			String bindedReportParameterName = dlg.bindedReportParameterName;
-			updateReportParameter( index , bindedReportParameterName);
+			
+			boolean newParam = true;
+			
+			for ( int i = 0; i < paramNames.length; i++ )
+			{
+				if ( paramNames[i].equals( bindedReportParameterName ) )
+				{
+					newParam = false;
+					break;
+				}
+			}
+			
+			if ( !newParam )
+				updateReportParameter( index, bindedReportParameterName );
 			stack.commit( );
 		}
 		else
@@ -2390,6 +2480,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			}
 			
 			checkParameterButtonTooltip( );
+			bindedReportParameterName = linkToSalarParameter.getText( );
 		}
 
 		private void checkParameterButtonTooltip( )
