@@ -21,6 +21,8 @@ RadarSeriesAttributeComposite.Lbl.DialTicks=目盛を付ける(&T)
 RadarSeriesAttributeComposite.Lbl.DialScale=スケール(&C)
 RadarBaseSeriesComponent.Label.CategoryDefinition=カテゴリの定義(&C) :
 RadarSeriesAttributeComposite.Lbl.ShowWeb=Web / レーダラベルを表示(&W)
+RadarSeriesAttributeComposite.Lbl.ShowCat=Show Web/Radar &Category Labels
+
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、RadarSeriesAttributeComposite の引数としては使用できません。
 RadarSeriesAttributeComposite.Lbl.LinePalette=系列パレットを線の色として使用する(&P)
@@ -32,14 +34,31 @@ RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=線を曲線で表示(&H)
 RadarSeriesMarkerSheet.Label.Markers=マーカ(&M)
 RadarSeriesMarkerSheet.GroupLabel.Markers=マーカ
 
-RadarSeriesMarkerSheet.Label.Web=グラフの線の設定
+RadarSeriesMarkerSheet.Label.Web=Radar Line Configuration
 RadarSeriesMarkerSheet.Label.Series=系列の線の設定
 
 Radar.Composite.Label.ScaleCount=グラフの目盛(&N)
 Radar.Composite.Label.ScaleCountToolTip=グラフで使用する目盛を設定
 Radar.Composite.Label.bullsEye=ブルズアイの色を半透明に設定
+Format.Button.Web.Label=Format Web Labels
+Format.Button.Cat.Label=Format Category Labels
+WebLabel.Tooltip.FormatSpecifier=Format Web Labels
+CatLabel.Tooltip.FormatSpecifier=Format Category Labels
+RadarSeriesMarkerSheet.Label.WebLabel=Configure Web Labels
+RadarSeriesMarkerSheet.Label.CatLabel=Configure Category Labels
+RadarSeriesUIProvider..Title.RadarLine=Radar Line
+RadarSeriesUIProvider.Label.CategoryLabels=Cate&gory Labels
+RadarSeriesUIProvider.Label.RadarLine=Ra&dar Line
+RadarSeriesUIProvider.Label.WebLabels=&Web Labels
+RadarSeriesUIProvider.Title.CategoryLabels=Category Labels
+RadarSeriesUIProvider.Title.WebLabels=Web/Radar Labels
 
-
+Radar.Composite.Label.ScaleAuto=Auto Scale
+Radar.Composite.Label.ScaleAutoTooltip=Chart is Automatically Scaled
+Radar.Composite.Label.ScaleMax=Scale Max
+Radar.Composite.Label.ScaleMaxToolTip=Set the Chart Scale Maximum
+Radar.Composite.Label.ScaleMin=Scale Min
+Radar.Composite.Label.ScaleMinToolTip=Set the Chart Scale Minimum
 
 
 Radar.Composite.Label.PlotPercentageToolTip=レーダグラフで使用するプロット領域の割合

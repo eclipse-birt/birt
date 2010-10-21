@@ -21,6 +21,8 @@ RadarSeriesAttributeComposite.Lbl.DialTicks=刻度线(&T)
 RadarSeriesAttributeComposite.Lbl.DialScale=比例(&C)
 RadarBaseSeriesComponent.Label.CategoryDefinition=类别定义(&C):
 RadarSeriesAttributeComposite.Lbl.ShowWeb=显示 Web/雷达标签(&W)
+RadarSeriesAttributeComposite.Lbl.ShowCat=Show Web/Radar &Category Labels
+
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument=对于 RadarSeriesAttributeComposite，类型 {0} 的系列是无效参数。
 RadarSeriesAttributeComposite.Lbl.LinePalette=在确定线条颜色时使用系列选项板(&P)
@@ -32,14 +34,31 @@ RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=线显示为曲线(&H)
 RadarSeriesMarkerSheet.Label.Markers=标记(&M)
 RadarSeriesMarkerSheet.GroupLabel.Markers=标记
 
-RadarSeriesMarkerSheet.Label.Web=图表线配置
+RadarSeriesMarkerSheet.Label.Web=Radar Line Configuration
 RadarSeriesMarkerSheet.Label.Series=系列线配置
 
 Radar.Composite.Label.ScaleCount=图表中的数标步进值(&N)
 Radar.Composite.Label.ScaleCountToolTip=在图表中创建时所用的数标步进值
 Radar.Composite.Label.bullsEye=将靶眼颜色设置为半透明
+Format.Button.Web.Label=Format Web Labels
+Format.Button.Cat.Label=Format Category Labels
+WebLabel.Tooltip.FormatSpecifier=Format Web Labels
+CatLabel.Tooltip.FormatSpecifier=Format Category Labels
+RadarSeriesMarkerSheet.Label.WebLabel=Configure Web Labels
+RadarSeriesMarkerSheet.Label.CatLabel=Configure Category Labels
+RadarSeriesUIProvider..Title.RadarLine=Radar Line
+RadarSeriesUIProvider.Label.CategoryLabels=Cate&gory Labels
+RadarSeriesUIProvider.Label.RadarLine=Ra&dar Line
+RadarSeriesUIProvider.Label.WebLabels=&Web Labels
+RadarSeriesUIProvider.Title.CategoryLabels=Category Labels
+RadarSeriesUIProvider.Title.WebLabels=Web/Radar Labels
 
-
+Radar.Composite.Label.ScaleAuto=Auto Scale
+Radar.Composite.Label.ScaleAutoTooltip=Chart is Automatically Scaled
+Radar.Composite.Label.ScaleMax=Scale Max
+Radar.Composite.Label.ScaleMaxToolTip=Set the Chart Scale Maximum
+Radar.Composite.Label.ScaleMin=Scale Min
+Radar.Composite.Label.ScaleMinToolTip=Set the Chart Scale Minimum
 
 
 Radar.Composite.Label.PlotPercentageToolTip=雷达图在绘图区中所占百分比
