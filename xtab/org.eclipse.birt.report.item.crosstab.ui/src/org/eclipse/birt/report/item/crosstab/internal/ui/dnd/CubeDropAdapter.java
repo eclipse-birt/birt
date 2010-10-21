@@ -39,6 +39,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ActionHandle;
@@ -85,7 +86,7 @@ public class CubeDropAdapter implements IDropAdapter
 			if ( targetSlot != null )
 			{
 				if ( DNDUtil.handleValidateTargetCanContainType( targetSlot,
-						"Crosstab" )
+						"Crosstab" ) //$NON-NLS-1$
 						&& DNDUtil.handleValidateTargetCanContainMore( targetSlot,
 								0 ) )
 					return DNDService.LOGIC_TRUE;
@@ -93,42 +94,42 @@ public class CubeDropAdapter implements IDropAdapter
 			else
 			{
 				//If the target is crosstab,and create chart view, maybe the container cann't contain the cube
-//				if (target instanceof CrosstabCellEditPart)
-//				{
-//					Object model = DNDUtil.unwrapToModel( ((CrosstabCellEditPart)target).getModel( ) );
-//					if (model == null)
-//					{
-//						return DNDService.LOGIC_FALSE;
-//					}
-//					ExtendedItemHandle handle = null;
-//					String name = ReportPlugin.getDefault( )
-//							.getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
-//
-//					try
-//					{
-//						SessionHandleAdapter.getInstance( )
-//						.getReportDesignHandle( ).getCommandStack( ).startTrans( "" );
-//						handle = CrosstabExtendedItemFactory.createCrosstabReportItem( SessionHandleAdapter.getInstance( )
-//								.getReportDesignHandle( ),
-//								null,
-//								name );
-//						handle.setProperty( IReportItemModel.CUBE_PROP, (CubeHandle)transfer );
-//						int flag = DNDUtil.handleValidateTargetCanContain(model, handle, false);
-//						if (flag == DNDUtil.CONTAIN_NO)
-//						{
-//							return DNDService.LOGIC_FALSE;
-//						}
-//					}
-//					catch ( Exception e )
-//					{
-//						return DNDService.LOGIC_FALSE;
-//					}
-//					finally
-//					{
-//						SessionHandleAdapter.getInstance( )
-//						.getReportDesignHandle( ).getCommandStack( ).rollbackAll( );
-//					}
-//				}
+				if (target instanceof CrosstabCellEditPart)
+				{
+					Object model = DNDUtil.unwrapToModel( ((CrosstabCellEditPart)target).getModel( ) );
+					if (model == null)
+					{
+						return DNDService.LOGIC_FALSE;
+					}
+					ExtendedItemHandle handle = null;
+					String name = ReportPlugin.getDefault( )
+							.getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
+
+					try
+					{
+						SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ).getCommandStack( ).startTrans( "" ); //$NON-NLS-1$
+						handle = CrosstabExtendedItemFactory.createCrosstabReportItem( SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( ),
+								null,
+								name );
+						handle.setProperty( IReportItemModel.CUBE_PROP, (CubeHandle)transfer );
+						int flag = DNDUtil.handleValidateTargetCanContain(model, handle, false);
+						if (flag == DNDUtil.CONTAIN_NO)
+						{
+							return DNDService.LOGIC_FALSE;
+						}
+					}
+					catch ( Exception e )
+					{
+						return DNDService.LOGIC_FALSE;
+					}
+					finally
+					{
+						SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ).getCommandStack( ).rollbackAll( );
+					}
+				}
 				// fix for 233149
 				IStructuredSelection models = InsertInLayoutUtil.editPart2Model( new StructuredSelection( target ) );
 				if ( !models.isEmpty( ) )
