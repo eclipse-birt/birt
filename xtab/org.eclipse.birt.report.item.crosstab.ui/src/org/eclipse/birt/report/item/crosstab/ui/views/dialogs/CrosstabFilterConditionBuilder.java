@@ -26,8 +26,6 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.designer.data.ui.util.CubeValueSelector;
-import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
-import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionEditor;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
@@ -49,11 +47,6 @@ import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.impl.ReportEngine;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
@@ -78,8 +71,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -2086,23 +2077,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 								IExpressionConverter.EXPRESSION_CLASS_CUBE );
 			}
 
-			ModuleHandle copy = (ModuleHandle)( designHandle.getModuleHandle( )
-					.copy( ).getHandle( null ) );
-
-			EngineConfig config = new EngineConfig( );
-
-			config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-					DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
-							.getContextClassLoader( ),
-							copy ) );
-			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
-
-			DummyEngineTask engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
-					copy );
-			session = engineTask.getDataSession( );
-
-			engineTask.run( );
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 
 			DataService.getInstance( ).registerSession( cube, session );
 
