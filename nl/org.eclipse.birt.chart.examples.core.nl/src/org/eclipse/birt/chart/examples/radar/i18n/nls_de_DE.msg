@@ -21,6 +21,8 @@ RadarSeriesAttributeComposite.Lbl.DialTicks=&Häkchen
 RadarSeriesAttributeComposite.Lbl.DialScale=S&kalierung
 RadarBaseSeriesComponent.Label.CategoryDefinition=&Kategoriedefinition:
 RadarSeriesAttributeComposite.Lbl.ShowWeb=&Web-/Radarbeschriftungen anzeigen
+RadarSeriesAttributeComposite.Lbl.ShowCat=Show Web/Radar &Category Labels
+
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} ist ein ungültiges Argument für RadarSeriesAttributeComposite.
 RadarSeriesAttributeComposite.Lbl.LinePalette=&Palette für Datenreihe als Linienfarbe verwenden
@@ -32,14 +34,31 @@ RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=&Linien als Kurven anzeigen
 RadarSeriesMarkerSheet.Label.Markers=&Markierung
 RadarSeriesMarkerSheet.GroupLabel.Markers=Markierung
 
-RadarSeriesMarkerSheet.Label.Web=Diagrammlinienkonfiguration
+RadarSeriesMarkerSheet.Label.Web=Radar Line Configuration
 RadarSeriesMarkerSheet.Label.Series=Reihenlinienkonfiguration
 
 Radar.Composite.Label.ScaleCount=A&nzahl Skalenschritte in Diagramm
 Radar.Composite.Label.ScaleCountToolTip=Anzahl Skalenschritte zum Erstellen im Diagramm
 Radar.Composite.Label.bullsEye=Punktfarben als transparent festlegen
+Format.Button.Web.Label=Format Web Labels
+Format.Button.Cat.Label=Format Category Labels
+WebLabel.Tooltip.FormatSpecifier=Format Web Labels
+CatLabel.Tooltip.FormatSpecifier=Format Category Labels
+RadarSeriesMarkerSheet.Label.WebLabel=Configure Web Labels
+RadarSeriesMarkerSheet.Label.CatLabel=Configure Category Labels
+RadarSeriesUIProvider..Title.RadarLine=Radar Line
+RadarSeriesUIProvider.Label.CategoryLabels=Cate&gory Labels
+RadarSeriesUIProvider.Label.RadarLine=Ra&dar Line
+RadarSeriesUIProvider.Label.WebLabels=&Web Labels
+RadarSeriesUIProvider.Title.CategoryLabels=Category Labels
+RadarSeriesUIProvider.Title.WebLabels=Web/Radar Labels
 
-
+Radar.Composite.Label.ScaleAuto=Auto Scale
+Radar.Composite.Label.ScaleAutoTooltip=Chart is Automatically Scaled
+Radar.Composite.Label.ScaleMax=Scale Max
+Radar.Composite.Label.ScaleMaxToolTip=Set the Chart Scale Maximum
+Radar.Composite.Label.ScaleMin=Scale Min
+Radar.Composite.Label.ScaleMinToolTip=Set the Chart Scale Minimum
 
 
 Radar.Composite.Label.PlotPercentageToolTip=Prozentsatz der Zeichnungsfläche, der für den Radar erforderlich ist
