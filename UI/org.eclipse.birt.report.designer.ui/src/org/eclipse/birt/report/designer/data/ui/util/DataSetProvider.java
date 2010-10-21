@@ -242,6 +242,8 @@ public final class DataSetProvider
 					items[i].setAnalysis( hint.getAnalysis( ) );
 					items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
 				}
+				items[i].setDisplayName( hint.getDisplayName( ) );
+				items[i].setDisplayNameKey( hint.getDisplayNameKey( ) );
 				items[i].setACLExpression( hint.getACLExpression( ) );
 				items[i].setFormat( hint.getFormat( ) );
 				items[i].setDisplayLength( hint.getDisplayLength( ) );
@@ -368,6 +370,8 @@ public final class DataSetProvider
 					items[i].setAnalysis( hint.getAnalysis( ) );
 					items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
 				}
+				items[i].setDisplayName( hint.getDisplayName( ) );
+				items[i].setDisplayNameKey( hint.getDisplayNameKey( ) );
 				items[i].setACLExpression( hint.getACLExpression( ) );
 				items[i].setFormat( hint.getFormat( ) );
 				items[i].setDisplayLength( hint.getDisplayLength( ) );
@@ -692,6 +696,8 @@ public final class DataSetProvider
 					columns[n].getName( ) );
 			if ( hint != null )
 			{
+				columns[n].setDisplayName( hint.getDisplayName( ) );
+				columns[n].setDisplayNameKey( hint.getDisplayNameKey( ) );
 				columns[n].setAnalysis( hint.getAnalysis( ) );
 				columns[n].setAnalysisColumn( hint.getAnalysisColumn( ) );
 				columns[n].setACLExpression( hint.getACLExpression( ) );
