@@ -920,9 +920,9 @@
 	    <exec executable="unzip" dir="${buildDirectory}/${buildId}">
 	        <arg line="-o -q birt-osgi-${package.version}.zip -d ${tmpsite}" />
 	    </exec>
-		<!--exec executable="unzip" dir="${buildDirectory}/${buildId}">
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-chart-osgi-${package.version}.zip -d ${tmpsite}" />
-	    </exec-->
+	    </exec>
 		
 		<!-- BIRT third party -->
 		<!--
