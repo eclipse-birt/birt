@@ -15,10 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
+import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 
 /**
  * 
@@ -60,7 +60,7 @@ abstract class BaseDiskArray implements IDiskArray
 		this.segmentOffsets = new ArrayList( );
 		this.segmentOffsets.add( new Integer( 0 ) );
 		createRandomAccessFile( );
-//		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
+		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 
 	/*

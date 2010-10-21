@@ -116,6 +116,7 @@ public class DataEngineImpl extends DataEngine
 		
 		dataSourceManager = new DataSourceManager( logger );
 		this.session = new DataEngineSession( this );
+		DataEngineThreadLocal.getInstance( ).getCloseListener( ).dataEngineStart( );
 		
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 		logger.log( Level.FINE, "Data Engine starts up" );
@@ -534,19 +535,6 @@ public class DataEngineImpl extends DataEngine
 	{
 		logger.entering( "DataEngineImpl", "shutdown" );
 		
-		List<ICloseListener> closeListener = DataEngineThreadLocal.getInstance( ).getCloseListener( );
-		for( int i = 0; i < closeListener.size( ); i++ )
-		{
-			try
-			{
-				closeListener.get( i ).close( );
-			}
-			catch (IOException e)
-			{
-			}
-		}
-		DataEngineThreadLocal.getInstance( ).removeCloseListener( );
-		
 		if ( dataSources == null )
 		{
 			// Already shutdown
@@ -592,8 +580,20 @@ public class DataEngineImpl extends DataEngine
 
 		dataSetDesigns = null;
 		dataSources = null;
-		clearTempFile( );
 		
+		try
+		{
+			DataEngineThreadLocal.getInstance( ).getCloseListener( ).dataEngineShutDown( );
+			if( DataEngineThreadLocal.getInstance( ).getCloseListener( ).getActivateDteCount( ) == 0 )
+			{
+				DataEngineThreadLocal.getInstance( ).getCloseListener( ).closeAll( );
+				DataEngineThreadLocal.getInstance( ).removeCloseListener( );
+			}
+			clearTempFile( );
+		}
+		catch ( IOException e )
+		{
+		}
 		if ( this.getContext( ).getDocWriter( ) != null )
 		{
 			RAOutputStream outputStream;
