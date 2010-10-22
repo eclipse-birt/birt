@@ -96,7 +96,29 @@ public class NumberUtil
 		return value instanceof BigDecimal
 				|| value instanceof java.math.BigDecimal;
 	}
-	
+    
+	/**
+	 * Checks if specified object is instance of ibm's BigDecimal.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static boolean isIBMBigDecimal( Object value )
+	{
+		return value instanceof BigDecimal;
+	}
+
+	/**
+	 * Checks if specified object is instance of java.math.BigDecimal.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static boolean isJavaMathBigDecimal( Object value )
+	{
+		return value instanceof java.math.BigDecimal;
+	}
+
 	/**
 	 * This method compares two number objects.
 	 * 
@@ -229,8 +251,45 @@ public class NumberUtil
 		{
 			return  new BigDecimal(( (java.math.BigDecimal) n ).toString( ) );
 		}
+		else if ( n instanceof BigInteger )
+		{
+			return new BigDecimal( n.toString( ) );
+		}
 		
 		return BigDecimal.valueOf( n.doubleValue( ) );
+	}
+	
+	/**
+	 * Converts number as java.math.BigDecimal.
+	 * 
+	 * @param n
+	 * @return
+	 */
+	public static java.math.BigDecimal asJavaMathBigDecimal( Number n )
+	{
+		if ( n == null )
+		{
+			return null;
+		}
+		else if ( n instanceof BigNumber )
+		{
+			return new java.math.BigDecimal( ( (BigNumber) n ).getValue( )
+					.toString( ) );
+		}
+		else if ( n instanceof BigDecimal )
+		{
+			return new java.math.BigDecimal( n.toString( ) );
+		}
+		else if ( n instanceof java.math.BigDecimal )
+		{
+			return (java.math.BigDecimal) n;
+		}
+		else if ( n instanceof BigInteger )
+		{
+			return new java.math.BigDecimal( n.toString( ) );
+		}
+
+		return java.math.BigDecimal.valueOf( n.doubleValue( ) );
 	}
 	
 	/**
