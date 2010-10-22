@@ -134,6 +134,36 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 			logger.log( e );
 		}
 	}
+	
+	protected static IDataRowExpressionEvaluator EMPTY_CHART_EVALUATOR = new IDataRowExpressionEvaluator( ) {
+
+		public void close( )
+		{
+
+		}
+
+		public Object evaluate( String expression )
+		{
+			return null;
+		}
+
+		@SuppressWarnings("deprecation")
+		public Object evaluateGlobal( String expression )
+		{
+			return null;
+		}
+
+		public boolean first( )
+		{
+			// No row
+			return false;
+		}
+
+		public boolean next( )
+		{
+			return false;
+		}
+	};
 
 	/**
 	 * check if the format is supported by the browser and device renderer.
@@ -580,7 +610,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 					cm,
 					(ICubeResultSet) set );
 		}
-		return null;
+		// Use empty evaluator if result set is null
+		return EMPTY_CHART_EVALUATOR;
 	}
 
 	private boolean isSubQuery( )
@@ -723,21 +754,26 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		// Extract result set to render and check for null data
 		IBaseResultSet resultSet = getDataToRender( baseResultSet );
 
-		// Display alt text if binding is not complete
-		if ( resultSet == null
-				|| !ChartItemUtil.checkChartBindingComplete( cm ) )
-		{
-			// Returns an object array for engine to display alt text instead of
-			// image when result set is null.
-			return new Object[]{
-				new byte[]{
-					0
-				}
-			};
-		}
 		// Display blank if data empty.
 		boolean bEmpty = false;
-		if ( ChartReportItemUtil.isEmpty( resultSet ) )
+		
+		// Display alt text if binding is not complete
+		if ( resultSet == null || !ChartItemUtil.checkChartBindingComplete( cm ) )
+		{
+			if ( isAutoHide( ) )
+			{
+				// Returns an object array for engine to display alt text
+				// instead of image when result set is null.
+				return new Object[]{
+					new byte[]{
+						0
+					}
+				};
+			}
+			bEmpty = true;
+		}
+
+		if ( !bEmpty && ChartReportItemUtil.isEmpty( resultSet ) )
 		{
 			if ( isAutoHide( ) )
 			{
