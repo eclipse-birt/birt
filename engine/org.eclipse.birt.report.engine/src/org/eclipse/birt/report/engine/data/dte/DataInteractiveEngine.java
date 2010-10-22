@@ -491,8 +491,19 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			// parent results
 			dteResults = dteSession.execute( pQuery, parentQueryResults,
 					scriptContext );
-			resultSet = new CubeResultSet( this, context, parentResult, query,
+			CubeResultSet cubeResultSet = new CubeResultSet( this,
+					context,
+					parentResult,
+					query,
 					(ICubeQueryResults) dteResults );
+			if ( cubeResultSet.getCubeCursor( ) == null )
+			{
+				resultSet = null;
+			}
+			else
+			{
+				resultSet = cubeResultSet;
+			}
 		}
 		// FIXME:
 		// resultSet.setBaseRSetID( resultSetID );
