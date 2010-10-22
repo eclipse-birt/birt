@@ -120,6 +120,12 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 
 	protected SimpleStyle cache = null;
 
+	/**
+	 * The object handle is used to process extra styles according to
+	 * current context.
+	 */
+	protected ChartStyleProcessorProxy styleProcessorProxy = null;
+
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
@@ -182,6 +188,8 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		this.useCache = useCache;
 		this.dstyle = dstyle;
 		this.dpi = dpi;
+		// Set concrete style processor proxy according to current context.
+		this.setStyleProcessorProxy( ChartReportStyleProcessor.getChartStyleProcessorProxy( this ) );
 	}
 	
 	private static final Pattern ptnWrappingQuotes = Pattern.compile( "\".*\"" ); //$NON-NLS-1$
@@ -777,6 +785,14 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
     @Override
 	public void processStyle( Chart cm )
 	{
+    	// Apply dataset column's style.
+    	DataSetHandle dataset = ChartItemUtil.getBindingDataSet(handle);
+    	if ( dataset != null )
+    	{
+    		processDataSetStyle( cm );
+    		return;
+    	}
+    	// Apply cube level's style.
 		CubeHandle cube = ChartCubeUtil.getBindingCube( handle );
 		if ( cube == null )
 		{
@@ -810,6 +826,17 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			// Set the format in cube to chart model
 			processCubeStyle( cm, category, measure, yoption );
 		}
+	}
+
+	/**
+	 * Applies column styles of data set onto chart.
+	 * 
+	 * @param cm
+	 * @since 2.6.2
+	 */
+	protected void processDataSetStyle( Chart cm )
+	{
+		this.styleProcessorProxy.processDataSetStyle( cm );
 	}
 
 	public void applyDefaultHyperlink( Chart chart )
@@ -1206,4 +1233,26 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		return null;
 	}
 
+	/**
+	 * Set an extra style processor proxy.
+	 * 
+	 * @param proxy
+	 * @since 2.6.2
+	 */
+	protected void setStyleProcessorProxy( ChartStyleProcessorProxy proxy )
+	{
+		this.styleProcessorProxy = proxy;
+		this.styleProcessorProxy.setHandle( handle );
+	}
+	
+	private static ChartStyleProcessorProxy getChartStyleProcessorProxy( ChartReportStyleProcessor processor )
+	{
+		ChartStyleProcessorProxy factory = ChartReportItemUtil.getAdapter( processor,
+				ChartStyleProcessorProxy.class );
+		if ( factory != null )
+		{
+			return factory;
+		}
+		return new ChartStyleProcessorProxy();
+	}
 }
