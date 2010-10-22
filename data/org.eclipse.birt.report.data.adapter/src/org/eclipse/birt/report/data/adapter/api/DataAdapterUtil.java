@@ -202,7 +202,7 @@ public class DataAdapterUtil
 						new JSResultIteratorObject( (ILinkedResult) source,
 								targetScope ) );
 			}
-			else if ( type == ILinkedResult.TYPE_CUBE )
+			else if ( type == ILinkedResult.TYPE_CUBE && source.getCurrentResult( )!= null )
 			{
 				Scriptable scope = ( (ICubeCursor) source.getCurrentResult( ) ).getScope( );
 				targetScope.put( "data", targetScope, scope.get( "data", scope ) );
