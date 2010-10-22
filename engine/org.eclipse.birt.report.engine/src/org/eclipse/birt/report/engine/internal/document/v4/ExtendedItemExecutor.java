@@ -256,8 +256,20 @@ public class ExtendedItemExecutor extends ContainerExecutor
 						}
 						else
 						{
-							rsets[i] = context.executeQuery( prset, queries[i],
-									design.getHandle( ), useCache );
+							IBaseResultSet rset = context.executeQuery( prset,
+									queries[i],
+									design.getHandle( ),
+									useCache );
+							if ( rset != null
+									&& rset.getType( ) == IBaseResultSet.CUBE_RESULTSET
+									&& ( (ICubeResultSet) rset ).getCubeCursor( ) == null )
+							{
+								rsets[i] = null;
+							}
+							else
+							{
+								rsets[i] = rset;
+							}
 						}
 					}
 					context.setResultSets( rsets );
