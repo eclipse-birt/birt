@@ -30,7 +30,6 @@ import org.eclipse.birt.chart.util.BigNumber;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.NumberUtil;
 
-import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.DecimalFormatSymbols;
@@ -217,7 +216,7 @@ public final class ValueFormatter
 			}
 			else if ( NumberUtil.isBigDecimal( oValue ) )
 			{
-				return correctNumber( nfs.format( (BigDecimal) oValue, lcl ) );
+				return correctNumber( nfs.format( (Number) oValue, lcl ) );
 			}
 			else
 			{
@@ -235,7 +234,7 @@ public final class ValueFormatter
 			}
 			else if ( NumberUtil.isBigDecimal( oValue ) )
 			{
-				return correctNumber( nfs.format( (BigDecimal) oValue, lcl ) );
+				return correctNumber( nfs.format( (Number) oValue, lcl ) );
 			}
 			else
 			{

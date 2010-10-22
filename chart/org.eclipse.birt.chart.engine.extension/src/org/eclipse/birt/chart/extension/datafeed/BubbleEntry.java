@@ -95,7 +95,14 @@ public final class BubbleEntry extends NumberDataPointEntry
 		else if( NumberUtil.isBigDecimal( value ))
 		{
 			bIsBigDecimal = true;
-			bdSize = (Number) size;
+			if ( NumberUtil.isJavaMathBigDecimal( value ) )
+			{
+				bdSize = NumberUtil.asJavaMathBigDecimal( (Number) size );
+			}
+			else
+			{
+				bdSize = NumberUtil.asBigDecimal( (Number) size );
+			}
 		}
 		
 		this.oValue = value;

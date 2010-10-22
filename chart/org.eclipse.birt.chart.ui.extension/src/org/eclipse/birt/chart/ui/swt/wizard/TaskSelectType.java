@@ -601,11 +601,6 @@ public class TaskSelectType extends SimpleTask implements
 			IChartType type = iterTypes.next( );
 			Series newSeries = type.getSeries( );
 
-			if ( htSeriesNames == null )
-			{
-				htSeriesNames = new Hashtable<String, Series>( 20 );
-			}
-
 			if ( type.canCombine( ) )
 			{
 				if ( IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE.equals( sDimension )
@@ -1131,6 +1126,11 @@ public class TaskSelectType extends SimpleTask implements
 		if ( cbSeriesType == null )
 		{
 			return;
+		}
+		
+		if ( htSeriesNames == null )
+		{
+			htSeriesNames = new Hashtable<String, Series>( 20 );
 		}
 		
 		// Populate Series Types List

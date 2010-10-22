@@ -69,7 +69,8 @@ public final class DifferenceEntry extends NumberDataPointEntry
 			init( (BigNumber) oaTwoComponents[0],
 					(BigNumber) oaTwoComponents[1] );
 		}
-		else if ( NumberUtil.isBigDecimal( oaTwoComponents[0] ) )
+		else if ( NumberUtil.isBigDecimal( oaTwoComponents[0] )
+				|| NumberUtil.isBigDecimal( oaTwoComponents[1] ) )
 		{
 			isBigDecimal = true;
 			init( (Number) oaTwoComponents[0],
@@ -104,8 +105,16 @@ public final class DifferenceEntry extends NumberDataPointEntry
 	{
 		if ( isBigDecimal  )
 		{
-			bdPosValue = bdPositiveValue;
-			bdNegValue = bdNegativeValue;
+			if ( NumberUtil.isJavaMathBigDecimal( bdPositiveValue ) )
+			{
+				bdPosValue = NumberUtil.asJavaMathBigDecimal( bdPositiveValue );
+				bdNegValue = NumberUtil.asJavaMathBigDecimal( bdNegativeValue );
+			}
+			else
+			{
+				bdPosValue = NumberUtil.asBigDecimal( bdPositiveValue );
+				bdNegValue = NumberUtil.asBigDecimal( bdNegativeValue );
+			}
 			dPosValue = bdPosValue.doubleValue( );
 			dNegValue = bdNegValue.doubleValue( );
 		}
