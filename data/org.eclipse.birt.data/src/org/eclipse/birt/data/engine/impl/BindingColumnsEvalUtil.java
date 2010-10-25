@@ -55,8 +55,6 @@ class BindingColumnsEvalUtil
 	private List allManualBindingExprs;
 	private List allAutoBindingExprs;
 
-	private boolean isBasedOnRD;
-	private EvalHelper evalHelper;
 	private ScriptContext cx;
 	private final static int MANUAL_BINDING = 1;
 	private final static int AUTO_BINDING = 2;
@@ -85,17 +83,6 @@ class BindingColumnsEvalUtil
 		this.saveHelper = saveUtil;
 		this.cx = cx;
 		
-		try
-		{
-			this.isBasedOnRD = ExprMetaUtil.isBasedOnRD( ri.getResultClass( ) );
-			if ( this.isBasedOnRD == true )
-				this.evalHelper = new EvalHelper( ri );
-		}
-		catch ( DataException e )
-		{
-			// ignore, impossible
-		}
-
 		this.initBindingColumns( manualBindingExprs, autoBindingExprs );
 		logger.exiting( BindingColumnsEvalUtil.class.getName( ),
 				"BindingColumnsEvalUtil" );
@@ -213,37 +200,22 @@ class BindingColumnsEvalUtil
 		Object exprValue = null;
 		try
 		{
-			boolean getValue = false;
-			if ( isBasedOnRD == true )
+			if ( exprType == MANUAL_BINDING )
 			{
-				String columnName = bindingColumn.columnName;
-				if ( evalHelper.contains( columnName ) )
-				{
-					getValue = true;
-					exprValue = evalHelper.getValue( columnName );
-				}
-			}
-			
-			if ( getValue == false )
-			{
-				if ( exprType == MANUAL_BINDING )
-				{	
-					if ( bindingColumn.isAggregation )
-						exprValue = this.odiResult.getAggrValue( bindingColumn.columnName );
-					else
-						exprValue = ExprEvaluateUtil.evaluateExpression( bindingColumn.baseExpr,
+				if ( bindingColumn.isAggregation )
+					exprValue = this.odiResult.getAggrValue( bindingColumn.columnName );
+				else
+					exprValue = ExprEvaluateUtil.evaluateExpression( bindingColumn.baseExpr,
 							odiResult,
 							scope,
-							cx);
-				}
-				else
-					exprValue = ExprEvaluateUtil.evaluateRawExpression( bindingColumn.baseExpr,
-							scope,
-							cx);
+							cx );
 			}
-			
-			if ( exprValue != null
-					&& !( exprValue instanceof Exception ) )
+			else
+				exprValue = ExprEvaluateUtil.evaluateRawExpression( bindingColumn.baseExpr,
+						scope,
+						cx );
+
+			if ( exprValue != null && !( exprValue instanceof Exception ) )
 				exprValue = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( exprValue ),
 						bindingColumn.type );
 		}
