@@ -33,7 +33,7 @@
    <feature url="features/org.eclipse.birt.osgi.runtime.sdk_@FEATURE.OSGI.RUNTIME.SDK@.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="@FEATURE.OSGI.RUNTIME.SDK@">
       <category name="OSGi"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_@FEATURE.OSGI.RUNTIME.SDK@.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="@FEATURE.OSGI.RUNTIME.SDK@">
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_@FEATURE.CHART.OSGI.RUNTIME.SDK@.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="@FEATURE.CHART.OSGI.RUNTIME.SDK@">
       <category name="ChartOSGi"/>
    </feature>   
    <feature url="features/org.eclipse.birt.chart.integration.wtp_@FEATURE.CHART.WTP@.jar" id="org.eclipse.birt.chart.integration.wtp" version="@FEATURE.CHART.WTP@">
