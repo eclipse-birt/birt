@@ -477,6 +477,7 @@
 	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.doc.isv}" token="@FEATURE.CHART.DOC.ISV@"/>
 	    <replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.source}" token="@FEATURE.CHART.SOURCE@"/>
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.osgi.runtime.sdk}" token="@FEATURE.OSGI.RUNTIME.SDK@"/>
+		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.osgi.runtime.sdk}" token="@FEATURE.CHART.OSGI.RUNTIME.SDK@"/>
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.integration.wtp}" token="@FEATURE.CHART.WTP@"/>
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.integration.wtp.source}" token="@FEATURE.CHART.WTP.SOURCE@"/>
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.integration.wtp}" token="@FEATURE.BIRT.WTP@"/>
