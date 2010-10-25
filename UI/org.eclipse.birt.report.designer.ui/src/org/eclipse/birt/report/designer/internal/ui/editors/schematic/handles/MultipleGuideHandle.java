@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MultipleEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportElementDragTracker;
@@ -33,10 +34,10 @@ import org.eclipse.draw2d.geometry.PrecisionRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.handles.HandleBounds;
 import org.eclipse.gef.handles.MoveHandleLocator;
-import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -411,6 +412,69 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 		{
 			super.performConditionalSelection( );
 			( (MultipleEditPart) getSourceEditPart( ) ).setCurrentView( number );
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.eclipse.gef.tools.SelectEditPartTracker#performSelection()
+		 */
+		protected void performSelection() {
+			if (hasSelectionOccurred())
+				return;
+			EditPart real  = null;
+			List children = getSourceEditPart( ).getChildren( );
+			for (int i=0; i<children.size( ); i++)
+			{
+				if (children.get( i ) instanceof AbstractTableEditPart)
+				{
+					real = (EditPart)children.get( i );
+					break;
+				}
+			}
+			if (real ==  null)
+			{
+				real = getSourceEditPart( );
+			}
+			setFlag(FLAG_SELECTION_PERFORMED, true);
+			EditPartViewer viewer = getCurrentViewer();
+			List selectedObjects = viewer.getSelectedEditParts();
+
+			if (getCurrentInput().isModKeyDown(SWT.MOD1)) {
+				if (selectedObjects.contains(getSourceEditPart()))
+					viewer.deselect(getSourceEditPart());
+				else
+				{
+					if (number == 0)
+					{
+						viewer.appendSelection(real);
+					}
+					else
+					{
+						viewer.appendSelection(getSourceEditPart());
+					}
+				}
+			} else if (getCurrentInput().isShiftKeyDown())
+			{
+				if (number == 0)
+				{
+					viewer.appendSelection(real);
+				}
+				else
+				{
+					viewer.appendSelection(getSourceEditPart());
+				}
+			}
+			else
+			{
+				if (number == 0)
+				{
+					viewer.select(real);
+				}
+				else
+				{
+					viewer.select(getSourceEditPart());
+				}
+			}
+				
 		}
 
 		/*
