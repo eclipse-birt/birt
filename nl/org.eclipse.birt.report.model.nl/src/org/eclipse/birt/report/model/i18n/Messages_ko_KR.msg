@@ -232,7 +232,7 @@ Choices.imageType.image/jpeg=image/jpeg
 Choices.imageType.image/ico=이미지/ico
 Choices.imageType.image/tiff=이미지/tiff
 Choices.imageType.image/svg+xml=이미지/svg+xml
-Choices.imageType.image/x-icon=image/x-icon
+Choices.imageType.image/x-icon=이미지/x 아이콘
   
 #23.lineSpacing
 Choices.lineSpacing.lines=줄

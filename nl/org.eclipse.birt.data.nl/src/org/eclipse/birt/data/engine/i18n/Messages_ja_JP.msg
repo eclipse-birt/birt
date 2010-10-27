@@ -14,7 +14,7 @@
 
 ###########################################################
 #for test only
-Error.Msg001={1} に {0} が見つかりません。
+Error.Msg001={0} に {0} が見つかりません。  
 
 ###########################################################
 
@@ -143,7 +143,7 @@ load.factory.error=データエンジンのファクトリを読み込めません。
 data.engine.DataConversionError=データ型を変換中にエラーが発生しました。
 data.engine.BadCompareExpr="{0}" を "{1}" と比較できません。
 data.engine.BadCompareSingleValueWithMultiValues=1 つの値を [{0}] の複数の値と比較するフィルタ条件が無効であるため、フィルタを適用できません。\nこのフィルタでは値を 1 つだけ設定してください。
-data.engine.BirtException=BIRT で例外 {0} が発生しました。詳しくは、次の例外を参照してください。
+data.engine.BirtException=BIRT で例外が発生しました。 詳しくは、次の例外を参照してください。
 
 # data set cache error
 data.engine.datasetcache.save.error=データセットキャッシュのファイルを保存できません。

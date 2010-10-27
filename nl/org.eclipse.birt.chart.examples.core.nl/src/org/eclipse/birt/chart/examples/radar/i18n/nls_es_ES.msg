@@ -20,8 +20,8 @@ RadarSeriesAttributeSheetImpl.Lbl.Fill=Relleno:
 RadarSeriesAttributeComposite.Lbl.DialTicks=&Marcas
 RadarSeriesAttributeComposite.Lbl.DialScale=E&scala
 RadarBaseSeriesComponent.Label.CategoryDefinition=Definición de &categoría:
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Mostrar etiquetas &Web/Radial
-RadarSeriesAttributeComposite.Lbl.ShowCat=Show Web/Radar &Category Labels
+RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web Labels
+RadarSeriesAttributeComposite.Lbl.ShowCat=Mostrar etiquetas de &categoría Web/Radial
 
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument=La serie de tipo {0} no es un argumento válido para RadarSeriesAttributeComposite.
@@ -34,31 +34,31 @@ RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=M&ostrar líneas como curvas
 RadarSeriesMarkerSheet.Label.Markers=&Marcador
 RadarSeriesMarkerSheet.GroupLabel.Markers=Marcador
 
-RadarSeriesMarkerSheet.Label.Web=Radar Line Configuration
+RadarSeriesMarkerSheet.Label.Web=Configuración de línea radial
 RadarSeriesMarkerSheet.Label.Series=Configuración de línea de serie
 
 Radar.Composite.Label.ScaleCount=&Número de pasos de escala en el diagrama
 Radar.Composite.Label.ScaleCountToolTip=Numero de pasos de escala con los que crear el diagrama
 Radar.Composite.Label.bullsEye=Establecer los colores de ojo de buey como translúcidos
-Format.Button.Web.Label=Format Web Labels
-Format.Button.Cat.Label=Format Category Labels
-WebLabel.Tooltip.FormatSpecifier=Format Web Labels
-CatLabel.Tooltip.FormatSpecifier=Format Category Labels
-RadarSeriesMarkerSheet.Label.WebLabel=Configure Web Labels
-RadarSeriesMarkerSheet.Label.CatLabel=Configure Category Labels
-RadarSeriesUIProvider..Title.RadarLine=Radar Line
-RadarSeriesUIProvider.Label.CategoryLabels=Cate&gory Labels
-RadarSeriesUIProvider.Label.RadarLine=Ra&dar Line
-RadarSeriesUIProvider.Label.WebLabels=&Web Labels
-RadarSeriesUIProvider.Title.CategoryLabels=Category Labels
-RadarSeriesUIProvider.Title.WebLabels=Web/Radar Labels
+Format.Button.Web.Label=Etiquetas Web de formato
+Format.Button.Cat.Label=Etiquetas de categoría de formato
+WebLabel.Tooltip.FormatSpecifier=Etiquetas Web de formato
+CatLabel.Tooltip.FormatSpecifier=Etiquetas de categoría de formato
+RadarSeriesMarkerSheet.Label.WebLabel=Configurar etiquetas Web
+RadarSeriesMarkerSheet.Label.CatLabel=Configurar etiquetas de categoría
+RadarSeriesUIProvider..Title.RadarLine=Línea radial
+RadarSeriesUIProvider.Label.CategoryLabels=Etiquetas de cate&goría
+RadarSeriesUIProvider.Label.RadarLine=Línea ra&dial
+RadarSeriesUIProvider.Label.WebLabels=Etiquetas &Web
+RadarSeriesUIProvider.Title.CategoryLabels=Etiquetas de categoría
+RadarSeriesUIProvider.Title.WebLabels=Etiquetas Web/Radial
 
-Radar.Composite.Label.ScaleAuto=Auto Scale
-Radar.Composite.Label.ScaleAutoTooltip=Chart is Automatically Scaled
-Radar.Composite.Label.ScaleMax=Scale Max
-Radar.Composite.Label.ScaleMaxToolTip=Set the Chart Scale Maximum
-Radar.Composite.Label.ScaleMin=Scale Min
-Radar.Composite.Label.ScaleMinToolTip=Set the Chart Scale Minimum
+Radar.Composite.Label.ScaleAuto=Escala automática
+Radar.Composite.Label.ScaleAutoTooltip=La escala del diagrama se ajusta automáticamente
+Radar.Composite.Label.ScaleMax=Máx. de escala
+Radar.Composite.Label.ScaleMaxToolTip=Establecer el máximo de escala del diagrama
+Radar.Composite.Label.ScaleMin=Mín. de escala
+Radar.Composite.Label.ScaleMinToolTip=Establecer el mínimo de escala del diagrama
 
 
 Radar.Composite.Label.PlotPercentageToolTip=Porcentaje de área de dibujo que consumirá el radial

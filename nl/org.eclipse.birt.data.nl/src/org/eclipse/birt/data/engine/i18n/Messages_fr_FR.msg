@@ -14,7 +14,7 @@
 
 ###########################################################
 #for test only
-Error.Msg001={0} introuvable dans {1}.
+Error.Msg001={0} introuvable dans {0}.  
 
 ###########################################################
 
@@ -143,7 +143,7 @@ load.factory.error=Une erreur s'est produite lors du chargement de la génération
 data.engine.DataConversionError=Une erreur s'est produite lors de la conversion du type de données.
 data.engine.BadCompareExpr=Impossible de comparer "{0}" avec "{1}".
 data.engine.BadCompareSingleValueWithMultiValues=Echec de l'application du filtre, car la condition de filtre est incorrecte (une valeur unique est comparée avec des valeurs multiples de [{0}]).\nNe définissez qu'une seule valeur pour ce filtre.
-data.engine.BirtException=Une exception BIRT est survenue : {0}. Voir l''exception suivante pour plus d''informations.
+data.engine.BirtException=Une exception BIRT s'est produite. Voir l'exception suivante pour plus d'informations.
 
 # data set cache error
 data.engine.datasetcache.save.error=Une erreur est survenue lors de l'enregistrement de fichiers du cache des jeux de données.
