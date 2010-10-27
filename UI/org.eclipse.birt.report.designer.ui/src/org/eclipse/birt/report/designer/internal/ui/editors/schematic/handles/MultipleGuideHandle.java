@@ -23,6 +23,8 @@ import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
@@ -381,6 +383,17 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 					public void run( )
 					{
 						( (MultipleEditPart) ChildrenDragTracker.this.getSourceEditPart( ) ).removeView( number );
+					}
+					
+					public boolean isEnabled() 
+					{
+						int position = number - 1;
+						List list = ((ReportItemHandle) (ChildrenDragTracker.this.getSourceEditPart( ).getModel( ))).getViews( );
+						if ( position < 0 && position > list.size( ) - 1 )
+						{
+							return false;
+						}
+						return ((DesignElementHandle)list.get( position )).canDrop( );
 					}
 
 				};
