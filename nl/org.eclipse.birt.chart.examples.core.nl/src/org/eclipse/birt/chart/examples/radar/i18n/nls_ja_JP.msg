@@ -20,8 +20,8 @@ RadarSeriesAttributeSheetImpl.Lbl.Fill=塗りつぶし :
 RadarSeriesAttributeComposite.Lbl.DialTicks=目盛を付ける(&T)
 RadarSeriesAttributeComposite.Lbl.DialScale=スケール(&C)
 RadarBaseSeriesComponent.Label.CategoryDefinition=カテゴリの定義(&C) :
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Web / レーダラベルを表示(&W)
-RadarSeriesAttributeComposite.Lbl.ShowCat=Show Web/Radar &Category Labels
+RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web Labels
+RadarSeriesAttributeComposite.Lbl.ShowCat=Web / レーダカテゴリラベルを表示(&C)
 
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、RadarSeriesAttributeComposite の引数としては使用できません。
@@ -34,31 +34,31 @@ RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=線を曲線で表示(&H)
 RadarSeriesMarkerSheet.Label.Markers=マーカ(&M)
 RadarSeriesMarkerSheet.GroupLabel.Markers=マーカ
 
-RadarSeriesMarkerSheet.Label.Web=Radar Line Configuration
+RadarSeriesMarkerSheet.Label.Web=レーダの線の設定
 RadarSeriesMarkerSheet.Label.Series=系列の線の設定
 
 Radar.Composite.Label.ScaleCount=グラフの目盛(&N)
 Radar.Composite.Label.ScaleCountToolTip=グラフで使用する目盛を設定
 Radar.Composite.Label.bullsEye=ブルズアイの色を半透明に設定
-Format.Button.Web.Label=Format Web Labels
-Format.Button.Cat.Label=Format Category Labels
-WebLabel.Tooltip.FormatSpecifier=Format Web Labels
-CatLabel.Tooltip.FormatSpecifier=Format Category Labels
-RadarSeriesMarkerSheet.Label.WebLabel=Configure Web Labels
-RadarSeriesMarkerSheet.Label.CatLabel=Configure Category Labels
-RadarSeriesUIProvider..Title.RadarLine=Radar Line
-RadarSeriesUIProvider.Label.CategoryLabels=Cate&gory Labels
-RadarSeriesUIProvider.Label.RadarLine=Ra&dar Line
-RadarSeriesUIProvider.Label.WebLabels=&Web Labels
-RadarSeriesUIProvider.Title.CategoryLabels=Category Labels
-RadarSeriesUIProvider.Title.WebLabels=Web/Radar Labels
+Format.Button.Web.Label=Web ラベルの書式設定
+Format.Button.Cat.Label=カテゴリラベルの書式設定
+WebLabel.Tooltip.FormatSpecifier=Web ラベルの書式設定
+CatLabel.Tooltip.FormatSpecifier=カテゴリラベルの書式設定
+RadarSeriesMarkerSheet.Label.WebLabel=Web ラベルの設定
+RadarSeriesMarkerSheet.Label.CatLabel=カテゴリラベルの設定
+RadarSeriesUIProvider..Title.RadarLine=レーダの線
+RadarSeriesUIProvider.Label.CategoryLabels=カテゴリラベル(&G)
+RadarSeriesUIProvider.Label.RadarLine=レーダの線(&D)
+RadarSeriesUIProvider.Label.WebLabels=Web ラベル(&W)
+RadarSeriesUIProvider.Title.CategoryLabels=カテゴリラベル
+RadarSeriesUIProvider.Title.WebLabels=Web / レーダラベル
 
-Radar.Composite.Label.ScaleAuto=Auto Scale
-Radar.Composite.Label.ScaleAutoTooltip=Chart is Automatically Scaled
-Radar.Composite.Label.ScaleMax=Scale Max
-Radar.Composite.Label.ScaleMaxToolTip=Set the Chart Scale Maximum
-Radar.Composite.Label.ScaleMin=Scale Min
-Radar.Composite.Label.ScaleMinToolTip=Set the Chart Scale Minimum
+Radar.Composite.Label.ScaleAuto=自動スケール
+Radar.Composite.Label.ScaleAutoTooltip=グラフのサイズは自動的に変更されます
+Radar.Composite.Label.ScaleMax=スケールの最大値
+Radar.Composite.Label.ScaleMaxToolTip=グラフのサイズを最大に設定
+Radar.Composite.Label.ScaleMin=スケールの最小値
+Radar.Composite.Label.ScaleMinToolTip=グラフのサイズを最小に設定
 
 
 Radar.Composite.Label.PlotPercentageToolTip=レーダグラフで使用するプロット領域の割合

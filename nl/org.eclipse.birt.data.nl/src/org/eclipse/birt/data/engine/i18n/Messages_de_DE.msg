@@ -14,7 +14,7 @@
 
 ###########################################################
 #for test only
-Error.Msg001={0} in {1} nicht gefunden.
+Error.Msg001={0} in {1} nicht gefunden.  
 
 ###########################################################
 
@@ -143,7 +143,7 @@ load.factory.error=Beim Laden der Factory der Datenengine tritt ein Fehler auf.
 data.engine.DataConversionError=Bei der Datentypkonversion ist ein Fehler aufgetreten.
 data.engine.BadCompareExpr='{0}' kann nicht mit '{1}' verglichen werden.
 data.engine.BadCompareSingleValueWithMultiValues=Der Filter konnte nicht angewendet werden, da die Filterbedingung ungültig ist. Ein einzelner Wert kann nicht mit mehreren Werten von [{0}] verglichen werden.\nGeben Sie nur einen Wert für diesen Filter an.
-data.engine.BirtException=In BIRT ist ein Ausnahmefehler aufgetreten: {0}. Weitere Informationen können Sie dem nächsten Ausnahmefehler entnehmen.
+data.engine.BirtException=In BIRT ist ein Ausnahmefehler aufgetreten. Weitere Informationen, siehe nächster Ausnahmefehler.
 
 # data set cache error
 data.engine.datasetcache.save.error=Beim Speichern von Dateien des Datensatz-Caches ist ein Fehler aufgetreten.

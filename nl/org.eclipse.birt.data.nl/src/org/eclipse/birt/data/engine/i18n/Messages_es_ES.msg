@@ -14,7 +14,7 @@
 
 ###########################################################
 #for test only
-Error.Msg001=El valor {0} no se encuentra en {0}.
+Error.Msg001=El valor {0} no se encuentra en {0}.  
 
 ###########################################################
 
@@ -143,7 +143,7 @@ load.factory.error=Hay un error al cargar la fábrica del motor de datos.
 data.engine.DataConversionError=Se ha producido un error en la conversión del tipo de datos.
 data.engine.BadCompareExpr=No se puede comparar "{0}" con "{1}".
 data.engine.BadCompareSingleValueWithMultiValues=Error al aplicar el filtro debido a una condición de filtro no válido de comparación de un solo valor con múltiples valores de [{0}].\nEstablezca sólo un valor para este filtro.
-data.engine.BirtException=Se ha producido una excepción BIRT: {0}. Consulte la siguiente excepción para obtener más información.
+data.engine.BirtException=Se ha producido una excepción BIRT. Consulte la siguiente excepción para obtener más información.
 
 # data set cache error
 data.engine.datasetcache.save.error=Hay un error al guardar los archivos de la caché de datos.

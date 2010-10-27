@@ -232,7 +232,7 @@ Choices.imageType.image/jpeg=image/jpeg
 Choices.imageType.image/ico=Bild (ico)
 Choices.imageType.image/tiff=Bild (tiff)
 Choices.imageType.image/svg+xml=Bild (svg+xml)
-Choices.imageType.image/x-icon=image/x-icon
+Choices.imageType.image/x-icon=Bild/x-Symbol
   
 #23.lineSpacing
 Choices.lineSpacing.lines=Zeilen

@@ -14,7 +14,7 @@
 
 ###########################################################
 #for test only
-Error.Msg001={0} 在 {0} 中未找到。
+Error.Msg001={0} 在 {0} 中未找到。  
 
 ###########################################################
 
@@ -143,7 +143,7 @@ load.factory.error=加载数据引擎工厂时出错。
 data.engine.DataConversionError=转换数据类型时出错。
 data.engine.BadCompareExpr=无法将“{0}”与“{1}”进行比较。
 data.engine.BadCompareSingleValueWithMultiValues=由于将单个值与 [{0}] 的多个值比较的筛选条件无效，无法应用筛选器。\n请为此筛选器只设置一个值。
-data.engine.BirtException=发生 BIRT 异常：{0}。查看下一个异常以了解更多信息。
+data.engine.BirtException=发生 BIRT 异常。 有关详细信息，请参见下一个异常。
 
 # data set cache error
 data.engine.datasetcache.save.error=保存数据源缓存的文件时出错。

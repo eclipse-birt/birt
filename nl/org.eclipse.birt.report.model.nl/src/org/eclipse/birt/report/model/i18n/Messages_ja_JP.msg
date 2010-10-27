@@ -232,7 +232,7 @@ Choices.imageType.image/jpeg=image/jpeg
 Choices.imageType.image/ico=イメージ/ico
 Choices.imageType.image/tiff=イメージ/tiff
 Choices.imageType.image/svg+xml=イメージ/svg+xml
-Choices.imageType.image/x-icon=image/x-icon
+Choices.imageType.image/x-icon=イメージ / x アイコン
   
 #23.lineSpacing
 Choices.lineSpacing.lines=線
