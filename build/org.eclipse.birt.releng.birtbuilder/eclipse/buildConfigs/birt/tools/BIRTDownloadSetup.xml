@@ -916,7 +916,6 @@
 				<include name="org.eclipse.birt.data.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.model.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.engine.emitter.config.nl1_*.jar" />
 			</zipfileset>
 		</zip>
 	</target>
