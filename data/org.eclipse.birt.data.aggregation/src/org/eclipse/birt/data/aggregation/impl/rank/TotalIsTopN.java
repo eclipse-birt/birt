@@ -41,7 +41,7 @@ public class TotalIsTopN extends BaseTopBottomAggregation
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends NAccumulator
+	private static class MyAccumulator extends NAccumulator
 	{
 
 		/*

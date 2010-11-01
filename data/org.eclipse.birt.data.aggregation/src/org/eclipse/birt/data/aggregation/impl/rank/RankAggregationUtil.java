@@ -209,7 +209,7 @@ class ValueComparator implements Comparator
 						.toString( ) ).booleanValue( );
 				if ( gt )
 					return 1;
-				boolean eq = new Boolean( ScriptEvalUtil.evalConditionalExpr( o1,
+				boolean eq = Boolean.valueOf( ScriptEvalUtil.evalConditionalExpr( o1,
 						IConditionalExpression.OP_EQ,
 						o2,
 						null )

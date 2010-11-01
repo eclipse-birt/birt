@@ -94,7 +94,7 @@ public class TotalMirr extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends SummaryAccumulator
+	private static class MyAccumulator extends SummaryAccumulator
 	{
 
 		private ArrayList<Number> list;

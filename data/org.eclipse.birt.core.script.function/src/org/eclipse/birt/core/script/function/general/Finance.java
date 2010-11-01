@@ -98,7 +98,7 @@ public class Finance
 
 		if ( life <= 0 || salvage < 0 || cost <= 0 || period <= 0
 				|| life == Double.NaN || salvage == Double.NaN
-				|| cost == Double.NaN || period == Double.NaN )
+				|| Double.isNaN( cost ) || Double.isNaN( period ) )
 		{
 			throw ( new IllegalArgumentException(
 					"There exists illegal parameter in the function DDB" ) );
@@ -261,8 +261,7 @@ public class Finance
 		{
 			fv += pv
 					* Math
-							.pow( ( 1 + rate ), new Integer( nPer )
-									.doubleValue( ) );
+							.pow( ( 1 + rate ), nPer );
 		}
 		return ( 0 - fv );
 	}
@@ -895,7 +894,7 @@ public class Finance
 		if (arptr == null)
 		{
 			throw ( new IllegalArgumentException(
-					"There exists illegal parameter:" + arptr) );
+					"There exists illegal parameter:arptr" ) );
 		}
 		double npv = 0;
 		double r1 = 1 + rate;
@@ -1013,10 +1012,9 @@ public class Finance
 		double result;
 		double tmp;
 		int i;
-		if ( cash != null )
-		{
-			arsize = cash.length;
-		}
+		
+		arsize = cash.length;
+		
 		tmp = cash[0];
 		if ( tmp < 0 )
 		{

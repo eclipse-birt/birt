@@ -101,7 +101,7 @@ public class DataAdapterUtilTest extends TestCase
 		public Boolean getBoolean( String name ) throws BirtException
 		{
 			// TODO Auto-generated method stub
-			return null;
+			return Boolean.TRUE;
 		}
 
 		public byte[] getBytes( String name ) throws BirtException
@@ -237,7 +237,7 @@ public class DataAdapterUtilTest extends TestCase
 		
 	}
 	
-	private class DummyJSObject extends ScriptableObject
+	private static class DummyJSObject extends ScriptableObject
 	{
 		public String getClassName( )
 		{

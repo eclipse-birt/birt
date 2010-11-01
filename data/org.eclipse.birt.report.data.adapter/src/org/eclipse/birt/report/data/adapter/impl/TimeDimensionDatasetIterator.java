@@ -125,7 +125,7 @@ public class TimeDimensionDatasetIterator implements IDatasetIterator
 		}
 		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ) )
 		{
-			return new Integer( getCalendar( d ).get( Calendar.SECOND ) );
+			return Integer.valueOf( getCalendar( d ).get( Calendar.SECOND ) );
 		}
 		else
 			throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE, timeType );

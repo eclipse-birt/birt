@@ -86,7 +86,7 @@ public class TotalRunningSum extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends RunningAccumulator
+	private static class MyAccumulator extends RunningAccumulator
 	{
 
 		private boolean isRowAvailable = false;

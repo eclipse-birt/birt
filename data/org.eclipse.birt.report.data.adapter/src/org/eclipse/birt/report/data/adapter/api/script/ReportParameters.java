@@ -68,7 +68,7 @@ public class ReportParameters extends ScriptableObject
 	public Object get( String name, Scriptable start )
 	{
     	if ( name.equals( LENGTH_VALUE ) )
-			return new Integer( parameters.size( ) );
+			return Integer.valueOf( parameters.size( ) );
     	
 		Object result = getScriptableParameter( name );
 		if ( result == null )

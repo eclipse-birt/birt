@@ -173,7 +173,7 @@ public class DataAdapterUtil
 		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_IN,
 				new Integer( IConditionalExpression.OP_IN ) );
 		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN,
-				new Integer( IConditionalExpression.OP_NOT_IN ) );
+				Integer.valueOf( IConditionalExpression.OP_NOT_IN ) );
 	}
 
 	/**
@@ -648,7 +648,7 @@ public class DataAdapterUtil
 				if ( "__rownum".equalsIgnoreCase( arg0 ) ||
 						"0".equalsIgnoreCase( arg0 ) )
 				{
-					return new Integer( this.currentIterator.getRowIndex( ) );
+					return Integer.valueOf( this.currentIterator.getRowIndex( ) );
 				}
 				if ( "_outer".equalsIgnoreCase( arg0 ) )
 				{

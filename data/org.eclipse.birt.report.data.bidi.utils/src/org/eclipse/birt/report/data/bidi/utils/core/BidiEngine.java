@@ -396,7 +396,7 @@ public class BidiEngine extends Bidi
 		return new String( newFormat );
 	}
 
-	class BidiScheme
+	static class BidiScheme
 	{
 
 		String inFormat = ""; //$NON-NLS-1$

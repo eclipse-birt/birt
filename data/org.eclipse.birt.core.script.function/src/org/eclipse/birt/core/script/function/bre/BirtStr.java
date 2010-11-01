@@ -63,7 +63,7 @@ class BirtStr implements IScriptFunctionExecutor
 							+ "BirtStr." + functionName );
 	}
 
-	private class Function_Left implements IScriptFunctionExecutor
+	private static class Function_Left implements IScriptFunctionExecutor
 	{
 		private static final int maxArgumentNum = 2;
 
@@ -132,7 +132,7 @@ class BirtStr implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_Right implements IScriptFunctionExecutor
+	private static class Function_Right implements IScriptFunctionExecutor
 	{
 		private static final int maxArgumentNum = 2;
 
@@ -201,7 +201,7 @@ class BirtStr implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_Concat implements IScriptFunctionExecutor
+	private static class Function_Concat implements IScriptFunctionExecutor
 	{
 
 		/**
@@ -214,18 +214,17 @@ class BirtStr implements IScriptFunctionExecutor
 			if ( args == null )
 				throw new IllegalArgumentException( Messages.getString( "error.arguement.cannot.empty" ) );
 
-			String result = "";
-
+			StringBuffer buf = new StringBuffer();
+			  
 			for ( int i = 0; i < args.length; i++ )
 			{
-				result += args[i];
+				buf.append( args[i] );
 			}
-
-			return result;
+			return buf.toString( );
 		}
 	}
 
-	private class Function_ToUpper implements IScriptFunctionExecutor
+	private static class Function_ToUpper implements IScriptFunctionExecutor
 	{
 		private static final int fixedArgumentNum = 1;
 
@@ -272,7 +271,7 @@ class BirtStr implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_ToLower implements IScriptFunctionExecutor
+	private static class Function_ToLower implements IScriptFunctionExecutor
 	{
 
 		private static final int fixedArgumentNum = 1;
@@ -320,7 +319,7 @@ class BirtStr implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_Trim implements IScriptFunctionExecutor
+	private static class Function_Trim implements IScriptFunctionExecutor
 	{
 
 		private static final int fixedArgumentNum = 1;
@@ -362,7 +361,7 @@ class BirtStr implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_TrimLeft implements IScriptFunctionExecutor
+	private static class Function_TrimLeft implements IScriptFunctionExecutor
 	{
 
 		private static final int fixedArgumentNum = 1;
@@ -409,7 +408,7 @@ class BirtStr implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_TrimRight implements IScriptFunctionExecutor
+	private static class Function_TrimRight implements IScriptFunctionExecutor
 	{
 
 		private static final int fixedArgumentNum = 1;
@@ -458,7 +457,7 @@ class BirtStr implements IScriptFunctionExecutor
 
 	}
 
-	private class Function_IndexOf implements IScriptFunctionExecutor
+	private static class Function_IndexOf implements IScriptFunctionExecutor
 	{
 
 		/**
@@ -530,14 +529,14 @@ class BirtStr implements IScriptFunctionExecutor
 			}
 			else
 			{
-				return new Integer( indexOf( args[0] == null ? null
+				return Integer.valueOf( indexOf( args[0] == null ? null
 						: (String) args[0], args[1] == null ? null
 						: (String) args[1] ) );
 			}
 		}
 	}
 
-	private class Function_Search implements IScriptFunctionExecutor
+	private static class Function_Search implements IScriptFunctionExecutor
 	{
 
 		/**
@@ -680,14 +679,14 @@ class BirtStr implements IScriptFunctionExecutor
 			}
 			else
 			{
-				return new Integer( search( args[0] == null ? null
+				return Integer.valueOf( search( args[0] == null ? null
 						: (String) args[0], args[1] == null ? null
 						: (String) args[1] ) );
 			}
 		}
 	}
 
-	private class Function_CharLength implements IScriptFunctionExecutor
+	private static class Function_CharLength implements IScriptFunctionExecutor
 	{
 
 		/**
@@ -722,7 +721,7 @@ class BirtStr implements IScriptFunctionExecutor
 								fixedArgumentNum, args.length
 						} ) );
 
-			return new Integer( charLength( args[0] == null ? null
+			return Integer.valueOf( charLength( args[0] == null ? null
 					: (String) args[0] ) );
 		}
 	}

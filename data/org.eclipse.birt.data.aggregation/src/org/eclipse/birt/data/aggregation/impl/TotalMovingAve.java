@@ -92,7 +92,7 @@ public class TotalMovingAve extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends RunningAccumulator
+	private static class MyAccumulator extends RunningAccumulator
 	{
 
 		private LinkedList list;

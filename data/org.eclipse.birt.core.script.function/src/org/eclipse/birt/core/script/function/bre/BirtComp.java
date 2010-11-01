@@ -427,7 +427,7 @@ public class BirtComp implements IScriptFunctionExecutor
 	
 	
 
-	private class Function_AnyOf implements IScriptFunctionExecutor
+	private static class Function_AnyOf implements IScriptFunctionExecutor
 	{
 
 		/**
@@ -476,7 +476,7 @@ public class BirtComp implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_Between implements IScriptFunctionExecutor
+	private static class Function_Between implements IScriptFunctionExecutor
 	{
 
 		/**
@@ -517,9 +517,9 @@ public class BirtComp implements IScriptFunctionExecutor
 					max = args[1];
 				}
 				return this.mode
-						? new Boolean( compare( args[0], min ) >= 0
+						? Boolean.valueOf( compare( args[0], min ) >= 0
 								&& compare( args[0], max ) <= 0 )
-						: new Boolean( !( compare( args[0], min ) >= 0 && compare( args[0],
+						: Boolean.valueOf( !( compare( args[0], min ) >= 0 && compare( args[0],
 								max ) <= 0 ) );
 			}
 			catch ( BirtException e )
@@ -529,7 +529,7 @@ public class BirtComp implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_Compare implements IScriptFunctionExecutor
+	private static class Function_Compare implements IScriptFunctionExecutor
 	{
 
 		/**
@@ -591,6 +591,7 @@ public class BirtComp implements IScriptFunctionExecutor
 					break;
 				case MODE_COMPARE_STRING :
 					func = COMPARE_STRING;
+					break;
 				default :
 					func = "Unknown";
 					break;
@@ -666,7 +667,7 @@ public class BirtComp implements IScriptFunctionExecutor
 					case MODE_MATCH :
 						return new Boolean( match( args[0], args[1] ) );
 					case MODE_NOT_LIKE :
-						return new Boolean( !like( args[0], args[1], false ) );
+						return Boolean.valueOf( !like( args[0], args[1], false ) );
 					default :
 						return null;
 				}

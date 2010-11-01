@@ -59,7 +59,7 @@ class BirtMath implements IScriptFunctionExecutor
 							+ "BirtMath." + functionName );
 	}
 	
-	private class Function_Add extends Function_temp
+	private static class Function_Add extends Function_temp
 	{
 		/**
 		 * 
@@ -84,7 +84,7 @@ class BirtMath implements IScriptFunctionExecutor
 	/**
 	 *
 	 */
-	private class Function_Subtract extends Function_temp
+	private static class Function_Subtract extends Function_temp
 	{
 		/**
 		 * 
@@ -113,7 +113,7 @@ class BirtMath implements IScriptFunctionExecutor
 	/**
 	 * 
 	 */
-	private class Function_Multiple extends Function_temp
+	private static class Function_Multiple extends Function_temp
 	{
 
 		/**
@@ -143,7 +143,7 @@ class BirtMath implements IScriptFunctionExecutor
 	/**
 	 * 
 	 */
-	private class Function_Divide extends Function_temp
+	private static class Function_Divide extends Function_temp
 	{
 		
 		/**
@@ -172,7 +172,7 @@ class BirtMath implements IScriptFunctionExecutor
 	}	
 	
 	
-	private class Function_Round extends Function_temp
+	private static class Function_Round extends Function_temp
 	{
 		/**
 		 * 
@@ -223,7 +223,7 @@ class BirtMath implements IScriptFunctionExecutor
 		return Math.round( value * multiple ) / multiple;
 	}
 	
-	private class Function_RoundUp extends Function_temp
+	private static class Function_RoundUp extends Function_temp
 	{
 		/**
 		 * 
@@ -297,7 +297,7 @@ class BirtMath implements IScriptFunctionExecutor
 		return multiple;
 	}
 		
-	private class Function_RoundDown extends Function_temp
+	private static class Function_RoundDown extends Function_temp
 	{
 		/**
 		 * 
@@ -343,7 +343,7 @@ class BirtMath implements IScriptFunctionExecutor
 		return roundDown( value, 0 );
 	}
 	
-	private class Function_Ceiling extends Function_temp
+	private static class Function_Ceiling extends Function_temp
 	{
 		/**
 		 * 
@@ -399,7 +399,7 @@ class BirtMath implements IScriptFunctionExecutor
 		return multiIntValue * ( significance * divisor ) / divisor;
 	}
 	
-	private class Function_Mod extends Function_temp
+	private static class Function_Mod extends Function_temp
 	{
 		/**
 		 * 
@@ -434,7 +434,7 @@ class BirtMath implements IScriptFunctionExecutor
 		return n - div*Math.floor((n/div));
 	}
 	
-	private class Function_SafeDivide extends Function_temp
+	private static class Function_SafeDivide extends Function_temp
 	{
 		private static final long serialVersionUID = 1L;
 

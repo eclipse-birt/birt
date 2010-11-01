@@ -90,7 +90,7 @@ public class TotalWeightedAve extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends SummaryAccumulator
+	private static class MyAccumulator extends SummaryAccumulator
 	{
 
 		private Number wsum = 0.0D;

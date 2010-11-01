@@ -87,7 +87,7 @@ public class TotalMode extends AggrFunction
         return new MyAccumulator();
     }
 
-    private class MyAccumulator extends SummaryAccumulator
+    private static class MyAccumulator extends SummaryAccumulator
     {
     	// Maps a value (Double) to its count (Integer)
         private LinkedHashMap cacheMap;//used by for muti-mode storage, return the first appeared mode

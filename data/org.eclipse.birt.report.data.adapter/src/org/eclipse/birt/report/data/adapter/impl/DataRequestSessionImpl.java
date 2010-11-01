@@ -550,9 +550,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 		}
 		
-		ModuleHandle moduleHandle = sessionContext.getModuleHandle( );
-		if ( moduleHandle == null )
-			moduleHandle = dataSet.getModuleHandle( );
+//		ModuleHandle moduleHandle = sessionContext.getModuleHandle( );
+//		if ( moduleHandle == null )
+//			moduleHandle = dataSet.getModuleHandle( );
 
 		QueryExecutionHelper execHelper = new QueryExecutionHelper( this.dataEngine,
 				this.modelAdaptor,
@@ -1778,10 +1778,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 							filterExpr.add( o.getRuleExpression( ) );
 	
 						}
-						exprString = "";
+						
+						StringBuffer buf = new StringBuffer();
+
 						if( level.getDefaultValue() != null )
 						{
-							exprString += "\"" + JavascriptEvalUtil.transformToJsConstants( level.getDefaultValue() ) + "\";" ;
+							buf.append( "\"" ); 
+							buf.append( JavascriptEvalUtil.transformToJsConstants( level.getDefaultValue() ) );
+							buf.append( "\";" );
 						}
 						for ( int i = 0; i < dispExpr.size( ); i++ )
 						{
@@ -1789,8 +1793,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 									+ JavascriptEvalUtil.transformToJsConstants( String.valueOf( dispExpr.get( i ) ) )
 									+ "\"";
 							String filter = String.valueOf( filterExpr.get( i ) );
-							exprString += "if(" + filter + ")" + disp + ";";
+							buf.append( "if(" );
+							buf.append( filter );
+							buf.append( ")" );
+							buf.append( disp );
+							buf.append( ";" );
 						}
+						exprString = buf.toString( );
 						
 					}
 					temp = new DataSetIterator.ColumnMeta( DataSetIterator.createLevelName( dimName, level.getName( )),

@@ -69,7 +69,7 @@ public class TotalCount extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends SummaryAccumulator
+	private static class MyAccumulator extends SummaryAccumulator
 	{
 
 		private int count = 0;
@@ -104,7 +104,7 @@ public class TotalCount extends AggrFunction
 		 */
 		public Object getSummaryValue( )
 		{
-			return new Integer( count );
+			return Integer.valueOf( count );
 		}
 	}
 
@@ -133,6 +133,6 @@ public class TotalCount extends AggrFunction
 	 */
 	public Object getDefaultValue( )
 	{
-		return new Integer( 0 );
+		return Integer.valueOf( 0 );
 	}
 }

@@ -90,7 +90,7 @@ public class TotalNpv extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends SummaryAccumulator
+	private static class MyAccumulator extends SummaryAccumulator
 	{
 
 		private Number npv = 0.0D;

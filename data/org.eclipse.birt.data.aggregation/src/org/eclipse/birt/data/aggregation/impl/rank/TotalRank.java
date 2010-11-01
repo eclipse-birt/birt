@@ -118,7 +118,7 @@ public class TotalRank extends AggrFunction
 			if ( passCount == 0 )
 			{
 				cachedValues = new ArrayList( );
-				sum = new Integer( 0 );
+				sum = Integer.valueOf( 0 );
 				asc = true;
 				hasInitialized = false;
 				comparator = new RankObjComparator( );
@@ -169,7 +169,7 @@ public class TotalRank extends AggrFunction
 				{
 					compareValue = RankAggregationUtil.getNullObject( );
 				}
-				sum = new Integer( getRank( compareValue ) );
+				sum = Integer.valueOf( getRank( compareValue ) );
 			}
 		}
 
@@ -243,7 +243,7 @@ public class TotalRank extends AggrFunction
 	/*
 	 * 
 	 */
-	class RankObjComparator implements Comparator
+	static class RankObjComparator implements Comparator
 	{
 
 		public int compare( Object o1, Object o2 )

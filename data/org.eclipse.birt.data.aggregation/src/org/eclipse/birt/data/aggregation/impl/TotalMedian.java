@@ -88,7 +88,7 @@ public class TotalMedian extends AggrFunction
         return new MyAccumulator();
     }
 
-    private class MyAccumulator extends SummaryAccumulator
+    private static class MyAccumulator extends SummaryAccumulator
     {
         private List list;
 

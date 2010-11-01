@@ -208,7 +208,7 @@ public class TotalConcatenate extends AggrFunction
 				{
 					break;
 				}
-				if ( currentValue != null && currentValue.trim( ).length( ) > 0 )
+				if ( currentValue.trim( ).length( ) > 0 )
 				{
 					buffer.append( currentValue ).append( separator );
 				}
