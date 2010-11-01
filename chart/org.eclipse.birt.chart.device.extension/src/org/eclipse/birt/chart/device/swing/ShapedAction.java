@@ -52,7 +52,7 @@ public final class ShapedAction
 	 * @param loa
 	 * @param clipping
 	 */
-	ShapedAction( StructureSource oSource, Location[] loa, Shape clipping )
+	public ShapedAction( StructureSource oSource, Location[] loa, Shape clipping )
 	{
 		_oSource = oSource;
 		final int[][] i2a = G2dRendererBase.getCoordinatesAsInts( loa );
@@ -77,7 +77,8 @@ public final class ShapedAction
 	 * @param boEllipse
 	 * @param clipping
 	 */
-	ShapedAction( StructureSource oSource, Bounds boEllipse, Shape clipping )
+	public ShapedAction( StructureSource oSource, Bounds boEllipse,
+			Shape clipping )
 	{
 		_oSource = oSource;
 		if ( clipping != null )
@@ -108,7 +109,8 @@ public final class ShapedAction
 	 * @param iArcType
 	 * @param clipping
 	 */
-	ShapedAction( StructureSource oSource, Bounds boEllipse, double dStart,
+	public ShapedAction( StructureSource oSource, Bounds boEllipse,
+			double dStart,
 			double dExtent, int iArcType,  Shape clipping )
 	{
 		_oSource = oSource;
