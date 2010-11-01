@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.api.IParameterDefn;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.engine.data.IDataEngine;
@@ -50,6 +51,7 @@ import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -252,6 +254,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	public HashMap getDefaultValues( )
 	{
+		loadDesign( );
 		// using current parameter settings to evaluate the default parameters
 		usingParameterValues( );
 
@@ -293,6 +296,34 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 		return ( param == null ) ? null : getDefaultValue( param.getName( ) );
 	}
+	
+	protected boolean jsLoaded = false;
+	
+	protected void loadDesign( )
+	{
+		if ( !jsLoaded )
+		{
+			jsLoaded = true;
+			IReportRunnable runnable = executionContext.getRunnable( );
+			if ( runnable != null )
+			{
+				ReportDesignHandle reportDesign = executionContext
+						.getReportDesign( );
+				if ( reportDesign != null )
+				{
+					// execute scripts defined in include-script element of the
+					// libraries
+					Iterator iter = reportDesign
+							.includeLibraryScriptsIterator( );
+					loadScript( iter );
+					// execute scripts defined in include-script element of this
+					// report
+					iter = reportDesign.includeScriptsIterator( );
+					loadScript( iter );
+				}
+			}
+		}
+	}
 
 	public Object getDefaultValue( String name )
 	{
@@ -303,7 +334,8 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			return null;
 		}
-
+		
+		loadDesign();
 		usingParameterValues( );
 
 		return evaluateDefaultValue( parameter );
@@ -409,6 +441,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		try
 		{
 			switchToOsgiClassLoader( );
+			loadDesign( );
 			return doGetSelectionList( name );
 		}
 		finally
@@ -646,6 +679,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	public Collection getSelectionListForCascadingGroup(
 			String parameterGroupName, Object[] groupKeyValues )
 	{
+		loadDesign( );
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
 		if ( parameterGroup == null )
 		{
@@ -780,6 +814,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		try
 		{
 			switchToOsgiClassLoader( );
+			loadDesign( );
 			return doGetSelectionTreeForCascadingGroup( parameterGroupName );
 		}
 		finally
