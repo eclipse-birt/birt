@@ -629,10 +629,6 @@ public class ImageAreaLayout implements ILayout
 		private void processChartLegend( IImageContent imageContent,
 				IImageArea imageArea )
 		{
-			if ( null == intrinsic )
-			{
-				return;
-			}
 			Object imageMapObject = imageContent.getImageMap( );
 			boolean hasImageMap = ( imageMapObject != null )
 					&& ( imageMapObject instanceof String )
@@ -755,27 +751,40 @@ public class ImageAreaLayout implements ILayout
 		 */
 		private int[] getAbsoluteArea( int[] area, IImageArea imageArea )
 		{
-			assert ( intrinsic != null );
-			for ( int i = 0; i < 4; )
-			{
-				area[i] = getTranslatedLengthX( area[i] );
-				i++;
-				area[i] = getTranslatedLengthY( area[i] );
-				i++;
-			}
 			int[] result = new int[4];
-			int imageX = imageArea.getX( );
-			int imageY = imageArea.getY( );
-			int imageHeight = imageArea.getHeight( );
-			int imageWidth = imageArea.getWidth( );
-			int intrinsicWidth = intrinsic.getWidth( );
-			int intrinsicHeight = intrinsic.getHeight( );
-			float ratio = (float) imageWidth / (float) intrinsicWidth;
-			result[0] = imageX + (int) ( area[0] * ratio );
-			result[2] = (int) ( area[2] * ratio );
-			ratio = (float) imageHeight / (float) intrinsicHeight;
-			result[1] = imageY + (int) ( area[1] * ratio );
-			result[3] = (int) ( area[3] * ratio );
+			if ( intrinsic == null )
+			{
+				// this case is for SVG chart.
+				// the image map of SVG chart is in Point.
+				int imageX = imageArea.getX( );
+				int imageY = imageArea.getY( );
+				result[0] = imageX + (int) ( area[0] * 1000 );
+				result[2] = (int) ( area[2] * 1000 );
+				result[1] = imageY + (int) ( area[1] * 1000 );
+				result[3] = (int) ( area[3] * 1000 );
+			}
+			else
+			{
+				for ( int i = 0; i < 4; )
+				{
+					area[i] = getTranslatedLengthX( area[i] );
+					i++;
+					area[i] = getTranslatedLengthY( area[i] );
+					i++;
+				}
+				int imageX = imageArea.getX( );
+				int imageY = imageArea.getY( );
+				int imageHeight = imageArea.getHeight( );
+				int imageWidth = imageArea.getWidth( );
+				int intrinsicWidth = intrinsic.getWidth( );
+				int intrinsicHeight = intrinsic.getHeight( );
+				float ratio = (float) imageWidth / (float) intrinsicWidth;
+				result[0] = imageX + (int) ( area[0] * ratio );
+				result[2] = (int) ( area[2] * ratio );
+				ratio = (float) imageHeight / (float) intrinsicHeight;
+				result[1] = imageY + (int) ( area[1] * ratio );
+				result[3] = (int) ( area[3] * ratio );
+			}
 			return result;
 		}
 
