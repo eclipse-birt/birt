@@ -508,8 +508,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
 		}
-		dataEngine.shutdown( );
-		dataEngine = null;
+		if ( dataEngine != null )
+		{
+			dataEngine.shutdown( );
+			dataEngine = null;
+		}
 	}
 
 	/**
