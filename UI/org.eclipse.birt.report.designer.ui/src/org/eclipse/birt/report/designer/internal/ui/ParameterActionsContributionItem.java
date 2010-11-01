@@ -42,8 +42,6 @@ public class ParameterActionsContributionItem extends CompoundContributionItem
 				ReportDesignConstants.PARAMETER_GROUP_ELEMENT,
 				Messages.getString( "ParametersNodeProvider.menu.text.group" ) ) ); //$NON-NLS-1$
 
-		return new IContributionItem[]{
-			dtItem
-		};
+		return dtItem.getItems( );
 	}
 }
