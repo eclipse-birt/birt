@@ -60,3 +60,5 @@ publish.library=Copiar Li&brería para compartir carpeta de recursos...
 ActionSet.Publish=Publicar
 Dummy.label=
 preference.classpath=Classpath
+
+parameter.actions=New Report &Parameter

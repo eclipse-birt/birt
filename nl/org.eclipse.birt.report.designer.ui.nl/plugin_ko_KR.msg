@@ -60,3 +60,5 @@ publish.library=공유 리소스 폴더로 라이브러리 복사(&B)...
 ActionSet.Publish=게시
 Dummy.label=
 preference.classpath=클래스 경로
+
+parameter.actions=New Report &Parameter

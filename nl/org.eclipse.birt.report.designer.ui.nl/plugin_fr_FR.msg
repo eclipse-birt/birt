@@ -60,3 +60,5 @@ publish.library=Copier la bi&bliothèque dans le dossier de ressources partagées.
 ActionSet.Publish=Publier
 Dummy.label=
 preference.classpath=Classpath
+
+parameter.actions=New Report &Parameter

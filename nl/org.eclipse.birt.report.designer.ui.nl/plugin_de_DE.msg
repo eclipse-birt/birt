@@ -60,3 +60,5 @@ publish.library=&Bibliothek in Ordner für gemeinsame Ressourcen kopieren...
 ActionSet.Publish=Veröffentlichen
 Dummy.label=
 preference.classpath=Klassenpfad
+
+parameter.actions=New Report &Parameter

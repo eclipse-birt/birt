@@ -60,3 +60,5 @@ publish.library=共有リソースフォルダへのライブラリのコピー(&B)...
 ActionSet.Publish=公開
 Dummy.label=
 preference.classpath=Classpath
+
+parameter.actions=New Report &Parameter
