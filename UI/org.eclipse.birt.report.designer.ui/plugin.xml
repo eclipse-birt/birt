@@ -774,9 +774,16 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="menu:birtData">
+         <menu
+               id="ParameterActions"
+               label="%parameter.actions">
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="menu:ParameterActions">
          <dynamic
                class="org.eclipse.birt.report.designer.internal.ui.ParameterActionsContributionItem"
-               id="ParameterActions">
+               id="StandardParameterActions">
          </dynamic>
       </menuContribution>
    </extension>

@@ -26,9 +26,11 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -73,6 +75,9 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 		menu.add( new InsertAction( object,
 				Messages.getString( "ParametersNodeProvider.menu.text.group" ), //$NON-NLS-1$
 				ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
+		
+		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
+				+ "-parameters" ) ); //$NON-NLS-1$
 
 		super.createContextMenu( sourceViewer, object, menu );
 	}
