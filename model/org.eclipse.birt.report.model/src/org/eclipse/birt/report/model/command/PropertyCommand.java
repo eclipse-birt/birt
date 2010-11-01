@@ -700,7 +700,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( container instanceof TabularHierarchy )
 				dataSet = (DataSet) container.getReferenceProperty( module,
 						ITabularHierarchyModel.DATA_SET_PROP );
-			if ( dataSet == null )
+			if ( dataSet == null && container != null )
 			{
 				container = container.getContainer( );
 				if ( container instanceof Dimension )
