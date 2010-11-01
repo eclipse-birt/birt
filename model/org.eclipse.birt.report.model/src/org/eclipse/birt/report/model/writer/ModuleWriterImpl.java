@@ -3427,7 +3427,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	 *            the styled element
 	 */
 
-	private void writeStyle( StyledElement obj )
+	protected void writeStyle( StyledElement obj )
 	{
 		property( obj, IStyledElementModel.STYLE_PROP );
 		writeStyleProps( obj );
