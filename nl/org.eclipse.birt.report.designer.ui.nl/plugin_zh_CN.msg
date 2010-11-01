@@ -60,3 +60,5 @@ publish.library=将库复制到共享资源文件夹...
 ActionSet.Publish=发布
 Dummy.label=
 preference.classpath=类路径
+
+parameter.actions=New Report &Parameter
