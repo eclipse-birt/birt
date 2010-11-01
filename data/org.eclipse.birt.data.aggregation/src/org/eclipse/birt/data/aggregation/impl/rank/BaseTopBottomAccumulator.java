@@ -78,7 +78,7 @@ public abstract class BaseTopBottomAccumulator extends RunningAccumulator {
 			if ( ind == -1 )
 				return result;
 
-			result.set( i, new Integer( ind ) );
+			result.set( i, Integer.valueOf( ind ) );
 		}
 		this.cachedValues = null;
 		return result;

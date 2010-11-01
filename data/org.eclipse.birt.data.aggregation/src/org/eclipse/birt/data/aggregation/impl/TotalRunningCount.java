@@ -77,7 +77,7 @@ public class TotalRunningCount extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends RunningAccumulator
+	private static class MyAccumulator extends RunningAccumulator
 	{
 
 		private int count;
@@ -118,7 +118,7 @@ public class TotalRunningCount extends AggrFunction
 		 */
 		public Object getValue( ) throws DataException
 		{
-			return new Integer( count );
+			return Integer.valueOf( count );
 		}
 	}
 

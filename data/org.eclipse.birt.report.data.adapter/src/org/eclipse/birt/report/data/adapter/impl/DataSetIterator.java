@@ -337,7 +337,7 @@ public class DataSetIterator implements IDatasetIterator
 				ColumnMeta columnMeta = (ColumnMeta) columnMetas.get( i );
 				columnMeta.setIndex( i + 1 );
 				this.columnMetaMap.put( columnMeta.getName( ), columnMeta );
-				this.indexMap.put( new Integer( i + 1 ), columnMeta );
+				this.indexMap.put( Integer.valueOf( i + 1 ), columnMeta );
 				if ( columnMeta.isLevelKey( ) )
 				{
 					this.nullValueReplacer[i] = createNullValueReplacer( columnMeta.getType( ) );
@@ -372,7 +372,7 @@ public class DataSetIterator implements IDatasetIterator
 		 */
 		public String getFieldName( int index )
 		{
-			return ( (ColumnMeta) this.indexMap.get( new Integer( index ) ) ).getName( );
+			return ( (ColumnMeta) this.indexMap.get( Integer.valueOf( index ) ) ).getName( );
 		}
 		
 		/**
@@ -387,7 +387,7 @@ public class DataSetIterator implements IDatasetIterator
 		
 		public IDataProcessor getDataProcessor( int index )
 		{
-			 return ( (ColumnMeta) this.indexMap.get( new Integer( index ) ) ).getDataProcessor( );
+			 return ( (ColumnMeta) this.indexMap.get( Integer.valueOf( index ) ) ).getDataProcessor( );
 		}
 		
 		/**
@@ -407,13 +407,13 @@ public class DataSetIterator implements IDatasetIterator
 				case DataType.SQL_TIME_TYPE :
 					return new Time( nullTime );
 				case DataType.BOOLEAN_TYPE :
-					return new Boolean( false );
+					return Boolean.FALSE;
 				case DataType.DECIMAL_TYPE :
 					return new BigDecimal( 0 );
 				case DataType.DOUBLE_TYPE :
 					return new Double( 0 );
 				case DataType.INTEGER_TYPE :
-					return new Integer( 0 );
+					return Integer.valueOf( 0 );
 				case DataType.STRING_TYPE :
 					return "";
 				default :
@@ -664,7 +664,7 @@ public class DataSetIterator implements IDatasetIterator
 			}
 			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( timeType ) )
 			{
-				return new Integer( getCalendar( d ).get( Calendar.SECOND ) );
+				return Integer.valueOf( getCalendar( d ).get( Calendar.SECOND ) );
 			}
 			else
 				throw new AdapterException( ResourceConstants.INVALID_DATE_TIME_TYPE, timeType );

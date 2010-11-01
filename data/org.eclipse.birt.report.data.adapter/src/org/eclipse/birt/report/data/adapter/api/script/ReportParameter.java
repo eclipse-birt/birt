@@ -123,7 +123,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper
 		
 	}
 
-	class JsValueCallable implements Callable
+	static class JsValueCallable implements Callable
 	{
 		private Callable impl;
 

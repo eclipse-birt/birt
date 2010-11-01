@@ -79,7 +79,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		return this.executor.execute( arguments, context );
 	}
 	
-	private class Function_Year extends Function_temp
+	private static class Function_Year extends Function_temp
 	{
 
 		Function_Year( )
@@ -107,7 +107,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Month extends Function_temp
+	private static class Function_Month extends Function_temp
 	{
 
 		Function_Month( )
@@ -135,7 +135,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Day extends Function_temp
+	private static class Function_Day extends Function_temp
 	{
 
 		Function_Day( )
@@ -163,7 +163,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Hours extends Function_temp
+	private static class Function_Hours extends Function_temp
 	{
 
 		Function_Hours( )
@@ -191,7 +191,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_Seconds extends Function_temp
+	private static class Function_Seconds extends Function_temp
 	{
 
 		Function_Seconds( )
@@ -219,7 +219,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_TimeInMills extends Function_temp
+	private static class Function_TimeInMills extends Function_temp
 	{
 
 		Function_TimeInMills( )
@@ -247,7 +247,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Minutes extends Function_temp
+	private static class Function_Minutes extends Function_temp
 	{
 		/**
 		 * 
@@ -279,7 +279,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Longer extends Function_temp
+	private static class Function_Longer extends Function_temp
 	{
 		/**
 		 * 
@@ -311,7 +311,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Shorter extends Function_temp
+	private static class Function_Shorter extends Function_temp
 	{
 		Function_Shorter( )
 		{
@@ -338,7 +338,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_GetSign extends Function_temp
+	private static class Function_GetSign extends Function_temp
 	{
 		Function_GetSign( )
 		{
@@ -363,7 +363,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Multiply extends Function_temp
+	private static class Function_Multiply extends Function_temp
 	{
 		Function_Multiply( )
 		{
@@ -391,7 +391,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Negate extends Function_temp
+	private static class Function_Negate extends Function_temp
 	{
 		Function_Negate( )
 		{
@@ -416,7 +416,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Subtract extends Function_temp
+	private static class Function_Subtract extends Function_temp
 	{
 		Function_Subtract( )
 		{
@@ -443,7 +443,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Add extends Function_temp
+	private static class Function_Add extends Function_temp
 	{
 		Function_Add( )
 		{
@@ -470,7 +470,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_AddTo extends Function_temp
+	private static class Function_AddTo extends Function_temp
 	{
 		Function_AddTo( )
 		{
@@ -498,7 +498,7 @@ public class BirtDuration implements IScriptFunctionExecutor
 		}
 	}
 	
-	private class Function_Compare extends Function_temp
+	private static class Function_Compare extends Function_temp
 	{
 		Function_Compare( )
 		{

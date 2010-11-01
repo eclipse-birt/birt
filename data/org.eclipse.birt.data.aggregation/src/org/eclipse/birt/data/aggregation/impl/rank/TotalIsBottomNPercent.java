@@ -39,7 +39,7 @@ public class TotalIsBottomNPercent extends BaseTopBottomAggregation
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends PercentAccumulator
+	private static class MyAccumulator extends PercentAccumulator
 	{
 		/*
 		 * (non-Javadoc)

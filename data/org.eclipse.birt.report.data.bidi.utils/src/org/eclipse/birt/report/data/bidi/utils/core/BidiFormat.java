@@ -233,7 +233,7 @@ public class BidiFormat
 
 	private void updateSymSwap( Object value )
 	{
-		symSwap = ( new Boolean( value.toString( ) ) ).booleanValue( );
+		symSwap = ( Boolean.valueOf( value.toString( ) ) ).booleanValue( );
 	}
 
 	private void updateTextShaping( String value )

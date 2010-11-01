@@ -101,7 +101,7 @@ public class TotalPercentSum extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends RunningAccumulator
+	private static class MyAccumulator extends RunningAccumulator
 	{
 
 		private Number sum = 0D;
@@ -164,7 +164,7 @@ public class TotalPercentSum extends AggrFunction
 					}
 				}
 				else
-					value = new Integer( 0 ); //$NON-NLS-1$
+					value = Integer.valueOf( 0 ); //$NON-NLS-1$
 			}
 		}
 

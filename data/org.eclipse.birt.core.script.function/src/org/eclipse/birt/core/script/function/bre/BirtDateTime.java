@@ -152,7 +152,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 					Messages.getString( "invalid.function.name" )
 							+ "BirtDateTime." + functionName );	}
 
-	private class Function_Year extends Function_temp
+	private static class Function_Year extends Function_temp
 	{
 		Function_Year()
 		{
@@ -170,7 +170,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Integer( year(DataTypeUtil.toDate(args[0])));
+			return Integer.valueOf( year(DataTypeUtil.toDate(args[0])));
 		}
 	}		
 	
@@ -188,7 +188,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return getCalendar( d ).get( Calendar.YEAR );
 	}
 
-	private class Function_Quarter extends Function_temp
+	private static class Function_Quarter extends Function_temp
 	{
 		/**
 		 * 
@@ -207,7 +207,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Integer( quarter(DataTypeUtil.toDate(args[0])));
+			return Integer.valueOf( quarter(DataTypeUtil.toDate(args[0])));
 		}
 	}		
 	
@@ -246,7 +246,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		}
 	}
 
-	private class Function_Month extends Function_temp
+	private static class Function_Month extends Function_temp
 	{
 		/**
 		 * 
@@ -266,7 +266,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				return null;
 			}
 			if( args.length == 1 )
-				return new Integer( month(DataTypeUtil.toDate(args[0])));
+				return Integer.valueOf( month(DataTypeUtil.toDate(args[0])));
 			else
 				return month(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
 		}
@@ -318,7 +318,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return null;
 	}
 	
-	private class Function_Week extends Function_temp
+	private static class Function_Week extends Function_temp
 	{
 		/**
 		 * 
@@ -337,7 +337,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Integer( week(DataTypeUtil.toDate(args[0])));
+			return Integer.valueOf( week(DataTypeUtil.toDate(args[0])));
 		}
 	}	
 
@@ -355,7 +355,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return getCalendar( d ).get( Calendar.WEEK_OF_YEAR );
 	}
 
-	private class Function_Day extends Function_temp
+	private static class Function_Day extends Function_temp
 	{
 		/**
 		 * 
@@ -374,7 +374,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Integer( day(DataTypeUtil.toDate(args[0])));
+			return Integer.valueOf( day(DataTypeUtil.toDate(args[0])));
 		}
 	}	
 	
@@ -392,7 +392,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return getCalendar( d ).get( Calendar.DAY_OF_MONTH );
 	}
 	
-	private class Function_WeekDay extends Function_temp
+	private static class Function_WeekDay extends Function_temp
 	{
 		/**
 		 * 
@@ -464,7 +464,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 	}
 
-	private class Function_Today extends Function_temp
+	private static class Function_Today extends Function_temp
 	{
 		/**
 		 * 
@@ -503,7 +503,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return calendar.getTime( );
 	}
 
-	private class Function_Now extends Function_temp
+	private static class Function_Now extends Function_temp
 	{
 		/**
 		 * 
@@ -533,7 +533,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return new Timestamp( now.getTime( ) );
 	}
 
-	private class Function_DiffYear extends Function_temp
+	private static class Function_DiffYear extends Function_temp
 	{
 		/**
 		 * 
@@ -552,7 +552,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Integer(diffYear(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
+			return Integer.valueOf(diffYear(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
 	
@@ -575,7 +575,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return endYear - startYear;
 	}
 
-	private class Function_DiffMonth extends Function_temp
+	private static class Function_DiffMonth extends Function_temp
 	{
 		/**
 		 * 
@@ -594,7 +594,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Integer(diffMonth(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
+			return Integer.valueOf( diffMonth(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
 	
@@ -618,7 +618,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return endMonth - startMonth;
 	}
 
-	private class Function_DiffQuarter extends Function_temp
+	private static class Function_DiffQuarter extends Function_temp
 	{
 		/**
 		 * 
@@ -637,7 +637,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Integer(diffQuarter(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
+			return Integer.valueOf(diffQuarter(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
 	
@@ -662,7 +662,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	}
 
 	
-	private class Function_DiffWeek extends Function_temp
+	private static class Function_DiffWeek extends Function_temp
 	{
 		/**
 		 * 
@@ -681,7 +681,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Long(diffWeek(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
+			return Long.valueOf(diffWeek(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
 	
@@ -711,7 +711,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return addDay( date, diffDay );
 	}
 
-	private class Function_DiffDay extends Function_temp
+	private static class Function_DiffDay extends Function_temp
 	{
 		/**
 		 * 
@@ -730,7 +730,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Long(diffDay(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
+			return Long.valueOf( diffDay(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
 	
@@ -785,7 +785,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return days;
 	}
 
-	private class Function_DiffHour extends Function_temp
+	private static class Function_DiffHour extends Function_temp
 	{
 		/**
 		 * 
@@ -804,7 +804,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Long(diffHour(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
+			return Long.valueOf( diffHour(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
 	
@@ -826,7 +826,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 						* 60 * 60 * 24 * 7 ) / ( 60 * 60 );
 	}
 
-	private class Function_DiffMinute extends Function_temp
+	private static class Function_DiffMinute extends Function_temp
 	{
 		/**
 		 * 
@@ -845,7 +845,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Long(diffMinute(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
+			return Long.valueOf(diffMinute(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
 	
@@ -888,7 +888,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 * @author xyi
 	 *
 	 */
-	private class Function_DiffSecond extends Function_temp
+	private static class Function_DiffSecond extends Function_temp
 	{
 		/**
 		 * 
@@ -907,7 +907,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return new Long(diffSecond(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
+			return Long.valueOf(diffSecond(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
 	
@@ -931,10 +931,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		if( timeZone != null && timeZone.inDaylightTime( d2 ) )
 			diff += timeZone.getDSTSavings( );
 		
-		return ( new Long( diff / 1000 ) ).longValue( );
+		return   diff / 1000l ;
 	}
 
-	private class Function_AddYear extends Function_temp
+	private static class Function_AddYear extends Function_temp
 	{
 		/**
 		 * 
@@ -973,7 +973,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return startCal.getTime( );
 	}
 
-	private class Function_AddMonth extends Function_temp
+	private static class Function_AddMonth extends Function_temp
 	{
 		/**
 		 * 
@@ -1012,7 +1012,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return startCal.getTime( );
 	}
 
-	private class Function_AddQuarter extends Function_temp
+	private static class Function_AddQuarter extends Function_temp
 	{
 		/**
 		 * 
@@ -1047,7 +1047,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return addMonth( date, num * 3 );
 	}
 
-	private class Function_AddWeek extends Function_temp
+	private static class Function_AddWeek extends Function_temp
 	{
 		/**
 		 * 
@@ -1082,7 +1082,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return addDay( date, num * 7 );
 	}
 
-	private class Function_AddDay extends Function_temp
+	private static class Function_AddDay extends Function_temp
 	{
 		/**
 		 * 
@@ -1121,7 +1121,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return startCal.getTime( );
 	}
 
-	private class Function_AddHour extends Function_temp
+	private static class Function_AddHour extends Function_temp
 	{
 		/**
 		 * 
@@ -1160,7 +1160,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return startCal.getTime( );
 	}
 
-	private class Function_AddMinute extends Function_temp
+	private static class Function_AddMinute extends Function_temp
 	{
 		/**
 		 * 
@@ -1199,7 +1199,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return startCal.getTime( );
 	}
 
-	private class Function_AddSecond extends Function_temp
+	private static class Function_AddSecond extends Function_temp
 	{
 		/**
 		 * 

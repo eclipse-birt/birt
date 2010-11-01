@@ -152,7 +152,7 @@ public class DataSessionContext
 					|| mode == MODE_PRESENTATION
 					|| mode == MODE_DIRECT_PRESENTATION || mode == MODE_UPDATE ) )
 				throw new AdapterException( ResourceConstants.ADAPTER_INVALID_MODE,
-						new Integer( mode ) );
+						Integer.valueOf( mode ) );
 
 			this.mode = mode;
 			this.moduleHandle = moduleHandle;
@@ -207,7 +207,7 @@ public class DataSessionContext
 	{
 		if ( !( option == CACHE_USE_DEFAULT || option == CACHE_USE_DISABLE || option == CACHE_USE_ALWAYS ) )
 			throw new AdapterException( ResourceConstants.INVALID_CAHCE_OPTION,
-					new Integer( option ) );
+					Integer.valueOf( option ) );
 		this.cacheSet = true;
 		this.cacheOption = option;
 		this.cacheCount = cacheCount;

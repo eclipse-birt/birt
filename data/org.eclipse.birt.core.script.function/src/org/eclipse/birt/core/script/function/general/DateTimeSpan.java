@@ -186,7 +186,7 @@ public class DateTimeSpan
 		
 		long diff = endDate.getTime( ) - startDate.getTime( );
 
-		return ( new Long( diff / ( 1000 * 60 * 60 * 24 ) ) ).intValue( );
+		return (int)( diff / ( 1000 * 60 * 60 * 24 ) );
 
 	}
 
@@ -222,7 +222,7 @@ public class DateTimeSpan
 
 		long diff = endDate.getTime( ) - startDate.getTime( );
 
-		return ( new Long( diff / ( 1000 * 60 * 60 ) ) ).intValue( );
+		return (int)( diff / ( 1000 * 60 * 60 ) );
 	}
 
 	private static class HoursScriptFunctionExecutor implements IScriptFunctionExecutor
@@ -257,7 +257,7 @@ public class DateTimeSpan
 
 		long diff = endDate.getTime( ) - startDate.getTime( );
 
-		return ( new Long( diff / ( 1000 * 60 ) ) ).intValue( );
+		return (int)( diff / ( 1000 * 60 ) );
 	}
 
 	private static class MinutesScriptFunctionExecutor implements IScriptFunctionExecutor
@@ -292,7 +292,7 @@ public class DateTimeSpan
 		
 		long diff = endDate.getTime( ) - startDate.getTime( );
 
-		return ( new Long( diff / 1000 ) ).intValue( );
+		return (int)( diff / 1000 );
 
 	}
 

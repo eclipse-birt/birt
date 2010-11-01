@@ -102,7 +102,7 @@ public class TotalPercentRank extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends RunningAccumulator
+	private static class MyAccumulator extends RunningAccumulator
 	{
 
 		private Double sum;

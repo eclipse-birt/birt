@@ -95,7 +95,7 @@ public class TotalQuartile extends AggrFunction
 	 * 
 	 * 
 	 */
-	private class MyAccumulator extends PercentileAccumulator
+	private static class MyAccumulator extends PercentileAccumulator
 	{
 
 		/*

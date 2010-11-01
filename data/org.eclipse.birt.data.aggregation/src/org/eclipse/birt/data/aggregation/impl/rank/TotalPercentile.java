@@ -91,7 +91,7 @@ public class TotalPercentile extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends PercentileAccumulator
+	private static class MyAccumulator extends PercentileAccumulator
 	{
 
 		protected double getPctValue( Double d ) throws DataException

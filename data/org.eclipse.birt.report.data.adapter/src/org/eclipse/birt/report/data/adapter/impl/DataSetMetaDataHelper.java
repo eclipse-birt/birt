@@ -248,7 +248,7 @@ public class DataSetMetaDataHelper
 				if ( meta.getColumnType( i ) != DataType.ANY_TYPE )
 					rsColumn.setDataType( DataAdapterUtil.adapterToModelDataType( meta.getColumnType( i ) ) );
 				rsColumn.setNativeName( meta.getColumnName( i ) );
-				rsColumn.setPosition( new Integer( i ) );
+				rsColumn.setPosition( Integer.valueOf( i ) );
 
 				columnList.add( rsColumn );
 
@@ -412,7 +412,7 @@ public class DataSetMetaDataHelper
 					}
 					if ( rsMeta.getColumnType( i ) != DataType.ANY_TYPE )
 						rsc.setDataType( DataAdapterUtil.adapterToModelDataType( rsMeta.getColumnType( i ) ) );
-					rsc.setPosition( new Integer( i ) );
+					rsc.setPosition( Integer.valueOf( i ) );
 
 					columnList.add( rsc );
 				}

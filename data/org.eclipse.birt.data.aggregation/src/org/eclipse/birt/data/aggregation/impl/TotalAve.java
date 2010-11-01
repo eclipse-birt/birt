@@ -69,7 +69,7 @@ public class TotalAve extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends SummaryAccumulator
+	private static class MyAccumulator extends SummaryAccumulator
 	{
 
 		private Number sum = 0.0D;

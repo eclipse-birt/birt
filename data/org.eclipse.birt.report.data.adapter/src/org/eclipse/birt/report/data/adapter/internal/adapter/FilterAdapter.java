@@ -41,7 +41,7 @@ public class FilterAdapter extends FilterDefinition
 		super(null);
 		this.adapter = adapter;
 		String filterExpr = modelFilter.getExpr( );
-		if ( filterExpr != null || filterExpr.length( ) > 0 )
+		if ( filterExpr != null )
 		{
 			// convert to DtE exprFilter if there is no operator
 			String filterOpr = modelFilter.getOperator( );
@@ -57,7 +57,7 @@ public class FilterAdapter extends FilterDefinition
 						&& !filterOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN ) )
 				{
 					String operand1 = modelFilter.getValue1( );
-					String operand2 = modelFilter.getValue2( );
+//					String operand2 = modelFilter.getValue2( );
 
 					setExpression( adapter.adaptConditionalExpression( DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.EXPR_MEMBER )),
 							filterOpr,

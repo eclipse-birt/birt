@@ -25,7 +25,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * wide range of financial function. Class Finance provides a set of static
  * financial functions
  * 
- * @version $Revision: 1.2 $ $Date: 2008/03/07 07:04:18 $
+ * @version $Revision: 1.3 $ $Date: 2008/04/24 09:33:20 $
  */
 public class Finance
 {
@@ -77,7 +77,7 @@ public class Finance
 		if ( life <= 0
 				|| salvage < 0 || cost <= 0 || period <= 0
 				|| life == Double.NaN || salvage == Double.NaN
-				|| cost == Double.NaN || period == Double.NaN )
+				|| Double.isNaN( cost ) || Double.isNaN( period ) )
 		{
 			throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,
 					"DDB" ) ); //$NON-NLS-1$
@@ -231,7 +231,7 @@ public class Finance
 		if ( pv != 0 )
 		{
 			fv += pv
-					* Math.pow( ( 1 + rate ), new Integer( nPer ).doubleValue( ) );
+					* Math.pow( ( 1 + rate ),  nPer );
 		}
 		return ( 0 - fv );
 	}
@@ -296,7 +296,7 @@ public class Finance
 		 */
 		for ( t = start_pv; t <= end_pv; t++ )
 		{
-			double curr = Math.pow( 1 + rate, new Integer( t ).doubleValue( ) );
+			double curr = Math.pow( 1 + rate, t );
 			df_pv += 1 / curr;
 		}
 
@@ -307,7 +307,7 @@ public class Finance
 		for ( t = start_fv; t <= end_fv; t++ )
 		{
 			double curr = Math.pow( ( 1 + rate ),
-					new Integer( t ).doubleValue( ) );
+					t );
 			df_fv += curr;
 		}
 
@@ -986,13 +986,12 @@ public class Finance
 			final double estimatedResult ) throws BirtException
 	{
 
-		int cashFlowsCount = cashFlows.length;
-
-		if ( cashFlows == null || cashFlowsCount < 2 )
+		if ( cashFlows == null || cashFlows.length < 2 )
 		{
 			throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,
 					"irr" ) ); //$NON-NLS-1$
 		}
+		int cashFlowsCount = cashFlows.length;
 		// check if business startup costs is not zero:
 		if ( MathUtil.compareTo0( cashFlows[0] ) != 0 )
 		{

@@ -887,7 +887,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 * @author Administrator
 	 * 
 	 */
-	private class MemberValueIterator implements Iterator
+	private static class MemberValueIterator implements Iterator
 	{
 		private IDatasetIterator dataSetIterator;
 		private boolean hasNext;
@@ -1002,7 +1002,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 * 
 	 *
 	 */
-	private class BindingMetaInfo implements IBindingMetaInfo
+	private static class BindingMetaInfo implements IBindingMetaInfo
 	{
 		//
 		private String name;

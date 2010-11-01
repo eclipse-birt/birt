@@ -82,7 +82,7 @@ public class TotalMin extends AggrFunction
         return new MyAccumulator();
     }
 
-    private class MyAccumulator extends SummaryAccumulator
+    private static class MyAccumulator extends SummaryAccumulator
     {
         private Object min = null;
 

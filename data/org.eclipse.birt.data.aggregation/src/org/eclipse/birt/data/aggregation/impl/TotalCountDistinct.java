@@ -72,7 +72,7 @@ public class TotalCountDistinct extends AggrFunction
 		return new MyAccumulator( );
 	}
 
-	private class MyAccumulator extends SummaryAccumulator
+	private static class MyAccumulator extends SummaryAccumulator
     {
         private Set set;
         private boolean hasNullValue = false;
@@ -111,7 +111,7 @@ public class TotalCountDistinct extends AggrFunction
          */
         public Object getSummaryValue()
         {
-            return new Integer( set.size( ) + ( this.hasNullValue ? 1 : 0 ) );
+            return Integer.valueOf( set.size( ) + ( this.hasNullValue ? 1 : 0 ) );
         }
     }
 
@@ -138,6 +138,6 @@ public class TotalCountDistinct extends AggrFunction
 	 */
 	public Object getDefaultValue( )
 	{
-		return new Integer( 0 );
+		return Integer.valueOf( 0 );
 	}
 }

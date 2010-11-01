@@ -249,7 +249,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 				return Boolean.FALSE;
 			if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
-				return new Integer( 0 );
+				return Integer.valueOf( 0 );
 
 			// unknown parameter type; unexpected
 			assert false;
