@@ -341,24 +341,27 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 
 			Map dataSetMap = new HashMap( );
 			Map dataSourceMap = new HashMap( );
+			DummyEngineTask engineTask = null;
+			DataRequestSession session = null;
+			ReportEngine engine = null;
 			try
 			{
 				EngineConfig ec = new EngineConfig( );
 				ec.getAppContext( )
 						.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 								newContextLoader );
-				ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
+				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
 				DataSetMetaDataHelper.clearPropertyBindingMap( ( (DataSetEditor) getContainer( ) ).getHandle( ),
 						dataSetMap,
 						dataSourceMap );
 
 				ReportDesignHandle copy = (ReportDesignHandle) ( handle.copy( ).getHandle( null ) );
 
-				DummyEngineTask engineTask = new DummyEngineTask( engine,
+				engineTask = new DummyEngineTask( engine,
 						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
 						copy );
 
-				DataRequestSession session = engineTask.getDataSession( );
+				session = engineTask.getDataSession( );
 
 				engineTask.run( );
 				DataSetViewData[] viewDatas = DataSetProvider.getCurrentInstance( )
@@ -394,11 +397,12 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 
 				}
 				viewer.getViewer( ).setInput( viewDatas );
-				engineTask.close( );
-				engine.destroy( );
 			}
 			finally
 			{
+				session.shutdown( );
+				engineTask.close( );
+				engine.destroy( );
 				DataSetMetaDataHelper.resetPropertyBinding( ( (DataSetEditor) getContainer( ) ).getHandle( ),
 						dataSetMap,
 						dataSourceMap );
@@ -410,17 +414,23 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					( (DataSetEditor) getContainer( ) ).getHandle( )
 							.getModuleHandle( ) );
 			DataRequestSession session = DataRequestSession.newSession( context );
-
-			DataSetViewData[] viewDatas = DataSetProvider.getCurrentInstance( )
-					.populateAllOutputColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-							session );
-			if ( viewDatas == null )
+			
+			try
 			{
-				viewDatas = ( (DataSetEditor) getContainer( ) ).getCurrentItemModel( false,
-						false );
+				DataSetViewData[] viewDatas = DataSetProvider.getCurrentInstance( )
+						.populateAllOutputColumns( ( (DataSetEditor) getContainer( ) ).getHandle( ),
+								session );
+				if ( viewDatas == null )
+				{
+					viewDatas = ( (DataSetEditor) getContainer( ) ).getCurrentItemModel( false,
+							false );
+				}
+				viewer.getViewer( ).setInput( viewDatas );
 			}
-			viewer.getViewer( ).setInput( viewDatas );
-			session.shutdown( );
+			finally
+			{
+				session.shutdown( );
+			}
 		}
 		
 		Thread.currentThread( ).setContextClassLoader( oldContextLoader );

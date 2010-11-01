@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
-import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
@@ -32,18 +31,12 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
 
@@ -103,12 +96,19 @@ public class ExternalUIUtil
 					createResourceIdentifiers( ) );
 
 			engineTask.setAppContext( appContext );
-			engineTask.run( );
+			try
+			{
+				engineTask.run( );
 
-			DataService.getInstance( ).registerSession( dataSetHandle, session );
-			session.refreshMetaData( dataSetHandle, holdEvent );
-			engineTask.close( );
-			engine.destroy( );
+				DataService.getInstance( ).registerSession( dataSetHandle, session );
+				session.refreshMetaData( dataSetHandle, holdEvent );
+			}
+			finally
+			{
+				session.shutdown( );
+				engineTask.close( );
+				engine.destroy( );
+			}
 		}
 		else
 		{
@@ -124,8 +124,14 @@ public class ExternalUIUtil
 			context.setAppContext( appContext );
 
 			DataRequestSession drSession = DataRequestSession.newSession( context );
-			drSession.refreshMetaData( dataSetHandle, holdEvent );
-			drSession.shutdown( );
+			try
+			{
+				drSession.refreshMetaData( dataSetHandle, holdEvent );
+			}
+			finally
+			{
+				drSession.shutdown( );
+			}
 		}
 	}
 

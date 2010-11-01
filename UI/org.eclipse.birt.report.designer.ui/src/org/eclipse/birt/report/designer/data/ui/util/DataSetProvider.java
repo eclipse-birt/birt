@@ -155,11 +155,12 @@ public final class DataSetProvider
 			return new DataSetViewData[0];
 		}
 		DataSetViewData[] columns = null;
+		DataRequestSession session = null;
 		try
 		{
 			DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 					dataSet.getModuleHandle( ) );
-			DataRequestSession session = DataRequestSession.newSession( context );
+			session = DataRequestSession.newSession( context );
 
 			// Find the data set in the hashtable
 			columns = (DataSetViewData[]) htColumns.get( dataSet );
@@ -170,7 +171,6 @@ public final class DataSetProvider
 				columns = this.populateAllOutputColumns( dataSet, session );
 				htColumns.put( dataSet, columns );
 			}
-			session.shutdown( );
 		}
 		catch ( BirtException e )
 		{
@@ -179,6 +179,13 @@ public final class DataSetProvider
 				ExceptionHandler.handle( e );
 			}
 			columns = null;
+		}
+		finally
+		{
+			if ( session != null )
+			{
+				session.shutdown( );
+			}
 		}
 
 		// If the columns array is still null
@@ -1028,19 +1035,25 @@ public final class DataSetProvider
 		if ( result == null )
 		{
 
-			DataRequestSession session;
+			DataRequestSession session = null;
 			try
 			{
 				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 						ds.getModuleHandle( ) );
 				session = DataRequestSession.newSession( context );
 				result = this.populateAllOutputColumns( ds, session );
-				session.shutdown( );
 				return result;
 			}
 			catch ( BirtException e )
 			{
 				result = new DataSetViewData[0];
+			}
+			finally
+			{
+				if ( session != null )
+				{
+					session.shutdown( );
+				}
 			}
 		}
 		return result;
