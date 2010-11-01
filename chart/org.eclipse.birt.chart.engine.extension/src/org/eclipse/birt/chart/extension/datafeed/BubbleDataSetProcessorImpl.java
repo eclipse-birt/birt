@@ -86,11 +86,19 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 			if ( bde != null )
 			{
 				Object oValue = bde.getValue( );
+				if ( oValue == null )
+				{
+					continue;
+				}
+				
 				if ( NumberUtil.isBigNumber( oValue ) )
 				{
 					BigNumber bnValue = (BigNumber)oValue;
-					bnValue = bnValue.add(  (BigNumber) bde.getSizeNumber( ) );
-					if ( i == 0 )
+					if ( bde.getSizeNumber( ) != null )
+					{
+						bnValue = bnValue.add( (BigNumber) bde.getSizeNumber( ) );
+					}
+					if ( bnMax == null )
 					{
 						bnMax = bnValue;
 					}
@@ -102,8 +110,11 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 				else if ( oValue instanceof BigDecimal )
 				{
 					BigDecimal bnValue = (BigDecimal)oValue;
-					bnValue = bnValue.add(  (BigDecimal) bde.getSizeNumber( ) );
-					if ( i == 0 )
+					if( bde.getSizeNumber( ) != null )
+					{
+						bnValue = bnValue.add(  (BigDecimal) bde.getSizeNumber( ) );
+					}
+					if ( bnMax == null )
 					{
 						bnMax = bnValue;
 					}
@@ -115,8 +126,11 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 				else if ( oValue instanceof java.math.BigDecimal )
 				{
 					java.math.BigDecimal bnValue = (java.math.BigDecimal)oValue;
-					bnValue = bnValue.add(  (java.math.BigDecimal) bde.getSizeNumber( ) );
-					if ( i == 0 )
+					if( bde.getSizeNumber( ) != null )
+					{
+						bnValue = bnValue.add(  (java.math.BigDecimal) bde.getSizeNumber( ) );
+					}
+					if ( bnMax == null )
 					{
 						bnMax = bnValue;
 					}
@@ -199,11 +213,18 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 			if ( bde != null )
 			{
 				Object oValue = bde.getValue( );
+				if ( oValue == null )
+				{
+					continue;
+				}
 				if ( NumberUtil.isBigNumber( oValue ) )
 				{
 					BigNumber bnValue = (BigNumber)oValue;
-					bnValue = bnValue.subtract(  (BigNumber) bde.getSizeNumber( ) );
-					if ( i == 0 )
+					if ( bde.getSizeNumber( ) != null )
+					{
+						bnValue = bnValue.subtract(  (BigNumber) bde.getSizeNumber( ) );
+					}
+					if ( bnMin == null )
 					{
 						bnMin = bnValue;
 					}
@@ -215,8 +236,11 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 				else if ( oValue instanceof BigDecimal )
 				{
 					BigDecimal bnValue = (BigDecimal)oValue;
-					bnValue = bnValue.subtract(  (BigDecimal) bde.getSizeNumber( ) );
-					if ( i == 0 )
+					if ( bde.getSizeNumber( ) != null )
+					{
+						bnValue = bnValue.subtract(  (BigDecimal) bde.getSizeNumber( ) );
+					}
+					if ( bnMin == null )
 					{
 						bnMin = bnValue;
 					}
@@ -228,8 +252,11 @@ public class BubbleDataSetProcessorImpl extends DataSetAdapter
 				else if ( oValue instanceof java.math.BigDecimal )
 				{
 					java.math.BigDecimal bnValue = (java.math.BigDecimal)oValue;
-					bnValue = bnValue.subtract(  (java.math.BigDecimal) bde.getSizeNumber( ) );
-					if ( i == 0 )
+					if ( bde.getSizeNumber( ) != null )
+					{
+						bnValue = bnValue.subtract(  (java.math.BigDecimal) bde.getSizeNumber( ) );
+					}
+					if ( bnMin == null )
 					{
 						bnMin = bnValue;
 					}

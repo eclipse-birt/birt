@@ -169,6 +169,10 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter
 
 				for ( int j = 0; j < 2; j++ )
 				{
+					if ( da[j] == null )
+					{
+						continue;
+					}
 					if ( NumberUtil.isBigNumber( da[j] ) )
 					{
 						if ( bnMin == null )
@@ -251,6 +255,10 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter
 
 				for ( int j = 0; j < 2; j++ )
 				{
+					if ( da[j] == null )
+					{
+						continue;
+					}
 					if ( NumberUtil.isBigNumber( da[j] ) )
 					{
 						if ( bnMax == null )
@@ -325,7 +333,7 @@ public final class DifferenceDataSetProcessorImpl extends DataSetAdapter
 		StringTokenizer strTokComponents = null;
 		String strDataElement = null;
 		String strComponent = null;
-		List vData = new ArrayList( );
+		List<DifferenceEntry> vData = new ArrayList<DifferenceEntry>( );
 		while ( strTokDataElement.hasMoreTokens( ) )
 		{
 			strDataElement = strTokDataElement.nextToken( ).trim( );
