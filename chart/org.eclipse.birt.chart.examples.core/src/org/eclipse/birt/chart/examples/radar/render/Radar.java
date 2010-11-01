@@ -171,8 +171,8 @@ public class Radar extends BaseRenderer
 			{
 				iDSP = ps.getDataSetProcessor( sea[i].getClass( ) );
 				dst = sea[i].getDataSet( );
-				Double min = (Double) iDSP.getMinimum( dst );
-				Double max = (Double) iDSP.getMaximum( dst );
+				Double min = ( (Number) iDSP.getMinimum( dst ) ).doubleValue( );
+				Double max = ( (Number) iDSP.getMaximum( dst ) ).doubleValue( );
 
 				if ( min != null && min < calcMin )
 				{
@@ -1002,16 +1002,7 @@ public class Radar extends BaseRenderer
 				continue;
 			}
 
-			double currval = ( (Double) dph.getOrthogonalValue( ) ).doubleValue( );
-
-			if ( currval < 0 )
-			{
-				if ( !se.isFillPolys( ) )
-				{
-					loList.add( null );
-				}
-				continue;
-			}
+			double currval = ( (Number) dph.getOrthogonalValue( ) ).doubleValue( );
 
 			// Need to do something to give some space at top and center
 			pc.computeLocation( loAxis, index, mag );
@@ -1115,20 +1106,11 @@ public class Radar extends BaseRenderer
 								+ getAxisMin( );
 					}
 
-					if ( rsd.getWebLabelFormatSpecifier( ) != null )
-					{
-						FormatSpecifier fs = rsd.getWebLabelFormatSpecifier( );
-
-						String weblabel = ValueFormatter.format( lblperc,
-								fs,
-								rtc.getULocale( ),
-								null );
-						la.getCaption( ).setValue( weblabel );
-					}
-					else
-					{
-						la.getCaption( ).setValue( Double.toString( lblperc ) );
-					}
+					String weblabel = ValueFormatter.format( lblperc,
+							rsd.getWebLabelFormatSpecifier( ),
+							rtc.getULocale( ),
+							null );
+					la.getCaption( ).setValue( weblabel );		
 
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
