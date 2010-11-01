@@ -331,6 +331,10 @@ public class NumberUtil
 		}
 		else if ( n instanceof Double )
 		{
+			if ( ( (Double) n ).isNaN( ) )
+			{
+				return new BigNumber(BigDecimal.ZERO, divisor ); 
+			}
 			return new BigNumber(BigDecimal.valueOf( ((Double)n ).doubleValue( )), divisor );
 		}
 		else if ( n instanceof BigDecimal )

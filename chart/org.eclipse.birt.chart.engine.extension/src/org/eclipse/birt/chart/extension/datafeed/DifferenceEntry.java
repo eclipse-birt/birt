@@ -96,16 +96,36 @@ public final class DifferenceEntry extends NumberDataPointEntry
 		isBigNumber = true;
 		this.bnPosValue = bnPositiveValue;
 		this.bnNegValue = bnNegativeValue;
-		divisor = bnPosValue.getDivisor( );
-		dPosValue = bnPosValue.doubleValue( );
-		dNegValue = bnNegValue.doubleValue( );
+		divisor = null;
+		if ( bnPosValue != null )
+		{
+			divisor = bnPosValue.getDivisor( );
+			dPosValue = bnPosValue.doubleValue( );
+		}
+		else {
+			dPosValue = 0;
+		}
+		if ( bnNegValue != null )
+		{
+			if ( divisor == null )
+			{
+				divisor = bnNegValue.getDivisor( );
+			}
+			dNegValue = bnNegValue.doubleValue( );
+		}
+		else
+		{
+			dNegValue = 0;
+		}
+		
 	}
 	
 	protected void init( Number bdPositiveValue, Number bdNegativeValue )
 	{
 		if ( isBigDecimal  )
 		{
-			if ( NumberUtil.isJavaMathBigDecimal( bdPositiveValue ) )
+			if ( NumberUtil.isJavaMathBigDecimal( bdPositiveValue )
+					|| ( ( bdPositiveValue == null ) && NumberUtil.isJavaMathBigDecimal( bdNegativeValue ) ) )
 			{
 				bdPosValue = NumberUtil.asJavaMathBigDecimal( bdPositiveValue );
 				bdNegValue = NumberUtil.asJavaMathBigDecimal( bdNegativeValue );
@@ -115,8 +135,8 @@ public final class DifferenceEntry extends NumberDataPointEntry
 				bdPosValue = NumberUtil.asBigDecimal( bdPositiveValue );
 				bdNegValue = NumberUtil.asBigDecimal( bdNegativeValue );
 			}
-			dPosValue = bdPosValue.doubleValue( );
-			dNegValue = bdNegValue.doubleValue( );
+			dPosValue = ( bdPosValue == null ) ? 0 : bdPosValue.doubleValue( );
+			dNegValue = ( bdNegValue == null ) ? 0 : bdNegValue.doubleValue( );
 		}
 	}
 	/*
