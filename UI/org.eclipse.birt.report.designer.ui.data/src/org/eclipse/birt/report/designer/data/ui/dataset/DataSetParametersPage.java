@@ -605,11 +605,13 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				
 				dialog.open( );
 				
-				if ( dialog.getReturnCode( ) == yesCode )
+				if ( dialog.getReturnCode( ) == yesCode
+						&& ( !dialog.getToggleState( ) ) )
 				{
-					updateReportParameterValue( index , bindedReportParameterName );
+					updateReportParameterValue( index,
+							bindedReportParameterName );
 				}
-				
+
 				if ( dialog.getToggleState( ) )
 				{
 					UIPlugin.getDefault( )
