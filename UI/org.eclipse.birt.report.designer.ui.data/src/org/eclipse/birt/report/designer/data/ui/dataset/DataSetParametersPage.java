@@ -30,9 +30,11 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
+import org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage;
 import org.eclipse.birt.report.model.adapter.oda.ReportParameterAdapter;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -570,11 +572,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 	private void updateReportParameter( int index , String bindedReportParameterName )
 	{
-		String setting = UIPlugin.getDefault( )
-				.getPreferenceStore( )
-				.getString( "DataSetParameterPage.updateReportParameterSettings" );
+		boolean setting = ReportPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getBoolean( DateSetPreferencePage.PROMPT_ENABLE );
 
-		if ( MessageDialogWithToggle.ALWAYS.equals( setting ) )
+		if ( !setting )
 		{
 			return;
 		}
@@ -614,10 +616,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 				if ( dialog.getToggleState( ) )
 				{
-					UIPlugin.getDefault( )
-							.getPreferenceStore( )
-							.putValue( "DataSetParameterPage.updateReportParameterSettings",
-									MessageDialogWithToggle.ALWAYS );
+					ReportPlugin.getDefault( )
+							.getPluginPreferences( )
+							.setValue( DateSetPreferencePage.PROMPT_ENABLE,
+									false );
 				}
 			}
 			else if ( datasetParameter.getParamName( ) == null
@@ -661,10 +663,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				
 				if ( dialog.getToggleState( ) )
 				{
-					UIPlugin.getDefault( )
-							.getPreferenceStore( )
-							.putValue( "DataSetParameterPage.updateReportParameterSettings",
-									MessageDialogWithToggle.ALWAYS );
+					ReportPlugin.getDefault( )
+							.getPluginPreferences( )
+							.setValue( DateSetPreferencePage.PROMPT_ENABLE,
+									false );
 				}
 			}
 		}
