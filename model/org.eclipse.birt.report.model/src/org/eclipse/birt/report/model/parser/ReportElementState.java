@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -168,10 +169,10 @@ public abstract class ReportElementState extends DesignParseState
 			// Can not change the structure of an element if it is a child
 			// element or it is within a child element.
 
-			if ( container.getExtendsElement( ) != null )
+			if ( container.getExtendsElement( ) != null
+					&& propDefn.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
 			{
-				handler
-						.getErrorHandler( )
+				handler.getErrorHandler( )
 						.semanticWarning(
 								new ContentException(
 										container,
@@ -187,8 +188,7 @@ public abstract class ReportElementState extends DesignParseState
 					&& new ContainerContext( container, containmentPropName )
 							.getContentCount( handler.module ) > 0 )
 			{
-				handler
-						.getErrorHandler( )
+				handler.getErrorHandler( )
 						.semanticError(
 								new ContentException(
 										container,
@@ -210,8 +210,7 @@ public abstract class ReportElementState extends DesignParseState
 
 		if ( container.getExtendsElement( ) != null )
 		{
-			handler
-					.getErrorHandler( )
+			handler.getErrorHandler( )
 					.semanticWarning(
 							new ContentException(
 									container,
@@ -336,8 +335,7 @@ public abstract class ReportElementState extends DesignParseState
 
 			if ( !StringUtil.isBlank( attrs
 					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB ) ) )
-				handler
-						.getErrorHandler( )
+				handler.getErrorHandler( )
 						.semanticError(
 								new DesignParserException(
 										DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
@@ -376,8 +374,8 @@ public abstract class ReportElementState extends DesignParseState
 			boolean isValidName = true;
 			try
 			{
-				name = (String) propDefn.validateValue( this.handler
-						.getModule( ), element, name );
+				name = (String) propDefn.validateValue(
+						this.handler.getModule( ), element, name );
 			}
 			catch ( PropertyValueException e )
 			{
@@ -430,8 +428,8 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		DesignElement element = getElement( );
 		if ( handler.markLineNumber )
-			handler.tempLineNumbers.put( element, Integer.valueOf( handler
-					.getCurrentLineNo( ) ) );
+			handler.tempLineNumbers.put( element,
+					Integer.valueOf( handler.getCurrentLineNo( ) ) );
 
 		if ( !( element instanceof ContentElement ) )
 		{
@@ -475,8 +473,7 @@ public abstract class ReportElementState extends DesignParseState
 
 		if ( parent == null )
 		{
-			handler
-					.getErrorHandler( )
+			handler.getErrorHandler( )
 					.semanticWarning(
 							new InvalidParentException(
 									element,
@@ -526,8 +523,7 @@ public abstract class ReportElementState extends DesignParseState
 				}
 				else
 				{
-					handler
-							.getErrorHandler( )
+					handler.getErrorHandler( )
 							.semanticError(
 									new NameException(
 											content,
@@ -597,8 +593,7 @@ public abstract class ReportElementState extends DesignParseState
 					// compatibilities
 					if ( handler.versionNumber >= VersionUtil.VERSION_3_2_19
 							&& content instanceof Style )
-						handler
-								.getErrorHandler( )
+						handler.getErrorHandler( )
 								.semanticError(
 										new NameException(
 												content,
@@ -610,8 +605,7 @@ public abstract class ReportElementState extends DesignParseState
 					if ( handler.versionNumber >= VersionUtil.VERSION_3_2_21
 							&& ( id == Module.PARAMETER_NAME_SPACE ) )
 					{
-						handler
-								.getErrorHandler( )
+						handler.getErrorHandler( )
 								.semanticError(
 										new NameException(
 												content,
@@ -628,8 +622,7 @@ public abstract class ReportElementState extends DesignParseState
 				// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(
 				// parent ) )
 				{
-					handler
-							.getErrorHandler( )
+					handler.getErrorHandler( )
 							.semanticError(
 									new ExtendsForbiddenException(
 											content,
