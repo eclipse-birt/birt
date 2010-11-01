@@ -554,7 +554,8 @@ public class ChartExpressionUtil
 				}
 				return escapeSpecialCharacters( sExpr );
 			}
-			return sExpr;
+			// Escape for computed expressions
+			return escapeSpecialCharacters( sExpr );
 		}
 
 		/**
