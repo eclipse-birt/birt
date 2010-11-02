@@ -385,16 +385,16 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 						( (MultipleEditPart) ChildrenDragTracker.this.getSourceEditPart( ) ).removeView( number );
 					}
 					
-//					public boolean isEnabled() 
-//					{
-//						int position = number - 1;
-//						List list = ((ReportItemHandle) (ChildrenDragTracker.this.getSourceEditPart( ).getModel( ))).getViews( );
-//						if ( position < 0 && position > list.size( ) - 1 )
-//						{
-//							return false;
-//						}
-//						return ((DesignElementHandle)list.get( position )).canDrop( );
-//					}
+					public boolean isEnabled() 
+					{
+						int position = number - 1;
+						List list = ((ReportItemHandle) (ChildrenDragTracker.this.getSourceEditPart( ).getModel( ))).getViews( );
+						if ( position < 0 && position > list.size( ) - 1 )
+						{
+							return false;
+						}
+						return ((DesignElementHandle)list.get( position )).canDrop( );
+					}
 
 				};
 				manager.add( action );
