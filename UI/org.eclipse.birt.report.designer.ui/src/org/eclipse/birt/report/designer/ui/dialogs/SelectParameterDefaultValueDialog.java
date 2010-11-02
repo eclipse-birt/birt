@@ -213,6 +213,8 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 			table.setSortColumn( table.getColumn( 0 ) );
 			table.setSortDirection( sortDir );
 			tableViewer.setSorter( new TableSorter( sortDir ) );
+
+			table.setSelection( 0 );
 		}
 		catch ( Exception e )
 		{
