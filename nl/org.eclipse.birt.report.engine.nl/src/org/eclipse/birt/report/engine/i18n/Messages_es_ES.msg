@@ -126,3 +126,4 @@ Error.FailedToCreateTOC = Error al crear TDC.
 Error.UnsupportedExprssionType = Tipo de expresión no admitido.
 Error.UnknownContentVersion = Versión de contenido desconocida.
 Error.UnknownFieldID = ID de campo desconocida: {0}.
+Error.ResourceNotAccessible = {0} is not accessible.
