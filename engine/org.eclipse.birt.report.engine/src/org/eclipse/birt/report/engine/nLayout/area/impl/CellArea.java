@@ -17,12 +17,15 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.DiagonalInfo;
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.w3c.dom.css.CSSValue;
 
 public class CellArea extends BlockContainerArea implements IContainerArea
@@ -233,14 +236,20 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		String url = content.getStyle( ).getBackgroundImage( );
 		if ( url != null )
 		{
-			boxStyle.setBackgroundImage( new BackgroundImageInfo(
-					getImageUrl( url ), style
-							.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
-					0, 0, 0, 0 ) );
-
+			ResourceLocatorWrapper rl = null;
+			ExecutionContext exeContext = ( (ReportContent) content
+					.getReportContent( ) ).getExecutionContext( );
+			if ( exeContext != null )
+			{
+				rl = exeContext.getResourceLocator( );
+			}
+			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(
+					getImageUrl( url ),
+					style.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0,
+					0, 0, rl );
+			boxStyle.setBackgroundImage( backgroundImage );
 		}
 		localProperties = new LocalProperties( );
-		int maw = parent.getMaxAvaWidth( );
 		IStyle cs = content.getStyle( );
 		CSSValue padding = cs.getProperty( IStyle.STYLE_PADDING_TOP );
 		if ( padding == null )

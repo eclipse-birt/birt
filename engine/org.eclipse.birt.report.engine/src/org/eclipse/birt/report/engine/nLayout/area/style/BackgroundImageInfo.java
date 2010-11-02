@@ -15,8 +15,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSValue;
 
@@ -24,18 +26,20 @@ import com.lowagie.text.Image;
 
 public class BackgroundImageInfo extends AreaConstants
 {
-	protected int xOffset;
-	protected int yOffset;
+	protected int xOffset = 0 ;
+	protected int yOffset = 0;
 	protected int repeatedMode;
-	protected int width;
-	protected int height;
+	protected int width = 0;
+	protected int height = 0;
 	protected String url;
 	protected byte[] imageData;
 	
 	private Image image;
+	
+	private ResourceLocatorWrapper rl = null;
 
 	public BackgroundImageInfo( String url, int repeatedMode, int xOffset,
-			int yOffset, int height, int width)
+			int yOffset, int height, int width, ResourceLocatorWrapper rl )
 	{
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
@@ -43,6 +47,7 @@ public class BackgroundImageInfo extends AreaConstants
 		this.width = width;
 		this.height = height;
 		this.url = url;
+		this.rl = rl;
 		prepareImageByteArray( );
 	}
 
@@ -56,56 +61,81 @@ public class BackgroundImageInfo extends AreaConstants
 		this.url = bgi.url;
 		this.imageData = bgi.imageData;
 		this.image = bgi.image;
+		this.rl = bgi.rl;
 	}
 
 	public BackgroundImageInfo( String url, CSSValue mode, int xOffset,
-			int yOffset, int height, int width)
+			int yOffset, int height, int width, ResourceLocatorWrapper rl )
 	{
-		this( url, repeatMap.get( mode ), xOffset, yOffset, height, width );
+		this( url, repeatMap.get( mode ), xOffset, yOffset, height, width, rl );
 	}
 
-	public BackgroundImageInfo( String url, int height, int width )
+	public BackgroundImageInfo( String url, int height, int width, ResourceLocatorWrapper rl )
 	{
-		this( url, 0, 0, 0, height, width );
+		this( url, 0, 0, 0, height, width, rl );
+	}
+	
+	public void setResourceLocator( ResourceLocatorWrapper rl )
+	{
+		this.rl = rl;
 	}
 	
 	private void prepareImageByteArray( )
 	{
-		InputStream in = null;
+		if ( rl == null )
+		{
+			InputStream in = null;
+			try
+			{
+				in = new URL( url ).openStream( );
+				ByteArrayOutputStream out = new ByteArrayOutputStream( );
+				byte[] buffer = new byte[1024];
+				int size = in.read( buffer );
+				while ( size != -1 )
+				{
+					out.write( buffer, 0, size );
+					size = in.read( buffer );
+				}
+				imageData = out.toByteArray( );
+				out.close( );
+			}
+			catch ( IOException ioe )
+			{
+				imageData = null;
+				image = null;
+				return;
+			}
+			finally
+			{
+				if ( in != null )
+				{
+					try
+					{
+						in.close( );
+					}
+					catch ( IOException e )
+					{
+					}
+				}
+			}
+		}
+		else
+		{
+			try
+			{
+				imageData = rl.findResource( new URL( url ) );
+			}
+			catch ( MalformedURLException mue )
+			{
+				imageData = null;
+				image = null;
+				return;
+			}
+		}
+
 		try
 		{
-			in = new URL( url ).openStream( );
-			ByteArrayOutputStream out = new ByteArrayOutputStream( );
-			int data = in.read( );
-			while ( data != -1 )
-			{
-				out.write( data );
-				data = in.read( );
-			}
-			imageData = out.toByteArray( );
-			out.close( );
-		}
-		catch ( IOException ioe )
-		{
-			imageData = null;
-			image = null;
-			return;
-		}
-		finally
-		{
-			if ( in != null )
-			{
-				try
-				{
-					in.close( );
-				}
-				catch ( IOException e )
-				{
-				}
-			}
-		}
-		try
-		{
+
 			image = Image.getInstance( imageData );
 		}
 		catch ( Exception e )

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.logging.Level;
 
@@ -21,8 +20,10 @@ import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEmitterAdapter;
@@ -33,7 +34,7 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
-import org.eclipse.birt.report.engine.util.SvgFile;
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.Image;
@@ -238,8 +239,7 @@ public class PageArea extends BlockContainerArea
 			boxStyle.setBackgroundColor( backgroundColor );
 			if ( imageUrl != null )
 			{
-				boxStyle.setBackgroundImage( createBackgroundImage( imageUrl,
-						pageContent ) );
+				boxStyle.setBackgroundImage( createBackgroundImage( imageUrl ) );
 			}
 		}
 		context.setMaxHeight( root.getHeight( ) );
@@ -255,35 +255,24 @@ public class PageArea extends BlockContainerArea
 		context.resetUnresolvedRowHints( );
 	}
 	
-	protected BackgroundImageInfo createBackgroundImage( String url,
-			IContent content )
+	protected BackgroundImageInfo createBackgroundImage( String url )
 	{
-		IStyle style = content.getStyle( );
+		ResourceLocatorWrapper rl = null;
+		ExecutionContext exeContext = ( (ReportContent) content
+				.getReportContent( ) ).getExecutionContext( );
+		if ( exeContext != null )
+		{
+			rl = exeContext.getResourceLocator( );
+		}
+		IStyle cs = pageContent.getComputedStyle( );
+		BackgroundImageInfo backgroundImage = new BackgroundImageInfo( url, cs
+				.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0, 0, 0, rl );
+		Image img = backgroundImage.getImageInstance( );
+		
+		IStyle style = pageContent.getStyle( );
 		String widthStr = style.getBackgroundWidth( );
 		String heightStr = style.getBackgroundHeight( );
-		Image img = null;
-		try
-		{
-			img = Image.getInstance( new URL( url ) );
-		}
-		catch ( Exception e )
-		{
-			if ( SvgFile.isSvg( url ) )
-			{
-				try
-				{
-					img = Image.getInstance( SvgFile.transSvgToArray( url ) );
-				}
-				catch ( Exception ex )
-				{
-					logger.log( Level.WARNING, ex.getMessage( ), ex );
-				}
-			}
-			else
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
-			}
-		}
+		
 		if ( img != null )
 		{
 			int resolutionX = img.getDpiX( );
@@ -377,14 +366,17 @@ public class PageArea extends BlockContainerArea
 					}
 				}
 			}
-			IStyle cs = pageContent.getComputedStyle( );
-			return new BackgroundImageInfo( url, cs
-					.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
+			
+			backgroundImage.setXOffset(
 					getDimensionValue( cs
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_X ),
-							width - actualWidth ), getDimensionValue( cs
+							width - actualWidth ));
+			backgroundImage.setYOffset(getDimensionValue( cs
 							.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ),
-							height - actualHeight ), actualHeight, actualWidth );
+							height - actualHeight ));
+			backgroundImage.setHeight( actualHeight );
+			backgroundImage.setWidth( actualWidth );
+			return backgroundImage;
 		}
 		return null;
 	}
