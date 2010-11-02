@@ -34,7 +34,7 @@
       <category name="OSGi"/>
    </feature>
    <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_@FEATURE.CHART.OSGI.RUNTIME.SDK@.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="@FEATURE.CHART.OSGI.RUNTIME.SDK@">
-      <category name="ChartOSGi"/>
+      <category name="OSGi"/>
    </feature>   
    <feature url="features/org.eclipse.birt.chart.integration.wtp_@FEATURE.CHART.WTP@.jar" id="org.eclipse.birt.chart.integration.wtp" version="@FEATURE.CHART.WTP@">
       <category name="wtpIntegration"/>
@@ -51,6 +51,5 @@
    <category-def name="Birt" label="BIRT 2.6 Reporting SDK"/>
    <category-def name="Chart" label="BIRT 2.6 Charting SDK"/>
    <category-def name="OSGi" label="BIRT 2.6 Engine OSGi Runtime SDK"/>
-   <category-def name="ChartOSGi" label="BIRT 2.6 Chart OSGi Runtime SDK"/>
    <category-def name="wtpIntegration" label="BIRT 2.6 WTP Integration SDK"/>
 </site>
