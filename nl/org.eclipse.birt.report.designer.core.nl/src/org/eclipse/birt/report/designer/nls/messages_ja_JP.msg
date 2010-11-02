@@ -577,8 +577,8 @@ dataset.message.create=新規データセットを作成します。
 dataset.new.defaultName=データセット
 dataset.new=データセットの新規作成
 dataset.action.new=データセットの新規作成(&S)
-dataset.join.new=ジョイントデータセットの新規作成
-dataset.action.join.new=ジョイントデータセットの新規作成(&J)
+dataset.join.new=ジョインデータセットの新規作成
+dataset.action.join.new=ジョインデータセットの新規作成(&J)
 dataset.resultset.preview.tooltip=クエリ結果をプレビューします。
 dataset.resultset.preview.promptMessage.recordsNum=表示されているレコードの総数 : {0} 件
 dataset.resultset.preview.promptMessage.MoreRecordsExist=結果セットには表示されていないレコードがあります。
@@ -602,7 +602,7 @@ DataSetBasePage.Group.DataSourceSelection=データソースの選択
 ###########################################################
 #JointDataSetPage properties
 
-JointDataSetPage.pageName=ジョイントデータセット
+JointDataSetPage.pageName=ジョインデータセット
 JointDataSetPage.page.detail=ジョインを定義するには、左右のフィールドからデータセットと列を選択してください。
 JointDataSetPage.button.innerJoin=インナージョイン(&I)
 JointDataSetPage.button.leftJoin=左アウタージョイン(&L)
@@ -612,7 +612,7 @@ JointDataSetPage.joinType=ジョインの型
 JointDataSetPage.error.nodataset.title=データセットが見つかりません。
 JointDataSetPage.error.nodataset.right=右側のデータセットが見つかりません。
 JointDataSetPage.error.nodataset.left=左側のデータセットが見つかりません。
-JointDataSetPage.pageDescription=ジョイントデータセットの定義
+JointDataSetPage.pageDescription=ジョインデータセットの定義
 JointDataSetPage.query=クエリ
 
 ###########################################################
@@ -949,7 +949,7 @@ DesignerActionBarContributor.style.new=スタイルの新規作成(&N)...
 DesignerActionBarContributor.menu.data-NewParameter=レポートパラメタの新規作成(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=新規データセット(&S)
 designerActionBarContributor.menu.data-newDataset=新規データセット(&E)
-designerActionBarContributor.menu.data-newJointDataset=ジョイントデータセットの新規作成(&J)
+designerActionBarContributor.menu.data-newJointDataset=ジョインデータセットの新規作成(&J)
 DesignerActionBarContributor.menu.element.insert=挿入(&I)
 DesignerActionBarContributor.menu.element.group=グループ(&G) 
 DesignerActionBarContributor.menu.element.style=スタイル(&Y)
