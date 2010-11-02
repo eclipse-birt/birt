@@ -79,6 +79,7 @@ import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.FormatterImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.engine.util.SecurityUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
@@ -197,6 +198,8 @@ public abstract class EngineTask implements IEngineTask
 	
 	protected String[] userAcls;
 	
+	private ResourceLocatorWrapper resourceLocator;
+	
 	/**
 	 * @param engine
 	 *            reference to report engine
@@ -226,6 +229,8 @@ public abstract class EngineTask implements IEngineTask
 		setAppContext( null );
 
 		cancelFlag = false;
+		
+		resourceLocator = new ResourceLocatorWrapper( );
 		runningStatus = STATUS_NOT_STARTED;
 	}
 	
@@ -1266,6 +1271,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		cancelFlag = true;
 		executionContext.cancel( );
+		disposeResourceLocator( );
 	}
 
 	public void cancel( Object signal )
@@ -1291,6 +1297,7 @@ public abstract class EngineTask implements IEngineTask
 				return;
 			}
 		} while ( waitingTime < 5000 );
+		disposeResourceLocator( );
 		return;
 	}
 
@@ -1309,6 +1316,11 @@ public abstract class EngineTask implements IEngineTask
 		{
 			executionContext.setCancelOnError( false );
 		}
+	}
+	
+	public ResourceLocatorWrapper getResourceLocatorWrapper( )
+	{
+		return resourceLocator;
 	}
 
 	/**
@@ -1522,8 +1534,19 @@ public abstract class EngineTask implements IEngineTask
 	public void close( )
 	{
 		executionContext.close( );
+		disposeResourceLocator( );
 		EngineLogger.setThreadLogger( null );
 	}
+	
+	private void disposeResourceLocator( )
+	{
+		if ( resourceLocator != null )
+		{
+			resourceLocator.dispose( );
+			resourceLocator = null;
+		}
+	}
+	
 	
 	protected IContentEmitter createContentEmitter( ) throws EngineException
 	{

@@ -20,7 +20,9 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
@@ -32,6 +34,7 @@ import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSPrimitiveValue;
@@ -1101,10 +1104,18 @@ public abstract class ContainerArea extends AbstractArea
 		if ( !IStyle.NONE_VALUE.equals( style
 				.getProperty( IStyle.STYLE_BACKGROUND_IMAGE ) ) )
 		{
-			boxStyle.setBackgroundImage( new BackgroundImageInfo(
-					getImageUrl( url.getCssText( ) ), style
-							.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0,
-					0, 0, 0 ) );
+			ResourceLocatorWrapper rl = null;
+			ExecutionContext exeContext = ( (ReportContent) content
+					.getReportContent( ) ).getExecutionContext( );
+			if ( exeContext != null )
+			{
+				rl = exeContext.getResourceLocator( );
+			}
+			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(
+					getImageUrl( url.getCssText( ) ),
+					style.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0,
+					0, 0, rl );
+			boxStyle.setBackgroundImage( backgroundImage );
 		}
 
 		action = content.getHyperlinkAction( );
@@ -1130,11 +1141,18 @@ public abstract class ContainerArea extends AbstractArea
 			String url = style.getBackgroundImage( );
 			if ( url != null )
 			{
-				boxStyle.setBackgroundImage( new BackgroundImageInfo(
-						getImageUrl( url ), cs
-								.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
-						0, 0, 0, 0 ) );
-
+				ResourceLocatorWrapper rl = null;
+				ExecutionContext exeContext = ( (ReportContent) content
+						.getReportContent( ) ).getExecutionContext( );
+				if ( exeContext != null )
+				{
+					rl = exeContext.getResourceLocator( );
+				}
+				BackgroundImageInfo backgroundImage = new BackgroundImageInfo(
+						getImageUrl( url ),
+						cs.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0,
+						0, 0, rl );
+				boxStyle.setBackgroundImage( backgroundImage );
 			}
 			if ( !isInInlineStacking )
 			{

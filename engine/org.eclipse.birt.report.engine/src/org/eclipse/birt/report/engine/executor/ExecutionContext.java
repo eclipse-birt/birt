@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
@@ -81,6 +79,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.script.internal.FormatterImpl;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -1017,35 +1016,11 @@ public class ExecutionContext
 	public void loadScript( String language, String fileName )
 	{
 		ModuleHandle reportDesign = this.getDesign( );
-		URL url = null;
-		if ( reportDesign != null )
-		{
-			url = reportDesign.findResource( fileName,
-					IResourceLocator.LIBRARY, appContext );
-		}
-		if ( url == null )
-		{
-			log.log( Level.SEVERE, "loading external script file " + fileName
-					+ " failed." );
-			addException( new EngineException(
-					MessageConstants.SCRIPT_FILE_LOAD_ERROR, fileName ) ); //$NON-NLS-1$
-			return;
-		}
-
-		// read the script in the URL, and execution.
-		InputStream in = null;
 		try
 		{
-			in = url.openStream( );
-			ByteArrayOutputStream out = new ByteArrayOutputStream( );
-			byte[] buffer = new byte[1024];
-			int size = in.read( buffer );
-			while ( size != -1 )
-			{
-				out.write( buffer, 0, size );
-				size = in.read( buffer );
-			}
-			byte[] script = out.toByteArray( );
+			// read the script in the URL, and execution.
+			byte[] script = getResourceLocator( ).findResource( reportDesign,
+					fileName, IResourceLocator.LIBRARY, appContext );
 			ICompiledScript compiledScript = getScriptContext( ).compile(
 					language, fileName, 1, new String( script, "UTF-8" ) );
 			execute( compiledScript ); //$NON-NLS-1$
@@ -1056,7 +1031,7 @@ public class ExecutionContext
 					"loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
 					ex );
 			addException( new EngineException(
-					MessageConstants.SCRIPT_FILE_LOAD_ERROR, url.toString( ),
+					MessageConstants.SCRIPT_FILE_LOAD_ERROR, fileName,
 					ex ) ); //$NON-NLS-1$
 			// TODO This is a fatal error. Should throw an exception.
 		}
@@ -1066,19 +1041,8 @@ public class ExecutionContext
 					"Failed to execute script " + fileName + ".", //$NON-NLS-1$ //$NON-NLS-2$
 					e );
 			addException( new EngineException(
-					MessageConstants.SCRIPT_EVALUATION_ERROR, url.toString( ),
+					MessageConstants.SCRIPT_EVALUATION_ERROR, fileName,
 					e ) ); //$NON-NLS-1$
-		}
-		finally
-		{
-			try
-			{
-				if ( in != null )
-					in.close( );
-			}
-			catch ( IOException e )
-			{
-			}
 		}
 	}
 
@@ -2184,6 +2148,11 @@ public class ExecutionContext
 					IResourceLocator.OTHERS, appContext );
 		}
 		return null;
+	}
+	
+	public ResourceLocatorWrapper getResourceLocator( )
+	{
+		return task.getResourceLocatorWrapper( );
 	}
 
 	public ExtendedItemManager getExtendedItemManager( )

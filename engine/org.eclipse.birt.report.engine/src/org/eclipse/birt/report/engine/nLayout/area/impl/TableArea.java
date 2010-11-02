@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 
 public class TableArea extends RepeatableArea
 {
@@ -135,11 +137,18 @@ public class TableArea extends RepeatableArea
 			String url = style.getBackgroundImage( );
 			if ( url != null )
 			{
-				boxStyle.setBackgroundImage( new BackgroundImageInfo(
-						getImageUrl( url ), cs
-								.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ),
-						0, 0, 0, 0 ) );
-
+				ResourceLocatorWrapper rl = null;
+				ExecutionContext exeContext = ( (ReportContent) content
+						.getReportContent( ) ).getExecutionContext( );
+				if ( exeContext != null )
+				{
+					rl = exeContext.getResourceLocator( );
+				}
+				BackgroundImageInfo backgroundImage = new BackgroundImageInfo(
+						getImageUrl( url ),
+						style.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0,
+						0, 0, rl );
+				boxStyle.setBackgroundImage( backgroundImage );
 			}
 			localProperties = new LocalProperties( );
 			int maw = parent.getMaxAvaWidth( );

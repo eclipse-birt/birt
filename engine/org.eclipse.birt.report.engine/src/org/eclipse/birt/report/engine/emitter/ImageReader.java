@@ -20,7 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.util.FlashFile;
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -44,6 +47,7 @@ public class ImageReader
 	private IImageContent content;
 	private String supportedImageFormats = null;
 	private byte[] buffer;
+	private ResourceLocatorWrapper rl = null;
 
 	protected static Logger logger = Logger.getLogger( ImageReader.class
 			.getName( ) );
@@ -52,6 +56,12 @@ public class ImageReader
 	{
 		this.content = content;
 		this.supportedImageFormats = supportedImageFormats;
+		ExecutionContext exeContext = ( (ReportContent) content
+				.getReportContent( ) ).getExecutionContext( );
+		if ( exeContext != null )
+		{
+			this.rl = exeContext.getResourceLocator( );
+		}
 	}
 
 	public int read( )
@@ -64,17 +74,34 @@ public class ImageReader
 			switch ( content.getImageSource( ) )
 			{
 				case IImageContent.IMAGE_FILE :
+			
 					ReportDesignHandle design = content.getReportContent( )
 							.getDesign( ).getReportDesign( );
-					URL url = design
-							.findResource( uri, IResourceLocator.IMAGE,
-									content.getReportContent( )
-											.getReportContext( ) == null
-											? null
-											: content.getReportContent( )
-													.getReportContext( )
-													.getAppContext( ) );
-					readImage( url );
+					if ( rl == null )
+					{
+						URL url = design
+								.findResource( uri, IResourceLocator.IMAGE,
+										content.getReportContent( )
+												.getReportContext( ) == null
+												? null
+												: content.getReportContent( )
+														.getReportContext( )
+														.getAppContext( ) );
+						readImage( url );
+					}
+					else
+					{
+						byte[] in = rl
+								.findResource( design, uri,
+										IResourceLocator.IMAGE, content
+												.getReportContent( )
+												.getReportContext( ) == null
+												? null
+												: content.getReportContent( )
+														.getReportContext( )
+														.getAppContext( ) );
+						readImage( in );
+					}
 					break;
 				case IImageContent.IMAGE_URL :
 					readImage( uri );
@@ -109,13 +136,14 @@ public class ImageReader
 	private byte[] getImageByteArray( InputStream in ) throws IOException
 	{
 		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		int data = in.read( );
-		while ( data != -1 )
+		byte[] buffer = new byte[1024];
+		int size = in.read( buffer );
+		while ( size != -1 )
 		{
-			out.write( data );
-			data = in.read( );
+			out.write( buffer, 0, size );
+			size = in.read( buffer );
 		}
-		byte[] buffer = out.toByteArray( );
+		buffer = out.toByteArray( );
 		out.close( );
 		return buffer;
 	}

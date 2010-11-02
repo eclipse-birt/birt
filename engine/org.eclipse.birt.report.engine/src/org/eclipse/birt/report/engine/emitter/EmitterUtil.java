@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,10 +39,13 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -162,54 +164,56 @@ public class EmitterUtil
 			switch ( content.getImageSource( ) )
 			{
 				case IImageContent.IMAGE_FILE :
+					ResourceLocatorWrapper rl = null;
+					ExecutionContext exeContext = ( (ReportContent) content
+							.getReportContent( ) ).getExecutionContext( );
+					if ( exeContext != null )
+					{
+						rl = exeContext.getResourceLocator( );
+					}
 					ReportDesignHandle design = content.getReportContent( )
 							.getDesign( ).getReportDesign( );
-					URL url = design
-							.findResource( uri, IResourceLocator.IMAGE,
-									content.getReportContent( )
-											.getReportContext( ) == null
-											? null
-											: content.getReportContent( )
-													.getReportContext( )
-													.getAppContext( ) );
-					InputStream in = url.openStream( );
-					try
+					byte[] buffer = null;
+					if ( rl == null )
 					{
-						byte[] buffer;
+						URL url = design
+								.findResource( uri, IResourceLocator.IMAGE,
+										content.getReportContent( )
+												.getReportContext( ) == null
+												? null
+												: content.getReportContent( )
+														.getReportContext( )
+														.getAppContext( ) );
+						buffer = getImageByteArray( url.openStream( ) );
+					}
+					else
+					{
+						buffer = rl
+								.findResource( design, uri,
+										IResourceLocator.IMAGE, content
+												.getReportContent( )
+												.getReportContext( ) == null
+												? null
+												: content.getReportContent( )
+														.getReportContext( )
+														.getAppContext( ) );
+					}
+
+					if ( buffer != null )
+					{
 						if ( SvgFile.isSvg( content.getURI( ) ) )
 						{
-							buffer = SvgFile.transSvgToArray( in );
-						}
-						else
-						{
-							ArrayList<Byte> bytes = new ArrayList<Byte>( );
-							int data = in.read( );
-							while ( data != -1 )
-							{
-								bytes.add( (byte) data );
-								data = in.read( );
-							}
-							buffer = new byte[bytes.size( )];
-							for ( int i = 0; i < buffer.length; i++ )
-							{
-								buffer[i] = bytes.get( i );
-							}
+							buffer = SvgFile
+									.transSvgToArray( new ByteArrayInputStream(
+											buffer ) );
 						}
 						image = Image.getInstance( buffer );
-					}
-					catch ( Exception ex )
-					{
-						logger.log( Level.WARNING, ex.getMessage( ), ex );
-					}
-					finally
-					{
-						in.close( );
 					}
 					break;
 				case IImageContent.IMAGE_NAME :
 				case IImageContent.IMAGE_EXPRESSION :
 					byte[] data = content.getData( );
-					in = new ByteArrayInputStream( data );
+					ByteArrayInputStream in = new ByteArrayInputStream( data );
 					if ( SvgFile.isSvg( mimeType, uri, extension ) )
 						data = SvgFile.transSvgToArray( in );
 					in.close( );
@@ -239,6 +243,23 @@ public class EmitterUtil
 		}
 		return image;
 	}
+		
+	private static byte[] getImageByteArray( InputStream in )
+			throws IOException
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		byte[] buffer = new byte[1024];
+		int size = in.read( buffer );
+		while ( size != -1 )
+		{
+			out.write( buffer, 0, size );
+			size = in.read( buffer );
+		}
+		buffer = out.toByteArray( );
+		out.close( );
+		return buffer;
+	}
+
 
 	public static float ITALIC_HORIZONTAL_COEFFICIENT = (float) Math
 			.tan( 15f * Math.PI / 180 );
