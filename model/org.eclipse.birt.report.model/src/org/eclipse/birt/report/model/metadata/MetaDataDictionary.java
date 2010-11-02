@@ -974,6 +974,17 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		return ExtensionManager.getInstance( ).getEncryptionHelpers( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#
+	 * getEncryptionHelperIDs()
+	 */
+	public List<String> getEncryptionHelperIDs( )
+	{		
+		return ExtensionManager.getInstance( ).getEncryptionHelperIDs( );
+	}
+	
 	/**
 	 * Returns the encryption helper with the extension id.
 	 * 
@@ -991,7 +1002,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * Gets the default encryption id.
 	 * 
 	 * @return the ID of the default encryption helper
-	 */
+	 */	
 	public String getDefaultEncryptionHelperID( )
 	{
 		return ExtensionManager.getInstance( ).getDefaultEncryptionHelperID( );
@@ -1221,4 +1232,5 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	{
 		return themeTypes.get( elementDefn.getName( ) );
 	}
+	
 }

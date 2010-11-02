@@ -243,4 +243,19 @@ public interface IMetaDataDictionary
 	 * @return
 	 */
 	public List<String> getReportItemThemeTypes( );
+
+	/**
+	 * Gets the default encryption id.
+	 * 
+	 * @return the ID of the default encryption helper
+	 */
+	public String getDefaultEncryptionHelperID( );
+	
+	/**
+	 * Gets all encryption id.
+	 * 
+	 * @return the list of all ID of the encryption helpers
+	 */
+	public List<String> getEncryptionHelperIDs( );
+
 }

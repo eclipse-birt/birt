@@ -190,6 +190,21 @@ class ExtensionManagerImpl
 	}
 
 	/**
+	 * Gets all IDs of the encryption helpers.
+	 * 
+	 * @return the list of IDs of the encryption helpers
+	 */
+	public List<String> getEncryptionHelperIDs( )
+	{
+		List<String> encryptionIDs = new ArrayList<String>( );
+		encryptionIDs.add( SimpleEncryptionHelper.ENCRYPTION_ID );
+		if ( encryptionHelperMap != null )
+		{
+			encryptionIDs.addAll( encryptionHelperMap.keySet( ) );
+		}
+		return encryptionIDs;
+	}
+	/**
 	 * Returns the encryption helper with the extension id.
 	 * 
 	 * @param id
