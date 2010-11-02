@@ -37,11 +37,14 @@ import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularDimensionModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ContentIterator;
 
@@ -176,7 +179,7 @@ class ContainerContextProviderImpl
 			}
 
 			containerInfo = container.getContainerInfo( );
-		}		
+		}
 
 		return retValue;
 	}
@@ -250,7 +253,7 @@ class ContainerContextProviderImpl
 			errors.add( e );
 			return errors;
 		}
-		
+
 		if ( focus.getElement( ) instanceof ReportItemTheme )
 		{
 			ReportItemTheme theme = (ReportItemTheme) focus.getElement( );
@@ -359,10 +362,37 @@ class ContainerContextProviderImpl
 		if ( element instanceof ReportItem )
 		{
 			ReportItem item = (ReportItem) element;
-			DataSet dataSet = (DataSet) item.getDataSetElement( module );
-			Cube cube = (Cube) item.getCubeElement( module );
-			if ( !ContainerContext.isValidContainerment( module, focus
-					.getElement( ), item, dataSet, cube ) )
+
+			// this method can be called by canContain(). So, should try to
+			// resolve data set or cube by resolveElement() method.
+
+			DataSet dataSet = null;
+			PropertyDefn tmpPropDefn = item
+					.getPropertyDefn( IReportItemModel.DATA_SET_PROP );
+			if ( tmpPropDefn != null )
+			{
+				ElementRefValue refSet = (ElementRefValue) item.getProperty(
+						null, IReportItemModel.DATA_SET_PROP );
+				if ( refSet != null )
+					dataSet = (DataSet) module.resolveElement( item,
+							refSet.getQualifiedReference( ), tmpPropDefn, null );
+			}
+
+			Cube cube = null;
+			tmpPropDefn = item.getPropertyDefn( IReportItemModel.CUBE_PROP );
+			if ( tmpPropDefn != null )
+			{
+				ElementRefValue refCube = (ElementRefValue) item.getProperty(
+						null, IReportItemModel.CUBE_PROP );
+				if ( refCube != null )
+					dataSet = (DataSet) module
+							.resolveElement( item,
+									refCube.getQualifiedReference( ),
+									tmpPropDefn, null );
+			}
+
+			if ( !ContainerContext.isValidContainerment( module,
+					focus.getElement( ), item, dataSet, cube ) )
 			{
 				errors.add( e );
 				return errors;
