@@ -15,6 +15,7 @@ import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.LibrarySaveChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.wizards.ExportReportWizardPage;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -263,6 +264,8 @@ public class ExportToLibraryAction extends AbstractViewAction
 					{
 						synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
 								Path.fromOSString( filename ), IReportResourceChangeEvent.NewResource|IReportResourceChangeEvent.LibraySaveChange ) );
+						synchronizer.notifyResourceChanged( new LibrarySaveChangeEvent( this,
+								Path.fromOSString( filename ), IReportResourceChangeEvent.LibraySaveChange, Path.fromOSString( filename ).toOSString( ) ) );
 					}
 				}
 			}
