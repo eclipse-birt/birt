@@ -176,6 +176,11 @@ public abstract class EngineTask implements IEngineTask
 	 * map between the input value and the default values.
 	 */
 	protected HashMap runValues = new HashMap( );
+	
+	/**
+	 * default parameter values 
+	 */
+	protected HashMap defaultValues = new HashMap();
 
 	/**
 	 * Engine task type. for usage in BIRT scripting.
@@ -1063,6 +1068,15 @@ public abstract class EngineTask implements IEngineTask
 	
 	protected Object evaluateDefaultValue( AbstractScalarParameterHandle parameter )
 	{
+		if ( parameter != null )
+		{
+			String name = parameter.getName( );
+			if ( defaultValues.keySet( ).contains( name ) )
+			{
+				return defaultValues.get( name );
+			}
+		}
+		
 		ScalarParameterHandle sparameter = null;
 		if ( parameter instanceof ScalarParameterHandle )
 		{
@@ -1478,6 +1492,7 @@ public abstract class EngineTask implements IEngineTask
 					Object value = evaluateDefaultValue( param );
 					executionContext.setParameterValue( name, value );
 					runValues.put( name, value );
+					defaultValues.put( name, value );
 				}
 				return true;
 			}
@@ -1491,6 +1506,7 @@ public abstract class EngineTask implements IEngineTask
 					Object value = evaluateDefaultValue( param );
 					executionContext.setParameterValue( name, value );
 					runValues.put( name, value );
+					defaultValues.put( name, value );
 				}
 				return true;
 			}
