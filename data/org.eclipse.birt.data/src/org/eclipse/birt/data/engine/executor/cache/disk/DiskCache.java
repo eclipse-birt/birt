@@ -275,8 +275,8 @@ public class DiskCache implements ResultSetCache
 		if ( destIndex < -1 || destIndex > countOfResult )
 			throw new DataException( ResourceConstants.DESTINDEX_OUTOF_RANGE,
 					new Object[]{
-							new Integer( -1 ),
-							new Integer( countOfResult )
+							Integer.valueOf( -1 ),
+							Integer.valueOf( countOfResult )
 					} );
 	}
 	

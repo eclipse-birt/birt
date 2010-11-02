@@ -230,7 +230,7 @@ public class GroupInformationUtil
 	{
 		if ( groupLevel > this.groups.length || groupLevel < 0 )
 			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-					new Integer( groupLevel ) );
+					Integer.valueOf(  groupLevel ) );
 
 		if ( groupLevel == 0 )
 		{
@@ -271,7 +271,7 @@ public class GroupInformationUtil
 	{
 		if ( groupLevel > this.groups.length || groupLevel < 0 )
 			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-					new Integer( groupLevel ) );
+					Integer.valueOf( groupLevel ) );
 
 		groupLevel--; // change to 0-based index
 
@@ -325,7 +325,7 @@ public class GroupInformationUtil
 		checkHasCurrentRow( );
 		if ( groupLevel < 0 || groupLevel > this.groups.length )
 			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-					new Integer( groupLevel ) );
+					Integer.valueOf( groupLevel ) );
 
 		int currentGroupIdx = leafGroupIdx;
 		int level;
@@ -800,8 +800,8 @@ class GroupInfoWithIndex implements IStructure
 		Object[] groupFields = groupBoundaryInfo.getFieldValues( );
 		Object[] fields = new Object[groupFields.length + 2];
 		System.arraycopy( groupFields, 0, fields, 0, groupFields.length );
-		fields[fields.length - 2] = new Integer( parentGroupIndex );
-		fields[fields.length - 1] = new Integer( groupIndex );
+		fields[fields.length - 2] = Integer.valueOf( parentGroupIndex );
+		fields[fields.length - 1] = Integer.valueOf( groupIndex );
 		return fields;
 	}
 	

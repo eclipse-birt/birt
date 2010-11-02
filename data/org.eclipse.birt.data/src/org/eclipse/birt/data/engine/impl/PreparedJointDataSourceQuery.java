@@ -567,17 +567,6 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	private class JointDataSetQueryExecutor extends DSQueryExecutor
 	{
 
-		// prepared query
-		private IPreparedDSQuery odiPreparedQuery;
-
-		/**
-		 * @return prepared query
-		 */
-		public IPreparedDSQuery getPreparedOdiQuery( )
-		{
-			return odiPreparedQuery;
-		}
-
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
 		 */

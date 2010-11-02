@@ -170,7 +170,7 @@ public class AggregationResultSet implements IAggregationResultSet
 			if(functions[i].getName( )!=null)
 			{
 				aggregationResultNameMap.put( functions[i].getName( ),
-					new Integer( i ) );
+					Integer.valueOf( i ) );
 			}
 		}
 	}

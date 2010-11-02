@@ -27,7 +27,6 @@ class DimensionCursorImpl extends AbstractCursorSupport
 {
 
 	private EdgeCursor edgeCursor;
-	private DimensionNavigator navigator;
 	private DimensionAxis dimensionAxis;
 
 	/**
@@ -43,7 +42,6 @@ class DimensionCursorImpl extends AbstractCursorSupport
 		super( navigator, new DimensionAccessor( dimensionAxis ) );
 		this.edgeCursor = edgeCursor;
 		this.dimensionAxis = dimensionAxis;
-		this.navigator = navigator;
 	}
 
 	/*

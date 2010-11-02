@@ -231,7 +231,7 @@ class IntegerRandomReader implements IObjectReader
 
 	public Object read( BufferedRandomAccessFile file ) throws IOException
 	{
-		return new Integer( file.readInt( ) );
+		return Integer.valueOf( file.readInt( ) );
 	}
 }
 
@@ -258,7 +258,7 @@ class BooleanRandomReader implements IObjectReader
 
 	public Object read( BufferedRandomAccessFile file ) throws IOException
 	{
-		return new Boolean( file.readBoolean( ) );
+		return Boolean.valueOf( file.readBoolean( ) );
 	}
 }
 

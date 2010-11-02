@@ -105,7 +105,7 @@ public class JSStringMap extends ScriptableObject
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.exiting( JSStringMap.class.getName( ),
 					"has",
-					new Boolean( map.containsKey( name ) ) );
+					Boolean.valueOf( map.containsKey( name ) ) );
 		return map.containsKey(name);
 	}
 	

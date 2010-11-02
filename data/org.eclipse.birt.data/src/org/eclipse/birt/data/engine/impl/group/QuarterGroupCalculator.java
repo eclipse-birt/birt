@@ -50,9 +50,9 @@ class QuarterGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( this.dateTimeUtil.diffQuarter( defaultStart,
+			return new Double( Math.floor( (double)this.dateTimeUtil.diffQuarter( defaultStart,
 					target )
-					/ getDateIntervalRange( ) ) );
+					/ (double)getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -62,9 +62,9 @@ class QuarterGroupCalculator extends DateGroupCalculator
 			}
 			else
 			{
-				return new Double( Math.floor( this.dateTimeUtil.diffQuarter( (Date) intervalStart,
+				return new Double( Math.floor( (double)this.dateTimeUtil.diffQuarter( (Date) intervalStart,
 						target )
-						/ getDateIntervalRange( ) ) );
+						/ (double)getDateIntervalRange( ) ) );
 			}
 		}
 	}

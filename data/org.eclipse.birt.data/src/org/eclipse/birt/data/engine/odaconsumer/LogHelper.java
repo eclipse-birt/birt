@@ -91,7 +91,7 @@ class LogHelper
         if ( ! isLoggingEnterExitLevel() )
             return;
         
-        Object param1 = new Integer( intParam );
+        Object param1 = Integer.valueOf( intParam );
         m_logger.entering( sourceClass, sourceMethod, param1 );
     }
     
@@ -125,7 +125,7 @@ class LogHelper
         if ( ! isLoggingEnterExitLevel() )
             return;
         
-        Object param1 = new Integer( intParam );
+        Object param1 = Integer.valueOf( intParam );
         m_logger.exiting( sourceClass, sourceMethod, param1 );
     }
 

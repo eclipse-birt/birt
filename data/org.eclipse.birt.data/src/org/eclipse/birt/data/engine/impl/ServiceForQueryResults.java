@@ -99,7 +99,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		Object[] params = {
 				session,
 				scope,
-				new Integer( nestedLevel ),
+				Integer.valueOf( nestedLevel ),
 				reportQuery,
 				query,
 				queryExecutor,
@@ -613,7 +613,8 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 					
 					aggrRefMap.put( aggrDefn.getName( ), aggrRefs );
 					
-					aggrRefGroupLevelMap.put( aggrDefn.getName( ), new Integer( groupLevel) );
+					aggrRefGroupLevelMap.put( aggrDefn.getName( ),
+							Integer.valueOf( groupLevel ) );
 				}
 				
 				popualteCalcuateRound( aggrDefns,

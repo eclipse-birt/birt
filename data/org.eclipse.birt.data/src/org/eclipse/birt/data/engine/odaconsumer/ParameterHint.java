@@ -63,7 +63,7 @@ public class ParameterHint
 		final String methodName = "ParameterHint( String, boolean, boolean )"; //$NON-NLS-1$
 		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName,
-		            			new Object[] { parameterName, new Boolean( isInputMode ), new Boolean( isOutputMode ) } );
+		            			new Object[] { parameterName, Boolean.valueOf( isInputMode ), Boolean.valueOf( isOutputMode ) } );
 		
 		if( parameterName == null || parameterName.length() == 0 )
 		{
@@ -109,7 +109,7 @@ public class ParameterHint
 			String localizedMessage = 
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.PARAMETER_POSITION_CANNOT_BE_LESS_THAN_ONE );
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Invalid parameter position {0} ", new Integer( position ) ); //$NON-NLS-1$
+					"Invalid parameter position {0} ", Integer.valueOf( position ) ); //$NON-NLS-1$
 			throw new IllegalArgumentException( localizedMessage );
 		}
 		

@@ -49,9 +49,9 @@ class MonthGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( this.dateTimeUtil.diffMonth( defaultStart,
+			return new Double( Math.floor( (double)this.dateTimeUtil.diffMonth( defaultStart,
 					target )
-					/ getDateIntervalRange( ) ) );
+					/(double) getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -61,9 +61,9 @@ class MonthGroupCalculator extends DateGroupCalculator
 			}
 			else
 			{
-				return new Double( Math.floor( this.dateTimeUtil.diffMonth( (Date) intervalStart,
+				return new Double( Math.floor( (double) this.dateTimeUtil.diffMonth( (Date) intervalStart,
 						target )
-						/ getDateIntervalRange( ) ) );
+						/ (double) getDateIntervalRange( ) ) );
 			}
 		}
 	}

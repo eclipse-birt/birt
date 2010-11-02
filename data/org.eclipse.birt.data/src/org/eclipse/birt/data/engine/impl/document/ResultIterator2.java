@@ -162,7 +162,7 @@ public class ResultIterator2 extends ResultIterator
 	{
 		if ( rowIndex < 0 || rowIndex < this.currRowIndex )
 			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-					new Integer( rowIndex ) );
+					Integer.valueOf( rowIndex ) );
 		else if ( rowIndex == currRowIndex )
 			return;
 
@@ -171,7 +171,7 @@ public class ResultIterator2 extends ResultIterator
 		{
 			if ( this.next( ) == false )
 				throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-						new Integer( rowIndex ) );
+						Integer.valueOf( rowIndex ) );
 		}
 	}
 

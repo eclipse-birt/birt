@@ -46,7 +46,7 @@ import org.mozilla.javascript.Scriptable;
 
 public class DataEngineSession
 {
-	private static Integer count = new Integer( 0 );
+	private static Integer count = 0;
 	
 	private Map context;
 	private Scriptable scope;
@@ -368,7 +368,7 @@ public class DataEngineSession
 	/**
 	 *
 	 */
-	class ReportDocumentShutdownListener implements IShutdownListener
+	static class ReportDocumentShutdownListener implements IShutdownListener
 	{
 
 		private DataEngineSession session;

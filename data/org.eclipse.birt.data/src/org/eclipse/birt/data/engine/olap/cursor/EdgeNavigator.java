@@ -208,8 +208,8 @@ class EdgeNavigator implements INavigator
 				warnings = new ArrayList( );
 			DataException ex = new DataException( ResourceConstants.CONFIG_EDGE_FETCH_LIMIT_WARNING,
 					new Object[]{
-							new Integer( arg0 ),
-							new Integer( this.rs.length( ) )
+							Integer.valueOf( arg0 ),
+							Integer.valueOf( this.rs.length( ) )
 					} );
 			warnings.add( new OLAPWarning( ex.getLocalizedMessage( ) ) );
 		}

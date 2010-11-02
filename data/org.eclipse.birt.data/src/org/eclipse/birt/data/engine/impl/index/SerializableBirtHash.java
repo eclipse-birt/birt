@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -91,30 +92,30 @@ public class SerializableBirtHash extends HashMap implements IIndexSerializer
 			DataOutputStream dis = new DataOutputStream( indexStream );
 			DataOutputStream dvs = new DataOutputStream( valueStream );
 			IOUtil.writeInt( dis, this.keySet( ).size( ) );
-			Iterator keyIt = this.keySet( ).iterator( );
-			while ( keyIt.hasNext( ) )
+			Iterator entryIterator = this.entrySet( ).iterator( );
+			while ( entryIterator.hasNext( ) )
 			{
-				Object key = keyIt.next( );
+				Map.Entry entry = (Map.Entry) entryIterator.next( );
 				// For null value, we do not write the value to value stream
-				if ( key == null )
+				if ( entry.getKey( ) == null )
 				{
 					IOUtil.writeLong( dis, NULL_VALUE_OFFSET );
-					IOUtil.writeIntList( dis, (List) this.get( key ) );
+					IOUtil.writeIntList( dis, (List) entry.getValue( ) );
 					continue;
 				}
-				int hash = key == null ? 0 : key.hashCode( );
-				if ( !this.valueSet.contains( key ) )
+				int hash = entry.getKey( ) == null ? 0 : entry.getKey( ).hashCode( );
+				if ( !this.valueSet.contains( entry.getKey( ) ) )
 				{
 					IOUtil.writeLong( dis, valueStream.getOffset( ) );
 					IOUtil.writeInt( dis, hash );
-					IOUtil.writeIntList( dis, (List) this.get( key ) );
-					IOUtil.writeString( dvs, key.toString( ) );
+					IOUtil.writeIntList( dis, (List) entry.getValue( ) );
+					IOUtil.writeString( dvs, entry.getKey( ).toString( ) );
 				}
 				else
 				{
 					IOUtil.writeLong( dis, NOT_HASH_VALUE_OFFSET );
-					IOUtil.writeString( dis, key.toString( ) );
-					IOUtil.writeIntList( dis, (List) this.get( key ) );
+					IOUtil.writeString( dis, entry.getKey( ).toString( ) );
+					IOUtil.writeIntList( dis, (List) entry.getValue( ) );
 				}
 			}
 			indexStream.close( );

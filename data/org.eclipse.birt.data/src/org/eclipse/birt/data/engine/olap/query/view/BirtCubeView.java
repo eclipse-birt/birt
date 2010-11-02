@@ -367,10 +367,10 @@ public class BirtCubeView
 			int index =0;
 			for ( int i = 0; i < members.length; i++ )
 			{
-				if ( rsIDSet.contains( new Integer( members[i].getRsID( ) ) ) )
+				if ( rsIDSet.contains( Integer.valueOf( members[i].getRsID( ) ) ) )
 					continue;
 				calculatedMemberViews[index] = this.createBirtEdgeView( members[i] );
-				rsIDSet.add( new Integer( members[i].getRsID( ) ) );
+				rsIDSet.add( Integer.valueOf(  members[i].getRsID( ) ) );
 				index++;
 			}
 		}

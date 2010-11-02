@@ -191,7 +191,7 @@ public abstract class NEvaluator
 			if( valueList.get( i ) == null )
 			{
 				valueList.set( i, value);
-				rowIdList.set( i, new Integer( firstPassRowNumberCounter ) );
+				rowIdList.set( i, Integer.valueOf( firstPassRowNumberCounter ) );
 				break;
 			}
 			else 
@@ -210,7 +210,7 @@ public abstract class NEvaluator
 						}
 						valueList.set( i, value );
 						rowIdList.set( i,
-								new Integer( firstPassRowNumberCounter ) );
+								Integer.valueOf( firstPassRowNumberCounter ) );
 						break;
 					}
 				}

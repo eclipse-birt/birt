@@ -36,12 +36,12 @@ public class IndexKey implements IComparableStructure
 		objectArrays[1] = new Integer[offset.length];
 		for( int i = 0; i < offset.length; i++ )
 		{
-			objectArrays[1][i] = new Integer( offset[i] );
+			objectArrays[1][i] = Integer.valueOf( offset[i] );
 		}
 		objectArrays[2] = new Integer[dimensionPos.length];
 		for( int i = 0; i < dimensionPos.length; i++ )
 		{
-			objectArrays[2][i] = new Integer( dimensionPos[i] );
+			objectArrays[2][i] = Integer.valueOf( dimensionPos[i] );
 		}
 		
 		return ObjectArrayUtil.convert( objectArrays );

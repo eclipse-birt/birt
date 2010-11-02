@@ -892,13 +892,13 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 					new DataSetToCache( rs, resultMetadata, session),
 					eventHandler, session );
 		
-		if ( ri != null && ri instanceof CachedResultSet )
+		if ( ri != null  )
 			( (CachedResultSet) ri ).setOdaResultSet( rs );
 
 		return ri;
     }
     
-    private class OdaQueryCanceller implements ICancellable
+	private static class OdaQueryCanceller implements ICancellable
     {
     	private PreparedStatement statement;
     	private StopSign stop;
@@ -1022,7 +1022,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private int getCorrectParamIndex( int index ) throws DataException
 	{
 		if ( index <= 0 )
-			throw new DataException( ResourceConstants.INVALID_OUTPUT_PARAMETER_INDEX, new Integer(index) );
+			throw new DataException( ResourceConstants.INVALID_OUTPUT_PARAMETER_INDEX, Integer.valueOf( index ) );
 		
 		int newIndex = 0; // 1-based
 		int curOutputIndex = 0; // 1-based
@@ -1047,7 +1047,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		}
 
 		if ( curOutputIndex < index )
-			throw new DataException( ResourceConstants.OUTPUT_PARAMETER_OUT_OF_BOUND,new Integer(index));
+			throw new DataException( ResourceConstants.OUTPUT_PARAMETER_OUT_OF_BOUND,
+					Integer.valueOf( index ) );
 
 		return newIndex;
 	}

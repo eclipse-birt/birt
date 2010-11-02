@@ -45,9 +45,9 @@ class DayGroupCalculator extends DateGroupCalculator
 		Date target = getDate( value );
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( this.dateTimeUtil.diffDay( defaultStart,
+			return new Double( Math.floor( (double) this.dateTimeUtil.diffDay( defaultStart,
 					target )
-					/ getDateIntervalRange( ) ) );
+					/ (double) getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -57,9 +57,9 @@ class DayGroupCalculator extends DateGroupCalculator
 			}
 			else
 			{
-				return new Double( Math.floor( this.dateTimeUtil.diffDay( (Date) intervalStart,
+				return new Double( Math.floor( (double) this.dateTimeUtil.diffDay( (Date) intervalStart,
 						target )
-						/ getDateIntervalRange( ) ) );
+						/ (double) getDateIntervalRange( ) ) );
 			}
 		}
 	}

@@ -37,17 +37,17 @@ public class ObjectArrayUtil
 		{
 			if ( objects[i] == null )
 			{
-				result[pos] = new Integer( -1 );
+				result[pos] = Integer.valueOf( -1 );
 				pos++;
 			}
 			else if( objects[i].length == 0 )
 			{
-				result[pos] = new Integer( 0 );
+				result[pos] = Integer.valueOf( 0 );
 				pos++;
 			}
 			else
 			{
-				result[pos] = new Integer( objects[i].length );
+				result[pos] = Integer.valueOf( objects[i].length );
 				pos++;
 				System.arraycopy( objects[i], 0, result, pos, objects[i].length );
 				pos += objects[i].length;

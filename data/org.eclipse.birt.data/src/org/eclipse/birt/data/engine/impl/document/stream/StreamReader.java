@@ -41,7 +41,7 @@ public abstract class StreamReader
 	 */
 	public boolean hasInputStream( int streamType )
 	{
-		return this.streamMap.get( new Integer(streamType) ) != null;
+		return this.streamMap.get( Integer.valueOf( streamType) ) != null;
 	}
 	
 }

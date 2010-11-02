@@ -170,7 +170,7 @@ public class RDAggrUtil
 	 * @author Administrator
 	 * 
 	 */
-	private class RDAggrValueHolder
+	private static class RDAggrValueHolder
 	{
 
 		private int groupInstanceIndex = 0;

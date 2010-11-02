@@ -209,4 +209,25 @@ public final class ComplexExpression extends BytecodeExpression
 			result = 0;
 		return  result;
 	}
+
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		int result = 17;
+		for ( int i = 0; i < m_subExpressions.size( ); i++ )
+		{
+			result = 37 * result + m_subExpressions.get( i ).hashCode( );
+		}
+		for ( int i = 0; i < m_tokenList.size( ); i++ )
+		{
+			result = 37 * result + m_tokenList.get( i ).hashCode( );
+		}
+		for ( int i = 0; i < m_constantExpressions.size( ); i++ )
+		{
+			result = 37 * result + m_constantExpressions.get( i ).hashCode( );
+		}
+		return result;
+	}
 }

@@ -63,7 +63,7 @@ public class JSRows extends ScriptableObject
 	{
 		logger.entering( JSColumnDefn.class.getName( ),
 				"get",
-				new Integer( index ) );
+				Integer.valueOf( index ) );
 		if ( index >=0 && index < dataSets.length )
 		{
 			return dataSets[index].getJSRowObject();
@@ -83,7 +83,7 @@ public class JSRows extends ScriptableObject
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.entering( JSColumnDefn.class.getName( ),
 				"has",
-				new Integer( index ) );
+				Integer.valueOf( index ) );
 		return ( index >=0 && dataSets.length > index ) ? true : false;
 	}
 

@@ -102,7 +102,7 @@ public class DataType
 	{
 		if ( typeCode < 0 || typeCode >= typeCodes.length )
 		{
-			return new String( "Unknown" );
+			return "Unknown";
 		}
 		for ( int i = 0; i < typeCodes.length; i++ )
 		{

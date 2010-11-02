@@ -1071,7 +1071,7 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 	/*
 	 * Internal structure for holding data
 	 */
-	protected class FileBufferStruct
+	protected static class FileBufferStruct
 	{
 
 		/**

@@ -25,7 +25,7 @@ public class ColumnInfo
 	ColumnInfo( int columnIndex, String columnName )
 	{
 		Object[] params = {
-				new Integer( columnIndex ), columnName
+				Integer.valueOf( columnIndex ), columnName
 		};
 		logger.entering( ColumnInfo.class.getName( ), "ColumnInfo", params );
 		

@@ -123,7 +123,7 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 		}
 	}
 	
-	private class DummyLevelObject extends ScriptableObject
+	private static class DummyLevelObject extends ScriptableObject
 	{
 		private DummyDimensionObject host;
 		private String dimName;
@@ -160,7 +160,7 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 		}
 	}
 	
-	private class DummyDimensionObject extends ScriptableObject
+	private static class DummyDimensionObject extends ScriptableObject
 	{
 		private IFacttableRow row;
 		private Map< String, DummyLevelObject > dimLevMap = new HashMap<String, DummyLevelObject>( );
@@ -203,8 +203,8 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 		
 	}
 	
-	private class DummyLevelAttrObject extends ScriptableObject
-	{	
+	private static class DummyLevelAttrObject extends ScriptableObject
+	{
 		private String dimName;
 		private String levelName;
 		private DummyDimensionObject host;
@@ -258,7 +258,7 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	 * 
 	 *
 	 */
-	private class DummyMeasureObject extends ScriptableObject
+	private static class DummyMeasureObject extends ScriptableObject
 	{
 		/**
 		 * 

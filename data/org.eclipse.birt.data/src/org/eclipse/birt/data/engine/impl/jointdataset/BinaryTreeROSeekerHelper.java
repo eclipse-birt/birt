@@ -100,7 +100,7 @@ class BinaryTreeROSeekerHelper
 	 *	Tree node classes. 
 	 *
 	 */
-	private class Node
+	private static class Node
 	{
 		//
 		private Node leftChild;

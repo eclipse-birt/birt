@@ -39,18 +39,18 @@ public class FactTableRow implements IComparableStructure
 		assert getDimensionKeys().length > 0  && getMeasures().length > 0;
 		
 		List result = new ArrayList( );
-		result.add( new Integer( getDimensionKeys().length ) );
+		result.add( Integer.valueOf( getDimensionKeys().length ) );
 		for ( int i = 0; i < getDimensionKeys().length; i++ )
 		{
 			Object[] dimensionFields = getDimensionKeys()[i].getFieldValues( );
-			result.add( new Integer( dimensionFields.length ) );
+			result.add( Integer.valueOf( dimensionFields.length ) );
 			for ( int j = 0; j < dimensionFields.length; j++ )
 			{
 				result.add( dimensionFields[j] );
 			}
 		}
 		
-		result.add( new Integer( getMeasures().length ) );
+		result.add( Integer.valueOf( getMeasures().length ) );
 		
 		for ( int i = 0; i < getMeasures().length; i++ )
 		{
@@ -101,6 +101,19 @@ public class FactTableRow implements IComparableStructure
 			}
 		}
 		return true;
+	}
+	
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		int result = 17;
+		for ( int i = 0; i < getDimensionKeys( ).length; i++ )
+		{
+			result = 37 * result + getDimensionKeys( )[i].hashCode( );
+		}
+		return result;
 	}
 	
 	/*

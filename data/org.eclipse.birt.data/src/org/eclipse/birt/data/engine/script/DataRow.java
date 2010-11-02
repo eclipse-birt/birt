@@ -61,10 +61,10 @@ public class DataRow implements IDataRow
 	{
 		if ( this.metaData == null )
 		{
-			IResultObject obj = dataSet.getCurrentRow(  );
-			if ( obj != null || obj.getResultClass() != null )
+			IResultObject obj = dataSet.getCurrentRow( );
+			if ( obj != null && obj.getResultClass( ) != null )
 			{
-				this.metaData = new ResultMetaData(obj.getResultClass());
+				this.metaData = new ResultMetaData( obj.getResultClass( ) );
 			}
 		}
 		return this.metaData;
@@ -77,7 +77,7 @@ public class DataRow implements IDataRow
 	{
        	if ( index == 0 )
        	{
-       		return new Integer( dataSet.getCurrentRowIndex( ));
+       		return Integer.valueOf( dataSet.getCurrentRowIndex( ));
        	}
        	else
        	{

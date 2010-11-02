@@ -156,7 +156,7 @@ public class QueryResultIDManager
 				for ( int i = 0; i < existingNum; i++ )
 				{
 					idMap.put( IOUtil.readString( dis ),
-							new Integer( IOUtil.readInt( dis ) ) );
+							Integer.valueOf( IOUtil.readInt( dis ) ) );
 				}
 
 				dis.close( );

@@ -47,9 +47,9 @@ class YearGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( this.dateTimeUtil.diffYear( defaultStart,
+			return new Double( Math.floor( ( double )this.dateTimeUtil.diffYear( defaultStart,
 					target )
-					/ getDateIntervalRange( ) ) );
+					/ ( double )getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -59,9 +59,9 @@ class YearGroupCalculator extends DateGroupCalculator
 			}
 			else
 			{
-				return new Double( Math.floor( this.dateTimeUtil.diffYear( (Date) intervalStart,
+				return new Double( Math.floor( (double) this.dateTimeUtil.diffYear( (Date) intervalStart,
 						target )
-						/ getDateIntervalRange( ) ) );
+						/ (double) getDateIntervalRange( ) ) );
 			}
 		}
 	}

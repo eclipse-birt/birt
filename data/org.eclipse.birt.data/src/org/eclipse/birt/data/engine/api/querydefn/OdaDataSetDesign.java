@@ -31,7 +31,6 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 	private Map 	publicProps;
 	private Map 	privateProps;
 	private int resultSetNumber = -1;
-	private String resultSetName = null;
 	
 	/**
 	 * Constructs an instance with the given name

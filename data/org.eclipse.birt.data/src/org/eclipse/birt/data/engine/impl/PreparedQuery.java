@@ -165,11 +165,12 @@ public final class PreparedQuery
 		Map map = baseQueryDefn.getBindings( );
 		if ( map != null )
 		{
-			Iterator it = map.keySet( ).iterator( );
+			Iterator it = map.entrySet( ).iterator( );
 			while ( it.hasNext( ) )
 			{
-				Object key = it.next( );
-				IBinding binding = (IBinding) map.get( key );
+				Map.Entry entry = (Map.Entry) it.next( );
+				Object key = entry.getKey( );
+				IBinding binding = (IBinding) entry.getValue( );
 				String groupName = null;
 				if ( binding.getExpression( ) != null )
 					groupName = binding.getExpression( ).getGroupName( );
@@ -232,25 +233,31 @@ public final class PreparedQuery
 		Map map = baseQuery.getBindings( );
 		if (map != null) 
 		{
-			Iterator it = map.keySet().iterator();
-			while (it.hasNext()) {
-				Object key = it.next();
-				IBinding icbe = ((IBinding)map.get(key));
-				if ( icbe.getExpression( ) != null && icbe.getExpression( )
+			Iterator it = map.entrySet( ).iterator( );
+			while ( it.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) it.next( );
+				IBinding icbe = ( (IBinding) entry.getValue( ) );
+				if ( icbe.getExpression( ) != null
+						&& icbe.getExpression( )
 								.getGroupName( )
-								.equals( groupName ) && groupLevel!= 0 )
+								.equals( groupName ) && groupLevel != 0 )
 				{
 					exprCol.add( icbe.getExpression( ) );
-					resultSetExpressions.put(key, icbe);
-				}else if ( groupLevel == 0 && icbe.getAggregatOns( ).size( ) == 0 )
+					resultSetExpressions.put( entry.getKey( ), icbe );
+				}
+				else if ( groupLevel == 0
+						&& icbe.getAggregatOns( ).size( ) == 0 )
 				{
 					exprCol.add( icbe.getExpression( ) );
-					resultSetExpressions.put(key, icbe);
-				}else if ( groupLevel!= 0 && icbe.getAggregatOns( ).contains( groupName ))
+					resultSetExpressions.put( entry.getKey( ), icbe );
+				}
+				else if ( groupLevel != 0
+						&& icbe.getAggregatOns( ).contains( groupName ) )
 				{
 					exprCol.add( icbe.getExpression( ) );
-					resultSetExpressions.put(key, icbe);
-				}	
+					resultSetExpressions.put( entry.getKey( ), icbe );
+				}
 			}
 		}
 
@@ -277,7 +284,7 @@ public final class PreparedQuery
 			subQueryMap.put( subquery.getName(), pq);
 			
 			subQueryDefnMap.put( subquery.getName( ), new Object[]{
-					subquery, new Integer( groupLevel )
+					subquery, Integer.valueOf( groupLevel )
 			} );
 		}
 	}

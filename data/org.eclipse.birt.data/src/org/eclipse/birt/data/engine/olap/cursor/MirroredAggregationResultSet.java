@@ -684,7 +684,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 					{
 						mirrorPlus *= breakHierarchyList[j - mirrorLevel].size( );
 					}
-					number = (int) Math.floor( remainder / mirrorPlus );
+					number = (int) Math.floor( (double)remainder / (double)mirrorPlus );
 				}
 				else
 				{
@@ -696,7 +696,8 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 		}
 		else
 		{
-			int nodePos = (int) Math.floor( index / this.valueMapLength );
+			int nodePos = (int) Math.floor( (double) index
+					/ (double) this.valueMapLength );
 			int remainder = index % this.valueMapLength;
 			
 			MemberTreeNode node = findOuterMostChild( this.rootNode,

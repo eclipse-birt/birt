@@ -105,7 +105,10 @@ public class AggregationManager
 			synchronized ( AggregationManager.class )
 			{
 				if ( instance == null )
+				{
+					aggrMap = new HashMap( );
 					instance = new AggregationManager( );
+				}
 			}
 		}
 
@@ -117,7 +120,6 @@ public class AggregationManager
 	 */
 	private AggregationManager( ) throws DataException
 	{
-		aggrMap = new HashMap( );
 		populateAggregations( );
 	}
 

@@ -80,7 +80,7 @@ class OdaResultSet implements IDataSetPopulator
 	/**
 	 * The dummy result object to enable fetch the output parameter value
 	 */
-	class DummyResultObject implements IResultObject
+	static class DummyResultObject implements IResultObject
 	{
 
 		/* 

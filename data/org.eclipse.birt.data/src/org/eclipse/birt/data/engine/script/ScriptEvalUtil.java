@@ -68,9 +68,9 @@ public class ScriptEvalUtil
 	 * @param value
 	 * @return an instance of ExprTextAndValue
 	 */
-	public static ExprTextAndValue newExprInfo( String exprText, Object value )
+	public static ExprTextAndValue newExprInfo( Object value )
 	{
-		return ExprTextAndValue.newInstance( exprText, value );
+		return ExprTextAndValue.newInstance( value );
 	}
 	
 	/**
@@ -300,13 +300,13 @@ public class ScriptEvalUtil
 				break;
 			default :
 				throw new DataException(
-						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, new Integer(operator) );
+						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, Integer.valueOf( operator) );
 		}
 		
 		logger.exiting( ScriptEvalUtil.class.getName( ),
 				"evalConditionalExpr",
-				new Boolean( result ) );
-		return new Boolean( result );
+				 Boolean.valueOf( result ) );
+		return Boolean.valueOf( result );
 	}
 
 	/**
@@ -317,7 +317,7 @@ public class ScriptEvalUtil
 	{
 		ExprTextAndValue op;
 		if(! (o instanceof ExprTextAndValue ))
-			op = ExprTextAndValue.newInstance( "", o );
+			op = ExprTextAndValue.newInstance( o );
 		else
 			op = (ExprTextAndValue)o;
 		return op;
@@ -1014,7 +1014,6 @@ public class ScriptEvalUtil
 	 */
 	public static class ExprTextAndValue
 	{
-		String exprText;
 		Object value;
 
 		/**
@@ -1023,10 +1022,9 @@ public class ScriptEvalUtil
 		 * @param value
 		 * @return
 		 */
-		public static ExprTextAndValue newInstance( String exprText,
-				Object value )
+		public static ExprTextAndValue newInstance(	Object value )
 		{
-			return new ExprTextAndValue( exprText, value );
+			return new ExprTextAndValue( value );
 		}
 
 		/**
@@ -1034,9 +1032,8 @@ public class ScriptEvalUtil
 		 * @param exprText
 		 * @param value
 		 */
-		public ExprTextAndValue( String exprText, Object value )
+		public ExprTextAndValue( Object value )
 		{
-			this.exprText = exprText;
 			this.value = value;
 		}
 	}	

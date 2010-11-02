@@ -767,7 +767,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 
 			if ( rowIndex > 0 )
 				throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-						new Integer( rowIndex ) );
+						Integer.valueOf( rowIndex ) );
 		}
 
 
@@ -894,7 +894,8 @@ public class PreparedDummyQuery implements IPreparedQuery
 			this.checkOpened( );
 
 			if ( groupLevel > 0 )
-				throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL, new Integer(groupLevel) );
+				throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
+						Integer.valueOf( groupLevel ) );
 		}
 
 		/*
@@ -1143,7 +1144,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 	/**
 	 * 
 	 */
-	private class DummyCachedResult extends CachedResultSet
+	private static class DummyCachedResult extends CachedResultSet
 	{
 		/*
 		 * @see org.eclipse.birt.data.engine.executor.transform.CachedResultSet#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper,

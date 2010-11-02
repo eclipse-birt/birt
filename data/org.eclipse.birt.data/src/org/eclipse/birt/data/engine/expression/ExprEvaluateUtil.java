@@ -162,7 +162,7 @@ public class ExprEvaluateUtil
 				int idx = colref.getColumnindex( );
 				// Special case: row[0] refers to internal rowID
 				if ( idx == 0 )
-					return new Integer( currentIndex );
+					return Integer.valueOf( currentIndex );
 				else if ( ro != null )
 				{
 					try
@@ -183,7 +183,7 @@ public class ExprEvaluateUtil
 				String name = colref.getColumnName( );
 				// Special case: row._rowPosition refers to internal rowID
 				if ( JSRowObject.ROW_POSITION.equals( name ) )
-					return new Integer( currentIndex );
+					return Integer.valueOf( currentIndex );
 				else if ( ro != null )
 				{
 					try
@@ -421,8 +421,9 @@ public class ExprEvaluateUtil
 			throws DataException, BirtException
 	{
 		if ( dataExpr.getHandle( ) != null )
-			return new Boolean( ( (NEvaluator) dataExpr.getHandle( ) ).evaluate( cx,
-					scope, null ) );
+			return Boolean.valueOf( ( (NEvaluator) dataExpr.getHandle( ) ).evaluate( cx,
+					scope,
+					null ) );
 
 		IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
 		int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
@@ -470,8 +471,9 @@ public class ExprEvaluateUtil
 			throws DataException, BirtException
 	{
 		if ( dataExpr.getHandle( ) != null )
-			return new Boolean( ( (NEvaluator) dataExpr.getHandle( ) ).evaluate( cx,
-					scope, dataSet ) );
+			return Boolean.valueOf( ( (NEvaluator) dataExpr.getHandle( ) ).evaluate( cx,
+					scope,
+					dataSet ) );
 
 		IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
 		int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
@@ -668,7 +670,7 @@ public class ExprEvaluateUtil
 			int idx = colref.getColumnindex( );
 			// Special case: row[0] refers to internal rowID
 			if ( idx == 0 )
-				return new Integer( index );
+				return Integer.valueOf( index );
 			else if ( roObject != null )
 				return roObject.getFieldValue( idx );
 			else
@@ -679,7 +681,7 @@ public class ExprEvaluateUtil
 			String name = colref.getColumnName( );
 			// Special case: row._rowPosition refers to internal rowID
 			if ( JSRowObject.ROW_POSITION.equals( name ) )
-				return new Integer( index );
+				return Integer.valueOf( index );
 			else if ( roObject != null )
 				return roObject.getFieldValue( name );
 			else

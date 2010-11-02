@@ -72,7 +72,7 @@ class PreparedSubquery implements IPreparedQueryService
 				context,
 				subquery,
 				queryService,
-				new Integer( groupLevel )
+				Integer.valueOf( groupLevel )
 		};
 		logger.entering( PreparedSubquery.class.getName( ),
 				"PreparedSubquery",
@@ -306,7 +306,7 @@ class PreparedSubquery implements IPreparedQueryService
 	/**
 	 *
 	 */
-	private final class CustomDataSet implements ICustomDataSet
+	private static final class CustomDataSet implements ICustomDataSet
 	{
 		private IResultIterator resultIterator;
 		private IResultClass resultClass;

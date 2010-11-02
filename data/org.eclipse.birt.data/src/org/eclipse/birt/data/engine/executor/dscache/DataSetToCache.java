@@ -154,7 +154,7 @@ public class DataSetToCache
 		if ( dataSetDesign instanceof IIncreCacheDataSetDesign )
 		{
 			IIncreCacheDataSetDesign icDataSetDesign = (IIncreCacheDataSetDesign) dataSetDesign;
-			increCacheMode = new Integer( icDataSetDesign.getCacheMode( ) );
+			increCacheMode = Integer.valueOf( icDataSetDesign.getCacheMode( ) );
 		}
 	}
 	

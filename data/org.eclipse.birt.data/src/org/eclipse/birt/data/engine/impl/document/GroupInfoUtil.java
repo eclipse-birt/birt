@@ -94,8 +94,9 @@ public class GroupInfoUtil {
 				}
 				if ( count < firstChild - baseInfo.firstChild )
 				{
-					deleteNumMap.put( info, new Integer( firstChild
-							- baseInfo.firstChild - count ) );
+					deleteNumMap.put( info,
+							Integer.valueOf( firstChild
+									- baseInfo.firstChild - count ) );
 				}
 				baseInfo = info;
 			}

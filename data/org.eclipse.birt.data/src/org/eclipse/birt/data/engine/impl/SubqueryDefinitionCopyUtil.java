@@ -62,11 +62,11 @@ public class SubqueryDefinitionCopyUtil
 			SubqueryDefinition destSubQueryDefn ) throws DataException
 	{
 		Map bindings = srcSubQueryDefn.getBindings( );
-		Iterator it = bindings.keySet( ).iterator( );
+		Iterator it = bindings.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			Object o = it.next( );
-			destSubQueryDefn.addBinding( convertToBindings( bindings.get( o ) ) );
+			Map.Entry o = (Map.Entry) it.next( );
+			destSubQueryDefn.addBinding( convertToBindings( o.getValue( ) ) );
 		}
 	}
 

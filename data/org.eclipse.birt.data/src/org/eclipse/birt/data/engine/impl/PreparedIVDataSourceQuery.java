@@ -102,12 +102,6 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	 */
 	private void cleanUpOldRD( ) throws DataException
 	{
-
-		String basedID = this.queryDefn.getQueryResultsID( );
-		String _1partID = QueryResultIDUtil.get1PartID( basedID );
-		if ( _1partID != null )
-			basedID = _1partID;
-
 		// remove EXPR_VALUE_STREAM, EXPR_META_STREAM, EXPR_ROWLEN_STREAM
 		StreamManager streamManager = new StreamManager( engine.getContext( ),
 				new QueryResultInfo( queryDefn.getQueryResultsID( ),
@@ -219,9 +213,8 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		}
 
 		/*
-		 * @see
-		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#findDataSource
-		 * ()
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#findDataSource()
 		 */
 		protected DataSourceRuntime findDataSource( ) throws DataException
 		{

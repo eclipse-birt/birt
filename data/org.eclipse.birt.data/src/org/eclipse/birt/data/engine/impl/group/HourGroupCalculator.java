@@ -52,9 +52,9 @@ class HourGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( this.dateTimeUtil.diffHour( defaultStart,
+			return new Double( Math.floor( ( double )this.dateTimeUtil.diffHour( defaultStart,
 					target )
-					/ getDateIntervalRange( ) ) );
+					/ ( double )getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -64,9 +64,9 @@ class HourGroupCalculator extends DateGroupCalculator
 			}
 			else
 			{
-				return new Double( Math.floor( this.dateTimeUtil.diffHour( (Date) intervalStart,
+				return new Double( Math.floor( (double) this.dateTimeUtil.diffHour( (Date) intervalStart,
 						target )
-						/ getDateIntervalRange( ) ) );
+						/ (double) getDateIntervalRange( ) ) );
 			}
 		}
 	}

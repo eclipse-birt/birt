@@ -48,8 +48,8 @@ public final class GroupInfo implements ICachedObject
 	public Object[] getFieldValues()
 	{
 		Object[] fields = new Object[2];
-		fields[0] = new Integer(parent);
-		fields[1] = new Integer(firstChild);
+		fields[0] = Integer.valueOf( parent );
+		fields[1] = Integer.valueOf( firstChild );
 		return fields;
 	}
 	

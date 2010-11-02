@@ -54,7 +54,7 @@ public class MetaStreamReader extends StreamReader
 				long offset = IOUtil.readLong( metaIndexStream );
 				int size = IOUtil.readInt( metaIndexStream );
 									
-				this.streamMap.put( new Integer( type ), new OffsetInfo( offset, size ) );
+				this.streamMap.put( Integer.valueOf( type ), new OffsetInfo( offset, size ) );
 			}
 			
 			metaIndexStream.close( );
@@ -73,7 +73,7 @@ public class MetaStreamReader extends StreamReader
 	 */
 	public RAInputStream getRAInputStream( int streamType ) throws DataException
 	{
-		Object temp = this.streamMap.get( new Integer( streamType ) );
+		Object temp = this.streamMap.get( Integer.valueOf( streamType ) );
 		if( temp == null )
 		{
 			throw new DataException( ResourceConstants.DOCUMENT_ERROR_CANNOT_LOAD_STREAM,
@@ -104,7 +104,7 @@ public class MetaStreamReader extends StreamReader
 		return DataEngineContext.META_STREAM;
 	}
 	
-	private class OffsetInfo
+	private static class OffsetInfo
 	{
 		private long offset;
 		private int size;

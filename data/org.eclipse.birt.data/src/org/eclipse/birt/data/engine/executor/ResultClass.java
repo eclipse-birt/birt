@@ -99,7 +99,7 @@ public class ResultClass implements IResultClass
 			if( isOfAnyType( column ))
 			{
 				this.hasAny = true;
-				this.originalAnyTypeField.add( new Integer( i + 1 ) );
+				this.originalAnyTypeField.add( Integer.valueOf( i + 1 ) );
 			}
 			String upperCaseName = column.getName( );
 			//if ( upperCaseName != null )
@@ -108,7 +108,7 @@ public class ResultClass implements IResultClass
 			// need to add 1 to the 0-based array index, so we can put the
 			// 1-based index into the name-to-id mapping that will be used
 			// for the rest of the interfaces in this class
-			Integer index = new Integer( i + 1 );
+			Integer index = Integer.valueOf( i + 1 );
 
 			// If the name is a duplicate of an existing column name or alias,
 			// this entry is not put into the mapping table. This effectively

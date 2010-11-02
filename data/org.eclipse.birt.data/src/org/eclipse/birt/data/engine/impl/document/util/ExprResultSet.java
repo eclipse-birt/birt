@@ -184,7 +184,6 @@ public class ExprResultSet implements IExprResultSet
 	 */
 	public void moveTo( int rowIndex ) throws DataException
 	{
-		int currIndex = this.getCurrentIndex( );
 		exprResultReader.moveTo( rowIndex );
 		this.rdGroupUtil.move( );
 	}
@@ -271,7 +270,7 @@ public class ExprResultSet implements IExprResultSet
 	/**
 	 * Provider group info function for RDLoad
 	 */
-	private class CacheProviderImpl implements CacheProvider
+	private static class CacheProviderImpl implements CacheProvider
 	{
 
 		// loader instance

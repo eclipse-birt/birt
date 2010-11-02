@@ -136,7 +136,7 @@ public class DataSetInMemoryStringIndex extends HashMap
 		return result;
 	}
 
-	private class WrapperedValue
+	private static class WrapperedValue
 	{
 
 		private long keyOffset;

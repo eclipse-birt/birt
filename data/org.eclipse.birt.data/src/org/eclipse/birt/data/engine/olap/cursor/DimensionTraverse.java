@@ -28,7 +28,7 @@ class DimensionTraverse
 	private EdgeDimensionRelation relationMap;
 	private ResultSetFetcher fetcher;
 	int[] dimensionCursorPosition;
-	private int edgeStart, edgeEnd;
+	private int edgeStart;
 
 	/**
 	 * 
@@ -45,7 +45,6 @@ class DimensionTraverse
 		this.fetcher = relationMap.fetcher;
 		dimensionCursorPosition = findDimensionPosition( -1 );
 		this.edgeStart = 0;
-		this.edgeEnd = this.relationMap.traverseLength -1;
 	}
 	
 	/**
@@ -62,7 +61,6 @@ class DimensionTraverse
 		this.beforeFirst( );
 		this.fetcher = relationMap.fetcher;
 		this.edgeStart = edgeStart;
-		this.edgeEnd = edgeEnd;
 		dimensionCursorPosition = findDimensionPosition( edgeStart -1 );
 	}
 	

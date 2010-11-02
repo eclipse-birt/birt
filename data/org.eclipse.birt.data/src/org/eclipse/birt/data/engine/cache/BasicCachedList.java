@@ -82,7 +82,7 @@ public class BasicCachedList implements List, ICloseListener
 	private void setFileNamePrefix( )
 	{
 		this.fileNamePrefix = "CachedList_"
-				+ new Long( System.nanoTime( ) ).toString( ) + "_" + getID( ) + "_"
+				+ Long.valueOf( System.nanoTime( ) ).toString( ) + "_" + getID( ) + "_"
 				+ Integer.toHexString( hashCode( ) );
 	}
 

@@ -94,7 +94,7 @@ public class ColumnHint
 
 			if( sm_logger.isLoggable( Level.SEVERE ) )
 			    sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Invalid column position {0}.", new Integer( position ) ); //$NON-NLS-1$
+					"Invalid column position {0}.", Integer.valueOf( position ) ); //$NON-NLS-1$
 			throw ex;
 		}
 		

@@ -40,7 +40,7 @@ public final class ColumnReferenceExpression extends CompiledExpression
 	{
 		logger.entering( ColumnReferenceExpression.class.getName( ),
 				"ColumnReferenceExpression" ,columnName);
-		assert( columnName != null || columnName.length() == 0 );
+		assert( columnName != null && columnName.length() == 0 );
 		m_columnName = columnName;
 		m_columnIndex = -1;
 		rowIndicator = rowInd; 
@@ -53,7 +53,7 @@ public final class ColumnReferenceExpression extends CompiledExpression
 	{
 		logger.entering( ColumnReferenceExpression.class.getName( ),
 				"ColumnReferenceExpression",
-				new Integer( columnIndex ) );
+				Integer.valueOf( columnIndex ) );
 		assert( columnIndex >= 0 );
 		m_columnIndex = columnIndex;
 		rowIndicator = rowInd;

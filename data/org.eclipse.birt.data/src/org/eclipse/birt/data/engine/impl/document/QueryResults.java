@@ -482,7 +482,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	/**
 	 *
 	 */
-	private class DummyJSResultSetRow extends ScriptableObject
+	private static class DummyJSResultSetRow extends ScriptableObject
 	{
 		//
 		private IExecutorHelper parentHelper;
@@ -533,7 +533,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	/**
 	 * Encapsulation for bindings' meta data as an IResultMetaData object.
 	 */
-	private class BindingMetaData implements IResultMetaData
+	private static class BindingMetaData implements IResultMetaData
 	{
 
 		private ExprMetaInfo[] metaInfo;

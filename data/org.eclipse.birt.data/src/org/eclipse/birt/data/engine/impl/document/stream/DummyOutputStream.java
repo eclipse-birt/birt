@@ -179,7 +179,7 @@ public class DummyOutputStream extends OutputStream
 
 		long offset = raMetaOs.length( );
 
-		Integer streamType = new Integer( this.type );
+		Integer streamType = this.type;
 
 		byte[] temp = this.toByteArray( );
 		int size = temp.length;
@@ -187,7 +187,6 @@ public class DummyOutputStream extends OutputStream
 		IOUtil.writeInt( metaIndexOs, streamType.intValue( ) );
 		IOUtil.writeLong( metaIndexOs, offset );
 		IOUtil.writeInt( metaIndexOs, size );
-		offset = offset + size;
 		metaOs.write( temp );
 
 		metaOs.close( );

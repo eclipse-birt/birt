@@ -53,9 +53,9 @@ class ResultClassHelper
 			Class valueClass = resultClass.getFieldValueClass( i + 1 );
 			assert valueClass != null;
 			if ( valueClass.isAssignableFrom( IClob.class ) )
-				clobIndexList.add( new Integer( i ) );
+				clobIndexList.add( Integer.valueOf( i ) );
 			else if ( valueClass.isAssignableFrom( IBlob.class ) )
-				blobIndexList.add( new Integer( i ) );;
+				blobIndexList.add( Integer.valueOf( i ) );;
 		}
 		clobIndex = toIntArray( clobIndexList );
 		blobIndex = toIntArray( blobIndexList );

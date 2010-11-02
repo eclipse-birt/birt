@@ -88,7 +88,7 @@ public class DimensionFilterHelper
 				int[] pos = key.getDimensionPos( );
 				for( int j = 0; j < pos.length; j++ )
 				{
-					resultStack.push( new Integer( pos[j] ) );
+					resultStack.push( Integer.valueOf( pos[j] ) );
 				}
 			}
 			return resultStack;

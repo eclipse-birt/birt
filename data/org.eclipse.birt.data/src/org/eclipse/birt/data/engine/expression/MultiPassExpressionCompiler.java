@@ -411,7 +411,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 						.toString( );
 
 			if ( currentGroupName.equals( TOTAL_OVERALL ) )
-				groupLevelObj = new Integer( 0 );
+				groupLevelObj = 0;
 			else
 				groupLevelObj = currentGroupName;
 		}
@@ -688,7 +688,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 					CompiledExpression childChildExpr = (CompiledExpression) childIter.next( );
 					if ( childChildExpr instanceof AggregateExpression )
 					{
-						if ( canBeCalculated( new AggregateObject( (AggregateExpression) childExpr ) ) )
+						if ( canBeCalculated( new AggregateObject( (AggregateExpression) childChildExpr ) ) )
 						{
 							passLevel--;
 							return;

@@ -51,7 +51,7 @@ public class AggrSortDefinition implements ITargetSort
 				axisQualifierLevel,
 				axisQualifierValue,
 				targetLevel,
-				new Integer( direction )
+				Integer.valueOf( direction )
 		};
 		logger.entering( AggrSortDefinition.class.getName( ),
 				"AggrSortDefinition",//$NON-NLS-1$

@@ -382,7 +382,7 @@ public class CacheResultIterator implements IResultIterator
 	{
 		if ( rowIndex < 0 || rowIndex >= rowCount )
 			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-					new Integer( rowIndex ) );
+					Integer.valueOf( rowIndex ) );
 		else if ( rowIndex < currRowIndex )
 			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
 		else if ( rowIndex == currRowIndex )

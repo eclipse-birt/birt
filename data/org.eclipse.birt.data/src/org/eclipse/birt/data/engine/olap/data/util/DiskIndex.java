@@ -307,7 +307,7 @@ public class DiskIndex
 		{
 			if ( i % interval == 0 )
 			{
-				offset.add( new Integer( (int) documentObject.getFilePointer( ) ) );
+				offset.add( Integer.valueOf( (int) documentObject.getFilePointer( ) ) );
 			}
 			offsetDocumentObject.writeInt( (int) documentObject.getFilePointer( ) );
 			writeKeyObject( (IndexKey) sortedKeyArray.get( i ) );
@@ -338,7 +338,7 @@ public class DiskIndex
 		{
 			if ( i % degree == 0 )
 			{
-				sonStartOffset.add( new Integer( (int) documentObject.getFilePointer( ) ) );
+				sonStartOffset.add( Integer.valueOf( (int) documentObject.getFilePointer( ) ) );
 			}
 			if ( i != startOffset.size( ) - 1 )
 			{
@@ -539,16 +539,16 @@ public class DiskIndex
 			else if( indexKey.compareTo( curIndexKey) == 0 )
 			{
 				dimPos.add( new Integer( indexKey.getDimensionPos()[0] ) );
-				dimOffset.add( new Integer( indexKey.getOffset( )[0] ) );
+				dimOffset.add( Integer.valueOf( indexKey.getOffset( )[0] ) );
 			}
 			else
 			{
 				addIndex(reList, curIndexKey, dimPos, dimOffset);
 				curIndexKey = indexKey;
 				dimPos.clear( );
-				dimPos.add( new Integer( curIndexKey.getDimensionPos()[0] ) );
+				dimPos.add( Integer.valueOf( curIndexKey.getDimensionPos()[0] ) );
 				dimOffset.clear( );
-				dimOffset.add( new Integer( curIndexKey.getOffset( )[0] ) );
+				dimOffset.add( Integer.valueOf( curIndexKey.getOffset( )[0] ) );
 			}
 		}
 		addIndex(reList, curIndexKey, dimPos, dimOffset);
@@ -947,8 +947,8 @@ class NodeSelection implements IStructure
 	{
 		Object[][] objects = new Object[3][];
 		objects[0] = new Object[3];
-		objects[0][0] = new Integer( node.numberOfSon );
-		objects[0][1] = new Integer( node.offset );
+		objects[0][0] = Integer.valueOf( node.numberOfSon );
+		objects[0][1] = Integer.valueOf( node.offset );
 		objects[0][2] = toString( selectionMark );;
 		objects[1] = node.maxKeyValue;
 		objects[2] = node.minKeyValue;

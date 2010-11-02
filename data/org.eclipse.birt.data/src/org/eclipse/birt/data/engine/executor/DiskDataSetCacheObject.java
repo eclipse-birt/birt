@@ -32,7 +32,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 {
 	//
 	private String cacheDir;
-	private static Integer count = new Integer( 0 );
+	private static Integer count = 0;
 	
 	//the most row count this cache can save
 	private int cacheCapability;

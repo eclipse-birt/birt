@@ -61,9 +61,9 @@ public final class DataTypeUtil
         {
 			String localizedMessage = 
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.UNRECOGNIZED_ODA_TYPE, 
-				                                             new Object[] { new Integer( odaDataType ) } );
+				                                             new Object[] { Integer.valueOf( odaDataType ) } );
 			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-					"Invalid ODA data type: {0}", new Integer( odaDataType ) ); //$NON-NLS-1$
+					"Invalid ODA data type: {0}", Integer.valueOf( odaDataType ) ); //$NON-NLS-1$
 			throw new IllegalArgumentException( localizedMessage );
 		}
 		
@@ -77,7 +77,7 @@ public final class DataTypeUtil
 		if( sm_logger.isLoggable( Level.FINEST ) )
 		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
 				"Converted from ODA data type {0} to Java data type class {1}.", 
-				new Object[] { new Integer( odaDataType ), fieldClass } );
+				new Object[] { Integer.valueOf( odaDataType ), fieldClass } );
 		
 		return fieldClass;
 	}
@@ -108,7 +108,7 @@ public final class DataTypeUtil
 		if( sm_logger.isLoggable( Level.FINEST ) )
 		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
 				"Converted from Java data type class {0} to ODA data type {1}.",  //$NON-NLS-1$
-				new Object[] { javaClass, new Integer( odaType ) } );
+				new Object[] { javaClass, Integer.valueOf( odaType ) } );
 
 		return odaType;
 	}

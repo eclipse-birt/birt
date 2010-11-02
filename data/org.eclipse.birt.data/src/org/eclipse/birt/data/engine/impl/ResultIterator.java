@@ -348,11 +348,11 @@ public class ResultIterator implements IResultIterator
 			throws DataException
 	{
 		Set validDataSetColumnNames = populateValidDataSetColumnNameSet( ); 
-		Iterator it = exprs.keySet().iterator();
+		Iterator it = exprs.entrySet( ).iterator( );
 		while( it.hasNext() )
 		{
-			Object key = it.next();
-			IBaseExpression expr =  ((IBinding)exprs.get(key)).getExpression( );
+			Map.Entry entry = (Map.Entry) it.next( );
+			IBaseExpression expr = ( (IBinding) entry.getValue( ) ).getExpression( );
 			List usedDataSetExprs = ExpressionCompilerUtil.extractDataSetColumnExpression( expr );
 			for ( int j = 0; j < usedDataSetExprs.size( ); j++ )
 			{
@@ -360,8 +360,7 @@ public class ResultIterator implements IResultIterator
 						.equals( "_rowPosition" ) ) )
 					throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_COLUMN,
 							new Object[]{
-									key,
-									usedDataSetExprs.get( j )
+									entry.getKey( ), usedDataSetExprs.get( j )
 							} );
 			}
 		}
@@ -464,25 +463,25 @@ public class ResultIterator implements IResultIterator
 	
 	private static boolean equal( Map map1, Map map2 )
 	{
-		Iterator keyIterator1 = map1.keySet().iterator();
+		Iterator keyIterator1 = map1.entrySet( ).iterator( );
 		while( keyIterator1.hasNext( ) )
 		{
-			Object key = keyIterator1.next( );
-			if( ExprMetaUtil.POS_NAME.equals( key ) )
+			Map.Entry entry = (Map.Entry) keyIterator1.next( );
+			if ( ExprMetaUtil.POS_NAME.equals( entry.getKey( ) ) )
 				continue;
-			if( ( map2.get( key ) == null && map1.get( key ) != null ) )
+			if ( ( map2.get( entry.getKey( ) ) == null && entry.getValue( ) != null ) )
 			{
 				return false;
 			}
-			if( ( map2.get( key ) != null && map1.get( key ) == null ) )
+			if ( ( map2.get( entry.getKey( ) ) != null && entry.getValue( ) == null ) )
 			{
 				return false;
 			}
-			if( ( map2.get( key ) == null && map1.get( key ) == null ) )
+			if ( ( map2.get( entry.getKey( ) ) == null && entry.getValue( ) == null ) )
 			{
 				continue;
 			}
-			if( !map2.get( key ).equals( map1.get( key ) )  )
+			if ( !map2.get( entry.getKey( ) ).equals( entry.getValue( ) ) )
 			{
 				return false;
 			}
@@ -639,7 +638,7 @@ public class ResultIterator implements IResultIterator
 		
 		if ( rowIndex < 0 || ( rowIndex >= this.odiResult.getRowCount( ) && this.odiResult.getRowCount()!= -1) )
 			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-					new Integer( rowIndex ) );
+					Integer.valueOf( rowIndex ) );
 		else if ( rowIndex < currRowIndex )
 			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
 		else if ( rowIndex == currRowIndex )

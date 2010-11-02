@@ -52,7 +52,7 @@ public class FactTable
 				documentManager,
 				dimensionInfo,
 				measureInfo,
-				new Integer( segmentCount ),
+				Integer.valueOf( segmentCount ),
 				dimensionDivision
 		};
 		logger.entering( FactTable.class.getName( ), "FactTable", params );

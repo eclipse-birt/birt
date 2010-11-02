@@ -48,9 +48,9 @@ class SecondGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( this.dateTimeUtil.diffSecond( defaultStart,
+			return new Double( Math.floor( (double) this.dateTimeUtil.diffSecond( defaultStart,
 					target )
-					/ getDateIntervalRange( ) ) );
+					/ (double) getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -60,9 +60,9 @@ class SecondGroupCalculator extends DateGroupCalculator
 			}
 			else
 			{
-				return new Double( Math.floor( this.dateTimeUtil.diffSecond( (Date) intervalStart,
+				return new Double( Math.floor( (double) this.dateTimeUtil.diffSecond( (Date) intervalStart,
 						target )
-						/ getDateIntervalRange( ) ) );
+						/ (double) getDateIntervalRange( ) ) );
 			}
 		}
 	}

@@ -29,7 +29,7 @@ public class OLAPException extends org.eclipse.birt.data.engine.core.DataExcepti
 
 	public String getOLAPState( )
 	{
-		return ( new String( "return implementation of error text" ) );
+		return "OLAPException";
 	}
 
 	public void setNextException( OLAPException exception )

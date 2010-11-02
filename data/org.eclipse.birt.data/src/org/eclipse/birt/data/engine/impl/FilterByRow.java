@@ -278,7 +278,7 @@ public class FilterByRow implements IResultObjectEvent
 		}
 	}
 
-	private class FilterByRowHelper
+	private static class FilterByRowHelper
 	{
 
 		private DataSetRuntime dataSet;

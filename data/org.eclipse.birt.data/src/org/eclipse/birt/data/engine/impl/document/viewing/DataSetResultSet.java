@@ -190,7 +190,7 @@ public class DataSetResultSet implements IDataSetPopulator
 			{
 				if ( this.dataSetRowLensStream != null )
 				{
-					this.dataSetRowLensStream.seek( index * 8 );
+					this.dataSetRowLensStream.seek( index * 8L );
 					long position = IOUtil.readLong( this.disRowLensStream );
 					this.rowIndex = index;
 					this.inputStream.seek( position + this.initPos );

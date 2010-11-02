@@ -545,7 +545,7 @@ public class Hierarchy implements IHierarchy
 	 */
 	public DimensionRow readRowByPosition( int dimPosition ) throws IOException
 	{
-		offsetDocObj.seek( dimPosition * 4 );
+		offsetDocObj.seek( dimPosition * 4L );
 		
 		return readRowByOffset( offsetDocObj.readInt( ) );
 	}

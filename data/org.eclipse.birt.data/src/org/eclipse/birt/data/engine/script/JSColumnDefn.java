@@ -133,8 +133,8 @@ public class JSColumnDefn extends ScriptableObject
 			// Result class properties
 			if ( name.equals(INDEX))
 			{
-				logger.exiting( JSColumnDefn.class.getName( ), "get", new Integer(fieldIndex) );
-				return new Integer(fieldIndex);
+				logger.exiting( JSColumnDefn.class.getName( ), "get", Integer.valueOf( fieldIndex) );
+				return Integer.valueOf( fieldIndex );
 			}
 			if ( name.equals(NAME))
 			{
@@ -238,13 +238,17 @@ public class JSColumnDefn extends ScriptableObject
 	public boolean has(String name, Scriptable start)
 	{
 		logger.entering( JSColumnDefn.class.getName( ), "has", name );
-		if ( propNameSet.contains( name ) ){
-			logger.exiting( JSColumnDefn.class.getName( ), "has", new Boolean(true) );
+		if ( propNameSet.contains( name ) )
+		{
+			logger.exiting( JSColumnDefn.class.getName( ), "has", Boolean.TRUE );
 			return true;
 		}
-		else{
-			logger.exiting( JSColumnDefn.class.getName( ), "has", new Boolean(super.has(name, start)) );
-			return super.has(name, start);
+		else
+		{
+			logger.exiting( JSColumnDefn.class.getName( ),
+					"has",
+					Boolean.valueOf( super.has( name, start ) ) );
+			return super.has( name, start );
 		}
 	}
 }

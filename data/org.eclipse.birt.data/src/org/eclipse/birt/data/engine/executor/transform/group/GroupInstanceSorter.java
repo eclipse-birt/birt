@@ -97,7 +97,7 @@ class GroupInstanceSorter
 				IBaseExpression expr = ( (ISortDefinition) groupSorts.get( j ) ).getExpression( ); 
 				expr.setGroupName( name );
 				expressionList.add( expr );
-				groupLevels.add( new Integer( i + 1 ) );
+				groupLevels.add( Integer.valueOf( i + 1 ) );
 			}
 		}
 	}
