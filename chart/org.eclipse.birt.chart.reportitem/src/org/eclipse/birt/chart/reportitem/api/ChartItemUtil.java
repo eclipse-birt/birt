@@ -50,6 +50,10 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.impl.ReportEngine;
+import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
+import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -63,6 +67,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -310,7 +315,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	 * Converts the group unit from DtE's to Chart's.
 	 * 
 	 * @param groupInterval
-	 * @return
+	 * @return unit defined in {@link GroupingUnitType} or -1 if no interval
 	 * @since 2.6
 	 */
 	public static int convertToChartGroupUnit( int groupInterval )
@@ -1151,8 +1156,8 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	 * Check if chart inherits columns only from container.
 	 * 
 	 * @param handle
-	 * @return
-     * @since 2.5.3
+	 * @return true means inherit columns only
+	 * @since 2.5.3
 	 */
 	public static boolean isChartInheritColumnsOnly( ReportItemHandle handle )
 	{
@@ -1390,6 +1395,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return false;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static ExpressionHandle getAggregationExpression(
 			ComputedColumnHandle bindingColumn )
 	{
@@ -1478,6 +1484,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	 * @return data type in chart model. Value may be null if data type is null
 	 *         or equal to {@link DesignChoiceConstants#COLUMN_DATA_TYPE_ANY}
 	 */
+	@SuppressWarnings("deprecation")
 	public static DataType convertToDataType( String dataType )
 	{
 		if ( dataType == null )
@@ -1535,10 +1542,10 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	 * Checks if current bindings of chart's refer to other item.
 	 * 
 	 * @param itemHandle
-	 * @return
+	 * @return if current bindings of chart's refer to other item
 	 * @since 2.6.1
 	 */
-	public boolean isReportItemReference( ReportItemHandle itemHandle )
+	public static boolean isReportItemReference( ReportItemHandle itemHandle )
 	{
 		return getReportItemReference( itemHandle ) != null;
 	}
@@ -1548,12 +1555,32 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	 * directly.
 	 * 
 	 * @param itemHandle
-	 * @return
+	 * @return if current bindings of chart's refer to the data set or cube
+	 *         directly
 	 * @since 2.6.1
 	 */
-	public boolean isDirectBinding( ReportItemHandle itemHandle )
+	public static boolean isDirectBinding( ReportItemHandle itemHandle )
 	{
 		return ( itemHandle.getDataSet( ) != null || itemHandle.getCube( ) != null )
 				&& !isReportItemReference( itemHandle );
+	}
+	
+	/**
+	 * Creates an runnable class used in report engine. Similar to
+	 * {@link ReportEngineHelper#openReportDesign(org.eclipse.birt.report.model.api.ReportDesignHandle)}
+	 * 
+	 * @param reportEngine
+	 *            report engine
+	 * @param moduleHandle
+	 *            module handle including report and library
+	 * @return runnable class
+	 * @throws BirtException
+	 */
+	public static IReportRunnable openReportDesign( ReportEngine reportEngine,
+			ModuleHandle moduleHandle ) throws BirtException
+	{
+		ReportRunnable ret = new ReportRunnable( reportEngine, moduleHandle );
+		ret.setReportName( moduleHandle.getFileName( ) );
+		return ret;
 	}
 }
