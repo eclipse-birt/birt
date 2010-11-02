@@ -126,3 +126,4 @@ Error.FailedToCreateTOC = Echec de la création de la table des matières.
 Error.UnsupportedExprssionType = Type d'expression non pris en charge.
 Error.UnknownContentVersion = Contenu de version inconnu.
 Error.UnknownFieldID = ID de champ inconnue : {0}.
+Error.ResourceNotAccessible = {0} is not accessible.

@@ -126,3 +126,4 @@ Error.FailedToCreateTOC = TOC konnte nicht erstellt werden.
 Error.UnsupportedExprssionType = Unerwarteter Ausdruckstyp.
 Error.UnknownContentVersion = Unbekannte Inhaltsversion.
 Error.UnknownFieldID = Unbekannte Feld-ID: {0}.
+Error.ResourceNotAccessible = {0} is not accessible.
