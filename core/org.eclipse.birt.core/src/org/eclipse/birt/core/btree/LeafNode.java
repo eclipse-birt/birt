@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -108,13 +108,14 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 	 * 
 	 * @param key
 	 *            the search key value.
-	 * @return the first entry which key is great than or equal to the given
+	 * @return the first entry which key is smaller than or equal to the given
 	 *         key.
 	 * @throws IOException
 	 */
 	public LeafEntry<K, V> find( BTreeValue<K> key ) throws IOException
 	{
 		LeafEntry<K, V> entry = firstEntry;
+		LeafEntry<K, V> returnEntry = null;
 		while ( entry != null )
 		{
 			int result = btree.compare( entry.getKey( ), key );
@@ -124,11 +125,12 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 			}
 			if ( result > 0 )
 			{
-				return null;
+				return returnEntry;
 			}
+			returnEntry = entry;
 			entry = entry.getNext( );
 		}
-		return null;
+		return returnEntry;
 	}
 
 	public LeafEntry<K, V> insert( BTreeValue<K> key, BTreeValue<V> value )
