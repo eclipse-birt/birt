@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,11 +23,14 @@ public class BTreeCursor<K, V>
 
 	protected BTree<K, V> btree;
 	protected LeafEntry<K, V> entry;
+	protected boolean beforeFirst;
 
 	BTreeCursor( BTree<K, V> btree )
 	{
 		this.btree = btree;
+		// before the first entry...
 		this.entry = null;
+		beforeFirst = true;
 	}
 
 	/**
@@ -46,17 +49,107 @@ public class BTreeCursor<K, V>
 	}
 
 	/**
-	 * set the cursor's position to the first entry.
-	 * 
-	 * @return
+	 * move the cursor before the first.
 	 */
-	public void reset( ) throws IOException
+	public void beforeFirst( ) throws IOException
 	{
-		entry = btree.getFirstEntry( );
+		if ( entry != null )
+		{
+			btree.unlockEntry( entry );
+		}
+		entry = null;
+		beforeFirst = true;
 	}
 
 	/**
-	 * move to the first entry which value equals to the key.
+	 * move the cursor after the last
+	 */
+	public void afterLast( ) throws IOException
+	{
+		if ( entry != null )
+		{
+			btree.unlockEntry( entry );
+		}
+		entry = null;
+		beforeFirst = false;
+	}
+
+	/**
+	 * test if the cursor before first
+	 */
+	public boolean isBeforeFirst( ) throws IOException
+	{
+		if ( entry == null )
+		{
+			return beforeFirst;
+		}
+		return false;
+	}
+
+	/**
+	 * test if the cursor after the last
+	 */
+	public boolean isAfterLast( ) throws IOException
+	{
+		if ( entry == null )
+		{
+			return !beforeFirst;
+		}
+		return false;
+	}
+
+	/**
+	 * move the cursor to the first.
+	 */
+	public boolean first( ) throws IOException
+	{
+		LeafEntry<K, V> tgtEntry = btree.getFirstEntry( );
+		if ( tgtEntry != null )
+		{
+			btree.lockEntry( tgtEntry );
+			if ( entry != null )
+			{
+				btree.unlockEntry( entry );
+			}
+			entry = tgtEntry;
+			return true;
+		}
+		// no first entry means the tree is empty, move to the before first
+		entry = null;
+		beforeFirst = true;
+		return false;
+	}
+
+	/**
+	 * move the cursor to the last
+	 */
+	public boolean last( ) throws IOException
+	{
+		LeafEntry<K, V> tgtEntry = btree.getLastEntry( );
+		if ( tgtEntry != null )
+		{
+			btree.lockEntry( tgtEntry );
+			if ( entry != null )
+			{
+				btree.unlockEntry( entry );
+			}
+			else
+			{
+				beforeFirst = false;
+			}
+			entry = tgtEntry;
+			return true;
+		}
+		// no last entry means the tree is empty, move to the after last
+		entry = null;
+		beforeFirst = false;
+		return false;
+	}
+
+	/**
+	 * move to the first entry which value equals to the key. If there is no
+	 * equals keys, return the position which just before he insert key. It may
+	 * move the cursor to before the first.
 	 * 
 	 * @param key
 	 *            key value
@@ -79,10 +172,17 @@ public class BTreeCursor<K, V>
 			{
 				return true;
 			}
+			return false;
 		}
+		if ( entry != null )
+		{
+			btree.unlockEntry( entry );
+			entry = null;
+		}
+		beforeFirst = true;
 		return false;
 	}
-	
+
 	private LeafEntry<K, V> getPrevEntry( LeafEntry<K, V> entry )
 			throws IOException
 	{
@@ -111,8 +211,6 @@ public class BTreeCursor<K, V>
 	private LeafEntry<K, V> getNextEntry( LeafEntry<K, V> entry )
 			throws IOException
 	{
-		if ( entry == null )
-			return null;
 		LeafEntry<K, V> nextEntry = entry.getNext( );
 		if ( nextEntry != null )
 		{
@@ -137,48 +235,65 @@ public class BTreeCursor<K, V>
 
 	public boolean previous( ) throws IOException
 	{
+		if ( entry == null )
+		{
+			// we already after last, so return the last
+			if ( !beforeFirst )
+			{
+				if ( last( ) )
+				{
+					return true;
+				}
+				beforeFirst = true;
+			}
+			// we are before the first, return false
+			return false;
+		}
 		LeafEntry<K, V> tgtEntry = getPrevEntry( entry );
 		if ( tgtEntry != null )
 		{
 			btree.lockEntry( tgtEntry );
-			if ( entry != null )
-			{
-				btree.unlockEntry( entry );
-			}
+			btree.unlockEntry( entry );
 			entry = tgtEntry;
 			return true;
 		}
+		// there is no more previous
+		btree.unlockEntry( entry );
+		entry = null;
+		beforeFirst = true;
 		return false;
 	}
 
 	public boolean next( ) throws IOException
 	{
-		if( entry == null )
+		if ( entry == null )
+		{
+			// test if we are already before first, return first
+			if ( beforeFirst )
+			{
+				if ( first( ) )
+				{
+					return true;
+				}
+				beforeFirst = false;
+			}
+			// after last, return false
 			return false;
+		}
+
 		LeafEntry<K, V> tgtEntry = getNextEntry( entry );
 		if ( tgtEntry != null )
 		{
 			btree.lockEntry( tgtEntry );
-			if ( entry != null )
-			{
-				btree.unlockEntry( entry );
-			}
+			btree.unlockEntry( entry );
 			entry = tgtEntry;
 			return true;
 		}
+		// there is no more next, we are after the last
+		btree.unlockEntry( entry );
+		entry = null;
+		beforeFirst = false;
 		return false;
-	}
-
-	public boolean hasPrevious( ) throws IOException
-	{
-		LeafEntry<K, V> prev = getPrevEntry( entry );
-		return prev != null;
-	}
-
-	public boolean hasNext( ) throws IOException
-	{
-		LeafEntry<K, V> next = getNextEntry( entry );
-		return next != null;
 	}
 
 	public K getKey( ) throws IOException
@@ -193,9 +308,10 @@ public class BTreeCursor<K, V>
 
 	public V getValue( ) throws IOException
 	{
-		if ( !btree.hasValue( ) )
+		if ( entry == null )
 		{
-			return null;
+			throw new IOException(
+					CoreMessages.getString( ResourceConstants.INVALID_CURSOR ) );
 		}
 		BTreeValues<V> values = entry.getValues( );
 		BTreeValues.Value<V> value = values.getFirstValue( );
@@ -205,25 +321,27 @@ public class BTreeCursor<K, V>
 
 	public Collection<V> getValues( ) throws IOException
 	{
-		if ( entry != null )
+		if ( entry == null )
 		{
-			BTreeValues<V> values = entry.getValues( );
-			ArrayList<V> list = new ArrayList<V>( values.getValueCount( ) );
-			BTreeValues.Value<V> value = values.getFirstValue( );
-			while ( value != null )
-			{
-				BTreeValue<V> bv = value.getValue( );
-				V v = btree.getValue( bv );
-				list.add( v );
-			}
-			return list;
+			throw new IOException(
+					CoreMessages.getString( ResourceConstants.INVALID_CURSOR ) );
 		}
-		throw new IOException(
-				CoreMessages.getString( ResourceConstants.CURSOR_NOT_INITIALIZED ) );
+		BTreeValues<V> values = entry.getValues( );
+		ArrayList<V> list = new ArrayList<V>( values.getValueCount( ) );
+		BTreeValues.Value<V> value = values.getFirstValue( );
+		while ( value != null )
+		{
+			BTreeValue<V> bv = value.getValue( );
+			V v = btree.getValue( bv );
+			list.add( v );
+			value = value.getNext( );
+		}
+		return list;
 	}
 
 	/**
-	 * insert the key/value pair to the btree.
+	 * insert the key/value pair to the btree, move the current position to the
+	 * insert point
 	 * 
 	 * @param key
 	 * @param value

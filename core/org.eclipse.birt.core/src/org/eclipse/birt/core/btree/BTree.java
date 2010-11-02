@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -122,28 +122,37 @@ public class BTree<K, V> implements BTreeConstants
 
 	public void close( ) throws IOException
 	{
-		if ( readOnly )
-		{
-			return;
-		}
 		if ( file == null )
 		{
 			return;
 		}
 
-		// write the header
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream( BLOCK_SIZE );
-		DataOutput output = new DataOutputStream( buffer );
-		writeTreeHead( output );
-		file.writeBlock( headNodeId, buffer.toByteArray( ) );
-
-		// flush the nodes
-		for ( BTreeNode<K, V> node : nodeCaches.values( ) )
+		try
 		{
-			if ( node.isDirty( ) )
+			if ( !readOnly )
 			{
-				writeNode( node );
+				// write the header
+				ByteArrayOutputStream buffer = new ByteArrayOutputStream(
+						BLOCK_SIZE );
+				DataOutput output = new DataOutputStream( buffer );
+				writeTreeHead( output );
+				file.writeBlock( headNodeId, buffer.toByteArray( ) );
+
+				// flush the nodes
+				for ( BTreeNode<K, V> node : nodeCaches.values( ) )
+				{
+					if ( node.isDirty( ) )
+					{
+						writeNode( node );
+					}
+				}
 			}
+
+			file.close( );
+		}
+		finally
+		{
+			file = null;
 		}
 	}
 
@@ -165,6 +174,26 @@ public class BTree<K, V> implements BTreeConstants
 		}
 		return null;
 	}
+
+	LeafEntry<K, V> getLastEntry( ) throws IOException
+	{
+		int nodeId = rootNodeId;
+		while ( nodeId != -1 )
+		{
+			BTreeNode<K, V> node = loadBTreeNode( nodeId );
+			if ( node.getNodeType( ) == NODE_LEAF )
+			{
+				return ( (LeafNode<K, V>) node ).getLastEntry( );
+			}
+			else
+			{
+				nodeId = ( (IndexNode<K, V>) node ).getLastChild( );
+			}
+			node.unlock( );
+		}
+		return null;
+	}
+
 	
 	LeafEntry<K, V> findEntry( K k ) throws IOException
 	{
@@ -842,6 +871,11 @@ public class BTree<K, V> implements BTreeConstants
 		public void writeBlock( int blockId, byte[] bytes ) throws IOException
 		{
 			file.writeBlock( blockId, bytes );
+		}
+
+		public void close( ) throws IOException
+		{
+			file.close( );
 		}
 	}
 

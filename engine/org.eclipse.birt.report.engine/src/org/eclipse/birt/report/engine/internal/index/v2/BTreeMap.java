@@ -38,8 +38,8 @@ class BTreeMap extends BTree<String, Object>
 	int indexVersion;
 	int indexType;
 
-	static public BTreeMap openTreeMap( IDocArchiveReader archive, String name, int valueType )
-			throws IOException
+	static public BTreeMap openTreeMap( IDocArchiveReader archive, String name,
+			int valueType ) throws IOException
 	{
 		BTreeOption<String, Object> option = new BTreeOption<String, Object>( );
 		option.setReadOnly( true );
@@ -51,8 +51,8 @@ class BTreeMap extends BTree<String, Object>
 		return new BTreeMap( option );
 	}
 
-	static public BTreeMap createTreeMap( IDocArchiveWriter archive, String name, int valueType )
-			throws IOException
+	static public BTreeMap createTreeMap( IDocArchiveWriter archive,
+			String name, int valueType ) throws IOException
 	{
 		BTreeOption<String, Object> option = new BTreeOption<String, Object>( );
 		option.setKeySerializer( new StringSerializer( ) );
@@ -87,15 +87,6 @@ class BTreeMap extends BTree<String, Object>
 	public void close( ) throws IOException
 	{
 		super.close( );
-
-		if ( file instanceof ArchiveInputFile )
-		{
-			( (ArchiveInputFile) file ).close( );
-		}
-		if ( file instanceof ArchiveOutputFile )
-		{
-			( (ArchiveOutputFile) file ).close( );
-		}
 	}
 
 	static private class StringSerializer implements BTreeSerializer<String>
@@ -122,12 +113,12 @@ class BTreeMap extends BTree<String, Object>
 	{
 
 		int valueType;
-		
+
 		ObjectSerializer( int type )
 		{
 			valueType = type;
 		}
-		
+
 		public byte[] getBytes( Object object ) throws IOException
 		{
 			ByteArrayOutputStream out = new ByteArrayOutputStream( 1024 );
@@ -208,9 +199,9 @@ class BTreeMap extends BTree<String, Object>
 			throw new IOException( "read only stream" );
 		}
 
-		public void close( )
+		public void close( ) throws IOException
 		{
-
+			input.close( );
 		}
 	}
 
@@ -233,7 +224,7 @@ class BTreeMap extends BTree<String, Object>
 			totalBlock = 0;
 		}
 
-		void close( ) throws IOException
+		public void close( ) throws IOException
 		{
 			if ( output != null )
 			{
