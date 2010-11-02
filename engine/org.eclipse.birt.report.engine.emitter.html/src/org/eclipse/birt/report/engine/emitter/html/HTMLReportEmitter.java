@@ -2279,7 +2279,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			StringBuffer styleBuffer = new StringBuffer( );
 			styleBuffer.append( " min-height: " );
 			styleBuffer.append( cellHeight.toString( ) );
-			styleBuffer.append( "; height: 100%; width: 100%; position: absolute; z-index: -1; left: 0px;" );
+			styleBuffer.append( "; height: 100%; width: 100%; position: absolute; z-index: auto; left: 0px;" );
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			if ( needFixTransparentPNG )
 			{
