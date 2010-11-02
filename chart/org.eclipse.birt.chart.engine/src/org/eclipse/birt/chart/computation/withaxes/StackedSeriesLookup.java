@@ -160,7 +160,7 @@ public final class StackedSeriesLookup
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
-	static final StackedSeriesLookup create( ChartWithAxes cwa,
+	public static final StackedSeriesLookup create( ChartWithAxes cwa,
 			RunTimeContext rtc ) throws ChartException,
 			IllegalArgumentException
 	{

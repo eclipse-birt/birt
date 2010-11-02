@@ -69,7 +69,7 @@ public class StackGroup
 	 * 
 	 * @return
 	 */
-	final ArrayList<Series> getSeries( )
+	public final ArrayList<Series> getSeries( )
 	{
 		return alSeries;
 	}
