@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.css.dom;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -46,10 +47,11 @@ public class CellMergedStyle extends AbstractStyle
 	{
 		super( cell.getCSSEngine( ) );
 		this.cellStyle = cell.getStyle( );
-		IRowContent row = (IRowContent) cell.getParent( );
-		if ( row != null )
+		IElement parent = cell.getParent( );
+		if ( parent instanceof IRowContent )
 		{
-			rowStyle = row.getStyle();
+			IRowContent row = (IRowContent) parent;
+			rowStyle = row.getStyle( );
 			ITableContent table = row.getTable( );
 			if ( table != null )
 			{
