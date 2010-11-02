@@ -13,7 +13,6 @@ package org.eclipse.birt.core.util;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.charset.Charset;
 import java.util.Comparator;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
@@ -357,7 +356,7 @@ public class BTreeUtil
 	private static class KeySerializer implements BTreeSerializer<Object>
 	{
 
-		static final Charset UTF_8 = Charset.forName( "utf-8" );
+		static final String UTF_8 = "utf-8";
 		int dataType;
 
 		KeySerializer( int type )
