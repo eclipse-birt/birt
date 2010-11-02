@@ -61,16 +61,15 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -1898,20 +1897,19 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		IBaseCubeQueryDefinition cubeQueryDefn = null;
 		try
 		{
-			ReportDesignHandle copy = (ReportDesignHandle) ( designHandle.getModuleHandle( )
-					.copy( ).getHandle( null ) );
+			ModuleHandle moduleHandle = designHandle.getModuleHandle( );
 
 			EngineConfig config = new EngineConfig( );
 
 			config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 					DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
 							.getContextClassLoader( ),
-							copy ) );
+							moduleHandle ) );
 			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
 
 			DummyEngineTask engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( copy ),
-					copy );
+					ChartItemUtil.openReportDesign( engine, moduleHandle ),
+					moduleHandle );
 			session = engineTask.getDataSession( );
 
 			engineTask.run( );
