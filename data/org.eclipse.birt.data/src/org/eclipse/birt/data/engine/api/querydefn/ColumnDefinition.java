@@ -125,7 +125,7 @@ public class ColumnDefinition implements IColumnDefinition
 	 */
 	public int getExportHint() 
 	{
-		return searchHint;
+		return exportHint;
 	}
 
 

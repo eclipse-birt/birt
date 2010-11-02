@@ -63,9 +63,9 @@ final class AggrRegistry implements AggregateRegistry
 	AggrRegistry( int groupLevel, int calculationLevel, boolean isDetailedRow, ScriptContext cx ) throws DataException
 	{
 		Object[] params = {
-				new Integer( groupLevel ),
-				new Integer( calculationLevel ),
-				new Boolean( isDetailedRow ),
+				Integer.valueOf( groupLevel ),
+				Integer.valueOf( calculationLevel ),
+				Boolean.valueOf( isDetailedRow ),
 				cx
 		};
 		logger.entering( AggrRegistry.class.getName( ), "AggrRegistry", params );

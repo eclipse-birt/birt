@@ -53,12 +53,12 @@ public class AggrDefnRoundManager
 	private void populateRoundStartingEndingIndex( )
 	{
 		List breakIndex = new ArrayList();
-		breakIndex.add( new Integer(0) );
+		breakIndex.add( Integer.valueOf( 0 ) );
 		for( int i = 1; i < this.aggrDefns.length; i++ )
 		{
-			if( this.aggrDefns[i].getRound( ) != this.aggrDefns[i-1].getRound( ))
+			if ( this.aggrDefns[i].getRound( ) != this.aggrDefns[i - 1].getRound( ) )
 			{
-				breakIndex.add( new Integer(i) );
+				breakIndex.add( Integer.valueOf( i ) );
 			}
 		}
 		this.roundStartingEndingIndex = new int[breakIndex.size( )][2];

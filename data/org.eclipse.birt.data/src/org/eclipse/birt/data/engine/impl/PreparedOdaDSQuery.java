@@ -69,7 +69,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 				dataEngine, queryDefn, dataSetDesign, appContext
 		};
 		logger.exiting( PreparedOdaDSQuery.class.getName( ),
-				"PreparedOdaDSQuery" );
+				"PreparedOdaDSQuery", params );
 	}
 	
 	/*

@@ -218,9 +218,9 @@ public class BindingValueFetcher implements IBindingValueFetcher
 		public String toString( )
 		{
 			String result = "";
-			for( Node subNode:sub)
+			for ( Node subNode : sub )
 			{
-				result += subNode.value + ",";
+				result += ( subNode.value + "," );
 			}
 			return result;
 		}

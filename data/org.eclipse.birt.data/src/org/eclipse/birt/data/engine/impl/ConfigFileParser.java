@@ -468,7 +468,7 @@ public class ConfigFileParser
 	 * the information parsed from a configuration file.
 	 * 
 	 */
-    public class Node
+    public static class Node
 	{
 
 		private String name;

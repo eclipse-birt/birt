@@ -45,15 +45,15 @@ public class Row4Aggregation implements IStructure
 		if( dimPos == null )
 		{
 			dimPosObj = new Integer[1];
-			dimPosObj[0] = new Integer( 0 );
+			dimPosObj[0] = Integer.valueOf( 0 );
 		}
 		else
 		{
 			dimPosObj = new Integer[dimPos.length + 1];
-			dimPosObj[0] = new Integer( 1 );
+			dimPosObj[0] = Integer.valueOf( 1 );
 			for ( int i = 0; i < dimPos.length; i++ )
 			{
-				dimPosObj[i + 1] = new Integer( dimPos[i] );
+				dimPosObj[i + 1] = Integer.valueOf( dimPos[i] );
 			}
 		}
 		objectArrays[objectArrays.length-1] = dimPosObj;
@@ -138,7 +138,7 @@ class Row4AggregationCreator implements IStructureCreator
 		}
 		result.setMeasures( objectArrays[objectArrays.length-3] );
 		result.setParameterValues( objectArrays[objectArrays.length-2] );
-		if( objectArrays[objectArrays.length-1][0].equals( new Integer( 1 ) ) )
+		if( objectArrays[objectArrays.length-1][0].equals( Integer.valueOf( 1 ) ) )
 		{
 			int[] dimPos = new int[objectArrays[objectArrays.length - 1].length - 1];
 			for ( int i = 0; i < dimPos.length; i++ )

@@ -309,7 +309,7 @@ class TimeMemberUtil
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
-				new Integer( i )
+				Integer.valueOf( i )
 			} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
@@ -323,7 +323,7 @@ class TimeMemberUtil
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
-				new Integer( i )
+				Integer.valueOf( i )
 			} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
@@ -340,7 +340,7 @@ class TimeMemberUtil
 				{
 					Member member = new Member( );
 					member.setKeyValues( new Object[]{
-						new Integer( i )
+						Integer.valueOf( i )
 					} );
 					nodes[i - 1] = new MemberTreeNode( member );
 				}
@@ -350,7 +350,7 @@ class TimeMemberUtil
 				{
 					Member member = new Member( );
 					member.setKeyValues( new Object[]{
-						new Integer( i )
+						Integer.valueOf( i )
 					} );
 					nodes[i - 4] = new MemberTreeNode( member );
 				}
@@ -360,7 +360,7 @@ class TimeMemberUtil
 				{
 					Member member = new Member( );
 					member.setKeyValues( new Object[]{
-						new Integer( i )
+						Integer.valueOf( i )
 					} );
 					nodes[i - 7] = new MemberTreeNode( member );
 				}
@@ -370,7 +370,7 @@ class TimeMemberUtil
 				{
 					Member member = new Member( );
 					member.setKeyValues( new Object[]{
-						new Integer( i )
+						Integer.valueOf( i )
 					} );
 					nodes[i - 10] = new MemberTreeNode( member );
 				}
@@ -396,7 +396,7 @@ class TimeMemberUtil
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
-				new Integer( i )
+				Integer.valueOf( i )
 			} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
@@ -434,7 +434,7 @@ class TimeMemberUtil
 				{
 					Member member = new Member( );
 					member.setKeyValues( new Object[]{
-						new Integer( i )
+						Integer.valueOf( i )
 					} );
 					nodes[i -1 ] = new MemberTreeNode( member );
 				}
@@ -446,7 +446,7 @@ class TimeMemberUtil
 				{
 					Member member = new Member( );
 					member.setKeyValues( new Object[]{
-						new Integer( i )
+						Integer.valueOf( i )
 					} );
 					nodes[i -1] = new MemberTreeNode( member );
 				}
@@ -459,7 +459,7 @@ class TimeMemberUtil
 			{
 				Member member = new Member( );
 				member.setKeyValues( new Object[]{
-					new Integer( i )
+					Integer.valueOf( i )
 				} );
 				nodes[i-1] = new MemberTreeNode( member );
 			}
@@ -475,7 +475,7 @@ class TimeMemberUtil
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
-				new Integer( i )
+				Integer.valueOf( i )
 			} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
@@ -490,7 +490,7 @@ class TimeMemberUtil
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
-				new Integer( i )
+				Integer.valueOf( i )
 			} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
@@ -505,7 +505,7 @@ class TimeMemberUtil
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
-				new Integer( i )
+				Integer.valueOf( i )
 			} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
@@ -520,7 +520,7 @@ class TimeMemberUtil
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
-				new Integer( i )
+				Integer.valueOf( i )
 			} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}

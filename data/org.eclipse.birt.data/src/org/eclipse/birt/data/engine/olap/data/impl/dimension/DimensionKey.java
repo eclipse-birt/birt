@@ -36,7 +36,7 @@ public class DimensionKey implements IComparableStructure
 	{
 		logger.entering( DimensionKey.class.getName( ),
 				"DimensionKey",
-				new Integer( keylCount ) );
+				Integer.valueOf( keylCount ) );
 		setKeyValues( new Object[keylCount] );
 		logger.exiting( DimensionKey.class.getName( ), "DimensionKey" );
 	}
@@ -66,9 +66,9 @@ public class DimensionKey implements IComparableStructure
 				result.add( getKeyValues()[i] );
 			}
 		}
-		result.add( new Integer( getKeyValues().length ) );
-		result.add( new Integer( nullIndicator ) );
-		result.add( new Integer( getDimensionPos() ) );
+		result.add( Integer.valueOf( getKeyValues().length ) );
+		result.add( Integer.valueOf( nullIndicator ) );
+		result.add( Integer.valueOf( getDimensionPos() ) );
 		
 		return result.toArray( );
 	}
@@ -110,6 +110,19 @@ public class DimensionKey implements IComparableStructure
 			}
 		}
 		return true;
+	}
+	
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		int result = 17;
+		for ( int i = 0; i < getKeyValues( ).length; i++ )
+		{
+			result = 37 * result + getKeyValues( )[i].hashCode( );
+		}
+		return result;
 	}
 
 	/*

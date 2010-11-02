@@ -45,6 +45,19 @@ public class Bytes implements Comparable
 		return true;
 	}
 	
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		int result = 17;
+		for ( int i = 0; i < b.length; i++ )
+		{
+			result = 37 * result + b[i];
+		}
+		return result;
+	}
+		
 	/**
 	 * 
 	 * @return

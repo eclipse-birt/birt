@@ -423,6 +423,7 @@ public class ExpressionCompilerUtil
 							exprManager, cx ) )
 						return false;
 				}
+				break;
 			}
 			case CompiledExpression.TYPE_CONSTANT_EXPR :
 			case CompiledExpression.TYPE_INVALID_EXPR :

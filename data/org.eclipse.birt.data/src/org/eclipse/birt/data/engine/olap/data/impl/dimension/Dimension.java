@@ -62,7 +62,7 @@ public class Dimension implements IDimension
 			throws DataException, IOException
 	{
 		Object[] params = {
-				name, documentManager, hierarchy, new Boolean( isTime )
+				name, documentManager, hierarchy, Boolean.valueOf( isTime )
 		};
 		logger.entering( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE, params );
 		this.name = name;
@@ -232,7 +232,7 @@ public class Dimension implements IDimension
 			int[] pos = key.getDimensionPos( );
 			for( int j = 0; j < pos.length; j++ )
 			{
-				result.add( new Integer( pos[j] ) );
+				result.add( Integer.valueOf( pos[j] ) );
 			}
 		}
 		return result;
@@ -284,7 +284,7 @@ public class Dimension implements IDimension
 		int lastPos = length( ) - 1;
 		for ( int i = 0; i <= lastPos; i++ )
 		{
-			result.add( new Integer(i) );
+			result.add( Integer.valueOf( i ) );
 		}
 		return result;
 	}

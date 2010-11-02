@@ -40,7 +40,9 @@ public class GroupComputedColumn extends ComputedColumn
     public GroupComputedColumn( String name, String expr, int dataType, ICalculator calcultor )
 	{
     	super(name, expr, dataType );
-		Object[] params = { name, expr, new Integer(dataType), calcultor };
+		Object[] params = {
+				name, expr, Integer.valueOf( dataType ), calcultor
+		};
 		logger.entering( GroupComputedColumn.class.getName( ),
 				"GroupComputedColumn",
 				params );

@@ -58,8 +58,8 @@ public class AggregationResultRow implements IAggregationResultRow
 		if ( getAggregationValues() != null )
 		{
 			objectArrays[objectArrays.length - 1] = new Object[getAggregationValues().length + 1];
-			objectArrays[objectArrays.length - 1][0] = new Integer(1);
-			System.arraycopy( getAggregationValues(),
+			objectArrays[objectArrays.length - 1][0] = Integer.valueOf( 1 );
+			System.arraycopy( getAggregationValues( ),
 					0,
 					objectArrays[objectArrays.length - 1],
 					1,
@@ -68,7 +68,7 @@ public class AggregationResultRow implements IAggregationResultRow
 		else
 		{
 			objectArrays[objectArrays.length - 1] = new Object[1];
-			objectArrays[objectArrays.length - 1][0] = new Integer(0);
+			objectArrays[objectArrays.length - 1][0] = 0;
 		}
 		return ObjectArrayUtil.convert( objectArrays );
 	}
@@ -169,7 +169,7 @@ class AggregationResultObjectCreator implements IStructureCreator
 			else
 				result.getLevelMembers( )[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
 		}
-		if ( objectArrays[objectArrays.length - 1][0].equals( new Integer( 1 ) ) )
+		if ( objectArrays[objectArrays.length - 1][0].equals( Integer.valueOf( 1 ) ) )
 		{
 			result.setAggregationValues( new Object[objectArrays[objectArrays.length - 1].length-1] );
 			System.arraycopy( objectArrays[objectArrays.length - 1],

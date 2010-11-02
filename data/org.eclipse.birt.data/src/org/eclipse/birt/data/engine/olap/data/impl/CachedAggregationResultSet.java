@@ -57,7 +57,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	{
 		Object[] params = {
 				inputStream,
-				new Integer( length ),
+				Integer.valueOf( length ),
 				levels,
 				sortTypes,
 				keyNames,
@@ -87,7 +87,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 			{
 				this.aggregationNames[i] = aggregationNames[i];
 				aggregationResultNameMap.put( aggregationNames[i],
-						new Integer( i ) );
+						Integer.valueOf( i ) );
 			}
 		}
 		aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );

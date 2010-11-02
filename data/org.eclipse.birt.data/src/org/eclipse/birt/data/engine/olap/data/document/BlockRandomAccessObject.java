@@ -45,7 +45,7 @@ public class BlockRandomAccessObject implements IRandomAccessObject
 		int blockNumber = firstBlock;
 		do
 		{
-			blockList.add( new Integer(blockNumber) );
+			blockList.add( Integer.valueOf( blockNumber) );
 			blockNumber = documentObjectAllocatedTable.getNextBlock( blockNumber );
 		}
 		while( blockNumber > 0 );
@@ -165,7 +165,7 @@ public class BlockRandomAccessObject implements IRandomAccessObject
 			for ( int i = 0; i < moreBlockCount; i++ )
 			{
 				lastBlockNumber = documentObjectAllocatedTable.allocateBlock( lastBlockNumber );
-				blockList.add( new Integer( lastBlockNumber ) );
+				blockList.add( Integer.valueOf( lastBlockNumber ) );
 			}
 		}
 		length = newLength;

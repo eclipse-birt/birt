@@ -2721,7 +2721,7 @@ public class PreparedStatement extends ExceptionHandler
         {
             boolean ret = getAdvancedStatement().getBoolean( paramIndex );
             
-            Boolean retObj = wasNull() ? null : new Boolean( ret );
+            Boolean retObj = wasNull() ? null : Boolean.valueOf( ret );
             getLogger().exiting( sm_className, methodName, retObj );         
             return retObj;
         }
@@ -2747,7 +2747,7 @@ public class PreparedStatement extends ExceptionHandler
         {
             boolean ret = getAdvancedStatement().getBoolean( effectiveParamName );
             
-            Boolean retObj = wasNull() ? null : new Boolean( ret );
+            Boolean retObj = wasNull() ? null : Boolean.valueOf( ret );
             getLogger().exiting( sm_className, methodName, retObj );            
             return retObj;
         }
@@ -4116,7 +4116,7 @@ public class PreparedStatement extends ExceptionHandler
         if( ! setBooleanUsingHints( paramName, val ) )
         {
             final String errorCode = ResourceConstants.CANNOT_SET_BOOLEAN_PARAMETER;
-            Object[] msgArgs = new Object[] { new Boolean( val ), paramName };                    
+            Object[] msgArgs = new Object[] { Boolean.valueOf( val ), paramName };                    
             throwError( errorCode, msgArgs, methodName );
         }
     }
@@ -4551,12 +4551,12 @@ public class PreparedStatement extends ExceptionHandler
         }
         catch( OdaException ex )
         {
-            Object[] msgArgs = new Object[] { new Boolean( val ), Integer.valueOf( paramIndex ) };                    
+            Object[] msgArgs = new Object[] { Boolean.valueOf( val ), Integer.valueOf( paramIndex ) };                    
             throwException( ex, errorCode, msgArgs, methodName );
          }
         catch( UnsupportedOperationException ex )
         {
-            Object[] msgArgs = new Object[] { new Boolean( val ), Integer.valueOf( paramIndex ) };                    
+            Object[] msgArgs = new Object[] { Boolean.valueOf( val ), Integer.valueOf( paramIndex ) };                    
             throwException( ex, errorCode, msgArgs, methodName );
         }
     }
@@ -4573,7 +4573,7 @@ public class PreparedStatement extends ExceptionHandler
         }
         catch( OdaException ex )
         {
-            Object[] msgArgs = new Object[] { new Boolean( val ), effectiveParamName };                    
+            Object[] msgArgs = new Object[] { Boolean.valueOf( val ), effectiveParamName };                    
             throwException( ex, errorCode, msgArgs, methodName );
         }
         catch( UnsupportedOperationException ex )
@@ -4582,7 +4582,7 @@ public class PreparedStatement extends ExceptionHandler
             // otherwise we need to wrap the UnsupportedOperationException up and throw it
             if( ! setBooleanUsingHints( paramName, val ) )
             {
-                Object[] msgArgs = new Object[] { new Boolean( val ), effectiveParamName };                    
+                Object[] msgArgs = new Object[] { Boolean.valueOf( val ), effectiveParamName };                    
                 throwException( ex, errorCode, msgArgs, methodName );
             }
         }

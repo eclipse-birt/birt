@@ -126,7 +126,7 @@ class AggregateCalculator
 		int count = 1;
 		for ( int i = 0; i < this.aggrCount; i++ )
 		{
-			validAggregations.add( new Integer( i ) );
+			validAggregations.add( Integer.valueOf( i ) );
 			if ( this.getAggrInfo( i ).aggregation.getNumberOfPasses( ) > 1 )
 				populateAggrValue[i] = false;
 			else
@@ -179,7 +179,7 @@ class AggregateCalculator
 			{
 				int index = validAggregationArray[i];
 				if ( invalidAggrSet != null
-						&& invalidAggrSet.contains( new Integer( index ) ) )
+						&& invalidAggrSet.contains( Integer.valueOf( index ) ) )
 				{
 					addInvalidAggrMsg( index, endingGroupLevel );
 					continue;
@@ -196,7 +196,7 @@ class AggregateCalculator
 
 					if ( invalidAggrSet == null )
 						invalidAggrSet = new HashSet( );
-					invalidAggrSet.add( new Integer( index ) );
+					invalidAggrSet.add( Integer.valueOf( index ) );
 				}
 			}
 		} while ( odiResult.next( ) );
@@ -213,7 +213,7 @@ class AggregateCalculator
 
 		if ( getAggrInfo( index ).aggregation.getType( ) == IAggrFunction .RUNNING_AGGR
 				|| endingGroupLevel <= getAggrInfo( index ).groupLevel )
-			aggrValues[index].add( invalidAggrMsg.get( new Integer( index ) ) );
+			aggrValues[index].add( invalidAggrMsg.get( Integer.valueOf( index ) ) );
 	}
 	
 	/**
@@ -269,7 +269,7 @@ class AggregateCalculator
 			{
 				if ( invalidAggrMsg == null )
 					invalidAggrMsg = new HashMap( );
-				invalidAggrMsg.put( new Integer( aggrIndex ), e );
+				invalidAggrMsg.put( Integer.valueOf( aggrIndex ), e );
 
 				return false;
 			}
@@ -301,7 +301,7 @@ class AggregateCalculator
 			{
 				if ( invalidAggrMsg == null )
 					invalidAggrMsg = new HashMap( );
-				invalidAggrMsg.put( new Integer( aggrIndex ), e );
+				invalidAggrMsg.put( Integer.valueOf( aggrIndex ), e );
 
 				return false;
 			}
@@ -380,7 +380,7 @@ class AggregateCalculator
 			int passesNumber = temp.getNumberOfPasses( );
 			if ( count <= passesNumber )
 			{
-				validAggregations.add( new Integer( i ) );
+				validAggregations.add( Integer.valueOf( i ) );
 				if ( count == passesNumber )
 				{
 					populateAggrValue[i] = true;
@@ -413,7 +413,7 @@ class AggregateCalculator
 	 * A helper class that is used to manage the Accumulators of aggregations. 
 	 *
 	 */
-	private class AccumulatorManager{
+	private static class AccumulatorManager{
 		//
 		private IAggrFunction aggregation;
 		private int cursor;

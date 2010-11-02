@@ -102,7 +102,7 @@ abstract class BaseExprDataResultSet implements IExprDataResultSet
 			}
 		}
 
-		rowData[exprFieldCount - 1] = new Integer( destIndex );
+		rowData[exprFieldCount - 1] = Integer.valueOf( destIndex );
 
 		return new ResultObject( rsMeta, rowData );
 	}

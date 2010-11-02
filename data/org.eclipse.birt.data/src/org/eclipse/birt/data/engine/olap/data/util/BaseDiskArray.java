@@ -58,7 +58,7 @@ abstract class BaseDiskArray implements IDiskArray
 
 		this.buffer = new Object[bufferSize];
 		this.segmentOffsets = new ArrayList( );
-		this.segmentOffsets.add( new Integer( 0 ) );
+		this.segmentOffsets.add( Integer.valueOf( 0 ) );
 		createRandomAccessFile( );
 		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
@@ -78,7 +78,7 @@ abstract class BaseDiskArray implements IDiskArray
 		size++;
 		if ( size % bufferSize == 0 )
 		{
-			segmentOffsets.add( new Integer( getOffset( ) ) );
+			segmentOffsets.add( Integer.valueOf( getOffset( ) ) );
 		}
 		return true;
 	}
@@ -265,7 +265,7 @@ abstract class BaseDiskArray implements IDiskArray
 		this.size = 0;
 		clearDiskFile( );
 		this.segmentOffsets.clear( );
-		this.segmentOffsets.add( new Integer( 0 ) );
+		this.segmentOffsets.add( Integer.valueOf( 0 ) );
 		createRandomAccessFile( );
 	}
 }

@@ -71,28 +71,42 @@ public class AggregationResultSetSaveUtil
 	 */
 	public static IAggregationResultSet[] load( String name, IDocArchiveReader reader, int version ) throws IOException
 	{
-		RAInputStream inputStream = reader.getStream( name );
-		DataInputStream dataInputStream = new DataInputStream( inputStream );
-		 
-		int size = dataInputStream.readInt( );
-		inputStream.close( );
-		if( size <= 0 )
+		DataInputStream dataInputStream = null;
+		try
 		{
-			return null;
-		}
-		IAggregationResultSet[] result = new IAggregationResultSet[size];
-		for( int i=0;i<size;i++)
-		{
-			//Only in version 2_2_1 we save aggregation result set without PREFIX_RESULTSET.
-			if( version != VersionManager.VERSION_2_2_1 )
-				inputStream = reader.getStream( name + PREFIX_RESULTSET + i );
-			else
-				inputStream = reader.getStream( name + i );
+			RAInputStream inputStream = reader.getStream( name );
 			dataInputStream = new DataInputStream( inputStream );
-			result[i] = loadOneResultSet( dataInputStream );
-			dataInputStream.close( );
+
+			int size = dataInputStream.readInt( );
+			inputStream.close( );
+			if ( size <= 0 )
+			{
+				return null;
+			}
+			IAggregationResultSet[] result = new IAggregationResultSet[size];
+			for ( int i = 0; i < size; i++ )
+			{
+				// Only in version 2_2_1 we save aggregation result set without
+				// PREFIX_RESULTSET.
+				if ( version != VersionManager.VERSION_2_2_1 )
+					inputStream = reader.getStream( name + PREFIX_RESULTSET + i );
+				else
+					inputStream = reader.getStream( name + i );
+				dataInputStream = new DataInputStream( inputStream );
+				result[i] = loadOneResultSet( dataInputStream );
+				dataInputStream.close( );
+			}
+			return result;
+
 		}
-		return result;
+		catch ( IOException ex )
+		{
+			if ( dataInputStream != null )
+			{
+				dataInputStream.close( );
+			}
+			throw ex;
+		}
 	}
 
 	private static IAggregationResultSet loadOneResultSet(

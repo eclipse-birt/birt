@@ -33,8 +33,8 @@ public class DimensionDivision
 	public DimensionDivision( int dimensionMemberCount, int subDimensionCount )
 	{
 		Object[] params = {
-				new Integer( dimensionMemberCount ),
-				new Integer( subDimensionCount )
+				Integer.valueOf( dimensionMemberCount ),
+				Integer.valueOf( subDimensionCount )
 		};
 		logger.entering( DimensionDivision.class.getName( ),
 				"DimensionDivision",

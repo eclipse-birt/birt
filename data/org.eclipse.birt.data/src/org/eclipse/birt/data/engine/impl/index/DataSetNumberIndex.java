@@ -222,7 +222,7 @@ public class DataSetNumberIndex implements IDataSetIndex
 		return -1; // key not found
 	}
 
-	private class Seg
+	private static class Seg
 	{
 
 		private List keys;

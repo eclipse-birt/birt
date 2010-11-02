@@ -405,7 +405,7 @@ abstract class AbstractExpressionCompiler
 	{
 		ComplexExpression complexExpr = new ComplexExpression( );
 		Node child = complexNode.getFirstChild( );
-		complexExpr.addTokenList( new Integer( complexNode.getType( ) ) );
+		complexExpr.addTokenList( Integer.valueOf( complexNode.getType( ) ) );
 		while ( child != null )
 		{
 			// keep reference to next child, since subsequent steps could lose
@@ -435,7 +435,7 @@ abstract class AbstractExpressionCompiler
 					child,
 					null );
 			complexExpr.addSubExpression( subExpr );
-			complexExpr.addTokenList( new Integer( child.getType( ) ) );
+			complexExpr.addTokenList( Integer.valueOf( child.getType( ) ) );
 			child = nextChild;
 		}
 

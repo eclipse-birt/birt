@@ -590,19 +590,18 @@ public class PreparedQueryUtil
 	 */
 	static void addParentBindings( IBaseQueryDefinition baseQueryDefn, Map parentBindings ) throws DataException {
 		Map<String, Boolean> aggrInfo = QueryDefinitionUtil.parseAggregations( parentBindings );
-		Iterator it = parentBindings.keySet( ).iterator( );
+		Iterator it = parentBindings.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String name = (String)it.next( );
-			
-			if ( !aggrInfo.get( name ))
+			Map.Entry entry = (Map.Entry) it.next( );
+			if ( !aggrInfo.get( entry.getKey( ) ))
 			{
 				//not an aggregation
-				IBinding b = (IBinding)parentBindings.get( name );
+				IBinding b = (IBinding)parentBindings.get( entry.getKey( ) );
 				
-				if ( baseQueryDefn.getBindings( ).get( name ) == null )
+				if ( baseQueryDefn.getBindings( ).get( entry.getKey( ) ) == null )
 				{
-					IBinding binding = new Binding( name );
+					IBinding binding = new Binding( (String) entry.getKey( ) );
 					binding.setDataType( b.getDataType( ) );
 					binding.setExpression( copyScriptExpr( b.getExpression( ) ) );
 					baseQueryDefn.addBinding( binding );
@@ -884,9 +883,9 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter
 	/**
 	 * string patterns for parsing the query.
 	 */
-	private final String DATE = "\\Q${DATE}$\\E";
-	private final String TS_COLUMN = "\\Q${TIMESTAMP-COLUMN}$\\E";
-	private final String TS_FORMAT = "\\Q${TIMESTAMP-FORMAT}$\\E";
+	private static final String DATE = "\\Q${DATE}$\\E";
+	private static final String TS_COLUMN = "\\Q${TIMESTAMP-COLUMN}$\\E";
+	private static final String TS_FORMAT = "\\Q${TIMESTAMP-FORMAT}$\\E";
 	
 	protected URL configFileUrl;
 	protected String queryTemplate;

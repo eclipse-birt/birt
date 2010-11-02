@@ -604,11 +604,6 @@ public class RandomDataAccessObject implements IRandomDataAccessObject
 	 */
 	public Bytes readBytes( ) throws IOException
 	{
-		long start = delegate.getFilePointer( );
-		if ( start == 226 )
-		{
-			start = delegate.getFilePointer( );
-		}
 		int size = readInt( );
 		byte[] b = new byte[size];
 		int totalReadSize = 0;

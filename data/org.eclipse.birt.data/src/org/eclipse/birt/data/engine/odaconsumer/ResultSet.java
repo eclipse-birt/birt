@@ -195,7 +195,7 @@ public class ResultSet extends ExceptionHandler
             {
                 boolean val = getBoolean( driverPosition );
                 if( ! wasNull() )
-                    colValue = new Boolean( val );
+                    colValue = Boolean.valueOf( val );
             }
             else if( dataType == Object.class )
                 colValue = getObject( driverPosition );

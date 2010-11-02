@@ -132,7 +132,7 @@ public class JSResultSetRow extends ScriptableObject
 		
 		if( ScriptConstants.ROW_NUM_KEYWORD.equalsIgnoreCase( name )||"0".equalsIgnoreCase( name ))
 		{
-			return new Integer( rowIndex );
+			return Integer.valueOf( rowIndex );
 		}
 		
 		if ( rowIndex == currRowIndex && valueCacheMap.containsKey( name ) )

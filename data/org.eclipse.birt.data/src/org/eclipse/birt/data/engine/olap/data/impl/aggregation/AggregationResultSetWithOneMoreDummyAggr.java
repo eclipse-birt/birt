@@ -181,7 +181,7 @@ public class AggregationResultSetWithOneMoreDummyAggr implements IAggregationRes
 
 	public int getLevelAttributeColCount( int levelIndex )
 	{
-		return getLevelAttributeColCount( levelIndex );
+		return ars.getLevelAttributeColCount( levelIndex );
 	}
 
 	public int getLevelAttributeDataType( DimLevel level, String attributeName )

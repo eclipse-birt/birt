@@ -60,5 +60,18 @@ class AggrExprInfo
 				return false;
 		return true;
 	}
-	
+
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		int result = 17;
+		result = 37 * result + ( filter == null ? 0 : filter.hashCode( ) );
+		for ( int i = 0; i < args.length; i++ )
+		{
+			result = 37 * result + args[i].hashCode( );
+		}
+		return result;
+	}
 }

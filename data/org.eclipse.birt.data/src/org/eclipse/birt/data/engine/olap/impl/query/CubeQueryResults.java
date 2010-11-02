@@ -163,7 +163,6 @@ public class CubeQueryResults implements ICubeQueryResults
 				List<String> candidateBindingOfInteresting = new ArrayList<String>( );
 				candidateBindingOfInteresting.addAll( involvedDerivedMeasure );
 				List<Set<String>> bindingDimLevels = new ArrayList<Set<String>>();
-				Set<IDimLevel> mostDetailedMeasureDimLevel = new HashSet<IDimLevel>();
 				
 				for( String bindingName: candidateBindingOfInteresting )
 				{

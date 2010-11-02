@@ -49,7 +49,7 @@ public class DataStreamReader extends StreamReader
 			int type = is.readInt( );
 			int size = is.readInt( );
 			long offset = is.getOffset( );
-			this.streamMap.put( new Integer( type ),
+			this.streamMap.put( Integer.valueOf( type ),
 					new WrapperedRAInputStream( (RAInputStream)context.getInputStream( id.getStartStream( ),
 							id.getSubQueryStream( ),
 							DataEngineContext.DATASET_DATA_STREAM ),offset,size) );
@@ -70,7 +70,7 @@ public class DataStreamReader extends StreamReader
 	public RAInputStream getRAInputStream( int streamType )
 			throws DataException
 	{
-		Object temp = this.streamMap.get( new Integer( streamType ) );
+		Object temp = this.streamMap.get( Integer.valueOf( streamType ) );
 		if( temp == null )
 		{
 			throw new DataException( ResourceConstants.DOCUMENT_ERROR_CANNOT_LOAD_STREAM,

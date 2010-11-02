@@ -266,7 +266,7 @@ public final class RDGroupUtil
 	{
 		if ( groupLevel > groups.length || groupLevel < 0 )
 			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-					new Integer( groupLevel ) );
+					Integer.valueOf( groupLevel ) );
 
 		groupLevel--; // change to 0-based index
 
@@ -392,7 +392,7 @@ public final class RDGroupUtil
 		
 		if ( groupLevel < 0 || groupLevel > groups.length )
 			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-					new Integer( groupLevel ) );
+					Integer.valueOf( groupLevel ) );
 
 		int currentGroupIdx = leafGroupIdx;
 		int level;
@@ -463,7 +463,7 @@ public final class RDGroupUtil
 		}
 	}
 	
-	private class GroupCachedList implements List
+	private static class GroupCachedList implements List
 	{
 		private int size;
 		private RAInputStream dataSource;

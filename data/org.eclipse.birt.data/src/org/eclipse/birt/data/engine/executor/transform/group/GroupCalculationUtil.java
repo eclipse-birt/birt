@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.transform.group;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -438,9 +439,9 @@ final class GroupBoundaryInfo implements ICachedObject
 		
 		if ( sortDirections != null)
 		{
-			fields.add( new Integer( sortDirections.length ) ); //idx 2 + n + 1 
+			fields.add( Integer.valueOf( sortDirections.length ) ); //idx 2 + n + 1 
 			for ( int i = 0; i < sortDirections.length; i++ )
-				fields.add( new Boolean( sortDirections[i] ) );
+				fields.add( Boolean.valueOf( sortDirections[i] ) );
 		}
 		else
 		{
@@ -449,11 +450,11 @@ final class GroupBoundaryInfo implements ICachedObject
 		
 		if ( this.comparator!= null )				
 		{
-			fields.add( new Integer( comparator.length ) );		//idx 2 + n + 1 + n + 1
+			fields.add( Integer.valueOf( comparator.length ) );		//idx 2 + n + 1 + n + 1
 			for ( int i = 0; i < comparator.length; i++ )
 				fields.add( comparator[i] == null
 						? ISortDefinition.ASCII_SORT_STRENGTH
-						: new Integer( comparator[i].getStrength( ) ) );
+						: Integer.valueOf( comparator[i].getStrength( ) ) );
 			
 			for ( int i = 0; i < comparator.length; i++ )
 				fields.add( comparator[i] == null
@@ -466,7 +467,7 @@ final class GroupBoundaryInfo implements ICachedObject
 		}
 		
 		
-		fields.add( new Boolean( accept ) );
+		fields.add( Boolean.valueOf( accept ) );
 		return fields.toArray( );
 	}
 

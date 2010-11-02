@@ -77,8 +77,10 @@ class DataSource implements IDataSource
     	
     	this.session.getEngine( ).addShutdownListener( new ShutdownListener( session ));
 	}
-    private class ShutdownListener implements IShutdownListener
-    {
+    
+	private static class ShutdownListener implements IShutdownListener
+	{
+
     	private DataEngineSession session;
     	
     	public ShutdownListener( DataEngineSession session )
@@ -460,32 +462,6 @@ class DataSource implements IDataSource
 			this.props = connectionProps;
 			this.appContext = appContext;
 		}
-		
-		/**
-		 * 
-		 * @param m1
-		 * @param m2
-		 * @return
-		 */
-		private boolean twoMapEquals( Map<?, ?> m1, Map<?, ?> m2 )
-		{
-			if ( m1.size( ) != m2.size( ) )
-				return false;
-
-			for ( Object key : m1.keySet( ) )
-			{
-				Object o1 = m1.get( key );
-				Object o2 = m2.get( key );
-				if ( o1 == o2 )
-					continue;
-				else if( o1 == null || o2 == null )
-					return false;
-				else if ( !o1.equals( o2 ) )
-					return false;
-			}
-			return true;
-
-		}
 
 		@Override
 		public int hashCode( )
@@ -508,7 +484,7 @@ class DataSource implements IDataSource
 				if ( other.appContext != null )
 					return false;
 			}
-			else if ( !twoMapEquals(appContext, other.appContext ) )
+			else if ( !ComparatorUtil.isEqualProps( appContext, other.appContext ) )
 				return false;
 			if ( driverName == null )
 			{
@@ -522,7 +498,7 @@ class DataSource implements IDataSource
 				if ( other.props != null )
 					return false;
 			}
-			else if ( !twoMapEquals( props, other.props ) )
+			else if ( !ComparatorUtil.isEqualProps( props, other.props ) )
 				return false;
 			return true;
 		}

@@ -743,12 +743,12 @@ class DimensionDivider
 
 		for ( int i = 0; i < subDimensionCount.length; i++ )
 		{
-			if ( indexSet.contains( new Integer( i ) ) )
+			if ( indexSet.contains( Integer.valueOf( i ) ) )
 				continue;
 
 			if ( subDimensionCount[i] + 1 > dimensionLength[i] )
 			{
-				indexSet.add( new Integer( i ) );
+				indexSet.add( Integer.valueOf( i ) );
 				continue;
 			}
 

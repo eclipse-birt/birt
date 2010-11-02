@@ -48,9 +48,9 @@ class MinuteGroupCalculator extends DateGroupCalculator
 		
 		if ( intervalStart == null )
 		{
-			return new Double( Math.floor( this.dateTimeUtil.diffMinute( defaultStart,
+			return new Double( Math.floor( (double)this.dateTimeUtil.diffMinute( defaultStart,
 					target )
-					/ getDateIntervalRange( ) ) );
+					/ (double)getDateIntervalRange( ) ) );
 		}
 		else
 		{
@@ -60,9 +60,9 @@ class MinuteGroupCalculator extends DateGroupCalculator
 			}
 			else
 			{
-				return new Double( Math.floor( this.dateTimeUtil.diffMinute( (Date) intervalStart,
+				return new Double( Math.floor( (double) this.dateTimeUtil.diffMinute( (Date) intervalStart,
 						target )
-						/ getDateIntervalRange( ) ) );
+						/ (double) getDateIntervalRange( ) ) );
 			}
 		}
 	}

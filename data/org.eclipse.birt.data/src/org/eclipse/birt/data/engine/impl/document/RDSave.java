@@ -145,7 +145,8 @@ class RDSave implements IRDSave
 			if ( bindingNameColumnName.get( binding.getBindingName( ) ) == null
 					|| ( (IQueryDefinition) this.queryDefn ).isSummaryQuery( )  )
 				bindingNamesToSave.add( binding.getBindingName( ) );
-			bindingNameType.put( binding.getBindingName( ), new Integer(binding.getDataType( )) );
+			bindingNameType.put( binding.getBindingName( ),
+					Integer.valueOf( binding.getDataType( ) ) );
 		}
 		if ( this.context.getMode( ) == DataEngineContext.MODE_UPDATE
 				&& !( ( this.queryDefn instanceof IQueryDefinition && ( (IQueryDefinition) this.queryDefn ).isSummaryQuery( ) ) ) )

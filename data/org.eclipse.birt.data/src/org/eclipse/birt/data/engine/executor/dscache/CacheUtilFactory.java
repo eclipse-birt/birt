@@ -730,7 +730,7 @@ class CacheUtilFactory
 
 			while ( ( line = reader.readLine( ) ) != null )
 			{
-				line.trim( );
+				line = line.trim( );
 				if ( line.startsWith( BEGIN ) && !begin )
 				{
 					begin = true;

@@ -20,9 +20,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
  * Default implementation of the {@link org.eclipse.birt.data.engine.api.IBaseExpression} interface.
  */
 public abstract class BaseExpression implements IBaseExpression
-{
-	private String exprID;
-		
+{	
     protected int			dataType;
     protected Object		handle;
     private String groupName = GROUP_OVERALL;

@@ -38,7 +38,7 @@ class GroupBindingColumn
 	GroupBindingColumn( String groupKey, int groupLevel, Map bindings )
 	{
 		Object[] params = {
-				groupKey, new Integer( groupLevel ), bindings
+				groupKey, Integer.valueOf( groupLevel ), bindings
 		};
 		logger.entering( GroupBindingColumn.class.getName( ),
 				"GroupBindingColumn",

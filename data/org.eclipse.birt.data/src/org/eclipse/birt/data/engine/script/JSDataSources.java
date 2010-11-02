@@ -106,7 +106,7 @@ public class JSDataSources extends ScriptableObject
 		{	
 			logger.exiting( JSDataSources.class.getName( ),
 					"has",
-					new Boolean( true ) );
+					Boolean.valueOf( true ) );
 			return true;
 		}
 		else
@@ -114,7 +114,7 @@ public class JSDataSources extends ScriptableObject
 			if ( logger.isLoggable( Level.FINER ) )
 				logger.exiting( JSDataSources.class.getName( ),
 					"has",
-					new Boolean( super.has( name, start ) ) );
+					Boolean.valueOf( super.has( name, start ) ) );
 			return super.has( name, start);
 		}
 	}

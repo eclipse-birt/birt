@@ -201,7 +201,7 @@ public class LevelFilterHelper
 				IntRange range = (IntRange) aggrValue.index;
 				for ( int k = range.start; k <= range.end; k++ )
 				{
-					dimPositionArray.add( new Integer( k ) );
+					dimPositionArray.add( Integer.valueOf( k ) );
 				}
 			}
 		}

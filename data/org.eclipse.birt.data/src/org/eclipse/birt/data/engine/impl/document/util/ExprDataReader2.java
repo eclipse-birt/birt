@@ -118,7 +118,7 @@ class ExprDataReader2 implements IExprDataReader
 				if( version >= VersionManager.VERSION_2_2_1_3 )
 				{
 					this.bindingNameTypeMap.put( key,
-							new Integer( IOUtil.readInt( this.rowExprsDis ) ) );
+							Integer.valueOf( IOUtil.readInt( this.rowExprsDis ) ) );
 				}
 			}
 			
@@ -129,8 +129,10 @@ class ExprDataReader2 implements IExprDataReader
 				{
 					String key = IOUtil.readObject( this.rowExprsDis, this.currentClassLoader ).toString( );
 					this.dataSetExprKeys.put( key,
-							IOUtil.readObject( this.rowExprsDis, this.currentClassLoader ) );
-					this.bindingNameTypeMap.put( key, new Integer(IOUtil.readInt( this.rowExprsDis )));
+							IOUtil.readObject( this.rowExprsDis,
+									this.currentClassLoader ) );
+					this.bindingNameTypeMap.put( key,
+							Integer.valueOf( IOUtil.readInt( this.rowExprsDis ) ) );
 				}
 			}
 			
@@ -197,7 +199,7 @@ class ExprDataReader2 implements IExprDataReader
 		if ( hasNext )
 		{
 			this.nextDestIndex = getNextDestIndex( currRowIndex );
-			this.rowIDMap.set( currRowIndex, new Integer( nextDestIndex ) );
+			this.rowIDMap.set( currRowIndex, Integer.valueOf( nextDestIndex ) );
 		}
 		return hasNext;
 	}
@@ -209,7 +211,7 @@ class ExprDataReader2 implements IExprDataReader
 	{
 		if ( index < 0 || index >= this.rowCount )
 			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-					new Integer( index ) );
+					Integer.valueOf( index ) );
 		else if ( index < currRowIndex )
 			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
 		else if ( index == currRowIndex )
@@ -277,9 +279,10 @@ class ExprDataReader2 implements IExprDataReader
 			return;
 		
 		currRowLenReadIndex = absoluteIndex + 1;
-		
-		//Before 2.2.1.1 we use Integer, after that we use long.
-		rowLenIs.seek( absoluteIndex * ((this.version > VersionManager.VERSION_2_2_1_1)?8:4) );
+
+		// Before 2.2.1.1 we use Integer, after that we use long.
+		rowLenIs.seek( absoluteIndex
+				* ( ( this.version > VersionManager.VERSION_2_2_1_1 ) ? 8L : 4L ) );
 		if( this.version <= VersionManager.VERSION_2_2_1_1)
 			rowExprsIs.seek( IOUtil.readInt( rowLenIs ) + this.metaOffset );
 		else

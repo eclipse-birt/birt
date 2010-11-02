@@ -123,7 +123,7 @@ public class AggregationHelper implements IAggrValueHolder
 		int count = 1;
 		for ( int i = 0; i < this.currentAggrCount; i++ )
 		{
-			validAggregations.add( new Integer( i ) );
+			validAggregations.add( Integer.valueOf( i ) );
 			if ( this.getAggrInfo( i ).getAggregation( ).getNumberOfPasses( ) > 1 )
 				populateAggrValue[i] = false;
 			else
@@ -176,7 +176,7 @@ public class AggregationHelper implements IAggrValueHolder
 			{
 				int index = validAggregationArray[i];
 				if ( invalidAggrSet != null
-						&& invalidAggrSet.contains( new Integer( index ) ) )
+						&& invalidAggrSet.contains( Integer.valueOf( index ) ) )
 				{
 					addInvalidAggrMsg( index, endingGroupLevel );
 					continue;
@@ -191,7 +191,7 @@ public class AggregationHelper implements IAggrValueHolder
 
 					if ( invalidAggrSet == null )
 						invalidAggrSet = new HashSet( );
-					invalidAggrSet.add( new Integer( index ) );
+					invalidAggrSet.add( Integer.valueOf( index ) );
 				}
 			}
 		} while ( this.populator.getResultIterator( ).next( ) );
@@ -209,7 +209,7 @@ public class AggregationHelper implements IAggrValueHolder
 
 		if ( getAggrInfo( index ).getAggregation( ).getType( ) == IAggrFunction .RUNNING_AGGR
 				|| endingGroupLevel <= getAggrInfo( index ).getGroupLevel( ) )
-			currentRoundAggrValue[index].add( invalidAggrMsg.get( new Integer( index ) ) );
+			currentRoundAggrValue[index].add( invalidAggrMsg.get( Integer.valueOf( index ) ) );
 	}
 	
 	/**
@@ -292,7 +292,7 @@ public class AggregationHelper implements IAggrValueHolder
 			{
 				if ( invalidAggrMsg == null )
 					invalidAggrMsg = new HashMap( );
-				invalidAggrMsg.put( new Integer( aggrIndex ), e );
+				invalidAggrMsg.put( Integer.valueOf( aggrIndex ), e );
 
 				return false;
 			}
@@ -499,7 +499,7 @@ public class AggregationHelper implements IAggrValueHolder
 	{
 		if ( invalidAggrMsg == null )
 			invalidAggrMsg = new HashMap( );
-		invalidAggrMsg.put( new Integer( aggrIndex ), e );
+		invalidAggrMsg.put( Integer.valueOf( aggrIndex ), e );
 	}
 
 	/**
@@ -545,7 +545,7 @@ public class AggregationHelper implements IAggrValueHolder
 			int passesNumber = aggrFunc.getNumberOfPasses( );
 			if ( count <= passesNumber )
 			{
-				validAggregations.add( new Integer( i ) );
+				validAggregations.add( Integer.valueOf( i ) );
 				if ( count == passesNumber )
 				{
 					populateAggrValue[i] = true;
@@ -658,7 +658,9 @@ public class AggregationHelper implements IAggrValueHolder
 	 * A helper class that is used to manage the Accumulators of aggregations. 
 	 *
 	 */
-	private class AccumulatorManager{
+	private static class AccumulatorManager
+	{
+
 		//
 		private IAggrFunction aggregation;
 		private int cursor;

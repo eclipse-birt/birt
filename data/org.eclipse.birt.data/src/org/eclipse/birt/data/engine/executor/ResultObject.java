@@ -194,7 +194,7 @@ public class ResultObject implements IResultObject
 			fields[fieldIndex - 1] = value;
 		else
 			throw new DataException( ResourceConstants.INVALID_CUSTOM_FIELD_INDEX,
-					new Integer( fieldIndex ) );
+					Integer.valueOf( fieldIndex ) );
 	}
 	
 	/**
@@ -257,5 +257,17 @@ public class ResultObject implements IResultObject
 		
 		return true;
 	}
-	
+
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		int result = 17;
+		for ( int i = 0; i < fields.length; i++ )
+		{
+			result = 37 * result + fields[i].hashCode( );
+		}
+		return result;
+	}
 }

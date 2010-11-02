@@ -114,17 +114,18 @@ public class ExprMetaUtil
 		if ( exprMap == null )
 			return;
 		
-		Iterator it = exprMap.keySet( ).iterator( );
+		Iterator it = exprMap.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String bindingName = (String) it.next( );
+			Map.Entry entry = ( (Map.Entry) it.next( ) );
+			String bindingName = (String) entry.getKey( );
 			if ( nameSet.contains( bindingName ) == false )
 				continue;
 			
-			IBaseExpression baseExpr = ( (IBinding) exprMap.get( bindingName ) ).getExpression( );
+			IBaseExpression baseExpr = ( (IBinding) entry.getValue( ) ).getExpression( );
 
 			ExprMetaInfo exprMeta = new ExprMetaInfo( );
-			exprMeta.setDataType( ( (IBinding) exprMap.get( bindingName ) ).getDataType( ) );
+			exprMeta.setDataType( ( (IBinding) entry.getValue( ) ).getDataType( ) );
 			exprMeta.setGroupLevel( 0 );
 			exprMeta.setName( bindingName );
 			

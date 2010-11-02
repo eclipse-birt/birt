@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
@@ -26,7 +25,7 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
 
 /**
- * Describes a level. A level is composed of memeber located at this level.
+ * Describes a level. A level is composed of member located at this level.
  */
 
 public class Level implements ILevel
@@ -61,7 +60,7 @@ public class Level implements ILevel
 				levelDef,
 				keyDataType,
 				attributeDataTypes,
-				new Integer( size ),
+				Integer.valueOf( size ),
 				diskIndex
 		};
 		logger.entering( Level.class.getName( ), "Level", params );
@@ -118,6 +117,14 @@ public class Level implements ILevel
 	{
 		Level other = (Level)o;
 		return this.name.equals( other.name );
+	}
+	
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		return this.name.hashCode( );
 	}
 	
 	/**
@@ -267,7 +274,7 @@ public class Level implements ILevel
 		for ( int i = 0; i < indexKeyArray.size( ); i++ )
 		{
 			IndexKey key = (IndexKey) indexKeyArray.get( i );
-			result.add( new Integer( key.getDimensionPos( )[0] ) );
+			result.add( Integer.valueOf( key.getDimensionPos( )[0] ) );
 		}
 		return result;
 	}

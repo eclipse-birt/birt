@@ -80,16 +80,16 @@ public class JSRowObject extends ScriptableObject
     	Object[] ids = new Object[count];
     	ids[next++] = DATA_SET;
     	ids[next++] = COLUMN_MD;
-    	ids[next++] = new Integer(0);
+    	ids[next++] = Integer.valueOf( 0 );
     	ids[next++] = ROW_POSITION;
     	if ( columnCount > 0 )
     	{
     		for ( int i = 1; i <= columnCount; i++ )
     		{
-    			ids[next++] = new Integer(i);
+    			ids[next++] = Integer.valueOf( i );
     			try
 				{
-    				ids[next++] = obj.getResultClass().getFieldName(i);
+    				ids[next++] = obj.getResultClass( ).getFieldName( i );
 				}
     			catch (DataException e)
 				{
@@ -113,7 +113,7 @@ public class JSRowObject extends ScriptableObject
     {
 		logger.entering( JSRowObject.class.getName( ),
 				"has",
-				new Integer( index ) );
+				Integer.valueOf( index ) );
         // We maintain indexes 0 to columnCount
         // Column 0 is internal row ID; column 1 - columnCount are actual columns
     	IResultObject obj = dataSet.getCurrentRow();
@@ -124,7 +124,7 @@ public class JSRowObject extends ScriptableObject
 		{
 			logger.exiting( JSRowObject.class.getName( ),
 					"has",
-					new Boolean( true ) );
+					Boolean.valueOf( true ) );
 			return true;
 		}
         
@@ -132,7 +132,7 @@ public class JSRowObject extends ScriptableObject
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.exiting( JSRowObject.class.getName( ),
 				"has",
-				new Boolean( super.has( index, start ) ) );
+				Boolean.valueOf( super.has( index, start ) ) );
         return super.has( index, start );
     }
     
@@ -148,7 +148,7 @@ public class JSRowObject extends ScriptableObject
 		{
 			logger.exiting( JSRowObject.class.getName( ),
 					"has",
-					new Boolean( true ) );
+					Boolean.valueOf( true ) );
     		return true;
     	}
     	
@@ -159,14 +159,14 @@ public class JSRowObject extends ScriptableObject
 		{
 			logger.exiting( JSRowObject.class.getName( ),
 					"has",
-					new Boolean( true ) );
+					Boolean.valueOf( true ) );
 			return true;
 		}
         // Let super handle the rest; caller may have added properties
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.exiting( JSRowObject.class.getName( ),
 				"has",
-				new Boolean( super.has( name, start ) ) );
+				Boolean.valueOf( super.has( name, start ) ) );
         return super.has( name, start );
     }
     
@@ -178,7 +178,7 @@ public class JSRowObject extends ScriptableObject
     {
 		logger.entering( JSRowObject.class.getName( ),
 				"get",
-				new Integer( index ) );
+				Integer.valueOf( index ) );
        	// Special case: row[0] refers to internal row ID
        	// It has undefined meaning for standalone IResultObject (we will let
        	// IResultObject handle it in such case)
@@ -233,7 +233,7 @@ public class JSRowObject extends ScriptableObject
 		{
 			try
 			{
-				return new Integer( dataSet.getCurrentRowIndex( ));
+				return Integer.valueOf( dataSet.getCurrentRowIndex( ));
 			}
 			catch ( DataException e )
 			{
@@ -322,7 +322,7 @@ public class JSRowObject extends ScriptableObject
     {
 		logger.entering( JSRowObject.class.getName( ),
 				"put",
-				new Integer( index ) );
+				Integer.valueOf( index ) );
 		
 		value = JavascriptEvalUtil.convertJavascriptValue( value );
         try

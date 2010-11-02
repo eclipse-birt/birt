@@ -297,7 +297,7 @@ public class PLSDataPopulator
 	 * @author Work
 	 * 
 	 */
-	protected class Boundary
+	protected static class Boundary
 	{
 
 		//

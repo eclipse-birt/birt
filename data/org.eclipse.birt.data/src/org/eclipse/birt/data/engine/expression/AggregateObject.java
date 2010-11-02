@@ -140,4 +140,15 @@ class AggregateObject
 		return true;
 	}
 	
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		int result = 17;
+		result = 37
+				* result + aggregateExp.getAggregation( ).getName( ).hashCode( );
+		result = 37 * result + this.getAggregateExpr( ).hashCode( );
+		return result;
+	}	
 }

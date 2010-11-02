@@ -152,9 +152,9 @@ public class DocumentObjectUtil
 		switch ( dataType )
 		{
 			case DataType.BOOLEAN_TYPE :
-				return new Boolean( documentObject.readBoolean( ) );
+				return Boolean.valueOf( documentObject.readBoolean( ) );
 			case DataType.INTEGER_TYPE :
-				return new Integer( documentObject.readInt( ) );
+				return Integer.valueOf( documentObject.readInt( ) );
 			case DataType.DOUBLE_TYPE :
 				return new Double( documentObject.readDouble( ) );
 			case DataType.STRING_TYPE :

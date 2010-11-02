@@ -112,7 +112,7 @@ public class CubeCursorImpl implements ICubeCursor
 				else
 					OLAPExpressionCompiler.compile( cx.newContext( this.scope ), expr );
 			}
-			dataTypeMap.put( bindingName, new Integer( binding.getDataType( ) ) );
+			dataTypeMap.put( bindingName, Integer.valueOf( binding.getDataType( ) ) );
 		}
 		
 		this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE, this.scope, new JSCubeBindingObject( this ));
@@ -624,8 +624,7 @@ public class CubeCursorImpl implements ICubeCursor
 	
 	public java.lang.Object clone( )
 	{
-		return cursor;
-		
+		return null;		
 	}
 	
 	public BirtCubeView getCubeView( )

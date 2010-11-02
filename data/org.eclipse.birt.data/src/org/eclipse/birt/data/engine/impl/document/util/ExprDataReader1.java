@@ -85,7 +85,7 @@ class ExprDataReader1 implements IExprDataReader
 				if( version >= VersionManager.VERSION_2_2_1_3 )
 				{
 					this.bindingNameTypeMap.put( key,
-							new Integer( IOUtil.readInt( this.rowExprsDis ) ) );
+							Integer.valueOf( IOUtil.readInt( this.rowExprsDis ) ) );
 				}
 			}
 			
@@ -94,10 +94,13 @@ class ExprDataReader1 implements IExprDataReader
 				int dataSetColumnExprCount = IOUtil.readInt( this.rowExprsDis );
 				for( int i = 0; i < dataSetColumnExprCount; i++ )
 				{
-					String key = IOUtil.readObject( this.rowExprsDis, this.currentClassLoader ).toString( );
+					String key = IOUtil.readObject( this.rowExprsDis,
+							this.currentClassLoader ).toString( );
 					this.dataSetExprKeys.put( key,
-							IOUtil.readObject( this.rowExprsDis, this.currentClassLoader ) );
-					this.bindingNameTypeMap.put( key, new Integer(IOUtil.readInt( this.rowExprsDis )));
+							IOUtil.readObject( this.rowExprsDis,
+									this.currentClassLoader ) );
+					this.bindingNameTypeMap.put( key,
+							Integer.valueOf( IOUtil.readInt( this.rowExprsDis ) ) );
 				}
 			}
 			this.metaOffset = INT_LENGTH + IOUtil.readInt( this.rowExprsDis ) + INT_LENGTH;
@@ -176,8 +179,8 @@ class ExprDataReader1 implements IExprDataReader
 	{
 		if ( this.rowCount != -1 && ( index < 0 || index >= this.rowCount ) )
 			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-					new Integer( index ) );
-		else if ( index < currRowIndex )
+					Integer.valueOf( index ) );
+	    else if ( index < currRowIndex )
 			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
 		else if ( index == currRowIndex )
 			return;
@@ -273,7 +276,7 @@ class ExprDataReader1 implements IExprDataReader
 		}
 		else 
 		{
-			rowLenRAIs.seek( absoluteRowIndex * 8 /*long length*/ );
+			rowLenRAIs.seek( absoluteRowIndex * 8L /*long length*/ );
 			long rowOffsetAbsolute = IOUtil.readLong( this.rowLenDis );
 			// metaOffset is the first bytes of row length + expr name string length.
 			rowExprsRAIs.seek( rowOffsetAbsolute + this.metaOffset ); 

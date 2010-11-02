@@ -168,7 +168,7 @@ public class ResultObjectUtil
 				}
 				
 				if ( fieldType.equals( Integer.class ) )
-					obs[j] = new Integer( dis.readInt( ) );
+					obs[j] = Integer.valueOf( dis.readInt( ) );
 				else if ( fieldType.equals( Double.class ) )
 					obs[j] = new Double( dis.readDouble( ) );
 				else if ( fieldType.equals( BigDecimal.class ) )
@@ -182,7 +182,7 @@ public class ResultObjectUtil
 				else if ( Date.class.isAssignableFrom( fieldType ) )
 					obs[j] = new Date( dis.readLong( ) );
 				else if ( fieldType.equals( Boolean.class ) )
-					obs[j] = new Boolean( dis.readBoolean( ) );
+					obs[j] = Boolean.valueOf( dis.readBoolean( ) );
 				else if ( fieldType.equals( String.class ) )
 					obs[j] = IOUtil.readString( dis );
 				else if ( fieldType.equals( IClob.class )

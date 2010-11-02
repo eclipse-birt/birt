@@ -42,8 +42,8 @@ public class RangeSelection implements ISelection
 		Object[] params = {
 				minKey,
 				maxKey,
-				new Boolean( containsMinKey ),
-				new Boolean( containsMaxKey )
+				Boolean.valueOf( containsMinKey ),
+				Boolean.valueOf( containsMaxKey )
 		};
 		logger.entering( RangeSelection.class.getName( ),
 				"RangeSelection",

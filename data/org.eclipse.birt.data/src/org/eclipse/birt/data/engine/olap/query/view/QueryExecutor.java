@@ -585,6 +585,7 @@ public class QueryExecutor
 				break;
 			case ICubeQueryDefinition.PAGE_EDGE :
 				columnSort = executor.getPageEdgeSort( );
+				break;
 			default :
 				return;
 		}

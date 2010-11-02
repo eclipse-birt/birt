@@ -103,7 +103,7 @@ public class ResultMetaData implements IResultMetaData
 				QueryResults.class.getName( ),
 				"getColumnName",
 				"the column name at the specified index",
-				new Integer( index ) );       
+				Integer.valueOf( index ) );       
         return m_odiResultClass.getFieldName( index );
     }
 
@@ -117,7 +117,7 @@ public class ResultMetaData implements IResultMetaData
 				QueryResults.class.getName( ),
 				"getColumnAlias",
 				"the column alias at the specified index",
-				new Integer( index ) );       
+				Integer.valueOf( index ) );       
     	return m_odiResultClass.getFieldAlias( index );
     }
 
@@ -131,7 +131,7 @@ public class ResultMetaData implements IResultMetaData
 				QueryResults.class.getName( ),
 				"getColumnType",
 				"the data type of the column at the specified index",
-				new Integer( index ) );       
+				Integer.valueOf( index ) );       
         Class odiDataType = m_odiResultClass.getFieldValueClass( index );
         return DataTypeUtil.toApiDataType( odiDataType );
     }
@@ -146,7 +146,7 @@ public class ResultMetaData implements IResultMetaData
 				QueryResults.class.getName( ),
 				"getColumnTypeName",
 				"the Data Engine data type name of the column at the specified index",
-				new Integer( index ) );       
+				Integer.valueOf( index ) );       
         return DataType.getName( getColumnType( index ) );
     }
 
@@ -160,7 +160,7 @@ public class ResultMetaData implements IResultMetaData
 				QueryResults.class.getName( ),
 				"getColumnNativeTypeName",
 				"the data provider specific data type name of the specified column",
-				new Integer( index ) );       
+				Integer.valueOf( index ) );       
 		return m_odiResultClass.getFieldNativeTypeName( index );
 	}
 
@@ -174,7 +174,7 @@ public class ResultMetaData implements IResultMetaData
 				QueryResults.class.getName( ),
 				"getColumnLabel",
 				"the label or display name of the column at the specified index",
-				new Integer( index ) );    
+				Integer.valueOf( index ) );    
         return m_odiResultClass.getFieldLabel( index );
     }
 
@@ -188,7 +188,7 @@ public class ResultMetaData implements IResultMetaData
 				QueryResults.class.getName( ),
 				"isComputedColumn",
 				"whether the specified projected column is defined as a computed column",
-				new Integer( index ) );       
+				Integer.valueOf( index ) );       
 	    return m_odiResultClass.isCustomField( index );
 	}
 	
@@ -203,7 +203,7 @@ public class ResultMetaData implements IResultMetaData
 	{
 		if ( index > doGetColumnCount( ) )
 			throw new DataException( ResourceConstants.INVALID_FIELD_INDEX,
-					new Integer( index ) );
+					Integer.valueOf( index ) );
 	}
 
 }

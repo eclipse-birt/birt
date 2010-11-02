@@ -360,8 +360,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 * @author Administrator
 	 *
 	 */
-	private class DummyOdiResultIterator
-			extends CachedResultSet
+	private static class DummyOdiResultIterator extends CachedResultSet
 	{
 		private boolean isFirstRowFetched = false;
 		private org.eclipse.birt.data.engine.odi.IResultIterator prototype = null;

@@ -48,11 +48,11 @@ public class DimensionRow implements IComparableStructure
 	{
 		ArrayList fieldList = new ArrayList( );
 
-		fieldList.add( new Integer( members.length ) );
+		fieldList.add( Integer.valueOf( members.length ) );
 		for ( int i = 0; i < members.length; i++ )
 		{
 			Object[] fieldValues = members[i].getFieldValues( );
-			fieldList.add( new Integer( fieldValues.length ) );
+			fieldList.add( Integer.valueOf( fieldValues.length ) );
 			for ( int j = 0; j < fieldValues.length; j++ )
 			{
 				fieldList.add( fieldValues[j] );

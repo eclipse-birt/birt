@@ -125,7 +125,7 @@ class ComputedColumnsState implements IComputedColumnsState
 	 * 
 	 *
 	 */
-	private class ComputedColumnsStateSwitch
+	private static class ComputedColumnsStateSwitch
 	{
 		/**
 		 * 
@@ -180,7 +180,7 @@ class ComputedColumnsState implements IComputedColumnsState
 	 * 
 	 *
 	 */
-	private class ComputedColumnsStateInstance
+	private static class ComputedColumnsStateInstance
 	{
 		//
 		private List computedColumnsList;

@@ -33,8 +33,8 @@ public class AggrDefnManager implements IAggrDefnManager
 		this.index = new HashMap();
 		for( int i = 0; i < aggrDefns.size( ); i++ )
 		{
-			this.aggrDefns[i] = (IAggrInfo)aggrDefns.get( i );
-			this.index.put( this.aggrDefns[i].getName( ), new Integer(i) );
+			this.aggrDefns[i] = (IAggrInfo) aggrDefns.get( i );
+			this.index.put( this.aggrDefns[i].getName( ), Integer.valueOf( i ) );
 		}
 	}
 	

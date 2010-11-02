@@ -140,11 +140,11 @@ public class AggregationSortHelper
 					sortDefnIndex = new ArrayList( );
 					indexMap.put( targetLevel, sortDefnIndex );
 				}
-				sortDefnIndex.add( new Integer( i ) );
+				sortDefnIndex.add( Integer.valueOf( i ) );
 			}
 			else
 			{
-				sortHelperIndex.add( new Integer( i ) );
+				sortHelperIndex.add( Integer.valueOf( i ) );
 			}
 		}
 		
@@ -204,7 +204,7 @@ public class AggregationSortHelper
 				list = new ArrayList( );
 				map.put( targetResultSets[index], list );
 			}
-			list.add( new Integer( index ) );
+			list.add( Integer.valueOf( index ) );
 		}
 		// 
 		for ( Iterator itr = map.keySet( ).iterator( ); itr.hasNext( ); )
@@ -342,8 +342,8 @@ public class AggregationSortHelper
 			{
 				if ( baseLevels[j].equals( targetAllLevels[i] ) )
 				{
-					baseMemberIndex.add( new Integer( j ) );
-					targetMemberIndex.add( new Integer( i ) );
+					baseMemberIndex.add( Integer.valueOf( j ) );
+					targetMemberIndex.add( Integer.valueOf( i ) );
 					break;
 				}
 			}
@@ -598,7 +598,7 @@ class AggrResultRowComparator implements Comparator
 				indicesForSort[levelIndex] = new ArrayList( );
 			}
 			// index in the targetSorts with 2's complement encoding
-			indicesForSort[levelIndex].add( new Integer( ~i ) );
+			indicesForSort[levelIndex].add( Integer.valueOf( ~i ) );
 		}
 		// populate value indices and sort directions
 		int index = 0;

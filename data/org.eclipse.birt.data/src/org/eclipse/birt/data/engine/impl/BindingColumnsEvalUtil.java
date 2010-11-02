@@ -269,7 +269,7 @@ class BindingColumnsEvalUtil
 	/**
 	 * A simple wrapper for binding column
 	 */
-	private class BindingColumn
+	private static class BindingColumn
 	{
 
 		//
@@ -286,66 +286,4 @@ class BindingColumnsEvalUtil
 			this.type = type;
 		}
 	}
-	
-	/**
-	 * Special case for query running based on report document. A life cycle
-	 * might be below:
-	 * 
-	 * 1: create an original report design
-	 * 
-	 * 2: running this design and save the result into a report document
-	 * 
-	 * 3: only modify the transformation of the report design 1 and continue
-	 * running the new report design based on the report document of step 2
-	 * 
-	 * 4: the column binding of the original report design can also used in the
-	 * new query result of step 3
-	 */
-	private class EvalHelper
-	{
-		private IResultIterator ri;
-		private Set columnNameSet;
-		
-		/**
-		 * @param ri
-		 */
-		private EvalHelper( IResultIterator ri )
-		{
-			this.ri = ri;
-			try
-			{
-				IResultClass resultClass = ri.getResultClass( );
-				
-				columnNameSet = new HashSet( );
-				for ( int i = 0; i < resultClass.getFieldCount( ); i++ )
-					columnNameSet.add( resultClass.getFieldName( i + 1 ) );
-			}
-			catch ( DataException e )
-			{
-				// impossible
-			}
-		}
-		
-		/**
-		 * @param columnName
-		 * @return
-		 */
-		private boolean contains( String columnName )
-		{
-			return columnNameSet.contains( columnName );
-		}
-		
-		/**
-		 * @param columnName
-		 * @return
-		 * @throws DataException
-		 */
-		private Object getValue( String columnName ) throws DataException
-		{
-			if( ri.getCurrentResult( ) == null )
-				return null;
-			return ri.getCurrentResult( ).getFieldValue( columnName );
-		}
-	}
-
 }

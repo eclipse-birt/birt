@@ -221,7 +221,6 @@ public class CubeQueryExecutor
 	private void populateFilterHelpers( ) throws DataException
 	{
 		List filters = defn.getFilters( );
-		List results = new ArrayList( );
 		Set<DimLevel> dimLevelInCubeQuery = this.getDimLevelsDefinedInCubeQuery( );
 		for ( int i = 0; i < filters.size( ); i++ )
 		{

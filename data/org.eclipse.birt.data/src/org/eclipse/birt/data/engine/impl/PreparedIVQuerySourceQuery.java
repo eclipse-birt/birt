@@ -65,8 +65,6 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 
 	protected DataEngineImpl engine;
 	protected DataEngineImpl preDataEngine;
-	
-	protected IQueryDefinition queryDefn;
 	protected IQueryResults queryResults;
 	
 	protected boolean hasBinding; 
@@ -195,15 +193,16 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 			Map bindings ) throws DataException
 	{
 		Map<String, Boolean> aggrInfo = QueryDefinitionUtil.parseAggregations( bindings );
-		Iterator it = bindings.keySet( ).iterator( );
+		Iterator it = bindings.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			String name = (String)it.next( );
-			
+			Map.Entry entry = (Map.Entry) it.next( );
+			String name = (String) entry.getKey( );
+
 			if ( !aggrInfo.get( name ) )
 			{
 				{
-					IBinding binding = (IBinding) ( bindings.get(name) );
+					IBinding binding = (IBinding) entry.getValue( );
 					boolean exist = false;
 					for ( int i = 0; i < resultBindingList.size( ); i++ )
 					{
@@ -324,9 +323,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		}
 
 		/*
-		 * @see
-		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#findDataSource
-		 * ()
+		 * @see org.eclipse.birt.data.engine.impl.QueryExecutor#findDataSource()
 		 */
 		protected DataSourceRuntime findDataSource( ) throws DataException
 		{
@@ -539,7 +536,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 * @author Administrator
 	 * 
 	 */
-	private class IVQuerySourcePopulator implements IDataSetPopulator
+	private static class IVQuerySourcePopulator implements IDataSetPopulator
 	{
 
 		private org.eclipse.birt.data.engine.api.IResultIterator apiResultIterator = null;

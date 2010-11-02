@@ -212,4 +212,20 @@ public final class AggregateExpression extends BytecodeExpression
 		}
 		return false;
     }
+    
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode( )
+	{
+		int result = 17;
+
+		result = 37 * result + aggregation.getName( ).hashCode( );
+		result = 37 * result + groupLevel;
+		for ( int i = 0; i < arguments.size( ); i++ )
+		{
+			result = 37 * result + arguments.get( i ).hashCode( );
+		}
+		return result;
+	}
 }

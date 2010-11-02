@@ -65,7 +65,7 @@ public class ColumnBindingMetaData implements IResultMetaData
 					String alias = metaData.getColumnAlias( colIndex );
 					if ( alias != null )
 					{
-						aliasMap.put( new Integer( colIndex ), alias );
+						aliasMap.put( Integer.valueOf( colIndex ), alias );
 					}
 
 					ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),

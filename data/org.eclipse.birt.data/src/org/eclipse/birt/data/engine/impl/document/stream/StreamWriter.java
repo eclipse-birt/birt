@@ -59,7 +59,7 @@ public class StreamWriter
 		assert id != null;
 
 		OutputStream os = new DummyOutputStream( context, id, streamType );
-		this.cachedStreams.put( new Integer( streamType ), os );
+		this.cachedStreams.put( Integer.valueOf( streamType ), os );
 		return os;
 	}
 }

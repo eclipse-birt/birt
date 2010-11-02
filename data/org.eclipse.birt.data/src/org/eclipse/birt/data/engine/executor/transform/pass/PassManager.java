@@ -48,8 +48,6 @@ public class PassManager
 
 	private FilterByRow filterByRow;
 	
-	private DataEngineSession session;
-	
 	private ComputedColumnsState iccState; 
 	private PassStatusController psController;
 	
@@ -58,10 +56,9 @@ public class PassManager
 	 * 
 	 * @param populator
 	 */
-	private PassManager( ResultSetPopulator populator, DataEngineSession session )
+	private PassManager( ResultSetPopulator populator )
 	{
 		this.populator = populator;
-		this.session = session;
 	}
 
 	/**
@@ -74,13 +71,13 @@ public class PassManager
 	public static void populateResultSet( ResultSetPopulator populator,
 			OdiResultSetWrapper odaResultSet, DataEngineSession session ) throws DataException
 	{
-		new PassManager( populator, session ).pass( odaResultSet );
+		new PassManager( populator ).pass( odaResultSet );
 	}
 	
 	public static void populateDataSetResultSet( ResultSetPopulator populator, 
 			OdiResultSetWrapper odaResultSetWrapper ) throws DataException
 	{
-		new PassManager( populator, populator.getSession( ) ).prepareDataSetResultSet( odaResultSetWrapper );
+		new PassManager( populator ).prepareDataSetResultSet( odaResultSetWrapper );
 	}
 	
 	
@@ -361,7 +358,7 @@ public class PassManager
 	 * aggregations.
 	 *
 	 */
-	private class DummyICCState implements IComputedColumnsState
+	private static class DummyICCState implements IComputedColumnsState
 	{
 		private Object[] exprs;
 		private Object[] names;

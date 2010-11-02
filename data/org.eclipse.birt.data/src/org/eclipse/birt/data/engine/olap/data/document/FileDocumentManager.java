@@ -307,7 +307,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 */
 	public int getNextBlock( int blockNo ) throws IOException
 	{
-		oatAccessFile.seek( blockNo * 4 );
+		oatAccessFile.seek( blockNo * 4L );
 		return oatAccessFile.readInt( );
 	}
 
@@ -318,7 +318,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	public int allocateBlock( int blockNo ) throws IOException
 	{
 		int newBlock = findFreeBlock( );
-		oatAccessFile.seek( blockNo * 4 );
+		oatAccessFile.seek( blockNo * 4L );
 		oatAccessFile.writeInt( newBlock );
 		return newBlock;
 	}

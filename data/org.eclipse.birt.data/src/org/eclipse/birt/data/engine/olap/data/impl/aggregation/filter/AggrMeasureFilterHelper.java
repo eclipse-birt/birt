@@ -359,7 +359,7 @@ public class AggrMeasureFilterHelper
 			
 			if ( isFilterByAll )
 			{
-				result.add( new Integer( i ) );
+				result.add( Integer.valueOf( i ) );
 			}
 		}
 		return result;

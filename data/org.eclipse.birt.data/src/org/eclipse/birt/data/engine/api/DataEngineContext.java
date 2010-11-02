@@ -218,7 +218,7 @@ public class DataEngineContext
 			throws BirtException
 	{
 		Object[] params = {
-				new Integer( mode ), scope, reader, writer, classLoader
+				Integer.valueOf( mode ), scope, reader, writer, classLoader
 		};
 		logger.entering( DataEngineContext.class.getName( ),
 				"DataEngineContext", //$NON-NLS-1$

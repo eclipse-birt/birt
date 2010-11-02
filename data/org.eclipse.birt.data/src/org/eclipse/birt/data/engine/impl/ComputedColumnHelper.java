@@ -568,7 +568,7 @@ class ComputedColumnHelperInstance
 			if ( cmptdColumnIdx >= 1
 					&& resultClass.isCustomField( cmptdColumnIdx ) )
 			{
-				cmptList.add( new Integer( i ) );
+				cmptList.add( Integer.valueOf( i ) );
 				nameToComptCol.put( cmptdColumn.getName( ), cmptdColumn );
 			}
 			// else computed column is not projected, skip to next computed

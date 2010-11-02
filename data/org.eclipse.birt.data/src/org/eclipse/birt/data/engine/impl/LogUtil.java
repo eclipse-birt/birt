@@ -189,7 +189,12 @@ public final class LogUtil
 		stringBuffer.append( "MaxRows : "+querySpec.getMaxRows()+"\r\n" );
 		
 		if ( !isEmpty( querySpec.getColumnProjection( ) ) )
-			stringBuffer.append( "ColumnProjection : "+querySpec.getColumnProjection()+"\r\n" );
+		{
+			for ( int i = 0; i < querySpec.getColumnProjection( ).length; i++ )
+				stringBuffer.append( "ColumnProjection : "
+						+ querySpec.getColumnProjection( )[i] +"   ");
+			stringBuffer.append( "\r\n" );
+		}
 		
 		if ( !isEmpty( querySpec.getGroups( ) ) )
 			stringBuffer.append( "Groups : "+LogUtil.toString(querySpec.getGroups())+"\r\n" );
@@ -289,10 +294,11 @@ public final class LogUtil
 		{
 			Map publicProperties = dataSource.getPublicProperties( );
 			String logMsg = " PulicProperties : ";
-			Iterator iterator = publicProperties.keySet( ).iterator( );
+			Iterator iterator = publicProperties.entrySet( ).iterator( );
 			while ( iterator.hasNext( ) )
 			{
-				String propName = (String) iterator.next( );
+				Map.Entry entry = (Map.Entry) iterator.next( );
+				String propName = entry.getKey( ).toString( );
 				// Don't log value of any property that looks like a password
 				String lcPropName = propName.toLowerCase( );
 				String propVal;
@@ -300,8 +306,8 @@ public final class LogUtil
 						|| lcPropName.indexOf( "pwd" ) >= 0 )
 					propVal = "***";
 				else
-					propVal = publicProperties.get( propName ).toString( );
-				logMsg += propName + "=" + propVal + ";";
+					propVal = entry.getValue( ).toString( );
+				logMsg += ( propName + "=" + propVal + ";" );
 			}
 
 			stringBuffer.append( logMsg + "\r\n" );

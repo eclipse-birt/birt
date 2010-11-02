@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
@@ -22,9 +21,7 @@ import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
-import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
-import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 
@@ -100,13 +97,13 @@ public class ComparatorUtil
 			return false;
 		}
 
-		Set set = map1.keySet( );
+		Set set = map1.entrySet( );
 		Iterator it = set.iterator( );
 		while ( it.hasNext( ) )
 		{
-			Object ob = it.next( );
-			Object value1 = map1.get( ob );
-			Object value2 = map1.get( ob );
+			Map.Entry ob = (Map.Entry) it.next( );
+			Object value1 = ob.getValue( );
+			Object value2 = map2.get( ob.getKey( ) );
 
 			if ( isEqualObject( value1, value2 ) == false )
 				return false;
@@ -304,12 +301,12 @@ public class ComparatorUtil
 	 * @param computedCols
 	 * @return
 	 */
-	public static List getRealComputedColumn( List computedCols )
+	public static List<IComputedColumn> getRealComputedColumn( List computedCols )
 	{
 		if ( computedCols == null )
 			return null;
 
-		List list = new ArrayList( );
+		List<IComputedColumn> list = new ArrayList<IComputedColumn>( );
 		for ( int i = 0; i < computedCols.size( ); i++ )
 		{
 			IComputedColumn cc = (IComputedColumn) computedCols.get( i );

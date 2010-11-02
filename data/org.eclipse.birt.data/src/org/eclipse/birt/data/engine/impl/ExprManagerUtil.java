@@ -87,24 +87,25 @@ public class ExprManagerUtil
 	private void checkGroupNameValidation( ) throws DataException
 	{
 		HashMap map = this.getGroupKeys( );
-		Iterator it = map.keySet( ).iterator( );
+		Iterator it = map.entrySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
-			Integer level = (Integer)it.next( );
+			Map.Entry entry = (Map.Entry) it.next( );
+			Integer level = (Integer) entry.getKey( );
 			exprManager.setEntryGroupLevel( level.intValue( ) );
-			
-			if ( !ExpressionCompilerUtil.hasColumnRow( map.get( level )
-					.toString( ), exprManager, cx) )
+
+			if ( !ExpressionCompilerUtil.hasColumnRow( entry.getValue( )
+					.toString( ), exprManager, cx ) )
 			{
 				exprManager.setEntryGroupLevel( ExprManager.OVERALL_GROUP );
-				if ( !isColumnBindingExist( map.get( level ).toString( ) ) )
+				if ( !isColumnBindingExist( entry.getValue( ).toString( ) ) )
 				{
 					throw new DataException( ResourceConstants.COLUMN_BINDING_NOT_EXIST,
-							map.get( level ).toString( ) );
+							entry.getValue( ).toString( ) );
 				}
 				throw new DataException( ResourceConstants.INVALID_GROUP_KEY_COLUMN,
 						new Object[]{
-								map.get( level ).toString( ), level
+								entry.getValue( ).toString( ), level
 						} );
 			}
 		}
@@ -367,7 +368,7 @@ public class ExprManagerUtil
 		for ( int i = 0; i < bindingExprs.size( ); i++ )
 		{
 			String key = ( (GroupBindingColumn) bindingExprs.get( i ) ).getGroupKey( );
-			Integer groupLevel = new Integer( ( (GroupBindingColumn) bindingExprs.get( i ) ).getGroupLevel( ) );
+			Integer groupLevel = Integer.valueOf(  ( (GroupBindingColumn) bindingExprs.get( i ) ).getGroupLevel( ) );
 			if ( key != null )
 				l.put( groupLevel, key );
 		}
