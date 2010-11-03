@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
@@ -40,6 +43,8 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	private boolean useBeforeOpenEventHandler = false;
 	private boolean useBeforeCloseEventHandler = false;
 
+	private static Map<IDataSetInstanceHandle, Scriptable> scopeCache = new HashMap<IDataSetInstanceHandle, Scriptable>( );
+	
 	public DataSetScriptExecutor( DataSetHandle dataSetHandle,
 			ExecutionContext context ) throws BirtException
 	{
@@ -156,11 +161,20 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	 */
 	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet ) throws DataException
 	{
-		Scriptable shared = this.scope;
-		Scriptable scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
-				shared);
-		scope.setParentScope( shared );
-		scope.setPrototype( dataSet.getScriptScope( ) );
+		Scriptable scope = scopeCache.get( dataSet );
+		if ( scope != null )
+		{
+			return scope;
+		}
+		synchronized ( scopeCache )
+		{
+			Scriptable shared = this.scope;
+			scope = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
+					shared );
+			scope.setParentScope( shared );
+			scope.setPrototype( dataSet.getScriptScope( ) );
+			scopeCache.put( dataSet, scope );
+		}
 		return scope;
 	}
 
