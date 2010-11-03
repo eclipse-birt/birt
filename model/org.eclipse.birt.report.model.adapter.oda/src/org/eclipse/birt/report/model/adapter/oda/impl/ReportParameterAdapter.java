@@ -11,11 +11,7 @@
 
 package org.eclipse.birt.report.model.adapter.oda.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter;
-import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -35,9 +31,6 @@ import org.eclipse.datatools.connectivity.oda.design.InputElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputPromptControlStyle;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
-import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
-import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
-import org.eclipse.datatools.connectivity.oda.design.StaticValues;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -218,45 +211,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 
 		InputParameterAttributes tmpParamDefn1 = designFactory
 				.createInputParameterAttributes( );
-				
-		updateInputElementAttrs( tmpParamDefn1, reportParam, null );
-		
-		// Add the default value to parameter's static list if it is not dynamic and does not contain such value.
-		if ( reportParam.getValueExpr( ) == null )
-		{
-			ScalarValueChoices staticChoices =  tmpParamDefn1.getElementAttributes( ).getStaticValueChoices( );
-			StaticValues defaultStaticValues = tmpParamDefn1.getElementAttributes( ).getDefaultValues( );
-			if ( staticChoices != null && defaultStaticValues != null )
-			{
-				List defaultValues = new ArrayList();
-				for ( Object defaultValue : defaultStaticValues.getValues( ) )
-					defaultValues.add( defaultValue );
-			
-				for ( ScalarValueDefinition choice : staticChoices.getScalarValues( ) )
-					defaultValues.remove( choice.getValue( ) );
 
-				if ( !defaultValues.isEmpty( ) )
-				{
-					for ( Object value:defaultValues )
-					{
-						if ( value instanceof String )
-						{
-							ScalarValueDefinition newChoice = designFactory.createScalarValueDefinition( );
-							newChoice.setValue( ParameterValueUtil.toODAValue( value.toString( ), reportParam.getDataType( ) ) );
-							staticChoices.getScalarValues( ).add( newChoice );
-						}
-					}
-					try
-					{
-						AdapterUtil.updateROMSelectionList( staticChoices, null, reportParam );
-					}
-					catch ( SemanticException e )
-					{
-						return true;
-					}
-				}
-			}
-		}
+		updateInputElementAttrs( tmpParamDefn1, reportParam, null );
 		if ( tmpParamDefn1.getUiHints( ) != null )
 		{
 			tmpParamDefn1.setUiHints( null );
@@ -276,45 +232,16 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		return EcoreUtil.equals( tmpParamDefn, tmpParamDefn1 );
 	}
 
-//	/*
-//	 * (non-Javadoc)
-//	 * 
-//	 * @see
-//	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
-//	 * #
-//	 * updateLinkedReportParameterFromROMParameter(org.eclipse.birt.report.model
-//	 * .api.AbstractScalarParameterHandle,
-//	 * org.eclipse.birt.report.model.api.OdaDataSetParameterHandle)
-//	 */
-//
-//	private void updateSelectionChoice( ParameterDefinition odaParam,
-//			ScalarParameterHandle reportParam )
-//	{
-//		
-//		if ( setParam.getValueExpr( ) == null
-//				&& newValue.getType( ).equals( IExpressionType.CONSTANT ) )
-//		{
-//			boolean found = false;
-//			String defualtValue = newValue.getStringExpression( );
-//			Iterator<SelectionChoiceHandle> iterator = setParam.choiceIterator( );
-//			while ( iterator.hasNext( ) )
-//			{
-//				SelectionChoiceHandle choice = iterator.next( );
-//				if ( defualtValue.equals( choice.getValue( ) ) )
-//				{
-//					found = true;
-//					break;
-//				}
-//			}
-//			if ( !found )
-//			{
-//				SelectionChoice newChoice = StructureFactory.createSelectionChoice( );
-//				newChoice.setValue( defualtValue );
-//				PropertyHandle propHandle = setParam.getPropertyHandle( AbstractScalarParameterHandle.SELECTION_LIST_PROP );
-//				propHandle.addItem( newChoice );
-//			}
-//		}		
-//	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.impl.AbstractReportParameterAdapter
+	 * #
+	 * updateLinkedReportParameterFromROMParameter(org.eclipse.birt.report.model
+	 * .api.AbstractScalarParameterHandle,
+	 * org.eclipse.birt.report.model.api.OdaDataSetParameterHandle)
+	 */
 
 	protected void updateLinkedReportParameterFromROMParameter(
 			AbstractScalarParameterHandle reportParam,
@@ -507,7 +434,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 			OdaDataSetHandle setHandle ) throws SemanticException
 	{
 		assert reportParam instanceof ScalarParameterHandle;
-
+		ScalarParameterHandle param = (ScalarParameterHandle) reportParam;
+		
 		// update conceal value
 
 		Boolean masksValue = Boolean.valueOf( elementAttrs.isMasksValue( ) );
@@ -515,8 +443,7 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 				.valueOf( cachedElementAttrs.isMasksValue( ) );
 
 		if ( !CompareUtil.isEquals( cachedMasksValues, masksValue ) )
-			( (ScalarParameterHandle) reportParam ).setConcealValue( masksValue
-					.booleanValue( ) );
+			param.setConcealValue( masksValue.booleanValue( ) );
 
 		InputElementUIHints uiHints = elementAttrs.getUiHints( );
 		if ( uiHints != null )
@@ -533,12 +460,14 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 			if ( cachedStyle == null
 					|| ( style != null && cachedStyle.getValue( ) != style
 							.getValue( ) ) )
-				( (ScalarParameterHandle) reportParam )
-						.setControlType( style == null ? null : AdapterUtil
-								.newROMControlType( style ) );
+				param.setControlType( style == null ? null : AdapterUtil
+							.newROMControlType( style ) );
 
-			( (ScalarParameterHandle) reportParam )
-					.setAutoSuggestThreshold( uiHints.getAutoSuggestThreshold( ) );
+				param.setAutoSuggestThreshold( uiHints.getAutoSuggestThreshold( ) );
+		}
+		else
+		{
+			param.setControlType( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX );
 		}
 
 		super.updateInputElementAttrsToReportParam( elementAttrs,

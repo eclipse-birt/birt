@@ -114,10 +114,9 @@ abstract class AbstractReportParameterAdapter
 
 		if ( StringUtil.isBlank( paramName ) )
 		{
-			dataSetParam.setParamName( reportParam.getName( ) );
-			setROMDefaultValue( reportParam, defaultValue );
+			dataSetParam.setParamName( reportParam.getName( ) );						
 		}
-
+		setROMDefaultValue( reportParam, defaultValue );
 	}
 
 	/**
