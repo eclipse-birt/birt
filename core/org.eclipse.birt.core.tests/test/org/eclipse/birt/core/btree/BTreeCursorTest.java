@@ -23,30 +23,56 @@ public class BTreeCursorTest extends TestCase
 	{
 		new File( "./utest/btree.dat" ).delete( );
 		FileBTreeFile file = new FileBTreeFile( "./utest/btree.dat" );
-		BTreeOption<Integer, String> option = new BTreeOption<Integer, String>( );
-		option.setFile( file );
-		BTree<Integer, String> btree = new BTree<Integer, String>( option );
+		try
+		{
+			BTreeOption<Integer, String> option = new BTreeOption<Integer, String>( );
+			option.setFile( file, true );
+			BTree<Integer, String> btree = new BTree<Integer, String>( option );
 
-		BTreeCursor<Integer, String> cursor = btree.createCursor( );
+			try
+			{
+				BTreeCursor<Integer, String> cursor = btree.createCursor( );
+				try
+				{
+					// test empty cursor
+					doTestEmptyCursor( cursor );
+					doTestInsert( cursor );
+				}
+				finally
+				{
+					cursor.close( );
+				}
+			}
+			finally
+			{
+				btree.close( );
+			}
 
-		// test empty cursor
-		doTestEmptyCursor( cursor );
-		doTestInsert( cursor );
-
-		cursor.close( );
-		btree.close( );
-
-		btree = new BTree<Integer, String>( option );
-		cursor = btree.createCursor( );
-
-		doTestPrev( cursor );
-		doTestNext( cursor );
-		doTestFirstLast( cursor );
-		doTestMove( cursor );
-
-		cursor.close( );
-
-		btree.close( );
+			btree = new BTree<Integer, String>( option );
+			try
+			{
+				BTreeCursor<Integer, String> cursor = btree.createCursor( );
+				try
+				{
+					doTestPrev( cursor );
+					doTestNext( cursor );
+					doTestFirstLast( cursor );
+					doTestMove( cursor );
+				}
+				finally
+				{
+					cursor.close( );
+				}
+			}
+			finally
+			{
+				btree.close( );
+			}
+		}
+		finally
+		{
+			file.close( );
+		}
 	}
 
 	public void doTestNext( BTreeCursor<Integer, String> cursor )

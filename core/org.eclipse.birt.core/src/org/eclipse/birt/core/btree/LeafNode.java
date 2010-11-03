@@ -133,9 +133,11 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 		return returnEntry;
 	}
 
-	public LeafEntry<K, V> insert( BTreeValue<K> key, BTreeValue<V> value )
+	public LeafEntry<K, V> insert( BTreeValue<K> key, BTreeValue<V>[] vs )
 			throws IOException
 	{
+		assert vs != null;
+		assert vs.length > 0;
 		dirty = true;
 		LeafEntry<K, V> insertPoint = firstEntry;
 		while ( insertPoint != null )
@@ -154,7 +156,7 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 					BTreeValues<V> values = insertPoint.getValues( );
 					int valueSize1 = values.getValueSize( );
 					SingleValueList<K, V> sv = new SingleValueList<K, V>(
-							btree, value );
+							btree, vs[0] );
 					int valueSize2 = sv.getValueSize( );
 					insertPoint.setValues( sv );
 					nodeSize = nodeSize + valueSize2 - valueSize1;
@@ -164,7 +166,10 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 				// append it to the current values
 				BTreeValues<V> values = insertPoint.getValues( );
 				int valueSize1 = values.getValueSize( );
-				values.append( value );
+				for ( BTreeValue<V> v : vs )
+				{
+					values.append( v );
+				}
 				int valueSize2 = values.getValueSize( );
 				if ( valueSize2 > MAX_NODE_SIZE / 2 )
 				{
@@ -174,7 +179,7 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 				}
 				nodeSize = nodeSize - valueSize1 + valueSize2;
 
-				btree.increaseTotalValues( );
+				btree.increaseTotalValues( vs.length );
 				return insertPoint;
 			}
 
@@ -193,7 +198,10 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 			if ( btree.allowDuplicate( ) )
 			{
 				values = new InlineValueList<K, V>( btree );
-				values.append( value );
+				for ( BTreeValue<V> v : vs )
+				{
+					values.append( v );
+				}
 				if ( values.getValueSize( ) > MAX_NODE_SIZE / 2 )
 				{
 					values = btree.createExternalValueList( values );
@@ -201,7 +209,7 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 			}
 			else
 			{
-				values = new SingleValueList<K, V>( btree, value );
+				values = new SingleValueList<K, V>( btree, vs[0] );
 			}
 		}
 		LeafEntry<K, V> entry = new LeafEntry<K, V>( this, key, values );
@@ -210,7 +218,7 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 		// if the node size is larger than the block size, split into two nodes.
 		if ( btree.hasValue( ) )
 		{
-			btree.increaseTotalValues( );
+			btree.increaseTotalValues( vs.length );
 		}
 		btree.increaseTotalKeys( );
 		return entry;
@@ -314,8 +322,8 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 			nextNodeId = newNode.getNodeId( );
 
 			// return the split entry
-			return new IndexEntry<K, V>( null, splitEntry.getKey( ), newNode
-					.getNodeId( ) );
+			return new IndexEntry<K, V>( null, splitEntry.getKey( ),
+					newNode.getNodeId( ) );
 		}
 		finally
 		{
@@ -468,6 +476,7 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 			{
 				if ( values.getType( ) == BTreeValues.EXTERNAL_VALUES )
 				{
+					@SuppressWarnings("unchecked")
 					ExternalValueList<K, V> extValues = (ExternalValueList<K, V>) values;
 					int nodeId = extValues.getFirstNodeId( );
 					while ( nodeId != -1 )

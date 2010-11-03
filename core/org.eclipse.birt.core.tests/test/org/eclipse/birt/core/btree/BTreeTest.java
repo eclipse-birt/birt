@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2008,2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.btree;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -148,7 +149,7 @@ public class BTreeTest extends BTreeTestCase
 			BTreeOption<String, Integer> option = new BTreeOption<String, Integer>( );
 			option.setHasValue( true );
 			option.setAllowDuplicate( true );
-			option.setFile( file );
+			option.setFile( file, true );
 			BTree<String, Integer> btree = new BTree<String, Integer>( option );
 
 			Collection<String> input = createSampleInput( );
@@ -207,7 +208,7 @@ public class BTreeTest extends BTreeTestCase
 		{
 			BTreeOption<String, Object> option = new BTreeOption<String, Object>( );
 			option.setHasValue( false );
-			option.setFile( file );
+			option.setFile( file, true );
 			BTree<String, Object> btree = new BTree<String, Object>( option );
 
 			Random random = new Random( );
@@ -263,7 +264,7 @@ public class BTreeTest extends BTreeTestCase
 			BTreeOption<Integer, char[]> option = new BTreeOption<Integer, char[]>( );
 			option.setHasValue( true );
 			option.setAllowDuplicate( false );
-			option.setFile( file );
+			option.setFile( file, true );
 			BTree<Integer, char[]> btree = new BTree<Integer, char[]>( option );
 
 			Random random = new Random( );
@@ -330,7 +331,7 @@ public class BTreeTest extends BTreeTestCase
 		{
 			BTreeOption<String, String> option = new BTreeOption<String, String>( );
 			option.setHasValue( true );
-			option.setFile( file );
+			option.setFile( file, true );
 			option.setCacheSize( 1024 );
 			BTree<String, String> btree = new BTree<String, String>( option );
 
@@ -375,4 +376,67 @@ public class BTreeTest extends BTreeTestCase
 
 	}
 
+	public void testNullKeyValue( ) throws IOException
+	{
+		RAMBTreeFile file = new RAMBTreeFile( );
+		BTreeOption<Integer, String> option = new BTreeOption<Integer, String>( );
+		option.setHasValue( true );
+		option.setKeySize( 4 );
+		option.setKeySerializer( new IntegerSerializer( ) );
+		option.setFile( file );
+		option.setAllowNullKey( true );
+
+		BTree<Integer, String> btree = new BTree<Integer, String>( option );
+		for ( int i = 0; i < 10000; i++ )
+		{
+			if ( !btree.exist( Integer.valueOf( i ) ) )
+			{
+				btree.insert( Integer.valueOf( i ), (String) null );
+			}
+		}
+		btree.insert( null, "abc" );
+
+		assertEquals( 10001, btree.getTotalKeys( ) );
+		assertEquals( 10001, btree.getTotalValues( ) );
+
+		btree.close( );
+	}
+
+	public void testBatchInsert( ) throws IOException
+	{
+		RAMBTreeFile file = new RAMBTreeFile( );
+		BTreeOption<Integer, String> option = new BTreeOption<Integer, String>( );
+		option.setHasValue( true );
+		option.setKeySize( 4 );
+		option.setAllowDuplicate( true );
+		option.setAllowNullKey( true );
+		option.setKeySerializer( new IntegerSerializer( ) );
+		option.setFile( file );
+
+		BTree<Integer, String> btree = new BTree<Integer, String>( option );
+		// insert null batches
+		String[] values = new String[4];
+		values[0] = null;
+		for ( int i = 1; i < 4; i++ )
+		{
+			values[i] = "NULL" + i;
+		}
+
+		btree.insert( null, values );
+
+		for ( int i = 0; i < 10000; i++ )
+		{
+			values[0] = null;
+			for ( int j = 1; j < 4; j++ )
+			{
+				values[j] = i + "." + j;
+			}
+			btree.insert( Integer.valueOf( i ), values );
+		}
+
+		assertEquals( 10001, btree.getTotalKeys( ) );
+		assertEquals( 40004, btree.getTotalValues( ) );
+
+		btree.close( );
+	}
 }

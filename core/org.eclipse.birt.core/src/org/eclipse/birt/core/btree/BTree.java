@@ -41,9 +41,11 @@ public class BTree<K, V> implements BTreeConstants
 	protected static Logger logger = Logger.getLogger( BTree.class.getName( ) );
 
 	protected NodeFile file;
+	protected boolean shareFile;
 
 	private int version;
 	private boolean allowDuplicate;
+	private boolean allowNullKey;
 	private int keySize;
 	private boolean hasValue;
 	private int valueSize;
@@ -70,6 +72,7 @@ public class BTree<K, V> implements BTreeConstants
 	{
 		if ( option.file != null )
 		{
+			this.shareFile = option.shareFile;
 			if ( option.file instanceof NodeFile )
 			{
 				this.file = (NodeFile) option.file;
@@ -92,6 +95,7 @@ public class BTree<K, V> implements BTreeConstants
 		this.totalKeys = 0;
 		this.totalValues = 0;
 		this.allowDuplicate = option.allowDuplicate;
+		this.allowNullKey = option.allowNullKey;
 		this.keySize = option.keySize;
 		this.hasValue = option.hasValue;
 		this.valueSize = option.valueSize;
@@ -124,6 +128,7 @@ public class BTree<K, V> implements BTreeConstants
 	{
 		if ( file == null )
 		{
+			//has been closed
 			return;
 		}
 
@@ -147,8 +152,10 @@ public class BTree<K, V> implements BTreeConstants
 					}
 				}
 			}
-
-			file.close( );
+			if ( !shareFile )
+			{
+				file.close( );
+			}
 		}
 		finally
 		{
@@ -194,9 +201,12 @@ public class BTree<K, V> implements BTreeConstants
 		return null;
 	}
 
-	
 	LeafEntry<K, V> findEntry( K k ) throws IOException
 	{
+		if ( k == null && !allowNullKey )
+		{
+			throw new NullPointerException( "k can not be null" );
+		}
 		if ( rootNodeId != -1 )
 		{
 			BTreeValue<K> key = createKey( k );
@@ -229,8 +239,41 @@ public class BTree<K, V> implements BTreeConstants
 	LeafEntry<K, V> insertEntry( K k, V v ) throws IOException
 	{
 		BTreeValue<K> key = createKey( k );
-		BTreeValue<V> value = hasValue( ) ? createValue( v ) : null;
+		@SuppressWarnings("unchecked")
+		BTreeValue<V>[] values = (BTreeValue<V>[]) new BTreeValue[1];
+		if ( hasValue( ) )
+		{
+			values[0] = createValue( v );
+		}
+		return insertEntry( key, values );
+	}
 
+	LeafEntry<K, V> insertEntry( K k, V[] vs ) throws IOException
+	{
+		if ( !allowNullKey && k == null )
+		{
+			throw new NullPointerException( "key can not be null" );
+		}
+		assert vs != null && vs.length > 0;
+		BTreeValue<K> key = createKey( k );
+		if ( !hasValue( ) || vs == null || vs.length == 0 )
+		{
+			@SuppressWarnings("unchecked")
+			BTreeValue<V>[] values = (BTreeValue<V>[]) new BTreeValue[1];
+			return insertEntry( key, values );
+		}
+		@SuppressWarnings("unchecked")
+		BTreeValue<V>[] values = (BTreeValue<V>[]) new BTreeValue[vs.length];
+		for ( int i = 0; i < values.length; i++ )
+		{
+			values[i] = createValue( vs[i] );
+		}
+		return insertEntry( key, values );
+	}
+
+	private LeafEntry<K, V> insertEntry( BTreeValue<K> key,
+			BTreeValue<V>[] values ) throws IOException
+	{
 		if ( rootNodeId == -1 )
 		{
 			LeafNode<K, V> root = createLeafNode( );
@@ -240,7 +283,7 @@ public class BTree<K, V> implements BTreeConstants
 				root.setNextNodeId( -1 );
 				rootNodeId = root.getNodeId( );
 				totalLevels++;
-				return root.insert( key, value );
+				return root.insert( key, values );
 			}
 			finally
 			{
@@ -256,14 +299,15 @@ public class BTree<K, V> implements BTreeConstants
 				if ( nodeType == NODE_INDEX )
 				{
 					IndexNode<K, V> indexNode = (IndexNode<K, V>) root;
-					LeafEntry<K, V> insertEntry = indexNode.insert( key, value );
+					LeafEntry<K, V> insertEntry = indexNode
+							.insert( key, values );
 					if ( indexNode.needSplit( ) )
 					{
 						IndexEntry<K, V> splitEntry = indexNode.split( );
 						if ( splitEntry != null )
 						{
-							insertIndex( splitEntry.getKey( ), splitEntry
-									.getChildNodeId( ) );
+							insertIndex( splitEntry.getKey( ),
+									splitEntry.getChildNodeId( ) );
 						}
 					}
 					return insertEntry;
@@ -271,15 +315,15 @@ public class BTree<K, V> implements BTreeConstants
 				if ( nodeType == NODE_LEAF )
 				{
 					LeafNode<K, V> leafNode = (LeafNode<K, V>) root;
-					LeafEntry<K, V> insertEntry = leafNode.insert( key, value );
+					LeafEntry<K, V> insertEntry = leafNode.insert( key, values );
 
 					if ( leafNode.needSplit( ) )
 					{
 						IndexEntry<K, V> splitEntry = leafNode.split( );
 						if ( splitEntry != null )
 						{
-							insertIndex( splitEntry.getKey( ), splitEntry
-									.getChildNodeId( ) );
+							insertIndex( splitEntry.getKey( ),
+									splitEntry.getChildNodeId( ) );
 						}
 					}
 					return insertEntry;
@@ -395,6 +439,16 @@ public class BTree<K, V> implements BTreeConstants
 		insertEntry( k, v );
 	}
 
+	public void insert( K k, V[] vs ) throws IOException
+	{
+		if ( readOnly )
+		{
+			throw new IOException(
+					CoreMessages.getString( ResourceConstants.READ_ONLY_TREE ) );
+		}
+		insertEntry( k, vs );
+	}
+
 	public void remove( K key ) throws IOException
 	{
 		LeafEntry<K, V> entry = findEntry( key );
@@ -417,6 +471,18 @@ public class BTree<K, V> implements BTreeConstants
 	{
 		K key1 = getKey( k1 );
 		K key2 = getKey( k2 );
+		if ( key1 == key2 )
+		{
+			return 0;
+		}
+		if ( key1 == null )
+		{
+			return -1;
+		}
+		if ( key2 == null )
+		{
+			return 1;
+		}
 		return comparator.compare( key1, key2 );
 	}
 
@@ -626,8 +692,15 @@ public class BTree<K, V> implements BTreeConstants
 		return list;
 	}
 
+	private final BTreeValue<K> NULL_KEY = new BTreeValue<K>( );
+
 	BTreeValue<K> createKey( K key ) throws IOException
 	{
+		if ( key == null) 
+		{
+			assert allowNullKey == true;
+			return NULL_KEY;
+		}
 		byte[] keyBytes = keySerializer.getBytes( key );
 		int keySize = getKeySize( );
 		if ( keySize != 0 && keySize != keyBytes.length )
@@ -641,6 +714,10 @@ public class BTree<K, V> implements BTreeConstants
 
 	K getKey( BTreeValue<K> key ) throws IOException
 	{
+		if ( key == NULL_KEY )
+		{
+			return null;
+		}
 		K k = key.getValue( );
 		if ( k != null )
 		{
@@ -664,25 +741,45 @@ public class BTree<K, V> implements BTreeConstants
 
 	int writeKey( DataOutput out, BTreeValue<K> key ) throws IOException
 	{
+		int size = 0;
+		if ( allowNullKey )
+		{
+			if ( key == NULL_KEY )
+			{
+				out.writeBoolean( true );
+				return 1;
+			}
+			out.writeBoolean( false );
+			size = 1;
+		}
 		byte[] bytes = key.getBytes( );
 		int keySize = getKeySize( );
 		if ( keySize != 0 && keySize != bytes.length )
 		{
 			throw new IOException(
-					CoreMessages.getString( ResourceConstants.MISMATCH_KEY_LENGTH ) );
+					CoreMessages
+							.getString( ResourceConstants.MISMATCH_KEY_LENGTH ) );
 		}
 		if ( keySize == 0 )
 		{
 			out.writeInt( bytes.length );
 			out.write( bytes );
-			return 4 + bytes.length;
+			return size + 4 + bytes.length;
 		}
 		out.write( bytes );
-		return bytes.length;
+		return size + bytes.length;
 	}
 
 	BTreeValue<K> readKey( DataInput in ) throws IOException
 	{
+		if ( allowNullKey )
+		{
+			boolean isNull = in.readBoolean( );
+			if ( isNull )
+			{
+				return NULL_KEY;
+			}
+		}
 		int keySize = getKeySize( );
 		if ( keySize == 0 )
 		{
@@ -909,6 +1006,7 @@ public class BTree<K, V> implements BTreeConstants
 		totalLevels = in.readInt( );
 		totalKeys = in.readInt( );
 		totalValues = in.readInt( );
+		allowNullKey = in.readBoolean( );
 	}
 
 	protected void writeTreeHead( DataOutput out ) throws IOException
@@ -924,6 +1022,7 @@ public class BTree<K, V> implements BTreeConstants
 		out.writeInt( totalLevels );
 		out.writeInt( totalKeys );
 		out.writeInt( totalValues );
+		out.writeBoolean( allowNullKey );
 	}
 
 	void increaseTotalKeys( )
@@ -931,9 +1030,9 @@ public class BTree<K, V> implements BTreeConstants
 		totalKeys++;
 	}
 
-	void increaseTotalValues( )
+	void increaseTotalValues( int count )
 	{
-		totalValues++;
+		totalValues += count;
 	}
 
 	public void dump( ) throws IOException

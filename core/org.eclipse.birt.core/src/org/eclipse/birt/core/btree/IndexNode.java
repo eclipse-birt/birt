@@ -181,7 +181,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 		return childNodeId;
 	}
 
-	public LeafEntry<K, V> insert( BTreeValue<K> key, BTreeValue<V> value )
+	public LeafEntry<K, V> insert( BTreeValue<K> key, BTreeValue<V>[] values )
 			throws IOException
 	{
 		int childNodeId = findChildNode( key );
@@ -193,7 +193,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 				if ( node.nodeType == NODE_INDEX )
 				{
 					IndexNode<K, V> indexNode = (IndexNode<K, V>) node;
-					LeafEntry<K, V> insertEntry = indexNode.insert( key, value );
+					LeafEntry<K, V> insertEntry = indexNode.insert( key, values );
 					if ( indexNode.needSplit( ) )
 					{
 						IndexEntry<K, V> splitEntry = indexNode.split( );
@@ -208,7 +208,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 				if ( node.nodeType == NODE_LEAF )
 				{
 					LeafNode<K, V> leafNode = (LeafNode<K, V>) node;
-					LeafEntry<K, V> insertEntry = leafNode.insert( key, value );
+					LeafEntry<K, V> insertEntry = leafNode.insert( key, values );
 
 					if ( leafNode.needSplit( ) )
 					{

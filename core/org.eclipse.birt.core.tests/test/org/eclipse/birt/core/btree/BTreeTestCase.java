@@ -62,7 +62,7 @@ abstract public class BTreeTestCase extends TestCase
 		return input;
 	}
 
-	class IntegerSerializer implements BTreeSerializer<Integer>
+	public static class IntegerSerializer implements BTreeSerializer<Integer>
 	{
 
 		public byte[] getBytes( Integer object ) throws IOException
