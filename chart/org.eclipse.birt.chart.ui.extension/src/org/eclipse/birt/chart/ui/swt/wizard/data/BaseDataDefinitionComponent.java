@@ -414,9 +414,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				btnGroup.setEnabled( false );
 			}
 		}
+
+		boolean inheritGroups = context.getDataServiceProvider( )
+				.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
 		if ( cmbDefinition != null
 				&& ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
-				&& ( isCubeNoMultiDimensions || !ChartUIUtil.isGroupingSupported( context ) ) )
+				&& ( isCubeNoMultiDimensions || inheritGroups ) )
 		{
 			cmbDefinition.setEnabled( false );
 			btnBuilder.setEnabled( false );
