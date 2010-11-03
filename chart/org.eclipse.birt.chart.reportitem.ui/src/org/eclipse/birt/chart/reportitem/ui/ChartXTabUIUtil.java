@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -43,6 +44,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 
 /**
@@ -299,6 +301,18 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 			// Add levels
 			for ( LevelHandle levelHandle : ChartCubeUtil.getAllLevels( cubeHandle ) )
 			{
+				// If the display field is set in dimension level, it needs to
+				// add an attribute named 'DisplayName' in expression.
+				String displayNameAttr = null;
+				if ( levelHandle instanceof TabularLevelHandle
+						&& ( (TabularLevelHandle) levelHandle ).getDisplayColumnName( ) != null
+						&& ( (TabularLevelHandle) levelHandle ).getDisplayColumnName( )
+								.trim( )
+								.length( ) > 0 )
+				{
+					displayNameAttr = ICubeQueryUtil.DISPLAY_NAME_ATTR;
+				}
+				
 				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
 						ChartCubeUtil.createLevelBindingName( levelHandle ) );
 				column.setDataType( levelHandle.getDataType( ) );
@@ -307,7 +321,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 								.getContainer( )
 								.getName( ),
 								levelHandle.getName( ),
-								null ),
+								displayNameAttr ),
 								exprType ) );
 				columnList.add( column );
 
