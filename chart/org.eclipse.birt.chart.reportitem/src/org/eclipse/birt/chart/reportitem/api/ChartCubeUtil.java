@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -59,6 +60,7 @@ import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 
 /**
@@ -460,6 +462,18 @@ public class ChartCubeUtil extends ChartItemUtil
 		if ( level == null )
 		{
 			return null;
+		}
+		if ( level instanceof TabularLevelHandle
+				&& ( (TabularLevelHandle) level ).getDisplayColumnName( ) != null
+				&& ( (TabularLevelHandle) level ).getDisplayColumnName( )
+						.trim( )
+						.length( ) > 0 )
+		{
+			return ExpressionUtil.createJSDimensionExpression( level.getContainer( )
+					.getContainer( )
+					.getName( ),
+					level.getName( ),
+					ICubeQueryUtil.DISPLAY_NAME_ATTR );
 		}
 		return ExpressionUtil.createJSDimensionExpression( level.getContainer( )
 				.getContainer( )
