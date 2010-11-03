@@ -20,11 +20,13 @@ public class BTreeOption<K, V>
 	int keySize;
 	int valueSize;
 	boolean hasValue;
+	boolean allowNullKey;
 	boolean allowDuplicate;
 	Comparator<K> comparator;
 	BTreeSerializer<K> keySerializer;
 	BTreeSerializer<V> valueSerializer;
 	BTreeFile file;
+	boolean shareFile;
 
 	int headNodeId;
 	int cacheSize;
@@ -35,6 +37,7 @@ public class BTreeOption<K, V>
 		keySize = 0;
 		valueSize = 0;
 		hasValue = true;
+		allowNullKey = false;
 		allowDuplicate = false;
 
 		comparator = new JavaComparator<K>( );
@@ -50,6 +53,11 @@ public class BTreeOption<K, V>
 	public void setAllowDuplicate( boolean allowDuplicate )
 	{
 		this.allowDuplicate = allowDuplicate;
+	}
+
+	public void setAllowNullKey( boolean allowNullKey )
+	{
+		this.allowNullKey = allowNullKey;
 	}
 
 	public void setReadOnly( boolean readOnly )
@@ -85,6 +93,12 @@ public class BTreeOption<K, V>
 	public void setFile( BTreeFile file )
 	{
 		this.file = file;
+	}
+
+	public void setFile( BTreeFile file, boolean shareFile )
+	{
+		this.file = file;
+		this.shareFile = shareFile;
 	}
 
 	public void setKeySize( int size )

@@ -20,37 +20,40 @@ public class FileBTreeFile implements BTreeFile, Closeable
 {
 
 	private RandomAccessFile file;
+	private int totalBlock;
 
 	public FileBTreeFile( String fileName ) throws IOException
 	{
 		new File( fileName ).getParentFile( ).mkdirs( );
 		this.file = new RandomAccessFile( fileName, "rw" );
+		this.totalBlock = (int) ( ( file.length( ) + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
 	}
 
 	public void close( ) throws IOException
 	{
-		try
+		if ( file != null )
 		{
-			file.close( );
-		}
-		finally
-		{
-			file = null;
+			try
+			{
+				file.close( );
+			}
+			finally
+			{
+				file = null;
+			}
 		}
 	}
 
 	public int allocBlock( ) throws IOException
 	{
-		long length = file.length( );
-		int blockId = (int) ( length + BLOCK_SIZE - 1 ) / BLOCK_SIZE;
-		file.setLength( ( blockId + 1 ) * BLOCK_SIZE );
+		int blockId = totalBlock++;
+		file.setLength( (long) blockId * BLOCK_SIZE );
 		return blockId;
 	}
 
 	public int getTotalBlock( ) throws IOException
 	{
-		long length = file.length( );
-		return (int) ( length + BLOCK_SIZE - 1 ) / BLOCK_SIZE;
+		return totalBlock;
 	}
 
 	public Object lock( ) throws IOException
@@ -60,7 +63,7 @@ public class FileBTreeFile implements BTreeFile, Closeable
 
 	public void readBlock( int blockId, byte[] bytes ) throws IOException
 	{
-		file.seek( blockId * BLOCK_SIZE );
+		file.seek( (long) blockId * BLOCK_SIZE );
 		int readSize = bytes.length;
 		if ( readSize > BLOCK_SIZE )
 		{
@@ -82,6 +85,9 @@ public class FileBTreeFile implements BTreeFile, Closeable
 		}
 		file.seek( blockId * BLOCK_SIZE );
 		file.write( bytes, 0, writeSize );
+		if ( blockId >= totalBlock )
+		{
+			totalBlock = blockId + 1;
+		}
 	}
-
 }

@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.core.btree;
 
+import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
@@ -23,6 +25,10 @@ public class RAMBTreeFile implements NodeFile
 {
 
 	private ArrayList<byte[]> blocks = new ArrayList<byte[]>( );
+
+	public RAMBTreeFile( )
+	{
+	}
 
 	public void close( )
 	{
@@ -104,6 +110,24 @@ public class RAMBTreeFile implements NodeFile
 		finally
 		{
 			rf.close( );
+		}
+	}
+
+	public void read( InputStream in ) throws IOException
+	{
+		blocks.clear( );
+		DataInputStream data = new DataInputStream( in );
+		try
+		{
+			while ( true )
+			{
+				byte[] block = new byte[BLOCK_SIZE];
+				data.readFully( block );
+				blocks.add( block );
+			}
+		}
+		catch ( EOFException ex )
+		{
 		}
 	}
 

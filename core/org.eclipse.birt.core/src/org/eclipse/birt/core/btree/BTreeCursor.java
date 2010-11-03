@@ -359,6 +359,25 @@ public class BTreeCursor<K, V>
 	}
 
 	/**
+	 * insert the key/values pair to the btree, move the current position to the
+	 * insert point
+	 * 
+	 * @param key
+	 * @param value
+	 * @throws IOException
+	 */
+	public void insert( K key, V[] values ) throws IOException
+	{
+		LeafEntry<K, V> tgtEntry = btree.insertEntry( key, values );
+		btree.lockEntry( tgtEntry );
+		if ( entry != null )
+		{
+			btree.unlockEntry( entry );
+		}
+		entry = tgtEntry;
+	}
+
+	/**
 	 * remove the current entry. the cursor is moved to the next entry.
 	 * 
 	 * @throws IOException
