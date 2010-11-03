@@ -416,7 +416,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 		if ( cmbDefinition != null
 				&& ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
-				&& isCubeNoMultiDimensions )
+				&& ( isCubeNoMultiDimensions || !ChartUIUtil.isGroupingSupported( context ) ) )
 		{
 			cmbDefinition.setEnabled( false );
 			btnBuilder.setEnabled( false );
