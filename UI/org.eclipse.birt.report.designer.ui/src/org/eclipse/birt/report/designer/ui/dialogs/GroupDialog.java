@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
@@ -211,10 +213,9 @@ public class GroupDialog extends BaseDialog implements Listener
 
 	private Group sortingGroup;
 
-	private char decimalSeperator = DecimalFormatSymbols.getInstance( SessionHandleAdapter.getInstance( )
+	NumberFormatter formatter = new NumberFormatter( SessionHandleAdapter.getInstance( )
 			.getSessionHandle( )
-			.getULocale( ) )
-			.getDecimalSeparator( );
+			.getULocale( ) );
 
 	/**
 	 * Constructor.
@@ -284,7 +285,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		scrollContent.setMinWidth( 600 );
 		scrollContent.setLayout( new FillLayout( ) );
 		scrollContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		
+
 		applyDialogFont( scrollContent );
 
 		Composite topComposite = new Composite( scrollContent, SWT.NONE );
@@ -308,10 +309,9 @@ public class GroupDialog extends BaseDialog implements Listener
 		UIUtil.bindHelp( parent, IHelpContextIds.GROUP_DIALOG_ID );
 
 		Point size = topComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		topComposite.setSize( size.x, size.y  );
+		topComposite.setSize( size.x, size.y );
 
 		scrollContent.setContent( topComposite );
-		
 
 		return scrollContent;
 	}
@@ -673,16 +673,7 @@ public class GroupDialog extends BaseDialog implements Listener
 
 				try
 				{
-					if ( decimalSeperator != '.' )
-					{
-						if ( newString.indexOf( '.' ) != -1 )
-						{
-							event.doit = false;
-							return;
-						}
-						newString = newString.replace( decimalSeperator, '.' );
-					}
-					double value = Double.parseDouble( newString );
+					double value = formatter.parse( newString ).doubleValue( );
 					if ( value >= 0 )
 					{
 						event.doit = true;
@@ -940,6 +931,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		String range = property == null ? null : property.getDisplayValue( );
 
 		intervalRange.setText( range == null ? "" : range ); //$NON-NLS-1$
+
 		checkReadOnlyControl( GroupElement.INTERVAL_RANGE_PROP, intervalRange );
 		int index = getIntervalTypeIndex( inputGroup.getInterval( ) );
 		intervalType.select( index );
@@ -1314,7 +1306,15 @@ public class GroupDialog extends BaseDialog implements Listener
 			inputGroup.setInterval( intervalChoices[index].getName( ) );
 			if ( index != 0 )
 			{
-				inputGroup.setIntervalRange( intervalRange.getText( ) );
+				try
+				{
+					inputGroup.setIntervalRange( formatter.parse( intervalRange.getText( ) )
+							.doubleValue( ) );
+				}
+				catch ( ParseException e )
+				{
+					ExceptionHandler.handle( e );
+				}
 			}
 			else
 			{
@@ -1374,9 +1374,9 @@ public class GroupDialog extends BaseDialog implements Listener
 
 	private void setKeyExpression( ExpressionHandle key )
 	{
-		keyChooser.setData( ExpressionButtonUtil.EXPR_TYPE, key == null
-				|| key.getType( ) == null ? UIUtil.getDefaultScriptType( )
-				: (String) key.getType( ) );
+		keyChooser.setData( ExpressionButtonUtil.EXPR_TYPE,
+				key == null || key.getType( ) == null ? UIUtil.getDefaultScriptType( )
+						: (String) key.getType( ) );
 
 		Object button = keyChooser.getData( ExpressionButtonUtil.EXPR_BUTTON );
 		if ( button instanceof ExpressionButton )
