@@ -1343,5 +1343,10 @@ public abstract class ContainerArea extends AbstractArea
 	{
 		setContentHeight( height );
 	}
+	
+	public String getHelpText( )
+	{
+		return null;
+	}
 
 }

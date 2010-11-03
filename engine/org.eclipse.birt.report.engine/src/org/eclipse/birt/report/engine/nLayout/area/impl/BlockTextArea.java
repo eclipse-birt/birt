@@ -26,6 +26,8 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 {
 	private BlockTextRenderListener listener = null;
 	
+	private String helpText = null;
+
 	public BlockTextArea( ContainerArea parent, LayoutContext context,
 			IContent content )
 	{
@@ -185,5 +187,15 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 			}
 			parent.update( this );
 		}
+	}
+	
+	public String getHelpText( )
+	{
+		return helpText;
+	}
+	
+	public void setHelpText( String helpText )
+	{
+		this.helpText = helpText;
 	}
 }

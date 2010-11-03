@@ -101,4 +101,6 @@ public interface IPage
 	void drawBackgroundImage( int x, int y, int width, int height,
 			int imageWidth, int imageHeight, int repeat, String imageUrl, byte[] imageData,
 			int absPosX, int absPosY ) throws IOException;
+	
+	void showHelpText( String text, int x, int y, int width, int height );
 }

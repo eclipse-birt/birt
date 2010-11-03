@@ -877,6 +877,11 @@ public class PDFPage extends AbstractPage
 		}
 		return new TplValueTriple( tplOrigin, tplSize, translation );
 	}
+	
+	public void showHelpText( String helpText, float x, float y, float width, float height )
+	{
+		showHelpText( x, transformY( y, height ), width, height, helpText );
+	}
 
 	private void showHelpText( float x, float y, float width, float height,
 			String helpText )
