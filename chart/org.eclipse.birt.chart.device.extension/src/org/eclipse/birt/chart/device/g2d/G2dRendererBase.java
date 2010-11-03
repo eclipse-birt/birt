@@ -848,18 +848,29 @@ public class G2dRendererBase extends DeviceAdapter
 		}
 		_g2d.setColor( cFG );
 
-		if ( are.getInnerRadius( ) >= 0
-				&& are.getOuterRadius( ) > 0
-				&& are.getInnerRadius( ) < are.getOuterRadius( ) )
+		if ( ( are.getInnerRadius( ) >= 0 && are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
+				|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 		{
-			// Fix bugzilla 156318.
-			Bounds rctOuter = BoundsImpl.create( are.getTopLeft( ).getX( )
-					+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
-					/ 2, are.getTopLeft( ).getY( )
-					+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
-					/ 2, 2 * are.getOuterRadius( ), 2 * are.getOuterRadius( ) );
+			Bounds rctOuter, rctInner;
+			if ( are.getOuterRadius( ) > 0 )
+			{
+				rctOuter = BoundsImpl.create( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) ) / 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
+								/ 2,
+						2 * are.getOuterRadius( ),
+						2 * are.getOuterRadius( ) );
+			}
+			else
+			{
+				rctOuter = BoundsImpl.create( are.getTopLeft( ).getX( ),
+						are.getTopLeft( ).getY( ),
+						are.getWidth( ),
+						are.getHeight( ) );
+			}
 
-			Bounds rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
+			rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
 					+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
 					/ 2, are.getTopLeft( ).getY( )
 					+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
@@ -951,11 +962,13 @@ public class G2dRendererBase extends DeviceAdapter
 			final Color currentColor = (Color) _ids.getColor( cl );
 			_g2d.setColor( currentColor );
 
-			if ( are.getInnerRadius( ) >= 0
-					&& are.getOuterRadius( ) > 0
-					&& are.getInnerRadius( ) < are.getOuterRadius( ) )
+			if ( ( are.getInnerRadius( ) >= 0 && are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
+					|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 			{
-				Shape outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+				Shape outerArc, innerArc;
+				if ( are.getOuterRadius( ) > 0 )
+				{
+					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
 						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
 						/ 2,
 						are.getTopLeft( ).getY( )
@@ -966,7 +979,18 @@ public class G2dRendererBase extends DeviceAdapter
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						Arc2D.PIE );
-				Shape innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+				}
+				else
+				{
+					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( ),
+							are.getTopLeft( ).getY( ),
+							are.getWidth( ),
+							are.getHeight( ),
+							are.getStartAngle( ),
+							are.getAngleExtent( ),
+							Arc2D.PIE );
+				}
+				 innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
 						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
 						/ 2,
 						are.getTopLeft( ).getY( )
@@ -1069,11 +1093,13 @@ public class G2dRendererBase extends DeviceAdapter
 					p2dEnd,
 					(Color) _ids.getColor( cdEnd ) ) );
 
-			if ( are.getInnerRadius( ) >= 0
-					&& are.getOuterRadius( ) > 0
-					&& are.getInnerRadius( ) < are.getOuterRadius( ) )
+			if ( ( are.getInnerRadius( ) >= 0 && are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
+					|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 			{
-				Shape outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+				Shape outerArc, innerArc;
+				if ( are.getOuterRadius( ) > 0 )
+				{
+					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
 						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
 						/ 2,
 						are.getTopLeft( ).getY( )
@@ -1084,7 +1110,18 @@ public class G2dRendererBase extends DeviceAdapter
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						Arc2D.PIE );
-				Shape innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+				}
+				else
+				{
+					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( ),
+							are.getTopLeft( ).getY( ),
+							are.getWidth( ),
+							are.getHeight( ),
+							are.getStartAngle( ),
+							are.getAngleExtent( ),
+							Arc2D.PIE );
+				}
+				innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
 						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
 						/ 2,
 						are.getTopLeft( ).getY( )
@@ -1134,11 +1171,13 @@ public class G2dRendererBase extends DeviceAdapter
 			Shape shPreviousClip = _g2d.getClip( );
 			Area ar = null;
 
-			if ( are.getInnerRadius( ) >= 0
-					&& are.getOuterRadius( ) > 0
-					&& are.getInnerRadius( ) < are.getOuterRadius( ) )
+			if ( ( are.getInnerRadius( ) >= 0 && are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
+					|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 			{
-				Shape outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+				Shape outerArc, innerArc;
+				if ( are.getOuterRadius( ) > 0 )
+				{
+					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
 						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
 						/ 2,
 						are.getTopLeft( ).getY( )
@@ -1149,7 +1188,18 @@ public class G2dRendererBase extends DeviceAdapter
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						Arc2D.PIE );
-				Shape innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+				}
+				else
+				{
+					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( ),
+							are.getTopLeft( ).getY( ),
+							are.getWidth( ),
+							are.getHeight( ),
+							are.getStartAngle( ),
+							are.getAngleExtent( ),
+							Arc2D.PIE );
+				}
+				innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
 						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
 						/ 2,
 						are.getTopLeft( ).getY( )
