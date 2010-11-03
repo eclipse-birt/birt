@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
@@ -294,12 +295,24 @@ class QueryExecutionHelper
 			}
 			else if ( paramObj instanceof OdaDataSetParameterHandle )
 			{
-				OdaDataSetParameterHandle paramBinding = (OdaDataSetParameterHandle) paramObj;
-				ExpressionHandle handle = paramBinding.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER );
-				InputParameterBinding inputParamBinding = new InputParameterBinding( paramBinding.getName( ),
-						this.session.getModelAdaptor( )
-								.adaptExpression( (Expression) handle.getValue( ) ) );
-				parameterBindings.add( inputParamBinding );
+				if ( ( (OdaDataSetParameterHandle) paramObj ).getParamName( ) != null )
+				{
+					String defaultValueExpr = ExpressionUtil.createJSParameterExpression( ( ( (OdaDataSetParameterHandle) paramObj ).getParamName( ) ) );
+
+					InputParameterBinding inputParamBinding = new InputParameterBinding( (String) ( (OdaDataSetParameterHandle) paramObj ).getName( ),
+							modelAdaptor.adaptExpression( defaultValueExpr,
+									( (OdaDataSetParameterHandle) paramObj ).getDataType( ) ) );
+					parameterBindings.add( inputParamBinding );
+				}
+				else
+				{
+					OdaDataSetParameterHandle paramBinding = (OdaDataSetParameterHandle) paramObj;
+					ExpressionHandle handle = paramBinding.getExpressionProperty( DataSetParameter.DEFAULT_VALUE_MEMBER );
+					InputParameterBinding inputParamBinding = new InputParameterBinding( paramBinding.getName( ),
+							this.session.getModelAdaptor( )
+									.adaptExpression( (Expression) handle.getValue( ) ) );
+					parameterBindings.add( inputParamBinding );
+				}
 			}
 		}
 		return parameterBindings;
