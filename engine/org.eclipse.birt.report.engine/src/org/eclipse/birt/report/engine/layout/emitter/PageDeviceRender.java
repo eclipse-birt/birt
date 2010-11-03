@@ -711,7 +711,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		Color bc = style.getBackgroundColor( );
 		BackgroundImageInfo bi = style.getBackgroundImage( );
 
-		if ( bc != null || bi != null )
+		if ( bc != null || bi != null || container.getHelpText( ) != null )
 		{
 			// the container's start position (the left top corner of the
 			// container)
@@ -734,8 +734,16 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				drawBackgroundImage( bi, startX, startY,
 						width, height );
 			}
+			if ( container.getHelpText( ) != null )
+			{
+				// shows the help text for the container.
+				pageGraphic.showHelpText( container.getHelpText( ), startX,
+						startY, width, height );
+			}
 		}
+		
 	}
+
 
 	private BorderInfo[] cacheCellBorder( CellArea container )
 	{

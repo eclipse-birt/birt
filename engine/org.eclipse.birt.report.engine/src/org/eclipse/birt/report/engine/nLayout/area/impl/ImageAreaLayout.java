@@ -125,7 +125,9 @@ public class ImageAreaLayout implements ILayout
 		{
 			return null;
 		}
-		return new BlockTextArea( parent, context, altTextContent );
+		BlockTextArea bta = new BlockTextArea( parent, context, altTextContent );
+		bta.setHelpText( altTextContent.getText( ) );
+		return bta;
 	}
 
 	private ITextContent createAltText( IImageContent imageContent,

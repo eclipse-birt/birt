@@ -127,6 +127,13 @@ public abstract class AbstractPage implements IPage
 		}
 	}
 	
+	public void showHelpText( String text, int textX, int textY, int width,
+			int height )
+	{
+		showHelpText( text, convertToPoint( textX ), convertToPoint( textY ),
+				convertToPoint( width ), convertToPoint( height ) );
+	}
+	
 	protected void drawDecorationLine( float textX, float textY, float width,
 			float lineWidth, float verticalOffset, Color color )
 	{
@@ -161,6 +168,12 @@ public abstract class AbstractPage implements IPage
 
 	protected abstract void drawText( String text, float textX, float textY, float baseline, float width,
 			float height, TextStyle textStyle );
+	
+	protected void showHelpText( String text, float textX, float textY,
+			float width, float height )
+	{
+
+	}
 
 	protected float convertToPoint( int value )
 	{

@@ -29,5 +29,7 @@ public interface IContainerArea extends IArea
 	public void setNeedClip( boolean needClip );
 
 	public BoxStyle getBoxStyle( );
+	
+	public String getHelpText( );
 
 }
