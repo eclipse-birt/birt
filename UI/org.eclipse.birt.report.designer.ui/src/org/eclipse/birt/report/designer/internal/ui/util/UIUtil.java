@@ -20,6 +20,7 @@ import java.text.Bidi;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
@@ -79,6 +81,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -2867,5 +2870,40 @@ public class UIUtil
 		}
 
 		return dpi;
+	}
+	
+	/**Format the data type parameter display name
+	 * @param str
+	 * @param param
+	 * @return
+	 */
+	public static String formatData(Object str, AbstractScalarParameterHandle param)
+	{
+		DateFormatter formatter = new DateFormatter( );
+		String dataType = param.getDataType( );
+		
+		try
+		{
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( dataType ) )
+			{
+				formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" );//$NON-NLS-1$
+				return formatter.format( (Date) str );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( dataType ) )
+			{
+				formatter.applyPattern( "yyyy-MM-dd" );//$NON-NLS-1$
+				return formatter.format( (Date) str );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( dataType ) )
+			{
+				formatter.applyPattern( "HH:mm:ss.SSS" );//$NON-NLS-1$
+				return formatter.format( (Date) str );
+			}
+		}
+		catch ( Exception ex )
+		{
+			return str.toString( );
+		}
+		return str.toString( );
 	}
 }
