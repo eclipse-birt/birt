@@ -29,7 +29,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
@@ -2873,8 +2872,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 							for ( int i = 0; i < selectedValues.length; i++ )
 							{
 								String selectedValue = selectedValues[i];
-								if ( ExpressionType.JAVASCRIPT.equals( defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) ) )
-									selectedValue = getSelectedExprValue( selectedValue );
+
+								IExpressionConverter exprConverter = ExpressionUtility.getExpressionConverter( (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE ) );
+								if ( exprConverter != null )
+								{
+									selectedValue = exprConverter.getConstantExpression( selectedValue,
+											getSelectedDataType( ) );
+								}
 								defaultValueChooser.setText( DEUtil.resolveNull( selectedValue ) );
 								addDynamicDefaultValue( );
 							}
@@ -4301,39 +4305,39 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		chooser.setText( key );
 	}
 
-	public String getSelectedExprValue( String value )
-	{
-		String exprValue = null;
-
-		if ( value == null || columnChooser == null )
-		{
-			return "null"; //$NON-NLS-1$
-		}
-		else
-		{
-			String dataType = getSelectedDataType( );
-			if ( dataType == null )
-				return "null"; //$NON-NLS-1$
-			if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType )
-					|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
-					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
-			{
-				exprValue = value;
-			}
-			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ) )
-			{
-				exprValue = "new java.math.BigDecimal(\"" + value + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			else
-			{
-				exprValue = "\"" //$NON-NLS-1$
-						+ JavascriptEvalUtil.transformToJsConstants( value )
-						+ "\""; //$NON-NLS-1$
-			}
-		}
-
-		return exprValue;
-	}
+//	public String getSelectedExprValue( String value )
+//	{
+//		String exprValue = null;
+//
+//		if ( value == null || columnChooser == null )
+//		{
+//			return "null"; //$NON-NLS-1$
+//		}
+//		else
+//		{
+//			String dataType = getSelectedDataType( );
+//			if ( dataType == null )
+//				return "null"; //$NON-NLS-1$
+//			if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType )
+//					|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
+//					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
+//			{
+//				exprValue = value;
+//			}
+//			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ) )
+//			{
+//				exprValue = "new java.math.BigDecimal(\"" + value + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
+//			}
+//			else
+//			{
+//				exprValue = "\"" //$NON-NLS-1$
+//						+ JavascriptEvalUtil.transformToJsConstants( value )
+//						+ "\""; //$NON-NLS-1$
+//			}
+//		}
+//
+//		return exprValue;
+//	}
 
 	private void handleControlTypeSelectionEvent( )
 	{
