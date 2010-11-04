@@ -53,7 +53,8 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 				this.items = items;
 			}
 			else if ( StyleHandle.TEXT_ALIGN_PROP.equals( getProperty( ) )
-					|| StyleHandle.VERTICAL_ALIGN_PROP.equals( getProperty( ) ) )
+					|| StyleHandle.VERTICAL_ALIGN_PROP.equals( getProperty( ) )
+					|| StyleHandle.WHITE_SPACE_PROP.equals( getProperty( ) ) )
 			{
 				String[] items = new String[displayNames.length + 1];
 				items[0] = ChoiceSetFactory.CHOICE_AUTO;
@@ -81,12 +82,14 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 			return DEUtil.removeQuote( super.load( ).toString( ) );
 		}
 		else if ( StyleHandle.TEXT_ALIGN_PROP.equals( getProperty( ) )
-				|| StyleHandle.VERTICAL_ALIGN_PROP.equals( getProperty( ) ) )
+				|| StyleHandle.VERTICAL_ALIGN_PROP.equals( getProperty( ) )
+				|| StyleHandle.WHITE_SPACE_PROP.equals( getProperty( ) ) )
 		{
 			Object rt = super.load( );
 
 			if ( rt == null
-					|| ( rt instanceof String && ( (String) rt ).length( ) == 0 ) )
+					|| ( rt instanceof String && ( (String) rt ).length( ) == 0 )
+					|| !hasLocalValue( ) )
 			{
 				return ChoiceSetFactory.CHOICE_AUTO;
 			}
@@ -122,7 +125,8 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 		String pName = getProperty( );
 		if ( ChoiceSetFactory.CHOICE_AUTO.equals( value )
 				&& ( StyleHandle.FONT_FAMILY_PROP.equals( pName )
-						|| StyleHandle.TEXT_ALIGN_PROP.equals( pName ) || StyleHandle.VERTICAL_ALIGN_PROP.equals( pName ) ) )
+						|| StyleHandle.TEXT_ALIGN_PROP.equals( pName )
+						|| StyleHandle.VERTICAL_ALIGN_PROP.equals( pName ) || StyleHandle.WHITE_SPACE_PROP.equals( pName ) ) )
 		{
 			value = null;
 		}

@@ -69,9 +69,20 @@ public abstract class GeneralFontPage extends ResetAttributePage
 				true,
 				false );
 		fontStyleSection.setProviders( fontStyleProviders );
-		fontStyleSection.setLayoutNum( 4 );
+		fontStyleSection.setLayoutNum( 5 );
 		fontStyleSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.FONT_STYLE, fontStyleSection );
+		
+		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider( StyleHandle.WHITE_SPACE_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		fontFamilyProvider.enableReset( true );
+		ComboSection wordwrapSection = new ComboSection( wordwrapProvider.getDisplayName( ),
+				container,
+				true );
+		wordwrapSection.setProvider( wordwrapProvider );
+		wordwrapSection.setLayoutNum( 2 );
+		wordwrapSection.setWidth( 200 );
+		addSection( PageSectionId.WODR_WRAP, wordwrapSection );
 
 	}
 

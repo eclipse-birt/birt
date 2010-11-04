@@ -110,7 +110,7 @@ public class TextPage extends GeneralPage
 
 		FontStyleSection fontStyleSection = new FontStyleSection( container,
 				true,
-				true );
+				false );
 
 		// Sets providers.
 
@@ -132,7 +132,6 @@ public class TextPage extends GeneralPage
 		fontSizeSection.setWidth( 200 );
 		colorSection.setWidth( 200 );
 		bgColorSection.setWidth( 200 );
-		fontStyleSection.setWidth( 200 );
 
 		// Sets layout num.
 
@@ -143,7 +142,7 @@ public class TextPage extends GeneralPage
 		fontSizeSection.setLayoutNum( 4 );
 		colorSection.setLayoutNum( 2 );
 		bgColorSection.setLayoutNum( 4 );
-		fontStyleSection.setLayoutNum( 6 );
+		fontStyleSection.setLayoutNum( 4 );
 
 		// Sets fill grid num.
 
@@ -154,7 +153,7 @@ public class TextPage extends GeneralPage
 		fontSizeSection.setGridPlaceholder( 2, true );
 		colorSection.setGridPlaceholder( 0, true );
 		bgColorSection.setGridPlaceholder( 2, true );
-		fontStyleSection.setGridPlaceholder( 3, true );
+		fontStyleSection.setGridPlaceholder( 1, true );
 
 		// Adds sections into container page.
 
@@ -170,12 +169,23 @@ public class TextPage extends GeneralPage
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.TEXT_ELEMENT_ID, elementIdSection );
 
+		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider( StyleHandle.WHITE_SPACE_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		fontFamilyProvider.enableReset( true );
+		ComboSection wordwrapSection = new ComboSection( wordwrapProvider.getDisplayName( ),
+				container,
+				true );
+		wordwrapSection.setProvider( wordwrapProvider );
+		wordwrapSection.setLayoutNum( 2 );
+		wordwrapSection.setWidth( 200 );
+		
 		addSection( PageSectionId.TEXT_SEPERATOR_1, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_CONTENT_TYPE, contentTypeSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_FONT_FAMILY, fontFamilySection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_FONT_SIZE, fontSizeSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_COLOR, colorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_BACKGROUND_COLOR, bgColorSection ); //$NON-NLS-1$
+		addSection( PageSectionId.WODR_WRAP, wordwrapSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_FONT_STYLE, fontStyleSection ); //$NON-NLS-1$
 
 		SeperatorSection seperator1 = new SeperatorSection( container,

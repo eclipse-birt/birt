@@ -117,6 +117,17 @@ public class LabelPage extends GeneralPage
 		bgColorSection.setWidth( 200 );
 		addSection( PageSectionId.LABEL_BGCOLOR, bgColorSection );
 
+		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider( StyleHandle.WHITE_SPACE_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		fontFamilyProvider.enableReset( true );
+		ComboSection wordwrapSection = new ComboSection( wordwrapProvider.getDisplayName( ),
+				container,
+				true );
+		wordwrapSection.setProvider( wordwrapProvider );
+		wordwrapSection.setLayoutNum( 2 );
+		wordwrapSection.setWidth( 200 );
+		addSection( PageSectionId.WODR_WRAP, wordwrapSection ); //$NON-NLS-1$
+		
 		String[] textStyles = new String[]{
 				StyleHandle.FONT_WEIGHT_PROP,
 				StyleHandle.FONT_STYLE_PROP,
@@ -136,10 +147,10 @@ public class LabelPage extends GeneralPage
 		providers[4].enableReset( true );
 		FontStyleSection fontStyleSection = new FontStyleSection( container,
 				true,
-				true );
+				false );
 		fontStyleSection.setProviders( providers );
-		fontStyleSection.setGridPlaceholder( 3, true );
-		fontStyleSection.setWidth( 200 );
+		fontStyleSection.setLayoutNum( 4 );
+		fontStyleSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.LABEL_FONT_STYLE, fontStyleSection );
 		/*
 		 * WidgetUtil.createGridPlaceholder( container, 1, false );

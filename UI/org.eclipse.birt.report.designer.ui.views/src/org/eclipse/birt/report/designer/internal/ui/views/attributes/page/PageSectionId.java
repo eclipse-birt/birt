@@ -283,7 +283,7 @@ public class PageSectionId
 	public static final String SCALAR_PARAMETER_ELEMENT_ID = "SCALAR_PARAMETER_ELEMENT_ID"; //$NON-NLS-1$
 
 	public static final String TABLE_SEPERATOR1 = "TABLE_SEPERATOR1"; //$NON-NLS-1$
-	
+
 	public static final String TABLE_DISPLAY = "TABLE_DISPLAY"; //$NON-NLS-1$
 
 	public static final String LIST_SEPERATOR = "LIST_SEPERATOR"; //$NON-NLS-1$
@@ -307,13 +307,13 @@ public class PageSectionId
 	public static final String LABEL_THEME = "LABEL_THEME";//$NON-NLS-1$
 
 	public static final String TEXT_DISPLAY = "TEXT_DISPLAY";//$NON-NLS-1$
-	
+
 	public static final String TEXT_THEME = "TEXT_THEME";//$NON-NLS-1$
 
 	public static final String TEXT_SEPERATOR_3 = "TEXT_SEPERATOR_3";//$NON-NLS-1$
 
 	public static final String IMAGE_DISPLAY = "IMAGE_DISPLAY";//$NON-NLS-1$
-	
+
 	public static final String IMAGE_THEME = "IMAGE_THEME";//$NON-NLS-1$
 
 	public static final String GRID_SEPERATOR2 = "GRID_SEPERATOR2";//$NON-NLS-1$
@@ -329,5 +329,7 @@ public class PageSectionId
 	public static final String LIST_BACKGROUND_COLOR = "LIST_BACKGROUND_COLOR";//$NON-NLS-1$
 
 	public static final String AUTOTEXT_SEPERATOR = "AUTOTEXT_SEPERATOR";//$NON-NLS-1$
+
+	public static final String WODR_WRAP = "WODR_WRAP";//$NON-NLS-1$
 
 }

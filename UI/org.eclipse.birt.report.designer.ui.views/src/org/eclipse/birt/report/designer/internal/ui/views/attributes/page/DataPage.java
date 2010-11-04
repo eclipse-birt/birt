@@ -105,7 +105,7 @@ public class DataPage extends GeneralPage
 
 		FontStyleSection fontStyleSection = new FontStyleSection( container,
 				true,
-				true );
+				false );
 
 		Section seperator2Section = new SeperatorSection( container,
 				SWT.HORIZONTAL );
@@ -131,7 +131,7 @@ public class DataPage extends GeneralPage
 		fontSizeSection.setWidth( 200 );
 		colorSection.setWidth( 200 );
 		bgColorSection.setWidth( 200 );
-		fontStyleSection.setWidth( 200 );
+		//fontStyleSection.setWidth( 200 );
 		styleSection.setWidth( 200 );
 
 		// Sets layout num.
@@ -141,7 +141,7 @@ public class DataPage extends GeneralPage
 		fontSizeSection.setLayoutNum( 4 );
 		colorSection.setLayoutNum( 2 );
 		bgColorSection.setLayoutNum( 4 );
-		fontStyleSection.setLayoutNum( 6 );
+		fontStyleSection.setLayoutNum( 4 );
 		styleSection.setLayoutNum( 2 );
 
 		// Sets fill grid num.
@@ -151,7 +151,7 @@ public class DataPage extends GeneralPage
 		fontSizeSection.setGridPlaceholder( 2, true );
 		colorSection.setGridPlaceholder( 0, true );
 		bgColorSection.setGridPlaceholder( 2, true );
-		fontStyleSection.setGridPlaceholder( 3, true );
+		fontStyleSection.setGridPlaceholder( 1, true );
 
 		// Adds sections into this page.
 
@@ -176,13 +176,23 @@ public class DataPage extends GeneralPage
 		displaySection.setLayoutNum( 4 );
 		displaySection.setGridPlaceholder( 2, true );
 		displaySection.setWidth( 200 );
-		
-		
+
+		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider( StyleHandle.WHITE_SPACE_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		fontFamilyProvider.enableReset( true );
+		ComboSection wordwrapSection = new ComboSection( wordwrapProvider.getDisplayName( ),
+				container,
+				true );
+		wordwrapSection.setProvider( wordwrapProvider );
+		wordwrapSection.setLayoutNum( 2 );
+		wordwrapSection.setWidth( 200 );
+
 		addSection( PageSectionId.DATA_SEPERATOR, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_FAMILY, fontFamilySection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_SIZE, fontSizeSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_COLOR, colorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_BACKGROUND_COLOR, bgColorSection ); //$NON-NLS-1$
+		addSection( PageSectionId.WODR_WRAP, wordwrapSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_STYLE, fontStyleSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_SEPERATOR_1, seperator2Section ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_STYLE, styleSection ); //$NON-NLS-1$
@@ -204,8 +214,8 @@ public class DataPage extends GeneralPage
 				// StyleHandle.TEXT_LINE_THROUGH_PROP and
 				// StyleHandle.TEXT_ALIGN_PROP.
 
-				new FontStylePropertyDescriptorProvider( StyleHandle.FONT_WEIGHT_PROP,
-						ReportDesignConstants.STYLE_ELEMENT ),
+		new FontStylePropertyDescriptorProvider( StyleHandle.FONT_WEIGHT_PROP,
+				ReportDesignConstants.STYLE_ELEMENT ),
 
 				new FontStylePropertyDescriptorProvider( StyleHandle.FONT_STYLE_PROP,
 						ReportDesignConstants.STYLE_ELEMENT ),
@@ -228,7 +238,7 @@ public class DataPage extends GeneralPage
 
 		return providers;
 	}
-	
+
 	protected void applyCustomSections( )
 	{
 		Object[] helperProviders = ElementAdapterManager.getAdapters( this,

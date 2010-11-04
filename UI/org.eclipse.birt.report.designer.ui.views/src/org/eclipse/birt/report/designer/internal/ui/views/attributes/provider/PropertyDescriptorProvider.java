@@ -49,6 +49,12 @@ public class PropertyDescriptorProvider extends AbstractDescriptorProvider
 		return value == null ? "" : value; //$NON-NLS-1$
 	}
 
+	public boolean hasLocalValue( )
+	{
+		return DEUtil.getGroupElementHandle( (List) input )
+				.getLocalStringProperty( property ) != null;
+	}
+
 	public void save( Object value ) throws SemanticException
 	{
 		if ( isReadOnly( ) )
