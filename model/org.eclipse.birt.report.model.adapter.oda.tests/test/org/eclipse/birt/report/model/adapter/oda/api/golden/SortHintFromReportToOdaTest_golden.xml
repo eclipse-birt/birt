@@ -6,22 +6,28 @@
       <design:criteria>
         <design:rowOrdering>
           <design:sortKeys>
-            <design:columnName>sortHint1</design:columnName>
-            <design:columnPosition>1</design:columnPosition>
+            <design:columnIdentifier>
+              <design:name>sortHint1</design:name>
+              <design:position>1</design:position>
+            </design:columnIdentifier>
             <design:sortDirection>Descending</design:sortDirection>
             <design:nullValueOrdering>NullsFirst</design:nullValueOrdering>
             <design:optional>true</design:optional>
           </design:sortKeys>
           <design:sortKeys>
-            <design:columnName>sortHint2</design:columnName>
-            <design:columnPosition>2</design:columnPosition>
+            <design:columnIdentifier>
+              <design:name>sortHint2</design:name>
+              <design:position>2</design:position>
+            </design:columnIdentifier>
             <design:sortDirection>Ascending</design:sortDirection>
             <design:nullValueOrdering>NullsFirst</design:nullValueOrdering>
             <design:optional>false</design:optional>
           </design:sortKeys>
           <design:sortKeys>
-            <design:columnName>sortHint3</design:columnName>
-            <design:columnPosition>3</design:columnPosition>
+            <design:columnIdentifier>
+              <design:name>sortHint3</design:name>
+              <design:position>3</design:position>
+            </design:columnIdentifier>
             <design:sortDirection>Descending</design:sortDirection>
             <design:nullValueOrdering>NullsLast</design:nullValueOrdering>
             <design:optional>true</design:optional>

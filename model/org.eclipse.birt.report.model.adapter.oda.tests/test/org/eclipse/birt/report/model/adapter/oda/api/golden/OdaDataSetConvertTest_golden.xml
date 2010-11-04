@@ -54,8 +54,10 @@
     <design:parameterDefinitions>
       <design:inOutMode>InOut</design:inOutMode>
       <design:attributes>
-        <design:name>param1</design:name>
-        <design:position>2</design:position>
+        <design:identifier>
+          <design:name>param1</design:name>
+          <design:position>2</design:position>
+        </design:identifier>
         <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
         <design:nullability>NotNullable</design:nullability>
       </design:attributes>
@@ -74,8 +76,10 @@
       <design:resultSetColumns>
         <design:resultColumnDefinitions>
           <design:attributes>
-            <design:name>column1</design:name>
-            <design:position>2</design:position>
+            <design:identifier>
+              <design:name>column1</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
             <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
           </design:attributes>
         </design:resultColumnDefinitions>

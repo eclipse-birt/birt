@@ -5,8 +5,10 @@
     <design:parameterDefinitions>
       <design:inOutMode>In</design:inOutMode>
       <design:attributes>
-        <design:name></design:name>
-        <design:position>1</design:position>
+        <design:identifier>
+          <design:name></design:name>
+          <design:position>1</design:position>
+        </design:identifier>
         <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
@@ -116,7 +118,9 @@
               </design:publicProperties>
             </design:dataSetDesign>
             <design:enabled>false</design:enabled>
-            <design:valueColumn>value column</design:valueColumn>
+            <design:valueColumnIdentifier>
+              <design:name>value column</design:name>
+            </design:valueColumnIdentifier>
             <design:displayNameColumn>label column</design:displayNameColumn>
           </design:dynamicValueChoices>
           <design:uiHints>
@@ -129,8 +133,10 @@
     <design:parameterDefinitions>
       <design:inOutMode>Out</design:inOutMode>
       <design:attributes>
-        <design:name></design:name>
-        <design:position>2</design:position>
+        <design:identifier>
+          <design:name></design:name>
+          <design:position>2</design:position>
+        </design:identifier>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
           <design:displayName>%ResourceKey.Parameter.PromptText City</design:displayName>
@@ -222,7 +228,9 @@
               </design:publicProperties>
             </design:dataSetDesign>
             <design:enabled>true</design:enabled>
-            <design:valueColumn>row[&quot;test&quot;]</design:valueColumn>
+            <design:valueColumnIdentifier>
+              <design:name>row[&quot;test&quot;]</design:name>
+            </design:valueColumnIdentifier>
             <design:displayNameColumn>test column</design:displayNameColumn>
           </design:dynamicValueChoices>
           <design:uiHints>
@@ -234,8 +242,10 @@
     <design:parameterDefinitions>
       <design:inOutMode>InOut</design:inOutMode>
       <design:attributes>
-        <design:name></design:name>
-        <design:position>3</design:position>
+        <design:identifier>
+          <design:name></design:name>
+          <design:position>3</design:position>
+        </design:identifier>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
           <design:displayName>%ResourceKey.Parameter.PromptText City</design:displayName>
@@ -330,7 +340,9 @@
               </design:publicProperties>
             </design:dataSetDesign>
             <design:enabled>true</design:enabled>
-            <design:valueColumn>row[&quot;test&quot;]</design:valueColumn>
+            <design:valueColumnIdentifier>
+              <design:name>row[&quot;test&quot;]</design:name>
+            </design:valueColumnIdentifier>
             <design:displayNameColumn>test column</design:displayNameColumn>
           </design:dynamicValueChoices>
           <design:uiHints>
