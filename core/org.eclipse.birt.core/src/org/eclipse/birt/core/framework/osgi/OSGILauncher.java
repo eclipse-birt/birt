@@ -559,8 +559,8 @@ public class OSGILauncher
 	{
 		if ( version.endsWith( ".jar" ) ) //$NON-NLS-1$
 			version = version.substring( 0, version.length( ) - 4 );
-		Object[] result = {new Integer( 0 ), new Integer( 0 ),
-				new Integer( 0 ), ""}; //$NON-NLS-1$
+		Object[] result = {
+				0, 0, 0, ""}; //$NON-NLS-1$
 		StringTokenizer t = new StringTokenizer( version, "." ); //$NON-NLS-1$
 		String token;
 		int i = 0;

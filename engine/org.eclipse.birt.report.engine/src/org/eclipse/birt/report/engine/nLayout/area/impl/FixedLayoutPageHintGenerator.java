@@ -483,10 +483,7 @@ public class FixedLayoutPageHintGenerator
 				return true;
 			if ( content1 == null )
 			{
-				if ( content2 == null )
-					return true;
-				else
-					return false;
+				return false;
 			}
 			else
 			{

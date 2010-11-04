@@ -268,11 +268,19 @@ class PatternKey
 	 */
 	public boolean equals( Object key )
 	{
-		PatternKey patterKey = (PatternKey) key;
-		return patterKey.colonNumber == this.colonNumber
-				|| patterKey.blankNumber == this.blankNumber
-				|| patterKey.hyphenNumber == this.hyphenNumber
-				|| patterKey.dotNumber == this.dotNumber
-				|| patterKey.timeZomeNumber == this.timeZomeNumber;
+		if ( key == this )
+		{
+			return true;
+		}
+		if ( key instanceof PatternKey )
+		{
+			PatternKey patterKey = (PatternKey) key;
+			return patterKey.colonNumber == this.colonNumber
+					|| patterKey.blankNumber == this.blankNumber
+					|| patterKey.hyphenNumber == this.hyphenNumber
+					|| patterKey.dotNumber == this.dotNumber
+					|| patterKey.timeZomeNumber == this.timeZomeNumber;
+		}
+		return false;
 	}
 }

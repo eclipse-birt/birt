@@ -88,8 +88,10 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 					break;
 				case IScalarParameterDefn.TYPE_DATE:
 					this.value = DataTypeUtil.toSqlDate( value );
+					break;
 				case IScalarParameterDefn.TYPE_TIME:
 					this.value = DataTypeUtil.toSqlTime( value );
+					break;
 				case IScalarParameterDefn.TYPE_STRING:
 				default:
 					this.value = DataTypeUtil.toString(value);

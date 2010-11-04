@@ -45,7 +45,7 @@ abstract public class AbstractReportContentWriter
 	 * use to writer the content into the disk.
 	 * 
 	 */
-	private class ContentWriterVisitor extends ContentVisitorAdapter
+	private static class ContentWriterVisitor extends ContentVisitorAdapter
 	{
 
 		public void write( IContent content, IReportContentWriter writer )

@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -847,9 +848,11 @@ public class ReportRunner
 	{
 		File file = new File( fileName );
 		Properties ps = new Properties( );
+		InputStream in = null;
 		try
 		{
-			ps.load( new FileInputStream( file ) );
+			in = new FileInputStream( file );
+			ps.load( in );
 		}
 		catch ( FileNotFoundException e )
 		{
@@ -860,6 +863,21 @@ public class ReportRunner
 		{
 			logger.log( Level.SEVERE,
 					"Can not open file: " + file.getAbsolutePath( ) ); //$NON-NLS-1
+		}
+		finally
+		{
+			if ( in != null )
+			{
+				try
+				{
+					in.close( );
+				}
+				catch ( IOException e )
+				{
+					logger.log( Level.SEVERE,
+							"Can not close file: " + file.getAbsolutePath( ) ); //$NON-NLS-1
+				}
+			}
 		}
 		params.putAll( ps );
 	}

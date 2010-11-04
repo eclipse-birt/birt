@@ -122,7 +122,7 @@ public class HTMLRenderContext {
 	/**
 	 * @return render options
 	 */
-	public void SetRenderOption( IRenderOption option )
+	public void setRenderOption( IRenderOption option )
 	{
 		renderOption = option;
 	}

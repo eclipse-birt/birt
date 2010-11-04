@@ -87,7 +87,7 @@ public class EngineIRReader implements IOConstants
 		new ReportItemVisitor( handle, report ).link( );
 	}
 
-	protected class ReportItemVisitor extends DefaultReportItemVisitorImpl
+	protected static class ReportItemVisitor extends DefaultReportItemVisitorImpl
 	{
 
 		ReportDesignHandle handle;

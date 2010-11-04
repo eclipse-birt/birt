@@ -42,15 +42,15 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	static
 	{
 		borderStyleMap = new HashMap( );
-		borderStyleMap.put( CSSConstants.CSS_NONE_VALUE, new Integer( 0 ) );
-		borderStyleMap.put( CSSConstants.CSS_INSET_VALUE, new Integer( 1 ) );
-		borderStyleMap.put( CSSConstants.CSS_GROOVE_VALUE, new Integer( 2 ) );
-		borderStyleMap.put( CSSConstants.CSS_OUTSET_VALUE, new Integer( 3 ) );
-		borderStyleMap.put( CSSConstants.CSS_RIDGE_VALUE, new Integer( 4 ) );
-		borderStyleMap.put( CSSConstants.CSS_DOTTED_VALUE, new Integer( 5 ) );
-		borderStyleMap.put( CSSConstants.CSS_DASHED_VALUE, new Integer( 6 ) );
-		borderStyleMap.put( CSSConstants.CSS_SOLID_VALUE, new Integer( 7 ) );
-		borderStyleMap.put( CSSConstants.CSS_DOUBLE_VALUE, new Integer( 8 ) );
+		borderStyleMap.put( CSSConstants.CSS_NONE_VALUE, Integer.valueOf( 0 ) );
+		borderStyleMap.put( CSSConstants.CSS_INSET_VALUE, Integer.valueOf( 1 ) );
+		borderStyleMap.put( CSSConstants.CSS_GROOVE_VALUE, Integer.valueOf( 2 ) );
+		borderStyleMap.put( CSSConstants.CSS_OUTSET_VALUE, Integer.valueOf( 3 ) );
+		borderStyleMap.put( CSSConstants.CSS_RIDGE_VALUE, Integer.valueOf( 4 ) );
+		borderStyleMap.put( CSSConstants.CSS_DOTTED_VALUE, Integer.valueOf( 5 ) );
+		borderStyleMap.put( CSSConstants.CSS_DASHED_VALUE, Integer.valueOf( 6 ) );
+		borderStyleMap.put( CSSConstants.CSS_SOLID_VALUE, Integer.valueOf( 7 ) );
+		borderStyleMap.put( CSSConstants.CSS_DOUBLE_VALUE, Integer.valueOf( 8 ) );
 	}
 
 	protected boolean htmlRtLFlag = false;
@@ -1016,11 +1016,11 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			Integer iRowBorderLevel = ( (Integer) borderStyleMap.get( rowBorderStyle ) );
 			if ( null == iCellBorderLevel )
 			{
-				iCellBorderLevel = new Integer( -1 );
+				iCellBorderLevel = Integer.valueOf( -1 );
 			}
 			if ( null == iRowBorderLevel )
 			{
-				iRowBorderLevel = new Integer( -1 );
+				iRowBorderLevel = Integer.valueOf( -1 );
 			}
 
 			if ( iRowBorderLevel.intValue( ) > iCellBorderLevel.intValue( ) )

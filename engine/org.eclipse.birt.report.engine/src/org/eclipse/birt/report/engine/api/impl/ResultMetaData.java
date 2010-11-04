@@ -81,7 +81,7 @@ public class ResultMetaData implements IResultMetaData
 
 	private ArrayList metaEntries = new ArrayList( );
 
-	private class MetaDataEntry
+	private static class MetaDataEntry
 	{
 
 		String name;

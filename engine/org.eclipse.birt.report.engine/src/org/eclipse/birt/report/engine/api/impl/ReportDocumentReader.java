@@ -549,7 +549,7 @@ public class ReportDocumentReader
 		{
 			String bookmark = IOUtil.readString( di );
 			long pageNumber = IOUtil.readLong( di );
-			map.put( bookmark, new Long( pageNumber ) );
+			map.put( bookmark, Long.valueOf( pageNumber ) );
 		}
 		return map;
 	}

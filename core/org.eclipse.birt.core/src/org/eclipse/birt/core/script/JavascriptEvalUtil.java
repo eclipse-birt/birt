@@ -242,7 +242,7 @@ public class JavascriptEvalUtil
 			} 
 			else if ( "Boolean".equals(jsClass)) 
 			{
-				return new Boolean(Context.toBoolean(inputObj));
+				return Boolean.valueOf( Context.toBoolean( inputObj ) );
 			} 
 			else if ( "Number".equals(jsClass)) 
 			{

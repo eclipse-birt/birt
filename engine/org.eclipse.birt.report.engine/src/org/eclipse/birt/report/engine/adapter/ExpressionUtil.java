@@ -542,12 +542,12 @@ public final class ExpressionUtil
 				scriptExpr = getModelAdapter( ).adaptJSExpression(
 						expr.getScriptText( ),
 						( (Expression.Script) expr ).getLanguage( ) );
+				return new ScriptExpression( scriptExpr.getText( ) );
 			}
 			catch ( Exception ex )
 			{
 
 			}
-			return new ScriptExpression( scriptExpr.getText( ) );
 		}
 		else
 		{
@@ -560,12 +560,8 @@ public final class ExpressionUtil
 				jsExpr.setConstant( true );
 				return jsExpr;
 			}
-			else
-			{
-				return new ScriptExpression( expr.getScriptText( ) );
-			}
-
 		}
+		return new ScriptExpression( expr.getScriptText( ) );
 	}
 	
 	public IConditionalExpression createConditionalExpression(

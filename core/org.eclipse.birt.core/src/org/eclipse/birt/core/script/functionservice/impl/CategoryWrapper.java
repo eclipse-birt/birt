@@ -34,7 +34,7 @@ public class CategoryWrapper extends ScriptableObject
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private IScriptFunctionCategory category;
+	private transient IScriptFunctionCategory category;
 	
 	/**
 	 * Constructor

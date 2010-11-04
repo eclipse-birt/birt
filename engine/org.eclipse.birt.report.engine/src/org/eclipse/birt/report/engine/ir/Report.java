@@ -189,7 +189,7 @@ public class Report
 		{
 			mapReportItemIDtoInstance = new HashMap( );
 		}
-		mapReportItemIDtoInstance.put( new Long( id ), rptElement );
+		mapReportItemIDtoInstance.put( Long.valueOf( id ), rptElement );
 	}
 
 	/**
@@ -202,8 +202,7 @@ public class Report
 	public ReportElementDesign getReportItemByID( long id )
 	{
 		assert mapReportItemIDtoInstance != null;
-		return (ReportElementDesign) mapReportItemIDtoInstance.get( new Long(
-				id ) );
+		return (ReportElementDesign) mapReportItemIDtoInstance.get( Long.valueOf( id ) );
 	}
 
 	/**

@@ -114,7 +114,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 		hasOnPrepareScript = true;
 	}
 
-	class StopException extends RuntimeException
+	static class StopException extends RuntimeException
 	{
 
 		/**

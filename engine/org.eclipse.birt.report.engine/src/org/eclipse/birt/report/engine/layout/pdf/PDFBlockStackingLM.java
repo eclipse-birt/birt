@@ -474,7 +474,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 
 	}
 	
-	protected class KeepWithMgr
+	protected static class KeepWithMgr
 	{
 		protected CompositeArea cache = new CompositeArea();
 		

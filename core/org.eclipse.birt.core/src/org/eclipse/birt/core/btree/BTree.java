@@ -584,7 +584,7 @@ public class BTree<K, V> implements BTreeConstants
 			node.setUsedBlocks( in.getUsedBlocks( ) );
 			node.setDirty( false );
 			node.lock( );
-			nodeCaches.put( new Integer( nodeId ), node );
+			nodeCaches.put( Integer.valueOf( nodeId ), node );
 			return node;
 		}
 		finally

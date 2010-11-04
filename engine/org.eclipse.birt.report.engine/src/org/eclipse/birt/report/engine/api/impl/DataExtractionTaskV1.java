@@ -349,7 +349,7 @@ public class DataExtractionTaskV1 extends EngineTask
 					{
 						rsetName = rsetName + "_" + count;
 					}
-					queryCounts.put( queryId, new Integer( count ) );
+					queryCounts.put( queryId, Integer.valueOf( count ) );
 					//rsetName2IdMapping.put( rsetName, rsetId );
 
 					if ( null != query2ResultMetaData )
@@ -1421,7 +1421,7 @@ public class DataExtractionTaskV1 extends EngineTask
 			htmlContext.setImageDirectory( htmlOptions.getImageDirectory( ) );
 			htmlContext.setSupportedImageFormats( htmlOptions
 					.getSupportedImageFormats( ) );
-			htmlContext.SetRenderOption( htmlOptions );
+			htmlContext.setRenderOption( htmlOptions );
 			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					htmlContext );
 		}

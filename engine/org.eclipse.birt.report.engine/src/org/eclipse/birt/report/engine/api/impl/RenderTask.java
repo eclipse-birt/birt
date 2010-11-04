@@ -340,8 +340,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		if ( pageNumber <= 0 || pageNumber > totalVisiblePageCount )
 		{
 			throw new EngineException( MessageConstants.PAGE_NOT_FOUND_ERROR,
-					new Long( //$NON-NLS-1$
-							pageNumber ) );
+					Long.valueOf( pageNumber ) );
 		}
 		innerRender = new PageRangeRender( new long[]{pageNumber, pageNumber} );
 	}
@@ -704,7 +703,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 			// start the render
 			setupRenderOption( );
 			IContentEmitter emitter = createContentEmitter( );
-			String format = executionContext.getOutputFormat( );
 			IReportExecutor executor = new ReportletExecutor( executionContext,
 					offset );
 			executor = createRenderExtensionExecutor( executor );

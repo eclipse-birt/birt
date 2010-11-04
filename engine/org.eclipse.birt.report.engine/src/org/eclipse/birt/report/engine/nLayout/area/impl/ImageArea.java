@@ -136,7 +136,7 @@ public class ImageArea extends AbstractArea implements IImageArea
 		return imageMapDescription;
 	}
 	
-	class ImageMap implements IImageMap
+	static class ImageMap implements IImageMap
 	{
 		int[] vertices;
 		IHyperlinkAction action;

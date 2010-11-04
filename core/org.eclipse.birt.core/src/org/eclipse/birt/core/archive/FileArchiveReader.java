@@ -49,7 +49,7 @@ public class FileArchiveReader extends ArchiveReader
 		File folder = new File( folderArchiveName );
 		folderArchiveName = folder.getCanonicalPath( );
 
-		ArchiveUtil.DeleteAllFiles( folder ); // Clean up the folder if it
+		ArchiveUtil.deleteAllFiles( folder ); // Clean up the folder if it
 		// exists.
 		folder.mkdirs( ); // Create archive folder
 

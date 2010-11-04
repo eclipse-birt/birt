@@ -1127,7 +1127,8 @@ public class TableAreaLayout
 			int end = start + cell.getColSpan( );
 			for(int i=start; i<end; i++)
 			{
-				map.put( new Integer(start), new ClonedCellContent(cell, rowSpan) );
+				map.put( Integer.valueOf( start ), new ClonedCellContent( cell,
+						rowSpan ) );
 			}
 		}
 		
@@ -1138,18 +1139,19 @@ public class TableAreaLayout
 		
 		public ICellContent getDropCellContent(int colId, IContent row)
 		{
-			ClonedCellContent dropCellContent =  (ClonedCellContent)map.get( new Integer(colId) );
-			if(dropCellContent!=null)
+			ClonedCellContent dropCellContent = (ClonedCellContent) map.get( Integer.valueOf( colId ) );
+			if ( dropCellContent != null )
 			{
-				if(row!=rowContent &&  dropCellContent.getRowSpan( )>0 )
+				if ( row != rowContent && dropCellContent.getRowSpan( ) > 0 )
 				{
-					return new ClonedCellContent(dropCellContent.getCellContent( ), dropCellContent.rowSpan - 1);
+					return new ClonedCellContent( dropCellContent.getCellContent( ),
+							dropCellContent.rowSpan - 1 );
 				}
-				return new ClonedCellContent(dropCellContent.getCellContent( ), dropCellContent.rowSpan);
+				return new ClonedCellContent( dropCellContent.getCellContent( ),
+						dropCellContent.rowSpan );
 			}
 			return null;
-		
-			
+
 		}
 		
 	}

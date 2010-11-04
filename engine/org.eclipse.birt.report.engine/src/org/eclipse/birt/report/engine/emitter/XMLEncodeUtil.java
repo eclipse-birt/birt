@@ -278,18 +278,25 @@ public class XMLEncodeUtil
 						sb.append( nc );
 						return 1;
 					}
-					logger.log( Level.INFO, MESSAGE_INVALID_SURROGATE,
-							new Object[]{new Integer( c ), new Integer( nc )} );
+					logger.log( Level.INFO,
+							MESSAGE_INVALID_SURROGATE,
+							new Object[]{
+									Integer.valueOf( c ), Integer.valueOf( nc )
+							} );
 				}
-				logger.log( Level.INFO, MESSAGE_UNMATCH_SURROGATE,
-						new Object[]{new Integer( c ), new Integer( nc )} );
+				logger.log( Level.INFO,
+						MESSAGE_UNMATCH_SURROGATE,
+						new Object[]{
+								Integer.valueOf( c ), Integer.valueOf( nc )
+						} );
 			}
-			logger.log( Level.INFO, MESSAGE_MISSING_LOW_SURROGATE,
-					new Object[]{new Integer( c )} );
+			logger.log( Level.INFO,
+					MESSAGE_MISSING_LOW_SURROGATE,
+					new Object[]{
+						Integer.valueOf( c )
+					} );
 		}
-		logger
-				.log( Level.INFO, MESSAGE_INVALID_CHARACTER, Integer
-						.valueOf( c ) );
+		logger.log( Level.INFO, MESSAGE_INVALID_CHARACTER, Integer.valueOf( c ) );
 		return 0;
 	}
 

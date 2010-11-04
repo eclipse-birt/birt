@@ -358,8 +358,8 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		if ( current != null )
 		{
 			current.close( );
+			current = current.getParent( );
 		}
-		current = current.getParent( );
 	}
 
 	

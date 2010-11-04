@@ -17,8 +17,6 @@ public class DummyCell extends CellArea
 {
 	protected CellArea cell;
 	
-	protected int rowSpan;
-	
 	protected int colSpan;
 	
 	/**

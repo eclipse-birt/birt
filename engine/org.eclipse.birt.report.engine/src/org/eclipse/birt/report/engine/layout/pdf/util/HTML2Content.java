@@ -631,7 +631,7 @@ public class HTML2Content implements HTMLConstants
 			addChild( orderCell, text );
 			if ( ele.getParentNode( ).getNodeName( ).equals( TAG_OL ) ) //$NON-NLS-1$
 			{
-				text.setText( new Integer( index ).toString( ) + "." ); //$NON-NLS-1$
+				text.setText( Integer.valueOf( index ).toString( ) + "." ); //$NON-NLS-1$
 			}
 			else if ( ele.getParentNode( ).getNodeName( ).equals( TAG_UL ) ) //$NON-NLS-1$
 			{

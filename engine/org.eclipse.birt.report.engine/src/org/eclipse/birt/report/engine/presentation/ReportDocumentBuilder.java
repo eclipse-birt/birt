@@ -228,8 +228,8 @@ public class ReportDocumentBuilder
 		IReportExecutor executor = executionContext.getExecutor( );
 		engine = LayoutEngineFactory
 				.createLayoutEngine( ExtensionManager.PAGE_BREAK_PAGINATION );
-		engine.setOption( EngineTask.TASK_TYPE, new Integer(
-				IEngineTask.TASK_RUN ) );
+		engine.setOption( EngineTask.TASK_TYPE,
+				Integer.valueOf( IEngineTask.TASK_RUN ) );
 
 		IReportContent report = executor.execute( );
 		if ( executionContext.isFixedLayout( )

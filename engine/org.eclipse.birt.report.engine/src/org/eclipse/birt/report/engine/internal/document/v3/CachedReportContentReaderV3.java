@@ -46,7 +46,7 @@ public class CachedReportContentReaderV3
 		}
 	}
 	
-	protected class CacheEntry
+	protected static class CacheEntry
 	{
 		long offset;
 		IContent content;

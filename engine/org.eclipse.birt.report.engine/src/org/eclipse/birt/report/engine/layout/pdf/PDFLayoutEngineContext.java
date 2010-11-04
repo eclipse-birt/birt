@@ -233,7 +233,7 @@ public class PDFLayoutEngineContext
 		return factory;
 	}
 
-	private class StartVisitor implements IContentVisitor
+	private static class StartVisitor implements IContentVisitor
 	{
 
 		public Object visit( IContent content, Object value )
@@ -374,7 +374,7 @@ public class PDFLayoutEngineContext
 
 	}
 
-	private class EndVisitor implements IContentVisitor
+	private static class EndVisitor implements IContentVisitor
 	{
 
 		public Object visit( IContent content, Object value )

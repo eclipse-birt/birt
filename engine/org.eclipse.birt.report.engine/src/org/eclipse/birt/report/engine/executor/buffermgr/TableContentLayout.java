@@ -728,7 +728,7 @@ public class TableContentLayout
 		return true;
 	}
 
-	protected class UnresolvedRow
+	protected static class UnresolvedRow
 	{
 
 		Row row;

@@ -281,9 +281,9 @@ public abstract class EngineTask implements IEngineTask
 		{
 			throw new NullPointerException( );
 		}
-		log.log( Level.FINE, "EngineTask.setLocale: locale={0}", locale == null
-				? null
-				: locale.getDisplayName( ) );
+		log.log( Level.FINE,
+				"EngineTask.setLocale: locale={0}",
+				locale.getDisplayName( ) );
 		doSetLocale( ULocale.forLocale( locale ) );
 	}
 
@@ -306,8 +306,9 @@ public abstract class EngineTask implements IEngineTask
 		{
 			throw new NullPointerException( );
 		}
-		log.log( Level.FINE, "EngineTask.setLocale: uLocale={0}",
-				ulocale == null ? null : ulocale.getDisplayName( ) );
+		log.log( Level.FINE,
+				"EngineTask.setLocale: uLocale={0}",
+				ulocale.getDisplayName( ) );
 		doSetLocale( ulocale );
 	}
 
@@ -1138,7 +1139,11 @@ public abstract class EngineTask implements IEngineTask
 				return null;
 			}
 		}
-		List<Expression> values = parameter.getDefaultValueList( );
+		List<Expression> values = null;
+		if ( parameter != null )
+		{
+			values = parameter.getDefaultValueList( );
+		}
 		if ( values == null || values.size( ) == 0 )
 		{
 			return null;
@@ -1687,7 +1692,7 @@ public abstract class EngineTask implements IEngineTask
 			}
 
 		}
-		layoutEngine.setOption( TASK_TYPE,  new Integer(taskType));
+		layoutEngine.setOption( TASK_TYPE, Integer.valueOf( taskType ) );
 		return layoutEngine;
 	}
 
@@ -1957,8 +1962,9 @@ public abstract class EngineTask implements IEngineTask
 				mergeOption( renderOptions,
 						PDFRenderOption.SUPPORTED_IMAGE_FORMATS, pdfContext
 								.getSupportedImageFormats( ) );
-				mergeOption( renderOptions, PDFRenderOption.IS_EMBEDDED_FONT,
-						new Boolean( pdfContext.isEmbededFont( ) ) );
+				mergeOption( renderOptions,
+						PDFRenderOption.IS_EMBEDDED_FONT,
+						Boolean.valueOf( pdfContext.isEmbededFont( ) ) );
 			}
 		}
 		else
@@ -2064,7 +2070,7 @@ public abstract class EngineTask implements IEngineTask
 						.setImageDirectory( htmlOptions.getImageDirectory( ) );
 				htmlContext.setSupportedImageFormats( htmlOptions
 						.getSupportedImageFormats( ) );
-				htmlContext.SetRenderOption( allOptions );
+				htmlContext.setRenderOption( allOptions );
 				appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 						htmlContext );
 			}

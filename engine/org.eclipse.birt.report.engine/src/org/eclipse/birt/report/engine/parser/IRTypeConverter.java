@@ -21,16 +21,16 @@ public class IRTypeConverter
 	
 	static
 	{
-		UnitMapping.put( EngineIRConstants.UNITS_CM, new Short( CSSPrimitiveValue.CSS_CM ) );
-		UnitMapping.put( EngineIRConstants.UNITS_CM, new Short( CSSPrimitiveValue.CSS_CM ) );
-		UnitMapping.put( EngineIRConstants.UNITS_EM, new Short( CSSPrimitiveValue.CSS_EMS ) );
-		UnitMapping.put( EngineIRConstants.UNITS_EX, new Short( CSSPrimitiveValue.CSS_EXS ) );
-		UnitMapping.put( EngineIRConstants.UNITS_IN, new Short( CSSPrimitiveValue.CSS_IN ) );
-		UnitMapping.put( EngineIRConstants.UNITS_MM, new Short( CSSPrimitiveValue.CSS_MM ) );
-		UnitMapping.put( EngineIRConstants.UNITS_PC, new Short( CSSPrimitiveValue.CSS_PC ) );
-		UnitMapping.put( EngineIRConstants.UNITS_PERCENTAGE, new Short( CSSPrimitiveValue.CSS_PERCENTAGE ) );
-		UnitMapping.put( EngineIRConstants.UNITS_PT, new Short( CSSPrimitiveValue.CSS_PT ) );
-		UnitMapping.put( EngineIRConstants.UNITS_PX, new Short( CSSPrimitiveValue.CSS_PX ) );
+		UnitMapping.put( EngineIRConstants.UNITS_CM, Short.valueOf( CSSPrimitiveValue.CSS_CM ) );
+		UnitMapping.put( EngineIRConstants.UNITS_CM, Short.valueOf( CSSPrimitiveValue.CSS_CM ) );
+		UnitMapping.put( EngineIRConstants.UNITS_EM, Short.valueOf( CSSPrimitiveValue.CSS_EMS ) );
+		UnitMapping.put( EngineIRConstants.UNITS_EX, Short.valueOf( CSSPrimitiveValue.CSS_EXS ) );
+		UnitMapping.put( EngineIRConstants.UNITS_IN, Short.valueOf( CSSPrimitiveValue.CSS_IN ) );
+		UnitMapping.put( EngineIRConstants.UNITS_MM, Short.valueOf( CSSPrimitiveValue.CSS_MM ) );
+		UnitMapping.put( EngineIRConstants.UNITS_PC, Short.valueOf( CSSPrimitiveValue.CSS_PC ) );
+		UnitMapping.put( EngineIRConstants.UNITS_PERCENTAGE, Short.valueOf( CSSPrimitiveValue.CSS_PERCENTAGE ) );
+		UnitMapping.put( EngineIRConstants.UNITS_PT, Short.valueOf( CSSPrimitiveValue.CSS_PT ) );
+		UnitMapping.put( EngineIRConstants.UNITS_PX, Short.valueOf( CSSPrimitiveValue.CSS_PX ) );
 	}
 	
 	public static CSSValue toColor(Object value)

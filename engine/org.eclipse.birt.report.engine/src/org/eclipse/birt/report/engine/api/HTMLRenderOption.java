@@ -159,7 +159,7 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setIncludeSelectionHandle( boolean option )
 	{
-		setOption( HTML_INCLUDE_SELECTION_HANDLE, new Boolean( option ) );
+		setOption( HTML_INCLUDE_SELECTION_HANDLE, Boolean.valueOf( option ) );
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setHtmlRtLFlag( boolean flag )
 	{
-		setOption( HTML_RTL_FLAG, new Boolean( flag ) );
+		setOption( HTML_RTL_FLAG, Boolean.valueOf( flag ) );
 	}
 
 	/**
@@ -207,7 +207,7 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setPageFooterFloatFlag( boolean flag )
 	{
-		setOption( PAGEFOOTER_FLOAT_FLAG, new Boolean( flag ) );
+		setOption( PAGEFOOTER_FLOAT_FLAG, Boolean.valueOf( flag ) );
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setEnableMetadata( boolean enableMetadata )
 	{
-		setOption( HTML_ENABLE_METADATA, new Boolean( enableMetadata ) );
+		setOption( HTML_ENABLE_METADATA, Boolean.valueOf( enableMetadata ) );
 	}
 
 	/**
@@ -245,7 +245,8 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setDisplayFilterIcon( boolean displayFilterIcon )
 	{
-		setOption( HTML_DISPLAY_FILTER_ICON, new Boolean( displayFilterIcon ) );
+		setOption( HTML_DISPLAY_FILTER_ICON,
+				Boolean.valueOf( displayFilterIcon ) );
 	}
 
 	/**
@@ -265,7 +266,7 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setDisplayGroupIcon( boolean displayGroupIcon )
 	{
-		setOption( HTML_DISPLAY_GROUP_ICON, new Boolean( displayGroupIcon ) );
+		setOption( HTML_DISPLAY_GROUP_ICON, Boolean.valueOf( displayGroupIcon ) );
 	}
 
 	/**
@@ -326,7 +327,8 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setWrapTemplateTable( boolean wrapTemplateTable )
 	{
-		options.put( HTML_WRAP_TEMPLATE_TABLE, new Boolean( wrapTemplateTable ) );
+		options.put( HTML_WRAP_TEMPLATE_TABLE,
+				Boolean.valueOf( wrapTemplateTable ) );
 	}
 
 	/**
@@ -376,7 +378,8 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setEnableAgentStyleEngine( boolean enableAgentStyleEngine )
 	{
-		options.put( HTML_ENABLE_AGENTSTYLE_ENGINE, new Boolean( enableAgentStyleEngine ) );
+		options.put( HTML_ENABLE_AGENTSTYLE_ENGINE,
+				Boolean.valueOf( enableAgentStyleEngine ) );
 	}
 
 	/**
@@ -401,7 +404,8 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setOutputMasterPageMargins( boolean outputMasterPageMargins )
 	{
-		options.put( HTML_OUTPUT_MASTER_PAGE_MARGINS, new Boolean( outputMasterPageMargins ) );
+		options.put( HTML_OUTPUT_MASTER_PAGE_MARGINS,
+				Boolean.valueOf( outputMasterPageMargins ) );
 	}
 
 	/**
@@ -444,7 +448,7 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setHTMLIndent( boolean indent )
 	{
-		options.put( HTML_INDENT, new Boolean( indent ) );
+		options.put( HTML_INDENT, Boolean.valueOf( indent ) );
 	}
 
 	/**
@@ -491,7 +495,8 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	 */
 	public void setEnableInlineStyle( boolean inlineStyleFlag )
 	{
-		options.put( HTML_ENABLE_INLINE_STYLE, new Boolean( inlineStyleFlag ) );
+		options.put( HTML_ENABLE_INLINE_STYLE,
+				Boolean.valueOf( inlineStyleFlag ) );
 	}
 
 	/**

@@ -41,7 +41,7 @@ public class TemplateParser
 		return null;
 	}
 
-	protected class ASTVisitor implements ParserVisitor
+	protected static class ASTVisitor implements ParserVisitor
 	{
 
 		TextTemplate template;

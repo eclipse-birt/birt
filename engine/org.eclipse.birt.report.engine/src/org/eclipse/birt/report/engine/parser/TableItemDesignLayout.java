@@ -142,7 +142,7 @@ public class TableItemDesignLayout
 		}
 	}
 
-	private class CellContent implements Cell.Content
+	private static class CellContent implements Cell.Content
 	{
 
 		CellDesign cell;

@@ -222,13 +222,10 @@ public class MetadataFilter implements IMetadataFilter
 						dataItemCache.put( elementHandle, Boolean.FALSE );
 						return null;
 					}
-					if ( elementHandle instanceof ReportItemHandle )
+					if ( ( (ReportItemHandle) elementHandle ).getDataBindingReference( ) != null )
 					{
-						if ( ( (ReportItemHandle) elementHandle ).getDataBindingReference( ) != null )
-						{
-							dataItemCache.put( elementHandle, Boolean.FALSE );
-							return null;
-						}
+						dataItemCache.put( elementHandle, Boolean.FALSE );
+						return null;
 					}
 					if ( !isInHeaderFooter( elementHandle ) )
 					{

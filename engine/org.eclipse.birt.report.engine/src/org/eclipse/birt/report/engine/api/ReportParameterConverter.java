@@ -402,7 +402,7 @@ public class ReportParameterConverter
 						
 						if ( num != null )
 						{
-							parameterValueObj = new Integer( num.intValue( ) );
+							parameterValueObj = Integer.valueOf( num.intValue( ) );
 						}
 					}
 					catch( ParseException ex )
@@ -415,14 +415,14 @@ public class ReportParameterConverter
 							
 							if ( num != null )
 							{
-								parameterValueObj = new Integer( num.intValue( ) );
+								parameterValueObj = Integer.valueOf( num.intValue( ) );
 							}
 						}
 						catch( ParseException pex )
 						{
 							try
 							{
-								parameterValueObj = new Integer( reportParameterValue );
+								parameterValueObj = Integer.valueOf( reportParameterValue );
 							}
 							catch( NumberFormatException nfe )
 							{

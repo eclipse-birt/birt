@@ -228,9 +228,13 @@ public class DataFormatValue extends Value implements Serializable, Cloneable
 	}
 
 	// FormatValue class
-	private static class FormatValue
+	private static class FormatValue implements Serializable
 	{
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 372354506119409692L;
 		String pattern;
 		String locale;
 
@@ -240,14 +244,5 @@ public class DataFormatValue extends Value implements Serializable, Cloneable
 			locale = l;
 		}
 
-		public String getPattern( )
-		{
-			return pattern;
-		}
-
-		public String getLocale( )
-		{
-			return locale;
-		}
 	}
 }

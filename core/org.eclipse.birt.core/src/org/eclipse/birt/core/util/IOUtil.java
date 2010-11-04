@@ -444,25 +444,25 @@ public class IOUtil
 	static
 	{
 		type2IndexMap = new HashMap( );
-		type2IndexMap.put( Integer.class, new Integer( TYPE_INT ) );
-		type2IndexMap.put( Float.class, new Integer( TYPE_FLOAT ) );
-		type2IndexMap.put( Double.class, new Integer( TYPE_DOUBLE ) );
-		type2IndexMap.put( BigDecimal.class, new Integer( TYPE_BIG_DECIMAL ) );
-		type2IndexMap.put( Date.class, new Integer( TYPE_DATE_TIME ) );
-		type2IndexMap.put( Time.class, new Integer( TYPE_TIME ) );
-		type2IndexMap.put( Timestamp.class, new Integer( TYPE_TIME_STAMP ) );
-		type2IndexMap.put( Boolean.class, new Integer( TYPE_BOOLEAN ) );
-		type2IndexMap.put( String.class, new Integer( TYPE_STRING ) );
-		type2IndexMap.put( byte[].class, new Integer( TYPE_BYTES ) );
-		type2IndexMap.put( List.class, new Integer( TYPE_LIST ) );
-		type2IndexMap.put( Map.class, new Integer( TYPE_MAP ) );
+		type2IndexMap.put( Integer.class, Integer.valueOf( TYPE_INT ) );
+		type2IndexMap.put( Float.class, Integer.valueOf( TYPE_FLOAT ) );
+		type2IndexMap.put( Double.class, Integer.valueOf( TYPE_DOUBLE ) );
+		type2IndexMap.put( BigDecimal.class, Integer.valueOf( TYPE_BIG_DECIMAL ) );
+		type2IndexMap.put( Date.class, Integer.valueOf( TYPE_DATE_TIME ) );
+		type2IndexMap.put( Time.class, Integer.valueOf( TYPE_TIME ) );
+		type2IndexMap.put( Timestamp.class, Integer.valueOf( TYPE_TIME_STAMP ) );
+		type2IndexMap.put( Boolean.class, Integer.valueOf( TYPE_BOOLEAN ) );
+		type2IndexMap.put( String.class, Integer.valueOf( TYPE_STRING ) );
+		type2IndexMap.put( byte[].class, Integer.valueOf( TYPE_BYTES ) );
+		type2IndexMap.put( List.class, Integer.valueOf( TYPE_LIST ) );
+		type2IndexMap.put( Map.class, Integer.valueOf( TYPE_MAP ) );
 		type2IndexMap
-				.put( Serializable.class, new Integer( TYPE_SERIALIZABLE ) );
-		type2IndexMap.put( null, new Integer( TYPE_NULL ) );
-		type2IndexMap.put( java.sql.Date.class, new Integer( TYPE_DATE ) );
+				.put( Serializable.class, Integer.valueOf( TYPE_SERIALIZABLE ) );
+		type2IndexMap.put( null, Integer.valueOf( TYPE_NULL ) );
+		type2IndexMap.put( java.sql.Date.class, Integer.valueOf( TYPE_DATE ) );
 
 		type2IndexMap.put( IdScriptableObject.class,
-				new Integer( TYPE_JSObject ) );
+				Integer.valueOf( TYPE_JSObject ) );
 	}
 
 	/**
@@ -588,7 +588,7 @@ public class IOUtil
 				obValue = new Timestamp( dis.readLong( ) );
 				break;
 			case TYPE_BOOLEAN :
-				obValue = new Boolean( dis.readBoolean( ) );
+				obValue = Boolean.valueOf( dis.readBoolean( ) );
 				break;
 			case TYPE_STRING :
 				obValue = dis.readUTF( );

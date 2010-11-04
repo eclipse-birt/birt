@@ -48,8 +48,6 @@ public class BundleVersionUtil
 		{
 			Manifest mf = new Manifest(new BufferedInputStream(bundleURL
 					.openStream()));
-			if ( null == mf )
-				mainVersion = UNKNOWN_VERSION;
 			String version = mf.getMainAttributes().getValue("Bundle-Version");
 			// ignore the qualifier version.
 			if ( null != version )

@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 public class Segment
 {
 
-	class SegmentEdge
+	static class SegmentEdge
 	{
 
 		SegmentEdge( Object offset, boolean leftEdge )
@@ -143,8 +143,8 @@ public class Segment
 		}
 	}
 
-	public static final Object LEFT_MOST_EDGE = new String( "LEFT" );
-	public static final Object RIGHT_MOST_EDGE = new String( "RIGHT" );
+	public static final Object LEFT_MOST_EDGE = "LEFT";
+	public static final Object RIGHT_MOST_EDGE = "RIGHT";
 
 	public void normalize( )
 	{

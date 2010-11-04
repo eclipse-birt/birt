@@ -136,7 +136,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 	public void startGroup( IGroupContent groupContent )
 	{
 		int groupLevel = groupContent.getGroupLevel( );
-		groupStack.push( new Integer( groupLevel ) );
+		groupStack.push( Integer.valueOf( groupLevel ) );
 	}
 
 	public int endGroup( IGroupContent groupContent )
@@ -355,15 +355,15 @@ public class PDFTableLM extends PDFBlockStackingLM
 			ArrayList unsetList = new ArrayList();
 			double total = 0.0f;
 			int fixedLength = 0;
-			for(int i=0; i<columns.length; i++)
+			for ( int i = 0; i < columns.length; i++ )
 			{
-				if(columns[i]==null)
+				if ( columns[i] == null )
 				{
-					unsetList.add(new Integer(i));
+					unsetList.add( Integer.valueOf( i ) );
 				}
 				else if( EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
 				{
-					percentageList.add(new Integer(i));
+					percentageList.add( Integer.valueOf( i ) );
 					total += columns[i].getMeasure();
 				}
 				else if( EngineIRConstants.UNITS_EM.equals(columns[i].getUnits())

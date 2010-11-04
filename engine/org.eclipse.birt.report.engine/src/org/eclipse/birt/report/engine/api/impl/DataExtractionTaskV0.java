@@ -285,7 +285,7 @@ public class DataExtractionTaskV0 extends EngineTask
 					{
 						rsetName = rsetName + "_" + count;
 					}
-					queryCounts.put( queryId, new Integer( count ) );
+					queryCounts.put( queryId, Integer.valueOf( count ) );
 					rsetName2IdMapping.put( rsetName, rsetId );
 
 					if ( null != query2ResultMetaData )

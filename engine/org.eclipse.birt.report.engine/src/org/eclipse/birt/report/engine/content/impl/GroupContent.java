@@ -35,7 +35,7 @@ public class GroupContent extends AbstractContent implements IGroupContent
 	GroupContent(IGroupContent group)
 	{
 		super(group);
-		this.headerRepeat = new Boolean(group.isHeaderRepeat( ));
+		this.headerRepeat = Boolean.valueOf( group.isHeaderRepeat( ) );
 		this.groupId = group.getGroupID( );
 	}
 	

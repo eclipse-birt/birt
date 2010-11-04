@@ -111,7 +111,7 @@ public abstract class Expression
 	static public class Constant extends Expression
 	{
 
-		static final Object NOT_EVALUATED = new String( "not evaluated" );
+		static final Object NOT_EVALUATED = "not evaluated";
 		Object value;
 		int valueType;
 

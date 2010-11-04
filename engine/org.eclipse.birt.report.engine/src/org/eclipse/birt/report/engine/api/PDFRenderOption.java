@@ -42,7 +42,7 @@ public class PDFRenderOption extends RenderOption implements IPDFRenderOption
 	 */
 	public void setEmbededFont( boolean isEmbededFont )
 	{
-		setOption( IS_EMBEDDED_FONT, new Boolean( isEmbededFont ) );
+		setOption( IS_EMBEDDED_FONT, Boolean.valueOf( isEmbededFont ) );
 	}
 
 	/**

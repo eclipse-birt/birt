@@ -114,7 +114,7 @@ public class InlineContainerLayout extends InlineStackingLayout
 			ret = lineParent.endLine( );
 			initialize( );
 		}
-		return true;
+		return ret;
 	}
 
 	public int getMaxLineWidth( )

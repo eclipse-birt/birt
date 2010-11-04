@@ -439,7 +439,7 @@ public class FontConfigHandler extends DefaultHandler
 
 		private void addCharacter( String fontFamily, int ch )
 		{
-			fontCharacters.put( new Integer( ch ), fontFamily );
+			fontCharacters.put( Integer.valueOf( ch ), fontFamily );
 		}
 
 		private void addBlock( String fontFamily, int start, int end )

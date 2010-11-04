@@ -50,9 +50,9 @@ public class TextAreaLayout implements ILayout
 	
 	static 
 	{
-		splitChar.add( new Character( ' ' ) );
-		splitChar.add( new Character( '\r') );
-		splitChar.add( new Character( '\n') );
+		splitChar.add( Character.valueOf( ' ' ) );
+		splitChar.add( Character.valueOf( '\r' ) );
+		splitChar.add( Character.valueOf( '\n' ) );
 	};
 
 	public TextAreaLayout( ContainerArea parent, LayoutContext context,
@@ -279,7 +279,7 @@ public class TextAreaLayout implements ILayout
 		char[] array = text.toCharArray( );
 		for ( int i = 0; i < array.length; i++ )
 		{
-			Character c = new Character( text.charAt( i ) );
+			Character c = Character.valueOf( text.charAt( i ) );
 			if ( splitChar.contains( c ) )
 				capitalizeNextChar = true;
 			else if (capitalizeNextChar)

@@ -350,7 +350,7 @@ public class BorderConflictResolver
 		}
 	}
 
-	protected class BorderStyleInfo
+	protected static class BorderStyleInfo
 	{
 
 		protected int position;

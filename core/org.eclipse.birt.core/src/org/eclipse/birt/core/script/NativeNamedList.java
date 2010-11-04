@@ -43,7 +43,7 @@ public class NativeNamedList implements Scriptable
 	{
 		if ("length".equals(name))
 		{
-			return new Integer(names.size());
+			return Integer.valueOf( names.size( ) );
 		}
 		Object value = values.get( name );
 		if ( value != null )

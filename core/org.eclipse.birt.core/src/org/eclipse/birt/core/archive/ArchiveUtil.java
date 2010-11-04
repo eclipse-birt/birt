@@ -151,17 +151,20 @@ public class ArchiveUtil
 	{
 		SimpleDateFormat df = new SimpleDateFormat( "yyyy_MM_dd_HH_mm_ss" ); //$NON-NLS-1$
 		String dateTimeString = df.format( new Date( ) );
-		String folderName = originalName + "_" + dateTimeString; //$NON-NLS-1$
+		
+		StringBuffer folderName = new StringBuffer( originalName );
+		folderName.append( '_' );
+		folderName.append( dateTimeString );
 
 		Random generator = new Random( );
-		File folder = new File( folderName );
+		File folder = new File( folderName.toString( ) );
 		while ( folder.exists( ) )
 		{
-			folderName += generator.nextInt( );
-			folder = new File( folderName );
+			folderName.append( generator.nextInt( ) );
+			folder = new File( folderName.toString( ) );
 		}
 
-		return folderName;
+		return folderName.toString( );
 	}
 
 	/**
@@ -182,7 +185,7 @@ public class ArchiveUtil
 	 * @param dirOrFile -
 	 *            the File object which could be either a folder or a file.
 	 */
-	public static void DeleteAllFiles( File dirOrFile )
+	public static void deleteAllFiles( File dirOrFile )
 	{
 		if ( !dirOrFile.exists( ) )
 			return;
@@ -199,7 +202,7 @@ public class ArchiveUtil
 			{
 				File[] fileList = dirOrFile.listFiles( );
 				for ( int i = 0; i < fileList.length; i++ )
-					DeleteAllFiles( fileList[i] );
+					deleteAllFiles( fileList[i] );
 			}
 
 			// Directory can only be deleted when it is empty.
@@ -440,7 +443,7 @@ public class ArchiveUtil
 		try
 		{
 			reader.open( );
-			ArchiveUtil.DeleteAllFiles( new File( fileName ) );
+			ArchiveUtil.deleteAllFiles( new File( fileName ) );
 			FileArchiveWriter writer = new FileArchiveWriter( fileName );
 			try
 			{

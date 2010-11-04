@@ -197,7 +197,7 @@ public class SingleQueryResultSet extends QueryResultSet
 		return null;
 	}
 
-	private class SingleRowIterator implements IResultIterator
+	private static class SingleRowIterator implements IResultIterator
 	{
 
 		private boolean isFirstCalled = true;

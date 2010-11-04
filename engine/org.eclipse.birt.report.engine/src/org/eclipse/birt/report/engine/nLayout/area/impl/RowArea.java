@@ -184,7 +184,6 @@ public class RowArea extends ContainerArea
 	{
 		CellArea cArea = (CellArea) area;
 		int columnID = cArea.getColumnID( );
-		int colSpan = cArea.getColSpan( );
 		// Retrieve direction from the top-level content.
 		//if ( colSpan > 1 && content.isRTL( ) )
 		//{
@@ -202,7 +201,6 @@ public class RowArea extends ContainerArea
 		addChild( area );
 		CellArea cArea = (CellArea) area;
 		int columnID = cArea.getColumnID( );
-		int colSpan = cArea.getColSpan( );
 		// Retrieve direction from the top-level content.
 		//if ( colSpan > 1 && content.isRTL( ) )
 		//{
