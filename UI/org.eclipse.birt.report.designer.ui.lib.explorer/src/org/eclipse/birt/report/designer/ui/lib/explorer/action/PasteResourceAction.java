@@ -15,11 +15,13 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.FileTransfer;
@@ -110,27 +112,39 @@ public class PasteResourceAction extends ResourceAction
 			for ( String filename : fileData )
 			{
 				final File srcFile = new File( filename );
-				final File targetFile = new File( container, srcFile.getName( ) );
+				File targetFile = new File( container, srcFile.getName( ) );
 
 				if ( targetFile.exists( ) )
 				{
-					if ( !MessageDialog.openQuestion( getShell( ),
+					String[] existedNames = container.list( );
+					RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
 							Messages.getString( "PasteResourceAction.Dialog.Title" ), //$NON-NLS-1$
-							Messages.getString( "PasteResourceAction.Dialog.Message" ) ) ) //$NON-NLS-1$
+							Messages.getString( "PasteResourceAction.Dialog.Message" ), //$NON-NLS-1$
+							Messages.getString( "PasteResourceAction.Dialog.FilenameSuffix.CopyOf" ) + " " + srcFile.getName( ), //$NON-NLS-1$ //$NON-NLS-2$
+							existedNames,
+							IHelpContextIds.RENAME_INPUT_DIALOG_ID );
+					inputDialog.create( );
+
+					if ( inputDialog.open( ) == Window.OK )
 					{
-						return;
+						targetFile = new File( container,
+								inputDialog.getResult( ).toString( ).trim( ) );
 					}
-					
-					if (!targetFile.canWrite( ))
-					{
-						MessageDialog.openError( getShell(),
-								Messages.getString( "PasteResourceAction.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
-								Messages.getFormattedString( "PasteResourceAction.ReadOnlyEncounter.Message", //$NON-NLS-1$
-										new Object[]{
-										targetFile.getAbsolutePath( )
-										} ) );
+					else
 						return;
-					}
+
+					// No need to check the attribute of the target file for the
+					// target file doesn't exist at this point.
+					// if ( !targetFile.canWrite( ) )
+					// {
+					// MessageDialog.openError( getShell( ),
+					//								Messages.getString( "PasteResourceAction.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
+					//								Messages.getFormattedString( "PasteResourceAction.ReadOnlyEncounter.Message", //$NON-NLS-1$
+					// new Object[]{
+					// targetFile.getAbsolutePath( )
+					// } ) );
+					// return;
+					// }
 				}
 				doCopy( srcFile, targetFile );
 			}
