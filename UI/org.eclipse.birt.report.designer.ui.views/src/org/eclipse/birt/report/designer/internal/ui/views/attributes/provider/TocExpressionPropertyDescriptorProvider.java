@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
@@ -63,8 +64,10 @@ public class TocExpressionPropertyDescriptorProvider extends
 						.getValue( );
 				if ( propertyValue instanceof TOC )
 				{
-					( (TOC) propertyValue ).setExpressionProperty( TOC.TOC_EXPRESSION,
-							(Expression) value );
+					( (ReportItemHandle) groupElementHandle.getElements( )
+							.get( 0 ) ).getTOC( )
+							.setExpressionProperty( TOC.TOC_EXPRESSION,
+									(Expression) value );
 				}
 				else
 				{
