@@ -1626,7 +1626,7 @@ public class InsertInLayoutUtil
 		}
 		return null;
 	}
-	private static void formatDataHandleDataType(String type, FormatValue formartValue,StyleHandle styleHandle)
+	public static void formatDataHandleDataType(String type, FormatValue formartValue,StyleHandle styleHandle)
 	{
 		if (formartValue == null)
 		{

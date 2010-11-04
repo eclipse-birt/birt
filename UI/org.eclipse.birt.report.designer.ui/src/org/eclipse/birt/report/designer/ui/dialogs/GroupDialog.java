@@ -24,16 +24,17 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionContextFactoryImpl;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -41,8 +42,10 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.Expression;
@@ -50,9 +53,11 @@ import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -100,8 +105,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
-
-import com.ibm.icu.text.DecimalFormatSymbols;
 
 /**
  * Group Properties Dialog
@@ -1295,8 +1298,16 @@ public class GroupDialog extends BaseDialog implements Listener
 					if ( slotHandle.getContents( ).size( ) == 0 )
 					{
 						DataItemHandle dataItemHandle = inputGroup.getElementFactory( )
-								.newDataItem( null );
-						dataItemHandle.setResultSetColumn( ( (ComputedColumnHandle) columnList.get( index ) ).getName( ) );
+						.newDataItem( null );
+						ComputedColumnHandle columnHandle =  (ComputedColumnHandle) columnList.get( index ) ;
+						dataItemHandle.setResultSetColumn( columnHandle.getName( ) );
+						ColumnHintHandle hintHandle = findColumnHintHandle( columnHandle );
+						
+						StyleHandle styleHandle = dataItemHandle.getPrivateStyle( );
+						if (hintHandle != null)
+						{
+							InsertInLayoutUtil.formatDataHandleDataType( columnHandle.getDataType( ), hintHandle.getValueFormat( ), styleHandle );
+						}
 						slotHandle.add( dataItemHandle );
 					}
 				}
@@ -1351,6 +1362,30 @@ public class GroupDialog extends BaseDialog implements Listener
 		}
 		setResult( inputGroup );
 		super.okPressed( );
+	}
+	
+	private static ColumnHintHandle findColumnHintHandle(ComputedColumnHandle column)
+	{
+		if (!(column.getElementHandle( ) instanceof ReportItemHandle))
+		{
+			return null;
+		}
+		DataSetHandle dataset = ((ReportItemHandle) column.getElementHandle( )).getDataSet( );
+		if (dataset == null)
+		{
+			return null;
+		}
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element;
+			}
+		}
+		return null;
 	}
 
 	/**
