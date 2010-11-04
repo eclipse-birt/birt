@@ -385,7 +385,7 @@ class ContainerContextProviderImpl
 				ElementRefValue refCube = (ElementRefValue) item.getProperty(
 						null, IReportItemModel.CUBE_PROP );
 				if ( refCube != null )
-					dataSet = (DataSet) module
+					cube = (Cube) module
 							.resolveElement( item,
 									refCube.getQualifiedReference( ),
 									tmpPropDefn, null );
