@@ -42,24 +42,30 @@
     <design:parameterDefinitions>
       <design:inOutMode>InOut</design:inOutMode>
       <design:attributes>
-        <design:name>nativeName1</design:name>
-        <design:position>1</design:position>
+        <design:identifier>
+          <design:name>nativeName1</design:name>
+          <design:position>1</design:position>
+        </design:identifier>
         <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
       </design:attributes>
     </design:parameterDefinitions>
     <design:parameterDefinitions>
       <design:inOutMode>InOut</design:inOutMode>
       <design:attributes>
-        <design:name></design:name>
-        <design:position>2</design:position>
+        <design:identifier>
+          <design:name></design:name>
+          <design:position>2</design:position>
+        </design:identifier>
         <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
       </design:attributes>
     </design:parameterDefinitions>
     <design:parameterDefinitions>
       <design:inOutMode>InOut</design:inOutMode>
       <design:attributes>
-        <design:name>nativeName1</design:name>
-        <design:position>3</design:position>
+        <design:identifier>
+          <design:name>nativeName1</design:name>
+          <design:position>3</design:position>
+        </design:identifier>
         <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
       </design:attributes>
     </design:parameterDefinitions>

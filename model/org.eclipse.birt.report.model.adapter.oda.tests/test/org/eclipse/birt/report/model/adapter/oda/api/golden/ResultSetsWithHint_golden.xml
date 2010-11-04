@@ -7,8 +7,10 @@
       <design:resultSetColumns>
         <design:resultColumnDefinitions>
           <design:attributes>
-            <design:name>user name</design:name>
-            <design:position>1</design:position>
+            <design:identifier>
+              <design:name>user name</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
             <design:nativeDataTypeCode>10</design:nativeDataTypeCode>
             <design:uiHints>
               <design:displayName>User Name</design:displayName>
@@ -24,8 +26,10 @@
         </design:resultColumnDefinitions>
         <design:resultColumnDefinitions>
           <design:attributes>
-            <design:name></design:name>
-            <design:position>2</design:position>
+            <design:identifier>
+              <design:name></design:name>
+              <design:position>2</design:position>
+            </design:identifier>
           </design:attributes>
         </design:resultColumnDefinitions>
       </design:resultSetColumns>
