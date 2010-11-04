@@ -200,6 +200,13 @@ public class RenameInputDialog extends BaseDialog
 			getButton( IDialogConstants.OK_ID ).setEnabled( false );
 			setErrorMessage( Messages.getString( "RenameInputDialog.Message.BlankName" ) ); //$NON-NLS-1$
 		}
+		else if ( existedNames != null
+				&& Arrays.asList( existedNames ).contains( text.getText( )
+						.trim( ) ) )
+		{
+			getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			setErrorMessage( Messages.getString( "RenameInputDialog.Message.DuplicateName" ) ); //$NON-NLS-1$
+		}
 		return composite;
 	}
 
