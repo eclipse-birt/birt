@@ -20,8 +20,8 @@ RadarSeriesAttributeSheetImpl.Lbl.Fill=塗りつぶし :
 RadarSeriesAttributeComposite.Lbl.DialTicks=目盛を付ける(&T)
 RadarSeriesAttributeComposite.Lbl.DialScale=スケール(&C)
 RadarBaseSeriesComponent.Label.CategoryDefinition=カテゴリの定義(&C) :
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web Labels
-RadarSeriesAttributeComposite.Lbl.ShowCat=Web / レーダカテゴリラベルを表示(&C)
+RadarSeriesAttributeComposite.Lbl.ShowWeb=Web ラベルを表示(&W)
+RadarSeriesAttributeComposite.Lbl.ShowCat=カテゴリラベルを表示(&C)
 
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、RadarSeriesAttributeComposite の引数としては使用できません。
@@ -40,8 +40,8 @@ RadarSeriesMarkerSheet.Label.Series=系列の線の設定
 Radar.Composite.Label.ScaleCount=グラフの目盛(&N)
 Radar.Composite.Label.ScaleCountToolTip=グラフで使用する目盛を設定
 Radar.Composite.Label.bullsEye=ブルズアイの色を半透明に設定
-Format.Button.Web.Label=Web ラベルの書式設定
-Format.Button.Cat.Label=カテゴリラベルの書式設定
+Format.Button.Web.Label=Web ラベルの書式設定(&F)
+Format.Button.Cat.Label=カテゴリラベルの書式設定(&F)
 WebLabel.Tooltip.FormatSpecifier=Web ラベルの書式設定
 CatLabel.Tooltip.FormatSpecifier=カテゴリラベルの書式設定
 RadarSeriesMarkerSheet.Label.WebLabel=Web ラベルの設定
@@ -51,7 +51,7 @@ RadarSeriesUIProvider.Label.CategoryLabels=カテゴリラベル(&G)
 RadarSeriesUIProvider.Label.RadarLine=レーダの線(&D)
 RadarSeriesUIProvider.Label.WebLabels=Web ラベル(&W)
 RadarSeriesUIProvider.Title.CategoryLabels=カテゴリラベル
-RadarSeriesUIProvider.Title.WebLabels=Web / レーダラベル
+RadarSeriesUIProvider.Title.WebLabels=Web ラベル
 
 Radar.Composite.Label.ScaleAuto=自動スケール
 Radar.Composite.Label.ScaleAutoTooltip=グラフのサイズは自動的に変更されます

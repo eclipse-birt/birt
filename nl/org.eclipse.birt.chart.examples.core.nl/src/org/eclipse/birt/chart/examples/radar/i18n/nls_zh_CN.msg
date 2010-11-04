@@ -20,8 +20,8 @@ RadarSeriesAttributeSheetImpl.Lbl.Fill=填充:
 RadarSeriesAttributeComposite.Lbl.DialTicks=刻度线(&T)
 RadarSeriesAttributeComposite.Lbl.DialScale=比例(&C)
 RadarBaseSeriesComponent.Label.CategoryDefinition=类别定义(&C):
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web Labels
-RadarSeriesAttributeComposite.Lbl.ShowCat=显示 Web/雷达类别标签(&C)
+RadarSeriesAttributeComposite.Lbl.ShowWeb=显示 Web 标签(&W)
+RadarSeriesAttributeComposite.Lbl.ShowCat=显示类别标签(&C)
 
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument=对于 RadarSeriesAttributeComposite，类型 {0} 的系列是无效参数。
@@ -40,8 +40,8 @@ RadarSeriesMarkerSheet.Label.Series=系列线配置
 Radar.Composite.Label.ScaleCount=图表中的数标步进值(&N)
 Radar.Composite.Label.ScaleCountToolTip=在图表中创建时所用的数标步进值
 Radar.Composite.Label.bullsEye=将靶眼颜色设置为半透明
-Format.Button.Web.Label=设置 Web 标签格式
-Format.Button.Cat.Label=设置类别标签格式
+Format.Button.Web.Label=设置 Web 标签格式(&F)
+Format.Button.Cat.Label=设置类别标签格式(&F)
 WebLabel.Tooltip.FormatSpecifier=设置 Web 标签格式
 CatLabel.Tooltip.FormatSpecifier=设置类别标签格式
 RadarSeriesMarkerSheet.Label.WebLabel=配置 Web 标签
@@ -51,7 +51,7 @@ RadarSeriesUIProvider.Label.CategoryLabels=类别标签(&G)
 RadarSeriesUIProvider.Label.RadarLine=雷达线(&D)
 RadarSeriesUIProvider.Label.WebLabels=Web 标签(&W)
 RadarSeriesUIProvider.Title.CategoryLabels=类别标签
-RadarSeriesUIProvider.Title.WebLabels=Web/雷达标签
+RadarSeriesUIProvider.Title.WebLabels=Web 标签
 
 Radar.Composite.Label.ScaleAuto=自动调整比例
 Radar.Composite.Label.ScaleAutoTooltip=自动调整图表比例

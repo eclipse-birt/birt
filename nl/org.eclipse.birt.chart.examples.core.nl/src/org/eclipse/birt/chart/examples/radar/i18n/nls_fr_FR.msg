@@ -20,8 +20,8 @@ RadarSeriesAttributeSheetImpl.Lbl.Fill=Remplissage :
 RadarSeriesAttributeComposite.Lbl.DialTicks=&Repères
 RadarSeriesAttributeComposite.Lbl.DialScale=E&chelle :
 RadarBaseSeriesComponent.Label.CategoryDefinition=Définition de &catégorie :
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web Labels
-RadarSeriesAttributeComposite.Lbl.ShowCat=Afficher les étiquettes de &catégorie Web/radar
+RadarSeriesAttributeComposite.Lbl.ShowWeb=Afficher les &étiquettes Web
+RadarSeriesAttributeComposite.Lbl.ShowCat=Afficher les &étiquettes de catégorie
 
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est un argument non valide pour RadarSeriesAttributeComposite.
@@ -40,8 +40,8 @@ RadarSeriesMarkerSheet.Label.Series=Configuration des lignes de série
 Radar.Composite.Label.ScaleCount=&Numéroter les étapes (échelles) du graphique
 Radar.Composite.Label.ScaleCountToolTip=Numéroter les étapes (échelles) à partir desquelles créer le graphique
 Radar.Composite.Label.bullsEye=Définir les couleurs des cercles concentriques sur Translucide
-Format.Button.Web.Label=Formater les étiquettes Web
-Format.Button.Cat.Label=Formater les étiquettes de catégorie
+Format.Button.Web.Label=&Formater les étiquettes Web
+Format.Button.Cat.Label=&Formater les étiquettes de catégorie
 WebLabel.Tooltip.FormatSpecifier=Formater les étiquettes Web
 CatLabel.Tooltip.FormatSpecifier=Formater les étiquettes de catégorie
 RadarSeriesMarkerSheet.Label.WebLabel=Configurer les étiquettes Web
@@ -51,7 +51,7 @@ RadarSeriesUIProvider.Label.CategoryLabels=Etiquettes de caté&gorie
 RadarSeriesUIProvider.Label.RadarLine=Ligne en ra&dar
 RadarSeriesUIProvider.Label.WebLabels=Etiquettes &Web
 RadarSeriesUIProvider.Title.CategoryLabels=Etiquettes de catégorie
-RadarSeriesUIProvider.Title.WebLabels=Etiquettes Web/radar
+RadarSeriesUIProvider.Title.WebLabels=Etiquettes Web
 
 Radar.Composite.Label.ScaleAuto=Echelle automatique
 Radar.Composite.Label.ScaleAutoTooltip=L'échelle du graphique est automatiquement ajustée
