@@ -20,8 +20,8 @@ RadarSeriesAttributeSheetImpl.Lbl.Fill=Füllung:
 RadarSeriesAttributeComposite.Lbl.DialTicks=&Häkchen
 RadarSeriesAttributeComposite.Lbl.DialScale=S&kalierung
 RadarBaseSeriesComponent.Label.CategoryDefinition=&Kategoriedefinition:
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web Labels
-RadarSeriesAttributeComposite.Lbl.ShowCat=Web-/Radar-&Kategoriebeschriftungen anzeigen
+RadarSeriesAttributeComposite.Lbl.ShowWeb=&Webbeschriftungen anzeigen
+RadarSeriesAttributeComposite.Lbl.ShowCat=Kategoriebes&chriftungen anzeigen
 
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument=Datenreihe vom Typ {0} ist ein ungültiges Argument für RadarSeriesAttributeComposite.
@@ -40,8 +40,8 @@ RadarSeriesMarkerSheet.Label.Series=Reihenlinienkonfiguration
 Radar.Composite.Label.ScaleCount=A&nzahl Skalenschritte in Diagramm
 Radar.Composite.Label.ScaleCountToolTip=Anzahl Skalenschritte zum Erstellen im Diagramm
 Radar.Composite.Label.bullsEye=Punktfarben als transparent festlegen
-Format.Button.Web.Label=Webbeschriftungen formatieren
-Format.Button.Cat.Label=Kategoriebeschriftungen formatieren
+Format.Button.Web.Label=Webbeschri&ftungen formatieren
+Format.Button.Cat.Label=Kategoriebeschri&ftungen formatieren
 WebLabel.Tooltip.FormatSpecifier=Webbeschriftungen formatieren
 CatLabel.Tooltip.FormatSpecifier=Kategoriebeschriftungen formatieren
 RadarSeriesMarkerSheet.Label.WebLabel=Webbeschriftungen konfigurieren
@@ -51,7 +51,7 @@ RadarSeriesUIProvider.Label.CategoryLabels=Kate&goriebeschriftungen
 RadarSeriesUIProvider.Label.RadarLine=Ra&darlinie
 RadarSeriesUIProvider.Label.WebLabels=&Webbeschriftungen
 RadarSeriesUIProvider.Title.CategoryLabels=Kategoriebeschriftungen
-RadarSeriesUIProvider.Title.WebLabels=Web-/Radarbeschriftungen
+RadarSeriesUIProvider.Title.WebLabels=Webbeschriftungen
 
 Radar.Composite.Label.ScaleAuto=Automatisch skalieren
 Radar.Composite.Label.ScaleAutoTooltip=Chart wird automatisch skaliert

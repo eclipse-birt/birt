@@ -20,8 +20,8 @@ RadarSeriesAttributeSheetImpl.Lbl.Fill=채우기:
 RadarSeriesAttributeComposite.Lbl.DialTicks=눈금(&T)
 RadarSeriesAttributeComposite.Lbl.DialScale=배율(&C)
 RadarBaseSeriesComponent.Label.CategoryDefinition=범주 정의(&C):
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Show &Web Labels
-RadarSeriesAttributeComposite.Lbl.ShowCat=웹/방사형 범주 레이블 표시(&C)
+RadarSeriesAttributeComposite.Lbl.ShowWeb=웹 레이블 표시(&W)
+RadarSeriesAttributeComposite.Lbl.ShowCat=범주 레이블 표시(&C)
 
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 RadarSeriesAttributeComposite에 대한 잘못된 인수입니다.
@@ -40,8 +40,8 @@ RadarSeriesMarkerSheet.Label.Series=계열 선 구성
 Radar.Composite.Label.ScaleCount=&차트의 숫자 배율 단계(&N)
 Radar.Composite.Label.ScaleCountToolTip=차트에서 만들 숫자 배율 단계
 Radar.Composite.Label.bullsEye=동그라미 색을 반투명으로 설정
-Format.Button.Web.Label=웹 레이블 형식
-Format.Button.Cat.Label=범주 레이블 형식
+Format.Button.Web.Label=웹 레이블 형식(&F)
+Format.Button.Cat.Label=범주 레이블 형식(&F)
 WebLabel.Tooltip.FormatSpecifier=웹 레이블 형식
 CatLabel.Tooltip.FormatSpecifier=범주 레이블 형식
 RadarSeriesMarkerSheet.Label.WebLabel=웹 레이블 구성
@@ -51,7 +51,7 @@ RadarSeriesUIProvider.Label.CategoryLabels=범주 레이블(&G)
 RadarSeriesUIProvider.Label.RadarLine=방사형 선(&D)
 RadarSeriesUIProvider.Label.WebLabels=웹 레이블(&W)
 RadarSeriesUIProvider.Title.CategoryLabels=범주 레이블
-RadarSeriesUIProvider.Title.WebLabels=웹/방사형 레이블
+RadarSeriesUIProvider.Title.WebLabels=웹 레이블
 
 Radar.Composite.Label.ScaleAuto=자동 배율
 Radar.Composite.Label.ScaleAutoTooltip=차트의 배율은 자동으로 조정됩니다.
