@@ -359,7 +359,6 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	{
 		assert content != null;
 		assert executor != null;
-		int type = content.getContentType( );
 		
 		// For fixed layout reports and in run task, we need to emit the
 		// invisible content to PDF layout engine.

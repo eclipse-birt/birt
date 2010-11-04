@@ -23,7 +23,7 @@ public class ScriptablePageVariables extends BaseScriptable
 
 	private Map<String, PageVariable> variables;
 
-	private final String JS_CLASS_NAME = "ScriptableVariables";
+	private static final String JS_CLASS_NAME = "ScriptableVariables";
 
 	public ScriptablePageVariables( Map<String, PageVariable> variables,
 			Scriptable scope )

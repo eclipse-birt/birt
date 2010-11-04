@@ -352,7 +352,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		return null;
 	}
 
-	private class DOMBuildingEmitter extends ContentEmitterAdapter
+	private static class DOMBuildingEmitter extends ContentEmitterAdapter
 	{
 
 		private IContent parent;
@@ -573,7 +573,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			generateByIDs = new HashMap( );
 			new GenerateIDMapVisitor( generateByIDs ).visitReport( report );
 		}
-		return generateByIDs.get( new Long( designId ) );
+		return generateByIDs.get( Long.valueOf( designId ) );
 	}
 
 	/**
@@ -583,7 +583,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * the hash map.
 	 * 
 	 */
-	protected class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl
+	protected static class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl
 	{
 
 		/**
@@ -617,7 +617,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			{
 				MasterPageDesign masterPage = (MasterPageDesign) pageSetup
 						.getMasterPage( i );
-				IDMaps.put( new Long( masterPage.getID( ) ), masterPage );
+				IDMaps.put( Long.valueOf( masterPage.getID( ) ), masterPage );
 				if ( masterPage instanceof SimpleMasterPageDesign )
 				{
 					SimpleMasterPageDesign simpleMasterPage = (SimpleMasterPageDesign) masterPage;
@@ -642,7 +642,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		public Object visitFreeFormItem( FreeFormItemDesign container,
 				Object value )
 		{
-			IDMaps.put( new Long( container.getID( ) ), container );
+			IDMaps.put( Long.valueOf( container.getID( ) ), container );
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 			{
 				container.getItem( i ).accept( this, value );
@@ -652,7 +652,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 
 		public Object visitListingItem( ListItemDesign list, Object value )
 		{
-			IDMaps.put( new Long( list.getID( ) ), list );
+			IDMaps.put( Long.valueOf( list.getID( ) ), list );
 			if ( list.getHeader( ) != null )
 			{
 				list.getHeader( ).accept( this, value );
@@ -674,7 +674,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 
 		public Object visitGroup( GroupDesign group, Object value )
 		{
-			IDMaps.put( new Long( group.getID( ) ), group );
+			IDMaps.put( Long.valueOf( group.getID( ) ), group );
 			if ( group.getHeader( ) != null )
 			{
 				group.getHeader( ).accept( this, value );
@@ -690,7 +690,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		{
 			if ( band != null )
 			{
-				IDMaps.put( new Long( band.getID( ) ), band );
+				IDMaps.put( Long.valueOf( band.getID( ) ), band );
 				for ( int i = 0; i < band.getContentCount( ); i++ )
 				{
 					band.getContent( i ).accept( this, null );
@@ -701,13 +701,13 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 
 		public Object visitReportItem( ReportItemDesign item, Object value )
 		{
-			IDMaps.put( new Long( item.getID( ) ), item );
+			IDMaps.put( Long.valueOf( item.getID( ) ), item );
 			return value;
 		}
 
 		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
-			IDMaps.put( new Long( grid.getID( ) ), grid );
+			IDMaps.put( Long.valueOf( grid.getID( ) ), grid );
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
 			{
 				grid.getRow( i ).accept( this, value );

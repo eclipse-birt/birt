@@ -279,13 +279,13 @@ public class XMLEncodeUtil
 						return 1;
 					}
 					logger.log( Level.INFO, MESSAGE_INVALID_SURROGATE,
-							new Object[]{new Integer( c ), new Integer( nc )} );
+							new Object[]{Integer.valueOf( c ), Integer.valueOf( nc )} );
 				}
 				logger.log( Level.INFO, MESSAGE_UNMATCH_SURROGATE,
-						new Object[]{new Integer( c ), new Integer( nc )} );
+						new Object[]{Integer.valueOf( c ), Integer.valueOf( nc )} );
 			}
 			logger.log( Level.INFO, MESSAGE_MISSING_LOW_SURROGATE,
-					new Object[]{new Integer( c )} );
+					new Object[]{Integer.valueOf( c )} );
 		}
 		logger
 				.log( Level.INFO, MESSAGE_INVALID_CHARACTER, Integer

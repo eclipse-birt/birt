@@ -1128,29 +1128,28 @@ public final class DataTypeUtil
 	 */
 	private static String toLimitedSizeString( Object source )
 	{
-		String str = "";
 		if ( source instanceof byte[] )
 		{
+			StringBuffer buf = new StringBuffer( );
 			final int strLength = 8;
 
 			byte[] sourceValue = (byte[]) source;
 			int length = Math.min( sourceValue.length, strLength );
 			for ( int i = 0; i < length; i++ )
 			{
-				str += Integer.toHexString( sourceValue[i] ).toUpperCase( )
-						+ " ";
+				buf.append( Integer.toHexString( sourceValue[i] ).toUpperCase( ) );
+				buf.append( " " );
 			}
 			if ( sourceValue.length > strLength )
 			{
-				str += "...";
+				buf.append( "..." );
 			}
+			return buf.toString( );
 		}
 		else
 		{
-			str = source.toString( );
+			return source.toString( );
 		}
-
-		return str;
 	}
 
 	/**

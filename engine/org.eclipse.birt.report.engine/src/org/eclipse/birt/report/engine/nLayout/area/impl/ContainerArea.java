@@ -956,7 +956,7 @@ public abstract class ContainerArea extends AbstractArea
 			if ( vsConflicted[i] )
 			{
 				style.setProperty( vsStyle[i],
-						new FloatValue( CSSPrimitiveValue.CSS_PT, vs[i] / 1000 ) );
+						new FloatValue( CSSPrimitiveValue.CSS_PT, vs[i] / 1000f ) );
 			}
 		}
 
@@ -965,7 +965,7 @@ public abstract class ContainerArea extends AbstractArea
 			if ( hsConflicted[i] )
 			{
 				style.setProperty( hsStyle[i],
-						new FloatValue( CSSPrimitiveValue.CSS_PT, vs[i] / 1000 ) );
+						new FloatValue( CSSPrimitiveValue.CSS_PT, vs[i] / 1000f ) );
 			}
 		}
 	}

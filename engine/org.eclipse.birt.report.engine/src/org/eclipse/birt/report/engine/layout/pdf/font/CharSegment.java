@@ -48,7 +48,7 @@ public class CharSegment
 
 	public static int search( CharSegment[] segments, int ch )
 	{
-		int index = Arrays.binarySearch( segments, new Integer( ch ),
+		int index = Arrays.binarySearch( segments, Integer.valueOf( ch ),
 				new SearchingComparator( ) );
 		if ( index < 0 )
 		{

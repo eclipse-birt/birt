@@ -107,17 +107,9 @@ public class DateFormatISO8601
 			}
 		}
 		// for the String can not be parsed, throws a BirtException
-		if ( result == null )
-		{
-			throw new CoreException( 
-					ResourceConstants.CONVERT_FAILS,
-					new Object[]{
-							date.toString( ), "ISO8601 Format"
-					} );
-		}
-
-		// never access here
-		return result;
+		throw new CoreException( ResourceConstants.CONVERT_FAILS, new Object[]{
+				date.toString( ), "ISO8601 Format"
+		} );
 	}
 	
 	/**

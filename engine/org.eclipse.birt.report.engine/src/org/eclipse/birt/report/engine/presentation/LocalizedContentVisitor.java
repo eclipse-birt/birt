@@ -1175,7 +1175,7 @@ public class LocalizedContentVisitor
 			default :
 				assert false;
 				logger.log( Level.WARNING, "unsupported output format:{0}", //$NON-NLS-1$
-						new Integer( type ) );
+						Integer.valueOf( type ) );
 		}
 		return content;
 

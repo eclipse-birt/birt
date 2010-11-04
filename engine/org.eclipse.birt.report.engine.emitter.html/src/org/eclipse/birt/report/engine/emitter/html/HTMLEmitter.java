@@ -675,7 +675,7 @@ public abstract class HTMLEmitter
 		int display = getElementType( x, y, width, height, container.getStyle( ) );
 		// The display value is pushed in Stack. It will be popped when
 		// close the container tag.
-		containerDisplayStack.push( new Integer( display ) );
+		containerDisplayStack.push( Integer.valueOf( display ) );
 		if ( !reportEmitter.browserSupportsInlineBlock )
 		{
 			if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )

@@ -152,7 +152,7 @@ public class SubqueryResultMetaData implements IResultMetaData
 		return metas.get( index ).columnTypeName;
 	}
 
-	private class MetaData
+	private static class MetaData
 	{
 
 		String columnName;

@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.executor;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -364,8 +366,8 @@ public class ExecutionContext
 		scriptContext.setAttribute( "report", new ReportObject( ) );
 		scriptContext.setAttribute( "params", params ); //$NON-NLS-1$
 		scriptContext.setAttribute( "config", configs ); //$NON-NLS-1$
-		scriptContext.setAttribute( "currentPage", new Long( pageNumber ) );
-		scriptContext.setAttribute( "totalPage", new Long( totalPage ) );
+		scriptContext.setAttribute( "currentPage", Long.valueOf( pageNumber ) );
+		scriptContext.setAttribute( "totalPage", Long.valueOf( totalPage ) );
 		scriptContext.setAttribute( "_jsContext", this );
 		scriptContext.setAttribute( "vars", pageVariables );
 		if ( runnable != null )
@@ -377,8 +379,8 @@ public class ExecutionContext
 			scriptContext.setAttribute( "reportContext", reportContext );
 			scriptContext.setAttribute( "formatter", new FormatterImpl(this) );
 		}
-		scriptContext.setAttribute( "pageNumber", new Long( pageNumber ) );
-		scriptContext.setAttribute( "totalPage", new Long( totalPage ) );
+		scriptContext.setAttribute( "pageNumber", Long.valueOf( pageNumber ) );
+		scriptContext.setAttribute( "totalPage", Long.valueOf( totalPage ) );
 		if ( task != null )
 		{
 			IStatusHandler handler = task.getStatusHandler( );
@@ -1343,7 +1345,7 @@ public class ExecutionContext
 		return outputFormat;
 	}
 
-	public class ElementExceptionInfo
+	public static class ElementExceptionInfo
 	{
 
 		DesignElementHandle element;
@@ -1368,13 +1370,13 @@ public class ExecutionContext
 						&& e.getLocalizedMessage( ).equals(
 								err.getLocalizedMessage( ) ) )
 				{
-					countList.set( i, new Integer( ( (Integer) countList
+					countList.set( i, Integer.valueOf( ( (Integer) countList
 							.get( i ) ).intValue( ) + 1 ) );
 					return;
 				}
 			}
 			exList.add( e );
-			countList.add( new Integer( 1 ) );
+			countList.add( Integer.valueOf( 1 ) );
 
 		}
 
@@ -1457,8 +1459,8 @@ public class ExecutionContext
 		pageNumber = pageNo;
 		if ( scriptContext != null )
 		{
-			getRootContext( )
-					.setAttribute( "pageNumber", new Long( pageNumber ) );
+			getRootContext( ).setAttribute( "pageNumber",
+					Long.valueOf( pageNumber ) );
 		}
 		if ( totalPage < pageNumber )
 		{
@@ -1480,7 +1482,7 @@ public class ExecutionContext
 			if ( scriptContext != null )
 			{
 				getRootContext( ).setAttribute( "totalPage",
-						new Long( totalPage ) );
+						Long.valueOf( totalPage ) );
 			}
 			if ( reportContent instanceof ReportContent )
 			{
@@ -1768,8 +1770,15 @@ public class ExecutionContext
 		if ( applicationClassLoader == null )
 		{
 			closeClassLoader = true;
-			applicationClassLoader = new ApplicationClassLoader( engine,
-					runnable, appContext );
+			applicationClassLoader = AccessController.doPrivileged( new PrivilegedAction<ApplicationClassLoader>( ) {
+
+				public ApplicationClassLoader run( )
+				{
+					return new ApplicationClassLoader( engine,
+							runnable,
+							appContext );
+				}
+			} );
 			if ( scriptContext != null )
 			{
 				scriptContext

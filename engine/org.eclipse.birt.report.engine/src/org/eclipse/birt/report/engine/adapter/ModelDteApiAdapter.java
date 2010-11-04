@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.core.data.Constants;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -358,10 +359,11 @@ public class ModelDteApiAdapter
 				.getExtensionPropertyDefinitionList( ) );
 		if ( staticProps != null && !staticProps.isEmpty( ) )
 		{
-			Iterator propNamesItr = staticProps.keySet( ).iterator( );
-			while ( propNamesItr.hasNext( ) )
+			Iterator entries = staticProps.entrySet( ).iterator( );
+			while ( entries.hasNext( ) )
 			{
-				String propName = ( String ) propNamesItr.next( );
+				Entry entry = (Entry) entries.next( );
+				String propName = (String) entry.getKey( );
 				assert ( propName != null );
 
 				// If property binding expression exists, use its evaluation
@@ -374,9 +376,10 @@ public class ModelDteApiAdapter
 						&& bindingExpr.length( ) > 0 && context.getDataEngine() instanceof DteDataEngine )
 				{
 					propValue = evaluatePropertyBindingExpr( bindingExpr );
-				} else
+				}
+				else
 				{
-					propValue = ( String ) staticProps.get( propName );
+					propValue = (String) entry.getValue( );
 				}
 
 				dteSource.addPublicProperty( propName, propValue );

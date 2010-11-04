@@ -135,7 +135,7 @@ public class CellContent extends AbstractContent implements ICellContent
 		this.colSpan = cell.getColSpan( );
 		this.rowSpan = cell.getRowSpan( );
 		this.column = cell.getColumn( );
-		this.displayGroupIcon = new Boolean(cell.getDisplayGroupIcon( ));
+		this.displayGroupIcon = Boolean.valueOf(cell.getDisplayGroupIcon( ));
 		this.columnInstance = cell.getColumnInstance( );
 		if ( generateBy instanceof CellDesign )
 		{

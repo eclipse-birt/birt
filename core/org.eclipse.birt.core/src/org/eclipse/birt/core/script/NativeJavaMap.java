@@ -64,7 +64,7 @@ public class NativeJavaMap extends NativeJavaObject
 	{
 		if ( "length".equals( name ) )
 		{
-			return new Integer( ( (Map) javaObject ).size( ) );
+			return Integer.valueOf( ( (Map) javaObject ).size( ) );
 		}
 		if ( has( name, start ) )
 		{
@@ -107,9 +107,10 @@ public class NativeJavaMap extends NativeJavaObject
 
 	public Object get( int index, Scriptable start )
 	{
-		if ( has( new Integer( index ).toString( ), start ) )
+		String key = Integer.valueOf( index ).toString( );
+		if ( has( key, start ) )
 		{
-			return ( (Map) javaObject ).get( new Integer( index ).toString( ) );
+			return ( (Map) javaObject ).get( key );
 		}
 		String errorMessage = CoreMessages.getFormattedString( ResourceConstants.JAVASCRIPT_NATIVE_NOT_FOUND,
 				index );
@@ -118,7 +119,7 @@ public class NativeJavaMap extends NativeJavaObject
 
 	public void put( int index, Scriptable start, Object value )
 	{
-		( (Map) javaObject ).put( new Integer( index ).toString( ), value );
+		( (Map) javaObject ).put( Integer.valueOf( index ).toString( ), value );
 	}
 
 	public Object[] getIds( )

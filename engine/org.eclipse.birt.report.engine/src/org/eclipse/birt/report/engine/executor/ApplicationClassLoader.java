@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,10 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.URLClassLoader;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
@@ -122,15 +122,27 @@ public class ApplicationClassLoader extends ClassLoader
 				}
 			}
 		}
-		URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
+		final URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
 		if ( engine != null )
 		{
-			designClassLoader = new URLClassLoader( jarUrls, engine
-					.getEngineClassLoader( ) );
+			designClassLoader = AccessController.doPrivileged( new PrivilegedAction<URLClassLoader>( ) {
+
+				public URLClassLoader run( )
+				{
+					return new URLClassLoader( jarUrls,
+							engine.getEngineClassLoader( ) );
+				}
+			} );
 		}
 		else
 		{
-			designClassLoader = new URLClassLoader( jarUrls );
+			designClassLoader = AccessController.doPrivileged( new PrivilegedAction<URLClassLoader>( ) {
+
+				public URLClassLoader run( )
+				{
+					return new URLClassLoader( jarUrls );
+				}
+			} );
 		}
 	}
 }

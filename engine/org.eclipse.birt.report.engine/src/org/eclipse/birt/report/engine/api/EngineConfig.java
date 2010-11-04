@@ -476,7 +476,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 */
 	public void setMaxRowsPerQuery( int maxRows )
 	{
-		setProperty( MAX_ROWS_PER_QUERY, new Integer(maxRows) );
+		setProperty( MAX_ROWS_PER_QUERY, Integer.valueOf(maxRows) );
 	}
 	
 	/**
@@ -534,10 +534,10 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 */
 	public String toString()
 	{
-		String str = "EngineConfig: ";
+		StringBuffer buf = new StringBuffer( "EngineConfig: " );
 		if ( properties == null )
 		{
-			str += "null";
+			buf.append( "null" );
 		}
 		else
 		{
@@ -547,12 +547,12 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 				Map.Entry entry = (Map.Entry)entryIt.next();
 				Object key = entry.getKey();
 				Object value = entry.getValue();
-				str += key == null ? "<null>" : key.toString();
-				str += "=";
-				str += value == null? "<null>" : value.toString();
-				str += ";";
+				buf.append( key == null ? "<null>" : key.toString( ) );
+				buf.append( "=" );
+				buf.append( value == null ? "<null>" : value.toString( ) );
+				buf.append( ";" );
 			}
 		}
-		return str;
+		return buf.toString( );
 	}
 }

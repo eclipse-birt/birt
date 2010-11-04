@@ -38,7 +38,7 @@ public class ListContent extends ContainerContent implements IListContent
 	ListContent(IListContent listContent)
 	{
 		super(listContent);
-		this.headerRepeat = new Boolean(listContent.isHeaderRepeat( ));
+		this.headerRepeat = Boolean.valueOf(listContent.isHeaderRepeat( ));
 	}
 	
 

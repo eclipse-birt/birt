@@ -1145,6 +1145,16 @@ public class GetParameterDefinitionTask extends EngineTask
 			return children;
 		}
 
+		public int hashCode( )
+		{
+			final int prime = 31;
+			int result = super.hashCode( );
+			result = prime
+					* result
+					+ ( ( children == null ) ? 0 : children.hashCode( ) );
+			return result;
+		}
+		
 		public boolean equals( Object obj )
 		{
 			if ( obj == this )
@@ -1472,7 +1482,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		return allParameters;
 	}
 	
-	class ParameterBinding
+	static class ParameterBinding
 	{
 		String labelColumnName;
 		String valueColumnName;

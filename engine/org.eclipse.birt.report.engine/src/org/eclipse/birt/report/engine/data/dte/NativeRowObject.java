@@ -98,7 +98,7 @@ public class NativeRowObject implements Scriptable
 		{
 			if ( "__rownum".equals( name ) )
 			{
-				return new Long( rset.getRowIndex( ) );
+				return Long.valueOf( rset.getRowIndex( ) );
 			}
 			return rset.getValue( name );
 		}

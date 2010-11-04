@@ -31,7 +31,7 @@ public class VisiblePageFilter implements ViewFilter
 	public boolean isVisible( ITreeNode node )
 	{
 		String id = node.getNodeId( );
-		if ( id == null || "/".equals( node ) )
+		if ( id == null || "/".equals( id ) )
 		{
 			return true;
 		}

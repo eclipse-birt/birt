@@ -4,7 +4,6 @@ package org.eclipse.birt.report.engine.api.impl;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
-import org.eclipse.birt.report.engine.util.SecurityUtil;
 
 abstract public class AbstractRunTask extends EngineTask
 {

@@ -283,12 +283,12 @@ public class TableLayout extends RepeatableLayout
 			{
 				if ( columns[i] == null )
 				{
-					unsetList.add( new Integer( i ) );
+					unsetList.add( Integer.valueOf( i ) );
 				}
 				else if ( EngineIRConstants.UNITS_PERCENTAGE.equals( columns[i]
 						.getUnits( ) ) )
 				{
-					percentageList.add( new Integer( i ) );
+					percentageList.add( Integer.valueOf( i ) );
 					total += columns[i].getMeasure( );
 				}
 				else if ( EngineIRConstants.UNITS_EM.equals( columns[i]
@@ -308,7 +308,7 @@ public class TableLayout extends RepeatableLayout
 					int len = TableLayout.this.getDimensionValue( columns[i],
 							tableWidth );
 					resolvedColumnWidth[i] = len;
-					preFixedList.add( new Integer( i ) );
+					preFixedList.add( Integer.valueOf( i ) );
 					fixedLength += len;
 				}
 			}

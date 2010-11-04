@@ -249,7 +249,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		}
 	}
 
-	class BufferNode
+	static class BufferNode
 	{
 
 		IContent content;
@@ -268,7 +268,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		}
 	}
 
-	public class PageContentBuffer implements IPageBuffer
+	public static class PageContentBuffer implements IPageBuffer
 	{
 
 		public boolean isRepeated( )

@@ -109,7 +109,7 @@ public class PDFTextBlockContainerLM extends PDFBlockContainerLM
 	}
 	
 	
-	protected class WOManager
+	protected static class WOManager
 	{
 		protected int widows;
 		protected int orphans;

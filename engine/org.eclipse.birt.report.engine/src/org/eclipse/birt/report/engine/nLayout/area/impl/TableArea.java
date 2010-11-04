@@ -601,12 +601,12 @@ public class TableArea extends RepeatableArea
 			{
 				if ( columns[i] == null )
 				{
-					unsetList.add( new Integer( i ) );
+					unsetList.add( Integer.valueOf( i ) );
 				}
 				else if ( EngineIRConstants.UNITS_PERCENTAGE.equals( columns[i]
 						.getUnits( ) ) )
 				{
-					percentageList.add( new Integer( i ) );
+					percentageList.add( Integer.valueOf( i ) );
 					total += columns[i].getMeasure( );
 				}
 				else if ( EngineIRConstants.UNITS_EM.equals( columns[i]
@@ -625,7 +625,7 @@ public class TableArea extends RepeatableArea
 				{
 					int len = getDimensionValue( table, columns[i], tableWidth );
 					resolvedColumnWidth[i] = len;
-					preFixedList.add( new Integer( i ) );
+					preFixedList.add( Integer.valueOf( i ) );
 					fixedLength += len;
 				}
 			}
@@ -910,7 +910,7 @@ public class TableArea extends RepeatableArea
 		}
 	}
 
-	public class TableLayoutInfo
+	public static class TableLayoutInfo
 	{
 
 		ITableContent tableContent;

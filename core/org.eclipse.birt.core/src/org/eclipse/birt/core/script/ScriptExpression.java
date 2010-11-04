@@ -53,7 +53,7 @@ public class ScriptExpression
 
 	public void setScriptText( String scriptText )
 	{
-		if ( scriptText != this.scriptText )
+		if ( scriptText == null || !scriptText.equals( this.scriptText ) )
 		{
 			this.scriptText = scriptText;
 			compiledScript = null;
@@ -67,7 +67,7 @@ public class ScriptExpression
 
 	public void setId( String id )
 	{
-		if ( id != this.id )
+		if ( id == null || !id.equals( this.id ) )
 		{
 			this.id = id;
 			compiledScript = null;

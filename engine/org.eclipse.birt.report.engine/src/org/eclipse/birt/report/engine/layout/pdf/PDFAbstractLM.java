@@ -414,7 +414,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	}
 
 
-	protected class ReportStackingExecutor extends ReportItemExecutorBase
+	protected static class ReportStackingExecutor extends ReportItemExecutorBase
 	{
 
 		IReportExecutor executor;

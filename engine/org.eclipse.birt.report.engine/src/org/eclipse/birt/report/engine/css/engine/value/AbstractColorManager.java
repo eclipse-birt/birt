@@ -317,7 +317,7 @@ public abstract class AbstractColorManager extends IdentifierManager
 
 	private DOMException createInvalidRGBComponentUnitDOMException( short type )
 	{
-		Object[] p = new Object[]{getPropertyName( ), new Integer( type )};
+		Object[] p = new Object[]{getPropertyName( ), Integer.valueOf( type )};
 		String s = Messages.formatMessage( "invalid.rgb.component.unit", p ); //$NON-NLS-1$
 		return new DOMException( DOMException.NOT_SUPPORTED_ERR, s );
 	}

@@ -35,14 +35,14 @@ class DocArchiveLockManager implements IArchiveLockManager
 	{
 	}
 
-	private class Lock
+	private static class Lock
 	{
 
 		String name;
 		FileLock lock;
 	}
 
-	private class Channel
+	private static class Channel
 	{
 
 		RandomAccessFile file;

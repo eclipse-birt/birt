@@ -173,7 +173,7 @@ public class SuppressDuplicateUtil
 			{
 				value = footer.accept( this, value );
 			}
-			return null;
+			return value;
 		}
 
 		public Object visitDataItem( DataItemDesign data, Object value )

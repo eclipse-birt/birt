@@ -197,7 +197,7 @@ public abstract class ShortHandProcessor
 					{
 						String[] vs = value.split( " " );
 						String url = getBackgroundImage( vs, engine );
-						if ( url != EMPTY_VALUE )
+						if ( !EMPTY_VALUE.equals( url ) )
 						{
 							appendStyle( buffer,
 									CSSConstants.CSS_BACKGROUND_IMAGE_PROPERTY,

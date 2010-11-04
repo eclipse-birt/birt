@@ -64,7 +64,7 @@ public class NumberFormatter implements IFormatter
 	 * createNumberFormat() and format() methods
 	 */
 	protected NumberFormat numberFormat;
-	protected NumberFormat decimalFormat;
+	protected DecimalFormat decimalFormat;
 
 	/**
 	 * The default format of Double is Double.toString(); need to localize the
@@ -509,10 +509,9 @@ public class NumberFormatter implements IFormatter
 		{
 			DecimalFormatSymbols symbols = getICUDecimalSymbols( locale
 					.toLocale( ) );
-			if ( decimalFormat instanceof DecimalFormat )
+			if ( decimalFormat != null )
 			{
-				( (DecimalFormat) decimalFormat )
-						.setDecimalFormatSymbols( symbols );
+				( (DecimalFormat) decimalFormat ).setDecimalFormatSymbols( symbols );
 			}
 			if ( numberFormat instanceof DecimalFormat )
 			{

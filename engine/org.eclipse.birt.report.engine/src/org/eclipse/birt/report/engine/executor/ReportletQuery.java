@@ -140,7 +140,7 @@ public class ReportletQuery
 		queries.clear( );
 	}
 
-	private class Query
+	private static class Query
 	{
 
 		IDataQueryDefinition[] queries;

@@ -40,7 +40,7 @@ public abstract class AbstractValueFactory
 	 */
 	protected DOMException createInvalidLexicalUnitDOMException( short type )
 	{
-		Object[] p = new Object[]{getPropertyName( ), new Integer( type )};
+		Object[] p = new Object[]{getPropertyName( ), Integer.valueOf( type )};
 		String s = Messages.formatMessage( "invalid.lexical.unit", p );
 		return new DOMException( DOMException.NOT_SUPPORTED_ERR, s );
 	}
@@ -50,7 +50,7 @@ public abstract class AbstractValueFactory
 	 */
 	protected DOMException createInvalidFloatTypeDOMException( short t )
 	{
-		Object[] p = new Object[]{getPropertyName( ), new Integer( t )};
+		Object[] p = new Object[]{getPropertyName( ), Integer.valueOf( t )};
 		String s = Messages.formatMessage( "invalid.float.type", p );
 		return new DOMException( DOMException.INVALID_ACCESS_ERR, s );
 	}
@@ -70,7 +70,7 @@ public abstract class AbstractValueFactory
 	 */
 	protected DOMException createInvalidStringTypeDOMException( short t )
 	{
-		Object[] p = new Object[]{getPropertyName( ), new Integer( t )};
+		Object[] p = new Object[]{getPropertyName( ), Integer.valueOf( t )};
 		String s = Messages.formatMessage( "invalid.string.type", p );
 		return new DOMException( DOMException.INVALID_ACCESS_ERR, s );
 	}

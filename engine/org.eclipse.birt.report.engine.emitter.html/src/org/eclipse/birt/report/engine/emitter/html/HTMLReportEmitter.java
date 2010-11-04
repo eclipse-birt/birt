@@ -1714,7 +1714,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 
-		tableDIVWrapedFlagStack.push( new Boolean( DIVWrap ) );
+		tableDIVWrapedFlagStack.push( Boolean.valueOf( DIVWrap ) );
 		
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
 		//FIXME: code review: use "metadataEmitter != null" to instead of enableMetadata.

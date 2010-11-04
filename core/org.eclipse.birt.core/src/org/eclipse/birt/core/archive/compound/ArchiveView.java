@@ -135,7 +135,7 @@ public class ArchiveView implements IArchiveFile
 		return archive.getSystemId( );
 	}
 
-	class ViewEntry extends ArchiveEntry
+	static class ViewEntry extends ArchiveEntry
 	{
 
 		IArchiveFile view;

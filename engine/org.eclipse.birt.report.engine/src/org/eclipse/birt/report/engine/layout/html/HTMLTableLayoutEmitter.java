@@ -451,7 +451,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 			if ( !isNestTable( ) )
 			{
 				int groupLevel = group.getGroupLevel( );
-				groupStack.push( new Integer( groupLevel ) );
+				groupStack.push( Integer.valueOf( groupLevel ) );
 				if ( hasDropCell( ) )
 				{
 					layoutEvents.push( new LayoutEvent(

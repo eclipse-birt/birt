@@ -23,7 +23,7 @@ public class ScriptableParameters extends BaseScriptable
 {
 
 	private Map parameters;
-	private final String JS_CLASS_NAME = "ScriptableParameters";
+	private static final String JS_CLASS_NAME = "ScriptableParameters";
 
 	public ScriptableParameters( Map parameters, Scriptable scope )
 	{

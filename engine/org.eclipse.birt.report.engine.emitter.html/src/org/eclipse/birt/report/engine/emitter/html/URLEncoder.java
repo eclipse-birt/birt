@@ -89,9 +89,9 @@ public class URLEncoder {
 	    try
 		{
 		    byte[] bytes;
-		    if(encoding == "")
-		    {
-		    	bytes = s.getBytes();			// use current system encoding
+			if ( "".equals( encoding ) )
+			{
+				bytes = s.getBytes();			// use current system encoding
 		    }
 		    else{
 		    	bytes = s.getBytes(encoding);	// use passed-in encoding

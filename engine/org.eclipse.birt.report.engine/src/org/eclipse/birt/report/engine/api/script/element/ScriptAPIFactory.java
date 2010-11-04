@@ -37,7 +37,13 @@ public class ScriptAPIFactory implements IScriptAPIFactory
 	public static ScriptAPIFactory getInstance( )
 	{
 		if ( instance == null )
-			instance = new ScriptAPIFactory( );
+		{
+			synchronized ( ScriptAPIFactory.class )
+			{
+				if ( instance == null )
+					instance = new ScriptAPIFactory( );
+			}
+		}
 		return instance;
 	}
 

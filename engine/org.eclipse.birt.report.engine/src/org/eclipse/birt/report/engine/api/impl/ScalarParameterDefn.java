@@ -34,8 +34,6 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	
 	protected boolean fixedOrder;
 	
-	protected int parameterType;
-
 	protected boolean allowNewValues;
 
 	protected String defaultValue;

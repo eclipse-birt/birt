@@ -59,7 +59,7 @@ public class HTMLLayoutPageHintManager
 
 	public void addLayoutHint( IContent content, boolean finished )
 	{
-		layoutHint.put( content, new Boolean( finished ) );
+		layoutHint.put( content, Boolean.valueOf( finished ) );
 	}
 	
 	public void removeLayoutHint(IContent content)
@@ -217,17 +217,21 @@ public class HTMLLayoutPageHintManager
 		return sizeBasedContentMapping;
 	}
 	
-	public String getHintMapKey(String tableId)
+	public String getHintMapKey( String tableId )
 	{
 		String key = tableId;
 		List hints = getTableColumnHint( key );
 		Iterator iter = hints.iterator( );
-		while(iter.hasNext( ))
+		StringBuffer keyBuf = new StringBuffer( key );
+		while ( iter.hasNext( ) )
 		{
-			int[] vs = (int[])iter.next( );
-			key = key +"-" + vs[0] + "-" + vs[1];
+			int[] vs = (int[]) iter.next( );
+			keyBuf.append( '-' );
+			keyBuf.append( vs[0] );
+			keyBuf.append( '-' );
+			keyBuf.append( vs[1] );
 		}
-		return key;
+		return keyBuf.toString( );
 	}
 	
 	public List getTableColumnHint( String tableId )

@@ -25,7 +25,6 @@ public class ReportletReader extends AbstractReportReader
 {
 
 	Fragment reportletFragment = null;
-	long offset;
 	BodyReader bodyExecutor;
 
 	public ReportletReader( ExecutionContext context, long offset )

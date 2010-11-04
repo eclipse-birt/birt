@@ -25,7 +25,7 @@ public class TableBorder
 	int tableLRY = 0;
 	
 
-	class Border
+	static class Border
 	{
 		Border( int position )
 		{
@@ -39,7 +39,7 @@ public class TableBorder
 		ArrayList segments = new ArrayList( );
 	}
 
-	class BorderSegment
+	static class BorderSegment
 	{
 		BorderSegment( int start, int end, int style, int width, Color color )
 		{
@@ -70,31 +70,31 @@ public class TableBorder
 
 	public void addColumn( int position )
 	{
-		if(!columnBorders.containsKey( new Integer(position) ))
+		if(!columnBorders.containsKey( Integer.valueOf(position) ))
 		{
-			columnBorders.put( new Integer(position), new Border( position ) );
+			columnBorders.put( Integer.valueOf(position), new Border( position ) );
 		}
 		tableLRX = Math.max( position, tableLRX );
 	}
 
 	public void addRow( int position )
 	{
-		if(!rowBorders.containsKey( new Integer(position) ))
+		if(!rowBorders.containsKey( Integer.valueOf(position) ))
 		{
-			rowBorders.put( new Integer(position), new Border( position ) );
+			rowBorders.put( Integer.valueOf(position), new Border( position ) );
 		}
 		tableLRY = Math.max( position, tableLRY );
 	}
 
 	public void setColumnBorder( int position, int start, int end, int style, int width, Color color )
 	{
-		addBorderSegment( (Border) columnBorders.get( new Integer(position) ), start, end, style,
+		addBorderSegment( (Border) columnBorders.get( Integer.valueOf(position) ), start, end, style,
 				width, color );
 	}
 
 	public void setRowBorder( int position, int start, int end, int style, int width, Color color )
 	{
-		addBorderSegment( (Border) rowBorders.get( new Integer(position) ), start, end, style,
+		addBorderSegment( (Border) rowBorders.get( Integer.valueOf(position) ), start, end, style,
 				width, color );
 	}
 
@@ -156,18 +156,18 @@ public class TableBorder
 			BorderSegment current = (BorderSegment) border.segments.get( j );
 			if ( last == null )
 			{
-				border.breakPoints.add( new Integer( current.start ) );
+				border.breakPoints.add( Integer.valueOf( current.start ) );
 			}
 			else if ( current.start != last.end )
 			{
-				border.breakPoints.add( new Integer( last.end ) );
-				border.breakPoints.add( new Integer( current.start ) );
+				border.breakPoints.add( Integer.valueOf( last.end ) );
+				border.breakPoints.add( Integer.valueOf( current.start ) );
 			}
 			last = current;
 		}
 		if ( null != last )
 		{
-			border.breakPoints.add( new Integer( last.end ) );
+			border.breakPoints.add( Integer.valueOf( last.end ) );
 		}
 	}
 

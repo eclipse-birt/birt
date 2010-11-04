@@ -59,8 +59,8 @@ class AllocTable implements ArchiveConstants
 		INDEX_PER_BLOCK = BLOCK_SIZE / 4;
 		fatEntry = new AllocEntry( ALLOC_TABLE_BLOCK );
 		freeEntry = new AllocEntry( 0 );
-		entries.put( new Integer( ENTRY_TABLE_BLOCK ), new AllocEntry(
-				ENTRY_TABLE_BLOCK ) );
+		entries.put( Integer.valueOf( ENTRY_TABLE_BLOCK ),
+				new AllocEntry( ENTRY_TABLE_BLOCK ) );
 	}
 
 	static AllocTable createTable( ArchiveFileV2 af ) throws IOException
@@ -95,7 +95,7 @@ class AllocTable implements ArchiveConstants
 			}
 			else
 			{
-				entries.put( new Integer( entry.getFirstBlock( ) ), entry );
+				entries.put( Integer.valueOf( entry.getFirstBlock( ) ), entry );
 			}
 		}
 	}
@@ -173,18 +173,18 @@ class AllocTable implements ArchiveConstants
 	{
 		int blockId = getFreeBlock( );
 		AllocEntry entry = new AllocEntry( blockId );
-		entries.put( new Integer( blockId ), entry );
+		entries.put( Integer.valueOf( blockId ), entry );
 		return entry;
 	}
 
 	synchronized AllocEntry loadEntry( int blockId ) throws IOException
 	{
-		AllocEntry entry = (AllocEntry) entries.get( new Integer( blockId ) );
+		AllocEntry entry = (AllocEntry) entries.get( Integer.valueOf( blockId ) );
 		if ( entry == null )
 		{
 			entry = new AllocEntry( blockId );
 			entry.refresh( this );
-			entries.put( new Integer( blockId ), entry );
+			entries.put( Integer.valueOf( blockId ), entry );
 		}
 		return entry;
 	}
@@ -204,7 +204,7 @@ class AllocTable implements ArchiveConstants
 			int freeBlock = entry.getBlock( i );
 			freeEntry.appendBlock( freeBlock );
 		}
-		entries.remove( new Integer( entry.getFirstBlock( ) ) );
+		entries.remove( Integer.valueOf( entry.getFirstBlock( ) ) );
 	}
 
 	int readFATInt( long offset ) throws IOException

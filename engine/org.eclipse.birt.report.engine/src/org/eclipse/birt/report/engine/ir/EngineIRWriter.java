@@ -1572,7 +1572,7 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeString( out, altTextKey );
 			IOUtil.writeString( out, altText );
 		}
-		if ( helpText != null || helpText != null )
+		if ( helpText != null || helpTextKey != null )
 		{
 			IOUtil.writeShort( out, FIELD_HELP_TEXT );
 			IOUtil.writeString( out, helpTextKey );

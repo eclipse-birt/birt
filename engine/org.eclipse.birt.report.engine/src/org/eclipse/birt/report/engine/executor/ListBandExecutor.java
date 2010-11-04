@@ -37,8 +37,6 @@ public class ListBandExecutor extends StyledItemExecutor
 
 		initializeContent( bandDesign, bandContent );
 
-		int type = bandDesign.getBandType( );
-		
 		startTOCEntry( bandContent );
 		handlePageBreakInterval( );
 		// prepare to execute the children

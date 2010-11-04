@@ -83,7 +83,7 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 		events.add( new BufferedNode( content, false ) );
 	}
 
-	public class BufferedNode
+	public static class BufferedNode
 	{
 
 		boolean start;

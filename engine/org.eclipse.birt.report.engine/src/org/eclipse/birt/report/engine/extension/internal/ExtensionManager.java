@@ -127,7 +127,7 @@ public class ExtensionManager
 	 * true: output display:none in emitter and do not process it in layout engine. 
 	 * false: process it in layout engine, not output it in emitter.
 	 */
-	public static final Boolean DEFAULT_OUTPUT_DISPLAY_NONE = new Boolean( false );
+	public static final Boolean DEFAULT_OUTPUT_DISPLAY_NONE = Boolean.FALSE;
 	
 	/**
 	 * emitter default supported image formats.
@@ -592,7 +592,7 @@ public class ExtensionManager
 				int priority = 0;
 				if ( null != overridePriority )
 				{
-					priority = new Integer( overridePriority ).intValue( );
+					priority = Integer.valueOf( overridePriority ).intValue( );
 				}
 				EmitterInfo info = (EmitterInfo) emitters.get( id );
 				if ( info != null )
@@ -616,11 +616,11 @@ public class ExtensionManager
 					pagination = PAGE_BREAK_PAGINATION;
 				}
 				String icon = configs[j].getAttribute( "icon" );
-				Boolean outDisplayNone = new Boolean( configs[j]
+				Boolean outDisplayNone = Boolean.valueOf( configs[j]
 						.getAttribute( "outputDisplayNone" ) );
 				String fileExtension = configs[j]
 						.getAttribute( "fileExtension" );
-				Boolean isHidden = new Boolean( configs[j]
+				Boolean isHidden = Boolean.valueOf( configs[j]
 						.getAttribute( "isHidden" ) );
 				boolean needOutputResultSet = Boolean.valueOf( configs[j]
 						.getAttribute( "needOutputResultSet" ) );
@@ -755,7 +755,7 @@ public class ExtensionManager
 				String format = configs[j].getAttribute( "format" ); //$NON-NLS-1$
 				String mimeType = configs[j].getAttribute( "mimeType" ); //$NON-NLS-1$
 				String name = configs[j].getAttribute( "name" );
-				Boolean isHidden = new Boolean( configs[j]
+				Boolean isHidden = Boolean.valueOf( configs[j]
 						.getAttribute( "isHidden" ) );
 				DataExtractionFormatInfo info = new DataExtractionFormatInfo(
 						id, format, mimeType, name, isHidden, configs[j] );

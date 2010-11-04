@@ -971,11 +971,11 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				int sy = getScaledValue( rs.position + rs.width / 2 );
 				int ey = getScaledValue( re.position + re.width / 2 );
 				int x = getScaledValue( border.position + seg.width / 2 );
-				if ( border.breakPoints.contains( new Integer( seg.start ) ) )
+				if ( border.breakPoints.contains( Integer.valueOf( seg.start ) ) )
 				{
 					sy = getScaledValue( rs.position );
 				}
-				if ( border.breakPoints.contains( new Integer( seg.end ) ) )
+				if ( border.breakPoints.contains( Integer.valueOf( seg.end ) ) )
 				{
 					if ( seg.end == tb.tableLRY )
 					{
@@ -1004,11 +1004,11 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			int sy = getScaledValue( rs.position + rs.width / 2 );
 			int ey = getScaledValue( re.position + re.width / 2 );
 			int x = getScaledValue( border.position - seg.width / 2 );
-			if ( border.breakPoints.contains( new Integer( seg.start ) ) )
+			if ( border.breakPoints.contains( Integer.valueOf( seg.start ) ) )
 			{
 				sy = getScaledValue( rs.position );
 			}
-			if ( border.breakPoints.contains( new Integer( seg.end ) ) )
+			if ( border.breakPoints.contains( Integer.valueOf( seg.end ) ) )
 			{
 				if ( seg.end == tb.tableLRY )
 				{
@@ -1045,7 +1045,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				int sx = getScaledValue( cs.position + cs.width / 2 );
 				int ex = getScaledValue( ce.position + ce.width / 2 );
 				int y = getScaledValue( border.position + seg.width / 2 );
-				if ( border.breakPoints.contains( new Integer( seg.start ) ) )
+				if ( border.breakPoints.contains( Integer.valueOf( seg.start ) ) )
 				{
 					if ( seg.start == tb.tableX && border.position != tb.tableY )
 					{
@@ -1056,7 +1056,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 						sx = getScaledValue( cs.position );
 					}
 				}
-				if ( border.breakPoints.contains( new Integer( seg.end ) ) )
+				if ( border.breakPoints.contains( Integer.valueOf( seg.end ) ) )
 				{
 					if ( seg.end == tb.tableLRX )
 					{
@@ -1093,11 +1093,11 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			int sx = getScaledValue( cs.position + cs.width / 2 );
 			int ex = getScaledValue( ce.position + ce.width / 2 );
 			int y = getScaledValue( border.position - seg.width / 2 );
-			if ( border.breakPoints.contains( new Integer( seg.start ) ) )
+			if ( border.breakPoints.contains( Integer.valueOf( seg.start ) ) )
 			{
 				sx = getScaledValue( cs.position );
 			}
-			if ( border.breakPoints.contains( new Integer( seg.end ) ) )
+			if ( border.breakPoints.contains( Integer.valueOf( seg.end ) ) )
 			{
 				if ( seg.end == tb.tableLRX )
 				{
@@ -1132,38 +1132,36 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 		for ( int i = 0; i < borders.length; i++ )
 		{
-			if ( "double".equals( borders[i].borderStyle ) )
+			switch ( borders[i].borderStyle )
 			{
-				if ( null == dbl )
-				{
-					dbl = new ArrayList( );
-				}
-				dbl.add( borders[i] );
-			}
-			else if ( "dashed".equals( borders[i].borderStyle ) )
-			{
-				if ( null == dashed )
-				{
-					dashed = new ArrayList( );
-				}
-				dashed.add( borders[i] );
-			}
-			else if ( "dotted".equals( borders[i].borderStyle ) )
-			{
-				if ( null == dotted )
-				{
-					dotted = new ArrayList( );
-				}
-				dotted.add( borders[i] );
-			}
-			// Uses the solid style as default style.
-			else
-			{
-				if ( null == solid )
-				{
-					solid = new ArrayList( );
-				}
-				solid.add( borders[i] );
+				case org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOUBLE :
+					if ( null == dbl )
+					{
+						dbl = new ArrayList( );
+					}
+					dbl.add( borders[i] );
+					break;
+				case org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DASHED :
+					if ( null == dashed )
+					{
+						dashed = new ArrayList( );
+					}
+					dashed.add( borders[i] );
+					break;
+				case org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOTTED :
+					if ( null == dotted )
+					{
+						dotted = new ArrayList( );
+					}
+					dotted.add( borders[i] );
+					break;
+				default :
+					if ( null == solid )
+					{
+						solid = new ArrayList( );
+					}
+					solid.add( borders[i] );
+					break;
 			}
 		}
 		if ( null != dotted )
@@ -1295,10 +1293,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		return (int) ( value * scale );
 	}
 
-	private int getScaledValue( CSSValue cssValue )
-	{
-		return getScaledValue( PropertyUtil.getDimensionValue( cssValue ) );
-	}
+//	private int getScaledValue( CSSValue cssValue )
+//	{
+//		return getScaledValue( PropertyUtil.getDimensionValue( cssValue ) );
+//	}
 
 	protected void drawTableBorder( TableArea table )
 	{
