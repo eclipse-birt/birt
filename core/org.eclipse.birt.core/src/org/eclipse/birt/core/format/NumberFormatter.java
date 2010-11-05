@@ -508,13 +508,6 @@ public class NumberFormatter implements IFormatter
 						.setDecimalFormatSymbols( symbols );
 			}
 		}
-		// set the roundingMode attribute for the formatters
-		numberFormat.setRoundingMode( roundingMode );
-		if ( decimalFormat != null )
-		{
-			decimalFormat.setRoundingMode( roundingMode );
-		}
-
 	}
 
 	private void handleNamedFormats( String patternStr )
