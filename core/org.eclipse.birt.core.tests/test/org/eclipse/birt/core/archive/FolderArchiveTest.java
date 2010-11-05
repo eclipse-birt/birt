@@ -14,12 +14,12 @@ public class FolderArchiveTest extends TestCase
 
 	public void setUp( )
 	{
-		ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
+		ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
 	}
 
 	public void tearDown( )
 	{
-		ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
+		ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class FolderArchiveTest extends TestCase
 	{
 		try
 		{
-			ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
+			ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
 			FolderArchiveReader reader = new FolderArchiveReader( ARCHIVE_NAME );
 			reader.open( );
 			reader.close( );

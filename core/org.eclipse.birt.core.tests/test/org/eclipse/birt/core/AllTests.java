@@ -43,7 +43,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.core.archive.compound.ArchiveFileTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.archive.compound.ArchivePerformanceTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.archive.compound.UpgradeArchiveTest.class );
-		suite.addTestSuite( org.eclipse.birt.core.archive.compound.AllocTableLoaderTest.class );
+//		suite.addTestSuite( org.eclipse.birt.core.archive.compound.AllocTableLoaderTest.class );
 		
 		/* in package: org.eclipse.birt.core.config */
 		suite.addTestSuite( org.eclipse.birt.core.config.FileConfigVarManagerTest.class );
