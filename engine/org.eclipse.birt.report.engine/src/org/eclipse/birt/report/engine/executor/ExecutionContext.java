@@ -1154,33 +1154,32 @@ public class ExecutionContext
 			return;
 		}
 
-		EngineException engineEx = null;
-		if ( ex instanceof EngineException )
+		if ( reportContent != null )
 		{
-			engineEx = (EngineException) ex;
-		}
-		else
-		{
-			engineEx = new EngineException( ex );
-		}
-		if ( element != null )
-		{
-			engineEx.setElementID( element.getID( ) );
-		}
-		errors.add( engineEx );
-
-		ElementExceptionInfo exInfo = (ElementExceptionInfo) elementExceptions
-				.get( element );
-		if ( exInfo == null )
-		{
-			exInfo = new ElementExceptionInfo( element );
-			elementExceptions.put( element, exInfo );
-			if (reportContent != null) 
+			EngineException engineEx = null;
+			if ( ex instanceof EngineException )
 			{
-				reportContent.getErrors().add(exInfo);
+				engineEx = (EngineException) ex;
 			}
+			else
+			{
+				engineEx = new EngineException( ex );
+			}
+			if ( element != null )
+			{
+				engineEx.setElementID( element.getID( ) );
+			}
+			errors.add( engineEx );
+
+			ElementExceptionInfo exInfo = (ElementExceptionInfo) elementExceptions.get( element );
+			if ( exInfo == null )
+			{
+				exInfo = new ElementExceptionInfo( element );
+				elementExceptions.put( element, exInfo );
+				reportContent.getErrors( ).add( exInfo );
+			}
+			exInfo.addException( engineEx );
 		}
-		exInfo.addException( engineEx );
 
 		if ( cancelOnError && task != null )
 		{
