@@ -262,6 +262,10 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	
 	public void startImage( IImageContent image )
 	{
+		if ( context.isIgnoreImage( ) )
+		{
+			return;
+		}
 		IStyle style = image.getComputedStyle( );
 		HyperlinkDef url = parseHyperLink( image );
 		BookmarkDef bookmark = getBookmark( image );
@@ -304,6 +308,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void end( IReportContent report )
 	{
 		engine.end( report );
+		engine.endWriter( );
 	}
 
 	public HyperlinkDef parseHyperLink( IContent content )

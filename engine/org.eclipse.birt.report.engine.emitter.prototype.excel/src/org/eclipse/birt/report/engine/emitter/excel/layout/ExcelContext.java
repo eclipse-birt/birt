@@ -42,6 +42,7 @@ public class ExcelContext
 	private ULocale locale;
 	private Boolean hideGridlines = false;
 	private boolean enableMultipleSheet = false;
+	private boolean ignoreImage = false;
 	private String sheetName;
 	private String sheetPrefix;
 	private OutputStream out;
@@ -131,6 +132,13 @@ public class ExcelContext
 		if ( hideGridlines instanceof Boolean )
 		{
 			this.hideGridlines = (Boolean) hideGridlines;
+		}
+		
+		Object ignoreImage = renderOptions
+				.getOption( IExcelRenderOption.IGNORE_IMAGE );
+		if ( ignoreImage instanceof Boolean )
+		{
+			this.ignoreImage = (Boolean) ignoreImage;
 		}
 
 		ReportDesignHandle designHandle = report.getDesign( ).getReportDesign( );
@@ -252,6 +260,11 @@ public class ExcelContext
 	public boolean getHideGridlines( )
 	{
 		return this.hideGridlines;
+	}
+
+	public boolean isIgnoreImage( )
+	{
+		return this.ignoreImage;
 	}
 
 	public OutputStream getOutputSteam( )
