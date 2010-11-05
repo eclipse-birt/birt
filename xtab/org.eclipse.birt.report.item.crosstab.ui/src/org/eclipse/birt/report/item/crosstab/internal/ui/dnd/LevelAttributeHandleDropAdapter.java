@@ -51,7 +51,7 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		if ( !isLevelAttributeHandle( transfer ) )
+		if ( !isLevelAttributeHandle( transfer ) || !isSameLeveHandle( transfer ))
 		{
 			return DNDService.LOGIC_UNKNOW;
 		}
@@ -83,6 +83,30 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter
 			return true;
 		}
 		return transfer instanceof LevelAttributeHandle;
+	}
+	
+	private boolean isSameLeveHandle(Object transfer)
+	{
+		if (! (transfer instanceof Object[] ))
+		{
+			return true;
+		}
+		Object[] items = (Object[]) transfer;
+		DesignElementHandle levelHandle = null;
+		for ( int i = 0; i < items.length; i++ )
+		{
+			LevelAttributeHandle attributeHandle = (LevelAttributeHandle)items[i];
+			if (levelHandle == null)
+			{
+				levelHandle = attributeHandle.getElementHandle( );
+			}
+			else if (levelHandle != attributeHandle.getElementHandle( ))
+			{
+				return false;
+			}
+			
+		}
+		return true;
 	}
 
 	/*
