@@ -318,17 +318,6 @@ public class NumberFormatter implements IFormatter
 				num = 0;
 			}
 
-			if ( this.formatPattern == null )
-			{
-				long longValue = Math.round( num );
-				if( longValue == num )
-				{
-					return Long.toString( longValue );
-				}
-				String result = Double.toString( num );
-				return result.replace( '.', decimalSeparator );
-			}
-			
 			num = roundValue( num );
 			return numberFormat.format( num );
 
