@@ -26,14 +26,14 @@ public class FileArchiveTest extends TestCase
 
 	public void setUp( )
 	{
-		ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
-		ArchiveUtil.DeleteAllFiles( new File( TEMP_FOLDER_NAME ) );
+		ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
+		ArchiveUtil.deleteAllFiles( new File( TEMP_FOLDER_NAME ) );
 	}
 
 	public void tearDown( )
 	{
-		ArchiveUtil.DeleteAllFiles( new File( TEMP_FOLDER_NAME ) );
-		ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
+		ArchiveUtil.deleteAllFiles( new File( TEMP_FOLDER_NAME ) );
+		ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
 	}
 
 	public void testReaderAfterWriter( ) throws Exception

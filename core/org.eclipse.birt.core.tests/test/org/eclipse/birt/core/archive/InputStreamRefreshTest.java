@@ -27,12 +27,12 @@ public class InputStreamRefreshTest extends TestCase
 
 	public void setUp( )
 	{
-		ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
+		ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
 	}
 
 	public void tearDown( )
 	{
-		ArchiveUtil.DeleteAllFiles( new File( ARCHIVE_NAME ) );
+		ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
 	}
 
 	public void testReaderDuringWriter( ) throws Exception
