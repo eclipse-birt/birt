@@ -53,6 +53,11 @@ public class ResourceLocatorWrapper
 			String fileName, int fileType, Map appContext )
 	{
 		URL url = design.findResource( fileName, fileType, appContext );
+		if ( url == null )
+		{
+			logger.log( Level.WARNING, MessageConstants.RESOURCE_NOT_ACCESSIBLE, fileName );
+			return DUMMY_BYTES;
+		}
 		return findResource( url );
 	}
 	
@@ -62,6 +67,10 @@ public class ResourceLocatorWrapper
 	 */
 	public byte[] findResource( URL url )
 	{
+		if ( url == null )
+		{
+			return DUMMY_BYTES;
+		}
 		byte[] inBytes = cache.get( url );
 		if ( inBytes == null )
 		{
