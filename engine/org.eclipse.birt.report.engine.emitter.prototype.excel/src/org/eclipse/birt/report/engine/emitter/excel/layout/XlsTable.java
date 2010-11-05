@@ -5,9 +5,8 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 
 public class XlsTable extends XlsContainer
 {
-	private int[] columnWidths;
-	
-	private int width;
+
+	private ColumnsInfo columnsInfo;
 	
 	public XlsTable(StyleEntry entry, ContainerSizeInfo sizeInfo, XlsContainer parent )
 	{
@@ -18,8 +17,7 @@ public class XlsTable extends XlsContainer
 			ContainerSizeInfo sizeInfo, XlsContainer parent )
 	{
 		this( entry, sizeInfo, parent );
-		width = table.getTotalWidth( );
-		columnWidths = table.getColumns( );
+		this.columnsInfo = table;
 	}
 	
 	public XlsTable( ColumnsInfo table, XlsContainer container )
@@ -29,20 +27,33 @@ public class XlsTable extends XlsContainer
 	
 	public ContainerSizeInfo getColumnSizeInfo(int column, int span)
 	{
-		int startCoordinate = getSizeInfo().getStartCoordinate( );
+		ContainerSizeInfo sizeInfo = getSizeInfo();
+		int startCoordinate = sizeInfo.getStartCoordinate( );
+		int endCoordinate = sizeInfo.getEndCoordinate( );
+		int[] columnWidths = columnsInfo.getColumns( );
 		
 		for(int i = 0; i < column; i++)
 		{
 			startCoordinate += columnWidths[i];
-		}	
-		
-		int endCoordinate = 0;
+		}
+
+		if ( startCoordinate >= endCoordinate )
+		{
+			return null;
+		}
+
+		int width = 0;
 		
 		for(int i = column; i < column + span; i++)
 		{
-			endCoordinate += columnWidths[i];
+			width += columnWidths[i];
 		}	
-		
-		return new ContainerSizeInfo(startCoordinate, endCoordinate);
+		width = Math.min( width, endCoordinate - startCoordinate );
+		return new ContainerSizeInfo( startCoordinate, width );
 	}	
+
+	public ColumnsInfo getColumnsInfo( )
+	{
+		return columnsInfo;
+	}
 }

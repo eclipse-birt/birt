@@ -21,6 +21,7 @@ import java.util.Stack;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
+import org.eclipse.birt.report.engine.emitter.excel.layout.Page;
 import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
@@ -99,32 +100,6 @@ public class StyleEngine
 		StyleBuilder.applyDiagonalLine( entry, PropertyUtil
 				.getColor( diagonalLineColor ), diagonalLineStyle,
 				diagonalLineWidth );
-
-		return entry;
-	}
-
-	public StyleEntry createHorizontalStyle( ContainerSizeInfo rule )
-	{
-		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
-		
-		if(engine.getContainers( ).size( ) > 0)
-		{
-			XlsContainer container = engine.getCurrentContainer( );
-			ContainerSizeInfo crule = container.getSizeInfo( );
-			StyleEntry cEntry = container.getStyle( );
-
-			StyleBuilder.mergeInheritableProp( cEntry, entry );
-
-			if ( rule.getStartCoordinate( ) == crule.getStartCoordinate( ) )
-			{
-				StyleBuilder.applyLeftBorder( cEntry, entry );
-			}
-
-			if ( rule.getEndCoordinate( ) == crule.getEndCoordinate( ) )
-			{
-				StyleBuilder.applyRightBorder( cEntry, entry );
-			}
-		}
 
 		return entry;
 	}
@@ -278,25 +253,18 @@ public class StyleEngine
 			containerStyles.pop( );
 	}
 
-	/**
-	 * 
-	 */
-	public void applyContainerBottomStyle( )
-	{
-		applyContainerBottomStyle( engine.getCurrentContainer( ) );
-	}
-
-	public void applyContainerBottomStyle( XlsContainer container )
+	public void applyContainerBottomStyle( XlsContainer container, Page page )
 	{
 		ContainerSizeInfo rule = container.getSizeInfo( );
 		StyleEntry entry = container.getStyle( );
 		int start = rule.getStartCoordinate( );
-		int col = engine.getAxis( ).getColumnIndexByCoordinate( start );
-		int span = engine.getAxis( ).getColumnIndexByCoordinate(
+		int col = page.getAxis( ).getColumnIndexByCoordinate( start );
+		int span = page.getAxis( )
+				.getColumnIndexByCoordinate(
 				rule.getEndCoordinate( ) );
 		for ( int i = col; i < span; i++ )
 		{
-			SheetData data = engine.getColumnLastData( i );
+			SheetData data = page.getColumnLastData( i );
 
 			if ( data == null )
 			{

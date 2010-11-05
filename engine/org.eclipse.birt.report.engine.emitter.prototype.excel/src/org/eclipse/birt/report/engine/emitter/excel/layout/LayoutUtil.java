@@ -160,7 +160,8 @@ public class LayoutUtil
 		}
 
 		int leftWidth = tableWidth - totalAssigned;
-		if ( leftWidth != 0 && unassignedCount == 0 )
+		if ( leftWidth != 0 && unassignedCount == 0
+				&& table.getWidth( ) != null )
 		{
 			int totalResized = 0;
 			for ( int i = 0; i < columnCount - 1; i++ )

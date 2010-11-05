@@ -194,24 +194,24 @@ public class StyleBuilder
 		return fsize;
 	}
 
-	public static String convertBorderWeight( int width )
+	public static int convertBorderWeight( int width )
 	{
-		String w = StyleConstant.NULL;
+		int w = -1;
 		if ( width >= 749 && width < 1499 )
 		{
-			w = "1";
+			w = 1;
 		}
 		else if ( width >= 1499 && width < 2249 )
 		{
-			w = "2";
+			w = 2;
 		}
 		else if ( width >= 2249 )
 		{
-			w = "3";
+			w = 3;
 		}
 		else
 		{
-			w = "2";
+			w = 2;
 		}
 		return w;
 	}
