@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.prototype.excel;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -30,9 +29,7 @@ public class ExcelWriterTest extends TestCase
 	public void testStartSheet( ) throws IOException
 	{
 		ExcelContext context = new ExcelContext( );
-		context.setTempFileDir( "d:/" );
-		FileOutputStream out = new FileOutputStream( "d:/testXls.xls");
-		ExcelWriter writer = new ExcelWriter( out, context, false );
+		ExcelWriter writer = new ExcelWriter( context );
 		writer.start( null, new HashMap<StyleEntry, Integer>( ),
 				new HashMap<String, BookmarkDef>( ) );
 		writer.startSheet( "dataview" );

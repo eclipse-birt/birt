@@ -98,6 +98,7 @@ public class ExcelWriter implements IExcelWriter
 	{
 		if ( tempWriter != null )
 		{
+			tempWriter.close( );
 			BufferedReader reader = null;
 			try
 			{
