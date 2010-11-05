@@ -45,7 +45,9 @@ public interface IExcelWriter
 
 	public void startSheet( String sheetName ) throws IOException;
 
-	public void endSheet( String orientation, int pageWidth, int pageHeight );
+	public void endSheet( int[] coordinates, String orientation, int pageWidth,
+			int pageHeight, float leftMargin, float rightMargin,
+			float topMargin, float bottomMargin );
 
 	public void endSheet( );
 
@@ -57,6 +59,9 @@ public interface IExcelWriter
 
 	public void outputData( SheetData data, StyleEntry style, int column,
 			int colSpan ) throws IOException;
+
+	public void outputData( String sheet, SheetData data, StyleEntry style,
+			int column, int colSpan ) throws IOException;
 
 	void outputData( int col, int row, int type, Object value );
 

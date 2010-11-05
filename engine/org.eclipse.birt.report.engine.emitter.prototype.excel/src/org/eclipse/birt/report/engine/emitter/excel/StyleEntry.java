@@ -11,14 +11,9 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-import java.io.Serializable;
 
-public class StyleEntry implements StyleConstant,Serializable,Cloneable
+public class StyleEntry implements StyleConstant
 {
-	private static final long serialVersionUID = 6959747237392429540L;
-
-	public static final String ENTRYNAME_HYPERLINK = "Hyperlink";
-
 	public StyleEntry( StyleEntry entry )
 	{
 		this( );
@@ -113,34 +108,17 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 		return false;
 	}
 
-	public Object clone( ) 
+	public void setIsHyperlink( boolean isHyperlink )
 	{
-		StyleEntry o = null;
-        try{
-            o = (StyleEntry)super.clone();
-        }catch(CloneNotSupportedException e){
-           
-        }
-        
-        for(int i = 0; i < props.length; i++) {
-        	o.setProperty( i, getProperty(i) );
-        }
-        
-        return o;        
+		this.isHyperlink = isHyperlink;
 	}
 
-
-	public void setName( String name )
+	public boolean isHyperlink( )
 	{
-		this.name = name;
+		return isHyperlink;
 	}
 
-	public String getName( )
-	{
-		return name;
-	}
-
-	private String name = null;
+	private boolean isHyperlink = false;
 
 	private Object[] props = null;
 	private Integer hashCode;

@@ -14,8 +14,8 @@ import java.awt.Color;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,14 +25,12 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLEncodeUtil;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
-import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 
 public class ExcelXmlWriter implements IExcelWriter
 {
 
-	private boolean isRTLSheet = false; // bidi_acgc added
 	public static final int rightToLeftisTrue = 1; // bidi_acgc added
 	private final XMLWriterXLS writer = new XMLWriterXLS( );
 
@@ -124,9 +122,9 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	ExcelContext context = null;
 
-	public ExcelXmlWriter( OutputStream out , ExcelContext context )
+	public ExcelXmlWriter( ExcelContext context )
 	{
-		this( out, "UTF-8" , context);
+		this( "UTF-8", context );
 	}
 
 	public ExcelXmlWriter( OutputStream out )
@@ -134,50 +132,15 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.open( out, "UTF-8" );
 	}
 
-
-	public ExcelXmlWriter( OutputStream out, String encoding, ExcelContext context )
+	public ExcelXmlWriter( OutputStream out, ExcelContext context )
 	{
 		this.context = context;
-		writer.open( out, encoding );
-	}
-
-	/**
-	 * @author bidi_acgc
-	 * @param isRTLSheet:
-	 *            represents the direction of the excel sheet.
-	 */
-	public ExcelXmlWriter( OutputStream out, boolean isRTLSheet )
-	{
-		this.isRTLSheet = isRTLSheet;
 		writer.open( out, "UTF-8" );
 	}
 
-	/**
-	 * @author bidi_acgc
-	 * @param orientation
-	 * @param pageFooter
-	 * @param pageHeader
-	 * @param isRTLSheet
-	 *            : represents the direction of the excel sheet.
-	 */
-	public ExcelXmlWriter( OutputStream out, ExcelContext context,
-			boolean isRTLSheet )
+	public ExcelXmlWriter( String encoding, ExcelContext context )
 	{
-		this( out, "UTF-8", context );
-		this.isRTLSheet = isRTLSheet;
-	}
-
-	/**
-	 * @author bidi_acgc
-	 * @param isRTLSheet:
-	 *            represents the direction of the excel sheet.
-	 */
-	public ExcelXmlWriter( OutputStream out, String encoding,
-			ExcelContext context, boolean isRTLSheet )
-	{
-		this.context = context;
-		this.isRTLSheet = isRTLSheet;
-		writer.open( out, encoding );
+		this( context.getOutputSteam( ), context );
 	}
 
 	private void writeDocumentProperties( IReportContent reportContent )
@@ -207,9 +170,10 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "DocumentProperties" );
 	}
 
-	private void writeText( int type, Object value, StyleEntry style )
+	private void writeText( int type, Object value,
+			StyleEntry style )
 	{
-		String txt = ExcelUtil.format( value, type, context.getTimeZone( ) );
+		String txt = ExcelUtil.format( value, type );
 		writer.openTag( "Data" );
 		if ( type == SheetData.NUMBER )
 		{
@@ -238,7 +202,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.TEXT_TRANSFORM );
 			if ( CSSConstants.CSS_CAPITALIZE_VALUE.equalsIgnoreCase( textTransform ) )
 			{
-				txt = capitalize( txt );
+				txt = ExcelUtil.capitalize( txt );
 			}
 			else if ( CSSConstants.CSS_UPPERCASE_VALUE.equalsIgnoreCase( textTransform ) )
 			{
@@ -253,24 +217,6 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.text( ExcelUtil.truncateCellText( txt ) );
 
 		writer.closeTag( "Data" );
-	}
-
-	private String capitalize( String text )
-	{
-		boolean capitalizeNextChar = true;
-		char[] array = text.toCharArray( );
-		for ( int i = 0; i < array.length; i++ )
-		{
-			char c = text.charAt( i );
-			if ( c == ' ' || c == '\n' || c == '\r' )
-				capitalizeNextChar = true;
-			else if ( capitalizeNextChar )
-			{
-				array[i] = Character.toUpperCase( array[i] );
-				capitalizeNextChar = false;
-			}
-		}
-		return new String( array );
 	}
 
 	public void startRow( double rowHeight )
@@ -333,6 +279,14 @@ public class ExcelXmlWriter implements IExcelWriter
 		}
 	}
 
+	public void outputData( String sheet, SheetData sheetData, StyleEntry style, int column,
+			int colSpan )
+	{
+		// TODO: ignore sheet here. If this function is needed, need to
+		// implement.
+		outputData( sheetData, style, column, colSpan );
+	}
+	
 	public void outputData( SheetData sheetData, StyleEntry style, int column,
 			int colSpan )
 	{
@@ -341,7 +295,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		int type = sheetData.getDataType( );
 		if ( type == SheetData.IMAGE )
 		{
-			outputData( Data.STRING, ExcelLayoutEngine.EMPTY, style, column,
+			outputData( Data.STRING, null, style, column,
 					colSpan, sheetData.getRowSpan( ),
 					sheetData.getStyleId( ), null, null );
 		}
@@ -366,7 +320,10 @@ public class ExcelXmlWriter implements IExcelWriter
 			int styleId, HyperlinkDef hyperLink, BookmarkDef linkedBookmark )
 	{
 		startCell( column, colSpan, rowSpan, styleId, hyperLink, linkedBookmark );
-		writeText( type, value, style );
+		if ( value != null )
+		{
+			writeText( type, value, style );
+		}
 		endCell( );
 	}
 
@@ -422,8 +379,8 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "Alignment" );
 	}
 
-	private void writeBorder( String position, String lineStyle, String weight,
-			Color color )
+	private void writeBorder( String position, String lineStyle,
+	        Integer weight, Color color )
 	{
 		writer.openTag( "Border" );
 		writer.attribute( "ss:Position", position );
@@ -432,7 +389,7 @@ public class ExcelXmlWriter implements IExcelWriter
 			writer.attribute( "ss:LineStyle", lineStyle );
 		}
 
-		if ( isValid( weight ) )
+		if ( weight != null && weight > 0 )
 		{
 			writer.attribute( "ss:Weight", weight );
 		}
@@ -519,7 +476,7 @@ public class ExcelXmlWriter implements IExcelWriter
 
 		writer.openTag( "Style" );
 		writer.attribute( "ss:ID", id );
-		if ( style.getName( ) == StyleEntry.ENTRYNAME_HYPERLINK )
+		if ( style.isHyperlink( ) )
 		{
 			writer.attribute( "ss:Parent", "HyperlinkId" );
 		}
@@ -538,7 +495,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP );
 			String bottomLineStyle = (String) style
 					.getProperty( StyleConstant.BORDER_BOTTOM_STYLE_PROP );
-			String bottomWeight = (String) style
+			Integer bottomWeight = (Integer) style
 					.getProperty( StyleConstant.BORDER_BOTTOM_WIDTH_PROP );
 			writeBorder( "Bottom", bottomLineStyle, bottomWeight, bottomColor );
 
@@ -546,7 +503,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.BORDER_TOP_COLOR_PROP );
 			String topLineStyle = (String) style
 					.getProperty( StyleConstant.BORDER_TOP_STYLE_PROP );
-			String topWeight = (String) style
+			Integer topWeight = (Integer) style
 					.getProperty( StyleConstant.BORDER_TOP_WIDTH_PROP );
 			writeBorder( "Top", topLineStyle, topWeight, topColor );
 
@@ -554,7 +511,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.BORDER_LEFT_COLOR_PROP );
 			String leftLineStyle = (String) style
 					.getProperty( StyleConstant.BORDER_LEFT_STYLE_PROP );
-			String leftWeight = (String) style
+			Integer leftWeight = (Integer) style
 					.getProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP );
 			writeBorder( "Left", leftLineStyle, leftWeight, leftColor );
 
@@ -562,7 +519,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP );
 			String rightLineStyle = (String) style
 					.getProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP );
-			String rightWeight = (String) style
+			Integer rightWeight = (Integer) style
 					.getProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP );
 			writeBorder( "Right", rightLineStyle, rightWeight, rightColor );
 
@@ -570,7 +527,7 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.BORDER_DIAGONAL_COLOR_PROP );
 			String diagonalStyle = (String) style
 					.getProperty( StyleConstant.BORDER_DIAGONAL_STYLE_PROP );
-			String diagonalWidth = (String) style
+			Integer diagonalWidth = (Integer) style
 					.getProperty( StyleConstant.BORDER_DIAGONAL_WIDTH_PROP );
 			writeBorder( "DiagonalLeft", diagonalStyle, diagonalWidth,
 					diagonalColor );
@@ -731,7 +688,7 @@ public class ExcelXmlWriter implements IExcelWriter
 
 		// Set the Excel Sheet RightToLeft attribute according to Report
 		//if Report Bidi-Orientation is RTL, then Sheet is RTL.
-		if ( isRTLSheet )
+		if ( context.isRTL( ) )
 			writer.attribute( "ss:RightToLeft", rightToLeftisTrue );
 		// else : do nothing i.e. LTR
 		outputColumns( coordinates );
@@ -800,17 +757,25 @@ public class ExcelXmlWriter implements IExcelWriter
 	}
 
 	private void declareWorkSheetOptions( String orientation, int pageWidth,
-			int pageHeight )
+			int pageHeight, float leftMargin, float rightMargin,
+			float topMargin, float bottomMargin )
 	{
 		writer.openTag( "WorksheetOptions" );
 		writer.attribute( "xmlns", "urn:schemas-microsoft-com:office:excel" );
-		
+
 		if ( context.getHideGridlines( ) )
 		{
 			writer.openTag( "DoNotDisplayGridlines" );
 			writer.closeTag( "DoNotDisplayGridlines" );
 		}
 		writer.openTag( "PageSetup" );
+
+		writer.openTag( "PageMargins" );
+		writer.attribute( "x:Bottom", bottomMargin / ExcelUtil.INCH_PT );
+		writer.attribute( "x:Left", leftMargin / ExcelUtil.INCH_PT );
+		writer.attribute( "x:Right", rightMargin / ExcelUtil.INCH_PT );
+		writer.attribute( "x:Top", topMargin / ExcelUtil.INCH_PT );
+		writer.closeTag( "PageMargins" );
 
 		if ( orientation != null )
 		{
@@ -853,10 +818,13 @@ public class ExcelXmlWriter implements IExcelWriter
 		sheetIndex += 1;
 	}
 
-	public void endSheet( String orientation, int pageWidth, int pageHeight )
+	public void endSheet( int[] coordinates, String orientation, int pageWidth,
+			int pageHeight, float leftMargin, float rightMargin,
+			float topMargin, float bottomMargin )
 	{
 		endTable( );
-		declareWorkSheetOptions( orientation, pageWidth, pageHeight );
+		declareWorkSheetOptions( orientation, pageWidth, pageHeight,
+				leftMargin, rightMargin, topMargin, bottomMargin );
 		closeSheet( );
 	}
 
@@ -903,7 +871,7 @@ public class ExcelXmlWriter implements IExcelWriter
 
 	public void endSheet( )
 	{
-		endSheet( null, 0, 0 );
+		endSheet( null, null, 0, 0, 0, 0, 0, 0 );
 	}
 
 	public void startRow( )

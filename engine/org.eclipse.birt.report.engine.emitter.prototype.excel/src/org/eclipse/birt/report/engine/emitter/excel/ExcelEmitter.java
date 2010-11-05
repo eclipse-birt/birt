@@ -2,19 +2,13 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.logging.Level;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IExcelRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
-import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -47,59 +41,29 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.MapDesign;
-import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 import com.ibm.icu.util.TimeZone;
-import com.ibm.icu.util.ULocale;
 
 
 public class ExcelEmitter extends ContentEmitterAdapter
 {
 
-	private boolean isAuto = true;
-
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
 	
-	protected static final String DEFAULT_SHEET_NAME = "Report";
 	protected IEmitterServices service = null;
-
-	protected OutputStream out = null;
 
 	protected ExcelLayoutEngine engine;
 
-	ContentEmitterVisitor contentVisitor = new ContentEmitterVisitor( this );
-
-	protected IExcelWriter writer;
-
 	protected ExcelContext context;
-
-	protected String orientation = null;
-
-	protected String pageHeader;
-
-	protected String pageFooter;
-
-	private boolean outputInMasterPage = false;
-	protected boolean isRTLSheet = false;
-	protected int sheetIndex = 1;
-	protected String sheetName;
-
-	protected int pageWidth;
-
-	protected int pageHeight;
-
-	protected int contentwidth;
-
-	protected int reportDpi;
 	
-	protected IReportContext reportContext;
+	/**
+	 * List of bookmark names that have already been encountered
+	 */
+	protected Set<String> bookmarkNames;
 
 	public String getOutputFormat( )
 	{
@@ -110,35 +74,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		this.context = createContext( );
 		this.service = service;
-		if ( service != null )
-		{
-			this.out = EmitterUtil.getOuputStream( service, "report."
-					+ getOutputFormat( ) );
-		}
-		context.setTempFileDir( service.getReportEngine( ).getConfig( )
-				.getTempDir( ) );
-		IReportContext reportContext = service.getReportContext( );
-		if ( reportContext != null )
-		{
-			Locale locale = reportContext.getLocale( );
-			if ( locale != null )
-			{
-				context.setLocale( ULocale.forLocale( locale ) );
-			}
-			else
-				context.setLocale( ULocale.getDefault( ) );
-
-			TimeZone timeZone = reportContext.getTimeZone( );
-			if ( timeZone != null )
-			{
-				context.setTimeZone( timeZone );
-			}
-			else
-			{
-				context.setTimeZone( TimeZone.getDefault( ) );
-			}
-		}
-		this.reportContext = reportContext;
+		context.initialize( service );
+		this.bookmarkNames = new HashSet<String>();
 	}
 
 	protected ExcelContext createContext( )
@@ -148,172 +85,31 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void start( IReportContent report )
 	{
-		setupRenderOptions( );
-		// We can the page size from the design, maybe there is a better way
-		// to get the page definition.
-		ReportDesignHandle designHandle = report.getDesign( ).getReportDesign( );
-		parseReportOrientation( designHandle );
-		parseReportLayout( designHandle );
-		parseSheetName( designHandle );
-		parsePageSize( report );
+		context.setReport( report );
 		IStyle style = report.getRoot( ).getComputedStyle( );
-		engine = createLayoutEngine( context, this );
-		engine.initalize( contentwidth, style, reportDpi );
-		createWriter( );
-	}
-
-	private void parseSheetName( ReportDesignHandle designHandle )
-	{
-		String reportTitle = designHandle
-				.getStringProperty( IModuleModel.TITLE_PROP );
-		if ( reportTitle != null )
-		{
-			sheetName = reportTitle;
-		}
-		else
-		{
-			sheetName = DEFAULT_SHEET_NAME;
-		}
-		sheetName = ExcelUtil.getValidSheetName( sheetName );
-	}
-
-	private void parseReportLayout( ReportDesignHandle designHandle )
-	{
-		String reportLayoutPreference = designHandle.getLayoutPreference( );
-		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
-				.equals( reportLayoutPreference ) )
-		{
-			isAuto = false;
-		}
-	}
-
-	private void parseReportOrientation( ReportDesignHandle designHandle )
-	{
-		String reportOrientation = designHandle.getBidiOrientation( );
-		if ( "rtl".equalsIgnoreCase( reportOrientation ) )
-		{
-			isRTLSheet = true;
-		}
-	}
-
-	private void parsePageSize( IReportContent report )
-	{
-		Object dpi = report.getReportContext( ).getRenderOption( ).getOption(
-				IRenderOption.RENDER_DPI );
-		int renderDpi = 0;
-		if ( dpi != null && dpi instanceof Integer )
-		{
-			renderDpi = ( (Integer) dpi ).intValue( );
-		}
-		reportDpi = PropertyUtil.getRenderDpi( report, renderDpi );
-		SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) report
-				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
-		this.pageWidth = ExcelUtil.convertDimensionType( masterPage
-				.getPageWidth( ), 0, reportDpi );
-		int leftmargin = ExcelUtil.convertDimensionType( masterPage
-				.getLeftMargin( ), pageWidth, reportDpi );
-		int rightmargin = ExcelUtil.convertDimensionType( masterPage
-				.getRightMargin( ), pageWidth, reportDpi );
-		this.contentwidth = pageWidth - leftmargin - rightmargin;
-		this.pageHeight = ExcelUtil.convertDimensionType( masterPage
-				.getPageHeight( ), 0, reportDpi );
+		engine = createLayoutEngine( context, new ContentEmitterVisitor( this ) );
+		engine.initalize( style );
 	}
 
 	protected ExcelLayoutEngine createLayoutEngine( ExcelContext context,
-			ExcelEmitter emitter )
+	        ContentEmitterVisitor contentVisitor )
 	{
-		return new ExcelLayoutEngine( context, emitter );
-	}
-
-	private void setupRenderOptions()
-	{
-		IRenderOption renderOptions = service.getRenderOption( );
-		Object textWrapping = renderOptions.getOption(IExcelRenderOption.WRAPPING_TEXT);
-		if(textWrapping!=null && textWrapping instanceof Boolean)
-		{
-			context.setWrappingText((Boolean)textWrapping);
-		}
-		else
-		{
-			context.setWrappingText( ( Boolean )true);
-		}
-		Object officeVersion = renderOptions.getOption(IExcelRenderOption.OFFICE_VERSION);
-		if(officeVersion!=null && officeVersion instanceof String)
-		{
-			if(officeVersion.equals( "office2007" ))
-			{
-				context.setOfficeVersion("office2007" );
-			}
-		}
-		else
-		{
-			context.setOfficeVersion( "office2003" );
-		}
-		
-		Object hideGridlines = renderOptions
-				.getOption( IExcelRenderOption.HIDE_GRIDLINES );
-		if ( hideGridlines != null && hideGridlines instanceof Boolean )
-		{
-			context.setHideGridlines( (Boolean) hideGridlines );
-		}
-		else
-		{
-			context.setHideGridlines( (Boolean) false );
-		}
+		return new ExcelLayoutEngine( context, contentVisitor );
 	}
 
 	public void startPage( IPageContent page ) throws BirtException
 	{
-		if ( orientation == null )
-		{
-			orientation = capitalize( page.getOrientation( ) );
-		}
-		if(needOutputInMasterPage(page.getPageHeader( ))&& needOutputInMasterPage(page.getPageFooter( )))
-		{
-			outputInMasterPage = true;
-			pageHeader = formatHeaderFooter( page.getPageHeader( ),true );
-			pageFooter = formatHeaderFooter( page.getPageFooter( ),false );
-		}
-		if ( !outputInMasterPage && page.getPageHeader( ) != null )
-		{
-			contentVisitor.visitChildren( page.getPageHeader( ), null );
-		}
-		engine.setPageStyle( page.getComputedStyle( ) );
+		engine.startPage( page );
 	}
 
 	public void endPage( IPageContent page ) throws BirtException
 	{
-		if(!outputInMasterPage && page.getPageFooter( ) != null)
-		{
-			contentVisitor.visitChildren( page.getPageFooter( ), null );
-		}
+		engine.endPage( page );
 	}
 
 	public void startTable( ITableContent table )
 	{
-		ContainerSizeInfo sizeInfo = engine.getCurrentContainer( ).getSizeInfo( );
-		int width = sizeInfo.getWidth( );
-		ColumnsInfo info = null;
-		// excel now only use "auto" to deal with table's width.
-		boolean isAutoTable = true;
-		if ( isAutoTable )
-		{
-			info = LayoutUtil.createTable( table, width, reportDpi );
-		}
-		else
-		{
-			int[] columns = LayoutUtil.createFixedTable( table, LayoutUtil
-					.getElementWidth( table, width, reportDpi ), reportDpi );
-			info = new ColumnsInfo( columns );
-		}
-		if ( info == null )
-			return;
-		String caption = table.getCaption( );
-		if(caption != null) 
-		{			
-			engine.addCaption( caption, table.getComputedStyle( ) );
-		}
-		engine.addTable( table, info, sizeInfo );
+		engine.startTable( table );
 	}
 
 	public void startRow( IRowContent row )
@@ -324,7 +120,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void endRow( IRowContent row )
 	{
 		DimensionType height = row.getHeight( );
-		float rowHeight = ExcelUtil.convertDimensionType( height, 0, reportDpi ) / 1000;
+		float rowHeight = ExcelUtil.convertDimensionType( height, 0,
+		                                                  context.getDpi( ) ) / 1000;
 		engine.endRow( rowHeight );
 	}
 
@@ -349,7 +146,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{		
 		ContainerSizeInfo size = engine.getCurrentContainer( ).getSizeInfo( );
 		ColumnsInfo table = LayoutUtil.createTable( list, size.getWidth( ),
-				reportDpi );
+													context.getDpi( ) );
 		engine.addTable( list, table, size );
 		
 		if ( list.getChildren( ) == null )
@@ -357,7 +154,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			HyperlinkDef link = parseHyperLink( list );
 			BookmarkDef bookmark = getBookmark( list );
 			float height = getContentHeight( list );
-			engine.addData( ExcelLayoutEngine.EMPTY, list.getComputedStyle( ),
+			engine.addData( null, list.getComputedStyle( ),
 					link, bookmark, height );
 		}
 	}
@@ -383,9 +180,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			HTML2Content.html2Content( foreign );
 			HyperlinkDef link = parseHyperLink(foreign);
-			engine.addContainer( foreign.getComputedStyle( ), link );			
-			contentVisitor.visitChildren( foreign, null );
-			engine.endContainer( );
+			engine.processForeign( foreign, link );
 		}
 	}
 
@@ -461,8 +256,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private float getContentHeight( IContent content )
 	{
-		return ExcelUtil.convertDimensionType( content.getHeight( ), 0,
-				reportDpi ) / 1000;
+		return ExcelUtil.convertDimensionType(	content.getHeight( ), 0,
+												context.getDpi( ) ) / 1000;
 	}
 	
 	public void startImage( IImageContent image )
@@ -506,87 +301,9 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				link, bookmark, height );
 	}
 
-	public void outputSheet( )
-	{
-		engine.cacheBookmarks( sheetIndex );
-		engine.complete( isAuto );
-		try
-		{
-			outputCacheData( );
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
-		}
-		sheetIndex++;
-	}
-
 	public void end( IReportContent report )
 	{
-		// Make sure the engine already calculates all data in cache.
-		engine.cacheBookmarks( sheetIndex );
-		engine.complete( isAuto );
-		try
-		{
-			// TODO: style ranges.
-			// writer.start( report, engine.getStyleMap( ), engine
-			// .getStyleRanges( ), engine.getAllBookmarks( ) );
-			writer.start( report, engine.getStyleMap( ), engine
-					.getAllBookmarks( ) );
-			outputCacheData( );
-			writer.end( );
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
-		}
-	}
-
-	protected void createWriter( )
-	{
-		writer = new ExcelWriter( out, context, isRTLSheet );
-	}
-
-	/**
-	 * @throws IOException
-	 * 
-	 */
-	public void outputCacheData( ) throws IOException
-	{		
-		// update sheet name to page label, if necessary		
-		Object pageLabelObj = reportContext.getPageVariable( IReportContext.PAGE_VAR_PAGE_LABEL );
-		if ( pageLabelObj instanceof String )
-		{
-			String pageLabel = (String)pageLabelObj;
-			pageLabel = ExcelUtil.getValidSheetName( pageLabel );
-			sheetName = pageLabel;
-		}
-		
-		writer.startSheet( engine.getCoordinates( ), pageHeader, pageFooter,
-				sheetName );
-		sheetName = DEFAULT_SHEET_NAME + sheetIndex;
-		Iterator<RowData> it = engine.getIterator( );
-		while ( it.hasNext( ) )
-		{
-			outputRowData( it.next( ) );
-		}
-		writer.endSheet( orientation, pageWidth, pageHeight );
-	}
-
-	protected void outputRowData( RowData rowData ) throws IOException
-	{
-		writer.startRow( rowData.getHeight( ) );
-		SheetData[] datas = rowData.getRowdata( );
-		for ( int i = 0; i < datas.length; i++ )
-		{
-			SheetData data = datas[i];
-			int start = engine.getStartColumn( data );
-			int end = engine.getEndColumn( data );
-			int span = Math.max( 0, end - start - 1 );
-			writer.outputData( data, engine.getStyle( data.getStyleId( ) ),
-					start, span );
-		}
-		writer.endRow( );
+		engine.end( report );
 	}
 
 	public HyperlinkDef parseHyperLink( IContent content )
@@ -638,228 +355,26 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		if (bookmarkName == null)
 			return null;
 		
-		BookmarkDef bookmark=new BookmarkDef(content.getBookmark( ));
+		// if bookmark was already found before, skip it
+		if ( bookmarkNames.contains( bookmarkName ))
+		{
+			return null;
+		}
+		
+		BookmarkDef bookmark=new BookmarkDef( bookmarkName );
 		if ( !ExcelUtil.isValidBookmarkName( bookmarkName ) )
 		{
 			bookmark.setGeneratedName( engine
 					.getGenerateBookmark( bookmarkName ) );
 		}
 		
+		bookmarkNames.add( bookmarkName );
+		
 		// !( content.getBookmark( ).startsWith( "__TOC" ) ) )
 		// bookmark starting with "__TOC" is not OK?
 		return bookmark;
 	}
 
-
-	public String capitalize( String orientation )
-	{
-		if ( orientation != null )
-		{
-			if ( orientation.equalsIgnoreCase( "landscape" ) )
-			{
-				return "Landscape";
-			}
-			if ( orientation.equalsIgnoreCase( "portrait" ) )
-			{
-				return "Portrait";
-			}
-		}
-		return null;
-	}
-
-	public String formatHeaderFooter( IContent headerFooter, boolean isHeader )
-	{
-		StringBuffer headfoot = new StringBuffer( );
-		if ( headerFooter != null )
-		{
-			Collection list = headerFooter.getChildren( );
-			Iterator iter = list.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Object child = iter.next( );
-				if ( child instanceof ITableContent )
-				{
-					headfoot.append( getTableValue( (ITableContent) child ) );
-				}
-				else
-					processText( headfoot, child );		
-			}
-			return headfoot.toString( );
-		}
-		return null;
-	}
-
-	private void processText( StringBuffer buffer, Object child )
-	{
-		if ( child instanceof IAutoTextContent )
-		{
-			buffer.append( getAutoText( (IAutoTextContent) child ) );
-		}
-		else if ( child instanceof ITextContent )
-		{
-			buffer.append( ( (ITextContent) child ).getText( ) );
-		}
-		else if ( child instanceof IForeignContent )
-		{
-			buffer.append( ( (IForeignContent) child ).getRawValue( ) );
-		}
-	}
-	
-	public boolean needOutputInMasterPage( IContent headerFooter )
-	{
-		if ( headerFooter != null )
-		{
-			Collection list = headerFooter.getChildren( );
-			Iterator iter = list.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Object child = iter.next( );
-				if ( child instanceof ITableContent )
-				{
-					int columncount = ( (ITableContent) child )
-							.getColumnCount( );
-					int rowcount = ( (ITableContent) child ).getChildren( )
-							.size( );
-					if ( columncount > 3 || rowcount > 1 )
-					{
-						logger
-								.log(
-										Level.WARNING,
-										"Excel page header or footer only accept a table no more than 1 row and 3 columns." );
-						return false;
-					}
-					if ( isEmbededTable( (ITableContent) child ) )
-					{
-						logger
-								.log( Level.WARNING,
-										"Excel page header and footer don't support embeded grid." );
-						return false;
-					}
-    			}
-				if ( isHtmlText( child ) )
-				{
-					logger
-							.log( Level.WARNING,
-									"Excel page header and footer don't support html text." );
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	private boolean isHtmlText( Object child )
-	{
-		return child instanceof IForeignContent
-				&& IForeignContent.HTML_TYPE
-						.equalsIgnoreCase( ( (IForeignContent) child )
-								.getRawType( ) );
-	}
-	
-	public String getTableValue( ITableContent table )
-	{
-		StringBuffer tableValue = new StringBuffer( );
-		Collection list = table.getChildren( );
-		Iterator iter = list.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Object child = iter.next( );
-			tableValue.append( getRowValue( (IRowContent) child ) );
-		}
-		return tableValue.toString( );
-
-	}
-	
-	public String getRowValue( IRowContent row )
-	{
-		StringBuffer rowValue = new StringBuffer( );
-		Collection list = row.getChildren( );
-		Iterator iter = list.iterator( );
-		int cellCount = list.size( );
-		int currentCellCount = 0;
-		while ( iter.hasNext( ) )
-		{
-			currentCellCount++;
-			Object child = iter.next( );
-			switch ( currentCellCount )
-			{
-				case 1 :
-					rowValue.append( "&L" );
-					break;
-				case 2 :
-					rowValue.append( "&C" );
-					break;
-				case 3 :
-					rowValue.append( "&R" );
-					break;
-				default :
-					break;
-			}
-			rowValue.append( getCellValue( (ICellContent) child ) );
-		}
-		return rowValue.toString( );
-	}
-	
-	public String getCellValue( ICellContent cell )
-	{
-		StringBuffer cellValue = new StringBuffer( );
-		Collection list = cell.getChildren( );
-		Iterator iter = list.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			processText( cellValue, iter.next( ) );
-		}
-		return cellValue.toString( );
-	}
-	
-	private String getAutoText( IAutoTextContent autoText )
-	{
-		String result = null;
-		int type = autoText.getType( );
-		if ( type == IAutoTextContent.PAGE_NUMBER )
-		{
-			result = "&P";
-		}
-		else if ( type == IAutoTextContent.TOTAL_PAGE )
-		{
-			result = "&N";
-		}
-		else
-		{
-			result = autoText.getText( );
-		}
-		return result;
-	}
-	
-	private boolean isEmbededTable(ITableContent table)
-	{
-		boolean isEmbeded = false;
-		Collection list = table.getChildren( );
-		Iterator iterRow = list.iterator( );
-		while ( iterRow.hasNext( ) )
-		{
-			Object child = iterRow.next( );
-			Collection listCell = ( (IRowContent) child ).getChildren( );
-			Iterator iterCell = listCell.iterator( );
-			while ( iterCell.hasNext( ) )
-			{
-				Object cellChild = iterCell.next( );
-				Collection listCellChild = ( (ICellContent) cellChild )
-						.getChildren( );
-				Iterator iterCellChild = listCellChild.iterator( );
-				while ( iterCellChild.hasNext( ) )
-				{
-					Object cellchild = iterCellChild.next( );
-					if ( cellchild instanceof ITableContent )
-					{
-						isEmbeded = true;
-					}
-				}
-			}
-		}
-		return isEmbeded;
-	}
-	
 	public TimeZone getTimeZone()
 	{
 		if ( service != null )

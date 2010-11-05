@@ -17,6 +17,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +31,7 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.TimeZone;
@@ -38,6 +40,7 @@ import com.ibm.icu.util.ULocale;
 public class ExcelUtil
 {
 
+	public static final int SHEETNAME_LENGTH = 31;
 	private static final char EXCEL_DECIMAL_SEPARATOR = '.';
 	public final static int maxCellTextLength = 32767;
 	private final static String scienticPattern = "0*.*0*E0*";
@@ -107,7 +110,7 @@ public class ExcelUtil
 	public final static int PAPER_B5_ENVELOPE = 34;// 176mm*250mm
 	public final static int PAPER_MONARCH_ENVELOPE = 37;// 3.875in*7.5in
 	public final static int PAPER_ISOB4 = 42;// 250mm*353mm;
-
+	
 
 	public static String ridQuote( String val )
 	{
@@ -180,16 +183,15 @@ public class ExcelUtil
 		return true;
 	}
 	
-	public static String formatDate( Object data, TimeZone timeZone )
+	public static String formatDate( Object data )
 	{
-		DateFormatter dateFormat = new DateFormatter( "yyyy-MM-dd'T'HH:mm:ss",
-				ULocale.ENGLISH, timeZone );
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH );
 		Date date = getDate( data );
-		if ( date == null )
-		{
+		if(date == null) {
 			return null;
 		}
-		return dateFormat.format( date );
+		return  dateFormat.format( date );        
 	}
 
 	public static Date getDate( Object data )
@@ -562,16 +564,20 @@ public class ExcelUtil
 		}
 		catch ( Exception e )
 		{
-			logger.log( Level.WARNING, "unknown size: " + size );
-//			e.printStackTrace( );
+			logger.log( Level.WARNING, "Unknown unit: " + size );
 			return 0;
 		}
 	}
 
 	// change the columnWidth unit from point to characterNumber
-	public static double convertColWidth( int width )
+	public static double convertColWidth( float width )
 	{
-		float PX_PT = INCH_PT / 96;
+		return convertColWidth( width, 96 );
+	}
+
+	public static double convertColWidth( float width, int dpi )
+    {
+	    float PX_PT = INCH_PT / dpi;
 		// TODO: more study about the caculation
 		if ( width < 0 )
 			return 0;
@@ -588,7 +594,7 @@ public class ExcelUtil
 		// calculate characterNumber
 		result = (int) ( ( characterNumber * digitalWidth + 5 ) / digitalWidth * 256 );
 		return result / 256;
-	}
+    }
 
 	public static boolean isBigNumber( Object number )
 	{
@@ -665,7 +671,6 @@ public class ExcelUtil
 		return exp.substring( exp.indexOf( "dataSetRow[" ), exp
 				.lastIndexOf( "]" ) + 1 );
 	}
-	private static final int max_formula_length = 512;
 
 	private static final String reg1 = "Total." + "(count|ave|sum|max|min)"
 			+ "\\(", reg2 = "\\)", reg3 = "\\[", reg4 = "\\]";
@@ -749,7 +754,7 @@ public class ExcelUtil
 				format.applyPattern( DateFormatter.DATETIME_UNFORMATTED );
 			}
 			dateTime = updateFormat( format.getLocalizedFormatCode( ) );
-			
+
 		}
 		if ( dateTime.indexOf( "Date" ) != -1
 				|| dateTime.indexOf( "Time" ) != -1 )
@@ -759,6 +764,7 @@ public class ExcelUtil
 		}
 		StringBuffer buffer = new StringBuffer( );
 		boolean inQuto = false;
+		int eCount = 0;
 		for(int count = 0 ; count < dateTime.length(); count ++)
 		{
 			char tempChar = dateTime.charAt(count);
@@ -791,6 +797,7 @@ public class ExcelUtil
 			{
 				if(tempChar == '\'')
 				{
+					eCount = 0;
 					if(nextIsQuto(dateTime , count))
 					{
 						buffer.append( tempChar );
@@ -803,12 +810,26 @@ public class ExcelUtil
 				}
 				else
 				{
+					if ( "Ee".indexOf( tempChar ) != -1 )
+					{
+						eCount++;
+						if ( eCount == 3 )
+						{
+							buffer.append( "ddd" );
+						}
+						if ( eCount >= 4 )
+						{
+							buffer.append( "d" );
+						}
+						continue;
+					}
+					eCount = 0;
 					if(tempChar == 'a')
 					{
 						buffer.append( "AM/PM" );
 						continue;
 					}
-					if("zZFWwGE".indexOf( tempChar ) != -1)
+					if ( "zZFWwG".indexOf( tempChar ) != -1 )
 					{
 						continue;
 					}
@@ -832,7 +853,7 @@ public class ExcelUtil
 	 * change 'y' to 'yyyy' for excel date pattern. This change started from
 	 * Birt2.6.0.
 	 */
-	private static String updateFormat( String dateTime )
+	public static String updateFormat( String dateTime )
 	{
 		if ( dateTime.indexOf( 'y' ) == dateTime.lastIndexOf( 'y' ) )
 		{
@@ -987,23 +1008,19 @@ public class ExcelUtil
 		if ( currency != null )
 		{
 			String symbol = currency.getSymbol( locale );
-		if ( symbol.equals( "EUR" ) )
-		{
-			symbol = "€";
-		}
-		if ( symbol.equals( "GBP" ) )
-		{
-			symbol = "£";
-		}
-		if ( symbol.equals( "XXX" ) )
-		{
-			symbol = "¤";
-		}
-		if ( symbol == null )
-		{
-			symbol = "$";
-		}
-		return symbol;
+			if ( symbol.equals( "EUR" ) )
+			{
+				symbol = "€";
+			}
+			else if ( symbol.equals( "GBP" ) )
+			{
+				symbol = "£";
+			}
+			else if ( symbol.equals( "XXX" ) )
+			{
+				symbol = "¤";
+			}
+			return symbol;
 		}
 		return "$";
 	}
@@ -1228,7 +1245,7 @@ public class ExcelUtil
 		}
 	}
 
-	public static String format( Object value, int dataType, TimeZone timeZone )
+	public static String format( Object value, int dataType )
 	{
 		if ( value == null )
 		{
@@ -1236,7 +1253,7 @@ public class ExcelUtil
 		}
 		else if ( dataType == SheetData.DATE )
 		{
-			return formatDate( value, timeZone );
+			return formatDate( value );
 		}
 		else if ( dataType == SheetData.NUMBER )
 		{
@@ -1266,15 +1283,15 @@ public class ExcelUtil
 		// Make sure the name does not contain any of the following characters:
 		// \ / ? * [ or ]
 		name = name.replaceAll( "[\\\\/?*\\[\\] ]", "_" );
-		if ( name.length( ) > 31 )
+		if ( name.length( ) > SHEETNAME_LENGTH )
 		{
 			logger.log( Level.WARNING, "The sheetName " + name
 					+ " is too long for output." );
-			name = name.substring( 0, 31 );
+			name = name.substring( 0, SHEETNAME_LENGTH );
 		}
 		return name;
 	}
-
+	
 	private static final double POINTS_PER_INCH = 72;
 	private static final double CM_PER_INCH = 2.54;
 	private static final double POINTS_PER_CM = POINTS_PER_INCH / CM_PER_INCH;
@@ -1348,4 +1365,12 @@ public class ExcelUtil
 		return txt;
 	}
 
+	public static SheetData getRealData( SheetData data )
+	{
+		while ( data != null && data.isBlank( ) )
+		{
+			data = ( (BlankData) data ).getData( );
+		}
+		return data;
+	}
 }

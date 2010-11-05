@@ -17,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +33,6 @@ public class ExcelWriter implements IExcelWriter
 
 	private ExcelXmlWriter writer, tempWriter;
 	private final ExcelContext context;
-	private final OutputStream out;
-	private final boolean isRTLSheet;
 	private String tempFilePath;
 	private int sheetIndex = 1;
 
@@ -47,26 +44,15 @@ public class ExcelWriter implements IExcelWriter
 	 * @param pageFooter
 	 * @param orientation
 	 */
-	public ExcelWriter( OutputStream out, ExcelContext context,
-			boolean isRtlSheet )
+	public ExcelWriter( ExcelContext context )
 	{
-		this.out = out;
 		this.context = context;
-		this.isRTLSheet = isRtlSheet;
 	}
 
 
 	public void end( ) throws IOException
 	{
 		writer.end( );
-		if ( tempFilePath != null )
-		{
-			File file = new File( tempFilePath );
-			if ( file.exists( ) && file.isFile( ) )
-			{
-				file.delete( );
-			}
-		}
 	}
 
 	public void endRow( )
@@ -74,9 +60,19 @@ public class ExcelWriter implements IExcelWriter
 		writer.endRow( );
 	}
 
-	public void endSheet( String oritentation, int pageWidth, int pageHeight )
+	public void endSheet( int[] coordinates, String oritentation,
+			int pageWidth, int pageHeight, float leftMargin, float rightMargin,
+			float topMargin, float bottomMargin )
 	{
-		writer.endSheet( oritentation, pageWidth, pageHeight );
+		writer.endSheet( coordinates, oritentation, pageWidth, pageHeight,
+				leftMargin, rightMargin, topMargin, bottomMargin );
+	}
+
+	public void outputData( String sheet, SheetData data, StyleEntry style, int column,
+			int colSpan ) throws IOException
+	{
+		//TODO: ignored sheet temporarily
+		outputData( data, style, column, colSpan );
 	}
 
 	public void outputData( SheetData data, StyleEntry style, int column,
@@ -90,7 +86,7 @@ public class ExcelWriter implements IExcelWriter
 			// List<ExcelRange> styleRanges,
 			HashMap<String, BookmarkDef> bookmarkList ) throws IOException
 	{
-		writer = new ExcelXmlWriter( out, context, isRTLSheet );
+		writer = new ExcelXmlWriter( context );
 		writer.setSheetIndex( sheetIndex );
 		// TODO: style ranges.
 		// writer.start( report, styles, styleRanges, bookmarkList );
@@ -102,7 +98,6 @@ public class ExcelWriter implements IExcelWriter
 	{
 		if ( tempWriter != null )
 		{
-			tempWriter.close( );
 			BufferedReader reader = null;
 			try
 			{
@@ -164,7 +159,7 @@ public class ExcelWriter implements IExcelWriter
 				+ "_BIRTEMITTER_EXCEL_TEMP_FILE"
 				+ Thread.currentThread( ).getId( );
 		FileOutputStream out = new FileOutputStream( tempFilePath );
-		tempWriter = new ExcelXmlWriter( out, context, isRTLSheet );
+		tempWriter = new ExcelXmlWriter( out, context );
 		writer = tempWriter;
 	}
 

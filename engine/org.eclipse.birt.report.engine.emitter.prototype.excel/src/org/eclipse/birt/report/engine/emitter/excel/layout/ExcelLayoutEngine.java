@@ -21,24 +21,32 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.IPageContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
-import org.eclipse.birt.report.engine.emitter.excel.BlankData;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
-import org.eclipse.birt.report.engine.emitter.excel.DataCache;
+import org.eclipse.birt.report.engine.emitter.excel.DataCache.DataFilter;
+import org.eclipse.birt.report.engine.emitter.excel.DataCache.RowIndexAdjuster;
 import org.eclipse.birt.report.engine.emitter.excel.DateTimeUtil;
-import org.eclipse.birt.report.engine.emitter.excel.ExcelEmitter;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
+import org.eclipse.birt.report.engine.emitter.excel.ExcelWriter;
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
+import org.eclipse.birt.report.engine.emitter.excel.IExcelWriter;
 import org.eclipse.birt.report.engine.emitter.excel.ImageData;
 import org.eclipse.birt.report.engine.emitter.excel.RowData;
 import org.eclipse.birt.report.engine.emitter.excel.SheetData;
@@ -46,11 +54,11 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
-import org.eclipse.birt.report.engine.emitter.excel.BlankData.Type;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.FlashFile;
 
 import com.ibm.icu.util.ULocale;
@@ -62,8 +70,6 @@ public class ExcelLayoutEngine
 	protected static Logger logger = Logger.getLogger( ExcelLayoutEngine.class
 			.getName( ) );
 
-	public final static String EMPTY = "";
-	
 	public static final float DEFAULT_ROW_HEIGHT = 15;
 
 	// Excel 2007 can support 1048576 rows and 16384 columns.
@@ -79,72 +85,80 @@ public class ExcelLayoutEngine
 	
 	public final static int MAX_COLUMN_OFFICE2003 = 255;
 	
-	private int maxRow = MAX_ROW_OFFICE2003;
+	protected int maxRow = MAX_ROW_OFFICE2003;
 
-	private int maxCol = MAX_COLUMN_OFFICE2003;
+	protected int maxCol = MAX_COLUMN_OFFICE2003;
 	
 	private HashMap<String, String> cachedBookmarks = new HashMap<String, String>( );
 
-	protected DataCache cache;
-
-	private AxisProcessor axis;
-
 	protected StyleEngine engine;
 	
-	private ExcelEmitter emitter;
-
 	private Stack<XlsContainer> containers = new Stack<XlsContainer>( );
 
 	private Stack<XlsTable> tables = new Stack<XlsTable>( );
 
-	private ExcelContext context = null;
+	protected ExcelContext context = null;
 
 	private String messageFlashObjectNotSupported;
 	
 	private ULocale locale;
-
 	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>( );
-
-	protected int reportDpi;
-
 	protected Stack<Boolean> rowVisibilities = new Stack<Boolean>( );
+	protected Page page;
+	protected IExcelWriter writer;
+	protected ContentEmitterVisitor contentVisitor;
+
+	private IPageContent pageContent;
 
 	public ExcelLayoutEngine( ExcelContext context,
-			ExcelEmitter emitter )
+	        ContentEmitterVisitor contentVisitor )
 	{
 		this.context = context;
-		this.emitter = emitter;
 		this.locale = context.getLocale( );
 		EngineResourceHandle resourceHandle = new EngineResourceHandle( locale );
 		messageFlashObjectNotSupported = resourceHandle
 				.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
+		this.contentVisitor = contentVisitor;
 	}
 	
-	public void initalize( int contentWidth, IStyle style, int dpi )
+	protected void createWriter( )
 	{
-		axis = new AxisProcessor( );		
-		axis.addCoordinate( contentWidth );
+		writer = new ExcelWriter( context );
+	}
 
+	public void initalize( IStyle style )
+	{
 		setCacheSize();
 		
-		ContainerSizeInfo rule = new ContainerSizeInfo( 0, contentWidth );
-		cache = createDataCache( maxCol, maxRow );
+		ContainerSizeInfo rule = new ContainerSizeInfo( 0,
+		        context.getContentWidth( ) );
 		engine = new StyleEngine( this );
 		containers.push( createContainer( rule, style, null ) );
-		this.reportDpi = dpi;
+		createWriter( );
 	}
 
-	protected DataCache createDataCache( int maxColumn, int maxRow )
+	protected void createPage( )
 	{
-		return new DataCache( maxColumn, maxRow );
+		page = new Page( context.getContentWidth( ), engine, maxCol,
+		        context.getSheetName( ) );
+		page.initalize( );
+		context.setPage( page );
 	}
-	
+
 	private void setCacheSize()
 	{
 		if ( context.getOfficeVersion( ).equals( "office2007" ) )
 		{
 			maxCol = MAX_COL_OFFICE2007;
 		}
+	}
+
+	public void processForeign( IForeignContent foreign, HyperlinkDef link )
+	        throws BirtException
+	{
+		addContainer( foreign.getComputedStyle( ), link );
+		contentVisitor.visitChildren( foreign, null );
+		endContainer( );
 	}
 
 	public XlsContainer getCurrentContainer( )
@@ -157,32 +171,127 @@ public class ExcelLayoutEngine
 		return containers;
 	}
 
-	public void setPageStyle( IStyle style )
+	public void startPage( IPageContent pageContent ) throws BirtException
 	{
+		this.pageContent = pageContent;
+		if ( page == null || context.isEnableMultipleSheet( ) )
+		{
+			newPage( );
+		}
+		page.startPage( pageContent );
 		XlsContainer topContainer = containers.peek( );
-		topContainer.setStyle( StyleBuilder.createStyleEntry( style ) );
+		topContainer.setStyle( StyleBuilder.createStyleEntry( pageContent
+				.getComputedStyle( ) ) );
+		if ( !page.isOutputInMasterPage( )
+		        && pageContent.getPageHeader( ) != null )
+		{
+			contentVisitor.visitChildren( pageContent.getPageHeader( ), null );
+		}
 	}
-	
-	public void addTable( IContainerContent content, ColumnsInfo table,
+
+	private void newPage( )
+	{
+		createPage( );
+		for ( XlsTable table : tables )
+		{
+			splitColumns( table.getColumnsInfo( ), table.getParent( )
+			        .getSizeInfo( ) );
+		}
+		resetContainers( );
+	}
+
+	public void endPage( IPageContent pageContent ) throws BirtException
+	{
+		IContent footer = pageContent.getPageFooter( );
+		if ( !page.isOutputInMasterPage( ) && footer != null )
+		{
+			contentVisitor.visitChildren( footer, null );
+		}
+
+		
+		// update sheet name to page label, if necessary		
+		Object pageLabelObj = context.getReportContext().getPageVariable( IReportContext.PAGE_VAR_PAGE_LABEL );
+		if ( pageLabelObj instanceof String )
+		{
+			String pageLabel = (String)pageLabelObj;
+			pageLabel = ExcelUtil.getValidSheetName( pageLabel );
+			page.setSheetName( pageLabel );
+		}
+		
+		outputSheet( page );
+		page = null;
+	}
+
+	public void startTable( ITableContent table )
+	{
+		XlsContainer currentContainer = getCurrentContainer( );
+		if ( currentContainer == null )
+		{
+			addContainer( null );
+			return;
+		}
+		ContainerSizeInfo sizeInfo = currentContainer.getSizeInfo( );
+		int width = sizeInfo.getWidth( );
+		ColumnsInfo info = null;
+		// excel now only use "auto" to deal with table's width.
+		boolean isAutoTable = true;
+		int dpi = context.getDpi( );
+		if ( isAutoTable )
+		{
+			info = LayoutUtil.createTable( table, width, dpi );
+		}
+		else
+		{
+			int[] columns = LayoutUtil.createFixedTable( table, LayoutUtil
+			        .getElementWidth( table, width, dpi ), dpi );
+			info = new ColumnsInfo( columns );
+		}
+		String caption = table.getCaption( );
+		if ( caption != null )
+		{
+			addCaption( caption, table.getComputedStyle( ) );
+		}
+		addTable( table, info, sizeInfo );
+	}
+
+	public void addTable( IContainerContent content, ColumnsInfo columns,
 			ContainerSizeInfo size )
 	{
 		IStyle style = content.getComputedStyle( );
 		XlsContainer currentContainer = getCurrentContainer( );
+		if ( currentContainer == null )
+		{
+			addContainer( null );
+			tables.push( null );
+			return;
+		}
 		ContainerSizeInfo parentSizeInfo = currentContainer.getSizeInfo( );
-		int[] columnStartCoordinates = splitColumns( table, parentSizeInfo );
-		createTable( table, style, currentContainer, columnStartCoordinates );
+		boolean isTop = containers.size( ) == 1;
+		boolean autoExtend = isTop && context.isAutoLayout( );
+		int[] columnStartCoordinates = splitColumns( columns, parentSizeInfo,
+		                                             autoExtend );
+		createTable( columns, style, currentContainer, columnStartCoordinates );
 	}
 
 	protected int[] splitColumns( ColumnsInfo columnsInfo,
 			ContainerSizeInfo parentSizeInfo )
 	{
+		return splitColumns( columnsInfo, parentSizeInfo, false );
+	}
+
+	protected int[] splitColumns( ColumnsInfo columnsInfo,
+	        ContainerSizeInfo parentSizeInfo, boolean autoExtend )
+	{
 		int startCoordinate = parentSizeInfo.getStartCoordinate( );
 		int endCoordinate = parentSizeInfo.getEndCoordinate( );
 
 		int[] columnStartCoordinates = calculateColumnCoordinates( columnsInfo,
-				startCoordinate, endCoordinate );
+		                                                           startCoordinate,
+		                                                           endCoordinate,
+		                                                           autoExtend );
 
-		splitColumns( startCoordinate, endCoordinate, columnStartCoordinates );
+		page.splitColumns(	startCoordinate, endCoordinate,
+		                   columnStartCoordinates, autoExtend );
 		return columnStartCoordinates;
 	}
 
@@ -207,85 +316,36 @@ public class ExcelLayoutEngine
 		return getParentStyle( getCurrentContainer( ) );
 	}
 
-	private void splitColumns( int startCoordinate, int endCoordinate,
-			int[] columnStartCoordinates )
-	{
-		int[] scale = axis.getColumnCoordinatesInRange( startCoordinate,
-				endCoordinate );
-
-		for ( int i = 0; i < scale.length - 1; i++ )
-		{
-			int startPosition = scale[i];
-			int endPostion = scale[i + 1];
-
-			int[] range = inRange( startPosition, endPostion, columnStartCoordinates );
-
-			if ( range.length > 0 )
-			{				
-				int pos = axis.getColumnIndexByCoordinate( startPosition );
-				cache.insertColumns( pos, range.length );
-
-				for ( int j = 0; j < range.length; j++ )
-				{
-					axis.addCoordinate( range[j] );
-				}
-			}
-		}
-	}
-
 	private int[] calculateColumnCoordinates( ColumnsInfo table,
-			int startCoordinate,
-			int endCoordinate )
+	        int startCoordinate, int endCoordinate, boolean autoExtend )
 	{
-		int columnCount = table.getColumnCount( );
-		int[] columnStartCoordinates = new int[ columnCount + 1 ];
+		int columnCount = table != null ? table.getColumnCount( ) : 0;
+		int[] columnStartCoordinates = new int[columnCount + 1];
 		columnStartCoordinates[0] = startCoordinate;
 		for ( int i = 1; i <= columnCount; i++ )
 		{
-			if ( ( columnStartCoordinates[i - 1] + table.getColumnWidth( i - 1 ) ) > endCoordinate )
+			if ( !autoExtend
+			        && ( columnStartCoordinates[i - 1] + table
+			                .getColumnWidth( i - 1 ) ) > endCoordinate )
 			{
 				columnStartCoordinates[i] = endCoordinate;
 			}
 			else
 				columnStartCoordinates[i] = columnStartCoordinates[i - 1]
-				+ table.getColumnWidth( i - 1 );
+						+ table.getColumnWidth( i - 1 );
 		}
 		return columnStartCoordinates;
-	}
-
-	private int[] inRange( int start, int end, int[] data )
-	{
-		int[] range = new int[data.length];
-		int count = 0;
-
-		for ( int i = 0; i < data.length; i++ )
-		{
-			if ( ( data[i] > start ) && ( data[i] < end ) )
-			{
-				count++;
-				range[count] = data[i];
-			}
-		}
-
-		int[] result = new int[count];
-
-		int j = 0;
-		for ( int i = 0; i < range.length; i++ )
-		{
-			if ( range[i] != 0 )
-			{
-				result[j] = range[i];
-				j++;
-			}
-		}
-
-		return result;
 	}
 
 	public void addCell( int col, int colSpan, int rowSpan, IStyle style )
 	{
 		XlsTable table = tables.peek( );
 		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, colSpan );
+		if ( cellSizeInfo == null )
+		{
+			addContainer( null );
+			return;
+		}
 		XlsCell cell = new XlsCell( engine.createEntry( cellSizeInfo, style,
 														getParentStyle( ) ),
 				cellSizeInfo, getCurrentContainer( ), rowSpan );
@@ -313,9 +373,19 @@ public class ExcelLayoutEngine
 		{
 			rowVisibilities.pop( );
 			rowVisibilities.push( true );
+			if ( getCurrentContainer( ) == null )
+			{
+				addContainer( null );
+				return;
+			}
 			XlsTable table = tables.peek( );
 			ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col,
-					colSpan );
+			                                                          colSpan );
+			if ( cellSizeInfo == null )
+			{
+				addContainer( null );
+				return;
+			}
 			int diagonalNumber = cellcontent.getDiagonalNumber( );
 			StyleEntry cellStyleEntry = null;
 			if ( diagonalNumber != 0 )
@@ -352,6 +422,11 @@ public class ExcelLayoutEngine
 	{
 		rowVisibilities.push( false );
 		XlsContainer parent = getCurrentContainer( );
+		if ( parent == null )
+		{
+			addContainer( null );
+			return;
+		}
 		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
 		XlsContainer container = createContainer( sizeInfo, style,
 				parent );
@@ -363,179 +438,10 @@ public class ExcelLayoutEngine
 	{
 		if ( rowVisibilities.pop( ) )
 		{
-			synchronize( rowHeight );
+			XlsContainer rowContainer = getCurrentContainer( );
+			page.synchronize( rowHeight, rowContainer );
 		}
 		endContainer( );
-	}
-
-	protected void synchronize( float height )
-	{
-		XlsContainer rowContainer = getCurrentContainer( );
-		ContainerSizeInfo rowSizeInfo = rowContainer.getSizeInfo( );
-		int startCoordinate = rowSizeInfo.getStartCoordinate( );
-		int endCoordinate = rowSizeInfo.getEndCoordinate( );
-		int startColumnIndex = axis.getColumnIndexByCoordinate( startCoordinate );
-		int endColumnIndex = axis.getColumnIndexByCoordinate( endCoordinate );
-
-		int maxRowIndex = 0;
-		int rowIndexes[] = new int[endColumnIndex - startColumnIndex];
-
-		for ( int currentColumnIndex = startColumnIndex; currentColumnIndex < endColumnIndex; currentColumnIndex++ )
-		{
-			int rowIndex = cache.getMaxRowIndex( currentColumnIndex );
-			SheetData lastData = cache.getColumnLastData( currentColumnIndex );
-			rowIndexes[currentColumnIndex - startColumnIndex] = rowIndex;
-			int span = lastData != null ? lastData.getRowSpanInDesign( ) : 0;
-			if ( span == 0
-					|| ( span == 1 && !isInContainer( lastData, rowContainer ) ) )
-			{
-				maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
-			}
-		}
-		int startRowIndex = rowContainer.getRowIndex( );
-		if ( maxRowIndex <= startRowIndex )
-		{
-			maxRowIndex = startRowIndex + 1;
-		}
-		rowContainer.setRowIndex( maxRowIndex );
-		float resize = height / ( maxRowIndex - startRowIndex );
-		for ( int i = startRowIndex; i < maxRowIndex; i++ )
-		{
-			cache.setRowHeight( i, resize );
-		}
-
-		for ( int currentColumnIndex = startColumnIndex; currentColumnIndex < endColumnIndex; currentColumnIndex++ )
-		{
-			int rowspan = maxRowIndex - rowIndexes[currentColumnIndex - startColumnIndex];
-			SheetData upstair = cache.getColumnLastData( currentColumnIndex );
-			if ( rowspan > 0 )
-			{
-				if ( upstair != null && canSpan( upstair, rowContainer ) )
-				{
-					Type blankType = Type.VERTICAL;
-					if ( upstair.isBlank( ) )
-					{
-						BlankData blankData = (BlankData) upstair;
-						if ( blankData.getType( ) == Type.VERTICAL )
-						{
-							upstair
-									.setRowSpan( upstair.getRowSpan( )
-											+ rowspan );
-							if ( !isInContainer( blankData, rowContainer ) )
-							{
-								upstair.decreasRowSpanInDesign( );
-							}
-						}
-						blankType = blankData.getType( );
-					}
-					else
-					{
-						upstair.setRowSpan( upstair.getRowSpan( ) + rowspan );
-						if ( !isInContainer( upstair, rowContainer ) )
-						{
-							upstair.decreasRowSpanInDesign( );
-						}
-					}
-					int rowIndex = upstair.getRowIndex( );
-					for ( int p = 1; p <= rowspan; p++ )
-					{
-						BlankData blank = new BlankData( upstair );
-						blank.setRowIndex( rowIndex + p );
-						blank.setType( blankType );
-						cache.addData( currentColumnIndex, blank );
-					}
-				}
-			}
-			else if ( upstair != null && upstair.getRowSpanInDesign( ) > 0
-					&& !isInContainer( upstair, rowContainer ) )
-			{
-				upstair.decreasRowSpanInDesign( );
-			}
-		}
-	}
-
-	private void calculateRowHeight( SheetData[] rowData, boolean isAuto )
-	{
-		float rowHeight = 0;
-		int rowIndex = getRowIndex( rowData );
-		float lastRowHeight = rowIndex > 0
-				? cache.getRowHeight( rowIndex - 1 )
-				: 0;
-		boolean hasCurrentRowHeight = cache.hasRowHeight( rowIndex );
-		if ( !hasCurrentRowHeight || isAuto )
-		{
-			for ( int i = 0; i < rowData.length; i++ )
-			{
-				SheetData data = rowData[i];
-				if ( data != null )
-				{
-					if ( data.isBlank( ) )
-					{
-						// if the data spans last row,then recalculate data
-						// height.
-						// if current row is the last row of real data, then
-						// adjust
-						// row height.
-						BlankData blankData = (BlankData) data;
-						if ( blankData.getType( ) == Type.VERTICAL )
-						{
-							data.setHeight( data.getHeight( ) - lastRowHeight );
-						}
-					}
-					SheetData realData = getRealData( data );
-					if ( realData != null )
-					{
-						int realDataRowEnd = realData.getRowIndex( )
-								+ realData.getRowSpan( );
-						if ( realDataRowEnd == data.getRowIndex( ) )
-						{
-							rowHeight = data.getHeight( ) > rowHeight ? data
-									.getHeight( ) : rowHeight;
-						}
-					}
-				}
-			}
-			cache.setRowHeight( rowIndex, rowHeight );
-		}
-	}
-
-	private int getRowIndex( SheetData[] rowData )
-	{
-		for ( int j = 0; j < rowData.length; j++ )
-		{
-			SheetData data = rowData[j];
-			if ( data != null )
-			{
-				return data.getRowIndex( ) - 1;
-			}
-		}
-		return 0;
-	}
-
-	private boolean canSpan( SheetData data, XlsContainer rowContainer )
-	{
-		SheetData realData = getRealData(data);
-		if ( realData == null )
-			return false;
-		if ( isInContainer( realData, rowContainer ) )
-		{
-			return true;
-		}
-		return realData.getRowSpanInDesign( ) > 0;
-	}
-
-	private SheetData getRealData( SheetData data )
-	{
-		while ( data != null && data.isBlank( ) )
-		{
-			data = ( (BlankData) data ).getData( );
-		}
-		return data;
-	}
-
-	private boolean isInContainer( SheetData data, XlsContainer rowContainer )
-	{
-		return data.getRowIndex( ) > rowContainer.getStartRowId( );
 	}
 
 	public void endTable( IContent content )
@@ -550,6 +456,11 @@ public class ExcelLayoutEngine
 	public void addContainer( IStyle style, HyperlinkDef link )
 	{
 		XlsContainer parent = getCurrentContainer( );
+		if ( parent == null )
+		{
+			addContainer( null );
+			return;
+		}
 		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
 		StyleEntry entry = engine.createEntry( sizeInfo, style,
 												getParentStyle( parent ) );
@@ -563,57 +474,28 @@ public class ExcelLayoutEngine
 
 	private void addContainer( XlsContainer child )
 	{
-		XlsContainer parent = child.getParent( );
-		if ( parent instanceof XlsCell )
+		if ( child != null )
 		{
-			addEmptyDataToContainer( child, parent );
+			XlsContainer parent = child.getParent( );
+			if ( parent instanceof XlsCell )
+			{
+				page.addEmptyDataToContainer( child, parent );
+			}
+			if ( parent != null )
+			{
+				parent.setEmpty( false );
+			}
 		}
-		if ( parent != null )
-		{
-			parent.setEmpty( false );
-		}
-		containers.push( child);
-	}
-
-	private void addEmptyDataToContainer( XlsContainer child,
-			XlsContainer parent )
-	{
-		ContainerSizeInfo childSizeInfo = child.getSizeInfo( );
-		int childStartCoordinate = childSizeInfo.getStartCoordinate( );
-		int childEndCoordinate = childSizeInfo.getEndCoordinate( );
-		ContainerSizeInfo parentSizeInfo = parent.getSizeInfo( );
-		int parentStartCoordinate = parentSizeInfo.getStartCoordinate( );
-		int parentEndCoordinate = parent.getSizeInfo( ).getEndCoordinate( );
-
-		if ( childEndCoordinate < parentEndCoordinate )
-		{
-			StyleEntry style = parent.getStyle( );
-			removeLeftBorder( style );
-			removeDiagonalLine( style );
-			addEmptyDataToContainer( style, parent, childEndCoordinate,
-					parentEndCoordinate - childEndCoordinate );
-		}
-		if ( childStartCoordinate > parentStartCoordinate )
-		{
-			StyleEntry style = parent.getStyle( );
-			removeRightBorder( style );
-			removeDiagonalLine( style );
-			addEmptyDataToContainer( style, parent, childStartCoordinate,
-					parentStartCoordinate - childStartCoordinate );
-		}
-	}
-
-	private void addEmptyDataToContainer( StyleEntry style,
-			XlsContainer parent, int startCoordinate, int width )
-	{
-		Data data = createEmptyData( style );
-		data.setStartX( startCoordinate );
-		data.setEndX( startCoordinate + width );
-		addData( data );
+		containers.push( child );
 	}
 
 	public void endContainer( )
 	{
+		if ( getCurrentContainer( ) == null )
+		{
+			containers.pop( );
+			return;
+		}
 		setParentContainerIndex( );
 		endNormalContainer( );
 	}
@@ -629,40 +511,47 @@ public class ExcelLayoutEngine
 	public void endNormalContainer( )
 	{
 		XlsContainer container = getCurrentContainer( );
-		if ( container.isEmpty( ) )
+		if ( container != null )
 		{
-			Data data = createData( EMPTY, container.getStyle( ) );
-			ContainerSizeInfo containerSize = container.getSizeInfo( );
-			data.setStartX( containerSize.getStartCoordinate( ) );
-			data.setEndX( containerSize.getEndCoordinate( ) );
-			addData( data );
+			if ( container.isEmpty( ) )
+			{
+				Data data = page.createEmptyData( container.getStyle( ) );
+				ContainerSizeInfo containerSize = container.getSizeInfo( );
+				data.setStartX( containerSize.getStartCoordinate( ) );
+				data.setEndX( containerSize.getEndCoordinate( ) );
+				addData( data, container );
+			}
+			engine.applyContainerBottomStyle( container, page );
 		}
-		engine.applyContainerBottomStyle( );
 		containers.pop( );
 	}
 
-	public Data addData( Object txt, IStyle style, HyperlinkDef link,
+	public Data addData( Object value, IStyle style, HyperlinkDef link,
 			BookmarkDef bookmark, float height )
 	{
-		return addData( txt, style, link, bookmark, null, height );
+		return addData( value, style, link, bookmark, null, height );
 	}
 
 	public Data addData( Object value, IStyle style, HyperlinkDef link,
 			BookmarkDef bookmark, String locale, float height )
 	{
 		XlsContainer container = getCurrentContainer( );
+		if ( container == null )
+		{
+			return null;
+		}
 		ContainerSizeInfo containerSize = container.getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, containerSize,
 											getParentStyle( container ) );
 		setDataType( entry, value, locale );
 		setlinkStyle( entry, link );
-		Data data = createData( value, entry );
+		Data data = page.createData( value, entry );
 		data.setHeight( height );
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
 		data.setStartX( containerSize.getStartCoordinate( ) );
 		data.setEndX( containerSize.getEndCoordinate( ) );
-		addData( data );
+		addData( data, container );
 		return data;
 	}
 
@@ -681,7 +570,7 @@ public class ExcelLayoutEngine
 						StyleConstant.HYPERLINK_COLOR );
 			}
 			entry.setProperty( StyleConstant.TEXT_UNDERLINE_PROP, true );
-			entry.setName( StyleEntry.ENTRYNAME_HYPERLINK );
+			entry.setIsHyperlink( true );
 		}
 	}
 
@@ -689,9 +578,13 @@ public class ExcelLayoutEngine
 			HyperlinkDef link, BookmarkDef bookmark )
 	{
 		XlsContainer container = getCurrentContainer( );
+		if ( container == null )
+		{
+			return;
+		}
 		ContainerSizeInfo parentSizeInfo = container.getSizeInfo( );
-		int imageWidthDpi = reportDpi;
-		int imageHeightDpi = reportDpi;
+		int imageWidthDpi = context.getDpi( );
+		int imageHeightDpi = context.getDpi( );
 		int imageHeight;
 		int imageWidth;
 		byte[] imageData = null;
@@ -728,7 +621,7 @@ public class ExcelLayoutEngine
 		data.setBookmark( bookmark );
 		data.setStartX( imageSize.getStartCoordinate( ) );
 		data.setEndX( imageSize.getEndCoordinate( ) );
-		addData( data );
+		addData( data, container );
 	}
 
 	private int[] getImageSize( IImageContent image, Image imageInfo,
@@ -750,6 +643,7 @@ public class ExcelLayoutEngine
 			imageHeightDpi = PropertyUtil.getImageDpi( image,
 					imageFileHeightDpi, 0 );
 		}
+
 		int imageInfoHeight = (int) ( imageInfo.getHeight( ) * 1000
 				* ExcelUtil.INCH_PT / imageHeightDpi );
 		int imageInfoWidth = (int) ( imageInfo.getWidth( ) * 1000
@@ -798,7 +692,7 @@ public class ExcelLayoutEngine
 				altText = messageFlashObjectNotSupported; 
 			}
 			entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.STRING );
-			return createData( altText, entry );
+			return page.createData( altText, entry );
 		}
 
 		if ( imageData != null )
@@ -809,7 +703,7 @@ public class ExcelLayoutEngine
 		else
 		{
 			entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.STRING );
-			return createData( image.getAltText( ), entry );
+			return page.createData( image.getAltText( ), entry );
 		}
 	}
 
@@ -827,6 +721,10 @@ public class ExcelLayoutEngine
 			BookmarkDef bookmark, String dateTimeLocale, float height )
 	{
 		XlsContainer currentContainer = getCurrentContainer( );
+		if ( currentContainer == null )
+		{
+			return null;
+		}
 		ContainerSizeInfo containerSize = currentContainer.getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, containerSize,
 											getParentStyle( currentContainer ) );
@@ -847,7 +745,7 @@ public class ExcelLayoutEngine
 			data.setHyperlinkDef( link );
 			data.setStartX( containerSize.getStartCoordinate( ) );
 			data.setEndX( containerSize.getEndCoordinate( ) );
-			addData( data );
+			addData( data, currentContainer );
 			return data;
 		}
 		else
@@ -860,18 +758,37 @@ public class ExcelLayoutEngine
 
 	public void addCaption( String text, IStyle style )
 	{
-		ContainerSizeInfo containerSize = getCurrentContainer( ).getSizeInfo( );
+		XlsContainer container = getCurrentContainer( );
+		if ( container == null )
+		{
+			return;
+		}
+		ContainerSizeInfo containerSize = container.getSizeInfo( );
 		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
 		entry.setProperty( StyleEntry.H_ALIGN_PROP, "Center" );
 		entry.setProperty( StyleEntry.FONT_SIZE_PROP, StyleBuilder
 						.convertFontSize( style
 								.getProperty( IStyle.STYLE_FONT_SIZE ) ) );
 		entry.setProperty( StyleEntry.DATA_TYPE_PROP, SheetData.STRING );
-		Data data = createData( text, entry );
+		Data data = page.createData( text, entry );
 		data.setStartX( containerSize.getStartCoordinate( ) );
 		data.setEndX( containerSize.getEndCoordinate( ) );
 
-		addData( data );
+		addData( data, container );
+	}
+
+	public void addData( SheetData data, XlsContainer container )
+	{
+		if ( getCurrentContainer( ) == null )
+		{
+			return;
+		}
+		if ( page.isValid( data ) )
+		{
+			// FIXME: there is a bug when this data is in middle of a row.
+			outputDataIfBufferIsFull( );
+			page.addData( data, container );
+		}
 	}
 
 	private void setDataType( StyleEntry entry, Object value, String dataLocale )
@@ -911,7 +828,7 @@ public class ExcelLayoutEngine
 		timeFormat = DateTimeUtil.formatDateTime( timeFormat, dateLocale );
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.DATE );
-		return createData( txt, entry );
+		return page.createData( txt, entry );
 	}
 
 	private ULocale getLocale( String dlocale )
@@ -919,154 +836,37 @@ public class ExcelLayoutEngine
 		return dlocale == null ? locale : new ULocale( dlocale );
 	}
 
-	protected void addData( SheetData data )
-	{
-		XlsContainer container = getCurrentContainer( );
-		container.setEmpty( false );
-		if ( data.getStartX( ) == data.getEndX( ) )
-			return;
-		int col = axis.getColumnIndexByCoordinate( data.getStartX( ) );
-		if ( col == -1 || col >= cache.getColumnCount( ) )
-			return;
-		int span = axis.getColumnIndexByCoordinate( data.getEndX( ) ) - col;
-		// FIXME: there is a bug when this data is in middle of a row.
-		outputDataIfBufferIsFull( );
-		updataRowIndex( data, container );
-		addDatatoCache( col, data );
-		for ( int i = col + 1; i < col + span; i++ )
-		{
-			BlankData blankData = new BlankData( data );
-			blankData.setType( Type.HORIZONTAL );
-			addDatatoCache( i, blankData );
-		}
-		if ( data.getDataType( ) == SheetData.IMAGE )
-		{
-			addEmptyData( data, container );
-		}
-
-		while ( container != null )
-		{
-			if ( container instanceof XlsCell )
-			{
-				XlsCell cell = (XlsCell) container;
-				data.setRowSpanInDesign( cell.getRowSpan( ) - 1 );
-				break;
-			}
-			else
-			{
-				container = container.getParent( );
-			}
-		}
-	}
-
-	protected void addEmptyData( SheetData data, XlsContainer container )
-	{
-		int parentStartCoordinate = container.getSizeInfo( )
-				.getStartCoordinate( );
-		int parentEndCoordinate = container.getSizeInfo( ).getEndCoordinate( );
-		int childStartCoordinate = data.getStartX( );
-		int childEndCoordinate = data.getEndX( );
-		if ( childEndCoordinate < parentEndCoordinate )
-		{
-			StyleEntry style = container.getStyle( );
-			removeLeftBorder( style );
-			int column = axis.getColumnIndexByCoordinate( childEndCoordinate );
-			int num = axis.getColumnIndexByCoordinate( parentEndCoordinate )
-					- column - 1;
-			Data empty = createEmptyData( style );
-			empty.setStartX( childEndCoordinate );
-			empty.setEndX( parentEndCoordinate );
-			empty.setRowIndex( data.getRowIndex( ) );
-			addDatatoCache( column, empty );
-			addBlankData( column, num, empty );
-		}
-		if ( childStartCoordinate > parentStartCoordinate )
-		{
-			StyleEntry style = container.getStyle( );
-			removeRightBorder( style );
-			int column = axis.getColumnIndexByCoordinate( childStartCoordinate );
-			int num = column
-					- axis.getColumnIndexByCoordinate( parentStartCoordinate )
-					- 1;
-			Data empty = createEmptyData( style );
-			empty.setStartX( childStartCoordinate );
-			empty.setEndX( parentEndCoordinate );
-			empty.setRowIndex( data.getRowIndex( ) );
-			addDatatoCache( column, empty );
-			addBlankData( column - num - 1, num, empty );
-		}
-	}
-
-	private void addBlankData( int column, int num, Data empty )
-	{
-		for ( int i = 1; i <= num; i++ )
-		{
-			BlankData blank = new BlankData( empty );
-			blank.setRowIndex( empty.getRowIndex( ) );
-			addDatatoCache( column + i, blank );
-		}
-	}
-
-	private void removeRightBorder( StyleEntry style )
-	{
-		style.setProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP, null );
-		style.setProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP, null );
-		style.setProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP, null );
-	}
-
-	private void removeLeftBorder( StyleEntry style )
-	{
-		style.setProperty( StyleConstant.BORDER_LEFT_COLOR_PROP, null );
-		style.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP, null );
-		style.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP, null );
-	}
-
-	private void removeDiagonalLine( StyleEntry style )
-	{
-		style.setProperty( StyleConstant.BORDER_DIAGONAL_COLOR_PROP, null );
-		style.setProperty( StyleConstant.BORDER_DIAGONAL_STYLE_PROP, null );
-		style.setProperty( StyleConstant.BORDER_DIAGONAL_WIDTH_PROP, null );
-		style.setProperty( StyleConstant.BORDER_ANTIDIAGONAL_COLOR_PROP, null );
-		style.setProperty( StyleConstant.BORDER_ANTIDIAGONAL_STYLE_PROP, null );
-		style.setProperty( StyleConstant.BORDER_ANTIDIAGONAL_WIDTH_PROP, null );
-	}
-
-	protected Data createEmptyData( StyleEntry style )
-	{
-		return createData( EMPTY, style );
-	}
-
-	protected void updataRowIndex( SheetData data, XlsContainer container )
-	{
-		int rowIndex = container.getRowIndex( ) + 1;
-		data.setRowIndex( rowIndex );
-		container.setRowIndex( rowIndex );
-	}
-
 	private void outputDataIfBufferIsFull( )
 	{
 		if ( getCurrentContainer( ).getRowIndex( ) >= maxRow )
 		{
-			emitter.outputSheet( );
-			cache.clearCachedSheetData( );
-			resetContainers( );
+			outputSheet( page );
+			newPage( );
+			page.startPage( pageContent );
+			page.setHeader( null );
 		}
 	}
 
-	public XlsContainer createContainer( ContainerSizeInfo sizeInfo,
+	public void outputSheet( Page page )
+	{
+		cacheBookmarks( page );
+		try
+		{
+			outputCacheData( page );
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+		}
+		context.setSheetIndex( context.getSheetIndex( ) + 1 );
+	}
+
+	private XlsContainer createContainer( ContainerSizeInfo sizeInfo,
 			IStyle style, XlsContainer parent )
 	{
 		return new XlsContainer( engine
 				.createEntry( sizeInfo, style, getParentStyle( parent ) ),
 				sizeInfo, parent );
-	}
-
-	public XlsContainer createCellContainer( IStyle style, XlsContainer parent, int rowSpan )
-	{
-		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
-		return new XlsCell( engine.createEntry( sizeInfo, style,
-												getParentStyle( parent ) ),
-				sizeInfo, parent, rowSpan );
 	}
 
 	public Map<StyleEntry,Integer> getStyleMap( )
@@ -1079,52 +879,69 @@ public class ExcelLayoutEngine
 		return engine.getStyle( styleId );
 	}
 
-	// TODO: style ranges.
-	// public List<ExcelRange> getStyleRanges( )
-	// {
-	// return engine.getStyleRanges( );
-	// }
-
-	public int[] getCoordinates( )
+	public Page getPage( )
 	{
-		int[] coord = axis.getColumnWidths( );
+		return page;
+	}
 
-		if ( coord.length <= maxCol )
+	public void end( IReportContent report )
+	{
+		// Make sure the engine already calculates all data in cache.
+		// cacheBookmarks( );
+		// complete( );
+		try
 		{
-			return coord;
+			// TODO: style ranges.
+			// writer.start( report, engine.getStyleMap( ), engine
+			// .getStyleRanges( ), engine.getAllBookmarks( ) );
+			writer.start( report, getStyleMap( ), getAllBookmarks( ) );
+			// outputCacheData( true );
 		}
-		else
+		catch ( IOException e )
 		{
-			int[] ncoord = new int[maxCol];
-			System.arraycopy( coord, 0, ncoord, 0, maxCol );
-			return ncoord;
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
 	}
 
-	public int getRowCount( )
+	public void endWriter( )
 	{
-		return cache.getMaxRow( );
+		try
+		{
+			writer.end( );
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+		}
 	}
 
-	public AxisProcessor getAxis( )
+	protected void outputRowData( Page page, RowData rowData )
+	        throws IOException
 	{
-		return axis;
+		writer.startRow( rowData.getHeight( ) );
+		SheetData[] datas = rowData.getRowdata( );
+		for ( int i = 0; i < datas.length; i++ )
+		{
+			SheetData data = datas[i];
+			int start = page.getStartColumn( data );
+			int end = page.getEndColumn( data );
+			int span = Math.max( 0, end - start - 1 );
+			outputData( page, data, start, span );
+		}
+		writer.endRow( );
 	}
 
-	public SheetData getColumnLastData( int column )
+	protected void outputData( Page page, SheetData data, int start, int span )
+			throws IOException
 	{
-		return cache.getColumnLastData( column );
+		writer.outputData(	data, engine.getStyle( data.getStyleId( ) ), start,
+							span );
 	}
 
-	private void addDatatoCache( int col, SheetData value )
+	public void complete( Page page )
 	{
-		cache.addData( col, value );
-	}
-
-	public void complete( boolean isAuto )
-	{
-		engine.applyContainerBottomStyle( containers.get( 0 ) );
-		Iterator<SheetData[]> iterator = cache.getRowIterator( );
+		engine.applyContainerBottomStyle( containers.get( 0 ), page );
+		Iterator<SheetData[]> iterator = page.getRowIterator( );
 		while ( iterator.hasNext( ) )
 		{
 			SheetData[] rowData = iterator.next( );
@@ -1146,22 +963,32 @@ public class ExcelLayoutEngine
 					}
 				}
 			}
-			calculateRowHeight( rowData, isAuto );
+			page.calculateRowHeight( rowData, context.isRTL( ) );
 		}
 	}
 
-	public int getStartColumn( SheetData data )
+	/**
+	 * @throws IOException
+	 * 
+	 */
+	public void outputCacheData( Page page ) throws IOException
 	{
-		// Excel row index Starts From 1
-		int start = axis.getColumnIndexByCoordinate( data.getStartX( ) ) + 1;
-		return Math.min( start, maxCol );
-	}
-
-	public int getEndColumn( SheetData data )
-	{
-		// Excel column index Starts From 1
-		int end = axis.getColumnIndexByCoordinate( data.getEndX( ) ) + 1;
-		return Math.min( end, maxCol );
+		complete( page );
+		Iterator<RowData> it = getIterator( page );
+		if ( it.hasNext( ) )
+		{
+			int[] coordinates = page.getCoordinates( );
+			writer.startSheet( coordinates, page.getHeader( ),
+					page.getFooter( ), page.getSheetName( ) );
+			while ( it.hasNext( ) )
+			{
+				outputRowData( page, it.next( ) );
+			}
+			writer.endSheet( coordinates, page.getOrientation( ),
+					context.getPageWidth( ), context.getPageHeight( ),
+					context.getLeftMargin( ), context.getRightMargin( ),
+					context.getTopMargin( ), context.getBottomMargin( ) );
+		}
 	}
 
 	/**
@@ -1185,10 +1012,8 @@ public class ExcelLayoutEngine
 			else
 			{
 				String generateBookmarkName = getGenerateBookmark( bookmarkName );
-				newBookmark = new BookmarkDef(
-						generateBookmarkName );
-				cachedBookmarks.put( bookmarkName,
-						generateBookmarkName );
+				newBookmark = new BookmarkDef( generateBookmarkName );
+				cachedBookmarks.put( bookmarkName, generateBookmarkName );
 			}
 			data.setLinkedBookmark( newBookmark );
 		}
@@ -1222,19 +1047,28 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	public ExcelLayoutEngineIterator getIterator( )
+	public ExcelLayoutEngineIterator getIterator( Page page )
 	{
-		return new ExcelLayoutEngineIterator( );
+		return getIterator( page, null, null );
+	}
+
+	public ExcelLayoutEngineIterator getIterator( Page page, DataFilter filter,
+	        RowIndexAdjuster rowIndexAdjuster )
+	{
+		return new ExcelLayoutEngineIterator( page, filter, rowIndexAdjuster );
 	}
 
 	private class ExcelLayoutEngineIterator implements Iterator<RowData>
 	{
 
-		Iterator<SheetData[]> rowIterator;
+		private Iterator<SheetData[]> rowIterator;
+		private Page page;
 
-		public ExcelLayoutEngineIterator( )
+		public ExcelLayoutEngineIterator( Page page, DataFilter filter,
+		        RowIndexAdjuster rowIndexAdjuster )
 		{
-			rowIterator = cache.getRowIterator( );
+			this.page = page;
+			rowIterator = page.getRowIterator( filter, rowIndexAdjuster );
 		}
 
 		public boolean hasNext( )
@@ -1259,10 +1093,10 @@ public class ExcelLayoutEngine
 				data.add( row[i] );
 			}
 			SheetData[] rowdata = new SheetData[data.size( )];
-			double rowHeight = Math.max( DEFAULT_ROW_HEIGHT, cache
-					.getRowHeight( rowIndex - 1 ) );
+			double rowHeight = Math.max( DEFAULT_ROW_HEIGHT,
+			                             page.getRowHeight( rowIndex - 1 ) );
 			data.toArray( rowdata );
-			return new RowData( rowdata, rowHeight );
+			return new RowData( page, rowdata, rowHeight );
 		}
 
 		public void remove( )
@@ -1271,13 +1105,13 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	public void cacheBookmarks( int sheetIndex )
+	public void cacheBookmarks( Page page )
 	{
-		List<BookmarkDef> currentSheetBookmarks = cache.getBookmarks( );
-		for ( BookmarkDef book : currentSheetBookmarks )
+		List<BookmarkDef> currentSheetBookmarks = page.getBookmarks( );
+		for ( BookmarkDef bookmark : currentSheetBookmarks )
 		{
-			book.setSheetIndex( sheetIndex );
-			bookmarkList.put( book.getName( ), book );
+			bookmark.setSheetIndex( context.getSheetIndex( ) );
+			bookmarkList.put( bookmark.getName( ), bookmark );
 		}
 	}
 
@@ -1297,33 +1131,8 @@ public class ExcelLayoutEngine
 				+ autoBookmarkIndex++;
 	}
 
-	protected Data createData( )
+	public boolean isContainerVisible( )
 	{
-		return new Data( );
-	}
-
-	protected Data createData( Object text, StyleEntry style )
-	{
-		return createData( text, style, 0 );
-	}
-
-	protected Data createData( Object text, StyleEntry style,
-			int rowSpanOfDesign )
-	{
-		Data data = createData( );
-		int dataType = SheetData.STRING;
-		if ( style != null )
-		{
-			Object property = style.getProperty( StyleConstant.DATA_TYPE_PROP );
-			if ( property instanceof Integer )
-			{
-				dataType = (Integer) property;
-			}
-		}
-		data.setDataType( dataType );
-		data.setValue( text );
-		data.setStyleId( engine.getStyleId( style ) );
-		data.setRowSpanInDesign( rowSpanOfDesign );
-		return data;
+		return getCurrentContainer( ) != null;
 	}
 }

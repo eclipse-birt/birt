@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 
 public class DataCache
@@ -28,23 +27,27 @@ public class DataCache
 	 * columns is an ArrayList. Its elements are each column.
 	 * Each column is also an arrayList. Its elements are the rows in the column. 
 	 */
+	protected static Logger logger = Logger.getLogger( DataCache.class
+	        .getName( ) );
 	private List<ArrayList<SheetData>> columns = new ArrayList<ArrayList<SheetData>>( );
-	private int width;
-	protected static Logger logger = Logger.getLogger( EmitterUtil.class
-			.getName( ) );
-	
-	/**
-	 * All the bookmarks defined in this excel file.
-	 */
-	private List<BookmarkDef> bookmarks = new ArrayList<BookmarkDef>();
+	private int maxColumnCount;
 	private int maxRowIndex = 0;
-
+	private int offset = 0;
 	private Map<Integer, Float> rowIndex2Height = new HashMap<Integer, Float>( );
 
-	public DataCache( int width, int height )
+	public DataCache( DataCache cache )
+	{
+		for ( int i = 0; i < cache.columns.size( ); i++ )
+		{
+			columns.add( new ArrayList<SheetData>( ) );
+		}
+		this.maxColumnCount = cache.maxColumnCount;
+	}
+
+	public DataCache( int offset, int maxColumnCount )
 	{
 		columns.add( new ArrayList<SheetData>( ) );
-		this.width = width;
+		this.maxColumnCount = maxColumnCount;
 	}
 
 	public void insertColumns( int startColumn, int columnCount )
@@ -58,9 +61,26 @@ public class DataCache
 
 		for ( int i = startPosition; i <= startColumn + columnCount; i++ )
 		{
-			if ( i < width )
+			if ( i < maxColumnCount )
 			{
 				columns.add( i, new ArrayList<SheetData>( ) );
+			}
+		}
+	}
+
+	public void insertColumns( int columnCount )
+	{
+		if ( columnCount == 0 )
+		{
+			return;
+		}
+
+		int currentColumnCount = columns.size( );
+		for ( int i = 0; i <= columnCount; i++ )
+		{
+			if ( i + currentColumnCount < maxColumnCount )
+			{
+				columns.add( new ArrayList<SheetData>( ) );
 			}
 		}
 	}
@@ -79,18 +99,7 @@ public class DataCache
 			}
 			bookmark.setColumnNo( col + 1 );
 			bookmark.setRowNo( rowIndex );
-			bookmarks.add( bookmark );
 		}
-	}
-
-	public void clearCachedSheetData( )
-	{
-		for ( int i = 0; i < getColumnCount( ); i++ )
-		{
-			columns.set( i, new ArrayList<SheetData>( ) );
-		}
-		bookmarks.clear( );
-		maxRowIndex = 1;
 	}
 
 	public int getMaxRow( )
@@ -111,12 +120,6 @@ public class DataCache
 	{
 		return columns.size( );
 	}
-
-	
-	public List<BookmarkDef> getBookmarks( )
-	{
-		return bookmarks;
-	}	
 
 	/**
 	 * @param column
@@ -171,7 +174,23 @@ public class DataCache
 
 	public Iterator<SheetData[]> getRowIterator( )
 	{
-		return new DataCacheIterator( );
+		return getRowIterator( null, null );
+	}
+
+	public Iterator<SheetData[]> getRowIterator( DataFilter filter,
+	        RowIndexAdjuster rowIndexAdjuster )
+	{
+		return new DataCacheIterator( filter, rowIndexAdjuster );
+	}
+
+	public void setOffset( int offset )
+	{
+		this.offset = offset;
+	}
+
+	public int getOffset( )
+	{
+		return this.offset;
 	}
 
 	protected class DataCacheIterator implements Iterator<SheetData[]>
@@ -179,9 +198,14 @@ public class DataCache
 
 		private int[] columnIndexes;
 		private int rowIndex = 1;
+		private DataFilter dataFilter;
+		private RowIndexAdjuster rowIndexAdjuster;
 
-		public DataCacheIterator( )
+		public DataCacheIterator( DataFilter dataFilter,
+		        RowIndexAdjuster rowIndexAdjuster )
 		{
+			this.dataFilter = dataFilter;
+			this.rowIndexAdjuster = rowIndexAdjuster;
 			columnIndexes = new int[columns.size( )];
 		}
 
@@ -205,10 +229,13 @@ public class DataCache
 				for ( int j = cursor; j < size; j++ )
 				{
 					SheetData data = columnData.get( j );
-					int dataRowIndex = data.getRowIndex( );
+					int dataRowIndex = getRowIndex( data );
 					if ( dataRowIndex == rowIndex )
 					{
-						rowDatas[i] = data;
+						if ( dataFilter == null || dataFilter.accept( data ) )
+						{
+							rowDatas[i] = data;
+						}
 						columnIndexes[i] = j + 1;
 						break;
 					}
@@ -223,10 +250,31 @@ public class DataCache
 			return rowDatas;
 		}
 
+		protected int getRowIndex( SheetData data )
+        {
+			if ( rowIndexAdjuster != null )
+			{
+				return rowIndexAdjuster.getRowIndex( data );
+			}
+	        return data.getRowIndex( );
+        }
+
 		public void remove( )
 		{
 			throw new UnsupportedOperationException( );
 		}
-		
+	}
+
+	public static interface RowIndexAdjuster
+	{
+
+		int getRowIndex( SheetData data );
+	}
+
+	public static interface DataFilter
+	{
+
+		// The data won't be output if it's not accept.
+		boolean accept( SheetData data );
 	}
 }
