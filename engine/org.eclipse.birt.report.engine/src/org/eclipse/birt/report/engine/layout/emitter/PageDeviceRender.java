@@ -699,7 +699,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		// get the style of the container
 		BoxStyle style = container.getBoxStyle( );
-		if ( null == style || style==BoxStyle.DEFAULT )
+		if ( ( null == style || style == BoxStyle.DEFAULT )
+				&& container.getHelpText( ) == null )
 		{
 			return;
 		}
@@ -709,39 +710,33 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		Color bc = style.getBackgroundColor( );
 		BackgroundImageInfo bi = style.getBackgroundImage( );
 
-		if ( bc != null || bi != null || container.getHelpText( ) != null )
+		// the container's start position (the left top corner of the
+		// container)
+		int startX = currentX + getX( container );
+		int startY = currentY + getY( container );
+
+		// the dimension of the container
+		int width = getWidth( container );
+		int height = getHeight( container );
+
+		if ( bc != null )
 		{
-			// the container's start position (the left top corner of the
-			// container)
-			int startX = currentX + getX( container );
-			int startY = currentY + getY( container );
-
-			// the dimension of the container
-			int width = getWidth( container );
-			int height = getHeight( container );
-
-			if ( bc != null )
-			{
-				pageGraphic.drawBackgroundColor( bc, startX, startY, width,
-						height );
-			}
-			if ( bi != null )
-			{
-				// Draws background image for the container. if the
-				// background image is NOT set, draws nothing.
-				drawBackgroundImage( bi, startX, startY,
-						width, height );
-			}
-			if ( container.getHelpText( ) != null )
-			{
-				// shows the help text for the container.
-				pageGraphic.showHelpText( container.getHelpText( ), startX,
-						startY, width, height );
-			}
+			pageGraphic.drawBackgroundColor( bc, startX, startY, width, height );
 		}
-		
-	}
+		if ( bi != null )
+		{
+			// Draws background image for the container. if the
+			// background image is NOT set, draws nothing.
+			drawBackgroundImage( bi, startX, startY, width, height );
+		}
+		if ( container.getHelpText( ) != null )
+		{
+			// shows the help text for the container.
+			pageGraphic.showHelpText( container.getHelpText( ), startX, startY,
+					width, height );
+		}
 
+	}
 
 	private BorderInfo[] cacheCellBorder( CellArea container )
 	{
