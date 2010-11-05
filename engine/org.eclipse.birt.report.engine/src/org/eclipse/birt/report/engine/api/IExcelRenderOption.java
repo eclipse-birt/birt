@@ -36,6 +36,11 @@ public interface IExcelRenderOption extends IRenderOption
 	public static final String OPTION_MULTIPLE_SHEET = "excelRenderOption.multipleSheet";
 	
 	/**
+	 * Excel will ignore all image items when this option is on.
+	 */
+	public static final String IGNORE_IMAGE = "excelRenderOption.ignoreImage";
+	
+	/**
 	 * 
 	 * @param wrappingText
 	 */
