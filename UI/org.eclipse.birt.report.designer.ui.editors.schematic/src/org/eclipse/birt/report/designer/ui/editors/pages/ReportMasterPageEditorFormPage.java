@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportMasterPageEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
@@ -390,7 +391,8 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		if ( ReportRequest.SELECTION.equals( request.getType( ) )
 				&& ( request.getSelectionModelList( ).size( ) == 1 )
 				&& request.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle
-				&& ID.equals( editor.getActivePageInstance( ).getId( ) ) )
+				&& ID.equals( editor.getActivePageInstance( ).getId( ) ) &&
+				request.getSource( ) instanceof DesignerOutlinePage)
 		{
 			handlerLoadMasterPage( request );
 			return;

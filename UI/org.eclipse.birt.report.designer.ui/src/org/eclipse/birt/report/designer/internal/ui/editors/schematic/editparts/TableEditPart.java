@@ -26,6 +26,8 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.IBreadcrumbNodeProvider;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.TableElementBreadcrumbNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
@@ -1637,5 +1639,12 @@ public class TableEditPart extends AbstractTableEditPart implements
 		TableHandleAdapter tadp = HandleAdapterFactory.getInstance( )
 			.getTableHandleAdapter( getModel( ) );
 		return tadp.isForceWidth( );
+	}
+	
+	public Object getAdapter(Class key) {
+		if(key == IBreadcrumbNodeProvider.class){
+			return new TableElementBreadcrumbNodeProvider( );
+		}
+		return super.getAdapter(key);
 	}
 }

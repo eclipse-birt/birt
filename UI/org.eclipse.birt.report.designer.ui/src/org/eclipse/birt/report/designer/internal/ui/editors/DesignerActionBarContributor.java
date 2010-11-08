@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.ToggleBreadcrumbAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyCellContentsContextAction;
@@ -111,8 +112,8 @@ public class DesignerActionBarContributor extends
 	private boolean isBuilt;
 
 	private static RegisterAction[] insertActions = new RegisterAction[]{
-			new RegisterAction( GeneralInsertMenuAction.INSERT_LABEL_ID,
-					GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT ),
+	new RegisterAction( GeneralInsertMenuAction.INSERT_LABEL_ID,
+			GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT ),
 			new RegisterAction( GeneralInsertMenuAction.INSERT_TEXT_ID,
 					GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT ),
 			new RegisterAction( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
@@ -130,8 +131,8 @@ public class DesignerActionBarContributor extends
 	};
 
 	private static final RegisterAction[] elementActions = new RegisterAction[]{
-			new RegisterAction( InsertRowAboveAction.ID,
-					Messages.getString( "DesignerActionBarContributor.element.InsertRowAbove" ) ), //$NON-NLS-1$
+	new RegisterAction( InsertRowAboveAction.ID,
+			Messages.getString( "DesignerActionBarContributor.element.InsertRowAbove" ) ), //$NON-NLS-1$
 			new RegisterAction( InsertRowBelowAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.InsertRowBelow" ) ), //$NON-NLS-1$
 			null,
@@ -348,7 +349,8 @@ public class DesignerActionBarContributor extends
 
 		zoomComboContributionItem.setVisible( true );
 		tbm.add( zoomComboContributionItem );
-
+		
+		tbm.add( new ToggleBreadcrumbAction( getPage( ) ) );
 	}
 
 	/*

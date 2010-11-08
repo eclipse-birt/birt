@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
-
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -19,7 +18,10 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
 import org.eclipse.birt.report.designer.internal.lib.editparts.LibraryGraphicalPartFactory;
 import org.eclipse.birt.report.designer.internal.lib.palette.LibraryTemplateTransferDropTargetListener;
+import org.eclipse.birt.report.designer.internal.lib.providers.LibraryBreadcrumbNodeProvider;
 import org.eclipse.birt.report.designer.internal.lib.views.outline.LibraryOutlinePage;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.EditorBreadcrumb;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.ReportLayoutEditorBreadcrumb;
 import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportEditorWithPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFactory;
@@ -105,7 +107,8 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 		List list = request.getSelectionModelList( );
 		// should be change the reuqest.getSource() interface, recode the source
 		// type.added by gao
-		if ( ( request.getSource( ) instanceof LibraryOutlinePage || request.getSource( ) instanceof TableEditPart )
+		if ( ( request.getSource( ) instanceof LibraryOutlinePage
+				|| request.getSource( ) instanceof TableEditPart || request.getSource( ) instanceof EditorBreadcrumb )
 				&& !isInContainer( list ) )
 		{
 			int size = list.size( );
@@ -117,19 +120,25 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 				command.execute( );
 				return;
 			}
-			
+
 		}
 		super.handleSelectionChange( request );
 	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#handleCreateElement(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
+	 * GraphicalEditorWithFlyoutPalette
+	 * #handleCreateElement(org.eclipse.birt.report
+	 * .designer.core.util.mediator.request.ReportRequest)
 	 */
 	protected void handleCreateElement( ReportRequest request )
 	{
 		List list = request.getSelectionModelList( );
 		// should be change the reuqest.getSource() interface, recode the source
 		// type.added by gao
-		
+
 		int size = list.size( );
 		Object obj = null;
 		if ( size != 0 )
@@ -138,10 +147,10 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 		}
 		SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( obj );
 		command.execute( );
-		
+
 		super.handleCreateElement( request );
 	}
-	
+
 	private boolean isInContainer( List list )
 	{
 		boolean retValue = false;
@@ -161,8 +170,9 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 		}
 		return retValue;
 	}
-	
-	protected TemplateTransferDropTargetListener createTemplateTransferDropTargetListener( EditPartViewer viewer)
+
+	protected TemplateTransferDropTargetListener createTemplateTransferDropTargetListener(
+			EditPartViewer viewer )
 	{
 		return new LibraryTemplateTransferDropTargetListener( viewer );
 	}
@@ -200,7 +210,7 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 
 			// Add JS Editor as a selection listener to Outline view selections.
 			// outlinePage.addSelectionChangedListener( jsEditor );
-			LibraryOutlinePage outline = new LibraryOutlinePage(getModel( ));
+			LibraryOutlinePage outline = new LibraryOutlinePage( getModel( ) );
 			getModelEventManager( ).addModelEventProcessor( outline.getModelProcessor( ) );
 			return outline;
 		}
@@ -217,8 +227,7 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 			}
 			return page;
 		}
-		
-		
+
 		if ( adapter == AttributeViewPage.class )
 		{
 			// TODO garbage code
@@ -232,14 +241,12 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 			return page;
 		}
 
-
 		// return the property sheet page
 		if ( adapter == IPropertySheetPage.class )
 		{
-			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage(getModel( ) );
+			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
 			return sheetPage;
 		}
-
 
 		return super.getAdapter( adapter );
 	}
@@ -259,8 +266,11 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 		return parentEditorPart;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.AbstractReportGraphicalEditorWithFlyoutPalette#getFileType()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.
+	 * AbstractReportGraphicalEditorWithFlyoutPalette#getFileType()
 	 */
 	protected int getFileType( )
 	{
@@ -270,5 +280,12 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 	protected EditPartFactory getEditPartFactory( )
 	{
 		return new LibraryGraphicalPartFactory( );
+	}
+
+	protected ReportLayoutEditorBreadcrumb createBreadcrumb( )
+	{
+		ReportLayoutEditorBreadcrumb breadcrumb = new ReportLayoutEditorBreadcrumb( this );
+		breadcrumb.setBreadcrumbNodeProvider( new LibraryBreadcrumbNodeProvider( ) );
+		return breadcrumb;
 	}
 }

@@ -16,10 +16,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.EditorBreadcrumb;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.ReportLayoutEditorBreadcrumb;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditDomain;
@@ -47,6 +53,7 @@ import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.palette.CustomizeAction;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.LayoutAction;
 import org.eclipse.gef.ui.palette.PaletteContextMenuProvider;
 import org.eclipse.gef.ui.palette.PaletteEditPartFactory;
@@ -54,7 +61,6 @@ import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.SettingsAction;
-import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.customize.PaletteSettingsDialog;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.views.palette.PalettePage;
@@ -62,7 +68,11 @@ import org.eclipse.gef.ui.views.palette.PaletteViewerPage;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -72,6 +82,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -89,7 +100,8 @@ import com.ibm.icu.text.MessageFormat;
  * <p>
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
-		EditorSelectionProvider
+		EditorSelectionProvider,
+		IPropertyChangeListener
 {
 
 	private static final String VIEW_CONTEXT_ID = "org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context"; //$NON-NLS-1$
@@ -135,6 +147,58 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		super.firePropertyChange( propertyId );
 		updateActions( editorActionIDs );
 	}
+
+	public void propertyChange( PropertyChangeEvent event )
+	{
+		fIsBreadcrumbVisible = isBreadcrumbShown( );
+		if ( fIsBreadcrumbVisible )
+		{
+			showBreadcrumb( );
+			List list = getModelList( this.getGraphicalViewer( ).getSelection( ) );
+			if ( list != null && list.size( ) == 1 )
+				setBreadcrumbInput( list.get( 0 ) );
+			else
+				setBreadcrumbInput( null );
+		}
+		else
+		{
+			hideBreadcrumb( );
+		}
+	}
+
+	private List getModelList( ISelection selection )
+	{
+		List list = new ArrayList( );
+		if ( selection == null )
+			return list;
+		if ( !( selection instanceof StructuredSelection ) )
+			return list;
+
+		StructuredSelection structured = (StructuredSelection) selection;
+		if ( structured.getFirstElement( ) instanceof ReportElementEditPart )
+		{
+			boolean bool = false;
+			for ( Iterator it = structured.iterator( ); it.hasNext( ); )
+			{
+				ReportElementEditPart object = (ReportElementEditPart) it.next( );
+				if ( object instanceof DummyEditpart )
+				{
+					list.add( object.getModel( ) );
+					bool = true;
+				}
+				if ( !bool )
+				{
+					list.add( object.getModel( ) );
+				}
+			}
+		}
+		else
+		{
+			list = structured.toList( );
+		}
+		return list;
+	}
+
 	/**
 	 * the selection listener
 	 */
@@ -145,6 +209,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			updateActions( editPartActionIDs );
 		}
 	};
+	private EditorBreadcrumb fBreadcrumb;
+	private boolean fIsBreadcrumbVisible;
 	private static IContextActivation contextActivation;
 
 	/**
@@ -309,83 +375,99 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	protected void createActions( )
 	{
-		//Fix bug 284633
-		addStackAction( new UndoAction( this ) 
-		{
-			/* (non-Javadoc)
+		// Fix bug 284633
+		addStackAction( new UndoAction( this ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
 			 * @see org.eclipse.gef.ui.actions.UndoAction#init()
 			 */
-			protected void init() {
-				super.init();
-				setToolTipText(Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.ToolTip0")); //$NON-NLS-1$
-				setText(Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.Text0")); //$NON-NLS-1$
-				setId(ActionFactory.UNDO.getId());
+			protected void init( )
+			{
+				super.init( );
+				setToolTipText( Messages.getString( "GraphicalEditorWithFlyoutPalette_Undo.ToolTip0" ) ); //$NON-NLS-1$
+				setText( Messages.getString( "GraphicalEditorWithFlyoutPalette_Undo.Text0" ) ); //$NON-NLS-1$
+				setId( ActionFactory.UNDO.getId( ) );
 
-				ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-				setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO));
-				setDisabledImageDescriptor(sharedImages.getImageDescriptor(
-						ISharedImages.IMG_TOOL_UNDO_DISABLED));
+				ISharedImages sharedImages = PlatformUI.getWorkbench( )
+						.getSharedImages( );
+				setImageDescriptor( sharedImages.getImageDescriptor( ISharedImages.IMG_TOOL_UNDO ) );
+				setDisabledImageDescriptor( sharedImages.getImageDescriptor( ISharedImages.IMG_TOOL_UNDO_DISABLED ) );
 			}
-			
-			/* (non-Javadoc)
+
+			/*
+			 * (non-Javadoc)
+			 * 
 			 * @see org.eclipse.gef.ui.actions.UndoAction#refresh()
 			 */
-			protected void refresh() {
-				super.refresh();
-				Command undoCmd = getCommandStack().getUndoCommand();
-				if (getLabelForCommand(undoCmd).length( ) == 0)
+			protected void refresh( )
+			{
+				super.refresh( );
+				Command undoCmd = getCommandStack( ).getUndoCommand( );
+				if ( getLabelForCommand( undoCmd ).length( ) == 0 )
 				{
-					setToolTipText(Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.ToolTip0")); //$NON-NLS-1$
-					setText(Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.Text0")); //$NON-NLS-1$
+					setToolTipText( Messages.getString( "GraphicalEditorWithFlyoutPalette_Undo.ToolTip0" ) ); //$NON-NLS-1$
+					setText( Messages.getString( "GraphicalEditorWithFlyoutPalette_Undo.Text0" ) ); //$NON-NLS-1$
 				}
 				else
 				{
-					setToolTipText(MessageFormat.format(
-							Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.ToolTip1"), //$NON-NLS-1$
-							new Object []{getLabelForCommand(undoCmd)}).trim());
-					setText(MessageFormat.format(
-							Messages.getString("GraphicalEditorWithFlyoutPalette_Undo.Text1"), //$NON-NLS-1$
-							new Object []{getLabelForCommand(undoCmd)}).trim()
-							);
+					setToolTipText( MessageFormat.format( Messages.getString( "GraphicalEditorWithFlyoutPalette_Undo.ToolTip1" ), //$NON-NLS-1$
+							new Object[]{
+								getLabelForCommand( undoCmd )
+							} )
+							.trim( ) );
+					setText( MessageFormat.format( Messages.getString( "GraphicalEditorWithFlyoutPalette_Undo.Text1" ), //$NON-NLS-1$
+							new Object[]{
+								getLabelForCommand( undoCmd )
+							} )
+							.trim( ) );
 				}
 			}
-		});
-		addStackAction( new RedoAction( this ) 
-		{
-			protected void init() {
-				super.init();
-				setToolTipText(Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.ToolTip0")); //$NON-NLS-1$
-				setText(Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.Text0")); //$NON-NLS-1$
-				setId(ActionFactory.REDO.getId());
-				
-				ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-				setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_REDO));
-				setDisabledImageDescriptor(sharedImages.getImageDescriptor(
-						ISharedImages.IMG_TOOL_REDO_DISABLED));
+		} );
+		addStackAction( new RedoAction( this ) {
+
+			protected void init( )
+			{
+				super.init( );
+				setToolTipText( Messages.getString( "GraphicalEditorWithFlyoutPalette_Redo.ToolTip0" ) ); //$NON-NLS-1$
+				setText( Messages.getString( "GraphicalEditorWithFlyoutPalette_Redo.Text0" ) ); //$NON-NLS-1$
+				setId( ActionFactory.REDO.getId( ) );
+
+				ISharedImages sharedImages = PlatformUI.getWorkbench( )
+						.getSharedImages( );
+				setImageDescriptor( sharedImages.getImageDescriptor( ISharedImages.IMG_TOOL_REDO ) );
+				setDisabledImageDescriptor( sharedImages.getImageDescriptor( ISharedImages.IMG_TOOL_REDO_DISABLED ) );
 			}
 
 			/**
-			 * Refreshes this action's text to use the last undone command's label.
+			 * Refreshes this action's text to use the last undone command's
+			 * label.
 			 */
-			protected void refresh() {
-				super.refresh();
-				Command redoCmd = getCommandStack().getRedoCommand();
-				if (getLabelForCommand(redoCmd).length( ) == 0)
+			protected void refresh( )
+			{
+				super.refresh( );
+				Command redoCmd = getCommandStack( ).getRedoCommand( );
+				if ( getLabelForCommand( redoCmd ).length( ) == 0 )
 				{
-					setToolTipText(Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.ToolTip0")); //$NON-NLS-1$
-					setText(Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.Text0")); //$NON-NLS-1$
+					setToolTipText( Messages.getString( "GraphicalEditorWithFlyoutPalette_Redo.ToolTip0" ) ); //$NON-NLS-1$
+					setText( Messages.getString( "GraphicalEditorWithFlyoutPalette_Redo.Text0" ) ); //$NON-NLS-1$
 				}
 				else
 				{
-					setToolTipText(MessageFormat.format(
-							Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.ToolTip1"), //$NON-NLS-1$
-							new Object [] {getLabelForCommand(redoCmd)}).trim());
-					setText(MessageFormat.format(
-							Messages.getString("GraphicalEditorWithFlyoutPalette_Redo.Text1"), //$NON-NLS-1$
-							new Object[]{getLabelForCommand(redoCmd)}).trim());
+					setToolTipText( MessageFormat.format( Messages.getString( "GraphicalEditorWithFlyoutPalette_Redo.ToolTip1" ), //$NON-NLS-1$
+							new Object[]{
+								getLabelForCommand( redoCmd )
+							} )
+							.trim( ) );
+					setText( MessageFormat.format( Messages.getString( "GraphicalEditorWithFlyoutPalette_Redo.Text1" ), //$NON-NLS-1$
+							new Object[]{
+								getLabelForCommand( redoCmd )
+							} )
+							.trim( ) );
 				}
 			}
-		});
+		} );
 		addEditPartAction( new DeleteAction( (IWorkbenchPart) this ) {
 
 			public Command createDeleteCommand( List objects )
@@ -422,7 +504,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		addEditorAction( saveAction );
 
 		addAction( new CopyTemplateAction( this ) );
-
 	}
 
 	/**
@@ -447,17 +528,35 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	public void createPartControl( Composite parent )
 	{
-		// if ( hasButtonPane( ) )
-		// {
-		// bPane = new ButtonPaneComposite( parent, 0, hasRuler( ) );
-		// parent = bPane;
-		// }
-		splitter = new FlyoutPaletteComposite( parent,
+		Composite composite = new Composite( parent, SWT.NONE );
+		GridLayout layout = new GridLayout( 1, false );
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		layout.horizontalSpacing = 0;
+		layout.verticalSpacing = 0;
+		composite.setLayout( layout );
+
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		fBreadcrumbComposite = new Composite( composite, SWT.NONE );
+		GridData layoutData = new GridData( SWT.FILL, SWT.TOP, true, false );
+		fBreadcrumbComposite.setLayoutData( layoutData );
+		layout = new GridLayout( 1, false );
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		layout.horizontalSpacing = 0;
+		layout.verticalSpacing = 0;
+		layoutData.exclude = true;
+		fBreadcrumbComposite.setLayout( layout );
+
+		splitter = new FlyoutPaletteComposite( composite,
 				SWT.NONE,
 				getSite( ).getPage( ),
 				getPaletteViewerProvider( ),
 				getPalettePreferences( ) );
 		super.createPartControl( splitter );
+
+		splitter.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		Control ctrl = getGraphicalControl( );
 
@@ -473,6 +572,17 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			splitter.setExternalViewer( page.getPaletteViewer( ) );
 			page = null;
 		}
+
+		fBreadcrumb = createBreadcrumb( );
+		fBreadcrumb.setMenuManager( new SchematicContextMenuProvider( getGraphicalViewer( ),
+				getActionRegistry( ) ) );
+
+		fIsBreadcrumbVisible = isBreadcrumbShown( );
+		if ( fIsBreadcrumbVisible )
+			showBreadcrumb( );
+
+		getPreferenceStore( ).addPropertyChangeListener( this );
+
 		activateDesignerEditPart( );
 	}
 
@@ -491,6 +601,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	{
 		// remove selection listener
 
+		getPreferenceStore( ).removePropertyChangeListener( this );
 		getSite( ).getWorkbenchWindow( )
 				.getSelectionService( )
 				.removeSelectionListener( getSelectionListener( ) );
@@ -805,6 +916,82 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			super.setFocus( );
 		}
 		return;
+	}
+
+	protected EditorBreadcrumb createBreadcrumb( )
+	{
+		return new ReportLayoutEditorBreadcrumb( this );
+	}
+
+	protected boolean isBreadcrumbShown( )
+	{
+		IPreferenceStore store = getPreferenceStore( );
+		String key = getBreadcrumbPreferenceKey( );
+		return store != null && key != null && store.getBoolean( key );
+	}
+
+	private IPreferenceStore getPreferenceStore( )
+	{
+		return ReportPlugin.getDefault( ).getPreferenceStore( );
+	}
+
+	public static final String EDITOR_SHOW_BREADCRUMB = "breadcrumb"; //$NON-NLS-1$
+	private Composite fBreadcrumbComposite;
+
+	public String getBreadcrumbPreferenceKey( )
+	{
+		IPerspectiveDescriptor perspective = getSite( ).getPage( )
+				.getPerspective( );
+		if ( perspective == null )
+			return null;
+		return EDITOR_SHOW_BREADCRUMB + "." + perspective.getId( ); //$NON-NLS-1$
+	}
+
+	private void showBreadcrumb( )
+	{
+		if ( fBreadcrumb == null )
+			return;
+
+		if ( fBreadcrumbComposite.getChildren( ).length == 0 )
+		{
+			fBreadcrumb.createContent( fBreadcrumbComposite );
+		}
+
+		( (GridData) fBreadcrumbComposite.getLayoutData( ) ).exclude = true;
+		fBreadcrumbComposite.setVisible( false );
+		fBreadcrumbComposite.getParent( ).layout( true, true );
+	}
+
+	protected void setBreadcrumbInput( Object element )
+	{
+		if ( !isBreadcrumbShown( ) )
+			return;
+		if ( fBreadcrumb == null )
+			return;
+		if ( element != null )
+			fBreadcrumb.setInput( element );
+		else
+		{
+			fBreadcrumb.setInput( new Object[0] );
+		}
+		( (GridData) fBreadcrumbComposite.getLayoutData( ) ).exclude = false;
+		fBreadcrumbComposite.setVisible( true );
+		fBreadcrumbComposite.getParent( ).layout( true, true );
+	}
+
+	public EditorBreadcrumb getBreadcrumb( )
+	{
+		return fBreadcrumb;
+	}
+
+	private void hideBreadcrumb( )
+	{
+		if ( fBreadcrumb == null )
+			return;
+
+		( (GridData) fBreadcrumbComposite.getLayoutData( ) ).exclude = true;
+		fBreadcrumbComposite.setVisible( false );
+		fBreadcrumbComposite.getParent( ).layout( true, true );
 	}
 
 }

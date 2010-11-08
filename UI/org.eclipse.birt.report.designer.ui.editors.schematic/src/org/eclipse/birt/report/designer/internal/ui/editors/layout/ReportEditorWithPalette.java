@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
@@ -91,6 +92,8 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -187,12 +190,15 @@ abstract public class ReportEditorWithPalette extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPaletteRoot()
+	 * @see
+	 * org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPaletteRoot
+	 * ()
 	 */
 	abstract protected PaletteRoot getPaletteRoot( );
 
 	/*
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#
+	 * getPalettePreferences()
 	 */
 	protected FlyoutPreferences getPalettePreferences( )
 	{
@@ -318,7 +324,7 @@ abstract public class ReportEditorWithPalette extends
 		action = new ExportElementToLibraryPartAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
-		
+
 		// // Add page actions
 		// action = LayoutPageAction.getInstance( );
 		// getActionRegistry( ).registerAction( action );
@@ -608,6 +614,7 @@ abstract public class ReportEditorWithPalette extends
 		ContextMenuProvider provider = new SchematicContextMenuProvider( viewer,
 				actionRegistry );
 		viewer.setContextMenu( provider );
+
 		// hook the viewer into the EditDomain TODO create a function
 		getEditDomain( ).addViewer( viewer );
 		// acticate the viewer as selection provider for Eclipse
@@ -628,18 +635,55 @@ abstract public class ReportEditorWithPalette extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 * @see
+	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
+	 * (
+	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
+	 * )
 	 */
+
+	private Object fLastSentPostElement = null;
+
 	public void performRequest( ReportRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
 			handleSelectionChange( request );
+			performBreadcrumbRequest( request );
 		}
 		else if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
 			handleCreateElement( request );
+			performBreadcrumbRequest( request );
 		}
+	}
+
+	protected void performBreadcrumbRequest( ReportRequest request )
+	{
+		final List list = request.getSelectionModelList( );
+		if ( list.size( ) != 1 )
+		{
+			fLastSentPostElement = null;
+		}
+		else
+			fLastSentPostElement = DEUtil.getInputFirstElement( list );
+
+		Display.getDefault( ).timerExec( 100, new Runnable( ) {
+
+			public void run( )
+			{
+				if ( fLastSentPostElement == null
+						&& DEUtil.getInputSize( list ) == 0 )
+				{
+					setBreadcrumbInput( null );
+				}
+				else if ( DEUtil.getInputFirstElement( list ) == fLastSentPostElement )
+				{
+					setBreadcrumbInput( fLastSentPostElement );
+					fLastSentPostElement = null;
+				}
+			}
+		} );
 	}
 
 	/**
@@ -652,13 +696,14 @@ abstract public class ReportEditorWithPalette extends
 		{
 			return;
 		}
-		
+
 		final List list = request.getSelectionModelList( );
 		if ( list.size( ) != 1 )
 		{
 			return;
 		}
-		if (request.getSource( ) instanceof ParameterHandle && list.get( 0 ) instanceof DataItemHandle)
+		if ( request.getSource( ) instanceof ParameterHandle
+				&& list.get( 0 ) instanceof DataItemHandle )
 		{
 			return;
 		}
@@ -666,12 +711,12 @@ abstract public class ReportEditorWithPalette extends
 
 			public void run( )
 			{
-
 				Object part = viewer.getEditPartRegistry( ).get( list.get( 0 ) );
 				if ( part instanceof EditPart )
 				{
 					Request directEditRequest = new Request( ReportRequest.CREATE_ELEMENT );
-					directEditRequest.getExtendedData( ).putAll( request.getExtendedData( ) );
+					directEditRequest.getExtendedData( )
+							.putAll( request.getExtendedData( ) );
 					if ( ( (EditPart) part ).understandsRequest( directEditRequest ) )
 					{
 						( (EditPart) part ).performRequest( directEditRequest );
@@ -687,6 +732,7 @@ abstract public class ReportEditorWithPalette extends
 	 */
 	protected void handleSelectionChange( ReportRequest request )
 	{
+
 		List select = convertEventToGFE( request );
 		if ( select == null )
 		{
@@ -784,6 +830,77 @@ abstract public class ReportEditorWithPalette extends
 			}
 			return null;
 		}
+
+		if ( size != 0 && list.get( 0 ) instanceof ColumnHandle )
+		{
+			// Fix Bugzilla Bug 109571
+			ColumnHandle handle = (ColumnHandle) list.get( 0 );
+
+			ColumnHandleAdapter adapter = HandleAdapterFactory.getInstance( )
+					.getColumnHandleAdapter( handle );
+
+			Object tableParent = adapter.getTableParent( );
+			if ( tableParent == null )
+			{
+				return null;
+			}
+			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
+					.get( tableParent );
+			int[] selectColumns = new int[]{
+				adapter.getColumnNumber( )
+			};
+			for ( int i = 1; i < size; i++ )
+			{
+				Object o = list.get( i );
+				if ( o instanceof ColumnHandle )
+				{
+					handle = (ColumnHandle) o;
+					adapter = HandleAdapterFactory.getInstance( )
+							.getColumnHandleAdapter( handle );
+					// not sample table, return null
+					if ( tableParent != adapter.getTableParent( ) )
+					{
+						return null;
+					}
+
+					int len = selectColumns.length;
+					int temp[] = new int[len + 1];
+					System.arraycopy( selectColumns, 0, temp, 0, len );
+					temp[len] = adapter.getColumnNumber( );
+					selectColumns = temp;
+				}
+				else
+				// not suport this kind of selection
+				{
+					return null;
+				}
+			}
+
+			if ( handle.getRoot( ) == null )
+			{
+				return null;
+			}
+			// end
+
+			if ( part != null )
+			{
+				Arrays.sort( selectColumns );
+				int len = selectColumns.length;
+				if ( len > 1 )
+				{
+					for ( int i = 0; i < len - 1; i++ )
+					{
+						if ( selectColumns[i + 1] - selectColumns[i] != 1 )
+						{
+							return null;
+						}
+					}
+				}
+				part.selectColumn( selectColumns );
+			}
+			return null;
+		}
+
 		for ( int i = 0; i < size; i++ )
 		{
 			Object obj = list.get( i );
@@ -880,7 +997,7 @@ abstract public class ReportEditorWithPalette extends
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.IEditorPart#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
+	 * org.eclipse.ui.IEditorInput)
 	 */
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException
@@ -908,7 +1025,7 @@ abstract public class ReportEditorWithPalette extends
 
 		return model;
 	}
-	
+
 	/**
 	 * Set the report model
 	 * 
@@ -927,7 +1044,7 @@ abstract public class ReportEditorWithPalette extends
 	public boolean isDirty( )
 	{
 		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
-		
+
 		if ( newModel != null && newModel != model )
 		{
 			return newModel.needsSave( );
@@ -942,7 +1059,8 @@ abstract public class ReportEditorWithPalette extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
+	 * IProgressMonitor)
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
@@ -1218,7 +1336,8 @@ abstract public class ReportEditorWithPalette extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#dispose()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
+	 * GraphicalEditorWithFlyoutPalette#dispose()
 	 */
 	public void dispose( )
 	{

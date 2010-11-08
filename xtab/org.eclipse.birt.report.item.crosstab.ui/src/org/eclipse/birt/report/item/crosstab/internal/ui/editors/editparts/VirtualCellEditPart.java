@@ -24,13 +24,16 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.gef.EditPolicy;
 
 /**
- * When create a empty cross tab,It need four cell editpart, but the cross tab don't have the cell handle.
- * So create the virtual editpart.The model is VirtualCrosstabCellAdapter.
+ * When create a empty cross tab,It need four cell editpart, but the cross tab
+ * don't have the cell handle. So create the virtual editpart.The model is
+ * VirtualCrosstabCellAdapter.
  */
 public class VirtualCellEditPart extends CrosstabCellEditPart
 {
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param model
 	 */
 	public VirtualCellEditPart( Object model )
@@ -38,8 +41,11 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 		super( model );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart#refreshFigure()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
+	 * CrosstabCellEditPart#refreshFigure()
 	 */
 	public void refreshFigure( )
 	{
@@ -52,13 +58,15 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 		initEmptyBorder( cborder );
 		getFigure( ).setBorder( cborder );
 		updateBlankString( );
-		
-		( (CellFigure) getFigure( ) ).setDirectionRTL( BidiUIUtils
-				.INSTANCE.isDirectionRTL( getModel( ) ) ); // bidi_hcg
+
+		( (CellFigure) getFigure( ) ).setDirectionRTL( BidiUIUtils.INSTANCE.isDirectionRTL( getModel( ) ) ); // bidi_hcg
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart#createEditPolicies()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
+	 * CrosstabCellEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies( )
 	{
@@ -76,19 +84,19 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 	public void updateBlankString( )
 	{
 		int type = ( (VirtualCrosstabCellAdapter) getCrosstabCellAdapter( ) ).getType( );
-		switch (type)
+		switch ( type )
 		{
-			case VirtualCrosstabCellAdapter.COLUMN_TYPE:
+			case VirtualCrosstabCellAdapter.COLUMN_TYPE :
 				( (CellFigure) getFigure( ) ).setBlankString( Messages.getString( "Blank.text.column" ) );//$NON-NLS-1$
 				break;
-			case VirtualCrosstabCellAdapter.ROW_TYPE:
+			case VirtualCrosstabCellAdapter.ROW_TYPE :
 				( (CellFigure) getFigure( ) ).setBlankString( Messages.getString( "Blank.text.row" ) );//$NON-NLS-1$
 				break;
-			case VirtualCrosstabCellAdapter.MEASURE_TYPE:
+			case VirtualCrosstabCellAdapter.MEASURE_TYPE :
 				( (CellFigure) getFigure( ) ).setBlankString( Messages.getString( "Blank.text.measure" ) );//$NON-NLS-1$
 				break;
-			default:
-				( (CellFigure) getFigure( ) ).setBlankString( null );	
+			default :
+				( (CellFigure) getFigure( ) ).setBlankString( null );
 		}
 
 	}
@@ -100,21 +108,31 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 		cborder.leftStyle = CellBorder.STYLE_NONO;
 		cborder.rightStyle = CellBorder.STYLE_NONO;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart#getHandleList()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
+	 * CrosstabCellEditPart#getHandleList()
 	 */
 	protected List getHandleList( )
 	{
-		//TODO the virtual editpart alllow to drag the cell to adjust the column and row?
+		// TODO the virtual editpart alllow to drag the cell to adjust the
+		// column and row?
 		return super.getHandleList( );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart#isinterestSelection(java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.
+	 * CrosstabCellEditPart#isinterestSelection(java.lang.Object)
 	 */
-	public boolean isinterestSelection(Object object)
+	public boolean isinterestSelection( Object object )
 	{
+		if ( object instanceof VirtualCrosstabCellAdapter
+				&& object == getModel( ) )
+			return true;
 		return false;
 	}
 }

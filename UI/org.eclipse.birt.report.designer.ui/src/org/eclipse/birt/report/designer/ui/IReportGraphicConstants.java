@@ -100,6 +100,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_CASCADING_PARAMETER_GROUP = ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
 
 	public final static String ICON_ELEMENT_ROW = ReportDesignConstants.ROW_ELEMENT;
+	
+	public final static String ICON_ELEMENT_COLUMN = ReportDesignConstants.COLUMN_ELEMENT;
 
 	public final static String ICON_ELEMENT_SCALAR_PARAMETER = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT;
 
@@ -403,6 +405,10 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_REFRESH_DISABLE = "DisableRefresh";//$NON-NLS-1$
 
+	public final static String ICON_TOGGLE_BREADCRUMB = "ToggleBreadcrumb";//$NON-NLS-1$
+	
+	public final static String ICON_TOGGLE_BREADCRUMB_DISABLE = "DisableToggleBreadcrumb";//$NON-NLS-1$
+	
 	// Parameter dialog icon
 	public final static String ICON_DEFAULT = "Default"; //$NON-NLS-1$
 

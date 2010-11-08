@@ -28,8 +28,7 @@ import org.eclipse.ui.IEditorPart;
  * Report master page graphical editor.
  * </p>
  */
-public abstract class ReportMasterPageEditor extends
-		ReportEditorWithRuler
+public abstract class ReportMasterPageEditor extends ReportEditorWithRuler
 {
 
 	public ReportMasterPageEditor( )
@@ -43,7 +42,7 @@ public abstract class ReportMasterPageEditor extends
 	protected void initializeGraphicalViewer( )
 	{
 		super.initializeGraphicalViewer( );
-		//setViewContentsAsMasterPage( );
+		// setViewContentsAsMasterPage( );
 
 	}
 
@@ -51,6 +50,7 @@ public abstract class ReportMasterPageEditor extends
 	{
 		setViewContentsAsMasterPage( );
 	}
+
 	/**
 	 * Set view's contents.
 	 * 
@@ -66,7 +66,7 @@ public abstract class ReportMasterPageEditor extends
 			// masterPage = designHandle.getElementFactory( )
 			// .newSimpleMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
 			masterPage = DesignElementFactory.getInstance( designHandle.getModuleHandle( ) )
-					.newSimpleMasterPage( null); 
+					.newSimpleMasterPage( null );
 			try
 			{
 				designHandle.getMasterPages( ).add( masterPage );
@@ -86,12 +86,15 @@ public abstract class ReportMasterPageEditor extends
 					.get( 0 );
 		}
 		getGraphicalViewer( ).setContents( masterPage );
-		//re set the processsor
+		// re set the processsor
 		hookModelEventManager( masterPage );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.AbstractReportGraphicalEditorWithFlyoutPalette#getPaletteRoot()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.
+	 * AbstractReportGraphicalEditorWithFlyoutPalette#getPaletteRoot()
 	 */
 	protected PaletteRoot getPaletteRoot( )
 	{
@@ -102,8 +105,13 @@ public abstract class ReportMasterPageEditor extends
 		return paletteRoot;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
+	 * GraphicalEditorWithFlyoutPalette
+	 * #performRequest(org.eclipse.birt.report.designer
+	 * .core.util.mediator.request.ReportRequest)
 	 */
 	public void performRequest( ReportRequest request )
 	{
@@ -121,18 +129,24 @@ public abstract class ReportMasterPageEditor extends
 	/**
 	 * @param request
 	 */
+
 	protected void handlerLoadMasterPage( ReportRequest request )
 	{
 		Object handle = request.getSelectionModelList( ).get( 0 );
-		if (getGraphicalViewer( ).getContents( ).getModel( ) != handle)
+		if ( getGraphicalViewer( ).getContents( ).getModel( ) != handle )
 		{
 			getGraphicalViewer( ).setContents( handle );
 			hookModelEventManager( handle );
 		}
+
+		super.performBreadcrumbRequest( request );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#getMultiPageEditor()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
+	 * GraphicalEditorWithFlyoutPalette#getMultiPageEditor()
 	 */
 	protected IEditorPart getMultiPageEditor( )
 	{

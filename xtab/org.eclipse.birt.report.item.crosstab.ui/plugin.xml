@@ -47,6 +47,8 @@
    </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.elementAdapters">
+         
+		
       <adaptable
             class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
          <adapter
@@ -97,6 +99,16 @@
                      value="CrosstabView">
                </test>
             </enablement>
+      </adapter>	 
+	</adaptable>
+	
+	 <adaptable
+         class="org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter">
+      	<adapter
+            class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.VirtualCrosstabCellNodeProvider"
+            id="VirtualCrosstabCell.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
       </adapter>	 
 	</adaptable>
 	
@@ -292,7 +304,7 @@
        </enablement>
     </adapter>
  </adaptable>
-	
+  
    </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.DNDServices">

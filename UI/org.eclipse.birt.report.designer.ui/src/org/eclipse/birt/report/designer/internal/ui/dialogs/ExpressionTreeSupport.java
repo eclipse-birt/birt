@@ -26,6 +26,9 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IIndexInfo;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoBuilder;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -65,14 +68,22 @@ import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TreeEvent;
+import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.ISharedImages;
 
 import com.ibm.icu.text.Collator;
@@ -233,6 +244,10 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	private List staticFilters;
 
+	private MementoBuilder builder = new MementoBuilder( );
+
+	private Memento viewerMemento;
+
 	public ExpressionTreeSupport( )
 	{
 		super( );
@@ -259,8 +274,29 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		createExpressionTree( );
 	}
 
+	public String getElementType( )
+	{
+		String displayName = ( (DesignElementHandle) currentEditObject ).getDefn( )
+				.getDisplayName( );
+
+		if ( displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
+		{
+			displayName = ( (DesignElementHandle) currentEditObject ).getDefn( )
+					.getName( );
+		}
+		return displayName;
+	}
+
 	private void createExpressionTree( )
 	{
+		IMemento memento = viewerMemento.getChild( getElementType( ) );
+		if ( memento == null )
+		{
+			Memento elementMemento = (Memento) viewerMemento.createChild( getElementType( ),
+					MementoElement.Type_Element );
+			elementMemento.getMementoElement( ).setValue( getElementType( ) );
+		}
+
 		if ( tree == null || tree.isDisposed( ) )
 		{
 			return;
@@ -429,6 +465,106 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			updateDynamicItems( dynamicContextProviders );
 		}
 
+		restoreSelection( );
+	}
+
+	protected void saveSelection( TreeItem selection )
+	{
+		MementoElement[] selectPath = createItemPath( selection );
+		( (Memento) viewerMemento.getChild( getElementType( ) ) ).getMementoElement( )
+				.setAttribute( MementoElement.ATTRIBUTE_SELECTED, selectPath );
+	}
+
+	protected MementoElement[] createItemPath( TreeItem item )
+	{
+		MementoElement tempMemento = null;
+		while ( item.getParentItem( ) != null )
+		{
+			TreeItem parent = item.getParentItem( );
+			for ( int i = 0; i < parent.getItemCount( ); i++ )
+			{
+				if ( parent.getItem( i ) == item )
+				{
+					MementoElement memento = new MementoElement( item.getText( ),
+							item.getText( ),
+							MementoElement.Type_Element );
+					if ( tempMemento != null )
+						memento.addChild( tempMemento );
+					tempMemento = memento;
+					item = parent;
+					break;
+				}
+			}
+		}
+		MementoElement memento = new MementoElement( item.getText( ),
+				item.getText( ),
+				MementoElement.Type_Element );
+		if ( tempMemento != null )
+			memento.addChild( tempMemento );
+		return getNodePath( memento );
+	}
+
+	public MementoElement[] getNodePath( MementoElement node )
+	{
+		ArrayList pathList = new ArrayList( );
+		MementoElement memento = node;
+		pathList.add( node );// add root
+		while ( memento.getChildren( ).length > 0 )
+		{
+			pathList.add( memento.getChild( 0 ) );
+			memento = (MementoElement) memento.getChild( 0 );
+		}
+		MementoElement[] paths = new MementoElement[pathList.size( )];
+		pathList.toArray( paths );
+		return paths;
+	}
+
+	private void restoreSelection( )
+	{
+		Memento memento = ( (Memento) viewerMemento.getChild( getElementType( ) ) );
+		if ( memento == null )
+			return;
+
+		expandTreeFromMemento( memento );
+		Object obj = memento.getMementoElement( )
+				.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
+		if ( obj != null )
+		{
+			for ( int i = 0; i < tree.getItemCount( ); i++ )
+			{
+				restoreSelectedMemento( tree.getItem( i ),
+						(MementoElement[]) obj );
+			}
+		}
+	}
+
+	private void restoreSelectedMemento( TreeItem root,
+			MementoElement[] selectedPath )
+	{
+		if ( selectedPath.length <= 0 )
+			return;
+
+		for ( int i = 0; i < selectedPath.length; i++ )
+		{
+			MementoElement element = selectedPath[i];
+			if ( root.getText( ).equals( element.getValue( ) ) )
+			{
+				continue;
+			}
+			boolean flag = false;
+			for ( int j = 0; j < root.getItemCount( ); j++ )
+			{
+				if ( root.getItem( j ).getText( ).equals( element.getValue( ) ) )
+				{
+					root = root.getItem( j );
+					flag = true;
+					break;
+				}
+			}
+			if ( !flag )
+				return;
+		}
+		tree.setSelection( root );
 	}
 
 	/**
@@ -590,6 +726,8 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 						true );
 			}
 		}
+
+		restoreSelection( );
 	}
 
 	/**
@@ -915,10 +1053,187 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * 
 	 * @param tree
 	 */
-	public void setTree( Tree tree )
+	public void setTree( final Tree tree )
 	{
 		this.tree = tree;
+
+		if ( ( viewerMemento = (Memento) builder.getRootMemento( )
+				.getChild( "ExpressionTreeSupport" ) ) == null )
+		{
+			viewerMemento = (Memento) builder.getRootMemento( )
+					.createChild( "ExpressionTreeSupport",
+							MementoElement.Type_Viewer );
+		}
+
+		SelectionAdapter treeSelectionListener = new SelectionAdapter( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				saveSelection( (TreeItem) e.item );
+			}
+		};
+
+		tree.addSelectionListener( treeSelectionListener );
+
+		tree.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDown( MouseEvent event )
+			{
+				// only activate if there is a cell editor
+				Point pt = new Point( event.x, event.y );
+				TreeItem item = tree.getItem( pt );
+				if ( item != null )
+				{
+					saveSelection( item );
+				}
+			}
+		} );
+
+		tree.addKeyListener( new KeyAdapter( ) {
+
+			public void keyReleased( KeyEvent e )
+			{
+				if ( tree.getSelectionCount( ) > 0 )
+					saveSelection( tree.getSelection( )[0] );
+			}
+		} );
+
+		TreeListener treeListener = new TreeListener( ) {
+
+			public void treeCollapsed( TreeEvent e )
+			{
+				if ( e.item instanceof TreeItem )
+				{
+					TreeItem item = (TreeItem) e.item;
+
+					MementoElement[] path = createItemPath( item );
+					removeNode( ( (Memento) viewerMemento.getChild( getElementType( ) ) ),
+							path );
+
+					getTree( ).setSelection( item );
+					saveSelection( item );
+				}
+			}
+
+			public void treeExpanded( TreeEvent e )
+			{
+				if ( e.item instanceof TreeItem )
+				{
+					TreeItem item = (TreeItem) e.item;
+
+					MementoElement[] path = createItemPath( item );
+					addNode( ( (Memento) viewerMemento.getChild( getElementType( ) ) ),
+							path );
+
+					getTree( ).setSelection( item );
+					saveSelection( item );
+				}
+
+			}
+
+		};
+
+		tree.addTreeListener( treeListener );
 	}
+
+	public boolean addNode( Memento element, MementoElement[] nodePath )
+	{
+		if ( nodePath != null && nodePath.length > 0 )
+		{
+			MementoElement memento = element.getMementoElement( );
+			// if ( !memento.equals( nodePath[0] ) )
+			// return false;
+			for ( int i = 0; i < nodePath.length; i++ )
+			{
+				MementoElement child = getChild( memento, nodePath[i] );
+				if ( child != null )
+					memento = child;
+				else
+				{
+					memento.addChild( nodePath[i] );
+					return true;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public boolean removeNode( Memento element, MementoElement[] nodePath )
+	{
+		if ( nodePath != null && nodePath.length > 0 )
+		{
+			MementoElement memento = element.getMementoElement( );
+			// if ( !memento.equals( nodePath[0] ) )
+			// return false;
+			for ( int i = 0; i < nodePath.length; i++ )
+			{
+				MementoElement child = getChild( memento, nodePath[i] );
+				if ( child != null )
+					memento = child;
+				else
+					return false;
+			}
+			memento.getParent( ).removeChild( memento );
+			return true;
+		}
+		return false;
+	}
+
+	private void expandTreeFromMemento( Memento memento )
+	{
+		if ( tree.getItemCount( ) == 0 || memento == null )
+			return;
+		for ( int i = 0; i < tree.getItemCount( ); i++ )
+		{
+			TreeItem root = tree.getItem( i );
+			for ( int j = 0; j < memento.getMementoElement( ).getChildren( ).length; j++ )
+			{
+				MementoElement child = memento.getMementoElement( )
+						.getChildren( )[j];
+				restoreExpandedMemento( root, child );
+			}
+		}
+	}
+
+	private void restoreExpandedMemento( TreeItem root, MementoElement memento )
+	{
+		if ( memento.getKey( ).equals( root.getText( ) ) )
+		{
+			if ( root.getItemCount( ) > 0 )
+			{
+				if ( !root.getExpanded( ) )
+					root.setExpanded( true );
+				MementoElement[] children = memento.getChildren( );
+				for ( int i = 0; i < children.length; i++ )
+				{
+					MementoElement child = children[i];
+					String key = child.getValue( ).toString( );
+
+					for ( int j = 0; j < root.getItemCount( ); j++ )
+					{
+						TreeItem item = root.getItem( j );
+						if ( item.getText( ).equals( key ) )
+						{
+							restoreExpandedMemento( item, child );
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private MementoElement getChild( MementoElement parent, MementoElement key )
+	{
+		MementoElement[] children = parent.getChildren( );
+		for ( int i = 0; i < children.length; i++ )
+		{
+			if ( children[i].equals( key ) )
+				return children[i];
+		}
+		return null;
+	};
 
 	protected Tree getTree( )
 	{
@@ -1404,6 +1719,10 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * 
 	 * Listen to JS editor method change.
 	 */
+
+	private int eventFireNum = 0;
+	private int execNum = 0;
+
 	public void selectionChanged( SelectionChangedEvent event )
 	{
 		ISelection selection = event.getSelection( );
@@ -1414,11 +1733,33 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			{
 				if ( sel[0] instanceof IPropertyDefn )
 				{
-					IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
+					final IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
 
 					currentMethodName = elePropDefn.getName( );
 
-					createExpressionTree( );
+					eventFireNum++;
+
+					Display.getDefault( ).timerExec( 100, new Runnable( ) {
+
+						public void run( )
+						{
+							execNum++;
+
+							if ( elePropDefn.getName( )
+									.equals( currentMethodName ) )
+							{
+								if ( execNum == eventFireNum )
+								{
+									createExpressionTree( );
+								}
+							}
+							if ( execNum >= eventFireNum )
+							{
+								execNum = 0;
+								eventFireNum = 0;
+							}
+						}
+					} );
 				}
 			}
 		}
@@ -1521,6 +1862,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		{
 			clearSubTreeItem( parametersItem );
 			buildParameterTree( );
+			restoreSelection( );
 		}
 	}
 

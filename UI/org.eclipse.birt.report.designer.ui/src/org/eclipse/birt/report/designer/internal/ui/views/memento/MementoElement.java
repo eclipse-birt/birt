@@ -1,8 +1,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.memento;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.util.DEUtil;
 
 public class MementoElement
 {
@@ -11,17 +14,17 @@ public class MementoElement
 	public static final String Type_Viewer = "Viewer"; //$NON-NLS-1$
 	public static final String Type_View = "View"; //$NON-NLS-1$
 	public static final String Type_Memento = "Memento"; //$NON-NLS-1$
-	
+
 	public static final String ATTRIBUTE_SELECTED = "Selected"; //$NON-NLS-1$
 
 	private String key;
 	private Object value;
 	private MementoElement parent;
-	private LinkedList children = new LinkedList( );
+	private List children = new ArrayList( );
 	private HashMap attributeMap = new HashMap( );
 
 	private String type = Type_Memento;
-	
+
 	public void setAttribute( String name, Object value )
 	{
 		attributeMap.put( name, value );
@@ -37,7 +40,7 @@ public class MementoElement
 		this.key = key;
 		this.value = value;
 	}
-	
+
 	public MementoElement( String key, Object value, String type )
 	{
 		this.key = key;
@@ -82,7 +85,7 @@ public class MementoElement
 		return childrenMementos;
 	}
 
-	public void setChildren( LinkedList children )
+	public void setChildren( List children )
 	{
 		this.children = children;
 		for ( int i = 0; i < children.size( ); i++ )
@@ -130,7 +133,8 @@ public class MementoElement
 		if ( obj instanceof MementoElement )
 		{
 			MementoElement memento = (MementoElement) obj;
-			if(this == obj)return true;
+			if ( this == obj )
+				return true;
 			if ( memento.getMementoType( ).equals( MementoElement.Type_Memento ) )
 				return true;
 			if ( memento.getMementoType( ).equals( MementoElement.Type_View )
@@ -144,7 +148,8 @@ public class MementoElement
 			}
 			if ( memento.getMementoType( ).equals( MementoElement.Type_Element ) )
 			{
-				if(memento.getValue( ) == null)return false;
+				if ( memento.getValue( ) == null )
+					return false;
 				if ( memento.getKey( ).equals( key )
 						&& memento.getValue( ).equals( value ) )
 					return true;
@@ -153,6 +158,30 @@ public class MementoElement
 			}
 		}
 		return false;
+	}
+
+	public int hashCode( )
+	{
+		if ( getMementoType( ).equals( MementoElement.Type_Memento ) )
+		{
+			return getMementoType( ).hashCode( );
+		}
+		else if ( getMementoType( ).equals( MementoElement.Type_View )
+				|| getMementoType( ).equals( MementoElement.Type_Viewer ) )
+		{
+			return getMementoType( ).hashCode( )
+					* 13
+					+ DEUtil.resolveNull( getKey( ) ).hashCode( );
+		}
+		else if ( getMementoType( ).equals( MementoElement.Type_Element ) )
+		{
+			return getMementoType( ).hashCode( )
+					* 13
+					+ DEUtil.resolveNull( getKey( ) ).hashCode( )
+					* 7
+					+ ( getValue( ) == null ? "" : getValue( ) ).hashCode( );
+		}
+		return super.hashCode( );
 	}
 
 	public void removeChild( MementoElement child )
@@ -170,8 +199,6 @@ public class MementoElement
 		}
 		children.clear( );
 	}
-
-
 
 	public String getMementoType( )
 	{

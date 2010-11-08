@@ -20,6 +20,8 @@ import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.IBreadcrumbNodeProvider;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.TableCellBreadcrumbNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.ISelectionFilter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellBorder;
@@ -28,7 +30,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableCellDragHandle;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
@@ -46,7 +47,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
@@ -500,6 +500,9 @@ public class TableCellEditPart extends AbstractCellEditPart
 				}
 				
 			};
+		}
+		if(key == IBreadcrumbNodeProvider.class){
+			return new TableCellBreadcrumbNodeProvider( );
 		}
 		return super.getAdapter( key );
 	}

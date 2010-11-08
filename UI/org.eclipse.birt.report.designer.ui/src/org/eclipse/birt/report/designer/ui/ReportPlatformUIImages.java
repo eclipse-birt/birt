@@ -282,6 +282,10 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_ROW, ICONS_PATH
 				+ OBJ16_PATH
 				+ "row.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_COLUMN, ICONS_PATH
+				+ OBJ16_PATH
+				+ "column.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_SCALAR_PARAMETER,
 				ICONS_PATH + OBJ16_PATH + "parameter.gif" ); //$NON-NLS-1$
@@ -683,7 +687,17 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_REFRESH_DISABLE, ICONS_PATH
 				+ DTOOL16_PATH
 				+ "refresh_nav.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_TOGGLE_BREADCRUMB, ICONS_PATH
+				+ ETOOL16_PATH
+				+ "toggle_breadcrumb.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_TOGGLE_BREADCRUMB_DISABLE, ICONS_PATH
+				+ DTOOL16_PATH
+				+ "toggle_breadcrumb.gif" ); //$NON-NLS-1$
+
+		
+		
 		// Auto Text Icon
 		declareImage( IReportGraphicConstants.ICON_AUTOTEXT, ICONS_PATH
 				+ OBJ16_PATH
