@@ -4800,3 +4800,8 @@ VariableDropAdapter.TranasctionName=Datumsobjekt aus Variablen erstellen
 #RenameInputDialog
 RenameInputDialog.Message.BlankName=Der Name darf nicht leer sein.
 RenameInputDialog.Message.DuplicateName=Der Name ist bereits vorhanden.
+
+###########################################################
+#Breadcrumb
+BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Show children
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Switch Breadcrumb

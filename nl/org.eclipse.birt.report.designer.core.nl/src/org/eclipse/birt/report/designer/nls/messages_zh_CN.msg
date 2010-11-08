@@ -4800,3 +4800,8 @@ VariableDropAdapter.TranasctionName=使用变量创建数据项
 #RenameInputDialog
 RenameInputDialog.Message.BlankName=名称不能为空白。
 RenameInputDialog.Message.DuplicateName=存在重复名称。
+
+###########################################################
+#Breadcrumb
+BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Show children
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Switch Breadcrumb
