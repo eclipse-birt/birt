@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -492,6 +493,12 @@ public class Page
 				{
 					logger.log( Level.WARNING,
 					            "Excel page header and footer don't support html text." );
+					return false;
+				}
+				if ( child instanceof IImageContent )
+				{
+					logger.log( Level.WARNING,
+					            "Excel page header and footer don't support image." );
 					return false;
 				}
 			}
