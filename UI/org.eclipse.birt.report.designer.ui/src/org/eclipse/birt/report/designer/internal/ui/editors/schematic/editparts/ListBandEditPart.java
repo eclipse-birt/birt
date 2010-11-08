@@ -15,16 +15,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.IBreadcrumbNodeProvider;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.ListElementBreadcrumbNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandFigure;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandRenderFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListBandControlVisible;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListControlDisplayNameFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandControlFigure.ListIconFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandRenderFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.ListData;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -269,5 +271,14 @@ public class ListBandEditPart extends ReportElementEditPart
 		}
 		
 		((ReportFlowLayout)getContentPane( ).getLayoutManager( )).setLayoutPreference( ((ReportDesignHandle)handle).getLayoutPreference( ) );
+	}
+	
+	@Override
+	public Object getAdapter( Class key )
+	{
+		if(key == IBreadcrumbNodeProvider.class){
+			return new ListElementBreadcrumbNodeProvider( );
+		}
+		return super.getAdapter( key );
 	}
 }

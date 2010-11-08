@@ -13,12 +13,15 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.IBreadcrumbNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
@@ -36,6 +39,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.FixTableLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
+import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -46,6 +50,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabXYLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrosstabBreadcrumbNodeProvider;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -431,14 +436,14 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 				}
 			} );
 		}
-		double value =  handle.getMeasure( );
-		if (DesignChoiceConstants.UNITS_PERCENTAGE
-				.equals( handle.getUnits( )))
+		double value = handle.getMeasure( );
+		if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
 		{
 			value = 0.0d;
 		}
-		return new ITableLayoutOwner.DimensionInfomation(value,
-				handle.getUnits( ), handle.isSet( ) );
+		return new ITableLayoutOwner.DimensionInfomation( value,
+				handle.getUnits( ),
+				handle.isSet( ) );
 	}
 
 	/**
@@ -492,7 +497,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 					case VirtualCrosstabCellAdapter.ROW_TYPE :
 					case VirtualCrosstabCellAdapter.MEASURE_TYPE :
 					{
-						if (isFixLayout( ))
+						if ( isFixLayout( ) )
 						{
 							return BIG_FIX_DEFAULT_HEIGHT;
 						}
@@ -547,11 +552,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 		}
 		if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
 		{
-			ModuleHandle moduleHandle = getCrosstabHandleAdapter( ).getDesignElementHandle( ).getModuleHandle( );
-			if (moduleHandle instanceof ReportDesignHandle)
+			ModuleHandle moduleHandle = getCrosstabHandleAdapter( ).getDesignElementHandle( )
+					.getModuleHandle( );
+			if ( moduleHandle instanceof ReportDesignHandle )
 			{
-				if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
-						.equals( ((ReportDesignHandle)moduleHandle).getLayoutPreference( )))
+				if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( ( (ReportDesignHandle) moduleHandle ).getLayoutPreference( ) ) )
 				{
 					return getDefaultWidth( number );
 				}
@@ -564,7 +569,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 
 		}
 		int px = (int) DEUtil.convertoToPixel( handle );
-		if (isFixLayout( ) && handle.isSet( ) && px <=0)
+		if ( isFixLayout( ) && handle.isSet( ) && px <= 0 )
 		{
 			px = 1;
 		}
@@ -631,8 +636,10 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 		for ( int i = 1; i < columnNumber + 1; i++ )
 		{
 			DimensionHandle dimHandle = getCrosstabHandleAdapter( ).getColumnWidth( colNumber );
-			boolean bool = isFixLayout( ) && dimHandle != null && DesignChoiceConstants.UNITS_PERCENTAGE.equals( dimHandle.getUnits( ) );
-			if ( dimHandle != null && dimHandle.getMeasure( ) > 0 && !bool)
+			boolean bool = isFixLayout( )
+					&& dimHandle != null
+					&& DesignChoiceConstants.UNITS_PERCENTAGE.equals( dimHandle.getUnits( ) );
+			if ( dimHandle != null && dimHandle.getMeasure( ) > 0 && !bool )
 			{
 				allNumbers = allNumbers - 1;
 				width = width - getColumnWidthValue( colNumber );
@@ -672,11 +679,15 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	{
 		return getCrosstabHandleAdapter( ).getDefinedWidth( );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#isForceWidth()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #isForceWidth()
 	 */
-	public boolean isForceWidth()
+	public boolean isForceWidth( )
 	{
 		return false;
 	}
@@ -761,7 +772,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 			} );
 		}
 		return new ITableLayoutOwner.DimensionInfomation( handle.getMeasure( ),
-				handle.getUnits( ), handle.isSet( ) );
+				handle.getUnits( ),
+				handle.isSet( ) );
 	}
 
 	/*
@@ -790,13 +802,13 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 			} );
 		}
 		int px = (int) DEUtil.convertoToPixel( handle );
-		if (isFixLayout( ) && handle.isSet( ) && px <=0)
+		if ( isFixLayout( ) && handle.isSet( ) && px <= 0 )
 		{
 			px = 1;
 		}
 		if ( px <= 0 )
 		{
-			if (isFixLayout( ))
+			if ( isFixLayout( ) )
 			{
 				px = FixTableLayout.DEFAULT_ROW_HEIGHT;
 			}
@@ -968,9 +980,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 			Object obj = itor.next( );
 			if ( ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP.equals( obj )
 					|| ICrosstabReportItemConstants.PAGE_LAYOUT_PROP.equals( obj )
-					|| ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP.equals( obj ) 
+					|| ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP.equals( obj )
 					|| ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP.equals( obj )
-					|| ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP.equals( obj ))
+					|| ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP.equals( obj ) )
 			{
 				refresh( );
 				return;
@@ -987,14 +999,64 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	{
 		return new ReportElementNonResizablePolicy( );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getDefinedHeight()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner
+	 * #getDefinedHeight()
 	 */
 	public String getDefinedHeight( )
 	{
-		//Crotab don't support the table height
+		// Crotab don't support the table height
 		return null;
 	}
 
+	public Object getAdapter( Class key )
+	{
+		if ( key == IBreadcrumbNodeProvider.class )
+		{
+			return new CrosstabBreadcrumbNodeProvider( );
+		}
+		return super.getAdapter( key );
+	}
+
+	@Override
+	public boolean isinterestSelection( Object object )
+	{
+		List children = new ArrayList( );
+		List list = Arrays.asList( ProviderFactory.createProvider( getModel( ) )
+				.getChildren( getModel( ) ) );
+		children.addAll( list );
+		ExtendedItemHandle crossTabHandle = (ExtendedItemHandle) getModel( );
+		try
+		{
+			CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) crossTabHandle.getReportItem( );
+			if ( crossTab.getHeader( ) != null )
+				children.remove( crossTab.getHeader( ).getModelHandle( ) );
+
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				Object child = list.get( i );
+				Object[] temp = ProviderFactory.createProvider( child )
+						.getChildren( child );
+				if ( temp == null || temp.length == 0 )
+				{
+					children.remove( child );
+				}
+			}
+		}
+		catch ( ExtendedElementException e )
+		{
+			ExceptionUtil.handle( e );
+		}
+		if ( children.contains( object ) )
+		{
+			children.clear( );
+			return true;
+		}
+		children.clear( );
+		return super.isinterestSelection( object );
+	}
 }
