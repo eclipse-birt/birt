@@ -341,3 +341,10 @@ CrosstabHighlightRuleBuilderDialog.text.Description={0}에 조건부 서식을 적용합니
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=식 편집기
 CrosstabFilterConditionBuilder.MsgDlg.Msg=경고
 CrosstabFilterConditionBuilder.MsgDlg.Title=값을 입력해야 합니다.
+
+###########################################################
+#Breadcrumb provider properties
+VirtualCrosstabCellNodeProvider.Display.ColumnArea=열 영역
+VirtualCrosstabCellNodeProvider.Display.DetailArea=세부 영역
+VirtualCrosstabCellNodeProvider.Display.RowArea=행 영역
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area

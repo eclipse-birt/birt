@@ -341,3 +341,10 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Ïò {0} Ó¦ÓÃÌõ¼ş¸ñÊ½¡£ÇëÖ¸¶¨Ì
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=±í´ïÊ½±à¼­Æ÷
 CrosstabFilterConditionBuilder.MsgDlg.Msg=¾¯¸æ
 CrosstabFilterConditionBuilder.MsgDlg.Title=Öµ²»ÄÜÎª¿Õ¡£
+
+###########################################################
+#Breadcrumb provider properties
+VirtualCrosstabCellNodeProvider.Display.ColumnArea=ÁĞÇøÓò
+VirtualCrosstabCellNodeProvider.Display.DetailArea=ÏêÏ¸ĞÅÏ¢ÇøÓò
+VirtualCrosstabCellNodeProvider.Display.RowArea=ĞĞÇøÓò
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area
