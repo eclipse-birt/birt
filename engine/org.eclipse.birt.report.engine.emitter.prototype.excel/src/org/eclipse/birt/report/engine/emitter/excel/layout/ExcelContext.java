@@ -267,6 +267,11 @@ public class ExcelContext
 		return this.ignoreImage;
 	}
 
+	public void setIgnoreImage( boolean isIgnoreImage )
+	{
+		this.ignoreImage = isIgnoreImage;
+	}
+
 	public OutputStream getOutputSteam( )
 	{
 		return out;
