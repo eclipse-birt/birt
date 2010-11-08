@@ -63,6 +63,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
@@ -1237,7 +1238,10 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			// TODO Auto-generated catch block
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
+		dimensionName = StringUtil.buildQualifiedReference( extHandle.getCube( ).getModule( ).getNamespace( ), dimensionName );
 		DimensionViewHandle dimension = crosstab.getDimension( dimensionName );
+		if ( dimension == null )
+			return null;
 		// LevelViewHandle level = getLevel(dimension, levelName );
 		LevelViewHandle level = dimension.findLevel( levelName );
 		levelHandle = level.getCubeLevel( );
