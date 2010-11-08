@@ -111,7 +111,7 @@ public class HTMLRenderContextTest extends EngineCase
 		rendop.setOutputFileName( "outputfile" );
 
 		HTMLRenderContext context = new HTMLRenderContext( );
-		context.SetRenderOption( rendop );
+		context.setRenderOption( rendop );
 
 		RenderOptionBase ropb = (RenderOptionBase) ( context.getRenderOption( ) );
 
