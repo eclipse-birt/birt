@@ -336,20 +336,33 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			return;
 		}
 		Object tmp = null;
+		String bookmark = null;
 		if ( item.getBookmark( ) == null )
 		{
 			if ( item.getQuery( ) != null )
 			{
-				tmp = this.manager.nextBookmarkID( );
+				bookmark = this.manager.nextBookmarkID( );
 			}
 		}
 		else
 		{
 			tmp = evaluate( item.getBookmark( ) );
+			if ( tmp != null && !"".equals( tmp ) )
+			{
+				bookmark = tmp.toString( );
+				BookmarkManager bookmarkManager = context.getBookmarkManager( );
+				if ( bookmarkManager.exist( bookmark ) )
+				{
+					bookmark = bookmarkManager.createBookmark( bookmark );
+				}
+				else
+				{
+					bookmarkManager.addBookmark( bookmark );
+				}
+			}
 		}
-		if ( tmp != null && !tmp.equals( "" ) )
+		if ( bookmark != null )
 		{
-			String bookmark = tmp.toString( );
 			itemContent.setBookmark( bookmark );
 			// we need also set the bookmark to the result set
 			if ( rset != null )

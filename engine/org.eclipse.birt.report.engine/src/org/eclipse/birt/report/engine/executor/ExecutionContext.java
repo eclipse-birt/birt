@@ -316,6 +316,8 @@ public class ExecutionContext
 	private IDesignElement element = null;
 	
 	private boolean refreshData = false;
+	
+	protected BookmarkManager bookmarkManager; 
 
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -429,6 +431,17 @@ public class ExecutionContext
 		return engine;
 	}
 
+	
+	
+	public BookmarkManager getBookmarkManager( )
+	{
+		if ( bookmarkManager == null )
+		{
+			bookmarkManager = new BookmarkManager( this, 1000 );
+		}
+		return bookmarkManager;
+	}
+	
 	/**
 	 * Clean up the execution context before finishing using it
 	 */
@@ -450,6 +463,11 @@ public class ExecutionContext
 		{
 			scriptContext.close( );
 			scriptContext = null;
+		}
+		if ( bookmarkManager != null )
+		{
+			bookmarkManager.close( );
+			bookmarkManager = null;
 		}
 		if ( dataSource != null )
 		{
@@ -1369,8 +1387,8 @@ public class ExecutionContext
 						&& e.getLocalizedMessage( ).equals(
 								err.getLocalizedMessage( ) ) )
 				{
-					countList.set( i, Integer.valueOf( ( (Integer) countList
-							.get( i ) ).intValue( ) + 1 ) );
+					countList.set( i,
+							Integer.valueOf( ( (Integer) countList.get( i ) ).intValue( ) + 1 ) );
 					return;
 				}
 			}
