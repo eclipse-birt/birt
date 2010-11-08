@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -56,6 +57,9 @@ public final class DataTypeUtil
 	private static ULocale DEFAULT_LOCALE = ULocale.US;
 	private static ULocale JRE_DEFAULT_LOCALE = ULocale.getDefault( );
 	private static SimpleDateFormat MysqlUSDateFormatter = new SimpleDateFormat( "M/d/yyyy HH:mm" );
+	
+	private static Pattern p1 = Pattern.compile( ".*[0-9]+:[0-9]+:[0-9]+.*" );
+	private static Pattern p2 = Pattern.compile( ".*[0-9]+:[0-9]+.*" );
 	
 	// cache DateFormatter of ICU
 	private static Map dfMap = new HashMap( );
@@ -219,13 +223,13 @@ public final class DataTypeUtil
 						} );
 			}
 			int intValue = ( (Number) source ).intValue( );
-			return new Integer( intValue );
+			return Integer.valueOf( intValue );
 		}
 		else if ( source instanceof Boolean )
 		{
 			if ( true == ( (Boolean) source ).booleanValue( ) )
-				return new Integer( 1 );
-			return new Integer( 0 );
+				return Integer.valueOf( 1 );
+			return Integer.valueOf( 0 );
 		}
 		else if ( source instanceof Date )
 		{
@@ -237,7 +241,7 @@ public final class DataTypeUtil
 								source.toString( ), "Integer"
 						} );
 			}
-			return new Integer( (int) longValue );
+			return Integer.valueOf( (int) longValue );
 		}
 		else if ( source instanceof String )
 		{
@@ -259,7 +263,7 @@ public final class DataTypeUtil
 											source.toString( ), "Integer"
 									} );
 						}
-						return new Integer( number.intValue( ));
+						return Integer.valueOf( number.intValue( ));
 					}
 					
 					throw new CoreException( ResourceConstants.CONVERT_FAILS,
@@ -403,8 +407,8 @@ public final class DataTypeUtil
 		{
 			// Takes care of all numeric types
 			if ( ( (Number) source ).doubleValue( ) == 0 )
-				return new Boolean( false );
-			return new Boolean( true );
+				return Boolean.FALSE;
+			return Boolean.TRUE;
 		}
 		else if ( source instanceof String )
 		{
@@ -753,8 +757,8 @@ public final class DataTypeUtil
 		DateFormat dateFormat = null;
 		Date resultDate = null;
 		
-		boolean existTime = source.matches( ".*[0-9]+:[0-9]+:[0-9]+.*" )
-				|| source.matches( ".*[0-9]+:[0-9]+.*" );
+		boolean existTime = p1.matcher( source ).matches( )
+				|| p2.matcher( source ).matches( );
 
 		for ( int i = DEFAULT_DATE_STYLE; i <= DateFormat.SHORT; i++ )
 		{
