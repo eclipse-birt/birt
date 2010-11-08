@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.core.data;
 
+import java.util.regex.Pattern;
+
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.GregorianCalendar;
@@ -40,6 +42,12 @@ public class DateUtil
 	 */
 	private static String[] splitStrs = new String[]{
 			"/", "-", "."
+	};
+
+	private static Pattern[] splitPattern = new Pattern[]{
+			Pattern.compile( "/" ),
+			Pattern.compile( "-" ),
+			Pattern.compile( "." )
 	};
 	
 	/**
@@ -85,21 +93,21 @@ public class DateUtil
 	 */
 	private static String[] splitDateStr( String dateStr )
 	{
-		String splitChar = null;
+		Pattern pattern = null;
 		for ( int i = 0; i < splitStrs.length; i++ )
 		{
 			if ( dateStr.indexOf( splitStrs[i] ) >= 0 )
 			{
-				splitChar = splitStrs[i];
+				pattern = splitPattern[i];
 				break;
 			}
 		}
-		if ( splitChar == null )
+		if ( pattern == null )
 		{
 			return null;
 		}
 		
-		String[] result = dateStr.split( splitChar );
+		String[] result = pattern.split( dateStr );
 		if ( result.length != 3 )
 		{
 			return null;

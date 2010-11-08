@@ -90,7 +90,7 @@ public abstract class DataType
 	{
 		if ( typeCode < 0 || typeCode >= names.length )
 		{
-	        return new String( "Unknown" );
+	        return "Unknown";
 		}
 		return names[typeCode];
 	} 

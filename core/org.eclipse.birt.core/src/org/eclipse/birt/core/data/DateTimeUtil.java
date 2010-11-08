@@ -278,7 +278,7 @@ public class DateTimeUtil
 		if( timeZone.inDaylightTime( d2 ) )
 			diff += timeZone.getDSTSavings( );
 
-		return ( new Long( diff / 1000 ) ).longValue( );
+		return ( Long.valueOf( diff / 1000 ) ).longValue( );
 	}
 
 	/**
