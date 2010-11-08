@@ -197,6 +197,8 @@ data.engine.NotSerializableClass=クラス {0} はシリアライズできません。
 data.engine.BadDataExpression=データ式は null にすることができません。
 data.engine.aggregation.InvalidBindingExpression=メジャー値は、集計のバインド "{0}" には使用できません。
 data.engine.InvalidExpression=式 "{0}" が無効です。
+data.engine.BadFetchScriptReturnType=Data Set script method "{0}" returned {1}; expected a Boolean value.
+data.engine.FailToExecuteScript=Fail to execute script in function {0}(). Source:\n------\n" + {1} + "\n-----
 
 data.engine.cacheFunctionWrongMode=キャッシュ機能は、DIRECT_PRESENTATION モードでしか使用できません。
 data.engine.document.invalidIndexArray=インデックスの配列が無効です。
