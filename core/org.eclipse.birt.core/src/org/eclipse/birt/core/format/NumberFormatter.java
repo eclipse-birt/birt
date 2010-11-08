@@ -518,26 +518,24 @@ public class NumberFormatter implements IFormatter
 			numberFormat.setGroupingUsed( false );
 			return;
 		}
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols( locale.toLocale( ) );
 		if ( patternStr.equals( "Fixed" ) ) //$NON-NLS-1$
 		{
 			realPattern = "#0.00"; //$NON-NLS-1$
-			numberFormat = new DecimalFormat( realPattern,
-					new DecimalFormatSymbols( locale.toLocale( ) ) );
+			numberFormat = new DecimalFormat( realPattern, symbols );
 			return;
 
 		}
 		if ( patternStr.equals( "Percent" ) ) //$NON-NLS-1$
 		{
 			realPattern = "0.00%"; //$NON-NLS-1$
-			numberFormat = new DecimalFormat( realPattern,
-					new DecimalFormatSymbols( locale.toLocale( ) ) );
+			numberFormat = new DecimalFormat( realPattern, symbols );
 			return;
 		}
 		if ( patternStr.equals( "Scientific" ) ) //$NON-NLS-1$
 		{
 			realPattern = "0.00E00"; //$NON-NLS-1$
-			numberFormat = new DecimalFormat( realPattern,
-					new DecimalFormatSymbols( locale.toLocale( ) ) );
+			numberFormat = new DecimalFormat( realPattern, symbols );
 			roundPrecision = -2;
 			return;
 
@@ -545,13 +543,20 @@ public class NumberFormatter implements IFormatter
 		if ( patternStr.equals( "Standard" ) ) //$NON-NLS-1$
 		{
 			realPattern = "###,##0.00"; //$NON-NLS-1$
-			numberFormat = new DecimalFormat( realPattern,
-					new DecimalFormatSymbols( locale.toLocale( ) ) );
+			numberFormat = new DecimalFormat( realPattern, symbols );
 			return;
 
 		}
-		numberFormat = new DecimalFormat( patternStr, new DecimalFormatSymbols(
-				locale.toLocale( ) ) );
+		try
+		{
+			numberFormat = new DecimalFormat( patternStr, symbols );
+		}
+		catch ( java.lang.IllegalArgumentException e )
+		{
+			// if the pattern is invalid, create a default decimal
+			numberFormat = new DecimalFormat( "", symbols );//$NON-NLS-1$
+			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+		}
 	}
 
 	
