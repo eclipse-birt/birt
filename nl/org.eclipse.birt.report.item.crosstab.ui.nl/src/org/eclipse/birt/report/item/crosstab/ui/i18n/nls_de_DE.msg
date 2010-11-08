@@ -341,3 +341,10 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Bedingte Formatierung anwend
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=Ausdrucks-Editor
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Warnung
 CrosstabFilterConditionBuilder.MsgDlg.Title=Der Wert darf nicht leer sein.
+
+###########################################################
+#Breadcrumb provider properties
+VirtualCrosstabCellNodeProvider.Display.ColumnArea=Spaltenbereich
+VirtualCrosstabCellNodeProvider.Display.DetailArea=Detailbereich
+VirtualCrosstabCellNodeProvider.Display.RowArea=Zeilenbereich
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area

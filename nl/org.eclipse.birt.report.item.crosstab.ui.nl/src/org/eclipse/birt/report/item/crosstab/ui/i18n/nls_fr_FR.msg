@@ -341,3 +341,10 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Appliquer un formatage condi
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=Editeur d'expression
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Avertissement
 CrosstabFilterConditionBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
+
+###########################################################
+#Breadcrumb provider properties
+VirtualCrosstabCellNodeProvider.Display.ColumnArea=Zone de colonne
+VirtualCrosstabCellNodeProvider.Display.DetailArea=Zone de détails
+VirtualCrosstabCellNodeProvider.Display.RowArea=Zone de ligne
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area

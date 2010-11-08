@@ -341,3 +341,10 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Aplique formato condicional 
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=Editor de expresión
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Advertencia
 CrosstabFilterConditionBuilder.MsgDlg.Title=El valor no puede estar vacío.
+
+###########################################################
+#Breadcrumb provider properties
+VirtualCrosstabCellNodeProvider.Display.ColumnArea=Área de columna
+VirtualCrosstabCellNodeProvider.Display.DetailArea=Área de detalle
+VirtualCrosstabCellNodeProvider.Display.RowArea=Área de fila
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area
