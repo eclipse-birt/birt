@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.engine.emitter.config.excel;
 
+import static org.eclipse.birt.report.engine.api.IExcelRenderOption.HIDE_GRIDLINES;
+import static org.eclipse.birt.report.engine.api.IExcelRenderOption.WRAPPING_TEXT;
+import static org.eclipse.birt.report.engine.api.IRenderOption.CHART_DPI;
+
 import java.util.Locale;
 
 import org.eclipse.birt.report.engine.api.EXCELRenderOption;
-import org.eclipse.birt.report.engine.api.IExcelRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
 import org.eclipse.birt.report.engine.emitter.config.AbstractEmitterDescriptor;
@@ -29,10 +32,6 @@ import org.eclipse.birt.report.engine.emitter.config.excel.i18n.Messages;
  */
 public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 {
-
-	protected static final String TEXT_WRAPPING = "TextWrapping";
-	protected static final String CHART_DPI = "ChartDpi";
-	private static final String HIDE_GRIDLINES = "HideGridlines";
 
 	protected IConfigurableOption[] options;
 	protected Locale locale;
@@ -86,7 +85,7 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 
 	protected ConfigurableOption initializeWrappingText( )
 	{
-		ConfigurableOption wrappingText = new ConfigurableOption( TEXT_WRAPPING );
+		ConfigurableOption wrappingText = new ConfigurableOption( WRAPPING_TEXT );
 		wrappingText
 				.setDisplayName( getMessage( "OptionDisplayValue.WrappingText" ) ); //$NON-NLS-1$
 		wrappingText.setDataType( IConfigurableOption.DataType.BOOLEAN );
@@ -138,24 +137,6 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 		return "org.eclipse.birt.report.engine.emitter.prototype.excel"; //$NON-NLS-1$
 	}
 
-	public String getRenderOptionName( String name )
-	{
-		assert name != null;
-		if ( TEXT_WRAPPING.equals( name ) )
-		{
-			return IExcelRenderOption.WRAPPING_TEXT;
-		}
-		if ( CHART_DPI.equals( name ) )
-		{
-			return IRenderOption.CHART_DPI;
-		}
-		if ( HIDE_GRIDLINES.equals( name ) )
-		{
-			return IExcelRenderOption.HIDE_GRIDLINES;
-		}
-		return name;
-	}
-
 	/**
 	 * ExcelOptionObserver
 	 */
@@ -180,9 +161,8 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 				{
 					if ( optionValue != null )
 					{
-						renderOption.setOption(
-								getRenderOptionName( optionValue.getName( ) ),
-								optionValue.getValue( ) );
+						renderOption.setOption( optionValue.getName( ),
+						                        optionValue.getValue( ) );
 					}
 				}
 			}
