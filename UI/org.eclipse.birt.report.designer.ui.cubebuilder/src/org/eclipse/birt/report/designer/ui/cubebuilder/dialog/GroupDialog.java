@@ -426,10 +426,10 @@ public class GroupDialog extends TitleAreaDialog
 									getDateTypeDisplayName( dateType ) );
 					try
 					{
+						hierarchy.add( HierarchyHandle.LEVELS_PROP, level );
+						level.setColumnName( dataField.getColumnName( ) );
 						level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
 						level.setDateTimeLevelType( dateType );
-						level.setColumnName( dataField.getColumnName( ) );
-						hierarchy.add( HierarchyHandle.LEVELS_PROP, level );
 					}
 					catch ( SemanticException e )
 					{
@@ -458,12 +458,12 @@ public class GroupDialog extends TitleAreaDialog
 												getDateTypeDisplayName( dateType ) );
 								try
 								{
-									level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
-									level.setDateTimeLevelType( dateType );
-									level.setColumnName( dataField.getColumnName( ) );
 									hierarchy.add( HierarchyHandle.LEVELS_PROP,
 											level,
 											j );
+									level.setColumnName( dataField.getColumnName( ) );
+									level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
+									level.setDateTimeLevelType( dateType );
 									levelList.add( j, dateType );
 									exit = true;
 									break;
@@ -482,10 +482,10 @@ public class GroupDialog extends TitleAreaDialog
 										getDateTypeDisplayName( dateType ) );
 						try
 						{
+							hierarchy.add( HierarchyHandle.LEVELS_PROP, level );
+							level.setColumnName( dataField.getColumnName( ) );
 							level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER );
 							level.setDateTimeLevelType( dateType );
-							level.setColumnName( dataField.getColumnName( ) );
-							hierarchy.add( HierarchyHandle.LEVELS_PROP, level );
 							levelList.add( j++, dateType );
 						}
 						catch ( SemanticException e )
