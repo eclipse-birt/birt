@@ -138,7 +138,9 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 						return ( (Boolean) result ).booleanValue( );
 					else
 						throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
-								"Fetch" );
+								new Object[]{
+										"Fetch", result
+								} );
 				}
 			}
 			if ( scriptedEventHandler != null )
@@ -170,7 +172,9 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 						return ( (Boolean) result ).booleanValue( );
 					else
 						throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
-								"Describe" );
+								new Object[]{
+										"Describe", result
+								} );
 				}
 			}
 			if ( scriptedEventHandler != null )

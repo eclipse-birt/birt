@@ -69,6 +69,7 @@ public class ResourceConstants
 	
 	public final static String MATCH_ERROR = "data.engine.MatchError";
 	
+	public final static String SCIRPT_FUNCTION_EXECUTION_FAIL = "data.engine.FailToExecuteScript";
 	public final static String EXPECT_BOOLEAN_RETURN_TYPE = "data.engine.BadFetchScriptReturnType";
 	public final static String BAD_INTERVAL_UNIT = "data.engine.BadIntervalUnit";
 	public final static String INVALID_FIELD_NAME = "data.engine.InvalidFieldName";
