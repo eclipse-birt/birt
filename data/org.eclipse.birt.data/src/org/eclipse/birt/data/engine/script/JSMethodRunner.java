@@ -16,6 +16,8 @@ package org.eclipse.birt.data.engine.script;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -62,20 +64,40 @@ public class JSMethodRunner
 		// Add a prefix to the method name so it has less chance of conflict with regular functions
 		methodName = METHOD_NAME_PREFIX + methodName;
 		
-		// Check if method already defined in scope
-		if ( ! scope.has( methodName, scope ) )
+		try
 		{
-			// Define the method for the first time
-			String scriptText = "function " + methodName + "() {\n"
-					+ script + "\n} ";
-			ScriptEvalUtil.evaluateJSAsExpr( cx, scope, scriptText, ScriptExpression.defaultID, 1 );
+			// Check if method already defined in scope
+			if ( !scope.has( methodName, scope ) )
+			{
+
+				// Define the method for the first time
+				String scriptText = "function "
+						+ methodName + "() {\n" + script + "\n} ";
+				ScriptEvalUtil.evaluateJSAsExpr( cx,
+						scope,
+						scriptText,
+						ScriptExpression.defaultID,
+						1 );
+
+			}
+
+			// Call pre-defined method
+			String callScriptText = methodName + "()";
+			Object result = ScriptEvalUtil.evaluateJSAsExpr( cx,
+					scope,
+					callScriptText,
+					ScriptExpression.defaultID,
+					1 );
+			return result;
 		}
-			
-		// Call pre-defined method
-		String callScriptText = methodName + "()";
-		Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, 
-				callScriptText, ScriptExpression.defaultID, 1 );
-		return result;
+		catch ( DataException e )
+		{
+			throw new DataException( ResourceConstants.SCIRPT_FUNCTION_EXECUTION_FAIL,
+					e,
+					new Object[]{
+							methodName, script
+					} );
+		}
 	}
 	
 }

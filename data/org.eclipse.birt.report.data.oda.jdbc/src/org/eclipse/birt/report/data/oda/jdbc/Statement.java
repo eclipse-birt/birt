@@ -941,7 +941,7 @@ public class Statement implements IQuery
     {
         /* not supported */
         UnsupportedOperationException e = new UnsupportedOperationException( "setSpecification is not supported." );
-        addLog ( "setSpecification", e );
+//      addLog ( "setSpecification", e );
         throw e;
     }
 

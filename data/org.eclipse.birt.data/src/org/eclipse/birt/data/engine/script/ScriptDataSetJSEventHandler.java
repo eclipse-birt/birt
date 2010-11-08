@@ -73,7 +73,10 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 			if ( result instanceof Boolean )
 				return ((Boolean) result).booleanValue();
 			else
-				throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE, "Fetch" );
+				throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
+						new Object[]{
+								"Fetch", result
+						} );
 		}
 		return false;
 	}
@@ -90,7 +93,10 @@ public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implement
 			if ( result instanceof Boolean )
 				return ((Boolean) result).booleanValue();
 			else
-				throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE, "Describe" );
+				throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
+						new Object[]{
+								"Describe", result
+						} );
 		}
 		return false;
 	}
