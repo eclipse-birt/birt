@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -220,7 +221,16 @@ public class LibraryDropListener extends DesignerDropListener
 					.put( DesignerConstants.DIRECT_CREATEITEM,
 							Boolean.valueOf( true ) );
 			tool.performCreation( getLibrartReportEditPart( ) );
-			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( tool.getNewObjectFromRequest( ),
+			Object obj = tool.getNewObjectFromRequest( );
+			if (obj instanceof DesignElementHandle)
+			{
+				DesignElementHandle handle = (DesignElementHandle)obj;
+				if (handle.getContainer( ) == null || handle.getRoot( ) == null)
+				{
+					obj = null;
+				}
+			}
+			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( obj,
 					LibraryHandleAdapter.CREATE_ELEMENT );
 			command.execute( );
 			return true;
