@@ -141,9 +141,10 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
+		boolean notify = true;
 		if (prePage == this)
 		{
-			//return true;
+			notify = false;
 		}
 		if ( getEditorInput( ) != prePage.getEditorInput( ) )
 		{
@@ -212,23 +213,26 @@ public class ReportScriptFormPage extends ReportFormPage
 		// .getMediator( )
 		// .getCurrentState( )
 		// .getSelectionObject( ) );
-		IMediatorState state = SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.getCurrentState( );
-		ReportRequest request = new ReportRequest( state.getSource( ) );
-		List list = new ArrayList( state.getSelectionObject( ) );
-
-		if ( list.isEmpty( ) )
+		if (notify)
 		{
-			list.add( new Object( ) );
+			IMediatorState state = SessionHandleAdapter.getInstance( )
+					.getMediator( )
+					.getCurrentState( );
+			ReportRequest request = new ReportRequest( state.getSource( ) );
+			List list = new ArrayList( state.getSelectionObject( ) );
+	
+			if ( list.isEmpty( ) )
+			{
+				list.add( new Object( ) );
+			}
+			request.setSelectionObject( list );
+			request.setType( ReportRequest.SELECTION );
+	
+			// SessionHandleAdapter.getInstance().getMediator().pushState();
+			SessionHandleAdapter.getInstance( )
+					.getMediator( )
+					.notifyRequest( request );
 		}
-		request.setSelectionObject( list );
-		request.setType( ReportRequest.SELECTION );
-
-		// SessionHandleAdapter.getInstance().getMediator().pushState();
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.notifyRequest( request );
 
 		// jsEditor.handleSelectionChanged( selection );
 
