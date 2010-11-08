@@ -4800,3 +4800,8 @@ VariableDropAdapter.TranasctionName=Créer l'élément Date à partir de la variable
 #RenameInputDialog
 RenameInputDialog.Message.BlankName=Le nom doit être spécifié.
 RenameInputDialog.Message.DuplicateName=Un doublon existe déjà.
+
+###########################################################
+#Breadcrumb
+BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Show children
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Switch Breadcrumb

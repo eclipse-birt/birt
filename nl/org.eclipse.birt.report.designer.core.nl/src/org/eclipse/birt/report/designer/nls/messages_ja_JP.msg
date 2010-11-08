@@ -4800,3 +4800,8 @@ VariableDropAdapter.TranasctionName=変数から日付項目を作成
 #RenameInputDialog
 RenameInputDialog.Message.BlankName=名前は空白にできません。
 RenameInputDialog.Message.DuplicateName=重複する名前が存在します。
+
+###########################################################
+#Breadcrumb
+BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Show children
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Switch Breadcrumb

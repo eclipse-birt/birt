@@ -4800,3 +4800,8 @@ VariableDropAdapter.TranasctionName=변수에서 데이터 항목 생성
 #RenameInputDialog
 RenameInputDialog.Message.BlankName=이름은 비워둘 수 없습니다.
 RenameInputDialog.Message.DuplicateName=중복된 이름이 있습니다.
+
+###########################################################
+#Breadcrumb
+BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Show children
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Switch Breadcrumb

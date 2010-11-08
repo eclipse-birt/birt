@@ -4800,3 +4800,8 @@ VariableDropAdapter.TranasctionName=Crear elemento de fecha de la variable
 #RenameInputDialog
 RenameInputDialog.Message.BlankName=El nombre no puede estar en blanco.
 RenameInputDialog.Message.DuplicateName=El nombre duplicado existe.
+
+###########################################################
+#Breadcrumb
+BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Show children
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Switch Breadcrumb
