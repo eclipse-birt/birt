@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.report.data.adapter" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.birt.report.data.adapter" id="CubeInterceptor" name="Cube Interceptor"/>
+      </appInfo>
+      <documentation>
+         Used to isolate some special processes for an ad hoc type data set 
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <choice>
+            <element ref="Interceptor"/>
+         </choice>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Interceptor">
+      <complexType>
+         <attribute name="interceptorImplClass" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="cubeHandleClass" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         2.6.2
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;extension
+    id=&quot;DataMartCubeInterceptor&quot;
+    name=&quot;Data Mart Cube Interceptor&quot;
+    point=&quot;org.eclipse.birt.report.data.adapter.CubeInterceptor&quot;&gt;
+    &lt;Interceptor
+        cubeHandleClass=&quot;com.actuate.birt.report.model.api.DataMartCubeHandle&quot;
+        interceptorImplClass=&quot;com.actuate.birt.data.interceptors.datamart.CubeInterceptor&quot;&gt;
+    &lt;/Interceptor&gt;
+&lt;/extension&gt;
+
+cubeHandleClass: full class name of a org.eclipse.birt.report.model.api.olap.CubeHandle implementation. used to identify which cube type this interceptor is for.
+interceptorImplClass: full class name of a org.eclipse.birt.report.data.adapter.api.ICubeInterceptor implementation.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiinfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>
