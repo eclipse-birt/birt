@@ -197,6 +197,8 @@ data.engine.NotSerializableClass=No se admite la clase {0} para serializarla.
 data.engine.BadDataExpression=La expresión de datos no debe ser nula.
 data.engine.aggregation.InvalidBindingExpression=No se puede aceptar la medida procesada para el enlace de agregación "{0}".
 data.engine.InvalidExpression=Expresión no válida"{0}".
+data.engine.BadFetchScriptReturnType=Data Set script method "{0}" returned {1}; expected a Boolean value.
+data.engine.FailToExecuteScript=Fail to execute script in function {0}(). Source:\n------\n" + {1} + "\n-----
 
 data.engine.cacheFunctionWrongMode=La función de caché sólo funciona para el modo DIRECT_PRESENTATION.
 data.engine.document.invalidIndexArray=La matriz de índice no es válida.

@@ -197,6 +197,8 @@ data.engine.NotSerializableClass=Serialisierung der Klasse {0} wird nicht unters
 data.engine.BadDataExpression=Der Datenausdruck darf nicht null sein.
 data.engine.aggregation.InvalidBindingExpression=Berechnete Maßeinheit ist nicht akzeptabel für die Aggregatsbindung '{0}'.
 data.engine.InvalidExpression=Ungültiger Ausdruck "{0}".
+data.engine.BadFetchScriptReturnType=Data Set script method "{0}" returned {1}; expected a Boolean value.
+data.engine.FailToExecuteScript=Fail to execute script in function {0}(). Source:\n------\n" + {1} + "\n-----
 
 data.engine.cacheFunctionWrongMode=Die Cache-Funktion funktioniert nur im Modus ''DIRECT_PRESENTATION''.
 data.engine.document.invalidIndexArray=Ungültiges Index-Array.

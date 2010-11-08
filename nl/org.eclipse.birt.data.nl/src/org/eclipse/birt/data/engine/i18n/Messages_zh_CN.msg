@@ -197,6 +197,8 @@ data.engine.NotSerializableClass=不支持对类 {0} 进行串行化。
 data.engine.BadDataExpression=数据表达式不能为空。
 data.engine.aggregation.InvalidBindingExpression=聚合绑定“{0}”不接受计算度量。
 data.engine.InvalidExpression=无效表达式“{0}”。
+data.engine.BadFetchScriptReturnType=Data Set script method "{0}" returned {1}; expected a Boolean value.
+data.engine.FailToExecuteScript=Fail to execute script in function {0}(). Source:\n------\n" + {1} + "\n-----
 
 data.engine.cacheFunctionWrongMode=缓存功能仅适用于 DIRECT_PRESENTATION 模式。
 data.engine.document.invalidIndexArray=索引数组无效。
