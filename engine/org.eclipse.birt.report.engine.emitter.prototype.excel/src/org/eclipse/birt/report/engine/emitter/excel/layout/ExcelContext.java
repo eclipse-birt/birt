@@ -42,7 +42,7 @@ public class ExcelContext
 	private ULocale locale;
 	private Boolean hideGridlines = false;
 	private boolean enableMultipleSheet = false;
-	private boolean ignoreImage = false;
+	private boolean ignoreImage = true;
 	private String sheetName;
 	private String sheetPrefix;
 	private OutputStream out;
