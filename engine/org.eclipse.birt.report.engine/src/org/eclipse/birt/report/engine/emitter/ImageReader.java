@@ -209,13 +209,21 @@ public class ImageReader
 
 	private void readImage( URL url ) throws IOException
 	{
-		if( url == null )
+		if ( url == null )
 		{
 			status = RESOURCE_UNREACHABLE;
 			return;
 		}
-		InputStream in = url.openStream( );
-		readImage( in );
+		if ( rl != null )
+		{
+			byte[] in = rl.findResource( url );
+			readImage( in );
+		}
+		else
+		{
+			InputStream in = url.openStream( );
+			readImage( in );
+		}
 	}
 
 	private void readImage( InputStream in ) throws IOException
