@@ -145,15 +145,15 @@ public class CrosstabGeneralPage extends GeneralPage
 						.getControl( )
 						.setEnabled( false );
 		}
-		else if ( input instanceof List
-				&& DEUtil.getMultiSelectionHandle( (List) input )
-						.getModuleHandle( ) instanceof LibraryHandle )
-		{
-			if ( checkControl( ) )
-				layoutMeasureSection.getComboControl( )
-						.getControl( )
-						.setEnabled( false );
-		}
+//		else if ( input instanceof List
+//				&& DEUtil.getMultiSelectionHandle( (List) input )
+//						.getModuleHandle( ) instanceof LibraryHandle )
+//		{
+//			if ( checkControl( ) )
+//				layoutMeasureSection.getComboControl( )
+//						.getControl( )
+//						.setEnabled( false );
+//		}
 		else
 		{
 			if ( checkControl( ) )
