@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.emitter.pdf;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -115,11 +115,10 @@ public class PDFRender extends PageDeviceRender
 		if ( !map.isEmpty( ) )
 		{
 			float scaleCache = this.scale;
-			Iterator<Float> iter = map.keySet( ).iterator( );
-			while ( iter.hasNext( ) )
+			for ( Entry<Float, PdfTemplate> e : map.entrySet( ) )
 			{
-				Float s = iter.next( );
-				PdfTemplate template = map.get( s );
+				Float s = e.getKey( );
+				PdfTemplate template = e.getValue( );
 				if ( template != null )
 				{
 					this.scale = s.floatValue( );

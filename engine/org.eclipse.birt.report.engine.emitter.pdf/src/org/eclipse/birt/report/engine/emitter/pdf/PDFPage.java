@@ -414,6 +414,11 @@ public class PDFPage extends AbstractPage
 			float imageY, float height, float width, String helpText, Map params )
 			throws Exception
 	{
+		if ( uri == null )
+		{
+			return;
+		}
+
 		if ( FlashFile.isFlash( null, uri, extension ) )
 		{
 			embedFlash( uri, null, imageX, imageY, height, width, helpText );
@@ -424,29 +429,22 @@ public class PDFPage extends AbstractPage
 			transSVG( uri, null, imageX, imageY, height, width, helpText );
 			return;
 		}
-		if ( uri == null )
+
+		PdfTemplate template = null;
+		if ( pageDevice.getImageCache( ).containsKey( uri ) )
 		{
-			Image image = Image.getInstance( new URL( uri ) );
-			drawImage( image, imageX, imageY, height, width, helpText );
+			template = pageDevice.getImageCache( ).get( uri );
 		}
 		else
 		{
-			PdfTemplate template = null;
-			if ( pageDevice.getImageCache( ).containsKey( uri ) )
-			{
-				template = pageDevice.getImageCache( ).get( uri );
-			}
-			else
-			{
-				template = contentByte.createTemplate( width, height );
-				Image image = Image.getInstance( new URL( uri ) );
-				template.addImage( image, width, 0, 0, height, 0, 0 );
-				pageDevice.getImageCache( ).put( uri, template );
-			}
-			if ( template != null )
-			{
-				drawImage( template, imageX, imageY, height, width, helpText );
-			}
+			template = contentByte.createTemplate( width, height );
+			Image image = Image.getInstance( new URL( uri ) );
+			template.addImage( image, width, 0, 0, height, 0, 0 );
+			pageDevice.getImageCache( ).put( uri, template );
+		}
+		if ( template != null )
+		{
+			drawImage( template, imageX, imageY, height, width, helpText );
 		}
 	}
 	
@@ -787,7 +785,7 @@ public class PDFPage extends AbstractPage
 		cb.setTextMatrix( 1, 0, beta, 1, 0, 0 );
 	}
 
-	private final class TplValueTriple
+	private static final class TplValueTriple
 	{
 
 		private final float tplOrigin;
