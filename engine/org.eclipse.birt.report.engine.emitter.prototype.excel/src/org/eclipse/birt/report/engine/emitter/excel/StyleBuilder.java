@@ -197,15 +197,15 @@ public class StyleBuilder
 	public static int convertBorderWeight( int width )
 	{
 		int w = -1;
-		if ( width >= 749 && width < 1499 )
+		if ( width <= 750 )
 		{
 			w = 1;
 		}
-		else if ( width >= 1499 && width < 2249 )
+		else if ( width >= 750 && width <= 2250 )
 		{
 			w = 2;
 		}
-		else if ( width >= 2249 )
+		else if ( width > 2250 )
 		{
 			w = 3;
 		}
