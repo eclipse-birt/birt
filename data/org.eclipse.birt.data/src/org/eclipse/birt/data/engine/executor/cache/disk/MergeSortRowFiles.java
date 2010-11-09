@@ -28,6 +28,7 @@ class MergeSortRowFiles implements IRowIterator
 	private IRowIterator[] subRowIterators = null;
 	private MergeSortUtil mergeSortUtil = null;
 	private ValueIndex[] rowBuffer = null;
+	private ValueIndex mValueIndex = null;
 	private int rowBufferSize = 0;
 	
 	/**
@@ -41,6 +42,7 @@ class MergeSortRowFiles implements IRowIterator
 		
 		this.subRowIterators = subRowIterators;
 		this.mergeSortUtil = mergeSortUtil;
+		this.mValueIndex = new ValueIndex( null, 0, mergeSortUtil.getComparator( ) );
 	}
 	
 	/*
@@ -87,10 +89,11 @@ class MergeSortRowFiles implements IRowIterator
 		else
 		{
 			int pos = 0;
-			reObj.value = readValue;
+			mValueIndex.value = readValue;
+			mValueIndex.index = reObj.index;
 			if( rowBufferSize > 1 )
 			{
-				pos = Arrays.binarySearch( rowBuffer, 1, this.rowBufferSize, reObj );
+				pos = Arrays.binarySearch( rowBuffer, mValueIndex );
 				
 				if( pos < 0 )
 					pos = ( pos + 1 ) * -1;
@@ -103,7 +106,8 @@ class MergeSortRowFiles implements IRowIterator
 					System.arraycopy( rowBuffer, 1 , rowBuffer, 0, pos );
 				}
 			}
-			rowBuffer[pos] = reObj;
+			rowBuffer[pos] = mValueIndex;
+			mValueIndex = reObj;
 		}
 		return value;
 	}

@@ -24,7 +24,7 @@ import java.util.List;
 abstract public class BaseDiskSortedStack
 {
 	private static final int DEFAULT_BUFFER_SIZE = 1000;
-	
+	private ValueIndex mValueIndex = null;
 	protected List segments = null;
 	protected Object[] buffer = null;
 	
@@ -71,6 +71,7 @@ abstract public class BaseDiskSortedStack
 		segments = new ArrayList( );
 		this.comparator = comparator;
 		this.forceDistinct = forceDistinct;
+		mValueIndex = new ValueIndex( null, 0, comparator );
 		this.size = 0;
 	}
 
@@ -260,10 +261,11 @@ abstract public class BaseDiskSortedStack
 		else
 		{
 			int pos = 0;
-			reObj.value = readValue;
+			mValueIndex.value = readValue;
+			mValueIndex.index = reObj.index;
 			if( popBufferSize > 1 )
 			{
-				pos = Arrays.binarySearch( popBuffer, 1, this.popBufferSize, reObj );
+				pos = Arrays.binarySearch( popBuffer, mValueIndex );
 			
 				if( pos < 0 )
 					pos = ( pos + 1 ) * -1;
@@ -275,8 +277,8 @@ abstract public class BaseDiskSortedStack
 					System.arraycopy( popBuffer, 1 , popBuffer, 0, pos );
 				}
 			}
-			popBuffer[pos] = reObj;
-			
+			popBuffer[pos] = mValueIndex;
+			mValueIndex = reObj;
 		}
 		if ( forceDistinct )
 		{
