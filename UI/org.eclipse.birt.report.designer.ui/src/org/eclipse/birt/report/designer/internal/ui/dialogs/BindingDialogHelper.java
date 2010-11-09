@@ -84,6 +84,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
@@ -850,6 +851,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		// layout.horizontalSpacing = layout.verticalSpacing = 0;
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.numColumns = 3;
+		Layout parentLayout = paramsComposite.getParent( ).getLayout( );
+		if ( parentLayout instanceof GridLayout )
+			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
 		paramsComposite.setLayout( layout );
 
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
@@ -1127,6 +1131,26 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				( (GridData) paramsComposite.getLayoutData( ) ).exclude = false;
 				( (GridData) paramsComposite.getLayoutData( ) ).heightHint = SWT.DEFAULT;
+
+				int width = 0;
+				if ( paramsComposite.getParent( ).getLayout( ) instanceof GridLayout )
+				{
+					Control[] controls = paramsComposite.getParent( )
+							.getChildren( );
+					for ( int i = 0; i < controls.length; i++ )
+					{
+						if ( controls[i] instanceof Label
+								&& ( (GridData) controls[i].getLayoutData( ) ).horizontalSpan == 1 )
+						{
+							int labelWidth = controls[i].getBounds( ).width
+									- controls[i].getBorderWidth( )
+									* 2;
+							if ( labelWidth > width )
+								width = labelWidth;
+						}
+					}
+				}
+
 				for ( final IParameterDefn param : params )
 				{
 					Label lblParam = new Label( paramsComposite, SWT.NONE
@@ -1134,8 +1158,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					lblParam.setText( param.getDisplayName( )
 							+ Messages.getString( "BindingDialogHelper.text.Colon" ) ); //$NON-NLS-1$
 					GridData gd = new GridData( );
-					gd.widthHint = lbName.getBounds( ).width
-							- lbName.getBorderWidth( );
+					gd.widthHint = lblParam.computeSize( SWT.DEFAULT,
+							SWT.DEFAULT ).x;
+					if ( gd.widthHint < width )
+						gd.widthHint = width;
 					lblParam.setLayoutData( gd );
 
 					if ( param.isDataField( ) )
