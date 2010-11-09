@@ -191,6 +191,7 @@ public class NumberFormatter implements IFormatter
 			{
 				numberFormat = NumberFormat.getInstance( locale.toLocale( ) );
 				numberFormat.setGroupingUsed( false );
+				numberFormat.setMaximumFractionDigits( Integer.MAX_VALUE );
 				DecimalFormatSymbols symbols = new DecimalFormatSymbols( locale
 						.toLocale( ) );
 				decimalSeparator = symbols.getDecimalSeparator( );
