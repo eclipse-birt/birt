@@ -962,8 +962,9 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		condition.setLayout( glayout );
 
 		expression = new Combo( condition, SWT.NONE );
-		GridData gdata = new GridData( );
+		GridData gdata = new GridData( SWT.FILL, SWT.CENTER, true, false );
 		gdata.widthHint = 100;
+		gdata.minimumWidth = 100;
 		expression.setLayoutData( gdata );
 		expression.setVisibleItemCount( 30 );
 		expression.addSelectionListener( new SelectionAdapter( ) {
