@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.1.v20100827-0602 Build &lt;2.6.1.v20100827-0602></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.v20101107-0604 Build &lt;2.6.2.v20101107-0604></property>
     <property name="units">in</property>
     <property name="layoutPreference">auto layout</property>
     <data-sources>
@@ -12,16 +12,17 @@
                 <structure>
                     <property name="position">1</property>
                     <property name="name">Customer</property>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">Favorite</property>
-                    <property name="dataType">any</property>
+                    <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">Color</property>
+                    <property name="dataType">string</property>
                 </structure>
             </list-property>
             <list-property name="columnHints">
@@ -40,17 +41,17 @@
                     <structure>
                         <property name="position">1</property>
                         <property name="name">Customer</property>
-                        <property name="dataType">any</property>
+                        <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
                         <property name="name">Favorite</property>
-                        <property name="dataType">any</property>
+                        <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
                         <property name="name">Color</property>
-                        <property name="dataType">any</property>
+                        <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
