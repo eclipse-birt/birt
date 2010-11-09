@@ -114,10 +114,7 @@ class ResultIterator2 extends ResultIterator
 								.getID( ), null, 0 ) );
 				try
 				{
-					bindings = findSavedBinding( rService.getQueryDefn( )
-							.getBindings( )
-							.values( )
-							.iterator( ) );
+					bindings = findSavedBinding( rService.getQueryDefn( ).getBindings( ) );
 					this.doSaveResultClass( streamManager.getOutStream( DataEngineContext.DATASET_META_STREAM,
 							StreamManager.ROOT_STREAM,
 							StreamManager.SELF_SCOPE ),
@@ -142,25 +139,31 @@ class ResultIterator2 extends ResultIterator
 		logger.exiting( ResultIterator2.class.getName( ), "ResultIterator2" );
 	}
 
-	private List<IBinding> findSavedBinding( Iterator<IBinding> bindingIt )
+	private List<IBinding> findSavedBinding( Map bindingMap )
 	{
+		Iterator bindingIt = bindingMap.values( ).iterator( );
 		List<IBinding> bindingList = new ArrayList<IBinding>( );
+
 		while ( bindingIt.hasNext( ) )
 		{
-			IBinding binding = bindingIt.next( );
-
+			IBinding binding = (IBinding) bindingIt.next( );
 			List<String> referencedBindings = new ArrayList<String>( );
+			
 			try
 			{
-				IBaseExpression expr = binding.getExpression( );
-				if ( expr != null )
+				if ( binding.getAggrFunction( ) != null )
 				{
-					referencedBindings = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
-							ExpressionUtil.DATASET_ROW_INDICATOR );
-				}
-				if ( referencedBindings.isEmpty( )
-						&& binding.getAggrFunction( ) != null )
-				{
+					IBaseExpression expr = binding.getExpression( );
+					if ( expr != null )
+					{
+						referencedBindings = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+								ExpressionUtil.DATASET_ROW_INDICATOR );
+					}
+					if ( !referencedBindings.isEmpty( ) )
+					{
+						bindingList.add( binding );
+						continue;
+					}
 					for ( IBaseExpression argExpr : (List<IBaseExpression>) binding.getArguments( ) )
 					{
 						referencedBindings = ExpressionCompilerUtil.extractColumnExpression( argExpr,
@@ -168,14 +171,60 @@ class ResultIterator2 extends ResultIterator
 						if ( !referencedBindings.isEmpty( ) )
 							break;
 					}
+					if ( !referencedBindings.isEmpty( ) )
+					{
+						bindingList.add( binding );
+						continue;
+					}
+
+					boolean needRecalcualte = false;
+					if ( expr != null )
+					{
+						referencedBindings = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+								ExpressionUtil.ROW_INDICATOR );
+						for ( int i = 0; i < referencedBindings.size( ); i++ )
+						{
+							IBinding b = (IBinding) bindingMap.get( referencedBindings.get( i ) );
+							if ( b != null && b.getAggrFunction( ) != null )
+							{
+								needRecalcualte = true;
+								break;
+							}
+						}
+					}
+					if( needRecalcualte )
+					{
+						continue;
+					}
+					for ( IBaseExpression argExpr : (List<IBaseExpression>) binding.getArguments( ) )
+					{
+						referencedBindings = ExpressionCompilerUtil.extractColumnExpression( argExpr,
+								ExpressionUtil.ROW_INDICATOR );
+						for ( int i = 0; i < referencedBindings.size( ); i++ )
+						{
+							IBinding b = (IBinding) bindingMap.get( referencedBindings.get( i ) );
+							if ( b != null && b.getAggrFunction( ) != null )
+							{
+								needRecalcualte = true;
+								break;
+							}
+						}
+						if( needRecalcualte )
+							break;
+					}
+					if ( !needRecalcualte )
+					{
+						bindingList.add( binding );
+					}
 				}
-				if ( !referencedBindings.isEmpty( ) )
+				else
 				{
 					bindingList.add( binding );
 				}
 			}
 			catch ( DataException e )
 			{
+				bindingList.add( binding );
 			}
 		}
 		return bindingList;
