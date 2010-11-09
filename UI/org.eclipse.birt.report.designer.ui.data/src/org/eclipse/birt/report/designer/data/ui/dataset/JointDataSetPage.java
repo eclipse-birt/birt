@@ -1151,41 +1151,60 @@ public class JointDataSetPage extends WizardPage
 		JointDataSetHandle handle = null;
 		if ( leftDataSetName == null || rightDataSetName == null )
 			return false;
+		
 		if ( propertyPageContainer instanceof DataSetEditor )
 		{
+			boolean selectionChanged = true;
 			handle = (JointDataSetHandle) ( (DataSetEditor) propertyPageContainer ).getModel( );
-			List datasetName = handle.getDataSetNames( );
-			for ( int i = 0; i < datasetName.size( ); i++ )
+			Iterator iter = handle.getPropertyHandle( JointDataSet.JOIN_CONDITONS_PROP )
+					.iterator( );
+			while ( iter.hasNext( ) )
 			{
-				try
+				JoinConditionHandle condition = (JoinConditionHandle) iter.next( );
+				if ( ( condition.getLeftDataSet( ) != null && condition.getLeftDataSet( )
+						.equals( this.leftDataSetName ) )
+						&& ( condition.getLeftDataSet( ) != null && condition.getRightDataSet( )
+								.equals( this.rightDataSetName ) ) )
 				{
-					handle.removeDataSet( (String) datasetName.get( i ) );
-				}
-				catch ( SemanticException e )
-				{
-					// do nothing
+					selectionChanged = false;
 				}
 			}
-			if ( leftDataSetName.equals( rightDataSetName ) )
-				handle.addDataSet( leftDataSetName );
-			else
+			if ( selectionChanged )
 			{
-				handle.addDataSet( leftDataSetName );
-				handle.addDataSet( rightDataSetName );
-			}
-			setParameters( handle );
-		}
-		addColumnHints( handle );
+				List datasetName = handle.getDataSetNames( );
+				for ( int i = 0; i < datasetName.size( ); i++ )
+				{
+					try
+					{
+						handle.removeDataSet( (String) datasetName.get( i ) );
+					}
+					catch ( SemanticException e )
+					{
+						// do nothing
+					}
+				}
+				if ( leftDataSetName.equals( rightDataSetName ) )
+					handle.addDataSet( leftDataSetName );
+				else
+				{
+					handle.addDataSet( leftDataSetName );
+					handle.addDataSet( rightDataSetName );
+				}
+				setParameters( handle );
+				addColumnHints( handle );
 
-		if ( propertyHandle != null )
-		{
-			JoinCondition condition = createJoinCondition( );
-			propertyHandle.removeItem( 0 );
-			propertyHandle.addItem( condition );
-			return true;
+				if ( propertyHandle != null )
+				{
+					JoinCondition condition = createJoinCondition( );
+					propertyHandle.removeItem( 0 );
+					propertyHandle.addItem( condition );
+					return true;
+				}
+				else
+					return false;
+			}
 		}
-		else
-			return false;
+		return true;
 	}
 	
 	/**
@@ -1207,6 +1226,7 @@ public class JointDataSetPage extends WizardPage
 		{
 			if ( propertyHandle == null )
 				return true;
+			
 			return modifyJointCondition( );
 		}
 		catch ( SemanticException e )
