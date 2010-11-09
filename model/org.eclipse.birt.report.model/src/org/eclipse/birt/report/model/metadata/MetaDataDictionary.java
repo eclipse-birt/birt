@@ -981,10 +981,10 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * getEncryptionHelperIDs()
 	 */
 	public List<String> getEncryptionHelperIDs( )
-	{		
+	{
 		return ExtensionManager.getInstance( ).getEncryptionHelperIDs( );
 	}
-	
+
 	/**
 	 * Returns the encryption helper with the extension id.
 	 * 
@@ -1002,7 +1002,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * Gets the default encryption id.
 	 * 
 	 * @return the ID of the default encryption helper
-	 */	
+	 */
 	public String getDefaultEncryptionHelperID( )
 	{
 		return ExtensionManager.getInstance( ).getDefaultEncryptionHelperID( );
@@ -1204,6 +1204,29 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		return types;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#
+	 * findElementByThemeType(java.lang.String)
+	 */
+	public IElementDefn findElementByThemeType( String themeType )
+	{
+		if ( themeTypes == null || themeTypes.isEmpty( )
+				|| StringUtil.isBlank( themeType ) )
+			return null;
+		Iterator<String> iter = themeTypes.keySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String elementName = iter.next( );
+			if ( themeType.equals( themeTypes.get( elementName ) ) )
+			{
+				return getElement( elementName );
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Adds a theme type for a given element.
 	 * 
@@ -1232,5 +1255,5 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	{
 		return themeTypes.get( elementDefn.getName( ) );
 	}
-	
+
 }

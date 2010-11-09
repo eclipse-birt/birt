@@ -240,9 +240,21 @@ public interface IMetaDataDictionary
 
 	/**
 	 * Gets all the supported report item theme types.
+	 * 
 	 * @return
 	 */
 	public List<String> getReportItemThemeTypes( );
+
+	/**
+	 * Finds the element definition with the specified report item theme type.
+	 * If the element definition defines the identical theme type with the given
+	 * value, then return it; otherwise return null if not found or report item
+	 * theme is not valid.
+	 * 
+	 * @param themeType
+	 * @return
+	 */
+	public IElementDefn findElementByThemeType( String themeType );
 
 	/**
 	 * Gets the default encryption id.
@@ -250,7 +262,7 @@ public interface IMetaDataDictionary
 	 * @return the ID of the default encryption helper
 	 */
 	public String getDefaultEncryptionHelperID( );
-	
+
 	/**
 	 * Gets all encryption id.
 	 * 
