@@ -12,6 +12,8 @@
 package org.eclipse.birt.data.engine.executor.cache.disk;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -25,7 +27,8 @@ class MergeSortRowFiles implements IRowIterator
 {
 	private IRowIterator[] subRowIterators = null;
 	private MergeSortUtil mergeSortUtil = null;
-	private IResultObject[] rowBuffer = null;
+	private ValueIndex[] rowBuffer = null;
+	private int rowBufferSize = 0;
 	
 	/**
 	 * @param rowFiles
@@ -59,23 +62,50 @@ class MergeSortRowFiles implements IRowIterator
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#next()
 	 */
 	public IResultObject fetch( ) throws IOException, DataException
-	{
-		int minObjectPos = 0;
-		IResultObject resultObject = null;
-		
+	{	
 		if ( rowBuffer == null )
 		{
 			prepareFirstFetch( );
 		}
-		
-		minObjectPos = mergeSortUtil.getMinResultObject( rowBuffer, rowBuffer.length );
-		if ( minObjectPos < 0 )
+		if ( rowBufferSize == 0 )
+		{
 			return null;
+		}
 		
-		resultObject = rowBuffer[minObjectPos];
-		rowBuffer[minObjectPos] = subRowIterators[minObjectPos].fetch( );
+		ValueIndex reObj = rowBuffer[0];
+		IResultObject value = reObj.value;
 		
-		return resultObject;
+		IResultObject readValue = subRowIterators[reObj.index].fetch( );
+		if( readValue == null )
+		{
+			rowBufferSize--;
+			if( rowBufferSize > 0 )
+			{
+				System.arraycopy( rowBuffer, 1, rowBuffer, 0, rowBufferSize );
+			}
+		}
+		else
+		{
+			int pos = 0;
+			reObj.value = readValue;
+			if( rowBufferSize > 1 )
+			{
+				pos = Arrays.binarySearch( rowBuffer, 1, this.rowBufferSize, reObj );
+				
+				if( pos < 0 )
+					pos = ( pos + 1 ) * -1;
+				pos--;
+				if( pos == -1 )
+					pos = 0;
+
+				if( pos > 0 )
+				{
+					System.arraycopy( rowBuffer, 1 , rowBuffer, 0, pos );
+				}
+			}
+			rowBuffer[pos] = reObj;
+		}
+		return value;
 	}
 	
 	/**
@@ -84,11 +114,25 @@ class MergeSortRowFiles implements IRowIterator
 	 */
 	private void prepareFirstFetch( ) throws IOException, DataException
 	{
-		rowBuffer = new IResultObject[subRowIterators.length];
-		for ( int i = 0; i < subRowIterators.length; i++ )
+		rowBuffer = new ValueIndex[subRowIterators.length];
+		
+		for ( int i = 0; i < rowBuffer.length; i++ )
 		{
-			rowBuffer[i] = subRowIterators[i].fetch( );
+			IResultObject value = subRowIterators[i].fetch( );
+			if( value != null )
+				rowBuffer[i] = new ValueIndex( value, i, this.mergeSortUtil.getComparator( ) );;
 		}
+		rowBufferSize = 0;
+		for ( int i = 0; i < rowBuffer.length; i++ )
+		{
+			if( rowBuffer[i] != null )
+			{
+				rowBuffer[rowBufferSize] = rowBuffer[i];
+				rowBufferSize++;
+			}
+		}
+		Arrays.sort( rowBuffer, 0, rowBufferSize );
+		
 	}
 	
 	/*
@@ -106,4 +150,36 @@ class MergeSortRowFiles implements IRowIterator
 		subRowIterators = null;
 	}
 
+	static class ValueIndex implements Comparable
+	{
+		IResultObject value;
+		int index;
+		private Comparator comparator;
+		
+		ValueIndex( IResultObject value, int index, Comparator comparator )
+		{
+			this.value = value;
+			this.index = index;
+			this.comparator = comparator;
+		}
+
+		public int compareTo(Object o)
+		{
+			ValueIndex other = ( ( ValueIndex ) o );
+			int result = comparator.compare( value, other.value  );
+			if( result == 0 )
+			{
+				if( index > other.index )
+					return 1;
+				else if( index == other.index )
+					return 0;
+				else 
+					return -1;
+					
+			}
+			return result;
+		}
+	}
+	
 }
+

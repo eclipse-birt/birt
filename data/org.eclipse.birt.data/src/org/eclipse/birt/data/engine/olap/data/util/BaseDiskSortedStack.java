@@ -29,7 +29,8 @@ abstract public class BaseDiskSortedStack
 	protected Object[] buffer = null;
 	
 	private int bufferPos = 0;
-	private Object[] popBuffer = null;
+	private ValueIndex[] popBuffer = null;
+	private int popBufferSize = 0;
 	private int[] pointers = null;
 	private Comparator comparator = null;
 	private boolean forceDistinct = false;
@@ -239,62 +240,63 @@ abstract public class BaseDiskSortedStack
 			initPop( );
 		}
 
-		int min = getMin( );
-		if ( min < 0 )
+		if ( popBufferSize == 0 )
 		{
 			return null;
 		}
-		Object reObj = popBuffer[min];
-		popBuffer[min] = readNext( min );
+		ValueIndex reObj = popBuffer[0];
+		Object reValue = reObj.value;
+		
+		Object readValue = readNext( reObj.index );
+		
+		if( readValue == null )
+		{
+			popBufferSize--;
+			if( popBufferSize > 0 )
+			{
+				System.arraycopy( popBuffer, 1, popBuffer, 0, popBufferSize );
+			}
+		}
+		else
+		{
+			int pos = 0;
+			reObj.value = readValue;
+			if( popBufferSize > 1 )
+			{
+				pos = Arrays.binarySearch( popBuffer, 1, this.popBufferSize, reObj );
+			
+				if( pos < 0 )
+					pos = ( pos + 1 ) * -1;
+				pos--;
+				if( pos == -1 )
+					pos = 0;
+				if( pos > 0 )
+				{
+					System.arraycopy( popBuffer, 1 , popBuffer, 0, pos );
+				}
+			}
+			popBuffer[pos] = reObj;
+			
+		}
 		if ( forceDistinct )
 		{
 			if ( lastPopObject == null )
 			{
-				lastPopObject = reObj;
+				lastPopObject = reValue;
 			}
 			else
 			{
-				if ( ((Comparable)lastPopObject).compareTo( reObj ) == 0 )
+				if ( ((Comparable)lastPopObject).compareTo( reValue ) == 0 )
 				{
 					return pop( );
 				}
 			}
 		}
-		lastPopObject = reObj;
-		return reObj;
+		lastPopObject = reValue;
+		return reValue;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	private int getMin( )
-	{
-		int result = -1;
-		for ( int i = 0; i < popBuffer.length; i++ )
-		{
-			if ( popBuffer[i] != null )
-			{
-				result = i;
-				break;
-			}
-		}
-		if ( result == -1 )
-		{
-			return -1;
-		}
-		for ( int i = result + 1; i < popBuffer.length; i++ )
-		{
-			if ( popBuffer[i] != null
-					&& this.comparator.compare( popBuffer[i],
-							popBuffer[result] ) < 0 )
-			{
-				result = i;
-			}
-		}
-		return result;
-	}
-
+	
 	/**
 	 * 
 	 * @throws IOException
@@ -306,12 +308,15 @@ abstract public class BaseDiskSortedStack
 		{
 			bufferPos = removeDuplicated( buffer, 0, bufferPos - 1 ) + 1;
 		}
-		popBuffer = new Object[getSegmentCount( )];
+		popBuffer = new ValueIndex[getSegmentCount( )];
+		popBufferSize = popBuffer.length;
 		pointers = new int[getSegmentCount( )];
+		
 		for ( int i = 0; i < popBuffer.length; i++ )
 		{
-			popBuffer[i] = readNext( i );
+			popBuffer[i] = new ValueIndex( readNext( i ), i, this.comparator );;
 		}
+		Arrays.sort( popBuffer );
 	}
 
 	/**
@@ -361,4 +366,36 @@ abstract public class BaseDiskSortedStack
 		}
 	}
 	
+	static class ValueIndex implements Comparable
+	{
+		Object value;
+		int index;
+		private Comparator comparator;
+		
+		ValueIndex( Object value, int index, Comparator comparator )
+		{
+			this.value = value;
+			this.index = index;
+			this.comparator = comparator;
+		}
+
+		public int compareTo(Object o)
+		{
+			ValueIndex other = ( ( ValueIndex ) o );
+			int result = comparator.compare( value, other.value  );
+			if( result == 0 )
+			{
+				if( index > other.index )
+					return 1;
+				else if( index == other.index )
+					return 0;
+				else 
+					return -1;
+					
+			}
+			return result;
+		}
+	}	
 }
+
+

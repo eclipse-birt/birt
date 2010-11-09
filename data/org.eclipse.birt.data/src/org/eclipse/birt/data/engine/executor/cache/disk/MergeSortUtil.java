@@ -168,5 +168,10 @@ class MergeSortUtil
 	{
 		return comparator.compare( resultObject1, resultObject2 );
 	}
+	
+	public Comparator getComparator()
+	{
+		return comparator;
+	}
 
 }
