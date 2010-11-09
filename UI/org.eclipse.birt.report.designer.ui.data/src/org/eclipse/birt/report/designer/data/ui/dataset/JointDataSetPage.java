@@ -1158,15 +1158,17 @@ public class JointDataSetPage extends WizardPage
 			handle = (JointDataSetHandle) ( (DataSetEditor) propertyPageContainer ).getModel( );
 			Iterator iter = handle.getPropertyHandle( JointDataSet.JOIN_CONDITONS_PROP )
 					.iterator( );
+			JoinConditionHandle conditionHandle;
 			while ( iter.hasNext( ) )
 			{
-				JoinConditionHandle condition = (JoinConditionHandle) iter.next( );
-				if ( ( condition.getLeftDataSet( ) != null && condition.getLeftDataSet( )
+				conditionHandle = (JoinConditionHandle) iter.next( );
+				if ( ( conditionHandle.getLeftDataSet( ) != null && conditionHandle.getLeftDataSet( )
 						.equals( this.leftDataSetName ) )
-						&& ( condition.getLeftDataSet( ) != null && condition.getRightDataSet( )
+						&& ( conditionHandle.getLeftDataSet( ) != null && conditionHandle.getRightDataSet( )
 								.equals( this.rightDataSetName ) ) )
 				{
 					selectionChanged = false;
+					conditionHandle.setJoinType( joinType );
 				}
 			}
 			if ( selectionChanged )
