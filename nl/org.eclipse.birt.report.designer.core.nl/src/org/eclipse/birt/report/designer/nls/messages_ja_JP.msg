@@ -1700,7 +1700,7 @@ FormatNumberPage.label.custom.preview.label=書式付きプレビュー :
 FormatNumberPage.label.custom.settings.lable=サンプルの書式 (次のいずれかをコピーして変更)(&S) :
 FormatNumberPage.label.custom.settings=カスタム設定
 FormatNumberPage.label.decimal.places=小数点以下の桁数(&D) : 
-FormatNumberPage.label.rounding.mode=ラウンディングモード(&R) :
+FormatNumberPage.label.rounding.mode=丸めモード(&R) :
 FormatNumberPage.label.fixed.settings=固定設定
 FormatNumberPage.label.format.code=書式コード(&C) :
 FormatNumberPage.label.format.number.page=書式設定(&F) :
@@ -1722,14 +1722,14 @@ FormatNumberPage.preview.invalidNumber=プレビューする数値が無効です。
 FormatNumberPage.symblePos.after=後ろ
 FormatNumberPage.symblePos.before=前
 
-FormatNumberPage.roundingMode.halfUp=ハーフアップ
-FormatNumberPage.roundingMode.halfDown=ハーフダウン
-FormatNumberPage.roundingMode.halfEven=ハーフイーブン
-FormatNumberPage.roundingMode.up=上へ
-FormatNumberPage.roundingMode.down=下へ
-FormatNumberPage.roundingMode.ceiling=シーリング
-FormatNumberPage.roundingMode.floor=床
-FormatNumberPage.roundingMode.unnecessary=不要
+FormatNumberPage.roundingMode.halfUp=Half Up
+FormatNumberPage.roundingMode.halfDown=Half Down
+FormatNumberPage.roundingMode.halfEven=Half Even
+FormatNumberPage.roundingMode.up=Up
+FormatNumberPage.roundingMode.down=Down
+FormatNumberPage.roundingMode.ceiling=Ceiling
+FormatNumberPage.roundingMode.floor=Floor
+FormatNumberPage.roundingMode.unnecessary=Unnecessary
 
 ###########################################################
 #FormatNumberPreferencePage properties
