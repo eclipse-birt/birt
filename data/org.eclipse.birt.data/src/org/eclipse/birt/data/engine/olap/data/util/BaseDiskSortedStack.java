@@ -255,7 +255,9 @@ abstract public class BaseDiskSortedStack
 			popBufferSize--;
 			if( popBufferSize > 0 )
 			{
-				System.arraycopy( popBuffer, 1, popBuffer, 0, popBufferSize );
+				ValueIndex[] tBuffer = new ValueIndex[popBufferSize];
+				System.arraycopy( popBuffer, 1, tBuffer, 0, popBufferSize );
+				popBuffer = tBuffer;
 			}
 		}
 		else
