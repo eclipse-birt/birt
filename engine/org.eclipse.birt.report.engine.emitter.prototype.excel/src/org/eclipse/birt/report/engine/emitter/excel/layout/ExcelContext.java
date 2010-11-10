@@ -18,11 +18,11 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IExcelRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
-import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -145,7 +145,6 @@ public class ExcelContext
 		parseReportOrientation( designHandle );
 		parseReportLayout( designHandle );
 		parseSheetName( designHandle );
-		parsePageSize( report );
 	}
 
 	private void parseSheetName( ReportDesignHandle designHandle )
@@ -203,24 +202,22 @@ public class ExcelContext
 		}
 	}
 
-	private void parsePageSize( IReportContent report )
-	{
-		SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) report
-				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
-		this.pageWidth = ExcelUtil.convertDimensionType(
-				masterPage.getPageWidth( ), 0, dpi );
-		this.pageHeight = ExcelUtil.convertDimensionType(
-				masterPage.getPageHeight( ), 0, dpi );
-		leftMargin = ExcelUtil.convertDimensionType(
-				masterPage.getLeftMargin( ), pageWidth, dpi );
-		rightMargin = ExcelUtil.convertDimensionType(
-				masterPage.getRightMargin( ), pageWidth, dpi );
-		topMargin = ExcelUtil.convertDimensionType( masterPage.getTopMargin( ),
-				pageHeight, dpi );
-		bottomMargin = ExcelUtil.convertDimensionType(
-				masterPage.getBottomMargin( ), pageHeight, dpi );
+	public void parsePageSize( IPageContent page )
+    {
+		this.pageWidth = ExcelUtil.convertDimensionType( page.getPageWidth( ),
+		                                                 0, dpi );
+		this.pageHeight = ExcelUtil
+		        .convertDimensionType( page.getPageHeight( ), 0, dpi );
+		leftMargin = ExcelUtil.convertDimensionType( page.getMarginLeft( ),
+		                                             pageWidth, dpi );
+		rightMargin = ExcelUtil.convertDimensionType( page.getMarginRight( ),
+		                                              pageWidth, dpi );
+		topMargin = ExcelUtil.convertDimensionType( page.getMarginTop( ),
+		                                            pageHeight, dpi );
+		bottomMargin = ExcelUtil.convertDimensionType( page.getMarginBottom( ),
+		                                               pageHeight, dpi );
 		this.contentWidth = pageWidth - leftMargin - rightMargin;
-	}
+    }
 
 	public boolean getWrappingText()
 	{
