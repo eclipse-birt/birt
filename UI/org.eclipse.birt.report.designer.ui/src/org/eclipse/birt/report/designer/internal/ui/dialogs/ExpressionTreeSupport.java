@@ -276,6 +276,8 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	public String getElementType( )
 	{
+		if ( currentEditObject == null )
+			return null;
 		String displayName = ( (DesignElementHandle) currentEditObject ).getDefn( )
 				.getDisplayName( );
 
@@ -289,14 +291,6 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	private void createExpressionTree( )
 	{
-		IMemento memento = viewerMemento.getChild( getElementType( ) );
-		if ( memento == null )
-		{
-			Memento elementMemento = (Memento) viewerMemento.createChild( getElementType( ),
-					MementoElement.Type_Element );
-			elementMemento.getMementoElement( ).setValue( getElementType( ) );
-		}
-
 		if ( tree == null || tree.isDisposed( ) )
 		{
 			return;
@@ -307,6 +301,18 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 		if ( currentEditObject != null && currentMethodName != null )
 		{
+			if ( viewerMemento != null )
+			{
+				IMemento memento = viewerMemento.getChild( getElementType( ) );
+				if ( memento == null )
+				{
+					Memento elementMemento = (Memento) viewerMemento.createChild( getElementType( ),
+							MementoElement.Type_Element );
+					elementMemento.getMementoElement( )
+							.setValue( getElementType( ) );
+				}
+			}
+
 			Object[] adapters = ElementAdapterManager.getAdapters( currentEditObject,
 					IContextExpressionProvider.class );
 
