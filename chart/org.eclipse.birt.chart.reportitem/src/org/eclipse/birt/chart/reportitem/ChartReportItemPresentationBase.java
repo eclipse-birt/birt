@@ -100,7 +100,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 	protected String outputChartFormat = ""; //$NON-NLS-1$
 
-	private int outputType = -1;
+	protected int outputType = -1;
 
 	protected Chart cm = null;
 
@@ -457,7 +457,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	{
 		if ( outputType == -1 )
 		{
-			if ( ( "SVG".equals( sExtension ) && !"pdf".equalsIgnoreCase( outputFormat ) )||"SWF".equals( sExtension ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			if ( "SVG".equals( sExtension ) || "SWF".equals( sExtension ) ) //$NON-NLS-1$ //$NON-NLS-2$
 			{
 				outputType = OUTPUT_AS_IMAGE;
 			}
