@@ -26,7 +26,7 @@ feature@org.eclipse.birt.chart.doc.isv=v20101008,:ext:xgu@dev.eclipse.org:/cvsro
 feature@org.eclipse.birt.cshelp=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.cshelp.feature
 feature@org.eclipse.birt.doc.isv=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.isv.feature
 feature@org.eclipse.birt.doc=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
-feature@org.eclipse.birt.example=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
+feature@org.eclipse.birt.example=v20101110,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
 
 !*************** BIRT  TEST ***********
 feature@org.eclipse.birt.testhelper=v20101008,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.testhelper.feature
