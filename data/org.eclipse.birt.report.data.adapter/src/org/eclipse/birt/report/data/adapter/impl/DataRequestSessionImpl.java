@@ -82,7 +82,9 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IColumnValueIterator;
+import org.eclipse.birt.report.data.adapter.api.ICubeInterceptor;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
+import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
@@ -198,12 +200,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineDataSet( IBaseDataSetDesign design ) throws BirtException
 	{
-		if ( design.getDataSourceName( ) != null )
+		IDataSetInterceptor interceptor = DataSetInterceptorFinder.find( design );
+		if ( interceptor != null )
 		{
-			TransientDataMartUtil.prepareDataSet( sessionContext.getAppContext( ),
-					sessionContext.getDataEngineContext( ),
-					dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
-					design, this );
+			interceptor.preDefineDataSet( sessionContext.getAppContext( ), 
+					dataEngine.getDataSourceDesign( design.getDataSourceName( )), 
+					design, 
+					getDataSessionContext().getModuleHandle() );
+		
 		}
 		dataEngine.defineDataSet( design );
 	}
@@ -679,34 +683,40 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineCube( CubeHandle cubeHandle ) throws BirtException
 	{
-		if( CubeHandleUtil.defineCube( this.dataEngine,
-				cubeHandle, this.sessionContext.getAppContext( ) ))
-			return; 
-		Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle)cubeHandle);
-		Iterator itr = involvedDataSets.iterator( );
-		while (itr.hasNext( ))
+		ICubeInterceptor interceptor= CubeInterceptorFinder.find( cubeHandle );
+		if ( interceptor != null )
 		{
-			DataSetHandle dsHandle = (DataSetHandle) itr.next( );
-			BaseDataSourceDesign baseDataSource = this.modelAdaptor.adaptDataSource( dsHandle.getDataSource( ) );
-			BaseDataSetDesign baseDataSet = this.modelAdaptor.adaptDataSet( dsHandle );
-			
-			//When the data set is joint data set, the data source does not exist.
-			if ( baseDataSource!= null && this.dataEngine.getDataSourceRuntime( baseDataSource.getName( ) ) == null )
-				this.defineDataSource( baseDataSource );
-			
-			//If the data set has not been defined previously, define it.
-			if( this.dataEngine.getDataSetDesign(  baseDataSet.getName( ) ) == null )
+			interceptor.preDefineCube( this.dataEngine, this.sessionContext.getAppContext( ), cubeHandle );
+		}
+		
+		if ( interceptor == null || interceptor.needDefineCube( ))
+		{
+			Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle)cubeHandle);
+			Iterator itr = involvedDataSets.iterator( );
+			while (itr.hasNext( ))
 			{
-				DefineDataSourceSetUtil.defineDataSourceAndDataSet( dsHandle, this );
+				DataSetHandle dsHandle = (DataSetHandle) itr.next( );
+				BaseDataSourceDesign baseDataSource = this.modelAdaptor.adaptDataSource( dsHandle.getDataSource( ) );
+				BaseDataSetDesign baseDataSet = this.modelAdaptor.adaptDataSet( dsHandle );
+				
+				//When the data set is joint data set, the data source does not exist.
+				if ( baseDataSource!= null && this.dataEngine.getDataSourceRuntime( baseDataSource.getName( ) ) == null )
+					this.defineDataSource( baseDataSource );
+				
+				//If the data set has not been defined previously, define it.
+				if( this.dataEngine.getDataSetDesign(  baseDataSet.getName( ) ) == null )
+				{
+					DefineDataSourceSetUtil.defineDataSourceAndDataSet( dsHandle, this );
+				}
 			}
+			
+			if ( !cubeHandleMap.containsKey( cubeHandle.getQualifiedName( ) ) )
+			{
+				this.cubeHandleMap.put( cubeHandle.getQualifiedName( ), cubeHandle );
+			}
+			
+			prepareForCubeGeneration( (TabularCubeHandle)cubeHandle );
 		}
-		
-		if ( !cubeHandleMap.containsKey( cubeHandle.getQualifiedName( ) ) )
-		{
-			this.cubeHandleMap.put( cubeHandle.getQualifiedName( ), cubeHandle );
-		}
-		
-		prepareForCubeGeneration( (TabularCubeHandle)cubeHandle );
 	}
 	
 	/**

@@ -210,7 +210,7 @@ public class CubeQueryResults implements ICubeQueryResults
 			//if fail to load cube, return a NULL result cursor.
 			if ( e.getErrorCode( ) == ResourceConstants.FAIL_LOAD_CUBE )
 			{
-				logger.log( Level.SEVERE, e.getMessage( ) );
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 				return null;				
 			}
 			throw e;
