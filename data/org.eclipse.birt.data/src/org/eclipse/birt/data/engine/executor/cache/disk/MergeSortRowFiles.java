@@ -83,7 +83,9 @@ class MergeSortRowFiles implements IRowIterator
 			rowBufferSize--;
 			if( rowBufferSize > 0 )
 			{
-				System.arraycopy( rowBuffer, 1, rowBuffer, 0, rowBufferSize );
+				ValueIndex[] tBuffer = new ValueIndex[rowBufferSize];
+				System.arraycopy( rowBuffer, 1, tBuffer, 0, rowBufferSize );
+				rowBuffer = tBuffer;
 			}
 		}
 		else
