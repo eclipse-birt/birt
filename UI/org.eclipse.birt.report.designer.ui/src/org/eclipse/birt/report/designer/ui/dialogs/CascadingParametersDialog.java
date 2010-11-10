@@ -1118,7 +1118,13 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				if ( defaultValueChooser != null )
 					defaultValueChooser.setFocus( );
-				// preview( DEUtil.removeQuote( newExpression ) );
+				if ( newExpression != null
+						&& newExpression.trim( ).length( ) > 0
+						&& !newExpression.equals( oldExpression ) )
+				{
+					addDynamicDefaultValue( );
+					updateDynamicTableButtons( );
+				}
 			}
 
 			public IExpressionProvider getExpressionProvider( )
@@ -3454,6 +3460,8 @@ public class CascadingParametersDialog extends BaseDialog
 					false );
 			setFirstDefaultValue( value, type );
 			refreshDynamicValueTable( );
+			defaultValueChooser.setFocus( );
+			defaultValueChooser.setText( "" ); 
 		}
 	}
 

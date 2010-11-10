@@ -2949,7 +2949,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				if ( defaultValueChooser != null )
 					defaultValueChooser.setFocus( );
-				// preview( DEUtil.removeQuote( newExpression ) );
+				if ( newExpression != null
+						&& newExpression.trim( ).length( ) > 0
+						&& !newExpression.equals( oldExpression ) )
+				{
+					addDynamicDefaultValue( );
+					updateDynamicTableButtons( );
+				}
 			}
 
 			public IExpressionProvider getExpressionProvider( )
@@ -4305,39 +4311,40 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		chooser.setText( key );
 	}
 
-//	public String getSelectedExprValue( String value )
-//	{
-//		String exprValue = null;
-//
-//		if ( value == null || columnChooser == null )
-//		{
-//			return "null"; //$NON-NLS-1$
-//		}
-//		else
-//		{
-//			String dataType = getSelectedDataType( );
-//			if ( dataType == null )
-//				return "null"; //$NON-NLS-1$
-//			if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType )
-//					|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
-//					|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
-//			{
-//				exprValue = value;
-//			}
-//			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ) )
-//			{
-//				exprValue = "new java.math.BigDecimal(\"" + value + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
-//			}
-//			else
-//			{
-//				exprValue = "\"" //$NON-NLS-1$
-//						+ JavascriptEvalUtil.transformToJsConstants( value )
-//						+ "\""; //$NON-NLS-1$
-//			}
-//		}
-//
-//		return exprValue;
-//	}
+	// public String getSelectedExprValue( String value )
+	// {
+	// String exprValue = null;
+	//
+	// if ( value == null || columnChooser == null )
+	// {
+	//			return "null"; //$NON-NLS-1$
+	// }
+	// else
+	// {
+	// String dataType = getSelectedDataType( );
+	// if ( dataType == null )
+	//				return "null"; //$NON-NLS-1$
+	// if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType )
+	// || DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType )
+	// || DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
+	// {
+	// exprValue = value;
+	// }
+	// else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType
+	// ) )
+	// {
+	//				exprValue = "new java.math.BigDecimal(\"" + value + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
+	// }
+	// else
+	// {
+	//				exprValue = "\"" //$NON-NLS-1$
+	// + JavascriptEvalUtil.transformToJsConstants( value )
+	//						+ "\""; //$NON-NLS-1$
+	// }
+	// }
+	//
+	// return exprValue;
+	// }
 
 	private void handleControlTypeSelectionEvent( )
 	{
@@ -4427,6 +4434,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					false );
 			setFirstDefaultValue( value, type );
 			refreshDynamicValueTable( );
+			defaultValueChooser.setFocus( );
+			defaultValueChooser.setText( "" ); 
 		}
 	}
 
