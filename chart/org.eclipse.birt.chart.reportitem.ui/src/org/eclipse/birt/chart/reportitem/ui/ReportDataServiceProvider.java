@@ -3566,8 +3566,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ExtendedItemHandle refHandle = getChartReferenceItemHandle( );
 		if ( refHandle != null )
 		{
-			ChartReportItemUtil.copyChartSeriesDefinition( ChartReportItemUtil.getChartFromHandle( refHandle ),
-					targetCM );
+			Chart srcChart = ChartReportItemUtil.getChartFromHandle( refHandle );
+			ChartReportItemUtil.copyChartSeriesDefinition( srcChart, targetCM );
+			ChartReportItemUtil.copyChartSampleData( srcChart, targetCM );
 		}
 	}
 	
