@@ -108,8 +108,6 @@ public class ExcelLayoutEngine
 	protected IExcelWriter writer;
 	protected ContentEmitterVisitor contentVisitor;
 
-	private IPageContent pageContent;
-
 	public ExcelLayoutEngine( ExcelContext context,
 	        ContentEmitterVisitor contentVisitor )
 	{
@@ -129,21 +127,26 @@ public class ExcelLayoutEngine
 	public void initalize( IStyle style )
 	{
 		setCacheSize();
-		
-		ContainerSizeInfo rule = new ContainerSizeInfo( 0,
-		        context.getContentWidth( ) );
 		engine = new StyleEngine( this );
-		containers.push( createContainer( rule, style, null ) );
 		createWriter( );
 	}
 
+	private void initializePage( IPageContent pageContent )
+    {
+		context.parsePageSize( pageContent );
+		ContainerSizeInfo rule = new ContainerSizeInfo( 0,
+		        context.getContentWidth( ) );
+		IStyle pageStyle = pageContent.getComputedStyle( );
+		containers.push( createContainer( rule, pageStyle, null ) );
+    }
+
 	protected void createPage( )
-	{
-		page = new Page( context.getContentWidth( ), engine, maxCol,
+    {
+	    page = new Page( context.getContentWidth( ), engine, maxCol,
 		        context.getSheetName( ) );
 		page.initalize( );
 		context.setPage( page );
-	}
+    }
 
 	private void setCacheSize()
 	{
@@ -173,9 +176,12 @@ public class ExcelLayoutEngine
 
 	public void startPage( IPageContent pageContent ) throws BirtException
 	{
-		this.pageContent = pageContent;
 		if ( page == null || context.isEnableMultipleSheet( ) )
 		{
+			// intializePage method recalculate page style and page size. So it
+			// only invoked when a new page is started, and not invoked in
+			// outputDataIfBufferIsFull().
+			initializePage( pageContent );
 			newPage( );
 		}
 		page.startPage( pageContent );
@@ -840,9 +846,10 @@ public class ExcelLayoutEngine
 	{
 		if ( getCurrentContainer( ).getRowIndex( ) >= maxRow )
 		{
+			Page lastPage = page;
 			outputSheet( page );
 			newPage( );
-			page.startPage( pageContent );
+			page.startPage( lastPage );
 			page.setHeader( null );
 		}
 	}

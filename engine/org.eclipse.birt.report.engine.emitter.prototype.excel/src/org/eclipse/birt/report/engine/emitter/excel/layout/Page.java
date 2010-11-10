@@ -83,6 +83,14 @@ public class Page
 		}
 	}
 
+	public void startPage( Page page )
+	{
+		orientation = page.orientation;
+		outputInMasterPage = page.outputInMasterPage;
+		header = page.header;
+		footer = page.footer;
+	}
+
 	public void setOutputInMasterPage( boolean outputInMasterPage )
 	{
 		this.outputInMasterPage = outputInMasterPage;
