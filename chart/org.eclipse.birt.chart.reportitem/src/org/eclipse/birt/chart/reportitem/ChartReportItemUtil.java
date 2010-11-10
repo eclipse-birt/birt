@@ -360,6 +360,25 @@ public class ChartReportItemUtil extends ChartItemUtil
 	}
 
 	/**
+	 * Copy chart's sample data.
+	 * 
+	 * @param srcCM
+	 * @param targetCM
+	 * @since 2.6.2
+	 */
+	public static void copyChartSampleData( Chart srcCM, Chart targetCM )
+	{
+		if ( srcCM.getSampleData( ) != null )
+		{
+			targetCM.setSampleData( srcCM.getSampleData( ).copyInstance( ) );
+		}
+		else
+		{
+			targetCM.setSampleData( null );
+		}
+	}
+	
+	/**
 	 * Copy series definition from one chart model to another.
 	 * 
 	 * @param srcCM
