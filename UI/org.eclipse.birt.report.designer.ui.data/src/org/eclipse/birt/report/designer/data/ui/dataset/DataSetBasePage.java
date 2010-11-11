@@ -101,14 +101,12 @@ public class DataSetBasePage extends WizardPage
 	final private static String DUPLICATE_NAME = Messages.getString( "error.duplicateName" );//$NON-NLS-1$
 	final private static String CREATE_PROMPT = Messages.getString( "dataset.message.create" );//$NON-NLS-1$
 
-	private String originalName;
-
 	private transient DataSourceHandle newDataSource = null;
 
 	private Hashtable htDataSetWizards = new Hashtable( 10 );
 	
 	private final static String SCRIPT_DATASET_NAME = Messages.getString( "DataSetBasePage.ScriptedDataSet.name" );//$NON-NLS-1$
-	private final static String SCRIPT_DATASOURCE_NAME =Messages.getString( "DataSetBasePage.ScriptedDataSource.name" );
+	private final static String SCRIPT_DATASOURCE_NAME =Messages.getString( "DataSetBasePage.ScriptedDataSource.name" ); //$NON-NLS-1$
 
 	// store latest selection data source
 	private ISelection dateSetTypeSelection = null;
@@ -542,7 +540,7 @@ public class DataSetBasePage extends WizardPage
 	private boolean isDuplicateName( )
 	{
 		String name = nameEditor.getText( ).trim( );
-		return !name.equals( originalName ) && Utility.checkDataSetName( name );
+		return Utility.checkDataSetName( name );
 	}
 
 	private String getDataSetName( )

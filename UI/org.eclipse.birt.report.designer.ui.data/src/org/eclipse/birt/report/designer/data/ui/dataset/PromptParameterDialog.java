@@ -28,13 +28,13 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -433,7 +433,7 @@ class ParameterEditingSupport extends EditingSupport
 			Object obj = selectedStatusMap.get( arg0 );
 			if ( obj != null && obj instanceof Boolean )
 			{
-				if ( (Boolean) obj == Boolean.FALSE )
+				if ( !( (Boolean) obj ).booleanValue( ) )
 					selectedStatusMap.put( arg0, Boolean.TRUE );
 				else
 					selectedStatusMap.put( arg0, Boolean.FALSE );

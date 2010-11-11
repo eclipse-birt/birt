@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -24,7 +25,6 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetExecutorHelper;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
@@ -33,14 +33,9 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
-import org.eclipse.birt.report.engine.api.IReportEngine;
-import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
-import org.eclipse.birt.report.engine.api.impl.DatasetPreviewTask;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
-import org.eclipse.birt.report.engine.api.impl.RunAndRenderTask;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -243,7 +238,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage
 			
 			Map appContext = new HashMap( );
 			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-					new Integer( ( (DataSetHandle) getContainer( ).getModel( ) ).getRowFetchLimit( ) ) );
+					Integer.valueOf( ( (DataSetHandle) getContainer( ).getModel( ) ).getRowFetchLimit( ) ) );
 
 			engineTask.setAppContext( appContext );
 			engineTask.run( );
@@ -317,7 +312,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage
 
 			}
 		}
-		catch ( Exception ex )
+		catch ( BirtException ex )
 		{
 			ExceptionHandler.handle( ex );
 		}

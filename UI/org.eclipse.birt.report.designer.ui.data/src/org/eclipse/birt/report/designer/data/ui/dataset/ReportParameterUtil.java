@@ -97,7 +97,7 @@ public class ReportParameterUtil
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 			return Boolean.FALSE;
 		if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
-			return new Integer( 0 );
+			return Integer.valueOf( 0 );
 		return null;
 	}
 }

@@ -271,8 +271,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 			while ( iterator.hasNext( ) )
 			{
 				IElementPropertyDefn propertyDefn = (IElementPropertyDefn) iterator.next( );
-				if ( propertyDefn instanceof IPropertyDefn
-						&& propertyDefn.getValueType( ) == IPropertyDefn.ODA_PROPERTY )
+				if ( propertyDefn.getValueType( ) == IPropertyDefn.ODA_PROPERTY )
 				{
 					String name = propertyDefn.getName( );
 
@@ -405,7 +404,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 		return Messages.getString( "PropertyBindingPage.property.tooltip" ); //$NON-NLS-1$
 	}
 	
-	private class ExprButtonProvider extends ExpressionButtonProvider 
+	private static class ExprButtonProvider extends ExpressionButtonProvider 
 	{
 
 		private Text propText;

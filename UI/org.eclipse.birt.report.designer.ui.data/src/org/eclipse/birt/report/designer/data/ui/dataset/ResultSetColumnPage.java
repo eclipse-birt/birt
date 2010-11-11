@@ -122,6 +122,12 @@ public class ResultSetColumnPage extends Composite
 			}
 			return false;
 		}
+		
+		public int hashCode( )
+		{
+			return this.columnName.hashCode( ) * 11 + this.dataType * 17;
+		}
+
 	}
 
 	protected static IChoice[] dataTypes = DEUtil.getMetaDataDictionary( )
@@ -507,7 +513,7 @@ public class ResultSetColumnPage extends Composite
 				ResultSetColumn column = StructureFactory.createResultSetColumn( );
 				column.setColumnName( model.columnName );
 				column.setDataType( dataTypes[model.dataType].getName( ) );
-				column.setPosition( new Integer( i ) );
+				column.setPosition( Integer.valueOf( i ) );
 				resultSetPropertyHandle.addItem( column );
 				ColumnHintHandle columnHintHandle = null;
 				for ( Iterator hintIter = columnHintPropertyHandle.iterator( ); hintIter.hasNext( ); )
