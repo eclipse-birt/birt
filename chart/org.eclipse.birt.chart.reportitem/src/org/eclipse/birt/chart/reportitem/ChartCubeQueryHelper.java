@@ -936,8 +936,8 @@ public class ChartCubeQueryHelper
 								|| DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT.equals( operator ) )
 						{
 							// Top and Bottom are not supported in fact table of
-							// data engine
-							break Outside;
+							// data engine, ignore this filter
+							continue Outside;
 						}
 
 						// If filter expression is not used as dimension or
