@@ -61,4 +61,4 @@ ActionSet.Publish=公開
 Dummy.label=
 preference.classpath=Classpath
 
-parameter.actions=New Report &Parameter
+parameter.actions=レポートパラメタの新規作成(&P)
