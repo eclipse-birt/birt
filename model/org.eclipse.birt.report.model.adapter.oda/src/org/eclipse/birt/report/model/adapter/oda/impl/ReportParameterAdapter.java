@@ -64,7 +64,7 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		if ( reportParam == null || dataSetParam == null )
 			return;
 
-		updateLinkedReportParameterFromROMParameter( reportParam, dataSetParam );
+		updateLinkedReportParameterFromROMParameter( reportParam, dataSetParam, true );
 	}
 
 	/*
@@ -113,9 +113,9 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 				updateLinkedReportParameter( reportParam, matchedParam, null,
 						dataType,
 						(OdaDataSetHandle) dataSetParam.getElementHandle( ) );
-
+	
 			updateLinkedReportParameterFromROMParameter( reportParam,
-					dataSetParam );
+					dataSetParam, false );
 		}
 		catch ( SemanticException e )
 		{
@@ -240,12 +240,13 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 	 * #
 	 * updateLinkedReportParameterFromROMParameter(org.eclipse.birt.report.model
 	 * .api.AbstractScalarParameterHandle,
-	 * org.eclipse.birt.report.model.api.OdaDataSetParameterHandle)
+	 * org.eclipse.birt.report.model.api.OdaDataSetParameterHandle, boolean)
 	 */
 
 	protected void updateLinkedReportParameterFromROMParameter(
 			AbstractScalarParameterHandle reportParam,
-			OdaDataSetParameterHandle dataSetParam ) throws SemanticException
+			OdaDataSetParameterHandle dataSetParam,
+			boolean updateDefaultValue ) throws SemanticException
 	{
 		assert reportParam != null
 				&& reportParam instanceof ScalarParameterHandle;
@@ -268,7 +269,7 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 			}
 		}
 		super.updateLinkedReportParameterFromROMParameter( reportParam,
-				dataSetParam );
+				dataSetParam, updateDefaultValue );
 	}
 
 	/*
@@ -465,10 +466,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 
 				param.setAutoSuggestThreshold( uiHints.getAutoSuggestThreshold( ) );
 		}
-		else
-		{
+		else if ( cachedElementAttrs == null || cachedElementAttrs.getUiHints( ) == null )
 			param.setControlType( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX );
-		}
 
 		super.updateInputElementAttrsToReportParam( elementAttrs,
 				cachedElementAttrs, reportParam, setHandle );
