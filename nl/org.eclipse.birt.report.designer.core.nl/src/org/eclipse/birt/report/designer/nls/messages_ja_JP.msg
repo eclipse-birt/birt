@@ -690,7 +690,6 @@ DataSetParameterPage.warning.UnmatchedParamDataType=データセットパラメタの型が、
 DataSetParameterPage.multiValuesType=複数の値の型
 DataSetParameterPage.updateReportParameter.title=レポートパラメタ更新の設定
 DataSetParameterPage.updateReportParameter.message=データセットパラメタの設定を使用して、リンクされているレポートパラメタを更新しますか ?
-DataSetParameterPage.updateReportParameter.propmtText=リンクされているレポートパラメタを更新しない。
 DataSetParameterPage.updateReportParameter.promptButtonYes=はい
 DataSetParameterPage.updateReportParameter.promptButtonNo=いいえ
 
@@ -914,6 +913,7 @@ designer.preview.preference.bidiOrientation.ltr=左から右
 designer.preview.preference.bidiOrientation.rtl=右から左
 designer.preview.preference.updateParameter.confirmMessage=更新の確認
 designer.preview.preference.updateParameter.confirmButton=結果セットまたはパラメタのデザイン属性を更新する際に、常に確認メッセージを表示します。
+designer.preview.preference.updateReportParameter.confirmButton=&Never update a linked report parameter and never prompt for confirmation.
 
 designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
 designer.preview.previewaction.label=レポートを {0} として表示する
