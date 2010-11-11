@@ -584,6 +584,7 @@ public class DataEngineImpl extends DataEngine
 		try
 		{
 			DataEngineThreadLocal.getInstance( ).getCloseListener( ).dataEngineShutDown( );
+			DataEngineThreadLocal.getInstance( ).removeTempPathManger( );
 			if( DataEngineThreadLocal.getInstance( ).getCloseListener( ).getActivateDteCount( ) == 0 )
 			{
 				DataEngineThreadLocal.getInstance( ).getCloseListener( ).closeAll( );

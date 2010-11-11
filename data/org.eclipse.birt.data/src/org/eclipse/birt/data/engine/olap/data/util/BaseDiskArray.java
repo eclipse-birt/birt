@@ -34,7 +34,7 @@ abstract class BaseDiskArray implements IDiskArray
 	protected static final short NORMAL_VALUE = 0;
 	protected static final short NULL_VALUE = -1;
 	
-	private static Logger logger = Logger.getLogger( PrimitiveDiskArray.class.getName( ) );
+	private static Logger logger = Logger.getLogger( BaseDiskArray.class.getName( ) );
 
 	private int currentCacheStartIndex;
 	private int size;
@@ -182,9 +182,9 @@ abstract class BaseDiskArray implements IDiskArray
 	 */
 	private void createCacheFile( ) throws IOException
 	{
-		String tempFileStr = TempPathManager.getTempFileName( fileNamePrefix,
-				this.hashCode( ),
-				"" );
+		String tempFileStr = DataEngineThreadLocal.getInstance( )
+				.getPathManager( )
+				.getTempFileName( fileNamePrefix, this.hashCode( ), "" );
 		if ( diskFile == null )
 		{
 			diskFile = new File( tempFileStr );
