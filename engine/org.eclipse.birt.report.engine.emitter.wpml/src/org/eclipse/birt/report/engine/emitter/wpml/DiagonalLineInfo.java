@@ -28,8 +28,8 @@ public class DiagonalLineInfo
 	private String color = null;
 
 	// unit:point
-	private final double DEFAULT_COORDSIZEX = 100;
-	private final double DEFAULT_COORDSIZEY = 100;
+	private static final double DEFAULT_COORDSIZEX = 100;
+	private static final double DEFAULT_COORDSIZEY = 100;
 	private double width = DEFAULT_COORDSIZEX;
 	private double height = DEFAULT_COORDSIZEY;
 	private double coordoriginX = 0;
@@ -91,7 +91,7 @@ public class DiagonalLineInfo
 		double x = 2d / ( diagonalCount + 1 ) * width;
 		double y = 2d / ( diagonalCount + 1 ) * height;
 
-		if ( diagonalCount % 2 == 1 )
+		if ( ( diagonalCount & 1 ) == 1 )
 		{
 			diagonalLine.add( new Line(
 					coordoriginX - CELL_MARGIN_COMPENSATION, coordoriginY,
@@ -120,7 +120,7 @@ public class DiagonalLineInfo
 		int num = antiDiagonalCount >> 1;
 		double x = 2d / ( antiDiagonalCount + 1 ) * width;
 		double y = 2d / ( antiDiagonalCount + 1 ) * height;
-		if ( antiDiagonalCount % 2 == 1 )
+		if ( ( antiDiagonalCount & 1 ) == 1 )
 		{
 			antiDiagonalLine.add( new Line( coordoriginX
 					- CELL_MARGIN_COMPENSATION, coordoriginY + height,
@@ -171,7 +171,7 @@ public class DiagonalLineInfo
 		return antiDiagonalWidth;
 	}
 
-	public class Line
+	public static class Line
 	{
 
 		double xCoordinateFrom;

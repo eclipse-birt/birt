@@ -282,7 +282,6 @@ public class Page
 		StringBuffer rowValue = new StringBuffer( );
 		Collection list = row.getChildren( );
 		Iterator iter = list.iterator( );
-		int cellCount = list.size( );
 		int currentCellCount = 0;
 		while ( iter.hasNext( ) )
 		{

@@ -124,7 +124,7 @@ public class ScriptUtil
 	// constructor invocation
 	public static class ContextPermissions extends PermissionCollection
 	{
-		private AccessControlContext context;
+		private transient AccessControlContext context;
 		private PermissionCollection statisPermissions;
 		private static final long serialVersionUID = -1721494496320750721L;
 

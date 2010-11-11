@@ -180,10 +180,9 @@ public class PPTWriter
 		for ( int i = 0; i < currentPageNum; i++ )
 		{
 			println( ( "<o:File href=3D's" + ( i + 1 ) + "'/>" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-			if ( fileNamesLists.containsKey( new Integer( i + 1 ) ) )
+			if ( fileNamesLists.containsKey( i + 1 ) )
 			{
-				List<String> fileNames = fileNamesLists
-						.get( new Integer( i + 1 ) );
+				List<String> fileNames = fileNamesLists.get( i + 1 );
 				for ( String fileName : fileNames )
 				{
 					println( ( "<o:File href=3D\"" + fileName + "\"/>" ) );
@@ -298,7 +297,10 @@ public class PPTWriter
 			float height, FontInfo fontInfo, Color color, boolean rtl,
 			HyperlinkDef link )
 	{
-
+		if ( fontInfo == null )
+		{
+			return;
+		}
 		BaseFont baseFont = fontInfo.getBaseFont( );
 		String fontName = getFontName( baseFont );
 
@@ -438,7 +440,7 @@ public class PPTWriter
 		return imageInfo;
 	}
 
-	private class ImageInfo{
+	private static class ImageInfo{
 		public String imageName;
 		public String extension;
 		public byte[] imageData;
@@ -746,7 +748,7 @@ public class PPTWriter
 			String replacement = null;
 			if ( c == ' ' )
 			{
-				if ( spacePos % 2 == 1 || i == max - 1 )
+				if ( spacePos % 2 != 0 || i == max - 1 )
 				{
 					replacement = "&#160;"; //$NON-NLS-1$
 				}

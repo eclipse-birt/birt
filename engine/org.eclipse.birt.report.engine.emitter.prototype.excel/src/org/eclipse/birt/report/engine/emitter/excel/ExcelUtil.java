@@ -47,20 +47,21 @@ public class ExcelUtil
 	private static final double SECONDS_PER_DAY = 86400.0;
 	private static final double SECONDS_PER_MINUTE = 60.0;
 	private static final double SECONDS_PER_HOUR = 3600.0;
-	protected static final BigDecimal MAX_DOUBLE = new BigDecimal( Double.MAX_VALUE );
-	protected static final BigDecimal MIN_DOUBLE = MAX_DOUBLE.negate( ).subtract(
-			BigDecimal.ONE );
+	protected static final BigDecimal MAX_DOUBLE = new BigDecimal(
+			Double.MAX_VALUE );
+	protected static final BigDecimal MIN_DOUBLE = MAX_DOUBLE.negate( )
+			.subtract( BigDecimal.ONE );
 	protected static final BigDecimal MIN_POSITIVE_DECIMAL_NUMBER = new BigDecimal(
 			"0.000000000000001" );
 	protected static final BigDecimal MAX_POSITIVE_DECIMAL_NUMBER = new BigDecimal(
 			10e15 ).subtract( MIN_POSITIVE_DECIMAL_NUMBER );
-	
+
 	protected static final BigDecimal MIN_NEGATIVE_DECIMAL_NUMBER = new BigDecimal(
 			-10e14 ).add( new BigDecimal( "0.000000000000001" ) );
 	protected static final BigDecimal MAX_NEGATIVE_DECIMAL_NUMBER = MIN_POSITIVE_DECIMAL_NUMBER
 			.negate( );
 	protected static final long MILLISECS_PER_DAY = 24 * 3600 * 1000;
-	//TODO: time zone 
+	// TODO: time zone
 	private static final long BASE_DATE_TIME;
 	private static final String validStr = "#.0<>()%_";
 	private static final String specialStr = "mMdDyYhHsSeEbBgGnN/*\"@";
@@ -69,7 +70,7 @@ public class ExcelUtil
 			.getName( ) );
 
 	private static final HashSet<Character> splitChar = new HashSet<Character>( );
-	
+
 	private static Pattern pattern = Pattern.compile( scienticPattern,
 			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL );
 	static
@@ -79,10 +80,10 @@ public class ExcelUtil
 				.getInstance( TimeZone.getTimeZone( "GMT-0:00" ) );
 		date.setTime( new Date( "1900/01/01" ) );
 		BASE_DATE_TIME = date.getTimeInMillis( );
-		
-		splitChar.add( new Character( ' ' ) );
-		splitChar.add( new Character( '\r' ) );
-		splitChar.add( new Character( '\n' ) );
+
+		splitChar.add( Character.valueOf( ' ' ) );
+		splitChar.add( Character.valueOf( '\r' ) );
+		splitChar.add( Character.valueOf( '\n' ) );
 	}
 
 	public final static float INCH_PT = 72;
@@ -110,7 +111,6 @@ public class ExcelUtil
 	public final static int PAPER_B5_ENVELOPE = 34;// 176mm*250mm
 	public final static int PAPER_MONARCH_ENVELOPE = 37;// 3.875in*7.5in
 	public final static int PAPER_ISOB4 = 42;// 250mm*353mm;
-	
 
 	public static String ridQuote( String val )
 	{
@@ -120,20 +120,18 @@ public class ExcelUtil
 		}
 		return val;
 	}
-	
-	
-	private static String invalidBookmarkChars = 
-		"`~!@#$%^&*()-=+\\|[]{};:'\",./?>< \t\n\r！￥（）：；，";
-	
+
+	private static String invalidBookmarkChars = "`~!@#$%^&*()-=+\\|[]{};:'\",./?>< \t\n\r！￥（）：；，";
+
 	// This check can not cover all cases, cause we do not know exactly the
 	// excel range name restraint.
 	public static boolean isValidBookmarkName( String name )
 	{
-		if( name.equalsIgnoreCase( "r" ) )
+		if ( name.equalsIgnoreCase( "r" ) )
 		{
 			return false;
 		}
-		if( name.equalsIgnoreCase( "c" ) )
+		if ( name.equalsIgnoreCase( "c" ) )
 		{
 			return false;
 		}
@@ -143,33 +141,34 @@ public class ExcelUtil
 		}
 		for ( int i = 0; i < name.length( ); i++ )
 		{
-			if( invalidBookmarkChars.indexOf( name.charAt( i ) ) != -1 )
-			{	
+			if ( invalidBookmarkChars.indexOf( name.charAt( i ) ) != -1 )
+			{
 				return false;
 			}
 		}
-		
-		//The bookmark name can not start with a digit.
-		if (name.matches( "[0-9].*" ))
+
+		// The bookmark name can not start with a digit.
+		if ( name.matches( "[0-9].*" ) )
 		{
-			return false;	
+			return false;
 		}
-		//columnID<=IV, rowID<=65536 can not be used as bookmark.
-		if( name.matches("([A-Za-z]|[A-Ha-h][A-Za-z]|[Ii][A-Va-v])[0-9]{1,5}" ))
+		// columnID<=IV, rowID<=65536 can not be used as bookmark.
+		if ( name
+				.matches( "([A-Za-z]|[A-Ha-h][A-Za-z]|[Ii][A-Va-v])[0-9]{1,5}" ) )
 		{
 			String[] strs = name.split( "[A-Za-z]" );
-			if (strs.length>0)
+			if ( strs.length > 0 )
 			{
 				int rowId = 0;
 				try
 				{
-					rowId = Integer.parseInt( strs[strs.length-1]);	
+					rowId = Integer.parseInt( strs[strs.length - 1] );
 				}
-				catch( NumberFormatException e )
+				catch ( NumberFormatException e )
 				{
 					return true;
 				}
-				if (rowId<=65536)
+				if ( rowId <= 65536 )
 				{
 					return false;
 				}
@@ -182,36 +181,40 @@ public class ExcelUtil
 		}
 		return true;
 	}
-	
+
 	public static String formatDate( Object data )
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH );
 		Date date = getDate( data );
-		if(date == null) {
+		if ( date == null )
+		{
 			return null;
 		}
-		return  dateFormat.format( date );        
+		return dateFormat.format( date );
 	}
 
 	public static Date getDate( Object data )
 	{
 		Date date = null;
-		if(data instanceof com.ibm.icu.util.Calendar) {
-			date = ((com.ibm.icu.util.Calendar) data).getTime( );
+		if ( data instanceof com.ibm.icu.util.Calendar )
+		{
+			date = ( (com.ibm.icu.util.Calendar) data ).getTime( );
 		}
-		else if(data instanceof Date) {
+		else if ( data instanceof Date )
+		{
 			date = (Date) data;
 		}
-		else {
+		else
+		{
 			date = null;
 		}
 		return date;
 	}
-    
+
 	public static String formatNumberAsDecimal( Object data )
 	{
-		Number number=(Number)data;
+		Number number = (Number) data;
 		DecimalFormat numberFormat = new DecimalFormat( "0.##############" );
 		numberFormat.setMaximumFractionDigits( 15 );
 		updateExcelDecimalSeparator( numberFormat );
@@ -233,7 +236,7 @@ public class ExcelUtil
 		assert data instanceof BigDecimal;
 		BigDecimal bigDecimal = (BigDecimal) data;
 		int scale = 0;
-		if (bigDecimal.compareTo( BigDecimal.ZERO ) == 0 )
+		if ( bigDecimal.compareTo( BigDecimal.ZERO ) == 0 )
 		{
 			return "0";
 		}
@@ -259,7 +262,7 @@ public class ExcelUtil
 				scale = scale + 1;
 			}
 		}
-		DecimalFormat decimalFormat = new DecimalFormat("0.##############");
+		DecimalFormat decimalFormat = new DecimalFormat( "0.##############" );
 		updateExcelDecimalSeparator( decimalFormat );
 		String number = decimalFormat.format( bigDecimal );
 		String sign = scale >= 0 ? "+" : "";
@@ -357,109 +360,94 @@ public class ExcelUtil
 	 */
 	private static String subReplaceDateFormat( char ch, int count )
 	{
-		String current = "";
+		StringBuffer current = new StringBuffer( );
 		int patternCharIndex = -1;
 		String datePatternChars = "GyMdkHmsSEDFwWahKz";
 		if ( ( patternCharIndex = datePatternChars.indexOf( ch ) ) == -1 )
 		{
 			for ( int i = 0; i < count; i++ )
 			{
-				current += "" + ch;
+				current.append( ch );
 			}
-
-			return current;
+			return current.toString( );
 		}
 
 		switch ( patternCharIndex )
 		{
 			case 0 : // 'G' - ERA
-				current = "";
-				break;
+				return "";
 			case 1 : // 'y' - YEAR
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
-
 				break;
 			case 2 : // 'M' - MONTH
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
-
 				break;
 			case 3 : // 'd' - Date
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
-
 				break;
 			case 4 : // 'k' - HOUR_OF_DAY: 1-based. eg, 23:59 + 1 hour =>>
 						// 24:59
-				current = "h";
-				break;
+				return "h";
 			case 5 : // case 5: // 'H'-HOUR_OF_DAY:0-based.eg, 23:59+1
 						// hour=>>00:59
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
-
 				break;
 			case 6 : // case 6: // 'm' - MINUTE
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
-
 				break;
 			case 7 : // case 7: // 's' - SECOND
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
-
 				break;
 			case 8 : // case 8: // 'S' - MILLISECOND
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
-
 				break;
 			case 9 : // 'E' - DAY_OF_WEEK
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "a";
+					current.append( "a" );
 				}
-
 				break;
 			case 14 : // 'a' - AM_PM
-				current = "AM/PM";
-				break;
+				return "AM/PM";
 			case 15 : // 'h' - HOUR:1-based. eg, 11PM + 1 hour =>> 12 AM
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
-
 				break;
 			case 17 : // 'z' - ZONE_OFFSET
-				current = "";
-				break;
+				return "";
 			default :
 				// case 10: // 'D' - DAY_OF_YEAR
 				// case 11: // 'F' - DAY_OF_WEEK_IN_MONTH
 				// case 12: // 'w' - WEEK_OF_YEAR
 				// case 13: // 'W' - WEEK_OF_MONTH
 				// case 16: // 'K' - HOUR: 0-based. eg, 11PM + 1 hour =>> 0 AM
-				current = "";
-				break;
+				return "";
 		}
 
-		return current;
+		return current.toString( );
 	}
 
 	public static String getPattern( Object data, String val )
@@ -485,10 +473,10 @@ public class ExcelUtil
 		else if ( val != null && data instanceof Number )
 		{
 
-//			if ( val.indexOf( "E" ) >= 0 )
-//			{
-//				return "Scientific";
-//			}
+			// if ( val.indexOf( "E" ) >= 0 )
+			// {
+			// return "Scientific";
+			// }
 			return new NumberFormatter( val ).getPattern( );
 		}
 		else if ( val != null && data instanceof String )
@@ -576,8 +564,8 @@ public class ExcelUtil
 	}
 
 	public static double convertColWidth( float width, int dpi )
-    {
-	    float PX_PT = INCH_PT / dpi;
+	{
+		float PX_PT = INCH_PT / dpi;
 		// TODO: more study about the caculation
 		if ( width < 0 )
 			return 0;
@@ -594,7 +582,7 @@ public class ExcelUtil
 		// calculate characterNumber
 		result = (int) ( ( characterNumber * digitalWidth + 5 ) / digitalWidth * 256 );
 		return result / 256;
-    }
+	}
 
 	public static boolean isBigNumber( Object number )
 	{
@@ -605,7 +593,8 @@ public class ExcelUtil
 		try
 		{
 			BigDecimal num = getBigDecimal( number );
-			if( num.compareTo( MAX_DOUBLE )==1||num.compareTo(MIN_DOUBLE)==-1 )
+			if ( num.compareTo( MAX_DOUBLE ) == 1
+					|| num.compareTo( MIN_DOUBLE ) == -1 )
 			{
 				return true;
 			}
@@ -633,7 +622,7 @@ public class ExcelUtil
 		}
 		return num;
 	}
-	
+
 	public static boolean displayedAsScientific( Object number )
 	{
 		BigDecimal num = getBigDecimal( number );
@@ -649,8 +638,8 @@ public class ExcelUtil
 		}
 		return true;
 	}
-	
-	public static boolean isInfinity(Object number)
+
+	public static boolean isInfinity( Object number )
 	{
 		if ( number == null )
 		{
@@ -658,18 +647,18 @@ public class ExcelUtil
 		}
 		try
 		{
-			return Double.isInfinite( ( Double)number);
+			return Double.isInfinite( (Double) number );
 		}
 		catch ( Exception e )
 		{
 			return false;
 		}
 	}
-	
+
 	public static String getColumnOfExp( String exp )
 	{
-		return exp.substring( exp.indexOf( "dataSetRow[" ), exp
-				.lastIndexOf( "]" ) + 1 );
+		return exp.substring( exp.indexOf( "dataSetRow[" ),
+				exp.lastIndexOf( "]" ) + 1 );
 	}
 
 	private static final String reg1 = "Total." + "(count|ave|sum|max|min)"
@@ -735,7 +724,7 @@ public class ExcelUtil
 			return (int) ( value.convertTo( DimensionType.UNITS_PT ) * 1000 );
 		}
 	}
-	
+
 	public static String parse( Object txt, String dateTime, ULocale locale )
 	{
 		if ( dateTime == null )
@@ -765,29 +754,30 @@ public class ExcelUtil
 		StringBuffer buffer = new StringBuffer( );
 		boolean inQuto = false;
 		int eCount = 0;
-		for(int count = 0 ; count < dateTime.length(); count ++)
+		for ( int count = 0; count < dateTime.length( ); count++ )
 		{
-			char tempChar = dateTime.charAt(count);
-			if(inQuto)
+			char tempChar = dateTime.charAt( count );
+			if ( inQuto )
 			{
-				if(tempChar == '\'' && nextIsQuto(dateTime , count))
+				if ( tempChar == '\'' && nextIsQuto( dateTime, count ) )
 				{
 					buffer.append( tempChar );
-					count ++;
+					count++;
 				}
 				else
 				{
-					if(tempChar == '\'')
+					if ( tempChar == '\'' )
 					{
 						inQuto = false;
 					}
 					else
 					{
-						if(specialStr.indexOf( tempChar )!=-1)
+						if ( specialStr.indexOf( tempChar ) != -1 )
 						{
-							buffer.append( "\\"+tempChar );
+							buffer.append( "\\" + tempChar );
 						}
-						else{
+						else
+						{
 							buffer.append( tempChar );
 						}
 					}
@@ -795,13 +785,13 @@ public class ExcelUtil
 			}
 			else
 			{
-				if(tempChar == '\'')
+				if ( tempChar == '\'' )
 				{
 					eCount = 0;
-					if(nextIsQuto(dateTime , count))
+					if ( nextIsQuto( dateTime, count ) )
 					{
 						buffer.append( tempChar );
-						count ++;
+						count++;
 					}
 					else
 					{
@@ -824,7 +814,7 @@ public class ExcelUtil
 						continue;
 					}
 					eCount = 0;
-					if(tempChar == 'a')
+					if ( tempChar == 'a' )
 					{
 						buffer.append( "AM/PM" );
 						continue;
@@ -862,15 +852,14 @@ public class ExcelUtil
 		return dateTime;
 	}
 
-	public static String formatNumberPattern(String givenValue)
+	public static String formatNumberPattern( String givenValue )
 	{
 		return formatNumberPattern( givenValue, ULocale.getDefault( ) );
 	}
-	
+
 	public static String formatNumberPattern( String givenValue, ULocale locale )
 	{
-		String returnStr ="";
-		if(givenValue == null )
+		if ( givenValue == null )
 		{
 			return "";
 		}
@@ -883,7 +872,7 @@ public class ExcelUtil
 			}
 			if ( ch == 'C' || ch == 'c' )
 			{
-				return getCurrencySymbol(locale)+"###,##0.00";
+				return getCurrencySymbol( locale ) + "###,##0.00";
 			}
 			if ( ch == 'f' || ch == 'F' )
 			{
@@ -905,9 +894,9 @@ public class ExcelUtil
 			{
 				return "####";
 			}
-			
+
 		}
-		
+
 		if ( givenValue.equals( "Fixed" ) )
 			return "Fixed";
 		if ( givenValue.equals( "Percent" ) )
@@ -923,13 +912,14 @@ public class ExcelUtil
 		{
 			return givenValue;
 		}
-		
-		if(isScientific(givenValue))
+
+		if ( isScientific( givenValue ) )
 		{
 			givenValue = givenValue.replace( "E", "E+" );
 			return givenValue;
 		}
 		int count = givenValue.length( );
+		StringBuffer returnStr = new StringBuffer( );
 		boolean flag = false;
 		for ( int num = 0; num < count; num++ )
 		{
@@ -945,7 +935,7 @@ public class ExcelUtil
 					char nextChar = givenValue.charAt( num + 1 );
 					if ( nextChar == '\'' )
 					{
-						returnStr = returnStr + '\'';
+						returnStr.append( '\'' );
 						num++;
 						flag = false;
 					}
@@ -959,35 +949,35 @@ public class ExcelUtil
 			{
 				if ( flag )
 				{
-					returnStr = returnStr + "\\" + temp;
+					returnStr.append( "\\" ).append( temp );
 				}
 				else
 				{
 					if ( specialStr.indexOf( temp ) != -1 )
 					{
-						returnStr = returnStr + "\\" + temp;
+						returnStr.append( "\\" ).append( temp );
 					}
 					else if ( temp == '¤' )
 					{
 						String symbol = getCurrencySymbol( locale );
-						returnStr = returnStr + "\"" + symbol + "\"";
+						returnStr.append( "\"" ).append( symbol ).append( "\"" );
 					}
 					else if ( currencySymbol.indexOf( temp ) != -1 )
 					{
-						returnStr = returnStr + "\"" + temp + "\"";
+						returnStr.append( "\"" ).append( temp ).append( "\"" );
 					}
 					else
 					{
-						returnStr = returnStr + temp;
+						returnStr.append( temp );
 					}
 				}
 			}
 		}
 		if ( returnStr.indexOf( "#" ) == -1 && returnStr.indexOf( "0" ) == -1 )
 		{
-			returnStr += "#";
+			returnStr.append( "#" );
 		}
-		return returnStr;
+		return returnStr.toString( );
 	}
 
 	private static boolean isScientific( String givenValue )
@@ -1024,7 +1014,7 @@ public class ExcelUtil
 		}
 		return "$";
 	}
-	
+
 	protected static boolean validType( String str )
 	{
 		for ( int count = 0; count < str.length( ); count++ )
@@ -1037,14 +1027,14 @@ public class ExcelUtil
 		}
 		return true;
 	}
-	
-	private static boolean nextIsQuto(String forPar , int index)
+
+	private static boolean nextIsQuto( String forPar, int index )
 	{
-		if( forPar.length() - 1 == index )
+		if ( forPar.length( ) - 1 == index )
 		{
 			return false;
 		}
-		if(forPar.charAt(index + 1) == '\'')
+		if ( forPar.charAt( index + 1 ) == '\'' )
 		{
 			return true;
 		}
@@ -1057,12 +1047,15 @@ public class ExcelUtil
 	}
 
 	/**
-	 * Excel 2007 using 1900 date base system.Date time is combined by date component and time component.
-	 * In the 1900 date base system, the lower limit of day component is January 1, 1900, which has serial value 1. 
-	 * The upper-limit is December 31, 9999, which has serial value 2,958,465.
-	 * The time component of a serial value ranges in value from 0–0.99999999, and represents times from 0:00:00 (12:00:00 AM) 
-	 * to 23:59:59 (11:59:59 P.M.), respectively.
-	 * Going forward in time, the time component of a serial value increases by 1/86,400 each second.
+	 * Excel 2007 using 1900 date base system.Date time is combined by date
+	 * component and time component. In the 1900 date base system, the lower
+	 * limit of day component is January 1, 1900, which has serial value 1. The
+	 * upper-limit is December 31, 9999, which has serial value 2,958,465. The
+	 * time component of a serial value ranges in value from 0–0.99999999, and
+	 * represents times from 0:00:00 (12:00:00 AM) to 23:59:59 (11:59:59 P.M.),
+	 * respectively. Going forward in time, the time component of a serial value
+	 * increases by 1/86,400 each second.
+	 * 
 	 * @param d
 	 * @param zone
 	 * @return
@@ -1071,9 +1064,9 @@ public class ExcelUtil
 	{
 		Calendar currentDay = Calendar.getInstance( zone );
 		currentDay.setTime( d );
-		int hours = currentDay.get(Calendar.HOUR_OF_DAY);
-		int minutes = currentDay.get(Calendar.MINUTE);
-		int seconds = currentDay.get(Calendar.SECOND);
+		int hours = currentDay.get( Calendar.HOUR_OF_DAY );
+		int minutes = currentDay.get( Calendar.MINUTE );
+		int seconds = currentDay.get( Calendar.SECOND );
 		double timeComponent = ( hours * SECONDS_PER_HOUR + minutes
 				* SECONDS_PER_MINUTE + seconds )
 				/ SECONDS_PER_DAY;
@@ -1130,7 +1123,7 @@ public class ExcelUtil
 		char[] array = text.toCharArray( );
 		for ( int i = 0; i < array.length; i++ )
 		{
-			Character c = new Character( text.charAt( i ) );
+			Character c = Character.valueOf( text.charAt( i ) );
 			if ( splitChar.contains( c ) )
 				capitalizeNextChar = true;
 			else if ( capitalizeNextChar )
@@ -1208,7 +1201,7 @@ public class ExcelUtil
 			return SOCIALNUMBER_CODE;
 		return property;
 	}
-	
+
 	/**
 	 * Convert scientific format code such as 00/E00 to 00E+00 so excel 2007 can
 	 * output it correctly.
@@ -1291,7 +1284,7 @@ public class ExcelUtil
 		}
 		return name;
 	}
-	
+
 	private static final double POINTS_PER_INCH = 72;
 	private static final double CM_PER_INCH = 2.54;
 	private static final double POINTS_PER_CM = POINTS_PER_INCH / CM_PER_INCH;

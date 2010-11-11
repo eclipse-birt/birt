@@ -55,8 +55,7 @@ public class StyleEngine
 	{
 		this.engine = engine;
 
-		style2id.put( getDefaultEntry( DEFAULT_DATE_STYLE ), new Integer(
-				DEFAULT_DATE_STYLE ) );
+		style2id.put( getDefaultEntry( DEFAULT_DATE_STYLE ), DEFAULT_DATE_STYLE );
 		// TODO: style ranges.
 		// styleRanges = new ArrayList<ExcelRange>( );
 	}
@@ -199,8 +198,8 @@ public class StyleEngine
 		else
 		{
 			styleId = styleID;
-			style2id.put( entry, new Integer( styleId ) );
-			id2Style.put( new Integer( styleId ), entry );
+			style2id.put( entry, styleId );
+			id2Style.put( styleId, entry );
 			styleID++;
 		}
 		return styleId;

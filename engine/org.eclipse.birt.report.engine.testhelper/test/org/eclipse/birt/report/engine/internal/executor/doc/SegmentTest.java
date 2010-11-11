@@ -37,33 +37,33 @@ public class SegmentTest extends TestCase
 
 		// SINGLE ELMENT
 		segment = new Segment( comparator );
-		segment.startSegment( new Long( 3 ) );
-		segment.endSegment( new Long( 3 ) );
+		segment.startSegment( 3L );
+		segment.endSegment( 3L );
 		assertEquals( "[3-3]", segment.toString( ) );
 
 		segment = new Segment( comparator );
-		segment.endSegment( new Long( 3 ) );
-		segment.startSegment( new Long( 3 ) );
+		segment.endSegment( 3L );
+		segment.startSegment( 3L );
 		assertEquals( "[ALL]", segment.toString( ) );
 
 		// left open segment
 		segment = new Segment( comparator );;
-		segment.endSegment( new Long( 3 ) );
+		segment.endSegment( 3L );
 		assertEquals( "[-3]", segment.toString( ) );
 
 		// right open segment
 		segment = new Segment( comparator );
-		segment.startSegment( new Long( 3 ) );
+		segment.startSegment( 3L );
 		assertEquals( "[3-]", segment.toString( ) );
 
 		// cross segment
 		segment = new Segment( comparator );
-		segment.endSegment( new Long( 3 ) );
-		segment.startSegment( new Long( 6 ) );
-		segment.endSegment( new Long( 10 ) );
-		segment.startSegment( new Long( 10 ) );
-		segment.endSegment( new Long( 12 ) );
-		segment.startSegment( new Long( 15 ) );
+		segment.endSegment( 3L );
+		segment.startSegment( 6L );
+		segment.endSegment( 10L );
+		segment.startSegment( 10L );
+		segment.endSegment( 12L );
+		segment.startSegment( 15L );
 		assertEquals( "[-3][6-12][15-]", segment.toString( ) );
 
 	}

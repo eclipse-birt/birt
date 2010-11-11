@@ -63,23 +63,23 @@ public class ExcelContext
 
 	public void initialize( IEmitterServices service ) throws EngineException
 	{
-		if ( service != null )
+		if ( service == null )
 		{
-			out = EmitterUtil
-			        .getOuputStream( service, "report.xls" );
+			return;
 		}
+		out = EmitterUtil.getOuputStream( service, "report.xls" );
 		this.tempFileDir = service.getReportEngine( ).getConfig( ).getTempDir( );
 		IReportContext reportContext = service.getReportContext( );
 		if ( reportContext != null )
 		{
 			Locale locale = reportContext.getLocale( );
 			this.locale = locale == null
-			        ? ULocale.forLocale( locale )
-			        : ULocale.getDefault( );
+					? ULocale.forLocale( locale )
+					: ULocale.getDefault( );
 		}
 		IRenderOption renderOption = service.getRenderOption( );
 		Object option = renderOption
-		        .getOption( IExcelRenderOption.OPTION_MULTIPLE_SHEET );
+				.getOption( IExcelRenderOption.OPTION_MULTIPLE_SHEET );
 		if ( option instanceof Boolean )
 			enableMultipleSheet = (Boolean) option;
 		this.reportContext = service.getReportContext( );

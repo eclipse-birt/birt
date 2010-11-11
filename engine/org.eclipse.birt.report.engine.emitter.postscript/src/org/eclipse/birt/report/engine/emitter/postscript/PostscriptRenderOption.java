@@ -27,7 +27,7 @@ public class PostscriptRenderOption extends RenderOption
 	 */
 	public void setPostscriptLevel( int level )
 	{
-		options.put( PS_LEVEL, new Integer( level ) );
+		options.put( PS_LEVEL, level );
 	}
 
 	/**

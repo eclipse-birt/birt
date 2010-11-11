@@ -14,8 +14,9 @@ package org.eclipse.birt.report.engine.emitter.excel;
 import java.awt.Color;
 import java.io.Serializable;
 
-public class HyperlinkDef implements Serializable, Cloneable
+public class HyperlinkDef implements Serializable
 {
+	private static final long serialVersionUID = 5933271313761755249L;
 	private String url;
 	private int type;
     private String toolTip;

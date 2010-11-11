@@ -196,11 +196,11 @@ public class DateTimeUtil
 
 	public static String formatDateTime( String format, ULocale locale )
 	{
-		String language = locale.getLanguage( );
 		String code = locale2Code.get( locale );
 		if ( code == null )
 		{
-			code = locale2Code.get( new Locale( language ) );
+			String language = locale.getLanguage( );
+			code = locale2Code.get( new ULocale( language, "" ) );
 		}
 		if ( code == null )
 		{

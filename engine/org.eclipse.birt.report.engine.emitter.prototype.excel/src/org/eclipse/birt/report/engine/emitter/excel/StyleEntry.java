@@ -14,6 +14,11 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 public class StyleEntry implements StyleConstant
 {
+	private boolean isHyperlink = false;
+
+	private Object[] props = null;
+	private int hashCode;
+	
 	public StyleEntry( StyleEntry entry )
 	{
 		this( );
@@ -25,10 +30,7 @@ public class StyleEntry implements StyleConstant
 		{
 			props[i] = entry.props[i];
 		}
-		if ( entry.hashCode != null )
-		{
-			hashCode = new Integer( entry.hashCode );
-		}
+		hashCode = entry.hashCode;
 	}
 
 	public StyleEntry( )
@@ -39,7 +41,8 @@ public class StyleEntry implements StyleConstant
 	public void setProperty( int id, Object value )
 	{
 		props[id] = value;
-		hashCode = null;
+		int tmpCode = ( value == null ? 0 : value.hashCode( ) ) << ( id % 31 );
+		hashCode = hashCode + tmpCode;
 	}
 
 	public Object getProperty( int id )
@@ -84,19 +87,7 @@ public class StyleEntry implements StyleConstant
 	
 	public int hashCode( )
 	{
-		if ( hashCode == null )
-		{
-			int code = 0;
-
-			for ( int i = 0; i < StyleConstant.COUNT; i++ )
-			{
-				int hashCode = props[i] == null ? 0 : props[i].hashCode( );
-				code += hashCode * 2 + 1;
-			}
-
-			hashCode = new Integer( code );;
-		}
-		return hashCode.intValue( );
+		return hashCode;
 	}
 
 	public static boolean isNull( Object value )
@@ -117,10 +108,4 @@ public class StyleEntry implements StyleConstant
 	{
 		return isHyperlink;
 	}
-
-	private boolean isHyperlink = false;
-
-	private Object[] props = null;
-	private Integer hashCode;
-	
 }

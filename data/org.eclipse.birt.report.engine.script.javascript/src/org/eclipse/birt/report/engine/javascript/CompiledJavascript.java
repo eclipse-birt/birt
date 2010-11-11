@@ -16,8 +16,6 @@ import org.mozilla.javascript.Script;
 
 public class CompiledJavascript implements ICompiledScript
 {
-	private String fileName;
-	
 	private int lineNo;
 	private String scriptText;
 	private Script compiledScript;
@@ -37,11 +35,6 @@ public class CompiledJavascript implements ICompiledScript
 	public Script getCompiledScript( )
 	{
 		return compiledScript;
-	}
-
-	public String getFileName( )
-	{
-		return fileName;
 	}
 
 	public int getLineNo( )
