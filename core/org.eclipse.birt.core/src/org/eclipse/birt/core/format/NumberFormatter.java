@@ -13,15 +13,17 @@ package org.eclipse.birt.core.format;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.DecimalFormatSymbols;
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -94,6 +96,20 @@ public class NumberFormatter implements IFormatter
 	private boolean digitSubstitution;
 
 	private RoundingMode roundingMode = RoundingMode.HALF_UP;
+	
+	private static Map<RoundingMode, Integer> adapters = new HashMap<RoundingMode, Integer>( );
+	
+	static
+	{
+		adapters.put( RoundingMode.CEILING, BigDecimal.ROUND_CEILING );
+		adapters.put( RoundingMode.UP, BigDecimal.ROUND_UP );
+		adapters.put( RoundingMode.HALF_UP, BigDecimal.ROUND_HALF_UP );
+		adapters.put( RoundingMode.HALF_EVEN, BigDecimal.ROUND_HALF_EVEN );
+		adapters.put( RoundingMode.HALF_DOWN, BigDecimal.ROUND_HALF_DOWN );
+		adapters.put( RoundingMode.FLOOR, BigDecimal.ROUND_FLOOR );
+		adapters.put( RoundingMode.DOWN, BigDecimal.ROUND_DOWN );
+		adapters.put( RoundingMode.UNNECESSARY, BigDecimal.ROUND_UNNECESSARY );
+	}
 
 	/**
 	 * constructor with no argument
@@ -507,6 +523,16 @@ public class NumberFormatter implements IFormatter
 			{
 				( (DecimalFormat) numberFormat )
 						.setDecimalFormatSymbols( symbols );
+			}
+		}
+		// set the roundingMode attribute for the formatters
+		Integer iRoundingMode = (Integer) adapters.get( roundingMode );
+		if ( iRoundingMode != null )
+		{
+			numberFormat.setRoundingMode( iRoundingMode.intValue( ) );
+			if ( decimalFormat != null )
+			{
+				decimalFormat.setRoundingMode( iRoundingMode.intValue( ) );
 			}
 		}
 	}
