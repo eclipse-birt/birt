@@ -121,9 +121,9 @@ public class SimpleResultSet implements IResultIterator
 					( (RAOutputStream) dataSetStream ).seek( rowCountOffset );
 					IOUtil.writeInt( dataSetStream, rowCount );
 				}
-				if ( this.streamsWrapper.getStreamForIndex( this.getResultClass( ) )!= null )
+				if ( this.streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) )!= null )
 				{
-					Map<String, IIndexSerializer> hashes = this.streamsWrapper.getStreamForIndex( this.getResultClass( ) );
+					Map<String, IIndexSerializer> hashes = this.streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) );
 					for( IIndexSerializer hash : hashes.values( ))
 					{
 						hash.close( );
@@ -373,7 +373,8 @@ public class SimpleResultSet implements IResultIterator
 							colCount,
 							resultSetNameSet,
 							streamsWrapper.getOutputStringTable( this.currResultObj.getResultClass( ) ),
-							streamsWrapper.getStreamForIndex( this.currResultObj.getResultClass( ) ), this.rowCount-1 );
+							streamsWrapper.getStreamForIndex( this.currResultObj.getResultClass( ), handler.getAppContext( ) ),
+							this.rowCount-1 );
 				}
 			}
 			catch ( IOException e )

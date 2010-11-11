@@ -312,7 +312,8 @@ public class CachedResultSet implements IResultIterator
 				streamsWrapper.getStreamForResultClass( ).close( );
 				if ( streamsWrapper.getStreamForDataSet( ) != null )
 				{
-					Map<String, IIndexSerializer> index = streamsWrapper.getStreamForIndex( this.getResultClass( ) );
+					Map<String, IIndexSerializer> index = 
+						streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) );
 					Map<String, StringTable> stringTables = streamsWrapper.getOutputStringTable( this.getResultClass( ) );
 					this.resultSetPopulator.getCache( )
 								.doSave( streamsWrapper.getStreamForDataSet( ),

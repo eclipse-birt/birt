@@ -76,23 +76,23 @@ public class ResultSetUtil
 				Object candidate = resultObject.getFieldValue( i );
 				if ( currIndex != null )
 				{
-					if ( currIndex instanceof SerializableBirtHash )
-					{
-						SerializableBirtHash hashIndex = (SerializableBirtHash) currIndex;
-						if ( hashIndex.containsKey( candidate ) )
-						{
-							( (List) hashIndex.get( candidate ) ).add( rowIndex );
-						}
-						else
-						{
-							List<Integer> rowIdList = new ArrayList<Integer>( );
-							rowIdList.add( rowIndex );
-							currIndex.put( candidate, rowIdList );
-						}
-						IOUtil.writeObject( tempDos,
-								hashIndex.getKeyValue( candidate ) );
-					}
-					else if ( currIndex instanceof SerializableDataSetNumberIndex )
+//					if ( currIndex instanceof SerializableBirtHash )
+//					{
+//						SerializableBirtHash hashIndex = (SerializableBirtHash) currIndex;
+//						if ( hashIndex.containsKey( candidate ) )
+//						{
+//							( (List) hashIndex.get( candidate ) ).add( rowIndex );
+//						}
+//						else
+//						{
+//							List<Integer> rowIdList = new ArrayList<Integer>( );
+//							rowIdList.add( rowIndex );
+//							currIndex.put( candidate, rowIdList );
+//						}
+//						IOUtil.writeObject( tempDos,
+//								hashIndex.getKeyValue( candidate ) );
+//					}
+//					else if ( currIndex instanceof SerializableDataSetNumberIndex )
 					{
 						currIndex.put( candidate, rowIndex );
 						IOUtil.writeObject( tempDos, candidate );
