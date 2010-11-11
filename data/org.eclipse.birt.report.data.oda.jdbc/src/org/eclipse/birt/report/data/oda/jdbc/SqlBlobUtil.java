@@ -72,7 +72,7 @@ public class SqlBlobUtil
 			{
 				while ( ( b = inputStream.read( ) ) != -1 )
 				{
-					byteList.add( new Integer( b ) );
+					byteList.add( Integer.valueOf( b ) );
 				}
 				inputStream.close( );
 			}

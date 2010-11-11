@@ -86,7 +86,7 @@ public final class SPParameterPositionUtil
 			else if ( i == '(' )
 			{
 				if ( readNextBracket( reader ) )
-					result.add( new Integer( nextPosition ) );
+					result.add( Integer.valueOf( nextPosition ) );
 			}
 			else if ( i == ',' )
 			{
@@ -94,7 +94,7 @@ public final class SPParameterPositionUtil
 			}
 			else if ( i == '?' )
 			{
-				result.add( new Integer( nextPosition ) );
+				result.add( Integer.valueOf( nextPosition ) );
 			}
 		}
 		position = new int[result.size( )];

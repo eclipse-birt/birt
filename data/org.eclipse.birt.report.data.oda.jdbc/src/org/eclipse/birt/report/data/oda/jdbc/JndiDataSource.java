@@ -229,25 +229,41 @@ class JndiDataSource implements IConnectionFactory
             return null;
         
         Properties jndiProps = new Properties();
-        try
-        {
-            jndiProps.load( new FileInputStream( jndiPropFile ) );
-        }
-        catch( Exception ex )
-        {
-            // log and ignore exception
-            if( sm_logger.isLoggable( Level.INFO ) )
-                sm_logger.info( "getDriverJndiProperties(): " + ex.toString() ); //$NON-NLS-1$
-            jndiProps = null;
-        }
-        
-        if( sm_logger.isLoggable( Level.CONFIG ) )
-        {
-            int propertyCount = ( jndiProps == null ) ? 0 : jndiProps.size();
-            sm_logger.config( "Driver JNDI property count: " + propertyCount ); //$NON-NLS-1$
-        }
-        
-        return jndiProps;
+		FileInputStream inputStream = null;
+		try
+		{
+			inputStream = new FileInputStream( jndiPropFile );
+			jndiProps.load( inputStream );
+		}
+		catch ( Exception ex )
+		{
+			// log and ignore exception
+			if ( sm_logger.isLoggable( Level.INFO ) )
+				sm_logger.info( "getDriverJndiProperties(): " + ex.toString( ) ); //$NON-NLS-1$
+			jndiProps = null;
+		}
+		
+		if ( inputStream != null )
+		{
+			try
+			{
+				inputStream.close( );
+			}
+			catch ( IOException e )
+			{
+				if ( sm_logger.isLoggable( Level.INFO ) )
+					sm_logger.info( "getDriverJndiProperties(): " + e.toString( ) ); //$NON-NLS-1$
+				inputStream = null;
+			}
+		}
+
+		if ( sm_logger.isLoggable( Level.CONFIG ) )
+		{
+			int propertyCount = ( jndiProps == null ) ? 0 : jndiProps.size( );
+			sm_logger.config( "Driver JNDI property count: " + propertyCount ); //$NON-NLS-1$
+		}
+
+		return jndiProps;
     }
     
     /**

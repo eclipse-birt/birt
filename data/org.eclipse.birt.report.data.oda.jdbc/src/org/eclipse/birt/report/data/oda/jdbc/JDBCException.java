@@ -193,21 +193,21 @@ public class JDBCException extends OdaException
 		assert sqlException != null;
 		
 		// SQL Exception may be chained. Need to get all exception messages
-		String msg = new String();
-		
+		StringBuffer msg = new StringBuffer( );
+
 		SQLException e = sqlException;
 		int count = 1;
 		while ( e != null )
 		{
-			msg += ("SQL error #") + count + ": " + e.getLocalizedMessage() + "\n";
-			
+			msg.append( "SQL error #" ).append( count ).append( ":" ).append( e.getLocalizedMessage( ) ).append( "\n" ); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+
 			if ( ++count > 50 )
 			{
 				// Programmer's paranoia; don't get stuck in a loop
 				break;
 			}
-			e = e.getNextException();
+			e = e.getNextException( );
 		}
-		return msg;
+		return msg.toString( );
 	}
 }

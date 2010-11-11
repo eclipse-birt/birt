@@ -102,6 +102,11 @@ public abstract class BidiSQLTransform implements ISQLSyntax
 			return o instanceof ImplementedRule
 					&& comparator.compare( this, (ImplementedRule) o ) == 0;
 		}
+		
+		public int hashCode( )
+		{
+			return this.action.hashCode( ) * 11 + startOffset + endOffset;
+		}
 
 		boolean isValid( int offset )
 		{

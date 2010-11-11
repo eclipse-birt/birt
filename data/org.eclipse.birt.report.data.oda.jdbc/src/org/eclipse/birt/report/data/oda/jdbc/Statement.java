@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -1053,7 +1054,7 @@ class DBConfig
 	 */
 	public void putPolicy( String driverName, int policy )
 	{
-		driverPolicy.put(driverName, new Integer( policy));
+		driverPolicy.put(driverName, Integer.valueOf( policy));
 	}
 	
 	/**
@@ -1161,7 +1162,8 @@ class SaxParser extends DefaultHandler
 		InputStream is;
 		try
 		{
-			is = new BufferedInputStream( this.dbConfig.getConfigURL( ).openStream( ) );
+			is = new BufferedInputStream( this.dbConfig.getConfigURL( )
+					.openStream( ) );
 			InputSource source = new InputSource( is );
 			source.setEncoding( source.getEncoding( ) );
 			parse.invoke( xmlReader, new Object[]{
@@ -1169,10 +1171,12 @@ class SaxParser extends DefaultHandler
 			} );
 			is.close( );
 		}
-		catch ( Exception e )
+		catch ( IOException e )
 		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
 		}
-		
+
 	}
 
 	/**

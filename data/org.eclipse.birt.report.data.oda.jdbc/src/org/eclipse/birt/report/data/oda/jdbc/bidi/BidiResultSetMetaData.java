@@ -22,14 +22,13 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  *
  */
 public class BidiResultSetMetaData implements IResultSetMetaData {
-	String contentBidiFormatStr;
+	
 	String metadataBidiFormatStr;
 	IResultSetMetaData rsMetaData = null;
 
 	public BidiResultSetMetaData(IResultSetMetaData meta,
 			String contentBidiFormatStr, String metadataBidiFormatStr) {
 		this.rsMetaData = meta;
-		this.contentBidiFormatStr = contentBidiFormatStr;
 		this.metadataBidiFormatStr = metadataBidiFormatStr;
 	}
 
