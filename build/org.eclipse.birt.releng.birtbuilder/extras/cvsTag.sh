@@ -14,8 +14,8 @@ ant -f $SrcDir/fetch_org.eclipse.birt.sdk.xml -propertyfile cvsTag.properties -D
 echo "================== Tagging OSGI feature ONLY =======================" > tagOSGI.log
 ant -f $SrcDir/fetch_org.eclipse.birt.osgi.runtime.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagOSGI.log
 
-# TODO: echo "================== Tagging OSGI CHART feature ONLY =======================" > tagOSGIChart.log
-# TODO: ant -f $SrcDir/fetch_org.eclipse.birt.osgi.runtime.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagOSGI.log
+echo "================== Tagging OSGI CHART feature ONLY =======================" > tagOSGIChart.log
+ant -f $SrcDir/fetch_org.eclipse.birt.chart.osgi.runtime.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagOSGI.log
 
 echo "================== Tagging tests feature =======================" > tagTest.log
 ant -f $SrcDir/fetch_org.eclipse.birt.tests.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagTest.log
