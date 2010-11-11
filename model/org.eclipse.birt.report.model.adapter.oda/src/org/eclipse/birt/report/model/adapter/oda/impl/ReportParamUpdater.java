@@ -3,6 +3,7 @@ package org.eclipse.birt.report.model.adapter.oda.impl;
 
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -246,10 +247,12 @@ class ReportParamUpdater
 
 		// update value type
 		String valueType = DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC;
-		if ( valueQuery != null && valueQuery.isEnabled( ) )
+		if ( ( valueQuery != null && valueQuery.isEnabled( ) )
+				|| ( reportParam.getContainer( ) != null && reportParam
+						.getContainer( ) instanceof CascadingParameterGroupHandle ) )
 			valueType = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC;
 				
-		reportParam	.setValueType( valueType );
+		reportParam.setValueType( valueType );
 		
 		InputElementUIHints inputElementUIHints = attrs.getUiHints( );
 		processInputElementUIHints( inputElementUIHints );

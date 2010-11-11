@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
@@ -94,12 +95,14 @@ abstract class AbstractReportParameterAdapter
 	 *            the report parameter
 	 * @param dataSetParam
 	 *            the data set parameter
+	 * @param updateDefaultValue 
+	 * 			  the flag which indicates if the default value need to be forced updated.
 	 * @throws SemanticException
 	 */
 
 	protected void updateLinkedReportParameterFromROMParameter(
 			AbstractScalarParameterHandle reportParam,
-			OdaDataSetParameterHandle dataSetParam ) throws SemanticException
+			OdaDataSetParameterHandle dataSetParam, boolean updateDefaultValue ) throws SemanticException
 	{
 		assert reportParam != null;
 
@@ -116,7 +119,8 @@ abstract class AbstractReportParameterAdapter
 		{
 			dataSetParam.setParamName( reportParam.getName( ) );						
 		}
-		setROMDefaultValue( reportParam, defaultValue );
+		if ( updateDefaultValue )					
+			setROMDefaultValue( reportParam, defaultValue );
 	}
 
 	/**
@@ -450,7 +454,11 @@ abstract class AbstractReportParameterAdapter
 		boolean isEnabled = ( valueQuery == null )
 				? false
 				: valueQuery.isEnabled( );
-				
+		
+		if ( reportParam.getContainer( ) != null && reportParam
+					.getContainer( ) instanceof CascadingParameterGroupHandle )
+			isEnabled = true;
+		
 		if ( cachedValueQuery == null || cachedValueQuery.isEnabled( ) != isEnabled )
 		{
 			if ( isEnabled )
