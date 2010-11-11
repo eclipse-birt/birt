@@ -891,6 +891,23 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 		{
 			( (ReportElementEditPart) list.get( i ) ).refreshChildren( );
 		}
+		if (!adapter.layoutCheck( ))
+		{
+			EditPart part = getParent( );
+			removeGuideFeedBack( );
+			((ReportElementEditPart)part).removeChild( this );
+			part.refresh( );
+//			getViewer( ).getControl( ).getDisplay( ).asyncExec( new Runnable()
+//			{
+//				public void run( )
+//				{
+//					
+//					
+//					//((GraphicalEditPart)part).getFigure( ).repaint( );
+//				}
+//				
+//			});
+		}
 	}
 
 	/*

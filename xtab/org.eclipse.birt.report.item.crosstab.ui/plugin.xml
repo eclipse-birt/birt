@@ -471,6 +471,14 @@
             </enablement>
          </adapter>
       </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+         <adapter
+               class="org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabLayoutCheck"
+               id="org.eclipse.birt.report.item.crosstab.ui.crosstabcheck"
+               type="org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ILayoutCheck">
+         </adapter>
+      </adaptable>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
 		<factory 

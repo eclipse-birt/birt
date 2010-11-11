@@ -1770,4 +1770,54 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		LevelViewHandle levelHandle = dimensionHandle.getLevel( levelCount - 1 );
 		return levelHandle;
 	}
+	
+	public boolean layoutCheck()
+	{
+		int rowCount = getRowCount( );
+		int columnCount = getColumnCount( );
+		CrosstabCellAdapter[][] adapters = new CrosstabCellAdapter[rowCount][columnCount];
+		for (int i=0;i<oldModelList.size( ); i++)
+		{
+			CrosstabCellAdapter adapter = (CrosstabCellAdapter)oldModelList.get( i );
+			int rowNumber = adapter.getRowNumber( );
+			int rowSpan = adapter.getRowSpan( );
+			int columnNumber = adapter.getColumnNumber( );
+			int columnSpan = adapter.getColumnSpan( );
+			for (int j=0; j<rowSpan; j++)
+			{
+				int adapterRow = rowNumber + j;
+				if (adapterRow > rowCount)
+				{
+					return false;
+				}
+				for (int k=0; k<columnSpan; k++)
+				{
+					int adapterColumn = columnNumber + k;
+					if (adapterColumn > columnCount)
+					{
+						return false;
+					}
+					if (adapters[adapterRow-1][adapterColumn-1] == null)
+					{
+						adapters[adapterRow-1][adapterColumn-1] = adapter;
+					}
+					else if (adapters[adapterRow-1][adapterColumn-1] != adapter)
+					{
+						return false;
+					}
+				}
+			}
+		}
+		for (int i=0; i<adapters.length;i++)
+		{
+			for (int j=0; j<adapters[i].length; j++)
+			{
+				if (adapters[i][j] == null)
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }

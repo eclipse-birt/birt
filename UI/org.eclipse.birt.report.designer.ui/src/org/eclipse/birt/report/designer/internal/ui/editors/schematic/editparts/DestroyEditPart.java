@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -21,6 +23,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.gef.EditPart;
 import org.eclipse.swt.SWT;
 
 /**
@@ -73,4 +76,43 @@ public class DestroyEditPart extends DummyEditpart
 		return label;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
+	 */
+	public boolean isinterest( Object model )
+	{
+		if ( !( model instanceof DesignElementHandle ) )
+		{
+			return false;
+		}
+		DesignElementHandle handle = (DesignElementHandle) model;
+		while ( handle != null )
+		{
+			if ( getModel( ).equals( handle ) )
+			{
+				return true;
+			}
+			handle = handle.getContainer( );
+		}
+		return super.isinterest( model );
+	}
+	
+	@Override
+	protected void contentChange( Map info )
+	{
+		reload();
+	}
+	
+	@Override
+	protected void propertyChange( Map info )
+	{
+		reload();
+	}
+	
+	private void reload()
+	{
+		EditPart part = getParent( );
+		((ReportElementEditPart)part).removeChild( this );
+		part.refresh( );
+	}
 }
