@@ -13,19 +13,16 @@ package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.DataOutputStream;
 import java.io.OutputStream;
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.index.BTreeIndex;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
-import org.eclipse.birt.data.engine.impl.index.SerializableBirtHash;
-import org.eclipse.birt.data.engine.impl.index.SerializableDataSetNumberIndex;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -109,7 +106,7 @@ public class StreamWrapper
 		Map<String, StringTable> result = new HashMap<String, StringTable>( );
 		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
 		{
-			if ( resultClass.isIndexColumn( i ) || !resultClass.isCompressedColumn( i ) )
+			if ( !resultClass.isCompressedColumn( i ) )
 				continue;
 			Class dataType = resultClass.getFieldValueClass( i );
 			if ( dataType == String.class )
@@ -126,7 +123,7 @@ public class StreamWrapper
 	
 	
 	public Map<String, IIndexSerializer> getStreamForIndex(
-			IResultClass resultClass ) throws DataException
+			IResultClass resultClass, Map appContext ) throws DataException
 	{
 		if ( !this.enableIndexStream )
 			return new HashMap<String, IIndexSerializer>();
@@ -135,68 +132,75 @@ public class StreamWrapper
 			return this.cachedIndex.get( resultClass );
 		Map<String, IIndexSerializer> result = new HashMap<String, IIndexSerializer>( );
 
-
+		int indexColumnCount = 0;
+		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
+		{
+			if ( resultClass.isIndexColumn( i ) )
+				indexColumnCount++;
+		}
 		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
 		{
 			if ( !resultClass.isIndexColumn( i ))
 				continue;
 			Class dataType = resultClass.getFieldValueClass( i );
 			String fieldName = resultClass.getFieldName( i );
-			if ( dataType == String.class )
-			{
-				result.put( fieldName, new SerializableBirtHash( "Index/"
-						+ fieldName + "/index",
-						"Index/" + fieldName + "/value",
-						manager ) );
-			}
-			else
-			{
-				String indexFileName = "Index/"
-						+ resultClass.getFieldName( i ) + "/numberIndex";
-				if ( dataType == BigDecimal.class )
-				{
-
-					result.put( fieldName,
-							new SerializableDataSetNumberIndex<BigDecimal>( indexFileName,
-									this.manager ) );
-				}
-				else if ( dataType == Integer.class )
-				{
-					result.put( fieldName,
-							new SerializableDataSetNumberIndex<Integer>( indexFileName,
-									this.manager ) );
-				}
-				else if ( dataType == Double.class )
-				{
-					result.put( fieldName,
-							new SerializableDataSetNumberIndex<Double>( indexFileName,
-									this.manager ) );
-				}
-				else if ( dataType == java.util.Date.class )
-				{
-					result.put( fieldName,
-							new SerializableDataSetNumberIndex<java.util.Date>( indexFileName,
-									this.manager ) );
-				}
-				else if ( dataType == java.sql.Date.class )
-				{
-					result.put( fieldName,
-							new SerializableDataSetNumberIndex<java.sql.Date>( indexFileName,
-									this.manager ) );
-				}
-				else if ( dataType == Time.class )
-				{
-					result.put( fieldName,
-							new SerializableDataSetNumberIndex<Time>( indexFileName,
-									this.manager ) );
-				}
-				else if ( dataType == Timestamp.class )
-				{
-					result.put( fieldName,
-							new SerializableDataSetNumberIndex<Timestamp>( indexFileName,
-									this.manager ) );
-				}
-			}
+			long memoryBufferSize = CacheUtil.computeMemoryBufferSize( appContext );
+			result.put( fieldName, new BTreeIndex( memoryBufferSize/indexColumnCount, "Index/" + fieldName + "/btreeIndex", manager, dataType  ) );
+//			if ( dataType == String.class )
+//			{
+//				result.put( fieldName, new SerializableBirtHash( "Index/"
+//						+ fieldName + "/index",
+//						"Index/" + fieldName + "/value",
+//						manager ) );
+//			}
+//			else
+//			{
+//				String indexFileName = "Index/"
+//						+ resultClass.getFieldName( i ) + "/numberIndex";
+//				if ( dataType == BigDecimal.class )
+//				{
+//
+//					result.put( fieldName,
+//							new SerializableDataSetNumberIndex<BigDecimal>( indexFileName,
+//									this.manager ) );
+//				}
+//				else if ( dataType == Integer.class )
+//				{
+//					result.put( fieldName,
+//							new SerializableDataSetNumberIndex<Integer>( indexFileName,
+//									this.manager ) );
+//				}
+//				else if ( dataType == Double.class )
+//				{
+//					result.put( fieldName,
+//							new SerializableDataSetNumberIndex<Double>( indexFileName,
+//									this.manager ) );
+//				}
+//				else if ( dataType == java.util.Date.class )
+//				{
+//					result.put( fieldName,
+//							new SerializableDataSetNumberIndex<java.util.Date>( indexFileName,
+//									this.manager ) );
+//				}
+//				else if ( dataType == java.sql.Date.class )
+//				{
+//					result.put( fieldName,
+//							new SerializableDataSetNumberIndex<java.sql.Date>( indexFileName,
+//									this.manager ) );
+//				}
+//				else if ( dataType == Time.class )
+//				{
+//					result.put( fieldName,
+//							new SerializableDataSetNumberIndex<Time>( indexFileName,
+//									this.manager ) );
+//				}
+//				else if ( dataType == Timestamp.class )
+//				{
+//					result.put( fieldName,
+//							new SerializableDataSetNumberIndex<Timestamp>( indexFileName,
+//									this.manager ) );
+//				}
+//			}
 		}
 		this.cachedIndex.put( resultClass, result );
 		return result;

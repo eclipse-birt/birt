@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -167,6 +168,13 @@ public class StreamManager
 		}
 		return outputStream;
 	}
+	
+	public String getOutStreamName( String streamSubName ) throws DataException
+	{
+		StreamID streamID = getStreamID( 0, ROOT_STREAM, BASE_SCOPE);
+		return "/" + streamID.getStartStream( ) + "/" + streamSubName;
+	}
+	
 	/**
 	 * @param streamType
 	 * @param streamPos
@@ -293,6 +301,15 @@ public class StreamManager
 		{
 			return this.getMetaManager( streamID, streamType ).getRAInputStream( streamType );
 		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public IDocArchiveWriter getDocWriter( )
+	{
+		return context.getDocWriter( );
 	}
 	
 	/**
