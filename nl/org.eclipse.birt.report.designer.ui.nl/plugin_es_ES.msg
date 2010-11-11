@@ -61,4 +61,4 @@ ActionSet.Publish=Publicar
 Dummy.label=
 preference.classpath=Classpath
 
-parameter.actions=New Report &Parameter
+parameter.actions=Nuevo &parámetro de informe

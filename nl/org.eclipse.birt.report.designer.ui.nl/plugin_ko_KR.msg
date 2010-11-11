@@ -61,4 +61,4 @@ ActionSet.Publish=게시
 Dummy.label=
 preference.classpath=클래스 경로
 
-parameter.actions=New Report &Parameter
+parameter.actions=새 보고서 매개 변수(&P)

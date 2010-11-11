@@ -61,4 +61,4 @@ ActionSet.Publish=Veröffentlichen
 Dummy.label=
 preference.classpath=Klassenpfad
 
-parameter.actions=New Report &Parameter
+parameter.actions=Neuer Bericht&parameter
