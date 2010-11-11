@@ -898,7 +898,7 @@ public class ChartCubeQueryHelper
 		{
 			filters = getCubeFiltersFromHandle( handle );
 		}
-		for ( FilterConditionElementHandle filterCon : filters )
+		Outside: for ( FilterConditionElementHandle filterCon : filters )
 		{
 			// clean up first
 			levels.clear( );
@@ -937,7 +937,7 @@ public class ChartCubeQueryHelper
 						{
 							// Top and Bottom are not supported in fact table of
 							// data engine
-							break;
+							break Outside;
 						}
 
 						// If filter expression is not used as dimension or
