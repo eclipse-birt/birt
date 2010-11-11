@@ -898,7 +898,7 @@ public class ChartCubeQueryHelper
 		{
 			filters = getCubeFiltersFromHandle( handle );
 		}
-		for ( FilterConditionElementHandle filterCon : filters )
+		Outside: for ( FilterConditionElementHandle filterCon : filters )
 		{
 			// clean up first
 			levels.clear( );
@@ -936,8 +936,8 @@ public class ChartCubeQueryHelper
 								|| DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT.equals( operator ) )
 						{
 							// Top and Bottom are not supported in fact table of
-							// data engine
-							break;
+							// data engine, ignore this filter
+							continue Outside;
 						}
 
 						// If filter expression is not used as dimension or
