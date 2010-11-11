@@ -177,19 +177,6 @@ public class SampleDbSelectionPageHelper
 			m_propertyPage.setMessage( message );
 	}
 
-	/**
-	 * set message
-	 * @param message
-	 * @param type
-	 */
-	private void setMessage( String message, int type )
-	{
-		if ( m_wizardPage != null )
-			m_wizardPage.setMessage( message, type );
-		else if ( m_propertyPage != null )
-			m_propertyPage.setMessage( message, type );
-	}
-    
     private Control getControl()
     {
         if ( m_wizardPage != null )
