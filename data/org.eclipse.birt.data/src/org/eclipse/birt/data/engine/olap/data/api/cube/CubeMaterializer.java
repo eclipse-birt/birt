@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
+import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
@@ -30,7 +31,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Hierarchy;
-import org.eclipse.birt.data.engine.olap.data.util.TempPathManager;
 
 /**
  * 
@@ -65,7 +65,7 @@ public class CubeMaterializer
 	{
 		this.dataEngine = dataEngine;
 		setShutdownListener( );
-		TempPathManager.setTempPath( dataEngine.getSession( ).getTempDir( ) );
+		DataEngineThreadLocal.getInstance( ).getPathManager( ).setTempPath( dataEngine.getSession( ).getTempDir( ) );
 		documentManager = DocumentManagerFactory.createFileDocumentManager( dataEngine.getSession( ).getTempDir( ), managerName, cacheSize );
 		if ( this.dataEngine != null )
 		{

@@ -32,12 +32,12 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
-import org.eclipse.birt.data.engine.olap.data.util.TempPathManager;
 
 /**
  * Disk cache implementation of ResultSetCache
@@ -260,7 +260,7 @@ public class DiskCache implements ResultSetCache
 	private void initCache( )
 	{
 		needCache = true;
-		TempPathManager.setTempPath( this.session.getTempDir( ) );
+		DataEngineThreadLocal.getInstance( ).getPathManager( ).setTempPath( this.session.getTempDir( ) );
 		cache = new BufferedStructureArray( SimpleCachedObject.getCreator( ), 0 );
 	}
 

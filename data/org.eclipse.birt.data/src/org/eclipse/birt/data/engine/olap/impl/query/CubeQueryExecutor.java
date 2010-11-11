@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -46,7 +47,6 @@ import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
-import org.eclipse.birt.data.engine.olap.data.util.TempPathManager;
 import org.eclipse.birt.data.engine.olap.util.ComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
@@ -98,7 +98,7 @@ public class CubeQueryExecutor
 		this.scope = scope;
 		this.context = context;
 		this.session = session;
-		TempPathManager.setTempPath( session.getTempDir( ) );
+		DataEngineThreadLocal.getInstance( ).getPathManager( ).setTempPath( session.getTempDir( ) );
 		this.outResults = outResults;
 		this.dimensionFilterEvalHelpers = new ArrayList<IJSFilterHelper> ();
 		this.dimensionSimpleFilter = new ArrayList<SimpleLevelFilter> ();
@@ -317,7 +317,7 @@ public class CubeQueryExecutor
 			{
 				if( existAggregationBinding( bindingName, this.defn.getBindings( ) ) )
 					return CubeQueryExecutor.AGGR_MEASURE_FILTER;
-				
+			
 				Set targetDimLevel = OlapExpressionCompiler.getReferencedDimLevel( filter.getExpression( ), this.defn.getBindings( ) );
 				if( !targetDimLevel.isEmpty( )&& targetDimLevel.size() == 1 )
 				{
