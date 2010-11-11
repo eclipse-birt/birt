@@ -430,7 +430,6 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 		if ( rsColumnMap != null
 				&& oldName != null && rsColumnMap.get( oldName ) != null )
 		{
-			ResultSetColumn rsColumn = (ResultSetColumn)rsColumnMap.get( oldName );
 			String newName = column.getColumnName( );
 			if ( !oldName.equals( newName ) )
 			{
@@ -587,7 +586,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 			while ( iter.hasNext( ) )
 			{
 				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
-				column.setPosition( new Integer( position++ ) );
+				column.setPosition( Integer.valueOf( position++ ) );
 			}
 		}
 	}
@@ -690,9 +689,11 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 						validate = false;
 						getContainer( ).setMessage( Messages.getFormattedString( "dataset.editor.error.columnOrAliasNameAlreadyUsed", //$NON-NLS-1$
 								new Object[]{
-										newColumnNameOrAlias,
-										n>i?new Integer( i + 1 ):new Integer( n + 1 ),
-										n>i?new Integer( n + 1 ):new Integer( i + 1 )
+								newColumnNameOrAlias,
+										n > i ? Integer.valueOf( i + 1 )
+												: Integer.valueOf( n + 1 ),
+										n > i ? Integer.valueOf( n + 1 )
+												: Integer.valueOf( i + 1 )
 								} ),
 								IMessageProvider.ERROR );
 						break;
@@ -812,7 +813,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	 * @author lzhu
 	 *
 	 */
-	private class ColumnHandles
+	private static class ColumnHandles
 	{
 		private PropertyHandle rsColumnHandle;
 		private PropertyHandle chHandle;
@@ -859,7 +860,7 @@ public class OutputColumnDefnPage extends AbstractDescriptionPropertyPage
 	 * @author lzhu
 	 *
 	 */
-	protected class ColumnDefn
+	protected static class ColumnDefn
 	{
 
 		private ResultSetColumnHandle rsColumnHandle;

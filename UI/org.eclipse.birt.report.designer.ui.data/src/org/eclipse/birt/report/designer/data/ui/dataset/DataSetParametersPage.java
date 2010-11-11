@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IParameterMetaData;
 import org.eclipse.birt.data.engine.impl.ParameterMetaData;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
@@ -31,7 +32,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage;
@@ -93,7 +93,6 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.internal.UIPlugin;
 import org.eclipse.ui.internal.Workbench;
 
 /**
@@ -122,6 +121,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	protected static final char RENAME_SEPARATOR = '_';
 	protected static final String PARAM_PREFIX = "param" + RENAME_SEPARATOR; //$NON-NLS-1$
 	
+	protected int yesCode = 256;
 
 	/**
 	 * constructor
@@ -475,7 +475,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		int position = viewer.getViewer( ).getTable( ).getItemCount( );
 		newParam.setName( getUniqueName( ) );
 		newParam.setIsInput( true );
-		newParam.setPosition( new Integer( position + 1 ) );
+		newParam.setPosition( Integer.valueOf( position + 1 ) );
 
 		CommandStack stack = Utility.getCommandStack( );
 		stack.startTrans( Messages.getString( "DataSetParameterBindingInputDialog.Title.NewParameter" ) ); //$NON-NLS-1$
@@ -493,7 +493,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			refreshLinkedReportParamStatus( );
 			stack.commit( );
 			
-			String bindedReportParameterName = Messages.getString( "DataSetParametersPage.reportParam.None" );
+			String bindedReportParameterName = dlg.bindedReportParameterName;
 			boolean newParams = true;
 
 			for ( int i = 0; i < paramNames.length; i++ )
@@ -536,6 +536,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 					adapter.updateLinkedReportParameter( reportParameter,
 							datasetParameter,
 							( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
+					if ( reportParameter.getContainer( ) != null
+							&& reportParameter.getContainer( ) instanceof CascadingParameterGroupHandle )
+						reportParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
+					reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
 				}
 				catch ( SemanticException e )
 				{
@@ -569,9 +573,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	{
 		boolean setting = ReportPlugin.getDefault( )
 				.getPluginPreferences( )
-				.getBoolean( DateSetPreferencePage.PROMPT_PARAM_UPDATE );
+				.getBoolean( DateSetPreferencePage.PROMPT_ENABLE );
 
-		if ( setting )
+		if ( !setting )
 		{
 			return;
 		}
@@ -585,56 +589,84 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			if ( datasetParameter != null
 					&& datasetParameter.getParamName( ) != null )
 			{				
-				MessageDialog dialog = new MessageDialog(
-						Workbench.getInstance( )
+				MessageDialogWithToggle dialog = new MessageDialogWithToggle( Workbench.getInstance( )
 						.getDisplay( )
 						.getActiveShell( ),
 						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
 						null,
 						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
-						MessageDialog.QUESTION, 
+						MessageDialog.INFORMATION,
 						new String[]{
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
-						}, 
-						1) ;
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
+						},
+						1,
+						Messages.getString( "DataSetParameterPage.updateReportParameter.propmtText" ),
+						false );
 				
 				dialog.open( );
 				
-				if ( dialog.getReturnCode( ) == MessageDialog.OK )
+				if ( dialog.getReturnCode( ) == yesCode
+						&& ( !dialog.getToggleState( ) ) )
 				{
 					updateReportParameterValue( index,
 							bindedReportParameterName );
 				}
+
+				if ( dialog.getToggleState( ) )
+				{
+					ReportPlugin.getDefault( )
+							.getPluginPreferences( )
+							.setValue( DateSetPreferencePage.PROMPT_ENABLE,
+									false );
+				}
 			}
-			else if ( datasetParameter.getParamName( ) == null
+			else if ( datasetParameter != null
+					&& datasetParameter.getParamName( ) == null
 					&& ( !bindedReportParameterName.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) ) )
 			{
-				MessageDialog dialog = new MessageDialog(
-						Workbench.getInstance( )
+				MessageDialogWithToggle dialog = new MessageDialogWithToggle( Workbench.getInstance( )
 						.getDisplay( )
 						.getActiveShell( ),
 						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
 						null,
 						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
-						MessageDialog.QUESTION, 
+						MessageDialog.INFORMATION,
 						new String[]{
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
-						}, 
-						1) ;
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
+						},
+						1,
+						Messages.getString( "DataSetParameterPage.updateReportParameter.propmtText" ),
+						false );
 
 				dialog.open( );
 
-				if ( dialog.getReturnCode( ) == MessageDialog.OK )
+				if ( dialog.getReturnCode( ) == yesCode )
 				{
 					ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( bindedReportParameterName,
 							false );
 
 					if ( reportParameter != null )
 					{
-						updateReportParameterValue( index, bindedReportParameterName );
+						try
+						{
+							reportParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
+							reportParameter.setControlType( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX );
+							reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
+						}
+						catch ( SemanticException e )
+						{
+						}
 					}
+				}
+				
+				if ( dialog.getToggleState( ) )
+				{
+					ReportPlugin.getDefault( )
+							.getPluginPreferences( )
+							.setValue( DateSetPreferencePage.PROMPT_ENABLE,
+									false );
 				}
 			}
 		}
@@ -659,14 +691,14 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		ParameterInputDialog dlg = new ParameterInputDialog( handle,
 				isOdaDataSetHandle );
 
-		String bindedReportParameterName = ((OdaDataSetParameterHandle)handle).getParamName( );
-		if( bindedReportParameterName == null)
-			bindedReportParameterName = Messages.getString( "DataSetParametersPage.reportParam.None" );
 		if ( dlg.open( ) == Window.OK )
 		{
-			viewer.getViewer( ).refresh( );	
+			viewer.getViewer( ).refresh( );
+
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
+
+			String bindedReportParameterName = dlg.bindedReportParameterName;
 			
 			boolean newParam = true;
 			
@@ -681,7 +713,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			
 			if ( !newParam )
 				updateReportParameter( index, bindedReportParameterName );
-	
 			stack.commit( );
 		}
 		else
@@ -840,11 +871,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	 */
 	private void refreshParameters( )
 	{
+		DataSetHandle ds = ( (DataSetHandle) getContainer( ).getModel( ) );
+		Collection paramsFromDataSet = null;
+
 		try
 		{
-			DataSetHandle ds = ( (DataSetHandle) getContainer( ).getModel( ) );
-			Collection paramsFromDataSet = null;
-
 			paramsFromDataSet = DataSetProvider.getCurrentInstance( )
 					.getParametersFromDataSet( ds );
 
@@ -910,8 +941,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			setPageProperties( );
 			refreshMessage( );
 		}
-		catch ( Exception e )
+		catch ( BirtException e )
 		{
+			ExceptionHandler.handle( e );
 		}
 	}
 
@@ -932,7 +964,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				( (OdaDataSetParameter) parameter ).setNativeName( ( (ParameterMetaData) paramFromDataSet ).getNativeName( ) );
 			}
 			if ( "REF CURSOR".equals( paramFromDataSet.getNativeTypeName( ) ) ) //$NON-NLS-1$
-				parameter.setNativeDataType( new Integer( -10 ) );
+				parameter.setNativeDataType( Integer.valueOf( -10 ) );
 		}
 		else
 			parameter = new DataSetParameter( );
@@ -976,7 +1008,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			parameter.setName( getUniqueName( ) );
 		else
 			parameter.setName( paramFromDataSet.getName( ) );
-		parameter.setPosition( new Integer( paramFromDataSet.getPosition( ) ) );
+		parameter.setPosition( Integer.valueOf( paramFromDataSet.getPosition( ) ) );
 		return parameter;
 	}
 
@@ -1129,20 +1161,20 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 								&& ( parameter.getPosition( ) == null || parameter.getPosition( )
 										.intValue( ) != position ) )
 						{
-							parameter.setPosition( new Integer( position ) );
+							parameter.setPosition( Integer.valueOf( position ) );
 						}
 						else if ( hasNativeName
 								&& parameter.getPosition( ) != null
 								&& parameter.getPosition( ).intValue( ) > 0
 								&& parameter.getPosition( ).intValue( ) != position )
 						{
-							parameter.setPosition( new Integer( position ) );
+							parameter.setPosition( Integer.valueOf( position ) );
 						}
 						position++;
 					}
 					else
 					{
-						parameter.setPosition( new Integer( position++ ) );
+						parameter.setPosition( Integer.valueOf( position++ ) );
 					}
 				}
 			}
@@ -1401,7 +1433,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			IStructuredContentProvider
 	{
 
-		private final String separator = "::"; //$NON-NLS-1$
+		private static final String separator = "::"; //$NON-NLS-1$
 
 		/*
 		 * @see
@@ -1617,11 +1649,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	private class ParameterViewLableProvider implements ITableLabelProvider
 	{
 
-		private DataSetHandle dataSetHandle;
-
 		public ParameterViewLableProvider( DataSetHandle dataSetHandle )
 		{
-			this.dataSetHandle = dataSetHandle;
 		}
 
 		/*
@@ -1924,7 +1953,9 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		private boolean inputChanged = modelChanged,
 				isOdaDataSetHandle = false;
 		private Button parameterButton;
-	
+		
+		public String bindedReportParameterName = null;
+
 		protected ParameterInputDialog( Object structureOrHandle,
 				boolean isOdaDataSetHandle )
 		{
@@ -2087,21 +2118,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 			} );
 
-			SelectionAdapter listener = new SelectionAdapter( ) {
-
-				public void widgetSelected( SelectionEvent event )
-				{
-					ExpressionBuilder expressionBuilder = new ExpressionBuilder( defaultValueText.getText( ) );
-					expressionBuilder.setExpressionProvier( null );
-
-					if ( expressionBuilder.open( ) == OK )
-					{
-						defaultValueText.setText( expressionBuilder.getResult( )
-								.trim( ) );
-					}
-				}
-			};
-
 			ExpressionProvider provider = new ExpressionProvider( (DataSetHandle) getContainer( ).getModel( ) );
 			ExpressionButtonUtil.createExpressionButton( defaultValueComposite,
 					defaultValueText,
@@ -2225,7 +2241,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 			checkParameterButtonTooltip( );
 			
-			//bindedReportParameterName = linkToSalarParameter.getText( );
+			bindedReportParameterName = linkToSalarParameter.getText( );
 		}
 
 		/*
@@ -2451,7 +2467,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			}
 			
 			checkParameterButtonTooltip( );
-			//bindedReportParameterName = linkToSalarParameter.getText( );
+			bindedReportParameterName = linkToSalarParameter.getText( );
 		}
 
 		private void checkParameterButtonTooltip( )

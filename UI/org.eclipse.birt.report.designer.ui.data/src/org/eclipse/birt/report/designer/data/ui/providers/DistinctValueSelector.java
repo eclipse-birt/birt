@@ -76,11 +76,12 @@ public class DistinctValueSelector
 		try
 		{
 
-			if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
+			if ( dataSetHandle != null
+					&& ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle ) )
 			{
 				ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
 						.copy( ).getHandle( null ) );
-				
+
 				EngineConfig config = new EngineConfig( );
 
 				config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -93,7 +94,7 @@ public class DistinctValueSelector
 						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
 						copy );
 				session = engineTask.getDataSession( );
-				
+
 				engineTask.run( );
 
 				expr = session.getModelAdaptor( ).adaptExpression( expression );
@@ -130,14 +131,19 @@ public class DistinctValueSelector
 			String columnName = "TEMP_" + expression.getStringExpression( );
 			handle.setExpression( ExpressionUtil.createJSDataSetRowExpression( dataSetColumnName ) );
 			handle.setName( columnName );
-			String dataType = findColumnDataType( dataSetHandle,
-					dataSetColumnName );
+			String dataType = null;
+			if ( dataSetHandle != null )
+				dataType = findColumnDataType( dataSetHandle, dataSetColumnName );
+			
 			if ( dataType != null )
 				handle.setDataType( dataType );
 
 			bindingList.add( handle );
 			AppContextPopulator.populateApplicationContext( dataSetHandle, session );
 
+			if( dataSetHandle == null )
+				return Collections.EMPTY_LIST;
+			
 			Collection result = session.getColumnValueSet( dataSetHandle,
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
 							.iterator( ),
@@ -160,7 +166,7 @@ public class DistinctValueSelector
 		}
 		finally
 		{
-			if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
+			if ( dataSetHandle != null && dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
 			{
 				if ( engineTask != null )
 				{
@@ -216,7 +222,8 @@ public class DistinctValueSelector
 
 		Collection result = null;
 		DataRequestSession session = null;
-		if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
+		if ( dataSetHandle != null
+				&& ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle ) )
 		{
 			EngineConfig config = new EngineConfig( );
 
@@ -236,8 +243,9 @@ public class DistinctValueSelector
 
 			session = engineTask.getDataSession( );
 
-			AppContextPopulator.populateApplicationContext( dataSetHandle, session );
-			
+			AppContextPopulator.populateApplicationContext( dataSetHandle,
+					session );
+
 			engineTask.run( );
 			result = session.getColumnValueSet( dataSetHandle,
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
@@ -251,13 +259,13 @@ public class DistinctValueSelector
 			engineTask.close( );
 			engine.destroy( );
 		}
-		else
+		else if ( dataSetHandle != null )
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					dataSetHandle == null ? null
-							: dataSetHandle.getModuleHandle( ) ) );
+					dataSetHandle.getModuleHandle( ) ) );
 
-			AppContextPopulator.populateApplicationContext( dataSetHandle, session );
+			AppContextPopulator.populateApplicationContext( dataSetHandle,
+					session );
 
 			result = session.getColumnValueSet( dataSetHandle,
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )

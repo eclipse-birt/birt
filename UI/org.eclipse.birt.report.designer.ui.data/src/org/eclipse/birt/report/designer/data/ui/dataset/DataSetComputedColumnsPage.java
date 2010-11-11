@@ -702,7 +702,9 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 					{
 						computedColumn = (ComputedColumn) ( (ComputedColumnHandle) obj ).getStructure( );
 					}
-					if ( items[i].getName( ).equals( computedColumn.getName( ) ) )
+					if ( computedColumn != null
+							&& items[i].getName( )
+									.equals( computedColumn.getName( ) ) )
 					{
 						exist = true;
 					}
@@ -808,7 +810,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 	/**
 	 * 
 	 */
-	protected class DummyParamDefn implements IParameterDefn
+	protected static class DummyParamDefn implements IParameterDefn
 	{
 		String name;
 		String displayName;
@@ -1066,7 +1068,7 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			for ( int i = 0; i < dataTypeDisplayNames.length; i++ )
 			{
 				String name = (String) indexMap.get( dataTypeDisplayNames[i] );
-				cmbDataType.setData( name, new Integer( i ) );
+				cmbDataType.setData( name, Integer.valueOf( i ) );
 			}
 		}
 
@@ -1085,11 +1087,12 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			cmbAggregation.setLayoutData( ControlProvider.getGridDataWithHSpan( 2 ) );
 			cmbAggregation.setVisibleItemCount( 30 );
 			cmbAggregation.add( BLANK ); 
-			cmbAggregation.setData( BLANK, new Integer( 0 ) );
+			cmbAggregation.setData( BLANK, Integer.valueOf( 0 ) );
 			for ( int i = 0; i < functions.length; i++ )
 			{
 				cmbAggregation.add( functions[i].getDisplayName( ) );
-				cmbAggregation.setData( functions[i].getName( ), new Integer( i + 1 ) );
+				cmbAggregation.setData( functions[i].getName( ),
+						Integer.valueOf( i + 1 ) );
 			}
 
 			String aggrFuncName = (String) getProperty( getStructureOrHandle( ),

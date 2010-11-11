@@ -129,7 +129,6 @@ public class JointDataSetPage extends WizardPage
 	final private static String TEXT_RIGHTJOIN = Messages.getString( "JointDataSetPage.button.rightJoin" );//$NON-NLS-1$
 	final private static String TEXT_FULLJOIN = Messages.getString( "JointDataSetPage.button.fullJoin" );//$NON-NLS-1$
 
-	private static String DEFAULT_MESSAGE = Messages.getString( "JointDataSetPage.page.detail" ); //$NON-NLS-1$
 	private String joinType;
 
 	final private static int LEFT_DATASET = 0;
@@ -922,7 +921,7 @@ public class JointDataSetPage extends WizardPage
 	 * Provider class for comboViewer to view the list of data sets
 	 * 
 	 */
-	class DataSetComboProvider
+	static class DataSetComboProvider
 			implements
 				IStructuredContentProvider,
 				ILabelProvider
@@ -1008,7 +1007,7 @@ public class JointDataSetPage extends WizardPage
 	 * Provider class for listViewer to list the column items from data set
 	 * 
 	 */
-	class ColumnProvider implements IStructuredContentProvider, ILabelProvider
+	static class ColumnProvider implements IStructuredContentProvider, ILabelProvider
 	{
 		/*
 		 * (non-Javadoc)
@@ -1254,8 +1253,7 @@ public class JointDataSetPage extends WizardPage
 	{
 		if ( this.propertyPageContainer != null )
 		{
-			DEFAULT_MESSAGE = Messages.getString( "JointDataSetPage.pageName" ); //$NON-NLS-1$
-			setPageMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+			setPageMessage( Messages.getString( "JointDataSetPage.pageName" ), IMessageProvider.NONE );//$NON-NLS-1$
 			JointDataSetHandle handle = (JointDataSetHandle) this.propertyPageContainer.getModel( );
 			if ( !nameEditor.isDisposed( ) )
 				this.nameEditor.dispose( );

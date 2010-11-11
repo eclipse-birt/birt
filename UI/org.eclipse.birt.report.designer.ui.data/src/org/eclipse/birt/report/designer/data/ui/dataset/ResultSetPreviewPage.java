@@ -590,8 +590,10 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 				CellValue cv1 = ( (CellValue[]) e1 )[columnIndex];
 				CellValue cv2 = ( (CellValue[]) e2 )[columnIndex];
 				int result = 0;
-				if ( cv1 == null && cv1 != cv2 )
+				if ( cv1 == null && cv2 != null )
 					result = -1;
+				else if( cv2 == null && cv1 != null )
+					result = 1;
 				else if ( cv1 != null )
 					result = cv1.compareTo( cv2 );
 				if ( !asc )
@@ -864,7 +866,7 @@ final class CellValue implements Comparable
 			return -1;
 		}
 	}
-
+	
 	public String toString( )
 	{
 		return displayValue == null ? "" : displayValue; //$NON-NLS-1$

@@ -698,7 +698,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 				// Check whether the current page can be closed
 				if ( nodes[n].getPage( ) instanceof DataSetParametersPage )
 				{
-					if ( viewer == null && viewer.getTree( ) == null )
+					if ( viewer == null || viewer.getTree( ) == null )
 						return;
 
 					DataSetParametersPage page = (DataSetParametersPage) nodes[n].getPage( );

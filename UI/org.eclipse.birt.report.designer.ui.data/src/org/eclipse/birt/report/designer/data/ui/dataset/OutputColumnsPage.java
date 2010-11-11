@@ -636,7 +636,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 						getContainer( ).setMessage( Messages.getFormattedString( "dataset.editor.error.columnOrAliasNameAlreadyUsed", //$NON-NLS-1$
 								new Object[]{
 										newColumnNameOrAlias,
-										new Integer( n + 1 )
+										Integer.valueOf( n + 1 )
 								} ),
 								IMessageProvider.ERROR );
 
@@ -944,10 +944,6 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		 */
 		protected String getTitle( )
 		{
-			if ( (Object) data instanceof Structure )
-			{
-				return Messages.getString( "OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn" ); //$NON-NLS-1$
-			}
 			return Messages.getString( "OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn" );//$NON-NLS-1$
 		}
 

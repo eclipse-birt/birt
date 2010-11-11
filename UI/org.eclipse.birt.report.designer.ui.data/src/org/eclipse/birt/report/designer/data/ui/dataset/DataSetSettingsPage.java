@@ -392,8 +392,6 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 					String number = numberText.getText( );
 					if ( number.trim( ).length( ) == 0 )
 						number = "0"; //$NON-NLS-1$
-					rsNumber = new Double( number ).intValue( );
-					rsNumber = rsNumber < 0 ? 0 : rsNumber;
 					DataSetSettingsPage.this.numberText = numberText.getText( );
 					getContainer( ).setMessage( DEFAULT_MESSAGE,
 							IMessageProvider.NONE );
