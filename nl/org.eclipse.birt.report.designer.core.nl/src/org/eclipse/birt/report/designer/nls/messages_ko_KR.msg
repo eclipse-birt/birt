@@ -690,7 +690,6 @@ DataSetParameterPage.warning.UnmatchedParamDataType=데이터 집합 매개 변수 형식이
 DataSetParameterPage.multiValuesType=여러 값 유형
 DataSetParameterPage.updateReportParameter.title=보고서 매개 변수 업데이트 설정
 DataSetParameterPage.updateReportParameter.message=데이터 집합 매개 변수 설정을 사용하여 연결된 보고서 매개 변수를 업데이트하시겠습니까?
-DataSetParameterPage.updateReportParameter.propmtText=연결된 보고서 매개 변수를 업데이트하지 마십시오.
 DataSetParameterPage.updateReportParameter.promptButtonYes=예
 DataSetParameterPage.updateReportParameter.promptButtonNo=아니오
 
@@ -914,6 +913,7 @@ designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
 designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
 designer.preview.preference.updateParameter.confirmMessage=업데이트 실행 확인
 designer.preview.preference.updateParameter.confirmButton=결과 집합/매개 변수 디자인 특성을 업데이트할 때마다 항상 확인합니다.
+designer.preview.preference.updateReportParameter.confirmButton=&Never update a linked report parameter and never prompt for confirmation.
 
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기

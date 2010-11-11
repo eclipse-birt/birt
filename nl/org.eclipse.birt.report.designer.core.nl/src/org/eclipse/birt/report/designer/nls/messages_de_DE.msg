@@ -690,7 +690,6 @@ DataSetParameterPage.warning.UnmatchedParamDataType=Parametertyp des Datensatzes
 DataSetParameterPage.multiValuesType=Typ 'Mehrere Werte'
 DataSetParameterPage.updateReportParameter.title=Einstellung zur Aktualisierung der Berichtsparameter
 DataSetParameterPage.updateReportParameter.message=Möchten Sie den Parameter des verknüpften Berichts mit den Einstellungen des Datensatzparameters aktualisieren?
-DataSetParameterPage.updateReportParameter.propmtText=Aktualisieren Sie nie den Parameter des verknüpften Berichts.
 DataSetParameterPage.updateReportParameter.promptButtonYes=Ja
 DataSetParameterPage.updateReportParameter.promptButtonNo=Nein
 
@@ -914,6 +913,7 @@ designer.preview.preference.bidiOrientation.ltr=Von links nach rechts
 designer.preview.preference.bidiOrientation.rtl=Von rechts nach links
 designer.preview.preference.updateParameter.confirmMessage=Aktualisierung bestätigen
 designer.preview.preference.updateParameter.confirmButton=Bei Aktualisierung von Ergebnis-/Parameterdesignattributen immer nach Bestätigung fragen
+designer.preview.preference.updateReportParameter.confirmButton=&Never update a linked report parameter and never prompt for confirmation.
 
 designer.preview.previewaction.label.webviewer=Bericht in Web Viewer anzeigen
 designer.preview.previewaction.label=Bericht als {0} anzeigen
