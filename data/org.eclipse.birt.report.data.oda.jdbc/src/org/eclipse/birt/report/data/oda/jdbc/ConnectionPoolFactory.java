@@ -26,29 +26,26 @@ class ConnectionPoolFactory
 		{
 			synchronized ( ConnectionPoolFactory.class )
 			{
-				if ( mgr_instance == null )
+				Class clazz;
+				try
 				{
-					Class clazz;
+					clazz = Class.forName( "org.eclipse.birt.report.data.oda.jdbc.connectionpool.ConnectionPoolManager" );
+				}
+				catch ( ClassNotFoundException e )
+				{
+					return null;
+				}
+				if ( IConnectionPoolManager.class.isAssignableFrom( clazz ) )
+				{
 					try
 					{
-						clazz = Class.forName( "org.eclipse.birt.report.data.oda.jdbc.connectionpool.ConnectionPoolManager" );
+						mgr_instance = (IConnectionPoolManager) ( clazz.newInstance( ) );
 					}
-					catch ( ClassNotFoundException e )
+					catch ( InstantiationException e )
 					{
-						return null;
 					}
-					if ( IConnectionPoolManager.class.isAssignableFrom( clazz ) )
+					catch ( IllegalAccessException e )
 					{
-						try
-						{
-							mgr_instance = (IConnectionPoolManager) ( clazz.newInstance( ) );
-						}
-						catch ( InstantiationException e )
-						{
-						}
-						catch ( IllegalAccessException e )
-						{
-						}
 					}
 				}
 			}

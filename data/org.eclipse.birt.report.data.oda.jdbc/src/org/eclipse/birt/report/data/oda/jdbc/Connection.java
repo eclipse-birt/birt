@@ -94,30 +94,32 @@ public class Connection implements IConnection
 		// Log connection information
 		if ( logger.isLoggable( Level.FINE ) )
 		{
-			String logMsg = "Connection.open(Properties). connProperties = ";
+			StringBuffer logMsg = new StringBuffer( "Connection.open(Properties). connProperties = " ); //$NON-NLS-1$
 			for ( Enumeration enumeration = connProperties.propertyNames( ); enumeration.hasMoreElements( ); )
 			{
 				String propName = (String) enumeration.nextElement( );
 				// Don't log value of any property that looks like a password
 				String lcPropName = propName.toLowerCase( );
 				String propVal;
-				if ( lcPropName.indexOf( "password" ) >= 0
-						|| lcPropName.indexOf( "pwd" ) >= 0 )
-					propVal = "***";					
+				if ( lcPropName.indexOf( "password" ) >= 0 //$NON-NLS-1$
+						|| lcPropName.indexOf( "pwd" ) >= 0 ) //$NON-NLS-1$
+					propVal = "***"; //$NON-NLS-1$
 				else
 				{
 					propVal = connProperties.getProperty( propName );
-					if ( lcPropName.equals( "odaurl" ) )
+					if ( lcPropName.equals( "odaurl" ) ) //$NON-NLS-1$
 					{
 						propVal = LogUtil.encryptURL( propVal );
 					}
 				}
-				logMsg += propName + "=" + propVal + ";";
+
+				logMsg.append( propName )
+						.append( "=" ).append( propVal ).append( ";" ); //$NON-NLS-1$//$NON-NLS-2$
 			}
 			logger.logp( Level.FINE,
 					Connection.class.getName( ),
-					"open",
-					logMsg );
+					"open", //$NON-NLS-1$
+					logMsg.toString( ) );
 		}
 
 		close( );
@@ -125,11 +127,11 @@ public class Connection implements IConnection
 		String dataSource = connProperties.getProperty( Constants.ODADataSource );
 		if ( dataSource != null )
 		{
-			//TODO connect by DataSource
-			UnsupportedOperationException e = new UnsupportedOperationException( "Oda-jdbc:connect by data source" );
+			// TODO connect by DataSource
+			UnsupportedOperationException e = new UnsupportedOperationException( "Oda-jdbc:connect by data source" ); //$NON-NLS-1$
 			logger.logp( java.util.logging.Level.FINE,
 					Connection.class.getName( ),
-					"open",
+					"open", //$NON-NLS-1$
 					e.getMessage( ),
 					e );
 			throw e;
@@ -423,15 +425,15 @@ public class Connection implements IConnection
 	{
 		logger.logp( java.util.logging.Level.FINE,
 				Connection.class.getName( ),
-				"close",
-				"Connection closed." );
+				"close", //$NON-NLS-1$
+				"Connection closed." ); //$NON-NLS-1$
 		if ( jdbcConn == null )
 		{
 			return;
 		}
 		try
 		{
-			if ( this.appContext != null && ( jdbcConn instanceof java.sql.Connection ) )
+			if ( this.appContext != null && jdbcConn != null )
 			{
 				Object option = this.appContext.get( IConnectionFactory.CLOSE_PASS_IN_CONNECTION );
 				boolean closePassInConnection = ( option instanceof Boolean )
