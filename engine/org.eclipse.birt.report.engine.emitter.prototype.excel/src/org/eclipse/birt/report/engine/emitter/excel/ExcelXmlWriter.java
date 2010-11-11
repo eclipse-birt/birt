@@ -109,7 +109,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		}
 	}
 
-	public class XMLWriterXLS extends XMLWriter
+	public static class XMLWriterXLS extends XMLWriter
 	{
 		protected String encodeText( String text )
 		{

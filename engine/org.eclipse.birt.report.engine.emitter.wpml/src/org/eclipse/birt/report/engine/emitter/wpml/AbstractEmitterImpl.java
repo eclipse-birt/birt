@@ -1274,7 +1274,7 @@ public abstract class AbstractEmitterImpl
 				total );
 	}
 
-	class TocInfo
+	static class TocInfo
 	{
 
 		String tocValue;

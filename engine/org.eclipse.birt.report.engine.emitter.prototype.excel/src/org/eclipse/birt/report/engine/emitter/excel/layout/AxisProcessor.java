@@ -34,13 +34,11 @@ public class AxisProcessor
 		}
 	}
 	
-	public boolean addCoordinateWithoutSort(int value)
+	public boolean addCoordinateWithoutSort( int value )
 	{
-		Integer index = new Integer(value);
-		
-		if(!columnCoordinates.contains( index ))
-		{	
-			columnCoordinates.add(index);
+		if ( !columnCoordinates.contains( value ) )
+		{
+			columnCoordinates.add( value );
 			return true;
 		}
 		return false;

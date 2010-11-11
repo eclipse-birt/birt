@@ -811,7 +811,11 @@ public class PostscriptWriter
 				setFont( displayName, fontSize );
 				return trueTypeWriter.toHexString( text );
 			}
-			catch ( Exception e )
+			catch ( IOException ioe )
+			{
+				log.log( Level.WARNING, "apply font: " + fontName );
+			}
+			catch ( DocumentException de )
 			{
 				log.log( Level.WARNING, "apply font: " + fontName );
 			}
@@ -875,7 +879,11 @@ public class PostscriptWriter
 			String fontPath = trueTypeFonts.getProperty( fontName.toLowerCase( ) );
 			return fontPath;
 		}
-		catch ( Exception e )
+		catch ( IllegalAccessException e )
+		{
+			log.log( Level.WARNING, "font path: " + fontName );
+		}
+		catch ( NoSuchFieldException e )
 		{
 			log.log( Level.WARNING, "font path: " + fontName );
 		}

@@ -306,7 +306,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 		return JavascriptEvalUtil.convertJavascriptValue( jsValue );
 	}
 
-	public void setApplicationClassLoader( ClassLoader appLoader )
+	public void setApplicationClassLoader( final ClassLoader appLoader )
 	{
 		if ( appLoader == null )
 		{
@@ -319,8 +319,15 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 		}
 		catch ( ClassNotFoundException e )
 		{
-			loader = new RhinoClassLoaderDecoration( appLoader, getClass( )
-					.getClassLoader( ) );
+			loader = AccessController
+					.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+
+						public ClassLoader run( )
+						{
+							return new RhinoClassLoaderDecoration( appLoader,
+									JavascriptEngine.class.getClassLoader( ) );
+						}
+					} );
 		}
 		context.setApplicationClassLoader( loader );
 	}

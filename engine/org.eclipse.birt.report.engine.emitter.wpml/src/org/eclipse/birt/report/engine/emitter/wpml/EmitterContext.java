@@ -91,7 +91,7 @@ public class EmitterContext
 
 	public void resetWidth( )
 	{
-		widthList.removeAll( widthList );
+		widthList.clear( );
 	}
 
 	public int getCurrentWidth( )
@@ -157,7 +157,7 @@ public class EmitterContext
 		return width;
 	}
 
-	class TableInfo
+	static class TableInfo
 	{
 
 		private Hashtable<Integer, List<SpanInfo>> spans = new Hashtable<Integer, List<SpanInfo>>( );
@@ -184,7 +184,7 @@ public class EmitterContext
 		{
 			for ( int i = 1; i < rowSpan; i++ )
 			{
-				Integer key = new Integer( crow + i );
+				Integer key = crow + i;
 
 				if ( spans.containsKey( key ) )
 				{
@@ -213,7 +213,7 @@ public class EmitterContext
 
 		List<SpanInfo> getSpans( int end )
 		{
-			List<SpanInfo> cSpans = spans.get( new Integer( crow ) );
+			List<SpanInfo> cSpans = spans.get( crow );
 
 			if ( cSpans == null )
 			{
@@ -256,7 +256,7 @@ public class EmitterContext
 
 		public void removeSpan( )
 		{
-			spans.remove( new Integer( crow ) );
+			spans.remove( crow );
 		}
 
 		int[] getColumnWidths( )

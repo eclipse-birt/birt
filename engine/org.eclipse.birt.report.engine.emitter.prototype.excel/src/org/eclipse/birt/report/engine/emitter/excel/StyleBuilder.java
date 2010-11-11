@@ -184,7 +184,7 @@ public class StyleBuilder
 		Integer fsize = null;
 		try
 		{
-			fsize = Math.round( size / 1000 );
+			fsize = size / 1000;
 		}
 		catch ( NumberFormatException e )
 		{

@@ -1028,7 +1028,7 @@ public class TrueTypeFont
 				int r[] = new int[2];
 				r[0] = glyph;
 				r[1] = getGlyphWidth( r[0] );
-				h.put( new Integer( fontSpecific ? ( ( j & 0xff00 ) == 0xf000
+				h.put( ( fontSpecific ? ( ( j & 0xff00 ) == 0xf000
 						? j & 0xff
 						: j ) : j ), r );
 			}
@@ -1056,7 +1056,7 @@ public class TrueTypeFont
 			int r[] = new int[2];
 			r[0] = rf.readUnsignedShort( );
 			r[1] = getGlyphWidth( r[0] );
-			h.put( new Integer( k + start_code ), r );
+			h.put( k + start_code, r );
 		}
 		return h;
 	}
@@ -1109,13 +1109,13 @@ public class TrueTypeFont
 	public int[] getMetricsTT( int c )
 	{
 		if ( !fontSpecific && cmap31 != null )
-			return (int[]) cmap31.get( new Integer( c ) );
+			return (int[]) cmap31.get( c );
 		if ( fontSpecific && cmap10 != null )
-			return (int[]) cmap10.get( new Integer( c ) );
+			return (int[]) cmap10.get( c );
 		if ( cmap31 != null )
-			return (int[]) cmap31.get( new Integer( c ) );
+			return (int[]) cmap31.get( c );
 		if ( cmap10 != null )
-			return (int[]) cmap10.get( new Integer( c ) );
+			return (int[]) cmap10.get( c );
 		return null;
 	}
 
@@ -1213,7 +1213,7 @@ public class TrueTypeFont
 
 	public int getGlyphIndex( char c )
 	{
-		int[] glyphIndexs = (int[]) getCMap( ).get( new Integer( c ) );
+		int[] glyphIndexs = (int[]) getCMap( ).get( c );
 		return glyphIndexs[0];
 	}
 
@@ -1413,7 +1413,7 @@ public class TrueTypeFont
 			for ( ;; )
 			{
 				int flags = rf.readUnsignedShort( );
-				Integer cGlyph = new Integer( rf.readUnsignedShort( ) );
+				Integer cGlyph = rf.readUnsignedShort( );
 				TrueTypeGlyph trueTypeGlyph = new TrueTypeGlyph( cGlyph.intValue( ) );
 				if ( !glyphDefined.contains( trueTypeGlyph ) )
 				{
@@ -1626,7 +1626,11 @@ public class TrueTypeFont
 						data.addAll( datas );
 					}
 				}
-				catch ( Exception e )
+				catch ( IOException ioe )
+				{
+					logger.log( Level.WARNING, "failed to add table: " + name );
+				}
+				catch ( DocumentException de )
 				{
 					logger.log( Level.WARNING, "failed to add table: " + name );
 				}

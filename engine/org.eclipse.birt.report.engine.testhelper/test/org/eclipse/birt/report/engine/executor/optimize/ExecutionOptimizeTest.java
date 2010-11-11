@@ -113,9 +113,9 @@ public class ExecutionOptimizeTest extends EngineCase
 		assertTrue( policy.needExecute( lastCell ) );
 
 		TableBandDesign tableFooterBand = (TableBandDesign) table.getFooter( );
-		assertTrue( policy.needExecute( tableHeaderBand ) );
+		assertTrue( policy.needExecute( tableFooterBand ) );
 
-		RowDesign tableFooterRow = tableHeaderBand.getRow( 0 );
+		RowDesign tableFooterRow = tableFooterBand.getRow( 0 );
 		assertTrue( policy.needExecute( tableFooterRow ) );
 
 		firstCell = tableFooterRow.getCell( 0 );

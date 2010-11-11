@@ -45,7 +45,6 @@ public class TreeFragmentTest extends TestCase
 {
 
 	Tree tree;
-	TreeFragment fragment;
 
 	public void setUp( )
 	{
@@ -163,19 +162,19 @@ class Tree
 
 	Long[] getEdges( Node node )
 	{
-		LinkedList nodes = new LinkedList( );
+		LinkedList<Node> nodes = new LinkedList<Node>( );
 		while ( node != null )
 		{
 			nodes.addFirst( node );
 			node = node.parent;
 		}
-		Iterator iter = nodes.iterator( );
+		Iterator<Node> iter = nodes.iterator( );
 		Long[] edges = new Long[nodes.size( )];
 		int i = 0;
 		while ( iter.hasNext( ) )
 		{
 			node = (Node) iter.next( );
-			edges[i++] = new Long( node.offset );
+			edges[i++] = node.offset;
 		}
 		return edges;
 	}
@@ -189,7 +188,7 @@ class Tree
 
 	void visitTree( StringBuffer buffer, Node node, Fragment fragment )
 	{
-		if ( fragment == null || fragment.inFragment( new Long( node.offset ) ) )
+		if ( fragment == null || fragment.inFragment( node.offset ) )
 		{
 			buffer.append( node.toString( ) );
 			buffer.append( ',' );
@@ -257,7 +256,7 @@ class TreeFragment
 	public String toString( )
 	{
 		StringBuffer buffer = new StringBuffer( );
-		Fragment frag = fragment.getFragment( new Long( tree.root.offset ) );
+		Fragment frag = fragment.getFragment( tree.root.offset );
 		visit( buffer, tree.root, frag );
 		return buffer.toString( );
 	}
@@ -274,7 +273,7 @@ class TreeFragment
 		{
 			if ( frag != null )
 			{
-				if ( !frag.inFragment( new Long( child.offset ) ) )
+				if ( !frag.inFragment( child.offset ) )
 				{
 					Fragment childFrag = frag
 							.getNextFragment( Segment.LEFT_MOST_EDGE );
@@ -296,7 +295,7 @@ class TreeFragment
 			Fragment childFrag = null;
 			if ( frag != null )
 			{
-				childFrag = frag.getFragment( new Long( child.offset ) );
+				childFrag = frag.getFragment( child.offset );
 			}
 			visit( buffer, child, childFrag );
 			child = child.next;
@@ -304,10 +303,9 @@ class TreeFragment
 			{
 				if ( frag != null )
 				{
-					if ( !frag.inFragment( new Long( child.offset ) ) )
+					if ( !frag.inFragment( child.offset ) )
 					{
-						Fragment nextFrag = frag.getNextFragment( new Long(
-								child.offset ) );
+						Fragment nextFrag = frag.getNextFragment( child.offset );
 						if ( nextFrag != null )
 						{
 							child = tree.findNode( ( (Long) nextFrag.index )

@@ -121,7 +121,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		DimensionType height = row.getHeight( );
 		float rowHeight = ExcelUtil.convertDimensionType( height, 0,
-		                                                  context.getDpi( ) ) / 1000;
+				context.getDpi( ) ) / 1000f;
 		engine.endRow( rowHeight );
 	}
 
@@ -256,8 +256,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private float getContentHeight( IContent content )
 	{
-		return ExcelUtil.convertDimensionType(	content.getHeight( ), 0,
-												context.getDpi( ) ) / 1000;
+		return ExcelUtil.convertDimensionType( content.getHeight( ), 0,
+				context.getDpi( ) ) / 1000f;
 	}
 	
 	public void startImage( IImageContent image )

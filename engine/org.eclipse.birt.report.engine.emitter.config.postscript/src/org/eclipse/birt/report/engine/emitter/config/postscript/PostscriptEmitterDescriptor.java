@@ -174,7 +174,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		scale.setDisplayName( getMessage( "OptionDisplayValue.Scale" ) ); //$NON-NLS-1$
 		scale.setDataType( IConfigurableOption.DataType.INTEGER );
 		scale.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		scale.setDefaultValue( new Integer( 100 ) );
+		scale.setDefaultValue( 100 );
 		scale.setToolTip( null );
 		scale.setDescription( getMessage( "OptionDescription.Scale" ) ); //$NON-NLS-1$
 
