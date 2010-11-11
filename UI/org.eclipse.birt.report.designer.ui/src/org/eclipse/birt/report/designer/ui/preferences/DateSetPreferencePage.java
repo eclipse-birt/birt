@@ -45,10 +45,12 @@ public class DateSetPreferencePage extends PreferencePage implements
 
 	private IntegerFieldEditor maxRowEditor;
 	private Button promptButton;
+	private Button paramUpdatePromptButton;
 
 	/** default value of max number */
 	public static final int DEFAULT_MAX_ROW = 500;
 	public static final boolean DEFAULT_PROMPT_SELECTION = false;
+	public static final boolean DEFAULT_REPORTPARAM_UPDATE_PROMP_SELECTION = false;
 
 	private static final int MAX_MAX_ROW = Integer.MAX_VALUE;
 
@@ -58,6 +60,7 @@ public class DateSetPreferencePage extends PreferencePage implements
 	public static final String USER_MAX_NUM_OF_TABLE_EACH_SCHEMA = "user_max_num_of_table_each_schema"; //$NON-NLS-1$
 
 	public static final String PROMPT_ENABLE = "prompt_enable";
+	public static final String PROMPT_PARAM_UPDATE = "reportParam_update_enable";
 	
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
@@ -131,6 +134,13 @@ public class DateSetPreferencePage extends PreferencePage implements
 		promptButton.setSelection( enable );
 		promptButton.setText( Messages.getString( "designer.preview.preference.updateParameter.confirmButton" ) );
 
+		paramUpdatePromptButton = new Button( promptPageGroup, SWT.CHECK );
+		boolean enableParamUpdate = ReportPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getBoolean( PROMPT_PARAM_UPDATE );
+		paramUpdatePromptButton.setSelection( enableParamUpdate );
+		paramUpdatePromptButton.setText( Messages.getString( "designer.preview.preference.updateReportParameter.confirmButton" ) );
+		
 		return mainComposite;
 	}
 
@@ -149,6 +159,7 @@ public class DateSetPreferencePage extends PreferencePage implements
 	{
 		maxRowEditor.setStringValue( String.valueOf( DEFAULT_MAX_ROW ) );
 		promptButton.setSelection( false );
+		paramUpdatePromptButton.setSelection( false );
 		
 		super.performDefaults( );
 	}
@@ -164,6 +175,10 @@ public class DateSetPreferencePage extends PreferencePage implements
 		ReportPlugin.getDefault( )
 				.getPluginPreferences( )
 				.setValue( PROMPT_ENABLE, promptButton.getSelection( ) );
+		ReportPlugin.getDefault( )
+				.getPluginPreferences( )
+				.setValue( PROMPT_PARAM_UPDATE,
+						paramUpdatePromptButton.getSelection( ) );
 
 		ReportPlugin.getDefault( ).savePluginPreferences( );
 
