@@ -686,6 +686,8 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 		if ( viewer.getTree( ) != null && !viewer.getTree( ).isDisposed( ) )
 		{
 			viewer.getTree( ).deselectAll( );
+			if ( updateSorting )
+				viewer.getTree( ).removeAll( );
 			viewer.refresh( true );
 		}
 
@@ -861,8 +863,11 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 		return null;
 	}
 
+	boolean updateSorting = false;
+
 	public void updateSorting( int sortingType )
 	{
+		updateSorting = true;
 		if ( cellEditor != null )
 		{
 			cellEditor.deactivate( );
@@ -882,5 +887,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 		}
 		deactivateCellEditor( );
 		execMemento( );
+		updateSorting = false;
 	}
 }
