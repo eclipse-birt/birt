@@ -25,9 +25,8 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 
 public class CubeHandleUtil
 {	
-	public static boolean defineCube( DataEngineImpl dataEngine, CubeHandle handle, Map appContext ) throws BirtException
+	public static void defineCube( DataEngineImpl dataEngine, CubeHandle handle, Map appContext ) throws BirtException
 	{
-		return false;
 	}
 
 	public static boolean isTimeDimension( DimensionHandle dimension )

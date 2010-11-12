@@ -381,16 +381,7 @@ class QueryExecutionHelper
 				}
 			}
 		}
-		
-		if ( handle.getDataSourceName( ) != null )
-		{
-			TransientDataMartUtil.prepareDataSet( sessionContext.getAppContext( ),
-					sessionContext.getDataEngineContext( ),
-					( (DataEngineImpl) dataEngine ).getDataSourceDesign( baseDS.getDataSourceName( ) ),
-					baseDS,
-					session );
-		}
-		dataEngine.defineDataSet( baseDS );
+		session.defineDataSet( baseDS );
 	}
 
 	/**
