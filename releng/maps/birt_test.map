@@ -3,7 +3,7 @@ plugin@org.eclipse.birt.chart.tests=r262_v20101014,:ext:xgu@dev.eclipse.org:/cvs
 
 !**************** engine test *******************
 fragment@org.eclipse.birt.core.testhelper=r262_v20101021,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.testhelper
-plugin@org.eclipse.birt.core.tests=r262_v20101021,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.tests
+plugin@org.eclipse.birt.core.tests=r262_v20101112,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.tests
 plugin@org.eclipse.birt.report.engine.tests=r262_v20101111,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.tests
 fragment@org.eclipse.birt.report.engine.testhelper=r262_v20101111,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.testhelper
 plugin@org.eclipse.birt.report.engine.emitter.html.tests=r262_v20101111,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html.tests
@@ -18,7 +18,7 @@ fragment@org.eclipse.birt.report.model.testhelper=r262_v20101014,:ext:xgu@dev.ec
 
 !**************** automated test suite  *******************
 plugin@org.eclipse.birt.report.tests.chart=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.chart
-plugin@org.eclipse.birt.report.tests.engine=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.engine
+plugin@org.eclipse.birt.report.tests.engine=r262_v20101112,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.engine
 plugin@org.eclipse.birt.report.tests.model=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.model
 plugin@org.eclipse.birt.report.tests.engine.emitter.html=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.engine.emitter.html
 plugin@org.eclipse.birt.tests.core=v20100813,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests.core
