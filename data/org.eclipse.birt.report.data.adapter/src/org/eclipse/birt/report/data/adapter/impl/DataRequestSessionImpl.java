@@ -61,7 +61,6 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.CubeCreationQueryDefinition;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
@@ -504,14 +503,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 		}
 		DataSessionFinalizeUtil.finalize( this );
-		try
-		{
-			AppContextResourceReleaser.release( this.getDataSessionContext( ).getAppContext( ) );
-		}
-		catch ( BirtException e )
-		{
-			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
-		}
 		if ( dataEngine != null )
 		{
 			dataEngine.shutdown( );
@@ -683,10 +674,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineCube( CubeHandle cubeHandle ) throws BirtException
 	{
-		ICubeInterceptor interceptor= CubeInterceptorFinder.find( cubeHandle );
+		CubeHandleUtil.defineCube( dataEngine, cubeHandle, this.sessionContext.getAppContext( ) );
+
+		ICubeInterceptor interceptor = CubeInterceptorFinder.find( cubeHandle );
 		if ( interceptor != null )
 		{
-			interceptor.preDefineCube( this.dataEngine, this.sessionContext.getAppContext( ), cubeHandle );
+			interceptor.preDefineCube( 	this.sessionContext.getAppContext( ),
+					cubeHandle );
 		}
 		
 		if ( interceptor == null || interceptor.needDefineCube( ))
