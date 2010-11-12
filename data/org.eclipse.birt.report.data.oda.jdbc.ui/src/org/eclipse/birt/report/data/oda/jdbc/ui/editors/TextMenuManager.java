@@ -105,7 +105,7 @@ class TextMenuManager
 	 * SQL editor action set
 	 * 
 	 */
-	class SQLEditorAction extends Action
+	static class SQLEditorAction extends Action
 	{
 
 		private int operationCode = -1;
