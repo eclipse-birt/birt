@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.core.btree;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class JavaComparator<K> implements Comparator<K>
+public class JavaComparator<K> implements Comparator<K>, Serializable
 {
+	private static final long serialVersionUID = -2374485501916583296L;
 
 	public int compare( K o1, K o2 )
 	{

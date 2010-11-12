@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.util;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
@@ -419,8 +420,9 @@ public class BTreeUtil
 		}
 	}
 
-	private static class KeyComparator implements Comparator<Object>
+	private static class KeyComparator implements Comparator<Object>, Serializable
 	{
+		private static final long serialVersionUID = 486084009828701292L;
 
 		public int compare( Object v1, Object v2 )
 		{

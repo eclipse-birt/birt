@@ -41,7 +41,7 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 public class Ext2FileSystem
 {
 
-	private RandomAccessFile rf;
+	private volatile RandomAccessFile rf;
 	private long length;
 	private int maxBlockId;
 
@@ -663,17 +663,16 @@ public class Ext2FileSystem
 
 	private void ensureFileOpened( ) throws IOException
 	{
-		if ( rf != null )
+		if ( rf == null )
 		{
-			return;
-		}
-		synchronized ( this )
-		{
-			if ( rf == null )
+			synchronized ( this )
 			{
-				ensureParentFolderCreated( fileName );
-				rf = new RandomAccessFile( fileName, "rw" );
-				rf.setLength( 0 );
+				if ( rf == null )
+				{
+					ensureParentFolderCreated( fileName );
+					rf = new RandomAccessFile( fileName, "rw" );
+					rf.setLength( 0 );
+				}
 			}
 		}
 	}

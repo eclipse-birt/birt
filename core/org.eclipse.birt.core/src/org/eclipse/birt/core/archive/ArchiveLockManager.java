@@ -17,21 +17,13 @@ package org.eclipse.birt.core.archive;
 public class ArchiveLockManager
 {
 
-	protected static IArchiveLockManager instance;
+	protected static class ManagerHolder
+	{
+		public static IArchiveLockManager instance = new DocArchiveLockManager( );
+	}
 
 	public static IArchiveLockManager getInstance( )
 	{
-		if ( instance != null )
-		{
-			return instance;
-		}
-		synchronized ( ArchiveLockManager.class )
-		{
-			if ( instance == null )
-			{
-				instance = new DocArchiveLockManager( );
-			}
-		}
-		return instance;
+		return ManagerHolder.instance;
 	}
 }

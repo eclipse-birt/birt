@@ -321,8 +321,17 @@ public class EclipsePlatform implements IPlatform
 	/**
 	 * logger handler use to output the trace information.
 	 */
-	static StreamHandler tracingHandler;
-
+	//use initialization on demand holder idiom to avoid double-checking problem. 
+	private static class TracingHandlerHolder
+	{
+		public static StreamHandler tracingHandler = new StreamHandler(
+				System.out, new SimpleFormatter( ) );
+		static
+		{
+			tracingHandler.setLevel( Level.ALL );
+		};
+	}
+	
 	/**
 	 * get the trace logger handle.
 	 * 
@@ -332,13 +341,7 @@ public class EclipsePlatform implements IPlatform
 	 */
 	static StreamHandler getTracingHandler( )
 	{
-		if ( tracingHandler == null )
-		{
-			tracingHandler = new StreamHandler( System.out,
-					new SimpleFormatter( ) );
-			tracingHandler.setLevel( Level.ALL );
-		}
-		return tracingHandler;
+		return TracingHandlerHolder.tracingHandler;
 	}
 
 	public Object createFactoryObject( String extensionId )
