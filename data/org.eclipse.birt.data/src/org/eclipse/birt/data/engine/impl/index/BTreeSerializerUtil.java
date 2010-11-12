@@ -50,6 +50,10 @@ public class BTreeSerializerUtil
 		{
 			return new TimeStampSerializer( );
 		}
+		else if ( dataType == Boolean.class )
+		{
+			return new BooleanSerializer( );
+		}
 		return null;
 	}	
 }
