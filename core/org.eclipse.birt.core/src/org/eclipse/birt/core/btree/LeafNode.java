@@ -14,6 +14,10 @@ package org.eclipse.birt.core.btree;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
@@ -51,11 +55,9 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 
 	private int prevNodeId = -1;
 	private int nextNodeId = -1;
-	private int entryCount;
 	private int nodeSize;
 
-	private LeafEntry<K, V> firstEntry;
-	private LeafEntry<K, V> lastEntry;
+	private ArrayList<LeafEntry<K, V>> entries = new ArrayList<LeafEntry<K, V>>( );
 
 	public LeafNode( BTree<K, V> btree, int nodeId )
 	{
@@ -85,7 +87,7 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 
 	public int getEntryCount( )
 	{
-		return entryCount;
+		return entries.size( );
 	}
 
 	public int getNodeSize( )
@@ -95,16 +97,45 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 
 	public LeafEntry<K, V> getFirstEntry( )
 	{
-		return firstEntry;
+		if ( entries.isEmpty( ) )
+		{
+			return null;
+		}
+		return entries.get( 0 );
 	}
 
 	public LeafEntry<K, V> getLastEntry( )
 	{
-		return lastEntry;
+		if ( entries.isEmpty( ) )
+		{
+			return null;
+		}
+		return entries.get( entries.size( ) - 1 );
+	}
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	private int search( final BTreeValue<K> key ) throws IOException
+	{
+		return Collections.binarySearch( entries, key, new Comparator( ) {
+
+			public int compare( final Object entry, final Object key )
+			{
+				try
+				{
+					return btree.compare(
+							( (LeafEntry<K, V>) entry ).getKey( ),
+							(BTreeValue<K>) key );
+				}
+				catch ( final IOException ex )
+				{
+					return -1;
+				}
+			}
+		} );
 	}
 
 	/**
-	 * return the first entry which key is great than or equal to the given key.
+	 * return the first entry which key is less than or equal to the given key.
 	 * 
 	 * @param key
 	 *            the search key value.
@@ -114,23 +145,18 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 	 */
 	public LeafEntry<K, V> find( BTreeValue<K> key ) throws IOException
 	{
-		LeafEntry<K, V> entry = firstEntry;
-		LeafEntry<K, V> returnEntry = null;
-		while ( entry != null )
+		int index = search( key );
+		if ( index >= 0 )
 		{
-			int result = btree.compare( entry.getKey( ), key );
-			if ( result == 0 )
-			{
-				return entry;
-			}
-			if ( result > 0 )
-			{
-				return returnEntry;
-			}
-			returnEntry = entry;
-			entry = entry.getNext( );
+			return entries.get( index );
 		}
-		return returnEntry;
+		index = -( index + 1 );
+		if ( index > 0 )
+		{
+			return entries.get( index - 1 );
+		}
+		// it can only happens for the first element of the first leaf
+		return null;
 	}
 
 	public LeafEntry<K, V> insert( BTreeValue<K> key, BTreeValue<V>[] vs )
@@ -139,58 +165,50 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 		assert vs != null;
 		assert vs.length > 0;
 		dirty = true;
-		LeafEntry<K, V> insertPoint = firstEntry;
-		while ( insertPoint != null )
-		{
-			int result = btree.compare( insertPoint.getKey( ), key );
-			if ( result == 0 )
-			{
-				if ( !btree.hasValue( ) )
-				{
-					return insertPoint;
-				}
-				// append or replace the value
-				if ( !btree.allowDuplicate( ) )
-				{
-					// replace the current value
-					BTreeValues<V> values = insertPoint.getValues( );
-					int valueSize1 = values.getValueSize( );
-					SingleValueList<K, V> sv = new SingleValueList<K, V>(
-							btree, vs[0] );
-					int valueSize2 = sv.getValueSize( );
-					insertPoint.setValues( sv );
-					nodeSize = nodeSize + valueSize2 - valueSize1;
-					return insertPoint;
-				}
 
-				// append it to the current values
+		int index = search( key );
+		if ( index >= 0 )
+		{
+			LeafEntry<K, V> insertPoint = entries.get( index );
+			if ( !btree.hasValue( ) )
+			{
+				return insertPoint;
+			}
+			// append or replace the value
+			if ( !btree.allowDuplicate( ) )
+			{
+				// replace the current value
 				BTreeValues<V> values = insertPoint.getValues( );
 				int valueSize1 = values.getValueSize( );
-				for ( BTreeValue<V> v : vs )
-				{
-					values.append( v );
-				}
-				int valueSize2 = values.getValueSize( );
-				if ( valueSize2 > MAX_NODE_SIZE / 2 )
-				{
-					values = btree.createExternalValueList( values );
-					valueSize2 = values.getValueSize( );
-					insertPoint.setValues( values );
-				}
-				nodeSize = nodeSize - valueSize1 + valueSize2;
-
-				btree.increaseTotalValues( vs.length );
+				SingleValueList<K, V> sv = new SingleValueList<K, V>( btree,
+						vs[0] );
+				int valueSize2 = sv.getValueSize( );
+				insertPoint.setValues( sv );
+				nodeSize = nodeSize + valueSize2 - valueSize1;
 				return insertPoint;
 			}
 
-			if ( result > 0 )
+			// append it to the current values
+			BTreeValues<V> values = insertPoint.getValues( );
+			int valueSize1 = values.getValueSize( );
+			for ( BTreeValue<V> v : vs )
 			{
-				// insert just before the insertPoint
-				break;
+				values.append( v );
 			}
-			insertPoint = insertPoint.getNext( );
+			int valueSize2 = values.getValueSize( );
+			if ( valueSize2 > MAX_NODE_SIZE / 2 )
+			{
+				values = btree.createExternalValueList( values );
+				valueSize2 = values.getValueSize( );
+				insertPoint.setValues( values );
+			}
+			nodeSize = nodeSize - valueSize1 + valueSize2;
+
+			btree.increaseTotalValues( vs.length );
+			return insertPoint;
 		}
 
+		index = -( index + 1 );
 		// now we should insert the entry before the insert point
 		BTreeValues<V> values = null;
 		if ( btree.hasValue( ) )
@@ -213,7 +231,7 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 			}
 		}
 		LeafEntry<K, V> entry = new LeafEntry<K, V>( this, key, values );
-		insertBefore( insertPoint, entry );
+		insert( index, entry );
 
 		// if the node size is larger than the block size, split into two nodes.
 		if ( btree.hasValue( ) )
@@ -224,84 +242,78 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 		return entry;
 	}
 
-	private void insertBefore( LeafEntry<K, V> insertPoint,
-			LeafEntry<K, V> entry ) throws IOException
+	private void insert( int index, LeafEntry<K, V> entry ) throws IOException
 	{
-		entry.setNode( this );
-		// now we should insert the entry before the insert point
-		if ( insertPoint == null )
+		LeafEntry<K, V> prev = null;
+		LeafEntry<K, V> next = null;
+		if ( index > 0 )
 		{
-			// insert it as the last entry
-			if ( lastEntry == null )
-			{
-				entry.setPrev( null );
-				entry.setNext( null );
-				firstEntry = entry;
-				lastEntry = entry;
-			}
-			else
-			{
-				entry.setPrev( lastEntry );
-				entry.setNext( null );
-				lastEntry.setNext( entry );
-				lastEntry = entry;
-			}
+			prev = entries.get( index - 1 );
 		}
-		else
+		if ( index < entries.size( ) )
 		{
-			LeafEntry<K, V> prev = insertPoint.getPrev( );
-			entry.setPrev( prev );
-			entry.setNext( insertPoint );
-			insertPoint.setPrev( entry );
-			if ( prev != null )
-			{
-				prev.setNext( entry );
-			}
-			else
-			{
-				firstEntry = entry;
-			}
+			next = entries.get( index );
+		}
+		entries.add( index, entry );
+
+		entry.setNode( this );
+
+		// now we should insert the entry before the insert point
+		entry.setPrev( prev );
+		entry.setNext( next );
+		if ( prev != null )
+		{
+			prev.setNext( entry );
+		}
+		if ( next != null )
+		{
+			next.setPrev( entry );
 		}
 
 		nodeSize += getEntrySize( entry );
-		entryCount++;
 	}
 
 	public boolean needSplit( )
 	{
-		return nodeSize > MAX_NODE_SIZE && entryCount > MIN_ENTRY_COUNT;
+		return nodeSize > MAX_NODE_SIZE && entries.size( ) > MIN_ENTRY_COUNT;
 	}
+
+	private void resetNodeSize( ) throws IOException
+	{
+		nodeSize = EMPTY_NODE_SIZE;
+		for ( LeafEntry<K, V> entry : entries )
+		{
+			nodeSize += getEntrySize( entry );
+		}
+	}
+	
 
 	public IndexEntry<K, V> split( ) throws IOException
 	{
-		entryCount = entryCount / 2;
-		nodeSize = EMPTY_NODE_SIZE;
-		LeafEntry<K, V> splitEntry = firstEntry;
-		for ( int i = 0; i < entryCount; i++ )
-		{
-			nodeSize += getEntrySize( splitEntry );
-			splitEntry = splitEntry.getNext( );
-		}
-
-		// break at the splitIndex into two nodes: current and new node.
-		lastEntry = splitEntry.getPrev( );
-		lastEntry.setNext( null );
+		int splitIndex = entries.size( ) / 2;
 
 		// create a new node for values which after (include) splitEntry
 		LeafNode<K, V> newNode = btree.createLeafNode( );
 		try
 		{
-			LeafEntry<K, V> entry = splitEntry;
-			while ( entry != null )
+			// break the node list, the split entry should be kept in the new
+			// node otherwise we can't find it
+			LeafEntry<K, V> splitEntry = entries.get( splitIndex );
+			LeafEntry<K, V> prev = splitEntry.getPrev( );
+			splitEntry.setPrev( null );
+			if ( prev != null )
 			{
-				LeafEntry<K, V> nextEntry = entry.getNext( );
-				// remove it out from the original list
-				entry.setPrev( null );
-				entry.setNext( null );
-				// add it to the new node
-				newNode.insertBefore( null, entry );
-				entry = nextEntry;
+				prev.setNext( null );
 			}
+			// the following entries should be add to new node
+			List<LeafEntry<K, V>> splitEntries = entries.subList(
+					splitIndex, entries.size( ) );
+			for ( LeafEntry<K, V> entry : splitEntries )
+			{
+				entry.setNode( newNode );
+			}
+			newNode.entries.addAll( splitEntries );
+			newNode.resetNodeSize( );
 
 			// link the node together
 			newNode.setNextNodeId( nextNodeId );
@@ -321,6 +333,13 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 			}
 			nextNodeId = newNode.getNodeId( );
 
+
+			// reset the new nodes
+			ArrayList<LeafEntry<K, V>> remainEntries = new ArrayList<LeafEntry<K, V>>( );
+			remainEntries.addAll( entries.subList( 0, splitIndex ) );
+			entries = remainEntries;
+			resetNodeSize( );
+
 			// return the split entry
 			return new IndexEntry<K, V>( null, splitEntry.getKey( ),
 					newNode.getNodeId( ) );
@@ -336,21 +355,18 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 		nodeSize = in.readInt( );
 		prevNodeId = in.readInt( );
 		nextNodeId = in.readInt( );
-		entryCount = in.readInt( );
+		int entryCount = in.readInt( );
+		LeafEntry<K, V> prev = null;
 		for ( int i = 0; i < entryCount; i++ )
 		{
 			LeafEntry<K, V> entry = readEntry( in );
-			if ( firstEntry == null )
+			entry.setPrev( prev );
+			if ( prev != null )
 			{
-				firstEntry = entry;
-				lastEntry = entry;
+				prev.setNext( entry );
 			}
-			else
-			{
-				lastEntry.setNext( entry );
-				entry.setPrev( lastEntry );
-				lastEntry = entry;
-			}
+			entries.add( entry );
+			prev = entry;
 		}
 	}
 
@@ -359,12 +375,10 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 		out.writeInt( nodeSize );
 		out.writeInt( prevNodeId );
 		out.writeInt( nextNodeId );
-		out.writeInt( entryCount );
-		LeafEntry<K, V> entry = firstEntry;
-		while ( entry != null )
+		out.writeInt( entries.size( ) );
+		for ( LeafEntry<K, V> entry : entries )
 		{
 			writeEntry( out, entry );
-			entry = entry.getNext( );
 		}
 	}
 
@@ -444,13 +458,10 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 		System.out.println( "nodeSize:" + nodeSize );
 		System.out.println( "prevNodeId:" + prevNodeId );
 		System.out.println( "nextNodeId :" + nextNodeId );
-		System.out.println( "entryCount:" + entryCount );
-		LeafEntry<K, V> entry = firstEntry;
-		int id = 0;
-		while ( entry != null )
+		System.out.println( "entryCount:" + entries.size( ) );
+		for ( LeafEntry<K, V> entry : entries )
 		{
-			System.out.print( id + ":\"" + btree.getKey( entry.getKey( ) )
-					+ "\"" );
+			System.out.print( btree.getKey( entry.getKey( ) ) + "\"" );
 			if ( btree.hasValue( ) )
 			{
 				System.out.print( " valueCount:"
@@ -459,8 +470,6 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 						+ entry.getValues( ).getValueSize( ) );
 			}
 			System.out.println( );
-			id++;
-			entry = entry.getNext( );
 		}
 	}
 
@@ -468,8 +477,7 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 	{
 		dumpNode( );
 
-		LeafEntry<K, V> entry = firstEntry;
-		while ( entry != null )
+		for ( LeafEntry<K, V> entry : entries )
 		{
 			BTreeValues<V> values = entry.getValues( );
 			if ( values != null )
@@ -495,7 +503,6 @@ class LeafNode<K, V> extends BTreeNode<K, V>
 					}
 				}
 			}
-			entry = entry.getNext( );
 		}
 	}
 
