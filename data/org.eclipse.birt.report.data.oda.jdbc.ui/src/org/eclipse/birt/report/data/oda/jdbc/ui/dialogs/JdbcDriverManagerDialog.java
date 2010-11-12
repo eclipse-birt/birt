@@ -1374,7 +1374,7 @@ public class JdbcDriverManagerDialog extends TrayDialog
 	/**
 	 * EditJdbcDriverDialog
 	 */
-	class EditJdbcDriverDialog extends Dialog
+	static class EditJdbcDriverDialog extends Dialog
 	{
 
 		private Label classNameLabel;

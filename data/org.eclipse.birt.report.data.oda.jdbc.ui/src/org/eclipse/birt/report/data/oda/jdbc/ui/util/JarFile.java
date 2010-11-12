@@ -49,12 +49,12 @@ public class JarFile implements Serializable
 	/**
 	 * jar state of 'oda file not exist','original file not exist','has been restored'
 	 */
-	private transient String state;
+	private String state;
 
 	/**
 	 * whether the jar file will be deleted on exit.
 	 */
-	private transient boolean toBeDeleted;
+	private boolean toBeDeleted;
 
 	/**
 	 * indicate whether the jar file has been restored,it is a inner state flag

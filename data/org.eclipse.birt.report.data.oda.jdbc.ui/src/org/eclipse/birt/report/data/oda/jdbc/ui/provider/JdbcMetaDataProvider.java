@@ -299,15 +299,23 @@ public class JdbcMetaDataProvider
 		}
 		catch ( SQLException e )
 		{
-			try 
+			try
 			{
 				reconnect( );
-				return connection.getMetaData( ).getColumns( 
-						connection.getCatalog( ), schemaPattern, tableNamePattern, columnNamePattern );
+				return connection.getMetaData( )
+						.getColumns( connection.getCatalog( ),
+								schemaPattern,
+								tableNamePattern,
+								columnNamePattern );
 			}
-			catch ( Exception e1 )
+			catch ( SQLException e1 )
 			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+				logger.log( Level.WARNING, e1.getMessage( ), e1 );
+				return null;
+			}
+			catch ( OdaException e1 )
+			{
+				logger.log( Level.WARNING, e1.getMessage( ), e1 );
 				return null;
 			}
 		}
@@ -392,19 +400,28 @@ public class JdbcMetaDataProvider
 		}
 		catch ( SQLException e )
 		{
-			try 
+			try
 			{
 				reconnect( );
-				return connection.getMetaData( ).getProcedureColumns( 
-						connection.getCatalog( ), schemaPattern, procedureNamePattern, columnNamePattern );
+				return connection.getMetaData( )
+						.getProcedureColumns( connection.getCatalog( ),
+								schemaPattern,
+								procedureNamePattern,
+								columnNamePattern );
 			}
-			catch ( Exception e1 )
+			catch ( SQLException e1 )
 			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+				logger.log( Level.WARNING, e1.getMessage( ), e1 );
+				return null;
+			}
+			catch ( OdaException e1 )
+			{
+				logger.log( Level.WARNING, e1.getMessage( ), e1 );
 				return null;
 			}
 		}
 	}
+
 	
 	public ResultSet getAlltables( String schemaPattern,
 			String namePattern, String[] types )
@@ -438,15 +455,23 @@ public class JdbcMetaDataProvider
 		}
 		catch ( SQLException e )
 		{
-			try 
+			try
 			{
 				reconnect( );
-				return connection.getMetaData( ).getTables( 
-						connection.getCatalog( ), schemaPattern, namePattern, types );
+				return connection.getMetaData( )
+						.getTables( connection.getCatalog( ),
+								schemaPattern,
+								namePattern,
+								types );
 			}
-			catch ( Exception e1 )
+			catch ( SQLException ex )
 			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
+				return null;
+			}
+			catch ( OdaException ex )
+			{
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
 				return null;
 			}
 		}

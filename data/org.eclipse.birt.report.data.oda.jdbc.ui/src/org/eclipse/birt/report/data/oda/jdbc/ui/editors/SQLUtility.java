@@ -125,18 +125,17 @@ public class SQLUtility
 	public static String getQueryPresetTextString( String extensionId )
 	{
 		String[] lines = getQueryPresetTextArray( extensionId );
-		String result = "";
+		StringBuffer result = new StringBuffer( );
 		if ( lines != null && lines.length > 0 )
 		{
 			for ( int i = 0; i < lines.length; i++ )
 			{
-				result = result
-						+ lines[i] + ( i == lines.length - 1 ? " " : " \n" );
+				result.append( lines[i] ).append( i == lines.length - 1
+						? " " : " \n" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
-		return result;
+		return result.toString( );
 	}
-	
 	
 	/**
 	 * Return pre-defined query text pattern with every element in a cell in an
