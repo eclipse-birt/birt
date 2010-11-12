@@ -40,21 +40,21 @@ public final class DataTypes
 	
 	static
 	{
-		typeStringIntPair.put( "Int", new Integer( INT ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Double", new Integer( DOUBLE ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "String", new Integer( STRING ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Date", new Integer( DATE ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Time", new Integer( TIME ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Timestamp", new Integer( TIMESTAMP ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Bigdecimal", new Integer( BIGDECIMAL ) ); //$NON-NLS-1$
+		typeStringIntPair.put( "Int", Integer.valueOf( INT ) ); //$NON-NLS-1$
+		typeStringIntPair.put( "Double", Integer.valueOf( DOUBLE ) ); //$NON-NLS-1$
+		typeStringIntPair.put( "String", Integer.valueOf( STRING ) ); //$NON-NLS-1$
+		typeStringIntPair.put( "Date", Integer.valueOf( DATE ) ); //$NON-NLS-1$
+		typeStringIntPair.put( "Time", Integer.valueOf( TIME ) ); //$NON-NLS-1$
+		typeStringIntPair.put( "Timestamp", Integer.valueOf( TIMESTAMP ) ); //$NON-NLS-1$
+		typeStringIntPair.put( "Bigdecimal", Integer.valueOf( BIGDECIMAL ) ); //$NON-NLS-1$
 		
-		typeIntStringPair.put( new Integer( INT ),"Int" ); //$NON-NLS-1$
-		typeIntStringPair.put( new Integer( DOUBLE ),"Double" ); //$NON-NLS-1$
-		typeIntStringPair.put( new Integer( STRING ),"String" ); //$NON-NLS-1$
-		typeIntStringPair.put( new Integer( DATE ),"Date" ); //$NON-NLS-1$
-		typeIntStringPair.put( new Integer( TIME ),"Time" ); //$NON-NLS-1$
-		typeIntStringPair.put( new Integer( TIMESTAMP ),"Timestamp" ); //$NON-NLS-1$
-		typeIntStringPair.put( new Integer( BIGDECIMAL ),"Bigdecimal" ); //$NON-NLS-1$
+		typeIntStringPair.put( Integer.valueOf( INT ),"Int" ); //$NON-NLS-1$
+		typeIntStringPair.put( Integer.valueOf( DOUBLE ),"Double" ); //$NON-NLS-1$
+		typeIntStringPair.put( Integer.valueOf( STRING ),"String" ); //$NON-NLS-1$
+		typeIntStringPair.put( Integer.valueOf( DATE ),"Date" ); //$NON-NLS-1$
+		typeIntStringPair.put( Integer.valueOf( TIME ),"Time" ); //$NON-NLS-1$
+		typeIntStringPair.put( Integer.valueOf( TIMESTAMP ),"Timestamp" ); //$NON-NLS-1$
+		typeIntStringPair.put( Integer.valueOf( BIGDECIMAL ),"Bigdecimal" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -85,7 +85,7 @@ public final class DataTypes
 	 */
 	public static String getTypeString( int type ) throws OdaException
 	{
-		Integer typeInteger = new Integer( type );
+		Integer typeInteger = Integer.valueOf( type );
 		if ( typeIntStringPair.containsKey( typeInteger ) )
 			return typeIntStringPair.get( typeInteger ).toString();
 		throw new OdaException( ); //$NON-NLS-1$
