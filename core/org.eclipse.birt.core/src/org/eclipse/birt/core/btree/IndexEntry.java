@@ -17,8 +17,6 @@ public class IndexEntry<K, V>
 	protected IndexNode<K, V> node;
 	protected BTreeValue<K> key;
 	protected int childNodeId;
-	protected IndexEntry<K, V> prev;
-	protected IndexEntry<K, V> next;
 
 	IndexEntry( IndexNode<K, V> node, BTreeValue<K> key, int childNodeId )
 	{
@@ -32,25 +30,6 @@ public class IndexEntry<K, V>
 		return key;
 	}
 
-	public IndexEntry<K, V> getPrev( )
-	{
-		return prev;
-	}
-
-	public void setPrev( IndexEntry<K, V> prev )
-	{
-		this.prev = prev;
-	}
-
-	public IndexEntry<K, V> getNext( )
-	{
-		return next;
-	}
-
-	public void setNext( IndexEntry<K, V> next )
-	{
-		this.next = next;
-	}
 
 	public int getChildNodeId( )
 	{

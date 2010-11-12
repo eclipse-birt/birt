@@ -148,7 +148,7 @@ public class BTreeCursor<K, V>
 
 	/**
 	 * move to the first entry which value equals to the key. If there is no
-	 * equals keys, return the position which just before he insert key. It may
+	 * equals keys, return the position which just before the insert key. It may
 	 * move the cursor to before the first.
 	 * 
 	 * @param key

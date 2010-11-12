@@ -14,6 +14,10 @@ package org.eclipse.birt.core.btree;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
@@ -53,11 +57,9 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 	private int nodeSize;
 	private int prevNodeId;
 	private int nextNodeId;
-	private int entryCount;
-	private int firstChild;
 
-	private IndexEntry<K, V> firstEntry;
-	private IndexEntry<K, V> lastEntry;
+	private int firstChild;
+	private ArrayList<IndexEntry<K, V>> entries;
 
 	IndexNode( BTree<K, V> btree, int nodeId )
 	{
@@ -65,8 +67,8 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 		this.nodeSize = EMPTY_NODE_SIZE;
 		this.prevNodeId = -1;
 		this.nextNodeId = -1;
-		this.entryCount = 0;
 		this.firstChild = -1;
+		this.entries = new ArrayList<IndexEntry<K, V>>( );
 	}
 
 	public int getFirstChild( )
@@ -106,22 +108,22 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 
 	public int getEntryCount( )
 	{
-		return entryCount;
+		return entries.size( );
 	}
 
 	public IndexEntry<K, V> getFirstEntry( )
 	{
-		return firstEntry;
+		return entries.get( 0 );
 	}
 
 	public IndexEntry<K, V> getLastEntry( )
 	{
-		return lastEntry;
+		return entries.get( entries.size( ) - 1 );
 	}
 
 	public int getLastChild( )
 	{
-		return lastEntry.childNodeId;
+		return entries.get( entries.size( ) - 1 ).getChildNodeId( );
 	}
 
 	public LeafEntry<K, V> find( BTreeValue<K> key ) throws IOException
@@ -152,6 +154,27 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 		return null;
 	}
 
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	private int search( final BTreeValue<K> key ) throws IOException
+	{
+		return Collections.binarySearch( entries, key, new Comparator( ) {
+
+			public int compare( final Object entry, final Object key )
+			{
+				try
+				{
+					return btree.compare(
+							( (IndexEntry<K, V>) entry ).getKey( ),
+							(BTreeValue<K>) key );
+				}
+				catch ( final IOException ex )
+				{
+					return -1;
+				}
+			}
+		} );
+	}
+
 	/**
 	 * find a entry which key is equal or less than the key.
 	 * 
@@ -161,24 +184,17 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 	 */
 	private int findChildNode( BTreeValue<K> key ) throws IOException
 	{
-		int childNodeId = firstChild;
-		IndexEntry<K, V> entry = firstEntry;
-		while ( entry != null )
+		int index = search( key );
+		if ( index >= 0 )
 		{
-			int result = btree.compare( entry.getKey( ), key );
-			if ( result == 0 )
-			{
-				childNodeId = entry.childNodeId;
-				break;
-			}
-			if ( result > 0 )
-			{
-				break;
-			}
-			childNodeId = entry.childNodeId;
-			entry = entry.next;
+			return entries.get( index ).getChildNodeId( );
 		}
-		return childNodeId;
+		index = -( index + 1 );
+		if ( index == 0 )
+		{
+			return this.firstChild;
+		}
+		return entries.get( index - 1 ).getChildNodeId( );
 	}
 
 	public LeafEntry<K, V> insert( BTreeValue<K> key, BTreeValue<V>[] values )
@@ -193,14 +209,15 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 				if ( node.nodeType == NODE_INDEX )
 				{
 					IndexNode<K, V> indexNode = (IndexNode<K, V>) node;
-					LeafEntry<K, V> insertEntry = indexNode.insert( key, values );
+					LeafEntry<K, V> insertEntry = indexNode
+							.insert( key, values );
 					if ( indexNode.needSplit( ) )
 					{
 						IndexEntry<K, V> splitEntry = indexNode.split( );
 						if ( splitEntry != null )
 						{
-							insertIndex( splitEntry.getKey( ), splitEntry
-									.getChildNodeId( ) );
+							insertIndex( splitEntry.getKey( ),
+									splitEntry.getChildNodeId( ) );
 						}
 					}
 					return insertEntry;
@@ -215,8 +232,8 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 						IndexEntry<K, V> splitEntry = leafNode.split( );
 						if ( splitEntry != null )
 						{
-							insertIndex( splitEntry.getKey( ), splitEntry
-									.getChildNodeId( ) );
+							insertIndex( splitEntry.getKey( ),
+									splitEntry.getChildNodeId( ) );
 						}
 					}
 					return insertEntry;
@@ -233,69 +250,21 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 		return null;
 	}
 
-	private void insertBefore( IndexEntry<K, V> insertPoint,
-			IndexEntry<K, V> entry )
-	{
-		entry.setNode( this );
-		if ( insertPoint == null )
-		{
-			if ( lastEntry == null )
-			{
-				entry.setPrev( null );
-				entry.setNext( null );
-				firstEntry = entry;
-				lastEntry = entry;
-			}
-			else
-			{
-				entry.setPrev( lastEntry );
-				entry.setNext( null );
-				lastEntry.setNext( entry );
-				lastEntry = entry;
-			}
-		}
-		else
-		{
-			IndexEntry<K, V> prev = insertPoint.getPrev( );
-			entry.setNext( insertPoint );
-			entry.setPrev( prev );
-			insertPoint.setPrev( entry );
-			if ( prev != null )
-			{
-				prev.setNext( entry );
-			}
-			else
-			{
-				firstEntry = entry;
-			}
-		}
-		nodeSize += getEntrySize( entry );
-		entryCount++;
-	}
-
 	protected void insertIndex( BTreeValue<K> insertKey, int childNodeId )
 			throws IOException
 	{
-		IndexEntry<K, V> entry = firstEntry;
-		while ( entry != null )
+		int index = search( insertKey );
+		assert index < 0;
+		if ( index >= 0 )
 		{
-			int result = btree.compare( entry.getKey( ), insertKey );
-			if ( result == 0 )
-			{
-				throw new IOException(
-						CoreMessages.getString( ResourceConstants.UNEXPECTED_EQUAL_KEYS ) );
-			}
-			if ( result > 0 )
-			{
-				break;
-			}
-			entry = entry.next;
+			throw new IOException( "ERROR" );
 		}
-
+		index = -( index + 1 );
 		// insert at the last entry
 		IndexEntry<K, V> newEntry = new IndexEntry<K, V>( this, insertKey,
 				childNodeId );
-		insertBefore( entry, newEntry );
+		entries.add( index, newEntry );
+		nodeSize += getEntrySize( newEntry );
 
 		dirty = true;
 		return;
@@ -303,38 +272,40 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 
 	public boolean needSplit( )
 	{
-		return nodeSize > MAX_NODE_SIZE && entryCount > MIN_ENTRY_COUNT;
+		return nodeSize > MAX_NODE_SIZE && entries.size( ) > MIN_ENTRY_COUNT;
+	}
+
+	protected void resetNodeSize( )
+	{
+		nodeSize = EMPTY_NODE_SIZE;
+		for ( IndexEntry<K, V> entry : entries )
+		{
+			nodeSize += getEntrySize( entry );
+		}
 	}
 
 	public IndexEntry<K, V> split( ) throws IOException
 	{
-		entryCount = entryCount / 2;
-		nodeSize = EMPTY_NODE_SIZE;
-		IndexEntry<K, V> splitEntry = firstEntry;
-		for ( int i = 0; i < entryCount; i++ )
-		{
-			nodeSize += getEntrySize( splitEntry );
-			splitEntry = splitEntry.getNext( );
-		}
-
-		// break at the splitIndex into two nodes: current and new node.
-		lastEntry = splitEntry.getPrev( );
-		lastEntry.setNext( null );
+		// break at the node into two nodes: current and new node.
+		int splitIndex = entries.size( ) / 2;
 
 		// create a new node for splitEntry
 		IndexNode<K, V> newNode = btree.createIndexNode( );
 		try
 		{
-			newNode.setFirstChild( splitEntry.childNodeId );
-			IndexEntry<K, V> entry = splitEntry.getNext( );
-			while ( entry != null )
+			// for index node, the split entry will be moved to the upper level,
+			// so we needn't keep it in the new node
+			IndexEntry<K, V> splitEntry = entries.get( splitIndex);
+			newNode.setFirstChild( splitEntry.getChildNodeId( ));
+			
+			List<IndexEntry<K, V>> splitEntries = entries.subList(
+					splitIndex + 1, entries.size( ) );
+			for ( IndexEntry<K, V> entry : splitEntries )
 			{
-				IndexEntry<K, V> nextEntry = entry.getNext( );
-				entry.setPrev( null );
-				entry.setNext( null );
-				newNode.insertBefore( null, entry );
-				entry = nextEntry;
+				entry.setNode( newNode );
 			}
+			newNode.entries.addAll( splitEntries );
+			newNode.resetNodeSize( );
 
 			// link the node together
 			newNode.setPrevNodeId( nodeId );
@@ -354,8 +325,13 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 			}
 			nextNodeId = newNode.getNodeId( );
 
-			return new IndexEntry<K, V>( this, splitEntry.getKey( ), newNode
-					.getNodeId( ) );
+			ArrayList<IndexEntry<K, V>> remainEntries = new ArrayList<IndexEntry<K, V>>( );
+			remainEntries.addAll( entries.subList( 0, splitIndex ) );
+			entries = remainEntries;
+			resetNodeSize( );
+
+			return new IndexEntry<K, V>( this, splitEntry.getKey( ),
+					newNode.getNodeId( ) );
 		}
 		finally
 		{
@@ -368,22 +344,14 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 		nodeSize = in.readInt( );
 		prevNodeId = in.readInt( );
 		nextNodeId = in.readInt( );
-		entryCount = in.readInt( );
+		int entryCount = in.readInt( );
 		firstChild = in.readInt( );
+		entries.clear( );
+		entries.ensureCapacity( entryCount );
 		for ( int i = 0; i < entryCount; i++ )
 		{
 			IndexEntry<K, V> entry = readEntry( in );
-			if ( firstEntry == null )
-			{
-				firstEntry = entry;
-				lastEntry = entry;
-			}
-			else
-			{
-				lastEntry.setNext( entry );
-				entry.setPrev( lastEntry );
-				lastEntry = entry;
-			}
+			entries.add( entry );
 		}
 	}
 
@@ -392,13 +360,11 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 		out.writeInt( nodeSize );
 		out.writeInt( prevNodeId );
 		out.writeInt( nextNodeId );
-		out.writeInt( entryCount );
+		out.writeInt( entries.size( ) );
 		out.writeInt( firstChild );
-		IndexEntry<K, V> entry = firstEntry;
-		while ( entry != null )
+		for ( IndexEntry<K, V> entry : entries )
 		{
 			writeEntry( out, entry );
-			entry = entry.getNext( );
 		}
 	}
 
@@ -427,16 +393,14 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 		System.out.println( "nodeSize:" + nodeSize );
 		System.out.println( "prevNodeId:" + prevNodeId );
 		System.out.println( "nextNodeId :" + nextNodeId );
-		System.out.println( "entryCount:" + entryCount );
+		System.out.println( "entryCount:" + entries.size( ) );
 		System.out.print( firstChild );
-		IndexEntry<K, V> entry = firstEntry;
-		while ( entry != null )
+		for ( IndexEntry<K, V> entry : entries )
 		{
 			System.out.print( "<<[" );
 			System.out.print( btree.getKey( entry.getKey( ) ) );
 			System.out.print( "]<<" );
 			System.out.print( entry.getChildNodeId( ) );
-			entry = entry.getNext( );
 		}
 		System.out.println( );
 	}
@@ -454,8 +418,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 			node.unlock( );
 		}
 
-		IndexEntry<K, V> entry = firstEntry;
-		while ( entry != null )
+		for ( IndexEntry<K, V> entry : entries )
 		{
 			node = btree.loadBTreeNode( entry.getChildNodeId( ) );
 			try
@@ -466,7 +429,6 @@ public class IndexNode<K, V> extends BTreeNode<K, V>
 			{
 				node.unlock( );
 			}
-			entry = entry.getNext( );
 		}
 	}
 }
