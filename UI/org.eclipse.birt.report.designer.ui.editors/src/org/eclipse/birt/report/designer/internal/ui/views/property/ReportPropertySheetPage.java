@@ -130,9 +130,11 @@ public class ReportPropertySheetPage extends Page implements
 	private IMemento propertySheetMemento;
 	private IMemento viewerMemento;
 	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
-
+	private boolean updateSorting = false;
+	
 	public void updateSorting( int sortingType )
 	{
+		updateSorting = true;
 		if ( cellEditor != null )
 		{
 			cellEditor.deactivate( );
@@ -151,6 +153,7 @@ public class ReportPropertySheetPage extends Page implements
 						.setAttribute( MementoElement.ATTRIBUTE_SELECTED, null );
 		}
 		execMemento( );
+		updateSorting = false;
 	}
 
 	public ReportPropertySheetPage( ModuleHandle module )
@@ -694,7 +697,9 @@ public class ReportPropertySheetPage extends Page implements
 	protected void refresh( )
 	{
 		viewer.getTree( ).deselectAll( );
-
+		if(updateSorting){
+			viewer.getTree( ).removeAll( );
+		}
 		viewer.refresh( true );
 
 		deactivateCellEditor( );
