@@ -73,26 +73,29 @@ public class JointDataSetWizard extends Wizard
 		if ( !canFinish( ) )
 			return false;
 
-		if ( useTransaction )
+		if ( dataSetPage != null && (dataSetPage instanceof JointDataSetPage) )
 		{
-			// Start the transaction
-			Utility.getCommandStack( ).startTrans( CREATE_DATA_SET_TRANS_NAME );
-		}
-		DataSetHandle joinDataSetHandle = ( (JointDataSetPage) dataSetPage ).createSelectedDataSet( );
-		try
-		{
-			if ( joinDataSetHandle != null )
-				DataSetUIUtil.updateColumnCache( joinDataSetHandle, false );
-		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		if ( useTransaction )
-		{
-			// Start the transaction
-			Utility.getCommandStack( ).commit( );
-		}
+			if ( useTransaction )
+			{
+				// Start the transaction
+				Utility.getCommandStack( ).startTrans( CREATE_DATA_SET_TRANS_NAME );
+			}
+			DataSetHandle joinDataSetHandle = ( (JointDataSetPage) dataSetPage ).createSelectedDataSet( );
+			try
+			{
+				if ( joinDataSetHandle != null )
+					DataSetUIUtil.updateColumnCache( joinDataSetHandle, false );
+			}
+			catch ( Exception e )
+			{
+				ExceptionHandler.handle( e );
+			}
+			if ( useTransaction )
+			{
+				// Start the transaction
+				Utility.getCommandStack( ).commit( );
+			}
+		}			
 		return true;
 	}
 
