@@ -365,7 +365,7 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 				methods.put( methodName, tmpMethod );
 		}
 
-		ContextFactory.getGlobal( ).enterContext( );
+		Context.enter( );
 		try
 		{
 			for ( final Entry<String, Method> entry : methods.entrySet( ) )

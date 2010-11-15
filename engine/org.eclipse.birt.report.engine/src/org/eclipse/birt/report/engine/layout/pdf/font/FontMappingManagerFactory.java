@@ -114,7 +114,7 @@ public class FontMappingManagerFactory
 	 * <p>
 	 * cached by the font mapping config
 	 * <ul>
-	 * <li> key: FontMappingConfig</li>
+	 * <li>key: FontMappingConfig</li>
 	 * <li>value: each value is a HashMap
 	 * <ul>
 	 * <li>key: String[] sequence</li>
@@ -140,8 +140,8 @@ public class FontMappingManagerFactory
 	protected FontMappingManagerFactory( )
 	{
 		// Register java fonts.
-		registerJavaFonts();
-		
+		registerJavaFonts( );
+
 		// register the embedded font directorys
 		String embeddedFonts = getEmbededFontPath( );
 		if ( embeddedFonts != null )
@@ -173,7 +173,7 @@ public class FontMappingManagerFactory
 	{
 		// Register the fonts defined in JRE fonts directory.
 		registerJavaFonts( );
-		
+
 		// register the fonts defined in the configuration
 		Iterator iter = config.fontPaths.iterator( );
 		while ( iter.hasNext( ) )
@@ -209,7 +209,7 @@ public class FontMappingManagerFactory
 	protected FontMappingManager createFontMappingManager( String format,
 			Locale locale )
 	{
-		String formatString = format.toLowerCase();
+		String formatString = format.toLowerCase( );
 		// we have max 19 configs
 		String[] configNames = new String[19];
 		int count = 0;
@@ -360,8 +360,8 @@ public class FontMappingManagerFactory
 				FontMappingConfig config = new FontConfigReader( )
 						.parseConfig( url );
 				long end = System.currentTimeMillis( );
-				logger.info( "load font config in " + url + " cost " +
-						( end - start ) + "ms" );
+				logger.info( "load font config in " + url + " cost "
+						+ ( end - start ) + "ms" );
 				if ( config != null )
 				{
 					// try to load the font in the fontPaths
@@ -392,13 +392,14 @@ public class FontMappingManagerFactory
 	protected URL getConfigURL( String configName )
 	{
 		// try to load the format specific configuration
+		String fileName = configName + ".xml";
 		Bundle bundle = Platform
 				.getBundle( "org.eclipse.birt.report.engine.fonts" ); //$NON-NLS-1$
 		if ( bundle != null )
 		{
-			return bundle.getEntry( configName + ".xml" );
+			return bundle.getEntry( fileName );
 		}
-		return null;
+		return getClass( ).getClassLoader( ).getResource( fileName );
 	}
 
 	/**
@@ -441,7 +442,7 @@ public class FontMappingManagerFactory
 	}
 
 	private HashMap baseFonts = new HashMap( );
-	
+
 	/**
 	 * Creates iText BaseFont with the given font family name.
 	 * 
@@ -457,7 +458,7 @@ public class FontMappingManagerFactory
 		{
 			if ( baseFonts.containsKey( key ) )
 			{
-				bf = (BaseFont) baseFonts.get( key );	
+				bf = (BaseFont) baseFonts.get( key );
 			}
 			else
 			{
@@ -476,7 +477,7 @@ public class FontMappingManagerFactory
 				{
 					logger.log( Level.WARNING, de.getMessage( ), de );
 				}
-				baseFonts.put( key, bf );	
+				baseFonts.put( key, bf );
 			}
 			if ( bf == null && fontStyle != Font.NORMAL )
 			{
@@ -517,6 +518,10 @@ public class FontMappingManagerFactory
 	{
 		Bundle bundle = Platform
 				.getBundle( "org.eclipse.birt.report.engine.fonts" ); //$NON-NLS-1$
+		if ( bundle == null )
+		{
+			return null;
+		}
 		Path path = new Path( "/fonts" ); //$NON-NLS-1$
 
 		URL fileURL = FileLocator.find( bundle, path, null );

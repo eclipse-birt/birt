@@ -28,7 +28,7 @@ public class ScriptEngineFactoryManagerImpl extends ScriptEngineFactoryManager
 
 	HashMap<String, IConfigurationElement> configs;
 
-	ScriptEngineFactoryManagerImpl( )
+	public ScriptEngineFactoryManagerImpl( )
 	{
 		super( );
 		configs = new HashMap<String, IConfigurationElement>( );

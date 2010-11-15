@@ -16,6 +16,6 @@ import java.util.Enumeration;
 public interface IBundle
 {
 	 Class loadClass(String name) throws ClassNotFoundException;
-	 URL getEntry(String name);
-	 Enumeration getEntryPaths(String path);
+//	 URL getEntry(String name);
+//	 Enumeration getEntryPaths(String path);
 }

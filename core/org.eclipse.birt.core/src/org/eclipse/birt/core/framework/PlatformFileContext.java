@@ -71,7 +71,7 @@ public class PlatformFileContext implements IPlatformContext
 				String home = System.getProperty( IPlatformConfig.BIRT_HOME );
 				if ( home == null || "".equals( home ) )
 				{
-					return ".";
+					return null;
 				}
 				return home;
 			}

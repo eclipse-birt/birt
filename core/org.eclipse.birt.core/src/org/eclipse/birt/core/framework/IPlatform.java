@@ -14,6 +14,8 @@ package org.eclipse.birt.core.framework;
 import java.io.IOException;
 import java.net.URL;
 
+import org.eclipse.core.runtime.IAdapterManager;
+
 /**
  * Defines the Platform interface that allows BIRT to be run in Eclipse and
  * server environments
@@ -22,11 +24,22 @@ import java.net.URL;
 public interface IPlatform
 {
 	static final String EXTENSION_POINT_FACTORY_SERVICE = "FactoryService";
+	// those constant are copied from the org.eclipse.core.runtime.Platform
+	public static final String OS_WIN32 = "win32";//$NON-NLS-1$
+	public static final String OS_LINUX = "linux";//$NON-NLS-1$
+	public static final String OS_AIX = "aix";//$NON-NLS-1$
+	public static final String OS_SOLARIS = "solaris";//$NON-NLS-1$
+	public static final String OS_HPUX = "hpux";//$NON-NLS-1$
+	public static final String OS_QNX = "qnx";//$NON-NLS-1$
+	public static final String OS_MACOSX = "macosx";//$NON-NLS-1$
+	public static final String OS_UNKNOWN = "unknown";//$NON-NLS-1$
 
 	/**
 	 * @return the global extension registry
 	 */
 	IExtensionRegistry getExtensionRegistry( );
+
+	IAdapterManager getAdapterManager( );
 
 	/**
 	 * 
@@ -70,4 +83,11 @@ public interface IPlatform
 	 * @return
 	 */
 	Object createFactoryObject( String factory );
+
+	Object enterPlatformContext( );
+
+	void exitPlatformContext( Object context );
+
+	String getOS( );
+
 }

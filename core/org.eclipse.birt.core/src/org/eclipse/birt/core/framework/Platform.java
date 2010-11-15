@@ -17,8 +17,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.jar.ServiceLauncher;
 import org.eclipse.birt.core.framework.osgi.OSGILauncher;
 import org.eclipse.birt.core.i18n.ResourceConstants;
+import org.eclipse.core.runtime.IAdapterManager;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -42,48 +44,35 @@ public class Platform
 	 * @deprecated since BIRT 2.1
 	 */
 	public static final int SERVER_PLATFORM = 2;
+	public static int JAVA_PLATFORM = 3;
 
 	protected static int platformType = UNKNOWN_PLATFORM;
 	protected static IPlatform platform = null;
+	protected static PlatformLauncher launcher = null;
 
 	protected static Logger log = Logger.getLogger( Platform.class.getName( ) );
 
-	protected static OSGILauncher launcher;
-	private static ClassLoader contextClassLoader;
+	synchronized static public void startup( ) throws BirtException
+	{
+		startup( new PlatformConfig( ) );
+	}
 
 	/**
-	 * startup the platform. 
-	 * The PlatformContext is get from the config.
-	 * @param config PlatformConfig
+	 * startup the platform. The PlatformContext is get from the configuration.
+	 * 
+	 * @param config
+	 *            PlatformConfig
 	 */
 	synchronized static public void startup( PlatformConfig config )
 			throws BirtException
 	{
-		if( platform == null )
+		if ( platform == null )
 		{
-			if (config == null)
-			{
-				config = new PlatformConfig();
-			}
-			IPlatformContext context = config.getPlatformContext( );
-			
-			if( context == null )
-			{
-				context = new PlatformFileContext( config );
-				config.setProperty( PlatformConfig.PLATFORM_CONTEXT, context );
-			}
 			// start up the OSGI framework
 			try
 			{
-				launcher = new OSGILauncher( );
-				// startup the OSGi framework,
+				launcher = createPlatformLauncher( config );
 				launcher.startup( config );
-				// the core plugins is loaded in the start up
-				// 1. platform should not be null any more.
-				// 2. the IFactoryService has been registed
-				// see
-				// org.eclipse.birt.core.plugin.CorePlugin#start(BundleContext
-				// context).
 				assert platform != null;
 			}
 			catch ( Exception ex )
@@ -94,7 +83,29 @@ public class Platform
 			}
 		}
 	}
-	
+
+	static protected PlatformLauncher createPlatformLauncher(
+			PlatformConfig config )
+	{
+		if ( config == null )
+		{
+			config = new PlatformConfig( );
+		}
+
+		IPlatformContext context = config.getPlatformContext( );
+		if ( context != null )
+		{
+			return new OSGILauncher( );
+		}
+
+		PlatformFileContext fileContext = new PlatformFileContext( config );
+		if ( OSGILauncher.isValidPlatform( fileContext ) )
+		{
+			return new OSGILauncher( );
+		}
+		return new ServiceLauncher( );
+	}
+
 	public synchronized static void shutdown( )
 	{
 		if ( launcher != null )
@@ -103,7 +114,6 @@ public class Platform
 			launcher = null;
 			platform = null;
 		}
-		
 	}
 
 	/**
@@ -145,6 +155,15 @@ public class Platform
 		if ( platform != null )
 		{
 			return platform.getExtensionRegistry( );
+		}
+		return null;
+	}
+
+	public static IAdapterManager getAdapterManager( )
+	{
+		if ( platform != null )
+		{
+			return platform.getAdapterManager( );
 		}
 		return null;
 	}
@@ -249,8 +268,8 @@ public class Platform
 	 * create an object inside the OSGIframework and give it out of the
 	 * framework. This object can be used in client side.
 	 * 
-	 * If a bundle need export some function outside of the framework, it
-	 * need implmenet a extension "org.eclipse.birt.core.FactoryService".
+	 * If a bundle need export some function outside of the framework, it need
+	 * implement a extension "org.eclipse.birt.core.FactoryService".
 	 * 
 	 * @see org.eclipse.birt.core.IPlatform#
 	 * @param extensionId
@@ -273,13 +292,29 @@ public class Platform
 		return null;
 	}
 
-	public static void setContextClassLoader( ClassLoader classLoader )
+	public static Object enterPlatformContext( )
 	{
-		contextClassLoader = classLoader;
+		if ( platform != null )
+		{
+			return platform.enterPlatformContext( );
+		}
+		return null;
 	}
 
-	public static ClassLoader getContextClassLoader( )
+	public static void exitPlatformContext( Object context )
 	{
-		return contextClassLoader;
+		if ( platform != null )
+		{
+			platform.exitPlatformContext( context );
+		}
+	}
+
+	public static String getOS( )
+	{
+		if ( platform != null )
+		{
+			return platform.getOS( );
+		}
+		return IPlatform.OS_UNKNOWN;
 	}
 }

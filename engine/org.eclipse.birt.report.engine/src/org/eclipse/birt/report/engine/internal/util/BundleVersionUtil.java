@@ -11,54 +11,44 @@
 
 package org.eclipse.birt.report.engine.internal.util;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.net.URL;
-import java.util.jar.Manifest;
-import java.util.logging.Level;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import java.util.logging.Logger;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 public class BundleVersionUtil
 {
+
 	/**
-	 * The Log object that <code>BundleVersionUtil</code> uses to log the error, debug,
-	 * information messages.
+	 * The Log object that <code>BundleVersionUtil</code> uses to log the error,
+	 * debug, information messages.
 	 */
-	protected static Logger logger = Logger.getLogger( BundleVersionUtil.class.getName() );
-	
-	private static String MANIFEST_PATH = "/META-INF/MANIFEST.MF";
-	private static String UNKNOWN_VERSION = "version unknown";
-	
-	public static String getBundleVersion( String bundleName ) 
+	protected static Logger logger = Logger.getLogger( BundleVersionUtil.class
+			.getName( ) );
+
+	private static String UNKNOWN_VERSION = "UNKNOWN";
+
+	public static String getBundleVersion( String bundleName )
 	{
 		Bundle bundle = Platform.getBundle( bundleName );
-		if ( null == bundle )
-			return UNKNOWN_VERSION;
-		Path path = new Path( MANIFEST_PATH );
-		URL bundleURL = FileLocator.find( bundle, path, null );
-		if ( null == bundleURL )
-			return UNKNOWN_VERSION;
-		String mainVersion = null;
-		try 
+		if ( bundle != null )
 		{
-			Manifest mf = new Manifest(new BufferedInputStream(bundleURL
-					.openStream()));
-			String version = mf.getMainAttributes().getValue("Bundle-Version");
-			// ignore the qualifier version.
-			if ( null != version )
-				mainVersion = version.substring(0, version.lastIndexOf("."));
-			
-		} catch (IOException ioe) 
-		{
-			logger.log( Level.WARNING, ioe.getMessage(), ioe );
-			return UNKNOWN_VERSION;
+			return bundle.getVersion( ).toString( );
 		}
-		return mainVersion;
+		// the engine.jar are in the class path
+		ProtectionDomain domain = BundleVersionUtil.class.getProtectionDomain( );
+		if ( domain != null )
+		{
+			CodeSource codeSource = domain.getCodeSource( );
+			if ( codeSource != null )
+			{
+				URL jarUrl = codeSource.getLocation( );
+				return jarUrl.getFile( );
+			}
+		}
+		return UNKNOWN_VERSION;
 	}
-	
 }

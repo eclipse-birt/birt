@@ -51,6 +51,7 @@ import org.eclipse.birt.report.engine.api.impl.LinkedObjectManager.LinkedEntry;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtensionFactory;
+import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
 import org.eclipse.birt.report.engine.util.SecurityUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -61,7 +62,6 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.mozilla.javascript.ScriptableObject;
-import org.osgi.framework.Bundle;
 
 /**
  * A report engine provides an entry point for reporting functionalities. It is
@@ -785,11 +785,11 @@ public class ReportEngine implements IReportEngine
 			document.setEngineCacheEntry( entry );
 		}
 	}
-	
+
 	public String getVersion( )
 	{
-		Bundle bundle = Platform.getBundle( "org.eclipse.birt.report.engine" );
-		return bundle.getVersion( ).toString( );
+		return BundleVersionUtil
+				.getBundleVersion( "org.eclipse.birt.report.engine" );
 	}
 
 	private class EngineExtensionManager

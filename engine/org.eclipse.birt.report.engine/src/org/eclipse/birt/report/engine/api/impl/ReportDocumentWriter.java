@@ -32,13 +32,12 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.index.DocumentIndexWriter;
+import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
 import org.eclipse.birt.report.engine.ir.EngineIRWriter;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
 
 /**
  * 
@@ -348,23 +347,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 
 	private String getBuildNumber( )
 	{
-		Bundle bundle = Platform.getBundle( "org.eclipse.birt.report.engine" );
-		if ( bundle != null )
-		{
-			Dictionary dict = bundle.getHeaders( );
-			if ( dict != null )
-			{
-				Object version = dict
-						.get( org.osgi.framework.Constants.BUNDLE_VERSION );
-				if ( version != null )
-				{
-					return version.toString( );
-				}
-			}
-		}
-		return "UNKNOWN";
+		return BundleVersionUtil
+				.getBundleVersion( "org.eclipse.birt.report.engine" );
 	}
-	
+
 	public void removeReportletDoucment( )
 	{
 		if ( archive.exists( REPORTLET_DOCUMENT_STREAM ) )
@@ -372,8 +358,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			archive.dropStream( REPORTLET_DOCUMENT_STREAM );
 		}
 	}
-	
-	
+
 	public void saveReportletDocument( String bookmark, InstanceID iid )
 			throws IOException
 	{

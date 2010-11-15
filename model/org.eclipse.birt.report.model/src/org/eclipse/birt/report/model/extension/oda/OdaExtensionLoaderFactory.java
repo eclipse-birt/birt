@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.report.model.extension.oda;
 
+import org.eclipse.birt.report.model.plugin.OdaBaseExtensionLoaderFactory;
+
 public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 {
 
@@ -30,6 +32,22 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 		baseFactory = base;
 	}
 
+	public static IOdaExtensionLoaderFactory getFactory( )
+	{
+		if ( baseFactory != null )
+		{
+			return baseFactory;
+		}
+		synchronized ( OdaExtensionLoaderFactory.class )
+		{
+			if ( baseFactory == null )
+			{
+				baseFactory = new OdaBaseExtensionLoaderFactory( );
+			}
+			return baseFactory;
+		}
+	}
+
 	/**
 	 * returns the oda extension loader factory instance.
 	 * 
@@ -37,9 +55,18 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 	 */
 	public static OdaExtensionLoaderFactory getInstance( )
 	{
-		if ( instance == null )
-			instance = new OdaExtensionLoaderFactory( );
-		return instance;
+		if ( instance != null )
+		{
+			return instance;
+		}
+		synchronized ( OdaExtensionLoaderFactory.class )
+		{
+			if ( instance == null )
+			{
+				instance = new OdaExtensionLoaderFactory( );
+			}
+			return instance;
+		}
 	}
 
 	/*
@@ -51,10 +78,7 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 	 */
 	public IOdaExtensionLoader createOdaExtensionLoader( )
 	{
-		if ( baseFactory != null )
-			return baseFactory.createOdaExtensionLoader( );
-
-		return null;
+		return getFactory( ).createOdaExtensionLoader( );
 	}
 
 	/**

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.api.script.element;
 
+import org.eclipse.birt.report.engine.script.internal.element.ScriptAPIBaseFactory;
+
 /**
  * Class to create some structure instances.
  * 
@@ -45,6 +47,22 @@ public class ScriptAPIFactory implements IScriptAPIFactory
 			}
 		}
 		return instance;
+	}
+
+	public static IScriptAPIFactory getBaseFactory( )
+	{
+		if ( baseFactory != null )
+		{
+			return baseFactory;
+		}
+		synchronized ( ScriptAPIFactory.class )
+		{
+			if ( baseFactory == null )
+			{
+				baseFactory = new ScriptAPIBaseFactory( );
+			}
+		}
+		return baseFactory;
 	}
 
 	/**

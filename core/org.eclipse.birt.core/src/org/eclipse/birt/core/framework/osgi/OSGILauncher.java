@@ -29,14 +29,14 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.PlatformConfig;
+import org.eclipse.birt.core.framework.PlatformFileContext;
+import org.eclipse.birt.core.framework.PlatformLauncher;
 import org.eclipse.birt.core.framework.URLClassLoader;
 
-public class OSGILauncher
+public class OSGILauncher extends PlatformLauncher
 {
 
 	private static Logger logger = Logger.getLogger( OSGILauncher.class
@@ -67,7 +67,7 @@ public class OSGILauncher
 	private static final String CONFIG_FOLDER = "configuration";//$NON-NLS-1$
 	private static final String INSTANCE_FOLDER = "workspace";//$NON-NLS-1$
 
-	public void startup( final PlatformConfig config ) throws BirtException
+	public void startup( final PlatformConfig config ) throws FrameworkException
 	{
 		try
 		{
@@ -83,15 +83,15 @@ public class OSGILauncher
 		}
 		catch ( Exception ex )
 		{
-			if ( ex instanceof BirtException )
+			if ( ex instanceof FrameworkException )
 			{
-				throw (BirtException) ex;
+				throw (FrameworkException) ex;
 			}
-			throw new CoreException( ex.getMessage( ), ex );
+			throw new FrameworkException( ex.getMessage( ), ex );
 		}
 	}
 	
-	private void doStartup(PlatformConfig config) throws BirtException
+	private void doStartup(PlatformConfig config) throws FrameworkException
 	{
 		if ( frameworkClassLoader != null )
 		{
@@ -192,7 +192,7 @@ public class OSGILauncher
 			frameworkContextClassLoader = Thread.currentThread( )
 					.getContextClassLoader( );
 		}
-		catch ( BirtException be )
+		catch ( FrameworkException be )
 		{
 			throw be;
 		}
@@ -725,5 +725,18 @@ public class OSGILauncher
 			Policy.setPolicy( eclipsePolicy );
 		}
 	}
-	
+
+	static public boolean isValidPlatform( PlatformFileContext context )
+	{
+		String root = context.getPlatform( );
+		if ( root != null )
+		{
+			File plugin = new File( new File( root ), "plugins" );
+			if ( plugin.exists( ) && plugin.isDirectory( ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -13,7 +13,6 @@ package org.eclipse.birt.core.framework;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.i18n.ResourceHandle;
-import org.eclipse.core.runtime.IStatus;
 
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;

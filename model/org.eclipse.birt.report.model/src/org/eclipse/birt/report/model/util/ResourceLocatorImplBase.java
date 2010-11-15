@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.BundleFactory;
+import org.eclipse.birt.report.model.api.IBundleFactory;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -303,8 +304,14 @@ public class ResourceLocatorImplBase implements IResourceLocator
 
 	private URL tryFragmentSearch( String fileName )
 	{
-		return BundleFactory.getBundleFactory( ).getBundleResource(
-				FRAGMENT_RESOURCE_HOST, fileName );
+		IBundleFactory bundleFactory = BundleFactory.getBundleFactory( );
+		if ( bundleFactory != null )
+		{
+			return bundleFactory.getBundleResource( FRAGMENT_RESOURCE_HOST,
+					fileName );
+		}
+		// search in the class path
+		return this.getClass( ).getClassLoader( ).getResource( fileName );
 	}
 
 	/**

@@ -947,7 +947,6 @@ public class JDBCDriverManager
 	
 	private static class DriverClassLoader extends URLClassLoader
 	{
-		private Bundle bundle;
 		private HashSet fileSet = new HashSet();
 		private Collection<String> driverClassPath;
 		public DriverClassLoader( Collection<String> driverClassPath ) throws OdaException
@@ -955,16 +954,7 @@ public class JDBCDriverManager
 			super( new URL[0], DriverClassLoader.class.getClassLoader() );
 			logger.entering( DriverClassLoader.class.getName(), "constructor()" );
 			this.driverClassPath = driverClassPath;
-			bundle = Platform.getBundle( "org.eclipse.birt.report.data.oda.jdbc" );
-			if ( bundle == null )
-			{
-				// Shoudn't happen
-				logger.severe( "Failed to get Bundle object" );
-			}
-			else
-			{
-				refreshURLs();
-			}
+			refreshURLs();
 		}
 
 		protected PermissionCollection getPermissions( CodeSource codesource )
@@ -980,9 +970,6 @@ public class JDBCDriverManager
 		 */
 		public boolean refreshURLs() throws OdaException
 		{
-			if ( bundle == null )
-				return false;			// init failed
-			
 			boolean foundNewUnderSpecifiedDIR = refreshFileURLsUnderSpecifiedDIR( );
 
 			boolean foundNewUnderDefaultDIR = refreshFileURLsUnderDefaultDIR( );
@@ -990,125 +977,111 @@ public class JDBCDriverManager
 			return foundNewUnderSpecifiedDIR || foundNewUnderDefaultDIR;
 		}
 
-		private boolean refreshFileURLsUnderSpecifiedDIR( )
-				throws OdaException
+		private boolean refreshFileURLsUnderSpecifiedDIR( ) throws OdaException
 		{
-			boolean foundNewFlag = false;
-			if( driverClassPath != null && driverClassPath.size( ) > 0 )
+			boolean hasNewDriver = false;
+			if ( driverClassPath != null && driverClassPath.size( ) > 0 )
 			{
-				try
+				for ( String classPath : driverClassPath )
 				{
-					for ( String classPath : driverClassPath )
+					if ( refreshFileURL( classPath ) )
 					{
-						File driverClassFile = new File( classPath );
-						if ( driverClassFile.exists( ) )
-						{
-							this.addURL( driverClassFile.toURI( ).toURL( ) );
+						hasNewDriver = true;
+					}
+				}
+			}
+			return hasNewDriver;
+		}
 
-							if ( driverClassFile.isDirectory( ) )
+		private boolean refreshFileURL( String classPath )
+		{
+			File driverClassFile = new File( classPath );
+			if ( !driverClassFile.exists( ) )
+			{
+				return false;
+			}
+			boolean hasNewDriver = false;
+			try
+			{
+				this.addURL( driverClassFile.toURI( ).toURL( ) );
+			}
+			catch ( MalformedURLException ex )
+			{
+			}
+
+			if ( driverClassFile.isDirectory( ) )
+			{
+				File[] driverFiles = driverClassFile
+						.listFiles( new FileFilter( ) {
+
+							public boolean accept( File pathname )
 							{
-								File[] driverFiles = driverClassFile.listFiles( new FileFilter( ) {
-
-									public boolean accept( File pathname )
-									{
-										if ( pathname.isFile( )
-												&& OdaJdbcDriver.isDriverFile( pathname.getName( ) ) )
-										{
-											return true;
-										}
-										return false;
-									}
-								} );
-
-								for ( int i = 0; i < driverFiles.length; i++ )
+								if ( pathname.isFile( )
+										&& OdaJdbcDriver.isDriverFile( pathname
+												.getName( ) ) )
 								{
-									if ( !fileSet.contains( driverFiles[i].getName( ) ) )
-									{
-										// This is a new file not previously
-										// added to URL list
-										foundNewFlag = true;
-										fileSet.add( driverFiles[i].getName( ) );
-										addURL( driverFiles[i].toURI( ).toURL( ) );
-										logger.info( "JDBCDriverManager: found JAR file "
-												+ driverFiles[i].getName( )
-												+ ". URL="
-												+ driverFiles[i].toURI( )
-														.toURL( ) );
-									}
+									return true;
 								}
+								return false;
 							}
+						} );
+
+				for ( File driverFile : driverFiles )
+				{
+					String fileName = driverFile.getName( );
+					if ( !fileSet.contains( fileName ) )
+					{
+						fileSet.add( fileName );
+						try
+						{
+							hasNewDriver = true;
+							URL driverUrl = driverFile.toURI( ).toURL( );
+							addURL( driverUrl );
+							logger.info( "JDBCDriverManager: found JAR file "
+									+ fileName + ". URL=" + driverUrl );
+						}
+						catch ( MalformedURLException ex )
+						{
 						}
 					}
-						
-				}
-				catch ( MalformedURLException e )
-				{
-					throw new OdaException( e );
 				}
 			}
-			return foundNewFlag;
+			return hasNewDriver;
 		}
 
-		private boolean refreshFileURLsUnderDefaultDIR( )
+		private boolean refreshFileURLsUnderDefaultDIR( ) throws OdaException
 		{
-			boolean foundNewFlag = false;
-			Enumeration files = bundle.getEntryPaths( 
-					OdaJdbcDriver.Constants.DRIVER_DIRECTORY );
-			while ( files!= null && files.hasMoreElements() )
+			Bundle bundle = Platform
+					.getBundle( "org.eclipse.birt.report.data.oda.jdbc" );
+			if ( bundle == null )
 			{
-				String fileName = (String) files.nextElement();
-				if ( OdaJdbcDriver.isDriverFile( fileName ) )
+				return false;
+			}
+			try
+			{
+				URL url = bundle
+						.getEntry( OdaJdbcDriver.Constants.DRIVER_DIRECTORY );
+				if ( url != null )
 				{
-					boolean newAdded = addNewURL( fileName );
-					if ( !foundNewFlag && newAdded )
+					url = FileLocator.resolve( url );
+					if ( url != null )
 					{
-						foundNewFlag = true;
+						if ( "file".equals( url.getProtocol( ) ) )
+						{
+							String driverFolder = url.getFile( );
+							return refreshFileURL( driverFolder );
+						}
 					}
 				}
+				return false;
 			}
-			return foundNewFlag;
-		}
-		
-		/**
-		 * Add a new URL to the file set
-		 * 
-		 * @param fileName
-		 * @return
-		 */
-		private boolean addNewURL( String fileName )
-		{
-			if ( ! fileSet.contains( fileName ))
+			catch ( IOException ex )
 			{
-				fileSet.add( fileName );
-				URL bundleURL = bundle.getEntry( fileName );
-				try
-				{
-					/**
-					 * bundleURL is a special protocol URL Equinox defined.
-					 * if we register bundleURL directly to URLClassLoader, that class loader will fail to load driver classes existing in that URL in some environment
-					 * see, https://bugs.eclipse.org/bugs/show_bug.cgi?id=220633
-					 * 
-					 * So, we'll first convert bundleURL into a URL that uses a protocol which is native to the Java class library (file, jar, http, etc).
-					 * then, we add both converted URL and original URL into this class loader to avoid that problem 
-					 */
-					URL fileURL = FileLocator.resolve( bundleURL );
-					addURL( fileURL );
-					addURL( bundleURL );
-					logger.info("JDBCDriverManager: found JAR file " + 
-							fileName + ". URL=" + bundleURL );
-					return true;
-				}
-				catch ( IOException e )
-				{
-					logger.log( Level.SEVERE, "[" + bundleURL + "] " + "can't be converted to file url", e );
-					//throw new OdaException( e );
-				}
+				throw new OdaException( ex );
 			}
-			return false;
 		}
-		
 	}
-	
+
 //	The classloader of a driver (jtds driver, etc.) is
 //	 "java.net.FactoryURLClassLoader", whose parent is
 //	 "sun.misc.Launcher$AppClassLoader".

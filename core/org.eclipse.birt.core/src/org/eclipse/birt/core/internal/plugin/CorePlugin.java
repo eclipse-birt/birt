@@ -31,7 +31,6 @@ public class CorePlugin extends BIRTPlugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
-		Platform.setPlatform( new EclipsePlatform( context ) );
 		ClassLoader contextClassLoader = (ClassLoader) AccessController
 				.doPrivileged( new PrivilegedAction<Object>( ) {
 
@@ -41,7 +40,7 @@ public class CorePlugin extends BIRTPlugin
 					}
 				} );
 
-		Platform.setContextClassLoader( contextClassLoader );
+		Platform.setPlatform( new EclipsePlatform( context, contextClassLoader ) );
 		FunctionProvider.setFunctionProvider( new FunctionProviderImpl( ) );
 		ScriptEngineFactoryManager
 				.setInstance( new ScriptEngineFactoryManagerImpl( ) );
@@ -54,7 +53,6 @@ public class CorePlugin extends BIRTPlugin
 	{
 		super.stop( context );
 		Platform.setPlatform( null );
-		Platform.setContextClassLoader( null );
 		FunctionProvider.setFunctionProvider( null );
 		ScriptEngineFactoryManager.setInstance( null );
 	}

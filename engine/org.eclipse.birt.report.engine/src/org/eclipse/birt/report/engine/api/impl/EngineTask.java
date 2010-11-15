@@ -187,8 +187,8 @@ public abstract class EngineTask implements IEngineTask
 	 * Engine task type. for usage in BIRT scripting.
 	 */
 	protected int taskType = IEngineTask.TASK_UNKNOWN;
-	
-	private ClassLoader contextClassLoader;
+
+	private Object platformContext;
 
 	protected IPageHandler pageHandler;
 	
@@ -2069,7 +2069,7 @@ public abstract class EngineTask implements IEngineTask
 						.setImageDirectory( htmlOptions.getImageDirectory( ) );
 				htmlContext.setSupportedImageFormats( htmlOptions
 						.getSupportedImageFormats( ) );
-				htmlContext.SetRenderOption( allOptions );
+				htmlContext.setRenderOption( allOptions );
 				appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 						htmlContext );
 			}
@@ -2145,18 +2145,15 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void switchToOsgiClassLoader( )
 	{
-		ClassLoader newLoader = Platform.getContextClassLoader( );
-		if ( newLoader != null )
-		{
-			contextClassLoader = SecurityUtil.setContextClassLoader( newLoader );
-		}
+		platformContext = Platform.enterPlatformContext( );;
 	}
 
 	protected void switchClassLoaderBack( )
 	{
-		if ( contextClassLoader != null )
+		if ( platformContext != null )
 		{
-			SecurityUtil.setContextClassLoader( contextClassLoader );
+			Platform.exitPlatformContext( platformContext );
+			platformContext = null;
 		}
 	}
 	

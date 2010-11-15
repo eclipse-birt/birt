@@ -1,0 +1,116 @@
+/*******************************************************************************
+ * Copyright (c) 2010 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.core.framework.jar;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+
+import org.eclipse.birt.core.framework.IBundle;
+import org.eclipse.core.runtime.IContributor;
+
+public class Bundle implements IBundle
+{
+
+	protected ServicePlatform platform;
+	protected URL root;
+	protected Contributor contributor;
+	protected String version;
+	protected Extension[] extensions;
+	protected ExtensionPoint[] extensionPoints;
+	static final Extension[] EMPTY_EXTENSIONS = new Extension[]{};
+	static final ExtensionPoint[] EMPTY_EXTENSION_POINTS = new ExtensionPoint[]{};
+
+	Bundle( ServicePlatform platform, URL root, String name )
+	{
+		this.platform = platform;
+		this.root = root;
+		this.contributor = new Contributor( name );
+	}
+
+	public String getSymbolicName( )
+	{
+		return contributor.getName( );
+	}
+
+	public IContributor getContributor( )
+	{
+		return contributor;
+	}
+
+	public String getVersion( )
+	{
+		return version;
+	}
+
+	public URL getEntry( String path )
+	{
+		try
+		{
+			return new URL( root, path );
+		}
+		catch ( MalformedURLException ex )
+		{
+			return null;
+		}
+	}
+
+	public Enumeration<URL> getEntryPaths( String path )
+	{
+		ArrayList<URL> urls = new ArrayList<URL>( );
+
+		// try
+		// {
+		// return new URL( root, path );
+		// }
+		// catch ( MalformedURLException ex )
+		// {
+		// return null;
+		// }
+
+		return Collections.enumeration( urls );
+	}
+
+	Extension[] getExtensions( )
+	{
+		if ( extensions == null )
+		{
+			return EMPTY_EXTENSIONS;
+		}
+		return extensions;
+	}
+
+	ExtensionPoint[] getExtensionPoints( )
+	{
+		if ( extensionPoints == null )
+		{
+			return EMPTY_EXTENSION_POINTS;
+		}
+		return extensionPoints;
+	}
+
+	public String toString( )
+	{
+		StringBuilder sb = new StringBuilder( );
+		sb.append( contributor.getName( ) );
+		sb.append( "@" );
+		sb.append( root.toString( ) );
+		return sb.toString( );
+	}
+
+	public Class loadClass( String name ) throws ClassNotFoundException
+	{
+		return this.getClass( ).getClassLoader( ).loadClass( name );
+	}
+}

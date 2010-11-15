@@ -77,7 +77,6 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.core.runtime.IAdapterManager;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -2014,7 +2013,9 @@ public class ChartUtil
 	 */
 	public static <T> T getAdapter( Object adaptable, Class<T> type )
 	{
-		IAdapterManager adapterManager = Platform.getAdapterManager( );
+		// use BIRT platform as the Eclipse platform may throws exception if the
+		// OSGi is not started
+		IAdapterManager adapterManager = org.eclipse.birt.core.framework.Platform.getAdapterManager( );
 		return type.cast( adapterManager.loadAdapter( adaptable, type.getName( ) ) );
 	}
 	

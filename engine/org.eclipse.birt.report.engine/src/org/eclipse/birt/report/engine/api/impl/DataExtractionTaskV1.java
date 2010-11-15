@@ -1421,7 +1421,7 @@ public class DataExtractionTaskV1 extends EngineTask
 			htmlContext.setImageDirectory( htmlOptions.getImageDirectory( ) );
 			htmlContext.setSupportedImageFormats( htmlOptions
 					.getSupportedImageFormats( ) );
-			htmlContext.SetRenderOption( htmlOptions );
+			htmlContext.setRenderOption( htmlOptions );
 			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					htmlContext );
 		}

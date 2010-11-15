@@ -30,6 +30,7 @@ import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.IPlatform;
 import org.eclipse.birt.core.framework.IPlatformPath;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -45,15 +46,23 @@ public class EclipsePlatform implements IPlatform
 	protected static Logger logger = Logger.getLogger( IPlatform.class.getName( ) );
 	
 	BundleContext context;
+	ClassLoader contextClassLoader;
 
-	public EclipsePlatform( BundleContext context )
+	public EclipsePlatform( BundleContext context,
+			ClassLoader contextClassLoader )
 	{
 		this.context = context;
+		this.contextClassLoader = contextClassLoader;
 	}
 
 	public IExtensionRegistry getExtensionRegistry( )
 	{
 		return new EclipseExtensionRegistry( Platform.getExtensionRegistry( ) );
+	}
+
+	public IAdapterManager getAdapterManager( )
+	{
+		return Platform.getAdapterManager( );
 	}
 
 	public IBundle getBundle( String symbolicName )
@@ -371,5 +380,28 @@ public class EclipsePlatform implements IPlatform
 		}
 		return null;
 
+	}
+
+	public Object enterPlatformContext( )
+	{
+		Thread thread = Thread.currentThread( );
+		ClassLoader loader = thread.getContextClassLoader( );
+		thread.setContextClassLoader( contextClassLoader );
+		return loader;
+	}
+
+	public void exitPlatformContext( Object context )
+	{
+		if ( !( context instanceof ClassLoader ) )
+		{
+			throw new IllegalArgumentException(
+					"The context must be returned by teh enterPlatformContext" );
+		}
+		Thread.currentThread( ).setContextClassLoader( (ClassLoader) context );
+	}
+
+	public String getOS( )
+	{
+		return Platform.getOS( );
 	}
 }

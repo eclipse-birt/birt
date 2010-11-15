@@ -14,7 +14,6 @@ package org.eclipse.birt.core.internal.function.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -231,6 +230,7 @@ public class FunctionProviderImpl implements IFunctionProvider
 			}
 			catch ( BirtException ex )
 			{
+				ex.printStackTrace( );
 			}
 		}
 		return categories;
@@ -246,30 +246,31 @@ public class FunctionProviderImpl implements IFunctionProvider
 			IConfigurationElement confElement )
 	{
 		String source = confElement.getAttribute( ATTRIBUTE_LOCATION );
-		Bundle bundle = org.eclipse.core.runtime.Platform.getBundle( confElement.getDeclaringExtension( )
-				.getNamespace( ) );
+		IExtension extension = confElement.getDeclaringExtension( );
+		String namespace = extension.getNamespace( );
+		Bundle bundle = org.eclipse.core.runtime.Platform.getBundle( namespace );
 		if ( bundle != null )
 		{
-			URL url = bundle.getEntry( source );
-			Enumeration files = bundle.getEntryPaths( source );
-			
+			Enumeration<URL> files = bundle.getEntryPaths( source );
+
 			if ( files != null )
 			{
-				//In this case, the bundle denotes to a directory.
+				// In this case, the bundle denotes to a directory.
 				while ( files.hasMoreElements( ) )
 				{
-					String element = files.nextElement( ).toString( );
-					if ( element.toLowerCase( ).endsWith( suffix ) )
+					URL file = (URL) files.nextElement( );
+					if ( file.getFile( ).toLowerCase( ).endsWith( suffix ) )
 					{
-						libs.add( bundle.getEntry( element ) );
+						libs.add( file );
 					}
 				}
 			}
 			else
 			{
-				//the bundle denotes to a file.
+				URL url = bundle.getEntry( source );
+				// the bundle denotes to a file.
 				if ( url.getFile( ).toLowerCase( ).endsWith( suffix ) )
-					libs.add( bundle.getEntry( source ) );
+					libs.add( url );
 			}
 		}
 	}

@@ -161,8 +161,12 @@ public class SampledbPlugin extends BIRTPlugin
 	/**
 	 * Gets Derby connection URL
 	 */
-	public static String getDBUrl()
+	public static String getDBUrl( )
 	{
+		if ( dbDir == null )
+		{
+			return "jdbc:derby:classpath:BirtSample";
+		}
 		return "jdbc:derby:" + dbDir + "/" + SAMPLE_DB_NAME;
 	}
 	

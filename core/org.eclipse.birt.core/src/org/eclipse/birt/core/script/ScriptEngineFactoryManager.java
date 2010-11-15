@@ -30,7 +30,31 @@ abstract public class ScriptEngineFactoryManager
 
 	static public ScriptEngineFactoryManager getInstance( )
 	{
-		return instance;
+		if ( instance != null )
+		{
+			return instance;
+		}
+		synchronized ( ScriptEngineFactoryManager.class )
+		{
+			if ( instance == null )
+			{
+				try
+				{
+					Class clazz = Class
+							.forName( "org.eclipse.birt.core.internal.plugin.ScriptEngineFactoryManagerImpl" );
+					if ( clazz != null )
+					{
+						instance = (ScriptEngineFactoryManager) clazz
+								.newInstance( );
+					}
+				}
+				catch ( Exception ex )
+				{
+					ex.printStackTrace( );
+				}
+			}
+			return instance;
+		}
 	}
 
 	private Map<String, IScriptEngineFactory> factories;
