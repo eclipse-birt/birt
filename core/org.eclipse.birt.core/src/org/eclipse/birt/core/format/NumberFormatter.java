@@ -366,13 +366,14 @@ public class NumberFormatter implements IFormatter
 				return Long.toHexString( bigDecimal.longValue( ) );
 			}
 
+			com.ibm.icu.math.BigDecimal icuBigDecimal = new com.ibm.icu.math.BigDecimal( bigDecimal.toString( ) );
 			if ( this.formatPattern == null )
 			{
-				return decimalFormat.format( bigDecimal );
+				return decimalFormat.format( icuBigDecimal );
 			}
-			
-			bigDecimal = roundValue( bigDecimal );
-			return numberFormat.format( bigDecimal );
+
+			icuBigDecimal = roundValue( icuBigDecimal );
+			return numberFormat.format( icuBigDecimal );
 		}
 		catch ( Exception e )
 		{
@@ -625,7 +626,7 @@ public class NumberFormatter implements IFormatter
 		return numberFormat.parse( number );
 	}
 
-	BigDecimal roundValue( BigDecimal bd )
+	com.ibm.icu.math.BigDecimal roundValue( com.ibm.icu.math.BigDecimal bd )
 	{
 		if ( roundPrecision >= 0 )
 		{
@@ -634,7 +635,11 @@ public class NumberFormatter implements IFormatter
 			{
 				if ( scale > roundPrecision )
 				{
-					bd = bd.setScale( roundPrecision, roundingMode );
+					Integer iRoundingMode = adapters.get( roundingMode );
+					if ( iRoundingMode != null )
+					{
+						bd = bd.setScale( roundPrecision, iRoundingMode );
+					}
 				}
 			}
 			catch ( ArithmeticException e )
