@@ -461,12 +461,19 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 			if ( cachedStyle == null
 					|| ( style != null && cachedStyle.getValue( ) != style
 							.getValue( ) ) )
-				param.setControlType( style == null ? null : AdapterUtil
+			{
+				boolean isAutoSuggest = uiHints.isSetAutoSuggestThreshold( );
+				if ( isAutoSuggest )
+					param.setControlType( DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST );
+				else
+					param.setControlType( style == null ? null : AdapterUtil
 							.newROMControlType( style ) );
+			}
 
-				param.setAutoSuggestThreshold( uiHints.getAutoSuggestThreshold( ) );
+			param.setAutoSuggestThreshold( uiHints.getAutoSuggestThreshold( ) );
 		}
-		else if ( cachedElementAttrs == null || cachedElementAttrs.getUiHints( ) == null )
+		else if ( cachedElementAttrs == null
+				|| cachedElementAttrs.getUiHints( ) == null )
 			param.setControlType( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX );
 
 		super.updateInputElementAttrsToReportParam( elementAttrs,

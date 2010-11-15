@@ -23,7 +23,7 @@
                 </structure>
             </list-property>
             <property name="concealValue">false</property>
-            <property name="controlType">radio-button</property>
+            <property name="controlType">auto-suggest</property>
             <property name="autoSuggestThreshold">111</property>            
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="6">
