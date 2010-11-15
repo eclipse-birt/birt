@@ -42,7 +42,7 @@
 					  includes="**/*_ko_KR.msg"/>
 		<copy todir="src/" failonerror="false">
 		    <fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.engine/src"/>
-			<globmapper from="Message*.properties" to="Message*_en.properties"/>
+			<globmapper from="*Messages.properties" to="*Messages_en.properties"/>
 		</copy>
 		<copy todir=".">
 			<fileset dir="src" includes="org/**"/>
