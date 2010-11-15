@@ -83,7 +83,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		this.reader = reader;
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
-				DataSessionContext.MODE_UPDATE, null, context
+				DataSessionContext.MODE_UPDATE, context.getDesign( ), context
 						.getScriptContext( ), context
 						.getApplicationClassLoader( ) );
 		dteSessionContext.setDocumentReader( reader );
