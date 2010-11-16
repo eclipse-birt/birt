@@ -60,20 +60,24 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 			}
 
 			content = executor.execute( );
-			String bookmark = content.getBookmark( );
-			if ( bookmark != null )
+			//if ExtendedGenerateExecutor, bookmark had been resolved.
+			if ( !(executor instanceof ExtendedGenerateExecutor) )
 			{
-				BookmarkManager bookmarkManager = context.getBookmarkManager( );
-				if ( bookmarkManager.exist( bookmark ) )
+				String bookmark = content.getBookmark( );
+				if ( bookmark != null )
 				{
-					bookmark = bookmarkManager.createBookmark( bookmark );
-					content.setBookmark( bookmark );
+					BookmarkManager bookmarkManager = context.getBookmarkManager( );
+					if ( bookmarkManager.exist( bookmark ) )
+					{
+						bookmark = bookmarkManager.createBookmark( bookmark );
+						content.setBookmark( bookmark );
+					}
+					else
+					{
+						bookmarkManager.addBookmark( bookmark );
+					}
 				}
-				else
-				{
-					bookmarkManager.addBookmark( bookmark );
-				}
-			}	
+			}
 			if ( content != null )
 			{
 				IContent pContent = (IContent) content.getParent( );
