@@ -233,7 +233,7 @@ public class ChartReportItemUtil extends ChartItemUtil
 
 	public static <T> T getAdapter( Object adaptable, Class<T> adapterClass )
 	{
-		IAdapterManager adapterManager = Platform.getAdapterManager( );
+		IAdapterManager adapterManager = org.eclipse.birt.core.framework.Platform.getAdapterManager( );
 		return adapterClass.cast( adapterManager.loadAdapter( adaptable,
 				adapterClass.getName( ) ) );
 	}

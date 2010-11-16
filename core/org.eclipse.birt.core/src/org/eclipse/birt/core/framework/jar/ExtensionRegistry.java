@@ -70,10 +70,13 @@ public class ExtensionRegistry implements IExtensionRegistry
 	public IExtension getExtension( String extensionPointId, String extensionId )
 	{
 		IExtension extension = getExtension( extensionId );
-		if ( extension.getExtensionPointUniqueIdentifier( ).equals(
-				extensionPointId ) )
+		if ( extension != null )
 		{
-			return extension;
+			if ( extension.getExtensionPointUniqueIdentifier( ).equals(
+					extensionPointId ) )
+			{
+				return extension;
+			}
 		}
 		return null;
 	}

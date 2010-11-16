@@ -32,14 +32,14 @@ public class ODAProviderFactory
 	/**
 	 * Factory used to create the ODAProvider instance.
 	 */
-	private static IODAProviderFactory baseFactory = null;
+	private static volatile IODAProviderFactory baseFactory = null;
 
 	/**
 	 * The only one ODAProviderFactory instance.
 	 */
 	private static volatile ODAProviderFactory instance = null;
 
-	private static IODAFilterExprProvider filterProvider = null;
+	private static volatile IODAFilterExprProvider filterProvider = null;
 
 	/**
 	 * Returns the ODAProviderFactory instance.
@@ -52,6 +52,56 @@ public class ODAProviderFactory
 		if ( instance == null )
 			instance = new ODAProviderFactory( );
 		return instance;
+	}
+
+	protected static IODAProviderFactory getODAProvider( )
+	{
+		if ( baseFactory != null )
+		{
+			return baseFactory;
+		}
+
+		synchronized ( ODAProviderFactory.class )
+		{
+			if ( baseFactory == null )
+			{
+				try
+				{
+					Class clazz = Class
+							.forName( "org.eclipse.birt.report.model.plugin.ODABaseProviderFactory" );
+					baseFactory = (IODAProviderFactory) clazz.newInstance( );
+				}
+				catch ( Exception ex )
+				{
+				}
+			}
+		}
+		return baseFactory;
+	}
+
+	protected static IODAFilterExprProvider getFilterProvider( )
+	{
+		if ( filterProvider != null )
+		{
+			return filterProvider;
+		}
+		synchronized ( ODAProviderFactory.class )
+		{
+			if ( filterProvider == null )
+			{
+				try
+				{
+					Class clazz = Class
+							.forName( "org.eclipse.birt.report.model.api.filterExtension.ODAFilterExprProvider" );
+					filterProvider = (IODAFilterExprProvider) clazz
+							.newInstance( );
+				}
+				catch ( Exception ex )
+				{
+				}
+			}
+		}
+		return filterProvider;
 	}
 
 	/**
@@ -67,16 +117,18 @@ public class ODAProviderFactory
 	public ODAProvider createODAProvider( DesignElement element,
 			String extensionID )
 	{
-		if ( baseFactory != null )
-			return baseFactory.createODAProvider( element, extensionID );
+		IODAProviderFactory provider = getODAProvider( );
+		if ( provider != null )
+			return provider.createODAProvider( element, extensionID );
 
 		return null;
 	}
 
 	public IFilterExprDefinition createFilterExprDefinition( )
 	{
-		if ( baseFactory != null )
-			return baseFactory.createFilterExprDefinition( );
+		IODAProviderFactory provider = getODAProvider( );
+		if ( provider != null )
+			return provider.createFilterExprDefinition( );
 
 		return null;
 	}
@@ -84,8 +136,9 @@ public class ODAProviderFactory
 	public IFilterExprDefinition createFilterExprDefinition(
 			String birtFilterExpr )
 	{
-		if ( baseFactory != null )
-			return baseFactory.createFilterExprDefinition( birtFilterExpr );
+		IODAProviderFactory provider = getODAProvider( );
+		if ( provider != null )
+			return provider.createFilterExprDefinition( birtFilterExpr );
 
 		return null;
 	}
@@ -115,12 +168,12 @@ public class ODAProviderFactory
 	 */
 
 	public synchronized static void initFilterExprFactory(
-			IODAFilterExprProvider filterProvider )
+			IODAFilterExprProvider provider )
 	{
-		if ( ODAProviderFactory.filterProvider != null )
+		if ( filterProvider != null )
 			return;
 
-		ODAProviderFactory.filterProvider = filterProvider;
+		filterProvider = provider;
 	}
 
 	/**
@@ -142,8 +195,13 @@ public class ODAProviderFactory
 	public List<IFilterExprDefinition> getMappedFilterExprDefinitions(
 			String odaDatasetExtensionId, String odaDataSourceExtensionId )
 	{
-		return filterProvider.getMappedFilterExprDefinitions(
-				odaDatasetExtensionId, odaDataSourceExtensionId );
+		IODAFilterExprProvider provider = getFilterProvider( );
+		if ( provider != null )
+		{
+			return provider.getMappedFilterExprDefinitions(
+					odaDatasetExtensionId, odaDataSourceExtensionId );
+		}
+		return null;
 	}
 
 	/*
@@ -155,7 +213,12 @@ public class ODAProviderFactory
 	 */
 	public boolean supportOdaExtensionFilters( )
 	{
-		return filterProvider.supportOdaExtensionFilters( );
+		IODAFilterExprProvider provider = getFilterProvider( );
+		if ( provider != null )
+		{
+			return provider.supportOdaExtensionFilters( );
+		}
+		return false;
 	}
 
 	/*
@@ -168,7 +231,12 @@ public class ODAProviderFactory
 	public boolean supportODAFilterPushDown( String dataSourceExtId,
 			String dataSetExtId )
 	{
-		return filterProvider.supportODAFilterPushDown( dataSourceExtId,
-				dataSetExtId );
+		IODAFilterExprProvider provider = getFilterProvider( );
+		if ( provider != null )
+		{
+			return provider.supportODAFilterPushDown( dataSourceExtId,
+					dataSetExtId );
+		}
+		return false;
 	}
 }

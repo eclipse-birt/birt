@@ -19,7 +19,7 @@ package org.eclipse.birt.report.model.api;
 public class BundleFactory
 {
 
-	private static IBundleFactory bundleFactory = null;
+	private static volatile IBundleFactory bundleFactory = null;
 
 	/**
 	 * Sets the bundle factory.
@@ -41,6 +41,25 @@ public class BundleFactory
 
 	public static IBundleFactory getBundleFactory( )
 	{
+		if ( bundleFactory != null )
+		{
+			return bundleFactory;
+		}
+		synchronized ( BundleFactory.class )
+		{
+			if ( bundleFactory == null )
+			{
+				try
+				{
+					Class clazz = Class
+							.forName( " org.eclipse.birt.report.model.plugin.PlatformBundleFactory" );
+					bundleFactory = (IBundleFactory) clazz.newInstance( );
+				}
+				catch ( Exception ex )
+				{
+				}
+			}
+		}
 		return bundleFactory;
 	}
 

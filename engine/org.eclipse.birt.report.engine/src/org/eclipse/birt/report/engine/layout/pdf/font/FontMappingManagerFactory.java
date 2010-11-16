@@ -320,7 +320,7 @@ public class FontMappingManagerFactory
 
 	private String getOSGIOSName( )
 	{
-		String osName = Platform.getOS( );
+		String osName = org.eclipse.birt.core.framework.Platform.getOS( );
 		if ( Platform.OS_UNKNOWN.equals( osName ) )
 		{
 			return null;

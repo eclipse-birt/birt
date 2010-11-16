@@ -50,7 +50,6 @@ public class ServiceLauncher extends PlatformLauncher
 			while ( plugins.hasMoreElements( ) )
 			{
 				URL root = new URL( plugins.nextElement( ), ".." );
-				System.out.println( root );
 				try
 				{
 					platform.installBundle( root );

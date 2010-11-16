@@ -1,7 +1,6 @@
 
 package org.eclipse.birt.report.model.extension.oda;
 
-import org.eclipse.birt.report.model.plugin.OdaBaseExtensionLoaderFactory;
 
 public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 {
@@ -9,7 +8,7 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 	/**
 	 * the base factory used to return the real oda extension loader factory.
 	 */
-	private static IOdaExtensionLoaderFactory baseFactory = null;
+	private static volatile IOdaExtensionLoaderFactory baseFactory = null;
 
 	/**
 	 * oad extension loader instance.
@@ -42,7 +41,16 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 		{
 			if ( baseFactory == null )
 			{
-				baseFactory = new OdaBaseExtensionLoaderFactory( );
+				try
+				{
+					Class clazz = Class
+							.forName( "org.eclipse.birt.report.model.plugin.OdaBaseExtensionLoaderFactory" );
+					baseFactory = (IOdaExtensionLoaderFactory) clazz
+							.newInstance( );
+				}
+				catch ( Exception ex )
+				{
+				}
 			}
 			return baseFactory;
 		}
