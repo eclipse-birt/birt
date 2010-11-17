@@ -251,26 +251,35 @@ public class FunctionProviderImpl implements IFunctionProvider
 		Bundle bundle = org.eclipse.core.runtime.Platform.getBundle( namespace );
 		if ( bundle != null )
 		{
-			Enumeration<URL> files = bundle.getEntryPaths( source );
+			Enumeration<String> files = bundle.getEntryPaths( source );
 
 			if ( files != null )
 			{
 				// In this case, the bundle denotes to a directory.
 				while ( files.hasMoreElements( ) )
 				{
-					URL file = (URL) files.nextElement( );
-					if ( file.getFile( ).toLowerCase( ).endsWith( suffix ) )
+					String filePath = files.nextElement( );
+					if ( filePath.toLowerCase( ).endsWith( suffix ) )
 					{
-						libs.add( file );
+						URL url = bundle.getEntry( filePath );
+						if ( url != null )
+						{
+							libs.add( url );
+						}
 					}
 				}
 			}
 			else
 			{
-				URL url = bundle.getEntry( source );
 				// the bundle denotes to a file.
-				if ( url.getFile( ).toLowerCase( ).endsWith( suffix ) )
-					libs.add( url );
+				if ( source.toLowerCase( ).endsWith( suffix ) )
+				{
+					URL url = bundle.getEntry( source );
+					if ( url != null )
+					{
+						libs.add( url );
+					}
+				}
 			}
 		}
 	}
