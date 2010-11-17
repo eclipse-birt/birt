@@ -21,11 +21,11 @@ import org.eclipse.birt.core.framework.IExtensionRegistry;
 /**
  * 
  */
-class EclipseExtensionRegistry implements IExtensionRegistry
+public class EclipseExtensionRegistry implements IExtensionRegistry
 {
 	
 	org.eclipse.core.runtime.IExtensionRegistry registry;
-	EclipseExtensionRegistry(org.eclipse.core.runtime.IExtensionRegistry registry)
+	public EclipseExtensionRegistry(org.eclipse.core.runtime.IExtensionRegistry registry)
 	{
 		this.registry = registry;
 		
