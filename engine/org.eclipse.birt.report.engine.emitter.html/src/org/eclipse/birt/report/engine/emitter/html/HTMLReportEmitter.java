@@ -1470,6 +1470,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			styleBuffer.append( "width:100%;" );
 		}
+		if ( styleBuffer.indexOf( HTMLTags.ATTR_BORDER ) < 0 )
+		{
+			writer.attribute( HTMLTags.ATTR_BORDER, "0" );
+		}
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 		if ( page != null && outputMasterPageContent )
