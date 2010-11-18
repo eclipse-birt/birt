@@ -9,9 +9,7 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.report.data.adapter.api.ICubeInterceptor;
-import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 

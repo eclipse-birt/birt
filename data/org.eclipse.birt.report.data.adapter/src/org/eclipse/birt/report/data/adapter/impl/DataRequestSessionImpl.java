@@ -140,6 +140,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private Map<String, IDimension> createdDimensions;
 
 	private CubeMaterializer cubeMaterializer;
+	private List<IDataSetInterceptor> dataSetInterceptorList;
+	private List<ICubeInterceptor> cubeInterceptorList;
 	
 	
 	private CubeMaterializer getCubeMaterializer( int cacheSize ) throws BirtException
@@ -199,14 +201,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineDataSet( IBaseDataSetDesign design ) throws BirtException
 	{
-		IDataSetInterceptor interceptor = DataSetInterceptorFinder.find( design );
-		if ( interceptor != null )
+		IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
+		if ( dataSetInterceptor != null )
 		{
-			interceptor.preDefineDataSet( sessionContext.getAppContext( ), 
+			dataSetInterceptor.preDefineDataSet( sessionContext.getAppContext( ), 
 					dataEngine.getDataSourceDesign( design.getDataSourceName( )), 
 					design, 
 					getDataSessionContext().getModuleHandle() );
-		
+			if ( this.dataSetInterceptorList == null )
+			{
+				this.dataSetInterceptorList = new ArrayList<IDataSetInterceptor>( );
+			}
+			this.dataSetInterceptorList.add( dataSetInterceptor );		
 		}
 		dataEngine.defineDataSet( design );
 	}
@@ -508,6 +514,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 			dataEngine.shutdown( );
 			dataEngine = null;
 		}
+		
+		if ( this.dataSetInterceptorList != null || this.cubeInterceptorList != null )
+		{
+			try
+			{
+				AppContextResourceReleaser.release( this.sessionContext.getAppContext( ) );
+			}
+			catch ( BirtException e )
+			{
+			}
+		}
+
 	}
 
 	/**
@@ -676,14 +694,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		CubeHandleUtil.defineCube( dataEngine, cubeHandle, this.sessionContext.getAppContext( ) );
 
-		ICubeInterceptor interceptor = CubeInterceptorFinder.find( cubeHandle );
-		if ( interceptor != null )
+		ICubeInterceptor cubeInterceptor = CubeInterceptorFinder.find( cubeHandle );
+		if ( cubeInterceptor != null )
 		{
-			interceptor.preDefineCube( 	this.sessionContext.getAppContext( ),
+			cubeInterceptor.preDefineCube( this.sessionContext.getAppContext( ),
 					cubeHandle );
+			if ( this.cubeInterceptorList == null )
+			{
+				this.cubeInterceptorList = new ArrayList<ICubeInterceptor>( );
+			}
+			this.cubeInterceptorList.add( cubeInterceptor );
 		}
 		
-		if ( interceptor == null || interceptor.needDefineCube( ))
+		if ( cubeInterceptor == null || cubeInterceptor.needDefineCube( ))
 		{
 			Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle)cubeHandle);
 			Iterator itr = involvedDataSets.iterator( );
