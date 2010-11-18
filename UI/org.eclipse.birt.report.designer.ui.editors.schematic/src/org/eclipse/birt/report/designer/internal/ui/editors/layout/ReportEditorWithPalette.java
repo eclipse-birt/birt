@@ -673,11 +673,13 @@ abstract public class ReportEditorWithPalette extends
 			public void run( )
 			{
 				if ( fLastSentPostElement == null
-						&& DEUtil.getInputSize( list ) == 0 )
+						&& DEUtil.getInputSize( list ) <= 0 )
 				{
 					setBreadcrumbInput( null );
 				}
-				else if ( DEUtil.getInputFirstElement( list ) == fLastSentPostElement )
+				else if ( list != null
+						&& list.size( ) > 0
+						&& DEUtil.getInputFirstElement( list ) == fLastSentPostElement )
 				{
 					setBreadcrumbInput( fLastSentPostElement );
 					fLastSentPostElement = null;
