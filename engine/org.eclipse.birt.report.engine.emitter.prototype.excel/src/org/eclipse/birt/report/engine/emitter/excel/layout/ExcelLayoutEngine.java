@@ -239,10 +239,8 @@ public class ExcelLayoutEngine
 		ContainerSizeInfo sizeInfo = currentContainer.getSizeInfo( );
 		int width = sizeInfo.getWidth( );
 		ColumnsInfo info = null;
-		// excel now only use "auto" to deal with table's width.
-		boolean isAutoTable = true;
 		int dpi = context.getDpi( );
-		if ( isAutoTable )
+		if ( autoExtend( ) )
 		{
 			info = LayoutUtil.createTable( table, width, dpi );
 		}
@@ -260,6 +258,12 @@ public class ExcelLayoutEngine
 		addTable( table, info, sizeInfo );
 	}
 
+	private boolean autoExtend( )
+	{
+		boolean isTop = containers.size( ) == 1;
+		return isTop && context.isAutoLayout( );
+	}
+
 	public void addTable( IContainerContent content, ColumnsInfo columns,
 			ContainerSizeInfo size )
 	{
@@ -272,10 +276,8 @@ public class ExcelLayoutEngine
 			return;
 		}
 		ContainerSizeInfo parentSizeInfo = currentContainer.getSizeInfo( );
-		boolean isTop = containers.size( ) == 1;
-		boolean autoExtend = isTop && context.isAutoLayout( );
 		int[] columnStartCoordinates = splitColumns( columns, parentSizeInfo,
-		                                             autoExtend );
+		                                             autoExtend( ) );
 		createTable( columns, style, currentContainer, columnStartCoordinates );
 	}
 
