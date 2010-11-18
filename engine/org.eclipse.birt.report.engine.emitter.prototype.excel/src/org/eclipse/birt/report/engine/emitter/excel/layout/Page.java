@@ -907,7 +907,8 @@ public class Page
 		SheetData realData = ExcelUtil.getRealData( data );
 		if ( realData == null )
 			return false;
-		if ( !isInContainer( realData, rowContainer ) )
+		if ( !isInContainer( realData, rowContainer )
+		        && realData.getRowSpanInDesign( ) <= 0 )
 		{
 			return false;
 		}
@@ -932,7 +933,7 @@ public class Page
 				return false;
 			}
 		}
-		return realData.getRowSpanInDesign( ) > 0;
+		return true;
 	}
 
 	public void calculateRowHeight( SheetData[] rowData, boolean isAuto )
