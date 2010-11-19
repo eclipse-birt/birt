@@ -347,4 +347,4 @@ CrosstabFilterConditionBuilder.MsgDlg.Title=Der Wert darf nicht leer sein.
 VirtualCrosstabCellNodeProvider.Display.ColumnArea=Spaltenbereich
 VirtualCrosstabCellNodeProvider.Display.DetailArea=Detailbereich
 VirtualCrosstabCellNodeProvider.Display.RowArea=Zeilenbereich
-VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unbekannter Bereich

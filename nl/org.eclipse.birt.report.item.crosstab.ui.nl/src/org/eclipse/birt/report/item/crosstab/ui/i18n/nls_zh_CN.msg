@@ -347,4 +347,4 @@ CrosstabFilterConditionBuilder.MsgDlg.Title=值不能为空。
 VirtualCrosstabCellNodeProvider.Display.ColumnArea=列区域
 VirtualCrosstabCellNodeProvider.Display.DetailArea=详细信息区域
 VirtualCrosstabCellNodeProvider.Display.RowArea=行区域
-VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=未知区域

@@ -913,7 +913,7 @@ designer.preview.preference.bidiOrientation.ltr=De izquierda a derecha
 designer.preview.preference.bidiOrientation.rtl=De derecha a izquierda
 designer.preview.preference.updateParameter.confirmMessage=Confirmar actualización
 designer.preview.preference.updateParameter.confirmButton=Solicitar siempre confirmación antes de actualizar los atributos de diseño de parámetros/conjunto de resultados.
-designer.preview.preference.updateReportParameter.confirmButton=&Never update a linked report parameter and never prompt for confirmation.
+designer.preview.preference.updateReportParameter.confirmButton=&No actualizar nunca un parámetro del informe vinculado ni solicitar confirmación.
 
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}
@@ -4803,5 +4803,5 @@ RenameInputDialog.Message.DuplicateName=El nombre duplicado existe.
 
 ###########################################################
 #Breadcrumb
-BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Show children
-ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Switch Breadcrumb
+BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Mostrar secundarios
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Cambiar ruta de exploración

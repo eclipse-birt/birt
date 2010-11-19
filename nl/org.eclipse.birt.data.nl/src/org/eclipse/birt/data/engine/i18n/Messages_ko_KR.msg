@@ -197,8 +197,8 @@ data.engine.NotSerializableClass=클래스 {0}은(는) 직렬화를 지원하지 않습니다.
 data.engine.BadDataExpression=데이터 식은 널(null)이 아니어야 합니다.
 data.engine.aggregation.InvalidBindingExpression=계산된 측정값은 집계 바인딩 "{0}"에서 사용할 수 없습니다.
 data.engine.InvalidExpression=식 "{0}"이(가) 잘못되었습니다.
-data.engine.BadFetchScriptReturnType=Data Set script method "{0}" returned {1}; expected a Boolean value.
-data.engine.FailToExecuteScript=Fail to execute script in function {0}(). Source:\n------\n" + {1} + "\n-----
+data.engine.BadFetchScriptReturnType=데이터 집합 스크립트 메서드 "{0}"에서 {1}이(가) 반환되었습니다. 부울 값이 필요합니다.
+data.engine.FailToExecuteScript=함수 {0}()에서 스크립트를 실행하지 못했습니다. 소스:\n------\n" + {1} + "\n-----
 
 data.engine.cacheFunctionWrongMode=캐시 기능은 DIRECT_PRESENTATION 모드용으로만 사용됩니다.
 data.engine.document.invalidIndexArray=잘못된 인덱스 배열입니다.

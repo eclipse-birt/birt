@@ -347,4 +347,4 @@ CrosstabFilterConditionBuilder.MsgDlg.Title=値は空白にできません。
 VirtualCrosstabCellNodeProvider.Display.ColumnArea=列領域
 VirtualCrosstabCellNodeProvider.Display.DetailArea=詳細の領域
 VirtualCrosstabCellNodeProvider.Display.RowArea=行領域
-VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=不明な領域
