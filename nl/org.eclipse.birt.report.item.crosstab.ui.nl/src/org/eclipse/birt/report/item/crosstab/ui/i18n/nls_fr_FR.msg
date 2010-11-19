@@ -347,4 +347,4 @@ CrosstabFilterConditionBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
 VirtualCrosstabCellNodeProvider.Display.ColumnArea=Zone de colonne
 VirtualCrosstabCellNodeProvider.Display.DetailArea=Zone de détails
 VirtualCrosstabCellNodeProvider.Display.RowArea=Zone de ligne
-VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=Zone inconnue

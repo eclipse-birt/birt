@@ -913,7 +913,7 @@ designer.preview.preference.bidiOrientation.ltr=左から右
 designer.preview.preference.bidiOrientation.rtl=右から左
 designer.preview.preference.updateParameter.confirmMessage=更新の確認
 designer.preview.preference.updateParameter.confirmButton=結果セットまたはパラメタのデザイン属性を更新する際に、常に確認メッセージを表示します。
-designer.preview.preference.updateReportParameter.confirmButton=&Never update a linked report parameter and never prompt for confirmation.
+designer.preview.preference.updateReportParameter.confirmButton=リンクされているレポートパラメタを更新せず、確認メッセージを表示しない(&N)
 
 designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
 designer.preview.previewaction.label=レポートを {0} として表示する
@@ -4803,5 +4803,5 @@ RenameInputDialog.Message.DuplicateName=重複する名前が存在します。
 
 ###########################################################
 #Breadcrumb
-BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Show children
-ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Switch Breadcrumb
+BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=子を表示
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=リンクの階層表示の切り替え

@@ -347,4 +347,4 @@ CrosstabFilterConditionBuilder.MsgDlg.Title=값을 입력해야 합니다.
 VirtualCrosstabCellNodeProvider.Display.ColumnArea=열 영역
 VirtualCrosstabCellNodeProvider.Display.DetailArea=세부 영역
 VirtualCrosstabCellNodeProvider.Display.RowArea=행 영역
-VirtualCrosstabCellNodeProvider.Display.UnknownArea=Unknown Area
+VirtualCrosstabCellNodeProvider.Display.UnknownArea=알 수 없는 영역

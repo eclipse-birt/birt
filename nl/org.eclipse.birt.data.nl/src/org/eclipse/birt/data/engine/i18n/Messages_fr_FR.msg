@@ -197,8 +197,8 @@ data.engine.NotSerializableClass=La classe {0} n'est pas prise en charge pour un
 data.engine.BadDataExpression=L'expression de données ne doit pas être nulle.
 data.engine.aggregation.InvalidBindingExpression=La mesure calculée n'est pas correcte pour la liaison d'agrégation "{0}".
 data.engine.InvalidExpression=Expression "{0}" non valide.
-data.engine.BadFetchScriptReturnType=Data Set script method "{0}" returned {1}; expected a Boolean value.
-data.engine.FailToExecuteScript=Fail to execute script in function {0}(). Source:\n------\n" + {1} + "\n-----
+data.engine.BadFetchScriptReturnType=La méthode de script de jeu de données "{0}" a renvoyé {1} ; une valeur booléenne est attendue.
+data.engine.FailToExecuteScript=Echec de l'exécution du script dans la fonction {0}(). Source : \n------\n" + {1} + "\n-----
 
 data.engine.cacheFunctionWrongMode=de création de pdf en cache ne fonctionne qu'en mode DIRECT_PRESENTATION.
 data.engine.document.invalidIndexArray=Le tableau d'index n'est pas valide.
