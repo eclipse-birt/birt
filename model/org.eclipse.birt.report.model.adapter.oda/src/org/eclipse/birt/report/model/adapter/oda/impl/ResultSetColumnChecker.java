@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.datatools.connectivity.oda.design.AxisAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
+import org.eclipse.datatools.connectivity.oda.design.DataElementIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.OutputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ValueFormatHints;
@@ -143,6 +144,16 @@ class ResultSetColumnChecker
 					columnHintHandle.getAnalysis( ) );
 			checkProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, axisAttrs
 					.isOnColumnLayout( ), columnHintHandle.isOnColumnLayout( ) );
+			String oldColumnName = null;
+			if ( axisAttrs.getRelatedColumns( ) != null )
+			{
+				DataElementIdentifiers columns = axisAttrs.getRelatedColumns( )
+					.getColumnIdentifiers( );
+				if (  columns != null && !columns.getIdentifiers( ).isEmpty( ) )
+					oldColumnName = columns.getIdentifiers( ).get( 0 ).getName( );
+			}
+			checkProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER, oldColumnName,
+					columnHintHandle.getAnalysisColumn( ) );
 		}
 		OutputElementAttributes usageHints = columnDefn.getUsageHints( );
 		if ( usageHints != null )

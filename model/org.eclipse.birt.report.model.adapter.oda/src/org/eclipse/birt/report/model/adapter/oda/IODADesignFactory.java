@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.adapter.oda;
 
 import org.eclipse.datatools.connectivity.oda.design.AndExpression;
+import org.eclipse.datatools.connectivity.oda.design.AxisAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.CustomData;
 import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
@@ -43,6 +44,7 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetCriteria;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
+import org.eclipse.datatools.connectivity.oda.design.ResultSubset;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
 import org.eclipse.datatools.connectivity.oda.design.SortKey;
@@ -135,4 +137,8 @@ public interface IODADesignFactory
     ExpressionArguments createExpressionArguments();
     
     CustomData createCustomData();
+
+	AxisAttributes createAxisAttributes( );
+
+	ResultSubset createResultSubset( );
 }
