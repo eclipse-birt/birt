@@ -76,6 +76,11 @@ public class DestroyEditPart extends DummyEditpart
 		return label;
 	}
 
+	@Override
+	protected void refreshPageClip( )
+	{
+		//do nothing
+	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
 	 */
