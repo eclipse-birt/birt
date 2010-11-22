@@ -19,5 +19,5 @@ plugin@org.eclipse.birt.report.data.oda.xml=v20101118,:ext:xgu@dev.eclipse.org:/
 plugin@org.eclipse.birt.report.data.oda.xml.ui=v20101118,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
 
 !**************** data test  *******************
-plugin@org.eclipse.birt.data.tests=v20101118,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
+plugin@org.eclipse.birt.data.tests=v20101122,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
 plugin@org.eclipse.birt.report.data.oda.jdbc.tests=v20101118,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
