@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
-import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.Point;
 import org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints;
 import org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints3D;
@@ -663,6 +662,22 @@ public class Area extends Line
 			{
 				loaLast = (Location[]) obj;
 			}
+			else if ( obj instanceof List )
+			{
+				@SuppressWarnings("rawtypes")
+				List lst = (List) obj;
+				Location[] last = new Location[lst.size( )];
+				for ( int i = 0; i < lst.size( ); i++ )
+				{
+					Object o = lst.get( i );
+					if ( o instanceof double[] )
+					{
+						last[i] = goFactory.createLocation( ( (double[]) o )[0],
+								( (double[]) o )[1] );
+					}
+				}
+				loaLast = last;
+			}
 		}
 
 		protected void saveStates( )
@@ -675,28 +690,36 @@ public class Area extends Line
 			}
 			else
 			{
+				List<double[]> list = new ArrayList<double[]>( );
+				for ( Location lo : loa )
+				{
+					double[] l = new double[]{
+							lo.getX( ), lo.getY( )
+					};
+					list.add( l );
+				}
 				context.line.getRunTimeContext( )
-						.putState( STACKED_SERIES_LOCATION_KEY, loa );
+						.putState( STACKED_SERIES_LOCATION_KEY, list );
 			}
 		}
 
-		protected double fixNaN( double baseValue, double currentValue,
-				int currentIndex, double[] lastValues )
-		{
-			// only fix NaN values
-			if ( !Double.isNaN( currentValue ) )
-			{
-				return currentValue;
-			}
-
-			// use baseValue if this is the first series
-			if ( lastValues == null )
-			{
-				return baseValue;
-			}
-
-			return lastValues[currentIndex];
-		}
+		// protected double fixNaN( double baseValue, double currentValue,
+		// int currentIndex, double[] lastValues )
+		// {
+		// // only fix NaN values
+		// if ( !Double.isNaN( currentValue ) )
+		// {
+		// return currentValue;
+		// }
+		//
+		// // use baseValue if this is the first series
+		// if ( lastValues == null )
+		// {
+		// return baseValue;
+		// }
+		//
+		// return lastValues[currentIndex];
+		// }
 
 		@Override
 		protected void beforeLoop( DataPointsSeeker seeker )
@@ -1179,8 +1202,10 @@ public class Area extends Line
 			loaPlane[0].set( x, y );
 			loaPlane[1].set( x + dTapeWidth, y - dTapeWidth );
 
+			// get corresponding index considering last series may be curve line
 			double lastLocation = loaLast == null ? zeroLocation
-					: trans.getY( loaLast[index] );
+					: trans.getY( loaLast[loaLast.length
+							- ( loa.length - index )] );
 
 			if ( trans == Transposition.TRANSPOSED )
 			{
@@ -1201,15 +1226,15 @@ public class Area extends Line
 			dc.addPlane( pre, PrimitiveRenderEvent.FILL );
 		}
 
-		private void fillPlaneShadow( Fill fill, Location[] loa,
-				Object sourceObject, int zorder_hint )
-		{
-			pre.setOutline( null );
-			pre.setBackground( tapeColor );
-			pre.setPoints( loa );
-			pre.setSourceObject( sourceObject );
-			dc.addPlaneShadow( pre, PrimitiveRenderEvent.FILL, zorder_hint );
-		}
+		// private void fillPlaneShadow( Fill fill, Location[] loa,
+		// Object sourceObject, int zorder_hint )
+		// {
+		// pre.setOutline( null );
+		// pre.setBackground( tapeColor );
+		// pre.setPoints( loa );
+		// pre.setSourceObject( sourceObject );
+		// dc.addPlaneShadow( pre, PrimitiveRenderEvent.FILL, zorder_hint );
+		// }
 
 		@Override
 		protected void beforeLoop( DataPointsSeeker seeker )
@@ -1329,7 +1354,15 @@ public class Area extends Line
 			}
 			else
 			{
-				rtc.putState( STACKED_SERIES_LOCATION_KEY, loa );
+				List<double[]> list = new ArrayList<double[]>( );
+				for ( Location lo : loa )
+				{
+					double[] l = new double[]{
+							lo.getX( ), lo.getY( )
+					};
+					list.add( l );
+				}
+				rtc.putState( STACKED_SERIES_LOCATION_KEY, list );
 				rtc.putState( AREA_ENVELOPS, envelops );
 			}
 		}

@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -183,6 +184,8 @@ public final class CurveRenderer
 		oSource = StructureSource.createSeries( _render.getSeries( ) );
 		
 		dc = _render.getDeferredCache( );
+		dc.setPlaneShadowsComparator( WrappedInstruction.getDefaultComarator( ) );
+		dc.setPlanesComparator( WrappedInstruction.getDefaultComarator( ) );
 		this.iRender = _render;
 		loStart = goFactory.createLocation( 0, 0 );
 		loEnd = goFactory.createLocation( 0, 0 );
@@ -485,20 +488,39 @@ public final class CurveRenderer
 				}
 				else
 				{
+					// get the last point location of last series
+					Object obj = iRender.getRunTimeContext( )
+							.getState( BaseRenderer.STACKED_SERIES_LOCATION_KEY );
+					double[] last = new double[]{
+							zeroLocation, zeroLocation
+					};
+					if ( obj instanceof List )
+					{
+						List lst = (List) obj;
+						int index = lst.size( ) - 1;
+						if ( index > 0 )
+						{
+							obj = lst.get( index );
+						}
+						if ( obj instanceof double[] )
+						{
+							last = (double[]) obj;
+						}
+					}
 					loa[0].set( x2 + kError, y2 + kError );
 					loa[1].set( x2 + kError + dTapeWidth, y2
 							+ kError - dTapeWidth );
 					if ( cwa.isTransposed( ) )
 					{
-						loa[2].set( zeroLocation + dTapeWidth, y2
+						loa[2].set( last[0] + dTapeWidth, y2
 								+ kError - dTapeWidth );
-						loa[3].set( zeroLocation, y2 + kError );
+						loa[3].set( last[0], y2 + kError );
 					}
 					else
 					{
-						loa[2].set( x2 + kError + dTapeWidth, zeroLocation
+						loa[2].set( x2 + kError + dTapeWidth, last[1]
 								- dTapeWidth );
-						loa[3].set( x2 + kError, zeroLocation );
+						loa[3].set( x2 + kError, last[1] );
 					}
 				}
 				pre.setPoints( loa );
