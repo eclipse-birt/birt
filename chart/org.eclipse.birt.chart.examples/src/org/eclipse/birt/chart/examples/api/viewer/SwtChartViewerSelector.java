@@ -36,6 +36,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Device;
@@ -119,6 +120,34 @@ public final class SwtChartViewerSelector extends Composite
 			cbType.add( models[i] );
 		}
 		cbType.select( 0 );
+		cbType.addSelectionListener( new SelectionAdapter( ) {
+
+			@Override
+			public void widgetSelected( SelectionEvent e )
+			{
+				int index = cbType.getSelectionIndex( );
+				if ( index == 7 )
+				{
+					// stock
+					cbTransposed.setSelection( false );
+					cbTransposed.setEnabled( false );
+					cbLogarithmic.setEnabled( true );
+				}
+				else if ( index == 10 )
+				{
+					// bubble
+					cbTransposed.setEnabled( true );
+					cbLogarithmic.setSelection( false );
+					cbLogarithmic.setEnabled( false );
+				}
+				else
+				{
+					cbTransposed.setEnabled( true );
+					cbLogarithmic.setEnabled( true );
+				}
+
+			}
+		} );
 
 		cbDimension = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cbDimension.add( "2D" );//$NON-NLS-1$
@@ -241,9 +270,6 @@ public final class SwtChartViewerSelector extends Composite
 
 			if ( cm instanceof ChartWithAxes )
 			{
-
-				cbTransposed.setEnabled( true );
-				cbLogarithmic.setEnabled( true );
 				cbPercent.setEnabled( true );
 
 				ChartWithAxes cwa = ( (ChartWithAxes) cm );
