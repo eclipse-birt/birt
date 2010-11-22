@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -304,6 +305,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 				// If the display field is set in dimension level, it needs to
 				// add an attribute named 'DisplayName' in expression.
 				String displayNameAttr = null;
+				String dataType = levelHandle.getDataType( );
 				if ( levelHandle instanceof TabularLevelHandle
 						&& ( (TabularLevelHandle) levelHandle ).getDisplayColumnName( ) != null
 						&& ( (TabularLevelHandle) levelHandle ).getDisplayColumnName( )
@@ -311,11 +313,12 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 								.length( ) > 0 )
 				{
 					displayNameAttr = ICubeQueryUtil.DISPLAY_NAME_ATTR;
+					dataType = DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
 				}
 				
 				ComputedColumn column = StructureFactory.newComputedColumn( itemHandle,
 						ChartCubeUtil.createLevelBindingName( levelHandle ) );
-				column.setDataType( levelHandle.getDataType( ) );
+				column.setDataType( dataType );
 				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
 						new Expression( exprConverter.getDimensionExpression( levelHandle.getContainer( )
 								.getContainer( )
