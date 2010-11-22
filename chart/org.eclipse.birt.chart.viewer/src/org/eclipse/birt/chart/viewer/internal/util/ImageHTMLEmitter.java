@@ -53,18 +53,16 @@ public class ImageHTMLEmitter
 
 	private void addSVG( )
 	{
-		addIFrame( );
-		// addSVGEmbed( );
+		 addSVGEmbed( );
 	}
 
 	private void addSVGEmbed( )
 	{
-		html.append( "<div>\n " ); //$NON-NLS-1$
 		html.append( "<embed id=\"" //$NON-NLS-1$
 				+ id + "\" type=\"image/svg+xml\" src=\"" + src + "\" alt=\"" //$NON-NLS-1$ //$NON-NLS-2$
-				+ alt + "\" style=\" width: " + width + "pt; height: " + height //$NON-NLS-1$ //$NON-NLS-2$
-				+ "pt;\">" ); //$NON-NLS-1$
-		html.append( "\n</div>" ); //$NON-NLS-1$
+				+ alt + "\" style=\" width: " + width + "px; height: " + height //$NON-NLS-1$ //$NON-NLS-2$
+				+ "px;\">" ); //$NON-NLS-1$
+		html.append("\n</embed>");
 	}
 
 	private void addPDF( )
