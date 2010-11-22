@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.adapter.oda.impl;
 
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.AndExpression;
+import org.eclipse.datatools.connectivity.oda.design.AxisAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.CustomData;
 import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
@@ -45,6 +46,7 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetCriteria;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
+import org.eclipse.datatools.connectivity.oda.design.ResultSubset;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueChoices;
 import org.eclipse.datatools.connectivity.oda.design.ScalarValueDefinition;
 import org.eclipse.datatools.connectivity.oda.design.SortKey;
@@ -501,5 +503,23 @@ class ODADesignFactory implements IODADesignFactory
 	public CustomData createCustomData( )
 	{
 		return designFactory.createCustomData( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createAxisAttributes()
+	 */
+	public AxisAttributes createAxisAttributes( )
+	{		
+		return designFactory.createAxisAttributes( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.adapter.oda.IODADesignFactory#createResultSubset()
+	 */
+	public ResultSubset createResultSubset( )
+	{
+		return designFactory.createResultSubset( );
 	}
 }

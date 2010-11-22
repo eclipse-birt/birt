@@ -38,14 +38,15 @@ import org.eclipse.datatools.connectivity.oda.design.AxisAttributes;
 import org.eclipse.datatools.connectivity.oda.design.AxisType;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
+import org.eclipse.datatools.connectivity.oda.design.DataElementIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.HorizontalAlignment;
 import org.eclipse.datatools.connectivity.oda.design.OutputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
+import org.eclipse.datatools.connectivity.oda.design.ResultSubset;
 import org.eclipse.datatools.connectivity.oda.design.TextWrapType;
 import org.eclipse.datatools.connectivity.oda.design.ValueFormatHints;
 import org.eclipse.emf.common.util.EList;
@@ -532,6 +533,20 @@ class ResultSetsAdapter
 		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, newValue );
+		}
+		
+		newValue = axisAttributes.getRelatedColumns( );
+		oldValue = cachedAxisAttributes == null ? null : cachedAxisAttributes
+				.getRelatedColumns( );
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
+		{
+			String analysisColumnName = null;
+			DataElementIdentifiers columns = ( (ResultSubset) newValue )
+					.getColumnIdentifiers( );
+			if ( columns != null && !columns.getIdentifiers( ).isEmpty( ) )
+				analysisColumnName = columns.getIdentifiers( ).get( 0 ).getName( );
+			newHint.setProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER,
+					analysisColumnName );
 		}
 	}
 
@@ -1259,12 +1274,19 @@ class ResultSetsAdapter
 
 		String analysisType = hint.getAnalysis( );
 		AxisType axisType = convertAnalysisTypeToAxisType( analysisType );
-
+		
 		if ( axisType != null )
 		{
-			axisAttrs = DesignFactory.eINSTANCE.createAxisAttributes( );
+			axisAttrs = designFactory.createAxisAttributes( );
 			axisAttrs.setAxisType( axisType );
 			axisAttrs.setOnColumnLayout( hint.isOnColumnLayout( ) );
+			String analysisColumnName = hint.getColumnName( );
+			if ( !StringUtil.isBlank( analysisColumnName ) )
+			{
+				ResultSubset relatedColumns = designFactory.createResultSubset( );
+				relatedColumns.addColumnIdentifier( analysisColumnName );
+				axisAttrs.setRelatedColumns( relatedColumns );
+			}
 		}
 
 		columnDefn.setMultiDimensionAttributes( axisAttrs );
