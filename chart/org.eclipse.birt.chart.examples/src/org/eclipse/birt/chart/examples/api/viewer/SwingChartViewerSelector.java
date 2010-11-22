@@ -395,6 +395,34 @@ public final class SwingChartViewerSelector extends JPanel implements
 			}
 			jcbModels.setSelectedIndex( 0 );
 			jp1.add( jcbModels );
+			
+			jcbModels.addActionListener( new ActionListener( ) {
+				
+				public void actionPerformed( ActionEvent e )
+				{
+					int index = jcbModels.getSelectedIndex( );
+					if ( index == 7 )
+					{
+						// stock
+						jcbTransposed.setSelected(  false );
+						jcbTransposed.setEnabled( false );
+						jcbLogarithmic.setEnabled( true );
+					}
+					else if ( index == 10 )
+					{
+						// bubble
+						jcbTransposed.setEnabled( true );
+						jcbLogarithmic.setSelected( false );
+						jcbLogarithmic.setEnabled( false );
+					}
+					else
+					{
+						jcbTransposed.setEnabled( true );
+						jcbLogarithmic.setEnabled( true );
+					}
+					
+				}
+			} );
 
 			jcbDimensions = new JComboBox( );
 			jcbDimensions.addItem( "2D" );//$NON-NLS-1$
@@ -479,20 +507,6 @@ public final class SwingChartViewerSelector extends JPanel implements
 
 			if ( cm instanceof ChartWithAxes )
 			{
-				boolean bStockChart = i==7;
-				boolean bBubbleChart = i==10;
-				jcbTransposed.setEnabled( !bStockChart ); // stock charts does not support transpose
-				if (bStockChart)
-				{
-					jcbTransposed.setSelected( false );
-				}
-				
-				jcbLogarithmic.setEnabled( !bBubbleChart );
-				if (bBubbleChart)
-				{
-					jcbLogarithmic.setSelected( false );
-				}
-				
 				jcbPercent.setEnabled( true );
 
 				ChartWithAxes cwa = ( (ChartWithAxes) cm );
