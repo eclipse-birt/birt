@@ -17,8 +17,6 @@ public class OdsTable extends OdsContainer
 {
 	private int[] columnWidths;
 	
-	private int width;
-	
 	public OdsTable(StyleEntry entry, ContainerSizeInfo sizeInfo, OdsContainer parent )
 	{
 		super(entry, sizeInfo, parent );
@@ -28,7 +26,6 @@ public class OdsTable extends OdsContainer
 			ContainerSizeInfo sizeInfo, OdsContainer parent )
 	{
 		this( entry, sizeInfo, parent );
-		width = table.getTotalWidth( );
 		columnWidths = table.getColumns( );
 	}
 	

@@ -57,7 +57,7 @@ public class EmitterContext extends AbstractOdfEmitterContext
 
 	public void resetWidth( )
 	{
-		widthList.removeAll( widthList );
+		widthList.clear( );
 	}
 
 	public double getCurrentWidth( )

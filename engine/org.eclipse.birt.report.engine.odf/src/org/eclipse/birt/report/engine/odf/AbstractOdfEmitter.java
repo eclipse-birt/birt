@@ -106,9 +106,9 @@ public abstract class AbstractOdfEmitter extends ContentEmitterAdapter implement
 					+ getOutputFormat( ) );
 			pkg = Package.createInstance( out, tempFileDir, getRootMime() );
 			context.setPackage( pkg );
+			this.reportContext = service.getReportContext( );
 		}
 		
-		this.reportContext = service.getReportContext( );
 		ULocale locale = null;
 		if ( reportContext != null )
 		{
@@ -177,7 +177,7 @@ public abstract class AbstractOdfEmitter extends ContentEmitterAdapter implement
 	{
 		String creator = null;
 		String title = null;
-		String comments = null;;
+//		String comments = null;;
 		String subject = null;
 		String description = null;
 		if ( reportContent != null )
@@ -186,7 +186,7 @@ public abstract class AbstractOdfEmitter extends ContentEmitterAdapter implement
 					.getReportDesign( );
 			creator = designHandle.getAuthor( );
 			title = reportContent.getTitle( );
-			comments = designHandle.getComments( );
+//			comments = designHandle.getComments( );
 			subject = designHandle.getSubject( );
 			description = designHandle.getDescription( );
 		}

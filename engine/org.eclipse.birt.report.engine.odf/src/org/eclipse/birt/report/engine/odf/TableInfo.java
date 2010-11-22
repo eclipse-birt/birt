@@ -53,7 +53,7 @@ public class TableInfo
 	{
 		for ( int i = 1; i < rowSpan; i++ )
 		{
-			Integer key = new Integer( crow + i );
+			Integer key = crow + i;
 
 			if ( spans.containsKey( key ) )
 			{
@@ -82,7 +82,7 @@ public class TableInfo
 
 	List<SpanInfo> getSpans( int end )
 	{
-		List<SpanInfo> cSpans = spans.get( new Integer( crow ) );
+		List<SpanInfo> cSpans = spans.get( crow );
 
 		if ( cSpans == null )
 		{
@@ -125,7 +125,7 @@ public class TableInfo
 
 	public void removeSpan( )
 	{
-		spans.remove( new Integer( crow ) );
+		spans.remove( crow );
 	}
 
 	public double[] getColumnWidths( )

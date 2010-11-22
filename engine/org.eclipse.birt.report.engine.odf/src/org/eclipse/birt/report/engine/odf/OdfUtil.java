@@ -29,9 +29,9 @@ public class OdfUtil
 
 	static
 	{
-		splitChar.add( new Character( ' ' ) );
-		splitChar.add( new Character( '\r' ) );
-		splitChar.add( new Character( '\n' ) );
+		splitChar.add( ' ' );
+		splitChar.add( '\r' );
+		splitChar.add( '\n' );
 	};
 
 	public static final float INCH_PT = 72f;
@@ -114,7 +114,7 @@ public class OdfUtil
 	{
 		if ( value == null )
 		{
-			return ref / dpi;
+			return (double) ref / dpi;
 		}
 
 		if ( DimensionType.UNITS_PX.equalsIgnoreCase( value.getUnits( ) ) )

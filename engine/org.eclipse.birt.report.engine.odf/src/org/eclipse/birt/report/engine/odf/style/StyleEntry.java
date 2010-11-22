@@ -27,7 +27,7 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 
 	private int type;
 	
-	private IStyle originalStyle;
+	private transient IStyle originalStyle;
 
 	private String name = null;
 	private Object[] props = null;
@@ -223,7 +223,7 @@ public class StyleEntry implements StyleConstant,Serializable,Cloneable
 		{
 			return (Boolean)o;
 		}
-		return null;
+		return false;
 	}
 	
 	

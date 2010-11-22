@@ -25,12 +25,12 @@ import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 public class StylesWriter
 {
 	protected ExtendedXMLWriter writer;
-	private int reportDpi;
+	//private int reportDpi;
 	protected StyleEntryWriter styleEntryWriter;
 	
 	public StylesWriter( OutputStream out, int reportDpi )
 	{
-		this.reportDpi = reportDpi;
+		//this.reportDpi = reportDpi;
 		writer = new ExtendedXMLWriter();
 		writer.open( out );
 		styleEntryWriter = new StyleEntryWriter( writer, reportDpi );

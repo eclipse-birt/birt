@@ -192,14 +192,14 @@ public class DateTimeUtil
 		locale2Code.put( new ULocale( "vi", "" ), "[$-042A]" );
 		locale2Code.put( new ULocale( "vi", "VN" ), "[$-042A]" );
 	}
-
+	
 	public static String formatDateTime( String format, ULocale locale )
 	{
-		String language = locale.getLanguage( );
 		String code = locale2Code.get( locale );
 		if ( code == null )
 		{
-			code = locale2Code.get( new Locale( language ) );
+			String language = locale.getLanguage( );
+			code = locale2Code.get( new ULocale( language, "" ) );
 		}
 		if ( code == null )
 		{

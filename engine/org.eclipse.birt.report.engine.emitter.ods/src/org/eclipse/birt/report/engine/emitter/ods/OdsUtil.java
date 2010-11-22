@@ -81,9 +81,9 @@ public class OdsUtil extends OdfUtil
 		date.setTime( new Date( "1900/01/01" ) );
 		BASE_DATE_TIME = date.getTimeInMillis( );
 		
-		splitChar.add( new Character( ' ' ) );
-		splitChar.add( new Character( '\r' ) );
-		splitChar.add( new Character( '\n' ) );
+		splitChar.add( ' ' );
+		splitChar.add( '\r' );
+		splitChar.add( '\n' );
 	}
 
 	public final static float INCH_PT = OdfUtil.INCH_PT;
@@ -358,109 +358,106 @@ public class OdsUtil extends OdfUtil
 	 */
 	private static String subReplaceDateFormat( char ch, int count )
 	{
-		String current = "";
+		StringBuffer current = new StringBuffer( );
 		int patternCharIndex = -1;
 		String datePatternChars = "GyMdkHmsSEDFwWahKz";
 		if ( ( patternCharIndex = datePatternChars.indexOf( ch ) ) == -1 )
 		{
 			for ( int i = 0; i < count; i++ )
 			{
-				current += "" + ch;
+				current.append( ch );
 			}
-
-			return current;
+			return current.toString( );
 		}
 
 		switch ( patternCharIndex )
 		{
 			case 0 : // 'G' - ERA
-				current = "";
-				break;
+				return "";
 			case 1 : // 'y' - YEAR
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
 
 				break;
 			case 2 : // 'M' - MONTH
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
 
 				break;
 			case 3 : // 'd' - Date
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
 
 				break;
 			case 4 : // 'k' - HOUR_OF_DAY: 1-based. eg, 23:59 + 1 hour =>>
 						// 24:59
-				current = "h";
-				break;
+				return "h";
 			case 5 : // case 5: // 'H'-HOUR_OF_DAY:0-based.eg, 23:59+1
 						// hour=>>00:59
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
 
 				break;
 			case 6 : // case 6: // 'm' - MINUTE
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
 
 				break;
 			case 7 : // case 7: // 's' - SECOND
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
 
 				break;
 			case 8 : // case 8: // 'S' - MILLISECOND
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
 
 				break;
 			case 9 : // 'E' - DAY_OF_WEEK
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "a";
+					current.append( "a" );
 				}
 
 				break;
 			case 14 : // 'a' - AM_PM
-				current = "AM/PM";
-				break;
+				return "AM/PM";
+				
 			case 15 : // 'h' - HOUR:1-based. eg, 11PM + 1 hour =>> 12 AM
 				for ( int i = 0; i < count; i++ )
 				{
-					current += "" + ch;
+					current.append( ch );
 				}
 
 				break;
 			case 17 : // 'z' - ZONE_OFFSET
-				current = "";
-				break;
+				return "";
+				
 			default :
 				// case 10: // 'D' - DAY_OF_YEAR
 				// case 11: // 'F' - DAY_OF_WEEK_IN_MONTH
 				// case 12: // 'w' - WEEK_OF_YEAR
 				// case 13: // 'W' - WEEK_OF_MONTH
 				// case 16: // 'K' - HOUR: 0-based. eg, 11PM + 1 hour =>> 0 AM
-				current = "";
-				break;
+				return "";
+				
 		}
 
-		return current;
+		return current.toString( );
 	}
 
 	public static String getPattern( Object data, String val )
@@ -787,7 +784,7 @@ public class OdsUtil extends OdfUtil
 	
 	public static String formatNumberPattern( String givenValue, ULocale locale )
 	{
-		String returnStr ="";
+		StringBuffer returnStr = new StringBuffer( );
 		if(givenValue == null )
 		{
 			return "";
@@ -841,8 +838,8 @@ public class OdsUtil extends OdfUtil
 		{
 			return givenValue;
 		}
-		
-		if(isScientific(givenValue))
+
+		if ( isScientific( givenValue ) )
 		{
 			givenValue = givenValue.replace( "E", "E+" );
 			return givenValue;
@@ -863,7 +860,7 @@ public class OdsUtil extends OdfUtil
 					char nextChar = givenValue.charAt( num + 1 );
 					if ( nextChar == '\'' )
 					{
-						returnStr = returnStr + '\'';
+						returnStr.append( '\'' );
 						num++;
 						flag = false;
 					}
@@ -877,35 +874,35 @@ public class OdsUtil extends OdfUtil
 			{
 				if ( flag )
 				{
-					returnStr = returnStr + "\\" + temp;
+					returnStr.append( "\\" ).append( temp );
 				}
 				else
 				{
 					if ( specialStr.indexOf( temp ) != -1 )
 					{
-						returnStr = returnStr + "\\" + temp;
+						returnStr.append( "\\" ).append( temp );
 					}
 					else if ( temp == '¤' )
 					{
 						String symbol = getCurrencySymbol( locale );
-						returnStr = returnStr + "\"" + symbol + "\"";
+						returnStr.append( "\"" ).append( symbol ).append( "\"" );
 					}
 					else if ( currencySymbol.indexOf( temp ) != -1 )
 					{
-						returnStr = returnStr + "\"" + temp + "\"";
+						returnStr.append( "\"" ).append( temp ).append( "\"" );
 					}
 					else
 					{
-						returnStr = returnStr + temp;
+						returnStr.append( temp );
 					}
 				}
 			}
 		}
 		if ( returnStr.indexOf( "#" ) == -1 && returnStr.indexOf( "0" ) == -1 )
 		{
-			returnStr += "#";
+			returnStr.append("#");
 		}
-		return returnStr;
+		return returnStr.toString();
 	}
 
 	private static boolean isScientific( String givenValue )
@@ -1052,7 +1049,7 @@ public class OdsUtil extends OdfUtil
 		char[] array = text.toCharArray( );
 		for ( int i = 0; i < array.length; i++ )
 		{
-			Character c = new Character( text.charAt( i ) );
+			Character c = text.charAt( i );
 			if ( splitChar.contains( c ) )
 				capitalizeNextChar = true;
 			else if ( capitalizeNextChar )

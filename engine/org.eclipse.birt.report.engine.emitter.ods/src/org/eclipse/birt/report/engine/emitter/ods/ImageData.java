@@ -27,7 +27,7 @@ public class ImageData extends SheetData
 		super( );
 		this.dataType = datatype;
 		this.styleId = styleId;
-		height = imageHeight / 1000;
+		height = imageHeight / 1000f;
 		this.imageHeight = (int) height;
 		width = Math.min( currentContainer.getSizeInfo( ).getWidth( ),
 				imageWidth );

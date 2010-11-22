@@ -46,7 +46,7 @@ public class AxisProcessor
 	
 	public boolean addCoordinateWithoutSort(int value)
 	{
-		Integer index = new Integer(value);
+		Integer index = value;
 		
 		if(!columnCoordinates.contains( index ))
 		{	

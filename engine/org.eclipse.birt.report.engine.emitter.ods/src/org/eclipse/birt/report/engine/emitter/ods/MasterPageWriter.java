@@ -40,7 +40,6 @@ public class MasterPageWriter extends org.eclipse.birt.report.engine.odf.writer.
 
 	protected void writeTableCell( ICellContent cell, StyleEntry rowStyle )
 	{
-		StringBuffer sb = new StringBuffer();
 		Collection list = cell.getChildren( );
 		
 		Iterator iter = list.iterator( );
@@ -78,7 +77,6 @@ public class MasterPageWriter extends org.eclipse.birt.report.engine.odf.writer.
 		
 		Collection list = row.getChildren( );
 		Iterator iter = list.iterator( );
-		int cellCount = list.size( );
 		int currentCellCount = 0;
 		while ( iter.hasNext( ) )
 		{

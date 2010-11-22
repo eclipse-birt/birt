@@ -474,7 +474,7 @@ public class OdsEmitter extends AbstractOdfEmitter
 	private float getContentHeight( IContent content )
 	{
 		return OdfUtil.convertDimensionType( content.getHeight( ), 0,
-				reportDpi ) / 1000;
+				reportDpi ) / 1000f;
 	}
 	
 	public void startImage( IImageContent image )
