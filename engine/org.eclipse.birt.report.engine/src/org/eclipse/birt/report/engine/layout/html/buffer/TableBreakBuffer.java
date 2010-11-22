@@ -495,7 +495,7 @@ public class TableBreakBuffer implements IPageBuffer
 
 	protected boolean hasPageBreak( ITableContent table )
 	{
-		return ContentUtil.hasHorzPageBreak( table );
+		return context.allowPageBreak( ) && ContentUtil.hasHorzPageBreak( table );
 	}
 	
 	protected int getRepeatEnd( ITableContent table )

@@ -369,7 +369,10 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				.getOutputDisplayNone( ), hiddenMask ) )
 		{
 			isVisible = false;
+			boolean allowPageBreak = context.allowPageBreak( );
+			context.setAllowPageBreak( false );
 			traverse( executor, content );
+			context.setAllowPageBreak( allowPageBreak );
 			return true;
 		}
 		return false;
