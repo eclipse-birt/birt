@@ -24,9 +24,6 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.Random;
 
-import org.eclipse.birt.core.framework.IBundle;
-import org.eclipse.birt.core.framework.IPlatform;
-import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultObject;
@@ -38,6 +35,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.impl.Blob;
 import org.eclipse.datatools.connectivity.oda.impl.Clob;
 import org.eclipse.datatools.connectivity.oda.impl.SimpleResultSet;
+import org.osgi.framework.Bundle;
 
 import testutil.JDBCOdaDataSource;
 
@@ -349,14 +347,14 @@ public class LargeObjectTest extends ConnectionTest
         if ( sm_pluginTest )
         {       	
         	// set directory where test plugin.xml files are stored 
-            IBundle dataBundle = Platform.getBundle( "org.eclipse.birt.data" );
+            Bundle dataBundle =  org.eclipse.core.runtime.Platform.getBundle( "org.eclipse.birt.data" );
     	    URL url = dataBundle.getEntry( "/" );
-    	    dataDir = Platform.asLocalURL( url ).getPath();
+    	    dataDir = org.eclipse.core.runtime.Platform.asLocalURL( url ).getPath();
 
     	    // set location where plugin.xml will be parsed 	
-            IBundle driverBundle = Platform.getBundle( sm_dtpFlatfileId );
+    	    Bundle driverBundle = org.eclipse.core.runtime.Platform.getBundle( sm_dtpFlatfileId );
 		    URL jdbcUrl = driverBundle.getEntry( "/" );
-		    sm_pluginFile = Platform.asLocalURL( jdbcUrl ).getPath() + sm_pluginFileName;
+		    sm_pluginFile = org.eclipse.core.runtime.Platform.asLocalURL( jdbcUrl ).getPath() + sm_pluginFileName;
         }
         else
         {
@@ -376,13 +374,13 @@ public class LargeObjectTest extends ConnectionTest
      * the Platform class. This testclass uses the 'setPlatform' method to create
      * new ServerPlatform objects, each testing a different ExtensionRegistry.
      */
-    private static class PlatformAccessor extends Platform
-    {
-        public static void setPlatform( IPlatform p )
-        {
-            platform = p;
-        }
-    }
+//    private static class PlatformAccessor extends Platform
+//    {
+//        public static void setPlatform( IPlatform p )
+//        {
+//            platform = p;
+//        }
+//    }
     
     /*
      * ResultSetLob test class for hard-coded BLOB and CLOB values
