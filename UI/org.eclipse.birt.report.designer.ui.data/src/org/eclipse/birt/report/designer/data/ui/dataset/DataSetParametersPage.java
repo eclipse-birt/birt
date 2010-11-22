@@ -480,164 +480,20 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 		CommandStack stack = Utility.getCommandStack( );
 		stack.startTrans( Messages.getString( "DataSetParameterBindingInputDialog.Title.NewParameter" ) ); //$NON-NLS-1$
-
-		String[] paramNames = getAllScalarParamName( );
 		
 		ParameterInputDialog dlg = new ParameterInputDialog( newParam,
 				isOdaDataSetHandle );
 
 		if ( dlg.open( ) == Window.OK )
 		{
-			viewer.getViewer( ).refresh( );
-			
+			viewer.getViewer( ).refresh( );	
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
 			stack.commit( );
-			
-			String bindedReportParameterName = Messages.getString( "DataSetParametersPage.reportParam.None" );
-			boolean newParams = true;
-
-			for ( int i = 0; i < paramNames.length; i++ )
-			{
-				if ( paramNames[i].equals( bindedReportParameterName ) )
-				{
-					newParams = false;
-					break;
-				}
-			}
-
-			if ( !newParams )
-				updateReportParameter( position , Messages.getString( "DataSetParametersPage.reportParam.None" ));
 		}
 		else
 		{
 			stack.rollback( );
-		}
-	}
-	
-	private void updateReportParameterValue( int index , String bindedReportParameterName )
-	{
-		OdaDataSetParameterHandle datasetParameter = (OdaDataSetParameterHandle) viewer.getViewer( )
-				.getTable( )
-				.getItem( index )
-				.getData( );
-
-		assert datasetParameter != null;
-		
-		if ( datasetParameter.getParamName( ) != null )
-		{
-			ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( datasetParameter.getParamName( ),
-					false );
-
-			if ( reportParameter != null )
-			{
-				try
-				{
-					ReportParameterAdapter adapter = new ReportParameterAdapter( );
-					adapter.updateLinkedReportParameter( reportParameter,
-							datasetParameter,
-							( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
-				}
-				catch ( SemanticException e )
-				{
-				}
-				catch ( OdaException ex )
-				{
-				}
-			}
-		}
-		else
-		{
-			ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( bindedReportParameterName,
-					false );
-
-			if ( reportParameter != null )
-			{
-				try
-				{
-					reportParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
-					reportParameter.setControlType( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX );
-					reportParameter.setDefaultValue( datasetParameter.getDefaultValue( ) );
-				}
-				catch ( SemanticException e )
-				{
-				}
-			}
-		}
-	}
-
-	private void updateReportParameter( int index , String bindedReportParameterName )
-	{
-		boolean setting = ReportPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getBoolean( DateSetPreferencePage.PROMPT_PARAM_UPDATE );
-
-		if ( setting )
-		{
-			return;
-		}
-		else
-		{
-			OdaDataSetParameterHandle datasetParameter = (OdaDataSetParameterHandle) viewer.getViewer( )
-					.getTable( )
-					.getItem( index )
-					.getData( );
-
-			if ( datasetParameter != null
-					&& datasetParameter.getParamName( ) != null )
-			{				
-				MessageDialog dialog = new MessageDialog(
-						Workbench.getInstance( )
-						.getDisplay( )
-						.getActiveShell( ),
-						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
-						null,
-						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
-						MessageDialog.QUESTION, 
-						new String[]{
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
-						}, 
-						1) ;
-				
-				dialog.open( );
-				
-				if ( dialog.getReturnCode( ) == MessageDialog.OK )
-				{
-					updateReportParameterValue( index,
-							bindedReportParameterName );
-				}
-			}
-			else if ( datasetParameter.getParamName( ) == null
-					&& ( !bindedReportParameterName.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) ) )
-			{
-				MessageDialog dialog = new MessageDialog(
-						Workbench.getInstance( )
-						.getDisplay( )
-						.getActiveShell( ),
-						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
-						null,
-						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
-						MessageDialog.QUESTION, 
-						new String[]{
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
-						}, 
-						1) ;
-
-				dialog.open( );
-
-				if ( dialog.getReturnCode( ) == MessageDialog.OK )
-				{
-					ScalarParameterHandle reportParameter = ParameterPageUtil.getScalarParameter( bindedReportParameterName,
-							false );
-
-					if ( reportParameter != null )
-					{
-						updateReportParameterValue( index, bindedReportParameterName );
-					}
-				}
-			}
 		}
 	}
 	
@@ -655,34 +511,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 
 		CommandStack stack = Utility.getCommandStack( );
 		stack.startTrans( Messages.getString( "DataSetParameterBindingInputDialog.Title.EditParameter" ) ); //$NON-NLS-1$
-
-		String[] paramNames = getAllScalarParamName( );
+		
 		ParameterInputDialog dlg = new ParameterInputDialog( handle,
 				isOdaDataSetHandle );
 
-		String bindedReportParameterName = ((OdaDataSetParameterHandle)handle).getParamName( );
-		if( bindedReportParameterName == null)
-			bindedReportParameterName = Messages.getString( "DataSetParametersPage.reportParam.None" );
 		if ( dlg.open( ) == Window.OK )
 		{
 			viewer.getViewer( ).refresh( );	
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
-			
-			boolean newParam = true;
-			
-			for ( int i = 0; i < paramNames.length; i++ )
-			{
-				if ( paramNames[i].equals( bindedReportParameterName ) )
-				{
-					newParam = false;
-					break;
-				}
-			}
-			
-			if ( !newParam )
-				updateReportParameter( index, bindedReportParameterName );
-	
 			stack.commit( );
 		}
 		else
@@ -1926,6 +1763,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		private boolean inputChanged = modelChanged,
 				isOdaDataSetHandle = false;
 		private Button parameterButton;
+		private String originalLinkToParamName;
 	
 		protected ParameterInputDialog( Object structureOrHandle,
 				boolean isOdaDataSetHandle )
@@ -2130,11 +1968,15 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			linkToSalarParameter.setVisibleItemCount( 30 );
 			linkToSalarParameter.select( Utility.findIndex( linkToSalarParameter.getItems( ),
 					( (OdaDataSetParameterHandle) structureHandle ).getParamName( ) ) );
+			originalLinkToParamName = linkToSalarParameter.getText( );
 			linkToSalarParameter.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
+					String originalLink = originalLinkToParamName;
 					linkToSalarParameterChanged( );
+					originalLinkToParamName = linkToSalarParameter.getText( );
+					updateLinkedReportParameter( originalLink );
 					if ( linkToSalarParameter.isEnabled( ) )
 					{
 						validateSyntax( );
@@ -2210,6 +2052,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 								}
 							}
 							linkToSalarParameter.setItems( ParameterPageUtil.getLinkedReportParameterNames( (OdaDataSetParameterHandle) structureHandle ) );
+							originalLinkToParamName = paramerHandle.getQualifiedName( );
 							linkToSalarParameter.select( Utility.findIndex( linkToSalarParameter.getItems( ),
 									paramerHandle.getQualifiedName( ) ) );
 						}
@@ -2226,10 +2069,72 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			parameterButton.addSelectionListener( listener );
 
 			checkParameterButtonTooltip( );
-			
-			//bindedReportParameterName = linkToSalarParameter.getText( );
 		}
 
+		public void updateLinkedReportParameter( String originalLink )
+		{
+			ParameterHandle orignalHandle = null;
+			if ( !originalLink.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) )
+			{
+				orignalHandle = ParameterPageUtil.getScalarParameter( originalLink,
+						false );
+			}
+			ParameterHandle currentHandle = null;
+			if ( !linkToSalarParameter.getText( )
+					.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) )
+			{
+				currentHandle = ParameterPageUtil.getScalarParameter( linkToSalarParameter.getText( ),
+						false );
+			}
+			
+			OdaDataSetParameterHandle dataSetParameterHandle = (OdaDataSetParameterHandle) structureHandle;
+			if ( currentHandle != null && orignalHandle != currentHandle )
+			{
+				boolean setting = ReportPlugin.getDefault( )
+						.getPluginPreferences( )
+						.getBoolean( DateSetPreferencePage.PROMPT_PARAM_UPDATE );
+
+				if ( setting )
+				{
+					return;
+				}
+				
+				MessageDialog dialog = new MessageDialog(
+						Workbench.getInstance( )
+						.getDisplay( )
+						.getActiveShell( ),
+						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
+						null,
+						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
+						MessageDialog.QUESTION, 
+						new String[]{
+							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
+							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
+						}, 
+						1) ;
+				
+				dialog.open( );
+				
+				if ( dialog.getReturnCode( ) == MessageDialog.OK )
+				{
+					ReportParameterAdapter adapter = new ReportParameterAdapter( );
+					try
+					{
+						adapter.updateLinkedReportParameter( (ScalarParameterHandle) currentHandle,
+								dataSetParameterHandle,
+								( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
+					}
+					catch ( SemanticException e )
+					{
+					}
+					catch ( OdaException e )
+					{
+					}
+				}
+			}
+		}
+		
+		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -2453,7 +2358,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			}
 			
 			checkParameterButtonTooltip( );
-			//bindedReportParameterName = linkToSalarParameter.getText( );
 		}
 
 		private void checkParameterButtonTooltip( )
