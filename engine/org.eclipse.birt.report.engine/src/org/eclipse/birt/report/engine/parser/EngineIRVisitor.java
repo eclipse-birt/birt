@@ -952,7 +952,8 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			TableGroupDesign group = (TableGroupDesign) table.getGroup( i );
 			// load the group icons except the most inner group in summary table
-			if ( handle.isSummaryTable( ) && i < groupCount - 1 )
+			boolean isSummaryTable = handle.isSummaryTable( );
+			if ( !isSummaryTable || isSummaryTable && i < groupCount - 1 )
 			{
 				locateGroupIcon( group );
 			}
