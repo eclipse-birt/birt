@@ -947,10 +947,15 @@ public class EngineIRVisitor extends DesignVisitor
 
 		newCellId = new TableItemDesignLayout( ).layout( table, newCellId );
 
-		for ( int i = 0; i < table.getGroupCount( ); i++ )
+		int groupCount = table.getGroupCount( );
+		for ( int i = 0; i < groupCount; i++ )
 		{
 			TableGroupDesign group = (TableGroupDesign) table.getGroup( i );
-			locateGroupIcon( group );
+			// load the group icons except the most inner group in summary table
+			if ( handle.isSummaryTable( ) && i < groupCount - 1 )
+			{
+				locateGroupIcon( group );
+			}
 		}
 
 		applyColumnHighlight( table );
@@ -1035,10 +1040,6 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 		GroupHandle groupHandle = (GroupHandle)group.getHandle( );
 		TableHandle tableHandle = (TableHandle) groupHandle.getContainer( );
-		if ( tableHandle.isSummaryTable( ) )
-		{
-			return;
-		}
 		
 		String keyExpression = groupHandle.getKeyExpr();
 		if ( keyExpression == null )
