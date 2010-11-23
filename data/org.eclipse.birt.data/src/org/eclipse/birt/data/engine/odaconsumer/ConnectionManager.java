@@ -147,7 +147,7 @@ public class ConnectionManager
             // a driver helper instance for the same dataSourceElementId can normally be shared,
             // except when appContext exists, in which case a dedicated driver helper would be needed
             IDriver driverHelper = (appContext != null && ! appContext.isEmpty() ) ?
-                driverMgr.getNewDriverHelper( dataSourceElementId ) :
+                driverMgr.getNewDriverHelper( dataSourceElementId, appContext ) :
                 driverMgr.getDriverHelper( dataSourceElementId );
 
             // specifies default connection profile property provider service

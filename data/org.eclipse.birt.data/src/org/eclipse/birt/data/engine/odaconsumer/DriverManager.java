@@ -15,6 +15,7 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Hashtable;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
@@ -91,24 +92,27 @@ public class DriverManager
 	public IDriver getDriverHelper( String dataSourceElementId )
 		throws DataException
 	{
-        return getDriverHelper( dataSourceElementId, true );
+        return getDriverHelper( dataSourceElementId, true, null );
 	}
     
-	IDriver getNewDriverHelper( String dataSourceElementId )
+	IDriver getNewDriverHelper( String dataSourceElementId, Map<?,?> appContext )
         throws DataException
     {
-        return getDriverHelper( dataSourceElementId, false );
+        return getDriverHelper( dataSourceElementId, false, appContext );
     }
 
-	private IDriver getDriverHelper( String dataSourceElementId, boolean reuseExisting )
+	private IDriver getDriverHelper( String dataSourceElementId, boolean reuseExisting, 
+	        Map<?,?> appContext )
         throws DataException
     {
-        final String methodName = "getDriverHelper(String,boolean)"; //$NON-NLS-1$
+        final String methodName = "getDriverHelper(String,boolean,Map)"; //$NON-NLS-1$
         getLogger().entering( sm_className, methodName, 
                 new Object[] {dataSourceElementId, Boolean.valueOf( reuseExisting )} );
     
         Driver driver = getDriver( dataSourceElementId );
-        IDriver ret = reuseExisting ? driver.getDriverHelper() : driver.createNewDriverHelper();
+        IDriver ret = reuseExisting ? 
+                            driver.getDriverHelper() : 
+                            driver.createNewDriverHelper( appContext );
         
         getLogger().exiting( sm_className, methodName, ret );
         return ret;	    

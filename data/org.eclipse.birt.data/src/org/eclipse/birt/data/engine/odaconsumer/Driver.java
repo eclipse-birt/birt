@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -84,17 +85,18 @@ class Driver
 	// gets the consumer manager helper for this driver
 	IDriver getDriverHelper() throws DataException
 	{	
+	    // shared driver helper has no sharable appContext
 		if( m_driverHelper == null )
-            m_driverHelper = createNewDriverHelper();
+            m_driverHelper = createNewDriverHelper( null );
         return m_driverHelper;
 	}
 
-	IDriver createNewDriverHelper() throws DataException
+	IDriver createNewDriverHelper( Map<?,?> appContext ) throws DataException
 	{
-        final String methodName = "createNewDriverHelper"; //$NON-NLS-1$
+        final String methodName = "createNewDriverHelper(Map)"; //$NON-NLS-1$
         try
         {       
-            return new OdaDriver( getExtensionConfig() );
+            return new OdaDriver( getExtensionConfig(), appContext );
 		}
 		catch( OdaException ex )
 		{
