@@ -24,6 +24,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.data.IDimLevel;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 /**
  * Expression Utility to provide useful methods to handle with expressions.
@@ -415,7 +416,8 @@ public class ChartExpressionUtil
 			sb.append( ExpressionUtil.ROW_INDICATOR );
 		}
 		sb.append( "[\"" ); //$NON-NLS-1$
-		sb.append( bindingName );
+		// Since the binding name might be a javascript, so it must be transformed as a expression.
+		sb.append( JavascriptEvalUtil.transformToJsConstants( bindingName ) );
 		sb.append( "\"]" ); //$NON-NLS-1$
 		return sb.toString( );
 	}
