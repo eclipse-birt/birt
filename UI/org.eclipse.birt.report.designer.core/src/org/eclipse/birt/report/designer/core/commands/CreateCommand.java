@@ -173,13 +173,14 @@ public class CreateCommand extends Command
 							newObject );
 				}
 			}
-
+			DEUtil.setDefaultTheme( newObject );
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
 				System.out.println( "CreateCommand >> Finished. " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( newObject )
 						+ " created" ); //$NON-NLS-1$
 			}
+			
 		}
 		catch ( SemanticException e )
 		{

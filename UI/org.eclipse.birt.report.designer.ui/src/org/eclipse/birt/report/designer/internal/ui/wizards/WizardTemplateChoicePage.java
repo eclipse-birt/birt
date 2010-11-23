@@ -36,8 +36,10 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.FileLocator;
@@ -105,6 +107,10 @@ public class WizardTemplateChoicePage extends WizardPage implements
 	private ImageCanvas previewCanvas;
 
 	private Button chkBox;
+	
+	private Button useDefaultLibraryBox;
+	
+	private LibraryHandle defaultLibraryHandle;
 
 	// bidi_hcg start
 	private static final String MESSAGE_RTL_BIDI = Messages.getString( "WizardTemplateChoicePage.label.rtlBiDiOrientation" ); //$NON-NLS-1$)
@@ -117,6 +123,7 @@ public class WizardTemplateChoicePage extends WizardPage implements
 	boolean isLTRDirection = ReportPlugin.getDefault( ).getLTRReportDirection( );
 	private int predefinedCount;
 	private ExtensionTemplateListProvider provider;
+	
 	// bidi_hcg end
 
 	private boolean isModified = false;
@@ -336,6 +343,17 @@ public class WizardTemplateChoicePage extends WizardPage implements
 				ReportPlugin.writeCheatSheetPreference( chkBox.getSelection( ) );
 			}
 		} );
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.horizontalSpan = 2;
+		chkBox.setLayoutData( data );
+		
+		defaultLibraryHandle = getDefaultLibraryHandleFromResource( );
+		if (defaultLibraryHandle != null)
+		{
+			useDefaultLibraryBox = new Button( composite, SWT.CHECK );
+			useDefaultLibraryBox.setText( "&Include the default themes" );
+			useDefaultLibraryBox.setSelection( true );
+		}
 
 		// bidi_hcg start
 		/*
@@ -685,6 +703,12 @@ public class WizardTemplateChoicePage extends WizardPage implements
 			thumbnailImage.dispose( );
 			thumbnailImage = null;
 		}
+		
+		if (defaultLibraryHandle != null)
+		{
+			defaultLibraryHandle.close( );
+			defaultLibraryHandle = null;
+		}
 	}
 
 	/*
@@ -1012,6 +1036,25 @@ public class WizardTemplateChoicePage extends WizardPage implements
 
 		}
 
+	}
+	
+	private LibraryHandle getDefaultLibraryHandleFromResource()
+	{
+		return DEUtil.getDefaultLibraryHandle( );
+	}
+	
+	public boolean isUseDefaultLibrary()
+	{
+		if (useDefaultLibraryBox == null)
+		{
+			return false;
+		}
+		return useDefaultLibraryBox.getSelection( );
+	}
+	
+	public LibraryHandle getDefaultLibraryHandle()
+	{
+		return defaultLibraryHandle;
 	}
 
 }

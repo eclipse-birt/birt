@@ -237,6 +237,7 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider
 				return false;
 			}
 		}
+		DEUtil.setDefaultTheme( elementHandle );
 		return true;
 	}
 

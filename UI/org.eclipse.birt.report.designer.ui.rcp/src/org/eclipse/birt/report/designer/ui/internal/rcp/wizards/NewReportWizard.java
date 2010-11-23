@@ -224,6 +224,8 @@ public class NewReportWizard extends Wizard implements
 
 		final String cheatSheetId = cheatSheetIdFromPage;
 		final boolean showCheatSheet = showCheatSheetFromPage;
+		final boolean isUseDefaultLibray = templateChoicePage.isUseDefaultLibrary( );
+		final String libraryName = templateChoicePage.getDefaultLibraryHandle( )==null?null:templateChoicePage.getDefaultLibraryHandle( ).getFileName( );
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public void run( IProgressMonitor monitor )
@@ -235,7 +237,7 @@ public class NewReportWizard extends Wizard implements
 							templateFileName,
 							resolveRemoteStream( templateFileName, selTemplate ),
 							cheatSheetId,
-							showCheatSheet,
+							showCheatSheet,isUseDefaultLibray,libraryName,
 							monitor );
 				}
 				finally
@@ -314,7 +316,7 @@ public class NewReportWizard extends Wizard implements
 
 	private void doFinish( IPath locationPath, String fileName,
 			final String templateFileName, final InputStream templateStream,
-			final String cheatSheetId, final boolean showCheatSheet,
+			final String cheatSheetId, final boolean showCheatSheet,boolean isUseDefaultLibrary, String libraryName,
 			IProgressMonitor monitor )
 	{
 		// create a sample file
@@ -382,7 +384,12 @@ public class NewReportWizard extends Wizard implements
 				bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
 
 			handle.setBidiOrientation( bidiOrientation );
-
+			
+			//Support the default library
+			if (isUseDefaultLibrary)
+			{
+				UIUtil.includeLibrary( handle, libraryName );
+			}
 			// bidi_hcg end
 			handle.saveAs( file.getAbsolutePath( ) );
 			handle.close( );
