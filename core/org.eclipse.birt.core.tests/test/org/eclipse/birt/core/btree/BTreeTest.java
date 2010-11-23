@@ -381,7 +381,7 @@ public class BTreeTest extends BTreeTestCase
 		RAMBTreeFile file = new RAMBTreeFile( );
 		BTreeOption<Integer, String> option = new BTreeOption<Integer, String>( );
 		option.setHasValue( true );
-		option.setKeySize( 4 );
+		//option.setKeySize( 4 );
 		option.setKeySerializer( new IntegerSerializer( ) );
 		option.setFile( file );
 		option.setAllowNullKey( true );
