@@ -882,6 +882,18 @@ public class BTree<K, V> implements BTreeConstants
 
 	int getKeySize( BTreeValue<K> key )
 	{
+		if ( allowNullKey )
+		{
+			if ( key == NULL_KEY )
+			{
+				return 1;
+			}
+			if ( keySize == 0 )
+			{
+				return 5 + key.getBytes( ).length;
+			}
+			return keySize + 1;
+		}
 		if ( keySize == 0 )
 		{
 			return 4 + key.getBytes( ).length;
