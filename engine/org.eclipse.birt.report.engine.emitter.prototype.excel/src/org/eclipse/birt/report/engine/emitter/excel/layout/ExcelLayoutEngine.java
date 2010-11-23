@@ -986,7 +986,7 @@ public class ExcelLayoutEngine
 		Iterator<RowData> it = getIterator( page );
 		if ( it.hasNext( ) )
 		{
-			int[] coordinates = page.getCoordinates( );
+			double[] coordinates = page.getCoordinates( );
 			writer.startSheet( coordinates, page.getHeader( ),
 					page.getFooter( ), page.getSheetName( ) );
 			while ( it.hasNext( ) )

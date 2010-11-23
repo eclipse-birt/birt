@@ -695,20 +695,16 @@ public class Page
 		addData( data, parent );
 	}
 
-	public int[] getCoordinates( )
+	public double[] getCoordinates( )
 	{
-		int[] coord = axis.getColumnWidths( );
-
-		if ( coord.length <= maxCol )
+		int[] columnWidths = axis.getColumnWidths( );
+		int count = Math.min( columnWidths.length, maxCol );
+		double[] coord = new double[count];
+		for ( int i = 0; i < count; i++ )
 		{
-			return coord;
+			coord[i] = columnWidths[i];
 		}
-		else
-		{
-			int[] ncoord = new int[maxCol];
-			System.arraycopy( coord, 0, ncoord, 0, maxCol );
-			return ncoord;
-		}
+		return coord;
 	}
 
 	public AxisProcessor getAxis( )

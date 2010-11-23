@@ -60,7 +60,7 @@ public class ExcelWriter implements IExcelWriter
 		writer.endRow( );
 	}
 
-	public void endSheet( int[] coordinates, String oritentation,
+	public void endSheet( double[] coordinates, String oritentation,
 			int pageWidth, int pageHeight, float leftMargin, float rightMargin,
 			float topMargin, float bottomMargin )
 	{
@@ -139,7 +139,7 @@ public class ExcelWriter implements IExcelWriter
 		sheetIndex++;
 	}
 
-	public void startSheet( int[] coordinates, String pageHeader,
+	public void startSheet( double[] coordinates, String pageHeader,
 			String pageFooter, String name ) throws IOException
 	{
 		if ( writer == null )
