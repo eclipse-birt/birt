@@ -681,7 +681,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		startSheet( name, null );
 	}
 
-	public void startSheet( String name, int[] coordinates )
+	public void startSheet( String name, double[] coordinates )
 	{
 		writer.openTag( "Worksheet" );
 		writer.attribute( "ss:Name", name );
@@ -700,7 +700,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.endWriter( );
 	}
 
-	public void outputColumns( int[] width )
+	public void outputColumns( double[] width )
 	{
 		writer.openTag( "ss:Table" );
 
@@ -809,7 +809,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "WorksheetOptions" );
 	}
 
-	public void startSheet( int[] coordinates, String pageHeader,
+	public void startSheet( double[] coordinates, String pageHeader,
 			String pageFooter, String name )
 	{
 		this.pageHeader = pageHeader;
@@ -818,7 +818,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		sheetIndex += 1;
 	}
 
-	public void endSheet( int[] coordinates, String orientation, int pageWidth,
+	public void endSheet( double[] coordinates, String orientation, int pageWidth,
 			int pageHeight, float leftMargin, float rightMargin,
 			float topMargin, float bottomMargin )
 	{

@@ -40,12 +40,12 @@ public interface IExcelWriter
 
 	public void end( ) throws IOException;
 
-	public void startSheet( int[] coordinates, String pageHeader,
+	public void startSheet( double[] coordinates, String pageHeader,
 			String pageFooter, String sheetName ) throws IOException;
 
 	public void startSheet( String sheetName ) throws IOException;
 
-	public void endSheet( int[] coordinates, String orientation, int pageWidth,
+	public void endSheet( double[] coordinates, String orientation, int pageWidth,
 			int pageHeight, float leftMargin, float rightMargin,
 			float topMargin, float bottomMargin );
 
