@@ -128,38 +128,46 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
 	}
-
+	
+	static private boolean equals( Object o1, Object o2 )
+	{
+		if( o1 == null && o2 == null )
+			return true;
+		if( o1 == null || o2 == null )
+			return false;
+		return o1.equals( o2 );
+	}
+	
 	private void insertToBTree( ) throws DataException
 	{
 		try
 		{
 			List<Integer> rowIDList = new ArrayList<Integer>( );
 			KeyRowID keyRowID = ( KeyRowID ) sortedKeyRowID.pop( );
+			boolean isFirst = true;
 			Object lastKey = null;
 			while( keyRowID != null )
 			{
-				if( lastKey == null )
+				if( isFirst )
 				{
 					lastKey = keyRowID.key;
+					rowIDList.add( (Integer) keyRowID.rowID );
+					isFirst = false;
+				}
+				else if( equals( lastKey, keyRowID.key ) )
+				{
 					rowIDList.add( (Integer) keyRowID.rowID );
 				}
 				else
 				{
-					if( lastKey.equals( keyRowID.key ) )
-					{
-						rowIDList.add( (Integer) keyRowID.rowID );
-					}
-					else
-					{
-						btree.insert( lastKey, rowIDList.toArray( new Integer[0]) );
-						lastKey = keyRowID.key;
-						rowIDList.clear( );
-						rowIDList.add( (Integer) keyRowID.rowID );
-					}
+					btree.insert( lastKey, rowIDList.toArray( new Integer[0]) );
+					lastKey = keyRowID.key;
+					rowIDList.clear( );
+					rowIDList.add( (Integer) keyRowID.rowID );
 				}
 				keyRowID = ( KeyRowID ) sortedKeyRowID.pop( );
 			}
-			if( lastKey != null )
+			if( rowIDList.size( ) > 0 )
 			{
 				btree.insert( lastKey, rowIDList.toArray( new Integer[0]) );
 			}
