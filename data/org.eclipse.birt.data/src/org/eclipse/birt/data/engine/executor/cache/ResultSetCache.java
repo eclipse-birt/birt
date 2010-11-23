@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.executor.cache;
 
 import java.io.DataOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -94,6 +95,20 @@ public interface ResultSetCache
 	 * @param outputStream
 	 */
 	public void doSave( DataOutputStream outputStream, DataOutputStream lensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMapping )
+			throws DataException;
+	
+	/**
+	 * Add incremental rows to output stream
+	 * @param outputStream
+	 * @param rowLensStream
+	 * @param rowCount
+	 * @param stringTable
+	 * @param map
+	 * @param cacheRequestMap
+	 * @throws DataException
+	 */
+	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int rowCount, 
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
 			throws DataException;
 	
 	/**

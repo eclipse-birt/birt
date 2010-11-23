@@ -154,6 +154,25 @@ public class StreamManager
 		}
 	}
 	
+	public RAInputStream getInStream( String streamSubName ) throws DataException
+	{
+		StreamID streamID = getStreamID( 0, ROOT_STREAM, BASE_SCOPE);
+		RAInputStream inputStream;
+		try
+		{
+			if( !context.getDocWriter( ).exists( "/" + streamID.getStartStream( ) + "/" + streamSubName ) )
+			{
+				return null;
+			}
+			inputStream = context.getDocWriter( ).getInputStream( "/" + streamID.getStartStream( ) + "/" + streamSubName );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		return inputStream;
+	}
+	
 	public RAOutputStream getOutStream( String streamSubName ) throws DataException
 	{
 		StreamID streamID = getStreamID( 0, ROOT_STREAM, BASE_SCOPE);

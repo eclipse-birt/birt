@@ -166,6 +166,16 @@ public interface IResultIterator
 			throws DataException;
 	
 	/**
+	 * Add increment to exist data set
+	 * 
+	 * @param streamsWrapper
+	 * @param isSubQuery
+	 * @throws DataException
+	 */
+	public void incrementalUpdate( StreamWrapper streamsWrapper, int rowCount, boolean isSubQuery )
+			throws DataException;
+	
+	/**
 	 * Return the IAggrValueHolder instance of this IResultIterator.
 	 * @param aggrName
 	 * @return

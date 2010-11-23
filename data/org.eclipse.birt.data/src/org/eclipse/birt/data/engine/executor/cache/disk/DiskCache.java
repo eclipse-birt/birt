@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.cache.SimpleCachedObject;
@@ -444,6 +446,51 @@ public class DiskCache implements ResultSetCache
 						this.diskBasedResultSet.nextRow( ),
 						colCount,
 						resultSetNameSet, stringTable, map, i );
+			}
+			
+			this.reset( );
+			this.moveTo( currIndex );
+
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+		}
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
+	 */
+	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int originalRowCount, 
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
+			throws DataException
+	{
+		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
+		try
+		{
+			// save data
+			int rowCount = originalRowCount + this.diskBasedResultSet.getCount( );
+			int colCount = this.rsMeta.getFieldCount( );
+			
+			IOUtil.writeInt( outputStream, rowCount );
+			if( outputStream instanceof RAOutputStream )
+				( ( RAOutputStream )outputStream ).seek( ( ( RAOutputStream )outputStream ).length( ) );
+			if( rowLensStream instanceof RAOutputStream )
+				( ( RAOutputStream )rowLensStream ).seek( ( ( RAOutputStream )rowLensStream ).length( ) );
+			DataOutputStream dos = new DataOutputStream( outputStream );
+			DataOutputStream rlos = new DataOutputStream( rowLensStream );
+			int currIndex = this.currResultIndex;
+			this.reset( );
+			long offset = 4;
+			if( outputStream instanceof RAOutputStream )
+				offset = ( ( RAOutputStream )outputStream ).length( );
+			for ( int i = 0; i < rowCount; i++ )
+			{
+				IOUtil.writeLong( rlos, offset );
+				offset += ResultSetUtil.writeResultObject( dos,
+						this.diskBasedResultSet.nextRow( ),
+						colCount,
+						resultSetNameSet, stringTable, map, i + originalRowCount );
 			}
 			
 			this.reset( );

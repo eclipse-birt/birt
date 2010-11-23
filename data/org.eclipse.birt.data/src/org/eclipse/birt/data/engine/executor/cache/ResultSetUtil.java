@@ -95,23 +95,20 @@ public class ResultSetUtil
 //					else if ( currIndex instanceof SerializableDataSetNumberIndex )
 					{
 						currIndex.put( candidate, rowIndex );
-						IOUtil.writeObject( tempDos, candidate );
 					}
+				}
+				
+				StringTable table = null;
+				if( stringTableMap != null )
+					table = stringTableMap.get( resultObject.getResultClass( ).getFieldName( i ) );
+				if( table != null )
+				{
+					int stringIndex = table.getIndex( (String) resultObject.getFieldValue( i ) );
+//					IOUtil.writeObject( tempDos, stringIndex );
+					IOUtil.writeInt( tempDos, stringIndex );
 				}
 				else
-				{
-					StringTable table = null;
-					if( stringTableMap != null )
-						table = stringTableMap.get( resultObject.getResultClass( ).getFieldName( i ) );
-					if( table != null )
-					{
-						int stringIndex = table.getIndex( (String) resultObject.getFieldValue( i ) );
-//						IOUtil.writeObject( tempDos, stringIndex );
-						IOUtil.writeInt( tempDos, stringIndex );
-					}
-					else
-						IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
-				}
+					IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
 			}
 		}
 		tempDos.flush( );
@@ -148,17 +145,7 @@ public class ResultSetUtil
 
 			for ( i = 0; i < count; i++ )
 			{
-				if( rsMeta.isIndexColumn( i + 1 ) )
-				{
-					obs[i] = IOUtil.readObject( dis,
-							DataEngineSession.getCurrentClassLoader( ) );
-					if ( index.containsKey( rsMeta.getFieldName( i + 1 ) ) )
-					{
-						obs[i] = index.get( rsMeta.getFieldName( i + 1 ) )
-								.getKeyValue( obs[i] );
-					}
-				}
-				else if( rsMeta.getFieldMetaData( i + 1 ).getDataType( ) == String.class
+				if( rsMeta.getFieldMetaData( i + 1 ).getDataType( ) == String.class
 						&& rsMeta.isCompressedColumn( i + 1 ) )
 				{
 					StringTable stringTable = null;

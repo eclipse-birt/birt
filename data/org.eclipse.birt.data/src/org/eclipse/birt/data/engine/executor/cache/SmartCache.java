@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.executor.cache;
 
 import java.io.DataOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -206,6 +207,15 @@ public class SmartCache implements ResultSetCache
 		this.resultSetCache.doSave( outputStream, rowLensStream, stringTable, index, cacheRequestMap );
 	}
 	
+	/*
+	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
+	 */
+	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int originalRowCount, 
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
+			throws DataException
+	{
+		this.resultSetCache.incrementalUpdate( outputStream, rowLensStream, originalRowCount, stringTable, map, cacheRequestMap );
+	}
 	
 	/**
 	 * 
