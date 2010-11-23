@@ -436,3 +436,5 @@ data.derivedDataSet.invalidQueryText=クエリテキストが無効です。
 
 #data mart data source
 data.datamart.failLoadDataSet = データオブジェクトデータセット "{0}" を読み込めません。
+data.datamart.originalDataSetNotExist = Incremental update failed. The original data set "{0}" does not exist.
+data.datamart.incrementalDatasetMetaDataError = Incremental update failed. The metadata of additional data set "{0}" is different from the original data set's. 

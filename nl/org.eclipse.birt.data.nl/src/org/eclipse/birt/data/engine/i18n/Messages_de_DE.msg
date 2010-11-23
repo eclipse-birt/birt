@@ -436,3 +436,5 @@ data.derivedDataSet.invalidQueryText=Ungültiger Abfragetext.
 
 #data mart data source
 data.datamart.failLoadDataSet = Fehler beim Laden von Datenobjekt-Datensatz '{0}'.
+data.datamart.originalDataSetNotExist = Incremental update failed. The original data set "{0}" does not exist.
+data.datamart.incrementalDatasetMetaDataError = Incremental update failed. The metadata of additional data set "{0}" is different from the original data set's. 
