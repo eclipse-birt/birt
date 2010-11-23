@@ -106,7 +106,9 @@ public interface BidiConstants
 
 	public static final String BIDI_DIRECTION_FOR_NONBIDI_REPORT = Messages
 			.getString( "report.bidi.properties.nonbididirection" );
-
+	public static final String EMPTY_STR = ""; 
 	public static final String METADATA_FORMAT_PROP_NAME = "metadataBidiFormatStr";
 	public static final String CONTENT_FORMAT_PROP_NAME = "contentBidiFormatStr";
+	public static final String DISABLED_METADATA_FORMAT_PROP_NAME = "disabledMetadataBidiFormatStr";
+	public static final String DISABLED_CONTENT_FORMAT_PROP_NAME = "disabledContentBidiFormatStr";
 }

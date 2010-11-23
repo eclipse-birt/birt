@@ -36,6 +36,8 @@ public class BidiSettingsSupport
 	private Button bidiButton;
 	private BidiFormat metadataBidiFormat = null;
 	private BidiFormat contentBidiFormat = null;
+	private BidiFormat disabledMetadataBidiFormat = null;
+	private BidiFormat disabledContentBidiFormat = null;
 	
    
     public BidiSettingsSupport() {
@@ -72,13 +74,22 @@ public class BidiSettingsSupport
     public BidiFormat getMetadataBidiFormat(){
     	return metadataBidiFormat;
     }
-
+    
+    public BidiFormat getDdisabledContentBidiFormat(){
+    	return disabledContentBidiFormat;
+    }
+    
+    public BidiFormat getDdisabledMetadataBidiFormat(){
+    	return disabledMetadataBidiFormat;
+    }
 	public void setBidiFormats(BidiFormat metadataBidiFormat,
-			BidiFormat contentBidiFormat) {
+			BidiFormat contentBidiFormat, 
+			BidiFormat disabledMetadataBidiFormat,
+			BidiFormat disabledContentBidiFormat) {
 		this.contentBidiFormat = contentBidiFormat;
 		this.metadataBidiFormat = metadataBidiFormat;
-
-		
+		this.disabledContentBidiFormat = disabledContentBidiFormat;
+		this.disabledMetadataBidiFormat = disabledMetadataBidiFormat;
 	}
 	
 	public Properties getBidiFormats(){
@@ -110,7 +121,18 @@ public class BidiSettingsSupport
 			metadataFormat = new BidiFormat(str);
 		else
 			metadataFormat = new BidiFormat(BidiConstants.DEFAULT_BIDI_FORMAT_STR);
-		setBidiFormats(metadataFormat, contentFormat);
+		str = props.getProperty(BidiConstants.DISABLED_CONTENT_FORMAT_PROP_NAME);
+		if (str != null && !str.equals(""))
+			disabledContentBidiFormat = new BidiFormat(str);
+		else
+			disabledContentBidiFormat = null;
+		str = props.getProperty(BidiConstants.DISABLED_METADATA_FORMAT_PROP_NAME);
+		if (str != null && !str.equals(""))
+			disabledMetadataBidiFormat = new BidiFormat(str);
+		else
+			disabledMetadataBidiFormat = null;
+		
+		setBidiFormats(metadataFormat, contentFormat, disabledMetadataBidiFormat, disabledContentBidiFormat);
 	}
 	public Properties addBidiProperties(Properties props) {
 		if (props != null){
@@ -118,6 +140,14 @@ public class BidiSettingsSupport
 				props.setProperty(BidiConstants.CONTENT_FORMAT_PROP_NAME, contentBidiFormat.toString());
 			if (metadataBidiFormat != null)
 				props.setProperty(BidiConstants.METADATA_FORMAT_PROP_NAME, metadataBidiFormat.toString());
+			if (disabledContentBidiFormat != null)
+				props.setProperty(BidiConstants.DISABLED_CONTENT_FORMAT_PROP_NAME, disabledContentBidiFormat.toString());
+			else
+				props.setProperty(BidiConstants.DISABLED_CONTENT_FORMAT_PROP_NAME, BidiConstants.EMPTY_STR);
+			if (disabledMetadataBidiFormat != null)
+				props.setProperty(BidiConstants.DISABLED_METADATA_FORMAT_PROP_NAME, disabledMetadataBidiFormat.toString());
+			else
+				props.setProperty(BidiConstants.DISABLED_METADATA_FORMAT_PROP_NAME, BidiConstants.EMPTY_STR);
 		}
 		return props;
 	}

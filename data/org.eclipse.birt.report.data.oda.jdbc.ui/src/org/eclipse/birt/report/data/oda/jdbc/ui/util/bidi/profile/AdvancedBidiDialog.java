@@ -43,7 +43,6 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 			.getString( "advancedbididialog.title" );
 	public final static String ADVANCED_DIALOG_MSG = Messages
 			.getString( "advancedbididialog.msg" );
-	final private static String EMPTY_STR = ""; //$NON-NLS-1$
 	final private static String EXTERNAL_SYSTEM_METADATA_BIDI_FORMAT = Messages
 			.getString( "metadata.bidiframe.title" );//$NON-NLS-1$
 	final private static String EXTERNAL_SYSTEM_CONTENT_BIDI_FORMAT = Messages
@@ -57,6 +56,8 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 	private boolean disableTransform = false;
 	private BidiFormat metadataBidiFormat = null;
 	private BidiFormat contentBidiFormat = null;
+	private BidiFormat disabledMetadataBidiFormat = null;
+	private BidiFormat disabledContentBidiFormat = null;
 
 	public AdvancedBidiDialog( Object parentDialog )
 	{
@@ -70,6 +71,8 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 		if (parentDialog instanceof BidiSettingsSupport){
 			this.contentBidiFormat = ((BidiSettingsSupport)parentDialog).getContentBidiFormat();
 			this.metadataBidiFormat = ((BidiSettingsSupport)parentDialog).getMetadataBidiFormat();
+			this.disabledContentBidiFormat = ((BidiSettingsSupport)parentDialog).getDdisabledContentBidiFormat();
+			this.disabledMetadataBidiFormat = ((BidiSettingsSupport)parentDialog).getDdisabledMetadataBidiFormat();
 		}
 		
 	}
@@ -92,19 +95,11 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 
 		applyDialogFont( contents );
 		initializeDialogUnits( area );
-		if ( contentBidiFormat != null
-			&& metadataBidiFormat != null
-				&& ( EMPTY_STR
-						.equals( contentBidiFormat.getBiDiFormatString( ) ) || EMPTY_STR
-						.equals( metadataBidiFormat.getBiDiFormatString( ) ) ) )
+		if (disabledContentBidiFormat != null 
+			&& disabledMetadataBidiFormat != null 
+			&& ! BidiConstants.EMPTY_STR.equals(disabledContentBidiFormat)
+			&& !BidiConstants.EMPTY_STR.equals(disabledMetadataBidiFormat)){
 			disableTransform = true;
-
-		if ( contentBidiFormat == null || metadataBidiFormat == null
-				|| disableTransform )
-		{
-			BidiFormat externalDefaultBDiFormat = new BidiFormat(JdbcPlugin.getDefault( ).getPluginPreferences( ).getString(JDBCDataSourcePreferencePage.EXTERNAL_BIDI_FORMAT));
-			this.contentBidiFormat = externalDefaultBDiFormat;
-			this.metadataBidiFormat = externalDefaultBDiFormat;
 		}
 		 
 		Composite bidiArea = new Composite(area, SWT.NONE);
@@ -118,10 +113,10 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 		bidiArea.setLayout(bidiGridLayout);
 		
 		bidiMetadataFormatFrame = BidiGUIUtility.INSTANCE.addBiDiFormatFrame(
-			bidiArea, EXTERNAL_SYSTEM_METADATA_BIDI_FORMAT, metadataBidiFormat );
+			bidiArea, EXTERNAL_SYSTEM_METADATA_BIDI_FORMAT, disableTransform ? disabledMetadataBidiFormat : metadataBidiFormat );
 		
 		bidiContentFormatFrame = BidiGUIUtility.INSTANCE.addBiDiFormatFrame(
-				bidiArea, EXTERNAL_SYSTEM_CONTENT_BIDI_FORMAT, contentBidiFormat );
+				bidiArea, EXTERNAL_SYSTEM_CONTENT_BIDI_FORMAT, disableTransform ? disabledContentBidiFormat : contentBidiFormat );
 
 		disableTransformButton = new Button( bidiArea, SWT.CHECK );
 		disableTransformButton.setText( DISABLE_BIDI_CHECKBOX_TEXT );
@@ -157,9 +152,14 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 					.getBiDiFormat( bidiMetadataFormatFrame );
 			contentBidiFormat = BidiGUIUtility.INSTANCE
 					.getBiDiFormat( bidiContentFormatFrame );
+			disabledContentBidiFormat = disabledMetadataBidiFormat = null;
 		}
 		else
 		{
+			disabledMetadataBidiFormat = BidiGUIUtility.INSTANCE
+					.getBiDiFormat( bidiMetadataFormatFrame );
+			disabledContentBidiFormat = BidiGUIUtility.INSTANCE
+					.getBiDiFormat( bidiContentFormatFrame );
 			metadataBidiFormat = new BidiFormat(
 					BidiConstants.DEFAULT_BIDI_FORMAT_STR );
 			contentBidiFormat = new BidiFormat(
@@ -167,7 +167,7 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 		}
 
 		if (parentDialog instanceof BidiSettingsSupport){
-			((BidiSettingsSupport)parentDialog).setBidiFormats( metadataBidiFormat, contentBidiFormat );
+			((BidiSettingsSupport)parentDialog).setBidiFormats( metadataBidiFormat, contentBidiFormat, disabledMetadataBidiFormat, disabledContentBidiFormat );
 		}
 		super.okPressed( );
 	}
