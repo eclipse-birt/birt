@@ -984,6 +984,6 @@ public final class StyleSheetLoader
 	void semanticWarning( StyleSheetParserException e )
 	{
 		warnings.add( e );
-		logger.log( Level.WARNING, e.getMessage( ) );
+		logger.log( Level.WARNING, e.getLocalizedMessage( ) );
 	}
 }
