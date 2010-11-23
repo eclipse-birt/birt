@@ -436,3 +436,5 @@ data.derivedDataSet.invalidQueryText=잘못된 쿼리 텍스트입니다.
 
 #data mart data source
 data.datamart.failLoadDataSet = 데이터 개체 집합 "{0}"을(를) 로드하지 못했습니다.
+data.datamart.originalDataSetNotExist = Incremental update failed. The original data set "{0}" does not exist.
+data.datamart.incrementalDatasetMetaDataError = Incremental update failed. The metadata of additional data set "{0}" is different from the original data set's. 
