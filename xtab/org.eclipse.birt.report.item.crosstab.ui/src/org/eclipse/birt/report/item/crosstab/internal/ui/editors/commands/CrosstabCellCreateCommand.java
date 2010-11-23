@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -61,6 +62,7 @@ public class CrosstabCellCreateCommand extends Command
 						&& ( (DesignElementHandle) obj ).getContainer( ) == null )
 				{
 					handle.addContent( (DesignElementHandle) obj, pos );
+					DEUtil.setDefaultTheme(  (DesignElementHandle) obj );
 				}
 				else if ( obj instanceof Object[] )
 				{
@@ -71,11 +73,11 @@ public class CrosstabCellCreateCommand extends Command
 						{
 							handle.addContent( (DesignElementHandle) objs[i],
 									pos );
+							DEUtil.setDefaultTheme(  (DesignElementHandle) objs[i] );
 							pos = pos + 1;
 						}
 					}
 				}
-
 			}
 		}
 		catch ( SemanticException e )

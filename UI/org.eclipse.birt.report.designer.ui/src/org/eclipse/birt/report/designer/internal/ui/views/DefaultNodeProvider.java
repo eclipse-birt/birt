@@ -741,9 +741,12 @@ public class DefaultNodeProvider implements INodeProvider
 				return false;
 			}
 		}
+		//add the code to add the defaultTheme
+		DEUtil.setDefaultTheme(elementHandle);
 		return true;
 	}
 
+	
 	protected DesignElementHandle createElement( PropertyHandle propertyHandle,
 			String type ) throws Exception
 	{
@@ -788,6 +791,7 @@ public class DefaultNodeProvider implements INodeProvider
 				propertyHandle.add( elementHandle, pos );
 			}
 		}
+		DEUtil.setDefaultTheme( elementHandle );
 		return true;
 	}
 

@@ -177,6 +177,8 @@ public class NewReportWizard extends Wizard implements
 
 		final String cheatSheetId = cheatSheetIdFromPage;
 		final boolean showCheatSheet = showCheatSheetFromPage;
+		final boolean isUseDefaultLibray = templateChoicePage.isUseDefaultLibrary( );
+		final String libraryName = templateChoicePage.getDefaultLibraryHandle( )==null?null:templateChoicePage.getDefaultLibraryHandle( ).getFileName( );
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public void run( IProgressMonitor monitor )
@@ -189,7 +191,7 @@ public class NewReportWizard extends Wizard implements
 							templateName,
 							resolveRemoteStream( templateName, selTemplate ),
 							cheatSheetId,
-							showCheatSheet,
+							showCheatSheet,isUseDefaultLibray,libraryName,
 							monitor );
 				}
 				catch ( CoreException e )
@@ -551,7 +553,7 @@ public class NewReportWizard extends Wizard implements
 
 	private void doFinish( IPath containerName, String fileName,
 			final String templateFileName, final InputStream templateStream,
-			String cheatSheetId, boolean showCheatSheet,
+			String cheatSheetId, boolean showCheatSheet,boolean isUseDefaultLibrary, String libraryName,
 			IProgressMonitor monitor ) throws CoreException
 	{
 		// create a sample file
@@ -631,6 +633,12 @@ public class NewReportWizard extends Wizard implements
 			// add the create property
 			UIUtil.addCreateBy( handle );
 			UIUtil.setDPI( handle );
+			
+			//Support the default library
+			if (isUseDefaultLibrary)
+			{
+				UIUtil.includeLibrary( handle, libraryName );
+			}
 			// bidi_hcg end
 			handle.saveAs( file.getLocation( ).toOSString( ) );
 			handle.close( );

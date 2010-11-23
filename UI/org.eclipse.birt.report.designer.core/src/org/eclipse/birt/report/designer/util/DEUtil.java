@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -43,12 +44,14 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupElementFactory;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
@@ -97,6 +100,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
@@ -138,7 +143,7 @@ public class DEUtil
 	private static final String XMLDATE_PATTERN_DATE_ONLY = "yyyy-MM-dd"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss"; //$NON-NLS-1$
-
+	private static final String DEFAULT_LIBRARY = "/resources/ThemesReportItems.rptlibrary"; //$NON-NLS-1$
 	private static List<String> paletteElementList = new ArrayList<String>( );
 
 	/**
@@ -3185,5 +3190,116 @@ public class DEUtil
 		retValue.right = (int) py;
 
 		return retValue;
+	}
+	
+	public static LibraryHandle getDefaultLibraryHandle()
+	{
+		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
+				new Path( DEFAULT_LIBRARY ),
+				null );
+
+		if ( url == null )
+		{
+			return null;
+		}
+
+		final String libraryFileName;
+		try
+		{
+			libraryFileName = FileLocator.resolve( url ).getPath( );
+		}
+		catch ( IOException e1 )
+		{
+			return null;
+		}
+		try
+		{
+			return SessionHandleAdapter.getInstance( )
+				.getSessionHandle( ).openLibrary( libraryFileName );
+		}
+		catch ( DesignFileException e )
+		{
+			return null;
+		}
+	}
+	
+	/**Sets the default theme
+	 * @param elementHandle
+	 */
+	public static void setDefaultTheme(DesignElementHandle elementHandle)
+	{
+		System.out.println(elementHandle.getDefn( ).getName( ));
+		if (elementHandle instanceof ReportItemHandle && hasDefaultLibrary( elementHandle.getModuleHandle( ) ))
+		{
+			ReportItemHandle reportItemHandle = (ReportItemHandle)elementHandle;
+			PropertyHandle propertyHandle = reportItemHandle.getPropertyHandle( ReportItemHandle.THEME_PROP );
+			List list = propertyHandle.getReferenceableElementList( );
+			String preFileName = getDefultLibraryFileName( );
+			for (int i=0; i<list.size( ); i++)
+			{
+				ReportItemThemeHandle itemHandle = (ReportItemThemeHandle)list.get( i );
+				if (itemHandle.getQualifiedName( ).startsWith( preFileName ))
+				{
+					try
+					{
+						propertyHandle.setValue( itemHandle.getQualifiedName( ) );
+						break;
+					}
+					catch ( SemanticException e )
+					{
+						//do nothing
+					}
+				}
+			}
+		}
+	}
+	
+	private static String getDefultLibraryFileName()
+	{
+		LibraryHandle defaulthandle = getDefaultLibraryHandle( );
+		if (defaulthandle == null)
+		{
+			return null;
+		}
+		String fileName = new File(defaulthandle.getFileName( )).getAbsolutePath( );
+		
+		int index = fileName.lastIndexOf( "." );
+		int start = fileName.lastIndexOf( File.separator );
+		defaulthandle.close( );
+		return fileName.substring( start + 1, index );
+	}
+	
+	private static boolean hasDefaultLibrary(ModuleHandle handle)
+	{
+		LibraryHandle defaulthandle = getDefaultLibraryHandle( );
+		if (defaulthandle == null)
+		{
+			return false;
+		}
+		String defaultFileName = defaulthandle.getFileName( );
+		
+		List list = handle.getLibraries( );
+		for (int i=0; i<list.size( ); i++)
+		{
+			LibraryHandle temp = (LibraryHandle)list.get( i );
+			String fileName = null;
+			
+			try
+			{
+				fileName = FileLocator.resolve( new URL(temp.getFileName( ))).getPath( );
+			}
+			catch ( IOException e )
+			{
+				
+			}
+			
+			if (defaultFileName.equals(fileName  ))
+			{
+				defaulthandle.close( );
+				return true;
+			}
+		}
+		defaulthandle.close( );
+		return false;
 	}
 }
