@@ -422,6 +422,8 @@ public class ResourceConstants
 	
 	//data mart data source
 	public final static String FAIL_LOAD_DATAOBJECT_DATASET= "data.datamart.failLoadDataSet";
+	public final static String ORIGINAL_DATASET_NOT_EXIST= "data.datamart.originalDataSetNotExist";
+	public final static String INCREMENTAL_DATASET_HAS_ERROR_METADATA= "data.datamart.incrementalDatasetMetaDataError";
 	
 	
 }

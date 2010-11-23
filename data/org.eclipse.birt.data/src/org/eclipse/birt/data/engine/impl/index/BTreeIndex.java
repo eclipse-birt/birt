@@ -74,6 +74,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		option.setCacheSize( cacheSize );
 		option.setHasValue( true );
 		option.setAllowDuplicate( true );
+		option.setAllowNullKey( true );
 		option.setReadOnly( false );
 		option.setValueSerializer( new IntegerSerializer( ) );
 
@@ -96,6 +97,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		option.setCacheSize( cacheSize );
 		option.setHasValue( true );
 		option.setAllowDuplicate( true );
+		option.setAllowNullKey( true );
 		option.setReadOnly( true );
 		option.setValueSerializer( new IntegerSerializer( ) );
 
@@ -118,8 +120,6 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			if( sortedKeyRowID != null )
 			{
 				insertToBTree( );
-				sortedKeyRowID.close( );
-				sortedKeyRowID = null;
 			}
 			btree.close( );
 		}
@@ -128,41 +128,51 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
 	}
-
+	
+	static private boolean equals( Object o1, Object o2 )
+	{
+		if( o1 == null && o2 == null )
+			return true;
+		if( o1 == null || o2 == null )
+			return false;
+		return o1.equals( o2 );
+	}
+	
 	private void insertToBTree( ) throws DataException
 	{
 		try
 		{
 			List<Integer> rowIDList = new ArrayList<Integer>( );
 			KeyRowID keyRowID = ( KeyRowID ) sortedKeyRowID.pop( );
+			boolean isFirst = true;
 			Object lastKey = null;
 			while( keyRowID != null )
 			{
-				if( lastKey == null )
+				if( isFirst )
 				{
 					lastKey = keyRowID.key;
+					rowIDList.add( (Integer) keyRowID.rowID );
+					isFirst = false;
+				}
+				else if( equals( lastKey, keyRowID.key ) )
+				{
 					rowIDList.add( (Integer) keyRowID.rowID );
 				}
 				else
 				{
-					if( lastKey.equals( keyRowID.key ) )
-					{
-						rowIDList.add( (Integer) keyRowID.rowID );
-					}
-					else
-					{
-						btree.insert( lastKey, rowIDList.toArray( new Integer[0]) );
-						lastKey = keyRowID.key;
-						rowIDList.clear( );
-						rowIDList.add( (Integer) keyRowID.rowID );
-					}
+					btree.insert( lastKey, rowIDList.toArray( new Integer[0]) );
+					lastKey = keyRowID.key;
+					rowIDList.clear( );
+					rowIDList.add( (Integer) keyRowID.rowID );
 				}
 				keyRowID = ( KeyRowID ) sortedKeyRowID.pop( );
 			}
-			if( lastKey != null )
+			if( rowIDList.size( ) > 0 )
 			{
 				btree.insert( lastKey, rowIDList.toArray( new Integer[0]) );
 			}
+			sortedKeyRowID.close( );
+			sortedKeyRowID = null;
 		}
 		catch (IOException e)
 		{
@@ -177,7 +187,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			int cacheSize = 10000;
 			if( memoryBufferSize != 0 )
 			{
-				cacheSize = (int) ( memoryBufferSize / ( SizeOfUtil.sizeOf( DataType.getDataType( this.keyDataType ) ) + 16 + 4 ));
+				if( String.class.equals( keyDataType ) )
+					cacheSize = (int) ( memoryBufferSize / 100 );
+				else
+					cacheSize = (int) ( memoryBufferSize / ( SizeOfUtil.sizeOf( DataType.getDataType( this.keyDataType ) ) + 16 + 4 ));
 				sortedKeyRowID = new DiskSortedStack( cacheSize, false, false, KeyRowID.getCreator( ) );
 			}
 			else
@@ -490,9 +503,17 @@ class ArchiveOutputFile implements BTreeFile
 	{
 		this.archive = archive;
 		this.name = name;
-		output = archive.createOutputStream( name );
-		input = archive.getInputStream( name );
-		totalBlock = 0;
+		if( archive.exists( name ) )
+		{
+			input = archive.getInputStream( name );
+			output = archive.getOutputStream( name );
+		}
+		else
+		{
+			output = archive.createOutputStream( name );
+			input = archive.getInputStream( name );
+		}
+		totalBlock = (int) ( ( input.length( ) + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
 	}
 
 	public void close( ) throws IOException
@@ -568,6 +589,12 @@ class KeyRowID implements IComparableStructure
 
 	public int compareTo( Object o )
 	{
+		if( key == null )
+		{
+			return -1;
+		}
+		if( ( ( KeyRowID )o ).key == null )
+			return 1;
 		return ( ( Comparable)key ).compareTo( ( ( KeyRowID )o ).key );
 	}
 	

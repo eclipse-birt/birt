@@ -5,13 +5,13 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
@@ -40,11 +40,15 @@ public class StringTable
 	public void loadFrom( InputStream inputStream ) throws IOException
 	{
 		DataInputStream dataInputStream = new DataInputStream( inputStream );
+		this.currentIndex = 0;
 		while( true )
 		{
 			try
 			{
-				this.stringList.add( dataInputStream.readUTF( ) );
+				String key = dataInputStream.readUTF( );
+				this.stringList.add( key );
+				this.stringIndexMap.put( key, currentIndex );
+				this.currentIndex++;
 			}
 			catch (EOFException e)
 			{
@@ -58,11 +62,32 @@ public class StringTable
 	/**
 	 * 
 	 * @param outputStream
+	 * @throws IOException 
+	 * @throws DataException 
 	 */
 	public void setStreamManager( StreamManager manager, String fieldName )
 	{
 		this.manager = manager;
 		this.fieldName = fieldName;
+		
+		try
+		{
+			RAInputStream inputStream = this.manager.getInStream( "StringTable/" + this.fieldName );
+			if( inputStream != null )
+			{
+				loadFrom( inputStream );
+				RAOutputStream outputStream = this.manager.getOutStream( "StringTable/" + this.fieldName );
+				outputStream.seek( outputStream.length( ) );
+				this.dataOutputStream = new DataOutputStream( outputStream );
+			}
+		}
+		catch (DataException e)
+		{
+		}
+		catch (IOException e)
+		{
+		}
+		
 	}
 	
 	/**

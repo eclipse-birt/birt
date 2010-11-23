@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.executor.transform;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,6 @@ import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
-import org.eclipse.birt.data.engine.impl.index.SerializableBirtHash;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.AggrHolderManager;
 import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
@@ -561,6 +561,57 @@ public class CachedResultSet implements IResultIterator
 	public void clearAggrValueHolder( ) throws DataException
 	{
 		this.aggrHolderManager.clear( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#addIncrement(org.eclipse.birt.data.engine.impl.document.StreamWrapper, int, boolean)
+	 */
+	public void incrementalUpdate(StreamWrapper streamsWrapper, int originalRowCount,
+			boolean isSubQuery) throws DataException
+	{
+		if ( isSubQuery == false && (!isSummaryQuery(  this.resultSetPopulator.getQuery( ) )) && 
+				streamsWrapper.getStreamForResultClass( ) != null )
+		{
+			try
+			{
+				OutputStream outputStream = streamsWrapper.getStreamManager( ).getOutStream( DataEngineContext.DATASET_DATA_STREAM,
+						StreamManager.ROOT_STREAM,
+						StreamManager.SELF_SCOPE );
+				OutputStream dlStream = streamsWrapper.getStreamManager( ).getOutStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
+						StreamManager.ROOT_STREAM,
+						StreamManager.SELF_SCOPE );
+				if ( outputStream != null )
+				{
+					Map<String, IIndexSerializer> index = 
+						streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) );
+					Map<String, StringTable> stringTables = streamsWrapper.getOutputStringTable( this.getResultClass( ) );
+					this.resultSetPopulator.getCache( )
+								.incrementalUpdate( outputStream,
+										dlStream,
+										originalRowCount,
+										stringTables,
+										index,
+										resultSetPopulator.getEventHandler( )
+												.getAllColumnBindings( ) );
+					for( StringTable stringTable : stringTables.values( ))
+					{
+						stringTable.close( );
+					}
+					for( IIndexSerializer ind: index.values( ))
+					{
+						ind.close( );
+					}
+					outputStream.close( );
+					dlStream.close( );
+				}
+			}
+			catch ( IOException e )
+			{
+				logger.log( Level.FINE, e.getMessage( ), e );
+			}
+		}
+		
 	}
 
 }

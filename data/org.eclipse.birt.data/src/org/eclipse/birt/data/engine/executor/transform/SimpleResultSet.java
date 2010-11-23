@@ -152,6 +152,7 @@ public class SimpleResultSet implements IResultIterator
 					exprValueStream.close( );
 				}
 				dataSetStream.close( );
+				dataSetStream = null;
 			}
 			catch ( Exception e )
 			{
@@ -170,6 +171,45 @@ public class SimpleResultSet implements IResultIterator
 			}
 			dataSetLenStream = null;
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#addIncrement(org.eclipse.birt.data.engine.impl.document.StreamWrapper, int, boolean)
+	 */
+	public void incrementalUpdate(StreamWrapper streamsWrapper, int originalRowCount,
+			boolean isSubQuery) throws DataException
+	{
+		this.streamsWrapper = streamsWrapper;
+
+		try
+		{
+			dataSetStream = this.streamsWrapper.getStreamManager( )
+						.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
+							StreamManager.ROOT_STREAM,
+							StreamManager.SELF_SCOPE );
+			OutputStream dlenStream = this.streamsWrapper.getStreamManager( )
+						.getOutStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
+							StreamManager.ROOT_STREAM,
+							StreamManager.SELF_SCOPE );
+			if ( dataSetStream instanceof RAOutputStream )
+			{
+				rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
+				( (RAOutputStream) dataSetStream ).seek( ( (RAOutputStream) dataSetStream ).length( ) );
+				offset = ( (RAOutputStream) dataSetStream ).getOffset( );
+			}
+			if ( dlenStream instanceof RAOutputStream )
+			{
+				( (RAOutputStream) dlenStream ).seek( ( (RAOutputStream) dlenStream ).length( ) );
+			}
+			dataSetLenStream = new DataOutputStream( dlenStream );
+			this.rowCount += originalRowCount;
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		
 	}
 
 	/*
