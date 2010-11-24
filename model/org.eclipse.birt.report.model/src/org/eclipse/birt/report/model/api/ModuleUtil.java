@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.ActionStructureState;
@@ -1261,5 +1262,16 @@ public class ModuleUtil
 			}
 		}
 		return retList;
+	}
+	
+	/**
+	 * Validates the given group name. Returned value is a valid one.
+	 * @param groupHandle
+	 * @param groupName
+	 * @return
+	 */
+	public static String validteGroupName( GroupHandle groupHandle, String groupName )
+	{
+		return NamePropertyType.validateName( groupName );
 	}
 }
