@@ -92,6 +92,7 @@ import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrat
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
@@ -275,16 +276,20 @@ public class PropertyCommand extends AbstractPropertyCommand
 			checkRecursiveElementReference( prop, (ElementRefValue) value );
 			checkDataBindingReference( prop, (ElementRefValue) value );
 			if ( inputValue instanceof String )
-				checkSharedDimensionReference( prop, (ElementRefValue) value );
+				checkSharedDimensionReference( prop, value );
 		}
 
 		if ( element instanceof GroupElement
 				&& IGroupElementModel.GROUP_NAME_PROP.equals( prop.getName( ) ) )
 		{
-			if ( !isGroupNameValidInContext( (String) value ) )
-				throw new NameException( element, (String) value,
+			String name = (String) value;
+			if ( !NamePropertyType.isValidName( name ) )
+				throw new NameException( element, name,
+						NameException.DESIGN_EXCEPTION_INVALID_NAME );
+			if ( !isGroupNameValidInContext( name ) )
+				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
-		}		
+		}
 
 		// Set the property.
 

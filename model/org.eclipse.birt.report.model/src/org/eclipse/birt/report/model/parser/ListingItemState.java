@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -124,10 +125,13 @@ public abstract class ListingItemState extends ReportItemState
 		{
 			GroupElement group = (GroupElement) groups.getContent( i );
 
-			handler.getModule( ).getNameHelper( ).makeUniqueName( group );
+			String groupName = (String) group.getLocalProperty( handler.module,
+					IGroupElementModel.GROUP_NAME_PROP );
+			if ( StringUtil.isBlank( groupName ) )
+				handler.getModule( ).getNameHelper( ).makeUniqueName( group );
 
-			String groupName = (String) group.getLocalProperty( handler
-					.getModule( ), GroupElement.GROUP_NAME_PROP );
+			groupName = (String) group.getLocalProperty( handler.getModule( ),
+					IGroupElementModel.GROUP_NAME_PROP );
 
 			if ( !elements.contains( group ) )
 				continue;
