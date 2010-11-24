@@ -3697,7 +3697,7 @@ New.DataMartDataSource=新DataMart数据源
 New.DataMartDataSet=新DataMart数据集
 New.DataMartCube=新DataMart多维数据集
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=NewReportItemTheme
+New.ReportItemTheme=新报表项背景主题
 
 ###########################################################
 #Default theme name.
