@@ -23,6 +23,7 @@ import org.eclipse.birt.report.debug.ui.DebugUI;
 import org.eclipse.birt.report.debug.ui.i18n.Messages;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -516,7 +517,25 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements
 			engineHomeVariableButton.setEnabled( !bUseDefaultEngineHome.getSelection( ) );
 
 			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
-			String[] supportedFormats = engine.getSupportedFormats( );
+			String[] supportedFormats;// = engine.getSupportedFormats( );
+			EmitterInfo[] emitters = engine.getEmitterInfo( );
+			if (emitters == null || emitters.length == 0)
+			{
+				supportedFormats = new String[]{};
+			}
+			else
+			{
+				List<String> temp = new ArrayList<String>();
+				for (int i=0; i<emitters.length; i++)
+				{
+					EmitterInfo info = emitters[i];
+					if (!info.isHidden( ))
+					{
+						temp.add( info.getFormat( ) );
+					}
+				}
+				supportedFormats = temp.toArray(new String[temp.size( )] );
+			}
 			cmbOutputFormat.setItems( supportedFormats );
 
 			String targetFormat = configuration.getAttribute( ATTR_TARGET_FORMAT,
