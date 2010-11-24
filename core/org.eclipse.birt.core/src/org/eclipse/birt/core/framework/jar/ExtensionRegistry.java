@@ -146,18 +146,24 @@ public class ExtensionRegistry implements IExtensionRegistry
 				"addRegistryChangeListener is not implemented yet" );
 	}
 
-	public IConfigurationElement[] getConfigurationElementsFor( String arg0,
-			String arg1 )
+	public IConfigurationElement[] getConfigurationElementsFor(
+			String namespace, String extensionPointName )
 	{
-		throw new UnsupportedOperationException(
-				"getConfigurationElementsFor is not implemented yet" );
+		IExtensionPoint extPoint = getExtensionPoint( namespace,
+				extensionPointName );
+		if ( extPoint == null )
+			return new IConfigurationElement[0];
+		return extPoint.getConfigurationElements( );
 	}
 
 	public IConfigurationElement[] getConfigurationElementsFor(
 			String namespace, String extensionPointName, String extensionId )
 	{
-		throw new UnsupportedOperationException(
-				"getConfigurationElementsFor is not implemented yet" );
+		IExtension extension = getExtension( namespace, extensionPointName,
+				extensionId );
+		if ( extension == null )
+			return new IConfigurationElement[0];
+		return extension.getConfigurationElements( );
 	}
 
 	public IExtension getExtension( String namespace,
