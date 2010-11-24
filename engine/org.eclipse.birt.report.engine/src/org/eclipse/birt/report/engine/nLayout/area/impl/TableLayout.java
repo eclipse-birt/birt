@@ -72,6 +72,16 @@ public class TableLayout
 		unresolvedRow = row;
 	}
 	
+	public RowArea getNextRow(RowArea row)
+	{
+		int index = rows.indexOf( row );
+		if(index>=0 && index<=(rows.size( )-2))
+		{
+			return (RowArea)rows.get( index+1 );
+		}
+		return null;
+	}
+	
 	protected int resolveBottomBorder( CellArea cell )
 	{
 		IStyle tableStyle = tableContent.getComputedStyle( );
@@ -674,6 +684,48 @@ public class TableLayout
 	{
 		updateRow( rowArea, isFixedLayout );
 		rows.add( rowArea );
+	}
+	
+	protected boolean isUnresolved(RowArea row)
+	{
+		for ( int i = startCol; i <= endCol; i++ )
+		{
+			CellArea cell = row.getCell( i );
+			if(cell!=null && cell.getRowSpan( )>1)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void mergeUnresolvedRowHint()
+	{
+		/**
+		 * this case should only exist in add first detail row in new page, the repeated group header should be the last row.
+		 * the row span in repeated head should be updated by unresolved row
+		 */
+		RowArea lastRow = (RowArea) rows.getCurrent( );
+		if ( unresolvedRow != null && lastRow != null )
+		{
+			if ( isUnresolved( unresolvedRow ) )
+			{
+				for ( int i = startCol; i <= endCol; i++ )
+				{
+					CellArea cell = lastRow.getCell( i );
+					if ( cell != null )
+					{
+						CellArea unresolvedCell = unresolvedRow.getCell( i );
+						if ( unresolvedCell != null )
+						{
+							cell.setRowSpan( unresolvedCell.getRowSpan( )
+									- ( unresolvedRow.finished ? 0 : -1 ) );
+						}
+					}
+				}
+				unresolvedRow = null;
+			}
+		}
 	}
 
 	/**

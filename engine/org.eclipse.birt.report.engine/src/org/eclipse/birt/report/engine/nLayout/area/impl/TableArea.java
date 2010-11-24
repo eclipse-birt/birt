@@ -354,8 +354,10 @@ public class TableArea extends RepeatableArea
 					{
 						style = cellContent.getStyle( ).getCssText( );
 					}
-					hint.addUnresolvedCell( style, cell.columnID, cell.colSpan,
-							cell.rowSpan );
+				//	hint.addUnresolvedCell( style, cell.columnID, cell.colSpan,
+					//		cell.rowSpan );
+					hint.addUnresolvedCell( style, cellContent.getColumn( ), cellContent.getColSpan( ),
+					cellContent.getRowSpan( ) );
 				}
 			}
 		}
@@ -437,19 +439,47 @@ public class TableArea extends RepeatableArea
 			// FIMXE update group/table height;
 		}
 	}
+	
+	protected String getNextRowId( RowArea row )
+	{
+		RowArea nextRow = layout.getNextRow( row );
+		if ( nextRow != null )
+		{
+			InstanceID id = nextRow.getContent( ).getInstanceID( );
+			if ( id != null )
+			{
+				return id.toUniqueString( );
+			}
+		}
+		return null;
+	}
+	
 
 	public void relayoutChildren( ) throws BirtException
 	{
+		String nextRowId = null;
+		if ( layout.unresolvedRow != null )
+		{
+			nextRowId = this.getNextRowId( layout.unresolvedRow );
+		}
 		layout.clear( );
-		addRows( this, layout );
+		addRows( this, layout, nextRowId );
+		layout.mergeUnresolvedRowHint( );
 	}
-
-	protected void addRows( ContainerArea container, TableLayout layout )
+		
+	protected void addRows( ContainerArea container, TableLayout layout, String rowId)
 			throws BirtException
 	{
 		if ( container instanceof RowArea )
 		{
 			RowArea row = (RowArea) container;
+			InstanceID id = row.getContent( ).getInstanceID( );
+			if ( rowId != null && id != null
+					&& rowId.equals( id.toUniqueString( ) ) )
+			{
+				layout.mergeUnresolvedRowHint( );
+			}
+
 			if ( row.needResolveBorder )
 			{
 				int size = row.getChildrenCount( );
@@ -484,7 +514,7 @@ public class TableArea extends RepeatableArea
 			for ( int i = 0; i < size; i++ )
 			{
 				ContainerArea child = (ContainerArea) container.getChild( i );
-				addRows( child, layout );
+				addRows( child, layout, rowId );
 				child.updateChildrenPosition( );
 			}
 			container.updateChildrenPosition( );

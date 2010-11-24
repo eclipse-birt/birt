@@ -331,7 +331,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	public CellArea deepClone( )
 	{
 		CellArea cell = (CellArea) super.deepClone( );
-		cell.setRowSpan( rowSpan - usedRowSpan );
+		cell.setRowSpan( rowSpan );
 		cell.setColSpan( colSpan );
 		cell.setBoxStyle( new BoxStyle( cell.getBoxStyle( ) ) );
 		if ( getRowSpan( ) > 1 )
