@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoice
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -178,7 +179,7 @@ public class NewReportWizard extends Wizard implements
 		final String cheatSheetId = cheatSheetIdFromPage;
 		final boolean showCheatSheet = showCheatSheetFromPage;
 		final boolean isUseDefaultLibray = templateChoicePage.isUseDefaultLibrary( );
-		final String libraryName = templateChoicePage.getDefaultLibraryHandle( )==null?null:templateChoicePage.getDefaultLibraryHandle( ).getFileName( );
+		final LibraryHandle library = templateChoicePage.getDefaultLibraryHandle( );
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
 			public void run( IProgressMonitor monitor )
@@ -191,7 +192,7 @@ public class NewReportWizard extends Wizard implements
 							templateName,
 							resolveRemoteStream( templateName, selTemplate ),
 							cheatSheetId,
-							showCheatSheet,isUseDefaultLibray,libraryName,
+							showCheatSheet,isUseDefaultLibray,library,
 							monitor );
 				}
 				catch ( CoreException e )
@@ -553,7 +554,7 @@ public class NewReportWizard extends Wizard implements
 
 	private void doFinish( IPath containerName, String fileName,
 			final String templateFileName, final InputStream templateStream,
-			String cheatSheetId, boolean showCheatSheet,boolean isUseDefaultLibrary, String libraryName,
+			String cheatSheetId, boolean showCheatSheet,boolean isUseDefaultLibrary, LibraryHandle library,
 			IProgressMonitor monitor ) throws CoreException
 	{
 		// create a sample file
@@ -637,7 +638,7 @@ public class NewReportWizard extends Wizard implements
 			//Support the default library
 			if (isUseDefaultLibrary)
 			{
-				UIUtil.includeLibrary( handle, libraryName );
+				UIUtil.includeLibrary( handle, library );
 			}
 			// bidi_hcg end
 			handle.saveAs( file.getLocation( ).toOSString( ) );

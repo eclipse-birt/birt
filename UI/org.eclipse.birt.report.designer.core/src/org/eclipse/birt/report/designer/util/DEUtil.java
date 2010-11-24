@@ -3228,7 +3228,7 @@ public class DEUtil
 	 */
 	public static void setDefaultTheme(DesignElementHandle elementHandle)
 	{
-		System.out.println(elementHandle.getDefn( ).getName( ));
+		//System.out.println(elementHandle.getDefn( ).getName( ));
 		if (elementHandle instanceof ReportItemHandle && hasDefaultLibrary( elementHandle.getModuleHandle( ) ))
 		{
 			ReportItemHandle reportItemHandle = (ReportItemHandle)elementHandle;
