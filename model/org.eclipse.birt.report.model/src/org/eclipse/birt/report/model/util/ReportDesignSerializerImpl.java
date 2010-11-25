@@ -563,7 +563,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			Map<String, String> nameMap )
 	{
 
-		Expression objExpr = (Expression) binding
+		Expression objExpr = binding
 				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
 
 		if ( objExpr == null )
