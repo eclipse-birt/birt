@@ -3,7 +3,7 @@ plugin@org.eclipse.birt.chart.tests=r262_v20101014,:ext:xgu@dev.eclipse.org:/cvs
 
 !**************** engine test *******************
 fragment@org.eclipse.birt.core.testhelper=r262_v20101118,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.testhelper
-plugin@org.eclipse.birt.core.tests=r262_v20101118,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.tests
+plugin@org.eclipse.birt.core.tests=r262_v20101125,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.tests
 plugin@org.eclipse.birt.report.engine.tests=r262_v20101118,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.tests
 fragment@org.eclipse.birt.report.engine.testhelper=r262_v20101118,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.testhelper
 plugin@org.eclipse.birt.report.engine.emitter.html.tests=r262_v20101118,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html.tests
