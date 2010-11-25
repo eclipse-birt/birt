@@ -64,7 +64,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		if ( reportParam == null || dataSetParam == null )
 			return;
 
-		updateLinkedReportParameterFromROMParameter( reportParam, dataSetParam, true );
+		updateLinkedReportParameterFromROMParameter( reportParam, dataSetParam,
+				true );
 	}
 
 	/*
@@ -96,9 +97,9 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 			matchedParam = getValidParameterDefinition( dataSetParam,
 					dataSetDesign.getParameters( ) );
 
-			dataType = DataSetParameterAdapter.getROMDataType(
-					dataSetDesign.getOdaExtensionDataSourceId( ),
-					dataSetDesign.getOdaExtensionDataSetId( ),
+			dataType = DataSetParameterAdapter.getROMDataType( dataSetDesign
+					.getOdaExtensionDataSourceId( ), dataSetDesign
+					.getOdaExtensionDataSetId( ),
 					(OdaDataSetParameter) dataSetParam.getStructure( ),
 					setHandle == null ? null : setHandle.parametersIterator( ) );
 		}
@@ -111,9 +112,9 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		{
 			if ( matchedParam != null )
 				updateLinkedReportParameter( reportParam, matchedParam, null,
-						dataType,
-						(OdaDataSetHandle) dataSetParam.getElementHandle( ) );
-	
+						dataType, (OdaDataSetHandle) dataSetParam
+								.getElementHandle( ) );
+
 			updateLinkedReportParameterFromROMParameter( reportParam,
 					dataSetParam, false );
 		}
@@ -174,8 +175,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 			String newPromptText = dataUiHints.getDisplayName( );
 			String newHelpText = dataUiHints.getDescription( );
 
-			if ( !CompareUtil.isEquals( newPromptText,
-					reportParam.getPromptText( ) ) )
+			if ( !CompareUtil.isEquals( newPromptText, reportParam
+					.getPromptText( ) ) )
 				return false;
 
 			if ( !CompareUtil
@@ -245,8 +246,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 
 	protected void updateLinkedReportParameterFromROMParameter(
 			AbstractScalarParameterHandle reportParam,
-			OdaDataSetParameterHandle dataSetParam,
-			boolean updateDefaultValue ) throws SemanticException
+			OdaDataSetParameterHandle dataSetParam, boolean updateDefaultValue )
+			throws SemanticException
 	{
 		assert reportParam != null
 				&& reportParam instanceof ScalarParameterHandle;
@@ -298,8 +299,8 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 		inputAttrs.setMasksValue( scalarParam.isConcealValue( ) );
 
 		InputElementUIHints uiHints = designFactory.createInputElementUIHints( );
-		uiHints.setPromptStyle( AdapterUtil.newPromptStyle(
-				scalarParam.getControlType( ), scalarParam.isMustMatch( ) ) );
+		uiHints.setPromptStyle( AdapterUtil.newPromptStyle( scalarParam
+				.getControlType( ), scalarParam.isMustMatch( ) ) );
 
 		// not set the ROM default value on ODA objects.
 
@@ -436,7 +437,7 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 	{
 		assert reportParam instanceof ScalarParameterHandle;
 		ScalarParameterHandle param = (ScalarParameterHandle) reportParam;
-		
+
 		// update conceal value
 
 		Boolean masksValue = Boolean.valueOf( elementAttrs.isMasksValue( ) );
@@ -462,8 +463,7 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 					|| ( style != null && cachedStyle.getValue( ) != style
 							.getValue( ) ) )
 			{
-				boolean isAutoSuggest = uiHints.isSetAutoSuggestThreshold( );
-				if ( isAutoSuggest )
+				if ( isAutoSuggest( elementAttrs ) )
 					param.setControlType( DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST );
 				else
 					param.setControlType( style == null ? null : AdapterUtil
@@ -478,6 +478,39 @@ class ReportParameterAdapter extends AbstractReportParameterAdapter
 
 		super.updateInputElementAttrsToReportParam( elementAttrs,
 				cachedElementAttrs, reportParam, setHandle );
+	}
+
+	/**
+	 * Determines whether the report parameter is auto-suggest ticked. It is
+	 * true if and only if isSetAutoSuggestThreshold is TRUE,
+	 * _mAutoSuggestThreshold is larger than 0, prompt control style is
+	 * SELECTABLE_LIST_WITH_TEXT_FIELD and DynamicValuesQuery is not null.
+	 * 
+	 * @param elementAttrs
+	 * @return
+	 */
+	private boolean isAutoSuggest( InputElementAttributes elementAttrs )
+	{
+		if ( elementAttrs == null )
+			return false;
+		InputElementUIHints uiHints = elementAttrs.getUiHints( );
+		if ( uiHints == null )
+			return false;
+		boolean isSetAutoSuggestThreshold = uiHints.isSetAutoSuggestThreshold( );
+		if ( !isSetAutoSuggestThreshold )
+			return false;
+		int threshold = uiHints.getAutoSuggestThreshold( );
+		if ( threshold <= 0 )
+			return false;
+		InputPromptControlStyle style = uiHints.getPromptStyle( );
+		if ( style == null )
+			return false;
+		int styleMode = style.getValue( );
+		if ( InputPromptControlStyle.SELECTABLE_LIST_WITH_TEXT_FIELD == styleMode
+				&& elementAttrs.getDynamicValueChoices( ) != null )
+			return true;
+
+		return false;
 	}
 
 }
