@@ -1912,6 +1912,8 @@ public class CascadingParametersDialog extends BaseDialog
 				for ( int i = 0; i < columns.length; i++ )
 				{
 					if ( DEUtil.getColumnExpression( columns[i] )
+							.equals( handle.getValueExpr( ) ) 
+							||  DEUtil.getResultSetColumnExpression( columns[i] )
 							.equals( handle.getValueExpr( ) ) )
 					{
 						found = true;
@@ -2618,7 +2620,9 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
 				if ( DEUtil.getColumnExpression( element.getColumnName( ) )
-						.equalsIgnoreCase( value ) )
+						.equalsIgnoreCase( value ) 
+						||  DEUtil.getResultSetColumnExpression( element.getColumnName( ) )
+						.equalsIgnoreCase( value ))
 				{
 					return element.getColumnName( );
 				}
