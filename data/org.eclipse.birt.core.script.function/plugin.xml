@@ -1021,5 +1021,28 @@
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    	</Function>
    </Category>
+    <Category
+          factoryclass="org.eclipse.birt.core.script.function.bre.FormatterFunctionFactory"
+          name="Formatter">
+       <Function
+             desc="%FunctionDesc.format"
+             name="format">
+          <DataType
+                value="%dataType.Any">
+          </DataType>
+          <Argument
+                name="value">
+             <DataType
+                   value="%dataType.Any">
+             </DataType>
+          </Argument>
+          <Argument
+                name="pattern">
+             <DataType
+                   value="%dataType.String">
+             </DataType>
+          </Argument>
+       </Function>
+    </Category>
   </extension>
 </plugin>
