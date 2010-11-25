@@ -184,8 +184,11 @@ public final class CurveRenderer
 		oSource = StructureSource.createSeries( _render.getSeries( ) );
 		
 		dc = _render.getDeferredCache( );
-		dc.setPlaneShadowsComparator( WrappedInstruction.getDefaultComarator( ) );
-		dc.setPlanesComparator( WrappedInstruction.getDefaultComarator( ) );
+		if ( bShowAsTape )
+		{// for 2d+ area with two curve fitting series drawing issue, we need to
+			// add comparator here.
+			dc.setPlanesComparator( WrappedInstruction.getDefaultComarator( ) );
+		}
 		this.iRender = _render;
 		loStart = goFactory.createLocation( 0, 0 );
 		loEnd = goFactory.createLocation( 0, 0 );
