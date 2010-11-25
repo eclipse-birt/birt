@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
+import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 
 import com.ibm.icu.util.ULocale;
 
@@ -378,10 +379,26 @@ public class DataUtil
 							DesignChoiceConstants.PARAM_TYPE_DATETIME );
 				}
 			}
+			else if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equalsIgnoreCase(dataType))
+			{
+				try
+				{
+					obj = ParameterValidationUtil.validate( dataType, format, String.valueOf( DataUtil.convert( (Object) value, ParameterDataTypeConverter.convertDataType(dataType) ) ),
+							locale, BirtUtility.toICUTimeZone( timeZone ) );
+				}
+				catch ( Exception e2 )
+				{
+					throw new ValidationValueException(
+							value,
+							PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+							DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
+				}
+			}
 			else
 			{
-				obj = ParameterValidationUtil.validate( dataType,
-						getDefaultDateFormat( dataType ), value, BirtUtility.toICUTimeZone( timeZone ) );
+				
+					obj = ParameterValidationUtil.validate( dataType,
+							getDefaultDateFormat( dataType ), value, BirtUtility.toICUTimeZone( timeZone ) );
 			}
 		}
 
