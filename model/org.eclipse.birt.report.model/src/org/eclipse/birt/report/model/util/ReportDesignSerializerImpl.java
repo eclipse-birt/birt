@@ -566,63 +566,97 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		Expression objExpr = (Expression) binding
 				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
 
-		if ( objExpr == null
-				|| !IExpressionType.JAVASCRIPT
-						.equalsIgnoreCase( objExpr.getType( ) ) )
+		if ( objExpr == null )
 			return;
 
 		String expr = objExpr.getStringExpression( );
-		
-		// for the measure expression case
+		String type = objExpr.getType( );
+		Map<String, String> updateMap = getUpdateBindingMap( expr, nameMap,
+				type );
 
-		String measureName = null;
-
-		try
+		if ( updateMap != null && !updateMap.isEmpty( ) )
 		{
-			measureName = ExpressionUtil.getReferencedMeasure( expr );
-		}
-		catch ( CoreException e )
-		{
-			measureName = null;
-		}
-
-		if ( measureName != null )
-		{
-			String newName = nameMap.get( measureName );
-			if ( newName != null )
-				binding.setExpression( expr.replaceAll( measureName, newName ) );
-
-			return;
+			String newExpr = expr;
+			for ( Entry<String, String> entry : updateMap.entrySet( ) )
+			{
+				String oldName = entry.getKey( );
+				String newName = entry.getValue( );
+				newExpr = newExpr.replaceAll( "(\\W)" + oldName + "(\\W)", //$NON-NLS-1$ //$NON-NLS-2$ 
+						"$1" + newName + "$2" ); //$NON-NLS-1$  //$NON-NLS-2$
+			}
+			binding.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+					new Expression( newExpr, type ) );
 		}
 
-		Set<IDimLevel> tmpSet = null;
-		try
+	}
+
+	/**
+	 * Updates the expression of column binding. The dimension and level names
+	 * will be changed if necessary.
+	 * 
+	 * @param expr
+	 *            the expression of column binding
+	 * @param nameMap
+	 *            the name map
+	 * @param type
+	 *            the type of the expression
+	 * @return the updated expression, or null if it doesn't needs updating
+	 */
+
+	protected Map<String, String> getUpdateBindingMap( String expr,
+			Map<String, String> nameMap, String type )
+	{
+		Map<String, String> updateMap = new HashMap<String, String>( );
+		if ( IExpressionType.JAVASCRIPT.equalsIgnoreCase( type ) )
 		{
-			tmpSet = ExpressionUtil.getReferencedDimLevel( expr );
+			// for the measure expression case
+			String measureName = null;
+
+			try
+			{
+				measureName = ExpressionUtil.getReferencedMeasure( expr );
+			}
+			catch ( CoreException e )
+			{
+				// Do nothing
+			}
+
+			if ( measureName != null )
+			{
+				String newName = nameMap.get( measureName );
+				if ( newName != null )
+					updateMap.put( measureName, newName );
+			}
+			else
+			{
+				Set<IDimLevel> tmpSet = null;
+				try
+				{
+					tmpSet = ExpressionUtil.getReferencedDimLevel( expr );
+				}
+				catch ( CoreException e )
+				{
+					// do nothing
+					return null;
+				}
+
+				Iterator<IDimLevel> dimLevels = tmpSet.iterator( );
+				while ( dimLevels.hasNext( ) )
+				{
+					IDimLevel tmpObj = dimLevels.next( );
+
+					String oldName = tmpObj.getDimensionName( );
+					String newName = nameMap.get( oldName );
+					if ( newName == null )
+						continue;
+
+					if ( !newName.equals( oldName ) )
+						updateMap.put( oldName, newName );
+				}
+			}
+
 		}
-		catch ( CoreException e )
-		{
-			// do nothing
-
-			return;
-		}
-
-		String newExpr = expr;
-
-		Iterator<IDimLevel> dimLevels = tmpSet.iterator( );
-		while ( dimLevels.hasNext( ) )
-		{
-			IDimLevel tmpObj = dimLevels.next( );
-
-			String newName = nameMap.get( tmpObj.getDimensionName( ) );
-			if ( newName == null )
-				continue;
-
-			String oldName = tmpObj.getDimensionName( );
-			if ( !newName.equals( oldName ) )
-				newExpr = newExpr.replaceAll( oldName, newName );
-		}
-		binding.setExpression( newExpr );
+		return updateMap;
 	}
 
 	/**
@@ -638,7 +672,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private void updateAggregateOnList( ComputedColumn binding,
 			Map<String, String> nameMap )
 	{
-
 		List<String> aggreOnList = binding.getAggregateOnList( );
 		for ( int i = 0; i < aggreOnList.size( ); i++ )
 		{
