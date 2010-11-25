@@ -497,8 +497,6 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			// Remove sample data and series
 			removeSeriesDefinition( );
 
-			setSeriesDeleteEnabled( );
-
 			int oldSelectedIndex = cmbSeriesSelect.getSelectionIndex( );
 			refreshSeriesCombo( );
 			// Selects the new item or last item
@@ -529,8 +527,6 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			if ( cmbSeriesSelect.getSelectionIndex( ) == cmbSeriesSelect.getItemCount( ) - 1 && !isPartChart( ) )
 			{
 				addNewSeriesDefinition( );
-
-				setSeriesDeleteEnabled( );
 
 				refreshSeriesCombo( );
 				// Selects the new item
@@ -572,7 +568,6 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 				ChartUIUtil.addAxis( (ChartWithAxes) getChart( ) );
 
 				// Update UI
-				setAxisDeleteEnabled( );
 				refreshAxisCombo( );
 				cmbAxisSelect.select( cmbAxisSelect.getItemCount( ) - 2 );
 			}
@@ -590,7 +585,6 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			ChartUIUtil.removeAxis( getChart( ), axisIndex );
 
 			// Update UI
-			setAxisDeleteEnabled( );
 			refreshAxisCombo( );
 			// Selects the new item or last item
 			if ( axisIndex > cmbAxisSelect.getItemCount( ) - 2 )
@@ -604,6 +598,8 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 			updateAllSeriesUnderAxis( );
 		}
+		setAxisDeleteEnabled( );
+		setSeriesDeleteEnabled( );
 		// series updated, check the aggregation
 		ChartUIUtil.checkAggregateType( wizardContext );
 	}
@@ -720,7 +716,8 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	{
 		if ( btnSeriesDelete != null )
 		{
-			btnSeriesDelete.setEnabled( seriesDefns.size( ) > 1 );
+			btnSeriesDelete.setEnabled( seriesDefns.size( ) > 1
+					&& cmbSeriesSelect.getSelectionIndex( ) > 0 );
 		}
 	}
 
@@ -728,7 +725,8 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	{
 		if ( btnAxisDelete != null )
 		{
-			btnAxisDelete.setEnabled( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) > 1 );
+			btnAxisDelete.setEnabled( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) > 1
+					&& cmbAxisSelect.getSelectionIndex( ) > 0 );
 		}
 	}
 
