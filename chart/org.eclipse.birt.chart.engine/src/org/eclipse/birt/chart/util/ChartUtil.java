@@ -2052,12 +2052,10 @@ public class ChartUtil
 					( (DateFormatSpecifier) fs ).setType( DateFormatType.MEDIUM_LITERAL );
 					break;
 				case GroupingUnitType.HOURS :
-					fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );
-					( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.DATE_TIME_LITERAL );
-					( (DateFormatSpecifier) fs ).setType( DateFormatType.MEDIUM_LITERAL );
+					fs = JavaDateFormatSpecifierImpl.create( "HH:mm" ); //$NON-NLS-1$
 					break;
-				case GroupingUnitType.MINUTES :
 				case GroupingUnitType.SECONDS :
+				case GroupingUnitType.MINUTES :
 					fs = JavaDateFormatSpecifierImpl.create( "HH:mm:ss" ); //$NON-NLS-1$
 					break;
 			}
