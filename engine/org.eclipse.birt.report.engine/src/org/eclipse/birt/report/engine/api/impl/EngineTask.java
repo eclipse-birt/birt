@@ -76,7 +76,6 @@ import org.eclipse.birt.report.engine.ir.Expression.Script;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
-import org.eclipse.birt.report.engine.script.internal.FormatterImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
@@ -241,7 +240,6 @@ public abstract class EngineTask implements IEngineTask
 		// Create IReportContext used by java-based script
 		executionContext.setReportContext( new ReportContextImpl(
 				executionContext ) );
-		executionContext.setFormatter( new FormatterImpl( executionContext ) );
 	}
 	
 	protected IReportRunnable getOnPreparedRunnable( IReportDocument doc )
