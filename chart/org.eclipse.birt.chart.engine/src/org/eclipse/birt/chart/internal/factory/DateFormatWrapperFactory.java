@@ -80,11 +80,12 @@ public class DateFormatWrapperFactory
 				break;
 			case Calendar.DATE :
 			case Calendar.WEEK_OF_YEAR :
-				df = new CommonDateFormatWrapper( DateFormat.getDateInstance( DateFormat.LONG,
+				df = new CommonDateFormatWrapper( DateFormat.getDateInstance( DateFormat.MEDIUM,
 						locale ) );
 				break;
 			case Calendar.HOUR_OF_DAY :
-				df = new HourDateFormat( locale );
+				df = new CommonDateFormatWrapper( new SimpleDateFormat( "HH:mm", //$NON-NLS-1$
+						locale ) );
 				break;
 			case Calendar.MINUTE :
 			case Calendar.SECOND :
@@ -149,7 +150,7 @@ public class DateFormatWrapperFactory
 		{
 			StringBuffer str = new StringBuffer( );
 			FieldPosition pos = new FieldPosition( DateFormat.DATE_FIELD );
-			DateFormat df = DateFormat.getDateInstance( DateFormat.LONG, locale );
+			DateFormat df = DateFormat.getDateInstance( DateFormat.MEDIUM, locale );
 			df.format( date, str, pos );
 			int endIndex;
 			if ( pos.getEndIndex( ) >= str.length( ) )
