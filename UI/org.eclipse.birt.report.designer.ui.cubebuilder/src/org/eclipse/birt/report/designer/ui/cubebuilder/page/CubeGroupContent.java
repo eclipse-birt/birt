@@ -676,6 +676,7 @@ public class CubeGroupContent extends Composite implements Listener
 									if ( column != null )
 									{
 										measure.setAlignment( column.getHorizontalAlign( ) );
+										measure.setFormat( column.getValueFormat( ) );
 									}
 
 									initMeasure( dataField, measure );
@@ -733,6 +734,7 @@ public class CubeGroupContent extends Composite implements Listener
 									if ( column != null )
 									{
 										level.setAlignment( column.getHorizontalAlign( ) );
+										level.setFormat( column.getValueFormat( ) );
 									}
 
 									if ( !isValidName )
@@ -780,6 +782,7 @@ public class CubeGroupContent extends Composite implements Listener
 									if ( column != null )
 									{
 										measure.setAlignment( column.getHorizontalAlign( ) );
+										measure.setFormat( column.getValueFormat( ) );
 									}
 									initMeasure( dataField, measure );
 									( (MeasureHandle) element ).getContainer( )
@@ -853,6 +856,7 @@ public class CubeGroupContent extends Composite implements Listener
 									if ( column != null )
 									{
 										measure.setAlignment( column.getHorizontalAlign( ) );
+										measure.setFormat( column.getValueFormat( ) );
 									}
 									initMeasure( dataField, measure );
 									measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
@@ -916,6 +920,7 @@ public class CubeGroupContent extends Composite implements Listener
 									if ( column != null )
 									{
 										level.setAlignment( column.getHorizontalAlign( ) );
+										level.setFormat( column.getValueFormat( ) );
 									}
 									( (LevelHandle) element ).getContainer( )
 											.add( IHierarchyModel.LEVELS_PROP,
@@ -1045,6 +1050,7 @@ public class CubeGroupContent extends Composite implements Listener
 										if ( column != null )
 										{
 											level.setAlignment( column.getHorizontalAlign( ) );
+											level.setFormat( column.getValueFormat( ) );
 										}
 										hierarchy.add( IHierarchyModel.LEVELS_PROP,
 												level );
@@ -1907,6 +1913,7 @@ public class CubeGroupContent extends Composite implements Listener
 						if ( column != null )
 						{
 							level.setAlignment( column.getHorizontalAlign( ) );
+							level.setFormat( column.getValueFormat( ) );
 						}
 					}
 					catch ( SemanticException e )
@@ -2063,6 +2070,7 @@ public class CubeGroupContent extends Composite implements Listener
 							if ( column != null )
 							{
 								level.setAlignment( column.getHorizontalAlign( ) );
+								level.setFormat( column.getValueFormat( ) );
 							}
 							hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
 							if ( !isValidName )
@@ -2156,6 +2164,7 @@ public class CubeGroupContent extends Composite implements Listener
 								if ( column != null )
 								{
 									measure.setAlignment( column.getHorizontalAlign( ) );
+									measure.setFormat( column.getValueFormat( ) );
 								}
 							}
 							initMeasure( dataField, measure );
@@ -2208,6 +2217,7 @@ public class CubeGroupContent extends Composite implements Listener
 								if ( column != null )
 								{
 									measure.setAlignment( column.getHorizontalAlign( ) );
+									measure.setFormat( column.getValueFormat( ) );
 								}
 							}
 							initMeasure( dataField, measure );
