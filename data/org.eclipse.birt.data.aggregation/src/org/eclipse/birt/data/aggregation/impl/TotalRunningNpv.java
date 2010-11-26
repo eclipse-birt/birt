@@ -114,7 +114,7 @@ public class TotalRunningNpv extends AggrFunction
 		{
 			assert ( args.length > 0 );
 
-			if ( args[0] != null && args[1] != null )
+			if ( args[0] != null )
 			{
 				if ( calculator == null )
 				{
@@ -124,7 +124,11 @@ public class TotalRunningNpv extends AggrFunction
 				{
 					if ( count == 1 )
 					{
-						rate = DataTypeUtil.toDouble( args[1] ).doubleValue( );
+						if ( args[1] != null )
+							rate = DataTypeUtil.toDouble( args[1] )
+									.doubleValue( );
+						else
+							rate = DataTypeUtil.toDouble( 0 );
 					}
 					npv = calculator.add( npv, calculator.divide( args[0],
 							Math.pow( ( 1 + rate ), (double) count++ ) ) );
