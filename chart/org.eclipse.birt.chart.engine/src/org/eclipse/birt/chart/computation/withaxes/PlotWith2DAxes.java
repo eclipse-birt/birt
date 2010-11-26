@@ -677,48 +677,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			try
 			{
-				if ( NumberUtil.isBigNumber( oMin ) || NumberUtil.isBigNumber( oMax ) )
-				{
-					if ( ( (BigNumber) oMin ).compareTo( oMax ) == 0 )
-					{
-						if ( ( (BigNumber) oMin ).getValue( )
-								.compareTo( BigDecimal.ZERO ) > 0 )
-						{
-							oMin = new BigNumber( BigDecimal.ZERO,
-									( (BigNumber) oMin ).getDivisor( ) );
-						}
-						if ( ( (BigNumber) oMax ).getValue( )
-								.compareTo( BigDecimal.ZERO ) < 0 )
-						{
-							oMax = new BigNumber( BigDecimal.ZERO,
-									( (BigNumber) oMax ).getDivisor( ) );
-						}
-					}
-					return new BigNumber[]{
-							(BigNumber) oMin, (BigNumber) oMax
-					};
-				}
-				else
-				{
-					double dMin = asDouble( oMin ).doubleValue( );
-					double dMax = asDouble( oMax ).doubleValue( );
-
-					if ( dMin == dMax )
-					{
-						if ( dMin > 0 )
-						{
-							dMin = 0;
-						}
-						if ( dMax < 0 )
-						{
-							dMax = 0;
-						}
-					}
-
-					return new double[]{
-							dMin, dMax
-					};
-				}
+				return adjustMinMax( oMin, oMax );
 			}
 			catch ( ClassCastException ex )
 			{
@@ -729,6 +688,52 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			}
 		}
 		return null;
+	}
+
+	private Object adjustMinMax( Object oMin, Object oMax )
+	{
+		if ( NumberUtil.isBigNumber( oMin ) || NumberUtil.isBigNumber( oMax ) )
+		{
+			if ( ( (BigNumber) oMin ).compareTo( oMax ) == 0 )
+			{
+				if ( ( (BigNumber) oMin ).getValue( )
+						.compareTo( BigDecimal.ZERO ) > 0 )
+				{
+					oMin = new BigNumber( BigDecimal.ZERO,
+							( (BigNumber) oMin ).getDivisor( ) );
+				}
+				if ( ( (BigNumber) oMax ).getValue( )
+						.compareTo( BigDecimal.ZERO ) < 0 )
+				{
+					oMax = new BigNumber( BigDecimal.ZERO,
+							( (BigNumber) oMax ).getDivisor( ) );
+				}
+			}
+			return new BigNumber[]{
+					(BigNumber) oMin, (BigNumber) oMax
+			};
+		}
+		else
+		{
+			double dMin = asDouble( oMin ).doubleValue( );
+			double dMax = asDouble( oMax ).doubleValue( );
+
+			if ( dMin == dMax )
+			{
+				if ( dMin > 0 )
+				{
+					dMin = 0;
+				}
+				if ( dMax < 0 )
+				{
+					dMax = 0;
+				}
+			}
+
+			return new double[]{
+					dMin, dMax
+			};
+		}
 	}
 
 	/**
@@ -976,14 +981,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			Object minMax = getMinMax( axPrimaryOrthogonal, iAxisType );
 			if ( rtc.getSharedScale( ) != null )
 			{
-				if ( minMax instanceof BigNumber[] )
-				{
-					dsi = rtc.getSharedScale( ).createDataSetIterator( iAxisType, true, ((BigNumber[])minMax)[1].getDivisor( ) );
-				}
-				else
-				{
-					dsi = rtc.getSharedScale( ).createDataSetIterator( iAxisType, false, null );	
-				}
+				dsi = getSharedScaleMinMax( iAxisType, minMax );
 			}
 			else
 			{
@@ -2559,18 +2557,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			Object minMax = getMinMax( yAxis, iAxisType );
 			if ( rtc.getSharedScale( ) != null )
 			{
-				if ( minMax instanceof BigNumber[] )
-				{
-					dsi = rtc.getSharedScale( )
-							.createDataSetIterator( iAxisType,
-									true,
-									( (BigNumber[]) minMax )[1].getDivisor( ) );
-				}
-				else
-				{
-					dsi = rtc.getSharedScale( )
-							.createDataSetIterator( iAxisType, false, null );
-				}
+				dsi = getSharedScaleMinMax( iAxisType, minMax );
 			}
 			else
 			{
@@ -2588,6 +2575,33 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		}
 
 		updateAxisScale( valueAxis, iAxisType, dsi , dStart, dEnd);
+	}
+
+	private DataSetIterator getSharedScaleMinMax( int iAxisType, Object minMax )
+			throws ChartException
+	{
+		DataSetIterator dsi;
+		if ( minMax instanceof BigNumber[] )
+		{
+			dsi = rtc.getSharedScale( )
+					.createDataSetIterator( iAxisType,
+							true,
+							( (BigNumber[]) minMax )[1].getDivisor( ) );
+		}
+		else
+		{
+			dsi = rtc.getSharedScale( )
+					.createDataSetIterator( iAxisType, false, null );
+		}
+		
+		if ( ( iAxisType & NUMERICAL ) == NUMERICAL )
+		{
+			Object min  = dsi.first( );
+			Object max = dsi.next( );
+			dsi = new DataSetIterator( adjustMinMax( min, max ), iAxisType );
+		}
+
+		return dsi;
 	}
 
 	/**
