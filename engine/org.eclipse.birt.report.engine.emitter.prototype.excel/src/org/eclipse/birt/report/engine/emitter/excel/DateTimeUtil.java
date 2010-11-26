@@ -196,6 +196,12 @@ public class DateTimeUtil
 
 	public static String formatDateTime( String format, ULocale locale )
 	{
+		// for milliseconds, the xls uses the format ".000" instead of ".SSS".
+		if ( format.endsWith( ".SSS" ) )
+		{
+			format = format.replace( ".SSS", ".000" );
+		}
+		
 		String code = locale2Code.get( locale );
 		if ( code == null )
 		{
