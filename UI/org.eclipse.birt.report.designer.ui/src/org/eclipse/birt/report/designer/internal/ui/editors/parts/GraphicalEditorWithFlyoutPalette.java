@@ -150,19 +150,23 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 	public void propertyChange( PropertyChangeEvent event )
 	{
-		fIsBreadcrumbVisible = isBreadcrumbShown( );
-		if ( fIsBreadcrumbVisible )
+		if ( getBreadcrumbPreferenceKey( ).equals( event.getProperty( ) ) )
 		{
-			showBreadcrumb( );
-			List list = getModelList( this.getGraphicalViewer( ).getSelection( ) );
-			if ( list != null && list.size( ) == 1 )
-				setBreadcrumbInput( list.get( 0 ) );
+			fIsBreadcrumbVisible = isBreadcrumbShown( );
+			if ( fIsBreadcrumbVisible )
+			{
+				showBreadcrumb( );
+				List list = getModelList( this.getGraphicalViewer( )
+						.getSelection( ) );
+				if ( list != null && list.size( ) == 1 )
+					setBreadcrumbInput( list.get( 0 ) );
+				else
+					setBreadcrumbInput( null );
+			}
 			else
-				setBreadcrumbInput( null );
-		}
-		else
-		{
-			hideBreadcrumb( );
+			{
+				hideBreadcrumb( );
+			}
 		}
 	}
 
