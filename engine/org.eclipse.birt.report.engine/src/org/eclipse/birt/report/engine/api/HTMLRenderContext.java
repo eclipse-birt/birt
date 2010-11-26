@@ -129,6 +129,15 @@ public class HTMLRenderContext {
 	
 	/**
 	 * @return render options
+	 * @deprecated it is deprecated and use the setRenderOption instead.
+	 */
+	public void SetRenderOption( IRenderOption option )
+	{
+		this.setRenderOption( option );
+	}
+	
+	/**
+	 * @return render options
 	 */
 	public IRenderOption getRenderOption( )
 	{
