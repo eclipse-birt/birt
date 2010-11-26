@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -155,7 +156,15 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 			}
 			else
 			{
-				String value = String.valueOf( obj );
+				String value = null;
+				if (obj instanceof Date)
+				{
+					value = String.valueOf( ((Date)obj ).getTime( ));
+				}
+				else
+				{
+					value = String.valueOf( obj );
+				}
 				StringBuffer buff = new StringBuffer( );
 				buff.append( "-D" ); //$NON-NLS-1$
 				buff.append( ATTR_PARAMRTER );
