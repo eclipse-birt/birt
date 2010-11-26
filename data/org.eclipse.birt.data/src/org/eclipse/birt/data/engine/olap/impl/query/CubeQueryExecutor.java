@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -32,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
@@ -110,6 +112,55 @@ public class CubeQueryExecutor
 			//query execution result will be loaded directly from document
 			//needless to populate filer helpers
 			populateFilterHelpers();
+		}
+	}
+	
+	private void validateFilter( List filters, List bindings ) throws DataException
+	{
+		IFilterDefinition filter = null;
+		for( int i = 0; i < filters.size( ); i++ )
+		{
+			filter = (IFilterDefinition) filters.get( i );
+			List bindingName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
+			for( int j = 0; j < bindingName.size( ); j++ )
+			{
+				if( isAggregationBinding( (String)bindingName.get( j ), this.defn.getBindings( ) ) )
+				{
+					IBinding binding = getBinding( (String)bindingName.get( j ), this.defn.getBindings( ) );
+					validateAggregationFilterExpr( filter.getExpression( ), binding );
+				}
+			}
+		}
+	}
+	
+	private void validateAggregationFilterExpr( IBaseExpression filterExpr, IBinding binding ) throws DataException
+	{
+		Set targetDimLevel = OlapExpressionCompiler.getReferencedDimLevel( filterExpr, this.defn.getBindings( ) );
+		List aggregationOns = binding.getAggregatOns( );
+		Object[] dimLevel = targetDimLevel.toArray( );
+		for( int i = 0; i < dimLevel.length; i++ )
+		{
+			boolean exist = false;
+			for( int j = 0; j < aggregationOns.size(); j++ )
+			{
+				DimLevel level = (DimLevel)dimLevel[i];
+				if( aggregationOns.get( j ).equals( 
+						ExpressionUtil.createJSDimensionExpression( level.getDimensionName( ), level.getLevelName( ) ) ) )
+				{
+					exist = true;
+					break;
+				}
+			}
+			if( !exist )
+			{
+				String expr = "";
+				if( filterExpr instanceof IScriptExpression )
+					expr = ( (IScriptExpression)filterExpr ).getText( );
+				else if ( filterExpr instanceof IConditionalExpression )
+					expr = ( (IConditionalExpression) filterExpr ).getExpression( ).getText( );
+				throw new DataException(ResourceConstants.INVALID_AGGREGATION_FILTER_EXPRESSION, 
+						new Object[]{expr, binding.getBindingName(), ((DimLevel)dimLevel[i]).toString( )});
+			}
 		}
 	}
 	
@@ -222,6 +273,7 @@ public class CubeQueryExecutor
 	{
 		List filters = defn.getFilters( );
 		Set<DimLevel> dimLevelInCubeQuery = this.getDimLevelsDefinedInCubeQuery( );
+		validateFilter( filters, defn.getBindings( ) );
 		for ( int i = 0; i < filters.size( ); i++ )
 		{
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
@@ -351,17 +403,38 @@ public class CubeQueryExecutor
 	{
 		for( int i = 0; i < bindingName.size( ); i++ )
 		{
-			for( int j = 0; j < bindings.size( ); j++ )
+			if( isAggregationBinding( (String)bindingName.get( i ), bindings ) )
+				return true;
+		}
+		return false;
+	}
+
+	private static boolean isAggregationBinding( String bindingName, List bindings ) throws DataException
+	{
+		for( int j = 0; j < bindings.size( ); j++ )
+		{
+			IBinding binding = (IBinding) bindings.get( j );
+			if( bindingName.equals( binding.getBindingName( ) ) && OlapExpressionUtil.isAggregationBinding( binding ) )
 			{
-				IBinding binding = (IBinding) bindings.get( j );
-				if( bindingName.get( i ).equals( binding.getBindingName( ) ) && OlapExpressionUtil.isAggregationBinding( binding ) )
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;
 	}
+	
+	private static IBinding getBinding( String bindingName, List bindings ) throws DataException
+	{
+		for( int j = 0; j < bindings.size( ); j++ )
+		{
+			IBinding binding = (IBinding) bindings.get( j );
+			if( bindingName.equals( binding.getBindingName( ) ) )
+			{
+				return binding;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * 
 	 * @return

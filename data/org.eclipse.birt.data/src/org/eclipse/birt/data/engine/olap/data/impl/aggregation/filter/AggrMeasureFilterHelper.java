@@ -22,11 +22,13 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
@@ -68,6 +70,22 @@ public class AggrMeasureFilterHelper
 		this.resultSet = resultSet;
 	}
 
+	private List<String> getAggregationName( )
+	{
+		List<String> aggregationName = new ArrayList<String>();
+		for( int i = 0; i < resultSet.length; i++ )
+		{
+			AggregationFunctionDefinition[] functions = resultSet[i].getAggregationDefinition().getAggregationFunctions();
+			if( functions == null )
+				continue;
+			for( int j = 0; j < functions.length; j++ )
+			{
+				aggregationName.add( functions[j].getName( ) );
+			}
+		}
+		return aggregationName;
+	}
+	
 	/**
 	 * 
 	 * @param resultSet
@@ -77,13 +95,14 @@ public class AggrMeasureFilterHelper
 	public List getCubePosFilters( List jsMeasureEvalFilterHelper )
 			throws DataException, IOException
 	{
-		String[] aggregationNames = populateAggregationNames( jsMeasureEvalFilterHelper );
+		String[] aggregationNames = populateAggregationNames( getAggregationName( ), jsMeasureEvalFilterHelper );
 
 		List cubePosFilterList = new ArrayList( );
 		for ( int i = 0; i < resultSet.length; i++ )
 		{
 			if ( hasDefinition( resultSet[i], aggregationNames ) )
 			{
+				//
 				if( resultSet[i].getAllLevels( ) == null || resultSet[i].getAllLevels( ).length == 0 )
 				{
 					if ( resultSet[i].length( ) == 0 )
@@ -159,15 +178,17 @@ public class AggrMeasureFilterHelper
 	 * 
 	 * @param jsMeasureEvalFilterHelper
 	 * @return
+	 * @throws DataException 
 	 */
-	private String[] populateAggregationNames( List jsMeasureEvalFilterHelper )
+	private String[] populateAggregationNames( List<String> allAggrNames, List jsMeasureEvalFilterHelper ) throws DataException
 	{
 		String[] aggregationNames = new String[jsMeasureEvalFilterHelper.size( )];
 		for ( int i = 0; i < aggregationNames.length; i++ )
 		{
 			IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) jsMeasureEvalFilterHelper.get( i );
-			aggregationNames[i] = OlapExpressionCompiler.getReferencedScriptObject( filterHelper.getExpression( ),
+			List bindingName = ExpressionCompilerUtil.extractColumnExpression( filterHelper.getExpression( ),
 					ScriptConstants.DATA_BINDING_SCRIPTABLE );
+			aggregationNames[i] = (String) getIntersection( allAggrNames, bindingName );
 			if( aggregationNames[i] == null )
 				aggregationNames[i] = OlapExpressionCompiler.getReferencedScriptObject( filterHelper.getExpression( ),
 						ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );
@@ -175,6 +196,18 @@ public class AggrMeasureFilterHelper
 		return aggregationNames;
 	}
 
+	private Object getIntersection( List list1, List list2 )
+	{
+		for( int i = 0; i < list1.size( ); i++ )
+		{
+			for( int j = 0; j < list2.size( ); j++ )
+			{
+				if( list1.get(i).equals(list2.get(j) ) )
+					return list1.get(i);
+			}
+		}
+		return null;
+	}
 	/**
 	 * 
 	 * @param resultSet

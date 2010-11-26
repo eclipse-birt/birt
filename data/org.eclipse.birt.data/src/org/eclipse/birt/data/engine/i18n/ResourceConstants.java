@@ -409,6 +409,7 @@ public class ResourceConstants
 	public final static String NOT_NEST_AGGREGATION_BINDING = "data.olap.NotNestAggregationBinding";
 	public final static String INVALID_NEST_AGGREGATION_EXPRESSION = "data.olap.InvalidNestAggregationExpression";
 	public final static String INVALID_NEST_AGGREGATION_ON="data.olap.InvalidNestAggregationOn";
+	public final static String INVALID_AGGREGATION_FILTER_EXPRESSION="data.olap.InvalidAggregationFilterExpr";
 	
 	//derived dataSet
 	public final static String COLUMN_NOT_EXIST = "data.derivedDataSet.columnNotExist";
