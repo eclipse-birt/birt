@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.data.engine.olap.util.filter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
@@ -23,8 +26,10 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.util.DataJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 /**
  * 
@@ -34,6 +39,9 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 		implements
 			IAggrMeasureFilterEvalHelper
 {
+	
+	private DummyDimensionObject dimObj;
+	
 	/**
 	 * 
 	 * @param scope
@@ -55,7 +63,7 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 	public boolean evaluateFilter( IResultRow resultRow ) throws DataException
 	{
 		super.setData( resultRow );
-
+		dimObj.setCurrentRow( resultRow );
 		try
 		{
 			Object result = ScriptEvalUtil.evalExpr( expr,
@@ -85,6 +93,10 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 		register( new DataJSObjectPopulator( this.outResults, scope,
 				queryDefn.getBindings( ),
 				true, cx ) );
+		dimObj = new DummyDimensionObject( );
+		this.scope.put( org.eclipse.birt.data.engine.script.ScriptConstants.DIMENSION_SCRIPTABLE,
+				this.scope,
+				this.dimObj );
 	}
 
 	/*
@@ -96,4 +108,140 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 		return this.expr;
 	}
 	
+	private static class DummyLevelObject extends ScriptableObject
+	{
+		private DummyDimensionObject host;
+		private String dimName;
+		private Map<String, DummyLevelAttrObject> levelAttrMap;
+		public DummyLevelObject( DummyDimensionObject host, String dimName )
+		{
+			this.host = host;
+			this.dimName = dimName;
+			this.levelAttrMap = new HashMap<String,DummyLevelAttrObject>(); 
+		}
+		
+		public Object get( String levelName, Scriptable scope )
+		{
+			try
+			{
+				if( this.levelAttrMap.containsKey( levelName ))
+					return this.levelAttrMap.get( levelName );
+				else
+				{
+					this.levelAttrMap.put( levelName,
+							new DummyLevelAttrObject( host, dimName, levelName ) );
+					return this.levelAttrMap.get( levelName );
+				}
+			}
+			catch ( Exception e )
+			{
+				return null;
+			}
+		}
+		
+		public String getClassName( )
+		{
+			return "DummyLevelObject";
+		}
+	}
+	
+	private static class DummyDimensionObject extends ScriptableObject
+	{
+		private IResultRow row;
+		private Map< String, DummyLevelObject > dimLevMap = new HashMap<String, DummyLevelObject>( );
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
+		 */
+		public String getClassName( )
+		{
+			return "DummyDimensionObject";
+		}
+		
+		/**
+		 * Set the current row for the evaluation.
+		 * @param row
+		 */
+		public void setCurrentRow( IResultRow row  )
+		{
+			this.row = row;
+		}
+		
+		public Object get( String dimName, Scriptable scope )
+		{
+			try
+			{
+				if( this.dimLevMap.containsKey( dimName ))
+					return this.dimLevMap.get( dimName );
+				else
+				{
+					this.dimLevMap.put( dimName, new DummyLevelObject(this, dimName) );
+					return this.dimLevMap.get( dimName );
+				}
+			}
+			catch ( Exception e )
+			{
+				return null;
+			}
+		}
+		
+	}
+	
+	private static class DummyLevelAttrObject extends ScriptableObject
+	{
+		private String dimName;
+		private String levelName;
+		private DummyDimensionObject host;
+		
+		public DummyLevelAttrObject( DummyDimensionObject host, String dimName, String levelName )
+		{
+			this.host = host;
+			this.dimName = dimName;
+			this.levelName = levelName;
+		}
+
+		public String getClassName( )
+		{
+			return "DummyLevelAttrObject";
+		}
+		
+		public Object get( String attrName, Scriptable scope )
+		{
+			
+			try
+			{
+				if( this.levelName.equals( attrName ))
+					return this.getDefaultValue( null );
+				return this.host.row.getFieldValue( 
+						OlapExpressionUtil.getAttrReference(
+								this.dimName,
+								this.levelName,
+								attrName ) );
+			}
+			catch ( Exception e )
+			{
+				return null;
+			}
+		}
+
+		public Object getDefaultValue( Class hint )
+		{
+			try
+			{
+				Object value = this.host.row.getFieldValue( 
+						OlapExpressionUtil.getAttrReference(
+								this.dimName,
+								this.levelName,
+								this.levelName ));
+				if( value != null )
+					return value;
+				return null;
+			}
+			catch ( Exception e )
+			{
+				return null;
+			}
+		}
+	}
 }

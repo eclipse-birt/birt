@@ -56,7 +56,7 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 	 */
 	public void doInit( ) throws DataException
 	{
-		this.dataObj = new DummyJSAggregationAccessor( this.outResults );
+		this.dataObj = new DummyJSAggregationAccessor( this.outResults, this.scope, this.cx, this.bindings );
 		if ( hasAggrLevels )
 		{
 			this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE, this.scope, this.dataObj );//$NON-NLS-1$

@@ -423,7 +423,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		applyAggrFilters( aggregations, resultSet, stopSign );
 		
 		applyAggrSort( resultSet );
-
+		
 		return resultSet;
 	}
 	

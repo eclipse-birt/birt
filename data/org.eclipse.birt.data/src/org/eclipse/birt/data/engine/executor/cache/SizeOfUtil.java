@@ -186,6 +186,10 @@ public class SizeOfUtil
 		{
 			return SizeOfUtil.BIGDECIMAL_SIZE;
 		}
+		else if ( dataType == DataType.STRING_TYPE )
+		{
+			return 80;
+		}
 		// Normally followed lines will never be arrived.
 		return 0;
 	}

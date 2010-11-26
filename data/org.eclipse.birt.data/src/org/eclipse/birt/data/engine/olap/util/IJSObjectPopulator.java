@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
@@ -415,13 +416,67 @@ public interface IJSObjectPopulator
 		private static final long serialVersionUID = -7910516821739958908L;
 		private IResultRow resultRow;
 		private Scriptable outResultsScriptable;
+		private List bindings;
+		private Scriptable scope;
+		private ScriptContext cx;
 		
-		public DummyJSAggregationAccessor( IBaseQueryResults outResults )
+		public DummyJSAggregationAccessor( IBaseQueryResults outResults, Scriptable scope, ScriptContext cx, List bindings )
 				throws DataException
 		{
 			this.outResultsScriptable = OlapExpressionUtil.createQueryResultsScriptable( outResults );
+			this.bindings = bindings;
+			this.scope = scope;
+			this.cx = cx;
 		}
 
+		/**
+		 * 
+		 * @param bindingName
+		 * @param bindings
+		 * @return
+		 * @throws DataException
+		 */
+		private static boolean isAggregationBinding( String bindingName, List bindings ) throws DataException
+		{
+			for( int i = 0; i < bindings.size( ); i++ )
+			{
+				IBinding binding = (IBinding) bindings.get( i );
+				if( bindingName.equals( binding.getBindingName( ) ) )
+				{
+					if( OlapExpressionUtil.isAggregationBinding( binding ) )
+						return true;
+					List refBindingName = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
+					for( int j = 0; j < refBindingName.size( ); j++ )
+					{
+						if( isAggregationBinding( (String) refBindingName.get( j ), bindings ) )
+							return true;
+					}
+				}
+			}
+			
+			return false;
+		}
+		
+		/**
+		 * 
+		 * @param bindingName
+		 * @param bindings
+		 * @return
+		 * @throws DataException
+		 */
+		private static IBinding getBinding( String bindingName, List bindings ) throws DataException
+		{
+			for( int j = 0; j < bindings.size( ); j++ )
+			{
+				IBinding binding = (IBinding) bindings.get( j );
+				if( bindingName.equals( binding.getBindingName( ) ) )
+				{
+					return binding;
+				}
+			}
+			
+			return null;
+		}
 		
 		public Object get( String aggrName, Scriptable scope )
 		{
@@ -436,7 +491,21 @@ public interface IJSObjectPopulator
 			{
 				try
 				{
-					return this.resultRow.getAggrValue( aggrName );
+					if( isAggregationBinding( aggrName, bindings ) )
+						return this.resultRow.getAggrValue( aggrName );
+					else
+					{
+						IBinding binding = getBinding( aggrName, bindings );
+						Object result = ScriptEvalUtil.evalExpr( binding.getExpression( ),
+								cx.newContext( this.scope ),
+								ScriptExpression.defaultID,
+								0 );
+						if( result instanceof Scriptable )
+						{
+							return ((Scriptable)result).getDefaultValue( null );
+						}
+						return result;
+					}
 				}
 				catch ( DataException e )
 				{
