@@ -185,7 +185,7 @@ public class ExcelUtil
 	public static String formatDate( Object data )
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH );
+				"yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH );
 		Date date = getDate( data );
 		if ( date == null )
 		{
