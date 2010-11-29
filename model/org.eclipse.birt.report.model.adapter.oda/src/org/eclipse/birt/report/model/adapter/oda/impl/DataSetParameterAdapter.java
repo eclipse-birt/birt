@@ -19,6 +19,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
+import org.eclipse.birt.report.model.adapter.oda.model.DynamicList;
 import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -38,7 +39,6 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.datatools.connectivity.oda.design.CustomData;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
@@ -1383,10 +1383,10 @@ class DataSetParameterAdapter
 	 * @throws SemanticException
 	 */
 
-	static List getDriverDefinedParameters( EList designParams,
+	static DataSetParameters getDriverDefinedParameters( EList designParams,
 			List userDefinedList ) throws SemanticException
 	{
-		List resultList = new ArrayList( );
+		List<ParameterDefinition> resultList = new ArrayList<ParameterDefinition>( );
 		List posList = getPositions( userDefinedList );
 
 		for ( int i = 0; designParams != null && i < designParams.size( ); ++i )
@@ -1406,7 +1406,13 @@ class DataSetParameterAdapter
 				resultList.add( EcoreUtil.copy( definition ) );
 			}
 		}
-		return resultList;
+
+		DataSetParameters retParams = ODADesignFactory.getFactory( )
+				.createDataSetParameters( );
+		retParams.getParameterDefinitions( ).addAll( resultList );
+
+		return retParams;
+
 	}
 
 	/**
@@ -1616,7 +1622,8 @@ class DataSetParameterAdapter
 	 * @throws SemanticException
 	 */
 
-	void updateDriverDefinedParameter( DataSetParameters driverDefineParams )
+	void updateDriverDefinedParameter( DataSetParameters driverDefineParams,
+			List<DynamicList> cachedDynamicList )
 	{
 		if ( driverDefineParams == null )
 			return;
@@ -1662,7 +1669,7 @@ class DataSetParameterAdapter
 							DataSetParameter.DEFAULT_VALUE_MEMBER ).getValue( ) );
 
 			restoreReportParameterRelatedValues( inputParamAttrs, tmpROMParam,
-					setDesign );
+					setDesign, cachedDynamicList.get( i ) );
 		}
 	}
 
@@ -1677,72 +1684,60 @@ class DataSetParameterAdapter
 	 */
 	private void restoreReportParameterRelatedValues(
 			InputParameterAttributes inputParamAttrs,
-			OdaDataSetParameterHandle odaParamHandle, DataSetDesign setDesign )
+			OdaDataSetParameterHandle odaParamHandle, DataSetDesign setDesign,
+			DynamicList cachedDynamic )
 	{
 		String parameterName = odaParamHandle.getParamName( );
-		if ( parameterName == null )
+		if ( parameterName != null )
+		{
+			ModuleHandle moduleHandle = setHandle.getModuleHandle( );
+			ParameterHandle paramHandle = moduleHandle
+					.findParameter( parameterName );
+
+			// if can find the corresponding parameter, then update to latest
+			// values. Otherwise, not.
+			if ( paramHandle instanceof ScalarParameterHandle )
+			{
+				ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
+				ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
+
+				tmpAdapter.updateInputElementAttrs( inputParamAttrs,
+						scalarParamHandle, setDesign );
+			}
+		}
+
+		if ( cachedDynamic == null )
 			return;
 
+		// If the user breaks
+		// the relationship between data set parameter and report
+		// parameter. This cached value is used to update the dynamic
+		// value in the new data set design. See
+		// DataSetAdapter.clearReportParameterRelatedValues
+
+		ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
+
 		ModuleHandle moduleHandle = setHandle.getModuleHandle( );
-		ParameterHandle paramHandle = moduleHandle.findParameter( parameterName );
+		DataSetHandle tmpSetHandle = moduleHandle.findDataSet( cachedDynamic
+				.getDataSetName( ) );
+		DynamicValuesQuery tmpDynamicQuery = tmpAdapter
+				.updateDynamicValueQuery( tmpSetHandle,
+						cachedDynamic.getValueColumn( ),
+						cachedDynamic.getLabelColumn( ), setDesign, true );
 
-		// if can find the corresponding parameter, then update to latest
-		// values. Otherwise, not.
-		if ( paramHandle instanceof ScalarParameterHandle )
+		if ( tmpDynamicQuery == null )
+			return;
+
+		InputElementAttributes tmpInputParamAttrs = inputParamAttrs
+				.getElementAttributes( );
+		if ( tmpInputParamAttrs == null )
 		{
-			ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
-			ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
-
-			tmpAdapter.updateInputElementAttrs( inputParamAttrs,
-					scalarParamHandle, setDesign );
-
-/*			DataSetHandle dataSetHandle = scalarParamHandle.getDataSet( );
-			String valueColumn = AdapterUtil
-					.convertToODAColumn( scalarParamHandle
-							.getExpressionProperty(
-									IAbstractScalarParameterModel.VALUE_EXPR_PROP )
-							.getExpression( ) );
-
-			InputElementAttributes inputElementAttrs = inputParamAttrs
-					.getElementAttributes( );
-			if ( !( dataSetHandle instanceof OdaDataSetHandle )
-					|| dataSetHandle == setHandle || valueColumn == null )
-			{
-				inputElementAttrs.setDynamicValueChoices( null );
-				return;
-			}
-
-			DynamicValuesQuery query = inputElementAttrs
-					.getDynamicValueChoices( );
-			if ( query == null )
-			{
-				query = designFactory.createDynamicValuesQuery( );
-				inputElementAttrs.setDynamicValueChoices( query );
-			}
-
-			if ( query.getDataSetDesign( ) == null )
-			{
-				query.setDataSetDesign( DataSetAdapter.getInstance( )
-						.createDataSetDesign( (OdaDataSetHandle) dataSetHandle ) );
-			}
-			else
-			{
-				DataSetAdapter.getInstance( ).updateDataSetDesign(
-						(OdaDataSetHandle) dataSetHandle,
-						query.getDataSetDesign( ) );
-			}
-			boolean enabled = !StringUtil.isBlank( valueColumn );
-			query.setValueColumn( valueColumn );
-			query.setDisplayNameColumn( AdapterUtil
-					.convertToODAColumn( scalarParamHandle
-							.getExpressionProperty(
-									IAbstractScalarParameterModel.LABEL_EXPR_PROP )
-							.getExpression( ) ) );
-			query.setEnabled( enabled
-					&& DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
-							.equals( scalarParamHandle.getValueType( ) ) ); 
-*/							
+			tmpInputParamAttrs = designFactory.createInputElementAttributes( );
+			inputParamAttrs.setElementAttributes( tmpInputParamAttrs );
 		}
+
+		tmpInputParamAttrs.setDynamicValueChoices( tmpDynamicQuery );
+
 	}
 
 	/**

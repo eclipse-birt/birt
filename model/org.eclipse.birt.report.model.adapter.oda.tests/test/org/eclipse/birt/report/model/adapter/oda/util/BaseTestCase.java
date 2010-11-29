@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.adapter.oda.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -567,9 +568,10 @@ public abstract class BaseTestCase extends TestCase
 
 	/**
 	 * Parses an input file as the design values instance.
-	 * @param fileName 
-	 * @return 
-	 * @throws IOException 
+	 * 
+	 * @param fileName
+	 * @return
+	 * @throws IOException
 	 * 
 	 * 
 	 */
@@ -581,10 +583,18 @@ public abstract class BaseTestCase extends TestCase
 
 		InputStream is = getResource( fileName ).openStream( );
 
-		DesignValues tmpValues = SerializerImpl.instance( ).read( is );
-		
+		BufferedInputStream baIs = new BufferedInputStream( is );
+
+		byte[] b = new byte[8192];
+		baIs.read( b );
+
+		String strDesignValues = new String( b, "utf-8" );
+
+		DesignValues tmpValues = SerializerImpl.instance( ).read( strDesignValues );
+
+		baIs.close( );
 		is.close( );
-		
+
 		return tmpValues;
 	}
 

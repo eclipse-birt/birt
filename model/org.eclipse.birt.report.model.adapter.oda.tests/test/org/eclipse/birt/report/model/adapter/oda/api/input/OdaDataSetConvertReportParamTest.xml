@@ -21,7 +21,8 @@
         <oda-data-set name="myDataSet1" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
             <property name="dataSource">myDataSource1</property>
 			<text-property name="displayName">My Data Set One</text-property>			
-            <property name="queryTimeOut">30000</property>		
+            <property name="queryTimeOut">30000</property>
+            <xml-property name="queryText"><![CDATA[select test]]></xml-property>		        		
             <list-property name="privateDriverProperties">
                 <ex-property>
                     <name>queryTimeOut</name>
@@ -63,6 +64,7 @@
         </oda-data-set>
         <oda-data-set name="myDataSet2" extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
 			<property name="dataSource">myDataSource1</property>
+            <xml-property name="queryText"><![CDATA[select test]]></xml-property>		 			
         </oda-data-set>
     </data-sets>
     <parameters>

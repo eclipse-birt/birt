@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
-<xsd:schema targetNamespace="http://www.eclipse.org/birt/report/model/adapter/odaModel" xmlns:adapter="http://www.eclipse.org/birt/report/model/adapter/odaModel" xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema targetNamespace="http://www.eclipse.org/birt/report/model/model/odaModel" xmlns:model="http://www.eclipse.org/birt/report/model/model/odaModel" xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:import namespace="http://www.eclipse.org/datatools/connectivity/oda/design" schemaLocation="DesignXML.xsd"/>
 	<xsd:annotation>
 		<xsd:documentation xml:lang="en">
-		Schema file for the model.oda.adapter package.
+		Schema file for the model.oda.model package.
 		</xsd:documentation>
 	</xsd:annotation>
 	<xsd:complexType name="DesignValues">
@@ -12,20 +12,50 @@
 			<xsd:documentation xml:lang="en">A collection of ODA related values. Includes data set parameters and result set columns.		</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Version" type="xsd:string" default="1.0.0">
+			<xsd:element name="Version" type="xsd:string"
+				default="2.0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the version number of these values.
+						Specifies the version number of these values.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="design:DataSetParameters"/>
-			<xsd:element ref="design:ResultSets"/>
+			<xsd:element name="DataSetParameters" type="model:DataSetParameters"></xsd:element>			
+			<xsd:element ref="design:DataSetParameters" />
+			<xsd:element ref="design:ResultSets" />
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:element name="DesignValues" type="adapter:DesignValues">
+	<xsd:element name="DesignValues" type="model:DesignValues">
 		<xsd:annotation>
 			<xsd:documentation>A collection of ODA related values. Includes data set parameters and result set columns.		</xsd:documentation>
 		</xsd:annotation>
 	</xsd:element>
+
+	<xsd:complexType name="DataSetParameters">
+		<xsd:sequence>
+			<xsd:element name="parameters" type="model:DataSetParameter" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="DataSetParameter">
+    	<xsd:sequence>
+    		<xsd:element ref="design:ParameterDefinition" minOccurs="1" maxOccurs="1"/>
+    		<xsd:element name="dynamicList" type="model:DynamicList" minOccurs="0" maxOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="DynamicList">
+    	<xsd:attribute name="enabled" type="xsd:string" default="true"></xsd:attribute>
+    	<xsd:attribute name="valueColumn" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="labelColumn" type="xsd:string"></xsd:attribute>
+    	<xsd:attribute name="dataSetName" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+
+
+
+    <xsd:element name="DataSetParameters" type="model:DataSetParameters"></xsd:element>
+
+    <xsd:element name="DataSetParameter" type="model:DataSetParameter"></xsd:element>
+
+    <xsd:element name="DynamicList" type="model:DynamicList"></xsd:element>
 </xsd:schema>

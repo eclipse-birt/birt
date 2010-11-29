@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: ModelFactoryImpl.java,v 1.1.28.1 2010/11/29 06:23:52 rlu Exp $
  */
 package org.eclipse.birt.report.model.adapter.oda.model.impl;
 
@@ -34,7 +34,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	{
 		try
 		{
-			ModelFactory theModelFactory = (ModelFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/birt/report/model/adapter/odaModel"); 
+			ModelFactory theModelFactory = (ModelFactory)EPackage.Registry.INSTANCE.getEFactory(ModelPackage.eNS_URI); 
 			if (theModelFactory != null)
 			{
 				return theModelFactory;
@@ -63,12 +63,16 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject create(EClass eClass)
 	{
 		switch (eClass.getClassifierID())
 		{
-			case ModelPackage.DOCUMENT_ROOT: return createDocumentRoot();
+			case ModelPackage.DATA_SET_PARAMETER: return createDataSetParameter();
+			case ModelPackage.DATA_SET_PARAMETERS: return createDataSetParameters();
 			case ModelPackage.DESIGN_VALUES: return createDesignValues();
+			case ModelPackage.DOCUMENT_ROOT: return createDocumentRoot();
+			case ModelPackage.DYNAMIC_LIST: return createDynamicList();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -79,10 +83,21 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DocumentRoot createDocumentRoot()
+	public DataSetParameter createDataSetParameter()
 	{
-		DocumentRootImpl documentRoot = new DocumentRootImpl();
-		return documentRoot;
+		DataSetParameterImpl dataSetParameter = new DataSetParameterImpl();
+		return dataSetParameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DataSetParameters createDataSetParameters()
+	{
+		DataSetParametersImpl dataSetParameters = new DataSetParametersImpl();
+		return dataSetParameters;
 	}
 
 	/**
@@ -101,6 +116,28 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public DocumentRoot createDocumentRoot()
+	{
+		DocumentRootImpl documentRoot = new DocumentRootImpl();
+		return documentRoot;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DynamicList createDynamicList()
+	{
+		DynamicListImpl dynamicList = new DynamicListImpl();
+		return dynamicList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ModelPackage getModelPackage()
 	{
 		return (ModelPackage)getEPackage();
@@ -112,6 +149,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	 * @deprecated
 	 * @generated
 	 */
+	@Deprecated
 	public static ModelPackage getPackage()
 	{
 		return ModelPackage.eINSTANCE;

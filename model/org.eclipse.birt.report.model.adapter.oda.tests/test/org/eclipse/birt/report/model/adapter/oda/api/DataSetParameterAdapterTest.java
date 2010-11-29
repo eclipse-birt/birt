@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
+import org.eclipse.birt.report.model.adapter.oda.model.util.SchemaConversionUtil;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -93,8 +94,8 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 		setHandle.setDesignerValues( null );
 		PropertyHandle propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
-		OdaDataSetParameter parameter = (OdaDataSetParameter) propHandle.getAt(
-				2 ).getStructure( ).copy( );
+		OdaDataSetParameter parameter = (OdaDataSetParameter) propHandle
+				.getAt( 2 ).getStructure( ).copy( );
 		propHandle.removeItem( 2 );
 
 		DataSetDesign setDesign2 = new ModelOdaAdapter( )
@@ -110,9 +111,9 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 	 * Test case:
 	 * 
 	 * <ul>
-	 * <li> when convert default value, string type should distinguish
-	 * expression and literal.
-	 * <li> When convert oda data set parameter to ROM data set parameter.
+	 * <li>when convert default value, string type should distinguish expression
+	 * and literal.
+	 * <li>When convert oda data set parameter to ROM data set parameter.
 	 * Default values are kept. <br>
 	 * And the data type is kept even the native data type is unknown.
 	 * </ul>
@@ -132,8 +133,9 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 				.createDataSetDesign( setHandle );
 
 		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );
-		values.setDataSetParameters( (DataSetParameters) EcoreUtil
-				.copy( setDesign.getParameters( ) ) );
+		values.setDataSetParameters( SchemaConversionUtil
+				.convertToAdapterParameters( EcoreUtil.copy( setDesign
+						.getParameters( ) ) ) );
 
 		saveDesignValuesToFile( values );
 		assertTrue( compareTextFile( "DataSetParamConvertTest_golden_1.xml" ) ); //$NON-NLS-1$
@@ -149,7 +151,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 	 * Test case:
 	 * 
 	 * <ul>
-	 * <li> Convert values from ODA parameter definition to ROM data set
+	 * <li>Convert values from ODA parameter definition to ROM data set
 	 * parameter. Focus on default values.
 	 * </ul>
 	 * 
@@ -237,8 +239,8 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 
 		setDesign = createDataSetDesignForParamNames1( );
 
-		// should not exception 
-		
+		// should not exception
+
 		setHandle = new ModelOdaAdapter( ).createDataSetHandle( setDesign,
 				designHandle );
 	}

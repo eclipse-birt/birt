@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: ModelResourceImpl.java,v 1.1.28.1 2010/11/29 06:23:52 rlu Exp $
  */
 package org.eclipse.birt.report.model.adapter.oda.model.util;
 

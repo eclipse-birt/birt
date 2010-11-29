@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.adapter.oda.model;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
@@ -53,19 +52,6 @@ public interface Serializer
 	public String write( DesignValues values ) throws IOException;
 
 	// Read Methods
-
-	/**
-	 * Reads the design values from the given InputStream.
-	 * 
-	 * @param is
-	 *            the input stream
-	 * 
-	 * @return the designer values
-	 * @throws IOException
-	 */
-
-	public DesignValues read( InputStream is ) throws IOException;
-
 	/**
 	 * Parses the string to the design value.
 	 * 

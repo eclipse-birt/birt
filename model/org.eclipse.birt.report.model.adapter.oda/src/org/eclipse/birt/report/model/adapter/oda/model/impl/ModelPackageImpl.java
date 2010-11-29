@@ -2,20 +2,27 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: ModelPackageImpl.java,v 1.1.28.1 2010/11/29 06:23:52 rlu Exp $
  */
 package org.eclipse.birt.report.model.adapter.oda.model.impl;
 
+import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter;
+import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters;
+import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot;
+import org.eclipse.birt.report.model.adapter.oda.model.DynamicList;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
-import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
+
 import org.eclipse.datatools.connectivity.oda.design.DesignPackage;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
@@ -31,7 +38,14 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass documentRootEClass = null;
+	private EClass dataSetParameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dataSetParametersEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -39,6 +53,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * @generated
 	 */
 	private EClass designValuesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass documentRootEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dynamicListEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -68,20 +96,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this
-	 * model, and for any others upon which it depends.  Simple
-	 * dependencies are satisfied by calling this method on all
-	 * dependent packages before doing anything else.  This method drives
-	 * initialization for interdependent packages directly, in parallel
-	 * with this package, itself.
-	 * <p>Of this package and its interdependencies, all packages which
-	 * have not yet been registered by their URI values are first created
-	 * and registered.  The packages are then initialized in two steps:
-	 * meta-model objects for all of the packages are created before any
-	 * are initialized, since one package's meta-model objects may refer to
-	 * those of another.
-	 * <p>Invocation of this method will not affect any packages that have
-	 * already been initialized.
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+	 * 
+	 * <p>This method is used to initialize {@link ModelPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #eNS_URI
@@ -94,7 +112,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		if (isInited) return (ModelPackage)EPackage.Registry.INSTANCE.getEPackage(ModelPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ModelPackageImpl theModelPackage = (ModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new ModelPackageImpl());
+		ModelPackageImpl theModelPackage = (ModelPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ModelPackageImpl());
 
 		isInited = true;
 
@@ -111,7 +129,110 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		// Mark meta-data to indicate it can't be changed
 		theModelPackage.freeze();
 
+  
+		// Update the registry and return the package
+		EPackage.Registry.INSTANCE.put(ModelPackage.eNS_URI, theModelPackage);
 		return theModelPackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDataSetParameter()
+	{
+		return dataSetParameterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDataSetParameter_ParameterDefinition()
+	{
+		return (EReference)dataSetParameterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDataSetParameter_DynamicList()
+	{
+		return (EReference)dataSetParameterEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDataSetParameters()
+	{
+		return dataSetParametersEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDataSetParameters_Parameter()
+	{
+		return (EReference)dataSetParametersEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDesignValues()
+	{
+		return designValuesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDesignValues_Version()
+	{
+		return (EAttribute)designValuesEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDesignValues_DataSetParameters()
+	{
+		return (EReference)designValuesEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDesignValues_ResultSets()
+	{
+		return (EReference)designValuesEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDesignValues_DataSetParameters1()
+	{
+		return (EReference)designValuesEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -159,7 +280,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocumentRoot_OdaValues()
+	public EReference getDocumentRoot_DataSetParameter()
 	{
 		return (EReference)documentRootEClass.getEStructuralFeatures().get(3);
 	}
@@ -169,9 +290,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getDesignValues()
+	public EReference getDocumentRoot_DataSetParameters()
 	{
-		return designValuesEClass;
+		return (EReference)documentRootEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -179,9 +300,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDesignValues_Version()
+	public EReference getDocumentRoot_DesignValues()
 	{
-		return (EAttribute)designValuesEClass.getEStructuralFeatures().get(0);
+		return (EReference)documentRootEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -189,9 +310,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDesignValues_DataSetParameters()
+	public EReference getDocumentRoot_DynamicList()
 	{
-		return (EReference)designValuesEClass.getEStructuralFeatures().get(1);
+		return (EReference)documentRootEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -199,9 +320,49 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDesignValues_ResultSets()
+	public EClass getDynamicList()
 	{
-		return (EReference)designValuesEClass.getEStructuralFeatures().get(2);
+		return dynamicListEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDynamicList_DataSetName()
+	{
+		return (EAttribute)dynamicListEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDynamicList_Enabled()
+	{
+		return (EAttribute)dynamicListEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDynamicList_LabelColumn()
+	{
+		return (EAttribute)dynamicListEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDynamicList_ValueColumn()
+	{
+		return (EAttribute)dynamicListEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -234,16 +395,33 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		isCreated = true;
 
 		// Create classes and their features
-		documentRootEClass = createEClass(DOCUMENT_ROOT);
-		createEAttribute(documentRootEClass, DOCUMENT_ROOT__MIXED);
-		createEReference(documentRootEClass, DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
-		createEReference(documentRootEClass, DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
-		createEReference(documentRootEClass, DOCUMENT_ROOT__ODA_VALUES);
+		dataSetParameterEClass = createEClass(DATA_SET_PARAMETER);
+		createEReference(dataSetParameterEClass, DATA_SET_PARAMETER__PARAMETER_DEFINITION);
+		createEReference(dataSetParameterEClass, DATA_SET_PARAMETER__DYNAMIC_LIST);
+
+		dataSetParametersEClass = createEClass(DATA_SET_PARAMETERS);
+		createEReference(dataSetParametersEClass, DATA_SET_PARAMETERS__PARAMETER);
 
 		designValuesEClass = createEClass(DESIGN_VALUES);
 		createEAttribute(designValuesEClass, DESIGN_VALUES__VERSION);
 		createEReference(designValuesEClass, DESIGN_VALUES__DATA_SET_PARAMETERS);
+		createEReference(designValuesEClass, DESIGN_VALUES__DATA_SET_PARAMETERS1);
 		createEReference(designValuesEClass, DESIGN_VALUES__RESULT_SETS);
+
+		documentRootEClass = createEClass(DOCUMENT_ROOT);
+		createEAttribute(documentRootEClass, DOCUMENT_ROOT__MIXED);
+		createEReference(documentRootEClass, DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
+		createEReference(documentRootEClass, DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+		createEReference(documentRootEClass, DOCUMENT_ROOT__DATA_SET_PARAMETER);
+		createEReference(documentRootEClass, DOCUMENT_ROOT__DATA_SET_PARAMETERS);
+		createEReference(documentRootEClass, DOCUMENT_ROOT__DESIGN_VALUES);
+		createEReference(documentRootEClass, DOCUMENT_ROOT__DYNAMIC_LIST);
+
+		dynamicListEClass = createEClass(DYNAMIC_LIST);
+		createEAttribute(dynamicListEClass, DYNAMIC_LIST__DATA_SET_NAME);
+		createEAttribute(dynamicListEClass, DYNAMIC_LIST__ENABLED);
+		createEAttribute(dynamicListEClass, DYNAMIC_LIST__LABEL_COLUMN);
+		createEAttribute(dynamicListEClass, DYNAMIC_LIST__VALUE_COLUMN);
 	}
 
 	/**
@@ -271,22 +449,43 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 		DesignPackage theDesignPackage = (DesignPackage)EPackage.Registry.INSTANCE.getEPackage(DesignPackage.eNS_URI);
+		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+
+		// Create type parameters
+
+		// Set bounds for type parameters
 
 		// Add supertypes to classes
 
 		// Initialize classes and features; add operations and parameters
+		initEClass(dataSetParameterEClass, DataSetParameter.class, "DataSetParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDataSetParameter_ParameterDefinition(), theDesignPackage.getParameterDefinition(), null, "parameterDefinition", null, 1, 1, DataSetParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDataSetParameter_DynamicList(), this.getDynamicList(), null, "dynamicList", null, 0, 1, DataSetParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(dataSetParametersEClass, DataSetParameters.class, "DataSetParameters", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDataSetParameters_Parameter(), this.getDataSetParameter(), null, "parameter", null, 1, -1, DataSetParameters.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(designValuesEClass, DesignValues.class, "DesignValues", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDesignValues_Version(), theXMLTypePackage.getString(), "version", "2.0.0", 1, 1, DesignValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDesignValues_DataSetParameters(), this.getDataSetParameters(), null, "dataSetParameters", null, 1, 1, DesignValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDesignValues_DataSetParameters1(), theDesignPackage.getDataSetParameters(), null, "dataSetParameters1", null, 1, 1, DesignValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDesignValues_ResultSets(), theDesignPackage.getResultSets(), null, "resultSets", null, 1, 1, DesignValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDocumentRoot_OdaValues(), this.getDesignValues(), null, "odaValues", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getDocumentRoot_DataSetParameter(), this.getDataSetParameter(), null, "dataSetParameter", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getDocumentRoot_DataSetParameters(), this.getDataSetParameters(), null, "dataSetParameters", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getDocumentRoot_DesignValues(), this.getDesignValues(), null, "designValues", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getDocumentRoot_DynamicList(), this.getDynamicList(), null, "dynamicList", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
-		initEClass(designValuesEClass, DesignValues.class, "DesignValues", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDesignValues_Version(), theXMLTypePackage.getString(), "version", "1.0.0", 1, 1, DesignValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDesignValues_DataSetParameters(), theDesignPackage.getDataSetParameters(), null, "dataSetParameters", null, 1, 1, DesignValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDesignValues_ResultSets(), theDesignPackage.getResultSets(), null, "resultSets", null, 1, 1, DesignValues.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(dynamicListEClass, DynamicList.class, "DynamicList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDynamicList_DataSetName(), theXMLTypePackage.getString(), "dataSetName", null, 0, 1, DynamicList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDynamicList_Enabled(), theXMLTypePackage.getString(), "enabled", null, 0, 1, DynamicList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDynamicList_LabelColumn(), theXMLTypePackage.getString(), "labelColumn", null, 0, 1, DynamicList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDynamicList_ValueColumn(), theXMLTypePackage.getString(), "valueColumn", null, 0, 1, DynamicList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -305,6 +504,89 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	protected void createExtendedMetaDataAnnotations()
 	{
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";			
+		addAnnotation
+		  (dataSetParameterEClass, 
+		   source, 
+		   new String[] 
+		   {
+			 "name", "DataSetParameter",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getDataSetParameter_ParameterDefinition(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "ParameterDefinition",
+			 "namespace", "http://www.eclipse.org/datatools/connectivity/oda/design"
+		   });		
+		addAnnotation
+		  (getDataSetParameter_DynamicList(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "dynamicList"
+		   });		
+		addAnnotation
+		  (dataSetParametersEClass, 
+		   source, 
+		   new String[] 
+		   {
+			 "name", "DataSetParameters",
+			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (getDataSetParameters_Parameter(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "parameter"
+		   });			
+		addAnnotation
+		  (designValuesEClass, 
+		   source, 
+		   new String[] 
+		   {
+			 "name", "DesignValues",
+			 "kind", "elementOnly"
+		   });			
+		addAnnotation
+		  (getDesignValues_Version(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "Version"
+		   });		
+		addAnnotation
+		  (getDesignValues_DataSetParameters(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "DataSetParameters"
+		   });			
+		addAnnotation
+		  (getDesignValues_DataSetParameters1(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "DataSetParameters",
+			 "namespace", "http://www.eclipse.org/datatools/connectivity/oda/design"
+		   });			
+		addAnnotation
+		  (getDesignValues_ResultSets(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "ResultSets",
+			 "namespace", "http://www.eclipse.org/datatools/connectivity/oda/design"
+		   });		
 		addAnnotation
 		  (documentRootEClass, 
 		   source, 
@@ -336,49 +618,82 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		   {
 			 "kind", "attribute",
 			 "name", "xsi:schemaLocation"
+		   });		
+		addAnnotation
+		  (getDocumentRoot_DataSetParameter(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "DataSetParameter",
+			 "namespace", "##targetNamespace"
+		   });		
+		addAnnotation
+		  (getDocumentRoot_DataSetParameters(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "DataSetParameters",
+			 "namespace", "##targetNamespace"
 		   });			
 		addAnnotation
-		  (getDocumentRoot_OdaValues(), 
+		  (getDocumentRoot_DesignValues(), 
 		   source, 
 		   new String[] 
 		   {
 			 "kind", "element",
 			 "name", "DesignValues",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });		
 		addAnnotation
-		  (designValuesEClass, 
-		   source, 
-		   new String[] 
-		   {
-			 "name", "DesignValues",
-			 "kind", "elementOnly"
-		   });			
-		addAnnotation
-		  (getDesignValues_Version(), 
+		  (getDocumentRoot_DynamicList(), 
 		   source, 
 		   new String[] 
 		   {
 			 "kind", "element",
-			 "name", "Version"
-		   });			
+			 "name", "DynamicList",
+			 "namespace", "##targetNamespace"
+		   });		
 		addAnnotation
-		  (getDesignValues_DataSetParameters(), 
+		  (dynamicListEClass, 
+		   source, 
+		   new String[] 
+		   {
+			 "name", "DynamicList",
+			 "kind", "empty"
+		   });		
+		addAnnotation
+		  (getDynamicList_DataSetName(), 
 		   source, 
 		   new String[] 
 		   {
 			 "kind", "element",
-			 "name", "DataSetParameters",
-			 "namespace", "http://www.eclipse.org/datatools/connectivity/oda/design"
-		   });			
+			 "name", "dataSetName"
+		   });		
 		addAnnotation
-		  (getDesignValues_ResultSets(), 
+		  (getDynamicList_Enabled(), 
 		   source, 
 		   new String[] 
 		   {
 			 "kind", "element",
-			 "name", "ResultSets",
-			 "namespace", "http://www.eclipse.org/datatools/connectivity/oda/design"
+			 "name", "enabled"
+		   });		
+		addAnnotation
+		  (getDynamicList_LabelColumn(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "labelColumn"
+		   });		
+		addAnnotation
+		  (getDynamicList_ValueColumn(), 
+		   source, 
+		   new String[] 
+		   {
+			 "kind", "element",
+			 "name", "valueColumn"
 		   });
 	}
 

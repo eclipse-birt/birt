@@ -23,7 +23,7 @@
                 </structure>
             </list-property>
             <property name="concealValue">false</property>
-            <property name="controlType">auto-suggest</property>
+            <property name="controlType">radio-button</property>
             <property name="autoSuggestThreshold">111</property>            
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="6">
@@ -99,6 +99,7 @@
                 </structure>
             </list-property>
             <property name="dataSource">myDataSource1</property>
+            <xml-property name="queryText"><![CDATA[select test]]></xml-property>	            
             <property name="resultSetName">userid</property>
             <list-property name="privateDriverProperties">
                 <ex-property>
@@ -110,6 +111,7 @@
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet2" id="4">
             <property name="dataSource">myDataSource1</property>
+            <xml-property name="queryText"><![CDATA[select test]]></xml-property>	            
         </oda-data-set>
     </data-sets>
 </report>

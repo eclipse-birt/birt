@@ -2,15 +2,16 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelResourceFactoryImpl.java,v 1.1 2006/08/10 03:33:06 rlu Exp $
+ * $Id: ModelResourceFactoryImpl.java,v 1.2.22.1 2010/11/29 06:23:52 rlu Exp $
  */
 package org.eclipse.birt.report.model.adapter.oda.model.util;
 
-import org.eclipse.birt.report.model.adapter.oda.model.ModelPackage;
 import org.eclipse.emf.common.util.URI;
+
 import org.eclipse.emf.ecore.resource.Resource;
+
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
+
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
 /**
@@ -31,10 +32,6 @@ public class ModelResourceFactoryImpl extends ResourceFactoryImpl
 	public ModelResourceFactoryImpl()
 	{
 		super();
-		
-		ExtendedMetaData extendedMetaData = ExtendedMetaData.INSTANCE;
-		extendedMetaData.putPackage( "http://www.eclipse.org/birt/report/model/adapter/odaModel", //$NON-NLS-1$
-				ModelPackage.eINSTANCE );
 	}
 
 	/**
@@ -43,6 +40,7 @@ public class ModelResourceFactoryImpl extends ResourceFactoryImpl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Resource createResource(URI uri)
 	{
 		XMLResource result = new ModelResourceImpl(uri);

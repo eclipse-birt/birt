@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: ModelFactory.java,v 1.1.28.1 2010/11/29 06:23:53 rlu Exp $
  */
 package org.eclipse.birt.report.model.adapter.oda.model;
 
@@ -27,13 +27,22 @@ public interface ModelFactory extends EFactory
 	ModelFactory eINSTANCE = org.eclipse.birt.report.model.adapter.oda.model.impl.ModelFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Document Root</em>'.
+	 * Returns a new object of class '<em>Data Set Parameter</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Document Root</em>'.
+	 * @return a new object of class '<em>Data Set Parameter</em>'.
 	 * @generated
 	 */
-	DocumentRoot createDocumentRoot();
+	DataSetParameter createDataSetParameter();
+
+	/**
+	 * Returns a new object of class '<em>Data Set Parameters</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Data Set Parameters</em>'.
+	 * @generated
+	 */
+	DataSetParameters createDataSetParameters();
 
 	/**
 	 * Returns a new object of class '<em>Design Values</em>'.
@@ -43,6 +52,24 @@ public interface ModelFactory extends EFactory
 	 * @generated
 	 */
 	DesignValues createDesignValues();
+
+	/**
+	 * Returns a new object of class '<em>Document Root</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Document Root</em>'.
+	 * @generated
+	 */
+	DocumentRoot createDocumentRoot();
+
+	/**
+	 * Returns a new object of class '<em>Dynamic List</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Dynamic List</em>'.
+	 * @generated
+	 */
+	DynamicList createDynamicList();
 
 	/**
 	 * Returns the package supported by this factory.
