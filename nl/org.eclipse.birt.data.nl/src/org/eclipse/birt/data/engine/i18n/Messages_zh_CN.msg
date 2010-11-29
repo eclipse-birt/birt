@@ -407,6 +407,7 @@ data.olap.UnspecifiedBindingName=未指定绑定名称。
 data.olap.NotNestAggregationBinding=未多维数据集嵌套的聚合绑定: {0}
 data.olap.InvalidNestAggregationExpression=多维数据集嵌套聚合的表达式无效。
 data.olap.InvalidNestAggregationOn=多维数据集嵌套聚合“{1}”中的“{0}”聚合条件在基础聚合中不存在。
+data.olap.InvalidAggregationFilterExpr=The filter expression "{0}" is invalid. The aggregationOn list of aggregation binding "{1}" does not contain the referenced dimension level "{2}". 
 data.olap.sort.exprError=设置的引用维级别只应包含一个级别!
 data.olap.query.noCubeBinding=由于没有可用的多维数据集绑定，无法执行多维数据集查询!
 data.olap.FailLoadCube=加载多维数据集失败:“{0}”。

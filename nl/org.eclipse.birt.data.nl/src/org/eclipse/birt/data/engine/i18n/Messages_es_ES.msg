@@ -407,6 +407,7 @@ data.olap.UnspecifiedBindingName=Nombre de enlace no especificado.
 data.olap.NotNestAggregationBinding=Sin enlace de agregación de nido de cubo: {0}
 data.olap.InvalidNestAggregationExpression=La expresión de una agregación de nido de cubo no es válida.
 data.olap.InvalidNestAggregationOn="{0}" añadido a la agregación de nido de cubo "{1}" no existe en su agregación de base.
+data.olap.InvalidAggregationFilterExpr=The filter expression "{0}" is invalid. The aggregationOn list of aggregation binding "{1}" does not contain the referenced dimension level "{2}". 
 data.olap.sort.exprError=El nivel de la dimensión a la que se hace referencia establecido sólo debería contener un nivel.
 data.olap.query.noCubeBinding=Error al ejecutar la consulta de cubo porque no hay disponible ningún enlace de cubo.
 data.olap.FailLoadCube=Error al cargar el cubo:"{0}".

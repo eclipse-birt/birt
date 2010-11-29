@@ -407,6 +407,7 @@ data.olap.UnspecifiedBindingName=Bindungsname nicht angegeben.
 data.olap.NotNestAggregationBinding=Aggregatsbindung nicht mit Quader verschachteln: {0}
 data.olap.InvalidNestAggregationExpression=Der Ausdruck eines Quader-Verschachtelungsaggregats ist ungültig.
 data.olap.InvalidNestAggregationOn=Aggregat in '{0}' in Quader-Verschachtelungsaggregat '{1}' ist nicht in basierten Aggregaten vorhanden.
+data.olap.InvalidAggregationFilterExpr=The filter expression "{0}" is invalid. The aggregationOn list of aggregation binding "{1}" does not contain the referenced dimension level "{2}". 
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Quaderbindung verfügbar.
 data.olap.FailLoadCube=Fehler beim Laden von Quader: '{0}'.

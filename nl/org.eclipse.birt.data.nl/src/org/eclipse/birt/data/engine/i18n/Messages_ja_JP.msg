@@ -407,6 +407,7 @@ data.olap.UnspecifiedBindingName=バインド名が指定されていません。
 data.olap.NotNestAggregationBinding=キューブネストされた集計のバインドではありません : {0}
 data.olap.InvalidNestAggregationExpression=キューブネストされた集計の式が無効です。
 data.olap.InvalidNestAggregationOn=キューブネストされた集計 "{1}" での "{0}" 集計は、ベースとなる集計にありません。
+data.olap.InvalidAggregationFilterExpr=The filter expression "{0}" is invalid. The aggregationOn list of aggregation binding "{1}" does not contain the referenced dimension level "{2}". 
 data.olap.sort.exprError=参照するディメンジョンレベルにつき 1 つのレベルしか含めることができません。
 data.olap.query.noCubeBinding=キューブのバインドが使用できないため、キューブクエリを実行できませんでした。
 data.olap.FailLoadCube=キューブを読み込めません : "{0}"
