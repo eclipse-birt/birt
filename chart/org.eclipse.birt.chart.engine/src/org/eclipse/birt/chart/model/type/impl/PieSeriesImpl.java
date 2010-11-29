@@ -1209,7 +1209,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected final void initialize( )
 	{
 		super.initialize( );
-		setExplosion( 20 );
+		setExplosion( 0 );
 		setLabelPosition( Position.OUTSIDE_LITERAL );
 		setLeaderLineAttributes( LineAttributesImpl.create( null,
 				LineStyle.SOLID_LITERAL,
