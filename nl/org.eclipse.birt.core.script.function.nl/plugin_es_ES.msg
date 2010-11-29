@@ -108,3 +108,4 @@ FunctionDesc.duration.negate=Devuelve un nuevo objeto Duration cuyo valor es -le
 FunctionDesc.duration.getSign=Devuelve el signo de esta duración en -1,0 ó 1.\nEl valor lexicalDuration es la presentación del string, "PnYnMnDTnHnMnS"(por ejemplo, P5Y2M15DT4H40M20S )\nEl argumento startDate se utiliza para desambiguar esta varianza
 FunctionDesc.duration.compare=La relación de orden parcial entre lexicalDuration1 y lexicalDuration2.\nEl valor lexicalDuration es la presentación del string, "PnYnMnDTnHnMnS"(por ejemplo, P5Y2M15DT4H40M20S )\nEl argumento startDate se utiliza para desambiguar esta varianza
 FunctionDesc.duration.addTo=Suma esta duración a un objeto Date.\nEl valor lexicalDuration es la presentación del string, "PnYnMnDTnHnMnS"(por ejemplo, P5Y2M15DT4H40M20S )\nEl argumento startDate se utiliza para desambiguar esta varianza
+FunctionDesc.format=Obtains the formatted string from specified object and pattern.

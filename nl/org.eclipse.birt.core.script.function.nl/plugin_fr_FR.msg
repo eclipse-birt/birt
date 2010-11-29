@@ -108,3 +108,4 @@ FunctionDesc.duration.negate=Calcule un nouvel objet de durée, dont la valeur es
 FunctionDesc.duration.getSign=Renvoie le signe de cette durée en -1,0 ou 1.\nLa valeur lexicalDuration est la présentation de la chaîne, "PnYnMnDTnHnMnS" (par ex. : P5Y2M15DT4H40M20S)\nL'argument startDate est utilisé pour ôter l'ambiguïté de cet écart.
 FunctionDesc.duration.compare=Relation de commande partielle entre lexicalDuration1 et lexicalDuration2.\nLa valeur lexicalDuration est la présentation de la chaîne, "PnYnMnDTnHnMnS" (par ex. P5Y2M15DT4H40M20S)\nL'argument startDate est utilisé pour ôter l'ambiguïté de cet écart.
 FunctionDesc.duration.addTo=Ajoute cette durée à un objet de date.\nLa valeur lexicalDuration est la présentation de la chaîne, "PnYnMnDTnHnMnS" (par ex. P5Y2M15DT4H40M20S)\nL'argument startDate est utilisé pour ôter l'ambiguïté de cet écart.
+FunctionDesc.format=Obtains the formatted string from specified object and pattern.
