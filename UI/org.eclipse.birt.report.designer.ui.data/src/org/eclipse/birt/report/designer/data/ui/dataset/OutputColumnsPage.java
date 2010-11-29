@@ -564,7 +564,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	 * @param newValue
 	 * @return
 	 */
-	protected boolean isUnique( String newValue )
+	protected boolean isUnique( String newValue, DataSetViewData currentItem )
 	{
 
 		DataSetViewData[] items = null;
@@ -583,6 +583,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 
 		for ( int i = 0; i < items.length; i++ )
 		{
+			if ( items[i].getName( ) != null
+					&& items[i].getName( ).equals( currentItem.getName( ) ) )
+			{
+				continue;
+			}
 			if ( ( items[i].getAlias( ) != null && items[i].getAlias( )
 					.equals( newValue ) )
 					|| ( items[i].getName( ) != null && items[i].getName( )
@@ -791,7 +796,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 						{
 							if ( index == 2 )
 							{
-								boolean isUniqueName = isUnique( tx.getText( ) );
+								boolean isUniqueName = isUnique( tx.getText( ), data );
 								if ( !isUniqueName )
 									updateStatus( getMiscStatus( IStatus.ERROR,
 											Messages.getString( "OutputColumnPage.OutputColumns.DuplicatedName" ) ) ); //$NON-NLS-1$
