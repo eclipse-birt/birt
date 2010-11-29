@@ -16,6 +16,8 @@ import org.eclipse.birt.core.btree.BTreeCursor;
 import org.eclipse.birt.core.btree.BTreeFile;
 import org.eclipse.birt.core.btree.BTreeOption;
 import org.eclipse.birt.core.btree.BTreeSerializer;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
@@ -276,6 +278,15 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	
 	private Set<Integer> getBetween( Object key1, Object key2 ) throws DataException
 	{
+		try
+		{
+			key1 = DataTypeUtil.convert( key1, this.keyDataType );
+			key2 = DataTypeUtil.convert( key2, this.keyDataType );
+		}
+		catch ( BirtException e1 )
+		{
+			throw DataException.wrap( e1 );
+		}
 		BTreeCursor bCursor = btree.createCursor( );
 		Set<Integer> result = new HashSet<Integer>( );
 		try
@@ -310,6 +321,14 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	
 	private Set<Integer> getGreater( Object key, boolean includeKey ) throws DataException
 	{
+		try
+		{
+			key = DataTypeUtil.convert( key, this.keyDataType );
+		}
+		catch ( BirtException e1 )
+		{
+			throw DataException.wrap( e1 );
+		}
 		BTreeCursor bCursor = btree.createCursor( );
 		Set<Integer> result = new HashSet<Integer>( );
 		try
@@ -343,6 +362,14 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	
 	private Set<Integer> getLess( Object key, boolean includeKey ) throws DataException
 	{
+		try
+		{
+			key = DataTypeUtil.convert( key, this.keyDataType );
+		}
+		catch ( BirtException e1 )
+		{
+			throw DataException.wrap( e1 );
+		}
 		BTreeCursor bCursor = btree.createCursor( );
 		Set<Integer> result = new HashSet<Integer>( );
 		try
@@ -367,6 +394,14 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	{
 		Set<Integer> set = new HashSet<Integer>();
 		Collection<Integer> rowID = null;
+		try
+		{
+			key = DataTypeUtil.convert( key, this.keyDataType );
+		}
+		catch ( BirtException e1 )
+		{
+			throw DataException.wrap( e1 );
+		}
 		try
 		{
 			rowID = btree.getValues( key );
