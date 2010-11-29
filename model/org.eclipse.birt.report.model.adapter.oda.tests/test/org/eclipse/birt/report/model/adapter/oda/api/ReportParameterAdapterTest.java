@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
+import org.eclipse.birt.report.model.adapter.oda.model.util.SchemaConversionUtil;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -66,7 +67,8 @@ public class ReportParameterAdapterTest extends BaseTestCase
 				.createDataSetDesign( setHandle );
 
 		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );
-		values.setDataSetParameters( setDesign.getParameters( ) );
+		values.setDataSetParameters( SchemaConversionUtil
+				.convertToAdapterParameters( setDesign.getParameters( ) ) );
 
 		saveDesignValuesToFile( values );
 
@@ -156,7 +158,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		// parameter link.
 
 		params = setDesign.getParameters( );
-		param = (ParameterDefinition) params.getParameterDefinitions( ).get( 0 );
+		param = params.getParameterDefinitions( ).get( 0 );
 
 		// change the direction of parameter, do not keep report parameter link.
 

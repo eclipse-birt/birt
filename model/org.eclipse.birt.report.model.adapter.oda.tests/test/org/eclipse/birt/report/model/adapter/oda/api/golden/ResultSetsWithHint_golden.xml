@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
-  <Version>1.0</Version>
+  <Version>2.0</Version>
   <design:ResultSets>
     <design:resultSetDefinitions>
       <design:name>userid</design:name>
@@ -22,7 +22,14 @@
           <design:multiDimensionAttributes>
             <design:axisType>DimensionAttribute</design:axisType>
             <design:onColumnLayout>true</design:onColumnLayout>
-          </design:multiDimensionAttributes>
+            <design:relatedColumns>
+              <design:columnIdentifiers>
+                <design:identifiers>
+                  <design:name>name</design:name>
+                </design:identifiers>
+              </design:columnIdentifiers>
+            </design:relatedColumns>
+          </design:multiDimensionAttributes>            
         </design:resultColumnDefinitions>
         <design:resultColumnDefinitions>
           <design:attributes>

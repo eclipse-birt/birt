@@ -55,6 +55,7 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
+	@Override
 	public boolean isFactoryForType(Object object)
 	{
 		if (object == modelPackage)
@@ -69,23 +70,41 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * The switch that delegates to the <code>createXXX</code> methods.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ModelSwitch modelSwitch =
-		new ModelSwitch()
+	protected ModelSwitch<Adapter> modelSwitch =
+		new ModelSwitch<Adapter>()
 		{
-			public Object caseDocumentRoot(DocumentRoot object)
+			@Override
+			public Adapter caseDataSetParameter(DataSetParameter object)
 			{
-				return createDocumentRootAdapter();
+				return createDataSetParameterAdapter();
 			}
-			public Object caseDesignValues(DesignValues object)
+			@Override
+			public Adapter caseDataSetParameters(DataSetParameters object)
+			{
+				return createDataSetParametersAdapter();
+			}
+			@Override
+			public Adapter caseDesignValues(DesignValues object)
 			{
 				return createDesignValuesAdapter();
 			}
-			public Object defaultCase(EObject object)
+			@Override
+			public Adapter caseDocumentRoot(DocumentRoot object)
+			{
+				return createDocumentRootAdapter();
+			}
+			@Override
+			public Adapter caseDynamicList(DynamicList object)
+			{
+				return createDynamicListAdapter();
+			}
+			@Override
+			public Adapter defaultCase(EObject object)
 			{
 				return createEObjectAdapter();
 			}
@@ -99,11 +118,57 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
+	@Override
 	public Adapter createAdapter(Notifier target)
 	{
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
 
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter <em>Data Set Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter
+	 * @generated
+	 */
+	public Adapter createDataSetParameterAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters <em>Data Set Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters
+	 * @generated
+	 */
+	public Adapter createDataSetParametersAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues <em>Design Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.report.model.adapter.oda.model.DesignValues
+	 * @generated
+	 */
+	public Adapter createDesignValuesAdapter()
+	{
+		return null;
+	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.report.model.adapter.oda.model.DocumentRoot <em>Document Root</em>}'.
@@ -121,16 +186,16 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.report.model.adapter.oda.model.DesignValues <em>Design Values</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList <em>Dynamic List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.birt.report.model.adapter.oda.model.DesignValues
+	 * @see org.eclipse.birt.report.model.adapter.oda.model.DynamicList
 	 * @generated
 	 */
-	public Adapter createDesignValuesAdapter()
+	public Adapter createDynamicListAdapter()
 	{
 		return null;
 	}

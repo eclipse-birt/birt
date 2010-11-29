@@ -95,14 +95,16 @@ abstract class AbstractReportParameterAdapter
 	 *            the report parameter
 	 * @param dataSetParam
 	 *            the data set parameter
-	 * @param updateDefaultValue 
-	 * 			  the flag which indicates if the default value need to be forced updated.
+	 * @param updateDefaultValue
+	 *            the flag which indicates if the default value need to be
+	 *            forced updated.
 	 * @throws SemanticException
 	 */
 
 	protected void updateLinkedReportParameterFromROMParameter(
 			AbstractScalarParameterHandle reportParam,
-			OdaDataSetParameterHandle dataSetParam, boolean updateDefaultValue ) throws SemanticException
+			OdaDataSetParameterHandle dataSetParam, boolean updateDefaultValue )
+			throws SemanticException
 	{
 		assert reportParam != null;
 
@@ -117,9 +119,9 @@ abstract class AbstractReportParameterAdapter
 
 		if ( StringUtil.isBlank( paramName ) )
 		{
-			dataSetParam.setParamName( reportParam.getName( ) );						
+			dataSetParam.setParamName( reportParam.getName( ) );
 		}
-		if ( updateDefaultValue )					
+		if ( updateDefaultValue )
 			setROMDefaultValue( reportParam, defaultValue );
 	}
 
@@ -218,7 +220,8 @@ abstract class AbstractReportParameterAdapter
 			ParameterDefinition paramDefn, ParameterDefinition cachedParamDefn,
 			OdaDataSetHandle setHandle ) throws SemanticException
 	{
-		updateDataElementAttrsToReportParam( paramDefn.getAttributes( ),
+		updateDataElementAttrsToReportParam(
+				paramDefn.getAttributes( ),
 				cachedParamDefn == null ? null : cachedParamDefn
 						.getAttributes( ), reportParam );
 
@@ -390,11 +393,10 @@ abstract class AbstractReportParameterAdapter
 			}
 		}
 
-		updateInputElementAttrsToReportParam( inputParamAttrs
-				.getElementAttributes( ), cachedInputParamAttrs == null
-				? null
-				: cachedInputParamAttrs.getElementAttributes( ), reportParam,
-				setHandle );
+		updateInputElementAttrsToReportParam(
+				inputParamAttrs.getElementAttributes( ),
+				cachedInputParamAttrs == null ? null : cachedInputParamAttrs
+						.getElementAttributes( ), reportParam, setHandle );
 	}
 
 	/**
@@ -434,37 +436,40 @@ abstract class AbstractReportParameterAdapter
 					isOptional.booleanValue( ) );
 
 		// update selection choices
-		updateROMSelectionList( elementAttrs.getStaticValueChoices( ),
+		updateROMSelectionList(
+				elementAttrs.getStaticValueChoices( ),
 				cachedElementAttrs == null ? null : cachedElementAttrs
 						.getStaticValueChoices( ), reportParam );
 
 		// update dynamic list
 		DynamicValuesQuery valueQuery = elementAttrs.getDynamicValueChoices( );
-		AdapterUtil.updateROMDyanmicList( valueQuery,
+		AdapterUtil.updateROMDyanmicList(
+				valueQuery,
 				cachedElementAttrs == null ? null : cachedElementAttrs
 						.getDynamicValueChoices( ), reportParam, setHandle );
 
 		// for dynamic parameter, the flag is in DynamicValuesQuery is true
-		// for static parameter, the DynamicValuesQuery is null or the flag is false
+		// for static parameter, the DynamicValuesQuery is null or the flag is
+		// false
 
 		DynamicValuesQuery cachedValueQuery = cachedElementAttrs == null
 				? null
 				: cachedElementAttrs.getDynamicValueChoices( );
 
-		boolean isEnabled = ( valueQuery == null )
-				? false
-				: valueQuery.isEnabled( );
-		
-		if ( reportParam.getContainer( ) != null && reportParam
-					.getContainer( ) instanceof CascadingParameterGroupHandle )
+		boolean isEnabled = ( valueQuery == null ) ? false : valueQuery
+				.isEnabled( );
+
+		if ( reportParam.getContainer( ) != null
+				&& reportParam.getContainer( ) instanceof CascadingParameterGroupHandle )
 			isEnabled = true;
-		
-		if ( cachedValueQuery == null || cachedValueQuery.isEnabled( ) != isEnabled )
+
+		if ( cachedValueQuery == null
+				|| cachedValueQuery.isEnabled( ) != isEnabled )
 		{
 			if ( isEnabled )
 				reportParam
 						.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
-			else 
+			else
 				reportParam
 						.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
 		}
@@ -551,11 +556,11 @@ abstract class AbstractReportParameterAdapter
 		if ( paramDefn == null )
 			return null;
 
-		paramDefn.setAttributes( updateDataElementAttrs( paramDefn
-				.getAttributes( ), paramHandle ) );
+		paramDefn.setAttributes( updateDataElementAttrs(
+				paramDefn.getAttributes( ), paramHandle ) );
 
-		paramDefn.setInputAttributes( updateInputElementAttrs( paramDefn
-				.getInputAttributes( ), paramHandle, dataSetDesign ) );
+		paramDefn.setInputAttributes( updateInputElementAttrs(
+				paramDefn.getInputAttributes( ), paramHandle, dataSetDesign ) );
 		return paramDefn;
 	}
 
@@ -671,14 +676,47 @@ abstract class AbstractReportParameterAdapter
 		}
 		inputAttrs.setStaticValueChoices( staticChoices );
 
-		DataSetHandle setHandle = paramHandle.getDataSet( );
-		String valueExpr = paramHandle.getValueExpr( );
-		String labelExpr = paramHandle.getLabelExpr( );
+		DynamicValuesQuery valueQuery = updateDynamicValueQuery(
+				paramHandle.getDataSet( ), paramHandle.getValueExpr( ),
+				paramHandle.getLabelExpr( ), dataSetDesign,
+				DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
+						.equalsIgnoreCase( paramHandle.getValueType( ) ) );
+		inputAttrs.setDynamicValueChoices( valueQuery );
+		
+
+		if ( paramHandle.getContainer( ) instanceof ParameterGroupHandle )
+		{
+			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramHandle
+					.getContainer( );
+
+			InputParameterUIHints paramUiHints = designFactory
+					.createInputParameterUIHints( );
+
+			String text = groupHandle.getDisplayName( );
+			String textKey = groupHandle.getDisplayNameKey( );
+
+			if ( text != null || textKey != null )
+			{
+				paramUiHints.setGroupPromptDisplayName( text );
+				paramUiHints.setGroupPromptDisplayNameKey( textKey );
+			}
+
+			retInputParamAttrs.setUiHints( paramUiHints );
+		}
+
+		retInputParamAttrs.setElementAttributes( inputAttrs );
+		return retInputParamAttrs;
+	}
+
+	protected DynamicValuesQuery updateDynamicValueQuery(
+			DataSetHandle setHandle, String valueExpr, String labelExpr,
+			DataSetDesign dataSetDesign, boolean isEnabled )
+	{
+		DynamicValuesQuery valueQuery = null;
 
 		if ( setHandle instanceof OdaDataSetHandle && valueExpr != null )
 		{
-			DynamicValuesQuery valueQuery = designFactory
-					.createDynamicValuesQuery( );
+			valueQuery = designFactory.createDynamicValuesQuery( );
 
 			if ( dataSetDesign != null )
 			{
@@ -709,36 +747,10 @@ abstract class AbstractReportParameterAdapter
 			}
 
 			valueQuery.setValueColumn( valueExpr );
-
-			boolean isEnabled = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
-					.equalsIgnoreCase( paramHandle.getValueType( ) );
-
 			valueQuery.setEnabled( isEnabled );
-			inputAttrs.setDynamicValueChoices( valueQuery );
 		}
 
-		if ( paramHandle.getContainer( ) instanceof ParameterGroupHandle )
-		{
-			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramHandle
-					.getContainer( );
-
-			InputParameterUIHints paramUiHints = designFactory
-					.createInputParameterUIHints( );
-
-			String text = groupHandle.getDisplayName( );
-			String textKey = groupHandle.getDisplayNameKey( );
-
-			if ( text != null || textKey != null )
-			{
-				paramUiHints.setGroupPromptDisplayName( text );
-				paramUiHints.setGroupPromptDisplayNameKey( textKey );
-			}
-
-			retInputParamAttrs.setUiHints( paramUiHints );
-		}
-
-		retInputParamAttrs.setElementAttributes( inputAttrs );
-		return retInputParamAttrs;
+		return valueQuery;
 	}
 
 	/**

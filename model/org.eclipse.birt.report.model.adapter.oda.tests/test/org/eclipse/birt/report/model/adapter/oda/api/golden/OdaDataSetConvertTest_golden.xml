@@ -49,28 +49,30 @@
             <property name="resultSetName">resultset1</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
-  <Version>1.0</Version>
-  <design:DataSetParameters>
-    <design:parameterDefinitions>
-      <design:inOutMode>InOut</design:inOutMode>
-      <design:attributes>
-        <design:identifier>
-          <design:name>param1</design:name>
-          <design:position>2</design:position>
-        </design:identifier>
-        <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
-        <design:nullability>NotNullable</design:nullability>
-      </design:attributes>
-      <design:inputAttributes>
-        <design:elementAttributes>
-          <design:defaultValues>
-            <design:values>default param value</design:values>
-          </design:defaultValues>
-          <design:optional>false</design:optional>
-        </design:elementAttributes>
-      </design:inputAttributes>
-    </design:parameterDefinitions>
-  </design:DataSetParameters>
+  <Version>2.0</Version>
+  <DataSetParameters>
+    <parameter>
+      <design:ParameterDefinition>
+	      <design:inOutMode>InOut</design:inOutMode>
+	      <design:attributes>
+	        <design:identifier>
+	          <design:name>param1</design:name>
+	          <design:position>2</design:position>
+	        </design:identifier>
+	        <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
+	        <design:nullability>NotNullable</design:nullability>
+	      </design:attributes>
+	      <design:inputAttributes>
+	        <design:elementAttributes>
+	          <design:defaultValues>
+	            <design:values>default param value</design:values>
+	          </design:defaultValues>
+	          <design:optional>false</design:optional>
+	        </design:elementAttributes>
+	      </design:inputAttributes>
+      </design:ParameterDefinition>
+    </parameter>
+  </DataSetParameters>
   <design:ResultSets>
     <design:resultSetDefinitions>
       <design:resultSetColumns>
@@ -86,8 +88,7 @@
       </design:resultSetColumns>
     </design:resultSetDefinitions>
   </design:ResultSets>
-</model:DesignValues>
-]]></xml-property>
+</model:DesignValues>]]></xml-property>
             <list-property name="privateDriverProperties">
                 <ex-property>
                     <name>queryTimeOut</name>

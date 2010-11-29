@@ -35,5 +35,5 @@ public interface IConstants
 	 * The version number to set when serializes designer values. 
 	 */
 	
-	final static String DESINGER_VALUES_VERSION = "1.0"; //$NON-NLS-1$
+	final static String DESINGER_VALUES_VERSION = "2.0"; //$NON-NLS-1$
 }

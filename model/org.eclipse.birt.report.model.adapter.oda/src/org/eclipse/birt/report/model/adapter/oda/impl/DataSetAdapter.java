@@ -17,8 +17,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.adapter.oda.IConstants;
 import org.eclipse.birt.report.model.adapter.oda.impl.ResultSetsAdapter.ResultSetColumnInfo;
+import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
+import org.eclipse.birt.report.model.adapter.oda.model.DynamicList;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
+import org.eclipse.birt.report.model.adapter.oda.model.util.SchemaConversionUtil;
 import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
 import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
@@ -32,7 +35,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
+import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
@@ -165,27 +168,33 @@ class DataSetAdapter extends AbstractDataAdapter
 
 		DataSetParameters cachedParams = null;
 		if ( designerValues != null )
+		{
 			cachedParams = designerValues.getDataSetParameters( );
+		}
 
 		DataSetParameterAdapter dataParamAdapter = new DataSetParameterAdapter(
 				setHandle, setDesign );
 
-		DataSetParameters designDefinedParams = null;
+		org.eclipse.datatools.connectivity.oda.design.DataSetParameters designDefinedParams = null;
 		if ( cachedParams != null )
 		{
-			designDefinedParams = (DataSetParameters) EcoreUtil
-					.copy( cachedParams );
+			// cached are driver-defined parameters
+			designDefinedParams = SchemaConversionUtil
+					.convertToDesignParameters( EcoreUtil.copy( cachedParams ) );
+
 			setDesign.setParameters( designDefinedParams );
 
-			dataParamAdapter.updateDriverDefinedParameter( designDefinedParams );
+			dataParamAdapter.updateDriverDefinedParameter( designDefinedParams,
+					SchemaConversionUtil.getCachedDynamicList( cachedParams ) );
 		}
 
-		// if there is no driver defined parameters
+		// if there is no driver defined parameters, update parameters with set
+		// handle defined with cached in the last request
 
 		if ( designDefinedParams == null )
 		{
 			designDefinedParams = dataParamAdapter
-					.newOdaDataSetParams( cachedParams );
+					.newOdaDataSetParams( designDefinedParams );
 			setDesign.setParameters( designDefinedParams );
 		}
 
@@ -193,7 +202,7 @@ class DataSetAdapter extends AbstractDataAdapter
 
 		dataParamAdapter.updateUserDefinedParameter( designDefinedParams );
 
-		DataSetParameters userDefinedParams = dataParamAdapter
+		org.eclipse.datatools.connectivity.oda.design.DataSetParameters userDefinedParams = dataParamAdapter
 				.newOdaDataSetParams( dataParamAdapter.getUserDefinedParams( ) );
 
 		if ( designDefinedParams == null )
@@ -274,9 +283,10 @@ class DataSetAdapter extends AbstractDataAdapter
 		else if ( OdaDataSetHandle.PARAMETERS_PROP
 				.equalsIgnoreCase( propertyName ) )
 		{
-			DataSetParameters dsParams = new DataSetParameterAdapter(
+			org.eclipse.datatools.connectivity.oda.design.DataSetParameters dsParams = new DataSetParameterAdapter(
 					setHandle, setDesign )
-					.newOdaDataSetParams( getCachedParameters( setHandle ) );
+					.newOdaDataSetParams( SchemaConversionUtil
+							.convertToDesignParameters( getCachedParameters( setHandle ) ) );
 
 			if ( dsParams != null )
 				setDesign.setParameters( dsParams );
@@ -330,7 +340,6 @@ class DataSetAdapter extends AbstractDataAdapter
 			cachedParams = designerValues.getDataSetParameters( );
 
 		return cachedParams;
-
 	}
 
 	/**
@@ -390,6 +399,7 @@ class DataSetAdapter extends AbstractDataAdapter
 		}
 		catch ( IOException e )
 		{
+			e.printStackTrace( );
 		}
 
 		DataSetParameters requestParameters = null;
@@ -422,7 +432,8 @@ class DataSetAdapter extends AbstractDataAdapter
 				.getRequestDataSetDesign( );
 
 		updateDataSetHandle( responseDesign, dataSetHandle, false,
-				requestDesign.getParameters( ), requestDesign.getResultSets( ) );
+				SchemaConversionUtil.convertToAdapterParameters( requestDesign
+						.getParameters( ) ), requestDesign.getResultSets( ) );
 
 		DesignerStateAdapter.updateROMDesignerState( completedSession
 				.getResponse( ).getDesignerState( ), dataSetHandle );;
@@ -594,7 +605,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 	private String serializeOdaValues( DataSetDesign setDesign )
 	{
-		DataSetParameters params = setDesign.getParameters( );
+		DataSetParameters params = SchemaConversionUtil
+				.convertToAdapterParameters( setDesign.getParameters( ) );
 		ResultSets resultSets = setDesign.getResultSets( );
 
 		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );
@@ -716,7 +728,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			DataSetParameterAdapter dataParamAdapter = new DataSetParameterAdapter(
 					setHandle, setDesign );
-			dataParamAdapter.updateUserDefinedParameter( requestParameters );
+			dataParamAdapter.updateUserDefinedParameter( SchemaConversionUtil
+					.convertToDesignParameters( requestParameters ) );
 
 			// Update parameters of dataset handle.
 
@@ -860,7 +873,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			DataSetParameterAdapter dataParamAdapter = new DataSetParameterAdapter(
 					setHandle, setDesign );
-			dataParamAdapter.updateUserDefinedParameter( requestParameters );
+			dataParamAdapter.updateUserDefinedParameter( SchemaConversionUtil
+					.convertToDesignParameters( requestParameters ) );
 
 			// Update parameters of dataset handle.
 
@@ -942,7 +956,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 		// update design values.
 
-		DataSetParameters setDefinedParams = setDesign.getParameters( );
+		org.eclipse.datatools.connectivity.oda.design.DataSetParameters setDefinedParams = setDesign
+				.getParameters( );
 
 		if ( setDefinedParams == null )
 		{
@@ -954,27 +969,21 @@ class DataSetAdapter extends AbstractDataAdapter
 		}
 		else
 		{
-			List resultList = DataSetParameterAdapter
+			org.eclipse.datatools.connectivity.oda.design.DataSetParameters driverParams = DataSetParameterAdapter
 					.getDriverDefinedParameters(
 							setDefinedParams.getParameterDefinitions( ),
 							userDefinedList );
 
-			if ( resultList.size( ) > 0 )
+			if ( driverParams.getParameterDefinitions( ).size( ) > 0 )
 			{
 				designerValues = ModelFactory.eINSTANCE.createDesignValues( );
-				DataSetParameters dsParams = designerValues
-						.getDataSetParameters( );
-				if ( dsParams == null )
-				{
-					dsParams = designFactory.createDataSetParameters( );
-					designerValues.setDataSetParameters( dsParams );
-				}
 
-				EList params = dsParams.getParameterDefinitions( );
-				params.clear( );
-				params.addAll( resultList );
+				DataSetParameters adapterParams = SchemaConversionUtil
+						.convertToAdapterParameters( driverParams );
+				designerValues.setDataSetParameters( adapterParams );
 
-				clearReportParameterRelatedValues( params,
+				clearReportParameterRelatedValues(
+						adapterParams.getParameters( ),
 						setHandle.getModuleHandle( ) );
 			}
 		}
@@ -1018,15 +1027,16 @@ class DataSetAdapter extends AbstractDataAdapter
 	 * @param dsParams
 	 */
 
-	private static void clearReportParameterRelatedValues( EList params,
-			ModuleHandle module )
+	private static void clearReportParameterRelatedValues(
+			EList<DataSetParameter> params, ModuleHandle module )
 	{
 		if ( params == null )
 			return;
 
 		for ( int i = 0; i < params.size( ); i++ )
 		{
-			ParameterDefinition param = (ParameterDefinition) params.get( i );
+			DataSetParameter adapterParam = params.get( i );
+			ParameterDefinition param = adapterParam.getParameterDefinition( );
 
 			InputParameterAttributes paramAttrs = param.getInputAttributes( );
 			if ( paramAttrs == null )
@@ -1046,11 +1056,20 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			if ( module.findDataSet( setName ) != null )
 			{
+				// need to cache dynamic value query here. If the user breaks
+				// the relationship between data set parameter and report
+				// parameter. This cached value is used to update the dynamic
+				// value in the new data set design
+				
+				DynamicList cachedDynamic = ModelFactory.eINSTANCE
+						.createDynamicList( );
+				cachedDynamic.setDataSetName( setName );
+				cachedDynamic.setValueColumn( query.getValueColumn( ) );
+				cachedDynamic.setLabelColumn( query.getDisplayNameColumn( ) );
+
+				adapterParam.setDynamicList( cachedDynamic );
+
 				elementAttrs.setDynamicValueChoices( null );
-				// query.setDataSetDesign( null );
-				// query.setDisplayNameColumn( null );
-				// query.setValueColumn( null );
-				// query.setEnabled( false );
 			}
 		}
 	}
@@ -1152,7 +1171,8 @@ class DataSetAdapter extends AbstractDataAdapter
 			DataSetParameterAdapter setParamAdapter,
 			DataSetParameters cachedParameters ) throws SemanticException
 	{
-		List newParams = setParamAdapter.newROMSetParams( cachedParameters );
+		List newParams = setParamAdapter.newROMSetParams( SchemaConversionUtil
+				.convertToDesignParameters( cachedParameters ) );
 
 		// Merge all parameter list with data set handle.
 

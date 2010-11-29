@@ -3,20 +3,37 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.birt.report.model.adapter.oda/src"
     modelPluginID="org.eclipse.birt.report.model.adapter.oda" modelName="Model" importerID="org.eclipse.xsd.ecore.importer"
-    usedGenPackages="../../org.eclipse.datatools.connectivity.oda.design/model/odaDesignSession.genmodel#//design">
+    complianceLevel="5.0" copyrightFields="false" usedGenPackages="../../org.eclipse.datatools.connectivity.oda.design/model/odaDesignSession.genmodel#//design">
   <foreignModel>model.xsd</foreignModel>
   <genPackages prefix="Model" basePackage="org.eclipse.birt.report.model.adapter.oda"
       resource="XML" disposableProviderFactory="true" ecorePackage="model.ecore#/">
-    <genClasses ecoreClass="model.ecore#//DocumentRoot">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute model.ecore#//DocumentRoot/mixed"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//DocumentRoot/xMLNSPrefixMap"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//DocumentRoot/xSISchemaLocation"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//DocumentRoot/odaValues"/>
+    <genClasses ecoreClass="model.ecore#//DataSetParameter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DataSetParameter/parameterDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DataSetParameter/dynamicList"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//DataSetParameters">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DataSetParameters/parameter"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//DesignValues">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//DesignValues/version"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DesignValues/dataSetParameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DesignValues/dataSetParameters1"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DesignValues/resultSets"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DocumentRoot/dataSetParameter"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DocumentRoot/dataSetParameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DocumentRoot/designValues"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//DocumentRoot/dynamicList"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//DynamicList">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//DynamicList/dataSetName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//DynamicList/enabled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//DynamicList/labelColumn"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//DynamicList/valueColumn"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
