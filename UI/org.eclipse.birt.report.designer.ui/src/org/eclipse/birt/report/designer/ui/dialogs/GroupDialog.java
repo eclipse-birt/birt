@@ -1298,15 +1298,17 @@ public class GroupDialog extends BaseDialog implements Listener
 					if ( slotHandle.getContents( ).size( ) == 0 )
 					{
 						DataItemHandle dataItemHandle = inputGroup.getElementFactory( )
-						.newDataItem( null );
-						ComputedColumnHandle columnHandle =  (ComputedColumnHandle) columnList.get( index ) ;
+								.newDataItem( null );
+						ComputedColumnHandle columnHandle = (ComputedColumnHandle) columnList.get( index );
 						dataItemHandle.setResultSetColumn( columnHandle.getName( ) );
 						ColumnHintHandle hintHandle = findColumnHintHandle( columnHandle );
-						
+
 						StyleHandle styleHandle = dataItemHandle.getPrivateStyle( );
-						if (hintHandle != null)
+						if ( hintHandle != null )
 						{
-							InsertInLayoutUtil.formatDataHandleDataType( columnHandle.getDataType( ), hintHandle.getValueFormat( ), styleHandle );
+							InsertInLayoutUtil.formatDataHandleDataType( columnHandle.getDataType( ),
+									hintHandle.getValueFormat( ),
+									styleHandle );
 						}
 						slotHandle.add( dataItemHandle );
 					}
@@ -1319,8 +1321,14 @@ public class GroupDialog extends BaseDialog implements Listener
 			{
 				try
 				{
-					inputGroup.setIntervalRange( formatter.parse( intervalRange.getText( ) )
-							.doubleValue( ) );
+					if ( intervalRange.getText( ).trim( ).length( ) > 0 )
+					{
+						inputGroup.setIntervalRange( formatter.parse( intervalRange.getText( ) )
+								.doubleValue( ) );
+					}
+					else{
+						inputGroup.setIntervalRange( null );
+					}
 				}
 				catch ( ParseException e )
 				{
@@ -1363,15 +1371,16 @@ public class GroupDialog extends BaseDialog implements Listener
 		setResult( inputGroup );
 		super.okPressed( );
 	}
-	
-	private static ColumnHintHandle findColumnHintHandle(ComputedColumnHandle column)
+
+	private static ColumnHintHandle findColumnHintHandle(
+			ComputedColumnHandle column )
 	{
-		if (!(column.getElementHandle( ) instanceof ReportItemHandle))
+		if ( !( column.getElementHandle( ) instanceof ReportItemHandle ) )
 		{
 			return null;
 		}
-		DataSetHandle dataset = ((ReportItemHandle) column.getElementHandle( )).getDataSet( );
-		if (dataset == null)
+		DataSetHandle dataset = ( (ReportItemHandle) column.getElementHandle( ) ).getDataSet( );
+		if ( dataset == null )
 		{
 			return null;
 		}
