@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
@@ -392,8 +393,11 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		condition = new Group( contents, SWT.NONE );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		condition.setLayoutData( gdata );
-		glayout = GridLayoutFactory.createFrom( new GridLayout( ) ).spacing( 5,
-				0 ).numColumns( 5 ).equalWidth( false ).create( );
+		glayout = GridLayoutFactory.createFrom( new GridLayout( ) )
+				.spacing( 5, 0 )
+				.numColumns( 5 )
+				.equalWidth( false )
+				.create( );
 		condition.setLayout( glayout );
 		condition.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Group.Condition" ) ); //$NON-NLS-1$
 
@@ -774,7 +778,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 					Object arrays[] = (Object[]) obj;
 					if ( arrays.length == 1 && arrays[0] != null )
 					{
-						List valueList = ( (IUseCubeQueryList) arrays[0] ).getQueryList( getExpression( ),
+						List valueList = ( (IUseCubeQueryList) arrays[0] ).getQueryList( ExpressionUtility.getDataExpression( bindingName,
+								ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ),
 								(ExtendedItemHandle) reportItem );
 						selectValueList.addAll( valueList );
 					}
@@ -831,7 +836,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 	// }
 	// } );
 	//
-	//		
+	//
 	// Label label = new Label( titleArea, SWT.WRAP);
 	// label.setBackground( background );
 	// label.setFont( FontManager.getFont( label.getFont( ).toString( ),
@@ -840,12 +845,12 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 	//		label.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Title" ) ); //$NON-NLS-1$
 	// GridData gd = new GridData( );
 	// label.setLayoutData( gd );
-	//		
+	//
 	// Text messageLabel = new Text(titleArea, SWT.WRAP | SWT.READ_ONLY);
 	// JFaceColors.setColors(messageLabel, foreground, background);
 	//		messageLabel.setText(dlgDescription); // two lines//$NON-NLS-1$
 	// messageLabel.setFont(JFaceResources.getDialogFont());
-	//		
+	//
 	// // Label description = new Label( titleArea, SWT.WRAP );
 	// // description.setBackground( background );
 	// // description.setFont( FontManager.getFont( description.getFont( )
@@ -882,8 +887,8 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 
 		Button btn = new Button( wrapper, SWT.TOGGLE );
 		GridData gdata = new GridData( );
-		//gdata.widthHint = 22;
-		//gdata.heightHint = 22;
+		// gdata.widthHint = 22;
+		// gdata.heightHint = 22;
 		btn.setLayoutData( gdata );
 
 		return btn;
@@ -1269,23 +1274,23 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 			else
 			{
 				create2ValueComposite( operator.getParent( ) );
-//				if ( handle != null )
-//				{
-					if ( handle != null )
-					{
-						if ( handle.getValue1ExpressionList( ) != null
-								&& handle.getValue1ExpressionList( )
+				// if ( handle != null )
+				// {
+				if ( handle != null )
+				{
+					if ( handle.getValue1ExpressionList( ) != null
+							&& handle.getValue1ExpressionList( )
+									.getListValue( )
+									.size( ) > 0 )
+						ExpressionButtonUtil.initExpressionButtonControl( expressionValue1,
+								handle.getValue1ExpressionList( )
 										.getListValue( )
-										.size( ) > 0 )
-							ExpressionButtonUtil.initExpressionButtonControl( expressionValue1,
-									handle.getValue1ExpressionList( )
-											.getListValue( )
-											.get( 0 ) );
-						ExpressionButtonUtil.initExpressionButtonControl( expressionValue2,
-								handle,
-								StyleRule.VALUE2_MEMBER );
-					}
-				//}
+										.get( 0 ) );
+					ExpressionButtonUtil.initExpressionButtonControl( expressionValue2,
+							handle,
+							StyleRule.VALUE2_MEMBER );
+				}
+				// }
 
 			}
 
@@ -2195,10 +2200,10 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 				addBtn.setEnabled( false );
 				return;
 			}
-//			if ( value != null )
-//			{
-//				value = value.trim( );
-//			}
+			// if ( value != null )
+			// {
+			// value = value.trim( );
+			// }
 			if ( valueList.indexOf( ExpressionButtonUtil.getExpression( addExpressionValue ) ) < 0 )
 			{
 				addBtn.setEnabled( true );
