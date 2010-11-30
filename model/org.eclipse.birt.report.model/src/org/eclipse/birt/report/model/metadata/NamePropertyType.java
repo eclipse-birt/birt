@@ -138,7 +138,8 @@ public class NamePropertyType extends TextualPropertyType
 	 */
 	public static boolean isValidName( String value )
 	{
-		assert value != null;
+		if ( value == null )
+			return true;
 
 		// can not contain: / \ . ! ; ,
 		for ( int i = 0; i < value.length( ); i++ )
