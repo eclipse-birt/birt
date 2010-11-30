@@ -222,10 +222,14 @@ public class ExcelXmlWriter implements IExcelWriter
 	public void startRow( double rowHeight )
 	{
 		writer.openTag( "Row" );
-		writer.attribute( "ss:AutoFitHeight", 0 );
 		if ( rowHeight > 0 )
 		{
+			writer.attribute( "ss:AutoFitHeight", 0 );
 			writer.attribute( "ss:Height", rowHeight );
+		}
+		else
+		{
+			writer.attribute( "ss:AutoFitHeight", 1 );
 		}
 	}
 

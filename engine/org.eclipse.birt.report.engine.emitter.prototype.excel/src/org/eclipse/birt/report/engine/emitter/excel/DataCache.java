@@ -143,9 +143,8 @@ public class DataCache
 	public float getRowHeight( int rowIndex )
 	{
 		if ( rowIndex2Height.containsKey( rowIndex ) )
-			return Math.max( rowIndex2Height.get( rowIndex ),
-					ExcelLayoutEngine.DEFAULT_ROW_HEIGHT );
-		return ExcelLayoutEngine.DEFAULT_ROW_HEIGHT;
+			return rowIndex2Height.get( rowIndex );
+		return 0f;
 	}
 
 	public boolean hasRowHeight( int rowIndex )
