@@ -129,6 +129,8 @@ public abstract class BaseTestCase extends TestCase
 	protected static final String GOLDEN_FOLDER = "golden/"; //$NON-NLS-1$
 
 	protected static final ULocale TEST_LOCALE = new ULocale( "aa" ); //$NON-NLS-1$
+	
+	protected ReportDesignHandle beforeSerializedDesignHandle = null;
 
 	/*
 	 * @see TestCase#setUp()
@@ -176,6 +178,9 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void tearDown( ) throws Exception
 	{
+		if ( beforeSerializedDesignHandle != null )			
+			designHandle = beforeSerializedDesignHandle;
+			
 		if ( designHandle != null )
 			designHandle.close( );
 
@@ -1062,6 +1067,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void serializeDocument( ) throws Exception
 	{
+		ReportDesignHandle beforeSerializedDesignHandle = designHandle;
 		os = new ByteArrayOutputStream( );
 
 		ReportDesignSerializer visitor = new ReportDesignSerializer( );
@@ -1071,5 +1077,7 @@ public abstract class BaseTestCase extends TestCase
 		designHandle = (ReportDesignHandle) design.getHandle( design );
 
 		designHandle.serialize( os );
+		
+		this.beforeSerializedDesignHandle = beforeSerializedDesignHandle;
 	}
 }

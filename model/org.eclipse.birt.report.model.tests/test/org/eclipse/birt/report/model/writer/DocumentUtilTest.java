@@ -599,17 +599,4 @@ public class DocumentUtilTest extends BaseTestCase
 		assertTrue( compareFile( "DocumentUtilTest_golden_16.xml" ) ); //$NON-NLS-1$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.BaseTestCase#tearDown()
-	 */
-
-	protected void tearDown( ) throws Exception
-	{
-		designHandle = null;
-
-		super.tearDown( );
-	}
-
 }
