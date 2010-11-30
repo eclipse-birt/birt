@@ -70,8 +70,6 @@ public class ExcelLayoutEngine
 	protected static Logger logger = Logger.getLogger( ExcelLayoutEngine.class
 			.getName( ) );
 
-	public static final float DEFAULT_ROW_HEIGHT = 15;
-
 	// Excel 2007 can support 1048576 rows and 16384 columns.
 	private int autoBookmarkIndex = 0;
 
@@ -1102,8 +1100,7 @@ public class ExcelLayoutEngine
 				data.add( row[i] );
 			}
 			SheetData[] rowdata = new SheetData[data.size( )];
-			double rowHeight = Math.max( DEFAULT_ROW_HEIGHT,
-			                             page.getRowHeight( rowIndex - 1 ) );
+			double rowHeight = page.getRowHeight( rowIndex - 1 );
 			data.toArray( rowdata );
 			return new RowData( page, rowdata, rowHeight );
 		}
