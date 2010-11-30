@@ -575,8 +575,15 @@ public class AdapterUtil
 	{
 		String exprType = null;
 		if ( value instanceof String )
-			exprType = IExpressionType.CONSTANT;
-
+		{
+			if ( StringUtil.isBlank( (String) value ) )
+			{
+				exprType = IExpressionType.JAVASCRIPT;
+				value = "\"" + value + "\"";			 		
+			}
+			else
+				exprType = IExpressionType.CONSTANT;
+		}
 		if ( value instanceof CustomData )
 		{
 			CustomData customData = (CustomData) value;
