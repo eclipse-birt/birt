@@ -17,4 +17,4 @@ birtResourcesDefinition= 차트 웹 응용 프로그램 리소스 정의
 birt.action.importruntime.name=차트 런타임 구성 요소 가져오기(&C)...
 
 ##################Do not externalize the version number
-runtime.version=2.6.0
+runtime.version=4.0.0
