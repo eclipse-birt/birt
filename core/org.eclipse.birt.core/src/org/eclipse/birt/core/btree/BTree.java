@@ -544,7 +544,7 @@ public class BTree<K, V> implements BTreeConstants
 		}
 	}
 
-	BTreeNode<K, V> loadBTreeNode( int nodeId ) throws IOException
+	synchronized BTreeNode<K, V> loadBTreeNode( int nodeId ) throws IOException
 	{
 		BTreeNode<K, V> node = nodeCaches.get( nodeId );
 		if ( node != null )
