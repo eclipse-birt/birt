@@ -597,7 +597,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			// If dAxisMin or dAxisMax is not changed, do not set oMin or oMax
 			if ( dAxisMin != Double.MAX_VALUE
 					&& ( oMin == null || Double.compare( dAxisMin,
-							( (Number) oMin).doubleValue( ) ) < 1 ) )
+							( (Number) oMin).doubleValue( ) ) < 0 ) )
 			{
 				if ( isbignumber && !ax.isPercent( )  )
 				{
@@ -610,7 +610,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			}
 			if ( dAxisMax != -Double.MAX_VALUE
 					&& ( oMax == null || Double.compare( dAxisMax,
-							((Number) oMax ).doubleValue( ) ) > 1 ) )
+							((Number) oMax ).doubleValue( ) ) > 0 ) )
 			{
 				if ( isbignumber && !ax.isPercent( ) )
 				{
