@@ -558,12 +558,12 @@ public class ExcelUtil
 	}
 
 	// change the columnWidth unit from point to characterNumber
-	public static double convertColWidth( float width )
+	public static double convertColWidth( double width )
 	{
 		return convertColWidth( width, 96 );
 	}
 
-	public static double convertColWidth( float width, int dpi )
+	public static double convertColWidth( double width, int dpi )
 	{
 		float PX_PT = INCH_PT / dpi;
 		// TODO: more study about the caculation
