@@ -960,11 +960,11 @@ public class ExcelUtil
 					else if ( temp == '¤' )
 					{
 						String symbol = getCurrencySymbol( locale );
-						returnStr.append( "\"" ).append( symbol ).append( "\"" );
+						returnStr.append( symbol );
 					}
 					else if ( currencySymbol.indexOf( temp ) != -1 )
 					{
-						returnStr.append( "\"" ).append( temp ).append( "\"" );
+						returnStr.append( temp );
 					}
 					else
 					{
