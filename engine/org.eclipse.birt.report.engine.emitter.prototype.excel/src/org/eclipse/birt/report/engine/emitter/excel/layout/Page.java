@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 
 public class Page
 {
@@ -220,6 +221,17 @@ public class Page
 			buffer.append( "&"
 					+ StyleBuilder.convertFontSize( style
 							.getProperty( IStyle.STYLE_FONT_SIZE ) ) );
+		}
+		// 34276: solve the font color issue in master page header in XLS/XLSX
+		String color = style.getColor( );
+		if ( color != null )
+		{
+			int value = ColorUtil.parseColor( color );
+			if ( value >= 0 )
+			{
+				buffer.append( "&K" );
+				buffer.append( Integer.toHexString( value ) );
+			}
 		}
 	}
 
@@ -924,7 +936,7 @@ public class Page
 			{
 				continue;
 			}
-			if ( realData.getStartX( ) > lastRealData.getStartX( ) )
+			if ( realData.getEndX( ) > lastRealData.getStartX( ) )
 			{
 				return false;
 			}
