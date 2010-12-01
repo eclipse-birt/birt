@@ -960,11 +960,11 @@ public class ExcelUtil
 					else if ( temp == '¤' )
 					{
 						String symbol = getCurrencySymbol( locale );
-						returnStr.append( "\"" ).append( symbol ).append( "\"" );
+						returnStr.append( symbol );
 					}
 					else if ( currencySymbol.indexOf( temp ) != -1 )
 					{
-						returnStr.append( "\"" ).append( temp ).append( "\"" );
+						returnStr.append( temp );
 					}
 					else
 					{
@@ -1274,7 +1274,7 @@ public class ExcelUtil
 	{
 		// Make sure the name you entered does not exceed 31 characters.
 		// Make sure the name does not contain any of the following characters:
-		// \ / ? *: [ or ]
+		// \ / ? * : [ or ]
 		name = name.replaceAll( "[\\\\/?*:\\[\\] ]", "_" );
 		if ( name.length( ) > SHEETNAME_LENGTH )
 		{
