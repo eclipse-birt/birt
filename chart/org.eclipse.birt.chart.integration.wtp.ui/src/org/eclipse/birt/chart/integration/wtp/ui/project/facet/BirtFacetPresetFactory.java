@@ -56,7 +56,7 @@ public class BirtFacetPresetFactory implements IPresetFactory
 			final IProjectFacet birtFacet = ProjectFacetsManager
 					.getProjectFacet( "birt.chart.runtime" ); //$NON-NLS-1$
 
-			final IProjectFacetVersion chartFacetVersion = birtFacet.getVersion( "2.6.0" ); //$NON-NLS-1$
+			final IProjectFacetVersion chartFacetVersion = birtFacet.getVersion( "2.6.2" ); //$NON-NLS-1$
 
 			facets.add( chartFacetVersion );
 			facets.add( webFacetVersion );
