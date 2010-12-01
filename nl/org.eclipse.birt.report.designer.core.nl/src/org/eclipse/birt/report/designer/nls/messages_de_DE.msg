@@ -4804,4 +4804,4 @@ RenameInputDialog.Message.DuplicateName=Der Name ist bereits vorhanden.
 ###########################################################
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Untergeordnete Elemente anzeigen
-ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Brotkrume wechseln
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Toggle Breadcrumb
