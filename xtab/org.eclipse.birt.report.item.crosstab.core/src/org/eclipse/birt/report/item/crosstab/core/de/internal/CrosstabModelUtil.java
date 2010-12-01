@@ -53,7 +53,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 {
 
 	private static AggregationManager manager;
-	
+
 	private static ThreadLocal<ICrosstabModelListener> modelListener = new ThreadLocal<ICrosstabModelListener>( );
 
 	public static void setCrosstabModelListener( ICrosstabModelListener listener )
@@ -417,15 +417,17 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
 			String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 			column.setAggregateFunction( function != null ? function
-					:  defaultFunction);
-			
-			//When the function is not null,set the column set the correct data type
+					: defaultFunction );
+
+			// When the function is not null,set the column set the correct data
+			// type
 			if ( function != null && !function.equals( defaultFunction ) )
 			{
 				try
 				{
-					// reset the data type to default by the aggregatino function
-					
+					// reset the data type to default by the aggregatino
+					// function
+
 					String targetType = DataAdapterUtil.adapterToModelDataType( getAggregationManager( ).getAggregation( column.getAggregateFunction( ) )
 							.getDataType( ) );
 
@@ -439,12 +441,12 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					// do nothing;
 				}
 			}
-			
+
 			if ( rowLevel != null )
 			{
 				column.addAggregateOn( rowLevel );
 			}
-			
+
 			if ( colLevel != null )
 			{
 				column.addAggregateOn( colLevel );
@@ -471,14 +473,27 @@ public class CrosstabModelUtil implements ICrosstabConstants
 						.get( 0 );
 				dataItem.setResultSetColumn( columnHandle.getName( ) );
 			}
+			else
+			{
+				// try reset binding on first data item
+				// TODO should have better logic or move logic out
+				for ( Object item : cell.getContents( ) )
+				{
+					if ( item instanceof DataItemHandle )
+					{
+						( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
+						break;
+					}
+				}
+			}
 		}
 	}
 
 	private static AggregationManager getAggregationManager( )
 			throws BirtException
 	{
-		//TODO do we need release this?
-		
+		// TODO do we need release this?
+
 		if ( manager == null )
 		{
 			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
@@ -613,22 +628,24 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			{
 				String columnName = ( (DataItemHandle) content ).getResultSetColumn( );
 				ComputedColumnHandle columnHandle = crosstabModel.findColumnBinding( columnName );
-				
+
 				// TODO only update bindings already having a function. this is
 				// still bad, logic should be moved outside here.
-				
-				if ( columnHandle != null && columnHandle.getAggregateFunction( ) != null)
+
+				if ( columnHandle != null
+						&& columnHandle.getAggregateFunction( ) != null )
 				{
 					columnHandle.setAggregateFunction( function );
-					
+
 					try
 					{
-						// reset the data type to default by the aggregatino function
-						
+						// reset the data type to default by the aggregatino
+						// function
+
 						// TODO these binding creation/modification logic should
 						// be delegated to the caller context instead of
 						// hard-coded here.
-						
+
 						String targetType = DataAdapterUtil.adapterToModelDataType( getAggregationManager( ).getAggregation( function )
 								.getDataType( ) );
 
