@@ -143,7 +143,7 @@ public class DEUtil
 	private static final String XMLDATE_PATTERN_DATE_ONLY = "yyyy-MM-dd"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm"; //$NON-NLS-1$
 	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss"; //$NON-NLS-1$
-	private static final String DEFAULT_LIBRARY = "/resources/ThemesReportItems.rptlibrary"; //$NON-NLS-1$
+	public static final String DEFAULT_LIBRARY = "/resources/ThemesReportItems.rptlibrary"; //$NON-NLS-1$
 	private static List<String> paletteElementList = new ArrayList<String>( );
 
 	/**
@@ -3203,7 +3203,7 @@ public class DEUtil
 			return null;
 		}
 
-		final String libraryFileName;
+		String libraryFileName;
 		try
 		{
 			libraryFileName = FileLocator.resolve( url ).getPath( );
@@ -3212,6 +3212,12 @@ public class DEUtil
 		{
 			return null;
 		}
+		File file = new File(libraryFileName);
+		if (!file.exists( ))
+		{
+			return null;
+		}
+		libraryFileName = file.getAbsolutePath( );
 		try
 		{
 			return SessionHandleAdapter.getInstance( )
@@ -3293,7 +3299,7 @@ public class DEUtil
 				
 			}
 			
-			if (defaultFileName.equals(fileName  ))
+			if (new File(defaultFileName).getAbsolutePath( ).equals(new File(fileName).getAbsolutePath( )  ))
 			{
 				defaulthandle.close( );
 				return true;

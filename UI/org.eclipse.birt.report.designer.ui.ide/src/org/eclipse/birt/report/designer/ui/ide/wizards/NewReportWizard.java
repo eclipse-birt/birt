@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoice
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -638,7 +639,7 @@ public class NewReportWizard extends Wizard implements
 			//Support the default library
 			if (isUseDefaultLibrary)
 			{
-				UIUtil.includeLibrary( handle, library );
+				UIUtil.includeLibrary( handle, DEUtil.DEFAULT_LIBRARY );
 			}
 			// bidi_hcg end
 			handle.saveAs( file.getLocation( ).toOSString( ) );
