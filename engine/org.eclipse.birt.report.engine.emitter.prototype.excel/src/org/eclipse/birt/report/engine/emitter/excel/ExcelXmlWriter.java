@@ -354,7 +354,7 @@ public class ExcelXmlWriter implements IExcelWriter
 	}
 
 	private void writeAlignment( String horizontal, String vertical,
-			String direction, boolean wrapText )
+			float indent, String direction, boolean wrapText )
 	{
 		writer.openTag( "Alignment" );
 
@@ -367,7 +367,10 @@ public class ExcelXmlWriter implements IExcelWriter
 		{
 			writer.attribute( "ss:Vertical", vertical );
 		}
-
+		if ( indent != 0f )
+		{
+			writer.attribute( "ss:Indent", indent );	
+		}
 		if ( isValid( direction ) )
 		{
 			if ( CSSConstants.CSS_RTL_VALUE.equals( direction ) )
@@ -406,7 +409,7 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "Border" );
 	}
 
-	private void writeFont( String fontName, Integer size, Boolean bold,
+	private void writeFont( String fontName, Float size, Boolean bold,
 			Boolean italic, Boolean strikeThrough, Boolean underline,
 			Color color )
 	{
@@ -493,7 +496,10 @@ public class ExcelXmlWriter implements IExcelWriter
 					.getProperty( StyleConstant.H_ALIGN_PROP );
 			String verticalAlign = (String) style
 					.getProperty( StyleConstant.V_ALIGN_PROP );
-			writeAlignment( horizontalAlign, verticalAlign, direction, wrapText );
+			float indent = ExcelUtil.convertTextIndentToEM(
+					(String) style.getProperty( StyleConstant.TEXT_INDENT ),
+					(Float) style.getProperty( StyleConstant.FONT_SIZE_PROP ) );
+			writeAlignment( horizontalAlign, verticalAlign, indent, direction, wrapText );
 			writer.openTag( "Borders" );
 			Color bottomColor = (Color) style
 					.getProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP );
@@ -540,7 +546,7 @@ public class ExcelXmlWriter implements IExcelWriter
 
 			String fontName = (String) style
 					.getProperty( StyleConstant.FONT_FAMILY_PROP );
-			Integer size = (Integer) style
+			Float size = (Float) style
 					.getProperty( StyleConstant.FONT_SIZE_PROP );
 			Boolean fontStyle = (Boolean) style
 					.getProperty( StyleConstant.FONT_STYLE_PROP );

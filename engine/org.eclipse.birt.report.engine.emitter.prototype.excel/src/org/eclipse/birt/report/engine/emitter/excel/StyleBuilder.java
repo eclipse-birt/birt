@@ -136,6 +136,8 @@ public class StyleBuilder
 		
         entry.setProperty( StyleConstant.TEXT_TRANSFORM, style
 				.getTextTransform( ) );
+        
+		entry.setProperty( StyleConstant.TEXT_INDENT, style.getTextIndent( ) );
 
 		entry.setProperty( StyleConstant.DIRECTION_PROP, style
 				.getDirection( ) );
@@ -178,19 +180,18 @@ public class StyleBuilder
 		entry.setProperty( index, PropertyUtil.getColor( value ) );
 	}
 
-	public static Integer convertFontSize( CSSValue fontSize )
+	public static float convertFontSize( CSSValue fontSize )
 	{
 		int size = PropertyUtil.getDimensionValue( fontSize );
-		Integer fsize = null;
+		float fsize = 10f;
 		try
 		{
-			fsize = size / 1000;
+			fsize = size / 1000f;
 		}
 		catch ( NumberFormatException e )
 		{
 			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
-
 		return fsize;
 	}
 

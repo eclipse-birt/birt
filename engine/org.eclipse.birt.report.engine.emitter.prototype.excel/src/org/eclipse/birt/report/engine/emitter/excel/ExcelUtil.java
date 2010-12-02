@@ -724,7 +724,19 @@ public class ExcelUtil
 			return (int) ( value.convertTo( DimensionType.UNITS_PT ) * 1000 );
 		}
 	}
-
+	
+	public static float convertTextIndentToEM( String indent, float fontSize )
+	{
+		// the indent should have been converted into PT.
+		int index = indent.indexOf( "pt" );
+		if ( index != -1 )
+		{
+			String size = indent.substring( 0, index );
+			return Float.parseFloat( size ) / fontSize;
+		}
+		return 0f;
+	}
+	
 	public static String parse( Object txt, String dateTime, ULocale locale )
 	{
 		if ( dateTime == null )
