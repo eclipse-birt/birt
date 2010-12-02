@@ -15,7 +15,7 @@ import java.awt.Color;
 
 public interface StyleConstant {
     
-	public static final int COUNT = 35;
+	public static final int COUNT = 36;
     
     public static final int FONT_FAMILY_PROP = 0;
     public static final int FONT_SIZE_PROP = 1;
@@ -52,18 +52,19 @@ public interface StyleConstant {
     public static final int STRING_FORMAT_PROP = 24;
     public static final int DATA_TYPE_PROP = 25;
     public static final int TEXT_TRANSFORM = 26;
+    public static final int TEXT_INDENT = 27;
     
-    public static final int DIRECTION_PROP = 27; 
+    public static final int DIRECTION_PROP = 28; 
     
-    public static final int WHITE_SPACE = 28;
+    public static final int WHITE_SPACE = 29;
 
-	public static final int BORDER_DIAGONAL_COLOR_PROP = 29;
-	public static final int BORDER_DIAGONAL_STYLE_PROP = 30;
-	public static final int BORDER_DIAGONAL_WIDTH_PROP = 31;
+	public static final int BORDER_DIAGONAL_COLOR_PROP = 30;
+	public static final int BORDER_DIAGONAL_STYLE_PROP = 31;
+	public static final int BORDER_DIAGONAL_WIDTH_PROP = 32;
 
-	public static final int BORDER_ANTIDIAGONAL_COLOR_PROP = 32;
-	public static final int BORDER_ANTIDIAGONAL_STYLE_PROP = 33;
-	public static final int BORDER_ANTIDIAGONAL_WIDTH_PROP = 34;
+	public static final int BORDER_ANTIDIAGONAL_COLOR_PROP = 33;
+	public static final int BORDER_ANTIDIAGONAL_STYLE_PROP = 34;
+	public static final int BORDER_ANTIDIAGONAL_WIDTH_PROP = 35;
 
 	public static final String NULL = "NULL";  
 		
