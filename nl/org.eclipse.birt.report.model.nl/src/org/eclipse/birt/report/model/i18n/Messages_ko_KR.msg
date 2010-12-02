@@ -3399,9 +3399,9 @@ Element.DataMart.slot.dataSets=데이터 집합
 Element.DataMart.slot.cubes=큐브
 Element.DataMart.slot.parameters=매개 변수
 Element.DataMart.slot.dimensions=공유 차원
-Element.DataMart.enableACL=Enable data security
+Element.DataMart.enableACL=데이터 보안 설정 사용
 Element.DataMart.ACLExpression=ACL 식
-Element.DataMart.enableIncremetalUpdate=Enable incremetal update
+Element.DataMart.enableIncremetalUpdate=증분 업데이트 사용
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL = Data Mart URL

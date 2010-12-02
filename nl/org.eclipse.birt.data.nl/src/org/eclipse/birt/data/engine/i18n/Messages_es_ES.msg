@@ -437,5 +437,5 @@ data.derivedDataSet.invalidQueryText=Texto de consulta no válido.
 
 #data mart data source
 data.datamart.failLoadDataSet = Error al cargar el conjunto de datos de objeto de datos "{0}".
-data.datamart.originalDataSetNotExist = Incremental update failed. The original data set "{0}" does not exist.
-data.datamart.incrementalDatasetMetaDataError = Incremental update failed. The metadata of additional data set "{0}" is different from the original data set's. 
+data.datamart.originalDataSetNotExist = Error en la actualización incremental. El conjunto de datos original "{0}" no existe.
+data.datamart.incrementalDatasetMetaDataError = Error en la actualización incremental. Los metadatos del conjunto de datos original "{0}" son distintos del conjunto de datos originales. 

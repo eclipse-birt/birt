@@ -437,5 +437,5 @@ data.derivedDataSet.invalidQueryText=无效查询文本。
 
 #data mart data source
 data.datamart.failLoadDataSet = 无法加载数据对象数据集“{0}”。
-data.datamart.originalDataSetNotExist = Incremental update failed. The original data set "{0}" does not exist.
-data.datamart.incrementalDatasetMetaDataError = Incremental update failed. The metadata of additional data set "{0}" is different from the original data set's. 
+data.datamart.originalDataSetNotExist = 增量更新失败。 原始数据集“{0}”不存在。
+data.datamart.incrementalDatasetMetaDataError = 增量更新失败。 附加数据集“{0}”的元数据与原始数据集的元数据不同。 

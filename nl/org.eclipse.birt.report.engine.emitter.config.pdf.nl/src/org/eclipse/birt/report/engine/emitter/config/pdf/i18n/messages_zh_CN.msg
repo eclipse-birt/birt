@@ -30,11 +30,11 @@ OptionDisplayValue.RenderChartInSVG=以向量图形呈现图表
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=支持 BIDI。
-OptionDescription.TextWrapping=自动换行文本。
+OptionDescription.BidiProcessing=支持双向文本。
+OptionDescription.TextWrapping=表示文本是否可自动换行。
 OptionDescription.PageOverFlow=控制如何输出内容。
-OptionDescription.FontSubstitution=如果指定的字体无法显示字符，将自动选择字体。
-OptionDescription.EmbeddedFont=true-type 字体应嵌入到生成的 PDF 文件中。
+OptionDescription.FontSubstitution=指定的字体无法显示该字符时自动选择字体。
+OptionDescription.EmbeddedFont=TrueType 字体将嵌入到生成的 PDF 文件中。
 OptionDescription.ChartDpi=DPI 用于生成图表。
 OptionDescription.RenderChartInSVG=以向量图形呈现图表。
 

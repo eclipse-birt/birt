@@ -36,10 +36,10 @@ OptionDisplayValue.Color=Color
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Se utiliza el procesamiento de BIDI.
-OptionDescription.TextWrapping=El texto debe autoajustarse.
-OptionDescription.PageOverFlow=Controle cómo se va a mostrar el contenido.
-OptionDescription.FontSubstitution=Debe comprobar si el carácter existe en la fuente seleccionada.
+OptionDescription.BidiProcessing=Admite texto bidireccional.
+OptionDescription.TextWrapping=Indica si el texto se puede autoajustar.
+OptionDescription.PageOverFlow=Controla cómo se va a mostrar el contenido.
+OptionDescription.FontSubstitution=Selecciona fuentes automáticamente cuando la fuente especificada no puede mostrar el carácter.
 OptionDescription.Copies=Número de copias.
 OptionDescription.Collate=Intercalar.
 OptionDescription.Duplex=Doble cara.

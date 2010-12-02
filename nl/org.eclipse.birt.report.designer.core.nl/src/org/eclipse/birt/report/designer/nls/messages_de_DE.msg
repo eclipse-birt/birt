@@ -913,7 +913,7 @@ designer.preview.preference.bidiOrientation.ltr=Von links nach rechts
 designer.preview.preference.bidiOrientation.rtl=Von rechts nach links
 designer.preview.preference.updateParameter.confirmMessage=Aktualisierung bestätigen
 designer.preview.preference.updateParameter.confirmButton=Bei Aktualisierung von Ergebnis-/Parameterdesignattributen immer nach Bestätigung fragen
-designer.preview.preference.updateReportParameter.confirmButton=&Nie den Parameter des verknüpften Berichts aktualisieren und nie nach Bestätigung fragen.
+designer.preview.preference.updateReportParameter.confirmButton=&Nie den Parameter des verknüpften Berichts aktualisieren und nach Bestätigung fragen.
 
 designer.preview.previewaction.label.webviewer=Bericht in Web Viewer anzeigen
 designer.preview.previewaction.label=Bericht als {0} anzeigen

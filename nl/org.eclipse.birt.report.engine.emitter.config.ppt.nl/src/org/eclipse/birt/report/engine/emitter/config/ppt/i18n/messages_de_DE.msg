@@ -28,10 +28,10 @@ OptionDisplayValue.ChartDpi=Diagramm-DPI
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=BIDI-Verarbeitung wird verwendet.
-OptionDescription.TextWrapping=Text muss Zeilenumbrüche enthalten.
-OptionDescription.PageOverFlow=Legen Sie fest, wie der Inhalt ausgegeben wird.
-OptionDescription.FontSubstitution=Überprüfung erforderlich, ob die ausgewählte Schriftart das Zeichen unterstützt.
+OptionDescription.BidiProcessing=Unterstützt bidirektionalen Text.
+OptionDescription.TextWrapping=Gibt an, ob der Text Zeilenumbrüche enthält.
+OptionDescription.PageOverFlow=Legt fest, wie der Inhalt ausgegeben wird.
+OptionDescription.FontSubstitution=Wählt Schriftarten automatisch aus, wenn die angegebene Schriftart das Zeichen nicht darstellen kann.
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
 
 ###########################################################

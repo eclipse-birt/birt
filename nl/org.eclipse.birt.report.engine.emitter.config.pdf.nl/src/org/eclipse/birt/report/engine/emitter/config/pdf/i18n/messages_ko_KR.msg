@@ -30,11 +30,11 @@ OptionDisplayValue.RenderChartInSVG=벡터 그래픽 차트 렌더링
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=양방향을 지원합니다.
-OptionDescription.TextWrapping=텍스트를 줄 바꿈합니다.
+OptionDescription.BidiProcessing=양방향 텍스트를 지원합니다.
+OptionDescription.TextWrapping=텍스트 줄 바꿈 가능 여부를 나타냅니다.
 OptionDescription.PageOverFlow=내용 출력 방식을 제어합니다.
 OptionDescription.FontSubstitution=지정된 글꼴이 문자를 표시하지 못하는 경우 자동으로 글꼴을 선택합니다.
-OptionDescription.EmbeddedFont=트루타입 글꼴은 생성된 PDF 파일에 포함되어야 합니다.
+OptionDescription.EmbeddedFont=트루타입 글꼴은 생성된 PDF 파일에 포함됩니다.
 OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
 OptionDescription.RenderChartInSVG=벡터 그래픽 차트를 렌더링합니다.
 
