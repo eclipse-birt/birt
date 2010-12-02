@@ -83,9 +83,9 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider
 					MeasureViewHandle measure = (MeasureViewHandle) cell.getContainer( );
 					PropertyHandle property = cell.getModelHandle( )
 							.getContainerPropertyHandle( );
-					return measure.getModelHandle( )
+					return new CrosstabPropertyHandleWrapper( measure.getModelHandle( )
 							.getPropertyHandle( property.getPropertyDefn( )
-									.getName( ) );
+									.getName( ) ));
 				}
 				else if ( cell.getContainer( ) instanceof LevelViewHandle
 						|| cell.getContainer( ) instanceof CrosstabViewHandle
