@@ -36,10 +36,10 @@ OptionDisplayValue.Color=颜色
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=已使用 BIDI 处理。
-OptionDescription.TextWrapping=文本应自动换行。
+OptionDescription.BidiProcessing=支持双向文本。
+OptionDescription.TextWrapping=表示文本是否可自动换行。
 OptionDescription.PageOverFlow=控制如何输出内容。
-OptionDescription.FontSubstitution=需要检查所选字体中是否存在字符。
+OptionDescription.FontSubstitution=指定的字体无法显示该字符时自动选择字体。
 OptionDescription.Copies=份数。
 OptionDescription.Collate=逐份打印。
 OptionDescription.Duplex=双面打印。

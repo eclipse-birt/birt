@@ -3399,9 +3399,9 @@ Element.DataMart.slot.dataSets=Jeux de données
 Element.DataMart.slot.cubes=Cubes
 Element.DataMart.slot.parameters=Paramètres
 Element.DataMart.slot.dimensions=Dimensions partagées
-Element.DataMart.enableACL=Enable data security
+Element.DataMart.enableACL=Activer la sécurisation des données
 Element.DataMart.ACLExpression=Expression ACL
-Element.DataMart.enableIncremetalUpdate=Enable incremetal update
+Element.DataMart.enableIncremetalUpdate=Activer la mise à jour incrémentielle
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL = URL du DataMart

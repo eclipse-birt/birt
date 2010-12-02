@@ -30,11 +30,11 @@ OptionDisplayValue.RenderChartInSVG=Diagramm in Vektorgrafiken rendern
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Bidirektionale Unterstützung.
-OptionDescription.TextWrapping=Text mit Zeilenumbrüchen.
-OptionDescription.PageOverFlow=Legen Sie fest, wie der Inhalt ausgegeben wird.
-OptionDescription.FontSubstitution=Schriftarten automatisch wählen, wenn die angegebene Schriftart das Zeichen nicht darstellen kann.
-OptionDescription.EmbeddedFont=Die TrueType-Schrift muss in die erstellte PDF-Datei eingebettet werden.
+OptionDescription.BidiProcessing=Unterstützt bidirektionalen Text.
+OptionDescription.TextWrapping=Gibt an, ob der Text Zeilenumbrüche enthält.
+OptionDescription.PageOverFlow=Legt fest, wie der Inhalt ausgegeben wird.
+OptionDescription.FontSubstitution=Wählt Schriftarten automatisch aus, wenn die angegebene Schriftart das Zeichen nicht darstellen kann.
+OptionDescription.EmbeddedFont=Die TrueType-Schrift wird in die erstellte PDF-Datei eingebettet.
 OptionDescription.ChartDpi=DPI zum Erstellen von Diagrammen.
 OptionDescription.RenderChartInSVG=Diagramm in Vektorgrafiken rendern.
 

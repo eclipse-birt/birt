@@ -30,11 +30,11 @@ OptionDisplayValue.RenderChartInSVG=Procesar diagrama en los gráficos vectoriale
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Asistencia bidimensional.
-OptionDescription.TextWrapping=Autoajuste de texto.
-OptionDescription.PageOverFlow=Controle cómo se va a mostrar el contenido.
-OptionDescription.FontSubstitution=Seleccionar fuentes automáticamente si la fuente especificada no puede mostrar el carácter.
-OptionDescription.EmbeddedFont=La fuente de tipo true debe estar incrustada en el archivo PDF generado.
+OptionDescription.BidiProcessing=Admite texto bidireccional.
+OptionDescription.TextWrapping=Indica si el texto se puede autoajustar.
+OptionDescription.PageOverFlow=Controla cómo se va a mostrar el contenido.
+OptionDescription.FontSubstitution=Selecciona fuentes automáticamente cuando la fuente especificada no puede mostrar el carácter.
+OptionDescription.EmbeddedFont=La fuente de tipo true estará incrustada en el archivo PDF generado.
 OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
 OptionDescription.RenderChartInSVG=Procesar diagrama en los gráficos vectoriales.
 

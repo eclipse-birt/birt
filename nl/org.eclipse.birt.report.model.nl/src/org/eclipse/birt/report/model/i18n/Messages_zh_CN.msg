@@ -3399,9 +3399,9 @@ Element.DataMart.slot.dataSets=数据集
 Element.DataMart.slot.cubes=多维数据集
 Element.DataMart.slot.parameters=参数
 Element.DataMart.slot.dimensions=共享维
-Element.DataMart.enableACL=Enable data security
+Element.DataMart.enableACL=启用数据安全性
 Element.DataMart.ACLExpression=ACL 表达式
-Element.DataMart.enableIncremetalUpdate=Enable incremetal update
+Element.DataMart.enableIncremetalUpdate=启用增量更新
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL = Data mart URL

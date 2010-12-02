@@ -913,7 +913,7 @@ designer.preview.preference.bidiOrientation.ltr=Gauche à droite
 designer.preview.preference.bidiOrientation.rtl=Droite à gauche
 designer.preview.preference.updateParameter.confirmMessage=Confirmer la mise à jour
 designer.preview.preference.updateParameter.confirmButton=Toujours demander la confirmation lors de la mise à jour des attributs du modèle de jeux / paramètres de résultats.
-designer.preview.preference.updateReportParameter.confirmButton=&Ne jamais mettre à jour un paramètre d'état lié et ne jamais demander la confirmation.
+designer.preview.preference.updateReportParameter.confirmButton=&Ne jamais mettre à jour un paramètre d'état lié ni demander la confirmation.
 
 designer.preview.previewaction.label.webviewer=Afficher l'état dans le visualiseur Web
 designer.preview.previewaction.label=Afficher l''état au format {0}
@@ -4804,4 +4804,4 @@ RenameInputDialog.Message.DuplicateName=Un doublon existe déjà.
 ###########################################################
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Afficher les enfants
-ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Changer la suite de liens
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Toggle Breadcrumb

@@ -28,10 +28,10 @@ OptionDisplayValue.ChartDpi=グラフの DPI
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=双方向テキストの処理が使用されています。
-OptionDescription.TextWrapping=テキストを折り返す必要があります。
+OptionDescription.BidiProcessing=双方向テキストをサポートします。
+OptionDescription.TextWrapping=文字列を折り返すかどうかを示します。
 OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
-OptionDescription.FontSubstitution=選択したフォントにその文字が存在しているかどうかを確認する必要があります。
+OptionDescription.FontSubstitution=指定されたフォントで表示できない文字がある場合は、フォントを自動的に選択します。
 OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
 
 ###########################################################

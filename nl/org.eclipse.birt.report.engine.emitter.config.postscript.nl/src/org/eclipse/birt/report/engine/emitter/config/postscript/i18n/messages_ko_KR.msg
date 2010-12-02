@@ -36,10 +36,10 @@ OptionDisplayValue.Color=색
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=BIDI 처리를 사용합니다.
-OptionDescription.TextWrapping=텍스트를 줄 바꿈합니다.
+OptionDescription.BidiProcessing=양방향 텍스트를 지원합니다.
+OptionDescription.TextWrapping=텍스트 줄 바꿈 가능 여부를 나타냅니다.
 OptionDescription.PageOverFlow=내용 출력 방식을 제어합니다.
-OptionDescription.FontSubstitution=선택한 글꼴에 해당 문자가 있는지 확인해야 합니다.
+OptionDescription.FontSubstitution=지정된 글꼴이 문자를 표시하지 못하는 경우 자동으로 글꼴을 선택합니다.
 OptionDescription.Copies=인쇄 매수입니다.
 OptionDescription.Collate=한 부씩 인쇄합니다.
 OptionDescription.Duplex=양면 인쇄입니다.

@@ -28,10 +28,10 @@ OptionDisplayValue.ChartDpi=DPI de graphique
 
 ###########################################################
 #Option Description
-OptionDescription.BidiProcessing=Traitement BIDI utilisé.
-OptionDescription.TextWrapping=Un retour à la ligne est nécessaire.
-OptionDescription.PageOverFlow=Vérifiez comment répartir le contenu.
-OptionDescription.FontSubstitution=Vérification nécessaire pour savoir si le caractère existe dans la police sélectionnée.
+OptionDescription.BidiProcessing=Prend en charge le texte bidirectionnel.
+OptionDescription.TextWrapping=Indique si le retour à la ligne est autorisé pour le texte.
+OptionDescription.PageOverFlow=Contrôle le mode de répartition du contenu.
+OptionDescription.FontSubstitution=Sélectionne des polices automatiquement lorsque la police spécifiée ne peut pas afficher le caractère.
 OptionDescription.ChartDpi=DPI utilisé pour générer un graphique.
 
 ###########################################################
