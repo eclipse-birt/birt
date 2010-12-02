@@ -361,7 +361,8 @@ public class AdapterUtil
 		{
 			reportParam.setProperty(
 					IAbstractScalarParameterModel.VALUE_EXPR_PROP,
-					convertToColumnExpression( value ) );
+					convertToColumnExpression( value, reportParam,
+							IAbstractScalarParameterModel.VALUE_EXPR_PROP ) );
 		}
 
 		// the label need to follow the value expression
@@ -373,7 +374,8 @@ public class AdapterUtil
 		{
 			reportParam.setProperty(
 					IAbstractScalarParameterModel.LABEL_EXPR_PROP,
-					convertToColumnExpression( value ) );
+					convertToColumnExpression( value, reportParam,
+							IAbstractScalarParameterModel.LABEL_EXPR_PROP ) );
 		}
 
 	}
@@ -461,18 +463,29 @@ public class AdapterUtil
 	 *            the column convert
 	 * @return the ROM column expression converted.
 	 */
-	static Expression convertToColumnExpression( String columnExpr )
+	private static Expression convertToColumnExpression( String columnExpr,
+			AbstractScalarParameterHandle reportParam, String propName )
 	{
 		if ( StringUtil.isBlank( columnExpr ) ) // empty check
 			return null;
-		String columnName = getColumnName( columnExpr );
-		if ( StringUtil.isBlank( columnName ) )
+		Expression exprValue = (Expression) reportParam.getElement( )
+				.getProperty( reportParam.getModule( ), propName );
+		String type = IExpressionType.JAVASCRIPT;
+		if ( exprValue != null )
+			type = exprValue.getType( );
+		if ( IExpressionType.JAVASCRIPT.equals( type ) )
 		{
-			columnName = columnExpr;
+			String columnName = getColumnName( columnExpr );
+			if ( StringUtil.isBlank( columnName ) )
+			{
+				columnName = columnExpr;
+			}
+
+			return new Expression( ExpressionUtil
+					.createDataSetRowExpression( columnName ), type );
+
 		}
-		return new Expression( ExpressionUtil
-				.createDataSetRowExpression( columnName ),
-				IExpressionType.JAVASCRIPT );
+		return new Expression( columnExpr, type );
 	}
 
 	/**
