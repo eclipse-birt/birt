@@ -13,7 +13,6 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +38,6 @@ import org.eclipse.birt.report.designer.internal.ui.layout.FixTableLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
-import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -1042,38 +1040,11 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 	@Override
 	public boolean isinterestSelection( Object object )
 	{
-		List children = new ArrayList( );
-		List list = Arrays.asList( ProviderFactory.createProvider( getModel( ) )
-				.getChildren( getModel( ) ) );
-		children.addAll( list );
-		ExtendedItemHandle crossTabHandle = (ExtendedItemHandle) getModel( );
-		try
+		if ( Arrays.asList( ProviderFactory.createProvider( getModel( ) )
+				.getChildren( getModel( ) ) ).contains( object ) )
 		{
-			CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) crossTabHandle.getReportItem( );
-			if ( crossTab.getHeader( ) != null )
-				children.remove( crossTab.getHeader( ).getModelHandle( ) );
-
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				Object child = list.get( i );
-				Object[] temp = ProviderFactory.createProvider( child )
-						.getChildren( child );
-				if ( temp == null || temp.length == 0 )
-				{
-					children.remove( child );
-				}
-			}
-		}
-		catch ( ExtendedElementException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		if ( children.contains( object ) )
-		{
-			children.clear( );
 			return true;
 		}
-		children.clear( );
 		return super.isinterestSelection( object );
 	}
 }

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -60,18 +59,18 @@ public class CrossTabNodeProvider extends DefaultNodeProvider
 				list.add( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE )
 						.getModelHandle( ) );
 			else
-				list.add( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.COLUMNS_PROP ) );
+				list.add( new CrosstabPropertyHandleWrapper( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.COLUMNS_PROP ) ) );
 			if ( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ) != null )
 				list.add( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE )
 						.getModelHandle( ) );
 			else
-				list.add( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.ROWS_PROP ) );
+				list.add( new CrosstabPropertyHandleWrapper( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.ROWS_PROP ) ) );
 		}
 		catch ( ExtendedElementException e )
 		{
 			ExceptionUtil.handle( e );
 		}
-		list.add( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP ) );
+		list.add( new CrosstabPropertyHandleWrapper( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP ) ) );
 		return list.toArray( );
 	}
 
@@ -82,9 +81,11 @@ public class CrossTabNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-//		if ( model instanceof DesignElementHandle
-//				&& DEUtil.isLinkedElement( (DesignElementHandle) model ) )
-//			return CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_LINK_IMAGE );
-		return decorateImage( CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE ), model);
+		// if ( model instanceof DesignElementHandle
+		// && DEUtil.isLinkedElement( (DesignElementHandle) model ) )
+		// return CrosstabUIHelper.getImage(
+		// CrosstabUIHelper.CROSSTAB_LINK_IMAGE );
+		return decorateImage( CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE ),
+				model );
 	}
 }

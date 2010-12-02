@@ -18,9 +18,12 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.VirtualCrosstabCellFlowLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrosstabPropertyHandleWrapper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.gef.EditPolicy;
 
 /**
@@ -133,6 +136,22 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 		if ( object instanceof VirtualCrosstabCellAdapter
 				&& object == getModel( ) )
 			return true;
+		if ( object instanceof CrosstabPropertyHandleWrapper )
+		{
+			PropertyHandle property = ( (CrosstabPropertyHandleWrapper) object ).getModel( );
+			if ( ICrosstabReportItemConstants.ROWS_PROP.equals( property.getPropertyDefn( )
+					.getName( ) )
+					&& ( (VirtualCrosstabCellAdapter) getCrosstabCellAdapter( ) ).getType( ) == VirtualCrosstabCellAdapter.ROW_TYPE )
+				return true;
+			else if ( ICrosstabReportItemConstants.COLUMNS_PROP.equals( property.getPropertyDefn( )
+					.getName( ) )
+					&& ( (VirtualCrosstabCellAdapter) getCrosstabCellAdapter( ) ).getType( ) == VirtualCrosstabCellAdapter.COLUMN_TYPE )
+				return true;
+			else if ( ICrosstabReportItemConstants.MEASURES_PROP.equals( property.getPropertyDefn( )
+					.getName( ) )
+					&& ( (VirtualCrosstabCellAdapter) getCrosstabCellAdapter( ) ).getType( ) == VirtualCrosstabCellAdapter.MEASURE_TYPE )
+				return true;
+		}
 		return false;
 	}
 }

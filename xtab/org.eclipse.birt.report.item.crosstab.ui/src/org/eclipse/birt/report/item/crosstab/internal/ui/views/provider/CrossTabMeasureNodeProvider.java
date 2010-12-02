@@ -34,9 +34,9 @@ public class CrossTabMeasureNodeProvider extends DefaultNodeProvider
 	{
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		return new Object[]{
-				element.getPropertyHandle( IMeasureViewConstants.HEADER_PROP ),
-				element.getPropertyHandle( IMeasureViewConstants.DETAIL_PROP ),
-				element.getPropertyHandle( IMeasureViewConstants.AGGREGATIONS_PROP )
+				new CrosstabPropertyHandleWrapper( element.getPropertyHandle( IMeasureViewConstants.HEADER_PROP ) ),
+				new CrosstabPropertyHandleWrapper( element.getPropertyHandle( IMeasureViewConstants.DETAIL_PROP ) ),
+				new CrosstabPropertyHandleWrapper( element.getPropertyHandle( IMeasureViewConstants.AGGREGATIONS_PROP ) )
 		};
 
 	}
@@ -45,24 +45,26 @@ public class CrossTabMeasureNodeProvider extends DefaultNodeProvider
 			IMenuManager menu )
 	{
 		// do nothing
-		
+
 	}
-	
+
 	public Object getParent( Object model )
 	{
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		try
 		{
-			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem( ) ;
-			if(measure.getContainer( )!=null){
-				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle)measure.getContainer( );
-				return crossTab.getModelHandle( ).getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP );
+			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem( );
+			if ( measure.getContainer( ) != null )
+			{
+				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) measure.getContainer( );
+				return new CrosstabPropertyHandleWrapper( crossTab.getModelHandle( )
+						.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP ) );
 			}
 		}
 		catch ( ExtendedElementException e )
 		{
 		}
-		
+
 		return null;
 	}
 
@@ -76,8 +78,8 @@ public class CrossTabMeasureNodeProvider extends DefaultNodeProvider
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		try
 		{
-			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem( ) ;
-			return Messages.getString("CrossTabMeasureNodeProvider.Detail") + measure.getCubeMeasureName( ); //$NON-NLS-1$
+			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem( );
+			return Messages.getString( "CrossTabMeasureNodeProvider.Detail" ) + measure.getCubeMeasureName( ); //$NON-NLS-1$
 		}
 		catch ( ExtendedElementException e )
 		{
@@ -88,7 +90,8 @@ public class CrossTabMeasureNodeProvider extends DefaultNodeProvider
 	public Image getNodeIcon( Object element )
 	{
 		if ( element instanceof DesignElementHandle
-				&& ( (DesignElementHandle) element ).getSemanticErrors( ).size( ) > 0 )
+				&& ( (DesignElementHandle) element ).getSemanticErrors( )
+						.size( ) > 0 )
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}

@@ -43,7 +43,7 @@ public class CrosstabCellBreadcrumbNodeProvider extends
 		{
 			if ( editpart.getModel( ) instanceof VirtualCrosstabCellAdapter )
 			{
-				return (VirtualCrosstabCellAdapter) editpart.getModel( );
+				return element;
 			}
 			return ( (BaseCrosstabAdapter) editpart.getModel( ) ).getDesignElementHandle( );
 		}

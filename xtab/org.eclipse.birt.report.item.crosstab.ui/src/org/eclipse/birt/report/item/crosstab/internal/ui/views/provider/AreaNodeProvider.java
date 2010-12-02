@@ -13,7 +13,6 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.views.provider;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -22,12 +21,12 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
-public class AreaNodeProvider extends DefaultNodeProvider
+public class AreaNodeProvider extends CrosstabWrapperNodeProvider
 {
 
 	public Object[] getChildren( Object model )
 	{
-		PropertyHandle handle = (PropertyHandle) model;
+		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) model).getModel( );
 		String propertyName = handle.getPropertyDefn( ).getName( );
 		Object value = handle.getValue( );
 		if ( value == null )
@@ -59,7 +58,7 @@ public class AreaNodeProvider extends DefaultNodeProvider
 	
 	public Object getParent( Object model )
 	{
-		PropertyHandle handle = (PropertyHandle) model;
+		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) model).getModel( );
 		return handle.getElementHandle( );
 	}
 
@@ -70,7 +69,7 @@ public class AreaNodeProvider extends DefaultNodeProvider
 
 	public String getNodeDisplayName( Object element )
 	{
-		PropertyHandle handle = (PropertyHandle) element;
+		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) element).getModel( );
 		String propertyName = handle.getPropertyDefn( ).getName( );
 
 		if ( propertyName.equals( ICrosstabReportItemConstants.COLUMNS_PROP ) )
@@ -85,7 +84,7 @@ public class AreaNodeProvider extends DefaultNodeProvider
 
 	public Image getNodeIcon( Object element )
 	{
-		PropertyHandle handle = (PropertyHandle) element;
+		PropertyHandle handle = ((CrosstabPropertyHandleWrapper) element).getModel( );
 		String propertyName = handle.getPropertyDefn( ).getName( );
 
 		if ( propertyName.equals( ICrosstabReportItemConstants.COLUMNS_PROP ) )

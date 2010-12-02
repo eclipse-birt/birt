@@ -35,16 +35,17 @@ public class LibraryBreadcrumbNodeProvider extends
 	public boolean validate( Object element )
 	{
 		if ( getEditPart( element ) == null
-				|| getEditPart( element ) instanceof EmptyEditPart )
+		// || getEditPart( element ) instanceof EmptyEditPart
+		)
 			return false;
 		return true;
 	}
 
 	public EditPart getEditPart( Object element )
 	{
-		EditPart editPart = super.getEditPart( element );
-		if ( editPart == null || editPart instanceof EmptyEditPart )
-			return null;
+		// EditPart editPart = super.getEditPart( element );
+		// if ( editPart == null || editPart instanceof EmptyEditPart )
+		// return null;
 		return super.getEditPart( element );
 	}
 

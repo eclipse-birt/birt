@@ -18,7 +18,6 @@ import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.InsertCubeInLayoutAction;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -79,9 +78,10 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 
 		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator( ) ); //$NON-NLS-1$
 		IAction action = new RefreshAction( sourceViewer );
-		if (action.isEnabled( ))
+		if ( action.isEnabled( ) )
 		{
-			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", action ); //$NON-NLS-1$
+			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS
+					+ "-refresh", action ); //$NON-NLS-1$
 		}
 	}
 
@@ -108,8 +108,8 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 	{
 		CubeHandle handle = (CubeHandle) object;
 		return new Object[]{
-				handle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ),
-				handle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP )
+				new CrosstabPropertyHandleWrapper( handle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ) ),
+				new CrosstabPropertyHandleWrapper( handle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP ) )
 		};
 	}
 
@@ -148,7 +148,8 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-		
-		return decorateImage( UIHelper.getImage( BuilderConstants.IMAGE_CUBE ), model);
+
+		return decorateImage( UIHelper.getImage( BuilderConstants.IMAGE_CUBE ),
+				model );
 	}
 }

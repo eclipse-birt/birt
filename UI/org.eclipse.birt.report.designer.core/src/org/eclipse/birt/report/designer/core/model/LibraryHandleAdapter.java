@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.core.runtime.IAdaptable;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -108,7 +109,9 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter#getChildren()
+	 * @see
+	 * org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter
+	 * #getChildren()
 	 */
 	public List getChildren( )
 	{
@@ -142,6 +145,12 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 				handle = handle.getContainer( );
 			}
 
+		}
+		else if ( currentModel instanceof IAdaptable )
+		{
+			Object adapter = ( (IAdaptable) currentModel ).getAdapter( this.getClass( ) );
+			if ( adapter instanceof DesignElementHandle )
+				return getTopContainer( adapter );
 		}
 		return obj;
 	}

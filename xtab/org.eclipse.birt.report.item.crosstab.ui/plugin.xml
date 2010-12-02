@@ -45,6 +45,18 @@
             name="%command.name.createCube">
       </command>
    </extension>
+   
+  <extension
+      	point="org.eclipse.core.expressions.propertyTesters">
+   		<propertyTester
+         	class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrosstabPropertyHandleWrapperTypeTester"
+         	id="CrosstabProertyHandleWrapperTester"
+         	namespace="CrosstabPropertyHandleWrapper"
+         	properties="type"
+         	type="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrosstabPropertyHandleWrapper">
+   		</propertyTester>
+   </extension>
+   
    <extension
          point="org.eclipse.birt.report.designer.ui.elementAdapters">
          
@@ -192,8 +204,9 @@
       </adapter>	 
 	</adaptable>
 	
+	
 	  <adaptable
-         class="org.eclipse.birt.report.model.api.PropertyHandle">
+         class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrosstabPropertyHandleWrapper">
       	<adapter
             class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.AreaNodeProvider"
             id="Crosstab.Dimensions.NodeProvider"
@@ -203,15 +216,15 @@
                	<or>
               	 	<test 
               	 		forcePluginActivation="true" 
-              	 		property="PropertyHandle.name"
+              	 		property="CrosstabPropertyHandleWrapper.type"
                      	value="rows" />
                     <test 
                     	forcePluginActivation="true" 
-                    	property="PropertyHandle.name"
+                    	property="CrosstabPropertyHandleWrapper.type"
                     	value="columns" />
                      <test 
                     	forcePluginActivation="true" 
-                    	property="PropertyHandle.name"
+                    	property="CrosstabPropertyHandleWrapper.type"
                     	value="measures" />
                	</or>
         	</enablement>
@@ -220,7 +233,7 @@
 	
 	
 	<adaptable
-         class="org.eclipse.birt.report.model.api.PropertyHandle">
+         class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrosstabPropertyHandleWrapper">
       	<adapter
             class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.MeasureSubNodeProvider"
             id="Crosstab.Measure.NodeProvider"
@@ -230,15 +243,15 @@
                	<or>
               	 	<test 
               	 		forcePluginActivation="true" 
-              	 		property="PropertyHandle.name"
+              	 		property="CrosstabPropertyHandleWrapper.type"
                      	value="header" />
                     <test 
                     	forcePluginActivation="true" 
-                    	property="PropertyHandle.name"
+                    	property="CrosstabPropertyHandleWrapper.type"
                     	value="detail" />
                      <test 
                     	forcePluginActivation="true" 
-                    	property="PropertyHandle.name"
+                    	property="CrosstabPropertyHandleWrapper.type"
                     	value="aggregations" />
                	</or>
         	</enablement>
