@@ -108,8 +108,8 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 	{
 		CubeHandle handle = (CubeHandle) object;
 		return new Object[]{
-				new CrosstabPropertyHandleWrapper( handle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ) ),
-				new CrosstabPropertyHandleWrapper( handle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP ) )
+				handle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ) ,
+				handle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP ) 
 		};
 	}
 
