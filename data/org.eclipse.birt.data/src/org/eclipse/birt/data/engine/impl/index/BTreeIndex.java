@@ -189,10 +189,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			int cacheSize = 10000;
 			if( memoryBufferSize != 0 )
 			{
-				if( String.class.equals( keyDataType ) )
-					cacheSize = (int) ( memoryBufferSize / 100 );
-				else
-					cacheSize = (int) ( memoryBufferSize / ( SizeOfUtil.sizeOf( DataType.getDataType( this.keyDataType ) ) + 16 + 4 ));
+				cacheSize = (int) ( memoryBufferSize / ( SizeOfUtil.sizeOf( DataType.getDataType( this.keyDataType ) ) + 16 + 4 ));
 				sortedKeyRowID = new DiskSortedStack( cacheSize, false, false, KeyRowID.getCreator( ) );
 			}
 			else

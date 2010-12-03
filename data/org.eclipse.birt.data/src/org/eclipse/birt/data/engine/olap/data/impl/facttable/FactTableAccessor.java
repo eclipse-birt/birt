@@ -382,25 +382,11 @@ public class FactTableAccessor
 		int size = 0;
 		for( int i = 0; i < dataType.length; i++ )
 		{
-			if( dataType[i] == DataType.STRING_TYPE )
-			{
-				size += 40 + ( ( 20 + 1 ) / 4 ) * 8; //We can assume String values to average 20 characters each.
-			}
-			else
-			{
-				size += SizeOfUtil.sizeOf( dataType[i] );
-			}
+			size += SizeOfUtil.sizeOf( dataType[i] );
 		}
-		size += getArraySize( dataType.length );
+		size += SizeOfUtil.getArraySize( dataType.length );
 		
 		return size;
-	}
-	
-	private static int getArraySize( int length )
-	{
-		if( length == 0 )
-			return 0;
-		return 16 + ( 4 + length * 4 - 1 ) / 8 * 8;
 	}
 	
 	/**

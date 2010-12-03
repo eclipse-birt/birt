@@ -16,6 +16,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -26,25 +28,56 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  */
 public class SizeOfUtil
 {
-	private final static int INTEGER_SIZE = 16;
-	private final static int DOUBLE_SIZE = 16;
+	private static int INTEGER_SIZE = 16;
+	private static int DOUBLE_SIZE = 16;
 	private static int BIGDECIMAL_SIZE = 200;
-	private final static int DATE_SIZE = 24;
-	private final static int TIME_SIZE = 24;
-	private final static int SQL_DATE_SIZE = 24;
+	private static int DATE_SIZE = 24;
+	private static int TIME_SIZE = 24;
+	private static int SQL_DATE_SIZE = 24;
 	private static int TIMESTAMP_SIZE = 24;
+	private static int STRING_OVERHEAD = 40;
+	private static int STRING_SIZE = 40 + ( ( 20 + 1 ) / 4 ) * 8; //We can assume String values to average 20 characters each.;
+	
+	private static int POINTER_SIZE = 4;
 
 	// field count of result object
 	private int fieldCount = 0;
 	private boolean[] isfixedSize = null;
 	private int[] fieldSize = null;
 	
-	static {
+	static
+	{
 		if(System.getProperty( "java.version" ).startsWith( "1.5" ))
 		{
 			BIGDECIMAL_SIZE = 200;
 			TIMESTAMP_SIZE = 32;
 		}
+		
+		Object JVMBit = System.getProperty("sun.arch.data.model");
+		if( JVMBit != null )
+		{
+			try
+			{
+				if( DataTypeUtil.toInteger( JVMBit ) == 64 )
+				{
+					INTEGER_SIZE = 24;
+					DOUBLE_SIZE = 24;
+					BIGDECIMAL_SIZE = 216;
+					DATE_SIZE = 32;
+					TIME_SIZE = 32;
+					SQL_DATE_SIZE = 32;
+					TIMESTAMP_SIZE = 32;
+					STRING_OVERHEAD = 56;
+					STRING_SIZE = 56 + ( ( 20 + 1 ) / 4 ) * 8; //We can assume String values to average 20 characters each.;
+					POINTER_SIZE = 8;
+				}
+			}
+			catch (BirtException e)
+			{
+				
+			}
+		}
+		
 	}
 
 	/**
@@ -125,6 +158,10 @@ public class SizeOfUtil
 		{
 			return SizeOfUtil.SQL_DATE_SIZE;
 		}
+		else if ( objectClass.equals( String.class ) )
+		{
+			return SizeOfUtil.STRING_SIZE;
+		}
 		// Normally followed lines will never be arrived.
 		return 0;
 	}
@@ -155,8 +192,8 @@ public class SizeOfUtil
 				}
 			}
 		}
-		int fieldsSize = 16 + ( 4 + fieldCount * 4 - 1 ) / 8 * 8;
-		returnValue += 16 + ( 4 + fieldsSize - 1 ) / 8 * 8;
+		int fieldsSize = POINTER_SIZE * 2 + 8 + ( 4 + fieldCount * 4 - 1 ) / 8 * 8;
+		returnValue += POINTER_SIZE * 2 + 8 + ( 4 + fieldsSize - 1 ) / 8 * 8;
 		return returnValue;
 	}
 	
@@ -188,10 +225,17 @@ public class SizeOfUtil
 		}
 		else if ( dataType == DataType.STRING_TYPE )
 		{
-			return 80;
+			return SizeOfUtil.STRING_SIZE;
 		}
 		// Normally followed lines will never be arrived.
 		return 0;
+	}
+	
+	public static int getArraySize( int length )
+	{
+		if( length == 0 )
+			return 0;
+		return POINTER_SIZE * 2 + 8 + ( POINTER_SIZE + length * 4 - 1 ) / 8 * 8;
 	}
 
 	/**
@@ -210,12 +254,12 @@ public class SizeOfUtil
 		else if ( objectClass.equals( String.class ) )
 		{
 			int strLen = ( (String) object ).length( );
-			return 40 + ( ( strLen + 1 ) / 4 ) * 8;
+			return STRING_OVERHEAD + ( ( strLen + 1 ) / 4 ) * 8;
 		}
 		else if ( objectClass.equals( byte[].class ) )
 		{
 			int byteLen = ( (byte[]) object ).length;
-			return 16 + ( 4 + byteLen - 1 ) / 8 * 8;
+			return POINTER_SIZE * 2 + 8 + ( 4 + byteLen - 1 ) / 8 * 8;
 		}
 		else
 		{
