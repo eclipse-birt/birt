@@ -583,6 +583,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					extPropDefn.setDetails( detailType );
 					break;
 				case IPropertyType.ELEMENT_REF_TYPE :
+				case IPropertyType.LIST_TYPE :
 					extPropDefn.setDetails( detailType );
 					break;
 				case IPropertyType.ELEMENT_TYPE :
@@ -1021,10 +1022,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 					case IPropertyType.FLOAT_TYPE :
 					case IPropertyType.INTEGER_TYPE :
 					case IPropertyType.EXPRESSION_TYPE :
+					case IPropertyType.ELEMENT_REF_TYPE :
 						allowedSubPropertyTypes.add( propType );
-						break;
-					default :
-						break;
 				}
 			}
 

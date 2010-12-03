@@ -1232,6 +1232,25 @@ public class PeerExtensionTest extends BaseTestCase
 		assertTrue( compareFile( "PeerExtensionTest_golden_16.xml" ) );  //$NON-NLS-1$
 
 	}
+	
+	/**
+	 * Tests element reference type list property.
+ 
+	 * @throws Exception
+	 */
+
+	public void testElementRefListProperty( ) throws Exception
+	{
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+
+		IElementDefn elementDefn = dd.getExtension( TESTING_TABLE1 );
+		IPropertyDefn tmpDefn = elementDefn.getProperty( "elementRefList" ); //$NON-NLS-1$
+		assertTrue ( tmpDefn instanceof PropertyDefn );
+		PropertyDefn propDefn = (PropertyDefn) tmpDefn;
+		assertEquals( IPropertyType.LIST_TYPE, propDefn.getTypeCode( ) );
+		assertEquals( IPropertyType.ELEMENT_REF_TYPE, propDefn.getSubTypeCode( ) );
+		assertEquals( TABLE, propDefn.getTargetElementType( ).getName( ) );
+	}
 
 	private static class MyListener implements Listener
 	{
