@@ -683,18 +683,17 @@ public class Page
 			StyleEntry style = parent.getStyle( );
 			removeLeftBorder( style );
 			removeDiagonalLine( style );
-			addEmptyDataToContainer(	style, parent, childEndCoordinate,
-										parentEndCoordinate
-												- childEndCoordinate );
+			addEmptyDataToContainer( style, parent, childEndCoordinate,
+			                         parentEndCoordinate - childEndCoordinate );
 		}
 		if ( childStartCoordinate > parentStartCoordinate )
 		{
 			StyleEntry style = parent.getStyle( );
 			removeRightBorder( style );
 			removeDiagonalLine( style );
-			addEmptyDataToContainer(	style, parent, childStartCoordinate,
-										parentStartCoordinate
-												- childStartCoordinate );
+			addEmptyDataToContainer( style, parent, parentStartCoordinate,
+			                         childStartCoordinate
+			                                 - parentStartCoordinate );
 		}
 	}
 
@@ -825,7 +824,10 @@ public class Page
 					}
 				}
 				// if can't span the cell
-				else if ( upstair != null && isInContainer( upstair, rowContainer.getParent( ) ) && ( !upstair.isBlank( ) || ((BlankData)upstair).getType( ) == Type.VERTICAL ) )
+				else if ( upstair != null
+				        && isInContainer( upstair, rowContainer.getParent( ) )
+				        && ( !upstair.isBlank( ) || ( (BlankData) upstair )
+				                .getType( ) == Type.VERTICAL ) )
 				{
 					// pad up with empty data cells, with updated border
 					spanWithEmptyData( upstair, currentColumnIndex, rowspan );

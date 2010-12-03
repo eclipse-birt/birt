@@ -301,6 +301,15 @@ public class ExcelLayoutEngine
 		return columnStartCoordinates;
 	}
 
+	private boolean isRightAligned( XlsContainer currentContainer )
+	{
+		boolean isRightAligned = false;
+		String align = (String) currentContainer.getStyle( )
+		        .getProperty( StyleConstant.H_ALIGN_PROP );
+		isRightAligned = "Right".equalsIgnoreCase( align );
+		return isRightAligned;
+	}
+
 	private void createTable( ColumnsInfo tableInfo, IStyle style,
 			XlsContainer currentContainer, int[] columnStartCoordinates )
 	{
@@ -325,20 +334,48 @@ public class ExcelLayoutEngine
 	private int[] calculateColumnCoordinates( ColumnsInfo table,
 	        int startCoordinate, int endCoordinate, boolean autoExtend )
 	{
-		int columnCount = table != null ? table.getColumnCount( ) : 0;
-		int[] columnStartCoordinates = new int[columnCount + 1];
-		columnStartCoordinates[0] = startCoordinate;
-		for ( int i = 1; i <= columnCount; i++ )
+		XlsContainer currentContainer = getCurrentContainer( );
+		if ( table == null )
 		{
-			if ( !autoExtend
-			        && ( columnStartCoordinates[i - 1] + table
-			                .getColumnWidth( i - 1 ) ) > endCoordinate )
+			return new int[0];
+		}
+		int columnCount = table.getColumnCount( );
+		int totalWidth = 0;
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			totalWidth += table.getColumnWidth( i );
+		}
+		boolean overflow = totalWidth > endCoordinate - startCoordinate;
+		int[] columnStartCoordinates = new int[columnCount + 1];
+
+		// If right aligned, need to extend and the total column width exceeds
+		// the width of parent, the coordinates can be calculated same as left
+		// aligned.
+		if ( isRightAligned( currentContainer ) && !( overflow && autoExtend ) )
+		{
+			columnStartCoordinates[columnCount] = endCoordinate;
+			for ( int i = columnCount - 1; i >= 0; i-- )
 			{
-				columnStartCoordinates[i] = endCoordinate;
+				columnStartCoordinates[i] = Math
+				        .max( startCoordinate, columnStartCoordinates[i + 1]
+				                - table.getColumnWidth( i ) );
 			}
-			else
-				columnStartCoordinates[i] = columnStartCoordinates[i - 1]
-						+ table.getColumnWidth( i - 1 );
+		}
+		else
+		{
+			columnStartCoordinates[0] = startCoordinate;
+			for ( int i = 1; i <= columnCount; i++ )
+			{
+				if ( !autoExtend
+				        && ( columnStartCoordinates[i - 1] + table
+				                .getColumnWidth( i - 1 ) ) > endCoordinate )
+				{
+					columnStartCoordinates[i] = endCoordinate;
+				}
+				else
+					columnStartCoordinates[i] = columnStartCoordinates[i - 1]
+					        + table.getColumnWidth( i - 1 );
+			}
 		}
 		return columnStartCoordinates;
 	}
@@ -986,15 +1023,16 @@ public class ExcelLayoutEngine
 		{
 			double[] coordinates = page.getCoordinates( );
 			writer.startSheet( coordinates, page.getHeader( ),
-					page.getFooter( ), page.getSheetName( ) );
+			                   page.getFooter( ), page.getSheetName( ) );
 			while ( it.hasNext( ) )
 			{
 				outputRowData( page, it.next( ) );
 			}
 			writer.endSheet( coordinates, page.getOrientation( ),
-					context.getPageWidth( ), context.getPageHeight( ),
-					context.getLeftMargin( ), context.getRightMargin( ),
-					context.getTopMargin( ), context.getBottomMargin( ) );
+			                 context.getPageWidth( ), context.getPageHeight( ),
+			                 context.getLeftMargin( ),
+			                 context.getRightMargin( ),
+			                 context.getTopMargin( ), context.getBottomMargin( ) );
 		}
 	}
 
