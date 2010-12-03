@@ -247,6 +247,8 @@ structure, elementRef and element
                   </enumeration>
                   <enumeration value="expression">
                   </enumeration>
+                  <enumeration value="elementRef">
+                  </enumeration>
                </restriction>
             </simpleType>
          </attribute>
