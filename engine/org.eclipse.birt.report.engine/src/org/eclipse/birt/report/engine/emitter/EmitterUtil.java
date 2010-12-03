@@ -609,7 +609,7 @@ public class EmitterUtil
 	}
 
 	public static int[] resizeTableColumn( int tableWidth, int[] tblColumns,
-			int count, int totalAssigned )
+	        int count, int totalAssigned )
 	{
 		int remainWidth = tableWidth - totalAssigned;
 		int average = 0;
@@ -631,7 +631,8 @@ public class EmitterUtil
 				average = remainWidth / tblColumns.length;
 				for ( int i = 0; i < tblColumns.length; i++ )
 				{
-					tblColumns[i] += average;
+					tblColumns[i] = resize( tblColumns[i], totalAssigned,
+					                     remainWidth );
 				}
 			}
 		}
@@ -646,5 +647,10 @@ public class EmitterUtil
 			}
 		}
 		return tblColumns;
+	}
+
+	private static int resize( int width, int total, int left )
+	{
+		return Math.round( width + (float) width / (float) total * left );
 	}
 }
