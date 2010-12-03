@@ -183,7 +183,7 @@ public class StyleBuilder
 	public static float convertFontSize( CSSValue fontSize )
 	{
 		int size = PropertyUtil.getDimensionValue( fontSize );
-		float fsize = 10f;
+		float fsize = 0f;
 		try
 		{
 			fsize = size / 1000f;

@@ -727,12 +727,11 @@ public class ExcelUtil
 	
 	public static float convertTextIndentToEM( String indent, float fontSize )
 	{
-		// the indent should have been converted into PT.
-		int index = indent.indexOf( "pt" );
-		if ( index != -1 )
+		DimensionType size = DimensionType.parserUnit( indent );
+		float indentInPt = convertDimensionType( size, 0, 96 ) / 1000f;
+		if ( indentInPt != 0f )
 		{
-			String size = indent.substring( 0, index );
-			return Float.parseFloat( size ) / fontSize;
+			return indentInPt / fontSize;
 		}
 		return 0f;
 	}
