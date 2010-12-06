@@ -692,6 +692,7 @@ DataSetParameterPage.updateReportParameter.title=レポートパラメタ更新の設定
 DataSetParameterPage.updateReportParameter.message=データセットパラメタの設定を使用して、リンクされているレポートパラメタを更新しますか ?
 DataSetParameterPage.updateReportParameter.promptButtonYes=はい
 DataSetParameterPage.updateReportParameter.promptButtonNo=いいえ
+DataSetParameterPage.updateReportParameter.propmtText=Remember my decision
 
 PromptParameterDialog.title=デザイン属性の更新の確認
 PromptParameterDialog.okButton.text=適用
@@ -913,7 +914,10 @@ designer.preview.preference.bidiOrientation.ltr=左から右
 designer.preview.preference.bidiOrientation.rtl=右から左
 designer.preview.preference.updateParameter.confirmMessage=更新の確認
 designer.preview.preference.updateParameter.confirmButton=結果セットまたはパラメタのデザイン属性を更新する際に、常に確認メッセージを表示します。
-designer.preview.preference.updateReportParameter.confirmButton=リンクされているレポートパラメタを更新せず、確認メッセージを表示しない(&N)
+designer.preview.preference.updateReportParameter.confirmButton=&Do not prompt for confirmation to update a linked report parameter.
+designer.preview.preference.updateReportParameter.confirmOption.always=Al&ways:
+designer.preview.preference.updateReportParameter.confirmOption.update=&Update
+designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignore
 
 designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
 designer.preview.previewaction.label=レポートを {0} として表示する

@@ -692,6 +692,7 @@ DataSetParameterPage.updateReportParameter.title=报表参数更新设置
 DataSetParameterPage.updateReportParameter.message=是否要使用数据集参数的设置来更新链接报表参数?
 DataSetParameterPage.updateReportParameter.promptButtonYes=是
 DataSetParameterPage.updateReportParameter.promptButtonNo=否
+DataSetParameterPage.updateReportParameter.propmtText=Remember my decision
 
 PromptParameterDialog.title=确认更新设计属性
 PromptParameterDialog.okButton.text=应用
@@ -913,7 +914,10 @@ designer.preview.preference.bidiOrientation.ltr=从左到右
 designer.preview.preference.bidiOrientation.rtl=从右到左
 designer.preview.preference.updateParameter.confirmMessage=确认更新
 designer.preview.preference.updateParameter.confirmButton=更新结果集/参数设计属性时，始终提示确认。
-designer.preview.preference.updateReportParameter.confirmButton=永不更新链接报表参数和提示确认(&N)。
+designer.preview.preference.updateReportParameter.confirmButton=&Do not prompt for confirmation to update a linked report parameter.
+designer.preview.preference.updateReportParameter.confirmOption.always=Al&ways:
+designer.preview.preference.updateReportParameter.confirmOption.update=&Update
+designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignore
 
 designer.preview.previewaction.label.webviewer=在 Web 查看器中查看报表
 designer.preview.previewaction.label=以 {0} 格式查看报表
