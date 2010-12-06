@@ -12,7 +12,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 public interface ICubeInterceptor
 {
 
-	void preDefineCube( Map appContext, CubeHandle handle )
+	void preDefineCube( DataSessionContext appContext, CubeHandle handle )
 			throws BirtException;
 	
 	boolean needDefineCube( ) throws BirtException;

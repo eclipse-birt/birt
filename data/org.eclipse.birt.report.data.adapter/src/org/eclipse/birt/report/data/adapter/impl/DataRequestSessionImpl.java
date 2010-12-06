@@ -204,7 +204,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
 		if ( dataSetInterceptor != null )
 		{
-			dataSetInterceptor.preDefineDataSet( sessionContext.getAppContext( ), 
+			dataSetInterceptor.preDefineDataSet( sessionContext, 
 					dataEngine.getDataSourceDesign( design.getDataSourceName( )), 
 					design, 
 					getDataSessionContext().getModuleHandle() );
@@ -697,7 +697,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		ICubeInterceptor cubeInterceptor = CubeInterceptorFinder.find( cubeHandle );
 		if ( cubeInterceptor != null )
 		{
-			cubeInterceptor.preDefineCube( this.sessionContext.getAppContext( ),
+			cubeInterceptor.preDefineCube( this.sessionContext,
 					cubeHandle );
 			if ( this.cubeInterceptorList == null )
 			{
