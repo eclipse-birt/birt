@@ -221,7 +221,7 @@
         <adapter
               class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEEditputProvider"
               id="org.eclipse.birt.report.designer.ui.ide.editinput"
-              type="org.eclipse.birt.report.designer.ui.extensions.IEditputProvider">
+              type="org.eclipse.birt.report.designer.internal.ui.extension.IEditputProvider">
         </adapter>
      </adaptable>
    </extension>
