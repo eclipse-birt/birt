@@ -36,38 +36,11 @@ public class DataSetIteratorForTempPK implements IDatasetIterator
 	private int currRowNum = -1; //row.__rownum
 	
 	@SuppressWarnings("unchecked")
-	DataSetIteratorForTempPK( DataRequestSessionImpl session, IQueryDefinition query, Map appContext ) throws BirtException
+	DataSetIteratorForTempPK( int rowCount ) throws BirtException
 	{
-		IBinding b = new Binding( COUNT_BINDING_NAME );
-		b.setAggrFunction( IBuildInAggregation.TOTAL_COUNT_FUNC );
-		query.addBinding( b );
-		executeQuery( session, query, appContext );
+		this.rowCount = rowCount;
 	}
 	
-	/**
-	 * 
-	 * @param session
-	 * @param query
-	 * @param appContext
-	 * @throws AdapterException
-	 */
-	@SuppressWarnings("unchecked")
-	private void executeQuery( DataRequestSessionImpl session, IQueryDefinition query, Map appContext )
-			throws AdapterException
-	{
-		try
-		{
-			Scriptable scope = session.getScope( );
-			IResultIterator it = session.prepare( query, appContext ).execute( scope ).getResultIterator( );
-			rowCount = it.getInteger( COUNT_BINDING_NAME );
-			it.close( );
-		}
-		catch ( BirtException e )
-		{
-			throw new AdapterException( e.getLocalizedMessage( ), e );
-		}
-	}
-
 	public void close( ) throws BirtException
 	{
 		//nothing to do
