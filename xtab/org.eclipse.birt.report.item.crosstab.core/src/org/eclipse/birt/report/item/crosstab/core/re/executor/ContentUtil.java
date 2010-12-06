@@ -36,6 +36,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
@@ -875,7 +876,26 @@ class ContentUtil
 		MemberHandle prop = handle.getMember( name );
 		if ( prop != null )
 		{
-			return prop.getStringValue( );
+			Object value = prop.getContext( )
+					.getLocalValue( handle.getModule( ) );
+			if ( value != null )
+			{
+				return prop.getStringValue( );
+			}
+
+			// for highlight rule, reutrn the referred style local value
+			if ( handle instanceof HighlightRuleHandle )
+			{
+				StyleHandle styleHandle = ( (HighlightRuleHandle) handle ).getStyle( );
+				if ( styleHandle != null )
+				{
+					FactoryPropertyHandle propHandle = styleHandle.getFactoryPropertyHandle( name );
+					if ( propHandle != null )
+					{
+						return propHandle.getStringValue( );
+					}
+				}
+			}
 		}
 		return null;
 	}
