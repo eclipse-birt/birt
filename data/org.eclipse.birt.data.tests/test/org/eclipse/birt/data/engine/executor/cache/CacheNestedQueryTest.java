@@ -28,19 +28,19 @@ public class CacheNestedQueryTest extends NestedQueryTest
 	public void setUp( ) throws Exception
 	{
 		super.setUp( );
-		System.setProperty( "birt.data.engine.test.memcachesize", "2" );
+		System.setProperty( "birt.data.engine.test.memcachesize", "20000" );
 	}
 	
 	public void test6() throws Exception
 	{
-		System.setProperty( "birt.data.engine.test.memcachesize", "3" );
+		System.setProperty( "birt.data.engine.test.memcachesize", "20000" );
 		super.test6();
 	}
 	
 	protected Map getAppContext()
 	{
 		Map appContext = new HashMap();
-		appContext.put( "birt.data.engine.test.memcachesize", "500" );
+		appContext.put( "birt.data.engine.test.memcachesize", "20000" );
 		return appContext;
 	}
 	

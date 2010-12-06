@@ -25,7 +25,7 @@ public class CacheFeaturesTest extends FeaturesTest
 	protected Map getAppContext()
 	{
 		Map appContext = new HashMap();
-		appContext.put( "birt.data.engine.test.memcachesize", "450" );
+		appContext.put( "birt.data.engine.test.memcachesize", "20000" );
 		return appContext;
 	}
 }
