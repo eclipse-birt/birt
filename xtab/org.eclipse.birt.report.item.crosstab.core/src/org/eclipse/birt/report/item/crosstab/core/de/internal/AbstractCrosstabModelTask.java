@@ -27,7 +27,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
-import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -36,11 +35,8 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * AbstractCrosstabModelTask
@@ -1293,6 +1289,23 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 
 			CrosstabModelUtil.notifyValidate( ICrosstabModelListener.MEASURE_DETAIL,
 					detailCell );
+		}
+		else
+		{
+			// try reset binding on first data item
+			// TODO should have better logic or move logic out
+			for ( Object item : detailCell.getContents( ) )
+			{
+				if ( item instanceof DataItemHandle )
+				{
+					( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
+
+					CrosstabModelUtil.notifyValidate( ICrosstabModelListener.MEASURE_DETAIL,
+							detailCell );
+
+					break;
+				}
+			}
 		}
 	}
 
