@@ -1483,7 +1483,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 				dpa[i] = new DataPointHints( oDataBase,
 						oDataOrthogonal,
-						oDataAncillary,
+						seOrthogonal.getSeriesIdentifier( ),
 						percentileValue,
 						seOrthogonal.getDataPoint( ),
 						fsBase,
