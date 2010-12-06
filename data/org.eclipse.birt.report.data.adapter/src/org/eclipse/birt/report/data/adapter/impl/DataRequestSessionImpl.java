@@ -781,7 +781,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
 			throw new DataException( ResourceConstants.EXCEPTION_ERROR, e);
 		}
 	}
