@@ -52,4 +52,11 @@ public interface IDataServiceProvider
 	
 	void registerSession( DataSourceHandle handle, DataRequestSession session )
 			throws BirtException;
+	
+	/**
+	 * set free the resource registered in session.
+	 * @param session
+	 * @throws BirtException
+	 */
+	void unRegisterSession( DataRequestSession session ) throws BirtException;
 }

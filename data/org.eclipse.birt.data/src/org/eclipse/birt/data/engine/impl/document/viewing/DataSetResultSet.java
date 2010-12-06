@@ -55,6 +55,7 @@ public class DataSetResultSet implements IDataSetPopulator
 	private List<Integer> prefilteredRowIds;
 	private Map index;
 	private Map<String, StringTable> stringTableMap;
+	private boolean includeInnerID = true;
 
 	/**
 	 * @param inputStream
@@ -65,15 +66,35 @@ public class DataSetResultSet implements IDataSetPopulator
 			Set<Integer> prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
 			throws DataException
 	{
+		this( inputStream,
+				lensStream,
+				rsMetaData,
+				prefilteredRows,
+				stringTableMap,
+				index,
+				version,
+				true );
+	}
+	
+	/**
+	 * @param inputStream
+	 * @throws DataException 
+	 */
+	public DataSetResultSet( RAInputStream inputStream,
+			RAInputStream lensStream, IResultClass rsMetaData,
+			Set<Integer> prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
+			throws DataException
+	{
 		assert inputStream != null;
 		assert rsMetaData != null;
-		
+
 		this.inputStream = inputStream;
 		this.rowIndex = -1;
-		
-		this.dataSetRowLensStream = lensStream; 
-		if( lensStream!= null )
-			this.disRowLensStream = new DataInputStream( this.dataSetRowLensStream);
+		this.includeInnerID = includeInnerID;
+
+		this.dataSetRowLensStream = lensStream;
+		if ( lensStream != null )
+			this.disRowLensStream = new DataInputStream( this.dataSetRowLensStream );
 		try
 		{
 			this.initPos = this.inputStream.getOffset( );
@@ -81,16 +102,16 @@ public class DataSetResultSet implements IDataSetPopulator
 		catch ( IOException e )
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
 
-		this.rsMetaData = populateResultClass(rsMetaData);
-		//Notice we should use column count in original metadata
+		this.rsMetaData = populateResultClass( rsMetaData );
+		// Notice we should use column count in original metadata
 		this.colCount = rsMetaData.getFieldCount( );
-		
-		if( prefilteredRows != null )
+
+		if ( prefilteredRows != null )
 		{
-			this.prefilteredRowIds = new LinkedList<Integer>();
+			this.prefilteredRowIds = new LinkedList<Integer>( );
 			this.prefilteredRowIds.addAll( prefilteredRows );
 		}
 		if ( this.prefilteredRowIds != null )
@@ -108,14 +129,17 @@ public class DataSetResultSet implements IDataSetPopulator
 		{
 			list.add( meta.getFieldMetaData( i ) );
 		}
-		ResultFieldMetadata rfm = new ResultFieldMetadata( 0,
-				ExprMetaUtil.POS_NAME,
-				null,
-				Integer.class,
-				null,
-				true,
-				-1 );
-		list.add( rfm );
+		if ( includeInnerID )
+		{
+			ResultFieldMetadata rfm = new ResultFieldMetadata( 0,
+					ExprMetaUtil.POS_NAME,
+					null,
+					Integer.class,
+					null,
+					true,
+					-1 );
+			list.add( rfm );
+		}
 		return new ResultClass( list );
 	}
 
@@ -152,8 +176,11 @@ public class DataSetResultSet implements IDataSetPopulator
 						colCount,
 						this.stringTableMap,
 						this.index );
-				this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
-						this.getCurrentIndex( ) );
+				if ( this.includeInnerID )
+				{
+					this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
+							this.getCurrentIndex( ) );					
+				}
 			}
 			catch ( Exception e )
 			{
@@ -200,8 +227,11 @@ public class DataSetResultSet implements IDataSetPopulator
 							colCount,
 							this.stringTableMap,
 							this.index );
-					this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
-							this.getCurrentIndex( ) );
+					if ( this.includeInnerID )
+					{
+						this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
+								this.getCurrentIndex( ) );
+					}
 					return;
 				}
 			}

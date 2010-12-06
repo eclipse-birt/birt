@@ -341,12 +341,9 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 				}
 				addOutputColumnsPage( );
 				
-				if ( ExternalUIUtil.needUtilityPages( ds ) )
-				{
-					addComputedColumnsPage( );
-					addParametersPage( );
-					addFiltersPage( );
-				}
+				addComputedColumnsPage( );
+				addParametersPage( );
+				addFiltersPage( );
 				addResultSetPreviewPage( );
 			}
 		}

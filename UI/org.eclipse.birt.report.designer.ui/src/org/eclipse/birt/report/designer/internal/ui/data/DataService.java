@@ -94,6 +94,14 @@ public class DataService
 		}
 	}
 	
+	public void unRegisterSession( DataRequestSession session ) throws BirtException
+	{
+		if ( provider != null )
+		{
+			provider.unRegisterSession( session );
+		}
+	}
+	
 	public List getSelectValueList( Expression expression,
 			DataSetHandle dataSetHandle, boolean useDataSetFilter )
 			throws BirtException

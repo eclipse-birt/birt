@@ -239,6 +239,33 @@ public class RDLoad
 	}
 	
 	/**
+	 * Load data set with assignment of inner id.
+	 * @return
+	 * @throws DataException
+	 */
+	public DataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds, Map<String, StringTable> stringTableMap, Map index, boolean includeInnerID ) throws DataException
+	{
+		if( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE ) )
+			return null;
+		RAInputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
+	
+		RAInputStream lensStream = null;
+		if( version >= VersionManager.VERSION_2_2_1_3 )
+			lensStream = streamManager.getInStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
+		
+		DataSetResultSet populator = new DataSetResultSet( stream, lensStream, 
+				this.loadResultClass( ), preFilteredRowIds, stringTableMap, index, version, includeInnerID );
+
+		return populator;
+	}
+	
+	/**
 	 * @param streamPos
 	 * @param streamScope
 	 * @return

@@ -105,6 +105,7 @@ public class ExternalUIUtil
 			}
 			finally
 			{
+				DataService.getInstance( ).unRegisterSession( session );
 				session.shutdown( );
 				engineTask.close( );
 				engine.destroy( );
@@ -222,10 +223,5 @@ public class ExternalUIUtil
 	public static IPropertyPage[] getCommonPages( DataSetHandle ds )
 	{
 		return new IPropertyPage[0];
-	}
-
-	public static boolean needUtilityPages( DataSetHandle ds )
-	{
-		return true;
 	}
 }

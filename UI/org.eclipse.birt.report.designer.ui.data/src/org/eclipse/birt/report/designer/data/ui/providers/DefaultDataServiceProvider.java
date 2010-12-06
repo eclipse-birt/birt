@@ -19,12 +19,13 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.designer.data.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.data.ui.dataset.AppContextPopulator;
+import org.eclipse.birt.report.designer.data.ui.dataset.AppContextResourceReleaser;
 import org.eclipse.birt.report.designer.data.ui.dataset.ExternalUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.data.IDataServiceProvider;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
  * DefaultDataServiceProvider
@@ -88,6 +89,16 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 			session.getDataSessionContext( ).setAppContext( new HashMap( ) );
 		}
 		AppContextPopulator.populateApplicationContext( handle, session.getDataSessionContext( ).getAppContext( ) );
+	}
+	
+	public void unRegisterSession( DataRequestSession session )
+			throws BirtException
+	{
+		if ( session != null )
+		{
+			AppContextResourceReleaser.release( session.getDataSessionContext( )
+					.getAppContext( ) );
+		}
 	}
 	
 	public void updateColumnCache( DataSetHandle dataSetHandle,

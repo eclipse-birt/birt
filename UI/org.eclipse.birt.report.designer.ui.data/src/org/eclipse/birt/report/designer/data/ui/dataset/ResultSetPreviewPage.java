@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.eclipse.birt.report.data.adapter.impl.AppContextResourceReleaser;
 import org.eclipse.birt.report.data.adapter.impl.DataSetMetaDataHelper;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
@@ -263,6 +262,10 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		
 		// clear everything else
 		resultSetTable.removeAll( );
+		if( this.errorList!= null )
+		{
+			this.errorList.clear( );
+		}
 		
 		// Clear the columns
 		TableColumn[] columns = resultSetTable.getColumns( );
@@ -312,7 +315,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 					DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
 					handle = dsHandle.getModuleHandle( );
 					DataSetPreviewer previewer = new DataSetPreviewer(
-							dsHandle, getMaxRowPreference( ));
+							dsHandle, getMaxRowPreference( ), ( (DataSetEditor) getContainer( ) ) );
 					Map dataSetBindingMap = new HashMap( );
 					Map dataSourceBindingMap = new HashMap( );
 					Map appContext = new HashMap( );
