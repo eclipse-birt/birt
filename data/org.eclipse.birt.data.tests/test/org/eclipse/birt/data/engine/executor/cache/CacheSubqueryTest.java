@@ -24,7 +24,7 @@ public class CacheSubqueryTest extends SubQueryTest
 	protected Map getAppContext()
 	{
 		Map appContext = new HashMap();
-		appContext.put( "birt.data.engine.test.memcachesize", "250" );
+		appContext.put( "birt.data.engine.test.memcachesize", "20000" );
 		return appContext;
 	}
 }

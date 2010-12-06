@@ -25,7 +25,7 @@ public class CacheComputedColumnTest extends ComputedColumnTest
 	protected Map getAppContext()
 	{
 		Map appContext = new HashMap();
-		appContext.put( "birt.data.engine.test.memcachesize", "200" );
+		appContext.put( "birt.data.engine.test.memcachesize", "20000" );
 		return appContext;
 	}
 }
