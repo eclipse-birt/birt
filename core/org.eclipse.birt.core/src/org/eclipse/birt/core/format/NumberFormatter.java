@@ -191,9 +191,11 @@ public class NumberFormatter implements IFormatter
 			{
 				numberFormat = NumberFormat.getInstance( locale.toLocale( ) );
 				numberFormat.setGroupingUsed( false );
-				DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance( locale.toLocale( ) );
+				DecimalFormatSymbols symbols = new DecimalFormatSymbols( locale
+						.toLocale( ) );
 				decimalSeparator = symbols.getDecimalSeparator( );
-				decimalFormat = new DecimalFormat( "", symbols );//$NON-NLS-1$
+				decimalFormat = new DecimalFormat( "", //$NON-NLS-1$
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				decimalFormat.setMinimumIntegerDigits( 1 );
 				decimalFormat.setGroupingUsed( false );
 				roundPrecision = getRoundPrecision( numberFormat );
@@ -424,7 +426,6 @@ public class NumberFormatter implements IFormatter
 
 	private void handleSingleCharFormatString( char c )
 	{
-		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance( locale.toLocale( ) );
 		switch ( c )
 		{
 			case 'G' :
@@ -440,22 +441,26 @@ public class NumberFormatter implements IFormatter
 			case 'F' :
 			case 'f' :
 				realPattern = "#0.00"; //$NON-NLS-1$
-				numberFormat = new DecimalFormat( realPattern, symbols );
+				numberFormat = new DecimalFormat( realPattern, 
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'N' :
 			case 'n' :
 				realPattern = "###,##0.00"; //$NON-NLS-1$
-				numberFormat = new DecimalFormat( realPattern, symbols );
+				numberFormat = new DecimalFormat( realPattern,
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'P' :
 			case 'p' :
 				realPattern = "###,##0.00 %"; //$NON-NLS-1$
-				numberFormat = new DecimalFormat( realPattern, symbols );
+				numberFormat = new DecimalFormat( realPattern,
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			case 'E' :
 			case 'e' :
 				realPattern = "0.000000E00"; //$NON-NLS-1$
-				numberFormat = new DecimalFormat( realPattern, symbols );
+				numberFormat = new DecimalFormat( realPattern,
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				roundPrecision = -2;
 				return;
 			case 'X' :
@@ -468,7 +473,8 @@ public class NumberFormatter implements IFormatter
 				data[0] = c;
 				String str = new String( data );
 
-				numberFormat = new DecimalFormat( str, symbols );
+				numberFormat = new DecimalFormat( str,
+						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				return;
 			}
 		}
@@ -476,7 +482,7 @@ public class NumberFormatter implements IFormatter
 
 	private DecimalFormatSymbols getICUDecimalSymbols( Locale locale )
 	{
-		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance( locale );
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols( locale );
 		com.ibm.icu.text.DecimalFormatSymbols icuSymbols = new com.ibm.icu.text.DecimalFormatSymbols(
 				locale );
 		symbols.setCurrencySymbol( icuSymbols.getCurrencySymbol( ) );
@@ -524,7 +530,7 @@ public class NumberFormatter implements IFormatter
 			numberFormat.setGroupingUsed( false );
 			return;
 		}
-		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance( locale.toLocale( ) );
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols( locale.toLocale( ) );
 		if ( patternStr.equals( "Fixed" ) ) //$NON-NLS-1$
 		{
 			realPattern = "#0.00"; //$NON-NLS-1$
