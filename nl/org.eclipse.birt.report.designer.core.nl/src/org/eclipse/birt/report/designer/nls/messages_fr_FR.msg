@@ -692,6 +692,7 @@ DataSetParameterPage.updateReportParameter.title=Configuration de la mise à jour
 DataSetParameterPage.updateReportParameter.message=Voulez-vous mettre à jour le paramètre d'état lié avec les paramètres du jeu de données des réglages ?
 DataSetParameterPage.updateReportParameter.promptButtonYes=Oui
 DataSetParameterPage.updateReportParameter.promptButtonNo=Non
+DataSetParameterPage.updateReportParameter.propmtText=Remember my decision
 
 PromptParameterDialog.title=Confirmer la mise à jour des attributs de modèle
 PromptParameterDialog.okButton.text=Appliquer
@@ -913,7 +914,10 @@ designer.preview.preference.bidiOrientation.ltr=Gauche à droite
 designer.preview.preference.bidiOrientation.rtl=Droite à gauche
 designer.preview.preference.updateParameter.confirmMessage=Confirmer la mise à jour
 designer.preview.preference.updateParameter.confirmButton=Toujours demander la confirmation lors de la mise à jour des attributs du modèle de jeux / paramètres de résultats.
-designer.preview.preference.updateReportParameter.confirmButton=&Ne jamais mettre à jour un paramètre d'état lié ni demander la confirmation.
+designer.preview.preference.updateReportParameter.confirmButton=&Do not prompt for confirmation to update a linked report parameter.
+designer.preview.preference.updateReportParameter.confirmOption.always=Al&ways:
+designer.preview.preference.updateReportParameter.confirmOption.update=&Update
+designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignore
 
 designer.preview.previewaction.label.webviewer=Afficher l'état dans le visualiseur Web
 designer.preview.previewaction.label=Afficher l''état au format {0}

@@ -692,6 +692,7 @@ DataSetParameterPage.updateReportParameter.title=보고서 매개 변수 업데이트 설정
 DataSetParameterPage.updateReportParameter.message=데이터 집합 매개 변수 설정을 사용하여 연결된 보고서 매개 변수를 업데이트하시겠습니까?
 DataSetParameterPage.updateReportParameter.promptButtonYes=예
 DataSetParameterPage.updateReportParameter.promptButtonNo=아니오
+DataSetParameterPage.updateReportParameter.propmtText=Remember my decision
 
 PromptParameterDialog.title=디자인 특성 업데이트 확인
 PromptParameterDialog.okButton.text=적용
@@ -913,7 +914,10 @@ designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
 designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
 designer.preview.preference.updateParameter.confirmMessage=업데이트 실행 확인
 designer.preview.preference.updateParameter.confirmButton=결과 집합/매개 변수 디자인 특성을 업데이트할 때마다 항상 확인합니다.
-designer.preview.preference.updateReportParameter.confirmButton=연결된 보고서 매개 변수를 업데이트하지 않고 이에 대한 확인 메시지를 보지 않음(&N)
+designer.preview.preference.updateReportParameter.confirmButton=&Do not prompt for confirmation to update a linked report parameter.
+designer.preview.preference.updateReportParameter.confirmOption.always=Al&ways:
+designer.preview.preference.updateReportParameter.confirmOption.update=&Update
+designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignore
 
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기

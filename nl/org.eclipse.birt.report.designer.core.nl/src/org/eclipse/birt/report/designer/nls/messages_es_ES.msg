@@ -692,6 +692,7 @@ DataSetParameterPage.updateReportParameter.title=Ajuste de actualización de pará
 DataSetParameterPage.updateReportParameter.message=¿Desea actualizar el parámetro del informe vinculado con los ajustes de los parámetros del conjunto de datos?
 DataSetParameterPage.updateReportParameter.promptButtonYes=Sí
 DataSetParameterPage.updateReportParameter.promptButtonNo=No
+DataSetParameterPage.updateReportParameter.propmtText=Remember my decision
 
 PromptParameterDialog.title=Confirmar atributos de diseño de actualización
 PromptParameterDialog.okButton.text=Aplicar
@@ -913,7 +914,10 @@ designer.preview.preference.bidiOrientation.ltr=De izquierda a derecha
 designer.preview.preference.bidiOrientation.rtl=De derecha a izquierda
 designer.preview.preference.updateParameter.confirmMessage=Confirmar actualización
 designer.preview.preference.updateParameter.confirmButton=Solicitar siempre confirmación antes de actualizar los atributos de diseño de parámetros/conjunto de resultados.
-designer.preview.preference.updateReportParameter.confirmButton=&No actualizar nunca un parámetro del informe vinculado ni solicitar confirmación.
+designer.preview.preference.updateReportParameter.confirmButton=&Do not prompt for confirmation to update a linked report parameter.
+designer.preview.preference.updateReportParameter.confirmOption.always=Al&ways:
+designer.preview.preference.updateReportParameter.confirmOption.update=&Update
+designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignore
 
 designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}
