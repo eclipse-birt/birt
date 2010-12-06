@@ -1019,6 +1019,11 @@ public class ExecutionContext
 	public void setReportContent( ReportContent content )
 	{
 		this.reportContent = content;
+		if ( contentErrors.size( ) > 0 )
+		{
+			reportContent.getErrors( ).addAll( contentErrors );
+			contentErrors.clear( );
+		}
 		content.setReportContext( reportContext );
 	}
 
@@ -1143,6 +1148,8 @@ public class ExecutionContext
 	 * A list of errors in time order, it is also shared by the report content
 	 */
 	private List<EngineException> errors = new ArrayList<EngineException>( );
+	
+	private List<ElementExceptionInfo> contentErrors = new ArrayList<ElementExceptionInfo>( );
 	/**
 	 * The exception list grouped by the element
 	 */
@@ -1169,32 +1176,36 @@ public class ExecutionContext
 			return;
 		}
 
-		if ( reportContent != null )
+		EngineException engineEx = null;
+		if ( ex instanceof EngineException )
 		{
-			EngineException engineEx = null;
-			if ( ex instanceof EngineException )
+			engineEx = (EngineException) ex;
+		}
+		else
+		{
+			engineEx = new EngineException( ex );
+		}
+		if ( element != null )
+		{
+			engineEx.setElementID( element.getID( ) );
+		}
+		errors.add( engineEx );
+
+		ElementExceptionInfo exInfo = (ElementExceptionInfo) elementExceptions.get( element );
+		if ( exInfo == null )
+		{
+			exInfo = new ElementExceptionInfo( element );
+			elementExceptions.put( element, exInfo );
+			if ( reportContent != null )
 			{
-				engineEx = (EngineException) ex;
+				reportContent.getErrors( ).add( exInfo );
 			}
 			else
 			{
-				engineEx = new EngineException( ex );
+				contentErrors.add( exInfo );
 			}
-			if ( element != null )
-			{
-				engineEx.setElementID( element.getID( ) );
-			}
-			errors.add( engineEx );
-
-			ElementExceptionInfo exInfo = (ElementExceptionInfo) elementExceptions.get( element );
-			if ( exInfo == null )
-			{
-				exInfo = new ElementExceptionInfo( element );
-				elementExceptions.put( element, exInfo );
-				reportContent.getErrors( ).add( exInfo );
-			}
-			exInfo.addException( engineEx );
 		}
+		exInfo.addException( engineEx );
 
 		if ( cancelOnError && task != null )
 		{
