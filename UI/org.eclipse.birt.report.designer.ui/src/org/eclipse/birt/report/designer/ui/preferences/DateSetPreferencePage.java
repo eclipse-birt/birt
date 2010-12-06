@@ -22,6 +22,8 @@ import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -46,6 +48,9 @@ public class DateSetPreferencePage extends PreferencePage implements
 	private IntegerFieldEditor maxRowEditor;
 	private Button promptButton;
 	private Button paramUpdatePromptButton;
+	private Button updateButton;
+	private Button ignoreButton;
+	private Label alwaysLabel;
 
 	/** default value of max number */
 	public static final int DEFAULT_MAX_ROW = 500;
@@ -59,8 +64,11 @@ public class DateSetPreferencePage extends PreferencePage implements
 	public static final String USER_MAX_NUM_OF_SCHEMA = "user_max_num_of_schema"; //$NON-NLS-1$
 	public static final String USER_MAX_NUM_OF_TABLE_EACH_SCHEMA = "user_max_num_of_table_each_schema"; //$NON-NLS-1$
 
-	public static final String PROMPT_ENABLE = "prompt_enable";
-	public static final String PROMPT_PARAM_UPDATE = "reportParam_update_enable";
+	public static final String PROMPT_ENABLE = "prompt_enable";//$NON-NLS-1$
+	public static final String PROMPT_PARAM_UPDATE = "reportParam_update_enable";//$NON-NLS-1$
+	public static final String PROMPT_PARAM_UPDATE_OPTION = "reportParam_update_enable_option";//$NON-NLS-1$
+	public static final String PROMPT_PARAM_UPDATE_OPTION_UPDATE = "update";//$NON-NLS-1$
+	public static final String PROMPT_PARAM_UPDATE_OPTION_IGNORE = "ignore";//$NON-NLS-1$
 	
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
@@ -140,6 +148,67 @@ public class DateSetPreferencePage extends PreferencePage implements
 				.getBoolean( PROMPT_PARAM_UPDATE );
 		paramUpdatePromptButton.setSelection( enableParamUpdate );
 		paramUpdatePromptButton.setText( Messages.getString( "designer.preview.preference.updateReportParameter.confirmButton" ) );
+	
+		paramUpdatePromptButton.addSelectionListener( new SelectionListener(){
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( paramUpdatePromptButton.getSelection( ) )
+				{
+					updateButton.setEnabled( true );
+					ignoreButton.setEnabled( true );
+					alwaysLabel.setEnabled( true );
+				}
+				else
+				{
+					updateButton.setEnabled( false );
+					ignoreButton.setEnabled( false );
+					alwaysLabel.setEnabled( false );
+				}
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+		});
+		
+		Composite com = new Composite( promptPageGroup, SWT.NONE );
+		GridLayout gd = new GridLayout( );
+		gd.numColumns = 3;
+		com.setLayout( gd );
+		alwaysLabel = new Label( com, SWT.NONE );
+		alwaysLabel.setText( Messages.getString( "designer.preview.preference.updateReportParameter.confirmOption.always" ) );
+		updateButton = new Button( com, SWT.RADIO );
+		updateButton.setText( Messages.getString( "designer.preview.preference.updateReportParameter.confirmOption.update" ) );
+		ignoreButton = new Button( com, SWT.RADIO );
+		ignoreButton.setText( Messages.getString( "designer.preview.preference.updateReportParameter.confirmOption.ignore" ) );
+		
+		if( enableParamUpdate )
+		{
+			alwaysLabel.setEnabled( true );
+			updateButton.setEnabled( true );
+			ignoreButton.setEnabled( true );
+		}
+		else
+		{
+			updateButton.setEnabled( false );
+			ignoreButton.setEnabled( false );
+			alwaysLabel.setEnabled( false );
+		}
+		
+		String option = ReportPlugin.getDefault( )
+		.getPluginPreferences( )
+		.getString( PROMPT_PARAM_UPDATE_OPTION );
+		
+		if ( PROMPT_PARAM_UPDATE_OPTION_UPDATE.equals( option ) || option.equals( "" ))
+		{
+			updateButton.setSelection( true );
+			ignoreButton.setSelection( false );
+		}
+		else if ( PROMPT_PARAM_UPDATE_OPTION_IGNORE.equals( option ) )
+		{
+			ignoreButton.setSelection( true );
+			updateButton.setSelection( false );
+		}
 		
 		return mainComposite;
 	}
@@ -160,6 +229,11 @@ public class DateSetPreferencePage extends PreferencePage implements
 		maxRowEditor.setStringValue( String.valueOf( DEFAULT_MAX_ROW ) );
 		promptButton.setSelection( false );
 		paramUpdatePromptButton.setSelection( false );
+		alwaysLabel.setEnabled( false );
+		updateButton.setEnabled( false );
+		ignoreButton.setEnabled( false );
+		updateButton.setSelection( true );
+		ignoreButton.setSelection( false );
 		
 		super.performDefaults( );
 	}
@@ -179,6 +253,16 @@ public class DateSetPreferencePage extends PreferencePage implements
 				.getPluginPreferences( )
 				.setValue( PROMPT_PARAM_UPDATE,
 						paramUpdatePromptButton.getSelection( ) );
+		if ( updateButton.getSelection( ) )
+			ReportPlugin.getDefault( )
+					.getPluginPreferences( )
+					.setValue( PROMPT_PARAM_UPDATE_OPTION,
+							PROMPT_PARAM_UPDATE_OPTION_UPDATE );
+		else if ( ignoreButton.getSelection( ) )
+			ReportPlugin.getDefault( )
+					.getPluginPreferences( )
+					.setValue( PROMPT_PARAM_UPDATE_OPTION,
+							PROMPT_PARAM_UPDATE_OPTION_IGNORE );
 
 		ReportPlugin.getDefault( ).savePluginPreferences( );
 
