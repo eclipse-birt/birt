@@ -22,7 +22,7 @@ public interface IDataSetInterceptor
 	 * @param moduleHandle
 	 * @throws BirtException
 	 */
-	void preDefineDataSet( Map appContext,
+	void preDefineDataSet( DataSessionContext appContext,
 			IBaseDataSourceDesign dsource,
 			IBaseDataSetDesign dset,
 			ModuleHandle moduleHandle ) throws BirtException;
