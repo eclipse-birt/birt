@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.AggrHolderManager;
@@ -63,6 +64,8 @@ public class CachedResultSet implements IResultIterator
 	private static String className = CachedResultSet.class.getName( );
 	private static Logger logger = Logger.getLogger( className ); 
 	private AggrHolderManager aggrHolderManager = new AggrHolderManager();
+	private IResultClass resultClass;
+	
 	/**
 	 * Nothing, only for new an instance, needs to be used with care. Currently
 	 * it is only used in report document saving when there is no data set.
@@ -302,11 +305,12 @@ public class CachedResultSet implements IResultIterator
 				streamsWrapper.getStreamForResultClass( ) != null )
 		{
 			//If autobinding is set, all the data set columns should be saved.
-			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-					( this.resultSetPopulator.getQuery( ).getQueryDefinition( )!= null && ((IQueryDefinition) this.resultSetPopulator.getQuery( )
-							.getQueryDefinition( )).needAutoBinding( )) ? null
-							: resultSetPopulator.getEventHandler( )
-									.getAllColumnBindings( ), streamsWrapper.getStreamManager( ).getVersion( ) );
+			( (ResultClass) populateResultClass( this.resultSetPopulator.getResultSetMetadata( ) ) ).doSave( streamsWrapper.getStreamForResultClass( ),
+					( this.resultSetPopulator.getQuery( ).getQueryDefinition( ) != null && ( (IQueryDefinition) this.resultSetPopulator.getQuery( )
+							.getQueryDefinition( ) ).needAutoBinding( ) )
+							? null : resultSetPopulator.getEventHandler( )
+									.getAllColumnBindings( ),
+					streamsWrapper.getStreamManager( ).getVersion( ) );
 			try
 			{
 				streamsWrapper.getStreamForResultClass( ).close( );
@@ -355,6 +359,22 @@ public class CachedResultSet implements IResultIterator
 										StreamManager.BASE_SCOPE ) );
 			}
 		}
+	}
+	
+	private IResultClass populateResultClass( IResultClass meta )
+			throws DataException
+	{
+		if( resultClass== null )
+		{
+			List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>( );
+			for ( int i = 1; i <= meta.getFieldCount( ); i++ )
+			{
+				if ( !meta.getFieldName( i ).equals( ExprMetaUtil.POS_NAME ) )
+					list.add( meta.getFieldMetaData( i ) );
+			}
+			resultClass = new ResultClass( list );			
+		}
+		return resultClass;
 	}
 
 	static private boolean isSummaryQuery( BaseQuery query )

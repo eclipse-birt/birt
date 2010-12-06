@@ -46,7 +46,7 @@ public class DataSetPreviewer
 		ReportParameterUtil.completeParamDefalutValues( task, dataSetHandle.getModuleHandle( ) );
 	}
 	
-	public DataSetPreviewer( DataSetHandle dataSetHandle, int maxRow )
+	public DataSetPreviewer( DataSetHandle dataSetHandle, int maxRow, DataSetEditor container )
 	{
 		this.dataSetHandle = dataSetHandle;
 		this.maxRow = maxRow;

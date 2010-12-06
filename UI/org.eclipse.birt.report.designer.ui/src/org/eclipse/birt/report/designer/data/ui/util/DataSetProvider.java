@@ -210,78 +210,85 @@ public final class DataSetProvider
 			DataSetHandle dataSetHandle, DataRequestSession session )
 			throws BirtException
 	{
-		DataService.getInstance( ).registerSession( dataSetHandle, session );
-		IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
-				false );
-		if ( metaData == null )
-			return new DataSetViewData[0];
-		DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount( )];
-
-		for ( int i = 0; i < metaData.getColumnCount( ); i++ )
+		try
 		{
-			items[i] = new DataSetViewData( );
-			items[i].setName( metaData.getColumnName( i + 1 ) );
-			items[i].setDataTypeName( DataAdapterUtil.adapterToModelDataType( metaData.getColumnType( i + 1 ) ) );
-			items[i].setAlias( metaData.getColumnAlias( i + 1 ) );
-			items[i].setComputedColumn( metaData.isComputedColumn( i + 1 ) );
-			items[i].setPosition( i + 1 );
-			items[i].setDataType( metaData.getColumnType( i + 1 ) );
-			ColumnHintHandle hint = findColumnHint( dataSetHandle,
-					items[i].getName( ) );
-			if ( hint != null )
+			DataService.getInstance( ).registerSession( dataSetHandle, session );
+			IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
+					false );
+			if ( metaData == null )
+				return new DataSetViewData[0];
+			DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount( )];
+
+			for ( int i = 0; i < metaData.getColumnCount( ); i++ )
 			{
-				if ( !items[i].isComputedColumn( ) )
+				items[i] = new DataSetViewData( );
+				items[i].setName( metaData.getColumnName( i + 1 ) );
+				items[i].setDataTypeName( DataAdapterUtil.adapterToModelDataType( metaData.getColumnType( i + 1 ) ) );
+				items[i].setAlias( metaData.getColumnAlias( i + 1 ) );
+				items[i].setComputedColumn( metaData.isComputedColumn( i + 1 ) );
+				items[i].setPosition( i + 1 );
+				items[i].setDataType( metaData.getColumnType( i + 1 ) );
+				ColumnHintHandle hint = findColumnHint( dataSetHandle,
+						items[i].getName( ) );
+				if ( hint != null )
 				{
-					items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ),
-							items[i].getDataTypeName( ),
-							hint.getAnalysis( ) ) );
-					if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( hint.getAnalysis( ) ) )
+					if ( !items[i].isComputedColumn( ) )
 					{
-						items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
+						items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ),
+								items[i].getDataTypeName( ),
+								hint.getAnalysis( ) ) );
+						if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( hint.getAnalysis( ) ) )
+						{
+							items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
+						}
+						else
+						{
+							items[i].setAnalysisColumn( null );
+						}
 					}
 					else
 					{
+						items[i].setAnalysis( hint.getAnalysis( ) );
+						items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
+					}
+					items[i].setDisplayName( hint.getDisplayName( ) );
+					items[i].setDisplayNameKey( hint.getDisplayNameKey( ) );
+					items[i].setACLExpression( hint.getACLExpression( ) );
+					items[i].setFormat( hint.getFormat( ) );
+					items[i].setDisplayLength( hint.getDisplayLength( ) );
+					items[i].setHeading( hint.getHeading( ) );
+					items[i].setHelpText( hint.getHelpText( ) );
+					items[i].setFormatValue( hint.getValueFormat( ) );
+					items[i].setHorizontalAlign( hint.getHorizontalAlign( ) );
+					items[i].setTextFormat( hint.getTextFormat( ) );
+					items[i].setDescription( hint.getDescription( ) );
+					items[i].setWordWrap( hint.wordWrap( ) );
+					items[i].setIndexColumn( hint.isIndexColumn( ) );
+					items[i].setRemoveDuplicateValues( hint.isCompressed( ) );
+				}
+				else
+				{
+					if ( items[i].isComputedColumn( ) )
+					{
+						items[i].setAnalysis( null );
+						items[i].setAnalysisColumn( null );
+					}
+					else
+					{
+						items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ),
+								items[i].getDataTypeName( ),
+								null ) );
 						items[i].setAnalysisColumn( null );
 					}
 				}
-				else
-				{
-					items[i].setAnalysis( hint.getAnalysis( ) );
-					items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
-				}
-				items[i].setDisplayName( hint.getDisplayName( ) );
-				items[i].setDisplayNameKey( hint.getDisplayNameKey( ) );
-				items[i].setACLExpression( hint.getACLExpression( ) );
-				items[i].setFormat( hint.getFormat( ) );
-				items[i].setDisplayLength( hint.getDisplayLength( ) );
-				items[i].setHeading( hint.getHeading( ) );
-				items[i].setHelpText( hint.getHelpText( ) );
-				items[i].setFormatValue( hint.getValueFormat( ) );
-				items[i].setHorizontalAlign( hint.getHorizontalAlign( ) );
-				items[i].setTextFormat( hint.getTextFormat( ) );
-				items[i].setDescription( hint.getDescription( ) );
-				items[i].setWordWrap( hint.wordWrap( ) );
-				items[i].setIndexColumn( hint.isIndexColumn( ) );
-				items[i].setRemoveDuplicateValues( hint.isCompressed( ) );
 			}
-			else
-			{
-				if ( items[i].isComputedColumn( ) )
-				{
-					items[i].setAnalysis( null );
-					items[i].setAnalysisColumn( null );
-				}
-				else
-				{
-					items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ),
-							items[i].getDataTypeName( ),
-							null ) );
-					items[i].setAnalysisColumn( null );
-				}
-			}
+			updateModel( dataSetHandle, items );
+			return items;
 		}
-		updateModel( dataSetHandle, items );
-		return items;
+		finally
+		{
+			DataService.getInstance( ).unRegisterSession( session );
+		}
 	}
 
 	public String getDefaultAnalysisType( String columnName, String dataType,

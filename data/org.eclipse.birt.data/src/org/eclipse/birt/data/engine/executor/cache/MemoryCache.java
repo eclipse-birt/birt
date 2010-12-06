@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StringTable;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -176,7 +177,7 @@ public class MemoryCache implements ResultSetCache
 		{
 			// save data
 			int rowCount = this.resultObjects.length;
-			int colCount = this.rsMeta.getFieldCount( );
+			int colCount = getColumnCount( this.rsMeta );
 
 			IOUtil.writeInt( dos, rowCount );
 			long offset = 4;
@@ -193,6 +194,23 @@ public class MemoryCache implements ResultSetCache
 		{
 			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
 		}
+	}
+
+	private int getColumnCount( IResultClass meta )
+			throws DataException
+	{
+		int count = meta.getFieldCount( );
+		if ( meta != null )
+		{
+			for ( int i = 1; i <= meta.getFieldCount( ); i++ )
+			{
+				if ( meta.getFieldName( i ).equals( ExprMetaUtil.POS_NAME ) )
+				{
+					count--;
+				}
+			}
+		}
+		return count;
 	}
 
 	/*

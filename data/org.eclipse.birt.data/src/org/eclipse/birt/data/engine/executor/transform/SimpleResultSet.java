@@ -17,6 +17,8 @@ package org.eclipse.birt.data.engine.executor.transform;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
@@ -37,6 +40,7 @@ import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -64,6 +68,7 @@ public class SimpleResultSet implements IResultIterator
 	private long rowCountOffset = 0;
 	private Set resultSetNameSet = null;
 	private IBaseQueryDefinition query;
+	private IResultClass resultClass;
 	
 	/**
 	 * 
@@ -235,9 +240,10 @@ public class SimpleResultSet implements IResultIterator
 
 		if ( streamsWrapper.getStreamForResultClass( ) != null )
 		{
-			( (ResultClass) getResultClass( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
+			( (ResultClass) populateResultClass( getResultClass( ) ) ).doSave( streamsWrapper.getStreamForResultClass( ),
 					( this.query instanceof IQueryDefinition && ( (IQueryDefinition) this.query ).needAutoBinding( ) )
-							? null : this.handler.getAllColumnBindings( ), streamsWrapper.getStreamManager( ).getVersion( ) );
+							? null : this.handler.getAllColumnBindings( ),
+					streamsWrapper.getStreamManager( ).getVersion( ) );
 		}
 		try
 		{
@@ -257,6 +263,21 @@ public class SimpleResultSet implements IResultIterator
 		}
 	}
 
+	private IResultClass populateResultClass( IResultClass meta )
+			throws DataException
+	{
+		if( resultClass == null )
+		{
+			List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>( );
+			for ( int i = 1; i <= meta.getFieldCount( ); i++ )
+			{
+				if ( !meta.getFieldName( i ).equals( ExprMetaUtil.POS_NAME ) )
+					list.add( meta.getFieldMetaData( i ) );
+			}
+			resultClass = new ResultClass( list );
+		}
+		return resultClass;
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#first(int)
@@ -404,7 +425,7 @@ public class SimpleResultSet implements IResultIterator
 			{
 				if ( dataSetStream != null )
 				{
-					int colCount = this.currResultObj.getResultClass( )
+					int colCount = this.populateResultClass( this.currResultObj.getResultClass( ) )
 							.getFieldCount( );
 					IOUtil.writeLong( dataSetLenStream, offset );
 
