@@ -13,17 +13,15 @@ package org.eclipse.birt.core.format;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.icu.text.DecimalFormat;
-import com.ibm.icu.text.DecimalFormatSymbols;
-import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -96,20 +94,6 @@ public class NumberFormatter implements IFormatter
 	private boolean digitSubstitution;
 
 	private RoundingMode roundingMode = RoundingMode.HALF_UP;
-	
-	private static Map<RoundingMode, Integer> adapters = new HashMap<RoundingMode, Integer>( );
-
-	static
-	{
-		adapters.put( RoundingMode.CEILING, BigDecimal.ROUND_CEILING );
-		adapters.put( RoundingMode.UP, BigDecimal.ROUND_UP );
-		adapters.put( RoundingMode.HALF_UP, BigDecimal.ROUND_HALF_UP );
-		adapters.put( RoundingMode.HALF_EVEN, BigDecimal.ROUND_HALF_EVEN );
-		adapters.put( RoundingMode.HALF_DOWN, BigDecimal.ROUND_HALF_DOWN );
-		adapters.put( RoundingMode.FLOOR, BigDecimal.ROUND_FLOOR );
-		adapters.put( RoundingMode.DOWN, BigDecimal.ROUND_DOWN );
-		adapters.put( RoundingMode.UNNECESSARY, BigDecimal.ROUND_UNNECESSARY );
-	}
 
 	/**
 	 * constructor with no argument
@@ -207,7 +191,6 @@ public class NumberFormatter implements IFormatter
 			{
 				numberFormat = NumberFormat.getInstance( locale.toLocale( ) );
 				numberFormat.setGroupingUsed( false );
-				numberFormat.setMaximumFractionDigits( Integer.MAX_VALUE );
 				DecimalFormatSymbols symbols = new DecimalFormatSymbols( locale
 						.toLocale( ) );
 				decimalSeparator = symbols.getDecimalSeparator( );
@@ -335,6 +318,17 @@ public class NumberFormatter implements IFormatter
 				num = 0;
 			}
 
+			if ( this.formatPattern == null )
+			{
+				long longValue = Math.round( num );
+				if( longValue == num )
+				{
+					return Long.toString( longValue );
+				}
+				String result = Double.toString( num );
+				return result.replace( '.', decimalSeparator );
+			}
+			
 			num = roundValue( num );
 			return numberFormat.format( num );
 
@@ -366,14 +360,13 @@ public class NumberFormatter implements IFormatter
 				return Long.toHexString( bigDecimal.longValue( ) );
 			}
 
-			com.ibm.icu.math.BigDecimal icuBigDecimal = new com.ibm.icu.math.BigDecimal( bigDecimal.toString( ) );
 			if ( this.formatPattern == null )
 			{
-				return decimalFormat.format( icuBigDecimal );
+				return decimalFormat.format( bigDecimal );
 			}
-
-			icuBigDecimal = roundValue( icuBigDecimal );
-			return numberFormat.format( icuBigDecimal );
+			
+			bigDecimal = roundValue( bigDecimal );
+			return numberFormat.format( bigDecimal );
 		}
 		catch ( Exception e )
 		{
@@ -526,16 +519,7 @@ public class NumberFormatter implements IFormatter
 						.setDecimalFormatSymbols( symbols );
 			}
 		}
-		// set the roundingMode attribute for the formatters
-		Integer iRoundingMode = (Integer) adapters.get( roundingMode );
-		if ( iRoundingMode != null )
-		{
-			numberFormat.setRoundingMode( iRoundingMode.intValue( ) );
-			if ( decimalFormat != null )
-			{
-				decimalFormat.setRoundingMode( iRoundingMode.intValue( ) );
-			}
-		}
+
 	}
 
 	private void handleNamedFormats( String patternStr )
@@ -626,7 +610,7 @@ public class NumberFormatter implements IFormatter
 		return numberFormat.parse( number );
 	}
 
-	com.ibm.icu.math.BigDecimal roundValue( com.ibm.icu.math.BigDecimal bd )
+	BigDecimal roundValue( BigDecimal bd )
 	{
 		if ( roundPrecision >= 0 )
 		{
@@ -635,11 +619,7 @@ public class NumberFormatter implements IFormatter
 			{
 				if ( scale > roundPrecision )
 				{
-					Integer iRoundingMode = adapters.get( roundingMode );
-					if ( iRoundingMode != null )
-					{
-						bd = bd.setScale( roundPrecision, iRoundingMode );
-					}
+					bd = bd.setScale( roundPrecision, roundingMode );
 				}
 			}
 			catch ( ArithmeticException e )
