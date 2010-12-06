@@ -2004,19 +2004,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 								Messages.getString( "ParameterGroupNodeProvider.Dialogue.ParameterNew" ), false ); //$NON-NLS-1$
 						if ( dataSetParameterHandle != null )
 						{
-							ReportParameterAdapter adapter = new ReportParameterAdapter( );
-							try
-							{
-								adapter.updateLinkedReportParameter( (ScalarParameterHandle) handle,
-										dataSetParameterHandle,
-										( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
-							}
-							catch ( SemanticException e )
-							{
-							}
-							catch ( OdaException e )
-							{
-							}
+							executeLinkedReportParameterUpdate ( handle, dataSetParameterHandle );
 						}
 						isCreateMode = true;
 					}
@@ -2071,7 +2059,26 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			checkParameterButtonTooltip( );
 		}
 
-		public void updateLinkedReportParameter( String originalLink )
+		private void executeLinkedReportParameterUpdate(
+				ParameterHandle handle,
+				OdaDataSetParameterHandle dataSetParameterHandle )
+		{
+			ReportParameterAdapter adapter = new ReportParameterAdapter( );
+			try
+			{
+				adapter.updateLinkedReportParameter( (ScalarParameterHandle) handle,
+						dataSetParameterHandle,
+						( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
+			}
+			catch ( SemanticException e )
+			{
+			}
+			catch ( OdaException e )
+			{
+			}
+		}
+		
+ 		public void updateLinkedReportParameter( String originalLink )
 		{
 			ParameterHandle orignalHandle = null;
 			if ( !originalLink.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) )
@@ -2093,44 +2100,64 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				boolean setting = ReportPlugin.getDefault( )
 						.getPluginPreferences( )
 						.getBoolean( DateSetPreferencePage.PROMPT_PARAM_UPDATE );
+				String option = ReportPlugin.getDefault( )
+						.getPluginPreferences( )
+						.getString( DateSetPreferencePage.PROMPT_PARAM_UPDATE_OPTION );
 
 				if ( setting )
 				{
+					if ( option != null && option.equals( DateSetPreferencePage.PROMPT_PARAM_UPDATE_OPTION_UPDATE ) )
+					{
+						executeLinkedReportParameterUpdate( currentHandle,
+								dataSetParameterHandle );
+					}
 					return;
 				}
 				
-				MessageDialog dialog = new MessageDialog(
-						Workbench.getInstance( )
+				MessageDialogWithToggle dialog = new MessageDialogWithToggle( Workbench.getInstance( )
 						.getDisplay( )
 						.getActiveShell( ),
 						Messages.getString( "DataSetParameterPage.updateReportParameter.title" ),
 						null,
 						Messages.getString( "DataSetParameterPage.updateReportParameter.message" ),
-						MessageDialog.QUESTION, 
+						MessageDialog.QUESTION,
 						new String[]{
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
-							Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
-						}, 
-						1) ;
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonYes" ),
+								Messages.getString( "DataSetParameterPage.updateReportParameter.promptButtonNo" )
+						},
+						1,
+						Messages.getString( "DataSetParameterPage.updateReportParameter.propmtText" ),
+						false );
 				
 				dialog.open( );
 				
-				if ( dialog.getReturnCode( ) == MessageDialog.OK )
+				if ( dialog.getReturnCode( ) == 256 )
 				{
-					ReportParameterAdapter adapter = new ReportParameterAdapter( );
-					try
+					executeLinkedReportParameterUpdate( currentHandle,dataSetParameterHandle );
+				}
+				
+				if ( dialog.getToggleState( ) )
+				{
+					ReportPlugin.getDefault( )
+							.getPluginPreferences( )
+							.setValue( DateSetPreferencePage.PROMPT_PARAM_UPDATE,
+									true );
+					if ( dialog.getReturnCode( ) == 256 )
 					{
-						adapter.updateLinkedReportParameter( (ScalarParameterHandle) currentHandle,
-								dataSetParameterHandle,
-								( (DataSetEditor) getContainer( ) ).getCurrentDataSetDesign( ) );
+						ReportPlugin.getDefault( )
+								.getPluginPreferences( )
+								.setValue( DateSetPreferencePage.PROMPT_PARAM_UPDATE_OPTION,
+										DateSetPreferencePage.PROMPT_PARAM_UPDATE_OPTION_UPDATE );
 					}
-					catch ( SemanticException e )
+					else
 					{
-					}
-					catch ( OdaException e )
-					{
+						ReportPlugin.getDefault( )
+								.getPluginPreferences( )
+								.setValue( DateSetPreferencePage.PROMPT_PARAM_UPDATE_OPTION,
+										DateSetPreferencePage.PROMPT_PARAM_UPDATE_OPTION_IGNORE );
 					}
 				}
+					
 			}
 		}
 		
