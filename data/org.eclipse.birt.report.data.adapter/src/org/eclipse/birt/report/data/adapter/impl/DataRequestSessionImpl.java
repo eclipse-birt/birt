@@ -913,9 +913,23 @@ public class DataRequestSessionImpl extends DataRequestSession
 					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, dim.getName() );
 			}
 		}
+		DataSetIterator dataForCube = null;
 		if ( cubeHandle.autoPrimaryKey( ) )
 		{
 			QueryDefinition qd = cubeQueryMap.get( cubeHandle );
+			//does not need aggregation to define measures in this case, clear all aggregations on measures
+			for ( Object measureName : measureNames )
+			{
+				IBinding b = (IBinding)qd.getBindings( ).get( measureName );
+				if ( b != null )
+				{
+					b.setAggrFunction( null );
+					if ( b.getAggregatOns( ) != null ) 
+					{
+						b.getAggregatOns( ).clear( );
+					}
+				}
+			}
 			if ( !fromJoin )
 			{
 				List<ColumnMeta> metas = cubeMetaMap.get( cubeHandle );
@@ -930,7 +944,26 @@ public class DataRequestSessionImpl extends DataRequestSession
 				metas.add( cm );
 				
 				//append temp PK dimension
+				String countBindingName = "COUNT"; //$NON-NLS-1$
+				IBinding b = new Binding( countBindingName );
+				b.setAggrFunction( IBuildInAggregation.TOTAL_COUNT_FUNC );
+				QueryDefinition q = cubeQueryMap.get( cubeHandle );
+				q.addBinding( b );
+				dataForCube = new DataSetIterator( this,
+						cubeQueryMap.get( cubeHandle ),
+						cubeMetaMap.get( cubeHandle ),
+						appContext );
+				int rowCount = 0;
+				try
+				{
+					rowCount = dataForCube.getSummaryInt( countBindingName );
+				}
+				catch( BirtException e )
+				{
+					rowCount = 1;
+				}
 				dimensions = appendArray( dimensions, populateTempPKDimension( cubeMaterializer, cubeHandle, 
+						new DataSetIteratorForTempPK( rowCount ),
 						appContext ));
 				
 				//append fact table key for temp PK dimension
@@ -943,35 +976,24 @@ public class DataRequestSessionImpl extends DataRequestSession
 				dimensionKey = appendArray( dimensionKey, new String[]{
 						getCubeTempPKFieldName( cubeHandle )});
 			}
-			
-			//does not need aggregation to define measures in this case, clear all aggregations on measures
-			for ( Object measureName : measureNames )
-			{
-				IBinding b = (IBinding)qd.getBindings( ).get( measureName );
-				if ( b != null )
-				{
-					b.setAggrFunction( null );
-					if ( b.getAggregatOns( ) != null ) 
-					{
-						b.getAggregatOns( ).clear( );
-					}
-				}
-			}
-			
 		}
 		
 		
 		
 		try
 		{
+			if( dataForCube == null )
+			{
+				dataForCube = new DataSetIterator( this,
+						cubeQueryMap.get( cubeHandle ),
+						cubeMetaMap.get( cubeHandle ),
+						appContext );
+			}
 			cubeMaterializer.createCube( cubeHandle.getQualifiedName( ),
 					factTableKey,
 					dimensionKey,
 					dimensions,
-					new DataSetIterator( this,
-							cubeQueryMap.get( cubeHandle ),
-							cubeMetaMap.get( cubeHandle ),
-							appContext ),
+					dataForCube,
 					this.toStringArray( measureNames ),
 					computeMemoryBufferSize( appContext ),
 					dataEngine.getSession( ).getStopSign( ) );
@@ -1453,7 +1475,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 */
 	private IDimension populateTempPKDimension( CubeMaterializer cubeMaterializer,
-			TabularCubeHandle cubeHandle, Map appContext )
+			TabularCubeHandle cubeHandle,DataSetIteratorForTempPK dataForTempPK, Map appContext )
 			throws AdapterException
 	{
 		QueryDefinition q = null;
@@ -1463,13 +1485,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 		IHierarchy h = null ;
 		try
 		{
-			q = createQueryForTempPKDimension( cubeHandle );
 			h = cubeMaterializer.createHierarchy( getCubeTempPKDimensionName( cubeHandle ),
 					getCubeTempPKHierarchyName( cubeHandle ),
-					new DataSetIteratorForTempPK( this,
-							q,
-							appContext ),
-							tempLevels,
+						dataForTempPK,
+						tempLevels,
 					dataEngine.getSession( ).getStopSign( ) ) ;
 		}
 		catch ( Exception e )

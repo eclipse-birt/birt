@@ -11,18 +11,9 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.adapter.impl;
 
-import java.util.Map;
-
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
-import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
-import org.eclipse.birt.report.data.adapter.api.AdapterException;
-import org.mozilla.javascript.Scriptable;
 
 
 /**
@@ -31,43 +22,15 @@ import org.mozilla.javascript.Scriptable;
 
 public class DataSetIteratorForTempPK implements IDatasetIterator
 {
-	private static String COUNT_BINDING_NAME = "COUNT"; //$NON-NLS-1$
 	private int rowCount;
 	private int currRowNum = -1; //row.__rownum
 	
 	@SuppressWarnings("unchecked")
-	DataSetIteratorForTempPK( DataRequestSessionImpl session, IQueryDefinition query, Map appContext ) throws BirtException
+	DataSetIteratorForTempPK( int rowCount ) throws BirtException
 	{
-		IBinding b = new Binding( COUNT_BINDING_NAME );
-		b.setAggrFunction( IBuildInAggregation.TOTAL_COUNT_FUNC );
-		query.addBinding( b );
-		executeQuery( session, query, appContext );
+		this.rowCount = rowCount;
 	}
 	
-	/**
-	 * 
-	 * @param session
-	 * @param query
-	 * @param appContext
-	 * @throws AdapterException
-	 */
-	@SuppressWarnings("unchecked")
-	private void executeQuery( DataRequestSessionImpl session, IQueryDefinition query, Map appContext )
-			throws AdapterException
-	{
-		try
-		{
-			Scriptable scope = session.getScope( );
-			IResultIterator it = session.prepare( query, appContext ).execute( scope ).getResultIterator( );
-			rowCount = it.getInteger( COUNT_BINDING_NAME );
-			it.close( );
-		}
-		catch ( BirtException e )
-		{
-			throw new AdapterException( e.getLocalizedMessage( ), e );
-		}
-	}
-
 	public void close( ) throws BirtException
 	{
 		//nothing to do

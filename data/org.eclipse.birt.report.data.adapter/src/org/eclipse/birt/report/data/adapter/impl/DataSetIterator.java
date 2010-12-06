@@ -288,6 +288,11 @@ public class DataSetIterator implements IDatasetIterator
 		return hasNext;
 	}
 
+	public int getSummaryInt( String bindingName ) throws BirtException
+	{
+		return it.getInteger( bindingName );
+	}
+	
 	private  Calendar getCalendar( Object d )
 	{
 		assert d != null;
