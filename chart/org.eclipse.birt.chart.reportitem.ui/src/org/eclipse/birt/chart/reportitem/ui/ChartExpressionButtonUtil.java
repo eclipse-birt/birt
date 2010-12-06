@@ -13,7 +13,7 @@ package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -466,7 +466,7 @@ public class ChartExpressionButtonUtil
 			}
 			boolean isCube = isCube( );
 
-			Set<IExpressionDescriptor> set = new HashSet<IExpressionDescriptor>( );
+			Set<IExpressionDescriptor> set = new LinkedHashSet<IExpressionDescriptor>( );
 			for ( Object obj : predefinedQuery )
 			{
 				set.add( ExpressionDescriptor.getInstance( obj, isCube ) );
@@ -477,8 +477,8 @@ public class ChartExpressionButtonUtil
 		
 		private Collection<IExpressionDescriptor> filterDuplicate(Collection<IExpressionDescriptor> exprDescs)
 		{
-			Set<IExpressionDescriptor> set = new HashSet<IExpressionDescriptor>( );
-			Set<String> bindingNames =  new HashSet<String>( );
+			Set<IExpressionDescriptor> set = new LinkedHashSet<IExpressionDescriptor>( );
+			Set<String> bindingNames =  new LinkedHashSet<String>( );
 			List<IExpressionDescriptor> otherDescs = new LinkedList<IExpressionDescriptor>( );
 			
 			for (IExpressionDescriptor desc : exprDescs)
@@ -517,7 +517,7 @@ public class ChartExpressionButtonUtil
 
 		protected final boolean isCube;
 		protected IAssistField assistField;
-		protected Set<IExpressionDescriptor> predefinedQuerys = new HashSet<IExpressionDescriptor>( );
+		protected Set<IExpressionDescriptor> predefinedQuerys = new LinkedHashSet<IExpressionDescriptor>( );
 
 		public ChartExpressionHelper( boolean isCube )
 		{
