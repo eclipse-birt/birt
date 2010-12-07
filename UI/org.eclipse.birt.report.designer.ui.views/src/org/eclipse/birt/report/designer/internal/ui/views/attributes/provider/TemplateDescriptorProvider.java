@@ -59,6 +59,13 @@ public class TemplateDescriptorProvider extends AbstractDescriptorProvider imple
 				String key = null;
 				if ( value instanceof String )
 					key = value.toString( );
+
+				if ( handle.getDescriptionKey( ) != null
+						&& handle.getDescriptionKey( ).equals( value ) )
+				{
+					return;
+				}
+
 				handle.setDescriptionKey( key );
 			}
 		}

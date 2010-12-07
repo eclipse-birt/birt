@@ -59,14 +59,35 @@ public class PropertyDescriptorProvider extends AbstractDescriptorProvider
 	{
 		if ( isReadOnly( ) )
 			return;
+
+		GroupElementHandle groupElementHandle = null;
+
 		if ( input instanceof GroupElementHandle )
 		{
-			( (GroupElementHandle) input ).setProperty( property, value );
+			groupElementHandle = (GroupElementHandle) input;
 		}
 		else if ( input instanceof List )
 		{
-			DEUtil.getGroupElementHandle( (List) input ).setProperty( property,
-					value );
+			groupElementHandle = DEUtil.getGroupElementHandle( (List) input );
+		}
+
+		if ( groupElementHandle != null )
+		{
+			GroupPropertyHandle handle = groupElementHandle.getPropertyHandle( property );
+			if ( handle != null && handle.getValue( ) != null )
+			{
+				if ( value instanceof String )
+				{
+					if ( handle.getStringValue( ).equals( value ) )
+						return;
+				}
+				else
+				{
+					if ( handle.getValue( ).equals( value ) )
+						return;
+				}
+			}
+			groupElementHandle.setProperty( property, value );
 		}
 	}
 
@@ -74,9 +95,19 @@ public class PropertyDescriptorProvider extends AbstractDescriptorProvider
 	{
 		IElementPropertyDefn propertyDefn;
 		String name = null;
-		if ( input instanceof GroupElementHandle && input != null )
+		if ( input instanceof GroupElementHandle )
 		{
 			propertyDefn = ( (GroupElementHandle) input ).getPropertyHandle( property )
+					.getPropertyDefn( );
+			if ( propertyDefn != null )
+			{
+				name = propertyDefn.getDisplayName( );
+			}
+		}
+		else if ( input instanceof List )
+		{
+			propertyDefn = DEUtil.getGroupElementHandle( (List) input )
+					.getPropertyHandle( property )
 					.getPropertyDefn( );
 			if ( propertyDefn != null )
 			{

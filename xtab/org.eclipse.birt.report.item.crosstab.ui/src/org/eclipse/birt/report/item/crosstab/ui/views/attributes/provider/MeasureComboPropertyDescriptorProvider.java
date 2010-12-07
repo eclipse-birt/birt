@@ -30,6 +30,7 @@ public class MeasureComboPropertyDescriptorProvider extends
 	protected static final Logger logger = Logger.getLogger( MeasureComboPropertyDescriptorProvider.class.getName( ) );
 
 	protected final String TRANS_NAME = Messages.getString( "MeasureComboPropertyDescriptorProvider.TransName" );
+
 	public MeasureComboPropertyDescriptorProvider( String property,
 			String element )
 	{
@@ -40,12 +41,13 @@ public class MeasureComboPropertyDescriptorProvider extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#save(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IDescriptorProvider#save(java.lang.Object)
 	 */
 	public void save( Object value ) throws SemanticException
 	{
 
-		
 		String stringValue = (String) value;
 		if ( input == null )
 		{
@@ -57,14 +59,22 @@ public class MeasureComboPropertyDescriptorProvider extends
 		}
 		if ( stringValue != null )
 		{
-			CommandStack stack = crosstabHandle.getModuleHandle( ).getCommandStack( );
+			CommandStack stack = crosstabHandle.getModuleHandle( )
+					.getCommandStack( );
 			// start trans
 			stack.startTrans( TRANS_NAME );
-			
+
+			stringValue = (String) getSaveValue( stringValue );
+			if ( stringValue == null )
+			{
+				stack.rollback( );
+				return;
+			}
+
 			crosstabHandle.setMeasureDirection( stringValue );
-			AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(crosstabHandle);
+			AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstabHandle );
 			providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.CHANGE_ORIENTATION_TYPE );
-			
+
 			stack.commit( );
 		}
 
@@ -73,7 +83,9 @@ public class MeasureComboPropertyDescriptorProvider extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#setInput(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IDescriptorProvider#setInput(java.lang.Object)
 	 */
 	public void setInput( Object input )
 	{

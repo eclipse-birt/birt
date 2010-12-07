@@ -5,6 +5,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 public class RepeatHeaderDescriptorProvider extends AbstractDescriptorProvider
@@ -36,6 +37,13 @@ public class RepeatHeaderDescriptorProvider extends AbstractDescriptorProvider
 			ListingHandle listingHandle = (ListingHandle) DEUtil.getInputFirstElement( input );
 			try
 			{
+				PropertyHandle propertyHandle = listingHandle.getPropertyHandle( ListingHandle.REPEAT_HEADER_PROP );
+				if ( propertyHandle != null
+						&& propertyHandle.getValue( ) != null
+						&& propertyHandle.getValue( ).equals( value ) )
+				{
+					return;
+				}
 				listingHandle.setProperty( ListingHandle.REPEAT_HEADER_PROP,
 						value );
 			}
@@ -46,7 +54,6 @@ public class RepeatHeaderDescriptorProvider extends AbstractDescriptorProvider
 
 		}
 	}
-
 	private Object input;
 
 	public void setInput( Object input )

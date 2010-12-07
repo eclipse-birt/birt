@@ -459,7 +459,23 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor
 		{
 			try
 			{
-				( (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) model ).getModel( ) ).setValue( cellEditor.getValue( ) );
+				GroupPropertyHandle handle = ( (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) model ).getModel( ) );
+
+				if ( cellEditor.getValue( ) instanceof String )
+				{
+					if ( handle.getStringValue( ) != null
+							&& handle.getStringValue( )
+									.equals( cellEditor.getValue( ) ) )
+						return;
+				}
+				else
+				{
+					if ( handle.getValue( ) != null
+							&& handle.getValue( )
+									.equals( cellEditor.getValue( ) ) )
+						return;
+				}
+				handle.setValue( cellEditor.getValue( ) );
 			}
 			catch ( SemanticException e )
 			{

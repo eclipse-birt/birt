@@ -37,6 +37,7 @@ import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
+import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -131,7 +132,7 @@ public class ReportPropertySheetPage extends Page implements
 	private IMemento viewerMemento;
 	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
 	private boolean updateSorting = false;
-	
+
 	public void updateSorting( int sortingType )
 	{
 		updateSorting = true;
@@ -547,8 +548,24 @@ public class ReportPropertySheetPage extends Page implements
 		{
 			try
 			{
-				( (GroupPropertyHandleWrapper) model ).getModel( )
-						.setValue( cellEditor.getValue( ) );
+				GroupPropertyHandle handle = ( (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) model ).getModel( ) );
+
+				if ( cellEditor.getValue( ) instanceof String )
+				{
+					if ( handle.getStringValue( ) != null
+							&& handle.getStringValue( )
+									.equals( cellEditor.getValue( ) ) )
+						return;
+				}
+				else
+				{
+					if ( handle.getValue( ) != null
+							&& handle.getValue( )
+									.equals( cellEditor.getValue( ) ) )
+						return;
+				}
+
+				handle.setValue( cellEditor.getValue( ) );
 			}
 			catch ( SemanticException e )
 			{
@@ -697,7 +714,8 @@ public class ReportPropertySheetPage extends Page implements
 	protected void refresh( )
 	{
 		viewer.getTree( ).deselectAll( );
-		if(updateSorting){
+		if ( updateSorting )
+		{
 			viewer.getTree( ).removeAll( );
 		}
 		viewer.refresh( true );
@@ -972,7 +990,7 @@ public class ReportPropertySheetPage extends Page implements
 					else
 						modelList.add( obj );
 				}
-				
+
 				list = modelList;
 			}
 		}
