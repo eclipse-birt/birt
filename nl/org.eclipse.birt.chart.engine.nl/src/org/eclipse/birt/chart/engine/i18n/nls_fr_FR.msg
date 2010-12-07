@@ -1,3 +1,4 @@
+ChartImpl.ChartTitle=Chart Title
 ChartImpl.AltText=Ce graphique ne contient aucune donnée.
 ChartWithAxesImpl.X_Axis.title=Titre de l'axe des x
 ChartWithAxesImpl.Y_Axis.title=Titre de l'axe des y
