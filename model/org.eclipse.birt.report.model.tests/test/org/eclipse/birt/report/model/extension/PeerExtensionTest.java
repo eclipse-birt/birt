@@ -1250,6 +1250,22 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( IPropertyType.LIST_TYPE, propDefn.getTypeCode( ) );
 		assertEquals( IPropertyType.ELEMENT_REF_TYPE, propDefn.getSubTypeCode( ) );
 		assertEquals( TABLE, propDefn.getTargetElementType( ).getName( ) );
+		
+		ExtendedItemHandle testTable1 = createDesign( ).getElementFactory( ).newExtendedItem( "Test", TESTING_TABLE1 );
+		PropertyHandle propHandle = testTable1.getPropertyHandle( "elementRefList" ); //$NON-NLS-1$		
+		TableHandle[] tables = new TableHandle[3];
+		for ( int i = 0; i< tables.length ; i++ )
+		{
+			tables[i] = designHandle.getElementFactory( ).newTableItem( "table1" );
+			designHandle.getBody( ).add( tables[i] );
+			propHandle.addItem( tables[i] );
+		}
+		propHandle.addItem( "NonexistElement" );  //$NON-NLS-1$
+		
+		assertEquals( 4, propHandle.getItems( ).size( ) );
+		for ( int i = 0; i< 3; i++ )
+			assertEquals( tables[i], propHandle.getItems( ).get( i ) );
+		assertNull( propHandle.getItems( ).get( 3 ) );
 	}
 
 	private static class MyListener implements Listener

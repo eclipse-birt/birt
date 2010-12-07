@@ -125,17 +125,17 @@
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">COUNTRY</property>
-                    <expression name="expression">dimension["Group2"]["CUSTOMERNUMBER"]</expression>
+                    <expression name="expression" type="javascript">dimension["Group2"]["CUSTOMERNUMBER"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">CUSTOMERNAME</property>
-                    <expression name="expression">dimension["Group11"]["COUNTRY"]</expression>
+                    <expression name="expression" type="javascript">dimension["Group11"]["COUNTRY"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">CREDITLIMIT_Group2/COUNTRY_Group/CUSTOMERNUMBER</property>
-                    <expression name="expression">measure["CREDITLIMIT1"]</expression>
+                    <expression name="expression" type="javascript">measure["CREDITLIMIT1"]</expression>
                     <property name="dataType">float</property>
                     <simple-property-list name="aggregateOn">
                         <value>Group11/COUNTRY</value>

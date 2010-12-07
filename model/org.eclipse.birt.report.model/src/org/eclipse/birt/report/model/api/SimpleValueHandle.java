@@ -701,4 +701,16 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 */
 
 	abstract public boolean isReadOnly( );
+	
+	/**
+	 * Gets the items of the list property. The handle must be working on a list
+	 * property or member.
+	 * 
+	 * @return the list of items, or null if the property is not a list
+	 *         property.
+	 */
+	public List getItems( )
+	{
+		return getListValue( );
+	}	
 }

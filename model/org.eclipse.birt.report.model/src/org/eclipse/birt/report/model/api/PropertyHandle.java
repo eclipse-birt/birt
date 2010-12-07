@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.PropertyHandleHelper;
 
@@ -795,5 +796,34 @@ public class PropertyHandle extends SimpleValueHandle
 		EncryptionCommand cmd = new EncryptionCommand( getModule( ),
 				getElement( ) );
 		cmd.setEncryption( propDefn, encryptionID );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getItems()
+	 */
+	public List getItems( )
+	{
+		if ( propDefn.isListType( )
+				&& propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		{
+			ArrayList listValue = new ArrayList( );
+			Object rawValue = getRawValue( );
+			if ( rawValue instanceof List )
+			{
+				for ( Object value : (List) rawValue )
+				{
+					assert value instanceof ElementRefValue;
+					ElementRefValue refValue = (ElementRefValue) value;
+					DesignElementHandle refHandle = null;
+					if ( refValue.isResolved( ) )
+						refHandle = refValue.getElement( ).getHandle( getModule( ) );
+					listValue.add( refHandle );
+				}
+			}
+			return listValue;
+		}
+		return super.getItems( );
 	}
 }
