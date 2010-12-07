@@ -36,6 +36,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	private Class keyDataType = null;
 	private long memoryBufferSize = 0;
 	private final int BTREE_CACHE_SIZE = 200;
+	private ArchiveInputFile inputFile = null;
 	
 	public BTreeIndex( long memoryBufferSize, String indexName, StreamManager manager, Class keyDataType ) throws DataException
 	{
@@ -57,7 +58,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		serializer = BTreeSerializerUtil.createSerializer( keyDataType );
 		try
 		{
-			btree = createBTree( new ArchiveInputFile( reader, indexName ), BTREE_CACHE_SIZE, serializer );
+			inputFile = new ArchiveInputFile( reader, indexName );
 		}
 		catch (IOException e)
 		{
@@ -65,8 +66,6 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		}
 		this.keyDataType = keyDataType;
 	}
-	
-	
 	
 	
 	private static BTree<Object, Integer> createBTree( ArchiveOutputFile file, int cacheSize, BTreeSerializer serializer ) throws DataException
@@ -123,7 +122,8 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			{
 				insertToBTree( );
 			}
-			btree.close( );
+			if( btree != null )
+				btree.close( );
 		}
 		catch (IOException e)
 		{
@@ -212,6 +212,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 
 	public Set<Integer> getKeyIndex( Object key, int filterType )	throws DataException
 	{
+		if( btree == null )
+		{
+			btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+		}
 		if( sortedKeyRowID != null )
 		{
 			insertToBTree( );
@@ -431,6 +435,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 
 	public Object[] getAllKeyValues() throws DataException
 	{
+		if( btree == null )
+		{
+			btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+		}
 		BTreeCursor<Object, Integer> bCursor = btree.createCursor( );
 		List key = new ArrayList( );
 		try
@@ -449,6 +457,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 
 	public Set<Integer> getAllKeyRows() throws DataException
 	{
+		if( btree == null )
+		{
+			btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+		}
 		BTreeCursor<Object, Integer> bCursor = btree.createCursor( );
 		List<Integer> keyRow = new ArrayList<Integer>( );
 		try
