@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
+import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
@@ -55,14 +56,28 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 	protected void save( String property, Object value )
 			throws SemanticException
 	{
+		GroupElementHandle groupElementHandle = null;
+
 		if ( input instanceof GroupElementHandle )
 		{
-			( (GroupElementHandle) input ).setProperty( property, value );
+			groupElementHandle = (GroupElementHandle) input;
 		}
 		else if ( input instanceof List )
 		{
-			DEUtil.getGroupElementHandle( (List) input ).setProperty( property,
-					value );
+			groupElementHandle = DEUtil.getGroupElementHandle( (List) input );
+		}
+
+		if ( groupElementHandle != null )
+		{
+			GroupPropertyHandle handle = groupElementHandle.getPropertyHandle( property );
+			if ( handle != null && handle.getValue( ) != null )
+			{
+				if ( handle.getValue( ).equals( value ) )
+				{
+					return;
+				}
+			}
+			groupElementHandle.setProperty( property, value );
 		}
 	}
 

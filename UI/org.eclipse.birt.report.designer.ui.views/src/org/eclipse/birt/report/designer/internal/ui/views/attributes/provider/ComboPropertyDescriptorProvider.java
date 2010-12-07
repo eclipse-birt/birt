@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import java.util.Arrays;
+
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -136,6 +138,15 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 			value = null;
 		}
 
+		if ( value != null )
+		{
+			value = getSaveValue( value );
+			if ( value == null )
+			{
+				return;
+			}
+		}
+
 		if ( StyleHandle.FONT_FAMILY_PROP.equals( pName )
 				&& needAddQuote( value == null ? null : value.toString( ) ) )
 		{
@@ -148,6 +159,30 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 			super.save( value );
 		}
 
+	}
+
+	protected Object getSaveValue( Object value )
+	{
+		if ( items != null && Arrays.asList( items ).contains( value ) )
+		{
+			choiceSet = ChoiceSetFactory.getElementChoiceSet( getElement( ),
+					getProperty( ) );
+			for ( int i = 0; i < choiceSet.getChoices( ).length; i++ )
+			{
+				if ( choiceSet.getChoices( )[i].getDisplayName( )
+						.equals( value ) )
+				{
+					value = choiceSet.getChoices( )[i].getName( );
+					Object oldValue = super.load( );
+					if ( !oldValue.equals( "" ) && oldValue.equals( value ) )
+					{
+						return null;
+					}
+					return value;
+				}
+			}
+		}
+		return value;
 	}
 
 	private boolean needAddQuote( String value )
