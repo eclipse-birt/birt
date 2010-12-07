@@ -513,9 +513,6 @@ public class DocumentUtilTest extends BaseTestCase
 	{
 		openDesign( "DocumentUtilTest_15.xml" ); //$NON-NLS-1$
 
-		designHandle = (ReportDesignHandle) designHandle.copy( ).getHandle(
-				null );
-
 		serializeDocument( );
 
 		DesignElementHandle handle = designHandle.getElementByID( 19 );
