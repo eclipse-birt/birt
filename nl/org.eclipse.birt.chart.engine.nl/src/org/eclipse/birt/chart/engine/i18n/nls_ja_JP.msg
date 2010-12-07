@@ -1,3 +1,4 @@
+ChartImpl.ChartTitle=Chart Title
 ChartImpl.AltText=このグラフにはデータがありません。
 ChartWithAxesImpl.X_Axis.title=X 軸のタイトル
 ChartWithAxesImpl.Y_Axis.title=Y 軸のタイトル
