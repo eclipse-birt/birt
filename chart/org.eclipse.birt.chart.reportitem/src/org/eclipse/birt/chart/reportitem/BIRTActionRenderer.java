@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.MultipleActions;
 import org.eclipse.birt.chart.render.ActionRendererAdapter;
+import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.engine.api.IAction;
@@ -106,11 +107,13 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			return handle.getReportName( );
 		}
 
+		@SuppressWarnings("rawtypes")
 		public Map getParameterBindings( )
 		{
 			return BIRTActionRenderer.this.getParameterBindings( this, handle );
 		}
 
+		@SuppressWarnings("rawtypes")
 		public Map getSearchCriteria( )
 		{
 			return BIRTActionRenderer.this.getSearchCriteria( this, handle );
@@ -284,14 +287,32 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				final DataPointHints dph = (DataPointHints) source.getSource( );
 				if ( !dph.isVirtual( ) )
 				{
-					Object value = dph.getUserValue( tv.getText( ) );
-					if ( value instanceof Number )
+					// Output chart variable values directly
+					if ( ScriptHandler.VARIABLE_CATEGORY.equals( tv.getText( ) ) )
 					{
-						tv.setText( ChartUtil.getDefaultNumberFormat( ).format( value ) );
+						tv.setText( dph.getBaseDisplayValue( ) );
+					}
+					else if ( ScriptHandler.VARIABLE_VALUE.equals( tv.getText( ) ) )
+					{
+						tv.setText( dph.getOrthogonalDisplayValue( ) );
+					}
+					else if ( ScriptHandler.VARIABLE_SERIES.equals( tv.getText( ) ) )
+					{
+						tv.setText( dph.getSeriesDisplayValue( ) );
 					}
 					else
 					{
-						tv.setText( ChartUtil.stringValue( value ) );
+						// Get evaluated values in other expressions
+						Object value = dph.getUserValue( tv.getText( ) );
+						if ( value instanceof Number )
+						{
+							tv.setText( ChartUtil.getDefaultNumberFormat( )
+									.format( value ) );
+						}
+						else
+						{
+							tv.setText( ChartUtil.stringValue( value ) );
+						}
 					}
 				}
 				else
