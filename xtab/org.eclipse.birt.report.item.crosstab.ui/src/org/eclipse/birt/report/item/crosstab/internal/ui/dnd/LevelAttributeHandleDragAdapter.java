@@ -14,7 +14,8 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDragAdapter;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.core.runtime.IAdaptable;
 
 /**
  * 
@@ -25,6 +26,13 @@ public class LevelAttributeHandleDragAdapter implements IDragAdapter
 
 	public int canDrag( Object object )
 	{
+		if (object instanceof IAdaptable)
+		{
+			if (((IAdaptable)object).getAdapter( StructureHandle.class ) instanceof LevelAttributeHandle)
+			{
+				object = ((IAdaptable)object).getAdapter( StructureHandle.class );
+			}
+		}
 		if ( object instanceof LevelAttributeHandle )
 			return DNDService.LOGIC_TRUE;
 		return DNDService.LOGIC_UNKNOW;
@@ -34,6 +42,13 @@ public class LevelAttributeHandleDragAdapter implements IDragAdapter
 	{
 		if(transfer instanceof LevelAttributeHandle)
 			return transfer;
+		if (transfer instanceof IAdaptable)
+		{
+			if (((IAdaptable)transfer).getAdapter( StructureHandle.class ) instanceof LevelAttributeHandle)
+			{
+				return ((IAdaptable)transfer).getAdapter( StructureHandle.class );
+			}
+		}
 		return null;
 	}
 
