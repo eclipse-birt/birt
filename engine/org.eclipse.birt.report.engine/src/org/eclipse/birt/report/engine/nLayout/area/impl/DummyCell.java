@@ -74,7 +74,6 @@ public class DummyCell extends CellArea
 	public CellArea cloneArea( )
 	{
 		CellArea cloneCell = cell.cloneArea( );
-		cell.setRowSpan( cell.getRowSpan( ) - cell.getUsedRowSpan( ) + 1 );
 		return cloneCell;
 	}
 	

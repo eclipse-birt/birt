@@ -38,11 +38,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	protected int columnID = 0;
 	protected int rowID = 0;
 
-	/**
-	 * the row span has been consumed, not including header and footer rows if
-	 * repeat header is true.
-	 */
-	private int usedRowSpan = 0;
 
 	protected DiagonalInfo diagonalInfo;
 
@@ -129,15 +124,6 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		this.rowSpan = rowSpan;
 	}
 
-	public int getUsedRowSpan( )
-	{
-		return usedRowSpan;
-	}
-
-	public void setUsedRowSpan( int usedRowSpan )
-	{
-		this.usedRowSpan = usedRowSpan;
-	}
 	
 	public void close( ) throws BirtException
 	{

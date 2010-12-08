@@ -236,6 +236,7 @@ public class TableArea extends RepeatableArea
 		captionCell.setMaxAvaWidth( width );
 		captionCell.initialize( );
 		captionCell.isDummy = true;
+		captionCell.setRowSpan( 1 );
 		captionRow.children.add( captionCell );
 		BlockTextArea captionText = new BlockTextArea( captionCell, context,
 				captionLabel );
@@ -294,7 +295,7 @@ public class TableArea extends RepeatableArea
 				tableResult.setHeight( tableResult.getHeight( ) + h );
 			}
 			tableResult.resolveBottomBorder( );
-			layout.setUnresolvedRow( unresolvedRow );
+			//layout.setUnresolvedRow( unresolvedRow );
 			if ( context.isFixedLayout( ) )
 			{
 				FixedLayoutPageHintGenerator pageHintGenerator = context
@@ -455,16 +456,27 @@ public class TableArea extends RepeatableArea
 	}
 	
 
+	protected boolean setUnresolvedRow = false;
+	
+	protected void setUnresolvedRow( )
+	{
+		if ( !setUnresolvedRow )
+		{
+			layout.setUnresolvedRow( unresolvedRow );
+			setUnresolvedRow = true;
+		}
+	}
 	public void relayoutChildren( ) throws BirtException
 	{
 		String nextRowId = null;
-		if ( layout.unresolvedRow != null )
+		if ( unresolvedRow != null )
 		{
-			nextRowId = this.getNextRowId( layout.unresolvedRow );
+			nextRowId = this.getNextRowId( unresolvedRow );
 		}
 		layout.clear( );
+		setUnresolvedRow = false;
 		addRows( this, layout, nextRowId );
-		layout.mergeUnresolvedRowHint( );
+		setUnresolvedRow( );
 	}
 		
 	protected void addRows( ContainerArea container, TableLayout layout, String rowId)
@@ -477,7 +489,7 @@ public class TableArea extends RepeatableArea
 			if ( rowId != null && id != null
 					&& rowId.equals( id.toUniqueString( ) ) )
 			{
-				layout.mergeUnresolvedRowHint( );
+				setUnresolvedRow( );
 			}
 
 			if ( row.needResolveBorder )
