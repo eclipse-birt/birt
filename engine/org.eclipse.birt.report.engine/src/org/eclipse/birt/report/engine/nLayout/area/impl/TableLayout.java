@@ -69,7 +69,7 @@ public class TableLayout
 
 	public void setUnresolvedRow( RowArea row )
 	{
-		if(isUnresolved( row ))
+		if ( row != null && isUnresolved( row ) )
 		{
 			unresolvedRow = row;
 		}
