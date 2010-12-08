@@ -83,6 +83,7 @@ public class PDFPageDevice implements IPageDevice
 			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(
 					output ) );
 			writer.setFullCompression( );
+			writer.setRgbTransparencyBlending( true );
 			EngineResourceHandle handle = new EngineResourceHandle(
 					ULocale.forLocale( context.getLocale( ) ) );
 
