@@ -69,7 +69,10 @@ public class TableLayout
 
 	public void setUnresolvedRow( RowArea row )
 	{
-		unresolvedRow = row;
+		if(isUnresolved( row ))
+		{
+			unresolvedRow = row;
+		}
 	}
 	
 	public RowArea getNextRow(RowArea row)
@@ -691,7 +694,7 @@ public class TableLayout
 		for ( int i = startCol; i <= endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );
-			if(cell!=null && cell.getRowSpan( )>1)
+			if ( cell != null && cell.getRowSpan( ) > 1 )
 			{
 				return true;
 			}
@@ -699,8 +702,10 @@ public class TableLayout
 		return false;
 	}
 	
-	public void mergeUnresolvedRowHint()
+	
+	public void setMergeUnresolvedRowHint( )
 	{
+
 		/**
 		 * this case should only exist in add first detail row in new page, the repeated group header should be the last row.
 		 * the row span in repeated head should be updated by unresolved row
@@ -738,128 +743,115 @@ public class TableLayout
 	 */
 	private void updateRow( RowArea rowArea, boolean isFixedLayout )
 	{
-		RowArea lastRow = (RowArea) rows.getCurrent( );
+		if ( unresolvedRow != null )
+		{
+			if ( !unresolvedRow.finished )
+			{
+				for ( int i = startCol; i <= endCol; i++ )
+				{
+					CellArea cell = unresolvedRow.getCell( i );
+					cell.setRowSpan( cell.getRowSpan( ) + 1 );
+					i = i + cell.getColSpan( );
+				}
+			}
+		}
+		RowArea lastRow = null;
+		if ( rows.size( ) > 0 )
+		{
+			lastRow = (RowArea) rows.getCurrent( );
+		}
 		currentRow = rowArea;
-		boolean usedResolvedRow= false;
-		int height = rowArea.getSpecifiedHeight( );
-		if ( !isFixedLayout || height==0)
+		int sheight = rowArea.getSpecifiedHeight( );
+		int height = sheight;
+		/*
+		 * In this case, the row should be the first row of new page. 1. this
+		 * row is the first row of grid in new page 2. this row is the first row
+		 * of repeated header of new page
+		 */
+		if ( lastRow == null )
 		{
 			for ( int i = startCol; i <= endCol; i++ )
 			{
 				CellArea upperCell = null;
-				if ( lastRow != null )
+				if ( unresolvedRow != null )
 				{
-					upperCell = lastRow.getCell( i );
+					upperCell = unresolvedRow.getCell( i );
 				}
+				CellArea cell = currentRow.getCell( i );
+				if ( cell == null )
+				{
+					// should create a new cell, set rowspan according to the
+					// upperCell
+					cell = createEmptyCell( upperCell, i, rowArea );
+				}
+				else
+				{
+					if ( cell.getRowSpan( ) == 1 )
+					{
+						if ( !isFixedLayout || sheight == 0 )
+						{
+							height = Math.max( height, cell.getHeight( ) );
+						}
+					}
+					i = i + cell.getColSpan( ) - 1;
+				}
+			}
+		}
+		/**
+		 * Not the first row
+		 */
+		else
+		{
+			for ( int i = startCol; i <= endCol; i++ )
+			{
+				CellArea upperCell = lastRow.getCell( i );
+				CellArea cell = currentRow.getCell( i );
 				// upperCell has row span, or is a drop cell.
 				if ( upperCell != null && ( upperCell.getRowSpan( ) > 1 ) )
 				{
-					if(rowArea.cells[i]!=null)
+					if ( rowArea.cells[i] != null )
 					{
 						rowArea.removeChild( rowArea.cells[i] );
 					}
-					DummyCell dummyCell = createDummyCell( upperCell );
+					DummyCell dummyCell = createDummyCell( upperCell, lastRow );
 					rowArea.setCell( dummyCell );
-
 					int delta = dummyCell.getDelta( );
 					if ( dummyCell.getRowSpan( ) == 1 )
 					{
-						height = Math.max( height, dummyCell.getCell( )
-								.getHeight( )
-								- delta );
+						if ( !isFixedLayout || sheight == 0 )
+						{
+							height = Math.max( height, dummyCell.getCell( )
+									.getHeight( ) - delta );
+						}
 					}
 					i = i + upperCell.getColSpan( ) - 1;
 				}
-				// upperCell has NO row span, and is NOT a drop cell.
-				// or upperCell is null. In this case, we need not care about
-				// the upperCell.
 				else
 				{
-					CellArea cell = rowArea.getCell( i );
 					if ( cell == null )
 					{
 						if ( unresolvedRow != null )
 						{
 							upperCell = unresolvedRow.getCell( i );
-							usedResolvedRow = true;
 						}
-						if ( upperCell != null )
-						{
-							cell = createEmptyCell( upperCell, i, rowArea,
-									lastRow );
-						}
+						cell = createEmptyCell( upperCell, i, rowArea );
 					}
-
 					if ( cell != null )
 					{
 						if ( cell.getRowSpan( ) == 1 )
 						{
-							height = Math.max( height, cell.getHeight( ) );
-							i = i + cell.getColSpan( ) - 1;
-						}
-						else
-						{							
-							if( ! isInRepeatHeader( ) )
+							if ( !isFixedLayout || sheight == 0 )
 							{
-								cell.setUsedRowSpan( cell.getUsedRowSpan( ) + 1 );
+								height = Math.max( height, cell.getHeight( ) );
 							}
 						}
+						i =  i + cell.getColSpan( ) - 1;
 					}
-					
 				}
-			}
-		}
-		else
-		{
-			for ( int i = startCol; i <= endCol; i++ )
-			{
-				CellArea upperCell = null;
-				if ( lastRow != null )
-				{
-					upperCell = lastRow.getCell( i );
-				}
-				// upperCell has row span, or is a drop cell.
-				if ( upperCell != null && ( upperCell.getRowSpan( ) > 1 ) )
-				{
-					DummyCell dummyCell = createDummyCell( upperCell );
-					rowArea.setCell( dummyCell );
-					i = i + upperCell.getColSpan( ) - 1;
-				}
-				else
-				{
-					CellArea cell = rowArea.getCell( i );
-					if(cell==null)
-					{
-						if ( unresolvedRow != null )
-						{
-							upperCell = unresolvedRow.getCell( i );
-							usedResolvedRow = true;
-						}
-						if ( upperCell != null )
-						{
-							cell = createEmptyCell( upperCell, i, rowArea,
-									lastRow );
-						}
-					}
 
-					if ( cell != null )
-					{
-						if ( cell.getRowSpan( ) == 1 )
-						{
-							i = i + cell.getColSpan( ) - 1;
-						}
-						else
-						{
-							if( ! isInRepeatHeader( ) )
-							{
-								cell.setUsedRowSpan( cell.getUsedRowSpan( ) + 1 );
-							}
-						}
-					}
-				}
 			}
 		}
-		if ( usedResolvedRow )
+		if ( unresolvedRow != null )
 		{
 			unresolvedRow = null;
 		}
@@ -867,7 +859,7 @@ public class TableLayout
 	}
 	
 	private CellArea createEmptyCell( CellArea upperCell,
-			int columnId, RowArea row, RowArea lastRow )
+			int columnId, RowArea row )
 	{
 		ICellContent cellContent = null;
 		int rowSpan = 1;
@@ -902,10 +894,6 @@ public class TableLayout
 		if ( upperCell instanceof DummyCell )
 		{
 			originalCell = ( (DummyCell) upperCell ).getCell( );
-		}
-		if( ! isInRepeatHeader( ) )
-		{
-			originalCell.setUsedRowSpan( originalCell.getUsedRowSpan( ) + 1 );
 		}
 		
 		CellArea leftSideCellArea = null;
@@ -955,11 +943,10 @@ public class TableLayout
 	 *            the upper cell.
 	 * @return the created dummy cell.
 	 */
-	private DummyCell createDummyCell( CellArea upperCell )
+	private DummyCell createDummyCell( CellArea upperCell, RowArea lastRow )
 	{
 		DummyCell dummyCell = null;
 		CellArea refCell = null;
-		RowArea lastRow = (RowArea) rows.getCurrent( );
 		int lastRowHeight = lastRow.getHeight( );
 		int delta = 0;
 		if ( upperCell instanceof DummyCell )
@@ -975,14 +962,14 @@ public class TableLayout
 			dummyCell = new DummyCell( upperCell );
 			dummyCell.setDelta( lastRowHeight );
 		}
-		dummyCell.setRowSpan( upperCell.getRowSpan( ) - 1 );
-		dummyCell.setColSpan( upperCell.getColSpan( ) );
-		
-		CellArea originalCell = dummyCell.getCell( );
-		if( ! isInRepeatHeader( ) )
+		int rowSpan = upperCell.getRowSpan( ) - 1;
+		if ( unresolvedRow != null )
 		{
-			originalCell.setUsedRowSpan( originalCell.getUsedRowSpan( ) + 1 );
+			CellArea cell = unresolvedRow.getCell( upperCell.getColumnID( ) );
+			rowSpan = cell.getRowSpan( ) - ( unresolvedRow.finished ? 1 : 0 );
 		}
+		dummyCell.setRowSpan( rowSpan  );
+		dummyCell.setColSpan( upperCell.getColSpan( ) );
 		dummyCell.isDummy = true;
 		return dummyCell;
 	}
@@ -1046,33 +1033,6 @@ public class TableLayout
 		return rows;
 	}
 	
-	private boolean isInRepeatHeader( )
-	{
-		if ( currentRow == null )
-			return false;
-		IContent rowContent = currentRow.getContent( );
-		if ( rowContent != null )
-		{
-			// band
-			IElement band = rowContent.getParent( );
-			if ( band != null && band instanceof IBandContent )
-			{
-				int type = ( (IBandContent) band ).getBandType( );
-				if ( type == IBandContent.BAND_HEADER
-						|| type == IBandContent.BAND_GROUP_HEADER )
-				{
-					RowDesign rowDesign = (RowDesign) rowContent
-							.getGenerateBy( );
-					if ( rowDesign == null || rowDesign.getRepeatable( ) )
-					{
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
 /*
 	//---------debug
 	
