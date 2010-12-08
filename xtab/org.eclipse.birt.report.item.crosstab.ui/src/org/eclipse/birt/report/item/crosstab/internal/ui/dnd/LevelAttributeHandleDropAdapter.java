@@ -27,7 +27,8 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -51,6 +52,13 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
+		if (transfer instanceof IAdaptable)
+		{
+			if (((IAdaptable)transfer).getAdapter( StructureHandle.class ) instanceof LevelAttributeHandle)
+			{
+				transfer = ((IAdaptable)transfer).getAdapter( StructureHandle.class );
+			}
+		}
 		if ( !isLevelAttributeHandle( transfer ) || !isSameLeveHandle( transfer ))
 		{
 			return DNDService.LOGIC_UNKNOW;
@@ -95,6 +103,10 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter
 		DesignElementHandle levelHandle = null;
 		for ( int i = 0; i < items.length; i++ )
 		{
+			if (!(items[i] instanceof LevelAttributeHandle))
+			{
+				return false;
+			}
 			LevelAttributeHandle attributeHandle = (LevelAttributeHandle)items[i];
 			if (levelHandle == null)
 			{
@@ -120,7 +132,13 @@ public class LevelAttributeHandleDropAdapter implements IDropAdapter
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-
+		if (transfer instanceof IAdaptable)
+		{
+			if (((IAdaptable)transfer).getAdapter( StructureHandle.class ) instanceof LevelAttributeHandle)
+			{
+				transfer = ((IAdaptable)transfer).getAdapter( StructureHandle.class );
+			}
+		}
 		if ( target instanceof EditPart )// drop on layout
 		{
 			EditPart editPart = (EditPart) target;
