@@ -606,9 +606,9 @@ public class ExcelXmlWriter implements IExcelWriter
 		{
 			writer.openTag( "NumberFormat" );
 
-			String numberStyle = (String) style
-			.getProperty( StyleConstant.NUMBER_FORMAT_PROP );
-			writer.attribute( "ss:Format", numberStyle );
+			NumberFormatValue numberFormat = (NumberFormatValue) style.getProperty( StyleConstant.NUMBER_FORMAT_PROP );
+			String format = numberFormat.getFormat( );
+			writer.attribute( "ss:Format", format );
 			writer.closeTag( "NumberFormat" );
 		}
 	}
