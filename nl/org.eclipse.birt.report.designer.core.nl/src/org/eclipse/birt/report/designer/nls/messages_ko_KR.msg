@@ -4808,4 +4808,4 @@ RenameInputDialog.Message.DuplicateName=중복된 이름이 있습니다.
 ###########################################################
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=하위 항목 표시
-ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Toggle Breadcrumb
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=이동 경로 전환

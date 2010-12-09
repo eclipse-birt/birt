@@ -4808,4 +4808,4 @@ RenameInputDialog.Message.DuplicateName=重複する名前が存在します。
 ###########################################################
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=子を表示
-ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Toggle Breadcrumb
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=リンクの階層表示の切り替え

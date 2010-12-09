@@ -108,4 +108,4 @@ FunctionDesc.duration.negate=값이 -lexicalDuration인 새 기간 개체를 반환합니다.\
 FunctionDesc.duration.getSign=이 기간의 부호 값을 -1, 0 또는 1로 반환합니다.\nlexicalDuration은 "PnYnMnDTnHnMnS"(예: P5Y2M15DT4H40M20S)로 표시되는 문자열입니다.\nstartDate 인수는 이 분산의 모호함을 해결하는 데 사용됩니다.
 FunctionDesc.duration.compare=lexicalDuration1 및 lexicalDuration2 사이의 부분적인 순서 관계입니다.\nlexicalDuration은 "PnYnMnDTnHnMnS"(예: P5Y2M15DT4H40M20S)로 표시되는 문자열입니다.\nstartDate 인수는 이 분산의 모호함을 해결하는 데 사용됩니다.
 FunctionDesc.duration.addTo=날짜 개체에 이 기간을 추가합니다.\nlexicalDuration은 "PnYnMnDTnHnMnS"(예: P5Y2M15DT4H40M20S)로 표시되는 문자열입니다.\nstartDate 인수는 이 분산의 모호함을 해결하는 데 사용됩니다.
-FunctionDesc.format=Obtains the formatted string from specified object and pattern.
+FunctionDesc.format=지정된 개체 및 패턴으로부터 서식 있는 스트링을 가져옵니다.

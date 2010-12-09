@@ -4808,4 +4808,4 @@ RenameInputDialog.Message.DuplicateName=El nombre duplicado existe.
 ###########################################################
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Mostrar secundarios
-ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Toggle Breadcrumb
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Alternar ruta de exploración

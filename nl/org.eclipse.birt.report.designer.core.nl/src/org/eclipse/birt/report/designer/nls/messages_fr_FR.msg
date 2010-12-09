@@ -4808,4 +4808,4 @@ RenameInputDialog.Message.DuplicateName=Un doublon existe déjà.
 ###########################################################
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Afficher les enfants
-ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Toggle Breadcrumb
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Basculer la suite de liens

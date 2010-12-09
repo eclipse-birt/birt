@@ -108,4 +108,4 @@ FunctionDesc.duration.negate=返回其值为 -lexicalDuration 的新持续时间对象。\nlex
 FunctionDesc.duration.getSign=返回此持续时间的符号，以 -1、0 或 1 表示。\nlexicalDuration 是字符串表示 "PnYnMnDTnHnMnS"(例如 P5Y2M15DT4H40M20S)\nstartDate 参数用于消除此变量的歧义
 FunctionDesc.duration.compare=lexicalDuration1 与 lexicalDuration2 之间的部分顺序关系。\nlexicalDuration 是字符串表示 "PnYnMnDTnHnMnS"(例如 P5Y2M15DT4H40M20S)\nstartDate 参数用于消除此变量的歧义
 FunctionDesc.duration.addTo=将此持续时间添加到日期对象。\nlexicalDuration 是字符串表示 "PnYnMnDTnHnMnS"(例如 P5Y2M15DT4H40M20S)\nstartDate 参数用于消除此变量的歧义
-FunctionDesc.format=Obtains the formatted string from specified object and pattern.
+FunctionDesc.format=从指定的对象和模式获取格式化字符串。
