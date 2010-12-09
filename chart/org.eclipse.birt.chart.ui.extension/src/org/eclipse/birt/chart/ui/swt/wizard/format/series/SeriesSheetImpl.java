@@ -667,8 +667,15 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				{
 					htSeriesNames = new Hashtable<String, Series>( 20 );
 				}
-
-				if ( type.canCombine( ) )
+				
+				if ( series.getClass( ).equals( newSeries.getClass( ) ) )
+				{
+					// Always accept the same series type
+					String sDisplayName = newSeries.getDisplayName( );
+					htSeriesNames.put( sDisplayName, newSeries );
+					cmbTypes.add( sDisplayName );
+				}
+				else if ( type.canCombine( ) )
 				{
 					if ( newSeries instanceof AreaSeries && is25D )
 					{
