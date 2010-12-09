@@ -1039,7 +1039,14 @@ public class GroupDialog extends BaseDialog implements Listener
 		checkReadOnlyControl( IStyleModel.PAGE_BREAK_AFTER_PROP,
 				pagebreakAfterCombo );
 
-		index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
+		String pagebreakInside = getPageBreakInsideLocalValue( );
+
+		if ( pagebreakInside == null )
+		{
+			index = getPagebreakInsideIndex( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
+		}
+		else
+			index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
 
 		if ( index < 0 || index >= pagebreakInsideCombo.getItemCount( ) )
 		{
@@ -1062,6 +1069,15 @@ public class GroupDialog extends BaseDialog implements Listener
 		hideDetail.setSelection( inputGroup.hideDetail( ) );
 		checkReadOnlyControl( IGroupElementModel.HIDE_DETAIL_PROP, hideDetail );
 		return true;
+	}
+
+	private String getPageBreakInsideLocalValue( )
+	{
+		List modelList = new ArrayList( );
+		modelList.add( inputGroup );
+		String pagebreakInside = DEUtil.getGroupElementHandle( modelList )
+				.getLocalStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP );
+		return pagebreakInside;
 	}
 
 	private void refreshColumnList( )
@@ -1195,17 +1211,25 @@ public class GroupDialog extends BaseDialog implements Listener
 				inputGroup.setBookmark( null );
 			}
 
-			if ( inputGroup.getTOC( ) != null )
-				ExpressionButtonUtil.saveExpressionButtonControl( tocEditor,
-						inputGroup.getTOC( ),
-						TOC.TOC_EXPRESSION );
+			String tocText = tocEditor.getText( );
+			if ( tocText != null && !tocText.equals( "" ) ) //$NON-NLS-1$
+			{
+				if ( inputGroup.getTOC( ) != null )
+					ExpressionButtonUtil.saveExpressionButtonControl( tocEditor,
+							inputGroup.getTOC( ),
+							TOC.TOC_EXPRESSION );
+				else
+				{
+					TOC toc = StructureFactory.createTOC( );
+					ExpressionButtonUtil.saveExpressionButtonControl( tocEditor,
+							toc,
+							TOC.TOC_EXPRESSION );
+					inputGroup.addTOC( toc );
+				}
+			}
 			else
 			{
-				TOC toc = StructureFactory.createTOC( );
-				ExpressionButtonUtil.saveExpressionButtonControl( tocEditor,
-						toc,
-						TOC.TOC_EXPRESSION );
-				inputGroup.addTOC( toc );
+				inputGroup.setTocExpression( null );
 			}
 
 			int index;
@@ -1316,7 +1340,11 @@ public class GroupDialog extends BaseDialog implements Listener
 			}
 
 			index = intervalType.getSelectionIndex( );
-			inputGroup.setInterval( intervalChoices[index].getName( ) );
+
+			if ( !intervalChoices[index].getName( )
+					.equals( inputGroup.getInterval( ) ) )
+				inputGroup.setInterval( intervalChoices[index].getName( ) );
+
 			if ( index != 0 )
 			{
 				try
@@ -1326,7 +1354,8 @@ public class GroupDialog extends BaseDialog implements Listener
 						inputGroup.setIntervalRange( formatter.parse( intervalRange.getText( ) )
 								.doubleValue( ) );
 					}
-					else{
+					else
+					{
 						inputGroup.setIntervalRange( null );
 					}
 				}
@@ -1349,19 +1378,48 @@ public class GroupDialog extends BaseDialog implements Listener
 				inputGroup.setIntervalBase( null );
 			}
 
-			inputGroup.setHideDetail( hideDetail.getSelection( ) );
+			if ( inputGroup.hideDetail( ) != hideDetail.getSelection( ) )
+			{
+				inputGroup.setHideDetail( hideDetail.getSelection( ) );
+			}
+
 			if ( ascending.getSelection( ) )
 			{
-				inputGroup.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+				if ( !DesignChoiceConstants.SORT_DIRECTION_ASC.equals( inputGroup.getSortDirection( ) ) )
+					inputGroup.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
 			}
 			else
 			{
-				inputGroup.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
+				if ( !DesignChoiceConstants.SORT_DIRECTION_DESC.equals( inputGroup.getSortDirection( ) ) )
+					inputGroup.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 			}
-			inputGroup.setPageBreakBefore( pagebreakBeforeChoicesAll[pagebreakBeforeCombo.getSelectionIndex( )].getName( ) );
-			inputGroup.setPageBreakAfter( pagebreakAfterChoicesAll[pagebreakAfterCombo.getSelectionIndex( )].getName( ) );
-			inputGroup.setPageBreakInside( pagebreakInsideChoicesAll[pagebreakInsideCombo.getSelectionIndex( )].getName( ) );
-			inputGroup.setRepeatHeader( repeatHeaderButton.getSelection( ) );
+
+			String choice = pagebreakBeforeChoicesAll[pagebreakBeforeCombo.getSelectionIndex( )].getName( );
+			if ( !choice.equals( inputGroup.getPageBreakBefore( ) ) )
+				inputGroup.setPageBreakBefore( choice );
+
+			choice = pagebreakAfterChoicesAll[pagebreakAfterCombo.getSelectionIndex( )].getName( );
+			if ( !choice.equals( inputGroup.getPageBreakAfter( ) ) )
+				inputGroup.setPageBreakAfter( choice );
+
+			choice = pagebreakInsideChoicesAll[pagebreakInsideCombo.getSelectionIndex( )].getName( );
+			if ( getPageBreakInsideLocalValue( ) != null )
+			{
+				if ( !choice.equals( inputGroup.getPageBreakInside( ) ) )
+					inputGroup.setPageBreakInside( choice );
+			}
+			else
+			{
+				if ( !choice.equals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID ) )
+				{
+					inputGroup.setPageBreakInside( choice );
+				}
+			}
+			
+			if ( inputGroup.repeatHeader( ) != repeatHeaderButton.getSelection( ) )
+			{
+				inputGroup.setRepeatHeader( repeatHeaderButton.getSelection( ) );
+			}
 		}
 		catch ( SemanticException e )
 		{
