@@ -108,4 +108,4 @@ FunctionDesc.duration.negate=-lexicalDuration の値の新しい期間オブジェクトを返し
 FunctionDesc.duration.getSign=-1、0、または 1 の期間の記号を返します。\nlexicalDuration は文字列プレゼンテーションで、「PnYnMnDTnHnMnS」(例 : P5Y2M15DT4H40M20S) で示します。\nstartDate 引数を使用すると、一意的な解釈を指定できます。
 FunctionDesc.duration.compare=lexicalDuration1 と lexicalDuration2 の間の半順序関係です。\nlexicalDuration は文字列プレゼンテーションで、「PnYnMnDTnHnMnS」(例 : P5Y2M15DT4H40M20S) で示します。\nstartDate 引数を使用すると、一意的な解釈を指定できます。
 FunctionDesc.duration.addTo=Date オブジェクトにこの期間を加算します。\nlexicalDuration は文字列プレゼンテーションで、「PnYnMnDTnHnMnS」(例 : P5Y2M15DT4H40M20S) で示します。\nstartDate 引数を使用すると、一意的な解釈を指定できます。
-FunctionDesc.format=Obtains the formatted string from specified object and pattern.
+FunctionDesc.format=指定したオブジェクトおよびパターンから書式設定された文字列を取得します。

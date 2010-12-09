@@ -3412,7 +3412,7 @@ Element.DataMartDataSource.accessType=액세스 유형
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=데이터 원본
 Element.DataMartDataSet.dataObject=데이터 개체
-Element.DataMartDataSet.selectedColumns=Selected columns
+Element.DataMartDataSet.selectedColumns=선택한 열
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=데이터 원본

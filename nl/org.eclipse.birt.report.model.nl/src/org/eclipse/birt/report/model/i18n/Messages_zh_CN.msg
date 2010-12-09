@@ -3412,7 +3412,7 @@ Element.DataMartDataSource.accessType=访问类型
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=数据源
 Element.DataMartDataSet.dataObject=数据对象
-Element.DataMartDataSet.selectedColumns=Selected columns
+Element.DataMartDataSet.selectedColumns=选定列
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=数据源

@@ -108,4 +108,4 @@ FunctionDesc.duration.negate=Gibt eine neue Dauer in Millisekunden wieder, deren
 FunctionDesc.duration.getSign=Gibt das Vorzeichen der Dauer als -1, 0 oder 1 zurück.\nlexicalDuration ist die Repräsentation der Zeichenfolge 'PnYnMnDTnHnMnS' (z. B. P5Y2M15DT4H40M20S).\nDas Argument startDate wird verwendet, um diese Varianz eindeutig zu machen
 FunctionDesc.duration.compare=Teilordnungsrelation zwischen lexicalDuration1 und lexicalDuration2.\nlexicalDuration ist die Repräsentation der Zeichenfolge 'PnYnMnDTnHnMnS' (z. B. P5Y2M15DT4H40M20S)\nDas Argument startDate wird verwendet, um diese Varianz eindeutig zu machen
 FunctionDesc.duration.addTo=Fügt diese Dauer zu einem Datenobjekt hinzu.\nlexicalDuration ist die Repräsentation der Zeichenfolge 'PnYnMnDTnHnMnS' (z. B. P5Y2M15DT4H40M20S)\nDas Argument startDate wird verwendet, um diese Varianz eindeutig zu machen
-FunctionDesc.format=Obtains the formatted string from specified object and pattern.
+FunctionDesc.format=Ruft die formatierte Zeichenfolge aus dem angegebenen Objekt und Muster ab.

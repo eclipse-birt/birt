@@ -4808,4 +4808,4 @@ RenameInputDialog.Message.DuplicateName=存在重复名称。
 ###########################################################
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=显示子项
-ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Toggle Breadcrumb
+ToggleBreadcrumbAction.tooltip.switch.breadcrumb=切换 Breadcrumb

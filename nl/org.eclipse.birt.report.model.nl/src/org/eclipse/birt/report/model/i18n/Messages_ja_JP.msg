@@ -3412,7 +3412,7 @@ Element.DataMartDataSource.accessType=アクセスの種類
 #80 DataMartDataSet ( prefix Element.DataMartDataSet )
 Element.DataMartDataSet.dataSource=データソース
 Element.DataMartDataSet.dataObject=データオブジェクト
-Element.DataMartDataSet.selectedColumns=Selected columns
+Element.DataMartDataSet.selectedColumns=選択済みの列
 
 #81 DataMartCube ( prefix Element.DataMartCube )
 Element.DataMartCube.dataSource=データソース
