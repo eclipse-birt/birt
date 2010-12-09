@@ -18,8 +18,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.eclipse.birt.chart.util.SecurityUtil;
-
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
 
@@ -91,7 +89,7 @@ public class Messages
 		ResourceBundle bundle;
 		bundle = UResourceBundle.getBundleInstance( baseName,
 				locale,
-				SecurityUtil.getClassLoader( clazz ) );
+				clazz.getClassLoader( ) );
 
 		if ( bundle != null )
 		{
