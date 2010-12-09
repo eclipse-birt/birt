@@ -1,9 +1,9 @@
 !*************** BIRT CHART ***********
-plugin@org.eclipse.birt.chart.device.extension=v20101105,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.extension
+plugin@org.eclipse.birt.chart.device.extension=v20101209,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.extension
 plugin@org.eclipse.birt.chart.device.pdf=v20101014,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.pdf
 plugin@org.eclipse.birt.chart.device.svg=v20101014,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.svg
-plugin@org.eclipse.birt.chart.device.swt=v20101014,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.swt
-plugin@org.eclipse.birt.chart.engine=v20101202,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine
+plugin@org.eclipse.birt.chart.device.swt=v20101209,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.device.swt
+plugin@org.eclipse.birt.chart.engine=v20101209,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine
 plugin@org.eclipse.birt.chart.engine.extension=v20101209,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.engine.extension
 plugin@org.eclipse.birt.chart.examples=v20101209,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.examples
 plugin@org.eclipse.birt.chart.examples.core=v20101209,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.examples.core
