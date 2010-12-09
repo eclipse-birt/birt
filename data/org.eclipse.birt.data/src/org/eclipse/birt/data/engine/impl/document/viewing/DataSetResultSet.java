@@ -149,6 +149,10 @@ public class DataSetResultSet implements IDataSetPopulator
 	 */
 	public int getRowCount( )
 	{
+		if ( this.prefilteredRowIds != null )
+		{
+			return this.prefilteredRowIds.size( );
+		}
 		return this.rowCount;
 	}
 
