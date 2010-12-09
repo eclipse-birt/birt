@@ -48,6 +48,7 @@ import org.eclipse.birt.report.engine.emitter.excel.ExcelWriter;
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.excel.IExcelWriter;
 import org.eclipse.birt.report.engine.emitter.excel.ImageData;
+import org.eclipse.birt.report.engine.emitter.excel.NumberFormatValue;
 import org.eclipse.birt.report.engine.emitter.excel.RowData;
 import org.eclipse.birt.report.engine.emitter.excel.SheetData;
 import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
@@ -845,10 +846,15 @@ public class ExcelLayoutEngine
 		int type = SheetData.STRING;
 		if ( SheetData.NUMBER == ExcelUtil.getType( value ) )
 		{
-			String format = ExcelUtil.getPattern( value, (String) entry
-					.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
-			format = ExcelUtil.formatNumberPattern( format, locale );
-			entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
+			NumberFormatValue numberFormat = (NumberFormatValue) entry.getProperty( StyleConstant.NUMBER_FORMAT_PROP );
+			if ( numberFormat != null )
+			{
+				String format = ExcelUtil.formatNumberPattern( numberFormat.getFormat( ),
+						locale );
+				numberFormat.setFormat( format );
+				entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP,
+						numberFormat );
+			}
 			type = SheetData.NUMBER;
 
 		}

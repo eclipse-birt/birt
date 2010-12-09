@@ -129,8 +129,11 @@ public class StyleBuilder
        
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, style
 				.getDateFormat( ) );
-		entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, style
-				.getNumberFormat( ));
+		
+		String format = style.getNumberFormat( );
+		entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP,
+				NumberFormatValue.getInstance( format ) );
+
 		entry.setProperty( StyleConstant.STRING_FORMAT_PROP, style
 				.getStringFormat( ) );
 		
