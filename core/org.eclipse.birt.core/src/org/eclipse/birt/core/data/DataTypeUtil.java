@@ -560,16 +560,19 @@ public final class DataTypeUtil
 		}
 		addHour = 0;
 		String markerValue = null;
+		String aMarker = null;
 		if ( marker < s.length( ) )
 		{
 			markerValue = s.substring( marker ).trim( );
 			if ( "am".compareToIgnoreCase( markerValue ) == 0 )
 			{
 				addHour = 0;
+				aMarker = "am";
 			}
 			else if ( "pm".compareToIgnoreCase( markerValue ) == 0 )
 			{
 				addHour = 12;
+				aMarker = "pm";
 			}
 			else
 			{
@@ -582,12 +585,6 @@ public final class DataTypeUtil
 			throw new java.lang.IllegalArgumentException( );
 		}
 		hour = Integer.parseInt( s.substring( 0, firstColon ) );
-		if ( hour < 0 ||
-				( hour > 12 && markerValue != null && markerValue.length( ) > 0 ) )
-			throw new java.lang.IllegalArgumentException( );
-		hour += addHour;
-		if( hour > 24 )
-			throw new java.lang.IllegalArgumentException( );
 		minute = Integer.parseInt( s.substring( firstColon + 1, secondColon ) );
 		if( minute < 0 || minute > 60 )
 			throw new java.lang.IllegalArgumentException( );
@@ -597,6 +594,26 @@ public final class DataTypeUtil
 			second = Integer.parseInt( s.substring( secondColon + 1 ) );
 		if( second < 0 || second > 60 )
 			throw new java.lang.IllegalArgumentException( );
+		if( hour == 12 && minute == 0 && second == 0 && aMarker != null )
+		{
+			if ( "am".equals( aMarker ) )
+			{
+				hour = 24;
+			}
+			else
+			{
+				hour = 12;
+			}
+		}
+		else
+		{
+			if ( hour < 0 ||
+				( hour > 12 && markerValue != null && markerValue.length( ) > 0 ) )
+				throw new java.lang.IllegalArgumentException( );
+			hour += addHour;
+			if( hour > 24 )
+				throw new java.lang.IllegalArgumentException( );
+		}
 		
 		return toSqlTime( hour, minute, second );
 	}
