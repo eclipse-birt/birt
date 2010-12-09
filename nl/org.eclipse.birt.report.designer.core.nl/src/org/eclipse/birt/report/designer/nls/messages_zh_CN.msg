@@ -3075,7 +3075,7 @@ PreviewAction.Text=预览
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=显示报表参数
-PreviewEditor.parameter.hint=刷新报告
+PreviewEditor.parameter.hint=刷新报表
 PreviewEditor.parameter.note=注:
 PreviewEditor.parameter.info=当前数据行数的最大限制为 {0}。
 PreviewEditor.parameter.change=单击以更改预览首选项
