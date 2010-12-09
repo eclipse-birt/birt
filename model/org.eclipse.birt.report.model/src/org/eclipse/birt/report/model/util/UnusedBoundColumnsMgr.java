@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -259,16 +260,29 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 	{
 		super.dealReportItem( element, module );
 
-		List columnBindings = (List) element.getLocalProperty( module,
-				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		List<ComputedColumn> columnBindings = (List<ComputedColumn>) element
+				.getLocalProperty( module,
+						IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		if ( columnBindings != null )
 		{
 			for ( int i = 0; i < columnBindings.size( ); i++ )
 			{
-				ComputedColumn paramValue = (ComputedColumn) columnBindings
-						.get( i );
-				handleBoundsForValue( element, module, paramValue
-						.getExpression( ) );
+				ComputedColumn paramValue = columnBindings.get( i );
+				handleBoundsForValue( element, module,
+						paramValue.getExpression( ) );
+
+				List<AggregationArgument> args = (List<AggregationArgument>) paramValue
+						.getLocalProperty( module,
+								ComputedColumn.ARGUMENTS_MEMBER );
+				if ( args == null )
+					continue;
+
+				for ( int j = 0; j < args.size( ); j++ )
+				{
+					AggregationArgument arg = args.get( j );
+					handleBoundsForValue( element, module, arg.getValue( ) );
+				}
+
 			}
 		}
 	}
@@ -294,8 +308,20 @@ public class UnusedBoundColumnsMgr extends BoundColumnsMgr
 			{
 				ComputedColumn paramValue = (ComputedColumn) columnBindings
 						.get( i );
-				handleBoundsForValue( element, module, paramValue
-						.getExpression( ) );
+				handleBoundsForValue( element, module,
+						paramValue.getExpression( ) );
+
+				List<AggregationArgument> args = (List<AggregationArgument>) paramValue
+						.getLocalProperty( module,
+								ComputedColumn.ARGUMENTS_MEMBER );
+				if ( args == null )
+					continue;
+
+				for ( int j = 0; j < args.size( ); j++ )
+				{
+					AggregationArgument arg = args.get( j );
+					handleBoundsForValue( element, module, arg.getValue( ) );
+				}
 			}
 		}
 	}
