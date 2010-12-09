@@ -1839,6 +1839,27 @@ public class UIUtil
 		}
 		return null;
 	}
+	
+	/**
+	 * Return the AnalysisColumn
+	 * @param column
+	 * @return
+	 */
+	public static String getAnalysisColumn( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getAnalysisColumn( );
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Return the action property of dataset column from column hint

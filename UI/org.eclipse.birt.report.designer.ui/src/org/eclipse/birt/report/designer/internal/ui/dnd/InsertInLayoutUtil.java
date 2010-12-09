@@ -23,7 +23,9 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -609,6 +611,37 @@ public class InsertInLayoutUtil
 		return dataHandle;
 	}
 
+	private static GroupHandle addGroupHandle(TableHandle tableHandle, String columnName, DataItemHandle dataHandle)throws SemanticException
+	{
+		DesignElementFactory factory = DesignElementFactory.getInstance( tableHandle.getModuleHandle( ) );
+		GroupHandle groupHandle = factory.newTableGroup( );
+		int columnCount = tableHandle.getColumnCount( );
+		groupHandle.getHeader( )
+				.add( factory.newTableRow( columnCount ) );
+		groupHandle.getFooter( )
+				.add( factory.newTableRow( columnCount ) );
+		groupHandle.setName( columnName );
+		Expression newKeyExpr = new Expression( ExpressionUtility.getColumnExpression(columnName,
+				ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ),
+				ExpressionType.JAVASCRIPT );
+		groupHandle.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
+				newKeyExpr );
+
+		TOC toc = StructureFactory.createTOC( );
+		toc.setExpression( ExpressionUtility.getColumnExpression( columnName,
+				ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ) );
+		groupHandle.addTOC( toc );
+
+		//slotHandle.add( groupHandle, slotHandle.getCount( ) );
+
+		RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
+				.get( 0 ) );
+		CellHandle cellHandle = (CellHandle) rowHandle.getCells( )
+				.get( 0 );
+		cellHandle.getContent( ).add( dataHandle );
+
+		return groupHandle;
+	}
 	/**
 	 * Inserts dataset column into the target. Add label or group key if
 	 * possible
@@ -667,85 +700,178 @@ public class InsertInLayoutUtil
 							return null;
 					}
 
-					DesignElementFactory factory = DesignElementFactory.getInstance( tableHandle.getModuleHandle( ) );
-					GroupHandle groupHandle = factory.newTableGroup( );
-					int columnCount = tableHandle.getColumnCount( );
-					groupHandle.getHeader( )
-							.add( factory.newTableRow( columnCount ) );
-					groupHandle.getFooter( )
-							.add( factory.newTableRow( columnCount ) );
-					groupHandle.setName( model.getColumnName( ) );
-					Expression newKeyExpr = new Expression( ExpressionUtility.getColumnExpression( model.getColumnName( ),
-							ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ),
-							ExpressionType.JAVASCRIPT );
-					groupHandle.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
-							newKeyExpr );
-
-					TOC toc = StructureFactory.createTOC( );
-					toc.setExpression( ExpressionUtility.getColumnExpression( model.getColumnName( ),
-							ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ) );
-					groupHandle.addTOC( toc );
-
-					//slotHandle.add( groupHandle, slotHandle.getCount( ) );
-
-					RowHandle rowHandle = ( (RowHandle) groupHandle.getHeader( )
-							.get( 0 ) );
-					CellHandle cellHandle = (CellHandle) rowHandle.getCells( )
-							.get( 0 );
-					cellHandle.getContent( ).add( dataHandle );
-
-					return groupHandle;
+					return addGroupHandle( tableHandle, model.getColumnName( ), dataHandle );
 				}
-				else if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model ) )
-						|| DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( model ) ) )
+				else if (DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( model ) ))
 				{
-					// check target is a group cell
-					if ( target instanceof CellHandle
-							&& ( (CellHandle) target ).getContainer( )
-									.getContainer( ) instanceof GroupHandle )
+					DataSetHandle dataset = (DataSetHandle) model.getElementHandle( );
+					String str = UIUtil.getAnalysisColumn( model );
+					String type = ""; //$NON-NLS-1$
+					
+					ResultSetColumnHandle newResultColumn = null;
+					if (str != null)
 					{
-						CellHandle cellHandle = (CellHandle) target;
-						GroupHandle group = (GroupHandle) cellHandle.getContainer( )
-								.getContainer( );
-
+						List columnList = DataUtil.getColumnList( dataset );
+						
+						for ( int i = 0; i < columnList.size( ); i++ )
+						{
+							ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
+							if (str.equals( resultSetColumn.getColumnName( ) ))
+							{
+								newResultColumn =  resultSetColumn;
+								break;
+							}
+						}
+						
+						for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+								.iterator( ); iter.hasNext( ); )
+						{
+							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+							if ( element.getColumnName( ).equals( str )
+									||str.equals( element.getAlias( ) ) )
+							{
+								type = element.getAnalysis( );
+								break;
+							}
+						}
+						if (DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ))
+						{
+							boolean hasGroup = false;
+							SlotHandle slotHandle = tableHandle.getGroups( );
+							for ( Object o : slotHandle.getContents( ) )
+							{
+								GroupHandle group = (GroupHandle) o;
+								if ( group.getName( ).equals( str ) )
+									hasGroup = true;
+							}
+							if (!hasGroup)
+							{
+								ComputedColumn bindingColumn = StructureFactory.newComputedColumn( tableHandle,
+										model.getColumnName( ) );
+								bindingColumn.setDataType( model.getDataType( ));
+								ExpressionUtility.setBindingColumnExpression( model,
+										bindingColumn );
+								bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
+								String displayKey = UIUtil.getColumnDisplayNameKey( model );
+								if ( displayKey != null )
+									bindingColumn.setDisplayNameID( displayKey );
+								tableHandle.addColumnBinding( bindingColumn, false );
+								dataHandle.setResultSetColumn( model.getColumnName( ) );
+								
+								return addGroupHandle( tableHandle, newResultColumn.getColumnName( ), dataHandle );
+							}
+						}
+					}
+					if ( target instanceof CellHandle)
+					{
 						ComputedColumn column = StructureFactory.newComputedColumn( tableHandle,
 								model.getColumnName( ) );
 						ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
 								column,
 								true );
-						binding.setAggregateOn( group.getName( ) );
-
-						if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model ) ) )
-							binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
-						else
-							binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
+						//binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
 
 						binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
 						dataHandle.setResultSetColumn( binding.getName( ) );
-
-						InsertInLayoutRule rule = new LabelAddRule( target );
-						if ( rule.canInsert( ) )
-						{
-							// LabelHandle label =
-							// SessionHandleAdapter.getInstance( )
-							// .getReportDesignHandle( )
-							// .getElementFactory( )
-							// .newLabel( null );
-							LabelHandle label = DesignElementFactory.getInstance( )
-									.newLabel( null );
-							label.setText( UIUtil.getColumnDisplayName( model ) );
-							rule.insert( label );
-						}
-
-						rule = new GroupKeySetRule( target, model );
+						InsertInLayoutRule rule = new GroupKeySetRule( target, model );
 						if ( rule.canInsert( ) )
 						{
 							rule.insert( model );
 						}
-
 						return dataHandle;
 					}
 				}
+				else if (DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model )))
+				{
+					CellHandle cellHandle = (CellHandle) target;
+					
+
+					ComputedColumn column = StructureFactory.newComputedColumn( tableHandle,
+							model.getColumnName( ) );
+					ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
+							column,
+							true );
+					DesignElementHandle group = cellHandle.getContainer( )
+						.getContainer( );
+					if (group instanceof GroupHandle)
+					{
+						binding.setAggregateOn( ((GroupHandle)group).getName( ) );
+					}
+					else
+					{
+						binding.setAggregateOn(null);
+					}
+					
+					if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( model.getDataType( ) )
+							|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( model.getDataType( ) )
+							|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( model.getDataType( ) ) )
+					{
+						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
+					}
+					else
+					{
+						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
+					}
+
+					binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
+					dataHandle.setResultSetColumn( binding.getName( ) );
+					InsertInLayoutRule rule = new GroupKeySetRule( target, model );
+					if ( rule.canInsert( ) )
+					{
+						rule.insert( model );
+					}
+					return dataHandle;
+				}
+//				else if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model ) )
+//						|| DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( model ) ) )
+//				{
+//					// check target is a group cell
+//					if ( target instanceof CellHandle
+//							&& ( (CellHandle) target ).getContainer( )
+//									.getContainer( ) instanceof GroupHandle )
+//					{
+//						CellHandle cellHandle = (CellHandle) target;
+//						GroupHandle group = (GroupHandle) cellHandle.getContainer( )
+//								.getContainer( );
+//
+//						ComputedColumn column = StructureFactory.newComputedColumn( tableHandle,
+//								model.getColumnName( ) );
+//						ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
+//								column,
+//								true );
+//						binding.setAggregateOn( group.getName( ) );
+//
+//						if ( DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals( UIUtil.getColumnAnalysis( model ) ) )
+//							binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
+//						else
+//							binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
+//
+//						binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
+//						dataHandle.setResultSetColumn( binding.getName( ) );
+//
+//						InsertInLayoutRule rule = new LabelAddRule( target );
+//						if ( rule.canInsert( ) )
+//						{
+//							// LabelHandle label =
+//							// SessionHandleAdapter.getInstance( )
+//							// .getReportDesignHandle( )
+//							// .getElementFactory( )
+//							// .newLabel( null );
+//							LabelHandle label = DesignElementFactory.getInstance( )
+//									.newLabel( null );
+//							label.setText( UIUtil.getColumnDisplayName( model ) );
+//							rule.insert( label );
+//						}
+//
+//						rule = new GroupKeySetRule( target, model );
+//						if ( rule.canInsert( ) )
+//						{
+//							rule.insert( model );
+//						}
+//
+//						return dataHandle;
+//					}
+//				}
 			}
 		}
 
@@ -1404,10 +1530,106 @@ public class InsertInLayoutUtil
 			{
 				return true;
 			}
+			
 			// Validates target's dataset is null or the same with the inserted
 			DesignElementHandle handle = (DesignElementHandle) target.getParent( )
 					.getModel( );
-			if ( handle instanceof ReportItemHandle )
+			if (handle instanceof TableHandle  && target.getModel( ) instanceof CellHandle)
+			{
+				TableHandle tableHandle = (TableHandle)handle;
+				CellHandle cellHandle = (CellHandle)target.getModel( );
+				if (DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( UIUtil.getColumnAnalysis( insertObj ) ))
+				{
+					SlotHandle slotHandle = tableHandle.getGroups( );
+					for ( Object o : slotHandle.getContents( ) )
+					{
+						GroupHandle group = (GroupHandle) o;
+						if ( group.getName( ).equals( insertObj.getColumnName( ) ) )
+							return false;
+					}
+				}
+				else if (DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals(UIUtil.getColumnAnalysis( insertObj )  ))
+				{
+					String str = UIUtil.getAnalysisColumn( insertObj );
+					DataSetHandle dataset = (DataSetHandle) insertObj.getElementHandle( );
+					String type = "";
+					if (str != null)
+					{
+						for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+								.iterator( ); iter.hasNext( ); )
+						{
+							ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+							if ( element.getColumnName( ).equals( str )
+									||str.equals( element.getAlias( ) ) )
+							{
+								type = element.getAnalysis( );
+								break;
+							}
+						}
+						if (DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( type ))
+						{
+							GroupHandle findGroup = null;
+							SlotHandle slotHandle = tableHandle.getGroups( );
+							for ( Object o : slotHandle.getContents( ) )
+							{
+								GroupHandle group = (GroupHandle) o;
+								if ( group.getName( ).equals(str) )
+								{
+									findGroup = group;
+								}
+							}
+							if (findGroup == null)
+							{
+//								DesignElementHandle container = cellHandle.getContainer( ).getContainer( );
+//								if (container instanceof TableHandle)
+//								{
+//									return true;
+//								}
+//								if (container instanceof GroupHandle && str.equals( ((GroupHandle)container).getName( )))
+//								{
+//									return true;
+//								}
+//								return false;
+								return true;
+							}
+							else
+							{
+								if (cellHandle.getContainer( ).getContainer( ) == findGroup)
+								{
+									return true;
+								}
+								else
+								{
+									return false;
+								}
+							}
+						}
+						else if (!type.equals( "" )) //$NON-NLS-1$
+						{
+							SlotHandle slotHandle = cellHandle.getContainer( ).getContainerSlotHandle( );
+							if (slotHandle.equals( tableHandle.getHeader( )) || slotHandle.equals( tableHandle.getFooter( ) ) )
+							{
+								return true;
+							}
+							else
+							{
+								return false;
+							}
+						}
+					}
+					else
+					{
+						SlotHandle slotHandle = cellHandle.getContainer( ).getContainerSlotHandle( );
+						if (slotHandle == tableHandle.getHeader( ) || slotHandle == tableHandle.getFooter( ))
+						{
+							return true;
+						}
+						return false;
+					}
+					
+				}
+			}
+			if ( handle instanceof ReportItemHandle  )
 			{
 				ReportItemHandle bindingHolder = DEUtil.getListingContainer( handle );
 				DataSetHandle itsDataSet = ( (ReportItemHandle) handle ).getDataSet( );
@@ -1422,7 +1644,7 @@ public class InsertInLayoutUtil
 								.iterator( )
 								.hasNext( ) )
 						|| insertObj.getElementHandle( ).equals( dataSet );
-			}
+			}			
 		}
 		return false;
 	}
