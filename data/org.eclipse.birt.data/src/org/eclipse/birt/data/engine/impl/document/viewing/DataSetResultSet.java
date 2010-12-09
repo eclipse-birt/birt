@@ -149,8 +149,11 @@ public class DataSetResultSet implements IDataSetPopulator
 	 */
 	public int getRowCount( )
 	{
-		return this.rowCount;
-	}
+		if ( this.prefilteredRowIds != null )
+		{
+			return this.prefilteredRowIds.size( );
+		}
+		return this.rowCount;	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
