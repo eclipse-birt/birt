@@ -40,10 +40,11 @@ import org.eclipse.birt.data.engine.impl.ICancellable;
 import org.eclipse.birt.data.engine.impl.IQueryContextVisitor;
 import org.eclipse.birt.data.engine.impl.QueryContextVisitorUtil;
 import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
-import org.eclipse.birt.data.engine.odaconsumer.QuerySpecHelper;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
+import org.eclipse.birt.data.engine.odaconsumer.QuerySpecHelper;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -769,6 +770,83 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	        inputParamValues = new ArrayList();
 	    return inputParamValues;
 	}
+	
+	private IResultClass copyResultClass( IResultClass meta )
+			throws DataException
+	{
+		List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>( );
+		for ( int i = 1; i <= meta.getFieldCount( ); i++ )
+		{
+			if ( !meta.getFieldName( i ).equals( ExprMetaUtil.POS_NAME ) )
+			{
+				int m_driverPosition = meta.getFieldMetaData( i ).getDriverPosition( );
+				String m_name = meta.getFieldMetaData( i ).getName( );
+				String m_label = meta.getFieldMetaData( i ).getLabel( );
+				Class m_dataType = meta.getFieldMetaData( i ).getDataType( );
+				String m_nativeTypeName = meta.getFieldMetaData( i ).getNativeTypeName( );
+				boolean m_isCustom = meta.getFieldMetaData( i ).isCustom( );
+				Class m_driverProvidedDataType = meta.getFieldMetaData( i ).getDriverProvidedDataType( );
+				int m_analysisType = meta.getFieldMetaData( i ).getAnalysisType( );
+				String m_analysisColumn = meta.getFieldMetaData( i ).getAnalysisColumn( );
+				boolean m_indexColumn = meta.getFieldMetaData( i ).isIndexColumn( );
+				boolean m_compressedColumn = meta.getFieldMetaData( i ).isCompressedColumn( );
+					
+				ResultFieldMetadata metadata = new ResultFieldMetadata( m_driverPosition, m_name, 
+						m_label, m_dataType,
+						m_nativeTypeName,m_isCustom, m_analysisType, m_analysisColumn, m_indexColumn, m_compressedColumn );
+				metadata.setDriverProvidedDataType( m_driverProvidedDataType );
+				metadata.setAlias( meta.getFieldMetaData( i ).getAlias( ) );
+				
+				list.add( metadata );
+			}
+		}
+		IResultClass resultClass = new ResultClass( list );
+
+		return resultClass;
+	}
+	
+	
+	private IResultClass mergeResultHint ( List modelResultHints, IResultClass meta )
+	{
+		if ( modelResultHints == null || modelResultHints.isEmpty( ) )
+			return meta;
+		IResultClass newResultClass;
+		try
+		{
+			newResultClass = copyResultClass( meta );
+		}
+		catch ( Exception ex )
+		{
+			return meta;
+		}
+		int count = newResultClass.getFieldCount( );
+		try
+		{
+			for ( int i = 1; i <= count; i++ )
+			{
+				String fieldName = newResultClass.getFieldName( i );
+				Class odaType = newResultClass.getFieldMetaData( i )
+						.getDataType( );
+				for ( int j = 0; j < modelResultHints.size( ); j++ )
+				{
+					if ( ( (IColumnDefinition) modelResultHints.get( j ) ).getColumnName( )
+							.equals( fieldName ) )
+					{
+						int apiType = ( (IColumnDefinition) modelResultHints.get( j ) ).getDataType( );
+						if ( DataTypeUtil.toApiDataType( odaType ) != apiType )
+						{
+							newResultClass.getFieldMetaData( i ).setDataType( DataType.getClass( apiType ) );
+						}
+						break;
+					}
+				}
+			}
+		}
+		catch ( Exception ex )
+		{
+		}
+		return newResultClass;
+	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
@@ -785,6 +863,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	IOdaDataSetDesign design = null;
     	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
     		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
+
     	if ( session.getDataSetCacheManager( ).doesSaveToCache( ) )
 		{
 			int fetchRowLimit = 0;
@@ -849,6 +928,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		{
 			rs = odaStatement.getResultSet( );
 		}
+		
+		List modelResultHints = design.getResultSetHints( );
 		// If we did not get a result set metadata at prepare() time, get it now
 		if ( resultMetadata == null )
 		{
@@ -856,6 +937,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			if ( resultMetadata == null )
 				throw new DataException( ResourceConstants.METADATA_NOT_AVAILABLE );
 		}
+		IResultClass newResultClass = mergeResultHint( modelResultHints , resultMetadata );
 		
 		// Initialize CachedResultSet using the ODA result set
 		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
@@ -873,7 +955,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				{
 					IResultIterator it = new SimpleResultSet( this,
 							rs,
-							resultMetadata,
+							newResultClass,
 							eventHandler );
 					eventHandler.handleEndOfDataSetProcess( it );
 					return it;
@@ -881,18 +963,18 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 	    	
 			ri = new CachedResultSet( this,
-					resultMetadata,
+					newResultClass,
 					rs,
 					eventHandler,
 					session );
 		}
 		else
 			ri = new CachedResultSet( this,
-					resultMetadata,
-					new DataSetToCache( rs, resultMetadata, session),
+					newResultClass,
+					new DataSetToCache( rs, newResultClass, session ),
 					eventHandler, session );
 		
-		if ( ri != null  )
+		if ( ri != null )
 			( (CachedResultSet) ri ).setOdaResultSet( rs );
 
 		return ri;

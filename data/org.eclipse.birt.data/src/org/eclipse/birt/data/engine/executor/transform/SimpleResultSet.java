@@ -84,7 +84,7 @@ public class SimpleResultSet implements IResultIterator
 	{
 		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
-				new OdiAdapter( resultSet ),
+				new OdiAdapter( resultSet, resultClass ),
 				resultClass,
 				false ) );
 		this.currResultObj = this.rowResultSet.next( );

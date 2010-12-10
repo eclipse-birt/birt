@@ -68,7 +68,7 @@ class SmartCacheHelper
 		{
 			SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
 			ResultSetCache smartCache = smartCacheHelper.getDistinctResultSetCache( cacheRequest,
-					new OdiAdapter( odaResultSet ),
+					new OdiAdapter( odaResultSet , rsMeta ),
 					rsMeta );
 
 			cacheRequest.setDistinctValueFlag( false );
@@ -76,7 +76,7 @@ class SmartCacheHelper
 		}
 		else
 		{
-			initOdaResult( cacheRequest, new OdiAdapter( odaResultSet ), rsMeta );
+			initOdaResult( cacheRequest, new OdiAdapter( odaResultSet, rsMeta ), rsMeta );
 		}
 
 		return this.resultSetCache;
