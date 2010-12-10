@@ -688,6 +688,7 @@ DataSetParameterPage.toolTipText.Down=매개 변수를 아래로 이동
 DataSetParameterPage.WarningMessage.updatePosition=일부 또는 모든 데이터 집합 매개 변수에 잘못된 위치값이 지정되었습니다. 순서를 기준으로 위치를 업데이트하고 있습니다.
 DataSetParameterPage.warning.UnmatchedParamDataType=데이터 집합 매개 변수 형식이 연결된 보고서 매개 변수 형식과 일치하지 않습니다.
 DataSetParameterPage.multiValuesType=여러 값 유형
+DataSetParameterPage.warningLinkedMultipleValuesParams.title=Warning Dialog
 DataSetParameterPage.updateReportParameter.title=보고서 매개 변수 업데이트 설정
 DataSetParameterPage.updateReportParameter.message=데이터 집합 매개 변수 설정을 사용하여 연결된 보고서 매개 변수를 업데이트하시겠습니까?
 DataSetParameterPage.updateReportParameter.promptButtonYes=예
@@ -2851,6 +2852,8 @@ OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=새 출력 열
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=출력 열 편집
 OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
 OutputColumnsPage.description=출력 열 정의:
+OutputColumnsPage.DataTypeConvert.Note=Note
+OutputColumnsPage.DataTypeConvert.Message=Such conversion may result in loss of precision or error at runtime, are you sure to apply it?
 
 ###########################################################
 #PageBreakPreferencePage properties

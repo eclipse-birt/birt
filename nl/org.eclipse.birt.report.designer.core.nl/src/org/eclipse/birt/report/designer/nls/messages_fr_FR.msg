@@ -688,6 +688,7 @@ DataSetParameterPage.toolTipText.Down=Déplacer le paramètre vers le bas
 DataSetParameterPage.WarningMessage.updatePosition=Les valeurs de position de la totalité ou d'une partie des paramètres du jeu de données sont incorrectes. Mise à jour de leurs positions selon leur séquence.
 DataSetParameterPage.warning.UnmatchedParamDataType=Le type de paramètre du jeu de données ne correspond pas au type de paramètre d'état lié.
 DataSetParameterPage.multiValuesType=Type de valeurs multiples
+DataSetParameterPage.warningLinkedMultipleValuesParams.title=Warning Dialog
 DataSetParameterPage.updateReportParameter.title=Configuration de la mise à jour du paramètre d'état
 DataSetParameterPage.updateReportParameter.message=Voulez-vous mettre à jour le paramètre d'état lié avec les paramètres du jeu de données des réglages ?
 DataSetParameterPage.updateReportParameter.promptButtonYes=Oui
@@ -2851,6 +2852,8 @@ OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=Nouvelle colonne 
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Modifier la colonne de sortie
 OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
 OutputColumnsPage.description=Définir les colonnes de sortie :
+OutputColumnsPage.DataTypeConvert.Note=Note
+OutputColumnsPage.DataTypeConvert.Message=Such conversion may result in loss of precision or error at runtime, are you sure to apply it?
 
 ###########################################################
 #PageBreakPreferencePage properties
