@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.impl.DataSetMetaDataHelper;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
@@ -44,27 +46,34 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
-import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -108,6 +117,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			"name", "dataTypeDisplayName", "alias", "realDisplayName", "displayNameKey"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 
+	protected static IChoiceSet dataTypes = DEUtil.getMetaDataDictionary( )
+			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
+			.getAllowedChoices( );
+	
 	/**
 	 * The constructor.
 	 */
@@ -556,6 +570,43 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				}
 			}
 		}
+		
+		if ( (DataSetHandle) getContainer( ).getModel( ) instanceof OdaDataSetHandle )
+		{
+			handle = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
+			if ( viewer != null
+					&& viewer.getViewer( ) != null
+					&& viewer.getViewer( ).getInput( ) != null )
+			{
+				DataSetViewData[] items = (DataSetViewData[]) viewer.getViewer( )
+						.getInput( );
+				for ( int n = 0; n < items.length; n++ )
+				{
+					String dataType = items[n].getDataTypeName( );
+					Iterator iter = handle.iterator( );
+					if ( iter != null )
+					{
+						while ( iter.hasNext( ) )
+						{
+							try
+							{
+								ResultSetColumnHandle resultSet = (ResultSetColumnHandle) iter.next( );
+								if ( resultSet.getColumnName( )
+										.equals( items[n].getName( ) ) )
+								{
+									resultSet.setDataType( dataType );
+									break;
+								}
+							}
+							catch ( Exception ex )
+							{
+
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -721,10 +772,103 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		return super.performCancel( );
 	}
 
+	protected String[] getCompatibleDataTypes ( String dataType )
+	{
+		String[] compatibleTypes = null;
+	
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( dataType ) )
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_DATE,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_TIME
+			};
+		}
+		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ))
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
+			};
+		}
+		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( dataType ))
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
+			};
+		}
+		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType ))
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
+			};
+		}
+		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType ))
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_DATE,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_TIME
+			};
+		}
+		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType ))
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
+			};
+		}
+		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT.equals( dataType ))
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
+			};
+		}
+		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals( dataType ))
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
+			};
+		}
+		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType ))
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER,
+			};
+		}
+		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ))
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL
+			};
+		}
+		
+		if ( compatibleTypes == null )
+			return new String[0];
+		for( int i =0; i<compatibleTypes.length; i++)
+		{
+			compatibleTypes[i] = dataTypes.findChoice( compatibleTypes[i] ).getDisplayName( );
+		}
+		
+		return compatibleTypes;
+	}
+	
 	private class OutputColumnInputDialog extends PropertyHandleInputDialog
 	{
 
 		DataSetViewData data = null;
+		private CCombo cmbDataType;
+		private String originalDataType;
 
 		protected OutputColumnInputDialog( Object structureOrHandle )
 		{
@@ -764,6 +908,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			{
 				ControlProvider.createLabel( parent, dialogLabels[i] );
 
+				if ( i == 1 )
+				{
+					createDataTypeCombo ( parent );
+					continue;
+				}
 				if ( i == 4 )
 				{
 					createResourceCell( parent, i );
@@ -774,6 +923,87 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			}
 		}
 
+		private boolean checkForPotentialProblems( String dataType )
+		{
+			if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ) )
+			{
+				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataTypes.findChoiceByDisplayName( cmbDataType.getText( ) )
+						.getName( ) )
+						|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataTypes.findChoiceByDisplayName( cmbDataType.getText( ) )
+								.getName( ) ) )
+				{
+					return true;
+				}
+			}
+			else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) )
+			{
+				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataTypes.findChoiceByDisplayName( cmbDataType.getText( ) )
+						.getName( ) ) )
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		private void createDataTypeCombo(Composite parent)
+				throws IllegalArgumentException, IntrospectionException,
+				IllegalAccessException, InvocationTargetException
+		{
+			cmbDataType = new CCombo( parent, SWT.READ_ONLY | SWT.BORDER );
+			cmbDataType.setLayoutData( ControlProvider.getGridDataWithHSpan( 2 ) );
+
+			String selectedItem = data.getDataTypeName( ); 
+			originalDataType = selectedItem;
+			cmbDataType.add( dataTypes.findChoice( selectedItem ).getDisplayName( ) );
+			String[] compatibleDisplayNames = getCompatibleDataTypes ( selectedItem );
+			
+			for( int i = 0 ; i <compatibleDisplayNames.length ; i++ )
+			{
+				cmbDataType.add( compatibleDisplayNames[i] );
+			}
+			
+			cmbDataType.select( 0 );
+			
+			if ( !( (DataSetHandle) getContainer( ).getModel( ) instanceof OdaDataSetHandle ) )
+				cmbDataType.setEnabled( false );
+			
+			cmbDataType.addSelectionListener( new SelectionListener(){
+				public void widgetSelected( SelectionEvent e )
+				{
+					if ( checkForPotentialProblems( originalDataType ) )
+					{
+						if ( MessageDialog.openQuestion( getShell( ),
+								Messages.getString( "OutputColumnsPage.DataTypeConvert.Note" ),
+								Messages.getString( "OutputColumnsPage.DataTypeConvert.Message" )
+						 ) )
+						{
+							data.setDataTypeName( dataTypes.findChoiceByDisplayName( cmbDataType.getText( ) )
+									.getName( ) );
+							data.setDataType( DataAdapterUtil.adaptModelDataType( dataTypes.findChoiceByDisplayName( cmbDataType.getText( ) )
+									.getName( ) ));
+						}
+						else 
+						{
+							cmbDataType.select( 0 );
+						}
+					}
+					else
+					{
+						data.setDataTypeName( dataTypes.findChoiceByDisplayName( cmbDataType.getText( ) )
+								.getName( ) );
+						data.setDataType( DataAdapterUtil.adaptModelDataType( dataTypes.findChoiceByDisplayName( cmbDataType.getText( ) )
+								.getName( ) ));
+					}
+				}
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+					
+				}
+			});
+		}
+		
+		
 		private void createTextCell( Composite parent, final int index )
 				throws IllegalArgumentException, IntrospectionException,
 				IllegalAccessException, InvocationTargetException
@@ -825,7 +1055,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				tx.setFocus( );
 			}
 		}
-
+		
 		private void createResourceCell( Composite parent, final int index )
 				throws IllegalArgumentException, IntrospectionException,
 				IllegalAccessException, InvocationTargetException

@@ -11,12 +11,19 @@
 
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
+import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -56,15 +63,38 @@ public class OdiAdapter
 	private DataSetFromCache datasetFromCache;
 	
 	
+	private IResultClass resultClass;
+	
+	private Set columnIndexListForTypeConvert = null ;
 	/**
 	 * Construction
 	 * 
 	 * @param odaResultSet
 	 */
-	public OdiAdapter( ResultSet odaResultSet )
+	public OdiAdapter( ResultSet odaResultSet , IResultClass resultClass )
 	{
 		assert odaResultSet != null;
 		this.odaResultSet = odaResultSet;
+		this.resultClass = resultClass;
+		
+		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
+		{
+			try
+			{
+				if ( ( resultClass.getFieldMetaData( i )
+						.getDriverProvidedDataType( ) == null )
+						|| ( resultClass.getFieldMetaData( i ).getDataType( ) != resultClass.getFieldMetaData( i )
+								.getDriverProvidedDataType( ) ) )
+				{
+					if ( columnIndexListForTypeConvert == null )
+						columnIndexListForTypeConvert = new HashSet( );
+					columnIndexListForTypeConvert.add( Integer.valueOf( i ) );
+				}
+			}
+			catch ( DataException e )
+			{
+			}
+		}
 	}
 	
 	/**
@@ -138,6 +168,37 @@ public class OdiAdapter
 		this.populator = populator;
 	}
 	
+	private IResultObject getConvertedResultObject( IResultObject resultObject ) throws DataException
+	{
+		if ( resultObject == null )
+			return null;
+		if ( columnIndexListForTypeConvert == null )
+			return resultObject;
+		Object[] obj = new Object[resultClass.getFieldCount( )];
+		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
+		{
+			if ( columnIndexListForTypeConvert.contains( i ) )
+			{
+				try
+				{
+					obj[i - 1] = DataTypeUtil.convert( resultObject.getFieldValue( i ),
+							DataTypeUtil.toApiDataType( resultClass.getFieldMetaData( i )
+									.getDataType( ) ) );
+				}
+				catch ( BirtException e )
+				{
+					throw DataException.wrap( e );
+				}
+			}
+			else
+			{
+				obj[i - 1] = resultObject.getFieldValue( i );
+			}
+		}
+		IResultObject result = new ResultObject( resultObject.getResultClass( ), obj );
+		return result;
+	}
+	
 	/**
 	 * Fetch data from Oda or Odi. After the fetch is done, the cursor
 	 * must stay at the row which is fetched.
@@ -150,7 +211,7 @@ public class OdiAdapter
 	{
 		if ( odaResultSet != null )
 		{
-			return odaResultSet.fetch( );
+			return getConvertedResultObject( odaResultSet.fetch( ) );
 		}
 		else if ( datasetToCache != null )
 		{
