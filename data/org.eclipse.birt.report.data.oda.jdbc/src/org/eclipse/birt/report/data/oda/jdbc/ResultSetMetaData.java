@@ -156,9 +156,29 @@ public class ResultSetMetaData implements IResultSetMetaData
 			int reType = getColumnTypeForSpecialJDBCDriver( index );
 			if ( reType != Types.OTHER )
 				return reType;
-			
+				
+			reType = rsMetadata.getColumnType( index );
+
+			if ( reType == Types.DECIMAL )
+			{
+				int scale = rsMetadata.getScale( index );
+				int precision = rsMetadata.getPrecision( index );
+
+				if ( ( scale == 0 ) && ( precision > 0 ) && ( precision <= 9 ) )
+				{
+					reType = Types.INTEGER;
+				}
+				else if ( precision > 9 && precision < 308 )
+				{
+					reType = Types.DOUBLE;
+				}
+				else if ( precision >= 308 )
+				{
+					reType = Types.DECIMAL;
+				}
+			}
 			/* redirect the call to JDBC ResultSetMetaData.getColumnType(int) */
-			return rsMetadata.getColumnType( index );
+			return reType;
 		}
 		catch ( SQLException e )
 		{
