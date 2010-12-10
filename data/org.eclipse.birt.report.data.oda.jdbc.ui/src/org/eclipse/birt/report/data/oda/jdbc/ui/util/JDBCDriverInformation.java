@@ -26,7 +26,7 @@ import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.13 $ $Date: 2008/06/12 06:43:06 $
+ * @version $Revision: 1.14.8.1 $ $Date: 2010/12/10 09:54:53 $
  */
 public final class JDBCDriverInformation
 {    
@@ -46,7 +46,7 @@ public final class JDBCDriverInformation
 	{
 		try
 		{
-			Driver d = JDBCDriverManager.getInstance( ).getDriverInstance( driverClass );
+			Driver d = JDBCDriverManager.getInstance( ).getDriverInstance( driverClass, false );
 			if ( d != null )
 			{
 				JDBCDriverInformation info = newInstance( driverClass.getName( ) );
