@@ -688,6 +688,7 @@ DataSetParameterPage.toolTipText.Down=参数下移
 DataSetParameterPage.WarningMessage.updatePosition=某些或所有数据集参数具有无效的位置值。正在根据其序列更新其位置。
 DataSetParameterPage.warning.UnmatchedParamDataType=数据集类型与链接的报表参数类型不匹配。
 DataSetParameterPage.multiValuesType=多值类型
+DataSetParameterPage.warningLinkedMultipleValuesParams.title=Warning Dialog
 DataSetParameterPage.updateReportParameter.title=报表参数更新设置
 DataSetParameterPage.updateReportParameter.message=是否要使用数据集参数的设置来更新链接报表参数?
 DataSetParameterPage.updateReportParameter.promptButtonYes=是
@@ -2851,6 +2852,8 @@ OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=新建输出列
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=编辑输出列
 OutputColumnPage.OutputColumns.DuplicatedName=该名称已存在!
 OutputColumnsPage.description=定义输出列:
+OutputColumnsPage.DataTypeConvert.Note=Note
+OutputColumnsPage.DataTypeConvert.Message=Such conversion may result in loss of precision or error at runtime, are you sure to apply it?
 
 ###########################################################
 #PageBreakPreferencePage properties

@@ -688,6 +688,7 @@ DataSetParameterPage.toolTipText.Down=Mover parámetro hacia abajo
 DataSetParameterPage.WarningMessage.updatePosition=Algunos o todos los parámetros de conjunto de datos tienen valores de posición no válidos. Actualizando la posiciones según la secuencia.
 DataSetParameterPage.warning.UnmatchedParamDataType=El tipo de parámetro del conjunto de datos no coincide con el tipo de parámetro del informe vinculado.
 DataSetParameterPage.multiValuesType=Tipo de valores múltiples
+DataSetParameterPage.warningLinkedMultipleValuesParams.title=Warning Dialog
 DataSetParameterPage.updateReportParameter.title=Ajuste de actualización de parámetro de informe
 DataSetParameterPage.updateReportParameter.message=¿Desea actualizar el parámetro del informe vinculado con los ajustes de los parámetros del conjunto de datos?
 DataSetParameterPage.updateReportParameter.promptButtonYes=Sí
@@ -2851,6 +2852,8 @@ OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=Nueva columna de 
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Editar columna de salida
 OutputColumnPage.OutputColumns.DuplicatedName=El nombre ya existe.
 OutputColumnsPage.description=Definir columnas de salida:
+OutputColumnsPage.DataTypeConvert.Note=Note
+OutputColumnsPage.DataTypeConvert.Message=Such conversion may result in loss of precision or error at runtime, are you sure to apply it?
 
 ###########################################################
 #PageBreakPreferencePage properties

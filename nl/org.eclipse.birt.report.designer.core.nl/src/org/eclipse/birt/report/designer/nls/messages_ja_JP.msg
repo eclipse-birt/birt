@@ -688,6 +688,7 @@ DataSetParameterPage.toolTipText.Down=パラメタを下に移動
 DataSetParameterPage.WarningMessage.updatePosition=一部またはすべてのデータセットパラメタの位置の値が無効です。パラメタの順序に従って位置を更新しています。
 DataSetParameterPage.warning.UnmatchedParamDataType=データセットパラメタの型が、リンクされているレポートパラメタの型と一致しません。
 DataSetParameterPage.multiValuesType=複数の値の型
+DataSetParameterPage.warningLinkedMultipleValuesParams.title=Warning Dialog
 DataSetParameterPage.updateReportParameter.title=レポートパラメタ更新の設定
 DataSetParameterPage.updateReportParameter.message=データセットパラメタの設定を使用して、リンクされているレポートパラメタを更新しますか ?
 DataSetParameterPage.updateReportParameter.promptButtonYes=はい
@@ -2851,6 +2852,8 @@ OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=出力列の新規作成
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=出力列の編集
 OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに存在します。
 OutputColumnsPage.description=出力列の定義 :
+OutputColumnsPage.DataTypeConvert.Note=Note
+OutputColumnsPage.DataTypeConvert.Message=Such conversion may result in loss of precision or error at runtime, are you sure to apply it?
 
 ###########################################################
 #PageBreakPreferencePage properties
