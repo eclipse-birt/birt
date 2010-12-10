@@ -9,10 +9,10 @@ Index	Name	Alias	Label	Type	TypeName
 8:	textCol,	colAlias2,	textCol,	5,	String
 9:	nvarcharcol,	nvarcharcol,	nvarcharcol,	5,	String
 10:	ntextCol,	ntextCol,	ntextCol,	5,	String
-11:	decimalCol,	decimalCol,	decimalCol,	4,	Decimal
+11:	decimalCol,	decimalCol,	decimalCol,	2,	Integer
 12:	datetimeCol,	datetimeCol,	datetimeCol,	6,	DateTime
 13:	smalldatetimeCol,	smalldatetimeCol,	smalldatetimeCol,	6,	DateTime
 14:	bitCol,	bitCol,	bitCol,	2,	Integer
-15:	moneyCol,	moneyCol,	moneyCol,	4,	Decimal
+15:	moneyCol,	moneyCol,	moneyCol,	2,	Integer
 16:	binaryCol,	binaryCol,	binaryCol,	5,	String
 17:	varbinaryCol,	varbinaryCol,	varbinaryCol,	5,	String
