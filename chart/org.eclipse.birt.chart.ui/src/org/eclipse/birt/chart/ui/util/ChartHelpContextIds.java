@@ -161,7 +161,7 @@ public class ChartHelpContextIds
 			+ "GradientEditor_ID"; //$NON-NLS-1$
 
 	public static final String DIALOG_COLOR_PATTERN_FILL = PREFIX
-			+ "PatternFillEditor_ID"; //$NON-NLS-1$
+			+ "Chart_Pattern_Editor_ID"; //$NON-NLS-1$
 
 	public static final String DIALOG_COLOR_POSNEG = PREFIX
 			+ "PositiveNegativeColorsEditor_ID"; //$NON-NLS-1$
