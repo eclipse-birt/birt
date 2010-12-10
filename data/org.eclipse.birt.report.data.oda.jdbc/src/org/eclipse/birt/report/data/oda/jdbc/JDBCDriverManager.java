@@ -102,14 +102,10 @@ public class JDBCDriverManager
 		return instance;
 	}
 	
-	public Driver getDriverInstance( Class driver ) throws OdaException
+	public Driver getDriverInstance( Class driver, boolean refreshDriver ) throws OdaException
 	{
 		String driverName = driver.getName( );
-		if ( this.cachedJdbcDriver.containsKey( driverName ) )
-		{
-			return this.cachedJdbcDriver.get( driverName );
-		}
-		else
+		if ( refreshDriver || !this.cachedJdbcDriver.containsKey( driverName ) )
 		{
 			Driver instance = null;
 			try
@@ -122,6 +118,10 @@ public class JDBCDriverManager
 			}
 			this.cachedJdbcDriver.put( driverName, instance );
 			return instance;
+		}
+		else
+		{
+			return this.cachedJdbcDriver.get( driverName );
 		}
 	}
 	
@@ -252,7 +252,7 @@ public class JDBCDriverManager
 		}
 		catch ( Exception e )
 		{
-			registerDriver( driverClass, null, true );
+			registerDriver( driverClass, null, true, true );
 			try
 			{
 				return DriverManager.getConnection( url, connectionProperties );
@@ -716,7 +716,7 @@ public class JDBCDriverManager
 	 * @return Driver instance
 	 * @throws OdaException 
 	 */
-	private Driver findDriver( String className, Collection<String> driverClassPath, boolean refreshClassLoader ) throws OdaException
+	private Driver findDriver( String className, Collection<String> driverClassPath, boolean refreshClassLoader, boolean refreshDriver ) throws OdaException
 	{
 		Class driverClass = null;
 		try
@@ -764,7 +764,7 @@ public class JDBCDriverManager
 		Driver driver = null;
 		try
 		{
-			driver = this.getDriverInstance( driverClass );
+			driver = this.getDriverInstance( driverClass, refreshDriver );
 		}
 		catch ( Exception e )
 		{
@@ -790,7 +790,7 @@ public class JDBCDriverManager
 		{
 			return true;
 		}
-		Driver driver = findDriver( className, null, false );
+		Driver driver = findDriver( className, null, false, false );
 		if ( driver != null )
 		{
 			try
@@ -859,7 +859,7 @@ public class JDBCDriverManager
 		{
 			logger.info( "Loading JDBC driver class: " + className );
 		}		
-		registerDriver( className, driverClassPath, false );
+		registerDriver( className, driverClassPath, false, false );
 	}
 	
 	/**
@@ -873,10 +873,10 @@ public class JDBCDriverManager
 	 * @param refreshClassLoader
 	 * @throws OdaException
 	 */
-	private void registerDriver( String className, Collection<String> driverClassPath, boolean refreshClassLoader )
+	private void registerDriver( String className, Collection<String> driverClassPath, boolean refreshClassLoader, boolean refreshDriver )
 			throws OdaException
 	{
-		Driver driver = findDriver( className, driverClassPath, refreshClassLoader );
+		Driver driver = findDriver( className, driverClassPath, refreshClassLoader, refreshDriver );
 		if ( driver != null )
 		{
 			try
