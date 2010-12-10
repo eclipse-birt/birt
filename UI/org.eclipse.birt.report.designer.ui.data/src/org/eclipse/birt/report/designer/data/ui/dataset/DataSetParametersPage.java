@@ -37,7 +37,6 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage;
 import org.eclipse.birt.report.model.adapter.oda.ReportParameterAdapter;
-import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -94,7 +93,6 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.internal.UIPlugin;
 import org.eclipse.ui.internal.Workbench;
 
 /**
@@ -232,10 +230,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
 			column.setText( cellLabels[5] );
 			column.setWidth( 180 );
-			
-			column = new TableColumn( viewer.getViewer( ).getTable( ), SWT.LEFT );
-			column.setText( cellLabels[6] );
-			column.setWidth( 600 );
 		}
 		else
 		{
@@ -262,12 +256,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				column = new TableColumn( viewer.getViewer( ).getTable( ),
 						SWT.LEFT );
 				column.setText( ParameterPageUtil.odaCellLabels[5] );
-				column.setWidth( 180 );
-				
-				column = new TableColumn( viewer.getViewer( ).getTable( ),
-						SWT.LEFT );
-				column.setText( ParameterPageUtil.odaCellLabels[6] );
-				column.setWidth( 600 );
+				column.setWidth( 180 );				
 			}
 		}
 	}
@@ -489,6 +478,10 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			viewer.getViewer( ).refresh( );	
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
+			if ( newParam instanceof OdaDataSetParameter )
+			{
+				handleLinkedMultipleValuesReportParam( (OdaDataSetParameter) newParam );
+			}
 			stack.commit( );
 		}
 		else
@@ -520,12 +513,35 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			viewer.getViewer( ).refresh( );	
 			refreshMessage( );
 			refreshLinkedReportParamStatus( );
+			if ( handle instanceof OdaDataSetParameterHandle )
+			{
+				handleLinkedMultipleValuesReportParam( (OdaDataSetParameter)( (OdaDataSetParameterHandle) handle).getStructure( ) );
+			}
 			stack.commit( );
 		}
 		else
 		{
 			stack.rollback( );
 		}
+	}
+	
+	private void handleLinkedMultipleValuesReportParam( OdaDataSetParameter dsParam )
+	{
+		ScalarParameterHandle paramHandle = ParameterPageUtil.getScalarParameter( dsParam.getParamName( ),
+				true );
+		if ( paramHandle != null )
+		{
+			if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( paramHandle.getParamType( ) ) )
+			{
+				MessageDialog.openWarning( Workbench.getInstance( )
+						.getDisplay( )
+						.getActiveShell( ),
+						Messages.getString( "DataSetParameterPage.warningLinkedMultipleValuesParams.title" ),
+						getWarning( dsParam ) );
+
+			}
+		}
+
 	}
 
 	protected void refreshLinkedReportParamStatus( )
@@ -1563,14 +1579,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				return value == null || value.trim( ).length( ) == 0 ? UNLINKED_REPORT_PARAM
 						: value;
 			}
-			if ( columnIndex == 6 )
-			{
-				if ( parameter instanceof OdaDataSetParameter )
-				{
-					return getWarning( (OdaDataSetParameter)parameter );
-				}
-				return "";
-			}
 			return getParametersValue( parameter, columnIndex );
 		}
 
@@ -1683,11 +1691,6 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 					value = getLinkedReportParameterLabel( parameter );
 					break;
 				}
-				case 7 :
-				{
-					value = getWarning( parameter );
-					break;
-				}
 			}
 			return value;
 		}
@@ -1737,10 +1740,11 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				{
 					value = Messages.getString( "DataSetParametersPage.errorMessage.InvalidType.LinkedReportParam" );
 				}
-				else if ( parameter.getDataType() != null 
-						&& !parameter.getDataType().equalsIgnoreCase(reportParam.getDataType()))
+				else if ( parameter.getDataType( ) != null
+						&& !parameter.getDataType( )
+								.equalsIgnoreCase( reportParam.getDataType( ) ) )
 				{
-					value = Messages.getString( "DataSetParameterPage.warning.UnmatchedParamDataType" ); 
+					value = Messages.getString( "DataSetParameterPage.warning.UnmatchedParamDataType" );
 				}
 			}
 		}
@@ -2080,18 +2084,18 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 		
  		public void updateLinkedReportParameter( String originalLink )
 		{
-			ParameterHandle orignalHandle = null;
+ 			ScalarParameterHandle orignalHandle = null;
 			if ( !originalLink.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) )
 			{
 				orignalHandle = ParameterPageUtil.getScalarParameter( originalLink,
-						false );
+						true );
 			}
 			ParameterHandle currentHandle = null;
 			if ( !linkToSalarParameter.getText( )
 					.equals( Messages.getString( "DataSetParametersPage.reportParam.None" ) ) )
 			{
 				currentHandle = ParameterPageUtil.getScalarParameter( linkToSalarParameter.getText( ),
-						false );
+						true );
 			}
 			
 			OdaDataSetParameterHandle dataSetParameterHandle = (OdaDataSetParameterHandle) structureHandle;
@@ -2159,6 +2163,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				}
 					
 			}
+			
 		}
 		
 		
