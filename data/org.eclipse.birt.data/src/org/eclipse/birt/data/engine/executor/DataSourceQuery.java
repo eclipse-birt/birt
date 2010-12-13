@@ -833,9 +833,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 							.equals( fieldName ) )
 					{
 						int apiType = ( (IColumnDefinition) modelResultHints.get( j ) ).getDataType( );
-						if ( DataTypeUtil.toApiDataType( odaType ) != apiType )
+						if ( apiType > 0
+								&& DataTypeUtil.toApiDataType( odaType ) != apiType )
 						{
-							newResultClass.getFieldMetaData( i ).setDataType( DataType.getClass( apiType ) );
+							newResultClass.getFieldMetaData( i )
+									.setDataType( DataType.getClass( apiType ) );
 						}
 						break;
 					}
