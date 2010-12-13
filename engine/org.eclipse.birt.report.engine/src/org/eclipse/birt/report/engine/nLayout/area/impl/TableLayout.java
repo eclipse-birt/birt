@@ -691,6 +691,10 @@ public class TableLayout
 	
 	protected boolean isUnresolved(RowArea row)
 	{
+		if ( !row.finished )
+		{
+			return true;
+		}
 		for ( int i = startCol; i <= endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );
@@ -750,8 +754,11 @@ public class TableLayout
 				for ( int i = startCol; i <= endCol; i++ )
 				{
 					CellArea cell = unresolvedRow.getCell( i );
-					cell.setRowSpan( cell.getRowSpan( ) + 1 );
-					i = i + cell.getColSpan( );
+					if ( cell != null )
+					{
+						cell.setRowSpan( cell.getRowSpan( ) + 1 );
+						i = i + cell.getColSpan( );
+					}
 				}
 			}
 		}
@@ -881,7 +888,17 @@ public class TableLayout
 		}
 		int emptyCellColID = cellContent.getColumn( );
 		int emptyCellColSpan = cellContent.getColSpan( );
-		CellArea emptyCell = upperCell.cloneArea( );
+		CellArea emptyCell = null;
+		if ( upperCell != null )
+		{
+			emptyCell = upperCell.cloneArea( );
+		}
+		else
+		{
+			emptyCell = new CellArea( );
+			emptyCell.content = cellContent;
+		}
+		
 		//clear border
 		BoxStyle bs = emptyCell.getBoxStyle( );
 		bs.setRightBorder( null );
