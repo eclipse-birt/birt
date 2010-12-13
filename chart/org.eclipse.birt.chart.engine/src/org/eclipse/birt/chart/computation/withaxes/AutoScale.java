@@ -2934,6 +2934,25 @@ public final class AutoScale extends Methods implements Cloneable
 						* iDirection;
 			}
 		}
+		else if ( !info.bCategoryScale
+				&& ( info.type & DATE_TIME ) == DATE_TIME )
+		{
+			CDateTime cdtMax = asDateTime( context.getMax( ) );
+			CDateTime cdtMin = asDateTime( context.getMin( ) );
+			double diff = CDateTime.computeDifference( cdtMax,
+					cdtMin,
+					asInteger( context.getUnit( ) ) )
+					/ asDouble( context.getStep( ) );
+			if ( diff == 0 )
+			{
+				dTickGap = dLength;
+			}
+			else
+			{
+				dTickGap = Math.min( Math.abs( dLength / diff ), dLength )
+						* iDirection;
+			}
+		}
 		else
 		{
 			if ( isTickBetweenCategories( ) )
