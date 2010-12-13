@@ -1118,7 +1118,7 @@ public final class DataTypeUtil
 			return null;
 		if ( source instanceof Time )
 		{
-			return ((Time) source).toString( );
+			return toString( (Date) source, locale );
 		}
 		else if ( source instanceof java.sql.Date )
 		{
