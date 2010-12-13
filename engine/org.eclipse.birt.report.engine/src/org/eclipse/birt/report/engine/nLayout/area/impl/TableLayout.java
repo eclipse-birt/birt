@@ -14,14 +14,11 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea.TableLayoutInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
@@ -691,6 +688,10 @@ public class TableLayout
 	
 	protected boolean isUnresolved(RowArea row)
 	{
+		if ( !row.finished )
+		{
+			return true;
+		}
 		for ( int i = startCol; i <= endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );
@@ -750,8 +751,11 @@ public class TableLayout
 				for ( int i = startCol; i <= endCol; i++ )
 				{
 					CellArea cell = unresolvedRow.getCell( i );
-					cell.setRowSpan( cell.getRowSpan( ) + 1 );
-					i = i + cell.getColSpan( );
+					if ( cell != null )
+					{
+						cell.setRowSpan( cell.getRowSpan( ) + 1 );
+						i = i + cell.getColSpan( );
+					}
 				}
 			}
 		}
@@ -881,7 +885,17 @@ public class TableLayout
 		}
 		int emptyCellColID = cellContent.getColumn( );
 		int emptyCellColSpan = cellContent.getColSpan( );
-		CellArea emptyCell = upperCell.cloneArea( );
+		CellArea emptyCell = null;
+		if ( upperCell != null )
+		{
+			emptyCell = upperCell.cloneArea( );
+		}
+		else
+		{
+			emptyCell = new CellArea( );
+			emptyCell.content = cellContent;
+		}
+		
 		//clear border
 		BoxStyle bs = emptyCell.getBoxStyle( );
 		bs.setRightBorder( null );
