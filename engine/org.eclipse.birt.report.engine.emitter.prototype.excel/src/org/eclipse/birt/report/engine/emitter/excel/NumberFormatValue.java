@@ -48,7 +48,16 @@ public class NumberFormatValue
 					int index = f.lastIndexOf( '.' );
 					if ( index > 0 )
 					{
-						value.fractionDigits = f.length( ) - 1 - index;
+						int end = f.length( );
+						for ( int i = index + 1; i < f.length( ); i++ )
+						{
+							if ( f.charAt( i ) != '0' )
+							{
+								end = i;
+								break;
+							}
+						}
+						value.fractionDigits = end - 1 - index;
 					}
 				}
 				String m = matcher.group( 2 );
@@ -57,17 +66,13 @@ public class NumberFormatValue
 					value.roundingMode = RoundingMode.valueOf( m );
 				}
 			}
+			else
+			{
+				value.format = numberFormat;
+			}
 			return value;
 		}
 		return null;
-	}
-
-	public static void main( String[] args )
-	{
-		NumberFormatValue v = NumberFormatValue.getInstance( "###0.0{RoundingMode=HALF_EVEN}" );
-		System.out.println( v.getFormat( ) );
-		System.out.println( v.getRoundingMode( ) );
-		System.out.println( v.getFractionDigits( ) );
 	}
 
 	public int getFractionDigits( )
