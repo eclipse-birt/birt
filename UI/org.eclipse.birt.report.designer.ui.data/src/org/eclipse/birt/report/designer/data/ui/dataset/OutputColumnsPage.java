@@ -967,6 +967,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			
 			if ( !( (DataSetHandle) getContainer( ).getModel( ) instanceof OdaDataSetHandle ) )
 				cmbDataType.setEnabled( false );
+
+			if ( data.isComputedColumn( ) )
+			{
+				cmbDataType.setEnabled( false );
+			}
 			
 			cmbDataType.addSelectionListener( new SelectionListener(){
 				public void widgetSelected( SelectionEvent e )
