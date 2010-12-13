@@ -39,6 +39,7 @@
 				<include name="org/eclipse/birt/core/archive/compound/v3/*.class" />
 				<include name="org/eclipse/birt/core/exception/*.class" />
 				<include name="org/eclipse/birt/core/framework/*.class" />
+				<include name="org/eclipse/birt/core/framework/jar/*.class" />
 				<include name="org/eclipse/birt/core/framework/osgi/*.class" />
 				<include name="org/eclipse/birt/core/i18n/*.class" />
 				<include name="org/eclipse/birt/core/i18n/*.properties" />

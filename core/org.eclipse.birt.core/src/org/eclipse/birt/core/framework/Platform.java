@@ -99,8 +99,10 @@ public class Platform
 		}
 
 		PlatformFileContext fileContext = new PlatformFileContext( config );
+		
 		if ( OSGILauncher.isValidPlatform( fileContext ) )
 		{
+			config.setPlatformContext( fileContext );
 			return new OSGILauncher( );
 		}
 		return new ServiceLauncher( );
