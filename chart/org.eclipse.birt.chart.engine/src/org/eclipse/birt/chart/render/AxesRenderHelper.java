@@ -637,7 +637,16 @@ public final class AxesRenderHelper
 		public void handlePostEachTick( int i ) throws ChartException
 		{
 			// ALWAYS W.R.T START VALUE
-			cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) );
+			if ( i == da.size( ) - 2 && !sc.isSetFactor( ) )
+			{
+				// This is the last tick, use pre-computed value to
+				// handle non-equal scale unit case.
+				cdt = Methods.asDateTime( sc.getMaximum( ) );
+			}
+			else
+			{
+				cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) );
+			}
 		}
 
 		public void handlePreEachTick( int i ) throws ChartException

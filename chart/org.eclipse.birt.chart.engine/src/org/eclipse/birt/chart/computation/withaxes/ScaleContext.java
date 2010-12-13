@@ -555,28 +555,25 @@ public class ScaleContext extends Methods
 						cdtMaxValue.clearBelow( iUnit );
 					}
 				}
-			}
-			else
-			{
-				cdtMinValue.clearBelow( iUnit );
-			}
+				else if ( !bMaximumFixed )
+				{
+					double diff = CDateTime.computeDifference( cdtMaxValue,
+							cdtMinValue,
+							iUnit ) / iStep;
+					int count = (int) diff * iStep;
 
+					if ( !ChartUtil.mathEqual( diff, Math.floor( diff ) ) )
+					{
+						count += iStep;
+					}
+
+					CDateTime cdtMaxValue_new = (CDateTime) cdtMinValue.clone( );
+					cdtMaxValue_new.add( iUnit, count );
+					cdtMaxValue = cdtMaxValue_new;
+				}
+			}
 			oMin = cdtMinValue;
-
-			double diff = CDateTime.computeDifference( cdtMaxValue,
-					cdtMinValue,
-					iUnit )
-					/ iStep;
-			int count = (int) diff * iStep;
-
-			if ( !ChartUtil.mathEqual( diff, Math.floor( diff ) ) )
-			{
-				count += iStep;
-			}
-
-			CDateTime cdtMaxValue_new = (CDateTime) cdtMinValue.clone( );
-			cdtMaxValue_new.add( iUnit, count );
-			oMax = cdtMaxValue_new;
+			oMax = cdtMaxValue;
 		}
 
 		// Not support margin computation for Datetime type
