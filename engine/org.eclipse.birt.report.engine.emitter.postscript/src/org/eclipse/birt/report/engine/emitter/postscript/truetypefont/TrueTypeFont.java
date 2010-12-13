@@ -1213,7 +1213,7 @@ public class TrueTypeFont
 
 	public int getGlyphIndex( char c )
 	{
-		int[] glyphIndexs = (int[]) getCMap( ).get( c );
+		int[] glyphIndexs = (int[]) getCMap( ).get( (int) c );
 		return glyphIndexs[0];
 	}
 
