@@ -771,7 +771,9 @@ public class InsertInLayoutUtil
 								true );
 						//binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
 
-						binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
+						//binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
+						ExpressionUtility.setBindingColumnExpression( model,
+								column );
 						dataHandle.setResultSetColumn( binding.getName( ) );
 						InsertInLayoutRule rule = new GroupKeySetRule( target, model );
 						if ( rule.canInsert( ) )
@@ -813,7 +815,8 @@ public class InsertInLayoutUtil
 						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
 					}
 
-					binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
+					//binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
+					ExpressionUtility.setBindingColumnExpression( model, column );
 					dataHandle.setResultSetColumn( binding.getName( ) );
 					InsertInLayoutRule rule = new GroupKeySetRule( target, model );
 					if ( rule.canInsert( ) )
