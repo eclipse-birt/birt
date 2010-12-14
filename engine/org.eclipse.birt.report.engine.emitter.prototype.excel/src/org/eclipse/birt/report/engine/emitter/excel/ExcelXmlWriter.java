@@ -604,12 +604,15 @@ public class ExcelXmlWriter implements IExcelWriter
 		else if ( type == Data.NUMBER
 				&& style.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) != null )
 		{
-			writer.openTag( "NumberFormat" );
-
-			NumberFormatValue numberFormat = (NumberFormatValue) style.getProperty( StyleConstant.NUMBER_FORMAT_PROP );
+			NumberFormatValue numberFormat = (NumberFormatValue) style
+					.getProperty( StyleConstant.NUMBER_FORMAT_PROP );
 			String format = numberFormat.getFormat( );
-			writer.attribute( "ss:Format", format );
-			writer.closeTag( "NumberFormat" );
+			if ( format != null )
+			{
+				writer.openTag( "NumberFormat" );
+				writer.attribute( "ss:Format", format );
+				writer.closeTag( "NumberFormat" );
+			}
 		}
 	}
 
