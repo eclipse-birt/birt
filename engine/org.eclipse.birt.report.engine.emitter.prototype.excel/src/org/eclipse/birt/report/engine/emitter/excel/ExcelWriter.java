@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelXmlWriter.XMLWriterXLS;
@@ -156,9 +157,13 @@ public class ExcelWriter implements IExcelWriter
 	 */
 	private void initializeWriterAsTempWriter( ) throws FileNotFoundException
 	{
-		tempFilePath = context.getTempFileDir( )
-				+ "_BIRTEMITTER_EXCEL_TEMP_FILE"
-				+ Thread.currentThread( ).getId( );
+		String tempFolder = context.getTempFileDir( );
+		if ( !( tempFolder.endsWith( "/" ) || tempFolder.endsWith( "\\" ) ) )
+		{
+			tempFolder = tempFolder.concat( "/" );
+		}
+		tempFilePath = tempFolder + "birt_xls_"
+				+ UUID.randomUUID( ).toString( );
 		FileOutputStream out = new FileOutputStream( tempFilePath );
 		tempWriter = new ExcelXmlWriter( out, context );
 		writer = tempWriter;
