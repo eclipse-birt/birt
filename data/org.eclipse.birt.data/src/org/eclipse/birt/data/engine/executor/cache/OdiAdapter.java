@@ -195,7 +195,7 @@ public class OdiAdapter
 				obj[i - 1] = resultObject.getFieldValue( i );
 			}
 		}
-		IResultObject result = new ResultObject( resultObject.getResultClass( ), obj );
+		IResultObject result = new ResultObject( resultClass, obj );
 		return result;
 	}
 	
