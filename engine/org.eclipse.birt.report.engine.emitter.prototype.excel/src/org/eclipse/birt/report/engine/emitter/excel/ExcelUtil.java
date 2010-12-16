@@ -728,10 +728,16 @@ public class ExcelUtil
 	public static float convertTextIndentToEM( String indent, float fontSize )
 	{
 		DimensionType size = DimensionType.parserUnit( indent );
-		float indentInPt = convertDimensionType( size, 0, 96 ) / 1000f;
-		if ( indentInPt != 0f )
+		try
 		{
-			return indentInPt / fontSize;
+			float indentInPt = convertDimensionType( size, 0, 96 ) / 1000f;
+			if ( indentInPt != 0f )
+			{
+				return indentInPt / fontSize;
+			}
+		}
+		catch ( Exception ignored )
+		{
 		}
 		return 0f;
 	}
