@@ -438,11 +438,13 @@ public interface IJSObjectPopulator
 		 */
 		private static boolean isAggregationBinding( String bindingName, List bindings ) throws DataException
 		{
+			boolean find = false;
 			for( int i = 0; i < bindings.size( ); i++ )
 			{
 				IBinding binding = (IBinding) bindings.get( i );
 				if( bindingName.equals( binding.getBindingName( ) ) )
 				{
+					find = true;
 					if( OlapExpressionUtil.isAggregationBinding( binding ) )
 						return true;
 					List refBindingName = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
@@ -453,6 +455,8 @@ public interface IJSObjectPopulator
 					}
 				}
 			}
+			if( !find )
+				return true;
 			
 			return false;
 		}
