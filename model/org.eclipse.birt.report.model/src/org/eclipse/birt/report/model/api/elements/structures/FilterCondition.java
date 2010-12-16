@@ -698,4 +698,16 @@ public class FilterCondition extends PropertyStructure
 	{
 		setProperty( TYPE_MEMBER, type );
 	}
+	
+	/**
+	 * Sets the value 2 expression.
+	 * 
+	 * @param value1List
+	 *            the value 2 expression list to set
+	 */
+	public void setValue2 ( Expression value )
+	{
+		setExpressionProperty( VALUE1_MEMBER, value );
+	}
+
 }

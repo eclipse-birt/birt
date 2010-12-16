@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
@@ -26,7 +27,9 @@ import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -62,6 +65,10 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( "filter expression", filter.getExpr( ) ); //$NON-NLS-1$
 		assertEquals( "value1 expression", filter.getValue1( ) ); //$NON-NLS-1$
 		assertEquals( "value2 expression", filter.getValue2( ) ); //$NON-NLS-1$
+		ExpressionHandle exprHandle = filter.getExpressionProperty( FilterCondition.VALUE2_MEMBER );
+		assertEquals( IExpressionType.CONSTANT, exprHandle.getType( ) );
+		assertEquals( "value2 expression", exprHandle.getStringExpression( ) ); //$NON-NLS-1$
+		
 		assertEquals( DesignChoiceConstants.FILTER_TARGET_RESULT_SET,
 				filter.getFilterTarget( ) );
 		assertEquals( "ext name", filter.getExtensionName( ) ); //$NON-NLS-1$
@@ -215,6 +222,7 @@ public class FilterAndSortParseTest extends BaseTestCase
 		List<Expression> tmpList = new ArrayList<Expression>( );
 		tmpList.add( new Expression( "constant1", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
 		filterHandle.setValue1( tmpList );
+		filterHandle.setValue2( new Expression( "constant2", ExpressionType.CONSTANT ) ); //$NON-NLS-1$ )
 
 		save( );
 		assertTrue( compareFile( "FilterAndSortParseTest_golden.xml" ) ); //$NON-NLS-1$

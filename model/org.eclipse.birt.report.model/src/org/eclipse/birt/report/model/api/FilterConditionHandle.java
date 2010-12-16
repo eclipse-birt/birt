@@ -190,12 +190,12 @@ public class FilterConditionHandle extends StructureHandle
 			switch ( level )
 			{
 				case OperatorUtil.OPERATOR_LEVEL_ONE :
-					setValue2( null );
+					setValue2( (Expression) null );
 					break;
 				case OperatorUtil.OPERATOR_LEVEL_TWO :
 					break;
 				case OperatorUtil.OPERATOR_LEVEL_ZERO :
-					setValue2( null );
+					setValue2( (Expression) null );
 					setValue1( (List) null );
 					break;
 				case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST :
@@ -628,5 +628,18 @@ public class FilterConditionHandle extends StructureHandle
 	{
 
 		setProperty( FilterCondition.TYPE_MEMBER, type );
+	}
+	
+	/**
+	 * Sets the value 2 expression of this filter condition.
+	 * 
+	 * @param value2Expr
+	 *            the value 2 expression to set
+	 * @throws SemanticException          
+	 */
+
+	public void setValue2( Expression value2Expr ) throws SemanticException
+	{
+		setExpressionProperty( FilterCondition.VALUE2_MEMBER, value2Expr );
 	}
 }
