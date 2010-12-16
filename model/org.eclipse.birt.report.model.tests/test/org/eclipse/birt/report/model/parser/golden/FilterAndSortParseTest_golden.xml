@@ -116,6 +116,7 @@
                     <simple-property-list name="value1">
                         <value type="constant">constant1</value>
                     </simple-property-list>
+                    <expression name="value2" type="constant">constant2</expression>
                 </structure>                
             </list-property>   
         </table>  

@@ -30,7 +30,7 @@
     				<property name="operator">lt</property>
                     <expression name="expr">filter expression</expression>
                     <expression name="value1">value1 expression</expression>
-                    <expression name="value2">value2 expression</expression>
+                    <expression name="value2" type="constant">value2 expression</expression>
                     <property name="filterTarget">ResultSet</property>
                     <property name="isOptional">true</property>
                     <property name="member">
