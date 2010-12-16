@@ -433,8 +433,8 @@ public class SimpleResultSet implements IResultIterator
 							currResultObj,
 							colCount,
 							resultSetNameSet,
-							streamsWrapper.getOutputStringTable( this.currResultObj.getResultClass( ) ),
-							streamsWrapper.getStreamForIndex( this.currResultObj.getResultClass( ), handler.getAppContext( ) ),
+							streamsWrapper.getOutputStringTable( getResultClass( ) ),
+							streamsWrapper.getStreamForIndex( getResultClass( ), handler.getAppContext( ) ),
 							this.rowCount-1 );
 				}
 			}

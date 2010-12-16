@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 {
@@ -279,10 +280,21 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	
 	private Set<Integer> getBetween( Object key1, Object key2 ) throws DataException
 	{
+		Object min, max;
+		if ( ScriptEvalUtil.compare( key1, key2 ) <= 0 )
+		{
+			min = key1;
+			max = key2;
+		}
+		else
+		{
+			min = key2;
+			max = key1;
+		}
 		try
 		{
-			key1 = DataTypeUtil.convert( key1, this.keyDataType );
-			key2 = DataTypeUtil.convert( key2, this.keyDataType );
+			min = DataTypeUtil.convert( min, this.keyDataType );
+			max = DataTypeUtil.convert( max, this.keyDataType );
 		}
 		catch ( BirtException e1 )
 		{
@@ -294,12 +306,12 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		{
 			if( !bCursor.first( ) )
 				return result;
-			if( ( (Comparable)bCursor.getKey( ) ).compareTo( key1 ) <= 0 )
+			if( ScriptEvalUtil.compare( bCursor.getKey( ), min ) <= 0 )
 			{
-				bCursor.moveTo( key1 );
-				if( ( (Comparable)bCursor.getKey( ) ).compareTo( key2 ) > 0 )
+				bCursor.moveTo( min );
+				if( ( (Comparable)bCursor.getKey( ) ).compareTo( max ) > 0 )
 					return result;
-				if( ( (Comparable)bCursor.getKey( ) ).compareTo( key1 ) >= 0 )
+				if( ( (Comparable)bCursor.getKey( ) ).compareTo( min ) >= 0 )
 					result.addAll( bCursor.getValues( ) );
 			}
 			else
@@ -308,7 +320,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			}
 			while( bCursor.next( ) )
 			{
-				if( ( (Comparable)bCursor.getKey( ) ).compareTo( key2 ) > 0 )
+				if( ( (Comparable)bCursor.getKey( ) ).compareTo( max ) > 0 )
 					return result;
 				result.addAll( bCursor.getValues( ) );
 			}
