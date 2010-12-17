@@ -707,7 +707,7 @@ public class FilterCondition extends PropertyStructure
 	 */
 	public void setValue2 ( Expression value )
 	{
-		setExpressionProperty( VALUE1_MEMBER, value );
+		setExpressionProperty( VALUE2_MEMBER, value );
 	}
 
 }
