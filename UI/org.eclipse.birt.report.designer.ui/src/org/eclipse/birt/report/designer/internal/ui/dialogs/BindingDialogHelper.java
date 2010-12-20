@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.CLabel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -68,7 +69,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -989,9 +989,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void createMessageSection( Composite composite )
 	{
-		messageLine = new CLabel( composite, SWT.NONE );
+		messageLine = new CLabel( composite, SWT.LEFT );
 		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.horizontalSpan = 3;
+		layoutData.horizontalSpan = 4;
 		messageLine.setLayoutData( layoutData );
 	}
 
