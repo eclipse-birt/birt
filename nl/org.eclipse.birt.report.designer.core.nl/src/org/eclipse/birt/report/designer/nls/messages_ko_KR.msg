@@ -688,12 +688,12 @@ DataSetParameterPage.toolTipText.Down=매개 변수를 아래로 이동
 DataSetParameterPage.WarningMessage.updatePosition=일부 또는 모든 데이터 집합 매개 변수에 잘못된 위치값이 지정되었습니다. 순서를 기준으로 위치를 업데이트하고 있습니다.
 DataSetParameterPage.warning.UnmatchedParamDataType=데이터 집합 매개 변수 형식이 연결된 보고서 매개 변수 형식과 일치하지 않습니다.
 DataSetParameterPage.multiValuesType=여러 값 유형
-DataSetParameterPage.warningLinkedMultipleValuesParams.title=Warning Dialog
+DataSetParameterPage.warningLinkedMultipleValuesParams.title=경고 대화상자
 DataSetParameterPage.updateReportParameter.title=보고서 매개 변수 업데이트 설정
 DataSetParameterPage.updateReportParameter.message=데이터 집합 매개 변수 설정을 사용하여 연결된 보고서 매개 변수를 업데이트하시겠습니까?
 DataSetParameterPage.updateReportParameter.promptButtonYes=예
 DataSetParameterPage.updateReportParameter.promptButtonNo=아니오
-DataSetParameterPage.updateReportParameter.propmtText=Remember my decision
+DataSetParameterPage.updateReportParameter.propmtText=선택 저장
 
 PromptParameterDialog.title=디자인 특성 업데이트 확인
 PromptParameterDialog.okButton.text=적용
@@ -915,10 +915,10 @@ designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
 designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
 designer.preview.preference.updateParameter.confirmMessage=업데이트 실행 확인
 designer.preview.preference.updateParameter.confirmButton=결과 집합/매개 변수 디자인 특성을 업데이트할 때마다 항상 확인합니다.
-designer.preview.preference.updateReportParameter.confirmButton=&Do not prompt for confirmation to update a linked report parameter.
-designer.preview.preference.updateReportParameter.confirmOption.always=Al&ways:
-designer.preview.preference.updateReportParameter.confirmOption.update=&Update
-designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignore
+designer.preview.preference.updateReportParameter.confirmButton=연결된 보고서 매개변수 업데이트에 대한 확인 프롬프트를 표시하지 않습니다(&D).
+designer.preview.preference.updateReportParameter.confirmOption.always=항상(&W):
+designer.preview.preference.updateReportParameter.confirmOption.update=업데이트(&U)
+designer.preview.preference.updateReportParameter.confirmOption.ignore=무시(&I)
 
 designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기
@@ -2852,8 +2852,8 @@ OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=새 출력 열
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=출력 열 편집
 OutputColumnPage.OutputColumns.DuplicatedName=이름이 이미 존재합니다!
 OutputColumnsPage.description=출력 열 정의:
-OutputColumnsPage.DataTypeConvert.Note=Note
-OutputColumnsPage.DataTypeConvert.Message=Such conversion may result in loss of precision or error at runtime, are you sure to apply it?
+OutputColumnsPage.DataTypeConvert.Note=참고
+OutputColumnsPage.DataTypeConvert.Message=이 전환으로 인해 실행 시 정밀도가 낮아지거나 오류가 발생할 수 있습니다. 적용하시겠습니까?
 
 ###########################################################
 #PageBreakPreferencePage properties

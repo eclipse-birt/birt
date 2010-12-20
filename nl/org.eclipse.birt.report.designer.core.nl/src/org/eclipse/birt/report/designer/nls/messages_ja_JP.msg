@@ -688,12 +688,12 @@ DataSetParameterPage.toolTipText.Down=パラメタを下に移動
 DataSetParameterPage.WarningMessage.updatePosition=一部またはすべてのデータセットパラメタの位置の値が無効です。パラメタの順序に従って位置を更新しています。
 DataSetParameterPage.warning.UnmatchedParamDataType=データセットパラメタの型が、リンクされているレポートパラメタの型と一致しません。
 DataSetParameterPage.multiValuesType=複数の値の型
-DataSetParameterPage.warningLinkedMultipleValuesParams.title=Warning Dialog
+DataSetParameterPage.warningLinkedMultipleValuesParams.title=警告ダイアログ
 DataSetParameterPage.updateReportParameter.title=レポートパラメタ更新の設定
 DataSetParameterPage.updateReportParameter.message=データセットパラメタの設定を使用して、リンクされているレポートパラメタを更新しますか ?
 DataSetParameterPage.updateReportParameter.promptButtonYes=はい
 DataSetParameterPage.updateReportParameter.promptButtonNo=いいえ
-DataSetParameterPage.updateReportParameter.propmtText=Remember my decision
+DataSetParameterPage.updateReportParameter.propmtText=次回から同じ設定を使う
 
 PromptParameterDialog.title=デザイン属性の更新の確認
 PromptParameterDialog.okButton.text=適用
@@ -915,10 +915,10 @@ designer.preview.preference.bidiOrientation.ltr=左から右
 designer.preview.preference.bidiOrientation.rtl=右から左
 designer.preview.preference.updateParameter.confirmMessage=更新の確認
 designer.preview.preference.updateParameter.confirmButton=結果セットまたはパラメタのデザイン属性を更新する際に、常に確認メッセージを表示します。
-designer.preview.preference.updateReportParameter.confirmButton=&Do not prompt for confirmation to update a linked report parameter.
-designer.preview.preference.updateReportParameter.confirmOption.always=Al&ways:
-designer.preview.preference.updateReportParameter.confirmOption.update=&Update
-designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignore
+designer.preview.preference.updateReportParameter.confirmButton=リンクされているレポートパラメタを更新する際に確認メッセージを表示しない(&D)
+designer.preview.preference.updateReportParameter.confirmOption.always=常に続行する(&W) :
+designer.preview.preference.updateReportParameter.confirmOption.update=更新(&U)
+designer.preview.preference.updateReportParameter.confirmOption.ignore=無視(&I)
 
 designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
 designer.preview.previewaction.label=レポートを {0} として表示する
@@ -2852,8 +2852,8 @@ OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=出力列の新規作成
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=出力列の編集
 OutputColumnPage.OutputColumns.DuplicatedName=この名前はすでに存在します。
 OutputColumnsPage.description=出力列の定義 :
-OutputColumnsPage.DataTypeConvert.Note=Note
-OutputColumnsPage.DataTypeConvert.Message=Such conversion may result in loss of precision or error at runtime, are you sure to apply it?
+OutputColumnsPage.DataTypeConvert.Note=注
+OutputColumnsPage.DataTypeConvert.Message=このような変換は精度の低下や実行時のエラーを引き起こす場合があります。適用しますか ?
 
 ###########################################################
 #PageBreakPreferencePage properties

@@ -37,7 +37,7 @@ RadarSeriesMarkerSheet.GroupLabel.Markers=마커
 RadarSeriesMarkerSheet.Label.Web=방사형 선 구성
 RadarSeriesMarkerSheet.Label.Series=계열 선 구성
 
-Radar.Composite.Label.ScaleCount=&차트의 숫자 배율 단계(&N)
+Radar.Composite.Label.ScaleCount=단계 수(&N)
 Radar.Composite.Label.ScaleCountToolTip=차트에서 만들 숫자 배율 단계
 Radar.Composite.Label.bullsEye=동그라미 색을 반투명으로 설정
 Format.Button.Web.Label=웹 레이블 형식(&F)

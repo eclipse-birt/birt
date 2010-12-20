@@ -37,7 +37,7 @@ RadarSeriesMarkerSheet.GroupLabel.Markers=标记
 RadarSeriesMarkerSheet.Label.Web=雷达线配置
 RadarSeriesMarkerSheet.Label.Series=系列线配置
 
-Radar.Composite.Label.ScaleCount=图表中的数标步进值(&N)
+Radar.Composite.Label.ScaleCount=步数(&N)
 Radar.Composite.Label.ScaleCountToolTip=在图表中创建时所用的数标步进值
 Radar.Composite.Label.bullsEye=将靶眼颜色设置为半透明
 Format.Button.Web.Label=设置 Web 标签格式(&F)

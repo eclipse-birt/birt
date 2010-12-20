@@ -37,7 +37,7 @@ RadarSeriesMarkerSheet.GroupLabel.Markers=マーカ
 RadarSeriesMarkerSheet.Label.Web=レーダの線の設定
 RadarSeriesMarkerSheet.Label.Series=系列の線の設定
 
-Radar.Composite.Label.ScaleCount=グラフの目盛(&N)
+Radar.Composite.Label.ScaleCount=ステップ数(&N)
 Radar.Composite.Label.ScaleCountToolTip=グラフで使用する目盛を設定
 Radar.Composite.Label.bullsEye=ブルズアイの色を半透明に設定
 Format.Button.Web.Label=Web ラベルの書式設定(&F)

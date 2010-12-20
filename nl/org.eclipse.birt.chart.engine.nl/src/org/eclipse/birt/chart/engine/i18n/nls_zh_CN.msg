@@ -1,4 +1,4 @@
-ChartImpl.ChartTitle=Chart Title
+ChartImpl.ChartTitle=图表标题
 ChartImpl.AltText=此图表不包含数据。
 ChartWithAxesImpl.X_Axis.title=X 轴标题
 ChartWithAxesImpl.Y_Axis.title=Y 轴标题

@@ -37,7 +37,7 @@ RadarSeriesMarkerSheet.GroupLabel.Markers=Marcador
 RadarSeriesMarkerSheet.Label.Web=Configuración de línea radial
 RadarSeriesMarkerSheet.Label.Series=Configuración de línea de serie
 
-Radar.Composite.Label.ScaleCount=&Número de pasos de escala en el diagrama
+Radar.Composite.Label.ScaleCount=&Número de pasos
 Radar.Composite.Label.ScaleCountToolTip=Numero de pasos de escala con los que crear el diagrama
 Radar.Composite.Label.bullsEye=Establecer los colores de ojo de buey como translúcidos
 Format.Button.Web.Label=&Etiquetas Web de formato
