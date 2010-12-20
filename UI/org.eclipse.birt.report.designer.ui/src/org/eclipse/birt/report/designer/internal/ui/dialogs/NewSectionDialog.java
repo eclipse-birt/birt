@@ -17,7 +17,6 @@ import java.util.Iterator;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -93,7 +92,10 @@ public class NewSectionDialog extends SelectionDialog
 		GridLayout layout = (GridLayout) compo.getLayout( );
 		layout.numColumns = 1;
 		Label preLabel = new Label( compo, SWT.NONE );
-		list = new List( compo, SWT.SINGLE | SWT.BORDER );
+		list = new List( compo, SWT.SINGLE
+				| SWT.BORDER
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL );
 		list.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -112,7 +114,7 @@ public class NewSectionDialog extends SelectionDialog
 		} );
 		list.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		preLabel.setFont( FontManager.getFont( "Dialog", 8, SWT.NORMAL ) ); //$NON-NLS-1$
+		//preLabel.setFont( FontManager.getFont( "Dialog", 8, SWT.NORMAL ) ); //$NON-NLS-1$
 		preLabel.setText( LABEL_PRE );
 		initList( );
 		return compo;
@@ -121,7 +123,9 @@ public class NewSectionDialog extends SelectionDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar( Composite parent )
 	{
@@ -134,7 +138,7 @@ public class NewSectionDialog extends SelectionDialog
 	 */
 	private void initList( )
 	{
-		list.setFont( FontManager.getFont( "Dialog", 8, SWT.NORMAL ) );//$NON-NLS-1$
+		//list.setFont( FontManager.getFont( "Dialog", 8, SWT.NORMAL ) );//$NON-NLS-1$
 		for ( Iterator itor = contents.iterator( ); itor.hasNext( ); )
 		{
 			IElementDefn defn = (IElementDefn) itor.next( );
