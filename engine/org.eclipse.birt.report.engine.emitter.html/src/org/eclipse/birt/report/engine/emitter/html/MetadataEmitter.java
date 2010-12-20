@@ -607,6 +607,11 @@ public class MetadataEmitter
 			TemplateDesign templateDesign = (TemplateDesign) genBy;
 			handle = templateDesign.getHandle( );
 		}
+		else if (genBy instanceof ExtendedItemDesign)
+		{
+			ExtendedItemDesign extendedItemDesign = (ExtendedItemDesign)genBy;
+			handle = extendedItemDesign.getHandle( );
+		}
 		// judge the content is belong table template element or not.
 		if ( ( null != handle ) && handle.isTemplateParameterValue( ) )
 		{
