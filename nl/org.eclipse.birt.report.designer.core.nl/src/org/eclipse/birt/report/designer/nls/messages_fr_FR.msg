@@ -688,12 +688,12 @@ DataSetParameterPage.toolTipText.Down=Déplacer le paramètre vers le bas
 DataSetParameterPage.WarningMessage.updatePosition=Les valeurs de position de la totalité ou d'une partie des paramètres du jeu de données sont incorrectes. Mise à jour de leurs positions selon leur séquence.
 DataSetParameterPage.warning.UnmatchedParamDataType=Le type de paramètre du jeu de données ne correspond pas au type de paramètre d'état lié.
 DataSetParameterPage.multiValuesType=Type de valeurs multiples
-DataSetParameterPage.warningLinkedMultipleValuesParams.title=Warning Dialog
+DataSetParameterPage.warningLinkedMultipleValuesParams.title=Boîte de dialogue Avertissement
 DataSetParameterPage.updateReportParameter.title=Configuration de la mise à jour du paramètre d'état
 DataSetParameterPage.updateReportParameter.message=Voulez-vous mettre à jour le paramètre d'état lié avec les paramètres du jeu de données des réglages ?
 DataSetParameterPage.updateReportParameter.promptButtonYes=Oui
 DataSetParameterPage.updateReportParameter.promptButtonNo=Non
-DataSetParameterPage.updateReportParameter.propmtText=Remember my decision
+DataSetParameterPage.updateReportParameter.propmtText=Mémoriser ma décision
 
 PromptParameterDialog.title=Confirmer la mise à jour des attributs de modèle
 PromptParameterDialog.okButton.text=Appliquer
@@ -915,10 +915,10 @@ designer.preview.preference.bidiOrientation.ltr=Gauche à droite
 designer.preview.preference.bidiOrientation.rtl=Droite à gauche
 designer.preview.preference.updateParameter.confirmMessage=Confirmer la mise à jour
 designer.preview.preference.updateParameter.confirmButton=Toujours demander la confirmation lors de la mise à jour des attributs du modèle de jeux / paramètres de résultats.
-designer.preview.preference.updateReportParameter.confirmButton=&Do not prompt for confirmation to update a linked report parameter.
-designer.preview.preference.updateReportParameter.confirmOption.always=Al&ways:
-designer.preview.preference.updateReportParameter.confirmOption.update=&Update
-designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignore
+designer.preview.preference.updateReportParameter.confirmButton=&Ne pas demander la confirmation de mise à jour d'un paramètre d'état lié.
+designer.preview.preference.updateReportParameter.confirmOption.always=&Toujours :
+designer.preview.preference.updateReportParameter.confirmOption.update=Mettre à jo&ur
+designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignorer
 
 designer.preview.previewaction.label.webviewer=Afficher l'état dans le visualiseur Web
 designer.preview.previewaction.label=Afficher l''état au format {0}
@@ -2852,8 +2852,8 @@ OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=Nouvelle colonne 
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Modifier la colonne de sortie
 OutputColumnPage.OutputColumns.DuplicatedName=Ce nom a déjà existé.
 OutputColumnsPage.description=Définir les colonnes de sortie :
-OutputColumnsPage.DataTypeConvert.Note=Note
-OutputColumnsPage.DataTypeConvert.Message=Such conversion may result in loss of precision or error at runtime, are you sure to apply it?
+OutputColumnsPage.DataTypeConvert.Note=Remarque
+OutputColumnsPage.DataTypeConvert.Message=Une telle conversion peut engendrer une perte de précision ou une erreur lors de l'exécution, êtes- vous sûr de vouloir l'appliquer ?
 
 ###########################################################
 #PageBreakPreferencePage properties

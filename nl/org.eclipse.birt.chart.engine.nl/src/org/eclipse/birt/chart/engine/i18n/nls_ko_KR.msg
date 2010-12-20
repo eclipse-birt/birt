@@ -1,4 +1,4 @@
-ChartImpl.ChartTitle=Chart Title
+ChartImpl.ChartTitle=차트 제목
 ChartImpl.AltText=이 차트에는 데이터가 없습니다.
 ChartWithAxesImpl.X_Axis.title=X축 제목
 ChartWithAxesImpl.Y_Axis.title=Y축 제목

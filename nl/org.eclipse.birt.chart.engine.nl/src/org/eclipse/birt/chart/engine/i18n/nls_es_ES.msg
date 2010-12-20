@@ -1,4 +1,4 @@
-ChartImpl.ChartTitle=Chart Title
+ChartImpl.ChartTitle=Título de diagrama
 ChartImpl.AltText=Este diagrama no contiene datos.
 ChartWithAxesImpl.X_Axis.title=Título de eje X
 ChartWithAxesImpl.Y_Axis.title=Título de eje Y

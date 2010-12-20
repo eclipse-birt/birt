@@ -37,7 +37,7 @@ RadarSeriesMarkerSheet.GroupLabel.Markers=Repère
 RadarSeriesMarkerSheet.Label.Web=Configuration des lignes en radar
 RadarSeriesMarkerSheet.Label.Series=Configuration des lignes de série
 
-Radar.Composite.Label.ScaleCount=&Numéroter les étapes (échelles) du graphique
+Radar.Composite.Label.ScaleCount=&Nombre d'étapes
 Radar.Composite.Label.ScaleCountToolTip=Numéroter les étapes (échelles) à partir desquelles créer le graphique
 Radar.Composite.Label.bullsEye=Définir les couleurs des cercles concentriques sur Translucide
 Format.Button.Web.Label=&Formater les étiquettes Web

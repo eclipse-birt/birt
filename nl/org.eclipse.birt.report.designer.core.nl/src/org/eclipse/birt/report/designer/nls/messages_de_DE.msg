@@ -688,12 +688,12 @@ DataSetParameterPage.toolTipText.Down=Parameter nach unten verschieben
 DataSetParameterPage.WarningMessage.updatePosition=Einige oder alle Datensatzparameter besitzen ungültige Positionswerte. Die Positionen werden auf Grundlage der Folgen aktualisiert.
 DataSetParameterPage.warning.UnmatchedParamDataType=Parametertyp des Datensatzes stimmt nicht mit Parametertyp des verknüpften Berichts überein.
 DataSetParameterPage.multiValuesType=Typ 'Mehrere Werte'
-DataSetParameterPage.warningLinkedMultipleValuesParams.title=Warning Dialog
+DataSetParameterPage.warningLinkedMultipleValuesParams.title=Dialogfeld 'Warnung'
 DataSetParameterPage.updateReportParameter.title=Einstellung zur Aktualisierung der Berichtsparameter
 DataSetParameterPage.updateReportParameter.message=Möchten Sie den Parameter des verknüpften Berichts mit den Einstellungen des Datensatzparameters aktualisieren?
 DataSetParameterPage.updateReportParameter.promptButtonYes=Ja
 DataSetParameterPage.updateReportParameter.promptButtonNo=Nein
-DataSetParameterPage.updateReportParameter.propmtText=Remember my decision
+DataSetParameterPage.updateReportParameter.propmtText=Antwort merken
 
 PromptParameterDialog.title=Aktualisierung von Designattributen bestätigen
 PromptParameterDialog.okButton.text=Übernehmen
@@ -915,10 +915,10 @@ designer.preview.preference.bidiOrientation.ltr=Von links nach rechts
 designer.preview.preference.bidiOrientation.rtl=Von rechts nach links
 designer.preview.preference.updateParameter.confirmMessage=Aktualisierung bestätigen
 designer.preview.preference.updateParameter.confirmButton=Bei Aktualisierung von Ergebnis-/Parameterdesignattributen immer nach Bestätigung fragen
-designer.preview.preference.updateReportParameter.confirmButton=&Do not prompt for confirmation to update a linked report parameter.
-designer.preview.preference.updateReportParameter.confirmOption.always=Al&ways:
-designer.preview.preference.updateReportParameter.confirmOption.update=&Update
-designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignore
+designer.preview.preference.updateReportParameter.confirmButton=Nie nach Bestätigung fragen, um &den Parameter eines verknüpften Berichts zu aktualisieren.
+designer.preview.preference.updateReportParameter.confirmOption.always=&Immer:
+designer.preview.preference.updateReportParameter.confirmOption.update=Akt&ualisieren
+designer.preview.preference.updateReportParameter.confirmOption.ignore=&Ignorieren
 
 designer.preview.previewaction.label.webviewer=Bericht in Web Viewer anzeigen
 designer.preview.previewaction.label=Bericht als {0} anzeigen
@@ -2852,8 +2852,8 @@ OutputColumnPage.title.OutputColumnInputDialog.NewOutputColumn=Neue Ausgabespalt
 OutputColumnPage.title.OutputColumnInputDialog.EditOutputColumn=Ausgabespalte bearbeiten
 OutputColumnPage.OutputColumns.DuplicatedName=Der Name existierte bereits!
 OutputColumnsPage.description=Ausgabespalten definieren:
-OutputColumnsPage.DataTypeConvert.Note=Note
-OutputColumnsPage.DataTypeConvert.Message=Such conversion may result in loss of precision or error at runtime, are you sure to apply it?
+OutputColumnsPage.DataTypeConvert.Note=Hinweis
+OutputColumnsPage.DataTypeConvert.Message=Eine solche Konvertierung kann zu Genauigkeitsverlust oder einem Laufzeitfehler führen. Möchten Sie sie wirklich durchführen?
 
 ###########################################################
 #PageBreakPreferencePage properties
