@@ -224,6 +224,7 @@ public class ExcelLayoutEngine
 		}
 		
 		outputSheet( page );
+		containers.clear( );
 		page = null;
 	}
 
