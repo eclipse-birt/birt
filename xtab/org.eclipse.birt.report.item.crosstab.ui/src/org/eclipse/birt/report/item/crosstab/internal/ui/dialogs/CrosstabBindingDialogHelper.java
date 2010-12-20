@@ -37,6 +37,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.CLabel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -71,7 +72,6 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -974,7 +974,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		messageLine = new CLabel( composite, SWT.LEFT );
 		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.horizontalSpan = 3;
+		layoutData.horizontalSpan = 4;
 		messageLine.setLayoutData( layoutData );
 	}
 
