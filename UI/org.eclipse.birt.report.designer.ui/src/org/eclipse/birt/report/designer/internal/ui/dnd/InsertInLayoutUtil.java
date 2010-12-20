@@ -758,6 +758,17 @@ public class InsertInLayoutUtil
 								tableHandle.addColumnBinding( bindingColumn, false );
 								dataHandle.setResultSetColumn( model.getColumnName( ) );
 								
+								bindingColumn = StructureFactory.newComputedColumn( tableHandle,
+										newResultColumn.getColumnName( ) );
+								bindingColumn.setDataType( newResultColumn.getDataType( ));
+								ExpressionUtility.setBindingColumnExpression( newResultColumn,
+										bindingColumn );
+								bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( newResultColumn ) );
+								displayKey = UIUtil.getColumnDisplayNameKey( newResultColumn );
+								if ( displayKey != null )
+									bindingColumn.setDisplayNameID( displayKey );
+								tableHandle.addColumnBinding( bindingColumn, false );
+								
 								return addGroupHandle( tableHandle, newResultColumn.getColumnName( ), dataHandle );
 							}
 						}
