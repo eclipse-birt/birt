@@ -39,6 +39,20 @@ public class FontSplitter implements ISplitter
 	private FontInfo lastFontInfo = null;
 	
 	private Chunk lineBreak = null;
+	private boolean replaceUnknownChar = true;
+
+	public FontSplitter( FontMappingManager fontManager, Chunk inputChunk,
+			ITextContent textContent, boolean fontSubstitution,
+			boolean replaceUnknownChar )
+	{
+		this.fontSubstitution = fontSubstitution;
+		this.chunkText = inputChunk.getText( ).toCharArray( );
+		baseOffset = inputChunk.getOffset( );
+		baseLevel = inputChunk.getBaseLevel( );
+		runLevel = inputChunk.getRunLevel( );
+		this.fh = new FontHandler( fontManager, textContent, fontSubstitution );
+		this.replaceUnknownChar = replaceUnknownChar;
+	}
 
 	public FontSplitter( FontMappingManager fontManager, Chunk inputChunk,
 			ITextContent textContent, boolean fontSubstitution )
@@ -79,7 +93,8 @@ public class FontSplitter implements ISplitter
 			
 			//We fail to find a font to display the character,
 			//we replace this character with MISSING_CHAR defined in FontHander.
-			if (!fh.selectFont(chunkText[currentPos]))
+			boolean fontSelected = fh.selectFont( chunkText[currentPos] );
+			if ( replaceUnknownChar && !fontSelected )
 			{
 				chunkText[currentPos] = MISSING_CHAR;
 			}

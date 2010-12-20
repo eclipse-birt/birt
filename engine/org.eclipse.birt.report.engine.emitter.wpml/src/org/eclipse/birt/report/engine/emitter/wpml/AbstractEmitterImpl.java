@@ -1028,14 +1028,15 @@ public abstract class AbstractEmitterImpl
 	private String getFontFamily( IStyle c_style, Chunk ch )
 	{
 		String fontFamily = null;
-		FontInfo info = ch.getFontInfo( );
-		if ( info != null )
+		// use the user specified font family at first
+		if ( c_style != null && c_style.getFontFamily( ) != null )
 		{
-			fontFamily = info.getFontName( );
+			fontFamily = c_style.getFontFamily( );
 		}
 		else
 		{
-			fontFamily = c_style.getFontFamily( );
+			FontInfo info = ch.getFontInfo( );
+			fontFamily = info.getFontName( );
 		}
 		return fontFamily;
 	}
@@ -1045,8 +1046,11 @@ public abstract class AbstractEmitterImpl
 		FontMappingManager fontManager = FontMappingManagerFactory
 				.getInstance( ).getFontMappingManager( "doc",
 						Locale.getDefault( ) );
-		FontSplitter fontSplitter = new FontSplitter( fontManager, new Chunk(
-				text ), (TextContent) content, true );
+		FontSplitter fontSplitter = new FontSplitter( fontManager,
+				new Chunk( text ),
+				(TextContent) content,
+				true,
+				false );
 		return fontSplitter;
 	}
 
