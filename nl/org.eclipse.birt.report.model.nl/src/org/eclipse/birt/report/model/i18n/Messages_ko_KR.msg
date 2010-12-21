@@ -2488,6 +2488,7 @@ Element.ReportDesign.imageDPI=이미지 DPI
 Element.ReportDesign.pageVariables=페이지 변수
 Element.ReportDesign.dataObjects= 데이터 개체
 Element.ReportDesign.locale=로케일
+Element.ReportDesign.externalMetadata=External Meta Data
 Element.ReportDesign.onPageStart=페이지 시작 시
 Element.ReportDesign.onPageEnd=페이지 종료 시
 Element.ReportDesign.dataMarts=데이터 마트
