@@ -55,13 +55,14 @@ public final class ValueFormatter
 	 * Returns the formatted string representation of given object.
 	 * 
 	 * @param oValue
-	 * @param fs
+	 * @param formatSpecifier
 	 * @param lcl
 	 * @return formatted string
 	 */
-	public static final String format( Object oValue, FormatSpecifier fs,
+	public static final String format( Object oValue, FormatSpecifier formatSpecifier,
 			ULocale lcl, Object oCachedJavaFormatter ) throws ChartException
 	{
+		FormatSpecifier fs = formatSpecifier;
 		String sValue;
 		if ( oValue == null ) // NULL VALUES CANNOT BE FORMATTED
 		{
@@ -74,33 +75,7 @@ public final class ValueFormatter
 		}
 
 		// Add data type check for format specifier
-		if ( fs instanceof DateFormatSpecifier
-				|| fs instanceof JavaDateFormatSpecifier )
-		{
-			if ( !( oValue instanceof Calendar || oValue instanceof DateTimeDataElement ) )
-			{
-				fs = null;
-			}
-		}
-		else if ( fs instanceof NumberFormatSpecifier
-				|| fs instanceof JavaNumberFormatSpecifier
-				|| fs instanceof FractionNumberFormatSpecifier )
-		{
-			if ( !( oValue instanceof Number
-					|| oValue instanceof NumberDataElement
-					|| oValue instanceof BigNumberDataElement
-					|| NumberUtil.isBigNumber( oValue ) || NumberUtil.isBigDecimal( oValue ) ) )
-			{
-				fs = null;
-			}
-		}
-		else if ( fs instanceof StringFormatSpecifier )
-		{
-			if ( !( oValue instanceof String ) )
-			{
-				fs = null;
-			}
-		}
+		fs = resetFormatSpecifier( oValue, fs );
 
 		// IF A FORMAT SPECIFIER WAS NOT ASSOCIATED WITH THE VALUE
 		if ( fs == null )
@@ -300,6 +275,51 @@ public final class ValueFormatter
 			}
 		}
 		return oValue.toString( );
+	}
+
+	/**
+	 * Under some cases, the specified format specifier is not suitable for
+	 * current value, the format specifier must be reset to fit current value.
+	 * 
+	 * @param oValue
+	 * @param fs
+	 * @return
+	 */
+	private static FormatSpecifier resetFormatSpecifier( Object oValue,
+			FormatSpecifier fs )
+	{
+		if ( oValue instanceof IDataPointEntry )
+		{
+			return fs;
+		}
+		if ( fs instanceof DateFormatSpecifier
+				|| fs instanceof JavaDateFormatSpecifier )
+		{
+			if ( !( oValue instanceof Calendar || oValue instanceof DateTimeDataElement ) )
+			{
+				return null;
+			}
+		}
+		else if ( fs instanceof NumberFormatSpecifier
+				|| fs instanceof JavaNumberFormatSpecifier
+				|| fs instanceof FractionNumberFormatSpecifier )
+		{
+			if ( !( oValue instanceof Number
+					|| oValue instanceof NumberDataElement
+					|| oValue instanceof BigNumberDataElement
+					|| NumberUtil.isBigNumber( oValue ) || NumberUtil.isBigDecimal( oValue ) ) )
+			{
+				return null;
+			}
+		}
+		else if ( fs instanceof StringFormatSpecifier )
+		{
+			if ( !( oValue instanceof String ) )
+			{
+				return null;
+			}
+		}
+		return fs;
 	}
 
 	private static final double asPrimitiveDouble( Object o, ULocale lcl )
