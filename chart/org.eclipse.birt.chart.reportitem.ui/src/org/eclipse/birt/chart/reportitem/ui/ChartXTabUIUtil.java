@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
@@ -357,7 +358,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 				column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
 						new Expression( exprConverter.getMeasureExpression( measureHandle.getName( ) ),
 								exprType ) );
-				column.setAggregateFunction( measureHandle.getFunction( ) );
+				column.setAggregateFunction( DataAdapterUtil.getRollUpAggregationName( measureHandle.getFunction( ) ) );
 				columnList.add( column );
 			}
 			return columnList;
