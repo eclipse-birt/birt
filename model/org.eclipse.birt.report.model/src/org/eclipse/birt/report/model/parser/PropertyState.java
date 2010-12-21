@@ -127,6 +127,8 @@ class PropertyState extends AbstractPropertyState
 			.toLowerCase( ).hashCode( );
 	private static final int QUERY_TEXT_MEMBER = IOdaDataSetModel.QUERY_TEXT_PROP
 			.toLowerCase( ).hashCode( );
+	private static final int EXTERNAL_METADATA_PROP = IReportDesignModel.EXTERNAL_METADATA_PROP
+			.toLowerCase( ).hashCode( );
 
 	/**
 	 * The property definition.
@@ -249,7 +251,7 @@ class PropertyState extends AbstractPropertyState
 		}
 
 		// struct must be null.
-		
+
 		IPropertyDefn jmpDefn = element.getPropertyDefn( name );
 
 		if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( name ) )
@@ -353,6 +355,13 @@ class PropertyState extends AbstractPropertyState
 					element );
 			state.setName( name );
 			return state;
+		}
+
+		if ( element instanceof ReportDesign
+				&& EXTERNAL_METADATA_PROP == nameValue )
+		{
+			return ParseStateFactory.getInstance( )
+					.createExternalMetaDataState( handler, element );
 		}
 
 		if ( element instanceof ReportDesign && THUMBNAIL_PROP == nameValue )

@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.writer;
 import java.io.UnsupportedEncodingException;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -46,6 +45,11 @@ class DesignWriterImpl extends ModuleWriter
 	 */
 
 	private ReportDesign design;
+
+	/**
+	 * Status to control whether to write out external meta-data or not.
+	 */
+	protected boolean enableExternalMetaData = false;
 
 	/**
 	 * Constructs a writer with the specified design.

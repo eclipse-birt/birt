@@ -30,6 +30,7 @@ public class DocumentWriter extends DesignWriter
 	public DocumentWriter( ReportDesign design )
 	{
 		super( design );
+		this.enableExternalMetaData = true;
 	}
 
 	/*

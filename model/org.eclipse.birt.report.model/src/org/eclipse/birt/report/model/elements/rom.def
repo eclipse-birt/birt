@@ -1783,6 +1783,7 @@
   	  <Type name="VariableElement"/>	
   	</Property>
   	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />
+  	<Property displayNameID="Element.ReportDesign.externalMetadata" name="externalMetadata" since="2.6" type="xml" />
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>  
@@ -1837,6 +1838,7 @@
     <PropertyVisibility name="afterOpenDoc" visibility="hide"/>
 	<PropertyVisibility name="beforeCloseDoc" visibility="hide"/>
     <PropertyVisibility name="afterCloseDoc" visibility="hide"/>
+    <PropertyVisibility name="externalMetadata" visibility="hide"/>
     -->
     <Slot displayNameID="Element.ReportDesign.slot.styles" multipleCardinality="true" name="styles" since="1.0" xmlName="styles">
       <Type name="Style"/>

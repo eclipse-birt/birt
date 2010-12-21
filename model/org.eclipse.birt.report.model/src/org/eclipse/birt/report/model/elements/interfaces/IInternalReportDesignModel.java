@@ -175,6 +175,11 @@ public interface IInternalReportDesignModel
 	 * the report
 	 */
 	public static final String LOCALE_PROP = "locale"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property that defines some external metadata.
+	 */
+	public static final String EXTERNAL_METADATA_PROP ="externalMetadata"; //$NON-NLS-1$
 
 	/**
 	 * Name of the method on page start.
