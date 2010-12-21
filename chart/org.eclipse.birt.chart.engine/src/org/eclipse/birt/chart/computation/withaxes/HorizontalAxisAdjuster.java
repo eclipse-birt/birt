@@ -257,7 +257,7 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 			double dFixedLabelThickness = axPH.getModelAxis( ).getLabelSpan( )
 					* fPlotWithAxes.getPointToPixel( );
 
-			// if the fixed label thickness is to greate, it will not take
+			// if the fixed label thickness is to great, it will not take
 			// affect.
 			if ( dFixedLabelThickness < dHTotal
 					- 2
@@ -352,9 +352,9 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 
 		// ENSURE THAT WE DON'T GO ABOVE THE UPPER PLOT BLOCK EDGE
 		double dBlockY = fPlotBounds.getTop( ) + fPlotBounds.getHeight( );
-		if ( dY2 > dBlockY )
+		final double dDelta = ( dY2 - dBlockY  );
+		if ( dY2 != dBlockY )
 		{
-			final double dDelta = ( dY2 - dBlockY  );
 			dY2 = dBlockY;
 			dY -= dDelta;
 			dY1 -= dDelta;
@@ -456,9 +456,9 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 
 		// ENSURE THAT WE DON'T GO BELOW THE LOWER PLOT BLOCK EDGE
 		double dBlockY = fPlotBounds.getTop( );
-		if ( dY1 < dBlockY  )
+		final double dDelta = ( dBlockY - dY1 );
+		if ( dY1 != dBlockY  )
 		{
-			final double dDelta = ( dBlockY - dY1 );
 			dY1 = dBlockY;
 			dY += dDelta;
 			dY2 += dDelta;
@@ -832,5 +832,21 @@ public class HorizontalAxisAdjuster implements IAxisAdjuster
 	double getBottomHeight( )
 	{
 		return dBottomHeight;
+	}
+	
+	/**
+	 * Computes the title coordinate.
+	 * 
+	 * @param axisCoordinate
+	 * @return
+	 */
+	double getTitleCoordinate( double axisCoordinate )
+	{
+		return ( iXTitleLocation == PlotWithAxes.BELOW ) ? axisCoordinate
+				+ 1
+				+ ( bTicksBelow ? fPlotWithAxes.getTickSize( ) : 0 )
+				+ ( ( iXLabelLocation == PlotWithAxes.BELOW ) ? getAxisLabelThickness( )
+						: 0 )
+				: axisCoordinate - getTopHeight( ) - 1;
 	}
 }

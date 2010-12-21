@@ -350,8 +350,7 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 			{
 				// The max height should be the range of orthogonal axis scale
 				// if it is study layout.
-				maxHeight = Math.abs( fVerticalAxis.getScale( ).getEndPoints( )[1]
-						- fVerticalAxis.getScale( ).getEndPoints( )[0] );
+				maxHeight = Math.abs( scY.getStart( ) - scY.getEnd( ) );
 			}
 			LabelLimiter lblLimit = new LabelLimiter( maxWidth, maxHeight, 0 );
 			lblLimit.computeWrapping( ids, laYAxisTitle );
@@ -462,9 +461,9 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 
 		// Ensure that we don't go behind the left plot block edge.
 		double dBlockX = fPlotBounds.getLeft( );
-		if ( dX1 < dBlockX )
+		final double dDelta = ( dBlockX - dX1 );
+		if ( dX1 != dBlockX )
 		{
-			final double dDelta = ( dBlockX - dX1 );
 			dX1 = dBlockX;
 			dX += dDelta;
 			dX2 += dDelta;
@@ -543,9 +542,9 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 		// Ensure that we don't do ahead of the right plot block edge.
 		double dBlockX = fPlotBounds.getLeft( );
 		double dBlockWidth = fPlotBounds.getWidth( );
-		if ( dX2 > dBlockX + dBlockWidth )
+		final double dDelta = dX2 - ( dBlockX + dBlockWidth );
+		if ( dX2 != ( dBlockX + dBlockWidth ) )
 		{
-			final double dDelta = dX2 - ( dBlockX + dBlockWidth );
 			dX2 = dBlockX + dBlockWidth;
 			dX -= dDelta;
 			dX1 -= dDelta;
@@ -937,5 +936,21 @@ public class VerticalAxisAdjuster implements IAxisAdjuster
 	double getRightWidth()
 	{
 		return dRightWidth;
+	}
+	
+	/**
+	 * Computes the title coordinate
+	 * .
+	 * @param axisCoordinate
+	 * @return
+	 */
+	double getTitleCoordinate( double axisCoordinate )
+	{
+		return ( iYTitleLocation == PlotWithAxes.LEFT ) ? axisCoordinate
+				- getLeftWidth( )
+				- 1 : axisCoordinate
+				+ ( bTicksRight ? fPlotWithAxes.getTickSize( ) : 0 )
+				+ ( ( iYLabelLocation == PlotWithAxes.LEFT ) ? 0
+						: getAxisLabelThickness( ) ) + 1;
 	}
 }

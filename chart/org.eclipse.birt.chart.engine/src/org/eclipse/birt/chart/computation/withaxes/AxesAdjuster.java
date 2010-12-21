@@ -80,7 +80,7 @@ public class AxesAdjuster implements IAxisAdjuster, IConstants
 			},
 					fValueAxesHelper.getValueAxes( )[index],
 					fPlotWithAxes,
-					fPlotBounds ).adjust( );
+					fPlotBounds ).adjust( false );
 		}
 		else
 		{
@@ -96,7 +96,7 @@ public class AxesAdjuster implements IAxisAdjuster, IConstants
 			},
 					fValueAxesHelper.getValueAxes( )[index],
 					fPlotWithAxes,
-					fPlotBounds ).adjust( );
+					fPlotBounds ).adjust( false );
 		}
 
 	}

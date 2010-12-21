@@ -63,6 +63,19 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 	 */
 	public void adjust( ) throws ChartException
 	{
+		this.adjust( true );
+	}
+	
+	/**
+	 * Adjusts the axes.
+	 * 
+	 * @param checkAxisLabel
+	 * 		whether the axis label should be considered as a factor while
+	 *            computing coordinates and size of axis.
+	 * @throws ChartException
+	 */
+	public void adjust( boolean checkAxisLabel ) throws ChartException
+	{
 		AutoScale scX = fHorizontalAxis.getScale( );
 
 		List<VerticalAxisAdjuster> values = new ArrayList<VerticalAxisAdjuster>( );
@@ -204,7 +217,8 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 					fHorizontalAxis,
 					x,
 					left,
-					right );
+					right,
+					checkAxisLabel );
 			x = positions[0];
 			left = positions[1];
 			right = positions[2];
@@ -217,10 +231,7 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 			VerticalAxisAdjuster vaa = min.get( i );
 			OneAxis oa = vaa.getVerticalAxis( );
 			oa.setAxisCoordinate( x );
-			double iYTitleLocation = oa.getTitlePosition( );
-			oa.setTitleCoordinate( ( iYTitleLocation == PlotWithAxes.LEFT ) ? x
-					- vaa.getLeftWidth( )
-					- 1	: x + vaa.getRightWidth( ) - vaa.getAxisTitleThickness( ) + 1 );
+			oa.setTitleCoordinate( vaa.getTitleCoordinate( x ) );
 		}
 
 		// 5. Adjusts max origin axes, computes x location, axis left edge and
@@ -271,7 +282,8 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 					fHorizontalAxis,
 					x,
 					left,
-					right );
+					right,
+					checkAxisLabel );
 			x = positions[0];
 			left = positions[1];
 			right = positions[2];
@@ -282,10 +294,8 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 		{
 			VerticalAxisAdjuster vaa = max.get( i );
 			OneAxis oa = vaa.getVerticalAxis( );
-			double iYTitleLocation = oa.getTitlePosition( );
-			oa.setTitleCoordinate( ( iYTitleLocation == PlotWithAxes.LEFT ) ? x - vaa.getLeftWidth( ) - 1 
-					: x + vaa.getRightWidth( ) - vaa.getAxisTitleThickness( ) + 1 );
 			oa.setAxisCoordinate( x );
+			oa.setTitleCoordinate( vaa.getTitleCoordinate( x ) );
 		}
 
 		// 8 Sets value origin axes coordinate and title coordinate according
@@ -294,22 +304,12 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 		{
 			VerticalAxisAdjuster vaa = values.get( i );
 			OneAxis oa = vaa.getVerticalAxis( );
-			double iYTitleLocation = oa.getTitlePosition( );
 			double axisCoordinate = 0;
 			double locationDelta = AxesAdjuster.getLocationDelta( scX,
 					vaa.getVerticalAxis( ).getIntersectionValue( ) );
 			axisCoordinate = scX.getEndPoints( )[0] + locationDelta;
-
-			double axisTitleCoordinate = ( iYTitleLocation == PlotWithAxes.LEFT ) ? axisCoordinate
-					- ( vaa.getAxisX( ) - vaa.getAxisLeftEdge( ) )
-					- 1
-					: axisCoordinate
-							+ 1
-							+ ( ( oa.getLabelPosition( ) == PlotWithAxes.LEFT ) ? 0
-									: vaa.getAxisLabelThickness( ) );
-
 			oa.setAxisCoordinate( axisCoordinate );
-			oa.setTitleCoordinate( axisTitleCoordinate );
+			oa.setTitleCoordinate( vaa.getTitleCoordinate( axisCoordinate ) );
 		}
 		
 		// 9. Recomputes the ticks according to new start and end of horizontal
@@ -333,11 +333,14 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 	 * @param dX
 	 * @param dLeftEdge
 	 * @param dRightEdge
+	 * @param checkAxisLabel
+	 * 			whether the axis label should be considered as a factor while
+	 *            computing coordinates and size of axis.
 	 * @return
 	 * @throws ChartException
 	 */
 	double[] adjustAcrossAxis( int iv, OneAxis acrossAxis,
-			double dX, double dLeftEdge, double dRightEdge )
+			double dX, double dLeftEdge, double dRightEdge, boolean checkAxisLabel )
 			throws ChartException
 	{
 		IDisplayServer ids = fPlotWithAxes.getDisplayServer( );
@@ -403,8 +406,8 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 					PlotWithAxes.HORIZONTAL,
 					dStart,
 					dEnd,
-					considerStartLabel,
-					considerEndLabel,
+					considerStartLabel && checkAxisLabel,
+					considerEndLabel && checkAxisLabel,
 					aax );
 
 			if ( !scX.isStepFixed( ) )
@@ -425,8 +428,8 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 							PlotWithAxes.HORIZONTAL,
 							dStart,
 							dEnd,
-							considerStartLabel,
-							considerEndLabel,
+							considerStartLabel && checkAxisLabel,
+							considerEndLabel && checkAxisLabel,
 							aax );
 
 					if ( scX.getUnit( ) != null
@@ -526,8 +529,8 @@ public class VerticalAxesAdjuster implements IAxisAdjuster
 					PlotWithAxes.HORIZONTAL,
 					dStart,
 					dEnd,
-					considerStartLabel,
-					considerEndLabel,
+					considerStartLabel && checkAxisLabel,
+					considerEndLabel && checkAxisLabel,
 					aax );
 
 			if ( !scX.isStepFixed( ) )
