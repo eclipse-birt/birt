@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -905,7 +906,21 @@ public class HyperlinkBuilder extends BaseDialog
 	private void createDrillthroughSelectFormat( Composite container )
 	{
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
-		supportedFormats = engine.getSupportedFormats( );
+		supportedFormats = new String[0];
+		EmitterInfo[] emitters = engine.getEmitterInfo( );
+		if ( emitters != null && emitters.length > 0 )
+		{
+			List<String> temp = new ArrayList<String>( );
+			for ( int i = 0; i < emitters.length; i++ )
+			{
+				EmitterInfo info = emitters[i];
+				if ( !info.isHidden( ) )
+				{
+					temp.add( info.getFormat( ) );
+				}
+			}
+			supportedFormats = temp.toArray( new String[temp.size( )] );
+		}
 
 		Group formatsGroup = new Group( container, SWT.NONE );
 		formatsGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
