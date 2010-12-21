@@ -2488,6 +2488,7 @@ Element.ReportDesign.imageDPI=图像 DPI
 Element.ReportDesign.pageVariables=页面变量
 Element.ReportDesign.dataObjects= 数据对象
 Element.ReportDesign.locale=区域设置
+Element.ReportDesign.externalMetadata=External Meta Data
 Element.ReportDesign.onPageStart=页面启动时
 Element.ReportDesign.onPageEnd=页面终止时
 Element.ReportDesign.dataMarts=DataMarts

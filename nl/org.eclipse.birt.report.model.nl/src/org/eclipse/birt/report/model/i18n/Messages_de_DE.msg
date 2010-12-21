@@ -2488,6 +2488,7 @@ Element.ReportDesign.imageDPI=Bild-DPI
 Element.ReportDesign.pageVariables=Seitenvariablen
 Element.ReportDesign.dataObjects= Datenobjekte
 Element.ReportDesign.locale=Gebietsschema
+Element.ReportDesign.externalMetadata=External Meta Data
 Element.ReportDesign.onPageStart=Am Seitenanfang
 Element.ReportDesign.onPageEnd=Am Seitenende
 Element.ReportDesign.dataMarts=DataMarts
