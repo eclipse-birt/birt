@@ -1548,7 +1548,7 @@ public class InsertInLayoutUtil
 			// Validates target's dataset is null or the same with the inserted
 			DesignElementHandle handle = (DesignElementHandle) target.getParent( )
 					.getModel( );
-			if (handle instanceof TableHandle  && target.getModel( ) instanceof CellHandle)
+			if (handle instanceof TableHandle  && target.getModel( ) instanceof CellHandle && ((TableHandle)handle).isSummaryTable( ))
 			{
 				TableHandle tableHandle = (TableHandle)handle;
 				CellHandle cellHandle = (CellHandle)target.getModel( );
