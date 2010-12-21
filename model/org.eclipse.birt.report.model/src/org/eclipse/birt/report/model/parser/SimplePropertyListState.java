@@ -364,7 +364,10 @@ public class SimplePropertyListState extends AbstractPropertyState
 			}
 			else
 			{
-				values.add( value );
+				if ( isNull )
+					values.add( null );
+				else
+					values.add( value );
 			}
 
 		}

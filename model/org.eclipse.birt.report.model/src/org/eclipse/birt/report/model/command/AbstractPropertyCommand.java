@@ -532,7 +532,6 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	protected Object checkItem( PropertyDefn prop, Object item )
 			throws PropertyValueException
 	{
-		assert item != null;
 		assert prop.getTypeCode( ) == IPropertyType.LIST_TYPE;
 		Object value = item;
 		if ( item instanceof DesignElementHandle )

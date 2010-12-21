@@ -167,14 +167,19 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		assert context != null;
 		checkAllowedOperation( );
-		if ( item == null )
+		PropertyDefn memberDefn = context.getPropDefn( );
+
+		// can not insert null structure to structure list; however, support
+		// null to simple value list
+		if ( item == null
+				&& memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			return null;
 
 		// this method is not called for structure list property
 
 		assert !( item instanceof IStructure );
 		PropertyDefn prop = context.getElementProp( );
-		PropertyDefn memberDefn = context.getPropDefn( );
+
 		assertExtendedElement( module, element, prop );
 
 		if ( memberDefn != null )

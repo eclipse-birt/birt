@@ -359,9 +359,6 @@ public class PropertyHandle extends SimpleValueHandle
 	 */
 	public void addItem( Object item ) throws SemanticException
 	{
-		if ( item == null )
-			return;
-
 		if ( item instanceof IStructure )
 		{
 			super.addItem( (IStructure) item );
