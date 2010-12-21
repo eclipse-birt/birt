@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -273,5 +274,12 @@ class ParseStateFactoryImpl
 			ModuleParserHandler handler, DesignElement container, int slotID )
 	{
 		return null;
+	}
+	
+	public AbstractParseState createExternalMetaDataState( ModuleParserHandler handler, DesignElement element )
+	{
+		XmlPropertyState state = new XmlPropertyState( handler, element);
+		state.setName( IReportDesignModel.EXTERNAL_METADATA_PROP);
+		return state;
 	}
 }
