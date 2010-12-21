@@ -63,6 +63,19 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 	 */
 	public void adjust( ) throws ChartException
 	{
+		this.adjust( true );
+	}
+
+	/**
+	 * Adjust the axes.
+	 * 
+	 * @param checkAxisLabel
+	 *            whether the axis label should be considered as a factor while
+	 *            computing coordinates and size of axis.
+	 * @throws ChartException
+	 */
+	public void adjust( boolean checkAxisLabel ) throws ChartException
+	{
 		AutoScale scY = fVerticalAxis.getScale( );
 		boolean isForward = ( scY.getDirection( ) == PlotWithAxes.FORWARD );
 
@@ -198,7 +211,8 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 					fVerticalAxis,
 					y,
 					bottom,
-					top );
+					top,
+					checkAxisLabel );
 			y = positions[0];
 			top = positions[1];
 			bottom = positions[2];
@@ -210,13 +224,8 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 		{
 			HorizontalAxisAdjuster haa = min.get( i );
 			OneAxis oa = haa.getHorizontalAxis( );
-			double iXTitleLocation = oa.getTitlePosition( );
-			oa.setTitleCoordinate( ( iXTitleLocation == PlotWithAxes.BELOW ) ? y
-					+ haa.getBottomHeight( )
-					- haa.getAxisTitleThickness( )
-					- 1
-					: y - haa.getTopHeight( ) + 1 );
 			oa.setAxisCoordinate( y );
+			oa.setTitleCoordinate( haa.getTitleCoordinate( y ) );
 		}
 
 		// 5. Adjusts max origin axes, computes the axis y location, axis top
@@ -267,7 +276,8 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 					fVerticalAxis,
 					y,
 					bottom,
-					top );
+					top,
+					checkAxisLabel );
 			y = positions[0];
 			top = positions[1];
 			bottom = positions[2];
@@ -279,13 +289,8 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 		{
 			HorizontalAxisAdjuster haa = max.get( i );
 			OneAxis oa = haa.getHorizontalAxis( );
-			double iXTitleLocation = oa.getTitlePosition( );
-			oa.setTitleCoordinate( ( iXTitleLocation == PlotWithAxes.BELOW ) ? y
-					+ haa.getBottomHeight( )
-					- haa.getAxisTitleThickness( )
-					- 1
-					: y - haa.getTopHeight( ) + 1 );
 			oa.setAxisCoordinate( y );
+			oa.setTitleCoordinate( haa.getTitleCoordinate( y ) );
 		}
 		
 		// 8. Set value origin axis coordinate and title coordinate according
@@ -294,8 +299,6 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 		{
 			HorizontalAxisAdjuster haa = values.get(i);
 			OneAxis oa = haa.getHorizontalAxis( );
-			double iXTitleLocation = oa.getTitlePosition( );
-
 			double axisCoordinate = 0;
 			double locationDelta = AxesAdjuster.getLocationDelta( scY,
 					haa.getHorizontalAxis( ).getIntersectionValue( ) );
@@ -308,17 +311,8 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 				axisCoordinate = scY.getEndPoints( )[1] + locationDelta;
 			}
 
-			double axisTitleCoordinate = ( iXTitleLocation == PlotWithAxes.BELOW ) ? axisCoordinate
-					+ 1
-					+ ( ( oa.getLabelPosition( ) == PlotWithAxes.BELOW ) ? haa.getAxisLabelThickness( ) : 0 )
-					: axisCoordinate
-							- haa.getAxisTitleThickness( )
-							- 1
-							- ( ( oa.getLabelPosition( ) == PlotWithAxes.BELOW ) ? 0
-									: haa.getAxisLabelThickness( ) );
-
 			oa.setAxisCoordinate( axisCoordinate );
-			oa.setTitleCoordinate( axisTitleCoordinate );
+			oa.setTitleCoordinate( haa.getTitleCoordinate( axisCoordinate ) );
 		}
 
 		// 9. Recomputes ticks according to new start and end of vertical axis.
@@ -341,11 +335,15 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 	 * @param dY
 	 * @param dBottom
 	 * @param dTop
+	 * @param checkAxisLabel
+	 * 			whether the axis label should be considered as a factor while
+	 *            computing coordinates and size of axis.
 	 * @return
 	 * @throws ChartException
 	 */
-	double[] adjustAcrossAxis( int iv, OneAxis orthogonalAxis,
-			double dY, double dBottom, double dTop ) throws ChartException
+	double[] adjustAcrossAxis( int iv, OneAxis orthogonalAxis, double dY,
+			double dBottom, double dTop, boolean checkAxisLabel )
+			throws ChartException
 	{
 		IDisplayServer ids = fPlotWithAxes.getDisplayServer( );
 		AutoScale scY = orthogonalAxis.getScale( );
@@ -389,7 +387,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 						PlotWithAxes.VERTICAL,
 						dStart,
 						dEnd,
-						startEndChanged,
+						startEndChanged && checkAxisLabel,
 						aax );
 				if ( !scY.isStepFixed( ) )
 				{
@@ -407,7 +405,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 								PlotWithAxes.VERTICAL,
 								dStart,
 								dEnd,
-								startEndChanged,
+								startEndChanged && checkAxisLabel,
 								aax );
 						if ( scY.getUnit( ) != null
 								&& PlotWithAxes.asInteger( scY.getUnit( ) ) == Calendar.YEAR
@@ -462,7 +460,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 						PlotWithAxes.VERTICAL,
 						dStart,
 						dEnd,
-						startEndChanged,
+						startEndChanged && checkAxisLabel,
 						false,
 						aax );
 				if ( !scY.isStepFixed( ) )
@@ -482,7 +480,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 								PlotWithAxes.VERTICAL,
 								dStart,
 								dEnd,
-								startEndChanged,
+								startEndChanged && checkAxisLabel,
 								false,
 								aax );
 						double dNewStep = ( (Number) scY.getStep( ) ).doubleValue( );
@@ -522,17 +520,20 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster
 				{
 					// It uses the bottom space, the dStart should be adjusted.
 					dStart = dY;
+					startEndChanged = true;
 				}
 				else if ( dY <= scY.getEnd( ) )
 				{
 					// It uses the top space, the dEnd should be adjusted.
 					dEnd = dY;
+					startEndChanged = true;
 				}
 
 				if ( bForwardScale )
 				{
 					dStart = scY.getStart( );
 					dEnd = dTop + scY.getEndShift( );
+					startEndChanged = true;
 				}
 				scY.resetShifts( );
 

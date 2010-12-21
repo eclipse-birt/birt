@@ -100,6 +100,7 @@ class ValueAxesHelper
 	private void precomputeCrossingAxisDelta( PlotWith2DAxes plotWithAxes,
 			AllAxes aax, Bounds plotBounds ) throws ChartException
 	{
+		boolean isMinOrigin = fAllAxes.getPrimaryBase( ).getIntersectionValue( ).iType == IConstants.MIN;
 		boolean isMaxOrigin = fAllAxes.getPrimaryBase( ).getIntersectionValue( ).iType == IConstants.MAX;
 		if ( isMaxOrigin )
 		{
@@ -119,11 +120,11 @@ class ValueAxesHelper
 					plotBounds );
 			haa.adjust( );
 			fBaseAxisThickness = haa.getAxisBottomEdge( ) - haa.getAxisTopEdge( ) - plotWithAxes.getHorizontalSpacingInPixels( );
-			if ( !isMaxOrigin )
+			if ( isMinOrigin )
 			{
 				this.fHeight -= fBaseAxisThickness;
 			}
-			else
+			else if ( isMaxOrigin )
 			{
 				this.fTop += fBaseAxisThickness;
 				this.fHeight -= fBaseAxisThickness;
@@ -142,12 +143,12 @@ class ValueAxesHelper
 					plotBounds );
 			haa.adjust( );
 			fBaseAxisThickness = haa.getAxisRightEdge( ) - haa.getAxisLeftEdge( ) - plotWithAxes.getVerticalSpacingInPixels( );
-			if ( !isMaxOrigin )
+			if ( isMinOrigin )
 			{
 				this.fLeft += fBaseAxisThickness;
 				this.fWidth -= fBaseAxisThickness;
 			}
-			else
+			else if ( isMaxOrigin )
 			{
 				this.fWidth -= fBaseAxisThickness;
 			}
@@ -174,10 +175,9 @@ class ValueAxesHelper
 	double getStart( int valueAxisIndex )
 	{
 		double start = 0;
-		double d = ( fCrossingIndex == 0 && fCrossingIndex == valueAxisIndex ) ? fBaseAxisThickness : 0d; 
 		if ( fAllValueAxes.length == 1 || valueAxisIndex == 0 )
 		{
-			start = ( !this.fAllAxes.areAxesSwapped( ) ) ? ( fTop + fHeight ) + d : fLeft - d ;
+			start = ( !this.fAllAxes.areAxesSwapped( ) ) ? ( fTop + fHeight ) : fLeft ;
 		}
 		else
 		{
@@ -186,11 +186,11 @@ class ValueAxesHelper
 			{
 				start = fTop
 						+ fHeight
-						* ( 1 - fAllAxesPercents[valueAxisIndex - 1] / fPercentTotal ) + d;
+						* ( 1 - fAllAxesPercents[valueAxisIndex - 1] / fPercentTotal );
 			}
 			else
 			{
-				start = fLeft + fWidth * fAllAxesPercents[valueAxisIndex - 1] / fPercentTotal - d;
+				start = fLeft + fWidth * fAllAxesPercents[valueAxisIndex - 1] / fPercentTotal;
 			}
 		}
 		return start;
@@ -205,20 +205,19 @@ class ValueAxesHelper
 	double getEnd( int valueAxisIndex )
 	{
 		double end = 0;
-		double d = ( fCrossingIndex == ( fAllValueAxes.length - 1) && fCrossingIndex == valueAxisIndex ) ? fBaseAxisThickness : 0d; 
 		if ( fAllValueAxes.length == 1 )
 		{
-			end = ( !this.fAllAxes.areAxesSwapped( ) ) ? fTop - d : fLeft + fWidth + d;
+			end = ( !this.fAllAxes.areAxesSwapped( ) ) ? fTop : fLeft + fWidth;
 		}
 		else
 		{
 			if ( !this.fAllAxes.areAxesSwapped( ) )
 			{
-				end = fTop + fHeight * ( 1 - fAllAxesPercents[valueAxisIndex] / fPercentTotal ) - d;
+				end = fTop + fHeight * ( 1 - fAllAxesPercents[valueAxisIndex] / fPercentTotal );
 			}
 			else
 			{
-				end = fLeft + fWidth * fAllAxesPercents[valueAxisIndex] / fPercentTotal + d;
+				end = fLeft + fWidth * fAllAxesPercents[valueAxisIndex] / fPercentTotal;
 			}
 		}
 		return end;
