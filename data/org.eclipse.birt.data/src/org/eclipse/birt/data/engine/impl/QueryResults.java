@@ -157,7 +157,8 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	public IResultIterator getResultIterator( ) throws DataException
 	{ 
-		this.session.getStopSign().start( );
+		if( this.session.getStopSign().isStopped( ) )
+			return null;
 		if ( queryService == null )
 			throw new DataException( ResourceConstants.RESULT_CLOSED );
 
