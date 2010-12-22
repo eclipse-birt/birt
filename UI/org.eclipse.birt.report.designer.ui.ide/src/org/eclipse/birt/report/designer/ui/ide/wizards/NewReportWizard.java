@@ -639,7 +639,7 @@ public class NewReportWizard extends Wizard implements
 			//Support the default library
 			if (isUseDefaultLibrary)
 			{
-				UIUtil.includeLibrary( handle, DEUtil.DEFAULT_LIBRARY );
+				UIUtil.includeLibrary( handle, DEUtil.DEFAULT_LIBRARY,true );
 			}
 			// bidi_hcg end
 			handle.saveAs( file.getLocation( ).toOSString( ) );
