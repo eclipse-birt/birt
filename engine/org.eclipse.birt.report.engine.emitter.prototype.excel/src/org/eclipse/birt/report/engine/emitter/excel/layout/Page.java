@@ -61,15 +61,17 @@ public class Page
 	private String orientation;
 	private List<BookmarkDef> bookmarks = new ArrayList<BookmarkDef>( );
 	private String sheetName;
+	private XlsContainer pageContainer;
 
 	public Page( int contentWidth, StyleEngine styleEngine, int maxCol,
-	        String sheetName )
+	        String sheetName, XlsContainer pageContainer )
 	{
 		axis = new AxisProcessor( );
 		this.styleEngine = styleEngine;
 		axis.addCoordinate( contentWidth );
 		this.maxCol = maxCol;
 		this.sheetName = sheetName;
+		this.pageContainer = pageContainer;
 	}
 
 	public void startPage( IPageContent pageContent )
@@ -1064,7 +1066,12 @@ public class Page
 	{
 		this.sheetName = sheetName;
 	}
-	
+
+	public XlsContainer getPageContainer( )
+	{
+		return pageContainer;
+	}
+
 	/**
 	 * Clears the cache. 
 	 */
