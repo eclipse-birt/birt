@@ -75,7 +75,7 @@ public class PathResourceEntry extends BaseResourceEntity
 
 	public PathResourceEntry( final String[] filePattern, String path )
 	{
-		this( filePattern );
+		this( filePattern, path, Messages.getString( "PathResourceEntry.RootName" ));
 	}
 
 	public PathResourceEntry( final String[] filePattern, String path,
