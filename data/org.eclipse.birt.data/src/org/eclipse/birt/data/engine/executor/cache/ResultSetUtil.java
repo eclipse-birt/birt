@@ -15,7 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
@@ -32,8 +32,6 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.index.DataSetInMemoryStringIndex;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
-import org.eclipse.birt.data.engine.impl.index.SerializableBirtHash;
-import org.eclipse.birt.data.engine.impl.index.SerializableDataSetNumberIndex;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -213,9 +211,14 @@ public class ResultSetUtil
 			while ( iter.hasNext( ) )
 			{
 				IBinding binding = iter.next( );
-				dataSetColumnList = binding == null
-						? null
-						: ExpressionCompilerUtil.extractDataSetColumnExpression(  binding.getExpression( ) );
+				dataSetColumnList = null;
+				if( binding != null )
+				{
+					if( binding.getExpression( ) != null )
+						dataSetColumnList = ExpressionCompilerUtil.extractDataSetColumnExpression(  binding.getExpression( ) );
+					else
+						dataSetColumnList = ExpressionCompilerUtil.extractDataSetColumnExpression( getArgumentExpression( binding ) );
+				}
 				if ( dataSetColumnList != null )
 				{
 					resultSetNameSet.addAll( dataSetColumnList );
@@ -223,6 +226,16 @@ public class ResultSetUtil
 			}
 		}
 		return resultSetNameSet;
+	}
+	
+	private static IBaseExpression getArgumentExpression( IBinding binding ) throws DataException
+	{
+		List arguments = binding.getArguments( );
+		if( arguments != null && arguments.size( ) > 0 )
+		{
+			return ( IBaseExpression )arguments.get( 0 );
+		}
+		return null;
 	}
 	
 }
