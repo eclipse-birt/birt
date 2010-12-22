@@ -1239,6 +1239,11 @@ public class UIUtil
 		return label;
 	}
 
+	public static boolean includeLibrary( ModuleHandle moduleHandle,
+			String libraryPath ) throws DesignFileException, SemanticException
+	{
+		return includeLibrary(moduleHandle,libraryPath,false);
+	}
 	/**
 	 * Includes the library into within the given module.
 	 * 
@@ -1250,9 +1255,9 @@ public class UIUtil
 	 *         failed.
 	 */
 	public static boolean includeLibrary( ModuleHandle moduleHandle,
-			String libraryPath ) throws DesignFileException, SemanticException
+			String libraryPath, boolean isDefault ) throws DesignFileException, SemanticException
 	{
-		String namespace = getLibraryNamespace( moduleHandle, libraryPath );
+		String namespace = getLibraryNamespace( moduleHandle, libraryPath, isDefault );
 		if ( namespace != null )
 		{
 			// is a filesystem file.
@@ -1354,9 +1359,13 @@ public class UIUtil
 	 *         operator
 	 */
 	private static String getLibraryNamespace( ModuleHandle handle,
-			String libraryPath )
+			String libraryPath,boolean isDefault )
 	{
 		String namespace = getSimpleFileName( libraryPath ).split( "\\." )[0]; //$NON-NLS-1$
+		if (isDefault && handle.getLibrary( namespace ) != null)
+		{
+			return null;
+		}
 		if ( handle.getLibrary( namespace ) != null )
 		{
 			ImportLibraryDialog dialog = new ImportLibraryDialog( namespace );
