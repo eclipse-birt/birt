@@ -527,6 +527,8 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 	
 	private void handleLinkedMultipleValuesReportParam( OdaDataSetParameter dsParam )
 	{
+		if ( dsParam.getParamName( ) == null )
+			return;
 		ScalarParameterHandle paramHandle = ParameterPageUtil.getScalarParameter( dsParam.getParamName( ),
 				true );
 		if ( paramHandle != null )
