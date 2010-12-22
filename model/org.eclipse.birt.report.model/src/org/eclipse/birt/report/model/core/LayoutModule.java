@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +36,7 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
@@ -781,11 +784,62 @@ public abstract class LayoutModule extends Module
 			Library library = libraries.get( i );
 			if ( theLocation.equalsIgnoreCase( library.getLocation( ) ) )
 				return library;
+			// do some enhancements for FILE schema
+			else if ( isSameFile( theLocation, library ) )
+				return library;
 		}
 
 		// the library with the given location path is not found, return null
 
 		return null;
+	}
+
+	/**
+	 * Tests whether the two given objects refer the same logic file in the file
+	 * system. Return true if they define the same logic file even though the
+	 * URL is not identical. Otherwise false.
+	 * 
+	 * @param theLocation
+	 * @param library
+	 * @return
+	 */
+	private boolean isSameFile( String theLocation, Library library )
+	{
+		assert theLocation != null;
+		assert library != null;
+		URL url_1 = null;
+		try
+		{
+			url_1 = new URL( theLocation );
+
+			// if the location is not file schema, do nothing and return false
+			if ( !URIUtil.FILE_SCHEMA.equalsIgnoreCase( url_1.getProtocol( ) ) )
+				return false;
+
+			URL url_2 = new URL( library.getLocation( ) );
+			if ( !URIUtil.FILE_SCHEMA.equalsIgnoreCase( url_2.getProtocol( ) ) )
+				return false;
+
+			String file_name_1 = url_1.getFile( );
+			File file_1 = new File( file_name_1 );
+			String logicalPath_1 = file_1.getCanonicalPath( );
+			String file_name_2 = url_2.getFile( );
+			File file_2 = new File( file_name_2 );
+			String logicalPath_2 = file_2.getCanonicalPath( );
+			if ( logicalPath_1 != null && logicalPath_1.equals( logicalPath_2 ) )
+				return true;
+
+		}
+		catch ( MalformedURLException e )
+		{
+			return false;
+		}
+		catch ( IOException ex )
+		{
+			return false;
+		}
+
+		return false;
 	}
 
 	/*
