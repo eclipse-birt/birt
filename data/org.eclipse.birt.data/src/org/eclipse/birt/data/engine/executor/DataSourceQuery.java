@@ -329,7 +329,19 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         // If ODA can provide result metadata, get it now
         try
         {
-        	resultMetadata = getMetaData( (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( ), odaStatement );
+        	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, session.getStopSign() );
+        	this.session.getCancelManager( ).register( queryCanceller );
+        	
+        	if( !session.getStopSign().isStopped() )
+        		resultMetadata = getMetaData( (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( ), odaStatement );
+        	
+        	if ( queryCanceller.collectException( ) != null )
+    		{
+    			if ( !( queryCanceller.collectException( ).getCause( ) instanceof UnsupportedOperationException ) )
+    				throw queryCanceller.collectException( );
+    		}
+    		
+    		this.session.getCancelManager( ).deregister( queryCanceller );
 
         }
         catch ( DataException e )
@@ -883,8 +895,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		
     	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, session.getStopSign() );
     	this.session.getCancelManager( ).register( queryCanceller );
+    	
+    	if( !session.getStopSign().isStopped())
+    	{    			
+    		odaStatement.execute( );
+    	}
 		
-		odaStatement.execute( );
 		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,
 				odaStatement.getEffectiveQueryText( ) );
 		
@@ -926,7 +942,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				}
 			}
 		}
-		if( rs == null )
+		if( rs == null && !session.getStopSign( ).isStopped( ) )
 		{
 			rs = odaStatement.getResultSet( );
 		}
