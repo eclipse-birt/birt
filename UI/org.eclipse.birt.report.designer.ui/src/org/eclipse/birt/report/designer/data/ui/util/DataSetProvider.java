@@ -296,8 +296,6 @@ public final class DataSetProvider
 	{
 		String defaultAnalysisType = null;
 
-		if ( !this.needToFocusOnOutput )
-			return originalAnalysis;
 		if ( originalAnalysis != null )
 			return originalAnalysis;
 
