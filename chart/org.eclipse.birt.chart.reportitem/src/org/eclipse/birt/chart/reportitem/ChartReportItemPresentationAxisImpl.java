@@ -12,14 +12,12 @@
 package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
-import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -49,6 +47,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 			return null;
 		}
 
+		@SuppressWarnings("deprecation")
 		public Object evaluateGlobal( String expression )
 		{
 			return null;
@@ -176,21 +175,26 @@ public final class ChartReportItemPresentationAxisImpl extends
 	}
 
 	@Override
-	protected GeneratedChartState buildChart(
-			IDataRowExpressionEvaluator rowAdapter,
-			BIRTExternalContext externalContext,
-			IStyleProcessor externalProcessor ) throws ChartException
-	{
-		GeneratedChartState gcs = super.buildChart( rowAdapter, externalContext, externalProcessor );
-		return gcs;
-	}
-
-	@Override
 	public Size getSize( )
 	{
 		Size sz = super.getSize( );
-		sz.setWidth( sz.getWidth( ) + 10 );
+		// Enlarge axis chart width to avoid label clipping
+		if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
+		{
+			sz.setWidth( sz.getWidth( ) + 10 );
+		}
 		return sz;
 	}
 
+	protected void prepareDeviceRenderer( ) throws ChartException
+	{
+		super.prepareDeviceRenderer( );
+
+		// Do not resize SVG here to avoid label clipping
+		if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
+		{
+			idr.setProperty( "resize.svg", Boolean.FALSE ); //$NON-NLS-1$
+		}
+
+	}
 }
