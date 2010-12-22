@@ -139,10 +139,10 @@ public class ExcelLayoutEngine
 		containers.push( createContainer( rule, pageStyle, null ) );
     }
 
-	protected void createPage( )
+	protected void createPage( XlsContainer pageContainer )
     {
-	    page = new Page( context.getContentWidth( ), engine, maxCol,
-		        context.getSheetName( ) );
+		page = new Page( context.getContentWidth( ), engine, maxCol,
+		        context.getSheetName( ), pageContainer );
 		page.initalize( );
 		context.setPage( page );
     }
@@ -196,7 +196,7 @@ public class ExcelLayoutEngine
 
 	private void newPage( )
 	{
-		createPage( );
+		createPage( containers.get( 0 ) );
 		for ( XlsTable table : tables )
 		{
 			splitColumns( table.getColumnsInfo( ), table.getParent( )
@@ -924,9 +924,9 @@ public class ExcelLayoutEngine
 	private XlsContainer createContainer( ContainerSizeInfo sizeInfo,
 			IStyle style, XlsContainer parent )
 	{
-		return new XlsContainer( engine
-				.createEntry( sizeInfo, style, getParentStyle( parent ) ),
-				sizeInfo, parent );
+		return new XlsContainer(
+		        engine.createEntry( sizeInfo, style, getParentStyle( parent ) ),
+		        sizeInfo, parent );
 	}
 
 	public Map<StyleEntry,Integer> getStyleMap( )
@@ -1000,7 +1000,7 @@ public class ExcelLayoutEngine
 
 	public void complete( Page page )
 	{
-		engine.applyContainerBottomStyle( containers.get( 0 ), page );
+		engine.applyContainerBottomStyle( page.getPageContainer( ), page );
 		Iterator<SheetData[]> iterator = page.getRowIterator( );
 		while ( iterator.hasNext( ) )
 		{
