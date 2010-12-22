@@ -871,7 +871,7 @@ public class Page
 		for ( int p = 1; p <= rowspan; p++ )
 		{
 			
-			Data blank = new Data( );
+			Data blank = createData( );
 			blank.setRowIndex( rowIndex + p );
 			blank.setValue( "" ); //$NON-NLS-1$
 			blank.setStartX( ref.getStartX( ) );
