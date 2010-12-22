@@ -494,7 +494,7 @@ public class CubeQueryDefinitionUtil
 			else
 			{
 				if ( !isEqual( ed1.getMirroredDefinition( ).getMirrorStartingLevel( ),
-						ed1.getMirroredDefinition( ).getMirrorStartingLevel( )))
+						ed2.getMirroredDefinition( ).getMirrorStartingLevel( )))
 				{
 					return false;		
 				}
