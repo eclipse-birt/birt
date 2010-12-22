@@ -852,9 +852,18 @@ public class ExcelLayoutEngine
 			{
 				String format = ExcelUtil.formatNumberPattern( numberFormat.getFormat( ),
 						locale );
-				numberFormat.setFormat( format );
+				NumberFormatValue localizedFormat = null;
+				if ( format != null
+						&& !format.equals( numberFormat.getFormat( ) ) )
+				{
+					localizedFormat = NumberFormatValue.getInstance( format );
+				}
+				else
+				{
+					localizedFormat = numberFormat;
+				}
 				entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP,
-						numberFormat );
+						localizedFormat );
 			}
 			type = SheetData.NUMBER;
 
