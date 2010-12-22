@@ -16,8 +16,10 @@ import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,6 +75,11 @@ public class ExcelUtil
 
 	private static Pattern pattern = Pattern.compile( scienticPattern,
 			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL );
+
+	private static Map<String, String> formatCache = new HashMap<String, String>( );
+	
+	private static Map<String, String> namedPatterns = new HashMap<String, String>( );
+	
 	static
 	{
 
@@ -84,6 +91,13 @@ public class ExcelUtil
 		splitChar.add( Character.valueOf( ' ' ) );
 		splitChar.add( Character.valueOf( '\r' ) );
 		splitChar.add( Character.valueOf( '\n' ) );
+
+		namedPatterns.put( "Fixed", "Fixed" );
+		namedPatterns.put( "Percent", "Percent" );
+		namedPatterns.put( "Scientific", "Scientific" );
+		namedPatterns.put( "Standard", "Standard" );
+		namedPatterns.put( "General Number", "General" );
+		
 	}
 
 	public final static float INCH_PT = 72;
@@ -880,50 +894,57 @@ public class ExcelUtil
 		{
 			return "";
 		}
+
+		String key = givenValue + "-" + locale;
+		String format = formatCache.get( key );
+		if ( format == null )
+		{
+			format = localizePattern( givenValue, locale );
+			synchronized ( formatCache )
+			{
+				formatCache.put( key, format );
+			}
+		}
+		return format;
+	}
+
+	private static String localizePattern( String givenValue, ULocale locale )
+	{
 		if ( givenValue.length( ) == 1 )
 		{
 			char ch = givenValue.charAt( 0 );
-			if ( ch == 'G' || ch == 'g' || ch == 'd' || ch == 'D' )
+			switch ( ch )
 			{
-				return "###,##0.###";
+				case 'G' :
+				case 'g' :
+				case 'd' :
+				case 'D' :
+					return "###,##0.###";
+				case 'C' :
+				case 'c' :
+					return getCurrencySymbol( locale ) + "###,##0.00";
+				case 'f' :
+				case 'F' :
+					return "#0.00";
+				case 'N' :
+				case 'n' :
+					return "###,##0.00";
+				case 'p' :
+				case 'P' :
+					return "###,##0.00 %";
+				case 'e' :
+				case 'E' :
+					return "0.000000E00";
+				case 'x' :
+				case 'X' :
+					return "####";
 			}
-			if ( ch == 'C' || ch == 'c' )
-			{
-				return getCurrencySymbol( locale ) + "###,##0.00";
-			}
-			if ( ch == 'f' || ch == 'F' )
-			{
-				return "#0.00";
-			}
-			if ( ch == 'N' || ch == 'n' )
-			{
-				return "###,##0.00";
-			}
-			if ( ch == 'p' || ch == 'P' )
-			{
-				return "###,##0.00 %";
-			}
-			if ( ch == 'e' || ch == 'E' )
-			{
-				return "0.000000E00";
-			}
-			if ( ch == 'x' || ch == 'X' )
-			{
-				return "####";
-			}
-
 		}
 
-		if ( givenValue.equals( "Fixed" ) )
-			return "Fixed";
-		if ( givenValue.equals( "Percent" ) )
-			return "Percent";
-		if ( givenValue.equals( "Scientific" ) )
-			return "Scientific";
-		if ( givenValue.equals( "Standard" ) )
-			return "Standard";
-		if ( givenValue.equals( "General Number" ) )
-			return "General";
+		if ( namedPatterns.containsKey( givenValue ) )
+		{
+			return namedPatterns.get( givenValue );
+		}
 
 		if ( validType( givenValue ) )
 		{
