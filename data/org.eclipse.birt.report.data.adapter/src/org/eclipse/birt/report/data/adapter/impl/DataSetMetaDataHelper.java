@@ -578,7 +578,7 @@ public class DataSetMetaDataHelper
 		else if ( dsHandle instanceof OdaDataSetHandle )
 		{
 			List dataSetBindingList = dsHandle.getPropertyBindings( );
-			List dataSourceBindingList = dsHandle.getDataSource( )
+			List dataSourceBindingList = dsHandle.getDataSource( ) == null ? new ArrayList():dsHandle.getDataSource( )
 					.getPropertyBindings( );
 
 			if ( !dataSetBindingList.isEmpty( ) )
@@ -648,7 +648,7 @@ public class DataSetMetaDataHelper
 								binding.getValue( ) );
 					}
 				}
-				if ( dataSourceMap.get( dsHandle.getDataSource( ).getName( ) ) != null )
+				if ( dsHandle.getDataSource( ) != null && dataSourceMap.get( dsHandle.getDataSource( ).getName( ) ) != null )
 				{
 					List pList = (List) dataSourceMap.get( dsHandle.getDataSource( )
 							.getName( ) );
