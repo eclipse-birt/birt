@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLEncodeUtil;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
@@ -497,7 +498,7 @@ public class ExcelXmlWriter implements IExcelWriter
 			String verticalAlign = (String) style
 					.getProperty( StyleConstant.V_ALIGN_PROP );
 			float indent = ExcelUtil.convertTextIndentToEM(
-					(String) style.getProperty( StyleConstant.TEXT_INDENT ),
+					(FloatValue) style.getProperty( StyleConstant.TEXT_INDENT ),
 					(Float) style.getProperty( StyleConstant.FONT_SIZE_PROP ) );
 			writeAlignment( horizontalAlign, verticalAlign, indent, direction, wrapText );
 			writer.openTag( "Borders" );

@@ -140,7 +140,7 @@ public class StyleBuilder
         entry.setProperty( StyleConstant.TEXT_TRANSFORM, style
 				.getTextTransform( ) );
         
-		entry.setProperty( StyleConstant.TEXT_INDENT, style.getTextIndent( ) );
+		entry.setProperty( StyleConstant.TEXT_INDENT, style.getProperty( IStyle.STYLE_TEXT_INDENT ) );
 
 		entry.setProperty( StyleConstant.DIRECTION_PROP, style
 				.getDirection( ) );
