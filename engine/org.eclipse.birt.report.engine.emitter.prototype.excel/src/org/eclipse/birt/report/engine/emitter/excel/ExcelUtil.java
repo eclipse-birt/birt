@@ -169,7 +169,7 @@ public class ExcelUtil
 		}
 		// columnID<=IV, rowID<=65536 can not be used as bookmark.
 		if ( name
-				.matches( "([A-Za-z]|[A-Ha-h][A-Za-z]|[Ii][A-Va-v])[0-9]{1,5}" ) )
+				.matches( "([A-Za-z]|[A-Ha-h][A-Za-z]|[Ii][A-Va-v])[0-9]{1,5}.*" ) )
 		{
 			String[] strs = name.split( "[A-Za-z]" );
 			if ( strs.length > 0 )
