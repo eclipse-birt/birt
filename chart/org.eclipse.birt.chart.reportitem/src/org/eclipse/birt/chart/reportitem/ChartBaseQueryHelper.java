@@ -154,10 +154,16 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		}
 		else
 		{
-
 			// The report item has a data set definition, must create a query
 			// for it.
 			query = new QueryDefinition( parentQuery );
+			
+			// Check if it is summary table.
+			if ( fReportItemHandle instanceof TableHandle )
+			{
+				( (QueryDefinition) query ).setIsSummaryQuery( ( (TableHandle) fReportItemHandle ).isSummaryTable( ) );
+			}
+			
 			( (QueryDefinition) query ).setDataSetName( dsHandle.getQualifiedName( ) );
 
 			// bind the query with parameters
