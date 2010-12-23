@@ -161,7 +161,7 @@ public class TableArea extends RepeatableArea
 					.getProperty( IStyle.STYLE_MARGIN_TOP ), maw ) );
 			localProperties.setMarginRight( getDimensionValue( cs
 					.getProperty( IStyle.STYLE_MARGIN_RIGHT ), maw ) );
-			if ( !isInInlineStacking )
+			if ( !isInlineStacking )
 			{
 				pageBreakAfter = cs.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
 				pageBreakInside = cs

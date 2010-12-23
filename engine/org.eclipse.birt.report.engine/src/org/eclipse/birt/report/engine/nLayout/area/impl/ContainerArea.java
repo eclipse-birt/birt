@@ -1036,7 +1036,7 @@ public abstract class ContainerArea extends AbstractArea
 		localProperties.setPaddingRight( getDimensionValue( style
 				.getProperty( IStyle.STYLE_PADDING_RIGHT ), maw ) );
 
-		if ( !isInInlineStacking )
+		if ( !isInlineStacking )
 		{
 			pageBreakAfter = style.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
 			if ( pageBreakInside == null )
@@ -1154,7 +1154,7 @@ public abstract class ContainerArea extends AbstractArea
 						0, 0, rl );
 				boxStyle.setBackgroundImage( backgroundImage );
 			}
-			if ( !isInInlineStacking )
+			if ( !isInlineStacking )
 			{
 				pageBreakAfter = cs.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
 				if ( pageBreakInside == null )
