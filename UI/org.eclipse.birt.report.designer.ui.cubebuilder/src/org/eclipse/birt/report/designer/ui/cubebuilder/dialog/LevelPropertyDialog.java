@@ -392,6 +392,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					input.setName( staticNameText.getText( ) );
 				}
+				input.setColumnName( null );
+				input.setDisplayColumnName( null );
 				if ( staticDataTypeCombo.getText( ) != null )
 				{
 					input.setDataType( getDataTypeNames( )[staticDataTypeCombo.getSelectionIndex( )] );
@@ -1307,7 +1309,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		return ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType )
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType ) || DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType ) );
 	}
-	
+
 	String[] attributeItems = new String[0];
 
 	private void resetEditorItems( )
