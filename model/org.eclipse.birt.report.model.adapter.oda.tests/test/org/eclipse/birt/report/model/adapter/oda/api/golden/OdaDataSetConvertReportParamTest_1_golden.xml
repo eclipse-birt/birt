@@ -108,7 +108,7 @@
                 </structure>
             </list-property>
             <property name="dataSource">myDataSource1</property>
-            <xml-property name="queryText"><![CDATA[select test]]></xml-property>	            
+            <xml-property name="queryText"><![CDATA[select test]]></xml-property>
             <property name="resultSetName">userid</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -116,89 +116,89 @@
   <DataSetParameters>
     <parameter>
       <design:ParameterDefinition>
-	      <design:inOutMode>In</design:inOutMode>
-	      <design:attributes>
+        <design:inOutMode>In</design:inOutMode>
+        <design:attributes>
           <design:identifier>
             <design:name>dataSetParam1</design:name>
             <design:position>1</design:position>
           </design:identifier>
-	        <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
-	        <design:nullability>NotNullable</design:nullability>
-	        <design:uiHints>
-	          <design:displayName>%newPromptTextKeyParam1 new prompt text for report param 1</design:displayName>
-	          <design:description>%newHelpTextKeyParam1 new help text for report param 1</design:description>
-	        </design:uiHints>
-	      </design:attributes>
-	      <design:inputAttributes>
-	        <design:elementAttributes>
-	          <design:defaultValues>
-	            <design:values>new default value for report param 1</design:values>
-	          </design:defaultValues>
-	          <design:optional>true</design:optional>
-	          <design:masksValue>false</design:masksValue>
-	          <design:staticValueChoices>
-	            <design:scalarValues>
-	              <design:value>new choice value 1</design:value>
-	              <design:displayName>%newChoiceDisplayName1 new choice display name 1</design:displayName>
-	            </design:scalarValues>
-	          </design:staticValueChoices>
-	          <design:uiHints>
-	            <design:promptStyle>RadioButton</design:promptStyle>
-	            <design:autoSuggestThreshold>111</design:autoSuggestThreshold>
-	          </design:uiHints>
-	        </design:elementAttributes>
-	      </design:inputAttributes>
+          <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+          <design:nullability>NotNullable</design:nullability>
+          <design:uiHints>
+            <design:displayName>%newPromptTextKeyParam1 new prompt text for report param 1</design:displayName>
+            <design:description>%newHelpTextKeyParam1 new help text for report param 1</design:description>
+          </design:uiHints>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
+            <design:defaultValues>
+              <design:values>new default value for report param 1</design:values>
+            </design:defaultValues>
+            <design:optional>true</design:optional>
+            <design:masksValue>false</design:masksValue>
+            <design:staticValueChoices>
+              <design:scalarValues>
+                <design:value>new choice value 1</design:value>
+                <design:displayName>%newChoiceDisplayName1 new choice display name 1</design:displayName>
+              </design:scalarValues>
+            </design:staticValueChoices>
+            <design:uiHints>
+              <design:promptStyle>RadioButton</design:promptStyle>
+              <design:autoSuggestThreshold>111</design:autoSuggestThreshold>
+            </design:uiHints>
+          </design:elementAttributes>
+        </design:inputAttributes>
       </design:ParameterDefinition>
       <dynamicList>
         <dataSetName>myDataSet1</dataSetName>
         <labelColumn>new lable column 1</labelColumn>
         <valueColumn>new value column 1</valueColumn>
-      </dynamicList>      
+      </dynamicList>
     </parameter>
     <parameter>
       <design:ParameterDefinition>
-	      <design:inOutMode>Out</design:inOutMode>
-	      <design:attributes>
+        <design:inOutMode>Out</design:inOutMode>
+        <design:attributes>
           <design:identifier>
             <design:name>dataSetParam2</design:name>
             <design:position>2</design:position>
           </design:identifier>
-	        <design:nullability>Unknown</design:nullability>
-	        <design:uiHints>
-	          <design:displayName>City</design:displayName>
-	        </design:uiHints>
-	      </design:attributes>
-	      <design:inputAttributes>
-	        <design:elementAttributes>
+          <design:nullability>Unknown</design:nullability>
+          <design:uiHints>
+            <design:displayName>City</design:displayName>
+          </design:uiHints>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
             <design:optional>false</design:optional>
             <design:masksValue>false</design:masksValue>
-	          <design:uiHints>
-	            <design:promptStyle>SelectableList</design:promptStyle>
-	          </design:uiHints>
-	        </design:elementAttributes>
-	      </design:inputAttributes>
+            <design:uiHints>
+              <design:promptStyle>SelectableList</design:promptStyle>
+            </design:uiHints>
+          </design:elementAttributes>
+        </design:inputAttributes>
       </design:ParameterDefinition>
       <dynamicList>
         <dataSetName>myDataSet2</dataSetName>
         <labelColumn>test column</labelColumn>
-        <valueColumn>row[&amp;quot;test&amp;quot;]</valueColumn>
-      </dynamicList>      
+        <valueColumn>test</valueColumn>
+      </dynamicList>
     </parameter>
     <parameter>
       <design:ParameterDefinition>
-	      <design:inOutMode>InOut</design:inOutMode>
-	      <design:attributes>
+        <design:inOutMode>InOut</design:inOutMode>
+        <design:attributes>
           <design:identifier>
             <design:name>dataSetParam3</design:name>
             <design:position>3</design:position>
           </design:identifier>
-	        <design:nullability>Unknown</design:nullability>
-	        <design:uiHints>
-	          <design:displayName>City</design:displayName>
-	        </design:uiHints>
-	      </design:attributes>
-	      <design:inputAttributes>
-	        <design:elementAttributes>
+          <design:nullability>Unknown</design:nullability>
+          <design:uiHints>
+            <design:displayName>City</design:displayName>
+          </design:uiHints>
+        </design:attributes>
+        <design:inputAttributes>
+          <design:elementAttributes>
             <design:defaultValues>
               <design:values>default value param 3</design:values>
             </design:defaultValues>
@@ -207,14 +207,14 @@
             <design:uiHints>
               <design:promptStyle>SelectableList</design:promptStyle>
             </design:uiHints>
-	        </design:elementAttributes>
-	      </design:inputAttributes>
+          </design:elementAttributes>
+        </design:inputAttributes>
       </design:ParameterDefinition>
       <dynamicList>
         <dataSetName>myDataSet2</dataSetName>
         <labelColumn>test column</labelColumn>
-        <valueColumn>row[&amp;quot;test&amp;quot;]</valueColumn>
-      </dynamicList>      
+        <valueColumn>test</valueColumn>
+      </dynamicList>
     </parameter>
   </DataSetParameters>
 </model:DesignValues>]]></xml-property>
@@ -228,7 +228,7 @@
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet2" id="4">
             <property name="dataSource">myDataSource1</property>
-            <xml-property name="queryText"><![CDATA[select test]]></xml-property>	            
+            <xml-property name="queryText"><![CDATA[select test]]></xml-property>
         </oda-data-set>
     </data-sets>
 </report>
