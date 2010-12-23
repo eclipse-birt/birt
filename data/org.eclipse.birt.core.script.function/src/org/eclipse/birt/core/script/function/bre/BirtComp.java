@@ -644,7 +644,14 @@ public class BirtComp implements IScriptFunctionExecutor
 				switch ( this.mode )
 				{
 					case MODE_EQUAL :
-						return new Boolean( compare( args[0], args[1] ) == 0 );
+						try
+						{
+							return new Boolean( compare( args[0], args[1] ) == 0 );
+						}
+						catch( BirtException e )
+						{
+							return Boolean.FALSE;
+						}
 					case MODE_NOT_EQUAL :
 						return new Boolean( compare( args[0], args[1] ) != 0 );
 					case MODE_GREATERTHAN :
