@@ -310,9 +310,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 	protected final void writeFile( )
 	{
-		boundColumnsMgr = new BoundColumnsWriterMgr( getModule( )
-				.getVersionManager( ).getVersion( ) );
-
+		initBoundColumnsMgr( );
 		getModule( ).apply( this );
 
 		getModule( ).getVersionManager( ).setVersion(
@@ -4312,6 +4310,17 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		writeStructureList( obj, IGroupElementModel.FILTER_PROP );
 
 		writer.endElement( );
+	}
+
+	/**
+	 * Lazy initialize the bound column writer manager.
+	 * @return the manager
+	 */
+	protected void initBoundColumnsMgr( )
+	{
+		if ( boundColumnsMgr == null )
+			boundColumnsMgr = new BoundColumnsWriterMgr( getModule( )
+					.getVersionManager( ).getVersion( ) );
 	}
 
 }
