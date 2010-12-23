@@ -80,7 +80,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnNames()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnNames()
 	 */
 	public String[] getColumnNames( )
 	{
@@ -94,7 +95,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getTitle()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getTitle()
 	 */
 	public String getDisplayName( )
 	{
@@ -104,24 +106,25 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
 	public CellEditor[] getEditors( Table table )
 	{
-//		if ( editors == null )
-//		{
-//			editors = new TextCellEditor[columnKeys.length];
-//			editors[0] = new TextCellEditor( table );
-//			editors[1] = new TextCellEditor( table );
-//		}
+		// if ( editors == null )
+		// {
+		// editors = new TextCellEditor[columnKeys.length];
+		// editors[0] = new TextCellEditor( table );
+		// editors[1] = new TextCellEditor( table );
+		// }
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doMoveItem(int,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
 	public boolean doMoveItem( int oldPos, int newPos )
 			throws SemanticException
@@ -132,7 +135,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doDeleteItem(int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doDeleteItem(int)
 	 */
 	public boolean doDeleteItem( int pos ) throws SemanticException
 	{
@@ -142,7 +146,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doAddItem(int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doAddItem(int)
 	 */
 	public boolean doAddItem( int pos )
 	{
@@ -152,7 +157,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doEditItem(int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doEditItem(int)
 	 */
 	public boolean doEditItem( int pos )
 	{
@@ -170,8 +176,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnText(java.lang.Object,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
 	public String getColumnText( Object element, int columnIndex )
 	{
@@ -182,8 +188,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getImagePath(java.lang.Object,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
 	public Image getImage( Object element, int columnIndex )
 	{
@@ -193,7 +199,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getElements(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
 	public Object[] getElements( Object inputElement )
 	{
@@ -213,8 +220,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#canModify(java.lang.Object,
-	 *      java.lang.String)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
 	public boolean canModify( Object element, String property )
 	{
@@ -224,8 +231,8 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getValue(java.lang.Object,
-	 *      java.lang.String)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
 	public Object getValue( Object element, String property )
 	{
@@ -238,8 +245,9 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#modify(java.lang.Object,
-	 *      java.lang.String, java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
+	 * java.lang.Object)
 	 */
 	public boolean modify( Object data, String property, Object value )
 			throws NameException, SemanticException
@@ -265,13 +273,17 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 		}
 		else
 			strValue = (String) value;
-		return modelAdapter.setStringValue( contentInput.get( 0 ), data, key, strValue );
+		return modelAdapter.setStringValue( contentInput.get( 0 ),
+				data,
+				key,
+				strValue );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnWidths()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnWidths()
 	 */
 	public int[] getColumnWidths( )
 	{
@@ -281,7 +293,9 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider
+	 * #needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
 	 */
 	public boolean needRefreshed( NotificationEvent event )
 	{
@@ -300,41 +314,56 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 		return false;
 	}
 
-	
 	public boolean isAddEnable( )
 	{
 		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;
 		else
+		{
+			if ( DEUtil.isLinkedElement( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ) )
+				return false;
 			return true;
+		}
 	}
-	
+
 	public boolean isEditEnable( )
 	{
 		return true;
 	}
-	
+
 	public boolean isDeleteEnable( )
 	{
 		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;
 		else
+		{
+			if ( DEUtil.isLinkedElement( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ) )
+				return false;
 			return true;
+		}
 	}
-	
+
 	public boolean isUpEnable( )
 	{
 		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;
 		else
+		{
+			if ( DEUtil.isLinkedElement( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ) )
+				return false;
 			return true;
+		}
 	}
-	
+
 	public boolean isDownEnable( )
 	{
 		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			return false;
 		else
+		{
+			if ( DEUtil.isLinkedElement( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ) )
+				return false;
 			return true;
+		}
 	}
 }
