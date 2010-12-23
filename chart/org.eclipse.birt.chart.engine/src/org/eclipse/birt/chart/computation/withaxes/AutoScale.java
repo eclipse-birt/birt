@@ -3164,7 +3164,7 @@ public final class AutoScale extends Methods implements Cloneable
 					|| rotation == 90
 					|| rotation == -90;
 
-			if ( !isTickLabelVisible( 0 ) )
+			if ( !isTickLabelVisible( labelVisHelper.getFirstVisibleIndex( )  ) )
 			{
 				dStartShift = dMaxSS;
 			}
@@ -3224,7 +3224,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 			}
 
-			if ( !isTickLabelVisible( dsi.size( ) - 1 ) )
+			if ( !isTickLabelVisible( labelVisHelper.getLastVisibleIndex( ) ) )
 			{
 				dEndShift = dMaxES;
 			}
@@ -4465,6 +4465,8 @@ public final class AutoScale extends Methods implements Cloneable
 		protected final int iTickCount;
 		protected final int iShowIterval;
 		protected final CommonRule commonRule;
+		private int iFirstVisibleIndex = -1;
+		private int iLastVisibleIndex = -1;
 
 		private LabelVisibleHelper( int iTickCount, int iShowIterval )
 		{
@@ -4484,6 +4486,24 @@ public final class AutoScale extends Methods implements Cloneable
 		public void addVisible( int index )
 		{
 			idsVis.add( index );
+			if ( iFirstVisibleIndex == -1 || index < iFirstVisibleIndex )
+			{
+				iFirstVisibleIndex = index;
+			}
+			if ( iLastVisibleIndex == -1 || index > iLastVisibleIndex )
+			{
+				iLastVisibleIndex = index;
+			}
+		}
+		
+		int getFirstVisibleIndex( )
+		{
+			return iFirstVisibleIndex;
+		}
+
+		int getLastVisibleIndex( )
+		{
+			return iLastVisibleIndex;
 		}
 
 		public static LabelVisibleHelper createInstance( boolean bLabelVisible,
