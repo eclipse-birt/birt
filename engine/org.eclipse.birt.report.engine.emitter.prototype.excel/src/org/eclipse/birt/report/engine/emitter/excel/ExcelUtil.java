@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
@@ -739,9 +740,13 @@ public class ExcelUtil
 		}
 	}
 	
-	public static float convertTextIndentToEM( String indent, float fontSize )
+	public static float convertTextIndentToEM( FloatValue indent, float fontSize )
 	{
-		DimensionType size = DimensionType.parserUnit( indent );
+		if ( indent == null || indent.getFloatValue( ) == 0f )
+		{
+			return 0;
+		}
+		DimensionType size = DimensionType.parserUnit( indent.getCssText( ) );
 		try
 		{
 			float indentInPt = convertDimensionType( size, 0, 96 ) / 1000f;
