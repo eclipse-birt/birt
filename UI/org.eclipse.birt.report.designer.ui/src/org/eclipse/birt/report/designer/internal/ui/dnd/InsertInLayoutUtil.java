@@ -777,15 +777,19 @@ public class InsertInLayoutUtil
 					{
 						ComputedColumn column = StructureFactory.newComputedColumn( tableHandle,
 								model.getColumnName( ) );
-						ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
-								column,
-								true );
+						
+						
+						column.setDataType( model.getDataType( ));
 						//binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
 
 						//binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
 						ExpressionUtility.setBindingColumnExpression( model,
 								column );
-						dataHandle.setResultSetColumn( binding.getName( ) );
+						
+						ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
+								column,
+								false );						
+						dataHandle.setResultSetColumn( binding.getName( ) ); 
 						InsertInLayoutRule rule = new GroupKeySetRule( target, model );
 						if ( rule.canInsert( ) )
 						{
@@ -801,9 +805,11 @@ public class InsertInLayoutUtil
 
 					ComputedColumn column = StructureFactory.newComputedColumn( tableHandle,
 							model.getColumnName( ) );
+					ExpressionUtility.setBindingColumnExpression( model, column );
+					column.setDataType( model.getDataType( ));
 					ComputedColumnHandle binding = DEUtil.addColumn( tableHandle,
 							column,
-							true );
+							false );
 					DesignElementHandle group = cellHandle.getContainer( )
 						.getContainer( );
 					if (group instanceof GroupHandle)
@@ -821,13 +827,17 @@ public class InsertInLayoutUtil
 					{
 						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
 					}
+					else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( model.getDataType( )))
+					{
+						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
+					}
 					else
 					{
 						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
 					}
 
 					//binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
-					ExpressionUtility.setBindingColumnExpression( model, column );
+					
 					dataHandle.setResultSetColumn( binding.getName( ) );
 					InsertInLayoutRule rule = new GroupKeySetRule( target, model );
 					if ( rule.canInsert( ) )
