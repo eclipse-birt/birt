@@ -93,13 +93,13 @@ public class BorderCanvas extends Canvas
 					mouseIn = false;
 					mouseInArea = SWT.NONE;
 				}
-				
+
 				// dispose resources
 				top.dispose( );
 				bottom.dispose( );
 				right.dispose( );
 				left.dispose( );
-				
+
 				if ( mouseIn )
 				{
 					if ( listener != null )
@@ -121,6 +121,14 @@ public class BorderCanvas extends Canvas
 	public void setBorderInfomation( BorderInfomation info )
 	{
 		borderInfoMap.put( info.getPosition( ), info );
+	}
+
+	private String resolveEmptyWidth( BorderInfomation info )
+	{
+		String width = info.getWidth( );
+		if ( "".equals( width ) )
+			return DesignChoiceConstants.LINE_WIDTH_MEDIUM;
+		return width;
 	}
 
 	protected void paintControl( PaintEvent e )
@@ -172,17 +180,17 @@ public class BorderCanvas extends Canvas
 				int gcSeperator = 1;
 				int gcInnerWidth = 1;
 				int customWidth = -1;
-				if ( !DesignChoiceConstants.LINE_WIDTH_THIN.equals( info.width )
-						&& !DesignChoiceConstants.LINE_WIDTH_MEDIUM.equals( info.width )
-						&& !DesignChoiceConstants.LINE_WIDTH_THICK.equals( info.width )
-						&& info.width != null
-						&& !info.width.equals( "" ) ) //$NON-NLS-1$
+				String infoWidth = resolveEmptyWidth( info );
+				if ( !DesignChoiceConstants.LINE_WIDTH_THIN.equals( infoWidth )
+						&& !DesignChoiceConstants.LINE_WIDTH_MEDIUM.equals( infoWidth )
+						&& !DesignChoiceConstants.LINE_WIDTH_THICK.equals( infoWidth )
+						&& infoWidth != null ) //$NON-NLS-1$
 				{
 					try
 					{
-						customWidth = (int) DimensionValue.parse( info.width )
+						customWidth = (int) DimensionValue.parse( infoWidth )
 								.getMeasure( );
-						if ( DimensionValue.parse( info.width )
+						if ( DimensionValue.parse( infoWidth )
 								.getUnits( )
 								.equals( DesignChoiceConstants.UNITS_PX ) )
 						{
@@ -238,12 +246,15 @@ public class BorderCanvas extends Canvas
 								+ 100
 								- gc.getLineWidth( )
 								/ 2
-								+ 1, ( height - 100 ) / 2, ( width - 100 )
-								/ 2
-								+ 100
-								- gc.getLineWidth( )
-								/ 2
-								+ 1, ( height - 100 ) / 2 + 100 + 1 );
+								+ 1,
+								( height - 100 ) / 2,
+								( width - 100 )
+										/ 2
+										+ 100
+										- gc.getLineWidth( )
+										/ 2
+										+ 1,
+								( height - 100 ) / 2 + 100 + 1 );
 
 					}
 					else if ( info.position.equals( BorderInfomation.BORDER_BOTTOM ) )
@@ -414,21 +425,22 @@ public class BorderCanvas extends Canvas
 
 	private void drawLine( GC gc, int width, int height, BorderInfomation info )
 	{
-		if ( DesignChoiceConstants.LINE_WIDTH_THIN.equals( info.width ) )
+		String infoWidth = resolveEmptyWidth( info );
+		if ( DesignChoiceConstants.LINE_WIDTH_THIN.equals( infoWidth ) )
 			gc.setLineWidth( 1 );
-		else if ( DesignChoiceConstants.LINE_WIDTH_MEDIUM.equals( info.width ) )
+		else if ( DesignChoiceConstants.LINE_WIDTH_MEDIUM.equals( infoWidth ) )
 			gc.setLineWidth( 2 );
-		else if ( DesignChoiceConstants.LINE_WIDTH_THICK.equals( info.width ) )
+		else if ( DesignChoiceConstants.LINE_WIDTH_THICK.equals( infoWidth ) )
 			gc.setLineWidth( 3 );
 		else
 		{
 			try
 			{
-				if ( info.width != null && !info.width.equals( "" ) ) //$NON-NLS-1$
+				if ( infoWidth != null ) //$NON-NLS-1$
 				{
-					int customWidth = (int) DimensionValue.parse( info.width )
+					int customWidth = (int) DimensionValue.parse( infoWidth )
 							.getMeasure( );
-					if ( DimensionValue.parse( info.width )
+					if ( DimensionValue.parse( infoWidth )
 							.getUnits( )
 							.equals( DesignChoiceConstants.UNITS_PX ) )
 						gc.setLineWidth( customWidth );
@@ -449,13 +461,10 @@ public class BorderCanvas extends Canvas
 		}
 		else if ( info.position.equals( BorderInfomation.BORDER_TOP ) )
 		{
-			gc.drawLine( ( width - 100 ) / 2, ( height - 100 )
-					/ 2
-					+ gc.getLineWidth( )
-					/ 2, ( width - 100 ) / 2 + 100, ( height - 100 )
-					/ 2
-					+ gc.getLineWidth( )
-					/ 2 );
+			gc.drawLine( ( width - 100 ) / 2,
+					( height - 100 ) / 2 + gc.getLineWidth( ) / 2,
+					( width - 100 ) / 2 + 100,
+					( height - 100 ) / 2 + gc.getLineWidth( ) / 2 );
 		}
 		else if ( info.position.equals( BorderInfomation.BORDER_RIGHT ) )
 		{
@@ -466,15 +475,10 @@ public class BorderCanvas extends Canvas
 		}
 		else if ( info.position.equals( BorderInfomation.BORDER_BOTTOM ) )
 		{
-			gc.drawLine( ( width - 100 ) / 2, ( height - 100 )
-					/ 2
-					+ 100
-					- gc.getLineWidth( )
-					/ 2, ( width - 100 ) / 2 + 100, ( height - 100 )
-					/ 2
-					+ 100
-					- gc.getLineWidth( )
-					/ 2 );
+			gc.drawLine( ( width - 100 ) / 2,
+					( height - 100 ) / 2 + 100 - gc.getLineWidth( ) / 2,
+					( width - 100 ) / 2 + 100,
+					( height - 100 ) / 2 + 100 - gc.getLineWidth( ) / 2 );
 		}
 	}
 

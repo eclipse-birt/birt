@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.swt.SWT;
@@ -235,7 +236,7 @@ public class BorderPropertyDescriptor implements
 						}
 						if ( !( info.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
 								|| !( oldColor.equals( selectedColor ) )
-								|| !( info.getWidth( ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
+								|| !( resolveEmptyWidth( info ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 						{
 							reset = false;
 							break;
@@ -605,7 +606,7 @@ public class BorderPropertyDescriptor implements
 		}
 		if ( !( oldInfo.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
 				|| !( oldColor.equals( selectedColor ) )
-				|| !( oldInfo.getWidth( ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
+				|| !( resolveEmptyWidth( oldInfo ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
@@ -714,5 +715,13 @@ public class BorderPropertyDescriptor implements
 				}
 			}
 		}
+	}
+
+	private String resolveEmptyWidth( BorderInfomation info )
+	{
+		String width =  info.getWidth( );
+		if("".equals( width ))
+			return DesignChoiceConstants.LINE_WIDTH_MEDIUM;
+		return width;
 	}
 }
