@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
@@ -25,6 +23,7 @@ import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
@@ -34,6 +33,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
@@ -676,9 +676,14 @@ abstract class AbstractReportParameterAdapter
 		}
 		inputAttrs.setStaticValueChoices( staticChoices );
 
+		ExpressionHandle valueExpr = paramHandle
+				.getExpressionProperty( IAbstractScalarParameterModel.VALUE_EXPR_PROP );
+		ExpressionHandle labelExpr = paramHandle
+				.getExpressionProperty( IAbstractScalarParameterModel.LABEL_EXPR_PROP );
+
 		DynamicValuesQuery valueQuery = updateDynamicValueQuery(
-				paramHandle.getDataSet( ), paramHandle.getValueExpr( ),
-				paramHandle.getLabelExpr( ), dataSetDesign,
+				paramHandle.getDataSet( ), valueExpr.getValue( ),
+				labelExpr.getValue( ), dataSetDesign,
 				DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
 						.equalsIgnoreCase( paramHandle.getValueType( ) ) );
 		inputAttrs.setDynamicValueChoices( valueQuery );
@@ -709,12 +714,12 @@ abstract class AbstractReportParameterAdapter
 	}
 
 	protected DynamicValuesQuery updateDynamicValueQuery(
-			DataSetHandle setHandle, String valueExpr, String labelExpr,
+			DataSetHandle setHandle, Object valueColumn, Object labelColumn,
 			DataSetDesign dataSetDesign, boolean isEnabled )
 	{
 		DynamicValuesQuery valueQuery = null;
 
-		if ( setHandle instanceof OdaDataSetHandle && valueExpr != null )
+		if ( setHandle instanceof OdaDataSetHandle && valueColumn != null )
 		{
 			valueQuery = designFactory.createDynamicValuesQuery( );
 
@@ -733,20 +738,8 @@ abstract class AbstractReportParameterAdapter
 						.createDataSetDesign( (OdaDataSetHandle) setHandle );
 				valueQuery.setDataSetDesign( targetDataSetDesign );
 			}
-			valueQuery.setDisplayNameColumn( labelExpr );
-
-			try
-			{
-				String columnName = ExpressionUtil.getColumnName( valueExpr );
-				if ( !StringUtil.isBlank( columnName ) )
-					valueExpr = columnName;
-			}
-			catch ( BirtException e )
-			{
-				// Do nothing
-			}
-
-			valueQuery.setValueColumn( valueExpr );
+			valueQuery.setDisplayNameColumn( AdapterUtil.extractColumnName( labelColumn ) );
+			valueQuery.setValueColumn( AdapterUtil.extractColumnName( valueColumn ) );
 			valueQuery.setEnabled( isEnabled );
 		}
 

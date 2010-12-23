@@ -196,7 +196,7 @@
       <dynamicList>
         <dataSetName>myDataSet2</dataSetName>
         <labelColumn>test column</labelColumn>
-        <valueColumn>row[&amp;quot;test&amp;quot;]</valueColumn>
+        <valueColumn>test</valueColumn>
       </dynamicList>      
     </parameter>
     <parameter>
@@ -228,7 +228,7 @@
       <dynamicList>
         <dataSetName>myDataSet2</dataSetName>
         <labelColumn>test column</labelColumn>
-        <valueColumn>row[&amp;quot;test&amp;quot;]</valueColumn>
+        <valueColumn>test</valueColumn>
       </dynamicList>      
     </parameter>
   </DataSetParameters>

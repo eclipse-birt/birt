@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -50,6 +50,7 @@ import org.eclipse.emf.common.util.EList;
 public class AdapterUtil
 {
 
+	private static ColumnNameHelper columnNameHelper = new ColumnNameHelper( );
 	/**
 	 * Creates a ODA ParameterMode with the given parameter input/output flags.
 	 * 
@@ -359,10 +360,10 @@ public class AdapterUtil
 				.getValueColumn( );
 		if ( cachedValue == null || !cachedValue.equals( value ) )
 		{
-			reportParam.setProperty(
-					IAbstractScalarParameterModel.VALUE_EXPR_PROP,
-					convertToColumnExpression( value, reportParam,
-							IAbstractScalarParameterModel.VALUE_EXPR_PROP ) );
+			ExpressionHandle exprHandle = reportParam
+					.getExpressionProperty( IAbstractScalarParameterModel.VALUE_EXPR_PROP );
+			exprHandle.setExpression( columnNameHelper.createColumnExpression( value,
+					exprHandle.getType( ) ) );
 		}
 
 		// the label need to follow the value expression
@@ -372,10 +373,10 @@ public class AdapterUtil
 				.getDisplayNameColumn( );
 		if ( cachedValue == null || !cachedValue.equals( value ) )
 		{
-			reportParam.setProperty(
-					IAbstractScalarParameterModel.LABEL_EXPR_PROP,
-					convertToColumnExpression( value, reportParam,
-							IAbstractScalarParameterModel.LABEL_EXPR_PROP ) );
+			ExpressionHandle exprHandle = reportParam
+					.getExpressionProperty( IAbstractScalarParameterModel.LABEL_EXPR_PROP );
+			exprHandle.setExpression( columnNameHelper.createColumnExpression( value,
+					exprHandle.getType( ) ) );
 		}
 
 	}
@@ -457,127 +458,6 @@ public class AdapterUtil
 	}
 
 	/**
-	 * Converts the ODA column to the ROM column expression.
-	 * 
-	 * @param columnExpr
-	 *            the column convert
-	 * @return the ROM column expression converted.
-	 */
-	private static Expression convertToColumnExpression( String columnExpr,
-			AbstractScalarParameterHandle reportParam, String propName )
-	{
-		if ( StringUtil.isBlank( columnExpr ) ) // empty check
-			return null;
-		Expression exprValue = (Expression) reportParam.getElement( )
-				.getProperty( reportParam.getModule( ), propName );
-		String type = IExpressionType.JAVASCRIPT;
-		if ( exprValue != null )
-			type = exprValue.getType( );
-		if ( IExpressionType.JAVASCRIPT.equals( type ) )
-		{
-			String columnName = getColumnName( columnExpr );
-			if ( StringUtil.isBlank( columnName ) )
-			{
-				columnName = columnExpr;
-			}
-
-			return new Expression( ExpressionUtil
-					.createDataSetRowExpression( columnName ), type );
-
-		}
-		return new Expression( columnExpr, type );
-	}
-
-	/**
-	 * Converts the ROM column expression to ODA column
-	 * 
-	 * @param columnExpr
-	 *            the column expression to convert
-	 * @return the ODA column converted.
-	 */
-	static String convertToODAColumn( Object columnExpr )
-	{
-		if ( columnExpr instanceof String )
-			return convertToODAColumn( (String) columnExpr );
-
-		if ( columnExpr instanceof Expression )
-			return convertToODAColumn( (Expression) columnExpr );
-
-		return null;
-	}
-
-	/**
-	 * Converts the ROM column expression to ODA column
-	 * 
-	 * @param columnExpr
-	 *            the column expression to convert
-	 * @return the ODA column converted.
-	 */
-	static String convertToODAColumn( Expression columnExpr )
-	{
-		if ( columnExpr != null
-				&& IExpressionType.JAVASCRIPT.equalsIgnoreCase( columnExpr
-						.getType( ) ) )
-		{
-			return convertToODAColumn( columnExpr.getStringExpression( ) );
-		}
-		return null;
-	}
-
-	/**
-	 * Converts the ROM column expression to ODA column
-	 * 
-	 * @param columnExpr
-	 *            the column expression to convert
-	 * @return the ODA column converted.
-	 */
-	static String convertToODAColumn( String columnExpr )
-	{
-		if ( !StringUtil.isBlank( columnExpr ) )
-		{
-			String columnName = getColumnName( columnExpr );
-			if ( StringUtil.isBlank( columnName ) )
-				return columnExpr;
-			return columnName;
-		}
-		return null;
-	}
-
-	/**
-	 * Gets column name from the given column expression.
-	 * 
-	 * @param columnExpr
-	 *            the column expression
-	 * @return the column name
-	 */
-	private static String getColumnName( String columnExpr )
-	{
-		String columnName = null;
-		if ( !StringUtil.isBlank( columnExpr ) )
-		{
-			try
-			{
-				columnName = ExpressionUtil.getColumnName( columnExpr );
-			}
-			catch ( BirtException e )
-			{
-			}
-			if ( columnName == null )
-			{
-				try
-				{
-					columnName = ExpressionUtil
-							.getColumnBindingName( columnExpr );
-				}
-				catch ( BirtException e )
-				{
-				}
-			}
-		}
-		return columnName;
-	}
-
-	/**
 	 * Creates expression value from ODA value
 	 * 
 	 * @param value
@@ -623,5 +503,17 @@ public class AdapterUtil
 				&& ( (Expression) value ).getExpression( ) == null )
 			return true;
 		return false;
+	}
+	
+	/**
+	 * Extracts the column name from the given column.
+	 * 
+	 * @param column
+	 *            the column to extract
+	 * @return the column name, or null if it cannot be extracted.
+	 */
+	static String extractColumnName( Object column )
+	{
+		return columnNameHelper.extractColumnName( column );
 	}
 }
