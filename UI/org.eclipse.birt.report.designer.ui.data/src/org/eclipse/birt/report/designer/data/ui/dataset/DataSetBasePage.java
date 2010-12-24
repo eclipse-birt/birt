@@ -116,8 +116,9 @@ public class DataSetBasePage extends WizardPage
 	private WizardFilter wizardFilter = null;
 	
 	private FilteredTree dataSourceFilteredTree;
-	
 	private DataSetBasePageHelper helper;
+	
+	private IWizardPage nextPage;
 	
 	/**
 	 * Creates a new data set wizard page
@@ -604,11 +605,13 @@ public class DataSetBasePage extends WizardPage
 		{
 			if ( useODAV3 )
 			{
-				return getNextPageODAV3( );
+				nextPage = getNextPageODAV3( );
+				return nextPage;
 			}
 			else
 			{
-				return getNextPageODAV2( );
+				nextPage = getNextPageODAV2( );
+				return nextPage;
 			}
 		}
 		// switch to script data set page
@@ -660,7 +663,13 @@ public class DataSetBasePage extends WizardPage
 			if ( m_designSession != null )
 				return m_designSession.getNewWizard( ).canFinish( );
 			else
-				return isPageComplete( );
+			{
+				if( this.nextPage!= null )
+				{
+					return nextPage.isPageComplete( )&&isPageComplete( );
+				}
+				return isPageComplete( );				
+			}
 		}
 		catch ( OdaException e )
 		{
