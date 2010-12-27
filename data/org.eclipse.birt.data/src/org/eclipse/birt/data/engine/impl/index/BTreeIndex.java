@@ -213,10 +213,14 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 
 	public Set<Integer> getKeyIndex( Object key, int filterType )	throws DataException
 	{
-		if( btree == null )
+		synchronized( this )
 		{
-			btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+			if( btree == null )
+			{
+				btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+			}			
 		}
+		
 		if( sortedKeyRowID != null )
 		{
 			insertToBTree( );
