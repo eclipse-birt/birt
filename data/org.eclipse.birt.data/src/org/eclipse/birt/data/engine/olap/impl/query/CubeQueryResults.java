@@ -279,9 +279,13 @@ public class CubeQueryResults implements ICubeQueryResults
 		
 		IDocumentManager documentManager = getDocumentManager( executor );
 		ICube cube = null;
+		
 		try
 		{
-			cube = loadCube( documentManager, executor );
+			// need not load cube in render task.
+			if ( !isStandAloneQuery( cubeQueryDefinition,
+					session.getEngineContext( ) ) )
+				cube = loadCube( documentManager, executor );
 		}
 		catch ( Exception ex )
 		{
@@ -289,9 +293,10 @@ public class CubeQueryResults implements ICubeQueryResults
 		}
 
 		BirtCubeView bcv = new BirtCubeView( executor, cube, appContext, fetcher );		
-		CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube );		
-		cube.close( );
-		
+		CubeCursor cubeCursor = bcv.getCubeCursor( stopSign, cube );
+		if ( cube != null )
+			cube.close( );
+
 		String newResultSetId = executor.getQueryResultsId( );
 		if ( newResultSetId != null )
 		{
@@ -368,6 +373,15 @@ public class CubeQueryResults implements ICubeQueryResults
 				executor.getSession( ).getStopSign( ) );
 
 		return cube;
+	}
+	
+	private static boolean isStandAloneQuery( ICubeQueryDefinition cubeQuery, DataEngineContext context )
+	{
+		if( cubeQuery.getQueryResultsID( )!= null && context.getMode( ) == DataEngineContext.MODE_PRESENTATION  )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/*

@@ -36,6 +36,9 @@ class CubeQueryValidator
 	 */
 	static void validateCubeQueryDefinition( BirtCubeView view, ICube cube ) throws DataException
 	{
+		//for presentation mode, cube might be null.
+		if( cube== null )
+			return;
 		if ( view.getColumnEdgeView( ) == null
 				&& view.getRowEdgeView( ) == null )
 		{
