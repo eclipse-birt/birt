@@ -21,8 +21,6 @@ import java.security.PrivilegedAction;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -51,7 +49,6 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
-import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.URLSecurity;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
@@ -65,8 +62,6 @@ import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * Create concreate class of IPreparedQuery
@@ -110,14 +105,22 @@ public class PreparedQueryUtil
 					contextVisitor );   
 		}
 		
-		IPreparedQuery preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
-				queryDefn,
-				dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ),
-				appContext,
-				contextVisitor );
-		
-		if ( preparedQuery != null ) 
-			return preparedQuery;
+		IPreparedQuery preparedQuery;
+		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
+		if( dset!= null )
+		{
+			FilterPrepareUtil.prepareFilters( dset.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
+			QueryContextVisitorUtil.populateDataSet( contextVisitor, dset );
+			
+			preparedQuery = QueryPrepareUtil.prepareQuery( dataEngine,
+					queryDefn,
+					dset,
+					appContext,
+					contextVisitor );
+			
+			if ( preparedQuery != null ) 
+				return preparedQuery;			
+		}
 		
 		if ( queryDefn.getQueryResultsID( ) != null )
 		{
@@ -140,8 +143,6 @@ public class PreparedQueryUtil
 			return newIVInstance( dataEngine, queryDefn, appContext );
 		}
 	
-		
-		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
 		if ( dset == null )
 		{
 			// In new column binding feature, when there is no data set,
@@ -152,11 +153,6 @@ public class PreparedQueryUtil
 			if ( queryDefn.getQueryResultsID( ) == null )
 				return new PreparedDummyQuery( queryDefn, dataEngine.getSession( ) );
 		}
-
-		
-		FilterPrepareUtil.prepareFilters( dset.getFilters( ), dataEngine.getContext( ).getScriptContext( ) );
-		QueryContextVisitorUtil.populateDataSet( contextVisitor, dset );
-		
 
 		if ( dset instanceof IScriptDataSetDesign )
 		{
@@ -631,100 +627,6 @@ public class PreparedQueryUtil
 	
 }
 
-abstract class DataSetAdapter implements IBaseDataSetDesign
-{
-	private List computedColumns;
-	private List filters;
-	private IBaseDataSetDesign source;
-
-	public DataSetAdapter( IBaseDataSetDesign source )
-	{
-	    this.source = source;
-	    this.computedColumns = new ArrayList();
-	    if( this.source.getComputedColumns( )!= null )
-	    {
-	    	this.computedColumns.addAll( this.source.getComputedColumns( ) );
-	    }
-		this.filters = new ArrayList( );
-		if ( this.source.getFilters( ) != null )
-		{
-			this.filters.addAll( this.source.getFilters( ) );
-		}
-	}
-	public String getAfterCloseScript( )
-	{
-		return this.source.getAfterCloseScript( );
-	}
-	public String getAfterOpenScript( )
-	{
-		return this.source.getAfterOpenScript( );
-	}
-	
-	public String getBeforeCloseScript( )
-	{
-		return this.source.getBeforeCloseScript( );
-	}
-	public String getBeforeOpenScript( )
-	{
-		return this.source.getBeforeOpenScript( );
-	}
-	/**
-	 * @deprecated
-	 */
-	public int getCacheRowCount( )
-	{
-		return this.source.getCacheRowCount( );
-	}
-	public List getComputedColumns( )
-	{
-		return this.computedColumns;
-	}
-	public String getDataSourceName( )
-	{
-		return this.source.getDataSourceName( );
-	}
-	public IBaseDataSetEventHandler getEventHandler( )
-	{
-		return this.source.getEventHandler( );
-	}
-	public List getFilters( )
-	{
-		return this.filters;
-	}
-	public Collection getInputParamBindings( )
-	{
-		return this.source.getInputParamBindings( );
-	}
-	public String getName( )
-	{
-		return this.source.getName( );
-	}
-	public String getOnFetchScript( )
-	{
-		return this.source.getOnFetchScript( );
-	}
-	public List getParameters( )
-	{
-		return this.source.getParameters( );
-	}
-	public List getResultSetHints( )
-	{
-		return this.source.getResultSetHints( );
-	}
-	public int getRowFetchLimit( )
-	{
-		return this.source.getRowFetchLimit( );
-	}
-	public boolean needDistinctValue( )
-	{
-		return this.source.needDistinctValue( );
-	}
-	public void setRowFetchLimit( int max )
-	{
-		this.source.setRowFetchLimit( max );
-	}
-}
-
 class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
 {
 	private IOdaDataSetDesign source;
@@ -763,18 +665,7 @@ class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
 	public int getPrimaryResultSetNumber( )
 	{
 		return this.source.getPrimaryResultSetNumber( );
-	}
-
-	public ULocale getCompareLocale( )
-	{
-		return this.source.getCompareLocale( );
-	}
-
-	public String getNullsOrdering( )
-	{
-		return this.source.getNullsOrdering( );
-	}
-	
+	}	
 }
 
 class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign
@@ -816,16 +707,6 @@ class JointDataSetAdapter extends DataSetAdapter implements IJointDataSetDesign
 	{
 		return this.source.getRightDataSetDesignQulifiedName( );
 	}
-
-	public ULocale getCompareLocale( )
-	{
-		return this.source.getCompareLocale( );
-	}
-
-	public String getNullsOrdering( )
-	{
-		return this.source.getNullsOrdering( );
-	}	
 }
 
 class ScriptDataSetAdapter extends DataSetAdapter implements IScriptDataSetDesign
@@ -856,18 +737,6 @@ class ScriptDataSetAdapter extends DataSetAdapter implements IScriptDataSetDesig
 	public String getOpenScript( )
 	{
 		return this.source.getOpenScript( );
-	}
-
-
-	public ULocale getCompareLocale( )
-	{
-		return this.source.getCompareLocale( );
-	}
-
-
-	public String getNullsOrdering( )
-	{
-		return this.source.getNullsOrdering( );
 	}
 }
 
