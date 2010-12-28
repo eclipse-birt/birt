@@ -3298,7 +3298,10 @@ public class DEUtil
 			{
 				
 			}
-			
+			if (fileName == null)
+			{
+				continue;
+			}
 			if (new File(defaultFileName).getAbsolutePath( ).equals(new File(fileName).getAbsolutePath( )  ))
 			{
 				defaulthandle.close( );
