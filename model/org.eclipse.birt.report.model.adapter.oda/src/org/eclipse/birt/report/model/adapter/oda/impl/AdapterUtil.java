@@ -51,6 +51,7 @@ public class AdapterUtil
 {
 
 	private static ColumnNameHelper columnNameHelper = new ColumnNameHelper( );
+
 	/**
 	 * Creates a ODA ParameterMode with the given parameter input/output flags.
 	 * 
@@ -341,16 +342,17 @@ public class AdapterUtil
 			ModuleHandle module = setHandle.getModuleHandle( );
 			DataSetHandle target = module.findDataSet( value );
 			if ( target instanceof OdaDataSetHandle && target != setHandle )
-				new ModelOdaAdapter( ).updateDataSetHandle( valueQuery
-						.getDataSetDesign( ), (OdaDataSetHandle) target, false );
+				new ModelOdaAdapter( ).updateDataSetHandle(
+						valueQuery.getDataSetDesign( ),
+						(OdaDataSetHandle) target, false );
 
 			// if there is no corresponding data set, creates a new one.
 
 			if ( target == null )
 			{
 				OdaDataSetHandle nestedDataSet = new ModelOdaAdapter( )
-						.createDataSetHandle( valueQuery.getDataSetDesign( ),
-								module );
+						.createLinkedParameterDataSetHandle(
+								valueQuery.getDataSetDesign( ), module );
 				module.getDataSets( ).add( nestedDataSet );
 			}
 		}
@@ -362,8 +364,8 @@ public class AdapterUtil
 		{
 			ExpressionHandle exprHandle = reportParam
 					.getExpressionProperty( IAbstractScalarParameterModel.VALUE_EXPR_PROP );
-			exprHandle.setExpression( columnNameHelper.createColumnExpression( value,
-					exprHandle.getType( ) ) );
+			exprHandle.setExpression( columnNameHelper.createColumnExpression(
+					value, exprHandle.getType( ) ) );
 		}
 
 		// the label need to follow the value expression
@@ -375,8 +377,8 @@ public class AdapterUtil
 		{
 			ExpressionHandle exprHandle = reportParam
 					.getExpressionProperty( IAbstractScalarParameterModel.LABEL_EXPR_PROP );
-			exprHandle.setExpression( columnNameHelper.createColumnExpression( value,
-					exprHandle.getType( ) ) );
+			exprHandle.setExpression( columnNameHelper.createColumnExpression(
+					value, exprHandle.getType( ) ) );
 		}
 
 	}
@@ -472,7 +474,7 @@ public class AdapterUtil
 			if ( StringUtil.isBlank( (String) value ) )
 			{
 				exprType = IExpressionType.JAVASCRIPT;
-				value = "\"" + value + "\"";			 		
+				value = "\"" + value + "\"";
 			}
 			else
 				exprType = IExpressionType.CONSTANT;
@@ -481,8 +483,7 @@ public class AdapterUtil
 		{
 			CustomData customData = (CustomData) value;
 			if ( DataSetParameterAdapter.PROVIDER_ID.equals( customData
-					.getProviderId( ) )
-					&& customData.getValue( ) != null )
+					.getProviderId( ) ) && customData.getValue( ) != null )
 			{
 				exprType = IExpressionType.JAVASCRIPT;
 				value = customData.getValue( );
@@ -504,7 +505,7 @@ public class AdapterUtil
 			return true;
 		return false;
 	}
-	
+
 	/**
 	 * Extracts the column name from the given column.
 	 * 

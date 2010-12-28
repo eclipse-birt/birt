@@ -58,7 +58,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 class DataSetAdapter extends AbstractDataAdapter
 {
 
-	private static DataSetAdapter instance;
+	private final boolean createNewDataSource;
 
 	/**
 	 * 
@@ -66,21 +66,13 @@ class DataSetAdapter extends AbstractDataAdapter
 
 	DataSetAdapter( )
 	{
-		super( );
+		this( false );
 	}
 
-	/**
-	 * Gets the instance.
-	 * 
-	 * @return the instance
-	 */
-	static DataSetAdapter getInstance( )
+	DataSetAdapter( boolean createNewDataSource )
 	{
-		if ( instance == null )
-		{
-			instance = new DataSetAdapter( );
-		}
-		return instance;
+		super( );
+		this.createNewDataSource = createNewDataSource;
 	}
 
 	/**
@@ -502,14 +494,31 @@ class DataSetAdapter extends AbstractDataAdapter
 		{
 			String dataSourceName = sourceDesign.getName( );
 			ModuleHandle moduleHandle = setHandle.getModuleHandle( );
-			DataSourceHandle sourceHandle = moduleHandle
-					.findDataSource( dataSourceName );
+			DataSourceHandle sourceHandle = null;
+
+			// for the data set in the linked report parameter, a new data
+			// source is required.
+
+			if ( !createNewDataSource )
+			{
+				sourceHandle = moduleHandle.findDataSource( dataSourceName );
+			}
+			else
+			{
+				sourceHandle = moduleHandle.getElementFactory( )
+						.newOdaDataSource( dataSourceName,
+								sourceDesign.getOdaExtensionDataSourceId( ) );
+				moduleHandle.getDataSources( ).add( sourceHandle );
+			}
+
 			if ( sourceHandle != null
 					&& sourceHandle instanceof OdaDataSourceHandle )
 			{
-				new DataSourceAdapter( ).updateDataSourceHandle( sourceDesign,
-						(OdaDataSourceHandle) sourceHandle );
+				new DataSourceAdapter( false ).updateDataSourceHandle(
+						sourceDesign, (OdaDataSourceHandle) sourceHandle );
+				dataSourceName = sourceHandle.getName( );
 			}
+			
 			setHandle.getElement( )
 					.setProperty(
 							OdaDataSetHandle.DATA_SOURCE_PROP,
@@ -1060,7 +1069,7 @@ class DataSetAdapter extends AbstractDataAdapter
 				// the relationship between data set parameter and report
 				// parameter. This cached value is used to update the dynamic
 				// value in the new data set design
-				
+
 				DynamicList cachedDynamic = ModelFactory.eINSTANCE
 						.createDynamicList( );
 				cachedDynamic.setDataSetName( setName );
