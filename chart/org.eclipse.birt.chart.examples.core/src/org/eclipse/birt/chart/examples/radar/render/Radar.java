@@ -83,9 +83,9 @@ public class Radar extends BaseRenderer
 	public static final String SPIDER_SUBTYPE_LITERAL = "Spider Radar Chart"; //$NON-NLS-1$
 
 	public static final String BULLSEYE_SUBTYPE_LITERAL = "Bullseye Radar Chart"; //$NON-NLS-1$
-	
+
 	public static final String SCRIPT_KEY_WEB = "Web"; //$NON-NLS-1$
-	
+
 	public static final String SCRIPT_KEY_CATEGORY = "Category"; //$NON-NLS-1$
 
 	static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.examples/render" ); //$NON-NLS-1$
@@ -132,7 +132,7 @@ public class Radar extends BaseRenderer
 		super( );
 	}
 
-	private void getDsMinMax( )
+	private void getDsMinMax( ) throws ChartException
 	{
 		double calcMin = Double.MAX_VALUE;
 		double calcMax = Double.MIN_VALUE;
@@ -167,25 +167,18 @@ public class Radar extends BaseRenderer
 
 		for ( int i = 0; i < sea.length; i++ )
 		{
-			try
-			{
-				iDSP = ps.getDataSetProcessor( sea[i].getClass( ) );
-				dst = sea[i].getDataSet( );
-				Double min = ( (Number) iDSP.getMinimum( dst ) ).doubleValue( );
-				Double max = ( (Number) iDSP.getMaximum( dst ) ).doubleValue( );
+			iDSP = ps.getDataSetProcessor( sea[i].getClass( ) );
+			dst = sea[i].getDataSet( );
+			Double min = ( (Number) iDSP.getMinimum( dst ) ).doubleValue( );
+			Double max = ( (Number) iDSP.getMaximum( dst ) ).doubleValue( );
 
-				if ( min != null && min < calcMin )
-				{
-					calcMin = min;
-				}
-				if ( max != null && max > calcMax )
-				{
-					calcMax = max;
-				}
-			}
-			catch ( Exception e )
+			if ( min != null && min < calcMin )
 			{
-				e.printStackTrace( );
+				calcMin = min;
+			}
+			if ( max != null && max > calcMax )
+			{
+				calcMax = max;
 			}
 		}
 		if ( autoscale )
@@ -232,65 +225,45 @@ public class Radar extends BaseRenderer
 		final SeriesRenderingHints srh = (SeriesRenderingHints) isrh;
 
 		// VALIDATE CONSISTENT DATASET COUNT BETWEEN BASE AND ORTHOGONAL
-		try
-		{
-			validateDataSetCount( isrh );
-		}
-		catch ( ChartException vex )
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.GENERATION,
-					vex );
-		}
+		validateDataSetCount( isrh );
 
 		// SCALE VALIDATION
+		dpha = srh.getDataPoints( );
 
-		try
+		double[] da = srh.asPrimitiveDoubleValues( );
+
+		if ( dpha == null || da == null || dpha.length < 1 || da.length < 1 )
 		{
-
-			dpha = srh.getDataPoints( );
-
-			double[] da = srh.asPrimitiveDoubleValues( );
-
-			if ( dpha == null || da == null || dpha.length < 1 || da.length < 1 )
-			{
-				throw new ChartException( ChartEngineExtensionPlugin.ID,
-						ChartException.RENDERING,
-						"exception.invalid.datapoint.dial", //$NON-NLS-1$
-						org.eclipse.birt.chart.engine.extension.i18n.Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
-			}
-
-			// Currently only using the base series to store web/radar specific
-			// information
-			RadarSeries rsd = getFirstSeries( );
-			int psc = rsd.getPlotSteps( ).intValue( );
-			if ( psc > 20 )
-			{
-				psc = 20;
-			}
-			if ( psc < 1 )
-			{
-				psc = 1;
-			}
-			scaleCount = psc;
-
-			// Set on Plot dialog
-			double cvr = ( (ChartWithoutAxes) getModel( ) ).getCoverage( );
-			if ( cvr <= 0 )
-			{
-				cvr = 0.8;
-			}
-			percentReduce = 1 - cvr;
-
-			dSafeSpacing *= getDeviceScale( );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
 			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.GENERATION,
-					ex );
+					ChartException.RENDERING,
+					"exception.invalid.datapoint.dial", //$NON-NLS-1$
+					org.eclipse.birt.chart.engine.extension.i18n.Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
 		}
+
+		// Currently only using the base series to store web/radar specific
+		// information
+		RadarSeries rsd = getFirstSeries( );
+		int psc = rsd.getPlotSteps( ).intValue( );
+		if ( psc > 20 )
+		{
+			psc = 20;
+		}
+		if ( psc < 1 )
+		{
+			psc = 1;
+		}
+		scaleCount = psc;
+
+		// Set on Plot dialog
+		double cvr = ( (ChartWithoutAxes) getModel( ) ).getCoverage( );
+		if ( cvr <= 0 )
+		{
+			cvr = 0.8;
+		}
+		percentReduce = 1 - cvr;
+
+		dSafeSpacing *= getDeviceScale( );
+
 	}
 
 	/*
@@ -438,14 +411,14 @@ public class Radar extends BaseRenderer
 					ls.getLineAttributes( ),
 					fPaletteEntry,
 					null,
-					new Integer( markerSize ),
+					Integer.valueOf( markerSize ),
 					false,
 					false );
 		}
 	}
 
 	private void renderPolys( IDeviceRenderer idr, Location[] prelo, Series se,
-			SeriesDefinition sd )
+			SeriesDefinition sd ) throws ChartException
 	{
 
 		int iThisSeriesIndex = sd.getRunTimeSeries( ).indexOf( se );
@@ -483,14 +456,7 @@ public class Radar extends BaseRenderer
 				lre.setStart( prelo[i] );
 				lre.setEnd( prelo[i + 1] );
 
-				try
-				{
-					idr.drawLine( lre );
-				}
-				catch ( Exception e )
-				{
-					e.printStackTrace( );
-				}
+				idr.drawLine( lre );
 			}
 			if ( ( (RadarSeries) se ).isConnectEndpoints( ) )
 			{
@@ -498,15 +464,8 @@ public class Radar extends BaseRenderer
 				{
 					lre.setStart( prelo[0] );
 					lre.setEnd( prelo[prelo.length - 1] );
-					try
-					{
-						idr.drawLine( lre );
-					}
-					catch ( Exception e )
-					{
-						e.printStackTrace( );
-					}
 
+					idr.drawLine( lre );
 				}
 			}
 		}
@@ -515,20 +474,14 @@ public class Radar extends BaseRenderer
 			pre.setBackground( fPaletteEntry );
 			pre.setPoints( prelo );
 			pre.setOutline( llia );
-			try
-			{
-				idr.drawPolygon( pre );
-				idr.fillPolygon( pre );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( );
-			}
+
+			idr.drawPolygon( pre );
+			idr.fillPolygon( pre );
 		}
 	}
 
 	private void renderAxes( IDeviceRenderer idr, PolarCoordinate pc,
-			Series se, double magnitude )
+			double magnitude ) throws ChartException
 	{
 		Location center = pc.getCenter( );
 		// int iSeriesCount = getSeriesCount( ) - 1;
@@ -550,76 +503,71 @@ public class Radar extends BaseRenderer
 		{
 			lia = wlia;
 		}
-		final LineRenderEvent lre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
-				LineRenderEvent.class );
 
-		final OvalRenderEvent ore = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
+		StructureSource ss = StructureSource.createPlot( getModel( ).getPlot( ) );
+
+		final LineRenderEvent lre = ( (EventObjectCache) idr ).getEventObject( ss,
+				LineRenderEvent.class );
+		final OvalRenderEvent ore = ( (EventObjectCache) idr ).getEventObject( ss,
 				OvalRenderEvent.class );
 
 		lre.setLineAttributes( lia );
 
 		// Radials
 		lre.setStart( center );
-		try
+
+		for ( int i = 0; i < iCount; i++ )
 		{
-			for ( int i = 0; i < iCount; i++ )
+			pc.computeLocation( lo, i, magnitude );
+			lre.setEnd( lo );
+			idr.drawLine( lre );
+
+			DataPointHints dph = dpha[i];
+			if ( ( rsd.isSetShowCatLabels( ) && rsd.isShowCatLabels( ) )
+					|| ( !rsd.isSetShowCatLabels( ) ) )
 			{
-				pc.computeLocation( lo, i, magnitude );
-				lre.setEnd( lo );
-				idr.drawLine( lre );
 
-				DataPointHints dph = dpha[i];
-				if ( ( rsd.isSetShowCatLabels( ) && rsd.isShowCatLabels( ) )
-						|| ( !rsd.isSetShowCatLabels( ) ) )
-				{
-
-					drawAxisRadialLabel( idr, pc, lo, i, dph.getBaseValue( ) );
-				}
+				drawAxisRadialLabel( idr, pc, lo, i, dph.getBaseValue( ) );
 			}
+		}
 
-			String subType = getModel( ).getSubType( );
-			if ( STANDARD_SUBTYPE_LITERAL.equals( subType )
-					|| BULLSEYE_SUBTYPE_LITERAL.equals( subType ) )
+		String subType = getModel( ).getSubType( );
+		if ( STANDARD_SUBTYPE_LITERAL.equals( subType )
+				|| BULLSEYE_SUBTYPE_LITERAL.equals( subType ) )
+		{
+			ore.setBackground( lia.getColor( ) );
+			ore.setOutline( lia );
+			Bounds bo = BoundsImpl.create( 0, 0, 0, 0 );
+			for ( int sc = 1; sc <= scaleCount; sc++ )
 			{
-				ore.setBackground( lia.getColor( ) );
-				ore.setOutline( lia );
-				Bounds bo = BoundsImpl.create( 0, 0, 0, 0 );
-				for ( int sc = 1; sc <= scaleCount; sc++ )
-				{
-					double spiderMag = magnitude * sc / scaleCount;
-					ore.setBounds( pc.computeBounds( bo, spiderMag ) );
-					idr.drawOval( ore );
-				}
-
-			}
-			else if ( SPIDER_SUBTYPE_LITERAL.equals( subType ) )
-			{
-				Location lo1 = lo.copyInstance( );
-				for ( int sc = 1; sc < scaleCount + 1; sc++ )
-				{
-					double spiderMag = magnitude * sc / scaleCount;
-					pc.computeLocation( lo1, 0, spiderMag );
-					for ( int index = 1; index < iCount + 1; index++ )
-					{
-						lo.set( lo1.getX( ), lo1.getY( ) );
-						pc.computeLocation( lo1, index, spiderMag );
-						lre.setStart( lo );
-						lre.setEnd( lo1 );
-						idr.drawLine( lre );
-					}
-				}
+				double spiderMag = magnitude * sc / scaleCount;
+				ore.setBounds( pc.computeBounds( bo, spiderMag ) );
+				idr.drawOval( ore );
 			}
 
 		}
-		catch ( Exception e )
+		else if ( SPIDER_SUBTYPE_LITERAL.equals( subType ) )
 		{
-			e.printStackTrace( );
+			Location lo1 = lo.copyInstance( );
+			for ( int sc = 1; sc < scaleCount + 1; sc++ )
+			{
+				double spiderMag = magnitude * sc / scaleCount;
+				pc.computeLocation( lo1, 0, spiderMag );
+				for ( int index = 1; index < iCount + 1; index++ )
+				{
+					lo.set( lo1.getX( ), lo1.getY( ) );
+					pc.computeLocation( lo1, index, spiderMag );
+					lre.setStart( lo );
+					lre.setEnd( lo1 );
+					idr.drawLine( lre );
+				}
+			}
 		}
 
 	}
 
 	private void renderOvalBackgrounds( IDeviceRenderer idr, Location center,
-			Series se, double magnitude )
+			Series se, double magnitude ) throws ChartException
 	{
 
 		final OvalRenderEvent ore = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
@@ -667,15 +615,7 @@ public class Radar extends BaseRenderer
 			}
 			// ore.setBounds( goFactory.copyOf( bo ) );
 			ore.setBackground( wPaletteEntry );
-			try
-			{
-				idr.fillOval( ore );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( );
-			}
-
+			idr.fillOval( ore );
 		}
 
 	}
@@ -1066,7 +1006,7 @@ public class Radar extends BaseRenderer
 			if ( se.getWebLineAttributes( ) != null
 					&& se.getWebLineAttributes( ).isVisible( ) )
 			{
-				renderAxes( idr, pc, se, mag );
+				renderAxes( idr, pc, mag );
 			}
 
 			RadarSeries rsd = getFirstSeries( );
@@ -1110,7 +1050,7 @@ public class Radar extends BaseRenderer
 							rsd.getWebLabelFormatSpecifier( ),
 							rtc.getULocale( ),
 							null );
-					la.getCaption( ).setValue( weblabel );		
+					la.getCaption( ).setValue( weblabel );
 
 					ScriptHandler.callFunction( sh,
 							ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
