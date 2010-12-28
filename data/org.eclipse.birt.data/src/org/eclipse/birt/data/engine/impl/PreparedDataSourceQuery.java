@@ -237,9 +237,10 @@ public abstract class PreparedDataSourceQuery
 					this.dataEngine.getSession( ).getEngineContext( ).getScriptContext( )).resolveDataSetParameters( true );
 		}
 
+		//use the original data design in data engine as the key of cache
 		getDataSetCacheManager( )
 				.setDataSourceAndDataSet( dataSourceDesign,
-						dataSetDesign,
+						this.dataEngine.getDataSetDesign( dataSetDesign.getName( ) ),
 						parameterHints,
 						this.appContext);
 	}
