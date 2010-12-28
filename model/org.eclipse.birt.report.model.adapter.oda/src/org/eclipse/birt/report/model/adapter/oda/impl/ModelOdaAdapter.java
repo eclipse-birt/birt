@@ -91,6 +91,22 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		return new DataSetAdapter( ).createDataSetHandle( setDesign, module );
 	}
 
+	/**
+	 * @param setDesign
+	 * @param module
+	 * @return
+	 * @throws SemanticException
+	 * @throws IllegalStateException
+	 */
+
+	public OdaDataSetHandle createLinkedParameterDataSetHandle(
+			DataSetDesign setDesign, ModuleHandle module )
+			throws SemanticException, IllegalStateException
+	{
+		return new DataSetAdapter( true ).createDataSetHandle( setDesign,
+				module );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

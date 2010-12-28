@@ -25,13 +25,21 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public class DataSourceAdapter extends AbstractDataAdapter
 {
 
+	private final boolean updateName;
+
 	/**
 	 * 
 	 */
 
 	DataSourceAdapter( )
 	{
+		this( true );
+	}
+
+	DataSourceAdapter( boolean updateName )
+	{
 		super( );
+		this.updateName = updateName;
 	}
 
 	/**
@@ -70,7 +78,7 @@ public class DataSourceAdapter extends AbstractDataAdapter
 			sourceDesign.setDisplayName( displayName );
 			sourceDesign.setDisplayNameKey( displayNameKey );
 		}
-		
+
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
 
@@ -85,8 +93,9 @@ public class DataSourceAdapter extends AbstractDataAdapter
 				.setPrivateProperties( newOdaPrivateProperties( sourceHandle
 						.privateDriverPropertiesIterator( ) ) );
 
-		sourceDesign.setPublicProperties( newOdaPublicProperties( sourceHandle
-				.getExtensionPropertyDefinitionList( ), sourceHandle ) );
+		sourceDesign.setPublicProperties( newOdaPublicProperties(
+				sourceHandle.getExtensionPropertyDefinitionList( ),
+				sourceHandle ) );
 
 		updateODAMessageFile( sourceDesign, sourceHandle.getModuleHandle( ) );
 	}
@@ -130,7 +139,9 @@ public class DataSourceAdapter extends AbstractDataAdapter
 					OdaDataSourceHandle.EXTENSION_ID_PROP,
 					sourceDesign.getOdaExtensionId( ) );
 
-			sourceHandle.setName( sourceDesign.getName( ) );
+			if ( updateName )
+				sourceHandle.setName( sourceDesign.getName( ) );
+			
 			sourceHandle.setDisplayName( sourceDesign.getDisplayName( ) );
 			sourceHandle.setDisplayNameKey( sourceDesign.getDisplayNameKey( ) );
 
