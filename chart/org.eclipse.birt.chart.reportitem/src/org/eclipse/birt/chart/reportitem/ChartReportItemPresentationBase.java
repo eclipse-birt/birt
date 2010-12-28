@@ -1194,6 +1194,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				}
 			}
 		}
+		
+		// Update bounds from handle
+		cm.getBlock( )
+				.setBounds( ChartItemUtil.computeChartBounds( modelHandle, dpi ) );
 	}
 	
 	protected boolean isAutoHide( )

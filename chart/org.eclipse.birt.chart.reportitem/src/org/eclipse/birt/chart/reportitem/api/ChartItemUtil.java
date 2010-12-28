@@ -59,6 +59,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -120,8 +121,8 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 	}
 
 	/**
-	 * Returns the binding data set if the element or its container has data set binding
-	 * or the reference to the data set
+	 * Returns the binding data set if the element or its container has data set
+	 * binding or the reference to the data set
 	 * 
 	 * @param element
 	 *            element handle
@@ -156,7 +157,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @return Returns if current eclipse environment is RtL.
 	 */
@@ -346,7 +347,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * Convert interval range from Chart's to DtE's.
 	 * 
@@ -375,7 +376,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 
 		return range;
 	}
-	
+
 	/**
 	 * Convert sort direction from Chart's to DtE's.
 	 * 
@@ -1151,7 +1152,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 				&& isContainerInheritable( handle )
 				&& !handle.getBooleanProperty( ChartReportItemConstants.PROPERTY_INHERIT_COLUMNS );
 	}
-	
+
 	/**
 	 * Check if chart inherits columns only from container.
 	 * 
@@ -1290,7 +1291,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 					DEFAULT_CHART_BLOCK_HEIGHT );
 		}
 		// Plot or ordinary chart case
-		else if (ChartCubeUtil.isPlotChart( eih ))
+		else if ( ChartCubeUtil.isPlotChart( eih ) )
 		{
 			return BoundsImpl.create( 0,
 					0,
@@ -1304,6 +1305,79 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 					DEFAULT_CHART_BLOCK_WIDTH,
 					DEFAULT_CHART_BLOCK_HEIGHT );
 		}
+	}
+
+	public static Bounds computeChartBounds( ExtendedItemHandle eih, int dpi )
+	{
+		final DimensionHandle dhHeight;
+		final DimensionHandle dhWidth;
+		final boolean bAxisChart = ChartCubeUtil.isAxisChart( eih );
+		final Chart cm;
+		if ( bAxisChart )
+		{
+			ExtendedItemHandle hostChart = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+			cm = ChartCubeUtil.getChartFromHandle( hostChart );
+			// Use plot chart's size as axis chart's. Even if model sizes
+			// are different, the output size are same
+			if ( ( (ChartWithAxes) cm ).isTransposed( ) )
+			{
+				dhHeight = eih.getHeight( );
+				dhWidth = hostChart.getWidth( );
+			}
+			else
+			{
+				dhHeight = hostChart.getHeight( );
+				dhWidth = eih.getWidth( );
+			}
+		}
+		else
+		{
+			cm = ChartCubeUtil.getChartFromHandle( eih );
+			dhHeight = eih.getHeight( );
+			dhWidth = eih.getWidth( );
+		}
+
+		double dOriginalHeight = dhHeight.getMeasure( );
+		String sHeightUnits = dhHeight.getUnits( );
+
+		double dOriginalWidth = dhWidth.getMeasure( );
+		String sWidthUnits = dhWidth.getUnits( );
+
+		Bounds defaultBounds = ChartItemUtil.createDefaultChartBounds( eih, cm );
+
+		// Default size for null dimension
+		double dHeightInPoints = defaultBounds.getHeight( );
+		double dWidthInPoints = defaultBounds.getWidth( );
+
+		if ( sHeightUnits != null )
+		{
+			// Convert from pixels to points first...since DimensionUtil
+			// does not provide conversion services to and from Pixels
+			if ( sHeightUnits == DesignChoiceConstants.UNITS_PX )
+			{
+				dOriginalHeight = ( dOriginalHeight * 72d ) / dpi;
+				sHeightUnits = DesignChoiceConstants.UNITS_PT;
+			}
+			dHeightInPoints = DimensionUtil.convertTo( dOriginalHeight,
+					sHeightUnits,
+					DesignChoiceConstants.UNITS_PT ).getMeasure( );
+		}
+
+		if ( sWidthUnits != null )
+		{
+			// Convert from pixels to points first...since DimensionUtil
+			// does not provide conversion services to and from Pixels
+			if ( sWidthUnits == DesignChoiceConstants.UNITS_PX )
+			{
+				dOriginalWidth = ( dOriginalWidth * 72d ) / dpi;
+				sWidthUnits = DesignChoiceConstants.UNITS_PT;
+			}
+			dWidthInPoints = DimensionUtil.convertTo( dOriginalWidth,
+					sWidthUnits,
+					DesignChoiceConstants.UNITS_PT ).getMeasure( );
+		}
+
+		return BoundsImpl.create( 0, 0, dWidthInPoints, dHeightInPoints );
 	}
 
 	/**
@@ -1375,7 +1449,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Loads the expression from a ComputedColumnHandle into the
 	 * ExpressionCodec.
@@ -1394,7 +1468,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		}
 		return false;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private static ExpressionHandle getAggregationExpression(
 			ComputedColumnHandle bindingColumn )
@@ -1430,9 +1504,9 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return null;
 
 	}
-	
-	protected static boolean loadExpressionFromHandle( ExpressionCodec exprCodec,
-			ExpressionHandle eh )
+
+	protected static boolean loadExpressionFromHandle(
+			ExpressionCodec exprCodec, ExpressionHandle eh )
 	{
 		if ( eh != null && eh.getValue( ) != null )
 		{
@@ -1447,7 +1521,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			return false;
 		}
 	}
-	
+
 	public static boolean loadExpression( ExpressionCodec exprCodec,
 			FilterConditionElementHandle fceh )
 	{
@@ -1515,10 +1589,10 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		}
 		return DataType.TEXT_LITERAL;
 	}
-	
+
 	/**
-	 * Converts data type defined in {@link DesignChoiceConstants} to axis type in
-	 * {@link AxisType}
+	 * Converts data type defined in {@link DesignChoiceConstants} to axis type
+	 * in {@link AxisType}
 	 * 
 	 * @param dataType
 	 *            data type in design engine
@@ -1537,7 +1611,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		}
 		return AxisType.TEXT_LITERAL;
 	}
-	
+
 	/**
 	 * Checks if current bindings of chart's refer to other item.
 	 * 
@@ -1564,7 +1638,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		return ( itemHandle.getDataSet( ) != null || itemHandle.getCube( ) != null )
 				&& !isReportItemReference( itemHandle );
 	}
-	
+
 	/**
 	 * Creates an runnable class used in report engine. Similar to
 	 * {@link ReportEngineHelper#openReportDesign(org.eclipse.birt.report.model.api.ReportDesignHandle)}

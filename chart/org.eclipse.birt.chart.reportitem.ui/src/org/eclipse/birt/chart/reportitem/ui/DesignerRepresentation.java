@@ -126,8 +126,7 @@ public final class DesignerRepresentation extends ReportElementFigure
 	DesignerRepresentation( ChartReportItemImpl crii )
 	{
 		this.crii = crii;
-
-		updateChartModelAndSize( );
+		updateChartModel( );
 
 		try
 		{
@@ -139,7 +138,7 @@ public final class DesignerRepresentation extends ReportElementFigure
 		}
 	}
 
-	private void updateChartModelAndSize( )
+	private void updateChartModel( )
 	{
 		if ( crii != null )
 		{
@@ -160,27 +159,7 @@ public final class DesignerRepresentation extends ReportElementFigure
 					cm = ChartCubeUtil.updateModelToRenderAxis( cm.copyInstance( ),
 							crii.getHandle( ).isDirectionRTL( ) );
 				}
-
-				// Do not modify size for axis chart
-				if ( !ChartCubeUtil.isAxisChart( crii.getHandle( ) ) )
-				{
-					final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
-					final Bounds bo = cm.getBlock( )
-							.getBounds( )
-							.scaledInstance( idsSWT.getDpiResolution( ) / 72d );
-					setSize( (int) bo.getWidth( ), (int) bo.getHeight( ) );
-				}
 			}
-			else
-			{
-				setSize( (int) ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH,
-						(int) ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT );
-			}
-		}
-		else
-		{
-			setSize( (int) ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH,
-					(int) ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT );
 		}
 	}
 
@@ -191,7 +170,7 @@ public final class DesignerRepresentation extends ReportElementFigure
 	final void setDirty( boolean bDirty )
 	{
 		this.bDirty = bDirty;
-		updateChartModelAndSize( );
+		updateChartModel( );
 	}
 
 	/*
@@ -413,7 +392,8 @@ public final class DesignerRepresentation extends ReportElementFigure
 
 			// bug 288169
 			if ( Platform.OS_MACOSX.equals( Platform.getOS( ) )
-					&& gc != null && !gc.isDisposed( ) )
+					&& gc != null
+					&& !gc.isDisposed( ) )
 			{
 				gc.dispose( );
 				gc = new GC( imgChart );
@@ -468,7 +448,7 @@ public final class DesignerRepresentation extends ReportElementFigure
 			y += fm.getHeight( );
 		}
 	}
-	
+
 	private List<Axis> findAllAxes( ChartWithAxes cwa )
 	{
 		List<Axis> al = new ArrayList<Axis>( );
@@ -477,7 +457,7 @@ public final class DesignerRepresentation extends ReportElementFigure
 		al.addAll( Arrays.asList( cwa.getOrthogonalAxes( axBase, true ) ) );
 		return al;
 	}
-	
+
 	private void removeScaleInfo( Scale scale )
 	{
 		if ( scale != null )
@@ -488,7 +468,7 @@ public final class DesignerRepresentation extends ReportElementFigure
 			scale.setMax( null );
 		}
 	}
-	
+
 	private void removeScaleInfoForSample( Chart chart )
 	{
 		if ( chart instanceof ChartWithAxes )
