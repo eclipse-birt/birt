@@ -86,10 +86,8 @@ public class AreaFactory
 				if ( ( type == IAutoTextContent.TOTAL_PAGE || type == IAutoTextContent.UNFILTERED_TOTAL_PAGE )
 						&& "pdf".equalsIgnoreCase( context.getFormat( ) )
 						&& ( context.getEngineTaskType( ) == IEngineTask.TASK_RUNANDRENDER || ( !context
-								.isReserveDocumentPageNumbers( )
-								&& context.getEngineTaskType( ) == IEngineTask.TASK_RENDER
-								&& context.getHtmlLayoutContext( ) != null && context
-								.getHtmlLayoutContext( ).isPaged( ) ) ) )
+								.isReserveDocumentPageNumbers( ) && context
+								.getEngineTaskType( ) == IEngineTask.TASK_RENDER ) ) )
 				{
 					context.addUnresolvedContent( content );
 					return new TemplateAreaLayout( parent, context, content );
