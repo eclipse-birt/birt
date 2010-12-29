@@ -36,6 +36,7 @@ public class AxisProcessor
 	
 	public boolean addCoordinateWithoutSort( int value )
 	{
+		value = round( value );
 		if ( !columnCoordinates.contains( value ) )
 		{
 			columnCoordinates.add( value );
@@ -79,11 +80,11 @@ public class AxisProcessor
 	 * @param value	 the coordinate point
 	 * @return the colId
 	 */
-	public int getColumnIndexByCoordinate(int value)
+	public int getColumnIndexByCoordinate( int value )
 	{
 		return columnCoordinates.indexOf( value );
-	}	
-	
+	}
+
 	public int[] getColumnWidths( )
 	{
 		int length = columnCoordinates.size( ) - 1;
@@ -95,5 +96,18 @@ public class AxisProcessor
 					- columnCoordinates.get( i );
 		}
 		return columnWidths;
+	}
+
+	/**
+	 * The unit conversion may cause a mantissa. The mantissa will lead an
+	 * unexpected extra column. To avoid this, any column's y-coordinate will be
+	 * rounded down to the multiples of 0.128 point.
+	 * 
+	 * @param value
+	 * @return the rounded value
+	 */
+	public static int round( int value )
+	{
+		return ( value >> 7 ) << 7;
 	}
 }
