@@ -335,17 +335,32 @@ public class LayoutContext
 		this.dpi = dpi;
 	}
 	
-	private boolean reserveDocumentPageNumbers = true;
+	private Boolean reserveDocumentPageNumbers = null;
 
 	public boolean isReserveDocumentPageNumbers( )
 	{
-		return this.reserveDocumentPageNumbers;
+		if ( reserveDocumentPageNumbers == null )
+		{
+			if ( isFixedLayout )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return reserveDocumentPageNumbers.booleanValue( );
+		}
 	}
 
 	public void setReserveDocumentPageNumbers(
 			boolean reserveDocumentPageNumbers )
 	{
-		this.reserveDocumentPageNumbers = reserveDocumentPageNumbers;
+		this.reserveDocumentPageNumbers = Boolean
+				.valueOf( reserveDocumentPageNumbers );
 	}
 	
 	private int totalPageTemplateWidth;
