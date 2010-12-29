@@ -15,16 +15,16 @@ public class ContainerSizeInfo
 	
 	public int getStartCoordinate( )
 	{
-		return start;
+		return AxisProcessor.round( start );
 	}
 	
 	public int getWidth( )
 	{
-		return width;
+		return AxisProcessor.round( width );
 	}
 	
 	public int getEndCoordinate()
 	{
-		return start + width;
+		return AxisProcessor.round( start + width );
 	}
 }
