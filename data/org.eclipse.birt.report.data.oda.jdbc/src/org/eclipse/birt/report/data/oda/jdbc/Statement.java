@@ -239,7 +239,6 @@ public class Statement implements IQuery
 			if ( preStat != null )
 			{
 				/* redirect the call to JDBC preparedStatement.close() */
-				System.out.println( "close is called" );
 				this.preStat.close( );
 			}
 		}
@@ -493,7 +492,6 @@ public class Statement implements IQuery
 				maxRowsUpToDate = true;
 			}
 			/* redirect the call to JDBC preparedStatement.execute() */
-			System.out.println( "execute is called" );
 			return preStat.execute( );
 		}
 		catch ( SQLException e )
