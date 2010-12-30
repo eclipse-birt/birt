@@ -55,7 +55,7 @@ public class ExtensionManager
 	public final static String EXTENSION_POINT_PREPARATION = "org.eclipse.birt.report.engine.reportItemPreparation"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_DATAEXTRACTION = "org.eclipse.birt.report.engine.dataExtraction"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_EXTENDED_ITEM_FACTORY = "org.eclipse.birt.report.engine.extendedItemFactory"; //$NON-NLS-1$
-	public final static String emitterFormatPattern = "[$_a-zA-Z][$_a-zA-Z0-9]*";
+	public final static String emitterFormatPattern = "[$_a-zA-Z][.$_a-zA-Z0-9]*";
 	
 	/**
 	 * the singleton isntance
