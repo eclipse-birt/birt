@@ -49,6 +49,7 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 	private PLSDataPopulator populator = null;
 	private IResultClass resultClass;
 	private List<String> originalBindingNames;
+	private IQueryDefinition query;
 
 	/**
 	 * Constructor
@@ -64,6 +65,7 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 	{
 
 		this.populator = new PLSDataPopulator( targetGroups, docIt );
+		this.query = query;
 		try
 		{
 			assert docIt.getExprResultSet( ).getDataSetResultSet( ) != null;
@@ -87,6 +89,13 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 	{
 		if( !this.populator.next( ) )
 			return null;
+		if ( this.query.isSummaryQuery( ) )
+		{
+			this.populator.getDocumentIterator( )
+					.getExprResultSet( )
+					.getDataSetResultSet( )
+					.next( );
+		}
 		Object[] field = new Object[this.resultClass.getFieldCount( )];
 		IResultObject curr = this.populator.getDocumentIterator( )
 				.getExprResultSet( )
