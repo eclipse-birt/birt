@@ -143,7 +143,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 			tr.setTextLayoutFactory( ids );
 			_ids = ids;
 			_tr = tr;
-			ivRenderer = new SVGInteractiveRenderer( getULocale( ) );
+			ivRenderer = new SVGInteractiveRenderer( this );
 		}
 		catch ( ChartException pex )
 		{

@@ -58,7 +58,7 @@ public class PDFRendererImpl extends SVGRendererImpl {
 			_ids = ps.getDisplayServer( "ds.PDF" ); //$NON-NLS-1$
 			// Use Generic impl instead
 			_tr = new ChartTextRenderer( _ids );
-			ivRenderer = new PDFInteractiveRenderer( getULocale( ) );
+			ivRenderer = new PDFInteractiveRenderer( this );
 		}
 		catch ( ChartException pex )
 		{
