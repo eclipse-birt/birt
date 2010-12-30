@@ -969,7 +969,8 @@ public class InputParameterDialog extends BaseDialog
 		Object value = paramValues.get( listParam.getHandle( ).getName( ) );
 		if ( value == null )
 		{
-			return;
+			if ( listParam.getHandle( ).isRequired( ) )
+				return;
 		}
 		boolean found = false;
 		if ( control instanceof Combo )
@@ -977,12 +978,14 @@ public class InputParameterDialog extends BaseDialog
 			Combo combo = (Combo) control;
 			for ( int i = 0; i < combo.getItemCount( ); i++ )
 			{
-				if ( value.equals( combo.getData( combo.getItem( i ) ) ) )
+				Object data = combo.getData( combo.getItem( i ) );
+				if ( value == data || ( value != null && value.equals( data ) ) )
 				{
 					combo.select( i );
 					paramValues.put( listParam.getHandle( ).getName( ),
 							combo.getData( combo.getItem( i ) ) );
-					listParam.setSelectionValue( value.toString( ) );
+					listParam.setSelectionValue( value == null ? null
+							: value.toString( ) );
 					found = true;
 					break;
 				}
@@ -1000,10 +1003,12 @@ public class InputParameterDialog extends BaseDialog
 					}
 					else
 					{
-						combo.setText( value.toString( ) );
-						listParam.setSelectionValue( combo.getText( ) );
+						combo.setText( value == null ? NULL_VALUE_STR
+								: value.toString( ) );
+						listParam.setSelectionValue( value == null ? null
+								: combo.getText( ) );
 						paramValues.put( listParam.getHandle( ).getName( ),
-								combo.getText( ) );
+								value == null ? null : combo.getText( ) );
 					}
 				}
 				catch ( BirtException e )
