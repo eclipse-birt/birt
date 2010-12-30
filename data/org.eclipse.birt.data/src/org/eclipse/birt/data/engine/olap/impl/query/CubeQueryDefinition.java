@@ -45,6 +45,7 @@ public class CubeQueryDefinition extends NamedObject
 	private List<ICubeOperation> cubeOperations;
 	private String queryResultsID;
 	private boolean cacheQueryResults;
+	private boolean needAccessFactTable;
 	private int breakHierarchyOption = 0;
 	
 	/**
@@ -348,6 +349,24 @@ public class CubeQueryDefinition extends NamedObject
 	public ICubeOperation[] getCubeOperations( )
 	{
 		return cubeOperations.toArray( new ICubeOperation[0] );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#needAccessFactTable()
+	 */
+	public boolean needAccessFactTable( )
+	{
+		return needAccessFactTable;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#setNeedAccessFactTable(boolean)
+	 */
+	public void setNeedAccessFactTable( boolean needAccessFactTable )
+	{
+		this.needAccessFactTable = needAccessFactTable;
 	}
 	
 	

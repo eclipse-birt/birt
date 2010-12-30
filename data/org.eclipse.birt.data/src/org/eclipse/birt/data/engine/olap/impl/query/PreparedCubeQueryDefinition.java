@@ -266,4 +266,22 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		this.cubeName = name;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#needAccessFactTable()
+	 */
+	public boolean needAccessFactTable( )
+	{
+		return cqd.needAccessFactTable( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#setNeedAccessFactTable(boolean)
+	 */
+	public void setNeedAccessFactTable(boolean needAccessFactTable)
+	{
+		cqd.setNeedAccessFactTable( needAccessFactTable );
+	}
+
 }
