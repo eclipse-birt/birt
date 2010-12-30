@@ -51,6 +51,18 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 	public void setQueryResultsID( String id );
 	
 	/**
+	 * Indicates if the query need access the fact table. 
+	 * @return
+	 */
+	public boolean needAccessFactTable( );
+	
+	/**
+	 * Indicates if the query need access the fact table. 
+	 * @param accessFactTable
+	 */
+	public void setNeedAccessFactTable( boolean needAccessFactTable );
+	
+	/**
 	 * Indicates if the query need cache the QueryResults . The query result
 	 * can be reload form the cache if the cache is used.
 	 * 
@@ -181,6 +193,8 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 	 *           none zero indicate non-breakHierarchy.
 	 */
 	public void setFilterOption( int breakHierarchyOption );
+	
+	
 	
 	/**
 	 * add a cube operations
