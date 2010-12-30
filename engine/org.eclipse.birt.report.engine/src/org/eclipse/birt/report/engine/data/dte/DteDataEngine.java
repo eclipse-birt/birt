@@ -202,7 +202,9 @@ public class DteDataEngine extends AbstractDataEngine
 		
 		if ( needCache )
 		{
-			( (ICubeQueryDefinition) query ).setCacheQueryResults( true );
+			ICubeQueryDefinition cubeQuery = (ICubeQueryDefinition) query;
+			cubeQuery.setCacheQueryResults( true );
+			cubeQuery.setNeedAccessFactTable( true );
 		}
 
 		// the cube query must be re-prepared before executing.
