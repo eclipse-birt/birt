@@ -298,13 +298,30 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						}
 						else
 						{
-							// Indicate that we need not update the report
-							// document.
-							org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
-									.getTempDir( ),
-									getEngineContext( ),
-									null,
-									queryDefn.getQueryResultsID( ), queryDefn );
+							org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = null;
+							if ( queryDefn.isSummaryQuery( ) )
+							{
+								docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator2( engine.getSession( )
+										.getTempDir( ),
+										getEngineContext( ),
+										null,
+										queryDefn.getQueryResultsID( ),
+										queryDefn.getGroups( ).size( ),
+										queryDefn.isSummaryQuery( ),
+										queryDefn );
+							}
+							else
+							{
+								// Indicate that we need not update the report
+								// document.
+								docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
+										.getTempDir( ),
+										getEngineContext( ),
+										null,
+										queryDefn.getQueryResultsID( ),
+										queryDefn );
+
+							}
 							PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
 									queryDefn.getQueryExecutionHints( )
 											.getTargetGroupInstances( ),
@@ -352,11 +369,26 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		private void populatePLSDataSetData( IEventHandler eventHandler, StreamManager manager )
 				throws DataException, IOException
 		{
-			org.eclipse.birt.data.engine.impl.document.ResultIterator docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
-					.getTempDir( ),
-					getEngineContext( ),
-					null,
-					queryDefn.getQueryResultsID( ), queryDefn );
+			org.eclipse.birt.data.engine.impl.document.ResultIterator docIt;
+			if( !queryDefn.isSummaryQuery( ) )
+			{
+				docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator( engine.getSession( )
+						.getTempDir( ),
+						getEngineContext( ),
+						null,
+						queryDefn.getQueryResultsID( ), queryDefn );
+			}
+			else
+			{
+				docIt = new org.eclipse.birt.data.engine.impl.document.ResultIterator2( engine.getSession( )
+						.getTempDir( ),
+						getEngineContext( ),
+						null,
+						queryDefn.getQueryResultsID( ),
+						queryDefn.getGroups( ).size( ),
+						queryDefn.isSummaryQuery( ),
+						queryDefn );
+			}
 
 			PLSEnabledDataSetPopulator populator = new PLSEnabledDataSetPopulator( queryDefn,
 					queryDefn.getQueryExecutionHints( )
