@@ -8,35 +8,39 @@
  * Contributors:
  * IBM Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.device.pdf;
 
+import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.svg.SVGInteractiveRenderer;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 
-import com.ibm.icu.util.ULocale;
 /**
  * This is an internal class used by PDFRendererImpl to add interactivity in the
- * PDF output.  Note this class disables any interactivity since PDF is a static device renderer
+ * PDF output. Note this class disables any interactivity since PDF is a static
+ * device renderer
  */
-public class PDFInteractiveRenderer extends SVGInteractiveRenderer {
+public class PDFInteractiveRenderer extends SVGInteractiveRenderer
+{
 
-	public PDFInteractiveRenderer(ULocale locale) {
-		super(locale);
+	public PDFInteractiveRenderer( IDeviceRenderer device )
+	{
+		super( device );
 	}
 
-
-	public void addInteractivity() {
-		//no interactions since we are rendering a static image
+	public void addInteractivity( )
+	{
+		// no interactions since we are rendering a static image
 	}
 
-
-	protected void groupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
-		//no interactions since we are rendering a static image
+	protected void groupPrimitive( PrimitiveRenderEvent pre, boolean drawText )
+	{
+		// no interactions since we are rendering a static image
 	}
 
-
-	protected void ungroupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
-		//no interactions since we are rendering a static image
+	protected void ungroupPrimitive( PrimitiveRenderEvent pre, boolean drawText )
+	{
+		// no interactions since we are rendering a static image
 	}
 
 }

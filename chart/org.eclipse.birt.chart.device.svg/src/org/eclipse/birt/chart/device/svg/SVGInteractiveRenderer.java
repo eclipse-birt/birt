@@ -21,6 +21,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.LegendItemHints;
+import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.image.MultiActionValuesScriptGenerator;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
@@ -84,7 +85,7 @@ public class SVGInteractiveRenderer
 	private IUpdateNotifier _iun;
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
 	SVGGraphics2D svg_g2d;
-	private ULocale locale;
+	private IDeviceRenderer device;
 	private List<CacheEvent> cacheEvents = new ArrayList<CacheEvent>( );
 	
 	private String defaultCursor = "cursor:pointer"; //$NON-NLS-1$
@@ -97,12 +98,9 @@ public class SVGInteractiveRenderer
 	
 	private int iFirstDataPointIndex = -1;
 
-	public SVGInteractiveRenderer( ULocale locale )
+	public SVGInteractiveRenderer( IDeviceRenderer device )
 	{
-		if ( locale == null )
-			this.locale = ULocale.getDefault( );
-		else
-			this.locale = locale;
+		this.device = device;
 	}
 
 	public void setIUpdateNotifier( IUpdateNotifier iun )
@@ -1387,7 +1385,7 @@ public class SVGInteractiveRenderer
 
 	private ULocale getULocale( )
 	{
-		return locale;
+		return device.getULocale( );
 	}
 
 	private boolean isColoredByCategories( )
@@ -1773,14 +1771,7 @@ public class SVGInteractiveRenderer
 		}
 		
 		String value = style + CSSHelper.getCSSCursorValue( cursor );
-		if ( value == null )
-		{
-			elm.setAttribute( "style", style + defaultValue );//$NON-NLS-1$
-		}
-		else
-		{
-			elm.setAttribute( "style", style + value );//$NON-NLS-1$
-		}
+		elm.setAttribute( "style", style + value );//$NON-NLS-1$
 	}
 	
 	private void addCallBackScript( StructureSource src,

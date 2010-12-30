@@ -190,5 +190,13 @@ public interface IDisplayServer
 	 * @param resourceFinder
 	 */
 	void setResourceFinder( IResourceFinder resourceFinder );
+	
+	/**
+	 * A convenience method provided to associate a locale with a display server
+	 * 
+	 * @param lcl
+	 *            The locale to be set
+	 */
+	void setLocale( ULocale lcl );
 
 }

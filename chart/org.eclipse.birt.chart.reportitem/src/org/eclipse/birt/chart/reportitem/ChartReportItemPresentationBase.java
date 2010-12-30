@@ -1136,6 +1136,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		
 		idr.setProperty( "output.format", outputFormat ); //$NON-NLS-1$
 		
+		idr.getDisplayServer( ).setLocale( rtc.getULocale( ) );
+		
 		// Enable alt value in image map
 		if ( isAreaAltEnabled( ) )
 		{
