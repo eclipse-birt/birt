@@ -92,6 +92,19 @@ public class PatternImageEditorDialog extends TrayDialog
 		return control;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		this.getButton( OK )
+				.setText( Messages.getString( "PatternImageEditorDialog.Button.OK" ) ); //$NON-NLS-1$
+		this.getButton( CANCEL )
+				.setText( Messages.getString( "PatternImageEditorDialog.Button.Cancel" ) ); //$NON-NLS-1$
+	}
+	
 	private void createPatternGroup( Composite parent )
 	{
 		Group group = new Group( parent, SWT.NONE );
