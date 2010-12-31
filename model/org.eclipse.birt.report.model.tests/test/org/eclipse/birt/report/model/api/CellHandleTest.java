@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -387,6 +388,75 @@ public class CellHandleTest extends BaseTestCase
 		CellHandle cell = (CellHandle) ( row.getSlot( TableRow.CONTENT_SLOT )
 				.get( cellIndex ) );
 		return cell;
+	}
+
+	/**
+	 * Tests the cases for textAlign. If no value is set, then the default value
+	 * of textAlign for table-header row is center. That is getProperty and
+	 * getFactoryProperty will return center rather than null or other value.
+	 * However, the table-header-cell and label in the cell will return null for
+	 * getFactoryProperty and it return center for getProperty.
+	 * 
+	 * @throws Exception
+	 */
+	public void testTextAlign( ) throws Exception
+	{
+		openDesign( "CellHandleTest_1.xml" ); //$NON-NLS-1$
+
+		// no value is set of textAlign for this table
+		TableHandle tableHandle = (TableHandle) designHandle
+				.findElement( "table1" ); //$NON-NLS-1$
+		assertNull( tableHandle.getStringProperty( IStyleModel.TEXT_ALIGN_PROP ) );
+		assertNull( tableHandle
+				.getFactoryPropertyHandle( IStyleModel.TEXT_ALIGN_PROP ) );
+
+		// table-header-row returns center for getProperty and
+		// getFactoryProperty
+		RowHandle rowHandle = (RowHandle) tableHandle.getHeader( ).get( 0 );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_CENTER, rowHandle
+				.getStringProperty( IStyleModel.TEXT_ALIGN_PROP ) );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_CENTER, rowHandle
+				.getFactoryPropertyHandle( IStyleModel.TEXT_ALIGN_PROP )
+				.getStringValue( ) );
+
+		// cell in table-header: return center for getProperty and null for
+		// getFactoryProperty
+		CellHandle cellHandle = (CellHandle) rowHandle.getCells( ).get( 0 );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_CENTER, cellHandle
+				.getStringProperty( IStyleModel.TEXT_ALIGN_PROP ) );
+		assertNull( cellHandle
+				.getFactoryPropertyHandle( IStyleModel.TEXT_ALIGN_PROP ) );
+
+		// label in table-header-cell: return center for getProperty and null
+		// for getFactoryProperty
+		LabelHandle labelHandle = (LabelHandle) cellHandle.getContent( )
+				.get( 0 );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_CENTER, labelHandle
+				.getStringProperty( IStyleModel.TEXT_ALIGN_PROP ) );
+		assertNull( labelHandle
+				.getFactoryPropertyHandle( IStyleModel.TEXT_ALIGN_PROP ) );
+
+		// table detail row: return null for getProperty and getFactoryProperty
+		rowHandle = (RowHandle) tableHandle.getDetail( ).get( 0 );
+		assertNull( rowHandle.getStringProperty( IStyleModel.TEXT_ALIGN_PROP ) );
+		assertNull( rowHandle
+				.getFactoryPropertyHandle( IStyleModel.TEXT_ALIGN_PROP ) );
+
+		// right is set of textAlign in this table
+		tableHandle = (TableHandle) designHandle.findElement( "table2" ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_RIGHT, tableHandle
+				.getStringProperty( IStyleModel.TEXT_ALIGN_PROP ) );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_RIGHT, tableHandle
+				.getFactoryPropertyHandle( IStyleModel.TEXT_ALIGN_PROP )
+				.getStringValue( ) );
+
+		// table-header-row returns null for getProperty and
+		// getFactoryProperty
+		rowHandle = (RowHandle) tableHandle.getHeader( ).get( 0 );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_RIGHT, rowHandle
+				.getStringProperty( IStyleModel.TEXT_ALIGN_PROP ) );
+		assertNull( rowHandle
+				.getFactoryPropertyHandle( IStyleModel.TEXT_ALIGN_PROP ) );
 	}
 
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21">    
+	<body>
+		<!-- textAlign has not set -->
+		<table name="table1">			
+			<header>
+				<row>
+					<cell>
+						<property name="color">lime</property>
+						<label/>
+					</cell>
+				</row>
+			</header>
+			<detail>
+				<row>					
+					<cell/>
+				</row>
+			</detail>
+		</table>
+		<!-- textAlign set in table -->
+		<table name="table2">
+			<property name="textAlign">right</property>
+			<header>
+				<row>
+					<cell>
+						<property name="color">lime</property>
+						<label/>
+					</cell>
+				</row>
+			</header>
+			<detail>
+				<row>					
+					<cell/>
+				</row>
+			</detail>
+		</table>		
+	</body>
+</report>
