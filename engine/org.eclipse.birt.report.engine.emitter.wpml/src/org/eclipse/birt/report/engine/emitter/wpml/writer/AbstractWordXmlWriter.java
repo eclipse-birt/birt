@@ -456,7 +456,7 @@ public abstract class AbstractWordXmlWriter
 	{
 		// unit: twentieths of a point(twips)
 		float spacingValue = PropertyUtil.getDimensionValue( height );
-		int spacing = WordUtil.parseSpacing( spacingValue ) / 2;
+		int spacing = WordUtil.milliPt2Twips( spacingValue ) / 2;
 		writeSpacing( spacing, spacing );
 	}
 
@@ -464,8 +464,8 @@ public abstract class AbstractWordXmlWriter
 	{
 		float topSpacingValue = PropertyUtil.getDimensionValue( top );
 		float bottomSpacingValue = PropertyUtil.getDimensionValue( bottom );
-		writeSpacing( WordUtil.parseSpacing( topSpacingValue ) / 2, WordUtil
-				.parseSpacing( bottomSpacingValue ) / 2 );
+		writeSpacing( WordUtil.milliPt2Twips( topSpacingValue ) / 2, WordUtil
+				.milliPt2Twips( bottomSpacingValue ) / 2 );
 	}
 
 	private void writeSpacing( int beforeValue, int afterValue )
@@ -539,7 +539,7 @@ public abstract class AbstractWordXmlWriter
 	{
 		int letterSpacing = PropertyUtil.getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_LETTER_SPACING ) );
-		writeAttrTag( "w:spacing", WordUtil.parseSpacing( letterSpacing ) );
+		writeAttrTag( "w:spacing", WordUtil.milliPt2Twips( letterSpacing ) );
 	}
 
 	private void writeHyperlinkStyle( HyperlinkInfo info, IStyle style )
@@ -779,6 +779,7 @@ public abstract class AbstractWordXmlWriter
 		}
 		writeBackgroundColor( style.getBackgroundColor( ) );
 		writeCellBorders( style );
+		writeCellPadding( style );
 		String verticalAlign = style.getVerticalAlign( );
 		if ( verticalAlign != null )
 		{
@@ -789,12 +790,49 @@ public abstract class AbstractWordXmlWriter
 				.getWhiteSpace( ) ) ? "on" : "off";
 		writeAttrTag( "w:noWrap", noWrap );
 	}
-
+	
 	private void writeCellBorders( IStyle style )
 	{
 		writer.openTag( "w:tcBorders" );
 		writeBorders( style, 0, 0, 0, 0 );
 		writer.closeTag( "w:tcBorders" );
+	}
+	
+	private void writeCellPadding( IStyle style )
+	{
+		// the cell padding in DOC is tcMar
+		writer.openTag( "w:tcMar" );
+		
+		//bottom
+		writer.openTag( "w:" + BOTTOM );
+		writer.attribute( "w:w", WordUtil.milliPt2Twips( PropertyUtil
+				.getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) ) ) );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:" + BOTTOM );
+		//left
+		writer.openTag( "w:" + LEFT );
+		writer.attribute( "w:w", WordUtil.milliPt2Twips( PropertyUtil
+				.getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_PADDING_LEFT ) ) ) );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:" + LEFT );
+		//top
+		writer.openTag( "w:" + TOP );
+		writer.attribute( "w:w", WordUtil.milliPt2Twips( PropertyUtil
+				.getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_PADDING_TOP ) ) ) );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:" + TOP );
+		//right
+		writer.openTag( "w:" + RIGHT );
+		writer.attribute( "w:w", WordUtil.milliPt2Twips( PropertyUtil
+				.getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) ) ) );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:" + RIGHT );
+		
+		writer.closeTag( "w:tcMar" );
 	}
 
 	protected void writeAttrTag( String name, String val )
