@@ -29,9 +29,11 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -62,13 +64,16 @@ public class CacheResultIterator implements IResultIterator
 	
 	private boolean existCachedFile = true;
 	private DataEngineSession session;
+	private Map appContext;
+	private IQueryResults qsWithSubIterator = null;
+	
 	/**
 	 * 
 	 * @param context
 	 * @param queryResultID
 	 * @throws DataException
 	 */
-	public CacheResultIterator( DataEngineSession session, String tempDir, IQueryResults queryResults )
+	public CacheResultIterator( DataEngineSession session, String tempDir, IQueryResults queryResults, Map appContext )
 			throws DataException
 	{
 		Object[] params = {
@@ -85,6 +90,7 @@ public class CacheResultIterator implements IResultIterator
 		this.startingGroupLevel = 0;
 		this.endingGroupLevel = queryResults.getPreparedQuery( ).getReportQueryDefn( ).getGroups( ).size( )+1;
 		this.session = session;
+		this.appContext = appContext;
 		try
 		{
 			createCacheInputStream( tempDir );
@@ -325,11 +331,42 @@ public class CacheResultIterator implements IResultIterator
 				QuerySharingUtil.getSubQueryID( this.queryResults.getID( ),
 						subQueryName,
 						this.rowIndex ),
-				this.queryResults.getPreparedQuery( ) );
+				this.queryResults.getPreparedQuery( ),
+				this.appContext );
 
 		if ( !rs.existCachedFile( ) )
 		{
-			throw new DataException( ResourceConstants.NOT_SUPPORT_REPORT_ITEM_SUBQUERY );
+			if( qsWithSubIterator == null )
+			{
+				String queryResultsId = null;
+				try
+				{
+					queryResultsId = this.queryResults.getPreparedQuery( )
+							.getReportQueryDefn( )
+							.getQueryResultsID( );
+					( (QueryDefinition) ( this.queryResults.getPreparedQuery( ).getReportQueryDefn( ) ) ).setQueryResultsID( null );
+					IPreparedQuery query = PreparedQueryUtil.newInstance( (DataEngineImpl) this.session.getEngine( ),
+							this.queryResults.getPreparedQuery( )
+									.getReportQueryDefn( ),
+							this.appContext );
+					qsWithSubIterator = query.execute( null,
+							this.session.getSharedScope( ) );
+					qsWithSubIterator.getResultIterator( ).moveTo( currRowIndex );
+					((QueryResults)qsWithSubIterator).setID( queryResultsId );
+					return qsWithSubIterator.getResultIterator( )
+							.getSecondaryIterator( context, subQueryName );
+				}
+				finally
+				{
+					( (QueryDefinition) ( this.queryResults.getPreparedQuery( ).getReportQueryDefn( ) ) ).setQueryResultsID( queryResultsId );
+				}				
+			}
+			else
+			{
+				qsWithSubIterator.getResultIterator( ).moveTo( currRowIndex );
+				return qsWithSubIterator.getResultIterator( ).getSecondaryIterator( context, subQueryName );
+			}
+//			throw new DataException( ResourceConstants.NOT_SUPPORT_REPORT_ITEM_SUBQUERY );
 		}
 		return rs.getResultIterator( );
 	}

@@ -12,7 +12,9 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -37,6 +39,7 @@ public class DummyPreparedQuery implements IPreparedQuery
 	private DataEngineContext context;
 	private List<IGroupInstanceInfo> targetGroups;
 	private DataEngineSession session;
+	private Map appContext;
 
 	/**
 	 * 
@@ -44,11 +47,12 @@ public class DummyPreparedQuery implements IPreparedQuery
 	 * @param session
 	 */
 	public DummyPreparedQuery( IQueryDefinition queryDefn,
-			DataEngineSession session )
+			DataEngineSession session, Map appContext )
 	{
 		this.queryDefn = queryDefn;
 		this.session = session;
 		this.tempDir = session.getTempDir( );
+		this.appContext = appContext;
 	}
 
 	/**
@@ -62,7 +66,7 @@ public class DummyPreparedQuery implements IPreparedQuery
 			DataEngineSession session, DataEngineContext context,
 			List<IGroupInstanceInfo> targetGroups )
 	{
-		this( queryDefn, session );
+		this( queryDefn, session, new HashMap( ) );
 		this.context = context;
 		this.targetGroups = targetGroups;
 	}
@@ -127,7 +131,8 @@ public class DummyPreparedQuery implements IPreparedQuery
 			if ( context == null )
 				return new CachedQueryResults( session,
 						this.queryDefn.getQueryResultsID( ),
-						this );
+						this,
+						this.appContext );
 
 			else
 				return new QueryResults( this.tempDir,
