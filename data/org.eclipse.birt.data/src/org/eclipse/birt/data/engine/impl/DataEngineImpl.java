@@ -145,7 +145,7 @@ public class DataEngineImpl extends DataEngine
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION
 				|| context.getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
-			return new CachedQueryResults( session, queryResultID, null );
+			return new CachedQueryResults( session, queryResultID, null, null );
 		}
 
 		return null;

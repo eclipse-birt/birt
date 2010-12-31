@@ -127,7 +127,7 @@ public class PreparedQueryUtil
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
 				|| dataEngine.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			{
-				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ));
+				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ), appContext );
 			}
 			
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
