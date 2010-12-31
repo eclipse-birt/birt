@@ -121,6 +121,7 @@
             <column id="103"/>
             <header>
                 <row id="88">
+                	<property name="textAlign">center</property>
                     <cell id="89"/>
                     <cell id="90"/>
                     <cell id="91"/>

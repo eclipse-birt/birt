@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.strategy.TableRowPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -43,6 +44,7 @@ public class TableRow extends StyledElement implements ITableRowModel
 	{
 		super( );
 		initSlots( );
+		cachedPropStrategy = TableRowPropSearchStrategy.getInstance( );
 	}
 
 	/*
