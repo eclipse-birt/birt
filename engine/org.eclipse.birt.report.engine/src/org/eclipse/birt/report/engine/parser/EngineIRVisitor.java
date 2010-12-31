@@ -2384,7 +2384,9 @@ public class EngineIRVisitor extends DesignVisitor
 		String pageBreakBefore = getElementProperty( handle,
 				StyleHandle.PAGE_BREAK_BEFORE_PROP );
 		style.setPageBreakBefore( decodePageBreak(pageBreakBefore) );
-		 
+
+		String display = getElementProperty( handle, StyleHandle.DISPLAY_PROP );
+		style.setDisplay( display );
 		return style;
 
 	}
