@@ -41,7 +41,7 @@ public class StringPropertyType extends TextualPropertyType
 
 	private static final String DISPLAY_NAME_KEY = "Property.string"; //$NON-NLS-1$
 
-	private static final String HIDE_RULE_FORMAT_PATTERN = "[$_a-zA-Z][$_a-zA-Z0-9]*"; //$NON-NLS-1$
+	private static final String HIDE_RULE_FORMAT_PATTERN = "[$_a-zA-Z][\\.$_a-zA-Z0-9]*"; //$NON-NLS-1$
 	private static final Pattern hideRuleFormatPattern = Pattern.compile(
 			HIDE_RULE_FORMAT_PATTERN, Pattern.CASE_INSENSITIVE );
 

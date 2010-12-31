@@ -248,6 +248,7 @@ public class BoundDataColumnUtil
 		String function = addColumn.getAggregateFunction( );
 		String filterExpression = addColumn.getFilterExpression( );
 		List<String> aggregateOnList = addColumn.getAggregateOnList( );
+		String dataType = addColumn.getDataType( );
 
 		for ( int i = 0; i < columns.size( ); i++ )
 		{
@@ -255,12 +256,14 @@ public class BoundDataColumnUtil
 			String tmpExpression = column.getExpression( );
 			String tmpFunction = column.getAggregateFunction( );
 			String tmpFilterExpression = column.getFilterExpression( );
+			String tmpType = column.getDataType( );
 
 			if ( ( ( expression == null && tmpExpression == null ) || ( expression != null && expression
 					.equals( tmpExpression ) ) )
 					&& ( ( function != null && function.equals( tmpFunction ) ) || ( function == null && tmpFunction == null ) )
 					&& ( ( filterExpression == null && tmpFilterExpression == null ) || ( filterExpression != null && filterExpression
-							.equals( tmpFilterExpression ) ) ) )
+							.equals( tmpFilterExpression ) ) )
+					&& ( ( dataType == null || tmpType == null) || ( dataType != null && dataType.equalsIgnoreCase( tmpType ) ) ) )
 			{
 				List tempAggregateOnList = column.getAggregateOnList( );
 				boolean isEmptyA = aggregateOnList == null

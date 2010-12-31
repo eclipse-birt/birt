@@ -13,7 +13,13 @@ package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
+import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * Test case for StringPropertyType.
@@ -71,7 +77,6 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 				"123.0", type.validateValue( design, null, propDefn, new Float( 123.0f ) ) ); //$NON-NLS-1$
 		assertEquals(
 				"123.0", type.validateValue( design, null, propDefn, new Double( 123.0d ) ) ); //$NON-NLS-1$
-
 	}
 
 	/*
@@ -190,4 +195,17 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 	{
 	}
 
+	/**
+	 * Test case for special case of the format member of the hide rule structure
+	 * @throws SemanticException
+	 */
+	public void testValidateHideRule( ) throws SemanticException
+	{
+		createDesign( );
+		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
+		PropertyHandle propHandle = label.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
+		HideRule rule = StructureFactory.createHideRule( );
+		rule.setFormat( "ab.cd" );  //$NON-NLS-1$
+		propHandle.addItem( rule );		
+	}
 }
