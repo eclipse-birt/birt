@@ -242,13 +242,14 @@ public class Page
 		{
 			buffer.append( "&S" );
 		}
-		// 35590: font size should be quoted since it may have fractions
+		
 		if ( style.getProperty( IStyle.STYLE_FONT_SIZE ) != null )
 		{
-			buffer.append( "&\"" );
-			buffer.append( StyleBuilder.convertFontSize( style.getProperty( IStyle.STYLE_FONT_SIZE ) ) );
-			buffer.append( "\"" );
-		}
+			buffer.append( "&" );
+			// float font size is not supported in Excel page header/footer.
+			buffer.append( (int) StyleBuilder.convertFontSize( style
+					.getProperty( IStyle.STYLE_FONT_SIZE ) ) );
+		}		
 		// 34276: solve the font color issue in master page header in XLS/XLSX
 		String color = style.getColor( );
 		if ( color != null )
