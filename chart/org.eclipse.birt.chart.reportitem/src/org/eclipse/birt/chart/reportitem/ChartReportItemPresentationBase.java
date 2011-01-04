@@ -550,7 +550,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	}
 
 	protected IDataRowExpressionEvaluator createEvaluator( IBaseResultSet set )
-			throws ChartException
+			throws BirtException
 	{
 		if ( set instanceof IQueryResultSet )
 		{
@@ -596,11 +596,12 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 						modelHandle );
 			}
 
-			// Fixed ED 28
-			// Sharing case/Multiple view case
+			// Sharing case/Multiple view case/in xtab
 			ReportItemHandle itemHandle = ChartItemUtil.getReportItemReference( modelHandle );
 			boolean isChartCubeReference = ChartItemUtil.isChartReportItemHandle( itemHandle );
-			if ( itemHandle != null && !isChartCubeReference )
+			if ( itemHandle != null
+					&& !isChartCubeReference
+					|| ChartCubeUtil.getXtabContainerCell( modelHandle, false ) != null )
 			{
 				return new SharedCubeResultSetEvaluator( (ICubeResultSet) set,
 						cm );
