@@ -67,7 +67,9 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.MemoryUsageSetting;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
@@ -75,6 +77,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
+import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
@@ -1516,7 +1519,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		refactorCubeQueryDefinition( query );
+		QueryAdapter.adaptQuery( query );
+		dataEngine.getSession( ).getStopSign( ).start( );
+		setModuleHandleToAppContext( appContext );
+
+		return this.dataEngine.prepare( query, appContext );
+	}
+
+	private void refactorCubeQueryDefinition( ICubeQueryDefinition query )
+			throws DataException, AdapterException
+	{
 		List bindings = query.getBindings( );
+		List levelExprList = getAllAggrOns( query );
 		for ( int i = 0; i < bindings.size( ); i++ )
 		{
 			IBinding binding = (IBinding) bindings.get( i );
@@ -1533,12 +1548,73 @@ public class DataRequestSessionImpl extends DataRequestSession
 							} );
 				}
 			}
+			
+			String measureName = OlapExpressionUtil.getMeasure( binding.getExpression( ) );
+			if ( measureName != null )
+			{
+				if ( binding.getAggrFunction( ) == null )
+				{
+					String aggrFunc = getAggrFunction( query, measureName );
+					binding.setAggrFunction( aggrFunc );
+					if ( binding.getAggregatOns( ).size( ) == 0 )
+					{
+						for ( Iterator itr = levelExprList.iterator( ); itr.hasNext( ); )
+						{
+							binding.addAggregateOn( itr.next( ).toString( ) );
+						}
+					}
+				}
+			}
 		}
-		QueryAdapter.adaptQuery( query );
-		dataEngine.getSession( ).getStopSign( ).start( );
-		setModuleHandleToAppContext( appContext );
-
-		return this.dataEngine.prepare( query, appContext );
+	}
+	
+	
+	/**
+	 * 
+	 * @param query
+	 * @param measureName
+	 * @return
+	 */
+	private String getAggrFunction( ICubeQueryDefinition query,
+			String measureName )
+	{
+		for ( Iterator itr = query.getMeasures( ).iterator( ); itr.hasNext( ); )
+		{
+			IMeasureDefinition measure = (IMeasureDefinition) itr.next( );
+			if ( measure.getName( ).equals( measureName ) )
+			{
+				if ( measure.getAggrFunction( ) != null )
+					return measure.getAggrFunction( );
+				break;
+			}
+		}
+		if ( this.cubeHandleMap != null
+				&& this.cubeHandleMap.containsKey( query.getName( ) ) )
+		{
+			CubeHandle cubeHandle = (CubeHandle) this.cubeHandleMap.get( query.getName( ) );
+			MeasureHandle measureHandle = cubeHandle.getMeasure( measureName );
+			try
+			{
+				return DataAdapterUtil.adaptModelAggregationType( measureHandle.getFunction( ) );
+			}
+			catch ( AdapterException e )
+			{
+			}
+		}
+		return "SUM";
+	}
+	
+	private List getAllAggrOns( ICubeQueryDefinition query )
+	{
+		List levels = CubeQueryDefinitionUtil.populateMeasureAggrOns( query );
+		List levelExprs = new ArrayList();
+		for ( Iterator itr = levels.iterator( ); itr.hasNext( ); )
+		{
+			DimLevel level = (DimLevel) itr.next( );
+			levelExprs.add( ExpressionUtil.createJSDimensionExpression( level.getDimensionName( ),
+					level.getLevelName( ) ) );
+		}
+		return levelExprs;
 	}
 
 	/**

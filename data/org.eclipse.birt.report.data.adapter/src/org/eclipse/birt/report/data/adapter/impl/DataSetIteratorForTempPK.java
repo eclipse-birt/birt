@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 
 public class DataSetIteratorForTempPK implements IDatasetIterator
 {
+	private static String COUNT_BINDING_NAME = "COUNT"; //$NON-NLS-1$
 	private int rowCount;
 	private int currRowNum = -1; //row.__rownum
 	

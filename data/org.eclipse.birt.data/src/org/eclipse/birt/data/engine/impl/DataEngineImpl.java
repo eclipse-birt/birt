@@ -24,14 +24,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.ICloseListener;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -46,12 +43,8 @@ import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
-import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedSubCubeQuery;
-import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
-import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
@@ -712,89 +705,12 @@ public class DataEngineImpl extends DataEngine
 		setMemoryUsage(appContext);
 		
 		ICubeQueryDefinition preparedQuery = new PreparedCubeQueryDefinition( query );
-		adaptCubeQueryDefinition( preparedQuery );
 		return QueryPrepareUtil.prepareQuery( this.cubeDataSourceMap,
 				this.cubeDataObjectMap,
 				session,
 				context,
 				preparedQuery,
 				appContext );
-	}
-	
-	/**
-	 * adapt the obsolete query definition for backward compatibility.
-	 * 
-	 * @param query
-	 * @return
-	 * @throws DataException
-	 */
-	private void adaptCubeQueryDefinition( ICubeQueryDefinition query )
-			throws DataException
-	{
-		List bindings = query.getBindings( );
-		List levelExprList = getAllAggrOns( query );
-		
-		for ( int i = 0; i < bindings.size( ); i++ )
-		{
-			IBinding binding = (IBinding) bindings.get( i );
-			String measureName = OlapExpressionUtil.getMeasure(binding.getExpression( ));
-			if ( measureName != null )
-			{
-				if ( binding.getAggrFunction( ) == null )
-				{
-					String aggrFunc = getAggrFunction( query, measureName );
-					binding.setAggrFunction( aggrFunc );
-
-					if ( binding.getAggregatOns( ).size( ) == 0 )
-					{
-						for ( Iterator itr = levelExprList.iterator( ); itr.hasNext( ); )
-						{
-							binding.addAggregateOn( itr.next( ).toString( ) );
-						}
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param query
-	 * @return
-	 */
-	private List getAllAggrOns( ICubeQueryDefinition query )
-	{
-		List levels = CubeQueryDefinitionUtil.populateMeasureAggrOns( query );
-		List levelExprs = new ArrayList();
-		for ( Iterator itr = levels.iterator( ); itr.hasNext( ); )
-		{
-			DimLevel level = (DimLevel) itr.next( );
-			levelExprs.add( ExpressionUtil.createJSDimensionExpression( level.getDimensionName( ),
-					level.getLevelName( ) ) );
-		}
-		return levelExprs;
-	}
-
-	/**
-	 * 
-	 * @param query
-	 * @param measureName
-	 * @return
-	 */
-	private String getAggrFunction( ICubeQueryDefinition query,
-			String measureName )
-	{
-		for ( Iterator itr = query.getMeasures( ).iterator( ); itr.hasNext( ); )
-		{
-			MeasureDefinition measure = (MeasureDefinition) itr.next( );
-			if ( measure.getName( ).equals( measureName ) )
-			{
-				if ( measure.getAggrFunction( ) != null )
-					return measure.getAggrFunction( );
-				break;
-			}
-		}
-		return "SUM";
 	}
 
 	/*
