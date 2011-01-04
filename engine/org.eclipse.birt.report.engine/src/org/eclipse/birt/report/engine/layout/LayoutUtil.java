@@ -94,7 +94,15 @@ public class LayoutUtil
 					return true;
 				}
 			}
-			if ( isHiddenByVisibility( style, format, hiddenMask ) )
+			if ( content instanceof IColumn )
+			{
+				if ( isHiddenByVisibility( (IColumn) content, format,
+						hiddenMask ) )
+				{
+					return true;
+				}
+			}
+			else if ( isHiddenByVisibility( style, format, hiddenMask ) )
 			{
 				return true;
 			}
