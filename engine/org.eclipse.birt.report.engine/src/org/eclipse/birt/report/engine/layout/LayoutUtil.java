@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.IStyledElement;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
@@ -79,7 +80,7 @@ public class LayoutUtil
 		return false;
 	}
 */	
-	public static boolean isHidden( IContent content, String format,
+	public static boolean isHidden( IStyledElement content, String format,
 			boolean outputDisplayNone, boolean hiddenMask )
 	{
 		if ( content != null )
@@ -97,7 +98,7 @@ public class LayoutUtil
 			{
 				return true;
 			}
-			if ( content.getContentType( ) == IContent.CELL_CONTENT )
+			if ( content instanceof ICellContent )
 			{
 				ICellContent cell = (ICellContent) content;
 				IColumn column = cell.getColumnInstance( );

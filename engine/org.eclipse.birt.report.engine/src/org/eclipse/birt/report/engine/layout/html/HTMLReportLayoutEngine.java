@@ -156,6 +156,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 			if ( type == IEngineTask.TASK_RUN )
 			{
 				context.setLayoutPageContent( false );
+				context.setOutputDisplayNone( true );
 			}
 		}
 		
