@@ -118,6 +118,10 @@
 			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
 		</condition>
 	
+		<condition property="repackage.allinone" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
+		
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
 		<property name="javacSource" value="1.5" />
