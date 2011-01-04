@@ -457,7 +457,36 @@
                                 <patternset refid="orbit.include.jars" />
                         </zipfileset>
 		</zip>
+		
+		<antcall target="RepackageAllinone" />
+		
 	</target>
+	
+	<target name="RepackageAllinone" if="repackage.allinone">
+	    <!-- repackage allinone for HQ,refer TED 34798-->
+		<delete dir="${OutputDir}/tmp" failonerror="false"/>
+		<unzip src="${OutputDir}/${allinone.zip.name}" dest="${OutputDir}/tmp"/>
+		<delete file="${OutputDir}/${allinone.zip.name}"/>
+		<copy todir="${OutputDir}/tmp/eclipse/features" failonerror="false" overwrite="true">
+			<fileset dir="${deposit}/eclipse/features"> 
+				<include name="org.eclipse.birt.chart.doc.isv*/**"/>
+				<include name="org.eclipse.birt.doc.isv*/**"/>
+			</fileset>
+		</copy>
+		<copy todir="${OutputDir}/tmp/eclipse/plugins" failonerror="false" overwrite="true">
+			<fileset dir="${deposit}/eclipse/plugins"> 
+				<include name="org.eclipse.birt.chart.doc.isv_*.jar"/>
+				<include name="org.eclipse.birt.doc.isv_*.jar"/>
+			</fileset>
+		</copy>
+		<zip destfile="${OutputDir}/${allinone.zip.name}">
+            <fileset dir="${OutputDir}/tmp">
+                <include name="eclipse/**"/>
+            </fileset>
+        </zip>
+		<delete dir="${OutputDir}/tmp"/>
+	</target>
+	
 	<!-- - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - -
 	This target is used for create All-In-One package for Linux
 	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
