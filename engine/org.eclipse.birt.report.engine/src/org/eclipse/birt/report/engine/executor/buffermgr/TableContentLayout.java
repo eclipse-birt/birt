@@ -632,7 +632,8 @@ public class TableContentLayout
 		boolean hiddenMask = context.isFixedLayout( )
 				&& (Integer) context.getLayoutEngine( ).getOption(
 						EngineTask.TASK_TYPE ) == IEngineTask.TASK_RUN;
-		return LayoutUtil.isHiddenByVisibility( column, format, hiddenMask );
+		//return LayoutUtil.isHiddenByVisibility( column, format, hiddenMask );
+		return LayoutUtil.isHidden( column, format, context.getOutputDisplayNone( ), hiddenMask );
 	}
 
 	
