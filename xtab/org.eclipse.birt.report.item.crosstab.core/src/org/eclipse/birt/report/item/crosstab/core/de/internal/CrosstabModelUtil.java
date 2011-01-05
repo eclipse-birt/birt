@@ -489,7 +489,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		}
 	}
 
-	private static AggregationManager getAggregationManager( )
+	static AggregationManager getAggregationManager( )
 			throws BirtException
 	{
 		// TODO do we need release this?

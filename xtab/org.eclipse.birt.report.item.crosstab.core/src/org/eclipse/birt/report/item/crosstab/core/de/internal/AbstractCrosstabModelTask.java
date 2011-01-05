@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -35,6 +37,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
@@ -1239,16 +1242,36 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		column.setDataType( dataType );
 		column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
 
+		String defaultFunction = CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView );
 		String measureFunc = CrosstabModelUtil.getAggregationFunction( crosstab,
 				detailCell );
 
-		if ( measureFunc == null )
-		{
-			// use default measure function
-			measureFunc = CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView );
-		}
+		column.setAggregateFunction( measureFunc != null ? measureFunc
+				: defaultFunction );
 
-		column.setAggregateFunction( measureFunc );
+		// When the function is not null,set the column set the correct data
+		// type
+		if ( measureFunc != null && !measureFunc.equals( defaultFunction ) )
+		{
+			try
+			{
+				// reset the data type to default by the aggregatino
+				// function
+
+				String targetType = DataAdapterUtil.adapterToModelDataType( CrosstabModelUtil.getAggregationManager( )
+						.getAggregation( column.getAggregateFunction( ) )
+						.getDataType( ) );
+
+				if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+				{
+					column.setDataType( targetType );
+				}
+			}
+			catch ( BirtException e )
+			{
+				// do nothing;
+			}
+		}
 
 		if ( aggregateRowName != null )
 		{
