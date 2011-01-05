@@ -238,7 +238,7 @@ public class MemoryCache implements ResultSetCache
 			long offset = 4;
 			if( outputStream instanceof RAOutputStream )
 				offset = ( ( RAOutputStream )outputStream ).length( );
-			for ( int i = 0; i < rowCount; i++ )
+			for ( int i = 0; i < rowCount - originalRowCount; i++ )
 			{
 				IOUtil.writeLong( rlos, offset );
 				offset += ResultSetUtil.writeResultObject( dos,
