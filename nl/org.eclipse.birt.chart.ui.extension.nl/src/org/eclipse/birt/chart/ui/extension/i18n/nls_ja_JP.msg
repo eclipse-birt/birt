@@ -647,10 +647,12 @@ PaletteEditorComposite.Lbl.Add=’Ç‰Á(&A)
 PaletteEditorComposite.Lbl.Remove=íœ(&R)
 PaletteEditorComposite.Lbl.Up=ã‚Ö
 PaletteEditorComposite.Lbl.Down=‰º‚Ö
+PatternImageEditorDialog.Button.Cancel=&Cancel
+PatternImageEditorDialog.Button.OK=&OK
 PatternImageEditorDialog.Group.Color=ƒJƒ‰[ :
 PatternImageEditorDialog.Group.Pattern=ƒpƒ^[ƒ“ :
-PatternImageEditorDialog.Label.Background=”wŒi :
-PatternImageEditorDialog.Label.Foreground=‘OŒi :
+PatternImageEditorDialog.Label.Background=”wŒi(&B) :
+PatternImageEditorDialog.Label.Foreground=&Foreground:
 PatternImageEditorDialog.Title.PatternFillEditor=Pattern Image Editor
 
 LabelAttributesComposite.Lbl.Label=ƒ‰ƒxƒ‹

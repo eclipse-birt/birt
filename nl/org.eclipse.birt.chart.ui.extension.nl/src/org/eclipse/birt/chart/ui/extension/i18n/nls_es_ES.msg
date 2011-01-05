@@ -647,10 +647,12 @@ PaletteEditorComposite.Lbl.Add=&Añadir
 PaletteEditorComposite.Lbl.Remove=&Quitar
 PaletteEditorComposite.Lbl.Up=Arriba
 PaletteEditorComposite.Lbl.Down=Abajo
+PatternImageEditorDialog.Button.Cancel=&Cancel
+PatternImageEditorDialog.Button.OK=&OK
 PatternImageEditorDialog.Group.Color=Color:
 PatternImageEditorDialog.Group.Pattern=Patrón:
-PatternImageEditorDialog.Label.Background=Fondo:
-PatternImageEditorDialog.Label.Foreground=Primer plano:
+PatternImageEditorDialog.Label.Background=Fo&ndo:
+PatternImageEditorDialog.Label.Foreground=&Foreground:
 PatternImageEditorDialog.Title.PatternFillEditor=Editor de imagen de patrón
 
 LabelAttributesComposite.Lbl.Label=Etiqueta
