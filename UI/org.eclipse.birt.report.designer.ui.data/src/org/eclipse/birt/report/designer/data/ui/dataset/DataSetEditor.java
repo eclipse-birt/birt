@@ -60,6 +60,7 @@ import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.IPreferencePageContainer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -808,10 +809,17 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	 */
 	public void updateButtons( )
 	{
-		PropertyPage propertyPage = this.getCurrentPropertyPage( );
-		if ( propertyPage != null && getOkButton( ) != null )
+		if ( getOkButton( ) != null )
 		{
-			getOkButton( ).setEnabled( propertyPage.okToLeave( ) );
+			PropertyPage propertyPage = this.getCurrentPropertyPage( );
+			if ( propertyPage != null )
+			{
+				getOkButton( ).setEnabled( propertyPage.okToLeave( ) );
+			}
+			else if ( getCurrentNode( ).getPage( ) instanceof WizardPage )
+			{
+				getOkButton( ).setEnabled( ( (WizardPage) getCurrentNode( ).getPage( ) ).canFlipToNextPage( ) );
+			}
 		}
 	}
 	
