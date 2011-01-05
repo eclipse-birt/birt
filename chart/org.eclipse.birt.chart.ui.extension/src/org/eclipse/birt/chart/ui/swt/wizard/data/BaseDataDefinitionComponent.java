@@ -424,7 +424,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			cmbDefinition.setEnabled( false );
 			btnBuilder.setEnabled( false );
 		}
-
+		// Since all items in group dialog have been disabled against inheriting
+		// group cases, here we should disable the group button instead. 
+		if ( btnGroup != null && inheritGroups )
+		{
+			btnGroup.setEnabled( false );
+		}
+		
 		setTooltipForInputControl( );
 		boolean isRequiredField = ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) );
 		if ( lblDesc != null && isRequiredField )

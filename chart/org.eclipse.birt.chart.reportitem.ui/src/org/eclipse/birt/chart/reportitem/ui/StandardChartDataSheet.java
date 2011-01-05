@@ -2084,13 +2084,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 			{
 				this.expr = null;
 			}
-
-			setEnabled( eb != null
+			boolean enabled = eb != null
 					&& DataDefinitionTextManager.getInstance( )
-					.isAcceptableExpression( query,
-							expr,
-							dataProvider.isSharedBinding( )
-									|| dataProvider.isInheritColumnsGroups( ) ) );
+							.isAcceptableExpression( query,
+									expr,
+									dataProvider.isSharedBinding( )
+											|| dataProvider.isInheritColumnsGroups( ) );
+			// The menu item must be disabled against inheriting groups
+			// case.(#35992)
+			boolean inheritGroups = context.getDataServiceProvider( )
+					.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
+			enabled = enabled && !inheritGroups;
+			setEnabled( enabled );
 		}
 
 		@Override
