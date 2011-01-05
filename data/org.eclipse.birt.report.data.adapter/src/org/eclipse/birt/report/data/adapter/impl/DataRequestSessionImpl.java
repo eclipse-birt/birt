@@ -1325,15 +1325,17 @@ public class DataRequestSessionImpl extends DataRequestSession
 						    new String[0] ));
 				}
 			}
+			Object originalMemCache = null;
+			Object originalRowLimit = null;
 			try
 			{
 				sl.process( dim );
-				Object originalMemCache = null;
 				if ( !( cubeHandle.getDataSet( )
 								.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ))
 				{
 					//remove cache limit for dimension data set
 					originalMemCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
+					originalRowLimit = appContext.remove( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
 				}
 				IDatasetIterator valueIt = null;
 				String[] timeType = getTimeLevelType( hierhandle );
@@ -1364,16 +1366,23 @@ public class DataRequestSessionImpl extends DataRequestSession
 						valueIt,
 						levelInHier.toArray( new ILevelDefn[0] ),
 						dataEngine.getSession( ).getStopSign( ) ) );
-				if ( originalMemCache != null )
-				{
-					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, originalMemCache );
-				}
 			}
 			catch ( Exception e )
 			{
 				throw new AdapterException( ResourceConstants.CUBE_HIERARCHY_CREATION_ERROR,
 						e,
 						dim.getName( ) + "." + hierhandle.getName( ) );
+			}
+			finally
+			{
+				if ( originalMemCache != null )
+				{
+					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, originalMemCache );
+				}
+				if( originalRowLimit!= null )
+				{
+					appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, originalRowLimit );
+				}
 			}
 		}
 
