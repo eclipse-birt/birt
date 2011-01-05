@@ -229,7 +229,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				{
 					locale = dataformat.getStringLocale( );
 				}
-				excelData = engine.addData( data.getText( ), style, url,
+				String text = data.getValue( ) == null ? null : data.getText( );
+				excelData = engine.addData( text, style, url,
 						bookmark, locale, height );
 			}
 			else if ( type == Data.NUMBER )
