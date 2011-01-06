@@ -1,13 +1,13 @@
-RadarSeriesImpl.displayName=レーダ系列
+RadarSeriesImpl.displayName=レーダー系列
 
 RadarChart.Txt.DefaultRadarChartTitle=レーダーチャートのタイトル
-RadarChart.Txt.DisplayName=レーダ
+RadarChart.Txt.DisplayName=レーダー
 RadarChart.SubType.Standard=標準レーダーチャート
 RadarChart.SubType.Spider=スパイダーレーダーチャート
 RadarChart.SubType.Bullseye=ブルズアイレーダーチャート
 
 RadarChart.Tooltip.InputExpression=各項目の凡例として表示されている式を入力してください。
-RadarChart.Txt.HelpText=レーダーチャート。データの測定値を示します。 測定値の範囲に応じて領域を色分けします。 レーダ上のダイアルを指す針によって値が示されます。
+RadarChart.Txt.HelpText=レーダーチャート。データの測定値を示します。 測定値の範囲に応じて領域を色分けします。 レーダー上のダイアルを指す針によって値が示されます。
 RadarChart.Txt.Description=標準レーダーチャート。円形のグリッド上に多角形と線を重ね合わせて表示します。
 RadarChart.Txt.SpiderDescription=スパイダーレーダーチャート。多角形のグリッド上に多角形と線を重ね合わせて表示します。
 RadarChart.Txt.BullseyeDescription=ブルズアイレーダーチャート。円形の塗りつぶされたグリッド上に多角形と線を重ね合わせて表示します。
@@ -20,7 +20,11 @@ RadarSeriesAttributeSheetImpl.Lbl.Fill=塗りつぶし :
 RadarSeriesAttributeComposite.Lbl.DialTicks=目盛を付ける(&T)
 RadarSeriesAttributeComposite.Lbl.DialScale=スケール(&C)
 RadarBaseSeriesComponent.Label.CategoryDefinition=カテゴリの定義(&C) :
-RadarSeriesAttributeComposite.Lbl.ShowWeb=Web / レーダラベルを表示(&W)
+RadarSeriesAttributeComposite.Lbl.ShowWeb=Web / レーダーラベルを表示(&W)
+
+Radar=標準レーダグラフ。円形のグリッド上に多角形と線を重ね合わせて表示します。
+SampleChartName.Radar=レーダ
+
 
 RadarSeriesAttributeComposite.Exception.IllegalArgument={0} 型の系列は、RadarSeriesAttributeComposite の引数としては使用できません。
 RadarSeriesAttributeComposite.Lbl.LinePalette=系列パレットを線の色として使用する(&P)

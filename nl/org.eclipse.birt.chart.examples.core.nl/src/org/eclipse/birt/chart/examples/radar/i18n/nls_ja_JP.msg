@@ -1,13 +1,13 @@
-RadarSeriesImpl.displayName=レーダ系列
+RadarSeriesImpl.displayName=レーダー系列
 
 RadarChart.Txt.DefaultRadarChartTitle=レーダーチャートのタイトル
-RadarChart.Txt.DisplayName=レーダ
+RadarChart.Txt.DisplayName=レーダー
 RadarChart.SubType.Standard=標準レーダーチャート
 RadarChart.SubType.Spider=スパイダーレーダーチャート
 RadarChart.SubType.Bullseye=ブルズアイレーダーチャート
 
 RadarChart.Tooltip.InputExpression=各項目の凡例として表示されている式を入力してください。
-RadarChart.Txt.HelpText=レーダーチャート。データの測定値を示します。 測定値の範囲に応じて領域を色分けします。 レーダ上のダイアルを指す針によって値が示されます。
+RadarChart.Txt.HelpText=レーダーチャート。データの測定値を示します。 測定値の範囲に応じて領域を色分けします。 レーダー上のダイアルを指す針によって値が示されます。
 RadarChart.Txt.Description=標準レーダーチャート。円形のグリッド上に多角形と線を重ね合わせて表示します。
 RadarChart.Txt.SpiderDescription=スパイダーレーダーチャート。多角形のグリッド上に多角形と線を重ね合わせて表示します。
 RadarChart.Txt.BullseyeDescription=ブルズアイレーダーチャート。円形の塗りつぶされたグリッド上に多角形と線を重ね合わせて表示します。
@@ -34,7 +34,7 @@ RadarSeriesAttributeComposite.Lbl.ShowLinesAsCurves=線を曲線で表示(&H)
 RadarSeriesMarkerSheet.Label.Markers=マーカ(&M)
 RadarSeriesMarkerSheet.GroupLabel.Markers=マーカ
 
-RadarSeriesMarkerSheet.Label.Web=レーダの線の設定
+RadarSeriesMarkerSheet.Label.Web=レーダーの線の設定
 RadarSeriesMarkerSheet.Label.Series=系列の線の設定
 
 Radar.Composite.Label.ScaleCount=ステップ数(&N)
@@ -46,9 +46,9 @@ WebLabel.Tooltip.FormatSpecifier=Web ラベルの書式設定
 CatLabel.Tooltip.FormatSpecifier=カテゴリラベルの書式設定
 RadarSeriesMarkerSheet.Label.WebLabel=Web ラベルの設定
 RadarSeriesMarkerSheet.Label.CatLabel=カテゴリラベルの設定
-RadarSeriesUIProvider..Title.RadarLine=レーダの線
+RadarSeriesUIProvider..Title.RadarLine=レーダーの線
 RadarSeriesUIProvider.Label.CategoryLabels=カテゴリラベル(&G)
-RadarSeriesUIProvider.Label.RadarLine=レーダの線(&D)
+RadarSeriesUIProvider.Label.RadarLine=レーダーの線(&D)
 RadarSeriesUIProvider.Label.WebLabels=Web ラベル(&W)
 RadarSeriesUIProvider.Title.CategoryLabels=カテゴリラベル
 RadarSeriesUIProvider.Title.WebLabels=Web ラベル
