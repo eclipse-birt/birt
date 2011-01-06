@@ -32,11 +32,15 @@ import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
@@ -331,6 +335,9 @@ public class ChartReportItemUtil extends ChartItemUtil
 	 * @throws DataException
 	 * @since 2.3.1 and 2.4.0
 	 */
+	@SuppressWarnings({
+			"deprecation", "unchecked"
+	})
 	public static void copyAndInsertBindingFromContainer(
 			ISubqueryDefinition query, String expr ) throws DataException
 	{
@@ -354,9 +361,55 @@ public class ChartReportItemUtil extends ChartItemUtil
 			binding.setDataType( parentBinding.getDataType( ) );
 			binding.setDisplayName( parentBinding.getDisplayName( ) );
 			binding.setFilter( parentBinding.getFilter( ) );
+			// Copy aggregations
+			List<String> aggregationOnList = parentBinding.getAggregatOns( );
+			if ( aggregationOnList != null )
+			{
+				for ( String aggregateOn : aggregationOnList )
+				{
+					binding.addAggregateOn( aggregateOn );
+					// Copy groups if used and not added previously
+					if ( findGroupInQuery( query, aggregateOn ) == null )
+					{
+						GroupDefinition group = findGroupInQuery( query.getParentQuery( ),
+								aggregateOn );
+						if ( group != null )
+						{
+							( (SubqueryDefinition) query ).addGroup( group );
+						}
+					}
+				}
+			}
+			// Copy arguments
+			List<?> argumentsList = parentBinding.getArguments( );
+			if ( argumentsList != null )
+			{
+				for ( Object argument : argumentsList )
+				{
+					binding.addArgument( (IBaseExpression) argument );
+				}
+			}
 			// Exportable is true for new subquery bindings
 			query.addBinding( binding );
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static GroupDefinition findGroupInQuery(
+			IBaseQueryDefinition query, String groupName )
+	{
+		List<GroupDefinition> groups = query.getGroups( );
+		if ( groups != null )
+		{
+			for ( GroupDefinition group : groups )
+			{
+				if ( group.getName( ).equals( groupName ) )
+				{
+					return group;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
