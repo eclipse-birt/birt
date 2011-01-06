@@ -377,30 +377,18 @@ public class Page
 	{
 		int[] range = new int[data.length];
 		int count = 0;
-
-		for ( int i = 0; i < data.length; i++ )
+		for ( int i = 0; i < range.length; i++ )
 		{
 			if ( ( data[i] > start ) && ( data[i] < end ) )
 			{
-				count++;
-				range[count] = data[i];
+				range[count++] = data[i];
 			}
 		}
-
 		int[] result = new int[count];
-
-		int j = 0;
-		for ( int i = 0; i < range.length; i++ )
-		{
-			if ( range[i] != 0 )
-			{
-				result[j] = range[i];
-				j++;
-			}
-		}
-
+		System.arraycopy( range, 0, result, 0, count );
 		return result;
 	}
+
 
 	public void addData( SheetData data, XlsContainer container )
 	{
