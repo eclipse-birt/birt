@@ -22,7 +22,7 @@ Gantt=ガントチャートはタスクの期間と進捗状況を追跡するためのグラフです。Y 軸で日
 Tube=円筒グラフは、棒グラフを円筒で示したものです。
 Cone=円錐グラフは、棒グラフを円錐で示したものです。
 Pyramid=ピラミッドグラフは、棒グラフをピラミッドで示したものです。
-Radar=標準レーダグラフ。円形のグリッド上に多角形と線を重ね合わせて表示します。
+Radar=標準レーダーチャート。円形のグリッド上に多角形と線を重ね合わせて表示します。
 
 ###########################################################
 #3D Charts
@@ -130,7 +130,7 @@ SampleChartName.Gantt=ガントチャート
 SampleChartName.Tube=円筒グラフ
 SampleChartName.Cone=円錐グラフ
 SampleChartName.Pyramid=ピラミッドグラフ
-SampleChartName.Radar=レーダ
+SampleChartName.Radar=レーダー
 #3D Charts
 SampleChartName.Bar=横棒グラフ
 SampleChartName.Line=線グラフ
