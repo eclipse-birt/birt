@@ -82,7 +82,7 @@ public class AxisProcessor
 	 */
 	public int getColumnIndexByCoordinate( int value )
 	{
-		return columnCoordinates.indexOf( value );
+		return columnCoordinates.indexOf( round( value ) );
 	}
 
 	public int[] getColumnWidths( )

@@ -12,19 +12,18 @@ public class ContainerSizeInfo
 		this.width = width;
 	}
 
-	
 	public int getStartCoordinate( )
 	{
-		return AxisProcessor.round( start );
+		return start;
 	}
 	
 	public int getWidth( )
 	{
-		return AxisProcessor.round( width );
+		return width;
 	}
 	
 	public int getEndCoordinate()
 	{
-		return AxisProcessor.round( start + width );
+		return start + width;
 	}
 }
