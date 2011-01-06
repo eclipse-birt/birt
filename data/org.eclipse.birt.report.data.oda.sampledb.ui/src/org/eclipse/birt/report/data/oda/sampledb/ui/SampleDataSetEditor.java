@@ -117,6 +117,7 @@ public class SampleDataSetEditor extends DataSetWizardPage
 
 		design.getDataSourceDesign( )
 				.setOdaExtensionId( OdaJdbcDriver.Constants.DATA_SOURCE_ID );
+		
 		try
 		{
 			design.getDataSourceDesign( )
@@ -137,6 +138,6 @@ public class SampleDataSetEditor extends DataSetWizardPage
 	 */
 	protected boolean canLeave( )
 	{
-		return false;
+		return true;
 	}
 }
