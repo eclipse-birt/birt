@@ -28,7 +28,7 @@ import org.eclipse.ui.IWorkbenchPage;
 /**
  * Action to hide and show the editor breadcrumb.
 
- * @since 2.6
+ * @since 2.6.2
  */
 public class ToggleBreadcrumbAction extends Action implements IPropertyChangeListener, IPerspectiveListener {
 

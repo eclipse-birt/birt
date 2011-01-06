@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
  * <p>Clients should not implement this interface. They should
  * subclass {@link EditorBreadcrumb} instead if possible</p>
  *
- * @since 2.6
+ * @since 2.6.2
  */
 public interface IBreadcrumb {
 

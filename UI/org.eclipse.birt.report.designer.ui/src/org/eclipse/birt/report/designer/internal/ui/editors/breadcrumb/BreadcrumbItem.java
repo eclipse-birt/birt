@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Shell;
  * shows the label and icon of its data element, if any.
  * </p>
  * 
- * @since 2.6
+ * @since 2.6.2
  */
 class BreadcrumbItem extends Item
 {

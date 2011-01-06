@@ -263,7 +263,7 @@ public class ExportToLibraryAction extends AbstractViewAction
 					if ( synchronizer != null )
 					{
 						synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-								Path.fromOSString( filename ), IReportResourceChangeEvent.NewResource ) );
+								Path.fromOSString( filename ), IReportResourceChangeEvent.NewResource|IReportResourceChangeEvent.LibraySaveChange ) );
 						synchronizer.notifyResourceChanged( new LibrarySaveChangeEvent( this,
 								Path.fromOSString( filename ), IReportResourceChangeEvent.LibraySaveChange, Path.fromOSString( filename ).toOSString( ) ) );
 					}

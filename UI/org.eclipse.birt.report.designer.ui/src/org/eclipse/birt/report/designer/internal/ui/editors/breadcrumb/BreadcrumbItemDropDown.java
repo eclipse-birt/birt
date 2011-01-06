@@ -68,7 +68,7 @@ import org.eclipse.ui.forms.FormColors;
 /**
  * The part of the breadcrumb item with the drop down menu.
  * 
- * @since 2.6
+ * @since 2.6.2
  */
 class BreadcrumbItemDropDown
 {

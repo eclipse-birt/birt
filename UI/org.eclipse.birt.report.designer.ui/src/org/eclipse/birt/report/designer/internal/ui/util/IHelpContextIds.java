@@ -370,5 +370,4 @@ public interface IHelpContextIds
 			+ "RenameInputDialog_ID"; //$NON-NLS-1$
 
 	public static final String NEW_THEME_DIALOG_ID = PREFIX + "NewTheme_ID"; //$NON-NLS-1$
-
 }

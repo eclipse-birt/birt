@@ -29,12 +29,13 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 
 public class BirtImageLoader
 {
+
 	private static final String IMG_PREFIX = "image/"; //$NON-NLS-1$
 	private static final String ICO = "ico"; //$NON-NLS-1$
 	private static final String MIME_ICO = "x-icon"; //$NON-NLS-1$
 	private static final String SVG = "svg"; //$NON-NLS-1$
 	private static final String MIME_SVG = "svg+xml"; //$NON-NLS-1$
-	
+
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( EmbeddedImage.EMBEDDED_IMAGE_STRUCT )
 			.getMember( EmbeddedImage.TYPE_MEMBER )

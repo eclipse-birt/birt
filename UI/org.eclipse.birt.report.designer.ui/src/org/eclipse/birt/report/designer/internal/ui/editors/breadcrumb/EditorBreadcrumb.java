@@ -39,7 +39,7 @@ import org.eclipse.ui.actions.ActionGroup;
  * Clients must implement the abstract methods.
  * </p>
  * 
- * @since 2.6
+ * @since 2.6.2
  */
 public abstract class EditorBreadcrumb implements IBreadcrumb
 {

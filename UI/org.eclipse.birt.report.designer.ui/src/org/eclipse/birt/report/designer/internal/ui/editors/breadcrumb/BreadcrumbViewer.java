@@ -61,7 +61,7 @@ import org.eclipse.ui.forms.FormColors;
  * <code>ILabelProvider</code> interface.
  * </p>
  * 
- * @since 2.6
+ * @since 2.6.2
  */
 public abstract class BreadcrumbViewer extends StructuredViewer
 {

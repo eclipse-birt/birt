@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * The label and icon part of the breadcrumb item.
  * 
- * @since 2.6
+ * @since 2.6.2
  */
 class BreadcrumbItemDetails
 {
