@@ -14,16 +14,18 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.api.ICloseListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
+import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
  * Provide the service of reading/writing objects from one file It makes the
  * reading/writing objects transparent to DiskMergeSort.
  */
-class RowFile implements IRowIterator
+class RowFile implements IRowIterator, ICloseListener
 {
 	private File tempFile = null;
 	
@@ -48,8 +50,10 @@ class RowFile implements IRowIterator
 		assert file != null;
 		
 		this.tempFile = file;
+		System.out.println( file.getAbsolutePath( ) );
 		this.resultObjectUtil = resultObjectUtil;
 		setCacheSize( cacheSize );
+		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );
 	}
 	
 	//-------------------------write-----------------------
@@ -257,10 +261,12 @@ class RowFile implements IRowIterator
 	}
 	
 	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.IRowIterator#close()
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.cache.disk.IRowIterator#close()
 	 */
 	public void close( )
 	{
+		closeWriter( );
 		closeReader( );
 
 		if ( tempFile != null )
