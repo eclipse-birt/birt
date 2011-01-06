@@ -3170,4 +3170,14 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	{
 		return Collections.emptyList( );
 	}
+	
+	/**
+	 * Checks the report if it is set in options. 
+	 */
+	public void checkReportIfNecessary( )
+	{
+		ModuleOption options = module.getOptions( );
+		if ( options == null || options.useSemanticCheck( ) )
+			checkReport( );
+	}
 }

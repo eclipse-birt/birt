@@ -655,9 +655,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 		LibraryCommand command = new LibraryCommand( module );
 		command.dropLibrary( (Library) library.getElement( ) );
 
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		checkReportIfNecessary( );
 	}
 
 	/*
@@ -683,9 +681,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 
 		command.reloadLibrary( location, reloadLibs );
 
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		checkReportIfNecessary( );
 	}
 
 	/**
@@ -712,9 +708,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 		command.reloadLibrary( (Library) libraryToReload, includedLib,
 				reloadLibs );
 
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		checkReportIfNecessary( );
 	}
 
 	/*
@@ -750,9 +744,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 
 		}
 
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		checkReportIfNecessary( );
 	}
 
 	/*
@@ -795,9 +787,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 			command.reloadLibrary( lib, null, reloadLibs );
 		}
 
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		checkReportIfNecessary( );
 	}
 
 	/*
@@ -817,9 +807,7 @@ abstract class LayoutModuleHandle extends ModuleHandle
 		LibraryCommand command = new LibraryCommand( module );
 		command.dropLibraryAndBreakExtends( (Library) library.getElement( ) );
 
-		ModuleOption options = module.getOptions( );
-		if ( options == null || options.useSemanticCheck( ) )
-			checkReport( );
+		checkReportIfNecessary( );
 	}
 
 	/*
