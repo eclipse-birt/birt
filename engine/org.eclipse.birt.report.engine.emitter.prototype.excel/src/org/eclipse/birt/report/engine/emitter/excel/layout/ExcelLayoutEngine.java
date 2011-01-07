@@ -99,6 +99,7 @@ public class ExcelLayoutEngine
 	protected ExcelContext context = null;
 
 	private String messageFlashObjectNotSupported;
+	private String messageReportItemNotSupported;
 	
 	private ULocale locale;
 	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>( );
@@ -115,6 +116,8 @@ public class ExcelLayoutEngine
 		EngineResourceHandle resourceHandle = new EngineResourceHandle( locale );
 		messageFlashObjectNotSupported = resourceHandle
 				.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
+		messageReportItemNotSupported = resourceHandle
+			.getMessage( MessageConstants.REPORT_ITEM_NOT_SUPPORTED_PROMPT );
 		this.contentVisitor = contentVisitor;
 	}
 	
@@ -747,8 +750,12 @@ public class ExcelLayoutEngine
 		}
 		else
 		{
+			if ( null == altText )
+			{
+				altText = messageReportItemNotSupported;
+			}
 			entry.setProperty( StyleConstant.DATA_TYPE_PROP, SheetData.STRING );
-			return page.createData( image.getAltText( ), entry );
+			return page.createData( altText, entry );
 		}
 	}
 
