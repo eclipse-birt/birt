@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.event.RectangleRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
+import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.extension.render.Line.DataPointsRenderer.Context;
@@ -76,6 +77,8 @@ public class Line extends AxesRenderer
 
 	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine.extension/render" ); //$NON-NLS-1$
 
+	protected DeferredCache subDeferredCache;
+	
 	/**
 	 * The constructor.
 	 */
@@ -122,6 +125,18 @@ public class Line extends AxesRenderer
 		}
 
 		boolean bRendering3D = isDimension3D( );
+		
+		// In order to simplify the polygon rendering order computation, here creates a sub deferred cache instead of default deferred
+		// cache to stores all shape events for 3D chart, just a polygon of
+		// current series is stored in default deferred cache to take part in
+		// the computation of series rendering order.
+		if ( bRendering3D ) {
+			if ( subDeferredCache == null )
+			{
+				subDeferredCache = dc.deriveNewDeferredCache( );
+				dc = subDeferredCache;
+			}
+		}
 
 		// SCALE VALIDATION
 		SeriesRenderingHints srh = null;
@@ -455,6 +470,21 @@ public class Line extends AxesRenderer
 			handleOutsideDataPoints( ipr, srh, faX, faY, bShowAsTape );
 		}
 
+		// In order to simplify the computation of rendering order of
+		// planes in 3D space, here we create a plane and add it into
+		// current deferred cache, it is used as a delegate of all planes of
+		// current series to take part in the sorting of planes in 3D space,
+		// the order of this plane will determine the rendering order of
+		// current series in 3D space. Also we create a sub deferred cache
+		// instead of current deferred cache to store all planes of current
+		// series, and add the sub-deferred cache as a child of this plane
+		// event, all planes in sub-deferred cache will be processed and
+		// rendered after this plane is processed.
+		if ( bRendering3D )
+		{
+			addComparsionPolygon( ipr, goFactory.createLocation3Ds( faX, faY, faZ ), dpha );
+		}
+		
 		if ( ls.isCurve( ) )
 		{
 			// RENDER AS CURVE
@@ -1905,4 +1935,52 @@ public class Line extends AxesRenderer
 				| DeferredCache.FLUSH_PLANE_SHADOW );
 	}
 
+	/**
+	 * 
+	 * @param ipr
+	 * @param loa3d
+	 * @param dpha
+	 * @throws ChartException
+	 */
+	private void addComparsionPolygon( IPrimitiveRenderer ipr, Location3D[] loa3d, DataPointHints[] dpha ) throws ChartException
+	{
+		// Create location 3d of a plane.
+		Location3D[] l3d = createLocation3DArray( 4 );
+		double x0 = loa3d[0].getX( );
+		double x1 = loa3d[loa3d.length - 1].getX( );
+		double minY = loa3d[0].getY( );
+		double maxY = loa3d[0].getY( );
+		double maxZ = loa3d[0].getZ( );
+		for ( int i = 0; i < loa3d.length; i++ )
+		{
+			if ( minY > loa3d[i].getY( ) )
+				minY = loa3d[i].getY( );
+			if ( maxY < loa3d[i].getY( ) )
+				maxY = loa3d[i].getY( );
+			if ( maxZ < loa3d[i].getZ( ) )
+				maxZ = loa3d[i].getZ( );
+		}
+		l3d[0].set( x0, maxY, maxZ );
+		l3d[1].set( x1, maxY, maxZ );
+		l3d[2].set( x1, minY, maxZ );
+		l3d[3].set( x0, minY, maxZ );
+
+		Object sourceObj = WrappedStructureSource.createSeriesDataPoint( getSeries(), dpha[0] );
+		Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( sourceObj,
+				Polygon3DRenderEvent.class );
+
+		pre3d.setEnable( false );
+		pre3d.setDoubleSided( true );
+		pre3d.setOutline( null );
+		pre3d.setPoints3D( l3d );
+		pre3d.setSourceObject( sourceObj );
+		Object event = dc.getParentDeferredCache( ).addPlane( pre3d, PrimitiveRenderEvent.FILL );
+		if ( event instanceof WrappedInstruction )
+		{
+			( (WrappedInstruction) event ).setSubDeferredCache( dc );
+		}
+		// Restore the default value.
+		pre3d.setDoubleSided( false );
+		pre3d.setEnable( true );
+	}
 }

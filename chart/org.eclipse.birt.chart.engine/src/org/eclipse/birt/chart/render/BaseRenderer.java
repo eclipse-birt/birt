@@ -2621,7 +2621,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws ChartException
 	 */
 	protected final void render3DPlane( IPrimitiveRenderer ipr, Object oSource,
-			List<Location3D[]> loaFace, Fill f, LineAttributes lia, DeferredCache dcache )
+			List<Location3D[]> loaFace, Fill f, LineAttributes lia )
 			throws ChartException
 	{
 		Polygon3DRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( oSource,
@@ -2635,7 +2635,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			pre.setOutline( lia );
 			pre.setPoints3D( loaFace.get( i ) );
 			pre.setBackground( f );
-			dcache.addPlane( pre, PrimitiveRenderEvent.FILL
+			dc.addPlane( pre, PrimitiveRenderEvent.FILL
 					| PrimitiveRenderEvent.DRAW );
 		}
 	}

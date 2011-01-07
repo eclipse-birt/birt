@@ -36,7 +36,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
  */
 public final class DeferredCache
 {
-
+	
 	public static final int FLUSH_PLANE = 1;
 	public static final int FLUSH_LINE = 2;
 	public static final int FLUSH_MARKER = 2 << 1;
@@ -65,7 +65,8 @@ public final class DeferredCache
 
 	private final boolean bTransposed;
 	private Chart cm;
-
+	private DeferredCache parentDC = null;
+	
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/factory" ); //$NON-NLS-1$
 
 	/**
@@ -640,7 +641,18 @@ public final class DeferredCache
 	 * @return
 	 * @since 2.6.2
 	 */
-	public DeferredCache deriveNewDeferredCache() {
-		return new DeferredCache( this.idr, this.cm );
+	public DeferredCache deriveNewDeferredCache( ) {
+		DeferredCache dc =  new DeferredCache( this.idr, this.cm );
+		dc.setParentDeferredCache( this );
+		return dc;
+	}
+	
+	public DeferredCache getParentDeferredCache()
+	{
+		return parentDC;
+	}
+	
+	public void setParentDeferredCache( DeferredCache dc ) {
+		this.parentDC = dc;
 	}
 }
