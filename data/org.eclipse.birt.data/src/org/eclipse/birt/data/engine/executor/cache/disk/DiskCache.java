@@ -441,9 +441,12 @@ public class DiskCache implements ResultSetCache
 			long offset = 4;
 			for ( int i = 0; i < rowCount; i++ )
 			{
+				IResultObject ro = this.diskBasedResultSet.nextRow( );
+				if( ro == null )
+					return;
 				IOUtil.writeLong( rowLensStream, offset );
 				offset += ResultSetUtil.writeResultObject( dos,
-						this.diskBasedResultSet.nextRow( ),
+						ro,
 						colCount,
 						resultSetNameSet, stringTable, map, i );
 			}
