@@ -49,6 +49,7 @@ RadarSeriesMarkerSheet.Label.CatLabel=Kategoriebeschriftungen konfigurieren
 RadarSeriesUIProvider..Title.RadarLine=Radarlinie
 RadarSeriesUIProvider.Label.CategoryLabels=Kate&goriebeschriftungen
 RadarSeriesUIProvider.Label.RadarLine=Ra&darlinie
+RadarSeriesUIProvider.Label.ValueDefinition=Radar Value Definition:
 RadarSeriesUIProvider.Label.WebLabels=&Webbeschriftungen
 RadarSeriesUIProvider.Title.CategoryLabels=Kategoriebeschriftungen
 RadarSeriesUIProvider.Title.WebLabels=Webbeschriftungen

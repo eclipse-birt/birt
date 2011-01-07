@@ -49,6 +49,7 @@ RadarSeriesMarkerSheet.Label.CatLabel=Configurar etiquetas de categoría
 RadarSeriesUIProvider..Title.RadarLine=Línea radial
 RadarSeriesUIProvider.Label.CategoryLabels=Etiquetas de cate&goría
 RadarSeriesUIProvider.Label.RadarLine=Línea ra&dial
+RadarSeriesUIProvider.Label.ValueDefinition=Radar Value Definition:
 RadarSeriesUIProvider.Label.WebLabels=Etiquetas &Web
 RadarSeriesUIProvider.Title.CategoryLabels=Etiquetas de categoría
 RadarSeriesUIProvider.Title.WebLabels=Etiquetas Web
