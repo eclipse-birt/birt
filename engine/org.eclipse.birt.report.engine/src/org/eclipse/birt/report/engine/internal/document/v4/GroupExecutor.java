@@ -87,7 +87,11 @@ abstract public class GroupExecutor extends ContainerExecutor
 		IQueryResultSet rset = (IQueryResultSet)rsets[0];
 		long uid = iid.getUniqueID( );
 		DataID dataId = iid.getDataID( );
-		long rowId = dataId.getRowID( );
+		long rowId = 0;
+		if ( dataId != null )
+		{
+			rowId = dataId.getRowID( );
+		}
 		long rsetPosition = rset.getRowIndex( );
 		if (rsetPosition == rowId)
 		{
