@@ -28,6 +28,7 @@ ChartAdapter.Exception.Trace=Trace :
 ChartSelector.Title.ChartSelector=Dispositif de sélection du graphique
 ChartDlg.Title.ValidationResults=Résultats de validation
 ChartDlg.Title.ChartBuilder=Boîte de dialogue du graphique
+DefaultChartTypeImpl.Label.ValueDefinitionName=Value (Y) Series:
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl : ceci est une classe de marque de réservation et n'a pas de conséquence.
 SheetPlaceHolder.Lbl.Placeholder=Il s''agit d''une marque de réservation pour {0}
 ChartDlg.Info.ChartStart=--------------------------- Début des propriétés du graphique -------------------------
