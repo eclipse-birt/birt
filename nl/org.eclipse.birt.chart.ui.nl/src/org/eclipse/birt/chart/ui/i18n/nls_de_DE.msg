@@ -28,6 +28,7 @@ ChartAdapter.Exception.Trace=Ablaufverfolgung:
 ChartSelector.Title.ChartSelector=Diagrammauswahl
 ChartDlg.Title.ValidationResults=Validierungsergebnisse
 ChartDlg.Title.ChartBuilder=Dialogfeld "Diagramm"
+DefaultChartTypeImpl.Label.ValueDefinitionName=Value (Y) Series:
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl: Dies ist eine Platzhalterklasse ohne Funktion.
 SheetPlaceHolder.Lbl.Placeholder=Dies ist ein Platzhalter für {0}
 ChartDlg.Info.ChartStart=--------------------------- Diagrammeigenschaften - Start -------------------------

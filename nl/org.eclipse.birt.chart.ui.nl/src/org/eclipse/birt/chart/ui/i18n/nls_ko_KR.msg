@@ -28,6 +28,7 @@ ChartAdapter.Exception.Trace=추적:
 ChartSelector.Title.ChartSelector=차트 선택기
 ChartDlg.Title.ValidationResults=유효성 검사 결과
 ChartDlg.Title.ChartBuilder=차트 대화 상자
+DefaultChartTypeImpl.Label.ValueDefinitionName=Value (Y) Series:
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl: 자리 표시자 클래스이며 아무런 작업도 수행하지 않습니다.
 SheetPlaceHolder.Lbl.Placeholder={0}의 자리 표시자입니다.
 ChartDlg.Info.ChartStart=--------------------------- 차트 속성 시작 -------------------------

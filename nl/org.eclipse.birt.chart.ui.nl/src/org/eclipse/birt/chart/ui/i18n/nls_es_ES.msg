@@ -28,6 +28,7 @@ ChartAdapter.Exception.Trace=Rastreo:
 ChartSelector.Title.ChartSelector=Selector de diagrama
 ChartDlg.Title.ValidationResults=Resultados de validación
 ChartDlg.Title.ChartBuilder=Cuadro de diálogo de diagrama
+DefaultChartTypeImpl.Label.ValueDefinitionName=Value (Y) Series:
 DefaultUIServiceProviderImpl.Warn.Placeholder=DefaultUIServiceProviderImpl : Se trata de una clase de marcador de posición y no realiza ninguna acción.
 SheetPlaceHolder.Lbl.Placeholder=Es un marcador de posición para {0}
 ChartDlg.Info.ChartStart=--------------------------- Inicio de propiedades de diagrama -------------------------
